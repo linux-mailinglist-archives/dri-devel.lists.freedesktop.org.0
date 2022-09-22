@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9EB5E6454
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:55:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C89D5E6460
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:56:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB7910E36A;
-	Thu, 22 Sep 2022 13:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE23810E397;
+	Thu, 22 Sep 2022 13:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout12.his.huawei.com (unknown [45.249.212.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B81CF10E36C
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 13:54:56 +0000 (UTC)
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
+ [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0934410E361
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 13:54:57 +0000 (UTC)
 Received: from mail02.huawei.com (unknown [172.30.67.143])
- by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4MYGvB3gtrz6SBqQ
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 21:52:54 +0800 (CST)
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MYGvW6q1FzlCHL
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 21:53:11 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.102.38])
- by APP2 (Coremail) with SMTP id Syh0CgC3VW8qaSxjR3npBA--.17148S9;
- Thu, 22 Sep 2022 21:54:53 +0800 (CST)
+ by APP2 (Coremail) with SMTP id Syh0CgC3VW8qaSxjR3npBA--.17148S10;
+ Thu, 22 Sep 2022 21:54:54 +0800 (CST)
 From: Wei Yongjun <weiyongjun@huaweicloud.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+To: Markuss Broks <markuss.broks@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 05/10] drm/panel: nv3052c: Silence no spi_device_id warning
-Date: Thu, 22 Sep 2022 14:11:58 +0000
-Message-Id: <20220922141204.1823931-6-weiyongjun@huaweicloud.com>
+Subject: [PATCH v2 06/10] drm/panel: s6d27a1: Silence no spi_device_id warning
+Date: Thu, 22 Sep 2022 14:11:59 +0000
+Message-Id: <20220922141204.1823931-7-weiyongjun@huaweicloud.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922141204.1823931-1-weiyongjun@huaweicloud.com>
 References: <20220922141204.1823931-1-weiyongjun@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: Syh0CgC3VW8qaSxjR3npBA--.17148S9
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF48CF43CF1rZr47KFW3Jrb_yoW8Xry7pF
- 4UJFyUZry5JF4rGrW3Aa1IqFyv93Z2gayFgF9rGwnI9anrZa4UXw4xKFWUAryUJryxX3Wa
- q3Z29ry7Xa1rArUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: Syh0CgC3VW8qaSxjR3npBA--.17148S10
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF48CF1kAw4rWFyxuw1xZrb_yoW8GF1kpF
+ 45JF9rAF97Xr45GrW3A3WfJFy2ya9avayFqF9Fkw4a9FnrZFWUXFs3KF43Ar1Dtr9rJ3W2
+ qFZrKry0gFWqvrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUU9jb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
  6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
  Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
@@ -71,41 +73,37 @@ systems using device tree, after commit 5fa6863ba692 ("spi: Check
 we have a spi_device_id for each DT compatible"), kernel warns as
 follows since the spi_device_id is missing:
 
-SPI driver nv3052c has no spi_device_id for leadtek,ltk035c5444t
+SPI driver s6d27a1-panel has no spi_device_id for samsung,s6d27a1
 
 Add spi_device_id entries to silence the warning, and ensure driver
 module autoloading works.
 
 Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 7 +++++++
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-index cf078f0d3cd3..a523e1dd2b4c 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-@@ -467,6 +467,12 @@ static const struct of_device_id nv3052c_of_match[] = {
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c b/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
+index 2adb223a895c..4e80ef81b282 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
+@@ -304,9 +304,16 @@ static const struct of_device_id s6d27a1_match[] = {
  };
- MODULE_DEVICE_TABLE(of, nv3052c_of_match);
+ MODULE_DEVICE_TABLE(of, s6d27a1_match);
  
-+static const struct spi_device_id nv3052c_ids[] = {
-+	{ "ltk035c5444t" },
-+	{ /* sentinel */ }
++static const struct spi_device_id s6d27a1_ids[] = {
++	{ "s6d27a1" },
++	{ /* sentinel */ },
 +};
-+MODULE_DEVICE_TABLE(spi, nv3052c_ids);
++MODULE_DEVICE_TABLE(spi, s6d27a1_ids);
 +
- static struct spi_driver nv3052c_driver = {
- 	.driver = {
- 		.name = "nv3052c",
-@@ -474,6 +480,7 @@ static struct spi_driver nv3052c_driver = {
- 	},
- 	.probe = nv3052c_probe,
- 	.remove = nv3052c_remove,
-+	.id_table = nv3052c_ids,
- };
- module_spi_driver(nv3052c_driver);
- 
+ static struct spi_driver s6d27a1_driver = {
+ 	.probe		= s6d27a1_probe,
+ 	.remove		= s6d27a1_remove,
++	.id_table	= s6d27a1_ids,
+ 	.driver		= {
+ 		.name	= "s6d27a1-panel",
+ 		.of_match_table = s6d27a1_match,
 -- 
 2.34.1
 
