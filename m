@@ -1,77 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942BE5E5C53
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:25:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 480D95E5C5E
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 09:28:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA00410EA59;
-	Thu, 22 Sep 2022 07:25:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73CAD10EA5C;
+	Thu, 22 Sep 2022 07:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEAB410E0CE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:24:29 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id k10so13211105lfm.4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 00:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=fVcE2reQEfaEop4WRxdK1mO72Ip3uJjJkJGgaluoDsM=;
- b=MSlRGljboTuGCdg3YEgOuKZBwTHCYcmzhnbgNphcxRdZyyfnwC664T8n53L+7Kb5A1
- cBjGVu/xWbq4oUq8SLl+K3rsUKIyb/pAPtYAe6Ak01fZY6SfyZEnTaLs/z3BMKPjkSgv
- vjmGQIgs1lLjxNx/uTL+ut/giC8XhZcsQwMrTBvzpBex0lB1/0LvbylWJluy/Ic3INLQ
- SjlutBZR81gnaEMn5Jc0oha2px1AkGagITF9BddZQkinMio1PuFwtZLaGSUmLItkLHzB
- 1LEDnf+uCMw/DTWJNW0akGZdDtngxnSDEMs68J10o1m+HzEjBBsp1pp6Xc4Uce8MuQ5O
- YqVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=fVcE2reQEfaEop4WRxdK1mO72Ip3uJjJkJGgaluoDsM=;
- b=IdS5gbgVAEpS6PEdalDsvBPtFSJIO/RqYjzfiooLtjlO4bpQVfpM2UrP8WFW2IXdj4
- mAYzhG4wDCh1okR6GZk+yhSiNf2KGD6TdWNDwJ+9e2zf6zz6L/+WR9gTWmTm7Hmzrc/W
- lY7/S2kYXq5QdzG+5htn/8S4aBAn3732FlTmQYqR6fC8wm9wA42qybd3YkVoTSqSOOn5
- 3oihWUVFv4e10nfLgr7lcGynUDt4OCzqWO4Q0zZJPt48vdbLwkkq68mz0vArmQut0eBC
- Pmrijf0WS/HqQiArDKYB9l2vOCpYwuIbrLS77/6nPXdlUOT/oDbJJAEzOo6G7X455+XB
- 3P0A==
-X-Gm-Message-State: ACrzQf2quzJU8nUUTpH+graZEofXuJ7G2qWV6VgX0sSXcQBkje63iKYY
- bYg79F1wwfgO9pXE/qU/43VtOw==
-X-Google-Smtp-Source: AMsMyM5zA8VBFZmHafhekY2Y0dpCwQNF2kNCm9Hgz6tvQd/1QC+mRy8x/sO+uaHu1Mn31n8rO9wtGA==
-X-Received: by 2002:a05:6512:370c:b0:49f:c4fb:8706 with SMTP id
- z12-20020a056512370c00b0049fc4fb8706mr723544lfr.635.1663831468306; 
- Thu, 22 Sep 2022 00:24:28 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- j5-20020a2e6e05000000b0026c59d3f557sm769428ljc.33.2022.09.22.00.24.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 00:24:27 -0700 (PDT)
-Message-ID: <c74b4ab7-e307-482b-c4fc-0a7a1e39d6d1@linaro.org>
-Date: Thu, 22 Sep 2022 09:24:26 +0200
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0643C10EA5D
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 07:28:14 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 24F312B059F9;
+ Thu, 22 Sep 2022 03:28:09 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 22 Sep 2022 03:28:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1663831688; x=1663838888; bh=9+zOvyfksA
+ 251WIvkjW/QnZqpctASy/cR3TjFBEJGn4=; b=myRn0aulDM5L8tUe4fqe/7J45i
+ cY8+5osPo0QVR1EZ5vaKIa8eIQEXqx9xuKq0tcPPxSbDBw3YRF2yKYnw9O6+rmmP
+ 4FSXKJpcR3qYtO7EWbFTTRGMHKAe9GoDA5+FipV5o/S3mO6S+D2Qon5yQTz4WSVc
+ wkcXDb9X0ZZiJCzKxV0he4afcH8W42gcIIeclRFnw92WqitEzttwe2NcBIthViqj
+ PpefGZdUiNJDHxE325/XpnqToQZAt7vmsqPOQFa8pdaoZHNfBDYWdtZtJJ6c4EpL
+ rwdc3GDFbnvaEdbhoyF5gOzRSZi1VGGo/YLPRUzy+JFzjbTqmBX9L9cXwpjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1663831688; x=1663838888; bh=9+zOvyfksA251WIvkjW/QnZqpctA
+ Sy/cR3TjFBEJGn4=; b=FnZ2BBMO+1CCzdG1QUm+LdR4chFNDH+nhivWP82ell21
+ IU7Lb0gS795PvwovSwnXMJdvn9yXs5e9/VseeJ8FQDB0y46qHnq9cDV8VHTVM4bq
+ cnbb45kxvGQZvfoS7zPgtwKZnP+ESOKeRG62jeyyEvzvQR0YQjSCH1XO2dcFrkFp
+ mUQhmniZr3b48fotFRqqidDxipWW4eHk/zKIwPPpmPoTA686kZ68xZU/cN26Joic
+ KVtoUDlw60de6NOf1e8lTg3wkPVwMLrHnZ8cxUZVgo2M8jKR+qT9dcPNwZ2lXo2f
+ 7ZBzw09GimHZx3wfrhfdsfqWbuFa1QF2UdZuB5nCjw==
+X-ME-Sender: <xms:hg4sY1AkevPWD9JVRhSJriAUugw6vlHVel773lEsld0tABsxGN1RKw>
+ <xme:hg4sYzhyV4nDTt_vlTfrlj8bQlSj9wj3dskde5TjZYdA_DTXceY11y4Civbbobx4p
+ HHvQUKF5PsXKgBOUc4>
+X-ME-Received: <xmr:hg4sYwlK2t3qQEHHaOnlf-9fNsc37C-A_uGDLfkRYWi5GNi-XoBE6prZiH9M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefvddguddvtdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
+ fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:hg4sY_wHpefOELoyJiOWz2e17nsG3beLnWJ2ycO0usxrsJL8kddQbg>
+ <xmx:hg4sY6SSBAez_cvFkCNIQWDF1lTt_wjT197-iOq3t2JEvAlwhy-nkQ>
+ <xmx:hg4sYyZkyADq8xcZezHVUL_fNXt68MGNYB3B62YcNnHyhv-UApoaaQ>
+ <xmx:iA4sY9-s0jEl4Am3LvHFgY4Isxu0FyS01rbp4j-p-BnFYgG2U46RoPypG_k>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Sep 2022 03:28:05 -0400 (EDT)
+Date: Thu, 22 Sep 2022 09:28:03 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
+Message-ID: <20220922072803.giqo6dhqktnyjncv@houat>
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-11-tzimmermann@suse.de>
+ <4715518d0a6ec60349c76414815ae3f6e4ed977e.camel@kernel.crashing.org>
+ <350bdc4b-7fb3-f04f-06ba-0a3a266041a0@suse.de>
+ <CAMuHMdVE0X=8tXQAUPR8zUe9vSY1YKiavCxQQ0i7h5Dr1v4HZw@mail.gmail.com>
+ <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v1 11/17] drm/mediatek: hdmi: add mt8195 support
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-11-4844816c9808@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220919-v1-11-4844816c9808@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2sg26q6ygbmxgpjm"
+Content-Disposition: inline
+In-Reply-To: <e6326381-0f5e-1fe3-e72e-fdfa804e6574@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,36 +87,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
+ linuxppc-dev@lists.ozlabs.org, mark.cave-ayland@ilande.co.uk,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, mpe@ellerman.id.au,
+ paulus@samba.org, msuchanek@suse.de, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2022 18:56, Guillaume Ranquet wrote:
-> Adds hdmi and hdmi-ddc support for mt8195.
-> 
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 
+--2sg26q6ygbmxgpjm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +static int mtk_hdmi_ddc_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct mtk_hdmi_ddc *ddc;
-> +	int ret;
-> +
-> +	ddc = devm_kzalloc(dev, sizeof(struct mtk_hdmi_ddc), GFP_KERNEL);
-> +	if (!ddc)
-> +		return -ENOMEM;
-> +
-> +	ddc->regs = syscon_regmap_lookup_by_compatible("mediatek,mt8195-hdmi");
+On Thu, Sep 22, 2022 at 08:42:23AM +0200, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 21.09.22 um 18:48 schrieb Geert Uytterhoeven:
+> > Hi Thomas,
+> >=20
+> > On Wed, Sep 21, 2022 at 2:55 PM Thomas Zimmermann <tzimmermann@suse.de>=
+ wrote:
+> > > Am 05.08.22 um 02:19 schrieb Benjamin Herrenschmidt:
+> > > > On Wed, 2022-07-20 at 16:27 +0200, Thomas Zimmermann wrote:
+> > > > > +#if !defined(CONFIG_PPC)
+> > > > > +static inline void out_8(void __iomem *addr, int val)
+> > > > > +{ }
+> > > > > +static inline void out_le32(void __iomem *addr, int val)
+> > > > > +{ }
+> > > > > +static inline unsigned int in_le32(const void __iomem *addr)
+> > > > > +{
+> > > > > +       return 0;
+> > > > > +}
+> > > > > +#endif
+> > > >=20
+> > > > These guys could just be replaced with readb/writel/readl respectiv=
+ely
+> > > > (beware of the argument swap).
+> > >=20
+> > > I only added them for COMPILE_TEST. There appears to be no portable
+> > > interface that implements out_le32() and in_le32()?
+> >=20
+> > iowrite32() and ioread32()?
+>=20
+> Do they always use little endian, as these *_le32 helpers do? I though th=
+ey
+> use host byte order.
 
-That's not how you get regmaps. If you the driver grows, are you going
-to grow the list to e.g. 10 syscon_regmap_lookup_by_compatible() calls?
-This has to be by phandle.
+They use either outl or writel under the hood, which are always little-endi=
+an
 
-Best regards,
-Krzysztof
+Maxime
 
+--2sg26q6ygbmxgpjm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYywOgwAKCRDj7w1vZxhR
+xc9KAQCMr0zR6IAKUmzuCZlUwOV3XuBDcqbYhVsa28Oti2b1hgEA9jZk4RV7+p/W
+TCyVh2a1nFK4iRcTGNsKIk6mmF08Owo=
+=wGmI
+-----END PGP SIGNATURE-----
+
+--2sg26q6ygbmxgpjm--
