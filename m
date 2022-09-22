@@ -2,72 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0335E6748
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 17:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201245E67AA
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 17:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 747B710EC2A;
-	Thu, 22 Sep 2022 15:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEE1510EC3E;
+	Thu, 22 Sep 2022 15:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4214310EC29
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 15:37:43 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id z25so15359126lfr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 08:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=zdGItr5ICc4vlhS3KGwufw/Y8w2UR5ZVlts6EctynGI=;
- b=cYwW6ohqGr+JtPJ/CQ4fzXi+ot92VVnYo0FHuXQI76jbm8+6lgnVm/+IBi5NLIuAJp
- kxZ2IXhyaFXUtcVSx6vOBG5nCGulreB7JY3l7+kgMlntGfGGUYdxNf4zhJGDvLfzBNZj
- yffbR7QxgOGesk1up0TsxpFaSg3SIHIQsGmWH+obHSl6VIRewS62cXjxHRfTYSWhTT4I
- c14V4UraiU52gm+7TgaCeOQU0hsbgoWEfgHezZ/Ug6+jjqd4WNg/HZoY1Cuc1HX1s6tB
- 95/xM/6e58bs5qpZu/Eg8t3clreVhFcU9ISgFZVBQNhwZ7Ejl6uMNpLQPjEyZ7ENEv0p
- bljA==
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCBE710EC3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 15:55:21 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id b21so9173786plz.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 08:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date;
+ bh=5YOa+gv1sIPcp5S2eMDxZrJPz51jsjFGvspNVL+ych0=;
+ b=LEFzWbqksCDh4S4OiJrbR7XAYMyOC2rDNgEzxm4wNn6u+IvIuPSxz7ChVzcXYCA9kN
+ JUv48f4jgPup+CHrzZf6w+AfSyBn13B+QQpM2W85KtMMefowgfzF6SEkXu9wDa88gO2B
+ nN2k3CYK4Hh5e/4TzZfHnbEaM6zaDEwuByIkk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date;
- bh=zdGItr5ICc4vlhS3KGwufw/Y8w2UR5ZVlts6EctynGI=;
- b=IcC+noGBqZ7f/++2J1NfIHkU9onkJknv//gG4x+TNbEV6NOF2k1Wcczj6gT39h+ROV
- OO19bh32yVVR1DZZDPFWtMul6+jwW1PKZlNqx2VfvnNotpTWsfSGgWE7KQ8I5a+3SyTf
- v/jPbYBWKnrBWLKbbKOPVhVBz1DpIYnAEpE6IeFhS5FjLW2OTBW1E/QB1Va3GSx5OH/w
- DRFzqyVV/KhUsrVNA6QPwGjqM2n6YJDZWWW3bc7oURMJ1gfph8stAvL0YtkG7mu647G4
- VINRAapA91HTHYseFawShaFhmxI0cpD33bTUOAHeSE4Al1ylQJqSZKpq9toh56dIGRyq
- IXmA==
-X-Gm-Message-State: ACrzQf0I99qSTp12exoKnxGShEauSqCAyorbUV+cqpFcWTmPtGvKdgtV
- bGk1ZA5avWuH4KdUWrJKyMC7vw==
-X-Google-Smtp-Source: AMsMyM7h9wDWsyUiqMcRTiNhG8QJKDH4ATtOFz8lkYELII3NUCIdQoLWizMQQQXkal5Hd6Zg8Y51zg==
-X-Received: by 2002:a05:6512:2251:b0:496:c3b9:c18d with SMTP id
- i17-20020a056512225100b00496c3b9c18dmr1389520lfu.403.1663861061448; 
- Thu, 22 Sep 2022 08:37:41 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- g4-20020a056512118400b0049f907b9ba9sm982317lfr.226.2022.09.22.08.37.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 08:37:40 -0700 (PDT)
-Message-ID: <acd9ff20-a07b-05ab-6f4b-34e3e8b1cae8@linaro.org>
-Date: Thu, 22 Sep 2022 17:37:39 +0200
+ bh=5YOa+gv1sIPcp5S2eMDxZrJPz51jsjFGvspNVL+ych0=;
+ b=ZUT9tucwa/iXj8yjd61MtKDykl0WM/X0kPE2Vtc1YoDaC0K4wgrpWH/jpjrUOZCrnb
+ cMTfBg8REf2241Gx0FyfR/44ftA/uZzS0DiZTjBhUxQPMt/bhy58uP7E7ydCGN5+9xv0
+ 6/Aj75V8pwwnAz7p/3XzjBS6l7xMIUXMUnmWm8HGd1A4oZesk/sSByLDrMAKQWxq5pGi
+ b9AhldGYZPRp1Cey1Bpeylt85QswARNZqme13fm+3oburu8zpVnKbRR0vyY+qMpYUyhJ
+ PDU0QC7Hb1pfX9l7hUo5xIUfDMtJM2UCpPPzklbk4rqQq1bNgUm/qynTqhuyTRxFYwNU
+ qJFQ==
+X-Gm-Message-State: ACrzQf2Gv1S9WPwf9HfofODJ1I+ES0OQWuNG7nAHgrVvmUVaJxlOhONr
+ tohc1wgDlLRQBkL7+NQGMdAeLw==
+X-Google-Smtp-Source: AMsMyM6pj2YmcAiXg6SonP+gJGRIk20ZQXjacFA/fb+08tqqdtojyBlUHrRZT8F0Z+9OyQ05xLAwxg==
+X-Received: by 2002:a17:90b:3ec9:b0:203:246e:4370 with SMTP id
+ rm9-20020a17090b3ec900b00203246e4370mr15665429pjb.221.1663862121161; 
+ Thu, 22 Sep 2022 08:55:21 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ b7-20020a170902650700b001754fa42065sm4270774plk.143.2022.09.22.08.55.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 08:55:20 -0700 (PDT)
+Date: Thu, 22 Sep 2022 08:55:19 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 00/12] slab: Introduce kmalloc_size_roundup()
+Message-ID: <202209220845.2F7A050@keescook>
+References: <20220922031013.2150682-1-keescook@chromium.org>
+ <673e425d-1692-ef47-052b-0ff2de0d9c1d@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/7] dt-bindings: msm/dp: Add SDM845 and SC8280XP
- compatibles
-Content-Language: en-US
-To: Bjorn Andersson <andersson@kernel.org>
-References: <20220916200028.25009-1-quic_bjorande@quicinc.com>
- <20220916200028.25009-2-quic_bjorande@quicinc.com>
- <1641e41c-08c7-859b-644a-28d966fb00f3@linaro.org>
- <20220919211832.6b3buqxrnfp6yjjg@builder.lan>
- <6b242b44-b657-c7a6-63ca-465c7031376f@linaro.org>
- <20220922001429.zqfap3clprvlo6jo@builder.lan>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220922001429.zqfap3clprvlo6jo@builder.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <673e425d-1692-ef47-052b-0ff2de0d9c1d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,66 +70,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Feng Tang <feng.tang@intel.com>, linux-wireless@vger.kernel.org,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
+ David Sterba <dsterba@suse.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
+ netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/09/2022 02:14, Bjorn Andersson wrote:
-> On Tue, Sep 20, 2022 at 09:09:13AM +0200, Krzysztof Kozlowski wrote:
->> On 19/09/2022 23:18, Bjorn Andersson wrote:
->>> On Sat, Sep 17, 2022 at 06:03:27PM +0100, Krzysztof Kozlowski wrote:
->>>> On 16/09/2022 21:00, Bjorn Andersson wrote:
->>>>> From: Bjorn Andersson <bjorn.andersson@linaro.org>
->>>>>
->>>>> Add compatibles for the DisplayPort and Embedded DisplayPort blocks in
->>>>> Qualcomm SDM845 and SC8280XP platforms.
->>>>>
->>>>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
->>>>> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
->>>>
->>>> No need for quicinc SoB (unless you also take ownership).
->>>>
->>>
->>> It's my understanding that both needs to be there. Bjorn @ Linaro
->>> authored the patch and the author must certify its origin, but as the
->>> submitter I must certify its origin.
->>
->> It's the same person. There are no two Bjorns (unless there are :) ), so
->> you certify with old email. SoB chain is coming from people, not email
->> addresses.
->>
+On Thu, Sep 22, 2022 at 09:10:56AM +0200, Christian König wrote:
+> Am 22.09.22 um 05:10 schrieb Kees Cook:
+> > Hi,
+> > 
+> > This series fixes up the cases where callers of ksize() use it to
+> > opportunistically grow their buffer sizes, which can run afoul of the
+> > __alloc_size hinting that CONFIG_UBSAN_BOUNDS and CONFIG_FORTIFY_SOURCE
+> > use to perform dynamic buffer bounds checking.
 > 
-> IANAL, but I don't think it's the same person. I can't use my old
-> signature to certify the origin in a contribution today and I can't
-> claim authorship of something Linaro did.
+> Good cleanup, but one question: What other use cases we have for ksize()
+> except the opportunistically growth of buffers?
 
-Fine with me.
+The remaining cases all seem to be using it as a "do we need to resize
+yet?" check, where they don't actually track the allocation size
+themselves and want to just depend on the slab cache to answer it. This
+is most clearly seen in the igp code:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/intel/igb/igb_main.c?h=v6.0-rc6#n1204
 
+My "solution" there kind of side-steps it, and leaves ksize() as-is:
+https://lore.kernel.org/linux-hardening/20220922031013.2150682-8-keescook@chromium.org/
+
+The more correct solution would be to add per-v_idx size tracking,
+similar to the other changes I sent:
+https://lore.kernel.org/linux-hardening/20220922031013.2150682-11-keescook@chromium.org/
+
+I wonder if perhaps I should just migrate some of this code to using
+something like struct membuf.
+
+> Off hand I can't see any.
 > 
->> And it is not only my understanding of SoB chain.
->> https://lore.kernel.org/all/YuKcBO5JatwRYQJ3@kroah.com/
->>
-> 
-> Again, IANAL, but I think the situation is different given AMD and
-> Xilinx relationship.
+> So when this patch set is about to clean up this use case it should probably
+> also take care to remove ksize() or at least limit it so that it won't be
+> used for this use case in the future.
 
-Hm, I am not sure how it is different. We might know or we might know
-the change of ownership. Maybe the change of owner came with copyrights,
-maybe not (someone else bought them). I don't know, there can be many
-cases here. I interpret Greg's point there as in SoB statement - the
-person, not email address, certifies.
+Yeah, my goal would be to eliminate ksize(), and it seems possible if
+other cases are satisfied with tracking their allocation sizes directly.
 
-Anyway, this is not a blocker for the patch.
+-Kees
 
-
-Best regards,
-Krzysztof
-
+-- 
+Kees Cook
