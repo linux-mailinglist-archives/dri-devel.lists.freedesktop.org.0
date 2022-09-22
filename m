@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F222E5E6895
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81A45E68C8
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 18:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5071510E435;
-	Thu, 22 Sep 2022 16:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA00310EA82;
+	Thu, 22 Sep 2022 16:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E2C210E3AF;
- Thu, 22 Sep 2022 16:38:25 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9226D10EA82;
+ Thu, 22 Sep 2022 16:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663864705; x=1695400705;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=pHAj6ALU1haGuzOi4Bg63Yjs2I+Jfb8meZID4E27az8=;
- b=Sre5pfAsc5fej+6DzRGCGVUKxmGvku0E11X3UowfT92YqyU+SnDc/lYH
- KXFlZFgqPx7qvoJP6ZG65LIyJdB5OqkiTsIaJUYKYXEtN3GkaTNQdJK/r
- e0LcMLpEkQ/yhnJF36ciDv40gy/5euLyOv/+1pZy33oOtBHebEDmgHHeb
- tGcesjYhK+MQxCEBDSR4qw0xR3LeWoswF7T4VNINTBfwVIxrl6fqRYiuS
- po/xK/CSIILHGo5rrcs1DmoVQS+Xq3Sy2NeUfuvZOKHjSgzclhmmynpr/
- z1zAFqYiDV8VzrZhNGNCphxRbNs1syFF/bYDX/GfOK2aSLBjU4XaWvoWz w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="280074550"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="280074550"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 09:38:24 -0700
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="864928679"
-Received: from jmhendri-mobl.ger.corp.intel.com (HELO [10.252.3.12])
- ([10.252.3.12])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 09:38:23 -0700
-Message-ID: <c9e90c5a-eb2d-0414-5b88-9691ba0c02eb@intel.com>
-Date: Thu, 22 Sep 2022 17:38:20 +0100
+ t=1663865185; x=1695401185;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=pk9k/lnB01bsityjYPeT0Kap6UyKDdhsL5XRgVPhBMA=;
+ b=CX79auJtKxLGe0TpJQDCJsXrF+9V64isbLUeFcSuW4IVkRKs7q6bTumO
+ DpQKIsADuGosHSriwB03cKv+Y36zuhGIeAZB10niDT+EoHMueZWxcgiTh
+ zx8RZOYOVIN739eWXUzaFWRM7XGYwA3a7obuQoLzVb1q4AY2aJ3aTFhNs
+ RYCu4G3A0uq7r4Xzuiqn8Wux2qWygBUzzFwKS3+dARGC914/yKXupR2FC
+ YIDEd8HIyukQITM/ml1Dn4FGP23e6PtsQb+dCH0fY2e86QyQZaNXTpUWo
+ aCb85Nh2xeVS1UaIrB17HVY1iCIPQVu866UthFYBRt4zY4oFhGw2Hv7QU Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="364340470"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="364340470"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 09:46:24 -0700
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="948668594"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 09:46:24 -0700
+Date: Thu, 22 Sep 2022 09:46:03 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [Intel-gfx] [RFC v4 03/14] drm/i915/vm_bind: Expose
+ i915_gem_object_max_page_size()
+Message-ID: <20220922164601.GH28263@nvishwa1-DESK>
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-4-niranjana.vishwanathapura@intel.com>
+ <578445bc-d804-3f1d-a32d-51cac9460351@linux.intel.com>
+ <20220921180040.GD28263@nvishwa1-DESK>
+ <e02e34ef-0dca-d61d-e5c4-a6f002baf434@linux.intel.com>
+ <1072ee80-13fb-dc72-5416-c7fdded3c80c@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.1
-Subject: Re: [PATCH] drm/i915: Improve debug print in vm_fault_ttm
-Content-Language: en-GB
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220922120908.10352-1-nirmoy.das@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220922120908.10352-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1072ee80-13fb-dc72-5416-c7fdded3c80c@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,50 +63,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, paulo.r.zanoni@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/09/2022 13:09, Nirmoy Das wrote:
-> Print the error code returned by __i915_ttm_migrate()
-> for better debuggability.
-> 
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/6889
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index e3fc38dd5db0..9619c0fe1025 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -1034,7 +1034,7 @@ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
->   		}
->   
->   		if (err) {
-> -			drm_dbg(dev, "Unable to make resource CPU accessible\n");
-> +			drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", err);
+On Thu, Sep 22, 2022 at 05:18:28PM +0100, Matthew Auld wrote:
+>On 22/09/2022 09:09, Tvrtko Ursulin wrote:
+>>
+>>On 21/09/2022 19:00, Niranjana Vishwanathapura wrote:
+>>>On Wed, Sep 21, 2022 at 10:13:12AM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>>On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
+>>>>>Expose i915_gem_object_max_page_size() function non-static
+>>>>>which will be used by the vm_bind feature.
+>>>>>
+>>>>>Signed-off-by: Niranjana Vishwanathapura 
+>>>>><niranjana.vishwanathapura@intel.com>
+>>>>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>>>>---
+>>>>> drivers/gpu/drm/i915/gem/i915_gem_create.c | 20 +++++++++++++++-----
+>>>>> drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
+>>>>> 2 files changed, 17 insertions(+), 5 deletions(-)
+>>>>>
+>>>>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c 
+>>>>>b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>>>>index 33673fe7ee0a..3b3ab4abb0a3 100644
+>>>>>--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>>>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>>>>@@ -11,14 +11,24 @@
+>>>>> #include "pxp/intel_pxp.h"
+>>>>> #include "i915_drv.h"
+>>>>>+#include "i915_gem_context.h"
+>>>>
+>>>>I can't spot that you are adding any code which would need this? 
+>>>>I915_GTT_PAGE_SIZE_4K? It is in intel_gtt.h.
+>>>
+>>>This include should have been added in a later patch for calling
+>>>i915_gem_vm_lookup(). But got added here while patch refactoring.
+>>>Will fix.
+>>>
+>>>>
+>>>>> #include "i915_gem_create.h"
+>>>>> #include "i915_trace.h"
+>>>>> #include "i915_user_extensions.h"
+>>>>>-static u32 object_max_page_size(struct intel_memory_region 
+>>>>>**placements,
+>>>>>-                unsigned int n_placements)
+>>>>>+/**
+>>>>>+ * i915_gem_object_max_page_size() - max of min_page_size of 
+>>>>>the regions
+>>>>>+ * @placements:  list of regions
+>>>>>+ * @n_placements: number of the placements
+>>>>>+ *
+>>>>>+ * Calculates the max of the min_page_size of a list of 
+>>>>>placements passed in.
+>>>>>+ *
+>>>>>+ * Return: max of the min_page_size
+>>>>>+ */
+>>>>>+u32 i915_gem_object_max_page_size(struct intel_memory_region 
+>>>>>**placements,
+>>>>>+                  unsigned int n_placements)
+>>>>> {
+>>>>>-    u32 max_page_size = 0;
+>>>>>+    u32 max_page_size = I915_GTT_PAGE_SIZE_4K;
+>>>>>     int i;
+>>>>>     for (i = 0; i < n_placements; i++) {
+>>>>>@@ -28,7 +38,6 @@ static u32 object_max_page_size(struct 
+>>>>>intel_memory_region **placements,
+>>>>>         max_page_size = max_t(u32, max_page_size, mr->min_page_size);
+>>>>>     }
+>>>>>-    GEM_BUG_ON(!max_page_size);
+>>>>>     return max_page_size;
+>>>>> }
+>>>>>@@ -99,7 +108,8 @@ __i915_gem_object_create_user_ext(struct 
+>>>>>drm_i915_private *i915, u64 size,
+>>>>>     i915_gem_flush_free_objects(i915);
+>>>>>-    size = round_up(size, object_max_page_size(placements, 
+>>>>>n_placements));
+>>>>>+    size = round_up(size, i915_gem_object_max_page_size(placements,
+>>>>>+                                n_placements));
+>>>>>     if (size == 0)
+>>>>>         return ERR_PTR(-EINVAL);
+>>>>
+>>>>Because of the changes above this path is now unreachable. I 
+>>>>suppose it was meant to tell the user "you have supplied no 
+>>>>placements"? But then GEM_BUG_ON (which you remove) used to be 
+>>>>wrong.
+>>>>
+>>>
+>>>Yah, looks like an existing problem. May be this "size == 0" check
+>>>should have been made before we do the round_up()? ie., check 
+>>>input 'size'
+>>>paramter is not 0?
+>>>I think for now, I will remove this check as it was unreachable anyhow.
+>>
+>>Hm that's true as well. i915_gem_create_ext_ioctl ensures at least 
+>>one placement and internal callers do as well.
+>>
+>>To be safe, instead of removing maybe move to before "size = " and 
+>>change to "if (GEM_WARN_ON(n_placements == 0))"? Not sure.. Matt any 
+>>thoughts here given the changes in this patch?
+>
+>The check is also to reject a zero sized object with args->size = 0, 
+>i.e round_up(0, PAGE_SIZE) == 0. So for sure that is still needed 
+>here.
 
-Yeah, looks useful. I think for that bug the object is just too large 
-for the mappable part of lmem, so this just gives -2big or similar on 
-small-bar systems. I presume that the test needs to be updated to 
-account for the cpu_size or so.
+Thanks Matt.
+Yah, we could check for "size == 0" before we round_up, but doing it
+after like here should be just fine. Will keep it as is.
 
-With the kernel test robot warning fixed:
-Acked-by: Matthew Auld <matthew.auld@intel.com>
+Niranjana
 
-I looked at the GEM_BUG_ON(rq->reserved_space > ring->space), and I 
-think the issue is maybe with emit_pte() using the ring->space to 
-manually figure out the number of dwords it can emit (instead of the 
-usual ring_begin()), which I guess works, but if we are unlucky and get 
-interrupted (like with a very well timed sigbus here), while waiting for 
-more ring space and end up bailing early, we might have trampled over 
-the reserved_space when submitting the request. I guess normally the 
-next ring_begin() would take care of the reserved_space, like when 
-constructing the actual copy packet.
-
->   			dma_resv_unlock(bo->base.resv);
->   			ret = VM_FAULT_SIGBUS;
->   			goto out_rpm;
+>
+>>
+>>Regards,
+>>
+>>Tvrtko
+>>
+>>>
+>>>Niranjana
+>>>
+>>>>Regards,
+>>>>
+>>>>Tvrtko
+>>>>
+>>>>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h 
+>>>>>b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>>index 7317d4102955..8c97bddad921 100644
+>>>>>--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>>@@ -47,6 +47,8 @@ static inline bool 
+>>>>>i915_gem_object_size_2big(u64 size)
+>>>>> }
+>>>>> void i915_gem_init__objects(struct drm_i915_private *i915);
+>>>>>+u32 i915_gem_object_max_page_size(struct intel_memory_region 
+>>>>>**placements,
+>>>>>+                  unsigned int n_placements);
+>>>>> void i915_objects_module_exit(void);
+>>>>> int i915_objects_module_init(void);
