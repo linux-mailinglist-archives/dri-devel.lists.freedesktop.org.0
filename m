@@ -2,44 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6DA5E6BDF
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 21:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6755E6BFF
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 21:50:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDF610E08A;
-	Thu, 22 Sep 2022 19:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDB9A10E062;
+	Thu, 22 Sep 2022 19:49:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC7E10E062
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 19:40:43 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 585666115C;
- Thu, 22 Sep 2022 19:40:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45829C433C1;
- Thu, 22 Sep 2022 19:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663875641;
- bh=Iu+ioVZAl++oTxE1oI47t/6oQuwifWn8lmpY1yCr8J4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YC8ixN8EP0aZI0e+nDZs91siEij37VrKEmFWG3Ty2t8usgwjVxksauo5Og7qifkq5
- ESf2BqmXtU9USNgh+H2YKJEXRWpyu7EDcgicu3AJOn2B/4WayyL94dp8xbokjZvmw2
- M56qmrIx+uvo2sUUrQmzfQ5/ucT/pOiWMPHGNcLJ6IIzRCYzVRcutddcWgSvzdbhZM
- fcZkJSFboZpZl7fu6RLNBgaLlv3gbFkR4ETLqK750bOZ4J5pst6/eAIZH31PhhVZLn
- QMHkEcQOXS8pXwYt/LtILex4KMGS/VXDhD7XC9erQbOO/ciNySxRd4PP7XyTR4i5Zs
- 1sdrT7lGqR5Mw==
-Date: Thu, 22 Sep 2022 12:40:39 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH 02/12] skbuff: Proactively round up to kmalloc bucket size
-Message-ID: <20220922124039.688be0b8@kernel.org>
-In-Reply-To: <20220922031013.2150682-3-keescook@chromium.org>
-References: <20220922031013.2150682-1-keescook@chromium.org>
- <20220922031013.2150682-3-keescook@chromium.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637CE10E021;
+ Thu, 22 Sep 2022 19:49:50 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28MJk0oL027564;
+ Thu, 22 Sep 2022 19:49:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=AJNwSWYhPDM+mTEDrbxNPzoDZcYGtMDN77+331lqXFU=;
+ b=MRBzVieHOfip1Wn8UUEPaJDI5EiZs4hsYBZD5tnmAoQevvSN3oW8CZytMUsx3hmVf+uH
+ NBaW1RdlYkCiD3cXvaSUQqokyLsYRccJZVjal1fTEDYIdFD5Pu+Hz89dqSrhBFX4zNuj
+ yCkZf42M6DctULE32LqbwCcgFcpFWFtxe1JwQeN5SfISMVahuY5d+65LlrDwPNfJ1r9x
+ izHnqNBnvQbzVCvhkI1bcvjdHjxquoesvKI4Ds8X5x1mnP3SXtngDdut8T/4GIao8cTv
+ W7SjNHWCuk2ydzxoUzpWLZB68gtMBH6Iz1FPAXqQb3nfrgx0aMplZS6WhzNbyIU/y/J4 2g== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jrg4ctecf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Sep 2022 19:49:01 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28MJmxE4029024
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Sep 2022 19:48:59 GMT
+Received: from [10.110.101.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 22 Sep
+ 2022 12:48:58 -0700
+Message-ID: <668ebc3a-b731-cd0c-0f60-ba9faabbf978@quicinc.com>
+Date: Thu, 22 Sep 2022 12:48:49 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [Freedreno] [PATCH v2 01/10] drm/msm: fix use-after-free on probe
+ deferral
+To: Johan Hovold <johan+linaro@kernel.org>, Douglas Anderson
+ <dianders@chromium.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Rob Clark" <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220913085320.8577-1-johan+linaro@kernel.org>
+ <20220913085320.8577-2-johan+linaro@kernel.org>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <20220913085320.8577-2-johan+linaro@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: XFS2v7F2z7Z4grplLaqVY6tfI2QTR_EF
+X-Proofpoint-ORIG-GUID: XFS2v7F2z7Z4grplLaqVY6tfI2QTR_EF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-22_14,2022-09-22_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999
+ clxscore=1011 lowpriorityscore=0 adultscore=0 malwarescore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209220128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,55 +87,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, Jacob Shin <jacob.shin@amd.com>,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
- linaro-mm-sig@lists.linaro.org, David Sterba <dsterba@suse.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, Vlastimil Babka <vbabka@suse.cz>,
- Alex Elder <elder@kernel.org>, netdev@vger.kernel.org,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
- Daniel Micay <danielmicay@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-btrfs@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Steev Klimaszewski <steev@kali.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ stable@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Sep 2022 20:10:03 -0700 Kees Cook wrote:
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index 974bbbbe7138..4fe4c7544c1d 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -427,14 +427,15 @@ struct sk_buff *__alloc_skb(unsigned int size, gfp_t gfp_mask,
->  	 */
->  	size = SKB_DATA_ALIGN(size);
->  	size += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
-> -	data = kmalloc_reserve(size, gfp_mask, node, &pfmemalloc);
-> -	if (unlikely(!data))
-> -		goto nodata;
-> -	/* kmalloc(size) might give us more room than requested.
-> +	/* kmalloc(size) might give us more room than requested, so
-> +	 * allocate the true bucket size up front.
->  	 * Put skb_shared_info exactly at the end of allocated zone,
->  	 * to allow max possible filling before reallocation.
->  	 */
-> -	osize = ksize(data);
-> +	osize = kmalloc_size_roundup(size);
-> +	data = kmalloc_reserve(osize, gfp_mask, node, &pfmemalloc);
-> +	if (unlikely(!data))
-> +		goto nodata;
->  	size = SKB_WITH_OVERHEAD(osize);
->  	prefetchw(data + size);
 
-I'd rename osize here to alloc_size for consistency but one could 
-argue either way :)
+On 9/13/2022 1:53 AM, Johan Hovold wrote:
+> The bridge counter was never reset when tearing down the DRM device so
+> that stale pointers to deallocated structures would be accessed on the
+> next tear down (e.g. after a second late bind deferral).
+>
+> Given enough bridges and a few probe deferrals this could currently also
+> lead to data beyond the bridge array being corrupted.
+>
+> Fixes: d28ea556267c ("drm/msm: properly add and remove internal bridges")
+> Fixes: a3376e3ec81c ("drm/msm: convert to drm_bridge")
+> Cc: stable@vger.kernel.org      # 3.12
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>   drivers/gpu/drm/msm/msm_drv.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 391d86b54ded..d254fe2507ec 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -241,6 +241,7 @@ static int msm_drm_uninit(struct device *dev)
+>   
+>   	for (i = 0; i < priv->num_bridges; i++)
+>   		drm_bridge_remove(priv->bridges[i]);
+> +	priv->num_bridges = 0;
+>   
+>   	pm_runtime_get_sync(dev);
+>   	msm_irq_uninstall(ddev);
