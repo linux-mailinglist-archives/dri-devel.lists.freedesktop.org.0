@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BDF5E645C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:56:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5545E645F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Sep 2022 15:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42CB710E37D;
-	Thu, 22 Sep 2022 13:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C402E10E386;
+	Thu, 22 Sep 2022 13:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
  [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF15710E36C
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 13:54:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4101710E361
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 13:54:58 +0000 (UTC)
 Received: from mail02.huawei.com (unknown [172.30.67.143])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MYGvX6tXKzlDKR
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 21:53:12 +0800 (CST)
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MYGvY20CtzlDSp
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 21:53:13 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.102.38])
- by APP2 (Coremail) with SMTP id Syh0CgC3VW8qaSxjR3npBA--.17148S13;
+ by APP2 (Coremail) with SMTP id Syh0CgC3VW8qaSxjR3npBA--.17148S14;
  Thu, 22 Sep 2022 21:54:55 +0800 (CST)
 From: Wei Yongjun <weiyongjun@huaweicloud.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 09/10] drm/panel: ws2401: Silence no spi_device_id warning
-Date: Thu, 22 Sep 2022 14:12:02 +0000
-Message-Id: <20220922141204.1823931-10-weiyongjun@huaweicloud.com>
+Subject: [PATCH v2 10/10] drm/panel: y030xx067a: Silence no spi_device_id
+ warning
+Date: Thu, 22 Sep 2022 14:12:03 +0000
+Message-Id: <20220922141204.1823931-11-weiyongjun@huaweicloud.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922141204.1823931-1-weiyongjun@huaweicloud.com>
 References: <20220922141204.1823931-1-weiyongjun@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: Syh0CgC3VW8qaSxjR3npBA--.17148S13
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF48CF1kZFW5ZF1fCrW7Jwb_yoW8GrWfpF
- 4rZFy7AFykWF45CrW3Z3Z7uF9rCayvvayFgF9rWwnI9FZ7AryUXF9IkF4UJrn8JrnrA3W2
- qFnrKryxXFW8CrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: Syh0CgC3VW8qaSxjR3npBA--.17148S14
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF48CF4fJF4kJr48XF1UKFg_yoW8XF1xpF
+ 4UW340yF95Jr45Crs7Aa1xWFy3Aa9YgayftFWDG39I93WDAryqqanaqF17Zr1rJry7A3Wa
+ qF97trWUJFW8A37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUU90b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
  6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
  Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
@@ -44,7 +44,7 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7CF48CF1kZFW5ZF1fCrW7Jwb_yoW8GrWfpF
  xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Y
  z7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
  v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIx
+ 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIx
  AIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
  IxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIda
  VFxhVjvjDU0xZFpf9x07UZo7tUUUUU=
@@ -73,37 +73,41 @@ systems using device tree, after commit 5fa6863ba692 ("spi: Check
 we have a spi_device_id for each DT compatible"), kernel warns as
 follows since the spi_device_id is missing:
 
-SPI driver ws2401-panel has no spi_device_id for samsung,lms380kf01
+SPI driver abt-y030xx067a has no spi_device_id for abt,y030xx067a
 
 Add spi_device_id entries to silence the warning, and ensure driver
 module autoloading works.
 
 Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- drivers/gpu/drm/panel/panel-widechips-ws2401.c | 7 +++++++
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-widechips-ws2401.c b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
-index 236f3cb2b594..436ba96befb7 100644
---- a/drivers/gpu/drm/panel/panel-widechips-ws2401.c
-+++ b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
-@@ -425,9 +425,16 @@ static const struct of_device_id ws2401_match[] = {
+diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+index 1cc0f1d09684..eec5b3a25045 100644
+--- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
++++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+@@ -368,6 +368,12 @@ static const struct of_device_id y030xx067a_of_match[] = {
  };
- MODULE_DEVICE_TABLE(of, ws2401_match);
+ MODULE_DEVICE_TABLE(of, y030xx067a_of_match);
  
-+static const struct spi_device_id ws2401_ids[] = {
-+	{ "lms380kf01" },
-+	{},
++static const struct spi_device_id y030xx067a_ids[] = {
++	{ "y030xx067a" },
++	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(spi, ws2401_ids);
++MODULE_DEVICE_TABLE(spi, y030xx067a_ids);
 +
- static struct spi_driver ws2401_driver = {
- 	.probe		= ws2401_probe,
- 	.remove		= ws2401_remove,
-+	.id_table	= ws2401_ids,
- 	.driver		= {
- 		.name	= "ws2401-panel",
- 		.of_match_table = ws2401_match,
+ static struct spi_driver y030xx067a_driver = {
+ 	.driver = {
+ 		.name = "abt-y030xx067a",
+@@ -375,6 +381,7 @@ static struct spi_driver y030xx067a_driver = {
+ 	},
+ 	.probe = y030xx067a_probe,
+ 	.remove = y030xx067a_remove,
++	.id_table = y030xx067a_ids,
+ };
+ module_spi_driver(y030xx067a_driver);
+ 
 -- 
 2.34.1
 
