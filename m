@@ -2,54 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2065E75DC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592B15E75E1
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:35:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C4A10E52D;
-	Fri, 23 Sep 2022 08:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C38410E546;
+	Fri, 23 Sep 2022 08:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE7410E52D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 08:32:09 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id z97so16964663ede.8
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 01:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=tYNwB7gsFieqfbLEPXElyVbDH6AzWiehFOxjpHySY/g=;
- b=Jaaaenz1419IfujefMFH+L6vaXPGha7RsVI4MJECqFvtM8hveoiCID7P7HeIS5paLY
- 2IJxZ+PdCWENWA3qzpdxveJwaGgYJDlGqzy95V5QWfFyE3DSynaCBKzwTGjJpqlbpbAv
- AosZwokVXhJWvZPjV1utM9tw1rZwiOL1M5cL0=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8ECD10E546
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 08:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663922104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rlVuqNZZ5WqICJ7b4y4WhBhxWjjwgqyMHyzMNeEa8ek=;
+ b=FE7QyMNTuZrw1dcJ8yyB6e3PEoL1FbpKYyDfWmjx8cFZ+rWIdeopbhp9/QieDXzI6gbjUS
+ BBcsa19jnZml88cPQ3yVrWZo8yi/I4bEX148EhDa/meuv5h16ivjZJwEeYPB3x1YFqORXY
+ 6ajXzdW4qXZmEqrY0OICWuFkuAIkXbY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-663-iJwGN9O3NjyBC_hnkhFtUA-1; Fri, 23 Sep 2022 04:35:03 -0400
+X-MC-Unique: iJwGN9O3NjyBC_hnkhFtUA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ e3-20020a05600c218300b003b4e4582006so1584398wme.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 01:35:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=tYNwB7gsFieqfbLEPXElyVbDH6AzWiehFOxjpHySY/g=;
- b=SDJuHuR3HPpFc85dtzp0OblfluJWgzFKd7+fXTpuaUYpZsSnuIJuhUtqOfJV9acbva
- GYjbMFDOqZhtcQV3rb2zvQMTwgY2NFTVhyBPvBnuP0s3wXuZuM8IHRuctMPdut+pIOs1
- oJ5uSddAFKiZHXalctcF1u0+MQf4uf8x/2jA4o91PnNYaSi4ZOnSmlG0J8OQ6RCdIqIu
- 8LZiArBQD+mG9w1Xpen0wlab7NK6fe6rDHJTmRNqBS0g/3/1x98SAsNXDdMpR3H36H/n
- GuE5XZqOzbqgrGiJrhBanzhA4onPGbT0WHLvQ9gkw6nbLPY3pfzw+uO8umu8Xfuks0XW
- A1Gg==
-X-Gm-Message-State: ACrzQf2rguU/tOlaRsUENCkwtTt50r0YST0WhDn/t9k1ADYrINLnyJvE
- FX431X+AW70YS9hjD4bRAGPom2eHFuFsx6nU9l0UXw==
-X-Google-Smtp-Source: AMsMyM4Mmk9Sy5Dum9OSvR8YAnVSqbcT7mbcwEpx8XOXWx/9abGrqqmT4R4kRJBwch1UT3JCPBn3TyQPId+RKz2GXq4=
-X-Received: by 2002:a05:6402:11c8:b0:451:7220:6343 with SMTP id
- j8-20020a05640211c800b0045172206343mr7112954edw.184.1663921928568; Fri, 23
- Sep 2022 01:32:08 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=rlVuqNZZ5WqICJ7b4y4WhBhxWjjwgqyMHyzMNeEa8ek=;
+ b=EO1v9u+dYTt3IW7qmSVKsf5JGKHnuJbW0P0jXfqzdq5qYUM+aqJHgK9nr9MzJXoe1K
+ QMKYu7pxOvf7fTC722RGbDAwtKXNeTBX/1FMtBDSesIHTVMkFy97y0Zn0LxphC2YyWfO
+ 6oI8FxU3jFCNng7rOt524z+oeIp5gdNUy5jvLojyZkAhbexkxy1Aug/NW5QFx0un5xjk
+ C3tfaDNykeXB5WxCdYyAibIPyaN1BNKuI1FQ3PS9nojlBlsk4I4hMxng7iKxd319s8Ej
+ RJTNN4aKNbbaTH89yB4g+mYuy49y2jGfDwrK26H/UBcfe+l6LRpxMZrU9hQHZnL0HISI
+ dHjQ==
+X-Gm-Message-State: ACrzQf2ATz+UQYAPV3ZwhxUiJzXBjwZPuMmIlRH4Io8n4I8VWEL8DYna
+ pk/oiMs3YjNTmxY/Ztz9oGjYsa/2z0s4NoFqZEA9OdN5xX+nqYjrACaG7gRi2u01evjlulT7dhI
+ ZG1LqVsl4MtT9+z0gIqmLaDilqy59
+X-Received: by 2002:a05:6000:1251:b0:22a:e60f:c080 with SMTP id
+ j17-20020a056000125100b0022ae60fc080mr4237263wrx.95.1663922102357; 
+ Fri, 23 Sep 2022 01:35:02 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4qn2VHsYGBFqh6GRr7+ueBDf2FJ1K86J5WUS3SdSkpwtlpE8rfpk0x2WirT0LuFZOlmWvnVQ==
+X-Received: by 2002:a05:6000:1251:b0:22a:e60f:c080 with SMTP id
+ j17-20020a056000125100b0022ae60fc080mr4237248wrx.95.1663922102106; 
+ Fri, 23 Sep 2022 01:35:02 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m13-20020a05600c3b0d00b003a2e92edeccsm1964922wms.46.2022.09.23.01.35.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Sep 2022 01:35:01 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ssd130x: Use drm_atomic_get_new_plane_state()
+Date: Fri, 23 Sep 2022 10:34:47 +0200
+Message-Id: <20220923083447.1679780-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220916181731.89764-1-jagan@amarulasolutions.com>
- <CAJ+vNU2gLKm_Si7xUsRJuzbJyEFHpC_TqsiorBAT5ADTZjsPZg@mail.gmail.com>
-In-Reply-To: <CAJ+vNU2gLKm_Si7xUsRJuzbJyEFHpC_TqsiorBAT5ADTZjsPZg@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 23 Sep 2022 14:01:57 +0530
-Message-ID: <CAMty3ZCWFD_YxLkjs-d_fGeakEdsbJ=MKwQM3L_6QOm0Le8=kQ@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
-To: Tim Harvey <tharvey@gateworks.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,88 +79,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- NXP Linux Team <linux-imx@nxp.com>, Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 20, 2022 at 3:13 AM Tim Harvey <tharvey@gateworks.com> wrote:
->
-> On Fri, Sep 16, 2022 at 11:18 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >
-> > This series supports common bridge support for Samsung MIPI DSIM
-> > which is used in Exynos and i.MX8MM SoC's.
-> >
-> > Previous v4 can be available here [1], repo on linux-next [2] and
-> > Engicam i.Core MX8M Mini SoM boot log [3].
-> >
-> > The final bridge supports both the Exynos and i.MX8MM DSI devices.
-> >
-> > Changes for v3:
-> > * bridge changes to support multi-arch
-> > * updated and clear commit messages
-> > * add hw_type via plat data
-> > * removed unneeded quirk
-> > * rebased on linux-next
-> >
-> > Changes for v4:
-> > * include Inki Dae in MAINTAINERS
-> > * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
-> > * update init handling to ensure host init done on first cmd transfer
-> >
-> > Changes for v3:
-> > * fix the mult-arch build
-> > * fix dsi host init
-> > * updated commit messages
-> >
-> > Changes for v2:
-> > * fix bridge handling
-> > * fix dsi host init
-> > * correct the commit messages
-> >
-> > Patch 0001:     Restore proper bridge chain in exynos_dsi
-> >
-> > Patch 0002:     Samsung DSIM bridge
-> >
-> > Patch 0003:     PHY optional
-> >
-> > Patch 0004:     OF-graph or Child node lookup
-> >
-> > Patch 0005:     DSI host initialization
-> >
-> > Patch 0006:     atomic check
-> >
-> > Patch 0007:     PMS_P offset via plat data
-> >
-> > Patch 0008:     atomic_get_input_bus_fmts
-> >
-> > Patch 0009:     input_bus_flags
-> >
-> > Patch 0010:     document fsl,imx8mm-mipi-dsim
-> >
-> > Patch 0011:     add i.MX8MM DSIM support
-> >
-> > [3] https://gist.github.com/openedev/22b2d63b30ade0ba55ab414a2f47aaf0
-> > [2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v5
->
-> Jagan,
->
-> I would like to try out this latest series a board I have here. It
-> looks like perhaps you did not push this imx8mm-dsi-v5 branch?
+The struct drm_plane .state shouldn't be accessed directly but instead the
+drm_atomic_get_new_plane_state() helper function should be used.
 
-Please wait for the next version patches.
+This is based on a similar patch from Thomas Zimmermann for the simpledrm
+driver. No functional changes.
 
-Thanks,
-Jagan.
+Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+
+ drivers/gpu/drm/solomon/ssd130x.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index 7fae9480aa11..a537692100d1 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -566,10 +566,10 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
+ }
+ 
+ static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
+-						       struct drm_atomic_state *old_state)
++						       struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *plane_state = plane->state;
+-	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(old_state, plane);
++	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_device *drm = plane->dev;
+ 	struct drm_rect src_clip, dst_clip;
+@@ -591,7 +591,7 @@ static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ }
+ 
+ static void ssd130x_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+-							struct drm_atomic_state *old_state)
++							struct drm_atomic_state *state)
+ {
+ 	struct drm_device *drm = plane->dev;
+ 	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
+-- 
+2.37.3
+
