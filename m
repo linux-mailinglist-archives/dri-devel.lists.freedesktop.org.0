@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6445E75C0
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844635E75BD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67EFF10E787;
-	Fri, 23 Sep 2022 08:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60E8110E72A;
+	Fri, 23 Sep 2022 08:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2DF10E50C;
- Fri, 23 Sep 2022 08:27:08 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7891A10E50C;
+ Fri, 23 Sep 2022 08:27:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663921628; x=1695457628;
+ t=1663921639; x=1695457639;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3OMmPJzbpg1ed43aaEppDeyTkksfH/91vVUpM5aF62o=;
- b=LeT+spCsmozNceczZTd/YQ2a1Gl6z5BnN0cBhnNcjpm9gI81hvttdUru
- Gj2ShtZ7F5wOeKyimWmbbHQLlPQ897etoTQQ9Mkx5lUtWGHb0LH5QcWte
- p11XKqnTcbuw+BIQSc75AxW42TyuhfDSqT4TObne2o1KsndwZ+5GQzYv1
- +3Jy4JgsSMHApjUvBGvzJWP4m7LaRP3eHl1Nm6e4wSlKAOI3FbQP98LLN
- uw1rBYiAH8EDX3y9xEIHgY5/x0aR9VcKbdTYxoE5951I5lYqFbr4T48UC
- T4Od2fUh+XyLZdSmkyiDVz3TSZNBO193j5XKBWHqwL5UOYmD6/cZ1zAZz g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="301989016"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="301989016"
+ bh=ci4/qe3eTxdRwotKlCxJYygkmTPrUxhHOzyqz7LzE6Y=;
+ b=cD09yUVlyun9FlpgNOJFk+emDZstsF1KIk6be4VaG5smfIWyW299EWQ6
+ 1Fbp6/R2YKrQ1gZkX+MHl2A/Yod1o5qQDvWHT5Ojw+HZLtQ9Ft1TwUmWH
+ niAJpuVf2nUR3oQ19zBGby/WJaRx5INwCElTJtaNqXxVxij+F2mb5DnW0
+ wV5hda67q5FOF3P4fHWITnQnyvpSUD5UvZ2Y4TksG1ZX+PJcOe4EJqilC
+ i2tuUxY0GWieGeHkjeU+aYaSx61+03NLq+RuwtV8tpwQTfYj9uBPTAz2P
+ 44F2PTzIJ7o1Z3QCq/18Yba85pvVEP62SjJ+AhomaM6lEGmOU4mRqeWmC A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="386833491"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="386833491"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 01:27:07 -0700
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="622444172"
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 01:27:12 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="622444191"
 Received: from ngoncia-mobl2.ger.corp.intel.com (HELO
  paris.ger.corp.intel.com) ([10.249.143.58])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 01:27:01 -0700
+ 23 Sep 2022 01:27:07 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v11 3/9] compiler_types.h: Add assert_same_type to catch type
- mis-match while compiling
-Date: Fri, 23 Sep 2022 11:26:22 +0300
-Message-Id: <20220923082628.3061408-4-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v11 4/9] drm/i915/gem: Typecheck page lookups
+Date: Fri, 23 Sep 2022 11:26:23 +0300
+Message-Id: <20220923082628.3061408-5-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220923082628.3061408-1-gwan-gyeong.mun@intel.com>
 References: <20220923082628.3061408-1-gwan-gyeong.mun@intel.com>
@@ -68,470 +67,743 @@ Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds assert_same_type and assert_same_typable macros to catch type
-mis-match while compiling. The existing typecheck() macro outputs build
-warnings, but the newly added assert_same_type() macro uses the
-static_assert macro (which uses _Static_assert keyword and it introduced
-in C11) to generate a build break when the types are different and can be
-used to detect explicit build errors. Unlike the assert_same_type() macro,
-assert_same_typable() macro allows a constant value as the second argument.
-Since static_assert is used at compile time and it requires
-constant-expression as an argument [1][2], overflows_type_ret_const_expr()
-is newly added. There is overflows_type() that has the same behavior, but
-the macro uses __builtin_add_overflow() internally, and
-__builtin_add_overflows returns a bool type [3], so it is difficult to use
-as an argument of _Static_assert. The assert_same_type and
-assert_same_typable macros have been added to compiler_types.h, but the
-overflows_type_ret_const_expr macro has been added to overflow.h
-So, overflow.h has to be included to use assert_same_typable which
-internally uses overflows_type_ret_const_expr.
-And it adds unit tests for overflows_type, overflows_type_ret_const_expr,
-assert_same_type and assert_same_typable. The overflows_type has been added
-as well to compare whether the overflows_type_ret_const_expr unit test has
-the same as the result.
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-[1] https://en.cppreference.com/w/c/language/_Static_assert
-[2] C11 standard (ISO/IEC 9899:2011): 6.7.10 Static assertions
-[3] https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html
-    6.56 Built-in Functions to Perform Arithmetic with Overflow Checking
-    Built-in Function: bool __builtin_add_overflow (type1 a, type2 b,
-                                                    type3 *res)
+We need to check that we avoid integer overflows when looking up a page,
+and so fix all the instances where we have mistakenly used a plain
+integer instead of a more suitable long. Be pedantic and add integer
+typechecking to the lookup so that we can be sure that we are safe.
+And it also uses pgoff_t as our page lookups must remain compatible with
+the page cache, pgoff_t is currently exactly unsigned long.
 
-v11: Update macro description (Andi)
-     Change _Static_assert to static_assert (Rasmus)
-     Rename assert_type to assert_same_type and  assert_typable to
-     assert_same_typable (Rasmus)
-     Update assert_same_typable macro to handle an overflow check on the
-     target type when a constant value is used. (Kees)
-     Add overflows_type_ret_const_expr which returns constant-expression
-     value (G.G)
-     Add is_unsigned_type (G.G)
-     Add unit tests for overflows_type, overflows_type_ret_const_expr,
-     assert_same_type and assert_same_typable. (Kees)
+v2: Move added i915_utils's macro into drm_util header (Jani N)
+v3: Make not use the same macro name on a function. (Mauro)
+    For kernel-doc, macros and functions are handled in the same namespace,
+    the same macro name on a function prevents ever adding documentation
+    for it.
+v4: Add kernel-doc markups to the kAPI functions and macros (Mauoro)
+v5: Fix an alignment to match open parenthesis
+v6: Rebase
+v10: Use assert_typable instead of exactly_pgoff_t() macro. (Kees)
+v11: Change the use of assert_typable to assert_same_typable (G.G)
 
-Suggested-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Kees Cook <keescook@chromium.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com> (v2)
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org> (v3)
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> (v5)
 ---
- include/linux/compiler.h       |   1 +
- include/linux/compiler_types.h |  43 +++++
- include/linux/overflow.h       |  27 ++++
- lib/overflow_kunit.c           | 283 +++++++++++++++++++++++++++++++++
- 4 files changed, 354 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   7 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    | 293 ++++++++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  27 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  12 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   8 +-
+ .../drm/i915/gem/selftests/i915_gem_object.c  |   8 +-
+ drivers/gpu/drm/i915/i915_gem.c               |  18 +-
+ drivers/gpu/drm/i915/i915_utils.h             |   1 +
+ drivers/gpu/drm/i915/i915_vma.c               |   8 +-
+ 10 files changed, 323 insertions(+), 61 deletions(-)
 
-diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-index 7713d7bcdaea..c631107e93b1 100644
---- a/include/linux/compiler.h
-+++ b/include/linux/compiler.h
-@@ -244,6 +244,7 @@ static inline void *offset_to_ptr(const int *off)
-  * bool and also pointer types.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 7ff9c7877bec..29ed0ec05d12 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -413,10 +413,11 @@ void __i915_gem_object_invalidate_frontbuffer(struct drm_i915_gem_object *obj,
+ static void
+ i915_gem_object_read_from_page_kmap(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
+ {
++	pgoff_t idx = offset >> PAGE_SHIFT;
+ 	void *src_map;
+ 	void *src_ptr;
+ 
+-	src_map = kmap_atomic(i915_gem_object_get_page(obj, offset >> PAGE_SHIFT));
++	src_map = kmap_atomic(i915_gem_object_get_page(obj, idx));
+ 
+ 	src_ptr = src_map + offset_in_page(offset);
+ 	if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
+@@ -429,9 +430,10 @@ i915_gem_object_read_from_page_kmap(struct drm_i915_gem_object *obj, u64 offset,
+ static void
+ i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
+ {
++	pgoff_t idx = offset >> PAGE_SHIFT;
++	dma_addr_t dma = i915_gem_object_get_dma_address(obj, idx);
+ 	void __iomem *src_map;
+ 	void __iomem *src_ptr;
+-	dma_addr_t dma = i915_gem_object_get_dma_address(obj, offset >> PAGE_SHIFT);
+ 
+ 	src_map = io_mapping_map_wc(&obj->mm.region->iomap,
+ 				    dma - obj->mm.region->region.start,
+@@ -460,6 +462,7 @@ i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj, u64 offset
   */
- #define is_signed_type(type) (((type)(-1)) < (__force type)1)
-+#define is_unsigned_type(type) (!is_signed_type(type))
- 
- /*
-  * This is needed in functions which generate the stack canary, see
-diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-index 4f2a819fd60a..e6f5d68e5eba 100644
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -294,6 +294,49 @@ struct ftrace_likely_data {
- /* Are two types/vars the same type (ignoring qualifiers)? */
- #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
- 
-+/**
-+ * assert_same_type - abort compilation if the first argument's data type and
-+ *                    the second argument's data type are not the same
-+ * @t1: data type or variable
-+ * @t2: data type or variable
+ int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
+ {
++	GEM_BUG_ON(overflows_type(offset >> PAGE_SHIFT, pgoff_t));
+ 	GEM_BUG_ON(offset >= obj->base.size);
+ 	GEM_BUG_ON(offset_in_page(offset) > PAGE_SIZE - size);
+ 	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 7317d4102955..f2c4de31d563 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -27,8 +27,10 @@ enum intel_region_id;
+  * spot such a local variable, please consider fixing!
+  *
+  * Aside from our own locals (for which we have no excuse!):
+- * - sg_table embeds unsigned int for num_pages
+- * - get_user_pages*() mixed ints with longs
++ * - sg_table embeds unsigned int for nents
 + *
-+ * The first and second arguments can be data types or variables or mixed (the
-+ * first argument is the data type and the second argument is variable or vice
-+ * versa). It determines whether the first argument's data type and the second
-+ * argument's data type are the same while compiling, and it aborts compilation
-+ * if the two types are not the same.
-+ * See also assert_same_typable().
-+ */
-+#define assert_same_type(t1, t2) static_assert(__same_type(t1, t2))
-+
-+/**
-+ * assert_same_typable - abort compilation if the first argument's data type and
-+ *                       the second argument's data type are not the same
-+ * @t: data type or variable
-+ * @n: data type or variable or constant value
-+ *
-+ * The first and second arguments can be data types or variables or mixed (the
-+ * first argument is the data type and the second argument is variable or vice
-+ * versa). Unlike the assert_same_type() macro, this macro allows a constant
-+ * value as the second argument. And if the second argument is a constant
-+ * value, it checks overflows between the first argument's data type and the
-+ * second argument's constant value to check whether overflow can occur when
-+ * assigning the second argument to the variable of the first argument. And it
-+ * aborts compilation if the overflow can occur. Since static assert used at
-+ * compile time requires constant-expression as an argument,
-+ * overflows_type_ret_const_expr() is used internally instead of
-+ * overflows_type(). When a constant value is not used as a second argument, it
-+ * determines whether the first argument's data type and the second argument's
-+ * data type are the same while compiling, and it aborts compilation if the two
-+ * types are not the same.
-+ * See also assert_same_type(), overflows_type_ret_const_expr() and
-+ * overflows_type().
-+ */
-+#define assert_same_typable(t, n) static_assert(			       \
-+		__builtin_choose_expr(__builtin_constant_p(n),		       \
-+				      overflows_type_ret_const_expr(n,t) == 0, \
-+				      __same_type(t, n)))
-+
- /*
-  * __unqual_scalar_typeof(x) - Declare an unqualified scalar type, leaving
-  *			       non-scalar types unchanged.
-diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-index 0eca3d8281b2..6e481ad2e46e 100644
---- a/include/linux/overflow.h
-+++ b/include/linux/overflow.h
-@@ -191,6 +191,33 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- 	check_add_overflow((x), v, &v);			\
- }))
++ * We can check for invalidly typed locals with typecheck(), see for example
++ * i915_gem_object_get_sg().
+  */
+ #define GEM_CHECK_SIZE_OVERFLOW(sz) \
+ 	GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX)
+@@ -363,44 +365,289 @@ i915_gem_object_get_tile_row_size(const struct drm_i915_gem_object *obj)
+ int i915_gem_object_set_tiling(struct drm_i915_gem_object *obj,
+ 			       unsigned int tiling, unsigned int stride);
  
 +/**
-+ * overflows_type_ret_const_expr - helper for checking the overflows between
-+ *                                 value, variables, or data type
++ * __i915_gem_object_page_iter_get_sg - helper to find the target scatterlist
++ * pointer and the target page position using pgoff_t n input argument and
++ * i915_gem_object_page_iter
++ * @obj: i915 GEM buffer object
++ * @iter: i915 GEM buffer object page iterator
++ * @n: page offset
++ * @offset: searched physical offset,
++ *          it will be used for returning physical page offset value
 + *
-+ * @x: source constant value or variable for overflow check
-+ * @T: destination variable or data type for overflow check
-+ *
-+ * It compares the value, variables, or data type between the first and second
-+ * argument to check whether overflow can occur when assigning the first
-+ * argument to the variable of the second argument data type. Source and
-+ * Destination can be different data types. Unlike overflows_type(), it returns
-+ * a constant-expression value. It is recommended to use this macro only when a
-+ * constant-expression value is absolutely necessary at compile time. In other
-+ * cases, it is recommended to use overflows_type().
-+ *
-+ * See also overflows_type() and assert_same_typable().
++ * Context: Takes and releases the mutex lock of the i915_gem_object_page_iter.
++ *          Takes and releases the RCU lock to search the radix_tree of
++ *          i915_gem_object_page_iter.
 + *
 + * Returns:
-+ * 1 if overflow can occur, 0 otherwise.
++ * The target scatterlist pointer and the target page position.
++ *
++ * Recommended to use wrapper macro: i915_gem_object_page_iter_get_sg()
 + */
-+#define overflows_type_ret_const_expr(x,T) (			\
-+	is_unsigned_type(typeof(x)) ? 				\
-+		x > type_max(typeof(T)) ? 1 : 0			\
-+	: is_unsigned_type(typeof(T)) ? 			\
-+		x < 0 || x > type_max(typeof(T)) ? 1 : 0	\
-+		: x < type_min(typeof(T)) || x > type_max(typeof(T)) ? 1 : 0 )
+ struct scatterlist *
+-__i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+-			 struct i915_gem_object_page_iter *iter,
+-			 unsigned int n,
+-			 unsigned int *offset, bool dma);
++__i915_gem_object_page_iter_get_sg(struct drm_i915_gem_object *obj,
++				   struct i915_gem_object_page_iter *iter,
++				   pgoff_t  n,
++				   unsigned int *offset);
+ 
++/**
++ * i915_gem_object_page_iter_get_sg - wrapper macro for
++ * __i915_gem_object_page_iter_get_sg()
++ * @obj: i915 GEM buffer object
++ * @it: i915 GEM buffer object page iterator
++ * @n: page offset
++ * @offset: searched physical offset,
++ *          it will be used for returning physical page offset value
++ *
++ * Context: Takes and releases the mutex lock of the i915_gem_object_page_iter.
++ *          Takes and releases the RCU lock to search the radix_tree of
++ *          i915_gem_object_page_iter.
++ *
++ * Returns:
++ * The target scatterlist pointer and the target page position.
++ *
++ * In order to avoid the truncation of the input parameter, it checks the page
++ * offset n's type from the input parameter before calling
++ * __i915_gem_object_page_iter_get_sg().
++ */
++#define i915_gem_object_page_iter_get_sg(obj, it, n, offset) ({	\
++	assert_same_typable(pgoff_t, n);			\
++	__i915_gem_object_page_iter_get_sg(obj, it, n, offset);	\
++})
 +
- /**
-  * size_mul() - Calculate size_t multiplication with saturation at SIZE_MAX
-  *
-diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
-index 0d98c9bc75da..a9c99a116e3c 100644
---- a/lib/overflow_kunit.c
-+++ b/lib/overflow_kunit.c
-@@ -687,6 +687,287 @@ static void overflow_size_helpers_test(struct kunit *test)
- #undef check_one_size_helper
++/**
++ * __i915_gem_object_get_sg - helper to find the target scatterlist
++ * pointer and the target page position using pgoff_t n input argument and
++ * drm_i915_gem_object. It uses an internal shmem scatterlist lookup function.
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ * @offset: searched physical offset,
++ *          it will be used for returning physical page offset value
++ *
++ * It uses drm_i915_gem_object's internal shmem scatterlist lookup function as
++ * i915_gem_object_page_iter and calls __i915_gem_object_page_iter_get_sg().
++ *
++ * Returns:
++ * The target scatterlist pointer and the target page position.
++ *
++ * Recommended to use wrapper macro: i915_gem_object_get_sg()
++ * See also __i915_gem_object_page_iter_get_sg()
++ */
+ static inline struct scatterlist *
+-i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+-		       unsigned int n,
+-		       unsigned int *offset)
++__i915_gem_object_get_sg(struct drm_i915_gem_object *obj, pgoff_t n,
++			 unsigned int *offset)
+ {
+-	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, false);
++	return __i915_gem_object_page_iter_get_sg(obj, &obj->mm.get_page, n, offset);
  }
  
-+static void overflows_type_test(struct kunit *test)
-+{
-+/* Args are: first type, secound type, value, overflow expected */
-+#define TEST_OVERFLOWS_TYPE(t1, t2, v, of) do {				\
-+	t1 __t1 = v;							\
-+	t2 __t2;							\
-+	bool __of;							\
-+	__of = overflows_type(v, t2);					\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type(%s, %s) to%s overflow\n", \
-+			#v, #t2, of ? "" : " not");			\
-+	}								\
-+	__of = overflows_type(v, __t2);					\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type(%s, %s) to%s overflow\n", \
-+			#v, #t2" __t2", of ? "" : " not");		\
-+	}								\
-+	__of = overflows_type(__t1, t2);				\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type(%s, %s) to%s overflow\n", \
-+			#t1" __t1 = "#v, #t2, of ? "" : " not");		\
-+	}								\
-+	__of = overflows_type(__t1, __t2);				\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type(%s, %s) to%s overflow\n", \
-+			#t1" __t1 = "#v, #t2" __t2", of ? "" : " not");	\
-+	}								\
-+	__of = overflows_type_ret_const_expr(v, t2) ? true : false;	\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type_ret_const_expr(%s, %s) to%s overflow\n", \
-+			#v, #t2, of ? "" : " not");			\
-+	}								\
-+	__of = overflows_type_ret_const_expr(v, __t2) ? true : false;	\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type_ret_const_expr(%s, %s) to%s overflow\n", \
-+			#v, #t2" __t2", of ? "" : " not");		\
-+	}								\
-+	__of = overflows_type_ret_const_expr(__t1, t2) ? true : false;	\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type_ret_const_expr(%s, %s) to%s overflow\n", \
-+			#t1" __t1 = "#v, #t2, of ? "" : " not");		\
-+	}								\
-+	__of = overflows_type_ret_const_expr(__t1, __t2) ? true : false;\
-+	if (__of != of) {						\
-+		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
-+			"expected overflows_type_ret_const_expr(%s, %s) to%s overflow\n", \
-+			#t1" __t1 = "#v, #t2" __t2", of ? "" : " not");	\
-+	}								\
-+} while(0)
++/**
++ * i915_gem_object_get_sg - wrapper macro for __i915_gem_object_get_sg()
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ * @offset: searched physical offset,
++ *          it will be used for returning physical page offset value
++ *
++ * Returns:
++ * The target scatterlist pointer and the target page position.
++ *
++ * In order to avoid the truncation of the input parameter, it checks the page
++ * offset n's type from the input parameter before calling
++ * __i915_gem_object_get_sg().
++ * See also __i915_gem_object_page_iter_get_sg()
++ */
++#define i915_gem_object_get_sg(obj, n, offset) ({	\
++	assert_same_typable(pgoff_t, n);		\
++	__i915_gem_object_get_sg(obj, n, offset);	\
++})
 +
-+	TEST_OVERFLOWS_TYPE(u8, u8, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u8, u16, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u8, s8, U8_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u8, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u8, s8, (u8)S8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u8, s16, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s8, u8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s8, u8, -1, true);
-+	TEST_OVERFLOWS_TYPE(s8, u8, S8_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s8, u16, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s8, u16, -1, true);
-+	TEST_OVERFLOWS_TYPE(s8, u16, S8_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s8, u32, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s8, u32, -1, true);
-+	TEST_OVERFLOWS_TYPE(s8, u32, S8_MIN, true);
-+#if BITS_PER_LONG == 64
-+	TEST_OVERFLOWS_TYPE(s8, u64, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s8, u64, -1, true);
-+	TEST_OVERFLOWS_TYPE(s8, u64, S8_MIN, true);
-+#endif
-+	TEST_OVERFLOWS_TYPE(s8, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s8, s8, S8_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-+	TEST_OVERFLOWS_TYPE(u16, u8, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u16, u8, (u16)U8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u16, u8, U16_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u16, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u16, s8, (u16)S8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u16, s8, U16_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u16, s16, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u16, s16, (u16)S16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u16, s16, U16_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u16, u32, U16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u16, s32, U16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, u8, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, u8, (s16)U8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s16, u8, -1, true);
-+	TEST_OVERFLOWS_TYPE(s16, u8, S16_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s16, u16, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, u16, -1, true);
-+	TEST_OVERFLOWS_TYPE(s16, u16, S16_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s16, u32, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, u32, -1, true);
-+	TEST_OVERFLOWS_TYPE(s16, u32, S16_MIN, true);
-+#if BITS_PER_LONG == 64
-+	TEST_OVERFLOWS_TYPE(s16, u64, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, u64, -1, true);
-+	TEST_OVERFLOWS_TYPE(s16, u64, S16_MIN, true);
-+#endif
-+	TEST_OVERFLOWS_TYPE(s16, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, s8, S8_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s16, s8, (s16)S8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s16, s8, (s16)S8_MIN - 1, true);
-+	TEST_OVERFLOWS_TYPE(s16, s8, S16_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s16, s8, S16_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s16, s16, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, s16, S16_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-+	TEST_OVERFLOWS_TYPE(u32, u8, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u32, u8, (u32)U8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u32, u8, U32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u32, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u32, s8, (u32)S8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u32, s8, U32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u32, u16, U16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u32, u16, U16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u32, u16, U32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u32, s16, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u32, s16, (u32)S16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u32, s16, U32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u32, u32, U32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u32, s32, S32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u32, s32, U32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u32, s32, (u32)S32_MAX + 1, true);
-+#if BITS_PER_LONG == 64
-+	TEST_OVERFLOWS_TYPE(u32, u64, U32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u32, s64, U32_MAX, false);
-+#endif
-+	TEST_OVERFLOWS_TYPE(s32, u8, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, u8, (s32)U8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s32, u16, S32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s32, u8, -1, true);
-+	TEST_OVERFLOWS_TYPE(s32, u8, S32_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s32, u16, U16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, u16, (s32)U16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s32, u16, S32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s32, u16, -1, true);
-+	TEST_OVERFLOWS_TYPE(s32, u16, S32_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s32, u32, S32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, u32, -1, true);
-+	TEST_OVERFLOWS_TYPE(s32, u32, S32_MIN, true);
-+#if BITS_PER_LONG == 64
-+	TEST_OVERFLOWS_TYPE(s32, u64, S32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, u64, -1, true);
-+	TEST_OVERFLOWS_TYPE(s32, u64, S32_MIN, true);
-+#endif
-+	TEST_OVERFLOWS_TYPE(s32, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, s8, S8_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s32, s8, (s32)S8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s32, s8, (s32)S8_MIN - 1, true);
-+	TEST_OVERFLOWS_TYPE(s32, s8, S32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s32, s8, S32_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s32, s16, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, s16, S16_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s32, s16, (s32)S16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s32, s16, (s32)S16_MIN - 1, true);
-+	TEST_OVERFLOWS_TYPE(s32, s16, S32_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s32, s16, S32_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s32, s32, S32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, s32, S32_MIN, false);
-+#if BITS_PER_LONG == 64
-+	TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-+	TEST_OVERFLOWS_TYPE(u64, u8, U64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u64, u8, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, u8, (u64)U8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u64, u16, U64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u64, u16, U16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, u16, (u64)U16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u64, u32, U64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u64, u32, U32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, u32, (u64)U32_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u64, u64, U64_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, s8, (u64)S8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u64, s8, U64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u64, s16, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, s16, (u64)S16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u64, s16, U64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u64, s32, S32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, s32, (u64)S32_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(u64, s32, U64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u64, s64, S64_MAX, false);
-+	TEST_OVERFLOWS_TYPE(u64, s64, U64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(u64, s64, (u64)S64_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, u8, S64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s64, u8, S64_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s64, u8, -1, true);
-+	TEST_OVERFLOWS_TYPE(s64, u8, U8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, u8, (s64)U8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, u16, S64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s64, u16, S64_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s64, u16, -1, true);
-+	TEST_OVERFLOWS_TYPE(s64, u16, U16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, u16, (s64)U16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, u32, S64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s64, u32, S64_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s64, u32, -1, true);
-+	TEST_OVERFLOWS_TYPE(s64, u32, U32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, u32, (s64)U32_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, u64, S64_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, u64, S64_MIN, true);
-+	TEST_OVERFLOWS_TYPE(s64, u64, -1, true);
-+	TEST_OVERFLOWS_TYPE(s64, s8, S8_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, s8, S8_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s64, s8, (s64)S8_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, s8, (s64)S8_MIN - 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, s8, S64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s64, s16, S16_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, s16, S16_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s64, s16, (s64)S16_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, s16, (s64)S16_MIN - 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, s16, S64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s64, s32, S32_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, s32, S32_MIN, false);
-+	TEST_OVERFLOWS_TYPE(s64, s32, (s64)S32_MAX + 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, s32, (s64)S32_MIN - 1, true);
-+	TEST_OVERFLOWS_TYPE(s64, s32, S64_MAX, true);
-+	TEST_OVERFLOWS_TYPE(s64, s64, S64_MAX, false);
-+	TEST_OVERFLOWS_TYPE(s64, s64, S64_MIN, false);
-+#endif
-+#undef TEST_OVERFLOWS_TYPE
-+}
-+
-+static void assert_same_type_test(struct kunit *test)
-+{
-+/* Arg is: type */
-+#define TEST_ASSERT_SAME_TYPE(t) do {	\
-+   typeof(t) __t1 = type_max(t);	\
-+   typeof(t) __t2 = type_min(t);	\
-+   assert_same_type(t, t);		\
-+   assert_same_type(t, __t1);		\
-+   assert_same_type(__t1, t);		\
-+   assert_same_type(__t1, __t2);	\
-+} while (0)
-+
-+/* Arg is: type */
-+#define TEST_ASSERT_SAME_TYPABLE(t) do {	\
-+   typeof(t) __t1 = type_max(t);		\
-+   typeof(t) __t2 = type_min(t);		\
-+   assert_same_typable(t, __t1);		\
-+   assert_same_typable(t, type_max(t));		\
-+   assert_same_typable(t, type_min(t));		\
-+   assert_same_typable(__t1, type_max(t));	\
-+   assert_same_typable(__t1, type_min(t));	\
-+   assert_same_typable(__t1, __t2);		\
-+} while (0)
-+
-+	TEST_ASSERT_SAME_TYPE(u8);
-+	TEST_ASSERT_SAME_TYPE(u16);
-+	TEST_ASSERT_SAME_TYPE(u32);
-+	TEST_ASSERT_SAME_TYPE(s8);
-+	TEST_ASSERT_SAME_TYPE(s16);
-+	TEST_ASSERT_SAME_TYPE(s32);
-+	TEST_ASSERT_SAME_TYPABLE(u8);
-+	TEST_ASSERT_SAME_TYPABLE(u16);
-+	TEST_ASSERT_SAME_TYPABLE(u32);
-+	TEST_ASSERT_SAME_TYPABLE(s8);
-+	TEST_ASSERT_SAME_TYPABLE(s16);
-+	TEST_ASSERT_SAME_TYPABLE(s32);
-+
-+#if BITS_PER_LONG == 64
-+	TEST_ASSERT_SAME_TYPE(u64);
-+	TEST_ASSERT_SAME_TYPE(s64);
-+	TEST_ASSERT_SAME_TYPABLE(u64);
-+	TEST_ASSERT_SAME_TYPABLE(s64);
-+#endif
-+
-+#undef TEST_ASSERT_SAME_TYPABLE
-+#undef TEST_ASSERT_SAME_TYPE
-+}
-+
- static struct kunit_case overflow_test_cases[] = {
- 	KUNIT_CASE(u8_u8__u8_overflow_test),
- 	KUNIT_CASE(s8_s8__s8_overflow_test),
-@@ -706,6 +987,8 @@ static struct kunit_case overflow_test_cases[] = {
- 	KUNIT_CASE(overflow_shift_test),
- 	KUNIT_CASE(overflow_allocation_test),
- 	KUNIT_CASE(overflow_size_helpers_test),
-+	KUNIT_CASE(overflows_type_test),
-+	KUNIT_CASE(assert_same_type_test),
- 	{}
- };
++/**
++ * __i915_gem_object_get_sg_dma - helper to find the target scatterlist
++ * pointer and the target page position using pgoff_t n input argument and
++ * drm_i915_gem_object. It uses an internal DMA mapped scatterlist lookup function
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ * @offset: searched physical offset,
++ *          it will be used for returning physical page offset value
++ *
++ * It uses drm_i915_gem_object's internal DMA mapped scatterlist lookup function
++ * as i915_gem_object_page_iter and calls __i915_gem_object_page_iter_get_sg().
++ *
++ * Returns:
++ * The target scatterlist pointer and the target page position.
++ *
++ * Recommended to use wrapper macro: i915_gem_object_get_sg_dma()
++ * See also __i915_gem_object_page_iter_get_sg()
++ */
+ static inline struct scatterlist *
+-i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
+-			   unsigned int n,
+-			   unsigned int *offset)
++__i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj, pgoff_t n,
++			     unsigned int *offset)
+ {
+-	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, true);
++	return __i915_gem_object_page_iter_get_sg(obj, &obj->mm.get_dma_page, n, offset);
+ }
  
++/**
++ * i915_gem_object_get_sg_dma - wrapper macro for __i915_gem_object_get_sg_dma()
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ * @offset: searched physical offset,
++ *          it will be used for returning physical page offset value
++ *
++ * Returns:
++ * The target scatterlist pointer and the target page position.
++ *
++ * In order to avoid the truncation of the input parameter, it checks the page
++ * offset n's type from the input parameter before calling
++ * __i915_gem_object_get_sg_dma().
++ * See also __i915_gem_object_page_iter_get_sg()
++ */
++#define i915_gem_object_get_sg_dma(obj, n, offset) ({	\
++	assert_same_typable(pgoff_t, n);		\
++	__i915_gem_object_get_sg_dma(obj, n, offset);	\
++})
++
++/**
++ * __i915_gem_object_get_page - helper to find the target page with a page offset
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ *
++ * It uses drm_i915_gem_object's internal shmem scatterlist lookup function as
++ * i915_gem_object_page_iter and calls __i915_gem_object_page_iter_get_sg()
++ * internally.
++ *
++ * Returns:
++ * The target page pointer.
++ *
++ * Recommended to use wrapper macro: i915_gem_object_get_page()
++ * See also __i915_gem_object_page_iter_get_sg()
++ */
+ struct page *
+-i915_gem_object_get_page(struct drm_i915_gem_object *obj,
+-			 unsigned int n);
++__i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n);
+ 
++/**
++ * i915_gem_object_get_page - wrapper macro for __i915_gem_object_get_page
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ *
++ * Returns:
++ * The target page pointer.
++ *
++ * In order to avoid the truncation of the input parameter, it checks the page
++ * offset n's type from the input parameter before calling
++ * __i915_gem_object_get_page().
++ * See also __i915_gem_object_page_iter_get_sg()
++ */
++#define i915_gem_object_get_page(obj, n) ({	\
++	assert_same_typable(pgoff_t, n);	\
++	__i915_gem_object_get_page(obj, n);	\
++})
++
++/**
++ * __i915_gem_object_get_dirty_page - helper to find the target page with a page
++ * offset
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ *
++ * It works like i915_gem_object_get_page(), but it marks the returned page dirty.
++ *
++ * Returns:
++ * The target page pointer.
++ *
++ * Recommended to use wrapper macro: i915_gem_object_get_dirty_page()
++ * See also __i915_gem_object_page_iter_get_sg() and __i915_gem_object_get_page()
++ */
+ struct page *
+-i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj,
+-			       unsigned int n);
++__i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj, pgoff_t n);
++
++/**
++ * i915_gem_object_get_dirty_page - wrapper macro for __i915_gem_object_get_dirty_page
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ *
++ * Returns:
++ * The target page pointer.
++ *
++ * In order to avoid the truncation of the input parameter, it checks the page
++ * offset n's type from the input parameter before calling
++ * __i915_gem_object_get_dirty_page().
++ * See also __i915_gem_object_page_iter_get_sg() and __i915_gem_object_get_page()
++ */
++#define i915_gem_object_get_dirty_page(obj, n) ({	\
++	assert_same_typable(pgoff_t, n);		\
++	__i915_gem_object_get_dirty_page(obj, n);	\
++})
+ 
++/**
++ * __i915_gem_object_get_dma_address_len - helper to get bus addresses of
++ * targeted DMA mapped scatterlist from i915 GEM buffer object and it's length
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ * @len: DMA mapped scatterlist's DMA bus addresses length to return
++ *
++ * Returns:
++ * Bus addresses of targeted DMA mapped scatterlist
++ *
++ * Recommended to use wrapper macro: i915_gem_object_get_dma_address_len()
++ * See also __i915_gem_object_page_iter_get_sg() and __i915_gem_object_get_sg_dma()
++ */
+ dma_addr_t
+-i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
+-				    unsigned long n,
+-				    unsigned int *len);
++__i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj, pgoff_t n,
++				      unsigned int *len);
+ 
++/**
++ * i915_gem_object_get_dma_address_len - wrapper macro for
++ * __i915_gem_object_get_dma_address_len
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ * @len: DMA mapped scatterlist's DMA bus addresses length to return
++ *
++ * Returns:
++ * Bus addresses of targeted DMA mapped scatterlist
++ *
++ * In order to avoid the truncation of the input parameter, it checks the page
++ * offset n's type from the input parameter before calling
++ * __i915_gem_object_get_dma_address_len().
++ * See also __i915_gem_object_page_iter_get_sg() and
++ * __i915_gem_object_get_dma_address_len()
++ */
++#define i915_gem_object_get_dma_address_len(obj, n, len) ({	\
++	assert_same_typable(pgoff_t, n);			\
++	__i915_gem_object_get_dma_address_len(obj, n, len);	\
++})
++
++/**
++ * __i915_gem_object_get_dma_address - helper to get bus addresses of
++ * targeted DMA mapped scatterlist from i915 GEM buffer object
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ *
++ * Returns:
++ * Bus addresses of targeted DMA mapped scatterlis
++ *
++ * Recommended to use wrapper macro: i915_gem_object_get_dma_address()
++ * See also __i915_gem_object_page_iter_get_sg() and __i915_gem_object_get_sg_dma()
++ */
+ dma_addr_t
+-i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj,
+-				unsigned long n);
++__i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj, pgoff_t n);
++
++/**
++ * i915_gem_object_get_dma_address - wrapper macro for
++ * __i915_gem_object_get_dma_address
++ * @obj: i915 GEM buffer object
++ * @n: page offset
++ *
++ * Returns:
++ * Bus addresses of targeted DMA mapped scatterlist
++ *
++ * In order to avoid the truncation of the input parameter, it checks the page
++ * offset n's type from the input parameter before calling
++ * __i915_gem_object_get_dma_address().
++ * See also __i915_gem_object_page_iter_get_sg() and
++ * __i915_gem_object_get_dma_address()
++ */
++#define i915_gem_object_get_dma_address(obj, n) ({	\
++	assert_same_typable(pgoff_t, n);		\
++	__i915_gem_object_get_dma_address(obj, n);	\
++})
+ 
+ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+ 				 struct sg_table *pages,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 4df50b049cea..015b6cd071e4 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -510,14 +510,16 @@ void __i915_gem_object_release_map(struct drm_i915_gem_object *obj)
+ }
+ 
+ struct scatterlist *
+-__i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+-			 struct i915_gem_object_page_iter *iter,
+-			 unsigned int n,
+-			 unsigned int *offset,
+-			 bool dma)
++__i915_gem_object_page_iter_get_sg(struct drm_i915_gem_object *obj,
++				   struct i915_gem_object_page_iter *iter,
++				   pgoff_t n,
++				   unsigned int *offset)
++
+ {
+-	struct scatterlist *sg;
++	const bool dma = iter == &obj->mm.get_dma_page ||
++			 iter == &obj->ttm.get_io_page;
+ 	unsigned int idx, count;
++	struct scatterlist *sg;
+ 
+ 	might_sleep();
+ 	GEM_BUG_ON(n >= obj->base.size >> PAGE_SHIFT);
+@@ -625,7 +627,7 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+ }
+ 
+ struct page *
+-i915_gem_object_get_page(struct drm_i915_gem_object *obj, unsigned int n)
++__i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n)
+ {
+ 	struct scatterlist *sg;
+ 	unsigned int offset;
+@@ -638,8 +640,7 @@ i915_gem_object_get_page(struct drm_i915_gem_object *obj, unsigned int n)
+ 
+ /* Like i915_gem_object_get_page(), but mark the returned page dirty */
+ struct page *
+-i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj,
+-			       unsigned int n)
++__i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj, pgoff_t n)
+ {
+ 	struct page *page;
+ 
+@@ -651,9 +652,8 @@ i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj,
+ }
+ 
+ dma_addr_t
+-i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
+-				    unsigned long n,
+-				    unsigned int *len)
++__i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
++				      pgoff_t n, unsigned int *len)
+ {
+ 	struct scatterlist *sg;
+ 	unsigned int offset;
+@@ -667,8 +667,7 @@ i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
+ }
+ 
+ dma_addr_t
+-i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj,
+-				unsigned long n)
++__i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj, pgoff_t n)
+ {
+ 	return i915_gem_object_get_dma_address_len(obj, n, NULL);
+ }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index e3fc38dd5db0..004fc7478b41 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -694,7 +694,7 @@ static unsigned long i915_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
+ 	GEM_WARN_ON(bo->ttm);
+ 
+ 	base = obj->mm.region->iomap.base - obj->mm.region->region.start;
+-	sg = __i915_gem_object_get_sg(obj, &obj->ttm.get_io_page, page_offset, &ofs, true);
++	sg = i915_gem_object_page_iter_get_sg(obj, &obj->ttm.get_io_page, page_offset, &ofs);
+ 
+ 	return ((base + sg_dma_address(sg)) >> PAGE_SHIFT) + ofs;
+ }
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+index c6ad67b90e8a..a18a890e681f 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+@@ -455,7 +455,8 @@ static int gpu_fill(struct intel_context *ce,
+ static int cpu_fill(struct drm_i915_gem_object *obj, u32 value)
+ {
+ 	const bool has_llc = HAS_LLC(to_i915(obj->base.dev));
+-	unsigned int n, m, need_flush;
++	unsigned int need_flush;
++	unsigned long n, m;
+ 	int err;
+ 
+ 	i915_gem_object_lock(obj, NULL);
+@@ -485,7 +486,8 @@ static int cpu_fill(struct drm_i915_gem_object *obj, u32 value)
+ static noinline int cpu_check(struct drm_i915_gem_object *obj,
+ 			      unsigned int idx, unsigned int max)
+ {
+-	unsigned int n, m, needs_flush;
++	unsigned int needs_flush;
++	unsigned long n;
+ 	int err;
+ 
+ 	i915_gem_object_lock(obj, NULL);
+@@ -494,7 +496,7 @@ static noinline int cpu_check(struct drm_i915_gem_object *obj,
+ 		goto out_unlock;
+ 
+ 	for (n = 0; n < real_page_count(obj); n++) {
+-		u32 *map;
++		u32 *map, m;
+ 
+ 		map = kmap_atomic(i915_gem_object_get_page(obj, n));
+ 		if (needs_flush & CLFLUSH_BEFORE)
+@@ -502,7 +504,7 @@ static noinline int cpu_check(struct drm_i915_gem_object *obj,
+ 
+ 		for (m = 0; m < max; m++) {
+ 			if (map[m] != m) {
+-				pr_err("%pS: Invalid value at object %d page %d/%ld, offset %d/%d: found %x expected %x\n",
++				pr_err("%pS: Invalid value at object %d page %ld/%ld, offset %d/%d: found %x expected %x\n",
+ 				       __builtin_return_address(0), idx,
+ 				       n, real_page_count(obj), m, max,
+ 				       map[m], m);
+@@ -513,7 +515,7 @@ static noinline int cpu_check(struct drm_i915_gem_object *obj,
+ 
+ 		for (; m < DW_PER_PAGE; m++) {
+ 			if (map[m] != STACK_MAGIC) {
+-				pr_err("%pS: Invalid value at object %d page %d, offset %d: found %x expected %x (uninitialised)\n",
++				pr_err("%pS: Invalid value at object %d page %ld, offset %d: found %x expected %x (uninitialised)\n",
+ 				       __builtin_return_address(0), idx, n, m,
+ 				       map[m], STACK_MAGIC);
+ 				err = -EINVAL;
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index b73c91aa5450..4ea6e48d8689 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -95,11 +95,11 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	struct i915_gtt_view view;
+ 	struct i915_vma *vma;
++	unsigned long offset;
+ 	unsigned long page;
+ 	u32 __iomem *io;
+ 	struct page *p;
+ 	unsigned int n;
+-	u64 offset;
+ 	u32 *cpu;
+ 	int err;
+ 
+@@ -156,7 +156,7 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
+ 	cpu = kmap(p) + offset_in_page(offset);
+ 	drm_clflush_virt_range(cpu, sizeof(*cpu));
+ 	if (*cpu != (u32)page) {
+-		pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%llu + %u [0x%llx]) of 0x%x, found 0x%x\n",
++		pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%lu + %u [0x%lx]) of 0x%x, found 0x%x\n",
+ 		       page, n,
+ 		       view.partial.offset,
+ 		       view.partial.size,
+@@ -212,10 +212,10 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
+ 	for_each_prime_number_from(page, 1, npages) {
+ 		struct i915_gtt_view view =
+ 			compute_partial_view(obj, page, MIN_CHUNK_PAGES);
++		unsigned long offset;
+ 		u32 __iomem *io;
+ 		struct page *p;
+ 		unsigned int n;
+-		u64 offset;
+ 		u32 *cpu;
+ 
+ 		GEM_BUG_ON(view.partial.size > nreal);
+@@ -252,7 +252,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
+ 		cpu = kmap(p) + offset_in_page(offset);
+ 		drm_clflush_virt_range(cpu, sizeof(*cpu));
+ 		if (*cpu != (u32)page) {
+-			pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%llu + %u [0x%llx]) of 0x%x, found 0x%x\n",
++			pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%lu + %u [0x%lx]) of 0x%x, found 0x%x\n",
+ 			       page, n,
+ 			       view.partial.offset,
+ 			       view.partial.size,
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+index bdf5bb40ccf1..19e374f68ff7 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+@@ -33,10 +33,10 @@ static int igt_gem_object(void *arg)
+ 
+ static int igt_gem_huge(void *arg)
+ {
+-	const unsigned int nreal = 509; /* just to be awkward */
++	const unsigned long nreal = 509; /* just to be awkward */
+ 	struct drm_i915_private *i915 = arg;
+ 	struct drm_i915_gem_object *obj;
+-	unsigned int n;
++	unsigned long n;
+ 	int err;
+ 
+ 	/* Basic sanitycheck of our huge fake object allocation */
+@@ -49,7 +49,7 @@ static int igt_gem_huge(void *arg)
+ 
+ 	err = i915_gem_object_pin_pages_unlocked(obj);
+ 	if (err) {
+-		pr_err("Failed to allocate %u pages (%lu total), err=%d\n",
++		pr_err("Failed to allocate %lu pages (%lu total), err=%d\n",
+ 		       nreal, obj->base.size / PAGE_SIZE, err);
+ 		goto out;
+ 	}
+@@ -57,7 +57,7 @@ static int igt_gem_huge(void *arg)
+ 	for (n = 0; n < obj->base.size / PAGE_SIZE; n++) {
+ 		if (i915_gem_object_get_page(obj, n) !=
+ 		    i915_gem_object_get_page(obj, n % nreal)) {
+-			pr_err("Page lookup mismatch at index %u [%u]\n",
++			pr_err("Page lookup mismatch at index %lu [%lu]\n",
+ 			       n, n % nreal);
+ 			err = -EINVAL;
+ 			goto out_unpin;
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 88df9a35e0fe..68cbe6233eef 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -229,8 +229,9 @@ i915_gem_shmem_pread(struct drm_i915_gem_object *obj,
+ 		     struct drm_i915_gem_pread *args)
+ {
+ 	unsigned int needs_clflush;
+-	unsigned int idx, offset;
+ 	char __user *user_data;
++	unsigned long offset;
++	pgoff_t idx;
+ 	u64 remain;
+ 	int ret;
+ 
+@@ -383,13 +384,17 @@ i915_gem_gtt_pread(struct drm_i915_gem_object *obj,
+ {
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
++	unsigned long remain, offset;
+ 	intel_wakeref_t wakeref;
+ 	struct drm_mm_node node;
+ 	void __user *user_data;
+ 	struct i915_vma *vma;
+-	u64 remain, offset;
+ 	int ret = 0;
+ 
++	if (overflows_type(args->size, remain) ||
++	    overflows_type(args->offset, offset))
++		return -EINVAL;
++
+ 	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+ 
+ 	vma = i915_gem_gtt_prepare(obj, &node, false);
+@@ -540,13 +545,17 @@ i915_gem_gtt_pwrite_fast(struct drm_i915_gem_object *obj,
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	struct intel_runtime_pm *rpm = &i915->runtime_pm;
++	unsigned long remain, offset;
+ 	intel_wakeref_t wakeref;
+ 	struct drm_mm_node node;
+ 	struct i915_vma *vma;
+-	u64 remain, offset;
+ 	void __user *user_data;
+ 	int ret = 0;
+ 
++	if (overflows_type(args->size, remain) ||
++	    overflows_type(args->offset, offset))
++		return -EINVAL;
++
+ 	if (i915_gem_object_has_struct_page(obj)) {
+ 		/*
+ 		 * Avoid waking the device up if we can fallback, as
+@@ -654,8 +663,9 @@ i915_gem_shmem_pwrite(struct drm_i915_gem_object *obj,
+ {
+ 	unsigned int partial_cacheline_write;
+ 	unsigned int needs_clflush;
+-	unsigned int offset, idx;
+ 	void __user *user_data;
++	unsigned long offset;
++	pgoff_t idx;
+ 	u64 remain;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+index efd3d69b78f7..d2144986cbf1 100644
+--- a/drivers/gpu/drm/i915/i915_utils.h
++++ b/drivers/gpu/drm/i915/i915_utils.h
+@@ -33,6 +33,7 @@
+ #include <linux/workqueue.h>
+ #include <linux/sched/clock.h>
+ #include <linux/overflow.h>
++#include <linux/util_macros.h>
+ 
+ #ifdef CONFIG_X86
+ #include <asm/hypervisor.h>
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index f17c09ead7d7..bf3a30cd02bf 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -909,7 +909,7 @@ rotate_pages(struct drm_i915_gem_object *obj, unsigned int offset,
+ 	     struct sg_table *st, struct scatterlist *sg)
+ {
+ 	unsigned int column, row;
+-	unsigned int src_idx;
++	pgoff_t src_idx;
+ 
+ 	for (column = 0; column < width; column++) {
+ 		unsigned int left;
+@@ -1015,7 +1015,7 @@ add_padding_pages(unsigned int count,
+ 
+ static struct scatterlist *
+ remap_tiled_color_plane_pages(struct drm_i915_gem_object *obj,
+-			      unsigned int offset, unsigned int alignment_pad,
++			      unsigned long offset, unsigned int alignment_pad,
+ 			      unsigned int width, unsigned int height,
+ 			      unsigned int src_stride, unsigned int dst_stride,
+ 			      struct sg_table *st, struct scatterlist *sg,
+@@ -1074,7 +1074,7 @@ remap_tiled_color_plane_pages(struct drm_i915_gem_object *obj,
+ 
+ static struct scatterlist *
+ remap_contiguous_pages(struct drm_i915_gem_object *obj,
+-		       unsigned int obj_offset,
++		       pgoff_t obj_offset,
+ 		       unsigned int count,
+ 		       struct sg_table *st, struct scatterlist *sg)
+ {
+@@ -1107,7 +1107,7 @@ remap_contiguous_pages(struct drm_i915_gem_object *obj,
+ 
+ static struct scatterlist *
+ remap_linear_color_plane_pages(struct drm_i915_gem_object *obj,
+-			       unsigned int obj_offset, unsigned int alignment_pad,
++			       pgoff_t obj_offset, unsigned int alignment_pad,
+ 			       unsigned int size,
+ 			       struct sg_table *st, struct scatterlist *sg,
+ 			       unsigned int *gtt_offset)
 -- 
 2.37.1
 
