@@ -2,70 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA6D5E7940
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 13:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893F35E7A13
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 14:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB19510E868;
-	Fri, 23 Sep 2022 11:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE4510E8EB;
+	Fri, 23 Sep 2022 11:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F31BA10E88F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 11:16:37 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id k10so19285315lfm.4
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 04:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=WVY444sgVZKK+vY4euROZT7RCJrRWYm0QFkYeu7q07A=;
- b=GKMyIrG6A6lX/rlrp3TOcU57GiknL+XUxrwfFH/f1akM2DMNy87i4OzM4NX7/XMkx6
- YED9kf6T+9gIhaeTEvZV+unwNBINlTjTsSqf2qWUseD54NmeKDo0INP/1Keu+uqeLBde
- 7HicySAx8BM4kdf9ajk0c3LTUdsD6KOhzZW5aUW8Gev6L2UsDUsVcGiOYquJNPz5viII
- kElCm//hSG38MLMDhotwtKhqhhQY5O35ZU45cuzNbI25thZnSm5XBk5JPw7AmCLeHiGH
- OduCbQp04LfBpS0Vetf0LjQoeLTXfjh3hCbVovgepaPCOoCmBjut3+go3MlEosTHYK//
- c7dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=WVY444sgVZKK+vY4euROZT7RCJrRWYm0QFkYeu7q07A=;
- b=lnQLt3gZ8ie4E7KE7I1C7MTxhxvvv26oWHp/C6LATBvxFUeVf4JzByW/PdqiFGKYQd
- I3LDKE+BVpiOapFr9lHqiysGIS23gK7ErJGMORbHkZ2YbpTyeVCpPJCPl+DKJDGz37fY
- Lj98bfIZ69b5QxFIRSMMcmWJCyC9oK/cEiv0IOXCeZA1lgBaiXNrJ66VPLkcV4jK2U97
- OHpQx0zgSIigA+8nwfHOvzilSzzTvNEqsWcMLHiVf0Ul2ataqZL+W9tI5zGRE1SyG/d6
- Cm5LPIZw08m1hTV7hCQAti4jIxrNzXboZG10S77wO1bM0h1Kq1dACs/tATug2ojYxNNk
- CKAA==
-X-Gm-Message-State: ACrzQf3j8XWCGq31HwFv6dQh/2erOl6DitZHk22U068NfugWwlmxbzv1
- qXQ4a4JI/EkbWvYZSwCHwavZPQ==
-X-Google-Smtp-Source: AMsMyM6ZqgtGE6YGi5NHqU38FwIKEP5Y636y2wBc6bsb7FGrQUA/VEzL6pvHiLgIjd3Bhg+MjURUzg==
-X-Received: by 2002:a05:6512:3c92:b0:499:a1ff:d6f3 with SMTP id
- h18-20020a0565123c9200b00499a1ffd6f3mr3099204lfv.153.1663931796319; 
- Fri, 23 Sep 2022 04:16:36 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- du12-20020a056512298c00b004946a1e045fsm1399245lfb.197.2022.09.23.04.16.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 04:16:35 -0700 (PDT)
-Message-ID: <f6e669dd-f2cf-6e3f-18bb-25b21e5eab0c@linaro.org>
-Date: Fri, 23 Sep 2022 13:16:34 +0200
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD08510E8E2;
+ Fri, 23 Sep 2022 11:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663934389; x=1695470389;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=YaUg750lJnggz6KWmfaPEF4rvlW5TvJZSCMSaU800rA=;
+ b=bGKLUAv3RM4CScRs6oCBRHN7KODcnxOd2jUtFFqUv279OEUGdxLcDqM/
+ KZfDymiO9tWURARsrTmmx3vS/6JVko00U8VHF9WigBuryKp06FYuWJREg
+ kMlQFj9q2uoxMXvafgAubSRNZGbIzp/RBzK4BohtYHlRccI6XpcRCVPJZ
+ 8lSvbuD+UEVxCGvyQpxfKDit3N9mrUWl5mLib17gnm4PDGLEmSHtzqRUT
+ MMAPZGzVNNrmG1khXPFNu2VM+HgBRUsmZt1LD/931VQ2f7bRcXY7S92W/
+ pt/D4s3W1W9APQPbUq+jrSegZUucWtmEku9AckZDbeR9NdGHMGTTdSzTm Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="386865705"
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="386865705"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 04:59:49 -0700
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="865270599"
+Received: from armannov-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.61.93])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 04:59:42 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben
+ Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Maxime
+ Ripard <mripard@kernel.org>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Emma Anholt <emma@anholt.net>, Karol
+ Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, Lyude
+ Paul <lyude@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH v2 13/33] drm/client: Add some tests for
+ drm_connector_pick_cmdline_mode()
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-13-f733a0ed9f90@cerno.tech>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-13-f733a0ed9f90@cerno.tech>
+Date: Fri, 23 Sep 2022 14:59:23 +0300
+Message-ID: <875yhe47z8.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] dt-bindings: display: mediatek: dp: Add compatible for
- MediaTek MT8188
-Content-Language: en-US
-To: liangxu.xu@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- jitao.shi@mediatek.com
-References: <20220923013953.5043-1-liangxu.xu@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220923013953.5043-1-liangxu.xu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,23 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Hans de Goede <hdegoede@redhat.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/09/2022 03:39, liangxu.xu@mediatek.com wrote:
-> From: liangxu xu <liangxu.xu@mediatek.com>
-> 
-> Add dt-binding documentation of dp for MediaTek MT8188 SoC.
-> 
-> Signed-off-by: liangxu xu <liangxu.xu@mediatek.com>
-> ---
+On Thu, 22 Sep 2022, Maxime Ripard <maxime@cerno.tech> wrote:
+> drm_connector_pick_cmdline_mode() is in charge of finding a proper
+> drm_display_mode from the definition we got in the video= command line
+> argument.
+>
+> Let's add some unit tests to make sure we're not getting any regressions
+> there.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index bbc535cc50dd..d553e793e673 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -1237,3 +1237,7 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_client_modeset_dpms);
+> +
+> +#ifdef CONFIG_DRM_KUNIT_TEST
+> +#include "tests/drm_client_modeset_test.c"
+> +#endif
+> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> new file mode 100644
+> index 000000000000..46335de7bc6b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
 
-Where is the DTS? Where are driver changes?
+[snip]
 
-Best regards,
-Krzysztof
+> +MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
+> +MODULE_LICENSE("GPL");
 
+I think these annotations are incompatible with including the unit test,
+and, in this case, affect drm.ko.
+
+And we'll have two kinds of tests, those that get built via
+tests/Makefile, and those that get included, like this one, which should
+not be mentioned in tests/Makefile.
+
+BR,
+Jani.
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
