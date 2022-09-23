@@ -1,79 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD655E769B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 11:16:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FC25E76A1
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 11:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A96810E7A5;
-	Fri, 23 Sep 2022 09:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B80610E7CB;
+	Fri, 23 Sep 2022 09:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BDD310E7A5
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 09:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663924564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Ep2LcsdKEgsIs6aTOfGI5dO+1JAPu67k1k4S8GmmVo=;
- b=J0m8r+8OkwhhrQdomsRV1KSfjuAp0dPGN6VbaZ2mFo3Rg8NDYRFfjpqwsFcC5QSgAz+6qY
- CO49q5VtXJrprxIC6N5LNX51ULtdqVceKVUxfAsdYNiYXSwBROR0XtWcZul8MzjRLbUJdq
- m3XyFOkXS7eeykK4yj+CzP7Mt4TMMds=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-301-w0KLpq3rNrKQuL5Q4TRxyA-1; Fri, 23 Sep 2022 05:16:03 -0400
-X-MC-Unique: w0KLpq3rNrKQuL5Q4TRxyA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 84-20020a1c0257000000b003b4be28d7e3so2458276wmc.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 02:16:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=+Ep2LcsdKEgsIs6aTOfGI5dO+1JAPu67k1k4S8GmmVo=;
- b=s48KxYXbwUOrDub8/agnLladp8IHlLQF/P6WefJBgsuqRCORmBl+U2V/hzVXfbtU9B
- cKOXhLmbppWrPmkjX5SRtGas0bjuZ/CcQn/pVO9j9uKdQKQX9b686PIeO35TO1LQBKe4
- xuIt9reEYa3WGbAMcF8q7zwK5lL0X/mgTCUcA5ZcxfxYC1K0uUBKa0mjT0bJ/F07kIPv
- hyTJ4Bb1hQ6aYX66XNCQ3uw6Tx9BuNtq5py1fl14yzVDFH0b28M83NSFlz666tp6U5Jv
- 3/FCQdnYUSDDUqxHZU/QlUoSVWLqC8nKZ2mx3Qvbh+SplEUtl9BH3d7/u444B+EdPjti
- XzFw==
-X-Gm-Message-State: ACrzQf3oJvl7+BSWBUUwB5XSR+V1ejhhrX2bCS9mzOhezbLEgrLX2xjG
- OVKMtEs/xQ8WwORIEF+RD4u6WXDxhtC5ko7DT9d6NlXGBJiEAr9VwboU0pdEBidEi/OhaDF00Ii
- kKUH689S9nYq7z2rfHyjbDJEhfJ/U
-X-Received: by 2002:a05:6000:1446:b0:22b:968:446 with SMTP id
- v6-20020a056000144600b0022b09680446mr4404247wrx.493.1663924562122; 
- Fri, 23 Sep 2022 02:16:02 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7F3z+Gwjzc07MWPiMCmk12QqRaTKvW+HCfQ8Z5AVFjSyhCeNr6oTPhOMgxzk/EfvjW1wZMOA==
-X-Received: by 2002:a05:6000:1446:b0:22b:968:446 with SMTP id
- v6-20020a056000144600b0022b09680446mr4404236wrx.493.1663924561935; 
- Fri, 23 Sep 2022 02:16:01 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- q16-20020adff510000000b00228c375d81bsm7020309wro.2.2022.09.23.02.16.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 02:16:01 -0700 (PDT)
-Message-ID: <7ccc4b30-0f85-6870-0c60-9897fdb374b9@redhat.com>
-Date: Fri, 23 Sep 2022 11:16:00 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 370AC10E7CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 09:16:39 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E438D6601BDF;
+ Fri, 23 Sep 2022 10:16:36 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663924598;
+ bh=COcbVBmwh8xUSsJeO6kEeMrbFW6tyt7j4/rcy5e8aTk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ifBr8/l2q7/LqvQpfV2K/U2NRx0B+a7wLFHep1xJ/4F+w9SovfhlhasDI8SugMkVq
+ ZhpDjSAJEY2cXK1CJb+ivJcRpW1UL/IS0Ymg/IlzIoSw07gFdM0qv5iUKSoIX3G6vo
+ Liq01thJUcoX4g7TU12sbvsPqC0yn4jk4VijGpIgQ+4c1+6OrOV0odFuE0ysi91v7u
+ Pj/YIOnEn1hpnyMnw696McjHHTSRZMm5RODGCQ7zXKlj1+QhU0gy5eLkw1vtGVymeO
+ yHOhEY34MmsnE0E5e2bo2S0IMf4Dmy6Y4wAGcIB2hVRzm4AtSIN1n1DvZjSuUgXmLZ
+ f9XjR8vev2nXg==
+Message-ID: <ad7e399f-9fd9-371e-48d1-4f590b6e8a68@collabora.com>
+Date: Fri, 23 Sep 2022 11:16:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/ssd130x: Use drm_atomic_get_new_plane_state()
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20220923083447.1679780-1-javierm@redhat.com>
- <Yy1271xW1SOlL41e@intel.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <Yy1271xW1SOlL41e@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v8,2/3]drm: mediatek: Adjust the dpi output format to
+ MT8186
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: xinlei.lee@mediatek.com, matthias.bgg@gmail.com,
+ jason-jh.lin@mediatek.com, rex-bc.chen@mediatek.com, ck.hu@mediatek.com,
+ p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch
+References: <1663850702-26529-1-git-send-email-xinlei.lee@mediatek.com>
+ <1663850702-26529-3-git-send-email-xinlei.lee@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <1663850702-26529-3-git-send-email-xinlei.lee@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,57 +59,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Ville,
-
-On 9/23/22 11:05, Ville Syrjälä wrote:
-> On Fri, Sep 23, 2022 at 10:34:47AM +0200, Javier Martinez Canillas wrote:
->> The struct drm_plane .state shouldn't be accessed directly but instead the
->> drm_atomic_get_new_plane_state() helper function should be used.
->>
->> This is based on a similar patch from Thomas Zimmermann for the simpledrm
->> driver. No functional changes.
->>
->> Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Il 22/09/22 14:45, xinlei.lee@mediatek.com ha scritto:
+> From: Xinlei Lee <xinlei.lee@mediatek.com>
 > 
-> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
->
-
-Thanks.
- 
-> I wonder how many naked obj->state dereferences are still
-> left in places where they should be using the get_{new,old}()
-> stuff. Might have to write a bit of cocci to find out...
+> Due to the mt8186  hardware changes, we need to modify the dpi output
+> format corresponding to the mmsys register(mmsys_base+0x400).
 > 
+> Because different sink ICs may support other output formats.
+> The current DRM architecture supports retrieving the output format of
+> all bridges (eg dpi is implemented via DRM's .atomic_check and
+> .atomic_get_output_bus_fmts and .atomic_get_input_bus_fmts).
+> If no unified output format is found, the default soc format
+> (MEDIA_BUS_FMT_RGB888_2X12_LE in mt8186) is used.
 > 
-> Btw on a somewhat related note, I've been thinking about bringing
-> for_each_crtc_in_state() & co. back (got removed in commit
-> 77ac3b00b131 ("drm/atomic: Remove deprecated accessor macros"))
-> but this time without any object state iterator variable. Now that
-> we're more often just plumbing the full atomic state through I
-> think there are bunch of places that don't need the object state(s)
-> within the loop at all, so having to have those variables around
-> makes the whole thing a bit noisy. Also IIRC we had to add some
-> (void) casts into the current macros to hide some compiler warnings
-> about unused variables. Could get rid of at least some of those extra
-> casts again.
+> Therefore, if there are other format sink ICs (RGB888_DDR/RGB888_SDR) in
+> the future, the sink IC needs to add the func implementation mentioned
+> above needs to be added.
+> And the drm architecture will select the appropriate format to change
+> the dpi output.
 > 
-> I don't suppose there's anyone interested in doing that so I don't
-> have to? ;)
+> Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dpi.c | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 630a4e301ef6..bd1870a8504a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -15,6 +15,7 @@
+>   #include <linux/of_graph.h>
+>   #include <linux/pinctrl/consumer.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/soc/mediatek/mtk-mmsys.h>
+>   #include <linux/types.h>
+>   
+>   #include <video/videomode.h>
+> @@ -30,6 +31,7 @@
+>   #include "mtk_disp_drv.h"
+>   #include "mtk_dpi_regs.h"
+>   #include "mtk_drm_ddp_comp.h"
+> +#include "mtk_drm_drv.h"
+>   
+>   enum mtk_dpi_out_bit_num {
+>   	MTK_DPI_OUT_BIT_NUM_8BITS,
+> @@ -82,6 +84,7 @@ struct mtk_dpi {
+>   	struct pinctrl_state *pins_dpi;
+>   	u32 output_fmt;
+>   	int refcount;
+> +	struct device *mmsys_dev;
 
-Maybe you can add an entry in Documentation/gpu/todo.rst, explaining
-this and putting yourself as a contact? 
+Please place this after `struct device *dev;` and not here at the end.
 
--- 
-Best regards,
+Thanks,
+Angelo
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
