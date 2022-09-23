@@ -1,153 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8285E7E7A
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 17:34:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 379465E7EA7
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 17:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D72EA10E418;
-	Fri, 23 Sep 2022 15:34:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB0B710E583;
+	Fri, 23 Sep 2022 15:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFE710E418;
- Fri, 23 Sep 2022 15:34:22 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5668310E583;
+ Fri, 23 Sep 2022 15:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663947262; x=1695483262;
+ t=1663947674; x=1695483674;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=eLDRxQnQiGVlnn4z9UVlz5zrhMiYXHEMyqAMqytLrEM=;
- b=LReQN9DLdAed3g7DkmzIQs/ybn1a0Iv47S8Il6kGIOndDjl8gBfuNKev
- 0miRMDpQKl59DbB0jee/O9UyPd5LfAuty4gG5UZWwYuuBRj8QiVlznt19
- AWh6AdJrNqjU3XpZWKe0TwdDrXw7cyKNwB/I7/YEsZDSKkpNJn47LDb1E
- Cje/vvP3UepRVp+/dxEFzLeQsPq+xsTPdKf0Xk48irBXF5KKvlk6HU3wE
- bDKVfP5POn4WVBhC2TbcsNFvcJHiyhuFUfSIpWjKSWTqUxtPqs5WevoP6
- Q4fnsyMJy+lLOG0G0BWD75sQjnVs0aAy+oHNtfHPuQKj5Fe8GMbUXZsS2 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="300599110"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="300599110"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 08:34:21 -0700
+ bh=O/3jBoAO5ZNcMlNjBWh8pV1q2JbBhZayHmH4VjFPqVY=;
+ b=Pb2l0VYqax4CvBsNnBemZvxMyyz9AuUMdPCXI2VyU4+A3UF+cyJ4UnqY
+ 4YHodynTTVa01omho8EwNdX4zKlZaa78k2ij/ZPNy9YdNPx7E1/z7fK+S
+ qIG9tpuOMv7FXI+zxufrwOJVeTV2og2xg5o3Z6c23ZTiiUmnmsH97m0oU
+ DebSkVgxNFUxQtwf5Wg1tm3XDRFuSZAHREgUmfQq13po84pWgE07aOAkE
+ jBwLJcnpVpu8HBaPHpqXEb6FZeTuGDiML+hoFaHQgYc0y64tNe9mDTt8E
+ zmZkBrNp6de0CQTFoJKCopIWRnKjPiedag3hqcgAq5SoUvePJvg+SqFxX Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="302066514"
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="302066514"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 08:41:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="795538467"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga005.jf.intel.com with ESMTP; 23 Sep 2022 08:34:21 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="949056170"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga005.fm.intel.com with ESMTP; 23 Sep 2022 08:41:13 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 23 Sep 2022 08:34:21 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ 15.1.2375.31; Fri, 23 Sep 2022 08:41:12 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 23 Sep 2022 08:34:20 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ 15.1.2375.31; Fri, 23 Sep 2022 08:41:12 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 23 Sep 2022 08:34:20 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Fri, 23 Sep 2022 08:41:12 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.47) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 23 Sep 2022 08:34:20 -0700
+ 15.1.2375.31; Fri, 23 Sep 2022 08:41:12 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E34EQyVaC692j5yIDyv4IRxLdPcPBh/Y3VyRrHayAfmgnh3A2/VlAOOsDz5sH/2qlidzeLrjxOI/DlEnscggSRo7CKqeRhDf6i1fmTGtBv2/2KXt4wKWPWe3eBV8gmddCacdIff4KPALbT6F9HbcLEAe30vDZedZmfVOZWkqB/0drbfZC6/ZgvGzyl15jy5BUkop89pPQcOBEilRXVuImBO5Zml+fmCnRKNddMD6hQZt6XFqH9wwGFS56+g6vkUbKTZ8SLYkX0Ew6/XbLPW8cjy8lzJAVLAMouXzMv1tjeP+gyNF2mfq+xw/eQAX228h3/mGz6pBZJz21Z6ubEzdmw==
+ b=BxB5IwGatgq3cy/T65Dq2HG20IsW9AHHHaQT5DJ0VXwS3Vf/ppfAlZZm/OPWFCtxp61hZE7528zNPQbhUtZFTYiwQ6BAwby8dIVauOxEP2UVMc7nIcXfsAs4hLcfo8X6a6lwHJ6jd/qGymCkuXMg0gIRHt8ZwxD+rJjD6G/xkvSfaidXUL291gd00EfWSuawPUymowCnjn1m2r6upDe8PKfum5ifIR9gFFDD1ReXFnPK8RgPW1rw+Tv1NhhqY66SgWTpa/+h9aG6qmqVKdGTDMp0DeqdMOk1jKCOWujAq2Lt0zkEEPUiScahqT8nN+PoCd6yzGg6J7129rQxWQ9gVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cTqhHqqADCzC0tt9wmFsqWQpL2IngD5YtVguD+2xKZw=;
- b=NaK1qKWujfOVBxplL3qMLMhSEmXVAivcm1x3AKlfGhqCDI5WZQ02O0nJbd+9L/EbU8+kbGCO/aCD9Wcoz1PfAWsRcuiCl5dpyvi/4xg3YpyOzhJ2AlagezBSjhL+EP7Qeh9K0gTJjeQhyM+WDE1ucybxBaIsYFO6bCMK8tFY9GFBlJoZXcecD9NSjnoddwTtFD2YiXIppNK+34OBg4avVAIS/rQqxsrFiTDTqWu4mE32Oj52P2Dah1RCSyQ2tGh4XtnSiPgY2UlR+SsfRZX2YsZ16PolY6Fw8Xc8uYclqB0AonaD/fsWOgT6BgigyTxFeY4SsiKO+HVfCOo0sBm8rQ==
+ bh=ZLNiBTgGEVDtTWnb9aIHKovzwztUsSRGKRBeH5acfHk=;
+ b=huL85CdRlQikF7e2tsUDqB9ZyvhyR7B97lMWSAKwgiJQdmxSZTVYv2/J1zDLHRoX3RdYxC+qx3xcMxJIUJMx9v9XkBarwFfG65PsEEADKYnbKqunIZIANvBb60C+4iwvNbTUYlyrj2w3qXOBFrcQ8cGSyPVE51nd/XAaPTxedGlwaf8qP9XYruLP8RkD+mW5ZmP7e9C42EOE/OgYQapxyKs8F7adsjnd96uUHXZjBlvuRK+7KQYb5Lqh99imRU9zxfZYsnYapBc7JzF3nZCMJscuOQCgpTVwvZjQ1PpGHu4rDmH+ORgWEQw81U9TD7BRKfqVkxuG8/9x17eW5YQfvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- SA1PR11MB7110.namprd11.prod.outlook.com (2603:10b6:806:2b3::19) with
+ SA1PR11MB6685.namprd11.prod.outlook.com (2603:10b6:806:258::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.19; Fri, 23 Sep
- 2022 15:34:18 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.20; Fri, 23 Sep
+ 2022 15:41:10 +0000
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::280f:75b5:17ad:1668]) by DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::280f:75b5:17ad:1668%3]) with mapi id 15.20.5654.020; Fri, 23 Sep 2022
- 15:34:18 +0000
-Message-ID: <366787f7-b606-a642-db2b-a913c9acbc20@intel.com>
-Date: Fri, 23 Sep 2022 08:34:14 -0700
+ 15:41:10 +0000
+Message-ID: <f0a77865-265c-6d65-df34-d2d76960d64e@intel.com>
+Date: Fri, 23 Sep 2022 08:41:08 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [Intel-gfx] [PATCH 5/7] drm/i915/mtl: Handle wopcm per-GT and
- limit calculations.
+Subject: Re: [Intel-gfx] [PATCH 1/7] drm/i915/huc: only load HuC on GTs that
+ have VCS engines
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  <intel-gfx@lists.freedesktop.org>
 References: <20220922221117.458087-1-daniele.ceraolospurio@intel.com>
- <20220922221117.458087-6-daniele.ceraolospurio@intel.com>
- <87edw24f5g.fsf@intel.com>
+ <20220922221117.458087-2-daniele.ceraolospurio@intel.com>
+ <b6d78e11-f0f7-de86-e5c3-e2a12fe55203@linux.intel.com>
 From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <87edw24f5g.fsf@intel.com>
+In-Reply-To: <b6d78e11-f0f7-de86-e5c3-e2a12fe55203@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0177.namprd03.prod.outlook.com
- (2603:10b6:a03:338::32) To DM4PR11MB5488.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR05CA0076.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::21) To DM4PR11MB5488.namprd11.prod.outlook.com
  (2603:10b6:5:39d::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|SA1PR11MB7110:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc3b56f4-f10e-4f41-cc09-08da9d791457
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|SA1PR11MB6685:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86271dad-e313-4f0a-2f16-08da9d7a09e3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K4LgSpJp68Z0g+EEuZxHxAeRnay31LexjgsPW0HiIDnuqGwLZjcbgh4ByX4w3F1vLgUNkUYbsHakoaB6NDd30cECzO9zQvxvEBqeXGqxU76QZmNU8XgW/2bq3XXXwCmz+Qn8YAQakb9K4r3ZYkEQTH2JMEoBDg6IIRJPqOMRt6RSMTvwxKSlDobiZtM206/08sPiApKGZHoCCfQ3q9nubF9lX6l5w5KmTB0gjuUuWcTrx0zXwS4ct6xo2U0doPh7gHRbeFIy6wQ4y8u3crKga/Bsvv/7CWyeyWObg7ZiinDvEfNsCYeE6eMT/ekAsSdePbcPgePOh8gOL7I+XrzdI9U5c59AROpVMHBFQn2JUv3GBU0419XP0Ut9Y+fZSzmnvEn7D6XBMPGtUQFjXnlZ5vGaEMaFuS0d25OZ/EtKGQe5ktZLf7e7C+xlgU1mFjNG1ZNeePF/Ju/V1RavzdTTHqbZIw2+lWTasxBPjx3F5w7wW8J4K8O7EK/XtMbskDn7TFv+H75xi7UuganlTkmSfV6uv8OAiZPpCNBM5SKJfehBIMgplY72OrkiMaSRAFiRyrtIjSfub0FJvKxYR7xqahVYN4b7lvGIIWmyzr2p5vicST/JrrxlWc6K6FaFMeYbiGWZvbBFRxfp3SAdllnlrmJAt0q25Jrg9++MbpuRObZsiONbi1PC2gdUEAPtI1PhkDQeMylbAcp4upSYlMZjcprT0GCQjDVm5iV2lzX0snd0bRlRFEzv3XSe8XBgoLe+W9TEreRU9uRSjJmtm54Pw2yhlw/r9GerygQR3OvKN3Q=
+X-Microsoft-Antispam-Message-Info: MpzaHUdfwGf5UxrQhkAbBKXS0786baRY7V5Ru+3P8UuqtE191FfxZhVeUNFcIh4a14qjFsfW3ChVGPTUgwVu16D9Vot1StdiZoauU4/86vgC/y7bHBw+XdJJDvslgO77eqJPpQXSfXVQM6E8qg3w4aRvFHf0vNdGP/1DoLgayftL9Wt2AKMLgt7/oEEYEvYEd96O9pqu/C4b9w4lVoSdPprZQwFhXn9p0N1pPi7J3hzKnvZNrCRdA1GPV3KnVlwo1Us1355W0cLnSLL2l71o6fPYLbmls4ZPkGB9SPGOvbG/CGNi67+HrufkmIfrzWA2AqdDbBGowKE5dxhNabcOrdnOEMIGHBhlww0vST3eFYuvfZTPdi5h+4kuiQb+RF1d3Twe1Hu6Gu9pigiTZenAVYXrRgSrt0A8tRDNKH5KEImFCyl1uRZDTcKTW4+UrqJHLpr4etsOfbTJZR92MljHDyTQHM3xLa5K3e3gquLNVY2YIDfpyqpxPGYTEfsSB+JUnViVjCx3EgYP41UUsJGknuEPGeRV+GsksYCVJhgFeLZ3d4Hsygxk4uaH63dv0xGN/AFuV1GXVPXsKk3cl+FZNz91DNGbUhRFJGIoagefQKRfDcdAqJ4u410mPYZrQuV+9vtPgQqRoLUV70oim2kJ77qtAErKnzor3u/rDtw04mklbOqi6CAQr4pvJNn7MC1oA/GJoWBXwQcCAJaBqTpj9pIqz8s+U8CFq1AOrntF3mRdH4jccyD0SpSHg2Po3zieBVqyypuLm9630OGkV33LGYyq1TdeoUhSWTFpINk1kEE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(396003)(376002)(346002)(39860400002)(366004)(451199015)(31686004)(26005)(66899012)(5660300002)(53546011)(36756003)(83380400001)(82960400001)(66556008)(66476007)(66946007)(31696002)(38100700002)(86362001)(6486002)(6666004)(2616005)(6506007)(6512007)(478600001)(8936002)(186003)(316002)(4326008)(8676002)(41300700001)(30864003)(2906002)(43740500002)(45980500001);
+ SFS:(13230022)(136003)(39860400002)(396003)(346002)(376002)(366004)(451199015)(38100700002)(66946007)(8936002)(41300700001)(82960400001)(8676002)(4326008)(66556008)(66476007)(5660300002)(478600001)(53546011)(26005)(6512007)(6506007)(86362001)(316002)(31696002)(6486002)(2616005)(186003)(31686004)(83380400001)(2906002)(36756003)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXpIWmZlS01mR2xEaDExcW1KUlZscjN6UndHMHRWZ05QVDVSVUNITG0vTGd3?=
- =?utf-8?B?QkY3OUhOakdFQzgvZmpWS2FXZVpYWHNBWmVob2tKQnpFcEF0WEZPZzFtQU1R?=
- =?utf-8?B?NG1KelB6ZVZicnlvdnc0d2g0QkpLcnBnQWQycDM4bVdOT0ZTZ05iNWJnNDAz?=
- =?utf-8?B?M29OeEcvUEdkbE5JWE1HbVJQNGxWYzhZbnkxRzBKclF4ZmVuL0FCVUVDU0Rz?=
- =?utf-8?B?M2pwQjU5MFdBZTFhSWNuTExPSVNteStHbFMzMjRIN29zRkMwcHZ0SXYyUW5i?=
- =?utf-8?B?R2I1MkJYbXBLMEZZR3JxTzFiNVcyaDBXUHkrRnNtUVVKZG9jR1FkaDIzQ0V0?=
- =?utf-8?B?TDBmM2E3R1RMUUhNeTVIdXBncTZkdTZmeE1NNGQxT2NaQkZ3WnRLcCtYSUZk?=
- =?utf-8?B?SXhnUldZNk13MU16N0xEVmFCUnV0OTh3UFMxOEQ3dUhWY3hJeEswM2pYb1Bo?=
- =?utf-8?B?alBBcVpiVnZWb29XaG9HKy96cVJ0QWt0dDc0RHJnWUtrUG9QV0dLays3bkVI?=
- =?utf-8?B?NHIvUTRmVC8vT0wwUzc5Mk9TYmVvMEZMZENLMDhjdnN6MW01cHRHYzYvNkhk?=
- =?utf-8?B?ZVBuMjg1S3BGdkQxNjZBUGwzdG5sZUJOaUorSjFWMHk0aFh4MVVDQkFKZUo5?=
- =?utf-8?B?TGRQbXRoelc3dDlUNUY0YnFXajJ1N2FIZE5DSXd2NzlHUklweDBKdkV0Yy8v?=
- =?utf-8?B?SU5DTHJRQXlmUUp6a2J0THBsK2psbzhid1ZESCtFeEZzM3M0dVpRSDcya0Zl?=
- =?utf-8?B?QXZ4cGdQV2JtanU0Wm1ieEh5WVNhYjFPVS9VMUh3MUtERUdzNXBYaU1zQkxO?=
- =?utf-8?B?QlAwVnVxNmxQdnhNdkNlSU9ib2hGS2U4VWpkRjlGNnVFQ1hoOWRRT1lzY1E1?=
- =?utf-8?B?Zjl1ZW12Y0RzSWdJamFmUWpSUUZFQ2w5L0FPZXkxSGlOVUtSMjVpZnhOMVZo?=
- =?utf-8?B?bnI1bndZaTE1MVFjNWt4RXIxTGFnMW1xQldWVHdORUdqbGoyNzQzWkluNVc4?=
- =?utf-8?B?S1ZNUXpab1dpd3RQcm9GT2lxZEgxbHl0dGdBY1RDWmM0U2VINVlGWGo5Zitv?=
- =?utf-8?B?WXUxUWhxdFRuU2szSmRmcVZKMXdTVTFVTTVsQVRNejNOd3BkVXNnbk50ckEy?=
- =?utf-8?B?ZTd6eGwzL2FjeVZkMmg5TzdNOUtZckJoZUowNEJRSWhXSkJCRzJ4OUFXc1kx?=
- =?utf-8?B?aWJ2R2cxWXFHQXFiM0E5Q0REN29ucnFQeldoUEhCMy9lKzBadzJwR0Fob0lY?=
- =?utf-8?B?aVNpOTlsWTFoMStaRmxoSWF3bTcvZnNNczZmRWMrNGw5Zm41eXJSS2lOalZ6?=
- =?utf-8?B?bk1TNVVDN3FLM3NxeE1ZUFBjUnBsRDZuaWVOZ0doejVWWjZrZ3dBNFU3d2xS?=
- =?utf-8?B?VEpmYkRWaXBhMXV6WXRUa3ltYS9wbmlsY1VFWklUZUo2dnRJR3Bqc0hxeEpX?=
- =?utf-8?B?NGQ1MFBmR20rdUlpa2p3MU83RTVoS2M5U1A3RTB5bzQ2TEIwTy9CNmdWdmJS?=
- =?utf-8?B?MjFrcnpGa1dQQXRObzJ1bmZ6MWdiSFpFYnVHZ2paMUMwcTlsZHJrbS9WOGdl?=
- =?utf-8?B?M2VqalpLS0xYTFBOYnAxUUJVTzU3RWlacDRmb2J5SW9MS3RxRkxVWEFCMXo3?=
- =?utf-8?B?T1QxWWgvdm9QaFNMeWh4MVJGdTBTYTVweXNlTVZXVzJsZE9YUHgvRUx6VTNK?=
- =?utf-8?B?enZnYW1VWkdmVFp4QUMzV2ljeXNSMXhBcUllRnlUdUhkTU8rQ2dJSWlWN0Ni?=
- =?utf-8?B?S1RweG9ZdTk2NGJNWDlML0N5cTlXWVcrRzhMcVVHZEgwTDlwSElTc0UxZkY1?=
- =?utf-8?B?Qytvak1UK1AvcDRkNjJkMDJtTHZkQWdwQ21WUE45SGZBY1hOMXlMM3RiRGVY?=
- =?utf-8?B?eXdjL0NFdDNFUHFjNEdEaWQxZUFvVGhEZTlrNldDeGJLSnRHMktWT3BWS1Av?=
- =?utf-8?B?UVhJQWl5TDZ1cnBwR25Od3N2NDUwQjdhcVlHb0pkUDcwaldtYXc0TjdZcnpN?=
- =?utf-8?B?VEEwOFRWY25wQ2Zkb29IZ1FuRVJzbU9NdnNHT21kRW9uUm00bU5JTGJsOUhS?=
- =?utf-8?B?S25MNzYzRjZxMG05d29wMmdRQ2Z6MElDWGhSQ1JmVVJMS1BCMjlTaUFuMTBN?=
- =?utf-8?B?Sjg3ZjhOUXJrSkZZQlRtc0N3NWZMKzdZdXR1bFpQSmMzRFUrTEc2Y3V2RldN?=
- =?utf-8?Q?+x0oLAhVT0GELzekWPQqGMA=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc3b56f4-f10e-4f41-cc09-08da9d791457
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NDQyTklRS3pwZER4b1VDZjFZNXBWOER1SC9RaE9OcDhBWDRiNmMyWkxTMmkz?=
+ =?utf-8?B?NTdPL0FvbDNzd21zOVNIUjA2SnZWdTg0T3NKYjM4S0sxa1FFUEk5TkRVT1RN?=
+ =?utf-8?B?YnZVK0xQNFlZNncySHVrd2M1UXlydjRDa0orQXptdnFLWW90NmpqUndBaXJ5?=
+ =?utf-8?B?OFpBYXR1TTByZGN3bVJmOHlzYmQ5NHdROE9kQSt5eFM3V1Vmc2FiQi92c3J1?=
+ =?utf-8?B?Y28yQ0dpb05tRCtaUnpna25TSFltSmI5QlFQTkEvYXd5bVVFK25qWXJtMjU0?=
+ =?utf-8?B?dlcwL1FBSldySmVFT1pKU1RaYmZ5NTU1ODU5RVUrdEM2WjV2RTZ3ZkJ6c1Ja?=
+ =?utf-8?B?anlmWEJZdXRLQ1paRkN1M25kWVpRbzZLUzdDZS9MRWI5YnNJa3pyT1ZJSE9Z?=
+ =?utf-8?B?a01LbVlvZHhmRFFMS3l4RU1NZW5IRDZ3NkljNDFyRXRWNGFNZEtBeG5mcDFU?=
+ =?utf-8?B?Mm9YUFFYeVNXOG1UZjBkeFQzTC9JbXhRSi9icFZFL0RQamJla3JSMVlteE1C?=
+ =?utf-8?B?aS9ld2VNbGRRRXpaakJKcjc1U2FDS0RKQWJBNTJQclNEZDBpVmxPcUxOeU5F?=
+ =?utf-8?B?T0pPZnF2OVc2STEyaXROYVlkQzFtNG9zT1VHWjM1aE9VcC9XWmx3QURRdDYw?=
+ =?utf-8?B?ako2MFVEOWlzU1IxQWdpTFByM01lNm9scTkwQlh2U05SM09Mc2dFUDg4YS92?=
+ =?utf-8?B?VVlwVU1YbnpxbU10WU93Q3FrNEUvOG1BMHZ6NXp4YkNacEM2TnlaNzRtbEFi?=
+ =?utf-8?B?MDhwUG1ZQTNqRDVrSVJuTy9nb003OU5tVzB4T0NrNFRvdFoyT3RKOFAwUzli?=
+ =?utf-8?B?MW1VTHU2UzQzZDEwVnVDcXRqenFGMGg1cU13a1Vmelo3TC9tdFpONUZ1U1N2?=
+ =?utf-8?B?TE5CQ2NGZFVuTlBIUTl1b3dXcnJxbmh2UVpTWkVzbTh0bkp5RTdhVmN2ODA5?=
+ =?utf-8?B?NG1CbkFsakppT1BwemVtYzU1WmtMbnEvdDY3MUEycUJ0Nm5lWXFyWTBEa1Fq?=
+ =?utf-8?B?VXBnTXIwZWV1UGJMaE1jRFcwMGRKdUFpa3EwZ0JTZFVUdzI4WHhRMmpJME5l?=
+ =?utf-8?B?a2FjRG9SZnhpT09kanptWFNXRVRxZzR4K0JKN2N6dEVHbjNpelVrNFV5ZEV0?=
+ =?utf-8?B?K005Qno2OXVNa1RKVGZIR1owTU0yeHU4djhPaXVGQjI3UVVmc2l3NHlyYStB?=
+ =?utf-8?B?L3BUVjd4MlZlWmJGNFg0NEJsQjZzN0tKcE5OLytKYkppelg0c2NBbkcwREtE?=
+ =?utf-8?B?bXZNL2NqR2ZlM0x3RmhGRHNLWk9Wa3FmL3laVU9KRUltSEx1K2pVQ2IzaVlw?=
+ =?utf-8?B?c0ZubWY3cWRlTFZOR3RPeUNYbVFQWUhmVFk3dXBDaDFDT1hOOVkwQjB6SG9u?=
+ =?utf-8?B?RlcxQVpqcGJHd0wzYnZJM0prbUkvUjlqRkNSZEZvWG1wNUM0SVJTZHBuRjl4?=
+ =?utf-8?B?Q3JySnhoM2FqTzZFb3B2MGlkUm9LUHdST0tORTJGVmk1czUzY05KejAyczVT?=
+ =?utf-8?B?dkpJZXhObE5mL3JBVmcyRGtKK0dHWXREVFU5bVRTZy9PRE11UEZEQUwrVUtS?=
+ =?utf-8?B?TEROb3NQdVkvL0Q1THdaSXdvd2FVYXF3ZG01eCtrVGdSdUE4c3RTcVErYmk1?=
+ =?utf-8?B?TitzUEEzNmFxNWxiVGx5MVhhQ291U2ZMOG4vNjhaQkhmenFzamV6WENEajBY?=
+ =?utf-8?B?YlF1YnNPMG1LM1dQNTJJRW9VdTQzblFWN2cvSHFCUysycTJCQzlnRjQvazR5?=
+ =?utf-8?B?cHdHbTg2clkxclpNUjRuK1N1bEdYT0pMTmUxVjdjdDhFZy9BUHlab3MyaGFi?=
+ =?utf-8?B?cXAyWSsxNE01K2d2bVZ3TW9pdGZlYW9Sb3NXV3VjajZXbVFxWFp6YUtpZUl3?=
+ =?utf-8?B?cllVanZ4aTVqL3VWbzMrMWQwWDV1NGh1QXJwbTVrUnRFWGdOOE1jUTRJaXNR?=
+ =?utf-8?B?RTFyN2xoOVF2cGFPREdza3gzSEhxcHRYNlNtYzhmbFJJeVoxZHpRV2RsRWFT?=
+ =?utf-8?B?M2pNKzJ0Z01CS3UrcllZWWFUWE1xZnFkVVhGcEMxSkxJTDcxY2g4M0ZNcnhu?=
+ =?utf-8?B?VEwzQ1g4a2RWQXNrSEZ4cWY0ODdvRUd3MWtlRFQ1TWY1b0JUNjFkRDJNOXpm?=
+ =?utf-8?B?RytYWXlIK0l1Ynl3bS9UamxHR0Rpb1JpVFZLd2JOMUJsUllJZ3FMUFJJV1F4?=
+ =?utf-8?Q?Z16obEHOykTbple8quqjY2Q=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86271dad-e313-4f0a-2f16-08da9d7a09e3
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 15:34:18.7060 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 15:41:10.6144 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zH8FyQ18WTAdkePgXIMRLaESV1qEMnAcK7DepiII55RVDrJ9JI4sR1EPreJHPUdSwEA+yOxNXCnHPLZpUTyJF0AyLkbH5NQ9aKv9baqkAI4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7110
+X-MS-Exchange-CrossTenant-UserPrincipalName: /jcFH0YlcTG4EyYNzUqteK+XLQPOYz9AHdxMcidV9MIMeIbRz7eFaNEMzxIFhh0xEalo2mmmCH4lXUaI/vvDajhTsD0wa5t5IkKy3rppdVQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6685
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -168,397 +168,106 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 9/23/2022 2:24 AM, Jani Nikula wrote:
-> On Thu, 22 Sep 2022, Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com> wrote:
->> From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+On 9/23/2022 3:53 AM, Tvrtko Ursulin wrote:
+>
+> On 22/09/2022 23:11, Daniele Ceraolo Spurio wrote:
+>> On MTL the primary GT doesn't have any media capabilities, so no video
+>> engines and no HuC. We must therefore skip the HuC fetch and load on
+>> that specific case. Given that other multi-GT platforms might have HuC
+>> on the primary GT, we can't just check for that and it is easier to
+>> instead check for the lack of VCS engines.
 >>
->> With MTL standalone media architecture the wopcm layout has changed with
->> separate partitioning in WOPCM for GCD/GT GuC and SA Media GuC. The size
->> of WOPCM is 4MB with lower 2MB for SA Media and upper 2MB for GCD/GT.
+>> Based on code from Aravind Iddamsetty
 >>
->>      +=====+===> +====================+ <== WOPCM TOP
->>      ^     ^     |                    |
->>      |     |     |                    |
->>      |    GCD    |   GCD RC6 Image    |
->>      |    GuC    |    Power Context   |
->>      |    WOPCM  |                    |
->>      |    Size   +--------------------+
->>      |     |     |   GCD GuC Image    |
->>      |     |     |                    |
->>      |     v     |                    |
->>      |     +===> +====================+ <== SA Media GuC WOPCM Top
->>      |     ^     |                    |
->>      |   SA Media|                    |
->>      |    GuC    | SA Media RC6 Image |
->>      |   WOPCM   |    Power Context   |
->>      |    Size   |                    |
->>    WOPCM   |     +--------------------+
->>      |     |     |                    |
->>      |     |     | SA Media GuC Image |
->>      |     v     |                    |
->>      |     +===> +====================+ <== GuC WOPCM base
->>      |           |     WOPCM RSVD     |
->>      |           +------------------- + <== HuC Firmware Top
->>      v           |      HuC FW        |
->>      +=========> +====================+ <== WOPCM Base
->>
->> Given that MTL has GuC deprivilege, the WOPCM registers are pre-locked
->> by the bios. Therefore, we can skip all the math for the partitioning
->> and just limit ourselves to sanity checking the values.
->>
->> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 >> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> Cc: Matt Roper <matthew.d.roper@intel.com>
+>> Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 >> Cc: John Harrison <john.c.harrison@intel.com>
 >> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
 >> ---
->>   drivers/gpu/drm/i915/Makefile               |  7 +--
->>   drivers/gpu/drm/i915/gt/intel_ggtt.c        |  2 +-
->>   drivers/gpu/drm/i915/gt/intel_gt.c          |  1 +
->>   drivers/gpu/drm/i915/gt/intel_gt_types.h    |  2 +
->>   drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c | 48 +++++++++++++++------
->>   drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h |  0
->>   drivers/gpu/drm/i915/gt/uc/intel_uc.c       |  4 +-
->>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c    | 14 +++---
->>   drivers/gpu/drm/i915/i915_driver.c          |  2 -
->>   drivers/gpu/drm/i915/i915_drv.h             |  3 --
->>   drivers/gpu/drm/i915/i915_gem.c             |  5 ++-
->>   11 files changed, 56 insertions(+), 32 deletions(-)
->>   rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c (86%)
->>   rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h (100%)
+>>   drivers/gpu/drm/i915/gt/uc/intel_huc.c | 21 +++++++++++++++++++++
+>>   drivers/gpu/drm/i915/i915_drv.h        |  9 ++++++---
+>>   2 files changed, 27 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
->> index a26edcdadc21..6ed4c745b226 100644
->> --- a/drivers/gpu/drm/i915/Makefile
->> +++ b/drivers/gpu/drm/i915/Makefile
->> @@ -129,7 +129,9 @@ gt-y += \
->>   	gt/intel_timeline.o \
->>   	gt/intel_workarounds.o \
->>   	gt/shmem_utils.o \
->> -	gt/sysfs_engines.o
->> +	gt/sysfs_engines.o \
->> +	gt/intel_wopcm.o
-> The comment near the top of the file:
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> index 3bb8838e325a..d4e2b252f16c 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> @@ -42,12 +42,33 @@
+>>    * HuC-specific commands.
+>>    */
+>>   +static bool vcs_supported(struct intel_gt *gt)
+>> +{
+>> +    intel_engine_mask_t mask = gt->info.engine_mask;
+>> +
+>> +    /*
+>> +     * we can reach here from i915_driver_early_probe for primary
+>> +     * GT with it being not fully setup hence fall back to the 
+>> device info's
+>> +     * engine mask
+>> +     */
+>> +    if (!mask && gt_is_root(gt))
+>> +        mask = RUNTIME_INFO(gt->i915)->platform_engine_mask;
 >
-> # Please keep these build lists sorted!
+> Is it possible for all instances to be fused off? Wondering if the 
+> function shouldn't just use platform_engine_mask.
 
-D'oh! My monkey brain saw that "wopcm" was correctly ordered after 
-"engines" and completely ignored the first part of the name :/
-Will fix next rev.
+The spec says that there is always going to be at least 1 VCS (bspec 
+55417 in case you want to double-check). I don't see that changing in 
+the future, because what's the point of having a media GT if you don't 
+have any enabled VCS engines on it?
+Also, platform_engine_mask only contains the entries of the primary GT, 
+for the other GTs we'd have to navigate the array in the device info 
+structure and I don't think we want to do that from here when we've 
+already copied the mask inside gt->info.engine_mask.
 
 Daniele
 
 >
+> Regards,
+>
+> Tvrtko
+>
 >> +
->>   # x86 intel-gtt module support
->>   gt-$(CONFIG_X86) += gt/intel_ggtt_gmch.o
->>   # autogenerated null render state
->> @@ -183,8 +185,7 @@ i915-y += \
->>   	  i915_trace_points.o \
->>   	  i915_ttm_buddy_manager.o \
->>   	  i915_vma.o \
->> -	  i915_vma_resource.o \
->> -	  intel_wopcm.o
->> +	  i915_vma_resource.o
->>   
->>   # general-purpose microcontroller (GuC) support
->>   i915-y += gt/uc/intel_uc.o \
->> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> index 30cf5c3369d9..605e1aa674d4 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> @@ -560,7 +560,7 @@ static int init_ggtt(struct i915_ggtt *ggtt)
->>   	 * why.
->>   	 */
->>   	ggtt->pin_bias = max_t(u32, I915_GTT_PAGE_SIZE,
->> -			       intel_wopcm_guc_size(&ggtt->vm.i915->wopcm));
->> +			       intel_wopcm_guc_size(&ggtt->vm.gt->wopcm));
->>   
->>   	ret = intel_vgt_balloon(ggtt);
->>   	if (ret)
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
->> index b367cfff48d5..a95eb0b656d2 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
->> @@ -56,6 +56,7 @@ void intel_gt_common_init_early(struct intel_gt *gt)
->>   	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
->>   	intel_gt_pm_init_early(gt);
->>   
->> +	intel_wopcm_init_early(&gt->wopcm);
->>   	intel_uc_init_early(&gt->uc);
->>   	intel_rps_init_early(&gt->rps);
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
->> index f19c2de77ff6..c20a32d2700f 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
->> @@ -30,6 +30,7 @@
->>   #include "intel_migrate_types.h"
->>   #include "intel_wakeref.h"
->>   #include "pxp/intel_pxp_types.h"
->> +#include "intel_wopcm.h"
->>   
->>   struct drm_i915_private;
->>   struct i915_ggtt;
->> @@ -97,6 +98,7 @@ struct intel_gt {
->>   
->>   	struct intel_uc uc;
->>   	struct intel_gsc gsc;
->> +	struct intel_wopcm wopcm;
->>   
->>   	struct {
->>   		/* Serialize global tlb invalidations */
->> diff --git a/drivers/gpu/drm/i915/intel_wopcm.c b/drivers/gpu/drm/i915/gt/intel_wopcm.c
->> similarity index 86%
->> rename from drivers/gpu/drm/i915/intel_wopcm.c
->> rename to drivers/gpu/drm/i915/gt/intel_wopcm.c
->> index 322fb9eeb880..487fbbbdf3d6 100644
->> --- a/drivers/gpu/drm/i915/intel_wopcm.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_wopcm.c
->> @@ -43,6 +43,7 @@
->>   /* Default WOPCM size is 2MB from Gen11, 1MB on previous platforms */
->>   #define GEN11_WOPCM_SIZE		SZ_2M
->>   #define GEN9_WOPCM_SIZE			SZ_1M
->> +#define XELPM_SAMEDIA_WOPCM_SIZE	SZ_2M
->>   #define MAX_WOPCM_SIZE			SZ_8M
->>   /* 16KB WOPCM (RSVD WOPCM) is reserved from HuC firmware top. */
->>   #define WOPCM_RESERVED_SIZE		SZ_16K
->> @@ -64,9 +65,9 @@
->>   #define GEN9_GUC_FW_RESERVED	SZ_128K
->>   #define GEN9_GUC_WOPCM_OFFSET	(GUC_WOPCM_RESERVED + GEN9_GUC_FW_RESERVED)
->>   
->> -static inline struct drm_i915_private *wopcm_to_i915(struct intel_wopcm *wopcm)
->> +static inline struct intel_gt *wopcm_to_gt(struct intel_wopcm *wopcm)
->>   {
->> -	return container_of(wopcm, struct drm_i915_private, wopcm);
->> +	return container_of(wopcm, struct intel_gt, wopcm);
->>   }
->>   
->>   /**
->> @@ -77,7 +78,8 @@ static inline struct drm_i915_private *wopcm_to_i915(struct intel_wopcm *wopcm)
->>    */
->>   void intel_wopcm_init_early(struct intel_wopcm *wopcm)
->>   {
->> -	struct drm_i915_private *i915 = wopcm_to_i915(wopcm);
->> +	struct intel_gt *gt = wopcm_to_gt(wopcm);
->> +	struct drm_i915_private *i915 = gt->i915;
->>   
->>   	if (!HAS_GT_UC(i915))
->>   		return;
->> @@ -157,14 +159,18 @@ static bool check_hw_restrictions(struct drm_i915_private *i915,
->>   	return true;
->>   }
->>   
->> -static bool __check_layout(struct drm_i915_private *i915, u32 wopcm_size,
->> +static bool __check_layout(struct intel_gt *gt, u32 wopcm_size,
->>   			   u32 guc_wopcm_base, u32 guc_wopcm_size,
->>   			   u32 guc_fw_size, u32 huc_fw_size)
->>   {
->> +	struct drm_i915_private *i915 = gt->i915;
->>   	const u32 ctx_rsvd = context_reserved_size(i915);
->>   	u32 size;
->>   
->>   	size = wopcm_size - ctx_rsvd;
->> +	if (MEDIA_VER(i915) >= 13)
->> +		size += XELPM_SAMEDIA_WOPCM_SIZE;
+>> +    return __ENGINE_INSTANCES_MASK(mask, VCS0, I915_MAX_VCS);
+>> +}
 >> +
->>   	if (unlikely(range_overflows(guc_wopcm_base, guc_wopcm_size, size))) {
->>   		drm_err(&i915->drm,
->>   			"WOPCM: invalid GuC region layout: %uK + %uK > %uK\n",
->> @@ -181,12 +187,14 @@ static bool __check_layout(struct drm_i915_private *i915, u32 wopcm_size,
->>   		return false;
->>   	}
->>   
->> -	size = huc_fw_size + WOPCM_RESERVED_SIZE;
->> -	if (unlikely(guc_wopcm_base < size)) {
->> -		drm_err(&i915->drm, "WOPCM: no space for %s: %uK < %uK\n",
->> -			intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
->> -			guc_wopcm_base / SZ_1K, size / SZ_1K);
->> -		return false;
->> +	if (VDBOX_MASK(gt)) {
->> +		size = huc_fw_size + WOPCM_RESERVED_SIZE;
->> +		if (unlikely(guc_wopcm_base < size)) {
->> +			drm_err(&i915->drm, "WOPCM: no space for %s: %uK < %uK\n",
->> +				intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
->> +				guc_wopcm_base / SZ_1K, size / SZ_1K);
->> +			return false;
->> +		}
->>   	}
->>   
->>   	return check_hw_restrictions(i915, guc_wopcm_base, guc_wopcm_size,
->> @@ -228,8 +236,8 @@ static bool __wopcm_regs_writable(struct intel_uncore *uncore)
->>    */
->>   void intel_wopcm_init(struct intel_wopcm *wopcm)
->>   {
->> -	struct drm_i915_private *i915 = wopcm_to_i915(wopcm);
->> -	struct intel_gt *gt = to_gt(i915);
->> +	struct intel_gt *gt = wopcm_to_gt(wopcm);
->> +	struct drm_i915_private *i915 = gt->i915;
->>   	u32 guc_fw_size = intel_uc_fw_get_upload_size(&gt->uc.guc.fw);
->>   	u32 huc_fw_size = intel_uc_fw_get_upload_size(&gt->uc.huc.fw);
->>   	u32 ctx_rsvd = context_reserved_size(i915);
->> @@ -274,6 +282,19 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
->>   		goto check;
->>   	}
->>   
->> +	/*
->> +	 * On platforms with a media GT, the WOPCM is partitioned between the
->> +	 * two GTs, so we would have to take that into account when doing the
->> +	 * math below. There is also a new section reserved for the GSC ctx
->> +	 * that w would have to factor in. However, all platforms with a media
->> +	 * GT also have GuC depriv enabled, so the WOPCM regs are pre-locked
->> +	 * and therefore we don't have to do the math ourselves.
->> +	 */
->> +	if (unlikely(i915->media_gt)) {
->> +		drm_err(&i915->drm, "Unlocked WOPCM regs with media GT\n");
->> +		return;
->> +	}
+>>   void intel_huc_init_early(struct intel_huc *huc)
+>>   {
+>>       struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
+>> +    struct intel_gt *gt = huc_to_gt(huc);
+>>         intel_uc_fw_init_early(&huc->fw, INTEL_UC_FW_TYPE_HUC);
+>>   +    if (!vcs_supported(gt)) {
+>> +        intel_uc_fw_change_status(&huc->fw, 
+>> INTEL_UC_FIRMWARE_NOT_SUPPORTED);
+>> +        return;
+>> +    }
 >> +
->>   	/*
->>   	 * Aligned value of guc_wopcm_base will determine available WOPCM space
->>   	 * for HuC firmware and mandatory reserved area.
->> @@ -289,13 +310,14 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
->>   
->>   	/* Aligned remainings of usable WOPCM space can be assigned to GuC. */
->>   	guc_wopcm_size = wopcm_size - ctx_rsvd - guc_wopcm_base;
->> +
->>   	guc_wopcm_size &= GUC_WOPCM_SIZE_MASK;
->>   
->>   	drm_dbg(&i915->drm, "Calculated GuC WOPCM [%uK, %uK)\n",
->>   		guc_wopcm_base / SZ_1K, guc_wopcm_size / SZ_1K);
->>   
->>   check:
->> -	if (__check_layout(i915, wopcm_size, guc_wopcm_base, guc_wopcm_size,
->> +	if (__check_layout(gt, wopcm_size, guc_wopcm_base, guc_wopcm_size,
->>   			   guc_fw_size, huc_fw_size)) {
->>   		wopcm->guc.base = guc_wopcm_base;
->>   		wopcm->guc.size = guc_wopcm_size;
->> diff --git a/drivers/gpu/drm/i915/intel_wopcm.h b/drivers/gpu/drm/i915/gt/intel_wopcm.h
->> similarity index 100%
->> rename from drivers/gpu/drm/i915/intel_wopcm.h
->> rename to drivers/gpu/drm/i915/gt/intel_wopcm.h
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> index dbd048b77e19..4cd8a787f9e5 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> @@ -357,8 +357,8 @@ static int uc_init_wopcm(struct intel_uc *uc)
->>   {
->>   	struct intel_gt *gt = uc_to_gt(uc);
->>   	struct intel_uncore *uncore = gt->uncore;
->> -	u32 base = intel_wopcm_guc_base(&gt->i915->wopcm);
->> -	u32 size = intel_wopcm_guc_size(&gt->i915->wopcm);
->> +	u32 base = intel_wopcm_guc_base(&gt->wopcm);
->> +	u32 size = intel_wopcm_guc_size(&gt->wopcm);
->>   	u32 huc_agent = intel_uc_uses_huc(uc) ? HUC_LOADING_AGENT_GUC : 0;
->>   	u32 mask;
->>   	int err;
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> index d6ca772e9f4b..a9ff9abb66db 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> @@ -469,10 +469,11 @@ static int check_gsc_manifest(const struct firmware *fw,
->>   	return 0;
->>   }
->>   
->> -static int check_ccs_header(struct drm_i915_private *i915,
->> +static int check_ccs_header(struct intel_gt *gt,
->>   			    const struct firmware *fw,
->>   			    struct intel_uc_fw *uc_fw)
->>   {
->> +	struct drm_i915_private *i915 = gt->i915;
->>   	struct uc_css_header *css;
->>   	size_t size;
->>   
->> @@ -514,10 +515,10 @@ static int check_ccs_header(struct drm_i915_private *i915,
->>   
->>   	/* Sanity check whether this fw is not larger than whole WOPCM memory */
->>   	size = __intel_uc_fw_get_upload_size(uc_fw);
->> -	if (unlikely(size >= i915->wopcm.size)) {
->> +	if (unlikely(size >= gt->wopcm.size)) {
->>   		drm_warn(&i915->drm, "%s firmware %s: invalid size: %zu > %zu\n",
->>   			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
->> -			 size, (size_t)i915->wopcm.size);
->> +			 size, (size_t)gt->wopcm.size);
->>   		return -E2BIG;
->>   	}
->>   
->> @@ -545,7 +546,8 @@ static int check_ccs_header(struct drm_i915_private *i915,
->>    */
->>   int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
->>   {
->> -	struct drm_i915_private *i915 = __uc_fw_to_gt(uc_fw)->i915;
->> +	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
->> +	struct drm_i915_private *i915 = gt->i915;
->>   	struct intel_uc_fw_file file_ideal;
->>   	struct device *dev = i915->drm.dev;
->>   	struct drm_i915_gem_object *obj;
->> @@ -553,7 +555,7 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
->>   	bool old_ver = false;
->>   	int err;
->>   
->> -	GEM_BUG_ON(!i915->wopcm.size);
->> +	GEM_BUG_ON(!gt->wopcm.size);
->>   	GEM_BUG_ON(!intel_uc_fw_is_enabled(uc_fw));
->>   
->>   	err = i915_inject_probe_error(i915, -ENXIO);
->> @@ -595,7 +597,7 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
->>   	if (uc_fw->loaded_via_gsc)
->>   		err = check_gsc_manifest(fw, uc_fw);
->>   	else
->> -		err = check_ccs_header(i915, fw, uc_fw);
->> +		err = check_ccs_header(gt, fw, uc_fw);
->>   	if (err)
->>   		goto fail;
->>   
->> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
->> index 9d1fc2477f80..51fc030774fa 100644
->> --- a/drivers/gpu/drm/i915/i915_driver.c
->> +++ b/drivers/gpu/drm/i915/i915_driver.c
->> @@ -369,8 +369,6 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
->>   	if (ret)
->>   		goto err_ttm;
->>   
->> -	intel_wopcm_init_early(&dev_priv->wopcm);
->> -
->>   	ret = intel_root_gt_init_early(dev_priv);
->>   	if (ret < 0)
->>   		goto err_rootgt;
->> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->> index 8ca575202e5d..587e43ad7941 100644
+>>       if (GRAPHICS_VER(i915) >= 11) {
+>>           huc->status.reg = GEN11_HUC_KERNEL_LOAD_INFO;
+>>           huc->status.mask = HUC_LOAD_SUCCESSFUL;
+>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+>> b/drivers/gpu/drm/i915/i915_drv.h
+>> index 134fc1621821..8ca575202e5d 100644
 >> --- a/drivers/gpu/drm/i915/i915_drv.h
 >> +++ b/drivers/gpu/drm/i915/i915_drv.h
->> @@ -63,7 +63,6 @@
->>   #include "intel_runtime_pm.h"
->>   #include "intel_step.h"
->>   #include "intel_uncore.h"
->> -#include "intel_wopcm.h"
->>   
->>   struct drm_i915_clock_gating_funcs;
->>   struct drm_i915_gem_object;
->> @@ -236,8 +235,6 @@ struct drm_i915_private {
->>   
->>   	struct intel_gvt *gvt;
->>   
->> -	struct intel_wopcm wopcm;
->> -
->>   	struct pci_dev *bridge_dev;
->>   
->>   	struct rb_root uabi_engines;
->> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
->> index a5b192ac885c..cfc8b17c1ee5 100644
->> --- a/drivers/gpu/drm/i915/i915_gem.c
->> +++ b/drivers/gpu/drm/i915/i915_gem.c
->> @@ -1140,9 +1140,10 @@ int i915_gem_init(struct drm_i915_private *dev_priv)
->>   	if (ret)
->>   		return ret;
->>   
->> -	for_each_gt(gt, dev_priv, i)
->> +	for_each_gt(gt, dev_priv, i) {
->>   		intel_uc_fetch_firmwares(&gt->uc);
->> -	intel_wopcm_init(&dev_priv->wopcm);
->> +		intel_wopcm_init(&gt->wopcm);
->> +	}
->>   
->>   	ret = i915_init_ggtt(dev_priv);
->>   	if (ret) {
+>> @@ -777,12 +777,15 @@ IS_SUBPLATFORM(const struct drm_i915_private 
+>> *i915,
+>>   #define __HAS_ENGINE(engine_mask, id) ((engine_mask) & BIT(id))
+>>   #define HAS_ENGINE(gt, id) __HAS_ENGINE((gt)->info.engine_mask, id)
+>>   -#define ENGINE_INSTANCES_MASK(gt, first, count) ({        \
+>> +#define __ENGINE_INSTANCES_MASK(mask, first, count) ({            \
+>>       unsigned int first__ = (first);                    \
+>>       unsigned int count__ = (count);                    \
+>> -    ((gt)->info.engine_mask &                        \
+>> -     GENMASK(first__ + count__ - 1, first__)) >> first__;        \
+>> +    ((mask) & GENMASK(first__ + count__ - 1, first__)) >> first__;    \
+>>   })
+>> +
+>> +#define ENGINE_INSTANCES_MASK(gt, first, count) \
+>> +    __ENGINE_INSTANCES_MASK((gt)->info.engine_mask, first, count)
+>> +
+>>   #define RCS_MASK(gt) \
+>>       ENGINE_INSTANCES_MASK(gt, RCS0, I915_MAX_RCS)
+>>   #define BCS_MASK(gt) \
 
