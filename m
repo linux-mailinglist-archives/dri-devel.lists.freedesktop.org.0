@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387855E838D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 22:28:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CD65E83A7
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 22:30:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D001110E1C0;
-	Fri, 23 Sep 2022 20:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2107F10E975;
+	Fri, 23 Sep 2022 20:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5D710E1C0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 20:28:31 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id e67so1238010pgc.12
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 13:28:31 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4815610E5DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 20:28:32 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id b23so1162336pfp.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 13:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=8ihjvmU6X32IA3g0n6Ob0CbMhk1X+mcnfaE/5Wfmhd8=;
- b=LPhVNeH7/j6XoYSyZU8Fbh//laqcTzvu//J4Iy04p1XS4de+UJKinl09GFu2JyMlZM
- OiqIFGFrD5z7VUB8De1Lo4L81RAcz4hJEUvZG4jbI7uvuCZ21WW6CkLOkKLLpki0ZPPj
- ptuTYFeO3yYhD48tSYI8BF3HO3FHnDA3HFKOc=
+ bh=X/Yo0q+LJh3/rts6UXiCkFsErG60vpqgZ/L53wodJpE=;
+ b=ZUb4dJcl9kyY0JCMIbSxhNelqg+q4A2wjd4CgDikdt5aQnXIoCAm64UQW+1n3wlzIC
+ pAnpD7T83tfvNJ+uFbkJeFi1y8cQ0gxyzoEmIemLuV7nFZspJ2KQU5mmAB4gcKBwfFdP
+ Er1yFNuC2cHt2der8y8JOYqcnXvTsxoObkuAY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=8ihjvmU6X32IA3g0n6Ob0CbMhk1X+mcnfaE/5Wfmhd8=;
- b=nzi+g2Y2wboqByIVJibA+GmGMqQ/52tcHrnXZVbUFYanuzQWYc8yd0N041Gd1I/Hf0
- HrLh1HAvq//lRCqfjPDak3uvK75Zgvz/O9w98FXg4viBfuTLe4/DmV1WeRF6dWeiR9xV
- y9v3rgXIq1DcJU6ze2QgHGMxQU5OrzK3wmln8R2q6sEPDSNjKjPcA0TAu+OLaX1DtBdJ
- dDn9EnxbuJTLqjD06IG0PSod2wvGotZKo+cdq97fpGbxAMFREBltgbXCncGL8G71tUg7
- 7pbhEIAVhUvM3qL4jysD8ghLOQAcIwk9bHtnES7hl5MIEcJlcTplGkyEQ+5M/nW/KkNS
- G7kw==
-X-Gm-Message-State: ACrzQf3lQvJWAAumD6zd4XVAj8Fcma5HBH7R2GyE/A+VifgYidcAw6X0
- R2irQNu3P9qSmLaaHPSEJu9Nug==
-X-Google-Smtp-Source: AMsMyM7hhwlwgGRqkrSlb8k8bTqhsy6m3L3BTgcy2EFgVZwJvbZTev1f0ePX9YiutVAIEpKxIDEauA==
-X-Received: by 2002:a05:6a00:2185:b0:520:7276:6570 with SMTP id
- h5-20020a056a00218500b0052072766570mr10823472pfi.84.1663964910977; 
- Fri, 23 Sep 2022 13:28:30 -0700 (PDT)
+ bh=X/Yo0q+LJh3/rts6UXiCkFsErG60vpqgZ/L53wodJpE=;
+ b=XD4upJq0UzDeMlV4oC0YG8IMWS/qG7hP+9v4BwKVkqvVZPGeR1Vb7WC+VmumQ4946N
+ GKyISxGZpfh10I6aFN0SMa5DjUABQKEUKJtAIpzCUaBc6EOySmgRZcNIepwftsG02feA
+ X4zh/ugPuxxMArtVTUm97G+r3XGsxqXIaP9DNK2PgkjdC+s1ZSzzMvJIdPRAs9emkWfI
+ yUKN3bSh2SnBLA9mr1sSm2Ljwpw3Bdd0GDI5h78Zq8Ub4M3pYQVyLSdZ7TOgDdTDExU8
+ PWGZiXD7j+TNwEF4V4phVLFeKEKTJQ7jbIJ5jlHoFCzllFt2nujjUsuqCs8AdifcINPl
+ tbWA==
+X-Gm-Message-State: ACrzQf2ZHyRWEhu+D6oO0dG9kfkaiy+QHAtPirqdnES9d5dQmfhE9/HR
+ iHXEb+GqYnXdiPuX/ep9ED2hqw==
+X-Google-Smtp-Source: AMsMyM56PrOnj3O75SoOzdxaUyKZ0YbIXH0yPGDqg6UOnADEm1wpBRmS/rl1dQfty4+94PufpVyEyg==
+X-Received: by 2002:a63:4b1d:0:b0:439:e6a4:e902 with SMTP id
+ y29-20020a634b1d000000b00439e6a4e902mr9335669pga.212.1663964911544; 
+ Fri, 23 Sep 2022 13:28:31 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a170902710700b00176ae5c0f38sm6420511pll.178.2022.09.23.13.28.27
+ 22-20020a17090a0d5600b001ef81574355sm2000341pju.12.2022.09.23.13.28.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 23 Sep 2022 13:28:28 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH v2 09/16] coredump: Proactively round up to kmalloc bucket size
-Date: Fri, 23 Sep 2022 13:28:15 -0700
-Message-Id: <20220923202822.2667581-10-keescook@chromium.org>
+Subject: [PATCH v2 10/16] openvswitch: Use kmalloc_size_roundup() to match
+ ksize() usage
+Date: Fri, 23 Sep 2022 13:28:16 -0700
+Message-Id: <20220923202822.2667581-11-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220923202822.2667581-1-keescook@chromium.org>
 References: <20220923202822.2667581-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1167; h=from:subject;
- bh=pDNvsGLyQA8RpBfkkqJxHruRXSdA8gdZalovRqbX85w=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjLhbl/n4E1MQAIRbO7TQnliesxT9vRRUjnB997VqU
- NfNmMx2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYy4W5QAKCRCJcvTf3G3AJpnPD/
- 9wQBqpy8w8j9Te2wEo0D0Hjxhxo55M1tuhtvCVgvJfQ/ry5sJ8eH8KM6rA1+i5+yyravM0DuBRah4g
- uhrc77nIoJb2kV7c8d7t1g4x8ALFz6XhAPkRpZqDiQcQBAvW8O9x3Cx08jWpK7nAg3/Y43225OKOB6
- tVTYN27JCpBxTSSIqc4UFTMXN2IAlMQ5Ob/Zqv/+83XGkTWlJ6QhWxs83ZN6cbP38BNiVxIU8R4X4q
- w2vVsmNS7RSYF8P5DQihlKqCqmUoYEHbPbwmJ7+PuzAaQl9B925ePSW3sWLgeYKees47F1AL85pjZc
- FvVYlWbV8TxR5ah3RwNTZ38Wn7CZrVxE9cLyRCKZf3k1yiSPL97A/a4HIYBpAtaCVUIze1SOb44gG5
- AeD/OBUhZfYjCqNQUMcrXaVEETtQEQyYObvDbWpjZMSgelJPeNBFTw4EHffM7FA71KwkU2YjesRYnu
- oDThnDhHv4KriQ3B5f+kESZJ2BjJePfLpOXMGt9bH1GXYnTKm2ZjNYVGmhOLx9jqiq7V9DNRZ8gtzJ
- iP1adulU4jNHuzcGVGv1REEmZUqTzrvgs4oy3VrE+j7gZBdT6IsTqQy5TPFC3tl2xHFdDR3KPEPqVf
- jCvjUcb44rcHyPLMelC6K/nXZ7kIHy17/M3xfiCKeCwJLqv86xQvXPgVl2QA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1114; h=from:subject;
+ bh=34QBkIPlID/8bnVmUZjxBAD5CQnxKEZULyryTOgjniU=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjLhblCci+wGv8iOvuMA8kL10auMgCdSAnR8YUMoXu
+ podrrfKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYy4W5QAKCRCJcvTf3G3AJqB8D/
+ 4wCq8GoLp593BnoMNdwJoYvf4etLZwZGsXZQsb2VBiy0skIZlwiVr3PlOgTBYZgIzLvlvUxdUJ5nlX
+ Bi7PnNee9K0Li5LxtO1cZdKiafC2g2Bwno2il0Lo40rZNh8zuXtHkOL9Ch6MatzIqZvHirzYXgdFYa
+ kL+5yKCw2OQwWbSzxN2JM/vbJJUQqWo3IuvGbHZNr3neCmsRvYQL9SENnZqNlmEN0oWzba5MOArXOo
+ /gL8NjrYcXMqpUjBsVYY3y9nJYmkYPHuf/2GpJoU3H8aNnc9kL8Pnb6DwPQil/tk64OQkt0b7ZcjrC
+ G0P1WN75ngaL4hyDGzvdTSyhbfeaPY233mJqTfNH5oCljXV1jN8j7JHWKIlijEpvh+rgmsD8oUU7cT
+ LaZlaPifCbnZzop1KYF9cjTfQ6B1FwHfcaDukW/X9RDudAeKfjA6FDVNBvMvz6dQzkfSaJU4YlVLat
+ mUOaeTfq4RLXR/1FfCnYLeQzvwlAmM6D2JIyw+FADeIZXNcc0kh8AWEtFVPrlaFoC7ofIyB/PaclI7
+ AeUp4jht1HTcepzxMUGZ3tJxRqUFmKdqW/dmu2F5hihUeoxfrDraNFqeBygde5JGfInhtRyFE314eo
+ nj0zrS6Q1+iCwTFGvr/2/6qclufX48XSB7HUF/kPBPaTwX4S6IGvnRi92exg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -88,14 +89,15 @@ Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, "Ruhl,
  Christoph Lameter <cl@linux.com>, Sumit Semwal <sumit.semwal@linaro.org>,
  dev@openvswitch.org, x86@kernel.org,
  Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Josef Bacik <josef@toxicpanda.com>, linaro-mm-sig@lists.linaro.org,
- Yonghong Song <yhs@fb.com>, David Sterba <dsterba@suse.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, Alex Elder <elder@kernel.org>,
- linux-mm@kvack.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Pravin B Shelar <pshelar@ovn.org>, intel-wired-lan@lists.osuosl.org,
+ David Rientjes <rientjes@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Marco Elver <elver@google.com>,
+ Kees Cook <keescook@chromium.org>, Josef Bacik <josef@toxicpanda.com>,
+ linaro-mm-sig@lists.linaro.org, Yonghong Song <yhs@fb.com>,
+ David Sterba <dsterba@suse.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Alex Elder <elder@kernel.org>, linux-mm@kvack.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>, Pekka Enberg <penberg@kernel.org>,
  Daniel Micay <danielmicay@gmail.com>, netdev@vger.kernel.org,
@@ -105,42 +107,35 @@ Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, "Ruhl,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of discovering the kmalloc bucket size _after_ allocation, round
-up proactively so the allocation is explicitly made for the full size,
-allowing the compiler to correctly reason about the resulting size of
-the buffer through the existing __alloc_size() hint.
+Round up allocations with kmalloc_size_roundup() so that openvswitch's
+use of ksize() is always accurate and no special handling of the memory
+is needed by KASAN, UBSAN_BOUNDS, nor FORTIFY_SOURCE.
 
-Cc: linux-fsdevel@vger.kernel.org
+Cc: Pravin B Shelar <pshelar@ovn.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org
+Cc: dev@openvswitch.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/coredump.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ net/openvswitch/flow_netlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index 9f4aae202109..0894b2c35d98 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -68,7 +68,10 @@ struct core_name {
+diff --git a/net/openvswitch/flow_netlink.c b/net/openvswitch/flow_netlink.c
+index 4c09cf8a0ab2..6621873abde2 100644
+--- a/net/openvswitch/flow_netlink.c
++++ b/net/openvswitch/flow_netlink.c
+@@ -2309,7 +2309,7 @@ static struct sw_flow_actions *nla_alloc_flow_actions(int size)
  
- static int expand_corename(struct core_name *cn, int size)
- {
--	char *corename = krealloc(cn->corename, size, GFP_KERNEL);
-+	char *corename;
-+
-+	size = kmalloc_size_roundup(size);
-+	corename = krealloc(cn->corename, size, GFP_KERNEL);
+ 	WARN_ON_ONCE(size > MAX_ACTIONS_BUFSIZE);
  
- 	if (!corename)
- 		return -ENOMEM;
-@@ -76,7 +79,7 @@ static int expand_corename(struct core_name *cn, int size)
- 	if (size > core_name_size) /* racy but harmless */
- 		core_name_size = size;
+-	sfa = kmalloc(sizeof(*sfa) + size, GFP_KERNEL);
++	sfa = kmalloc(kmalloc_size_roundup(sizeof(*sfa) + size), GFP_KERNEL);
+ 	if (!sfa)
+ 		return ERR_PTR(-ENOMEM);
  
--	cn->size = ksize(corename);
-+	cn->size = size;
- 	cn->corename = corename;
- 	return 0;
- }
 -- 
 2.34.1
 
