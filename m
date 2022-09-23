@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52245E77D2
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 11:59:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F735E7807
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 12:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071EA10E821;
-	Fri, 23 Sep 2022 09:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6A1110E804;
+	Fri, 23 Sep 2022 10:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F8EA10E7F9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 09:58:40 +0000 (UTC)
-X-UUID: b9acc9701d624861ba749a5e29cfc010-20220923
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=PRn0qWsxaXW+28p/aNbKk48GsaA1Uw9zH6yZFYoTelI=; 
- b=N7CeSQ8u9nmD6+gg8FCyVwh1k4VaFVuDdXkci7llHng7pvfm8dfQ98p9L4q78cGoponwwXmikDilaSjBOlGbfJ20ORekjrCKlzTUWkDAw/N8UHzlsNjvMylYtu9SwfLG+5MxiTRY6XihN4DoYqmTBG5keqM1965Aa0Ak5ZZE/+w=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:115f2ba9-8cc7-47c9-b5f3-2a415554e0df, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:39a5ff1, CLOUDID:7ddddaa2-dc04-435c-b19b-71e131a5fc35,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: b9acc9701d624861ba749a5e29cfc010-20220923
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 997380722; Fri, 23 Sep 2022 17:58:34 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 23 Sep 2022 17:58:32 +0800
-Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Fri, 23 Sep 2022 17:58:31 +0800
-From: <xinlei.lee@mediatek.com>
-To: <matthias.bgg@gmail.com>, <jason-jh.lin@mediatek.com>,
- <angelogioacchino.delregno@collabora.com>, <rex-bc.chen@mediatek.com>,
- <ck.hu@mediatek.com>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH v10,
- 3/3] drm: mediatek: Add mt8186 dpi compatibles and platform data
-Date: Fri, 23 Sep 2022 17:58:24 +0800
-Message-ID: <1663927104-15506-4-git-send-email-xinlei.lee@mediatek.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <1663927104-15506-1-git-send-email-xinlei.lee@mediatek.com>
-References: <1663927104-15506-1-git-send-email-xinlei.lee@mediatek.com>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4580610E804
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 10:15:40 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ n35-20020a05600c502300b003b4924c6868so5001274wmr.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 03:15:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=H3k8nwYg9LM+0smtYDMfCrY2rja+gudmrYIAx1+mEps=;
+ b=V5tyb7q3mz7fb0AiC5Sbu+Fsu0uLtqx6G/sx44RQSFrO5k7EbKpiUj03di+bluIjAa
+ 3vKQxLJaoHwvmi6+FTkdxNTNzCANwbYt/JqeUba1PhI1H7JKqMq7lKFMNMScbVy0uVzQ
+ zufK/aBP742ZVV6rrnb/Kq0bDpjIiaiVbIKnzqz0e8HOWykvr5d9mpJ43XW/grdg3/SI
+ xK01XJel69w0WogqaSUJEK6BMrXZ/UqqkdCk4qMPlMlZiWKApNonWB1BYbetABPscD5u
+ /cb3BBdbQwm5eCOBvMtBFWCrm7K+UPItQJa6kD5GcAXRgm9HrHNC4//s9z0FWMguM3p3
+ eq/g==
+X-Gm-Message-State: ACrzQf2RpEKYFpvVS+HxcS86ToJB+oX2rPI9+OeCVY6zd1BDd9yq14uS
+ 4Ft2wW2KKDnsgfFHh9E8Pyk=
+X-Google-Smtp-Source: AMsMyM6uVc1utll1leFSA3Ob9+kmyV0+mvx+mZpkH4OV2fn7yg3XyYhCkjXBv8PD3H23g3832TOSOw==
+X-Received: by 2002:a05:600c:2b88:b0:3b4:8680:165b with SMTP id
+ j8-20020a05600c2b8800b003b48680165bmr13130181wmc.113.1663928138757; 
+ Fri, 23 Sep 2022 03:15:38 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+ by smtp.gmail.com with ESMTPSA id
+ h6-20020a05600c2ca600b003b4c40378casm2165673wmc.39.2022.09.23.03.15.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Sep 2022 03:15:38 -0700 (PDT)
+Date: Fri, 23 Sep 2022 10:15:36 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: Saurabh Sengar <ssengar@linux.microsoft.com>
+Subject: Re: [PATCH] drm/hyperv: Don't overwrite dirt_needed value set by host
+Message-ID: <Yy2HSKb4AtcF+em6@liuwe-devbox-debian-v2>
+References: <1662996766-19304-1-git-send-email-ssengar@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1662996766-19304-1-git-send-email-ssengar@linux.microsoft.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,77 +60,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
+Cc: linux-hyperv@vger.kernel.org, airlied@linux.ie, ssengar@microsoft.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+ mikelley@microsoft.com, drawat.floss@gmail.com, Wei Liu <wei.liu@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xinlei Lee <xinlei.lee@mediatek.com>
+On Mon, Sep 12, 2022 at 08:32:46AM -0700, Saurabh Sengar wrote:
+> Existing code is causing a race condition where dirt_needed value is
+> already set by the host and gets overwritten with default value. Remove
+> this default setting of dirt_needed, to avoid overwriting the value
+> received in the channel callback set by vmbus_open. Removing this
+> setting also means the default value for dirt_needed is changed to false
+> as it's allocated by kzalloc which is similar to legacy hyperv_fb driver.
+> 
+> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 
-Add the compatible because use edge_cfg_in_mmsys in mt8186.
+Applied to hyperv-next. Thanks.
 
-Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c     | 21 +++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 ++
- 2 files changed, 23 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index ad87ecddf58d..325032fd5343 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -941,6 +941,24 @@ static const struct mtk_dpi_conf mt8183_conf = {
- 	.csc_enable_bit = CSC_ENABLE,
- };
- 
-+static const struct mtk_dpi_conf mt8186_conf = {
-+	.cal_factor = mt8183_calculate_factor,
-+	.reg_h_fre_con = 0xe0,
-+	.max_clock_khz = 150000,
-+	.output_fmts = mt8183_output_fmts,
-+	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-+	.edge_cfg_in_mmsys = true,
-+	.pixels_per_iter = 1,
-+	.is_ck_de_pol = true,
-+	.swap_input_support = true,
-+	.support_direct_pin = true,
-+	.dimension_mask = HPW_MASK,
-+	.hvsize_mask = HSIZE_MASK,
-+	.channel_swap_shift = CH_SWAP,
-+	.yuv422_en_bit = YUV422_EN,
-+	.csc_enable_bit = CSC_ENABLE,
-+};
-+
- static const struct mtk_dpi_conf mt8192_conf = {
- 	.cal_factor = mt8183_calculate_factor,
- 	.reg_h_fre_con = 0xe0,
-@@ -1091,6 +1109,9 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
- 	{ .compatible = "mediatek,mt8183-dpi",
- 	  .data = &mt8183_conf,
- 	},
-+	{ .compatible = "mediatek,mt8186-dpi",
-+	  .data = &mt8186_conf,
-+	},
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = &mt8192_conf,
- 	},
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 546b79412815..3d32fbc66ac1 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -646,6 +646,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8183-dpi",
- 	  .data = (void *)MTK_DPI },
-+	{ .compatible = "mediatek,mt8186-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8195-dp-intf",
--- 
-2.18.0
-
+I ended up reconstructing the patch myself since the said driver
+changed. It is only a one line change so that's fine. If the committed
+patch is wrong, please let me know.
