@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D556C5E71CC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 04:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9BD5E71DD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 04:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E762210E0B9;
-	Fri, 23 Sep 2022 02:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 320B010E20D;
+	Fri, 23 Sep 2022 02:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D70A110E0B9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 02:15:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 73BC9B82398
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 02:15:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 30A9DC433D6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 02:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663899306;
- bh=MBf8c2DRuuKvYFXD0GLeAgdJYj1+Rv3ZfISA1EFwZy0=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=duC5fN0ipyk5V2MCcbnfVGuNDBY0KDPYv09G1J7uViW7ofzxMok1arTu7TV8m9OGn
- b5vqiqpNbAzy3ajyuBemds84CJR3B477/PbreXvq2rJL2elS2d8CXDoP/3y2Qw3IXt
- y+4Izh9RTpU9HSn9BVKS+yJwTKLPUU42/Te1DRVszuES0uPzugFTkN/JoZ1jwjO7jr
- ue8OuzRe8ggFckr4cBLpahfONwnslCO5a9XgktfBKghaVpTmtkCksqwk1zSNTZcARc
- kWTN0QMb7o9vYVCw1QiZWicCIyi2AbTagU8PcKNZMBnoZW/wwvU7wAZRNpuMNBMmRq
- ofUlLTN8ZLZtw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0E8EFC433E6; Fri, 23 Sep 2022 02:15:06 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216516] s2ram freezes screen (Ryzen-5650U incl. Radeon GPU)
-Date: Fri, 23 Sep 2022 02:15:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kolAflash@kolahilft.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216516-2300-XvPnYR3OTf@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216516-2300@https.bugzilla.kernel.org/>
-References: <bug-216516-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5176910E20D;
+ Fri, 23 Sep 2022 02:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663900008; x=1695436008;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=NcKGRc36ljfdF7J0wPGUNxTSIqsb+7QlKd+dDU+JI6w=;
+ b=Y+ssTFxKNyoFD6ChwKOzOAKjV9YZ4AxZywgP2vQ/poqCEhmi7yy7QFQB
+ qGz5a2ViT0uV87Pwo3/247sKoMIcv9wZYU5rzzfftn90RooeDSbwPwIA8
+ xUSOw8aiUUucx6Q/VKb2nLHq/oSN6M8rgjp5OQWd8V6TyASSwxU36hafs
+ T4Of8ETe4t1ObkL6JLfg01G/2o5PW1lpE/4+LYeRBF3S3YNPtWXNF6uYS
+ MZL3LzIuIsVclhG6RspXvWmhw8+7NbNJ1MbzBsBv/QaQTf6dm+WsHuTcZ
+ mr0gRexmJradUMEstnJA+Nt6hSXC1AD15V1i7gN8Ei5ZfS6sx863jwJHf w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="280858201"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="280858201"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 19:26:47 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="762451492"
+Received: from cyang81-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.209.57.84])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 19:26:47 -0700
+Date: Thu, 22 Sep 2022 19:26:19 -0700
+Message-ID: <87a66qn7w4.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+Subject: Re: [PATCH 3/7] drm/i915/hwmon: Power PL1 limit and TDP setting
+In-Reply-To: <c5c19826-2163-e473-24b6-5ff90ee07c33@intel.com>
+References: <20220916150054.807590-1-badal.nilawar@intel.com>
+ <20220916150054.807590-4-badal.nilawar@intel.com>
+ <b120c201-d4c4-c9af-26bd-432df71b84ac@intel.com>
+ <393a7b54-d179-f9b4-e377-ed2c3c8de000@intel.com>
+ <c5c19826-2163-e473-24b6-5ff90ee07c33@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,18 +63,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-hwmon@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jon.ewins@intel.com, "Nilawar,
+ Badal" <badal.nilawar@intel.com>, riana.tauro@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216516
+On Thu, 22 Sep 2022 00:08:46 -0700, Gupta, Anshuman wrote:
+>
 
---- Comment #1 from kolAflash (kolAflash@kolahilft.de) ---
-Created attachment 301849
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301849&action=3Dedit
-kernel log: v5.18-rc7 and v5.18-rc7-1-g7123d39dc24d
+Hi Anshuman,
 
---=20
-You may reply to this email to add a comment.
+> On 9/21/2022 8:23 PM, Nilawar, Badal wrote:
+> >
+> > On 21-09-2022 17:15, Gupta, Anshuman wrote:
+> >>
+> >>> +static int
+> >>> +hwm_power_read(struct hwm_drvdata *ddat, u32 attr, int chan, long *v=
+al)
+> >>> +{
+> >>> +=A0=A0=A0 struct i915_hwmon *hwmon =3D ddat->hwmon;
+> >>> +
+> >>> +=A0=A0=A0 switch (attr) {
+> >>> +=A0=A0=A0 case hwmon_power_max:
+> >>> +=A0=A0=A0=A0=A0=A0=A0 *val =3D hwm_field_read_and_scale(ddat,
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 hwmon->rg.pkg_rapl_limit,
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 PKG_PWR_LIM_1,
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 hwmon->scl_shift_power,
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 SF_POWER);
+> >>> +=A0=A0=A0=A0=A0=A0=A0 return 0;
+> >>> +=A0=A0=A0 case hwmon_power_rated_max:
+> >>> +=A0=A0=A0=A0=A0=A0=A0 *val =3D hwm_field_read_and_scale(ddat,
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 hwmon->rg.pkg_power_sku,
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 PKG_PKG_TDP,It seems a dead code,
+> >>> pkg_power_sky register in initialized with
+> >> INVALID_MMMIO_REG, why are we exposing this, unless i am missing
+> >> something ?
+> > Agree that for platforms considered in this series does not support
+> > hwmon_power_rated_max. In fact hwm_power_is_visible will not allow to
+> > create sysfs entry if pkg_power_sku is not supported. Considering future
+> > dgfx platforms we didn't remove this entry. In future for supported
+> > platforms we just need to assign valid register to pkg_power_sku.
+>
+> AFAIU PACKAGE_POWER_SKU reg is valid for both DG1 and DG2 from BSpec:51862
+> So we need to define the register.
+> See once more comment below,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks for pointing out, I didn't know where to look for it. We will add
+it. Thanks to Badal for locating the register too.
+
+> >
+> > Regards,
+> > Badal
+> >> Br,
+> >> Anshuman.
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 hwmon->scl_shift_power,
+> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 SF_POWER);
+> >>> +=A0=A0=A0=A0=A0=A0=A0 return 0;
+> >>> +=A0=A0=A0 default:
+> >>> +=A0=A0=A0=A0=A0=A0=A0 return -EOPNOTSUPP;
+> >>> +=A0=A0=A0 }
+> >>> +}
+> >>> +
+> >>> +static int
+> /snip
+> >>> diff --git a/drivers/gpu/drm/i915/i915_reg.h
+> >>> b/drivers/gpu/drm/i915/i915_reg.h
+> >>> index 1a9bd829fc7e..55c35903adca 100644
+> >>> --- a/drivers/gpu/drm/i915/i915_reg.h
+> >>> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> >>> @@ -1807,6 +1807,11 @@
+> >>> =A0 #define=A0=A0 POWER_LIMIT_1_MASK=A0=A0=A0=A0=A0=A0=A0 REG_BIT(10)
+> >>> =A0 #define=A0=A0 POWER_LIMIT_2_MASK=A0=A0=A0=A0=A0=A0=A0 REG_BIT(11)
+> >>> +/*
+> >>> + * *_PACKAGE_POWER_SKU - SKU power and timing parameters.
+> >>> + */
+> >>> +#define=A0=A0 PKG_PKG_TDP=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 GENMASK_U=
+LL(14, 0)
+> Define register above this definition, GENMASK should follow
+> by a register.
+
+Will do.
+
+Thanks.
+--
+Ashutosh
