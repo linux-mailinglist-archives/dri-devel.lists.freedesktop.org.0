@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893F35E7A13
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 14:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C524C5E7A34
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 14:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE4510E8EB;
-	Fri, 23 Sep 2022 11:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3072C10E8E2;
+	Fri, 23 Sep 2022 12:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD08510E8E2;
- Fri, 23 Sep 2022 11:59:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663934389; x=1695470389;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=YaUg750lJnggz6KWmfaPEF4rvlW5TvJZSCMSaU800rA=;
- b=bGKLUAv3RM4CScRs6oCBRHN7KODcnxOd2jUtFFqUv279OEUGdxLcDqM/
- KZfDymiO9tWURARsrTmmx3vS/6JVko00U8VHF9WigBuryKp06FYuWJREg
- kMlQFj9q2uoxMXvafgAubSRNZGbIzp/RBzK4BohtYHlRccI6XpcRCVPJZ
- 8lSvbuD+UEVxCGvyQpxfKDit3N9mrUWl5mLib17gnm4PDGLEmSHtzqRUT
- MMAPZGzVNNrmG1khXPFNu2VM+HgBRUsmZt1LD/931VQ2f7bRcXY7S92W/
- pt/D4s3W1W9APQPbUq+jrSegZUucWtmEku9AckZDbeR9NdGHMGTTdSzTm Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="386865705"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="386865705"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 04:59:49 -0700
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="865270599"
-Received: from armannov-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.61.93])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 04:59:42 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben
- Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Maxime
- Ripard <mripard@kernel.org>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Emma Anholt <emma@anholt.net>, Karol
- Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>, Thomas
- Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, Lyude
- Paul <lyude@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH v2 13/33] drm/client: Add some tests for
- drm_connector_pick_cmdline_mode()
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-13-f733a0ed9f90@cerno.tech>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-13-f733a0ed9f90@cerno.tech>
-Date: Fri, 23 Sep 2022 14:59:23 +0300
-Message-ID: <875yhe47z8.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B51710E992
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 12:09:03 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 23E151F92C;
+ Fri, 23 Sep 2022 12:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663934942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=irVMcy4OY2aP15lcOTMRzYzkmRL6wn5wxWZC8qldbpQ=;
+ b=v/isG2qf1vfJobA7weFyeCh4a2IB23XwbbDtQ+7Mu6Gew1iUS5UrysIAu82r7GklkF8jUI
+ tlmHap04pG+q9F2WIWbe0lpFRJJMfTCWzYAcNACTtLYhgU4GlkCHexpr/zLhZ1sU0CVuZL
+ sLkzX1WBLWA8/pjBkltbpSCXC67EdKE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663934942;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=irVMcy4OY2aP15lcOTMRzYzkmRL6wn5wxWZC8qldbpQ=;
+ b=CcUDIiA/BZQ/qLFQE830DdAlyHb53f/ALkK1L3XNTohnL0lpTMMXNWfq+vJKlp5MNDBHpm
+ QScLnB+0ISojy9DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0972E13A00;
+ Fri, 23 Sep 2022 12:09:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id NG5hAd6hLWOXbAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 23 Sep 2022 12:09:02 +0000
+Message-ID: <2b8ebf18-d668-a2d6-cb8e-3be2e501c245@suse.de>
+Date: Fri, 23 Sep 2022 14:09:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 5/5] drm/simpledrm: Synchronize access to GEM BOs
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <20220922130944.27138-1-tzimmermann@suse.de>
+ <20220922130944.27138-6-tzimmermann@suse.de>
+ <2163b960-cfbe-7693-ba89-633cb36558a7@redhat.com>
+ <fcd1d302-89af-62c9-0081-0717ad40e4ca@suse.de>
+ <90b49a3d-aaaa-ba1c-ae7f-a4680a0621c4@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <90b49a3d-aaaa-ba1c-ae7f-a4680a0621c4@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Anx5WzuHKS3Kip72ZDB7Gmms"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +74,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 22 Sep 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> drm_connector_pick_cmdline_mode() is in charge of finding a proper
-> drm_display_mode from the definition we got in the video= command line
-> argument.
->
-> Let's add some unit tests to make sure we're not getting any regressions
-> there.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index bbc535cc50dd..d553e793e673 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -1237,3 +1237,7 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
->  	return ret;
->  }
->  EXPORT_SYMBOL(drm_client_modeset_dpms);
-> +
-> +#ifdef CONFIG_DRM_KUNIT_TEST
-> +#include "tests/drm_client_modeset_test.c"
-> +#endif
-> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
-> new file mode 100644
-> index 000000000000..46335de7bc6b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Anx5WzuHKS3Kip72ZDB7Gmms
+Content-Type: multipart/mixed; boundary="------------dvV7Alj5prSFzS7fpieQTlv2";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, airlied@linux.ie,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <2b8ebf18-d668-a2d6-cb8e-3be2e501c245@suse.de>
+Subject: Re: [PATCH 5/5] drm/simpledrm: Synchronize access to GEM BOs
+References: <20220922130944.27138-1-tzimmermann@suse.de>
+ <20220922130944.27138-6-tzimmermann@suse.de>
+ <2163b960-cfbe-7693-ba89-633cb36558a7@redhat.com>
+ <fcd1d302-89af-62c9-0081-0717ad40e4ca@suse.de>
+ <90b49a3d-aaaa-ba1c-ae7f-a4680a0621c4@redhat.com>
+In-Reply-To: <90b49a3d-aaaa-ba1c-ae7f-a4680a0621c4@redhat.com>
 
-[snip]
+--------------dvV7Alj5prSFzS7fpieQTlv2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> +MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
-> +MODULE_LICENSE("GPL");
+SGkNCg0KQW0gMjMuMDkuMjIgdW0gMTI6NTggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IE9uIDkvMjMvMjIgMTI6NDMsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0K
+Pj4gSGkNCj4+DQo+PiBBbSAyMy4wOS4yMiB1bSAxMDowNiBzY2hyaWViIEphdmllciBNYXJ0
+aW5leiBDYW5pbGxhczoNCj4+PiBPbiA5LzIyLzIyIDE1OjA5LCBUaG9tYXMgWmltbWVybWFu
+biB3cm90ZToNCj4+Pj4gU3luY2hyb25pemUgQ1BVIGFjY2VzcyB0byBHRU0gQk9zIHdpdGgg
+b3RoZXIgZHJpdmVycyB3aGVuIHVwZGF0aW5nIHRoZQ0KPj4+PiBzY3JlZW4gYnVmZmVyLiBJ
+bXBvcnRlZCBidWZmZXJzIG1pZ2h0IG90aGVyd2lzZSBjb250YWluIHN0YWxlIGRhdGEuDQo+
+Pj4+DQo+Pj4NCj4+PiBDYW4geW91IHBsZWFzZSBlbGFib3JhdGUgd2hhdCB0aGUgcHJvYmxl
+bSBpcz8gVGhlIGZyYW1lYnVmZmVycyBtZW1vcnkgaXMNCj4+PiBzZXR1cCBieSB0aGUgZmly
+bXdhcmUgYW5kIHdvdWxkIG5ldmVyIGNvbWUgZnJvbSBhbiBpbXBvcnRlZCBkbWEtYnVmLCBz
+bw0KPj4+IGNvdWxkIHRoZSBHRU0gQk9zIGV2ZW4gYmUgc2hhcmVkIHdpdGggb3RoZXIgZHJp
+dmVycz8NCj4+Pg0KPj4+IE9yIGlzIHRoaXMgZG9uZSBqdXN0IGZvciB0aGUgc2FrZSBvZiBj
+b3JyZWN0bmVzcyA/DQo+Pg0KPj4gVGhpcyBpc24ndCBhYm91dCB0aGUgc2Nhbm91dCBidWZm
+ZXIgdGhhdCB3ZSBnZXQgZnJvbSB0aGUgZmlybXdhcmUuIFRoaXMNCj4+IGlzIGFib3V0IHN5
+bmNocm9uaXppbmcgYWNjZXNzIHRvIHRoZSBHRU0gQk8gbWVtb3J5IGJ1ZmZlcnMuIE91ciBC
+T3MnDQo+PiBtZW1vcnkgYnVmZmVyIGFyZSBhbGxvY2F0ZWQgZnJvbSBTSE1FTSBvciBjb3Vs
+ZCBiZSBpbXBvcnRlZCB2aWEgZG1hLWJ1Zi4NCj4+IEluIHRoZSBsYXR0ZXIgY2FzZSwgYW5v
+dGhlciBkcml2ZXIgb3IgaGFyZHdhcmUgbWlnaHQgbW9kaWZ5IHRoZWlyDQo+PiBjb250ZW50
+IGNvbmN1cnJlbnRseS4gV2UgbmVlZCB0byBzeW5jaHJvbml6ZSBiZWZvcmUgcmVhZGluZyB0
+aGUgbWVtb3J5DQo+PiBmcm9tIG91ciBDUFUuIFRoZSBwYXR0ZXJuIGlzDQo+Pg0KPj4gICAg
+IDEpIHN5bmMgQk8gbWVtb3J5IGNvbnRlbnQgdmlhIGJlZ2luX2NwdV9hY2Nlc3MoKQ0KPj4g
+ICAgIDIpIGJsaXQgZnJvbSBCTyBtZW0gdG8gc2Nhbm91dCBidWZmZXINCj4+ICAgICAzKSBy
+ZWxlYXNlIEJPIG1lbW9yeSB2aWEgZW5kX2NwdV9hY2Nlc3MoKQ0KPj4NCj4gDQo+IFllYWgs
+IEkgZ290IHRoYXQgcGFydC4gV2hhdCBJIHdhcyBhc2tpbmcgaXMgaWYgaW1wb3J0aW5nIGZy
+b20gZG1hLWJ1ZiBpcw0KPiBhIHJlYWwgdXNlIGNhc2UgZm9yIHNpbXBsZWRybSBvciBpZiB0
+aGlzIHBhdGNoIHdhcyBtb3JlIGFib3V0IG1ha2luZyB0aGUNCj4gZHJpdmVyIGNvcnJlY3Qg
+YW5kIGFsaWduZWQgd2l0aCB3aGF0IG90aGVyIERSTSBkcml2ZXJzIGRvPw0KDQpJbiBhIG11
+bHRpLUdQVSBzY2VuYXJpbywgaXQgY291bGQgaGFwcGVuIHRoYXQgb25lIGRpc3BsYXkgdXNl
+cyANCnNpbXBsZWRybS4gSWYgdGhlIG90aGVyIEdQVSBoYXMgYSBuYXRpdmUgZHJpdmVyIHRo
+YXQgZXhwb3J0cyB0aGUgQk8gZm9yIA0Kc2NyZWVuIG1pcnJvcmluZywgdGhlIHN5bmNocm9u
+aXphdGlvbiBtaWdodCBiZSBuZWVkZWQuIEFkbWl0dGVkbHkgaXQncyANCm5vdCBhIGxpa2Vs
+eSBzY2VuYXJpby4gQnV0IHN0aWxsLi4uDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
+DQo+IEluIGFueSBjYXNlIEkgYWdyZWUgd2l0aCB0aGUgY2hhbmdlLCBpdCdzIGp1c3QgdGhl
+IHJhdGlvbmFsZSBmb3IgaXQgdGhhdA0KPiB3YXNuJ3QgY2xlYXIgdG8gbWUuDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
+cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
+ZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-I think these annotations are incompatible with including the unit test,
-and, in this case, affect drm.ko.
+--------------dvV7Alj5prSFzS7fpieQTlv2--
 
-And we'll have two kinds of tests, those that get built via
-tests/Makefile, and those that get included, like this one, which should
-not be mentioned in tests/Makefile.
+--------------Anx5WzuHKS3Kip72ZDB7Gmms
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-BR,
-Jani.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMtod0FAwAAAAAACgkQlh/E3EQov+AO
+yRAAmg9sy6WOtyJZgg0p/DTUA3XrmIu3cSqoBJeLFOt1XEVAa7X5AJm2c8P9s3bNMHNNWytSVHVe
+hJ5o8jIk8jV+MyeCImNl4MbYL+6KsMdSaQ2luOSGCit9NxM+MUqIFz/DWBnf6nQVEJM7gxRHF9YU
+tAs6lUEM4Va42x4NlVrFTKJzJw/XPUCN7JzNOnOUTVfM2lCRea9wjwcjTfq7yZVghm1LQcfc8AEV
+Hvxd5xQY3CiU8z6/R+Gx7eCCLoPgFOc2zPGnuPOtWAufjxUx5DlA0eThEhBp6BiIgQXoizzQ7PyU
+gf48Gn5ZbR60u79TKcrxojjppxBF/TbXkHLFULHBtY+LkoFVTgWFK873eROT458ItgLuMEn/nDpf
+6AgV4csWqs8RfaDLFIz6bEqwbYHWuftjZc2bhKLsyFjJStmHkqQ3nlqlhDNvQhjJTSPpfTH02e2R
+xKcVpMOLf9A4gGoccfxrGHddyA/cW6Z6wDq4lSQBiMj9TTpSnu+W6ByKBGjVJEJHVuC7u2hBUhcP
+R8gPVQLUYVy7wwsDsHf3PCgBOoJESIMFbdD6dcjh5XHBTU8Y8fPHKVd5cONG/7iZv2xercioiK27
+lgit8TZwTRJcVimK+edAWCBKaGp63ti+Pnnd7yQ5LDRiDWDxAGmisTEdI2tf8LFHkkfbvD+WRn7R
+oBo=
+=6qrU
+-----END PGP SIGNATURE-----
+
+--------------Anx5WzuHKS3Kip72ZDB7Gmms--
