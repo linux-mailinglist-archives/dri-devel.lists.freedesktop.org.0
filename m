@@ -1,65 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379765E753F
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 09:54:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0765E7566
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD0310E4B2;
-	Fri, 23 Sep 2022 07:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A275710E4D5;
+	Fri, 23 Sep 2022 08:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE75910E4B2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 07:54:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A96961F86C;
- Fri, 23 Sep 2022 07:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663919652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70ED810E4CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 08:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663920369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FDoesM46flEpwVvqoFJWMabU6B5gM/li9scRr793Z+4=;
- b=XbWXuSwDGr1Z9vHrOX5N2ky/rF3S0wKVR0fOXmcVi8cFTIkPT/udxOpXW6YZUVlN4WdnA4
- R91G9NdEODy9oeBQoq4HF8uz5wyWmG+H5zplfUv6xOlG9GQldVwEqO1VurRwkmzi+LSDgU
- RSkPomhzrnHP4kKGYeP9ruIt0eRB5jU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663919652;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FDoesM46flEpwVvqoFJWMabU6B5gM/li9scRr793Z+4=;
- b=DzlxtfIt1eHjH0E1bnDlinsXalj7mNHMAoGAsa6m7ErYeshsdXuKywyfthQZaKTx5B0ufg
- P8BMLLYHnjezt3Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C51F13A00;
- Fri, 23 Sep 2022 07:54:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yS4CISRmLWP9eQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 23 Sep 2022 07:54:12 +0000
-Message-ID: <322f6f77-75f2-5a5c-92d5-18ba083a8530@suse.de>
-Date: Fri, 23 Sep 2022 09:54:12 +0200
+ bh=/UDEbHop3omdSniq2G1PXxMgzkeyeJYeF2Shfxq3aYI=;
+ b=UB7W7prO7pmLaF/2A5PA8SRYNO6XoQtOD9So5U562Fb0a4IdRa31Ir8ul/bFNFMgeZ6jre
+ 36TSJUpUyrS6R/HOyumNox45PTTQ00pEmx3fs38teNbG6yYL/fvEoUcoIkCBVFOtJ/5K/t
+ GVL0PxHx8HbDf94lzUMcqjXPP4KJ/ZE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-28-isjvkL73PKO4WiZBaUVRXg-1; Fri, 23 Sep 2022 04:06:05 -0400
+X-MC-Unique: isjvkL73PKO4WiZBaUVRXg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i129-20020a1c3b87000000b003b33e6160bdso2353243wma.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 01:06:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=/UDEbHop3omdSniq2G1PXxMgzkeyeJYeF2Shfxq3aYI=;
+ b=iv5FXTmMQ+4e5IAaa9TxMu4pbMTbytbZf4qXQywNKVhOwZJoH6xCETXXlQOywSkSnz
+ cIDsL/TLIB7Nr90KJXAxwl3+qWOz7iWgCDG7AogAFhVP6oOQiyoSxCLDdefstE5swUAg
+ Kml+1VT+qfGXjpm9KdhIbC12J5r941ZPvAEAjLQqiwvKap0D1K1FL2WFnSAXBkjOdIDq
+ j4YPOIgqkqSuv3PLO02Vya5xxT7h24Zf/tCSskZGzd9mh6cFulCzWkjZpLMhUIrdq0lw
+ oYnVtuJCOOcwUig4RYHxvPAQeCAO3ldfd7EzNUfRHsyJYJYtDU5nPM0a9PeShQS/dqIr
+ g3pg==
+X-Gm-Message-State: ACrzQf2wY/MWDx3/0+RAv28Pr8q4/JsT5JHkJskDqrvk/EkbGCLdubyn
+ GhqJKixrmtlmPTZLyRWAnXxMDnp6lMamcqnkEvL171p7xxwyBzBXV5NjTNiLlrQLht82J1vpDFQ
+ tRNRF1qTl7ez97Ab2QfT/CMcFlHSH
+X-Received: by 2002:adf:fbd1:0:b0:228:6406:23d8 with SMTP id
+ d17-20020adffbd1000000b00228640623d8mr4279596wrs.45.1663920364787; 
+ Fri, 23 Sep 2022 01:06:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7w6+01OEBTtOBO3Y/Rf5FHB+x0WQHpfAMDTForwAtqxpv6cWPvOAHeG79JHFSa6c4z0YBmUg==
+X-Received: by 2002:adf:fbd1:0:b0:228:6406:23d8 with SMTP id
+ d17-20020adffbd1000000b00228640623d8mr4279577wrs.45.1663920364415; 
+ Fri, 23 Sep 2022 01:06:04 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ ba30-20020a0560001c1e00b00228655a5c8fsm6648659wrb.28.2022.09.23.01.06.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Sep 2022 01:06:04 -0700 (PDT)
+Message-ID: <2163b960-cfbe-7693-ba89-633cb36558a7@redhat.com>
+Date: Fri, 23 Sep 2022 10:06:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 2/5] drm/simpledrm: Use drm_atomic_get_new_plane_state()
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, airlied@linux.ie,
- daniel@ffwll.ch
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 5/5] drm/simpledrm: Synchronize access to GEM BOs
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch
 References: <20220922130944.27138-1-tzimmermann@suse.de>
- <20220922130944.27138-3-tzimmermann@suse.de>
- <92327a77-f0a5-34fd-964c-89a3ce7701af@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <92327a77-f0a5-34fd-964c-89a3ce7701af@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------pw1596KNL0BDvbKxhugXmfWE"
+ <20220922130944.27138-6-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220922130944.27138-6-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,62 +90,28 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------pw1596KNL0BDvbKxhugXmfWE
-Content-Type: multipart/mixed; boundary="------------yI5Bb1fv5ermIM2KY0V0xChC";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, airlied@linux.ie,
- daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <322f6f77-75f2-5a5c-92d5-18ba083a8530@suse.de>
-Subject: Re: [PATCH 2/5] drm/simpledrm: Use drm_atomic_get_new_plane_state()
-References: <20220922130944.27138-1-tzimmermann@suse.de>
- <20220922130944.27138-3-tzimmermann@suse.de>
- <92327a77-f0a5-34fd-964c-89a3ce7701af@redhat.com>
-In-Reply-To: <92327a77-f0a5-34fd-964c-89a3ce7701af@redhat.com>
+On 9/22/22 15:09, Thomas Zimmermann wrote:
+> Synchronize CPU access to GEM BOs with other drivers when updating the
+> screen buffer. Imported buffers might otherwise contain stale data.
+>
 
---------------yI5Bb1fv5ermIM2KY0V0xChC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Can you please elaborate what the problem is? The framebuffers memory is
+setup by the firmware and would never come from an imported dma-buf, so
+could the GEM BOs even be shared with other drivers?
 
-SGkNCg0KQW0gMjMuMDkuMjIgdW0gMDk6NDcgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IE9uIDkvMjIvMjIgMTU6MDksIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0K
-Pj4gTG9va3VwIHRoZSBwbGFuZSdzIHN0YXRlIGluIGF0b21pY191cGRhdGUgd2l0aCB0aGUg
-aGVscGVyDQo+PiBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoKS4gQWxzbyByZW5h
-bWUgdGhlIGhlbHBlcnMnDQo+PiBzdGF0ZSBhcmd1bWVudHMuIE5vIGZ1bmN0aW9uYWwgY2hh
-bmdlcy4NCj4+DQo+IA0KPiBJIHRoaW5rIHRoaXMgd2FzIFN1Z2dlc3RlZC1ieTogVmlsbGUg
-U3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4gPw0KDQpOb3QgZGly
-ZWN0bHksIGJ1dCBpdCBzZWVtcyBmYWlyIHRvIGdpdmUgaGltIGNyZWRpdC4NCg0KPiANCj4+
-IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-Pg0KPj4gLS0tDQo+IA0KPiBSZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFz
-IDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KDQpUaGFua3MgZm9yIHRoZSByLWJzLg0KDQpC
-ZXN0IHJlZ2FyZHMNClRob21hcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
-OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Or is this done just for the sake of correctness ?
+ 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
---------------yI5Bb1fv5ermIM2KY0V0xChC--
+The change looks good to me though if is for the latter.
 
---------------pw1596KNL0BDvbKxhugXmfWE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
------BEGIN PGP SIGNATURE-----
+-- 
+Best regards,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMtZiQFAwAAAAAACgkQlh/E3EQov+Bc
-Vg//TyniUQSbLt1GCkt1PotoCSKufWiBDrZ6gYPU9XYwe8kQcaBSpU48eK9QXa++vtZwTGv8xfqa
-0TjZwYBzB+0VqIZRBozMaGwr91T75/FXkKdKiie6UkQtlOWw2qZ/J6OpAvv3TxMeEJ3yBK88yRVP
-w0Xbjq/SjXD1r4JmCKw2dMH1hODE/1n6/T97bCq4X8SPAKvwaWmC5WENN1Fi0uphoh60tgruSxJh
-jrj5BXtPixPvAhSy5uykIl+tpihdj+P5Tjqb68dpH+3Jcxz5IpATLLahayj5c5vDZBNNNzsQj2+5
-M4EMeSTCo0+eK8hRjz7qkC1o/11W+xMbGqmWxw+eaWF1KGTwLhZwZLip91QfTbeV+6kNKxNnZQfa
-cFjQ9ZTseAs5RDOdVxnDRBxXmH/RWWTwnXN0ddD5kXtoGCW9b6Co/Sf6mmmOh6NbqAiB5eeCTfD4
-yb1wDt/x0sm22RX5XB5i0DLEKqyqxohnpBDPX4iPIlVSH+FiGsalr6ocVZzMW5VAkVgn1T8PEC+T
-c36Jw86osafXTlRSIpPxgUtyfqcqipop5oDJCcgbbr/VOFXRjIgNjT6ChTVObYONdIGlRS1/wT2m
-nEylKS9LdbTCTQvargM5npRrefd5MXEZTc+4gjPNdd4OJvPP6y1ZMfd5FACnm5C1fElkpzjYqwMp
-IJk=
-=hc3t
------END PGP SIGNATURE-----
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
---------------pw1596KNL0BDvbKxhugXmfWE--
