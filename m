@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E3C5E793D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 13:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA6D5E7940
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 13:16:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E44510E84D;
-	Fri, 23 Sep 2022 11:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB19510E868;
+	Fri, 23 Sep 2022 11:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B02510E896
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 11:16:32 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id o2so19249317lfc.10
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 04:16:32 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F31BA10E88F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 11:16:37 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id k10so19285315lfm.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 04:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=imfixrLTcFv0DjzU/dBzDYnTw5P7/+vfO0bvwY3AaxI=;
- b=MoPAeC2L93mgPRD5pDgFVI6zu+tIfs/JI3Z5NQ5sk6nDadC/eSzT/hsTzjUOTbWEOq
- tOdtkpPuIqXaYzi6qUcbd5WMDaDx6qAsyOrSWU8pTT0GUbXRXG/Fgbq4NmyI9XESozAK
- 0SMMy/CMOljs9VJUyp1n70p2iKCPrZXmAZxGKLOLbI4usnuKaVlDwZIW8iaM194o6Ahc
- UIr4yZiSx+eG2Y+L16RfslOBJHlOlvHOgxdqhXCF9U1O0ZgIvBeX9LXW9JwULrdJYDw7
- Hlv7soEyuVBmuKo8akucgCVfR5PrtrimIfOpAT8xh3qNdOSKBOLOqQjxRMpbeF2YN5wv
- L1Fw==
+ bh=WVY444sgVZKK+vY4euROZT7RCJrRWYm0QFkYeu7q07A=;
+ b=GKMyIrG6A6lX/rlrp3TOcU57GiknL+XUxrwfFH/f1akM2DMNy87i4OzM4NX7/XMkx6
+ YED9kf6T+9gIhaeTEvZV+unwNBINlTjTsSqf2qWUseD54NmeKDo0INP/1Keu+uqeLBde
+ 7HicySAx8BM4kdf9ajk0c3LTUdsD6KOhzZW5aUW8Gev6L2UsDUsVcGiOYquJNPz5viII
+ kElCm//hSG38MLMDhotwtKhqhhQY5O35ZU45cuzNbI25thZnSm5XBk5JPw7AmCLeHiGH
+ OduCbQp04LfBpS0Vetf0LjQoeLTXfjh3hCbVovgepaPCOoCmBjut3+go3MlEosTHYK//
+ c7dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=imfixrLTcFv0DjzU/dBzDYnTw5P7/+vfO0bvwY3AaxI=;
- b=se29JHt7K8YhtukSjfiBMuRSJOdye/6VRFh271JXDxOOlJaNnTBHchJNvQo7ij6Syp
- yOTFdPgWKxH2WYCzf9haqKZ93iMQ4nDGoHIhE5D+wUx4DEXpYbjNGiTB0jlrdRu6UV9B
- TNUFgxTaypZUzzBY+3SGekcKgrd236Z+7M/bfdHOBKMCGYxoL8sRDFGfYEQn3YltSJTl
- CewhfimoE2mX3YRdlKAFbGZ+8R0iwfpVJoz8rh7xggTftj1BB2w7eUqX17Of1uWA1WUg
- 9kWo5zdIvao4YvW7BVmmAVQmwkK85sY2QyVid052jN4uDtqmxv8+ess/HOUiG5FtLqzT
- xS6g==
-X-Gm-Message-State: ACrzQf1kg0Zi6siSyYtEicRy7ilDiX0D416VQJEAVvE6pdd2cYiANVVg
- LzLAW0Vme4W/1Hk4T0wLBuUgUg==
-X-Google-Smtp-Source: AMsMyM4gSgqslj/MXw3qZkhMqASVAraPUn/Jbo4yjv87pRK0j9zeCR2ZBNA3WHH91SMkygEjXeAtgA==
-X-Received: by 2002:a05:6512:3d87:b0:499:f2b6:7021 with SMTP id
- k7-20020a0565123d8700b00499f2b67021mr2854963lfv.103.1663931790576; 
- Fri, 23 Sep 2022 04:16:30 -0700 (PDT)
+ bh=WVY444sgVZKK+vY4euROZT7RCJrRWYm0QFkYeu7q07A=;
+ b=lnQLt3gZ8ie4E7KE7I1C7MTxhxvvv26oWHp/C6LATBvxFUeVf4JzByW/PdqiFGKYQd
+ I3LDKE+BVpiOapFr9lHqiysGIS23gK7ErJGMORbHkZ2YbpTyeVCpPJCPl+DKJDGz37fY
+ Lj98bfIZ69b5QxFIRSMMcmWJCyC9oK/cEiv0IOXCeZA1lgBaiXNrJ66VPLkcV4jK2U97
+ OHpQx0zgSIigA+8nwfHOvzilSzzTvNEqsWcMLHiVf0Ul2ataqZL+W9tI5zGRE1SyG/d6
+ Cm5LPIZw08m1hTV7hCQAti4jIxrNzXboZG10S77wO1bM0h1Kq1dACs/tATug2ojYxNNk
+ CKAA==
+X-Gm-Message-State: ACrzQf3j8XWCGq31HwFv6dQh/2erOl6DitZHk22U068NfugWwlmxbzv1
+ qXQ4a4JI/EkbWvYZSwCHwavZPQ==
+X-Google-Smtp-Source: AMsMyM6ZqgtGE6YGi5NHqU38FwIKEP5Y636y2wBc6bsb7FGrQUA/VEzL6pvHiLgIjd3Bhg+MjURUzg==
+X-Received: by 2002:a05:6512:3c92:b0:499:a1ff:d6f3 with SMTP id
+ h18-20020a0565123c9200b00499a1ffd6f3mr3099204lfv.153.1663931796319; 
+ Fri, 23 Sep 2022 04:16:36 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- g8-20020a2ea4a8000000b0026c3ecf9a39sm1348838ljm.38.2022.09.23.04.16.29
+ du12-20020a056512298c00b004946a1e045fsm1399245lfb.197.2022.09.23.04.16.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 04:16:30 -0700 (PDT)
-Message-ID: <33e9babb-0492-2f41-d055-45ed32d55906@linaro.org>
-Date: Fri, 23 Sep 2022 13:16:29 +0200
+ Fri, 23 Sep 2022 04:16:35 -0700 (PDT)
+Message-ID: <f6e669dd-f2cf-6e3f-18bb-25b21e5eab0c@linaro.org>
+Date: Fri, 23 Sep 2022 13:16:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH] dt-bindings: display: mediatek: dpi: Add compatible for
+Subject: Re: [PATCH] dt-bindings: display: mediatek: dp: Add compatible for
  MediaTek MT8188
 Content-Language: en-US
 To: liangxu.xu@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
  airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
  jitao.shi@mediatek.com
-References: <20220923014227.6566-1-liangxu.xu@mediatek.com>
+References: <20220923013953.5043-1-liangxu.xu@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220923014227.6566-1-liangxu.xu@mediatek.com>
+In-Reply-To: <20220923013953.5043-1-liangxu.xu@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,12 +85,13 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/09/2022 03:42, liangxu.xu@mediatek.com wrote:
+On 23/09/2022 03:39, liangxu.xu@mediatek.com wrote:
 > From: liangxu xu <liangxu.xu@mediatek.com>
 > 
-> Add dt-binding documentation of dpi for MediaTek MT8188 SoC.
+> Add dt-binding documentation of dp for MediaTek MT8188 SoC.
 > 
 > Signed-off-by: liangxu xu <liangxu.xu@mediatek.com>
+> ---
 
 Where is the DTS? Where are driver changes?
 
