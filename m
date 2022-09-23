@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E556B5E7433
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 08:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294CB5E7435
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 08:35:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5524E10E3E7;
-	Fri, 23 Sep 2022 06:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94E0C10E3F0;
+	Fri, 23 Sep 2022 06:35:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D75810E3E7
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 06:34:53 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id u132so11508382pfc.6
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 23:34:53 -0700 (PDT)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B381C10E3F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 06:35:38 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ bu5-20020a17090aee4500b00202e9ca2182so7320995pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Sep 2022 23:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date;
- bh=UQbRlYeEkx+EvW1ECcexWqZC4hvj1k3E06Q4ssIUniM=;
- b=pZeBayZgzRqqeHKGwVP/zLhV7GY99/+Bnnkit9QZ3Jbm0a0nI96twXdh04slYuwkVI
- RLoFBJwWqkiR0fWmY2YHe1enxA7+/3KfdCjTljhuVy9CK5SKbUhW5pQX3EPGrE/PBYQe
- 89Mb1dFLfpwSuuruq0xmgROKVRuR+HOo6hDP8LCeJYiYO9qn9xDSbpbJFTNoq/LfYTAO
- 6ndDIEfrkh1VRAKhdj3zd5vd+UqyIO2N4PDOJTwSmfhwSp+YF6iDgSQezluXxJBkn9O2
- 7TzhMM6gRekC93WZGUku7gRJV/oWIkMUrMySfEUUmYSQcp07n09+NBW9wqzrQBw4ZkZq
- ai6g==
+ bh=Kg+p/+rNL9zwSFLa01Tro2dNPYnaSbxfZhZdLBxXQKI=;
+ b=GTuqzN0W61gGoKHDi0iPdCYyc93ex/nvB6zMPcyMvj+qNFCbBvgJoauWhYGxkr3OV0
+ o7nkCrlZgOuS1eI01ulpuM54KbuKefLlijPkuijC2GaIEqnyYLgEoGRHgKasF8tsPRVA
+ z0ZJyRfX4Iu6QRkgW20qPQFbQ4Ex5bXQ0ZlfTEQBZlAhxeQkUCSaYORPBuminVvxgTO2
+ W7qkdG48PrlHct3huDNOHpZeeZTpGb28dxDl6ky/IW1ETUMVg7SXI4/t9fQDtotwW7Ir
+ gOUNlswp98HjhCr836rZikzSeWwuCM3wRngjz3Oj5MZ4c8dRZj+N08Ur+lRpurpz9Of1
+ B/tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=UQbRlYeEkx+EvW1ECcexWqZC4hvj1k3E06Q4ssIUniM=;
- b=ce6ew7W69Jvy0trOHMOYKpLYT9lCKhyqkwvKS9I0l28m580UdZK4PWNEM+WPWQLacW
- Ay/QhzRM04dzmjGh69LYX3FCCcAYXgwQ9Tq9AyK6co4d2fOC9O4s0cHOEqPvuTbsjMHR
- gB/Bh9ni07Yl2yPGj6a1aY9WMBxfj2pHqZF13XEdpBJOPwDi4ZHuD+qs6qpFaaTVBL5g
- 3z8xxvv81B0McclW1kHPTWgBSYt8q0I+l0/PPq6J9pkAKsg/M2msZhJj3Knp3pi4Y+7X
- F0NbEVchAVuItXiAjn0C13lfbx9Np/1NZKV3h2GIW96Ur1Qzr7UXslzU0lfmA/JQi5Z4
- WdCQ==
-X-Gm-Message-State: ACrzQf1TXZ+YMwGVaS/9TnaOKXzgxoKFe9TzZ/be0A0kbfj6v0zX8xji
- DyIkpMukfWj/8Idc3wK2WEw=
-X-Google-Smtp-Source: AMsMyM5CRzhdtH3+V8kaArIX/klkE2Xbi0GRLlAgaXtkbzJ3451pCUiuDh0WtSsJV4jOxr5RczR+TQ==
-X-Received: by 2002:a63:581e:0:b0:43c:29a0:6390 with SMTP id
- m30-20020a63581e000000b0043c29a06390mr3818463pgb.552.1663914893025; 
- Thu, 22 Sep 2022 23:34:53 -0700 (PDT)
+ bh=Kg+p/+rNL9zwSFLa01Tro2dNPYnaSbxfZhZdLBxXQKI=;
+ b=ZgyhnADgRbkHcIo0OGahV2Qv+kq22VFCSINOPIPMsMwSm2DAgZd+g9ejwt41woCqfs
+ CV+ZYGngp7JYVg7R6RC/Cpp+i+G2YDPlzZBHRLvwmPLZezVDeaGc7CeIFihXhuvHgpwn
+ J9fC7rBPzNliUP65ZZh5g+isdQYYEjxO1ebudZHLwplQrbV6FwtRIIlFU/Vh1nLVf38d
+ x4y7XzSlxIiVhoF+ZTQwNERAsV3cJNJfEVNoRb0ANZ5Dku78X6ZqTHMtjYNPqe+rg2Ah
+ 1G1Z4bS0BZT5r0ravKvfHOc4cp/na1bW1vWfkYajFL/x9XOyVe7DIMLoQ7QQ/7xGZClx
+ o2cg==
+X-Gm-Message-State: ACrzQf1ZkOCKXHIfq7DRj81eSJkwCB+DPoiIspOqPDE7YZh2XNgiSYFi
+ akmdagpKVtDJRE5G4BrabWit6cepmnQ=
+X-Google-Smtp-Source: AMsMyM60NtKPkTPMdbQf3h4+rYLoKa6wTrB4OnbFWtoZBKWlqMeQbWEmzt6u3DUGQ4QXAcbVArNHtg==
+X-Received: by 2002:a17:903:2305:b0:178:380f:5246 with SMTP id
+ d5-20020a170903230500b00178380f5246mr7130337plh.146.1663914938175; 
+ Thu, 22 Sep 2022 23:35:38 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- y13-20020a17090a1f4d00b001fd7e56da4csm846784pjy.39.2022.09.22.23.34.51
+ v16-20020a63f210000000b0042a713dd68csm4822230pgh.53.2022.09.22.23.35.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 23:34:52 -0700 (PDT)
+ Thu, 22 Sep 2022 23:35:37 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: ye.xingchen@zte.com.cn
 To: lee@kernel.org
-Subject: [PATCH linux-next] backlight: use sysfs_emit() to instead of
+Subject: [PATCH linux-next] backlight: lp8788: use sysfs_emit() to instead of
  scnprintf()
-Date: Fri, 23 Sep 2022 06:34:48 +0000
-Message-Id: <20220923063448.239259-1-ye.xingchen@zte.com.cn>
+Date: Fri, 23 Sep 2022 06:35:33 +0000
+Message-Id: <20220923063533.239315-1-ye.xingchen@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -81,57 +82,21 @@ Replace the open-code with sysfs_emit() to simplify the code.
 
 Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
- drivers/video/backlight/lm3533_bl.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/video/backlight/lp8788_bl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
-index 1df1b6643c0b..5e2ce9285245 100644
---- a/drivers/video/backlight/lm3533_bl.c
-+++ b/drivers/video/backlight/lm3533_bl.c
-@@ -66,7 +66,7 @@ static ssize_t show_id(struct device *dev,
- {
- 	struct lm3533_bl *bl = dev_get_drvdata(dev);
- 
--	return scnprintf(buf, PAGE_SIZE, "%d\n", bl->id);
-+	return sysfs_emit(buf, "%d\n", bl->id);
- }
- 
- static ssize_t show_als_channel(struct device *dev,
-@@ -75,7 +75,7 @@ static ssize_t show_als_channel(struct device *dev,
- 	struct lm3533_bl *bl = dev_get_drvdata(dev);
- 	unsigned channel = lm3533_bl_get_ctrlbank_id(bl);
- 
--	return scnprintf(buf, PAGE_SIZE, "%u\n", channel);
-+	return sysfs_emit(buf, "%u\n", channel);
- }
- 
- static ssize_t show_als_en(struct device *dev,
-@@ -95,7 +95,7 @@ static ssize_t show_als_en(struct device *dev,
- 	mask = 1 << (2 * ctrlbank);
- 	enable = val & mask;
- 
--	return scnprintf(buf, PAGE_SIZE, "%d\n", enable);
-+	return sysfs_emit(buf, "%d\n", enable);
- }
- 
- static ssize_t store_als_en(struct device *dev,
-@@ -147,7 +147,7 @@ static ssize_t show_linear(struct device *dev,
+diff --git a/drivers/video/backlight/lp8788_bl.c b/drivers/video/backlight/lp8788_bl.c
+index ba42f3fe0c73..00d79c0cfee9 100644
+--- a/drivers/video/backlight/lp8788_bl.c
++++ b/drivers/video/backlight/lp8788_bl.c
+@@ -240,7 +240,7 @@ static ssize_t lp8788_get_bl_ctl_mode(struct device *dev,
  	else
- 		linear = 0;
+ 		strmode = "Invalid mode";
  
--	return scnprintf(buf, PAGE_SIZE, "%x\n", linear);
-+	return sysfs_emit(buf, "%x\n", linear);
+-	return scnprintf(buf, PAGE_SIZE, "%s\n", strmode);
++	return sysfs_emit(buf, "%s\n", strmode);
  }
  
- static ssize_t store_linear(struct device *dev,
-@@ -190,7 +190,7 @@ static ssize_t show_pwm(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-+	return sysfs_emit(buf, "%u\n", val);
- }
- 
- static ssize_t store_pwm(struct device *dev,
+ static DEVICE_ATTR(bl_ctl_mode, S_IRUGO, lp8788_get_bl_ctl_mode, NULL);
 -- 
 2.25.1
