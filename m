@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DAD5E7492
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 09:10:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4325E7494
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 09:10:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71EBD10E446;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69BE910E436;
 	Fri, 23 Sep 2022 07:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAFB10E052;
- Thu, 22 Sep 2022 20:08:39 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id u132so10366161pfc.6;
- Thu, 22 Sep 2022 13:08:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=IJN11SETmy+B9JV6I30KOXoXYKi95lkVmtL9b34Ld0M=;
- b=ixo9+NYtTdPVxDr15roMSGrLMpGCDN4OH3NY6zQwJ/ISHY7skrhFWe/fsORH7fdaPp
- AVhohfxmyHnKgqiytysVmwQmTN5iAcedIg+qWpy+o5y5Qi+XneRF0CxcFejOiiHotoXA
- 2yNOowF9hkh6nCCgFB6Bj0lzWMkx+S+/GAl+5L/8AuClAS7UhZ9dbdsOWIkRQFl2TZ5G
- 7EOP7+wOqZ2/tdPT3Dz/W6NjnTU7YkJ528/K/713bjOk91eohXB1nD3iQkEyirq5ryTC
- 3Hb986HO3rVGnb2dYCno/lW1hADbH9yJQxrRPBa64Atpl2WXBSFQPN3yw/GKBrgFV0+b
- 1+tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=IJN11SETmy+B9JV6I30KOXoXYKi95lkVmtL9b34Ld0M=;
- b=JgYXsOxJJBbon1TLzfTuM2GSvRGKILd3Uv5LKP29vqZ4bf3UMN5g3K7sIfg8TLZY6U
- 2nndl7kcYjO/kIvxvjuZUYYynFsmVj/pUSabP1ow2IU2/C11TcrLrhfOKCPIk5SGPVIE
- 5DTmT4poT1BosfhWQp9MoPga2cRq+FuKcTWiylMKnncdD9sWRYtZiDslMXVDxt/gNWnx
- 3xah9QjMkY7Z2R6FHo/sd+2AiMNLQ6Qa4xEaFcA76PMKVAtFq/zYXmSZhajrrc1JAo/s
- A+aA5SWa8nayVLxbzVmyt7qFeywjItdEkW1Xvk1VvnTYJRpSsvMZVKOdDxFqqdoni1jM
- yAgQ==
-X-Gm-Message-State: ACrzQf2kdFhxjz8fYMKKLOzE4Wz9cPGRQfk6zojG61+aF1modIOXgb7M
- y5hTWQATetqK27ru9C0A9d5gSns7fjHX1w==
-X-Google-Smtp-Source: AMsMyM65xpLSZzi723yIDdhumvp/E3d7HQ+HQ1pZXctUG3QhPsr4efXDUHl2y4bJE6f4oAaFQl9d0g==
-X-Received: by 2002:a05:6a00:2446:b0:528:5da9:cc7 with SMTP id
- d6-20020a056a00244600b005285da90cc7mr5408473pfj.51.1663877318382; 
- Thu, 22 Sep 2022 13:08:38 -0700 (PDT)
-Received: from localhost.localdomain (lily-optiplex-3070.dynamic.ucsd.edu.
- [2607:f720:1300:3033::1:4dd]) by smtp.googlemail.com with ESMTPSA id
- o64-20020a625a43000000b0053e9d14e51asm4849503pfb.98.2022.09.22.13.08.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 13:08:37 -0700 (PDT)
-From: Li Zhong <floridsleeves@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH v1] drivers/amd/kv_dpm: check the return value of
- amdgpu_kv_smc_bapm_enable
-Date: Thu, 22 Sep 2022 13:06:13 -0700
-Message-Id: <20220922200613.1703624-1-floridsleeves@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B66910E16D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 01:40:13 +0000 (UTC)
+X-UUID: 49cb537453ab418ebccefc0028c4541b-20220923
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=L0ySG7zkTVALi9ZIGfNEYqExvcGnXcFus3R5RMwOhuk=; 
+ b=mkDm+FCwwylKtW9Ug8do3fV7IKBg4q1/+P93MkrqdarmNCUU8Dt0bN3CaHff6biBw1bHEg2+A+c/1GKMo7ckzRele2wxU8AKKdhrIN9wp4oDMVvSlGSurOERmALjeOdINbxkuAPpZZiSkoZK36L6o/c1dgH8BFRLz4ayPJK5vSs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:87249aa3-9636-48b7-8580-ed7ed403b29c, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.11, REQID:87249aa3-9636-48b7-8580-ed7ed403b29c, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:39a5ff1, CLOUDID:2c7df0e3-87f9-4bb0-97b6-34957dc0fbbe,
+ B
+ ulkID:220923094010X697IQWJ,BulkQuantity:0,Recheck:0,SF:28|17|19|48|823|824
+ ,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL
+ :0
+X-UUID: 49cb537453ab418ebccefc0028c4541b-20220923
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <liangxu.xu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 192630104; Fri, 23 Sep 2022 09:40:08 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 23 Sep 2022 09:40:07 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Fri, 23 Sep 2022 09:40:06 +0800
+From: <liangxu.xu@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>, 
+ <matthias.bgg@gmail.com>, <jitao.shi@mediatek.com>
+Subject: [PATCH] dt-bindings: display: mediatek: dp: Add compatible for
+ MediaTek MT8188
+Date: Fri, 23 Sep 2022 09:39:53 +0800
+Message-ID: <20220923013953.5043-1-liangxu.xu@mediatek.com>
+X-Mailer: git-send-email 2.12.5
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-Mailman-Approved-At: Fri, 23 Sep 2022 07:09:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,42 +69,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lijo.lazar@amd.com, airlied@linux.ie, Xinhui.Pan@amd.com,
- Li Zhong <floridsleeves@gmail.com>, alexander.deucher@amd.com,
- evan.quan@amd.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, liangxu xu <liangxu.xu@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check the return value of amdgpu_kv_smc_bapm_enable() and log the error
-when it fails.
+From: liangxu xu <liangxu.xu@mediatek.com>
 
-Signed-off-by: Li Zhong <floridsleeves@gmail.com>
+Add dt-binding documentation of dp for MediaTek MT8188 SoC.
+
+Signed-off-by: liangxu xu <liangxu.xu@mediatek.com>
 ---
- drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/mediatek/mediatek,dp.yaml       | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-index 8fd0782a2b20..d392256effe2 100644
---- a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-+++ b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-@@ -1384,13 +1384,16 @@ static int kv_dpm_enable(struct amdgpu_device *adev)
- static void kv_dpm_disable(struct amdgpu_device *adev)
- {
- 	struct kv_power_info *pi = kv_get_pi(adev);
-+	int err;
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+index ff781f2174a0..2aef1eb32e11 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+@@ -21,6 +21,8 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - mediatek,mt8188-dp-tx
++      - mediatek,mt8188-edp-tx
+       - mediatek,mt8195-dp-tx
+       - mediatek,mt8195-edp-tx
  
- 	amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
- 		       AMDGPU_THERMAL_IRQ_LOW_TO_HIGH);
- 	amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
- 		       AMDGPU_THERMAL_IRQ_HIGH_TO_LOW);
- 
--	amdgpu_kv_smc_bapm_enable(adev, false);
-+	err = amdgpu_kv_smc_bapm_enable(adev, false);
-+	if (ret)
-+		DRM_ERROR("amdgpu_kv_smc_bapm_enable failed\n");
- 
- 	if (adev->asic_type == CHIP_MULLINS)
- 		kv_enable_nb_dpm(adev, false);
 -- 
 2.25.1
 
