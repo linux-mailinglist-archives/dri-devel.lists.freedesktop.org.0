@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2805E81CE
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 20:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129C55E81E9
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 20:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEFA410E851;
-	Fri, 23 Sep 2022 18:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1F2F10E861;
+	Fri, 23 Sep 2022 18:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4825B10E851
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 18:33:32 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0CD910E4D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 18:41:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B5A4D60C57
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 18:33:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 16676C433C1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 18:33:31 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3EEDEB81AFD
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 18:41:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0059DC4314C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 18:41:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663958011;
- bh=78pYSvTOfAETZhc3sTgKey1ojYV+o5ALcOSewLvjhe4=;
+ s=k20201202; t=1663958511;
+ bh=ZCG2YzHHbHmGXoZJLfe6oTh3QikiJ/sMuC+17q6DAWI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Kzp5kiu4lgDgb4+/R7xrbkY9UdL1wmgXf6umyi6nyFpUcleWG5zueb1MVmjuO7voF
- 4jbiJuAZGJuAMmtNI3mZE3EpSDp2ZGonam/w11XOHji7ri0u8z1dsgU24lYmh75jAa
- EUi9fh6HoPSU7SVc7Pg1uc1X1cLa/t5zSEzQccbZWXxRDg7hkOISMHVCaaFwoRS743
- 1lhvGg2P+9Udks2CsBA+a9MxdJ4u0CPIcFuZWyKneho3C1sakvJFLn956sBxNW+/Ta
- jJVfCPJRGYrncYT2E1FCgusA4iXVevSsRsUqgwgmtBsODUHnfQfcssDKoXa82yJ4AZ
- wnSDuZzHYDc6g==
+ b=cgUIRwfztURaMGOI/uLTG0OI94HXZXxk/xeOp6+8kD1aQf+urPMYuRaMzrCHTkgRU
+ 7jJvByCpOOBVLxutfW3OQlzwUf9lo/rQjgtmEcB+YdjBwA6UjDvAGp5qOISMtfaJ7B
+ Q59Kej13F08xvWylbtDe4q6z9ms51vE1wlWRRoEHo30FNFVrIy35ew4Bs8Zk+vt1pm
+ lh7KN8k8qa4UKVlfhadNfCbStQ0nNnb2eTfWjiV47lfkV+gB9ooBuZpgYyF0dKepHy
+ +E+j+yIG0tSn55bnJ8JtrgBZlL5QGV3VCX+RaoMMEjfYRIQMLYyHZFrAL7BUvW9lfb
+ diPlp3SfCn2iQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 011D7C433E7; Fri, 23 Sep 2022 18:33:31 +0000 (UTC)
+ from userid 48) id DF74DC433E7; Fri, 23 Sep 2022 18:41:50 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216516] s2ram freezes screen (Ryzen-5650U incl. Radeon GPU)
-Date: Fri, 23 Sep 2022 18:33:30 +0000
+Date: Fri, 23 Sep 2022 18:41:50 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,14 +44,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Who: mario.limonciello@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216516-2300-oW6lpBGwRT@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216516-2300-XD3Ebw2Zaw@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216516-2300@https.bugzilla.kernel.org/>
 References: <bug-216516-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,21 +76,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216516
 
---- Comment #8 from kolAflash (kolAflash@kolahilft.de) ---
-Created attachment 301855
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301855&action=3Dedit
-kernel log for s2idle: v6.0-rc6 and v6.0-rc6 with 7123d39dc reverted
+--- Comment #9 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+You're missing CONFIG_AMD_PMC.
 
-@Mario
-
-Sadly I've to report, that the problem stays the same with s2idle using
-v6.0-rc6.
-And reverting 7123d39dc also makes the bug disappear when using s2idle.
-Find the logs attached.
-
-As you said, I've reverted my ACPI modifications and /sys/power/mem_sleep n=
-ow
-only contains s2idle.
+/var/log/messages:2022-09-23T20:19:35.187256+02:00 myhost kernel: [=20=20
+85.619055][ T3150] amdgpu 0000:05:00.0: amdgpu: Power consumption will be
+higher as the kernel has not been compiled with CONFIG_AMD_PMC.
 
 --=20
 You may reply to this email to add a comment.
