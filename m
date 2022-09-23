@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C24C5E7C27
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 15:45:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B30F85E7C3A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 15:49:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3564210E551;
-	Fri, 23 Sep 2022 13:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B163110E7E3;
+	Fri, 23 Sep 2022 13:48:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1044 seconds by postgrey-1.36 at gabe;
- Fri, 23 Sep 2022 13:45:30 UTC
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4217A10E551
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 13:45:30 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MYtCG1H9kz1P6tt;
- Fri, 23 Sep 2022 21:23:54 +0800 (CST)
-Received: from kwepemm600014.china.huawei.com (7.193.23.54) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 23 Sep 2022 21:28:03 +0800
-Received: from huawei.com (10.90.53.225) by kwepemm600014.china.huawei.com
- (7.193.23.54) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 23 Sep
- 2022 21:28:03 +0800
-From: Zhang Qilong <zhangqilong3@huawei.com>
-To: <tomba@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm: omapdrm: dss: using pm_runtime_resume_and_get
- instead of pm_runtime_get_sync
-Date: Fri, 23 Sep 2022 21:31:34 +0800
-Message-ID: <20220923133134.66908-1-zhangqilong3@huawei.com>
-X-Mailer: git-send-email 2.26.0.106.g9fadedd
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE4B10E7E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 13:48:52 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ n35-20020a05600c502300b003b4924c6868so5272988wmr.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 06:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=BUzRP0p1X0Mnqesdqq2xF7++oYvstTmhDzD4eVSQyhg=;
+ b=SiXdDxqx+GDrm/8ZjlHEFRVwUyC85IYk9Z52voujerHdnBdPfwJRaa0DdiJC8rWP15
+ sUCnMhWfYEbAJYF7Qx8vajCwQUsb8Ct2cAD5j/MYwFoODzUfy5JNawruf401Zte0BoOD
+ hvXmcrMPnjdqLor2pwoCfb5LUL7E13Zfe/YuQwtkhR0W2PiqAGLeuqnmwP6iSE1JGfaf
+ JnR1U8BEvLK0JG4iDvZVzXm2N+lyfkcmmK2kppo9HAE9zxwMqeZwXf4jLV66B+O8rGpO
+ o+MCnTSiWe9fz1L36E/vB9UKlSBrzY6LEqvdgIKKTLzUTKmrQsSHwcDTq9LVbGxb3/Yu
+ uVjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=BUzRP0p1X0Mnqesdqq2xF7++oYvstTmhDzD4eVSQyhg=;
+ b=eFQtSuWaIRUWhoxX/tQ7OBf8fJd5jZ082fU9Zi97Iuv3eUbs1gL+OA1sIw1itQ8T7d
+ +EIEOBeW2nJXtlQ4D7zkPEOLpm/80EdDDdO4yFHoh43H407PxOVDfosN9dzKa3tIrNks
+ AbmLUnGraeTrPU1FXLE+STK7bRHoKrUyJoVdu7j/ri74asUXkikj74ktoH+oRajx1SY4
+ 5sGzBk9pdm/m4Ki4Jp3l1omSkB+ppN1zzfC1P2p8eGHzxwNmJmwhPAN4OJDy0vzXl0g/
+ dJRQP+g1+svxI50B+jg0srnxyuZVvMHlpAVx9Y4zLjwSk6i6kFgTZxtvSZeLozY0K8Gz
+ lcGw==
+X-Gm-Message-State: ACrzQf0XAgQHx9GvrFq+cP++Xc/A/+SNrUo+O0vCOc24b9xWrXg+s4gL
+ LJpXUccjD4QEASHqXKddTBM8k+ffl270fm++6HOXnw==
+X-Google-Smtp-Source: AMsMyM7PJMK82vyl7ByS7j2Vrx7R/4LVO8mCaCKa5Y2qghQqx/YeAnEjZWnj+fmXqsQ6LcGtZMyUbfqS+mvspNukOkw=
+X-Received: by 2002:a05:600c:524d:b0:3b4:91ee:933c with SMTP id
+ fc13-20020a05600c524d00b003b491ee933cmr12517071wmb.100.1663940930533; Fri, 23
+ Sep 2022 06:48:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.225]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemm600014.china.huawei.com (7.193.23.54)
-X-CFilter-Loop: Reflected
+References: <20220923124904.1373936-1-victor.liu@nxp.com>
+In-Reply-To: <20220923124904.1373936-1-victor.liu@nxp.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 23 Sep 2022 15:48:13 +0200
+Message-ID: <CAPDyKFqdHX=o4V4K8GdCr4wQ5sjr=JMG6CFAy1849=CtfoSgRQ@mail.gmail.com>
+Subject: Re: [PATCH v2] PM: runtime: Return properly from rpm_resume() if
+ dev->power.needs_force_resume flag is set
+To: Liu Ying <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,131 +65,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Len Brown <len.brown@intel.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-imx@nxp.com, Pavel Machek <pavel@ucw.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using the newest pm_runtime_resume_and_get is more appropriate
-for simplifing code here.
+On Fri, 23 Sept 2022 at 14:47, Liu Ying <victor.liu@nxp.com> wrote:
+>
+> After a device transitions to sleep state through it's system suspend
+> callback pm_runtime_force_suspend(), the device's driver may still try
+> to do runtime PM for the device(runtime suspend first and then runtime
+> resume) although runtime PM is disabled by that callback.  The runtime
+> PM operations would not touch the device effectively and the device is
+> assumed to be resumed through it's system resume callback
+> pm_runtime_force_resume().
 
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
----
- drivers/gpu/drm/omapdrm/dss/dispc.c | 6 ++----
- drivers/gpu/drm/omapdrm/dss/dsi.c   | 6 ++----
- drivers/gpu/drm/omapdrm/dss/dss.c   | 6 ++----
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 6 ++----
- drivers/gpu/drm/omapdrm/dss/hdmi5.c | 6 ++----
- drivers/gpu/drm/omapdrm/dss/venc.c  | 6 ++----
- 6 files changed, 12 insertions(+), 24 deletions(-)
+This sounds like a fragile use case to me. In principle you want to
+allow the device to be runtime resumed/suspended, after the device has
+already been put into a low power state through the regular system
+suspend callback. Normally it seems better to prevent this from
+happening, completely.
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-index 0ee344ebcd1c..b6db72cf25f4 100644
---- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-@@ -652,11 +652,9 @@ int dispc_runtime_get(struct dispc_device *dispc)
- 
- 	DSSDBG("dispc_runtime_get\n");
- 
--	r = pm_runtime_get_sync(&dispc->pdev->dev);
--	if (WARN_ON(r < 0)) {
--		pm_runtime_put_noidle(&dispc->pdev->dev);
-+	r = pm_runtime_resume_and_get(&dispc->pdev->dev);
-+	if (WARN_ON(r < 0))
- 		return r;
--	}
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index a6845856cbce..7e28e314d34c 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -704,11 +704,9 @@ static int dsi_runtime_get(struct dsi_data *dsi)
- 
- 	DSSDBG("dsi_runtime_get\n");
- 
--	r = pm_runtime_get_sync(dsi->dev);
--	if (WARN_ON(r < 0)) {
--		pm_runtime_put_noidle(dsi->dev);
-+	r = pm_runtime_resume_and_get(dsi->dev);
-+	if (WARN_ON(r < 0))
- 		return r;
--	}
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-index c4febb861910..0e32ddf0e24a 100644
---- a/drivers/gpu/drm/omapdrm/dss/dss.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-@@ -857,11 +857,9 @@ int dss_runtime_get(struct dss_device *dss)
- 
- 	DSSDBG("dss_runtime_get\n");
- 
--	r = pm_runtime_get_sync(&dss->pdev->dev);
--	if (WARN_ON(r < 0)) {
--		pm_runtime_put_noidle(&dss->pdev->dev);
-+	r = pm_runtime_resume_and_get(&dss->pdev->dev);
-+	if (WARN_ON(r < 0))
- 		return r;
--	}
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index a8a75dc24751..e802d42f12fe 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -43,11 +43,9 @@ static int hdmi_runtime_get(struct omap_hdmi *hdmi)
- 
- 	DSSDBG("hdmi_runtime_get\n");
- 
--	r = pm_runtime_get_sync(&hdmi->pdev->dev);
--	if (WARN_ON(r < 0)) {
--		pm_runtime_put_noidle(&hdmi->pdev->dev);
-+	r = pm_runtime_resume_and_get(&hdmi->pdev->dev);
-+	if (WARN_ON(r < 0))
- 		return r;
--	}
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index 868712cd8a3a..96f78aa2b0ba 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -44,11 +44,9 @@ static int hdmi_runtime_get(struct omap_hdmi *hdmi)
- 
- 	DSSDBG("hdmi_runtime_get\n");
- 
--	r = pm_runtime_get_sync(&hdmi->pdev->dev);
--	if (WARN_ON(r < 0)) {
--		pm_runtime_put_noidle(&hdmi->pdev->dev);
-+	r = pm_runtime_resume_and_get(&hdmi->pdev->dev);
-+	if (WARN_ON(r < 0))
- 		return r;
--	}
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-index 4480b69ab5a7..8c48f222351b 100644
---- a/drivers/gpu/drm/omapdrm/dss/venc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-@@ -360,11 +360,9 @@ static int venc_runtime_get(struct venc_device *venc)
- 
- 	DSSDBG("venc_runtime_get\n");
- 
--	r = pm_runtime_get_sync(&venc->pdev->dev);
--	if (WARN_ON(r < 0)) {
--		pm_runtime_put_noidle(&venc->pdev->dev);
-+	r = pm_runtime_resume_and_get(&venc->pdev->dev);
-+	if (WARN_ON(r < 0))
- 		return r;
--	}
- 	return 0;
- }
- 
--- 
-2.25.1
+That said, in this case, I wonder if a better option would be to point
+->suspend_late() to pm_runtime_force_suspend() and ->resume_early() to
+pm_runtime_force_resume(), rather than using the regular
+->suspend|resume() callbacks. This should avoid the problem, I think,
+no?
 
+Note that, the PM core also disables runtime PM for the device in
+__device_suspend_late(). For good reasons.
+
+[...]
+
+Kind regards
+Uffe
