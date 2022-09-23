@@ -2,72 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72F75E7594
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6EE5E75B0
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:27:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED5DF10E4C1;
-	Fri, 23 Sep 2022 08:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0B910E4FC;
+	Fri, 23 Sep 2022 08:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8312810E4D9;
- Fri, 23 Sep 2022 08:19:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2B795219EA;
- Fri, 23 Sep 2022 08:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663921149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Rx3y672y46+nTCVNegtB0oUgA4L3IIo1WlOUJUm8m1o=;
- b=BYAsK7a8fMARL6BFi16gNaI5ymTYoYhqJx3eCBDy3VKCFQvEHUwo8ux/qjLYXNF4fp4wtX
- vkOkfROy38FvcKMeOQcG1gcrurcYvd+hFxYLCApckghTrT/MhKEKTGOYtI5Uqcqd3dlnmL
- CJPhJ5h7HzXsi61WdZ8Am02m1J9Sl8c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663921149;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Rx3y672y46+nTCVNegtB0oUgA4L3IIo1WlOUJUm8m1o=;
- b=nEfZbU/LSsrT0is/M93kjR9FW6e/wgsi/Bphf5Z1/U4pb5pHsavLoK9/gGbpS6U5B3IOQD
- jwndgQMgHUDDwoCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9EB8013AA5;
- Fri, 23 Sep 2022 08:19:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qw/aJfxrLWNVBgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 23 Sep 2022 08:19:08 +0000
-Message-ID: <fa71ae1c-f9ca-167c-7993-b698ea3473a0@suse.de>
-Date: Fri, 23 Sep 2022 10:19:08 +0200
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E483910E4FC;
+ Fri, 23 Sep 2022 08:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663921611; x=1695457611;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=A1SfIwDPy0JQXB0sK0hI7tDxlA2G9LbCtWyHjRWJmcQ=;
+ b=To0tKGnu3lAV4pgubev0LxVSYYukgHWFEeRCg1NoRvdjYChnbM+EOT6D
+ MR5NqLiSm1nXkg1ol7giDTKoepRCclA1kfuqeaKuVt54pptGL3sF6+aV4
+ nld5P890qz5vaXLG5vbYVXNX3PaGUDeuMvgzrlF3/n3t6NqDI8y/pnOE0
+ 2VrIXjAtoa7B5Mj2ycECpZvIlYM22dqzc9/fL6r1/R/X4qclfjnWG4BxD
+ 7nPctwmUdtiatm91g6mrnC2SMP8xddrXIJtKy3FeVmIB6NfQfMRuwTzRR
+ ylh+I0VN8ICxT43bUNOGiL3hvf+T3XilwplMU8+y70h8P7V05D7ZcitAe w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362354244"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="362354244"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 01:26:50 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="622444104"
+Received: from ngoncia-mobl2.ger.corp.intel.com (HELO
+ paris.ger.corp.intel.com) ([10.249.143.58])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 01:26:44 -0700
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v11 0/9] Fixes integer overflow or integer truncation issues
+ in page lookups, ttm place configuration and scatterlist creation
+Date: Fri, 23 Sep 2022 11:26:19 +0300
+Message-Id: <20220923082628.3061408-1-gwan-gyeong.mun@intel.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 06/33] drm/connector: Rename legacy TV property
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-6-f733a0ed9f90@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-6-f733a0ed9f90@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Myo4r0A9LQl8C2ZYWbIK00og"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,277 +56,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
+ andi.shyti@linux.intel.com, keescook@chromium.org, jani.nikula@intel.com,
+ ndesaulniers@google.com, dlatypov@google.com, linux@rasmusvillemoes.dk,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, andrzej.hajda@intel.com, matthew.auld@intel.com,
+ airlied@redhat.com, mchehab@kernel.org, vitor@massaru.org,
+ nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Myo4r0A9LQl8C2ZYWbIK00og
-Content-Type: multipart/mixed; boundary="------------0ao73SaEXjAHNJoluo84H1x1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Message-ID: <fa71ae1c-f9ca-167c-7993-b698ea3473a0@suse.de>
-Subject: Re: [PATCH v2 06/33] drm/connector: Rename legacy TV property
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-6-f733a0ed9f90@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-6-f733a0ed9f90@cerno.tech>
+This patch series fixes integer overflow or integer truncation issues in
+page lookups, ttm place configuration and scatterlist creation, etc.
+We need to check that we avoid integer overflows when looking up a page,
+and so fix all the instances where we have mistakenly used a plain integer
+instead of a more suitable long.
+And there is an impedance mismatch between the scatterlist API using
+unsigned int and our memory/page accounting in unsigned long. That is we
+may try to create a scatterlist for a large object that overflows returning
+a small table into which we try to fit very many pages. As the object size
+is under the control of userspace, we have to be prudent and catch the
+conversion errors. To catch the implicit truncation as we switch from
+unsigned long into the scatterlist's unsigned int, we use improved
+overflows_type check and report E2BIG prior to the operation. This is
+already used in our create ioctls to indicate if the uABI request is simply
+too large for the backing store. 
+And ttm place also has the same problem with scatterlist creation,
+and we fix the integer truncation problem with the way approached by
+scatterlist creation.
+And It corrects the error code to return -E2BIG when creating gem objects
+using ttm or shmem, if the size is too large in each case.
+In order to provide a common macro, it moves and adds a few utility macros
+into overflow/compiler_types header.
+It introduces assert_same_type() assert_same_typable() macros to catch type
+mismatch while compiling. The existing typecheck() macro outputs build
+warnings, but the newly added assert_same_type() macro uses the
+static_assert macro (which uses _Static_assert keyword and it introduced in
+C11) to generate a build break when the types are different and can be used
+to detect explicit build errors. Unlike the assert_same_type() macro,
+assert_same_typable() macro allows a constant value as the second argument.
+Since static_assert is used at compile time and it requires
+constant-expression as an argument [2][3], overflows_type_ret_const_expr()
+is newly added. the overflows_type() has the same behavior, but the macro
+uses __builtin_add_overflow() internally, and __builtin_add_overflows
+returns a bool type [4], so it is difficult to use as an argument of
+_Static_assert. The assert_same_type and assert_same_typable macros have
+been added to compiler_types.h, but the overflows_type_ret_const_expr macro
+has been added to overflow.h So, overflow.h has to be included to use
+assert_same_typable which internally uses overflows_type_ret_const_expr.
+And it adds unit tests for overflows_type, overflows_type_ret_const_expr,
+assert_same_type and assert_same_typable. The overflows_type has been added
+as well to compare whether the overflows_type_ret_const_expr unit test has
+the same as the result. And it also introduces check_assign() and
+check_assign_user_ptr() macros to perform an assigning source value into
+the destination pointer along with an overflow check.
+In order to implemente check_assign(), overflows_type() on top of updated
+check_add_overflow() macro, this series include the patch which came from
+Kees [1] (this patch is under reviewing from other patch mail). 
 
---------------0ao73SaEXjAHNJoluo84H1x1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+[1] https://lore.kernel.org/all/202208311040.C6CA8253@keescook/
+[2] https://en.cppreference.com/w/c/language/_Static_assert
+[3] C11 standard (ISO/IEC 9899:2011): 6.7.10 Static assertions
+[4] https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html
+    6.56 Built-in Functions to Perform Arithmetic with Overflow Checking
+    Built-in Function: bool __builtin_add_overflow (type1 a, type2 b,
+                                                    type3 *res)
 
-SGkNCg0KQW0gMjIuMDkuMjIgdW0gMTY6MjUgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBU
-aGUgY3VycmVudCB0dl9tb2RlIGhhcyBkcml2ZXItc3BlY2lmaWMgdmFsdWVzIHRoYXQgZG9u
-J3QgYWxsb3cgdG8NCj4gZWFzaWx5IHNoYXJlIGNvZGUgdXNpbmcgaXQsIGVpdGhlciBhdCB0
-aGUgdXNlcnNwYWNlIG9yIGtlcm5lbCBsZXZlbC4NCj4gDQo+IFNpbmNlIHdlJ3JlIGdvaW5n
-IHRvIGludHJvZHVjZSBhIG5ldywgZ2VuZXJpYywgcHJvcGVydHkgdGhhdCBmaXQgdGhlDQo+
-IHNhbWUgcHVycG9zZSwgbGV0J3MgcmVuYW1lIHRoaXMgb25lIHRvIGxlZ2FjeV90dl9tb2Rl
-IHRvIG1ha2UgaXQNCj4gb2J2aW91cyB3ZSBzaG91bGQgbW92ZSBhd2F5IGZyb20gaXQuDQo+
-IA0KPiBTaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVjaD4N
-Cg0KSXQncyBub3Qgd3JvbmcsIGJ1dCAnbGVnYWN5JyBpcyBhbHJlYWR5IG92ZXJsb2FkZWQg
-d2l0aCBtZWFuaW5nLiBJZiB5b3UgDQpjYW4sIG1heWJlIG5hbWUgaXQgJ2RyaXZlcl90dl9t
-b2RlX3Byb3BlcnR5JyBvciANCidjdXN0b21fdHZfbW9kZV9wcm9wZXJ0eScgaW5zdGVhZC4N
-Cg0KQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0K
-DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFwaS5j
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFwaS5jDQo+IGluZGV4IGMwNmQwNjM5
-ZDU1Mi4uN2YyYjlhMDdmYmRmIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2F0b21pY191YXBpLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFw
-aS5jDQo+IEBAIC02OTgsOCArNjk4LDggQEAgc3RhdGljIGludCBkcm1fYXRvbWljX2Nvbm5l
-Y3Rvcl9zZXRfcHJvcGVydHkoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwNCj4g
-ICAJCXN0YXRlLT50di5tYXJnaW5zLnRvcCA9IHZhbDsNCj4gICAJfSBlbHNlIGlmIChwcm9w
-ZXJ0eSA9PSBjb25maWctPnR2X2JvdHRvbV9tYXJnaW5fcHJvcGVydHkpIHsNCj4gICAJCXN0
-YXRlLT50di5tYXJnaW5zLmJvdHRvbSA9IHZhbDsNCj4gLQl9IGVsc2UgaWYgKHByb3BlcnR5
-ID09IGNvbmZpZy0+dHZfbW9kZV9wcm9wZXJ0eSkgew0KPiAtCQlzdGF0ZS0+dHYubW9kZSA9
-IHZhbDsNCj4gKwl9IGVsc2UgaWYgKHByb3BlcnR5ID09IGNvbmZpZy0+bGVnYWN5X3R2X21v
-ZGVfcHJvcGVydHkpIHsNCj4gKwkJc3RhdGUtPnR2LmxlZ2FjeV9tb2RlID0gdmFsOw0KPiAg
-IAl9IGVsc2UgaWYgKHByb3BlcnR5ID09IGNvbmZpZy0+dHZfYnJpZ2h0bmVzc19wcm9wZXJ0
-eSkgew0KPiAgIAkJc3RhdGUtPnR2LmJyaWdodG5lc3MgPSB2YWw7DQo+ICAgCX0gZWxzZSBp
-ZiAocHJvcGVydHkgPT0gY29uZmlnLT50dl9jb250cmFzdF9wcm9wZXJ0eSkgew0KPiBAQCAt
-ODA4LDggKzgwOCw4IEBAIGRybV9hdG9taWNfY29ubmVjdG9yX2dldF9wcm9wZXJ0eShzdHJ1
-Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLA0KPiAgIAkJKnZhbCA9IHN0YXRlLT50di5t
-YXJnaW5zLnRvcDsNCj4gICAJfSBlbHNlIGlmIChwcm9wZXJ0eSA9PSBjb25maWctPnR2X2Jv
-dHRvbV9tYXJnaW5fcHJvcGVydHkpIHsNCj4gICAJCSp2YWwgPSBzdGF0ZS0+dHYubWFyZ2lu
-cy5ib3R0b207DQo+IC0JfSBlbHNlIGlmIChwcm9wZXJ0eSA9PSBjb25maWctPnR2X21vZGVf
-cHJvcGVydHkpIHsNCj4gLQkJKnZhbCA9IHN0YXRlLT50di5tb2RlOw0KPiArCX0gZWxzZSBp
-ZiAocHJvcGVydHkgPT0gY29uZmlnLT5sZWdhY3lfdHZfbW9kZV9wcm9wZXJ0eSkgew0KPiAr
-CQkqdmFsID0gc3RhdGUtPnR2LmxlZ2FjeV9tb2RlOw0KPiAgIAl9IGVsc2UgaWYgKHByb3Bl
-cnR5ID09IGNvbmZpZy0+dHZfYnJpZ2h0bmVzc19wcm9wZXJ0eSkgew0KPiAgIAkJKnZhbCA9
-IHN0YXRlLT50di5icmlnaHRuZXNzOw0KPiAgIAl9IGVsc2UgaWYgKHByb3BlcnR5ID09IGNv
-bmZpZy0+dHZfY29udHJhc3RfcHJvcGVydHkpIHsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fY29ubmVjdG9yLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rv
-ci5jDQo+IGluZGV4IGUzMTQyYzgxNDJiMy4uZWRlNjAyNTYzOGQ3IDEwMDY0NA0KPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fY29ubmVjdG9yLmMNCj4gQEAgLTE2ODYsMTQgKzE2ODYsMTQgQEAgaW50IGRy
-bV9tb2RlX2NyZWF0ZV90dl9wcm9wZXJ0aWVzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+
-ICAgCWlmIChkcm1fbW9kZV9jcmVhdGVfdHZfbWFyZ2luX3Byb3BlcnRpZXMoZGV2KSkNCj4g
-ICAJCWdvdG8gbm9tZW07DQo+ICAgDQo+IC0JZGV2LT5tb2RlX2NvbmZpZy50dl9tb2RlX3By
-b3BlcnR5ID0NCj4gKwlkZXYtPm1vZGVfY29uZmlnLmxlZ2FjeV90dl9tb2RlX3Byb3BlcnR5
-ID0NCj4gICAJCWRybV9wcm9wZXJ0eV9jcmVhdGUoZGV2LCBEUk1fTU9ERV9QUk9QX0VOVU0s
-DQo+ICAgCQkJCSAgICAibW9kZSIsIG51bV9tb2Rlcyk7DQo+IC0JaWYgKCFkZXYtPm1vZGVf
-Y29uZmlnLnR2X21vZGVfcHJvcGVydHkpDQo+ICsJaWYgKCFkZXYtPm1vZGVfY29uZmlnLmxl
-Z2FjeV90dl9tb2RlX3Byb3BlcnR5KQ0KPiAgIAkJZ290byBub21lbTsNCj4gICANCj4gICAJ
-Zm9yIChpID0gMDsgaSA8IG51bV9tb2RlczsgaSsrKQ0KPiAtCQlkcm1fcHJvcGVydHlfYWRk
-X2VudW0oZGV2LT5tb2RlX2NvbmZpZy50dl9tb2RlX3Byb3BlcnR5LA0KPiArCQlkcm1fcHJv
-cGVydHlfYWRkX2VudW0oZGV2LT5tb2RlX2NvbmZpZy5sZWdhY3lfdHZfbW9kZV9wcm9wZXJ0
-eSwNCj4gICAJCQkJICAgICAgaSwgbW9kZXNbaV0pOw0KPiAgIA0KPiAgIAlkZXYtPm1vZGVf
-Y29uZmlnLnR2X2JyaWdodG5lc3NfcHJvcGVydHkgPQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2d1ZC9ndWRfY29ubmVjdG9yLmMgYi9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1
-ZF9jb25uZWN0b3IuYw0KPiBpbmRleCBmYTYzNjIwNmYyMzIuLjg2ZTk5MmIyMTA4YiAxMDA2
-NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfY29ubmVjdG9yLmMNCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfY29ubmVjdG9yLmMNCj4gQEAgLTMwMyw3ICsz
-MDMsNyBAQCBzdGF0aWMgaW50IGd1ZF9jb25uZWN0b3JfYXRvbWljX2NoZWNrKHN0cnVjdCBk
-cm1fY29ubmVjdG9yICpjb25uZWN0b3IsDQo+ICAgCSAgICBvbGRfc3RhdGUtPnR2Lm1hcmdp
-bnMucmlnaHQgIT0gbmV3X3N0YXRlLT50di5tYXJnaW5zLnJpZ2h0IHx8DQo+ICAgCSAgICBv
-bGRfc3RhdGUtPnR2Lm1hcmdpbnMudG9wICE9IG5ld19zdGF0ZS0+dHYubWFyZ2lucy50b3Ag
-fHwNCj4gICAJICAgIG9sZF9zdGF0ZS0+dHYubWFyZ2lucy5ib3R0b20gIT0gbmV3X3N0YXRl
-LT50di5tYXJnaW5zLmJvdHRvbSB8fA0KPiAtCSAgICBvbGRfc3RhdGUtPnR2Lm1vZGUgIT0g
-bmV3X3N0YXRlLT50di5tb2RlIHx8DQo+ICsJICAgIG9sZF9zdGF0ZS0+dHYubGVnYWN5X21v
-ZGUgIT0gbmV3X3N0YXRlLT50di5sZWdhY3lfbW9kZSB8fA0KPiAgIAkgICAgb2xkX3N0YXRl
-LT50di5icmlnaHRuZXNzICE9IG5ld19zdGF0ZS0+dHYuYnJpZ2h0bmVzcyB8fA0KPiAgIAkg
-ICAgb2xkX3N0YXRlLT50di5jb250cmFzdCAhPSBuZXdfc3RhdGUtPnR2LmNvbnRyYXN0IHx8
-DQo+ICAgCSAgICBvbGRfc3RhdGUtPnR2LmZsaWNrZXJfcmVkdWN0aW9uICE9IG5ld19zdGF0
-ZS0+dHYuZmxpY2tlcl9yZWR1Y3Rpb24gfHwNCj4gQEAgLTQyNCw3ICs0MjQsNyBAQCBndWRf
-Y29ubmVjdG9yX3Byb3BlcnR5X2xvb2t1cChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVj
-dG9yLCB1MTYgcHJvcCkNCj4gICAJY2FzZSBHVURfUFJPUEVSVFlfVFZfQk9UVE9NX01BUkdJ
-TjoNCj4gICAJCXJldHVybiBjb25maWctPnR2X2JvdHRvbV9tYXJnaW5fcHJvcGVydHk7DQo+
-ICAgCWNhc2UgR1VEX1BST1BFUlRZX1RWX01PREU6DQo+IC0JCXJldHVybiBjb25maWctPnR2
-X21vZGVfcHJvcGVydHk7DQo+ICsJCXJldHVybiBjb25maWctPmxlZ2FjeV90dl9tb2RlX3By
-b3BlcnR5Ow0KPiAgIAljYXNlIEdVRF9QUk9QRVJUWV9UVl9CUklHSFRORVNTOg0KPiAgIAkJ
-cmV0dXJuIGNvbmZpZy0+dHZfYnJpZ2h0bmVzc19wcm9wZXJ0eTsNCj4gICAJY2FzZSBHVURf
-UFJPUEVSVFlfVFZfQ09OVFJBU1Q6DQo+IEBAIC00NTQsNyArNDU0LDcgQEAgc3RhdGljIHVu
-c2lnbmVkIGludCAqZ3VkX2Nvbm5lY3Rvcl90dl9zdGF0ZV92YWwodTE2IHByb3AsIHN0cnVj
-dCBkcm1fdHZfY29ubmVjdG8NCj4gICAJY2FzZSBHVURfUFJPUEVSVFlfVFZfQk9UVE9NX01B
-UkdJTjoNCj4gICAJCXJldHVybiAmc3RhdGUtPm1hcmdpbnMuYm90dG9tOw0KPiAgIAljYXNl
-IEdVRF9QUk9QRVJUWV9UVl9NT0RFOg0KPiAtCQlyZXR1cm4gJnN0YXRlLT5tb2RlOw0KPiAr
-CQlyZXR1cm4gJnN0YXRlLT5sZWdhY3lfbW9kZTsNCj4gICAJY2FzZSBHVURfUFJPUEVSVFlf
-VFZfQlJJR0hUTkVTUzoNCj4gICAJCXJldHVybiAmc3RhdGUtPmJyaWdodG5lc3M7DQo+ICAg
-CWNhc2UgR1VEX1BST1BFUlRZX1RWX0NPTlRSQVNUOg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2kyYy9jaDcwMDZfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTJjL2NoNzAw
-Nl9kcnYuYw0KPiBpbmRleCBiOTFlNDhkMjE5MGQuLmQyOWI2M2ZkNjE3OCAxMDA2NDQNCj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2kyYy9jaDcwMDZfZHJ2LmMNCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2kyYy9jaDcwMDZfZHJ2LmMNCj4gQEAgLTI2NCw3ICsyNjQsNyBAQCBzdGF0
-aWMgaW50IGNoNzAwNl9lbmNvZGVyX2NyZWF0ZV9yZXNvdXJjZXMoc3RydWN0IGRybV9lbmNv
-ZGVyICplbmNvZGVyLA0KPiAgIAkJCQkgICAgICBwcml2LT5obWFyZ2luKTsNCj4gICAJZHJt
-X29iamVjdF9hdHRhY2hfcHJvcGVydHkoJmNvbm5lY3Rvci0+YmFzZSwgY29uZi0+dHZfYm90
-dG9tX21hcmdpbl9wcm9wZXJ0eSwNCj4gICAJCQkJICAgICAgcHJpdi0+dm1hcmdpbik7DQo+
-IC0JZHJtX29iamVjdF9hdHRhY2hfcHJvcGVydHkoJmNvbm5lY3Rvci0+YmFzZSwgY29uZi0+
-dHZfbW9kZV9wcm9wZXJ0eSwNCj4gKwlkcm1fb2JqZWN0X2F0dGFjaF9wcm9wZXJ0eSgmY29u
-bmVjdG9yLT5iYXNlLCBjb25mLT5sZWdhY3lfdHZfbW9kZV9wcm9wZXJ0eSwNCj4gICAJCQkJ
-ICAgICAgcHJpdi0+bm9ybSk7DQo+ICAgCWRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5KCZj
-b25uZWN0b3ItPmJhc2UsIGNvbmYtPnR2X2JyaWdodG5lc3NfcHJvcGVydHksDQo+ICAgCQkJ
-CSAgICAgIHByaXYtPmJyaWdodG5lc3MpOw0KPiBAQCAtMzE1LDcgKzMxNSw3IEBAIHN0YXRp
-YyBpbnQgY2g3MDA2X2VuY29kZXJfc2V0X3Byb3BlcnR5KHN0cnVjdCBkcm1fZW5jb2RlciAq
-ZW5jb2RlciwNCj4gICAJCWNoNzAwNl9sb2FkX3JlZyhjbGllbnQsIHN0YXRlLCBDSDcwMDZf
-UE9WKTsNCj4gICAJCWNoNzAwNl9sb2FkX3JlZyhjbGllbnQsIHN0YXRlLCBDSDcwMDZfVlBP
-Uyk7DQo+ICAgDQo+IC0JfSBlbHNlIGlmIChwcm9wZXJ0eSA9PSBjb25mLT50dl9tb2RlX3By
-b3BlcnR5KSB7DQo+ICsJfSBlbHNlIGlmIChwcm9wZXJ0eSA9PSBjb25mLT5sZWdhY3lfdHZf
-bW9kZV9wcm9wZXJ0eSkgew0KPiAgIAkJaWYgKGNvbm5lY3Rvci0+ZHBtcyAhPSBEUk1fTU9E
-RV9EUE1TX09GRikNCj4gICAJCQlyZXR1cm4gLUVJTlZBTDsNCj4gICANCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfdHYuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfdHYuYw0KPiBpbmRleCA5Mzc5ZjM0NjMzNDQu
-LmFiYWY5ZGVkOTQyZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF90di5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfdHYuYw0KPiBAQCAtMTk4Niw3ICsxOTg2LDggQEAgaW50ZWxfdHZfaW5pdChzdHJ1
-Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpDQo+ICAgCX0NCj4gICAJZHJtX21vZGVf
-Y3JlYXRlX3R2X3Byb3BlcnRpZXMoZGV2LCBpLCB0dl9mb3JtYXRfbmFtZXMpOw0KPiAgIA0K
-PiAtCWRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5KCZjb25uZWN0b3ItPmJhc2UsIGRldi0+
-bW9kZV9jb25maWcudHZfbW9kZV9wcm9wZXJ0eSwNCj4gKwlkcm1fb2JqZWN0X2F0dGFjaF9w
-cm9wZXJ0eSgmY29ubmVjdG9yLT5iYXNlLA0KPiArCQkJCSAgIGRldi0+bW9kZV9jb25maWcu
-bGVnYWN5X3R2X21vZGVfcHJvcGVydHksDQo+ICAgCQkJCSAgIHN0YXRlLT50di5tb2RlKTsN
-Cj4gICAJZHJtX29iamVjdF9hdHRhY2hfcHJvcGVydHkoJmNvbm5lY3Rvci0+YmFzZSwNCj4g
-ICAJCQkJICAgZGV2LT5tb2RlX2NvbmZpZy50dl9sZWZ0X21hcmdpbl9wcm9wZXJ0eSwNCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjA0L3R2bnYxNy5j
-IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52MDQvdHZudjE3LmMNCj4gaW5kZXgg
-YmUyOGU3YmQ3NDkwLi4xYTE1NTM0YWRjNjAgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L2Rpc3BudjA0L3R2bnYxNy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L2Rpc3BudjA0L3R2bnYxNy5jDQo+IEBAIC02NjIsNyArNjYyLDcgQEAgc3Rh
-dGljIGludCBudjE3X3R2X2NyZWF0ZV9yZXNvdXJjZXMoc3RydWN0IGRybV9lbmNvZGVyICpl
-bmNvZGVyLA0KPiAgIAkJCQkJY29uZi0+dHZfc3ViY29ubmVjdG9yX3Byb3BlcnR5LA0KPiAg
-IAkJCQkJdHZfZW5jLT5zdWJjb25uZWN0b3IpOw0KPiAgIAlkcm1fb2JqZWN0X2F0dGFjaF9w
-cm9wZXJ0eSgmY29ubmVjdG9yLT5iYXNlLA0KPiAtCQkJCQljb25mLT50dl9tb2RlX3Byb3Bl
-cnR5LA0KPiArCQkJCQljb25mLT5sZWdhY3lfdHZfbW9kZV9wcm9wZXJ0eSwNCj4gICAJCQkJ
-CXR2X2VuYy0+dHZfbm9ybSk7DQo+ICAgCWRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5KCZj
-b25uZWN0b3ItPmJhc2UsDQo+ICAgCQkJCQljb25mLT50dl9mbGlja2VyX3JlZHVjdGlvbl9w
-cm9wZXJ0eSwNCj4gQEAgLTcyMiw3ICs3MjIsNyBAQCBzdGF0aWMgaW50IG52MTdfdHZfc2V0
-X3Byb3BlcnR5KHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwNCj4gICAJCWlmIChlbmNv
-ZGVyLT5jcnRjKQ0KPiAgIAkJCW52MTdfdHZfdXBkYXRlX3Jlc2NhbGVyKGVuY29kZXIpOw0K
-PiAgIA0KPiAtCX0gZWxzZSBpZiAocHJvcGVydHkgPT0gY29uZi0+dHZfbW9kZV9wcm9wZXJ0
-eSkgew0KPiArCX0gZWxzZSBpZiAocHJvcGVydHkgPT0gY29uZi0+bGVnYWN5X3R2X21vZGVf
-cHJvcGVydHkpIHsNCj4gICAJCWlmIChjb25uZWN0b3ItPmRwbXMgIT0gRFJNX01PREVfRFBN
-U19PRkYpDQo+ICAgCQkJcmV0dXJuIC1FSU5WQUw7DQo+ICAgDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF92ZWMuYyBiL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0
-X3ZlYy5jDQo+IGluZGV4IDBiMzMzMzg2NTcwMi4uNzdjNTBlY2IwMzA5IDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF92ZWMuYw0KPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vdmM0L3ZjNF92ZWMuYw0KPiBAQCAtMjc0LDcgKzI3NCw3IEBAIHN0YXRpYyBpbnQg
-dmM0X3ZlY19jb25uZWN0b3JfZ2V0X21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
-ZWN0b3IpDQo+ICAgCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlOw0KPiAgIA0KPiAg
-IAltb2RlID0gZHJtX21vZGVfZHVwbGljYXRlKGNvbm5lY3Rvci0+ZGV2LA0KPiAtCQkJCSAg
-dmM0X3ZlY190dl9tb2Rlc1tzdGF0ZS0+dHYubW9kZV0ubW9kZSk7DQo+ICsJCQkJICB2YzRf
-dmVjX3R2X21vZGVzW3N0YXRlLT50di5sZWdhY3lfbW9kZV0ubW9kZSk7DQo+ICAgCWlmICgh
-bW9kZSkgew0KPiAgIAkJRFJNX0VSUk9SKCJGYWlsZWQgdG8gY3JlYXRlIGEgbmV3IGRpc3Bs
-YXkgbW9kZVxuIik7DQo+ICAgCQlyZXR1cm4gLUVOT01FTTsNCj4gQEAgLTMxMiw3ICszMTIs
-NyBAQCBzdGF0aWMgaW50IHZjNF92ZWNfY29ubmVjdG9yX2luaXQoc3RydWN0IGRybV9kZXZp
-Y2UgKmRldiwgc3RydWN0IHZjNF92ZWMgKnZlYykNCj4gICAJZHJtX2Nvbm5lY3Rvcl9oZWxw
-ZXJfYWRkKGNvbm5lY3RvciwgJnZjNF92ZWNfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyk7DQo+
-ICAgDQo+ICAgCWRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5KCZjb25uZWN0b3ItPmJhc2Us
-DQo+IC0JCQkJICAgZGV2LT5tb2RlX2NvbmZpZy50dl9tb2RlX3Byb3BlcnR5LA0KPiArCQkJ
-CSAgIGRldi0+bW9kZV9jb25maWcubGVnYWN5X3R2X21vZGVfcHJvcGVydHksDQo+ICAgCQkJ
-CSAgIFZDNF9WRUNfVFZfTU9ERV9OVFNDKTsNCj4gICANCj4gICAJZHJtX2Nvbm5lY3Rvcl9h
-dHRhY2hfZW5jb2Rlcihjb25uZWN0b3IsICZ2ZWMtPmVuY29kZXIuYmFzZSk7DQo+IEBAIC00
-NDksNyArNDQ5LDcgQEAgc3RhdGljIGludCB2YzRfdmVjX2VuY29kZXJfYXRvbWljX2NoZWNr
-KHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwNCj4gICB7DQo+ICAgCWNvbnN0IHN0cnVj
-dCB2YzRfdmVjX3R2X21vZGUgKnZlY19tb2RlOw0KPiAgIA0KPiAtCXZlY19tb2RlID0gJnZj
-NF92ZWNfdHZfbW9kZXNbY29ubl9zdGF0ZS0+dHYubW9kZV07DQo+ICsJdmVjX21vZGUgPSAm
-dmM0X3ZlY190dl9tb2Rlc1tjb25uX3N0YXRlLT50di5sZWdhY3lfbW9kZV07DQo+ICAgDQo+
-ICAgCWlmIChjb25uX3N0YXRlLT5jcnRjICYmDQo+ICAgCSAgICAhZHJtX21vZGVfZXF1YWwo
-dmVjX21vZGUtPm1vZGUsICZjcnRjX3N0YXRlLT5hZGp1c3RlZF9tb2RlKSkNCj4gZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCBiL2luY2x1ZGUvZHJtL2RybV9j
-b25uZWN0b3IuaA0KPiBpbmRleCAxZDVlM2NjY2I5ZTMuLjVjZmFkOGI2YWQ4MyAxMDA2NDQN
-Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oDQo+ICsrKyBiL2luY2x1ZGUv
-ZHJtL2RybV9jb25uZWN0b3IuaA0KPiBAQCAtNjk1LDcgKzY5NSw3IEBAIHN0cnVjdCBkcm1f
-Y29ubmVjdG9yX3R2X21hcmdpbnMgew0KPiAgICAqIEBzZWxlY3Rfc3ViY29ubmVjdG9yOiBz
-ZWxlY3RlZCBzdWJjb25uZWN0b3INCj4gICAgKiBAc3ViY29ubmVjdG9yOiBkZXRlY3RlZCBz
-dWJjb25uZWN0b3INCj4gICAgKiBAbWFyZ2luczogVFYgbWFyZ2lucw0KPiAtICogQG1vZGU6
-IFRWIG1vZGUNCj4gKyAqIEBsZWdhY3lfbW9kZTogTGVnYWN5IFRWIG1vZGUsIGRyaXZlciBz
-cGVjaWZpYyB2YWx1ZQ0KPiAgICAqIEBicmlnaHRuZXNzOiBicmlnaHRuZXNzIGluIHBlcmNl
-bnQNCj4gICAgKiBAY29udHJhc3Q6IGNvbnRyYXN0IGluIHBlcmNlbnQNCj4gICAgKiBAZmxp
-Y2tlcl9yZWR1Y3Rpb246IGZsaWNrZXIgcmVkdWN0aW9uIGluIHBlcmNlbnQNCj4gQEAgLTcw
-Nyw3ICs3MDcsNyBAQCBzdHJ1Y3QgZHJtX3R2X2Nvbm5lY3Rvcl9zdGF0ZSB7DQo+ICAgCWVu
-dW0gZHJtX21vZGVfc3ViY29ubmVjdG9yIHNlbGVjdF9zdWJjb25uZWN0b3I7DQo+ICAgCWVu
-dW0gZHJtX21vZGVfc3ViY29ubmVjdG9yIHN1YmNvbm5lY3RvcjsNCj4gICAJc3RydWN0IGRy
-bV9jb25uZWN0b3JfdHZfbWFyZ2lucyBtYXJnaW5zOw0KPiAtCXVuc2lnbmVkIGludCBtb2Rl
-Ow0KPiArCXVuc2lnbmVkIGludCBsZWdhY3lfbW9kZTsNCj4gICAJdW5zaWduZWQgaW50IGJy
-aWdodG5lc3M7DQo+ICAgCXVuc2lnbmVkIGludCBjb250cmFzdDsNCj4gICAJdW5zaWduZWQg
-aW50IGZsaWNrZXJfcmVkdWN0aW9uOw0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJt
-X21vZGVfY29uZmlnLmggYi9pbmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaA0KPiBpbmRl
-eCA2YjVlMDEyOTUzNDguLjM1YTgyNzE3NWMyNCAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9k
-cm0vZHJtX21vZGVfY29uZmlnLmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29u
-ZmlnLmgNCj4gQEAgLTcxNCwxMSArNzE0LDEzIEBAIHN0cnVjdCBkcm1fbW9kZV9jb25maWcg
-ew0KPiAgIAkgKiBiZXR3ZWVuIGRpZmZlcmVudCBUViBjb25uZWN0b3IgdHlwZXMuDQo+ICAg
-CSAqLw0KPiAgIAlzdHJ1Y3QgZHJtX3Byb3BlcnR5ICp0dl9zZWxlY3Rfc3ViY29ubmVjdG9y
-X3Byb3BlcnR5Ow0KPiArDQo+ICAgCS8qKg0KPiAtCSAqIEB0dl9tb2RlX3Byb3BlcnR5OiBP
-cHRpb25hbCBUViBwcm9wZXJ0eSB0byBzZWxlY3QNCj4gKwkgKiBAbGVnYWN5X3R2X21vZGVf
-cHJvcGVydHk6IE9wdGlvbmFsIFRWIHByb3BlcnR5IHRvIHNlbGVjdA0KPiAgIAkgKiB0aGUg
-b3V0cHV0IFRWIG1vZGUuDQo+ICAgCSAqLw0KPiAtCXN0cnVjdCBkcm1fcHJvcGVydHkgKnR2
-X21vZGVfcHJvcGVydHk7DQo+ICsJc3RydWN0IGRybV9wcm9wZXJ0eSAqbGVnYWN5X3R2X21v
-ZGVfcHJvcGVydHk7DQo+ICsNCj4gICAJLyoqDQo+ICAgCSAqIEB0dl9sZWZ0X21hcmdpbl9w
-cm9wZXJ0eTogT3B0aW9uYWwgVFYgcHJvcGVydHkgdG8gc2V0IHRoZSBsZWZ0DQo+ICAgCSAq
-IG1hcmdpbiAoZXhwcmVzc2VkIGluIHBpeGVscykuDQo+IA0KDQotLSANClRob21hcyBaaW1t
-ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
-bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
-byBUb3Rldg0K
+v11: Update macro description (Andi)
+     Change _Static_assert to static_assert (Rasmus)
+     Rename assert_type to assert_same_type and  assert_typable to
+     assert_same_typable (Rasmus)
+     Update assert_same_typable macro to handle an overflow check on the
+     target type when a constant value is used. (Kees)
+     Add overflows_type_ret_const_expr which returns constant-expression
+     value (G.G)
+     Add is_unsigned_type (G.G)
+     Add unit tests for overflows_type, overflows_type_ret_const_expr,
+     assert_same_type and assert_same_typable. (Kees)
+     Fix incorrect type assignment between different address spaces caused
+     by the wrong use of __user macro. (kernel test robot)
+v10: Add check_assign_user_ptr() macro and drop overflows_ptr() macro(Kees) 
+     Use assert_typable instead of exactly_pgoff_t() macro (Kees)
+     Remove a redundant type checking for a pointer. (Andrzej)
+     Add patch "compiler_types.h: Add assert_type to catch type mis-match while compiling" and
+     drop patch "util_macros: Add exact_type macro to catch type mis-match while compiling" from patch series (G.G.)
+     (adding of assert_type(t1, t2) and assert_typable(t, n) were suggested by Kees v9's comments)
+v9: Fix overflows_type() to use __builtin_add_overflow() instead of
+    __builtin_add_overflow_p() (Andrzej)
+    Fix overflows_ptr() to use overflows_type() with the unsigned long type (Andrzej)
+v8: Add check_assign() and remove safe_conversion() (Kees)
+    Replace safe_conversion() with check_assign() (Kees)
+    Fix overflows_type() to use gcc's built-in overflow function (Andrzej)
+    Add overflows_ptr() to allow overflow checking when assigning a value
+    into a pointer variable (G.G.)
+v7: Fix to use WARN_ON() macro where GEM_BUG_ON() macro was used. (Jani)
+v6: Move macro addition location so that it can be used by other than drm subsystem (Jani, Mauro, Andi)
+    Fix to follow general use case for GEM_BUG_ON(). (Jani)
+v5: Fix an alignment to match open parenthesis
+    Fix macros to be enclosed in parentheses for complex values
+    Fix too long line warning
+v4: Fix build warnins that reported by kernel test robot. (kernel test robot <lkp@intel.com>)
+    Add kernel-doc markups to the kAPI functions and macros (Mauoro)
+v3: Modify overflows_type() macro to consider signed data types and
+	add is_type_unsigned() macro (Mauro)
+    Make not use the same macro name on a function. (Mauro)
+    For kernel-doc, macros and functions are handled in the same namespace,
+    the same macro name on a function prevents ever adding documentation for it.
+    Not to change execution inside a macro. (Mauro)
+    Fix the problem that safe_conversion() macro always returns true (G.G)
+    Add safe_conversion_gem_bug_on() macro and remove temporal SAFE_CONVERSION() macro. (G.G.)
 
---------------0ao73SaEXjAHNJoluo84H1x1--
+Chris Wilson (3):
+  drm/i915/gem: Typecheck page lookups
+  drm/i915: Check for integer truncation on scatterlist creation
+  drm/i915: Remove truncation warning for large objects
 
---------------Myo4r0A9LQl8C2ZYWbIK00og
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Gwan-gyeong Mun (5):
+  overflow: Move and add few utility macros into overflow
+  compiler_types.h: Add assert_same_type to catch type mis-match while
+    compiling
+  drm/i915: Check for integer truncation on the configuration of ttm
+    place
+  drm/i915: Check if the size is too big while creating shmem file
+  drm/i915: Use error code as -E2BIG when the size of gem ttm object is
+    too large
 
------BEGIN PGP SIGNATURE-----
+Kees Cook (1):
+  overflow: Allow mixed type arguments
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMta/wFAwAAAAAACgkQlh/E3EQov+AH
-uxAAtBx2x58dty1oJ/HuBX8/AnCQbKVDyQ5gsCprWKPlXIQYdqLnZy/ydFX/59RNJ8v44iikjTM1
-tyHTxjhtgfDnCtqYXdvEqBIty8oXcawFTP0AQv0CZp3B0emRUmVTYvRTYT00jPycEwtIjsl9THmi
-hyn4SeC2Uciy0Bmy3lQG9Ha3MGGmQNl8tpIeFXmuH3jNA3YFE1ky+n392x9vPsq27QVlF3KD9Enp
-AzWW6MCp/dLC/X322l74a9Q9asnNFXRB/bQp5+gsZ2dfeGtsbPHMVvOCi1TuXiPBTUpyhWI8kO67
-xBxjE9jOFiZnyOYfPmLfHUOfJ3co2DL0IUH/1lCmDJq5nLe195mysUYCoTgBMOqbrtVcZlhsAOSl
-9R0fYRRnmGKRzMootsVyY0xdBPtGEcl1pd/Cj4K4Hs1p2Px2xbKXGvQKBLNWG5IavXdnNevV0t8f
-PRhyKDahHgXVJI3rXoyHMoZ8qOHxMed2CP8I75WMOKbX8bE5Xt9vwWNS89LPic3dCWilAw4xo092
-inTSDkgVzdg/o7yvlOfQ0NSQHJfl5OJVAxK0q+V7A/gvvYdOXJ1SwoXShlm4zKkkMjsOXcJrQRO8
-Ht1sOAqATBpsThO/JZ5DU8O2W/gJrdB2CC+ttx5XLkEvSM7srOlNiEdfYpGzjkQGEc6ejeZPeS6g
-ixg=
-=l6BZ
------END PGP SIGNATURE-----
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   7 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    | 303 ++++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  27 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   4 +
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  19 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  23 +-
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   5 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  12 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   8 +-
+ .../drm/i915/gem/selftests/i915_gem_object.c  |   8 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.c             |   9 +-
+ drivers/gpu/drm/i915/i915_gem.c               |  18 +-
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  11 +
+ drivers/gpu/drm/i915/i915_user_extensions.c   |   6 +-
+ drivers/gpu/drm/i915/i915_utils.h             |   6 +-
+ drivers/gpu/drm/i915/i915_vma.c               |   8 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  17 +-
+ include/linux/compiler.h                      |   1 +
+ include/linux/compiler_types.h                |  43 ++
+ include/linux/overflow.h                      | 165 ++++++--
+ lib/overflow_kunit.c                          | 384 ++++++++++++++++--
+ 22 files changed, 933 insertions(+), 157 deletions(-)
 
---------------Myo4r0A9LQl8C2ZYWbIK00og--
+-- 
+2.37.1
+
