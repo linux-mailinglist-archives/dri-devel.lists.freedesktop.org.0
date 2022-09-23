@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EEC5E75FA
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:41:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 245DF5E7615
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 10:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F330B10E74F;
-	Fri, 23 Sep 2022 08:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1768826D;
+	Fri, 23 Sep 2022 08:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B247310E769
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 08:40:55 +0000 (UTC)
-X-UUID: bf88441dcb814e5697f95abb0042fa01-20220923
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=mEnjG1P8eMe74mVOJjF2dD6ycoF2ZF0i69BpATwspew=; 
- b=G/T2VNsccW/EdPr8ML17gzQRO8o64uv4rW0+4Km9SrkYydM6mAurSbjYgDkhJpvW1epabKDDi+YRjDu/Y+bKtBJDFgsf3oUHIjKN0Jtxmbve8mfMr9MiUpqc/3B4NggdSLwwFwJDkgMf5WG1euMfyorJDsV6z4MIpWh0YfiuFt4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:b53a41e2-95fc-4070-9629-b7d6922681b4, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:39a5ff1, CLOUDID:0e74d8a2-dc04-435c-b19b-71e131a5fc35,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: bf88441dcb814e5697f95abb0042fa01-20220923
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1174984479; Fri, 23 Sep 2022 16:40:50 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 23 Sep 2022 16:40:49 +0800
-Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Fri, 23 Sep 2022 16:40:48 +0800
-From: <xinlei.lee@mediatek.com>
-To: <matthias.bgg@gmail.com>, <jason-jh.lin@mediatek.com>,
- <angelogioacchino.delregno@collabora.com>, <rex-bc.chen@mediatek.com>,
- <ck.hu@mediatek.com>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH v9,
- 3/3] drm: mediatek: Add mt8186 dpi compatibles and platform data
-Date: Fri, 23 Sep 2022 16:40:40 +0800
-Message-ID: <1663922440-20242-4-git-send-email-xinlei.lee@mediatek.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <1663922440-20242-1-git-send-email-xinlei.lee@mediatek.com>
-References: <1663922440-20242-1-git-send-email-xinlei.lee@mediatek.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B29B8826D;
+ Fri, 23 Sep 2022 08:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663922715; x=1695458715;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=DZnzTF9qxmFNw4wAeqJ0W3s2g+NF/LUslyQ99QQjtYw=;
+ b=X0XyEmDsTFv//Fhm3ZSpUPB1dqwbUDrgdELFwOaSqU3ZP9uMqdwFeDS4
+ MoP+iec4BBJIv2pPVg1crlAm50XMimU/ChA9OrgJXSiaF+qc29THJWOmH
+ R5fN1nULyr7HV3rhXG0wCwSiDaKIkL8kjzdWBJDzD1oic17zEMK6GQpYs
+ 2WXFuDmSJSiI/HgVpp0RwjsNVmIFQFL+95U2eLvoEm+mvMrVspOtcrCR5
+ kOd/hGHX5mWlM4WLJqN3wDD3IQlrysbTKuKys9vgmGNTn60jtC0dixLwY
+ eH3kW6+iCrLWfYEBDmUImWIt66XmaMnceecavRKXJG8kkvlWHK1g4lF0H w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="326877219"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="326877219"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 01:45:14 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="620142997"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.13.19])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 01:45:13 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915: Improve debug print in vm_fault_ttm
+Date: Fri, 23 Sep 2022 10:45:06 +0200
+Message-Id: <20220923084506.11968-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,76 +56,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: andrzej.hajda@intel.com, matthew.auld@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xinlei Lee <xinlei.lee@mediatek.com>
+Print the error code returned by __i915_ttm_migrate()
+for better debuggability.
 
-Add the compatible because use edge_cfg_in_mmsys in mt8186.
+v2: Fix kernel test robot warning.
 
-Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/6889
+Acked-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c     | 21 +++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 ++
- 2 files changed, 23 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index bd1870a8504a..2fcf7a61c340 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -941,6 +941,24 @@ static const struct mtk_dpi_conf mt8183_conf = {
- 	.csc_enable_bit = CSC_ENABLE,
- };
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index e3fc38dd5db0..55455321f652 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1034,7 +1034,7 @@ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
+ 		}
  
-+static const struct mtk_dpi_conf mt8186_conf = {
-+	.cal_factor = mt8183_calculate_factor,
-+	.reg_h_fre_con = 0xe0,
-+	.max_clock_khz = 150000,
-+	.output_fmts = mt8183_output_fmts,
-+	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-+	.edge_cfg_in_mmsys = true,
-+	.pixels_per_iter = 1,
-+	.is_ck_de_pol = true,
-+	.swap_input_support = true,
-+	.support_direct_pin = true,
-+	.dimension_mask = HPW_MASK,
-+	.hvsize_mask = HSIZE_MASK,
-+	.channel_swap_shift = CH_SWAP,
-+	.yuv422_en_bit = YUV422_EN,
-+	.csc_enable_bit = CSC_ENABLE,
-+};
-+
- static const struct mtk_dpi_conf mt8192_conf = {
- 	.cal_factor = mt8183_calculate_factor,
- 	.reg_h_fre_con = 0xe0,
-@@ -1091,6 +1109,9 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
- 	{ .compatible = "mediatek,mt8183-dpi",
- 	  .data = &mt8183_conf,
- 	},
-+	{ .compatible = "mediatek,mt8186-dpi",
-+	  .data = &mt8186_conf,
-+	},
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = &mt8192_conf,
- 	},
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 546b79412815..3d32fbc66ac1 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -646,6 +646,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8183-dpi",
- 	  .data = (void *)MTK_DPI },
-+	{ .compatible = "mediatek,mt8186-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8195-dp-intf",
+ 		if (err) {
+-			drm_dbg(dev, "Unable to make resource CPU accessible\n");
++			drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n", ERR_PTR(err));
+ 			dma_resv_unlock(bo->base.resv);
+ 			ret = VM_FAULT_SIGBUS;
+ 			goto out_rpm;
 -- 
-2.18.0
+2.37.3
 
