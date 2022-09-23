@@ -1,76 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1FF55E83F0
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 22:35:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1212D5E83C5
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 22:33:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3321B10E987;
-	Fri, 23 Sep 2022 20:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7665510E985;
+	Fri, 23 Sep 2022 20:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664E610E97F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 20:35:30 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id b5so1271674pgb.6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 13:35:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=+2laYBdgjwT7rG4W5AHSQduuvkvGMevdVubQImW4gKw=;
- b=nbTXxoItIcoLMSX/37BnKPPw/3YlEPQi9RGa22B4OfB3Mw3rQ7fVLlIBZDFWhU6SQB
- iQQy0oVdOCW9DPex5gUVO+9CVPiYxCD2RX7jYGmew9mYG9nePUONwhOxImpJpLdtHO3I
- +RIWIsZx79HIw7FNWO7gsYSXx6hJ7HZJNUkfA=
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70BE10E985
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 20:32:53 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id d42so2089060lfv.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 13:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=nBM+qi7ZEJ79MaRiQNuFb4KCQxuABqaRCCx+mb2oxBg=;
+ b=o3OHHM/T+yReW4NfXa27nKO8K+4nryGOnb1wE+L9S/UfvloEESITwMAB1wcImMrHR2
+ I7UswL4qx/NwsvUNcVKNFu8Gjv9iLlBMjlyahuHAty143DTuh2GHlMR7LYWusM4zZDeX
+ gf8oqH68bp/44bZhX5aBiMU78uyltyU0U49t8zj7sbidsN5COcIdH0+NJfFH/nffMsmd
+ kJFc1FapVDm5MIh5e9j1ebQblIXWvxSranbYEp6z9ES/TJR8IeHTtU1QBlsTvsSKyfgw
+ d+FiHLZEFI59C+9cXso+ojwzhoV8Wti0G1bbjGJPkkL20w/N70pQsVp1SkkxoMc8nChO
+ PKlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=+2laYBdgjwT7rG4W5AHSQduuvkvGMevdVubQImW4gKw=;
- b=01hfUkBFpk0SitA5YEdYH6dhCmDn4fI8h9Fl9hKwmXkEXiRPCxe02da50bfLxdUKVg
- WPp+2Yfmva/LH1/fFL7pYlDHGQDL/9WgnPnw8QGQzqpQf1bYhh40Pudi4RYhf03tkmub
- 4dDt9BbY0KB8lGvRTELrgzXw79KChe13zFVL90xugOvoHHIB+JUJjtjiWLQyGA3dI076
- CawreicRcIk7yj31oVBPJ+ld3ZlzVE2O7Hx4i2bd9t0Mp6kSryQkbVK3RsF9w1TPGW9/
- AVGhi9AxFEPxbKUXSymC5smj59HzB4nF9LaulPC6ZCAi4c5tq1mEdCjn74iCAFpIUgsk
- +eFw==
-X-Gm-Message-State: ACrzQf2qy/QIKrPt6VqV7SEooU2CX2MwqpNRuWx80f/Ouv9hsF5gdYrr
- yMNeJA8lbTWRnKiBrn0JiBCZ/Q==
-X-Google-Smtp-Source: AMsMyM5bm7zGXJ9d50JTGsymxB/VLZYV8oPS2I+E2tFMZpMAmvrfAs1/p+X8f9kZo4aKjt6+zvlMFg==
-X-Received: by 2002:a63:8649:0:b0:43a:d230:d3b5 with SMTP id
- x70-20020a638649000000b0043ad230d3b5mr9208334pgd.493.1663965329910; 
- Fri, 23 Sep 2022 13:35:29 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=nBM+qi7ZEJ79MaRiQNuFb4KCQxuABqaRCCx+mb2oxBg=;
+ b=uvdsLhSr5D/WfzJYunI4gSUG24q0rHkgOFf6beqJavxE5kSbqTB2XqlE8WounezQcn
+ BRtXP6QHWMPm1xn0tq8/YreiGW/CLrdIUuo7bd8jAQHAYJxiPbFaFbWzLPyaTeoKBB16
+ N7doj/Nc3q0ueHmMbBxzsd4sgT+H4WBXZ8lqVcz3fdIO5L8PeNlvElsOeFVB9nGunpss
+ +CLPLahDKe9o2QQhlH12w9opwQttThKkuPO8fWWZKyZsMDd/Zr/hRbI4j1J0cy32lPEU
+ xvw3fUJDhdpZ+jwocRxA+EIE+Lfh7ESQi1R0zus+kBC8P6DoeaRCvgHCsx5ukCLU1of5
+ 9P1w==
+X-Gm-Message-State: ACrzQf0P3u//k97JcN7WI1/rlnhXf/Ozvv1Y3q7KnO3LyI9Yjswbzxwz
+ 04wyzmNUUnScIa1ONXn/rrmu4Q==
+X-Google-Smtp-Source: AMsMyM7YTtVO77quMiW6KFmjaY2ziWHoZFQBBzaOp2QWJF5Pd4KQtydKOHQr1S++G+N5wTYhKpJHig==
+X-Received: by 2002:ac2:5623:0:b0:49a:d7b9:c06d with SMTP id
+ b3-20020ac25623000000b0049ad7b9c06dmr4251708lff.511.1663965172046; 
+ Fri, 23 Sep 2022 13:32:52 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- w7-20020a170902e88700b0017685f53537sm6450933plg.186.2022.09.23.13.35.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Sep 2022 13:35:28 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH v2 16/16] slab: Restore __alloc_size attribute to
- __kmalloc_track_caller
-Date: Fri, 23 Sep 2022 13:28:22 -0700
-Message-Id: <20220923202822.2667581-17-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220923202822.2667581-1-keescook@chromium.org>
-References: <20220923202822.2667581-1-keescook@chromium.org>
+ q2-20020a2e5c02000000b0025e4c49969fsm1520756ljb.98.2022.09.23.13.32.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Sep 2022 13:32:51 -0700 (PDT)
+Message-ID: <aeae567c-ccf7-de73-61eb-1f04772d3bba@linaro.org>
+Date: Fri, 23 Sep 2022 23:32:50 +0300
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1650; h=from:subject;
- bh=/OaZMueZzIe84chcaXjPmGvBh3Vl4n1WZ7Et98TCic4=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjLhbmpXV27OdVCurixM5mD3YL9FeIo8HzPKP6kKFZ
- 0hj84SaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYy4W5gAKCRCJcvTf3G3AJrk1D/
- 9suh4VQDWJhn6CjYJdrIyeIOje+kXnxuVQ4rZWxcfisvcOa9LBG3AeDjRuKI4VpUdYD37IwPPRov57
- 7ySYIwMkjVqKZEa/PzjhXiMhpeo5c/FR+mC/2/7gf0vf6wqxRDni79+/q13dY5meEj/JSCQ/VnxZRe
- gjJepCGBakVJaJJpuemoCwsjm59sySqVEfoXZQ3j8FvjLzn3UEHguFLm71uFRvZJYaFRgcZYER/6SM
- gtzHNWGWaCNhF8dkKOnwzFjb9Rnzxv996CnMgQ48xhu33oEvFn/qv87UNwxYH5nu+eGAj6AOn0942n
- o/n7ecuvzIw73BhNbAqSHTiF/7CH2P1ACFMXogDcRbmseRTH9IxMtimtJP4ycB5H3BlirHH62OwXYW
- HcNSihxuIstBMI+dXzPUAePdpDw9zFpCkThJFB3HawrMyY1xWxrUir3MaIirOiGPAaNsQ2phrSDz2q
- 89SyrvWcLNxNEqTTWGHN3J4vSrnAPQTLDJgx+qlchawQhrFpywa38+u+aGHG0NL7zPvmR7xoWq31Bj
- MvQuhlk8RDsuhGN+mFYxlipeK0PD5eo1yTnzSxnawr2guLYHLoh5ZATYEPsnWaJ23aiXDLUrWeSOx6
- ihxdUdxuZS6AB+vqV1rDpWb7cFU4nZ6MydrAXZN1cwWnC866PyTB2WT4EREg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v7 05/12] dt-bindings: display/msm: move common MDSS
+ properties to mdss-common.yaml
+Content-Language: en-GB
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220915133742.115218-1-dmitry.baryshkov@linaro.org>
+ <20220915133742.115218-6-dmitry.baryshkov@linaro.org>
+ <02b60bf8-70ac-eb7b-33d7-1c9b7a6f0a54@linaro.org>
+ <168a46c3-2c0e-cd5c-e6f1-1e072c67d162@linaro.org>
+ <d2af0a8e-63fe-221f-1c53-9fe1c43fa04d@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <d2af0a8e-63fe-221f-1c53-9fe1c43fa04d@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,66 +84,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, dri-devel@lists.freedesktop.org,
- "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Christoph Lameter <cl@linux.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, llvm@lists.linux.dev,
- Kees Cook <keescook@chromium.org>, Josef Bacik <josef@toxicpanda.com>,
- linaro-mm-sig@lists.linaro.org, Yonghong Song <yhs@fb.com>,
- David Sterba <dsterba@suse.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Alex Elder <elder@kernel.org>, linux-mm@kvack.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With skbuff's post-allocation use of ksize() rearranged to use
-kmalloc_size_round() prior to allocation, the compiler can correctly
-reason about the size of these allocations. The prior mismatch had caused
-buffer overflow mitigations to erroneously fire under CONFIG_UBSAN_BOUNDS,
-requiring a partial revert of the __alloc_size attributes. Restore the
-attribute that had been removed in commit 93dd04ab0b2b ("slab: remove
-__alloc_size attribute from __kmalloc_track_caller").
+On 22/09/2022 15:28, Krzysztof Kozlowski wrote:
+> On 22/09/2022 13:46, Dmitry Baryshkov wrote:
+>>>> -  ranges: true
+>>>> +    maxItems: 2
+>>>>    
+>>>>      interconnects:
+>>>> -    items:
+>>>> -      - description: Interconnect path from mdp0 port to the data bus
+>>>> -      - description: Interconnect path from mdp1 port to the data bus
+>>>> +    maxItems: 2
+>>>
+>>> I think this is not equivalent now, because you have in total minItems:1
+>>> and maxItems:2, while in past minItems was 2.
+>>
+>> This means that I should have minItems:2, maxItems:2, which, if I got it
+>> right, is frowned upon. Let me doublecheck though if it works as expected.
+> 
+> It is frowned upon only if it is alone, because for missing minItems,
+> maxItems implies minItems. Here you have minItems in other schema, so
+> there is no such case
 
-Cc: Christoph Lameter <cl@linux.com>
-Cc: Pekka Enberg <penberg@kernel.org>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc: linux-mm@kvack.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/linux/slab.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Well, I just checked, the schema will throw an error if I put a single 
+interconnects or iommus entry. If I understand correctly these two 
+clauses are evaluated separately. So, the dpu-common's clause tells 
+minItems:1, maxItems:2. The platform schema file contains just 
+maxItems:2, which implicitly adds minItems:2 to _this_ clause.
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index 727640173568..297b85ed2c29 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -693,7 +693,8 @@ static inline __alloc_size(1, 2) void *kcalloc(size_t n, size_t size, gfp_t flag
-  * allocator where we care about the real place the memory allocation
-  * request comes from.
-  */
--extern void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller);
-+extern void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller)
-+				   __alloc_size(1);
- #define kmalloc_track_caller(size, flags) \
- 	__kmalloc_track_caller(size, flags, _RET_IP_)
- 
+Thus I think I'll leave this part as is.
+
+For the reference (with single-entry iommus and interconnects properties):
+
+/home/lumag/Projects/Qcomm/build-64/Documentation/devicetree/bindings/display/msm/dpu-sdm845.example.dtb: 
+display-subsystem@ae00000: iommus: [[4294967295, 2176, 8]] is too short
+	From schema: 
+/home/lumag/Projects/Qcomm/kernel/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
+/home/lumag/Projects/Qcomm/build-64/Documentation/devicetree/bindings/display/msm/dpu-sdm845.example.dtb: 
+display-subsystem@ae00000: interconnects: [[4294967295, 1, 0, 
+4294967295, 1, 0]] is too short
+	From schema: 
+/home/lumag/Projects/Qcomm/kernel/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
+
+
 -- 
-2.34.1
+With best wishes
+Dmitry
 
