@@ -2,47 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CC15E7D08
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 16:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A735E7D20
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 16:32:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5A810E730;
-	Fri, 23 Sep 2022 14:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A17C510E07B;
+	Fri, 23 Sep 2022 14:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5D610E07B;
- Fri, 23 Sep 2022 14:30:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663943404; x=1695479404;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=1Wtu+szlawnhlRrixJ/ofPJ7V1Ylsev0u/46OA9g0Sw=;
- b=duX22e7umChgnvuxNBKCy80R3cXcdO58R9qVYtflNSbB4JmDcL2WHyMV
- kwMn6vjkoa0444iDl4eC24m8RpmAm3xgMAyMVzAYt5ELrhltq6WTUdJWY
- Ib9RgJvkvxOHZqHVJCuSEYdxvQAKvhCXkwgQniDcBnxJ5SCkMpL8t3Ivp
- eyQg8+5lLbPgEikFxZnoM5q8wLPoBDdGJlD7/s7aDPqdvGElt+FKcelyz
- XtWLW9uoWpckYDv25tRhNrW/K4BRY/pY2OhbCsobHAeD5Pu4EE6C7X9ho
- WH5BXL9+44YfCJ5RFmLCFtLr73c28ShDZIJD64fujJdMcYEp628LHad12 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="280325504"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="280325504"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 07:29:47 -0700
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="682676915"
-Received: from ccislaru-mobl.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.225.140])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 07:29:46 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Stop using flush_scheduled_work on driver remove
-Date: Fri, 23 Sep 2022 15:29:34 +0100
-Message-Id: <20220923142934.29528-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4B9C10E07B
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 14:32:44 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id z2so514455edi.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 07:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=xTwLqO8cX8Smr2zI4HvNer2tshPwVR5NDDlLtozuMKc=;
+ b=fs4tS8nrQy9RSirOwgPb0QfF27CzJpSViwhpvYaErPMIWgpPRd4uS6Pl/XjGckP9+O
+ ho/sFqVTR1zzMjus5zbzBoYapH5NCh9Fkuw3z69leEZXIoqR7JwmZik/01NIKOKIbsmU
+ FIUSMbQiEtwlGypah9AqwPODH0jl95FGJx3BU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=xTwLqO8cX8Smr2zI4HvNer2tshPwVR5NDDlLtozuMKc=;
+ b=TuiUFyxZcrtOalwh/rEniFp0q7y4FFIKFi4o+kcxKJf3/jC/Btqq/6Y+UNsGpmO9qs
+ 1SxHLtLS5InYkY9SlapHvIgipqtEAVw7tW2lJ+FO/dJpiRGx9o7VhiVUVgzRINOGje+6
+ tadA5hcs3su5nMl9OJsopDpSy8NwQdcZXNoY6GXufSn2iGXcuI+gsqoWgO/ClIGrRlnN
+ oiB9U/J4CFvEWw8d9sVGURfkwbmyB6/roMB3R9lnG3lc9v1weawpT5rP3bUb7duSzphY
+ Hd7yfBy9EYySTZFdwK/bTmpGhthnc99EJWfngCqpARMl/dMCuILBZlKPcBcLpa9HnYTW
+ swSw==
+X-Gm-Message-State: ACrzQf3KkaySp+kw9y12F48AwDMs29SlcgLfXNpmeZKJE2dSww/zAmU7
+ A2A2uASIpcu7gzxq2v/9Y7tmVz6QIS14qpBt
+X-Google-Smtp-Source: AMsMyM5M+u44HhUX0AgNnhhk18KZNqcoxOIs8zRFhCF3nGgtTD5bxFniRc/efQq+zhm3xI9Hr2M9Ow==
+X-Received: by 2002:a05:6402:27cf:b0:451:6ccc:4ea0 with SMTP id
+ c15-20020a05640227cf00b004516ccc4ea0mr8797154ede.193.1663943563219; 
+ Fri, 23 Sep 2022 07:32:43 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com.
+ [209.85.221.48]) by smtp.gmail.com with ESMTPSA id
+ m9-20020a509989000000b0043df042bfc6sm6022293edb.47.2022.09.23.07.32.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Sep 2022 07:32:42 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id y5so312279wrh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 07:32:41 -0700 (PDT)
+X-Received: by 2002:a5d:522f:0:b0:228:dc7f:b9a8 with SMTP id
+ i15-20020a5d522f000000b00228dc7fb9a8mr5622908wra.617.1663943561341; Fri, 23
+ Sep 2022 07:32:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220923053729.301626-1-sean.hong@quanta.corp-partner.google.com>
+In-Reply-To: <20220923053729.301626-1-sean.hong@quanta.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 23 Sep 2022 07:32:29 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VA+YPgyLn+0EzWbJjUBfbQE2fbNT7PmAhah_B_T_B5TA@mail.gmail.com>
+Message-ID: <CAD=FV=VA+YPgyLn+0EzWbJjUBfbQE2fbNT7PmAhah_B_T_B5TA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add INX N116BCN-EA1
+To: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,56 +72,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi,
 
-Kernel is trying to eliminate callers of flush_scheduled_work so lets
-try to accommodate.
+On Thu, Sep 22, 2022 at 10:37 PM Sean Hong
+<sean.hong@quanta.corp-partner.google.com> wrote:
+>
+> Add support for the INX - N116BCN-EA1 (HW: C4) panel.
+>
+> Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-We currently call it from intel_modeset_driver_remove_noirq on the driver
-remove path but the comment next to it does not tell me what exact work it
-wants to flush.
+As with previous trivial patches that just add an entry to this
+structure, there's no reason to wait before applying. Pushed to
+drm-misc-next:
 
-I can spot three (or four) works using the system_wq:
-
-  ..hotplug.reenable_work
-  ..hotplug.hotplug_work
-  ..psr.dc3co_work
-  ..crtc->drrs.work
-
-So if I replace it with intel_hpd_cancel_work() that appears would handle
-the first two. What about the other two?
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
-I am clueless about the display paths and only send this because Jani
-convinced me to send a patch to kick off the discussion. No expectations
-whatsoever this is correct or complete.
----
- drivers/gpu/drm/i915/display/intel_display.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 2d0018ae34b1..0eb72530a003 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -8980,7 +8980,7 @@ void intel_modeset_driver_remove_noirq(struct drm_i915_private *i915)
- 	intel_unregister_dsm_handler();
- 
- 	/* flush any delayed tasks or pending work */
--	flush_scheduled_work();
-+	intel_hpd_cancel_work(i915);
- 
- 	intel_hdcp_component_fini(i915);
- 
--- 
-2.34.1
-
+9f4a57148120 drm/panel-edp: Add INX N116BCN-EA1
