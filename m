@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30F35E7670
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 11:08:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B560B5E768F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Sep 2022 11:13:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823A310E7C9;
-	Fri, 23 Sep 2022 09:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42F3B10E4CA;
+	Fri, 23 Sep 2022 09:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05D0810E7C9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 09:08:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A0F1B219BA;
- Fri, 23 Sep 2022 09:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1663924080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3NmV8dBleohq19FUTGjShv3qNCUcjTHlt1m0s7sWLVk=;
- b=V6wEuumqUBqjySkow4NVfoPBdDcct+QY2sSnA92ZeyPwH38i0NPhxZ2JBFN/nzoZI0qJDc
- KkeFL/D96aoTs49QcLygaGlMNADNI8AXG8StgjNUceGaiafR2+x2Vnsi6pDhmZ07qrK3n8
- Inta8iq5GzYLsx9ExrSXKnUXYR9y3Io=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1663924080;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3NmV8dBleohq19FUTGjShv3qNCUcjTHlt1m0s7sWLVk=;
- b=U7EHAzZMP7bk2R61PfblSG7IYbc4Ddv8PLRV2h2xeqC20gD9ZFpGn6nKi00zf3zaGPeOWS
- aSCwMvZR9gmTbODQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 19F9B13AA5;
- Fri, 23 Sep 2022 09:08:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id e5i3BXB3LWM6HAAAMHmgww
- (envelope-from <vbabka@suse.cz>); Fri, 23 Sep 2022 09:08:00 +0000
-Message-ID: <6e6a5f86-3080-54ed-82ea-80e57e184fd0@suse.cz>
-Date: Fri, 23 Sep 2022 11:07:59 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E8410E4CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Sep 2022 09:13:49 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 19A456602038;
+ Fri, 23 Sep 2022 10:13:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1663924428;
+ bh=O5Eq5O5jGm/xMQpjO7QiI8PnAOOsQRcDFnut+zQiQ6M=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=d/9uP7oVrChf5rlUDoIxTSXljBHeD2JE/1wRzcd8Ul85tsdGpXtTm75XTbEAwAhzW
+ przhgoZciIC9i6V+gBbzNVylcu6FdnFHaNC8ZbyUTS6GlI+V8AA9O6NWp/Ho3Jszib
+ MXAXD9e6URBLlAKkXVEBv5VigNuQLSPqPrQEcwNyeUDumCCWqLeSYZcgYoENI0PTT8
+ +Cmodwit3vHGcAnOZfLwtLYdlqoP/194Nz8xSWIBagMRLJh738mWFJ6YaW3RCjZ7Ko
+ vhOIPfAGrVT3egXH9LwFcA+Lxcpzy0Tq9VD7sr0UgD+hxZXkjGJGf09mXg6eDzHLqF
+ KsPLxkZYjdQ+Q==
+Message-ID: <35c3bf57-4659-2356-5008-d1422c2d609d@collabora.com>
+Date: Fri, 23 Sep 2022 11:13:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 00/12] slab: Introduce kmalloc_size_roundup()
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v8,1/3] soc: mediatek: Add all settings to
+ mtk_mmsys_ddp_dpi_fmt_config func
 Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>
-References: <20220922031013.2150682-1-keescook@chromium.org>
- <673e425d-1692-ef47-052b-0ff2de0d9c1d@amd.com>
- <202209220845.2F7A050@keescook>
- <cb38655c-2107-bda6-2fa8-f5e1e97eab14@suse.cz>
- <202209221446.5E90AEED@keescook>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <202209221446.5E90AEED@keescook>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: xinlei.lee@mediatek.com, matthias.bgg@gmail.com,
+ jason-jh.lin@mediatek.com, rex-bc.chen@mediatek.com, ck.hu@mediatek.com,
+ p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch
+References: <1663850702-26529-1-git-send-email-xinlei.lee@mediatek.com>
+ <1663850702-26529-2-git-send-email-xinlei.lee@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <1663850702-26529-2-git-send-email-xinlei.lee@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,56 +59,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Feng Tang <feng.tang@intel.com>, linux-wireless@vger.kernel.org,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
- linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
- David Sterba <dsterba@suse.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/22/22 23:49, Kees Cook wrote:
-> On Thu, Sep 22, 2022 at 11:05:47PM +0200, Vlastimil Babka wrote:
->> On 9/22/22 17:55, Kees Cook wrote:
->> > On Thu, Sep 22, 2022 at 09:10:56AM +0200, Christian König wrote:
->> > [...]
->> > > So when this patch set is about to clean up this use case it should probably
->> > > also take care to remove ksize() or at least limit it so that it won't be
->> > > used for this use case in the future.
->> > 
->> > Yeah, my goal would be to eliminate ksize(), and it seems possible if
->> > other cases are satisfied with tracking their allocation sizes directly.
->> 
->> I think we could leave ksize() to determine the size without a need for
->> external tracking, but from now on forbid callers from using that hint to
->> overflow the allocation size they actually requested? Once we remove the
->> kasan/kfence hooks in ksize() that make the current kinds of usage possible,
->> we should be able to catch any offenders of the new semantics that would appear?
+Il 22/09/22 14:45, xinlei.lee@mediatek.com ha scritto:
+> From: Xinlei Lee <xinlei.lee@mediatek.com>
 > 
-> That's correct. I spent the morning working my way through the rest of
-> the ksize() users I didn't clean up yesterday, and in several places I
-> just swapped in __ksize(). But that wouldn't even be needed if we just
-> removed the kasan unpoisoning from ksize(), etc.
+> The difference between MT8186 and other ICs is that when modifying the
+> output format, we need to modify the mmsys_base+0x400 register to take
+> effect.
+> So when setting the dpi output format, we need to call mmsys_func to set
+> it to MT8186 synchronously.
+> Adding mmsys all the settings that need to be modified with dpi are for mt8186.
 > 
-> I am tempted to leave it __ksize(), though, just to reinforce that it's
-> not supposed to be used "normally". What do you think?
+> Fixes: a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi output for MT8186")
+> 
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
 
-Sounds good. Note in linux-next there's now a series in slab.git planned for
-6.1 that moves __ksize() declaration to mm/slab.h to make it more private.
-But we don't want random users outside mm and related kasan/kfence
-subsystems to include mm/slab.h, so we'll have to expose it again instead of
-ksize().
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
