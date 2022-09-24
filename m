@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8715E904E
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 00:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888995E904B
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 00:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F27C810E147;
-	Sat, 24 Sep 2022 22:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ADDE10E146;
+	Sat, 24 Sep 2022 22:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4321.protonmail.ch (mail-4321.protonmail.ch [185.70.43.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 775D210E217
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 22:22:27 +0000 (UTC)
-Date: Sat, 24 Sep 2022 22:15:23 +0000
-Authentication-Results: mail-4321.protonmail.ch;
- dkim=pass (1024-bit key) header.d=connolly.tech header.i=@connolly.tech
- header.b="ogp8N9s8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
- s=protonmail; t=1664057730; x=1664316930;
- bh=vibURvDK8C9+axigLopCKC5jQEsrmsW5ulpcMBkfZGs=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID;
- b=ogp8N9s8hO2Z1JgKo/5W0A0nXSZWm841x2LEGIK5ontx8mZj3iHofDM2FfcW0xXCA
- hQlBelr+s6pZsD3i5PbLgcFYDIfSMVJUjjhcYsZDs8mFyqvz7T2CIcpgLMRT794Nxu
- LTvjLCfBv2fMy9pyBBhE0KsVePuGee7jWTQvey28=
-To: Nia Espera <a5b6@riseup.net>, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-From: Caleb Connolly <caleb@connolly.tech>
-Subject: Re: [PATCH 2/2] drivers: gpu: drm: remove support for sofef00 driver
- on s6e3fc2x01 panel
-Message-ID: <f8a2b974-7f95-c158-5d52-3a9582fcd28c@connolly.tech>
-In-Reply-To: <20220924203616.63325-3-a5b6@riseup.net>
-References: <20220924203616.63325-1-a5b6@riseup.net>
- <20220924203616.63325-3-a5b6@riseup.net>
-Feedback-ID: 10753939:user:proton
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED7E210E146;
+ Sat, 24 Sep 2022 22:20:00 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id y136so3323042pfb.3;
+ Sat, 24 Sep 2022 15:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=UfxmaX6xS18SKL5CagBELfs0Ts/wzJVZYz5agHw6ueY=;
+ b=IHfmwB/VyAFq4bNc5eirmno6HT/0rkT/d4G5Vroz8EZg2S6Oo+NJ86/vMHgDOH2Zv9
+ xlS/SxJiF9fMyXmCBB4eM8aJCJzWn/GFB/BFQTt83ZAHy5Qlgm92RYOitUwD1Q2eCxLT
+ 1XSMSAbv9Vz124+eMxcJ2hbpEZKkUayPJylVUrRCxYTfIUkHopqOsmUHok4xkFphbeX1
+ v+MKSHsnhtEUfipD52DC2WL74Bew65y2xfcU4wMuOPvW/cw/WMRTUNdSn5rNbtS1lYrR
+ 8LzwDIv/bx7NvzdS2Rk0V3cfDr5RJNXKYwwkjTTCQEKABiWsfBKGHunny7CjHVdnpK24
+ TsjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=UfxmaX6xS18SKL5CagBELfs0Ts/wzJVZYz5agHw6ueY=;
+ b=H8aOOUE5PALhZtrFLysaxGqHpewyroR4KnwpJlG1eNZUGmD0AODsRuXoe0ncaSaj0t
+ KSd6oRxw7M8Bg+U8RVNh8HQymPejJbjZbb8cc+d2YbZv96QgZ869kIWGT8Z/yvd9z1a+
+ zyLf6KGxfzNHbJuhulzQYwwTkm2ott5bgq0Wn+2nUL7EZv4r1Gjr85AcRY2xf7rn10hd
+ Kz2TroqRVLJIKYccHP4UtW/0Qri5qzIubxLdqja7BrEO98nJMP/1Ga7EEqRdiBTfxig4
+ TKOav5fFvuN9wn62Vd/kylxjIOT4Ho3xTEgenn7TkDZETwhUQ5laJXNr8b9dlWxq1ZuB
+ wNaw==
+X-Gm-Message-State: ACrzQf1Ytqi+i2MakHUgbwzv2TLozityGQineBRBQDR3fIpRLyBoFzsN
+ XslMQzTQJjEZLpEhgqXjFh+8JLYiI24cyg==
+X-Google-Smtp-Source: AMsMyM6fRTViVJAV24Y1aqXPwLsmaZvOex6LL58yU6e78vxShmI4rGx41WdiJ0tcZjtm86yWMIxHvg==
+X-Received: by 2002:a63:1326:0:b0:439:40b5:77cc with SMTP id
+ i38-20020a631326000000b0043940b577ccmr13797634pgl.473.1664058000118; 
+ Sat, 24 Sep 2022 15:20:00 -0700 (PDT)
+Received: from localhost.localdomain (lily-optiplex-3070.dynamic.ucsd.edu.
+ [2607:f720:1300:3033::1:4dd]) by smtp.googlemail.com with ESMTPSA id
+ mi7-20020a17090b4b4700b00200b12f2bf5sm14773431pjb.1.2022.09.24.15.19.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Sep 2022 15:19:59 -0700 (PDT)
+From: Li Zhong <floridsleeves@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drivers/amd/pm: check the return value of amdgpu_bo_kmap
+Date: Sat, 24 Sep 2022 15:19:39 -0700
+Message-Id: <20220924221939.1736291-1-floridsleeves@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,96 +68,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: lijo.lazar@amd.com, airlied@linux.ie, Xinhui.Pan@amd.com,
+ Li Zhong <floridsleeves@gmail.com>, alexander.deucher@amd.com,
+ evan.quan@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+amdgpu_bo_kmap() returns error when fails to map buffer object. Add the
+error check and propagate the error.
 
+Signed-off-by: Li Zhong <floridsleeves@gmail.com>
+---
 
-On 24/09/2022 21:36, Nia Espera wrote:
-> Removes functionality from sofef00 panel driver which allowed it to
-> drive the s6e3fc2x01 panel
->
-> Signed-off-by: Nia Espera <a5b6@riseup.net>
+v2: revise the compile error
 
-Reviewed-by: Caleb Connolly <caleb@connolly.tech>
-> ---
->   drivers/gpu/drm/panel/Kconfig                 |  6 +++---
->   drivers/gpu/drm/panel/panel-samsung-sofef00.c | 18 ------------------
->   2 files changed, 3 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfi=
-g
-> index ee62d5d8828a..62b9cb6acd05 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -547,16 +547,16 @@ config DRM_PANEL_SAMSUNG_S6E8AA0
->   =09select VIDEOMODE_HELPERS
->
->   config DRM_PANEL_SAMSUNG_SOFEF00
-> -=09tristate "Samsung sofef00/s6e3fc2x01 OnePlus 6/6T DSI cmd mode panels=
-"
-> +=09tristate "Samsung sofef00 OnePlus 6 DSI cmd mode panel"
->   =09depends on OF
->   =09depends on DRM_MIPI_DSI
->   =09depends on BACKLIGHT_CLASS_DEVICE
->   =09select VIDEOMODE_HELPERS
->   =09help
->   =09  Say Y or M here if you want to enable support for the Samsung AMOL=
-ED
-> -=09  command mode panels found in the OnePlus 6/6T smartphones.
-> +=09  command mode panel found in the OnePlus 6 smartphone.
->
-> -=09  The panels are 2280x1080@60Hz and 2340x1080@60Hz respectively
-> +=09  The panel is 2280x1080@60Hz
->
->   config DRM_PANEL_SAMSUNG_S6E3FC2X01
->   =09tristate "Samsung s6e3fc2x01 OnePlus 6T DSI cmd mode panel"
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/=
-drm/panel/panel-samsung-sofef00.c
-> index bd02af81a4fe..68e58b9b8c5c 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-> @@ -181,20 +181,6 @@ static const struct drm_display_mode enchilada_panel=
-_mode =3D {
->   =09.height_mm =3D 145,
->   };
->
-> -static const struct drm_display_mode fajita_panel_mode =3D {
-> -=09.clock =3D (1080 + 72 + 16 + 36) * (2340 + 32 + 4 + 18) * 60 / 1000,
-> -=09.hdisplay =3D 1080,
-> -=09.hsync_start =3D 1080 + 72,
-> -=09.hsync_end =3D 1080 + 72 + 16,
-> -=09.htotal =3D 1080 + 72 + 16 + 36,
-> -=09.vdisplay =3D 2340,
-> -=09.vsync_start =3D 2340 + 32,
-> -=09.vsync_end =3D 2340 + 32 + 4,
-> -=09.vtotal =3D 2340 + 32 + 4 + 18,
-> -=09.width_mm =3D 68,
-> -=09.height_mm =3D 145,
-> -};
-> -
->   static int sofef00_panel_get_modes(struct drm_panel *panel, struct drm_=
-connector *connector)
->   {
->   =09struct drm_display_mode *mode;
-> @@ -327,10 +313,6 @@ static const struct of_device_id sofef00_panel_of_ma=
-tch[] =3D {
->   =09=09.compatible =3D "samsung,sofef00",
->   =09=09.data =3D &enchilada_panel_mode,
->   =09},
-> -=09{ // OnePlus 6T / fajita
-> -=09=09.compatible =3D "samsung,s6e3fc2x01",
-> -=09=09.data =3D &fajita_panel_mode,
-> -=09},
->   =09{ /* sentinel */ }
->   };
->   MODULE_DEVICE_TABLE(of, sofef00_panel_of_match);
-> --
-> 2.37.3
->
+ drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c       | 5 ++++-
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 ++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
---
-Kind Regards,
-Caleb
+diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
+index 8fd0782a2b20..f5e08b60f66e 100644
+--- a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
++++ b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
+@@ -1384,13 +1384,16 @@ static int kv_dpm_enable(struct amdgpu_device *adev)
+ static void kv_dpm_disable(struct amdgpu_device *adev)
+ {
+ 	struct kv_power_info *pi = kv_get_pi(adev);
++	int err;
+ 
+ 	amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
+ 		       AMDGPU_THERMAL_IRQ_LOW_TO_HIGH);
+ 	amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
+ 		       AMDGPU_THERMAL_IRQ_HIGH_TO_LOW);
+ 
+-	amdgpu_kv_smc_bapm_enable(adev, false);
++	err = amdgpu_kv_smc_bapm_enable(adev, false);
++	if (err)
++		DRM_ERROR("amdgpu_kv_smc_bapm_enable failed\n");
+ 
+ 	if (adev->asic_type == CHIP_MULLINS)
+ 		kv_enable_nb_dpm(adev, false);
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+index 1eb4e613b27a..ec055858eb95 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+@@ -1485,6 +1485,7 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
+ {
+ 	struct pp_hwmgr *hwmgr = handle;
+ 	struct amdgpu_device *adev = hwmgr->adev;
++	int err;
+ 
+ 	if (!addr || !size)
+ 		return -EINVAL;
+@@ -1492,7 +1493,9 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
+ 	*addr = NULL;
+ 	*size = 0;
+ 	if (adev->pm.smu_prv_buffer) {
+-		amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
++		err = amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
++		if (err)
++			return err;
+ 		*size = adev->pm.smu_prv_buffer_size;
+ 	}
+ 
+-- 
+2.25.1
 
