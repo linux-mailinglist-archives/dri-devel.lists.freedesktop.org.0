@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB1A5E8F24
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 20:06:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA845E8F48
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 20:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5928610E00C;
-	Sat, 24 Sep 2022 18:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C53910E081;
+	Sat, 24 Sep 2022 18:22:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84D3A10E00C;
- Sat, 24 Sep 2022 18:06:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vNroYZdtuj4X++Jh34X70elhBvsm1SbgjCXbuhLOGrw=; b=ZWXLJr/UJyDQwUuH+c5AAOuTP0
- gcEiMXDTrOTfijyHS0GxsolHRPDzzWriSLnG022xFr3E1FjEOS3jLDv5/Y+SqwQPnJtHqYhKRMfTt
- Dp0O+lmPPSaJeY8Q8WQCjIBOhj8xCR9hcZZghMIdP7UoFyrbQhBBdQhjlxsfWopCjDlsqw9njjy0S
- gLBWNkW/XtKxcUOvm2XmwMFL3xH5FTDPpMzevOsIloIvUPITbAWD1bOx0LRQc06C33H6Z5dzgT8Sp
- mHykOd9WWZDK+16/tWz+/c99riYjMyPjbsmYziJUCqBTED4/RIzEj14koghvXgEqfGaLFtEmw/Vl1
- lFKP2PHA==;
-Received: from [2a01:799:961:d200:8cf6:761:40ec:1ff7] (port=61631)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oc9Xg-0003T3-A5; Sat, 24 Sep 2022 20:06:20 +0200
-Message-ID: <c7bd9bcb-77a1-9f2d-fe93-afefac5e6def@tronnes.org>
-Date: Sat, 24 Sep 2022 20:06:17 +0200
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6289710E07A
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 18:22:33 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-345528ceb87so30316357b3.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 11:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=s2yVFEWeDENib5ZI/a0e4ge6cSf4cj8rWCXGLC8hWc8=;
+ b=wxMdeFEZDUmk1q3u139fGzFutmWA3RDqZJDDpILqRY8aNRDEHhddkYzPg3AmSAmtKL
+ a28v+VdYgGVulYsS+pbwPNXyWq4u7zF0P3w/4Jo2MLt0Q99QblBroXAzGYWb+cTHxXqg
+ OCpHbKEzut3wEex19I/RXeUN9ZV4FqD2L33md0qJ+APWgl/qlX0dJrH9stA6F+f4ZG8t
+ /5+CWuEAjpFC6q/1pn3czSH1jVuj6S4lkcMCbKnPj2PSP6gzRmPt3Fg3zyYRGmbYSx69
+ xltQVHNl+GV6On0h971Iu3BqUG1ZUJh4KloHkfvQgYzjDYusKvsoJKVKUqUxizCKmIJg
+ Mchg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=s2yVFEWeDENib5ZI/a0e4ge6cSf4cj8rWCXGLC8hWc8=;
+ b=UjaoBZreAUZdycYydWIn3DiiTNfQyFg3hBTUz9ad2Nq6G7hT/9iCnQkJB2DNWZNTjH
+ uh3WiPfsaUmtqQMtER6LVzvy3cSIyZwNbTEHh4xt4+au7frnhRwW2Q4iKMdFHl8dlAT3
+ 6+1xHpq5m4IZErEQLyx28rH//1q8YP7V+E6OKlW/E+yxLXLLGN1sqaDEUfEHc69RBW1g
+ X8+Lid2JiNbKVS1j4CV/+YJjZoKAU3Y8U6+20RxXw0p059LGPBQ9NvVU8UTncC2qX6Wq
+ r/FaJoKQo60fWTeZjF6bkYX9qkSh5Cal7XoiWp2D7zVo6VdySerIoOovBg0BxQ2mvmq8
+ i5aA==
+X-Gm-Message-State: ACrzQf1UxU3TvRTwy5y21mXWU7lP5G0lVWLrINKkC2Old+95zFzzugqy
+ GMTzdWjKHJhH8cH8CNK12Wdza5dr5FDkicZjjgiB/w==
+X-Google-Smtp-Source: AMsMyM55C7BiVAgLyyl2DjyMdVD0pDcGpUVDvvuje9A16f1dgXZcSU4O2RBMsUKcA7MgADqVBthdJWgunYiS+vBYqbo=
+X-Received: by 2002:a81:1e0d:0:b0:33b:fb67:9895 with SMTP id
+ e13-20020a811e0d000000b0033bfb679895mr13952159ywe.188.1664043752195; Sat, 24
+ Sep 2022 11:22:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2 02/33] drm/tests: Add Kunit Helpers
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-2-f733a0ed9f90@cerno.tech>
- <3f7000ab-b845-a7e8-f215-02121da779b7@tronnes.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <3f7000ab-b845-a7e8-f215-02121da779b7@tronnes.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220924123611.225520-1-dmitry.baryshkov@linaro.org>
+ <20220924123611.225520-4-dmitry.baryshkov@linaro.org>
+ <20220924172324.qdgz5dnccncadmfz@krzk-bin>
+In-Reply-To: <20220924172324.qdgz5dnccncadmfz@krzk-bin>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 24 Sep 2022 21:22:21 +0300
+Message-ID: <CAA8EJpoZq9zrVeSYdn4_MQ_HVQTEXR8Zmx+BWpoo1PDUS7X+5A@mail.gmail.com>
+Subject: Re: [PATCH v8 03/12] dt-bindings: display/msm: add interconnects
+ property to qcom,mdss-smd845
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,129 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, 24 Sept 2022 at 20:23, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On Sat, 24 Sep 2022 15:36:02 +0300, Dmitry Baryshkov wrote:
+> > Add interconnects required for the SDM845 MDSS device tree node. This
+> > change was made in the commit c8c61c09e38b ("arm64: dts: qcom: sdm845:
+> > Add interconnects property for display"), but was not reflected in the
+> > schema.
+> >
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  .../devicetree/bindings/display/msm/dpu-sdm845.yaml    | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+>
+> Running 'make dtbs_check' with the schema in this patch gives the
+> following warnings. Consider if they are expected or the schema is
+> incorrect. These may not be new warnings.
+>
+> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+> This will change in the future.
+>
+> Full log is available here: https://patchwork.ozlabs.org/patch/1681884
+>
+>
+> mdss@ae00000: 'dsi-phy@ae94400', 'dsi-phy@ae96400', 'dsi@ae94000', 'dsi@ae96000' do not match any of the regexes: '^display-controller@[0-9a-f]+$', 'pinctrl-[0-9]+'
+>         arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-db845c.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-mtp.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akatsuki.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dtb
+>         arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb
+>         arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb
+>         arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb
 
+This is expected and fixed by one of the later patches.
 
-Den 24.09.2022 19.56, skrev Noralf Trønnes:
-> 
-> 
-> Den 22.09.2022 16.25, skrev Maxime Ripard:
->> As the number of kunit tests in KMS grows further, we start to have
->> multiple test suites that, for example, need to register a mock DRM
->> driver to interact with the KMS function they are supposed to test.
->>
->> Let's add a file meant to provide those kind of helpers to avoid
->> duplication.
->>
->> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>
->> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
->> index 2d9f49b62ecb..b29ef1085cad 100644
->> --- a/drivers/gpu/drm/tests/Makefile
->> +++ b/drivers/gpu/drm/tests/Makefile
->> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
->>  	drm_format_helper_test.o \
->>  	drm_format_test.o \
->>  	drm_framebuffer_test.o \
->> +	drm_kunit_helpers.o \
->>  	drm_mm_test.o \
->>  	drm_plane_helper_test.o \
->>  	drm_rect_test.o
->> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
->> new file mode 100644
->> index 000000000000..7ebd620481c1
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
->> @@ -0,0 +1,54 @@
->> +#include <drm/drm_drv.h>
->> +#include <drm/drm_managed.h>
->> +
->> +#include <linux/device.h>
->> +
->> +static const struct drm_mode_config_funcs drm_mode_config_funcs = {
->> +};
->> +
->> +static const struct drm_driver drm_mode_driver = {
->> +};
->> +
->> +static void drm_kunit_free_device(struct drm_device *drm, void *ptr)
->> +{
->> +	struct device *dev = ptr;
->> +
->> +	root_device_unregister(dev);
->> +}
->> +
->> +struct drm_device *drm_kunit_device_init(const char *name)
->> +{
->> +	struct drm_device *drm;
->> +	struct device *dev;
->> +	int ret;
->> +
->> +	dev = root_device_register(name);
->> +	if (IS_ERR(dev))
->> +		return ERR_CAST(dev);
->> +
->> +	drm = drm_dev_alloc(&drm_mode_driver, dev);
-> 
-> I can't find drm being freed anywhere?
-> Maybe you could assign it to drm->managed.final_kfree.
-> 
-
-Perhaps a better solution would be to use devm_drm_dev_alloc() and
-unregister the root device on exit. That avoids reaching into the drm
-managed internals and it looks more like a regular driver.
-
-> Noralf.
-> 
->> +	if (IS_ERR(drm)) {
->> +		root_device_unregister(dev);
->> +		return ERR_CAST(drm);
->> +	}
->> +	drm->mode_config.funcs = &drm_mode_config_funcs;
->> +
->> +	ret = drmm_add_action_or_reset(drm, drm_kunit_free_device, dev);
->> +	if (ret)
->> +		goto err_put_device;
->> +
->> +	ret = drmm_mode_config_init(drm);
->> +	if (ret)
->> +		return ERR_PTR(ret);
->> +
->> +	return drm;
->> +
->> +err_put_device:
->> +	drm_dev_put(drm);
->> +	return ERR_PTR(ret);
->> +}
->> +
->> +void drm_kunit_device_exit(struct drm_device *drm)
->> +{
->> +	drm_dev_put(drm);
->> +}
->> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.h b/drivers/gpu/drm/tests/drm_kunit_helpers.h
->> new file mode 100644
->> index 000000000000..5015a327a8c1
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.h
->> @@ -0,0 +1,9 @@
->> +#ifndef DRM_KUNIT_HELPERS_H_
->> +#define DRM_KUNIT_HELPERS_H_
->> +
->> +struct drm_device;
->> +
->> +struct drm_device *drm_kunit_device_init(const char *name);
->> +void drm_kunit_device_exit(struct drm_device *drm);
->> +
->> +#endif // DRM_KUNIT_HELPERS_H_
->>
+-- 
+With best wishes
+Dmitry
