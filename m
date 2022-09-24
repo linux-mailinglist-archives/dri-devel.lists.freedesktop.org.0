@@ -2,41 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289215E9434
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 18:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0646B5E9429
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 18:03:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48FE010E2E8;
-	Sun, 25 Sep 2022 16:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41FD110E1EE;
+	Sun, 25 Sep 2022 16:02:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45DCD10E568;
- Sat, 24 Sep 2022 09:29:06 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MZNrM1hNpzHthT;
- Sat, 24 Sep 2022 17:24:19 +0800 (CST)
-Received: from huawei.com (10.67.175.83) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Sat, 24 Sep
- 2022 17:29:02 +0800
-From: ruanjinjie <ruanjinjie@huawei.com>
-To: <bskeggs@redhat.com>, <kherbst@redhat.com>, <lyude@redhat.com>,
- <airlied@linux.ie>, <linux-kernel@vger.kernel.org>, <daniel@ffwll.ch>,
- <jani.nikula@intel.com>, <airlied@redhat.com>, <tzimmermann@suse.de>,
- <hverkuil-cisco@xs4all.nl>, <greenfoo@u92.eu>, <seanpaul@chromium.org>,
- <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH -next] drm/nouveau/disp: fix cast removes address space of
- expression warnings
-Date: Sat, 24 Sep 2022 17:25:16 +0800
-Message-ID: <20220924092516.10007-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9758910E0BE
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 20:36:49 +0000 (UTC)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4MZgmK2BL5zDqFf
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 20:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1664051809; bh=XKuz2LOAJmatn3dRdqOoRzj+9Y6o2PCdA2KB3+5c/8Y=;
+ h=From:To:Cc:Subject:Date:From;
+ b=b46cy5wzRuWD6bJhq1SBY1gRNCRSwtTyifOFd91IgrNcrR2T/lzoxdtgdbr0AWq/k
+ Cj58QSwpmE9ObSdwPTsKBVvXSRTwc3FUKGluDOv6GLCZLB9hX9/21HgBtIzYJjHiSz
+ 0V8yKY+EH1iEOkqXkUf45/uv1Mu5qWpkw1uHxzLs=
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MZgmJ3FPKz9rxl;
+ Sat, 24 Sep 2022 20:36:48 +0000 (UTC)
+X-Riseup-User-ID: 71826594FBD7587B59CB49689B9D6271079D7E3E55DFD90AA35B694E52D96464
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4MZgmF4nTgz20Rm;
+ Sat, 24 Sep 2022 20:36:45 +0000 (UTC)
+From: Nia Espera <a5b6@riseup.net>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] Samsung s6e3fc2x01 panel driver for OnePlus 6T
+Date: Sat, 24 Sep 2022 22:36:14 +0200
+Message-Id: <20220924203616.63325-1-a5b6@riseup.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.83]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 25 Sep 2022 16:02:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,46 +58,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ruanjinjie@huawei.com
+Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Nia Espera <a5b6@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When build Linux kernel with 'make C=2', encounter the following warnings:
+This patch series adds proper support for the panel used in OnePlus 6T
+smartphones (s6e3fc2x01). Previously, the panel relied on the driver
+used by the sofef00 panel which failed to properly initialise it after
+a reset.
 
-./drivers/gpu/drm/nouveau/dispnv50/disp.c:134:34: warning: cast removes address space '__iomem' of expression
-./drivers/gpu/drm/nouveau/dispnv50/disp.c:197:34: warning: cast removes address space '__iomem' of expression
+Nia Espera (2):
+  drivers: gpu: drm: add driver for samsung s6e3fc2x01 cmd mode panel
+  drivers: gpu: drm: remove support for sofef00 driver on s6e3fc2x01
+    panel
 
-The data type of dmac->_push.mem.object.map.ptr is 'void __iomem *', but
-converted to 'u32 *' directly and cause above warnings, now
-recover their data types to fix these warnings.
+ MAINTAINERS                                   |   5 +
+ drivers/gpu/drm/panel/Kconfig                 |  17 +-
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-samsung-s6e3fc2x01.c  | 395 ++++++++++++++++++
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c |  18 -
+ 5 files changed, 415 insertions(+), 21 deletions(-)
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fc2x01.c
 
-Signed-off-by: ruanjinjie <ruanjinjie@huawei.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 33c97d510999..aa94f8e284dd 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -131,7 +131,7 @@ nv50_dmac_kick(struct nvif_push *push)
- {
- 	struct nv50_dmac *dmac = container_of(push, typeof(*dmac), _push);
- 
--	dmac->cur = push->cur - (u32 *)dmac->_push.mem.object.map.ptr;
-+	dmac->cur = push->cur - (u32 __iomem *)dmac->_push.mem.object.map.ptr;
- 	if (dmac->put != dmac->cur) {
- 		/* Push buffer fetches are not coherent with BAR1, we need to ensure
- 		 * writes have been flushed right through to VRAM before writing PUT.
-@@ -194,7 +194,7 @@ nv50_dmac_wait(struct nvif_push *push, u32 size)
- 	if (WARN_ON(size > dmac->max))
- 		return -EINVAL;
- 
--	dmac->cur = push->cur - (u32 *)dmac->_push.mem.object.map.ptr;
-+	dmac->cur = push->cur - (u32 __iomem *)dmac->_push.mem.object.map.ptr;
- 	if (dmac->cur + size >= dmac->max) {
- 		int ret = nv50_dmac_wind(dmac);
- 		if (ret)
 -- 
-2.25.1
+2.37.3
 
