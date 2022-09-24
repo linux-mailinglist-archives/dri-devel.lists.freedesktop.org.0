@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74325E872F
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 03:59:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 931595E8732
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 04:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142D310E416;
-	Sat, 24 Sep 2022 01:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 352C610EB71;
+	Sat, 24 Sep 2022 01:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12E310E40F
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 01:58:51 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MZBrs4thSzHtdg;
- Sat, 24 Sep 2022 09:54:05 +0800 (CST)
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECA3A10E415
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 01:58:52 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MZBvn5krKzHqPD;
+ Sat, 24 Sep 2022 09:56:37 +0800 (CST)
 Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
  (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Sat, 24 Sep
@@ -24,10 +24,10 @@ To: <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <laurent.pinchart@ideasonboard.com>,
  <dianders@chromium.org>, <hanxu5@huaqin.corp-partner.google.com>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 04/10] drm/panel: leadtek-ltk050h3146w: Use dev_err_probe() to
+Subject: [PATCH 05/10] drm/panel: leadtek-ltk500hd1829: Use dev_err_probe() to
  simplify code
-Date: Sat, 24 Sep 2022 01:56:10 +0000
-Message-ID: <20220924015616.34293-5-yuancan@huawei.com>
+Date: Sat, 24 Sep 2022 01:56:11 +0000
+Message-ID: <20220924015616.34293-6-yuancan@huawei.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220924015616.34293-1-yuancan@huawei.com>
 References: <20220924015616.34293-1-yuancan@huawei.com>
@@ -59,26 +59,26 @@ checked later through debugfs.
 
 Signed-off-by: Yuan Can <yuancan@huawei.com>
 ---
- .../gpu/drm/panel/panel-leadtek-ltk050h3146w.c | 18 ++++++------------
+ .../gpu/drm/panel/panel-leadtek-ltk500hd1829.c | 18 ++++++------------
  1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-index 5619f186d28c..9b59edfbc98b 100644
---- a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-+++ b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-@@ -571,20 +571,14 @@ static int ltk050h3146w_probe(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
+index 39e408c9f762..d1303b368893 100644
+--- a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
++++ b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
+@@ -420,20 +420,14 @@ static int ltk500hd1829_probe(struct mipi_dsi_device *dsi)
  	}
  
- 	ctx->vci = devm_regulator_get(dev, "vci");
--	if (IS_ERR(ctx->vci)) {
--		ret = PTR_ERR(ctx->vci);
+ 	ctx->vcc = devm_regulator_get(dev, "vcc");
+-	if (IS_ERR(ctx->vcc)) {
+-		ret = PTR_ERR(ctx->vcc);
 -		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "Failed to request vci regulator: %d\n", ret);
+-			dev_err(dev, "Failed to request vcc regulator: %d\n", ret);
 -		return ret;
 -	}
-+	if (IS_ERR(ctx->vci))
-+		return dev_err_probe(dev, PTR_ERR(ctx->vci),
-+				     "Failed to request vci regulator\n");
++	if (IS_ERR(ctx->vcc))
++		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
++				     "Failed to request vcc regulator\n");
  
  	ctx->iovcc = devm_regulator_get(dev, "iovcc");
 -	if (IS_ERR(ctx->iovcc)) {
