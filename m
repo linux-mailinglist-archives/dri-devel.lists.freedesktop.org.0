@@ -1,60 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465A05E8DA8
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 17:01:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 991875E8DB6
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 17:12:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C537A10E3B6;
-	Sat, 24 Sep 2022 15:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4584010E5F5;
+	Sat, 24 Sep 2022 15:12:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC4B910E3B6
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 15:01:04 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id j16so4528370lfg.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 08:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=qtTPVHorLcAcqrLqtetLOrQsQ05YXzyOFV1U2nU0d+4=;
- b=H4wwb8a6K5uJxPEtRNOjAiCdigN4xdVUg2o/JrgbT+NUylgS749+Bxmw3gEUCYizkS
- qENczikyzYMAfBErrjTGRmHTfgECEBeQFc5BwEa/XZD7KN3p1sPk53P/jmWN8jpHJsJH
- hhog3X9D9sosamaeew+xtI9zNyfLxBbWk/Y+ggqfFET6Mj1UQ6pqysUTqaDwPcyeb4/f
- HnQspWsRwN5AaWBsP/7608m4befY9ELsqxlE7EuGG/mmjEcfvQDPCXcZAIBuK68FKLer
- QyUlE/SohoGbxPnH5Iwekzk0B1rY1KyzddrTL3Brfk/sO8IUHF5Jn4phtKEIgwfR1xgp
- X3pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=qtTPVHorLcAcqrLqtetLOrQsQ05YXzyOFV1U2nU0d+4=;
- b=DapG3yHOIgRQczn/GydAFNqHRlhm4vGocVoXR8+wZXLfhD5p0eY7zWOPLEBnPfLbjc
- D/8ksVrR7eOheKtd8nUyuOuSF6u1w8UVmbgH1iDghoFKPcDH1ZmDo/Pc/xeUX4VLHTFn
- BsitdOjXBlTHQMTiTLYkhCoTkOCSq2+otPNY4bm7LPdmH6hLlQGKzCfxkV6fh1kLcXph
- NR/YLkjPPzYu+bDcsJYUe+XkAwPUH1+AdYahp85jlyzXXdQ3pei0OXo5z2yyX20NWPt8
- EltOiNvgge9+FRmdhRaO77NiXC27no4bVzSIs9/dL6NcEf2jwrpIcqGWaN9j9rvoE8up
- FewQ==
-X-Gm-Message-State: ACrzQf31wI0gdEgQcQma5LzlTn686TKE5DdptqoqESxCKcpy7+9Ks0Mg
- bQAoazXWmMj97zZgOeuwQI8kQg==
-X-Google-Smtp-Source: AMsMyM4S2/JPR75Oa1ZwWzReIsRVuwvgpEhrTvVAUZdyDa2UyqfccrEzUwv+522daffp495rq2ve/Q==
-X-Received: by 2002:a05:6512:3b06:b0:498:fa72:c24d with SMTP id
- f6-20020a0565123b0600b00498fa72c24dmr5605200lfv.538.1664031663026; 
- Sat, 24 Sep 2022 08:01:03 -0700 (PDT)
-Received: from eriador.lumag.spb.ru ([95.161.222.18])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a056512114600b004896ed8dce3sm1929587lfg.2.2022.09.24.08.01.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Sep 2022 08:01:02 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH] dt-bindings: display/msm: convert MDP5 schema to YAML format
-Date: Sat, 24 Sep 2022 18:01:01 +0300
-Message-Id: <20220924150101.255586-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9AA10E62F
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 15:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664032314; x=1695568314;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ex/h0CBYdJb4eGuOxP88uU8v1awWs4LllOEgwLNfmlE=;
+ b=RSodDu+YIT3EVlxycvM+6x4G+/Ldij0S1LgTjTld2uLCtBA69J1/bz7a
+ W7T7U2A/n2RCQrAspRwJOaaCOk7yol+E7zl4Ioit6zPqY8aGCtHUr42Mx
+ CAT/NSCW+j7gC8cSh1LeYaHtfmzHfSoXQQewJQfpIEEEyBbQJWztxGmCE
+ cgYgbm4dtIVjKStCmMPYNjL/R8MxkUrHaO2jHG0ecCF/wLtb+DIEjfpMR
+ ne7+Z3PVJNNj4iCwSeksSzVZ9hSreBUeIOzMngyXBXy4XX9vnffsxRCbq
+ AQbtRI0pchIsuM0X3SCE1sjUFj+nLnz6dFOd6crSO/NBmCSLt/5rVLuzm Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10480"; a="298383655"
+X-IronPort-AV: E=Sophos;i="5.93,342,1654585200"; d="scan'208";a="298383655"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2022 08:11:53 -0700
+X-IronPort-AV: E=Sophos;i="5.93,342,1654585200"; d="scan'208";a="571707858"
+Received: from jlawryno-desktop.igk.intel.com ([172.22.229.64])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2022 08:11:51 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org,
+	airlied@gmail.com,
+	daniel@ffwll.ch
+Subject: [PATCH v3 RESEND 0/7] New DRM driver for Intel VPU
+Date: Sat, 24 Sep 2022 17:11:42 +0200
+Message-Id: <20220924151149.323622-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,311 +56,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: andrzej.kacprowski@linux.intel.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the mdp5.txt into the yaml format. Changes to the existing (txt) schema:
- - MSM8996 has additional "iommu" clock, define it separately
- - Add new properties used on some of platforms:
-   - interconnects, interconnect-names
-   - iommus
-   - power-domains
-   - operating-points-v2, opp-table
+Hi,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
-Dependency: https://lore.kernel.org/linux-arm-msm/20220924123611.225520-2-dmitry.baryshkov@linaro.org/
----
- .../devicetree/bindings/display/msm/mdp5.txt  | 132 -----------------
- .../bindings/display/msm/qcom,mdp5.yaml       | 137 ++++++++++++++++++
- 2 files changed, 137 insertions(+), 132 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/msm/mdp5.txt
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
+This patchset contains a new Linux* Kernel Driver for Intel® VPUs.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/mdp5.txt b/Documentation/devicetree/bindings/display/msm/mdp5.txt
-deleted file mode 100644
-index 65d03c58dee6..000000000000
---- a/Documentation/devicetree/bindings/display/msm/mdp5.txt
-+++ /dev/null
-@@ -1,132 +0,0 @@
--Qualcomm adreno/snapdragon MDP5 display controller
--
--Description:
--
--This is the bindings documentation for the MDP5 display
--controller found in SoCs like MSM8974, APQ8084, MSM8916, MSM8994 and MSM8996.
--
--MDP5:
--Required properties:
--- compatible:
--  * "qcom,mdp5" - MDP5
--- reg: Physical base address and length of the controller's registers.
--- reg-names: The names of register regions. The following regions are required:
--  * "mdp_phys"
--- interrupts: Interrupt line from MDP5 to MDSS interrupt controller.
--- clocks: device clocks. See ../clocks/clock-bindings.txt for details.
--- clock-names: the following clocks are required.
---   * "bus"
---   * "iface"
---   * "core"
---   * "vsync"
--- ports: contains the list of output ports from MDP. These connect to interfaces
--  that are external to the MDP hardware, such as HDMI, DSI, EDP etc (LVDS is a
--  special case since it is a part of the MDP block itself).
--
--  Each output port contains an endpoint that describes how it is connected to an
--  external interface. These are described by the standard properties documented
--  here:
--	Documentation/devicetree/bindings/graph.txt
--	Documentation/devicetree/bindings/media/video-interfaces.txt
--
--  The availability of output ports can vary across SoC revisions:
--
--  For MSM8974 and APQ8084:
--	 Port 0 -> MDP_INTF0 (eDP)
--	 Port 1 -> MDP_INTF1 (DSI1)
--	 Port 2 -> MDP_INTF2 (DSI2)
--	 Port 3 -> MDP_INTF3 (HDMI)
--
--  For MSM8916:
--	 Port 0 -> MDP_INTF1 (DSI1)
--
--  For MSM8994 and MSM8996:
--	 Port 0 -> MDP_INTF1 (DSI1)
--	 Port 1 -> MDP_INTF2 (DSI2)
--	 Port 2 -> MDP_INTF3 (HDMI)
--
--Optional properties:
--- clock-names: the following clocks are optional:
--  * "lut"
--  * "tbu"
--  * "tbu_rt"
--
--Example:
--
--/ {
--	...
--
--	mdss: mdss@1a00000 {
--		compatible = "qcom,mdss";
--		reg = <0x1a00000 0x1000>,
--		      <0x1ac8000 0x3000>;
--		reg-names = "mdss_phys", "vbif_phys";
--
--		power-domains = <&gcc MDSS_GDSC>;
--
--		clocks = <&gcc GCC_MDSS_AHB_CLK>,
--			 <&gcc GCC_MDSS_AXI_CLK>,
--			 <&gcc GCC_MDSS_VSYNC_CLK>;
--		clock-names = "iface",
--			      "bus",
--			      "vsync"
--
--		interrupts = <0 72 0>;
--
--		interrupt-controller;
--		#interrupt-cells = <1>;
--
--		#address-cells = <1>;
--		#size-cells = <1>;
--		ranges;
--
--		mdp: mdp@1a01000 {
--			compatible = "qcom,mdp5";
--			reg = <0x1a01000 0x90000>;
--			reg-names = "mdp_phys";
--
--			interrupt-parent = <&mdss>;
--			interrupts = <0 0>;
--
--			clocks = <&gcc GCC_MDSS_AHB_CLK>,
--				 <&gcc GCC_MDSS_AXI_CLK>,
--				 <&gcc GCC_MDSS_MDP_CLK>,
--				 <&gcc GCC_MDSS_VSYNC_CLK>;
--			clock-names = "iface",
--				      "bus",
--				      "core",
--				      "vsync";
--
--			ports {
--				#address-cells = <1>;
--				#size-cells = <0>;
--
--				port@0 {
--					reg = <0>;
--					mdp5_intf1_out: endpoint {
--						remote-endpoint = <&dsi0_in>;
--					};
--				};
--			};
--		};
--
--		dsi0: dsi@1a98000 {
--			...
--			ports {
--				...
--				port@0 {
--					reg = <0>;
--					dsi0_in: endpoint {
--						remote-endpoint = <&mdp5_intf1_out>;
--					};
--				};
--				...
--			};
--			...
--		};
--
--		dsi_phy0: dsi-phy@1a98300 {
--			...
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
-new file mode 100644
-index 000000000000..574e8b7bd67b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
-@@ -0,0 +1,137 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/qcom,mdp5.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm Adreno/Snapdragon Mobile Display controller (MDP5)
-+
-+description: >
-+  MDP5 display controller found in SoCs like MSM8974, APQ8084, MSM8916, MSM8994
-+  and MSM8996.
-+
-+maintainers:
-+  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+  - Rob Clark <robdclark@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: qcom,mdp5
-+
-+  reg:
-+    maxItems: 1
-+
-+  reg-names:
-+    items:
-+      - const: mdp_phys
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 4
-+    maxItems: 7
-+
-+  clock-names:
-+    oneOf:
-+      - minItems: 4
-+        items:
-+          - const: iface
-+          - const: bus
-+          - const: core
-+          - const: vsync
-+          - const: lut
-+          - const: tbu
-+          - const: tbu_rt
-+        #MSM8996 has additional iommu clock
-+      - items:
-+          - const: iface
-+          - const: bus
-+          - const: core
-+          - const: iommu
-+          - const: vsync
-+
-+  interconnects:
-+    minItems: 1
-+    items:
-+      - description: Interconnect path from mdp0 (or a single mdp) port to the data bus
-+      - description: Interconnect path from mdp1 port to the data bus
-+      - description: Interconnect path from rotator port to the data bus
-+
-+  interconnect-names:
-+    minItems: 1
-+    items:
-+      - const: mdp0-mem
-+      - const: mdp1-mem
-+      - const: rotator-mem
-+
-+  iommus:
-+    items:
-+      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  operating-points-v2: true
-+  opp-table:
-+    type: object
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    description: |
-+      Contains the list of output ports from DPU device. These ports
-+      connect to interfaces that are external to the DPU hardware,
-+      such as DSI, DP etc.
-+
-+    patternProperties:
-+      "^port@[0-9a-f]+$":
-+        $ref: /schemas/graph.yaml#/properties/port
-+
-+    # at least one port is required
-+    required:
-+      - port@0
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - clocks
-+  - clock-names
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,gcc-msm8916.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    mdp@1a01000 {
-+        compatible = "qcom,mdp5";
-+        reg = <0x1a01000 0x90000>;
-+        reg-names = "mdp_phys";
-+
-+        interrupt-parent = <&mdss>;
-+        interrupts = <0>;
-+
-+        clocks = <&gcc GCC_MDSS_AHB_CLK>,
-+                 <&gcc GCC_MDSS_AXI_CLK>,
-+                 <&gcc GCC_MDSS_MDP_CLK>,
-+                 <&gcc GCC_MDSS_VSYNC_CLK>;
-+        clock-names = "iface",
-+                      "bus",
-+                      "core",
-+                      "vsync";
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                endpoint {
-+                    remote-endpoint = <&dsi0_in>;
-+                };
-+            };
-+        };
-+    };
-+...
--- 
-2.35.1
+VPU stands for Versatile Processing Unit and it is an AI inference accelerator
+integrated with Intel non-server CPUs starting from 14th generation.
+VPU enables efficient execution of Deep Learning applications
+like object detection, classification etc.
 
+Driver is part of gpu/drm subsystem because VPU is similar in operation to
+an integrated GPU. Reusing drm driver init, ioctl handling, gem and prime
+helpers and drm_mm allows to minimize code duplication in the kernel.
+
+The whole driver is licensed under GPL-2.0-only except for two headers imported
+from the firmware that are MIT licensed.
+
+User mode driver stack consists of Level Zero API driver and OpenVINO plugin.
+Both should be open-sourced by the end of Q4.
+The firmware for the VPU will be distributed as a closed source binary.
+
+I'm resending v3 patchset with correct Dave's email.
+
+Regards,
+Jacek
+
+v3:
+- Fixed alignment warning in ivpu_ipc.c when building with W=1
+
+v2: https://lore.kernel.org/all/20220913121017.993825-1-jacek.lawrynowicz@linux.intel.com/
+- Rename the driver from "drm/vpu" to "drm/ivpu"
+- Add a TODO file
+- Add support for WC buffers
+
+v1: https://lore.kernel.org/all/20220728131709.1087188-1-jacek.lawrynowicz@linux.intel.com/
+
+Jacek Lawrynowicz (7):
+  drm/ivpu: Introduce a new DRM driver for Intel VPU
+  drm/ivpu: Add Intel VPU MMU support
+  drm/ivpu: Add GEM buffer object management
+  drm/ivpu: Add IPC driver and JSM messages
+  drm/ivpu: Implement firmware parsing and booting
+  drm/ivpu: Add command buffer submission logic
+  drm/ivpu: Add PM support
+
+ MAINTAINERS                             |    8 +
+ drivers/gpu/drm/Kconfig                 |    2 +
+ drivers/gpu/drm/Makefile                |    1 +
+ drivers/gpu/drm/ivpu/Kconfig            |   12 +
+ drivers/gpu/drm/ivpu/Makefile           |   16 +
+ drivers/gpu/drm/ivpu/TODO               |    7 +
+ drivers/gpu/drm/ivpu/ivpu_drv.c         |  643 ++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_drv.h         |  178 ++++
+ drivers/gpu/drm/ivpu/ivpu_fw.c          |  426 +++++++++
+ drivers/gpu/drm/ivpu/ivpu_fw.h          |   38 +
+ drivers/gpu/drm/ivpu/ivpu_gem.c         |  836 ++++++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_gem.h         |  128 +++
+ drivers/gpu/drm/ivpu/ivpu_hw.h          |  169 ++++
+ drivers/gpu/drm/ivpu/ivpu_hw_mtl.c      | 1060 +++++++++++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_hw_mtl_reg.h  |  468 ++++++++++
+ drivers/gpu/drm/ivpu/ivpu_hw_reg_io.h   |  115 +++
+ drivers/gpu/drm/ivpu/ivpu_ipc.c         |  508 +++++++++++
+ drivers/gpu/drm/ivpu/ivpu_ipc.h         |   90 ++
+ drivers/gpu/drm/ivpu/ivpu_job.c         |  629 ++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_job.h         |   73 ++
+ drivers/gpu/drm/ivpu/ivpu_jsm_msg.c     |  220 +++++
+ drivers/gpu/drm/ivpu/ivpu_jsm_msg.h     |   25 +
+ drivers/gpu/drm/ivpu/ivpu_mmu.c         |  888 +++++++++++++++++++
+ drivers/gpu/drm/ivpu/ivpu_mmu.h         |   53 ++
+ drivers/gpu/drm/ivpu/ivpu_mmu_context.c |  419 +++++++++
+ drivers/gpu/drm/ivpu/ivpu_mmu_context.h |   49 ++
+ drivers/gpu/drm/ivpu/ivpu_pm.c          |  352 ++++++++
+ drivers/gpu/drm/ivpu/ivpu_pm.h          |   38 +
+ drivers/gpu/drm/ivpu/vpu_boot_api.h     |  241 ++++++
+ drivers/gpu/drm/ivpu/vpu_jsm_api.h      |  616 +++++++++++++
+ include/uapi/drm/ivpu_drm.h             |  343 ++++++++
+ 31 files changed, 8651 insertions(+)
+ create mode 100644 drivers/gpu/drm/ivpu/Kconfig
+ create mode 100644 drivers/gpu/drm/ivpu/Makefile
+ create mode 100644 drivers/gpu/drm/ivpu/TODO
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_drv.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_drv.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_fw.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_fw.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_gem.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_gem.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_mtl_reg.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_reg_io.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_ipc.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_ipc.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_job.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_job.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_jsm_msg.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_jsm_msg.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.h
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_pm.c
+ create mode 100644 drivers/gpu/drm/ivpu/ivpu_pm.h
+ create mode 100644 drivers/gpu/drm/ivpu/vpu_boot_api.h
+ create mode 100644 drivers/gpu/drm/ivpu/vpu_jsm_api.h
+ create mode 100644 include/uapi/drm/ivpu_drm.h
+
+--
+2.34.1
