@@ -2,18 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454A05E8755
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 04:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBF05E8753
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 04:15:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9577C10EB87;
-	Sat, 24 Sep 2022 02:15:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 870CC10EB72;
+	Sat, 24 Sep 2022 02:15:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 997 seconds by postgrey-1.36 at gabe;
+ Sat, 24 Sep 2022 02:15:29 UTC
 Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6743510EB84
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 02:15:29 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MZBsV352bz1P6wQ;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD0D10EB72
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 02:15:28 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MZBsV6WWkz1P6wh;
  Sat, 24 Sep 2022 09:54:38 +0800 (CST)
 Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
  (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
@@ -24,10 +26,10 @@ To: <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <laurent.pinchart@ideasonboard.com>,
  <dianders@chromium.org>, <hanxu5@huaqin.corp-partner.google.com>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 02/10] drm/panel: panel-edp: Use dev_err_probe() to simplify
- code
-Date: Sat, 24 Sep 2022 01:56:08 +0000
-Message-ID: <20220924015616.34293-3-yuancan@huawei.com>
+Subject: [PATCH 03/10] drm/panel: elida-kd35t133: Use dev_err_probe() to
+ simplify code
+Date: Sat, 24 Sep 2022 01:56:09 +0000
+Message-ID: <20220924015616.34293-4-yuancan@huawei.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220924015616.34293-1-yuancan@huawei.com>
 References: <20220924015616.34293-1-yuancan@huawei.com>
@@ -59,34 +61,40 @@ checked later through debugfs.
 
 Signed-off-by: Yuan Can <yuancan@huawei.com>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index c57e8f9e2d47..84557ec19a16 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -403,17 +403,10 @@ static int panel_edp_unprepare(struct drm_panel *panel)
+diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+index eee714cf3f49..ffed705201af 100644
+--- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
++++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+@@ -257,20 +257,14 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
+ 	}
  
- static int panel_edp_get_hpd_gpio(struct device *dev, struct panel_edp *p)
- {
--	int err;
--
- 	p->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
--	if (IS_ERR(p->hpd_gpio)) {
--		err = PTR_ERR(p->hpd_gpio);
--
--		if (err != -EPROBE_DEFER)
--			dev_err(dev, "failed to get 'hpd' GPIO: %d\n", err);
--
--		return err;
+ 	ctx->vdd = devm_regulator_get(dev, "vdd");
+-	if (IS_ERR(ctx->vdd)) {
+-		ret = PTR_ERR(ctx->vdd);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(dev, "Failed to request vdd regulator: %d\n", ret);
+-		return ret;
 -	}
-+	if (IS_ERR(p->hpd_gpio))
-+		return dev_err_probe(dev, PTR_ERR(p->hpd_gpio),
-+				     "failed to get 'hpd' GPIO\n");
++	if (IS_ERR(ctx->vdd))
++		return dev_err_probe(dev, PTR_ERR(ctx->vdd),
++				     "Failed to request vdd regulator\n");
  
- 	return 0;
- }
+ 	ctx->iovcc = devm_regulator_get(dev, "iovcc");
+-	if (IS_ERR(ctx->iovcc)) {
+-		ret = PTR_ERR(ctx->iovcc);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(dev, "Failed to request iovcc regulator: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(ctx->iovcc))
++		return dev_err_probe(dev, PTR_ERR(ctx->iovcc),
++				     "Failed to request iovcc regulator\n");
+ 
+ 	ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
+ 	if (ret < 0) {
 -- 
 2.17.1
 
