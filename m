@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B685E8815
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 05:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5765D5E8819
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 05:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDDD110E0FE;
-	Sat, 24 Sep 2022 03:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A198910E4E3;
+	Sat, 24 Sep 2022 03:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71AC510E0FE;
- Sat, 24 Sep 2022 03:54:49 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29EF110EBA6;
+ Sat, 24 Sep 2022 03:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663991689; x=1695527689;
+ t=1663991746; x=1695527746;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=MLejNRe6zMqpKGJ1HjzGL/nNtl3nyWQq/JpH4j73Ht0=;
- b=XHuy999yjbakUh9558ZEO3EhAOruapzP4VIqRAjREUkXjhFPFfQDso7u
- rc7fcgsEqxKO062qNFMh4DbQynaiA0HNZC2zrQRCHj/vsNxFPyrKbSArW
- MuwUOUaPywiqtC1ORsT8raE4ema9oybUqddYejwRVaRrUvBMKKT4UswDD
- XNFbn3fbhO02CgvPKQC+TQFsIrEO8x5LYibDPbq3vgCP5Udg1iLyhaxYG
- wY4fmku/Fw9FGkiBn7PBt+9HF1Nzz65xb/Pe8dYKoWFJ+WN2NaE8ebUKP
- VLdYfKEVE6WTbDg/apQgAHsyRDrzfXBh+F+GfVxVYBQbNTPaVnZoYnRj8 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="387031438"
-X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="387031438"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 20:54:48 -0700
-X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="688955996"
+ bh=6dw4EjpHu+bOuMX1WjR4s8LtLtWOoNw5kX1l7dXkNPg=;
+ b=gSX7Kq15BOy/6t4S8TVrHroMY9f4cRqzU85YMSUtEmNWfiyJ1GHxe0Rw
+ lo26GblBdzP/Dc9f1MfCEjAbUPmO7ee7syc18NRtoCy15MSP6Q3CZb+Xu
+ C1iuiNUXQGCVPUUisbG5tgkoGmTYDEiwcv3SyFQ7bBwOpl7mJvKYLyrsZ
+ ykxzmDtTnYMAh4hazZHltRn1F2R2TetNfPXA/QBz52AGSz7wN2nLgFMVo
+ a5q9JCUFFzAt+SZoBLUfHK5t9j07MxJqlJwDqJ/yIH9FPMswYMD4HoUDr
+ RcW8CYSlYaZTnTuWDiBAdS9FmUKayfpkUWwRmSh5vgnJJR9YnFoSOXXeC g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="299463847"
+X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="299463847"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 20:55:45 -0700
+X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="598105446"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.252.138.221])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 20:54:48 -0700
-Date: Fri, 23 Sep 2022 20:54:47 -0700
-Message-ID: <87r1018m0o.wl-ashutosh.dixit@intel.com>
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 20:55:45 -0700
+Date: Fri, 23 Sep 2022 20:55:44 -0700
+Message-ID: <87pmfl8lz3.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
 To: Badal Nilawar <badal.nilawar@intel.com>
-Subject: Re: [PATCH 1/7] drm/i915/hwmon: Add HWMON infrastructure
-In-Reply-To: <20220923195643.2376927-2-badal.nilawar@intel.com>
+Subject: Re: [PATCH 4/7] drm/i915/hwmon: Show device level energy usage
+In-Reply-To: <20220923195643.2376927-5-badal.nilawar@intel.com>
 References: <20220923195643.2376927-1-badal.nilawar@intel.com>
- <20220923195643.2376927-2-badal.nilawar@intel.com>
+ <20220923195643.2376927-5-badal.nilawar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -65,39 +65,17 @@ Cc: linux-hwmon@vger.kernel.org, andi.shyti@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Sep 2022 12:56:37 -0700, Badal Nilawar wrote:
+On Fri, 23 Sep 2022 12:56:40 -0700, Badal Nilawar wrote:
 >
+> diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
+> index 7ca9cf2c34c9..4e5b6c149f3a 100644
+> --- a/drivers/gpu/drm/i915/i915_hwmon.h
+> +++ b/drivers/gpu/drm/i915/i915_hwmon.h
+> @@ -17,4 +17,5 @@ static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
+>  static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
+>  #endif
+>
+> +int i915_hwmon_energy_status_get(struct drm_i915_private *i915, long *energy);
 
-Hi Badal,
-
-Let me add this comment on the latest version so we don't forget about it:
-
-> +void i915_hwmon_register(struct drm_i915_private *i915)
-> +{
-> +	struct device *dev = i915->drm.dev;
-> +	struct i915_hwmon *hwmon;
-> +	struct device *hwmon_dev;
-> +	struct hwm_drvdata *ddat;
-> +
-> +	/* hwmon is available only for dGfx */
-> +	if (!IS_DGFX(i915))
-> +		return;
-> +
-> +	hwmon = devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
-
-If we are using devm_kzalloc we might as well replace all the
-hwmon_device_register_with_info's (in Patch 1 and 7) with
-devm_hwmon_device_register_with_info and then i915_hwmon_unregister is just
-this:
-
-void i915_hwmon_unregister(struct drm_i915_private *i915)
-{
-        fetch_and_zero(&i915->hwmon);
-}
-
-Even the above statement is probably not needed but might as well retain it
-for sanity. So this is a simple change.
-
-Thanks.
---
-Ashutosh
+We deleted this function definition, this is just leftover so please delete
+this too.
