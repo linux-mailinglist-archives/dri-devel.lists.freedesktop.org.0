@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791195E8ACC
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 11:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF235E8AD0
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 11:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF85110E59E;
-	Sat, 24 Sep 2022 09:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1826110E58F;
+	Sat, 24 Sep 2022 09:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E75E010E59D
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 09:29:45 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id a10so2518664ljq.0
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 02:29:45 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F67810E58C
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 09:30:19 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id a2so3704585lfb.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 02:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=DZGAIB6lOdSfIICauQbfT5Gio7LJSO7BYlR0b7U8DS8=;
- b=pNvfAYYPA0xFYXDIi5y4/92pkWfgTeRTqoJ+Nce4yxlfZbl5qnT8BcKAwvo8ZUMMQa
- Tsgsd1dU4t6pIJ04hWvXqPPi3frAY6pxcRUIEJAnws3MS2tiqAylhibn51MicUYjfTBK
- //Q21qbi38NHXgeZX4DaQEgNlNfgHpE7Jdqq6Ub0I5dVUNUismaSRIrc1uiK63dHOyfL
- K0je9eCCGpMWZMgKU8fC8LsaM+JmhjzVRX/dt+UtMyFQDRAsoj0REM+1WlDosfC0DtDe
- IsX7WrqEnmi6TTVg+f4x7VZdewwNqN2QUIAH/QKxjWisVIhw/Gn7dzFBXpucMiSw+aRd
- ii2A==
+ bh=IBvwqmIkee/mEk1eD5GIAynGE3bP9mLepq0/KSN1Z5Y=;
+ b=JHz8l9cm+bQv28WXN2iLgm2nfh+TgnHT2wrwFZAaLYOH8AMypMTaxRT0USxJTx1qDA
+ bJfSDoTaDjOHSTWcn5Y1O8wcW9rQKY/z3rWXoSwu57TC6f1D8VufW1No/pbOi1maYn/x
+ OIdgiKcelqSvLWPulhtcoJ918GphiUdq00ZYQI1fTWMUTlZDWkawjgcMBMORLLOhWJIy
+ KfwRW45BsTklk7ViAptHFYlYxcONcaLqrB3d7k1sLXl93aezZaKW3DlE+s6RwdurdLKa
+ lQMjBM6JWU4UxWcrRiE1d7HPUIPqe8s7vqXqdTzngaDBZ5B8XPOuZnpveKz8lt9DsbwS
+ 6zdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=DZGAIB6lOdSfIICauQbfT5Gio7LJSO7BYlR0b7U8DS8=;
- b=GXmFB5y3HLkfqmKxEGvMKFmjV4iB2x5bY/WIxZQgKrrmDN1lHy3GxrGscPZT/vrdmo
- H8QAJH4v64ZWge4PzAjX0d3Tm43ilkcVGNdAlnfKndmyp8WyzlNh7slUgdojSQY51JVe
- 2M3rmIKQ8m8oNpO7aHAO+HjEklyNHFz0TYtv6GCKfvufZ1I1qvvtyHHnhnh7zOhMC7VY
- yG9NEMNX63adzOytnmM7lngyp27m88bdE8zzF9MCKmB9tC5agUG2CNeBIsXMTngEkEFl
- 0Lb4MsM/QW+rtzvLgpeyACXHob/1+da+B6nFiQ+0rqfjK+b2RAvXsugMpeKYTeEzr/9n
- Yggg==
-X-Gm-Message-State: ACrzQf08t5Sr6P9xd8BoHMsB6H8ot3vFzXjNzZxGd5d0Rl7ZGdLwe82v
- 8QIV5wsqnHb11dVPj4RVUlJbIg==
-X-Google-Smtp-Source: AMsMyM5SWQN3EwIq8in2Z15Fx8LgxNJnzmtrpYJprInmv+ZrHJMt6KkxewCGTsrGVOf/otXbQLbwUw==
-X-Received: by 2002:a2e:a5cb:0:b0:26c:4311:91cf with SMTP id
- n11-20020a2ea5cb000000b0026c431191cfmr4168268ljp.491.1664011784324; 
- Sat, 24 Sep 2022 02:29:44 -0700 (PDT)
+ bh=IBvwqmIkee/mEk1eD5GIAynGE3bP9mLepq0/KSN1Z5Y=;
+ b=O18NXtXBcpR9+njNsf0r6aDVkonphE66bLVgpJcrp/sl9mvEfywh1E7qzpHs57ETL6
+ ywbyinb2y6b5uATLowy3+GzyHNTgpOWSRLdZEMuifJv7SmWRmz9cR/yOvpUnSPSPNckG
+ soDCQvxWvMLjenopOQ1rWe4tpCJ5PnIaLl69nZU0AZBEXhwffyJxECQgH8l75altHMHB
+ KuBukvmpx3H0JTNU1Zoy9YA7XLzhE3lipLoekJHFRKoU4O/2FFwoG98wsbHgn6cnYdWv
+ bNcZfNvRXGh+HNeUMgff4zbpXSWyNzekCwhDscDFEYS5DxEH/0JOTDs0sd/VuW3phxD+
+ qNZg==
+X-Gm-Message-State: ACrzQf1Ay8oxWbY5AG5l5Bb/ZebRH3B6tUqkoVvyz6I+3r/SPCugyylx
+ 3kk/qLgl+XGT/M9cUeqX8IgHXVJgwjLhFg==
+X-Google-Smtp-Source: AMsMyM7tno1mmU/0I88pwXzxJ33cLgdA28PKnkVMEER96O0p5HvrATY6IyuhN0owxHY5wG0k0wZDsg==
+X-Received: by 2002:a05:6512:a85:b0:49a:c6f2:7aa4 with SMTP id
+ m5-20020a0565120a8500b0049ac6f27aa4mr4924787lfu.59.1664011817676; 
+ Sat, 24 Sep 2022 02:30:17 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
  [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- o9-20020a05651205c900b004979ec19387sm1826256lfo.305.2022.09.24.02.29.43
+ z12-20020a056512370c00b0048a8c907fe9sm1837767lfr.167.2022.09.24.02.30.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 02:29:43 -0700 (PDT)
-Message-ID: <5ea1e309-6ea8-f6c1-dc53-471d858ff60d@linaro.org>
-Date: Sat, 24 Sep 2022 11:29:42 +0200
+ Sat, 24 Sep 2022 02:30:17 -0700 (PDT)
+Message-ID: <416f5408-b9cd-f7c8-67d4-7b835ea48976@linaro.org>
+Date: Sat, 24 Sep 2022 11:30:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
-Subject: Re: [PATCH 0/9] arm: dts: qcom: rename DSI PHY nodes
+Subject: Re: [PATCH 1/9] ARM: dts: qcom-apq8064: change DSI PHY node name to
+ generic one
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
@@ -63,10 +64,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 References: <20220924090108.166934-1-dmitry.baryshkov@linaro.org>
- <fd91077b-e4ff-0187-8424-0b83b96588ef@linaro.org>
- <361ad59f-288f-beae-25c7-7acd42c2db94@linaro.org>
+ <20220924090108.166934-2-dmitry.baryshkov@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <361ad59f-288f-beae-25c7-7acd42c2db94@linaro.org>
+In-Reply-To: <20220924090108.166934-2-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,29 +87,13 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/09/2022 11:20, Dmitry Baryshkov wrote:
-> On 24/09/2022 12:11, Krzysztof Kozlowski wrote:
->> On 24/09/2022 11:00, Dmitry Baryshkov wrote:
->>> Historically DSI PHY device tree nodes used the dsi-phy@ names. Replace
->>> them with generic phy@ names.
->>>
->>> Dmitry Baryshkov (9):
->>>    ARM: dts: qcom-apq8064: change DSI PHY node name to generic one
->>
->> dsi-phy is similar to other generic names (usb-phy, ethernet-phy) [1] so
->> it could stay. Is there particular need for this, like coming from DT
->> schema?
+On 24/09/2022 11:01, Dmitry Baryshkov wrote:
+> Change DSI PHY node names from custom 'dsi-phy' to the generic 'phy'.
 > 
-> No, there is no requirement from the DT schema. However:
-> 1) The resent qcom DT files already use just phy@ for most of PHY nodes
-> 2) The recommended list mentions usb-phy/ethernet-phy, but not 
-> <anything>-phy, so I'd think that those two are mostly for backwards 
-> compatibility.
-> 3) I liked the example of sc7280 which switched all MDSS PHYs to just 
-> phy@ (this includes DSI PHY, eDP PHY and, by extension, the HDMI PHY).
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Good explanation. If there is going to be resent/submit, please add it
-to cover letter. :)
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
