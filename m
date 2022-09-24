@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5765D5E8819
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 05:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D695E881D
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 05:58:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A198910E4E3;
-	Sat, 24 Sep 2022 03:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C15710E430;
+	Sat, 24 Sep 2022 03:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29EF110EBA6;
- Sat, 24 Sep 2022 03:55:46 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8226A10E170;
+ Sat, 24 Sep 2022 03:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663991746; x=1695527746;
+ t=1663991922; x=1695527922;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=6dw4EjpHu+bOuMX1WjR4s8LtLtWOoNw5kX1l7dXkNPg=;
- b=gSX7Kq15BOy/6t4S8TVrHroMY9f4cRqzU85YMSUtEmNWfiyJ1GHxe0Rw
- lo26GblBdzP/Dc9f1MfCEjAbUPmO7ee7syc18NRtoCy15MSP6Q3CZb+Xu
- C1iuiNUXQGCVPUUisbG5tgkoGmTYDEiwcv3SyFQ7bBwOpl7mJvKYLyrsZ
- ykxzmDtTnYMAh4hazZHltRn1F2R2TetNfPXA/QBz52AGSz7wN2nLgFMVo
- a5q9JCUFFzAt+SZoBLUfHK5t9j07MxJqlJwDqJ/yIH9FPMswYMD4HoUDr
- RcW8CYSlYaZTnTuWDiBAdS9FmUKayfpkUWwRmSh5vgnJJR9YnFoSOXXeC g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="299463847"
-X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="299463847"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 20:55:45 -0700
-X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="598105446"
+ bh=61PzOGJY1pggSlQOywIUKZGPTSgOdKoMbwRs82UQh6s=;
+ b=ginVQ+xlPjp97jMqnLpBlcbDHzyp06MkWjm0hvQbJXDtRA+Jd8n2jwK8
+ GJnCeeEbskA/Fh+BUUw69vWMMH8ZkIvdYRErT6JP8OZVHgPGinJact9D3
+ G0bwCnlidMWNjWppWP4tLE7GOiOq8qDwk6Zpljl8gjWABXl+qtjCJFeLw
+ CJEVHBJ7BEZpfgtwata7w5Y5oeAavbgFmEqWCBtOxyfW6T5zzXqvg09PX
+ 0Y/qbayI9pggY3E/SCpgs0vJDx+p3jBQ5MrVGFohlcWTk9n56RXtxnQlf
+ 8edBUuucwep9Hki9phOJ2grbAVW8obfxAEeAX1Wh/Yod0CKf7nLcQzQsk w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="301632394"
+X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="301632394"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 20:58:41 -0700
+X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="949255411"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.252.138.221])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 20:55:45 -0700
-Date: Fri, 23 Sep 2022 20:55:44 -0700
-Message-ID: <87pmfl8lz3.wl-ashutosh.dixit@intel.com>
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 20:58:40 -0700
+Date: Fri, 23 Sep 2022 20:58:40 -0700
+Message-ID: <87o7v58lu7.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
 To: Badal Nilawar <badal.nilawar@intel.com>
-Subject: Re: [PATCH 4/7] drm/i915/hwmon: Show device level energy usage
-In-Reply-To: <20220923195643.2376927-5-badal.nilawar@intel.com>
+Subject: Re: [PATCH 6/7] drm/i915/hwmon: Expose power1_max_interval
+In-Reply-To: <20220923195643.2376927-7-badal.nilawar@intel.com>
 References: <20220923195643.2376927-1-badal.nilawar@intel.com>
- <20220923195643.2376927-5-badal.nilawar@intel.com>
+ <20220923195643.2376927-7-badal.nilawar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -65,17 +65,18 @@ Cc: linux-hwmon@vger.kernel.org, andi.shyti@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Sep 2022 12:56:40 -0700, Badal Nilawar wrote:
+On Fri, 23 Sep 2022 12:56:42 -0700, Badal Nilawar wrote:
 >
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
-> index 7ca9cf2c34c9..4e5b6c149f3a 100644
-> --- a/drivers/gpu/drm/i915/i915_hwmon.h
-> +++ b/drivers/gpu/drm/i915/i915_hwmon.h
-> @@ -17,4 +17,5 @@ static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
->  static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
->  #endif
+> From: Ashutosh Dixit <ashutosh.dixit@intel.com>
 >
-> +int i915_hwmon_energy_status_get(struct drm_i915_private *i915, long *energy);
+> Expose power1_max_interval, that is the tau corresponding to PL1.
 
-We deleted this function definition, this is just leftover so please delete
-this too.
+I think let's change the above sentence to: "Expose power1_max_interval,
+that is the tau corresponding to PL1, as a custom hwmon attribute".
+
+This is the only custom attribute we are exposing so better to mention this
+in the commit message I think.
+
+Thanks.
+--
+Ashutosh
