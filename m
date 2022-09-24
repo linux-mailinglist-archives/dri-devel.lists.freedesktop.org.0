@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931595E8732
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 04:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B46B5E8734
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 04:00:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 352C610EB71;
-	Sat, 24 Sep 2022 01:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0F6610E423;
+	Sat, 24 Sep 2022 01:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECA3A10E415
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C739310E412
  for <dri-devel@lists.freedesktop.org>; Sat, 24 Sep 2022 01:58:52 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MZBvn5krKzHqPD;
- Sat, 24 Sep 2022 09:56:37 +0800 (CST)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MZBsW6nPZzlWvk;
+ Sat, 24 Sep 2022 09:54:39 +0800 (CST)
 Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
  (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Sat, 24 Sep
- 2022 09:58:49 +0800
+ 2022 09:58:50 +0800
 From: Yuan Can <yuancan@huawei.com>
 To: <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <laurent.pinchart@ideasonboard.com>,
  <dianders@chromium.org>, <hanxu5@huaqin.corp-partner.google.com>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 05/10] drm/panel: leadtek-ltk500hd1829: Use dev_err_probe() to
- simplify code
-Date: Sat, 24 Sep 2022 01:56:11 +0000
-Message-ID: <20220924015616.34293-6-yuancan@huawei.com>
+Subject: [PATCH 06/10] drm/panel: lvds: Use dev_err_probe() to simplify code
+Date: Sat, 24 Sep 2022 01:56:12 +0000
+Message-ID: <20220924015616.34293-7-yuancan@huawei.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220924015616.34293-1-yuancan@huawei.com>
 References: <20220924015616.34293-1-yuancan@huawei.com>
@@ -59,40 +58,29 @@ checked later through debugfs.
 
 Signed-off-by: Yuan Can <yuancan@huawei.com>
 ---
- .../gpu/drm/panel/panel-leadtek-ltk500hd1829.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/panel/panel-lvds.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-index 39e408c9f762..d1303b368893 100644
---- a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-+++ b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-@@ -420,20 +420,14 @@ static int ltk500hd1829_probe(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index de8758c30e6e..e2ed96770abc 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -178,12 +178,9 @@ static int panel_lvds_probe(struct platform_device *pdev)
+ 	if (IS_ERR(lvds->supply)) {
+ 		ret = PTR_ERR(lvds->supply);
+ 
+-		if (ret != -ENODEV) {
+-			if (ret != -EPROBE_DEFER)
+-				dev_err(lvds->dev, "failed to request regulator: %d\n",
+-					ret);
+-			return ret;
+-		}
++		if (ret != -ENODEV)
++			return dev_err_probe(lvds->dev, ret,
++					     "failed to request regulator\n");
+ 
+ 		lvds->supply = NULL;
  	}
- 
- 	ctx->vcc = devm_regulator_get(dev, "vcc");
--	if (IS_ERR(ctx->vcc)) {
--		ret = PTR_ERR(ctx->vcc);
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "Failed to request vcc regulator: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(ctx->vcc))
-+		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
-+				     "Failed to request vcc regulator\n");
- 
- 	ctx->iovcc = devm_regulator_get(dev, "iovcc");
--	if (IS_ERR(ctx->iovcc)) {
--		ret = PTR_ERR(ctx->iovcc);
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "Failed to request iovcc regulator: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(ctx->iovcc))
-+		return dev_err_probe(dev, PTR_ERR(ctx->iovcc),
-+				     "Failed to request iovcc regulator\n");
- 
- 	mipi_dsi_set_drvdata(dsi, ctx);
- 
 -- 
 2.17.1
 
