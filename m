@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B965E87D6
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 05:10:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B685E8815
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Sep 2022 05:55:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD7D10E42D;
-	Sat, 24 Sep 2022 03:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDDD110E0FE;
+	Sat, 24 Sep 2022 03:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8809810E42D;
- Sat, 24 Sep 2022 03:10:28 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71AC510E0FE;
+ Sat, 24 Sep 2022 03:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663989028; x=1695525028;
+ t=1663991689; x=1695527689;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=chsh7xys3hBCqEKdp+1zP6wS9ZuMZBpTgni+79xMQWI=;
- b=m9nS20YllOMV2YyHrRLHmLkztfr/BE4sKb8pSQYhDgtgR7nix+2CwvwG
- lLt52pM2p2JtMcs0lK0ToX/DB4PAgpUkqUqF2N3yU794axP1D+ElR8JvV
- XAd8ryzW9+mziuS/xjkjN2bpSluIM83mKAC0VcBvmmE5keDjpSwQbtqWH
- 6vlJ7iHBLUFpYb6T+DoZcev8jA/0SLhvny7r9k4SJHSeLPx5RqdgWnDK6
- HjfeILd6SNQ0ye2rbSBJb2NolS5CY+Sm0QiuwqU6rgVqxUoBMvGYIdeVD
- k/8weyUvYA+c9tc1HOKn+5omRCPAqI26Da3tFPawvOetN8mgDgMnY+q7t g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="299461540"
-X-IronPort-AV: E=Sophos;i="5.93,340,1654585200"; d="scan'208";a="299461540"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 20:10:27 -0700
-X-IronPort-AV: E=Sophos;i="5.93,340,1654585200"; d="scan'208";a="598098356"
+ bh=MLejNRe6zMqpKGJ1HjzGL/nNtl3nyWQq/JpH4j73Ht0=;
+ b=XHuy999yjbakUh9558ZEO3EhAOruapzP4VIqRAjREUkXjhFPFfQDso7u
+ rc7fcgsEqxKO062qNFMh4DbQynaiA0HNZC2zrQRCHj/vsNxFPyrKbSArW
+ MuwUOUaPywiqtC1ORsT8raE4ema9oybUqddYejwRVaRrUvBMKKT4UswDD
+ XNFbn3fbhO02CgvPKQC+TQFsIrEO8x5LYibDPbq3vgCP5Udg1iLyhaxYG
+ wY4fmku/Fw9FGkiBn7PBt+9HF1Nzz65xb/Pe8dYKoWFJ+WN2NaE8ebUKP
+ VLdYfKEVE6WTbDg/apQgAHsyRDrzfXBh+F+GfVxVYBQbNTPaVnZoYnRj8 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="387031438"
+X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="387031438"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 20:54:48 -0700
+X-IronPort-AV: E=Sophos;i="5.93,341,1654585200"; d="scan'208";a="688955996"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.252.138.221])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 20:10:27 -0700
-Date: Fri, 23 Sep 2022 20:10:26 -0700
-Message-ID: <87sfkh8o2l.wl-ashutosh.dixit@intel.com>
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 20:54:48 -0700
+Date: Fri, 23 Sep 2022 20:54:47 -0700
+Message-ID: <87r1018m0o.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/7] drm/i915/hwmon: Add HWMON infrastructure
-In-Reply-To: <YysHM8Ot1escBzEy@ashyti-mobl2.lan>
-References: <20220916150054.807590-1-badal.nilawar@intel.com>
- <20220916150054.807590-2-badal.nilawar@intel.com>
- <YysHM8Ot1escBzEy@ashyti-mobl2.lan>
+To: Badal Nilawar <badal.nilawar@intel.com>
+Subject: Re: [PATCH 1/7] drm/i915/hwmon: Add HWMON infrastructure
+In-Reply-To: <20220923195643.2376927-2-badal.nilawar@intel.com>
+References: <20220923195643.2376927-1-badal.nilawar@intel.com>
+ <20220923195643.2376927-2-badal.nilawar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -60,54 +59,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Badal Nilawar <badal.nilawar@intel.com>
+Cc: linux-hwmon@vger.kernel.org, andi.shyti@intel.com, tvrtko.ursulin@intel.com,
+ anshuman.gupta@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jon.ewins@intel.com, riana.tauro@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Sep 2022 05:44:35 -0700, Andi Shyti wrote:
+On Fri, 23 Sep 2022 12:56:37 -0700, Badal Nilawar wrote:
 >
-> > +void i915_hwmon_register(struct drm_i915_private *i915)
-> > +{
-> > +	struct device *dev = i915->drm.dev;
-> > +	struct i915_hwmon *hwmon;
-> > +	struct device *hwmon_dev;
-> > +	struct hwm_drvdata *ddat;
-> > +
-> > +	/* hwmon is available only for dGfx */
-> > +	if (!IS_DGFX(i915))
-> > +		return;
-> > +
-> > +	hwmon = kzalloc(sizeof(*hwmon), GFP_KERNEL);
->
-> why don't we use devm_kzalloc?
->
-> > +	if (!hwmon)
-> > +		return;
-> > +
-> > +	i915->hwmon = hwmon;
-> > +	mutex_init(&hwmon->hwmon_lock);
-> > +	ddat = &hwmon->ddat;
-> > +
-> > +	ddat->hwmon = hwmon;
-> > +	ddat->uncore = &i915->uncore;
-> > +	snprintf(ddat->name, sizeof(ddat->name), "i915");
-> > +
-> > +	hwm_get_preregistration_info(i915);
-> > +
-> > +	/*  hwmon_dev points to device hwmon<i> */
-> > +	hwmon_dev = hwmon_device_register_with_info(dev, ddat->name,
-> > +						    ddat,
-> > +						    &hwm_chip_info,
-> > +						    NULL);
-> > +	if (IS_ERR(hwmon_dev)) {
-> > +		mutex_destroy(&hwmon->hwmon_lock);
->
-> there is not such a big need to destroy the mutex. Destroying
-> mutexes is more useful when you actually are creating/destroying
-> and there is some debug need. I don't think that's the case.
->
-> With the devm_kzalloc this would be just a return.
+
+Hi Badal,
+
+Let me add this comment on the latest version so we don't forget about it:
+
+> +void i915_hwmon_register(struct drm_i915_private *i915)
+> +{
+> +	struct device *dev = i915->drm.dev;
+> +	struct i915_hwmon *hwmon;
+> +	struct device *hwmon_dev;
+> +	struct hwm_drvdata *ddat;
+> +
+> +	/* hwmon is available only for dGfx */
+> +	if (!IS_DGFX(i915))
+> +		return;
+> +
+> +	hwmon = devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
 
 If we are using devm_kzalloc we might as well replace all the
 hwmon_device_register_with_info's (in Patch 1 and 7) with
@@ -116,7 +92,7 @@ this:
 
 void i915_hwmon_unregister(struct drm_i915_private *i915)
 {
-	fetch_and_zero(&i915->hwmon);
+        fetch_and_zero(&i915->hwmon);
 }
 
 Even the above statement is probably not needed but might as well retain it
