@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F37D5E942C
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 18:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957055E9457
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 18:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2DC810E2AF;
-	Sun, 25 Sep 2022 16:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 685FB10E1E6;
+	Sun, 25 Sep 2022 16:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78D5910E1C6
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 13:32:48 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id c198so4287908pfc.13
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 06:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date;
- bh=MITYxqe/7uUn9PHMvGQ/DPo3WjbDrnIg6t8qaC/yKL8=;
- b=V8wbrXfOhP6lfTgcKpXgOty4cGuWpkRNA7rZPIoxlasECA7onwuT3RFfaYJLAHNLzf
- 3SktSuvEX0iCscU8F5+OYUr+37lnXa++dWGz+ccQdsJbMRgZTca5pFpFaOF8ZL5G+EdF
- CAAVVA/JWyajLHRkc2dTLUPBDUQMHhgcjbEt83FBpHV5i1RiX5GJ8LCIQuT3D2eD/Y3e
- 3HXZ/LsZBUfpRdYTBuQ/EG1NzcaSj8R7y+cMotxvxismRD1V5tOEhywXL3Eo5NHsUzi7
- 63mKAvf/7s+KOaFitZlMSFhr3X3ww70qiwPcefMrD/d5sxr9C1u+QPeJkjhKdF40Di3k
- gTHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=MITYxqe/7uUn9PHMvGQ/DPo3WjbDrnIg6t8qaC/yKL8=;
- b=vhuTuV45nw+DSirx6cceN7SDApevZTJZMKgUrhFar1iKGs6e8DwMeS8wAGDtsD+i36
- zP/vebspquS0cfz2b87PYGsOg6pF2scMQccuLn5QsWvpO+soXhIemtGvvHJkTkdlfFnc
- h7HjFBtcEPuRfixHM3Ueh6myD4yUz8PbAvE31ELWIclwMGdXJ4bs0BjsEPwKlA+fbU+S
- yDPELZJnPohz/J9bNwEJBklj+cB58REKbnpltBCQ3qoWvKJzvDsEXD3s4qO+zfr98hmQ
- vnakj4sqwnc/Qj1ZdZDH5y3G2ttS/F9MTMHu8hdFuGGtJNSa02TIQJryl/aTSIzc/FWw
- h7xw==
-X-Gm-Message-State: ACrzQf33YpjYwYFlr1AhRiUsAhw8ZVup0GvdIXIZwwX4LrKmCD/LFjG+
- aYfvD8nzk25CVWRXX+wfUpk=
-X-Google-Smtp-Source: AMsMyM7Gr+T9TeS/88F2rRTPClyeqgC/pKX1I/B/DpB+I++N4tu2za9pePjvMdwN+DrEycG1zWFTAg==
-X-Received: by 2002:a63:e442:0:b0:438:7919:adf with SMTP id
- i2-20020a63e442000000b0043879190adfmr15827886pgk.4.1664112768089; 
- Sun, 25 Sep 2022 06:32:48 -0700 (PDT)
-Received: from ubuntu ([175.124.254.119]) by smtp.gmail.com with ESMTPSA id
- u5-20020a170902e80500b00178b9c997e5sm8923964plg.138.2022.09.25.06.32.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 06:32:47 -0700 (PDT)
-Date: Sun, 25 Sep 2022 06:32:43 -0700
-From: Hyunwoo Kim <imv4bel@gmail.com>
-To: steve.glendinning@shawell.net, deller@gmx.de
-Subject: [PATCH v3] video: fbdev: smscufx: Fix use-after-free in ufx_ops_open()
-Message-ID: <20220925133243.GA383897@ubuntu>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 254E510E1E6
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 16:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1664122895;
+ bh=fI8v2MjLTWColJNckOi/CL8S2YaxkCPvzxue3zGfDQQ=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=d9L5BQzgHmgrTVpJly5w97+p1QcINxXisS07Hu4KdkpasB9ud7fGQHSw1rkzZytW1
+ UryFuYVvHSVXAgCKHM1/Oj1ZGkMiou2iSsj5XGe7YZw0YKs1Xnq5/XdsVtvTRIOFbS
+ GgRQjalXWvWLx/euY3O5aQ9gLp39RnLF1MnKqxqk=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.188.118]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYNJq-1ohYsv34pW-00VQ5i; Sun, 25
+ Sep 2022 18:21:35 +0200
+Message-ID: <eabf4405-7492-19c4-0827-a240e9c75dca@gmx.de>
+Date: Sun, 25 Sep 2022 18:21:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailman-Approved-At: Sun, 25 Sep 2022 16:02:49 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH -next] video: fbdev: tridentfb: Fix missing
+ pci_disable_device() in probe and remove
+Content-Language: en-US
+To: ruanjinjie <ruanjinjie@huawei.com>, zheyuma97@gmail.com,
+ javierm@redhat.com, wsa+renesas@sang-engineering.com, tzimmermann@suse.de,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20220922013709.3324521-1-ruanjinjie@huawei.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20220922013709.3324521-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:4C350QFUsyfxOBN9unp7HZnhW3cx3yY62B3+HaSeKy7Y83u0ETf
+ wcxeMn461m2islOO4yVPWtwWOInz6mdQiukZsXTbijl/YJpgYVmT99qsd0XnNqHsB3gDYOo
+ srmLQqX0Bz6d8wZc7h9BYlW9S+54WEcG3NoycQjXWJLJSvugJ+idhSSjyO+hOafZTxGmcjP
+ mDuBZub5EeYy+u1Ff/SyQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M/VDfI/GNCk=:J0E7YpgIxEz6PydXA9ZOtf
+ o7D1/KS6Ufb8QuX8glgXQLFF/MW5SYVZS+KX8LU9Cl51VaEZZX18NxwWAl8mD8ySq1k+jKIIz
+ 7dY31DMXqd/3QIXbdw5o8xSYKHUEoFNmbaIHlYmUuYa6dCqP6iKgzszqP6optomG1BuXq8gJf
+ HidXw2EPYFBlLJ3ZMi8x9WbWH5xFpDgsFrhXMCTZ6LuHkkub8uG6xVKkDRkshBR4eGgthZd44
+ gs9bAi7tNzJIfJSYkeIkARv1xgLCFetabgkkuCp3Peh2hvGmwjAzjkCdm38sMlWwI1WmtVr7B
+ 24U9+jPudng0HpAkTN3zwT0rm2M39qZKija3NvZnChmywCHMxaylfnUiPKts5ZN6UvLtu7Adz
+ QhOrU/qr+0A8a5L1oSsOpP5bDyvSbhAfST3tEiikD2H/nJieRhIEHxjrkEn9bqupU06zChc+M
+ g3LyJviZpK4o8+aJpzf0cKQaUWWyjuUcYevFBVS5LkS691wtElojW4fpOzHhjJt5wEb7ON/0U
+ 01qv8LPHctzHEzsyKhD5BcsFrMscgOHa0600Mg/PSf1koiAHHeqOAOsdEJFeJFoG2DPxiV4qh
+ kY19RvUDo/AmA0AJqqQlffZ2dF5iq4DwmxGMjjQ9u9jeQBv8CQbTCTcoHZV+rweXZ7buFe2jJ
+ FvuXpuZnvagT5Yq3NYe2SI9s2LIvlLmDYGVSdWBozXycEPtFgZu0oFAJ6v0ax7LSHtntB9RR1
+ UIPhN521RDe0PLwmRaatav/fCchA33IZf5gHIS0TaUT1hq6U19OIj/ZcA2wJJxYsAai8s0TR3
+ A6y3W6xg0fgK52xnyj2EIzDFUXdhMN/IWM8HWb9lvMtSTmGTXTHZKwb9+D9C68QSc4NAs1PmM
+ Zg20g7m/A34XTvcmg+S2BbfQGPhTn+16n3kgtY/F9Es7SSAKcHwcCUb2AcwaswEVvE24pnR+W
+ NLuBGck6vhIV0IpXhKvCgmQdBQo6PERh1uzPHvERQEBLavTgs1wzXZY7LiozD4LxC9wOCoren
+ 0gPcF+iFhRtQ8U0WRPuq2cu0Eo3qCEG2ID7WK7LO70NLZ4pdvXYObzGgOmWJX+mmKWQ04NtiB
+ SZj0BkDZjtMOl75MPNd5Nj6U7jRC4Py4VfH6zQAXg7vm+i7CB7utqGmQAe2BkFtX7l2H3Kq/7
+ Zj0skJ6XqiTFKM8h/0794dqrud
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +75,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imv4bel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A race condition may occur if the user physically removes the
-USB device while calling open() for this device node.
+On 9/22/22 03:37, ruanjinjie wrote:
+> Replace pci_enable_device() with pcim_enable_device(),
+> pci_disable_device() and pci_release_regions() will be
+> called in release automatically.
+>
+> Signed-off-by: ruanjinjie <ruanjinjie@huawei.com>
 
-This is a race condition between the ufx_ops_open() function and
-the ufx_usb_disconnect() function, which may eventually result in UAF.
+applied.
 
-So, add a mutex to the ufx_ops_open() and ufx_usb_disconnect() functions
-to avoid race contidion of krefs.
+Thanks!
+Helge
 
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
----
- drivers/video/fbdev/smscufx.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
-index d7aa5511c361..e65bdc499c23 100644
---- a/drivers/video/fbdev/smscufx.c
-+++ b/drivers/video/fbdev/smscufx.c
-@@ -137,6 +137,8 @@ static int ufx_submit_urb(struct ufx_data *dev, struct urb * urb, size_t len);
- static int ufx_alloc_urb_list(struct ufx_data *dev, int count, size_t size);
- static void ufx_free_urb_list(struct ufx_data *dev);
- 
-+static DEFINE_MUTEX(disconnect_mutex);
-+
- /* reads a control register */
- static int ufx_reg_read(struct ufx_data *dev, u32 index, u32 *data)
- {
-@@ -1071,9 +1073,13 @@ static int ufx_ops_open(struct fb_info *info, int user)
- 	if (user == 0 && !console)
- 		return -EBUSY;
- 
-+	mutex_lock(&disconnect_mutex);
-+
- 	/* If the USB device is gone, we don't accept new opens */
--	if (dev->virtualized)
-+	if (dev->virtualized) {
-+		mutex_unlock(&disconnect_mutex);
- 		return -ENODEV;
-+	}
- 
- 	dev->fb_count++;
- 
-@@ -1097,6 +1103,8 @@ static int ufx_ops_open(struct fb_info *info, int user)
- 	pr_debug("open /dev/fb%d user=%d fb_info=%p count=%d",
- 		info->node, user, info, dev->fb_count);
- 
-+	mutex_unlock(&disconnect_mutex);
-+
- 	return 0;
- }
- 
-@@ -1741,6 +1749,8 @@ static void ufx_usb_disconnect(struct usb_interface *interface)
- {
- 	struct ufx_data *dev;
- 
-+	mutex_lock(&disconnect_mutex);
-+
- 	dev = usb_get_intfdata(interface);
- 
- 	pr_debug("USB disconnect starting\n");
-@@ -1761,6 +1771,8 @@ static void ufx_usb_disconnect(struct usb_interface *interface)
- 	kref_put(&dev->kref, ufx_free);
- 
- 	/* consider ufx_data freed */
-+
-+	mutex_unlock(&disconnect_mutex);
- }
- 
- static struct usb_driver ufx_driver = {
--- 
-2.25.1
+> ---
+>   drivers/video/fbdev/tridentfb.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/tridentfb.c b/drivers/video/fbdev/tride=
+ntfb.c
+> index f9c3b1d38fc2..7933e01aacc5 100644
+> --- a/drivers/video/fbdev/tridentfb.c
+> +++ b/drivers/video/fbdev/tridentfb.c
+> @@ -1475,7 +1475,7 @@ static int trident_pci_probe(struct pci_dev *dev,
+>   	if (err)
+>   		return err;
+>
+> -	err =3D pci_enable_device(dev);
+> +	err =3D pcim_enable_device(dev);
+>   	if (err)
+>   		return err;
+>
+> @@ -1715,12 +1715,10 @@ static int trident_pci_probe(struct pci_dev *dev=
+,
+>   	kfree(info->pixmap.addr);
+>   	if (info->screen_base)
+>   		iounmap(info->screen_base);
+> -	release_mem_region(tridentfb_fix.smem_start, tridentfb_fix.smem_len);
+>   	disable_mmio(info->par);
+>   out_unmap1:
+>   	if (default_par->io_virt)
+>   		iounmap(default_par->io_virt);
+> -	release_mem_region(tridentfb_fix.mmio_start, tridentfb_fix.mmio_len);
+>   	framebuffer_release(info);
+>   	return err;
+>   }
+> @@ -1735,8 +1733,6 @@ static void trident_pci_remove(struct pci_dev *dev=
+)
+>   		i2c_del_adapter(&par->ddc_adapter);
+>   	iounmap(par->io_virt);
+>   	iounmap(info->screen_base);
+> -	release_mem_region(tridentfb_fix.smem_start, tridentfb_fix.smem_len);
+> -	release_mem_region(tridentfb_fix.mmio_start, tridentfb_fix.mmio_len);
+>   	kfree(info->pixmap.addr);
+>   	fb_dealloc_cmap(&info->cmap);
+>   	framebuffer_release(info);
 
