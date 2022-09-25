@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA005E942D
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 18:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F37D5E942C
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 18:03:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5C410E2AD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2DC810E2AF;
 	Sun, 25 Sep 2022 16:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B71810E150
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 13:30:54 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- x1-20020a17090ab00100b001fda21bbc90so10087225pjq.3
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 06:30:54 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78D5910E1C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 13:32:48 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id c198so4287908pfc.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 06:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=OXxSODFo5RK1OPiZcfwmMGXOMnQSVIgwzDG1rWTmuVw=;
- b=C9bQCUb+Y41Skk2wQZQ1Xed0T91ahIyTlOmiDqwrtxQyInznN/QNI9VGaJCWgeerIQ
- zdjXSFs26RRdYQS7d2UmUBIA7JeoLdMqKyIa7zkFlgutlPL6RIR5fkDya8manVG5f7hd
- czjgnnKI8TFLNnhIwYtZhPr3U08JIcQZK3rqafMojUHFhAmZYMo0H/uooORKeyMjyWPD
- xGPt2itEmWZkhfN0U+z278z1ppxdHQMXK/MyY/Iu0/1mhGRkpzBiktLYZNFgc23I7YC6
- 9346WoALD4FhHWHWEyEKUVvGIeMpfZfmPzF6UewfRu2lRx+sL6FsU0wlGJbSN8wtgGtQ
- mErg==
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date;
+ bh=MITYxqe/7uUn9PHMvGQ/DPo3WjbDrnIg6t8qaC/yKL8=;
+ b=V8wbrXfOhP6lfTgcKpXgOty4cGuWpkRNA7rZPIoxlasECA7onwuT3RFfaYJLAHNLzf
+ 3SktSuvEX0iCscU8F5+OYUr+37lnXa++dWGz+ccQdsJbMRgZTca5pFpFaOF8ZL5G+EdF
+ CAAVVA/JWyajLHRkc2dTLUPBDUQMHhgcjbEt83FBpHV5i1RiX5GJ8LCIQuT3D2eD/Y3e
+ 3HXZ/LsZBUfpRdYTBuQ/EG1NzcaSj8R7y+cMotxvxismRD1V5tOEhywXL3Eo5NHsUzi7
+ 63mKAvf/7s+KOaFitZlMSFhr3X3ww70qiwPcefMrD/d5sxr9C1u+QPeJkjhKdF40Di3k
+ gTHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=OXxSODFo5RK1OPiZcfwmMGXOMnQSVIgwzDG1rWTmuVw=;
- b=0OmNNrRRl2BZmf1sHHzIMII+ImYvNt/B0ZmRYeBPkL3PEx31ZuyZh+p4JcTPLa5LTQ
- rDD1XHtd9pD0MKAFW07u0t7R8BothqY1mrK6gfsPfVTTD8YGdk8AigEAmTYWr+r1jKSs
- qvhTeMDNmwESo8UUuW+c/kG+8FZTaP1nx9fxUdjAFQ1eAUlWy+0Yuq4pgkMrlX4UoLVn
- z718AxoOkoua/eiYxV8KbJAs1HAKRknSFpcqtMCx7R40uRpNdR8+/0reHD1tZTyt7d0+
- uodwXgcH2c8NuFSvhwEspBCysGejw0xalcnJuKLmj23ABbpN5OQMVmo3H6zG9i7LD+tp
- ztGw==
-X-Gm-Message-State: ACrzQf0wO/ETz6VoZccP6S/O2thOgjpNXIuKKaD3bnzLyjhJ/OGSlyVa
- FFJimeafJJ2LadF8VVO3Q5g=
-X-Google-Smtp-Source: AMsMyM7oesfI6+F4qbnHvAbqem7Bln+U6g36IhQpAQbnJfCp61ufSpIr7/ydcq0VdtR7DY7H8uQpBg==
-X-Received: by 2002:a17:90b:380e:b0:202:d747:a044 with SMTP id
- mq14-20020a17090b380e00b00202d747a044mr20134917pjb.170.1664112654027; 
- Sun, 25 Sep 2022 06:30:54 -0700 (PDT)
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=MITYxqe/7uUn9PHMvGQ/DPo3WjbDrnIg6t8qaC/yKL8=;
+ b=vhuTuV45nw+DSirx6cceN7SDApevZTJZMKgUrhFar1iKGs6e8DwMeS8wAGDtsD+i36
+ zP/vebspquS0cfz2b87PYGsOg6pF2scMQccuLn5QsWvpO+soXhIemtGvvHJkTkdlfFnc
+ h7HjFBtcEPuRfixHM3Ueh6myD4yUz8PbAvE31ELWIclwMGdXJ4bs0BjsEPwKlA+fbU+S
+ yDPELZJnPohz/J9bNwEJBklj+cB58REKbnpltBCQ3qoWvKJzvDsEXD3s4qO+zfr98hmQ
+ vnakj4sqwnc/Qj1ZdZDH5y3G2ttS/F9MTMHu8hdFuGGtJNSa02TIQJryl/aTSIzc/FWw
+ h7xw==
+X-Gm-Message-State: ACrzQf33YpjYwYFlr1AhRiUsAhw8ZVup0GvdIXIZwwX4LrKmCD/LFjG+
+ aYfvD8nzk25CVWRXX+wfUpk=
+X-Google-Smtp-Source: AMsMyM7Gr+T9TeS/88F2rRTPClyeqgC/pKX1I/B/DpB+I++N4tu2za9pePjvMdwN+DrEycG1zWFTAg==
+X-Received: by 2002:a63:e442:0:b0:438:7919:adf with SMTP id
+ i2-20020a63e442000000b0043879190adfmr15827886pgk.4.1664112768089; 
+ Sun, 25 Sep 2022 06:32:48 -0700 (PDT)
 Received: from ubuntu ([175.124.254.119]) by smtp.gmail.com with ESMTPSA id
- p9-20020a654909000000b0043bf861008fsm3161855pgs.90.2022.09.25.06.30.51
+ u5-20020a170902e80500b00178b9c997e5sm8923964plg.138.2022.09.25.06.32.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 06:30:53 -0700 (PDT)
-Date: Sun, 25 Sep 2022 06:30:49 -0700
+ Sun, 25 Sep 2022 06:32:47 -0700 (PDT)
+Date: Sun, 25 Sep 2022 06:32:43 -0700
 From: Hyunwoo Kim <imv4bel@gmail.com>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v2] video: fbdev: smscufx: Fix use-after-free in
- ufx_ops_open()
-Message-ID: <20220925133049.GA383810@ubuntu>
-References: <20220925123253.GA381917@ubuntu>
- <3eedfafb-f0ea-2d94-ae6e-fcf827e17378@gmx.de>
+To: steve.glendinning@shawell.net, deller@gmx.de
+Subject: [PATCH v3] video: fbdev: smscufx: Fix use-after-free in ufx_ops_open()
+Message-ID: <20220925133243.GA383897@ubuntu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3eedfafb-f0ea-2d94-ae6e-fcf827e17378@gmx.de>
 X-Mailman-Approved-At: Sun, 25 Sep 2022 16:02:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,20 +67,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: steve.glendinning@shawell.net, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imv4bel@gmail.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imv4bel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 25, 2022 at 03:09:47PM +0200, Helge Deller wrote:
-> it seems user and console don't need to be protected by the lock.
-> Does it make sense to move them out of the lock?
+A race condition may occur if the user physically removes the
+USB device while calling open() for this device node.
 
-you're right. Since both variables are not related to a race condition, 
-it is better to get them out of the lock.
+This is a race condition between the ufx_ops_open() function and
+the ufx_usb_disconnect() function, which may eventually result in UAF.
 
-I will submit a v3 patch.
+So, add a mutex to the ufx_ops_open() and ufx_usb_disconnect() functions
+to avoid race contidion of krefs.
 
+Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
+---
+ drivers/video/fbdev/smscufx.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-Best Regards,
-Hyunwoo Kim.
+diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
+index d7aa5511c361..e65bdc499c23 100644
+--- a/drivers/video/fbdev/smscufx.c
++++ b/drivers/video/fbdev/smscufx.c
+@@ -137,6 +137,8 @@ static int ufx_submit_urb(struct ufx_data *dev, struct urb * urb, size_t len);
+ static int ufx_alloc_urb_list(struct ufx_data *dev, int count, size_t size);
+ static void ufx_free_urb_list(struct ufx_data *dev);
+ 
++static DEFINE_MUTEX(disconnect_mutex);
++
+ /* reads a control register */
+ static int ufx_reg_read(struct ufx_data *dev, u32 index, u32 *data)
+ {
+@@ -1071,9 +1073,13 @@ static int ufx_ops_open(struct fb_info *info, int user)
+ 	if (user == 0 && !console)
+ 		return -EBUSY;
+ 
++	mutex_lock(&disconnect_mutex);
++
+ 	/* If the USB device is gone, we don't accept new opens */
+-	if (dev->virtualized)
++	if (dev->virtualized) {
++		mutex_unlock(&disconnect_mutex);
+ 		return -ENODEV;
++	}
+ 
+ 	dev->fb_count++;
+ 
+@@ -1097,6 +1103,8 @@ static int ufx_ops_open(struct fb_info *info, int user)
+ 	pr_debug("open /dev/fb%d user=%d fb_info=%p count=%d",
+ 		info->node, user, info, dev->fb_count);
+ 
++	mutex_unlock(&disconnect_mutex);
++
+ 	return 0;
+ }
+ 
+@@ -1741,6 +1749,8 @@ static void ufx_usb_disconnect(struct usb_interface *interface)
+ {
+ 	struct ufx_data *dev;
+ 
++	mutex_lock(&disconnect_mutex);
++
+ 	dev = usb_get_intfdata(interface);
+ 
+ 	pr_debug("USB disconnect starting\n");
+@@ -1761,6 +1771,8 @@ static void ufx_usb_disconnect(struct usb_interface *interface)
+ 	kref_put(&dev->kref, ufx_free);
+ 
+ 	/* consider ufx_data freed */
++
++	mutex_unlock(&disconnect_mutex);
+ }
+ 
+ static struct usb_driver ufx_driver = {
+-- 
+2.25.1
+
