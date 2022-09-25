@@ -2,67 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957055E9457
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 18:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92495E9598
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 21:00:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685FB10E1E6;
-	Sun, 25 Sep 2022 16:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6271810E38E;
+	Sun, 25 Sep 2022 19:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 254E510E1E6
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 16:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664122895;
- bh=fI8v2MjLTWColJNckOi/CL8S2YaxkCPvzxue3zGfDQQ=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=d9L5BQzgHmgrTVpJly5w97+p1QcINxXisS07Hu4KdkpasB9ud7fGQHSw1rkzZytW1
- UryFuYVvHSVXAgCKHM1/Oj1ZGkMiou2iSsj5XGe7YZw0YKs1Xnq5/XdsVtvTRIOFbS
- GgRQjalXWvWLx/euY3O5aQ9gLp39RnLF1MnKqxqk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.188.118]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYNJq-1ohYsv34pW-00VQ5i; Sun, 25
- Sep 2022 18:21:35 +0200
-Message-ID: <eabf4405-7492-19c4-0827-a240e9c75dca@gmx.de>
-Date: Sun, 25 Sep 2022 18:21:34 +0200
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B756E10E38E
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 19:00:02 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ r13-20020a056830418d00b0065601df69c0so3237332otu.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 12:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=mzMhROLxf+WaccHSzDfGVv0qOJyuzTRDH4FxujffiSw=;
+ b=buBXjaypg8d2m5kTlrDDnoXKhyG9WYxeRHGgN3/uAzcTwY01kYhPyRCy8a/K0HY+Pi
+ 3PG5jH8dDHv36BV+kVAofFBb7RzmvkmG9Kz9E8Z7B5df7tkE9VoLpONa6V8lg15oepNc
+ aeusETyYgf0p06VAFC2c7QfxySLw0nt8LLT08+rKyPm2gA2z7EHveeRrnQWeNIdnPPjs
+ PirIUgHaHTXUFVPEdaYPr0kEOLfv2kPwFOjD+9ujt6Ea34KyFRiQB6NiKvbehEsehCDs
+ Fte53eMRT9r8Gaf4RiQU7neSJ+V2w8QuP7Nj+nvrA5iKEqr0qAXJ9JkTYkS2EGonUbKp
+ mwfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=mzMhROLxf+WaccHSzDfGVv0qOJyuzTRDH4FxujffiSw=;
+ b=obwDJj4llttAv7rV7M1RzfFKSA6f0lK8RVsoJ65OhuKRKT38qwh7jYpTX9xM7aw9SF
+ Ki31zksDJqM+Fi7kwOeitOENlJ62KKZDcuYMDc91jkpjJjzguFdpurTvRv66zr0FpO5p
+ 7uyNJulV3xfGOkzrwMGxx+7kFV79ZHRrIO2+IHq103JatL/aUQN0/qkI1+s1VOHaPdkS
+ PavcTMr3Iyl+DPVjl7ulS6SmF5bIqAbkivfFUTWq8RDn7PoVp1RtOVGy+EwD7jFC/0Dl
+ ClTE9thtrkhPGUraQvervxZTbvRSD1+qBpZD8f3D1aCrVdC/6pEVV8MSm5NxAy3NYeQO
+ Z33g==
+X-Gm-Message-State: ACrzQf2GZHGPl4nIP9tmJRFjDHMwh10KVpmS2/KYi2URhaIwE+DMZhst
+ bvx/OtUlP4MBeC/jMnguhE2WEw==
+X-Google-Smtp-Source: AMsMyM7uavezll4kcgYxy0EtKqXPcx09063LOwTeKRkyZkDHv9oU5Y63E+3CJuQyu08noJJXhPPk4w==
+X-Received: by 2002:a9d:30d1:0:b0:654:1288:7cb2 with SMTP id
+ r17-20020a9d30d1000000b0065412887cb2mr8515467otg.43.1664132401718; 
+ Sun, 25 Sep 2022 12:00:01 -0700 (PDT)
+Received: from [192.168.11.16] (cpe-173-173-107-246.satx.res.rr.com.
+ [173.173.107.246]) by smtp.gmail.com with ESMTPSA id
+ e5-20020a056870c0c500b001275f056133sm7843619oad.51.2022.09.25.12.00.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 25 Sep 2022 12:00:01 -0700 (PDT)
+Message-ID: <82da45fc-f673-a7a0-5c55-fe8a0a1a6142@kali.org>
+Date: Sun, 25 Sep 2022 13:59:59 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH -next] video: fbdev: tridentfb: Fix missing
- pci_disable_device() in probe and remove
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH 8/9] arm64: dts: qcom: sdm845: change DSI PHY node name to
+ generic one
 Content-Language: en-US
-To: ruanjinjie <ruanjinjie@huawei.com>, zheyuma97@gmail.com,
- javierm@redhat.com, wsa+renesas@sang-engineering.com, tzimmermann@suse.de,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20220922013709.3324521-1-ruanjinjie@huawei.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220922013709.3324521-1-ruanjinjie@huawei.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220924090108.166934-1-dmitry.baryshkov@linaro.org>
+ <20220924090108.166934-9-dmitry.baryshkov@linaro.org>
+From: Steev Klimaszewski <steev@kali.org>
+In-Reply-To: <20220924090108.166934-9-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:4C350QFUsyfxOBN9unp7HZnhW3cx3yY62B3+HaSeKy7Y83u0ETf
- wcxeMn461m2islOO4yVPWtwWOInz6mdQiukZsXTbijl/YJpgYVmT99qsd0XnNqHsB3gDYOo
- srmLQqX0Bz6d8wZc7h9BYlW9S+54WEcG3NoycQjXWJLJSvugJ+idhSSjyO+hOafZTxGmcjP
- mDuBZub5EeYy+u1Ff/SyQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:M/VDfI/GNCk=:J0E7YpgIxEz6PydXA9ZOtf
- o7D1/KS6Ufb8QuX8glgXQLFF/MW5SYVZS+KX8LU9Cl51VaEZZX18NxwWAl8mD8ySq1k+jKIIz
- 7dY31DMXqd/3QIXbdw5o8xSYKHUEoFNmbaIHlYmUuYa6dCqP6iKgzszqP6optomG1BuXq8gJf
- HidXw2EPYFBlLJ3ZMi8x9WbWH5xFpDgsFrhXMCTZ6LuHkkub8uG6xVKkDRkshBR4eGgthZd44
- gs9bAi7tNzJIfJSYkeIkARv1xgLCFetabgkkuCp3Peh2hvGmwjAzjkCdm38sMlWwI1WmtVr7B
- 24U9+jPudng0HpAkTN3zwT0rm2M39qZKija3NvZnChmywCHMxaylfnUiPKts5ZN6UvLtu7Adz
- QhOrU/qr+0A8a5L1oSsOpP5bDyvSbhAfST3tEiikD2H/nJieRhIEHxjrkEn9bqupU06zChc+M
- g3LyJviZpK4o8+aJpzf0cKQaUWWyjuUcYevFBVS5LkS691wtElojW4fpOzHhjJt5wEb7ON/0U
- 01qv8LPHctzHEzsyKhD5BcsFrMscgOHa0600Mg/PSf1koiAHHeqOAOsdEJFeJFoG2DPxiV4qh
- kY19RvUDo/AmA0AJqqQlffZ2dF5iq4DwmxGMjjQ9u9jeQBv8CQbTCTcoHZV+rweXZ7buFe2jJ
- FvuXpuZnvagT5Yq3NYe2SI9s2LIvlLmDYGVSdWBozXycEPtFgZu0oFAJ6v0ax7LSHtntB9RR1
- UIPhN521RDe0PLwmRaatav/fCchA33IZf5gHIS0TaUT1hq6U19OIj/ZcA2wJJxYsAai8s0TR3
- A6y3W6xg0fgK52xnyj2EIzDFUXdhMN/IWM8HWb9lvMtSTmGTXTHZKwb9+D9C68QSc4NAs1PmM
- Zg20g7m/A34XTvcmg+S2BbfQGPhTn+16n3kgtY/F9Es7SSAKcHwcCUb2AcwaswEVvE24pnR+W
- NLuBGck6vhIV0IpXhKvCgmQdBQo6PERh1uzPHvERQEBLavTgs1wzXZY7LiozD4LxC9wOCoren
- 0gPcF+iFhRtQ8U0WRPuq2cu0Eo3qCEG2ID7WK7LO70NLZ4pdvXYObzGgOmWJX+mmKWQ04NtiB
- SZj0BkDZjtMOl75MPNd5Nj6U7jRC4Py4VfH6zQAXg7vm+i7CB7utqGmQAe2BkFtX7l2H3Kq/7
- Zj0skJ6XqiTFKM8h/0794dqrud
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,61 +82,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/22/22 03:37, ruanjinjie wrote:
-> Replace pci_enable_device() with pcim_enable_device(),
-> pci_disable_device() and pci_release_regions() will be
-> called in release automatically.
+
+On 9/24/22 4:01 AM, Dmitry Baryshkov wrote:
+> Change DSI PHY node names from custom 'dsi-phy' to the generic 'phy'.
 >
-> Signed-off-by: ruanjinjie <ruanjinjie@huawei.com>
-
-applied.
-
-Thanks!
-Helge
-
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/video/fbdev/tridentfb.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
+>   arch/arm64/boot/dts/qcom/sdm845.dtsi | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/video/fbdev/tridentfb.c b/drivers/video/fbdev/tride=
-ntfb.c
-> index f9c3b1d38fc2..7933e01aacc5 100644
-> --- a/drivers/video/fbdev/tridentfb.c
-> +++ b/drivers/video/fbdev/tridentfb.c
-> @@ -1475,7 +1475,7 @@ static int trident_pci_probe(struct pci_dev *dev,
->   	if (err)
->   		return err;
->
-> -	err =3D pci_enable_device(dev);
-> +	err =3D pcim_enable_device(dev);
->   	if (err)
->   		return err;
->
-> @@ -1715,12 +1715,10 @@ static int trident_pci_probe(struct pci_dev *dev=
-,
->   	kfree(info->pixmap.addr);
->   	if (info->screen_base)
->   		iounmap(info->screen_base);
-> -	release_mem_region(tridentfb_fix.smem_start, tridentfb_fix.smem_len);
->   	disable_mmio(info->par);
->   out_unmap1:
->   	if (default_par->io_virt)
->   		iounmap(default_par->io_virt);
-> -	release_mem_region(tridentfb_fix.mmio_start, tridentfb_fix.mmio_len);
->   	framebuffer_release(info);
->   	return err;
->   }
-> @@ -1735,8 +1733,6 @@ static void trident_pci_remove(struct pci_dev *dev=
-)
->   		i2c_del_adapter(&par->ddc_adapter);
->   	iounmap(par->io_virt);
->   	iounmap(info->screen_base);
-> -	release_mem_region(tridentfb_fix.smem_start, tridentfb_fix.smem_len);
-> -	release_mem_region(tridentfb_fix.mmio_start, tridentfb_fix.mmio_len);
->   	kfree(info->pixmap.addr);
->   	fb_dealloc_cmap(&info->cmap);
->   	framebuffer_release(info);
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> index f0e286715d1b..df6427ba2284 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> @@ -4537,7 +4537,7 @@ dsi0_out: endpoint {
+>   				};
+>   			};
+>   
+> -			dsi0_phy: dsi-phy@ae94400 {
+> +			dsi0_phy: phy@ae94400 {
+>   				compatible = "qcom,dsi-phy-10nm";
+>   				reg = <0 0x0ae94400 0 0x200>,
+>   				      <0 0x0ae94600 0 0x280>,
+> @@ -4609,7 +4609,7 @@ dsi1_out: endpoint {
+>   				};
+>   			};
+>   
+> -			dsi1_phy: dsi-phy@ae96400 {
+> +			dsi1_phy: phy@ae96400 {
+>   				compatible = "qcom,dsi-phy-10nm";
+>   				reg = <0 0x0ae96400 0 0x200>,
+>   				      <0 0x0ae96600 0 0x280>,
+
+Tested on Lenovo Yoga C630
+
+Tested-by: Steev Klimaszewski <steev@kali.org>
 
