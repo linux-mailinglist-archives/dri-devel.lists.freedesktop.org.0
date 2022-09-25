@@ -1,51 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB415E96B1
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 00:31:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB42A5E96C7
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 01:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7E810E461;
-	Sun, 25 Sep 2022 22:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24CF410E2A7;
+	Sun, 25 Sep 2022 23:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C2910E082
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 22:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=vRsNOKCZLAwYgoti4qQiXscdBfoEDPjv/FY10PWzEqk=; b=JhgD0Cq5GtG9CVwLznNQmi1Szf
- a5jrPrOFmcEZPFY3VxCn2QFgj4dlmctz2ugM3AkHFsXedhkhwxPPUu1IHxmDFyJv46hkaXd2cI7xM
- QokPPRas/DtjR9ShgKsKH/5yp0EXOKo6Xs3mx4TsyOgYrTwCmHSH6diquyHFeeszqnkJD6njj1PDi
- qHXvQ9TcZw1ddVyMInI8KqtLAtINzV4BDJ3jldbkocBKpNcRRQW+sGqcrYPLqhVBtbX+bw+r1sFF8
- +f4wmpvtlz3BK2TOldZhZUyvkI4DTK1Jbp8KvEXYxHLalylAkoYm1N1fMQWZtgdgVcEUuW7aJaTTq
- wliJmm7Q==;
-Received: from [177.34.169.227] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oca9A-008M6i-15; Mon, 26 Sep 2022 00:30:48 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Daniel Latypov <dlatypov@google.com>, David Gow <davidgow@google.com>
-Subject: [PATCH 2/2] drm/tests: Split drm_test_dp_mst_sideband_msg_req_decode
- into parameterized tests
-Date: Sun, 25 Sep 2022 19:27:19 -0300
-Message-Id: <20220925222719.345424-2-mcanal@igalia.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220925222719.345424-1-mcanal@igalia.com>
-References: <20220925222719.345424-1-mcanal@igalia.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6584710E2A7
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 23:02:48 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 93FE4CE0FAD
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 23:02:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D25A1C433D7
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 23:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664146963;
+ bh=Qudu582L2Bu0FHgM1f254xM5AibJR9Qnh36o/Jt7DsE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=s9eQLHd4BWgDflFXjRzTDrZ4z0IVEj6w9tQyGLp2/xzH2VX5JcgBCF9PbKYFFOFTL
+ EczGsM/avYsOy8FmaVWpT3Ff4EyLWqHREPcecAHJ+UTaq6uis1eyLoj0sWUK0Xpwsv
+ OloHrB0AKxKzcC8YaIaMzl9/19x6Nhn62bORYHoPltJXKMXggnLRdBrGVdW9MZMx4L
+ sQx5FsDXL+n9SgOpXY3Sh+yOVkjJmowFiyMyc9Hp11RHrXc50fwqifd1nhZIIhRuv6
+ Ryhk+d82qFi3HShPFBNyUbuTFXM8geSVFj56+GgSz0kBtAGsF5JEvwtaHTTVeovwAZ
+ kNdcxTFqmdgRw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 9DAB1C433E7; Sun, 25 Sep 2022 23:02:43 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216516] s2ram freezes screen (Ryzen-5650U incl. Radeon GPU)
+Date: Sun, 25 Sep 2022 23:02:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216516-2300-GQNw9KfOb8@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216516-2300@https.bugzilla.kernel.org/>
+References: <bug-216516-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,447 +70,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arthur Grillo <arthur.grillo@usp.br>, magalilemes00@gmail.com,
- tales.aparecida@gmail.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Isabella Basso <isabbasso@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_test_dp_mst_sideband_msg_req_decode repeats the same test
-structure with different parameters. This could be better represented
-by parameterized tests, provided by KUnit.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216516
 
-So, convert drm_test_dp_mst_sideband_msg_req_decode into parameterized
-tests and make the test's allocations and prints completly managed by KUnit.
+--- Comment #12 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+> Compiled with CONFIG_AMD_PMC.
+> Going to s2idle two times.
+> (first time just for a few seconds)
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 370 ++++++++++++------
- 1 file changed, 243 insertions(+), 127 deletions(-)
+It looks better to me now.
 
-diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-index 12f41881db6b..545beea33e8c 100644
---- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-@@ -5,12 +5,8 @@
-  * Copyright (c) 2022 Maíra Canal <mairacanal@riseup.net>
-  */
- 
--#define PREFIX_STR "[drm_dp_mst_helper]"
--
- #include <kunit/test.h>
- 
--#include <linux/random.h>
--
- #include <drm/display/drm_dp_mst_helper.h>
- #include <drm/drm_print.h>
- 
-@@ -72,6 +68,217 @@ static void dp_mst_calc_pbn_mode_desc(const struct drm_dp_mst_calc_pbn_mode_test
- KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_cases,
- 		  dp_mst_calc_pbn_mode_desc);
- 
-+static u8 data[] = { 0xff, 0x00, 0xdd };
-+
-+struct drm_dp_mst_sideband_msg_req_test {
-+	const char *desc;
-+	const struct drm_dp_sideband_msg_req_body in;
-+};
-+
-+static const struct drm_dp_mst_sideband_msg_req_test drm_dp_mst_sideband_msg_req_cases[] = {
-+	{
-+		.desc = "DP_ENUM_PATH_RESOURCES with port number",
-+		.in = {
-+			.req_type = DP_ENUM_PATH_RESOURCES,
-+			.u.port_num.port_number = 5,
-+		},
-+	},
-+	{
-+		.desc = "DP_POWER_UP_PHY with port number",
-+		.in = {
-+			.req_type = DP_POWER_UP_PHY,
-+			.u.port_num.port_number = 5,
-+		},
-+	},
-+	{
-+		.desc = "DP_POWER_DOWN_PHY with port number",
-+		.in = {
-+			.req_type = DP_POWER_DOWN_PHY,
-+			.u.port_num.port_number = 5,
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with SDP stream sinks",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.number_sdp_streams = 3,
-+			.u.allocate_payload.sdp_stream_sink = { 1, 2, 3 },
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with port number",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with VCPI",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.vcpi = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with PBN",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.pbn = U16_MAX,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_PAYLOAD with port number",
-+		.in = {
-+			.req_type = DP_QUERY_PAYLOAD,
-+			.u.query_payload.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_PAYLOAD with VCPI",
-+		.in = {
-+			.req_type = DP_QUERY_PAYLOAD,
-+			.u.query_payload.vcpi = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_READ with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_READ,
-+			.u.dpcd_read.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_READ with DPCD address",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_READ,
-+			.u.dpcd_read.dpcd_address = 0xfedcb,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_READ with max number of bytes",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_READ,
-+			.u.dpcd_read.num_bytes = U8_MAX,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_WRITE with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_WRITE,
-+			.u.dpcd_write.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_WRITE with DPCD address",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_WRITE,
-+			.u.dpcd_write.dpcd_address = 0xfedcb,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_WRITE with data array",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_WRITE,
-+			.u.dpcd_write.num_bytes = ARRAY_SIZE(data),
-+			.u.dpcd_write.bytes = data,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_READ with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_READ,
-+			.u.i2c_read.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_READ with I2C device ID",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_READ,
-+			.u.i2c_read.read_i2c_device_id = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_READ with transactions array",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_READ,
-+			.u.i2c_read.num_transactions = 3,
-+			.u.i2c_read.num_bytes_read = ARRAY_SIZE(data) * 3,
-+			.u.i2c_read.transactions = {
-+				{ .bytes = data, .num_bytes = ARRAY_SIZE(data), .i2c_dev_id = 0x7f,
-+				  .i2c_transaction_delay = 0xf, },
-+				{ .bytes = data, .num_bytes = ARRAY_SIZE(data), .i2c_dev_id = 0x7e,
-+				  .i2c_transaction_delay = 0xe, },
-+				{ .bytes = data, .num_bytes = ARRAY_SIZE(data), .i2c_dev_id = 0x7d,
-+				  .i2c_transaction_delay = 0xd, },
-+			},
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_WRITE with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_WRITE,
-+			.u.i2c_write.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_WRITE with I2C device ID",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_WRITE,
-+			.u.i2c_write.write_i2c_device_id = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_WRITE with data array",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_WRITE,
-+			.u.i2c_write.num_bytes = ARRAY_SIZE(data),
-+			.u.i2c_write.bytes = data,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with stream ID",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.stream_id = 1,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with client ID",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.client_id = { 0x4f, 0x7f, 0xb4, 0x00, 0x8c, 0x0d, 0x67 },
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with stream event",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.stream_event = 3,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with valid stream event",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.valid_stream_event = 0,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with stream behavior",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.stream_behavior = 3,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with a valid stream behavior",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.valid_stream_behavior = 1,
-+		}
-+	},
-+};
-+
- static bool
- sideband_msg_req_equal(const struct drm_dp_sideband_msg_req_body *in,
- 		       const struct drm_dp_sideband_msg_req_body *out)
-@@ -147,41 +354,41 @@ sideband_msg_req_equal(const struct drm_dp_sideband_msg_req_body *in,
- 	return true;
- }
- 
--static bool
--sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
-+static void drm_test_dp_mst_msg_printf(struct drm_printer *p, struct va_format *vaf)
-+{
-+	struct kunit *test = p->arg;
-+
-+	kunit_err(test, "%pV", vaf);
-+}
-+
-+static void drm_test_dp_mst_sideband_msg_req_decode(struct kunit *test)
- {
-+	const struct drm_dp_mst_sideband_msg_req_test *params = test->param_value;
-+	const struct drm_dp_sideband_msg_req_body *in = &params->in;
- 	struct drm_dp_sideband_msg_req_body *out;
--	struct drm_printer p = drm_err_printer(PREFIX_STR);
- 	struct drm_dp_sideband_msg_tx *txmsg;
--	int i, ret;
--	bool result = true;
-+	struct drm_printer p = {
-+		.printfn = drm_test_dp_mst_msg_printf,
-+		.arg = test
-+	};
-+	int i;
- 
--	out = kzalloc(sizeof(*out), GFP_KERNEL);
--	if (!out)
--		return false;
-+	out = kunit_kzalloc(test, sizeof(*out), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, out);
- 
--	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
--	if (!txmsg) {
--		kfree(out);
--		return false;
--	}
-+	txmsg = kunit_kzalloc(test, sizeof(*txmsg), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, txmsg);
- 
- 	drm_dp_encode_sideband_req(in, txmsg);
--	ret = drm_dp_decode_sideband_req(txmsg, out);
--	if (ret < 0) {
--		drm_printf(&p, "Failed to decode sideband request: %d\n",
--			   ret);
--		result = false;
--		goto out;
--	}
-+	KUNIT_EXPECT_GE_MSG(test, drm_dp_decode_sideband_req(txmsg, out), 0,
-+			    "Failed to decode sideband request");
- 
- 	if (!sideband_msg_req_equal(in, out)) {
--		drm_printf(&p, "Encode/decode failed, expected:\n");
-+		KUNIT_FAIL(test, "Encode/decode failed");
-+		kunit_err(test, "Expected:");
- 		drm_dp_dump_sideband_msg_req_body(in, 1, &p);
--		drm_printf(&p, "Got:\n");
-+		kunit_err(test, "Got:");
- 		drm_dp_dump_sideband_msg_req_body(out, 1, &p);
--		result = false;
--		goto out;
- 	}
- 
- 	switch (in->req_type) {
-@@ -196,112 +403,21 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
- 		kfree(out->u.i2c_write.bytes);
- 		break;
- 	}
--
--	/* Clear everything but the req_type for the input */
--	memset(&in->u, 0, sizeof(in->u));
--
--out:
--	kfree(out);
--	kfree(txmsg);
--	return result;
- }
- 
--static void drm_test_dp_mst_sideband_msg_req_decode(struct kunit *test)
-+static void
-+drm_dp_mst_sideband_msg_req_desc(const struct drm_dp_mst_sideband_msg_req_test *t, char *desc)
- {
--	struct drm_dp_sideband_msg_req_body in = { 0 };
--	u8 data[] = { 0xff, 0x0, 0xdd };
--	int i;
--
--	in.req_type = DP_ENUM_PATH_RESOURCES;
--	in.u.port_num.port_number = 5;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_POWER_UP_PHY;
--	in.u.port_num.port_number = 5;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_POWER_DOWN_PHY;
--	in.u.port_num.port_number = 5;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_ALLOCATE_PAYLOAD;
--	in.u.allocate_payload.number_sdp_streams = 3;
--	for (i = 0; i < in.u.allocate_payload.number_sdp_streams; i++)
--		in.u.allocate_payload.sdp_stream_sink[i] = i + 1;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.allocate_payload.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.allocate_payload.vcpi = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.allocate_payload.pbn = U16_MAX;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_QUERY_PAYLOAD;
--	in.u.query_payload.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.query_payload.vcpi = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_DPCD_READ;
--	in.u.dpcd_read.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_read.dpcd_address = 0xfedcb;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_read.num_bytes = U8_MAX;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_DPCD_WRITE;
--	in.u.dpcd_write.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_write.dpcd_address = 0xfedcb;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_write.num_bytes = ARRAY_SIZE(data);
--	in.u.dpcd_write.bytes = data;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_I2C_READ;
--	in.u.i2c_read.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_read.read_i2c_device_id = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_read.num_transactions = 3;
--	in.u.i2c_read.num_bytes_read = ARRAY_SIZE(data) * 3;
--	for (i = 0; i < in.u.i2c_read.num_transactions; i++) {
--		in.u.i2c_read.transactions[i].bytes = data;
--		in.u.i2c_read.transactions[i].num_bytes = ARRAY_SIZE(data);
--		in.u.i2c_read.transactions[i].i2c_dev_id = 0x7f & ~i;
--		in.u.i2c_read.transactions[i].i2c_transaction_delay = 0xf & ~i;
--	}
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_I2C_WRITE;
--	in.u.i2c_write.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_write.write_i2c_device_id = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_write.num_bytes = ARRAY_SIZE(data);
--	in.u.i2c_write.bytes = data;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_QUERY_STREAM_ENC_STATUS;
--	in.u.enc_status.stream_id = 1;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	get_random_bytes(in.u.enc_status.client_id,
--			 sizeof(in.u.enc_status.client_id));
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.stream_event = 3;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.valid_stream_event = 0;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.stream_behavior = 3;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.valid_stream_behavior = 1;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
-+	strcpy(desc, t->desc);
- }
- 
-+KUNIT_ARRAY_PARAM(drm_dp_mst_sideband_msg_req, drm_dp_mst_sideband_msg_req_cases,
-+		  drm_dp_mst_sideband_msg_req_desc);
-+
- static struct kunit_case drm_dp_mst_helper_tests[] = {
- 	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_gen_params),
--	KUNIT_CASE(drm_test_dp_mst_sideband_msg_req_decode),
-+	KUNIT_CASE_PARAM(drm_test_dp_mst_sideband_msg_req_decode,
-+			 drm_dp_mst_sideband_msg_req_gen_params),
- 	{ }
- };
- 
--- 
-2.37.3
+> After less than 8 hours in s2idle the battery went from 60 % to 0 % !!!
+> That's why there's no second wakeup.
+> (system was down because battery was drained)
 
+I suspect one of two things happened:
+1) A spurious event actually woke up the SOC the second time but it never
+re-entered.
+2) You entered back to back and didn't get into the deepest state due to a
+timing issue.
+
+I know of a potential patch I can offer you for this, but we need to confirm
+the root cause before I write it up.
+
+> With S3 the battery will loose less than 5 % charge in the same time.
+> And the notebook is brand new. So there should be no battery degradation.
+> ... just did another s2idle test and battery went from 67 % to 58 % in one
+> hour.
+
+It's up to the OEM's design how quickly it will lose battery over Modern
+Standby/s2idle, it has a lot of factors involved.  I'll describe some
+additional debugging tactics later in this response.
+
+> I think you exaggerate a little.
+> I'm just enabling existing OEM code!
+
+> Also I wouldn't say this is patching the firmware, because it's just the =
+ACPI=20
+> data, not the BIOS software.
+> Just changing the existing "if" statement.
+> See: comment #5
+> I'm pretty sure there's a way to enable this OEM code without recompiling=
+ the=20
+> ACPI data. Probably by setting the MSCE variable with a hidden BIOS optio=
+n or
+> something else I haven't found yet.
+
+What you're seeing in there is a remnant of AGESA reference code.  I see the
+same thing in AMD's reference designs and in other OEM designs.
+
+There is definitely OEM effort involved with enabling S3, and like I said t=
+here
+are lots of other firmware components involved that are invisible to the OS=
+.=20
+
+The other thing I want to point out - if they use Modern Standby in Windows,
+this is the path that has gotten lots of validation.  A non-validated path =
+is
+likely to have unique bugs.
+
+> s2idle just should be more energy efficient.
+> S3 is using less than 1 % battery per hour. So if there's a way to get s2=
+idle=20
+> down to 2 % per hour that would be a good solution.
+
+For most mobile designs the power consumption is better for s2idle than S3.
+I suspect you're hitting a bug with wakeups, or s2idle re-entries.
+
+For the next step in debugging, please do all of the following:
+0) 6.0-rc6 kernel
+1) Add to your kernel command line:
+acpi.dyndbg=3D'file drivers/acpi/x86/s2idle.c +p' amd_pmc.dyndbg=3D'+p'
+2) set /sys/power/pm_print_times to 1.
+3) set /sys/power/pm_debug_messages to 1=20
+
+With all those debugging things put in place, run a sample where you put it=
+ to
+sleep for a short period of time (say 10 minutes), and then wakeup and share
+the log.  Please note how you woke up the system.  Hopefully based upon that
+log it will be clearer what is causing your increased power consumption.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
