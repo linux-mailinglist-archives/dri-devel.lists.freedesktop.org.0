@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0245E92B7
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 13:26:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC9A5E92E2
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Sep 2022 13:58:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C50F110E22C;
-	Sun, 25 Sep 2022 11:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8650410E166;
+	Sun, 25 Sep 2022 11:57:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE7510E22C
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 11:26:30 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 330A510E15C
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 11:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664105181;
- bh=49VdDnQFxc/vEg9QiBmQxGXhsqXNNFtIXiRzbT/Yf1M=;
+ s=badeba3b8450; t=1664107067;
+ bh=2acJ5q54HwjpL+Cam55Jrx3R3x2p2oTERxijPz0cUl4=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=cmubWN1F35JAhLZVOCWE8L668RVF0aRkLjxQ9ks5noJJUeBauh0i/fZlf0fzSGP6Z
- JzRAzVFPgybJF2DsBU0Cw5LK+TBbhsWjObpwvFuXX6muolhT0lKJjdBZLvLLVd2N1U
- DyblofhMsM7It4FD4PlX51vptjfgHm+1uEH3tmug=
+ b=gsIYSjTFNjmflB/F04z1XhpVqsToLXVKER98TXAcUJl82DjXq1eJQdaQurCd/e2YM
+ spFLwYkl9lsEEbsXWTfwmbvGdHtyEop9cfkuXN2jOlNLBG32lEPGyLHMX5vjkfA+Rr
+ xJbP4Zqtfb6Gm8iOo2DbKlmsyH2lv5aSNqIcT3R4=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from [192.168.20.60] ([92.116.188.118]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvPJ-1omd2W0tV7-00Rreo; Sun, 25
- Sep 2022 13:26:21 +0200
-Message-ID: <9534d64c-0236-29db-4e15-860d458207c8@gmx.de>
-Date: Sun, 25 Sep 2022 13:26:20 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MQe5u-1orDrA3PGg-00NmJO; Sun, 25
+ Sep 2022 13:57:46 +0200
+Message-ID: <dcccfc86-1bfe-e37a-fa6f-28a159e35f14@gmx.de>
+Date: Sun, 25 Sep 2022 13:57:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
-Subject: Re: [PATCH 1/2] video: fbdev: gbefb: Convert to use dev_groups
+Subject: Re: [PATCH] video: fbdev: smscufx: Fix use-after-free in
+ ufx_ops_open()
 Content-Language: en-US
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, broonie@kernel.org,
- maarten.lankhorst@linux.intel.com, daniel.vetter@ffwll.ch
-References: <20220902025555.3833920-1-jiasheng@iscas.ac.cn>
+To: Hyunwoo Kim <imv4bel@gmail.com>, steve.glendinning@shawell.net
+References: <20220925110329.GA380036@ubuntu>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220902025555.3833920-1-jiasheng@iscas.ac.cn>
+In-Reply-To: <20220925110329.GA380036@ubuntu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:CbGdJazMXcBcACvJwi7UoeY+qSb8dv4KFFaaWwGSQtND2V8usUE
- wpmM08CNu21olSuvvtu0O5vkJ0wp4Mt70YSG01LlQgRinNxy4twf08zyhC6FHpdUkZ+OQuw
- j2ewYfOs54eJgkMhmtEmx9hvo2++91EXkUbaSdm7SXmHxFuXFb6saJVu6aTvXbO3yXl7xeD
- G5BIZMFhNggXh0dxIFRrA==
+X-Provags-ID: V03:K1:6Pvq6jJ4u17R1dbuy5/Xo1j11QgOouG6DpEYQLOIaV8lJZFs4KK
+ n2txJ5rX2WkGwLsLOWdBHldyCiH1XO8fMoGPBN3r5riJGWjx/IH2PpE9Ydu6vNyb8kgY78a
+ iXlnfrVapKoazZY5BGM1m0FINKx5+wyDSQtoTBhICL+qnxHSNbM5n9tgVPhzFSH8Ne9Tr7I
+ ULMwonIqAH8XAEyXDL8WQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MIyQ6NQJXVQ=:Ilj+gC5t8BmnPvRgepsffD
- cIon+lC5duC4ldFv6uM9EPIA+al2rIe5oEw4CGV/GsCGOAEu67dsojqrwxvrL29yFVO49+BFn
- uCQ35Xok/c2+g/BJNtf7Zon2JSK1bn51f+2fqt/GaXdjrWqErTwdH+aRfAXWSdrf5mlKx1pM1
- 0kKWAkGZre28f2qURrshPghQGZHEdP/s9+vxg0OhgmwkZ1VCa+97sOmj0GyQ1Jk85e9sPdQVR
- ZPllX5T5cxWEcgjIgBak2WRydRCv0dNTha8JdLkBg70R2ESzPY3EzPcMMPZJJmi1JsfwM1jGO
- vrcvX1CuIn8eU6aeUALqaFD0sOb7vHLu3MngnteF9qrir30MfcgwPDl4Vbnv9mQ5WxYJSgt9j
- OeUPqPUTLaNP47OJXQznAVdj5AgvqqvbIU33WHIkcW55iEc7h0P8nS1KSLAOPI7kf/hekWbr0
- UGEwkFlEE7C7KNZbVcHRmNS4/M5Dxc+ArTO60ypEcDE8QwyWW3F7e0VbyOYiYrg1Qxou3yNSa
- QVtGExh4oNr5sg08Q7FJ4DKz8ZaumUptCJsOYSjMuR28Nx25Nr/oWO2oRPXVZmj3O5h/9TDl7
- oJI0/3ro+SJxKmqXyhf++ZHqkvbW7wrMlJo4WELqmXkusgMGX1pVpG+CCruG93VsuTba45M+C
- Wp2n15OLJghKYO/Qtsn7OaTqSqX5jKxcHPY1ZX3eWReE8JeH8dSeea5kdSrnIFNczWQfCfnJI
- 27H6hhF/OFTCigMaFQIzR3EJOW2w4JiY6H1srPf8wX6k5bDhq33ISPH/e/FlMFHbyyGp4nUhL
- 6PrbA3RCv7KQTru/0Ag3LzliIOMn7xVseKIWvDgNZHrehvtIPQTy+aAOxkBgBbE5+LEYc173z
- /krRE1Hu+C5YZ1/7Ga99HccKIZAcTgAL3scJz7xDMMBndjSzz4yo+dnqu1KDei0nlmm+aGWhF
- 33F9ukSinXRLANoeflxCJXuV0ktvhNGdBZqpF03cmBd1gDBpkyKIQaR5TDn5chMfZwxBoNgY+
- ITwofqGORtjVBwJFQ0d9pOrBTYcdVw8zxoOdi/azYEbgoZrkeb2IM9zPf7oZsD7yNqZ3kRfeT
- +h5SrdI5+FM/Lm7KzzvS5g3oe/01REWkOLgdfPCJZy/UfXqEJSj49ZTcDz5tN7/YHbTetU7dO
- PPoaVO57vh/LvZFuXR9gK7Ttii
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xLuj2YrM9CM=:HANclgzyl3Y1jSgQqVGitu
+ OEBbrh9CuzoTDlp5RNfmVLVvqByJNUGLKcoJ+iC5elKyDincFbwZllWvgE/q+Ai9O1qJaJ2RM
+ 5oDi1Dk2LqPHaTQzhGdbew6HRuVH7YidDjBmwrUJGzs3ocqk3lfjqHj2rvGEINJm8w6HeKJ+j
+ IIjm+xQUuLTAxoC3+WuP9SuYjGBg4rO59s98QcGIhEXSG0MiXr/pf+L0Gg28tmLkVA+J7hINI
+ Oh5I6Wm3lPdzV/gKfk54yjEH9l40PkNaqD/lr+1TWOTGyBTWymL7AaoCwrSZxFFcsQipC5Tox
+ uCOVo4gP5oLLxnNG3XFYlKcvZ2CjhXZaCrlLOJTJIjqsLLKo3r6vmSKjNRGe3fiY7XYKfSTg9
+ RBYkR0eSvq384HoropoPVxyKjU78DFWLPPjumDpp9kFpzInpNJV0wR6DpO5Nu1pV7BmvxrvCD
+ 1LMyFUrot0k6ur+KCowA5YpicVPVI+blMGbV6t2xIAzeHHQ3yn6RZAejw9ukhPE3vls++1FPF
+ zWsfx45SG/R6xkIFFoAqA1orUrBoNBeaBMgq6VhFaoepwNifnDVoLbW8muW/yxX7N4a73OOze
+ MkzRP9dtMov6Ez6QpE6gTVjqLkAlN3uq9XMB9/fN/cUljyB/EqjvuVY8Rll6H49GZ/K6W4ghE
+ uufhfj1VGDPh+ijoKTorx1epy73hcUD3rNphi3Hy77UmJgekZAJpkUGHl4bNX8SVhDxirDyVF
+ xGiRKIurr+tozGKU+IbXxOUp4j4d4D61DYGmIpi7s4C7AxcBb8Ff7xv2QmKE9QvUbuakhDeBs
+ 9aJEQIrK/c2PaKUfC/LDiuR5UiVVzkKqONRbLSvjNUCO7hmfXCG3UXv76D56g6OJ+e8MmAf01
+ OV/E/PCc7wN0gap+xNb3yxEH8giDwfGp1RNQ1P4d1cZ0hODHzg0FQOqXE7EbaKPAyxB0Q1wwD
+ EyJyTpBGF985K01viHKG7BXZnwWYRx7q1RAKjuraM7S75n+aQpJABD1jLIeXERg7+FwAfcLpN
+ nYi4Y5xArcnmuY0Cqqm4QJHSM80ZOGTPfxtZ5KhAqlOLr1ULZj+eGKALoE46Cc7n5F6qbEkrc
+ n2xkKRV8RKs2JmapKhe6J65N58CiI5OSAzco5+AQnitP6XHbLR55J4bMTajtDIA07VOVeDtdQ
+ lZP6cikdi4rduYgQc46kogvwND
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +72,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/2/22 04:55, Jiasheng Jiang wrote:
-> The driver core supports the ability to handle the creation and removal
-> of device-specific sysfs files in a race-free manner. Moreover, it can
-> guarantee the success of creation. Therefore, it should be better to
-> convert to use dev_groups.
+On 9/25/22 13:03, Hyunwoo Kim wrote:
+> A race condition may occur if the user physically removes the
+> USB device while calling open() for this device node.
+>
+> This is a race condition between the ufx_ops_open() function and
+> the ufx_usb_disconnect() function, which may eventually result in UAF.
+>
+> So, add a mutex to the ufx_ops_open() and ufx_usb_disconnect() functions
+> to avoid race contidion of krefs.
+>
+> Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
+> ---
+>   drivers/video/fbdev/smscufx.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx=
+.c
+> index d7aa5511c361..a4378a7241f7 100644
+> --- a/drivers/video/fbdev/smscufx.c
+> +++ b/drivers/video/fbdev/smscufx.c
+> @@ -1065,6 +1067,8 @@ static int ufx_ops_open(struct fb_info *info, int =
+user)
+>   {
+>   	struct ufx_data *dev =3D info->par;
+>
+> +	mutex_lock(&disconnect_mutex);
+> +
 
-applied. Thanks!
+The next few lines show:
+         if (user =3D=3D 0 && !console)
+                 return -EBUSY;
 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+in this case this function exits with the mutex held.
 
-This Fixes: lines doesn't make sense.
-I dropped it.
+Please check all possible exit paths and unlock the mutex
+where necessary.
 
 Helge
-
-
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
->   drivers/video/fbdev/gbefb.c | 20 +++++++-------------
->   1 file changed, 7 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/video/fbdev/gbefb.c b/drivers/video/fbdev/gbefb.c
-> index 6b4d5a7f3e15..1582c718329c 100644
-> --- a/drivers/video/fbdev/gbefb.c
-> +++ b/drivers/video/fbdev/gbefb.c
-> @@ -1072,17 +1072,12 @@ static ssize_t gbefb_show_rev(struct device *dev=
-ice, struct device_attribute *at
->
->   static DEVICE_ATTR(revision, S_IRUGO, gbefb_show_rev, NULL);
->
-> -static void gbefb_remove_sysfs(struct device *dev)
-> -{
-> -	device_remove_file(dev, &dev_attr_size);
-> -	device_remove_file(dev, &dev_attr_revision);
-> -}
-> -
-> -static void gbefb_create_sysfs(struct device *dev)
-> -{
-> -	device_create_file(dev, &dev_attr_size);
-> -	device_create_file(dev, &dev_attr_revision);
-> -}
-> +static struct attribute *gbefb_attrs[] =3D {
-> +	&dev_attr_size.attr,
-> +	&dev_attr_revision.attr,
-> +	NULL,
-> +};
-> +ATTRIBUTE_GROUPS(gbefb);
->
->   /*
->    * Initialization
-> @@ -1221,7 +1216,6 @@ static int gbefb_probe(struct platform_device *p_d=
-ev)
->   	}
->
->   	platform_set_drvdata(p_dev, info);
-> -	gbefb_create_sysfs(&p_dev->dev);
->
->   	fb_info(info, "%s rev %d @ 0x%08x using %dkB memory\n",
->   		info->fix.id, gbe_revision, (unsigned)GBE_BASE,
-> @@ -1248,7 +1242,6 @@ static int gbefb_remove(struct platform_device* p_=
-dev)
->   	gbe_turn_off();
->   	arch_phys_wc_del(par->wc_cookie);
->   	release_mem_region(GBE_BASE, sizeof(struct sgi_gbe));
-> -	gbefb_remove_sysfs(&p_dev->dev);
->   	framebuffer_release(info);
->
->   	return 0;
-> @@ -1259,6 +1252,7 @@ static struct platform_driver gbefb_driver =3D {
->   	.remove =3D gbefb_remove,
->   	.driver	=3D {
->   		.name =3D "gbefb",
-> +		.dev_groups	=3D gbefb_groups,
->   	},
->   };
->
-
