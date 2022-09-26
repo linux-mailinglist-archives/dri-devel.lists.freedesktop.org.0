@@ -1,40 +1,107 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E3B5EA87F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 16:34:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F18EC5EA88B
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 16:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ADF610E6C6;
-	Mon, 26 Sep 2022 14:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C98FE10E6CB;
+	Mon, 26 Sep 2022 14:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp2.uni-freiburg.de (smtp2.uni-freiburg.de
- [IPv6:2001:7c0:2500:4::25:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9DAF10E6C6
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 14:34:10 +0000 (UTC)
-Delivery-date: Mon, 26 Sep 2022 16:34:10 +0200
-Received: from fe2.uni-freiburg.de ([132.230.2.222] helo=uni-freiburg.de) port
- 36438 by smtp2.uni-freiburg.de with esmtp ( Exim )
- id 1ocpBR-0007Pi-0b for dri-devel@lists.freedesktop.org;
- Mon, 26 Sep 2022 16:34:09 +0200
-Received: from [132.230.8.113] (account simon.rettberg@rz.uni-freiburg.de HELO
- computer) by mail.uni-freiburg.de (CommuniGate Pro SMTP 6.3.14)
- with ESMTPSA id 96364015; Mon, 26 Sep 2022 16:34:09 +0200
-Date: Mon, 26 Sep 2022 16:34:08 +0200
-From: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH RESEND] drm/display: Don't assume dual mode adaptors
- support i2c sub-addressing
-Message-ID: <20220926163408.110bbc97@computer>
-In-Reply-To: <YzGdU50ttykco1QV@intel.com>
-References: <20220926124017.529806df@computer>
-	<YzGdU50ttykco1QV@intel.com>
-Organization: Rechenzentrum Uni Freiburg
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2059.outbound.protection.outlook.com [40.107.212.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ECCB10E6CA;
+ Mon, 26 Sep 2022 14:36:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UTeOR7XaHuClWpgW35y78LNOnYC3VOkdlebOo0qAV+uJHk6mBAxWKy+vMY31WAUD/f7ST9+mz2MGTqtrddpQpz/tR8x2YOybaD2C039DpHkor5wtRWvCe7TsKvg1HirTfAfSoI1QvZ9hDLxHLFp6E9t5tmMB7xRkpfCfSD/p0zJcQ3mXtSr0LPcBVaz57Fq27mUb2x4u8FcuV2MZqv5hXUmXO9nt64skEwXIc1D4+YfZxLdbpq+ynmfiCjKMj5jzxk55rK0zRq9wYblg7FmKWT9HFKe0BqevKJs7mo1XJQxc4RDYYnG1HFaW/VOH4I1KbFlzwovFYALYW7w3wrbBWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uMmBKbfeNs1hw9UZQVm/pUxCUYFzVOLZ4v7rOEjbTbA=;
+ b=Irbu91I+PJn13l5552pOlSIq53VnyvVnmdbPo1Yin6+SCMX+ZWQV+6nnDYr84ndNnZ840owyJ0Db7mYFEjoPqTgShculJmprPNH2+310lyxozdpgO2azpZT4fZra5SYxntRdFv2jD40Hz4qilK4re3HokwGF/k6adKijBggWIeDuxRTlm1uWulU+9wgvPwRVB+kK7EsNpio+IaZG+InEUozCNZmlxrJNxGSBzIo2JnBgmXRjrd08+DEklHJjyzBNWwMxjcCGbH0aZCgLkEHhUsEvGJfmyVJ+TTByeSGQXYT85ab9pZTnKIBpPPJ5KTQDOu8gdtJhtOCs3JHMdWq5uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uMmBKbfeNs1hw9UZQVm/pUxCUYFzVOLZ4v7rOEjbTbA=;
+ b=SkpdPRNPl1tE+kFJsFGZUE62vfXCdpfIiEVK2Qsp1MHsCw+ch3y/M7k1MvIxUIS1hG/aVHcd3E8cr8qeqlEzfvVZEvmA5pUii8x4hYublFui3yUFtCmQpzfVNdeTlsCw+BLPF3rHKlmn4LoRoiOCBOlAGGdW+hT8LHG5URIZajuX4lbdO6rx3PkAd/enbJaODPraiYC+y/wZfXE4d12StF9jrEfZfGXXTx+rz+jlexsLtCRZXh7kbLcA6zyZhA6oFvudkcdsS36uaH1uFtDqncSdgU2CiCX4iQLIVNjDRyuaXIMU6rq2RXYp/HkgGkom6/ptdQ8IxcJNXe9+4jjwvw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by SJ0PR12MB6735.namprd12.prod.outlook.com (2603:10b6:a03:479::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.19; Mon, 26 Sep
+ 2022 14:36:12 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%8]) with mapi id 15.20.5654.025; Mon, 26 Sep 2022
+ 14:36:12 +0000
+Date: Mon, 26 Sep 2022 11:36:11 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH 2/7] mm: Free device private pages have zero refcount
+Message-ID: <YzG42766BJSxro0R@nvidia.com>
+References: <cover.f15b25597fc3afd45b144df863eeca3b2c13f9f4.1664171943.git-series.apopple@nvidia.com>
+ <3d74bb439723c7e46cbe47d1711795308aee4ae3.1664171943.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d74bb439723c7e46cbe47d1711795308aee4ae3.1664171943.git-series.apopple@nvidia.com>
+X-ClientProxiedBy: MN2PR02CA0011.namprd02.prod.outlook.com
+ (2603:10b6:208:fc::24) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4192:EE_|SJ0PR12MB6735:EE_
+X-MS-Office365-Filtering-Correlation-Id: 43ed8a99-ce9b-4a18-8b18-08da9fcc758f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +4aaWTLp/K4X8/bI5mRxDcgM05Ut3ixbT8NtsngRDPL0x31c4JnWqcrHY1xm3PFKC3syAVeJzd+hEOOjubjKe+Sf3FO1AAJqUkxqzchPng7fWgzyZsyPg6iqJFvkFXjGTfFBvHuMOuY+nKUZshuw+iQgkByK1SQ3oifLZZJVvn8Q+Og+9EO96lSuXINOvB2xJEO1yy09jLu4NuCURPtN5vnKgIEV4iryJfXKEHZ8jcSMhVRALmjT8r8LEwVUNQ93weYN19NapEfuw0Rn2p/TFQ5bC69pbdhAeGp3IkK9DJp45oueU2t39mtiRgPFkiMDCV+3wg00CJSeFEvoP+zs3I+Zx+MDRzXDtkGr7M/fEQOtwzSUIjvNhyDD6OusFrInScL4T7hdVSODWofne5RztJBdX9JGvPRQV/amxiaPlkK9OCg54kROgX/lSl/iv4BP0IMv8z9myi7cXBEm1iDcuXJgyndosuzGDW1Mvx66HdAiZASLuJiGH9/z8PInO07zQ9/SQMWo6tM/X1V//gEzAlrEBY3rOWCyzyT9GeF00Q9Bfybww+Av3eYbwKukqh9S3Pizti0nkn0nUaH1Bg23UWnkiJCVFj9EeX23JF9LP913dsWLGiMdTWn/7VSsBuPI8iBAIgQaUxK/ISdoXw+ZOSBbWeSBgZp+Ojs9eNissJKANcFTi4YOQY1/3MH7U2eFXeIbDSqLOb2BFprDQ8+nVA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199015)(41300700001)(6862004)(478600001)(6486002)(8676002)(26005)(66556008)(66476007)(6506007)(4326008)(6512007)(66946007)(2616005)(36756003)(7416002)(37006003)(5660300002)(8936002)(186003)(2906002)(6636002)(54906003)(86362001)(38100700002)(316002)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IAJYxzUDh7DbemX32432fEqn4dU79g2DXhTItTTZTv7dAbzsOFPP90H2ul7R?=
+ =?us-ascii?Q?bMj0AluIoeasduIl48eCwPqgp6JIZlNhL06lfWaoRVJi1OIB6sM9NeF5REbD?=
+ =?us-ascii?Q?SXiSyVQS9iVuzPoCTo3AXQVdqO1NkU5XLQiNItbh0AE4sQzVAH2JfMGjqt11?=
+ =?us-ascii?Q?lrWy0tukTfGF3BFCLEf4kRSpX9MZfeLhP/CFUdYG4/IK//dn4kA2JJCVkyoP?=
+ =?us-ascii?Q?p6JPuRsNBvOvKNCoJq9iIvMlsowwj0pXYQ80lMnctFmATp0nolaG49rDkcit?=
+ =?us-ascii?Q?o38U0VRjxHHwWupooVf3XlXy8zj12mutn7DHkJr3KrgarzxS0iT2C137LyKt?=
+ =?us-ascii?Q?wwi2tjERg9OYDkiiWA91E4ug9Ppq8iZsv9fIHsM48v25Q+AhhJprQY5VvF03?=
+ =?us-ascii?Q?LCG93QGDCm/AI/+RxDe7thUbjCHzQJN48OxJ1MH+OD8KqmJpInsMs52q0ztE?=
+ =?us-ascii?Q?J3PxHti42ZihVwzBl2tJ7P4x9aA4IbQq9i+S4tsLQB7n2OqOzwxwJ34/zoqc?=
+ =?us-ascii?Q?GLpTLlR3ZnWF3obrGRbB2jWbrmn4DS3bR7NeTR6cOzxKxgDMzvIlq3GhR7mW?=
+ =?us-ascii?Q?uaTCFJcQ5USBOFuQ3om1ohM23YE50ICRJHGm4FjOxVJUR/Ncq+PZAKIKQbq5?=
+ =?us-ascii?Q?UmRizvXTRTkvSYQAokwymIAHcd8ufpUVI7S2X4u/Yqe011MfaooagG5Imgiz?=
+ =?us-ascii?Q?ULe0pvYuMFquv2I2Q+dQcCrlK/eOCvw176w60FsEuVNuXRJL/q6tO48/9bMa?=
+ =?us-ascii?Q?tjqs+CdZNVLNIkuyDIpFlstBasFS5Zn8S0q3LuziFJbsswDrN3nniZLJAJqz?=
+ =?us-ascii?Q?/IALsswOej/ShcrlOJGdWjln5euUS9tZG+Hukj9WutPl7WsCaLIfOQj6gdVo?=
+ =?us-ascii?Q?FOcxFBJyN92ac0pTuZjBm0YnyyVIPV//1CpR4+T7AtJuW5o05Lnep5Ogfgq5?=
+ =?us-ascii?Q?UkiOhwpFrzoLS8SjDGsCb9iEj5f6p1aWenLIqW4kQ+/joy8+lZRtpASuFIO2?=
+ =?us-ascii?Q?g6WPIyNc1YZflFhkmj7talbrH/ZZ2yOG9KE/NBhh/z9QqaUaSn1zIaXJoDQu?=
+ =?us-ascii?Q?EbJasYXcJQ5hk5XGq/dodGFwIiF0xFNx7KyHNmU00NDCJxPhzJmP18AOqGF4?=
+ =?us-ascii?Q?vAGAd6b0hvJRsNCCz4E/GGq6bJX9wr+mrPocJ5T6yr2598Z3JVncOq2R+4W9?=
+ =?us-ascii?Q?aehRe1GmAo0yPz+wWiOTHsLKX1XcWrSehZuS0/kQWCdisM4cKZ+K3c/u9UYz?=
+ =?us-ascii?Q?gVC0SLInVfuNtlpS/FXSkW1UWgOKsVp2IX1D3Wymw9JHmZvyQRHad0KzvTTH?=
+ =?us-ascii?Q?Nde+IoBaQE+oij/7ZMDRdbVFxI8+xNemL3eL1bosyUIRBlBcBpciQCE4V6TO?=
+ =?us-ascii?Q?egAheHkUkeywZduPKr9JBz7fa1tMcnpcO5/2HBs1a85c+WZkRTJDW7sYHGtk?=
+ =?us-ascii?Q?7uYJIgNcUnhLl3i2ZDb18ExmLstqcIDaA0y2EvW4X/N5Z2D71D/r+zuLQAwo?=
+ =?us-ascii?Q?qTncLVM/B1jy5JaiSoIb5cDztEMNkY/KoO7n6UAHrmr0mFdAXCgZFAeCjlKu?=
+ =?us-ascii?Q?aFbDvxSpbHN/Up7Cn6Q=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43ed8a99-ce9b-4a18-8b18-08da9fcc758f
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2022 14:36:12.2395 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cCC/PDeNxAXtrHoF+y1GcJJpfmsjfQz8q1qAz8WsBg74f9SPoCYsuerBN10Vmvj2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6735
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,233 +114,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Alex Sierra <alex.sierra@amd.com>, Karol Herbst <kherbst@redhat.com>,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ amd-gfx@lists.freedesktop.org, Michael Ellerman <mpe@ellerman.id.au>,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Sep 2022 15:38:43 +0300
- Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+On Mon, Sep 26, 2022 at 04:03:06PM +1000, Alistair Popple wrote:
+> Since 27674ef6c73f ("mm: remove the extra ZONE_DEVICE struct page
+> refcount") device private pages have no longer had an extra reference
+> count when the page is in use. However before handing them back to the
+> owning device driver we add an extra reference count such that free
+> pages have a reference count of one.
+> 
+> This makes it difficult to tell if a page is free or not because both
+> free and in use pages will have a non-zero refcount. Instead we should
+> return pages to the drivers page allocator with a zero reference count.
+> Kernel code can then safely use kernel functions such as
+> get_page_unless_zero().
+> 
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>  arch/powerpc/kvm/book3s_hv_uvmem.c       | 1 +
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 1 +
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c   | 1 +
+>  lib/test_hmm.c                           | 1 +
+>  mm/memremap.c                            | 5 -----
+>  mm/page_alloc.c                          | 6 ++++++
+>  6 files changed, 10 insertions(+), 5 deletions(-)
 
-> On Mon, Sep 26, 2022 at 12:40:17PM +0200, Simon Rettberg wrote:
-> > Current dual mode adaptor ("DP++") detection code assumes that all
-> > adaptors support i2c sub-addressing for read operations from the
-> > DP-HDMI adaptor ID buffer.  It has been observed that multiple
-> > adaptors do not in fact support this, and always return data
-> > starting at register 0.  On affected adaptors, the code failed to
-> > read the proper registers that would identify the device as a type
-> > 2 adaptor, and handled those as type 1, limiting the TMDS clock to
-> > 165MHz. Fix this by always reading the ID buffer starting from
-> > offset 0, and discarding any bytes before the actual offset of
-> > interest.
-> >=20
-> > Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-> > Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
-> > ---
-> > (Resend because of no response, probably my fault since I ran
-> > get_maintainers on a shallow clone and missed a bunch of people)
-> >=20
-> > We had problems with multiple different "4k ready" DP++ adaptors
-> > only resulting in 1080p resolution on Linux. While one of them
-> > turned out to actually just be a type1 adaptor, the others,
-> > according to the data retreived via i2cdump, were in fact proper
-> > type2 adaptors, advertising a TMDS clock of 300MHz. As it turned
-> > out, none of them supported sub-addressing when reading from the
-> > DP-HDMI adaptor ID buffer via i2c. The existing code suggested that
-> > this is known to happen with "broken" type1 adaptors, but
-> > evidently, type2 adaptors are also affected. We tried finding
-> > authoritative documentation on whether or not this is allowed
-> > behavior, but since all the official VESA docs are paywalled, the
-> > best we could come up with was the spec sheet for Texas
-> > Instruments' SNx5DP149 chip family.[1] It explicitly mentions that
-> > sub-adressing is supported for register writes, but *not* for reads
-> > (See NOTE in section 8.5.3). Unless TI blatantly and openly decided
-> > to violate the VESA spec, one could take that as a strong hint that
-> > sub-addressing is in fact not mandated by VESA. =20
->=20
-> I don't think that would pass the dual mode CTS for type2 adaptors
-> since it explicitly calls for reading individual bytes from various
-> offsets.
->=20
-> The actual dual mode spec specifies things rather poorly. Technically
-> it doesn't even specify the write protocol, and the read protocol is
-> only specified in the form of an example read of the HDMI ID buffer.
-> There it says the offset write is optional for the master, but
-> mandatory for the slave to ack. It neither explicitly allows nor
-> disallows the ack+ignore behaviour, but IIRC there is some
-> text in there that suggests that type1 adaptors might ignore it.
+I think this is a great idea, but I'm surprised no dax stuff is
+touched here?
 
-Interesting, but poor spec would explain why it's not implemented by
-at least three such chips. That's the TI one (we don't actually have
-it, but the data sheet above seems quite clear), and the two we
-confirmed it with: the PS8409(A), and the LT8611.
-So either way it might make sense to handle this. Since the first
-submission of this patch I also took the time to check it on
-Windows 10, and both adaptors make Windows list 4k resolutions with
-both the intel iGPU and an nvidia card.
-
-Here are the two dumps for completeness:
-
-     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f    0123456789abcdef
-00: 44 50 2d 48 44 4d 49 20 41 44 41 50 54 4f 52 04    DP-HDMI ADAPTOR?
-10: a0 00 1c f8 50 53 38 34 30 39 a2 00 00 78 08 ff    ?.??PS8409?..x?.
-
-     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f    0123456789abcdef
-00: 44 50 2d 48 44 4d 49 20 41 44 41 50 54 4f 52 04    DP-HDMI ADAPTOR?
-10: a0 ff ff ff 4c 54 38 36 31 31 a2 00 00 78 0f 00    ?...LT8611?..x?.
-
->=20
-> >=20
-> > [1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
-> >=20
-> >  .../gpu/drm/display/drm_dp_dual_mode_helper.c | 52
-> > ++++++++++--------- 1 file changed, 28 insertions(+), 24
-> > deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> > b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c index
-> > 3ea53bb67..6147da983 100644 ---
-> > a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c +++
-> > b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c @@ -63,23
-> > +63,42 @@ ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
-> >  			      u8 offset, void *buffer, size_t size)
-> >  {
-> > +	int ret;
-> > +	u8 zero =3D 0;
-> > +	char *tmpbuf;
-> > +	/*
-> > +	 * As sub-addressing is not supported by all adaptors,
-> > +	 * always explicitly read from the start and discard
-> > +	 * any bytes that come before the requested offset.
-> > +	 * This way, no matter whether the adaptor supports it
-> > +	 * or not, we'll end up reading the proper data.
-> > +	 */
-> >  	struct i2c_msg msgs[] =3D {
-> >  		{
-> >  			.addr =3D DP_DUAL_MODE_SLAVE_ADDRESS,
-> >  			.flags =3D 0,
-> >  			.len =3D 1,
-> > -			.buf =3D &offset,
-> > +			.buf =3D &zero,
-> >  		},
-> >  		{
-> >  			.addr =3D DP_DUAL_MODE_SLAVE_ADDRESS,
-> >  			.flags =3D I2C_M_RD,
-> > -			.len =3D size,
-> > -			.buf =3D buffer,
-> > +			.len =3D size + offset,
-> > +			.buf =3D NULL,
-> >  		},
-> >  	};
-> > -	int ret;
-> > =20
-> > +	tmpbuf =3D kmalloc(size + offset, GFP_KERNEL);
-> > +	if (!tmpbuf)
-> > +		return -ENOMEM;
-> > +
-> > +	msgs[1].buf =3D tmpbuf;
-> >  	ret =3D i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
-> > +	if (ret =3D=3D ARRAY_SIZE(msgs))
-> > +		memcpy(buffer, tmpbuf + offset, size);
-> > +
-> > +	kfree(tmpbuf); =20
->=20
-> Could optimize a bit here and avoid the temp buffer when
-> the original offset is 0.
-
-Was thinking about that too while writing the patch, but decided
-to keep it as straight forward as possible for the initial submission;
-it's also not really performance critical, should be called a few
-times when the adaptor is plugged in, and probably just once with
-offset 0.
-It also didn't feel nice to have the "if (ret =3D=3D ARRAY_SIZE(msgs))"
-check duplicated for the memcpy, to avoid copying potentially
-uninitialised memory into the output buffer. I didn't see how this
-would lead to an information leak to user space with the current
-code base, but better safe than sorry? :)
-The alternative is to move the memcpy down and merge it with the
-other if-block, but then we'd need a cleanup label at the bottom
-to do the kfree in the error case that comes before that...
-But I'll happily refine that further and submit a v2 if desired.
-
->=20
-> > +
-> >  	if (ret < 0)
-> >  		return ret;
-> >  	if (ret !=3D ARRAY_SIZE(msgs))
-> > @@ -208,18 +227,6 @@ enum drm_dp_dual_mode_type
-> > drm_dp_dual_mode_detect(const struct drm_device *dev, if (ret)
-> >  		return DRM_DP_DUAL_MODE_UNKNOWN;
-> > =20
-> > -	/*
-> > -	 * Sigh. Some (maybe all?) type 1 adaptors are broken and
-> > ack
-> > -	 * the offset but ignore it, and instead they just always
-> > return
-> > -	 * data from the start of the HDMI ID buffer. So for a
-> > broken
-> > -	 * type 1 HDMI adaptor a single byte read will always give
-> > us
-> > -	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
-> > -	 * (assuming it implements any registers). Fortunately
-> > neither
-> > -	 * of those values will match the type 2 signature of the
-> > -	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
-> > -	 * the type 2 adaptor detection safely even in the presence
-> > -	 * of broken type 1 adaptors.
-> > -	 */
-> >  	ret =3D drm_dp_dual_mode_read(adapter,
-> > DP_DUAL_MODE_ADAPTOR_ID, &adaptor_id, sizeof(adaptor_id)); =20
->=20
-> Another optimization opportunity here to maybe combine the HDMI ID
-> buffer read with this one. Could perhaps just read the full 32 bytes
-> static capabilities section. But this one should probably be left for
-> a separate patch. Ideally I guess we'd also combine the max TMDS clock
-> read with this one. But for that we'd need to return more than the
-> single enum drm_dp_dual_mode_type from this function.
-
-Pretty much same as above, keep v1 simple, but I noticed that too.
-If that's going to be another patch anyways, it might make sense
-if that's done by someone more familiar with that code in general
-(basically had to research all this DP++/i2c stuff from scratch).
-But I could give it a spin.
-
->=20
-> >  	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err
-> > %zd)\n", adaptor_id, ret); @@ -233,11 +240,10 @@ enum
-> > drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct
-> > drm_device *dev, return DRM_DP_DUAL_MODE_TYPE2_DVI; }
-> >  		/*
-> > -		 * If neither a proper type 1 ID nor a broken type
-> > 1 adaptor
-> > -		 * as described above, assume type 1, but let the
-> > user know
-> > -		 * that we may have misdetected the type.
-> > +		 * If not a proper type 1 ID, still assume type 1,
-> > but let
-> > +		 * the user know that we may have misdetected the
-> > type. */
-> > -		if (!is_type1_adaptor(adaptor_id) && adaptor_id !=3D
-> > hdmi_id[0])
-> > +		if (!is_type1_adaptor(adaptor_id))
-> >  			drm_err(dev, "Unexpected DP dual mode
-> > adaptor ID %02x\n", adaptor_id);=20
-> >  	}
-> > @@ -343,10 +349,8 @@
-> > EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
-> >   * @enable: enable (as opposed to disable) the TMDS output buffers
-> >   *
-> >   * Set the state of the TMDS output buffers in the adaptor. For
-> > - * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
-> > - * some type 1 adaptors have problems with registers (see comments
-> > - * in drm_dp_dual_mode_detect()) we avoid touching the register,
-> > - * making this function a no-op on type 1 adaptors.
-> > + * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
-> > + * Type1 adaptors do not support any register writes.
-> >   *
-> >   * Returns:
-> >   * 0 on success, negative error code on failure
-> > --=20
-> > 2.35.1 =20
->=20
-
+Jason
