@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBE45EA795
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 15:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D525EA7A0
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 15:50:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCFA210E407;
-	Mon, 26 Sep 2022 13:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 885BA10E6B7;
+	Mon, 26 Sep 2022 13:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01D0310E407
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 13:46:51 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id t14so10297456wrx.8
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 06:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=wDQyQ3S0noabZCtBYiSEuTtioa8Tv5/nq3tQQLE9mKc=;
- b=HmMw8Wwy5JCjR+G3NafWR1FccJnh/abIUElXkN8PqAMd8eYqr4DOabI/1FP++8LzTX
- EZklm3RPUCHlTp0AiLRF8O2jD4n0mGtwN/os3mtdL6JV6RiqcQ/Aq4G+y/m09T3uoj4C
- PTO8+C00QybJdTvT3r6f64nxZxG88Q9Kl34VaKIXdp9T7shJhI/sphgADxXcUajnirlj
- 0ftM7Oyk0H1vnAiLq0QAnc1bZht44AYy3TzGu6Dzl5kNMCsBAKm6ZqezQ76Mhy1sPwpa
- c5t1VLQohKo/3Cf64X8exMLjttJg7TLAgGZQ2ohv9AC6RVzr4AQ6zbNu/eNtXXoRE61M
- +xmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=wDQyQ3S0noabZCtBYiSEuTtioa8Tv5/nq3tQQLE9mKc=;
- b=x8XyXC1l4aTF0Bj+fsry6VbIwJ77909hnmwaH8y5wQGctljGjV5nxTNFGUFE+cscso
- L0k/xPXKr03dAAujY8MFpmi3eB33SRG0t5mPVaJYmEC/FH85mu3yzvv1jPo0AepI6VQe
- ve1X2hpzPJsYW+Qkry328j71JXJ/X28wkBOjKj+yV334knsgFchicOOH0Zy0QSJahgGZ
- nGt4Bs7sOsTGGj2rD+MW/L8JKW5olZ42ySUcDWa5fcL20WRtFC6jiuIOZ6wUwLjV/O/7
- 8Wk0dQNARDeGpljFQbtMkqtTwjy6LvOJ7kbucqeW5V9E5Az3lvIKrCi4cACYq0+FmsyV
- cyHQ==
-X-Gm-Message-State: ACrzQf3GJz133zmk+ankMtT3GI2REB1V23srZB+D7mW6OueF525dWt/V
- ywkpGzZildsnPVNBlb2kEdphzA==
-X-Google-Smtp-Source: AMsMyM6vGVKMMO0iJnizEQFuXAHVtiSiwAqIlwKS4/L7rIE6+LpojI+p45OCYJeOgJsaHzmDYHzYng==
-X-Received: by 2002:a05:6000:984:b0:228:60fb:e364 with SMTP id
- by4-20020a056000098400b0022860fbe364mr13404183wrb.66.1664200010433; 
- Mon, 26 Sep 2022 06:46:50 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- x12-20020a5d650c000000b00228cbac7a25sm14499606wru.64.2022.09.26.06.46.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 06:46:49 -0700 (PDT)
-Date: Mon, 26 Sep 2022 14:46:48 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Subject: Re: [PATCH -next] backlight: gpio_backlight: Switch to use
- dev_err_probe() helper
-Message-ID: <YzGtSPDMQNUf41Z9@maple.lan>
-References: <20220926133819.1298856-1-yangyingliang@huawei.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3678610E6B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 13:50:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BD2191F381;
+ Mon, 26 Sep 2022 13:50:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1664200244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4+nnignD8u93QTMbO+4vxufOtmSDjzXgxDuRW+9Vc+Y=;
+ b=wXNPeKYY807oTGOEqp5VUsWItY4N/bf2FG0PYuKf/76ya/XWXoSBlutnZ1v4V7ZTVE24Jq
+ kcDNiVz+QDDTZinU63vcP0aQKnt9DxgJ/Il0N5ifhw8+wIaLXqfcS4eEjoUOz7O6KuQRXh
+ 6XNfMe0qLNWn1mp8715x1o53Ql+qjsY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1664200244;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4+nnignD8u93QTMbO+4vxufOtmSDjzXgxDuRW+9Vc+Y=;
+ b=HGu2wC9OaQUC3t9QLyIF5OanWAJ3MVeu2wqtrCmlnZR0Vt3rj6ay/cPA71LiUBug2kTQ26
+ BQkvYbGQFVWjp7Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 275AE139BD;
+ Mon, 26 Sep 2022 13:50:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id cuKbCDSuMWOIeAAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Mon, 26 Sep 2022 13:50:44 +0000
+Message-ID: <f4fc52c4-7c18-1d76-0c7a-4058ea2486b9@suse.cz>
+Date: Mon, 26 Sep 2022 15:50:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220926133819.1298856-1-yangyingliang@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2 13/16] mempool: Use kmalloc_size_roundup() to match
+ ksize() usage
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>
+References: <20220923202822.2667581-1-keescook@chromium.org>
+ <20220923202822.2667581-14-keescook@chromium.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20220923202822.2667581-14-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,46 +72,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingoohan1@gmail.com, linux-fbdev@vger.kernel.org, lee@kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, "Ruhl,
+ Michael J" <michael.j.ruhl@intel.com>, Eric Dumazet <edumazet@google.com>,
+ linux-hardening@vger.kernel.org, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Christoph Lameter <cl@linux.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ dev@openvswitch.org, x86@kernel.org,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
+ David Sterba <dsterba@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Alex Elder <elder@kernel.org>, linux-mm@kvack.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
+ netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>, "David S. Miller" <davem@davemloft.net>,
+ linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022 at 09:38:19PM +0800, Yang Yingliang wrote:
-> In the probe path, dev_err() can be replaced with dev_err_probe()
-> which will check if error code is -EPROBE_DEFER and prints the
-> error name. It also sets the defer probe reason which can be
-> checked later through debugfs. It's more simple in error path.
-
-Needs an SoB.
-
-
+On 9/23/22 22:28, Kees Cook wrote:
+> Round up allocations with kmalloc_size_roundup() so that mempool's use
+> of ksize() is always accurate and no special handling of the memory is
+> needed by KASAN, UBSAN_BOUNDS, nor FORTIFY_SOURCE.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-mm@kvack.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  drivers/video/backlight/gpio_backlight.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-> index 6f78d928f054..4ff3939e5f7e 100644
-> --- a/drivers/video/backlight/gpio_backlight.c
-> +++ b/drivers/video/backlight/gpio_backlight.c
-> @@ -64,13 +64,9 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->  	def_value = device_property_read_bool(dev, "default-on");
->
->  	gbl->gpiod = devm_gpiod_get(dev, NULL, GPIOD_ASIS);
-> -	if (IS_ERR(gbl->gpiod)) {
-> -		ret = PTR_ERR(gbl->gpiod);
-> -		if (ret != -EPROBE_DEFER)
-> -			dev_err(dev,
-> -				"Error: The gpios parameter is missing or invalid.\n");
-> -		return ret;
-> -	}
-> +	if (IS_ERR(gbl->gpiod))
-> +		return dev_err_probe(dev, PTR_ERR(gbl->gpiod),
-> +				     "Error: The gpios parameter is missing or invalid.\n");
+>   mm/mempool.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/mempool.c b/mm/mempool.c
+> index 96488b13a1ef..0f3107b28e6b 100644
+> --- a/mm/mempool.c
+> +++ b/mm/mempool.c
+> @@ -526,7 +526,7 @@ EXPORT_SYMBOL(mempool_free_slab);
+>    */
+>   void *mempool_kmalloc(gfp_t gfp_mask, void *pool_data)
+>   {
+> -	size_t size = (size_t)pool_data;
+> +	size_t size = kmalloc_size_roundup((size_t)pool_data);
 
-Remove the "Error: The " from the beginning of the string:
-dev_err_probe() adds an error tag and the resulting line will read
-better with a "The " at the beginning.
+Hm it is kinda wasteful to call into kmalloc_size_roundup for every 
+allocation that has the same input. We could do it just once in 
+mempool_init_node() for adjusting pool->pool_data ?
 
+But looking more closely, I wonder why poison_element() and 
+kasan_unpoison_element() in mm/mempool.c even have to use 
+ksize()/__ksize() and not just operate on the requested size (again, 
+pool->pool_data). If no kmalloc mempool's users use ksize() to write 
+beyond requested size, then we don't have to unpoison/poison that area 
+either?
 
-Daniel.
+>   	return kmalloc(size, gfp_mask);
+>   }
+>   EXPORT_SYMBOL(mempool_kmalloc);
+
