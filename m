@@ -1,75 +1,150 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730685EAA5D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 17:21:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B08B5EAA76
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 17:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C604C10E6DA;
-	Mon, 26 Sep 2022 15:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F22B10E6D7;
+	Mon, 26 Sep 2022 15:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A336F10E6DA
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 15:21:06 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id u18so11382510lfo.8
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 08:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=tWi/dsE8AuXCeQ6nZkBTZY/QK66Lk4dB+IUoBCRY7mk=;
- b=imQCW1Cq4bSSwT+3faEeWCRPaqfIK/sznAR1qnmSFc6/PgtqhnTtFZzMgi9uuDru71
- bd2u4s9093j3nCVqhwlLE/wwT+JEd09mCHvqarsHv9fWXsrdMZUaYCP3bmf6yPzoBsMB
- 9BxdxRa17MBvvkEMyPCgKA6qZYnvkaRkXAS5HfrvUmD+3u+9wdviTguR8Jo1vHWKc59T
- +SA514JyXxM6iIjctdW1FfIU8cIpRoMsohvlV+TlU/mMGnbil+fJ5YDfy4U/aF8uhqqt
- bCtRmkvLDX60DzfO5ZJUn+v0glQ1//zY7TMRUSq85efN53wSNKds2gaoi5r49dXb29G1
- FuoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=tWi/dsE8AuXCeQ6nZkBTZY/QK66Lk4dB+IUoBCRY7mk=;
- b=y0PvN8FJNnA/hNk/abn0bzpW86neKMxC6S6U+04PG8kAiymc8C4iUKznd4Fws1oCc6
- oZAEnOWFKUbD8vv9DER9D5mNdJ/i0K3bp0MAUvb8lhK57b28nAYxdCiscEZoIU9bvi6R
- 5MnCp9pJVQDMGuG4jbIrxVmwABmN38jGQTJvn3eBm2NcQm8qGhVOgXHcaonXqKR/cnoM
- UG8iH1c74E2/fhDxt4KvI1j9u3m4LjWIKLWgU+3SxS9syEIyEsbbBR8oyms+OBe8e1lV
- S2xiZUq3rY4yoOG+W5qyRYK4qDvKPbo/Tnox4uDYUEybb2YTxPXhU9NP/gmzxX53wefH
- tVpw==
-X-Gm-Message-State: ACrzQf1M/HsjUgp6C2ukDL1MM9UHoiVCagb3O9vakMo488kAt5+g8eFI
- CDms8EOOfWPTyuJV6OckSv4fPA==
-X-Google-Smtp-Source: AMsMyM6ZKhHvCfw6VXJTnAEUEBa6RxAvON78hn4d1rZ4Z8sgGMJ8zlmCmYgyKGXCuTn95c6xzWmtAQ==
-X-Received: by 2002:a05:6512:1056:b0:498:efaf:5bd1 with SMTP id
- c22-20020a056512105600b00498efaf5bd1mr8760526lfb.64.1664205664900; 
- Mon, 26 Sep 2022 08:21:04 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- i21-20020a0565123e1500b0048fdb3efa20sm2548731lfv.185.2022.09.26.08.20.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 08:20:43 -0700 (PDT)
-Message-ID: <123472be-564e-9fa4-528e-f7d43cd5b9ad@linaro.org>
-Date: Mon, 26 Sep 2022 17:20:24 +0200
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr70080.outbound.protection.outlook.com [40.107.7.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ACF810E6D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 15:21:37 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=mf4JsVauKm0HlZtBcV1Fo80IVXQy+dDCLpAWW6FRq1tGL55KRmai4L/gnBWL/KiDAPB/vXtJXQFY8sSzsOEzyOuKasAhjeYf9RoE0nMyCs671HOqWN+Ys1d/QUfF4aHy5l7wvbFy3iEb9ODsm3t+sSUmpLknYmnhE9Ya6wyuNxbTNOQ1nw6cPZqx3oP5SXoH1Hjk2Wh9fE6+XRRTdr87Rsv6m83mxuCvtByZyWTSbOyV4VSkMvFHsit6egMHyz/G4npcTWblnAPnlRnzYYdbSm+czrTUyVlQJf40xqxX51muVldawpkl089pXJNg4yjn/JLCCsRinG31QJkx8zU+6w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LJipSpId6qD6J7NQViFbW/DWH/mY1gK+kBqlRzCr+UU=;
+ b=FPkgGMlhC4ueRO4c3OsrpwNRe6jWeHR7GhQTxEEZagGg9sfaqqO0wY4p3OrRmXWG6IIatxY8pq8RFjBenC9lshNjroCexns/f50/W6JIsJDmR5IVTcStLCoylngKLRIk1W6Pv/VBnbYHUEcDvHe3CxijojNJCXqzOcPoZPzgsbhBcGZJC06zqqlKR/dIqXbrSQKmr1AusatyHS0V5XNjLp0JStcsw3cJf2i33n4frM91pXYr9hLAxlSEdl/LjPgeOaJZ2mzp2T6v2XlOk4PqEq/dzYRnD04mfmylXZ91ojMRpc89WZnEJQYF2U/Xfe8wfSa+QuNAq5Yp0WzSNHyHCA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LJipSpId6qD6J7NQViFbW/DWH/mY1gK+kBqlRzCr+UU=;
+ b=Uvclu5tL5LX0QjN63d7QYcQ5r+iR1Nu+AzsjNZg7SpfteeCJkkiZrBXdPY0b4HMYnZr8Src+jXPGxQCxPEu0o6yaOMvKA9phlf3KmQ0RoVxqCcMwBDocC5DXiysdI9/utHic3u6AjZIXLQFpkxpcmcEVbkFBZTN4iHQHZLU7CMQ=
+Received: from AM6PR08CA0007.eurprd08.prod.outlook.com (2603:10a6:20b:b2::19)
+ by AM8PR08MB6451.eurprd08.prod.outlook.com (2603:10a6:20b:315::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Mon, 26 Sep
+ 2022 15:21:33 +0000
+Received: from VE1EUR03FT037.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:b2:cafe::35) by AM6PR08CA0007.outlook.office365.com
+ (2603:10a6:20b:b2::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25 via Frontend
+ Transport; Mon, 26 Sep 2022 15:21:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT037.mail.protection.outlook.com (10.152.19.70) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5654.14 via Frontend Transport; Mon, 26 Sep 2022 15:21:33 +0000
+Received: ("Tessian outbound 9236804a5e9b:v124");
+ Mon, 26 Sep 2022 15:21:32 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 0cf3769401a44136
+X-CR-MTA-TID: 64aa7808
+Received: from f74eec0cba87.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 81BE53C7-F90A-497F-9464-C856BAE6B8C4.1; 
+ Mon, 26 Sep 2022 15:21:25 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id f74eec0cba87.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Mon, 26 Sep 2022 15:21:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nulgPK/n2SfBlSpazq0AbDKx0u87NZviYeE++UQfboEoGd7E3W6D9Ch4jpA6bae3Adkany44MBKBzUwA31reiv1db6+1kb60zjIrnBJzrheg17KxgfA99UfE97vYtIDMzHRxWvANIACDtSy3x1os03AhQF/vnQShWrVU85jgB5XCZEVfED7ueREpwnXuHZnEsdrw9OJwtAd4sSiIvnzFUCOSqABl9mwCEZetHZMbGR1Wezf4ZmEzkdHqK+83XWjsbT3mYZAU5+xZQFNxDSsE2ozJuh0I3m06QTc8EkVF6qJ+87gkWGgWpCDQ9bvMwJa6kyL4gnoTnlll90/jsmWWBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LJipSpId6qD6J7NQViFbW/DWH/mY1gK+kBqlRzCr+UU=;
+ b=Heb2Wc6IGkutUazbQ6y5F4ElpJqfhxhQEVdvJPo5qOglo3xn76M2/LUixNLZqg/EpE42+ELmtAIwtGiqeRLYTaxl5YH8niX1XOO1h5gBqMaynoJDISujXFbMGrQ2K/qrecp/RqfZyFRY3imc64+X0HSvir3PVg82DFhq4B5KmMZtlBwFwqq3wqYz9ntJgc/eMzLFMMuXL5KFUu1gkVVLMWRSk8HtCzwKmkw1GkahWEtbNN1IXWucG8wG7+Qv/SzOvjsORRl9QaBxkjFx7eWtfspL4gGej6ukWWSRQ+MN6LAmojaLSr9zxiZBT+yoqXENHuuy4vxEIstozuFm/ARDXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LJipSpId6qD6J7NQViFbW/DWH/mY1gK+kBqlRzCr+UU=;
+ b=Uvclu5tL5LX0QjN63d7QYcQ5r+iR1Nu+AzsjNZg7SpfteeCJkkiZrBXdPY0b4HMYnZr8Src+jXPGxQCxPEu0o6yaOMvKA9phlf3KmQ0RoVxqCcMwBDocC5DXiysdI9/utHic3u6AjZIXLQFpkxpcmcEVbkFBZTN4iHQHZLU7CMQ=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com (2603:10a6:10:2a2::15)
+ by AS8PR08MB9648.eurprd08.prod.outlook.com (2603:10a6:20b:617::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Mon, 26 Sep
+ 2022 15:21:23 +0000
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::a677:eaef:48c4:9e11]) by DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::a677:eaef:48c4:9e11%2]) with mapi id 15.20.5654.025; Mon, 26 Sep 2022
+ 15:21:22 +0000
+Date: Mon, 26 Sep 2022 16:21:19 +0100
+From: Brian Starkey <brian.starkey@arm.com>
+To: Liviu Dudau <Liviu.Dudau@arm.com>
+Subject: Re: [PATCH] drm/fourcc: Fix vsub/hsub for Q410 and Q401
+Message-ID: <20220926152119.aycl2thery6dtwyo@000377403353>
+References: <YyA9Y+Cs8ZCYHXAT@intel.com>
+ <20220913144306.17279-1-brian.starkey@arm.com>
+ <YyCjmQUZGKP6e8H1@e110455-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YyCjmQUZGKP6e8H1@e110455-lin.cambridge.arm.com>
+X-ClientProxiedBy: LO4P123CA0400.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:189::9) To DB9PR08MB6812.eurprd08.prod.outlook.com
+ (2603:10a6:10:2a2::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 1/7] dt-bindings: msm/dp: Add SDM845 and SC8280XP
- compatibles
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220916200028.25009-1-quic_bjorande@quicinc.com>
- <20220916200028.25009-2-quic_bjorande@quicinc.com>
- <1641e41c-08c7-859b-644a-28d966fb00f3@linaro.org>
- <20220919211832.6b3buqxrnfp6yjjg@builder.lan>
- <6b242b44-b657-c7a6-63ca-465c7031376f@linaro.org>
- <20220922001429.zqfap3clprvlo6jo@builder.lan>
- <acd9ff20-a07b-05ab-6f4b-34e3e8b1cae8@linaro.org>
- <20220926151302.GA1880039-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220926151302.GA1880039-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic: DB9PR08MB6812:EE_|AS8PR08MB9648:EE_|VE1EUR03FT037:EE_|AM8PR08MB6451:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66b050e9-e37e-494e-7b32-08da9fd2cb9e
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: v4URS2sdYqtvcaRXgpndcFboYE3OuMsl3VaspXEN02a89p5pf/b+dWpz0SWcxBUh6ECsvtogu7gXgHp/nUoNPC7gagzr5CgF11lICEetB4T0kb5r5ySzYuxyX3dMQybTDL0ngcfsXTFmicxxAFpf3GPM5X+QUgSyFgA3sQAJTIFqxGF3Fy9l2ZrsIi2e8Dv5r2cB/0xSE7FgqVMfQ1I5FUgsv2R8IlGFWQQo/QvdiQcsU7SKgFlMFH5Y6ODawPfM4kFh459opo8JR5YDiubvfmI9N+MDwPgaVQ2pPpekLqe8CVo1XNJ71XCheS8oBElBgFouR1sgz9V8LFM8efEoenkzpBcc9z8p0jTkUXitnkiwqFby5wcVR9q/9+xlq4XyrJoslsDNAuy3XfvQO1KLrqhmXHzNN06H798PbDCGnPf7NMi1Y1lPeJeLPQyeKmrkjkprYSiItANFKHlBdXgOiw9r15TUUa+0k47eUvmmQj2uQExx7x4m0gqKbGXn7beFJE/ciV3F6muJ02XOq8ZtAGbRSXRHYXTiBzpW/d0FkOEsjBFfk3cW2nXAeO2meqgPGCu4MQUR7PL4n6wYGLa6SZ/tKdXwQTFeMZBb7KOIqKHPrD3NtL7N3mttJFGtSkSS1+Jz72HmwJM9G2e5i2uSP6gzJuJiniAj7tWAvtQLITDo6XRmGvs0P4Nn9uJos0tqpkhVq8q5cTR+bLRhGjN1dKeGixWEXLc1phucVJLyW5276wGlC8yym1LiFY//BpbZ
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DB9PR08MB6812.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(7916004)(376002)(366004)(346002)(396003)(39850400004)(136003)(451199015)(478600001)(6636002)(966005)(6486002)(316002)(66476007)(186003)(1076003)(2906002)(4326008)(6666004)(38100700002)(33716001)(66556008)(66946007)(8676002)(41300700001)(26005)(44832011)(6512007)(5660300002)(86362001)(9686003)(83380400001)(6506007)(8936002)(6862004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9648
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT037.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 7e6ac526-62ee-4d9e-a6f7-08da9fd2c530
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LSDf23WhXie+DE59Fm7y9K7fgAuz9LrlASbU1lfntYmyJhDgVmvD21h4gEuPSgvYjlVQPNGxM42Dw7Ztw2Ue3kjJBPb5DIUR0NYszkjCuIrMIE4dbdnzRPS1UH7+bJPgloetcA5wN5aZXuLc2tXXDhWwHtXB1m8DXmRpbXkSorZOFapC/uZ0Lv1WjK4mAZoBwBHfOX6q+jPuJ/0ad0+a86gD8nOKPiue0ntQYqn1k4N0YtDB0WHW+nf3Po/JxRhH+5RLscMQoEsdALCaSRZTBdGqiQCokgwmvpD3mLiPc4MKeYwMHst+X6Mp9FBxen6Kq2v6WB2x3dZEq8GD3dmnrCYRkR2Ycljis421IkQhdgdVS9vbsBE6X/XKxcLZ64uMW4kAR8ePSbddCKbVDfgF7GBH3WAhZTtNTmGCsYzR36sIWQbHIHDAsNJ3W3KjmT7s5dAUUQTG6cf9B+a03bkz81Hoimw0sxY9poS8fHlNXJuavlNDfbrzilTTGtc5tF9PL4f5sIrEoY5EzD1jNVhU5kbm/njAjRvuP5LgqOD1kB+WRWbFzp3fx3usr8wQnwLuXbE3UyXdIApZX/+5cK9pAxKmcUZecZ/h3mX1Q3HADmrTeXCkT1BgMl/5SKrySxdknbGaHn5hJMCUbX42/vyDYrAgstCj4I5Bh+pjGFoDZFZHVrg5VU6KeHFQLdHeGv08xwZHm/YF04Zzh5OVUGD12Hy4FQQzKZkMr6AC8VK0znAyCQMX+vwVYwQG4LJMa7juCHm7LmENYmGBd1zMf11/4ufyt43WsDAkDXzEBVSUZq+rnPBc324E4B99HGokpXCU7HFSIeQhoz+rTfPuqiX59QlhnIpfxQR48L4xwt3V6JE=
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(13230022)(4636009)(7916004)(346002)(39850400004)(376002)(136003)(396003)(451199015)(36840700001)(40470700004)(46966006)(40480700001)(6636002)(70586007)(86362001)(6486002)(478600001)(316002)(966005)(70206006)(8676002)(4326008)(6666004)(36860700001)(82740400003)(40460700003)(83380400001)(41300700001)(6506007)(44832011)(9686003)(26005)(5660300002)(6512007)(8936002)(6862004)(81166007)(2906002)(33716001)(356005)(336012)(47076005)(82310400005)(1076003)(186003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2022 15:21:33.3362 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66b050e9-e37e-494e-7b32-08da9fd2cb9e
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT037.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6451
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,76 +157,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: jonas@kwiboo.se, airlied@linux.ie, butterflyhuangxx@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ George Kennedy <george.kennedy@oracle.com>, ben.davis@arm.com,
+ tzimmermann@suse.de, nd@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/09/2022 17:13, Rob Herring wrote:
-> On Thu, Sep 22, 2022 at 05:37:39PM +0200, Krzysztof Kozlowski wrote:
->> On 22/09/2022 02:14, Bjorn Andersson wrote:
->>> On Tue, Sep 20, 2022 at 09:09:13AM +0200, Krzysztof Kozlowski wrote:
->>>> On 19/09/2022 23:18, Bjorn Andersson wrote:
->>>>> On Sat, Sep 17, 2022 at 06:03:27PM +0100, Krzysztof Kozlowski wrote:
->>>>>> On 16/09/2022 21:00, Bjorn Andersson wrote:
->>>>>>> From: Bjorn Andersson <bjorn.andersson@linaro.org>
->>>>>>>
->>>>>>> Add compatibles for the DisplayPort and Embedded DisplayPort blocks in
->>>>>>> Qualcomm SDM845 and SC8280XP platforms.
->>>>>>>
->>>>>>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
->>>>>>> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
->>>>>>
->>>>>> No need for quicinc SoB (unless you also take ownership).
->>>>>>
->>>>>
->>>>> It's my understanding that both needs to be there. Bjorn @ Linaro
->>>>> authored the patch and the author must certify its origin, but as the
->>>>> submitter I must certify its origin.
->>>>
->>>> It's the same person. There are no two Bjorns (unless there are :) ), so
->>>> you certify with old email. SoB chain is coming from people, not email
->>>> addresses.
->>>>
->>>
->>> IANAL, but I don't think it's the same person. I can't use my old
->>> signature to certify the origin in a contribution today and I can't
->>> claim authorship of something Linaro did.
->>
->> Fine with me.
->>
->>>
->>>> And it is not only my understanding of SoB chain.
->>>> https://lore.kernel.org/all/YuKcBO5JatwRYQJ3@kroah.com/
->>>>
->>>
->>> Again, IANAL, but I think the situation is different given AMD and
->>> Xilinx relationship.
->>
->> Hm, I am not sure how it is different. We might know or we might know
->> the change of ownership. Maybe the change of owner came with copyrights,
->> maybe not (someone else bought them). I don't know, there can be many
->> cases here. I interpret Greg's point there as in SoB statement - the
->> person, not email address, certifies.
+On Tue, Sep 13, 2022 at 04:36:57PM +0100, Liviu Dudau wrote:
+> On Tue, Sep 13, 2022 at 03:43:06PM +0100, Brian Starkey wrote:
+> > These formats are not subsampled, but that means hsub and vsub should be
+> > 1, not 0.
+> > 
+> > Fixes: 94b292b27734 ("drm: drm_fourcc: add NV15, Q410, Q401 YUV formats")
+> > Reported-by: George Kennedy <george.kennedy@oracle.com>
+> > Reported-by: butt3rflyh4ck <butterflyhuangxx@gmail.com>
+> > Signed-off-by: Brian Starkey <brian.starkey@arm.com>
 > 
-> If Bjorn owned the copyright, then yeah, 1 email would be enough. But 
-> Linaro owned the copyright so it should be there.
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> 
+> Should this be backported into stable releases? How far back to we go?
 
-True for taking the authorship of patch, however SoB is not for
-copyright holders/ownership but to certify that one has the right to
-send it. Since patch was on the list, anyone can take it and send it.
-Everyone has such right. If another person is sending, then he needs to
-certify the origin with SoB. If Bjornv2 is that other person, he already
-certified (although with different email address).
+Probably, git says 94b292b27734 is in since 5.10.
 
-Best regards,
-Krzysztof
+Could someone merge this so it doesn't get lost again?
 
+Thanks,
+-Brian
+
+> 
+> Best regards,
+> Liviu
+> 
+> 
+> > ---
+> >  drivers/gpu/drm/drm_fourcc.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > Sorry, I lost track of this - I thought it got fixed after the previous
+> > thread[1].
+> > 
+> > -Brian
+> > 
+> > [1] https://lore.kernel.org/all/26fdb955-10c8-a5d6-07b6-85a4374e7754@oracle.com/
+> > 
+> > diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> > index 07741b678798..6768b7d18b6f 100644
+> > --- a/drivers/gpu/drm/drm_fourcc.c
+> > +++ b/drivers/gpu/drm/drm_fourcc.c
+> > @@ -263,12 +263,12 @@ const struct drm_format_info *__drm_format_info(u32 format)
+> >  		  .vsub = 2, .is_yuv = true },
+> >  		{ .format = DRM_FORMAT_Q410,		.depth = 0,
+> >  		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
+> > -		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+> > -		  .vsub = 0, .is_yuv = true },
+> > +		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 1,
+> > +		  .vsub = 1, .is_yuv = true },
+> >  		{ .format = DRM_FORMAT_Q401,		.depth = 0,
+> >  		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
+> > -		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+> > -		  .vsub = 0, .is_yuv = true },
+> > +		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 1,
+> > +		  .vsub = 1, .is_yuv = true },
+> >  		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
+> >  		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
+> >  		  .hsub = 2, .vsub = 2, .is_yuv = true},
+> > -- 
+> > 2.25.1
+> > 
+> 
+> -- 
+> ====================
+> | I would like to |
+> | fix the world,  |
+> | but they're not |
+> | giving me the   |
+>  \ source code!  /
+>   ---------------
+>     ¯\_(ツ)_/¯
