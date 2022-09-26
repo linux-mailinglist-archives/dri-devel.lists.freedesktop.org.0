@@ -1,41 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C835EA775
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 15:38:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD735EA782
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 15:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C42410E3EF;
-	Mon, 26 Sep 2022 13:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8523410E6B8;
+	Mon, 26 Sep 2022 13:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B835010E6C8
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 13:38:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC6461042
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 06:38:47 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E2A9A3F66F
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 06:38:40 -0700 (PDT)
-Date: Mon, 26 Sep 2022 14:38:34 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH RESEND drm-misc-next 4/7] drm/arm/hdlcd: plane: use drm
- managed resources
-Message-ID: <YzGrWkbMzNPjhbSq@e110455-lin.cambridge.arm.com>
-References: <20220905152719.128539-1-dakr@redhat.com>
- <20220905152719.128539-5-dakr@redhat.com>
- <Yx9uAe//u/Z9zfmM@e110455-lin.cambridge.arm.com>
- <dc472070-34a8-93e1-2ca3-4847c49f12eb@redhat.com>
- <YyBGRMAcV2Mrliis@e110455-lin.cambridge.arm.com>
- <a10cf8af-1f62-ddd2-3975-066dd9494c9f@redhat.com>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDAA910E6B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 13:41:53 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id x18so10279373wrm.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 06:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=2nV3OnX8WCDnxp7VmTZBQLJ8CRRFanST3tqzj4Y4KE8=;
+ b=YA1QVKi9UhBceT8AYoU50XlwYm1lOjXb2nuUznMFTiWrlEK+LzOJWcLB2yqp+o1A6w
+ bI1XP1RJWoBGDcNWWwN6OL265YVGYxudeRrZpoEVwxxW4/4Yi7xovqZ1h/YBF+6gkjMr
+ HD3HUKt0HkfkclClzLJrVUh9gxPgYo+je1bhwvBmyAxMsghzNrnwi8k+HhBT6EvMW5nI
+ YBI7y2/Aa6SDSE/3mYbNhWbQxOOgGf3NKXs4Q4banlgt57gqTvNqu2cwK89pTdN1Ip0T
+ mOAys+URoeP83ML0gNV7IAxuTikg89HfJsEh0Tnbi2XkCTZ2VkdQUaslAuYWWbYRqApY
+ 8KuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=2nV3OnX8WCDnxp7VmTZBQLJ8CRRFanST3tqzj4Y4KE8=;
+ b=ba2yDUZkBDbAnn7P2ftHokatEuZL2XAvh8bP2L+M//6KZfaC1axEy7O7GIAAte6xEc
+ 9U/P6sxbsFsMH1PYj1uA6qRF75KC41u5qGhdSg3XbX/jyLXnSIpBFOAyRSPI8xYcyRQz
+ 7d4fr/dzLpD8w3FTfyagM2eOzmNDUyOZb0I9eDUooOT02aZT36LMQK3ZiqZUwCHk77YC
+ uLub0CQPz6sYsePd79g9IZ+Y4QaLSClBMTVrvmo8nB05+zA/6Gq4mZZgaCgDEsgYywjD
+ 9C5/Q7PTBE1GiNciia7g1iJZnAbPX4Mfk8LeJSs5zVpokieYkCIJfvlq1lZ7hIwtLvZU
+ TfYQ==
+X-Gm-Message-State: ACrzQf3oLF7MHELBh5K5qsGte+TE8/mBkpYIEJIzq7tcS+uxsLf0EAZi
+ iaTrpSTMzDSmnauzMQN8Wbr+Hg==
+X-Google-Smtp-Source: AMsMyM4Uq3HSM4U6VhE/gf8dGJYxbyoeho5aabOD87EFFcvHpRSUKodVZ5it2S0OCse+91AeNK77+A==
+X-Received: by 2002:a05:6000:2cd:b0:22a:4831:dfd with SMTP id
+ o13-20020a05600002cd00b0022a48310dfdmr13309159wry.706.1664199712029; 
+ Mon, 26 Sep 2022 06:41:52 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ x2-20020a5d6b42000000b00225307f43fbsm14449467wrw.44.2022.09.26.06.41.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Sep 2022 06:41:51 -0700 (PDT)
+Date: Mon, 26 Sep 2022 14:41:49 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Yang Yingliang <yangyingliang@huawei.com>
+Subject: Re: [PATCH -next] backlight: pwm_bl: Switch to use dev_err_probe()
+ helper
+Message-ID: <YzGsHadJ+HGJETJv@maple.lan>
+References: <20220926133258.1104850-1-yangyingliang@huawei.com>
+ <YzGrLsNrwEyL98nP@maple.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a10cf8af-1f62-ddd2-3975-066dd9494c9f@redhat.com>
+In-Reply-To: <YzGrLsNrwEyL98nP@maple.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,135 +71,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org, lee@kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 14, 2022 at 12:03:58AM +0200, Danilo Krummrich wrote:
-> On 9/13/22 10:58, Liviu Dudau wrote:
-> > On Mon, Sep 12, 2022 at 09:50:26PM +0200, Danilo Krummrich wrote:
-> > > Hi Liviu,
-> > 
-> > Hi Danilo,
-> > 
-> > > 
-> > > Thanks for having a look!
-> > > 
-> > > This is not about this patch, it's about patch 3/7 "drm/arm/hdlcd: crtc: use
-> > > drmm_crtc_init_with_planes()".
-> > 
-> > Agree! However, this is the patch that removes the .destroy hook, so I've replied here.
-> 
-> This is a different .destroy hook, it's the struct drm_plane_funcs one, not
-> the struct drm_crtc_funcs one, which the warning is about. Anyway, as said,
-> we can just drop the mentioned patch. :-)
+On Mon, Sep 26, 2022 at 02:37:50PM +0100, Daniel Thompson wrote:
+> On Mon, Sep 26, 2022 at 09:32:58PM +0800, Yang Yingliang wrote:
+> > In the probe path, dev_err() can be replaced with dev_err_probe()
+> > which will check if error code is -EPROBE_DEFER and prints the
+> > error name. It also sets the defer probe reason which can be
+> > checked later through debugfs. It's more simple in error path.
+>
+> I'd prefer to have received these patches as a patchset rather than
+> individual patches... but it is a good change so:
+>
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Sorry, my mistake.
-
-> 
-> > 
-> > > 
-> > > And there it's the other way around. When using drmm_crtc_init_with_planes()
-> > > we shouldn't have a destroy hook in place, that's the whole purpose of
-> > > drmm_crtc_init_with_planes().
-> > > 
-> > > We should just drop patch 3/7 "drm/arm/hdlcd: crtc: use
-> > > drmm_crtc_init_with_planes()", it's wrong.
-> > 
-> > So we end up with mixed use of managed and unmanaged APIs?
-> 
-> In this case, yes. However, I don't think this makes it inconsistent. They
-> only thing drmm_crtc_init_with_planes() does different than
-> drm_crtc_init_with_planes() is that it set's things up to automatically call
-> drm_crtc_cleanup() on .destroy. Since this driver also does a register write
-> in the .destroy callback and hence we can't get rid of the callback we can
-> just keep it as it is.
-
-I'm trying to test your v2 on a flaky platform (my Juno R1 has developed some memory
-issues that leads to crashes on most boots) and I'm seeing some issues that I'm
-trying to replicate (and understand) before posting the stack trace. I'm not sure yet
-if they are related to the mixing of managed and unmanaged APIs, I need a bit more
-time for testing.
+Oops. My last mail neglected to mention that you did not sign off your
+changes (meaning we cannot accept them). When you re-send this please
+add a SoB and combine with the other similar patches.
 
 
-> 
-> > 
-> > > 
-> > > Do you want me to send a v2 for that?
-> > 
-> > Yes please! It would help me to understand your thinking around the whole lifecycle of the driver.
-> > 
-> > BTW, I appreciate the care in patches 5-7 to make sure that the driver doesn't access freed resources,
-> > however I'm not sure I like the fact that rmmod-ing the hdlcd driver while I have an fbcon running
-> > hangs now the command and prevents a kernel reboot, while it works without your series. Can you explain
-> > to me again what are you trying to fix?
-> 
-> Sure! DRM managed resources are cleaned up whenever the last reference is
-> put. This is not necessarily the case when the driver is unbound, hence
-> there might still be calls into the driver and therefore we must protect
-> resources that are bound to the driver/device lifecycle (e.g. a MMIO region
-> mapped via devm_ioremap_resource()) from being accessed. That's why the
-> hdlcd_write() and hdlcd_read() calls in the crtc callbacks need to be
-> protected.
-
-Thanks for the explanation on what the code ultimately does. I was trying to
-understand what was the impetus for the change in the first place. Why did you
-thought adding the calls to managed APIs was needed and what were you trying to fix?
-
-
-> 
-> However, of course, the changes needed to achieve that should not result
-> into hanging rmmod. Unfortunately, just by looking at the patches again I
-> don't see how this could happen.
-> 
-> Do you mind trying again with my v2 (although v2 shouldn't make a difference
-> for this issue) and provide the back-trace when it hangs?
-
-I'm trying to do that. I've got one good trace that I'm trying to reproduce, but
-unfortunately my main Juno board has developed a memory fault and the replacement for
-it is taking longer than I wanted.
-
-Best regards,
-Liviu
-
-
-> 
-> Thanks,
-> Danilo
-> 
-> > 
-> > Best regards,
-> > Liviu
-> > 
-> > 
-> > > 
-> > > - Danilo
-> > > 
-> > > 
-> > > 
-> > > On 9/12/22 19:36, Liviu Dudau wrote:
-> > > > Hi Danilo,
-> > > > 
-> > > > I have applied your patch series for HDLCD on top of drm-next (commit 213cb76ddc8b)
-> > > > and on start up I get a warning:
-> > > > 
-> > > > [   12.882554] hdlcd 7ff50000.hdlcd: drm_WARN_ON(funcs && funcs->destroy)
-> > > > [   12.882596] WARNING: CPU: 1 PID: 211 at drivers/gpu/drm/drm_crtc.c:393 __drmm_crtc_init_with_planes+0x70/0xf0 [drm]
-> > > > 
-> > > > It looks like the .destroy hook is still required or I'm missing some other required
-> > > > series where the WARN has been removed?
-> > > > 
-> > > > Best regards,
-> > > > Liviu
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Daniel.
