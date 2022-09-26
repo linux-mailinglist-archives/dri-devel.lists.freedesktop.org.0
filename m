@@ -1,56 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D4D5EADAD
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 19:10:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F645EAE7C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 19:49:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A64F10E066;
-	Mon, 26 Sep 2022 17:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 654FB10E2B2;
+	Mon, 26 Sep 2022 17:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06B5910E00F;
- Mon, 26 Sep 2022 17:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664212227; x=1695748227;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=+xMQec/RgTIs9Ml3lMqqvWRtRO3h4vzpU5AtRYjCa8w=;
- b=GK1t0ILJCr0sAXuMmPOJQPXYLGnd0MqiVe5/sNk5g5r9GK4+XL0i82TE
- s5FqGCdNlsQG9KT+Waoms2LoAwirNx7cjL4KF53JBc3NDRqLq3TkWUERg
- CtF5dhmIuQV6t9WE37E2U1umnpzVCB38+8doSH6XboF0ngehFSOatlTpo
- CnIILZcNPHYZrEs1dmdYvVJpy0Gfkjjf9RuEHJUjCXbpqXoVtwt62MrUN
- ZvaUgqZov4E/8QLs7AKZK9FvD9758sac06pIZhMFGRV9hllcHfUSxASMm
- d6aHQMvqrZB3uiLbzjaucAet5T600KxTnHNK9nRLNf0r3TpLgWL7bpkzF w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="362920140"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="362920140"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 10:10:19 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="689637307"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="689637307"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 10:10:16 -0700
-Date: Mon, 26 Sep 2022 10:09:50 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC v4 13/14] drm/i915/vm_bind: Skip vma_lookup for
- persistent vmas
-Message-ID: <20220926170950.GA16345@nvishwa1-DESK>
-References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
- <20220921070945.27764-14-niranjana.vishwanathapura@intel.com>
- <99bbab8d-42e7-2aed-d64a-5bd61dfc9fd6@linux.intel.com>
- <20220924043010.GJ28263@nvishwa1-DESK>
- <38313280-24ed-e778-421c-cc1358e61a35@linux.intel.com>
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4055610E10E
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 17:49:15 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id d24so6923394pls.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 10:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=2ghx9soVNRgMuce/k3rtlZFlzNNavxdxcyGC2lzjes8=;
+ b=GC57hiZQZgYOn4cuzXIko936K811D1jk++Lxi45rCq4gzvQsowln0lx4woHxaOWEVd
+ wfGNpgIHsJ5oU+cBNwjXnighAUrEiz8tArdSIJMCEA0xhvMNJXe+8x3aNlvwSe7YtsWQ
+ o5Ry+Le31Z/jZDbhByABzglVRuwvuBarWx6vw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=2ghx9soVNRgMuce/k3rtlZFlzNNavxdxcyGC2lzjes8=;
+ b=PbDeIWLdhBv35H/yxdCbibqzWro8scDeXoOpc9DdYVFtZpMW7b5Q/1OW3Dw9x+Lv8Q
+ 7zR0L5T2UNxeJi+wZ6WQcc9JcGQgIQBb4J4zWiltY/AxOTWt4OqDKmi97/PNRDw1SeYM
+ 2SV9g3eINJE8lE1ZpL9lLVwhUeT6HHpjjR72Bp0qWuOe4S2Eg1DAnIZqwg31qXMv5jb9
+ jCcjUlGtKMm+8faUsi6UCOF2xDq1u07NwzK4717QdmGuCMb7zZ5Qfs+luFlMmkrnJUOg
+ yrItblSiWZpEdCtGwEbesUOoojl3r3IxRfbHVZBI1yhtWWxhL4RT2vMIkFTvlrBUTyhf
+ CoZg==
+X-Gm-Message-State: ACrzQf1JTnm19r4yFbjm6rOD1kGas7EIuEEZIDKsS+IKWRhQuizjbiAC
+ /q+DnmHWSrCFbuPt8bhqFeb0Gw==
+X-Google-Smtp-Source: AMsMyM7Nl4pXzVNRXTYRj9D3jmUhFFcCnnFwsDwyHyeCGsBtAIOaH1U38Aj3lxSoVvM4vDCHi8Fwsg==
+X-Received: by 2002:a17:90b:3b43:b0:202:d053:d305 with SMTP id
+ ot3-20020a17090b3b4300b00202d053d305mr26417901pjb.229.1664214554768; 
+ Mon, 26 Sep 2022 10:49:14 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ x125-20020a628683000000b0054087e1aea4sm12829374pfd.15.2022.09.26.10.49.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Sep 2022 10:49:14 -0700 (PDT)
+Date: Mon, 26 Sep 2022 10:49:13 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [PATCH v11.5] overflow: Introduce overflows_type() and
+ __castable_to_type()
+Message-ID: <202209261045.3EAEE773E9@keescook>
+References: <20220926003743.409911-1-keescook@chromium.org>
+ <06a907d2-e976-ed8a-bfff-277c835d9ab2@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <38313280-24ed-e778-421c-cc1358e61a35@linux.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <06a907d2-e976-ed8a-bfff-277c835d9ab2@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,154 +68,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- matthew.auld@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Tom Rix <trix@redhat.com>, Daniel Latypov <dlatypov@google.com>,
+ llvm@lists.linux.dev, linux@rasmusvillemoes.dk,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ linux-hardening@vger.kernel.org, andrzej.hajda@intel.com,
+ linux-sparse@vger.kernel.org, matthew.auld@intel.com,
+ andi.shyti@linux.intel.com, airlied@redhat.com,
+ thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ mchehab@kernel.org, mauro.chehab@linux.intel.com,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kernel@vger.kernel.org,
+ Vitor Massaru Iha <vitor@massaru.org>,
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022 at 05:26:12PM +0100, Tvrtko Ursulin wrote:
->
->On 24/09/2022 05:30, Niranjana Vishwanathapura wrote:
->>On Fri, Sep 23, 2022 at 09:40:20AM +0100, Tvrtko Ursulin wrote:
->>>
->>>On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
->>>>vma_lookup is tied to segment of the object instead of section
->>>
->>>Can be, but not only that. It would be more accurate to say it is 
->>>based of gtt views.
->>
->>Yah, but new code is also based on gtt views, the only difference
->>is that now there can be multiple mappings (at different VAs)
->>to the same gtt_view of the object.
->>
->>>
->>>>of VA space. Hence, it do not support aliasing (ie., multiple
->>>>bindings to the same section of the object).
->>>>Skip vma_lookup for persistent vmas as it supports aliasing.
->>>
->>>What's broken without this patch? If something is, should it go 
->>>somewhere earlier in the series? If so should be mentioned in the 
->>>commit message.
->>>
->>>Or is it just a performance optimisation to skip unused tracking? 
->>>If so should also be mentioned in the commit message.
->>>
->>
->>No, it is not a performance optimization.
->>The vma_lookup is based on the fact that there can be only one mapping
->>for a given gtt_view of the object.
->>So, it was looking for gtt_view to find the mapping.
->>
->>But now, as I mentioned above, there can be multiple mappings for a
->>given gtt_view of the object. Hence the vma_lookup method won't work
->>here. Hence, it is being skipped for persistent vmas.
->
->Right, so in that case isn't this patch too late in the series? 
->Granted you only allow _userspace_ to use vm bind in 14/14, but the 
->kernel infrastructure is there and if there was a selftest it would be 
->able to fail without this patch, no?
->
+On Mon, Sep 26, 2022 at 06:57:53PM +0300, Gwan-gyeong Mun wrote:
+> 
+> 
+> On 9/26/22 3:37 AM, Kees Cook wrote:
+> > Add overflows_type() to test if a variable or constant value would
+> > overflow another variable or type. This can be used as a constant
+> > expression for static_assert() (which requires a constant
+> > expression[1][2]) when used on constant values. This must be constructed
+> > manually, since __builtin_add_overflow() does not produce a constant
+> > expression[3].
+> > 
+> > Additionally adds __castable_to_type(), similar to __same_type(), for
+> > checking if a constant value will fit in a given type (i.e. it could
+> > be cast to the type without overflow).
+> > 
+> > Add unit tests for overflows_type(), __same_type(), and
+> > __castable_to_type() to the existing KUnit "overflow" test.
+> > 
+> > [1] https://en.cppreference.com/w/c/language/_Static_assert
+> > [2] C11 standard (ISO/IEC 9899:2011): 6.7.10 Static assertions
+> > [3] https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html
+> >      6.56 Built-in Functions to Perform Arithmetic with Overflow Checking
+> >      Built-in Function: bool __builtin_add_overflow (type1 a, type2 b,
+> >                                                      type3 *res)
+> > 
+> > Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+> > Cc: Nathan Chancellor <nathan@kernel.org>
+> > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > Cc: Tom Rix <trix@redhat.com>
+> > Cc: Daniel Latypov <dlatypov@google.com>
+> > Cc: Vitor Massaru Iha <vitor@massaru.org>
+> > Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> > Cc: linux-hardening@vger.kernel.org
+> > Cc: llvm@lists.linux.dev
+> > Co-developed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> > Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >   include/linux/compiler.h |   1 +
+> >   include/linux/overflow.h |  48 +++++
+> >   lib/overflow_kunit.c     | 393 ++++++++++++++++++++++++++++++++++++++-
+> >   3 files changed, 441 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+> > index 7713d7bcdaea..c631107e93b1 100644
+> > --- a/include/linux/compiler.h
+> > +++ b/include/linux/compiler.h
+> > @@ -244,6 +244,7 @@ static inline void *offset_to_ptr(const int *off)
+> >    * bool and also pointer types.
+> >    */
+> >   #define is_signed_type(type) (((type)(-1)) < (__force type)1)
+> > +#define is_unsigned_type(type) (!is_signed_type(type))
+> >   /*
+> >    * This is needed in functions which generate the stack canary, see
+> > diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+> > index 19dfdd74835e..c8cbeae5f4f8 100644
+> > --- a/include/linux/overflow.h
+> > +++ b/include/linux/overflow.h
+> > @@ -127,6 +127,54 @@ static inline bool __must_check __must_check_overflow(bool overflow)
+> >   	(*_d >> _to_shift) != _a);					\
+> >   }))
+> > +#define __overflows_type_constexpr(x, T) (			\
+> > +	is_unsigned_type(typeof(x)) ?				\
+> > +		(x) > type_max(typeof(T)) ? 1 : 0		\
+> > +	: is_unsigned_type(typeof(T)) ?				\
+> > +		(x) < 0 || (x) > type_max(typeof(T)) ? 1 : 0	\
+> > +		: (x) < type_min(typeof(T)) ||			\
+> > +		  (x) > type_max(typeof(T)) ? 1 : 0 )
+> > +
+> > +#define __overflows_type(x, T)		({	\
+> > +	typeof(T) v = 0;			\
+> > +	check_add_overflow((x), v, &v);		\
+> > +})
+> > +
+> > +/**
+> > + * overflows_type - helper for checking the overflows between value, variables,
+> > + *		    or data type
+> > + *
+> > + * @n: source constant value or variable to be checked
+> > + * @T: destination variable or data type proposed to store @x
+> > + *
+> > + * Compares the @x expression for whether or not it can safely fit in
+> > + * the storage of the type in @T. @x and @T can have different types.
+> > + * If @x is a conxtant expression, this will also resolve to a constant
+> > + * expression.
+> > + *
+> > + * Returns: true if overflow can occur, false otherwise.
+> > + */
+> > +#define overflows_type(n, T)					\
+> > +	__builtin_choose_expr(__is_constexpr(n),		\
+> > +			      __overflows_type_constexpr(n, T),	\
+> > +			      __overflows_type(n, T))
+> > +
+> > +/**
+> > + * __castable_to_type - like __same_type(), but also allows for casted literals
+> > + *
+> > + * @n: variable or constant value
+> > + * @T: data type or variable
+> > + *
+> > + * Unlike the __same_type() macro, this allows a constant value as the
+> > + * first argument. If this value would not overflow into an assignment
+> > + * of the second argument's type, it returns true. Otherwise, this falls
+> > + * back to __same_type().
+> > + */
+> > +#define __castable_to_type(n, T)					\
+> > +	__builtin_choose_expr(__is_constexpr(n),			\
+> > +			      !__overflows_type_constexpr(n, T),	\
+> > +			      __same_type(n, T))
+> > +
+> This name is fine, but I prefer the __same_typable you suggested as a
+> comment in the previous patch better, what do you think?
+> ( __castable_to_type(n, T); The macro name seems to handle if type casting
+> is possible to the second argument type from the first argument variable. )
 
-Yes it is incorrect patch ordering. I am fixing it by moving this patch
-to early in the series and adding a new i915_vma_create_persistent()
-function and avoid touching i915_vma_instance() everywhere (as you
-suggested).
+I changed this name because "typable" isn't a familiar name for someone
+reading all of this for the first time. What's really happening is a
+check if _casting_ will result in an overflow. And when I named it just
+"__castable_type" it sounded like a declaration rather than a test. But
+perhaps it should lose the "__" prefix, and just be "castable_to_type"?
+Or even more verbose as "can_cast_to_type()" ?
 
-<snip>
+As for argument order, it seemed best to keep the order the same as with
+overflows_type(). I think that makes all of these macros a bit easier to
+read/review/understand for others.
 
->>>>--- a/drivers/gpu/drm/i915/i915_vma.c
->>>>+++ b/drivers/gpu/drm/i915/i915_vma.c
->>>>@@ -110,7 +110,8 @@ static void __i915_vma_retire(struct 
->>>>i915_active *ref)
->>>> static struct i915_vma *
->>>> vma_create(struct drm_i915_gem_object *obj,
->>>>        struct i915_address_space *vm,
->>>>-       const struct i915_gtt_view *view)
->>>>+       const struct i915_gtt_view *view,
->>>>+       bool persistent)
->>>> {
->>>>     struct i915_vma *pos = ERR_PTR(-E2BIG);
->>>>     struct i915_vma *vma;
->>>>@@ -197,6 +198,9 @@ vma_create(struct drm_i915_gem_object *obj,
->>>>         __set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(vma));
->>>>     }
->>>>+    if (persistent)
->>>>+        goto skip_rb_insert;
->>>
->>>Oh so you don't use the gtt_view's fully at all. I now have 
->>>reservations whether that was the right approach. Since you are 
->>>not using the existing rb tree tracking I mean..
->>>
->>>You know if a vma is persistent right? So you could have just 
->>>added special case for persistent vmas to __i915_vma_get_pages and 
->>>still call intel_partial_pages from there. Maybe union over struct 
->>>i915_gtt_view in i915_vma for either the view or struct 
->>>intel_partial_info for persistent ones.
->>>
->>
->>We are using the gtt_view fully in this patch for persistent vmas.
->
->I guess yours and mine definition of fully are different. :)
->
->>But as mentioned above, now we have support multiple mappings
->>for the same gtt_view of the object. For this, the current
->>vma_lookup() falls short. So, we are skipping it.
->
->I get it - but then, having only now noticed how it will be used, I am 
->less convinced touching the ggtt_view code was the right approach.
->
->What about what I proposed above? That you just add code to 
->__i915_vma_get_pages, which in case of a persistent VMA would call 
->intel_partial_pages from there.
->
->If that works I think it's cleaner and we'd just revert the ggtt_view 
->to gtt_view rename.
->
-
-I don't think that is any cleaner. We need to store the partial view
-information somewhere for the persistent vmas as well. Why not use
-the existing gtt_view for that instead of a new data structure?
-In fact long back I had such an implementation and it was looking
-odd and was suggested to use the existing infrastructure (gtt_view).
-
-Besides, I think the current i915_vma_lookup method is no longer valid.
-(Ever since we had softpinning, lookup should have be based on the VA
-and not the vma's view of the object).
-
-Regards,
-Niranjana
-
->Regards,
->
->Tvrtko
->
->>
->>Regards,
->>Niranjana
->>
->>>Regards,
->>>
->>>Tvrtko
->>>
->>>>+
->>>>     rb = NULL;
->>>>     p = &obj->vma.tree.rb_node;
->>>>     while (*p) {
->>>>@@ -221,6 +225,7 @@ vma_create(struct drm_i915_gem_object *obj,
->>>>     rb_link_node(&vma->obj_node, rb, p);
->>>>     rb_insert_color(&vma->obj_node, &obj->vma.tree);
->>>>+skip_rb_insert:
->>>>     if (i915_vma_is_ggtt(vma))
->>>>         /*
->>>>          * We put the GGTT vma at the start of the vma-list, followed
->>>>@@ -279,6 +284,7 @@ i915_vma_lookup(struct drm_i915_gem_object *obj,
->>>>  * @obj: parent &struct drm_i915_gem_object to be mapped
->>>>  * @vm: address space in which the mapping is located
->>>>  * @view: additional mapping requirements
->>>>+ * @persistent: Whether the vma is persistent
->>>>  *
->>>>  * i915_vma_instance() looks up an existing VMA of the @obj in 
->>>>the @vm with
->>>>  * the same @view characteristics. If a match is not found, one 
->>>>is created.
+-- 
+Kees Cook
