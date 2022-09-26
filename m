@@ -1,79 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD205EAFF8
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 20:33:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7125EB029
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 20:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49E410E764;
-	Mon, 26 Sep 2022 18:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A3610E4E4;
+	Mon, 26 Sep 2022 18:38:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0101910E1CA;
- Mon, 26 Sep 2022 18:33:39 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28QIBG0P028897;
- Mon, 26 Sep 2022 18:33:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=iJBTAqXN/XXcUOGDVDgIc8+945bIMYNQLu9jWVBWuUw=;
- b=G+1mWz+BDcNhdsgBYmethwtY8wqDjzmvHjVFPealhndgTu3hCkp8bgSORyyc1k+LrTfa
- UKw2btkzuOG8uwh3fsK6c60+qQqajSJjj43hjHjk+936MIndQP2vD9C4FksCSLWk0M3b
- 6iQAQNXa+LfXRvXxeBGlPVXYX9iUmtbDHXw8SxTKwRsUU53FbAJ+t+uLbNIAnO0PEAwJ
- P90MiLSgB4Mf7g2Gmo6+hcYCAjPUoi23jdW7pnYPuvwRzXxnWQ/nYhkFxkOHcbx5vwxV
- 1jwj0ev8MeJt/Kb5+V2giaUpcD+uIUwQsGyTD4SOMRNM2kehrux93xNx3GOkehVQ5pEU Qw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jssg6vds2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Sep 2022 18:33:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28QIXWLS009583
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Sep 2022 18:33:32 GMT
-Received: from [10.111.163.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 26 Sep
- 2022 11:33:30 -0700
-Message-ID: <aba835e2-65f6-b965-d4fb-cbbebee6478d@quicinc.com>
-Date: Mon, 26 Sep 2022 11:33:28 -0700
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 568F010E4E0;
+ Mon, 26 Sep 2022 18:38:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664217504; x=1695753504;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vH5/uyLOOOMyNY31x7w7N6JIwPn/w+Vv2PFsOcjA6fY=;
+ b=FVnSnYWULlwX+m1CjROmoY0lmKYPjuCdNWty8bq0aEsaNItQQdNwZa+P
+ Y7VeMok7eE7otvTrM54I7Vpi2OPMFyWp/q4en57iHAe25K7tIujgr0bbN
+ 4GwHkYHtPooO3L3Ii4eX6fdCJhfNpNBzICxHczBxNgFYPn6cymQMM+Vx1
+ chU5fdGynmMeGGD+2IZymK1oroe6S3siOPra1+91U4e7GroL5l43n9Q/O
+ OJvqlJQ0KmSnU/eK4jhs8nEsh8kqrEiPqN5lPweuY1PL6Ier/P/do7a0J
+ N0sbpWOsvlowvGkHNuz2KGiC1oHFVl7DE/c3DtwuOXwXzRgFtoVQxHjNP A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="302582609"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="302582609"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 11:38:23 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="763552947"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="763552947"
+Received: from aravind-dev.iind.intel.com ([10.145.162.80])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 11:38:21 -0700
+From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3] drm/i915/mtl: enable local stolen memory
+Date: Tue, 27 Sep 2022 00:14:24 +0530
+Message-Id: <20220926184424.23772-1-aravind.iddamsetty@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: use DEFINE_SHOW_ATTRIBUTE to simplify
- dpu_regset32
-Content-Language: en-US
-To: Liu Shixin <liushixin2@huawei.com>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220922142147.3246649-1-liushixin2@huawei.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220922142147.3246649-1-liushixin2@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: PsZAPvwMCCA6cFHVhpgfy-l5zfet0dpI
-X-Proofpoint-ORIG-GUID: PsZAPvwMCCA6cFHVhpgfy-l5zfet0dpI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-26_09,2022-09-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 clxscore=1011 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 suspectscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209260115
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,66 +54,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As an integrated GPU, MTL does not have local memory and
+HAS_LMEM() returns false.  However the platform's stolen memory
+is presented via BAR2 (i.e., the BAR we traditionally consider
+to be the LMEM BAR) and should be managed by the driver the same
+way that local memory is on dgpu platforms (which includes
+setting the "lmem" bit on page table entries).  We use the term
+"local stolen memory" to refer to this model.
 
+v2:
+1. dropped is_dsm_invalid, updated valid_stolen_size check from Lucas
+(Jani, Lucas)
+2. drop lmembar_is_igpu_stolen
+3. revert to referring GFXMEM_BAR as GEN12_LMEM_BAR (Lucas)
 
-On 9/22/2022 7:21 AM, Liu Shixin wrote:
-> Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
-> No functional change.
-> 
-> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+v3:(Jani)
+1. rename get_mtl_gms_size to mtl_get_gms_size
+2. define register for MMIO address
 
-Looks reasonable to me
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 18 +++---------------
->   1 file changed, 3 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 5e6e2626151e..f3660cd14f4f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -194,7 +194,7 @@ struct dpu_debugfs_regset32 {
->   	struct dpu_kms *dpu_kms;
->   };
->   
-> -static int _dpu_debugfs_show_regset32(struct seq_file *s, void *data)
-> +static int dpu_regset32_show(struct seq_file *s, void *data)
->   {
->   	struct dpu_debugfs_regset32 *regset = s->private;
->   	struct dpu_kms *dpu_kms = regset->dpu_kms;
-> @@ -227,19 +227,7 @@ static int _dpu_debugfs_show_regset32(struct seq_file *s, void *data)
->   
->   	return 0;
->   }
-> -
-> -static int dpu_debugfs_open_regset32(struct inode *inode,
-> -		struct file *file)
-> -{
-> -	return single_open(file, _dpu_debugfs_show_regset32, inode->i_private);
-> -}
-> -
-> -static const struct file_operations dpu_fops_regset32 = {
-> -	.open =		dpu_debugfs_open_regset32,
-> -	.read =		seq_read,
-> -	.llseek =	seq_lseek,
-> -	.release =	single_release,
-> -};
-> +DEFINE_SHOW_ATTRIBUTE(dpu_regset32);
->   
->   void dpu_debugfs_create_regset32(const char *name, umode_t mode,
->   		void *parent,
-> @@ -259,7 +247,7 @@ void dpu_debugfs_create_regset32(const char *name, umode_t mode,
->   	regset->blk_len = length;
->   	regset->dpu_kms = dpu_kms;
->   
-> -	debugfs_create_file(name, mode, parent, regset, &dpu_fops_regset32);
-> +	debugfs_create_file(name, mode, parent, regset, &dpu_regset32_fops);
->   }
->   
->   static int dpu_kms_debugfs_init(struct msm_kms *kms, struct drm_minor *minor)
+Signed-off-by: CQ Tang <cq.tang@intel.com>
+Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Original-author: CQ Tang
+---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 88 ++++++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_ggtt.c       |  2 +-
+ drivers/gpu/drm/i915/i915_drv.h            |  3 +
+ drivers/gpu/drm/i915/i915_reg.h            |  5 ++
+ 4 files changed, 81 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index c5a4035c99cd..0eb66c55bbf3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -77,9 +77,9 @@ void i915_gem_stolen_remove_node(struct drm_i915_private *i915,
+ 	mutex_unlock(&i915->mm.stolen_lock);
+ }
+ 
+-static bool valid_stolen_size(struct resource *dsm)
++static bool valid_stolen_size(struct drm_i915_private *i915, struct resource *dsm)
+ {
+-	return dsm->start != 0 && dsm->end > dsm->start;
++	return (dsm->start != 0 || HAS_BAR2_SMEM_STOLEN(i915)) && dsm->end > dsm->start;
+ }
+ 
+ static int adjust_stolen(struct drm_i915_private *i915,
+@@ -88,7 +88,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
+ 
+-	if (!valid_stolen_size(dsm))
++	if (!valid_stolen_size(i915, dsm))
+ 		return -EINVAL;
+ 
+ 	/*
+@@ -135,7 +135,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
+ 		}
+ 	}
+ 
+-	if (!valid_stolen_size(dsm))
++	if (!valid_stolen_size(i915, dsm))
+ 		return -EINVAL;
+ 
+ 	return 0;
+@@ -148,9 +148,10 @@ static int request_smem_stolen(struct drm_i915_private *i915,
+ 
+ 	/*
+ 	 * With stolen lmem, we don't need to request system memory for the
+-	 * address range since it's local to the gpu.
++	 * address range since it's local to the gpu and in some IGFX devices
++	 * BAR2 is exposed as stolen
+ 	 */
+-	if (HAS_LMEM(i915))
++	if (HAS_LMEM(i915) || HAS_BAR2_SMEM_STOLEN(i915))
+ 		return 0;
+ 
+ 	/*
+@@ -385,8 +386,6 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+ 
+ 	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = 0x%016llx\n", reg_val);
+ 
+-	*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
+-
+ 	switch (reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK) {
+ 	case GEN8_STOLEN_RESERVED_1M:
+ 		*size = 1024 * 1024;
+@@ -404,6 +403,12 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+ 		*size = 8 * 1024 * 1024;
+ 		MISSING_CASE(reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK);
+ 	}
++
++	if (HAS_BAR2_SMEM_STOLEN(i915))
++		/* the base is initialized to stolen top so subtract size to get base */
++		*base -= *size;
++	else
++		*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
+ }
+ 
+ /*
+@@ -833,6 +838,34 @@ static const struct intel_memory_region_ops i915_region_stolen_lmem_ops = {
+ 	.init_object = _i915_gem_object_stolen_init,
+ };
+ 
++static int mtl_get_gms_size(struct intel_uncore *uncore)
++{
++	u16 ggc, gms;
++
++	ggc = intel_uncore_read16(uncore, GGC);
++
++	/* check GGMS, should be fixed 0x3 (8MB) */
++	if ((ggc & GGMS_MASK) != GGMS_MASK)
++		return -EIO;
++
++	/* return valid GMS value, -EIO if invalid */
++	gms = (ggc & GMS_MASK) >> GMS_SHIFT;
++	switch (gms) {
++	case 0x0 ... 0x10:
++		return gms * 32;
++	case 0x20:
++		return 1024;
++	case 0x30:
++		return 1536;
++	case 0x40:
++		return 2048;
++	case 0xf0 ... 0xfe:
++		return (gms - 0xf0 + 1) * 4;
++	default:
++		return -EIO;
++	}
++}
++
+ struct intel_memory_region *
+ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 			   u16 instance)
+@@ -843,6 +876,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 	struct intel_memory_region *mem;
+ 	resource_size_t io_start, io_size;
+ 	resource_size_t min_page_size;
++	int ret;
+ 
+ 	if (WARN_ON_ONCE(instance))
+ 		return ERR_PTR(-ENODEV);
+@@ -850,12 +884,8 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 	if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
+ 		return ERR_PTR(-ENXIO);
+ 
+-	/* Use DSM base address instead for stolen memory */
+-	dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
+-	if (IS_DG1(uncore->i915)) {
++	if (HAS_BAR2_SMEM_STOLEN(i915) || IS_DG1(i915)) {
+ 		lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
+-		if (WARN_ON(lmem_size < dsm_base))
+-			return ERR_PTR(-ENODEV);
+ 	} else {
+ 		resource_size_t lmem_range;
+ 
+@@ -864,13 +894,39 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 		lmem_size *= SZ_1G;
+ 	}
+ 
+-	dsm_size = lmem_size - dsm_base;
+-	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
++	if (HAS_BAR2_SMEM_STOLEN(i915)) {
++		/*
++		 * MTL dsm size is in GGC register, not the bar size.
++		 * also MTL uses offset to DSMBASE in ptes, so i915
++		 * uses dsm_base = 0 to setup stolen region.
++		 */
++		ret = mtl_get_gms_size(uncore);
++		if (ret < 0) {
++			drm_err(&i915->drm, "invalid MTL GGC register setting\n");
++			return ERR_PTR(ret);
++		}
++
++		dsm_base = 0;
++		dsm_size = (resource_size_t)(ret * SZ_1M);
++
++		GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != 256 * SZ_1M);
++		GEM_BUG_ON((dsm_size + 8 * SZ_1M) > lmem_size);
++	} else {
++		/* Use DSM base address instead for stolen memory */
++		dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE);
++		if (WARN_ON(lmem_size < dsm_base))
++			return ERR_PTR(-ENODEV);
++		dsm_size = lmem_size - dsm_base;
++	}
++
++	io_size = dsm_size;
++	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < dsm_size) {
+ 		io_start = 0;
+ 		io_size = 0;
++	} else if (HAS_BAR2_SMEM_STOLEN(i915)) {
++		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + 8 * SZ_1M;
+ 	} else {
+ 		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
+-		io_size = dsm_size;
+ 	}
+ 
+ 	min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 30cf5c3369d9..b31fe0fb013f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -931,7 +931,7 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+ 	unsigned int size;
+ 	u16 snb_gmch_ctl;
+ 
+-	if (!HAS_LMEM(i915)) {
++	if (!HAS_LMEM(i915) && !HAS_BAR2_SMEM_STOLEN(i915)) {
+ 		if (!i915_pci_resource_valid(pdev, GTT_APERTURE_BAR))
+ 			return -ENXIO;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index d830d52ded5d..b33ba0d49bbd 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -975,6 +975,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ 
+ #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_fuse_bit)
+ 
++#define HAS_BAR2_SMEM_STOLEN(i915) (!HAS_LMEM(i915) && \
++				    GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
++
+ /* intel_device_info.c */
+ static inline struct intel_device_info *
+ mkwrite_device_info(struct drm_i915_private *dev_priv)
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 5003a5ffbc6a..3ace2d6b4961 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -7967,6 +7967,11 @@ enum skl_power_gate {
+ 							   _ICL_PIPE_DSS_CTL2_PB, \
+ 							   _ICL_PIPE_DSS_CTL2_PC)
+ 
++#define GGC				_MMIO(0x108040)
++#define   GMS_MASK			REG_GENMASK(15, 8)
++#define   GMS_SHIFT			8
++#define   GGMS_MASK			REG_GENMASK(7, 6)
++
+ #define GEN12_GSMBASE			_MMIO(0x108100)
+ #define GEN12_DSMBASE			_MMIO(0x1080C0)
+ #define   GEN12_BDSM_MASK		REG_GENMASK64(63, 20)
+-- 
+2.25.1
+
