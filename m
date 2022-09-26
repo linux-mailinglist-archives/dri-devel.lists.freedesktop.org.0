@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535F05EAB47
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 17:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F0B5EAB48
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 17:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFD410E6EE;
-	Mon, 26 Sep 2022 15:40:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68EB610E6F3;
+	Mon, 26 Sep 2022 15:40:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F17410E6E8;
- Mon, 26 Sep 2022 15:40:25 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D831110E6F4;
+ Mon, 26 Sep 2022 15:40:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664206825; x=1695742825;
+ t=1664206833; x=1695742833;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pZvjHMjYteGhKxH3FLMaRO1QcgBiv4Wimgneq4ceDH0=;
- b=FkhtYMFFp4EUN601U3MBRcyaWyjIaXdBMiEAfd9ZTkYSdh53Mds4xauq
- OBQMcSuyZcGcw3fCgJgd9sE9WPe2AjFmWRQLLKPjcnWuixxc8xHyrWCtm
- 3zwBdRTuuNFMqIermdQOsf07glYZghRMUPwbyLtiGp7T2jHnLXrHEsDfm
- muEgDqFU0qauLcY2aIAx9dAtv6ojd7dNqC9nzWVwyxaCRjRo4r00E45TA
- wSFD2O9YyAnmnzIP4CvuL26CddiWJERypo3C7keDgRzgAvpaK8XU5dqEL
- 5qsy3vw06U1eihMOI0UeRyMDRVy+w1ZHeBb5aWMHIwSidq9HQ3HVA7s77 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="387352310"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="387352310"
+ bh=a15giGE9U8MfRV7QFZGLrBfnIa+lhGBT+wMMe9HhDqQ=;
+ b=OqDVvX/1aqyWRoYQRkvkd8LWGjAhj0makgHyCGKJH2WP4kWEfmp22oad
+ onznlwkQObRgeVp4Zb9Egz6SubgctQgehmCZV7ZKmvtSbqS+23J7unf0g
+ mt6qPNHzM11OgyqUcMLJMw+/mPsZaZPW7i20J50+FVMcO3OOJsOTrwf9M
+ 8TmyEXkiOWnmreGGwSqAEcfKpxwwAJrIolvJWw89DpQPc5SqAgtrrBTPh
+ 22GvRPzolvEt0mqIm8vpeU10+lWIC32hWcg4Ru8pcuy5wC0l6t905bcaR
+ HVczWP91w+gHF2QpEdI1HXiJxVmc15sY9XqLcj69+3wt6/Nl+9HTP/2/A A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="288199344"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="288199344"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 08:40:24 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="763480844"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="763480844"
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 08:40:33 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="763480870"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="763480870"
 Received: from bsochack-mobl2.ger.corp.intel.com (HELO
  paris.ger.corp.intel.com) ([10.249.128.215])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 08:40:16 -0700
+ 26 Sep 2022 08:40:24 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v12 1/9] overflow: Allow mixed type arguments
-Date: Mon, 26 Sep 2022 18:39:45 +0300
-Message-Id: <20220926153953.3836470-2-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v12 2/9] overflow: Introduce check_assign() and
+ check_assign_user_ptr()
+Date: Mon, 26 Sep 2022 18:39:46 +0300
+Message-Id: <20220926153953.3836470-3-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220926153953.3836470-1-gwan-gyeong.mun@intel.com>
 References: <20220926153953.3836470-1-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,275 +72,139 @@ Cc: gustavoars@kernel.org, trix@redhat.com, dlatypov@google.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kees Cook <keescook@chromium.org>
+Add check_assign() macro which performs an assigning source value into
+destination pointer along with an overflow check and
+check_assign_user_ptr() macro which performs an assigning source value into
+destination pointer type variable along with an overflow check. If an
+explicit overflow check is required while assigning to a user-space ptr,
+assign_user_ptr() can be used instead of u64_to_user_ptr() to assign
+integers into __user pointers along with an overflow check.
 
-When the check_[op]_overflow() helpers were introduced, all arguments were
-required to be the same type to make the fallback macros simpler. However,
-now that the fallback macros have been removed[1], it is fine to allow
-mixed types, which makes using the helpers much more useful, as they
-can be used to test for type-based overflows (e.g. adding two large ints
-but storing into a u8), as would be handy in the drm core[2].
+v3: Add is_type_unsigned() macro (Mauro)
+    Modify overflows_type() macro to consider signed data types (Mauro)
+    Fix the problem that safe_conversion() macro always returns true
+v4: Fix kernel-doc markups
+v6: Move macro addition location so that it can be used by other than drm
+    subsystem (Jani, Mauro, Andi)
+    Change is_type_unsigned to is_unsigned_type to have the same name form
+    as is_signed_type macro
+v8: Add check_assign() and remove safe_conversion() (Kees)
+    Fix overflows_type() to use gcc's built-in overflow function (Andrzej)
+    Add overflows_ptr() to allow overflow checking when assigning a value
+    into a pointer variable (G.G.)
+v9: Fix overflows_type() to use __builtin_add_overflow() instead of
+    __builtin_add_overflow_p() (Andrzej)
+    Fix overflows_ptr() to use overflows_type() with the unsigned long type
+    (Andrzej)
+v10: Remove a redundant type checking for a pointer. (Andrzej)
+     Use updated check_add_overflow macro instead of __builtin_add_overflow
+     (G.G)
+     Add check_assign_user_ptr() macro and drop overflows_ptr() macro(Kees)
+v11: Fix incorrect type assignment between different address spaces caused
+     by the wrong use of __user macro. (kernel test robot)
+     Update macro description (G.G)
+v12: Remove overflows_type() macro here. updated overflows_type() macro
+     will be added in a subsequent patch (G.G)
 
-Remove the restriction, and add additional self-tests that exercise some
-of the mixed-type overflow cases, and double-check for accidental macro
-side-effects.
-
-[1] https://git.kernel.org/linus/4eb6bd55cfb22ffc20652732340c4962f3ac9a91
-[2] https://lore.kernel.org/lkml/20220824084514.2261614-2-gwan-gyeong.mun@intel.com
-
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Tested-by:  Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+Cc: Kees Cook <keescook@chromium.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org> (v5)
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> (v9)
+Acked-by: Kees Cook <keescook@chromium.org>
+Reported-by: kernel test robot <lkp@intel.com>
 ---
- include/linux/overflow.h |  72 ++++++++++++++++------------
- lib/overflow_kunit.c     | 101 ++++++++++++++++++++++++++++-----------
- 2 files changed, 113 insertions(+), 60 deletions(-)
+ drivers/gpu/drm/i915/i915_user_extensions.c |  6 +--
+ include/linux/overflow.h                    | 44 +++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/i915_user_extensions.c b/drivers/gpu/drm/i915/i915_user_extensions.c
+index c822d0aafd2d..80ec8390b0d8 100644
+--- a/drivers/gpu/drm/i915/i915_user_extensions.c
++++ b/drivers/gpu/drm/i915/i915_user_extensions.c
+@@ -50,11 +50,11 @@ int i915_user_extensions(struct i915_user_extension __user *ext,
+ 		if (err)
+ 			return err;
+ 
+-		if (get_user(next, &ext->next_extension) ||
+-		    overflows_type(next, ext))
++		if (get_user(next, &ext->next_extension))
+ 			return -EFAULT;
+ 
+-		ext = u64_to_user_ptr(next);
++		if (check_assign_user_ptr(next, ext))
++			return -EFAULT;
+ 	}
+ 
+ 	return 0;
 diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-index 0eb3b192f07a..19dfdd74835e 100644
+index 19dfdd74835e..8ccbfa46f0ed 100644
 --- a/include/linux/overflow.h
 +++ b/include/linux/overflow.h
-@@ -51,40 +51,50 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- 	return unlikely(overflow);
- }
+@@ -5,6 +5,7 @@
+ #include <linux/compiler.h>
+ #include <linux/limits.h>
+ #include <linux/const.h>
++#include <linux/types.h>
  
--/*
-- * For simplicity and code hygiene, the fallback code below insists on
-- * a, b and *d having the same type (similar to the min() and max()
-- * macros), whereas gcc's type-generic overflow checkers accept
-- * different types. Hence we don't just make check_add_overflow an
-- * alias for __builtin_add_overflow, but add type checks similar to
-- * below.
-+/** check_add_overflow() - Calculate addition with overflow checking
-+ *
-+ * @a: first addend
-+ * @b: second addend
-+ * @d: pointer to store sum
-+ *
-+ * Returns 0 on success.
-+ *
-+ * *@d holds the results of the attempted addition, but is not considered
-+ * "safe for use" on a non-zero return value, which indicates that the
-+ * sum has overflowed or been truncated.
-  */
--#define check_add_overflow(a, b, d) __must_check_overflow(({	\
--	typeof(a) __a = (a);			\
--	typeof(b) __b = (b);			\
--	typeof(d) __d = (d);			\
--	(void) (&__a == &__b);			\
--	(void) (&__a == __d);			\
--	__builtin_add_overflow(__a, __b, __d);	\
--}))
-+#define check_add_overflow(a, b, d)	\
-+	__must_check_overflow(__builtin_add_overflow(a, b, d))
+ /*
+  * We need to compute the minimum and maximum values representable in a given
+@@ -127,6 +128,49 @@ static inline bool __must_check __must_check_overflow(bool overflow)
+ 	(*_d >> _to_shift) != _a);					\
+ }))
  
--#define check_sub_overflow(a, b, d) __must_check_overflow(({	\
--	typeof(a) __a = (a);			\
--	typeof(b) __b = (b);			\
--	typeof(d) __d = (d);			\
--	(void) (&__a == &__b);			\
--	(void) (&__a == __d);			\
--	__builtin_sub_overflow(__a, __b, __d);	\
--}))
-+/** check_sub_overflow() - Calculate subtraction with overflow checking
++/**
++ * check_assign - perform an assigning source value into destination pointer
++ *                along with an overflow check.
 + *
-+ * @a: minuend; value to subtract from
-+ * @b: subtrahend; value to subtract from @a
-+ * @d: pointer to store difference
++ * @value: source value
++ * @ptr: Destination pointer address
 + *
-+ * Returns 0 on success.
-+ *
-+ * *@d holds the results of the attempted subtraction, but is not considered
-+ * "safe for use" on a non-zero return value, which indicates that the
-+ * difference has underflowed or been truncated.
++ * Returns:
++ * If the value would overflow the destination, it returns true. If not return
++ * false. When overflow does not occur, the assigning into destination from
++ * value succeeds. It follows the return policy as other check_*_overflow()
++ * functions return non-zero as a failure.
 + */
-+#define check_sub_overflow(a, b, d)	\
-+	__must_check_overflow(__builtin_sub_overflow(a, b, d))
- 
--#define check_mul_overflow(a, b, d) __must_check_overflow(({	\
--	typeof(a) __a = (a);			\
--	typeof(b) __b = (b);			\
--	typeof(d) __d = (d);			\
--	(void) (&__a == &__b);			\
--	(void) (&__a == __d);			\
--	__builtin_mul_overflow(__a, __b, __d);	\
--}))
-+/** check_mul_overflow() - Calculate multiplication with overflow checking
++#define check_assign(value, ptr) __must_check_overflow(({	\
++	check_add_overflow(0, value, ptr);			\
++}))
++
++/**
++ * check_assign_user_ptr - perform an assigning source value into destination
++ *                         pointer type variable along with an overflow check
 + *
-+ * @a: first factor
-+ * @b: second factor
-+ * @d: pointer to store product
++ * @value: source value; a source value is expected to have a value of a size
++ *         that can be stored in a pointer-type variable.
++ * @ptr: destination pointer type variable
 + *
-+ * Returns 0 on success.
++ * u64_to_user_ptr can be used in the kernel to avoid warnings about integers
++ * and pointers of different sizes. But u64_to_user_ptr is not performing the
++ * checking of overflow. If you need an explicit overflow check while
++ * assigning, check_assign_user_ptr() can be used to assign integers into
++ * pointers along with an overflow check. If ptr is not a pointer type,
++ * a warning message outputs while compiling.
 + *
-+ * *@d holds the results of the attempted multiplication, but is not
-+ * considered "safe for use" on a non-zero return value, which indicates
-+ * that the product has overflowed or been truncated.
++ * Returns:
++ * If the value would overflow the destination, it returns true. If not return
++ * false. When overflow does not occur, the assigning into ptr from value
++ * succeeds. It follows the return policy as other check_*_overflow() functions
++ * return non-zero as a failure.
 + */
-+#define check_mul_overflow(a, b, d)	\
-+	__must_check_overflow(__builtin_mul_overflow(a, b, d))
- 
- /** check_shl_overflow() - Calculate a left-shifted value and check overflow
++#define check_assign_user_ptr(value, ptr) __must_check_overflow(({		\
++	uintptr_t kptr;								\
++	check_assign(value, &kptr) ? 1 : (({ ptr = (void __user *)kptr; }), 0);	\
++}))
++
+ /**
+  * size_mul() - Calculate size_t multiplication with saturation at SIZE_MAX
   *
-diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
-index 7e3e43679b73..0d98c9bc75da 100644
---- a/lib/overflow_kunit.c
-+++ b/lib/overflow_kunit.c
-@@ -16,12 +16,15 @@
- #include <linux/types.h>
- #include <linux/vmalloc.h>
- 
--#define DEFINE_TEST_ARRAY(t)			\
--	static const struct test_ ## t {	\
--		t a, b;				\
--		t sum, diff, prod;		\
--		bool s_of, d_of, p_of;		\
--	} t ## _tests[]
-+#define DEFINE_TEST_ARRAY_TYPED(t1, t2, t)			\
-+	static const struct test_ ## t1 ## _ ## t2 ## __ ## t {	\
-+		t1 a;						\
-+		t2 b;						\
-+		t sum, diff, prod;				\
-+		bool s_of, d_of, p_of;				\
-+	} t1 ## _ ## t2 ## __ ## t ## _tests[]
-+
-+#define DEFINE_TEST_ARRAY(t)	DEFINE_TEST_ARRAY_TYPED(t, t, t)
- 
- DEFINE_TEST_ARRAY(u8) = {
- 	{0, 0, 0, 0, 0, false, false, false},
-@@ -222,21 +225,27 @@ DEFINE_TEST_ARRAY(s64) = {
- };
- #endif
- 
--#define check_one_op(t, fmt, op, sym, a, b, r, of) do {		\
--	t _r;							\
--	bool _of;						\
--								\
--	_of = check_ ## op ## _overflow(a, b, &_r);		\
--	KUNIT_EXPECT_EQ_MSG(test, _of, of,			\
-+#define check_one_op(t, fmt, op, sym, a, b, r, of) do {			\
-+	int _a_orig = a, _a_bump = a + 1;				\
-+	int _b_orig = b, _b_bump = b + 1;				\
-+	bool _of;							\
-+	t _r;								\
-+									\
-+	_of = check_ ## op ## _overflow(a, b, &_r);			\
-+	KUNIT_EXPECT_EQ_MSG(test, _of, of,				\
- 		"expected "fmt" "sym" "fmt" to%s overflow (type %s)\n",	\
--		a, b, of ? "" : " not", #t);			\
--	KUNIT_EXPECT_EQ_MSG(test, _r, r,			\
-+		a, b, of ? "" : " not", #t);				\
-+	KUNIT_EXPECT_EQ_MSG(test, _r, r,				\
- 		"expected "fmt" "sym" "fmt" == "fmt", got "fmt" (type %s)\n", \
--		a, b, r, _r, #t);				\
-+		a, b, r, _r, #t);					\
-+	/* Check for internal macro side-effects. */			\
-+	_of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r);	\
-+	KUNIT_EXPECT_EQ_MSG(test, _a_orig, _a_bump, "Unexpected " #op " macro side-effect!\n"); \
-+	KUNIT_EXPECT_EQ_MSG(test, _b_orig, _b_bump, "Unexpected " #op " macro side-effect!\n"); \
- } while (0)
- 
--#define DEFINE_TEST_FUNC(t, fmt)					\
--static void do_test_ ## t(struct kunit *test, const struct test_ ## t *p) \
-+#define DEFINE_TEST_FUNC_TYPED(n, t, fmt)				\
-+static void do_test_ ## n(struct kunit *test, const struct test_ ## n *p) \
- {							   		\
- 	check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);	\
- 	check_one_op(t, fmt, add, "+", p->b, p->a, p->sum, p->s_of);	\
-@@ -245,15 +254,18 @@ static void do_test_ ## t(struct kunit *test, const struct test_ ## t *p) \
- 	check_one_op(t, fmt, mul, "*", p->b, p->a, p->prod, p->p_of);	\
- }									\
- 									\
--static void t ## _overflow_test(struct kunit *test) {			\
-+static void n ## _overflow_test(struct kunit *test) {			\
- 	unsigned i;							\
- 									\
--	for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)			\
--		do_test_ ## t(test, &t ## _tests[i]);			\
-+	for (i = 0; i < ARRAY_SIZE(n ## _tests); ++i)			\
-+		do_test_ ## n(test, &n ## _tests[i]);			\
- 	kunit_info(test, "%zu %s arithmetic tests finished\n",		\
--		ARRAY_SIZE(t ## _tests), #t);				\
-+		ARRAY_SIZE(n ## _tests), #n);				\
- }
- 
-+#define DEFINE_TEST_FUNC(t, fmt)					\
-+	DEFINE_TEST_FUNC_TYPED(t ## _ ## t ## __ ## t, t, fmt)
-+
- DEFINE_TEST_FUNC(u8, "%d");
- DEFINE_TEST_FUNC(s8, "%d");
- DEFINE_TEST_FUNC(u16, "%d");
-@@ -265,6 +277,33 @@ DEFINE_TEST_FUNC(u64, "%llu");
- DEFINE_TEST_FUNC(s64, "%lld");
- #endif
- 
-+DEFINE_TEST_ARRAY_TYPED(u32, u32, u8) = {
-+	{0, 0, 0, 0, 0, false, false, false},
-+	{U8_MAX, 2, 1, U8_MAX - 2, U8_MAX - 1, true, false, true},
-+	{U8_MAX + 1, 0, 0, 0, 0, true, true, false},
-+};
-+DEFINE_TEST_FUNC_TYPED(u32_u32__u8, u8, "%d");
-+
-+DEFINE_TEST_ARRAY_TYPED(u32, u32, int) = {
-+	{0, 0, 0, 0, 0, false, false, false},
-+	{U32_MAX, 0, -1, -1, 0, true, true, false},
-+};
-+DEFINE_TEST_FUNC_TYPED(u32_u32__int, int, "%d");
-+
-+DEFINE_TEST_ARRAY_TYPED(u8, u8, int) = {
-+	{0, 0, 0, 0, 0, false, false, false},
-+	{U8_MAX, U8_MAX, 2 * U8_MAX, 0, U8_MAX * U8_MAX, false, false, false},
-+	{1, 2, 3, -1, 2, false, false, false},
-+};
-+DEFINE_TEST_FUNC_TYPED(u8_u8__int, int, "%d");
-+
-+DEFINE_TEST_ARRAY_TYPED(int, int, u8) = {
-+	{0, 0, 0, 0, 0, false, false, false},
-+	{1, 2, 3, U8_MAX, 2, false, true, false},
-+	{-1, 0, U8_MAX, U8_MAX, 0, true, true, false},
-+};
-+DEFINE_TEST_FUNC_TYPED(int_int__u8, u8, "%d");
-+
- static void overflow_shift_test(struct kunit *test)
- {
- 	int count = 0;
-@@ -649,17 +688,21 @@ static void overflow_size_helpers_test(struct kunit *test)
- }
- 
- static struct kunit_case overflow_test_cases[] = {
--	KUNIT_CASE(u8_overflow_test),
--	KUNIT_CASE(s8_overflow_test),
--	KUNIT_CASE(u16_overflow_test),
--	KUNIT_CASE(s16_overflow_test),
--	KUNIT_CASE(u32_overflow_test),
--	KUNIT_CASE(s32_overflow_test),
-+	KUNIT_CASE(u8_u8__u8_overflow_test),
-+	KUNIT_CASE(s8_s8__s8_overflow_test),
-+	KUNIT_CASE(u16_u16__u16_overflow_test),
-+	KUNIT_CASE(s16_s16__s16_overflow_test),
-+	KUNIT_CASE(u32_u32__u32_overflow_test),
-+	KUNIT_CASE(s32_s32__s32_overflow_test),
- /* Clang 13 and earlier generate unwanted libcalls on 32-bit. */
- #if BITS_PER_LONG == 64
--	KUNIT_CASE(u64_overflow_test),
--	KUNIT_CASE(s64_overflow_test),
-+	KUNIT_CASE(u64_u64__u64_overflow_test),
-+	KUNIT_CASE(s64_s64__s64_overflow_test),
- #endif
-+	KUNIT_CASE(u32_u32__u8_overflow_test),
-+	KUNIT_CASE(u32_u32__int_overflow_test),
-+	KUNIT_CASE(u8_u8__int_overflow_test),
-+	KUNIT_CASE(int_int__u8_overflow_test),
- 	KUNIT_CASE(overflow_shift_test),
- 	KUNIT_CASE(overflow_allocation_test),
- 	KUNIT_CASE(overflow_size_helpers_test),
 -- 
 2.37.1
 
