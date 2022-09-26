@@ -1,37 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347AC5EA0A2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 12:40:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0C95EA1BA
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 12:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15E6410E2C9;
-	Mon, 26 Sep 2022 10:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458BF10E2F3;
+	Mon, 26 Sep 2022 10:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp2.uni-freiburg.de (smtp2.uni-freiburg.de
- [IPv6:2001:7c0:2500:4::25:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 273E510E2CE
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 10:40:20 +0000 (UTC)
-Delivery-date: Mon, 26 Sep 2022 12:40:20 +0200
-Received: from fe2.uni-freiburg.de ([132.230.2.222] helo=uni-freiburg.de) port
- 45042 by smtp2.uni-freiburg.de with esmtp ( Exim )
- id 1oclX9-0003QU-0L for dri-devel@lists.freedesktop.org;
- Mon, 26 Sep 2022 12:40:18 +0200
-Received: from [132.230.8.113] (account simon.rettberg@rz.uni-freiburg.de HELO
- computer) by mail.uni-freiburg.de (CommuniGate Pro SMTP 6.3.14)
- with ESMTPSA id 96347721; Mon, 26 Sep 2022 12:40:18 +0200
-Date: Mon, 26 Sep 2022 12:40:17 +0200
-From: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND] drm/display: Don't assume dual mode adaptors support
- i2c sub-addressing
-Message-ID: <20220926124017.529806df@computer>
-Organization: Rechenzentrum Uni Freiburg
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9FF10E2CE;
+ Mon, 26 Sep 2022 10:55:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 220FF21EB6;
+ Mon, 26 Sep 2022 10:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1664189725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=awuoa00c/zFKYrk4TkkPEqL+aFMAJslAQCViiDFZeBw=;
+ b=QA6dcXG+cDXz2zQxEUuwn9DPBFbTykhOd3xpEnu5fs8i6ST34mv2QGmnj3oaO/eKaCgibO
+ HPgPqyabcyRfu2W8HcBYBQMBeoHe44+if91y4GeWmnM2bEnevL7R7q0H86ZVEyvnbsWEoe
+ uDnPlQMrSUimLyXIKSd/9pQ06epaQj4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1664189725;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=awuoa00c/zFKYrk4TkkPEqL+aFMAJslAQCViiDFZeBw=;
+ b=l18A59Kc2oBBrw11GwZxl8oSDL+zn6/HgdixSomlVX7g9VsRFi9LUSOzdXq9IitDlOlljv
+ X+HURmTI9pMFviBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC46813486;
+ Mon, 26 Sep 2022 10:55:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OWsVKRyFMWMMIwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 26 Sep 2022 10:55:24 +0000
+Message-ID: <6d073586-0962-48b8-1ccf-ba9d8652be26@suse.de>
+Date: Mon, 26 Sep 2022 12:55:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
+ display modes
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
+ <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de> <87h70y4ffb.fsf@intel.com>
+ <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+ <20220926101849.uiyc7zhgkgz4wy46@houat>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220926101849.uiyc7zhgkgz4wy46@houat>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Eh5fPpvnuSpDpm0VAZYIAG4S"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,146 +74,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current dual mode adaptor ("DP++") detection code assumes that all adaptors
-support i2c sub-addressing for read operations from the DP-HDMI adaptor ID
-buffer.  It has been observed that multiple adaptors do not in fact
-support this, and always return data starting at register 0.  On
-affected adaptors, the code failed to read the proper registers that
-would identify the device as a type 2 adaptor, and handled those as
-type 1, limiting the TMDS clock to 165MHz.
-Fix this by always reading the ID buffer starting from offset 0, and
-discarding any bytes before the actual offset of interest.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Eh5fPpvnuSpDpm0VAZYIAG4S
+Content-Type: multipart/mixed; boundary="------------nLRW0fdZeS13F20fT0F7VzGt";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <6d073586-0962-48b8-1ccf-ba9d8652be26@suse.de>
+Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
+ display modes
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
+ <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de> <87h70y4ffb.fsf@intel.com>
+ <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+ <20220926101849.uiyc7zhgkgz4wy46@houat>
+In-Reply-To: <20220926101849.uiyc7zhgkgz4wy46@houat>
 
-Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
----
-(Resend because of no response, probably my fault since I ran
-get_maintainers on a shallow clone and missed a bunch of people)
+--------------nLRW0fdZeS13F20fT0F7VzGt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-We had problems with multiple different "4k ready" DP++ adaptors only
-resulting in 1080p resolution on Linux. While one of them turned out to
-actually just be a type1 adaptor, the others, according to the data
-retreived via i2cdump, were in fact proper type2 adaptors, advertising a
-TMDS clock of 300MHz. As it turned out, none of them supported
-sub-addressing when reading from the DP-HDMI adaptor ID buffer via i2c.
-The existing code suggested that this is known to happen with "broken"
-type1 adaptors, but evidently, type2 adaptors are also affected.
-We tried finding authoritative documentation on whether or not this is
-allowed behavior, but since all the official VESA docs are paywalled,
-the best we could come up with was the spec sheet for Texas Instruments'
-SNx5DP149 chip family.[1] It explicitly mentions that sub-adressing is
-supported for register writes, but *not* for reads (See NOTE in
-section 8.5.3). Unless TI blatantly and openly decided to violate the
-VESA spec, one could take that as a strong hint that sub-addressing is
-in fact not mandated by VESA.
+SGkNCg0KQW0gMjYuMDkuMjIgdW0gMTI6MTggc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBP
+biBGcmksIFNlcCAyMywgMjAyMiBhdCAxMjoxNjoxM1BNICswMjAwLCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMjMuMDkuMjIgdW0gMTE6MTggc2Nocmll
+YiBKYW5pIE5pa3VsYToNCj4+PiBPbiBGcmksIDIzIFNlcCAyMDIyLCBUaG9tYXMgWmltbWVy
+bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4+IEFtIDIyLjA5LjIyIHVt
+IDE2OjI1IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4+Pj4+ICsJZHJtX2RiZ19rbXMoZGV2
+LA0KPj4+Pj4gKwkJICAgICJHZW5lcmF0aW5nIGEgJXV4JXUlYywgJXUtbGluZSBtb2RlIHdp
+dGggYSAlbHUga0h6IGNsb2NrXG4iLA0KPj4+Pj4gKwkJICAgIGhhY3RpdmUsIHZhY3RpdmUs
+DQo+Pj4+PiArCQkgICAgaW50ZXJsYWNlID8gJ2knIDogJ3AnLA0KPj4+Pj4gKwkJICAgIHBh
+cmFtcy0+bnVtX2xpbmVzLA0KPj4+Pj4gKwkJICAgIHBpeGVsX2Nsb2NrX2h6IC8gMTAwMCk7
+DQo+Pj4+DQo+Pj4+IERpdmlkZSBieSBIWl9QRVJfS0haIGhlcmUgYW5kIGluIG90aGVyIHBs
+YWNlcy4NCj4+Pj4NCj4+Pj4gICAgICBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51
+eC9sYXRlc3Qvc291cmNlL2luY2x1ZGUvbGludXgvdW5pdHMuaCNMMjMNCj4+Pg0KPj4+ICAg
+RnJvbSB0aGUgRGVwYXJ0bWVudCBvZiBCaWtlc2hlZGRpbmc6DQo+Pj4NCj4+PiBJIGZpbmQg
+InBpeGVsX2Nsb2NrX2h6IC8gMTAwMCIgaGFzIG11Y2ggbW9yZSBjbGFyaXR5IHRoYW4NCj4+
+PiAicGl4ZWxfY2xvY2tfaHogLyBIWl9QRVJfS0haIi4NCj4+DQo+PiBUaGlzIG9uZSdzIGVh
+c3kgdG8gc2VlIGJlY2F1c2UgaXQgdGVsbHMgeW91IHdpdGggdGhlIF9oeiBwb3N0Zml4LiBN
+YW55DQo+PiBwbGFjZXMgZG9uJ3QgYW5kIHRoZW4gaXQgcXVpY2tseSBnZXRzIGNvbmZ1c2lu
+ZyB3aGF0IHVuaXRzIHRoZSBjb2RlJ3MNCj4+IGNvbnZlcnRpbmcuDQo+IA0KPiBTbyBpZiBJ
+IGFkZCBpdCB0byBwbGFjZXMgdGhhdCBkb24ndCBoYXZlIGl0IGV4cGxpY2l0bHkgKGllLCB0
+ZXN0cykgd291bGQNCj4gdGhhdCBiZSBhY2NlcHRhYmxlIHRvIGJvdGggb2YgeW91Pw0KDQpJ
+J20gT0sgd2l0aCBlaXRoZXIuIE9yIGp1c3QgbGVhdmUgaXQgYXMtaXMuDQoNCkEgSFpfVE9f
+S0haIG1hY3JvIHdvdWxkIGJlIG5pY2UsIGJ1dCB0aGF0J3MgYmV5b25kIHRoaXMgcGF0Y2hz
+ZXQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IE1heGltZQ0KDQotLSANClRo
+b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
+YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
+vGhyZXI6IEl2byBUb3Rldg0K
 
-[1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
+--------------nLRW0fdZeS13F20fT0F7VzGt--
 
- .../gpu/drm/display/drm_dp_dual_mode_helper.c | 52 ++++++++++---------
- 1 file changed, 28 insertions(+), 24 deletions(-)
+--------------Eh5fPpvnuSpDpm0VAZYIAG4S
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-index 3ea53bb67..6147da983 100644
---- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-@@ -63,23 +63,42 @@
- ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
- 			      u8 offset, void *buffer, size_t size)
- {
-+	int ret;
-+	u8 zero = 0;
-+	char *tmpbuf;
-+	/*
-+	 * As sub-addressing is not supported by all adaptors,
-+	 * always explicitly read from the start and discard
-+	 * any bytes that come before the requested offset.
-+	 * This way, no matter whether the adaptor supports it
-+	 * or not, we'll end up reading the proper data.
-+	 */
- 	struct i2c_msg msgs[] = {
- 		{
- 			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
- 			.flags = 0,
- 			.len = 1,
--			.buf = &offset,
-+			.buf = &zero,
- 		},
- 		{
- 			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
- 			.flags = I2C_M_RD,
--			.len = size,
--			.buf = buffer,
-+			.len = size + offset,
-+			.buf = NULL,
- 		},
- 	};
--	int ret;
- 
-+	tmpbuf = kmalloc(size + offset, GFP_KERNEL);
-+	if (!tmpbuf)
-+		return -ENOMEM;
-+
-+	msgs[1].buf = tmpbuf;
- 	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
-+	if (ret == ARRAY_SIZE(msgs))
-+		memcpy(buffer, tmpbuf + offset, size);
-+
-+	kfree(tmpbuf);
-+
- 	if (ret < 0)
- 		return ret;
- 	if (ret != ARRAY_SIZE(msgs))
-@@ -208,18 +227,6 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
- 	if (ret)
- 		return DRM_DP_DUAL_MODE_UNKNOWN;
- 
--	/*
--	 * Sigh. Some (maybe all?) type 1 adaptors are broken and ack
--	 * the offset but ignore it, and instead they just always return
--	 * data from the start of the HDMI ID buffer. So for a broken
--	 * type 1 HDMI adaptor a single byte read will always give us
--	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
--	 * (assuming it implements any registers). Fortunately neither
--	 * of those values will match the type 2 signature of the
--	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
--	 * the type 2 adaptor detection safely even in the presence
--	 * of broken type 1 adaptors.
--	 */
- 	ret = drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_ADAPTOR_ID,
- 				    &adaptor_id, sizeof(adaptor_id));
- 	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err %zd)\n", adaptor_id, ret);
-@@ -233,11 +240,10 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
- 				return DRM_DP_DUAL_MODE_TYPE2_DVI;
- 		}
- 		/*
--		 * If neither a proper type 1 ID nor a broken type 1 adaptor
--		 * as described above, assume type 1, but let the user know
--		 * that we may have misdetected the type.
-+		 * If not a proper type 1 ID, still assume type 1, but let
-+		 * the user know that we may have misdetected the type.
- 		 */
--		if (!is_type1_adaptor(adaptor_id) && adaptor_id != hdmi_id[0])
-+		if (!is_type1_adaptor(adaptor_id))
- 			drm_err(dev, "Unexpected DP dual mode adaptor ID %02x\n", adaptor_id);
- 
- 	}
-@@ -343,10 +349,8 @@ EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
-  * @enable: enable (as opposed to disable) the TMDS output buffers
-  *
-  * Set the state of the TMDS output buffers in the adaptor. For
-- * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
-- * some type 1 adaptors have problems with registers (see comments
-- * in drm_dp_dual_mode_detect()) we avoid touching the register,
-- * making this function a no-op on type 1 adaptors.
-+ * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
-+ * Type1 adaptors do not support any register writes.
-  *
-  * Returns:
-  * 0 on success, negative error code on failure
--- 
-2.35.1
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMxhRwFAwAAAAAACgkQlh/E3EQov+CC
+LhAAueruhpwqOuABLNSgIxssP4CHA5YeIPHJtcgQsVCJ/YkZMWYogfGLQ5LvjmRKP7zOmj0eh097
+Jl+Mhu65w5/8Kvc2xPuGJK7QnemQ4pIBwgR8T7EP4lo7Qc2juh4jew9eUqZx55RyUHixvouyhgqn
+BzgGTsyoYwd1+9qRBhIDWDCtxENHGwO0JGWPFgF7Uwlqgwt+T7BWO8givua8hE6kOuQujT96ovBg
+dOZ1AsqeGASwTjr1g9TB5WOnVeLpg+mqf+ZZRwWKGqQy9zVb3Wn8bmrBW53vPKwCkKpDLJ1FBRKc
+O2ug8SeIsHBrZ16iz6bexm2E+MlkVeLrtd72ZqcI2/DhzgUV1ibVq0cFEn/kk2gYS6oINTQHHMN1
+rA6wmftGfJ7iBDoRZmO++gTtrWzIzXbjB8vn7kZBdL9899qMWlCyCFVa1KL7nLqyruYf+KfqlKLU
+wHoLu9JI/8pfAlk21Pa46ICmwGHKxq0THKuX7cJPzPFwGd14NnLWe2gvpUf52fk3Rclbh6KQO+FI
+9Tb7FqXeRRLhkN1qJWHlFNZQH3dFW0Oi6K+iH7XMypQfqGvwoYaaBAtyDXVwC3ZbyluU/CcZdvhR
+T9ONl6Lvq0qYg5hOT1DKKf//OoahDG12LqTY+2lmZ4J2zIFAlL92nE7PwWGwfXEB8lkluttN1f6r
+oHs=
+=u9by
+-----END PGP SIGNATURE-----
+
+--------------Eh5fPpvnuSpDpm0VAZYIAG4S--
