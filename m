@@ -1,65 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D525EA7A0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 15:50:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCD85EA7D2
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 16:00:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 885BA10E6B7;
-	Mon, 26 Sep 2022 13:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBC710E218;
+	Mon, 26 Sep 2022 14:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3678610E6B7
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 13:50:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BD2191F381;
- Mon, 26 Sep 2022 13:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1664200244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4+nnignD8u93QTMbO+4vxufOtmSDjzXgxDuRW+9Vc+Y=;
- b=wXNPeKYY807oTGOEqp5VUsWItY4N/bf2FG0PYuKf/76ya/XWXoSBlutnZ1v4V7ZTVE24Jq
- kcDNiVz+QDDTZinU63vcP0aQKnt9DxgJ/Il0N5ifhw8+wIaLXqfcS4eEjoUOz7O6KuQRXh
- 6XNfMe0qLNWn1mp8715x1o53Ql+qjsY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1664200244;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4+nnignD8u93QTMbO+4vxufOtmSDjzXgxDuRW+9Vc+Y=;
- b=HGu2wC9OaQUC3t9QLyIF5OanWAJ3MVeu2wqtrCmlnZR0Vt3rj6ay/cPA71LiUBug2kTQ26
- BQkvYbGQFVWjp7Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 275AE139BD;
- Mon, 26 Sep 2022 13:50:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cuKbCDSuMWOIeAAAMHmgww
- (envelope-from <vbabka@suse.cz>); Mon, 26 Sep 2022 13:50:44 +0000
-Message-ID: <f4fc52c4-7c18-1d76-0c7a-4058ea2486b9@suse.cz>
-Date: Mon, 26 Sep 2022 15:50:43 +0200
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2947D10E218
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 14:00:27 +0000 (UTC)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MbkqQ3lxgzHqTZ;
+ Mon, 26 Sep 2022 21:58:10 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 26 Sep 2022 22:00:25 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 26 Sep 2022 22:00:24 +0800
+Subject: Re: [PATCH -next] backlight: pwm_bl: Switch to use dev_err_probe()
+ helper
+To: Daniel Thompson <daniel.thompson@linaro.org>
+References: <20220926133258.1104850-1-yangyingliang@huawei.com>
+ <YzGrLsNrwEyL98nP@maple.lan> <YzGsHadJ+HGJETJv@maple.lan>
+From: Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <94e1b4a3-c1d9-67b1-062d-945b58b230c3@huawei.com>
+Date: Mon, 26 Sep 2022 22:00:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 13/16] mempool: Use kmalloc_size_roundup() to match
- ksize() usage
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-14-keescook@chromium.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20220923202822.2667581-14-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <YzGsHadJ+HGJETJv@maple.lan>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +54,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, "Ruhl,
- Michael J" <michael.j.ruhl@intel.com>, Eric Dumazet <edumazet@google.com>,
- linux-hardening@vger.kernel.org, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Christoph Lameter <cl@linux.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
- linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
- David Sterba <dsterba@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
- Alex Elder <elder@kernel.org>, linux-mm@kvack.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, "David S. Miller" <davem@davemloft.net>,
- linux-btrfs@vger.kernel.org
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org, lee@kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/23/22 22:28, Kees Cook wrote:
-> Round up allocations with kmalloc_size_roundup() so that mempool's use
-> of ksize() is always accurate and no special handling of the memory is
-> needed by KASAN, UBSAN_BOUNDS, nor FORTIFY_SOURCE.
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->   mm/mempool.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/mm/mempool.c b/mm/mempool.c
-> index 96488b13a1ef..0f3107b28e6b 100644
-> --- a/mm/mempool.c
-> +++ b/mm/mempool.c
-> @@ -526,7 +526,7 @@ EXPORT_SYMBOL(mempool_free_slab);
->    */
->   void *mempool_kmalloc(gfp_t gfp_mask, void *pool_data)
->   {
-> -	size_t size = (size_t)pool_data;
-> +	size_t size = kmalloc_size_roundup((size_t)pool_data);
+Hi,
 
-Hm it is kinda wasteful to call into kmalloc_size_roundup for every 
-allocation that has the same input. We could do it just once in 
-mempool_init_node() for adjusting pool->pool_data ?
+On 2022/9/26 21:41, Daniel Thompson wrote:
+> On Mon, Sep 26, 2022 at 02:37:50PM +0100, Daniel Thompson wrote:
+>> On Mon, Sep 26, 2022 at 09:32:58PM +0800, Yang Yingliang wrote:
+>>> In the probe path, dev_err() can be replaced with dev_err_probe()
+>>> which will check if error code is -EPROBE_DEFER and prints the
+>>> error name. It also sets the defer probe reason which can be
+>>> checked later through debugfs. It's more simple in error path.
+>> I'd prefer to have received these patches as a patchset rather than
+>> individual patches... but it is a good change so:
+>>
+>> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Oops. My last mail neglected to mention that you did not sign off your
+> changes (meaning we cannot accept them). When you re-send this please
+> add a SoB and combine with the other similar patches.
+I missed -s when doing format-patch, I will add my SoB and your reivew 
+tag in v2.
 
-But looking more closely, I wonder why poison_element() and 
-kasan_unpoison_element() in mm/mempool.c even have to use 
-ksize()/__ksize() and not just operate on the requested size (again, 
-pool->pool_data). If no kmalloc mempool's users use ksize() to write 
-beyond requested size, then we don't have to unpoison/poison that area 
-either?
-
->   	return kmalloc(size, gfp_mask);
->   }
->   EXPORT_SYMBOL(mempool_kmalloc);
-
+Thanks,
+Yang
+>
+>
+> Daniel.
+> .
