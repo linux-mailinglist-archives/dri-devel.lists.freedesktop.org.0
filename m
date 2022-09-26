@@ -1,110 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890515EAEA2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 19:51:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A2E5EAE8C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 19:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E276910E4D4;
-	Mon, 26 Sep 2022 17:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF1210E73A;
+	Mon, 26 Sep 2022 17:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2083.outbound.protection.outlook.com [40.107.100.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEFCE10E4D4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 17:51:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=glAQ0VWOlm5JWzWAlSDdXseaJDhRmAePmsYXfqkubsOp7E4NKra/41azq9g82qYItM4r01lY2ScO4WYZXrZ+6X01pxhbvuPMHuvSOnPubhgaTYPAq6hEyzRbtrAOFqPGUwGOjDmw8X2oqcqjxZhrrUnrnzndleadEvpHfaB/27Z66/UpJ/723iMNxDUtrgHZlqxryfhguMpvWzNxgbeP8xM9Ebo/ofBLa6+hHedKWp5WdoJ/i6//NAiPbyiIHLu/Io/eLfI4stWAb1Gw5uDZrrEKXubRrnXQC8WkhSsLEX+s1iNG8XJsrGqvEJj+28G1Es+PTFyZnCMI7yR79ADkQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mxnJ1212wl2Tw7Q6Fnb00u3yNSj5BhP3CX54OkGIgvQ=;
- b=bhZyv8+Y9FsFWHBBmoL5j2qu5gNRJSMGUe1ybThKUwTktYIdR42pJjbjmrJrXjxZWYYtwkCaHKdaov4llg8joLpMktyMwjJJbptRNIifQd4Z92OyIBAwyWdAIiWvq8IOJMDG97rtqVj3ON7PqOfaIlf8LbhPCgcyZ2Vdi7J1mP6N23R1IO86NXEsJZWzLFgkUGeNGcjiQWQ18NBHU71JuQvGE3xm17zZ3PZ/vYx5WrJvKHOVNOmFPFySVD6by1TkzaZ2Bz0vIXq5DzQAE3QcU6Hy20PBShFzPNMS9r888P3oYGOOjLfC8d3AjT4AxJQejTSBvC8GXidA3uWTAjc2yA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mxnJ1212wl2Tw7Q6Fnb00u3yNSj5BhP3CX54OkGIgvQ=;
- b=jpE3nBfapFGC+aX3/6j9VLCn4DguWVSGIX2k7Ak8mbKYOF/ZFDUGRrPNTXjJ+kHu88dVop8B69Nz6qEMT6YaTm5Li/nduBFuLERZPyRfjcEtbNbqHX232dfI0lGv8C0+jmYvvZ6uTk8N0/Ko2iL4bXildEHbPYcrRDlgG6mvh5ocVl8eY++ptmEpU+p5D/eTb4PbcZao4xRR/djqfNELgrZY3otgJfPIo0XR353mzCTh88k8WqfrUgE6ZkRwNaB2N696gsimMxmtWYLhNOLxcy0NExHjodYSXvco8IHxKpxKws+4t5OPCr0vEBbqzYqkFco9gdse6NFeDQm6NOXkLg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by SA1PR12MB7149.namprd12.prod.outlook.com (2603:10b6:806:29c::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Mon, 26 Sep
- 2022 17:51:28 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5%8]) with mapi id 15.20.5654.025; Mon, 26 Sep 2022
- 17:51:28 +0000
-Date: Mon, 26 Sep 2022 14:51:27 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Leon Romanovsky <leon@kernel.org>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- Saeed Mahameed <saeedm@nvidia.com>, Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH 0/4] RDMA/mlx5: Support DMABUF in umems and enable ATS
-Message-ID: <YzHmn/ClnFX3vRX7@nvidia.com>
-References: <0-v1-bd147097458e+ede-umem_dmabuf_jgg@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0-v1-bd147097458e+ede-umem_dmabuf_jgg@nvidia.com>
-X-ClientProxiedBy: BL0PR03CA0014.namprd03.prod.outlook.com
- (2603:10b6:208:2d::27) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92E010E3E5;
+ Mon, 26 Sep 2022 17:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664214567; x=1695750567;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OhVp/Gyhr/Zw+SvZJtMCwlmQOVcfxilaqZ2j0NhiYrw=;
+ b=LEKhz0LjfjBt8Xo3QKSncgG7yEVOUMmMQoo3l5vBce89J8ODcOYUyZyt
+ 3Xmh1UFOlE2tTUKXorKlri0CT0RFpAQ7lAs1Pt6zkwXAQLwUHILVrnRFT
+ h++AiJPMVSiH2fbhcMXleCz8ZMLlzxO1KxqkU1D9UNDL9sXz92X8HabFm
+ iGECvR581hrwlZYjR1V2wEP0afxpSA3rHVgWkA609L4H3mKvIOKCbB80q
+ UQffkI62Zpd4p1MO0zWNQ8xLO2+tkZFgQamRCb+P1VXf9I3jRNm2Cfobz
+ TLuJYtX8kKUJj8pulbC6ZzI7vCsW5fofg2JmeQo5HTBeZp98aXFmT77Pc A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="288240055"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="288240055"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 10:49:27 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="654367041"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="654367041"
+Received: from bnilawar-desk1.iind.intel.com ([10.145.169.158])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 10:49:24 -0700
+From: Badal Nilawar <badal.nilawar@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/7] Add HWMON support 
+Date: Mon, 26 Sep 2022 23:22:04 +0530
+Message-Id: <20220926175211.3473371-1-badal.nilawar@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4192:EE_|SA1PR12MB7149:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88121a43-92f9-4a11-0e90-08da9fe7bd16
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uKk/P2mpej/ffr7WzfHnC0f0kl0+NcVjh71znXHBMlY6e5m61Y9KSPhO+LKRXjQpgwYPB00up64bVueiVfiWURIJpvlUsgDdOJ+0Wr/H1z/rDqjdGPhkeaujK0erI7gMdbdh3vldIOBVRJqEgyZAd0D9e2Z/FfhepNZzQdnV2SluHYjfXLPG/ZCTKya49EplS0TbcEIsfoecRLj1+4BNXR75fzKrHcWd1Qy/fmYhxf2FpQdru1mkmRWRpc5ErV4m41cUciRX4920TPBI7h5q4f1F615C5m5P8Pl8Lh9XNgEcilLPlr5hLC/EKmqjNYZ4VvRxCwYozIrceedHwUChmy9aFy26Ft+FZnhrgg9645wp8zJ2h7A5QWdyQsdEdnZ4DYkpK1kgWP1G/lTtP1U54oHHhm94a0xvcw4wusnDA8ZtcxTpbjjJRjWomcDwIeFz1B0J+56ZqyB12mx7DlCouWE7nW1PcYjs7Msv3Eqxi2j0zM6p09xMyPmvYw1yef33lRIrdQ4abYKmwHdorHwTw3qvDFDa5OD1SffRC3J1DMeH5hG+7zx1Mbx+z+/PZ3ly5t8yM9Nd91JsqXRPTOfk9odAs+vj64ohYjBwk8Gznb1kzO9vmSVGbGyXLCwLNqWwHqcuTIcSOg2L5U9YOqAWSX2VERrkC5gEFC6wZx1vJ9+qXvdajh0PZ/mI2/2DfJn9iaKI5iNwyL+MX0hTISPCzw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(451199015)(36756003)(86362001)(66556008)(66476007)(66946007)(6486002)(54906003)(478600001)(110136005)(316002)(38100700002)(4326008)(107886003)(41300700001)(8676002)(5660300002)(6512007)(2906002)(186003)(26005)(2616005)(83380400001)(8936002)(6506007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iJAFOw6KF02OG9ZETDwzjUTomwUk4RnuRDrmKZqjY1psUmML5FacPJdkFrRH?=
- =?us-ascii?Q?U6Ff/LsCT8+o4qfCjBpidET/T369Fn3QJ2yIs/z8ZaVluRwAeo6M4b8DP3qu?=
- =?us-ascii?Q?dqH3tWxpcxkw7BRIu8zAbD2KqKJYMknzjMyeYQpnnyneKLxL1XP7tmAjl1we?=
- =?us-ascii?Q?mScxZUNQXneglUIcKKjr4g20DGVh8xQEisvwpH9NcVOZKJBta6lvjRjh+WEH?=
- =?us-ascii?Q?NIQaggyUO2lI0Jsw7NGS4zz1HrjlW7u2hNYOl6DbPgSi8yceYOAksHqdpycg?=
- =?us-ascii?Q?EPb9ryD6a25KCoNjX6BTUcInAeeDHsHS4ggOWJ8iqzDrhYKccqlplG2+3YjD?=
- =?us-ascii?Q?juXAl5n+G1V8+wDhFaSHTA4U20jaS9RbiGlDiEq5InK0ts+8GJLGAVGzdJlf?=
- =?us-ascii?Q?LrMj5zw3sEKRhC6nnwoy8sts6sEVhNdBp7cKHuevKnlKJi94CLVxOQcT43f/?=
- =?us-ascii?Q?scGeSJSr3fkU7WqhO3XHSS8apYRXbvROPSdGZILibUEI8GITS7k5N9lPXf4b?=
- =?us-ascii?Q?opPMt3FvkI7SwQ7/pQ/neeqe/ppFmSXMYa9jCbRi2SFHCqwCm15ehiAbU1OK?=
- =?us-ascii?Q?rxeZKdZzaR/I1JEV/sKsRCgR8IUpqcv6BELrXS+mNt2bvWrBMXX2Xe1mmqwP?=
- =?us-ascii?Q?dlVAWMFWoiKbHHWeUe+UekdVmyjZZwIt2USNB8M8ACslPsz2IyRxxr58uAz9?=
- =?us-ascii?Q?kqyK7iWzqg62EK0UkexbI/V5rgC4KdEuWjPQ0S3kMgba5O0Pokn+QKN8D+Oi?=
- =?us-ascii?Q?IN3eLv6Ktb6kTCDyuBfBL78/5U/eKjjVldGWqI8gjrP97GfOkjIAfPrBR3cL?=
- =?us-ascii?Q?vDeIU62zBdFINWFrx4A9XH/q+yYzCJS5BP3lrfoDZsySIXnIcFXDpxDyxQo/?=
- =?us-ascii?Q?31bW5m/noekxPWe+BF8SkxTi/q749MsmBi8XaTLMyYZor3v08XoKBU1GDCHB?=
- =?us-ascii?Q?4fU2uqjL7dPFVY220pfvvTK9KKTQNhaHZPdRnIUg9Lv1plk7LudPnipoMMyu?=
- =?us-ascii?Q?Dj9fhALdJbKX/5G94Bus7vYVxZz1p50bBLalhRAy/mq/NPcVSk4qpIYx2S66?=
- =?us-ascii?Q?lE/0JNnyITrD0ilLxEfKhmVxXAG7/WXx2TlLiTJB+PXLudDz5U7QK4hTSmqu?=
- =?us-ascii?Q?qwXgq2XUoYbi80+XrgKnUOqmaHDmR44V94T7D3FSFVIroorRKWh2IGYYOm3Y?=
- =?us-ascii?Q?EXtcy5rUDH+HDDMIYznPrDmalzDzSMTCnBUhN3gSJndXdIsvLDR2LYXxmEfX?=
- =?us-ascii?Q?Y1EtDoMPG/Hxt4hjdOErqg1ZWD8jU0+sc5OE78+D4QqQv9WI5na5GIgI4N7p?=
- =?us-ascii?Q?yftIr3jtZjBlPgJIxIm3lM/dBYWr/AzL5tk5267hS04zhMHloT9BDSrl+D9x?=
- =?us-ascii?Q?0kQkOW/+O5xpPrYtKQ1IR2q8mh4hdSdaEmGRWfSH/lSKJhZQVIP1Os83dX+8?=
- =?us-ascii?Q?dtQvHRKzQV7G+FoCA0vhrpDb5YdE0jwjw7+sHZzuzXOowiE7MatmeUD8ZQsG?=
- =?us-ascii?Q?lyPm13VGhr3Td+1EDHStY0P61OUcYU+cDbdaBIwfbyfIc5ixqObE6REJZiax?=
- =?us-ascii?Q?XhIo+VjkSn60Soxgxjs=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88121a43-92f9-4a11-0e90-08da9fe7bd16
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2022 17:51:28.6490 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /DwYu8JRzWSio3Xb+35AtBMYEEVSja4GPqf1hFtmCDASbL+OxMEod7DOtqqadSmw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7149
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,40 +54,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mohammad Kabat <mohammadkab@nvidia.com>, Kamal Heib <kamalheib1@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, andi.shyti@intel.com, tvrtko.ursulin@intel.com,
+ anshuman.gupta@intel.com, dri-devel@lists.freedesktop.org,
+ ashutosh.dixit@intel.com, jon.ewins@intel.com, riana.tauro@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 01, 2022 at 11:20:52AM -0300, Jason Gunthorpe wrote:
-> This series adds support for DMABUF when creating a devx umem. devx umems
-> are quite similar to MR's execpt they cannot be revoked, so this uses the
-> dmabuf pinned memory flow. Several mlx5dv flows require umem and cannot
-> work with MR.
-> 
-> The intended use case is primarily for P2P transfers using dmabuf as a
-> handle to the underlying PCI BAR memory from the exporter. When a PCI
-> switch is present the P2P transfers can bypass the host bridge completely
-> and go directly through the switch. ATS allows this bypass to function in
-> more cases as translated TLPs issued after an ATS query allows the request
-> redirect setting to be bypassed in the switch.
-> 
-> Have mlx5 automatically use ATS in places where it makes sense.
-> 
-> Jason Gunthorpe (4):
->   net/mlx5: Add IFC bits for mkey ATS
->   RDMA/core: Add UVERBS_ATTR_RAW_FD
->   RDMA/mlx5: Add support for dmabuf to devx umem
->   RDMA/mlx5: Enable ATS support for MRs and umems
-> 
->  drivers/infiniband/core/uverbs_ioctl.c   |  8 ++++
->  drivers/infiniband/hw/mlx5/devx.c        | 55 +++++++++++++++++-------
->  drivers/infiniband/hw/mlx5/mlx5_ib.h     | 36 ++++++++++++++++
->  drivers/infiniband/hw/mlx5/mr.c          |  5 ++-
->  include/linux/mlx5/mlx5_ifc.h            | 11 +++--
->  include/rdma/uverbs_ioctl.h              | 13 ++++++
->  include/uapi/rdma/mlx5_user_ioctl_cmds.h |  1 +
->  7 files changed, 109 insertions(+), 20 deletions(-)
+This series adds the HWMON support for DGFX
 
-Applied to for-next, thanks
+Test-with: 20220919144408.251981-1-riana.tauro@intel.com
 
-Jason
+v2:
+  - Reorganized series. Created first patch as infrastructure patch
+    followed by feature patches. (Ashutosh)
+  - Fixed review comments (Jani)
+  - Fixed review comments (Ashutosh)
+
+v3:
+  - Fixed review comments from Guenter
+  - Exposed energy inferface as standard hwmon interface (Ashutosh)
+  - For power interface added entries for critical power and maintained
+    standard interface for all the entries except 
+    power1_max_interval
+  - Extended support for XEHPSDV (Ashutosh)
+
+v4:
+  - Fixed review comment from Guenter
+  - Cleaned up unused code
+
+v5:
+  - Fixed review comments (Jani)
+
+v6: 
+  - Fixed review comments (Ashutosh)
+  - Updated date and kernel version in documentation
+
+v7:
+  - Fixed review comments (Anshuman)
+  - KernelVersion: 6.2, Date: February 2023 in doc (Tvrtko) 
+
+v8: s/hwmon_device_register_with_info/
+      devm_hwmon_device_register_with_info/ (Ashutosh)
+
+Ashutosh Dixit (2):
+  drm/i915/hwmon: Expose card reactive critical power
+  drm/i915/hwmon: Expose power1_max_interval
+
+Dale B Stimson (4):
+  drm/i915/hwmon: Add HWMON infrastructure
+  drm/i915/hwmon: Power PL1 limit and TDP setting
+  drm/i915/hwmon: Show device level energy usage
+  drm/i915/hwmon: Extend power/energy for XEHPSDV
+
+Riana Tauro (1):
+  drm/i915/hwmon: Add HWMON current voltage support
+
+ .../ABI/testing/sysfs-driver-intel-i915-hwmon |  75 ++
+ drivers/gpu/drm/i915/Makefile                 |   3 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   8 +
+ drivers/gpu/drm/i915/i915_driver.c            |   5 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/i915/i915_hwmon.c             | 736 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_hwmon.h             |  20 +
+ drivers/gpu/drm/i915/i915_reg.h               |   6 +
+ drivers/gpu/drm/i915/intel_mchbar_regs.h      |  21 +
+ 9 files changed, 876 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+ create mode 100644 drivers/gpu/drm/i915/i915_hwmon.c
+ create mode 100644 drivers/gpu/drm/i915/i915_hwmon.h
+
+-- 
+2.25.1
+
