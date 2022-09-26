@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB905E9A9D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 09:43:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2C95E9AA0
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 09:43:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC8110E637;
-	Mon, 26 Sep 2022 07:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A847710E63D;
+	Mon, 26 Sep 2022 07:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A0010E637
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 07:43:19 +0000 (UTC)
-X-UUID: 65b34ffee1ef48f287a66a07b0581513-20220926
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A85F10E637
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 07:43:22 +0000 (UTC)
+X-UUID: b86ef8f4dad74545ae9b26c51b58783b-20220926
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=rapjfEd/0fAeylvQDoAQRYCFWy0PBtBkE73tULqyTRg=; 
- b=hZb20YDM+fjSh9t11Sxc6aOXq3LO2vwADpv5BXz6ykoKwHfDBfTeLSdegGXjrfMEINg3CvkfvFcwsH6UCkh736d2Y/FUdb/BEXjRNxJi+zu6BsuDU6qkP88zfeSTVkxJif0BR/PWbi6vamofycuE5YsQS3Y4gY0952Q9SorL/bs=;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=x2gGdvoD5teYjL98pU54T+cQk2ngxBwt+rNcl4zrPQI=; 
+ b=tgX+W3Y4uhng1N3DiUF6XFlBoHbEIFPnDIRFZUa3dGlrU2JFwIuICiiz5KVL7l13bqg4ZBPvO9dmKVbGIjFCm+CfhS3evMkAqkrAlYx0BmgxcyR+Xt8bZSGUztm0dN4pH1vi1CXpK1+77YO6uUe6+a3qZYxYSQguSfe1Ye3K65o=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:a1eb8932-90af-454b-9d54-14a3130ef499, IP:0,
+X-CID-O-INFO: VERSION:1.1.11, REQID:6e7dc779-25e7-4e70-acae-12a4f87c91c7, IP:0,
  U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:39a5ff1, CLOUDID:4fad11a3-dc04-435c-b19b-71e131a5fc35,
+ RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:70
+X-CID-INFO: VERSION:1.1.11, REQID:6e7dc779-25e7-4e70-acae-12a4f87c91c7, IP:0,
+ URL
+ :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+ ON:quarantine,TS:70
+X-CID-META: VersionHash:39a5ff1, CLOUDID:2b7638e4-87f9-4bb0-97b6-34957dc0fbbe,
  B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 65b34ffee1ef48f287a66a07b0581513-20220926
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1323352504; Mon, 26 Sep 2022 15:43:14 +0800
+ ulkID:2209261543186QR2OMSK,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48|823|
+ 824,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:n
+ il,COL:0
+X-UUID: b86ef8f4dad74545ae9b26c51b58783b-20220926
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1517639888; Mon, 26 Sep 2022 15:43:17 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 26 Sep 2022 15:43:12 +0800
+ 15.2.792.15; Mon, 26 Sep 2022 15:43:16 +0800
 Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
  mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 26 Sep 2022 15:43:12 +0800
+ 15.0.1497.2 via Frontend Transport; Mon, 26 Sep 2022 15:43:15 +0800
 From: <xinlei.lee@mediatek.com>
 To: <matthias.bgg@gmail.com>, <jason-jh.lin@mediatek.com>,
  <angelogioacchino.delregno@collabora.com>, <rex-bc.chen@mediatek.com>,
  <ck.hu@mediatek.com>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
  <daniel@ffwll.ch>
-Subject: [PATCH v11,0/3] Add dpi output format control for MT8186
-Date: Mon, 26 Sep 2022 15:43:08 +0800
-Message-ID: <1664178191-27964-1-git-send-email-xinlei.lee@mediatek.com>
+Subject: [PATCH v11,
+ 1/3] soc: mediatek: Add all settings to mtk_mmsys_ddp_dpi_fmt_config
+ func
+Date: Mon, 26 Sep 2022 15:43:09 +0800
+Message-ID: <1664178191-27964-2-git-send-email-xinlei.lee@mediatek.com>
 X-Mailer: git-send-email 2.6.4
+In-Reply-To: <1664178191-27964-1-git-send-email-xinlei.lee@mediatek.com>
+References: <1664178191-27964-1-git-send-email-xinlei.lee@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -72,83 +81,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-From: Xinlei Lee <xinlei.lee@mediatek.com>
+The difference between MT8186 and other ICs is that when modifying the
+output format, we need to modify the mmsys_base+0x400 register to take
+effect.
+So when setting the dpi output format, we need to call mmsys_func to set
+it to MT8186 synchronously.
+Adding mmsys all the settings that need to be modified with dpi are for
+mt8186.
 
-Base on the branch of ck-linux-next/mediatek-drm-fixes.
+Fixes: a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi
+output for MT8186")
 
-Change since v10:
-1. Modify patch title and add review tag.
+Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+---
+ drivers/soc/mediatek/mt8186-mmsys.h    |  8 +++++---
+ drivers/soc/mediatek/mtk-mmsys.c       | 27 ++++++++++++++++++++------
+ include/linux/soc/mediatek/mtk-mmsys.h |  7 +++++++
+ 3 files changed, 33 insertions(+), 9 deletions(-)
 
-Change since v9:
-1. Modify the location of the mmsys_dev member variable.
-
-Change since v8:
-1. Modified the title and some description information.
-
-Changes since v7:
-1. This series is based on the following patch:
-   [1] soc: mediatek: Add mmsys func to adapt to dpi output for MT8186
-   https://patchwork.kernel.org/project/linux-mediatek/patch/1663161662-1598-2-git-send-email-xinlei.lee@mediatek.com/
-2. Modify the DPI_FORMAT_MASK macro definition to GENMASK(1, 0);
-3. Add all settings to mtk_mmsys_ddp_dpi_fmt_config;
-4. Modify the commit title to Add mt8186 dpi compatibles and platform
-data.
-
-Changes since v6:
-1. Different from other ICs, when mt8186 DPI changes the output format,
-the mmsys_base+400 register needs to be set to be valid at the same
-time.
-   In this series, all the situations that mmsys need to be set up are
-perfected (not necessarily used in practice).
-2. Put the value that controls the mmsys function in mtk-mmsys.h.
-3. Encountered the sink ic switched between dual edge and single edge,
-perfected setting and clearing mmsys bit operations in mtk_dpi.c.
-
-Changes since v5:
-1. Separate the patch that adds edge_cfg_in_mmsys from the patch that
-adds mt8186 dpi support.
-2. Move the mmsys register definition to mmsys driver.
+diff --git a/drivers/soc/mediatek/mt8186-mmsys.h b/drivers/soc/mediatek/mt8186-mmsys.h
+index 09b1ccbc0093..035aec1eb616 100644
+--- a/drivers/soc/mediatek/mt8186-mmsys.h
++++ b/drivers/soc/mediatek/mt8186-mmsys.h
+@@ -5,9 +5,11 @@
  
-Changes since v4:
-1. This series of cancellations is based on the following patches:
-   [1] Add MediaTek SoC(vdosys1) support for mt8195
-   https://patchwork.kernel.org/project/linux-mediatek/cover/20220711075245.10492-1-nancy.lin@mediatek.com/
-   [2] Add MediaTek SoC DRM (vdosys1) support for mt8195
-   https://patchwork.kernel.org/project/linux-mediatek/cover/20220804072827.22383-1-nancy.lin@mediatek.com/
-2. Added mtk_mmsys_update_bits function in mtk-mmsys.c;
-3. MMSYS 0x400 register is modified to MT8186_MMSYS_DPI_OUTPUT_FORMAT;
-4. Fix formatting issues.
-
-Changes since v3:
-1. Fix formatting issues;
-2. Modify the edge output control name & description;
-3. Fix the threading problem.
-
-Changes since v2:
-1. Modify key nouns in the description;
-2. Add the label of jitao to Co-developed-by;
-3. Macro definition address lowercase problem and function naming;
-4. Add missing a description of this property in the mtk_dpi_conf.
-
-Change since v1:
-1. Modify mt8186 compatiable location.
-2. Modify MT8186_DPI_OUTPUT_FORMAT name.
-
-When MT8186 outputs dpi signal, it is necessary to add dual edge output
-format control in mmsys.
-
-Xinlei Lee (3):
-  soc: mediatek: Add all settings to mtk_mmsys_ddp_dpi_fmt_config func
-  drm: mediatek: Set dpi format in mmsys
-  drm: mediatek: Add mt8186 dpi compatibles and platform data
-
- drivers/gpu/drm/mediatek/mtk_dpi.c     | 32 ++++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 ++
- drivers/soc/mediatek/mt8186-mmsys.h    |  8 ++++---
- drivers/soc/mediatek/mtk-mmsys.c       | 27 +++++++++++++++++-----
- include/linux/soc/mediatek/mtk-mmsys.h |  7 ++++++
- 5 files changed, 67 insertions(+), 9 deletions(-)
-
+ /* Values for DPI configuration in MMSYS address space */
+ #define MT8186_MMSYS_DPI_OUTPUT_FORMAT		0x400
+-#define DPI_FORMAT_MASK					0x1
+-#define DPI_RGB888_DDR_CON				BIT(0)
+-#define DPI_RGB565_SDR_CON				BIT(1)
++#define DPI_FORMAT_MASK					GENMASK(1, 0)
++#define DPI_RGB888_SDR_CON				0
++#define DPI_RGB888_DDR_CON				1
++#define DPI_RGB565_SDR_CON				2
++#define DPI_RGB565_DDR_CON				3
+ 
+ #define MT8186_MMSYS_OVL_CON			0xF04
+ #define MT8186_MMSYS_OVL0_CON_MASK			0x3
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index 2e20b24da363..205f6de45851 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -238,12 +238,27 @@ static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask,
+ 
+ void mtk_mmsys_ddp_dpi_fmt_config(struct device *dev, u32 val)
+ {
+-	if (val)
+-		mtk_mmsys_update_bits(dev_get_drvdata(dev), MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+-				      DPI_RGB888_DDR_CON, DPI_FORMAT_MASK);
+-	else
+-		mtk_mmsys_update_bits(dev_get_drvdata(dev), MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+-				      DPI_RGB565_SDR_CON, DPI_FORMAT_MASK);
++	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
++
++	switch (val) {
++	case MTK_DPI_RGB888_SDR_CON:
++		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
++				      DPI_FORMAT_MASK, DPI_RGB888_SDR_CON);
++		break;
++	case MTK_DPI_RGB565_SDR_CON:
++		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
++				      DPI_FORMAT_MASK, DPI_RGB565_SDR_CON);
++		break;
++	case MTK_DPI_RGB565_DDR_CON:
++		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
++				      DPI_FORMAT_MASK, DPI_RGB565_DDR_CON);
++		break;
++	case MTK_DPI_RGB888_DDR_CON:
++	default:
++		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
++				      DPI_FORMAT_MASK, DPI_RGB888_DDR_CON);
++		break;
++	}
+ }
+ EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_dpi_fmt_config);
+ 
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index d2b02bb43768..b85f66db33e1 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -9,6 +9,13 @@
+ enum mtk_ddp_comp_id;
+ struct device;
+ 
++enum mtk_dpi_out_format_con {
++	MTK_DPI_RGB888_SDR_CON,
++	MTK_DPI_RGB888_DDR_CON,
++	MTK_DPI_RGB565_SDR_CON,
++	MTK_DPI_RGB565_DDR_CON
++};
++
+ enum mtk_ddp_comp_id {
+ 	DDP_COMPONENT_AAL0,
+ 	DDP_COMPONENT_AAL1,
 -- 
 2.18.0
 
