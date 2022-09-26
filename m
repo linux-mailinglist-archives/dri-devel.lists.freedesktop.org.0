@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B265EAFB5
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 20:24:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6EA5EAFF6
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 20:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0177510E754;
-	Mon, 26 Sep 2022 18:24:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3950010E763;
+	Mon, 26 Sep 2022 18:33:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A13C210E754
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 18:24:39 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id 129so5872829pgc.5
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 11:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=4OBTQRXHJygCpY/2rBSvNKQlNNozBBa3mtJlOeJ/EyY=;
- b=cSzvTXKu85TucB7q+g9CQdjC/FdnYJW7ESEBDVMDQZhpqkoHzMT6tB5vmqaaVmtq+c
- HBo/BI5kdAn7jf+xxq5MiOLWI7cJumnHX29hS+SWLXo9wgZxYqgGZ4IjXwCG6/+UPFiS
- mSjP6/8kEubWj+KXOsoeUGGJwGHBMRMvzL4Ek=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=4OBTQRXHJygCpY/2rBSvNKQlNNozBBa3mtJlOeJ/EyY=;
- b=Svj9uSiiEAGkGP/FR09Y5mhiZPR/4hanxOIxOAbAUhC4EEWPiPxI5CvMDlf8bkGyd+
- IOi2mbm1jZPAzc1nFBnfBfEI/NGl1W67HM+Ag0MQhemdtwaAbkqgCNTwGg72Nw6qKj3G
- uST1cD7tAkX4mj+42Lyj5FmFUmfe2OsenAf37zoxb45nZmiVZZ5JSIDQAnm+fafPhqKA
- e3uoJFRbptXrevOF+KiCUv3d14qvjwsnVRrQtLtaeenmI2Fwws4vE/+X0orKvK5bIVLz
- U7eGqdueBNvLuHOeL+xBYqhhCZMM7A1OeLupKEQoJwalT0EbMJCaqLPciraQVX1/Krig
- 61OQ==
-X-Gm-Message-State: ACrzQf0Ds0WDqdwVHqirdaL6lVsXFDCl5P9UynUZa9Bfg43mXbT4FWxq
- ZjZ/Fky4rEkbAh47SR0eC43tfg==
-X-Google-Smtp-Source: AMsMyM6gzz3RlLPDBF6eEAacYBSNNxOrYYdXLeQNzcYYWROPiLY1NScn4aUnW3BZuZbnjPt9v5tgLQ==
-X-Received: by 2002:a63:4750:0:b0:43c:dac:9e4b with SMTP id
- w16-20020a634750000000b0043c0dac9e4bmr21137736pgk.300.1664216679159; 
- Mon, 26 Sep 2022 11:24:39 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- p2-20020a170902c70200b0016f85feae65sm11305644plp.87.2022.09.26.11.24.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 11:24:38 -0700 (PDT)
-Date: Mon, 26 Sep 2022 11:24:37 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v2 13/16] mempool: Use kmalloc_size_roundup() to match
- ksize() usage
-Message-ID: <202209261123.B2CBAE87E0@keescook>
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-14-keescook@chromium.org>
- <f4fc52c4-7c18-1d76-0c7a-4058ea2486b9@suse.cz>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 453EE10E763
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 18:33:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id E95D7CE12FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 18:33:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 65BA5C433D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 18:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664217195;
+ bh=d4eG2qigNY6iJYjbdo9TYqwINH1LwZX9spbDU8YdDsw=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ZK5jT5vwCiRsEVGOmeJfnCus3reQgrRO0JHs0fMTuJvVLZ5E07hPQOAl1Lxpb8w7r
+ /xmhHmrIrNI/wB1eulaCx36V1i2+SJ28EG66eMUUN3QGE2L2kKMx/M56Ct28/CQT83
+ A6KtZ84QZVCXvBrfo5gx5bHvK4+3T4URror+XyKETWnGB4vjU5jpGQdmwMRZQkok+N
+ AsQYNkmzlC3synhxrhtfWfCInzq45DyKQXKihHmdP32bjKhtyjq+D0IqvaekmSHSYV
+ kzjChZNgzncuwOgpyMZEXvNn/n7xf40nmFpkg+Oeuvsmg/hKMKYknVneHHdVQ0nUFR
+ L4CUD6//Cp5Zw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 4BFA5C433E7; Mon, 26 Sep 2022 18:33:15 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216516] s2ram freezes screen (Ryzen-5650U incl. Radeon GPU)
+Date: Mon, 26 Sep 2022 18:33:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-216516-2300-om4VnbttXN@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216516-2300@https.bugzilla.kernel.org/>
+References: <bug-216516-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f4fc52c4-7c18-1d76-0c7a-4058ea2486b9@suse.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,64 +70,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, "Ruhl,
- Michael J" <michael.j.ruhl@intel.com>, Eric Dumazet <edumazet@google.com>,
- linux-hardening@vger.kernel.org, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Christoph Lameter <cl@linux.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Josef Bacik <josef@toxicpanda.com>,
- linaro-mm-sig@lists.linaro.org, Jakub Kicinski <kuba@kernel.org>,
- David Sterba <dsterba@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
- Alex Elder <elder@kernel.org>, linux-mm@kvack.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, "David S. Miller" <davem@davemloft.net>,
- linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022 at 03:50:43PM +0200, Vlastimil Babka wrote:
-> On 9/23/22 22:28, Kees Cook wrote:
-> > Round up allocations with kmalloc_size_roundup() so that mempool's use
-> > of ksize() is always accurate and no special handling of the memory is
-> > needed by KASAN, UBSAN_BOUNDS, nor FORTIFY_SOURCE.
-> > 
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: linux-mm@kvack.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >   mm/mempool.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/mm/mempool.c b/mm/mempool.c
-> > index 96488b13a1ef..0f3107b28e6b 100644
-> > --- a/mm/mempool.c
-> > +++ b/mm/mempool.c
-> > @@ -526,7 +526,7 @@ EXPORT_SYMBOL(mempool_free_slab);
-> >    */
-> >   void *mempool_kmalloc(gfp_t gfp_mask, void *pool_data)
-> >   {
-> > -	size_t size = (size_t)pool_data;
-> > +	size_t size = kmalloc_size_roundup((size_t)pool_data);
-> 
-> Hm it is kinda wasteful to call into kmalloc_size_roundup for every
-> allocation that has the same input. We could do it just once in
-> mempool_init_node() for adjusting pool->pool_data ?
-> 
-> But looking more closely, I wonder why poison_element() and
-> kasan_unpoison_element() in mm/mempool.c even have to use ksize()/__ksize()
-> and not just operate on the requested size (again, pool->pool_data). If no
-> kmalloc mempool's users use ksize() to write beyond requested size, then we
-> don't have to unpoison/poison that area either?
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216516
 
-Yeah, I think that's a fair point. I will adjust this.
+--- Comment #13 from kolAflash (kolAflash@kolahilft.de) ---
+Created attachment 301872
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301872&action=3Dedit
+kernel log for s2idle: v6.0-rc6 with debug options
 
--- 
-Kees Cook
+@Mario
+
+(In reply to Mario Limonciello (AMD) from comment #12)
+> [...]
+> For the next step in debugging, please do all of the following:
+> 0) 6.0-rc6 kernel
+> 1) Add to your kernel command line:
+> acpi.dyndbg=3D'file drivers/acpi/x86/s2idle.c +p' amd_pmc.dyndbg=3D'+p'
+> 2) set /sys/power/pm_print_times to 1.
+> 3) set /sys/power/pm_debug_messages to 1
+> [...]
+
+Thanks!
+
+Here's the requested log.
+
+
+I woke the notebook by pressing the power button.
+
+Before standby I'm always doing:
+echo disabled > /sys/devices/platform/i8042/serio0/power/wakeup
+echo disabled > /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/power/wakeup
+echo XHC1 > /proc/acpi/wakeup
+Else the notebook wakes on every keyboard, mouse, lid open and even lid clo=
+se
+action.
+
+
+Can you tell if the power consumption is completely up to the kernel?
+Or should I have a look at the userspace too?
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
