@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3AAB5EACB7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 18:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398C35EACD6
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 18:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 970DA10E106;
-	Mon, 26 Sep 2022 16:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46B2210E72D;
+	Mon, 26 Sep 2022 16:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com
- [IPv6:2607:f8b0:4864:20::54a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1142810E106
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 16:38:23 +0000 (UTC)
-Received: by mail-pg1-x54a.google.com with SMTP id
- 126-20020a630284000000b0043942ef3ac7so4316657pgc.11
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 09:38:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date; bh=aBQtcstDZQqLeHVlIM75vGyKaWR65kO7/EjVsPGFbYA=;
- b=EuXMliuCVgEb1UTMiKFb+ESdp6V3BzRKc+b7utuqQIOPOHNcwiAsdfKXv0CByTTMHO
- A/cmtXWFZtS8qARFtlVgSMUoZBimXHF1wz4CNwGtGvIz2LwpajwPSKklhsP+tlMtwmql
- maFFjcq1BNEqNzfcLBbn2QBILgjsUBkIRZDrEbP/Ee6rqtFXy5pVqdEqCVQYSaqQ/KxT
- QmrCgi9T2QAhE8Au227HDc7b87Lxp9Qyw4xLEnUVSufrfkujevJSc2cuw0Zin34Kx5iF
- dXhGmPgrci5SDslFl/iRJhPu5X5tnWB/YP+N83p2LX/+U7MLLaGbj62ZK1Etpu7gbWji
- lPIQ==
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315C510E719
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 16:43:38 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-12b542cb1d3so9929544fac.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 09:43:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=RNp07vbgm/KhF2r1MqQ+J+nkeazq470GtvzwhTtFxMw=;
+ b=CZQGzJQhjAIr7wI0UZanSwKJsg0qt8tvwn+2+u3FqQg1XAiacPdUoVUGBu1x0KFD53
+ AQqUi153AWQQ7TXOlTwubMzNrx1BUVr6Ps0oaGeLUw1lw9Zo0WFDBOTGa3v4KBWbe5a0
+ hmxF3i9pHAh27C6GbUJbLr7J+CzM0JbLFbP+NalhNob6/gmN4DEeRXTNP4aFfuokr5BH
+ VkrECWQmIcbKAlp/SbtRfCmpXFQV/t9iUwQt3BOb7uugBbNe10w9dtTTyzXD2V13qLFI
+ ZQcEbV5L6/HcqCNz5qPxNnw9n37KyzTd3zu7FoaXUM9tfYTuf19lzSIpZ8/MYmQBTt/9
+ uk8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=aBQtcstDZQqLeHVlIM75vGyKaWR65kO7/EjVsPGFbYA=;
- b=fHoGW0ptL9lFDMDvP8Of6ypqZ//09EhvYQv/TPQ8hge29WBjLITwE+k2RJGM8MujsM
- Q7+HqezP+T5bky1wUCwiQxcqnmKdTtubu8aji/rcTY9yE3Md0ovZOhZ1NQ6U8mS1gEA3
- OMYxotMg01zwuqG56Y8qIt5IrHo/14bJpO2/3G+o/iAFZMSXhBYcGHuVEMr4qoBfhv1s
- fonJLFWN0hRb5DjT8ChJ1MTGr+xasfLyOCzoGVI19UtxnRdMcmdWXX09vQIFB79Iz2ju
- MQJ5TTEngsNAI1KbR10ir14opCBiF1aEbyjFxwILCHJ5cbHaXiibEqHSh4btXNw9IYuF
- sSDA==
-X-Gm-Message-State: ACrzQf1Uk+xa+MTaAwn5x05mk2s1BppYeQCaX6wFAboQq+oCTUopDdaA
- 2QbiCj+OhZlrzsyBQIiZCaT0AKQB78s=
-X-Google-Smtp-Source: AMsMyM7311CIPZJFPTAvVFfQHxqDeZdSosVfC0bK8XteC7QK27a6RZCjRZFQy2YWBurbmRyr0JE2qBn9lDea
-X-Received: from jstultz-noogler2.c.googlers.com
- ([fda3:e722:ac3:cc00:24:72f4:c0a8:600])
- (user=jstultz job=sendgmr) by 2002:a17:90a:cd06:b0:203:ae0e:6a21 with SMTP id
- d6-20020a17090acd0600b00203ae0e6a21mr900179pju.0.1664210302025; Mon, 26 Sep
- 2022 09:38:22 -0700 (PDT)
-Date: Mon, 26 Sep 2022 16:38:15 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
-Message-ID: <20220926163815.332144-1-jstultz@google.com>
-Subject: [PATCH] MAINTAINERS: Add Sumit Semwal and Yongqin Liu as reviwers for
- kirin DRM driver
-From: John Stultz <jstultz@google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=RNp07vbgm/KhF2r1MqQ+J+nkeazq470GtvzwhTtFxMw=;
+ b=HsoreTHydws2Itmls8TagRH0KNA148rSpGXXsLqszU87JzpYULptp6BPAHph5b6H90
+ z4dLmi2JtffpWuFzTSrhzy3KNuizx4T6/JijO2iSqzAVgpcyN9RljzYouQBEALwLqtMu
+ PrkCMQTDL3nzYtKxJZ7bPnEzfX1yfFlpPc0FLVt+PGiQTkzPJBjjNCgLGRi/lV2yEwXR
+ 8hovtvb276KDdTKqrgwbDRGHBtc2uSjcuAL2WyIBb7eeemwCFEcQvWnVV/kHEAsPBjTR
+ OxXDov1ygUIyerQGNCpcM9jf2ViKWQww+K8TC0WR9a8fF8OC5k7zFvuqvPs42iCom9B0
+ t0Zw==
+X-Gm-Message-State: ACrzQf22d3nQyQxxUFYukfChnv5uZFUzP0hX/9s4+uJUXo9HD/1wmddz
+ kxMp350tt8znxpxMFannC9xB7vV/8pY=
+X-Google-Smtp-Source: AMsMyM4r8aI1Y+fS3enQwrEcXCvDH2gGCebpzgp7aJVUlEucF6Z8DJ6PPqtJW7uBR8iAmIAsqo0qiw==
+X-Received: by 2002:a05:6870:1702:b0:127:cf3f:37b4 with SMTP id
+ h2-20020a056870170200b00127cf3f37b4mr18964927oae.254.1664210617645; 
+ Mon, 26 Sep 2022 09:43:37 -0700 (PDT)
+Received: from wintermute.localdomain
+ (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
+ by smtp.gmail.com with ESMTPSA id
+ o83-20020acaf056000000b0034f684ca159sm7318798oih.29.2022.09.26.09.43.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Sep 2022 09:43:37 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V3 0/2] drm/panel: Add Samsung AMS495QA01 Panel
+Date: Mon, 26 Sep 2022 11:43:31 -0500
+Message-Id: <20220926164333.7485-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,46 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- John Stultz <jstultz@google.com>, Yongqin Liu <yongqin.liu@linaro.org>,
- Tian Tao <tiantao6@hisilicon.com>, kernel-team@android.com,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ Chris Morgan <macromorgan@hotmail.com>, robh+dt@kernel.org,
+ thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I no longer have access to the HiKey boards, so while I'm happy to
-review code, I wanted to add Sumit and Yongqin to the reviewers list
-so they would get CC'ed on future changes and would be able to have
-a chance to validate and provide Tested-by: tags
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Cc: Xinliang Liu <xinliang.liu@linaro.org>
-Cc: Tian Tao  <tiantao6@hisilicon.com>
-Cc: Yongqin Liu <yongqin.liu@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: kernel-team@android.com
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <jstultz@google.com>
----
- MAINTAINERS | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Add the Samsung AMS495QA01 panel as found on the Anbernic RG503. This
+panel uses DSI to receive video signals, but 3-wire SPI to receive
+command signals.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f5ca4aefd184..11027cf9b670 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6875,9 +6875,11 @@ F:	drivers/gpu/drm/gma500/
- DRM DRIVERS FOR HISILICON
- M:	Xinliang Liu <xinliang.liu@linaro.org>
- M:	Tian Tao  <tiantao6@hisilicon.com>
--R:	John Stultz <jstultz@google.com>
- R:	Xinwei Kong <kong.kongxinwei@hisilicon.com>
- R:	Chen Feng <puck.chen@hisilicon.com>
-+R:	Sumit Semwal <sumit.semwal@linaro.org>
-+R:	Yongqin Liu <yongqin.liu@linaro.org>
-+R:	John Stultz <jstultz@google.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
+Changes since V2:
+ - Added 50hz mode at request of userspace devs.
+ - Renamed "dupa" to panel name. Good catch Maya.
+ - Added Maya's Signed-off-by.
+ - Removed check for max backlight, since it is already done by
+   backlight_device_set_brightness.
+ - Fixed minor formatting issues on devicetree binding documentation
+   and added port to provided example.
+
+Changes since V1:
+ - Removed errant reference to backlight in documentation. This is an
+   OLED panel.
+ - Made elvss regulator optional. In my case its hard wired and not
+   controllable.
+ - Added "prepared" enum to track panel status to prevent unbalanced
+   regulator enable/disable.
+
+Chris Morgan (2):
+  dt-bindings: display: panel: Add Samsung AMS495QA01  bindings
+  drm/panel: Add Samsung AMS495QA01 MIPI-DSI LCD panel
+
+ .../display/panel/samsung,ams495qa01.yaml     |  56 ++
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-samsung-ams495qa01.c  | 547 ++++++++++++++++++
+ 4 files changed, 614 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-ams495qa01.c
+
 -- 
-2.37.3.998.g577e59143f-goog
+2.25.1
 
