@@ -2,155 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC245E9971
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 08:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AE55E9977
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 08:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5676110E394;
-	Mon, 26 Sep 2022 06:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C773C10E510;
+	Mon, 26 Sep 2022 06:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4585C10E394
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 06:29:27 +0000 (UTC)
-X-UUID: 93b539bcacf640d98e2c4b982c0c9757-20220926
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=E8UJ9/0BsHb7/t785cpsbf2sW/4lFZvms9YiaHKuNsE=; 
- b=hh27Kr0r0MWFOU1Ugfo1G6VZealSTp3uoJzpjLc0DtyvWbhfzJXxTIEI8rryg1O+lQzvl355LUwDOtBVOQML0NtgjFfX2P2sYLwjgOqoAZ6gPAroklIgkc3m20nOHzdIamdf3qqNdrEzgi+GzimRNMvNPFjwBoo5WP53j68xMl0=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:5182baaa-00d0-439b-b75f-24b6fbd71456, IP:0,
- U
- RL:0,TC:0,Content:20,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:20
-X-CID-META: VersionHash:39a5ff1, CLOUDID:60cb34e4-87f9-4bb0-97b6-34957dc0fbbe,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:3,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 93b539bcacf640d98e2c4b982c0c9757-20220926
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 31203591; Mon, 26 Sep 2022 14:29:21 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 26 Sep 2022 14:29:20 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.239)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.792.3 via Frontend Transport; Mon, 26 Sep 2022 14:29:20 +0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2056.outbound.protection.outlook.com [40.107.223.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8711B10E510;
+ Mon, 26 Sep 2022 06:30:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A9VzDbNe67nA1Rj8CjnKe8XtltV/EqbnYjx6Am0QPju/hJJAJu0mXxStjR6RTTaDkK7IS1N1cVe1b68o/EBHD11cblCozraqCE42JFewh0D2pATZG1rMK4akjHE+Jy/4L00HDbSmdLHuAHHWq8GXCtqV8HPQqYJjDgLjOqx8mugkdWP8Yw8FGO14QcC+E7KYZCCGDic6doISS48NyZuozaPkAOM7euXlQQL3Pv6m/i9pt851mkbHwFfKNkwENW+OQhsk9AyEcmyQ1d+b0SUh8E9Bd3GSNaxtt8np9KFsopur1nmFP0SVYY2CC/HRUxLSiw7kJAb/5V27TQIFCZmlMQ==
+ b=ON/CpFDwOtvgDMD7PKNjwjSH4lUXqFj6JMQtokR10y4LchXfZ37pWEWHbHc5Ao6aT7bayBM1pO1wex0NwWAYRyZ7lVsGQrAFqq442yOkfYLyhSGkvzUo2Q5z04K30c8iQ8Zp7KBPz0skeWwbDIvUNmXAdPeDOAaed5nB5Gp2ozOgt2qQVXcu76gFvS17nLZQF4S0wzNe5b9KGme6kL+sqr+VF5xqsp6XiNYDX3Mr+B6YoQbJg0Q7wC5qbI6GRr77iW3g2KBZbBlOnp2bVAZE4M30+6Oih6spyajmexTWXlWdocnFBulJGKHr1JzIYxYzgRoZL8iA1M/DHR6GJWToxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wKu06QkqHLbQOC3wGuC/7+dGnj+ZZSqDjkto2PG0WnQ=;
- b=WnvJzCRJBcgdXjJ8dWDNtDVVrwvpuPfGqNRxFP6XLuc+hE9hgxud8NUA92MRf0HoNa0fnTphpMTImDmYz8d9ofkv+zJWN5lGZHIbZrwTVfvZ2wqKy5EK6HIThdlkLpEzZqu+QIU+pPlutTukZHdIgjs/xdH5BuvfpKQ5znoCLvikGVjJ/nm3IEjnmkaBIOegR9Uc2cLhBI9GyB2XZp9iri9FvahBNIyLNdd3MWhW40pIUza85xsdNciHDKMdItbHgRn3Lc2pFqw7JosR+3tBtGG5eohYA19a9w4w6F7bQRrK05gwkMluetavvCSwlwm7RDCoPgs+lo6h59dZEQ7AXw==
+ bh=aCA+Zrx6QApKGfp58O9uWcoVDeAkWVuJAzVVLub88sc=;
+ b=BU1ii6ZPueEFYxwB3Y885MB4FsFp1fmv/bNu9/bH2KBSKupW4ZN2cDvylYOt2hF0sther1XA2DFcKA6xzQ0NykCszPNrxK/3F3tT63DFxTZ8u3ku1pMhbX2rnCv4PVHxVcnI0TGSYipHy9ntd3iFnFagjZbML/sjjN83QNHQ04LsUvwT/Bz9HwThm91J3ogG7zX6FRDlu/1goMBB8RK+bE/LA3gRp6QqG+xKUdsasFjs1Xf88K9Go44Utkpi9EECrf8SiYfRVhpqnsDfUqd+FXLPXOS1kc+qNjg0gPjh1G9Rgevbr+txCJSGs1Ihoe69O9GNOdFyFd7nLrnaxaAXrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wKu06QkqHLbQOC3wGuC/7+dGnj+ZZSqDjkto2PG0WnQ=;
- b=VvmxofF7gjIxSHFy8VaYSJ91ca5UL/hf75h7q1UiTOAk86kEf29aUx3uePTAGY/b0wI5d2+986L0v191aUx5MU94ie+DXSbzJJeAuhQale7D07/yJHKSsp+0eK2xGvrDNH9ADmWHj4wXRyZ2dUi8jxeXL2NRUuq6DV6WjcbgyrM=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SG2PR03MB3132.apcprd03.prod.outlook.com (2603:1096:4:e::13) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5654.14; Mon, 26 Sep 2022 06:29:16 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::b958:c9e0:9f6d:9ed]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::b958:c9e0:9f6d:9ed%7]) with mapi id 15.20.5676.011; Mon, 26 Sep 2022
- 06:29:16 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
- =?utf-8?B?WGlubGVpIExlZSAo5p2O5piV56OKKQ==?= <Xinlei.Lee@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- =?utf-8?B?UmV4LUJDIENoZW4gKOmZs+afj+i+sCk=?= <Rex-BC.Chen@mediatek.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v10,2/3] drm: mediatek: Adjust the dpi output format to
- MT8186
-Thread-Topic: [PATCH v10,2/3] drm: mediatek: Adjust the dpi output format to
- MT8186
-Thread-Index: AQHYzzM2McRx7b7y7k6+7MRl0/qVeK3xRDKA
-Date: Mon, 26 Sep 2022 06:29:16 +0000
-Message-ID: <0373e39a6aa15a2d38e4807acff0cab2e58b6ad7.camel@mediatek.com>
-References: <1663927104-15506-1-git-send-email-xinlei.lee@mediatek.com>
- <1663927104-15506-3-git-send-email-xinlei.lee@mediatek.com>
-In-Reply-To: <1663927104-15506-3-git-send-email-xinlei.lee@mediatek.com>
-Accept-Language: en-US
+ bh=aCA+Zrx6QApKGfp58O9uWcoVDeAkWVuJAzVVLub88sc=;
+ b=zysJKuqyQWuRlTjxELFjjr6y4qk+G3NPTWQqsreeKDn6GE/6o5vBK+crxKlSxZShM1Z/bXaPeh4EIAiV01TMqH5zIFElHqVXV4LoQx81P+ZRIWwx4h1Huw2vHXdu9K3u9uD7HILXHoautfo9ree/blYoSmFXCGeznWapZflmnU4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BL1PR12MB5111.namprd12.prod.outlook.com (2603:10b6:208:31b::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Mon, 26 Sep
+ 2022 06:30:02 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5654.025; Mon, 26 Sep 2022
+ 06:30:02 +0000
+Message-ID: <9f3bb60b-38da-1ac1-59bd-6f147309183c@amd.com>
+Date: Mon, 26 Sep 2022 08:29:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/amd/display: Fix mutex lock in dcn10
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SG2PR03MB3132:EE_
-x-ms-office365-filtering-correlation-id: 06c3337c-67bf-431c-a937-08da9f886fd1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ccce6D7SeYaAYEuhu7DdAmW47mfEbE2H7GpOvGQA4EyNrp+WhD4CtWvgmLpdSj2xobKoB25bYrQGhRI/I+4v3i/OQa/YpOYjeS6pAKb3G82lS0fYqPUdJyauF78TxpvY86UrH6G/EntkZI2HLxjkwZH/NsS1CaUwZABL0SQ20Whm0REp/tcRvPmedZVO7gDP70njl6lYwKkAm0tGKYJwE//mia0zPG4m523hGZyBjM747WfOr8WTCCu8ToH+kqcuS7bx+WLNqZUk/ZP3jsFZgz5M5UiFif/glNFQSsWT6Fc5RHhJWTqvjrb7FMIqI73Xe2lvx2yrjlb67CsUhb6Adrdw+4GeZ5D+0QcytFiiqY/PickQTxgiBFA1XDn6Yu9S+n5pqomwf5bWeO/zQj+ceFCjJaU1b2D37W/t5l50uooxvVR3tiIk4HOugqp1bCToZ8h1irb6PSuMf0xR87dppYFT5NmmZ+437xAi2l762Fa7J9Asb47fLO4Cjho8/CW6RsicL7BkVK8BLK2w8bKMVVZjsunYYdWviVKZi3B8oor7+Fp1GfsjxxFwheNwRBtyLTcS6AHq+ycREqmFKVR76i+TLPO/bLqfQJhH8j/bvhI/7i7d2ntFP/BsDM775lwzvxCVv1pup8R07WfeRA+jiqjrv99hLznzac7iHSpC/7bdU/Hi6pJfUP3INBGgoIGNVxjw/y04eOGhWvdIEat2WnpN1q/39ClwdV0/7JIIfK/2VfS1N0+JAgFfJqJa+P3Lh1qcoH+NlqHZzkH850yR4g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(376002)(136003)(366004)(396003)(39860400002)(451199015)(2906002)(38100700002)(316002)(26005)(6506007)(2616005)(6512007)(107886003)(83380400001)(8676002)(36756003)(8936002)(6486002)(86362001)(71200400001)(186003)(478600001)(38070700005)(5660300002)(41300700001)(122000001)(4326008)(64756008)(110136005)(66556008)(66446008)(66476007)(66946007)(54906003)(76116006)(91956017)(85182001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RmhFL0VqcW02eDI3dGpPZzRaZ0k2SGNyV0FoelZUa2RzVWpCbmRnT2dQOXBj?=
- =?utf-8?B?MERuUXFzbWhEZFAwUkkrK1ZzTHlTdnpqa1BsYXcvak91a1F5TGI4WUNlU1Bw?=
- =?utf-8?B?U1BKY3Z5dElpcVh6V29JTmFzK3I0dEJ2VlVGZGc2V0JrZXhLMXBXb2x0WUwr?=
- =?utf-8?B?c2RQV1ZwUXNjQTltOGZ1bzJtUDlNREFkTmhjWTh0U0o1aDJ3aEYrRzJVU3pT?=
- =?utf-8?B?QzJST2lpN2k4OWhuTkZaakhvdkVmL1R5ZGFPL0tWV0ZBdnN4bkpIS0MxT0hi?=
- =?utf-8?B?dlhobXY1YW5IT3o4cVR1YmtkRmJJUHViOGFZVE5TU29UdTJlZWV5SzdJZTFN?=
- =?utf-8?B?dVNFWEY1cDJ5MFZGOG5VWlNjZDlYWFRyM09FNnluMUp6cmVZaVFqM2gxRUNo?=
- =?utf-8?B?QktaeVIxcmdYWHI1MkF0SFgzSkhNWGZlVGhYNTJaSWhNUGVpSFF4S1JpQTY4?=
- =?utf-8?B?bEFzRVlNaUFocndJa0NUaWxmdkZ6b0lkWksxY0pNdVNlS0tJMjZjUjNNUmZI?=
- =?utf-8?B?bHUrTXJtcGRBcGJzV1d3a3UvclZVOUlGSGZoU1QyMVMzQlNmVkE3Wk42ZU5I?=
- =?utf-8?B?RnNqK2ZCN3Z0L0tEekczWVB1TW9MaU1MaFRJY3lGZCtlMS93ckE3UEVUMlRw?=
- =?utf-8?B?QnM0aXNMUmNjMUo3OVJFS3RQTHVZaGVTeitCTjd2M0tLUTd5VlRFL3Q4MTd4?=
- =?utf-8?B?VUZVbE93MC9rdk9VRnhra0dvak9nNGhGb1RnS0xmeCt5V3V5TThXZGhwZm9M?=
- =?utf-8?B?RnliMmF3Nk0wU21jOHJPOHFXQk52ajY4d3k5aXh2VE9aVlVucTVRZkVxb3JI?=
- =?utf-8?B?Tk1oUkNMaEh5a2FVRCtOZkY1MlkyN3I5TDlFUEUrN1BxZkQxNjJSeFVlbFN6?=
- =?utf-8?B?MFhsR0Q0OHZlaDQ3TE1BamtpSXVYQzl4a2Y5VzYwSUhUU0tzOU9sbVhhKzVs?=
- =?utf-8?B?anJmMm54N1BUWWthaDBWSUs2R3dabVRXZi9YSTg5NDg1T05sZ2szNVBpQSs4?=
- =?utf-8?B?RUJOdmEycjk4Yk9MSmlFbHpEeEFZRzFGemNZYXRPWmNyK29PcGdnVEJ5Qm1u?=
- =?utf-8?B?VTl6VExIbXFFeVJjczA0a3lxSUdxUGJqRHA3UWFPMlVvWEJqSlJPNUxMWC83?=
- =?utf-8?B?cmRUUkhXWWk0MG9rNE5Ka1ZLdTJIVlhJV2djUXN0OGpDejNMSThYeFc1NldU?=
- =?utf-8?B?UHlIcHhWRFVkdUlpbE4reitiaTBHcWpiSlRlQ1J2VFpieVMwK1U0dkJZRk9L?=
- =?utf-8?B?MEVINTd3VVNsZ0xOQkIvc2JqZCtZQlArbk1ORXRnZHc0NitBaGF0OTNqTVFr?=
- =?utf-8?B?SExOQk5tWmVpRjFCZGtOQzBMa1RZVEpPSmRQZ0YwSi8zb1R6MHd0L0lmTHY2?=
- =?utf-8?B?dDJPVGd2SU9UZnVyMm56dnpycExvVGJMVG1pcVhGTkxBQnROVjNxUmdmMzhJ?=
- =?utf-8?B?eDdsMWFDelpOVkpPMG0vT0V0c2gxR09yazlqbFU5N1hhUG0wM0orb3ZBbXQx?=
- =?utf-8?B?aXRsV0UzMlJoMmRPOTFrTUsyUExYQTNFOFFCZkNJUzdtMXQ3RWlDZ0dxVGYx?=
- =?utf-8?B?Q2hUcW94M3VJbkxvUFZVbk8xZVR3VkZWYU84a05pSlpvRmpySGY3LzBNNnQz?=
- =?utf-8?B?RUVJZmZtM3hmb2NWemcwaG1vMFJtN0RJNHA0b2RnUVp4T0NidFNoTG5PamEw?=
- =?utf-8?B?YWl3MXhNQ0pFYVZRbjg5VURUYXptQzNsQjg3Z3NYT2dBVEpvQzhsYjV6TWRL?=
- =?utf-8?B?aFJLM0RaejhNTE5ZM2F6Y2VNZDM0MVM0YnNXZ2JSWUZLdm1OVXNjQUlRNldB?=
- =?utf-8?B?Vkt0WU1jSHRtblVsL29KZHRVUXVNYUFPRFppb09vdk9ocUlIVmtFWXI2b0gv?=
- =?utf-8?B?VDFmWmFOYlp4VS96bnFQOXhDOFIyVElMcXgraGsyM3Z6VUFMdVZoUWlZWXhy?=
- =?utf-8?B?eUNTZmFkdlo1R21wT2M0cllXYTVhbVFVajR6emZjSStwRjhIYW9DT2IxU1hF?=
- =?utf-8?B?QUxUNDA0djZyaFZmUEIyb1BuWDBqK2NXbUxWcEJIREhNSFRyc1ZBbGxiMEs3?=
- =?utf-8?B?ZHFHSjBkVHFCWHRiZEowMWFValZDSFV3L0lxVENkQ3NIWnBabGZibno0Q0hK?=
- =?utf-8?Q?MmxSDYwAbDEMJ49cb2VxTyWol?=
-Content-ID: <96AE4ACA562F874DAECF988361D97768@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: Daniel Gomez <daniel@qtec.com>
+References: <b21aa2e6-1b47-cdc1-307c-21fb331d4afb@amd.com>
+ <20220925215320.644169-1-daniel@qtec.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220925215320.644169-1-daniel@qtec.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0040.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::11) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BL1PR12MB5111:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3215b5eb-b871-41cd-de94-08da9f888b0a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kfDfC0ecot60CU5PstzUJIYj2ZPZDeUPyxyoljILrGKRcItwxw6sPe+NLz/NlcdivbQYaspCUN0RnxO7konrkgrJEcuvAjaz4o48QJ/HGNoXjT89N/ST/DJo5CvxKxaF4K41dYbmRWFa274NCa4ODX8fWLYobUbAa36Fs+Us1dY/d1Njr7805+5s/eHVCT3IeTYhZyCBlyyp23TVDRz2+sgRDBpkc8YxULHDMq3f1Z2xqNdrH6yNBxGpL8Tvy/m3itgba8DLpSD7g08oFVFjND/OTkH1+8a6iXTnWypw4YLw0JQJo3raJH6ryLVcWCVq2XbT3uNrKIpLjJ8HfEA2Xi9k9eIAhY2CghEn6HCSWOQmdxN9OnBW6cc2yyuk1WgchXEs1UVh6e61RAgZKKadJayp2hy5PPQ4+AEYkm3EAmCMjLZvRKiehOoJmyKcHjoQRAIqh9s4YPyUX5m0icvhpEx0cWf+i4xIrtMQuen/OYwyLjAX2ZBnez5YftMtIuwAgFviFET8BUOnddgzXaYTGaKKm7uJLvZxTjWYU5V0YtrTM0MTDhj5Cjo6jT0X8Go5o4DsDLLNVCDSJrUWmR0sVQkg9ig3quMDjNn5UEqfnPsmbjKfNOkN67QsPETN24tznEqUmTcWruY8s88LdGZykUM/lpLSBbZ+wszLzceTMy6ApUv1LHcPnDMs0Med2m+mjn+qKu5fjKU2P6Tf5mNBZG9GFOlywv8h8Tdpztc4gt5tRwfVGfwpd6jY/pxoBNr9ZWbtBmSG3lBG5t9OS+idykWgJOHDk2FjVR2Brzd8krg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(376002)(136003)(366004)(346002)(39860400002)(451199015)(54906003)(6916009)(316002)(6486002)(83380400001)(31686004)(478600001)(66946007)(66556008)(8676002)(4326008)(66476007)(41300700001)(6666004)(6506007)(36756003)(5660300002)(30864003)(6512007)(7416002)(8936002)(2906002)(2616005)(186003)(38100700002)(86362001)(31696002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3pHc0dzdE40U1IxTlBBQkFvRlhxZXAvMTFwd1k0RnN1c3BzWjJIbjBuUzRK?=
+ =?utf-8?B?Q3gvSmJhT1l4K2pjQ3B3QWE4d3FLbVBnRXF2emJzdWlLRURXak5BL0FVOWYz?=
+ =?utf-8?B?N3ZEYXNhMW5ZWVcwcXFsNlpINkhTQ1NmYjZjaGRYbUFrZlYzMVpxQ2Q2STFk?=
+ =?utf-8?B?WFh0U3RkTkE1cElRZlhTdDdaY3gvcEc5eEcwcnRXb2pZSVpIK0JoYnNYaGZ1?=
+ =?utf-8?B?UWMvODJialZNYlF0RnV5SlVWSGJzTUVXY2owVW9rdlAxVk9kKzRrMzl0TVRT?=
+ =?utf-8?B?U29OQVJobDF2Smdlek1QR2FMSFNJc3ZhZkZzYnFRT2NOMUdUR1VETzc0ZHM2?=
+ =?utf-8?B?bUxpRXhKQW1ZMW9pUjdITS9nOU1Wb2pQVGY5MkY4aTZGT1pYTjdCS0xCMGh4?=
+ =?utf-8?B?UTh0L3Z2UEc0aFhGMmp6c2FWaEgxbUo4ZDYzWndpbHpwSzNWeE4vcFMxVE9j?=
+ =?utf-8?B?M200QWV5emZWR2VUMWw0YUhBS3Bpc3VMQzJmVWQzTEFJMTFMdFB6MVpoRHIz?=
+ =?utf-8?B?NDM5a2ZMaVIrVDMxOUtyYVBPYlQ4TG1FM0xvZnBiRzFCQVEwSEUxMURiTXBl?=
+ =?utf-8?B?UWVwUXlZd2FWOUk4cFN6VTN5Um84SlUzUG1aVWVJb3NQWU1nbVJYdE9PQU01?=
+ =?utf-8?B?Z21PT0ZPM0JmRDJab0xlNVgxS2luYksxZGZpY0hDRGRlRWNWR09kOWYxclF4?=
+ =?utf-8?B?aFF5RU1QSVZXVDJwNXN5S05NdkNVQ2daK2N3WDJ5WU16bURIaDc0RlpoVjhD?=
+ =?utf-8?B?UlpkM05QTUxVWi9DOU8wYkJjUDZHc2hlYkxSazFhZ2JxbGdLUysrcFlzTTE2?=
+ =?utf-8?B?Ry8xL3lJcEdJYStQb1c5a0M3ZUt5QkFsYmFjTVAyZ3hxQVZBd1E3L1lHSkJr?=
+ =?utf-8?B?ZmhXK1RMekIxTEtLaFkxL3RiRVEyZE9RaitSWmhmRDUya3ZNQklhNXRHUGtJ?=
+ =?utf-8?B?SVkxV1FndHNqN1V6Tzd3bjdFL2FneHN0SWxPbkdlMW5IUlYwSS9sNDV6d29a?=
+ =?utf-8?B?cUVWSjZPY1FJNmxhSDlLN3duOUJXaDgxRWcxMU9ZcjZZSlp5SVZHejlMcDJz?=
+ =?utf-8?B?Qllhamgvb3lGd3dUdnZWbVVwWE5OOUY2RWZJUTM3RWxWWVdFbkhQLzNya0Qz?=
+ =?utf-8?B?SUI3NFZNU3NXZnAvSW44Wk8wWWVOQ0hoOGNlbUVhWjZ5OURZZnJQQkZkTmQy?=
+ =?utf-8?B?ODF0VGNFYW5wdkhMVmtxNGdGUEo4TWpwS0locXpJUThSa3NvMFpUWjd1SGRN?=
+ =?utf-8?B?RzZoTldQYkdGdVFscC9OVUNUcnB2ajQ5M1hhY3BOeVB1a09qRjhCZE1NZWlX?=
+ =?utf-8?B?NnY5MUwyZE1kMVpBdmN5RkJtdjJ0QlpNK1pSUnJBQUVVSHdlMG8xTEV6cEJi?=
+ =?utf-8?B?OG4zREVVdXJnYW82Z1BNQVJYYTgzTTFWSmhrQmo2RVBhMGpvTE9wYmtnVmFB?=
+ =?utf-8?B?Q0ZPWmQ1dGFwZy9VOGR2TW9kbk85bWplTUdLYW45UmgvR1ZHNmUyN0hNRlRB?=
+ =?utf-8?B?N003YTRRMWxVL0RpdWsxOG13Mm53VVNBdXBVUzRFejJWQ2Npbm9qc1BTM3NG?=
+ =?utf-8?B?ZVBUOTBoUVpIdnIrNm9pZTBxL1Q4d21uR1pldEFib0dYWWJVdTUwZ0hlMTdO?=
+ =?utf-8?B?OFNWRHVuZTJMVXhVU0sxY2pXeHpyM2ZGSElMdElJZU9kMGVhNGZySlhzalZX?=
+ =?utf-8?B?NlJETWF3WTI2Zmc4bHplSStMM2FXcTBpa1lLYm5Eek83Y1JiaTdCWDk3eW9u?=
+ =?utf-8?B?b2tHcmJOcndlRkdraTQyclhhTFRMRzVOZ1JseWo4ZGlRWHpLMG1INlFPSGpu?=
+ =?utf-8?B?U3dONlQ0N2l4WVRwcnU4bFhkZEI2UHhKL1UyRGNVcFloYjVOYUN4OW9kcjd1?=
+ =?utf-8?B?MlpvZWlPR0tNUjkrMStBOVU3ZUJLN1FqQURhQTlNbzFRU1NaUUVGdjNwRHFo?=
+ =?utf-8?B?UHUrOFgwcWVJNDhlRkFSeHZITHl0MmhHTGZxeHhuWXhYOWVOVFY2RHJYTDlM?=
+ =?utf-8?B?bjVuc3dJZ2hVa2NydjNmN0JZWjIwNGNHTW9CMnk4WVpTT2NCNFFtVXBWWDdR?=
+ =?utf-8?B?dldSZ3JiMmhOcHpsbGVVSW1BS3BjdmY1QVozWmF2Qk8zYmRoa1o5OE1sc1BQ?=
+ =?utf-8?B?VHhjcWpHVDZIMjlhRm54V2w0V1ptOGdNbTdFeG9ZOUpacE13b0lnenl5c0Iw?=
+ =?utf-8?Q?jWrnlYeT0YZdpHylgaqmasckmwIr9E0DZfRG3FU4cS32?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3215b5eb-b871-41cd-de94-08da9f888b0a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06c3337c-67bf-431c-a937-08da9f886fd1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2022 06:29:16.6414 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5+0hyG3P4jzO4Isg5YkDeNLFlt86zmZW+1LtlcLPacZm8s8mAottrtmNQrQ5UXIrrKniz3SScvZlg/yTF8YyGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR03MB3132
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_002_1639608428.1915455161"
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2022 06:30:02.6585 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JZeNywEQ0GawhVu3iF7jFVK5Y+4Wq39ZKIuZyHbI1P/npRDTi5/+xzlAMqPPwze2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,186 +126,423 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Yi-Ling Chen <Yi-Ling.Chen2@amd.com>, Isabella Basso <isabbasso@riseup.net>,
+ Bernard Zhao <bernard@vivo.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Ahmad Othman <Ahmad.Othman@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Hung <alex.hung@amd.com>, Alan Liu <HaoPing.Liu@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Becle Lee <becle.lee@amd.com>,
+ Duncan Ma <duncan.ma@amd.com>, Melissa Wen <mwen@igalia.com>, dagmcr@gmail.com,
+ "Leo \(Hanghong\) Ma" <hanghong.ma@amd.com>,
+ Agustin Gutierrez <agustin.gutierrez@amd.com>,
+ Sung Joon Kim <Sungjoon.Kim@amd.com>, David Zhang <dingchen.zhang@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Zhan Liu <Zhan.Liu@amd.com>,
+ Roman Li <Roman.Li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Anthony Koo <Anthony.Koo@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_002_1639608428.1915455161
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Am 25.09.22 um 23:53 schrieb Daniel Gomez:
+> Removal of DC_FP_* wrappers from dml (9696679bf7ac) provokes a mutex
+> lock [2] on the amdgpu driver. Re-arrange the dcn10 code to avoid
+> locking the mutex by placing the DC_FP_* wrappers around the proper
+> functions.
 
-PHByZT4NCkhpLCYjMzI7WGlubGVpOg0KDQpBZnRlciYjMzI7Y2hhbmdlJiMzMjt0aGUmIzMyO3Rp
-dGxlJiMzMjt0byYjMzI7JiMzOTtTZXQmIzMyO2RwaSYjMzI7Zm9ybWF0JiMzMjtpbiYjMzI7bW1z
-eXMmIzM5OywNCg0KUmV2aWV3ZWQtYnk6JiMzMjtDSyYjMzI7SHUmIzMyOyZsdDtjay5odUBtZWRp
-YXRlay5jb20mZ3Q7DQoNClJlZ2FyZHMsDQpDSw0KDQpPbiYjMzI7RnJpLCYjMzI7MjAyMi0wOS0y
-MyYjMzI7YXQmIzMyOzE3OjU4JiMzMjsrMDgwMCwmIzMyO3hpbmxlaS5sZWVAbWVkaWF0ZWsuY29t
-JiMzMjt3cm90ZToNCiZndDsmIzMyO0Zyb206JiMzMjtYaW5sZWkmIzMyO0xlZSYjMzI7Jmx0O3hp
-bmxlaS5sZWVAbWVkaWF0ZWsuY29tJmd0Ow0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtEcGkmIzMyO291
-dHB1dCYjMzI7bmVlZHMmIzMyO3RvJiMzMjthZGp1c3QmIzMyO3RoZSYjMzI7b3V0cHV0JiMzMjtm
-b3JtYXQmIzMyO3RvJiMzMjtkdWFsJiMzMjtlZGdlJiMzMjtmb3ImIzMyO01UODE4Ni4NCiZndDsm
-IzMyOw0KJmd0OyYjMzI7Q28tZGV2ZWxvcGVkLWJ5OiYjMzI7Sml0YW8mIzMyO1NoaSYjMzI7Jmx0
-O2ppdGFvLnNoaUBtZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYjMzI7
-Sml0YW8mIzMyO1NoaSYjMzI7Jmx0O2ppdGFvLnNoaUBtZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMz
-MjtTaWduZWQtb2ZmLWJ5OiYjMzI7WGlubGVpJiMzMjtMZWUmIzMyOyZsdDt4aW5sZWkubGVlQG1l
-ZGlhdGVrLmNvbSZndDsNCiZndDsmIzMyOy0tLQ0KJmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2RwaS5jJiMzMjt8JiMzMjsxMSYjMzI7KysrKysrKysrKysNCiZndDsm
-IzMyOyYjMzI7MSYjMzI7ZmlsZSYjMzI7Y2hhbmdlZCwmIzMyOzExJiMzMjtpbnNlcnRpb25zKCsp
-DQomZ3Q7JiMzMjsNCiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHBpLmMNCiZndDsmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19kcGkuYw0KJmd0OyYjMzI7aW5kZXgmIzMyOzYzMGE0ZTMwMWVmNi4uYWQ4N2VjZGRmNThk
-JiMzMjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
-bXRrX2RwaS5jDQomZ3Q7JiMzMjsrKysmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kcGkuYw0KJmd0OyYjMzI7QEAmIzMyOy0xNSw2JiMzMjsrMTUsNyYjMzI7QEANCiZndDsmIzMy
-OyYjMzI7I2luY2x1ZGUmIzMyOyZsdDtsaW51eC9vZl9ncmFwaC5oJmd0Ow0KJmd0OyYjMzI7JiMz
-MjsjaW5jbHVkZSYjMzI7Jmx0O2xpbnV4L3BpbmN0cmwvY29uc3VtZXIuaCZndDsNCiZndDsmIzMy
-OyYjMzI7I2luY2x1ZGUmIzMyOyZsdDtsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaCZndDsNCiZndDsm
-IzMyOysjaW5jbHVkZSYjMzI7Jmx0O2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbW1zeXMuaCZndDsN
-CiZndDsmIzMyOyYjMzI7I2luY2x1ZGUmIzMyOyZsdDtsaW51eC90eXBlcy5oJmd0Ow0KJmd0OyYj
-MzI7JiMzMjsNCiZndDsmIzMyOyYjMzI7I2luY2x1ZGUmIzMyOyZsdDt2aWRlby92aWRlb21vZGUu
-aCZndDsNCiZndDsmIzMyO0BAJiMzMjstMzAsNiYjMzI7KzMxLDcmIzMyO0BADQomZ3Q7JiMzMjsm
-IzMyOyNpbmNsdWRlJiMzMjsmcXVvdDttdGtfZGlzcF9kcnYuaCZxdW90Ow0KJmd0OyYjMzI7JiMz
-MjsjaW5jbHVkZSYjMzI7JnF1b3Q7bXRrX2RwaV9yZWdzLmgmcXVvdDsNCiZndDsmIzMyOyYjMzI7
-I2luY2x1ZGUmIzMyOyZxdW90O210a19kcm1fZGRwX2NvbXAuaCZxdW90Ow0KJmd0OyYjMzI7KyNp
-bmNsdWRlJiMzMjsmcXVvdDttdGtfZHJtX2Rydi5oJnF1b3Q7DQomZ3Q7JiMzMjsmIzMyOw0KJmd0
-OyYjMzI7JiMzMjtlbnVtJiMzMjttdGtfZHBpX291dF9iaXRfbnVtJiMzMjt7DQomZ3Q7JiMzMjsm
-IzMyO01US19EUElfT1VUX0JJVF9OVU1fOEJJVFMsDQomZ3Q7JiMzMjtAQCYjMzI7LTY3LDYmIzMy
-Oys2OSw3JiMzMjtAQCYjMzI7c3RydWN0JiMzMjttdGtfZHBpJiMzMjt7DQomZ3Q7JiMzMjsmIzMy
-O3N0cnVjdCYjMzI7ZHJtX2Nvbm5lY3RvciYjMzI7KmNvbm5lY3RvcjsNCiZndDsmIzMyOyYjMzI7
-dm9pZCYjMzI7X19pb21lbSYjMzI7KnJlZ3M7DQomZ3Q7JiMzMjsmIzMyO3N0cnVjdCYjMzI7ZGV2
-aWNlJiMzMjsqZGV2Ow0KJmd0OyYjMzI7K3N0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqbW1zeXNfZGV2
-Ow0KJmd0OyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO2NsayYjMzI7KmVuZ2luZV9jbGs7DQomZ3Q7JiMz
-MjsmIzMyO3N0cnVjdCYjMzI7Y2xrJiMzMjsqcGl4ZWxfY2xrOw0KJmd0OyYjMzI7JiMzMjtzdHJ1
-Y3QmIzMyO2NsayYjMzI7KnR2ZF9jbGs7DQomZ3Q7JiMzMjtAQCYjMzI7LTEzNSw2JiMzMjsrMTM4
-LDcmIzMyO0BAJiMzMjtzdHJ1Y3QmIzMyO210a19kcGlfeWNfbGltaXQmIzMyO3sNCiZndDsmIzMy
-OyYjMzI7JiMzMjsqJiMzMjtAeXV2NDIyX2VuX2JpdDomIzMyO0VuYWJsZSYjMzI7Yml0JiMzMjtv
-ZiYjMzI7eXV2NDIyLg0KJmd0OyYjMzI7JiMzMjsmIzMyOyomIzMyO0Bjc2NfZW5hYmxlX2JpdDom
-IzMyO0VuYWJsZSYjMzI7Yml0JiMzMjtvZiYjMzI7Q1NDLg0KJmd0OyYjMzI7JiMzMjsmIzMyOyom
-IzMyO0BwaXhlbHNfcGVyX2l0ZXI6JiMzMjtRdWFudGl0eSYjMzI7b2YmIzMyO3RyYW5zZmVycmVk
-JiMzMjtwaXhlbHMmIzMyO3BlciYjMzI7aXRlcmF0aW9uLg0KJmd0OyYjMzI7KyYjMzI7KiYjMzI7
-QGVkZ2VfY2ZnX2luX21tc3lzOiYjMzI7SWYmIzMyO3RoZSYjMzI7ZWRnZSYjMzI7Y29uZmlndXJh
-dGlvbiYjMzI7Zm9yJiMzMjtEUEkmIzM5O3MmIzMyO291dHB1dA0KJmd0OyYjMzI7bmVlZHMmIzMy
-O3RvJiMzMjtiZSYjMzI7c2V0JiMzMjtpbiYjMzI7TU1TWVMuDQomZ3Q7JiMzMjsmIzMyOyYjMzI7
-Ki8NCiZndDsmIzMyOyYjMzI7c3RydWN0JiMzMjttdGtfZHBpX2NvbmYmIzMyO3sNCiZndDsmIzMy
-OyYjMzI7dW5zaWduZWQmIzMyO2ludCYjMzI7KCpjYWxfZmFjdG9yKShpbnQmIzMyO2Nsb2NrKTsN
-CiZndDsmIzMyO0BAJiMzMjstMTUzLDYmIzMyOysxNTcsNyYjMzI7QEAmIzMyO3N0cnVjdCYjMzI7
-bXRrX2RwaV9jb25mJiMzMjt7DQomZ3Q7JiMzMjsmIzMyO3UzMiYjMzI7eXV2NDIyX2VuX2JpdDsN
-CiZndDsmIzMyOyYjMzI7dTMyJiMzMjtjc2NfZW5hYmxlX2JpdDsNCiZndDsmIzMyOyYjMzI7dTMy
-JiMzMjtwaXhlbHNfcGVyX2l0ZXI7DQomZ3Q7JiMzMjsrYm9vbCYjMzI7ZWRnZV9jZmdfaW5fbW1z
-eXM7DQomZ3Q7JiMzMjsmIzMyO307DQomZ3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7JiMzMjtzdGF0
-aWMmIzMyO3ZvaWQmIzMyO210a19kcGlfbWFzayhzdHJ1Y3QmIzMyO210a19kcGkmIzMyOypkcGks
-JiMzMjt1MzImIzMyO29mZnNldCwmIzMyO3UzMiYjMzI7dmFsLA0KJmd0OyYjMzI7dTMyJiMzMjtt
-YXNrKQ0KJmd0OyYjMzI7QEAmIzMyOy00NDksOCYjMzI7KzQ1NCwxMiYjMzI7QEAmIzMyO3N0YXRp
-YyYjMzI7dm9pZCYjMzI7bXRrX2RwaV9kdWFsX2VkZ2Uoc3RydWN0JiMzMjttdGtfZHBpDQomZ3Q7
-JiMzMjsqZHBpKQ0KJmd0OyYjMzI7JiMzMjttdGtfZHBpX21hc2soZHBpLCYjMzI7RFBJX09VVFBV
-VF9TRVRUSU5HLA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7ZHBpLSZn
-dDtvdXRwdXRfZm10JiMzMjs9PQ0KJmd0OyYjMzI7TUVESUFfQlVTX0ZNVF9SR0I4ODhfMlgxMl9M
-RSYjMzI7JiM2MzsNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO0VER0Vf
-U0VMJiMzMjs6JiMzMjswLCYjMzI7RURHRV9TRUwpOw0KJmd0OyYjMzI7K2lmJiMzMjsoZHBpLSZn
-dDtjb25mLSZndDtlZGdlX2NmZ19pbl9tbXN5cykNCiZndDsmIzMyOyttdGtfbW1zeXNfZGRwX2Rw
-aV9mbXRfY29uZmlnKGRwaS0mZ3Q7bW1zeXNfZGV2LA0KJmd0OyYjMzI7TVRLX0RQSV9SR0I4ODhf
-RERSX0NPTik7DQomZ3Q7JiMzMjsmIzMyO30mIzMyO2Vsc2UmIzMyO3sNCiZndDsmIzMyOyYjMzI7
-bXRrX2RwaV9tYXNrKGRwaSwmIzMyO0RQSV9ERFJfU0VUVElORywmIzMyO0REUl9FTiYjMzI7fCYj
-MzI7RERSXzRQSEFTRSwNCiZndDsmIzMyOzApOw0KJmd0OyYjMzI7K2lmJiMzMjsoZHBpLSZndDtj
-b25mLSZndDtlZGdlX2NmZ19pbl9tbXN5cykNCiZndDsmIzMyOyttdGtfbW1zeXNfZGRwX2RwaV9m
-bXRfY29uZmlnKGRwaS0mZ3Q7bW1zeXNfZGV2LA0KJmd0OyYjMzI7TVRLX0RQSV9SR0I4ODhfU0RS
-X0NPTik7DQomZ3Q7JiMzMjsmIzMyO30NCiZndDsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7JiMzMjsN
-CiZndDsmIzMyO0BAJiMzMjstNzc4LDgmIzMyOys3ODcsMTAmIzMyO0BAJiMzMjtzdGF0aWMmIzMy
-O2ludCYjMzI7bXRrX2RwaV9iaW5kKHN0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqZGV2LA0KJmd0OyYj
-MzI7c3RydWN0JiMzMjtkZXZpY2UmIzMyOyptYXN0ZXIsJiMzMjt2b2lkJiMzMjsqZGF0YSkNCiZn
-dDsmIzMyOyYjMzI7ew0KJmd0OyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO210a19kcGkmIzMyOypkcGkm
-IzMyOz0mIzMyO2Rldl9nZXRfZHJ2ZGF0YShkZXYpOw0KJmd0OyYjMzI7JiMzMjtzdHJ1Y3QmIzMy
-O2RybV9kZXZpY2UmIzMyOypkcm1fZGV2JiMzMjs9JiMzMjtkYXRhOw0KJmd0OyYjMzI7K3N0cnVj
-dCYjMzI7bXRrX2RybV9wcml2YXRlJiMzMjsqcHJpdiYjMzI7PSYjMzI7ZHJtX2Rldi0mZ3Q7ZGV2
-X3ByaXZhdGU7DQomZ3Q7JiMzMjsmIzMyO2ludCYjMzI7cmV0Ow0KJmd0OyYjMzI7JiMzMjsNCiZn
-dDsmIzMyOytkcGktJmd0O21tc3lzX2RldiYjMzI7PSYjMzI7cHJpdi0mZ3Q7bW1zeXNfZGV2Ow0K
-Jmd0OyYjMzI7JiMzMjtyZXQmIzMyOz0mIzMyO2RybV9zaW1wbGVfZW5jb2Rlcl9pbml0KGRybV9k
-ZXYsJiMzMjsmYW1wO2RwaS0mZ3Q7ZW5jb2RlciwNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7RFJNX01PREVfRU5DT0RFUl9UTURTKTsNCiZndDsmIzMyOyYjMzI7
-aWYmIzMyOyhyZXQpJiMzMjt7DQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+
-KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioq
-KioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3Nh
-Z2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJv
-cHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3Vy
-ZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQg
-b25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRp
-b24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhp
-cyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNp
-cGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElm
-IHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVs
-aWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFz
-ZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUt
-bWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVk
-aW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xv
-c2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsg
-eW91IQ0KPC9wcmU+PCEtLX0tLT4=
+Of hand that looks correct to me now, but our DC team needs to take a 
+closer look.
 
---__=_Part_Boundary_002_1639608428.1915455161
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Regards,
+Christian.
 
-SGksIFhpbmxlaToNCg0KQWZ0ZXIgY2hhbmdlIHRoZSB0aXRsZSB0byAnU2V0IGRwaSBmb3JtYXQg
-aW4gbW1zeXMnLA0KDQpSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4NCg0K
-UmVnYXJkcywNCkNLDQoNCk9uIEZyaSwgMjAyMi0wOS0yMyBhdCAxNzo1OCArMDgwMCwgeGlubGVp
-LmxlZUBtZWRpYXRlay5jb20gd3JvdGU6DQo+IEZyb206IFhpbmxlaSBMZWUgPHhpbmxlaS5sZWVA
-bWVkaWF0ZWsuY29tPg0KPiANCj4gRHBpIG91dHB1dCBuZWVkcyB0byBhZGp1c3QgdGhlIG91dHB1
-dCBmb3JtYXQgdG8gZHVhbCBlZGdlIGZvciBNVDgxODYuDQo+IA0KPiBDby1kZXZlbG9wZWQtYnk6
-IEppdGFvIFNoaSA8aml0YW8uc2hpQG1lZGlhdGVrLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogSml0
-YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBYaW5sZWkg
-TGVlIDx4aW5sZWkubGVlQG1lZGlhdGVrLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RwaS5jIHwgMTEgKysrKysrKysrKysNCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
-MSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcGkuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHBpLmMNCj4g
-aW5kZXggNjMwYTRlMzAxZWY2Li5hZDg3ZWNkZGY1OGQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZHBpLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcGkuYw0KPiBAQCAtMTUsNiArMTUsNyBAQA0KPiAgI2luY2x1ZGUgPGxpbnV4L29m
-X2dyYXBoLmg+DQo+ICAjaW5jbHVkZSA8bGludXgvcGluY3RybC9jb25zdW1lci5oPg0KPiAgI2lu
-Y2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L3NvYy9t
-ZWRpYXRlay9tdGstbW1zeXMuaD4NCj4gICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPg0KPiAgDQo+
-ICAjaW5jbHVkZSA8dmlkZW8vdmlkZW9tb2RlLmg+DQo+IEBAIC0zMCw2ICszMSw3IEBADQo+ICAj
-aW5jbHVkZSAibXRrX2Rpc3BfZHJ2LmgiDQo+ICAjaW5jbHVkZSAibXRrX2RwaV9yZWdzLmgiDQo+
-ICAjaW5jbHVkZSAibXRrX2RybV9kZHBfY29tcC5oIg0KPiArI2luY2x1ZGUgIm10a19kcm1fZHJ2
-LmgiDQo+ICANCj4gIGVudW0gbXRrX2RwaV9vdXRfYml0X251bSB7DQo+ICAJTVRLX0RQSV9PVVRf
-QklUX05VTV84QklUUywNCj4gQEAgLTY3LDYgKzY5LDcgQEAgc3RydWN0IG10a19kcGkgew0KPiAg
-CXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3I7DQo+ICAJdm9pZCBfX2lvbWVtICpyZWdz
-Ow0KPiAgCXN0cnVjdCBkZXZpY2UgKmRldjsNCj4gKwlzdHJ1Y3QgZGV2aWNlICptbXN5c19kZXY7
-DQo+ICAJc3RydWN0IGNsayAqZW5naW5lX2NsazsNCj4gIAlzdHJ1Y3QgY2xrICpwaXhlbF9jbGs7
-DQo+ICAJc3RydWN0IGNsayAqdHZkX2NsazsNCj4gQEAgLTEzNSw2ICsxMzgsNyBAQCBzdHJ1Y3Qg
-bXRrX2RwaV95Y19saW1pdCB7DQo+ICAgKiBAeXV2NDIyX2VuX2JpdDogRW5hYmxlIGJpdCBvZiB5
-dXY0MjIuDQo+ICAgKiBAY3NjX2VuYWJsZV9iaXQ6IEVuYWJsZSBiaXQgb2YgQ1NDLg0KPiAgICog
-QHBpeGVsc19wZXJfaXRlcjogUXVhbnRpdHkgb2YgdHJhbnNmZXJyZWQgcGl4ZWxzIHBlciBpdGVy
-YXRpb24uDQo+ICsgKiBAZWRnZV9jZmdfaW5fbW1zeXM6IElmIHRoZSBlZGdlIGNvbmZpZ3VyYXRp
-b24gZm9yIERQSSdzIG91dHB1dA0KPiBuZWVkcyB0byBiZSBzZXQgaW4gTU1TWVMuDQo+ICAgKi8N
-Cj4gIHN0cnVjdCBtdGtfZHBpX2NvbmYgew0KPiAgCXVuc2lnbmVkIGludCAoKmNhbF9mYWN0b3Ip
-KGludCBjbG9jayk7DQo+IEBAIC0xNTMsNiArMTU3LDcgQEAgc3RydWN0IG10a19kcGlfY29uZiB7
-DQo+ICAJdTMyIHl1djQyMl9lbl9iaXQ7DQo+ICAJdTMyIGNzY19lbmFibGVfYml0Ow0KPiAgCXUz
-MiBwaXhlbHNfcGVyX2l0ZXI7DQo+ICsJYm9vbCBlZGdlX2NmZ19pbl9tbXN5czsNCj4gIH07DQo+
-ICANCj4gIHN0YXRpYyB2b2lkIG10a19kcGlfbWFzayhzdHJ1Y3QgbXRrX2RwaSAqZHBpLCB1MzIg
-b2Zmc2V0LCB1MzIgdmFsLA0KPiB1MzIgbWFzaykNCj4gQEAgLTQ0OSw4ICs0NTQsMTIgQEAgc3Rh
-dGljIHZvaWQgbXRrX2RwaV9kdWFsX2VkZ2Uoc3RydWN0IG10a19kcGkNCj4gKmRwaSkNCj4gIAkJ
-bXRrX2RwaV9tYXNrKGRwaSwgRFBJX09VVFBVVF9TRVRUSU5HLA0KPiAgCQkJICAgICBkcGktPm91
-dHB1dF9mbXQgPT0NCj4gTUVESUFfQlVTX0ZNVF9SR0I4ODhfMlgxMl9MRSA/DQo+ICAJCQkgICAg
-IEVER0VfU0VMIDogMCwgRURHRV9TRUwpOw0KPiArCQlpZiAoZHBpLT5jb25mLT5lZGdlX2NmZ19p
-bl9tbXN5cykNCj4gKwkJCW10a19tbXN5c19kZHBfZHBpX2ZtdF9jb25maWcoZHBpLT5tbXN5c19k
-ZXYsDQo+IE1US19EUElfUkdCODg4X0REUl9DT04pOw0KPiAgCX0gZWxzZSB7DQo+ICAJCW10a19k
-cGlfbWFzayhkcGksIERQSV9ERFJfU0VUVElORywgRERSX0VOIHwgRERSXzRQSEFTRSwNCj4gMCk7
-DQo+ICsJCWlmIChkcGktPmNvbmYtPmVkZ2VfY2ZnX2luX21tc3lzKQ0KPiArCQkJbXRrX21tc3lz
-X2RkcF9kcGlfZm10X2NvbmZpZyhkcGktPm1tc3lzX2RldiwNCj4gTVRLX0RQSV9SR0I4ODhfU0RS
-X0NPTik7DQo+ICAJfQ0KPiAgfQ0KPiAgDQo+IEBAIC03NzgsOCArNzg3LDEwIEBAIHN0YXRpYyBp
-bnQgbXRrX2RwaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwNCj4gc3RydWN0IGRldmljZSAqbWFz
-dGVyLCB2b2lkICpkYXRhKQ0KPiAgew0KPiAgCXN0cnVjdCBtdGtfZHBpICpkcGkgPSBkZXZfZ2V0
-X2RydmRhdGEoZGV2KTsNCj4gIAlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtX2RldiA9IGRhdGE7DQo+
-ICsJc3RydWN0IG10a19kcm1fcHJpdmF0ZSAqcHJpdiA9IGRybV9kZXYtPmRldl9wcml2YXRlOw0K
-PiAgCWludCByZXQ7DQo+ICANCj4gKwlkcGktPm1tc3lzX2RldiA9IHByaXYtPm1tc3lzX2RldjsN
-Cj4gIAlyZXQgPSBkcm1fc2ltcGxlX2VuY29kZXJfaW5pdChkcm1fZGV2LCAmZHBpLT5lbmNvZGVy
-LA0KPiAgCQkJCSAgICAgIERSTV9NT0RFX0VOQ09ERVJfVE1EUyk7DQo+ICAJaWYgKHJldCkgew0K
-
---__=_Part_Boundary_002_1639608428.1915455161--
+>
+> This fixes the following WARN/stacktrace:
+>
+> BUG: sleeping function called from invalid context at kernel/locking/mutex.c:283
+> in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 227, name: systemd-udevd
+> preempt_count: 1, expected: 0
+> CPU: 4 PID: 227 Comm: systemd-udevd Not tainted 6.0.0-rc6-qtec-standard #2
+> Hardware name: Qtechnology A/S QT5222/QT5221, BIOS v1.0.1 06/07/2021
+> Call Trace:
+>   <TASK>
+>   dump_stack_lvl+0x33/0x42
+>   __might_resched.cold.172+0xa5/0xb3
+>   mutex_lock+0x1a/0x40
+>   amdgpu_dpm_get_clock_by_type_with_voltage+0x38/0x70 [amdgpu]
+>   dm_pp_get_clock_levels_by_type_with_voltage+0x64/0xa0 [amdgpu]
+>   dcn_bw_update_from_pplib+0x70/0x340 [amdgpu]
+>   dcn10_create_resource_pool+0x8c8/0xd20 [amdgpu]
+>   ? __kmalloc+0x1c7/0x4a0
+>   dc_create_resource_pool+0xe7/0x190 [amdgpu]
+>   dc_create+0x212/0x5d0 [amdgpu]
+>   amdgpu_dm_init+0x246/0x370 [amdgpu]
+>   ? schedule_hrtimeout_range_clock+0x93/0x120
+>   ? phm_wait_for_register_unequal.part.1+0x4a/0x80 [amdgpu]
+>   dm_hw_init+0xe/0x20 [amdgpu]
+>   amdgpu_device_init.cold.56+0x1324/0x1653 [amdgpu]
+>   ? pci_bus_read_config_word+0x43/0x80
+>   amdgpu_driver_load_kms+0x15/0x120 [amdgpu]
+>   amdgpu_pci_probe+0x116/0x320 [amdgpu]
+>   pci_device_probe+0x97/0x110
+>   really_probe+0xdd/0x340
+>   __driver_probe_device+0x80/0x170
+>   driver_probe_device+0x1f/0x90
+>   __driver_attach+0xdc/0x180
+>   ? __device_attach_driver+0x100/0x100
+>   ? __device_attach_driver+0x100/0x100
+>   bus_for_each_dev+0x74/0xc0
+>   bus_add_driver+0x19e/0x210
+>   ? kset_find_obj+0x30/0xa0
+>   ? 0xffffffffa0a5b000
+>   driver_register+0x6b/0xc0
+>   ? 0xffffffffa0a5b000
+>   do_one_initcall+0x4a/0x1f0
+>   ? __vunmap+0x28e/0x2f0
+>   ? __cond_resched+0x15/0x30
+>   ? kmem_cache_alloc_trace+0x3d/0x440
+>   do_init_module+0x4a/0x1e0
+>   load_module+0x1cba/0x1e10
+>   ? __do_sys_finit_module+0xb7/0x120
+>   __do_sys_finit_module+0xb7/0x120
+>   do_syscall_64+0x3c/0x80
+>   entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> RIP: 0033:0x7ff2b5f5422d
+> Code: 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48
+> 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48>
+> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c3 ab 0e 00 f7 d8 64 89 01 48
+> RSP: 002b:00007ffc44ab28e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+> RAX: ffffffffffffffda RBX: 0000555c566a9240 RCX: 00007ff2b5f5422d
+> RDX: 0000000000000000 RSI: 00007ff2b60bb353 RDI: 0000000000000019
+> RBP: 00007ff2b60bb353 R08: 0000000000000000 R09: 0000555c566a9240
+> R10: 0000000000000019 R11: 0000000000000246 R12: 0000000000000000
+> R13: 0000000000020000 R14: 0000000000000000 R15: 0000000000000000
+> </TASK>
+>
+> Fixes: 9696679bf7ac ("drm/amd/display: remove DC_FP_* wrapper from
+> dml folder")
+> Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> ---
+>   .../amd/display/dc/dcn10/dcn10_hw_sequencer.c |  12 +-
+>   .../drm/amd/display/dc/dcn10/dcn10_resource.c |  66 +++++++++-
+>   .../drm/amd/display/dc/dml/calcs/dcn_calcs.c  | 118 ++++++++----------
+>   .../gpu/drm/amd/display/dc/inc/dcn_calcs.h    |  19 ++-
+>   4 files changed, 138 insertions(+), 77 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> index 5b5d952b2b8c..cb1e06d62841 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> @@ -2994,6 +2994,7 @@ void dcn10_prepare_bandwidth(
+>   {
+>   	struct dce_hwseq *hws = dc->hwseq;
+>   	struct hubbub *hubbub = dc->res_pool->hubbub;
+> +	int min_fclk_khz, min_dcfclk_khz, socclk_khz;
+>   
+>   	if (dc->debug.sanity_checks)
+>   		hws->funcs.verify_allow_pstate_change_high(dc);
+> @@ -3016,8 +3017,11 @@ void dcn10_prepare_bandwidth(
+>   
+>   	if (dc->debug.pplib_wm_report_mode == WM_REPORT_OVERRIDE) {
+>   		DC_FP_START();
+> -		dcn_bw_notify_pplib_of_wm_ranges(dc);
+> +		dcn_get_soc_clks(
+> +			dc, &min_fclk_khz, &min_dcfclk_khz, &socclk_khz);
+>   		DC_FP_END();
+> +		dcn_bw_notify_pplib_of_wm_ranges(
+> +			dc, min_fclk_khz, min_dcfclk_khz, socclk_khz);
+>   	}
+>   
+>   	if (dc->debug.sanity_checks)
+> @@ -3030,6 +3034,7 @@ void dcn10_optimize_bandwidth(
+>   {
+>   	struct dce_hwseq *hws = dc->hwseq;
+>   	struct hubbub *hubbub = dc->res_pool->hubbub;
+> +	int min_fclk_khz, min_dcfclk_khz, socclk_khz;
+>   
+>   	if (dc->debug.sanity_checks)
+>   		hws->funcs.verify_allow_pstate_change_high(dc);
+> @@ -3053,8 +3058,11 @@ void dcn10_optimize_bandwidth(
+>   
+>   	if (dc->debug.pplib_wm_report_mode == WM_REPORT_OVERRIDE) {
+>   		DC_FP_START();
+> -		dcn_bw_notify_pplib_of_wm_ranges(dc);
+> +		dcn_get_soc_clks(
+> +			dc, &min_fclk_khz, &min_dcfclk_khz, &socclk_khz);
+>   		DC_FP_END();
+> +		dcn_bw_notify_pplib_of_wm_ranges(
+> +			dc, min_fclk_khz, min_dcfclk_khz, socclk_khz);
+>   	}
+>   
+>   	if (dc->debug.sanity_checks)
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
+> index 174eebbe8b4f..a18a5b56ca7d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
+> @@ -1336,6 +1336,21 @@ static noinline void dcn10_resource_construct_fp(
+>   	}
+>   }
+>   
+> +static bool verify_clock_values(struct dm_pp_clock_levels_with_voltage *clks)
+> +{
+> +	int i;
+> +
+> +	if (clks->num_levels == 0)
+> +		return false;
+> +
+> +	for (i = 0; i < clks->num_levels; i++)
+> +		/* Ensure that the result is sane */
+> +		if (clks->data[i].clocks_in_khz == 0)
+> +			return false;
+> +
+> +	return true;
+> +}
+> +
+>   static bool dcn10_resource_construct(
+>   	uint8_t num_virtual_links,
+>   	struct dc *dc,
+> @@ -1345,6 +1360,9 @@ static bool dcn10_resource_construct(
+>   	int j;
+>   	struct dc_context *ctx = dc->ctx;
+>   	uint32_t pipe_fuses = read_pipe_fuses(ctx);
+> +	struct dm_pp_clock_levels_with_voltage fclks = {0}, dcfclks = {0};
+> +	int min_fclk_khz, min_dcfclk_khz, socclk_khz;
+> +	bool res;
+>   
+>   	ctx->dc_bios->regs = &bios_regs;
+>   
+> @@ -1505,15 +1523,53 @@ static bool dcn10_resource_construct(
+>   			&& pool->base.pp_smu->rv_funcs.set_pme_wa_enable != NULL)
+>   		dc->debug.az_endpoint_mute_only = false;
+>   
+> -	DC_FP_START();
+> -	if (!dc->debug.disable_pplib_clock_request)
+> -		dcn_bw_update_from_pplib(dc);
+> +
+> +	if (!dc->debug.disable_pplib_clock_request) {
+> +		/*
+> +		 * TODO: This is not the proper way to obtain
+> +		 * fabric_and_dram_bandwidth, should be min(fclk, memclk).
+> +		 */
+> +		res = dm_pp_get_clock_levels_by_type_with_voltage(
+> +				ctx, DM_PP_CLOCK_TYPE_FCLK, &fclks);
+> +
+> +		DC_FP_START();
+> +
+> +		if (res)
+> +			res = verify_clock_values(&fclks);
+> +
+> +		if (res)
+> +			dcn_bw_update_from_pplib_fclks(dc, &fclks);
+> +		else
+> +			BREAK_TO_DEBUGGER();
+> +
+> +		DC_FP_END();
+> +
+> +		res = dm_pp_get_clock_levels_by_type_with_voltage(
+> +			ctx, DM_PP_CLOCK_TYPE_DCFCLK, &dcfclks);
+> +
+> +		DC_FP_START();
+> +
+> +		if (res)
+> +			res = verify_clock_values(&dcfclks);
+> +
+> +		if (res)
+> +			dcn_bw_update_from_pplib_dcfclks(dc, &dcfclks);
+> +		else
+> +			BREAK_TO_DEBUGGER();
+> +
+> +		DC_FP_END();
+> +	}
+> +
+>   	dcn_bw_sync_calcs_and_dml(dc);
+>   	if (!dc->debug.disable_pplib_wm_range) {
+>   		dc->res_pool = &pool->base;
+> -		dcn_bw_notify_pplib_of_wm_ranges(dc);
+> +		DC_FP_START();
+> +		dcn_get_soc_clks(
+> +			dc, &min_fclk_khz, &min_dcfclk_khz, &socclk_khz);
+> +		DC_FP_END();
+> +		dcn_bw_notify_pplib_of_wm_ranges(
+> +			dc, min_fclk_khz, min_dcfclk_khz, socclk_khz);
+>   	}
+> -	DC_FP_END();
+>   
+>   	{
+>   		struct irq_service_init_data init_data;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c b/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c
+> index db3b16b77034..7d3394470352 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c
+> @@ -1464,81 +1464,67 @@ unsigned int dcn_find_dcfclk_suits_all(
+>   	return dcf_clk;
+>   }
+>   
+> -static bool verify_clock_values(struct dm_pp_clock_levels_with_voltage *clks)
+> +void dcn_bw_update_from_pplib_fclks(
+> +	struct dc *dc,
+> +	struct dm_pp_clock_levels_with_voltage *fclks)
+>   {
+> -	int i;
+> -
+> -	if (clks->num_levels == 0)
+> -		return false;
+> -
+> -	for (i = 0; i < clks->num_levels; i++)
+> -		/* Ensure that the result is sane */
+> -		if (clks->data[i].clocks_in_khz == 0)
+> -			return false;
+> +	unsigned vmin0p65_idx, vmid0p72_idx, vnom0p8_idx, vmax0p9_idx;
+>   
+> -	return true;
+> +	ASSERT(fclks->num_levels);
+> +
+> +	vmin0p65_idx = 0;
+> +	vmid0p72_idx = fclks->num_levels -
+> +		(fclks->num_levels > 2 ? 3 : (fclks->num_levels > 1 ? 2 : 1));
+> +	vnom0p8_idx = fclks->num_levels - (fclks->num_levels > 1 ? 2 : 1);
+> +	vmax0p9_idx = fclks->num_levels - 1;
+> +
+> +	dc->dcn_soc->fabric_and_dram_bandwidth_vmin0p65 =
+> +		32 * (fclks->data[vmin0p65_idx].clocks_in_khz / 1000.0) / 1000.0;
+> +	dc->dcn_soc->fabric_and_dram_bandwidth_vmid0p72 =
+> +		dc->dcn_soc->number_of_channels *
+> +		(fclks->data[vmid0p72_idx].clocks_in_khz / 1000.0)
+> +		* ddr4_dram_factor_single_Channel / 1000.0;
+> +	dc->dcn_soc->fabric_and_dram_bandwidth_vnom0p8 =
+> +		dc->dcn_soc->number_of_channels *
+> +		(fclks->data[vnom0p8_idx].clocks_in_khz / 1000.0)
+> +		* ddr4_dram_factor_single_Channel / 1000.0;
+> +	dc->dcn_soc->fabric_and_dram_bandwidth_vmax0p9 =
+> +		dc->dcn_soc->number_of_channels *
+> +		(fclks->data[vmax0p9_idx].clocks_in_khz / 1000.0)
+> +		* ddr4_dram_factor_single_Channel / 1000.0;
+>   }
+>   
+> -void dcn_bw_update_from_pplib(struct dc *dc)
+> +void dcn_bw_update_from_pplib_dcfclks(
+> +	struct dc *dc,
+> +	struct dm_pp_clock_levels_with_voltage *dcfclks)
+>   {
+> -	struct dc_context *ctx = dc->ctx;
+> -	struct dm_pp_clock_levels_with_voltage fclks = {0}, dcfclks = {0};
+> -	bool res;
+> -	unsigned vmin0p65_idx, vmid0p72_idx, vnom0p8_idx, vmax0p9_idx;
+> -
+> -	/* TODO: This is not the proper way to obtain fabric_and_dram_bandwidth, should be min(fclk, memclk) */
+> -	res = dm_pp_get_clock_levels_by_type_with_voltage(
+> -			ctx, DM_PP_CLOCK_TYPE_FCLK, &fclks);
+> -
+> -	if (res)
+> -		res = verify_clock_values(&fclks);
+> -
+> -	if (res) {
+> -		ASSERT(fclks.num_levels);
+> -
+> -		vmin0p65_idx = 0;
+> -		vmid0p72_idx = fclks.num_levels -
+> -			(fclks.num_levels > 2 ? 3 : (fclks.num_levels > 1 ? 2 : 1));
+> -		vnom0p8_idx = fclks.num_levels - (fclks.num_levels > 1 ? 2 : 1);
+> -		vmax0p9_idx = fclks.num_levels - 1;
+> -
+> -		dc->dcn_soc->fabric_and_dram_bandwidth_vmin0p65 =
+> -			32 * (fclks.data[vmin0p65_idx].clocks_in_khz / 1000.0) / 1000.0;
+> -		dc->dcn_soc->fabric_and_dram_bandwidth_vmid0p72 =
+> -			dc->dcn_soc->number_of_channels *
+> -			(fclks.data[vmid0p72_idx].clocks_in_khz / 1000.0)
+> -			* ddr4_dram_factor_single_Channel / 1000.0;
+> -		dc->dcn_soc->fabric_and_dram_bandwidth_vnom0p8 =
+> -			dc->dcn_soc->number_of_channels *
+> -			(fclks.data[vnom0p8_idx].clocks_in_khz / 1000.0)
+> -			* ddr4_dram_factor_single_Channel / 1000.0;
+> -		dc->dcn_soc->fabric_and_dram_bandwidth_vmax0p9 =
+> -			dc->dcn_soc->number_of_channels *
+> -			(fclks.data[vmax0p9_idx].clocks_in_khz / 1000.0)
+> -			* ddr4_dram_factor_single_Channel / 1000.0;
+> -	} else
+> -		BREAK_TO_DEBUGGER();
+> -
+> -	res = dm_pp_get_clock_levels_by_type_with_voltage(
+> -			ctx, DM_PP_CLOCK_TYPE_DCFCLK, &dcfclks);
+> -
+> -	if (res)
+> -		res = verify_clock_values(&dcfclks);
+> +	if (dcfclks->num_levels >= 3) {
+> +		dc->dcn_soc->dcfclkv_min0p65 = dcfclks->data[0].clocks_in_khz / 1000.0;
+> +		dc->dcn_soc->dcfclkv_mid0p72 = dcfclks->data[dcfclks->num_levels - 3].clocks_in_khz / 1000.0;
+> +		dc->dcn_soc->dcfclkv_nom0p8 = dcfclks->data[dcfclks->num_levels - 2].clocks_in_khz / 1000.0;
+> +		dc->dcn_soc->dcfclkv_max0p9 = dcfclks->data[dcfclks->num_levels - 1].clocks_in_khz / 1000.0;
+> +	}
+> +}
+>   
+> -	if (res && dcfclks.num_levels >= 3) {
+> -		dc->dcn_soc->dcfclkv_min0p65 = dcfclks.data[0].clocks_in_khz / 1000.0;
+> -		dc->dcn_soc->dcfclkv_mid0p72 = dcfclks.data[dcfclks.num_levels - 3].clocks_in_khz / 1000.0;
+> -		dc->dcn_soc->dcfclkv_nom0p8 = dcfclks.data[dcfclks.num_levels - 2].clocks_in_khz / 1000.0;
+> -		dc->dcn_soc->dcfclkv_max0p9 = dcfclks.data[dcfclks.num_levels - 1].clocks_in_khz / 1000.0;
+> -	} else
+> -		BREAK_TO_DEBUGGER();
+> +void dcn_get_soc_clks(
+> +	struct dc *dc,
+> +	int *min_fclk_khz,
+> +	int *min_dcfclk_khz,
+> +	int *socclk_khz)
+> +{
+> +	*min_fclk_khz = dc->dcn_soc->fabric_and_dram_bandwidth_vmin0p65 * 1000000 / 32;
+> +	*min_dcfclk_khz = dc->dcn_soc->dcfclkv_min0p65 * 1000;
+> +	*socclk_khz = dc->dcn_soc->socclk * 1000;
+>   }
+>   
+> -void dcn_bw_notify_pplib_of_wm_ranges(struct dc *dc)
+> +void dcn_bw_notify_pplib_of_wm_ranges(
+> +	struct dc *dc,
+> +	int min_fclk_khz,
+> +	int min_dcfclk_khz,
+> +	int socclk_khz)
+>   {
+>   	struct pp_smu_funcs_rv *pp = NULL;
+>   	struct pp_smu_wm_range_sets ranges = {0};
+> -	int min_fclk_khz, min_dcfclk_khz, socclk_khz;
+>   	const int overdrive = 5000000; /* 5 GHz to cover Overdrive */
+>   
+>   	if (dc->res_pool->pp_smu)
+> @@ -1546,10 +1532,6 @@ void dcn_bw_notify_pplib_of_wm_ranges(struct dc *dc)
+>   	if (!pp || !pp->set_wm_ranges)
+>   		return;
+>   
+> -	min_fclk_khz = dc->dcn_soc->fabric_and_dram_bandwidth_vmin0p65 * 1000000 / 32;
+> -	min_dcfclk_khz = dc->dcn_soc->dcfclkv_min0p65 * 1000;
+> -	socclk_khz = dc->dcn_soc->socclk * 1000;
+> -
+>   	/* Now notify PPLib/SMU about which Watermarks sets they should select
+>   	 * depending on DPM state they are in. And update BW MGR GFX Engine and
+>   	 * Memory clock member variables for Watermarks calculations for each
+> diff --git a/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h b/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h
+> index 806f3041db14..9e4ddc985240 100644
+> --- a/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h
+> +++ b/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h
+> @@ -628,8 +628,23 @@ unsigned int dcn_find_dcfclk_suits_all(
+>   	const struct dc *dc,
+>   	struct dc_clocks *clocks);
+>   
+> -void dcn_bw_update_from_pplib(struct dc *dc);
+> -void dcn_bw_notify_pplib_of_wm_ranges(struct dc *dc);
+> +void dcn_get_soc_clks(
+> +		struct dc *dc,
+> +		int *min_fclk_khz,
+> +		int *min_dcfclk_khz,
+> +		int *socclk_khz);
+> +
+> +void dcn_bw_update_from_pplib_fclks(
+> +		struct dc *dc,
+> +		struct dm_pp_clock_levels_with_voltage *fclks);
+> +void dcn_bw_update_from_pplib_dcfclks(
+> +		struct dc *dc,
+> +		struct dm_pp_clock_levels_with_voltage *dcfclks);
+> +void dcn_bw_notify_pplib_of_wm_ranges(
+> +		struct dc *dc,
+> +		int min_fclk_khz,
+> +		int min_dcfclk_khz,
+> +		int socclk_khz);
+>   void dcn_bw_sync_calcs_and_dml(struct dc *dc);
+>   
+>   enum source_macro_tile_size swizzle_mode_to_macro_tile_size(enum swizzle_mode_values sw_mode);
 
