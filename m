@@ -1,81 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C185E9F0F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 12:19:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F063E5E9F35
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 12:21:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC1E10E679;
-	Mon, 26 Sep 2022 10:19:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72C2410E3DA;
+	Mon, 26 Sep 2022 10:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E76310E677;
- Mon, 26 Sep 2022 10:18:57 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 126772B06A11;
- Mon, 26 Sep 2022 06:18:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 26 Sep 2022 06:18:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1664187531; x=1664194731; bh=5Mi0ax84vN
- Q8Ik9brdJtvB0uXGlTRxv6OA013bAZpL0=; b=mPjz0W9wujiA8FNtfwEiBpyqV5
- Uqi3K6rfEHhCDoLBYocGrwnZDkbF04q7vXpH25z1j96pKnGkXXWVq7RygYRVO1+k
- Zt0FV7UI3P08wPJrRa1bI+g8iOUe1VL7ortevqgZnntf8sBJ0oObT5s5wvThe1Ua
- Z/YmKoMgwJTphA0EKfpEOFT9LBCN1c+H9u0o9ioZecJgfvan31OYF4ZpDtOjJlPN
- 4bUOs4vjlK09jFXq23EPpj2q7SNBTV4zNsMKuhQf1BTZA2PREikwGuiZybx0NtOk
- Y46T3p/xM3pHwPrSL7WvKZlANcOzZ2Fz/kv1vU/+cbaiVtIGDpTm5IqWH4lw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1664187531; x=1664194731; bh=5Mi0ax84vNQ8Ik9brdJtvB0uXGlT
- Rxv6OA013bAZpL0=; b=Pbd2EZ6uT1eqTF/biLA5le3FiI0tHPHXbHbzJ8Vaihts
- LTM+fBnyxQHyTNztlAJUtYHpBhW8tok8RUeg3ikKxP+yOyqKz+epGAtLuMkFjMBG
- fBQ9B0BFxeWxMYcg9hrPSxljJ6A3tikN73bhwcFqHyPjXMoBmMzBcIjoroP6cAKm
- JEeUn55n34+nZLMUn9sQPzQeEl/PzfYJkheXxbMsmq+NUZgXT+YBJc260YmJSQk3
- N5X3nUBPLA0zQHgpVpvTQ8s315+DEplU18scVVRJ9dvWw5RMmXzDnVDAdDK5zG8S
- VO/Ctzt65RgiKeKDHjzo2p3pxw67zdDYOJRt/Xb7ag==
-X-ME-Sender: <xms:i3wxY9xwl3kZ_jM-VepsytbsBLcquF37MQJo8kAEWTA8q21bZvO7tw>
- <xme:i3wxY9TRpu9pHpxHNHWwm1Xjg0uMZ_NVDETo_Mb7kgDFQeOOQA2RUSM0YMj-n4NuF
- f_d6K9TMfgVwGlxiZA>
-X-ME-Received: <xmr:i3wxY3UnXCmOxPzS0jXYbtpvMezjClRHQgLY1Vr8iQbNQ-ezMNzSSyNUnOq8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgvdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpefgueeutdefgfevveehjeefgeehvdejjeefheekffduteeutdfgieeiieff
- uedtffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
- tghh
-X-ME-Proxy: <xmx:i3wxY_hWb4KR6szUdqDRlDMUrKa3vyQpFMbSn83YrPlgjm1QHttysg>
- <xmx:i3wxY_Cbbgr9IV5qY0e5CWHmSc0Lke64rk1YaA1Jwq3leJIoT65MoQ>
- <xmx:i3wxY4KhWDOB6CajfkPU9JMoeW1otbcqvviAR3jcDVfv_mZhEgy4Fw>
- <xmx:i3wxY7gCjKLywrsbaBhdNtzjYdmSzjvNIh1YfEz5SGHfusRLWhAIMT6mGVY>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Sep 2022 06:18:50 -0400 (EDT)
-Date: Mon, 26 Sep 2022 12:18:49 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20220926101849.uiyc7zhgkgz4wy46@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
- <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de>
- <87h70y4ffb.fsf@intel.com>
- <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C818810E3DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 10:21:35 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mkl@pengutronix.de>)
+ id 1oclEz-0006FX-FW; Mon, 26 Sep 2022 12:21:33 +0200
+Received: from pengutronix.de (unknown
+ [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ (Authenticated sender: mkl-all@blackshift.org)
+ by smtp.blackshift.org (Postfix) with ESMTPSA id 75079ED1EB;
+ Mon, 26 Sep 2022 10:21:32 +0000 (UTC)
+Date: Mon, 26 Sep 2022 12:21:30 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: Raspberry Pi 3 Model B+ hangs in vc4_hdmi_runtime_resume()
+Message-ID: <20220926102130.eeekt5skt4mav5f4@pengutronix.de>
+References: <20220922145448.w3xfywkn5ecak2et@pengutronix.de>
+ <20220922150600.h4srjmgxc52qiv6r@houat>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="orq4q4azvl3jus4q"
+ protocol="application/pgp-signature"; boundary="44wlbfj42o7tokq7"
 Content-Disposition: inline
-In-Reply-To: <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+In-Reply-To: <20220922150600.h4srjmgxc52qiv6r@houat>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,70 +56,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---orq4q4azvl3jus4q
-Content-Type: text/plain; charset=us-ascii
+--44wlbfj42o7tokq7
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 23, 2022 at 12:16:13PM +0200, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 23.09.22 um 11:18 schrieb Jani Nikula:
-> > On Fri, 23 Sep 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > Am 22.09.22 um 16:25 schrieb Maxime Ripard:
-> > > > +	drm_dbg_kms(dev,
-> > > > +		    "Generating a %ux%u%c, %u-line mode with a %lu kHz clock\n",
-> > > > +		    hactive, vactive,
-> > > > +		    interlace ? 'i' : 'p',
-> > > > +		    params->num_lines,
-> > > > +		    pixel_clock_hz / 1000);
-> > >=20
-> > > Divide by HZ_PER_KHZ here and in other places.
-> > >=20
-> > >     https://elixir.bootlin.com/linux/latest/source/include/linux/unit=
-s.h#L23
+On 22.09.2022 17:06:00, Maxime Ripard wrote:
+> > I'm on a Raspberry Pi 3 Model B+ running current Debian testing ARM64,
+> > using Debian's v5.19 kernel (Debian's v5.18 was working flawless).
 > >=20
-> >  From the Department of Bikeshedding:
+> > | [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034=
+]                                                                          =
+                                               =20
+> > | [    0.000000] Linux version 5.19.0-1-arm64 (debian-kernel@lists.debi=
+an.org) (gcc-11 (Debian 11.3.0-5) 11.3.0, GNU ld (GNU Binutils for Debian) =
+2.38.90.20220713) #1 SMP Debian 5.19.6-1 (2022-0
+> > 9-01)                                                                  =
+                                                                           =
+                                             =20
+> > | [    0.000000] Machine model: Raspberry Pi 3 Model B+          =20
+> > | [    3.747500] raspberrypi-firmware soc:firmware: Attached to firmwar=
+e from 2022-03-24T13:21:11=20
 > >=20
-> > I find "pixel_clock_hz / 1000" has much more clarity than
-> > "pixel_clock_hz / HZ_PER_KHZ".
->=20
-> This one's easy to see because it tells you with the _hz postfix. Many
-> places don't and then it quickly gets confusing what units the code's
-> converting.
+> > As soon a the vc4 module is loaded the following warnings hits 4
+> > times, then the machine stops.
 
-So if I add it to places that don't have it explicitly (ie, tests) would
-that be acceptable to both of you?
+[...]
 
-Maxime
+> The warning itself is fixed, both upstream and in stable (5.19.7).
 
---orq4q4azvl3jus4q
+Ok. Debian is using 5.19.6
+
+> It shouldn't have any relation to the hang though. Can you share your
+> setup?
+
+- config.txt:
+
+-------->8-------->8-------->8-------->8--------
+gpu_mem=3D16
+disable_splash=3D1
+
+arm_64bit=3D1
+enable_uart=3D1
+uart_2ndstage=3D1
+
+os_prefix=3D/u-boot/
+
+[pi3]
+force_turbo=3D1
+-------->8-------->8-------->8-------->8--------
+
+- Raspberry Pi 3 Model B+
+- no HDMI connected
+- firmware 2022-03-24T13:21:11
+  which boot u-boot:
+- u-boot 2022.04+dfsg-2+b1 (Debian testing)
+  I'm using the "/usr/lib/u-boot/rpi_3/u-boot.bin"
+  u-boot start:
+- Linux version 5.19.0-1-arm64 (debian-kernel@lists.debian.org)
+  kernel and dtb are unmodified Debian's linux-image-5.19.0-1-arm64
+  $ ls -l /boot/dtbs/5.19.0-1-arm64/broadcom/bcm2837-rpi-3-b-plus.dtb
+  -rwxr-xr-x 1 root root 15351 Sep 22 09:52 /boot/dtbs/5.19.0-1-arm64/broad=
+com/bcm2837-rpi-3-b-plus.dtb*
+  $ md5sum /boot/dtbs/5.19.0-1-arm64/broadcom/bcm2837-rpi-3-b-plus.dtb
+  4a9c76c3c4dcafac7d69872ee88ac5fc  /boot/dtbs/5.19.0-1-arm64/broadcom/bcm2=
+837-rpi-3-b-plus.dtb
+- currently, I've blacklisted vc4, but systems hangs after modprobe vc4
+  (4x backtrace, then hang)
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--44wlbfj42o7tokq7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYzF8iQAKCRDj7w1vZxhR
-xWF2AP9QJyjfI+kgaD0AWfK2cf0qTy7Uwc2SUiuCNG4ADKxe0QEAhWoobr2NZ8lL
-ukynl2SUCjF+Bk3Hw/p6n2flp1R3NwQ=
-=v4yB
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmMxfScACgkQrX5LkNig
+013qBwf+NVNk/ABJ4C+tpktEiKPVSRT0+fAZby6BT0jXm0+sq80YiQEDyRa6yi3U
+SyjLR7ePgVot1JL/dBnQ55BF4X4MZTZ+I0yv1NA4PKVTmNJ6fS+Z01qvGb1CwgD+
+piArMx9ainlAbXIKWHywJhvjrzmxY5Tz+McFj5tzjpoi/WV43xMEq6wY1lepV+lk
+3jbfMQvS5mUAipaWLa+Oqh7Y2vt+j6Blw+NcwM4tPpyif8Y65LjfnmDWCBdqwXYZ
+AdRfdzzwBU95THqmh7ITdMHcYyY+oZoWBPgZ2xR8teBizASxi7N8QSv1JsAtJfNY
+zWRcHs1d1dtIhdp2kSe7tjAzupTH7g==
+=7ZPb
 -----END PGP SIGNATURE-----
 
---orq4q4azvl3jus4q--
+--44wlbfj42o7tokq7--
