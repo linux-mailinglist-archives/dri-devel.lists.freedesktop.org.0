@@ -1,54 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57FC5EA64F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 14:38:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C89735EA657
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 14:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A76B10E3E6;
-	Mon, 26 Sep 2022 12:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8788A10E258;
+	Mon, 26 Sep 2022 12:40:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11DB810E258
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 12:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664195928; x=1695731928;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=FbTGbCNs121ZGo7Dpzt5/DPqhFbOJ0ZmE5LfYMNH8EA=;
- b=UhPpdeqnHk8GTGEFWisn8JteCg21pvNKNThFii0C2Tf+Kqok9YAud+K7
- lFpm7qLP0BQx9OUrpvXI5Tt5NhaRPGrsEdx5b++rSNbAAbqHYYb6KmXtA
- cqiMSkIshq1L/LXNVna++DjHgn/swotbsa29kCSPHKHSPAxwPk5RCPo02
- 43zEP7EpMLBEg9jqtwjyA8GKY9VSmhqalK901p9RhtXI2a4iG8IJ1bDxs
- RGIaViBGyTdMVZvReqyDPtefGG+R8lHpc1uYHjBSEmTBITq9vHI1dmBim
- yH6dofan7FrWoJTcmhYsS03jkQYOoFLzUnj7dAIU9LFfrZJZJcSaM8Eco w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10481"; a="281388624"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="281388624"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 05:38:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10481"; a="651808560"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="651808560"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga008.jf.intel.com with SMTP; 26 Sep 2022 05:38:44 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 26 Sep 2022 15:38:43 +0300
-Date: Mon, 26 Sep 2022 15:38:43 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-Subject: Re: [PATCH RESEND] drm/display: Don't assume dual mode adaptors
- support i2c sub-addressing
-Message-ID: <YzGdU50ttykco1QV@intel.com>
-References: <20220926124017.529806df@computer>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E79710E258
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 12:40:55 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mkl@pengutronix.de>)
+ id 1ocnPo-0002Pb-PG; Mon, 26 Sep 2022 14:40:52 +0200
+Received: from pengutronix.de (unknown
+ [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ (Authenticated sender: mkl-all@blackshift.org)
+ by smtp.blackshift.org (Postfix) with ESMTPSA id 72127ED39E;
+ Mon, 26 Sep 2022 12:40:51 +0000 (UTC)
+Date: Mon, 26 Sep 2022 14:40:48 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: Raspberry Pi 3 Model B+ hangs in vc4_hdmi_runtime_resume()
+Message-ID: <20220926124048.i3lxy4lvtq756trp@pengutronix.de>
+References: <20220922145448.w3xfywkn5ecak2et@pengutronix.de>
+ <20220922150600.h4srjmgxc52qiv6r@houat>
+ <20220926102130.eeekt5skt4mav5f4@pengutronix.de>
+ <63b460d1-4e2f-b0f1-836d-9178bb19f609@i2se.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="kp7wde6tw3pqgn64"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220926124017.529806df@computer>
-X-Patchwork-Hint: comment
+In-Reply-To: <63b460d1-4e2f-b0f1-836d-9178bb19f609@i2se.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,176 +58,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022 at 12:40:17PM +0200, Simon Rettberg wrote:
-> Current dual mode adaptor ("DP++") detection code assumes that all adaptors
-> support i2c sub-addressing for read operations from the DP-HDMI adaptor ID
-> buffer.  It has been observed that multiple adaptors do not in fact
-> support this, and always return data starting at register 0.  On
-> affected adaptors, the code failed to read the proper registers that
-> would identify the device as a type 2 adaptor, and handled those as
-> type 1, limiting the TMDS clock to 165MHz.
-> Fix this by always reading the ID buffer starting from offset 0, and
-> discarding any bytes before the actual offset of interest.
-> 
-> Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-> Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
-> ---
-> (Resend because of no response, probably my fault since I ran
-> get_maintainers on a shallow clone and missed a bunch of people)
-> 
-> We had problems with multiple different "4k ready" DP++ adaptors only
-> resulting in 1080p resolution on Linux. While one of them turned out to
-> actually just be a type1 adaptor, the others, according to the data
-> retreived via i2cdump, were in fact proper type2 adaptors, advertising a
-> TMDS clock of 300MHz. As it turned out, none of them supported
-> sub-addressing when reading from the DP-HDMI adaptor ID buffer via i2c.
-> The existing code suggested that this is known to happen with "broken"
-> type1 adaptors, but evidently, type2 adaptors are also affected.
-> We tried finding authoritative documentation on whether or not this is
-> allowed behavior, but since all the official VESA docs are paywalled,
-> the best we could come up with was the spec sheet for Texas Instruments'
-> SNx5DP149 chip family.[1] It explicitly mentions that sub-adressing is
-> supported for register writes, but *not* for reads (See NOTE in
-> section 8.5.3). Unless TI blatantly and openly decided to violate the
-> VESA spec, one could take that as a strong hint that sub-addressing is
-> in fact not mandated by VESA.
 
-I don't think that would pass the dual mode CTS for type2 adaptors
-since it explicitly calls for reading individual bytes from various
-offsets.
+--kp7wde6tw3pqgn64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The actual dual mode spec specifies things rather poorly. Technically
-it doesn't even specify the write protocol, and the read protocol is
-only specified in the form of an example read of the HDMI ID buffer.
-There it says the offset write is optional for the master, but
-mandatory for the slave to ack. It neither explicitly allows nor
-disallows the ack+ignore behaviour, but IIRC there is some
-text in there that suggests that type1 adaptors might ignore it.
+On 26.09.2022 14:08:04, Stefan Wahren wrote:
+> Hi Marc,
+>=20
+> Am 26.09.22 um 12:21 schrieb Marc Kleine-Budde:
+> > On 22.09.2022 17:06:00, Maxime Ripard wrote:
+> > > > I'm on a Raspberry Pi 3 Model B+ running current Debian testing ARM=
+64,
+> > > > using Debian's v5.19 kernel (Debian's v5.18 was working flawless).
+> > > >=20
+> > > > | [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410f=
+d034]
+> > > > | [    0.000000] Linux version 5.19.0-1-arm64 (debian-kernel@lists.=
+debian.org) (gcc-11 (Debian 11.3.0-5) 11.3.0, GNU ld (GNU Binutils for Debi=
+an) 2.38.90.20220713) #1 SMP Debian 5.19.6-1 (2022-0
+> > > > 9-01)
+> > > > | [    0.000000] Machine model: Raspberry Pi 3 Model B+
+> > > > | [    3.747500] raspberrypi-firmware soc:firmware: Attached to fir=
+mware from 2022-03-24T13:21:11
+> > > >=20
+> > > > As soon a the vc4 module is loaded the following warnings hits 4
+> > > > times, then the machine stops.
+> > [...]
+> >=20
+> > > The warning itself is fixed, both upstream and in stable (5.19.7).
+> > Ok. Debian is using 5.19.6
+> >=20
+> > > It shouldn't have any relation to the hang though. Can you share your
+> > > setup?
+> > - config.txt:
+> >=20
+> > -------->8-------->8-------->8-------->8--------
+> > gpu_mem=3D16
+> > disable_splash=3D1
+> >=20
+> > arm_64bit=3D1
+> > enable_uart=3D1
+> > uart_2ndstage=3D1
+> >=20
+> > os_prefix=3D/u-boot/
+> >=20
+> > [pi3]
+> > force_turbo=3D1
+> > -------->8-------->8-------->8-------->8--------
+> >=20
+> > - Raspberry Pi 3 Model B+
+> > - no HDMI connected
+>=20
+> Does it mean, the issue only occurs without HDMI connected?
+> If you didn't test with HDMI yet, could you please do?
 
-> 
-> [1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
-> 
->  .../gpu/drm/display/drm_dp_dual_mode_helper.c | 52 ++++++++++---------
->  1 file changed, 28 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> index 3ea53bb67..6147da983 100644
-> --- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> @@ -63,23 +63,42 @@
->  ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
->  			      u8 offset, void *buffer, size_t size)
->  {
-> +	int ret;
-> +	u8 zero = 0;
-> +	char *tmpbuf;
-> +	/*
-> +	 * As sub-addressing is not supported by all adaptors,
-> +	 * always explicitly read from the start and discard
-> +	 * any bytes that come before the requested offset.
-> +	 * This way, no matter whether the adaptor supports it
-> +	 * or not, we'll end up reading the proper data.
-> +	 */
->  	struct i2c_msg msgs[] = {
->  		{
->  			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
->  			.flags = 0,
->  			.len = 1,
-> -			.buf = &offset,
-> +			.buf = &zero,
->  		},
->  		{
->  			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
->  			.flags = I2C_M_RD,
-> -			.len = size,
-> -			.buf = buffer,
-> +			.len = size + offset,
-> +			.buf = NULL,
->  		},
->  	};
-> -	int ret;
->  
-> +	tmpbuf = kmalloc(size + offset, GFP_KERNEL);
-> +	if (!tmpbuf)
-> +		return -ENOMEM;
-> +
-> +	msgs[1].buf = tmpbuf;
->  	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret == ARRAY_SIZE(msgs))
-> +		memcpy(buffer, tmpbuf + offset, size);
-> +
-> +	kfree(tmpbuf);
+The error occurs with HDMI not connected, as vc4 is the gfx driver I
+thought this might be of interest. :)
 
-Could optimize a bit here and avoid the temp buffer when
-the original offset is 0.
+I don't have a HDMI monitor here, but I'll come back to you as soon as I
+get access to one (might take some time).
 
-> +
->  	if (ret < 0)
->  		return ret;
->  	if (ret != ARRAY_SIZE(msgs))
-> @@ -208,18 +227,6 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
->  	if (ret)
->  		return DRM_DP_DUAL_MODE_UNKNOWN;
->  
-> -	/*
-> -	 * Sigh. Some (maybe all?) type 1 adaptors are broken and ack
-> -	 * the offset but ignore it, and instead they just always return
-> -	 * data from the start of the HDMI ID buffer. So for a broken
-> -	 * type 1 HDMI adaptor a single byte read will always give us
-> -	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
-> -	 * (assuming it implements any registers). Fortunately neither
-> -	 * of those values will match the type 2 signature of the
-> -	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
-> -	 * the type 2 adaptor detection safely even in the presence
-> -	 * of broken type 1 adaptors.
-> -	 */
->  	ret = drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_ADAPTOR_ID,
->  				    &adaptor_id, sizeof(adaptor_id));
+Marc
 
-Another optimization opportunity here to maybe combine the HDMI ID
-buffer read with this one. Could perhaps just read the full 32 bytes
-static capabilities section. But this one should probably be left for
-a separate patch. Ideally I guess we'd also combine the max TMDS clock
-read with this one. But for that we'd need to return more than the
-single enum drm_dp_dual_mode_type from this function.
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
->  	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err %zd)\n", adaptor_id, ret);
-> @@ -233,11 +240,10 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
->  				return DRM_DP_DUAL_MODE_TYPE2_DVI;
->  		}
->  		/*
-> -		 * If neither a proper type 1 ID nor a broken type 1 adaptor
-> -		 * as described above, assume type 1, but let the user know
-> -		 * that we may have misdetected the type.
-> +		 * If not a proper type 1 ID, still assume type 1, but let
-> +		 * the user know that we may have misdetected the type.
->  		 */
-> -		if (!is_type1_adaptor(adaptor_id) && adaptor_id != hdmi_id[0])
-> +		if (!is_type1_adaptor(adaptor_id))
->  			drm_err(dev, "Unexpected DP dual mode adaptor ID %02x\n", adaptor_id);
->  
->  	}
-> @@ -343,10 +349,8 @@ EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
->   * @enable: enable (as opposed to disable) the TMDS output buffers
->   *
->   * Set the state of the TMDS output buffers in the adaptor. For
-> - * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
-> - * some type 1 adaptors have problems with registers (see comments
-> - * in drm_dp_dual_mode_detect()) we avoid touching the register,
-> - * making this function a no-op on type 1 adaptors.
-> + * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
-> + * Type1 adaptors do not support any register writes.
->   *
->   * Returns:
->   * 0 on success, negative error code on failure
-> -- 
-> 2.35.1
+--kp7wde6tw3pqgn64
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Ville Syrjälä
-Intel
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmMxnc0ACgkQrX5LkNig
+011FKAf8C5pVeN0vZUK4h2zTu209PyXqxPDSikAfLXBGcTxs8Re+e976zS9I1YqW
+rMm6PpRLdkMvc/Qohrskmyl6ZkRp2bV07WMx/qNYub0k05EdrS30YT6cz+pfvXVC
+fZMxy3vh0yixMvNLxhB7afplO+VqKZBtYaoFXo1X0I+SkGm8EOXvBvGPDd6qIX+D
+FPpKpHp41sXax6lkEoWtZJYSK/1jBy2QZ6iiboXtvH98qws0/p4n593qoWmAZd6G
+raydwfSgBfi2pNLU7e4imKZ1oSLHAbWEFkoTzptCoL+kTSEEJR+dc0eqURuVvXsG
+Yf/hmlvYdhTHoukvpe2SdB6/Tg4n/g==
+=shk4
+-----END PGP SIGNATURE-----
+
+--kp7wde6tw3pqgn64--
