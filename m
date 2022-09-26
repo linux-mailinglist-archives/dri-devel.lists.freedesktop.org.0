@@ -1,62 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DC05EA01B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 12:34:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 347AC5EA0A2
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 12:40:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2437510E68C;
-	Mon, 26 Sep 2022 10:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E6410E2C9;
+	Mon, 26 Sep 2022 10:40:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5921E10E692;
- Mon, 26 Sep 2022 10:34:15 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id cj27so3780111qtb.7;
- Mon, 26 Sep 2022 03:34:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Lmh1Xq7Cw51uqBYTm5xf2C78YKt/PjveAkuJS0FQxk4=;
- b=0e2GSgKN7eTAPsI6i+5AujgSNbvhqRLBZ9y3psx2VRGTNh36lo1SX4Ig3PxZZWX3q+
- 1YCILiKwF6WmH4msP0K6mH0YM2/XlN31aY30k9mr/dQWVgyGdCyW/EqaaMKrPGVQscl1
- HG00ZiupOnuC7FbyyAR6UkpjY+SmN0OBd+96/huc1N2Rh0x+hOIzs+qatOpT66C2zfCf
- qiH89tpKhzGxxTBqc0Pg58qeV99kevRdANQkKjrPvtSQGSAMP2fex/S0QcqoJn/WA96j
- F/7yW+BdHz32Wi2HNH2EC1+vUI7y8ML6m7UBNbeITc+OmfKsUjFqz1qgTmMBncHWszx+
- zBuw==
-X-Gm-Message-State: ACrzQf0BPgeb5cwdSD7hbBW8UaxZQBGeA0wLyv87oYfJgcGnm5LlTLft
- QSQ7mS8dyVQCYzqqqgfwY2XhwYNE9Nj4UQ==
-X-Google-Smtp-Source: AMsMyM50M6OqXRUDwTJUSCCJC4Kfv2TkR2FsENiZAyAhOAwGbsUZDS0i+m76ySyGhqu3jCiddjMa0g==
-X-Received: by 2002:a05:622a:1451:b0:35c:c676:1471 with SMTP id
- v17-20020a05622a145100b0035cc6761471mr16802710qtx.634.1664188454185; 
- Mon, 26 Sep 2022 03:34:14 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- b4-20020ac86bc4000000b0035c1e18762csm10685719qtt.84.2022.09.26.03.34.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 03:34:13 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-349c4310cf7so63866947b3.3; 
- Mon, 26 Sep 2022 03:34:12 -0700 (PDT)
-X-Received: by 2002:a81:758a:0:b0:345:450b:6668 with SMTP id
- q132-20020a81758a000000b00345450b6668mr19133647ywc.316.1664188452440; Mon, 26
- Sep 2022 03:34:12 -0700 (PDT)
+Received: from smtp2.uni-freiburg.de (smtp2.uni-freiburg.de
+ [IPv6:2001:7c0:2500:4::25:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 273E510E2CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 10:40:20 +0000 (UTC)
+Delivery-date: Mon, 26 Sep 2022 12:40:20 +0200
+Received: from fe2.uni-freiburg.de ([132.230.2.222] helo=uni-freiburg.de) port
+ 45042 by smtp2.uni-freiburg.de with esmtp ( Exim )
+ id 1oclX9-0003QU-0L for dri-devel@lists.freedesktop.org;
+ Mon, 26 Sep 2022 12:40:18 +0200
+Received: from [132.230.8.113] (account simon.rettberg@rz.uni-freiburg.de HELO
+ computer) by mail.uni-freiburg.de (CommuniGate Pro SMTP 6.3.14)
+ with ESMTPSA id 96347721; Mon, 26 Sep 2022 12:40:18 +0200
+Date: Mon, 26 Sep 2022 12:40:17 +0200
+From: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH RESEND] drm/display: Don't assume dual mode adaptors support
+ i2c sub-addressing
+Message-ID: <20220926124017.529806df@computer>
+Organization: Rechenzentrum Uni Freiburg
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
- <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de>
- <20220926101716.urehomr2lzv5pqln@houat>
-In-Reply-To: <20220926101716.urehomr2lzv5pqln@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Sep 2022 12:34:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXonxXiw4x2PvnQ=xedOQO1y=K0O8g1+ixeSvXmzcOOVw@mail.gmail.com>
-Message-ID: <CAMuHMdXonxXiw4x2PvnQ=xedOQO1y=K0O8g1+ixeSvXmzcOOVw@mail.gmail.com>
-Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
- display modes
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +44,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Ben Skeggs <bskeggs@redhat.com>, linux-sunxi@lists.linux.dev,
- intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Current dual mode adaptor ("DP++") detection code assumes that all adaptors
+support i2c sub-addressing for read operations from the DP-HDMI adaptor ID
+buffer.  It has been observed that multiple adaptors do not in fact
+support this, and always return data starting at register 0.  On
+affected adaptors, the code failed to read the proper registers that
+would identify the device as a type 2 adaptor, and handled those as
+type 1, limiting the TMDS clock to 165MHz.
+Fix this by always reading the ID buffer starting from offset 0, and
+discarding any bytes before the actual offset of interest.
 
-On Mon, Sep 26, 2022 at 12:17 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Fri, Sep 23, 2022 at 11:05:48AM +0200, Thomas Zimmermann wrote:
-> > > +   /* 63.556us * 13.5MHz = 858 pixels */
-> >
-> > I kind of get what the comment wants to tell me, but the units don't add up.
->
-> I'm not sure how it doesn't add up?
->
-> We have a frequency in Hz (equivalent to s^-1) and a duration in s, so
-> the result ends up with no dimension, which is to be expected for a
-> number of periods?
+Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
+Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
+---
+(Resend because of no response, probably my fault since I ran
+get_maintainers on a shallow clone and missed a bunch of people)
 
-To make the units add up, it should be 13.5 Mpixel/s
-(which is what a pixel clock of 13.5 MHz really means ;-)
+We had problems with multiple different "4k ready" DP++ adaptors only
+resulting in 1080p resolution on Linux. While one of them turned out to
+actually just be a type1 adaptor, the others, according to the data
+retreived via i2cdump, were in fact proper type2 adaptors, advertising a
+TMDS clock of 300MHz. As it turned out, none of them supported
+sub-addressing when reading from the DP-HDMI adaptor ID buffer via i2c.
+The existing code suggested that this is known to happen with "broken"
+type1 adaptors, but evidently, type2 adaptors are also affected.
+We tried finding authoritative documentation on whether or not this is
+allowed behavior, but since all the official VESA docs are paywalled,
+the best we could come up with was the spec sheet for Texas Instruments'
+SNx5DP149 chip family.[1] It explicitly mentions that sub-adressing is
+supported for register writes, but *not* for reads (See NOTE in
+section 8.5.3). Unless TI blatantly and openly decided to violate the
+VESA spec, one could take that as a strong hint that sub-addressing is
+in fact not mandated by VESA.
 
-Gr{oetje,eeting}s,
+[1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
 
-                        Geert
+ .../gpu/drm/display/drm_dp_dual_mode_helper.c | 52 ++++++++++---------
+ 1 file changed, 28 insertions(+), 24 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+index 3ea53bb67..6147da983 100644
+--- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+@@ -63,23 +63,42 @@
+ ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
+ 			      u8 offset, void *buffer, size_t size)
+ {
++	int ret;
++	u8 zero = 0;
++	char *tmpbuf;
++	/*
++	 * As sub-addressing is not supported by all adaptors,
++	 * always explicitly read from the start and discard
++	 * any bytes that come before the requested offset.
++	 * This way, no matter whether the adaptor supports it
++	 * or not, we'll end up reading the proper data.
++	 */
+ 	struct i2c_msg msgs[] = {
+ 		{
+ 			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
+ 			.flags = 0,
+ 			.len = 1,
+-			.buf = &offset,
++			.buf = &zero,
+ 		},
+ 		{
+ 			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
+ 			.flags = I2C_M_RD,
+-			.len = size,
+-			.buf = buffer,
++			.len = size + offset,
++			.buf = NULL,
+ 		},
+ 	};
+-	int ret;
+ 
++	tmpbuf = kmalloc(size + offset, GFP_KERNEL);
++	if (!tmpbuf)
++		return -ENOMEM;
++
++	msgs[1].buf = tmpbuf;
+ 	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
++	if (ret == ARRAY_SIZE(msgs))
++		memcpy(buffer, tmpbuf + offset, size);
++
++	kfree(tmpbuf);
++
+ 	if (ret < 0)
+ 		return ret;
+ 	if (ret != ARRAY_SIZE(msgs))
+@@ -208,18 +227,6 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
+ 	if (ret)
+ 		return DRM_DP_DUAL_MODE_UNKNOWN;
+ 
+-	/*
+-	 * Sigh. Some (maybe all?) type 1 adaptors are broken and ack
+-	 * the offset but ignore it, and instead they just always return
+-	 * data from the start of the HDMI ID buffer. So for a broken
+-	 * type 1 HDMI adaptor a single byte read will always give us
+-	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
+-	 * (assuming it implements any registers). Fortunately neither
+-	 * of those values will match the type 2 signature of the
+-	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
+-	 * the type 2 adaptor detection safely even in the presence
+-	 * of broken type 1 adaptors.
+-	 */
+ 	ret = drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_ADAPTOR_ID,
+ 				    &adaptor_id, sizeof(adaptor_id));
+ 	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err %zd)\n", adaptor_id, ret);
+@@ -233,11 +240,10 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
+ 				return DRM_DP_DUAL_MODE_TYPE2_DVI;
+ 		}
+ 		/*
+-		 * If neither a proper type 1 ID nor a broken type 1 adaptor
+-		 * as described above, assume type 1, but let the user know
+-		 * that we may have misdetected the type.
++		 * If not a proper type 1 ID, still assume type 1, but let
++		 * the user know that we may have misdetected the type.
+ 		 */
+-		if (!is_type1_adaptor(adaptor_id) && adaptor_id != hdmi_id[0])
++		if (!is_type1_adaptor(adaptor_id))
+ 			drm_err(dev, "Unexpected DP dual mode adaptor ID %02x\n", adaptor_id);
+ 
+ 	}
+@@ -343,10 +349,8 @@ EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
+  * @enable: enable (as opposed to disable) the TMDS output buffers
+  *
+  * Set the state of the TMDS output buffers in the adaptor. For
+- * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
+- * some type 1 adaptors have problems with registers (see comments
+- * in drm_dp_dual_mode_detect()) we avoid touching the register,
+- * making this function a no-op on type 1 adaptors.
++ * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
++ * Type1 adaptors do not support any register writes.
+  *
+  * Returns:
+  * 0 on success, negative error code on failure
+-- 
+2.35.1
