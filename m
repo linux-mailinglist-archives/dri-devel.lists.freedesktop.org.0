@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F5D5EB2D6
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 23:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581C45EB2DE
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 23:10:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8274510E0DE;
-	Mon, 26 Sep 2022 21:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7457110E6FC;
+	Mon, 26 Sep 2022 21:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE9F10E0DA
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 21:07:16 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id y136so7931461pfb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 14:07:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=VUYHQIv2vL8pY0r5skq1FuqyyfYP1QoMOYkxGZwbp6o=;
- b=TxQD2fJTodac/gzds749N6eKDMqdv7Q8g+tPhsOiW/sX3qUzP3f31tYswj1cNjhZ+P
- GZ26rUT4PfJw2GQKkiXkOXyDG3qoXJdjcDtY3ngV/e6Eip/wNz2SxOqyLUFoEqou289d
- 65H2ej14mtX4cRsJfIOnYU6qdCyop+wYz0PRE=
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4398310E0DA;
+ Mon, 26 Sep 2022 21:09:28 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id d24so7372061pls.4;
+ Mon, 26 Sep 2022 14:09:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=7hiR0SpuwZReSlXLRcigPQKkR3hTLdfiyP448cVXiFw=;
+ b=UJBQZykTPhHzdrrtre+mxfDn7aatmmKTmhDUKtx/UD5YqWSGbNAis4tgmo8DmeJSZv
+ XL5fJxmytRdVeDwZ9HhK0uHyLYN+YoM+5t96uHoX9raiqOhfeEp3Hv+Fwt1GMf3IolMS
+ FWHsM5rPdOmdno7sBNUIN57XY5Rq/qzK2DyOc3jSdSLk56zb7KyVA21N1pHtuzhb0g9D
+ 0Hzam8fwYOpQmxyRLDG6jSF4FY7ZBjW5JU4RARl2MYuAOBeq1k3ibI/yEAsjXXZF5a3w
+ ffKP1ghdPpsDpwqzu9EQTtxK/o5IB7pXGozTYaBkeLdt01DMx9PMMv/M41jRgbz51RIT
+ IJsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=VUYHQIv2vL8pY0r5skq1FuqyyfYP1QoMOYkxGZwbp6o=;
- b=xst/FDa2elUvTgDfI46vhNE6mYPiTfFb3Rs4Yv1FIhVBkkCWrwnaa4iKR68Lojxa7T
- wN76uEiXACdtzPqA2e0awgibFxmlzF+USo6G86Wwf4Svb+CDSIUzarHqsYR4IwpwuST1
- pjFggytCAcHl05n014Ggt3VElXyTFkVrbhaEjjD66ViNaIIu17kWtJ1WcQXmxsguWxkI
- XKCXRK9Q9lNCcCMHIMSiN0Qhlgb3lVhH7AXfs56zxWnibU0g7KAxXmBKyDO9Rq8T4q4T
- Zh06rGEIzwFx9160W6RzTdgWtfxw1p1sqTYz4GocQ6Gx1J5CmP+KoF0gNgszD37s+mX5
- E5bQ==
-X-Gm-Message-State: ACrzQf117YMTIBl5WeWxDUQJOmyA8NBMgDbqvLD+WYT3x5Af1qHSr80x
- bUEgv6DTFwMS8EDWKSjA3N5trQ==
-X-Google-Smtp-Source: AMsMyM6ac5PcbdyiCXdkvj0iGPsWyVMYvQOqt4HWPCMIqT7ijtbq72queIktQfLMWxfsTRb46FTITA==
-X-Received: by 2002:a63:441b:0:b0:439:103b:25a4 with SMTP id
- r27-20020a63441b000000b00439103b25a4mr21064706pga.487.1664226436243; 
- Mon, 26 Sep 2022 14:07:16 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=7hiR0SpuwZReSlXLRcigPQKkR3hTLdfiyP448cVXiFw=;
+ b=sLT+KRNyefJpRvt+U3ffYcA6LPbbs9c7bSBT0ckYNFww26hDVyvwoKzCLVaMmPYyWm
+ EOxO8pg64DtAWvaVUGsUmmJFH/6SgSK471qFqzgdfXwBuDocHH0ZgY7HVVUpnJ4M7rwD
+ 6VBWaUrxpjpdt7ft1nZUrkZ2aexe0qZf2pBpfLhn1QDFTwNwbScVitFC9QahLS+TM9R0
+ C/fjrWhJBtx1jJjyR2IvC6O811OKuTqX1ZKxDta0CZae1FNKtZbEKAGOIz6ayYal47Bc
+ zjU/pszHatIjPIHd+Ee7HMCGdr98T355/5p31hmw1clkJFLSNKlzr3ARFpER47JIGDXP
+ gx3g==
+X-Gm-Message-State: ACrzQf2lt7KBdWoAfRk6/aWJH5LgAO1OctQtHJfO6vzyRwQh3weNGqty
+ zggcNvnWFsy6bjlvu2CjPEY=
+X-Google-Smtp-Source: AMsMyM6XWAWe+Zn9tyh4ERXFKmtuqTiYVsHZEu4hNEGpIYT0A9opTtsNkUidS6jbXuYJmr0utLcNbw==
+X-Received: by 2002:a17:90a:5508:b0:205:783c:7b6a with SMTP id
+ b8-20020a17090a550800b00205783c7b6amr731777pji.218.1664226567748; 
+ Mon, 26 Sep 2022 14:09:27 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- h6-20020aa79f46000000b00540ffb28da0sm13290247pfr.91.2022.09.26.14.07.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 14:07:15 -0700 (PDT)
-Date: Mon, 26 Sep 2022 14:07:14 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v2] overflow: Introduce overflows_type() and
- castable_to_type()
-Message-ID: <202209261405.619441AC2F@keescook>
-References: <20220926191109.1803094-1-keescook@chromium.org>
- <CAKwvOdmCjAQpaF40VStbFNf1ZqmTxTTZzy2v4TwSF0LVO08GYw@mail.gmail.com>
+ h13-20020a170902f54d00b00178af82a000sm11646470plf.122.2022.09.26.14.09.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Sep 2022 14:09:26 -0700 (PDT)
+Message-ID: <f995da40-b20a-437b-0b1f-5028b861300d@roeck-us.net>
+Date: Mon, 26 Sep 2022 14:09:24 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdmCjAQpaF40VStbFNf1ZqmTxTTZzy2v4TwSF0LVO08GYw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/7] Add HWMON support
+Content-Language: en-US
+To: Badal Nilawar <badal.nilawar@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220926175211.3473371-1-badal.nilawar@intel.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20220926175211.3473371-1-badal.nilawar@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,68 +75,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@kernel.org>, David Airlie <airlied@linux.ie>,
- Tom Rix <trix@redhat.com>, Daniel Latypov <dlatypov@google.com>,
- llvm@lists.linux.dev, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Nathan Chancellor <nathan@kernel.org>, linux-sparse@vger.kernel.org,
- linux-hardening@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org, Vitor Massaru Iha <vitor@massaru.org>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, andi.shyti@intel.com, tvrtko.ursulin@intel.com,
+ anshuman.gupta@intel.com, dri-devel@lists.freedesktop.org,
+ ashutosh.dixit@intel.com, jon.ewins@intel.com, riana.tauro@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022 at 01:17:18PM -0700, Nick Desaulniers wrote:
-> + Arnd
+On 9/26/22 10:52, Badal Nilawar wrote:
+> This series adds the HWMON support for DGFX
 > 
-> On Mon, Sep 26, 2022 at 12:11 PM Kees Cook <keescook@chromium.org> wrote:
-> > ---
-> > v2:
-> >  - fix comment typo
-> >  - wrap clang pragma to avoid GCC warnings
-> >  - style nit cleanups
-> >  - rename __castable_to_type() to castable_to_type()
-> >  - remove prior overflows_type() definition
-> > v1: https://lore.kernel.org/lkml/20220926003743.409911-1-keescook@chromium.org
-> > diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
-> > index f385ca652b74..fffc3f86181d 100644
-> > --- a/lib/overflow_kunit.c
-> > +++ b/lib/overflow_kunit.c
-> > @@ -16,6 +16,11 @@
-> >  #include <linux/types.h>
-> >  #include <linux/vmalloc.h>
-> >
-> > +/* We're expecting to do a lot of "always true" or "always false" tests. */
-> > +#ifdef CONFIG_CC_IS_CLANG
-> > +#pragma clang diagnostic ignored "-Wtautological-constant-out-of-range-compare"
-> > +#endif
+> Test-with: 20220919144408.251981-1-riana.tauro@intel.com
 > 
-> Any chance we can reuse parts of __diag_ignore or __diag_clang from
-> include/linux/compiler_types.h or include/linux/compiler-clang.h
-> respectively?
-
-Hm, I'm not sure how those are supposed to be used. Those defines don't
-seem to be used externally?
-
-> Those are needed for pragmas within preprocessor macros, which we
-> don't have here, but I suspect they may be more concise to use here.
-
-Yeah, I was surprised when I had to wrap it in #ifdef given "clang" is
-part of the string.
-
+> v2:
+>    - Reorganized series. Created first patch as infrastructure patch
+>      followed by feature patches. (Ashutosh)
+>    - Fixed review comments (Jani)
+>    - Fixed review comments (Ashutosh)
 > 
-> > +#define TEST_SAME_TYPE(t1, t2, same)                   do {    \
-> > +       typeof(t1) __t1h = type_max(t1);                        \
-> > +       typeof(t1) __t1l = type_min(t1);                        \
-> > +       typeof(t2) __t2h = type_max(t2);                        \
-> > +       typeof(t2) __t2l = type_min(t2);                        \
+> v3:
+>    - Fixed review comments from Guenter
+>    - Exposed energy inferface as standard hwmon interface (Ashutosh)
+>    - For power interface added entries for critical power and maintained
+>      standard interface for all the entries except
+>      power1_max_interval
+>    - Extended support for XEHPSDV (Ashutosh)
 > 
-> Can we use __auto_type here rather than typeof(macro expansion)?
+> v4:
+>    - Fixed review comment from Guenter
+>    - Cleaned up unused code
+> 
+> v5:
+>    - Fixed review comments (Jani)
+> 
+> v6:
+>    - Fixed review comments (Ashutosh)
+>    - Updated date and kernel version in documentation
+> 
+> v7:
+>    - Fixed review comments (Anshuman)
+>    - KernelVersion: 6.2, Date: February 2023 in doc (Tvrtko)
+> 
+> v8: s/hwmon_device_register_with_info/
+>        devm_hwmon_device_register_with_info/ (Ashutosh)
+> 
 
-I'd rather it stay explicit -- otherwise we start to wander into "oops,
-we got lucky" territory for what should be a really distinct test case.
+Is there some reason for not actually versioning this patch series ?
+Just wondering.
 
--- 
-Kees Cook
+Thanks,
+Guenter
+
+> Ashutosh Dixit (2):
+>    drm/i915/hwmon: Expose card reactive critical power
+>    drm/i915/hwmon: Expose power1_max_interval
+> 
+> Dale B Stimson (4):
+>    drm/i915/hwmon: Add HWMON infrastructure
+>    drm/i915/hwmon: Power PL1 limit and TDP setting
+>    drm/i915/hwmon: Show device level energy usage
+>    drm/i915/hwmon: Extend power/energy for XEHPSDV
+> 
+> Riana Tauro (1):
+>    drm/i915/hwmon: Add HWMON current voltage support
+> 
+>   .../ABI/testing/sysfs-driver-intel-i915-hwmon |  75 ++
+>   drivers/gpu/drm/i915/Makefile                 |   3 +
+>   drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   8 +
+>   drivers/gpu/drm/i915/i915_driver.c            |   5 +
+>   drivers/gpu/drm/i915/i915_drv.h               |   2 +
+>   drivers/gpu/drm/i915/i915_hwmon.c             | 736 ++++++++++++++++++
+>   drivers/gpu/drm/i915/i915_hwmon.h             |  20 +
+>   drivers/gpu/drm/i915/i915_reg.h               |   6 +
+>   drivers/gpu/drm/i915/intel_mchbar_regs.h      |  21 +
+>   9 files changed, 876 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+>   create mode 100644 drivers/gpu/drm/i915/i915_hwmon.c
+>   create mode 100644 drivers/gpu/drm/i915/i915_hwmon.h
+> 
+
