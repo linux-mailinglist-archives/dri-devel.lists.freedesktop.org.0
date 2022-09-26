@@ -1,63 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6EA5EAFF6
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 20:33:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD205EAFF8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 20:33:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3950010E763;
-	Mon, 26 Sep 2022 18:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A49E410E764;
+	Mon, 26 Sep 2022 18:33:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 453EE10E763
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 18:33:19 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id E95D7CE12FD
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 18:33:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 65BA5C433D7
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 18:33:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664217195;
- bh=d4eG2qigNY6iJYjbdo9TYqwINH1LwZX9spbDU8YdDsw=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ZK5jT5vwCiRsEVGOmeJfnCus3reQgrRO0JHs0fMTuJvVLZ5E07hPQOAl1Lxpb8w7r
- /xmhHmrIrNI/wB1eulaCx36V1i2+SJ28EG66eMUUN3QGE2L2kKMx/M56Ct28/CQT83
- A6KtZ84QZVCXvBrfo5gx5bHvK4+3T4URror+XyKETWnGB4vjU5jpGQdmwMRZQkok+N
- AsQYNkmzlC3synhxrhtfWfCInzq45DyKQXKihHmdP32bjKhtyjq+D0IqvaekmSHSYV
- kzjChZNgzncuwOgpyMZEXvNn/n7xf40nmFpkg+Oeuvsmg/hKMKYknVneHHdVQ0nUFR
- L4CUD6//Cp5Zw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 4BFA5C433E7; Mon, 26 Sep 2022 18:33:15 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216516] s2ram freezes screen (Ryzen-5650U incl. Radeon GPU)
-Date: Mon, 26 Sep 2022 18:33:14 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kolAflash@kolahilft.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216516-2300-om4VnbttXN@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216516-2300@https.bugzilla.kernel.org/>
-References: <bug-216516-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0101910E1CA;
+ Mon, 26 Sep 2022 18:33:39 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28QIBG0P028897;
+ Mon, 26 Sep 2022 18:33:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=iJBTAqXN/XXcUOGDVDgIc8+945bIMYNQLu9jWVBWuUw=;
+ b=G+1mWz+BDcNhdsgBYmethwtY8wqDjzmvHjVFPealhndgTu3hCkp8bgSORyyc1k+LrTfa
+ UKw2btkzuOG8uwh3fsK6c60+qQqajSJjj43hjHjk+936MIndQP2vD9C4FksCSLWk0M3b
+ 6iQAQNXa+LfXRvXxeBGlPVXYX9iUmtbDHXw8SxTKwRsUU53FbAJ+t+uLbNIAnO0PEAwJ
+ P90MiLSgB4Mf7g2Gmo6+hcYCAjPUoi23jdW7pnYPuvwRzXxnWQ/nYhkFxkOHcbx5vwxV
+ 1jwj0ev8MeJt/Kb5+V2giaUpcD+uIUwQsGyTD4SOMRNM2kehrux93xNx3GOkehVQ5pEU Qw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jssg6vds2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Sep 2022 18:33:33 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28QIXWLS009583
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Sep 2022 18:33:32 GMT
+Received: from [10.111.163.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 26 Sep
+ 2022 11:33:30 -0700
+Message-ID: <aba835e2-65f6-b965-d4fb-cbbebee6478d@quicinc.com>
+Date: Mon, 26 Sep 2022 11:33:28 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dpu: use DEFINE_SHOW_ATTRIBUTE to simplify
+ dpu_regset32
+Content-Language: en-US
+To: Liu Shixin <liushixin2@huawei.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220922142147.3246649-1-liushixin2@huawei.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220922142147.3246649-1-liushixin2@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: PsZAPvwMCCA6cFHVhpgfy-l5zfet0dpI
+X-Proofpoint-ORIG-GUID: PsZAPvwMCCA6cFHVhpgfy-l5zfet0dpI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-26_09,2022-09-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ phishscore=0 mlxlogscore=999 spamscore=0 clxscore=1011 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209260115
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +86,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216516
-
---- Comment #13 from kolAflash (kolAflash@kolahilft.de) ---
-Created attachment 301872
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301872&action=3Dedit
-kernel log for s2idle: v6.0-rc6 with debug options
-
-@Mario
-
-(In reply to Mario Limonciello (AMD) from comment #12)
-> [...]
-> For the next step in debugging, please do all of the following:
-> 0) 6.0-rc6 kernel
-> 1) Add to your kernel command line:
-> acpi.dyndbg=3D'file drivers/acpi/x86/s2idle.c +p' amd_pmc.dyndbg=3D'+p'
-> 2) set /sys/power/pm_print_times to 1.
-> 3) set /sys/power/pm_debug_messages to 1
-> [...]
-
-Thanks!
-
-Here's the requested log.
 
 
-I woke the notebook by pressing the power button.
+On 9/22/2022 7:21 AM, Liu Shixin wrote:
+> Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
+> No functional change.
+> 
+> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 
-Before standby I'm always doing:
-echo disabled > /sys/devices/platform/i8042/serio0/power/wakeup
-echo disabled > /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/power/wakeup
-echo XHC1 > /proc/acpi/wakeup
-Else the notebook wakes on every keyboard, mouse, lid open and even lid clo=
-se
-action.
+Looks reasonable to me
 
-
-Can you tell if the power consumption is completely up to the kernel?
-Or should I have a look at the userspace too?
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 18 +++---------------
+>   1 file changed, 3 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 5e6e2626151e..f3660cd14f4f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -194,7 +194,7 @@ struct dpu_debugfs_regset32 {
+>   	struct dpu_kms *dpu_kms;
+>   };
+>   
+> -static int _dpu_debugfs_show_regset32(struct seq_file *s, void *data)
+> +static int dpu_regset32_show(struct seq_file *s, void *data)
+>   {
+>   	struct dpu_debugfs_regset32 *regset = s->private;
+>   	struct dpu_kms *dpu_kms = regset->dpu_kms;
+> @@ -227,19 +227,7 @@ static int _dpu_debugfs_show_regset32(struct seq_file *s, void *data)
+>   
+>   	return 0;
+>   }
+> -
+> -static int dpu_debugfs_open_regset32(struct inode *inode,
+> -		struct file *file)
+> -{
+> -	return single_open(file, _dpu_debugfs_show_regset32, inode->i_private);
+> -}
+> -
+> -static const struct file_operations dpu_fops_regset32 = {
+> -	.open =		dpu_debugfs_open_regset32,
+> -	.read =		seq_read,
+> -	.llseek =	seq_lseek,
+> -	.release =	single_release,
+> -};
+> +DEFINE_SHOW_ATTRIBUTE(dpu_regset32);
+>   
+>   void dpu_debugfs_create_regset32(const char *name, umode_t mode,
+>   		void *parent,
+> @@ -259,7 +247,7 @@ void dpu_debugfs_create_regset32(const char *name, umode_t mode,
+>   	regset->blk_len = length;
+>   	regset->dpu_kms = dpu_kms;
+>   
+> -	debugfs_create_file(name, mode, parent, regset, &dpu_fops_regset32);
+> +	debugfs_create_file(name, mode, parent, regset, &dpu_regset32_fops);
+>   }
+>   
+>   static int dpu_kms_debugfs_init(struct msm_kms *kms, struct drm_minor *minor)
