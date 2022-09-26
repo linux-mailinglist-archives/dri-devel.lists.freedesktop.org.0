@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FA65E9814
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 04:52:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5C55E9882
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 06:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1EE10E4DB;
-	Mon, 26 Sep 2022 02:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B91C10E1F6;
+	Mon, 26 Sep 2022 04:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1DC10E4DB
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 02:52:12 +0000 (UTC)
-X-UUID: 5b12f926ce984ca9a20b24600f2436c9-20220926
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=J7zNk55ctYek/Lc3Rk/kqJN4XtzyQcphEfTsz8DV0W4=; 
- b=TDwFywZGWOl6uialaC7BiDdjQ8oSKPgc9fps4OOV/Cx7MGuJrN1hJUoa992AXpsYAfO/2HvjYRhsboiXCaioUCSg1sWg0PlKXlwKLoG7yKrP6SoV7ZgjANFa+j4zR8ICIrOcxpsPvvP4Mlx8Fwab0YfucsRpft1o4vnVbeVI3Jo=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:26093cd3-c849-49a5-a0d6-b71efcf1b8e1, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:39a5ff1, CLOUDID:c78806a3-dc04-435c-b19b-71e131a5fc35,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 5b12f926ce984ca9a20b24600f2436c9-20220926
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <liangxu.xu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 471381480; Mon, 26 Sep 2022 10:52:06 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 26 Sep 2022 10:52:05 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkmbs13n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 26 Sep 2022 10:52:04 +0800
-Message-ID: <2afb5b7f761c7931eaf93f2f8a0fd268a39e1b02.camel@mediatek.com>
-Subject: Re: [PATCH] dt-bindings: display: mediatek: dp: Add compatible for
- MediaTek MT8188
-From: liangxu.xu <liangxu.xu@mediatek.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>, 
- <matthias.bgg@gmail.com>, <jitao.shi@mediatek.com>
-Date: Mon, 26 Sep 2022 10:52:04 +0800
-In-Reply-To: <f6e669dd-f2cf-6e3f-18bb-25b21e5eab0c@linaro.org>
-References: <20220923013953.5043-1-liangxu.xu@mediatek.com>
- <f6e669dd-f2cf-6e3f-18bb-25b21e5eab0c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8377910E1F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 04:50:39 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id y11so5163163pjv.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 21:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=8PxZH0BmsyJu9+ITF6qQvrU+JnlICuP2MjpJbjhQ5y0=;
+ b=qbqNGQfPQ6R0PH/uT+gONTWuOvI2r6XIk+/azya6UxU0kaTqdj1TeHfauyc0VUxp38
+ Nn4EjGYs4BSgxrnLzx3D6+mw2aMjfcJ6jERcsyKkRqcD+vqN9ykKfqLw3pi46HkRyWi7
+ hla2nbx8EZEFsTHssLouke52bR7gmv170RxLy0axkORVAr5Gep3mnOA1/wpmfAwUEwRU
+ X+HEDZ9boS8/I2Y1c5U1X85KNSMD+/u7EDOLMXN1SwH3y1iu5eXhyyjp6dqxlacQXMdw
+ bBUA5719DnSlCldxvvn9eFVNVmHhoARFlnstKOUaEWZyGIXuioEnES4s4zoOiIqerkdb
+ AcGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=8PxZH0BmsyJu9+ITF6qQvrU+JnlICuP2MjpJbjhQ5y0=;
+ b=Njj5OP7fSqbE8lnWKsHl32d02oyBZ0OPwi9/UPe9ZoYyGyuhWhg+1k0PxHm/vnEvsP
+ H0I9JHiieMbrkSIZQKearC2FLgsx4UwYElRU8MhajnbPhd2L7fQXiwgjtbRDudniIO+C
+ PPjIBJz64B8IhZ3aw7jUqLzGTVoMXtyhb284Zy1eGxMlkQVPzrBYEnpglrkt4j3eEMgs
+ HbBWRr0yD2bvORhBY7gbz2Rif8qqE6MOXDmdA/33twzsTeUM5Wydyb6JncJYurIZwaDH
+ q081O05PvIShqGjhZ+4/59/SefLaw3bPSU4AoTy6dOzl8j32tWdtrnxfghQt56bzeFJy
+ tLYg==
+X-Gm-Message-State: ACrzQf0xsE3k9kcl4+W9/lIlHdoHaRAdy/QSoeseRWsoiEccnOw36lhH
+ Cicp7fJjo+ghP0RJ/c5fWhA=
+X-Google-Smtp-Source: AMsMyM5jidO7BxUcy2yILHGXx/VYbFmwekvVE4ZTO0Z8QXVqKQ2/5c22vSg3uhBvBz+bHdfRG2HEGw==
+X-Received: by 2002:a17:902:ea11:b0:176:b283:9596 with SMTP id
+ s17-20020a170902ea1100b00176b2839596mr19752292plg.69.1664167839026; 
+ Sun, 25 Sep 2022 21:50:39 -0700 (PDT)
+Received: from ubuntu ([175.124.254.119]) by smtp.gmail.com with ESMTPSA id
+ e9-20020a17090a280900b00203059fc75bsm5493653pjd.5.2022.09.25.21.50.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Sep 2022 21:50:38 -0700 (PDT)
+Date: Sun, 25 Sep 2022 21:50:34 -0700
+From: Hyunwoo Kim <imv4bel@gmail.com>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v3] video: fbdev: smscufx: Fix use-after-free in
+ ufx_ops_open()
+Message-ID: <20220926045034.GA389532@ubuntu>
+References: <20220925133243.GA383897@ubuntu>
+ <37915429-7b4d-6e64-8ef7-a28bf8015fd5@gmx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <37915429-7b4d-6e64-8ef7-a28bf8015fd5@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,38 +70,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: steve.glendinning@shawell.net, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2022-09-23 at 13:16 +0200, Krzysztof Kozlowski wrote:
-> On 23/09/2022 03:39, liangxu.xu@mediatek.com wrote:
-> > From: liangxu xu <liangxu.xu@mediatek.com>
-> > 
-> > Add dt-binding documentation of dp for MediaTek MT8188 SoC.
-> > 
-> > Signed-off-by: liangxu xu <liangxu.xu@mediatek.com>
-> > ---
-> 
-> Where is the DTS? Where are driver changes?
-> 
-> Best regards,
-> Krzysztof
-> 
+Thank you for your review.
 
-Hi Krzysztof:
-
-If you want to see the synchronous changes of dts and binding files,
-then I will attach this binding file changes when sending dts later.
-
-The driver change of mt8188 reuses that of mt8195. The driver link is
-as follows:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/gpu/drm/mediatek/mtk_dp.c?id=48f4230642ee32a97ddf4be492838ce96089f040
 
 Best Regards,
-LiangXu
-
+Hyunwoo Kim.
