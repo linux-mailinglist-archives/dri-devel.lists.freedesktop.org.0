@@ -2,83 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D18A5E96F2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 01:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAE05E9772
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 02:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A7010E2EF;
-	Sun, 25 Sep 2022 23:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F1F10E4A0;
+	Mon, 26 Sep 2022 00:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3943E10E2EF;
- Sun, 25 Sep 2022 23:39:54 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id k10so8345807lfm.4;
- Sun, 25 Sep 2022 16:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=st3O2pRGPWK1FLJTPBGRuCniY8P/u6abQYJb/fEYuJQ=;
- b=W3K2NP/a6+oTI8gFEGt5nGGS9enU+0KpjF9MSWpto/y/e8Pqkyk3KdNROeq1VReuw3
- 4tbDUQNzhEsLSU0JCkjVpzqYzoF9pZhg9SvgEiWunM5yC5N0DLguvjWHMxFYGtncW+mc
- vOragtuGv5wtfYTpeKmAEjfsXd4V6tTTTzaNGi8+qtE32bmF4JD4wQ6frMIJoh9GGTge
- RAD/AaBmrSAOC5LqiVErhUkwhGjVz5+qH/Z27UJUyGp+GEOEmwJRfc1RTbiWoQbzjL5M
- mtmY0fn16PQvkz4jleVY/+noMI6YznIJxGIP6waxvJ+sh1wleUqUblTSTP3nNWAH+jkr
- pZZA==
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1097110E4A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 00:37:13 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ i15-20020a17090a4b8f00b0020073b4ac27so5219242pjh.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Sep 2022 17:37:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=JUqSNEPLCMNTTpKfM7Crxzu6WwUvly/09+gzrj81knI=;
+ b=oIwNpZQ5Y1z1143vFXyrfwGUJZ75JghkszOcBwSh0YmtZPbQHOcWWnAfns5g+sbQ/D
+ wiZ6Ijn8aWt3loyhafcrd2u+HcNQ1wlNI/8R7IsXEDiIp43xc5Tl50hy97o7WZC7QwAe
+ AYwaR/MB0DrbVUA991Ly8rZD21O7YmLTAEl4A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=st3O2pRGPWK1FLJTPBGRuCniY8P/u6abQYJb/fEYuJQ=;
- b=WwphXFysj+atz4I9xMY5vGxD4BppJEQZcwGMzhwCXK8XtZFxFSifg+J8JccFXfq6Es
- PKzltgZZIPqxAloQbkQ/HqjSREYSmRpjHmM+DVkdAUU1g2msxn+pbWALn1/BuMjcUM3y
- lEqJfCRRJ4KFTODfG8uavzIFPNAXcKRQ/0MPlxTFqw0D9T/W+EKVmk0PQqI3f8QgeMzK
- 7OZNZDwapHbiMASMELJFfkX2bd3p8mJxM6R5wyQIuQ1d0/2VBpYDR/NHjoKa017SNYXi
- PM0JVUF1/vGAW9s05V1KAThkJ6d3/9U47Vic4kcMJ2mMli6ZuoHLOG7K/tMitqteUACH
- AMGg==
-X-Gm-Message-State: ACrzQf22dU2VeDc36Nb/rYKAIhXAOOeU8U/a1WGj4gLp26W4fuLcNhhX
- iKuPlUUnV2OKTEgE8H/ynXQ=
-X-Google-Smtp-Source: AMsMyM5aDKQS2b/KY3xFf9M+RoiDx1qfHHYGi1ptQgxDMi9xIzklVjEJFzIiBqGLPRgxtbvB3OmxiQ==
-X-Received: by 2002:a05:6512:2215:b0:49e:ac45:22e1 with SMTP id
- h21-20020a056512221500b0049eac4522e1mr8247070lfu.33.1664149192424; 
- Sun, 25 Sep 2022 16:39:52 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-124-206.nat.spd-mgts.ru.
- [109.252.124.206]) by smtp.googlemail.com with ESMTPSA id
- i11-20020ac2522b000000b0048a921664e8sm2351312lfl.37.2022.09.25.16.39.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Sep 2022 16:39:51 -0700 (PDT)
-Message-ID: <f914ceb3-94bd-743c-f8b6-0334086e731a@gmail.com>
-Date: Mon, 26 Sep 2022 02:39:50 +0300
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=JUqSNEPLCMNTTpKfM7Crxzu6WwUvly/09+gzrj81knI=;
+ b=YxjDda3axxvIIDf5gkjI0WYWp+iXJVisBBR34thVhneVfRcft88PE20NuwalFuWjsO
+ AV43Aemj51hrH+BTpK0yy/44BnrZqIJR10V1rIxjNLNAfSIFwqxi+vtU5cegvMOTLZG3
+ Et4IDh2q0M5EmS4nRU5KkmUTbMq/p1vx4XKXVsVovAJy834icUw0dMIA5or5hcGU/P3j
+ 51jgLr52toPm3v3iNI2UnJpwstVfbXmPraOng+2+iWm2C63/uS50I5LhbxYQ5SGK6QGp
+ RCyT4xRe8wm6myFRpQ0PScWitFxKnmk8/XzLyc0Rt7/jhoG+xaWX60Aunl7nLKfobtq9
+ 0NVQ==
+X-Gm-Message-State: ACrzQf3bNZO6i9Bv6vdt3wo/tDOX9HcYrzsgy0fmplhNveRLY1ZdjOLA
+ aQygy+2miTPR3Qhua35RA0ZXYQ==
+X-Google-Smtp-Source: AMsMyM6cpOhuwKFpZGu/GN3489Z0nCbt+/1a9GngZAzI09XYZxSG0DMGO11e73UWrmykWT+QugME+g==
+X-Received: by 2002:a17:903:120d:b0:179:d027:66f0 with SMTP id
+ l13-20020a170903120d00b00179d02766f0mr7587416plh.61.1664152632485; 
+ Sun, 25 Sep 2022 17:37:12 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ 69-20020a621748000000b0053725e331a1sm10589061pfx.82.2022.09.25.17.37.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Sep 2022 17:37:11 -0700 (PDT)
+Date: Sun, 25 Sep 2022 17:37:10 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [PATCH v11 3/9] compiler_types.h: Add assert_same_type to catch
+ type mis-match while compiling
+Message-ID: <202209251032.71251A8@keescook>
+References: <20220923082628.3061408-1-gwan-gyeong.mun@intel.com>
+ <20220923082628.3061408-4-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
- backlight should be used (v2)
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
- Daniel Dadap <ddadap@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
- Andy Shevchenko <andy@kernel.org>
-References: <20220825143726.269890-1-hdegoede@redhat.com>
- <20220825143726.269890-3-hdegoede@redhat.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <20220825143726.269890-3-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220923082628.3061408-4-gwan-gyeong.mun@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,58 +69,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, nouveau@lists.freedesktop.org,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
- Len Brown <lenb@kernel.org>
+Cc: thomas.hellstrom@linux.intel.com, mauro.chehab@linux.intel.com,
+ andi.shyti@linux.intel.com, jani.nikula@intel.com, ndesaulniers@google.com,
+ intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, andrzej.hajda@intel.com, dlatypov@google.com,
+ matthew.auld@intel.com, airlied@redhat.com, mchehab@kernel.org,
+ vitor@massaru.org, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-25.08.2022 17:36, Hans de Goede пишет:
-> Before this commit when we want userspace to use the acpi_video backlight
-> device we register both the GPU's native backlight device and acpi_video's
-> firmware acpi_video# backlight device. This relies on userspace preferring
-> firmware type backlight devices over native ones.
-> 
-> Registering 2 backlight devices for a single display really is
-> undesirable, don't register the GPU's native backlight device when
-> another backlight device should be used.
-> 
-> Changes in v2:
-> - Use drm_info(drm_dev,  ...) for log messages
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_backlight.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-> index 681ebcda97ad..03c7966f68d6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-> @@ -8,6 +8,8 @@
->  #include <linux/pwm.h>
->  #include <linux/string_helpers.h>
->  
-> +#include <acpi/video.h>
-> +
->  #include "intel_backlight.h"
->  #include "intel_backlight_regs.h"
->  #include "intel_connector.h"
-> @@ -952,6 +954,11 @@ int intel_backlight_device_register(struct intel_connector *connector)
->  
->  	WARN_ON(panel->backlight.max == 0);
->  
-> +	if (!acpi_video_backlight_use_native()) {
-> +		drm_info(&i915->drm, "Skipping intel_backlight registration\n");
-> +		return 0;
-> +	}
-> +
->  	memset(&props, 0, sizeof(props));
->  	props.type = BACKLIGHT_RAW;
->  
+On Fri, Sep 23, 2022 at 11:26:22AM +0300, Gwan-gyeong Mun wrote:
+> Adds assert_same_type and assert_same_typable macros to catch type
+> mis-match while compiling. The existing typecheck() macro outputs build
+> warnings, but the newly added assert_same_type() macro uses the
+> static_assert macro (which uses _Static_assert keyword and it introduced
+> in C11) to generate a build break when the types are different and can be
+> used to detect explicit build errors. Unlike the assert_same_type() macro,
+> assert_same_typable() macro allows a constant value as the second argument.
+> Since static_assert is used at compile time and it requires
+> constant-expression as an argument [1][2], overflows_type_ret_const_expr()
+> is newly added. There is overflows_type() that has the same behavior, but
+> the macro uses __builtin_add_overflow() internally, and
+> __builtin_add_overflows returns a bool type [3], so it is difficult to use
+> as an argument of _Static_assert. The assert_same_type and
+> assert_same_typable macros have been added to compiler_types.h, but the
+> overflows_type_ret_const_expr macro has been added to overflow.h
+> So, overflow.h has to be included to use assert_same_typable which
+> internally uses overflows_type_ret_const_expr.
+> And it adds unit tests for overflows_type, overflows_type_ret_const_expr,
+> assert_same_type and assert_same_typable. The overflows_type has been added
+> as well to compare whether the overflows_type_ret_const_expr unit test has
+> the same as the result.
 
-This breaks backlight on Acer Chromebook Spin 713 because backlight
-isn't registered anymore. Any ideas how to fix it?
+I spent some time rewriting the code in this patch. I think it's really
+close, but I wanted to tweak how things were being defined, naming, etc.
+
+Notes below, and I'll send my proposed patch separately...
+
+> [...]
+> +#define overflows_type_ret_const_expr(x,T) (			\
+
+For the "overflows_type" defines, I think this reads a bit better:
+
+#define __overflows_type_constexpr(x, T) (                      \
+        is_unsigned_type(typeof(x)) ?                           \
+                (x) > type_max(typeof(T)) ? 1 : 0               \
+        : is_unsigned_type(typeof(T)) ?                         \
+                (x) < 0 || (x) > type_max(typeof(T)) ? 1 : 0    \
+                : (x) < type_min(typeof(T)) ||                  \
+                  (x) > type_max(typeof(T)) ? 1 : 0 )
+
+#define __overflows_type(x, T)          ({      \
+        typeof(T) v = 0;                        \
+        check_add_overflow((x), v, &v);         \
+})
+
+#define overflows_type(n, T)                                    \
+        __builtin_choose_expr(__is_constexpr(n),                \
+                              __overflows_type_constexpr(n, T), \
+                              __overflows_type(n, T))
+
+> [...]
+> +/**
+> + * assert_same_type - abort compilation if the first argument's data type and
+> + *                    the second argument's data type are not the same
+> + * @t1: data type or variable
+> + * @t2: data type or variable
+> + *
+> + * The first and second arguments can be data types or variables or mixed (the
+> + * first argument is the data type and the second argument is variable or vice
+> + * versa). It determines whether the first argument's data type and the second
+> + * argument's data type are the same while compiling, and it aborts compilation
+> + * if the two types are not the same.
+> + * See also assert_same_typable().
+> + */
+> +#define assert_same_type(t1, t2) static_assert(__same_type(t1, t2))
+
+I still think I'd rather avoid a define for this. It doesn't seem worth
+4 characters of savings to just have to type it out:
+
+	static_assert(__same_type(a, b))
+
+> [...]
+> +#define assert_same_typable(t, n) static_assert(			       \
+> +		__builtin_choose_expr(__builtin_constant_p(n),		       \
+> +				      overflows_type_ret_const_expr(n,t) == 0, \
+> +				      __same_type(t, n)))
+
+This one I'd like to convert into something closer in naming convention to
+"__same_type". Also note that "__builtin_constant_p()" doesn't actually
+work here: it needs to be __is_constexpr(). So, I propose:
+
+#define __castable_to_type(n, T)				\
+		__builtin_choose_expr(__is_constexpr(n),	\
+			__overflows_type_constexpr(n, T),	\
+			__same_type(n, T))
+
+Then we can do:
+
+	static_assert(__castable_to_type(INT_MAX, size_t));
+
+> [...[
+> +static void overflows_type_test(struct kunit *test)
+> +{
+> +/* Args are: first type, secound type, value, overflow expected */
+> +#define TEST_OVERFLOWS_TYPE(t1, t2, v, of) do {				\
+> +	t1 __t1 = v;							\
+> +	t2 __t2;							\
+> +	bool __of;							\
+> +	__of = overflows_type(v, t2);					\
+> +	if (__of != of) {						\
+> +		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
+> +			"expected overflows_type(%s, %s) to%s overflow\n", \
+> +			#v, #t2, of ? "" : " not");			\
+> +	}								\
+> [...]
+> +	__of = overflows_type_ret_const_expr(__t1, __t2) ? true : false;\
+> +	if (__of != of) {						\
+> +		KUNIT_EXPECT_EQ_MSG(test, __of, of,			\
+> +			"expected overflows_type_ret_const_expr(%s, %s) to%s overflow\n", \
+> +			#t1" __t1 = "#v, #t2" __t2", of ? "" : " not");	\
+> +	}								\
+
+These tests are excellent! I've adapted them a little bit to avoid some
+of their internal redundancy. (i.e. the above blocks are basically
+almost entire the same, etc).
+
+-Kees
+
+-- 
+Kees Cook
