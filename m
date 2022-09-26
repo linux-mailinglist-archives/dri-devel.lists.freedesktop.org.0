@@ -1,50 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0945E9CCB
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 11:02:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CC55E9D5C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 11:19:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24AF610E3E9;
-	Mon, 26 Sep 2022 09:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C07F810E654;
+	Mon, 26 Sep 2022 09:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7953E10E3E9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 09:02:06 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2A5BD6602250;
- Mon, 26 Sep 2022 10:02:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1664182924;
- bh=O7yTnbCSwacpaQ7u5yBgx5B/jmbp1mTfJETSiq+UOYI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ATTN9DAsyeHNWcZnAVzis6nDAa02EMavwqvugwQL+yZVmbWzTvxZJwWLJVPkUi7B9
- HT81YB0fUYlbhWhi1gMeYYBXA6wT6U154/FzXaqTKgRxPg9HwPOZ8a2yFPFRIj84O5
- JMryFlUHa5tXN1j1WAKR2Q/lesgQlNhrgZHB5lHx8HM0ozsKS+YUqjbl0PqyM3pcNr
- 1HvqYx1f91T/nZRBXh0K6nzCQgt1E/anQibrn1Cf2pC8NSmjOOz1Xu1djdtTr9Mc9N
- 4+j2mIcuDggl8g3OV9bF7PvepZ0XwAW6tmbfHugyB+oogNo/Y8Mz6YNqKYt+KUMDY3
- BidlPkPi9PtUw==
-Message-ID: <11a141b8-510f-57cb-01aa-6508e58fa5ef@collabora.com>
-Date: Mon, 26 Sep 2022 11:02:01 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF6C410E087;
+ Mon, 26 Sep 2022 09:19:24 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1669EB801BF;
+ Mon, 26 Sep 2022 09:19:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BF7BC433D6;
+ Mon, 26 Sep 2022 09:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664183961;
+ bh=zokIZXIlwzWBqkPaQXmt40NpJQ0hgwAisoGjIS1cLtE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=onOnhZHPmnMEnhxjLoePqwKXpMITuZWqKeQNkgP1CajCp5fPjNwqdZxivdetEQL2C
+ MznLDa8bph60pvZS8/aG5JsFrSONfxCREO7wKTPgUaKPAIGSNuMTh6yRZBvfHNpsgA
+ Wlm6GCFrOfGjY5Y/RdDrXjxGPjXh3TO+qI228Cuff6LAEN8TPrs5rdXsY5kUCG3C2c
+ 9z2QkcX422rsJVX4Se3WYQo/e68tVW8naNp4HmilrGj7Zdi8PI/RJMGnYH/7UDFINx
+ gxAoT0yumVmNdomiYiS68Gf377Lu5j+271I+lkGzKoEI2KlawYJLrbHP4DkCtPE9sn
+ g2DQhxS3nOgXg==
+Date: Mon, 26 Sep 2022 11:19:16 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3 01/37] drm/i915: fix kernel-doc trivial
+ warnings on i915/*.[ch] files
+Message-ID: <20220926111916.65a9859e@coco.lan>
+In-Reply-To: <2aa5f49e-af83-6368-8db5-e9b33dd19f06@intel.com>
+References: <cover.1662708705.git.mchehab@kernel.org>
+ <752ce443ea141601cf59a1ad8a5130deed2feb4f.1662708705.git.mchehab@kernel.org>
+ <2aa5f49e-af83-6368-8db5-e9b33dd19f06@intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v10,2/3] drm: mediatek: Adjust the dpi output format to
- MT8186
-Content-Language: en-US
-To: xinlei.lee@mediatek.com, matthias.bgg@gmail.com,
- jason-jh.lin@mediatek.com, rex-bc.chen@mediatek.com, ck.hu@mediatek.com,
- p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch
-References: <1663927104-15506-1-git-send-email-xinlei.lee@mediatek.com>
- <1663927104-15506-3-git-send-email-xinlei.lee@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <1663927104-15506-3-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,22 +55,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/09/22 11:58, xinlei.lee@mediatek.com ha scritto:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
+Em Fri, 16 Sep 2022 17:03:27 +0300
+Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> escreveu:
+
+> >   /**
+> > - * Called when user space has done writes to this buffer
+> > + * i915_gem_sw_finish_ioctl - Called when user space has done writes to
+> > + *		this buffer  
+> As per this link[1], the brief description does not have a limitation to 
+> match the indentation when explained over multiple lines, unlike 
+> function parameters.
 > 
-> Dpi output needs to adjust the output format to dual edge for MT8186.
+> [1] 
+> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
 > 
-> Co-developed-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> Therefore if you look at the function brief description over several 
+> lines in i915 and drm,
+> 
+> One of the drm apis, drm_gem_lock_reservations(), is used without 
+> indentation in the form below,
+> /**
+>   * drm_gem_lock_reservations - Sets up the ww context and acquires
+>   * the lock on an array of GEM objects.
+> 
+> In i915_perf.c, indentation is set as follows.
+> 
+> /**
+>   * gen8_append_oa_reports - Copies all buffered OA reports into
+>   *			    userspace read() buffer.
+> 
+> ...
+> 
+> /**
+>   * gen7_append_oa_reports - Copies all buffered OA reports into
+>   *			    userspace read() buffer.
+> 
+> If there is no problem when using the same form as 
+> gen8_append_oa_reports when generating kernel-doc, it seems to be 
+> indented to match the existing i915 style. However, if there is a 
+> problem, I think you need to remove the indented part of the i915 code 
+> like the drm apis.
+> 
+> except i915_gem_sw_finish_ioctl  i915_gem_gtt_pwrite_fast parts, the 
+> rest of the parts look good to me.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+There's no rule about either indent or not. IMO, it makes easier for
+humans to read when indent is used.
 
+Yet, I'd say that, right now, 50% of multi-line comments within the
+kernel has indent. So, it is more like a matter of personal developer's
+preference at the moment.
 
+> 
+> Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+
+Thanks,
+Mauro
