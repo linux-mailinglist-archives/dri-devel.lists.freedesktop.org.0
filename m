@@ -1,51 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D40D5EAD48
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 18:56:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D4D5EADAD
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Sep 2022 19:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7853510E277;
-	Mon, 26 Sep 2022 16:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A64F10E066;
+	Mon, 26 Sep 2022 17:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8968E10E277;
- Mon, 26 Sep 2022 16:56:16 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06B5910E00F;
+ Mon, 26 Sep 2022 17:10:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664211376; x=1695747376;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ijXf7XMzPZ9wbA89KdlDB5gv4Ky15GubaBdxnGOTR1g=;
- b=KU2ODPqUHZ2BSFoG5QP8Zd7ZHVxJgbQzm2rLYZ4v7oymHr83na8OIiGs
- 5FgJnW5F8IJmF+wctx+v2uMyyEwcNG2v0Y1a/QevgkF9A4e3j/x6r/O0M
- 25+HRamCwAGR6SeAZxvGnRP+6bpJsUntfg5kAchoOLllJHDYbLebnKEs2
- yjzKe9I6dz0kEDFMnxu64WyaIH5jhWoOkPiCH9jhVsjHkL/kSBdGzUYVT
- ESPTWyIFh4ueEuNDeIjpF1UQCLbNW4jwpwhbhwcWqmmRMAz8HZVfPZfWW
- HEl/GolCY/lq4Laa+WlqsDYj/GBsO4hLvRHFcTk476+uXp4FRiTsNyadN Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="301065004"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="301065004"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 09:56:15 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="949922989"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="949922989"
-Received: from lsabisze-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.59.243])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 09:56:14 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/i915/mtl: enable local stolen memory
-In-Reply-To: <20220926164643.4192603-1-aravind.iddamsetty@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220926164643.4192603-1-aravind.iddamsetty@intel.com>
-Date: Mon, 26 Sep 2022 19:55:54 +0300
-Message-ID: <87y1u613dx.fsf@intel.com>
+ t=1664212227; x=1695748227;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=+xMQec/RgTIs9Ml3lMqqvWRtRO3h4vzpU5AtRYjCa8w=;
+ b=GK1t0ILJCr0sAXuMmPOJQPXYLGnd0MqiVe5/sNk5g5r9GK4+XL0i82TE
+ s5FqGCdNlsQG9KT+Waoms2LoAwirNx7cjL4KF53JBc3NDRqLq3TkWUERg
+ CtF5dhmIuQV6t9WE37E2U1umnpzVCB38+8doSH6XboF0ngehFSOatlTpo
+ CnIILZcNPHYZrEs1dmdYvVJpy0Gfkjjf9RuEHJUjCXbpqXoVtwt62MrUN
+ ZvaUgqZov4E/8QLs7AKZK9FvD9758sac06pIZhMFGRV9hllcHfUSxASMm
+ d6aHQMvqrZB3uiLbzjaucAet5T600KxTnHNK9nRLNf0r3TpLgWL7bpkzF w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="362920140"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="362920140"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 10:10:19 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="689637307"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="689637307"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 10:10:16 -0700
+Date: Mon, 26 Sep 2022 10:09:50 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC v4 13/14] drm/i915/vm_bind: Skip vma_lookup for
+ persistent vmas
+Message-ID: <20220926170950.GA16345@nvishwa1-DESK>
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-14-niranjana.vishwanathapura@intel.com>
+ <99bbab8d-42e7-2aed-d64a-5bd61dfc9fd6@linux.intel.com>
+ <20220924043010.GJ28263@nvishwa1-DESK>
+ <38313280-24ed-e778-421c-cc1358e61a35@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <38313280-24ed-e778-421c-cc1358e61a35@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,240 +63,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org
+Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Sep 2022, Aravind Iddamsetty <aravind.iddamsetty@intel.com> wrote:
-> As an integrated GPU, MTL does not have local memory and
-> HAS_LMEM() returns false.  However the platform's stolen memory
-> is presented via BAR2 (i.e., the BAR we traditionally consider
-> to be the LMEM BAR) and should be managed by the driver the same
-> way that local memory is on dgpu platforms (which includes
-> setting the "lmem" bit on page table entries).  We use the term
-> "local stolen memory" to refer to this model.
+On Mon, Sep 26, 2022 at 05:26:12PM +0100, Tvrtko Ursulin wrote:
 >
-> v2:
-> 1. dropped is_dsm_invalid, updated valid_stolen_size check from Lucas
-> (Jani, Lucas)
-> 2. drop lmembar_is_igpu_stolen
-> 3. revert to referring GFXMEM_BAR as GEN12_LMEM_BAR (Lucas)
+>On 24/09/2022 05:30, Niranjana Vishwanathapura wrote:
+>>On Fri, Sep 23, 2022 at 09:40:20AM +0100, Tvrtko Ursulin wrote:
+>>>
+>>>On 21/09/2022 08:09, Niranjana Vishwanathapura wrote:
+>>>>vma_lookup is tied to segment of the object instead of section
+>>>
+>>>Can be, but not only that. It would be more accurate to say it is 
+>>>based of gtt views.
+>>
+>>Yah, but new code is also based on gtt views, the only difference
+>>is that now there can be multiple mappings (at different VAs)
+>>to the same gtt_view of the object.
+>>
+>>>
+>>>>of VA space. Hence, it do not support aliasing (ie., multiple
+>>>>bindings to the same section of the object).
+>>>>Skip vma_lookup for persistent vmas as it supports aliasing.
+>>>
+>>>What's broken without this patch? If something is, should it go 
+>>>somewhere earlier in the series? If so should be mentioned in the 
+>>>commit message.
+>>>
+>>>Or is it just a performance optimisation to skip unused tracking? 
+>>>If so should also be mentioned in the commit message.
+>>>
+>>
+>>No, it is not a performance optimization.
+>>The vma_lookup is based on the fact that there can be only one mapping
+>>for a given gtt_view of the object.
+>>So, it was looking for gtt_view to find the mapping.
+>>
+>>But now, as I mentioned above, there can be multiple mappings for a
+>>given gtt_view of the object. Hence the vma_lookup method won't work
+>>here. Hence, it is being skipped for persistent vmas.
 >
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>Right, so in that case isn't this patch too late in the series? 
+>Granted you only allow _userspace_ to use vm bind in 14/14, but the 
+>kernel infrastructure is there and if there was a selftest it would be 
+>able to fail without this patch, no?
 >
-> Signed-off-by: CQ Tang <cq.tang@intel.com>
-> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> Original-author: CQ Tang
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 88 ++++++++++++++++++----
->  drivers/gpu/drm/i915/gt/intel_ggtt.c       |  2 +-
->  drivers/gpu/drm/i915/i915_drv.h            |  3 +
->  3 files changed, 76 insertions(+), 17 deletions(-)
+
+Yes it is incorrect patch ordering. I am fixing it by moving this patch
+to early in the series and adding a new i915_vma_create_persistent()
+function and avoid touching i915_vma_instance() everywhere (as you
+suggested).
+
+<snip>
+
+>>>>--- a/drivers/gpu/drm/i915/i915_vma.c
+>>>>+++ b/drivers/gpu/drm/i915/i915_vma.c
+>>>>@@ -110,7 +110,8 @@ static void __i915_vma_retire(struct 
+>>>>i915_active *ref)
+>>>> static struct i915_vma *
+>>>> vma_create(struct drm_i915_gem_object *obj,
+>>>>        struct i915_address_space *vm,
+>>>>-       const struct i915_gtt_view *view)
+>>>>+       const struct i915_gtt_view *view,
+>>>>+       bool persistent)
+>>>> {
+>>>>     struct i915_vma *pos = ERR_PTR(-E2BIG);
+>>>>     struct i915_vma *vma;
+>>>>@@ -197,6 +198,9 @@ vma_create(struct drm_i915_gem_object *obj,
+>>>>         __set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(vma));
+>>>>     }
+>>>>+    if (persistent)
+>>>>+        goto skip_rb_insert;
+>>>
+>>>Oh so you don't use the gtt_view's fully at all. I now have 
+>>>reservations whether that was the right approach. Since you are 
+>>>not using the existing rb tree tracking I mean..
+>>>
+>>>You know if a vma is persistent right? So you could have just 
+>>>added special case for persistent vmas to __i915_vma_get_pages and 
+>>>still call intel_partial_pages from there. Maybe union over struct 
+>>>i915_gtt_view in i915_vma for either the view or struct 
+>>>intel_partial_info for persistent ones.
+>>>
+>>
+>>We are using the gtt_view fully in this patch for persistent vmas.
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index c5a4035c99cd..582c4d7d2a9a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -77,9 +77,9 @@ void i915_gem_stolen_remove_node(struct drm_i915_private *i915,
->  	mutex_unlock(&i915->mm.stolen_lock);
->  }
->  
-> -static bool valid_stolen_size(struct resource *dsm)
-> +static bool valid_stolen_size(struct drm_i915_private *i915, struct resource *dsm)
->  {
-> -	return dsm->start != 0 && dsm->end > dsm->start;
-> +	return (dsm->start != 0 || HAS_BAR2_SMEM_STOLEN(i915)) && dsm->end > dsm->start;
->  }
->  
->  static int adjust_stolen(struct drm_i915_private *i915,
-> @@ -88,7 +88,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
->  	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
->  
-> -	if (!valid_stolen_size(dsm))
-> +	if (!valid_stolen_size(i915, dsm))
->  		return -EINVAL;
->  
->  	/*
-> @@ -135,7 +135,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
->  		}
->  	}
->  
-> -	if (!valid_stolen_size(dsm))
-> +	if (!valid_stolen_size(i915, dsm))
->  		return -EINVAL;
->  
->  	return 0;
-> @@ -148,9 +148,10 @@ static int request_smem_stolen(struct drm_i915_private *i915,
->  
->  	/*
->  	 * With stolen lmem, we don't need to request system memory for the
-> -	 * address range since it's local to the gpu.
-> +	 * address range since it's local to the gpu and in some IGFX devices
-> +	 * BAR2 is exposed as stolen
->  	 */
-> -	if (HAS_LMEM(i915))
-> +	if (HAS_LMEM(i915) || HAS_BAR2_SMEM_STOLEN(i915))
->  		return 0;
->  
->  	/*
-> @@ -385,8 +386,6 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
->  
->  	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = 0x%016llx\n", reg_val);
->  
-> -	*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
-> -
->  	switch (reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK) {
->  	case GEN8_STOLEN_RESERVED_1M:
->  		*size = 1024 * 1024;
-> @@ -404,6 +403,12 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
->  		*size = 8 * 1024 * 1024;
->  		MISSING_CASE(reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK);
->  	}
-> +
-> +	if (HAS_BAR2_SMEM_STOLEN(i915))
-> +		/* the base is initialized to stolen top so subtract size to get base */
-> +		*base -= *size;
-> +	else
-> +		*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
->  }
->  
->  /*
-> @@ -833,6 +838,34 @@ static const struct intel_memory_region_ops i915_region_stolen_lmem_ops = {
->  	.init_object = _i915_gem_object_stolen_init,
->  };
->  
-> +static int get_mtl_gms_size(struct intel_uncore *uncore)
+>I guess yours and mine definition of fully are different. :)
+>
+>>But as mentioned above, now we have support multiple mappings
+>>for the same gtt_view of the object. For this, the current
+>>vma_lookup() falls short. So, we are skipping it.
+>
+>I get it - but then, having only now noticed how it will be used, I am 
+>less convinced touching the ggtt_view code was the right approach.
+>
+>What about what I proposed above? That you just add code to 
+>__i915_vma_get_pages, which in case of a persistent VMA would call 
+>intel_partial_pages from there.
+>
+>If that works I think it's cleaner and we'd just revert the ggtt_view 
+>to gtt_view rename.
+>
 
-Please always use platform TLA as prefix, not something in the middle of
-the function name.
+I don't think that is any cleaner. We need to store the partial view
+information somewhere for the persistent vmas as well. Why not use
+the existing gtt_view for that instead of a new data structure?
+In fact long back I had such an implementation and it was looking
+odd and was suggested to use the existing infrastructure (gtt_view).
 
-> +{
-> +	u16 ggc, gms;
-> +
-> +	ggc = intel_uncore_read16(uncore, _MMIO(0x108040));
+Besides, I think the current i915_vma_lookup method is no longer valid.
+(Ever since we had softpinning, lookup should have be based on the VA
+and not the vma's view of the object).
 
-Please define the registers.
+Regards,
+Niranjana
 
-> +
-> +	/* check GGMS, should be fixed 0x3 (8MB) */
-> +	if ((ggc & 0xc0) != 0xc0)
-> +		return -EIO;
-> +
-> +	/* return valid GMS value, -EIO if invalid */
-> +	gms = ggc >> 8;
-> +	switch (gms) {
-> +	case 0x0 ... 0x10:
-> +		return gms * 32;
-> +	case 0x20:
-> +		return 1024;
-> +	case 0x30:
-> +		return 1536;
-> +	case 0x40:
-> +		return 2048;
-> +	case 0xf0 ... 0xfe:
-> +		return (gms - 0xf0 + 1) * 4;
-> +	default:
-> +		return -EIO;
-> +	}
-> +}
-> +
->  struct intel_memory_region *
->  i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->  			   u16 instance)
-> @@ -843,6 +876,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->  	struct intel_memory_region *mem;
->  	resource_size_t io_start, io_size;
->  	resource_size_t min_page_size;
-> +	int ret;
->  
->  	if (WARN_ON_ONCE(instance))
->  		return ERR_PTR(-ENODEV);
-> @@ -850,12 +884,8 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->  	if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
->  		return ERR_PTR(-ENXIO);
->  
-> -	/* Use DSM base address instead for stolen memory */
-> -	dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
-> -	if (IS_DG1(uncore->i915)) {
-> +	if (HAS_BAR2_SMEM_STOLEN(i915) || IS_DG1(i915)) {
->  		lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
-> -		if (WARN_ON(lmem_size < dsm_base))
-> -			return ERR_PTR(-ENODEV);
->  	} else {
->  		resource_size_t lmem_range;
->  
-> @@ -864,13 +894,39 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->  		lmem_size *= SZ_1G;
->  	}
->  
-> -	dsm_size = lmem_size - dsm_base;
-> -	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
-> +	if (HAS_BAR2_SMEM_STOLEN(i915)) {
-> +		/*
-> +		 * MTL dsm size is in GGC register, not the bar size.
-> +		 * also MTL uses offset to DSMBASE in ptes, so i915
-> +		 * uses dsm_base = 0 to setup stolen region.
-> +		 */
-> +		ret = get_mtl_gms_size(uncore);
-> +		if (ret < 0) {
-> +			drm_err(&i915->drm, "invalid MTL GGC register setting\n");
-> +			return ERR_PTR(ret);
-> +		}
-> +
-> +		dsm_base = 0;
-> +		dsm_size = (resource_size_t)(ret * SZ_1M);
-> +
-> +		GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != 256 * SZ_1M);
-> +		GEM_BUG_ON((dsm_size + 8 * SZ_1M) > lmem_size);
-> +	} else {
-> +		/* Use DSM base address instead for stolen memory */
-> +		dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE);
-> +		if (WARN_ON(lmem_size < dsm_base))
-> +			return ERR_PTR(-ENODEV);
-> +		dsm_size = lmem_size - dsm_base;
-> +	}
-> +
-> +	io_size = dsm_size;
-> +	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < dsm_size) {
->  		io_start = 0;
->  		io_size = 0;
-> +	} else if (HAS_BAR2_SMEM_STOLEN(i915)) {
-> +		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + 8 * SZ_1M;
->  	} else {
->  		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
-> -		io_size = dsm_size;
->  	}
->  
->  	min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 30cf5c3369d9..b31fe0fb013f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -931,7 +931,7 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
->  	unsigned int size;
->  	u16 snb_gmch_ctl;
->  
-> -	if (!HAS_LMEM(i915)) {
-> +	if (!HAS_LMEM(i915) && !HAS_BAR2_SMEM_STOLEN(i915)) {
->  		if (!i915_pci_resource_valid(pdev, GTT_APERTURE_BAR))
->  			return -ENXIO;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index d830d52ded5d..b33ba0d49bbd 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -975,6 +975,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  
->  #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_fuse_bit)
->  
-> +#define HAS_BAR2_SMEM_STOLEN(i915) (!HAS_LMEM(i915) && \
-> +				    GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-> +
->  /* intel_device_info.c */
->  static inline struct intel_device_info *
->  mkwrite_device_info(struct drm_i915_private *dev_priv)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+>Regards,
+>
+>Tvrtko
+>
+>>
+>>Regards,
+>>Niranjana
+>>
+>>>Regards,
+>>>
+>>>Tvrtko
+>>>
+>>>>+
+>>>>     rb = NULL;
+>>>>     p = &obj->vma.tree.rb_node;
+>>>>     while (*p) {
+>>>>@@ -221,6 +225,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>>>>     rb_link_node(&vma->obj_node, rb, p);
+>>>>     rb_insert_color(&vma->obj_node, &obj->vma.tree);
+>>>>+skip_rb_insert:
+>>>>     if (i915_vma_is_ggtt(vma))
+>>>>         /*
+>>>>          * We put the GGTT vma at the start of the vma-list, followed
+>>>>@@ -279,6 +284,7 @@ i915_vma_lookup(struct drm_i915_gem_object *obj,
+>>>>  * @obj: parent &struct drm_i915_gem_object to be mapped
+>>>>  * @vm: address space in which the mapping is located
+>>>>  * @view: additional mapping requirements
+>>>>+ * @persistent: Whether the vma is persistent
+>>>>  *
+>>>>  * i915_vma_instance() looks up an existing VMA of the @obj in 
+>>>>the @vm with
+>>>>  * the same @view characteristics. If a match is not found, one 
+>>>>is created.
