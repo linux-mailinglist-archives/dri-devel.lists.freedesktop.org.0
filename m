@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69CF5EB551
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 01:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C185EB556
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 01:17:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C44910E818;
-	Mon, 26 Sep 2022 23:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3BD10E810;
+	Mon, 26 Sep 2022 23:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8362810E815
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 23:17:16 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77B2F10E810
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 23:17:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664234236; x=1695770236;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=cxNrbqAjmClIvFG/OVKytkPgNtvi7T+9EIcqeNgq8Ic=;
- b=QF8kS1LM2XLaBg4Yq0+VOCbcmdnRrFwE1nSzcPhwXMqcsvyPNfZALMmS
- SWFeVJUuocaJbdozMgZjtQ8Fmyf47+B/eB+2rHfJF8FRSeaWJu4q7nbxr
- /QrQIyiO+D/GjlHtw6d1ODratpnpXzEXhaDVEb8H8hpZYsLU2wFQtP4vu
- oWkXbVwW3+nB56FvSpRu/iYOoHC0QfYhDhGw1z7CyB3J0aMpYirlHXtFJ
- 0HeoBnZ3TXuYxBEb4Nel7Wt9bqqdoUN35a8ixX0bW2aLoBkVrqJW2HZCQ
- cnnE28ujAVSu5rFTQ8Mdu1n4n1H1sGQqMAGqizfee/k72WoU6/ToF4jYO A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="284285287"
-X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="284285287"
+ t=1664234248; x=1695770248;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=32cZwzaupVbqe0RPXzW/p9zHEOnc0oUy4MpECS5PJis=;
+ b=V4fRLxnqnt7ygMzqabNhG7cnHD+LvzwHRUd0V09borZjfX/DCEoj5whx
+ hmT1KUUn0IDK3wJugpWmd2IP21qThRO/h5fOh6nm0RCgqV3nCuXMT8/2Q
+ 52h0yYDboMNrXOsb8YhzRzGmf5YZPBj/u9862xfQi3FJv9nIEVYIQcRcc
+ 4vTXOIQupGx9rL5scCSKJBlbTq9zBb0uzqn/WaGn75yEee8Yf/R9GJ0zq
+ 5ywvv8L7bPuYHiZpntjQLxHKLMYgLY2Y2rRJX4vAp5ASjV6xpzyJUO4ec
+ boYxcQa/+G7TXVMAG/12mf5879A0ODX0V78vW04qFC0sZgtzAZygc9ICL g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="302638856"
+X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="302638856"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 16:17:15 -0700
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 16:17:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="763649541"
-X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="763649541"
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="763649689"
+X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="763649689"
 Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
  ([10.105.129.122])
- by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2022 16:17:15 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2022 16:17:22 -0700
 From: Dongwon Kim <dongwon.kim@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PFC PATCH 0/3] drm/virtio: synchronous guest framebuffer update
-Date: Mon, 26 Sep 2022 16:06:52 -0700
-Message-Id: <20220926230655.2565-1-dongwon.kim@intel.com>
+Subject: [RFC PATCH 1/3] drm/virtio: .release ops for virtgpu fence release
+Date: Mon, 26 Sep 2022 16:06:53 -0700
+Message-Id: <20220926230655.2565-2-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220926230655.2565-1-dongwon.kim@intel.com>
+References: <20220926230655.2565-1-dongwon.kim@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,21 +62,42 @@ Cc: dongwon.kim@intel.com, vivek.kasireddy@intel.com, kraxel@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series is for fixing some issues regarding scanout synchronization with
-host (e.g. QEMU/KVM) that uses virtio-gpu. This series replaces the previously
-submitted one, "[PATCH v2 0/2] drm/virtio: fence handling in case of multi
-scanouts".
+virtio_gpu_fence_release is added to free virtio-gpu-fence
+upon release of dma_fence.
 
-Dongwon Kim (3):
-  drm/virtio: .release ops for virtgpu fence release
-  drm/virtio: new fence for every plane update
-  drm/virtio: drm_gem_plane_helper_prepare_fb for obj synchronization
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_fence.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 +++
- drivers/gpu/drm/virtio/virtgpu_fence.c |  8 +++
- drivers/gpu/drm/virtio/virtgpu_plane.c | 85 +++++++++++++++-----------
- 3 files changed, 65 insertions(+), 35 deletions(-)
-
+diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+index f28357dbde35..ba659ac2a51d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_fence.c
++++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+@@ -63,12 +63,20 @@ static void virtio_gpu_timeline_value_str(struct dma_fence *f, char *str,
+ 		 (u64)atomic64_read(&fence->drv->last_fence_id));
+ }
+ 
++static void virtio_gpu_fence_release(struct dma_fence *f)
++{
++	struct virtio_gpu_fence *fence = to_virtio_gpu_fence(f);
++
++	kfree(fence);
++}
++
+ static const struct dma_fence_ops virtio_gpu_fence_ops = {
+ 	.get_driver_name     = virtio_gpu_get_driver_name,
+ 	.get_timeline_name   = virtio_gpu_get_timeline_name,
+ 	.signaled            = virtio_gpu_fence_signaled,
+ 	.fence_value_str     = virtio_gpu_fence_value_str,
+ 	.timeline_value_str  = virtio_gpu_timeline_value_str,
++	.release	     = virtio_gpu_fence_release,
+ };
+ 
+ struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
 -- 
 2.20.1
 
