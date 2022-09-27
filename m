@@ -1,87 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AC45EC3F2
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 15:15:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB655EC420
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 15:19:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4BD10E337;
-	Tue, 27 Sep 2022 13:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2AA210E33C;
+	Tue, 27 Sep 2022 13:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 772F210E337
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 13:15:23 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 8C26B32009A2;
- Tue, 27 Sep 2022 09:15:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 27 Sep 2022 09:15:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1664284521; x=
- 1664370921; bh=SUXXv33XMl//pWEuDrlkAnz26Na+QYAPZnxyyfOthW8=; b=Q
- /6bYBPMPSlim++kCMME0WAFrwCqAaRHpAwW0ZMF6wUIYgc0VsHCz99+oJFOiKsJD
- 8Ft3GdG/Q7jQUNBoDJUwJUPY5gwfZDtEUArANUquh9BK5mlFPXch9yB1WIZldh17
- gQCik9mhqqW/TGArdQaIYh5XVdsmAhxhDpmEbXv/NYLApB+RH05eNDZJTO7yKkvd
- OmpmuzIvP/SFwvyRhysdpXHmcUJjxmoXYakOAg0Rkdtx30isM4jSfQDQXL8QkZFA
- EYl3Lc8Usobotpbac83I3+IlxBGle8C9y/w2Q4tD340rj62S2/EBh6BvTEyYN6gk
- 5KbA0DjRfcfFnk3KPDPPw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1664284521; x=
- 1664370921; bh=SUXXv33XMl//pWEuDrlkAnz26Na+QYAPZnxyyfOthW8=; b=B
- 9NosnhsheLC5qNjJFkfoC+2V3PGSvuGSko0e4ds/FvFoQNZCGiATZ9sDWGDuo+yf
- zbIqYpG3/uDtvwp+WE+FYIRNucUsmk2k8S/fcv/zjD1Sw3nynSm7Zajs57yskR5y
- PSPpg8A9SOUZQkJU4ctBXlG7y6ib3D24HX3FY8uuUmb3qMLST7Nuh/Iegf43Yjtg
- BhZZVnEuIDLiE41g9Uj3irp5+asP3DErCNDE5vxt4Y1/SoVycbzxqE257mRCH0Kj
- agKze0VKRdP8qWpDskOxwFta2lTdLyf/RdHDCZSGZlaf+Bk5wwsoecCCgic4AISU
- Z0mgB7ZrBenc7OF8MIq6Q==
-X-ME-Sender: <xms:aPcyY9VtZL6ULJmHajrZzwI9phWboZoaiUjO0EtHNpdJq3-sd5lzXA>
- <xme:aPcyY9k9wonOW_1GXQxXZtBQS53xTIW7YT4Ijr4mD6nPIopLC70nqD5o8lwEznytY
- TQtqvd49VmdIYrLdVE>
-X-ME-Received: <xmr:aPcyY5ajsVTy9YJUqQKbkZUQE699NH_hLmBhSmdqfOuhfKZNkuQU3WXd-p_dkrAoevIfhhpN_zSa1gypLcx3X0TObJ2AG3zfQXou>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegiedgfeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnheptdetteetvdejudejhfeggfdutdduveelhfejjedtveduffdvleehleet
- udetfeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmne
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihi
- mhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:aPcyYwXXxs990OoAlETQyY6Qx9OXk0Ha2LA4CfJcYI5Znj71_GerSw>
- <xmx:aPcyY3nPt-efsoFo2sOTshj7lzyXGFyF-yO8iyhzRhyDlUBxOXZYWA>
- <xmx:aPcyY9eoHIATbErC9DJq-Pp4apCQAZNdKxRP1aGr3tHRykZchDd5bw>
- <xmx:afcyY56dCHw04wlonMEiSBMSKxbPFxbj2d22lNvsuv5gnp0ff9UkrA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Sep 2022 09:15:20 -0400 (EDT)
-Date: Tue, 27 Sep 2022 15:15:17 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: Raspberry Pi 3 Model B+ hangs in vc4_hdmi_runtime_resume()
-Message-ID: <20220927131517.3yyuswqlndcwr4pz@houat>
-References: <20220926102130.eeekt5skt4mav5f4@pengutronix.de>
- <63b460d1-4e2f-b0f1-836d-9178bb19f609@i2se.com>
- <20220926124048.i3lxy4lvtq756trp@pengutronix.de>
- <20220926124743.5s7x3dwhzienqs3x@houat>
- <7f334d11-9517-6423-572b-998f678e5718@i2se.com>
- <20220927072554.y4yrmgtlaim4b5mv@houat>
- <20220927094200.2cfw2ukick3oqr4a@houat>
- <40da8a17-5331-690b-3bd9-3317b0d0441c@i2se.com>
- <20220927114240.xilpcte2s3b5bmcf@houat>
- <20220927122512.h5tsnhbjivcnesph@houat>
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2AB10E33C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 13:18:55 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id cp18so550411pjb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 06:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:from:to:cc:subject:date;
+ bh=nxqBzukO4+vQkLK+wulLooaJACX0XJhvNlujEj9tA2k=;
+ b=lAFMLalSSsWwpV71FKCCYgu9fM1wQp7IavOpsvsuJdy7lLdfTAAYg2D8L7ocpTYiNE
+ EShSmsuhL0yoFN4wiYGo5fgXhP/8J3PnOp0rfWM55RReWMctJBmJueCyIUAs5hz4vim6
+ QM9TpD94jgZtxCuPCb0zOWCS4O1xeg/yJ21gHNkZayHWrQYS9Jwslqvw+7gwydINBVOz
+ u6yE/mzyHkiW1P1jDZ9eV0/8vN1EiewxTz5bX96TpSruM26GmAqzs1dS8iGyIJnX/ehJ
+ AXXllPxzt7GA6jKPE4z3vrHK3d15vZu86iMvAjywNNzaKEaBN+f/2ZJm/WwcR/M4FkX4
+ P5+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=nxqBzukO4+vQkLK+wulLooaJACX0XJhvNlujEj9tA2k=;
+ b=Q9opea0MCEYOwu7LZzjhem/35ujJHk9JwNpF+/Gpe1uVK/lKfiP6tAr9ZBTZKl/LpP
+ Ruc0lnIfTdMIWf2y5AHhqokGQyGhxMOxUwr1e+2m1hk4cM66UlB+FU8HMr5RmNjBL3ea
+ 3X2qq8xKMWlh/mcwtaCWGMAXoWM9QmHShm/vEk4L4ulrYqJsX6UauV+fG0xnM/eIzmvP
+ YUIU4l0H9zmKnLoleZy+FMJVlLbjZAnjaF4PGjHCZhXcUAIhIJHyGAXHFS+LC+lrE7bG
+ lQgkzJu7OPvAZZRpX2nxSoOUk22TSDp9zg7ibXXV70BHUPqz0wgZ8jgruyaSi7pTrxen
+ zoMw==
+X-Gm-Message-State: ACrzQf0KpjrIhw6ZPYM2OVC8bMcFLYYe9be2IdebVfdBYMDL92C/o2CV
+ tUxZZKKTq3S7KUFzOjm5ogXxMarcEz3+551dPdS98Q==
+X-Google-Smtp-Source: AMsMyM7AIoelDi02qjwnC5IjW/aPMrF3BuAvtr0YHmfw8hziH8U63bqk/LaRFiCvCMuckvM+MdhdBDqY2kaKN3b4p6c=
+X-Received: by 2002:a17:902:f395:b0:178:2f95:4d0b with SMTP id
+ f21-20020a170902f39500b001782f954d0bmr27589381ple.106.1664284734817; Tue, 27
+ Sep 2022 06:18:54 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 27 Sep 2022 06:18:54 -0700
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: meli 0.7.2
+References: <20220919-v1-0-4844816c9808@baylibre.com>
+ <20220919-v1-14-4844816c9808@baylibre.com>
+ <00293eda-ca41-b472-1ae4-def4a6dcd4fe@collabora.com>
+In-Reply-To: <00293eda-ca41-b472-1ae4-def4a6dcd4fe@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220927122512.h5tsnhbjivcnesph@houat>
+Date: Tue, 27 Sep 2022 06:18:54 -0700
+Message-ID: <CABnWg9uuGNdNhcLpXsh7RJVyTVnpE=r4HXJyFfaVJ5ARcGswFg@mail.gmail.com>
+Subject: Re: [PATCH v1 14/17] phy: mediatek: add support for
+ phy-mtk-hdmi-mt8195
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
+ Jitao shi <jitao.shi@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,163 +79,426 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, dri-devel@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 27, 2022 at 02:25:12PM +0200, Maxime Ripard wrote:
-> On Tue, Sep 27, 2022 at 01:42:40PM +0200, Maxime Ripard wrote:
-> > On Tue, Sep 27, 2022 at 01:12:35PM +0200, Stefan Wahren wrote:
-> > > Am 27.09.22 um 11:42 schrieb Maxime Ripard:
-> > > > On Tue, Sep 27, 2022 at 09:25:54AM +0200, Maxime Ripard wrote:
-> > > > > Hi Stefan,
-> > > > >=20
-> > > > > On Mon, Sep 26, 2022 at 08:50:12PM +0200, Stefan Wahren wrote:
-> > > > > > Am 26.09.22 um 14:47 schrieb Maxime Ripard:
-> > > > > > > On Mon, Sep 26, 2022 at 02:40:48PM +0200, Marc Kleine-Budde w=
-rote:
-> > > > > > > > On 26.09.2022 14:08:04, Stefan Wahren wrote:
-> > > > > > > > > Hi Marc,
-> > > > > > > > >=20
-> > > > > > > > > Am 26.09.22 um 12:21 schrieb Marc Kleine-Budde:
-> > > > > > > > > > On 22.09.2022 17:06:00, Maxime Ripard wrote:
-> > > > > > > > > > > > I'm on a Raspberry Pi 3 Model B+ running current De=
-bian testing ARM64,
-> > > > > > > > > > > > using Debian's v5.19 kernel (Debian's v5.18 was wor=
-king flawless).
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > | [    0.000000] Booting Linux on physical CPU 0x00=
-00000000 [0x410fd034]
-> > > > > > > > > > > > | [    0.000000] Linux version 5.19.0-1-arm64 (debi=
-an-kernel@lists.debian.org) (gcc-11 (Debian 11.3.0-5) 11.3.0, GNU ld (GNU B=
-inutils for Debian) 2.38.90.20220713) #1 SMP Debian 5.19.6-1 (2022-0
-> > > > > > > > > > > > 9-01)
-> > > > > > > > > > > > | [    0.000000] Machine model: Raspberry Pi 3 Mode=
-l B+
-> > > > > > > > > > > > | [    3.747500] raspberrypi-firmware soc:firmware:=
- Attached to firmware from 2022-03-24T13:21:11
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > As soon a the vc4 module is loaded the following wa=
-rnings hits 4
-> > > > > > > > > > > > times, then the machine stops.
-> > > > > > > > > > [...]
-> > > > > > > > > >=20
-> > > > > > > > > > > The warning itself is fixed, both upstream and in sta=
-ble (5.19.7).
-> > > > > > > > > > Ok. Debian is using 5.19.6
-> > > > > > > > > >=20
-> > > > > > > > > > > It shouldn't have any relation to the hang though. Ca=
-n you share your
-> > > > > > > > > > > setup?
-> > > > > > > > > > - config.txt:
-> > > > > > > > > >=20
-> > > > > > > > > > -------->8-------->8-------->8-------->8--------
-> > > > > > > > > > gpu_mem=3D16
-> > > > > > > > > > disable_splash=3D1
-> > > > > > > > > >=20
-> > > > > > > > > > arm_64bit=3D1
-> > > > > > > > > > enable_uart=3D1
-> > > > > > > > > > uart_2ndstage=3D1
-> > > > > > > > > >=20
-> > > > > > > > > > os_prefix=3D/u-boot/
-> > > > > > > > > >=20
-> > > > > > > > > > [pi3]
-> > > > > > > > > > force_turbo=3D1
-> > > > > > > > > > -------->8-------->8-------->8-------->8--------
-> > > > > > > > > >=20
-> > > > > > > > > > - Raspberry Pi 3 Model B+
-> > > > > > > > > > - no HDMI connected
-> > > > > > > > > Does it mean, the issue only occurs without HDMI connecte=
-d?
-> > > > > > > > > If you didn't test with HDMI yet, could you please do?
-> > > > > > > > The error occurs with HDMI not connected, as vc4 is the gfx=
- driver I
-> > > > > > > > thought this might be of interest. :)
-> > > > > > > >=20
-> > > > > > > > I don't have a HDMI monitor here, but I'll come back to you=
- as soon as I
-> > > > > > > > get access to one (might take some time).
-> > > > > > > It's not the first time an issue like this one would occur. I=
-'m trying
-> > > > > > > to make my Pi3 boot again, and will try to bisect the issue.
-> > > > > > yes the issue is only triggered without HDMI connected. I was a=
-ble to
-> > > > > > reproduce with an older vc4 firmware from 2020 (don't want to u=
-pgrade yet).
-> > > > > > Kernel was also an arm64 build with defconfig.
-> > > > > >=20
-> > > > > > Here some rough starting point for bisection:
-> > > > > >=20
-> > > > > > 5.18.0 good
-> > > > > > 5.19.0 bad
-> > > > > > 5.19.6 bad
-> > > > > Sorry it took a bit of time, it looks like I found another bug wh=
-ile
-> > > > > trying to test this yesterday.
-> > > > >=20
-> > > > > Your datapoints are interesting though. I have a custom configura=
-tion
-> > > > > and it does boot 5.19 without an HDMI connected.
-> > > > >=20
-> > > > > So I guess it leaves us with either the firmware version being di=
-fferent
-> > > > > (I'm using a newer version, from March 2022), or the configuratio=
-n. I'll
-> > > > > test with defconfig.
-> > > > So it turns out compiling vc4 as a module is the culprit.
-> > >=20
-> > > Do you mean regardless of the kernel version in your case?
-> >=20
-> > No, I mean that, with vc4 as a module, 5.18 works but 5.19 doesn't, like
-> > Marc said. But if vc4 is built in, both work.
-> >=20
-> > > In my test cases i build vc4 always as module.
-> > >=20
-> > > > It's not clear to me why at this point, but the first register writ=
-e in
-> > > > vc4_hdmi_reset stalls.
-> > >
-> > > Sounds like timing issue or a missing dependency (clock or power doma=
-in)
-> >=20
-> > It felt like a clock or power domain issue to me indeed, but adding
-> > clk_ignore_unused and pd_ignore_unused isn't enough, so it's probably
-> > something a bit more complicated than just the clock / PD being
-> > disabled.
->=20
-> I found the offending patch:
-> https://lore.kernel.org/dri-devel/20220225143534.405820-13-maxime@cerno.t=
-ech/
->=20
-> That code was removed because it was made irrelevant by that earlier patc=
-h:
-> https://lore.kernel.org/dri-devel/20220225143534.405820-10-maxime@cerno.t=
-ech/
->=20
-> But it turns out that while it works when the driver is built-in, it
-> doesn't when it's a module. If we add a clk_hw_get_rate() call right
-> after that call to raspberrypi_fw_set_rate(), the rate returned is 0.
->=20
-> I'm not entirely sure why, but I wonder if it's related to:
-> https://github.com/raspberrypi/linux/issues/4962#issuecomment-1228593439
+On Tue, 20 Sep 2022 14:17, AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>Il 19/09/22 18:56, Guillaume Ranquet ha scritto:
+>> Add basic support for the mediatek hdmi phy on MT8195 SoC
+>>
+>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c b/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
+>> index bb7593ea4c86..0157acdce56c 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
+>> @@ -1344,6 +1344,8 @@ static void mtk_hdmi_bridge_disable(struct drm_bridge *bridge,
+>>   	mtk_hdmi_disable_hdcp_encrypt(hdmi);
+>>   	usleep_range(50000, 50050);
+>>
+>> +	phy_power_off(hdmi->phy);
+>
+>This one belongs to patch [11/17]
+>
 
-Turns out it's not, since the Pi3 is using the clk-bcm2835 driver.
+Sorry, bad rebase :-/
 
-However, even reverting that patch fails. clk_set_min_rate fails because
-the rate is protected, but it doesn't look like it is anywhere for that
-clock, so I'm a bit confused.
+>> +
+>>   	hdmi->enabled = false;
+>>   }
+>>
+>> diff --git a/drivers/phy/mediatek/Makefile b/drivers/phy/mediatek/Makefile
+>> index fb1f8edaffa7..c9a50395533e 100644
+>> --- a/drivers/phy/mediatek/Makefile
+>> +++ b/drivers/phy/mediatek/Makefile
+>> @@ -12,6 +12,7 @@ obj-$(CONFIG_PHY_MTK_XSPHY)		+= phy-mtk-xsphy.o
+>>   phy-mtk-hdmi-drv-y			:= phy-mtk-hdmi.o
+>>   phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-mt2701.o
+>>   phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-mt8173.o
+>> +phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-mt8195.o
+>>   obj-$(CONFIG_PHY_MTK_HDMI)		+= phy-mtk-hdmi-drv.o
+>>
+>>   phy-mtk-mipi-dsi-drv-y			:= phy-mtk-mipi-dsi.o
+>> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+>> new file mode 100644
+>> index 000000000000..149015b64c02
+>> --- /dev/null
+>> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+>> @@ -0,0 +1,673 @@
+>
+>..snip..
+>
+>> +
+>> +static int mtk_hdmi_pll_set_hw(struct clk_hw *hw, unsigned char prediv,
+>> +			       unsigned char fbkdiv_high,
+>> +			       unsigned long fbkdiv_low,
+>> +			       unsigned char fbkdiv_hs3, unsigned char posdiv1,
+>> +			       unsigned char posdiv2, unsigned char txprediv,
+>> +			       unsigned char txposdiv,
+>> +			       unsigned char digital_div)
+>> +{
+>> +	unsigned char txposdiv_value = 0;
+>> +	unsigned char div3_ctrl_value = 0;
+>> +	unsigned char posdiv_vallue = 0;
+>> +	unsigned char div_ctrl_value = 0;
+>> +	unsigned char reserve_3_2_value = 0;
+>> +	unsigned char prediv_value = 0;
+>> +	unsigned char reserve13_value = 0;
+>> +	struct mtk_hdmi_phy *hdmi_phy = to_mtk_hdmi_phy(hw);
+>> +
+>> +	mtk_hdmi_pll_select_source(hw);
+>> +
+>> +	mtk_hdmi_pll_performance_setting(hw);
+>> +
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_10,
+>> +			  0x2 << RG_HDMITX21_BIAS_PE_BG_VREF_SEL_SHIFT,
+>> +			  RG_HDMITX21_BIAS_PE_BG_VREF_SEL);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_10,
+>> +			  0x0 << RG_HDMITX21_VREF_SEL_SHIFT,
+>> +			  RG_HDMITX21_VREF_SEL);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_9,
+>> +			  0x2 << RG_HDMITX21_SLDO_VREF_SEL_SHIFT,
+>> +			  RG_HDMITX21_SLDO_VREF_SEL);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_10,
+>> +			  0x0 << RG_HDMITX21_BIAS_PE_VREF_SELB_SHIFT,
+>> +			  RG_HDMITX21_BIAS_PE_VREF_SELB);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_3,
+>> +			  0x1 << RG_HDMITX21_SLDOLPF_EN_SHIFT,
+>> +			  RG_HDMITX21_SLDOLPF_EN);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+>> +			  0x11 << RG_HDMITX21_INTR_CAL_SHIFT,
+>> +			  RG_HDMITX21_INTR_CAL);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_PLL_CFG_2,
+>> +			  0x1 << RG_HDMITXPLL_PWD_SHIFT, RG_HDMITXPLL_PWD);
+>> +
+>> +	/* TXPOSDIV */
+>
+>Either ilog2() or use a switch...
+>
+>> +	if (txposdiv == 1)
+>> +		txposdiv_value = 0x0;
+>> +	else if (txposdiv == 2)
+>> +		txposdiv_value = 0x1;
+>> +	else if (txposdiv == 4)
+>> +		txposdiv_value = 0x2;
+>> +	else if (txposdiv == 8)
+>> +		txposdiv_value = 0x3;
+>> +	else
+>> +		return -EINVAL;
+>> +
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+>> +			  txposdiv_value << RG_HDMITX21_TX_POSDIV_SHIFT,
+>> +			  RG_HDMITX21_TX_POSDIV);
+>> +
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+>> +			  0x1 << RG_HDMITX21_TX_POSDIV_EN_SHIFT,
+>> +			  RG_HDMITX21_TX_POSDIV_EN);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_CFG_6,
+>> +			  0x0 << RG_HDMITX21_FRL_EN_SHIFT, RG_HDMITX21_FRL_EN);
+>> +
+>> +	/* TXPREDIV */
+>
+>Use a switch.
+>
+>> +	if (txprediv == 2) {
+>> +		div3_ctrl_value = 0x0;
+>> +		posdiv_vallue = 0x0;
+>> +	} else if (txprediv == 4) {
+>> +		div3_ctrl_value = 0x0;
+>> +		posdiv_vallue = 0x1;
+>> +	} else if (txprediv == 6) {
+>> +		div3_ctrl_value = 0x1;
+>> +		posdiv_vallue = 0x0;
+>> +	} else if (txprediv == 12) {
+>> +		div3_ctrl_value = 0x1;
+>> +		posdiv_vallue = 0x1;
+>> +	} else {
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_PLL_CFG_4,
+>> +			  div3_ctrl_value
+>> +				  << RG_HDMITXPLL_POSDIV_DIV3_CTRL_SHIFT,
+>> +			  RG_HDMITXPLL_POSDIV_DIV3_CTRL);
+>> +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_1_PLL_CFG_4,
+>> +			  posdiv_vallue << RG_HDMITXPLL_POSDIV_SHIFT,
+>> +			  RG_HDMITXPLL_POSDIV);
+>> +
+>> +	/* POSDIV1 */
+>
+>same here.
+>
+Will do.
+>> +	if (posdiv1 == 5)
+>> +		div_ctrl_value = 0x0;
+>> +	else if (posdiv1 == 10)
+>> +		div_ctrl_value = 0x1;
+>> +	else if (posdiv1 == (125 / 10))
+>
+>/* This is 12.5 in reality, but we get only the integer part */
+>case 12:
+>
+>...or you'll have to use a "deci-divider", which would complicate human readability
+>by ... quite a bit, in some cases.
+>
+>> +		div_ctrl_value = 0x2;
+>> +	else if (posdiv1 == 15)
+>> +		div_ctrl_value = 0x3;
+>> +	else
+>> +		return -EINVAL;
+>> +
+>
+>..snip..
+>
+>> +
+>> +#define PCW_DECIMAL_WIDTH 24
+>> +
+>> +static int mtk_hdmi_pll_calculate_params(struct clk_hw *hw, unsigned long rate,
+>> +					 unsigned long parent_rate)
+>> +{
+>> +	int ret;
+>> +	unsigned long long tmds_clk = 0;
+>> +	unsigned long long pixel_clk = 0;
+>> +	//pll input source frequency
+>
+>Fix comments style.
+>
+>> +	unsigned long long da_hdmitx21_ref_ck = 0;
+>> +	unsigned long long ns_hdmipll_ck = 0; //ICO output clk
+>> +	//source clk for Display digital
+>> +	unsigned long long ad_hdmipll_pixel_ck = 0;
+>> +	unsigned char digital_div = 0;
+>> +	unsigned long long pcw = 0; //FBDIV
+>
+>u64 pcw;
+>
+>> +	unsigned char txprediv = 0;
+>> +	unsigned char txposdiv = 0;
+>> +	unsigned char fbkdiv_high = 0;
+>> +	unsigned long fbkdiv_low = 0;
+>> +	unsigned char posdiv1 = 0;
+>> +	unsigned char posdiv2 = 0;
+>> +	unsigned char prediv = 1; //prediv is always 1
+>> +	unsigned char fbkdiv_hs3 = 1; //fbkdiv_hs3 is always 1
+>> +	int i = 0;
+>> +	unsigned char txpredivs[4] = { 2, 4, 6, 12 };
+>> +
+>> +	pixel_clk = rate;
+>> +	tmds_clk = pixel_clk;
+>> +
+>> +	if (tmds_clk < 25000000 || tmds_clk > 594000000)
+>> +		return -EINVAL;
+>> +
+>> +	da_hdmitx21_ref_ck = 26000000UL; //in HZ
+>> +
+>> +	/*  TXPOSDIV stage treatment:
+>> +	 *	0M  <  TMDS clk  < 54M		  /8
+>> +	 *	54M <= TMDS clk  < 148.35M    /4
+>> +	 *	148.35M <=TMDS clk < 296.7M   /2
+>> +	 *	296.7 <=TMDS clk <= 594M	  /1
+>> +	 */
+>> +	if (tmds_clk < 54000000UL)
+>> +		txposdiv = 8;
+>> +	else if (tmds_clk >= 54000000UL && tmds_clk < 148350000UL)
+>
+>	else if (tmds_clk < 148350000UL)
+>
+>> +		txposdiv = 4;
+>> +	else if (tmds_clk >= 148350000UL && tmds_clk < 296700000UL)
+>
+>	else if (tmds_clk < 296700000UL)
+>
+>> +		txposdiv = 2;
+>> +	else if (tmds_clk >= 296700000UL && tmds_clk <= 594000000UL)
+>
+>	else if (tmds_clk <= 594000000UL)
+>
+>> +		txposdiv = 1;
+>> +	else
+>> +		return -EINVAL;
+>> +
+>
+>..snip..
+>
+>> +
+>> +	txprediv = txpredivs[i];
+>> +
+>> +	/* PCW calculation: FBKDIV
+>> +	 * formula: pcw=(frequency_out*2^pcw_bit) / frequency_in / FBKDIV_HS3;
+>> +	 * RG_HDMITXPLL_FBKDIV[32:0]:
+>> +	 * [32,24] 9bit integer, [23,0]:24bit fraction
+>> +	 */
+>> +	pcw = ns_hdmipll_ck;
+>
+>	pcw = ns_hdmipll_ck << PCW_DECIMAL_WIDTH;
+>	pcw /= da_hdmitx21_ref_ck;
+>	pcw /= fbkdiv_hs3;
+>
+>> +	pcw = pcw << PCW_DECIMAL_WIDTH;
+>> +	pcw = pcw / da_hdmitx21_ref_ck;
+>> +	pcw = pcw / fbkdiv_hs3;
+>> +
+>> +	if ((pcw / BIT(32)) > 1) {
+>
+>	pcw_nbits = fls64(pcw);
+>
+>	if (pcw_nbits > 33)
+>		return -EINVAL;
+>
+>	if (pcw_nbits == 33) {
+>		fbkdiv_high = 1;
+>		fkbdiv_low = pcw % BIT(32);
+>	} else {
+>		fbkdiv_high = 0;
+>		fbkdiv_low = pcw;
+>	}
+>
+>> +		return -EINVAL;
+>> +	} else if ((pcw / BIT(32)) == 1) {
+>> +		fbkdiv_high = 1;
+>> +		fbkdiv_low = pcw % BIT(32);
+>> +	} else {
+>> +		fbkdiv_high = 0;
+>> +		fbkdiv_low = pcw;
+>> +	}
+>> +
+>> +	/* posdiv1:
+>> +	 * posdiv1 stage treatment according to color_depth:
+>> +	 * 24bit -> posdiv1 /10, 30bit -> posdiv1 /12.5,
+>> +	 * 36bit -> posdiv1 /15, 48bit -> posdiv1 /10
+>> +	 */
+>> +	posdiv1 = 10; // div 10
+>> +	posdiv2 = 1;
+>> +	ad_hdmipll_pixel_ck = (ns_hdmipll_ck / 10) / 1;
+>
+>I understand this as
+>	ad_hdmipll_pixel_ck = (ns_hdmipll_ck / posdiv1) / posdiv2;
+>
+>..if that's true, please fix.
 
-Even if we do remove the clock protection check in
-clk_core_set_rate_nolock(), clk_calc_new_rates() will then fail because
-the bcm2835 driver will round the clock rate below the minimum, which is
-rejected.
+I'll try to make everything more readable.
+>
+>> +
+>> +	/* Digital clk divider, max /32 */
+>> +	digital_div = ad_hdmipll_pixel_ck / pixel_clk;
+>> +	if (!(digital_div <= 32 && digital_div >= 1))
+>> +		return -EINVAL;
+>> +
+>> +	ret = mtk_hdmi_pll_set_hw(hw, prediv, fbkdiv_high, fbkdiv_low,
+>> +				  fbkdiv_hs3, posdiv1, posdiv2, txprediv,
+>> +				  txposdiv, digital_div);
+>> +	if (ret)
+>> +		return -EINVAL;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int mtk_hdmi_pll_drv_setting(struct clk_hw *hw)
+>> +{
+>> +	unsigned char data_channel_bias, clk_channel_bias;
+>> +	unsigned char impedance, impedance_en;
+>> +	struct mtk_hdmi_phy *hdmi_phy = to_mtk_hdmi_phy(hw);
+>> +	unsigned long tmds_clk;
+>> +	unsigned long pixel_clk = hdmi_phy->pll_rate;
+>> +
+>> +	tmds_clk = pixel_clk;
+>
+>	tmds_rate = pixel_rate;
+>
+>...better describes that we're talking about clock rates, not clock per-se.
+>
+>> +
+>> +	/* bias & impedance setting:
+>> +	 * 3G < data rate <= 6G: enable impedance 100ohm,
+>> +	 *      data channel bias 24mA, clock channel bias 20mA
+>> +	 * pixel clk >= HD,  74.175MHZ <= pixel clk <= 300MHZ:
+>> +	 *      enalbe impedance 100ohm
+>> +	 *      data channel 20mA, clock channel 16mA
+>> +	 * 27M =< pixel clk < 74.175: disable impedance
+>> +	 *      data channel & clock channel bias 10mA
+>> +	 */
+>> +
+>> +	/* 3G < data rate <= 6G, 300M < tmds rate <= 594M */
+>> +	if (tmds_clk > 300000000UL && tmds_clk <= 594000000UL) {
+>> +		data_channel_bias = 0x3c; //24mA
+>
+>There must be an equation to calculate the bias value from milliamps to HW values,
+>in which case we would see here...
+>
+>		data_channel_bias = MTK_HDMI_BIAS_MA(24);
+>		clk_channel_bias = MTK_HDMI_BIAS_MA(20);
+>		impedance = MTK_HDMI_IMPEDANCE_OHMS(100);
+>		impedance_en = SOMETHING();
+>
 
-I'm not entirely sure what to do at this point. I guess the proper fix
-would be to:
-  - Figure out why it's considered protected when it's not (or shouldn't be)
-  - Make the driver compute an acceptable rate for that clock
-  - Reintroduce the clk_set_min_rate call to HDMI's runtime_resume, or
-    some other equivalent code
+That would improve readability by quite a lot.
+I'll try to find that equation.
+>> +		clk_channel_bias = 0x34; //20mA
+>> +		impedance_en = 0xf;
+>> +		impedance = 0x36; //100ohm
+>> +	} else if (pixel_clk >= 74175000UL && pixel_clk <= 300000000UL) {
+>> +		data_channel_bias = 0x34; //20mA
+>> +		clk_channel_bias = 0x2c; //16mA
+>> +		impedance_en = 0xf;
+>> +		impedance = 0x36; //100ohm
+>> +	} else if (pixel_clk >= 27000000UL && pixel_clk < 74175000UL) {
+>
+>By the way, if you invert all the checks here (check from highest pixclk to lowest)
+>you can simplify it.
+>
+I'll give it a try, thx for the suggestion.
 
-Maxime
+>> +		data_channel_bias = 0x14; //10mA
+>> +		clk_channel_bias = 0x14; //10mA
+>> +		impedance_en = 0x0;
+>> +		impedance = 0x0;
+>> +	} else {
+>> +		return -EINVAL;
+>> +	}
+>> +
+>
+>..snip..
+>
+>> +
+>> +static int mtk_hdmi_phy_configure(struct phy *phy, union phy_configure_opts *opts)
+>> +{
+>> +	struct phy_configure_opts_dp *dp_opts = &opts->dp;
+>> +	struct mtk_hdmi_phy *hdmi_phy = phy_get_drvdata(phy);
+>> +	int ret = 0;
+>> +	bool enable = 0;
+>> +
+>> +	ret = clk_set_rate(hdmi_phy->pll, dp_opts->link_rate);
+>> +
+>
+>Please remove this blank line...
+>
+>> +	if (ret)
+>> +		goto out;
+>> +
+>> +	mtk_mt8195_phy_tmds_high_bit_clk_ratio(hdmi_phy, enable);
+>> +
+>> +out:
+>> +	return ret;
+>> +}
+>> +
+>> +struct mtk_hdmi_phy_conf mtk_hdmi_phy_8195_conf = {
+>> +	.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_GATE,
+>> +	.hdmi_phy_clk_ops = &mtk_hdmi_pll_ops,
+>> +	.hdmi_phy_enable_tmds = mtk_hdmi_phy_enable_tmds,
+>> +	.hdmi_phy_disable_tmds = mtk_hdmi_phy_disable_tmds,
+>> +	.hdmi_phy_configure = mtk_hdmi_phy_configure,
+>> +};
+>> +
+>> +MODULE_AUTHOR("Can Zeng <can.zeng@mediatek.com>");
+>> +MODULE_DESCRIPTION("MediaTek MT8195 HDMI PHY Driver");
+>> +MODULE_LICENSE("GPL v2");
+>
+>Regards,
+>Angelo
+>
