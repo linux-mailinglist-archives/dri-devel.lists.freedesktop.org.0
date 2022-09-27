@@ -1,110 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDBF5EB610
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 02:00:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C10145EB736
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 03:52:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11ABF10E828;
-	Tue, 27 Sep 2022 00:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 472ED10E555;
+	Tue, 27 Sep 2022 01:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B471E10E828;
- Tue, 27 Sep 2022 00:00:16 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2055.outbound.protection.outlook.com [40.107.243.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B516210E028;
+ Tue, 27 Sep 2022 01:52:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C9qEbuu97hP0845r9fJFM5cDhtzraHHw8dhErpTJii5H+irjnzWs5tMYsAZl2q+hLvldwY+d1qr2V80Qhr7BgEw4BlG89k6+qWf7gBiVpHGJ6hfGUxP5HhbzTqWWv9P74GXmAhOeqMj2d7byGrRNrW2znbe/XoBowj6DRHGuMZUx8SJ2a6nPkQqto57MuHlT2XRHk35c8B2jJrBejMwORB06obF2/pXAMsjkHCsdnsY5WeaQLmw+PHEywkrXcLTvonB28mhWqyhXc7h0Z2Yg64M83mLKZKP6ETWczv1s8g7c5FoUVCYa+iNevX2Q6mukmn+cE096hjCMHUIXTKSQwg==
+ b=YB4zD8bZ+9Kdno9B0MaYZXmq8x+1hCuq/lo0wYvOHnwgTDFfvrOwb6DpO0RAQ4Wlywu4xPJwX0b5upnRhwQTJaChy90k9U8VwussptC+wqtlWd1yePWftemU4q5vSiO/oq4YGlvIBVNlx8FeDFnRC42pUNRxDSs5A/V/ZDKLEIjGOFXadrftxgpT0RUgdDvJlzwgIRRNHqclbiyjzaUVGkmJRxAMeI3xTM0e/zzllJflsSlsxwPzhqIjESe7oM81axNZYLUVNouMb2JULmR2HqvpLPzdy8GlkEbJ8WQB/kkXpk9EgFARTmFs3fg0ddcfBR0+2xGxR7DKup6OrLXL7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TpJ1PU95AZ/sqJVwfGjry3rRbeSqoSyrkxv5sBfHq8M=;
- b=GbbtpwuPJLmfqIh5Jm2atgjMmvA7BgKfa+Kci1GoHHoWz0rg6u7rFSG4zq0HwuQcyw+kupCvD+7f/LUvRtqt4M9KZhTKHnxKvhFGrVYeWxBzdY3qYDRwM722cexemtFzQtzNRPARPtigmTFiBV7SF6doGng4lgVMJQ24ecLeC0EhX6cjR6R6vQG7njvf87GyxMizogflxQf5B5cvFqExYypsdp1J6UlJjWJzAuPeVct3/rAUWZUcazPvxbIF8UNX7F9cFosbNu6KLhWiXHCZUEG7EInYYOWkDSWxktya7w8po3H69K5fSin3qRAt+LSp3WCaWgm/AAmWCObgSoC0yQ==
+ bh=7/E4dQx6G1ofnK3ejPAEat8fUgvWAnZY4HtRoSKYH6Q=;
+ b=XNKiYJhi+34V0Mo88q2drDXveyxfJmCsQ96ZQPK6em6izpBvEHX1lmXzbVQrrSO17yPgMQU5eZmUy/Kh3NBS4LucDWUq7SoPrGCCpxjuSOtzV84smldzgGv3h7E7QaNj3TuTDhj63PDG5IthQIo5KT4qdDPiu+U1leH3O3CKVdVpBBJflR3VjcufS5yQBTy5AUPn+WH3cgnQNtlD5N3iKUunlCjkyj8nj1hOsB3Q/aBZ1zoStQPKaaeZZA4lfjeF5SPCwVSLNgea9L0uvl26m3eLw87Vc96Sy5sdq2qxdHeynS/OX8mjLa3hTXwUnHT8ztjRxHC1rw91RtHaCwzcvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TpJ1PU95AZ/sqJVwfGjry3rRbeSqoSyrkxv5sBfHq8M=;
- b=S1/1cCZ/zOXD5h5nbYDBFo8u6XF1RVbD+f7/FuiYyNJG7LRCW6n4RsmQ1W72b3dX9+YEe+NOk4bfZ//1o6Rv/GpHiGrG592lTM4FhY+azDh/RIT3R4BBSV65936EzxarGDMzxA3/csq6RMEqZX4Sv3XqN+C8Hnurq5o+Ml+vw0Bw/SquWgWtkR4dAJ6mONSGB/9JgeoVeu1R7yErkIKLfcyW6wKOhiax04R8xsisx879wGFUEIC0TqtRyBem3vcUasfwGXfqxoMIOmOkn8WKwDkoVK8xaquJXrBrmUs1VT3ltA5FijdsIDOohFurC6DTX7GdIYo6EI25/NTJ2OArJQ==
+ bh=7/E4dQx6G1ofnK3ejPAEat8fUgvWAnZY4HtRoSKYH6Q=;
+ b=LVjtIQtAlI3GXepLLoeW4mMDwKcPOR/1C5UhSctYumxtck2bmxU22LvXLXiwg0vQFxHWbHZKdB10Y6TybwHppnjj4lyfj8+J0vOBTgSepXd+52KHjt/vgb+ntjL1PCn2tV5gBkGae+4Q32X+2bEpiFqOxEQVxOBLL8WWAB3McGnk6uNXm7YUdWTyYvDrBrbshw6GdZVfG5J6NEB2aBttD1aRk8TrKI4lIdatCsg3D7njBYwFxZAHJhaxA/ZH05z02q1vBXfTKg48o2NgiVl4ut6yuWsO1tbbKsQjc5HTZpRpE4dD8j4pNAy+l5ICFS1y1/YX0V1BmFuuXZr4UI9Teg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
- by CH2PR12MB4182.namprd12.prod.outlook.com (2603:10b6:610:ae::11)
- with Microsoft SMTP Server (version=TLS1_2,
+ by DM4PR12MB5770.namprd12.prod.outlook.com (2603:10b6:8:61::16) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Tue, 27 Sep
- 2022 00:00:14 +0000
+ 2022 01:51:59 +0000
 Received: from BYAPR12MB3176.namprd12.prod.outlook.com
  ([fe80::4064:6c13:72e5:a936]) by BYAPR12MB3176.namprd12.prod.outlook.com
  ([fe80::4064:6c13:72e5:a936%5]) with mapi id 15.20.5654.026; Tue, 27 Sep 2022
- 00:00:14 +0000
+ 01:51:59 +0000
 References: <cover.f15b25597fc3afd45b144df863eeca3b2c13f9f4.1664171943.git-series.apopple@nvidia.com>
  <072e1ce590fe101a4cdbd5e91b1702efebb6d0fd.1664171943.git-series.apopple@nvidia.com>
  <881735bda9b1ba0ecf3648af201840233508f206.camel@redhat.com>
- <6ff9dcc5-c34b-963f-f5e7-7038eecae98b@nvidia.com>
+ <7ca6ec0c-7e5e-3b24-8f8d-650df357130c@amd.com>
 User-agent: mu4e 1.6.9; emacs 27.1
 From: Alistair Popple <apopple@nvidia.com>
-To: John Hubbard <jhubbard@nvidia.com>
+To: Felix Kuehling <felix.kuehling@amd.com>
 Subject: Re: [PATCH 6/7] nouveau/dmem: Evict device private memory during
  release
-Date: Tue, 27 Sep 2022 09:45:35 +1000
-In-reply-to: <6ff9dcc5-c34b-963f-f5e7-7038eecae98b@nvidia.com>
-Message-ID: <87k05plm9j.fsf@nvdebian.thelocal>
-Content-Type: text/plain
-X-ClientProxiedBy: SYYP282CA0012.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:b4::22) To BYAPR12MB3176.namprd12.prod.outlook.com
+Date: Tue, 27 Sep 2022 11:39:57 +1000
+In-reply-to: <7ca6ec0c-7e5e-3b24-8f8d-650df357130c@amd.com>
+Message-ID: <87bkr1lh3a.fsf@nvdebian.thelocal>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: SY6PR01CA0010.ausprd01.prod.outlook.com
+ (2603:10c6:10:e8::15) To BYAPR12MB3176.namprd12.prod.outlook.com
  (2603:10b6:a03:134::26)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:EE_|CH2PR12MB4182:EE_
-X-MS-Office365-Filtering-Correlation-Id: d710396b-30d7-4da0-116f-08daa01b40f4
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:EE_|DM4PR12MB5770:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7606eb1e-b1a9-440f-a44c-08daa02add84
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Rh9jh09XpjxUZw+MSu85pgVXuEsxpyz2CXvdFLGqOCjp5JCt4Thv+ioyQ1eBCgH6rzm9trYQupScJrQGODXBB7bwQJL96E4uAlLm7K1EOT8heqR/7FdpW3pt4ZfsKc7Todu14EUJUVdFjfUOi06bT05lgXm5GZp449ZOdrLtXxNr/olvZmtK3Ohy/Upab9C5biYpfKMxN0DAIKBJQgkMilDQXHPKOfICFJTZxxI/H6Nc5SFSppcRWKWC7OR6xdTeHssbJgVGMp/Z4Ppf22HwynRkAvBGoX2dIor6BLBQu8tZ2bgSpa3BCcgitSaVY+aiavWsE7GIqngepJ8fQ5HavoAt9wnGXdttHFzYA8GfdeOTn6jRaYNAN7Fn1opPAJrdiG9O36GrXfY8sPtmqsobed9XHwym1hmrWTMqvZ25HO8TqaCZkGUU1pI+dtn3aZu5kTJzFXrQ5IVlIzDg9bw/VmiGqv52nn4QDCVAWSmCZDuD8NvHC80iRXB0v5mTRqMSqsBu/li9EXJfSN80Fmaz/s28X1sWofy+2xcEiyKqyWvnJh4O0YYeMb1C7PiOOx35k2FNBSaEEl8LPfM+7ASoEe7vncGPVeJyH/gAABlJ4H6omgbk3ymdiv6T1SL5pnypGWX8mLSuS0oLaBuV1GYkq7jremTn2Ch40vJT4/XHStSY7Wx8HgiFwMH5B1mDTEqQXJp6CUI5vGy2djTipIhMxQ==
+X-Microsoft-Antispam-Message-Info: qnDweu8Ko5XIHx9viJGSpFwtl3pWkdRzfeV/IV0ul1q02pgZL4wM8zopUju/cmgo6MUrvvfaA+HC9COlAnBlW5sCjVWCpVqRvUrpYuTpmQLngjB1th//pVs1v7IbuwC0E+R5d2+F4WDWasZdgtVu5YbnfM4Ye02AKyOQG/PA5hgYFV+oh5hpTfuax03xTPIgqkYVn1Mbie2jV+UG6ZiwSbR1rMxvGv9n0eugWfSmwcMmqiKyGWuy0jDsu6n+pyY8beAzzPIl/a6inK42gqvoFLLE2DG4MViKW5HJD9bw5imGj6qkIS7Ln1r1nWmrOtYJY6r2rOyu8W71XCeF5qFM9T4xfU5ZWnHUdwFEDILuOKjQ9cj4LiUsKc4t9w9vq+a4TaWADRlTTxFXcYoTB9S8lqa9udKQEsOBPRmYPk1h7W6K6ZFPmBEqCu9U1NIFuNeun3zACJu11KJ6bIjRh9Y5oSvgEMTJ0Dhf4DZhSntjwjl4MtKiDkT46qMGww0VLg0IjdTBNeruqjdxHjW3iITczmGaX++UnKdVfKlW1Ligat6NnTnMtq2ghU/AEtZxrhqlRduQM95y6QCgCFjt9hG1IAZ/2JH5eeOTcy3ByvwhdKKU9Yi8RLYru0KUAvx552QS3v4nrqNWarTYzmHaHd6YILbb50iQzhSQc4e+t9uXi6m7rHJNYQkct/FzwI1z38ktK4fZUYVeeVgDJ+U5WtaDWA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(346002)(39860400002)(366004)(136003)(396003)(451199015)(6666004)(83380400001)(41300700001)(26005)(9686003)(6512007)(186003)(6636002)(86362001)(6862004)(8936002)(2906002)(5660300002)(6506007)(7416002)(38100700002)(54906003)(8676002)(66476007)(316002)(66556008)(478600001)(6486002)(53546011)(66946007)(4326008);
+ SFS:(13230022)(4636009)(376002)(346002)(366004)(136003)(396003)(39860400002)(451199015)(38100700002)(86362001)(966005)(2906002)(7416002)(186003)(5660300002)(9686003)(478600001)(41300700001)(6486002)(6506007)(53546011)(26005)(6512007)(83380400001)(54906003)(6916009)(316002)(8676002)(4326008)(8936002)(66476007)(66946007)(66556008);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ikLGqD/7EEDvQ9bkzYFeeqN8oLOLGuenq3C9dWhPJAUtAM4+LeU9HDvn8xiA?=
- =?us-ascii?Q?ZtOvxIwITQdpjq/UG2Hv2Xki2WDFdmgSaT0ZdIArigUf9Dgxmnrpj9ACqasA?=
- =?us-ascii?Q?NfMXqZbz5rNWrUH6TJo6VtcmpUUxwTlSJ3UcUdj760NZ7vBXPqtdZnRrkffi?=
- =?us-ascii?Q?A3LC6VR6JaFqugIkM+ool8WtsupBhbTsK8BSKyh2VQE/pDJag3+J3YtBBF7b?=
- =?us-ascii?Q?5C80OF4uRxIPFLjOMTgbgIpjqViaol7jC9NnyRUT0CtH4BOcNkZHoHgdnywz?=
- =?us-ascii?Q?XdVSavFpVkIpruEmATfckQtzTgOD5ljzdXTh+MWsJHv0pRAo60WgFNOvlSnh?=
- =?us-ascii?Q?56mBGYq6Zl+gNqjMhSjavZzqE2PXT19zB+naAqp4Aek6HLvPMYMjUH9xvQMW?=
- =?us-ascii?Q?5tWL7I7/a6cKCDuKYjGYEFRXP9oggwDfeleZo6Z6scfgNoUETinx6GfYBxGl?=
- =?us-ascii?Q?5Z2XKANJ2WcyW0tvR+Q4RBJXCEvEaPcIZAUJyZxYLBKM4N4fSFeYHlm3xyON?=
- =?us-ascii?Q?Zhk8lzaRO/SdSzzyJkBcYBh1rZ+mKYsB0iE/2BXMSLC4iUuq+Id7qB9OC6Pd?=
- =?us-ascii?Q?s0HRxbn5cg8sN18yL3bRBnmoF8fxhB8iexS7vOp3/wYAaP0oO3XyFBt1meY7?=
- =?us-ascii?Q?xX7oKqjTMavhbhSO2HQXtsS3tcA1YGPTCAbTp/iX/FHJP8dKKuWl1IPqGW9M?=
- =?us-ascii?Q?aQnUis+U5SnsjtVOzCgBAeNpWtVQEc6ZruSj77LPCtX7u69nYv3qM9E66pe3?=
- =?us-ascii?Q?Eg4T6NlqA/yVOxm+wooUZEpZ0gcy0ureSX/uprA/hcniYNVlamxPPYEAQ8kA?=
- =?us-ascii?Q?/fiuCnLKaIgpdN/YrNEJgujPbkfMawRqdvYUollFISn6ZFOjUs4GYSBEN2r3?=
- =?us-ascii?Q?wbNV3HprSW8Al8FazZ7lFdF/KdkR1oT96syAHoSFe/NnSVUcKpx3Mve3CW62?=
- =?us-ascii?Q?rSOnh5J71gNpEk6Me8+IUPMB/hPj592CoUuuYP9WffpDEZULULs4J19P27ro?=
- =?us-ascii?Q?46JIlVOATiSP7++3KHU36/2G9kNYA1r6UxiVyUrn+aj1WA4wcapk0/W+pxoB?=
- =?us-ascii?Q?4nepUMe4zjefaHN+k2L7lFfsP3ZJaztiADwZabZ89BCIwY0l7fN1KeNLTPVr?=
- =?us-ascii?Q?ygWP/2BKBgCOgM8m2OqZIueUFXB4NPDL1IbilFTiWGdup4zytJtLSwWa9rmt?=
- =?us-ascii?Q?hklHWR42oBt2U+TtbxwjEepSR40OxbAItlwZGeueqC8ZYVWl7CJZrCSZc6TJ?=
- =?us-ascii?Q?mddtXF8f64KaNXC/iCjJNcRe2qesJl7Bssqc2Tst/TAuqsFfzD6VGMgP7Ja1?=
- =?us-ascii?Q?AfZkDMZnWKyXcISKwd7rtTiqGGyqdJTuXSmtl9n5g4gwZdwtwViwaP0Fscar?=
- =?us-ascii?Q?qp311p1amvItGn1m6uhiZ80/xmnnCkUfyPlmB0EbqHl8ENFst+eOugPiKIfx?=
- =?us-ascii?Q?xiWLKV/fazUIIUBrnyQcNz66aD9g/3urZXwFc/DWmQ49CBnrQ2tlKUk9kCXO?=
- =?us-ascii?Q?KxeaBkOtnnjwwurmDpy4D3yad6yiYEc0lWVB3AdonumW0NhLF3dcSIeV3lfx?=
- =?us-ascii?Q?4oAx7mmQ5cC9ema9AEY3pfMmIUMXgUedPmBgvTjp?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dGszaUVuSmdwZzRhTTFZRDl2cUhKU0p6Y2lrS3hTalVlWHQ4clRQNEFmcXRy?=
+ =?utf-8?B?NHRsQTlLUENFNlhDRFBaWFFtNSsyNDkyWktxK0p3UHF6TGJKWHRIQzJ5RjBq?=
+ =?utf-8?B?eTNLOGNoQ1BaWTRWdURvT0VST1RYVWt6VXh6bSt1VWhYcWErdDhNRkdiRnJz?=
+ =?utf-8?B?U3dzMjZMTDFLY3hjQmtvUkJ2K2tXZWNkQk5MVUpVRU5YUlNrUFpBZHZjY01E?=
+ =?utf-8?B?RCtLVmtpS1RVU0RWZDhGSUdjWGJaUEczRUpJeFk0Zm5WckVUT2s0cEREY0hO?=
+ =?utf-8?B?NmZ0bjZxanBTTUN5cERVSmVsV2lzWnpjOTFuZG9QZEpGeTNTZkRNL0x5NUFk?=
+ =?utf-8?B?RndjaG5tR3ZKeHRpZTAwdW8ycU5JVjh4bXZOTUdRK2lSdisxN3Zua0krRVF6?=
+ =?utf-8?B?eDVBNTdWSFl4QVNDU1hNS2hCL21PYjhPdlJWSisvZFdZYW43cXk4Y211R0ov?=
+ =?utf-8?B?eVlQQUlOOC9nSEk2Rkp2dTFCYmJUMUREQ1JWc1dnbEorejk2ZXJSUm93Tlhn?=
+ =?utf-8?B?d0xwZHY2cm84bmZYOVc5ZTNGSkJzRzU2WUxXYmpOdnBsZHJiWlhRK1NiSlA0?=
+ =?utf-8?B?TFE5dDY4RGpWeUkzNXJCUnRZdURtZ0FyeHIyYTNMQWhXeUJXbHRIZXVUM0pT?=
+ =?utf-8?B?RUxSNGJZNi9nUzNkMDh0elozV0JxcFpWVktKall2RUtabzNxNWI1c2VyU09M?=
+ =?utf-8?B?d2NGeEJyc0drcWZJeTAyWmVhbTZxVWFjMjVXbENNTnUxK2Q0dzZjckswaWkz?=
+ =?utf-8?B?THBlU0tCOUVSbGp2NitrVHlKOHd2bXFCbjFvZ0NVVEd5VmpETDRWY0s5Q3NM?=
+ =?utf-8?B?aXEwMmQ3ZEtNOXpRTUMyRlpCYXpBcWhHN0VuS3g3QnRWdmUyaWhLblU5cHdS?=
+ =?utf-8?B?VzNKOGpjWUtMMjR1bWIrNTU3SWtkeWtNUUVEdXBnU3lYQS9qWjNiTzZrMXZx?=
+ =?utf-8?B?K0tVMTdUOGRRZGJwczl4c3BIV2h2UjM5b01CbU5xRTI2OFI4MGtnWjlMNGxx?=
+ =?utf-8?B?OThRcXBYdng4MTJhblBYeWhNSjF6TmJBWW5jQm1vSVpUOEVLekRKN0tpTHdX?=
+ =?utf-8?B?Qm1Uc05CV29lUFJrVU5qRzNmVFd2cEFJMFV2Vk1GZUNOQUF2MytJM3dDUk1v?=
+ =?utf-8?B?Zk5QYzBoYVpoTFhSM1NjS3VTb0MzYWF1WThCaGNRNEdJMUQ0THF6SUpNT0lT?=
+ =?utf-8?B?VkwxWkdKSmUvMU9LUTJJWTN5dFg3VDZFSXNyVTZoRXBHSS9HdlpLQjNYOGtO?=
+ =?utf-8?B?bXlZTmN0d1B3Y1VXQURPTVV2ZE9zUXBmZVhUUHJiZmtneWFxM1huZ0lqM0xj?=
+ =?utf-8?B?cnRnZW9EazlzU05QVVVocFVTVDdnemtQVXZURlJBbytveEwxSmJ6ZW94cC9N?=
+ =?utf-8?B?ZzliSGVUNE8zcXhFYllBUUpwTUJUbElBQ2RWdDhhcWNwQUhvQ0FXYS9EaDcz?=
+ =?utf-8?B?dmRYckRQUkNkaENuYzhBWWxDaThxSGV3cFhJZUpHbk5IMDdBTG4rSEp4MFd3?=
+ =?utf-8?B?Wlc5S0E5ZUR3bjNFVUNGcDJMWUgxcHZNalh6RTV0YzEyVmlkdXBCSzBRdDRF?=
+ =?utf-8?B?QzB5RktvQmZCamsrTC9ZSGdEUVd6MG43a0JVTjY4TXM3bXVIRGZRY2Qrb1A2?=
+ =?utf-8?B?NjBtUklqa012ZzFXMWRXNTlla0pZcVAvVXVxUjBVRHNQeHZxbFZsVm12Rkxz?=
+ =?utf-8?B?bUVPMTZ4cFpzTU1ZQkltNDJBS2hnakV1N29Ma2tpUE5PRTFpU3BlTUY1MzNK?=
+ =?utf-8?B?b1NNWmZPUG1veGJoZEtxQU9sK1RrbnRhTU5lWWZFVnlrQXgwQXBTVEx1amF3?=
+ =?utf-8?B?U3hEazdaS0Z1L0J4U2IrRUxSeFBoS0h1SVZScUpiRm1qM3RDWHJodVJpRTdQ?=
+ =?utf-8?B?YTJ5RzA3dnpuWDQ2WWxYckxHK20rbzA4UEc3dVNrTzduT1FoQUcyd0RvNjhy?=
+ =?utf-8?B?YTNmMWNxT3p6ZjJ4eWU1Y2gwNUM0ODlkcnBsOXgwWG1IS2ZKZHExeUorYkR6?=
+ =?utf-8?B?R2NFSlRaQ1k5SE5VSDJLS0NtU0JqK2VEbEdHWEtOcnpOSkRTMWp2dm9tbXZ2?=
+ =?utf-8?B?ZllmT3BUMzJOYm15UnVDeGVsWGRReWhxVVlmTS82c0t0MmFzc1V2L2UxRjNG?=
+ =?utf-8?Q?q9Txd7frg3mLY0NSj/rcwqeVZ?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d710396b-30d7-4da0-116f-08daa01b40f4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7606eb1e-b1a9-440f-a44c-08daa02add84
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2022 00:00:14.2050 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2022 01:51:59.3436 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kzlfprhBapPoQkzJVuDZaeaUhK3msi3tpPICnuY4euJgDmG6cG6QICum59gjGHdWB5DaVRD8psbfpfKZgUi6Dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4182
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8qSC/x+rOJGIGPPSI+4/vc2oahHYORWstd+eLrY1HPgV5J6JMfJUyHdBe40sCo8R03hn4nxGpJZrFy6/5NNVPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5770
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,22 +130,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Alex Sierra <alex.sierra@amd.com>, Karol Herbst <kherbst@redhat.com>,
  David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- amd-gfx@lists.freedesktop.org, Michael Ellerman <mpe@ellerman.id.au>, "Matthew
- Wilcox \(Oracle\)" <willy@infradead.org>, Ben Skeggs <bskeggs@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ amd-gfx@lists.freedesktop.org, Michael Ellerman <mpe@ellerman.id.au>,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
  Nicholas Piggin <npiggin@gmail.com>, Dan Williams <dan.j.williams@intel.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-John Hubbard <jhubbard@nvidia.com> writes:
+Felix Kuehling <felix.kuehling@amd.com> writes:
 
-> On 9/26/22 14:35, Lyude Paul wrote:
->>> +	for (i = 0; i < npages; i++) {
+> On 2022-09-26 17:35, Lyude Paul wrote:
+>> On Mon, 2022-09-26 at 16:03 +1000, Alistair Popple wrote:
+>>> When the module is unloaded or a GPU is unbound from the module it is
+>>> possible for device private pages to be left mapped in currently runnin=
+g
+>>> processes. This leads to a kernel crash when the pages are either freed
+>>> or accessed from the CPU because the GPU and associated data structures
+>>> and callbacks have all been freed.
+>>>
+>>> Fix this by migrating any mappings back to normal CPU memory prior to
+>>> freeing the GPU memory chunks and associated device private pages.
+>>>
+>>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>>>
+>>> ---
+>>>
+>>> I assume the AMD driver might have a similar issue. However I can't see
+>>> where device private (or coherent) pages actually get unmapped/freed
+>>> during teardown as I couldn't find any relevant calls to
+>>> devm_memunmap(), memunmap(), devm_release_mem_region() or
+>>> release_mem_region(). So it appears that ZONE_DEVICE pages are not bein=
+g
+>>> properly freed during module unload, unless I'm missing something?
+>> I've got no idea, will poke Ben to see if they know the answer to this
+>
+> I guess we're relying on devm to release the region. Isn't the whole poin=
+t of
+> using devm_request_free_mem_region that we don't have to remember to expl=
+icitly
+> release it when the device gets destroyed? I believe we had an explicit f=
+ree
+> call at some point by mistake, and that caused a double-free during modul=
+e
+> unload. See this commit for reference:
+
+Argh, thanks for that pointer. I was not so familiar with
+devm_request_free_mem_region()/devm_memremap_pages() as currently
+Nouveau explicitly manages that itself.
+
+> commit 22f4f4faf337d5fb2d2750aff13215726814273e
+> Author: Philip Yang <Philip.Yang@amd.com>
+> Date:   Mon Sep 20 17:25:52 2021 -0400
+>
+>     drm/amdkfd: fix svm_migrate_fini warning
+>          Device manager releases device-specific resources when a driver
+>     disconnects from a device, devm_memunmap_pages and
+>     devm_release_mem_region calls in svm_migrate_fini are redundant.
+>          It causes below warning trace after patch "drm/amdgpu: Split
+>     amdgpu_device_fini into early and late", so remove function
+>     svm_migrate_fini.
+>          BUG: https://gitlab.freedesktop.org/drm/amd/-/issues/1718
+>          WARNING: CPU: 1 PID: 3646 at drivers/base/devres.c:795
+>     devm_release_action+0x51/0x60
+>     Call Trace:
+>         ? memunmap_pages+0x360/0x360
+>         svm_migrate_fini+0x2d/0x60 [amdgpu]
+>         kgd2kfd_device_exit+0x23/0xa0 [amdgpu]
+>         amdgpu_amdkfd_device_fini_sw+0x1d/0x30 [amdgpu]
+>         amdgpu_device_fini_sw+0x45/0x290 [amdgpu]
+>         amdgpu_driver_release_kms+0x12/0x30 [amdgpu]
+>         drm_dev_release+0x20/0x40 [drm]
+>         release_nodes+0x196/0x1e0
+>         device_release_driver_internal+0x104/0x1d0
+>         driver_detach+0x47/0x90
+>         bus_remove_driver+0x7a/0xd0
+>         pci_unregister_driver+0x3d/0x90
+>         amdgpu_exit+0x11/0x20 [amdgpu]
+>          Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+>     Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>
+> Furthermore, I guess we are assuming that nobody is using the GPU when th=
+e
+> module is unloaded. As long as any processes have /dev/kfd open, you won'=
+t be
+> able to unload the module (except by force-unload). I suppose with ZONE_D=
+EVICE
+> memory, we can have references to device memory pages even when user mode=
+ has
+> closed /dev/kfd. We do have a cleanup handler that runs in an MMU-free-no=
+tifier.
+> In theory that should run after all the pages in the mm_struct have been =
+freed.
+> It releases all sorts of other device resources and needs the driver to s=
+till be
+> there. I'm not sure if there is anything preventing a module unload befor=
+e the
+> free-notifier runs. I'll look into that.
+
+Right - module unload (or device unbind) is one of the other ways we can
+hit this issue in Nouveau at least. You can end up with ZONE_DEVICE
+pages mapped in a running process after the module has unloaded.
+Although now you mention it that seems a bit wrong - the pgmap refcount
+should provide some protection against that. Will have to look into
+that too.
+
+> Regards,
+> =C2=A0 Felix
+>
+>
+>>
+>>> ---
+>>>   drivers/gpu/drm/nouveau/nouveau_dmem.c | 48 +++++++++++++++++++++++++=
+++-
+>>>   1 file changed, 48 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/n=
+ouveau/nouveau_dmem.c
+>>> index 66ebbd4..3b247b8 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+>>> @@ -369,6 +369,52 @@ nouveau_dmem_suspend(struct nouveau_drm *drm)
+>>>   	mutex_unlock(&drm->dmem->mutex);
+>>>   }
+>>>   +/*
+>>> + * Evict all pages mapping a chunk.
+>>> + */
+>>> +void
+>>> +nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
+>>> +{
+>>> +	unsigned long i, npages =3D range_len(&chunk->pagemap.range) >> PAGE_=
+SHIFT;
+>>> +	unsigned long *src_pfns, *dst_pfns;
+>>> +	dma_addr_t *dma_addrs;
+>>> +	struct nouveau_fence *fence;
+>>> +
+>>> +	src_pfns =3D kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
+>>> +	dst_pfns =3D kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
+>>> +	dma_addrs =3D kcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL);
+>>> +
+>>> +	migrate_device_range(src_pfns, chunk->pagemap.range.start >> PAGE_SHI=
+FT,
+>>> +			npages);
+>>> +
+>>> +	for (i =3D 0; i < npages; i++) {
 >>> +		if (src_pfns[i] & MIGRATE_PFN_MIGRATE) {
 >>> +			struct page *dpage;
 >>> +
@@ -144,39 +288,46 @@ John Hubbard <jhubbard@nvidia.com> writes:
 >>> +			 * is nothing sensible we can do if we can't copy the
 >>> +			 * data back.
 >>> +			 */
->>
->> You'll have to excuse me for a moment since this area of nouveau isn't one of
->> my strongpoints, but are we sure about this? IIRC __GFP_NOFAIL means infinite
->> retry, in the case of a GPU hotplug event I would assume we would rather just
->> stop trying to migrate things to the GPU and just drop the data instead of
+>> You'll have to excuse me for a moment since this area of nouveau isn't o=
+ne of
+>> my strongpoints, but are we sure about this? IIRC __GFP_NOFAIL means inf=
+inite
+>> retry, in the case of a GPU hotplug event I would assume we would rather=
+ just
+>> stop trying to migrate things to the GPU and just drop the data instead =
+of
 >> hanging on infinite retries.
 >>
-
-No problem, thanks for taking a look!
-
-> Hi Lyude!
->
-> Actually, I really think it's better in this case to keep trying
-> (presumably not necessarily infinitely, but only until memory becomes
-> available), rather than failing out and corrupting data.
->
-> That's because I'm not sure it's completely clear that this memory is
-> discardable. And at some point, we're going to make this all work with
-> file-backed memory, which will *definitely* not be discardable--I
-> realize that we're not there yet, of course.
->
-> But here, it's reasonable to commit to just retrying indefinitely,
-> really. Memory should eventually show up. And if it doesn't, then
-> restarting the machine is better than corrupting data, generally.
-
-The memory is definitely not discardable here if the migration failed
-because that implies it is still mapped into some userspace process.
-
-We could avoid restarting the machine by doing something similar to what
-happens during memory failure and killing every process that maps the
-page(s). But overall I think it's better to retry until memory is
-available, because that allows things like reclaim to work and in the
-worst case allows the OOM killer to select an appropriate task to kill.
-It also won't cause data corruption if/when we have file-backed memory.
-
-> thanks,
+>>> +			dpage =3D alloc_page(GFP_HIGHUSER | __GFP_NOFAIL);
+>>> +			dst_pfns[i] =3D migrate_pfn(page_to_pfn(dpage));
+>>> +			nouveau_dmem_copy_one(chunk->drm,
+>>> +					migrate_pfn_to_page(src_pfns[i]), dpage,
+>>> +					&dma_addrs[i]);
+>>> +		}
+>>> +	}
+>>> +
+>>> +	nouveau_fence_new(chunk->drm->dmem->migrate.chan, false, &fence);
+>>> +	migrate_device_pages(src_pfns, dst_pfns, npages);
+>>> +	nouveau_dmem_fence_done(&fence);
+>>> +	migrate_device_finalize(src_pfns, dst_pfns, npages);
+>>> +	kfree(src_pfns);
+>>> +	kfree(dst_pfns);
+>>> +	for (i =3D 0; i < npages; i++)
+>>> +		dma_unmap_page(chunk->drm->dev->dev, dma_addrs[i], PAGE_SIZE, DMA_BI=
+DIRECTIONAL);
+>>> +	kfree(dma_addrs);
+>>> +}
+>>> +
+>>>   void
+>>>   nouveau_dmem_fini(struct nouveau_drm *drm)
+>>>   {
+>>> @@ -380,8 +426,10 @@ nouveau_dmem_fini(struct nouveau_drm *drm)
+>>>   	mutex_lock(&drm->dmem->mutex);
+>>>     	list_for_each_entry_safe(chunk, tmp, &drm->dmem->chunks, list) {
+>>> +		nouveau_dmem_evict_chunk(chunk);
+>>>   		nouveau_bo_unpin(chunk->bo);
+>>>   		nouveau_bo_ref(NULL, &chunk->bo);
+>>> +		WARN_ON(chunk->callocated);
+>>>   		list_del(&chunk->list);
+>>>   		memunmap_pages(&chunk->pagemap);
+>>>   		release_mem_region(chunk->pagemap.range.start,
