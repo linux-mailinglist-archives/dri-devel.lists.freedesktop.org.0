@@ -1,80 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267505EC625
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 16:32:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC8D5EC680
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 16:35:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 517C110E372;
-	Tue, 27 Sep 2022 14:31:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D2710E37E;
+	Tue, 27 Sep 2022 14:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 759B910E372
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 14:31:49 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id z25so16039651lfr.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 07:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=NUfI4SCRisddpR+Mrk1Ab5N6zdnsa7HpNGyqDE8S3Ak=;
- b=N5H3PvxU0f/K1m+Ie5ZB11BDUfHM5/7rmKTWERCI16RPnFP93poTMnQCJcmimNQyb+
- iM26D7OsLJcsmOZU/xMHANBiDKZIn9q2gs+chOxXtKyJdRoM3jcDS5xdhCqh3NMrfRvl
- d4IWDb/pXsaeTkuCa9br1kfnKDF0YN9oUcBRFQWU75t855LH3pbtJP9ynWm4chBxGG+z
- 6dailbrZEc3YIZTVHATQ5QYGCP/Jr9uNtyCEmGyO7YdW7A+jIrhldXH2mH7IJvdPcHDI
- n9XprOk48xR/fUdkCmm9j3V13OUbMExg0fBRQ2uf4Tl6H1UI5g9KWgvQc3JkKwQP3qBL
- L0Vg==
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF24E10E37E;
+ Tue, 27 Sep 2022 14:35:32 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id y2so14707ede.11;
+ Tue, 27 Sep 2022 07:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=ixTypyTbYmrayN7j6R7TbcDZay0VkrFWbjckAjmTBnE=;
+ b=VXzCFYNfh7QbuilcouXWmrmwwyQylfrBDHpIdQLvMFFlIn0LE8I1HPAmp47qKVyZPU
+ h/EOYn6FEDdAFTcsKfFvsD2jHPPoALSmI2vD+xKqdBc/gL8dVkogQL9+xGSKoY8KhxUB
+ tAWP2J1rq9g0crKRrKe8J7nfv9tm7KqYybWAMo1ZNkVV1+0j/YP7hfQGv0xQUIH10W//
+ G9YTgUv8uHz3r4+q/XTsft8Jdc2UF63i36yvb34HGN/ftQ6/nRU/GzY1gMJDFPQxH5Md
+ tH1yTORMXhos1XZWzSjwOjyzv9zcUPS1/mYRQvqhfhYbG+ZnQaigWMbNWLudGJIihXMK
+ 3ALw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=NUfI4SCRisddpR+Mrk1Ab5N6zdnsa7HpNGyqDE8S3Ak=;
- b=0XX8dKXF6BBzeZsQE8CdVS8+ikYS1gJYi/urnakzIGcyDz9qrkLsPwFAaP+aljbJmd
- vUJgHlc8tKLaD2ZsQFaloMd1k1leinUG1IV0PoRb7KMsq2WuozhzE1P7zfUwM+efP7+D
- cDWELn7h+MaSPvfheZ5pC7dUbQKbjBGJfRKISVYlSk+DDCXCOArv8QQd6wS2NxK4X27O
- 4Xvn1F1sZJ2m/KDKL1eKOS838zSM3OD8y/lycGtNP0VD8DMHLWZmuI+JVnZ/3Hx/4UxD
- +W+sgJB2bVMg39Hp36W1aFUd1lE0iZRqcsKyoGbkPRaIApZlmv2kFJPNBcOuxlj+0nfh
- KO1Q==
-X-Gm-Message-State: ACrzQf3Dy354iUsTur/rw9zBbZtJpiV2F4cMAAeHTeOUjOO7QY4N5e36
- M+gHDJasmqoRAr0AJoF+x0qrFw==
-X-Google-Smtp-Source: AMsMyM45aqxVkdxZ0HAqRVzU94fLrEHMjS4h00CZmLSIcK6DvgMURloYNRLEY0p/VovPPWPqX6uRGg==
-X-Received: by 2002:a05:6512:39ca:b0:497:a0b6:449c with SMTP id
- k10-20020a05651239ca00b00497a0b6449cmr10908608lfu.308.1664289107724; 
- Tue, 27 Sep 2022 07:31:47 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- z40-20020a2ebe28000000b0026c2fec2f8esm176975ljq.84.2022.09.27.07.31.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 07:31:39 -0700 (PDT)
-Message-ID: <db8ec605-7038-4cd1-9e70-bbe40404fa06@linaro.org>
-Date: Tue, 27 Sep 2022 16:31:36 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=ixTypyTbYmrayN7j6R7TbcDZay0VkrFWbjckAjmTBnE=;
+ b=J+kgg+Ssn/ReJ34dHE92y97yMaib4iJxpcs8E1ZfXrYbl5ZDKfoVaRDZUBJ4uAJTFi
+ ziSy3k1blW8k5RMHTlVIa97u5FemG+2gzb2HVQ3Noi4toCF46YasGdmq1Tf5myyufXfu
+ rq3g9vVPYBAHTKdG0N/fMNuydXQJ5dnZ3f8nnrmLS+cb3WWQj3qJ6F5aL379ntNRAND7
+ nXS7+GehjC7dXhvM3OWWW9ilOS+1pU8aCovMLFMCuC8PeTrWSgaESY7AvgIWItNhPO9j
+ dnujUmp1dImnaDiHLiielpZDWhRPwt8QJ6Y1bsNZC1C3wNwIOGh1ahCOlEk/+XhDfGC4
+ CAOA==
+X-Gm-Message-State: ACrzQf0BVRw6dpgOAXeaH2uPJ9N5A7WmlkQafJlnrW7v2KT4qlo/Ogpb
+ FVc4eqfMEi+W+4gJOfxwjxUDhQ47g6A=
+X-Google-Smtp-Source: AMsMyM695l+hzFyFwhK1KaOGqWorubCB6OUwkgDQ+7No207O9eN7wSQ57C8za9/pAQeLrrAUVVMnUg==
+X-Received: by 2002:a05:6402:4009:b0:457:14b:8ce4 with SMTP id
+ d9-20020a056402400900b00457014b8ce4mr17293146eda.332.1664289331414; 
+ Tue, 27 Sep 2022 07:35:31 -0700 (PDT)
+Received: from able.fritz.box (p4fc20ebf.dip0.t-ipconnect.de. [79.194.14.191])
+ by smtp.gmail.com with ESMTPSA id
+ ml23-20020a170906cc1700b0077016f4c6d4sm871564ejb.55.2022.09.27.07.35.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Sep 2022 07:35:30 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: prevent grabbing page references v2
+Date: Tue, 27 Sep 2022 16:35:29 +0200
+Message-Id: <20220927143529.135689-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v1 04/17] dt-bindings: display: mediatek: add MT8195 hdmi
- bindings
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Kishon Vijay Abraham I <kishon@ti.com>
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-4-4844816c9808@baylibre.com>
- <260bb17f-efc8-1287-3e03-f9b8e79a6e31@linaro.org>
- <CABnWg9vifOaAgwr7tkELUqbQA_1f-FfMFZ9o7sjZCaneo_FUmw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABnWg9vifOaAgwr7tkELUqbQA_1f-FfMFZ9o7sjZCaneo_FUmw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,73 +70,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: intel-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/09/2022 15:54, Guillaume Ranquet wrote:
-> On Thu, 22 Sep 2022 09:18, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 19/09/2022 18:56, Guillaume Ranquet wrote:
->>> Add mt8195 SoC bindings for hdmi and hdmi-ddc
->>>
->>> Make port1 optional for mt8195 as it only supports HDMI tx for now.
->>> Requires a ddc-i2c-bus phandle.
->>> Requires a power-domains phandle.
->>>
->>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->>> index bdaf0b51e68c..abb231a0694b 100644
->>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->>> @@ -21,6 +21,10 @@ properties:
->>>        - mediatek,mt7623-hdmi
->>>        - mediatek,mt8167-hdmi
->>>        - mediatek,mt8173-hdmi
->>> +      - mediatek,mt8195-hdmi
->>> +
->>> +  clocks: true
->>> +  clock-names: true
->>
->> ????
->> Why is this moved?
->>
->>>
->>>    reg:
->>>      maxItems: 1
->>> @@ -28,20 +32,6 @@ properties:
->>>    interrupts:
->>>      maxItems: 1
->>>
->>> -  clocks:
->>> -    items:
->>> -      - description: Pixel Clock
->>> -      - description: HDMI PLL
->>> -      - description: Bit Clock
->>> -      - description: S/PDIF Clock
->>> -
->>> -  clock-names:
->>> -    items:
->>> -      - const: pixel
->>> -      - const: pll
->>> -      - const: bclk
->>> -      - const: spdif
->>
->> Clock definition with constraints should stay here. You just customize
->> it per variant.
->>
-> Clocks are different between the two hardwares, so I've tried moving everything
-> inside the if/else block.
-> 
-> Is there a better way to express this?
+TTM owns the pages it uses for backing buffer objects with system
+memory. Because of this it is absolutely illegal to mess around with
+the reference count of those pages.
 
-https://elixir.bootlin.com/linux/v5.19-rc6/source/Documentation/devicetree/bindings/clock/samsung,exynos7-clock.yaml#L38
+So make sure that nobody ever tries to grab an extra reference on
+pages allocated through the page pool.
 
-Best regards,
-Krzysztof
+v2: handle DMA pages as well
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_pool.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 21b61631f73a..4da736e7b5aa 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -93,9 +93,11 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+ 
+ 	if (!pool->use_dma_alloc) {
+ 		p = alloc_pages(gfp_flags, order);
+-		if (p)
+-			p->private = order;
+-		return p;
++		if (!p)
++			return NULL;
++
++		p->private = order;
++		goto out_set_page_count;
+ 	}
+ 
+ 	dma = kmalloc(sizeof(*dma), GFP_KERNEL);
+@@ -120,6 +122,14 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+ 
+ 	dma->vaddr = (unsigned long)vaddr | order;
+ 	p->private = (unsigned long)dma;
++
++out_set_page_count:
++	/* The pages are fully owned by TTM and because of this it's illegal to
++	 * grab extra references to it or otherwise we corrupt TTMs internal
++	 * state. Make sure nobody tries to ever increase the reference count
++	 * of those pages.
++	 */
++	set_page_count(p, 0);
+ 	return p;
+ 
+ error_free:
+@@ -142,6 +152,9 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+ 	if (caching != ttm_cached && !PageHighMem(p))
+ 		set_pages_wb(p, 1 << order);
+ #endif
++	/* See alloc why references to TTMs pages are illegal */
++	WARN_ON(page_count(p));
++	set_page_count(p, 1);
+ 
+ 	if (!pool || !pool->use_dma_alloc) {
+ 		__free_pages(p, order);
+-- 
+2.25.1
 
