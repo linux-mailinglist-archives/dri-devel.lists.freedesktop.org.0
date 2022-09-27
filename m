@@ -1,61 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B07E5ECC53
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 20:45:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 019055ECC73
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 20:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD1B10E0D7;
-	Tue, 27 Sep 2022 18:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670A410E0DB;
+	Tue, 27 Sep 2022 18:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4F3A10E0D7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 18:45:10 +0000 (UTC)
-Received: from [192.168.1.138] ([37.4.248.18]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MORVA-1ot9dL2gW6-00Pyys; Tue, 27 Sep 2022 20:45:01 +0200
-Message-ID: <790e6127-3f75-3565-0d5a-89cc12540f5a@i2se.com>
-Date: Tue, 27 Sep 2022 20:45:00 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: Raspberry Pi 3 Model B+ hangs in vc4_hdmi_runtime_resume()
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED2C10E0DB;
+ Tue, 27 Sep 2022 18:54:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664304887; x=1695840887;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=BRzPjBgpRkRytt55bPngEOHq5taXtIpvCpBb/Ud1WAk=;
+ b=ilCyw+0RF/8jBtLs8MkHRWX0pSXfB2cKhFGIX/W0DyhFhsDG0OssIN5v
+ JuD7YL1wPlR4MV8BI48k5+jInu88yQOy551Xn4upSKmPCRhvONdkd49J5
+ zwX44kkx1Qq9BwS74QdkQOw5mycA9ogh8VjWs0aVg6Lf13MsA8PRCiRBq
+ UR4n8EDfckPnk5ZJxJYeFBtOtx0jMl2zRg6jUuxmWe//vR2IPwK3TKRfw
+ IuvSkHsnCcYgtzqM/zNxOixAc6lS0Dnn4bOcGGAX9ls6ZTwzKHKzgAgqE
+ Y3DViEP2YCaLXXfV2y0cf3Q101wpOr2SAqfozzepQFil3P3xr643ZpsHf w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="281771407"
+X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; d="scan'208";a="281771407"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2022 11:54:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="763984141"
+X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; d="scan'208";a="763984141"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga001.fm.intel.com with ESMTP; 27 Sep 2022 11:54:46 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 27 Sep 2022 11:54:46 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 27 Sep 2022 11:54:46 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 27 Sep 2022 11:54:46 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.107)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 27 Sep 2022 11:54:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AOVVMj7EOm9shEve2RPYlT5FDuXcKQal8p/pcr4B3LHG3PwfXYIpS8SeKsNI/G8X+xyl0XY25eacxlQ4xm9cdcCORVXT0R+7dyrFTCtYBLhwZvimSbc8C1jGlUYueRAUPqiTxu4D/Wq3dUzlzqbSdIjK0vWi6X7LBaLAPW76eHkq+H4kQiXh4i2Yws6rnWA8aMBV7Bb1BOHM0SctRvaO0MKjDbcm/AE8s4oVo4qylQnyDcDjkLclu3XQeW5IHApsAglkDOzGtbjz1Ju3kH69Rgcy0+aa6IS+DGBL5sSYhMK4XNqYW+dHh5DWHGhhj3UAt4jaZGZvMujSv2N5b3jvMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BRzPjBgpRkRytt55bPngEOHq5taXtIpvCpBb/Ud1WAk=;
+ b=jZJ4a28vWThYo0YPG3H5CRa9kQX2uowKSgUFbSn+XzPLqeiSX4y8OGPmb1+YWek/uLj+un9+eDJZa2AJU+YjYW6+UvWClLXWLjOFQZ3OtTm6Gtc90MbscmTW6cE0c8hCj8ekSagnIZME+1/BW3uYn0XidKwnXJCF8x9dScCz99WOXms39Vv7YJBjIT4ljDywcZeBIDKARW2fmNxo9jrQ+giDKDe0zKtAg4HRWm5j6CtAwFQNIRxKUNBX3bISWL41fugRImYTfu8u9fDHPh25gQZzFJ+nrkeh02gPZdGK66fNZFxspWl5GuC4v3/lA4SnM58H7etLFwmIkdUx5c7wyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
+ SN7PR11MB6849.namprd11.prod.outlook.com (2603:10b6:806:2a1::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Tue, 27 Sep
+ 2022 18:54:44 +0000
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::6f3a:c6aa:731c:d1fd]) by DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::6f3a:c6aa:731c:d1fd%5]) with mapi id 15.20.5654.025; Tue, 27 Sep 2022
+ 18:54:44 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/i915/huc: stall media submission until HuC is loaded
+Thread-Topic: [PATCH] drm/i915/huc: stall media submission until HuC is loaded
+Thread-Index: AQHYx8e3e0oNkBJqY0GwLo7X0xepCa3zti2A
+Date: Tue, 27 Sep 2022 18:54:44 +0000
+Message-ID: <7cdb86f1c1b3514257333b96407286369fca9a88.camel@intel.com>
+References: <20220913005739.798337-13-daniele.ceraolospurio@intel.com>
+ <20220913232212.894826-1-daniele.ceraolospurio@intel.com>
+In-Reply-To: <20220913232212.894826-1-daniele.ceraolospurio@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220926102130.eeekt5skt4mav5f4@pengutronix.de>
- <63b460d1-4e2f-b0f1-836d-9178bb19f609@i2se.com>
- <20220926124048.i3lxy4lvtq756trp@pengutronix.de>
- <20220926124743.5s7x3dwhzienqs3x@houat>
- <7f334d11-9517-6423-572b-998f678e5718@i2se.com>
- <20220927072554.y4yrmgtlaim4b5mv@houat>
- <20220927094200.2cfw2ukick3oqr4a@houat>
- <40da8a17-5331-690b-3bd9-3317b0d0441c@i2se.com>
- <20220927114240.xilpcte2s3b5bmcf@houat>
- <20220927122512.h5tsnhbjivcnesph@houat>
- <20220927131517.3yyuswqlndcwr4pz@houat>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20220927131517.3yyuswqlndcwr4pz@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:A+oAqobx+Kf2VnVuGeLd106Rw0abVrQjkrpLnaNI1EbwO9gr1KZ
- 4HMgBPOyiYJ75x908ltsWkvBcrrc4yOBew1ggA0d1o8GZqGquMKHegsjKEjKnIMYCsXi7Ni
- NVb+lYbO1eOgVUWgWuZMIDiYocO/Rqe+KVCDzHJKYoik9Un3AqB1/gb2dlkBmhUo6CnS09h
- mZ3CApJ9uDA21OeRxWn4g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zwjCr4mFiBo=:WFUgeIvqM4nw+4qd4HxFmt
- x+9vVNa4j59D0nI/R2xT2q/iGYQosdkyaxek0TbTDUSpa4UVZIxa2lGOkpJr2vxluVUhLTCx6
- qa6kP1jqzH3eI2S7SjIR0Q/tt/qMJFUa5R04avKJdKJHttSNImN84seHLc1Lje+KoYVwkYv+3
- wKiS4T8mSc+Qvhk/G3gpVqHe/Sh+zcfjpkaNwq5ksdAKsqt7SPa4VzzEf0NoUgpYisMCeYqIf
- wVRzBAlpAjEzMz+ehOnmWDr8eSzJlNNxw5HtMCARA7qQAlQtBoyUJVJp4AON/vkaLdzMFAdo2
- aoVFha794PKkN5oNBReNM+waPWFBzGIz0esiyNMBqpeTr+UpxY2D4iLEOrGQiksXJHXL8KRQR
- UBkiCUVNjPDCbozzoFt4V6l2LSsxzOxL4N2JC2oYJ6XhYfhwAfSVwMEMikDu/dKAwr+mUdCBl
- JhXmqaeJiqL4Tfv6m5ZoK5lYP5j2olpw6A8N3HisHlmj8D9IiLkghGBh+t6bRreTWc59MW3NC
- doeZer21Fxq/BrRHq30JsIVBBewdP8+/MsENqUcgErKtCBoBXIKK6TFvVeQC0k2cXYNkfFXII
- P4bW7IfDJaIpTm8fIYBGga/KFWhJ+lVqIjOmXUmGjYWhABAtj+qiXUPUQw+fw+4YnH4OZGL8c
- emN8ZvxutxsByhZsbhUJjxhGywN8MoYkbCNWOcoF+KhJ7zatLa4k/tCLrsI5150On2OFRfptX
- pdufEwAM4y979o0s+pU7nq9Hv8Nh9GNTdnOqSZq7eEzUc24w0B+VXYNNgLwYFWBl6CY9PFq2v
- h+dS+Rx
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|SN7PR11MB6849:EE_
+x-ms-office365-filtering-correlation-id: c4738091-9471-4e05-fb60-08daa0b9be08
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EPfk6rkV9BzsuTmpW+rJLEsNX6RjWe5HMNMXYw0hf6ii1UAg7kj2GQJqHinnFJWArf1+IdXKDS6+PR8gROXldkCto/sjTRmlyrjtJeViqm4C4ahhQ0zB/p10Txb07llQQKhdyUtrj9jCrGw/yUDFejzLRHhQVloZT0Q7iTvMZ8tJCbwWLV6dmd0zhlZZTcjFA03/YRr0BrSV+Kh+CpY6hmJoZvc/k9j3X/ESRkLVtcGqaNFLxfQPWnxsQqZ+PDLGt8c84uTcenwF1mbCvo669nt0DpfcAU/d2EriO7wnhNGr5dW4ckXz9zvVL3lzGamYBHtl2Y/bI8nR/mVV1qUjn8IuT502BdoHoHC6Qv2w8VOc0v61ZXERrhpcI7CRv0PXyVSNL4N6DP8E5Qs04QOT0MmLwknrlIReKfdBm9zYpjC5xRdjpwQrh2fkcaaz4S+rqeYpi7xa1Td44X4ylq8nIfaGYL54WORJkJq/B89aHcV2YlXdoim//Vlh+D9CTfQLvemn8IeNMq4PdetfJkdXPBFl0dWPH5kwQyd5UbDqwHCiGQYKqViICGSoXgXB4PUj2V7Zos9leIofV/fgqrrL0ztQDv7YjuWqnIELqNaLoLwL3+2XYeA/SQcV6H+r+aUAKUTVxRs4p86BW8TFalhLOKlP472EhdLakN2sZ1pSn8YGuNkViWVbLYFKCVxCWUmKf1TYH6pE6XfjqBm/Rs2xFFsLhVOwXAtiLoepQ7j1To3D6/68dmCG7W4zYHLwua69O9an/RDTdfuFGuxAB+/uZQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(366004)(376002)(396003)(136003)(39860400002)(451199015)(8936002)(2906002)(41300700001)(5660300002)(36756003)(8676002)(66446008)(66476007)(38100700002)(450100002)(4326008)(76116006)(91956017)(66946007)(110136005)(54906003)(71200400001)(38070700005)(64756008)(478600001)(316002)(66556008)(6486002)(86362001)(107886003)(2616005)(186003)(6506007)(122000001)(82960400001)(83380400001)(26005)(6512007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U09uZW9OZDk3aWlLSnNkOHBpRUpoLzhXQ255ZldZeVNLUHJRVDJOSTh1WHls?=
+ =?utf-8?B?ems3cVJ1c3JySEo2V0wxeTBzS0NxM0RKQjJlMkVaQVdrWnBwVGhkOVA4Zith?=
+ =?utf-8?B?UG4yeFBYbjZ2ajBhNS9nZ3YxQm10alV3UW05WUlzRjUzL3NvMStXVVZrYjVD?=
+ =?utf-8?B?YTNsV1NjR3JDU01GdDkybnRITDZqaVBmSkoySlJLZHFERVlKNWlVZVE5UHEy?=
+ =?utf-8?B?TUF5VVJvdDZVVk1nTS9RSlNGbnVoeTV0Ym1MWkYycmpSWW1tMy9YZ2pFL3FP?=
+ =?utf-8?B?a295MFFIZlRVNjJrb2gyS1FqWFhNWjBWM1EzdDV2ZjJRQ1FZeEtlYk5NM1J5?=
+ =?utf-8?B?eExaTnFPT3h2VFFNV1ErOVVHRk5nc3FCVmhSWU1abVduSGtCNTRRVnVnVWFi?=
+ =?utf-8?B?WENWRkJIMm5LRitpNHdOZi9sa0prSFUybDdSM082M1M4UzN6T0lNajR0WU1w?=
+ =?utf-8?B?WFpBT3JCQXFrZmZOZjdRNTQrK0pJcVBCb1pTcVZ3VEp1ZEgvWVVtZzA3WndF?=
+ =?utf-8?B?RjBZVlVZRjlQU3h1WjZiWWtuZ05pejI2UW50RVNxVzF0K2FPeTNtejAvOGNl?=
+ =?utf-8?B?K05yTlByMmZrdlRwNEI2NU5KTDhCZUhqUUx5MDYxUmlTRlYrWkFrRTUyN3Vv?=
+ =?utf-8?B?V0wyRHViUmNoMnA0MThWUG1BdzVLUFBoeDdNOUdtRVhzNE5paTU4V01GQ3p2?=
+ =?utf-8?B?TzJnbUorUWFyL2ZOUXpZZXN1OTFrNlVvbDZqUThMbVhrZ0ZzTUFQR0w0Zi8w?=
+ =?utf-8?B?dGhyWDBKTVEwTUZRODVFbnh1MTdnNFlNM1JkZTBEQTd5SWUrdlREaFFIM1Fm?=
+ =?utf-8?B?MmRWS3NudUlpazUzK2srQlF2UUZNY1lpaXJFZnVZQzNEdDV1ZWYxNHV4MU45?=
+ =?utf-8?B?TUoxM1I1Q2h0QUhpVzFQSS9XMktGY3BMRW5YV3I4SnBlQ1NlWEl4WW8wNVBx?=
+ =?utf-8?B?VUhsODFWSzMzWkYxZU1uZ3Y0KzA4Y2xtYStTQnFCcDJVZ2QxQVh1OEo5dkJJ?=
+ =?utf-8?B?SzVoaEhXNitranNtOWJocmt5U0xscnVYSmdSUHlWT3lwWE5lTzh2UEluZ1ZZ?=
+ =?utf-8?B?N08xamhBR0dSVG5UbTBPTU04MGwyV2ZSL2ZoeXppM3NCR2x4SGJZY0NLcTQx?=
+ =?utf-8?B?N0t2YUhnMEhqaDd0M09UY0g2VHN5ZkNxM3VFTURKSGtBZkJNZXNXaWxKY002?=
+ =?utf-8?B?dlgraUMrSmw2NmFpY296M25la1pSc0NmdFNVOVNFZklVQk1kTGttanJuK0ZR?=
+ =?utf-8?B?RnczMWV5RFRlZVZYb055R2JheklnUXVjdnlhMTZnc3BIWk5xTDIwcENjZTV3?=
+ =?utf-8?B?SkpiT2ova0lWSmhjMjdaT1BJaXF3cllrdkE5bnhzNXdrZUZQeFpJamFnY2NZ?=
+ =?utf-8?B?Q2pWQnl5Y3NIRzdreFo0ZzUraEp5ZCtWMWx4eHZ6d1c0bW1QV0pndkt4bmFK?=
+ =?utf-8?B?UVZKU3F5ekQ1eU5DNlpSRk42MXBhQnJBSXkxT04vNXQxdVpXRkJVV2M2YnEv?=
+ =?utf-8?B?eitVb2FZMldiaEFWZk5nYUd5T09uYzYrcys0S294d013YTlLcDRkY2YwaG9w?=
+ =?utf-8?B?NHdBZkwwYUp3bUdQWlNEbzVqSnJLUUVqaU8xS25vK1ZaTUxFNVBLUytZN0xw?=
+ =?utf-8?B?Q1JsQTNFRTJ0Y05XTmNzTGZVM1BNZ0RKa0JkamZxbk1SanoxUk5oQzgzQnM1?=
+ =?utf-8?B?Z2NKbzZyKzUxcEtlUDlCcXMwcjZmZnFmVHI1NzJiOTlCbG5paWc1d2IyeEgv?=
+ =?utf-8?B?NVF6dm4yNTlBcE9iVmRBMUtCbmx0aU9mK0ZFQ0hxeWgwY2owd3FYTTZFMGVo?=
+ =?utf-8?B?UnljZUNPNjl2SFVTV2FwM0sxRXJ0WGFJbVhkSk4ySnJDVDlTSHZNd2hDSU13?=
+ =?utf-8?B?aEFhRmVPM3lHOFdtVjNTUFk5OElzMWd6TjJ0M0xPcVozY1p3SU1tWDRXMFpF?=
+ =?utf-8?B?U0sydk9RWGZOUWhHbkhLOVFEQ1AwQ0lzOERnYUxkaXZYcDYxRXdMM2FQamhP?=
+ =?utf-8?B?ODdSUEw5NytKT0RlQ2xwVERiaTdld01CY3YzWmhkS1FZNWpNaFVLeEI4dXgr?=
+ =?utf-8?B?bUxXaEtaMHVjMzFrNXphWjRhc2Irc0s2MUdZbm4xTzVmcndSSW9rVzVsT3d2?=
+ =?utf-8?B?bFNFOUdXc1BKSUFyd2FnR3RHWlVJbm43QkZKVkJxSkdNNndUTVRpUVVZVlFZ?=
+ =?utf-8?Q?ezkuF6J19N8IDqKHvMTEsPE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <450C668839E63340B54981396ADFB8F8@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4738091-9471-4e05-fb60-08daa0b9be08
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2022 18:54:44.3531 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 51D+t4D4XZl5/QwTgQWGZ/gkRquVA68Qo9EcmmmlvjDRx78zrhw8sx3SvD7+l7WMrDP3r0rLi9eO69tp29B4Z9+16iwsRxn0+eNmrL42paAwO7SuVsBjRqHR58CjAxjl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6849
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,141 +162,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, dri-devel@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org
+Cc: "Ye, Tony" <tony.ye@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Am 27.09.22 um 15:15 schrieb Maxime Ripard:
-> On Tue, Sep 27, 2022 at 02:25:12PM +0200, Maxime Ripard wrote:
->> On Tue, Sep 27, 2022 at 01:42:40PM +0200, Maxime Ripard wrote:
->>> On Tue, Sep 27, 2022 at 01:12:35PM +0200, Stefan Wahren wrote:
->>>> Am 27.09.22 um 11:42 schrieb Maxime Ripard:
->>>>> On Tue, Sep 27, 2022 at 09:25:54AM +0200, Maxime Ripard wrote:
->>>>>> Hi Stefan,
->>>>>>
->>>>>> On Mon, Sep 26, 2022 at 08:50:12PM +0200, Stefan Wahren wrote:
->>>>>>> Am 26.09.22 um 14:47 schrieb Maxime Ripard:
->>>>>>>> On Mon, Sep 26, 2022 at 02:40:48PM +0200, Marc Kleine-Budde wrote:
->>>>>>>>> On 26.09.2022 14:08:04, Stefan Wahren wrote:
->>>>>>>>>> Hi Marc,
->>>>>>>>>>
->>>>>>>>>> Am 26.09.22 um 12:21 schrieb Marc Kleine-Budde:
->>>>>>>>>>> On 22.09.2022 17:06:00, Maxime Ripard wrote:
->>>>>>>>>>>>> I'm on a Raspberry Pi 3 Model B+ running current Debian testing ARM64,
->>>>>>>>>>>>> using Debian's v5.19 kernel (Debian's v5.18 was working flawless).
->>>>>>>>>>>>>
->>>>>>>>>>>>> | [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
->>>>>>>>>>>>> | [    0.000000] Linux version 5.19.0-1-arm64 (debian-kernel@lists.debian.org) (gcc-11 (Debian 11.3.0-5) 11.3.0, GNU ld (GNU Binutils for Debian) 2.38.90.20220713) #1 SMP Debian 5.19.6-1 (2022-0
->>>>>>>>>>>>> 9-01)
->>>>>>>>>>>>> | [    0.000000] Machine model: Raspberry Pi 3 Model B+
->>>>>>>>>>>>> | [    3.747500] raspberrypi-firmware soc:firmware: Attached to firmware from 2022-03-24T13:21:11
->>>>>>>>>>>>>
->>>>>>>>>>>>> As soon a the vc4 module is loaded the following warnings hits 4
->>>>>>>>>>>>> times, then the machine stops.
->>>>>>>>>>> [...]
->>>>>>>>>>>
->>>>>>>>>>>> The warning itself is fixed, both upstream and in stable (5.19.7).
->>>>>>>>>>> Ok. Debian is using 5.19.6
->>>>>>>>>>>
->>>>>>>>>>>> It shouldn't have any relation to the hang though. Can you share your
->>>>>>>>>>>> setup?
->>>>>>>>>>> - config.txt:
->>>>>>>>>>>
->>>>>>>>>>> -------->8-------->8-------->8-------->8--------
->>>>>>>>>>> gpu_mem=16
->>>>>>>>>>> disable_splash=1
->>>>>>>>>>>
->>>>>>>>>>> arm_64bit=1
->>>>>>>>>>> enable_uart=1
->>>>>>>>>>> uart_2ndstage=1
->>>>>>>>>>>
->>>>>>>>>>> os_prefix=/u-boot/
->>>>>>>>>>>
->>>>>>>>>>> [pi3]
->>>>>>>>>>> force_turbo=1
->>>>>>>>>>> -------->8-------->8-------->8-------->8--------
->>>>>>>>>>>
->>>>>>>>>>> - Raspberry Pi 3 Model B+
->>>>>>>>>>> - no HDMI connected
->>>>>>>>>> Does it mean, the issue only occurs without HDMI connected?
->>>>>>>>>> If you didn't test with HDMI yet, could you please do?
->>>>>>>>> The error occurs with HDMI not connected, as vc4 is the gfx driver I
->>>>>>>>> thought this might be of interest. :)
->>>>>>>>>
->>>>>>>>> I don't have a HDMI monitor here, but I'll come back to you as soon as I
->>>>>>>>> get access to one (might take some time).
->>>>>>>> It's not the first time an issue like this one would occur. I'm trying
->>>>>>>> to make my Pi3 boot again, and will try to bisect the issue.
->>>>>>> yes the issue is only triggered without HDMI connected. I was able to
->>>>>>> reproduce with an older vc4 firmware from 2020 (don't want to upgrade yet).
->>>>>>> Kernel was also an arm64 build with defconfig.
->>>>>>>
->>>>>>> Here some rough starting point for bisection:
->>>>>>>
->>>>>>> 5.18.0 good
->>>>>>> 5.19.0 bad
->>>>>>> 5.19.6 bad
->>>>>> Sorry it took a bit of time, it looks like I found another bug while
->>>>>> trying to test this yesterday.
->>>>>>
->>>>>> Your datapoints are interesting though. I have a custom configuration
->>>>>> and it does boot 5.19 without an HDMI connected.
->>>>>>
->>>>>> So I guess it leaves us with either the firmware version being different
->>>>>> (I'm using a newer version, from March 2022), or the configuration. I'll
->>>>>> test with defconfig.
->>>>> So it turns out compiling vc4 as a module is the culprit.
->>>> Do you mean regardless of the kernel version in your case?
->>> No, I mean that, with vc4 as a module, 5.18 works but 5.19 doesn't, like
->>> Marc said. But if vc4 is built in, both work.
->>>
->>>> In my test cases i build vc4 always as module.
->>>>
->>>>> It's not clear to me why at this point, but the first register write in
->>>>> vc4_hdmi_reset stalls.
->>>> Sounds like timing issue or a missing dependency (clock or power domain)
->>> It felt like a clock or power domain issue to me indeed, but adding
->>> clk_ignore_unused and pd_ignore_unused isn't enough, so it's probably
->>> something a bit more complicated than just the clock / PD being
->>> disabled.
->> I found the offending patch:
->> https://lore.kernel.org/dri-devel/20220225143534.405820-13-maxime@cerno.tech/
->>
->> That code was removed because it was made irrelevant by that earlier patch:
->> https://lore.kernel.org/dri-devel/20220225143534.405820-10-maxime@cerno.tech/
->>
->> But it turns out that while it works when the driver is built-in, it
->> doesn't when it's a module. If we add a clk_hw_get_rate() call right
->> after that call to raspberrypi_fw_set_rate(), the rate returned is 0.
->>
->> I'm not entirely sure why, but I wonder if it's related to:
->> https://github.com/raspberrypi/linux/issues/4962#issuecomment-1228593439
-> Turns out it's not, since the Pi3 is using the clk-bcm2835 driver.
-
-FWIW i can confirm, that i see the same behavior:
-
-fd5894fa2413cca3e6a3ea713b2bd57281af2e86 bad
-
-5b6ef06ea6225570bc0b33325306c7b8c6bdf5eb good
-
->
-> However, even reverting that patch fails. clk_set_min_rate fails because
-> the rate is protected, but it doesn't look like it is anywhere for that
-> clock, so I'm a bit confused.
->
-> Even if we do remove the clock protection check in
-> clk_core_set_rate_nolock(), clk_calc_new_rates() will then fail because
-> the bcm2835 driver will round the clock rate below the minimum, which is
-> rejected.
->
-> I'm not entirely sure what to do at this point. I guess the proper fix
-> would be to:
->    - Figure out why it's considered protected when it's not (or shouldn't be)
->    - Make the driver compute an acceptable rate for that clock
->    - Reintroduce the clk_set_min_rate call to HDMI's runtime_resume, or
->      some other equivalent code
->
-> Maxime
+DQoNCk9uIFR1ZSwgMjAyMi0wOS0xMyBhdCAxNjoyMiAtMDcwMCwgQ2VyYW9sbyBTcHVyaW8sIERh
+bmllbGUgd3JvdGU6DQo+IFdhaXQgb24gdGhlIGZlbmNlIHRvIGJlIHNpZ25hbGxlZCB0byBhdm9p
+ZCB0aGUgc3VibWlzc2lvbnMgZmluZGluZyBIdUMNCj4gbm90IHlldCBsb2FkZWQuDQo+IA0KPiB2
+MjogdXNlIGRlZGljYWRlZCB3YWl0X3F1ZXVlX2VudHJ5IGZvciB3YWl0aW5nIGluIEh1QyBsb2Fk
+LCBhcyBzdWJtaXRxDQo+IGNhbid0IGJlIHJlLXVzZWQgZm9yIGl0Lg0KPiANCj4gU2lnbmVkLW9m
+Zi1ieTogRGFuaWVsZSBDZXJhb2xvIFNwdXJpbyA8ZGFuaWVsZS5jZXJhb2xvc3B1cmlvQGludGVs
+LmNvbT4NCj4gQ2M6IFRvbnkgWWUgPHRvbnkueWVAaW50ZWwuY29tPg0KPiBSZXZpZXdlZC1ieTog
+QWxhbiBQcmV2aW4gPGFsYW4ucHJldmluLnRlcmVzLmFsZXhpc0BpbnRlbC5jb20+ICN2MQ0KPiBB
+Y2tlZC1ieTogVG9ueSBZZSA8dG9ueS55ZUBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZ3QvdWMvaW50ZWxfaHVjLmggfCAgNiArKysrKysNCj4gIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2k5MTVfcmVxdWVzdC5jICAgIHwgMjQgKysrKysrKysrKysrKysrKysrKysrKysr
+DQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlcXVlc3QuaCAgICB8ICA1ICsrKysrDQo+
+ICAzIGZpbGVzIGNoYW5nZWQsIDM1IGluc2VydGlvbnMoKykNCj4gDQpbc25pcF0NCg0KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZXF1ZXN0LmggYi9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pOTE1X3JlcXVlc3QuaA0KPiBpbmRleCA0NzA0MWVjNjhkZjguLmY1ZTFiYjVl
+ODU3YSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZXF1ZXN0LmgN
+Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZXF1ZXN0LmgNCj4gQEAgLTM0OCw2
+ICszNDgsMTEgQEAgc3RydWN0IGk5MTVfcmVxdWVzdCB7DQo+ICAjZGVmaW5lCUdVQ19QUklPX0ZJ
+TkkJMHhmZQ0KPiAgCXU4IGd1Y19wcmlvOw0KPiAgDQo+ICsJLyoqDQo+ICsJICogQGh1Y3E6IHdh
+aXQgcXVldWUgZW50cnkgdXNlZCB0byB3YWl0IG9uIHRoZSBIdUMgbG9hZCB0byBjb21wbGV0ZQ0K
+PiArCSAqLw0KPiArCXdhaXRfcXVldWVfZW50cnlfdCBodWNxOw0KPiArDQo+IA0KPiANCkkgYmVs
+aWV2ZSB0aGF0IGluIGZ1dHVyZSBpZiB3ZSBoYXZlIG11bHRpcGxlIGVuZ2luZXMgdGhhdA0KcmVx
+dWlyZXMgYSBzaW1pbGlhciBzdGFsbGVkIGluaXRpYWxpemF0aW9uIHdhaXQsIHdlIHNob3VsZA0K
+aGF2ZSBhbiBhcnJheSBvZiBwdHJzIGhlcmUgYW5kIGEgbm90LWh1Yy1zcGVjaWZpYy1oZWxwZXIg
+dGhhdA0KY2FuIHNvcnQgb3V0IGFkZGluZyBmZW5jZS1zaWduYWxsZWQtd2FpdGVycy4gQnV0IGZv
+ciBub3cgdGhpcyBpcw0KYSB2ZXJ5IHJhcmUgcmFjZSBjb25kaXRpb24gdGhhdCBvbmx5IGhhcHBl
+bnMgd2l0aCBIdUMgc28NCnRoaXMgaHVjcSBzcGVjaWZpYyB3YWl0LWVudHJ5IHdpbGwgZG8gZmlu
+ZS4gVGh1czoNCg0KDQpSZXZpZXdlZC1ieTogQWxhbiBQcmV2aW4gPGFsYW4ucHJldmluLnRlcmVz
+LmFsZXhpc0BpbnRlbC5jb20+DQo=
