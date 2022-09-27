@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D989F5EC74F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 17:12:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 423B65EC752
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 17:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33EC10E397;
-	Tue, 27 Sep 2022 15:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56D510E38F;
+	Tue, 27 Sep 2022 15:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9BC10E397
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 15:12:12 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id lc7so21492531ejb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 08:12:12 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 207D910E38F
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 15:12:50 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id 23so742808edw.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 08:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=rIT3T5nfBfgdp3S4can3yr3bG6afRaMGveOO8LpJvUg=;
- b=IhYS23hpFcbaqZ/GqGoEc1aJLXR/HRxP6hJ3bg3cz4cFAyBAS4m86GpiY63Uz6cp4k
- +cDxOVK589bGTZR6jQTIWkOpxy0lj2J5bUo9eIXjqs/FK85lbDWg6Zk/3ExsvFSw7F62
- m7syMyxV6oqDzZji0DSbITIUEFU6ZICV+qB14=
+ bh=zXKimN4auJa1FuNCWZCgoPHdaRZI8eUov4kEfskoTHY=;
+ b=AXbWSfSsDnVMo9fDM5F5y422Ri0feMPF3EugH6ubSc0sV85QBBJXCyfJ9l/1rUrgfY
+ /dzLE7gyd6vr81gUg0Mke6nHbdptrtlzUuW80uSHgtSF4pQCsDcRgI8079Y8WrXTP3h0
+ cVrhac99DGCiIeFmew2y+7Ke/MXmiibqzFPm4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=rIT3T5nfBfgdp3S4can3yr3bG6afRaMGveOO8LpJvUg=;
- b=JPx0TkROxKh7peAXr657vU2ygp2NuqTMMYAV4tklPZpRJwMpjf6T5mlvLUN+eyyO2P
- Zo8xLDVs5RP7hnj9IWunFoK/bBZULCabTxndrd/oULolwZFE6FQxCpyJQsfHJbwYXCQ8
- 4jEzyqZ4TATD2tvglV7TZeMH/tdJBcApV0ThtCMnmOJOYEDKy6uaw7yQZJgWQKthU1ak
- 4cCNTqbL9BpEL7wsf6dzta8sabmgSgy9vw7M3M8xmnu8OAoaIS8POrgyRnVFABPHWBR9
- CvNBk9P5J11VHFbD4ZEeXvlYUeCPlW2f4O+UvKgLslpupUrkAS4krY6tug1XJCt/JZrO
- +8uQ==
-X-Gm-Message-State: ACrzQf1vYU+PsdDqgiHnvA+bHA/el0RkTD0Z+2A9Xl2qBwdcq9n66rxr
- Jh7W36F9n2OrpTkSFTr81QvNFgiagPnTIEsh
-X-Google-Smtp-Source: AMsMyM7Qpghr0YhwueFXHwOfyKdcjhyhs2Qugrd30l+SPyJPvGrSvk6n+8fxzp7l3VAJh3H0wVx/NA==
-X-Received: by 2002:a17:907:78a:b0:782:2223:a7cd with SMTP id
- xd10-20020a170907078a00b007822223a7cdmr22629647ejb.532.1664291530620; 
- Tue, 27 Sep 2022 08:12:10 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- e24-20020a170906375800b0077077b59085sm917210ejc.184.2022.09.27.08.12.09
+ bh=zXKimN4auJa1FuNCWZCgoPHdaRZI8eUov4kEfskoTHY=;
+ b=B/Qa2S48GmwUGAGiA/3cSBjIQPOVvuQI7Skd4IOGIAgEuRbPWDhb+K/2keifOhJGDS
+ 9QyS+nvJXo2XoL/fMutB3qcy1XLbTHeGRKalKDFYDVlFv7+2aXOt8dq+d9C5/JU7P7fP
+ VSVkeduxDZ4LR7bIU1SklB0gj/F37MR+4Hy5S4AzL753VflhHrjLUKCHzWSMNeVUcUxE
+ 58cdkOtDL0tIBkoAEmXxPs4zZNE65YCb7qLbGg/0wOrehUsoq8cLcJQuim0T3u/JiVAl
+ FuElKt0KfS4g/oiB1IAIhzrVrLlSeREmnqFvN8XDQz17W7xM8fo7bQbXw5q9qpY/FnoK
+ pIGA==
+X-Gm-Message-State: ACrzQf0Gx+Zj3hF2vyM20G2IP5bU/5i73NLTiwUB6EPTZJtFzaLLw/2l
+ qixxyMA8C0xvPVgs4mcOUUFbNhcxfIQ9QGDL
+X-Google-Smtp-Source: AMsMyM4RMiCGnWbuUuw7tjNtn6ijmHGG1QqpYGiJUGN9B8kZG+SSzykGUo5543p1kYInLMii1Pe82w==
+X-Received: by 2002:a05:6402:354b:b0:454:5162:42a6 with SMTP id
+ f11-20020a056402354b00b00454516242a6mr27364543edd.281.1664291568459; 
+ Tue, 27 Sep 2022 08:12:48 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
+ [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
+ ez21-20020a056402451500b00457c5637578sm969383edb.63.2022.09.27.08.12.47
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 08:12:09 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id x18so15481179wrm.7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 08:12:09 -0700 (PDT)
-X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
- b13-20020adff90d000000b0020cde324d35mr17074684wrr.583.1664291528783; Tue, 27
- Sep 2022 08:12:08 -0700 (PDT)
+ Tue, 27 Sep 2022 08:12:47 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id
+ ay7-20020a05600c1e0700b003b49861bf48so1153610wmb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 08:12:47 -0700 (PDT)
+X-Received: by 2002:a05:600c:1e18:b0:3b3:b9f8:2186 with SMTP id
+ ay24-20020a05600c1e1800b003b3b9f82186mr3218712wmb.151.1664291567062; Tue, 27
+ Sep 2022 08:12:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220927021021.488295-1-sean.hong@quanta.corp-partner.google.com>
-In-Reply-To: <20220927021021.488295-1-sean.hong@quanta.corp-partner.google.com>
+References: <20220927021835.488803-1-sean.hong@quanta.corp-partner.google.com>
+In-Reply-To: <20220927021835.488803-1-sean.hong@quanta.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 27 Sep 2022 08:11:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X9KmnAkj2PeDWzBYUk=Eq9JH7kcPDubVGOCOQewE3i5Q@mail.gmail.com>
-Message-ID: <CAD=FV=X9KmnAkj2PeDWzBYUk=Eq9JH7kcPDubVGOCOQewE3i5Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Fix delays for INX N116BCN-EA1 (HW: C4)
+Date: Tue, 27 Sep 2022 08:12:34 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UGZnW1dvjprT2Or=+4Tv54DqTK35zUQ4z-Y9e6LHE+Bw@mail.gmail.com>
+Message-ID: <CAD=FV=UGZnW1dvjprT2Or=+4Tv54DqTK35zUQ4z-Y9e6LHE+Bw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Fix delays for INX N116BCA-EA2 (HW: C1)
 To: Sean Hong <sean.hong@quanta.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,7 +81,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Sep 26, 2022 at 7:10 PM Sean Hong
+On Mon, Sep 26, 2022 at 7:18 PM Sean Hong
 <sean.hong@quanta.corp-partner.google.com> wrote:
 >
 > This panel has the same delay timing as N116BCA-EA1. So, fix the
@@ -93,12 +94,38 @@ On Mon, Sep 26, 2022 at 7:10 PM Sean Hong
 
 Please include "Fixes" tags for patches like this, like:
 
-Fixes: 9f4a57148120 ("drm/panel-edp: Add INX N116BCN-EA1")
+Fixes: c7bcc1056cff ("drm/panel-edp: Add INX N116BCA-EA2")
 
-In any case, this looks OK:
+
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index 102ab9f5d40a..e25851de7954 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1893,7 +1893,7 @@ static const struct edp_panel_entry edp_panels[] = {
+>
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x114c, &innolux_n116bca_ea1.delay, "N116BCA-EA1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1152, &delay_200_500_p2e80, "N116BCN-EA1"),
+> -       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1154, &delay_200_500_p2e80, "N116BCA-EA2"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1154, &delay_200_500_e80_d50, "N116BCA-EA2"),
+
+You just sent two patches that touched adjacent lines in the same
+file. That means that they will conflict with each other and I've got
+to resolve the conflict. :( It's not that hard in this case, but it
+would have been better if instead you did:
+
+1. Put both changes in one patch. I think that would have been fine in
+this case.
+
+-or-
+
+2. Send both patches in a 2-part series.
+
+In any case, I won't ask you to spin just for this since it's trivial
+to resolve, it's just more work for me. Please don't do this in the
+future.
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
 Pushed to drm-misc-next:
 
-8397d2984528 drm/panel-edp: Fix delays for INX N116BCN-EA1 (HW: C4)
+43113fd4c5f5 drm/panel-edp: Fix delays for INX N116BCA-EA2 (HW: C1)
