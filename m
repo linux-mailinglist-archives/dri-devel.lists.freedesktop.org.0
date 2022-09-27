@@ -2,56 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1793C5EC193
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 13:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4908A5EC195
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 13:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE33E10E906;
-	Tue, 27 Sep 2022 11:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAE910E8F9;
+	Tue, 27 Sep 2022 11:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 119E710E8F9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 11:36:47 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mkl@pengutronix.de>)
- id 1od8tI-0005sU-Hi; Tue, 27 Sep 2022 13:36:44 +0200
-Received: from pengutronix.de (unknown
- [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (Client did not present a certificate)
- (Authenticated sender: mkl-all@blackshift.org)
- by smtp.blackshift.org (Postfix) with ESMTPSA id 0C010EE010;
- Tue, 27 Sep 2022 11:36:42 +0000 (UTC)
-Date: Tue, 27 Sep 2022 13:36:41 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: Raspberry Pi 3 Model B+ hangs in vc4_hdmi_runtime_resume()
-Message-ID: <20220927113641.hjild2jzfdk3tfaw@pengutronix.de>
-References: <20220922145448.w3xfywkn5ecak2et@pengutronix.de>
- <20220922150600.h4srjmgxc52qiv6r@houat>
- <20220926102130.eeekt5skt4mav5f4@pengutronix.de>
- <63b460d1-4e2f-b0f1-836d-9178bb19f609@i2se.com>
- <20220926124048.i3lxy4lvtq756trp@pengutronix.de>
- <20220926124743.5s7x3dwhzienqs3x@houat>
- <7f334d11-9517-6423-572b-998f678e5718@i2se.com>
- <20220927072554.y4yrmgtlaim4b5mv@houat>
- <20220927094200.2cfw2ukick3oqr4a@houat>
- <40da8a17-5331-690b-3bd9-3317b0d0441c@i2se.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 918E810E904
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 11:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664278610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EoQe3mHnQYoYlajKMGO7Dx2ZrN3SElKzFqBGu4p1Rsc=;
+ b=Dh8p/QR6dw1GSxpJIxpYx0VRh4HPFVFaBS54uW1L5E7XAI1yKM5TLmL3TuEmDP0oCZlSOn
+ PDGj/tujYSyGw1jAN8thAtXJz6UvP08MmAZtXf4xwyNvZsDxyh9PI7MrSURX0N6FcASfBn
+ PH4U4eE2sjKDWVtlLOvqOy3n1BddQm4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-457-rpeN7GKxMCeJLFqzyO4f9w-1; Tue, 27 Sep 2022 07:36:49 -0400
+X-MC-Unique: rpeN7GKxMCeJLFqzyO4f9w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l5-20020adfa385000000b0022a482f8285so2049692wrb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 04:36:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=EoQe3mHnQYoYlajKMGO7Dx2ZrN3SElKzFqBGu4p1Rsc=;
+ b=XG/7EbK7f8PYe7K2pumjGa/PCfpeeNWJ6kyDjJKcNsMZKHlFNhGBdk0ugRiFzSCw+d
+ zkWM7nbtH3GOP7edfyu7dVqVgk280FcZbZj1W2Ewpm5qFz1mgQwvISDWP6MWXQXFunvF
+ GLf9rDTkeWo2RzaI8zpDg71Gk5QacSveabjHMEVpCR3W/ctN6WOZdjklVqwTs4xrsaLb
+ xvzVl+ZRNEltekZh8wqdAGF+TLz5tUfTJ88etntZ167XGNc+ki4AqJx2VKI1UmZRWBCi
+ JI0kJa6pfZL6POAmhebiFJoMER0aKNqhwKdLsYtagws2tudwF7nk3MZf1f11vuW86Zl8
+ MhOg==
+X-Gm-Message-State: ACrzQf3FyxfFUrXBvMPyFJNeP+AzubcuJ1fXao/Oux6URsiH2+EmwKAj
+ bmyVvJVjv5wqN1E1NJCnH8+cLzsUX41F4+gmCxzK7Pf/g7Yq+av59B7B/FfnX8RgQlZdc9rMtEr
+ 6Vqr8CqT+mtLxFIGdrGd1w0/Py7V9
+X-Received: by 2002:a05:6000:178e:b0:22b:451:9f63 with SMTP id
+ e14-20020a056000178e00b0022b04519f63mr15895500wrg.521.1664278608349; 
+ Tue, 27 Sep 2022 04:36:48 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5aRKpUsAhOykOk2Jxp+/Ojmr91lbVAF3k9VyYwNBaAklCp5COwFMiCEfMmUrrqWwr8i/YAZA==
+X-Received: by 2002:a05:6000:178e:b0:22b:451:9f63 with SMTP id
+ e14-20020a056000178e00b0022b04519f63mr15895488wrg.521.1664278608138; 
+ Tue, 27 Sep 2022 04:36:48 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ y1-20020a056000108100b002250c35826dsm1491711wrw.104.2022.09.27.04.36.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Sep 2022 04:36:47 -0700 (PDT)
+Message-ID: <21ce0011-4ffa-d229-404f-58f98aba5860@redhat.com>
+Date: Tue, 27 Sep 2022 13:36:47 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="pqm6m3y4xc4hiu2t"
-Content-Disposition: inline
-In-Reply-To: <40da8a17-5331-690b-3bd9-3317b0d0441c@i2se.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] drm/ssd130x: Synchronize access to dma-buf imported GEM
+ BOs
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220927095249.1919385-1-javierm@redhat.com>
+ <bd64206e-4d67-6932-30c2-740237a05bd0@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <bd64206e-4d67-6932-30c2-740237a05bd0@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,78 +87,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/27/22 13:18, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 27.09.22 um 11:52 schrieb Javier Martinez Canillas:
+>> Synchronize CPU access to GEM BOs with other drivers when updating the
+>> screen buffer. Imported DMA buffers might otherwise contain stale data.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
 
---pqm6m3y4xc4hiu2t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-On 27.09.2022 13:12:35, Stefan Wahren wrote:
-> > > > yes the issue is only triggered without HDMI connected. I was able =
-to
-> > > > reproduce with an older vc4 firmware from 2020 (don't want to upgra=
-de yet).
-> > > > Kernel was also an arm64 build with defconfig.
-> > > >=20
-> > > > Here some rough starting point for bisection:
-> > > >=20
-> > > > 5.18.0 good
-> > > > 5.19.0 bad
-> > > > 5.19.6 bad
-> > > Sorry it took a bit of time, it looks like I found another bug while
-> > > trying to test this yesterday.
-> > >=20
-> > > Your datapoints are interesting though. I have a custom configuration
-> > > and it does boot 5.19 without an HDMI connected.
-> > >=20
-> > > So I guess it leaves us with either the firmware version being differ=
-ent
-> > > (I'm using a newer version, from March 2022), or the configuration. I=
-'ll
-> > > test with defconfig.
-> > So it turns out compiling vc4 as a module is the culprit.
->=20
-> Do you mean regardless of the kernel version in your case?
+-- 
+Best regards,
 
-On Debian vc4 is a module, too, both on 5.18.x (good) and 5.19.6 (bad).
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-> In my test cases i build vc4 always as module.
->=20
-> > It's not clear to me why at this point, but the first register write in
-> > vc4_hdmi_reset stalls.
->
-> Sounds like timing issue or a missing dependency (clock or power domain)
-
-Here it fails 100%, regardless if the module is automatically loaded by
-udev or later on an idle system via insmod.
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---pqm6m3y4xc4hiu2t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEyBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmMy4EYACgkQrX5LkNig
-0119fAf2O6Z4e4D+h9ddlMKxPxcGqrbJfA4qb8UuUyD/MJpyH6HQT2fOZtqYYfZ6
-n3lVEfMtaDhBKY3oAcm0AEfyiQP6TWwgWk0v6lVV0NpLZmE2KyftuJn2VRdb5w5i
-zy+8mlkVlGttVNCSX6XHBFTGGGMlX7jd95WOU1/zwa2XhqCNQxpw6f/eel/pLzqp
-V5Qa1ZgSlkP+89WB+xCzO+q2iFWVI3dao9DoqU9h4rM01KfA2i5cZblK9vXHNvff
-NzTg3h4lD4BMlNIM84JwFDZdYikTkkm9uL1daFer8xAzRKNKDMNIfPM5ua9buCDe
-H38X6dDWXCLF8Hqv58XQYAD3fyQr
-=ADjk
------END PGP SIGNATURE-----
-
---pqm6m3y4xc4hiu2t--
