@@ -1,148 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0C95EB919
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 06:04:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4555EB9DE
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 07:46:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CC710E8A1;
-	Tue, 27 Sep 2022 04:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F8110E061;
+	Tue, 27 Sep 2022 05:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812F410E8A9;
- Tue, 27 Sep 2022 04:04:11 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88F5710E061;
+ Tue, 27 Sep 2022 05:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664251451; x=1695787451;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=bFoxltkgzaU3MYrxaH59JfoxFTUp4k+PSCr33XhIgBk=;
- b=JcopQkwun5BM4yPtOW/5E/ikpQ2/b0v18+qWBgplDOSMNUhmNudtQCDA
- 49w+DSiZC0Hu3WnPuiK7wd/eyMEI/naVTTS7wxE8i7BzbAdd9gsPAd6PY
- Wmyb8WgTRiGRaGNwgvD9Mz4ABkjoIFZUdqXiI5TGkQ44F9CiZv2jvE3i2
- utQW+ejvXiTc7krkvmFi5SBSgGv44nI9Nve7To16LKcx2DvfwrFDHGAyQ
- 3YiANdY3Y/qEc7PUv8aXLHpD+ET5aXWJ+WvBe3c4m18bVQQ8wkV7t1Q5J
- l3wwtVll2QDZMI8d0KwWwJ/np9DRVlfL+c4YhIZdjeIO4+6RWrRr+l3hY w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="301190687"
-X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="301190687"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 21:04:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="599023177"
-X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="599023177"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga006.jf.intel.com with ESMTP; 26 Sep 2022 21:04:09 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 21:04:09 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 26 Sep 2022 21:04:09 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 26 Sep 2022 21:04:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W1K+lX2OjbpKsI04R0SsGPU3JJhsghftrAPpRnBwTzdep5bnrLNtSzwTnOWC44CQ64vhgXlv19fKiK6v5L4wNcg+HCDpI9P7WXdml0sMGHPc/Ao5VK7UgzXN+OiNSrjMZp794xyHgCII82r2cUMazYcajkHx+1+r/0wMZfT4VFrbXNNlY6WrSq36cNPn0Ty4ivwTXPA9PiAV3aP61rKfAE0jTfkYsEjKGvMOfehJFg8ClaTBdvKDekbeEpRvv2AzzUSmnOr4YIU6yGqBxuu7GTkUk+Mh1+q5GyLVJWiCQz19H5DD1+oqFeU3zAkymCfvmyki183/FGjIFKwje/aQ+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IRk3PDJf04EoPry/By7HNYNbJlQzAIgeO6qHjn/Lnvg=;
- b=l7PgwlcNwprBXkQqZOMqu6pYAhNg2a0FoSycIsGB9jua3+lZfzG0oSb2jVxkxc9r8zV0XrLmgKj4iZJGnR7F4NqPeDOuTJnYjdE9W+w+OkNCHWVy7243iyFoEG2tifky9G07dG5j8BoTziCUN8+sJtQObFVSyLLgVe+EzUnyXKlslhJrP3Vlw3xz0UzssVZTkxejRdks/J8Obyibvvu5MzFZ6nR7jqRFTzhOZDuWV7+0Q08chnfd9eUA9oYyU4HVamPEw85eANPJff6rsxE6ifAoO0F9hcTp3pdZ+1wUo0+48YWKCS5OZB0t+H/U8w9qMYeV1zPih/Ejjt4pONqOXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
- by PH7PR11MB5982.namprd11.prod.outlook.com (2603:10b6:510:1e1::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.26; Tue, 27 Sep
- 2022 04:04:07 +0000
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::b8f7:e789:58d6:f0ee]) by BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::b8f7:e789:58d6:f0ee%9]) with mapi id 15.20.5654.026; Tue, 27 Sep 2022
- 04:04:07 +0000
-Message-ID: <d3c5e46b-1695-b482-95fc-37de2e745b9b@intel.com>
-Date: Tue, 27 Sep 2022 09:33:56 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 0/7] Add HWMON support
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>, <intel-gfx@lists.freedesktop.org>
-References: <20220926175211.3473371-1-badal.nilawar@intel.com>
- <f995da40-b20a-437b-0b1f-5028b861300d@roeck-us.net>
-From: "Nilawar, Badal" <badal.nilawar@intel.com>
-In-Reply-To: <f995da40-b20a-437b-0b1f-5028b861300d@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0184.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:e8::8) To BN9PR11MB5530.namprd11.prod.outlook.com
- (2603:10b6:408:103::8)
+ t=1664257581; x=1695793581;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=i9xVrsIFEt/m7Yp0KJDQKK/34NLoz+XiB5D7ZvTYzFY=;
+ b=YHNyyJdNJat5P1BXXhgjEpj4SjsbLwwwACl9yqN3AJIBcfvgVLrntcNG
+ SJKstlMhmKLLoQ3T+/lNj0Yi3kaA3YFdwQEtiwDMs5d3CwB4nF6RaPlaT
+ PAimhTW9h/sZG7Fd+q3M8woHZpM1x9OusZJrYeyXeTWLa5xQvRzROLv/7
+ P9U/MQsUpVNZGhjdbeqiTD0hHRzOdnjRneT8zoQv7eDOEQRggEy2xVrVs
+ 0gfJWZdI2b4h8iTk5i0DSIJsjxD/q46nCVB8qZwomjrwldBwedtXgqrq8
+ ZG/glrUK/OXOUKu3TeD63uJP0aS3D2Z9R1PR0JPwPrTDg0faJ0HSlPCES w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="288377602"
+X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="288377602"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 22:46:20 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="616708282"
+X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="616708282"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 22:46:20 -0700
+Date: Mon, 26 Sep 2022 22:45:58 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: "Zeng, Oak" <oak.zeng@intel.com>
+Subject: Re: [Intel-gfx] [RFC v4 06/14] drm/i915/vm_bind: Handle persistent
+ vmas
+Message-ID: <20220927054558.GB16345@nvishwa1-DESK>
+References: <20220921070945.27764-1-niranjana.vishwanathapura@intel.com>
+ <20220921070945.27764-7-niranjana.vishwanathapura@intel.com>
+ <BN6PR11MB16331BEF9028F43443AFA23F92559@BN6PR11MB1633.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|PH7PR11MB5982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 36b3ab4a-69cf-4919-9cec-08daa03d5273
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NBEttHT8IsFmxZFYrdcZ87uSkVsCnzhmhh3hBFfVGqIz57maivFhgnhbI6GjRnVOwULu3kpXPGe38Zon0Hrxxvei6QCHNZDHk++wikLjPNpprgOvi7dJUsAgdPAWo8HrjY98AK4cVRNCNc6NZGJu21KfCIWRVFzCE/MQBGb8hh6p+ZIdKT/unZ06YstTOYwN8L1C/N7HtuZVzvoiAxtmY3DRQuQKdGJyYgqcKXS2Sk/qaubrOhIT5M2S1eSM7jIQhvOq3PdsgYYiFAkQORnkkUffKat5Qw70O4AXZcNvjpUQCWqVZmDDfTw/VRjsySiNHB6eTV74EeHxflxTDvkjjeGMuNNzs3DKsgmOAsNa39Wv5FDeNt6YvjtfLzJZdNcUDW9TxZI5TDg5JAYZx87Q02NUpDbn3O2lDubBVhkbZl1EIO++8udwTeF+OfC35oBFhXwuFG7VQmZF6tEIBkEke3+UAQilCCeRdi0ON1DqJVPVlL+JsmaoUqMY6yzW4QLXwWOdBCQH9s+Ig0aKUXLqcRt/s56ECQvh+NUdx2BiqFFzZaKllh3tUUAZbVODlSIwt+4KzyQydjVducVJuUFEx2a022R8M46ciDrvJNl7i+KGSqfJxSI3XcSI+9TZ/KJeIiD5teQ0m9cNVbgkDrmdz55jqSF/LtL3/Lm6+7zW0FOQFnJlWXRacj4T5G2MkX3jqmQKImDzhifnwwyeDbPSbEjJ6UtKw1ceFYQwEuPf8f0A7j35pUX+Go8ZyL2GgOXslBggpGhj0Hv4UihVFeDF+AguY4iuMRzB/L+ql5HIRIw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(396003)(346002)(376002)(366004)(136003)(451199015)(36756003)(31686004)(6486002)(6506007)(26005)(6512007)(53546011)(83380400001)(8936002)(5660300002)(2906002)(86362001)(31696002)(66946007)(66556008)(66476007)(186003)(316002)(82960400001)(38100700002)(2616005)(107886003)(478600001)(6666004)(8676002)(41300700001)(4326008)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVM4cWxnTFRPRnlnTmh1cWJCV2FOREt4TkR0ZHRwcnMrcTREUE92SXZsb2lL?=
- =?utf-8?B?cng4U2pTbksrU2hkR1E3amxtUXExT2VJcGlNVitWOWMzZVlEMVZnWWxlTzAz?=
- =?utf-8?B?NCtKdXJqYkUvUWpHU25ETE5XaE1OeVZoQVRLRmVUWGhnSEMvUk80SkpJSERS?=
- =?utf-8?B?Yk02Q0tFSjJEWnFHdExvOCtocDFPK2I3TlpKMkJCMk44OUpoWHVmdVpJR1I3?=
- =?utf-8?B?T2luWHVpZkdqckhVQ3B1YkhLdERwMlZVOEZ2VDNRNlF4MDRmNTlwemx6N3Y2?=
- =?utf-8?B?N2pKbEx4bDVUaW5lc2xxZHVhdlVyNFkzVGtQR3NjOURnRnFIYUJaNmVRRjQy?=
- =?utf-8?B?MG9PS0lnR1poVUlGV3J1VE1YN1NESy9wbVJISmJyeEJCNXI2M0VsdGNpZU5O?=
- =?utf-8?B?dmtIcWlzbzRKaTVZWFNZd1hIUVhRWHlLR3pocVpZbjVEamYyOG9kZ3JBMkpZ?=
- =?utf-8?B?SDIxWlN1cmZTYTJ0VEV6RnpDVXRPQ1R0TUsxSjl1eXBjOU9oeEFkYW0xZ1VO?=
- =?utf-8?B?b2pKUUFjTldpb3lMaGZpRU1vYWtMbUpINE9nSXgwV0NaRDQyeWFtOE5hOTBj?=
- =?utf-8?B?VmZaOExXOUpzMmNvMm0vOWFpOGNYNFJjSEFTMTBqWmpvNkorcHhrVXBOWmEz?=
- =?utf-8?B?WG5VQTZzRUN1R0F4dVJ5NngvMC9KRVVwL3plYm5QeWtqVytlMTc4YVVFWWhL?=
- =?utf-8?B?cHhRWWhkS2dhYUE5WjlZalluU2FnZjFiM21RdTR0MkpHaUdEdUlkdVJ1amRl?=
- =?utf-8?B?MStVWTViNklZeDgwU2xVc2V4MXV6R0ltd2xBcDNnckQvdm51eUVCSFowUzVP?=
- =?utf-8?B?czNVT096YVZDMzRobTVjOG9CbTQzd3BYZEFjejUrS2dSVGVsN2tjYnVvVkU0?=
- =?utf-8?B?SGNvV2R6N3Y4ZWQ0ZTZ4c0hJTEFzUjlEUWVuaXczR0M2WVI5ZEw2eXB1bWR3?=
- =?utf-8?B?c0ZPR0xicjBmSGUzT2dyM3drNzJocTduYnBVWDFlc2dwVUtYMXNacng5cUFp?=
- =?utf-8?B?bUkzcFNFUnlWalJzYitKZ1RYeE54SEcxK0tBckl3TXIzTEhMWWhCaG9NNmlS?=
- =?utf-8?B?Q3BDMExhcnRDU1JONFZyYXFoSURtLzhhZXdRb0ZZNlg2cUNvS0Y4OElFVytl?=
- =?utf-8?B?bUc3VURFUGdaN1pJMWZSenJQTlc1ZXpHUUVyZXY1WFZkbkh1QjR4NGdBRzVV?=
- =?utf-8?B?dHhKWHQybmxlYmR4RzkyQks4b1hvb1Q5UFkwZFRQK2lNMGxKRFhoQVkxV0dn?=
- =?utf-8?B?TERRVDZNdEhHWkNFRnZkZ3dNSnJOaXNmblMvRzRGMkZTbmlYQUxLcmJyaTR5?=
- =?utf-8?B?UHIwOTZTZytSWUl6OEhBTTRsMWlCbjVPajVXSERQLzBZV3pibm1QNkxYWXEr?=
- =?utf-8?B?THE5RGZYQjlveG80dGVka2MzbnFmNXNtM1FoZnovcjhNSWNPMGpzWXIrOWpj?=
- =?utf-8?B?VVFDYkhielRNaW1TRUg3Ukk4OU9TY0lNVmhnblZLUDZXZVQvbFpOWDlxMGcx?=
- =?utf-8?B?TVZiWno5Q2h0WnpucUVES3lFR3hzMnRQVExsenErbkZQMXhmSUh6Wkpid0I4?=
- =?utf-8?B?NjNPY1BWVHhPQWM2aTltSks0cHU2OVZIZkFXZXlRdy9hSndLeEMydkhicGJN?=
- =?utf-8?B?OWxnV1hPNVhwSGxkblVwaERFcmRnR29IYUdBUDF6ZVFKRldVdEFNU2F6SHBy?=
- =?utf-8?B?Y2ZxZ2p2SmdtSGNrMHNsT28weWd5YUhDTU1QRk90ODMwQ3JOOHZSOHZablFN?=
- =?utf-8?B?YW02dk1XSG5ORWROWWtWZTBmd0FxL25yWkxJNCtpVjNLRlhQNTcwcnRIQlhq?=
- =?utf-8?B?d0RDcFpnRGhwTHlhZ1ZSZEpXd1JITk56U2tnOGFXYUtSN1FDVzArRWlSYXJL?=
- =?utf-8?B?M29OMmpoamdCZGI3N00ySTVkQ3UyT25UVUFJLzJrVEI2V1pMdHgzUjBvbVFG?=
- =?utf-8?B?RDlwN284QkVVQmZqK0J2V1o0czJtUkVWNDR0aVIwTnVEZldLdnowVm93eFJa?=
- =?utf-8?B?Tmd0c1VnWURZOHBrTlErVCt0TDFEd2J6NkNvUXVvUE5TK3pHalpYSkRkTjJ0?=
- =?utf-8?B?cEVieFdUcXVVbkVMSjdoQXQvRXJoV055T0dlODZpV3lKMlk3VTU3MjRLR3kz?=
- =?utf-8?B?QjFJQWkyN1cwdkJnSGgyRVdNUEYwWURvSkFlQ3FmRm83UEZjV1J4d1MwVU9K?=
- =?utf-8?B?WlE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36b3ab4a-69cf-4919-9cec-08daa03d5273
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2022 04:04:06.8259 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: APPGRZ3CQs4Yc1nUnLVtoGARRdPqqNmvQhhFS7wvd+ucV+uQLRDUbq+6zVSrWWgrFh2IzktdgqA5ydWMP+thXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5982
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <BN6PR11MB16331BEF9028F43443AFA23F92559@BN6PR11MB1633.namprd11.prod.outlook.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,92 +60,386 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, andi.shyti@intel.com, tvrtko.ursulin@intel.com,
- anshuman.gupta@intel.com, dri-devel@lists.freedesktop.org,
- ashutosh.dixit@intel.com, jon.ewins@intel.com, riana.tauro@intel.com
+Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Auld,
+ Matthew" <matthew.auld@intel.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 26, 2022 at 07:36:24PM -0700, Zeng, Oak wrote:
+>
+>
+>Regards,
+>Oak
+>
+>> -----Original Message-----
+>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Niranjana
+>> Vishwanathapura
+>> Sent: September 21, 2022 3:10 AM
+>> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+>> Cc: Zanoni, Paulo R <paulo.r.zanoni@intel.com>; Hellstrom, Thomas
+>> <thomas.hellstrom@intel.com>; Auld, Matthew <matthew.auld@intel.com>; Vetter,
+>> Daniel <daniel.vetter@intel.com>; christian.koenig@amd.com
+>> Subject: [Intel-gfx] [RFC v4 06/14] drm/i915/vm_bind: Handle persistent vmas
+>>
+>> Treat VM_BIND vmas as persistent across execbuf ioctl calls and handle
+>> them during the request submission in the execbuff path.
+>>
+>> Support eviction by maintaining a list of evicted persistent vmas
+>> for rebinding during next submission.
+>>
+>> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>> ---
+>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  7 +++
+>>  drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 +
+>>  drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 ++
+>>  drivers/gpu/drm/i915/i915_gem_gtt.c           | 39 ++++++++++++++++
+>>  drivers/gpu/drm/i915/i915_gem_gtt.h           |  3 ++
+>>  drivers/gpu/drm/i915/i915_vma.c               | 46 +++++++++++++++++++
+>>  drivers/gpu/drm/i915/i915_vma.h               | 45 +++++++++++++-----
+>>  drivers/gpu/drm/i915/i915_vma_types.h         | 17 +++++++
+>>  8 files changed, 151 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> index 7ca6a41fc981..236f901b8b9c 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> @@ -91,6 +91,12 @@ static void i915_gem_vm_bind_remove(struct i915_vma
+>> *vma, bool release_obj)
+>>  {
+>>       lockdep_assert_held(&vma->vm->vm_bind_lock);
+>>
+>> +     spin_lock(&vma->vm->vm_rebind_lock);
+>> +     if (!list_empty(&vma->vm_rebind_link))
+>> +             list_del_init(&vma->vm_rebind_link);
+>> +     i915_vma_set_purged(vma);
+>> +     spin_unlock(&vma->vm->vm_rebind_lock);
+>> +
+>>       list_del_init(&vma->vm_bind_link);
+>>       list_del_init(&vma->non_priv_vm_bind_link);
+>>       i915_vm_bind_it_remove(vma, &vma->vm->va);
+>> @@ -181,6 +187,7 @@ static struct i915_vma *vm_bind_get_vma(struct
+>> i915_address_space *vm,
+>>
+>>       vma->start = va->start;
+>>       vma->last = va->start + va->length - 1;
+>> +     i915_vma_set_persistent(vma);
+>>
+>>       return vma;
+>>  }
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> index da4f9dee0397..6db31197fa87 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> @@ -296,6 +296,8 @@ void i915_address_space_init(struct i915_address_space
+>> *vm, int subclass)
+>>       INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
+>>       vm->root_obj = i915_gem_object_create_internal(vm->i915, PAGE_SIZE);
+>>       GEM_BUG_ON(IS_ERR(vm->root_obj));
+>> +     INIT_LIST_HEAD(&vm->vm_rebind_list);
+>> +     spin_lock_init(&vm->vm_rebind_lock);
+>>  }
+>>
+>>  void *__px_vaddr(struct drm_i915_gem_object *p)
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h
+>> b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>> index 3f2e87d3bf34..b73d35b4e05d 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>> @@ -273,6 +273,10 @@ struct i915_address_space {
+>>       struct list_head vm_bind_list;
+>>       /** @vm_bound_list: List of vm_binding completed */
+>>       struct list_head vm_bound_list;
+>> +     /* @vm_rebind_list: list of vmas to be rebinded */
+>> +     struct list_head vm_rebind_list;
+>> +     /* @vm_rebind_lock: protects vm_rebound_list */
+>> +     spinlock_t vm_rebind_lock;
+>>       /* @va: tree of persistent vmas */
+>>       struct rb_root_cached va;
+>>       struct list_head non_priv_vm_bind_list;
+>> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c
+>> b/drivers/gpu/drm/i915/i915_gem_gtt.c
+>> index 329ff75b80b9..b7d0844de561 100644
+>> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
+>> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+>> @@ -25,6 +25,45 @@
+>>  #include "i915_trace.h"
+>>  #include "i915_vgpu.h"
+>>
+>> +/**
+>> + * i915_vm_sync() - Wait until address space is not in use
+>> + * @vm: address space
+>> + *
+>> + * Waits until all requests using the address space are complete.
+>> + *
+>> + * Returns: 0 if success, -ve err code upon failure
+>> + */
+>> +int i915_vm_sync(struct i915_address_space *vm)
+>> +{
+>> +     int ret;
+>> +
+>> +     /* Wait for all requests under this vm to finish */
+>> +     ret = dma_resv_wait_timeout(vm->root_obj->base.resv,
+>> +                                 DMA_RESV_USAGE_BOOKKEEP, false,
+>> +                                 MAX_SCHEDULE_TIMEOUT);
+>> +     if (ret < 0)
+>> +             return ret;
+>> +     else if (ret > 0)
+>> +             return 0;
+>> +     else
+>> +             return -ETIMEDOUT;
+>> +}
+>> +
+>> +/**
+>> + * i915_vm_is_active() - Check if address space is being used
+>> + * @vm: address space
+>> + *
+>> + * Check if any request using the specified address space is
+>> + * active.
+>> + *
+>> + * Returns: true if address space is active, false otherwise.
+>> + */
+>> +bool i915_vm_is_active(const struct i915_address_space *vm)
+>> +{
+>> +     return !dma_resv_test_signaled(vm->root_obj->base.resv,
+>> +                                    DMA_RESV_USAGE_BOOKKEEP);
+>> +}
+>> +
+>>  int i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
+>>                              struct sg_table *pages)
+>>  {
+>> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h
+>> b/drivers/gpu/drm/i915/i915_gem_gtt.h
+>> index 8c2f57eb5dda..a5bbdc59d9df 100644
+>> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
+>> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
+>> @@ -51,4 +51,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+>>
+>>  #define PIN_OFFSET_MASK              I915_GTT_PAGE_MASK
+>>
+>> +int i915_vm_sync(struct i915_address_space *vm);
+>> +bool i915_vm_is_active(const struct i915_address_space *vm);
+>> +
+>>  #endif
+>> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>> index aa332ad69ec2..ff216e9a2c8d 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>> @@ -237,6 +237,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>>
+>>       INIT_LIST_HEAD(&vma->vm_bind_link);
+>>       INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
+>> +     INIT_LIST_HEAD(&vma->vm_rebind_link);
+>>       return vma;
+>>
+>>  err_unlock:
+>> @@ -387,6 +388,24 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
+>>       return err;
+>>  }
+>>
+>> +/**
+>> + * i915_vma_sync() - Wait for the vma to be idle
+>> + * @vma: vma to be tested
+>> + *
+>> + * Returns 0 on success and error code on failure
+>> + */
+>> +int i915_vma_sync(struct i915_vma *vma)
+>> +{
+>> +     int ret;
+>> +
+>> +     /* Wait for the asynchronous bindings and pending GPU reads */
+>> +     ret = i915_active_wait(&vma->active);
+>> +     if (ret || !i915_vma_is_persistent(vma) || i915_vma_is_purged(vma))
+>> +             return ret;
+>> +
+>> +     return i915_vm_sync(vma->vm);
+>
+>Hi, I try to understand why we call vm_sync here. As I understand it, each vm has many vmas. The vma_sync function wait for a single vma to be idle, for example, wait for all the request/gpu task using this vma to complete. While vm_sync wait for the whole vm to be idle. To me vm_sync essentially wait for all the vmas in this vm to be idle. Isn't it?
+>
 
-
-On 27-09-2022 02:39, Guenter Roeck wrote:
-> On 9/26/22 10:52, Badal Nilawar wrote:
->> This series adds the HWMON support for DGFX
->>
->> Test-with: 20220919144408.251981-1-riana.tauro@intel.com
->>
->> v2:
->>    - Reorganized series. Created first patch as infrastructure patch
->>      followed by feature patches. (Ashutosh)
->>    - Fixed review comments (Jani)
->>    - Fixed review comments (Ashutosh)
->>
->> v3:
->>    - Fixed review comments from Guenter
->>    - Exposed energy inferface as standard hwmon interface (Ashutosh)
->>    - For power interface added entries for critical power and maintained
->>      standard interface for all the entries except
->>      power1_max_interval
->>    - Extended support for XEHPSDV (Ashutosh)
->>
->> v4:
->>    - Fixed review comment from Guenter
->>    - Cleaned up unused code
->>
->> v5:
->>    - Fixed review comments (Jani)
->>
->> v6:
->>    - Fixed review comments (Ashutosh)
->>    - Updated date and kernel version in documentation
->>
->> v7:
->>    - Fixed review comments (Anshuman)
->>    - KernelVersion: 6.2, Date: February 2023 in doc (Tvrtko)
->>
->> v8: s/hwmon_device_register_with_info/
->>        devm_hwmon_device_register_with_info/ (Ashutosh)
->>
-> 
-> Is there some reason for not actually versioning this patch series ?
-> Just wondering.
-Sorry I miss typed cover letter title. I will correct the title as 
-"drm/i915: Add HWMON support" and resend the series to maintain versioning.
-
-Please ignore this series.
+Yah. But a persistent vma is active as long as the VM is active (also checkout i915_vma_is_active()). Hence we call i915_vm_sync() here.
+I am rearranging the patches a bit and this part will go into a separate patch with more description. Hope that will help.
 
 Regards,
-Badal
-> 
-> Thanks,
-> Guenter
-> 
->> Ashutosh Dixit (2):
->>    drm/i915/hwmon: Expose card reactive critical power
->>    drm/i915/hwmon: Expose power1_max_interval
+Niranjana
+
+>Thanks,
+>Oak
+>
+>> +}
+>> +
+>>  #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
+>>  static int i915_vma_verify_bind_complete(struct i915_vma *vma)
+>>  {
+>> @@ -1654,6 +1673,13 @@ static void force_unbind(struct i915_vma *vma)
+>>       if (!drm_mm_node_allocated(&vma->node))
+>>               return;
 >>
->> Dale B Stimson (4):
->>    drm/i915/hwmon: Add HWMON infrastructure
->>    drm/i915/hwmon: Power PL1 limit and TDP setting
->>    drm/i915/hwmon: Show device level energy usage
->>    drm/i915/hwmon: Extend power/energy for XEHPSDV
+>> +     /*
+>> +      * Mark persistent vma as purged to avoid it waiting
+>> +      * for VM to be released.
+>> +      */
+>> +     if (i915_vma_is_persistent(vma))
+>> +             i915_vma_set_purged(vma);
+>> +
+>>       atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+>>       WARN_ON(__i915_vma_unbind(vma));
+>>       GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+>> @@ -1846,6 +1872,8 @@ int _i915_vma_move_to_active(struct i915_vma *vma,
+>>       int err;
 >>
->> Riana Tauro (1):
->>    drm/i915/hwmon: Add HWMON current voltage support
+>>       assert_object_held(obj);
+>> +     if (i915_vma_is_persistent(vma))
+>> +             return -EINVAL;
 >>
->>   .../ABI/testing/sysfs-driver-intel-i915-hwmon |  75 ++
->>   drivers/gpu/drm/i915/Makefile                 |   3 +
->>   drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   8 +
->>   drivers/gpu/drm/i915/i915_driver.c            |   5 +
->>   drivers/gpu/drm/i915/i915_drv.h               |   2 +
->>   drivers/gpu/drm/i915/i915_hwmon.c             | 736 ++++++++++++++++++
->>   drivers/gpu/drm/i915/i915_hwmon.h             |  20 +
->>   drivers/gpu/drm/i915/i915_reg.h               |   6 +
->>   drivers/gpu/drm/i915/intel_mchbar_regs.h      |  21 +
->>   9 files changed, 876 insertions(+)
->>   create mode 100644 
->> Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
->>   create mode 100644 drivers/gpu/drm/i915/i915_hwmon.c
->>   create mode 100644 drivers/gpu/drm/i915/i915_hwmon.h
+>>       GEM_BUG_ON(!vma->pages);
 >>
-> 
+>> @@ -2015,6 +2043,16 @@ int __i915_vma_unbind(struct i915_vma *vma)
+>>       __i915_vma_evict(vma, false);
+>>
+>>       drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
+>> +
+>> +     if (i915_vma_is_persistent(vma)) {
+>> +             spin_lock(&vma->vm->vm_rebind_lock);
+>> +             if (list_empty(&vma->vm_rebind_link) &&
+>> +                 !i915_vma_is_purged(vma))
+>> +                     list_add_tail(&vma->vm_rebind_link,
+>> +                                   &vma->vm->vm_rebind_list);
+>> +             spin_unlock(&vma->vm->vm_rebind_lock);
+>> +     }
+>> +
+>>       return 0;
+>>  }
+>>
+>> @@ -2046,6 +2084,14 @@ static struct dma_fence
+>> *__i915_vma_unbind_async(struct i915_vma *vma)
+>>               return ERR_PTR(-EBUSY);
+>>       }
+>>
+>> +     if (__i915_sw_fence_await_reservation(&vma->resource->chain,
+>> +                                           vma->obj->base.resv,
+>> +                                           DMA_RESV_USAGE_BOOKKEEP,
+>> +                                           i915_fence_timeout(vma->vm->i915),
+>> +                                           I915_FENCE_GFP) < 0) {
+>> +             return ERR_PTR(-EBUSY);
+>> +     }
+>> +
+>>       fence = __i915_vma_evict(vma, true);
+>>
+>>       drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
+>> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+>> index 6feef0305fe1..aa536c9ce472 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma.h
+>> +++ b/drivers/gpu/drm/i915/i915_vma.h
+>> @@ -47,12 +47,6 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
+>>
+>>  void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+>>  #define I915_VMA_RELEASE_MAP BIT(0)
+>> -
+>> -static inline bool i915_vma_is_active(const struct i915_vma *vma)
+>> -{
+>> -     return !i915_active_is_idle(&vma->active);
+>> -}
+>> -
+>>  /* do not reserve memory to prevent deadlocks */
+>>  #define __EXEC_OBJECT_NO_RESERVE BIT(31)
+>>
+>> @@ -138,6 +132,38 @@ static inline u32 i915_ggtt_pin_bias(struct i915_vma *vma)
+>>       return i915_vm_to_ggtt(vma->vm)->pin_bias;
+>>  }
+>>
+>> +static inline bool i915_vma_is_persistent(const struct i915_vma *vma)
+>> +{
+>> +     return test_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+>> +}
+>> +
+>> +static inline void i915_vma_set_persistent(struct i915_vma *vma)
+>> +{
+>> +     set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+>> +}
+>> +
+>> +static inline bool i915_vma_is_purged(const struct i915_vma *vma)
+>> +{
+>> +     return test_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
+>> +}
+>> +
+>> +static inline void i915_vma_set_purged(struct i915_vma *vma)
+>> +{
+>> +     set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
+>> +}
+>> +
+>> +static inline bool i915_vma_is_active(const struct i915_vma *vma)
+>> +{
+>> +     if (i915_vma_is_persistent(vma)) {
+>> +             if (i915_vma_is_purged(vma))
+>> +                     return false;
+>> +
+>> +             return i915_vm_is_active(vma->vm);
+>> +     }
+>> +
+>> +     return !i915_active_is_idle(&vma->active);
+>> +}
+>> +
+>>  static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
+>>  {
+>>       i915_gem_object_get(vma->obj);
+>> @@ -406,12 +432,7 @@ void i915_vma_make_shrinkable(struct i915_vma *vma);
+>>  void i915_vma_make_purgeable(struct i915_vma *vma);
+>>
+>>  int i915_vma_wait_for_bind(struct i915_vma *vma);
+>> -
+>> -static inline int i915_vma_sync(struct i915_vma *vma)
+>> -{
+>> -     /* Wait for the asynchronous bindings and pending GPU reads */
+>> -     return i915_active_wait(&vma->active);
+>> -}
+>> +int i915_vma_sync(struct i915_vma *vma);
+>>
+>>  /**
+>>   * i915_vma_get_current_resource - Get the current resource of the vma
+>> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h
+>> b/drivers/gpu/drm/i915/i915_vma_types.h
+>> index 6d727c2d9802..d21bf97febaa 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+>> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+>> @@ -264,6 +264,21 @@ struct i915_vma {
+>>  #define I915_VMA_SCANOUT_BIT 17
+>>  #define I915_VMA_SCANOUT     ((int)BIT(I915_VMA_SCANOUT_BIT))
+>>
+>> +  /**
+>> +   * I915_VMA_PERSISTENT_BIT:
+>> +   * The vma is persistent (created with VM_BIND call).
+>> +   *
+>> +   * I915_VMA_PURGED_BIT:
+>> +   * The persistent vma is force unbound either due to VM_UNBIND call
+>> +   * from UMD or VM is released. Do not check/wait for VM activeness
+>> +   * in i915_vma_is_active() and i915_vma_sync() calls.
+>> +   */
+>> +#define I915_VMA_PERSISTENT_BIT      19
+>> +#define I915_VMA_PURGED_BIT  20
+>> +
+>> +#define I915_VMA_PERSISTENT  ((int)BIT(I915_VMA_PERSISTENT_BIT))
+>> +#define I915_VMA_PURGED              ((int)BIT(I915_VMA_PURGED_BIT))
+>> +
+>>       struct i915_active active;
+>>
+>>  #define I915_VMA_PAGES_BIAS 24
+>> @@ -293,6 +308,8 @@ struct i915_vma {
+>>       struct list_head vm_bind_link;
+>>       /* @non_priv_vm_bind_link: Link in non-private persistent VMA list */
+>>       struct list_head non_priv_vm_bind_link;
+>> +     /* @vm_rebind_link: link to vm_rebind_list and protected by
+>> vm_rebind_lock */
+>> +     struct list_head vm_rebind_link; /* Link in vm_rebind_list */
+>>
+>>       /** Interval tree structures for persistent vma */
+>>
+>> --
+>> 2.21.0.rc0.32.g243a4c7e27
+>
