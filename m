@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEB75ED04D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 00:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9325ED108
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 01:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3200C10E170;
-	Tue, 27 Sep 2022 22:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3D310E18E;
+	Tue, 27 Sep 2022 23:32:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87A1410E16F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 22:32:39 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id cp18so1865320pjb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 15:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date;
- bh=OD3lRvHWHynetpK03lKY+/32dF/WZQ/VUdDZ7v9K1aU=;
- b=qHLAts6EtKsbT1NsEoXQ+C6PXpkur/IifdB2C1dP2lvlMXrdmTJvj+9BfrMmfuz2X/
- JP+PUUsNNL5DWrBiqsYOEL2Ti/JQQR4qjYD0WleD/sCWgswPigU5aWdOBXS/miMdU3GP
- +APoP5q5fFdSP+aEYBLQaQVwauYWDB+I5p5BIpJemozBvyZVYtDRgiAJ0m2nrgI6XoeF
- rnxC4MP6hZoevbHVASu3X4+S9z6rS8IBPff16fY08Wi2+ZJVpQg3mbvlE6S8LUdaAX2D
- RfpHJVVZXZhOuxKT38m3MtHfgrzbZMk32LPqjSLn1IvqKOtAJPRYP1ofI8l9wEaz7TeC
- Tegg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=OD3lRvHWHynetpK03lKY+/32dF/WZQ/VUdDZ7v9K1aU=;
- b=7orveNuymIpzcA7xaPpBISbqae20WnMXqC4k8Pm+W2Y7wsPwAb6+l2fuUve+e65nya
- atWNIiexEGi1e5zYpGx58aHtYoYI2iNtba922SAVAmBiRh/pv+9EUYUSOYXvRnGXqM17
- MRyFkaAv7bGJtSl566b/0iabJ1ig0TZhqKbylqQq7a3286AL7zqdrFoJuoLIa6q6LNLo
- JK3qcVAE9b0v+DWJiZIq5B7YAs4/pXtk8cLJl1T1DrSrXjz1W+Syu8gp6mLSm1ywk/Pk
- kH4yiqG4YBbQ8RchIosd6MlCFqIQzckisI00veSb39cHGM19hDUuEA1kwEQJymHIimYN
- uTsw==
-X-Gm-Message-State: ACrzQf3Wt3LS7X4Q4cbKAo49XWfxSjy7ZPUJuo3fYexxxF9je9t8JyBH
- 68WehgUoSnNE6ylkFwmVjEU=
-X-Google-Smtp-Source: AMsMyM5uGsQ8+A2UIJ1XijHFjRn43rd3Ae+Rg1wRk+/9JNpz6h4yl9fgE3o29ceHx+6KMiTaNPHtpw==
-X-Received: by 2002:a17:90b:1b4c:b0:202:c05f:6e7b with SMTP id
- nv12-20020a17090b1b4c00b00202c05f6e7bmr6807078pjb.200.1664317958845; 
- Tue, 27 Sep 2022 15:32:38 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:9739:ab49:3830:2cbb])
- by smtp.gmail.com with ESMTPSA id
- n17-20020a170902d2d100b00176a47e5840sm2090195plc.298.2022.09.27.15.32.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 15:32:38 -0700 (PDT)
-Date: Tue, 27 Sep 2022 15:32:35 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>
-Subject: [RFC/PATCH] backlight: hx8357: prepare to conversion to gpiod API
-Message-ID: <YzN6A9Y20Ea1LdEz@google.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E44810E18E;
+ Tue, 27 Sep 2022 23:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=S8UJUP0VBuQngd2OEhP0OtJLPeHHAHk+DG1PtoI2pnk=; b=xRpltdoE+BX4wJj6Dn/xqNhxlx
+ dNbrhZ20jxjllsS1ta1wO+7ebIr+chPK780UY/3Y9XqriWy5TXjz53IfQpA4PQyuszNpgBF79SQ90
+ MKDt/qDALUhpwL/XrjAZzfRVunyxJkfVw3Ka5tk/dqfXjOlsuK0gfBzsGkVG8CToVfU/QRQ+T3nXY
+ 1wXjQlbfLxb9c/A3hML8pHwk6Qg0VU+eNHdUV1EmLgPH1LTXTjrJr6hx5jOyiC6Lyorup2B3f6XQb
+ VQ5Y5BFREOKh5/3Wy8fn0pJIaHZ2+oVmAwD3b9hu1B7FEM9SmJs+RGTJBR8xNdMndP/c5/HTG1pcl
+ VCYMtUqQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+ (Red Hat Linux)) id 1odK3O-00D9Po-9y; Tue, 27 Sep 2022 23:31:54 +0000
+Date: Tue, 27 Sep 2022 16:31:54 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+Subject: Re: [PATCH v6 0/4] Let userspace know when snd-hda-intel needs i915
+Message-ID: <YzOH6oV6B6UKb7DF@bombadil.infradead.org>
+References: <cover.1652113087.git.mchehab@kernel.org>
+ <Ynl7xGy+a9MYjXi1@bombadil.infradead.org>
+ <20220920072454.4cf91f24@maurocar-mobl2>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220920072454.4cf91f24@maurocar-mobl2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,114 +49,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>, linux-arm-kernel@lists.infradead.org
+Cc: alsa-devel@alsa-project.org, Richard Weinberger <richard@nod.at>,
+ Kai Vehmanen <kai.vehmanen@intel.com>, Greg KH <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-modules@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ linux-mtd@lists.infradead.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bart Van Assche <bvanassche@acm.org>, linux-kernel@vger.kernel.org,
+ Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Properties describing GPIOs should be named as "<property>-gpios" or
-"<property>-gpio", and that is what gpiod API expects, however the
-driver uses non-standard "gpios-reset" name. Let's adjust this, and also
-note that the reset line is active low as that is also important to
-gpiod API.
+On Tue, Sep 20, 2022 at 07:24:54AM +0200, Mauro Carvalho Chehab wrote:
+> Hi Luis,
+> 
+> On Mon, 9 May 2022 13:38:28 -0700
+> Luis Chamberlain <mcgrof@kernel.org> wrote:
+> 
+> > On Mon, May 09, 2022 at 06:23:35PM +0200, Mauro Carvalho Chehab wrote:
+> > > Currently, kernel/module annotates module dependencies when
+> > > request_symbol is used, but it doesn't cover more complex inter-driver
+> > > dependencies that are subsystem and/or driver-specific.
+> > >   
+> > 
+> > At this pount v5.18-rc7 is out and so it is too late to soak this
+> > in for the proper level of testing I'd like to see for modules-next.
+> > So I can review this after the next merge window. I'd want to beat
+> > the hell out of this and if possible I'd like to see if we can have
+> > some test coverage for the intended goal and how to break it.
+> 
+> Any news with regards to this patch series?
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+0-day had a rant about a bug with it, it would be wonderful if you can
+fix that bug and rebase. Yet again we're now on v6.0-rc7 but it doesn't
+mean we can't start testing all this on linux-next. I can just get this
+merged to linux-next as soon as this is ready for a new spin, but we
+certainly will have to wait until 6.2 as we haven't yet gotten proper
+coverage for this on v6.1.
 
-Another option is to add another quirk into gpiolib-of.c, but we
-may end up with a ton of them once we convert everything away from
-of_get_named_gpio() to gpiod API, so I'd prefer not doing that.
+Is there any testing situations you can think of using which can demo
+this a bit more separately from existing drivers, perhaps a new
+selftests or something?
 
- arch/arm/boot/dts/imx28-cfa10049.dts | 7 +++++--
- arch/arm/boot/dts/imx28-cfa10055.dts | 3 ++-
- arch/arm/boot/dts/imx28-cfa10056.dts | 3 ++-
- drivers/video/backlight/hx8357.c     | 2 +-
- 4 files changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/arch/arm/boot/dts/imx28-cfa10049.dts b/arch/arm/boot/dts/imx28-cfa10049.dts
-index 9ef0d567ea48..ae51a2aa2028 100644
---- a/arch/arm/boot/dts/imx28-cfa10049.dts
-+++ b/arch/arm/boot/dts/imx28-cfa10049.dts
-@@ -3,6 +3,7 @@
-  * Copyright 2012 Free Electrons
-  */
- 
-+#include <dt-bindings/gpio/gpio.h>
- /*
-  * The CFA-10049 is an expansion board for the CFA-10036 module, thus we
-  * need to include the CFA-10036 DTS.
-@@ -346,8 +347,10 @@ hx8357: hx8357@0 {
- 			spi-max-frequency = <100000>;
- 			spi-cpol;
- 			spi-cpha;
--			gpios-reset = <&gpio3 30 0>;
--			im-gpios = <&gpio5 4 0 &gpio5 5 0 &gpio5 6 0>;
-+			reset-gpios = <&gpio3 30 GPIO_ACTIVE_LOW>;
-+			im-gpios = <&gpio5 4 GPIO_ACTIVE_HIGH
-+				    &gpio5 5 GPIO_ACTIVE_HIGH
-+				    &gpio5 6 GPIO_ACTIVE_HIGH>;
- 		};
- 	};
- 
-diff --git a/arch/arm/boot/dts/imx28-cfa10055.dts b/arch/arm/boot/dts/imx28-cfa10055.dts
-index fac5bbda7a93..70e4dc67f7d2 100644
---- a/arch/arm/boot/dts/imx28-cfa10055.dts
-+++ b/arch/arm/boot/dts/imx28-cfa10055.dts
-@@ -4,6 +4,7 @@
-  * 				  Free Electrons
-  */
- 
-+#include <dt-bindings/gpio/gpio.h>
- /*
-  * The CFA-10055 is an expansion board for the CFA-10036 module and
-  * CFA-10037, thus we need to include the CFA-10037 DTS.
-@@ -148,7 +149,7 @@ hx8357: hx8357@0 {
- 			spi-max-frequency = <100000>;
- 			spi-cpol;
- 			spi-cpha;
--			gpios-reset = <&gpio3 30 0>;
-+			reset-gpios = <&gpio3 30 GPIO_ACTIVE_LOW>;
- 		};
- 	};
- 
-diff --git a/arch/arm/boot/dts/imx28-cfa10056.dts b/arch/arm/boot/dts/imx28-cfa10056.dts
-index c5f3337e8b39..687eaa555a15 100644
---- a/arch/arm/boot/dts/imx28-cfa10056.dts
-+++ b/arch/arm/boot/dts/imx28-cfa10056.dts
-@@ -3,6 +3,7 @@
-  * Copyright 2013 Free Electrons
-  */
- 
-+#include <dt-bindings/gpio/gpio.h>
- /*
-  * The CFA-10055 is an expansion board for the CFA-10036 module and
-  * CFA-10037, thus we need to include the CFA-10037 DTS.
-@@ -107,7 +108,7 @@ hx8369: hx8369@0 {
- 			spi-max-frequency = <100000>;
- 			spi-cpol;
- 			spi-cpha;
--			gpios-reset = <&gpio3 30 0>;
-+			reset-gpios = <&gpio3 30 GPIO_ACTIVE_LOW>;
- 		};
- 	};
- };
-diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
-index 9b50bc96e00f..41332f48b2df 100644
---- a/drivers/video/backlight/hx8357.c
-+++ b/drivers/video/backlight/hx8357.c
-@@ -601,7 +601,7 @@ static int hx8357_probe(struct spi_device *spi)
- 	if (!match || !match->data)
- 		return -EINVAL;
- 
--	lcd->reset = of_get_named_gpio(spi->dev.of_node, "gpios-reset", 0);
-+	lcd->reset = of_get_named_gpio(spi->dev.of_node, "reset-gpios", 0);
- 	if (!gpio_is_valid(lcd->reset)) {
- 		dev_err(&spi->dev, "Missing dt property: gpios-reset\n");
- 		return -EINVAL;
--- 
-2.38.0.rc1.362.ged0d419d3c-goog
-
-
--- 
-Dmitry
+  Luis
