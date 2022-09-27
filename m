@@ -1,80 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4908A5EC195
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 13:37:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E66C65EC1B5
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 13:42:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAE910E8F9;
-	Tue, 27 Sep 2022 11:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CABC310E5AA;
+	Tue, 27 Sep 2022 11:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 918E810E904
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 11:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664278610;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EoQe3mHnQYoYlajKMGO7Dx2ZrN3SElKzFqBGu4p1Rsc=;
- b=Dh8p/QR6dw1GSxpJIxpYx0VRh4HPFVFaBS54uW1L5E7XAI1yKM5TLmL3TuEmDP0oCZlSOn
- PDGj/tujYSyGw1jAN8thAtXJz6UvP08MmAZtXf4xwyNvZsDxyh9PI7MrSURX0N6FcASfBn
- PH4U4eE2sjKDWVtlLOvqOy3n1BddQm4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-457-rpeN7GKxMCeJLFqzyO4f9w-1; Tue, 27 Sep 2022 07:36:49 -0400
-X-MC-Unique: rpeN7GKxMCeJLFqzyO4f9w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- l5-20020adfa385000000b0022a482f8285so2049692wrb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 04:36:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=EoQe3mHnQYoYlajKMGO7Dx2ZrN3SElKzFqBGu4p1Rsc=;
- b=XG/7EbK7f8PYe7K2pumjGa/PCfpeeNWJ6kyDjJKcNsMZKHlFNhGBdk0ugRiFzSCw+d
- zkWM7nbtH3GOP7edfyu7dVqVgk280FcZbZj1W2Ewpm5qFz1mgQwvISDWP6MWXQXFunvF
- GLf9rDTkeWo2RzaI8zpDg71Gk5QacSveabjHMEVpCR3W/ctN6WOZdjklVqwTs4xrsaLb
- xvzVl+ZRNEltekZh8wqdAGF+TLz5tUfTJ88etntZ167XGNc+ki4AqJx2VKI1UmZRWBCi
- JI0kJa6pfZL6POAmhebiFJoMER0aKNqhwKdLsYtagws2tudwF7nk3MZf1f11vuW86Zl8
- MhOg==
-X-Gm-Message-State: ACrzQf3FyxfFUrXBvMPyFJNeP+AzubcuJ1fXao/Oux6URsiH2+EmwKAj
- bmyVvJVjv5wqN1E1NJCnH8+cLzsUX41F4+gmCxzK7Pf/g7Yq+av59B7B/FfnX8RgQlZdc9rMtEr
- 6Vqr8CqT+mtLxFIGdrGd1w0/Py7V9
-X-Received: by 2002:a05:6000:178e:b0:22b:451:9f63 with SMTP id
- e14-20020a056000178e00b0022b04519f63mr15895500wrg.521.1664278608349; 
- Tue, 27 Sep 2022 04:36:48 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5aRKpUsAhOykOk2Jxp+/Ojmr91lbVAF3k9VyYwNBaAklCp5COwFMiCEfMmUrrqWwr8i/YAZA==
-X-Received: by 2002:a05:6000:178e:b0:22b:451:9f63 with SMTP id
- e14-20020a056000178e00b0022b04519f63mr15895488wrg.521.1664278608138; 
- Tue, 27 Sep 2022 04:36:48 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- y1-20020a056000108100b002250c35826dsm1491711wrw.104.2022.09.27.04.36.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 04:36:47 -0700 (PDT)
-Message-ID: <21ce0011-4ffa-d229-404f-58f98aba5860@redhat.com>
-Date: Tue, 27 Sep 2022 13:36:47 +0200
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E512B10E5AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 11:42:46 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 5CFD93200954;
+ Tue, 27 Sep 2022 07:42:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 27 Sep 2022 07:42:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1664278963; x=
+ 1664365363; bh=tlcz0IBDdRZRsD3y2DUiHDtFNT81SI5DbxHjOC2dB6Q=; b=L
+ JM6n+mmuFWKp+bzgSakSbbf8f81AfgrGknS9wttW30uMW1jU/Gz9+IAaL5q6zS6o
+ oTID6v3OUVLQ1acltIw4LRn9BL63/dzCNye6LWCmsnAJ+mrWrfBU1XTtQhDfoPtE
+ 9VmDbgTPbNrRHximccCyGNdk3g7vdxu16gFbvtJ5kyD4agGbvrNEi5uU10KHfcDZ
+ ReapawXuDcgHDvg6wMP6OgQfXoU+VZD4XmICuLSTKCN0lrgpN7F5tuDZ6wr8bNJs
+ I7tVpxRqbplDcvPPvF3UkW3CO+HfV+Q/Wtpsaf4J54fKbcseqVFPdaMjYryoMHfd
+ sGN/N/VbJwqGy7ACWy3mg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1664278963; x=
+ 1664365363; bh=tlcz0IBDdRZRsD3y2DUiHDtFNT81SI5DbxHjOC2dB6Q=; b=E
+ OD+CK3OIMP83Eo0ktLMCVOJQkswF6dyhk1DhzFE2III2NPNFAyJEvB17Wrc/Ya6N
+ meR1RlJ2Fq0CEYaVhwFt/on396cpqsFynK05O8CxtbahiK1Gc7xieqYVLQSelfIc
+ WOEfGjc//6aGGU7lKvFopaJ/Nkx1wJ+KV752it1mae4jvD6BpnDG/pvWhBK2lc2S
+ u0FXUF5SQqKzsnuWxiRVyW5iVyA3i52gvNkHZsWAzoIiL4DK8WOv59uY5pfuvxl6
+ C9Bqw3gGryXd9oOdVVDgXMiudKRyaIA3RVSs7+6TYwV5z9javBuqyRb9+fBda25E
+ GQ4WwT/ALHYmmuzU61dvw==
+X-ME-Sender: <xms:s-EyY7K7LALXGSkGns0UBBwfsWKAr55h_Hv96ISUQO6DPw8jg1h0Sw>
+ <xme:s-EyY_Lyu8n1o19FOcclw59nDBCBCfURHWJTxRvFcoe3jp5BiLFIA0rrTJ3CuBnaW
+ 9lrpbcfxkHBV8j1cf4>
+X-ME-Received: <xmr:s-EyYzs1xIsjiGAzhorLz13xt6dsGjsOBALNTYXRw9esNY9ysc9LPoc6DS19Y_djoFJKJ7MulhS5WkID5HqfJvqsvo-KmOH1XYeu>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegiedgudekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+ feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:s-EyY0YYpUuUmbh8rB7dOHn9cmGip5qjxkhI9K2JiuvdB5eqGCwrzw>
+ <xmx:s-EyYyb-5dkHFfCjAchNq_sTbgYpuesLiAO8dlPlN9s6wJIU-RG2uQ>
+ <xmx:s-EyY4D2MSmY_xe7IL9Fk9NL0BzA5e3J75nnWcXpQbBp6ATHTPx8ng>
+ <xmx:s-EyY4Pipnswmk0j0MfA1zlTmyz8BAEI0dDT6RB4j1Byc4RjQxg14A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Sep 2022 07:42:43 -0400 (EDT)
+Date: Tue, 27 Sep 2022 13:42:40 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: Raspberry Pi 3 Model B+ hangs in vc4_hdmi_runtime_resume()
+Message-ID: <20220927114240.xilpcte2s3b5bmcf@houat>
+References: <20220922145448.w3xfywkn5ecak2et@pengutronix.de>
+ <20220922150600.h4srjmgxc52qiv6r@houat>
+ <20220926102130.eeekt5skt4mav5f4@pengutronix.de>
+ <63b460d1-4e2f-b0f1-836d-9178bb19f609@i2se.com>
+ <20220926124048.i3lxy4lvtq756trp@pengutronix.de>
+ <20220926124743.5s7x3dwhzienqs3x@houat>
+ <7f334d11-9517-6423-572b-998f678e5718@i2se.com>
+ <20220927072554.y4yrmgtlaim4b5mv@houat>
+ <20220927094200.2cfw2ukick3oqr4a@houat>
+ <40da8a17-5331-690b-3bd9-3317b0d0441c@i2se.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/ssd130x: Synchronize access to dma-buf imported GEM
- BOs
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20220927095249.1919385-1-javierm@redhat.com>
- <bd64206e-4d67-6932-30c2-740237a05bd0@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <bd64206e-4d67-6932-30c2-740237a05bd0@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <40da8a17-5331-690b-3bd9-3317b0d0441c@i2se.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,29 +93,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/27/22 13:18, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 27.09.22 um 11:52 schrieb Javier Martinez Canillas:
->> Synchronize CPU access to GEM BOs with other drivers when updating the
->> screen buffer. Imported DMA buffers might otherwise contain stale data.
->>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
+On Tue, Sep 27, 2022 at 01:12:35PM +0200, Stefan Wahren wrote:
+> Am 27.09.22 um 11:42 schrieb Maxime Ripard:
+> > On Tue, Sep 27, 2022 at 09:25:54AM +0200, Maxime Ripard wrote:
+> > > Hi Stefan,
+> > >=20
+> > > On Mon, Sep 26, 2022 at 08:50:12PM +0200, Stefan Wahren wrote:
+> > > > Am 26.09.22 um 14:47 schrieb Maxime Ripard:
+> > > > > On Mon, Sep 26, 2022 at 02:40:48PM +0200, Marc Kleine-Budde wrote:
+> > > > > > On 26.09.2022 14:08:04, Stefan Wahren wrote:
+> > > > > > > Hi Marc,
+> > > > > > >=20
+> > > > > > > Am 26.09.22 um 12:21 schrieb Marc Kleine-Budde:
+> > > > > > > > On 22.09.2022 17:06:00, Maxime Ripard wrote:
+> > > > > > > > > > I'm on a Raspberry Pi 3 Model B+ running current Debian=
+ testing ARM64,
+> > > > > > > > > > using Debian's v5.19 kernel (Debian's v5.18 was working=
+ flawless).
+> > > > > > > > > >=20
+> > > > > > > > > > | [    0.000000] Booting Linux on physical CPU 0x000000=
+0000 [0x410fd034]
+> > > > > > > > > > | [    0.000000] Linux version 5.19.0-1-arm64 (debian-k=
+ernel@lists.debian.org) (gcc-11 (Debian 11.3.0-5) 11.3.0, GNU ld (GNU Binut=
+ils for Debian) 2.38.90.20220713) #1 SMP Debian 5.19.6-1 (2022-0
+> > > > > > > > > > 9-01)
+> > > > > > > > > > | [    0.000000] Machine model: Raspberry Pi 3 Model B+
+> > > > > > > > > > | [    3.747500] raspberrypi-firmware soc:firmware: Att=
+ached to firmware from 2022-03-24T13:21:11
+> > > > > > > > > >=20
+> > > > > > > > > > As soon a the vc4 module is loaded the following warnin=
+gs hits 4
+> > > > > > > > > > times, then the machine stops.
+> > > > > > > > [...]
+> > > > > > > >=20
+> > > > > > > > > The warning itself is fixed, both upstream and in stable =
+(5.19.7).
+> > > > > > > > Ok. Debian is using 5.19.6
+> > > > > > > >=20
+> > > > > > > > > It shouldn't have any relation to the hang though. Can yo=
+u share your
+> > > > > > > > > setup?
+> > > > > > > > - config.txt:
+> > > > > > > >=20
+> > > > > > > > -------->8-------->8-------->8-------->8--------
+> > > > > > > > gpu_mem=3D16
+> > > > > > > > disable_splash=3D1
+> > > > > > > >=20
+> > > > > > > > arm_64bit=3D1
+> > > > > > > > enable_uart=3D1
+> > > > > > > > uart_2ndstage=3D1
+> > > > > > > >=20
+> > > > > > > > os_prefix=3D/u-boot/
+> > > > > > > >=20
+> > > > > > > > [pi3]
+> > > > > > > > force_turbo=3D1
+> > > > > > > > -------->8-------->8-------->8-------->8--------
+> > > > > > > >=20
+> > > > > > > > - Raspberry Pi 3 Model B+
+> > > > > > > > - no HDMI connected
+> > > > > > > Does it mean, the issue only occurs without HDMI connected?
+> > > > > > > If you didn't test with HDMI yet, could you please do?
+> > > > > > The error occurs with HDMI not connected, as vc4 is the gfx dri=
+ver I
+> > > > > > thought this might be of interest. :)
+> > > > > >=20
+> > > > > > I don't have a HDMI monitor here, but I'll come back to you as =
+soon as I
+> > > > > > get access to one (might take some time).
+> > > > > It's not the first time an issue like this one would occur. I'm t=
+rying
+> > > > > to make my Pi3 boot again, and will try to bisect the issue.
+> > > > yes the issue is only triggered without HDMI connected. I was able =
+to
+> > > > reproduce with an older vc4 firmware from 2020 (don't want to upgra=
+de yet).
+> > > > Kernel was also an arm64 build with defconfig.
+> > > >=20
+> > > > Here some rough starting point for bisection:
+> > > >=20
+> > > > 5.18.0 good
+> > > > 5.19.0 bad
+> > > > 5.19.6 bad
+> > > Sorry it took a bit of time, it looks like I found another bug while
+> > > trying to test this yesterday.
+> > >=20
+> > > Your datapoints are interesting though. I have a custom configuration
+> > > and it does boot 5.19 without an HDMI connected.
+> > >=20
+> > > So I guess it leaves us with either the firmware version being differ=
+ent
+> > > (I'm using a newer version, from March 2022), or the configuration. I=
+'ll
+> > > test with defconfig.
+> > So it turns out compiling vc4 as a module is the culprit.
+>=20
+> Do you mean regardless of the kernel version in your case?
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+No, I mean that, with vc4 as a module, 5.18 works but 5.19 doesn't, like
+Marc said. But if vc4 is built in, both work.
 
--- 
-Best regards,
+> In my test cases i build vc4 always as module.
+>=20
+> > It's not clear to me why at this point, but the first register write in
+> > vc4_hdmi_reset stalls.
+>
+> Sounds like timing issue or a missing dependency (clock or power domain)
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+It felt like a clock or power domain issue to me indeed, but adding
+clk_ignore_unused and pd_ignore_unused isn't enough, so it's probably
+something a bit more complicated than just the clock / PD being
+disabled.
 
+Maxime
