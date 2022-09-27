@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E4E5EB9F0
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 07:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B073F5EB9F2
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 07:48:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EABA10E433;
-	Tue, 27 Sep 2022 05:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 988CE10E439;
+	Tue, 27 Sep 2022 05:47:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A6110E359;
- Tue, 27 Sep 2022 05:47:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC2FC10E3D8;
+ Tue, 27 Sep 2022 05:47:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664257662; x=1695793662;
+ t=1664257665; x=1695793665;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/e+/qkwPrTEcpE5jdFwc9Af5BI/mNT8i1RHqg7Wxh6I=;
- b=AxoWvOEt+5BXFgEffZmLxdaeXjub6/rPx/2XwX8u/EXUpqVWS3yTRoPI
- ZClXSjVGuC3Fk5Vsox51BsM51JvVGYNrg2Pmqx/0JxO0Lz9YXaIYKz/ni
- dRxUofxl50Z3yhdaCm13IITCrYPD2k+yc385MPs+k27l71sYeVP5Gvqd/
- CG4VsQ5SiUueXaaeUg8wD4LtXdhL+DmTlqfvz2zM0TtgWd1o93vJh9Sml
- dkBzUSFIllP+T0W2Q3IlJKmct0tWS4hSo79PuzLKEQ2yjQDtt1duK0Ls3
- 7QH4Mmi+BncsqaXHw4y6gNxXhL6GSCx2PlfHBzqf5WxYVvr1NMjlk6WX3 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="363066385"
-X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="363066385"
+ bh=72MW387bWxRHGDNjikZs6vQHO7rTYMd+2DtfGtpHAQk=;
+ b=iUR9p3yd9M4i25dhwRG9Ph1rrCwmPmfP33ub467TkMPQTlGQ3YSfIxzt
+ 54T21UyxhziP23r7EEg1GPKtr44eQ5suCveUg75oQuk1EXmHzYpnbI3gq
+ xjz33e9U6s7ij9Lk0ZI89YQWnGTxQVpZKrSiZaKe1M8HCE5itUBpNYJYi
+ Qobbzb6N1zbqXBjsztcF+1wHfTld7SocTJxfn+GIj4ZyuF4q+qCU8/p2M
+ bSuvGcm64DCtf4cA1nLRSWveL8nblobUqSzJlr4/YUIlfk4eCfm4tk1uw
+ k6kp4//CSJZsjTVbGpdg8bnyFJWmYABHlrxfHXZEJbDHxxBjcZPiY4y2c g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="363066391"
+X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="363066391"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 22:47:42 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="725376811"
-X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="725376811"
+ 26 Sep 2022 22:47:45 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="725376821"
+X-IronPort-AV: E=Sophos;i="5.93,348,1654585200"; d="scan'208";a="725376821"
 Received: from bnilawar-desk1.iind.intel.com ([10.145.169.158])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 22:47:39 -0700
+ 26 Sep 2022 22:47:42 -0700
 From: Badal Nilawar <badal.nilawar@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/7] drm/i915/hwmon: Add HWMON infrastructure
-Date: Tue, 27 Sep 2022 11:20:14 +0530
-Message-Id: <20220927055020.3499420-2-badal.nilawar@intel.com>
+Subject: [PATCH 2/7] drm/i915/hwmon: Add HWMON current voltage support
+Date: Tue, 27 Sep 2022 11:20:15 +0530
+Message-Id: <20220927055020.3499420-3-badal.nilawar@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220927055020.3499420-1-badal.nilawar@intel.com>
 References: <20220927055020.3499420-1-badal.nilawar@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,253 +62,157 @@ Cc: linux-hwmon@vger.kernel.org, andi.shyti@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dale B Stimson <dale.b.stimson@intel.com>
+From: Riana Tauro <riana.tauro@intel.com>
 
-The i915 HWMON module will be used to expose voltage, power and energy
-values for dGfx. Here we set up i915 hwmon infrastructure including i915
-hwmon registration, basic data structures and functions.
+Use i915 HWMON subsystem to display current input voltage.
 
 v2:
-  - Create HWMON infra patch (Ashutosh)
-  - Fixed review comments (Jani)
-  - Remove "select HWMON" from i915/Kconfig (Jani)
-v3: Use hwm_ prefix for static functions (Ashutosh)
-v4: s/#ifdef CONFIG_HWMON/#if IS_REACHABLE(CONFIG_HWMON)/ since the former
-    doesn't work if hwmon is compiled as a module (Guenter)
-v5: Fixed review comments (Jani)
-v6: s/kzalloc/devm_kzalloc/ (Andi)
-v7: s/hwmon_device_register_with_info/
-      devm_hwmon_device_register_with_info/ (Ashutosh)
+  - Updated date and kernel version in feature description
+  - Fixed review comments (Ashutosh)
+v3: Use macro HWMON_CHANNEL_INFO to define hwmon channel (Guenter)
+v4:
+  - Fixed review comments (Ashutosh)
+  - Use hwm_ prefix for static functions (Ashutosh)
+v5: Added unit of voltage as millivolts (Ashutosh)
+v6: KernelVersion: 6.2, Date: February 2023 in doc (Tvrtko)
 
 Cc: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Dale B Stimson <dale.b.stimson@intel.com>
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>
 Signed-off-by: Riana Tauro <riana.tauro@intel.com>
 Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 Acked-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile      |   3 +
- drivers/gpu/drm/i915/i915_driver.c |   5 ++
- drivers/gpu/drm/i915/i915_drv.h    |   2 +
- drivers/gpu/drm/i915/i915_hwmon.c  | 122 +++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_hwmon.h  |  20 +++++
- 5 files changed, 152 insertions(+)
- create mode 100644 drivers/gpu/drm/i915/i915_hwmon.c
- create mode 100644 drivers/gpu/drm/i915/i915_hwmon.h
+ .../ABI/testing/sysfs-driver-intel-i915-hwmon |  7 +++
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  3 ++
+ drivers/gpu/drm/i915/i915_hwmon.c             | 53 +++++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index a26edcdadc21..66a6023e61a6 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -209,6 +209,9 @@ i915-y += gt/uc/intel_uc.o \
- # graphics system controller (GSC) support
- i915-y += gt/intel_gsc.o
- 
-+# graphics hardware monitoring (HWMON) support
-+i915-$(CONFIG_HWMON) += i915_hwmon.o
-+
- # modesetting core code
- i915-y += \
- 	display/hsw_ips.o \
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index fb3826dabe8b..0aec1513ad71 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -81,6 +81,7 @@
- #include "i915_drm_client.h"
- #include "i915_drv.h"
- #include "i915_getparam.h"
-+#include "i915_hwmon.h"
- #include "i915_ioc32.h"
- #include "i915_ioctl.h"
- #include "i915_irq.h"
-@@ -764,6 +765,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
- 	for_each_gt(gt, dev_priv, i)
- 		intel_gt_driver_register(gt);
- 
-+	i915_hwmon_register(dev_priv);
-+
- 	intel_display_driver_register(dev_priv);
- 
- 	intel_power_domains_enable(dev_priv);
-@@ -796,6 +799,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- 	for_each_gt(gt, dev_priv, i)
- 		intel_gt_driver_unregister(gt);
- 
-+	i915_hwmon_unregister(dev_priv);
-+
- 	i915_perf_unregister(dev_priv);
- 	i915_pmu_unregister(dev_priv);
- 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 84a2f6b16f57..2447794ac58d 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -349,6 +349,8 @@ struct drm_i915_private {
- 
- 	struct i915_perf perf;
- 
-+	struct i915_hwmon *hwmon;
-+
- 	/* Abstract the submission mechanism (legacy ringbuffer or execlists) away */
- 	struct intel_gt gt0;
- 
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+diff --git a/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
 new file mode 100644
-index 000000000000..231552fda374
+index 000000000000..cd9554c1a4f8
 --- /dev/null
++++ b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+@@ -0,0 +1,7 @@
++What:		/sys/devices/.../hwmon/hwmon<i>/in0_input
++Date:		February 2023
++KernelVersion:	6.2
++Contact:	dri-devel@lists.freedesktop.org
++Description:	RO. Current Voltage in millivolt.
++
++		Only supported for particular Intel i915 graphics platforms.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 7f79bbf97828..fcf5f9012852 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -1519,6 +1519,9 @@
+ #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
+ #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
+ 
++#define GEN12_RPSTAT1				_MMIO(0x1381b4)
++#define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
++
+ #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
+ #define   GEN11_CSME				(31)
+ #define   GEN11_GUNIT				(28)
+diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+index 231552fda374..9fcff6a884ee 100644
+--- a/drivers/gpu/drm/i915/i915_hwmon.c
 +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-@@ -0,0 +1,122 @@
-+// SPDX-License-Identifier: MIT
+@@ -11,8 +11,16 @@
+ #include "i915_hwmon.h"
+ #include "i915_reg.h"
+ #include "intel_mchbar_regs.h"
++#include "gt/intel_gt_regs.h"
++
 +/*
-+ * Copyright © 2022 Intel Corporation
++ * SF_* - scale factors for particular quantities according to hwmon spec.
++ * - voltage  - millivolts
 + */
-+
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/types.h>
-+
-+#include "i915_drv.h"
-+#include "i915_hwmon.h"
-+#include "i915_reg.h"
-+#include "intel_mchbar_regs.h"
-+
-+struct hwm_reg {
-+};
-+
-+struct hwm_drvdata {
-+	struct i915_hwmon *hwmon;
-+	struct intel_uncore *uncore;
-+	struct device *hwmon_dev;
-+	char name[12];
-+};
-+
-+struct i915_hwmon {
-+	struct hwm_drvdata ddat;
-+	struct mutex hwmon_lock;		/* counter overflow logic and rmw */
-+	struct hwm_reg rg;
-+};
-+
-+static const struct hwmon_channel_info *hwm_info[] = {
-+	NULL
-+};
-+
++#define SF_VOLTAGE	1000
+ 
+ struct hwm_reg {
++	i915_reg_t gt_perf_status;
+ };
+ 
+ struct hwm_drvdata {
+@@ -29,14 +37,49 @@ struct i915_hwmon {
+ };
+ 
+ static const struct hwmon_channel_info *hwm_info[] = {
++	HWMON_CHANNEL_INFO(in, HWMON_I_INPUT),
+ 	NULL
+ };
+ 
 +static umode_t
-+hwm_is_visible(const void *drvdata, enum hwmon_sensor_types type,
-+	       u32 attr, int channel)
++hwm_in_is_visible(const struct hwm_drvdata *ddat, u32 attr)
 +{
-+	switch (type) {
++	switch (attr) {
++	case hwmon_in_input:
++		return i915_mmio_reg_valid(ddat->hwmon->rg.gt_perf_status) ? 0444 : 0;
 +	default:
 +		return 0;
 +	}
 +}
 +
 +static int
-+hwm_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-+	 int channel, long *val)
++hwm_in_read(struct hwm_drvdata *ddat, u32 attr, long *val)
 +{
-+	switch (type) {
++	struct i915_hwmon *hwmon = ddat->hwmon;
++	intel_wakeref_t wakeref;
++	u32 reg_value;
++
++	switch (attr) {
++	case hwmon_in_input:
++		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
++			reg_value = intel_uncore_read(ddat->uncore, hwmon->rg.gt_perf_status);
++		/* HW register value in units of 2.5 millivolt */
++		*val = DIV_ROUND_CLOSEST(REG_FIELD_GET(GEN12_VOLTAGE_MASK, reg_value) * 25, 10);
++		return 0;
 +	default:
 +		return -EOPNOTSUPP;
 +	}
 +}
 +
-+static int
-+hwm_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-+	  int channel, long val)
-+{
-+	switch (type) {
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
+ static umode_t
+ hwm_is_visible(const void *drvdata, enum hwmon_sensor_types type,
+ 	       u32 attr, int channel)
+ {
++	struct hwm_drvdata *ddat = (struct hwm_drvdata *)drvdata;
 +
-+static const struct hwmon_ops hwm_ops = {
-+	.is_visible = hwm_is_visible,
-+	.read = hwm_read,
-+	.write = hwm_write,
-+};
+ 	switch (type) {
++	case hwmon_in:
++		return hwm_in_is_visible(ddat, attr);
+ 	default:
+ 		return 0;
+ 	}
+@@ -46,7 +89,11 @@ static int
+ hwm_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+ 	 int channel, long *val)
+ {
++	struct hwm_drvdata *ddat = dev_get_drvdata(dev);
 +
-+static const struct hwmon_chip_info hwm_chip_info = {
-+	.ops = &hwm_ops,
-+	.info = hwm_info,
-+};
+ 	switch (type) {
++	case hwmon_in:
++		return hwm_in_read(ddat, attr, val);
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -76,6 +123,12 @@ static const struct hwmon_chip_info hwm_chip_info = {
+ static void
+ hwm_get_preregistration_info(struct drm_i915_private *i915)
+ {
++	struct i915_hwmon *hwmon = i915->hwmon;
 +
-+static void
-+hwm_get_preregistration_info(struct drm_i915_private *i915)
-+{
-+}
-+
-+void i915_hwmon_register(struct drm_i915_private *i915)
-+{
-+	struct device *dev = i915->drm.dev;
-+	struct i915_hwmon *hwmon;
-+	struct device *hwmon_dev;
-+	struct hwm_drvdata *ddat;
-+
-+	/* hwmon is available only for dGfx */
-+	if (!IS_DGFX(i915))
-+		return;
-+
-+	hwmon = devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
-+	if (!hwmon)
-+		return;
-+
-+	i915->hwmon = hwmon;
-+	mutex_init(&hwmon->hwmon_lock);
-+	ddat = &hwmon->ddat;
-+
-+	ddat->hwmon = hwmon;
-+	ddat->uncore = &i915->uncore;
-+	snprintf(ddat->name, sizeof(ddat->name), "i915");
-+
-+	hwm_get_preregistration_info(i915);
-+
-+	/*  hwmon_dev points to device hwmon<i> */
-+	hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat->name,
-+							 ddat,
-+							 &hwm_chip_info,
-+							 NULL);
-+	if (IS_ERR(hwmon_dev)) {
-+		i915->hwmon = NULL;
-+		return;
-+	}
-+
-+	ddat->hwmon_dev = hwmon_dev;
-+}
-+
-+void i915_hwmon_unregister(struct drm_i915_private *i915)
-+{
-+	fetch_and_zero(&i915->hwmon);
-+}
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
-new file mode 100644
-index 000000000000..7ca9cf2c34c9
---- /dev/null
-+++ b/drivers/gpu/drm/i915/i915_hwmon.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: MIT */
-+
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#ifndef __I915_HWMON_H__
-+#define __I915_HWMON_H__
-+
-+struct drm_i915_private;
-+
-+#if IS_REACHABLE(CONFIG_HWMON)
-+void i915_hwmon_register(struct drm_i915_private *i915);
-+void i915_hwmon_unregister(struct drm_i915_private *i915);
-+#else
-+static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
-+static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
-+#endif
-+
-+#endif /* __I915_HWMON_H__ */
++	if (IS_DG1(i915) || IS_DG2(i915))
++		hwmon->rg.gt_perf_status = GEN12_RPSTAT1;
++	else
++		hwmon->rg.gt_perf_status = INVALID_MMIO_REG;
+ }
+ 
+ void i915_hwmon_register(struct drm_i915_private *i915)
 -- 
 2.25.1
 
