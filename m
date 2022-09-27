@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195625EBB52
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 09:15:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D15EBB58
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 09:16:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 045A710E06D;
-	Tue, 27 Sep 2022 07:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D99CE10E2CD;
+	Tue, 27 Sep 2022 07:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD4210E06D;
- Tue, 27 Sep 2022 07:14:54 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C65710E2CD;
+ Tue, 27 Sep 2022 07:16:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5E9F4B819DC;
- Tue, 27 Sep 2022 07:14:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042C4C433D6;
- Tue, 27 Sep 2022 07:14:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B35EE61628;
+ Tue, 27 Sep 2022 07:16:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C8ACC433D6;
+ Tue, 27 Sep 2022 07:16:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664262892;
- bh=AXaJuNbMdlA3wyGDnt3C65MZ5fPprSXOkBzMm29GxKU=;
+ s=k20201202; t=1664262962;
+ bh=2rBhUwN8aOjx4dsbrO7nxEdpmx2ukolgAtSl/fXvzfs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lg4xfg3HPJJgLOswp5R4rRvhCSHY80EEGlrkDDVTVmIf2RUUaZq4gKG1UC71/6yLz
- sPW8a/BHJdKNLENWTlp2IZMlB37kPRyLzwizM0Y+fg2pGMGSB8RRPAIVVFiWYph/GI
- /PD0BNHVcy0b2gUBr33oPPSpFsFGWijRzO/kaFrDiw5v1bMca3zoPgr5Bs9EyuH3UQ
- Kv7FLpRzeSCWj/rCg+FaZFP0GaWsoiyd2rbO06yL+HygmEOq49g3dFpPedckH9Cux7
- Ntod7/E2gqpN1vNIOeGBdmB+TcNsp5fbDNY7Z5Or9rRdoROehDde0FZJa1UAfydqhv
- PW+swX5ksnP+Q==
+ b=jU3TtDbLbimU5uWXGZkS3IneVkExqfjI5gn5BS8buZA27w4ha96ISHEyyxJzF8m/a
+ AltVPvIt8pDCYSmvzLwEaNJB7OMiXqrp93Eyd/m0AM2TDqM4S6W7bfacd/3ga3RPi/
+ Wqk8F+Qr97nefIOlnAAaQRoESdl1DnW7PFzTHF3qaXSOaLuXDTRw8esMhwB20L4pY7
+ 40gXeg6f15RWtM0eYaBeYSrwSNCtmx9I9rsul62ISb7ms7ZNqULW0ZBT99qr62E5tc
+ 0w4d8szuSurKtE1pS+AVQyDDHK4WbJ/PalTDe2K4crYkqCWr7AhK7VKP7+nKSs8I6h
+ /bD4Qu/+Uts8w==
 Received: from johan by xi.lan with local (Exim 4.94.2)
  (envelope-from <johan@kernel.org>)
- id 1od4nx-0005GW-Jb; Tue, 27 Sep 2022 09:14:57 +0200
-Date: Tue, 27 Sep 2022 09:14:57 +0200
+ id 1od4p6-0005H7-10; Tue, 27 Sep 2022 09:16:08 +0200
+Date: Tue, 27 Sep 2022 09:16:08 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 09/10] drm/msm/dp: drop modeset sanity checks
-Message-ID: <YzKi8XfV6V0p0TJi@hovoldconsulting.com>
+Subject: Re: [Freedreno] [PATCH v2 10/10] drm/msm/dsi: drop modeset sanity
+ checks
+Message-ID: <YzKjODjbQMx/hEk1@hovoldconsulting.com>
 References: <20220913085320.8577-1-johan+linaro@kernel.org>
- <20220913085320.8577-10-johan+linaro@kernel.org>
- <d05290d8-7603-13b3-3cc4-d8509b03fc02@quicinc.com>
+ <20220913085320.8577-11-johan+linaro@kernel.org>
+ <dc33f8c9-761a-deec-d1e5-ea30c4120729@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d05290d8-7603-13b3-3cc4-d8509b03fc02@quicinc.com>
+In-Reply-To: <dc33f8c9-761a-deec-d1e5-ea30c4120729@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,22 +58,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Steev Klimaszewski <steev@kali.org>,
- freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
+Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Steev Klimaszewski <steev@kali.org>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
- Johan Hovold <johan+linaro@kernel.org>
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022 at 11:17:20AM -0700, Abhinav Kumar wrote:
+On Mon, Sep 26, 2022 at 11:21:38AM -0700, Abhinav Kumar wrote:
+> 
+> 
 > On 9/13/2022 1:53 AM, Johan Hovold wrote:
 > > Drop the overly defensive modeset sanity checks of function parameters
 > > which have already been checked or used by the callers.
@@ -87,12 +90,10 @@ On Mon, Sep 26, 2022 at 11:17:20AM -0700, Abhinav Kumar wrote:
 > I think we can use below fixes tag so that we can pick up this entire 
 > series for the fixes cycle.
 > 
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+> Fixes: 3f0689e66352 ("drm/msm/dsi: check msm_dsi and dsi pointers before
+> use")
 
-Perhaps that's a requirement for drm, but I wouldn't add a Fixes tag for
-this otherwise as it's not a bug.
-
-You also have to watch out for Sasha and his autosel scripts which will
-probably try to backport this to stable if it finds a Fixes tag.
+Same here. I wouldn't add a Fixes tag unless required by some DRM
+process.
 
 Johan
