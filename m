@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71975EC7A7
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 17:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A1B5EC7AE
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 17:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2524D10E95D;
-	Tue, 27 Sep 2022 15:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6C910E960;
+	Tue, 27 Sep 2022 15:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036E810E95D
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 15:27:09 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id y2so227334ede.11
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 08:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=kankTRCISUIsAfog0Ofr/wisbx67a2Kvj+VX7g1I/LI=;
- b=fzlkqVQyXabwlDt2N0VtOlZfwq/BadBHEJVad/oL8TIoAObPV8J8nucnuONTqoz6pL
- rGORO7KYTtsOa56o+iY0kBZMd2rY2rhb4ZJQhJLZq/4i6iThyDiQJASbCbTuiZHaRetW
- lLsOxX2O89w45itZoNoHky2l2m93ECHjj6dHo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=kankTRCISUIsAfog0Ofr/wisbx67a2Kvj+VX7g1I/LI=;
- b=3a+cXjuHrpD26UHYY48Mkr81CrQOeaePlEqJg32diq252TGhT4jImJvZ1o1KkZ79pL
- badF7cD6r2izZ5vA05rbghmJb4Wpg74kCX/829jC+XBnzAgrWsAUgBDsuribTWx+Mnjz
- YX3ROpZKjkLeuy1wKI3Azg6V1csvGV3+XTQMdaq7RjTrGHfrQ6rtYyh6oi2zGrwR6VXb
- myltFqDA+/7nzPO82ElJ6/yMhxiZNRmccyo3eVOFLHgYGKITzhlPbCy2hb1BfOKcEA6V
- B2edSm0fW7zBRz6mXaPcODJtjKbuCtiV8roXAjJfDVtmcPRNTbC55A/w8v1J8hhfsUs5
- yUag==
-X-Gm-Message-State: ACrzQf1/0xMtUF9MpBB1QPjutzRc3NI5VLhVw/BO/hCglOlXbtA65Fxl
- huU2Ix6U7jUFqvsExc0qGQBPpAh/Xq9eZCAI
-X-Google-Smtp-Source: AMsMyM5QL7UHmzIHCY16QSikiJo55jBLExCrBjDI4fJIt1bbHpvYKxcAUPe1GcgEWQOllZS6J2q23Q==
-X-Received: by 2002:a05:6402:34cc:b0:451:62bf:c816 with SMTP id
- w12-20020a05640234cc00b0045162bfc816mr28611105edc.213.1664292428231; 
- Tue, 27 Sep 2022 08:27:08 -0700 (PDT)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- 12-20020a170906318c00b0073dcdf9b0bcsm981254ejy.17.2022.09.27.08.27.07
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 08:27:07 -0700 (PDT)
-Received: by mail-wm1-f41.google.com with SMTP id
- d12-20020a05600c3acc00b003b4c12e47f3so5642215wms.4
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 08:27:07 -0700 (PDT)
-X-Received: by 2002:a05:600c:19cf:b0:3b4:c8b6:15c6 with SMTP id
- u15-20020a05600c19cf00b003b4c8b615c6mr3232537wmq.85.1664292427539; Tue, 27
- Sep 2022 08:27:07 -0700 (PDT)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4A0189E3F
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 15:28:53 +0000 (UTC)
+X-UUID: 64f5f4841e994e359cd525ab07e68252-20220927
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=6/sQLw9MHSTRDW30VdgFzJ2Vu/oHj4Ys0yiq36Wd2c4=; 
+ b=JQbAdAByDg1NoGqkrtaSCMdH3+tCYJRAe5R0/hvDd6p4P8tTHNWhKBxnmWj1ZQi3FbfK3WwefC9cGfkbnRCUdZu1aYxibHyB7uqn7WKFetVW5XiHuYmGGkEEtheHwemY1RmZyWhF6X8BPxP7klWRQSnFGVyDN8NLdiWsoxn6gbo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:c0702386-421f-42b4-a8d7-11763c66feaa, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:39a5ff1, CLOUDID:363c67e4-87f9-4bb0-97b6-34957dc0fbbe,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 64f5f4841e994e359cd525ab07e68252-20220927
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1598090030; Tue, 27 Sep 2022 23:28:48 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 27 Sep 2022 23:28:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 27 Sep 2022 23:28:46 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v5 0/6] Change mmsys compatible for mt8195 mediatek-drm
+Date: Tue, 27 Sep 2022 23:26:58 +0800
+Message-ID: <20220927152704.12018-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20220927063524.493591-1-sean.hong@quanta.corp-partner.google.com>
-In-Reply-To: <20220927063524.493591-1-sean.hong@quanta.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 27 Sep 2022 08:26:54 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WQXOTJu-YUWyBjdoq4wPrwQYoo68FCJBF7EJfdf+9SrA@mail.gmail.com>
-Message-ID: <CAD=FV=WQXOTJu-YUWyBjdoq4wPrwQYoo68FCJBF7EJfdf+9SrA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add BOE NT116WHM-N4C (HW: V8.1)
-To: Sean Hong <sean.hong@quanta.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +63,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+For previous MediaTek SoCs, such as MT8173, there are 2 display HW
+pipelines binding to 1 mmsys with the same power domain, the same
+clock driver and the same mediatek-drm driver.
 
-On Mon, Sep 26, 2022 at 11:35 PM Sean Hong
-<sean.hong@quanta.corp-partner.google.com> wrote:
->
-> Add support for the BOE - NT116WHM-N4C (HW: V8.1) panel.
->
-> Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding to
+2 different power domains, different clock drivers and different
+mediatek-drm drivers.
 
-Wow, another panel?!?
+Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
+CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture Quality)
+and they makes VDOSYS0 supports PQ function while they are not
+including in VDOSYS1.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
+component). It makes VDOSYS1 supports the HDR function while it's not
+including in VDOSYS0.
 
-Pushed to drm-misc:
+To summarize0:
+Only VDOSYS0 can support PQ adjustment.
+Only VDOSYS1 can support HDR adjustment.
 
-2f24fe8c54cc drm/panel-edp: Add BOE NT116WHM-N4C (HW: V8.1)
+Therefore, we need to separate these two different mmsys hardwares to
+2 different compatibles for MT8195.
+---
+Change in v5:
+1. Add oneOf item to deprecate mediatek,mt8195-mmsys.
+
+Change in v4:
+1. Deprecate original mediatek,mt8195-mmsys at the first item.
+
+Change in v3:
+1. Keep the original compatible "mediatek,mt8195-mmsys" and add
+   "mediatek,mt8195-vdosys0" into the same item to make the tree
+   fallback compatible.
+
+Change in v2:
+1. Remove Ack tag in the first patch
+2. Change the compatible name changing patch to one revert patch and
+   one add vdosys0 support patch.
+---
+Jason-JH.Lin (6):
+  dt-bindings: arm: mediatek: mmsys: change compatible for MT8195
+  Revert "soc: mediatek: add mtk-mmsys support for mt8195 vdosys0"
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys0
+  Revert "drm/mediatek: Add mediatek-drm of vdosys0 support for mt8195"
+  drm/mediatek: add mediatek-drm of vdosys0 support for mt8195
+  soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |  14 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   6 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 128 ++--------------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   6 -
+ drivers/soc/mediatek/mtk-mmsys.c              | 145 ++----------------
+ drivers/soc/mediatek/mtk-mmsys.h              |   6 -
+ include/linux/soc/mediatek/mtk-mmsys.h        |   3 +-
+ 7 files changed, 46 insertions(+), 262 deletions(-)
+
+-- 
+2.18.0
+
