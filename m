@@ -2,74 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7052B5EBAE8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 08:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195625EBB52
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 09:15:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B1B10E8BE;
-	Tue, 27 Sep 2022 06:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045A710E06D;
+	Tue, 27 Sep 2022 07:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A0310E2D5;
- Tue, 27 Sep 2022 06:46:07 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD4210E06D;
+ Tue, 27 Sep 2022 07:14:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3E0A361528;
- Tue, 27 Sep 2022 06:46:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801EFC433B5;
- Tue, 27 Sep 2022 06:46:05 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5E9F4B819DC;
+ Tue, 27 Sep 2022 07:14:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042C4C433D6;
+ Tue, 27 Sep 2022 07:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664261166;
- bh=eEUvxBZsi9LqCvOrkkoLXt0oGQK0hSltb52/gNuFgZc=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=YeF1uQu6QOwIwpqO25V8Se5Jh3/7LmTuggyeQGTEqoYTG4OZwBjgCOJSzYSJXKGjw
- YSpsg9ZkD5PAQqvi237xvtgYVpQoMz1J9CIquEp+oYCwBBav3raIhCyTBqjVaoPvmU
- ay7RPeC75QtxLEeiOIoU+mvl5myNqJu+WGuxw9qSyI27+1ZK1u+/KSmpywTDKR1Xlz
- hyZEvZ7WAYFjgNQYbbX+nNrGF72JqlBKrpMk2/j5kexDYuf/xZmg6wfGMIkFk+WhrY
- GrEvw6szTG7DNmjTSArOWa2ufvKVt0dxj4VLmMSZMxcDfHH9jAXpIPfHJF/q2CKhlO
- nU9G5nKrTiy5w==
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailauth.nyi.internal (Postfix) with ESMTP id 5057227C0054;
- Tue, 27 Sep 2022 02:46:04 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute3.internal (MEProxy); Tue, 27 Sep 2022 02:46:04 -0400
-X-ME-Sender: <xms:K5wyY55LdtqzTFfDLKVhyXYrIJ0cTmxpm90Lu7DUY7-nij1MOkfKqw>
- <xme:K5wyY25C7E2eG40bp4EjuLLQWoAVbiMahSdIvObFuCS-adsU8r36Yt4wxtuGbNROb
- Ab6ZsWuNyLnbXQiszs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegfedgudduhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
- rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
- frrghtthgvrhhnpeelvefgudeiheefledttedthfffgfekudegkeelffdtiedvgfevieet
- teekheffveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguodhmvghsmhhtphgruhht
- hhhpvghrshhonhgrlhhithihqdduvdekhedujedtvdegqddvkeejtddtvdeigedqrghrnh
- gupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:K5wyYwd1DwpulFvQpVuWiRUtcw38-qebHa5Ze62tCAfgwH5X1zJXbg>
- <xmx:K5wyYyKKEGXvXsznp6_nNRSW2EGNR6NSSIpo7fW9pMDAxH9Yicqq4w>
- <xmx:K5wyY9IgwfMahZkMIE7MAebKidgM1Az-LQpJhh2MDT5Kzbd_VeWsAw>
- <xmx:LJwyYyBRqF04xYz6Yfv4-jni5HaTT-P3xGg-v0IhvH6D9IhEZgbYjMr4BjW5YPzC>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 81704B60089; Tue, 27 Sep 2022 02:46:03 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-968-g04df58079d-fm-20220921.001-g04df5807
-Mime-Version: 1.0
-Message-Id: <854247e0-6276-4f3b-b4e9-b408e151a6b3@www.fastmail.com>
-In-Reply-To: <202209261405.619441AC2F@keescook>
-References: <20220926191109.1803094-1-keescook@chromium.org>
- <CAKwvOdmCjAQpaF40VStbFNf1ZqmTxTTZzy2v4TwSF0LVO08GYw@mail.gmail.com>
- <202209261405.619441AC2F@keescook>
-Date: Tue, 27 Sep 2022 08:45:43 +0200
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "Kees Cook" <keescook@chromium.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>
-Subject: Re: [PATCH v2] overflow: Introduce overflows_type() and
- castable_to_type()
-Content-Type: text/plain
+ s=k20201202; t=1664262892;
+ bh=AXaJuNbMdlA3wyGDnt3C65MZ5fPprSXOkBzMm29GxKU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Lg4xfg3HPJJgLOswp5R4rRvhCSHY80EEGlrkDDVTVmIf2RUUaZq4gKG1UC71/6yLz
+ sPW8a/BHJdKNLENWTlp2IZMlB37kPRyLzwizM0Y+fg2pGMGSB8RRPAIVVFiWYph/GI
+ /PD0BNHVcy0b2gUBr33oPPSpFsFGWijRzO/kaFrDiw5v1bMca3zoPgr5Bs9EyuH3UQ
+ Kv7FLpRzeSCWj/rCg+FaZFP0GaWsoiyd2rbO06yL+HygmEOq49g3dFpPedckH9Cux7
+ Ntod7/E2gqpN1vNIOeGBdmB+TcNsp5fbDNY7Z5Or9rRdoROehDde0FZJa1UAfydqhv
+ PW+swX5ksnP+Q==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1od4nx-0005GW-Jb; Tue, 27 Sep 2022 09:14:57 +0200
+Date: Tue, 27 Sep 2022 09:14:57 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 09/10] drm/msm/dp: drop modeset sanity checks
+Message-ID: <YzKi8XfV6V0p0TJi@hovoldconsulting.com>
+References: <20220913085320.8577-1-johan+linaro@kernel.org>
+ <20220913085320.8577-10-johan+linaro@kernel.org>
+ <d05290d8-7603-13b3-3cc4-d8509b03fc02@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d05290d8-7603-13b3-3cc4-d8509b03fc02@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,79 +57,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Tom Rix <trix@redhat.com>,
- Daniel Latypov <dlatypov@google.com>, llvm@lists.linux.dev,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Nathan Chancellor <nathan@kernel.org>, linux-sparse@vger.kernel.org,
- linux-hardening@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org, Vitor Massaru Iha <vitor@massaru.org>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, Steev Klimaszewski <steev@kali.org>,
+ freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022, at 11:07 PM, Kees Cook wrote:
-> On Mon, Sep 26, 2022 at 01:17:18PM -0700, Nick Desaulniers wrote:
->> + Arnd
->> 
->> On Mon, Sep 26, 2022 at 12:11 PM Kees Cook <keescook@chromium.org> wrote:
->> > ---
->> > v2:
->> >  - fix comment typo
->> >  - wrap clang pragma to avoid GCC warnings
->> >  - style nit cleanups
->> >  - rename __castable_to_type() to castable_to_type()
->> >  - remove prior overflows_type() definition
->> > v1: https://lore.kernel.org/lkml/20220926003743.409911-1-keescook@chromium.org
->> > diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
->> > index f385ca652b74..fffc3f86181d 100644
->> > --- a/lib/overflow_kunit.c
->> > +++ b/lib/overflow_kunit.c
->> > @@ -16,6 +16,11 @@
->> >  #include <linux/types.h>
->> >  #include <linux/vmalloc.h>
->> >
->> > +/* We're expecting to do a lot of "always true" or "always false" tests. */
->> > +#ifdef CONFIG_CC_IS_CLANG
->> > +#pragma clang diagnostic ignored "-Wtautological-constant-out-of-range-compare"
->> > +#endif
->> 
->> Any chance we can reuse parts of __diag_ignore or __diag_clang from
->> include/linux/compiler_types.h or include/linux/compiler-clang.h
->> respectively?
->
-> Hm, I'm not sure how those are supposed to be used. Those defines don't
-> seem to be used externally?
+On Mon, Sep 26, 2022 at 11:17:20AM -0700, Abhinav Kumar wrote:
+> On 9/13/2022 1:53 AM, Johan Hovold wrote:
+> > Drop the overly defensive modeset sanity checks of function parameters
+> > which have already been checked or used by the callers.
+> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> 
+> The change LGTM, hence
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> I think we can use below fixes tag so that we can pick up this entire 
+> series for the fixes cycle.
+> 
+> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
 
-We use them in a couple of places. When I originally introduced
-them, the idea was to add more infrastructure around these
-to replace the various -Wno-... flags in local makefiles with
-more targetted annotations, and then have a way to control
-the warning levels (W=1 W=2 E=1 etc) per directory and per file,
-but I never completed the work to add the interesting bits.
+Perhaps that's a requirement for drm, but I wouldn't add a Fixes tag for
+this otherwise as it's not a bug.
 
->> Those are needed for pragmas within preprocessor macros, which we
->> don't have here, but I suspect they may be more concise to use here.
->
-> Yeah, I was surprised when I had to wrap it in #ifdef given "clang" is
-> part of the string.
->
->> 
->> > +#define TEST_SAME_TYPE(t1, t2, same)                   do {    \
->> > +       typeof(t1) __t1h = type_max(t1);                        \
->> > +       typeof(t1) __t1l = type_min(t1);                        \
->> > +       typeof(t2) __t2h = type_max(t2);                        \
->> > +       typeof(t2) __t2l = type_min(t2);                        \
->> 
->> Can we use __auto_type here rather than typeof(macro expansion)?
->
-> I'd rather it stay explicit -- otherwise we start to wander into "oops,
-> we got lucky" territory for what should be a really distinct test case.
+You also have to watch out for Sasha and his autosel scripts which will
+probably try to backport this to stable if it finds a Fixes tag.
 
-The idea  of __auto_type is to avoid the more deeply nested macros.
-If the preprocessed file turns into an absolute mess, adding a temporary
-variable may help. Not sure if that applies here.
-
-     Arnd
+Johan
