@@ -1,63 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B895EB762
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 04:10:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9849C5EB76D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Sep 2022 04:16:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF51E10E02A;
-	Tue, 27 Sep 2022 02:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18EDE10E036;
+	Tue, 27 Sep 2022 02:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8CB10E02A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 02:10:27 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id v4so8129352pgi.10
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Sep 2022 19:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quanta-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=RqV1Hbuu6wcO4ooNHmBZaaI6MHnaZ7i2cKw6jALZgyE=;
- b=5TLvVYrNxjEB05HrB7sPM+a6/ItoGDgMafZRzE7yY64ZNdiOLnJd8N/OvVLP3lEXQj
- uI7USCTYbd9NumN78GffTp2U4jBde15Fl1HsxlBlFm4F1eEgb0Mc6D9Xq0Xt88CffsGU
- 4+/MMd70MltsuXRU7vpSLjqbEdxE8wCpp2d0DAlSFAVJvCeUl2Io8l99zN/vOnovxuGH
- qbevKibqrYxQ/e3naB2qYwMcNPZeD3rJKtGl49ISGsCjnFQdzwpPjTV6LQvFvgfkesQA
- Fx/8qmL2kMBjuoqP4vXH4ygMBK3nalgRPulFsseC+/brSuIxOVNDyaQUEPd7FcjrOJgL
- 6sLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=RqV1Hbuu6wcO4ooNHmBZaaI6MHnaZ7i2cKw6jALZgyE=;
- b=MfZ1/jfdXulyaRnWO7Zj/GEO2bDc5ZQAAPNpDSHpztUL2a1+OvuionqRXHKH6Oteuu
- lBoVHVp9T7uNQ0570wSHuY58E7E62JZ69Z2dFpfYxTNudKCLw/O+jYjssqGLxur/otxl
- VFnD2Hl8OLHX69FLtBt9dQ0pIeLAW0r+5xSo7E1iJ8OFNXJ8BJIHzsm6etAB9YMah1Gt
- fiJjL92b2yF+3xdNJOhYhvYJTQ4aav3G8p2+QbEIWdlZo4ZVfmdm+YLkdjIj4rBZdgJS
- q/uTNQXhBjE7yEKHEx4e88/IvKXj6CbPoEIIt5OKmrY9RsXoWMC8uhOpddAT159swy9I
- DuMQ==
-X-Gm-Message-State: ACrzQf03N5QYsGPfZNCWIPCJhV1vTzUkkl9cRWci3jo8fnE1l78AUDBW
- s5hkZVtOoAmXsDYnTvpK1MJlVg==
-X-Google-Smtp-Source: AMsMyM4RgktzAMpVRb2H8xPwvR3a84o5pWKh2GpH6QJ/iUQL1gyJM4vwz4eBFquvfgJRhFuF6iGVhA==
-X-Received: by 2002:aa7:888f:0:b0:544:7429:b07c with SMTP id
- z15-20020aa7888f000000b005447429b07cmr26565917pfe.15.1664244626670; 
- Mon, 26 Sep 2022 19:10:26 -0700 (PDT)
-Received: from sean-biuld-server.itotolink.net
- (1-34-200-211.hinet-ip.hinet.net. [1.34.200.211])
- by smtp.gmail.com with ESMTPSA id
- 185-20020a6205c2000000b0053e5ebafd5csm196748pff.189.2022.09.26.19.10.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 19:10:26 -0700 (PDT)
-From: Sean Hong <sean.hong@quanta.corp-partner.google.com>
-To: dianders@chromium.org, thierry.reding@gmail.com, sam@ravnborg.org,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/panel-edp: Fix delays for INX N116BCN-EA1 (HW: C4)
-Date: Tue, 27 Sep 2022 10:10:21 +0800
-Message-Id: <20220927021021.488295-1-sean.hong@quanta.corp-partner.google.com>
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AEFD510E036
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Sep 2022 02:16:17 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+ by APP-01 (Coremail) with SMTP id qwCowACnrY3tXDJj8U5dAg--.19578S2;
+ Tue, 27 Sep 2022 10:16:13 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, aurabindo.pillai@amd.com,
+ Jerry.Zuo@amd.com, Alvin.Lee2@amd.com, dillon.varone@amd.com,
+ Martin.Leung@amd.com
+Subject: [PATCH] drm/amd/display: Add check for memory allocation
+Date: Tue, 27 Sep 2022 10:16:12 +0800
+Message-Id: <20220927021612.31815-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowACnrY3tXDJj8U5dAg--.19578S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFW5Cr4fJrykGF1xJFWxXrb_yoW8Aw1Upa
+ 10y34YgwsrJF4jqry7JF4UWF4rAa4F9FyrCrZ8A3sIva47tr4rZF1YqF1qyan5KFWUCr17
+ Ja1jgr43uFnFkrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+ Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
+ xVA2Y2ka0xkIwI1lc2xSY4AK67AK6r4UMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUb9NVDUUUUU==
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +58,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Hong <sean.hong@quanta.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jiasheng Jiang <jiasheng@iscas.ac.cn>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This panel has the same delay timing as N116BCA-EA1. So, fix the
-delay timing from delay_200_500_p2e80 to delay_200_500_e80_d50.
+As kzalloc and dm_helpers_allocate_gpu_mem can return NULL pointer,
+it should be better to check the return value and return error.
+Moreover, the return value of dcn32_clk_mgr_construct should be checked
+by cascade.
 
-Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+Fixes: 265280b99822 ("drm/amd/display: add CLKMGR changes for DCN32/321")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 102ab9f5d40a..3e502d318de3 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1892,7 +1892,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
+index c6785969eb1a..3dc04d780fbf 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
+@@ -718,7 +718,7 @@ static struct clk_mgr_funcs dcn32_funcs = {
+ 		.is_smu_present = dcn32_is_smu_present,
+ };
  
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x114c, &innolux_n116bca_ea1.delay, "N116BCA-EA1"),
--	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1152, &delay_200_500_p2e80, "N116BCN-EA1"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1152, &delay_200_500_e80_d50, "N116BCN-EA1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1154, &delay_200_500_p2e80, "N116BCA-EA2"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
+-void dcn32_clk_mgr_construct(
++int dcn32_clk_mgr_construct(
+ 		struct dc_context *ctx,
+ 		struct clk_mgr_internal *clk_mgr,
+ 		struct pp_smu_funcs *pp_smu,
+@@ -779,11 +779,19 @@ void dcn32_clk_mgr_construct(
+ 	clk_mgr->smu_present = false;
  
+ 	clk_mgr->base.bw_params = kzalloc(sizeof(*clk_mgr->base.bw_params), GFP_KERNEL);
++	if (!clk_mgr->base.bw_params)
++		return -ENOMEM;
+ 
+ 	/* need physical address of table to give to PMFW */
+ 	clk_mgr->wm_range_table = dm_helpers_allocate_gpu_mem(clk_mgr->base.ctx,
+ 			DC_MEM_ALLOC_TYPE_GART, sizeof(WatermarksExternal_t),
+ 			&clk_mgr->wm_range_table_addr);
++	if (!clk_mgr->wm_range_table) {
++		kfree(clk_mgr->base.bw_params);
++		return -ENOMEM;
++	}
++
++	return 0;
+ }
+ 
+ void dcn32_clk_mgr_destroy(struct clk_mgr_internal *clk_mgr)
 -- 
 2.25.1
 
