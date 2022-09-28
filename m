@@ -1,78 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9E85ED64D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 09:37:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5675ED659
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 09:38:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9704310E26B;
-	Wed, 28 Sep 2022 07:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59A7F10E2F4;
+	Wed, 28 Sep 2022 07:38:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE21010E2F4;
- Wed, 28 Sep 2022 07:37:28 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S5tXa8017510;
- Wed, 28 Sep 2022 07:37:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=bQwSbPWV9aAjDmT4q4/mNCIIU53Tgr6fPJA432P0lyw=;
- b=OEhgxZYQx9YO+fnXyZAWMPl2Ig0ip4bcHULQ9iplT6hsEXN6Ab1KHdg2r3Adgr+2xHqL
- OFKbT/WzmnP/dcZ5hD9EbK0RYS3ImRaeXZ7XjTjwoGd23XcE/fs22Kto5LBM79LqUKcE
- vDWFR3clmj6Gv2SyPJeK1vuMs6cuvkMDPlk/KludvvMrliz0RbTutBBtpinXzLjaUD6j
- TGdJBut8qVZGZ57SsgQrvGr4qRxt6dr1VsNp3sSx73DCMMFl+XKtvQrp5s6NliGeVRtw
- zW2yNif1cSGGo3EEO4fjripduQO2NI8e7PS2csG/FOkpNTEFnS8Y8BNPUTt8DKMh9s3b jA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jvbf0gtfm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 07:37:23 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28S7bM0L015786
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 07:37:22 GMT
-Received: from [10.204.67.102] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 28 Sep
- 2022 00:37:17 -0700
-Message-ID: <e4794dcb-8450-a1b5-244d-abff800d60f1@quicinc.com>
-Date: Wed, 28 Sep 2022 13:07:14 +0530
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9629C10E2F4;
+ Wed, 28 Sep 2022 07:38:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664350723; x=1695886723;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Maej7Z8GxUKVYHmGYNe6hucPlIINxVt/eApeWHEFRok=;
+ b=hRBnVxTCjjgKIQOtcjibtCu5jTTEtRXkB61Y3B6Mudw9pOgpCsU5VTAz
+ ScvakJthBWAWX5uoA9m48Stq4ZGj3nLcz5Xq7OZ7xfwqmZX23rz/PTjfU
+ Ditaxn4W/+KSlL6NI/7ndcRyWoQ63XI+Gegs8p22mPbeBcoP9hZg1u+8Z
+ iaAuZ+p0TRhOJdiRELGV4RVw2+RgKxlKQ1Z/05EhNXN6l9d0xfQW55fN5
+ D/0FoOCXfA6JU8d33ourTt3SNmTRQZ11izw11kxBfl0xNpgDYVhTjWun+
+ H6BjVLwhkhRrOH4txb78CafNRC17Yww9w2za6W00NodBTp6uO3hBwzPVW Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="300251527"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="300251527"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 00:38:43 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="617114281"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="617114281"
+Received: from burkerob-mobl1.ger.corp.intel.com (HELO [10.213.224.108])
+ ([10.213.224.108])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 00:38:40 -0700
+Message-ID: <7e4e626d-4f7f-f802-693f-07ded7673c35@linux.intel.com>
+Date: Wed, 28 Sep 2022 08:38:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v3 3/5] clk: qcom: gdsc: Add a reset op to poll gdsc
- collapse
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [Intel-gfx] [PATCH 04/16] drm/i915/vm_bind: Add support to create
+ persistent vma
 Content-Language: en-US
-To: Bjorn Andersson <andersson@kernel.org>
-References: <1660853919-987-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220819014758.v3.3.I162c4be55f230cd439f0643f1624527bdc8a9831@changeid>
- <20220927172626.cwxpmrqkb7zsuolx@builder.lan>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <20220927172626.cwxpmrqkb7zsuolx@builder.lan>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
+ <20220928061918.6340-5-niranjana.vishwanathapura@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220928061918.6340-5-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: YTqevWIvWo1srfz329B86bAwax0Drikb
-X-Proofpoint-ORIG-GUID: YTqevWIvWo1srfz329B86bAwax0Drikb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-28_02,2022-09-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- mlxscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 adultscore=0 clxscore=1011 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209280045
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,164 +64,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, krzysztof.kozlowski@linaro.org,
- Andy Gross <agross@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: paulo.r.zanoni@intel.com, jani.nikula@intel.com, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/27/2022 10:56 PM, Bjorn Andersson wrote:
-> On Fri, Aug 19, 2022 at 01:48:37AM +0530, Akhil P Oommen wrote:
->> Add a reset op compatible function to poll for gdsc collapse.
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>
->> (no changes since v2)
->>
->> Changes in v2:
->> - Minor update to function prototype
->>
->>   drivers/clk/qcom/gdsc.c | 23 +++++++++++++++++++----
->>   drivers/clk/qcom/gdsc.h |  7 +++++++
->>   2 files changed, 26 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/clk/qcom/gdsc.c b/drivers/clk/qcom/gdsc.c
->> index 44520ef..2d0f1d1 100644
->> --- a/drivers/clk/qcom/gdsc.c
->> +++ b/drivers/clk/qcom/gdsc.c
->> @@ -17,6 +17,7 @@
->>   #include <linux/reset-controller.h>
->>   #include <linux/slab.h>
->>   #include "gdsc.h"
->> +#include "reset.h"
->>   
->>   #define PWR_ON_MASK		BIT(31)
->>   #define EN_REST_WAIT_MASK	GENMASK_ULL(23, 20)
->> @@ -116,7 +117,8 @@ static int gdsc_hwctrl(struct gdsc *sc, bool en)
->>   	return regmap_update_bits(sc->regmap, sc->gdscr, HW_CONTROL_MASK, val);
->>   }
->>   
->> -static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
->> +static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status,
->> +		s64 timeout_us, unsigned int interval_ms)
->>   {
->>   	ktime_t start;
->>   
->> @@ -124,7 +126,9 @@ static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
->>   	do {
->>   		if (gdsc_check_status(sc, status))
->>   			return 0;
->> -	} while (ktime_us_delta(ktime_get(), start) < TIMEOUT_US);
->> +		if (interval_ms)
->> +			msleep(interval_ms);
-> You effectively msleep(5) here, for which you shouldn't use msleep() -
-> or more likely, this only happens in exceptional circumstances, so a
-> longer interval_ms seems reasonable.
-By reducing the overall polling time here, we can reduce any user 
-visible impact like missing frame/janks due to gpu hang/recovery. I kept 
-5ms here because in my local testing on sc7280 device I didn't see any 
-benefit beyond decreasing below 5ms. Msleep() here also helps to quickly 
-schedule other threads which holds pm_runtime refcount on cx_gdsc, which 
-indirectly helps to reduce overall polling time here significantly in my 
-testing.
 
->
->> +	} while (ktime_us_delta(ktime_get(), start) < timeout_us);
->>   
->>   	if (gdsc_check_status(sc, status))
->>   		return 0;
->> @@ -172,7 +176,7 @@ static int gdsc_toggle_logic(struct gdsc *sc, enum gdsc_status status)
->>   		udelay(1);
->>   	}
->>   
->> -	ret = gdsc_poll_status(sc, status);
->> +	ret = gdsc_poll_status(sc, status, TIMEOUT_US, 0);
->>   	WARN(ret, "%s status stuck at 'o%s'", sc->pd.name, status ? "ff" : "n");
->>   
->>   	if (!ret && status == GDSC_OFF && sc->rsupply) {
->> @@ -343,7 +347,7 @@ static int _gdsc_disable(struct gdsc *sc)
->>   		 */
->>   		udelay(1);
->>   
->> -		ret = gdsc_poll_status(sc, GDSC_ON);
->> +		ret = gdsc_poll_status(sc, GDSC_ON, TIMEOUT_US, 0);
->>   		if (ret)
->>   			return ret;
->>   	}
->> @@ -565,3 +569,14 @@ int gdsc_gx_do_nothing_enable(struct generic_pm_domain *domain)
->>   	return 0;
->>   }
->>   EXPORT_SYMBOL_GPL(gdsc_gx_do_nothing_enable);
->> +
->> +int gdsc_wait_for_collapse(void *priv)
->> +{
->> +	struct gdsc *sc = priv;
->> +	int ret;
->> +
->> +	ret = gdsc_poll_status(sc, GDSC_OFF, 500000, 5);
-> So I presume the GPU driver will put() the GDSC and then issue a reset,
-> which will wait up to 5 seconds for the GDSC to be turned off.
-Not exactly. GPU driver will put() its GDSC vote and will wait for 500ms 
-to allow other clients to drop their vote and the cx_gdsc to finally 
-collapse at hw. There is no hw interface to 'reset' entire GPU 
-subsystem. We have to pull the plug on gdsc to reset it.
->
-> So essentially, this logic is needed because we don't wait for VOTABLE
-> GDSCs to be turned off? And we have no way to do the put-with-wait for
-> this specific case.
->
-> I would like the commit message to capture this reasoning.
-Agree. Will post a new patchset once we have consensus on the rest of 
-the things here.
+On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
+> Add i915_vma_instance_persistent() to create persistent vmas.
+> Persistent vmas will use i915_gtt_view to support partial binding.
+> 
+> vma_lookup is tied to segment of the object instead of section
+> of VA space. Hence, it do not support aliasing. ie., multiple
+> mappings (at different VA) point to the same gtt_view of object.
+> Skip vma_lookup for persistent vmas to support aliasing.
+> 
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_vma.c       | 39 ++++++++++++++++++++++++---
+>   drivers/gpu/drm/i915/i915_vma.h       | 16 +++++++++--
+>   drivers/gpu/drm/i915/i915_vma_types.h |  7 +++++
+>   3 files changed, 57 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index f17c09ead7d7..5839e1f55f00 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -109,7 +109,8 @@ static void __i915_vma_retire(struct i915_active *ref)
+>   static struct i915_vma *
+>   vma_create(struct drm_i915_gem_object *obj,
+>   	   struct i915_address_space *vm,
+> -	   const struct i915_gtt_view *view)
+> +	   const struct i915_gtt_view *view,
+> +	   bool skip_lookup_cache)
+>   {
+>   	struct i915_vma *pos = ERR_PTR(-E2BIG);
+>   	struct i915_vma *vma;
+> @@ -196,6 +197,9 @@ vma_create(struct drm_i915_gem_object *obj,
+>   		__set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(vma));
+>   	}
+>   
+> +	if (skip_lookup_cache)
+> +		goto skip_rb_insert;
+> +
+>   	rb = NULL;
+>   	p = &obj->vma.tree.rb_node;
+>   	while (*p) {
+> @@ -220,6 +224,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>   	rb_link_node(&vma->obj_node, rb, p);
+>   	rb_insert_color(&vma->obj_node, &obj->vma.tree);
+>   
+> +skip_rb_insert:
+>   	if (i915_vma_is_ggtt(vma))
+>   		/*
+>   		 * We put the GGTT vma at the start of the vma-list, followed
+> @@ -299,7 +304,34 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
+>   
+>   	/* vma_create() will resolve the race if another creates the vma */
+>   	if (unlikely(!vma))
+> -		vma = vma_create(obj, vm, view);
+> +		vma = vma_create(obj, vm, view, false);
+> +
+> +	GEM_BUG_ON(!IS_ERR(vma) && i915_vma_compare(vma, vm, view));
+> +	return vma;
+> +}
+> +
+> +/**
+> + * i915_vma_create_persistent - create a persistent VMA
+> + * @obj: parent &struct drm_i915_gem_object to be mapped
+> + * @vm: address space in which the mapping is located
+> + * @view: additional mapping requirements
+> + *
+> + * Creates a persistent vma.
+> + *
+> + * Returns the vma, or an error pointer.
+> + */
+> +struct i915_vma *
+> +i915_vma_create_persistent(struct drm_i915_gem_object *obj,
+> +			   struct i915_address_space *vm,
+> +			   const struct i915_gtt_view *view)
+> +{
+> +	struct i915_vma *vma;
+> +
+> +	GEM_BUG_ON(!kref_read(&vm->ref));
+> +
+> +	vma = vma_create(obj, vm, view, true);
+> +	if (!IS_ERR(vma))
+> +		i915_vma_set_persistent(vma);
+>   
+>   	GEM_BUG_ON(!IS_ERR(vma) && i915_vma_compare(vma, vm, view));
+>   	return vma;
+> @@ -1666,7 +1698,8 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
+>   
+>   	spin_lock(&obj->vma.lock);
+>   	list_del(&vma->obj_link);
+> -	if (!RB_EMPTY_NODE(&vma->obj_node))
+> +	if (!i915_vma_is_persistent(vma) &&
 
--Akhil.
->
-> Thanks,
-> Bjorn
->
->> +	WARN(ret, "%s status stuck at 'on'", sc->pd.name);
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(gdsc_wait_for_collapse);
->> diff --git a/drivers/clk/qcom/gdsc.h b/drivers/clk/qcom/gdsc.h
->> index ad313d7..d484bdb 100644
->> --- a/drivers/clk/qcom/gdsc.h
->> +++ b/drivers/clk/qcom/gdsc.h
->> @@ -12,6 +12,7 @@
->>   struct regmap;
->>   struct regulator;
->>   struct reset_controller_dev;
->> +struct qcom_reset_map;
->>   
->>   /**
->>    * struct gdsc - Globally Distributed Switch Controller
->> @@ -79,6 +80,7 @@ int gdsc_register(struct gdsc_desc *desc, struct reset_controller_dev *,
->>   		  struct regmap *);
->>   void gdsc_unregister(struct gdsc_desc *desc);
->>   int gdsc_gx_do_nothing_enable(struct generic_pm_domain *domain);
->> +int gdsc_wait_for_collapse(void *priv);
->>   #else
->>   static inline int gdsc_register(struct gdsc_desc *desc,
->>   				struct reset_controller_dev *rcdev,
->> @@ -88,5 +90,10 @@ static inline int gdsc_register(struct gdsc_desc *desc,
->>   }
->>   
->>   static inline void gdsc_unregister(struct gdsc_desc *desc) {};
->> +
->> +static int gdsc_wait_for_collapse(void *priv)
->> +{
->> +	return  -ENOSYS;
->> +}
->>   #endif /* CONFIG_QCOM_GDSC */
->>   #endif /* __QCOM_GDSC_H__ */
->> -- 
->> 2.7.4
->>
+Thinking out loud - maybe you don't need the extra condition? But it is 
+good for self-documenting purposes in any case.
 
+> +	    !RB_EMPTY_NODE(&vma->obj_node))
+>   		rb_erase(&vma->obj_node, &obj->vma.tree);
+>   
+>   	spin_unlock(&obj->vma.lock);
+> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> index aecd9c64486b..51e712de380a 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.h
+> +++ b/drivers/gpu/drm/i915/i915_vma.h
+> @@ -44,6 +44,10 @@ struct i915_vma *
+>   i915_vma_instance(struct drm_i915_gem_object *obj,
+>   		  struct i915_address_space *vm,
+>   		  const struct i915_gtt_view *view);
+> +struct i915_vma *
+> +i915_vma_create_persistent(struct drm_i915_gem_object *obj,
+> +			   struct i915_address_space *vm,
+> +			   const struct i915_gtt_view *view);
+>   
+>   void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+>   #define I915_VMA_RELEASE_MAP BIT(0)
+> @@ -138,6 +142,16 @@ static inline u32 i915_ggtt_pin_bias(struct i915_vma *vma)
+>   	return i915_vm_to_ggtt(vma->vm)->pin_bias;
+>   }
+>   
+> +static inline bool i915_vma_is_persistent(const struct i915_vma *vma)
+> +{
+> +	return test_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+> +}
+> +
+> +static inline void i915_vma_set_persistent(struct i915_vma *vma)
+> +{
+> +	set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+> +}
+> +
+>   static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
+>   {
+>   	i915_gem_object_get(vma->obj);
+> @@ -164,8 +178,6 @@ i915_vma_compare(struct i915_vma *vma,
+>   {
+>   	ptrdiff_t cmp;
+>   
+> -	GEM_BUG_ON(view && !i915_is_ggtt_or_dpt(vm));
+Or explicitly add persistent?
+
+Regards,
+
+Tvrtko
+
+> -
+>   	cmp = ptrdiff(vma->vm, vm);
+>   	if (cmp)
+>   		return cmp;
+> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+> index ec0f6c9f57d0..2200f1f103ba 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+> @@ -264,6 +264,13 @@ struct i915_vma {
+>   #define I915_VMA_SCANOUT_BIT	17
+>   #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
+>   
+> +/**
+> + * I915_VMA_PERSISTENT_BIT:
+> + * The vma is persistent (created with VM_BIND call).
+> + */
+> +#define I915_VMA_PERSISTENT_BIT	19
+> +#define I915_VMA_PERSISTENT	((int)BIT(I915_VMA_PERSISTENT_BIT))
+> +
+>   	struct i915_active active;
+>   
+>   #define I915_VMA_PAGES_BIAS 24
