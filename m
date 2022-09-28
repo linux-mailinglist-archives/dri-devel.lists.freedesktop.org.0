@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71CA5EE999
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:48:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7805EE9A5
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D75F010E5C4;
-	Wed, 28 Sep 2022 22:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 219E510E782;
+	Wed, 28 Sep 2022 22:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB3710E768
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31C810E768
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:43 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE3B66BE;
- Thu, 29 Sep 2022 00:47:40 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47D9B47C;
+ Thu, 29 Sep 2022 00:47:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405261;
- bh=BW38xSA/D8NP5x89m04bdFxh60/NCse0T+kCKOwtupE=;
+ s=mail; t=1664405262;
+ bh=f71FEL/k5889BNTwyc/uRc8X1PTZcbn4xmmyMkAeR0A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nsdizKnKICiCzyze+vQa2gSOt/S67BGbA9JvvZRFmk55MEmYb+ZgQfIyQ4Unk8enA
- J4OuzhU9D+eMMGEF98YGcHYVkB/d5hqxALRLnXnj5qbAtIiF4C9Qdh0TJfV+GkZ2wd
- oFEq90/J7yeOuBXH7+jhZz9FotHDTVbOO4C3170A=
+ b=Nlnm/RutfZdMC46AMviTH1PprJ/kz680A6y8W+ITtMXPoWGO78HMvNOgYH9t9PLEo
+ 3l2mYNNQhRhGYb3EfDyqakRs2V6Ww/U/KIa08wUusOChwgReo7CkOUgRaTKIJ7Pk6l
+ NXYcGz8J8yaCsDL2kLMyC56kddO5j2ieOsMjkZ3Q=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 11/37] drm: xlnx: zynqmp_dpsub: Drop unused
- zynqmp_disp.event field
-Date: Thu, 29 Sep 2022 01:46:53 +0300
-Message-Id: <20220928224719.3291-12-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 12/37] drm: xlnx: zynqmp_dpsub: Drop unused
+ zynqmp_disp_format.bus_fmt field
+Date: Thu, 29 Sep 2022 01:46:54 +0300
+Message-Id: <20220928224719.3291-13-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,33 +52,32 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The event field of the zynqmp_disp structure is unused. Drop it.
+The bus_fmt field of the zynqmp_disp_format structure is unused. Drop
+it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index cc32aa89cf8f..31b52f01c32d 100644
+index 31b52f01c32d..eae28a3c6d45 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -172,7 +172,6 @@ struct zynqmp_disp_layer {
-  * @audio.clk: Audio clock
-  * @audio.clk_from_ps: True of the audio clock comes from PS, false from PL
-  * @layers: Layers (planes)
-- * @event: Pending vblank event request
-  * @pclk: Pixel clock
-  * @pclk_from_ps: True of the video clock comes from PS, false from PL
+@@ -80,14 +80,12 @@
+  * struct zynqmp_disp_format - Display subsystem format information
+  * @drm_fmt: DRM format (4CC)
+  * @buf_fmt: AV buffer format
+- * @bus_fmt: Media bus formats (live formats)
+  * @swap: Flag to swap R & B for RGB formats, and U & V for YUV formats
+  * @sf: Scaling factors for color components
   */
-@@ -197,8 +196,6 @@ struct zynqmp_disp {
- 
- 	struct zynqmp_disp_layer layers[ZYNQMP_DISP_NUM_LAYERS];
- 
--	struct drm_pending_vblank_event *event;
--
- 	struct clk *pclk;
- 	bool pclk_from_ps;
+ struct zynqmp_disp_format {
+ 	u32 drm_fmt;
+ 	u32 buf_fmt;
+-	u32 bus_fmt;
+ 	bool swap;
+ 	const u32 *sf;
  };
 -- 
 Regards,
