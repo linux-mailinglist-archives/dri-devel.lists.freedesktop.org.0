@@ -2,53 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D308C5ED23E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 02:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E935ED24D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 02:58:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C64610E1F3;
-	Wed, 28 Sep 2022 00:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD4BF10E0BD;
+	Wed, 28 Sep 2022 00:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E6DA10E1F3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 00:51:29 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 5060A84DC0;
- Wed, 28 Sep 2022 02:51:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1664326287;
- bh=CVtXU+vgVto1AZ18kN7l0V2qDSeiWJyc3UF4k6AUBUk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QnelRwl7erF5yCjw4QV/OVbMkRYCPNmsewpPdXH9ve/9RvNQ7kxpDjU/BmyNpWXbU
- QReXxH7TDVT+wfhO/kNAnOZ7rE7bsh9u6XlcifWNH/hSJSwT6camsoRiJzbWvjohF0
- 8ULCHdAeI2hACIu4Prvk9SuLccS4JQOqSM7F+qsOOmOpsPwBpdvzmcWwvXdJOchjel
- Tb6qLVr5VXFlebSO5QNWuOOLR3hnOdIICl6yQ+ZubPxswNmL5NgmzfS0rupt5kKJ0q
- LheLi1VPb88+nSfVP7gInJ8HNP4GGpyRFUBxrETnbWcpO/i/rpVHpByS5Am0zMw+m+
- Od5DzHz0E21Hw==
-Message-ID: <eeede1ee-1a85-a830-038f-f63168936ff0@denx.de>
-Date: Wed, 28 Sep 2022 02:51:26 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10AFA10E0BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 00:58:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4AD5047C;
+ Wed, 28 Sep 2022 02:58:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1664326694;
+ bh=fvPuQ/Y+US5xtb7ESyB03XslFbcNDWdjL91Qb/QFKK8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=J7U9OO81gZt6Oe25orEMZMdKUVn1xghI9Ar4QiF1lU7+nkb+g1vPJfTdZRsm3l0Kl
+ DUXoYiKqLzlA0xgCK+m64LsiXu5F39cVF8FHL57nkYK6F4WYxMQWcXyBi0xZF8jkBa
+ 5nv0C0wOsGJW6HtR1cWNcCYmb3438IQHZhSzRNWs=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/4] drm: lcdif: Improve YUV support
+Date: Wed, 28 Sep 2022 03:58:08 +0300
+Message-Id: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 3/4] drm: lcdif: Switch to limited range for RGB to YUV
- conversion
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220927233821.8007-1-laurent.pinchart@ideasonboard.com>
- <20220927233821.8007-4-laurent.pinchart@ideasonboard.com>
- <303e8be8-41a6-e63f-f2f5-6fc3271886ed@denx.de>
- <YzOTj+QgYnn8RU84@pendragon.ideasonboard.com>
- <d89388e9-a7bf-3540-dcc9-c4ba9efe2044@denx.de>
- <YzOYDM94ENK8Dt4w@pendragon.ideasonboard.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <YzOYDM94ENK8Dt4w@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +44,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>,
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
  Alexander Stein <alexander.stein@ew.tq-group.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Daniel Scally <dan.scally@ideasonboard.com>, dri-devel@lists.freedesktop.org,
- Robby Cai <robby.cai@nxp.com>
+ Daniel Scally <dan.scally@ideasonboard.com>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/28/22 02:40, Laurent Pinchart wrote:
-> On Wed, Sep 28, 2022 at 02:37:04AM +0200, Marek Vasut wrote:
->> On 9/28/22 02:21, Laurent Pinchart wrote:
->>
->> Hi,
->>
->> [...]
->>
->>>>> -		/* CSC: BT.601 Full Range RGB to YCbCr coefficients. */
->>>>> -		writel(CSC0_COEF0_A2(0x096) | CSC0_COEF0_A1(0x04c),
->>>>> +		/* CSC: BT.601 Limited Range RGB to YCbCr coefficients. */
->>>>> +		writel(CSC0_COEF0_A2(0x081) | CSC0_COEF0_A1(0x042),
->>>>>     		       lcdif->base + LCDC_V8_CSC0_COEF0);
->>>>> -		writel(CSC0_COEF1_B1(0x7d5) | CSC0_COEF1_A3(0x01d),
->>>>> +		writel(CSC0_COEF1_B1(0x7da) | CSC0_COEF1_A3(0x019),
->>>>>     		       lcdif->base + LCDC_V8_CSC0_COEF1);
->>>>> -		writel(CSC0_COEF2_B3(0x080) | CSC0_COEF2_B2(0x7ac),
->>>>> +		writel(CSC0_COEF2_B3(0x070) | CSC0_COEF2_B2(0x7b6),
->>>>>     		       lcdif->base + LCDC_V8_CSC0_COEF2);
->>>>> -		writel(CSC0_COEF3_C2(0x795) | CSC0_COEF3_C1(0x080),
->>>>> +		writel(CSC0_COEF3_C2(0x7a2) | CSC0_COEF3_C1(0x070),
->>>>>     		       lcdif->base + LCDC_V8_CSC0_COEF3);
->>>>> -		writel(CSC0_COEF4_D1(0x000) | CSC0_COEF4_C3(0x7ec),
->>>>> +		writel(CSC0_COEF4_D1(0x010) | CSC0_COEF4_C3(0x7ee),
->>>>>     		       lcdif->base + LCDC_V8_CSC0_COEF4);
->>>>>     		writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
->>>>>     		       lcdif->base + LCDC_V8_CSC0_COEF5);
->>>>
->>>> Would it make sense to use the same coeffs as csc2_coef_bt601_lim in
->>>> drivers/media/platform/nxp/imx-pxp.c , since the block is most likely
->>>> identical ?
->>>
->>> The coefficients in this patch have been computed to distribute the
->>> error in such a way that the sum of all lines stays the same. This
->>> avoids biases and overflow, but it likely makes very little difference
->>> in practice. I'm thus fine with the coefficients from imx-pxp.c.
->>
->> Would it then make sense to update the coeffs in the pxp driver instead?
->>
->> Either option works for me.
-> 
-> It could, but I won't be able to easily test it. As the hardware clamps
-> the calculated value, there's no risk of wraparound, and the difference
-> in the +/-1 error distribution will not be noticeable, so I'll just copy
-> the coefficients from imx-pxp.c to ensure coherency.
+Hello,
 
-That works too, thanks !
+This small patch series improves YUV support in the i.MX8MP LCDIF
+driver. After patches 1/4 and 2/4 that fix tiny cosmetic issues, patch
+3/4 fixes YUV quantization range for the RGB to YUV conversion. Patch
+4/4 addresses the other direction and adds support for YUV planes.
+
+Please see individual patches for details.
+
+The series has been tested on a Polyhex Debix board with the currently
+out-of-tree HDMI encoder support patches developed by Lucas Stach.
+
+Kieran Bingham (1):
+  drm: lcdif: Add support for YUV planes
+
+Laurent Pinchart (3):
+  drm: lcdif: Fix indentation in lcdif_regs.h
+  drm: lcdif: Don't use BIT() for multi-bit register fields
+  drm: lcdif: Switch to limited range for RGB to YUV conversion
+
+ drivers/gpu/drm/mxsfb/lcdif_kms.c  | 183 +++++++++++++++++++++++++----
+ drivers/gpu/drm/mxsfb/lcdif_regs.h |  37 +++---
+ 2 files changed, 180 insertions(+), 40 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
+
