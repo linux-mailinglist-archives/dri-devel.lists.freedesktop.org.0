@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9E15EE99E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:48:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF625EE991
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C18E710E758;
-	Wed, 28 Sep 2022 22:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E87710E139;
+	Wed, 28 Sep 2022 22:47:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBD810E130
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B773210E502
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83D636BE;
- Thu, 29 Sep 2022 00:47:37 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16E5147C;
+ Thu, 29 Sep 2022 00:47:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405257;
- bh=x1QrdkLJoZkg7F6HVYqgCYvoKjRmJg0EZCR7FSKmAxQ=;
+ s=mail; t=1664405259;
+ bh=xIvZ8XZu5IL62kFqUQ1SiKDDlDA6y1XQvCPGi0jvhSM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JUi7vdVH91+xotLCc/f53qQ+FKbNp3XYLK5x5TNpX20QFkgVBiLyXZiT6UJL0pugI
- 5dSf5wokL5Twb9DRUlNGaCzSBN5RMS464Ifw4H+gFEONWXo9P/05RqOSE1Nh4E/1Nw
- 4jgEO5W/YM+4F/nKeobAWRKWYKTvxMB+PoTfI6fg=
+ b=WybRZeFmD5pGRiH2z9RJywjeywn/shGV1k03butrO4FiCesFeAC2yly2B/7uexB4o
+ 4f4cDi5oo6YQnQMNBUVC0W84Lhu41WFbQKTog2lc8WGnAbFPN3seB8qD4PJsn1Sv7o
+ 99vxarXR8DQ7QAWM+TlQtcZLVwd5cFlbZ3+ZIptE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 09/37] drm: xlnx: zynqmp_dpsub: Use DRM connector bridge
- helper
-Date: Thu, 29 Sep 2022 01:46:51 +0300
-Message-Id: <20220928224719.3291-10-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 10/37] drm: xlnx: zynqmp_dpsub: Report HPD through the
+ bridge
+Date: Thu, 29 Sep 2022 01:46:52 +0300
+Message-Id: <20220928224719.3291-11-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,210 +52,45 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the manual connector implementation and registration in the DP
-encoder with the DRM connector bridge helper. This removes boilerplate
-code and simplifies the driver.
+Now that the driver uses the connector bridge helper, HPD can be
+reported directly for the connector through the drm_bridge_hpd_notify()
+function.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c    | 90 +----------------------------
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 20 ++++++-
- 2 files changed, 20 insertions(+), 90 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 0aa810ebdeca..a18cb979be52 100644
+index a18cb979be52..33fd69ed7550 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -11,7 +11,6 @@
+@@ -17,7 +17,6 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_modes.h>
+ #include <drm/drm_of.h>
+-#include <drm/drm_probe_helper.h>
  
- #include <drm/display/drm_dp_helper.h>
- #include <drm/drm_atomic_helper.h>
--#include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_edid.h>
-@@ -275,7 +274,6 @@ struct zynqmp_dp_config {
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+@@ -1534,12 +1533,12 @@ void zynqmp_dp_disable_vblank(struct zynqmp_dp *dp)
  
- /**
-  * struct zynqmp_dp - Xilinx DisplayPort core
-- * @connector: the drm connector structure
-  * @dev: device structure
-  * @dpsub: Display subsystem
-  * @drm: DRM core
-@@ -297,7 +295,6 @@ struct zynqmp_dp_config {
-  * @train_set: set of training data
-  */
- struct zynqmp_dp {
--	struct drm_connector connector;
- 	struct device *dev;
- 	struct zynqmp_dpsub *dpsub;
- 	struct drm_device *drm;
-@@ -322,11 +319,6 @@ struct zynqmp_dp {
- 	u8 train_set[ZYNQMP_DP_MAX_LANES];
- };
- 
--static inline struct zynqmp_dp *connector_to_dp(struct drm_connector *connector)
--{
--	return container_of(connector, struct zynqmp_dp, connector);
--}
--
- static inline struct zynqmp_dp *bridge_to_dp(struct drm_bridge *bridge)
+ static void zynqmp_dp_hpd_work_func(struct work_struct *work)
  {
- 	return container_of(bridge, struct zynqmp_dp, bridge);
-@@ -1285,33 +1277,15 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
-  * DRM Bridge
-  */
+-	struct zynqmp_dp *dp;
++	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
++					    hpd_work.work);
++	enum drm_connector_status status;
  
--static const struct drm_connector_funcs zynqmp_dp_connector_funcs;
--static const struct drm_connector_helper_funcs zynqmp_dp_connector_helper_funcs;
+-	dp = container_of(work, struct zynqmp_dp, hpd_work.work);
 -
- static int zynqmp_dp_bridge_attach(struct drm_bridge *bridge,
- 				   enum drm_bridge_attach_flags flags)
- {
- 	struct zynqmp_dp *dp = bridge_to_dp(bridge);
--	struct drm_connector *connector = &dp->connector;
- 	int ret;
+-	if (dp->drm)
+-		drm_helper_hpd_irq_event(dp->drm);
++	status = zynqmp_dp_bridge_detect(&dp->bridge);
++	drm_bridge_hpd_notify(&dp->bridge, status);
+ }
  
--	/* Create the DRM connector. */
--	connector->polled = DRM_CONNECTOR_POLL_HPD;
--	ret = drm_connector_init(dp->drm, connector,
--				 &zynqmp_dp_connector_funcs,
--				 DRM_MODE_CONNECTOR_DisplayPort);
--	if (ret) {
--		dev_err(dp->dev, "failed to create the DRM connector\n");
--		return ret;
--	}
--
--	drm_connector_helper_add(connector, &zynqmp_dp_connector_helper_funcs);
--	drm_connector_register(connector);
--	drm_connector_attach_encoder(connector, bridge->encoder);
--
- 	if (dp->next_bridge) {
- 		ret = drm_bridge_attach(bridge->encoder, dp->next_bridge,
--					bridge, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+					bridge, flags);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -1532,68 +1506,6 @@ static const struct drm_bridge_funcs zynqmp_dp_bridge_funcs = {
- 	.get_edid = zynqmp_dp_bridge_get_edid,
- };
- 
--/* -----------------------------------------------------------------------------
-- * DRM Connector
-- */
--
--static enum drm_connector_status
--zynqmp_dp_connector_detect(struct drm_connector *connector, bool force)
--{
--	struct zynqmp_dp *dp = connector_to_dp(connector);
--
--	return zynqmp_dp_bridge_detect(&dp->bridge);
--}
--
--static int zynqmp_dp_connector_get_modes(struct drm_connector *connector)
--{
--	struct zynqmp_dp *dp = connector_to_dp(connector);
--	struct edid *edid;
--	int ret;
--
--	edid = zynqmp_dp_bridge_get_edid(&dp->bridge, connector);
--	if (!edid)
--		return 0;
--
--	drm_connector_update_edid_property(connector, edid);
--	ret = drm_add_edid_modes(connector, edid);
--	kfree(edid);
--
--	return ret;
--}
--
--static struct drm_encoder *
--zynqmp_dp_connector_best_encoder(struct drm_connector *connector)
--{
--	struct zynqmp_dp *dp = connector_to_dp(connector);
--
--	return &dp->dpsub->encoder;
--}
--
--static int zynqmp_dp_connector_mode_valid(struct drm_connector *connector,
--					  struct drm_display_mode *mode)
--{
--	struct zynqmp_dp *dp = connector_to_dp(connector);
--
--	return zynqmp_dp_bridge_mode_valid(&dp->bridge, &connector->display_info,
--					   mode);
--}
--
--static const struct drm_connector_funcs zynqmp_dp_connector_funcs = {
--	.detect			= zynqmp_dp_connector_detect,
--	.fill_modes		= drm_helper_probe_single_connector_modes,
--	.destroy		= drm_connector_cleanup,
--	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
--	.reset			= drm_atomic_helper_connector_reset,
--};
--
--static const struct drm_connector_helper_funcs
--zynqmp_dp_connector_helper_funcs = {
--	.get_modes	= zynqmp_dp_connector_get_modes,
--	.best_encoder	= zynqmp_dp_connector_best_encoder,
--	.mode_valid	= zynqmp_dp_connector_mode_valid,
--};
--
- /* -----------------------------------------------------------------------------
-  * Interrupt Handling
-  */
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 35c206397e27..26f2e1a7a46a 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -18,6 +18,8 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
-+#include <drm/drm_connector.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
-@@ -97,6 +99,7 @@ static const struct drm_driver zynqmp_dpsub_drm_driver = {
- static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- {
- 	struct drm_encoder *encoder = &dpsub->encoder;
-+	struct drm_connector *connector;
- 	struct drm_device *drm = &dpsub->drm;
- 	int ret;
- 
-@@ -133,12 +136,27 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 	encoder->possible_crtcs |= zynqmp_disp_get_crtc_mask(dpsub->disp);
- 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
- 
--	ret = drm_bridge_attach(encoder, dpsub->bridge, NULL, 0);
-+	ret = drm_bridge_attach(encoder, dpsub->bridge, NULL,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret) {
- 		dev_err(dpsub->dev, "failed to attach bridge to encoder\n");
- 		goto err_poll_fini;
- 	}
- 
-+	/* Create the connector for the chain of bridges. */
-+	connector = drm_bridge_connector_init(drm, encoder);
-+	if (IS_ERR(connector)) {
-+		dev_err(dpsub->dev, "failed to created connector\n");
-+		ret = PTR_ERR(connector);
-+		goto err_poll_fini;
-+	}
-+
-+	ret = drm_connector_attach_encoder(connector, encoder);
-+	if (ret < 0) {
-+		dev_err(dpsub->dev, "failed to attach connector to encoder\n");
-+		goto err_poll_fini;
-+	}
-+
- 	/* Reset all components and register the DRM device. */
- 	drm_mode_config_reset(drm);
- 
+ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
 -- 
 Regards,
 
