@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824D5EDADA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 13:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6455EDAE0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 13:01:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9403A10E432;
-	Wed, 28 Sep 2022 11:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B500510E42F;
+	Wed, 28 Sep 2022 11:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFFE010E429;
- Wed, 28 Sep 2022 11:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664362832; x=1695898832;
- h=message-id:date:mime-version:subject:to:references:from:
- cc:in-reply-to:content-transfer-encoding;
- bh=0o+/a/BYB2j5JOoxMpXso00xyhvVtuuMqp2gWdqUQ60=;
- b=KgpxNoewDSyBPow7EyISEYNlw2HEsblj/vrnFY1ZH8kA2nxy7ED4GFK+
- hUjZ9NkoSjQIo1eoR5MgcOlLIa0YW//xN2oW9iUrDscfYbjj3JfYE/bSc
- E1I48WbzbUQ1OkxHkJCVfNde/QPmokQWZkSixTjB85qIzLN4ggMWltBo6
- yl4jkJn9OOXufDPLxgdxh1YMICU4Cd2PvEDavopbJIPY5vBgKHWlp33ov
- GDTF66KuMPvE/WEabmVNq1RQy77Wb59XwvifmUx8MNXy4+kSivT0YpGDS
- jycrfd/upJc0QqQAKT07QgK9//Mh8K51RooFEjGUVYG0/AJKHqc6HY686 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="288728479"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="288728479"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 04:00:31 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="950661153"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="950661153"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.22.47])
- ([10.252.22.47])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 04:00:29 -0700
-Message-ID: <48363304-9e05-83b9-0898-9fd2af500c6d@linux.intel.com>
-Date: Wed, 28 Sep 2022 13:00:27 +0200
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E64510E42F
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 11:00:56 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id z6so19242526wrq.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 04:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=Vmh28mTnRu63ezVpuO/VYJZBKc7bNMAcTpkijNYdpyA=;
+ b=eWsdi58eEi2d+xAwZU365etNANXaKeUbz6X79IbCm9H9HsBdqAZugvQDvVLOABzfB0
+ p3zLdfC7XmaOYbVCe9leZRYVvjlL4ArmzkzWiprCKuXkt9XKBVuXWNa4uAdZTyuq40EQ
+ HfSpyxljjlafgudMxvIWMNsAWgOkm/q1fiIPhFmehyHQPsbeEqB6owfjKFJYOAwrPTOf
+ K/iP4Z+9nlvV/3435cCK+JiuiTG/UX1dmN6QJ+l3+IVs8yxtftML/ncExEdmBpgZJlFO
+ URJslWFayRQYLbYPjYUaGWde4zDVq45Rfppg2OCn6ATDWXhUJiQF1iJlmcyQgy1BPsDl
+ lZAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=Vmh28mTnRu63ezVpuO/VYJZBKc7bNMAcTpkijNYdpyA=;
+ b=yySN8TvbqxATLn+W/6zLkiYq5MmbtZnI2dcfmpysxDyHoNqnwWKWqlXpPvs9AOhClR
+ Dk9nHhwi3zP2ooSJQMWPwmzp11mIobI0M2DSZWqU4vhucN/RklKNl7tG+e/Vj5WJQHwT
+ UWGrqLfhwfI6F4BSwwuCZSNwil1AvCO3Djifd6Zf+RsZKyjrDDEpNdDn28Ab41/yzuru
+ qzdNERbweTyoOFfuiVnkCNDPO34yXDRmp+5KoJJmfFmAmmxb1/lG0UEs6Mdwe550a0Bx
+ 2f3u9kejRDA0IVCadHb+Njgz346oB7G1aTqewx+AKItiPSNpRzYI0/SpV+Q8wiADvgFi
+ neig==
+X-Gm-Message-State: ACrzQf3tJA+Ia/36HlxvdTlIMwkpaKruUt2dTtUIADVPQvy0kn1BCGMh
+ fJz1yGsXZTP6PuaMQl7tNzuv1w==
+X-Google-Smtp-Source: AMsMyM6CwwVXxXr1iKOfbH0C0zBuHDeMEcKc5KNkjaOdpkrjKkMaH6ADg7D9oJX5c11no20O0U5aLA==
+X-Received: by 2002:a5d:6808:0:b0:22a:c437:5b36 with SMTP id
+ w8-20020a5d6808000000b0022ac4375b36mr20216420wru.459.1664362854849; 
+ Wed, 28 Sep 2022 04:00:54 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ x4-20020adfdcc4000000b0022b11a27e39sm4035884wrm.1.2022.09.28.04.00.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Sep 2022 04:00:54 -0700 (PDT)
+Date: Wed, 28 Sep 2022 12:00:51 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [RFC/PATCH] backlight: hx8357: prepare to conversion to gpiod API
+Message-ID: <YzQpY2Llwsh/V4xV@maple.lan>
+References: <YzN6A9Y20Ea1LdEz@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 1/2] drm/i915: enable PS64 support for DG2
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-References: <20220927153923.97649-1-matthew.auld@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220927153923.97649-1-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzN6A9Y20Ea1LdEz@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,613 +69,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Jingoo Han <jingoohan1@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 27, 2022 at 03:32:35PM -0700, Dmitry Torokhov wrote:
+> Properties describing GPIOs should be named as "<property>-gpios" or
+> "<property>-gpio", and that is what gpiod API expects, however the
+> driver uses non-standard "gpios-reset" name. Let's adjust this, and also
+> note that the reset line is active low as that is also important to
+> gpiod API.
 
-On 9/27/2022 5:39 PM, Matthew Auld wrote:
-> It turns out that on production DG2/ATS HW we should have support for
-> PS64. This feature allows to provide a 64K TLB hint at the PTE level,
-> which is a lot more flexible than the current method of enabling 64K GTT
-> pages for the entire page-table, since that leads to all kinds of
-> annoying restrictions, as documented in:
->
-> commit caa574ffc4aaf4f29b890223878c63e2e7772f62
-> Author: Matthew Auld <matthew.auld@intel.com>
-> Date:   Sat Feb 19 00:17:49 2022 +0530
->
->      drm/i915/uapi: document behaviour for DG2 64K support
->
->      On discrete platforms like DG2, we need to support a minimum page size
->      of 64K when dealing with device local-memory. This is quite tricky for
->      various reasons, so try to document the new implicit uapi for this.
->
-> With PS64, we can now drop the 2M GTT alignment restriction, and instead
-> only require 64K or larger when dealing with lmem. We still use the
-> compact-pt layout when possible, but only when we are certain that this
-> doesn't interfere with userspace.
->
-> Note that this is a change in uAPI behaviour, but hopefully shouldn't be
-> a concern (IGT is at least able to autodetect the alignment), since we
-> are only making the GTT alignment constraint less restrictive.
->
-> Based on a patch from CQ Tang.
->
-> v2: update the comment wrt scratch page
->
-> Reported-by: Michal Mrozek <michal.mrozek@intel.com>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Stuart Summers <stuart.summers@intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Yang A Shi <yang.a.shi@intel.com>
-> Cc: Nirmoy Das <nirmoy.das@intel.com>
+No objections to the goal but...
+
+
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
->   .../gpu/drm/i915/gem/selftests/huge_pages.c   | 159 +++++++++++++++++-
->   drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  81 +++++----
->   drivers/gpu/drm/i915/gt/intel_gtt.c           |  21 +--
->   drivers/gpu/drm/i915/gt/intel_gtt.h           |   1 +
->   drivers/gpu/drm/i915/i915_drv.h               |   7 -
->   drivers/gpu/drm/i915/i915_pci.c               |   2 -
->   drivers/gpu/drm/i915/i915_vma.c               |   9 +-
->   drivers/gpu/drm/i915/intel_device_info.h      |   1 -
->   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   9 +-
->   include/uapi/drm/i915_drm.h                   |  36 ++--
->   10 files changed, 220 insertions(+), 106 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> index c570cf780079..cc26c1293208 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -1161,7 +1161,8 @@ static int igt_write_huge(struct drm_i915_private *i915,
->   	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
->   
->   	size = obj->base.size;
-> -	if (obj->mm.page_sizes.sg & I915_GTT_PAGE_SIZE_64K)
-> +	if (obj->mm.page_sizes.sg & I915_GTT_PAGE_SIZE_64K &&
-> +	    !HAS_64K_PAGES(i915))
->   		size = round_up(size, I915_GTT_PAGE_SIZE_2M);
->   
->   	n = 0;
-> @@ -1214,6 +1215,10 @@ static int igt_write_huge(struct drm_i915_private *i915,
->   		 * size and ensure the vma offset is at the start of the pt
->   		 * boundary, however to improve coverage we opt for testing both
->   		 * aligned and unaligned offsets.
-> +		 *
-> +		 * With PS64 this is no longer the case, but to ensure we
-> +		 * sometimes get the compact layout for smaller objects, apply
-> +		 * the round_up anyway.
->   		 */
->   		if (obj->mm.page_sizes.sg & I915_GTT_PAGE_SIZE_64K)
->   			offset_low = round_down(offset_low,
-> @@ -1411,6 +1416,7 @@ static int igt_ppgtt_sanity_check(void *arg)
->   		{ SZ_2M + SZ_4K,	SZ_64K | SZ_4K	},
->   		{ SZ_2M + SZ_4K,	SZ_2M  | SZ_4K	},
->   		{ SZ_2M + SZ_64K,	SZ_2M  | SZ_64K },
-> +		{ SZ_2M + SZ_64K,	SZ_64K		},
->   	};
->   	int i, j;
->   	int err;
-> @@ -1540,6 +1546,156 @@ static int igt_ppgtt_compact(void *arg)
->   	return err;
->   }
->   
-> +static int igt_ppgtt_mixed(void *arg)
-> +{
-> +	struct drm_i915_private *i915 = arg;
-> +	const unsigned long flags = PIN_OFFSET_FIXED | PIN_USER;
-> +	struct drm_i915_gem_object *obj, *on;
-> +	struct i915_gem_engines *engines;
-> +	struct i915_gem_engines_iter it;
-> +	struct i915_address_space *vm;
-> +	struct i915_gem_context *ctx;
-> +	struct intel_context *ce;
-> +	struct file *file;
-> +	I915_RND_STATE(prng);
-> +	LIST_HEAD(objects);
-> +	struct intel_memory_region *mr;
-> +	struct i915_vma *vma;
-> +	unsigned int count;
-> +	u32 i, rem, addr;
-> +	int *order;
-> +	int n, err;
-> +
-> +	/*
-> +	 * Sanity check mixing 4K and 64K pages within the same page-table via
-> +	 * the new PS64 TLB hint.
-> +	 */
-> +
-> +	if (!HAS_64K_PAGES(i915)) {
-> +		pr_info("device lacks PS64, skipping\n");
-> +		return 0;
-> +	}
-> +
-> +	file = mock_file(i915);
-> +	if (IS_ERR(file))
-> +		return PTR_ERR(file);
-> +
-> +	ctx = hugepage_ctx(i915, file);
-> +	if (IS_ERR(ctx)) {
-> +		err = PTR_ERR(ctx);
-> +		goto out;
-> +	}
-> +	vm = i915_gem_context_get_eb_vm(ctx);
-> +
-> +	i = 0;
-> +	rem = SZ_8M;
-> +	addr = 0;
-> +	do {
-> +		u32 sz;
-> +
-> +		sz = i915_prandom_u32_max_state(min_t(u32, rem, SZ_4M), &prng);
-> +		sz = min_t(u32, rem, SZ_4K);
+> Another option is to add another quirk into gpiolib-of.c, but we
+> may end up with a ton of them once we convert everything away from
+> of_get_named_gpio() to gpiod API, so I'd prefer not doing that.
 
-sz is not using the random size generated  previously.
+... it is unusual to permit backwards incompatible changes to the DT
+bindings[1]: creating "flag days" where hardware stops functioning if
+you boot an new kernel with an old DT is a known annoyance to users.
+
+I usually favour quirks tables or similar[2] rather than break legacy
+DTs. Very occasionally I accept (believable) arguments that no legacy
+DTs actually exist but that can very difficult to verify.
+
+Overall I'd like to solicit views from both GPIO and DT maintainers
+before rejecting quirks tables as a way to help smooth these sort of
+changes (or links to ML archives if this has already been discussed).
+
+[1] For this particular driver the situation is muddied slightly
+    because it looks like complex since it looks the bindings for
+    himax,hx8357 and himax,hx8369 are undocumented (and badly named).
+
+[2] When the property is not parsed by library code mostly we handle
+    legacy by consuming both new or old names in the parser code.
 
 
-> +
-> +		mr = i915->mm.regions[INTEL_REGION_LMEM_0];
-> +		if (i & 1)
-> +			mr = i915->mm.regions[INTEL_REGION_SMEM];
-> +
-> +		obj = i915_gem_object_create_region(mr, sz, 0, 0);
-> +		if (IS_ERR(obj)) {
-> +			err = PTR_ERR(obj);
-> +			goto out_vm;
-> +		}
-> +
-> +		list_add_tail(&obj->st_link, &objects);
-> +
-> +		vma = i915_vma_instance(obj, vm, NULL);
-> +		if (IS_ERR(vma)) {
-> +			err = PTR_ERR(vma);
-> +			goto err_put;
-> +		}
-> +
-> +		addr = round_up(addr, mr->min_page_size);
-> +		err = i915_vma_pin(vma, 0, 0, addr | flags);
-> +		if (err)
-> +			goto err_put;
-> +
-> +		if (mr->type == INTEL_MEMORY_LOCAL &&
-> +		    (vma->resource->page_sizes_gtt & I915_GTT_PAGE_SIZE_4K)) {
-> +			err = -EINVAL;
-> +			goto err_put;
-> +		}
-> +
-> +		addr += obj->base.size;
-> +		rem -= sz;
-> +		i++;
-> +	} while (rem);
-> +
-> +	n = 0;
-> +	count = 0;
-> +	for_each_gem_engine(ce, i915_gem_context_lock_engines(ctx), it) {
-> +		count++;
-> +		if (!intel_engine_can_store_dword(ce->engine))
-> +			continue;
-> +
-> +		n++;
-> +	}
-> +	i915_gem_context_unlock_engines(ctx);
-> +	if (!n)
-> +		goto err_put;
-> +
-> +	order = i915_random_order(count * count, &prng);
-> +	if (!order) {
-> +		err = -ENOMEM;
-> +		goto err_put;
-> +	}
-> +
-> +	i = 0;
-> +	addr = 0;
-> +	engines = i915_gem_context_lock_engines(ctx);
-> +	list_for_each_entry(obj, &objects, st_link) {
-> +		u32 rnd = i915_prandom_u32_max_state(UINT_MAX, &prng);
-> +
-> +		addr = round_up(addr, obj->mm.region->min_page_size);
-> +
-> +		ce = engines->engines[order[i] % engines->num_engines];
-> +		i = (i + 1) % (count * count);
-> +		if (!ce || !intel_engine_can_store_dword(ce->engine))
-> +			continue;
-> +
-> +		err = __igt_write_huge(ce, obj, obj->base.size, addr, 0, rnd);
-> +		if (err)
-> +			break;
-> +
-> +		err = __igt_write_huge(ce, obj, obj->base.size, addr,
-> +				       offset_in_page(rnd) / sizeof(u32), rnd + 1);
-> +		if (err)
-> +			break;
-> +
-> +		err = __igt_write_huge(ce, obj, obj->base.size, addr,
-> +				       (PAGE_SIZE / sizeof(u32)) - 1,
-> +				       rnd + 2);
-> +		if (err)
-> +			break;
-> +
-> +		addr += obj->base.size;
-> +
-> +		cond_resched();
-> +	}
-> +
-> +	i915_gem_context_unlock_engines(ctx);
-> +	kfree(order);
-> +err_put:
-> +	list_for_each_entry_safe(obj, on, &objects, st_link) {
-> +		list_del(&obj->st_link);
-> +		i915_gem_object_put(obj);
-> +	}
-> +out_vm:
-> +	i915_vm_put(vm);
-> +out:
-> +	fput(file);
-> +	return err;
-> +}
-> +
->   static int igt_tmpfs_fallback(void *arg)
->   {
->   	struct drm_i915_private *i915 = arg;
-> @@ -1803,6 +1959,7 @@ int i915_gem_huge_page_live_selftests(struct drm_i915_private *i915)
->   		SUBTEST(igt_ppgtt_smoke_huge),
->   		SUBTEST(igt_ppgtt_sanity_check),
->   		SUBTEST(igt_ppgtt_compact),
-> +		SUBTEST(igt_ppgtt_mixed),
->   	};
->   
->   	if (!HAS_PPGTT(i915)) {
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> index 8dd60d5ef905..4daaa6f55668 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> @@ -476,6 +476,7 @@ xehpsdv_ppgtt_insert_huge(struct i915_address_space *vm,
->   	const gen8_pte_t pte_encode = vm->pte_encode(0, cache_level, flags);
->   	unsigned int rem = sg_dma_len(iter->sg);
->   	u64 start = vma_res->start;
-> +	u64 end = start + vma_res->vma_size;
->   
->   	GEM_BUG_ON(!i915_vm_is_4lvl(vm));
->   
-> @@ -489,9 +490,10 @@ xehpsdv_ppgtt_insert_huge(struct i915_address_space *vm,
->   		gen8_pte_t encode = pte_encode;
->   		unsigned int page_size;
->   		gen8_pte_t *vaddr;
-> -		u16 index, max;
-> +		u16 index, max, nent, i;
->   
->   		max = I915_PDES;
-> +		nent = 1;
->   
->   		if (vma_res->bi.page_sizes.sg & I915_GTT_PAGE_SIZE_2M &&
->   		    IS_ALIGNED(iter->dma, I915_GTT_PAGE_SIZE_2M) &&
-> @@ -503,25 +505,37 @@ xehpsdv_ppgtt_insert_huge(struct i915_address_space *vm,
->   
->   			vaddr = px_vaddr(pd);
->   		} else {
-> -			if (encode & GEN12_PPGTT_PTE_LM) {
-> -				GEM_BUG_ON(__gen8_pte_index(start, 0) % 16);
-> -				GEM_BUG_ON(rem < I915_GTT_PAGE_SIZE_64K);
-> -				GEM_BUG_ON(!IS_ALIGNED(iter->dma,
-> -						       I915_GTT_PAGE_SIZE_64K));
-> -
-> -				index = __gen8_pte_index(start, 0) / 16;
-> -				page_size = I915_GTT_PAGE_SIZE_64K;
-> -
-> -				max /= 16;
-> -
-> -				vaddr = px_vaddr(pd);
-> -				vaddr[__gen8_pte_index(start, 1)] |= GEN12_PDE_64K;
-> +			index =  __gen8_pte_index(start, 0);
-> +			page_size = I915_GTT_PAGE_SIZE;
->   
-> -				pt->is_compact = true;
-> -			} else {
-> -				GEM_BUG_ON(pt->is_compact);
-> -				index =  __gen8_pte_index(start, 0);
-> -				page_size = I915_GTT_PAGE_SIZE;
-> +			if (vma_res->bi.page_sizes.sg & I915_GTT_PAGE_SIZE_64K) {
-> +				/*
-> +				 * Device local-memory on these platforms should
-> +				 * always use 64K pages or larger (including GTT
-> +				 * alignment), therefore if we know the whole
-> +				 * page-table needs to be filled we can always
-> +				 * safely use the compact-layout. Otherwise fall
-> +				 * back to the TLB hint with PS64. If this is
-> +				 * system memory we only bother with PS64.
-> +				 */
-> +				if ((encode & GEN12_PPGTT_PTE_LM) &&
-> +				    end - start >= SZ_2M && !index) {
-> +					index = __gen8_pte_index(start, 0) / 16;
-> +					page_size = I915_GTT_PAGE_SIZE_64K;
-> +
-> +					max /= 16;
-> +
-> +					vaddr = px_vaddr(pd);
-> +					vaddr[__gen8_pte_index(start, 1)] |= GEN12_PDE_64K;
-> +
-> +					pt->is_compact = true;
-> +				} else if (IS_ALIGNED(iter->dma, I915_GTT_PAGE_SIZE_64K) &&
-> +					   rem >= I915_GTT_PAGE_SIZE_64K &&
-> +					   !(index % 16)) {
-> +					encode |= GEN12_PTE_PS64;
-> +					page_size = I915_GTT_PAGE_SIZE_64K;
-> +					nent = 16;
-> +				}
->   			}
->   
->   			vaddr = px_vaddr(pt);
-> @@ -529,7 +543,12 @@ xehpsdv_ppgtt_insert_huge(struct i915_address_space *vm,
->   
->   		do {
->   			GEM_BUG_ON(rem < page_size);
-> -			vaddr[index++] = encode | iter->dma;
-> +
-> +			for (i = 0; i < nent; i++) {
-> +				vaddr[index++] =
-> +					encode | (iter->dma + i *
-> +						  I915_GTT_PAGE_SIZE);
-> +			}
->   
->   			start += page_size;
->   			iter->dma += page_size;
-> @@ -745,6 +764,8 @@ static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
->   	GEM_BUG_ON(!IS_ALIGNED(addr, SZ_64K));
->   	GEM_BUG_ON(!IS_ALIGNED(offset, SZ_64K));
->   
-> +	/* XXX: we don't strictly need to use this layout */
-> +
->   	if (!pt->is_compact) {
->   		vaddr = px_vaddr(pd);
->   		vaddr[gen8_pd_index(idx, 1)] |= GEN12_PDE_64K;
-> @@ -935,22 +956,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
->   		ppgtt->vm.alloc_pt_dma = alloc_pt_dma;
->   
->   	/*
-> -	 * On some platforms the hw has dropped support for 4K GTT pages
-> -	 * when dealing with LMEM, and due to the design of 64K GTT
-> -	 * pages in the hw, we can only mark the *entire* page-table as
-> -	 * operating in 64K GTT mode, since the enable bit is still on
-> -	 * the pde, and not the pte. And since we still need to allow
-> -	 * 4K GTT pages for SMEM objects, we can't have a "normal" 4K
-> -	 * page-table with scratch pointing to LMEM, since that's
-> -	 * undefined from the hw pov. The simplest solution is to just
-> -	 * move the 64K scratch page to SMEM on all platforms and call
-> -	 * it a day, since that should work for all configurations.
-> -	 *
-> -	 * Using SMEM instead of LMEM has the additional advantage of
-> -	 * not reserving high performance memory for a "never" used
-> -	 * filler page. It also removes the device access that would
-> -	 * be required to initialise the scratch page, reducing pressure
-> -	 * on an even scarcer resource.
-> +	 * Using SMEM here instead of LMEM has the advantage of not reserving
-> +	 * high performance memory for a "never" used filler page. It also
-> +	 * removes the device access that would be required to initialise the
-> +	 * scratch page, reducing pressure on an even scarcer resource.
->   	 */
->   	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index 2eaeba14319e..13e411187fd5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -269,11 +269,7 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
->   	memset64(vm->min_alignment, I915_GTT_MIN_ALIGNMENT,
->   		 ARRAY_SIZE(vm->min_alignment));
->   
-> -	if (HAS_64K_PAGES(vm->i915) && NEEDS_COMPACT_PT(vm->i915) &&
-> -	    subclass == VM_CLASS_PPGTT) {
-> -		vm->min_alignment[INTEL_MEMORY_LOCAL] = I915_GTT_PAGE_SIZE_2M;
-> -		vm->min_alignment[INTEL_MEMORY_STOLEN_LOCAL] = I915_GTT_PAGE_SIZE_2M;
-> -	} else if (HAS_64K_PAGES(vm->i915)) {
-> +	if (HAS_64K_PAGES(vm->i915)) {
->   		vm->min_alignment[INTEL_MEMORY_LOCAL] = I915_GTT_PAGE_SIZE_64K;
->   		vm->min_alignment[INTEL_MEMORY_STOLEN_LOCAL] = I915_GTT_PAGE_SIZE_64K;
->   	}
-> @@ -343,7 +339,8 @@ int setup_scratch_page(struct i915_address_space *vm)
->   	 */
->   	size = I915_GTT_PAGE_SIZE_4K;
->   	if (i915_vm_is_4lvl(vm) &&
-> -	    HAS_PAGE_SIZES(vm->i915, I915_GTT_PAGE_SIZE_64K))
-> +	    HAS_PAGE_SIZES(vm->i915, I915_GTT_PAGE_SIZE_64K) &&
-> +	    !HAS_64K_PAGES(vm->i915))
->   		size = I915_GTT_PAGE_SIZE_64K;
->   
->   	do {
-> @@ -385,18 +382,6 @@ int setup_scratch_page(struct i915_address_space *vm)
->   		if (size == I915_GTT_PAGE_SIZE_4K)
->   			return -ENOMEM;
->   
-> -		/*
-> -		 * If we need 64K minimum GTT pages for device local-memory,
-> -		 * like on XEHPSDV, then we need to fail the allocation here,
-> -		 * otherwise we can't safely support the insertion of
-> -		 * local-memory pages for this vm, since the HW expects the
-> -		 * correct physical alignment and size when the page-table is
-> -		 * operating in 64K GTT mode, which includes any scratch PTEs,
-> -		 * since userspace can still touch them.
-> -		 */
-> -		if (HAS_64K_PAGES(vm->i915))
-> -			return -ENOMEM;
-> -
->   		size = I915_GTT_PAGE_SIZE_4K;
->   	} while (1);
->   }
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index c0ca53cba9f0..062b78333fb2 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -93,6 +93,7 @@ typedef u64 gen8_pte_t;
->   #define GEN12_GGTT_PTE_LM	BIT_ULL(1)
->   
->   #define GEN12_PDE_64K BIT(6)
-> +#define GEN12_PTE_PS64 BIT(8)
->   
->   /*
->    * Cacheability Control is a 4-bit value. The low three bits are stored in bits
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 84a2f6b16f57..eb841daa0d63 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -902,13 +902,6 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->    */
->   #define HAS_64K_PAGES(dev_priv) (INTEL_INFO(dev_priv)->has_64k_pages)
->   
-> -/*
-> - * Set this flag when platform doesn't allow both 64k pages and 4k pages in
-> - * the same PT. this flag means we need to support compact PT layout for the
-> - * ppGTT when using the 64K GTT pages.
-> - */
-> -#define NEEDS_COMPACT_PT(dev_priv) (INTEL_INFO(dev_priv)->needs_compact_pt)
-> -
->   #define HAS_IPC(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_ipc)
->   
->   #define HAS_REGION(i915, i) (RUNTIME_INFO(i915)->memory_regions & (i))
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> index 38460a0bd7cb..40bb06c5cdc0 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -1042,7 +1042,6 @@ static const struct intel_device_info xehpsdv_info = {
->   	PLATFORM(INTEL_XEHPSDV),
->   	NO_DISPLAY,
->   	.has_64k_pages = 1,
-> -	.needs_compact_pt = 1,
->   	.has_media_ratio_mode = 1,
->   	.__runtime.platform_engine_mask =
->   		BIT(RCS0) | BIT(BCS0) |
-> @@ -1064,7 +1063,6 @@ static const struct intel_device_info xehpsdv_info = {
->   	.has_64k_pages = 1, \
->   	.has_guc_deprivilege = 1, \
->   	.has_heci_pxp = 1, \
-> -	.needs_compact_pt = 1, \
->   	.has_media_ratio_mode = 1, \
->   	.__runtime.platform_engine_mask = \
->   		BIT(RCS0) | BIT(BCS0) | \
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index f17c09ead7d7..c39488eb9eeb 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -776,12 +776,6 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   	GEM_BUG_ON(!IS_ALIGNED(end, I915_GTT_PAGE_SIZE));
->   
->   	alignment = max(alignment, i915_vm_obj_min_alignment(vma->vm, vma->obj));
-> -	/*
-> -	 * for compact-pt we round up the reservation to prevent
-> -	 * any smaller pages being used within the same PDE
-> -	 */
-> -	if (NEEDS_COMPACT_PT(vma->vm->i915))
-> -		size = round_up(size, alignment);
->   
->   	/* If binding the object/GGTT view requires more space than the entire
->   	 * aperture has, reject it early before evicting everything in a vain
-> @@ -820,7 +814,8 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   		 * forseeable future. See also i915_ggtt_offset().
->   		 */
->   		if (upper_32_bits(end - 1) &&
-> -		    vma->page_sizes.sg > I915_GTT_PAGE_SIZE) {
-> +		    vma->page_sizes.sg > I915_GTT_PAGE_SIZE &&
-> +		    !HAS_64K_PAGES(vma->vm->i915)) {
->   			/*
->   			 * We can't mix 64K and 4K PTEs in the same page-table
->   			 * (2M block), and so to avoid the ugliness and
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-> index bc87d3156b14..58539660a1ec 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.h
-> +++ b/drivers/gpu/drm/i915/intel_device_info.h
-> @@ -146,7 +146,6 @@ enum intel_ppgtt_type {
->   	/* Keep has_* in alphabetical order */ \
->   	func(has_64bit_reloc); \
->   	func(has_64k_pages); \
-> -	func(needs_compact_pt); \
->   	func(gpu_reset_clobbers_display); \
->   	func(has_reset_engine); \
->   	func(has_3d_pipeline); \
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> index ea2cf1080979..27c733b00976 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> @@ -1114,15 +1114,8 @@ static int misaligned_case(struct i915_address_space *vm, struct intel_memory_re
->   	expected_node_size = expected_vma_size;
->   
->   	if (HAS_64K_PAGES(vm->i915) && i915_gem_object_is_lmem(obj)) {
-> -		/*
-> -		 * The compact-pt should expand lmem node to 2MB for the ppGTT,
-> -		 * for all other cases we should only expect 64K.
-> -		 */
->   		expected_vma_size = round_up(size, I915_GTT_PAGE_SIZE_64K);
-> -		if (NEEDS_COMPACT_PT(vm->i915) && !i915_is_ggtt(vm))
-> -			expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_2M);
-> -		else
-> -			expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_64K);
-> +		expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_64K);
->   	}
->   
->   	if (vma->size != expected_vma_size || vma->node.size != expected_node_size) {
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 520ad2691a99..791b4a8b6f97 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -3493,27 +3493,13 @@ struct drm_i915_gem_create_ext {
->   	 *
->   	 * The (page-aligned) allocated size for the object will be returned.
->   	 *
-> -	 * DG2 64K min page size implications:
-> +	 * On platforms like DG2/ATS the kernel will always use 64K or larger
-> +	 * pages for I915_MEMORY_CLASS_DEVICE. The kernel also requires a
-> +	 * minimum of 64K GTT alignment for such objects.
->   	 *
-> -	 * On discrete platforms, starting from DG2, we have to contend with GTT
-> -	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
-> -	 * objects.  Specifically the hardware only supports 64K or larger GTT
-> -	 * page sizes for such memory. The kernel will already ensure that all
-> -	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
-> -	 * sizes underneath.
-> -	 *
-> -	 * Note that the returned size here will always reflect any required
-> -	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
-> -	 * such as DG2. The kernel will always select the largest minimum
-> -	 * page-size for the set of possible placements as the value to use when
-> -	 * rounding up the @size.
-> -	 *
-> -	 * Special DG2 GTT address alignment requirement:
-> -	 *
-> -	 * The GTT alignment will also need to be at least 2M for such objects.
-> -	 *
-> -	 * Note that due to how the hardware implements 64K GTT page support, we
-> -	 * have some further complications:
-> +	 * NOTE: Previously the ABI here required a minimum GTT alignment of 2M
-> +	 * due to how to how the hardware implemented 64K GTT page support,
+> diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
+> index 9b50bc96e00f..41332f48b2df 100644
+> --- a/drivers/video/backlight/hx8357.c
+> +++ b/drivers/video/backlight/hx8357.c
+> @@ -601,7 +601,7 @@ static int hx8357_probe(struct spi_device *spi)
+>  	if (!match || !match->data)
+>  		return -EINVAL;
+>
+> -	lcd->reset = of_get_named_gpio(spi->dev.of_node, "gpios-reset", 0);
+> +	lcd->reset = of_get_named_gpio(spi->dev.of_node, "reset-gpios", 0);
+>  	if (!gpio_is_valid(lcd->reset)) {
+>  		dev_err(&spi->dev, "Missing dt property: gpios-reset\n");
+>  		return -EINVAL;
 
-
-Double "how to".
-
-
-With above two fixes this is Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-
-Regards,
-
-Nirmoy
-
-> +	 * where we had the following complications:
->   	 *
->   	 *   1) The entire PDE (which covers a 2MB virtual address range), must
->   	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
-> @@ -3522,12 +3508,10 @@ struct drm_i915_gem_create_ext {
->   	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
->   	 *   objects.
->   	 *
-> -	 * To keep things simple for userland, we mandate that any GTT mappings
-> -	 * must be aligned to and rounded up to 2MB. The kernel will internally
-> -	 * pad them out to the next 2MB boundary. As this only wastes virtual
-> -	 * address space and avoids userland having to copy any needlessly
-> -	 * complicated PDE sharing scheme (coloring) and only affects DG2, this
-> -	 * is deemed to be a good compromise.
-> +	 * However on actual production HW this was completely changed to now
-> +	 * allow setting a TLB hint at the PTE level (see PS64), which is a lot
-> +	 * more flexible than the above. With this the 2M restriction was
-> +	 * dropped where we now only require 64K.
->   	 */
->   	__u64 size;
->   
+Daniel.
