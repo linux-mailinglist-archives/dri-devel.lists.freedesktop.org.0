@@ -1,37 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD2C5ED957
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 11:42:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4365ED96A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 11:49:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 902A110E3A1;
-	Wed, 28 Sep 2022 09:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45CA110E3A5;
+	Wed, 28 Sep 2022 09:49:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF02710E3A1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 09:42:10 +0000 (UTC)
-Date: Wed, 28 Sep 2022 09:41:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1664358128; x=1664617328;
- bh=Zmr9sIX4L0m6oVidTFPh2AFyDk2tF/CySCn1DZ/ep+M=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID;
- b=Q+hNdzlwpofv1yRQKQVw1uh6RAQ8MqNaVOu8ygCfvigBhISEUYoR+BOgbD80bo6+N
- 08DE0RZyoemTr6ZeZIgRZpUTQhM6FqlgXgsKp5WpUPxx535+hawOlMtjzhLQFKCFf9
- ieUPQHRnCFViB0uvf7mjCpV2p42yurmNJW0eEBF5qeZuFvk4uVYfoyAICXMSV48NmF
- pORcsXydDe+eYXxK+cnfb2roRwG2tJK5wXk+hcIB8oW2b/6BExpjcmRK37hMPufot+
- v3//ODJ+QBH/2yIyaJjHOg/6dFqADHxzrydcYkh3grsl3YaefjWKEcHnIyC7a1Ueca
- W4S5hTJWv0jnA==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v3] drm: document uAPI page-flip flags
-Message-ID: <20220928094149.118943-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECC6410E3A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 09:49:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5FF8447C;
+ Wed, 28 Sep 2022 11:49:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1664358541;
+ bh=uGO6nCPp6zFye7Q+UKDF0A2sn/kYDxbunI/0/t5voao=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=N2fL9QHTXE10jR7WUOY3h3M9+rZnd5HY/oR0J8THq0K07sN7DMYhcwS7ihdF7jrIR
+ HfkfQvS17oTdhbEZrurFN3w6nmtD/rq0Tz0qJoPB8A9WscDReVh4GFXONzwYLTHrO2
+ 6KYLEAJuG6V0eLVJatOIViTn17cCaWO33O+ewc1A=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220928005812.21060-4-laurent.pinchart@ideasonboard.com>
+References: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
+ <20220928005812.21060-4-laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 3/4] drm: lcdif: Switch to limited range for RGB to YUV
+ conversion
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Date: Wed, 28 Sep 2022 10:48:58 +0100
+Message-ID: <166435853876.2677993.16180422105335057479@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,138 +50,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Daniel Scally <dan.scally@ideasonboard.com>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document flags accepted by the page-flip and atomic IOCTLs.
+Quoting Laurent Pinchart (2022-09-28 01:58:11)
+> Up to and including v1.3, HDMI supported limited quantization range only
+> for YCbCr. HDMI v1.4 introduced selectable quantization ranges, but this
+> features isn't supported in the dw-hdmi driver that is used in
+> conjunction with the LCDIF in the i.MX8MP. The HDMI YCbCr output is thus
+> always advertised in the AVI infoframe as limited range.
+>=20
+> The LCDIF driver, on the other hand, configures the CSC to produce full
+> range YCbCr. This mismatch results in loss of details and incorrect
+> colours. Fix it by switching to limited range YCbCr.
+>=20
+> The coefficients are copied from drivers/media/platforms/nxp/imx-pxp.c
+> for coherency, as the hardware is most likely identical.
 
-v2 (Pekka):
-- Mention DRM_EVENT_FLIP_COMPLETE in DRM_MODE_PAGE_FLIP_EVENT docs.
-- Expand DRM_MODE_ATOMIC_NONBLOCK and DRM_MODE_ATOMIC_ALLOW_MODESET
-  description.
-v3:
-- Fix struct field ref syntax (Daniel)
-- Clarify when artifacts are no longer displayed (Daniel)
-- Add note about sinks deciding to show artifacts on their own (Pekka, Dani=
-el)
+Perhaps we need one or two of these somewhere:
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
----
- include/uapi/drm/drm_mode.h | 63 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 62 insertions(+), 1 deletion(-)
+https://colorconfidence.com/products/calibrite-colorchecker-display
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index fa953309d9ce..9b10327b9d21 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -935,12 +935,31 @@ struct hdr_output_metadata {
- =09};
- };
-=20
-+/**
-+ * DRM_MODE_PAGE_FLIP_EVENT
-+ *
-+ * Request that the kernel sends back a vblank event (see
-+ * struct drm_event_vblank) with the &DRM_EVENT_FLIP_COMPLETE type when th=
-e
-+ * page-flip is done.
-+ */
- #define DRM_MODE_PAGE_FLIP_EVENT 0x01
-+/**
-+ * DRM_MODE_PAGE_FLIP_ASYNC
-+ *
-+ * Request that the page-flip is performed as soon as possible, ie. with n=
-o
-+ * delay due to waiting for vblank. This may cause tearing to be visible o=
-n
-+ * the screen.
-+ */
- #define DRM_MODE_PAGE_FLIP_ASYNC 0x02
- #define DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE 0x4
- #define DRM_MODE_PAGE_FLIP_TARGET_RELATIVE 0x8
- #define DRM_MODE_PAGE_FLIP_TARGET (DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE | \
- =09=09=09=09   DRM_MODE_PAGE_FLIP_TARGET_RELATIVE)
-+/**
-+ * DRM_MODE_PAGE_FLIP_FLAGS
-+ *
-+ * Bitmask of flags suitable for &drm_mode_crtc_page_flip_target.flags.
-+ */
- #define DRM_MODE_PAGE_FLIP_FLAGS (DRM_MODE_PAGE_FLIP_EVENT | \
- =09=09=09=09  DRM_MODE_PAGE_FLIP_ASYNC | \
- =09=09=09=09  DRM_MODE_PAGE_FLIP_TARGET)
-@@ -1034,11 +1053,53 @@ struct drm_mode_destroy_dumb {
- =09__u32 handle;
- };
-=20
--/* page-flip flags are valid, plus: */
-+/**
-+ * DRM_MODE_ATOMIC_TEST_ONLY
-+ *
-+ * Do not apply the atomic commit, instead check whether the hardware supp=
-orts
-+ * this configuration.
-+ *
-+ * See &drm_mode_config_funcs.atomic_check for more details on test-only
-+ * commits.
-+ */
- #define DRM_MODE_ATOMIC_TEST_ONLY 0x0100
-+/**
-+ * DRM_MODE_ATOMIC_NONBLOCK
-+ *
-+ * Do not block while applying the atomic commit. The &DRM_IOCTL_MODE_ATOM=
-IC
-+ * IOCTL returns immediately instead of waiting for the changes to be appl=
-ied
-+ * in hardware. Note, the driver will still check that the update can be
-+ * applied before retuning.
-+ */
- #define DRM_MODE_ATOMIC_NONBLOCK  0x0200
-+/**
-+ * DRM_MODE_ATOMIC_ALLOW_MODESET
-+ *
-+ * Allow the update to result in temporary or transient visible artifacts =
-while
-+ * the update is being applied. Applying the update may also take signific=
-antly
-+ * more time than a page flip. All visual artifacts will disappear by the =
-time
-+ * the update is completed, as signalled throught the vblank event's times=
-tamp
-+ * (see struct drm_event_vblank).
-+ *
-+ * This flag must be set when the KMS update might cause visible artifacts=
-.
-+ * Without this flag such KMS update will return a EINVAL error. What kind=
- of
-+ * update may cause visible artifacts depends on the driver and the hardwa=
-re.
-+ * User-space that needs to know beforehand if an update might cause visib=
-le
-+ * artifacts can use &DRM_MODE_ATOMIC_TEST_ONLY without
-+ * &DRM_MODE_ATOMIC_ALLOW_MODESET to see if it fails.
-+ *
-+ * To the best of the driver's knowledge, visual artifacts are guaranteed =
-to
-+ * not appear when this flag is not set. Some sinks might display visual
-+ * artifacts outside of the driver's control.
-+ */
- #define DRM_MODE_ATOMIC_ALLOW_MODESET 0x0400
-=20
-+/**
-+ * DRM_MODE_ATOMIC_FLAGS
-+ *
-+ * Bitfield of flags accepted by the &DRM_IOCTL_MODE_ATOMIC IOCTL in
-+ * &drm_mode_atomic.flags.
-+ */
- #define DRM_MODE_ATOMIC_FLAGS (\
- =09=09DRM_MODE_PAGE_FLIP_EVENT |\
- =09=09DRM_MODE_PAGE_FLIP_ASYNC |\
---=20
-2.37.3
+Or does anyone have one that could test this patch?
+
+Anyway:
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 
+> Fixes: 9db35bb349a0 ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Changes since v1:
+>=20
+> - Use coefficients from imx-pxp.c
+> ---
+>  drivers/gpu/drm/mxsfb/lcdif_kms.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lc=
+dif_kms.c
+> index 1f22ea5896d5..c3622be0c587 100644
+> --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> @@ -53,16 +53,16 @@ static void lcdif_set_formats(struct lcdif_drm_privat=
+e *lcdif,
+>                 writel(DISP_PARA_LINE_PATTERN_UYVY_H,
+>                        lcdif->base + LCDC_V8_DISP_PARA);
+> =20
+> -               /* CSC: BT.601 Full Range RGB to YCbCr coefficients. */
+> -               writel(CSC0_COEF0_A2(0x096) | CSC0_COEF0_A1(0x04c),
+> +               /* CSC: BT.601 Limited Range RGB to YCbCr coefficients. */
+> +               writel(CSC0_COEF0_A2(0x081) | CSC0_COEF0_A1(0x041),
+>                        lcdif->base + LCDC_V8_CSC0_COEF0);
+> -               writel(CSC0_COEF1_B1(0x7d5) | CSC0_COEF1_A3(0x01d),
+> +               writel(CSC0_COEF1_B1(0x7db) | CSC0_COEF1_A3(0x019),
+>                        lcdif->base + LCDC_V8_CSC0_COEF1);
+> -               writel(CSC0_COEF2_B3(0x080) | CSC0_COEF2_B2(0x7ac),
+> +               writel(CSC0_COEF2_B3(0x070) | CSC0_COEF2_B2(0x7b6),
+>                        lcdif->base + LCDC_V8_CSC0_COEF2);
+> -               writel(CSC0_COEF3_C2(0x795) | CSC0_COEF3_C1(0x080),
+> +               writel(CSC0_COEF3_C2(0x7a2) | CSC0_COEF3_C1(0x070),
+>                        lcdif->base + LCDC_V8_CSC0_COEF3);
+> -               writel(CSC0_COEF4_D1(0x000) | CSC0_COEF4_C3(0x7ec),
+> +               writel(CSC0_COEF4_D1(0x010) | CSC0_COEF4_C3(0x7ee),
+>                        lcdif->base + LCDC_V8_CSC0_COEF4);
+>                 writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
+>                        lcdif->base + LCDC_V8_CSC0_COEF5);
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
