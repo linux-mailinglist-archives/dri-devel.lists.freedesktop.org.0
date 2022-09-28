@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6AA5EDA7C
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 12:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28D95EDAB5
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 12:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7381A10E413;
-	Wed, 28 Sep 2022 10:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E35C10E428;
+	Wed, 28 Sep 2022 10:57:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 635D910E408
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 10:50:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C14F21F8D7;
- Wed, 28 Sep 2022 10:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664362213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jo/jfbE1kUYbklxtyFc3gLH6gUYZIwdxT1MLMhgJIPM=;
- b=YpgnW+Gcwl+JTWlTHlhyMrFmGAJP1fmSs7dxxuk4jv8LrV4fuNjDLPU3Fd45E5CwSG77Nl
- CuD4T4Fui0B2xOn3l4PVpdWrm3Z96ZUg5vXBCATU1dw7Dw7SmfIJmenwf9VlcOzFKGEdjO
- pyV4OxaKR4ebgq3pg4IHOXI8QEh3ORc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664362213;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jo/jfbE1kUYbklxtyFc3gLH6gUYZIwdxT1MLMhgJIPM=;
- b=q74IWhERpi801X3VW34LkCfwbkpmSsJ3CTTigWBIgRHmR4EDkCY+eqNrXKuo7YK7bpfPWp
- 3ytMTu5XVkFuMoDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7AC0D13A86;
- Wed, 28 Sep 2022 10:50:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uEIuHeUmNGMUEwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 28 Sep 2022 10:50:13 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de,
- maxime@cerno.tech, sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au,
- benh@kernel.crashing.org, paulus@samba.org, geert@linux-m68k.org,
- mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 5/5] drm/ofdrm: Support big-endian scanout buffers
-Date: Wed, 28 Sep 2022 12:50:10 +0200
-Message-Id: <20220928105010.18880-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220928105010.18880-1-tzimmermann@suse.de>
-References: <20220928105010.18880-1-tzimmermann@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2BB10E428;
+ Wed, 28 Sep 2022 10:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664362643; x=1695898643;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=7ebHzS3jcNKgGNk5nv3w9ZY3wZuoESbLsd1CDcVqJu0=;
+ b=Q1cFuQHrczf6gIAsOFi9+lNjl5Ys7l9yFRiV5+fRRNdrYfBRMhu/RIiN
+ IeDovNaaokj+8i2+0HCTFeEmLVrZIAuiFc2D8OW9w+c97iozD6+6ZHI39
+ rbyrRXfm5LYIxhCcN+WvrxPkbmxdcsZ7DLN9ZnxBYD89Bdrw+tIqO0/Vp
+ iSgPiK8wKH7Gsd3c+Ok4JXjHBuc4nOn9G5glktfep28PZfpu/Pdf5LLDu
+ jqwu7NZjpxjnCdPPP+hbUIQwbhxyVpVLRMBJNSG0WhwMendkIhZrbUcJh
+ D2SRjqnqaWhODd911NKQpWXAsbv1qunrdnCa/VgI/SlHniNiN6WCkEup4 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="387853623"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="387853623"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 03:57:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="624109007"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="624109007"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga007.fm.intel.com with SMTP; 28 Sep 2022 03:57:19 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 28 Sep 2022 13:57:18 +0300
+Date: Wed, 28 Sep 2022 13:57:18 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [RFC v2] drm/kms: control display brightness through
+ drm_connector properties
+Message-ID: <YzQojrDOGNhm4D8l@intel.com>
+References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
+ <878rm3zuge.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <878rm3zuge.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,194 +62,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All DRM formats assume little-endian byte order. On big-endian systems,
-it is likely that the scanout buffer is in big endian as well. Update
-the format accordingly and add endianess conversion to the format-helper
-library. Also opt-in to allocated buffers in host format by default.
+On Wed, Sep 28, 2022 at 01:04:01PM +0300, Jani Nikula wrote:
+> On Fri, 09 Sep 2022, Hans de Goede <hdegoede@redhat.com> wrote:
+> > Hi all,
+> >
+> > Here is v2 of my "drm/kms: control display brightness through drm_connector properties" RFC:
+> >
+> > Changes from version 1:
+> > - Drop bl_brightness_0_is_min_brightness from list of new connector
+> >   properties.
+> > - Clearly define that 0 is always min-brightness when setting the brightness
+> >   through the connector properties.
+> > - Drop bl_brightness_control_method from list of new connector
+> >   properties.
+> > - Phase 1 of the plan has been completed
+> >
+> > As discussed already several times in the past:
+> >  https://www.x.org/wiki/Events/XDC2014/XDC2014GoedeBacklight/
+> >  https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/
+> >
+> > The current userspace API for brightness control offered by
+> > /sys/class/backlight devices has various issues:
+> >
+> > 1. There is no way to map the backlight device to a specific
+> >    display-output / panel (1)
+> > 2. Controlling the brightness requires root-rights requiring
+> >    desktop-environments to use suid-root helpers for this.
+> > 3. The meaning of 0 is not clearly defined, it can be either off,
+> >    or minimum brightness at which the display is still readable
+> >    (in a low light environment)
+> > 4. It's not possible to change both the gamma and the brightness in the
+> >    same KMS atomic commit. You'd want to be able to reduce brightness to
+> >    conserve power, and counter the effects of that by changing gamma to
+> >    reach a visually similar image. And you'd want to have the changes take
+> >    effect at the same time instead of reducing brightness at some frame and
+> >    change gamma at some other frame. This is pretty much impossible to do
+> >    via the sysfs interface.
+> >
+> > As already discussed on various conference's hallway tracks
+> > and as has been proposed on the dri-devel list once before (2),
+> > it seems that there is consensus that the best way to to solve these
+> > 2 issues is to add support for controlling a video-output's brightness
+> > through properties on the drm_connector.
+> >
+> > This RFC outlines my plan to try and actually implement this,
+> > which has 3 phases:
+> >
+> >
+> > Phase 1: Stop registering multiple /sys/class/backlight devs for a single display
+> > =================================================================================
+> >
+> > On x86 there can be multiple firmware + direct-hw-access methods
+> > for controlling the backlight and in some cases the kernel registers
+> > multiple backlight-devices for a single internal laptop LCD panel.
+> >
+> > A plan to fix this was posted here:
+> > https://lore.kernel.org/dri-devel/98519ba0-7f18-201a-ea34-652f50343158@redhat.com/
+> > And a pull-req actually implementing this plan has been send out this week:
+> > https://lore.kernel.org/dri-devel/261afe3d-7790-e945-adf6-a2c96c9b1eff@redhat.com/
+> >
+> >
+> > Phase 2: Add drm_connector properties mirroring the matching backlight device
+> > =============================================================================
+> >
+> > The plan is to add a drm_connector helper function, which optionally takes
+> > a pointer to the backlight device for the GPU's native backlight device,
+> > which will then mirror the backlight settings from the backlight device
+> > in a set of read/write brightness* properties on the connector.
+> >
+> > This function can then be called by GPU drivers for the drm_connector for
+> > the internal panel and it will then take care of everything. When there
+> > is no native GPU backlight device, or when it should not be used then
+> > (on x86) the helper will use the acpi_video_get_backlight_type() to
+> > determine which backlight-device should be used instead and it will find
+> > + mirror that one.
+> >
+> >
+> > Phase 3: Deprecate /sys/class/backlight uAPI
+> > ============================================
+> >
+> > Once most userspace has moved over to using the new drm_connector
+> > brightness props, a Kconfig option can be added to stop exporting
+> > the backlight-devices under /sys/class/backlight. The plan is to
+> > just disable the sysfs interface and keep the existing backlight-device
+> > internal kernel abstraction as is, since some abstraction for (non GPU
+> > native) backlight devices will be necessary regardless.
+> >
+> > It is unsure if we will ever be able to do this. For example people using
+> > non fully integrated desktop environments like e.g. sway often use custom
+> > scripts binded to hotkeys to get functionality like the brightness
+> > up/down keyboard hotkeys changing the brightness. This typically involves
+> > e.g. the xbacklight utility.
+> >
+> > Even if the xbacklight utility is ported to use kms with the new connector
+> > object brightness properties then this still will not work because
+> > changing the properties will require drm-master rights and e.g. sway will
+> > already hold those.
+> >
+> >
+> > The drm_connector brightness properties
+> > =======================================
+> >
+> > The new uAPI for this consists of 2 properties:
+> >
+> > 1. "display brightness": rw 0-int32_max property controlling the brightness setting
+> > of the connected display. The actual maximum of this will be less then
+> > int32_max and is given in "display brightness max".
+> 
+> This could use a few words explaining the choice of range and property
+> type. (I assume it's because you can't change a range property's max at
+> runtime. Which is also why you need a separate max property.)
 
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_format_helper.c | 10 ++++++
- drivers/gpu/drm/tiny/ofdrm.c        | 55 +++++++++++++++++++++++++++--
- 2 files changed, 63 insertions(+), 2 deletions(-)
+Why don't we just normalize the range to something sensible?
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 4afc4ac27342..fca7936db083 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -659,6 +659,11 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src, fb, clip, false);
- 			return 0;
- 		}
-+	} else if (dst_format == (DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN)) {
-+		if (fb_format == DRM_FORMAT_RGB565) {
-+			drm_fb_swab(dst, dst_pitch, src, fb, clip, false);
-+			return 0;
-+		}
- 	} else if (dst_format == DRM_FORMAT_RGB888) {
- 		if (fb_format == DRM_FORMAT_XRGB8888) {
- 			drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip);
-@@ -677,6 +682,11 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 			drm_fb_xrgb8888_to_xrgb2101010(dst, dst_pitch, src, fb, clip);
- 			return 0;
- 		}
-+	} else if (dst_format == DRM_FORMAT_BGRX8888) {
-+		if (fb_format == DRM_FORMAT_XRGB8888) {
-+			drm_fb_swab(dst, dst_pitch, src, fb, clip, false);
-+			return 0;
-+		}
- 	}
- 
- 	drm_warn_once(fb->dev, "No conversion helper from %p4cc to %p4cc found.\n",
-diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-index 0bf5eebf6678..6e100a7f5db7 100644
---- a/drivers/gpu/drm/tiny/ofdrm.c
-+++ b/drivers/gpu/drm/tiny/ofdrm.c
-@@ -94,7 +94,7 @@ static int display_get_validated_int0(struct drm_device *dev, const char *name,
- }
- 
- static const struct drm_format_info *display_get_validated_format(struct drm_device *dev,
--								  u32 depth)
-+								  u32 depth, bool big_endian)
- {
- 	const struct drm_format_info *info;
- 	u32 format;
-@@ -115,6 +115,29 @@ static const struct drm_format_info *display_get_validated_format(struct drm_dev
- 		return ERR_PTR(-EINVAL);
- 	}
- 
-+	/*
-+	 * DRM formats assume little-endian byte order. Update the format
-+	 * if the scanout buffer uses big-endian ordering.
-+	 */
-+	if (big_endian) {
-+		switch (format) {
-+		case DRM_FORMAT_XRGB8888:
-+			format = DRM_FORMAT_BGRX8888;
-+			break;
-+		case DRM_FORMAT_ARGB8888:
-+			format = DRM_FORMAT_BGRA8888;
-+			break;
-+		case DRM_FORMAT_RGB565:
-+			format = DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN;
-+			break;
-+		case DRM_FORMAT_XRGB1555:
-+			format = DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
- 	info = drm_format_info(format);
- 	if (!info) {
- 		drm_err(dev, "cannot find framebuffer format for depth %u\n", depth);
-@@ -134,6 +157,23 @@ static int display_read_u32_of(struct drm_device *dev, struct device_node *of_no
- 	return ret;
- }
- 
-+static bool display_get_big_endian_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	bool big_endian;
-+
-+#ifdef __BIG_ENDIAN
-+	big_endian = true;
-+	if (of_get_property(of_node, "little-endian", NULL))
-+		big_endian = false;
-+#else
-+	big_endian = false;
-+	if (of_get_property(of_node, "big-endian", NULL))
-+		big_endian = true;
-+#endif
-+
-+	return big_endian;
-+}
-+
- static int display_get_width_of(struct drm_device *dev, struct device_node *of_node)
- {
- 	u32 width;
-@@ -613,6 +653,7 @@ static void ofdrm_device_set_gamma_linear(struct ofdrm_device *odev,
- 
- 	switch (format->format) {
- 	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
- 		/* Use better interpolation, to take 32 values from 0 to 255 */
- 		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE / 8; i++) {
- 			unsigned char r = i * 8 + i / 4;
-@@ -631,6 +672,7 @@ static void ofdrm_device_set_gamma_linear(struct ofdrm_device *odev,
- 		}
- 		break;
- 	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_BGRX8888:
- 		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE; i++)
- 			odev->funcs->cmap_write(odev, i, i, i, i);
- 		break;
-@@ -650,6 +692,7 @@ static void ofdrm_device_set_gamma(struct ofdrm_device *odev,
- 
- 	switch (format->format) {
- 	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
- 		/* Use better interpolation, to take 32 values from lut[0] to lut[255] */
- 		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE / 8; i++) {
- 			unsigned char r = lut[i * 8 + i / 4].red >> 8;
-@@ -668,6 +711,7 @@ static void ofdrm_device_set_gamma(struct ofdrm_device *odev,
- 		}
- 		break;
- 	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_BGRX8888:
- 		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE; i++) {
- 			unsigned char r = lut[i].red >> 8;
- 			unsigned char g = lut[i].green >> 8;
-@@ -718,6 +762,9 @@ static const uint32_t ofdrm_primary_plane_formats[] = {
- 	DRM_FORMAT_RGB565,
- 	//DRM_FORMAT_XRGB1555,
- 	//DRM_FORMAT_C8,
-+	/* Big-endian formats below */
-+	DRM_FORMAT_BGRX8888,
-+	DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN,
- };
- 
- static const uint64_t ofdrm_primary_plane_format_modifiers[] = {
-@@ -1048,6 +1095,7 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
- 	struct ofdrm_device *odev;
- 	struct drm_device *dev;
- 	enum ofdrm_model model;
-+	bool big_endian;
- 	int width, height, depth, linebytes;
- 	const struct drm_format_info *format;
- 	u64 address;
-@@ -1109,6 +1157,8 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
- 		break;
- 	}
- 
-+	big_endian = display_get_big_endian_of(dev, of_node);
-+
- 	width = display_get_width_of(dev, of_node);
- 	if (width < 0)
- 		return ERR_PTR(width);
-@@ -1122,7 +1172,7 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
- 	if (linebytes < 0)
- 		return ERR_PTR(linebytes);
- 
--	format = display_get_validated_format(dev, depth);
-+	format = display_get_validated_format(dev, depth, big_endian);
- 	if (IS_ERR(format))
- 		return ERR_CAST(format);
- 	if (!linebytes) {
-@@ -1234,6 +1284,7 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
- 		dev->mode_config.preferred_depth = depth;
- 		break;
- 	}
-+	dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
- 
- 	/* Primary plane */
- 
+> 
+> > Unlike the /sys/class/backlight/foo/brightness this brightness property
+> > has a clear definition for the value 0. The kernel must ensure that 0
+> > means minimum brightness (so 0 should _never_ turn the backlight off).
+> > If necessary the kernel must enforce a minimum value by adding
+> > an offset to the value seen in the property to ensure this behavior.
+> >
+> > For example if necessary the driver must clamp 0-255 to 10-255, which then
+> > becomes 0-245 on the brightness property, adding 10 internally to writes
+> > done to the brightness property. This adding of an extra offset when
+> > necessary must only be done on the brightness property,
+> > the /sys/class/backlight interface should be left unchanged to not break
+> > userspace which may rely on 0 = off on some systems.
+> >
+> > Note amdgpu already does something like this even for /sys/class/backlight,
+> > see the use of AMDGPU_DM_DEFAULT_MIN_BACKLIGHT in amdgpu.
+> >
+> > Also whenever possible the kernel must ensure that the brightness range
+> > is in perceived brightness, but this cannot always be guaranteed.
+> 
+> Do you mean every step should be a visible change?
+
+Hmm. I guess due to this. I'd prefer the opposite tbh so I could
+just put in my opregion BCLM patch. It's annoying to have to
+carry it locally just to have reasonable backlight behaviour.
+
 -- 
-2.37.3
-
+Ville Syrjälä
+Intel
