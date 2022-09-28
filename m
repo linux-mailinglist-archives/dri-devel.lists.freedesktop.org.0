@@ -1,65 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD0F5EE2BE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 19:13:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 536535EE31B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 19:28:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0AAF10E4C3;
-	Wed, 28 Sep 2022 17:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A250D10E4FD;
+	Wed, 28 Sep 2022 17:28:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A45610E4C3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 17:13:15 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id z20so5405306plb.10
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 10:13:15 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 820BA10E4FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 17:27:56 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id b2so5711467eja.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 10:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date;
- bh=d6n7vVcWWAUhY50nx1oX+SjTLgFqeY1Yq8iTalyfqd0=;
- b=lIRHIZiWHITqRmakxRZHSG2SU2bpWinoR3Swar+fPYJBmT1qOO/MT6WnWN5yBDlhGu
- /lQXgjvlz0O4V2+hnYy+98Yh09p4wB3YUjZ22bnBWEa9dMSwUm7gVI6Ae5kXcacwBn8L
- BoOjiPYblWsCdJGhH6goLGXzHmU5/JoB80oyI=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=LoaCqW3jpS8TGypc4TVU/1rL8RVEj1gIc68KQRqm5M8=;
+ b=WQi3vRXWrLpV5LLIyL3HI0/XBIdEZDVlgeISWfa1H4KEcZU4m8LKG2wFPBnmJVmXAV
+ K2l0fhZq62LVNM3PRD0ZCTfA+8x6l4JygClEFkfTEu1sAeiSCN5h41vFkRLYVsllV3py
+ v9XQ/Zh7sZyFWHTbsMepsHHm4RyBiHiXn2BwE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=d6n7vVcWWAUhY50nx1oX+SjTLgFqeY1Yq8iTalyfqd0=;
- b=Vw8qO79qLCqy91OQdSXT3jaPTbXeHxvmF6xSx17/IzQFK6PAFJeA6RZvwOYnm16olc
- 354v7GCdxdatRpgEDTuxs3rBTmcgze3pLDzqZZKBxL728W6Fd2tAdFi+xzLwmYZMtDen
- rqYGiCVJqbRQesQfEzEo365LRlAZOesG4vbLvmIWxBkpbUQGYHdzWbmsCglZIg7+EziZ
- 9ypb/2kZqnnC6k06oE3Mb3uqGRM1HP6b6226bAceNlLx2w84O3rKDCKrI3AKMQ5B6HLN
- hmXdZwSBUCRfrDvdNjrredyTiPiWaeM5Xa7MI5/jTKyh2huYJY87hpw81IXbCtfp7wmA
- 8xcw==
-X-Gm-Message-State: ACrzQf25rgmaIuBcRp8sxZ2/btBfN0VsNxBZ1IZHm+v20SsybjiRjkb0
- /rOZAcCrPfZiQ12Xguu+zX2c6w==
-X-Google-Smtp-Source: AMsMyM6sCBBdOCLg/ekAp2unP2+2il2GSYEdTvWU2WPyIonTKW/L3Ua/pLmu7ZGbcH4WrqStMgqaPQ==
-X-Received: by 2002:a17:902:db08:b0:176:d40e:4b57 with SMTP id
- m8-20020a170902db0800b00176d40e4b57mr799977plx.172.1664385194575; 
- Wed, 28 Sep 2022 10:13:14 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- q3-20020a170902dac300b00177faf558b5sm4082449plx.250.2022.09.28.10.13.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 10:13:13 -0700 (PDT)
-Date: Wed, 28 Sep 2022 10:13:12 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 01/16] slab: Remove __malloc attribute from realloc
- functions
-Message-ID: <202209281011.66DD717D@keescook>
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-2-keescook@chromium.org>
- <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=LoaCqW3jpS8TGypc4TVU/1rL8RVEj1gIc68KQRqm5M8=;
+ b=zEVoNX4qyMxvBtae84TA/A8EsrLceUnZdq4e4yg33/fcXmuS14IVlO97wi44nE0Fqh
+ eJCCJMppukK5izSlkDHdLVwcllXga0FIkTRYoKZAZFKj9yhPDNWeXHEaRmvx7ftr9qdD
+ rbZ0gqTZo4ze5UE0qGXMV9A0G+OUx/OL0r0ZHVnRpTFBJqf9qyvC4pejQ5sBn6celUK4
+ y1oQaNVR7A+4jrPM96MPXXtmn4NleuNHO32cQwyP1RGzN2uf9fPBKJnXn+wjSnxxnV7a
+ ljZmQiuH4rg2kHmKYWJZhi0KlkBNyZKycyLlBHh95nZn8ErbE2tqe8S2Ctkax0uSeqPA
+ D3gg==
+X-Gm-Message-State: ACrzQf2T/c7okkm9IjT7nqfR9nWuafRHowJSFZksAYVIz/dWC35KesfZ
+ /e4peoJlrnjxXyw6DxHywAufZ83cSq8sP3ry
+X-Google-Smtp-Source: AMsMyM4JAZhfoOLsEFac4tTEbEuODVXM6dp2v0Yr7qFnuYn6R87+vQAwDxRMZM3MPUIRF+/OyhqXhw==
+X-Received: by 2002:a17:906:cc58:b0:76f:c119:acb5 with SMTP id
+ mm24-20020a170906cc5800b0076fc119acb5mr27754860ejb.651.1664386074817; 
+ Wed, 28 Sep 2022 10:27:54 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
+ [209.85.128.44]) by smtp.gmail.com with ESMTPSA id
+ n1-20020a170906164100b007824c5fe95esm2700842ejd.50.2022.09.28.10.27.53
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 10:27:53 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id
+ e10-20020a05600c4e4a00b003b4eff4ab2cso1715125wmq.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 10:27:53 -0700 (PDT)
+X-Received: by 2002:a05:600c:510e:b0:3b4:fed8:e65c with SMTP id
+ o14-20020a05600c510e00b003b4fed8e65cmr7575844wms.93.1664386073218; Wed, 28
+ Sep 2022 10:27:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
+References: <20220927063524.493591-1-sean.hong@quanta.corp-partner.google.com>
+ <CAD=FV=WQXOTJu-YUWyBjdoq4wPrwQYoo68FCJBF7EJfdf+9SrA@mail.gmail.com>
+ <CAP19T+6SWu_siXom4EANarqSRGif7qnkUPwhfKgjASnFnYG+cQ@mail.gmail.com>
+In-Reply-To: <CAP19T+6SWu_siXom4EANarqSRGif7qnkUPwhfKgjASnFnYG+cQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 28 Sep 2022 10:27:41 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XRX5AuRcw9=0jw+9WnPfeXtYnPEu+iYgqQxXcJh4LvTg@mail.gmail.com>
+Message-ID: <CAD=FV=XRX5AuRcw9=0jw+9WnPfeXtYnPEu+iYgqQxXcJh4LvTg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add BOE NT116WHM-N4C (HW: V8.1)
+To: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,80 +75,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, dri-devel@lists.freedesktop.org,
- "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Christoph Lameter <cl@linux.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, llvm@lists.linux.dev,
- Josef Bacik <josef@toxicpanda.com>, linaro-mm-sig@lists.linaro.org,
- Yonghong Song <yhs@fb.com>, David Sterba <dsterba@suse.com>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
- Alex Elder <elder@kernel.org>, linux-mm@kvack.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, "David S. Miller" <davem@davemloft.net>,
- linux-btrfs@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 28, 2022 at 09:26:15AM +0200, Geert Uytterhoeven wrote:
-> Hi Kees,
-> 
-> On Fri, Sep 23, 2022 at 10:35 PM Kees Cook <keescook@chromium.org> wrote:
-> > The __malloc attribute should not be applied to "realloc" functions, as
-> > the returned pointer may alias the storage of the prior pointer. Instead
-> > of splitting __malloc from __alloc_size, which would be a huge amount of
-> > churn, just create __realloc_size for the few cases where it is needed.
+Hi,
+
+On Tue, Sep 27, 2022 at 11:51 PM Sean Hong
+<sean.hong@quanta.corp-partner.google.com> wrote:
+>
+> On Tue, Sep 27, 2022 at 11:27 PM Doug Anderson <dianders@chromium.org> wrote:
 > >
-> > Additionally removes the conditional test for __alloc_size__, which is
-> > always defined now.
+> > Hi,
 > >
-> > Cc: Christoph Lameter <cl@linux.com>
-> > Cc: Pekka Enberg <penberg@kernel.org>
-> > Cc: David Rientjes <rientjes@google.com>
-> > Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Vlastimil Babka <vbabka@suse.cz>
-> > Cc: Roman Gushchin <roman.gushchin@linux.dev>
-> > Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Cc: Marco Elver <elver@google.com>
-> > Cc: linux-mm@kvack.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Thanks for your patch, which is now commit 63caa04ec60583b1 ("slab:
-> Remove __malloc attribute from realloc functions") in next-20220927.
-> 
-> Noreply@ellerman.id.au reported all gcc8-based builds to fail
-> (e.g. [1], more at [2]):
-> 
->     In file included from <command-line>:
->     ./include/linux/percpu.h: In function ‘__alloc_reserved_percpu’:
->     ././include/linux/compiler_types.h:279:30: error: expected
-> declaration specifiers before ‘__alloc_size__’
->      #define __alloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__) __malloc
->                                   ^~~~~~~~~~~~~~
->     ./include/linux/percpu.h:120:74: note: in expansion of macro ‘__alloc_size’
->     [...]
-> 
-> It's building fine with e.g. gcc-9 (which is my usual m68k cross-compiler).
-> Reverting this commit on next-20220927 fixes the issue.
-> 
-> [1] http://kisskb.ellerman.id.au/kisskb/buildresult/14803908/
-> [2] http://kisskb.ellerman.id.au/kisskb/head/1bd8b75fe6adeaa89d02968bdd811ffe708cf839/
+> > On Mon, Sep 26, 2022 at 11:35 PM Sean Hong
+> > <sean.hong@quanta.corp-partner.google.com> wrote:
+> > >
+> > > Add support for the BOE - NT116WHM-N4C (HW: V8.1) panel.
+> > >
+> > > Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+> > > ---
+> > >  drivers/gpu/drm/panel/panel-edp.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> >
+> > Wow, another panel?!?
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> >
+> > Pushed to drm-misc:
+> >
+> > 2f24fe8c54cc drm/panel-edp: Add BOE NT116WHM-N4C (HW: V8.1)
+>
+> Hi Anderson,
+>
+> I found some mistakes on this commit. I typed the wrong model name on
+> title and content.
+> The correct model name is NV116WHM-N4C and the code is correct.
+>
+> How can I fix it? Do I need to revert this commit and then submit a
+> new patch upstream?
 
-Eek! Thanks for letting me know. I'm confused about this --
-__alloc_size__ wasn't optional in compiler_attributes.h -- but obviously
-I broke something! I'll go figure this out.
+There's not much to be done at this point in time. Reverting /
+readding the same code with a slightly different commit message
+wouldn't be worth it. The code is correct and that's the important
+thing. The commit has a link to the mailing list post so anyone who's
+confused will hopefully click the link and can find this discussion.
 
--Kees
-
--- 
-Kees Cook
+-Doug
