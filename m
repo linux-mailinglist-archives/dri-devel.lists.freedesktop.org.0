@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66525EDD7D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 15:09:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385905EDEB3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 16:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7676A10E75F;
-	Wed, 28 Sep 2022 13:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA43B10E578;
+	Wed, 28 Sep 2022 14:22:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9206310E75F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 13:09:05 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F250C6602292;
- Wed, 28 Sep 2022 14:09:02 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1664370544;
- bh=Vf5x3tIxF1eH3jjuAIiQnki4BcokgilYkSxBESVxK/U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kT6WY2mznangZxCUy/BmfaTldXwdJgzvbVFsk9ylrGn9e4Gh96hhrrvCnbqvU5rVs
- oEMJsW7WhWyeNogyyqSpMaX1czDdmmLimDgmnPThszm8rXEpGKBYEUQdH5QdO6E/6G
- Y1xUk4/tDYpPxShkVQH0jVShB2O6j08d42mkpPazOCaDCe23grG2q5XTv+znFBpq7p
- M2YNsc04BZePUE4ywDfhEGH6WZEiGfYEhlvtNjh2rXz3hNdUWdJCnc8K0WdJpeBDK5
- 4IY4lWnmzpaVgpBQ16mYqDFJQy5l8H5XqetGhEIY30PcLNAqPScTgojv4eAfQvStKd
- d25y2Gl2ezH8Q==
-Message-ID: <eae3cb46-d665-a8c9-f0f6-505680470e50@collabora.com>
-Date: Wed, 28 Sep 2022 15:09:00 +0200
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B0810E578
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 14:22:47 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id dv25so27413604ejb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 07:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=WGcuGfkA0NNROaRfJ7RegLwzZPlW3SABFiduRXSBKF0=;
+ b=ihxwsYc23t+RIPEj9ErW4RTMh/idLnefTnL5RE3Yp0QEI2poOaZ0NjHNTztTXBCs9H
+ EgfbWFYvsJ9EZyVVIfCZ5ZG5/y0wFDSxsMjSvwJlJHnLHfwezvz7t9xs5i66D5gWbUHm
+ z/5HTwCM6QbNfGK503ZkGk9iuBP9+BjASLeXvEUpYdzUqsrdGSrIc80YQshx7Sxhx4x6
+ b1o2WaiZP7aVGXvz+AIEoSCKsIL8p/yAH01OzWw+Cm/P3POjP1wxhApxrsNjztgLoMF3
+ 5xhhRvMvgMBrHgv0bO3pOfaXtQI6IBke9biCWyKJNsAbYjEC3c+QR7Yq4rq4x0I66N14
+ Ip9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=WGcuGfkA0NNROaRfJ7RegLwzZPlW3SABFiduRXSBKF0=;
+ b=Cosf5IbayKcrfNHcuHWcXQvXsca2Es0QoUz4Vqt5VFyViH6R7/tV7JQ6oLKOgTZg7s
+ CrR/pmuCK1eMlYxUrv0YaqiWU4pRGjebURZ36sgJGef6mlMMpj05a1ndmcUsN7XFy4zp
+ LHVYDrEoH2VvOrgTZ4Uv7o1GkTO3uk+WGM8XyPs2UiSWAwwyq+8J/w9T+93nJN3XSx3J
+ kXKK9hU+l50ckj5z/j/pO1s7nAHrDju3wLN54NPTbyffD1xJ+hcQeP4XHx8pGEBx+8TA
+ AzC1ub+umkuRNdIG1/mxDkg9IzD9hk7wJmerLZ7+ao9o+rgBpJT4aOnjR94oGdpNQJKD
+ 0fjw==
+X-Gm-Message-State: ACrzQf07HPYTDiXzk2BHyzm8eWi+SMZAz06mHDH15V0oq+SPUj2q/I4c
+ PFA5eH8P2TvXMzEA6q8T/K7LbZeLvZ4PnEfSitymlQ==
+X-Google-Smtp-Source: AMsMyM7SALhgOzAjbIZo1w1hmRcT7YJOAI6uYBsKyg2LUP0qzO21ocvpCKgqsEX0jKpE40cTUXKhDcGECF2kx66wlmg=
+X-Received: by 2002:a17:906:730e:b0:783:87a1:b5db with SMTP id
+ di14-20020a170906730e00b0078387a1b5dbmr13751710ejc.383.1664374965417; Wed, 28
+ Sep 2022 07:22:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v1 16/17] drm/mediatek: dpi: Add mt8195 hdmi to DPI driver
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Kishon Vijay Abraham I <kishon@ti.com>
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-16-4844816c9808@baylibre.com>
- <812a5de2-dbe3-2f0d-492c-16ea004c996a@collabora.com>
- <CABnWg9sSbtXYLpcCoEts73CAsciKMEeMMRwfcfGng8H-rGYvkA@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CABnWg9sSbtXYLpcCoEts73CAsciKMEeMMRwfcfGng8H-rGYvkA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220922124306.34729-1-dev@pschenker.ch>
+In-Reply-To: <20220922124306.34729-1-dev@pschenker.ch>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 28 Sep 2022 16:22:34 +0200
+Message-ID: <CAG3jFyuziotbv4F0EaKbrgOqbXZ1fDSi_T=CB2AufyjrUMqmRA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] drm/bridge: lt8912b: Fix corrupt display output due
+ to wrong bridge config
+To: Philippe Schenker <dev@pschenker.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,79 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/09/22 15:34, Guillaume Ranquet ha scritto:
-> On Tue, 20 Sep 2022 14:22, AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->> Il 19/09/22 18:56, Guillaume Ranquet ha scritto:
->>> Add the DPI1 hdmi path support in mtk dpi driver
->>>
->>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->>>
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
->>> index 630a4e301ef6..91212b7610e8 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
->>> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
->>> @@ -15,7 +15,10 @@
->>>    #include <linux/of_graph.h>
->>>    #include <linux/pinctrl/consumer.h>
->>>    #include <linux/platform_device.h>
->>> +#include <linux/reset.h>
->>>    #include <linux/types.h>
->>> +#include <linux/regmap.h>
->>> +#include <linux/mfd/syscon.h>
->>>
->>>    #include <video/videomode.h>
->>>
->>> @@ -66,10 +69,14 @@ struct mtk_dpi {
->>>    	struct drm_bridge *next_bridge;
->>>    	struct drm_connector *connector;
->>>    	void __iomem *regs;
->>> +	struct reset_control *reset_ctl;
->>>    	struct device *dev;
->>>    	struct clk *engine_clk;
->>> +	struct clk *dpi_ck_cg;
->>>    	struct clk *pixel_clk;
->>> +	struct clk *dpi_sel_clk;
->>>    	struct clk *tvd_clk;
->>> +	struct clk *hdmi_cg;
->>
->>
->> You're adding new clocks and then you're making *all clocks*, including the
->> already existing ones... optional.
->>
->> That looks seriously odd.... can you please give a devicetree example for
->> MT8195 in the next version, perhaps in the cover letter?
->>
->> Would also make it easier to test this entire big series.
->>
->> Regards,
->> Angelo
->>
-> 
-> The clock names are different for MT8195 HDMI than for the legacy DP.
-> Making everything optional might not have been a smart move.
-> I'll try to think of something else to make it look less odd.
-> 
-> The device tree I'm using to test things is rather "hackish" and has a bunch of
-> changes from what is found on linux-next.
-> I think Jason and Nancy are due to upstream those patches.
-> 
-> I'll try to include something minimal for you to test.
-> Otherwise would a public branch containing everything work for you?
-> 
+On Thu, 22 Sept 2022 at 14:43, Philippe Schenker <dev@pschenker.ch> wrote:
+>
+> From: Philippe Schenker <philippe.schenker@toradex.com>
+>
+> This patch-set fixes the lt8912b driver that currently does not take
+> care whether or not the attached display has postiive or negative syncs
+> and or reports on EDID if it needs HDMI mode or DVI.
+>
+> This series addresses also an issue where the LVDS startup sequence was
+> written to the wrong I2C address (the lt8912 has three). This caused
+> writing into reserved registers and causing an unstable HDMI picture
+> that manifests itself only sometimes and depending on the monitor with a
+> flickering and a repeating of going black and coming up again. While at
+> it move also some sensible comments to the sequence.
+>
+>
+> Francesco Dolcini (2):
+>   drm/bridge: lt8912b: fix corrupted image output
+>   drm/bridge: lt8912b: clarify lvds output status
+>
+> Philippe Schenker (2):
+>   drm/bridge: lt8912b: add vsync hsync
+>   drm/bridge: lt8912b: set hdmi or dvi mode
+>
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c | 39 +++++++++++++++++-------
+>  1 file changed, 28 insertions(+), 11 deletions(-)
+>
+> --
+> 2.37.3
+>
 
-Any reference would work for me, "something minimal" or a public branch, it
-doesn't really matter.
+Thanks for the series & the reviews.
 
-Thanks!
-Angelo
-
-
+Applied to drm-misc-next.
