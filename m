@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E665EE9A7
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3F15EE9AB
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6AC10E77F;
-	Wed, 28 Sep 2022 22:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB1010E785;
+	Wed, 28 Sep 2022 22:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D211910E502
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7661A10E502
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:48:01 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F1F76DB;
- Thu, 29 Sep 2022 00:47:58 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFC4C6BE;
+ Thu, 29 Sep 2022 00:47:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405278;
- bh=kbauzpuyO+rU3ERz5TF9bgHqeOiLlXERhmm9KzD3JOI=;
+ s=mail; t=1664405280;
+ bh=GhrNkHEUmvuo0YeL57RsZhgq5+8sgxOPwHo8bE0fmV4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bclcxL77eebugiU5Oe0QvoJEbhADaH2xL0/aQ4blMaXmmEtPFpJdXuNArtjLvnxJp
- A+sWEUogrgzopyo8SaP6YilRgMmxCrUAkTibE0wFIMTwaq1zRxFVoh6Wr71AFmeE/J
- vxWTWJVlECZylVSu6WaJe9CHARnejnwvvW9wq4Ek=
+ b=RSwisUyNtDtU2NRWS3V/gwtL8hlNIB47H9oWnsa1ok7Drf6DVcpXtttrnO69QfHz7
+ qUU6rs8qwfLNYUbF+BOFbl+Rna55omN9GrNsCQqxbC69kBVb9zCzYQRcBvI2F0shho
+ 9CnESvfI70wuk+DH40B0Jqa7UPwaUQ5ZvOilav+I=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 22/37] drm: xlnx: zynqmp_dpsub: Move planes to zynqmp_dpsub
- structure
-Date: Thu, 29 Sep 2022 01:47:04 +0300
-Message-Id: <20220928224719.3291-23-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 23/37] drm: xlnx: zynqmp_dpsub: Move DRM/KMS initialization
+ to separate file
+Date: Thu, 29 Sep 2022 01:47:05 +0300
+Message-Id: <20220928224719.3291-24-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,176 +52,213 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Decouple the zynqmp_disp, which handles the hardware configuration, from
-the DRM planes by moving the planes to the zynqmp_dpsub structure. The
-planes handling code will be moved to a separate file in a subsequent
-step.
+Start preparation for using the DPSUB as a standalone DisplayPort
+encoder without a display controller by moving the DRM/KMS
+initialization to a new zynqmp_kms.c file. No functional change
+intended.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c  | 32 ++++++++++++-----------------
- drivers/gpu/drm/xlnx/zynqmp_dpsub.h |  5 +++++
- 2 files changed, 18 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/xlnx/Makefile       |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 43 ++----------------
+ drivers/gpu/drm/xlnx/zynqmp_kms.c   | 70 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_kms.h   | 19 ++++++++
+ 4 files changed, 93 insertions(+), 41 deletions(-)
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_kms.c
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_kms.h
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 94073cdfd714..3b3aef42a390 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -73,7 +73,6 @@
- #define ZYNQMP_DISP_AV_BUF_NUM_VID_GFX_BUFFERS		4
- #define ZYNQMP_DISP_AV_BUF_NUM_BUFFERS			6
+diff --git a/drivers/gpu/drm/xlnx/Makefile b/drivers/gpu/drm/xlnx/Makefile
+index 51c24b72217b..ea1422a39502 100644
+--- a/drivers/gpu/drm/xlnx/Makefile
++++ b/drivers/gpu/drm/xlnx/Makefile
+@@ -1,2 +1,2 @@
+-zynqmp-dpsub-y := zynqmp_disp.o zynqmp_dpsub.o zynqmp_dp.o
++zynqmp-dpsub-y := zynqmp_disp.o zynqmp_dpsub.o zynqmp_dp.o zynqmp_kms.o
+ obj-$(CONFIG_DRM_ZYNQMP_DPSUB) += zynqmp-dpsub.o
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+index cb01548f2b8c..e4cb7b82556b 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+@@ -17,9 +17,7 @@
+ #include <linux/pm_runtime.h>
  
--#define ZYNQMP_DISP_NUM_LAYERS				2
- #define ZYNQMP_DISP_MAX_NUM_SUB_PLANES			3
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+-#include <drm/drm_connector.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fb_helper.h>
+@@ -30,12 +28,12 @@
+ #include <drm/drm_mode_config.h>
+ #include <drm/drm_module.h>
+ #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
  
- /**
-@@ -135,8 +134,7 @@ struct zynqmp_disp_layer_info {
- };
- 
- /**
-- * struct zynqmp_disp_layer - Display layer (DRM plane)
-- * @plane: DRM plane
-+ * struct zynqmp_disp_layer - Display layer
-  * @id: Layer ID
-  * @disp: Back pointer to struct zynqmp_disp
-  * @info: Static layer information
-@@ -146,7 +144,6 @@ struct zynqmp_disp_layer_info {
-  * @mode: Current operation mode
-  */
- struct zynqmp_disp_layer {
--	struct drm_plane plane;
- 	enum zynqmp_disp_layer_id id;
- 	struct zynqmp_disp *disp;
- 	const struct zynqmp_disp_layer_info *info;
-@@ -183,7 +180,7 @@ struct zynqmp_disp {
- 		void __iomem *base;
- 	} audio;
- 
--	struct zynqmp_disp_layer layers[ZYNQMP_DISP_NUM_LAYERS];
-+	struct zynqmp_disp_layer layers[ZYNQMP_DPSUB_NUM_LAYERS];
- };
+ #include "zynqmp_disp.h"
+ #include "zynqmp_dp.h"
+ #include "zynqmp_dpsub.h"
++#include "zynqmp_kms.h"
  
  /* -----------------------------------------------------------------------------
-@@ -1092,11 +1089,6 @@ static int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
- 	return 0;
- }
+  * Dumb Buffer & Framebuffer Allocation
+@@ -98,8 +96,6 @@ static const struct drm_driver zynqmp_dpsub_drm_driver = {
  
--static inline struct zynqmp_disp_layer *plane_to_layer(struct drm_plane *plane)
--{
--	return container_of(plane, struct zynqmp_disp_layer, plane);
--}
--
- static int
- zynqmp_disp_plane_atomic_check(struct drm_plane *plane,
- 			       struct drm_atomic_state *state)
-@@ -1125,7 +1117,8 @@ zynqmp_disp_plane_atomic_disable(struct drm_plane *plane,
+ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
  {
- 	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
- 									   plane);
--	struct zynqmp_disp_layer *layer = plane_to_layer(plane);
-+	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(plane->dev);
-+	struct zynqmp_disp_layer *layer = &dpsub->disp->layers[plane->index];
- 
- 	if (!old_state->fb)
- 		return;
-@@ -1143,7 +1136,8 @@ zynqmp_disp_plane_atomic_update(struct drm_plane *plane,
- {
- 	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
- 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
--	struct zynqmp_disp_layer *layer = plane_to_layer(plane);
-+	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(plane->dev);
-+	struct zynqmp_disp_layer *layer = &dpsub->disp->layers[plane->index];
- 	bool format_changed = false;
- 
- 	if (!old_state->fb ||
-@@ -1195,6 +1189,7 @@ static int zynqmp_disp_create_planes(struct zynqmp_disp *disp)
- 
- 	for (i = 0; i < ARRAY_SIZE(disp->layers); i++) {
- 		struct zynqmp_disp_layer *layer = &disp->layers[i];
-+		struct drm_plane *plane = &disp->dpsub->planes[i];
- 		enum drm_plane_type type;
- 		unsigned int num_formats;
- 		u32 *formats;
-@@ -1206,7 +1201,7 @@ static int zynqmp_disp_create_planes(struct zynqmp_disp *disp)
- 		/* Graphics layer is primary, and video layer is overlay. */
- 		type = zynqmp_disp_layer_is_video(layer)
- 		     ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
--		ret = drm_universal_plane_init(disp->drm, &layer->plane, 0,
-+		ret = drm_universal_plane_init(disp->drm, plane, 0,
- 					       &zynqmp_disp_plane_funcs,
- 					       formats, num_formats,
- 					       NULL, type, NULL);
-@@ -1214,12 +1209,11 @@ static int zynqmp_disp_create_planes(struct zynqmp_disp *disp)
- 		if (ret)
- 			return ret;
- 
--		drm_plane_helper_add(&layer->plane,
--				     &zynqmp_disp_plane_helper_funcs);
-+		drm_plane_helper_add(plane, &zynqmp_disp_plane_helper_funcs);
- 
--		drm_plane_create_zpos_immutable_property(&layer->plane, i);
-+		drm_plane_create_zpos_immutable_property(plane, i);
- 		if (zynqmp_disp_layer_is_gfx(layer))
--			drm_plane_create_alpha_property(&layer->plane);
-+			drm_plane_create_alpha_property(plane);
- 	}
- 
- 	return 0;
-@@ -1539,7 +1533,7 @@ static const struct drm_crtc_funcs zynqmp_disp_crtc_funcs = {
- 
- static int zynqmp_disp_create_crtc(struct zynqmp_disp *disp)
- {
--	struct drm_plane *plane = &disp->layers[ZYNQMP_DISP_LAYER_GFX].plane;
-+	struct drm_plane *plane = &disp->dpsub->planes[ZYNQMP_DISP_LAYER_GFX];
- 	struct drm_crtc *crtc = &disp->dpsub->crtc;
+-	struct drm_encoder *encoder = &dpsub->encoder;
+-	struct drm_connector *connector;
+ 	struct drm_device *drm = &dpsub->drm;
  	int ret;
  
-@@ -1562,7 +1556,7 @@ static void zynqmp_disp_map_crtc_to_plane(struct zynqmp_disp *disp)
- 	unsigned int i;
+@@ -120,43 +116,10 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
  
- 	for (i = 0; i < ARRAY_SIZE(disp->layers); i++)
--		disp->layers[i].plane.possible_crtcs = possible_crtcs;
-+		disp->dpsub->planes[i].possible_crtcs = possible_crtcs;
- }
+ 	drm_kms_helper_poll_init(drm);
  
- /* -----------------------------------------------------------------------------
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-index 4ee0dc69ebee..2a955895404f 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-@@ -14,6 +14,7 @@
+-	/*
+-	 * Initialize the DISP and DP components. This will creates planes,
+-	 * CRTC, and a bridge for the DP encoder.
+-	 */
+-	ret = zynqmp_disp_drm_init(dpsub);
+-	if (ret)
++	ret = zynqmp_dpsub_kms_init(dpsub);
++	if (ret < 0)
+ 		goto err_poll_fini;
  
- #include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
-+#include <drm/drm_plane.h>
+-	ret = zynqmp_dp_drm_init(dpsub);
+-	if (ret)
+-		goto err_poll_fini;
+-
+-	/* Create the encoder and attach the bridge. */
+-	encoder->possible_crtcs |= zynqmp_disp_get_crtc_mask(dpsub->disp);
+-	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
+-
+-	ret = drm_bridge_attach(encoder, dpsub->bridge, NULL,
+-				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-	if (ret) {
+-		dev_err(dpsub->dev, "failed to attach bridge to encoder\n");
+-		goto err_poll_fini;
+-	}
+-
+-	/* Create the connector for the chain of bridges. */
+-	connector = drm_bridge_connector_init(drm, encoder);
+-	if (IS_ERR(connector)) {
+-		dev_err(dpsub->dev, "failed to created connector\n");
+-		ret = PTR_ERR(connector);
+-		goto err_poll_fini;
+-	}
+-
+-	ret = drm_connector_attach_encoder(connector, encoder);
+-	if (ret < 0) {
+-		dev_err(dpsub->dev, "failed to attach connector to encoder\n");
+-		goto err_poll_fini;
+-	}
+-
+ 	/* Reset all components and register the DRM device. */
+ 	drm_mode_config_reset(drm);
  
- struct clk;
- struct device;
-@@ -22,6 +23,8 @@ struct drm_device;
- struct zynqmp_disp;
- struct zynqmp_dp;
- 
-+#define ZYNQMP_DPSUB_NUM_LAYERS				2
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+new file mode 100644
+index 000000000000..e4e7f8fd96d2
+--- /dev/null
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+@@ -0,0 +1,70 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * ZynqMP DisplayPort Subsystem - KMS API
++ *
++ * Copyright (C) 2017 - 2021 Xilinx, Inc.
++ *
++ * Authors:
++ * - Hyun Woo Kwon <hyun.kwon@xilinx.com>
++ * - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++ */
 +
- enum zynqmp_dpsub_format {
- 	ZYNQMP_DPSUB_FORMAT_RGB,
- 	ZYNQMP_DPSUB_FORMAT_YCRCB444,
-@@ -38,6 +41,7 @@ enum zynqmp_dpsub_format {
-  * @vid_clk_from_ps: True of the video clock comes from PS, false from PL
-  * @aud_clk: Audio clock
-  * @aud_clk_from_ps: True of the audio clock comes from PS, false from PL
-+ * @planes: The DRM planes
-  * @crtc: The DRM CRTC
-  * @encoder: The dummy DRM encoder
-  * @bridge: The DP encoder bridge
-@@ -55,6 +59,7 @@ struct zynqmp_dpsub {
- 	struct clk *aud_clk;
- 	bool aud_clk_from_ps;
- 
-+	struct drm_plane planes[ZYNQMP_DPSUB_NUM_LAYERS];
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
- 	struct drm_bridge *bridge;
++#include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_encoder.h>
++#include <drm/drm_simple_kms_helper.h>
++
++#include "zynqmp_disp.h"
++#include "zynqmp_dp.h"
++#include "zynqmp_dpsub.h"
++#include "zynqmp_kms.h"
++
++/* -----------------------------------------------------------------------------
++ * Initialization
++ */
++
++int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub)
++{
++	struct drm_encoder *encoder = &dpsub->encoder;
++	struct drm_connector *connector;
++	int ret;
++
++	/*
++	 * Initialize the DISP and DP components. This will creates planes,
++	 * CRTC, and a bridge for the DP encoder.
++	 */
++	ret = zynqmp_disp_drm_init(dpsub);
++	if (ret)
++		return ret;
++
++	ret = zynqmp_dp_drm_init(dpsub);
++	if (ret)
++		return ret;
++
++	/* Create the encoder and attach the bridge. */
++	encoder->possible_crtcs |= zynqmp_disp_get_crtc_mask(dpsub->disp);
++	drm_simple_encoder_init(&dpsub->drm, encoder, DRM_MODE_ENCODER_NONE);
++
++	ret = drm_bridge_attach(encoder, dpsub->bridge, NULL,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++	if (ret) {
++		dev_err(dpsub->dev, "failed to attach bridge to encoder\n");
++		return ret;
++	}
++
++	/* Create the connector for the chain of bridges. */
++	connector = drm_bridge_connector_init(&dpsub->drm, encoder);
++	if (IS_ERR(connector)) {
++		dev_err(dpsub->dev, "failed to created connector\n");
++		return PTR_ERR(connector);
++	}
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret < 0) {
++		dev_err(dpsub->dev, "failed to attach connector to encoder\n");
++		return ret;
++	}
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.h b/drivers/gpu/drm/xlnx/zynqmp_kms.h
+new file mode 100644
+index 000000000000..a6729d9d82cc
+--- /dev/null
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * ZynqMP DisplayPort Subsystem - KMS API
++ *
++ * Copyright (C) 2017 - 2021 Xilinx, Inc.
++ *
++ * Authors:
++ * - Hyun Woo Kwon <hyun.kwon@xilinx.com>
++ * - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++ */
++
++#ifndef _ZYNQMP_KMS_H_
++#define _ZYNQMP_KMS_H_
++
++struct zynqmp_dpsub;
++
++int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub);
++
++#endif /* _ZYNQMP_KMS_H_ */
 -- 
 Regards,
 
