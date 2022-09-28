@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E935ED24D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 02:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D565ED24E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 02:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD4BF10E0BD;
-	Wed, 28 Sep 2022 00:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C61910E0C3;
+	Wed, 28 Sep 2022 00:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10AFA10E0BD
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 00:58:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51F2210E0BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 00:58:17 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4AD5047C;
- Wed, 28 Sep 2022 02:58:14 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 985D14D5;
+ Wed, 28 Sep 2022 02:58:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664326694;
- bh=fvPuQ/Y+US5xtb7ESyB03XslFbcNDWdjL91Qb/QFKK8=;
- h=From:To:Cc:Subject:Date:From;
- b=J7U9OO81gZt6Oe25orEMZMdKUVn1xghI9Ar4QiF1lU7+nkb+g1vPJfTdZRsm3l0Kl
- DUXoYiKqLzlA0xgCK+m64LsiXu5F39cVF8FHL57nkYK6F4WYxMQWcXyBi0xZF8jkBa
- 5nv0C0wOsGJW6HtR1cWNcCYmb3438IQHZhSzRNWs=
+ s=mail; t=1664326695;
+ bh=a1X/Y5aZ04BaaUYEpl2e0D48vHFKB/3B/dzJSWL51eQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=iO6cHTQpuUHUHSqm63YArWsTAe11CHrbGKgXU4jJZ1lCYf/CS9wgktYz8tLnHj6nd
+ iwoUk3M+YfkZHbJB+cvXvtsIHOMu5IqhjjsRoxBEdUueURPzGiCpShYzNherdkGauy
+ qdbIfwe1LVwcgrsK8p/ThbDgeqXhJDq7u1QJlWng=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/4] drm: lcdif: Improve YUV support
-Date: Wed, 28 Sep 2022 03:58:08 +0300
-Message-Id: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 1/4] drm: lcdif: Fix indentation in lcdif_regs.h
+Date: Wed, 28 Sep 2022 03:58:09 +0300
+Message-Id: <20220928005812.21060-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
+References: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,30 +53,37 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+A couple of the register macro values are incorrectly indented. Fix
+them.
 
-This small patch series improves YUV support in the i.MX8MP LCDIF
-driver. After patches 1/4 and 2/4 that fix tiny cosmetic issues, patch
-3/4 fixes YUV quantization range for the RGB to YUV conversion. Patch
-4/4 addresses the other direction and adds support for YUV planes.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Marek Vasut <marex@denx.de>
+---
+ drivers/gpu/drm/mxsfb/lcdif_regs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Please see individual patches for details.
-
-The series has been tested on a Polyhex Debix board with the currently
-out-of-tree HDMI encoder support patches developed by Lucas Stach.
-
-Kieran Bingham (1):
-  drm: lcdif: Add support for YUV planes
-
-Laurent Pinchart (3):
-  drm: lcdif: Fix indentation in lcdif_regs.h
-  drm: lcdif: Don't use BIT() for multi-bit register fields
-  drm: lcdif: Switch to limited range for RGB to YUV conversion
-
- drivers/gpu/drm/mxsfb/lcdif_kms.c  | 183 +++++++++++++++++++++++++----
- drivers/gpu/drm/mxsfb/lcdif_regs.h |  37 +++---
- 2 files changed, 180 insertions(+), 40 deletions(-)
-
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+index 8e8bef175bf2..013f2cace2a0 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
++++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+@@ -130,7 +130,7 @@
+ #define CTRL_FETCH_START_OPTION_BPV	BIT(9)
+ #define CTRL_FETCH_START_OPTION_RESV	GENMASK(9, 8)
+ #define CTRL_FETCH_START_OPTION_MASK	GENMASK(9, 8)
+-#define CTRL_NEG				BIT(4)
++#define CTRL_NEG			BIT(4)
+ #define CTRL_INV_PXCK			BIT(3)
+ #define CTRL_INV_DE			BIT(2)
+ #define CTRL_INV_VS			BIT(1)
+@@ -186,7 +186,7 @@
+ #define INT_ENABLE_D1_PLANE_PANIC_EN	BIT(0)
+ 
+ #define CTRLDESCL0_1_HEIGHT(n)		(((n) & 0xffff) << 16)
+-#define CTRLDESCL0_1_HEIGHT_MASK		GENMASK(31, 16)
++#define CTRLDESCL0_1_HEIGHT_MASK	GENMASK(31, 16)
+ #define CTRLDESCL0_1_WIDTH(n)		((n) & 0xffff)
+ #define CTRLDESCL0_1_WIDTH_MASK		GENMASK(15, 0)
+ 
 -- 
 Regards,
 
