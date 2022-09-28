@@ -1,49 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345465EE3EB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 20:08:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2511B5EE408
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 20:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1246710E582;
-	Wed, 28 Sep 2022 18:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDF3110E401;
+	Wed, 28 Sep 2022 18:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA5B410E56C;
- Wed, 28 Sep 2022 18:08:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664388511; x=1695924511;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fd18GPv2iyvMz6yTGEKCDJGyQ2K0y0p60cJxR8q/Wzo=;
- b=FexRMT4f70Kgf2QbK/JU+3aKHAAhqjy2XEFI6YfU/PklFZGqAe7B+/TZ
- GpiXdpypKXZrxhMdLXO3vjMH2uviA5bUX1FTZKkly1DtN50uHxbmRYP+a
- 284CL0r+T7WNyjiTQjfuKeXjs3WBTMUii+MruxSu8YWJGxRQzVuZ8xo8e
- 9/1etdblgAATEq4Ypul7gy11qP7eSg/jUIrSooi3Moj/0RKebpyVO7LWI
- akJd+0isRCnT19df8ElG1jhIP7C0DCdwTC+p/bJ6DUPkIaDsQXVSzXIk0
- 0hf7WqTqwW7g5rQKELAZHk8yiHzTCie5vfgnjLeDLuJmgwLUl/6dSOqnV g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="328046922"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="328046922"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 11:08:31 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="747525663"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="747525663"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
- ([10.165.21.138])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 11:08:30 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH drm-intel-fixes] drm/i915/gt: Perf_limit_reasons are only
- available for Gen11+
-Date: Wed, 28 Sep 2022 11:08:26 -0700
-Message-Id: <20220928180826.3182079-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C14E10E401
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 18:14:16 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id a10so15294809ljq.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 11:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=BrOXUUfC0kL59Y1UmzHzsftxixuWlRc4zXH9J/eo0gI=;
+ b=VSPtJ1HnP3Jbl6tzHhrBtDVbSdlieIY7u6ddlkpRFMKUCCOcw7HGIDaUAmIXWou/3c
+ YnOj4LVd3/rs+a5y4HRmun7sL5tyZhXB5UeE7+rJCTMiKzTsvx5kU1h32YSeYx7FyOfO
+ G3dxhtCZjn9twCnqQpatdGB/n5chgqUuzQA4FzDx+G/OcrlhKSk9MdjysQr12gl0GGUu
+ XiaaAZTFJvoJfG4SC+4RWn0Nd/KQ/1aOU7mKQA7vTcQI6unS3Awx2RPk94o6EIr5EF59
+ jkrvj3dzNbA97EavqLlKCl/aAveyHXtX9B5yEgRt6AnqvtPjsqu3QQjbx4mILY3gvIa3
+ ZIKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=BrOXUUfC0kL59Y1UmzHzsftxixuWlRc4zXH9J/eo0gI=;
+ b=7WyfpFrPQecNpTWSAd1lduMsyHqS8BcgfKIPtbiORBDCtRhg4zSbJnIfQ00jBc5V1C
+ Tha34dopDpFldTgzC3zjfWoo42cmLm2kcAsoLrPDqup7cmrk6PasLq55euz4Sqjg2DkS
+ hL9I5HBgejMRt79sP61aw4BlLjWN8eOOUK5ZUK7V9IBaDdUVNRpQUC89pQPv8RTaFokP
+ KobwMyTwH5pemir31k20Mxm8AYOdg075xHMH4Pa2pQEWvZPUwLpNssI86kDXs+TLz6K2
+ xuhzlMXGyNzQiiH7ske2xhnkZ457tzu6euWNftePZdEaBIcGffSTUTf9OfPFLUgGJW+W
+ nCxQ==
+X-Gm-Message-State: ACrzQf07K+fL/c6dJzjYYnp1QrqfbcUQ1vP1SNLF6iePnkB95K8B7hLJ
+ kc3xVVi4tJjqPHoCop4LesIDqA==
+X-Google-Smtp-Source: AMsMyM6FIcW8vQl/oHQx5+DSxLH/9IFwShQrmQwd207vM7vZlH9NsAILtgDsuEYjcARwnUiwtRx+XA==
+X-Received: by 2002:a2e:998b:0:b0:26c:1767:43c with SMTP id
+ w11-20020a2e998b000000b0026c1767043cmr11584534lji.342.1664388854336; 
+ Wed, 28 Sep 2022 11:14:14 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ t6-20020a19ad06000000b00498f32ae907sm539511lfc.95.2022.09.28.11.14.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 11:14:13 -0700 (PDT)
+Message-ID: <bab96626-3296-70aa-90c6-bb639d3c6ad4@linaro.org>
+Date: Wed, 28 Sep 2022 20:14:12 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [RFC PATCH v5 2/6] dt-bindings: display: ti: am65x-dss: Add new
+ port for am625-dss
+Content-Language: en-US
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Rob Herring <robh+dt@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220928175223.15225-1-a-bhatia1@ti.com>
+ <20220928175223.15225-3-a-bhatia1@ti.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220928175223.15225-3-a-bhatia1@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,64 +79,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Rahul T R <r-ravikumar@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register GT0_PERF_LIMIT_REASONS (0x1381a8) is available only for
-Gen11+. Therefore ensure perf_limit_reasons sysfs files are created only
-for Gen11+. Otherwise on Gen < 5 accessing these files results in the
-following oops:
+On 28/09/2022 19:52, Aradhya Bhatia wrote:
+> Add 3rd "port" property for am625-dss.
+> This port represents the output from the 2nd OLDI TX (OLDI TX 1) latched
+> onto the first video port (VP0) from the DSS controller on AM625 SOC.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>  .../bindings/display/ti/ti,am65x-dss.yaml      | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 6bbce921479d..99576c6ec108 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -82,13 +82,18 @@ properties:
+>        port@0:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description:
+> -          The DSS OLDI output port node form video port 1
+> +          The DSS OLDI output port node form video port 1 (OLDI TX 0).
+>  
+>        port@1:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description:
+>            The DSS DPI output port node from video port 2
+>  
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          The DSS OLDI output port node form video port 1 (OLDI TX 1).
+> +
+>    ti,am65x-oldi-io-ctrl:
+>      $ref: "/schemas/types.yaml#/definitions/phandle"
+>      description:
+> @@ -104,6 +109,17 @@ properties:
+>        Input memory (from main memory to dispc) bandwidth limit in
+>        bytes per second
+>  
+> +if:
 
-<1> [88.829420] BUG: unable to handle page fault for address: ffffc90000bb81a8
-<1> [88.829438] #PF: supervisor read access in kernel mode
-<1> [88.829447] #PF: error_code(0x0000) - not-present page
+Entire if: block is usually put under allOf:, so when the list of
+conditions grow, you do not need to change indentation.
 
-Bspec: 20008
-Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/6863
-Fixes: fa68bff7cf27 ("drm/i915/gt: Add sysfs throttle frequency interfaces")
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+With the change:
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-index 73a8b46e0234..d09a0e845d09 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-@@ -545,8 +545,7 @@ static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_ratl, RATL_MASK);
- static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_thermalert, VR_THERMALERT_MASK);
- static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_tdc, VR_TDC_MASK);
- 
--static const struct attribute *freq_attrs[] = {
--	&dev_attr_punit_req_freq_mhz.attr,
-+static const struct attribute *throttle_reason_attrs[] = {
- 	&attr_throttle_reason_status.attr,
- 	&attr_throttle_reason_pl1.attr,
- 	&attr_throttle_reason_pl2.attr,
-@@ -763,12 +762,20 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
- 	if (!is_object_gt(kobj))
- 		return;
- 
--	ret = sysfs_create_files(kobj, freq_attrs);
-+	ret = sysfs_create_file(kobj, &dev_attr_punit_req_freq_mhz.attr);
- 	if (ret)
- 		drm_warn(&gt->i915->drm,
--			 "failed to create gt%u throttle sysfs files (%pe)",
-+			 "failed to create gt%u punit_req_freq_mhz sysfs (%pe)",
- 			 gt->info.id, ERR_PTR(ret));
- 
-+	if (GRAPHICS_VER(gt->i915) >= 11) {
-+		ret = sysfs_create_files(kobj, throttle_reason_attrs);
-+		if (ret)
-+			drm_warn(&gt->i915->drm,
-+				 "failed to create gt%u throttle sysfs files (%pe)",
-+				 gt->info.id, ERR_PTR(ret));
-+	}
-+
- 	if (HAS_MEDIA_RATIO_MODE(gt->i915) && intel_uc_uses_guc_slpc(&gt->uc)) {
- 		ret = sysfs_create_files(kobj, media_perf_power_attrs);
- 		if (ret)
--- 
-2.34.1
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
