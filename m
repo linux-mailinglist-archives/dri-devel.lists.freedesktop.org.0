@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9A85EE54B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 21:19:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9335EE509
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 21:18:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8739C10E86F;
-	Wed, 28 Sep 2022 19:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6886710E81E;
+	Wed, 28 Sep 2022 19:18:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE7FC10E812;
- Wed, 28 Sep 2022 19:17:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABFA710E7F8;
+ Wed, 28 Sep 2022 19:17:53 +0000 (UTC)
 Received: from dimapc.. (unknown [109.252.125.248])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4CA5866022A5;
- Wed, 28 Sep 2022 20:17:46 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 8875866022A0;
+ Wed, 28 Sep 2022 20:17:49 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1664392669;
- bh=3secHBjyjMQpoZrQKxguIhOKP495IyqhEAH64Kaz1ng=;
+ s=mail; t=1664392672;
+ bh=RCM7cbGa0hbU3izrAQh1wOIWATDaV8057tfGw8XuSMQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jaavN6JWartrzJOAt6yoc6c9JrqowfXMZCHaH/OKwYQr10UjGhVD98HyXPtNUlXIS
- w7SwcQ/HM9RKIyLfX2aEsf3DPUTj+guHAc26CwtzcPonmEIJh4oJ5/1mXvpQ/lHrdr
- K/OZTOeRPEVxde79eRT+JuZz7+WNr/CmJl/T/No/AUZaRMpOopDYRF+UdUG022kDz6
- 13SA3by/pavASohHhkeSRtwiiGlc+ivx9t0C+GhlPFFe3yoMKEVeWCLOD2dY7V+E+F
- +tZA1HM/bEQ3lhFU5elQIakAUG34ZX3RW7t+W7O9uBmZTnMv2dZkGW4tTMHG2Y+7d/
- 3I/vHAyixSAmQ==
+ b=GWrc/OGwMEkATqkV9fFBn9Lv0V2xa2g53CnBd7McVCOFILkxQafwDMxOde5NsMoX0
+ VUwFPwGFknt6VN5GwQJ+ZBgp+faMC0JKSCRpkCjohCfuR4xE3YhBXKJ1zl4HHraLmB
+ rGS9efU5NaF9V5rKhv4U4mnrwiROVKScS8X4LRKbBXD6QqHojHlCR2B4Mz6WinR3uV
+ nigJS+bBO352mzA4zqkQoj14ynMhRZumJOgfYAMy/R+jgJUnDdQcSjB9uNcLNUTNj5
+ du5q5ipSvdyWS80M0vP36BJAN+bZ36rf44kQ4Cm15tWtkZw0gC9hTy2ABeu70xn6Ku
+ sLfqtzxjXU7pg==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -65,10 +65,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Ruhl Michael J <michael.j.ruhl@intel.com>
-Subject: [PATCH v6 08/21] drm/tegra: Prepare to dynamic dma-buf locking
+Subject: [PATCH v6 09/21] drm/etnaviv: Prepare to dynamic dma-buf locking
  specification
-Date: Wed, 28 Sep 2022 22:15:47 +0300
-Message-Id: <20220928191600.5874-9-dmitry.osipenko@collabora.com>
+Date: Wed, 28 Sep 2022 22:15:48 +0300
+Message-Id: <20220928191600.5874-10-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
 References: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
@@ -96,85 +96,28 @@ Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare Tegra DRM driver to the common dynamic dma-buf locking convention
+Prepare Etnaviv driver to the common dynamic dma-buf locking convention
 by starting to use the unlocked versions of dma-buf API functions.
 
 Acked-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/tegra/gem.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index 81991090adcc..b09b8ab40ae4 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -84,7 +84,7 @@ static struct host1x_bo_mapping *tegra_bo_pin(struct device *dev, struct host1x_
- 			goto free;
- 		}
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index 3fa2da149639..7031db145a77 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -65,7 +65,7 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
+ 	struct iosys_map map = IOSYS_MAP_INIT_VADDR(etnaviv_obj->vaddr);
  
--		map->sgt = dma_buf_map_attachment(map->attach, direction);
-+		map->sgt = dma_buf_map_attachment_unlocked(map->attach, direction);
- 		if (IS_ERR(map->sgt)) {
- 			dma_buf_detach(buf, map->attach);
- 			err = PTR_ERR(map->sgt);
-@@ -160,7 +160,8 @@ static struct host1x_bo_mapping *tegra_bo_pin(struct device *dev, struct host1x_
- static void tegra_bo_unpin(struct host1x_bo_mapping *map)
- {
- 	if (map->attach) {
--		dma_buf_unmap_attachment(map->attach, map->sgt, map->direction);
-+		dma_buf_unmap_attachment_unlocked(map->attach, map->sgt,
-+						  map->direction);
- 		dma_buf_detach(map->attach->dmabuf, map->attach);
- 	} else {
- 		dma_unmap_sgtable(map->dev, map->sgt, map->direction, 0);
-@@ -181,7 +182,7 @@ static void *tegra_bo_mmap(struct host1x_bo *bo)
- 	if (obj->vaddr) {
- 		return obj->vaddr;
- 	} else if (obj->gem.import_attach) {
--		ret = dma_buf_vmap(obj->gem.import_attach->dmabuf, &map);
-+		ret = dma_buf_vmap_unlocked(obj->gem.import_attach->dmabuf, &map);
- 		return ret ? NULL : map.vaddr;
- 	} else {
- 		return vmap(obj->pages, obj->num_pages, VM_MAP,
-@@ -197,7 +198,7 @@ static void tegra_bo_munmap(struct host1x_bo *bo, void *addr)
- 	if (obj->vaddr)
- 		return;
- 	else if (obj->gem.import_attach)
--		dma_buf_vunmap(obj->gem.import_attach->dmabuf, &map);
-+		dma_buf_vunmap_unlocked(obj->gem.import_attach->dmabuf, &map);
- 	else
- 		vunmap(addr);
- }
-@@ -461,7 +462,7 @@ static struct tegra_bo *tegra_bo_import(struct drm_device *drm,
+ 	if (etnaviv_obj->vaddr)
+-		dma_buf_vunmap(etnaviv_obj->base.import_attach->dmabuf, &map);
++		dma_buf_vunmap_unlocked(etnaviv_obj->base.import_attach->dmabuf, &map);
  
- 	get_dma_buf(buf);
- 
--	bo->sgt = dma_buf_map_attachment(attach, DMA_TO_DEVICE);
-+	bo->sgt = dma_buf_map_attachment_unlocked(attach, DMA_TO_DEVICE);
- 	if (IS_ERR(bo->sgt)) {
- 		err = PTR_ERR(bo->sgt);
- 		goto detach;
-@@ -479,7 +480,7 @@ static struct tegra_bo *tegra_bo_import(struct drm_device *drm,
- 
- detach:
- 	if (!IS_ERR_OR_NULL(bo->sgt))
--		dma_buf_unmap_attachment(attach, bo->sgt, DMA_TO_DEVICE);
-+		dma_buf_unmap_attachment_unlocked(attach, bo->sgt, DMA_TO_DEVICE);
- 
- 	dma_buf_detach(buf, attach);
- 	dma_buf_put(buf);
-@@ -508,8 +509,8 @@ void tegra_bo_free_object(struct drm_gem_object *gem)
- 		tegra_bo_iommu_unmap(tegra, bo);
- 
- 	if (gem->import_attach) {
--		dma_buf_unmap_attachment(gem->import_attach, bo->sgt,
--					 DMA_TO_DEVICE);
-+		dma_buf_unmap_attachment_unlocked(gem->import_attach, bo->sgt,
-+						  DMA_TO_DEVICE);
- 		drm_prime_gem_destroy(gem, NULL);
- 	} else {
- 		tegra_bo_free(gem->dev, bo);
+ 	/* Don't drop the pages for imported dmabuf, as they are not
+ 	 * ours, just free the array we allocated:
 -- 
 2.37.3
 
