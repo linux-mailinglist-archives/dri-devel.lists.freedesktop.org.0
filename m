@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692D35EE9A2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC135EE995
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:48:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC5F510E774;
-	Wed, 28 Sep 2022 22:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C763610E4A5;
+	Wed, 28 Sep 2022 22:47:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6564610E130
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD0110E130
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:37 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0FD6823;
- Thu, 29 Sep 2022 00:47:34 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35A3B47C;
+ Thu, 29 Sep 2022 00:47:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405255;
- bh=vp1aHgKY5NyNCdN53pj9M8xrO6R7a2hVvib/nDRXrEw=;
+ s=mail; t=1664405256;
+ bh=ft0Z9waeO1wikVj6uSQpCpbh6WQLfWImmuPXPH0fook=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ce1mnm0zhc+fmsBKEF/afrroRNC5o8UTdzNRsdOD35+M1xSVnfw391+IV7vvHRTfT
- CelSEPEoH6g0mz5iBh47Uk/uA4WIQbjbQr7wBcEjs0LfsV5scwavj6mOl2wNt2J2Yy
- /VQ4egDC8GsSE+CIMX7Xr7W1cNt61jbEgJxC7/3A=
+ b=L2MVpC57F8NqaQCqJNBygX/3Ys9hqMzS1/kymJ4m9dnnDj0vNsSDU02RzBzgyMhyp
+ 5uVULfSRVv1oVzUDR+HI6PMTH39o1qj9yTOCeP6z8r6QS7MeIHGUWBGvCNCbBNXBTD
+ AdzGLNR1HqrUitsDkPYru19uSzGGnBjtwsIJx+Q4=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 07/37] drm: xlnx: zynqmp_dpsub: Move encoder to DPSUB core
-Date: Thu, 29 Sep 2022 01:46:49 +0300
-Message-Id: <20220928224719.3291-8-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 08/37] drm: xlnx: zynqmp_dpsub: Attach to the next bridge
+Date: Thu, 29 Sep 2022 01:46:50 +0300
+Message-Id: <20220928224719.3291-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -51,253 +51,67 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As part of the transitition of the DP encoder to a DRM bridge, turn the
-DRM encoder into a dummy encoder and move it out of the DP code, to the
-DPSUB core. DP encoder operations are handled by the DP bridge, which is
-now attached to the encoder.
+The next component in the display chain, after the DP encoder, is most
+likely a DP connector. The display connector driver registers a bridge
+for it. That bridge doesn't need to be controlled, but is needed in
+order to use the DRM connector bridge helper. Retrieve it at init time,
+and attach to it in the DP bridge attach handler.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c    | 79 ++---------------------------
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 16 +++++-
- drivers/gpu/drm/xlnx/zynqmp_dpsub.h |  8 +++
- 3 files changed, 25 insertions(+), 78 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 65b1ab4e4d2d..28f92b5d8385 100644
+index 28f92b5d8385..0aa810ebdeca 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -15,12 +15,10 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_encoder.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
+@@ -283,6 +283,7 @@ struct zynqmp_dp_config {
+  * @reset: reset controller
+  * @irq: irq
+  * @bridge: DRM bridge for the DP encoder
++ * @next_bridge: The downstream bridge
+  * @config: IP core configuration from DTS
+  * @aux: aux channel
+  * @phy: PHY handles for DP lanes
+@@ -305,6 +306,7 @@ struct zynqmp_dp {
+ 	int irq;
  
- #include <linux/clk.h>
- #include <linux/delay.h>
-@@ -277,7 +275,6 @@ struct zynqmp_dp_config {
+ 	struct drm_bridge bridge;
++	struct drm_bridge *next_bridge;
  
- /**
-  * struct zynqmp_dp - Xilinx DisplayPort core
-- * @encoder: the drm encoder structure
-  * @connector: the drm connector structure
-  * @dev: device structure
-  * @dpsub: Display subsystem
-@@ -299,7 +296,6 @@ struct zynqmp_dp_config {
-  * @train_set: set of training data
-  */
- struct zynqmp_dp {
--	struct drm_encoder encoder;
- 	struct drm_connector connector;
- 	struct device *dev;
- 	struct zynqmp_dpsub *dpsub;
-@@ -324,11 +320,6 @@ struct zynqmp_dp {
- 	u8 train_set[ZYNQMP_DP_MAX_LANES];
- };
+ 	struct zynqmp_dp_config config;
+ 	struct drm_dp_aux aux;
+@@ -1307,6 +1309,13 @@ static int zynqmp_dp_bridge_attach(struct drm_bridge *bridge,
+ 	drm_connector_register(connector);
+ 	drm_connector_attach_encoder(connector, bridge->encoder);
  
--static inline struct zynqmp_dp *encoder_to_dp(struct drm_encoder *encoder)
--{
--	return container_of(encoder, struct zynqmp_dp, encoder);
--}
--
- static inline struct zynqmp_dp *connector_to_dp(struct drm_connector *connector)
- {
- 	return container_of(connector, struct zynqmp_dp, connector);
-@@ -1566,7 +1557,7 @@ zynqmp_dp_connector_best_encoder(struct drm_connector *connector)
- {
- 	struct zynqmp_dp *dp = connector_to_dp(connector);
- 
--	return &dp->encoder;
-+	return &dp->dpsub->encoder;
- }
- 
- static int zynqmp_dp_connector_mode_valid(struct drm_connector *connector,
-@@ -1594,55 +1585,6 @@ zynqmp_dp_connector_helper_funcs = {
- 	.mode_valid	= zynqmp_dp_connector_mode_valid,
- };
- 
--/* -----------------------------------------------------------------------------
-- * DRM Encoder
-- */
--
--static void zynqmp_dp_encoder_atomic_enable(struct drm_encoder *encoder,
--					    struct drm_atomic_state *state)
--{
--	struct zynqmp_dp *dp = encoder_to_dp(encoder);
--	struct drm_bridge_state bridge_state;
--
--	bridge_state.base.state = state;
--	zynqmp_dp_bridge_atomic_enable(&dp->bridge, &bridge_state);
--}
--
--static void zynqmp_dp_encoder_atomic_disable(struct drm_encoder *encoder,
--					     struct drm_atomic_state *state)
--{
--	struct zynqmp_dp *dp = encoder_to_dp(encoder);
--	struct drm_bridge_state bridge_state;
--
--	bridge_state.base.state = state;
--	zynqmp_dp_bridge_atomic_disable(&dp->bridge, &bridge_state);
--}
--
--static void
--zynqmp_dp_encoder_atomic_mode_set(struct drm_encoder *encoder,
--				  struct drm_crtc_state *crtc_state,
--				  struct drm_connector_state *connector_state)
--{
--}
--
--static int
--zynqmp_dp_encoder_atomic_check(struct drm_encoder *encoder,
--			       struct drm_crtc_state *crtc_state,
--			       struct drm_connector_state *conn_state)
--{
--	struct zynqmp_dp *dp = encoder_to_dp(encoder);
--
--	return zynqmp_dp_bridge_atomic_check(&dp->bridge, NULL, crtc_state,
--					     conn_state);
--}
--
--static const struct drm_encoder_helper_funcs zynqmp_dp_encoder_helper_funcs = {
--	.atomic_enable		= zynqmp_dp_encoder_atomic_enable,
--	.atomic_disable		= zynqmp_dp_encoder_atomic_disable,
--	.atomic_mode_set	= zynqmp_dp_encoder_atomic_mode_set,
--	.atomic_check		= zynqmp_dp_encoder_atomic_check,
--};
--
- /* -----------------------------------------------------------------------------
-  * Interrupt Handling
-  */
-@@ -1731,32 +1673,17 @@ int zynqmp_dp_drm_init(struct zynqmp_dpsub *dpsub)
- {
- 	struct zynqmp_dp *dp = dpsub->dp;
- 	struct drm_bridge *bridge = &dp->bridge;
--	struct drm_encoder *encoder = &dp->encoder;
- 	int ret;
- 
- 	dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
- 	zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
- 
--	/*
--	 * Initialize the bridge. Setting the device and encoder manually is a
--	 * hack, to be removed once the bridge will get attached to the encoder
--	 * using the bridge API.
--	 */
--	bridge->dev = dp->drm;
--	bridge->encoder = &dp->encoder;
-+	/* Initialize the bridge. */
- 	bridge->funcs = &zynqmp_dp_bridge_funcs;
- 	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
- 		    | DRM_BRIDGE_OP_HPD;
- 	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
--
--	/* Create the DRM encoder and attach the bridge. */
--	encoder->possible_crtcs |= zynqmp_disp_get_crtc_mask(dpsub->disp);
--	drm_simple_encoder_init(dp->drm, encoder, DRM_MODE_ENCODER_TMDS);
--	drm_encoder_helper_add(encoder, &zynqmp_dp_encoder_helper_funcs);
--
--	ret = zynqmp_dp_bridge_attach(bridge, 0);
--	if (ret < 0)
--		return ret;
-+	dpsub->bridge = bridge;
- 
- 	/* Initialize and register the AUX adapter. */
- 	ret = zynqmp_dp_aux_init(dp);
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 824b510e337b..35c206397e27 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -17,6 +17,7 @@
- #include <linux/pm_runtime.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
-@@ -27,6 +28,7 @@
- #include <drm/drm_mode_config.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_vblank.h>
- 
- #include "zynqmp_disp.h"
-@@ -94,6 +96,7 @@ static const struct drm_driver zynqmp_dpsub_drm_driver = {
- 
- static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- {
-+	struct drm_encoder *encoder = &dpsub->encoder;
- 	struct drm_device *drm = &dpsub->drm;
- 	int ret;
- 
-@@ -116,8 +119,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 
- 	/*
- 	 * Initialize the DISP and DP components. This will creates planes,
--	 * CRTC, encoder and connector. The DISP should be initialized first as
--	 * the DP encoder needs the CRTC.
-+	 * CRTC, and a bridge for the DP encoder.
- 	 */
- 	ret = zynqmp_disp_drm_init(dpsub);
- 	if (ret)
-@@ -127,6 +129,16 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 	if (ret)
- 		goto err_poll_fini;
- 
-+	/* Create the encoder and attach the bridge. */
-+	encoder->possible_crtcs |= zynqmp_disp_get_crtc_mask(dpsub->disp);
-+	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
-+
-+	ret = drm_bridge_attach(encoder, dpsub->bridge, NULL, 0);
-+	if (ret) {
-+		dev_err(dpsub->dev, "failed to attach bridge to encoder\n");
-+		goto err_poll_fini;
++	if (dp->next_bridge) {
++		ret = drm_bridge_attach(bridge->encoder, dp->next_bridge,
++					bridge, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++		if (ret < 0)
++			return ret;
 +	}
 +
- 	/* Reset all components and register the DRM device. */
- 	drm_mode_config_reset(drm);
+ 	return 0;
+ }
  
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-index c04026d82639..66820bbc4507 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-@@ -12,8 +12,11 @@
- #ifndef _ZYNQMP_DPSUB_H_
- #define _ZYNQMP_DPSUB_H_
+@@ -1744,6 +1753,15 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
+ 	if (ret)
+ 		goto err_reset;
  
-+#include <drm/drm_encoder.h>
++	/*
++	 * Acquire the next bridge in the chain. Ignore errors caused by port@5
++	 * not being connected for backward-compatibility with older DTs.
++	 */
++	ret = drm_of_find_panel_or_bridge(dp->dev->of_node, 5, 0, NULL,
++					  &dp->next_bridge);
++	if (ret < 0 && ret != -ENODEV)
++		goto err_reset;
 +
- struct clk;
- struct device;
-+struct drm_bridge;
- struct drm_device;
- struct zynqmp_disp;
- struct zynqmp_dp;
-@@ -30,6 +33,8 @@ enum zynqmp_dpsub_format {
-  * @drm: The DRM/KMS device
-  * @dev: The physical device
-  * @apb_clk: The APB clock
-+ * @encoder: The dummy DRM encoder
-+ * @bridge: The DP encoder bridge
-  * @disp: The display controller
-  * @dp: The DisplayPort controller
-  * @dma_align: DMA alignment constraint (must be a power of 2)
-@@ -40,6 +45,9 @@ struct zynqmp_dpsub {
- 
- 	struct clk *apb_clk;
- 
-+	struct drm_encoder encoder;
-+	struct drm_bridge *bridge;
-+
- 	struct zynqmp_disp *disp;
- 	struct zynqmp_dp *dp;
- 
+ 	/* Initialize the hardware. */
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
+ 			ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
 -- 
 Regards,
 
