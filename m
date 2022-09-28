@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3935ED4EC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 08:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136EB5ED49C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 08:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 788E710E28F;
-	Wed, 28 Sep 2022 06:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE40A10E272;
+	Wed, 28 Sep 2022 06:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 915 seconds by postgrey-1.36 at gabe;
- Wed, 28 Sep 2022 03:49:21 UTC
-Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 07AF010E20D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 03:49:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ByRr8
- bZsJJi4I3/qCoEvNPxs2sr+s2xR5n1KueAfAZY=; b=nHH/YhXlV8qTBLS06GksC
- VVv88TpJlSV0HA5IxK404/vcj/p5QzXXjdye/kN76XOWgfDbk1+SLWK7ls4wPAku
- k9d/2YhYM3p7Wr/SAWJUeYZxS7OLxS2gTobh2Uvxkfrrj9sgGz2e6m7nW8XW+4Wh
- Tlcj1TGHTOxf6x8/756Cp4=
-Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
- by smtp4 (Coremail) with SMTP id HNxpCgCXvdGUwDNj9OqbgQ--.9697S2;
- Wed, 28 Sep 2022 11:33:41 +0800 (CST)
-From: Zheng Wang <zyytlz.wz@163.com>
-To: hackerzheng666@gmail.com
-Subject: [PATCH] drm/i915/gvt: fix double free bug in split_2MB_gtt_entry
-Date: Wed, 28 Sep 2022 11:33:40 +0800
-Message-Id: <20220928033340.1063949-1-zyytlz.wz@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAJedcCzjWw6v5Nt42jsCStdpwHuz13D+q-CD=6ycVWBczY+4mg@mail.gmail.com>
-References: <CAJedcCzjWw6v5Nt42jsCStdpwHuz13D+q-CD=6ycVWBczY+4mg@mail.gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E6BB10E26A;
+ Wed, 28 Sep 2022 06:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664345987; x=1695881987;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=b6Zb736P9oVsaY49lUpr0wCyCTB7WBV0VH6ayvGhp/g=;
+ b=MaD8a/K4U2JK/6Y4zdeB4SZJnBNejy+eIke7da0kk+dZ9Ad5ybi6y+AB
+ W+rMIbW7Ak+GTUBBSrq6YqEwRpKhkYOTckwOs+6XtDljY8x6RPyfr5UuL
+ MfpT3L669W58x9L8W64i8eWvYMQR4/wgoMdpmEAGF1avsxIR51o/N8GJO
+ m19k/MyR2ppBxYE5Y7CO8YYTTtWdDiQuYGrtcPbWaiw9+Mos9GKW6S8zY
+ clGHX3yhVxJBekNiTtVqqwRQS54jXO/ezd8oidvgcLKW1866Zar8ZJL4A
+ dobiQD/K1349pUbQbC9MjmRoo4FNed7svfWU7gwSn+uiYKAdfjtncP7Jt g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="301494316"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="301494316"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2022 23:19:46 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="866849173"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="866849173"
+Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 27 Sep 2022 23:19:46 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/16] drm/i915/vm_bind: Add VM_BIND functionality
+Date: Tue, 27 Sep 2022 23:19:02 -0700
+Message-Id: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
+X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: HNxpCgCXvdGUwDNj9OqbgQ--.9697S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJFWrCw4kCrW7ZF15Ar1DKFg_yoW5WF4fpF
- W5Xa1qyFs5A3y2vF47Aa1kZF15AF1fury8Gr93K3ZayF1DtF1ktFZ8XFW3Wrya9FZ7Gr1f
- Ar4UtFW7Cay7XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRDGYJUUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbCqQOKU10DhE6moAAAsh
-X-Mailman-Approved-At: Wed, 28 Sep 2022 06:30:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,89 +55,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex000young@gmail.com, security@kernel.org, tvrtko.ursulin@linux.intel.com,
- airlied@linux.ie, gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- 1002992920@qq.com, Zheng Wang <zyytlz.wz@163.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If intel_gvt_dma_map_guest_page failed, it will call
-ppgtt_invalidate_spt, which will finally free the spt.
-But the caller does not notice that, it will free spt again in error path.
+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM
+buffer objects (BOs) or sections of a BOs at specified GPU virtual
+addresses on a specified address space (VM). Multiple mappings can map
+to the same physical pages of an object (aliasing). These mappings (also
+referred to as persistent mappings) will be persistent across multiple
+GPU submissions (execbuf calls) issued by the UMD, without user having
+to provide a list of all required mappings during each submission (as
+required by older execbuf mode).
 
-Fix this by only freeing spt in ppgtt_invalidate_spt in good case.
+This patch series support VM_BIND version 1, as described by the param
+I915_PARAM_VM_BIND_VERSION.
 
-Fixes: b901b252b6cf ("drm/i915/gvt: Add 2M huge gtt support")
-Reported-by: Zheng Wang <hackerzheng666@gmail.com>
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
----
- drivers/gpu/drm/i915/gvt/gtt.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+Add new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only works in
+vm_bind mode. The vm_bind mode only works with this new execbuf3 ioctl.
+The new execbuf3 ioctl will not have any execlist support and all the
+legacy support like relocations etc., are removed.
 
-diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-index ce0eb03709c3..550519f0acca 100644
---- a/drivers/gpu/drm/i915/gvt/gtt.c
-+++ b/drivers/gpu/drm/i915/gvt/gtt.c
-@@ -959,7 +959,7 @@ static inline int ppgtt_put_spt(struct intel_vgpu_ppgtt_spt *spt)
- 	return atomic_dec_return(&spt->refcount);
- }
- 
--static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
-+static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int is_error);
- 
- static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
- 		struct intel_gvt_gtt_entry *e)
-@@ -995,7 +995,7 @@ static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
- 				ops->get_pfn(e));
- 		return -ENXIO;
- 	}
--	return ppgtt_invalidate_spt(s);
-+	return ppgtt_invalidate_spt(s, 0);
- }
- 
- static inline void ppgtt_invalidate_pte(struct intel_vgpu_ppgtt_spt *spt,
-@@ -1016,7 +1016,7 @@ static inline void ppgtt_invalidate_pte(struct intel_vgpu_ppgtt_spt *spt,
- 	intel_gvt_dma_unmap_guest_page(vgpu, pfn << PAGE_SHIFT);
- }
- 
--static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt)
-+static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt, int is_error)
- {
- 	struct intel_vgpu *vgpu = spt->vgpu;
- 	struct intel_gvt_gtt_entry e;
-@@ -1059,9 +1059,11 @@ static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt)
- 		}
- 	}
- 
--	trace_spt_change(spt->vgpu->id, "release", spt,
-+	if (!is_error) {
-+		trace_spt_change(spt->vgpu->id, "release", spt,
- 			 spt->guest_page.gfn, spt->shadow_page.type);
--	ppgtt_free_spt(spt);
-+		ppgtt_free_spt(spt);
-+	}
- 	return 0;
- fail:
- 	gvt_vgpu_err("fail: shadow page %p shadow entry 0x%llx type %d\n",
-@@ -1215,7 +1217,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
- 		ret = intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_index,
- 						   PAGE_SIZE, &dma_addr);
- 		if (ret) {
--			ppgtt_invalidate_spt(spt);
-+			ppgtt_invalidate_spt(spt, 1);
- 			return ret;
- 		}
- 		sub_se.val64 = se->val64;
-@@ -1393,7 +1395,7 @@ static int ppgtt_handle_guest_entry_removal(struct intel_vgpu_ppgtt_spt *spt,
- 			ret = -ENXIO;
- 			goto fail;
- 		}
--		ret = ppgtt_invalidate_spt(s);
-+		ret = ppgtt_invalidate_spt(s, 0);
- 		if (ret)
- 			goto fail;
- 	} else {
+TODOs:
+* Support out fence for VM_UNBIND ioctl.
+* Async VM_UNBIND support.
+* Optimizations.
+
+NOTEs:
+* It is based on below VM_BIND design+uapi rfc.
+  Documentation/gpu/rfc/i915_vm_bind.rst
+
+* The IGT RFC series is posted as,
+  [PATCH i-g-t 0/8] vm_bind: Add VM_BIND validation support
+
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+
+Niranjana Vishwanathapura (16):
+  drm/i915/vm_bind: Expose vm lookup function
+  drm/i915/vm_bind: Add __i915_sw_fence_await_reservation()
+  drm/i915/vm_bind: Expose i915_gem_object_max_page_size()
+  drm/i915/vm_bind: Add support to create persistent vma
+  drm/i915/vm_bind: Implement bind and unbind of object
+  drm/i915/vm_bind: Support for VM private BOs
+  drm/i915/vm_bind: Add support to handle object evictions
+  drm/i915/vm_bind: Support persistent vma activeness tracking
+  drm/i915/vm_bind: Add out fence support
+  drm/i915/vm_bind: Abstract out common execbuf functions
+  drm/i915/vm_bind: Use common execbuf functions in execbuf path
+  drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3 ioctl
+  drm/i915/vm_bind: Update i915_vma_verify_bind_complete()
+  drm/i915/vm_bind: Handle persistent vmas in execbuf3
+  drm/i915/vm_bind: userptr dma-resv changes
+  drm/i915/vm_bind: Add uapi for user to enable vm_bind_mode
+
+ drivers/gpu/drm/i915/Makefile                 |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  20 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  60 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 521 +----------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 856 ++++++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.c | 664 ++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.h |  74 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  17 +
+ drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  30 +
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    | 418 +++++++++
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  18 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  27 +
+ drivers/gpu/drm/i915/i915_driver.c            |   4 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  39 +
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |   3 +
+ drivers/gpu/drm/i915/i915_getparam.c          |   3 +
+ drivers/gpu/drm/i915/i915_sw_fence.c          |  28 +-
+ drivers/gpu/drm/i915/i915_sw_fence.h          |  23 +-
+ drivers/gpu/drm/i915/i915_vma.c               | 111 ++-
+ drivers/gpu/drm/i915/i915_vma.h               |  52 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  42 +
+ include/uapi/drm/i915_drm.h                   | 282 +++++-
+ 30 files changed, 2799 insertions(+), 520 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+
 -- 
-2.25.1
+2.21.0.rc0.32.g243a4c7e27
 
