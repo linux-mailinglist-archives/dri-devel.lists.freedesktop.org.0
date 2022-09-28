@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF625EE991
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:47:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A71CA5EE999
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E87710E139;
-	Wed, 28 Sep 2022 22:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D75F010E5C4;
+	Wed, 28 Sep 2022 22:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B773210E502
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB3710E768
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:42 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16E5147C;
- Thu, 29 Sep 2022 00:47:39 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE3B66BE;
+ Thu, 29 Sep 2022 00:47:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405259;
- bh=xIvZ8XZu5IL62kFqUQ1SiKDDlDA6y1XQvCPGi0jvhSM=;
+ s=mail; t=1664405261;
+ bh=BW38xSA/D8NP5x89m04bdFxh60/NCse0T+kCKOwtupE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WybRZeFmD5pGRiH2z9RJywjeywn/shGV1k03butrO4FiCesFeAC2yly2B/7uexB4o
- 4f4cDi5oo6YQnQMNBUVC0W84Lhu41WFbQKTog2lc8WGnAbFPN3seB8qD4PJsn1Sv7o
- 99vxarXR8DQ7QAWM+TlQtcZLVwd5cFlbZ3+ZIptE=
+ b=nsdizKnKICiCzyze+vQa2gSOt/S67BGbA9JvvZRFmk55MEmYb+ZgQfIyQ4Unk8enA
+ J4OuzhU9D+eMMGEF98YGcHYVkB/d5hqxALRLnXnj5qbAtIiF4C9Qdh0TJfV+GkZ2wd
+ oFEq90/J7yeOuBXH7+jhZz9FotHDTVbOO4C3170A=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 10/37] drm: xlnx: zynqmp_dpsub: Report HPD through the
- bridge
-Date: Thu, 29 Sep 2022 01:46:52 +0300
-Message-Id: <20220928224719.3291-11-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 11/37] drm: xlnx: zynqmp_dpsub: Drop unused
+ zynqmp_disp.event field
+Date: Thu, 29 Sep 2022 01:46:53 +0300
+Message-Id: <20220928224719.3291-12-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,45 +52,34 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the driver uses the connector bridge helper, HPD can be
-reported directly for the connector through the drm_bridge_hpd_notify()
-function.
+The event field of the zynqmp_disp structure is unused. Drop it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index a18cb979be52..33fd69ed7550 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -17,7 +17,6 @@
- #include <drm/drm_managed.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_of.h>
--#include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+index cc32aa89cf8f..31b52f01c32d 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+@@ -172,7 +172,6 @@ struct zynqmp_disp_layer {
+  * @audio.clk: Audio clock
+  * @audio.clk_from_ps: True of the audio clock comes from PS, false from PL
+  * @layers: Layers (planes)
+- * @event: Pending vblank event request
+  * @pclk: Pixel clock
+  * @pclk_from_ps: True of the video clock comes from PS, false from PL
+  */
+@@ -197,8 +196,6 @@ struct zynqmp_disp {
  
- #include <linux/clk.h>
- #include <linux/delay.h>
-@@ -1534,12 +1533,12 @@ void zynqmp_dp_disable_vblank(struct zynqmp_dp *dp)
+ 	struct zynqmp_disp_layer layers[ZYNQMP_DISP_NUM_LAYERS];
  
- static void zynqmp_dp_hpd_work_func(struct work_struct *work)
- {
--	struct zynqmp_dp *dp;
-+	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
-+					    hpd_work.work);
-+	enum drm_connector_status status;
- 
--	dp = container_of(work, struct zynqmp_dp, hpd_work.work);
+-	struct drm_pending_vblank_event *event;
 -
--	if (dp->drm)
--		drm_helper_hpd_irq_event(dp->drm);
-+	status = zynqmp_dp_bridge_detect(&dp->bridge);
-+	drm_bridge_hpd_notify(&dp->bridge, status);
- }
- 
- static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+ 	struct clk *pclk;
+ 	bool pclk_from_ps;
+ };
 -- 
 Regards,
 
