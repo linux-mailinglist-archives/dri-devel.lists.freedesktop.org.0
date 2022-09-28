@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436725EDD26
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 14:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0815EDD3B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 14:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AED4510E734;
-	Wed, 28 Sep 2022 12:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5C9C10E735;
+	Wed, 28 Sep 2022 12:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD24010E70B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 12:50:38 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id z2so17146897edi.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 05:50:38 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A2B910E721
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 12:55:54 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id a26so26971216ejc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 05:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=aCbdLya+ld7bMamcEDTWwB9niwCrFGpu9B0QN9EkD9Y=;
- b=Zv5BcHp3fiCoDa+LSZ+xPzUoJEFCLPbI7jeryUI4F/uIM1FGNCNIq/2iTEp/WZN7wW
- Z516ZTNnIB7WZ4kV7qQyrxOiC5i7vJMKs4aOEYcWRYQmFcKURZY2cef6AqyFL46zI5IQ
- idlkJqJjlWjBS3r1hR10/v7Z5s7G9fiopyGTQnvj5XiYg4s0fuTo8OcfdZ3Eqwz0kaRs
- d6xWXbt828WEtqD5sk/5zyxvxF8mRRPwWz4QczIbDFF79Fy6iyWQo+QTAs4yqvSgrY9W
- qxSEJVgmi/+70kw9d9JBu0Da1QUZY+gH3+pIU+zmr/QByiuob5QG/5JEiZ16ciJJGnwu
- OVtA==
+ bh=Te5x3E57m7cOxR02iErARIkX0eaDD14Z91rfL50K4UE=;
+ b=VZs37zWVN7illdyOhUS5P/ohuurX/YrDbuqtXuJ8fz3n8/iX2si6QM3+1Np6yAEh6b
+ 5qfOdzaE1GzIYH9tCXlM351Z1Mbz9nVpiuFcUS6iwlh3IZp1bswtFyjhPftz9IpiWQpk
+ XxdVWmwaBJEWJFhwAo/Es2wuUHX2Ax5N+6J0cblbDooIOSAHbJFZQT8lAhvFYpjYUvCo
+ f26E1gY2ryq98RM65f9OAJ36x3mLtDbZbynnRorb18saGCFG1eBhsZKipZM0BPzcXHvL
+ qf+V/Ty1gQoJmPl8x9a2NDwa7t8wv7X3MgSpv7YCKID6X8ZnO96N0OxQOeF7999mEC6Q
+ i57A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date;
- bh=aCbdLya+ld7bMamcEDTWwB9niwCrFGpu9B0QN9EkD9Y=;
- b=euX3gwHHS2JP5fCbqke1uamThepoOCg3Qkfe+EY/Jvy39JSJ0mCefw4l94SN9hC4HK
- y1EA/3SXMC3mrRbEcD0w3iQh+rynEqIrusUMESx7uZE96pxKV8/q2OAa5U3P5SUHYUp7
- cUhQVYOupMD8bG30H8BbHzfTudhCJEq2KEwmPp5Q5hpAoxnzv5mEXvpwZPfV4aD6UAxs
- PtNbrv5QGdQXXgmmsfqb6+7+lqg93XgRGuMBaP8F8o/PLWVDnTrScOIIzD1TjsZiKVLB
- p8QDVZjgIWfq29ROoq4C6ZpjFKknYLq5fcmKRPK9bnpFOduEyXEQPD1BsFEW5huQifoC
- ghdw==
-X-Gm-Message-State: ACrzQf1ThncgYP95ztbOB+vTBugl0Mm9Do3oNhN5mR2hPIkEloMB5VDo
- 0C/M4WW6Q0jZu1z+/Oz4ikQ=
-X-Google-Smtp-Source: AMsMyM5iWWcJrZa5f2sHiUBkY0lZQMpUGmkqsvwtdHXRAJduc4O8iMtQXdKT+pwhM9pkNMdNTYhi3Q==
-X-Received: by 2002:a05:6402:5190:b0:44f:2924:78f4 with SMTP id
- q16-20020a056402519000b0044f292478f4mr32402503edd.217.1664369437005; 
- Wed, 28 Sep 2022 05:50:37 -0700 (PDT)
+ bh=Te5x3E57m7cOxR02iErARIkX0eaDD14Z91rfL50K4UE=;
+ b=hRQUsmhnPsecL+xK/Pfv8JGEO1NZ8TJ1kpQTHmTLXLLUrY81/+6SUTJD/ggwLVOsak
+ 0ZCHOBh3ZNDX/cpovTlwiAOIfQcyHdKc2wTLWDCqQsSa1dPRk8yWlYR95VydIa8fMBl3
+ 00Fo1DArkUVWo1f2+muom/kIlrpOkx9hU6x6oqcn+OYLicXDXLw2MreNf/nhbnCRtCP/
+ d0qwozgY645gCnfezH/BSYytPwUkTM1ZOt+NFfpbnY5NewyKnVoHyAsAotazZDKfOQds
+ eof52SavjOXvhbl79EJhFIOlphpDOR7cf8kRw04wLeMzvEjBWvXgTtbAD0nNnczHP411
+ +fFw==
+X-Gm-Message-State: ACrzQf2+/fB5ThAUzSOek8ksP1DwZVrNwTK3xslszamVCYRF/8U/Jw7v
+ hFLYDEi1KHclqCMnuF0u2KU=
+X-Google-Smtp-Source: AMsMyM7OXe0/T+3lsZ2mP27MAf2iIGhR3xg9qM/R3946y2uNjo9NFKytzOuyM+b/vFjywh8BT+gkeA==
+X-Received: by 2002:a17:907:a05c:b0:772:eb61:904b with SMTP id
+ gz28-20020a170907a05c00b00772eb61904bmr27861699ejc.237.1664369753063; 
+ Wed, 28 Sep 2022 05:55:53 -0700 (PDT)
 Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- a3-20020a50e703000000b0044657ecfbb5sm3303222edn.13.2022.09.28.05.50.35
+ ez23-20020a1709070bd700b00780a26edfcesm2324189ejc.60.2022.09.28.05.55.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 05:50:35 -0700 (PDT)
-Date: Wed, 28 Sep 2022 14:50:33 +0200
+ Wed, 28 Sep 2022 05:55:51 -0700 (PDT)
+Date: Wed, 28 Sep 2022 14:55:49 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 2/3] pwm/tracing: Also record trace events for failed
- apply calls
-Message-ID: <YzRDGUxkah8Ridik@orome>
+Subject: Re: [PATCH 3/3] pwm: Handle .get_state() failures
+Message-ID: <YzREVarafbsRUl4t@orome>
 References: <20220916151506.298488-1-u.kleine-koenig@pengutronix.de>
- <20220916151506.298488-2-u.kleine-koenig@pengutronix.de>
+ <20220916151506.298488-3-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1nXplf5oGjFx1iy9"
+ protocol="application/pgp-signature"; boundary="e50AYHBveDjKXIgT"
 Content-Disposition: inline
-In-Reply-To: <20220916151506.298488-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220916151506.298488-3-u.kleine-koenig@pengutronix.de>
 User-Agent: Mutt/2.2.7 (2022-08-07)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,45 +87,66 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---1nXplf5oGjFx1iy9
+--e50AYHBveDjKXIgT
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 16, 2022 at 05:15:05PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Record and report an error code for the events. This allows to report
-> about failed calls without ambiguity and so gives a more complete
-> picture.
+On Fri, Sep 16, 2022 at 05:15:06PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> This suppresses diagnosis for PWM_DEBUG routines and makes sure that
+> pwm->state isn't modified in pwm_device_request() if .get_state() fails.
 >=20
 > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 > ---
->  drivers/pwm/core.c         | 18 ++++++++----------
->  include/trace/events/pwm.h | 20 ++++++++++----------
->  2 files changed, 18 insertions(+), 20 deletions(-)
+>  drivers/pwm/core.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+> index 381db04cfa00..421573590613 100644
+> --- a/drivers/pwm/core.c
+> +++ b/drivers/pwm/core.c
+> @@ -108,9 +108,14 @@ static int pwm_device_request(struct pwm_device *pwm=
+, const char *label)
+>  	}
+> =20
+>  	if (pwm->chip->ops->get_state) {
+> -		err =3D pwm->chip->ops->get_state(pwm->chip, pwm, &pwm->state);
+> +		struct pwm_state state;
+> +
+> +		err =3D pwm->chip->ops->get_state(pwm->chip, pwm, &state);
+>  		trace_pwm_get(pwm, &pwm->state, err);
+> =20
+> +		if (!err)
+> +			pwm->state =3D state;
 
-Yeah, I like this one. Should make the traces much more useful in the
-failure cases.
+So basically this means that callers of pwm_get_state() will get the
+zeroed out pwm->state. This can cause issues with the likes of
+pwm_set_relative_duty_cycle() which many drivers would use. Do we
+perhaps want to set an internal error in this case so that it can be
+propagated to callers in pwm_get_state()? That would allow them to fall
+back to some default configuration rather than potentially breaking
+altogether.
 
 Thierry
 
---1nXplf5oGjFx1iy9
+--e50AYHBveDjKXIgT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmM0QxkACgkQ3SOs138+
-s6FH0A/9Hynr9rb8tCmQHfWWe5i6JIYSs5Xn70OcHYnRc98AFjPuXISUDbLUUfD1
-epf/5ixVuASGD945ZOL7Ibci/7cPAJI3FECRUa520xN/EAv0f/39OYXy1xfk38oi
-rCGHa2IGdSPZceAx/0CtB5dwDL6c0Z8nS6akQmrtSY6XQowy14C0t9sjcnRWyNGF
-qw+uwHjSjglnPfZFWJOwwhJVRzbq4BcSww33AawYStTMvaWTBGmuwtxYbavrYDMl
-/TEEPlRF1K2OAvbQNtShEf0WXQG76A9+1ikZzAdmJ4n2K2oaZuPDh4bNbj2j4EuI
-a39I8Fgmduo+NsZClqQqH77wNZPDxEA1Nbl5RVa8r5D7kugXpfLWup+jdOuRdl9t
-bsXfkuSWKu0SjRvLstBZIM0/mpcU3lTAxwVd6k6nNro+1QqkAP9lsXURsBDK1Jaf
-NDs5q6+l5WoVxhPm5axZfYYXzX0wGr+IT79XKzVR9hgvuZbxNsiGo9HAzn22Jn9F
-4fER8jLXcvfqiOCGGp9Pl3WJ6Zmp0mKwUx6AbqXoYDvVpqpw9r02k7YDdcpyq+wA
-nA5YM6v+GD9QCBv0VmQF8ZJku0ktlG/eNGonA/N7naYNJnf/4Qj7LGWTXrmjUOQU
-Kuy192hnVn+LpEizF2DPaGqSrosYVskFC6f1cRfVWMKaR9vIcnc=
-=T2Ll
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmM0RFUACgkQ3SOs138+
+s6Hu/w//cFpzkzV1FZ3sHLAMgkA+dobRGgpdOP62XrOaTSHVIWizW8u3OJmkXQjY
+1xYExTJ6OvncXH0DB+pMxM3Uvsb4N5A7K/iEYKA5SlTLG8DJSv59VXDtEAbPKFVC
+I3hMh0DwlZkJzl010tJ/3FQqUipFylqonRmKaIONqFHGRsYQNylw1K3CqH0yYDG0
+LjFaz5eYJtqK2Nrzt5BjUalfjDKdtL6AsaePTYEKFymMfqjlWCbmafrIzF7X2j4y
+7QwoFg4AXrOSRbvV8qeoMqToVD0EWfyND12OZxOtaqFipQIZcUK6XAOPyyKxGiiv
+1PnbqDioH9S1e+iCMPgibUHeyn5z9YaQu43S9BclAPB/66kUuC+pHlOy6XWbRnAm
+hXpuptlzCdib8B/tRG0ltl0ZxR3etiInFEPROFxB313S989rv+G5rh63vDuRKDQ0
+cGGrZ/uNhUjZRvTn6rdOBYuaZLkqA+aYPqXLo1orwrDgULjzVi3EE5sucZDibrGv
+aSiHQOvaRVrej5pARbL0hAuXC94Fz27mefri57MPdSuMBAejJSKs/HVdzYIPWmSz
+KjH4U9nBDQo4B8rYeltC7BS21zD7vdJW12DWd4F1fk0Ix/bknFaT/2XgflLi0qP2
+KLfXjVYERi56Db0xzT4ufVA8qqbAlYIU/tLp5LmLdgxdQMt0N9w=
+=CAO3
 -----END PGP SIGNATURE-----
 
---1nXplf5oGjFx1iy9--
+--e50AYHBveDjKXIgT--
