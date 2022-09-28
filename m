@@ -1,57 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DEC5EE3DA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 20:06:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F745EE3E0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 20:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743BC10E540;
-	Wed, 28 Sep 2022 18:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C75310E54F;
+	Wed, 28 Sep 2022 18:06:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D55610E513
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 18:05:29 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 28SHqYX9068372;
- Wed, 28 Sep 2022 12:52:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1664387554;
- bh=eBU6RB63V1iL2ffIaDQ+QSfpco5r9bcxX8wHzYv9+tw=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=uKivbSj87E91akrHwPWYTdWqiuIZ+ZRgkX3n519bI128fxAZWlkNVun7oG8AIzXCZ
- tRtVLE3+SB328hu504VRbg09u2MGIsUKxM2PGzykj/bap4ttcVoArDzMFDxZPyITfw
- GbpJLDnoB/4wDfdnEIGiNNVfA6ZDHh/+X4gEZlBc=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 28SHqXqG115197
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 28 Sep 2022 12:52:33 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Wed, 28
- Sep 2022 12:52:33 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Wed, 28 Sep 2022 12:52:33 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 28SHqWQA001317;
- Wed, 28 Sep 2022 12:52:33 -0500
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, Rob
- Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [RFC PATCH v5 6/6] drm/tidss: Enable Dual and Duplicate Modes for OLDI
-Date: Wed, 28 Sep 2022 23:22:23 +0530
-Message-ID: <20220928175223.15225-7-a-bhatia1@ti.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220928175223.15225-1-a-bhatia1@ti.com>
-References: <20220928175223.15225-1-a-bhatia1@ti.com>
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3257210E559
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 18:06:10 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id l65so13189542pfl.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 11:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=lg8DJ4PVGf/UE/b9agj2E3jF0biYJ2TzSjDWoqo1nWk=;
+ b=kX6MiQJJ++GzWgnGDgSHhlrCPXkUnTfSWuw5a1vTXKi13Y13VyCmf0QKz9GO79Hl9h
+ lytSSUqbfN/S/Ah/mnF4XU0V59XNaRA/1kXJDF/OU4N76i45SgkcHk4RiaBdM3X11q3P
+ ngv3+AbyQkBAOyZ4Efs1UnxU8fMOnw5TwIofU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=lg8DJ4PVGf/UE/b9agj2E3jF0biYJ2TzSjDWoqo1nWk=;
+ b=S9cXjcnLbENwM9Ughx+cJCjxoCU5CcSxintPPeKqz8aSF4iWr4hS89pky2HjI8OQwc
+ KwhF+spPmofvFPBpb1XnemaMhii4270pWGVMmGndBxjrN7vmB2ZBSV3TyptPxl6E16xY
+ d1lfqH725fG3efG4UhSOJlJw2BfSY8NKHui8HLuiySw59Uhll+2xzbkw85G2mrFZX0ju
+ wbq7Cum+6PY6vCXLu0WyYPZJN9SW5WuyMwPXEAoBP/FH/fI7yTWHADPLpH1fOmCcvPnF
+ bDim9t36UvF1HITKG95Nzs11L437MEWnzOTrJJmxQsIY193Uxsry5hVmAIhl/B3i1hFv
+ C6XQ==
+X-Gm-Message-State: ACrzQf02+q2Nh+wpAwcccGHanV9xQCtVeHi0WqaVVcPBJmFehuIrSpOT
+ mAdieTpLL+HXlULW0u8u7XVxDZRa0XqcFA==
+X-Google-Smtp-Source: AMsMyM5YqTL3LfyC56o9MrGg1TzPcXSkd4eESKCY3Dzo1hitrUn0UwkQLKFW1M9B3lIoMGRQbkcRdw==
+X-Received: by 2002:a65:4609:0:b0:434:8f0b:5d05 with SMTP id
+ v9-20020a654609000000b004348f0b5d05mr29993911pgq.606.1664388369685; 
+ Wed, 28 Sep 2022 11:06:09 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ mt10-20020a17090b230a00b00203059fc75bsm1706643pjb.5.2022.09.28.11.06.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Sep 2022 11:06:09 -0700 (PDT)
+Date: Wed, 28 Sep 2022 11:06:07 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v13 5/9] drm/i915: Check for integer truncation on
+ scatterlist creation
+Message-ID: <202209281102.A86D736@keescook>
+References: <20220928081300.101516-1-gwan-gyeong.mun@intel.com>
+ <20220928081300.101516-6-gwan-gyeong.mun@intel.com>
+ <CAHk-=wivJwvVbMUKma8600F6qaVLZHT=BY90SEnjiHWw2ZUVEg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wivJwvVbMUKma8600F6qaVLZHT=BY90SEnjiHWw2ZUVEg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,72 +69,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Rahul T R <r-ravikumar@ti.com>
+Cc: gustavoars@kernel.org, trix@redhat.com, dlatypov@google.com,
+ llvm@lists.linux.dev, linux@rasmusvillemoes.dk,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ linux-hardening@vger.kernel.org, andrzej.hajda@intel.com,
+ linux-sparse@vger.kernel.org, matthew.auld@intel.com,
+ andi.shyti@linux.intel.com, airlied@redhat.com,
+ thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ nathan@kernel.org, mchehab@kernel.org, mauro.chehab@linux.intel.com,
+ ndesaulniers@google.com, linux-kernel@vger.kernel.org, vitor@massaru.org,
+ luc.vanoostenryck@gmail.com, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AM625 DSS IP contains 2 OLDI TXes which can work to enable 2
-duplicated displays of smaller resolutions or enable a single Dual Link
-display with a higher resolution (1920x1200).
+On Wed, Sep 28, 2022 at 10:09:04AM -0700, Linus Torvalds wrote:
+> Kees, you need to reign in the craziness in overflow.h.
 
-Configure the necessary register to enable and disable the OLDI TXes
-with necessary modes configurations.
+Understood. I've been trying to help the drm folks walk a line between
+having a bunch of custom macros hidden away in the drm includes and
+building up generalized versions that are actually helpful beyond drm.
+But I can see that it doesn't help to have a "do two things at the same
+time" macro for the assignment checking.
 
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
----
- drivers/gpu/drm/tidss/tidss_dispc.c | 28 ++++++++++++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 68444e0cd8d7..fd7f49535f0c 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -1003,8 +1003,8 @@ static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
- 	int count = 0;
- 
- 	/*
--	 * For the moment DUALMODESYNC, MASTERSLAVE, MODE, and SRC
--	 * bits of DISPC_VP_DSS_OLDI_CFG are set statically to 0.
-+	 * For the moment MASTERSLAVE, and SRC bits of DISPC_VP_DSS_OLDI_CFG are
-+	 * set statically to 0.
- 	 */
- 
- 	if (fmt->data_width == 24)
-@@ -1021,6 +1021,30 @@ static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
- 
- 	oldi_cfg |= BIT(0); /* ENABLE */
- 
-+	switch (dispc->oldi_mode) {
-+	case OLDI_MODE_OFF:
-+		oldi_cfg &= ~BIT(0); /* DISABLE */
-+		break;
-+
-+	case OLDI_SINGLE_LINK_SINGLE_MODE:
-+		/* All configuration is done for this mode.  */
-+		break;
-+
-+	case OLDI_SINGLE_LINK_CLONE_MODE:
-+		oldi_cfg |= BIT(5); /* CLONE MODE */
-+		break;
-+
-+	case OLDI_DUAL_LINK_MODE:
-+		oldi_cfg |= BIT(11); /* DUALMODESYNC */
-+		oldi_cfg |= BIT(3); /* data-mapping field also indicates dual-link mode */
-+		break;
-+
-+	default:
-+		dev_warn(dispc->dev, "%s: Incorrect oldi mode. Returning.\n",
-+			 __func__);
-+		return;
-+	}
-+
- 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, oldi_cfg);
- 
- 	while (!(oldi_reset_bit & dispc_read(dispc, DSS_SYSSTATUS)) &&
 -- 
-2.37.0
-
+Kees Cook
