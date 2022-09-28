@@ -1,43 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1E65EDB1A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 13:05:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDF15EDAD2
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 13:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71E0A10E441;
-	Wed, 28 Sep 2022 11:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C411710E43C;
+	Wed, 28 Sep 2022 11:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D98310E435
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 11:05:08 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0118047C;
- Wed, 28 Sep 2022 13:05:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664363106;
- bh=gAm3TJ3obNJPLC8TTQjM+b7oEtL7K6PwIee6dR3CCHQ=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=DjQBdAYtAwCMqPgPSNvX50LBVDgzxBf7Z89MkDqCQDlsKcyH52ZAfyaUEoXyq3xQN
- HgOzhh6tvAa5QlXQAFsiVPGAz81Ok6yWkPk1wrwSaRhPgpK4u8SPv5JfwxrLgCVPaK
- m3SYXJdWPPXvFNDa8+H5zM5Nac0NchY/6Qf5k+Oc=
-Content-Type: text/plain; charset="utf-8"
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BAA410E42F;
+ Wed, 28 Sep 2022 11:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664362808; x=1695898808;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KOtFOEsmYFZtqpPXyPh+fSvoHxp+BZSQ0p8PLTBCX6M=;
+ b=JqGSDEcWsFdXpusT0LkX9gF2Io0R+cqNRp2vufNFgKH0OfCeBUYsRZkI
+ A5HlaFdEAOBVsHzI+z7lvbaUxOsfVw3pEizh+/MUmgqb/WWiHjipatVeM
+ DE2b+6yE9y67Srub7lMSNu+L+UbiKTAJUeBj+09BnwS74cEQ4z/41BXLU
+ NZ0NpsBT0QQZ0KRdjvNacqt6Ki6npMnq47O0Onu9e9bqwehRRVlh3OGSN
+ HckdPmWh/YKh7M32UWb9rYodKeHK3KkBR7hhQLVB/cM/A1aYgXHugDVPL
+ p9Z+mZPnsZeAFk/ztjJSDi6TXbvfuoW+kDErerYHon2b7pylz4XO9422D g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="327937154"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="327937154"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 04:00:07 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="617168996"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="617168996"
+Received: from aravind-dev.iind.intel.com ([10.145.162.80])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 04:00:05 -0700
+From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4] drm/i915/mtl: enable local stolen memory
+Date: Wed, 28 Sep 2022 16:36:20 +0530
+Message-Id: <20220928110620.126571-1-aravind.iddamsetty@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YzQcbVKbVVmoy/ZQ@pendragon.ideasonboard.com>
-References: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
- <20220928005812.21060-5-laurent.pinchart@ideasonboard.com>
- <166435917679.2677993.15195746500550564337@Monstersaurus>
- <YzQcbVKbVVmoy/ZQ@pendragon.ideasonboard.com>
-Subject: Re: [PATCH v2 4/4] drm: lcdif: Add support for YUV planes
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Wed, 28 Sep 2022 12:05:03 +0100
-Message-ID: <166436310399.2677993.5204634488037379965@Monstersaurus>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,416 +54,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Daniel Scally <dan.scally@ideasonboard.com>, dri-devel@lists.freedesktop.org,
- Robby Cai <robby.cai@nxp.com>
+Cc: lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2022-09-28 11:05:33)
-> Hi Kieran,
->=20
-> On Wed, Sep 28, 2022 at 10:59:36AM +0100, Kieran Bingham wrote:
-> > Quoting Laurent Pinchart (2022-09-28 01:58:12)
-> > > From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> >=20
-> > It looks like this has progressed a bit since it left my computer ;-)
->=20
-> I wish the same would be universally true for all patches :-)
->=20
-> > > The LCDIF includes a color space converter that supports YUV input. U=
-se
-> > > it to support YUV planes, either through the converter if the output
-> > > format is RGB, or in conversion bypass mode otherwise.
-> > >=20
-> > > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > > Changes since v1:
-> > >=20
-> > > - Support all YCbCr encodings and quantization ranges
-> > > - Drop incorrect comment
-> > > ---
-> > >  drivers/gpu/drm/mxsfb/lcdif_kms.c  | 183 +++++++++++++++++++++++++--=
---
-> > >  drivers/gpu/drm/mxsfb/lcdif_regs.h |   5 +-
-> > >  2 files changed, 164 insertions(+), 24 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsf=
-b/lcdif_kms.c
-> > > index c3622be0c587..b469a90fd50f 100644
-> > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > @@ -15,6 +15,7 @@
-> > >  #include <drm/drm_atomic.h>
-> > >  #include <drm/drm_atomic_helper.h>
-> > >  #include <drm/drm_bridge.h>
-> > > +#include <drm/drm_color_mgmt.h>
-> > >  #include <drm/drm_crtc.h>
-> > >  #include <drm/drm_encoder.h>
-> > >  #include <drm/drm_framebuffer.h>
-> > > @@ -32,13 +33,77 @@
-> > >  /* -----------------------------------------------------------------=
-------------
-> > >   * CRTC
-> > >   */
-> > > +
-> > > +/*
-> > > + * Despite the reference manual stating the opposite, the D1, D2 and=
- D3 offset
-> > > + * values are added to Y, U and V, not subtracted. They must thus be=
- programmed
-> > > + * with negative values.
-> > > + */
-> > > +static const u32 lcdif_yuv2rgb_coeffs[3][2][6] =3D {
-> >=20
-> > Ick ... I sort of dislike this. It's fine here at the moment, and I like
-> > the table ... but here we're definining the size of the table based on
-> > external enum values. (Are those ABI stable, perhaps they are already?)
-> >=20
-> > If someone were to put=20
-> >=20
-> >  enum drm_color_encoding {
-> > +        DRM_COLOR_LEGACY,=20
-> >          DRM_COLOR_YCBCR_BT601,
-> >          DRM_COLOR_YCBCR_BT709,
-> >          DRM_COLOR_YCBCR_BT2020,
-> >          DRM_COLOR_ENCODING_MAX,
-> >  };
-> >=20
-> >  enum drm_color_range {
-> >          DRM_COLOR_YCBCR_LIMITED_RANGE,
-> > +      DRM_COLOR_YCBCR_MID_RANGE,
-> >          DRM_COLOR_YCBCR_FULL_RANGE,
-> >          DRM_COLOR_RANGE_MAX,
-> >  };
-> >=20
-> > Then this table allocation would be wrong.
-> >=20
-> > Perhaps swapping for
-> >=20
-> > > +static const u32 lcdif_yuv2rgb_coeffs[DRM_COLOR_ENCODING_MAX][DRM_CO=
-LOR_RANGE_MAX][6] =3D {
-> >=20
-> > Would be safer ... but longer :-( ?=20
-> >=20
-> > Anyway, I think the rest of it looks fine, and perhaps these enums are
-> > in the UAPI which would make them stable anyway:
->=20
-> The enums themselves are not exposed in UAPI headers, but userspace
-> depends on the values, which thus have to remain stable.
+As an integrated GPU, MTL does not have local memory and
+HAS_LMEM() returns false.  However the platform's stolen memory
+is presented via BAR2 (i.e., the BAR we traditionally consider
+to be the LMEM BAR) and should be managed by the driver the same
+way that local memory is on dgpu platforms (which includes
+setting the "lmem" bit on page table entries).  We use the term
+"local stolen memory" to refer to this model.
 
-And I saw you had to redefine them to use them in libcamera. Perhaps
-they should be in a UAPI header then...
---
-Kieran
+BSPEC: 53098, 63830
 
+v2:
+1. dropped is_dsm_invalid, updated valid_stolen_size check from Lucas
+(Jani, Lucas)
+2. drop lmembar_is_igpu_stolen
+3. revert to referring GFXMEM_BAR as GEN12_LMEM_BAR (Lucas)
 
->=20
-> > Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> >=20
-> > > +       [DRM_COLOR_YCBCR_BT601] =3D {
-> > > +               [DRM_COLOR_YCBCR_LIMITED_RANGE] =3D {
-> > > +                       CSC0_COEF0_A1(0x012a) | CSC0_COEF0_A2(0x0000),
-> > > +                       CSC0_COEF1_A3(0x01a2) | CSC0_COEF1_B1(0x0123),
-> > > +                       CSC0_COEF2_B2(0x079c) | CSC0_COEF2_B3(0x0730),
-> > > +                       CSC0_COEF3_C1(0x0124) | CSC0_COEF3_C2(0x0204),
-> > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x01f0),
-> > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > +               },
-> > > +               [DRM_COLOR_YCBCR_FULL_RANGE] =3D {
-> > > +                       CSC0_COEF0_A1(0x0100) | CSC0_COEF0_A2(0x0000),
-> > > +                       CSC0_COEF1_A3(0x0167) | CSC0_COEF1_B1(0x0100),
-> > > +                       CSC0_COEF2_B2(0x07a8) | CSC0_COEF2_B3(0x0749),
-> > > +                       CSC0_COEF3_C1(0x0100) | CSC0_COEF3_C2(0x01c6),
-> > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x0000),
-> > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > +               },
-> > > +       },
-> > > +       [DRM_COLOR_YCBCR_BT709] =3D {
-> > > +               [DRM_COLOR_YCBCR_LIMITED_RANGE] =3D {
-> > > +                       CSC0_COEF0_A1(0x012a) | CSC0_COEF0_A2(0x0000),
-> > > +                       CSC0_COEF1_A3(0x01d6) | CSC0_COEF1_B1(0x0123),
-> > > +                       CSC0_COEF2_B2(0x07c9) | CSC0_COEF2_B3(0x0778),
-> > > +                       CSC0_COEF3_C1(0x0123) | CSC0_COEF3_C2(0x021d),
-> > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x01f0),
-> > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > +               },
-> > > +               [DRM_COLOR_YCBCR_FULL_RANGE] =3D {
-> > > +                       CSC0_COEF0_A1(0x0100) | CSC0_COEF0_A2(0x0000),
-> > > +                       CSC0_COEF1_A3(0x0193) | CSC0_COEF1_B1(0x0100),
-> > > +                       CSC0_COEF2_B2(0x07d0) | CSC0_COEF2_B3(0x0788),
-> > > +                       CSC0_COEF3_C1(0x0100) | CSC0_COEF3_C2(0x01db),
-> > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x0000),
-> > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > +               },
-> > > +       },
-> > > +       [DRM_COLOR_YCBCR_BT2020] =3D {
-> > > +               [DRM_COLOR_YCBCR_LIMITED_RANGE] =3D {
-> > > +                       CSC0_COEF0_A1(0x012a) | CSC0_COEF0_A2(0x0000),
-> > > +                       CSC0_COEF1_A3(0x01b8) | CSC0_COEF1_B1(0x0123),
-> > > +                       CSC0_COEF2_B2(0x07d0) | CSC0_COEF2_B3(0x075a),
-> > > +                       CSC0_COEF3_C1(0x0124) | CSC0_COEF3_C2(0x0224),
-> > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x01f0),
-> > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > +               },
-> > > +               [DRM_COLOR_YCBCR_FULL_RANGE] =3D {
-> > > +                       CSC0_COEF0_A1(0x0100) | CSC0_COEF0_A2(0x0000),
-> > > +                       CSC0_COEF1_A3(0x0179) | CSC0_COEF1_B1(0x0100),
-> > > +                       CSC0_COEF2_B2(0x07d6) | CSC0_COEF2_B3(0x076e),
-> > > +                       CSC0_COEF3_C1(0x0100) | CSC0_COEF3_C2(0x01e2),
-> > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x0000),
-> > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > +               },
-> > > +       },
-> > > +};
-> > > +
-> > >  static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
-> > > +                             struct drm_plane_state *plane_state,
-> > >                               const u32 bus_format)
-> > >  {
-> > >         struct drm_device *drm =3D lcdif->drm;
-> > > -       const u32 format =3D lcdif->crtc.primary->state->fb->format->=
-format;
-> > > -
-> > > -       writel(CSC0_CTRL_BYPASS, lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > +       const u32 format =3D plane_state->fb->format->format;
-> > > +       bool in_yuv =3D false;
-> > > +       bool out_yuv =3D false;
-> > > =20
-> > >         switch (bus_format) {
-> > >         case MEDIA_BUS_FMT_RGB565_1X16:
-> > > @@ -52,24 +117,7 @@ static void lcdif_set_formats(struct lcdif_drm_pr=
-ivate *lcdif,
-> > >         case MEDIA_BUS_FMT_UYVY8_1X16:
-> > >                 writel(DISP_PARA_LINE_PATTERN_UYVY_H,
-> > >                        lcdif->base + LCDC_V8_DISP_PARA);
-> > > -
-> > > -               /* CSC: BT.601 Limited Range RGB to YCbCr coefficient=
-s. */
-> > > -               writel(CSC0_COEF0_A2(0x081) | CSC0_COEF0_A1(0x041),
-> > > -                      lcdif->base + LCDC_V8_CSC0_COEF0);
-> > > -               writel(CSC0_COEF1_B1(0x7db) | CSC0_COEF1_A3(0x019),
-> > > -                      lcdif->base + LCDC_V8_CSC0_COEF1);
-> > > -               writel(CSC0_COEF2_B3(0x070) | CSC0_COEF2_B2(0x7b6),
-> > > -                      lcdif->base + LCDC_V8_CSC0_COEF2);
-> > > -               writel(CSC0_COEF3_C2(0x7a2) | CSC0_COEF3_C1(0x070),
-> > > -                      lcdif->base + LCDC_V8_CSC0_COEF3);
-> > > -               writel(CSC0_COEF4_D1(0x010) | CSC0_COEF4_C3(0x7ee),
-> > > -                      lcdif->base + LCDC_V8_CSC0_COEF4);
-> > > -               writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
-> > > -                      lcdif->base + LCDC_V8_CSC0_COEF5);
-> > > -
-> > > -               writel(CSC0_CTRL_CSC_MODE_RGB2YCbCr,
-> > > -                      lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > -
-> > > +               out_yuv =3D true;
-> > >                 break;
-> > >         default:
-> > >                 dev_err(drm->dev, "Unknown media bus format 0x%x\n", =
-bus_format);
-> > > @@ -77,6 +125,7 @@ static void lcdif_set_formats(struct lcdif_drm_pri=
-vate *lcdif,
-> > >         }
-> > > =20
-> > >         switch (format) {
-> > > +       /* RGB Formats */
-> > >         case DRM_FORMAT_RGB565:
-> > >                 writel(CTRLDESCL0_5_BPP_16_RGB565,
-> > >                        lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > @@ -101,10 +150,78 @@ static void lcdif_set_formats(struct lcdif_drm_=
-private *lcdif,
-> > >                 writel(CTRLDESCL0_5_BPP_32_ARGB8888,
-> > >                        lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > >                 break;
-> > > +
-> > > +       /* YUYV Formats */
-> > > +       case DRM_FORMAT_YUYV:
-> > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_F=
-ORMAT_VY2UY1,
-> > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > +               in_yuv =3D true;
-> > > +               break;
-> > > +       case DRM_FORMAT_YVYU:
-> > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_F=
-ORMAT_UY2VY1,
-> > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > +               in_yuv =3D true;
-> > > +               break;
-> > > +       case DRM_FORMAT_UYVY:
-> > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_F=
-ORMAT_Y2VY1U,
-> > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > +               in_yuv =3D true;
-> > > +               break;
-> > > +       case DRM_FORMAT_VYUY:
-> > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_F=
-ORMAT_Y2UY1V,
-> > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > +               in_yuv =3D true;
-> > > +               break;
-> > > +
-> > >         default:
-> > >                 dev_err(drm->dev, "Unknown pixel format 0x%x\n", form=
-at);
-> > >                 break;
-> > >         }
-> > > +
-> > > +       /*
-> > > +        * The CSC differentiates between "YCbCr" and "YUV", but the =
-reference
-> > > +        * manual doesn't detail how they differ. Experiments showed =
-that the
-> > > +        * luminance value is unaffected, only the calculations invol=
-ving chroma
-> > > +        * values differ. The YCbCr mode behaves as expected, with ch=
-roma values
-> > > +        * being offset by 128. The YUV mode isn't fully understood.
-> > > +        */
-> > > +       if (!in_yuv && out_yuv) {
-> > > +               /* RGB -> YCbCr */
-> > > +               writel(CSC0_CTRL_CSC_MODE_RGB2YCbCr,
-> > > +                      lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > +
-> > > +               /* CSC: BT.601 Limited Range RGB to YCbCr coefficient=
-s. */
-> > > +               writel(CSC0_COEF0_A2(0x081) | CSC0_COEF0_A1(0x041),
-> > > +                      lcdif->base + LCDC_V8_CSC0_COEF0);
-> > > +               writel(CSC0_COEF1_B1(0x7db) | CSC0_COEF1_A3(0x019),
-> > > +                      lcdif->base + LCDC_V8_CSC0_COEF1);
-> > > +               writel(CSC0_COEF2_B3(0x070) | CSC0_COEF2_B2(0x7b6),
-> > > +                      lcdif->base + LCDC_V8_CSC0_COEF2);
-> > > +               writel(CSC0_COEF3_C2(0x7a2) | CSC0_COEF3_C1(0x070),
-> > > +                      lcdif->base + LCDC_V8_CSC0_COEF3);
-> > > +               writel(CSC0_COEF4_D1(0x010) | CSC0_COEF4_C3(0x7ee),
-> > > +                      lcdif->base + LCDC_V8_CSC0_COEF4);
-> > > +               writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
-> > > +                      lcdif->base + LCDC_V8_CSC0_COEF5);
-> > > +       } else if (in_yuv && !out_yuv) {
-> > > +               /* YCbCr -> RGB */
-> > > +               const u32 *coeffs =3D
-> > > +                       lcdif_yuv2rgb_coeffs[plane_state->color_encod=
-ing]
-> > > +                                           [plane_state->color_range=
-];
-> > > +
-> > > +               writel(CSC0_CTRL_CSC_MODE_YCbCr2RGB,
-> > > +                      lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > +
-> > > +               writel(coeffs[0], lcdif->base + LCDC_V8_CSC0_COEF0);
-> > > +               writel(coeffs[1], lcdif->base + LCDC_V8_CSC0_COEF1);
-> > > +               writel(coeffs[2], lcdif->base + LCDC_V8_CSC0_COEF2);
-> > > +               writel(coeffs[3], lcdif->base + LCDC_V8_CSC0_COEF3);
-> > > +               writel(coeffs[4], lcdif->base + LCDC_V8_CSC0_COEF4);
-> > > +               writel(coeffs[5], lcdif->base + LCDC_V8_CSC0_COEF5);
-> > > +       } else {
-> > > +               /* RGB -> RGB, YCbCr -> YCbCr: bypass colorspace conv=
-erter. */
-> > > +               writel(CSC0_CTRL_BYPASS, lcdif->base + LCDC_V8_CSC0_C=
-TRL);
-> > > +       }
-> > >  }
-> > > =20
-> > >  static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_=
-flags)
-> > > @@ -201,6 +318,7 @@ static void lcdif_reset_block(struct lcdif_drm_pr=
-ivate *lcdif)
-> > >  }
-> > > =20
-> > >  static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
-> > > +                                    struct drm_plane_state *plane_st=
-ate,
-> > >                                      struct drm_bridge_state *bridge_=
-state,
-> > >                                      const u32 bus_format)
-> > >  {
-> > > @@ -223,7 +341,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif=
-_drm_private *lcdif,
-> > >         /* Mandatory eLCDIF reset as per the Reference Manual */
-> > >         lcdif_reset_block(lcdif);
-> > > =20
-> > > -       lcdif_set_formats(lcdif, bus_format);
-> > > +       lcdif_set_formats(lcdif, plane_state, bus_format);
-> > > =20
-> > >         lcdif_set_mode(lcdif, bus_flags);
-> > >  }
-> > > @@ -306,7 +424,7 @@ static void lcdif_crtc_atomic_enable(struct drm_c=
-rtc *crtc,
-> > > =20
-> > >         pm_runtime_get_sync(drm->dev);
-> > > =20
-> > > -       lcdif_crtc_mode_set_nofb(lcdif, bridge_state, bus_format);
-> > > +       lcdif_crtc_mode_set_nofb(lcdif, new_pstate, bridge_state, bus=
-_format);
-> > > =20
-> > >         /* Write cur_buf as well to avoid an initial corrupt frame */
-> > >         paddr =3D drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate,=
- 0);
-> > > @@ -456,6 +574,12 @@ static const u32 lcdif_primary_plane_formats[] =
-=3D {
-> > >         DRM_FORMAT_XRGB1555,
-> > >         DRM_FORMAT_XRGB4444,
-> > >         DRM_FORMAT_XRGB8888,
-> > > +
-> > > +       /* packed YCbCr */
-> > > +       DRM_FORMAT_YUYV,
-> > > +       DRM_FORMAT_YVYU,
-> > > +       DRM_FORMAT_UYVY,
-> > > +       DRM_FORMAT_VYUY,
-> > >  };
-> > > =20
-> > >  static const u64 lcdif_modifiers[] =3D {
-> > > @@ -469,6 +593,11 @@ static const u64 lcdif_modifiers[] =3D {
-> > > =20
-> > >  int lcdif_kms_init(struct lcdif_drm_private *lcdif)
-> > >  {
-> > > +       const u32 supported_encodings =3D BIT(DRM_COLOR_YCBCR_BT601)
-> > > +                                     | BIT(DRM_COLOR_YCBCR_BT709)
-> > > +                                     | BIT(DRM_COLOR_YCBCR_BT2020);
-> > > +       const u32 supported_ranges =3D BIT(DRM_COLOR_YCBCR_LIMITED_RA=
-NGE)
-> > > +                                  | BIT(DRM_COLOR_YCBCR_FULL_RANGE);
-> > >         struct drm_encoder *encoder =3D &lcdif->encoder;
-> > >         struct drm_crtc *crtc =3D &lcdif->crtc;
-> > >         int ret;
-> > > @@ -484,6 +613,14 @@ int lcdif_kms_init(struct lcdif_drm_private *lcd=
-if)
-> > >         if (ret)
-> > >                 return ret;
-> > > =20
-> > > +       ret =3D drm_plane_create_color_properties(&lcdif->planes.prim=
-ary,
-> > > +                                               supported_encodings,
-> > > +                                               supported_ranges,
-> > > +                                               DRM_COLOR_YCBCR_BT601,
-> > > +                                               DRM_COLOR_YCBCR_LIMIT=
-ED_RANGE);
-> > > +       if (ret)
-> > > +               return ret;
-> > > +
-> > >         drm_crtc_helper_add(crtc, &lcdif_crtc_helper_funcs);
-> > >         ret =3D drm_crtc_init_with_planes(lcdif->drm, crtc,
-> > >                                         &lcdif->planes.primary, NULL,
-> > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxs=
-fb/lcdif_regs.h
-> > > index 0d5d9bedd94a..fb74eb5ccbf1 100644
-> > > --- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > @@ -216,7 +216,10 @@
-> > >  #define CTRLDESCL0_5_YUV_FORMAT_UY2VY1 (0x3 << 14)
-> > >  #define CTRLDESCL0_5_YUV_FORMAT_MASK   GENMASK(15, 14)
-> > > =20
-> > > -#define CSC0_CTRL_CSC_MODE_RGB2YCbCr   GENMASK(2, 1)
-> > > +#define CSC0_CTRL_CSC_MODE_YUV2RGB     (0x0 << 1)
-> > > +#define CSC0_CTRL_CSC_MODE_YCbCr2RGB   (0x1 << 1)
-> > > +#define CSC0_CTRL_CSC_MODE_RGB2YUV     (0x2 << 1)
-> > > +#define CSC0_CTRL_CSC_MODE_RGB2YCbCr   (0x3 << 1)
-> > >  #define CSC0_CTRL_CSC_MODE_MASK                GENMASK(2, 1)
-> > >  #define CSC0_CTRL_BYPASS               BIT(0)
-> > > =20
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+v3:(Jani)
+1. rename get_mtl_gms_size to mtl_get_gms_size
+2. define register for MMIO address
+
+v4:(Matt)
+1. Use REG_FIELD_GET to read GMS value
+2. replace the calculations with SZ_256M/SZ_8M
+
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+
+Signed-off-by: CQ Tang <cq.tang@intel.com>
+Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Original-author: CQ Tang
+---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 83 ++++++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_ggtt.c       |  2 +-
+ drivers/gpu/drm/i915/i915_drv.h            |  3 +
+ drivers/gpu/drm/i915/i915_reg.h            |  4 ++
+ 4 files changed, 76 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index c5a4035c99cd..2f8530a0ff62 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -77,9 +77,9 @@ void i915_gem_stolen_remove_node(struct drm_i915_private *i915,
+ 	mutex_unlock(&i915->mm.stolen_lock);
+ }
+ 
+-static bool valid_stolen_size(struct resource *dsm)
++static bool valid_stolen_size(struct drm_i915_private *i915, struct resource *dsm)
+ {
+-	return dsm->start != 0 && dsm->end > dsm->start;
++	return (dsm->start != 0 || HAS_BAR2_SMEM_STOLEN(i915)) && dsm->end > dsm->start;
+ }
+ 
+ static int adjust_stolen(struct drm_i915_private *i915,
+@@ -88,7 +88,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
+ 
+-	if (!valid_stolen_size(dsm))
++	if (!valid_stolen_size(i915, dsm))
+ 		return -EINVAL;
+ 
+ 	/*
+@@ -135,7 +135,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
+ 		}
+ 	}
+ 
+-	if (!valid_stolen_size(dsm))
++	if (!valid_stolen_size(i915, dsm))
+ 		return -EINVAL;
+ 
+ 	return 0;
+@@ -149,8 +149,11 @@ static int request_smem_stolen(struct drm_i915_private *i915,
+ 	/*
+ 	 * With stolen lmem, we don't need to request system memory for the
+ 	 * address range since it's local to the gpu.
++	 *
++	 * Starting MTL, in IGFX devices the stolen memory is exposed via
++	 * BAR2 and shall be considered similar to stolen lmem.
+ 	 */
+-	if (HAS_LMEM(i915))
++	if (HAS_LMEM(i915) || HAS_BAR2_SMEM_STOLEN(i915))
+ 		return 0;
+ 
+ 	/*
+@@ -385,8 +388,6 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+ 
+ 	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = 0x%016llx\n", reg_val);
+ 
+-	*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
+-
+ 	switch (reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK) {
+ 	case GEN8_STOLEN_RESERVED_1M:
+ 		*size = 1024 * 1024;
+@@ -404,6 +405,12 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+ 		*size = 8 * 1024 * 1024;
+ 		MISSING_CASE(reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK);
+ 	}
++
++	if (HAS_BAR2_SMEM_STOLEN(i915))
++		/* the base is initialized to stolen top so subtract size to get base */
++		*base -= *size;
++	else
++		*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
+ }
+ 
+ /*
+@@ -833,6 +840,29 @@ static const struct intel_memory_region_ops i915_region_stolen_lmem_ops = {
+ 	.init_object = _i915_gem_object_stolen_init,
+ };
+ 
++static int mtl_get_gms_size(struct intel_uncore *uncore)
++{
++	u16 ggc, gms;
++
++	ggc = intel_uncore_read16(uncore, GGC);
++
++	/* check GGMS, should be fixed 0x3 (8MB) */
++	if ((ggc & GGMS_MASK) != GGMS_MASK)
++		return -EIO;
++
++	/* return valid GMS value, -EIO if invalid */
++	gms = REG_FIELD_GET(GMS_MASK, ggc);
++	switch (gms) {
++	case 0x0 ... 0x04:
++		return gms * 32;
++	case 0xf0 ... 0xfe:
++		return (gms - 0xf0 + 1) * 4;
++	default:
++		MISSING_CASE(gms);
++		return -EIO;
++	}
++}
++
+ struct intel_memory_region *
+ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 			   u16 instance)
+@@ -843,6 +873,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 	struct intel_memory_region *mem;
+ 	resource_size_t io_start, io_size;
+ 	resource_size_t min_page_size;
++	int ret;
+ 
+ 	if (WARN_ON_ONCE(instance))
+ 		return ERR_PTR(-ENODEV);
+@@ -850,12 +881,8 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 	if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
+ 		return ERR_PTR(-ENXIO);
+ 
+-	/* Use DSM base address instead for stolen memory */
+-	dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
+-	if (IS_DG1(uncore->i915)) {
++	if (HAS_BAR2_SMEM_STOLEN(i915) || IS_DG1(i915)) {
+ 		lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
+-		if (WARN_ON(lmem_size < dsm_base))
+-			return ERR_PTR(-ENODEV);
+ 	} else {
+ 		resource_size_t lmem_range;
+ 
+@@ -864,13 +891,39 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 		lmem_size *= SZ_1G;
+ 	}
+ 
+-	dsm_size = lmem_size - dsm_base;
+-	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
++	if (HAS_BAR2_SMEM_STOLEN(i915)) {
++		/*
++		 * MTL dsm size is in GGC register, not the bar size.
++		 * also MTL uses offset to DSMBASE in ptes, so i915
++		 * uses dsm_base = 0 to setup stolen region.
++		 */
++		ret = mtl_get_gms_size(uncore);
++		if (ret < 0) {
++			drm_err(&i915->drm, "invalid MTL GGC register setting\n");
++			return ERR_PTR(ret);
++		}
++
++		dsm_base = 0;
++		dsm_size = (resource_size_t)(ret * SZ_1M);
++
++		GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
++		GEM_BUG_ON((dsm_size + SZ_8M) > lmem_size);
++	} else {
++		/* Use DSM base address instead for stolen memory */
++		dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE);
++		if (WARN_ON(lmem_size < dsm_base))
++			return ERR_PTR(-ENODEV);
++		dsm_size = lmem_size - dsm_base;
++	}
++
++	io_size = dsm_size;
++	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < dsm_size) {
+ 		io_start = 0;
+ 		io_size = 0;
++	} else if (HAS_BAR2_SMEM_STOLEN(i915)) {
++		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + SZ_8M;
+ 	} else {
+ 		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
+-		io_size = dsm_size;
+ 	}
+ 
+ 	min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 30cf5c3369d9..b31fe0fb013f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -931,7 +931,7 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+ 	unsigned int size;
+ 	u16 snb_gmch_ctl;
+ 
+-	if (!HAS_LMEM(i915)) {
++	if (!HAS_LMEM(i915) && !HAS_BAR2_SMEM_STOLEN(i915)) {
+ 		if (!i915_pci_resource_valid(pdev, GTT_APERTURE_BAR))
+ 			return -ENXIO;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 84a2f6b16f57..90ed8e6db2fe 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -974,6 +974,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ 
+ #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_fuse_bit)
+ 
++#define HAS_BAR2_SMEM_STOLEN(i915) (!HAS_LMEM(i915) && \
++				    GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
++
+ /* intel_device_info.c */
+ static inline struct intel_device_info *
+ mkwrite_device_info(struct drm_i915_private *dev_priv)
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 5003a5ffbc6a..2126e441199d 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -7967,6 +7967,10 @@ enum skl_power_gate {
+ 							   _ICL_PIPE_DSS_CTL2_PB, \
+ 							   _ICL_PIPE_DSS_CTL2_PC)
+ 
++#define GGC				_MMIO(0x108040)
++#define   GMS_MASK			REG_GENMASK(15, 8)
++#define   GGMS_MASK			REG_GENMASK(7, 6)
++
+ #define GEN12_GSMBASE			_MMIO(0x108100)
+ #define GEN12_DSMBASE			_MMIO(0x1080C0)
+ #define   GEN12_BDSM_MASK		REG_GENMASK64(63, 20)
+-- 
+2.25.1
+
