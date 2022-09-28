@@ -1,43 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D9C5EDB77
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 13:14:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B60855EDB7A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 13:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 671C410E44B;
-	Wed, 28 Sep 2022 11:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD53610E449;
+	Wed, 28 Sep 2022 11:14:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA5410E44B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 11:14:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95EBD47C;
- Wed, 28 Sep 2022 13:13:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664363638;
- bh=j78H+gC6pX3ST5TfyEtpDRXFGL0M8Ym3swkxdVTOFTc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LMcF+6eSwquwUW+x7SNzQM9XejdJn2s7GsDanPonisRzE6IB2GCQ5lfcE+S+qkcqp
- NwrDoaUzTME+OdESA43VOg5b1T0BWzPUJWCxjoIG6F4ddV9FMsg8y+oIC1vWI/nWdi
- lAwaRKo/4y9WaNlcELkGfvj9vuNH+NcAETxMkiL4=
-Date: Wed, 28 Sep 2022 14:13:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 4/4] drm: lcdif: Add support for YUV planes
-Message-ID: <YzQsdfuIa9xXAf+X@pendragon.ideasonboard.com>
-References: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
- <20220928005812.21060-5-laurent.pinchart@ideasonboard.com>
- <166435917679.2677993.15195746500550564337@Monstersaurus>
- <YzQcbVKbVVmoy/ZQ@pendragon.ideasonboard.com>
- <166436310399.2677993.5204634488037379965@Monstersaurus>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8F9810E44D;
+ Wed, 28 Sep 2022 11:14:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664363645; x=1695899645;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=aooEcXSC9KYnelqXcSlk+oREQin91eCmwgXYFegkjN0=;
+ b=c54jO7EHdcjpkRQ9+83KPVFvJrjnpjCcShbwGljmXFFNV1vh+FY2aKFL
+ ULzSH7ESChPQ52tqxdaaStEElIRNA5wfsrPZDN/vN1VsZ5kgp/LqxQnKN
+ MneOWQWlcW9Ok2QCQxql0g3Tia1icV7G+Lv4o9ZDQwAOI2P5LuPy5XBi0
+ JpyG4ehhsYlXKNjEewOlCocMeQe4LmHxrSrz0PRK7H6WeSIFZ6smgCG7g
+ eQNa8B2na15K7b6/xaloSZz1XD2vrIL7z4XTUdPPAk1j64FaowApRM8Oh
+ +GfQbCzE+PJZCQnx2hZm3H2Bpf8EBeworc54Kn32pDHix01SnDwYsX1ID A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="299174330"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="299174330"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 04:14:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="652642040"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="652642040"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga008.jf.intel.com with SMTP; 28 Sep 2022 04:14:01 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 28 Sep 2022 14:14:00 +0300
+Date: Wed, 28 Sep 2022 14:14:00 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [RFC v2] drm/kms: control display brightness through
+ drm_connector properties
+Message-ID: <YzQseBFa5EvDUDSw@intel.com>
+References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
+ <878rm3zuge.fsf@intel.com> <YzQojrDOGNhm4D8l@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <166436310399.2677993.5204634488037379965@Monstersaurus>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YzQojrDOGNhm4D8l@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,374 +62,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Daniel Scally <dan.scally@ideasonboard.com>, dri-devel@lists.freedesktop.org,
- Robby Cai <robby.cai@nxp.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
-
-On Wed, Sep 28, 2022 at 12:05:03PM +0100, Kieran Bingham wrote:
-> Quoting Laurent Pinchart (2022-09-28 11:05:33)
-> > On Wed, Sep 28, 2022 at 10:59:36AM +0100, Kieran Bingham wrote:
-> > > Quoting Laurent Pinchart (2022-09-28 01:58:12)
-> > > > From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > > 
-> > > It looks like this has progressed a bit since it left my computer ;-)
+On Wed, Sep 28, 2022 at 01:57:18PM +0300, Ville Syrjälä wrote:
+> On Wed, Sep 28, 2022 at 01:04:01PM +0300, Jani Nikula wrote:
+> > On Fri, 09 Sep 2022, Hans de Goede <hdegoede@redhat.com> wrote:
+> > > Hi all,
+> > >
+> > > Here is v2 of my "drm/kms: control display brightness through drm_connector properties" RFC:
+> > >
+> > > Changes from version 1:
+> > > - Drop bl_brightness_0_is_min_brightness from list of new connector
+> > >   properties.
+> > > - Clearly define that 0 is always min-brightness when setting the brightness
+> > >   through the connector properties.
+> > > - Drop bl_brightness_control_method from list of new connector
+> > >   properties.
+> > > - Phase 1 of the plan has been completed
+> > >
+> > > As discussed already several times in the past:
+> > >  https://www.x.org/wiki/Events/XDC2014/XDC2014GoedeBacklight/
+> > >  https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/
+> > >
+> > > The current userspace API for brightness control offered by
+> > > /sys/class/backlight devices has various issues:
+> > >
+> > > 1. There is no way to map the backlight device to a specific
+> > >    display-output / panel (1)
+> > > 2. Controlling the brightness requires root-rights requiring
+> > >    desktop-environments to use suid-root helpers for this.
+> > > 3. The meaning of 0 is not clearly defined, it can be either off,
+> > >    or minimum brightness at which the display is still readable
+> > >    (in a low light environment)
+> > > 4. It's not possible to change both the gamma and the brightness in the
+> > >    same KMS atomic commit. You'd want to be able to reduce brightness to
+> > >    conserve power, and counter the effects of that by changing gamma to
+> > >    reach a visually similar image. And you'd want to have the changes take
+> > >    effect at the same time instead of reducing brightness at some frame and
+> > >    change gamma at some other frame. This is pretty much impossible to do
+> > >    via the sysfs interface.
+> > >
+> > > As already discussed on various conference's hallway tracks
+> > > and as has been proposed on the dri-devel list once before (2),
+> > > it seems that there is consensus that the best way to to solve these
+> > > 2 issues is to add support for controlling a video-output's brightness
+> > > through properties on the drm_connector.
+> > >
+> > > This RFC outlines my plan to try and actually implement this,
+> > > which has 3 phases:
+> > >
+> > >
+> > > Phase 1: Stop registering multiple /sys/class/backlight devs for a single display
+> > > =================================================================================
+> > >
+> > > On x86 there can be multiple firmware + direct-hw-access methods
+> > > for controlling the backlight and in some cases the kernel registers
+> > > multiple backlight-devices for a single internal laptop LCD panel.
+> > >
+> > > A plan to fix this was posted here:
+> > > https://lore.kernel.org/dri-devel/98519ba0-7f18-201a-ea34-652f50343158@redhat.com/
+> > > And a pull-req actually implementing this plan has been send out this week:
+> > > https://lore.kernel.org/dri-devel/261afe3d-7790-e945-adf6-a2c96c9b1eff@redhat.com/
+> > >
+> > >
+> > > Phase 2: Add drm_connector properties mirroring the matching backlight device
+> > > =============================================================================
+> > >
+> > > The plan is to add a drm_connector helper function, which optionally takes
+> > > a pointer to the backlight device for the GPU's native backlight device,
+> > > which will then mirror the backlight settings from the backlight device
+> > > in a set of read/write brightness* properties on the connector.
+> > >
+> > > This function can then be called by GPU drivers for the drm_connector for
+> > > the internal panel and it will then take care of everything. When there
+> > > is no native GPU backlight device, or when it should not be used then
+> > > (on x86) the helper will use the acpi_video_get_backlight_type() to
+> > > determine which backlight-device should be used instead and it will find
+> > > + mirror that one.
+> > >
+> > >
+> > > Phase 3: Deprecate /sys/class/backlight uAPI
+> > > ============================================
+> > >
+> > > Once most userspace has moved over to using the new drm_connector
+> > > brightness props, a Kconfig option can be added to stop exporting
+> > > the backlight-devices under /sys/class/backlight. The plan is to
+> > > just disable the sysfs interface and keep the existing backlight-device
+> > > internal kernel abstraction as is, since some abstraction for (non GPU
+> > > native) backlight devices will be necessary regardless.
+> > >
+> > > It is unsure if we will ever be able to do this. For example people using
+> > > non fully integrated desktop environments like e.g. sway often use custom
+> > > scripts binded to hotkeys to get functionality like the brightness
+> > > up/down keyboard hotkeys changing the brightness. This typically involves
+> > > e.g. the xbacklight utility.
+> > >
+> > > Even if the xbacklight utility is ported to use kms with the new connector
+> > > object brightness properties then this still will not work because
+> > > changing the properties will require drm-master rights and e.g. sway will
+> > > already hold those.
+> > >
+> > >
+> > > The drm_connector brightness properties
+> > > =======================================
+> > >
+> > > The new uAPI for this consists of 2 properties:
+> > >
+> > > 1. "display brightness": rw 0-int32_max property controlling the brightness setting
+> > > of the connected display. The actual maximum of this will be less then
+> > > int32_max and is given in "display brightness max".
 > > 
-> > I wish the same would be universally true for all patches :-)
-> > 
-> > > > The LCDIF includes a color space converter that supports YUV input. Use
-> > > > it to support YUV planes, either through the converter if the output
-> > > > format is RGB, or in conversion bypass mode otherwise.
-> > > > 
-> > > > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
-> > > > Changes since v1:
-> > > > 
-> > > > - Support all YCbCr encodings and quantization ranges
-> > > > - Drop incorrect comment
-> > > > ---
-> > > >  drivers/gpu/drm/mxsfb/lcdif_kms.c  | 183 +++++++++++++++++++++++++----
-> > > >  drivers/gpu/drm/mxsfb/lcdif_regs.h |   5 +-
-> > > >  2 files changed, 164 insertions(+), 24 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > index c3622be0c587..b469a90fd50f 100644
-> > > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > @@ -15,6 +15,7 @@
-> > > >  #include <drm/drm_atomic.h>
-> > > >  #include <drm/drm_atomic_helper.h>
-> > > >  #include <drm/drm_bridge.h>
-> > > > +#include <drm/drm_color_mgmt.h>
-> > > >  #include <drm/drm_crtc.h>
-> > > >  #include <drm/drm_encoder.h>
-> > > >  #include <drm/drm_framebuffer.h>
-> > > > @@ -32,13 +33,77 @@
-> > > >  /* -----------------------------------------------------------------------------
-> > > >   * CRTC
-> > > >   */
-> > > > +
-> > > > +/*
-> > > > + * Despite the reference manual stating the opposite, the D1, D2 and D3 offset
-> > > > + * values are added to Y, U and V, not subtracted. They must thus be programmed
-> > > > + * with negative values.
-> > > > + */
-> > > > +static const u32 lcdif_yuv2rgb_coeffs[3][2][6] = {
-> > > 
-> > > Ick ... I sort of dislike this. It's fine here at the moment, and I like
-> > > the table ... but here we're definining the size of the table based on
-> > > external enum values. (Are those ABI stable, perhaps they are already?)
-> > > 
-> > > If someone were to put 
-> > > 
-> > >  enum drm_color_encoding {
-> > > +        DRM_COLOR_LEGACY, 
-> > >          DRM_COLOR_YCBCR_BT601,
-> > >          DRM_COLOR_YCBCR_BT709,
-> > >          DRM_COLOR_YCBCR_BT2020,
-> > >          DRM_COLOR_ENCODING_MAX,
-> > >  };
-> > > 
-> > >  enum drm_color_range {
-> > >          DRM_COLOR_YCBCR_LIMITED_RANGE,
-> > > +      DRM_COLOR_YCBCR_MID_RANGE,
-> > >          DRM_COLOR_YCBCR_FULL_RANGE,
-> > >          DRM_COLOR_RANGE_MAX,
-> > >  };
-> > > 
-> > > Then this table allocation would be wrong.
-> > > 
-> > > Perhaps swapping for
-> > > 
-> > > > +static const u32 lcdif_yuv2rgb_coeffs[DRM_COLOR_ENCODING_MAX][DRM_COLOR_RANGE_MAX][6] = {
-> > > 
-> > > Would be safer ... but longer :-( ? 
-> > > 
-> > > Anyway, I think the rest of it looks fine, and perhaps these enums are
-> > > in the UAPI which would make them stable anyway:
-> > 
-> > The enums themselves are not exposed in UAPI headers, but userspace
-> > depends on the values, which thus have to remain stable.
+> > This could use a few words explaining the choice of range and property
+> > type. (I assume it's because you can't change a range property's max at
+> > runtime. Which is also why you need a separate max property.)
 > 
-> And I saw you had to redefine them to use them in libcamera. Perhaps
-> they should be in a UAPI header then...
+> Why don't we just normalize the range to something sensible?
+> 
+> > 
+> > > Unlike the /sys/class/backlight/foo/brightness this brightness property
+> > > has a clear definition for the value 0. The kernel must ensure that 0
+> > > means minimum brightness (so 0 should _never_ turn the backlight off).
+> > > If necessary the kernel must enforce a minimum value by adding
+> > > an offset to the value seen in the property to ensure this behavior.
+> > >
+> > > For example if necessary the driver must clamp 0-255 to 10-255, which then
+> > > becomes 0-245 on the brightness property, adding 10 internally to writes
+> > > done to the brightness property. This adding of an extra offset when
+> > > necessary must only be done on the brightness property,
+> > > the /sys/class/backlight interface should be left unchanged to not break
+> > > userspace which may rely on 0 = off on some systems.
+> > >
+> > > Note amdgpu already does something like this even for /sys/class/backlight,
+> > > see the use of AMDGPU_DM_DEFAULT_MIN_BACKLIGHT in amdgpu.
+> > >
+> > > Also whenever possible the kernel must ensure that the brightness range
+> > > is in perceived brightness, but this cannot always be guaranteed.
+> > 
+> > Do you mean every step should be a visible change?
+> 
+> Hmm. I guess due to this. I'd prefer the opposite tbh so I could
+> just put in my opregion BCLM patch. It's annoying to have to
+> carry it locally just to have reasonable backlight behaviour
 
-I think that would make sense. Patches are welcome :-)
-
-> > > Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > > 
-> > > > +       [DRM_COLOR_YCBCR_BT601] = {
-> > > > +               [DRM_COLOR_YCBCR_LIMITED_RANGE] = {
-> > > > +                       CSC0_COEF0_A1(0x012a) | CSC0_COEF0_A2(0x0000),
-> > > > +                       CSC0_COEF1_A3(0x01a2) | CSC0_COEF1_B1(0x0123),
-> > > > +                       CSC0_COEF2_B2(0x079c) | CSC0_COEF2_B3(0x0730),
-> > > > +                       CSC0_COEF3_C1(0x0124) | CSC0_COEF3_C2(0x0204),
-> > > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x01f0),
-> > > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > > +               },
-> > > > +               [DRM_COLOR_YCBCR_FULL_RANGE] = {
-> > > > +                       CSC0_COEF0_A1(0x0100) | CSC0_COEF0_A2(0x0000),
-> > > > +                       CSC0_COEF1_A3(0x0167) | CSC0_COEF1_B1(0x0100),
-> > > > +                       CSC0_COEF2_B2(0x07a8) | CSC0_COEF2_B3(0x0749),
-> > > > +                       CSC0_COEF3_C1(0x0100) | CSC0_COEF3_C2(0x01c6),
-> > > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x0000),
-> > > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > > +               },
-> > > > +       },
-> > > > +       [DRM_COLOR_YCBCR_BT709] = {
-> > > > +               [DRM_COLOR_YCBCR_LIMITED_RANGE] = {
-> > > > +                       CSC0_COEF0_A1(0x012a) | CSC0_COEF0_A2(0x0000),
-> > > > +                       CSC0_COEF1_A3(0x01d6) | CSC0_COEF1_B1(0x0123),
-> > > > +                       CSC0_COEF2_B2(0x07c9) | CSC0_COEF2_B3(0x0778),
-> > > > +                       CSC0_COEF3_C1(0x0123) | CSC0_COEF3_C2(0x021d),
-> > > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x01f0),
-> > > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > > +               },
-> > > > +               [DRM_COLOR_YCBCR_FULL_RANGE] = {
-> > > > +                       CSC0_COEF0_A1(0x0100) | CSC0_COEF0_A2(0x0000),
-> > > > +                       CSC0_COEF1_A3(0x0193) | CSC0_COEF1_B1(0x0100),
-> > > > +                       CSC0_COEF2_B2(0x07d0) | CSC0_COEF2_B3(0x0788),
-> > > > +                       CSC0_COEF3_C1(0x0100) | CSC0_COEF3_C2(0x01db),
-> > > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x0000),
-> > > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > > +               },
-> > > > +       },
-> > > > +       [DRM_COLOR_YCBCR_BT2020] = {
-> > > > +               [DRM_COLOR_YCBCR_LIMITED_RANGE] = {
-> > > > +                       CSC0_COEF0_A1(0x012a) | CSC0_COEF0_A2(0x0000),
-> > > > +                       CSC0_COEF1_A3(0x01b8) | CSC0_COEF1_B1(0x0123),
-> > > > +                       CSC0_COEF2_B2(0x07d0) | CSC0_COEF2_B3(0x075a),
-> > > > +                       CSC0_COEF3_C1(0x0124) | CSC0_COEF3_C2(0x0224),
-> > > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x01f0),
-> > > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > > +               },
-> > > > +               [DRM_COLOR_YCBCR_FULL_RANGE] = {
-> > > > +                       CSC0_COEF0_A1(0x0100) | CSC0_COEF0_A2(0x0000),
-> > > > +                       CSC0_COEF1_A3(0x0179) | CSC0_COEF1_B1(0x0100),
-> > > > +                       CSC0_COEF2_B2(0x07d6) | CSC0_COEF2_B3(0x076e),
-> > > > +                       CSC0_COEF3_C1(0x0100) | CSC0_COEF3_C2(0x01e2),
-> > > > +                       CSC0_COEF4_C3(0x0000) | CSC0_COEF4_D1(0x0000),
-> > > > +                       CSC0_COEF5_D2(0x0180) | CSC0_COEF5_D3(0x0180),
-> > > > +               },
-> > > > +       },
-> > > > +};
-> > > > +
-> > > >  static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
-> > > > +                             struct drm_plane_state *plane_state,
-> > > >                               const u32 bus_format)
-> > > >  {
-> > > >         struct drm_device *drm = lcdif->drm;
-> > > > -       const u32 format = lcdif->crtc.primary->state->fb->format->format;
-> > > > -
-> > > > -       writel(CSC0_CTRL_BYPASS, lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > > +       const u32 format = plane_state->fb->format->format;
-> > > > +       bool in_yuv = false;
-> > > > +       bool out_yuv = false;
-> > > >  
-> > > >         switch (bus_format) {
-> > > >         case MEDIA_BUS_FMT_RGB565_1X16:
-> > > > @@ -52,24 +117,7 @@ static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
-> > > >         case MEDIA_BUS_FMT_UYVY8_1X16:
-> > > >                 writel(DISP_PARA_LINE_PATTERN_UYVY_H,
-> > > >                        lcdif->base + LCDC_V8_DISP_PARA);
-> > > > -
-> > > > -               /* CSC: BT.601 Limited Range RGB to YCbCr coefficients. */
-> > > > -               writel(CSC0_COEF0_A2(0x081) | CSC0_COEF0_A1(0x041),
-> > > > -                      lcdif->base + LCDC_V8_CSC0_COEF0);
-> > > > -               writel(CSC0_COEF1_B1(0x7db) | CSC0_COEF1_A3(0x019),
-> > > > -                      lcdif->base + LCDC_V8_CSC0_COEF1);
-> > > > -               writel(CSC0_COEF2_B3(0x070) | CSC0_COEF2_B2(0x7b6),
-> > > > -                      lcdif->base + LCDC_V8_CSC0_COEF2);
-> > > > -               writel(CSC0_COEF3_C2(0x7a2) | CSC0_COEF3_C1(0x070),
-> > > > -                      lcdif->base + LCDC_V8_CSC0_COEF3);
-> > > > -               writel(CSC0_COEF4_D1(0x010) | CSC0_COEF4_C3(0x7ee),
-> > > > -                      lcdif->base + LCDC_V8_CSC0_COEF4);
-> > > > -               writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
-> > > > -                      lcdif->base + LCDC_V8_CSC0_COEF5);
-> > > > -
-> > > > -               writel(CSC0_CTRL_CSC_MODE_RGB2YCbCr,
-> > > > -                      lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > > -
-> > > > +               out_yuv = true;
-> > > >                 break;
-> > > >         default:
-> > > >                 dev_err(drm->dev, "Unknown media bus format 0x%x\n", bus_format);
-> > > > @@ -77,6 +125,7 @@ static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
-> > > >         }
-> > > >  
-> > > >         switch (format) {
-> > > > +       /* RGB Formats */
-> > > >         case DRM_FORMAT_RGB565:
-> > > >                 writel(CTRLDESCL0_5_BPP_16_RGB565,
-> > > >                        lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > > @@ -101,10 +150,78 @@ static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
-> > > >                 writel(CTRLDESCL0_5_BPP_32_ARGB8888,
-> > > >                        lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > >                 break;
-> > > > +
-> > > > +       /* YUYV Formats */
-> > > > +       case DRM_FORMAT_YUYV:
-> > > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_VY2UY1,
-> > > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > > +               in_yuv = true;
-> > > > +               break;
-> > > > +       case DRM_FORMAT_YVYU:
-> > > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_UY2VY1,
-> > > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > > +               in_yuv = true;
-> > > > +               break;
-> > > > +       case DRM_FORMAT_UYVY:
-> > > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_Y2VY1U,
-> > > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > > +               in_yuv = true;
-> > > > +               break;
-> > > > +       case DRM_FORMAT_VYUY:
-> > > > +               writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_Y2UY1V,
-> > > > +                      lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > > +               in_yuv = true;
-> > > > +               break;
-> > > > +
-> > > >         default:
-> > > >                 dev_err(drm->dev, "Unknown pixel format 0x%x\n", format);
-> > > >                 break;
-> > > >         }
-> > > > +
-> > > > +       /*
-> > > > +        * The CSC differentiates between "YCbCr" and "YUV", but the reference
-> > > > +        * manual doesn't detail how they differ. Experiments showed that the
-> > > > +        * luminance value is unaffected, only the calculations involving chroma
-> > > > +        * values differ. The YCbCr mode behaves as expected, with chroma values
-> > > > +        * being offset by 128. The YUV mode isn't fully understood.
-> > > > +        */
-> > > > +       if (!in_yuv && out_yuv) {
-> > > > +               /* RGB -> YCbCr */
-> > > > +               writel(CSC0_CTRL_CSC_MODE_RGB2YCbCr,
-> > > > +                      lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > > +
-> > > > +               /* CSC: BT.601 Limited Range RGB to YCbCr coefficients. */
-> > > > +               writel(CSC0_COEF0_A2(0x081) | CSC0_COEF0_A1(0x041),
-> > > > +                      lcdif->base + LCDC_V8_CSC0_COEF0);
-> > > > +               writel(CSC0_COEF1_B1(0x7db) | CSC0_COEF1_A3(0x019),
-> > > > +                      lcdif->base + LCDC_V8_CSC0_COEF1);
-> > > > +               writel(CSC0_COEF2_B3(0x070) | CSC0_COEF2_B2(0x7b6),
-> > > > +                      lcdif->base + LCDC_V8_CSC0_COEF2);
-> > > > +               writel(CSC0_COEF3_C2(0x7a2) | CSC0_COEF3_C1(0x070),
-> > > > +                      lcdif->base + LCDC_V8_CSC0_COEF3);
-> > > > +               writel(CSC0_COEF4_D1(0x010) | CSC0_COEF4_C3(0x7ee),
-> > > > +                      lcdif->base + LCDC_V8_CSC0_COEF4);
-> > > > +               writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
-> > > > +                      lcdif->base + LCDC_V8_CSC0_COEF5);
-> > > > +       } else if (in_yuv && !out_yuv) {
-> > > > +               /* YCbCr -> RGB */
-> > > > +               const u32 *coeffs =
-> > > > +                       lcdif_yuv2rgb_coeffs[plane_state->color_encoding]
-> > > > +                                           [plane_state->color_range];
-> > > > +
-> > > > +               writel(CSC0_CTRL_CSC_MODE_YCbCr2RGB,
-> > > > +                      lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > > +
-> > > > +               writel(coeffs[0], lcdif->base + LCDC_V8_CSC0_COEF0);
-> > > > +               writel(coeffs[1], lcdif->base + LCDC_V8_CSC0_COEF1);
-> > > > +               writel(coeffs[2], lcdif->base + LCDC_V8_CSC0_COEF2);
-> > > > +               writel(coeffs[3], lcdif->base + LCDC_V8_CSC0_COEF3);
-> > > > +               writel(coeffs[4], lcdif->base + LCDC_V8_CSC0_COEF4);
-> > > > +               writel(coeffs[5], lcdif->base + LCDC_V8_CSC0_COEF5);
-> > > > +       } else {
-> > > > +               /* RGB -> RGB, YCbCr -> YCbCr: bypass colorspace converter. */
-> > > > +               writel(CSC0_CTRL_BYPASS, lcdif->base + LCDC_V8_CSC0_CTRL);
-> > > > +       }
-> > > >  }
-> > > >  
-> > > >  static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
-> > > > @@ -201,6 +318,7 @@ static void lcdif_reset_block(struct lcdif_drm_private *lcdif)
-> > > >  }
-> > > >  
-> > > >  static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
-> > > > +                                    struct drm_plane_state *plane_state,
-> > > >                                      struct drm_bridge_state *bridge_state,
-> > > >                                      const u32 bus_format)
-> > > >  {
-> > > > @@ -223,7 +341,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
-> > > >         /* Mandatory eLCDIF reset as per the Reference Manual */
-> > > >         lcdif_reset_block(lcdif);
-> > > >  
-> > > > -       lcdif_set_formats(lcdif, bus_format);
-> > > > +       lcdif_set_formats(lcdif, plane_state, bus_format);
-> > > >  
-> > > >         lcdif_set_mode(lcdif, bus_flags);
-> > > >  }
-> > > > @@ -306,7 +424,7 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
-> > > >  
-> > > >         pm_runtime_get_sync(drm->dev);
-> > > >  
-> > > > -       lcdif_crtc_mode_set_nofb(lcdif, bridge_state, bus_format);
-> > > > +       lcdif_crtc_mode_set_nofb(lcdif, new_pstate, bridge_state, bus_format);
-> > > >  
-> > > >         /* Write cur_buf as well to avoid an initial corrupt frame */
-> > > >         paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
-> > > > @@ -456,6 +574,12 @@ static const u32 lcdif_primary_plane_formats[] = {
-> > > >         DRM_FORMAT_XRGB1555,
-> > > >         DRM_FORMAT_XRGB4444,
-> > > >         DRM_FORMAT_XRGB8888,
-> > > > +
-> > > > +       /* packed YCbCr */
-> > > > +       DRM_FORMAT_YUYV,
-> > > > +       DRM_FORMAT_YVYU,
-> > > > +       DRM_FORMAT_UYVY,
-> > > > +       DRM_FORMAT_VYUY,
-> > > >  };
-> > > >  
-> > > >  static const u64 lcdif_modifiers[] = {
-> > > > @@ -469,6 +593,11 @@ static const u64 lcdif_modifiers[] = {
-> > > >  
-> > > >  int lcdif_kms_init(struct lcdif_drm_private *lcdif)
-> > > >  {
-> > > > +       const u32 supported_encodings = BIT(DRM_COLOR_YCBCR_BT601)
-> > > > +                                     | BIT(DRM_COLOR_YCBCR_BT709)
-> > > > +                                     | BIT(DRM_COLOR_YCBCR_BT2020);
-> > > > +       const u32 supported_ranges = BIT(DRM_COLOR_YCBCR_LIMITED_RANGE)
-> > > > +                                  | BIT(DRM_COLOR_YCBCR_FULL_RANGE);
-> > > >         struct drm_encoder *encoder = &lcdif->encoder;
-> > > >         struct drm_crtc *crtc = &lcdif->crtc;
-> > > >         int ret;
-> > > > @@ -484,6 +613,14 @@ int lcdif_kms_init(struct lcdif_drm_private *lcdif)
-> > > >         if (ret)
-> > > >                 return ret;
-> > > >  
-> > > > +       ret = drm_plane_create_color_properties(&lcdif->planes.primary,
-> > > > +                                               supported_encodings,
-> > > > +                                               supported_ranges,
-> > > > +                                               DRM_COLOR_YCBCR_BT601,
-> > > > +                                               DRM_COLOR_YCBCR_LIMITED_RANGE);
-> > > > +       if (ret)
-> > > > +               return ret;
-> > > > +
-> > > >         drm_crtc_helper_add(crtc, &lcdif_crtc_helper_funcs);
-> > > >         ret = drm_crtc_init_with_planes(lcdif->drm, crtc,
-> > > >                                         &lcdif->planes.primary, NULL,
-> > > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > > index 0d5d9bedd94a..fb74eb5ccbf1 100644
-> > > > --- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > > +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > > @@ -216,7 +216,10 @@
-> > > >  #define CTRLDESCL0_5_YUV_FORMAT_UY2VY1 (0x3 << 14)
-> > > >  #define CTRLDESCL0_5_YUV_FORMAT_MASK   GENMASK(15, 14)
-> > > >  
-> > > > -#define CSC0_CTRL_CSC_MODE_RGB2YCbCr   GENMASK(2, 1)
-> > > > +#define CSC0_CTRL_CSC_MODE_YUV2RGB     (0x0 << 1)
-> > > > +#define CSC0_CTRL_CSC_MODE_YCbCr2RGB   (0x1 << 1)
-> > > > +#define CSC0_CTRL_CSC_MODE_RGB2YUV     (0x2 << 1)
-> > > > +#define CSC0_CTRL_CSC_MODE_RGB2YCbCr   (0x3 << 1)
-> > > >  #define CSC0_CTRL_CSC_MODE_MASK                GENMASK(2, 1)
-> > > >  #define CSC0_CTRL_BYPASS               BIT(0)
-> > > >  
+After second though I guess I'm actually agreeing with Hans here.
+The current situation is where small change in the value near one
+end of the range does basically nothing, while a small change at
+the other of the range causes a massive brightness change. That
+is no good.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ville Syrjälä
+Intel
