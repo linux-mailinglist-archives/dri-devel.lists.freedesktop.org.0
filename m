@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6C25EE0FE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 17:55:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1555EE10A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 17:57:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C57410E38B;
-	Wed, 28 Sep 2022 15:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFA210E41B;
+	Wed, 28 Sep 2022 15:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84F6410E38B;
- Wed, 28 Sep 2022 15:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664380541; x=1695916541;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=f+fooFLs+n5fUzoy0wdubLeIzarXddjJg5fpuDA+lpg=;
- b=K77ptU27A+OBlurF18tyFjkKTqaIPs2TUL6q4H8nrpJfxcdflSpG5M8r
- c9X+jTZphBYSYfFp/tiXj1Uop48MiH8W4Y4QKdyDqjOFBmkMcOyKBsoxW
- LMS72yBKVQVvHOLANAbPWnPvNevX9ljmNuGpqWe6eWgMvQez51vC+6wEC
- LJFbWhHWBHaEk9HTKh5Hq9yFw/Uo31SQX5uzzVQHZrpFndMLUz3HzfQL+
- p2N6Cks51oroBbbtrixbHFWEbH5IhyRIU6VioDHb+TKQzM0/pNUG2VTuO
- eZSoYDFqqd9Qdkjj3wtpjT+0RcUJA78ho+lfwHzLqXz7vZTR/71uGkZHE Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="328006294"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="328006294"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 08:55:40 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="747478266"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="747478266"
-Received: from invictus.jf.intel.com ([10.165.21.201])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 08:55:40 -0700
-From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4.1] drm/i915/mtl: Define engine context layouts
-Date: Wed, 28 Sep 2022 08:55:11 -0700
-Message-Id: <20220928155511.2379663-1-radhakrishna.sripada@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B1210E41B;
+ Wed, 28 Sep 2022 15:57:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D669A61F10;
+ Wed, 28 Sep 2022 15:57:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE40C433D6;
+ Wed, 28 Sep 2022 15:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664380645;
+ bh=tjK6Iwi9Ql5KmK46x2ExPsr0zxrzgi8K1Jt3JCk5wG0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IAPMUszGIv2DzN4/h8aUlomn7hJkaXcbEvnq+G8MmPtvaiXjWPLFEpQw+L0tXj8mv
+ nSaXwxfw7KUH+zCsO5eeRCqfrqy8XD6usPAvTwWrke4CwDjCt4a+/ZsTF2rx75qBxF
+ gpCTcdLvPqxW2+SJqI+/lDxbhDcqnglftQdLbNxPDKuQbreUK7iNwpV7ghPIkCZzBx
+ XNbgdsuNq0LCORR/LB70/RUBeDfx47cC1JsnWK2uQkBXesAC9OWYHTy7JwEQ5ZiS2w
+ DNLX8L0Dq+FWd1EoA3LeTe7ub9tsZgCZ1J1KPoO+EEV8rcKvV27AGtoBXpLLHySD/a
+ sdVbUcOrIOylA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1odZRD-0005f9-N1; Wed, 28 Sep 2022 17:57:31 +0200
+Date: Wed, 28 Sep 2022 17:57:31 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 09/10] drm/msm/dp: drop modeset sanity checks
+Message-ID: <YzRu64bdqjnhbjlc@hovoldconsulting.com>
+References: <20220913085320.8577-1-johan+linaro@kernel.org>
+ <20220913085320.8577-10-johan+linaro@kernel.org>
+ <d05290d8-7603-13b3-3cc4-d8509b03fc02@quicinc.com>
+ <YzKi8XfV6V0p0TJi@hovoldconsulting.com>
+ <d7688497-6229-40d4-3378-5036d699dfd7@quicinc.com>
+ <YzQ9CPwxZXFJCQGG@hovoldconsulting.com>
+ <3a5f006d-2735-5af5-48fa-4397bfb5e3ba@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a5f006d-2735-5af5-48fa-4397bfb5e3ba@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,156 +61,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, Steev Klimaszewski <steev@kali.org>,
+ freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Roper <matthew.d.roper@intel.com>
+On Wed, Sep 28, 2022 at 08:33:52AM -0700, Abhinav Kumar wrote:
+> On 9/28/2022 5:24 AM, Johan Hovold wrote:
+> > On Tue, Sep 27, 2022 at 11:42:53AM -0700, Abhinav Kumar wrote:
 
-The part of the media and blitter engine contexts that we care about for
-setting up an initial state on MTL are nearly similar to DG2 (and PVC).
-The difference being PRT_BB_STATE being replaced with NOP.
+> >> Discussed with Rob on IRC, we will apply everything except the last two
+> >> patches of this series in the -fixes and take these two for the next
+> >> kernel rev push.
+> > 
+> > So the fixes go in 6.0 and the two follow-on cleanups in 6.1? Or did you
+> > mean 6.1 and 6.2?
 
-For render/compute engines, the part of the context images are nearly
-the same, although the layout had a very slight change --- one POSH
-register was removed and the placement of some LRI/noops adjusted
-slightly to compensate.
+> The fixes will go in 6.1 first.
+> 
+> The two follow-on cleanups in 6.2.
 
-v2:
- - Dg2, mtl xcs offsets slightly vary. Use a separate offsets array(Bala)
- - Add missing nop in xcs offsets(Bala)
-v3:
- - Fix the spacing for nop in xcs offset(MattR)
-v4:
- - Fix rcs register offset(MattR)
-v4.1:
- - Fix commit message(Lucas)
+Ok, sounds good. Thanks.
 
-Bspec: 46261, 46260, 45585
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Cc: Licas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_lrc.c | 84 ++++++++++++++++++++++++++++-
- 1 file changed, 82 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 82d899f170fb..e84ef3859934 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -264,6 +264,39 @@ static const u8 dg2_xcs_offsets[] = {
- 	END
- };
- 
-+static const u8 mtl_xcs_offsets[] = {
-+	NOP(1),
-+	LRI(13, POSTED),
-+	REG16(0x244),
-+	REG(0x034),
-+	REG(0x030),
-+	REG(0x038),
-+	REG(0x03c),
-+	REG(0x168),
-+	REG(0x140),
-+	REG(0x110),
-+	REG(0x1c0),
-+	REG(0x1c4),
-+	REG(0x1c8),
-+	REG(0x180),
-+	REG16(0x2b4),
-+	NOP(4),
-+
-+	NOP(1),
-+	LRI(9, POSTED),
-+	REG16(0x3a8),
-+	REG16(0x28c),
-+	REG16(0x288),
-+	REG16(0x284),
-+	REG16(0x280),
-+	REG16(0x27c),
-+	REG16(0x278),
-+	REG16(0x274),
-+	REG16(0x270),
-+
-+	END
-+};
-+
- static const u8 gen8_rcs_offsets[] = {
- 	NOP(1),
- 	LRI(14, POSTED),
-@@ -606,6 +639,49 @@ static const u8 dg2_rcs_offsets[] = {
- 	END
- };
- 
-+static const u8 mtl_rcs_offsets[] = {
-+	NOP(1),
-+	LRI(15, POSTED),
-+	REG16(0x244),
-+	REG(0x034),
-+	REG(0x030),
-+	REG(0x038),
-+	REG(0x03c),
-+	REG(0x168),
-+	REG(0x140),
-+	REG(0x110),
-+	REG(0x1c0),
-+	REG(0x1c4),
-+	REG(0x1c8),
-+	REG(0x180),
-+	REG16(0x2b4),
-+	REG(0x120),
-+	REG(0x124),
-+
-+	NOP(1),
-+	LRI(9, POSTED),
-+	REG16(0x3a8),
-+	REG16(0x28c),
-+	REG16(0x288),
-+	REG16(0x284),
-+	REG16(0x280),
-+	REG16(0x27c),
-+	REG16(0x278),
-+	REG16(0x274),
-+	REG16(0x270),
-+
-+	NOP(2),
-+	LRI(2, POSTED),
-+	REG16(0x5a8),
-+	REG16(0x5ac),
-+
-+	NOP(6),
-+	LRI(1, 0),
-+	REG(0x0c8),
-+
-+	END
-+};
-+
- #undef END
- #undef REG16
- #undef REG
-@@ -624,7 +700,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
- 		   !intel_engine_has_relative_mmio(engine));
- 
- 	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE) {
--		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-+		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-+			return mtl_rcs_offsets;
-+		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
- 			return dg2_rcs_offsets;
- 		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
- 			return xehp_rcs_offsets;
-@@ -637,7 +715,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
- 		else
- 			return gen8_rcs_offsets;
- 	} else {
--		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
-+		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 70))
-+			return mtl_xcs_offsets;
-+		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
- 			return dg2_xcs_offsets;
- 		else if (GRAPHICS_VER(engine->i915) >= 12)
- 			return gen12_xcs_offsets;
--- 
-2.34.1
-
+Johan
