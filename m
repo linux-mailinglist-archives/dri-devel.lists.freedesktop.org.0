@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB155EE9B5
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:50:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 196815EE9A4
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61AA910E7CD;
-	Wed, 28 Sep 2022 22:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB2A10E77A;
+	Wed, 28 Sep 2022 22:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 038D210E502
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:48:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B228B10E502
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:48:19 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EE116BE;
- Thu, 29 Sep 2022 00:48:16 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16D7647C;
+ Thu, 29 Sep 2022 00:48:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405296;
- bh=vOLZA7K0L8CYFPdcY4Oam2OGtDyaQ6xHaAcWMbBxdBk=;
+ s=mail; t=1664405298;
+ bh=p1TdI3e0d7cYW/J1/mkCqDSgMgzntqgCTRGmiHqwaoU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oxVmobyIZcooN5NGHOWITtQpCNTKeDrCw/dqgJPQVI+J8UopeEcAPtM32IwFKnUOh
- Un7FgVldyfr5GYxsVSTEJ2T3B3PhfE6/TfL2qjoOGVluJsfdpZfVBO5ytqie5m0phe
- gz9CBrFYbnF3e+6pTIK769d2R4UQBt+XIE9feYzA=
+ b=R3VvG6cqrJo6PoGfCGhcjm1rgEXaq/MH5uchncJLKW6Xt845o4x7I8ZFJcBJB/EiB
+ 74voqW7/U2LzPC6fb0P9JBxCiZveUTn3Zt6+UdGxRh8WcJcv8EUq4/nsa8IccnuU4k
+ mXDR9sjYWPzW4SFFZAAlkdOkF7ghPwO7dNLJj6o8=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 34/37] drm: xlnx: zynqmp_dpsub: Support operation without
- DMA engine
-Date: Thu, 29 Sep 2022 01:47:16 +0300
-Message-Id: <20220928224719.3291-35-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 35/37] drm: xlnx: zynqmp_dpsub: Add support for live video
+ input
+Date: Thu, 29 Sep 2022 01:47:17 +0300
+Message-Id: <20220928224719.3291-36-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,140 +52,172 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prepare for usage of the DPSUB as a DisplayPort bridge without
-creating a DRM device, make initialization and usage of the DMA engine
-optional. The flag that controls this feature is currently hardcoded to
-operating with the DMA engine, this will be made dynamic based on the
-device tree configuration in a subsequent change.
+Add partial live video support, with a single video input that bypasses
+blending. Skip registration of the DRM device in that case, but register
+the DRM bridge instead. The DRM device will be created by the driver for
+the display controller in the PL.
+
+Full live video mode with concurrent usage of the video and gfx inputs,
+and blending in the DPSUB video pipeline, is currently unsupported.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c  | 26 ++++++++++++++++++++------
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c |  3 +++
- drivers/gpu/drm/xlnx/zynqmp_dpsub.h |  3 +++
- 3 files changed, 26 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c    | 55 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 32 +++++++++++++----
+ 2 files changed, 80 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 1c46f25001b7..3deed843f2ea 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -926,8 +926,10 @@ void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
- {
- 	unsigned int i;
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 5424f955be28..7c9ae167eac7 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_fourcc.h>
+ #include <drm/drm_modes.h>
+ #include <drm/drm_of.h>
  
--	for (i = 0; i < layer->drm_fmt->num_planes; i++)
--		dmaengine_terminate_sync(layer->dmas[i].chan);
-+	if (layer->disp->dpsub->dma_enabled) {
-+		for (i = 0; i < layer->drm_fmt->num_planes; i++)
-+			dmaengine_terminate_sync(layer->dmas[i].chan);
-+	}
+@@ -1271,6 +1272,55 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_USER_DATA_COUNT_PER_LANE, reg);
+ }
  
- 	zynqmp_disp_avbuf_disable_video(layer->disp, layer);
- 	zynqmp_disp_blend_layer_disable(layer->disp, layer);
-@@ -950,6 +952,9 @@ void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
- 
- 	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
- 
-+	if (!layer->disp->dpsub->dma_enabled)
++/* -----------------------------------------------------------------------------
++ * DISP Configuration
++ */
++
++static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
++				  struct drm_bridge_state *old_bridge_state)
++{
++	enum zynqmp_dpsub_layer_id layer_id;
++	struct zynqmp_disp_layer *layer;
++	const struct drm_format_info *info;
++
++	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
++		layer_id = ZYNQMP_DPSUB_LAYER_VID;
++	else if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))
++		layer_id = ZYNQMP_DPSUB_LAYER_GFX;
++	else
 +		return;
 +
++	layer = dp->dpsub->layers[layer_id];
++
++	/* TODO: Make the format configurable. */
++	info = drm_format_info(DRM_FORMAT_YUV422);
++	zynqmp_disp_layer_set_format(layer, info);
++	zynqmp_disp_layer_enable(layer, ZYNQMP_DPSUB_LAYER_LIVE);
++
++	if (layer_id == ZYNQMP_DPSUB_LAYER_GFX)
++		zynqmp_disp_blend_set_global_alpha(dp->dpsub->disp, true, 255);
++	else
++		zynqmp_disp_blend_set_global_alpha(dp->dpsub->disp, false, 0);
++
++	zynqmp_disp_enable(dp->dpsub->disp);
++}
++
++static void zynqmp_dp_disp_disable(struct zynqmp_dp *dp,
++				   struct drm_bridge_state *old_bridge_state)
++{
++	struct zynqmp_disp_layer *layer;
++
++	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
++		layer = dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_VID];
++	else if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))
++		layer = dp->dpsub->layers[ZYNQMP_DPSUB_LAYER_GFX];
++	else
++		return;
++
++	zynqmp_disp_disable(dp->dpsub->disp);
++	zynqmp_disp_layer_disable(layer);
++}
++
+ /* -----------------------------------------------------------------------------
+  * DRM Bridge
+  */
+@@ -1355,6 +1405,8 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	pm_runtime_get_sync(dp->dev);
+ 
++	zynqmp_dp_disp_enable(dp, old_bridge_state);
++
  	/*
- 	 * Set pconfig for each DMA channel to indicate they're part of a
- 	 * video group.
-@@ -985,6 +990,9 @@ int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
- 	const struct drm_format_info *info = layer->drm_fmt;
- 	unsigned int i;
- 
-+	if (!layer->disp->dpsub->dma_enabled)
-+		return 0;
+ 	 * Retrieve the CRTC mode and adjusted mode. This requires a little
+ 	 * dance to go from the bridge to the encoder, to the connector and to
+@@ -1428,6 +1480,9 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+ 			ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
+ 	if (zynqmp_dpsub_audio_enabled(dp->dpsub))
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
 +
- 	for (i = 0; i < info->num_planes; i++) {
- 		unsigned int width = state->crtc_w / (i ? info->hsub : 1);
- 		unsigned int height = state->crtc_h / (i ? info->vsub : 1);
-@@ -1032,7 +1040,7 @@ static void zynqmp_disp_layer_release_dma(struct zynqmp_disp *disp,
- {
- 	unsigned int i;
- 
--	if (!layer->info)
-+	if (!layer->info || !disp->dpsub->dma_enabled)
- 		return;
- 
- 	for (i = 0; i < layer->info->num_channels; i++) {
-@@ -1075,6 +1083,9 @@ static int zynqmp_disp_layer_request_dma(struct zynqmp_disp *disp,
- 	unsigned int i;
- 	int ret;
- 
-+	if (!disp->dpsub->dma_enabled)
-+		return 0;
++	zynqmp_dp_disp_disable(dp, old_bridge_state);
 +
- 	for (i = 0; i < layer->info->num_channels; i++) {
- 		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
- 		char dma_channel_name[16];
-@@ -1217,7 +1228,6 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub)
- {
- 	struct platform_device *pdev = to_platform_device(dpsub->dev);
- 	struct zynqmp_disp *disp;
--	struct zynqmp_disp_layer *layer;
- 	struct resource *res;
- 	int ret;
- 
-@@ -1253,8 +1263,12 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub)
- 	if (ret)
- 		goto error;
- 
--	layer = &disp->layers[ZYNQMP_DPSUB_LAYER_VID];
--	dpsub->dma_align = 1 << layer->dmas[0].chan->device->copy_align;
-+	if (disp->dpsub->dma_enabled) {
-+		struct zynqmp_disp_layer *layer;
-+
-+		layer = &disp->layers[ZYNQMP_DPSUB_LAYER_VID];
-+		dpsub->dma_align = 1 << layer->dmas[0].chan->device->copy_align;
-+	}
- 
- 	dpsub->disp = disp;
+ 	pm_runtime_put_sync(dp->dev);
+ }
  
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 6627a1ec7791..6e4cd4479de1 100644
+index 6e4cd4479de1..bab862484d42 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -158,6 +158,7 @@ static int zynqmp_dpsub_parse_dt(struct zynqmp_dpsub *dpsub)
- 	if (!np) {
- 		dev_warn(dpsub->dev, "missing ports, update DT bindings\n");
- 		dpsub->connected_ports = BIT(ZYNQMP_DPSUB_PORT_OUT_DP);
-+		dpsub->dma_enabled = true;
- 		return 0;
+@@ -19,6 +19,7 @@
+ #include <linux/slab.h>
+ 
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_modeset_helper.h>
+ #include <drm/drm_module.h>
+ 
+@@ -174,11 +175,22 @@ static int zynqmp_dpsub_parse_dt(struct zynqmp_dpsub *dpsub)
  	}
  
-@@ -177,6 +178,8 @@ static int zynqmp_dpsub_parse_dt(struct zynqmp_dpsub *dpsub)
- 	    (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX)))
- 		dev_warn(dpsub->dev, "live video unsupported, ignoring\n");
- 
-+	dpsub->dma_enabled = true;
+ 	/* Sanity checks. */
++	if ((dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO)) &&
++	    (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))) {
++		dev_err(dpsub->dev, "only one live video input is supported\n");
++		return -EINVAL;
++	}
 +
+ 	if ((dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO)) ||
+-	    (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX)))
+-		dev_warn(dpsub->dev, "live video unsupported, ignoring\n");
+-
+-	dpsub->dma_enabled = true;
++	    (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX))) {
++		if (dpsub->vid_clk_from_ps) {
++			dev_err(dpsub->dev,
++				"live video input requires PL clock\n");
++			return -EINVAL;
++		}
++	} else {
++		dpsub->dma_enabled = true;
++	}
+ 
  	if (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_AUDIO))
  		dev_warn(dpsub->dev, "live audio unsupported, ignoring\n");
+@@ -242,9 +254,13 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_dp;
  
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-index 6ded6e45ac0a..09ea01878f2a 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-@@ -48,6 +48,8 @@ enum zynqmp_dpsub_format {
-  * @aud_clk: Audio clock
-  * @aud_clk_from_ps: True of the audio clock comes from PS, false from PL
-  * @connected_ports: Bitmask of connected ports in the device tree
-+ * @dma_enabled: True if the DMA interface is enabled, false if the DPSUB is
-+ *	driven by the live input
-  * @drm: The DRM/KMS device data
-  * @bridge: The DP encoder bridge
-  * @disp: The display controller
-@@ -64,6 +66,7 @@ struct zynqmp_dpsub {
- 	bool aud_clk_from_ps;
+-	ret = zynqmp_dpsub_drm_init(dpsub);
+-	if (ret)
+-		goto err_disp;
++	if (dpsub->dma_enabled) {
++		ret = zynqmp_dpsub_drm_init(dpsub);
++		if (ret)
++			goto err_disp;
++	} else {
++		drm_bridge_add(dpsub->bridge);
++	}
  
- 	unsigned int connected_ports;
-+	bool dma_enabled;
+ 	dev_info(&pdev->dev, "ZynqMP DisplayPort Subsystem driver probed");
  
- 	struct zynqmp_dpsub_drm *drm;
- 	struct drm_bridge *bridge;
+@@ -270,6 +286,8 @@ static int zynqmp_dpsub_remove(struct platform_device *pdev)
+ 
+ 	if (dpsub->drm)
+ 		zynqmp_dpsub_drm_cleanup(dpsub);
++	else
++		drm_bridge_remove(dpsub->bridge);
+ 
+ 	zynqmp_disp_remove(dpsub);
+ 	zynqmp_dp_remove(dpsub);
 -- 
 Regards,
 
