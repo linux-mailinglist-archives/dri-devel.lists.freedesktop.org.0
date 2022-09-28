@@ -1,67 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555A85EE1D4
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 18:29:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D49265EE28D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 19:06:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF74D10E3A4;
-	Wed, 28 Sep 2022 16:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2672C10E476;
+	Wed, 28 Sep 2022 17:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E333E10E3A4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 16:29:19 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C8FAF21BD0;
- Wed, 28 Sep 2022 16:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1664382557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EnWbGV237BuzDgTB50BqcLBq1d2zN9a/YOcWsHi9fr4=;
- b=t0+ihg6khVdLY0KsOqEColQEDlRylpDqT1w3q1DzA50zxqc/Vqwf/Zi+169ascbHLgt2bW
- FQkeclL4pKkrvckUy0cyXjOjZQxxzwvYNVbzSbw8k0t1HEJSrsQMny3TCh9HQ5Eog+GWZM
- 66qq9zmMiQtEpL5PRSk7pG7/X1wkGwI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1664382557;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EnWbGV237BuzDgTB50BqcLBq1d2zN9a/YOcWsHi9fr4=;
- b=EorZdnweBb5NkWdw4eR45K3RqBYZ40BM744J5xENipJYNYfffn6v9+l3CJz/AghB3JfX3n
- 6rVrw5Fity5E62Dg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1213713677;
- Wed, 28 Sep 2022 16:29:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id dWVWAF12NGMNKgAAMHmgww
- (envelope-from <vbabka@suse.cz>); Wed, 28 Sep 2022 16:29:17 +0000
-Message-ID: <f00866a5-88b2-c705-0a33-8f0b98a0642a@suse.cz>
-Date: Wed, 28 Sep 2022 18:27:36 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEEF510E422;
+ Wed, 28 Sep 2022 17:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664384782; x=1695920782;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iP/I12zZQTsZye8tppveBV9ZhCIKbrfYzpfKqs+zahU=;
+ b=ZifVKGckJ5CFsx8Dklhq4U7qffN0fwnbMmSrrGBb5i5yBIa5pc0Iexfm
+ 4aX6ONMtuQQWgE2Sk/ZtWzbvISR6KPoWE5CxPYO+t8HJeGljCnyD77347
+ wIej0tTmWYwoySsX7JeC84SPKoANN/9SvEoPzYZvjHH6FwWz4/m/gh6hF
+ 3J/O4HrF4BWs8JJdSd+i3HUdbcJpKoQ0i0iK5xalpbbloJlrDaC7vE7Ni
+ G7B3/Yq4FPf5dA6alH/V62F5x1usXdrimkgAX3jhPVuakcYrfkPApzcKZ
+ ak8Ra9DVkaDba3IF+XlYFmxQOy587/bd/KLQDur0tgM/ezwJyeHesiimX g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="328028571"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="328028571"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 10:06:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="747504974"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="747504974"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 10:06:21 -0700
+Date: Wed, 28 Sep 2022 10:05:59 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 04/16] drm/i915/vm_bind: Add support to
+ create persistent vma
+Message-ID: <20220928170558.GE16345@nvishwa1-DESK>
+References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
+ <20220928061918.6340-5-niranjana.vishwanathapura@intel.com>
+ <7e4e626d-4f7f-f802-693f-07ded7673c35@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 01/16] slab: Remove __malloc attribute from realloc
- functions
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Kees Cook <keescook@chromium.org>
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-2-keescook@chromium.org>
- <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <7e4e626d-4f7f-f802-693f-07ded7673c35@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,175 +60,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, dri-devel@lists.freedesktop.org,
- "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Christoph Lameter <cl@linux.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, llvm@lists.linux.dev,
- Josef Bacik <josef@toxicpanda.com>, linaro-mm-sig@lists.linaro.org,
- Yonghong Song <yhs@fb.com>, David Sterba <dsterba@suse.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, Alex Elder <elder@kernel.org>,
- linux-mm@kvack.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org
+Cc: paulo.r.zanoni@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, daniel.vetter@intel.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/28/22 09:26, Geert Uytterhoeven wrote:
-> Hi Kees,
-> 
-> On Fri, Sep 23, 2022 at 10:35 PM Kees Cook <keescook@chromium.org> wrote:
->> The __malloc attribute should not be applied to "realloc" functions, as
->> the returned pointer may alias the storage of the prior pointer. Instead
->> of splitting __malloc from __alloc_size, which would be a huge amount of
->> churn, just create __realloc_size for the few cases where it is needed.
+On Wed, Sep 28, 2022 at 08:38:39AM +0100, Tvrtko Ursulin wrote:
+>
+>On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
+>>Add i915_vma_instance_persistent() to create persistent vmas.
+>>Persistent vmas will use i915_gtt_view to support partial binding.
 >>
->> Additionally removes the conditional test for __alloc_size__, which is
->> always defined now.
+>>vma_lookup is tied to segment of the object instead of section
+>>of VA space. Hence, it do not support aliasing. ie., multiple
+>>mappings (at different VA) point to the same gtt_view of object.
+>>Skip vma_lookup for persistent vmas to support aliasing.
 >>
->> Cc: Christoph Lameter <cl@linux.com>
->> Cc: Pekka Enberg <penberg@kernel.org>
->> Cc: David Rientjes <rientjes@google.com>
->> Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: Vlastimil Babka <vbabka@suse.cz>
->> Cc: Roman Gushchin <roman.gushchin@linux.dev>
->> Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Cc: Marco Elver <elver@google.com>
->> Cc: linux-mm@kvack.org
->> Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Thanks for your patch, which is now commit 63caa04ec60583b1 ("slab:
-> Remove __malloc attribute from realloc functions") in next-20220927.
-> 
-> Noreply@ellerman.id.au reported all gcc8-based builds to fail
-> (e.g. [1], more at [2]):
-> 
->      In file included from <command-line>:
->      ./include/linux/percpu.h: In function ‘__alloc_reserved_percpu’:
->      ././include/linux/compiler_types.h:279:30: error: expected
-> declaration specifiers before ‘__alloc_size__’
->       #define __alloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__) __malloc
->                                    ^~~~~~~~~~~~~~
->      ./include/linux/percpu.h:120:74: note: in expansion of macro ‘__alloc_size’
->      [...]
-> 
-> It's building fine with e.g. gcc-9 (which is my usual m68k cross-compiler).
-> Reverting this commit on next-20220927 fixes the issue.
+>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>---
+>>  drivers/gpu/drm/i915/i915_vma.c       | 39 ++++++++++++++++++++++++---
+>>  drivers/gpu/drm/i915/i915_vma.h       | 16 +++++++++--
+>>  drivers/gpu/drm/i915/i915_vma_types.h |  7 +++++
+>>  3 files changed, 57 insertions(+), 5 deletions(-)
+>>
+>>diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>>index f17c09ead7d7..5839e1f55f00 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma.c
+>>+++ b/drivers/gpu/drm/i915/i915_vma.c
+>>@@ -109,7 +109,8 @@ static void __i915_vma_retire(struct i915_active *ref)
+>>  static struct i915_vma *
+>>  vma_create(struct drm_i915_gem_object *obj,
+>>  	   struct i915_address_space *vm,
+>>-	   const struct i915_gtt_view *view)
+>>+	   const struct i915_gtt_view *view,
+>>+	   bool skip_lookup_cache)
+>>  {
+>>  	struct i915_vma *pos = ERR_PTR(-E2BIG);
+>>  	struct i915_vma *vma;
+>>@@ -196,6 +197,9 @@ vma_create(struct drm_i915_gem_object *obj,
+>>  		__set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(vma));
+>>  	}
+>>+	if (skip_lookup_cache)
+>>+		goto skip_rb_insert;
+>>+
+>>  	rb = NULL;
+>>  	p = &obj->vma.tree.rb_node;
+>>  	while (*p) {
+>>@@ -220,6 +224,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>>  	rb_link_node(&vma->obj_node, rb, p);
+>>  	rb_insert_color(&vma->obj_node, &obj->vma.tree);
+>>+skip_rb_insert:
+>>  	if (i915_vma_is_ggtt(vma))
+>>  		/*
+>>  		 * We put the GGTT vma at the start of the vma-list, followed
+>>@@ -299,7 +304,34 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
+>>  	/* vma_create() will resolve the race if another creates the vma */
+>>  	if (unlikely(!vma))
+>>-		vma = vma_create(obj, vm, view);
+>>+		vma = vma_create(obj, vm, view, false);
+>>+
+>>+	GEM_BUG_ON(!IS_ERR(vma) && i915_vma_compare(vma, vm, view));
+>>+	return vma;
+>>+}
+>>+
+>>+/**
+>>+ * i915_vma_create_persistent - create a persistent VMA
+>>+ * @obj: parent &struct drm_i915_gem_object to be mapped
+>>+ * @vm: address space in which the mapping is located
+>>+ * @view: additional mapping requirements
+>>+ *
+>>+ * Creates a persistent vma.
+>>+ *
+>>+ * Returns the vma, or an error pointer.
+>>+ */
+>>+struct i915_vma *
+>>+i915_vma_create_persistent(struct drm_i915_gem_object *obj,
+>>+			   struct i915_address_space *vm,
+>>+			   const struct i915_gtt_view *view)
+>>+{
+>>+	struct i915_vma *vma;
+>>+
+>>+	GEM_BUG_ON(!kref_read(&vm->ref));
+>>+
+>>+	vma = vma_create(obj, vm, view, true);
+>>+	if (!IS_ERR(vma))
+>>+		i915_vma_set_persistent(vma);
+>>  	GEM_BUG_ON(!IS_ERR(vma) && i915_vma_compare(vma, vm, view));
+>>  	return vma;
+>>@@ -1666,7 +1698,8 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
+>>  	spin_lock(&obj->vma.lock);
+>>  	list_del(&vma->obj_link);
+>>-	if (!RB_EMPTY_NODE(&vma->obj_node))
+>>+	if (!i915_vma_is_persistent(vma) &&
+>
+>Thinking out loud - maybe you don't need the extra condition? But it 
+>is good for self-documenting purposes in any case.
 
-So IIUC it was wrong to remove the #ifdefs?
+Thanks, yah, it is not needed, will remove this update.
 
-> [1] http://kisskb.ellerman.id.au/kisskb/buildresult/14803908/
-> [2] http://kisskb.ellerman.id.au/kisskb/head/1bd8b75fe6adeaa89d02968bdd811ffe708cf839/
-> 
-> 
-> 
->> ---
->>   include/linux/compiler_types.h | 13 +++++--------
->>   include/linux/slab.h           | 12 ++++++------
->>   mm/slab_common.c               |  4 ++--
->>   3 files changed, 13 insertions(+), 16 deletions(-)
->>
->> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
->> index 4f2a819fd60a..f141a6f6b9f6 100644
->> --- a/include/linux/compiler_types.h
->> +++ b/include/linux/compiler_types.h
->> @@ -271,15 +271,12 @@ struct ftrace_likely_data {
->>
->>   /*
->>    * Any place that could be marked with the "alloc_size" attribute is also
->> - * a place to be marked with the "malloc" attribute. Do this as part of the
->> - * __alloc_size macro to avoid redundant attributes and to avoid missing a
->> - * __malloc marking.
->> + * a place to be marked with the "malloc" attribute, except those that may
->> + * be performing a _reallocation_, as that may alias the existing pointer.
->> + * For these, use __realloc_size().
->>    */
->> -#ifdef __alloc_size__
->> -# define __alloc_size(x, ...)  __alloc_size__(x, ## __VA_ARGS__) __malloc
->> -#else
->> -# define __alloc_size(x, ...)  __malloc
->> -#endif
->> +#define __alloc_size(x, ...)   __alloc_size__(x, ## __VA_ARGS__) __malloc
->> +#define __realloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__)
->>
->>   #ifndef asm_volatile_goto
->>   #define asm_volatile_goto(x...) asm goto(x)
->> diff --git a/include/linux/slab.h b/include/linux/slab.h
->> index 0fefdf528e0d..41bd036e7551 100644
->> --- a/include/linux/slab.h
->> +++ b/include/linux/slab.h
->> @@ -184,7 +184,7 @@ int kmem_cache_shrink(struct kmem_cache *s);
->>   /*
->>    * Common kmalloc functions provided by all allocators
->>    */
->> -void * __must_check krealloc(const void *objp, size_t new_size, gfp_t flags) __alloc_size(2);
->> +void * __must_check krealloc(const void *objp, size_t new_size, gfp_t flags) __realloc_size(2);
->>   void kfree(const void *objp);
->>   void kfree_sensitive(const void *objp);
->>   size_t __ksize(const void *objp);
->> @@ -647,10 +647,10 @@ static inline __alloc_size(1, 2) void *kmalloc_array(size_t n, size_t size, gfp_
->>    * @new_size: new size of a single member of the array
->>    * @flags: the type of memory to allocate (see kmalloc)
->>    */
->> -static inline __alloc_size(2, 3) void * __must_check krealloc_array(void *p,
->> -                                                                   size_t new_n,
->> -                                                                   size_t new_size,
->> -                                                                   gfp_t flags)
->> +static inline __realloc_size(2, 3) void * __must_check krealloc_array(void *p,
->> +                                                                     size_t new_n,
->> +                                                                     size_t new_size,
->> +                                                                     gfp_t flags)
->>   {
->>          size_t bytes;
->>
->> @@ -774,7 +774,7 @@ static inline __alloc_size(1, 2) void *kvcalloc(size_t n, size_t size, gfp_t fla
->>   }
->>
->>   extern void *kvrealloc(const void *p, size_t oldsize, size_t newsize, gfp_t flags)
->> -                     __alloc_size(3);
->> +                     __realloc_size(3);
->>   extern void kvfree(const void *addr);
->>   extern void kvfree_sensitive(const void *addr, size_t len);
->>
->> diff --git a/mm/slab_common.c b/mm/slab_common.c
->> index 17996649cfe3..457671ace7eb 100644
->> --- a/mm/slab_common.c
->> +++ b/mm/slab_common.c
->> @@ -1134,8 +1134,8 @@ module_init(slab_proc_init);
->>
->>   #endif /* CONFIG_SLAB || CONFIG_SLUB_DEBUG */
->>
->> -static __always_inline void *__do_krealloc(const void *p, size_t new_size,
->> -                                          gfp_t flags)
->> +static __always_inline __realloc_size(2) void *
->> +__do_krealloc(const void *p, size_t new_size, gfp_t flags)
->>   {
->>          void *ret;
->>          size_t ks;
->> --
->> 2.34.1
->>
-> 
-> 
-> --
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                  -- Linus Torvalds
+>
+>>+	    !RB_EMPTY_NODE(&vma->obj_node))
+>>  		rb_erase(&vma->obj_node, &obj->vma.tree);
+>>  	spin_unlock(&obj->vma.lock);
+>>diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+>>index aecd9c64486b..51e712de380a 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma.h
+>>+++ b/drivers/gpu/drm/i915/i915_vma.h
+>>@@ -44,6 +44,10 @@ struct i915_vma *
+>>  i915_vma_instance(struct drm_i915_gem_object *obj,
+>>  		  struct i915_address_space *vm,
+>>  		  const struct i915_gtt_view *view);
+>>+struct i915_vma *
+>>+i915_vma_create_persistent(struct drm_i915_gem_object *obj,
+>>+			   struct i915_address_space *vm,
+>>+			   const struct i915_gtt_view *view);
+>>  void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+>>  #define I915_VMA_RELEASE_MAP BIT(0)
+>>@@ -138,6 +142,16 @@ static inline u32 i915_ggtt_pin_bias(struct i915_vma *vma)
+>>  	return i915_vm_to_ggtt(vma->vm)->pin_bias;
+>>  }
+>>+static inline bool i915_vma_is_persistent(const struct i915_vma *vma)
+>>+{
+>>+	return test_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+>>+}
+>>+
+>>+static inline void i915_vma_set_persistent(struct i915_vma *vma)
+>>+{
+>>+	set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+>>+}
+>>+
+>>  static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
+>>  {
+>>  	i915_gem_object_get(vma->obj);
+>>@@ -164,8 +178,6 @@ i915_vma_compare(struct i915_vma *vma,
+>>  {
+>>  	ptrdiff_t cmp;
+>>-	GEM_BUG_ON(view && !i915_is_ggtt_or_dpt(vm));
+>Or explicitly add persistent?
 
+Ok, will update.
+
+Regards,
+Niranjana
+
+>
+>Regards,
+>
+>Tvrtko
+>
+>>-
+>>  	cmp = ptrdiff(vma->vm, vm);
+>>  	if (cmp)
+>>  		return cmp;
+>>diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+>>index ec0f6c9f57d0..2200f1f103ba 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma_types.h
+>>+++ b/drivers/gpu/drm/i915/i915_vma_types.h
+>>@@ -264,6 +264,13 @@ struct i915_vma {
+>>  #define I915_VMA_SCANOUT_BIT	17
+>>  #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
+>>+/**
+>>+ * I915_VMA_PERSISTENT_BIT:
+>>+ * The vma is persistent (created with VM_BIND call).
+>>+ */
+>>+#define I915_VMA_PERSISTENT_BIT	19
+>>+#define I915_VMA_PERSISTENT	((int)BIT(I915_VMA_PERSISTENT_BIT))
+>>+
+>>  	struct i915_active active;
+>>  #define I915_VMA_PAGES_BIAS 24
