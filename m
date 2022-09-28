@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5374B5ED908
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 11:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F855ED941
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 11:36:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B7E10E399;
-	Wed, 28 Sep 2022 09:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63A6C10E398;
+	Wed, 28 Sep 2022 09:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E15110E398
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 09:32:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 843C510E398
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 09:36:15 +0000 (UTC)
 Received: from pendragon.ideasonboard.com
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC0A847C;
- Wed, 28 Sep 2022 11:32:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE87E47C;
+ Wed, 28 Sep 2022 11:36:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664357550;
- bh=EkxQnbglOJJjbUOkcm19E7m917opHIXiaHSWo4z2CFU=;
+ s=mail; t=1664357774;
+ bh=0waZZVwkeHDOEZhKjrVaePMA4bHsRz1Z1NR6ijWHx90=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=cUgFmkDoQtDtLEsQ3nn+duMHA28wDR/fcwYjPXaVMlnnpL9c+t/N3n7THTkEu9f8C
- 2ssm6r85AmsS525yKWpq2fx5++T6kjFuG3s9AyvBDl3rbOErFhbuGTnebVeNkHx60M
- ENv5f/gmPp8/QpLEc4BMCoBaAaZHi7pXn1KSSnmU=
+ b=YCjLMtaCQoOT9u0x2ERe7x/CuAe4OnK+mNJ0BY9XZO3yLqXMoWgsqBcr4PpiZyjX4
+ 5xSRcNqHY7Db5UaZbbi2AZjE3eFXQOrefX9Fe6B5qTMJqT/efWi+Syhh6Pi/PNyZmK
+ /dU1IuUv1waP9CXT6F++qPWVOXPyF9UEcJQDNFG8=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220927233821.8007-2-laurent.pinchart@ideasonboard.com>
-References: <20220927233821.8007-1-laurent.pinchart@ideasonboard.com>
- <20220927233821.8007-2-laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/4] drm: lcdif: Fix indentation in lcdif_regs.h
+In-Reply-To: <20220928005812.21060-2-laurent.pinchart@ideasonboard.com>
+References: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
+ <20220928005812.21060-2-laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 1/4] drm: lcdif: Fix indentation in lcdif_regs.h
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
-Date: Wed, 28 Sep 2022 10:32:27 +0100
-Message-ID: <166435754712.56880.8201099627969135657@Monstersaurus>
+Date: Wed, 28 Sep 2022 10:36:11 +0100
+Message-ID: <166435777144.2677993.16181682647705982744@Monstersaurus>
 User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,14 +55,19 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2022-09-28 00:38:18)
+Quoting Laurent Pinchart (2022-09-28 01:58:09)
 > A couple of the register macro values are incorrectly indented. Fix
 > them.
 >=20
 
+Argh, there was already a v2 posted. Sometimes (more often than I like)
+I really hate email...
+
+
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Marek Vasut <marex@denx.de>
 > ---
 >  drivers/gpu/drm/mxsfb/lcdif_regs.h | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
