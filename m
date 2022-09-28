@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE795EE9B0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB155EE9B5
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:50:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 887FB10E7C1;
-	Wed, 28 Sep 2022 22:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61AA910E7CD;
+	Wed, 28 Sep 2022 22:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 680F510E502
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:48:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 038D210E502
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:48:18 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C626747C;
- Thu, 29 Sep 2022 00:48:14 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EE116BE;
+ Thu, 29 Sep 2022 00:48:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405295;
- bh=opEd3wwFevMoXEZbYgmUZ8HL0NxJF4lZWJfYsG1lTgw=;
+ s=mail; t=1664405296;
+ bh=vOLZA7K0L8CYFPdcY4Oam2OGtDyaQ6xHaAcWMbBxdBk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RA/4AKLyhk/DUFRN3gkA2ECe751NWMi4i1o9BmR5pK0ozrCrfHRwl56tRHDgKMQ1v
- BdJtgPd6flVk5na/uLHBh3GGTBCbnyMdqyLdzE/RqfRb5aj4zQrdD8VzNxQQhrlyqq
- vduAAkR1g5TnxlcWK0psGDW6oINW0wY60xFVRlS8=
+ b=oxVmobyIZcooN5NGHOWITtQpCNTKeDrCw/dqgJPQVI+J8UopeEcAPtM32IwFKnUOh
+ Un7FgVldyfr5GYxsVSTEJ2T3B3PhfE6/TfL2qjoOGVluJsfdpZfVBO5ytqie5m0phe
+ gz9CBrFYbnF3e+6pTIK769d2R4UQBt+XIE9feYzA=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 33/37] drm: xlnx: zynqmp_dpsub: Allow configuration of
- layer mode
-Date: Thu, 29 Sep 2022 01:47:15 +0300
-Message-Id: <20220928224719.3291-34-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 34/37] drm: xlnx: zynqmp_dpsub: Support operation without
+ DMA engine
+Date: Thu, 29 Sep 2022 01:47:16 +0300
+Message-Id: <20220928224719.3291-35-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,144 +52,140 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a mode parameter to the zynqmp_disp_layer_enable() to set the layer
-mode, to prepare for live mode support.
+To prepare for usage of the DPSUB as a DisplayPort bridge without
+creating a DRM device, make initialization and usage of the DMA engine
+optional. The flag that controls this feature is currently hardcoded to
+operating with the DMA engine, this will be made dynamic based on the
+device tree configuration in a subsequent change.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 30 +++++++++---------------------
- drivers/gpu/drm/xlnx/zynqmp_disp.h | 13 ++++++++++++-
- drivers/gpu/drm/xlnx/zynqmp_kms.c  |  2 +-
- 3 files changed, 22 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c  | 26 ++++++++++++++++++++------
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c |  3 +++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h |  3 +++
+ 3 files changed, 26 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index b6fb168b6bc3..1c46f25001b7 100644
+index 1c46f25001b7..3deed843f2ea 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -78,16 +78,6 @@ struct zynqmp_disp_format {
- 	const u32 *sf;
- };
- 
--/**
-- * enum zynqmp_disp_layer_mode - Layer mode
-- * @ZYNQMP_DISP_LAYER_NONLIVE: non-live (memory) mode
-- * @ZYNQMP_DISP_LAYER_LIVE: live (stream) mode
-- */
--enum zynqmp_disp_layer_mode {
--	ZYNQMP_DISP_LAYER_NONLIVE,
--	ZYNQMP_DISP_LAYER_LIVE
--};
--
- /**
-  * struct zynqmp_disp_layer_dma - DMA channel for one data plane of a layer
-  * @chan: DMA channel
-@@ -131,7 +121,7 @@ struct zynqmp_disp_layer {
- 
- 	const struct zynqmp_disp_format *disp_fmt;
- 	const struct drm_format_info *drm_fmt;
--	enum zynqmp_disp_layer_mode mode;
-+	enum zynqmp_dpsub_layer_mode mode;
- };
- 
- /**
-@@ -519,27 +509,25 @@ static void zynqmp_disp_avbuf_disable_audio(struct zynqmp_disp *disp)
-  * zynqmp_disp_avbuf_enable_video - Enable a video layer
-  * @disp: Display controller
-  * @layer: The layer
-- * @mode: Operating mode of layer
-  *
-  * Enable the video/graphics buffer for @layer.
-  */
- static void zynqmp_disp_avbuf_enable_video(struct zynqmp_disp *disp,
--					   struct zynqmp_disp_layer *layer,
--					   enum zynqmp_disp_layer_mode mode)
-+					   struct zynqmp_disp_layer *layer)
+@@ -926,8 +926,10 @@ void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
  {
- 	u32 val;
+ 	unsigned int i;
  
- 	val = zynqmp_disp_avbuf_read(disp, ZYNQMP_DISP_AV_BUF_OUTPUT);
- 	if (zynqmp_disp_layer_is_video(layer)) {
- 		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
--		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
-+		if (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)
- 			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MEM;
- 		else
- 			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_LIVE;
- 	} else {
- 		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK;
- 		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM;
--		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
-+		if (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)
- 			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM;
- 		else
- 			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_LIVE;
-@@ -914,17 +902,17 @@ u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
- /**
-  * zynqmp_disp_layer_enable - Enable a layer
-  * @layer: The layer
-+ * @mode: Operating mode of layer
-  *
-  * Enable the @layer in the audio/video buffer manager and the blender. DMA
-  * channels are started separately by zynqmp_disp_layer_update().
-  */
--void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer)
-+void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer,
-+			      enum zynqmp_dpsub_layer_mode mode)
- {
--	zynqmp_disp_avbuf_enable_video(layer->disp, layer,
--				       ZYNQMP_DISP_LAYER_NONLIVE);
-+	layer->mode = mode;
-+	zynqmp_disp_avbuf_enable_video(layer->disp, layer);
- 	zynqmp_disp_blend_layer_enable(layer->disp, layer);
--
--	layer->mode = ZYNQMP_DISP_LAYER_NONLIVE;
- }
+-	for (i = 0; i < layer->drm_fmt->num_planes; i++)
+-		dmaengine_terminate_sync(layer->dmas[i].chan);
++	if (layer->disp->dpsub->dma_enabled) {
++		for (i = 0; i < layer->drm_fmt->num_planes; i++)
++			dmaengine_terminate_sync(layer->dmas[i].chan);
++	}
  
- /**
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-index 9b8b202224d9..123cffac08be 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-@@ -42,6 +42,16 @@ enum zynqmp_dpsub_layer_id {
- 	ZYNQMP_DPSUB_LAYER_GFX,
- };
+ 	zynqmp_disp_avbuf_disable_video(layer->disp, layer);
+ 	zynqmp_disp_blend_layer_disable(layer->disp, layer);
+@@ -950,6 +952,9 @@ void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
  
-+/**
-+ * enum zynqmp_dpsub_layer_mode - Layer mode
-+ * @ZYNQMP_DPSUB_LAYER_NONLIVE: non-live (memory) mode
-+ * @ZYNQMP_DPSUB_LAYER_LIVE: live (stream) mode
-+ */
-+enum zynqmp_dpsub_layer_mode {
-+	ZYNQMP_DPSUB_LAYER_NONLIVE,
-+	ZYNQMP_DPSUB_LAYER_LIVE,
-+};
+ 	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
+ 
++	if (!layer->disp->dpsub->dma_enabled)
++		return;
 +
- void zynqmp_disp_enable(struct zynqmp_disp *disp);
- void zynqmp_disp_disable(struct zynqmp_disp *disp);
- int zynqmp_disp_setup_clock(struct zynqmp_disp *disp,
-@@ -52,7 +62,8 @@ void zynqmp_disp_blend_set_global_alpha(struct zynqmp_disp *disp,
+ 	/*
+ 	 * Set pconfig for each DMA channel to indicate they're part of a
+ 	 * video group.
+@@ -985,6 +990,9 @@ int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
+ 	const struct drm_format_info *info = layer->drm_fmt;
+ 	unsigned int i;
  
- u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
- 				   unsigned int *num_formats);
--void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer);
-+void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer,
-+			      enum zynqmp_dpsub_layer_mode mode);
- void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer);
- void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
- 				  const struct drm_format_info *info);
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-index df7f8e0c9eba..0976f5f8922d 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-@@ -123,7 +123,7 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
++	if (!layer->disp->dpsub->dma_enabled)
++		return 0;
++
+ 	for (i = 0; i < info->num_planes; i++) {
+ 		unsigned int width = state->crtc_w / (i ? info->hsub : 1);
+ 		unsigned int height = state->crtc_h / (i ? info->vsub : 1);
+@@ -1032,7 +1040,7 @@ static void zynqmp_disp_layer_release_dma(struct zynqmp_disp *disp,
+ {
+ 	unsigned int i;
  
- 	/* Enable or re-enable the plane if the format has changed. */
- 	if (format_changed)
--		zynqmp_disp_layer_enable(layer);
-+		zynqmp_disp_layer_enable(layer, ZYNQMP_DPSUB_LAYER_NONLIVE);
- }
+-	if (!layer->info)
++	if (!layer->info || !disp->dpsub->dma_enabled)
+ 		return;
  
- static const struct drm_plane_helper_funcs zynqmp_dpsub_plane_helper_funcs = {
+ 	for (i = 0; i < layer->info->num_channels; i++) {
+@@ -1075,6 +1083,9 @@ static int zynqmp_disp_layer_request_dma(struct zynqmp_disp *disp,
+ 	unsigned int i;
+ 	int ret;
+ 
++	if (!disp->dpsub->dma_enabled)
++		return 0;
++
+ 	for (i = 0; i < layer->info->num_channels; i++) {
+ 		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
+ 		char dma_channel_name[16];
+@@ -1217,7 +1228,6 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub)
+ {
+ 	struct platform_device *pdev = to_platform_device(dpsub->dev);
+ 	struct zynqmp_disp *disp;
+-	struct zynqmp_disp_layer *layer;
+ 	struct resource *res;
+ 	int ret;
+ 
+@@ -1253,8 +1263,12 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub)
+ 	if (ret)
+ 		goto error;
+ 
+-	layer = &disp->layers[ZYNQMP_DPSUB_LAYER_VID];
+-	dpsub->dma_align = 1 << layer->dmas[0].chan->device->copy_align;
++	if (disp->dpsub->dma_enabled) {
++		struct zynqmp_disp_layer *layer;
++
++		layer = &disp->layers[ZYNQMP_DPSUB_LAYER_VID];
++		dpsub->dma_align = 1 << layer->dmas[0].chan->device->copy_align;
++	}
+ 
+ 	dpsub->disp = disp;
+ 
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+index 6627a1ec7791..6e4cd4479de1 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+@@ -158,6 +158,7 @@ static int zynqmp_dpsub_parse_dt(struct zynqmp_dpsub *dpsub)
+ 	if (!np) {
+ 		dev_warn(dpsub->dev, "missing ports, update DT bindings\n");
+ 		dpsub->connected_ports = BIT(ZYNQMP_DPSUB_PORT_OUT_DP);
++		dpsub->dma_enabled = true;
+ 		return 0;
+ 	}
+ 
+@@ -177,6 +178,8 @@ static int zynqmp_dpsub_parse_dt(struct zynqmp_dpsub *dpsub)
+ 	    (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX)))
+ 		dev_warn(dpsub->dev, "live video unsupported, ignoring\n");
+ 
++	dpsub->dma_enabled = true;
++
+ 	if (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_AUDIO))
+ 		dev_warn(dpsub->dev, "live audio unsupported, ignoring\n");
+ 
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+index 6ded6e45ac0a..09ea01878f2a 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+@@ -48,6 +48,8 @@ enum zynqmp_dpsub_format {
+  * @aud_clk: Audio clock
+  * @aud_clk_from_ps: True of the audio clock comes from PS, false from PL
+  * @connected_ports: Bitmask of connected ports in the device tree
++ * @dma_enabled: True if the DMA interface is enabled, false if the DPSUB is
++ *	driven by the live input
+  * @drm: The DRM/KMS device data
+  * @bridge: The DP encoder bridge
+  * @disp: The display controller
+@@ -64,6 +66,7 @@ struct zynqmp_dpsub {
+ 	bool aud_clk_from_ps;
+ 
+ 	unsigned int connected_ports;
++	bool dma_enabled;
+ 
+ 	struct zynqmp_dpsub_drm *drm;
+ 	struct drm_bridge *bridge;
 -- 
 Regards,
 
