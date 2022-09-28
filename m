@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB2C5ED4C5
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 08:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB135ED4A4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 08:20:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D58AA10E2B5;
-	Wed, 28 Sep 2022 06:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 353A010E273;
+	Wed, 28 Sep 2022 06:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04D9610E271;
- Wed, 28 Sep 2022 06:19:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A86710E27B;
+ Wed, 28 Sep 2022 06:19:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1664345989; x=1695881989;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZFHg9iVcSlMNBBPhr34/hcuB4wrFj0ShVBJN7K4kh90=;
- b=MjD7pLElTBT0lYuyDqtuN965nJpIsxYmZLzF+E6e8HrAbypXgnez8GpN
- uuCdkpC0lUb5ylVTdwZAEfPQS75/4M24sj83qEYM4UtqMHVfq/A/HBgAr
- tZ9R5Zw7HtGb5YpQlQw3gqq+k1wREss0ZywMfzDWC6amsoUk2NIdl0kCc
- k3crnf2AaB08x+bJ7PmEu7zF5rkXWzUvZQIHwv92PxGQsH8hH8lqMcVmI
- g2z71dpGVWPvo4ApLZXsqKNCxfNUz1CECqXjd+7losh0nAeCH5mOTE/Uo
- kbDF09+kJkhzMsJH14XWylmfj+1JhBq+6sM6h+NjHVIliQY18Z30vT3X5 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="365563688"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="365563688"
+ bh=8GeIN4k0TghEwwJrULXsZgo+gtdweFN29+HNSYxzJrE=;
+ b=I4JEJuIP3JIcgfmi1hROgpRIdgPCSbYju47kVD+x9wr52O+72lLhCnAC
+ z1o4SRvdUOBwXoUhbf8GYbsEjU9TLgXZRavOnU8geowtN4mLPZJWyCUjw
+ W1mmL4Ar68j1DPj5KEqUXLDRVMgMCb/APOzCFSo1vcBAA/8HQrQuh+se7
+ MlU9xOQ283k+7Wol7SD7TA/OAV/+yDAQ4/bRXf7xJ6CeVM0eYT7yQRY5C
+ Frw1qXpOYSdmG+qaJ2Zch2M49AN2WCl4d4n5PJ3o+X3858vIcNuTYknZt
+ lME5HGa71tp3+Cxxqn1i3iBaErW7I727w3ryyUmP+0ZTT8yUVO6Pw5qnS g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="365563690"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="365563690"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Sep 2022 23:19:48 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="866849220"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="866849220"
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="866849223"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="866849223"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
  27 Sep 2022 23:19:48 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 15/16] drm/i915/vm_bind: userptr dma-resv changes
-Date: Tue, 27 Sep 2022 23:19:17 -0700
-Message-Id: <20220928061918.6340-16-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH 16/16] drm/i915/vm_bind: Add uapi for user to enable
+ vm_bind_mode
+Date: Tue, 27 Sep 2022 23:19:18 -0700
+Message-Id: <20220928061918.6340-17-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
 References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
@@ -64,282 +65,116 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For persistent (vm_bind) vmas of userptr BOs, handle the user
-page pinning by using the i915_gem_object_userptr_submit_init()
-/done() functions
+Add getparam support for VM_BIND capability version.
+Add VM creation time flag to enable vm_bind_mode for the VM.
 
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 99 +++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c   | 17 ++++
- .../drm/i915/gem/i915_gem_vm_bind_object.c    | 16 +++
- drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 +
- drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +
- drivers/gpu/drm/i915/i915_vma_types.h         |  2 +
- 6 files changed, 140 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c |  9 +++++++-
+ drivers/gpu/drm/i915/i915_drv.h             |  2 ++
+ drivers/gpu/drm/i915/i915_getparam.c        |  3 +++
+ include/uapi/drm/i915_drm.h                 | 24 ++++++++++++++++++++-
+ 4 files changed, 36 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-index 1aeeff5e8540..f9e6ae0c8b8b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-@@ -19,6 +19,7 @@
- #include "i915_gem_vm_bind.h"
- #include "i915_trace.h"
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index f4e648ec01ed..c20bd6e8aaf8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -1808,9 +1808,13 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
+ 	if (!HAS_FULL_PPGTT(i915))
+ 		return -ENODEV;
  
-+#define __EXEC3_USERPTR_USED		BIT_ULL(34)
- #define __EXEC3_HAS_PIN			BIT_ULL(33)
- #define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
- #define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
-@@ -141,6 +142,21 @@ static void eb_scoop_unbound_vma_all(struct i915_address_space *vm)
- {
- 	struct i915_vma *vma, *vn;
+-	if (args->flags)
++	if (args->flags & I915_VM_CREATE_FLAGS_UNKNOWN)
+ 		return -EINVAL;
  
-+#ifdef CONFIG_MMU_NOTIFIER
-+	/**
-+	 * Move all invalidated userptr vmas back into vm_bind_list so that
-+	 * they are looked up and revalidated.
-+	 */
-+	spin_lock(&vm->userptr_invalidated_lock);
-+	list_for_each_entry_safe(vma, vn, &vm->userptr_invalidated_list,
-+				 userptr_invalidated_link) {
-+		list_del_init(&vma->userptr_invalidated_link);
-+		if (!list_empty(&vma->vm_bind_link))
-+			list_move_tail(&vma->vm_bind_link, &vm->vm_bind_list);
-+	}
-+	spin_unlock(&vm->userptr_invalidated_lock);
-+#endif
++	if ((args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND) &&
++	    !HAS_VM_BIND(i915))
++		return -EOPNOTSUPP;
 +
- 	/**
- 	 * Move all unbound vmas back into vm_bind_list so that they are
- 	 * revalidated.
-@@ -154,10 +170,47 @@ static void eb_scoop_unbound_vma_all(struct i915_address_space *vm)
- 	spin_unlock(&vm->vm_rebind_lock);
- }
+ 	ppgtt = i915_ppgtt_create(to_gt(i915), 0);
+ 	if (IS_ERR(ppgtt))
+ 		return PTR_ERR(ppgtt);
+@@ -1828,6 +1832,9 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
+ 	if (err)
+ 		goto err_put;
  
-+static int eb_lookup_persistent_userptr_vmas(struct i915_execbuffer *eb)
-+{
-+	struct i915_address_space *vm = eb->context->vm;
-+	struct i915_vma *last_vma = NULL;
-+	struct i915_vma *vma;
-+	int err;
++	if (args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND)
++		ppgtt->vm.vm_bind_mode = true;
 +
-+	lockdep_assert_held(&vm->vm_bind_lock);
-+
-+	list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link) {
-+		if (!i915_gem_object_is_userptr(vma->obj))
-+			continue;
-+
-+		err = i915_gem_object_userptr_submit_init(vma->obj);
-+		if (err)
-+			return err;
-+
-+		/**
-+		 * The above submit_init() call does the object unbind and
-+		 * hence adds vma into vm_rebind_list. Remove it from that
-+		 * list as it is already scooped for revalidation.
-+		 */
-+		spin_lock(&vm->vm_rebind_lock);
-+		if (!list_empty(&vma->vm_rebind_link))
-+			list_del_init(&vma->vm_rebind_link);
-+		spin_unlock(&vm->vm_rebind_lock);
-+
-+		last_vma = vma;
-+	}
-+
-+	if (last_vma)
-+		eb->args->flags |= __EXEC3_USERPTR_USED;
-+
-+	return 0;
-+}
-+
- static int eb_lookup_vma_all(struct i915_execbuffer *eb)
- {
- 	unsigned int i, current_batch = 0;
- 	struct i915_vma *vma;
-+	int err = 0;
- 
- 	for (i = 0; i < eb->num_batches; i++) {
- 		vma = eb_find_vma(eb->context->vm, eb->batch_addresses[i]);
-@@ -170,6 +223,10 @@ static int eb_lookup_vma_all(struct i915_execbuffer *eb)
- 
- 	eb_scoop_unbound_vma_all(eb->context->vm);
- 
-+	err = eb_lookup_persistent_userptr_vmas(eb);
-+	if (err)
-+		return err;
-+
+ 	GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
+ 	args->vm_id = id;
  	return 0;
- }
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 84a2f6b16f57..e77393d74c6f 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -974,6 +974,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
  
-@@ -327,15 +384,57 @@ static void eb_move_all_persistent_vma_to_active(struct i915_execbuffer *eb)
+ #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_fuse_bit)
  
- static int eb_move_to_gpu(struct i915_execbuffer *eb)
- {
-+	int err = 0;
++#define HAS_VM_BIND(dev_priv) (GRAPHICS_VER(dev_priv) >= 12)
 +
- 	lockdep_assert_held(&eb->context->vm->vm_bind_lock);
- 	assert_object_held(eb->context->vm->root_obj);
+ /* intel_device_info.c */
+ static inline struct intel_device_info *
+ mkwrite_device_info(struct drm_i915_private *dev_priv)
+diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+index 342c8ca6414e..f45b3c684bcf 100644
+--- a/drivers/gpu/drm/i915/i915_getparam.c
++++ b/drivers/gpu/drm/i915/i915_getparam.c
+@@ -175,6 +175,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+ 	case I915_PARAM_PERF_REVISION:
+ 		value = i915_perf_ioctl_version();
+ 		break;
++	case I915_PARAM_VM_BIND_VERSION:
++		value = HAS_VM_BIND(i915);
++		break;
+ 	default:
+ 		DRM_DEBUG("Unknown parameter %d\n", param->param);
+ 		return -EINVAL;
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index f3a5b198b3e7..9a033acc254b 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -755,6 +755,27 @@ typedef struct drm_i915_irq_wait {
+ /* Query if the kernel supports the I915_USERPTR_PROBE flag. */
+ #define I915_PARAM_HAS_USERPTR_PROBE 56
  
- 	eb_move_all_persistent_vma_to_active(eb);
++/*
++ * VM_BIND feature version supported.
++ *
++ * The following versions of VM_BIND have been defined:
++ *
++ * 0: No VM_BIND support.
++ *
++ * 1: In VM_UNBIND calls, the UMD must specify the exact mappings created
++ *    previously with VM_BIND, the ioctl will not support unbinding multiple
++ *    mappings or splitting them. Similarly, VM_BIND calls will not replace
++ *    any existing mappings.
++ *
++ * 2: The restrictions on unbinding partial or multiple mappings is
++ *    lifted, Similarly, binding will replace any mappings in the given range.
++ *
++ * See struct drm_i915_gem_vm_bind and struct drm_i915_gem_vm_unbind.
++ *
++ * vm_bind versions are backward compatible.
++ */
++#define I915_PARAM_VM_BIND_VERSION	57
++
+ /* Must be kept compact -- no holes and well documented */
  
-+#ifdef CONFIG_MMU_NOTIFIER
-+	/* Check for further userptr invalidations */
-+	spin_lock(&eb->context->vm->userptr_invalidated_lock);
-+	if (!list_empty(&eb->context->vm->userptr_invalidated_list))
-+		err = -EAGAIN;
-+	spin_unlock(&eb->context->vm->userptr_invalidated_lock);
-+
-+	if (!err && (eb->args->flags & __EXEC3_USERPTR_USED)) {
-+		struct i915_vma *vma;
-+
-+		lockdep_assert_held(&eb->context->vm->vm_bind_lock);
-+		assert_object_held(eb->context->vm->root_obj);
-+
-+		read_lock(&eb->i915->mm.notifier_lock);
-+		list_for_each_entry(vma, &eb->context->vm->vm_bind_list,
-+				    vm_bind_link) {
-+			if (!i915_gem_object_is_userptr(vma->obj))
-+				continue;
-+
-+			err = i915_gem_object_userptr_submit_done(vma->obj);
-+			if (err)
-+				break;
-+		}
-+
-+		read_unlock(&eb->i915->mm.notifier_lock);
-+	}
-+#endif
-+
-+	if (unlikely(err))
-+		goto err_skip;
-+
- 	/* Unconditionally flush any chipset caches (for streaming writes). */
- 	intel_gt_chipset_flush(eb->gt);
+ /**
+@@ -2622,7 +2643,8 @@ struct drm_i915_gem_vm_control {
+ 	/** @extensions: Zero-terminated chain of extensions. */
+ 	__u64 extensions;
  
- 	return 0;
-+
-+err_skip:
-+	for_each_batch_create_order(eb) {
-+		if (!eb->requests[i])
-+			break;
-+
-+		i915_request_set_error_once(eb->requests[i], err);
-+	}
-+	return err;
- }
+-	/** @flags: reserved for future usage, currently MBZ */
++#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1u << 0)
++#define I915_VM_CREATE_FLAGS_UNKNOWN	(-(I915_VM_CREATE_FLAGS_USE_VM_BIND << 1))
+ 	__u32 flags;
  
- static int eb_request_submit(struct i915_execbuffer *eb,
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-index 8423df021b71..c0869f102f28 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-@@ -63,6 +63,7 @@ static bool i915_gem_userptr_invalidate(struct mmu_interval_notifier *mni,
- {
- 	struct drm_i915_gem_object *obj = container_of(mni, struct drm_i915_gem_object, userptr.notifier);
- 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct i915_vma *vma;
- 	long r;
- 
- 	if (!mmu_notifier_range_blockable(range))
-@@ -85,6 +86,22 @@ static bool i915_gem_userptr_invalidate(struct mmu_interval_notifier *mni,
- 	if (current->flags & PF_EXITING)
- 		return true;
- 
-+	/**
-+	 * Add persistent vmas into userptr_invalidated list for relookup
-+	 * and revalidation.
-+	 */
-+	spin_lock(&obj->vma.lock);
-+	list_for_each_entry(vma, &obj->vma.list, obj_link) {
-+		if (!i915_vma_is_persistent(vma))
-+			continue;
-+
-+		spin_lock(&vma->vm->userptr_invalidated_lock);
-+		list_add_tail(&vma->userptr_invalidated_link,
-+			      &vma->vm->userptr_invalidated_list);
-+		spin_unlock(&vma->vm->userptr_invalidated_lock);
-+	}
-+	spin_unlock(&obj->vma.lock);
-+
- 	/* we will unbind on next submission, still have userptr pins */
- 	r = dma_resv_wait_timeout(obj->base.resv, DMA_RESV_USAGE_BOOKKEEP, false,
- 				  MAX_SCHEDULE_TIMEOUT);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-index d5c222aa3902..f69dcd1ce390 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-@@ -288,6 +288,12 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
- 		goto put_obj;
- 	}
- 
-+	if (i915_gem_object_is_userptr(obj)) {
-+		ret = i915_gem_object_userptr_submit_init(obj);
-+		if (ret)
-+			goto put_obj;
-+	}
-+
- 	ret = mutex_lock_interruptible(&vm->vm_bind_lock);
- 	if (ret)
- 		goto put_obj;
-@@ -319,6 +325,16 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
- 		/* Make it evictable */
- 		__i915_vma_unpin(vma);
- 
-+#ifdef CONFIG_MMU_NOTIFIER
-+		if (i915_gem_object_is_userptr(obj)) {
-+			read_lock(&vm->i915->mm.notifier_lock);
-+			ret = i915_gem_object_userptr_submit_done(obj);
-+			read_unlock(&vm->i915->mm.notifier_lock);
-+			if (ret)
-+				continue;
-+		}
-+#endif
-+
- 		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
- 		i915_vm_bind_it_insert(vma, &vm->va);
- 		if (!obj->priv_root)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 6db31197fa87..401202391649 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -298,6 +298,8 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	GEM_BUG_ON(IS_ERR(vm->root_obj));
- 	INIT_LIST_HEAD(&vm->vm_rebind_list);
- 	spin_lock_init(&vm->vm_rebind_lock);
-+	spin_lock_init(&vm->userptr_invalidated_lock);
-+	INIT_LIST_HEAD(&vm->userptr_invalidated_list);
- }
- 
- void *__px_vaddr(struct drm_i915_gem_object *p)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index b73d35b4e05d..c3069ee42b5a 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -277,6 +277,10 @@ struct i915_address_space {
- 	struct list_head vm_rebind_list;
- 	/* @vm_rebind_lock: protects vm_rebound_list */
- 	spinlock_t vm_rebind_lock;
-+	/* @userptr_invalidated_list: list of invalidated userptr vmas */
-+	struct list_head userptr_invalidated_list;
-+	/* @userptr_invalidated_lock: protects userptr_invalidated_list */
-+	spinlock_t userptr_invalidated_lock;
- 	/* @va: tree of persistent vmas */
- 	struct rb_root_cached va;
- 	struct list_head non_priv_vm_bind_list;
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 5b0f04bccb0a..cc29b36afc53 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -310,6 +310,8 @@ struct i915_vma {
- 	struct list_head non_priv_vm_bind_link;
- 	/* @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
- 	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
-+	/*@userptr_invalidated_link: link to the vm->userptr_invalidated_list */
-+	struct list_head userptr_invalidated_link;
- 
- 	/** Timeline fence for vm_bind completion notification */
- 	struct {
+ 	/** @vm_id: Id of the VM created or to be destroyed */
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
