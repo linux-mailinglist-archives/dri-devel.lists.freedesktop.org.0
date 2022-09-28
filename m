@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F53F5ED7AF
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 10:27:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC045ED7FC
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 10:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3B310E355;
-	Wed, 28 Sep 2022 08:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B2A10E351;
+	Wed, 28 Sep 2022 08:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E84AD10E345
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 08:27:12 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- n35-20020a05600c502300b003b4924c6868so1910089wmr.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 01:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=lIZkVJj/+0M/778lpgTUWdNSZmlLsxXrL8AdvSaQ9uA=;
- b=ctPKPM5Hp+aKGXd5b/qxoarEEZRc2m1B0LQIsoArSVt5/7H41uh661gxi/RDml0rYd
- 2r5BOIbXaMA3kX29XCKdaKjq+qXIsUhbWER32FXPcRD17gVj+FghNG53UZyxQEpFlD4Q
- kVP6B2XVQA7RU6vjT2l3GCnPiCYCy5mF/v/NFHU0ThwaU7wdPrtJlSABrndONBoBgMao
- TSb1o8jhHk9pHR1iolqzJMqxNe9kiGwyfGv8N4mTk5mCvrXtxFjs+b5mm9FmDKjtGKOe
- 1009NmbFv/t7L9YUIjhcR2kCOcuGZiIHRC6m5n9UvIip7Dk8KGnz21Ha8miWD9A5cJ25
- Z+3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=lIZkVJj/+0M/778lpgTUWdNSZmlLsxXrL8AdvSaQ9uA=;
- b=6xhAR8VCGkOR2MXzV7ZSAM2QkhYB0/6yus/L6/OLPAPCQN/AlcaId8ecaCbbIPp86j
- elhmTetwMzmfuMTq8q9gVDxyZdxTZ9ZsMUO0YVId85taPKmvEd6I9jLCJnfBU9LhAmGc
- HPhGmpKjAUxHWhPfuRcFgDVM9nyUss/8xsdMiZNhyTRobFHz6DNvFCAi6c6bcjcCdnDr
- TiwmeAqR7EAjDCEYGXUBdcr3OBgp2icIg2N+hX/ZwrEC2NhPLLozoKwU54+drLn+cGpv
- gWjt/OR6lhZwk6b81RRpdtgNmvDYHH0l5mb/SM9jyh0vLejF2tJ/3yoZWh/0Lb0+cByJ
- 9qXg==
-X-Gm-Message-State: ACrzQf12lsPuPgQX19BaTvU7sY7fdZnUutGIskcfSEk08NnGpm77ttzl
- S5ATt1hu7T8NDV0sMZB0KCY9qxCnharJ+gg8
-X-Google-Smtp-Source: AMsMyM5WybFYGhvPIuGUG0NAbItu/BNNr4V3dn5K2Y44thiLh67dAhNGUZdbVuP/yWoFCFZh7xh5MQ==
-X-Received: by 2002:a1c:7c12:0:b0:3b4:73e1:bdd7 with SMTP id
- x18-20020a1c7c12000000b003b473e1bdd7mr5998070wmc.32.1664353631341; 
- Wed, 28 Sep 2022 01:27:11 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- t18-20020adfe452000000b00228cd9f6349sm3714776wrm.106.2022.09.28.01.27.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 01:27:10 -0700 (PDT)
-Date: Wed, 28 Sep 2022 09:27:08 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: yexingchen116@gmail.com
-Subject: Re: [PATCH linux-next v2] backlight: use sysfs_emit() to instead of
- scnprintf()
-Message-ID: <YzQFXLD/G90+YEdo@maple.lan>
-References: <20220928014115.261470-1-ye.xingchen@zte.com.cn>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD5110E351
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 08:38:00 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1odSZp-0003GH-BQ; Wed, 28 Sep 2022 10:37:57 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1odSZn-0001yW-3H; Wed, 28 Sep 2022 10:37:55 +0200
+Date: Wed, 28 Sep 2022 10:37:55 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Dan Johansen <strit@manjaro.org>
+Subject: Re: [PATCH v2 0/2] drm/rockchip: dw_hdmi: Add 4k@30 support
+Message-ID: <20220928083755.GU986@pengutronix.de>
+References: <20220926080435.259617-1-s.hauer@pengutronix.de>
+ <cf2285dc-d732-0c6d-83bc-022f23f29524@wolfvision.net>
+ <2430a203-f8e7-7d78-3e9e-9e1d9c6826c9@manjaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220928014115.261470-1-ye.xingchen@zte.com.cn>
+In-Reply-To: <2430a203-f8e7-7d78-3e9e-9e1d9c6826c9@manjaro.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,104 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- lee@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ye xingchen <ye.xingchen@zte.com.cn>
+Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 28, 2022 at 01:41:15AM +0000, yexingchen116@gmail.com wrote:
-> From: ye xingchen <ye.xingchen@zte.com.cn>
->
-> Replace the open-code with sysfs_emit() to simplify the code.
->
-> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
-> ---
-> v1 -> v2
-> Add the rest of this fixes for this pattern in the 'drivers/video/backlight' directory.
->  drivers/video/backlight/lm3533_bl.c | 10 +++++-----
->  drivers/video/backlight/lp855x_bl.c |  4 ++--
+On Tue, Sep 27, 2022 at 07:53:54PM +0200, Dan Johansen wrote:
+> 
+> Den 26.09.2022 kl. 12.30 skrev Michael Riesch:
+> > Hi Sascha,
+> > 
+> > On 9/26/22 10:04, Sascha Hauer wrote:
+> > > This series adds support for 4k@30 to the rockchip HDMI controller. This
+> > > has been tested on a rk3568 rock3a board. It should be possible to add
+> > > 4k@60 support the same way, but it doesn't work for me, so let's add
+> > > 4k@30 as a first step.
+> > > 														     Sascha
+> > > 
+> > > Changes since v1:
+> > > - Allow non standard clock rates only on Synopsys phy as suggested by
+> > >    Robin Murphy
+> > > 
+> > > Sascha Hauer (2):
+> > >    drm/rockchip: dw_hdmi: relax mode_valid hook
+> > >    drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
+> > > 
+> > >   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 34 ++++++++++++++++-----
+> > >   1 file changed, 27 insertions(+), 7 deletions(-)
+> > Thanks for the v2! On a RK3568 EVB1 with a HP 27f 4k monitor
+> > 
+> > Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
+> 
+> Sadly this still doesn't give my display out on my 2k monitor. Not even just
+> 1080p picture like the old current implementation does.
 
-What happened to the lp8788 fixes?
+By "like the old current implementation" you mean that this patchset
+introduces a regression for you?
 
+Sascha
 
-Daniel.
-
-
->  2 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
-> index 1df1b6643c0b..5e2ce9285245 100644
-> --- a/drivers/video/backlight/lm3533_bl.c
-> +++ b/drivers/video/backlight/lm3533_bl.c
-> @@ -66,7 +66,7 @@ static ssize_t show_id(struct device *dev,
->  {
->  	struct lm3533_bl *bl = dev_get_drvdata(dev);
->
-> -	return scnprintf(buf, PAGE_SIZE, "%d\n", bl->id);
-> +	return sysfs_emit(buf, "%d\n", bl->id);
->  }
->
->  static ssize_t show_als_channel(struct device *dev,
-> @@ -75,7 +75,7 @@ static ssize_t show_als_channel(struct device *dev,
->  	struct lm3533_bl *bl = dev_get_drvdata(dev);
->  	unsigned channel = lm3533_bl_get_ctrlbank_id(bl);
->
-> -	return scnprintf(buf, PAGE_SIZE, "%u\n", channel);
-> +	return sysfs_emit(buf, "%u\n", channel);
->  }
->
->  static ssize_t show_als_en(struct device *dev,
-> @@ -95,7 +95,7 @@ static ssize_t show_als_en(struct device *dev,
->  	mask = 1 << (2 * ctrlbank);
->  	enable = val & mask;
->
-> -	return scnprintf(buf, PAGE_SIZE, "%d\n", enable);
-> +	return sysfs_emit(buf, "%d\n", enable);
->  }
->
->  static ssize_t store_als_en(struct device *dev,
-> @@ -147,7 +147,7 @@ static ssize_t show_linear(struct device *dev,
->  	else
->  		linear = 0;
->
-> -	return scnprintf(buf, PAGE_SIZE, "%x\n", linear);
-> +	return sysfs_emit(buf, "%x\n", linear);
->  }
->
->  static ssize_t store_linear(struct device *dev,
-> @@ -190,7 +190,7 @@ static ssize_t show_pwm(struct device *dev,
->  	if (ret)
->  		return ret;
->
-> -	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-> +	return sysfs_emit(buf, "%u\n", val);
->  }
->
->  static ssize_t store_pwm(struct device *dev,
-> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
-> index bd0bdeae23a4..fafc1a9e76ef 100644
-> --- a/drivers/video/backlight/lp855x_bl.c
-> +++ b/drivers/video/backlight/lp855x_bl.c
-> @@ -293,7 +293,7 @@ static ssize_t lp855x_get_chip_id(struct device *dev,
->  {
->  	struct lp855x *lp = dev_get_drvdata(dev);
->
-> -	return scnprintf(buf, PAGE_SIZE, "%s\n", lp->chipname);
-> +	return sysfs_emit(buf, "%s\n", lp->chipname);
->  }
->
->  static ssize_t lp855x_get_bl_ctl_mode(struct device *dev,
-> @@ -307,7 +307,7 @@ static ssize_t lp855x_get_bl_ctl_mode(struct device *dev,
->  	else if (lp->mode == REGISTER_BASED)
->  		strmode = "register based";
->
-> -	return scnprintf(buf, PAGE_SIZE, "%s\n", strmode);
-> +	return sysfs_emit(buf, "%s\n", strmode);
->  }
->
->  static DEVICE_ATTR(chip_id, S_IRUGO, lp855x_get_chip_id, NULL);
-> --
-> 2.25.1
->
->
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
