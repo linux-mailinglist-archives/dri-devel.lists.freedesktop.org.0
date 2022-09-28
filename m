@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774F25ED75F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 10:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39AE5ED75B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 10:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F172A10E308;
-	Wed, 28 Sep 2022 08:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDDFE10E33A;
+	Wed, 28 Sep 2022 08:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5D510E31A;
- Wed, 28 Sep 2022 08:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664352893; x=1695888893;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8mTLsr3wQJEHPys39tavADqBaVpCfMjGIDna8R9c7q4=;
- b=AJDdLiCMrUn0N7lHLhTtdb2zRae511ClCH42cQQ/rJymOa1vfwdn8pRb
- aHUCrwuq894fnzSPdq2clCkrbTCx+FVrqXwTyQye7mqaaOivz5TxLIVCZ
- 0GRp3Qm6pxYEuBtf2jXwXmuFOwM8K+Pr8vkXBxXLfIT1iVlLHLsQ2MsXu
- AdZ2ZgVL8cL+sfAqc79VbF23IdtTjZgJUt1u7hohrmOp2oC1cxzmu7i5a
- w/qIkM4Q3+CmbvQ/fRjElRlPdmwpTNwvS/OIQQBzYJe5FA8dWItdbZaGR
- Bjxk2LVBqTckoek3Z76h43PIJqBeFVXpwARMAk24PCc6+DBrmr3C61/Cv g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="281257845"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="281257845"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 01:14:47 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="621836461"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="621836461"
-Received: from maciejos-mobl.ger.corp.intel.com (HELO
- paris.ger.corp.intel.com) ([10.249.147.47])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 01:14:38 -0700
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v13 9/9] drm/i915: Remove truncation warning for large objects
-Date: Wed, 28 Sep 2022 11:13:00 +0300
-Message-Id: <20220928081300.101516-10-gwan-gyeong.mun@intel.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220928081300.101516-1-gwan-gyeong.mun@intel.com>
-References: <20220928081300.101516-1-gwan-gyeong.mun@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3DC10E331
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 08:14:34 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 55ED26601FE2;
+ Wed, 28 Sep 2022 09:14:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1664352873;
+ bh=ZTffMGvl6kR67yXKJkdyqTMDaVatMa+JdBfwAgN6EI4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dfS5YxyXVVsenZZOy7kWoQBL0sUwD6fKHrZtM2A0VmjyEqNPvds+qLvLtDQ8WWZw+
+ xJ83tNNsHv7kTvK3fR8FraBdC/6c2Gj+Mm9bUvgK4ZAqqGVSJvi9VfhmP0desROXpl
+ XU4cGlPjgDsMQAbJRbKBYkqNdxJXAlU2MxToFw3KHLIeXIY+R49H/rChA1/kZUCu4S
+ F6l4aEuN9DvgJ4w8TTPIgrfsDJK0SE2YxyJCW2aVGLVJNKcinPV+3aZGcefrezWdjN
+ yXMaTp9nr/4GzXnxZ69LIaIsiKlzNhw97lyNiELMxu7wCnwcd0iObyoDBz+9FQyidL
+ CkwlmxNj3LKAA==
+Message-ID: <0e67041f-a61d-1e34-2ce4-6a199c2c9f8e@collabora.com>
+Date: Wed, 28 Sep 2022 10:14:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v5 3/6] soc: mediatek: add mtk-mmsys support for mt8195
+ vdosys0
+Content-Language: en-US
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220927152704.12018-1-jason-jh.lin@mediatek.com>
+ <20220927152704.12018-4-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220927152704.12018-4-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,72 +59,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gustavoars@kernel.org, trix@redhat.com, dlatypov@google.com,
- llvm@lists.linux.dev, linux@rasmusvillemoes.dk,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- linux-hardening@vger.kernel.org, andrzej.hajda@intel.com,
- linux-sparse@vger.kernel.org, matthew.auld@intel.com,
- andi.shyti@linux.intel.com, airlied@redhat.com,
- thomas.hellstrom@linux.intel.com, keescook@chromium.org, jani.nikula@intel.com,
- nathan@kernel.org, mchehab@kernel.org, mauro.chehab@linux.intel.com,
- ndesaulniers@google.com, linux-kernel@vger.kernel.org, vitor@massaru.org,
- luc.vanoostenryck@gmail.com, nirmoy.das@intel.com
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+Il 27/09/22 17:27, Jason-JH.Lin ha scritto:
+> 1. Add mt8195 driver data with compatible "mediatek-mt8195-vdosys0".
+> 2. Add mt8195 routing table settings of vdosys0.
+> 
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 
-Having addressed the issues surrounding incorrect types for local
-variables and potential integer truncation in using the scatterlist API,
-we have closed all the loop holes we had previously identified with
-dangerously large object creation. As such, we can eliminate the warning
-put in place to remind us to complete the review.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Brian Welty <brian.welty@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Testcase: igt@gem_create@create-massive
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4991
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 15 ---------------
- 1 file changed, 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 9f8e29112c31..59a64262647b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -20,25 +20,10 @@
- 
- enum intel_region_id;
- 
--/*
-- * XXX: There is a prevalence of the assumption that we fit the
-- * object's page count inside a 32bit _signed_ variable. Let's document
-- * this and catch if we ever need to fix it. In the meantime, if you do
-- * spot such a local variable, please consider fixing!
-- *
-- * We can check for invalidly typed locals with typecheck(), see for example
-- * i915_gem_object_get_sg().
-- */
--#define GEM_CHECK_SIZE_OVERFLOW(sz) \
--	GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX)
--
- static inline bool i915_gem_object_size_2big(u64 size)
- {
- 	struct drm_i915_gem_object *obj;
- 
--	if (GEM_CHECK_SIZE_OVERFLOW(size))
--		return true;
--
- 	if (overflows_type(size, obj->base.size))
- 		return true;
- 
--- 
-2.37.1
 
