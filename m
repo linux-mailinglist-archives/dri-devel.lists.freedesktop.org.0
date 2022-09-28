@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175465EE604
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 21:52:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DEC5EE3DA
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 20:06:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8984F10E9EF;
-	Wed, 28 Sep 2022 19:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 743BC10E540;
+	Wed, 28 Sep 2022 18:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D24810E9F4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 19:51:53 +0000 (UTC)
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D55610E513
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 18:05:29 +0000 (UTC)
 Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 28SHqWVu076976;
- Wed, 28 Sep 2022 12:52:32 -0500
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 28SHqYX9068372;
+ Wed, 28 Sep 2022 12:52:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1664387552;
- bh=mBeUr+2FrLtMU/X0YErPVKUhi1p1MtyXhSsg6lVpdv8=;
+ s=ti-com-17Q1; t=1664387554;
+ bh=eBU6RB63V1iL2ffIaDQ+QSfpco5r9bcxX8wHzYv9+tw=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=w5ct1J+LTMSyAWHJcNZWd8AxSsfv5oKDJ7IRU20kpv2sf4l8acYo7rJTH/ujKTiou
- E7GY6vYhUOk9OozVp2VuFUSVJhN6X9KybnmCBt+uX5S2sZKKQju/sZZEeHfR8xA9Nl
- xS5dMWbCVrA9ukKtJmzuyHZ3Cd8ExKOnKTXtFZiE=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 28SHqWn2115184
+ b=uKivbSj87E91akrHwPWYTdWqiuIZ+ZRgkX3n519bI128fxAZWlkNVun7oG8AIzXCZ
+ tRtVLE3+SB328hu504VRbg09u2MGIsUKxM2PGzykj/bap4ttcVoArDzMFDxZPyITfw
+ GbpJLDnoB/4wDfdnEIGiNNVfA6ZDHh/+X4gEZlBc=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 28SHqXqG115197
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 28 Sep 2022 12:52:32 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 28 Sep 2022 12:52:33 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Wed, 28
- Sep 2022 12:52:32 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2022 12:52:33 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Wed, 28 Sep 2022 12:52:32 -0500
+ Frontend Transport; Wed, 28 Sep 2022 12:52:33 -0500
 Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 28SHqU7v101937;
- Wed, 28 Sep 2022 12:52:31 -0500
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 28SHqWQA001317;
+ Wed, 28 Sep 2022 12:52:33 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, Rob
  Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [RFC PATCH v5 5/6] drm/tidss: Add IO CTRL and Power support for OLDI
- TX in am625
-Date: Wed, 28 Sep 2022 23:22:22 +0530
-Message-ID: <20220928175223.15225-6-a-bhatia1@ti.com>
+Subject: [RFC PATCH v5 6/6] drm/tidss: Enable Dual and Duplicate Modes for OLDI
+Date: Wed, 28 Sep 2022 23:22:23 +0530
+Message-ID: <20220928175223.15225-7-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220928175223.15225-1-a-bhatia1@ti.com>
 References: <20220928175223.15225-1-a-bhatia1@ti.com>
@@ -73,112 +72,64 @@ Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ctrl mmr module of the AM625 is different from the AM65X SoC. Thus
-the ctrl mmr registers that supported the OLDI TX power have become
-different in AM625 SoC.
+The AM625 DSS IP contains 2 OLDI TXes which can work to enable 2
+duplicated displays of smaller resolutions or enable a single Dual Link
+display with a higher resolution (1920x1200).
 
-Add IO CTRL support and control the OLDI TX power for AM625.
+Configure the necessary register to enable and disable the OLDI TXes
+with necessary modes configurations.
 
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c      | 55 ++++++++++++++++++------
- drivers/gpu/drm/tidss/tidss_dispc_regs.h |  6 +++
- 2 files changed, 49 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 88008ad39b55..68444e0cd8d7 100644
+index 68444e0cd8d7..fd7f49535f0c 100644
 --- a/drivers/gpu/drm/tidss/tidss_dispc.c
 +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -921,21 +921,52 @@ int dispc_vp_bus_check(struct dispc_device *dispc, u32 hw_videoport,
+@@ -1003,8 +1003,8 @@ static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
+ 	int count = 0;
  
- static void dispc_oldi_tx_power(struct dispc_device *dispc, bool power)
- {
--	u32 val = power ? 0 : OLDI_PWRDN_TX;
-+	u32 val;
+ 	/*
+-	 * For the moment DUALMODESYNC, MASTERSLAVE, MODE, and SRC
+-	 * bits of DISPC_VP_DSS_OLDI_CFG are set statically to 0.
++	 * For the moment MASTERSLAVE, and SRC bits of DISPC_VP_DSS_OLDI_CFG are
++	 * set statically to 0.
+ 	 */
  
- 	if (WARN_ON(!dispc->oldi_io_ctrl))
- 		return;
+ 	if (fmt->data_width == 24)
+@@ -1021,6 +1021,30 @@ static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
  
--	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT0_IO_CTRL,
--			   OLDI_PWRDN_TX, val);
--	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT1_IO_CTRL,
--			   OLDI_PWRDN_TX, val);
--	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT2_IO_CTRL,
--			   OLDI_PWRDN_TX, val);
--	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT3_IO_CTRL,
--			   OLDI_PWRDN_TX, val);
--	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_CLK_IO_CTRL,
--			   OLDI_PWRDN_TX, val);
-+	if (dispc->feat->subrev == DISPC_AM65X) {
-+		val = power ? 0 : OLDI_PWRDN_TX;
+ 	oldi_cfg |= BIT(0); /* ENABLE */
+ 
++	switch (dispc->oldi_mode) {
++	case OLDI_MODE_OFF:
++		oldi_cfg &= ~BIT(0); /* DISABLE */
++		break;
 +
-+		regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT0_IO_CTRL,
-+				   OLDI_PWRDN_TX, val);
-+		regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT1_IO_CTRL,
-+				   OLDI_PWRDN_TX, val);
-+		regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT2_IO_CTRL,
-+				   OLDI_PWRDN_TX, val);
-+		regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT3_IO_CTRL,
-+				   OLDI_PWRDN_TX, val);
-+		regmap_update_bits(dispc->oldi_io_ctrl, OLDI_CLK_IO_CTRL,
-+				   OLDI_PWRDN_TX, val);
++	case OLDI_SINGLE_LINK_SINGLE_MODE:
++		/* All configuration is done for this mode.  */
++		break;
 +
-+	} else if (dispc->feat->subrev == DISPC_AM625) {
-+		if (power) {
-+			switch (dispc->oldi_mode) {
-+			case OLDI_SINGLE_LINK_SINGLE_MODE:
-+				/* Power down OLDI TX 1 */
-+				val = OLDI1_PWRDN_TX;
-+				break;
++	case OLDI_SINGLE_LINK_CLONE_MODE:
++		oldi_cfg |= BIT(5); /* CLONE MODE */
++		break;
 +
-+			case OLDI_SINGLE_LINK_CLONE_MODE:
-+			case OLDI_DUAL_LINK_MODE:
-+				/* No Power down */
-+				val = 0;
-+				break;
++	case OLDI_DUAL_LINK_MODE:
++		oldi_cfg |= BIT(11); /* DUALMODESYNC */
++		oldi_cfg |= BIT(3); /* data-mapping field also indicates dual-link mode */
++		break;
 +
-+			default:
-+				/* Power down both the OLDI TXes */
-+				val = OLDI0_PWRDN_TX | OLDI1_PWRDN_TX;
-+				break;
-+			}
-+		} else {
-+			/* Power down both the OLDI TXes */
-+			val = OLDI0_PWRDN_TX | OLDI1_PWRDN_TX;
-+		}
-+
-+		regmap_update_bits(dispc->oldi_io_ctrl, OLDI_PD_CTRL,
-+				   OLDI0_PWRDN_TX | OLDI1_PWRDN_TX, val);
++	default:
++		dev_warn(dispc->dev, "%s: Incorrect oldi mode. Returning.\n",
++			 __func__);
++		return;
 +	}
- }
- 
- static void dispc_set_num_datalines(struct dispc_device *dispc,
-@@ -2831,7 +2862,7 @@ int dispc_init(struct tidss_device *tidss)
- 		dispc->vp_data[i].gamma_table = gamma_table;
- 	}
- 
--	if (feat->subrev == DISPC_AM65X) {
-+	if (feat->subrev == DISPC_AM65X || feat->subrev == DISPC_AM625) {
- 		r = dispc_init_am65x_oldi_io_ctrl(dev, dispc);
- 		if (r)
- 			return r;
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-index 13feedfe5d6d..510bee70b3b8 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-@@ -238,6 +238,12 @@ enum dispc_common_regs {
- #define OLDI_DAT3_IO_CTRL			0x0C
- #define OLDI_CLK_IO_CTRL			0x10
- 
-+/* Only for AM625 OLDI TX */
-+#define OLDI_PD_CTRL				0x100
-+#define OLDI_LB_CTRL				0x104
 +
- #define OLDI_PWRDN_TX				BIT(8)
-+#define OLDI0_PWRDN_TX				BIT(0)
-+#define OLDI1_PWRDN_TX				BIT(1)
+ 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, oldi_cfg);
  
- #endif /* __TIDSS_DISPC_REGS_H */
+ 	while (!(oldi_reset_bit & dispc_read(dispc, DSS_SYSSTATUS)) &&
 -- 
 2.37.0
 
