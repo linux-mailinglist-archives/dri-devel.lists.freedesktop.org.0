@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D9F5EE546
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 21:19:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 268985EE545
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 21:19:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE54310E85C;
-	Wed, 28 Sep 2022 19:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2213510E85D;
+	Wed, 28 Sep 2022 19:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD58410E7F8;
- Wed, 28 Sep 2022 19:18:09 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0810310E7F8;
+ Wed, 28 Sep 2022 19:18:13 +0000 (UTC)
 Received: from dimapc.. (unknown [109.252.125.248])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9BF8C66022AC;
- Wed, 28 Sep 2022 20:18:05 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D559466022A2;
+ Wed, 28 Sep 2022 20:18:08 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1664392688;
- bh=5SoJM0KT/OL453Vzox/c0XL1yLlnHbzjEdmJRs0v2dc=;
+ s=mail; t=1664392691;
+ bh=zM8eBwVfejy1KJ0qKfTB/C/KoLuYaM62O9H/cjFMEWw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bo4J5bTEKu9T8F4JTs1Vqzrg8SGI6Re+tUvC1gRQqOT4eZ4ToP44rYXqPsgeiJSpB
- 1RKopdAu+JiYaBGg/NIIf0FAisQXJHKuC8irf627+bT7mlsion2qLauLIWJ3DNuAu6
- ocbhQGNqTHf7Wvk3MowOwaQr9wS32CeSfNe3ThCLonj9MNxLFnhyFa+4dyolL4zKaR
- V91vMizc8hSjb3rFkz+wmYeOqgwtXMhjSSQF3bNJMIyLeeOmIARgEQyJhmXEDlfdu+
- kp6de5kq378pZm2IFsYx5VE9BsB6krgZZ9dEKBp6631yhxb/pa5iCk3IRuDZHXL3KP
- U+urz1jaJ3DYg==
+ b=SFpYtabgSQANS1fsFFpfFKKEOATjANu0v/d0k9Gleq2RPsSYl3ztTx2a+EzLiyeE6
+ LYKzk4nXKBD8gNWLWYH+VVisIYPq/zxWYo5Mc4KveZls/PqM5Zg8lnDivjZWhG0Wlu
+ iQHW3VOyhWKHequVTYm7oF6TNY26JaF6RcuM1inI1LFuubL+UBEC8BU5W5Ufl2eoOD
+ TCp6+XVnSiLmqrwUG+BlxM2kQWlrNaXxPPWaMnhtICJacWJwSF2RaApG34vfdD3XRW
+ b9QDKAtKUh7oK1R1P395EViJOyVOqViKsM7bbUq8ndY96QTBms0yukesFnQ0Hn5Z20
+ lpi5IfrgGdNIQ==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -64,10 +65,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Ruhl Michael J <michael.j.ruhl@intel.com>
-Subject: [PATCH v6 14/21] media: tegra-vde: Prepare to dynamic dma-buf locking
+Subject: [PATCH v6 15/21] dma-buf: Move dma_buf_vmap() to dynamic locking
  specification
-Date: Wed, 28 Sep 2022 22:15:53 +0300
-Message-Id: <20220928191600.5874-15-dmitry.osipenko@collabora.com>
+Date: Wed, 28 Sep 2022 22:15:54 +0300
+Message-Id: <20220928191600.5874-16-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
 References: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
@@ -95,47 +96,38 @@ Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare Tegra video decoder driver to the common dynamic dma-buf
-locking convention by starting to use the unlocked versions of dma-buf
-API functions.
+Move dma_buf_vmap/vunmap() functions to the dynamic locking
+specification by asserting that the reservation lock is held.
 
+Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
 Acked-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/dma-buf/dma-buf.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c b/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
-index 69c346148070..1c5b94989aec 100644
---- a/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
-+++ b/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
-@@ -38,7 +38,7 @@ static void tegra_vde_release_entry(struct tegra_vde_cache_entry *entry)
- 	if (entry->vde->domain)
- 		tegra_vde_iommu_unmap(entry->vde, entry->iova);
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f349613790a6..23656f334735 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1450,6 +1450,8 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+ 	if (WARN_ON(!dmabuf))
+ 		return -EINVAL;
  
--	dma_buf_unmap_attachment(entry->a, entry->sgt, entry->dma_dir);
-+	dma_buf_unmap_attachment_unlocked(entry->a, entry->sgt, entry->dma_dir);
- 	dma_buf_detach(dmabuf, entry->a);
- 	dma_buf_put(dmabuf);
++	dma_resv_assert_held(dmabuf->resv);
++
+ 	if (!dmabuf->ops->vmap)
+ 		return -EINVAL;
  
-@@ -102,7 +102,7 @@ int tegra_vde_dmabuf_cache_map(struct tegra_vde *vde,
- 		goto err_unlock;
- 	}
+@@ -1513,6 +1515,8 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
+ 	if (WARN_ON(!dmabuf))
+ 		return;
  
--	sgt = dma_buf_map_attachment(attachment, dma_dir);
-+	sgt = dma_buf_map_attachment_unlocked(attachment, dma_dir);
- 	if (IS_ERR(sgt)) {
- 		dev_err(dev, "Failed to get dmabufs sg_table\n");
- 		err = PTR_ERR(sgt);
-@@ -152,7 +152,7 @@ int tegra_vde_dmabuf_cache_map(struct tegra_vde *vde,
- err_free:
- 	kfree(entry);
- err_unmap:
--	dma_buf_unmap_attachment(attachment, sgt, dma_dir);
-+	dma_buf_unmap_attachment_unlocked(attachment, sgt, dma_dir);
- err_detach:
- 	dma_buf_detach(dmabuf, attachment);
- err_unlock:
++	dma_resv_assert_held(dmabuf->resv);
++
+ 	BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
+ 	BUG_ON(dmabuf->vmapping_counter == 0);
+ 	BUG_ON(!iosys_map_is_equal(&dmabuf->vmap_ptr, map));
 -- 
 2.37.3
 
