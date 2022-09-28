@@ -2,50 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093485EDF10
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 16:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828CF5EDFCD
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 17:10:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE5A10E930;
-	Wed, 28 Sep 2022 14:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 497C810E9DA;
+	Wed, 28 Sep 2022 15:10:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A3210E930;
- Wed, 28 Sep 2022 14:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664376271; x=1695912271;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dBhAazOzkvx5S2BwiHtccNSzkq/oofjDIg75Irxb51A=;
- b=f7OSmG/i1EupWfZJVCi/09bWXjbxvJbvTO7nH1K/+acGSta7nhNYKzHh
- +ouNkOGI+wIvGb/jE5SUROJkccA/pvWla9uz+wL70h2zZK1gqw9f8XZxR
- flmtUQIjK8WPorOX70O1jj/oeLopC6mHtq7HoF4Mfb8dqu+QbGCkD7Jmk
- SFw5IPaonVChqrwbmNROzlyUYNhhxyuN8PhHZc8Ky+sHpOfhppL9+/hlB
- 7Uhw/Oz195iUK3ch3Im09zRSBcElv0/NgVYlWW5Z5yz/jRxo+4xK7/IBV
- C94DW1PSU3AYaknb9CvuyTzUFo3NUYKRXWVxsvsh11JYFIsC/NeNJPhO7 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="300337130"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="300337130"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 07:44:14 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="652703728"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="652703728"
-Received: from ashyti-mobl2.igk.intel.com (HELO intel.com) ([172.28.182.107])
- by orsmga008-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 07:44:10 -0700
-Date: Wed, 28 Sep 2022 16:44:08 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Subject: Re: [PATCH 04/16] drm/i915/vm_bind: Add support to create persistent
- vma
-Message-ID: <YzRduJwDy9+7dUNL@ashyti-mobl2.lan>
-References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-5-niranjana.vishwanathapura@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220928061918.6340-5-niranjana.vishwanathapura@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 547A610E9FA;
+ Wed, 28 Sep 2022 15:10:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B0924B81FA2;
+ Wed, 28 Sep 2022 15:10:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C69C433D6;
+ Wed, 28 Sep 2022 15:10:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1664377826;
+ bh=+HOKwcbw1B0WEYgcZtf8z/9nr2ZbysRiKOhYfv9YVTE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=IS5sTNnyxfit75fuP9+CKivhPVfr5MuCYX5xkSMvaIHcwj3YlHPHGiuReVZRtFCkO
+ k/7JXAzqhj8lkEcOv3/FuRDU4yiHUhnPML+lIIGP/0mxsk6qSXMxUXyYBHHEAPpFJk
+ OVh6CdYsxMDrs090m2k5tYCYUY4q6QAKNz+LjBGQ=
+Date: Wed, 28 Sep 2022 08:10:17 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH v2 8/8] hmm-tests: Add test for migrate_device_range()
+Message-Id: <20220928081017.3bf0b67d34a674b0a6df6b0d@linux-foundation.org>
+In-Reply-To: <a73cf109de0224cfd118d22be58ddebac3ae2897.1664366292.git-series.apopple@nvidia.com>
+References: <cover.60659b549d8509ddecafad4f498ee7f03bb23c69.1664366292.git-series.apopple@nvidia.com>
+ <a73cf109de0224cfd118d22be58ddebac3ae2897.1664366292.git-series.apopple@nvidia.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,174 +51,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
- lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Alex Sierra <alex.sierra@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Niranjana,
+On Wed, 28 Sep 2022 22:01:22 +1000 Alistair Popple <apopple@nvidia.com> wrote:
 
-On Tue, Sep 27, 2022 at 11:19:06PM -0700, Niranjana Vishwanathapura wrote:
-> Add i915_vma_instance_persistent() to create persistent vmas.
-> Persistent vmas will use i915_gtt_view to support partial binding.
-> 
-> vma_lookup is tied to segment of the object instead of section
-> of VA space. Hence, it do not support aliasing. ie., multiple
-> mappings (at different VA) point to the same gtt_view of object.
-> Skip vma_lookup for persistent vmas to support aliasing.
-> 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_vma.c       | 39 ++++++++++++++++++++++++---
->  drivers/gpu/drm/i915/i915_vma.h       | 16 +++++++++--
->  drivers/gpu/drm/i915/i915_vma_types.h |  7 +++++
->  3 files changed, 57 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index f17c09ead7d7..5839e1f55f00 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -109,7 +109,8 @@ static void __i915_vma_retire(struct i915_active *ref)
->  static struct i915_vma *
->  vma_create(struct drm_i915_gem_object *obj,
->  	   struct i915_address_space *vm,
-> -	   const struct i915_gtt_view *view)
-> +	   const struct i915_gtt_view *view,
-> +	   bool skip_lookup_cache)
+> @@ -1401,22 +1494,7 @@ static int dmirror_device_init(struct dmirror_device *mdevice, int id)
+>  
+>  static void dmirror_device_remove(struct dmirror_device *mdevice)
 >  {
->  	struct i915_vma *pos = ERR_PTR(-E2BIG);
->  	struct i915_vma *vma;
-> @@ -196,6 +197,9 @@ vma_create(struct drm_i915_gem_object *obj,
->  		__set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(vma));
->  	}
->  
-> +	if (skip_lookup_cache)
-> +		goto skip_rb_insert;
-> +
->  	rb = NULL;
->  	p = &obj->vma.tree.rb_node;
->  	while (*p) {
-> @@ -220,6 +224,7 @@ vma_create(struct drm_i915_gem_object *obj,
->  	rb_link_node(&vma->obj_node, rb, p);
->  	rb_insert_color(&vma->obj_node, &obj->vma.tree);
->  
-> +skip_rb_insert:
->  	if (i915_vma_is_ggtt(vma))
->  		/*
->  		 * We put the GGTT vma at the start of the vma-list, followed
-> @@ -299,7 +304,34 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
->  
->  	/* vma_create() will resolve the race if another creates the vma */
->  	if (unlikely(!vma))
-> -		vma = vma_create(obj, vm, view);
-> +		vma = vma_create(obj, vm, view, false);
-> +
-> +	GEM_BUG_ON(!IS_ERR(vma) && i915_vma_compare(vma, vm, view));
-> +	return vma;
-> +}
-> +
-> +/**
-> + * i915_vma_create_persistent - create a persistent VMA
-> + * @obj: parent &struct drm_i915_gem_object to be mapped
-> + * @vm: address space in which the mapping is located
-> + * @view: additional mapping requirements
-> + *
-> + * Creates a persistent vma.
-> + *
-> + * Returns the vma, or an error pointer.
-> + */
-> +struct i915_vma *
-> +i915_vma_create_persistent(struct drm_i915_gem_object *obj,
-> +			   struct i915_address_space *vm,
-> +			   const struct i915_gtt_view *view)
-> +{
-> +	struct i915_vma *vma;
-> +
-> +	GEM_BUG_ON(!kref_read(&vm->ref));
-> +
-> +	vma = vma_create(obj, vm, view, true);
-> +	if (!IS_ERR(vma))
-> +		i915_vma_set_persistent(vma);
->  
->  	GEM_BUG_ON(!IS_ERR(vma) && i915_vma_compare(vma, vm, view));
->  	return vma;
-> @@ -1666,7 +1698,8 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
->  
->  	spin_lock(&obj->vma.lock);
->  	list_del(&vma->obj_link);
-> -	if (!RB_EMPTY_NODE(&vma->obj_node))
-> +	if (!i915_vma_is_persistent(vma) &&
-> +	    !RB_EMPTY_NODE(&vma->obj_node))
->  		rb_erase(&vma->obj_node, &obj->vma.tree);
->  
->  	spin_unlock(&obj->vma.lock);
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index aecd9c64486b..51e712de380a 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -44,6 +44,10 @@ struct i915_vma *
->  i915_vma_instance(struct drm_i915_gem_object *obj,
->  		  struct i915_address_space *vm,
->  		  const struct i915_gtt_view *view);
-> +struct i915_vma *
-> +i915_vma_create_persistent(struct drm_i915_gem_object *obj,
-> +			   struct i915_address_space *vm,
-> +			   const struct i915_gtt_view *view);
->  
->  void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
->  #define I915_VMA_RELEASE_MAP BIT(0)
-> @@ -138,6 +142,16 @@ static inline u32 i915_ggtt_pin_bias(struct i915_vma *vma)
->  	return i915_vm_to_ggtt(vma->vm)->pin_bias;
->  }
->  
-> +static inline bool i915_vma_is_persistent(const struct i915_vma *vma)
-> +{
-> +	return test_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
-> +}
-> +
-> +static inline void i915_vma_set_persistent(struct i915_vma *vma)
-> +{
-> +	set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
-> +}
-> +
->  static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
->  {
->  	i915_gem_object_get(vma->obj);
-> @@ -164,8 +178,6 @@ i915_vma_compare(struct i915_vma *vma,
->  {
->  	ptrdiff_t cmp;
->  
-> -	GEM_BUG_ON(view && !i915_is_ggtt_or_dpt(vm));
+> -	unsigned int i;
 > -
->  	cmp = ptrdiff(vma->vm, vm);
->  	if (cmp)
->  		return cmp;
-> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-> index ec0f6c9f57d0..2200f1f103ba 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_types.h
-> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
-> @@ -264,6 +264,13 @@ struct i915_vma {
->  #define I915_VMA_SCANOUT_BIT	17
->  #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
->  
-> +/**
-> + * I915_VMA_PERSISTENT_BIT:
-> + * The vma is persistent (created with VM_BIND call).
-> + */
-> +#define I915_VMA_PERSISTENT_BIT	19
-> +#define I915_VMA_PERSISTENT	((int)BIT(I915_VMA_PERSISTENT_BIT))
-> +
+> -	if (mdevice->devmem_chunks) {
+> -		for (i = 0; i < mdevice->devmem_count; i++) {
+> -			struct dmirror_chunk *devmem =
+> -				mdevice->devmem_chunks[i];
+> -
+> -			memunmap_pages(&devmem->pagemap);
+> -			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
+> -				release_mem_region(devmem->pagemap.range.start,
+> -						   range_len(&devmem->pagemap.range));
+> -			kfree(devmem);
+> -		}
+> -		kfree(mdevice->devmem_chunks);
+> -	}
+> -
+> +	dmirror_device_remove_chunks(mdevice);
+>  	cdev_del(&mdevice->cdevice);
+>  }
 
-are we using I915_VMA_PERSISTENT anywhere?
+Needed a bit or rework due to
+https://lkml.kernel.org/r/20220826050631.25771-1-mpenttil@redhat.com. 
+Please check my resolution.
 
-Andi
 
->  	struct i915_active active;
->  
->  #define I915_VMA_PAGES_BIAS 24
-> -- 
-> 2.21.0.rc0.32.g243a4c7e27
+--- a/lib/test_hmm.c~hmm-tests-add-test-for-migrate_device_range
++++ a/lib/test_hmm.c
+@@ -100,6 +100,7 @@ struct dmirror {
+ struct dmirror_chunk {
+ 	struct dev_pagemap	pagemap;
+ 	struct dmirror_device	*mdevice;
++	bool remove;
+ };
+ 
+ /*
+@@ -192,11 +193,15 @@ static int dmirror_fops_release(struct i
+ 	return 0;
+ }
+ 
++static struct dmirror_chunk *dmirror_page_to_chunk(struct page *page)
++{
++	return container_of(page->pgmap, struct dmirror_chunk, pagemap);
++}
++
+ static struct dmirror_device *dmirror_page_to_device(struct page *page)
+ 
+ {
+-	return container_of(page->pgmap, struct dmirror_chunk,
+-			    pagemap)->mdevice;
++	return dmirror_page_to_chunk(page)->mdevice;
+ }
+ 
+ static int dmirror_do_fault(struct dmirror *dmirror, struct hmm_range *range)
+@@ -1218,6 +1223,85 @@ static int dmirror_snapshot(struct dmirr
+ 	return ret;
+ }
+ 
++static void dmirror_device_evict_chunk(struct dmirror_chunk *chunk)
++{
++	unsigned long start_pfn = chunk->pagemap.range.start >> PAGE_SHIFT;
++	unsigned long end_pfn = chunk->pagemap.range.end >> PAGE_SHIFT;
++	unsigned long npages = end_pfn - start_pfn + 1;
++	unsigned long i;
++	unsigned long *src_pfns;
++	unsigned long *dst_pfns;
++
++	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
++	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
++
++	migrate_device_range(src_pfns, start_pfn, npages);
++	for (i = 0; i < npages; i++) {
++		struct page *dpage, *spage;
++
++		spage = migrate_pfn_to_page(src_pfns[i]);
++		if (!spage || !(src_pfns[i] & MIGRATE_PFN_MIGRATE))
++			continue;
++
++		if (WARN_ON(!is_device_private_page(spage) &&
++			    !is_device_coherent_page(spage)))
++			continue;
++		spage = BACKING_PAGE(spage);
++		dpage = alloc_page(GFP_HIGHUSER_MOVABLE | __GFP_NOFAIL);
++		lock_page(dpage);
++		copy_highpage(dpage, spage);
++		dst_pfns[i] = migrate_pfn(page_to_pfn(dpage));
++		if (src_pfns[i] & MIGRATE_PFN_WRITE)
++			dst_pfns[i] |= MIGRATE_PFN_WRITE;
++	}
++	migrate_device_pages(src_pfns, dst_pfns, npages);
++	migrate_device_finalize(src_pfns, dst_pfns, npages);
++	kfree(src_pfns);
++	kfree(dst_pfns);
++}
++
++/* Removes free pages from the free list so they can't be re-allocated */
++static void dmirror_remove_free_pages(struct dmirror_chunk *devmem)
++{
++	struct dmirror_device *mdevice = devmem->mdevice;
++	struct page *page;
++
++	for (page = mdevice->free_pages; page; page = page->zone_device_data)
++		if (dmirror_page_to_chunk(page) == devmem)
++			mdevice->free_pages = page->zone_device_data;
++}
++
++static void dmirror_device_remove_chunks(struct dmirror_device *mdevice)
++{
++	unsigned int i;
++
++	mutex_lock(&mdevice->devmem_lock);
++	if (mdevice->devmem_chunks) {
++		for (i = 0; i < mdevice->devmem_count; i++) {
++			struct dmirror_chunk *devmem =
++				mdevice->devmem_chunks[i];
++
++			spin_lock(&mdevice->lock);
++			devmem->remove = true;
++			dmirror_remove_free_pages(devmem);
++			spin_unlock(&mdevice->lock);
++
++			dmirror_device_evict_chunk(devmem);
++			memunmap_pages(&devmem->pagemap);
++			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
++				release_mem_region(devmem->pagemap.range.start,
++						   range_len(&devmem->pagemap.range));
++			kfree(devmem);
++		}
++		mdevice->devmem_count = 0;
++		mdevice->devmem_capacity = 0;
++		mdevice->free_pages = NULL;
++		kfree(mdevice->devmem_chunks);
++		mdevice->devmem_chunks = NULL;
++	}
++	mutex_unlock(&mdevice->devmem_lock);
++}
++
+ static long dmirror_fops_unlocked_ioctl(struct file *filp,
+ 					unsigned int command,
+ 					unsigned long arg)
+@@ -1272,6 +1356,11 @@ static long dmirror_fops_unlocked_ioctl(
+ 		ret = dmirror_snapshot(dmirror, &cmd);
+ 		break;
+ 
++	case HMM_DMIRROR_RELEASE:
++		dmirror_device_remove_chunks(dmirror->mdevice);
++		ret = 0;
++		break;
++
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -1326,9 +1415,13 @@ static void dmirror_devmem_free(struct p
+ 
+ 	mdevice = dmirror_page_to_device(page);
+ 	spin_lock(&mdevice->lock);
+-	mdevice->cfree++;
+-	page->zone_device_data = mdevice->free_pages;
+-	mdevice->free_pages = page;
++
++	/* Return page to our allocator if not freeing the chunk */
++	if (!dmirror_page_to_chunk(page)->remove) {
++		mdevice->cfree++;
++		page->zone_device_data = mdevice->free_pages;
++		mdevice->free_pages = page;
++	}
+ 	spin_unlock(&mdevice->lock);
+ }
+ 
+@@ -1408,22 +1501,7 @@ static int dmirror_device_init(struct dm
+ 
+ static void dmirror_device_remove(struct dmirror_device *mdevice)
+ {
+-	unsigned int i;
+-
+-	if (mdevice->devmem_chunks) {
+-		for (i = 0; i < mdevice->devmem_count; i++) {
+-			struct dmirror_chunk *devmem =
+-				mdevice->devmem_chunks[i];
+-
+-			memunmap_pages(&devmem->pagemap);
+-			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
+-				release_mem_region(devmem->pagemap.range.start,
+-						   range_len(&devmem->pagemap.range));
+-			kfree(devmem);
+-		}
+-		kfree(mdevice->devmem_chunks);
+-	}
+-
++	dmirror_device_remove_chunks(mdevice);
+ 	cdev_device_del(&mdevice->cdevice, &mdevice->device);
+ }
+ 
+--- a/lib/test_hmm_uapi.h~hmm-tests-add-test-for-migrate_device_range
++++ a/lib/test_hmm_uapi.h
+@@ -36,6 +36,7 @@ struct hmm_dmirror_cmd {
+ #define HMM_DMIRROR_SNAPSHOT		_IOWR('H', 0x04, struct hmm_dmirror_cmd)
+ #define HMM_DMIRROR_EXCLUSIVE		_IOWR('H', 0x05, struct hmm_dmirror_cmd)
+ #define HMM_DMIRROR_CHECK_EXCLUSIVE	_IOWR('H', 0x06, struct hmm_dmirror_cmd)
++#define HMM_DMIRROR_RELEASE		_IOWR('H', 0x07, struct hmm_dmirror_cmd)
+ 
+ /*
+  * Values returned in hmm_dmirror_cmd.ptr for HMM_DMIRROR_SNAPSHOT.
+--- a/tools/testing/selftests/vm/hmm-tests.c~hmm-tests-add-test-for-migrate_device_range
++++ a/tools/testing/selftests/vm/hmm-tests.c
+@@ -1054,6 +1054,55 @@ TEST_F(hmm, migrate_fault)
+ 	hmm_buffer_free(buffer);
+ }
+ 
++TEST_F(hmm, migrate_release)
++{
++	struct hmm_buffer *buffer;
++	unsigned long npages;
++	unsigned long size;
++	unsigned long i;
++	int *ptr;
++	int ret;
++
++	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
++	ASSERT_NE(npages, 0);
++	size = npages << self->page_shift;
++
++	buffer = malloc(sizeof(*buffer));
++	ASSERT_NE(buffer, NULL);
++
++	buffer->fd = -1;
++	buffer->size = size;
++	buffer->mirror = malloc(size);
++	ASSERT_NE(buffer->mirror, NULL);
++
++	buffer->ptr = mmap(NULL, size, PROT_READ | PROT_WRITE,
++			   MAP_PRIVATE | MAP_ANONYMOUS, buffer->fd, 0);
++	ASSERT_NE(buffer->ptr, MAP_FAILED);
++
++	/* Initialize buffer in system memory. */
++	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
++		ptr[i] = i;
++
++	/* Migrate memory to device. */
++	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
++	ASSERT_EQ(ret, 0);
++	ASSERT_EQ(buffer->cpages, npages);
++
++	/* Check what the device read. */
++	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
++		ASSERT_EQ(ptr[i], i);
++
++	/* Release device memory. */
++	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_RELEASE, buffer, npages);
++	ASSERT_EQ(ret, 0);
++
++	/* Fault pages back to system memory and check them. */
++	for (i = 0, ptr = buffer->ptr; i < size / (2 * sizeof(*ptr)); ++i)
++		ASSERT_EQ(ptr[i], i);
++
++	hmm_buffer_free(buffer);
++}
++
+ /*
+  * Migrate anonymous shared memory to device private memory.
+  */
+_
+
