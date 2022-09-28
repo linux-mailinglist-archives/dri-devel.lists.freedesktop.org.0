@@ -1,73 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4049E5ED72B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 10:11:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A59035ED73A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 10:13:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A403910E305;
-	Wed, 28 Sep 2022 08:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0D3F10E303;
+	Wed, 28 Sep 2022 08:13:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD13110E308
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 08:10:45 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id h3so13524165lja.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 01:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=rUICUybu6k0R4UQZStovjdZZu8+1QmB1D6rhkDrri7s=;
- b=zcU6Zt06NfSw6rtHpF/0WoRvYMzJGGOGsQ4PtB8bWas8oYS5jS1kApvxWqN4DZbRNv
- fR5rRyUGz5C2pQHyt2eWNrUzy+XWWLbStre7c9kv1tveT1nUaZJZR8FWRKETK4S5hMEA
- RCoHummTvDbLsCSMmVFR2VvkOasUGWwVc5GbAane2C69s+SLWOuGn3K/Z1R8cMEkQ5vB
- GoTrUJrk3XOEA++b7AlZhvnC5mggUa2okKs5TagDlZQ08FRxBMG5TwBGWljqKchuTcPt
- xjNXMwZE5CIJj6h3jW3ZSk6PcRWyDezypPmF2SusxXPrdavZBqjkakaw/9bAr3C0PrSC
- RpDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=rUICUybu6k0R4UQZStovjdZZu8+1QmB1D6rhkDrri7s=;
- b=tSVO1I/kVhVYx99Z/PXDtxvwKKRF1uKFYLQGosoA+cJ3wXqcNhXBYCbJl3VLsinXv1
- LV2NBsLrbbVl6y1pECBUxe0m5KiUaTH6gom/T8Mw7OwhQLjVaZdK4h89VSRVdHJjx/Ih
- hYz38xVHL3eatkdCdoe96/Krfx/tbcFFRKbTAiTi7lVTlkGGvviNPds/W9Cv1ZF+BLPl
- zU8tt3spEnbWYFSo97lr1zCkyavN0XYttpSNrCMVZht2eBb5MyrGG7gjZMXBQJ2s3N/M
- memafHZo0LzE9qA0KFwhHN4Cu9pILkQl21KkzI2SvR92lOcPGmwazbvYrXnSsh8weH5g
- 0Z7g==
-X-Gm-Message-State: ACrzQf2IIr+YE83Ye40uUTZTSQ8GroMRTXd+4I76lrXKeCA6zLR6i1ln
- 2JZAz3pY0nqqq4zqLqDoixKJNw==
-X-Google-Smtp-Source: AMsMyM4GcksiN2jCplk/XJkNgZ4GAeUF9gbGq/34+da9ycl8TtmT37p61IniHzNnRv52dUw/ixEr/Q==
-X-Received: by 2002:a2e:9c2:0:b0:26a:cbe5:21ae with SMTP id
- 185-20020a2e09c2000000b0026acbe521aemr11616443ljj.354.1664352643756; 
- Wed, 28 Sep 2022 01:10:43 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- s2-20020a05651c200200b0026c12b9b329sm370663ljo.70.2022.09.28.01.10.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 01:10:43 -0700 (PDT)
-Message-ID: <b4b772c6-8dfe-bcba-8850-aac282f38aed@linaro.org>
-Date: Wed, 28 Sep 2022 10:10:42 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F55B10E303;
+ Wed, 28 Sep 2022 08:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664352803; x=1695888803;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=WB6T+yJXx+m1nIR3FdvolGa4A9+LMo8MXrdYv+JxSW8=;
+ b=eLB4/mgLhulGtEkDCHOqnXqoyOD+ptZp4vS4AXHeQWAwaUJwkyoICAN1
+ 2ipKZ/G3g1XpkMSu4EECkjDknN9zyVGT0WZMcw74kIX/a3HJ46Z0ULqvx
+ CGzFJCo+LhnQd5s1zCMfvF44eE0K9uTg1Itif1OT0hyVZPth75bPvWtdU
+ UdXnVs8oTgdnntg8TAApiZn4xJoqPUNJU9pGocy8NhrwQQnhHJGKVHcPG
+ 6Y6Z28Yg1Pk0PK2PuinF8VHKijx44erG6nBU6PNlJg42i7UqSdx0WNBzg
+ IMKVPLASUqv13RcFoEq4YCg8l4KY3Bvzfu49fQfu37tLvD5e8RpZN7AIv A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="281257588"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="281257588"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 01:13:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="621836042"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="621836042"
+Received: from maciejos-mobl.ger.corp.intel.com (HELO
+ paris.ger.corp.intel.com) ([10.249.147.47])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 01:13:13 -0700
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v13 0/9] Fixes integer overflow or integer truncation issues
+ in page lookups, ttm place configuration and scatterlist creation
+Date: Wed, 28 Sep 2022 11:12:51 +0300
+Message-Id: <20220928081300.101516-1-gwan-gyeong.mun@intel.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v5 1/6] dt-bindings: arm: mediatek: mmsys: change
- compatible for MT8195
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20220927152704.12018-1-jason-jh.lin@mediatek.com>
- <20220927152704.12018-2-jason-jh.lin@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220927152704.12018-2-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,35 +57,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: gustavoars@kernel.org, trix@redhat.com, dlatypov@google.com,
+ llvm@lists.linux.dev, linux@rasmusvillemoes.dk,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ linux-hardening@vger.kernel.org, andrzej.hajda@intel.com,
+ linux-sparse@vger.kernel.org, matthew.auld@intel.com,
+ andi.shyti@linux.intel.com, airlied@redhat.com,
+ thomas.hellstrom@linux.intel.com, keescook@chromium.org, jani.nikula@intel.com,
+ nathan@kernel.org, mchehab@kernel.org, mauro.chehab@linux.intel.com,
+ ndesaulniers@google.com, linux-kernel@vger.kernel.org, vitor@massaru.org,
+ luc.vanoostenryck@gmail.com, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/09/2022 17:26, Jason-JH.Lin wrote:
-> For previous MediaTek SoCs, such as MT8173, there are 2 display HW
-> pipelines binding to 1 mmsys with the same power domain, the same
-> clock driver and the same mediatek-drm driver.
-> 
-> For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding to
-> 2 different power domains, different clock drivers and different
-> mediatek-drm drivers.
-> 
-> Moreover, Hardware pipeline of VDOSYS0 has these components: COLOR,
-> CCORR, AAL, GAMMA, DITHER. They are related to the PQ (Picture Quality)
-> and they makes VDOSYS0 supports PQ function while they are not
-> including in VDOSYS1.
-> 
-> Hardware pipeline of VDOSYS1 has the component ETHDR (HDR related
-> component). It makes VDOSYS1 supports the HDR function while it's not
-> including in VDOSYS0.
+This patch series fixes integer overflow or integer truncation issues in
+page lookups, ttm place configuration and scatterlist creation, etc.
+We need to check that we avoid integer overflows when looking up a page,
+and so fix all the instances where we have mistakenly used a plain integer
+instead of a more suitable long.
+And there is an impedance mismatch between the scatterlist API using
+unsigned int and our memory/page accounting in unsigned long. That is we
+may try to create a scatterlist for a large object that overflows returning
+a small table into which we try to fit very many pages. As the object size
+is under the control of userspace, we have to be prudent and catch the
+conversion errors. To catch the implicit truncation as we switch from
+unsigned long into the scatterlist's unsigned int, we use improved
+overflows_type check and report E2BIG prior to the operation. This is
+already used in our create ioctls to indicate if the uABI request is simply
+too large for the backing store. 
+And ttm place also has the same problem with scatterlist creation,
+and we fix the integer truncation problem with the way approached by
+scatterlist creation.
+And It corrects the error code to return -E2BIG when creating gem objects
+using ttm or shmem, if the size is too large in each case.
+In order to provide a common macro, it adds a few utility macros
+into overflow header.
+Introduce check_assign() and check_assign_user_ptr(). the check_assign()
+macro which performs an assigning source value into destination pointer
+along with an overflow check and check_assign_user_ptr() macro which
+performs an assigning source value into destination pointer type variable
+along with an overflow check. If an explicit overflow check is required
+while assigning to a user-space ptr, assign_user_ptr() can be used instead
+of u64_to_user_ptr() to assign integers into __user pointers along with an
+overflow check. check_assign(), overflows_type() are implemented on top of
+updated check_add_overflow() macro [1], and it also uses updated
+overflows_type() and castable_to_type() macro [2].
+Therefore this series include the patch which came from Kees [1][2]
+(the both patches are under reviewing from other patch mails).
 
+[1] https://lore.kernel.org/all/202208311040.C6CA8253@keescook/
+[2] https://lore.kernel.org/lkml/20220926191109.1803094-1-keescook@chromium.org/
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Chris Wilson (3):
+  drm/i915/gem: Typecheck page lookups
+  drm/i915: Check for integer truncation on scatterlist creation
+  drm/i915: Remove truncation warning for large objects
 
-Best regards,
-Krzysztof
+Gwan-gyeong Mun (4):
+  overflow: Introduce check_assign() and check_assign_user_ptr()
+  drm/i915: Check for integer truncation on the configuration of ttm
+    place
+  drm/i915: Check if the size is too big while creating shmem file
+  drm/i915: Use error code as -E2BIG when the size of gem ttm object is
+    too large
+
+Kees Cook (2):
+  overflow: Allow mixed type arguments
+  overflow: Introduce overflows_type() and castable_to_type()
+
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   7 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    | 303 +++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  27 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   4 +
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  19 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  23 +-
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   5 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  12 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   8 +-
+ .../drm/i915/gem/selftests/i915_gem_object.c  |   8 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.c             |   9 +-
+ drivers/gpu/drm/i915/i915_gem.c               |  18 +-
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  11 +
+ drivers/gpu/drm/i915/i915_user_extensions.c   |   6 +-
+ drivers/gpu/drm/i915/i915_utils.h             |   4 -
+ drivers/gpu/drm/i915/i915_vma.c               |   8 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  17 +-
+ include/linux/compiler.h                      |   1 +
+ include/linux/overflow.h                      | 166 ++++--
+ lib/overflow_kunit.c                          | 489 ++++++++++++++++--
+ 21 files changed, 993 insertions(+), 158 deletions(-)
+
+-- 
+2.37.1
 
