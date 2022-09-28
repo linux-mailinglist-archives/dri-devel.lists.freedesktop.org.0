@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024D55EE31E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 19:28:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA675EE350
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 19:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 694C310E507;
-	Wed, 28 Sep 2022 17:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37FB910E516;
+	Wed, 28 Sep 2022 17:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2FC810E500;
- Wed, 28 Sep 2022 17:28:23 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3718010E50E;
+ Wed, 28 Sep 2022 17:39:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664386103; x=1695922103;
+ t=1664386752; x=1695922752;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=8eVw9C5sPYEUOLA7l5QFddja9Pb2L/c4WImdAJ/ZVPk=;
- b=g6KYeMVh7GCRxcy5ymxEOzVzLs1jtKu4tyluBR6Fn+6VFa9HcU6VUY3o
- 9Jbs8H7wlZ+QBJ540T/FDPDY42Jo2gA5ELupSRKvC+L3nz3EztOc0qSjb
- EpS+/P4vJ2u721FfAvlRUmxQNV4bha5j1j4oQcX653eQdgS8kNoFum+em
- 5FH7Z3P9TRp1lD2uyYKL7uh/Rm8j4Xi3HzzpRbq3ci9gpxU4h9PeyWim8
- AwX30aIET3z6aqyKWexKOclDphv6d9b+xj9I4z9w8KGPl+nipfx9Czjp2
- R+oRbosrXq2dAipn1z/BuwMQuEq5Q9wsZHooWKhScjJ9BpYf83ibdM/S9 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="281382339"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="281382339"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 10:28:22 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="617290467"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="617290467"
+ bh=59GVWmC0kFBYXf5aTaZzJocaXC5xaRwraAEu6GjqatM=;
+ b=JFYHF/dULAVYJBq6omxOVL1wrdMB7I2zKaK3ZycXSaT6fIPe4xmMfuRk
+ nTjQUw8AU584oqd2HtwXRDe7GhUEmRRw225q/EpGjfUMXyuHWk0rz49KE
+ fkZ6Y3i6ela4kImwV7z7TCHuSzWgPF68EYOaukLZmCIPpVDrLl60EfrER
+ OhMjMMg/so5seMUkYDOG4FyJcL8JB3Euoee/Q+/+Arz0tXXBj3CS4iOIq
+ /nkTSnISsl3thb4IQF5Iiq1hnCzHT3B7A19nWmg8qSnoavF85YE57DATd
+ JyXoew8rHTYwjNmh6LuxGColaGQY6WF8mm3QGhVaAyfyce3qC9GCbQXBR g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="365717860"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="365717860"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 10:39:11 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="747516099"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="747516099"
 Received: from ekarpovi-mobl1.ger.corp.intel.com (HELO [10.252.6.131])
  ([10.252.6.131])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 10:28:18 -0700
-Message-ID: <917ff992-5f6c-c9de-2d3a-d0bde2e49516@intel.com>
-Date: Wed, 28 Sep 2022 18:28:15 +0100
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 10:39:07 -0700
+Message-ID: <6243198e-8b93-2e45-8f49-cd6dd4e4c3a8@intel.com>
+Date: Wed, 28 Sep 2022 18:39:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH 01/16] drm/i915/vm_bind: Expose vm lookup function
+Subject: Re: [PATCH 02/16] drm/i915/vm_bind: Add
+ __i915_sw_fence_await_reservation()
 Content-Language: en-GB
 To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-2-niranjana.vishwanathapura@intel.com>
+ <20220928061918.6340-3-niranjana.vishwanathapura@intel.com>
 From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220928061918.6340-2-niranjana.vishwanathapura@intel.com>
+In-Reply-To: <20220928061918.6340-3-niranjana.vishwanathapura@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,52 +71,122 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
-> Make i915_gem_vm_lookup() function non-static as it will be
-> used by the vm_bind feature.
+> Add function __i915_sw_fence_await_reservation() for
+> asynchronous wait on a dma-resv object with specified
+> dma_resv_usage. This is required for async vma unbind
+> with vm_bind.
 > 
 > Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Acked-by: Matthew Auld <matthew.auld@intel.com>
-
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.c | 11 ++++++++++-
->   drivers/gpu/drm/i915/gem/i915_gem_context.h |  3 +++
->   2 files changed, 13 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/i915/i915_sw_fence.c | 28 +++++++++++++++++++++-------
+>   drivers/gpu/drm/i915/i915_sw_fence.h | 23 +++++++++++++++++------
+>   2 files changed, 38 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 0bcde53c50c6..f4e648ec01ed 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -346,7 +346,16 @@ static int proto_context_register(struct drm_i915_file_private *fpriv,
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+> index cc2a8821d22a..b7a10c374a08 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+> @@ -7,7 +7,6 @@
+>   #include <linux/slab.h>
+>   #include <linux/dma-fence.h>
+>   #include <linux/irq_work.h>
+> -#include <linux/dma-resv.h>
+>   
+>   #include "i915_sw_fence.h"
+>   #include "i915_selftest.h"
+> @@ -569,11 +568,26 @@ int __i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
 >   	return ret;
 >   }
 >   
-> -static struct i915_address_space *
+> -int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> -				    struct dma_resv *resv,
+> -				    bool write,
+> -				    unsigned long timeout,
+> -				    gfp_t gfp)
 > +/**
-> + * i915_gem_vm_lookup() - looks up for the VM reference given the vm id
-> + * @file_priv: the private data associated with the user's file
-> + * @id: the VM id
+> + * __i915_sw_fence_await_reservation() - Setup a fence to wait on a dma-resv
+> + * object with specified usage.
+> + * @fence: the fence that needs to wait
+> + * @resv: dma-resv object
+> + * @usage: dma_resv_usage (See enum dma_resv_usage)
+> + * @timeout: how long to wait in jiffies
+> + * @gfp: allocation mode
 > + *
-> + * Finds the VM reference associated to a specific id.
+> + * Setup the @fence to asynchronously wait on dma-resv object @resv for usage
+> + * @usage to complete before signaling.
+
+s/usage @usage/@usage/ ?
+
 > + *
-> + * Returns the VM pointer on success, NULL in case of failure.
+> + * Returns 0 if there is nothing to wait on, -ve upon error and >0 upon
+
+What does "-ve" mean btw?
+
+Acked-by: Matthew Auld <matthew.auld@intel.com>
+
+> + * successfully setting up the wait.
 > + */
-> +struct i915_address_space *
->   i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> +int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				      struct dma_resv *resv,
+> +				      enum dma_resv_usage usage,
+> +				      unsigned long timeout,
+> +				      gfp_t gfp)
 >   {
->   	struct i915_address_space *vm;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> index e5b0f66ea1fe..899fa8f1e0fe 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> @@ -139,6 +139,9 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
->   int i915_gem_context_reset_stats_ioctl(struct drm_device *dev, void *data,
->   				       struct drm_file *file);
+>   	struct dma_resv_iter cursor;
+>   	struct dma_fence *f;
+> @@ -582,7 +596,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>   	debug_fence_assert(fence);
+>   	might_sleep_if(gfpflags_allow_blocking(gfp));
 >   
-> +struct i915_address_space *
-> +i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id);
+> -	dma_resv_iter_begin(&cursor, resv, dma_resv_usage_rw(write));
+> +	dma_resv_iter_begin(&cursor, resv, usage);
+>   	dma_resv_for_each_fence_unlocked(&cursor, f) {
+>   		pending = i915_sw_fence_await_dma_fence(fence, f, timeout,
+>   							gfp);
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.h b/drivers/gpu/drm/i915/i915_sw_fence.h
+> index f752bfc7c6e1..9c4859dc4c0d 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.h
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.h
+> @@ -10,13 +10,13 @@
+>   #define _I915_SW_FENCE_H_
+>   
+>   #include <linux/dma-fence.h>
+> +#include <linux/dma-resv.h>
+>   #include <linux/gfp.h>
+>   #include <linux/kref.h>
+>   #include <linux/notifier.h> /* for NOTIFY_DONE */
+>   #include <linux/wait.h>
+>   
+>   struct completion;
+> -struct dma_resv;
+>   struct i915_sw_fence;
+>   
+>   enum i915_sw_fence_notify {
+> @@ -89,11 +89,22 @@ int i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
+>   				  unsigned long timeout,
+>   				  gfp_t gfp);
+>   
+> -int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> -				    struct dma_resv *resv,
+> -				    bool write,
+> -				    unsigned long timeout,
+> -				    gfp_t gfp);
+> +int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +				      struct dma_resv *resv,
+> +				      enum dma_resv_usage usage,
+> +				      unsigned long timeout,
+> +				      gfp_t gfp);
 > +
->   struct i915_gem_context *
->   i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id);
+> +static inline int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+> +						  struct dma_resv *resv,
+> +						  bool write,
+> +						  unsigned long timeout,
+> +						  gfp_t gfp)
+> +{
+> +	return __i915_sw_fence_await_reservation(fence, resv,
+> +						 dma_resv_usage_rw(write),
+> +						 timeout, gfp);
+> +}
 >   
+>   bool i915_sw_fence_await(struct i915_sw_fence *fence);
+>   void i915_sw_fence_complete(struct i915_sw_fence *fence);
