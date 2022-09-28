@@ -1,50 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD395ED188
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 02:17:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DC95ED194
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 02:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB22610E1CE;
-	Wed, 28 Sep 2022 00:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C4410E0A5;
+	Wed, 28 Sep 2022 00:18:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A9310E1CE
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 00:16:57 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6139084CBC;
- Wed, 28 Sep 2022 02:16:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1664324215;
- bh=HNdkIBbJj0k0zpzg2qh8iWw67RPhJXRCY72enmGMIa0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EfWdOq1K7q2oafV7kLd0aBbFR9A11NUYmHazYZK7JDCWVVbYfWBkf6/K+h4mO6x9C
- q7NJ1peIzo/24EvK7CJPCP7minTbueCj/bUeg5Sj5SOkhjpCNVJqS3iPWR+oVfMWSt
- 909Ai6lc+1xM4IDKBVeyiichBNp76DpctBD6VoxkG2/Im/SRdcy1LLgomBfTLtuUb8
- 9tFvy2jtX68fRdt1FjuQSCxhi6pzT7CHy8d8mPkkTbCnbf7hwrTDI6ZjWSaXB9785H
- /VHXe6aViaEkHKSVwZqylrpcQLE0DH4f6JGzgzVgI1Fc6XYV7XMXmMXYAGcTIUs3CM
- FrhgkLpeQf78w==
-Message-ID: <594e0470-f0b0-8c46-edb9-163bbcb5ecf1@denx.de>
-Date: Wed, 28 Sep 2022 02:16:54 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 4/4] drm: lcdif: Add support for YUV planes
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3044610E0A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 00:18:08 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 780FE47C;
+ Wed, 28 Sep 2022 02:18:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1664324286;
+ bh=q2e1+sNimQVluat4PFrU/PiipJhe7d9CNBKlOCTBIkA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=chTpvS79LkU4RFQbliiEPZfCMGm4p9l4T9MR6XIk8Z7p84avOCKV3NaGad/ynY0BK
+ NcMO1piYRq1bJmM7QXOWYpgDOarM4MpjeXurkgfEjjC47SZK93Em2QMpU0bHdEtyHE
+ 41qcVhgLNuaPwfLkZbD7I4QvoWqhGm65m7gek8Ak=
+Date: Wed, 28 Sep 2022 03:18:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 2/4] drm: lcdif: Don't use BIT() for multi-bit register
+ fields
+Message-ID: <YzOSvUPJJx26HEwq@pendragon.ideasonboard.com>
 References: <20220927233821.8007-1-laurent.pinchart@ideasonboard.com>
- <20220927233821.8007-5-laurent.pinchart@ideasonboard.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20220927233821.8007-5-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+ <20220927233821.8007-3-laurent.pinchart@ideasonboard.com>
+ <e7dd7021-3892-298e-6c84-aaff1abfefdf@denx.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e7dd7021-3892-298e-6c84-aaff1abfefdf@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,41 +52,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Peng Fan <peng.fan@nxp.com>,
  Alexander Stein <alexander.stein@ew.tq-group.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Daniel Scally <dan.scally@ideasonboard.com>, Robby Cai <robby.cai@nxp.com>
+ Daniel Scally <dan.scally@ideasonboard.com>, dri-devel@lists.freedesktop.org,
+ Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/28/22 01:38, Laurent Pinchart wrote:
+Hi Marek,
 
-Hi,
+On Wed, Sep 28, 2022 at 02:10:26AM +0200, Marek Vasut wrote:
+> On 9/28/22 01:38, Laurent Pinchart wrote:
+> > The BIT() macro is meant to represent a single bit. Don't use it for
+> > values of register fields that span multiple bits.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >   drivers/gpu/drm/mxsfb/lcdif_regs.h | 28 ++++++++++++++--------------
+> >   1 file changed, 14 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > index 013f2cace2a0..bc4d020aaa7c 100644
+> > --- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > @@ -138,9 +138,9 @@
+> >   
+> >   #define DISP_PARA_DISP_ON		BIT(31)
+> >   #define DISP_PARA_SWAP_EN		BIT(30)
+> > -#define DISP_PARA_LINE_PATTERN_UYVY_H	(GENMASK(29, 28) | BIT(26))
+> > -#define DISP_PARA_LINE_PATTERN_RGB565	GENMASK(28, 26)
+> > -#define DISP_PARA_LINE_PATTERN_RGB888	0
+> > +#define DISP_PARA_LINE_PATTERN_UYVY_H	(13 << 26)
+> > +#define DISP_PARA_LINE_PATTERN_RGB565	(7 << 26)
+> > +#define DISP_PARA_LINE_PATTERN_RGB888	(0 << 26)
+> 
+> Can we use hex here for the left size of the shift operation, so it's 
+> subjectively easier to read ? DTTO for the other values ?
+> 
+> That is:
+> -#define DISP_PARA_LINE_PATTERN_UYVY_H	(13 << 26)
+> +#define DISP_PARA_LINE_PATTERN_UYVY_H	(0xd << 26)
+> 
+> [...]
 
-[...]
+Sure, I'll fix that.
 
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> index ba84b51598b3..a97a5f512aae 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+-- 
+Regards,
 
-[...]
-
-> @@ -37,9 +38,10 @@ static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
->   {
->   	struct drm_device *drm = lcdif->drm;
->   	const u32 format = lcdif->crtc.primary->state->fb->format->format;
-> +	bool in_yuv = false;
-> +	bool out_yuv = false;
->   
-> -	writel(CSC0_CTRL_BYPASS, lcdif->base + LCDC_V8_CSC0_CTRL);
-> -
-> +	/* HDMI output */
-
-Should this comment really be here ? The IP can be connected to either 
-LVDS serializer/DSI bridge/HDMI , it is not just HDMI output IP.
-
->   	switch (bus_format) {
->   	case MEDIA_BUS_FMT_RGB565_1X16:
->   		writel(DISP_PARA_LINE_PATTERN_RGB565,
-
-[...]
-
-Reviewed-by: Marek Vasut <marex@denx.de>
+Laurent Pinchart
