@@ -2,139 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928F35EE6BF
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 22:43:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1835EE843
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 23:23:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFCC10E012;
-	Wed, 28 Sep 2022 20:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52BC410EA37;
+	Wed, 28 Sep 2022 21:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE4F10E012;
- Wed, 28 Sep 2022 20:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664397823; x=1695933823;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=IKvm7Gt3B3ra4fafkNedRPjr2LYqKxvXFIeLJhKTGyo=;
- b=fmceLKnJfIKieqXFDbLOpGerXtcPJVMtrmVG6ZL7QcNCh/hIWu+jbQ0+
- 9UI6iSQWORTS6BgNnaFPeKlSWcc8Lmw2/8MjkkpWoXGWo44PBDzKbpvrS
- 09h4d28bJ5Ao3/8iFYy5i1fkk7lzm8Ub5lEN/XtorOaT5s7gfw/TnvkB9
- T0gdqyvEKjcceMkXwDwwzU0lZXvYrb2hou+/enpFnSpr+C8Bgo0KTL8Z9
- ZwnOmcBuSNA43gnnKpzwP2CszXO9goK73tjDGzhkqLbp3fX39RC1bCM5s
- 3azBoAdyLociIhU6dsjbhtKIeORyNllfox9PHpzpjt8bN7f4bCYh6pxnJ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="288870008"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="288870008"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 13:43:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="711109254"
-X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="711109254"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by FMSMGA003.fm.intel.com with ESMTP; 28 Sep 2022 13:43:42 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 28 Sep 2022 13:43:42 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 28 Sep 2022 13:43:41 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 28 Sep 2022 13:43:41 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 28 Sep 2022 13:43:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oRGM8mU63x4S21dKjFhbCtUCoersWYCHWjhwTnZbX9zFW/FxjdtT78dz/oadMQOoslKOJ2Dpp5qtv8CcmcSCb9Q6Eqk8lw4ml7pV/qlndiXAxZItzRNpNIyHE3DEfnfih2TknLVrUU2R9K40hmlEi5M7J4VcDb7jupHTHKxRUCKkG5u2k0nAs+97CjeRZpMkMgwBgYq2xQnMvodteobkUfyFBgrXe1PhDk8TdtKu5AhhjG6/aWnmxhlhGm9p0m5DhXHUupct99O4WWKEx5NN6krc3Jea7kzCvKwGrFqMAy45Vq6C/JAuaYnxC6AD3UOZITauqtYm60QIr1V+MCDG8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1zgtSdpWEeFnTaRGurmVzkIZqVd2wA05XOou2yEtxjE=;
- b=XktCCb8/q1qCK9tGg3b4nUGC5IT1mhnDIv7ONLcWsCIOeXQlS+DzXv9Qc0uvPoirh6dbbzRdovL4YktgReoljGZZiXwzg2DDwBATwbcb9cTiLc+esg9sh2tJTNeNphSI/FP59iGrJkiefbM6lysoP4Q1mFe8rVupVmX2bcP2kYmsn8k8UrnrotxCKeYv/c4zhgJv4xwEF3l9jNp3ILUC8YKBq9DjtsjWHKVbyjj9YhDRFrt4oHLCbC1SoJ4NaL7kLvV7nmtLYnKPM31SVT7p/uE2livpejW65YyG/AXyNoDJQqBSElh58Dx7El/DIyozr4vOMDZagnz6SHBNARBX1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by CY5PR11MB6413.namprd11.prod.outlook.com (2603:10b6:930:37::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Wed, 28 Sep
- 2022 20:43:39 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7ea6:6f6c:f2dc:cec7]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7ea6:6f6c:f2dc:cec7%3]) with mapi id 15.20.5654.025; Wed, 28 Sep 2022
- 20:43:39 +0000
-Date: Wed, 28 Sep 2022 16:43:34 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Subject: Re: [PATCH] drm/i915/gt: Perf_limit_reasons are only available for
- Gen11+
-Message-ID: <YzSx9iAS7o+OoOgE@intel.com>
-References: <20220928190212.3200835-1-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220928190212.3200835-1-ashutosh.dixit@intel.com>
-X-ClientProxiedBy: BY5PR17CA0050.namprd17.prod.outlook.com
- (2603:10b6:a03:167::27) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D118A10EA35
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 21:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664400189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QZ4t2UB2lqqb9ZXGA9il9zfkqpEc6E78sSJodDNan7Y=;
+ b=L2mbwZ9tpFDssnDLuJcWc16QFTukYEFzOHIRRHDbMtsgyiiQ7KAoYYK22HYI5uuM3OUCwD
+ EZBn4EJMB122Wftie+4AkDqZ7YuGwKjxuO8BJyLr7o3Vd6LLa7hKVAQNTtbTCjrogQU0Uk
+ ZavLvZTDLZyiHleq+z3hz+f4koYqwwk=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-611-SiwbqwM1PCSC04wvv7N9Ww-1; Wed, 28 Sep 2022 17:23:05 -0400
+X-MC-Unique: SiwbqwM1PCSC04wvv7N9Ww-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ ll6-20020a056214598600b004af9fc1faf8so1321029qvb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 14:23:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:user-agent:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=QZ4t2UB2lqqb9ZXGA9il9zfkqpEc6E78sSJodDNan7Y=;
+ b=y72L8Pm/ZN1ZqW3nbl0eU4VCeYdK6PhtuQEfrQd1MloE+PNUsf7RB0InjxFSuKb/st
+ TAN5KFk6dWvjM0v90I/rGr/057XhzVLSsihaZrGnjhD/ton/popmYZe1SDm2Lt+/OJqL
+ yTUDlfXRVqfPufcNAEVZ00fsgW9nuo+NX7z1WQtgtpo2cM7lBcvDfVT/daZosfcMcrfG
+ 1c1MrRuSd0NtPtPQnw33UE4mQWrraobEuH36wqRk6ai2q4blPDs4kGufIJI1oAlTrYf/
+ Dfnl/6VDIbLbajZ2VWibISCjxiQ7UAomql9Bt/h8VMHsgR8qTfomYskOY5kUHzUY/ICy
+ Al4g==
+X-Gm-Message-State: ACrzQf3T7i3x7dkoPzmAmbffgorgt0x0HthTxexhhsI5KZYwMHJLCc2j
+ xASo7HCVSjVr16WftTJfpWZyKwupDLr2FU+ndcXgVdomFuRIgZa3agKhtFIlC6hmfN303ZPqXpi
+ 5d6L2GnCVfegq98kiEMT2ibmjjCwY
+X-Received: by 2002:a05:620a:1103:b0:6ce:a0f6:90da with SMTP id
+ o3-20020a05620a110300b006cea0f690damr38545qkk.101.1664400184930; 
+ Wed, 28 Sep 2022 14:23:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM62/QIMjRyMr/gsxyeVxkRAWCYE6jZga2+iTdsErHKnI8Gjuum9cexxu6iDiWDB1hCj2jmE6w==
+X-Received: by 2002:a05:620a:1103:b0:6ce:a0f6:90da with SMTP id
+ o3-20020a05620a110300b006cea0f690damr38505qkk.101.1664400184635; 
+ Wed, 28 Sep 2022 14:23:04 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c48:e00::feb? ([2600:4040:5c48:e00::feb])
+ by smtp.gmail.com with ESMTPSA id
+ o19-20020a05622a009300b0031eebfcb369sm4431620qtw.97.2022.09.28.14.23.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Sep 2022 14:23:03 -0700 (PDT)
+Message-ID: <07643305900ee3a1adb7226cc98fa13defcee5a3.camel@redhat.com>
+Subject: Re: [PATCH 6/7] nouveau/dmem: Evict device private memory during
+ release
+From: Lyude Paul <lyude@redhat.com>
+To: Alistair Popple <apopple@nvidia.com>, Felix Kuehling
+ <felix.kuehling@amd.com>
+Date: Wed, 28 Sep 2022 17:23:00 -0400
+In-Reply-To: <87bkr1lh3a.fsf@nvdebian.thelocal>
+References: <cover.f15b25597fc3afd45b144df863eeca3b2c13f9f4.1664171943.git-series.apopple@nvidia.com>
+ <072e1ce590fe101a4cdbd5e91b1702efebb6d0fd.1664171943.git-series.apopple@nvidia.com>
+ <881735bda9b1ba0ecf3648af201840233508f206.camel@redhat.com>
+ <7ca6ec0c-7e5e-3b24-8f8d-650df357130c@amd.com>
+ <87bkr1lh3a.fsf@nvdebian.thelocal>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CY5PR11MB6413:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca5a7127-2a8e-4c99-d438-08daa1921f72
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V5I9pH3bQvz9kVeNNtoheIKsH9PmPkDqpjtokqi0Gg/p0KWpYwBkXtlCKPK7jhf3S2d46jzbzB7QArzKS7mHrTE3VD3pcValxRNq9OpK2o0Lut35B14p3q8ZuifcMlTa5Ox8AfrbenBpwl0Z50h9DrnZnWvjyNu4WmtYN2pfZdCdNC+c/yJc62TddN778NQtYinhGmOxHeX3NwkzfjDNOaf0Jet4zW8ZlJKIsdelWPgglbuscmHxTrwpnflp+nWefYsHGttAR0lJ5ekkQjfePd45B2wRuYhzgnXARVq9T6CxbTKZbTE7DHsozLLbDZRA8asU2QPC+YQTRPd+CeQcvups6vNZMINNyzNBS6qG2F8VQ8Fttm0Cnm+Tyw+zm88zAWXrbHcP0PXkE1tKKKgxPVHtF0XoW0tS2zxvos4hk3/0NXgXoBivQ1mZ/fubG2ZPykDduTC12YIN6jrsUQ33mu9lbDxh/lFbSbvxTwm9AGUSe52vfI50/DaLEYJb7tOqwGG/Pgnp54FQjPLYrv1hKnA9prlAvRHhgO7jpY8UmWggbzzwcKKH8eiEMT0GhXjqN8mxxBEI/QehNKv64wyB5h3c8WIHl91YqCjRc8js5ENN/fqcr4qjmmMScTes8SJ+VI4NZK0kXdkftEv0ufuI1NjgPzhjMtRdas4DCx9T+3d7OURss1GLz+AtRaVpKlkCZvul7mPb6W82ASnpA3fy5w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(346002)(39860400002)(366004)(376002)(136003)(451199015)(2616005)(478600001)(38100700002)(186003)(82960400001)(83380400001)(6636002)(6512007)(5660300002)(26005)(2906002)(44832011)(41300700001)(6862004)(66476007)(8936002)(6486002)(4326008)(966005)(6666004)(66946007)(6506007)(316002)(66556008)(8676002)(37006003)(36756003)(86362001)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zxprjIXkegeCvCKO41vloAE2Y9nRvJDuJekKYQZfdb/i0y08rSd4MrcpsBQH?=
- =?us-ascii?Q?oqZVsnmLfGshU91ymNmmxv4go6z+XB0rhhETepW/IgnD5SK2jWg9SZCijdEB?=
- =?us-ascii?Q?iO++YMLBAj76ypFQkVhMjQOz61yfCk7zbYvQgyrJTnZsDbROsTHqYgLHcgzW?=
- =?us-ascii?Q?firWTFaRATx35oibDB0iU8OLWTks/Z4Re3jQuRapqtNKAlOZ6RWyHs7zIAr6?=
- =?us-ascii?Q?f5/a4aTRdoK81xjELWJKecjv0X09GTdjsMrjqfZhpCGeYvNv1B30/DLQriX0?=
- =?us-ascii?Q?htteY/K4P1Avs85C8WmAAHTDyoTHkXQ4MsvtdU4rO1AoI2ZKCiBzge4eV+w/?=
- =?us-ascii?Q?rCJt6SAk0GJbPaRJInIBLfv2cuHCbukedpDqnskiGPCf2RA6O9wlZKgiH/V7?=
- =?us-ascii?Q?RML1yg750nnq9WJRKT0rZJhYo6VoF4yfWtsHKSWBkwFOy1b2bd4R4ZXS1M9V?=
- =?us-ascii?Q?XPRzsr/x4U13sQEEvWHxWtuxOPwF66EelOgC33HVsTmFSh2jUy6rTb0zvoIu?=
- =?us-ascii?Q?lQOIpVQr/zP2Rkylh/kHsrz5AMgKEBHTVDyosiTF6VL8tHW6Xijw08wpHNEo?=
- =?us-ascii?Q?J+l7ttKR8jz0kxcewxN9Jv7hUYCyMNVjgYImLRdcipZQwjiyJ3GuXNIuppYd?=
- =?us-ascii?Q?LTjnjYnnBHO3L7zXz+GeAffq0m2v/zlzn09Q7Grobo8/kvOUzSiq12MloThz?=
- =?us-ascii?Q?4koozn9UJQw3KOCiQh4U0uH8lFFRaShxOv4EsWSklN3fzCaQXQW5jZZVK2Bo?=
- =?us-ascii?Q?2tT65/AZhrmltwT/SWVQJx4087KEF5MTclQ+q1dxR0f5bXWAJdm+jTTGyhsS?=
- =?us-ascii?Q?TjtH1N60b/+3V1mFXyAgiWewhbvfXLJ5i+AzwWzctL6ZYvI3FAwcwxGCGMOx?=
- =?us-ascii?Q?wM27+B/53hAVJuelviAGPDizr5rB97cV8zxNZfkN8bM+w5R6xd68DKw6O3Vj?=
- =?us-ascii?Q?CNp/KUv4JCJt9nbv+g/uJUbHVsZp8xMCTlss5r/4oRoJvB838P+IUFGKTOA5?=
- =?us-ascii?Q?u56ErjPp5hCDkHvrAnSPxjv9A2Ulu3dMB6JmeSI3HnWpcrQdClPWGbj3habb?=
- =?us-ascii?Q?zmChaXwYtwMJOkWZ47xMvPjUX0/VvD+F2XWefHN/1Ite26ourGlCcnmABD7B?=
- =?us-ascii?Q?j4paaYAaa1eGXJEy1Mhivlov35Y+DAQf6BwL3oSxokq74u9aV6+6VffelSlx?=
- =?us-ascii?Q?51Eza8i/dOhoH9UTq1XhL0ABbxJxFcvp0a7wXOiq1Zf+CVdDvWkGAms4OpdX?=
- =?us-ascii?Q?y6jv+FcoO/e7tFNDABoC7DUPt6JayqrGEZemrUUJJrdEInscfBW1TVfase75?=
- =?us-ascii?Q?InQqqmmMAh8/h5fVW9Rn2ZNUt0NfLEWnToT5tC6wFFllaNTS9zMkxtPUR/kG?=
- =?us-ascii?Q?ts5Pjt8dZb/oNap02t2azuZdsR7NgywBDSRf4sRBWaigTyrfasnmVpnupoIn?=
- =?us-ascii?Q?P7pXPONEdiDhlZkmV7Jxr1pKrXYF1ZUwjh1givfRptdZc2RIxfAyj1j5hxxj?=
- =?us-ascii?Q?stk6P5KPa9dGjl2gR0kjk9IlYW9i+ev4/sIOxv9WRwV8SXdbgGRi2jiPjCLK?=
- =?us-ascii?Q?y7dTLAGkDHoLCusLUy+5AaJxkodI9Q4qNcgmyunLm16M7hnCimkSppdvtSQZ?=
- =?us-ascii?Q?vw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca5a7127-2a8e-4c99-d438-08daa1921f72
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2022 20:43:39.4387 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7sMqa3ERkzEmWqe5QfVB1SIp5OiN+Fq/0GWyhtZb1FobTUNBskX+hX0xCxZLSm1cJmjckXMZl3S6PruyKmjSvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6413
-X-OriginatorOrg: intel.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,76 +90,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Alex Sierra <alex.sierra@amd.com>, Karol Herbst <kherbst@redhat.com>,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ amd-gfx@lists.freedesktop.org, Michael Ellerman <mpe@ellerman.id.au>,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Dan Williams <dan.j.williams@intel.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 28, 2022 at 12:02:12PM -0700, Ashutosh Dixit wrote:
-> Register GT0_PERF_LIMIT_REASONS (0x1381a8) is available only for
-> Gen11+. Therefore ensure perf_limit_reasons sysfs files are created only
-> for Gen11+. Otherwise on Gen < 5 accessing these files results in the
-> following oops:
+On Tue, 2022-09-27 at 11:39 +1000, Alistair Popple wrote:
+> Felix Kuehling <felix.kuehling@amd.com> writes:
 > 
-> <1> [88.829420] BUG: unable to handle page fault for address: ffffc90000bb81a8
-> <1> [88.829438] #PF: supervisor read access in kernel mode
-> <1> [88.829447] #PF: error_code(0x0000) - not-present page
+> > On 2022-09-26 17:35, Lyude Paul wrote:
+> > > On Mon, 2022-09-26 at 16:03 +1000, Alistair Popple wrote:
+> > > > When the module is unloaded or a GPU is unbound from the module it is
+> > > > possible for device private pages to be left mapped in currently running
+> > > > processes. This leads to a kernel crash when the pages are either freed
+> > > > or accessed from the CPU because the GPU and associated data structures
+> > > > and callbacks have all been freed.
+> > > > 
+> > > > Fix this by migrating any mappings back to normal CPU memory prior to
+> > > > freeing the GPU memory chunks and associated device private pages.
+> > > > 
+> > > > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > > > 
+> > > > ---
+> > > > 
+> > > > I assume the AMD driver might have a similar issue. However I can't see
+> > > > where device private (or coherent) pages actually get unmapped/freed
+> > > > during teardown as I couldn't find any relevant calls to
+> > > > devm_memunmap(), memunmap(), devm_release_mem_region() or
+> > > > release_mem_region(). So it appears that ZONE_DEVICE pages are not being
+> > > > properly freed during module unload, unless I'm missing something?
+> > > I've got no idea, will poke Ben to see if they know the answer to this
+> > 
+> > I guess we're relying on devm to release the region. Isn't the whole point of
+> > using devm_request_free_mem_region that we don't have to remember to explicitly
+> > release it when the device gets destroyed? I believe we had an explicit free
+> > call at some point by mistake, and that caused a double-free during module
+> > unload. See this commit for reference:
 > 
-> This patch is a backport of the drm-tip commit 0d2d201095e9 to
-> drm-intel-fixes. The backport is not identical to 0d2d201095e9, it only
-> includes the sysfs portions of 0d2d201095e9. The debugfs portion of
-> 0d2d201095e9 is not available in drm-intel-fixes so has not been
-> backported.
+> Argh, thanks for that pointer. I was not so familiar with
+> devm_request_free_mem_region()/devm_memremap_pages() as currently
+> Nouveau explicitly manages that itself.
 
-Thanks for the backport. While pushing it, I adjusted the commit message
-to make checkpatch happier and to also ensure we included the previous
-reviews and patchwork link to the backport.
+Mhm, TBH I feel like this was going to happen eventually anyway but there's
+another reason for nouveau to start using the managed versions of these
+functions at some point
 
 > 
-> Bspec: 20008
-> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/6863
-> Fixes: fa68bff7cf27 ("drm/i915/gt: Add sysfs throttle frequency interfaces")
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
+> > commit 22f4f4faf337d5fb2d2750aff13215726814273e
+> > Author: Philip Yang <Philip.Yang@amd.com>
+> > Date:   Mon Sep 20 17:25:52 2021 -0400
+> > 
+> >     drm/amdkfd: fix svm_migrate_fini warning
+> >          Device manager releases device-specific resources when a driver
+> >     disconnects from a device, devm_memunmap_pages and
+> >     devm_release_mem_region calls in svm_migrate_fini are redundant.
+> >          It causes below warning trace after patch "drm/amdgpu: Split
+> >     amdgpu_device_fini into early and late", so remove function
+> >     svm_migrate_fini.
+> >          BUG: https://gitlab.freedesktop.org/drm/amd/-/issues/1718
+> >          WARNING: CPU: 1 PID: 3646 at drivers/base/devres.c:795
+> >     devm_release_action+0x51/0x60
+> >     Call Trace:
+> >         ? memunmap_pages+0x360/0x360
+> >         svm_migrate_fini+0x2d/0x60 [amdgpu]
+> >         kgd2kfd_device_exit+0x23/0xa0 [amdgpu]
+> >         amdgpu_amdkfd_device_fini_sw+0x1d/0x30 [amdgpu]
+> >         amdgpu_device_fini_sw+0x45/0x290 [amdgpu]
+> >         amdgpu_driver_release_kms+0x12/0x30 [amdgpu]
+> >         drm_dev_release+0x20/0x40 [drm]
+> >         release_nodes+0x196/0x1e0
+> >         device_release_driver_internal+0x104/0x1d0
+> >         driver_detach+0x47/0x90
+> >         bus_remove_driver+0x7a/0xd0
+> >         pci_unregister_driver+0x3d/0x90
+> >         amdgpu_exit+0x11/0x20 [amdgpu]
+> >          Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+> >     Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> >     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > 
+> > Furthermore, I guess we are assuming that nobody is using the GPU when the
+> > module is unloaded. As long as any processes have /dev/kfd open, you won't be
+> > able to unload the module (except by force-unload). I suppose with ZONE_DEVICE
+> > memory, we can have references to device memory pages even when user mode has
+> > closed /dev/kfd. We do have a cleanup handler that runs in an MMU-free-notifier.
+> > In theory that should run after all the pages in the mm_struct have been freed.
+> > It releases all sorts of other device resources and needs the driver to still be
+> > there. I'm not sure if there is anything preventing a module unload before the
+> > free-notifier runs. I'll look into that.
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-> index 73a8b46e0234..d09a0e845d09 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-> @@ -545,8 +545,7 @@ static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_ratl, RATL_MASK);
->  static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_thermalert, VR_THERMALERT_MASK);
->  static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_vr_tdc, VR_TDC_MASK);
->  
-> -static const struct attribute *freq_attrs[] = {
-> -	&dev_attr_punit_req_freq_mhz.attr,
-> +static const struct attribute *throttle_reason_attrs[] = {
->  	&attr_throttle_reason_status.attr,
->  	&attr_throttle_reason_pl1.attr,
->  	&attr_throttle_reason_pl2.attr,
-> @@ -763,12 +762,20 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
->  	if (!is_object_gt(kobj))
->  		return;
->  
-> -	ret = sysfs_create_files(kobj, freq_attrs);
-> +	ret = sysfs_create_file(kobj, &dev_attr_punit_req_freq_mhz.attr);
->  	if (ret)
->  		drm_warn(&gt->i915->drm,
-> -			 "failed to create gt%u throttle sysfs files (%pe)",
-> +			 "failed to create gt%u punit_req_freq_mhz sysfs (%pe)",
->  			 gt->info.id, ERR_PTR(ret));
->  
-> +	if (GRAPHICS_VER(gt->i915) >= 11) {
-> +		ret = sysfs_create_files(kobj, throttle_reason_attrs);
-> +		if (ret)
-> +			drm_warn(&gt->i915->drm,
-> +				 "failed to create gt%u throttle sysfs files (%pe)",
-> +				 gt->info.id, ERR_PTR(ret));
-> +	}
-> +
->  	if (HAS_MEDIA_RATIO_MODE(gt->i915) && intel_uc_uses_guc_slpc(&gt->uc)) {
->  		ret = sysfs_create_files(kobj, media_perf_power_attrs);
->  		if (ret)
-> -- 
-> 2.34.1
+> Right - module unload (or device unbind) is one of the other ways we can
+> hit this issue in Nouveau at least. You can end up with ZONE_DEVICE
+> pages mapped in a running process after the module has unloaded.
+> Although now you mention it that seems a bit wrong - the pgmap refcount
+> should provide some protection against that. Will have to look into
+> that too.
 > 
+> > Regards,
+> >   Felix
+> > 
+> > 
+> > > 
+> > > > ---
+> > > >   drivers/gpu/drm/nouveau/nouveau_dmem.c | 48 +++++++++++++++++++++++++++-
+> > > >   1 file changed, 48 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > > > index 66ebbd4..3b247b8 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > > > @@ -369,6 +369,52 @@ nouveau_dmem_suspend(struct nouveau_drm *drm)
+> > > >   	mutex_unlock(&drm->dmem->mutex);
+> > > >   }
+> > > >   +/*
+> > > > + * Evict all pages mapping a chunk.
+> > > > + */
+> > > > +void
+> > > > +nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
+> > > > +{
+> > > > +	unsigned long i, npages = range_len(&chunk->pagemap.range) >> PAGE_SHIFT;
+> > > > +	unsigned long *src_pfns, *dst_pfns;
+> > > > +	dma_addr_t *dma_addrs;
+> > > > +	struct nouveau_fence *fence;
+> > > > +
+> > > > +	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
+> > > > +	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
+> > > > +	dma_addrs = kcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL);
+> > > > +
+> > > > +	migrate_device_range(src_pfns, chunk->pagemap.range.start >> PAGE_SHIFT,
+> > > > +			npages);
+> > > > +
+> > > > +	for (i = 0; i < npages; i++) {
+> > > > +		if (src_pfns[i] & MIGRATE_PFN_MIGRATE) {
+> > > > +			struct page *dpage;
+> > > > +
+> > > > +			/*
+> > > > +			 * _GFP_NOFAIL because the GPU is going away and there
+> > > > +			 * is nothing sensible we can do if we can't copy the
+> > > > +			 * data back.
+> > > > +			 */
+> > > You'll have to excuse me for a moment since this area of nouveau isn't one of
+> > > my strongpoints, but are we sure about this? IIRC __GFP_NOFAIL means infinite
+> > > retry, in the case of a GPU hotplug event I would assume we would rather just
+> > > stop trying to migrate things to the GPU and just drop the data instead of
+> > > hanging on infinite retries.
+> > > 
+> > > > +			dpage = alloc_page(GFP_HIGHUSER | __GFP_NOFAIL);
+> > > > +			dst_pfns[i] = migrate_pfn(page_to_pfn(dpage));
+> > > > +			nouveau_dmem_copy_one(chunk->drm,
+> > > > +					migrate_pfn_to_page(src_pfns[i]), dpage,
+> > > > +					&dma_addrs[i]);
+> > > > +		}
+> > > > +	}
+> > > > +
+> > > > +	nouveau_fence_new(chunk->drm->dmem->migrate.chan, false, &fence);
+> > > > +	migrate_device_pages(src_pfns, dst_pfns, npages);
+> > > > +	nouveau_dmem_fence_done(&fence);
+> > > > +	migrate_device_finalize(src_pfns, dst_pfns, npages);
+> > > > +	kfree(src_pfns);
+> > > > +	kfree(dst_pfns);
+> > > > +	for (i = 0; i < npages; i++)
+> > > > +		dma_unmap_page(chunk->drm->dev->dev, dma_addrs[i], PAGE_SIZE, DMA_BIDIRECTIONAL);
+> > > > +	kfree(dma_addrs);
+> > > > +}
+> > > > +
+> > > >   void
+> > > >   nouveau_dmem_fini(struct nouveau_drm *drm)
+> > > >   {
+> > > > @@ -380,8 +426,10 @@ nouveau_dmem_fini(struct nouveau_drm *drm)
+> > > >   	mutex_lock(&drm->dmem->mutex);
+> > > >     	list_for_each_entry_safe(chunk, tmp, &drm->dmem->chunks, list) {
+> > > > +		nouveau_dmem_evict_chunk(chunk);
+> > > >   		nouveau_bo_unpin(chunk->bo);
+> > > >   		nouveau_bo_ref(NULL, &chunk->bo);
+> > > > +		WARN_ON(chunk->callocated);
+> > > >   		list_del(&chunk->list);
+> > > >   		memunmap_pages(&chunk->pagemap);
+> > > >   		release_mem_region(chunk->pagemap.range.start,
+> 
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
