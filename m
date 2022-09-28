@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41665EE9B3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F62C5EE9A6
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6AD10E7AC;
-	Wed, 28 Sep 2022 22:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6FC10E778;
+	Wed, 28 Sep 2022 22:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8718A10E502
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:48:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4FF410E502
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:48:14 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1CC647C;
- Thu, 29 Sep 2022 00:48:11 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 621AC6DB;
+ Thu, 29 Sep 2022 00:48:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405292;
- bh=lylZQCEQc05RmSbwuyVzKRy40f0MhgDQKfa4CwKu01Q=;
+ s=mail; t=1664405293;
+ bh=/wymkvWZ8761X2Z9uV7AOvVC0ymr6vMaSq+sJu5MzFA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rojzPtkvcajrrTr0yz7a+H9FtMboLSSRAuvlexYZGh4sgAO9WJiuHZfGhAwgN1lg7
- ubnOJFiO+149gta+94rr13F2vXFobnctHIw7vNCJpIFmQTvsJOkL4wnihV7qAGwEXN
- sjgEQoB3qGWJk9c4qvCJYAqRWcjXO+4cHln6aMX0=
+ b=O8wxL8Bl6U/X8hH6zgDw2LZtDCtUrIG6EU5U/06Jxtd9LhjmdAQ2xA8MUX3HAdwcw
+ IrIDi/2LWd3m13vHmz0KKUGqBsRUHSr/pMgGiGKjXyjaW28l2qyD8JW4hS8TewHYe1
+ zIze+ZxrB7ZFaG13Id3CqgCg3gY961aabnZwI+5U=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 31/37] drm: xlnx: zynqmp_dpsub: Rename
- zynqmp_dpsub_handle_vblank with DRM prefix
-Date: Thu, 29 Sep 2022 01:47:13 +0300
-Message-Id: <20220928224719.3291-32-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 32/37] drm: xlnx: zynqmp_dpsub: Parse DT to find connected
+ ports
+Date: Thu, 29 Sep 2022 01:47:14 +0300
+Message-Id: <20220928224719.3291-33-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,63 +52,133 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The better convey its purpose, rename the zynqmp_dpsub_handle_vblank()
-function that belongs to the DRM layer to
-zynqmp_dpsub_drm_handle_vblank().
+To prepare for live video input support, parse the device tree to find
+the connected ports. Warn about unsupported configurations, and error
+out when invalid.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c  | 2 +-
- drivers/gpu/drm/xlnx/zynqmp_kms.c | 4 ++--
- drivers/gpu/drm/xlnx/zynqmp_kms.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 54 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 13 +++++++
+ 2 files changed, 67 insertions(+)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 001bc24f92bd..5424f955be28 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -1581,7 +1581,7 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
- 	zynqmp_dp_write(dp, ZYNQMP_DP_INT_STATUS, status);
- 
- 	if (status & ZYNQMP_DP_INT_VBLANK_START)
--		zynqmp_dpsub_handle_vblank(dp->dpsub);
-+		zynqmp_dpsub_drm_handle_vblank(dp->dpsub);
- 
- 	if (status & ZYNQMP_DP_INT_HPD_EVENT)
- 		schedule_delayed_work(&dp->hpd_work, 0);
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-index 746eeb824d30..df7f8e0c9eba 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-@@ -339,13 +339,13 @@ static void zynqmp_dpsub_map_crtc_to_plane(struct zynqmp_dpsub *dpsub)
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+index 86faa6edda4b..6627a1ec7791 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+@@ -12,6 +12,7 @@
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/module.h>
++#include <linux/of_graph.h>
+ #include <linux/of_reserved_mem.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+@@ -142,6 +143,55 @@ static int zynqmp_dpsub_init_clocks(struct zynqmp_dpsub *dpsub)
+ 	return 0;
  }
  
- /**
-- * zynqmp_dpsub_handle_vblank - Handle the vblank event
-+ * zynqmp_dpsub_drm_handle_vblank - Handle the vblank event
-  * @dpsub: DisplayPort subsystem
-  *
-  * This function handles the vblank interrupt, and sends an event to
-  * CRTC object. This will be called by the DP vblank interrupt handler.
-  */
--void zynqmp_dpsub_handle_vblank(struct zynqmp_dpsub *dpsub)
-+void zynqmp_dpsub_drm_handle_vblank(struct zynqmp_dpsub *dpsub)
++static int zynqmp_dpsub_parse_dt(struct zynqmp_dpsub *dpsub)
++{
++	struct device_node *np;
++	unsigned int i;
++
++	/*
++	 * For backward compatibility with old device trees that don't contain
++	 * ports, consider that only the DP output port is connected if no
++	 * ports child no exists.
++	 */
++	np = of_get_child_by_name(dpsub->dev->of_node, "ports");
++	of_node_put(np);
++	if (!np) {
++		dev_warn(dpsub->dev, "missing ports, update DT bindings\n");
++		dpsub->connected_ports = BIT(ZYNQMP_DPSUB_PORT_OUT_DP);
++		return 0;
++	}
++
++	/* Check which ports are connected. */
++	for (i = 0; i < ZYNQMP_DPSUB_NUM_PORTS; ++i) {
++		struct device_node *np;
++
++		np = of_graph_get_remote_node(dpsub->dev->of_node, i, -1);
++		if (np) {
++			dpsub->connected_ports |= BIT(i);
++			of_node_put(np);
++		}
++	}
++
++	/* Sanity checks. */
++	if ((dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO)) ||
++	    (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_GFX)))
++		dev_warn(dpsub->dev, "live video unsupported, ignoring\n");
++
++	if (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_AUDIO))
++		dev_warn(dpsub->dev, "live audio unsupported, ignoring\n");
++
++	if ((dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_OUT_VIDEO)) ||
++	    (dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_OUT_AUDIO)))
++		dev_warn(dpsub->dev, "output to PL unsupported, ignoring\n");
++
++	if (!(dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_OUT_DP))) {
++		dev_err(dpsub->dev, "DP output port not connected\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ void zynqmp_dpsub_release(struct zynqmp_dpsub *dpsub)
  {
- 	drm_crtc_handle_vblank(&dpsub->drm->crtc);
- }
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.h b/drivers/gpu/drm/xlnx/zynqmp_kms.h
-index b5cb27159162..01be96b00e3f 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_kms.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_kms.h
-@@ -38,7 +38,7 @@ struct zynqmp_dpsub_drm {
- 	struct drm_encoder encoder;
- };
+ 	kfree(dpsub->disp);
+@@ -171,6 +221,10 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto err_mem;
  
--void zynqmp_dpsub_handle_vblank(struct zynqmp_dpsub *dpsub);
-+void zynqmp_dpsub_drm_handle_vblank(struct zynqmp_dpsub *dpsub);
++	ret = zynqmp_dpsub_parse_dt(dpsub);
++	if (ret < 0)
++		goto err_mem;
++
+ 	pm_runtime_enable(&pdev->dev);
  
- int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub);
- void zynqmp_dpsub_drm_cleanup(struct zynqmp_dpsub *dpsub);
+ 	/*
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+index 6c6029ad9bc5..6ded6e45ac0a 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+@@ -22,6 +22,16 @@ struct zynqmp_dpsub_drm;
+ 
+ #define ZYNQMP_DPSUB_NUM_LAYERS				2
+ 
++enum zynqmp_dpsub_port {
++	ZYNQMP_DPSUB_PORT_LIVE_VIDEO,
++	ZYNQMP_DPSUB_PORT_LIVE_GFX,
++	ZYNQMP_DPSUB_PORT_LIVE_AUDIO,
++	ZYNQMP_DPSUB_PORT_OUT_VIDEO,
++	ZYNQMP_DPSUB_PORT_OUT_AUDIO,
++	ZYNQMP_DPSUB_PORT_OUT_DP,
++	ZYNQMP_DPSUB_NUM_PORTS,
++};
++
+ enum zynqmp_dpsub_format {
+ 	ZYNQMP_DPSUB_FORMAT_RGB,
+ 	ZYNQMP_DPSUB_FORMAT_YCRCB444,
+@@ -37,6 +47,7 @@ enum zynqmp_dpsub_format {
+  * @vid_clk_from_ps: True of the video clock comes from PS, false from PL
+  * @aud_clk: Audio clock
+  * @aud_clk_from_ps: True of the audio clock comes from PS, false from PL
++ * @connected_ports: Bitmask of connected ports in the device tree
+  * @drm: The DRM/KMS device data
+  * @bridge: The DP encoder bridge
+  * @disp: The display controller
+@@ -52,6 +63,8 @@ struct zynqmp_dpsub {
+ 	struct clk *aud_clk;
+ 	bool aud_clk_from_ps;
+ 
++	unsigned int connected_ports;
++
+ 	struct zynqmp_dpsub_drm *drm;
+ 	struct drm_bridge *bridge;
+ 
 -- 
 Regards,
 
