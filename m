@@ -2,73 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A635EDC79
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 14:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF1A5EDC81
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 14:24:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A3E10E4E8;
-	Wed, 28 Sep 2022 12:23:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0588410E4ED;
+	Wed, 28 Sep 2022 12:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFF2810E4E8
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 12:23:48 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id a3so20049944lfk.9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 05:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:from:to:cc:subject:date;
- bh=Swb7XVMS5l4jVs+taUaFHDZniMnQe0LrNo5JVaq+smE=;
- b=c7CWUAsfmp+EUrBbsuVwHuXZYgfW2HVC0Li9FEyeBNVz54UBKlH/LwX+eoHjrw/RhN
- HgS0dnWmAJwxifOaPqgR6tmTb84kzSWbrL9exeYtUY0fduYToLJfXsgj6MPghccx5j+M
- 455J5Z9jH0S3XuLMki862MI98Ona3zIEpM/bACfbyA19QAIoYxKwCSLRj+rD8+kAIr3o
- 7HxESQA5LojmCE8FnZPaLunR8pN4t1Txi2JgQDvgZFhWprO8gHUPQ4datyPbLQ9eBa35
- gbCYiQHE5tolljp0ZvNeexs29IETA3U2U2YvnLz27nJDLCzvEV87zs2Bq8knrfW2sb7q
- tZBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:x-gm-message-state:from:to:cc:subject:date;
- bh=Swb7XVMS5l4jVs+taUaFHDZniMnQe0LrNo5JVaq+smE=;
- b=T0iykikhaVILwFOvUhnFU6OlnbaKO3PSo77WCEBUbUFoeiJfMltWqphrvCA4MdWyTa
- ZvrTl9G9LE2NUfrMGhJde7NQ71+BF05MvajoqasCeOnBTQjorcMcvyqwNi8wJaauz9la
- 6t3UutRoyQAh+ap7Gsg/yOzs0I8OveE2JLkY3d5yn/pFsFTOHn8Iye9iVsrkGUm63o/h
- xKDoCdhAEOPaN+UhZf7IoQ8EYSb4dbBoMkJ0qqDoqo8p6fqEea/OZM9qpwGuVPQxPcyN
- yph/bAFZTQ1yep6VC9A6aIPT2SyBlwtwtKtwgqad4iuMwFoPHUN4iXHk7ZDfzix2cb/E
- 0nrw==
-X-Gm-Message-State: ACrzQf2CETfvcLVYQPCUQDJ63nT/fRBZzN70mvd4ELT4MrMwBe3NEDbR
- p79Lqt0QFyGXqU9jU5kNkaGGsm4smNOATEpKV+dgzQ==
-X-Google-Smtp-Source: AMsMyM6y/zW9NWpjwXIpFeG7jR5sdtiQjNZFUTI8LJaS28E+8UxFW/BjROXWV6E4XvWqIlDYLzeduXvGYy1dfVvHhHk=
-X-Received: by 2002:a05:6512:5d7:b0:498:f521:e143 with SMTP id
- o23-20020a05651205d700b00498f521e143mr12968086lfo.617.1664367826958; Wed, 28
- Sep 2022 05:23:46 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 28 Sep 2022 05:23:43 -0700
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-14-4844816c9808@baylibre.com>
- <d1346dcf6b6906d153c13c086bf963dc89c5549b.camel@mediatek.com>
- <CABnWg9v4OuAU0x7n1q09gO7u3faOsmeq_4PFpw=_wAn1+erF8A@mail.gmail.com>
- <da5c39fb351a7ca5a9dfa1c938d2e3d914ecb0d2.camel@mediatek.com>
-In-Reply-To: <da5c39fb351a7ca5a9dfa1c938d2e3d914ecb0d2.camel@mediatek.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A90FD10E4EC;
+ Wed, 28 Sep 2022 12:24:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 48445B82038;
+ Wed, 28 Sep 2022 12:24:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3412C433C1;
+ Wed, 28 Sep 2022 12:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664367876;
+ bh=dBwYyIOq7xKF2yq5mWzeWyI6QLDHI+INr6nNI1xPzAo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VpuW2ZIyPzbpYaGo3QDSDvBrtWqXtDUC+j3uR7J3Bojq4/w5XMcNNuN1MTSMm3AH1
+ M2soWfAHndJq5YYyEMVkglILBCy85fKd4Vx9y27d5Vyn1ux+VVMARTqmWpJOwxvpk/
+ kr/XrqEokc8BN4DvN/MWjY/22JOzvDwwuxsdc2zG2URG8BAZqAUsKk39G0enec/fS4
+ yl2hygFdXnojRHQiXobCPhN7bRw9QNyH5lIo3ce7pnw+xCYp6sOOWl4ax3V5F5fT5w
+ 1aNnSi49wg8Wt3RUx4GL2iK5R5+zaryKXyjRN+f2UNvpsELPgLjLmDDxc806OLwZhh
+ XHlVMPz+GExoA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1odW7E-0001cB-VT; Wed, 28 Sep 2022 14:24:41 +0200
+Date: Wed, 28 Sep 2022 14:24:40 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 09/10] drm/msm/dp: drop modeset sanity checks
+Message-ID: <YzQ9CPwxZXFJCQGG@hovoldconsulting.com>
+References: <20220913085320.8577-1-johan+linaro@kernel.org>
+ <20220913085320.8577-10-johan+linaro@kernel.org>
+ <d05290d8-7603-13b3-3cc4-d8509b03fc02@quicinc.com>
+ <YzKi8XfV6V0p0TJi@hovoldconsulting.com>
+ <d7688497-6229-40d4-3378-5036d699dfd7@quicinc.com>
 MIME-Version: 1.0
-Date: Wed, 28 Sep 2022 05:23:43 -0700
-Message-ID: <CABnWg9u5bJgfRqug3wFUOnFb3c7Fv_9YN2p8CXmhcnBrqa+pQA@mail.gmail.com>
-Subject: Re: [PATCH v1 14/17] phy: mediatek: add support for
- phy-mtk-hdmi-mt8195
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, 
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d7688497-6229-40d4-3378-5036d699dfd7@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,120 +59,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, Steev Klimaszewski <steev@kali.org>,
+ freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 28 Sep 2022 04:40, Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
->On Tue, 2022-09-27 at 06:23 -0700, Guillaume Ranquet wrote:
->> On Tue, 20 Sep 2022 09:46, Chunfeng Yun <chunfeng.yun@mediatek.com>
->> wrote:
->> > On Mon, 2022-09-19 at 18:56 +0200, Guillaume Ranquet wrote:
->> > > Add basic support for the mediatek hdmi phy on MT8195 SoC
->> > >
->> > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->> > >
->> > > diff --git a/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
->> > > b/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
->> > > index bb7593ea4c86..0157acdce56c 100644
->> > > --- a/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
->> > > +++ b/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
->> > > @@ -1344,6 +1344,8 @@ static void mtk_hdmi_bridge_disable(struct
->> > > drm_bridge *bridge,
->> > >  	mtk_hdmi_disable_hdcp_encrypt(hdmi);
->> > >  	usleep_range(50000, 50050);
->> > >
->> > > +	phy_power_off(hdmi->phy);
->> > > +
->> > >  	hdmi->enabled = false;
->> > >  }
->> > >
->> > > diff --git a/drivers/phy/mediatek/Makefile
->> > > b/drivers/phy/mediatek/Makefile
->> > > index fb1f8edaffa7..c9a50395533e 100644
->> > > --- a/drivers/phy/mediatek/Makefile
->> > > +++ b/drivers/phy/mediatek/Makefile
->> > > @@ -12,6 +12,7 @@ obj-$(CONFIG_PHY_MTK_XSPHY)		+= phy-
->> > > mtk-
->> > > xsphy.o
->> > >  phy-mtk-hdmi-drv-y			:= phy-mtk-hdmi.o
->> > >  phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-
->> > > mt2701.o
->> > >  phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-
->> > > mt8173.o
->> > > +phy-mtk-hdmi-drv-y			+= phy-mtk-hdmi-
->> > > mt8195.o
->> > >  obj-$(CONFIG_PHY_MTK_HDMI)		+= phy-mtk-hdmi-drv.o
->> > >
->> > >  phy-mtk-mipi-dsi-drv-y			:= phy-mtk-mipi-dsi.o
->> > > diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
->> > > b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
->> > > new file mode 100644
->> > > index 000000000000..149015b64c02
->> > > --- /dev/null
->> > > +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
->> > > @@ -0,0 +1,673 @@
->> > > +// SPDX-License-Identifier: GPL-2.0
->> > > +/*
->> > > + * Copyright (c) 2021 MediaTek Inc.
->> > > + * Copyright (c) 2021 BayLibre, SAS
->> > > + */
->> > > +#include <linux/delay.h>
->> > > +#include <linux/io.h>
->> > > +#include <linux/mfd/syscon.h>
->> > > +#include <linux/module.h>
->> > > +#include <linux/phy/phy.h>
->> > > +#include <linux/platform_device.h>
->> > > +#include <linux/types.h>
->> > > +#include <linux/nvmem-consumer.h>
->> > > +
->> > > +#include "phy-mtk-hdmi.h"
->> > > +#include "phy-mtk-hdmi-mt8195.h"
->> > > +
->> > > +static void mtk_hdmi_ana_fifo_en(struct mtk_hdmi_phy *hdmi_phy)
->> > > +{
->> > > +	/* make data fifo writable for hdmi2.0 */
->> > > +	mtk_hdmi_phy_mask(hdmi_phy, HDMI_ANA_CTL,
->> > > REG_ANA_HDMI20_FIFO_EN,
->> > > +			  REG_ANA_HDMI20_FIFO_EN);
->> > > +}
->> > > +
->> > > +static void
->> > > +mtk_mt8195_phy_tmds_high_bit_clk_ratio(struct mtk_hdmi_phy
->> > > *hdmi_phy,
->> > > +				       bool enable)
->> > > +{
->> > > +	mtk_hdmi_ana_fifo_en(hdmi_phy);
->> > > +
->> > > +	/* HDMI 2.0 specification, 3.4Gbps <= TMDS Bit Rate <= 6G,
->> > > +	 * clock bit ratio 1:40, under 3.4Gbps, clock bit ratio 1:10
->> > > +	 */
->> > > +	if (enable)
->> > > +		mtk_hdmi_phy_mask(hdmi_phy, HDMI20_CLK_CFG,
->> > > +				  0x2 << REG_TXC_DIV_SHIFT,
->> >
->> > Use FIELD_PREP() macro, then no need define REG_TXC_DIV_SHIFT
->> > anymore.
->> >
->>
->> Didn't know about FIELD_* macros, will use them for V2.
->>
->> Thx for the suggestion.
->Please use helpers defined in phy-mtk-io.h, the register access helpers
->of mtk_hdmi_phy_* are already removed in phy next branch.
->
->Thanks a lot
->
->
-Hi,
+On Tue, Sep 27, 2022 at 11:42:53AM -0700, Abhinav Kumar wrote:
+> On 9/27/2022 12:14 AM, Johan Hovold wrote:
+> > On Mon, Sep 26, 2022 at 11:17:20AM -0700, Abhinav Kumar wrote:
+> >> On 9/13/2022 1:53 AM, Johan Hovold wrote:
+> >>> Drop the overly defensive modeset sanity checks of function parameters
+> >>> which have already been checked or used by the callers.
+> >>>
+> >>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> >>
+> >> The change LGTM, hence
+> >>
+> >> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >>
+> >> I think we can use below fixes tag so that we can pick up this entire
+> >> series for the fixes cycle.
+> >>
+> >> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+> > 
+> > Perhaps that's a requirement for drm, but I wouldn't add a Fixes tag for
+> > this otherwise as it's not a bug.
+> > 
+> > You also have to watch out for Sasha and his autosel scripts which will
+> > probably try to backport this to stable if it finds a Fixes tag.
 
-Thank you for the headsup, I've seen the change landed in
-next-20220927 on which I'm currently rebasing.
+> Discussed with Rob on IRC, we will apply everything except the last two 
+> patches of this series in the -fixes and take these two for the next 
+> kernel rev push.
 
+So the fixes go in 6.0 and the two follow-on cleanups in 6.1? Or did you
+mean 6.1 and 6.2?
 
-Thx,
-Guillaume.
+Johan
