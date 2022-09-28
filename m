@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4455EE9BC
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1012A5EE99F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 00:49:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6804710E7E8;
-	Wed, 28 Sep 2022 22:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED64C10E753;
+	Wed, 28 Sep 2022 22:48:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A95C10E502
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6B2010E5C4
  for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 22:47:56 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68B936BE;
- Thu, 29 Sep 2022 00:47:53 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34C5447C;
+ Thu, 29 Sep 2022 00:47:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664405273;
- bh=NE23cUX/nk1E6RCySJguCaPg7/u5m6uyXenL5qg5g0Q=;
+ s=mail; t=1664405275;
+ bh=IeW+AcSTjCuTjx8wIgkA3B8PYnS1XT2eWfu+ocDq3Ao=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LGmyiQWz/C/jBiMwjw+EUVCTOswtbp6/YVjvlVlLcLlpdmHLWQivhYG/aQSisM6es
- ykXXwAOD3+ECtjYCGLtMMCIENbY3q3ISNcYQYtVzM1GSLbUe3c469Jk7rb9kHJXJYS
- RbLkeWadZhxtfS93S91YZ6wK3pLZbKDnLPIuQAXA=
+ b=kZKSQO2da4KtuudWIDK6s78HPAKVN3zqQ1qSGQHa+gmSTBM+tluS0WJEGknsd7uZE
+ uUvZA0xlNcJbd73ReCn+0yapL2y9V28uyMFmO2asOaAffKICTu+rbbSrKtXODvh9km
+ Dsanfp0s5ladgmvNayFeXpMXLpQoFC0OfoPOZdHk=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 19/37] drm: xlnx: zynqmp_dpsub: Move pclk from zynqmp_disp
- to zynqmp_dpsub
-Date: Thu, 29 Sep 2022 01:47:01 +0300
-Message-Id: <20220928224719.3291-20-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 20/37] drm: xlnx: zynqmp_dpsub: Move audio clk from
+ zynqmp_disp to zynqmp_dpsub
+Date: Thu, 29 Sep 2022 01:47:02 +0300
+Message-Id: <20220928224719.3291-21-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
 References: <20220928224719.3291-1-laurent.pinchart@ideasonboard.com>
@@ -52,166 +52,288 @@ Cc: Michal Simek <michal.simek@xilinx.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The video clock is an external resource from the DPSUB point of view,
+The audio clock is an external resource from the DPSUB point of view,
 not a resource internal to the display controller. Move it to the
 zynqmp_dpsub structure, to allow accessing it from outside the disp
 code.
 
-While at it, rename the fields from pclk and pclk_from_ps to vid_clk and
-vid_clk_from_ps, to better reflect their purpose and match the
-documentation.
-
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c  | 36 ++++++-----------------------
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 17 ++++++++++++++
- drivers/gpu/drm/xlnx/zynqmp_dpsub.h |  4 ++++
- 3 files changed, 28 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c  | 54 ++---------------------------
+ drivers/gpu/drm/xlnx/zynqmp_disp.h  |  2 --
+ drivers/gpu/drm/xlnx/zynqmp_dp.c    |  8 ++---
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 54 +++++++++++++++++++++++++++--
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h |  7 ++++
+ 5 files changed, 65 insertions(+), 60 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 0a2fa96bc126..62f9daf93465 100644
+index 62f9daf93465..640be60c4214 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -170,8 +170,6 @@ struct zynqmp_disp_layer {
-  * @audio.clk: Audio clock
-  * @audio.clk_from_ps: True of the audio clock comes from PS, false from PL
+@@ -167,8 +167,6 @@ struct zynqmp_disp_layer {
+  * @blend.base: Register I/O base address for the blender
+  * @avbuf.base: Register I/O base address for the audio/video buffer manager
+  * @audio.base: Registers I/O base address for the audio mixer
+- * @audio.clk: Audio clock
+- * @audio.clk_from_ps: True of the audio clock comes from PS, false from PL
   * @layers: Layers (planes)
-- * @pclk: Pixel clock
-- * @pclk_from_ps: True of the video clock comes from PS, false from PL
   */
  struct zynqmp_disp {
- 	struct device *dev;
-@@ -193,9 +191,6 @@ struct zynqmp_disp {
+@@ -186,8 +184,6 @@ struct zynqmp_disp {
+ 	} avbuf;
+ 	struct {
+ 		void __iomem *base;
+-		struct clk *clk;
+-		bool clk_from_ps;
  	} audio;
  
  	struct zynqmp_disp_layer layers[ZYNQMP_DISP_NUM_LAYERS];
--
--	struct clk *pclk;
--	bool pclk_from_ps;
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -1413,7 +1408,7 @@ static void zynqmp_disp_enable(struct zynqmp_disp *disp)
- 
- 	zynqmp_disp_avbuf_enable(disp);
- 	/* Choose clock source based on the DT clock handle. */
--	zynqmp_disp_avbuf_set_clocks_sources(disp, disp->pclk_from_ps,
-+	zynqmp_disp_avbuf_set_clocks_sources(disp, disp->dpsub->vid_clk_from_ps,
- 					     disp->audio.clk_from_ps, true);
- 	zynqmp_disp_avbuf_enable_channels(disp);
- 	zynqmp_disp_avbuf_enable_audio(disp);
-@@ -1441,13 +1436,13 @@ static int zynqmp_disp_setup_clock(struct zynqmp_disp *disp,
- 	long diff;
- 	int ret;
- 
--	ret = clk_set_rate(disp->pclk, mode_clock);
-+	ret = clk_set_rate(disp->dpsub->vid_clk, mode_clock);
- 	if (ret) {
--		dev_err(disp->dev, "failed to set a pixel clock\n");
-+		dev_err(disp->dev, "failed to set the video clock\n");
- 		return ret;
- 	}
- 
--	rate = clk_get_rate(disp->pclk);
-+	rate = clk_get_rate(disp->dpsub->vid_clk);
- 	diff = rate - mode_clock;
- 	if (abs(diff) > mode_clock / 20)
- 		dev_info(disp->dev,
-@@ -1478,9 +1473,9 @@ zynqmp_disp_crtc_atomic_enable(struct drm_crtc *crtc,
- 
- 	zynqmp_disp_setup_clock(disp, adjusted_mode->clock * 1000);
- 
--	ret = clk_prepare_enable(disp->pclk);
-+	ret = clk_prepare_enable(disp->dpsub->vid_clk);
- 	if (ret) {
--		dev_err(disp->dev, "failed to enable a pixel clock\n");
-+		dev_err(disp->dev, "failed to enable the video clock\n");
- 		pm_runtime_put_sync(disp->dev);
- 		return;
- 	}
-@@ -1520,7 +1515,7 @@ zynqmp_disp_crtc_atomic_disable(struct drm_crtc *crtc,
- 	}
- 	spin_unlock_irq(&crtc->dev->event_lock);
- 
--	clk_disable_unprepare(disp->pclk);
-+	clk_disable_unprepare(disp->dpsub->vid_clk);
- 	pm_runtime_put_sync(disp->dev);
+@@ -893,25 +889,6 @@ static void zynqmp_disp_audio_disable(struct zynqmp_disp *disp)
+ 				ZYNQMP_DISP_AUD_SOFT_RESET_AUD_SRST);
  }
  
-@@ -1675,23 +1670,6 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
+-static void zynqmp_disp_audio_init(struct zynqmp_disp *disp)
+-{
+-	/* Try the live PL audio clock. */
+-	disp->audio.clk = devm_clk_get(disp->dev, "dp_live_audio_aclk");
+-	if (!IS_ERR(disp->audio.clk)) {
+-		disp->audio.clk_from_ps = false;
+-		return;
+-	}
+-
+-	/* If the live PL audio clock is not valid, fall back to PS clock. */
+-	disp->audio.clk = devm_clk_get(disp->dev, "dp_aud_clk");
+-	if (!IS_ERR(disp->audio.clk)) {
+-		disp->audio.clk_from_ps = true;
+-		return;
+-	}
+-
+-	dev_err(disp->dev, "audio disabled due to missing clock\n");
+-}
+-
+ /* -----------------------------------------------------------------------------
+  * ZynqMP Display external functions for zynqmp_dp
+  */
+@@ -930,32 +907,6 @@ void zynqmp_disp_handle_vblank(struct zynqmp_disp *disp)
+ 	drm_crtc_handle_vblank(crtc);
+ }
+ 
+-/**
+- * zynqmp_disp_audio_enabled - If the audio is enabled
+- * @disp: Display controller
+- *
+- * Return if the audio is enabled depending on the audio clock.
+- *
+- * Return: true if audio is enabled, or false.
+- */
+-bool zynqmp_disp_audio_enabled(struct zynqmp_disp *disp)
+-{
+-	return !!disp->audio.clk;
+-}
+-
+-/**
+- * zynqmp_disp_get_audio_clk_rate - Get the current audio clock rate
+- * @disp: Display controller
+- *
+- * Return: the current audio clock rate.
+- */
+-unsigned int zynqmp_disp_get_audio_clk_rate(struct zynqmp_disp *disp)
+-{
+-	if (zynqmp_disp_audio_enabled(disp))
+-		return 0;
+-	return clk_get_rate(disp->audio.clk);
+-}
+-
+ /**
+  * zynqmp_disp_get_crtc_mask - Return the CRTC bit mask
+  * @disp: Display controller
+@@ -1409,7 +1360,8 @@ static void zynqmp_disp_enable(struct zynqmp_disp *disp)
+ 	zynqmp_disp_avbuf_enable(disp);
+ 	/* Choose clock source based on the DT clock handle. */
+ 	zynqmp_disp_avbuf_set_clocks_sources(disp, disp->dpsub->vid_clk_from_ps,
+-					     disp->audio.clk_from_ps, true);
++					     disp->dpsub->aud_clk_from_ps,
++					     true);
+ 	zynqmp_disp_avbuf_enable_channels(disp);
+ 	zynqmp_disp_avbuf_enable_audio(disp);
+ 
+@@ -1670,8 +1622,6 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
  	if (IS_ERR(disp->audio.base))
  		return PTR_ERR(disp->audio.base);
  
--	/* Try the live PL video clock */
--	disp->pclk = devm_clk_get(disp->dev, "dp_live_video_in_clk");
--	if (!IS_ERR(disp->pclk))
--		disp->pclk_from_ps = false;
--	else if (PTR_ERR(disp->pclk) == -EPROBE_DEFER)
--		return PTR_ERR(disp->pclk);
+-	zynqmp_disp_audio_init(disp);
 -
--	/* If the live PL video clock is not valid, fall back to PS clock */
--	if (IS_ERR_OR_NULL(disp->pclk)) {
--		disp->pclk = devm_clk_get(disp->dev, "dp_vtc_pixel_clk_in");
--		if (IS_ERR(disp->pclk)) {
--			dev_err(disp->dev, "failed to init any video clock\n");
--			return PTR_ERR(disp->pclk);
--		}
--		disp->pclk_from_ps = true;
--	}
--
- 	zynqmp_disp_audio_init(disp);
- 
  	ret = zynqmp_disp_create_layers(disp);
+ 	if (ret)
+ 		return ret;
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
+index f402901afb23..1b7f90a81857 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
+@@ -31,8 +31,6 @@ struct zynqmp_disp;
+ struct zynqmp_dpsub;
+ 
+ void zynqmp_disp_handle_vblank(struct zynqmp_disp *disp);
+-bool zynqmp_disp_audio_enabled(struct zynqmp_disp *disp);
+-unsigned int zynqmp_disp_get_audio_clk_rate(struct zynqmp_disp *disp);
+ uint32_t zynqmp_disp_get_crtc_mask(struct zynqmp_disp *disp);
+ 
+ int zynqmp_disp_drm_init(struct zynqmp_dpsub *dpsub);
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 33fd69ed7550..3e4d164d40fe 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -1252,7 +1252,7 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
+ 		reg = drm_dp_bw_code_to_link_rate(dp->mode.bw_code);
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_N_VID, reg);
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_M_VID, mode->clock);
+-		rate = zynqmp_disp_get_audio_clk_rate(dp->dpsub->disp);
++		rate = zynqmp_dpsub_get_audio_clk_rate(dp->dpsub);
+ 		if (rate) {
+ 			dev_dbg(dp->dev, "Audio rate: %d\n", rate / 512);
+ 			zynqmp_dp_write(dp, ZYNQMP_DP_TX_N_AUD, reg);
+@@ -1261,7 +1261,7 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
+ 	}
+ 
+ 	/* Only 2 channel audio is supported now */
+-	if (zynqmp_disp_audio_enabled(dp->dpsub->disp))
++	if (zynqmp_dpsub_audio_enabled(dp->dpsub))
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CHANNELS, 1);
+ 
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_USER_PIX_WIDTH, 1);
+@@ -1372,7 +1372,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	/* Enable the encoder */
+ 	dp->enabled = true;
+ 	zynqmp_dp_update_misc(dp);
+-	if (zynqmp_disp_audio_enabled(dp->dpsub->disp))
++	if (zynqmp_dpsub_audio_enabled(dp->dpsub))
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 1);
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN, 0);
+ 	if (dp->status == connector_status_connected) {
+@@ -1406,7 +1406,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+ 	drm_dp_dpcd_writeb(&dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
+ 			ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
+-	if (zynqmp_disp_audio_enabled(dp->dpsub->disp))
++	if (zynqmp_dpsub_audio_enabled(dp->dpsub))
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
+ 	pm_runtime_put_sync(dp->dev);
+ }
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 26f2e1a7a46a..a278a73e1713 100644
+index a278a73e1713..cb01548f2b8c 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -214,6 +214,23 @@ static int zynqmp_dpsub_init_clocks(struct zynqmp_dpsub *dpsub)
+@@ -196,6 +196,36 @@ static const struct dev_pm_ops zynqmp_dpsub_pm_ops = {
+ 	SET_SYSTEM_SLEEP_PM_OPS(zynqmp_dpsub_suspend, zynqmp_dpsub_resume)
+ };
+ 
++/* -----------------------------------------------------------------------------
++ * DPSUB Configuration
++ */
++
++/**
++ * zynqmp_dpsub_audio_enabled - If the audio is enabled
++ * @dpsub: DisplayPort subsystem
++ *
++ * Return if the audio is enabled depending on the audio clock.
++ *
++ * Return: true if audio is enabled, or false.
++ */
++bool zynqmp_dpsub_audio_enabled(struct zynqmp_dpsub *dpsub)
++{
++	return !!dpsub->aud_clk;
++}
++
++/**
++ * zynqmp_dpsub_get_audio_clk_rate - Get the current audio clock rate
++ * @dpsub: DisplayPort subsystem
++ *
++ * Return: the current audio clock rate.
++ */
++unsigned int zynqmp_dpsub_get_audio_clk_rate(struct zynqmp_dpsub *dpsub)
++{
++	if (zynqmp_dpsub_audio_enabled(dpsub))
++		return 0;
++	return clk_get_rate(dpsub->aud_clk);
++}
++
+ /* -----------------------------------------------------------------------------
+  * Probe & Remove
+  */
+@@ -214,14 +244,16 @@ static int zynqmp_dpsub_init_clocks(struct zynqmp_dpsub *dpsub)
  		return ret;
  	}
  
-+	/* Try the live PL video clock */
-+	dpsub->vid_clk = devm_clk_get(dpsub->dev, "dp_live_video_in_clk");
-+	if (!IS_ERR(dpsub->vid_clk))
-+		dpsub->vid_clk_from_ps = false;
-+	else if (PTR_ERR(dpsub->vid_clk) == -EPROBE_DEFER)
-+		return PTR_ERR(dpsub->vid_clk);
-+
-+	/* If the live PL video clock is not valid, fall back to PS clock */
-+	if (IS_ERR_OR_NULL(dpsub->vid_clk)) {
-+		dpsub->vid_clk = devm_clk_get(dpsub->dev, "dp_vtc_pixel_clk_in");
-+		if (IS_ERR(dpsub->vid_clk)) {
-+			dev_err(dpsub->dev, "failed to init any video clock\n");
-+			return PTR_ERR(dpsub->vid_clk);
-+		}
-+		dpsub->vid_clk_from_ps = true;
+-	/* Try the live PL video clock */
++	/*
++	 * Try the live PL video clock, and fall back to the PS clock if the
++	 * live PL video clock isn't valid.
++	 */
+ 	dpsub->vid_clk = devm_clk_get(dpsub->dev, "dp_live_video_in_clk");
+ 	if (!IS_ERR(dpsub->vid_clk))
+ 		dpsub->vid_clk_from_ps = false;
+ 	else if (PTR_ERR(dpsub->vid_clk) == -EPROBE_DEFER)
+ 		return PTR_ERR(dpsub->vid_clk);
+ 
+-	/* If the live PL video clock is not valid, fall back to PS clock */
+ 	if (IS_ERR_OR_NULL(dpsub->vid_clk)) {
+ 		dpsub->vid_clk = devm_clk_get(dpsub->dev, "dp_vtc_pixel_clk_in");
+ 		if (IS_ERR(dpsub->vid_clk)) {
+@@ -231,6 +263,24 @@ static int zynqmp_dpsub_init_clocks(struct zynqmp_dpsub *dpsub)
+ 		dpsub->vid_clk_from_ps = true;
+ 	}
+ 
++	/*
++	 * Try the live PL audio clock, and fall back to the PS clock if the
++	 * live PL audio clock isn't valid. Missing audio clock disables audio
++	 * but isn't an error.
++	 */
++	dpsub->aud_clk = devm_clk_get(dpsub->dev, "dp_live_audio_aclk");
++	if (!IS_ERR(dpsub->aud_clk)) {
++		dpsub->aud_clk_from_ps = false;
++		return 0;
 +	}
 +
++	dpsub->aud_clk = devm_clk_get(dpsub->dev, "dp_aud_clk");
++	if (!IS_ERR(dpsub->aud_clk)) {
++		dpsub->aud_clk_from_ps = true;
++		return 0;
++	}
++
++	dev_info(dpsub->dev, "audio disabled due to missing clock\n");
  	return 0;
  }
  
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-index 66820bbc4507..bcb119bb97e1 100644
+index bcb119bb97e1..5bd42e192e17 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-@@ -33,6 +33,8 @@ enum zynqmp_dpsub_format {
-  * @drm: The DRM/KMS device
-  * @dev: The physical device
+@@ -35,6 +35,8 @@ enum zynqmp_dpsub_format {
   * @apb_clk: The APB clock
-+ * @vid_clk: Video clock
-+ * @vid_clk_from_ps: True of the video clock comes from PS, false from PL
+  * @vid_clk: Video clock
+  * @vid_clk_from_ps: True of the video clock comes from PS, false from PL
++ * @aud_clk: Audio clock
++ * @aud_clk_from_ps: True of the audio clock comes from PS, false from PL
   * @encoder: The dummy DRM encoder
   * @bridge: The DP encoder bridge
   * @disp: The display controller
-@@ -44,6 +46,8 @@ struct zynqmp_dpsub {
- 	struct device *dev;
- 
+@@ -48,6 +50,8 @@ struct zynqmp_dpsub {
  	struct clk *apb_clk;
-+	struct clk *vid_clk;
-+	bool vid_clk_from_ps;
+ 	struct clk *vid_clk;
+ 	bool vid_clk_from_ps;
++	struct clk *aud_clk;
++	bool aud_clk_from_ps;
  
  	struct drm_encoder encoder;
  	struct drm_bridge *bridge;
+@@ -63,4 +67,7 @@ static inline struct zynqmp_dpsub *to_zynqmp_dpsub(struct drm_device *drm)
+ 	return container_of(drm, struct zynqmp_dpsub, drm);
+ }
+ 
++bool zynqmp_dpsub_audio_enabled(struct zynqmp_dpsub *dpsub);
++unsigned int zynqmp_dpsub_get_audio_clk_rate(struct zynqmp_dpsub *dpsub);
++
+ #endif /* _ZYNQMP_DPSUB_H_ */
 -- 
 Regards,
 
