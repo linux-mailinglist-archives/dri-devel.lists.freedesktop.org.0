@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1075ED4C9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 08:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCD35ED4CC
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 08:22:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F7610E2A9;
-	Wed, 28 Sep 2022 06:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15DB910E2F8;
+	Wed, 28 Sep 2022 06:22:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9C710E272;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8E3810E26B;
  Wed, 28 Sep 2022 06:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1664345988; x=1695881988;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oXJ0DH1aRVZyqOoJRyhELjb8M+In1PYqRs1mmwC6cTY=;
- b=C0GXRHJABKx7M5P7k2/nlXFBVJcFm5QxeCcYh+ew4bsbslOOk/tWmgNt
- Vuat86Jfvgw0n67lMy8+7hie7zS2sp3yCbqX3v3Xka84SVTb5TmCByDE0
- 8vuIAnS9Ol4qmKaK84TOhPoLHGvIQ+DdWKlRdsze8zWpRLWK6B3XeBmHR
- k/kdScwmeBV/W0y8XpR5QNbmGF6mGSsjT5I8sLelJ44Ph1XJW7yjnrmfN
- iGbjEcPHp/KciXgWjE4GXETd4AN1eLgRltFQSvnxm3Ikre8e1YgdFIk9J
- C4WV7f1IgZ+NiX9upjBgjVARrxS23EeouaOnIeyWAaRo7eW3ppVuYI6c6 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="299115509"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="299115509"
+ bh=4gDshxmOoUfh5QCshE5c5HuB80LPaDnZ3XiCPK7dbe0=;
+ b=SqFhyq7bYi4EX//01oGSxKpRBJl9BHIU9LFbM8GBBHDXbcXDceT7I6On
+ t5CspuO8zVLlQiqd9IckQ6tQ75ja0t/QxQ42yrtS4ZXgzbsO71jKvxfr7
+ EBV3lkbttor7YxdyJU3PIw+ELEdf+lYMIUisIHm51BxsNJbnRbiw9WUa0
+ FJYoNfX5E027XLyAik5VD0I91OYNxeTqqlh+McRdw1+9aql3ZWtbzGLDS
+ tSXPfRy26OQzon0a9bEjRzA8AX82udTGTt+KKoYAUqpozBKykJy1iNVUc
+ JgZA/M94x/a2OEQ0/FEOzaR1rCW2dPbkuOs7AyLu6D1xMiHvczKd1b6aF w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="299115510"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="299115510"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Sep 2022 23:19:47 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="866849198"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="866849198"
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="866849201"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="866849201"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
  27 Sep 2022 23:19:47 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 08/16] drm/i915/vm_bind: Support persistent vma activeness
- tracking
-Date: Tue, 27 Sep 2022 23:19:10 -0700
-Message-Id: <20220928061918.6340-9-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH 09/16] drm/i915/vm_bind: Add out fence support
+Date: Tue, 27 Sep 2022 23:19:11 -0700
+Message-Id: <20220928061918.6340-10-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
 References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
@@ -65,197 +64,283 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Do not use i915_vma activeness tracking for persistent vmas.
-
-As persistent vmas are part of working set for each execbuf
-submission on that address space (VM), a persistent vma is
-active if the VM active. As vm->root_obj->base.resv will be
-updated for each submission on that VM, it correctly
-represent whether the VM is active or not.
-
-Add i915_vm_is_active() and i915_vm_sync() functions based
-on vm->root_obj->base.resv with DMA_RESV_USAGE_BOOKKEEP
-usage. dma-resv fence list will be updated with this usage
-during each submission with this VM in the new execbuf3
-ioctl path.
-
-Update i915_vma_is_active(), i915_vma_sync() and the
-__i915_vma_unbind_async() functions to properly handle
-persistent vmas.
+Add support for handling out fence for vm_bind call.
 
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/i915_gem_gtt.c | 39 +++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_gem_gtt.h |  3 +++
- drivers/gpu/drm/i915/i915_vma.c     | 28 +++++++++++++++++++++
- drivers/gpu/drm/i915/i915_vma.h     | 25 +++++++++---------
- 4 files changed, 83 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  4 +
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    | 81 +++++++++++++++++++
+ drivers/gpu/drm/i915/i915_vma.c               |  7 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  7 ++
+ include/uapi/drm/i915_drm.h                   | 63 ++++++++++++++-
+ 5 files changed, 157 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
-index 329ff75b80b9..b7d0844de561 100644
---- a/drivers/gpu/drm/i915/i915_gem_gtt.c
-+++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
-@@ -25,6 +25,45 @@
- #include "i915_trace.h"
- #include "i915_vgpu.h"
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+index 36262a6357b5..b70e900e35ab 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+@@ -8,6 +8,7 @@
  
-+/**
-+ * i915_vm_sync() - Wait until address space is not in use
-+ * @vm: address space
-+ *
-+ * Waits until all requests using the address space are complete.
-+ *
-+ * Returns: 0 if success, -ve err code upon failure
-+ */
-+int i915_vm_sync(struct i915_address_space *vm)
-+{
-+	int ret;
-+
-+	/* Wait for all requests under this vm to finish */
-+	ret = dma_resv_wait_timeout(vm->root_obj->base.resv,
-+				    DMA_RESV_USAGE_BOOKKEEP, false,
-+				    MAX_SCHEDULE_TIMEOUT);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret > 0)
-+		return 0;
-+	else
-+		return -ETIMEDOUT;
-+}
-+
-+/**
-+ * i915_vm_is_active() - Check if address space is being used
-+ * @vm: address space
-+ *
-+ * Check if any request using the specified address space is
-+ * active.
-+ *
-+ * Returns: true if address space is active, false otherwise.
-+ */
-+bool i915_vm_is_active(const struct i915_address_space *vm)
-+{
-+	return !dma_resv_test_signaled(vm->root_obj->base.resv,
-+				       DMA_RESV_USAGE_BOOKKEEP);
-+}
-+
- int i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
- 			       struct sg_table *pages)
- {
-diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
-index 8c2f57eb5dda..a5bbdc59d9df 100644
---- a/drivers/gpu/drm/i915/i915_gem_gtt.h
-+++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
-@@ -51,4 +51,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+ #include <linux/types.h>
  
- #define PIN_OFFSET_MASK		I915_GTT_PAGE_MASK
++struct dma_fence;
+ struct drm_device;
+ struct drm_file;
+ struct i915_address_space;
+@@ -23,4 +24,7 @@ int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
  
-+int i915_vm_sync(struct i915_address_space *vm);
-+bool i915_vm_is_active(const struct i915_address_space *vm);
+ void i915_gem_vm_unbind_all(struct i915_address_space *vm);
+ 
++void i915_vm_bind_signal_fence(struct i915_vma *vma,
++			       struct dma_fence * const fence);
 +
- #endif
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 84ed3d1a17a6..175135ce0d31 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -420,6 +420,24 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
- 	return err;
+ #endif /* __I915_GEM_VM_BIND_H */
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+index 958139ed6da3..d5c222aa3902 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+@@ -7,6 +7,8 @@
+ 
+ #include <linux/interval_tree_generic.h>
+ 
++#include <drm/drm_syncobj.h>
++
+ #include "gem/i915_gem_context.h"
+ #include "gem/i915_gem_vm_bind.h"
+ 
+@@ -100,6 +102,75 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+ 		i915_gem_object_put(vma->obj);
  }
  
-+/**
-+ * i915_vma_sync() - Wait for the vma to be idle
-+ * @vma: vma to be tested
-+ *
-+ * Returns 0 on success and error code on failure
-+ */
-+int i915_vma_sync(struct i915_vma *vma)
++static int i915_vm_bind_add_fence(struct drm_file *file, struct i915_vma *vma,
++				  u32 handle, u64 point)
 +{
-+	int ret;
++	struct drm_syncobj *syncobj;
 +
-+	/* Wait for the asynchronous bindings and pending GPU reads */
-+	ret = i915_active_wait(&vma->active);
-+	if (ret || !i915_vma_is_persistent(vma) || i915_vma_is_purged(vma))
-+		return ret;
-+
-+	return i915_vm_sync(vma->vm);
-+}
-+
- #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
- static int i915_vma_verify_bind_complete(struct i915_vma *vma)
- {
-@@ -1888,6 +1906,8 @@ int _i915_vma_move_to_active(struct i915_vma *vma,
- 	int err;
- 
- 	assert_object_held(obj);
-+	if (i915_vma_is_persistent(vma))
-+		return -EINVAL;
- 
- 	GEM_BUG_ON(!vma->pages);
- 
-@@ -2098,6 +2118,14 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
- 		return ERR_PTR(-EBUSY);
- 	}
- 
-+	if (i915_vma_is_persistent(vma) &&
-+	    __i915_sw_fence_await_reservation(&vma->resource->chain,
-+					      vma->vm->root_obj->base.resv,
-+					      DMA_RESV_USAGE_BOOKKEEP,
-+					      i915_fence_timeout(vma->vm->i915),
-+					      GFP_NOWAIT | __GFP_NOWARN) < 0)
-+		return ERR_PTR(-EBUSY);
-+
- 	fence = __i915_vma_evict(vma, true);
- 
- 	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 48731855b5b0..02eaf36a2a4c 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -51,12 +51,6 @@ i915_vma_create_persistent(struct drm_i915_gem_object *obj,
- 
- void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
- #define I915_VMA_RELEASE_MAP BIT(0)
--
--static inline bool i915_vma_is_active(const struct i915_vma *vma)
--{
--	return !i915_active_is_idle(&vma->active);
--}
--
- /* do not reserve memory to prevent deadlocks */
- #define __EXEC_OBJECT_NO_RESERVE BIT(31)
- 
-@@ -162,6 +156,18 @@ static inline void i915_vma_set_purged(struct i915_vma *vma)
- 	set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
- }
- 
-+static inline bool i915_vma_is_active(const struct i915_vma *vma)
-+{
-+	if (i915_vma_is_persistent(vma)) {
-+		if (i915_vma_is_purged(vma))
-+			return false;
-+
-+		return i915_vm_is_active(vma->vm);
++	syncobj = drm_syncobj_find(file, handle);
++	if (!syncobj) {
++		DRM_DEBUG("Invalid syncobj handle provided\n");
++		return -ENOENT;
 +	}
 +
-+	return !i915_active_is_idle(&vma->active);
++	/*
++	 * For timeline syncobjs we need to preallocate chains for
++	 * later signaling.
++	 */
++	if (point) {
++		vma->vm_bind_fence.chain_fence = dma_fence_chain_alloc();
++		if (!vma->vm_bind_fence.chain_fence) {
++			drm_syncobj_put(syncobj);
++			return -ENOMEM;
++		}
++	} else {
++		vma->vm_bind_fence.chain_fence = NULL;
++	}
++	vma->vm_bind_fence.syncobj = syncobj;
++	vma->vm_bind_fence.value = point;
++
++	return 0;
 +}
 +
- static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
++static void i915_vm_bind_put_fence(struct i915_vma *vma)
++{
++	if (!vma->vm_bind_fence.syncobj)
++		return;
++
++	drm_syncobj_put(vma->vm_bind_fence.syncobj);
++	dma_fence_chain_free(vma->vm_bind_fence.chain_fence);
++}
++
++/**
++ * i915_vm_bind_signal_fence() - Add fence to vm_bind syncobj
++ * @vma: vma mapping requiring signaling
++ * @fence: fence to be added
++ *
++ * Associate specified @fence with the @vma's syncobj to be
++ * signaled after the @fence work completes.
++ */
++void i915_vm_bind_signal_fence(struct i915_vma *vma,
++			       struct dma_fence * const fence)
++{
++	struct drm_syncobj *syncobj = vma->vm_bind_fence.syncobj;
++
++	if (!syncobj)
++		return;
++
++	if (vma->vm_bind_fence.chain_fence) {
++		drm_syncobj_add_point(syncobj,
++				      vma->vm_bind_fence.chain_fence,
++				      fence, vma->vm_bind_fence.value);
++		/*
++		 * The chain's ownership is transferred to the
++		 * timeline.
++		 */
++		vma->vm_bind_fence.chain_fence = NULL;
++	} else {
++		drm_syncobj_replace_fence(syncobj, fence);
++	}
++}
++
+ static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
+ 				  struct drm_i915_gem_vm_unbind *va)
  {
- 	i915_gem_object_get(vma->obj);
-@@ -430,12 +436,7 @@ void i915_vma_make_shrinkable(struct i915_vma *vma);
- void i915_vma_make_purgeable(struct i915_vma *vma);
+@@ -227,6 +298,13 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+ 		goto unlock_vm;
+ 	}
  
- int i915_vma_wait_for_bind(struct i915_vma *vma);
--
--static inline int i915_vma_sync(struct i915_vma *vma)
--{
--	/* Wait for the asynchronous bindings and pending GPU reads */
--	return i915_active_wait(&vma->active);
--}
-+int i915_vma_sync(struct i915_vma *vma);
++	if (va->fence.flags & I915_TIMELINE_FENCE_SIGNAL) {
++		ret = i915_vm_bind_add_fence(file, vma, va->fence.handle,
++					     va->fence.value);
++		if (ret)
++			goto put_vma;
++	}
++
+ 	pin_flags = va->start | PIN_OFFSET_FIXED | PIN_USER;
  
- /**
-  * i915_vma_get_current_resource - Get the current resource of the vma
+ 	for_i915_gem_ww(&ww, ret, true) {
+@@ -251,6 +329,9 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+ 		i915_gem_object_get(vma->obj);
+ 	}
+ 
++	if (va->fence.flags & I915_TIMELINE_FENCE_SIGNAL)
++		i915_vm_bind_put_fence(vma);
++put_vma:
+ 	if (ret)
+ 		i915_vma_destroy(vma);
+ unlock_vm:
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 175135ce0d31..e552453e06e3 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -29,6 +29,7 @@
+ #include "display/intel_frontbuffer.h"
+ #include "gem/i915_gem_lmem.h"
+ #include "gem/i915_gem_tiling.h"
++#include "gem/i915_gem_vm_bind.h"
+ #include "gt/intel_engine.h"
+ #include "gt/intel_engine_heartbeat.h"
+ #include "gt/intel_gt.h"
+@@ -1572,8 +1573,12 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ err_vma_res:
+ 	i915_vma_resource_free(vma_res);
+ err_fence:
+-	if (work)
++	if (work) {
++		if (i915_vma_is_persistent(vma))
++			i915_vm_bind_signal_fence(vma, &work->base.dma);
++
+ 		dma_fence_work_commit_imm(&work->base);
++	}
+ err_rpm:
+ 	if (wakeref)
+ 		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
+diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+index 75b8af608ddb..5b0f04bccb0a 100644
+--- a/drivers/gpu/drm/i915/i915_vma_types.h
++++ b/drivers/gpu/drm/i915/i915_vma_types.h
+@@ -311,6 +311,13 @@ struct i915_vma {
+ 	/* @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
+ 	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
+ 
++	/** Timeline fence for vm_bind completion notification */
++	struct {
++		struct dma_fence_chain *chain_fence;
++		struct drm_syncobj *syncobj;
++		u64 value;
++	} vm_bind_fence;
++
+ 	/** Interval tree structures for persistent vma */
+ 
+ 	/** @rb: node for the interval tree of vm for persistent vmas */
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 3eee3071ad60..9f93e4afa1c8 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -1511,6 +1511,41 @@ struct drm_i915_gem_execbuffer2 {
+ #define i915_execbuffer2_get_context_id(eb2) \
+ 	((eb2).rsvd1 & I915_EXEC_CONTEXT_ID_MASK)
+ 
++/**
++ * struct drm_i915_gem_timeline_fence - An input or output timeline fence.
++ *
++ * The operation will wait for input fence to signal.
++ *
++ * The returned output fence will be signaled after the completion of the
++ * operation.
++ */
++struct drm_i915_gem_timeline_fence {
++	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
++	__u32 handle;
++
++	/**
++	 * @flags: Supported flags are:
++	 *
++	 * I915_TIMELINE_FENCE_WAIT:
++	 * Wait for the input fence before the operation.
++	 *
++	 * I915_TIMELINE_FENCE_SIGNAL:
++	 * Return operation completion fence as output.
++	 */
++	__u32 flags;
++#define I915_TIMELINE_FENCE_WAIT            (1 << 0)
++#define I915_TIMELINE_FENCE_SIGNAL          (1 << 1)
++#define __I915_TIMELINE_FENCE_UNKNOWN_FLAGS (-(I915_TIMELINE_FENCE_SIGNAL << 1))
++
++	/**
++	 * @value: A point in the timeline.
++	 * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
++	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
++	 * binary one.
++	 */
++	__u64 value;
++};
++
+ struct drm_i915_gem_pin {
+ 	/** Handle of the buffer to be pinned. */
+ 	__u32 handle;
+@@ -3800,8 +3835,18 @@ struct drm_i915_gem_vm_bind {
+ 	 */
+ 	__u64 flags;
+ 
+-	/** @rsvd: Reserved, MBZ */
+-	__u64 rsvd[2];
++	/**
++	 * @fence: Timeline fence for bind completion signaling.
++	 *
++	 * Timeline fence is of format struct drm_i915_gem_timeline_fence.
++	 *
++	 * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
++	 * is invalid, and an error will be returned.
++	 *
++	 * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
++	 * is not requested and binding is completed synchronously.
++	 */
++	struct drm_i915_gem_timeline_fence fence;
+ 
+ 	/**
+ 	 * @extensions: Zero-terminated chain of extensions.
+@@ -3848,8 +3893,18 @@ struct drm_i915_gem_vm_unbind {
+ 	 */
+ 	__u64 flags;
+ 
+-	/** @rsvd2: Reserved, MBZ */
+-	__u64 rsvd2[2];
++	/**
++	 * @fence: Timeline fence for unbind completion signaling.
++	 *
++	 * Timeline fence is of format struct drm_i915_gem_timeline_fence.
++	 *
++	 * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
++	 * is invalid, and an error will be returned.
++	 *
++	 * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
++	 * is not requested and unbinding is completed synchronously.
++	 */
++	struct drm_i915_gem_timeline_fence fence;
+ 
+ 	/**
+ 	 * @extensions: Zero-terminated chain of extensions.
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
