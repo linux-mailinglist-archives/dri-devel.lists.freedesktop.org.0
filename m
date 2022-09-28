@@ -1,68 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536535EE31B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 19:28:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 024D55EE31E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Sep 2022 19:28:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A250D10E4FD;
-	Wed, 28 Sep 2022 17:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 694C310E507;
+	Wed, 28 Sep 2022 17:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820BA10E4FD
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 17:27:56 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id b2so5711467eja.6
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 10:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=LoaCqW3jpS8TGypc4TVU/1rL8RVEj1gIc68KQRqm5M8=;
- b=WQi3vRXWrLpV5LLIyL3HI0/XBIdEZDVlgeISWfa1H4KEcZU4m8LKG2wFPBnmJVmXAV
- K2l0fhZq62LVNM3PRD0ZCTfA+8x6l4JygClEFkfTEu1sAeiSCN5h41vFkRLYVsllV3py
- v9XQ/Zh7sZyFWHTbsMepsHHm4RyBiHiXn2BwE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=LoaCqW3jpS8TGypc4TVU/1rL8RVEj1gIc68KQRqm5M8=;
- b=zEVoNX4qyMxvBtae84TA/A8EsrLceUnZdq4e4yg33/fcXmuS14IVlO97wi44nE0Fqh
- eJCCJMppukK5izSlkDHdLVwcllXga0FIkTRYoKZAZFKj9yhPDNWeXHEaRmvx7ftr9qdD
- rbZ0gqTZo4ze5UE0qGXMV9A0G+OUx/OL0r0ZHVnRpTFBJqf9qyvC4pejQ5sBn6celUK4
- y1oQaNVR7A+4jrPM96MPXXtmn4NleuNHO32cQwyP1RGzN2uf9fPBKJnXn+wjSnxxnV7a
- ljZmQiuH4rg2kHmKYWJZhi0KlkBNyZKycyLlBHh95nZn8ErbE2tqe8S2Ctkax0uSeqPA
- D3gg==
-X-Gm-Message-State: ACrzQf2T/c7okkm9IjT7nqfR9nWuafRHowJSFZksAYVIz/dWC35KesfZ
- /e4peoJlrnjxXyw6DxHywAufZ83cSq8sP3ry
-X-Google-Smtp-Source: AMsMyM4JAZhfoOLsEFac4tTEbEuODVXM6dp2v0Yr7qFnuYn6R87+vQAwDxRMZM3MPUIRF+/OyhqXhw==
-X-Received: by 2002:a17:906:cc58:b0:76f:c119:acb5 with SMTP id
- mm24-20020a170906cc5800b0076fc119acb5mr27754860ejb.651.1664386074817; 
- Wed, 28 Sep 2022 10:27:54 -0700 (PDT)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
- [209.85.128.44]) by smtp.gmail.com with ESMTPSA id
- n1-20020a170906164100b007824c5fe95esm2700842ejd.50.2022.09.28.10.27.53
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 10:27:53 -0700 (PDT)
-Received: by mail-wm1-f44.google.com with SMTP id
- e10-20020a05600c4e4a00b003b4eff4ab2cso1715125wmq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 10:27:53 -0700 (PDT)
-X-Received: by 2002:a05:600c:510e:b0:3b4:fed8:e65c with SMTP id
- o14-20020a05600c510e00b003b4fed8e65cmr7575844wms.93.1664386073218; Wed, 28
- Sep 2022 10:27:53 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2FC810E500;
+ Wed, 28 Sep 2022 17:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664386103; x=1695922103;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8eVw9C5sPYEUOLA7l5QFddja9Pb2L/c4WImdAJ/ZVPk=;
+ b=g6KYeMVh7GCRxcy5ymxEOzVzLs1jtKu4tyluBR6Fn+6VFa9HcU6VUY3o
+ 9Jbs8H7wlZ+QBJ540T/FDPDY42Jo2gA5ELupSRKvC+L3nz3EztOc0qSjb
+ EpS+/P4vJ2u721FfAvlRUmxQNV4bha5j1j4oQcX653eQdgS8kNoFum+em
+ 5FH7Z3P9TRp1lD2uyYKL7uh/Rm8j4Xi3HzzpRbq3ci9gpxU4h9PeyWim8
+ AwX30aIET3z6aqyKWexKOclDphv6d9b+xj9I4z9w8KGPl+nipfx9Czjp2
+ R+oRbosrXq2dAipn1z/BuwMQuEq5Q9wsZHooWKhScjJ9BpYf83ibdM/S9 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="281382339"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="281382339"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 10:28:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="617290467"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; d="scan'208";a="617290467"
+Received: from ekarpovi-mobl1.ger.corp.intel.com (HELO [10.252.6.131])
+ ([10.252.6.131])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 10:28:18 -0700
+Message-ID: <917ff992-5f6c-c9de-2d3a-d0bde2e49516@intel.com>
+Date: Wed, 28 Sep 2022 18:28:15 +0100
 MIME-Version: 1.0
-References: <20220927063524.493591-1-sean.hong@quanta.corp-partner.google.com>
- <CAD=FV=WQXOTJu-YUWyBjdoq4wPrwQYoo68FCJBF7EJfdf+9SrA@mail.gmail.com>
- <CAP19T+6SWu_siXom4EANarqSRGif7qnkUPwhfKgjASnFnYG+cQ@mail.gmail.com>
-In-Reply-To: <CAP19T+6SWu_siXom4EANarqSRGif7qnkUPwhfKgjASnFnYG+cQ@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 28 Sep 2022 10:27:41 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XRX5AuRcw9=0jw+9WnPfeXtYnPEu+iYgqQxXcJh4LvTg@mail.gmail.com>
-Message-ID: <CAD=FV=XRX5AuRcw9=0jw+9WnPfeXtYnPEu+iYgqQxXcJh4LvTg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add BOE NT116WHM-N4C (HW: V8.1)
-To: Sean Hong <sean.hong@quanta.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.0
+Subject: Re: [PATCH 01/16] drm/i915/vm_bind: Expose vm lookup function
+Content-Language: en-GB
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
+ <20220928061918.6340-2-niranjana.vishwanathapura@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220928061918.6340-2-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,52 +62,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
+> Make i915_gem_vm_lookup() function non-static as it will be
+> used by the vm_bind feature.
+> 
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-On Tue, Sep 27, 2022 at 11:51 PM Sean Hong
-<sean.hong@quanta.corp-partner.google.com> wrote:
->
-> On Tue, Sep 27, 2022 at 11:27 PM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Hi,
-> >
-> > On Mon, Sep 26, 2022 at 11:35 PM Sean Hong
-> > <sean.hong@quanta.corp-partner.google.com> wrote:
-> > >
-> > > Add support for the BOE - NT116WHM-N4C (HW: V8.1) panel.
-> > >
-> > > Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
-> > > ---
-> > >  drivers/gpu/drm/panel/panel-edp.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> >
-> > Wow, another panel?!?
-> >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > Pushed to drm-misc:
-> >
-> > 2f24fe8c54cc drm/panel-edp: Add BOE NT116WHM-N4C (HW: V8.1)
->
-> Hi Anderson,
->
-> I found some mistakes on this commit. I typed the wrong model name on
-> title and content.
-> The correct model name is NV116WHM-N4C and the code is correct.
->
-> How can I fix it? Do I need to revert this commit and then submit a
-> new patch upstream?
+Acked-by: Matthew Auld <matthew.auld@intel.com>
 
-There's not much to be done at this point in time. Reverting /
-readding the same code with a slightly different commit message
-wouldn't be worth it. The code is correct and that's the important
-thing. The commit has a link to the mailing list post so anyone who's
-confused will hopefully click the link and can find this discussion.
-
--Doug
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c | 11 ++++++++++-
+>   drivers/gpu/drm/i915/gem/i915_gem_context.h |  3 +++
+>   2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 0bcde53c50c6..f4e648ec01ed 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -346,7 +346,16 @@ static int proto_context_register(struct drm_i915_file_private *fpriv,
+>   	return ret;
+>   }
+>   
+> -static struct i915_address_space *
+> +/**
+> + * i915_gem_vm_lookup() - looks up for the VM reference given the vm id
+> + * @file_priv: the private data associated with the user's file
+> + * @id: the VM id
+> + *
+> + * Finds the VM reference associated to a specific id.
+> + *
+> + * Returns the VM pointer on success, NULL in case of failure.
+> + */
+> +struct i915_address_space *
+>   i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
+>   {
+>   	struct i915_address_space *vm;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> index e5b0f66ea1fe..899fa8f1e0fe 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> @@ -139,6 +139,9 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
+>   int i915_gem_context_reset_stats_ioctl(struct drm_device *dev, void *data,
+>   				       struct drm_file *file);
+>   
+> +struct i915_address_space *
+> +i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id);
+> +
+>   struct i915_gem_context *
+>   i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id);
+>   
