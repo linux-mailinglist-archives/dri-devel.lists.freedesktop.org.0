@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10D95EEE84
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 09:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41255EEF4F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 09:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E0910E905;
-	Thu, 29 Sep 2022 07:09:48 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C663810E905;
- Thu, 29 Sep 2022 07:09:43 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id cj27so276619qtb.7;
- Thu, 29 Sep 2022 00:09:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=+onjZYpK5e42V87Cg6u2hPN7v8i5Lvm6t/wPM+ZKj08=;
- b=QkVGO0K1xyGgouWFVhU7yk3G0FY+pzeEKffFzUWx2p2KQiFoFy6FRnUK3+iidSYj5v
- RMaOCU3kH4AYaKmSSLDFwrwLSpSyK7sHN070kh4mlooQ/X+wIOPth1DKH4kAVr6g2vK9
- 3dNZF5rauMeLtckV8w5GaMtrhbti8I6/h9hoMxSqemWdaCArUOHSTCoh1yrqWT9VGLh0
- zSuH/9182vdqGi3snBSF5sI4YncIADpZVtX4kacEn3jNjkjq2sOcHC51MWr0UueS+88w
- 7MCvdHy9g5pi98cs+jbxve5q9YnBSnKCB8Wrt0Dqz7mzfBN1xEc8+gyVlJHLH5tG2TDs
- PEGA==
-X-Gm-Message-State: ACrzQf0c8UiXdXwCSgegFCMjdMl5feioNLaTuveRBXSQlyD0j8+m59/e
- Nr0cMlgDcBpepDePrh8VDA09s4cETiyLJw==
-X-Google-Smtp-Source: AMsMyM4BxC9yAVmh/YS8a7QJPkmhb+5ti47jDPAqUwMSsJepwhzzwAAXyZx2IEmClDb5voUHHxMANg==
-X-Received: by 2002:a05:622a:2d3:b0:35d:4af6:8de7 with SMTP id
- a19-20020a05622a02d300b0035d4af68de7mr1216200qtx.448.1664435382482; 
- Thu, 29 Sep 2022 00:09:42 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
- [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
- de21-20020a05620a371500b006bb87c4833asm5293960qkb.109.2022.09.29.00.09.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Sep 2022 00:09:42 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-324ec5a9e97so5629087b3.7; 
- Thu, 29 Sep 2022 00:09:41 -0700 (PDT)
-X-Received: by 2002:a81:9c49:0:b0:34a:de:97b8 with SMTP id
- n9-20020a819c49000000b0034a00de97b8mr1733022ywa.384.1664435381696; 
- Thu, 29 Sep 2022 00:09:41 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCC310E2D4;
+	Thu, 29 Sep 2022 07:40:07 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7C310E26C;
+ Thu, 29 Sep 2022 07:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664437201; x=1695973201;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8pLqY/gJqOZo1y0v8V+lrI6DDgwgPo/6DjT5z7J3yT8=;
+ b=eP2gijOX2U+Fkk+y4XqtmpF2/7cX7uJ3DZ9byHYa5inkY/YVZqzaIhjS
+ 2vbS5wTy2b2AVv+1HMveoFuPcAtSxshfX4MnH9252m3okB0LCIYNO5Qfc
+ 3eYRTvMlGrhRVPcAH8Sj3lQ2lOJMRKHefoemo4z1lEDxvV3PyKAYyfOXN
+ wC0/hTeZJeqpA+KNdWYuzzwjQDYRJwp1+Cfr9Uk91VVLMFsdzkvvTsWNg
+ rysLsxOnxvVjRerHhnF5JCyFXbORNqFPb7EcfFVYoiscX48zHhkBQhZfh
+ 8WvNLCSP4WRgKhzkWMBWWFy5hg1tjN/7nIPG1NLEKBprD3g3indVJru+E Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="365867631"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="365867631"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 00:40:00 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="711280985"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="711280985"
+Received: from abown-mobl.ger.corp.intel.com (HELO [10.213.226.16])
+ ([10.213.226.16])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 00:39:59 -0700
+Message-ID: <a4f03a23-7675-6b9f-437c-3d85c271094a@linux.intel.com>
+Date: Thu, 29 Sep 2022 08:39:55 +0100
 MIME-Version: 1.0
-References: <20220928192605.247546-1-broonie@kernel.org>
- <68689c5b-327f-65df-0d34-a7e1a851f568@infradead.org>
-In-Reply-To: <68689c5b-327f-65df-0d34-a7e1a851f568@infradead.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 29 Sep 2022 09:09:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWrQabb_LoCPfbdWo9D11+4kxSjQeBStpjvckvuXuBMNQ@mail.gmail.com>
-Message-ID: <CAMuHMdWrQabb_LoCPfbdWo9D11+4kxSjQeBStpjvckvuXuBMNQ@mail.gmail.com>
-Subject: Re: linux-next: Tree for Sep 28
- (drivers/gpu/drm/msm/msm_gem_shrinker.c)
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [Intel-gfx] [PATCH v4 1/4] drm/i915/guc: Limit scheduling
+ properties to avoid overflow
+Content-Language: en-US
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
+ <20220929021813.2172701-2-John.C.Harrison@Intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220929021813.2172701-2-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +63,298 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- broonie@kernel.org, Linux Next Mailing List <linux-next@vger.kernel.org>,
- freedreno@lists.freedesktop.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 29, 2022 at 8:10 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 9/28/22 12:26, broonie@kernel.org wrote:
-> > Changes since 20220927:
-> >
->
-> on x86_64:
->
-> ../drivers/gpu/drm/msm/msm_gem_shrinker.c: In function =E2=80=98can_block=
-=E2=80=99:
-> ../drivers/gpu/drm/msm/msm_gem_shrinker.c:29:28: error: =E2=80=98__GFP_AT=
-OMIC=E2=80=99 undeclared (first use in this function); did you mean =E2=80=
-=98GFP_ATOMIC=E2=80=99?
->    29 |         if (sc->gfp_mask & __GFP_ATOMIC)
->       |                            ^~~~~~~~~~~~
->       |                            GFP_ATOMIC
 
-Also on m68k, as reported by noreply@ellerman.id.au
+On 29/09/2022 03:18, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> GuC converts the pre-emption timeout and timeslice quantum values into
+> clock ticks internally. That significantly reduces the point of 32bit
+> overflow. On current platforms, worst case scenario is approximately
+> 110 seconds. Rather than allowing the user to set higher values and
+> then get confused by early timeouts, add limits when setting these
+> values.
+> 
+> v2: Add helper functions for clamping (review feedback from Tvrtko).
+> v3: Add a bunch of BUG_ON range checks in addition to the checks
+> already in the clamping functions (Tvrtko)
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com> (v1)
 
-I have bisected it to commit 1ccea29f90329e35 ("Merge branch
-'mm-everything' of
-git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm"), but I didn't
-see immediately what caused it.
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Gr{oetje,eeting}s,
+Regards,
 
-                        Geert
+Tvrtko
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine.h        |  6 ++
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 69 +++++++++++++++++++
+>   drivers/gpu/drm/i915/gt/sysfs_engines.c       | 25 ++++---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   | 21 ++++++
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  8 +++
+>   5 files changed, 119 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+> index 04e435bce79bd..cbc8b857d5f7a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> @@ -348,4 +348,10 @@ intel_engine_get_hung_context(struct intel_engine_cs *engine)
+>   	return engine->hung_ce;
+>   }
+>   
+> +u64 intel_clamp_heartbeat_interval_ms(struct intel_engine_cs *engine, u64 value);
+> +u64 intel_clamp_max_busywait_duration_ns(struct intel_engine_cs *engine, u64 value);
+> +u64 intel_clamp_preempt_timeout_ms(struct intel_engine_cs *engine, u64 value);
+> +u64 intel_clamp_stop_timeout_ms(struct intel_engine_cs *engine, u64 value);
+> +u64 intel_clamp_timeslice_duration_ms(struct intel_engine_cs *engine, u64 value);
+> +
+>   #endif /* _INTEL_RINGBUFFER_H_ */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 2ddcad497fa30..8f16955f0821e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -512,6 +512,26 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+>   		engine->flags |= I915_ENGINE_HAS_EU_PRIORITY;
+>   	}
+>   
+> +	/* Cap properties according to any system limits */
+> +#define CLAMP_PROP(field) \
+> +	do { \
+> +		u64 clamp = intel_clamp_##field(engine, engine->props.field); \
+> +		if (clamp != engine->props.field) { \
+> +			drm_notice(&engine->i915->drm, \
+> +				   "Warning, clamping %s to %lld to prevent overflow\n", \
+> +				   #field, clamp); \
+> +			engine->props.field = clamp; \
+> +		} \
+> +	} while (0)
+> +
+> +	CLAMP_PROP(heartbeat_interval_ms);
+> +	CLAMP_PROP(max_busywait_duration_ns);
+> +	CLAMP_PROP(preempt_timeout_ms);
+> +	CLAMP_PROP(stop_timeout_ms);
+> +	CLAMP_PROP(timeslice_duration_ms);
+> +
+> +#undef CLAMP_PROP
+> +
+>   	engine->defaults = engine->props; /* never to change again */
+>   
+>   	engine->context_size = intel_engine_context_size(gt, engine->class);
+> @@ -534,6 +554,55 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+>   	return 0;
+>   }
+>   
+> +u64 intel_clamp_heartbeat_interval_ms(struct intel_engine_cs *engine, u64 value)
+> +{
+> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
+> +
+> +	return value;
+> +}
+> +
+> +u64 intel_clamp_max_busywait_duration_ns(struct intel_engine_cs *engine, u64 value)
+> +{
+> +	value = min(value, jiffies_to_nsecs(2));
+> +
+> +	return value;
+> +}
+> +
+> +u64 intel_clamp_preempt_timeout_ms(struct intel_engine_cs *engine, u64 value)
+> +{
+> +	/*
+> +	 * NB: The GuC API only supports 32bit values. However, the limit is further
+> +	 * reduced due to internal calculations which would otherwise overflow.
+> +	 */
+> +	if (intel_guc_submission_is_wanted(&engine->gt->uc.guc))
+> +		value = min_t(u64, value, guc_policy_max_preempt_timeout_ms());
+> +
+> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
+> +
+> +	return value;
+> +}
+> +
+> +u64 intel_clamp_stop_timeout_ms(struct intel_engine_cs *engine, u64 value)
+> +{
+> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
+> +
+> +	return value;
+> +}
+> +
+> +u64 intel_clamp_timeslice_duration_ms(struct intel_engine_cs *engine, u64 value)
+> +{
+> +	/*
+> +	 * NB: The GuC API only supports 32bit values. However, the limit is further
+> +	 * reduced due to internal calculations which would otherwise overflow.
+> +	 */
+> +	if (intel_guc_submission_is_wanted(&engine->gt->uc.guc))
+> +		value = min_t(u64, value, guc_policy_max_exec_quantum_ms());
+> +
+> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
+> +
+> +	return value;
+> +}
+> +
+>   static void __setup_engine_capabilities(struct intel_engine_cs *engine)
+>   {
+>   	struct drm_i915_private *i915 = engine->i915;
+> diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+> index 9670310562029..f2d9858d827c2 100644
+> --- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
+> +++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+> @@ -144,7 +144,7 @@ max_spin_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   	       const char *buf, size_t count)
+>   {
+>   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
+> -	unsigned long long duration;
+> +	unsigned long long duration, clamped;
+>   	int err;
+>   
+>   	/*
+> @@ -168,7 +168,8 @@ max_spin_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   	if (err)
+>   		return err;
+>   
+> -	if (duration > jiffies_to_nsecs(2))
+> +	clamped = intel_clamp_max_busywait_duration_ns(engine, duration);
+> +	if (duration != clamped)
+>   		return -EINVAL;
+>   
+>   	WRITE_ONCE(engine->props.max_busywait_duration_ns, duration);
+> @@ -203,7 +204,7 @@ timeslice_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   		const char *buf, size_t count)
+>   {
+>   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
+> -	unsigned long long duration;
+> +	unsigned long long duration, clamped;
+>   	int err;
+>   
+>   	/*
+> @@ -218,7 +219,8 @@ timeslice_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   	if (err)
+>   		return err;
+>   
+> -	if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+> +	clamped = intel_clamp_timeslice_duration_ms(engine, duration);
+> +	if (duration != clamped)
+>   		return -EINVAL;
+>   
+>   	WRITE_ONCE(engine->props.timeslice_duration_ms, duration);
+> @@ -256,7 +258,7 @@ stop_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   	   const char *buf, size_t count)
+>   {
+>   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
+> -	unsigned long long duration;
+> +	unsigned long long duration, clamped;
+>   	int err;
+>   
+>   	/*
+> @@ -272,7 +274,8 @@ stop_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   	if (err)
+>   		return err;
+>   
+> -	if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+> +	clamped = intel_clamp_stop_timeout_ms(engine, duration);
+> +	if (duration != clamped)
+>   		return -EINVAL;
+>   
+>   	WRITE_ONCE(engine->props.stop_timeout_ms, duration);
+> @@ -306,7 +309,7 @@ preempt_timeout_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   		      const char *buf, size_t count)
+>   {
+>   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
+> -	unsigned long long timeout;
+> +	unsigned long long timeout, clamped;
+>   	int err;
+>   
+>   	/*
+> @@ -322,7 +325,8 @@ preempt_timeout_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   	if (err)
+>   		return err;
+>   
+> -	if (timeout > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+> +	clamped = intel_clamp_preempt_timeout_ms(engine, timeout);
+> +	if (timeout != clamped)
+>   		return -EINVAL;
+>   
+>   	WRITE_ONCE(engine->props.preempt_timeout_ms, timeout);
+> @@ -362,7 +366,7 @@ heartbeat_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   		const char *buf, size_t count)
+>   {
+>   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
+> -	unsigned long long delay;
+> +	unsigned long long delay, clamped;
+>   	int err;
+>   
+>   	/*
+> @@ -379,7 +383,8 @@ heartbeat_store(struct kobject *kobj, struct kobj_attribute *attr,
+>   	if (err)
+>   		return err;
+>   
+> -	if (delay >= jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+> +	clamped = intel_clamp_heartbeat_interval_ms(engine, delay);
+> +	if (delay != clamped)
+>   		return -EINVAL;
+>   
+>   	err = intel_engine_set_heartbeat(engine, delay);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> index e7a7fb450f442..968ebd79dce70 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> @@ -327,6 +327,27 @@ struct guc_update_scheduling_policy {
+>   
+>   #define GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US 500000
+>   
+> +/*
+> + * GuC converts the timeout to clock ticks internally. Different platforms have
+> + * different GuC clocks. Thus, the maximum value before overflow is platform
+> + * dependent. Current worst case scenario is about 110s. So, the spec says to
+> + * limit to 100s to be safe.
+> + */
+> +#define GUC_POLICY_MAX_EXEC_QUANTUM_US		(100 * 1000 * 1000UL)
+> +#define GUC_POLICY_MAX_PREEMPT_TIMEOUT_US	(100 * 1000 * 1000UL)
+> +
+> +static inline u32 guc_policy_max_exec_quantum_ms(void)
+> +{
+> +	BUILD_BUG_ON(GUC_POLICY_MAX_EXEC_QUANTUM_US >= UINT_MAX);
+> +	return GUC_POLICY_MAX_EXEC_QUANTUM_US / 1000;
+> +}
+> +
+> +static inline u32 guc_policy_max_preempt_timeout_ms(void)
+> +{
+> +	BUILD_BUG_ON(GUC_POLICY_MAX_PREEMPT_TIMEOUT_US >= UINT_MAX);
+> +	return GUC_POLICY_MAX_PREEMPT_TIMEOUT_US / 1000;
+> +}
+> +
+>   struct guc_policies {
+>   	u32 submission_queue_depth[GUC_MAX_ENGINE_CLASSES];
+>   	/* In micro seconds. How much time to allow before DPC processing is
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 0ef295a94060c..039c187ce570d 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -2430,6 +2430,10 @@ static int guc_context_policy_init_v70(struct intel_context *ce, bool loop)
+>   	int ret;
+>   
+>   	/* NB: For both of these, zero means disabled. */
+> +	GEM_BUG_ON(overflows_type(engine->props.timeslice_duration_ms * 1000,
+> +				  execution_quantum));
+> +	GEM_BUG_ON(overflows_type(engine->props.preempt_timeout_ms * 1000,
+> +				  preemption_timeout));
+>   	execution_quantum = engine->props.timeslice_duration_ms * 1000;
+>   	preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+>   
+> @@ -2463,6 +2467,10 @@ static void guc_context_policy_init_v69(struct intel_engine_cs *engine,
+>   		desc->policy_flags |= CONTEXT_POLICY_FLAG_PREEMPT_TO_IDLE_V69;
+>   
+>   	/* NB: For both of these, zero means disabled. */
+> +	GEM_BUG_ON(overflows_type(engine->props.timeslice_duration_ms * 1000,
+> +				  desc->execution_quantum));
+> +	GEM_BUG_ON(overflows_type(engine->props.preempt_timeout_ms * 1000,
+> +				  desc->preemption_timeout));
+>   	desc->execution_quantum = engine->props.timeslice_duration_ms * 1000;
+>   	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+>   }
