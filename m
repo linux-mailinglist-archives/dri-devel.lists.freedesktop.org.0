@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737975EF84F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 17:05:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF5B5EF8AE
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 17:28:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDC5B10EAAE;
-	Thu, 29 Sep 2022 15:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBC7810E3AE;
+	Thu, 29 Sep 2022 15:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBA810EAAE
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 15:05:17 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id s14so1889507ybe.7
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 08:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=b9uxRyoaMis4M/Del53oQhe/OKhSA38Po18Or6YilLY=;
- b=j/p76Gbz/6p+klZe5CzqnqgPqzGWALW2g91DrPRqYNms6dk5oGuWDhJHL1Tvx+U25E
- nv9/Y0D9beecD9wyAD08rbImhYmv8NXz9nzQnidMa8IRhaLbrWuagphyW2wJHaXf6e3y
- ORntlHyPdupf80tWY1phTwvXu6h2ci8lJbuNw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=b9uxRyoaMis4M/Del53oQhe/OKhSA38Po18Or6YilLY=;
- b=5YaNZT6qclNzy9MiASoPDXxq1Ox0OWHv0QE2Z8Y4yOESwLEQWUKRpZST05SYPWl+id
- fMOPwE9r60piKiCdUtal1QUq43efBx+xkaoo4nMgugbWdCSWizGTWFnUmSOgU4c9h2s5
- TVpgfsevXG9A3PcerF8ACTlyYrVU2ivO6hCk0h3PO/ZdYj0R0Z7VY7sOdatiQ+eufqd5
- qPYVHRd9NehL+kMWNfwWWe5od56qr4xtleYYQWwMJJGmgpFCBC6fsrKdCWEZUar1D35M
- JCyga9YIqxqu/nXwiCfrIfSyVsUGad4925y2iyhaUXhr9PPiv260rRqSF8Hcry/qRqmS
- 2OZg==
-X-Gm-Message-State: ACrzQf1VgHON40h7gcL5nlw9dooy5QXXFi8zr5iqDdUw69gPma0xvE/r
- JwMuHZ2Y1ndarCYvSJ7CgU+5IhY35rmvmkPfRBcl9A==
-X-Google-Smtp-Source: AMsMyM6mVFtECpxKgra3ZkQaG9b6seBNybgK+xW2wUNsy82MrfUpk07hV4+qwXFgEt9Ky8+H6uTmtZZfdLoFajaRwaU=
-X-Received: by 2002:a05:6902:284:b0:67b:fc57:9104 with SMTP id
- v4-20020a056902028400b0067bfc579104mr3718530ybh.647.1664463915933; Thu, 29
- Sep 2022 08:05:15 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4567A10EAAD
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 15:28:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7F64921989;
+ Thu, 29 Sep 2022 15:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1664465278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ppyLK3q1pJ8pi3yII1UQVh/h85LAbNlHSbcOnaSIw1o=;
+ b=QF5cd3xAf3OnKPYw6+iMxtavifBzHi256wU5CUCa9zN2X4n9y3VL2CQIMlQO/aWEGoNmew
+ 9gOxiQNG1kG0myfMEI55k9S0rls73IRB/wy0+JEL73SGq6xqNQfxyX7+FUjBSZgUuyWt5k
+ dxdmDrzc/LRPAVm5AxiztYOts8JsY4A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1664465278;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ppyLK3q1pJ8pi3yII1UQVh/h85LAbNlHSbcOnaSIw1o=;
+ b=zCVVSSpgY6h435N8ILuA/QLJ6mCgdqAloVh3ADkmvL9VuuLyHtyhvciFAeUp1rD1faO7Y8
+ 8Zde75UfdKrGN0Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 625C31348E;
+ Thu, 29 Sep 2022 15:27:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id eZNtFn65NWNRXQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 29 Sep 2022 15:27:58 +0000
+Message-ID: <a00b65b4-5315-4262-3ed3-d580d3f6df7a@suse.de>
+Date: Thu, 29 Sep 2022 17:27:57 +0200
 MIME-Version: 1.0
-References: <20220928192605.247546-1-broonie@kernel.org>
- <68689c5b-327f-65df-0d34-a7e1a851f568@infradead.org>
- <CAMuHMdWrQabb_LoCPfbdWo9D11+4kxSjQeBStpjvckvuXuBMNQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWrQabb_LoCPfbdWo9D11+4kxSjQeBStpjvckvuXuBMNQ@mail.gmail.com>
-From: Rob Clark <robdclark@chromium.org>
-Date: Thu, 29 Sep 2022 08:05:04 -0700
-Message-ID: <CAJs_Fx4NzHVRvN6xd-unrpmv=Nc_PXYbHvYujhz7UZ=YRkRZ7A@mail.gmail.com>
-Subject: Re: linux-next: Tree for Sep 28
- (drivers/gpu/drm/msm/msm_gem_shrinker.c)
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] drm/ast: Add Atomic gamma lut support for aspeed
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
+References: <20220929132050.591283-1-jfalempe@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220929132050.591283-1-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------sHhm7FSjFuKwoE400DO6xDjD"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +70,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- broonie@kernel.org, Linux Next Mailing List <linux-next@vger.kernel.org>,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 29, 2022 at 12:09 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> On Thu, Sep 29, 2022 at 8:10 AM Randy Dunlap <rdunlap@infradead.org> wrot=
-e:
-> > On 9/28/22 12:26, broonie@kernel.org wrote:
-> > > Changes since 20220927:
-> > >
-> >
-> > on x86_64:
-> >
-> > ../drivers/gpu/drm/msm/msm_gem_shrinker.c: In function =E2=80=98can_blo=
-ck=E2=80=99:
-> > ../drivers/gpu/drm/msm/msm_gem_shrinker.c:29:28: error: =E2=80=98__GFP_=
-ATOMIC=E2=80=99 undeclared (first use in this function); did you mean =E2=
-=80=98GFP_ATOMIC=E2=80=99?
-> >    29 |         if (sc->gfp_mask & __GFP_ATOMIC)
-> >       |                            ^~~~~~~~~~~~
-> >       |                            GFP_ATOMIC
->
-> Also on m68k, as reported by noreply@ellerman.id.au
->
-> I have bisected it to commit 1ccea29f90329e35 ("Merge branch
-> 'mm-everything' of
-> git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm"), but I didn't
-> see immediately what caused it.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------sHhm7FSjFuKwoE400DO6xDjD
+Content-Type: multipart/mixed; boundary="------------IZMa0zrwbqFnhOeakYnoyfSz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
+Message-ID: <a00b65b4-5315-4262-3ed3-d580d3f6df7a@suse.de>
+Subject: Re: [PATCH v2] drm/ast: Add Atomic gamma lut support for aspeed
+References: <20220929132050.591283-1-jfalempe@redhat.com>
+In-Reply-To: <20220929132050.591283-1-jfalempe@redhat.com>
 
-I'll send a patch for this shortly
+--------------IZMa0zrwbqFnhOeakYnoyfSz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-BR,
--R
+SGkNCg0KQW0gMjkuMDkuMjIgdW0gMTU6MjAgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IFRoZSBjdXJyZW50IGFzdCBkcml2ZXIgb25seSBzdXBwb3J0cyBsZWdhY3kgZ2FtbWEgaW50
+ZXJmYWNlLg0KPiBUaGlzIGFsc28gZml4ZXMgYSBHbm9tZTMvV2F5bGFuZCBlcnJvciB3aGlj
+aCBpbmNvcnJlY3RseSBhZGRzDQo+IGdhbW1hIHRvIGF0b21pYyBjb21taXQ6DQo+ICJQYWdl
+IGZsaXAgZGlzY2FyZGVkOiBDUlRDIHByb3BlcnR5IChHQU1NQV9MVVQpIG5vdCBmb3VuZCIN
+Cj4gDQo+IEkgb25seSB0ZXN0ZWQgcmVtb3RlbHksIHNvIEkgd2Fzbid0IGFibGUgdG8gY2hl
+Y2sgdGhhdCBpdCBoYWQNCj4gYW4gZWZmZWN0IG9uIHRoZSBWR0Egb3V0cHV0LiBCdXQgd2hl
+biBhY3RpdmF0aW5nICJOaWdodCBMaWdodCINCj4gaW4gR25vbWUsIGFzdF9jcnRjX2xvYWRf
+bHV0KCkgaXMgY2FsbGVkLg0KPiANCj4gdjI6IHVzZSB0aGUgc2FtZSBmdW5jdGlvbnMgYXMg
+bWdhZzIwMC4NCj4gICAgICBoYW5kbGUgMTZiaXRzIGNvbG9yIG1vZGUuDQo+IA0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBKb2NlbHluIEZhbGVtcGUgPGpmYWxlbXBlQHJlZGhhdC5jb20+DQoNClRo
+YXQgd29ya3Mgd2VsbCBvbiBteSBBU1QyMzAwIHRlc3Qgc3lzdGVtLiBUaGUgb25lIHRoaW5n
+IG1pc3NpbmcgaXMgdGhlIA0KQ1JUQydzIGF0b21pY19jaGVjayBjb2RlLiBTZWUNCg0KIA0K
+aHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLXRpcC90cmVlL2RyaXZlcnMv
+Z3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jI241OTcNCg0KZm9yIHdoYXQgdG8gZG8u
+IFdpdGggdGhpcyB0ZXN0IGltcGxlbWVudGVkLCB5b3UgY2FuIGFkZA0KDQpUZXN0ZWQtYnk6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KUmV2aWV3ZWQtYnk6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQp0byB0aGUgcGF0
+Y2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL2FzdC9hc3RfbW9kZS5jIHwgOTQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
+LS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA3NyBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlv
+bnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2Rl
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4gaW5kZXggMjE0YjEwMTc4
+NDU0Li4wNmVhMTNjM2E5YjQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3Qv
+YXN0X21vZGUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4g
+QEAgLTQ5LDYgKzQ5LDggQEANCj4gICAjaW5jbHVkZSAiYXN0X2Rydi5oIg0KPiAgICNpbmNs
+dWRlICJhc3RfdGFibGVzLmgiDQo+ICAgDQo+ICsjZGVmaW5lIEFTVF9MVVRfU0laRSAyNTYN
+Cj4gKw0KPiAgIHN0YXRpYyBpbmxpbmUgdm9pZCBhc3RfbG9hZF9wYWxldHRlX2luZGV4KHN0
+cnVjdCBhc3RfcHJpdmF0ZSAqYXN0LA0KPiAgIAkJCQkgICAgIHU4IGluZGV4LCB1OCByZWQs
+IHU4IGdyZWVuLA0KPiAgIAkJCQkgICAgIHU4IGJsdWUpDQo+IEBAIC02MywyMCArNjUsNzEg
+QEAgc3RhdGljIGlubGluZSB2b2lkIGFzdF9sb2FkX3BhbGV0dGVfaW5kZXgoc3RydWN0IGFz
+dF9wcml2YXRlICphc3QsDQo+ICAgCWFzdF9pb19yZWFkOChhc3QsIEFTVF9JT19TRVFfUE9S
+VCk7DQo+ICAgfQ0KPiAgIA0KPiAtc3RhdGljIHZvaWQgYXN0X2NydGNfbG9hZF9sdXQoc3Ry
+dWN0IGFzdF9wcml2YXRlICphc3QsIHN0cnVjdCBkcm1fY3J0YyAqY3J0YykNCj4gK3N0YXRp
+YyB2b2lkIGFzdF9jcnRjX3NldF9nYW1tYV9saW5lYXIoc3RydWN0IGFzdF9wcml2YXRlICph
+c3QsDQo+ICsJCQkJICAgICAgY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0
+KQ0KPiAgIHsNCj4gLQl1MTYgKnIsICpnLCAqYjsNCj4gICAJaW50IGk7DQo+ICAgDQo+IC0J
+aWYgKCFjcnRjLT5lbmFibGVkKQ0KPiAtCQlyZXR1cm47DQo+ICsJc3dpdGNoIChmb3JtYXQt
+PmZvcm1hdCkgew0KPiArCWNhc2UgRFJNX0ZPUk1BVF9SR0I1NjU6DQo+ICsJCS8qIFVzZSBi
+ZXR0ZXIgaW50ZXJwb2xhdGlvbiwgdG8gdGFrZSAzMiB2YWx1ZXMgZnJvbSAwIHRvIDI1NSAq
+Lw0KPiArCQlmb3IgKGkgPSAwOyBpIDwgQVNUX0xVVF9TSVpFIC8gODsgaSsrKQ0KPiArCQkJ
+YXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3QsDQo+ICsJCQkJCSAgICAgICBpLA0KPiArCQkJ
+CQkgICAgICAgaSAqIDggKyBpIC8gNCwNCj4gKwkJCQkJICAgICAgIGkgKiA0ICsgaSAvIDE2
+LA0KPiArCQkJCQkgICAgICAgaSAqIDggKyBpIC8gNCk7DQo+ICsJCS8qIEdyZWVuIGhhcyBv
+bmUgbW9yZSBiaXQsIHNvIGFkZCBwYWRkaW5nIHdpdGggMCBmb3IgcmVkIGFuZCBibHVlLiAq
+Lw0KPiArCQlmb3IgKGkgPSBBU1RfTFVUX1NJWkUgLyA4OyBpIDwgQVNUX0xVVF9TSVpFIC8g
+NDsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3QsIGksIDAsIGkgKiA0
+ICsgaSAvIDE2LCAwKTsNCj4gKwkJYnJlYWs7DQo+ICsJY2FzZSBEUk1fRk9STUFUX0M4OiAv
+KiBJbiB0aGlzIGNhc2UsIGdhbW1hIHRhYmxlIGlzIHVzZWQgYXMgY29sb3IgcGFsZXR0ZSAq
+Lw0KPiArCWNhc2UgRFJNX0ZPUk1BVF9SR0I4ODg6DQo+ICsJY2FzZSBEUk1fRk9STUFUX1hS
+R0I4ODg4Og0KPiArCQlmb3IgKGkgPSAwOyBpIDwgQVNUX0xVVF9TSVpFOyBpKyspDQo+ICsJ
+CQlhc3RfbG9hZF9wYWxldHRlX2luZGV4KGFzdCwgaSwgaSwgaSwgaSk7DQo+ICsJCWJyZWFr
+Ow0KPiArCWRlZmF1bHQ6DQo+ICsJCWRybV93YXJuX29uY2UoJmFzdC0+YmFzZSwgIlVuc3Vw
+cG9ydGVkIGZvcm1hdCAlcDRjYyBmb3IgZ2FtbWEgY29ycmVjdGlvblxuIiwNCj4gKwkJCSAg
+ICAgICZmb3JtYXQtPmZvcm1hdCk7DQo+ICsJCWJyZWFrOw0KPiArCX0NCj4gK30NCj4gICAN
+Cj4gLQlyID0gY3J0Yy0+Z2FtbWFfc3RvcmU7DQo+IC0JZyA9IHIgKyBjcnRjLT5nYW1tYV9z
+aXplOw0KPiAtCWIgPSBnICsgY3J0Yy0+Z2FtbWFfc2l6ZTsNCj4gK3N0YXRpYyB2b2lkIGFz
+dF9jcnRjX3NldF9nYW1tYShzdHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdCwNCj4gKwkJCSAgICAg
+ICBjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQsDQo+ICsJCQkgICAgICAg
+c3RydWN0IGRybV9jb2xvcl9sdXQgKmx1dCkNCj4gK3sNCj4gKwlpbnQgaTsNCj4gICANCj4g
+LQlmb3IgKGkgPSAwOyBpIDwgMjU2OyBpKyspDQo+IC0JCWFzdF9sb2FkX3BhbGV0dGVfaW5k
+ZXgoYXN0LCBpLCAqcisrID4+IDgsICpnKysgPj4gOCwgKmIrKyA+PiA4KTsNCj4gKwlzd2l0
+Y2ggKGZvcm1hdC0+Zm9ybWF0KSB7DQo+ICsJY2FzZSBEUk1fRk9STUFUX1JHQjU2NToNCj4g
+KwkJLyogVXNlIGJldHRlciBpbnRlcnBvbGF0aW9uLCB0byB0YWtlIDMyIHZhbHVlcyBmcm9t
+IGx1dFswXSB0byBsdXRbMjU1XSAqLw0KPiArCQlmb3IgKGkgPSAwOyBpIDwgQVNUX0xVVF9T
+SVpFIC8gODsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3QsDQo+ICsJ
+CQkJCSAgICAgICBpLA0KPiArCQkJCQkgICAgICAgbHV0W2kgKiA4ICsgaSAvIDRdLnJlZCA+
+PiA4LA0KPiArCQkJCQkgICAgICAgbHV0W2kgKiA0ICsgaSAvIDE2XS5ncmVlbiA+PiA4LA0K
+PiArCQkJCQkgICAgICAgbHV0W2kgKiA4ICsgaSAvIDRdLmJsdWUgPj4gOCk7DQo+ICsJCS8q
+IEdyZWVuIGhhcyBvbmUgbW9yZSBiaXQsIHNvIGFkZCBwYWRkaW5nIHdpdGggMCBmb3IgcmVk
+IGFuZCBibHVlLiAqLw0KPiArCQlmb3IgKGkgPSBBU1RfTFVUX1NJWkUgLyA4OyBpIDwgQVNU
+X0xVVF9TSVpFIC8gNDsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3Qs
+IGksIDAsIGx1dFtpICogNCArIGkgLyAxNl0uZ3JlZW4gPj4gOCwgMCk7DQo+ICsJCWJyZWFr
+Ow0KPiArCWNhc2UgRFJNX0ZPUk1BVF9DODogLyogSW4gdGhpcyBjYXNlLCBnYW1tYSB0YWJs
+ZSBpcyB1c2VkIGFzIGNvbG9yIHBhbGV0dGUgKi8NCj4gKwljYXNlIERSTV9GT1JNQVRfUkdC
+ODg4Og0KPiArCWNhc2UgRFJNX0ZPUk1BVF9YUkdCODg4ODoNCj4gKwkJZm9yIChpID0gMDsg
+aSA8IEFTVF9MVVRfU0laRTsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChh
+c3QsDQo+ICsJCQkJCSAgICAgICBpLA0KPiArCQkJCQkgICAgICAgbHV0W2ldLnJlZCA+PiA4
+LA0KPiArCQkJCQkgICAgICAgbHV0W2ldLmdyZWVuID4+IDgsDQo+ICsJCQkJCSAgICAgICBs
+dXRbaV0uYmx1ZSA+PiA4KTsNCj4gKwkJYnJlYWs7DQo+ICsJZGVmYXVsdDoNCj4gKwkJZHJt
+X3dhcm5fb25jZSgmYXN0LT5iYXNlLCAiVW5zdXBwb3J0ZWQgZm9ybWF0ICVwNGNjIGZvciBn
+YW1tYSBjb3JyZWN0aW9uXG4iLA0KPiArCQkJICAgICAgJmZvcm1hdC0+Zm9ybWF0KTsNCj4g
+KwkJYnJlYWs7DQo+ICsJfQ0KPiAgIH0NCj4gICANCj4gICBzdGF0aWMgYm9vbCBhc3RfZ2V0
+X3ZiaW9zX21vZGVfaW5mbyhjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQs
+DQo+IEBAIC0xMDE4LDkgKzEwNzEsMTEgQEAgc3RhdGljIHZvaWQgYXN0X2NydGNfZHBtcyhz
+dHJ1Y3QgZHJtX2NydGMgKmNydGMsIGludCBtb2RlKQ0KPiAgIA0KPiAgIAkJCWFzdF9zZXRf
+Y29sb3JfcmVnKGFzdCwgZm9ybWF0KTsNCj4gICAJCQlhc3Rfc2V0X3ZiaW9zX2NvbG9yX3Jl
+Zyhhc3QsIGZvcm1hdCwgdmJpb3NfbW9kZV9pbmZvKTsNCj4gKwkJCWlmIChjcnRjLT5zdGF0
+ZS0+Z2FtbWFfbHV0KQ0KPiArCQkJCWFzdF9jcnRjX3NldF9nYW1tYShhc3QsIGZvcm1hdCwg
+Y3J0Yy0+c3RhdGUtPmdhbW1hX2x1dC0+ZGF0YSk7DQo+ICsJCQllbHNlDQo+ICsJCQkJYXN0
+X2NydGNfc2V0X2dhbW1hX2xpbmVhcihhc3QsIGZvcm1hdCk7DQo+ICAgCQl9DQo+IC0NCj4g
+LQkJYXN0X2NydGNfbG9hZF9sdXQoYXN0LCBjcnRjKTsNCj4gICAJCWJyZWFrOw0KPiAgIAlj
+YXNlIERSTV9NT0RFX0RQTVNfU1RBTkRCWToNCj4gICAJY2FzZSBEUk1fTU9ERV9EUE1TX1NV
+U1BFTkQ6DQo+IEBAIC0xMTU4LDIwICsxMjEzLDIzIEBAIGFzdF9jcnRjX2hlbHBlcl9hdG9t
+aWNfZmx1c2goc3RydWN0IGRybV9jcnRjICpjcnRjLA0KPiAgIHsNCj4gICAJc3RydWN0IGRy
+bV9jcnRjX3N0YXRlICpjcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X2NydGNfc3Rh
+dGUoc3RhdGUsDQo+ICAgCQkJCQkJCQkJICBjcnRjKTsNCj4gLQlzdHJ1Y3QgZHJtX2NydGNf
+c3RhdGUgKm9sZF9jcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfb2xkX2NydGNfc3RhdGUo
+c3RhdGUsDQo+IC0JCQkJCQkJCQkgICAgICBjcnRjKTsNCj4gICAJc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiA9IGNydGMtPmRldjsNCj4gICAJc3RydWN0IGFzdF9wcml2YXRlICphc3QgPSB0
+b19hc3RfcHJpdmF0ZShkZXYpOw0KPiAgIAlzdHJ1Y3QgYXN0X2NydGNfc3RhdGUgKmFzdF9j
+cnRjX3N0YXRlID0gdG9fYXN0X2NydGNfc3RhdGUoY3J0Y19zdGF0ZSk7DQo+IC0Jc3RydWN0
+IGFzdF9jcnRjX3N0YXRlICpvbGRfYXN0X2NydGNfc3RhdGUgPSB0b19hc3RfY3J0Y19zdGF0
+ZShvbGRfY3J0Y19zdGF0ZSk7DQo+ICAgCXN0cnVjdCBhc3RfdmJpb3NfbW9kZV9pbmZvICp2
+Ymlvc19tb2RlX2luZm8gPSAmYXN0X2NydGNfc3RhdGUtPnZiaW9zX21vZGVfaW5mbzsNCj4g
+ICANCj4gICAJLyoNCj4gICAJICogVGhlIGdhbW1hIExVVCBoYXMgdG8gYmUgcmVsb2FkZWQg
+YWZ0ZXIgY2hhbmdpbmcgdGhlIHByaW1hcnkNCj4gICAJICogcGxhbmUncyBjb2xvciBmb3Jt
+YXQuDQo+ICAgCSAqLw0KPiAtCWlmIChvbGRfYXN0X2NydGNfc3RhdGUtPmZvcm1hdCAhPSBh
+c3RfY3J0Y19zdGF0ZS0+Zm9ybWF0KQ0KPiAtCQlhc3RfY3J0Y19sb2FkX2x1dChhc3QsIGNy
+dGMpOw0KPiArCWlmIChjcnRjX3N0YXRlLT5lbmFibGUgJiYgY3J0Y19zdGF0ZS0+Y29sb3Jf
+bWdtdF9jaGFuZ2VkKSB7DQo+ICsJCWlmIChjcnRjX3N0YXRlLT5nYW1tYV9sdXQpDQo+ICsJ
+CQlhc3RfY3J0Y19zZXRfZ2FtbWEoYXN0LA0KPiArCQkJCQkgICBhc3RfY3J0Y19zdGF0ZS0+
+Zm9ybWF0LA0KPiArCQkJCQkgICBjcnRjX3N0YXRlLT5nYW1tYV9sdXQtPmRhdGEpOw0KPiAr
+CQllbHNlDQo+ICsJCQlhc3RfY3J0Y19zZXRfZ2FtbWFfbGluZWFyKGFzdCwgYXN0X2NydGNf
+c3RhdGUtPmZvcm1hdCk7DQo+ICsJfQ0KPiAgIA0KPiAgIAkvL1NldCBBc3BlZWQgRGlzcGxh
+eS1Qb3J0DQo+ICAgCWlmIChhc3QtPnR4X2NoaXBfdHlwZXMgJiBBU1RfVFhfQVNURFBfQklU
+KQ0KPiBAQCAtMTMwOSw3ICsxMzY3LDkgQEAgc3RhdGljIGludCBhc3RfY3J0Y19pbml0KHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gcmV0
+Ow0KPiAgIA0KPiAtCWRybV9tb2RlX2NydGNfc2V0X2dhbW1hX3NpemUoY3J0YywgMjU2KTsN
+Cj4gKwlkcm1fbW9kZV9jcnRjX3NldF9nYW1tYV9zaXplKGNydGMsIEFTVF9MVVRfU0laRSk7
+DQo+ICsJZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQoY3J0YywgMCwgZmFsc2UsIEFTVF9M
+VVRfU0laRSk7DQo+ICsNCj4gICAJZHJtX2NydGNfaGVscGVyX2FkZChjcnRjLCAmYXN0X2Ny
+dGNfaGVscGVyX2Z1bmNzKTsNCj4gICANCj4gICAJcmV0dXJuIDA7DQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
+LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
+cjogSXZvIFRvdGV2DQo=
 
+--------------IZMa0zrwbqFnhOeakYnoyfSz--
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+--------------sHhm7FSjFuKwoE400DO6xDjD
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM1uX0FAwAAAAAACgkQlh/E3EQov+C4
+4hAAxkZ6zs6gcq37Mf0BpeY5pc6QLFDpT+l/Kf5FCz4wbgUwTXU57CIfEU8VBu4FMAiuNG883tQb
+Bx1TWoUi/eMmkH2OJRmCCD7///e6xO4CJdTydYpsIReY+juaDsWCjPMzIrxXPzoU+FpgT3eH+nQ4
+Sokz79eLLYHBxmGuCpVwRiVNbDwtFuptnBsJmNcFdwTn15R1fUZ0nYXIxAdeWn2XjZK8L8ww+X2I
+XaRufBfDN9QndQMhNF9YD8YA8WT9LLuGcDI0X1uQCTLmHMUM+rhZRcj/yKWrMFCrutrSNrvf5h8b
+2gYF/fkGAcjkceT/S6DooqZyeLqRt+gCdr5ZyskoFbtJ8ve42CZc6oRUvhvdkRutav1ETmzOlDt/
++IgqzbtcL/gpAxOek+hDbJ3dRm0an7mCQIRxTqZ6OcYCTp6GucR+jpY0znLAtnHMW1vUR5bv0zsr
+rzHX9WvzCre1EKpLlj8bloZ/WOVcpWHM1BB7jNZjll8Uf/vBRbBcQdkUADLeZyj90mHC3J8b2rMH
+ThZhe+eUd2Wp1U+q1Xu69RzRm/Mld9v16S/dcxNe5i3kRVXVdKTl8Pj/97b43/TIJ1gt/58c/Xg5
+n++r3Lv6L35Gspy/VglQngsvTbXXguqxFaSnls7ahSAx9yfu+VXwP6aVyuCApxhhFh5OkKtSt0Hq
+HTw=
+=JRJ7
+-----END PGP SIGNATURE-----
+
+--------------sHhm7FSjFuKwoE400DO6xDjD--
