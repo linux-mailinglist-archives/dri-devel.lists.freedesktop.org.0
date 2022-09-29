@@ -1,54 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4F45EF9AF
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 18:03:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 910BD5EF9B2
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 18:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAB410E653;
-	Thu, 29 Sep 2022 16:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E85E10EABE;
+	Thu, 29 Sep 2022 16:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6DF10EABE;
- Thu, 29 Sep 2022 16:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664467372; x=1696003372;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=syl4hkIBMsJJBox/omDOJujHfzKNxcXOzymxNVYz/Z8=;
- b=JfnDfsXnFgJZWa1riAu7Db3rlm00eNFf+z0EZP71pkgpCcVmfjAAr/jA
- x+DufM+Ot1Z23TPAdbceqkSJq4NMNxrNz6rIO2+GpAYXmKYVXrChPYzox
- 0XQztx8jmNp2NIaMhWWbncqCuslNCguv8MxE8z4d2j+CldjJ0GhKn1CJc
- QZWd3EF0t6cVRSOyHrg0BeKYltFLD/sXdKuW5DIWPCg808XK3JlnAyfTH
- hmR0EvPjIeFgM+Mrrr2Zn1MoIlWMpVUoE4UOEPBPP9wlcNRW94NIVx0d2
- 83pvABVGe+gc2EiK80u3qRlYdpuVUY9PR2jbo1yjxayqgZcGoKHlq9WSj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="365987568"
-X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; d="scan'208";a="365987568"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 09:02:23 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="655604460"
-X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; d="scan'208";a="655604460"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 09:02:23 -0700
-Date: Thu, 29 Sep 2022 09:02:01 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH 12/16] drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3
- ioctl
-Message-ID: <20220929160159.GC22224@nvishwa1-DESK>
-References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-13-niranjana.vishwanathapura@intel.com>
- <9fa140b7-fa8a-fa04-556b-aab240d7b6f0@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE1310EABC;
+ Thu, 29 Sep 2022 16:05:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JspdDyTCTd1u3dxqvBKIBvCKhvXOAGctgdaaed3JTsq52Qs3FqYxSjJ7CBz5LGuPItOT9i4g7AmDawZxQ3FRRUhPI73NkuFyzqi4B8VhNmA2djdOK3q5f+kqmTtY8h0eMLyFIW3XRCCRI33qlFCfBwMK46L7z2VNTgIV4bM2xyEWam/DYg8icNmj990qXTHAwJOqd7a30RZYgB5XaTMDJSqJVqiNVTUwi4nJvK6qd+KpttxkJyB0d/Bi2ehHV2RFhEss9S9O/VOE3Oeqidhx1P7L7Vh4YVVYQhw9e6lnKgLpFXSO5J8Nunbor8BdGT2617uLjDtmoxxFf9ellNJgKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9YDOHE2pplnwJc9C9ifTHAumBxiLW9Q7yxuiL5O9OKE=;
+ b=KArXbkero7baCBHTwnb2//do1J9GDYdm/M/mJibUQLSU3BVl4RPItvjp976A+95TBM06KWrtBGCDeKpSTsYyL+hgwD6yBC397v7IaHBvtIU8/p2VXHkfuVlghpeoc5KYjz6lDEWrvH0wKayY26B78mLzdaMV8QxUO73J3NL6EKIjfJf1/P33qEVcQPKAx/Kwm2zaTtpWT+FTj9enr3lZY3RU7uDOtrP1euGhYRRO8fa0vLTzaDfS3GQHml3sIA/RShBe3FepF6gN2bJaR5yl4OfZYtcpWmic/PLaHxmn2Y9qptKLRV8tUS+qz9EbZv1kIX1yx1UMc/mJStCjyGTJyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9YDOHE2pplnwJc9C9ifTHAumBxiLW9Q7yxuiL5O9OKE=;
+ b=bIuggwBWdsvYviep4CVhKGYidd6M9sjtBAYBocvQF26h1o8BAC/0W7DS+xDLyt8fJ0IBmIUH1E6tgQoq3f4OvEPujL3PztVjMzc4pEEWD3k7aQ9IIQt6301PG2Hy8IqDo9iosQ2QRemDl35vSMMAuwPGAOfBh56fQBeKE7hf5sE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by SJ0PR12MB6712.namprd12.prod.outlook.com (2603:10b6:a03:44e::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Thu, 29 Sep
+ 2022 16:05:28 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::3de4:456f:800d:e013]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::3de4:456f:800d:e013%5]) with mapi id 15.20.5676.020; Thu, 29 Sep 2022
+ 16:05:28 +0000
+Message-ID: <36ad5d1c-b841-03bb-14cf-0b459df47749@amd.com>
+Date: Thu, 29 Sep 2022 12:05:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/amd/display: fix array-bounds error in
+ dc_stream_remove_writeback()
+Content-Language: en-US
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220927191200.216488-1-hamza.mahfooz@amd.com>
+ <CH0PR12MB5284EAC9E9D095B2624631228B559@CH0PR12MB5284.namprd12.prod.outlook.com>
+ <13763d3b-bf7f-aaff-3bcd-60e69df86820@amd.com>
+ <4b21a150-a567-dafa-1a55-8496cdb0cec6@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <4b21a150-a567-dafa-1a55-8496cdb0cec6@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9fa140b7-fa8a-fa04-556b-aab240d7b6f0@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: YT3PR01CA0039.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::16) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SJ0PR12MB6712:EE_
+X-MS-Office365-Filtering-Correlation-Id: 737560d7-3d2f-4e87-904d-08daa2346d67
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2NBje1gVrQnKNKxUINSZxtkBTuaIB855zZFWn4PvFV9Jk5aH1i70Abz3Lfm6AJsMkQYsjAp4SQkZkKNqEszg1IArgPtNVK5jSc8DhN0pYpFNzyvXCNQDiN7+yQW6aRDTJFLtVj17GYmffJ+KggkvnzfKRue1NemexxcRGpHES4+y6vJISCG0aZKnVaBzfr2yCWRXQKsiR3tSOlwu//1pzT8fpzJGvSs7yd/cKmwpI+mwb8OAL43VnNAoNge72rS2atYfBme02267F22pdLRAnLJYY9mirpZCxmXwWoKK/JTt3oPxjdjIz3C6At9j6B93ps34ba/2FmGG4kjXZljnnuKlW9sX5KzNNvZClOzFDeHAi2a/+0Kq6d3r+m55rHk0VEByaWg/zchgdfUNMbiGZcEn67tJ2yVdRyGsZ/2360poVD79bTncX4tw6WpT4ofiuaskdewtcLP8oNF9s14f7UIsSt+FXqZvgmL1XW0S78ulb66PKJqFTcFD9Tc/NVTji2SaW5r8bpV5OyPURqviasGtu2mgkDA7P6exU9HGUV2vnH+xfKZFXoAXUZH5+P6F0YdzsCjN5DDXDnwRKPZIVCEvuCy+jD/fNh7gI41eRvTW1Fu3uWsvloh712e3fZtyaspdho2aZ1xAxFdUMtaeLTfySsfewVGx2fBbWJ6bU1VjcNJQbp3Gb+ymYyrhuFhkeMny+VZDEEEz9xahF9G2bE3vlf/aKslJmkr3ma70zePcP9VHkz2bgMFOc5pALln5ZCLgg72BO5oTOEuqON+Ptz7r6ufXJI9jEMT1JqYsxRw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(376002)(396003)(136003)(346002)(39860400002)(451199015)(6486002)(478600001)(44832011)(5660300002)(2616005)(31696002)(6512007)(316002)(8936002)(6506007)(86362001)(66476007)(36756003)(186003)(26005)(110136005)(53546011)(54906003)(66946007)(38100700002)(4326008)(31686004)(8676002)(2906002)(66556008)(41300700001)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c2xnZTNOMFBEc3U2d1p2OXpJNWc1cGpyY3N2WEgwSDJSM3ZldnRTNDBBWlQ1?=
+ =?utf-8?B?OVdWajUyb2s4Q1BrbUZUR3BydHdQTGQzVUZOOGgwUWJvd2R5NFFtL1hxTXBz?=
+ =?utf-8?B?bDJJTnVZczc5TVhkVEpJTjFwcVYzQXlQZ0MxbTFiSCt2eWQzSUlRWEpRVDRp?=
+ =?utf-8?B?b2FWdzVRZVQxTEdwaEZzQ2h4M29uUVRDQ1pSbmhYMlo3Z2dzWTBOdFVzTDcr?=
+ =?utf-8?B?c0N5WUZJZjI3enVzZWtuYjVGb0dVSk92cmFxeU9WRXVVMGk1aERZOGRYUFhJ?=
+ =?utf-8?B?YUNadFBpOStYRlFWSDNrTWU5YU1kaEgveUlPSC9HWW5NZE1JdHhxaGJ5SG04?=
+ =?utf-8?B?MFVQVDdyUXk2ZjVJcUhwM1l6bTlKeno0M2ZDdytmV1ZaVXVSNkpJTWRkZis1?=
+ =?utf-8?B?VG10OHlNeFl6WnlQNG5kZ2ZudnhMUHIxdlFiQmRwMWJlTXFwVDFyaGEvWE5O?=
+ =?utf-8?B?Mmg3dVBRakxwNWJyb3VoQ2pQMHA0OUdQVWNjS3A5NTdPMzNKem16d0szdVdr?=
+ =?utf-8?B?bkFsVTJPaUoxNWkyeTl0VEE0YUJ4Tk0yOUxrZ1Vha0hhWXlNQTQ2VDg4M3lm?=
+ =?utf-8?B?N0NHSjNqRzk2U3lqYnpTMmhXcFpXM1NCWlRnRjI2SUJGNHB3Nnh6SUE1S293?=
+ =?utf-8?B?RnhSMzR6MzFpTGJkLzNQTFE4cHhyZ1pNbXNRWTliRVNEZlVTaWk1WkZlOHdW?=
+ =?utf-8?B?Vmk0OGhUeVREYXJiMjZFWk1DTDJabzZURWYzbm0xUnpjWGVPMHNVRHUxL0wr?=
+ =?utf-8?B?S3hzQkJGd0poK0VzWGJYUENFM1NjQkdORVc5RVRjdCtSYzdIbS9HbVhiTmlS?=
+ =?utf-8?B?TFpFbVExbmNvZnR3SE1GRWEvbXhySmprRkUyR2NCV1FXN3NGZzJRRnVlYkZ4?=
+ =?utf-8?B?ZTdTbEl0cm5xaURySmdJQlczOE45c3EvenFQVURqbnVqT1ZiOC9XTDk1SDNp?=
+ =?utf-8?B?ZTZkWUQzMEtlQ2xUVm42dGhGY0pvTWVwRmFpOWJBdEVVL1lNRTZ3WkVkL0ZE?=
+ =?utf-8?B?WE5PdngvVW9HcXBYRkJNYmIrTmNBMnJmSHE3Ny9GSEMzOVZhaWZVV3ZlbEQv?=
+ =?utf-8?B?NEZvNS9zZjQ4Tmg3L2lZcGFWRVI3akYzalYwQ0czYmJwSTJhWnVGcER0c2pG?=
+ =?utf-8?B?RnlhazgyZFpQd2VGVDJMOVdUK2dpSExDV2VLc2NadW9leisyNy9EbmNEM2tE?=
+ =?utf-8?B?WHYzQzBCNFl3amtDQUpiWEc3L0V1aDBlTU03cXhwd2xkeEIycE0wUWZyMW50?=
+ =?utf-8?B?ekF0TDZqTlovMXk4ZHNBbklSSkU4aXBPUWliTkgxSlc5Mld6NjladHdaUGxm?=
+ =?utf-8?B?WWpTZE9KOUc0c3Vmbmk3UWU3Rm9vQ2xiQkpJWU5sODdXVm03Y01MRDJha0Q3?=
+ =?utf-8?B?UzlmWFpFMVI4UDNuNFNXdFJQZEMramZiajNqOCtFZkp6L2ZXbG03SjBKOXRq?=
+ =?utf-8?B?WTJNeEhad2hjcU9WZGNGYmhYNVZTUmd0clYyaGIyUmplcW5SMmhFdm4zUzZj?=
+ =?utf-8?B?REppSVNSa0VBcGR1REVNazhmcW0xYWszaWl0MkxHOWh4VktIdGFaQ0hPaCtM?=
+ =?utf-8?B?V1czV2J1NnJ1S2RGZUM3cHZ6WWNrZFdHU3FaQVhVTERLazJId3ViRXdEcHdK?=
+ =?utf-8?B?di9BdlB3K0dxSlNwOWRIV0FXQ3RjV2NHVUhwRHFsYlpuMFdoOHd6QlYzVDky?=
+ =?utf-8?B?ZkJyKzN5UWhrZTc1dzQ5RDVkY2t6ditSNHVJZ0w0TVM0MkpCSE9EWmZDQ1VG?=
+ =?utf-8?B?SUw3MnQ5a2NaRU5obVpFb0xiM2RVeDRLWldMYW1XYlRCaEFQYU1UdDdUTHUx?=
+ =?utf-8?B?UG5vWlUzR2dpM1FqN1RBV3RacDMzb3A0a3ZCRHZCUGZZT0wvZDdwYVlMNUdu?=
+ =?utf-8?B?RUJycXNXLzdQdUpDQ0VKWktuREtYeEJvaytscDRrTzMzR0V2Znh5V3NBRjZJ?=
+ =?utf-8?B?djF0MHQvdW9jendUZitUS04zRjBaRDFLTktwaVVzSDR3OEloMVNMR2w4Rk9w?=
+ =?utf-8?B?YWluL2x3bVJ4WGtZd2lNaUU3Q0Q3SlB4RHdoSTJDTm9QRWp6MVNVK1N5ZDIr?=
+ =?utf-8?B?RXpJd2pLcEJLTWxhWjRpNVNieXd3Nk1HVTRhbHdRREVzK3lLNFVZWEI1VVIy?=
+ =?utf-8?Q?/u1NzQei9Djgb427HjQhd9tke?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 737560d7-3d2f-4e87-904d-08daa2346d67
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 16:05:28.5737 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L7cDBwrrx0IB4mPTZilFv0JJmYWh8qAXjRg0XCzVLD9ZZV0qOmxkcR40sMVcetxfvhzRlJOnnwFdLudUIZlqow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6712
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,271 +130,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: "Wang, Chao-kai \(Stylon\)" <Stylon.Wang@amd.com>, "Li,
+ Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>, David Airlie <airlied@linux.ie>, "Hung,
+ Alex" <Alex.Hung@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Kotarac,
+ Pavle" <Pavle.Kotarac@amd.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
+ Po-Yu Hsieh Paul <Paul.Hsieh@amd.com>, Jimmy Kizito <Jimmy.Kizito@amd.com>,
+ "Ma, Leo" <Hanghong.Ma@amd.com>, "Lee, Alvin" <Alvin.Lee2@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 29, 2022 at 04:00:47PM +0100, Matthew Auld wrote:
->On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
->>Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
->>works in vm_bind mode. The vm_bind mode only works with
->>this new execbuf3 ioctl.
->>
->>The new execbuf3 ioctl will not have any list of objects to validate
->>bind as all required objects binding would have been requested by the
->>userspace before submitting the execbuf3.
->>
->>Legacy features like relocations etc are not supported by execbuf3.
->>
->>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>---
->>  drivers/gpu/drm/i915/Makefile                 |   1 +
->>  .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 571 ++++++++++++++++++
->>  drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
->>  drivers/gpu/drm/i915/i915_driver.c            |   1 +
->>  include/uapi/drm/i915_drm.h                   |  61 ++
->>  5 files changed, 636 insertions(+)
->>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>
->>diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
->>index bf952f478555..3473ee5825bb 100644
->>--- a/drivers/gpu/drm/i915/Makefile
->>+++ b/drivers/gpu/drm/i915/Makefile
->>@@ -150,6 +150,7 @@ gem-y += \
->>  	gem/i915_gem_domain.o \
->>  	gem/i915_gem_execbuffer_common.o \
->>  	gem/i915_gem_execbuffer.o \
->>+	gem/i915_gem_execbuffer3.o \
->>  	gem/i915_gem_internal.o \
->>  	gem/i915_gem_object.o \
->>  	gem/i915_gem_lmem.o \
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>new file mode 100644
->>index 000000000000..92af88bc8deb
->>--- /dev/null
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>@@ -0,0 +1,571 @@
->>+// SPDX-License-Identifier: MIT
->>+/*
->>+ * Copyright � 2022 Intel Corporation
->>+ */
->>+
->>+#include <linux/dma-resv.h>
->>+#include <linux/uaccess.h>
->>+
->>+#include <drm/drm_syncobj.h>
->>+
->>+#include "gt/intel_context.h"
->>+#include "gt/intel_gpu_commands.h"
->>+#include "gt/intel_gt.h"
->>+
->>+#include "i915_drv.h"
->>+#include "i915_gem_context.h"
->>+#include "i915_gem_execbuffer_common.h"
->>+#include "i915_gem_ioctls.h"
->>+#include "i915_gem_vm_bind.h"
->>+#include "i915_trace.h"
->>+
->>+#define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
->>+#define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
->>+
->>+/* Catch emission of unexpected errors for CI! */
->>+#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
->>+#undef EINVAL
->>+#define EINVAL ({ \
->>+	DRM_DEBUG_DRIVER("EINVAL at %s:%d\n", __func__, __LINE__); \
->>+	22; \
->>+})
->>+#endif
->>+
->>+/**
->>+ * DOC: User command execution with execbuf3 ioctl
->>+ *
->>+ * A VM in VM_BIND mode will not support older execbuf mode of binding.
->>+ * The execbuf ioctl handling in VM_BIND mode differs significantly from the
->>+ * older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
->>+ * Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. (See
->>+ * struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept any
->>+ * execlist. Hence, no support for implicit sync.
->>+ *
->>+ * The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND mode only
->>+ * works with execbuf3 ioctl for submission.
->>+ *
->>+ * The execbuf3 ioctl directly specifies the batch addresses instead of as
->>+ * object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
->>+ * support many of the older features like in/out/submit fences, fence array,
->>+ * default gem context etc. (See struct drm_i915_gem_execbuffer3).
->>+ *
->>+ * In VM_BIND mode, VA allocation is completely managed by the user instead of
->>+ * the i915 driver. Hence all VA assignment, eviction are not applicable in
->>+ * VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
->>+ * be using the i915_vma active reference tracking. It will instead check the
->>+ * dma-resv object's fence list for that.
->>+ *
->>+ * So, a lot of code supporting execbuf2 ioctl, like relocations, VA evictions,
->>+ * vma lookup table, implicit sync, vma active reference tracking etc., are not
->>+ * applicable for execbuf3 ioctl.
->>+ */
->>+
->>+/**
->>+ * struct i915_execbuffer - execbuf struct for execbuf3
->>+ * @i915: reference to the i915 instance we run on
->>+ * @file: drm file reference
->>+ * args: execbuf3 ioctl structure
->>+ * @gt: reference to the gt instance ioctl submitted for
->>+ * @context: logical state for the request
->>+ * @gem_context: callers context
->>+ * @requests: requests to be build
->>+ * @composite_fence: used for excl fence in dma_resv objects when > 1 BB submitted
->>+ * @ww: i915_gem_ww_ctx instance
->>+ * @num_batches: number of batches submitted
->>+ * @batch_addresses: addresses corresponds to the submitted batches
->>+ * @batches: references to the i915_vmas corresponding to the batches
->>+ */
->>+struct i915_execbuffer {
->>+	struct drm_i915_private *i915;
->>+	struct drm_file *file;
->>+	struct drm_i915_gem_execbuffer3 *args;
->>+
->>+	struct intel_gt *gt;
->>+	struct intel_context *context;
->>+	struct i915_gem_context *gem_context;
->>+
->>+	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
->>+	struct dma_fence *composite_fence;
->>+
->>+	struct i915_gem_ww_ctx ww;
->>+
->>+	unsigned int num_batches;
->>+	u64 batch_addresses[MAX_ENGINE_INSTANCE + 1];
->>+	struct i915_vma *batches[MAX_ENGINE_INSTANCE + 1];
->>+
->>+	struct eb_fence *fences;
->>+	u64 num_fences;
->>+};
->>+
->>+static void eb_unpin_engine(struct i915_execbuffer *eb);
->>+
->>+static int eb_select_context(struct i915_execbuffer *eb)
->>+{
->>+	struct i915_gem_context *ctx;
->>+
->>+	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->ctx_id);
->>+	if (IS_ERR(ctx))
->>+		return PTR_ERR(ctx);
->>+
->>+	if (!ctx->vm->vm_bind_mode) {
->>+		i915_gem_context_put(ctx);
->>+		return -EOPNOTSUPP;
->>+	}
->>+
->>+	eb->gem_context = ctx;
->>+	return 0;
->>+}
->>+
->>+static struct i915_vma *
->>+eb_find_vma(struct i915_address_space *vm, u64 addr)
->>+{
->>+	u64 va;
->>+
->>+	lockdep_assert_held(&vm->vm_bind_lock);
->>+
->>+	va = gen8_noncanonical_addr(addr & PIN_OFFSET_MASK);
->>+	return i915_gem_vm_bind_lookup_vma(vm, va);
->>+}
->>+
->>+static int eb_lookup_vma_all(struct i915_execbuffer *eb)
->>+{
->>+	unsigned int i, current_batch = 0;
->>+	struct i915_vma *vma;
->>+
->>+	for (i = 0; i < eb->num_batches; i++) {
->>+		vma = eb_find_vma(eb->context->vm, eb->batch_addresses[i]);
->>+		if (!vma)
->>+			return -EINVAL;
->>+
->>+		eb->batches[current_batch] = vma;
->>+		++current_batch;
->>+	}
->>+
->>+	return 0;
->>+}
->>+
->>+static void eb_release_vma_all(struct i915_execbuffer *eb, bool final)
->>+{
->>+	eb_unpin_engine(eb);
->>+}
->>+
->>+/*
->>+ * Using two helper loops for the order of which requests / batches are created
->>+ * and added the to backend. Requests are created in order from the parent to
->>+ * the last child. Requests are added in the reverse order, from the last child
->>+ * to parent. This is done for locking reasons as the timeline lock is acquired
->>+ * during request creation and released when the request is added to the
->>+ * backend. To make lockdep happy (see intel_context_timeline_lock) this must be
->>+ * the ordering.
->>+ */
->>+#define for_each_batch_create_order(_eb) \
->>+	for (unsigned int i = 0; i < (_eb)->num_batches; ++i)
->>+
->>+static int eb_move_to_gpu(struct i915_execbuffer *eb)
->>+{
->>+	/* Unconditionally flush any chipset caches (for streaming writes). */
->>+	intel_gt_chipset_flush(eb->gt);
->>+
->>+	return 0;
->>+}
->>+
->>+static int eb_request_submit(struct i915_execbuffer *eb,
->>+			     struct i915_request *rq,
->>+			     struct i915_vma *batch,
->>+			     u64 batch_len)
->>+{
->>+	struct intel_engine_cs *engine = rq->context->engine;
->>+	int err;
->>+
->>+	if (intel_context_nopreempt(rq->context))
->>+		__set_bit(I915_FENCE_FLAG_NOPREEMPT, &rq->fence.flags);
->>+
->>+	/*
->>+	 * After we completed waiting for other engines (using HW semaphores)
->>+	 * then we can signal that this request/batch is ready to run. This
->>+	 * allows us to determine if the batch is still waiting on the GPU
->>+	 * or actually running by checking the breadcrumb.
->>+	 */
->>+	if (engine->emit_init_breadcrumb) {
->>+		err = engine->emit_init_breadcrumb(rq);
->>+		if (err)
->>+			return err;
->>+	}
->>+
->>+	return engine->emit_bb_start(rq, batch->node.start, batch_len, 0);
->>+}
->>+
->>+static int eb_submit(struct i915_execbuffer *eb)
->>+{
->>+	int err;
->>+
->>+	err = eb_move_to_gpu(eb);
->
->I'm looking but can't find the magic bit that chains up the request 
->against each of the binds (since binding often can be async), to 
->ensure we don't submit the rq to hw, before the binds (and potential 
->moves/clears) are for sure complete. In i915_vma_bind() it's still 
->using vma->active, and not for example adding kernel fence to 
->dma-resv, and here ensuring we adhere to it? What am I missing?
 
-Yah, you are right, looks like it got lost in the driver redesign.
-We do need to call __i915_request_await_bind() for persistent vmas,
-and keep the persistent vmas in vm_bind_list in the vm_bind ioctl,
-so that execbuf properly waits for the binds to complete.
-Will update.
+Am 2022-09-29 um 11:41 schrieb Hamza Mahfooz:
+>
+>
+> On 2022-09-29 11:36, Felix Kuehling wrote:
+>> I'm still seeing a warning even with this fix:
+>>
+>> /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: 
+>> In function ?dc_stream_remove_writeback?:
+>> /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:55: 
+>> warning: array subscript 1 is above array bounds of ?struct 
+>> dc_writeback_info[1]? [-Warray-bounds]
+>>    527 |     stream->writeback_info[j] = stream->writeback_info[i];
+>>        | ~~~~~~~~~~~~~~~~~~~~~~^~~
+>>
+>
+> What version of GCC are you using? I don't see it on GCC 12.2 with 
+> this patch applied.
+
+gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 
 Regards,
-Niranjana
+   Felix
 
+
+>
+>> Regards,
+>>    Felix
+>>
+>>
+>> Am 2022-09-27 um 16:35 schrieb Pillai, Aurabindo:
+>>>
+>>> [AMD Official Use Only - General]
+>>>
+>>>
+>>> [AMD Official Use Only - General]
+>>>
+>>>
+>>> Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+>>>
+>>> -- 
+>>>
+>>> Regards,
+>>> Jay
+>>> ------------------------------------------------------------------------ 
+>>>
+>>> *From:* Mahfooz, Hamza <Hamza.Mahfooz@amd.com>
+>>> *Sent:* Tuesday, September 27, 2022 3:12 PM
+>>> *To:* linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
+>>> *Cc:* Mahfooz, Hamza <Hamza.Mahfooz@amd.com>; Wentland, Harry 
+>>> <Harry.Wentland@amd.com>; Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; 
+>>> Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>; Deucher, Alexander 
+>>> <Alexander.Deucher@amd.com>; Koenig, Christian 
+>>> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David 
+>>> Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Lee, 
+>>> Alvin <Alvin.Lee2@amd.com>; Hung, Alex <Alex.Hung@amd.com>; Kotarac, 
+>>> Pavle <Pavle.Kotarac@amd.com>; Wang, Chao-kai (Stylon) 
+>>> <Stylon.Wang@amd.com>; Pillai, Aurabindo <Aurabindo.Pillai@amd.com>; 
+>>> Ma, Leo <Hanghong.Ma@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; 
+>>> Po-Yu Hsieh Paul <Paul.Hsieh@amd.com>; Jimmy Kizito 
+>>> <Jimmy.Kizito@amd.com>; amd-gfx@lists.freedesktop.org 
+>>> <amd-gfx@lists.freedesktop.org>; dri-devel@lists.freedesktop.org 
+>>> <dri-devel@lists.freedesktop.org>
+>>> *Subject:* [PATCH] drm/amd/display: fix array-bounds error in 
+>>> dc_stream_remove_writeback()
+>>> Address the following error:
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In 
+>>> function ‘dc_stream_remove_writeback’:
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:55: 
+>>> error: array subscript [0, 0] is outside array bounds of ‘struct 
+>>> dc_writeback_info[1]’ [-Werror=array-bounds]
+>>>   527 | stream->writeback_info[j] = stream->writeback_info[i];
+>>>       | ~~~~~~~~~~~~~~~~~~~~~~^~~
+>>> In file included from 
+>>> ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:1269,
+>>>                  from 
+>>> ./drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
+>>>                  from 
+>>> ./drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
+>>>                  from 
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:27:
+>>> ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: 
+>>> while referencing ‘writeback_info’
+>>>   241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
+>>>       |
+>>>
+>>> Currently, we aren't checking to see if j remains within
+>>> writeback_info[]'s bounds. So, add a check to make sure that we aren't
+>>> overflowing the buffer.
+>>>
+>>> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>>> ---
+>>>  drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c 
+>>> b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+>>> index 3ca1592ce7ac..ae13887756bf 100644
+>>> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+>>> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+>>> @@ -520,7 +520,7 @@ bool dc_stream_remove_writeback(struct dc *dc,
+>>>          }
+>>>
+>>>          /* remove writeback info for disabled writeback pipes from 
+>>> stream */
+>>> -       for (i = 0, j = 0; i < stream->num_wb_info; i++) {
+>>> +       for (i = 0, j = 0; i < stream->num_wb_info && j < 
+>>> MAX_DWB_PIPES; i++) {
+>>>                  if (stream->writeback_info[i].wb_enabled) {
+>>>                          if (i != j)
+>>>                                  /* trim the array */
+>>> -- 
+>>> 2.37.2
+>>>
+>
