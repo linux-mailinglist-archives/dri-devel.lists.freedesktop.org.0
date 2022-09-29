@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FE65EEB57
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 03:57:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E19E05EEB5A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 03:57:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE1710E945;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2EB10E944;
 	Thu, 29 Sep 2022 01:56:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C56B10E944
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A649410E945
  for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 01:56:47 +0000 (UTC)
 Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MdGZ44yVqzHtcr;
- Thu, 29 Sep 2022 09:51:56 +0800 (CST)
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MdGZt2vDfzWgnj;
+ Thu, 29 Sep 2022 09:52:38 +0800 (CST)
 Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
  (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 29 Sep
- 2022 09:56:44 +0800
+ 2022 09:56:45 +0800
 From: Yuan Can <yuancan@huawei.com>
 To: <dianders@chromium.org>, <thierry.reding@gmail.com>, <sam@ravnborg.org>,
  <airlied@gmail.com>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 1/2] drm/panel: panel-edp: Use dev_err_probe() to simplify
- code
-Date: Thu, 29 Sep 2022 01:55:02 +0000
-Message-ID: <20220929015503.17301-2-yuancan@huawei.com>
+Subject: [PATCH v2 2/2] drm/panel: simple: Use dev_err_probe() to simplify code
+Date: Thu, 29 Sep 2022 01:55:03 +0000
+Message-ID: <20220929015503.17301-3-yuancan@huawei.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220929015503.17301-1-yuancan@huawei.com>
 References: <20220929015503.17301-1-yuancan@huawei.com>
@@ -59,35 +58,14 @@ checked later through debugfs.
 Signed-off-by: Yuan Can <yuancan@huawei.com>
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 22 ++++++----------------
- 1 file changed, 6 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 7b90016b8408..e323a6331143 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -403,17 +403,10 @@ static int panel_edp_unprepare(struct drm_panel *panel)
- 
- static int panel_edp_get_hpd_gpio(struct device *dev, struct panel_edp *p)
- {
--	int err;
--
- 	p->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
--	if (IS_ERR(p->hpd_gpio)) {
--		err = PTR_ERR(p->hpd_gpio);
--
--		if (err != -EPROBE_DEFER)
--			dev_err(dev, "failed to get 'hpd' GPIO: %d\n", err);
--
--		return err;
--	}
-+	if (IS_ERR(p->hpd_gpio))
-+		return dev_err_probe(dev, PTR_ERR(p->hpd_gpio),
-+				     "failed to get 'hpd' GPIO\n");
- 
- 	return 0;
- }
-@@ -832,12 +825,9 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 0cb3be26e2e6..1607824dc2b3 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -575,12 +575,9 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
  
  	panel->enable_gpio = devm_gpiod_get_optional(dev, "enable",
  						     GPIOD_OUT_LOW);
