@@ -2,38 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19E05EEB5A
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 03:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400A85EEB8B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 04:17:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD2EB10E944;
-	Thu, 29 Sep 2022 01:56:51 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A649410E945
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 01:56:47 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MdGZt2vDfzWgnj;
- Thu, 29 Sep 2022 09:52:38 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
- (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 29 Sep
- 2022 09:56:45 +0800
-From: Yuan Can <yuancan@huawei.com>
-To: <dianders@chromium.org>, <thierry.reding@gmail.com>, <sam@ravnborg.org>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 2/2] drm/panel: simple: Use dev_err_probe() to simplify code
-Date: Thu, 29 Sep 2022 01:55:03 +0000
-Message-ID: <20220929015503.17301-3-yuancan@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220929015503.17301-1-yuancan@huawei.com>
-References: <20220929015503.17301-1-yuancan@huawei.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id E919A10E9B2;
+	Thu, 29 Sep 2022 02:17:24 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717CD10E9AE;
+ Thu, 29 Sep 2022 02:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664417840; x=1695953840;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3n0ZptjGd1JWUWEDnjy8Aqmi5SSxi2m4VPOI8Uo0zdU=;
+ b=mCXSLzOjl+IcD78zrOk03FonHWyKgkeXWnPNOfVPfJBT1wZlROCI/kVo
+ NwE8HVRbBh/Zkba55KRyshrp+xAFH6DohyzG89DvxULryFbOnnfH8ff/m
+ ntyyblF35o7wOLTTXK9XniJ1f/MQGKLH+vRG/CrNLRdugkfulY+aS8hEI
+ 8qQvJsuXing0KS1nXWNVo/Me+x5fER9tJHXP0LHp2DWmc7+CBIwWLxDkZ
+ /6lR8Znst4wPsLbXSN2iQCUZgHP+dZChaEJZl+3r4GmC02aDMmdDGqTt9
+ d8oG12nVnVnamQf1gC9sKqXVJkeETihGjpus3NLTzJaszwPepOhGh1/TL g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="281484115"
+X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; d="scan'208";a="281484115"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 19:17:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="573275930"
+X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; d="scan'208";a="573275930"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.142])
+ by orsmga003.jf.intel.com with ESMTP; 28 Sep 2022 19:17:19 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v4 0/4] Improve anti-pre-emption w/a for compute workloads
+Date: Wed, 28 Sep 2022 19:18:09 -0700
+Message-Id: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.208]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500024.china.huawei.com (7.185.36.10)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,41 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yuancan@huawei.com
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the probe path, dev_err() can be replaced with dev_err_probe()
-which will check if error code is -EPROBE_DEFER and prints the
-error name. It also sets the defer probe reason which can be
-checked later through debugfs.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Signed-off-by: Yuan Can <yuancan@huawei.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
----
- drivers/gpu/drm/panel/panel-simple.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Compute workloads are inherently not pre-emptible on current hardware.
+Thus the pre-emption timeout was disabled as a workaround to prevent
+unwanted resets. Instead, the hang detection was left to the heartbeat
+and its (longer) timeout. This is undesirable with GuC submission as
+the heartbeat is a full GT reset rather than a per engine reset and so
+is much more destructive. Instead, just bump the pre-emption timeout
+to a big value. Also, update the heartbeat to allow such a long
+pre-emption delay in the final heartbeat period.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 0cb3be26e2e6..1607824dc2b3 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -575,12 +575,9 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 
- 	panel->enable_gpio = devm_gpiod_get_optional(dev, "enable",
- 						     GPIOD_OUT_LOW);
--	if (IS_ERR(panel->enable_gpio)) {
--		err = PTR_ERR(panel->enable_gpio);
--		if (err != -EPROBE_DEFER)
--			dev_err(dev, "failed to request GPIO: %d\n", err);
--		return err;
--	}
-+	if (IS_ERR(panel->enable_gpio))
-+		return dev_err_probe(dev, PTR_ERR(panel->enable_gpio),
-+				     "failed to request GPIO\n");
- 
- 	err = of_drm_get_panel_orientation(dev->of_node, &panel->orientation);
- 	if (err) {
+v2: Add clamping helpers.
+v3: Remove long timeout algorithm and replace with hard coded value
+(review feedback from Tvrtko). Also, fix execlist selftest failure and
+fix bug in compute enabling patch related to pre-emption timeouts.
+v4: Add multiple BUG_ONs to re-check already range checked values (Tvrtko)
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (4):
+  drm/i915/guc: Limit scheduling properties to avoid overflow
+  drm/i915: Fix compute pre-emption w/a to apply to compute engines
+  drm/i915: Make the heartbeat play nice with long pre-emption timeouts
+  drm/i915: Improve long running compute w/a for GuC submission
+
+ drivers/gpu/drm/i915/Kconfig.profile          |  26 ++++-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   6 ++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 102 +++++++++++++++---
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  19 ++++
+ drivers/gpu/drm/i915/gt/sysfs_engines.c       |  25 +++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  21 ++++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   8 ++
+ 7 files changed, 179 insertions(+), 28 deletions(-)
+
 -- 
-2.17.1
+2.37.3
 
