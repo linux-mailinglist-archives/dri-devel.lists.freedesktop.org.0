@@ -1,69 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D31D5EFCEB
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 20:21:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 925565EFCFB
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 20:24:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51B1E10EBDC;
-	Thu, 29 Sep 2022 18:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D17410EBE5;
+	Thu, 29 Sep 2022 18:24:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED2310EBDC
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 18:20:55 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E22810E00C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 18:24:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664475654;
+ s=mimecast20190719; t=1664475874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kDoEgsT9wXe+t/kg0KkgIaBt49dEgVlHfb30tNfOKos=;
- b=bJzozZjhZ8fwGjx3hg08hTVCa+0Q1pg+uH+0PrMzRvZ7Il9C/1Dix64PBOFbyBAJ5Leagy
- 7tOEMzcyu3+Kp61mgIxE+0FfXsT9n1U0UrMtajvYN7wQ0UO04DngqvPGUw0Xn5oS6G3TUN
- 37CgRjIEHJDiPfG1lTnJ3Wa+05HmWGo=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BoITIusWH1pgiQYYyYgg2aTCkDBnXRgVNx9UWZzrGmA=;
+ b=OqcMvHd+HH89EI8UXhMCTpgc95JY4q2oPDPDMHN+rG+xKoIKL6KQo3Q1ABrYRtnFvu41+l
+ JiJvhpYBHgd7ITHa6cpubjXPTQdb3dxfutlcJURTUvmseF9waOP0/Zdcov0RCPcG3FaM2e
+ gjF7RIegpRW3AWLNPVEbMpYzSyCj2xY=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-260-0oYiKUV2NeKUfqaEBQnKPg-1; Thu, 29 Sep 2022 14:20:53 -0400
-X-MC-Unique: 0oYiKUV2NeKUfqaEBQnKPg-1
-Received: by mail-lj1-f200.google.com with SMTP id
- by40-20020a05651c1a2800b0026c4246ce71so675902ljb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 11:20:53 -0700 (PDT)
+ us-mta-539-CfjULWA7PaaBF1d2tSXAWA-1; Thu, 29 Sep 2022 14:24:33 -0400
+X-MC-Unique: CfjULWA7PaaBF1d2tSXAWA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ i3-20020a056e020d8300b002f90e6fedcfso1707019ilj.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 11:24:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=kDoEgsT9wXe+t/kg0KkgIaBt49dEgVlHfb30tNfOKos=;
- b=UVM9uIjHcOlP1POBse0r0JUXWjBfd21G6kzCfUwRPM1fUKjvJYxoFx38tSjmF3EbQP
- /thaXIQi2RDazH4oCkC0tQMjCrxYAwucp+y+2rCQ1Zw0Nh2wm/AFiyKllfGF+agHT/b4
- 34Gzj2faBOPzOzVOkk40Go07lJ+Z+MKCIDM0vG1g7oV0SxhWEs0Cv3+GGVk9MKqj4OIP
- ul4riN/zGqTsc362Wjkt8dbr5BCgzBr0DHn0auP+Y0f9cy67QSuZg4Hy91+HvLEIeS6x
- V5t5REGamj9kzltUXoPBSEOIoCotaGOOEUy34OjP7TlDk/kzW2dCFpmk8v4iCUlbvbRW
- 2+HQ==
-X-Gm-Message-State: ACrzQf3vxzEiANLNtgBnU00dUaCEmK0/WtPWRgbH7ZQF8NcZHZQwWBMq
- WK/Pxc44+0HNB2FkUJqAOl03tM9+MrY6pKl5bXLUPQFZTB6j559RgLNO2QYQI2TM3q2qOAAzenJ
- JKBWIkraEXg/tPYf1J78iinp1OfJda8vF47fixkQlrn0N
-X-Received: by 2002:a2e:984d:0:b0:26b:fb6a:2e3d with SMTP id
- e13-20020a2e984d000000b0026bfb6a2e3dmr1696852ljj.71.1664475651274; 
- Thu, 29 Sep 2022 11:20:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5+K+RPYd5vTsKmUqPwlqi1SyKDh5I9/Q6g5e+gOf61Et76lyiQP02m9Nei+Oe4/15eZhwbG44n4EVuR3Tecgg=
-X-Received: by 2002:a2e:984d:0:b0:26b:fb6a:2e3d with SMTP id
- e13-20020a2e984d000000b0026bfb6a2e3dmr1696847ljj.71.1664475651070; Thu, 29
- Sep 2022 11:20:51 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=BoITIusWH1pgiQYYyYgg2aTCkDBnXRgVNx9UWZzrGmA=;
+ b=5QlgLEGcaJk7E0o7r1oEaxpxsg/PB5GJkcZXAMPEMkJIh5tCqch0Tu6UiB7sqR3eHM
+ pdvpT5y1ZGQWzR3OaGjuhwuHo8FmfMRb+FsNvF8B/aSSrRmS2slsgqAxgnIjPtb4eKh0
+ 0sozeHCfffQF1nBCVPBEVjPPjh+o8N2N5VekatE+FFNpPIXx9qza+eVao0gqqylRdl3C
+ p+vRh9VrPa5QtDafHMQyn0ven/dYxuJKjGpA4eRNMd0tqJ/5ZC9jThMoCO/3RAOpEL5b
+ 7VJW436b9xL/bSJB+L5PgQxRcNiKYin5usYhsO3tkGtzhhUwuQm2PDI32BIlQoYDVFmo
+ CnCg==
+X-Gm-Message-State: ACrzQf20i1QCoYlSW7dLsSZYF5qkCFjiPYIyIUpgUGlH/QAHzQ485b1/
+ Dzs60d/ck9+F/Up/KKkcNtbo8sLJLjZpKHKEo3lg9Hk7JJTVwggc7h0ttD6k+S2DeyuGsYZ+AWe
+ F1HN+jngDrwt3sEbMzZIAY2ChZWtP
+X-Received: by 2002:a05:6e02:19ce:b0:2f1:68a6:3bec with SMTP id
+ r14-20020a056e0219ce00b002f168a63becmr2392110ill.78.1664475872964; 
+ Thu, 29 Sep 2022 11:24:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7KUOQo8AbbarGobEgnbxdcS5bS2mn744LEcpjpU+rvkCIe35jyhAfEJ5Pm5FWlRH0iLBHEPg==
+X-Received: by 2002:a05:6e02:19ce:b0:2f1:68a6:3bec with SMTP id
+ r14-20020a056e0219ce00b002f168a63becmr2392060ill.78.1664475872712; 
+ Thu, 29 Sep 2022 11:24:32 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ f13-20020a05660215cd00b006a1fed36549sm96051iow.10.2022.09.29.11.24.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 11:24:31 -0700 (PDT)
+Date: Thu, 29 Sep 2022 12:24:27 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v4 15/15] vfio: Add struct device to vfio_device
+Message-ID: <20220929122427.3a3bca9a.alex.williamson@redhat.com>
+In-Reply-To: <YzXaxPpkc+90Xx+T@ziepe.ca>
+References: <20220921104401.38898-1-kevin.tian@intel.com>
+ <20220921104401.38898-16-kevin.tian@intel.com>
+ <20220929105519.5c9ae1d8.alex.williamson@redhat.com>
+ <YzXaxPpkc+90Xx+T@ziepe.ca>
+Organization: Red Hat
 MIME-Version: 1.0
-References: <20220928094149.118943-1-contact@emersion.fr>
- <20220928130623.60b56910@eldfell>
- <aP95gLg6WmDLYM18uEppie64PTBeG8L7xEHbDjTgYgil7h_aABI04mgTXkqwRjN3BUfax3IYjB507EsGnKWrtM_uy_oti7Ks_Bfh9VKMtQs=@emersion.fr>
-In-Reply-To: <aP95gLg6WmDLYM18uEppie64PTBeG8L7xEHbDjTgYgil7h_aABI04mgTXkqwRjN3BUfax3IYjB507EsGnKWrtM_uy_oti7Ks_Bfh9VKMtQs=@emersion.fr>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Thu, 29 Sep 2022 20:20:39 +0200
-Message-ID: <CA+hFU4wc6TCV5-yNpCDECkvhCnNoHvZjJUVG2NjpFWEOnTRJWg@mail.gmail.com>
-Subject: Re: [PATCH v3] drm: document uAPI page-flip flags
-To: Simon Ser <contact@emersion.fr>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,89 +85,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, David Airlie <airlied@linux.ie>,
+ Eric Farman <farman@linux.ibm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>, Christoph Hellwig <hch@infradead.org>,
+ Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 29, 2022 at 8:11 PM Simon Ser <contact@emersion.fr> wrote:
->
-> On Wednesday, September 28th, 2022 at 12:06, Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> > > +/**
-> > > + * DRM_MODE_PAGE_FLIP_FLAGS
-> > > + *
-> > > + * Bitmask of flags suitable for &drm_mode_crtc_page_flip_target.flags.
-> >
-> > Should this mention also drm_mode_crtc_page_flip.flags?
-> >
-> > UAPI header defines both structs.
->
-> drm_mode_crtc_page_flip is "v1", drm_mode_crtc_page_flip_target is "v2". The
-> latter just replaces a reserved field with a new one. So I figured "v1" is
-> mostly kept around for backwards compat and everybody should use "v2" for
-> simplicity's sake.
->
-> > > +/**
-> > > + * DRM_MODE_ATOMIC_ALLOW_MODESET
-> > > + *
-> > > + * Allow the update to result in temporary or transient visible artifacts while
-> > > + * the update is being applied. Applying the update may also take significantly
-> > > + * more time than a page flip. All visual artifacts will disappear by the time
-> > > + * the update is completed, as signalled throught the vblank event's timestamp
-> >
-> > typo: throught
->
-> Indeed!
->
-> > > + * (see struct drm_event_vblank).
-> > > + *
-> > > + * This flag must be set when the KMS update might cause visible artifacts.
-> > > + * Without this flag such KMS update will return a EINVAL error. What kind of
-> > > + * update may cause visible artifacts depends on the driver and the hardware.
-> > > + * User-space that needs to know beforehand if an update might cause visible
-> > > + * artifacts can use &DRM_MODE_ATOMIC_TEST_ONLY without
-> > > + * &DRM_MODE_ATOMIC_ALLOW_MODESET to see if it fails.
-> > > + *
-> > > + * To the best of the driver's knowledge, visual artifacts are guaranteed to
-> > > + * not appear when this flag is not set. Some sinks might display visual
-> > > + * artifacts outside of the driver's control.
-> >
-> > Ok, so we kept the "visual artifacts" semantics and allow monitors to
-> > do otherwise.
-> >
-> > I'm still not sure what this means for things like infoframe data where
-> > changing a certain field (e.g. HDR_OUTPUT_METADATA structure's EOTF
-> > field) has a high risk of causing a visual glitch. I cannot imagine why
-> > a monitor manufacturer would not be able to avoid the glitch if they
-> > wanted to. The glitch might or might not happen, and we cannot know in
-> > advance or afterwards whether it did happen, but it is probable that
-> > many monitors will glitch.
-> >
-> > I think "To the best of driver's knowledge" means that if someone
-> > reports a monitor to glitch, the driver/kernel would need to add that
-> > field to the "needs modeset" set. But doing so can regress other
-> > monitors that didn't glitch, so it needs to be a monitor quirk.
-> >
-> > This is not something for this patch, but would it be possible to agree
-> > on the kernel development policy here? Should glitches be reported and
-> > added to monitor quirks list? Or should drivers be defensive from the
-> > start and require modeset if the field is known to cause glitches on
-> > some monitors?
->
-> Good question. I am not sure there is even a desire to have a quirks table for
-> this among driver developers.
->
-> This reminds me of some VRR displays showing visual artifacts when user-space
-> changes its page-flip rate. If we took this definition by the letter, the
-> kernel should require ALLOW_MODESET at each page-flip... (The better solution
-> would be to just to have a slew rate implemented in the kernel. I think it's
-> implemented to some extent in amdgpu/i915 but still some monitors are having
-> issues.)
->
+On Thu, 29 Sep 2022 14:49:56 -0300
+Jason Gunthorpe <jgg@ziepe.ca> wrote:
 
-Honestly the right thing to do here is give up on the "no visual
-artifacts" phrashing. This is really about not having to interrupt the
-stream which definitely results in visual artifacts but avoiding that
-doesn't guarantee no artifacts.
+> On Thu, Sep 29, 2022 at 10:55:19AM -0600, Alex Williamson wrote:
+> > Hi Kevin,
+> > 
+> > This introduced the regression discovered here:
+> > 
+> > https://lore.kernel.org/all/20220928125650.0a2ea297.alex.williamson@redhat.com/
+> > 
+> > Seems we're not releasing the resources when removing an mdev.  This is
+> > a regression, so it needs to be fixed or reverted before the merge
+> > window.  Thanks,  
+> 
+> My guess at the fix for this:
+> 
+> https://lore.kernel.org/r/0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com
+
+Indeed this seems to work  I'll look for acks and further reviews from
+Intel folks. Thanks!
+
+Alex
 
