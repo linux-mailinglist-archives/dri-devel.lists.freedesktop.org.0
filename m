@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628245EEDC2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 08:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354F25EED9B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 08:09:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C94E310E7ED;
-	Thu, 29 Sep 2022 06:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6B6410E070;
+	Thu, 29 Sep 2022 06:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Wed, 28 Sep 2022 07:34:20 UTC
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA9C10E2F4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Sep 2022 07:34:20 +0000 (UTC)
-X-UUID: d345558659664399b65dd4a1e63e03ba-20220928
-X-CPASD-INFO: 569f8aaef1204be4a41bcd1d8b6f2892@foZzhmWUj5WSUXR8g6WwboFlYZKTkFG
- zepxWlmBoZVKVhH5xTV5uYFV9fWtVYV9dYVR6eGxQYmBgZFJ4i3-XblBgXoZgUZB3hHhzhmiPkQ==
-X-CLOUD-ID: 569f8aaef1204be4a41bcd1d8b6f2892
-X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
- TVAL:184.
- 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:420.0, IP:-3.0, MAL:-5.0, PHF:-5.0,
- PHC:-5
- .0, SPF:4.0, EDMS:-5, IPLABEL:-5.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
- SIG:-5, 
- AUF:0, DUF:5862, ACD:94, DCD:94, SL:0, EISP:0, AG:0, CFC:0.664, CFSR:0.038,
- UAT:0, RAF:
- 0, IMG:-5.0, DFA:0, DTA:0, IBL:-5, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
- ATTNUM:0, EAF:0 ,CID:-5.0,VERSION:2.3.17
-X-CPASD-ID: d345558659664399b65dd4a1e63e03ba-20220928
-X-CPASD-BLOCK: 1000
-X-CPASD-STAGE: 1
-X-UUID: d345558659664399b65dd4a1e63e03ba-20220928
-X-User: liweishi@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <liweishi@kylinos.cn>) (Generic MTA)
- with ESMTP id 1680079696; Wed, 28 Sep 2022 15:29:56 +0800
-From: liweishi <liweishi@kylinos.cn>
-To: airlied@redhat.com, kraxel@redhat.com, gurchetansingh@chromium.org,
- olvaffe@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/virtio: fix the black screen error when waking
-Date: Wed, 28 Sep 2022 15:29:04 +0800
-Message-Id: <20220928072904.41395-1-liweishi@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC87F10E070;
+ Thu, 29 Sep 2022 06:09:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=8glxvAsCfjK/Oq/Yba1pToU5yEMO+RQjzWfqMG6Hn3g=; b=RId2ByHt48Mp7EmYN+XtwX62Ad
+ cpwaMQc6GjQrCk4SyBrhlafzpe4LFf1/OPvZduDJmUi7wPgjMSaffoP4CQsm5MDBg0KsXs6Vjll70
+ AGc0kfUxszlG+X9hu8kRpByPd7mv9JQdIwl3QlAjfWuzwizfgjNP3E7kQRdfbKGxgV035eCAbcxU4
+ Q6SozNVM4fseDu78STIIeqabKDkAjbKcyIIqOw2Bj4020Gk3sDqqM4IX8wJcxoljD1jytRhTAQWhI
+ /cDPDLSMmgf3JADJW1+S6RVmJJ8GPtp+1r2Wd2PsyXddVWfEsGfRpPFly1cgkWVDfTl6eP7YxoHvT
+ 4VzhDBXg==;
+Received: from [2601:1c2:d80:3110::a2e7]
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1odmjf-001Ks1-G4; Thu, 29 Sep 2022 06:09:27 +0000
+Message-ID: <68689c5b-327f-65df-0d34-a7e1a851f568@infradead.org>
+Date: Wed, 28 Sep 2022 23:09:26 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: linux-next: Tree for Sep 28
+ (drivers/gpu/drm/msm/msm_gem_shrinker.c)
+Content-Language: en-US
+To: broonie@kernel.org, Linux Next Mailing List <linux-next@vger.kernel.org>, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+References: <20220928192605.247546-1-broonie@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220928192605.247546-1-broonie@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 29 Sep 2022 06:18:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,265 +53,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ming Xie <xieming@kylinos.cn>, liweishi@kylinos.cn,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mainline: NA
-Category: Bugfix
-CVE: NA
 
-When the system wakes up from sleeping, all virtio devices
-will be reset. However, restting virtio gpu device will delete
-the virtqueue and resources saved on the virtio gpu backend,
-making it impossible for the virtio gpu driver to communicate
-with the virtio gpu backend and causing a black screen error.
-Rebuild the virtqueue and resources can avoid this problem.
 
-Signed-off-by: liweishi<liweishi@kylinos.cn>
+On 9/28/22 12:26, broonie@kernel.org wrote:
+> Hi all,
+> 
+> Changes since 20220927:
+> 
 
-Suggested-by: Ming Xie<xieming@kylinos.cn>
----
- drivers/gpu/drm/virtio/virtgpu_drv.c    | 22 +++++++++++-
- drivers/gpu/drm/virtio/virtgpu_drv.h    | 12 +++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c    | 47 +++++++++++++++++++++++++
- drivers/gpu/drm/virtio/virtgpu_object.c | 40 +++++++++++++++++++++
- 4 files changed, 120 insertions(+), 1 deletion(-)
+on x86_64:
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 0035affc3e59..910b146d7e52 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -129,6 +129,23 @@ static void virtio_gpu_config_changed(struct virtio_device *vdev)
- 	schedule_work(&vgdev->config_changed_work);
- }
- 
-+#ifdef CONFIG_PM_SLEEP
-+/*
-+ * when the system wakes up from sleeping, all virtio devices
-+ * will be reset. However, restting virtio gpu device will delete
-+ * the virtqueue and resources saved on the virtio gpu backend,
-+ * making it impossible for the virtio gpu driver to communicate
-+ * with the virtio gpu backend and causing a black screen problem.
-+ * rebuild the virtqueue and resources can avoid this problem.
-+ */
-+static int virtio_gpu_restore(struct virtio_device *vdev)
-+{
-+	struct drm_device *dev = vdev->priv;
-+
-+	return virtio_gpu_rebuild(dev);
-+}
-+#endif
-+
- static struct virtio_device_id id_table[] = {
- 	{ VIRTIO_ID_GPU, VIRTIO_DEV_ANY_ID },
- 	{ 0 },
-@@ -156,7 +173,10 @@ static struct virtio_driver virtio_gpu_driver = {
- 	.id_table = id_table,
- 	.probe = virtio_gpu_probe,
- 	.remove = virtio_gpu_remove,
--	.config_changed = virtio_gpu_config_changed
-+	.config_changed = virtio_gpu_config_changed,
-+#ifdef CONFIG_PM_SLEEP
-+	.restore = virtio_gpu_restore,
-+#endif
- };
- 
- module_virtio_driver(virtio_gpu_driver);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 9b98470593b0..b652b3790bb1 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -212,6 +212,13 @@ struct virtio_gpu_drv_cap_cache {
- 	atomic_t is_valid;
- };
- 
-+struct virtio_gpu_object_resource {
-+	struct list_head head;
-+	struct virtio_gpu_object *bo;
-+	/* parameters used in resource creation */
-+	struct virtio_gpu_object_params params;
-+};
-+
- struct virtio_gpu_device {
- 	struct drm_device *ddev;
- 
-@@ -262,6 +269,8 @@ struct virtio_gpu_device {
- 	spinlock_t resource_export_lock;
- 	/* protects map state and host_visible_mm */
- 	spinlock_t host_visible_lock;
-+	/* stores resource creation information */
-+	struct list_head res_list;
- };
- 
- struct virtio_gpu_fpriv {
-@@ -285,6 +294,7 @@ void virtio_gpu_deinit(struct drm_device *dev);
- void virtio_gpu_release(struct drm_device *dev);
- int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
- void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
-+int virtio_gpu_rebuild(struct drm_device *dev);
- 
- /* virtgpu_gem.c */
- int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
-@@ -456,6 +466,8 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
- 
- int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
- 			       uint32_t *resid);
-+void virtio_gpu_recreate_resource(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object_resource *vgor);
- /* virtgpu_prime.c */
- int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_object *bo);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 27b7f14dae89..72a6bb3e9502 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -149,6 +149,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	spin_lock_init(&vgdev->fence_drv.lock);
- 	INIT_LIST_HEAD(&vgdev->fence_drv.fences);
- 	INIT_LIST_HEAD(&vgdev->cap_cache);
-+	INIT_LIST_HEAD(&vgdev->res_list);
- 	INIT_WORK(&vgdev->config_changed_work,
- 		  virtio_gpu_config_changed_work_func);
- 
-@@ -271,6 +272,15 @@ static void virtio_gpu_cleanup_cap_cache(struct virtio_gpu_device *vgdev)
- 	}
- }
- 
-+static void virtio_gpu_cleanup_object_resources(struct virtio_gpu_device *vgdev)
-+{
-+	struct virtio_gpu_object_resource *vgor, *tmp;
-+
-+	list_for_each_entry_safe(vgor, tmp, &vgdev->res_list, head) {
-+		kfree(vgor);
-+	}
-+}
-+
- void virtio_gpu_deinit(struct drm_device *dev)
- {
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
-@@ -293,11 +303,48 @@ void virtio_gpu_release(struct drm_device *dev)
- 	virtio_gpu_modeset_fini(vgdev);
- 	virtio_gpu_free_vbufs(vgdev);
- 	virtio_gpu_cleanup_cap_cache(vgdev);
-+	virtio_gpu_cleanup_object_resources(vgdev);
- 
- 	if (vgdev->has_host_visible)
- 		drm_mm_takedown(&vgdev->host_visible_mm);
- }
- 
-+int virtio_gpu_rebuild(struct drm_device *dev)
-+{
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct virtio_device *vdev = vgdev->vdev;
-+
-+	/* rebuild vgdev->ctrlq.vq and vgdev->cursorq.vq */
-+	struct virtqueue *vqs[2];
-+	int ret;
-+
-+	static vq_callback_t *callbacks[] = {
-+		virtio_gpu_ctrl_ack, virtio_gpu_cursor_ack
-+	};
-+	static const char * const names[] = { "control", "cursor" };
-+
-+	vdev->config->del_vqs(vdev);
-+	ret = virtio_find_vqs(vdev, 2, vqs, callbacks, names, NULL);
-+	if (ret)
-+		return ret;
-+
-+	vgdev->ctrlq.vq = vqs[0];
-+	vgdev->cursorq.vq = vqs[1];
-+
-+	/*
-+	 * if resource_blob and virgl 3d are not used,
-+	 * all resources should be recreated.
-+	 */
-+	if (!vgdev->has_resource_blob && !vgdev->has_virgl_3d) {
-+		struct virtio_gpu_object_resource *vgor;
-+
-+		list_for_each_entry(vgor, &vgdev->res_list, head) {
-+			virtio_gpu_recreate_resource(vgdev, vgor);
-+		}
-+	}
-+	return 0;
-+}
-+
- int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
- {
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 8d7728181de0..349a62a4992b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -83,6 +83,30 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- 	}
- }
- 
-+static void virtio_gpu_object_resource_restore(struct virtio_gpu_device *vgdev,
-+						struct virtio_gpu_object *bo,
-+						struct virtio_gpu_object_params *params)
-+{
-+	struct virtio_gpu_object_resource *vgor;
-+
-+	vgor = kzalloc(sizeof(*vgor), GFP_KERNEL);
-+	vgor->bo = bo;
-+	memcpy(&vgor->params, params, sizeof(*params));
-+	list_add_tail(&vgor->head, &vgdev->res_list);
-+}
-+
-+static void virtio_gpu_object_resource_remove(struct virtio_gpu_device *vgdev,
-+						struct virtio_gpu_object *bo)
-+{
-+	struct virtio_gpu_object_resource *vgor, *tmp;
-+
-+	list_for_each_entry_safe(vgor, tmp, &vgdev->res_list, head) {
-+		if (vgor->bo->hw_res_handle == bo->hw_res_handle) {
-+			list_del(&vgor->head);
-+		}
-+	}
-+}
-+
- static void virtio_gpu_free_object(struct drm_gem_object *obj)
- {
- 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-@@ -92,6 +116,8 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
- 		virtio_gpu_cmd_unref_resource(vgdev, bo);
- 		virtio_gpu_notify(vgdev);
- 		/* completion handler calls virtio_gpu_cleanup_object() */
-+
-+		virtio_gpu_object_resource_remove(vgdev, bo);
- 		return;
- 	}
- 	virtio_gpu_cleanup_object(bo);
-@@ -232,6 +258,8 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 		virtio_gpu_cmd_create_resource(vgdev, bo, params,
- 					       objs, fence);
- 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
-+		/* records information related to resource creation  */
-+		virtio_gpu_object_resource_restore(vgdev, bo, params);
- 	}
- 
- 	*bo_ptr = bo;
-@@ -245,3 +273,15 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 	drm_gem_shmem_free(shmem_obj);
- 	return ret;
- }
-+
-+void virtio_gpu_recreate_resource(struct virtio_gpu_device *vgdev,
-+			     struct virtio_gpu_object_resource *vgor)
-+{
-+	struct virtio_gpu_mem_entry *ents;
-+	unsigned int nents;
-+
-+	if (virtio_gpu_object_shmem_init(vgdev, vgor->bo, &ents, &nents) != 0)
-+		return;
-+	virtio_gpu_cmd_create_resource(vgdev, vgor->bo, &vgor->params, NULL, NULL);
-+	virtio_gpu_object_attach(vgdev, vgor->bo, ents, nents);
-+}
+../drivers/gpu/drm/msm/msm_gem_shrinker.c: In function ‘can_block’:
+../drivers/gpu/drm/msm/msm_gem_shrinker.c:29:28: error: ‘__GFP_ATOMIC’ undeclared (first use in this function); did you mean ‘GFP_ATOMIC’?
+   29 |         if (sc->gfp_mask & __GFP_ATOMIC)
+      |                            ^~~~~~~~~~~~
+      |                            GFP_ATOMIC
+
+
+
 -- 
-2.25.1
-
-
-No virus found
-		Checked by Hillstone Network AntiVirus
+~Randy
