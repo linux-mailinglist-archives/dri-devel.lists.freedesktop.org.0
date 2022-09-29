@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE59C5EFD4D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 20:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61885EFD4A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 20:44:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE1A10EC18;
-	Thu, 29 Sep 2022 18:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB8F10EC21;
+	Thu, 29 Sep 2022 18:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40A2D10EC15
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 18:43:47 +0000 (UTC)
-Date: Thu, 29 Sep 2022 18:43:34 +0000
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D225110EC0D
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 18:43:48 +0000 (UTC)
+Date: Thu, 29 Sep 2022 18:43:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1664477025; x=1664736225;
- bh=33SKfVErq6gR+NEOdkFJJrpXSp8ZP9J8+NxOHFpZ7r0=;
+ s=protonmail3; t=1664477026; x=1664736226;
+ bh=9VuS75mT9/1t8oW1/2UtDHHfEEI4XHYKT40zfkkaSY8=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID;
- b=jvRLoaazJ22W0ax+1nYdQQzxd2ypmA7i7TAjNgh/Q9xruMSWrbArfNjwdrnPLhQA4
- 2/1f6NHKDz0ATF3lSaH7P3TKOpg0btLNlBNTpFL7kjN5uAyxIw6O8RzrA08/lQeQ3b
- za4wsG9UMxvS9fcwPXtdq3pKcakDjZQB4MlGp0ehuZVwkz0EFZtXN14RzZN2Wdx7pl
- FaJtU83HZ1qLaKAUVhyY+j3Uzzou2ku63lYtFCHRn5RIhMivmmxfS+PmxF9YMViMqN
- J61TuIj9eFu+YBWlgEovL+9NJLOm+hsCf2pMhJqTtivADElpvohy3zbUFJ2UWytIfh
- WVi060xdT4h0Q==
+ b=BHkDEe4VIJFXCAh6Agv6t+ytN1UxOExd5CSnpT8D69TUviDYxH74LxHlChfQSGJWn
+ 6iCPgF1lJPVdtf89KOhZUMDedTi/kKHuaYXAHNczNFfODA0fUEpUTHFSPvqFDtu77L
+ pupGJBalqhSY0zoe0BvYbHIMtVNgCDW+xelc2txMzJL32UGULZOu/Dij9bXAAuVlsH
+ fzGBQO2x4plxGNmuXItmEINFi1BUtmmWtPWnJ0lr93BiOHGfQqw3LuXIbV35iSlERX
+ p61DmsotPku67YktZHy92x3Y+ESl2t0rCwaAb2DJGCNF4qi4fpOMaKvQ5RTFmSYxcL
+ cLqanEoWDeb7g==
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  wayland-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v3 2/6] amd/display: only accept async flips for fast updates
-Message-ID: <20220929184307.258331-3-contact@emersion.fr>
+Subject: [PATCH v3 3/6] drm: introduce
+ drm_mode_config.atomic_async_page_flip_not_supported
+Message-ID: <20220929184307.258331-4-contact@emersion.fr>
 In-Reply-To: <20220929184307.258331-1-contact@emersion.fr>
 References: <20220929184307.258331-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
@@ -54,83 +55,133 @@ Cc: andrealmeid@igalia.com, daniel.vetter@ffwll.ch, mwen@igalia.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Up until now, amdgpu was silently degrading to vsync when
-user-space requested an async flip but the hardware didn't support
-it.
+This new field indicates whether the driver has the necessary logic
+to support async page-flips via the atomic uAPI. This is leveraged by
+the next commit to allow user-space to use this functionality.
 
-The hardware doesn't support immediate flips when the update changes
-the FB pitch, the DCC state, the rotation, enables or disables CRTCs
-or planes, etc. This is reflected in the dm_crtc_state.update_type
-field: UPDATE_TYPE_FAST means that immediate flip is supported.
+All atomic drivers setting drm_mode_config.async_page_flip are updated
+to also set drm_mode_config.atomic_async_page_flip_not_supported. We
+will gradually check and update these drivers to properly handle
+drm_crtc_state.async_flip in their atomic logic.
 
-Silently degrading async flips to vsync is not the expected behavior
-from a uAPI point-of-view. Xorg expects async flips to fail if
-unsupported, to be able to fall back to a blit. i915 already behaves
-this way.
+The goal of this negative flag is the same as
+fb_modifiers_not_supported: we want to eventually get rid of all
+drivers missing atomic support for async flips. New drivers should not
+set this flag, instead they should support atomic async flips (if
+they support async flips at all). IOW, we don't want more drivers
+with async flip support for legacy but not atomic.
 
-This patch aligns amdgpu with uAPI expectations and returns a failure
-when an async flip is not possible.
-
-v2: new patch
+v2: only set the flag on atomic drivers (remove it on amdgpu DCE and
+on radeon)
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 Reviewed-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Joshua Ashton <joshua@froggi.es>
 Cc: Melissa Wen <mwen@igalia.com>
 Cc: Harry Wentland <hwentlan@amd.com>
 Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c      |  8 ++++++++
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 10 ++++++++++
- 2 files changed, 18 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 +
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c      |  1 +
+ drivers/gpu/drm/i915/display/intel_display.c      |  1 +
+ drivers/gpu/drm/nouveau/nouveau_display.c         |  1 +
+ drivers/gpu/drm/vc4/vc4_kms.c                     |  1 +
+ include/drm/drm_mode_config.h                     | 11 +++++++++++
+ 6 files changed, 16 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
 u/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 7b19f444624c..44235345fd57 100644
+index 44235345fd57..7500e82cf06a 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7629,7 +7629,15 @@ static void amdgpu_dm_commit_planes(struct drm_atomi=
-c_state *state,
- =09=09/*
- =09=09 * Only allow immediate flips for fast updates that don't
- =09=09 * change FB pitch, DCC state, rotation or mirroing.
-+=09=09 *
-+=09=09 * dm_crtc_helper_atomic_check() only accepts async flips with
-+=09=09 * fast updates.
- =09=09 */
-+=09=09if (crtc->state->async_flip &&
-+=09=09    acrtc_state->update_type !=3D UPDATE_TYPE_FAST)
-+=09=09=09drm_warn_once(state->dev,
-+=09=09=09=09      "[PLANE:%d:%s] async flip with non-fast update\n",
-+=09=09=09=09      plane->base.id, plane->name);
- =09=09bundle->flip_addrs[planes_count].flip_immediate =3D
- =09=09=09crtc->state->async_flip &&
- =09=09=09acrtc_state->update_type =3D=3D UPDATE_TYPE_FAST;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drive=
-rs/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 594fe8a4d02b..97ead857f507 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -388,6 +388,16 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc=
- *crtc,
- =09=09return -EINVAL;
- =09}
+@@ -3808,6 +3808,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_d=
+evice *adev)
+ =09=09adev_to_drm(adev)->mode_config.prefer_shadow =3D 1;
+ =09/* indicates support for immediate flip */
+ =09adev_to_drm(adev)->mode_config.async_page_flip =3D true;
++=09adev_to_drm(adev)->mode_config.atomic_async_page_flip_not_supported =3D=
+ true;
 =20
-+=09/* Only allow async flips for fast updates that don't change the FB
-+=09 * pitch, the DCC state, rotation, etc. */
-+=09if (crtc_state->async_flip &&
-+=09    dm_crtc_state->update_type !=3D UPDATE_TYPE_FAST) {
-+=09=09drm_dbg_atomic(crtc->dev,
-+=09=09=09       "[CRTC:%d:%s] async flips are only supported for fast upda=
-tes\n",
-+=09=09=09       crtc->base.id, crtc->name);
-+=09=09return -EINVAL;
-+=09}
+ =09adev_to_drm(adev)->mode_config.fb_base =3D adev->gmc.aper_base;
+=20
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm=
+/atmel-hlcdc/atmel_hlcdc_dc.c
+index f7e7f4e919c7..ffb3a2fa797f 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -639,6 +639,7 @@ static int atmel_hlcdc_dc_modeset_init(struct drm_devic=
+e *dev)
+ =09dev->mode_config.max_height =3D dc->desc->max_height;
+ =09dev->mode_config.funcs =3D &mode_config_funcs;
+ =09dev->mode_config.async_page_flip =3D true;
++=09dev->mode_config.atomic_async_page_flip_not_supported =3D true;
+=20
+ =09return 0;
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm=
+/i915/display/intel_display.c
+index 40fbf8a296e2..e025b3499c9d 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -8621,6 +8621,7 @@ static void intel_mode_config_init(struct drm_i915_pr=
+ivate *i915)
+ =09mode_config->helper_private =3D &intel_mode_config_funcs;
+=20
+ =09mode_config->async_page_flip =3D HAS_ASYNC_FLIPS(i915);
++=09mode_config->atomic_async_page_flip_not_supported =3D true;
+=20
+ =09/*
+ =09 * Maximum framebuffer dimensions, chosen to match
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/no=
+uveau/nouveau_display.c
+index a2f5df568ca5..2b5c4f24aedd 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -699,6 +699,7 @@ nouveau_display_create(struct drm_device *dev)
+ =09=09dev->mode_config.async_page_flip =3D false;
+ =09else
+ =09=09dev->mode_config.async_page_flip =3D true;
++=09dev->mode_config.atomic_async_page_flip_not_supported =3D true;
+=20
+ =09drm_kms_helper_poll_init(dev);
+ =09drm_kms_helper_poll_disable(dev);
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 4419e810103d..3fe59c6b2cf0 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -1047,6 +1047,7 @@ int vc4_kms_load(struct drm_device *dev)
+ =09dev->mode_config.helper_private =3D &vc4_mode_config_helpers;
+ =09dev->mode_config.preferred_depth =3D 24;
+ =09dev->mode_config.async_page_flip =3D true;
++=09dev->mode_config.atomic_async_page_flip_not_supported =3D true;
+=20
+ =09ret =3D vc4_ctm_obj_init(vc4);
+ =09if (ret)
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 6b5e01295348..1b535d94f2f4 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -917,6 +917,17 @@ struct drm_mode_config {
+ =09 */
+ =09bool async_page_flip;
+=20
++=09/**
++=09 * @atomic_async_page_flip_not_supported:
++=09 *
++=09 * If true, the driver does not support async page-flips with the
++=09 * atomic uAPI. This is only used by old drivers which haven't yet
++=09 * accomodated for &drm_crtc_state.async_flip in their atomic logic,
++=09 * even if they have &drm_mode_config.async_page_flip set to true.
++=09 * New drivers shall not set this flag.
++=09 */
++=09bool atomic_async_page_flip_not_supported;
 +
- =09/* In some use cases, like reset, no stream is attached */
- =09if (!dm_crtc_state->stream)
- =09=09return 0;
+ =09/**
+ =09 * @fb_modifiers_not_supported:
+ =09 *
 --=20
 2.37.3
 
