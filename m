@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C5D5EFECC
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 22:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C7F5EFECD
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 22:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79AC410E075;
-	Thu, 29 Sep 2022 20:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE90510EB1D;
+	Thu, 29 Sep 2022 20:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24FE410EC74
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 20:42:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9067B10E075
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 20:42:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CB4147C;
- Thu, 29 Sep 2022 22:42:37 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E0016505;
+ Thu, 29 Sep 2022 22:42:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664484157;
- bh=EvUZuxe+ruShWvmKMPX9c/j7irkCCbo6vnNixwuurhw=;
- h=From:To:Cc:Subject:Date:From;
- b=CwTCkij/XNNJ5DEAvyIDe++C64Qz/TceUG9BXqvC+7utvoNIdp6h6MJPpP0T+WLEH
- mksGqBf5n0C6h2W6S8cjCqaN4JEzABvJjn2rWjCU1wLftyqD4t0HLdLwEoIvCrhFpl
- LgsMB634QmokXc8EG50xeVvq+w7Zlqkvl0t8gf90=
+ s=mail; t=1664484159;
+ bh=U8hKV8AsxFxCjC6Q5xZvqjox7qkgS0CBTHm5+Ra59oQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=JPDBwlvSa578u9H3DyaszoOnfmOdYQ3ZOoNcZVIq8VunDT9pvKFetL3Ws9Pj8sKEV
+ zzDSHCqOoHPLMy1cP9zSRJn8hMdcDep/CNt7VeLyw4rqwuAEpyaqvlmR8qxvqo2i7R
+ ofaSiE5NMTrUBj2p0GOgg+m3RMR+U1OkhLVT5Zxw=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/4] drm: lcdif: Improve YUV support
-Date: Thu, 29 Sep 2022 23:42:31 +0300
-Message-Id: <20220929204235.773-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 1/4] drm: lcdif: Fix indentation in lcdif_regs.h
+Date: Thu, 29 Sep 2022 23:42:32 +0300
+Message-Id: <20220929204235.773-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220929204235.773-1-laurent.pinchart@ideasonboard.com>
+References: <20220929204235.773-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,47 +54,39 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+A couple of the register macro values are incorrectly indented. Fix
+them.
 
-This small patch series improves YUV support in the i.MX8MP LCDIF
-driver. After patches 1/4 and 2/4 that fix tiny cosmetic issues, patch
-3/4 fixes YUV quantization range for the RGB to YUV conversion. Patch
-4/4 addresses the other direction and adds support for YUV planes.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Marek Vasut <marex@denx.de>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Reviewed-by: Liu Ying <victor.liu@nxp.com>
+---
+ drivers/gpu/drm/mxsfb/lcdif_regs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Please see individual patches for details.
-
-Compared to v2, review comments have been taken into account, and the
-YUV to RGB coefficients in patch 4/4 have been fixed (they were
-blatantly wrong due to a stupid mistake).
-
-The series has been tested on a Polyhex Debix board with the currently
-out-of-tree HDMI encoder support patches developed by Lucas Stach, with
-the kmstest and the libcamera 'cam' applications.
-
-There is a know issue with the way the driver programs the format and
-pitch, which produces incorrect output when testing YUV formats with the
-legacy (non-atomic) KMS API, in particular with the modetest
-application. The framebuffer is accessed from the plane state in
-function called from the .atomic_enable() handler, which in some
-circumstances results in the format and/or pitch of the old frame buffer
-being used. This issue preexists, and can be triggered by selecting a
-different RGB format with modetest (XR15 for instance). It should be
-fixed separately, and I wouldn't consider it as a blocker for this
-series as YUV formats can already be used correctly when using the KMS
-atomic API.
-
-Kieran Bingham (1):
-  drm: lcdif: Add support for YUV planes
-
-Laurent Pinchart (3):
-  drm: lcdif: Fix indentation in lcdif_regs.h
-  drm: lcdif: Don't use BIT() for multi-bit register fields
-  drm: lcdif: Switch to limited range for RGB to YUV conversion
-
- drivers/gpu/drm/mxsfb/lcdif_kms.c  | 232 ++++++++++++++++++++++++++---
- drivers/gpu/drm/mxsfb/lcdif_regs.h |  37 ++---
- 2 files changed, 229 insertions(+), 40 deletions(-)
-
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+index 8e8bef175bf2..013f2cace2a0 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
++++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+@@ -130,7 +130,7 @@
+ #define CTRL_FETCH_START_OPTION_BPV	BIT(9)
+ #define CTRL_FETCH_START_OPTION_RESV	GENMASK(9, 8)
+ #define CTRL_FETCH_START_OPTION_MASK	GENMASK(9, 8)
+-#define CTRL_NEG				BIT(4)
++#define CTRL_NEG			BIT(4)
+ #define CTRL_INV_PXCK			BIT(3)
+ #define CTRL_INV_DE			BIT(2)
+ #define CTRL_INV_VS			BIT(1)
+@@ -186,7 +186,7 @@
+ #define INT_ENABLE_D1_PLANE_PANIC_EN	BIT(0)
+ 
+ #define CTRLDESCL0_1_HEIGHT(n)		(((n) & 0xffff) << 16)
+-#define CTRLDESCL0_1_HEIGHT_MASK		GENMASK(31, 16)
++#define CTRLDESCL0_1_HEIGHT_MASK	GENMASK(31, 16)
+ #define CTRLDESCL0_1_WIDTH(n)		((n) & 0xffff)
+ #define CTRLDESCL0_1_WIDTH_MASK		GENMASK(15, 0)
+ 
 -- 
 Regards,
 
