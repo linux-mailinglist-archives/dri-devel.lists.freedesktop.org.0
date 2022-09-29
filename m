@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF5B5EF8AE
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 17:28:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C580F5EF8C9
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 17:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBC7810E3AE;
-	Thu, 29 Sep 2022 15:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87A4910E5ED;
+	Thu, 29 Sep 2022 15:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4567A10EAAD
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 15:28:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7F64921989;
- Thu, 29 Sep 2022 15:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664465278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ppyLK3q1pJ8pi3yII1UQVh/h85LAbNlHSbcOnaSIw1o=;
- b=QF5cd3xAf3OnKPYw6+iMxtavifBzHi256wU5CUCa9zN2X4n9y3VL2CQIMlQO/aWEGoNmew
- 9gOxiQNG1kG0myfMEI55k9S0rls73IRB/wy0+JEL73SGq6xqNQfxyX7+FUjBSZgUuyWt5k
- dxdmDrzc/LRPAVm5AxiztYOts8JsY4A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664465278;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ppyLK3q1pJ8pi3yII1UQVh/h85LAbNlHSbcOnaSIw1o=;
- b=zCVVSSpgY6h435N8ILuA/QLJ6mCgdqAloVh3ADkmvL9VuuLyHtyhvciFAeUp1rD1faO7Y8
- 8Zde75UfdKrGN0Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 625C31348E;
- Thu, 29 Sep 2022 15:27:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eZNtFn65NWNRXQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 29 Sep 2022 15:27:58 +0000
-Message-ID: <a00b65b4-5315-4262-3ed3-d580d3f6df7a@suse.de>
-Date: Thu, 29 Sep 2022 17:27:57 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B5FA410E5ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 15:31:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04BED15BF;
+ Thu, 29 Sep 2022 08:31:56 -0700 (PDT)
+Received: from [10.1.38.20] (e122027.cambridge.arm.com [10.1.38.20])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 72D873F792;
+ Thu, 29 Sep 2022 08:31:46 -0700 (PDT)
+Message-ID: <ccb55f39-2d7d-1e9d-91ac-70f609370e22@arm.com>
+Date: Thu, 29 Sep 2022 16:31:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] drm/ast: Add Atomic gamma lut support for aspeed
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
-References: <20220929132050.591283-1-jfalempe@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220929132050.591283-1-jfalempe@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------sHhm7FSjFuKwoE400DO6xDjD"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 5/6] drm/sched: Use parent fence instead of finished
+Content-Language: en-GB
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+ shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+ Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+ gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
+ <20220914164321.2156-6-Arvind.Yadav@amd.com>
+ <e613a225-dabf-7e87-2624-a3244df8a877@arm.com>
+ <5beff5e2-8589-28cf-40b4-9e6b9e45b307@amd.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <5beff5e2-8589-28cf-40b4-9e6b9e45b307@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,171 +55,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------sHhm7FSjFuKwoE400DO6xDjD
-Content-Type: multipart/mixed; boundary="------------IZMa0zrwbqFnhOeakYnoyfSz";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
-Message-ID: <a00b65b4-5315-4262-3ed3-d580d3f6df7a@suse.de>
-Subject: Re: [PATCH v2] drm/ast: Add Atomic gamma lut support for aspeed
-References: <20220929132050.591283-1-jfalempe@redhat.com>
-In-Reply-To: <20220929132050.591283-1-jfalempe@redhat.com>
+On 29/09/2022 15:57, Christian König wrote:
+> Am 29.09.22 um 16:53 schrieb Steven Price:
+>> On 14/09/2022 17:43, Arvind Yadav wrote:
+>>> Using the parent fence instead of the finished fence
+>>> to get the job status. This change is to avoid GPU
+>>> scheduler timeout error which can cause GPU reset.
+>> I'm able to reproduce crashes on Panfrost and I believe this commit is
+>> the cause. Specifically it's possible for job->s_fence->parent to be
+>> NULL.
+>>
+>> The underlying issue seems to involve drm_sched_resubmit_jobs_ext() - if
+>> the run_jobs() callback returns an error it will set s_fence->parent to
+>> NULL after signalling s_fence->finished:
+>>
+>>>         fence = sched->ops->run_job(s_job);
+>>>         i++;
+>>>
+>>>         if (IS_ERR_OR_NULL(fence)) {
+>>>             if (IS_ERR(fence))
+>>>                 dma_fence_set_error(&s_fence->finished, PTR_ERR(fence));
+>>>
+>>>             s_job->s_fence->parent = NULL;
+>> I don't understand the reasoning behind this change, but it doesn't seem
+>> right to be using the parent fence when we have code which can be
+>> setting that pointer to NULL.
+>>
+>> Since I don't understand the reasoning my only suggestion is to revert
+>> this patch (and potentially the dependent patch "dma-buf: Check status
+>> of enable-signaling bit on debug"?).
+>>
+>> Can anyone suggest a better fix?
+> 
+> Well, first of all please absolutely don't use
+> drm_sched_resubmit_jobs_ext()!
 
---------------IZMa0zrwbqFnhOeakYnoyfSz
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Panfrost isn't using drm_sched_resubmit_jobs_ext() directly but via
+drm_sched_resubmit_jobs().
 
-SGkNCg0KQW0gMjkuMDkuMjIgdW0gMTU6MjAgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IFRoZSBjdXJyZW50IGFzdCBkcml2ZXIgb25seSBzdXBwb3J0cyBsZWdhY3kgZ2FtbWEgaW50
-ZXJmYWNlLg0KPiBUaGlzIGFsc28gZml4ZXMgYSBHbm9tZTMvV2F5bGFuZCBlcnJvciB3aGlj
-aCBpbmNvcnJlY3RseSBhZGRzDQo+IGdhbW1hIHRvIGF0b21pYyBjb21taXQ6DQo+ICJQYWdl
-IGZsaXAgZGlzY2FyZGVkOiBDUlRDIHByb3BlcnR5IChHQU1NQV9MVVQpIG5vdCBmb3VuZCIN
-Cj4gDQo+IEkgb25seSB0ZXN0ZWQgcmVtb3RlbHksIHNvIEkgd2Fzbid0IGFibGUgdG8gY2hl
-Y2sgdGhhdCBpdCBoYWQNCj4gYW4gZWZmZWN0IG9uIHRoZSBWR0Egb3V0cHV0LiBCdXQgd2hl
-biBhY3RpdmF0aW5nICJOaWdodCBMaWdodCINCj4gaW4gR25vbWUsIGFzdF9jcnRjX2xvYWRf
-bHV0KCkgaXMgY2FsbGVkLg0KPiANCj4gdjI6IHVzZSB0aGUgc2FtZSBmdW5jdGlvbnMgYXMg
-bWdhZzIwMC4NCj4gICAgICBoYW5kbGUgMTZiaXRzIGNvbG9yIG1vZGUuDQo+IA0KPiBTaWdu
-ZWQtb2ZmLWJ5OiBKb2NlbHluIEZhbGVtcGUgPGpmYWxlbXBlQHJlZGhhdC5jb20+DQoNClRo
-YXQgd29ya3Mgd2VsbCBvbiBteSBBU1QyMzAwIHRlc3Qgc3lzdGVtLiBUaGUgb25lIHRoaW5n
-IG1pc3NpbmcgaXMgdGhlIA0KQ1JUQydzIGF0b21pY19jaGVjayBjb2RlLiBTZWUNCg0KIA0K
-aHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLXRpcC90cmVlL2RyaXZlcnMv
-Z3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jI241OTcNCg0KZm9yIHdoYXQgdG8gZG8u
-IFdpdGggdGhpcyB0ZXN0IGltcGxlbWVudGVkLCB5b3UgY2FuIGFkZA0KDQpUZXN0ZWQtYnk6
-IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KUmV2aWV3ZWQtYnk6
-IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQp0byB0aGUgcGF0
-Y2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2FzdC9hc3RfbW9kZS5jIHwgOTQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA3NyBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlv
-bnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2Rl
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4gaW5kZXggMjE0YjEwMTc4
-NDU0Li4wNmVhMTNjM2E5YjQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3Qv
-YXN0X21vZGUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4g
-QEAgLTQ5LDYgKzQ5LDggQEANCj4gICAjaW5jbHVkZSAiYXN0X2Rydi5oIg0KPiAgICNpbmNs
-dWRlICJhc3RfdGFibGVzLmgiDQo+ICAgDQo+ICsjZGVmaW5lIEFTVF9MVVRfU0laRSAyNTYN
-Cj4gKw0KPiAgIHN0YXRpYyBpbmxpbmUgdm9pZCBhc3RfbG9hZF9wYWxldHRlX2luZGV4KHN0
-cnVjdCBhc3RfcHJpdmF0ZSAqYXN0LA0KPiAgIAkJCQkgICAgIHU4IGluZGV4LCB1OCByZWQs
-IHU4IGdyZWVuLA0KPiAgIAkJCQkgICAgIHU4IGJsdWUpDQo+IEBAIC02MywyMCArNjUsNzEg
-QEAgc3RhdGljIGlubGluZSB2b2lkIGFzdF9sb2FkX3BhbGV0dGVfaW5kZXgoc3RydWN0IGFz
-dF9wcml2YXRlICphc3QsDQo+ICAgCWFzdF9pb19yZWFkOChhc3QsIEFTVF9JT19TRVFfUE9S
-VCk7DQo+ICAgfQ0KPiAgIA0KPiAtc3RhdGljIHZvaWQgYXN0X2NydGNfbG9hZF9sdXQoc3Ry
-dWN0IGFzdF9wcml2YXRlICphc3QsIHN0cnVjdCBkcm1fY3J0YyAqY3J0YykNCj4gK3N0YXRp
-YyB2b2lkIGFzdF9jcnRjX3NldF9nYW1tYV9saW5lYXIoc3RydWN0IGFzdF9wcml2YXRlICph
-c3QsDQo+ICsJCQkJICAgICAgY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0
-KQ0KPiAgIHsNCj4gLQl1MTYgKnIsICpnLCAqYjsNCj4gICAJaW50IGk7DQo+ICAgDQo+IC0J
-aWYgKCFjcnRjLT5lbmFibGVkKQ0KPiAtCQlyZXR1cm47DQo+ICsJc3dpdGNoIChmb3JtYXQt
-PmZvcm1hdCkgew0KPiArCWNhc2UgRFJNX0ZPUk1BVF9SR0I1NjU6DQo+ICsJCS8qIFVzZSBi
-ZXR0ZXIgaW50ZXJwb2xhdGlvbiwgdG8gdGFrZSAzMiB2YWx1ZXMgZnJvbSAwIHRvIDI1NSAq
-Lw0KPiArCQlmb3IgKGkgPSAwOyBpIDwgQVNUX0xVVF9TSVpFIC8gODsgaSsrKQ0KPiArCQkJ
-YXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3QsDQo+ICsJCQkJCSAgICAgICBpLA0KPiArCQkJ
-CQkgICAgICAgaSAqIDggKyBpIC8gNCwNCj4gKwkJCQkJICAgICAgIGkgKiA0ICsgaSAvIDE2
-LA0KPiArCQkJCQkgICAgICAgaSAqIDggKyBpIC8gNCk7DQo+ICsJCS8qIEdyZWVuIGhhcyBv
-bmUgbW9yZSBiaXQsIHNvIGFkZCBwYWRkaW5nIHdpdGggMCBmb3IgcmVkIGFuZCBibHVlLiAq
-Lw0KPiArCQlmb3IgKGkgPSBBU1RfTFVUX1NJWkUgLyA4OyBpIDwgQVNUX0xVVF9TSVpFIC8g
-NDsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3QsIGksIDAsIGkgKiA0
-ICsgaSAvIDE2LCAwKTsNCj4gKwkJYnJlYWs7DQo+ICsJY2FzZSBEUk1fRk9STUFUX0M4OiAv
-KiBJbiB0aGlzIGNhc2UsIGdhbW1hIHRhYmxlIGlzIHVzZWQgYXMgY29sb3IgcGFsZXR0ZSAq
-Lw0KPiArCWNhc2UgRFJNX0ZPUk1BVF9SR0I4ODg6DQo+ICsJY2FzZSBEUk1fRk9STUFUX1hS
-R0I4ODg4Og0KPiArCQlmb3IgKGkgPSAwOyBpIDwgQVNUX0xVVF9TSVpFOyBpKyspDQo+ICsJ
-CQlhc3RfbG9hZF9wYWxldHRlX2luZGV4KGFzdCwgaSwgaSwgaSwgaSk7DQo+ICsJCWJyZWFr
-Ow0KPiArCWRlZmF1bHQ6DQo+ICsJCWRybV93YXJuX29uY2UoJmFzdC0+YmFzZSwgIlVuc3Vw
-cG9ydGVkIGZvcm1hdCAlcDRjYyBmb3IgZ2FtbWEgY29ycmVjdGlvblxuIiwNCj4gKwkJCSAg
-ICAgICZmb3JtYXQtPmZvcm1hdCk7DQo+ICsJCWJyZWFrOw0KPiArCX0NCj4gK30NCj4gICAN
-Cj4gLQlyID0gY3J0Yy0+Z2FtbWFfc3RvcmU7DQo+IC0JZyA9IHIgKyBjcnRjLT5nYW1tYV9z
-aXplOw0KPiAtCWIgPSBnICsgY3J0Yy0+Z2FtbWFfc2l6ZTsNCj4gK3N0YXRpYyB2b2lkIGFz
-dF9jcnRjX3NldF9nYW1tYShzdHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdCwNCj4gKwkJCSAgICAg
-ICBjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQsDQo+ICsJCQkgICAgICAg
-c3RydWN0IGRybV9jb2xvcl9sdXQgKmx1dCkNCj4gK3sNCj4gKwlpbnQgaTsNCj4gICANCj4g
-LQlmb3IgKGkgPSAwOyBpIDwgMjU2OyBpKyspDQo+IC0JCWFzdF9sb2FkX3BhbGV0dGVfaW5k
-ZXgoYXN0LCBpLCAqcisrID4+IDgsICpnKysgPj4gOCwgKmIrKyA+PiA4KTsNCj4gKwlzd2l0
-Y2ggKGZvcm1hdC0+Zm9ybWF0KSB7DQo+ICsJY2FzZSBEUk1fRk9STUFUX1JHQjU2NToNCj4g
-KwkJLyogVXNlIGJldHRlciBpbnRlcnBvbGF0aW9uLCB0byB0YWtlIDMyIHZhbHVlcyBmcm9t
-IGx1dFswXSB0byBsdXRbMjU1XSAqLw0KPiArCQlmb3IgKGkgPSAwOyBpIDwgQVNUX0xVVF9T
-SVpFIC8gODsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3QsDQo+ICsJ
-CQkJCSAgICAgICBpLA0KPiArCQkJCQkgICAgICAgbHV0W2kgKiA4ICsgaSAvIDRdLnJlZCA+
-PiA4LA0KPiArCQkJCQkgICAgICAgbHV0W2kgKiA0ICsgaSAvIDE2XS5ncmVlbiA+PiA4LA0K
-PiArCQkJCQkgICAgICAgbHV0W2kgKiA4ICsgaSAvIDRdLmJsdWUgPj4gOCk7DQo+ICsJCS8q
-IEdyZWVuIGhhcyBvbmUgbW9yZSBiaXQsIHNvIGFkZCBwYWRkaW5nIHdpdGggMCBmb3IgcmVk
-IGFuZCBibHVlLiAqLw0KPiArCQlmb3IgKGkgPSBBU1RfTFVUX1NJWkUgLyA4OyBpIDwgQVNU
-X0xVVF9TSVpFIC8gNDsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChhc3Qs
-IGksIDAsIGx1dFtpICogNCArIGkgLyAxNl0uZ3JlZW4gPj4gOCwgMCk7DQo+ICsJCWJyZWFr
-Ow0KPiArCWNhc2UgRFJNX0ZPUk1BVF9DODogLyogSW4gdGhpcyBjYXNlLCBnYW1tYSB0YWJs
-ZSBpcyB1c2VkIGFzIGNvbG9yIHBhbGV0dGUgKi8NCj4gKwljYXNlIERSTV9GT1JNQVRfUkdC
-ODg4Og0KPiArCWNhc2UgRFJNX0ZPUk1BVF9YUkdCODg4ODoNCj4gKwkJZm9yIChpID0gMDsg
-aSA8IEFTVF9MVVRfU0laRTsgaSsrKQ0KPiArCQkJYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChh
-c3QsDQo+ICsJCQkJCSAgICAgICBpLA0KPiArCQkJCQkgICAgICAgbHV0W2ldLnJlZCA+PiA4
-LA0KPiArCQkJCQkgICAgICAgbHV0W2ldLmdyZWVuID4+IDgsDQo+ICsJCQkJCSAgICAgICBs
-dXRbaV0uYmx1ZSA+PiA4KTsNCj4gKwkJYnJlYWs7DQo+ICsJZGVmYXVsdDoNCj4gKwkJZHJt
-X3dhcm5fb25jZSgmYXN0LT5iYXNlLCAiVW5zdXBwb3J0ZWQgZm9ybWF0ICVwNGNjIGZvciBn
-YW1tYSBjb3JyZWN0aW9uXG4iLA0KPiArCQkJICAgICAgJmZvcm1hdC0+Zm9ybWF0KTsNCj4g
-KwkJYnJlYWs7DQo+ICsJfQ0KPiAgIH0NCj4gICANCj4gICBzdGF0aWMgYm9vbCBhc3RfZ2V0
-X3ZiaW9zX21vZGVfaW5mbyhjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQs
-DQo+IEBAIC0xMDE4LDkgKzEwNzEsMTEgQEAgc3RhdGljIHZvaWQgYXN0X2NydGNfZHBtcyhz
-dHJ1Y3QgZHJtX2NydGMgKmNydGMsIGludCBtb2RlKQ0KPiAgIA0KPiAgIAkJCWFzdF9zZXRf
-Y29sb3JfcmVnKGFzdCwgZm9ybWF0KTsNCj4gICAJCQlhc3Rfc2V0X3ZiaW9zX2NvbG9yX3Jl
-Zyhhc3QsIGZvcm1hdCwgdmJpb3NfbW9kZV9pbmZvKTsNCj4gKwkJCWlmIChjcnRjLT5zdGF0
-ZS0+Z2FtbWFfbHV0KQ0KPiArCQkJCWFzdF9jcnRjX3NldF9nYW1tYShhc3QsIGZvcm1hdCwg
-Y3J0Yy0+c3RhdGUtPmdhbW1hX2x1dC0+ZGF0YSk7DQo+ICsJCQllbHNlDQo+ICsJCQkJYXN0
-X2NydGNfc2V0X2dhbW1hX2xpbmVhcihhc3QsIGZvcm1hdCk7DQo+ICAgCQl9DQo+IC0NCj4g
-LQkJYXN0X2NydGNfbG9hZF9sdXQoYXN0LCBjcnRjKTsNCj4gICAJCWJyZWFrOw0KPiAgIAlj
-YXNlIERSTV9NT0RFX0RQTVNfU1RBTkRCWToNCj4gICAJY2FzZSBEUk1fTU9ERV9EUE1TX1NV
-U1BFTkQ6DQo+IEBAIC0xMTU4LDIwICsxMjEzLDIzIEBAIGFzdF9jcnRjX2hlbHBlcl9hdG9t
-aWNfZmx1c2goc3RydWN0IGRybV9jcnRjICpjcnRjLA0KPiAgIHsNCj4gICAJc3RydWN0IGRy
-bV9jcnRjX3N0YXRlICpjcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X2NydGNfc3Rh
-dGUoc3RhdGUsDQo+ICAgCQkJCQkJCQkJICBjcnRjKTsNCj4gLQlzdHJ1Y3QgZHJtX2NydGNf
-c3RhdGUgKm9sZF9jcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfb2xkX2NydGNfc3RhdGUo
-c3RhdGUsDQo+IC0JCQkJCQkJCQkgICAgICBjcnRjKTsNCj4gICAJc3RydWN0IGRybV9kZXZp
-Y2UgKmRldiA9IGNydGMtPmRldjsNCj4gICAJc3RydWN0IGFzdF9wcml2YXRlICphc3QgPSB0
-b19hc3RfcHJpdmF0ZShkZXYpOw0KPiAgIAlzdHJ1Y3QgYXN0X2NydGNfc3RhdGUgKmFzdF9j
-cnRjX3N0YXRlID0gdG9fYXN0X2NydGNfc3RhdGUoY3J0Y19zdGF0ZSk7DQo+IC0Jc3RydWN0
-IGFzdF9jcnRjX3N0YXRlICpvbGRfYXN0X2NydGNfc3RhdGUgPSB0b19hc3RfY3J0Y19zdGF0
-ZShvbGRfY3J0Y19zdGF0ZSk7DQo+ICAgCXN0cnVjdCBhc3RfdmJpb3NfbW9kZV9pbmZvICp2
-Ymlvc19tb2RlX2luZm8gPSAmYXN0X2NydGNfc3RhdGUtPnZiaW9zX21vZGVfaW5mbzsNCj4g
-ICANCj4gICAJLyoNCj4gICAJICogVGhlIGdhbW1hIExVVCBoYXMgdG8gYmUgcmVsb2FkZWQg
-YWZ0ZXIgY2hhbmdpbmcgdGhlIHByaW1hcnkNCj4gICAJICogcGxhbmUncyBjb2xvciBmb3Jt
-YXQuDQo+ICAgCSAqLw0KPiAtCWlmIChvbGRfYXN0X2NydGNfc3RhdGUtPmZvcm1hdCAhPSBh
-c3RfY3J0Y19zdGF0ZS0+Zm9ybWF0KQ0KPiAtCQlhc3RfY3J0Y19sb2FkX2x1dChhc3QsIGNy
-dGMpOw0KPiArCWlmIChjcnRjX3N0YXRlLT5lbmFibGUgJiYgY3J0Y19zdGF0ZS0+Y29sb3Jf
-bWdtdF9jaGFuZ2VkKSB7DQo+ICsJCWlmIChjcnRjX3N0YXRlLT5nYW1tYV9sdXQpDQo+ICsJ
-CQlhc3RfY3J0Y19zZXRfZ2FtbWEoYXN0LA0KPiArCQkJCQkgICBhc3RfY3J0Y19zdGF0ZS0+
-Zm9ybWF0LA0KPiArCQkJCQkgICBjcnRjX3N0YXRlLT5nYW1tYV9sdXQtPmRhdGEpOw0KPiAr
-CQllbHNlDQo+ICsJCQlhc3RfY3J0Y19zZXRfZ2FtbWFfbGluZWFyKGFzdCwgYXN0X2NydGNf
-c3RhdGUtPmZvcm1hdCk7DQo+ICsJfQ0KPiAgIA0KPiAgIAkvL1NldCBBc3BlZWQgRGlzcGxh
-eS1Qb3J0DQo+ICAgCWlmIChhc3QtPnR4X2NoaXBfdHlwZXMgJiBBU1RfVFhfQVNURFBfQklU
-KQ0KPiBAQCAtMTMwOSw3ICsxMzY3LDkgQEAgc3RhdGljIGludCBhc3RfY3J0Y19pbml0KHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gcmV0
-Ow0KPiAgIA0KPiAtCWRybV9tb2RlX2NydGNfc2V0X2dhbW1hX3NpemUoY3J0YywgMjU2KTsN
-Cj4gKwlkcm1fbW9kZV9jcnRjX3NldF9nYW1tYV9zaXplKGNydGMsIEFTVF9MVVRfU0laRSk7
-DQo+ICsJZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQoY3J0YywgMCwgZmFsc2UsIEFTVF9M
-VVRfU0laRSk7DQo+ICsNCj4gICAJZHJtX2NydGNfaGVscGVyX2FkZChjcnRjLCAmYXN0X2Ny
-dGNfaGVscGVyX2Z1bmNzKTsNCj4gICANCj4gICAJcmV0dXJuIDA7DQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
-LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
-cjogSXZvIFRvdGV2DQo=
+> It was an extremely bad idea in amdgpu to approach GPU by re-submitting
+> jobs and it was an even worse idea to push this into the scheduler.
+> 
+> The design of dma_fence is that you submit that once and *only* once and
+> then get a result for this submission. If re-submission is desirable it
+> should be done in userspace or at least higher levels.
 
---------------IZMa0zrwbqFnhOeakYnoyfSz--
+Panfrost has an interesting feature where it's possible to rescue a job
+during a GPU reset. Because jobs are queued on the GPU if the job hasn't
+actually started executing then it's quite possible to safely resubmit
+it from the kernel driver and user space doesn't need to be involved.
 
---------------sHhm7FSjFuKwoE400DO6xDjD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+The benefit of this is if another process has hung the GPU that
+processes jobs can be killed off without affecting any other innocent
+processes.
 
------BEGIN PGP SIGNATURE-----
+One option would be to hide all this from the scheduler, but I can't see
+how to do that without also hiding the actual reset from the scheduler.
+Admittedly at the moment Panfrost is far too aggressive at resetting and
+will perform a GPU reset in conditions where it's completely
+unnecessary. There's work to do there but I haven't had the time to look
+at it yet.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM1uX0FAwAAAAAACgkQlh/E3EQov+C4
-4hAAxkZ6zs6gcq37Mf0BpeY5pc6QLFDpT+l/Kf5FCz4wbgUwTXU57CIfEU8VBu4FMAiuNG883tQb
-Bx1TWoUi/eMmkH2OJRmCCD7///e6xO4CJdTydYpsIReY+juaDsWCjPMzIrxXPzoU+FpgT3eH+nQ4
-Sokz79eLLYHBxmGuCpVwRiVNbDwtFuptnBsJmNcFdwTn15R1fUZ0nYXIxAdeWn2XjZK8L8ww+X2I
-XaRufBfDN9QndQMhNF9YD8YA8WT9LLuGcDI0X1uQCTLmHMUM+rhZRcj/yKWrMFCrutrSNrvf5h8b
-2gYF/fkGAcjkceT/S6DooqZyeLqRt+gCdr5ZyskoFbtJ8ve42CZc6oRUvhvdkRutav1ETmzOlDt/
-+IgqzbtcL/gpAxOek+hDbJ3dRm0an7mCQIRxTqZ6OcYCTp6GucR+jpY0znLAtnHMW1vUR5bv0zsr
-rzHX9WvzCre1EKpLlj8bloZ/WOVcpWHM1BB7jNZjll8Uf/vBRbBcQdkUADLeZyj90mHC3J8b2rMH
-ThZhe+eUd2Wp1U+q1Xu69RzRm/Mld9v16S/dcxNe5i3kRVXVdKTl8Pj/97b43/TIJ1gt/58c/Xg5
-n++r3Lv6L35Gspy/VglQngsvTbXXguqxFaSnls7ahSAx9yfu+VXwP6aVyuCApxhhFh5OkKtSt0Hq
-HTw=
-=JRJ7
------END PGP SIGNATURE-----
+> Apart from that, yes a NULL check is missing here but that should be
+> trivial to fix.
 
---------------sHhm7FSjFuKwoE400DO6xDjD--
+What I'm struggling to get my head round is whether it's correct to
+always treat the job as signalled just because s_fence->parent is NULL?
+
+Thanks,
+
+Steve
+
+> Thanks,
+> Christian.
+> 
+>>
+>> Thanks,
+>>
+>> Steve
+>>
+>>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+>>> Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>> ---
+>>>
+>>> changes in v1,v2 - Enable signaling for finished fence in sche_main()
+>>> is removed
+>>>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index e0ab14e0fb6b..2ac28ad11432 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -829,7 +829,7 @@ drm_sched_get_cleanup_job(struct
+>>> drm_gpu_scheduler *sched)
+>>>       job = list_first_entry_or_null(&sched->pending_list,
+>>>                          struct drm_sched_job, list);
+>>>   -    if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+>>> +    if (job && dma_fence_is_signaled(job->s_fence->parent)) {
+>>>           /* remove job from pending_list */
+>>>           list_del_init(&job->list);
+>>>   @@ -841,7 +841,7 @@ drm_sched_get_cleanup_job(struct
+>>> drm_gpu_scheduler *sched)
+>>>             if (next) {
+>>>               next->s_fence->scheduled.timestamp =
+>>> -                job->s_fence->finished.timestamp;
+>>> +                job->s_fence->parent->timestamp;
+>>>               /* start TO timer for next job */
+>>>               drm_sched_start_timeout(sched);
+>>>           }
+> 
+
