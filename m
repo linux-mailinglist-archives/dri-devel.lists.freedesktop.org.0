@@ -2,123 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2EE5EFCE4
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 20:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D31D5EFCEB
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 20:21:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49D2A10EBD7;
-	Thu, 29 Sep 2022 18:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51B1E10EBDC;
+	Thu, 29 Sep 2022 18:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD51010EBD7
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 18:18:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LXlHo5sBD1qFn7Kzd7p0X1VdiOVqohBtTTc5pbw7RcI1f6mxW4iBJUDV7l1wvE++3mIwPIaTwuAAkhZYHk6xRNYhipEd5TvMwf+7dv8VANY1A7MTcqZQDiO9Yma3YS+f3C/ce6IfqtJgLYnHxrXlsV959zuqihOshk7y4vC8SI7KfIPULf/6+i/kBpeQ2+2aWZLPSy44voSpkULrBNYj4qb4PjnuSxvgHXk9zR3UkthqnIQYQp+ZiDEyko/4AxsFJXNOc4kFNkBoeDXfDSEMII/ZzZukdw+vK9Q8s5GZbupzz9oAudUY6rAvcAcT1VzIfaX0XFOY7UUBLt9cZEE9yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8vpUODqfyU41AYlHfcVwGGHEsGwNY5V2W0mZdYU9LtA=;
- b=QIscmRNjXwvsPGqnK6U7Dg12XUv8HMd1TK3BVPG1/q2dxy7VVVSSDttaG5Axm8fbKNCSZz23dbD2/XXG7rtfOzhyo0FYu2lPcSr10IwJHcX7cDNX1G8PR7e8M8CKI4G9UI0myi9NzPe80Jt4E1ooxtl4Mm0w8QpfZrGv4Af0wg+FXi9E/LgaWhrnvoxuzrggYRAkIVrKeydx/AoXtd0MUYXC6Hfqa9s4jyvxa8sUqy33M05op4Wg3Q+HwurScwLtX9QBF4yPRaMTJLOWPkkQDNYEx04D3qoKEYwWbTGBksyhjNv9v3UrU6jumgNAS5EU/eEFSn+SvFOj1BqCYD2qig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8vpUODqfyU41AYlHfcVwGGHEsGwNY5V2W0mZdYU9LtA=;
- b=dP0W6JjGPFQ7qu3tcNsCPzTP33z1TqB+FNb7XJtKw8aS2EkM5E1+ZmmJ1NJ7HsFXridhXrvq41BtAjas33Fu6tY0KUA4zWjFvAlQHqJE2hL0boqjf4FcfANI9Jvi7ocu+vkArbiFpjBD2kfgr/zD8uHXI/Ql52ass5SsObv9tMw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH0PR12MB5433.namprd12.prod.outlook.com (2603:10b6:510:e1::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.20; Thu, 29 Sep
- 2022 18:18:41 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::805b:58b6:1f27:d644]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::805b:58b6:1f27:d644%6]) with mapi id 15.20.5676.015; Thu, 29 Sep 2022
- 18:18:41 +0000
-Message-ID: <59d4d647-f451-061c-79b5-0ffc4e33fc58@amd.com>
-Date: Thu, 29 Sep 2022 20:18:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/3] dma-buf: Check status of enable-signaling bit on debug
-Content-Language: en-US
-To: Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
- shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
- Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
- gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220927172409.484061-1-Arvind.Yadav@amd.com>
- <20220927172409.484061-4-Arvind.Yadav@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220927172409.484061-4-Arvind.Yadav@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0113.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED2310EBDC
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 18:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664475654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kDoEgsT9wXe+t/kg0KkgIaBt49dEgVlHfb30tNfOKos=;
+ b=bJzozZjhZ8fwGjx3hg08hTVCa+0Q1pg+uH+0PrMzRvZ7Il9C/1Dix64PBOFbyBAJ5Leagy
+ 7tOEMzcyu3+Kp61mgIxE+0FfXsT9n1U0UrMtajvYN7wQ0UO04DngqvPGUw0Xn5oS6G3TUN
+ 37CgRjIEHJDiPfG1lTnJ3Wa+05HmWGo=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-260-0oYiKUV2NeKUfqaEBQnKPg-1; Thu, 29 Sep 2022 14:20:53 -0400
+X-MC-Unique: 0oYiKUV2NeKUfqaEBQnKPg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ by40-20020a05651c1a2800b0026c4246ce71so675902ljb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 11:20:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=kDoEgsT9wXe+t/kg0KkgIaBt49dEgVlHfb30tNfOKos=;
+ b=UVM9uIjHcOlP1POBse0r0JUXWjBfd21G6kzCfUwRPM1fUKjvJYxoFx38tSjmF3EbQP
+ /thaXIQi2RDazH4oCkC0tQMjCrxYAwucp+y+2rCQ1Zw0Nh2wm/AFiyKllfGF+agHT/b4
+ 34Gzj2faBOPzOzVOkk40Go07lJ+Z+MKCIDM0vG1g7oV0SxhWEs0Cv3+GGVk9MKqj4OIP
+ ul4riN/zGqTsc362Wjkt8dbr5BCgzBr0DHn0auP+Y0f9cy67QSuZg4Hy91+HvLEIeS6x
+ V5t5REGamj9kzltUXoPBSEOIoCotaGOOEUy34OjP7TlDk/kzW2dCFpmk8v4iCUlbvbRW
+ 2+HQ==
+X-Gm-Message-State: ACrzQf3vxzEiANLNtgBnU00dUaCEmK0/WtPWRgbH7ZQF8NcZHZQwWBMq
+ WK/Pxc44+0HNB2FkUJqAOl03tM9+MrY6pKl5bXLUPQFZTB6j559RgLNO2QYQI2TM3q2qOAAzenJ
+ JKBWIkraEXg/tPYf1J78iinp1OfJda8vF47fixkQlrn0N
+X-Received: by 2002:a2e:984d:0:b0:26b:fb6a:2e3d with SMTP id
+ e13-20020a2e984d000000b0026bfb6a2e3dmr1696852ljj.71.1664475651274; 
+ Thu, 29 Sep 2022 11:20:51 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5+K+RPYd5vTsKmUqPwlqi1SyKDh5I9/Q6g5e+gOf61Et76lyiQP02m9Nei+Oe4/15eZhwbG44n4EVuR3Tecgg=
+X-Received: by 2002:a2e:984d:0:b0:26b:fb6a:2e3d with SMTP id
+ e13-20020a2e984d000000b0026bfb6a2e3dmr1696847ljj.71.1664475651070; Thu, 29
+ Sep 2022 11:20:51 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH0PR12MB5433:EE_
-X-MS-Office365-Filtering-Correlation-Id: 732636f9-3cfb-4825-9040-08daa2470907
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qxNF26cuTMx6m1tLp2pzqy2RELEGMIERyZBPoTvfZrrJc1cSEMxPvSM7/TqRPvRHQLOM5Sv6pIwuZY0OTZjMbG4i+8QP0rGo9vxqiR/DBeS4j/sDhib61mwHod1hQrpnJFEaq9B+OeOkeJFqduajvIMECANPPXpO/brZPe2MjE23H+zPpIv0AMY6EDVgie88FqScalZObk1IVU4pVJ/V3i4KcTRnEzVRKBXrSslNN12DtnUoKOrRnUmkFOucAw6cCSPwmOs9ZFSY4XdR9olIdHJZ+Q55nG64RS0wQfbBHdQRR8WUk+zJC4ZIE1e5QUy6XQc4nyvZgR3dhCgHOjkuYbzJpm5+VHC+8Fgc0zd06BSZCSgg6hxCnEgHQKSiIAQR06zdxKStGxLXgD8iXRpulzneUPVZcSksve4Eyny0BBITs0iPNcRBA0r1WHZIs44hpS8ylrvDRVrb1/G/8e6Cs1hD78Nl/yxyVSyZBiz2PEdW8cf6AEBFaY/OhrNSb/cywJWfnTgdHw5O5PvatmPQXUxv+BRkWUZbOG9GldpWW9KiqMvd4T2XjI9begmCSMa9dgxuN/cx04AUijM451CA15EwXPBbvksCU/pdbfZwNHRPuQkbz+PjtdnnjEQu9KRtWlgfta9mh2ePPsOKSCAgz0tCBLmxjSOJfNKDllmMAGECwuZZPsHvRgDuDDEWtu0L38UfheOxaNmlmshUgpVNQ/TLkzKg/M5uLk9y+HpudVcebVvoRbzywZiLKE2AQkOGQnsA2rTHMKBU1ZhbB5v8KsliFfzzfCVhn9wItKN4VD8DYtiIlrw+ZIwl/6fC4hy3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(39860400002)(136003)(376002)(366004)(396003)(451199015)(5660300002)(8936002)(41300700001)(316002)(38100700002)(6506007)(6486002)(83380400001)(2906002)(921005)(31686004)(6512007)(6666004)(66556008)(66946007)(31696002)(86362001)(36756003)(8676002)(66476007)(186003)(2616005)(478600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1J2YzlOR3JVZFB4SEo1RlVBb0d3cVlFNjVuV1MvV0h3Rk1Zb0IwaFhKT3lR?=
- =?utf-8?B?STQrNXdmd0hCTnR3UG5jR2dVWWdhMVh2Z0ZWcjVxOGNmOU1uNVNGQkJmQ29j?=
- =?utf-8?B?dDBnZkxaRmhuQzhWRTBmT3cra3d6dG14a3l3TTRsUWNaRi9Kc1Z5S3R2ckRr?=
- =?utf-8?B?ZlM1THlsVzRjS0pNY1hHdjZOZi8vRUorRGY3UE1rSUJjcHNKSTlSSjZHZnRt?=
- =?utf-8?B?bTMvQWJPMWVwV1FGV0kvaXAyVGx5VC9mblpyNGJMbDdvRzZvbWZUZnQ3LzZZ?=
- =?utf-8?B?OGJHQWFhOENhZHV0K1RyckVoMCt5K1VCVEdaYnVmekJGc1J3QlpDWnhlWHRn?=
- =?utf-8?B?bUx6L000NjkwVm1NN004TjdaQUtUWmM4ZElqODkxaGVmTkxibEJPcW9SbC85?=
- =?utf-8?B?YjRyYkVQbzhiRUk0QnZxMlZTUW9sZGNhMG5jc2NPajYwRDlFZHJ0cHRYVHJM?=
- =?utf-8?B?a1ZaMnpoMktKQjRwWVdzTTlnNStmKzBXa0p5UnRDV3BHdnhJeWpxd0MrYXJ4?=
- =?utf-8?B?Z0ljbFpmUkdRY1JUSW8wa3ZrZ2l5cVg0bTJNalYzVWVZUGZDblZGZGw0clI3?=
- =?utf-8?B?Y29ncGd4bzZiVSs5WHRoMEt3WEs4Q01zOXNnNDdSM2lQazcxUE4vdlhSTGF3?=
- =?utf-8?B?Mkt2dHVNcGVFTEpreWdSM09QQjJyRUc3K05GdkY2Y0FDckxaVVpTV3RjUEVU?=
- =?utf-8?B?UjR1cWszM0Fua1dXZGRiZDViTVIxVSsvUFJyMGQxR0pFU3ZZWTBYMlJVeDdo?=
- =?utf-8?B?eXBuTW1TNFdlQWVUZnJtRE4zMzZ5RHlEUVdGVmFUbGRjS01BcE9mMFNEU3Vt?=
- =?utf-8?B?SUl5QTdyYTZjVWxidUVaWFhwa1RpY1lRSlFTbjVqTEhxOWFpMDBjOUhqaEZE?=
- =?utf-8?B?V2o2cXZ6dWMrcDUraUVjZ0RDdk54cC9GSE93dklWSWJ6OEU3cjFVUDduT1d0?=
- =?utf-8?B?dnNFNlgwRUVsaS96THkvV0NwWkxOcnNRNVRUQkZrQTNZLzd5MEp6QnlSL3RJ?=
- =?utf-8?B?Rjh3UTN0M2pwdDhCdkFaWkVvU25QNHFoc28rRVdCTWczZEc4bVI4dHc4NXM0?=
- =?utf-8?B?Zzc3L0ZnTUFFcmlDNkVpYmpVbXljMzNwZTJ1bGlIZTdDWmdvRWtnQ3gxaDdv?=
- =?utf-8?B?VDAyS2ZwOHJsMEdLQlRLSmRUL0lEdkhwc0FFWFMyaHNsUWpnRllSU01vL0VF?=
- =?utf-8?B?RHBXODZDcnBiRHBYZXd2ajcvdHd4ZzV6QzhLRFkzVVB4cEgrbFZjUHlmMzd4?=
- =?utf-8?B?Vzc1VmRFVmYyWUwxTy80dDJxSHhwT1JINnNnNFBMNEl3aU9MR2ZvMnNsYmVL?=
- =?utf-8?B?QlIwQTd1WjdLbUVydjBNNE9qRE1yaDdhRm53WVRrK05mOTRvNnZxcXc0OERk?=
- =?utf-8?B?MnliVTdqOGQ3emRWOWxUekFYbXErbkhrUWRpUG5QRmtFTlZiYU1SOVRNSGFX?=
- =?utf-8?B?a1VwZDFJMmFHcTQ0dXNJQUtTZnVtNzJ1US9teStTTjA0UmU2V29nRUcyUFdv?=
- =?utf-8?B?V09KZjBDbk92Ym9mVmhpdzFHZnBWaTRuMmZMb0tjNnY1OUd6YTNLbWEycWlj?=
- =?utf-8?B?djBacS83b1N1aDNpdU84L0xZSXZHWmtmdlBMYjdDQ1IzaU91UWF0M0ZwbkJt?=
- =?utf-8?B?SVhwRm1QeTBWZnZwcTBoWk0yN1E3YTZCazZIQ1hZczV1UDJ3VVhacWtwVUhr?=
- =?utf-8?B?VkJhbzJwaTcxV29CMzRKUUd4Q3JDTEFUQTFoQ2lVRTNKNTlldmZ0d0xPdmlS?=
- =?utf-8?B?ZVVlekFaWks3MEdCV3N2YThrR3ZNUE1sTTRkaVlJWlFHcG9zUHkrN00xTjZp?=
- =?utf-8?B?dmlzOHBhTVpOVlRRaDFkU0Nzdkh5RlJ4YVZhaEhNbmIwbGFReEVrOEYwcnBT?=
- =?utf-8?B?enM1RzZrWmkwQXVhdCtjV3I3MmN5VXRqdkZaak45dW9iRXA1OUtZZ1hJYTBx?=
- =?utf-8?B?TW9DRXpaeThGQ01Jc24yWi91WUZpWW1Sb1djTS8vRjZmTEU5MmwwS0V5S2gw?=
- =?utf-8?B?UGpSZDNyUUx4OHBHajJGTlI5VDA0VzNUWnFGUHozaHdRTWZHdkRkOXU5Z0hx?=
- =?utf-8?B?b0tUcXdteTFaUGxYY2drbmdrQ2ZuVnBVTW9YZ3RVMEM5YWxPY1AzenczR0hm?=
- =?utf-8?B?ckdQa0xuelVxVko2V1VIRGN6c2RwM0NTZGh4RVFUMFhoTTAwcEMvVVQwbEVN?=
- =?utf-8?Q?m/BbkvdDHheV1gAtmqgJDhE4wwEbfsPY5uioZ21AzzBL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 732636f9-3cfb-4825-9040-08daa2470907
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 18:18:41.2026 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BLPgZRYhPcnNm3/UMIZs9dPD17e0WYCHQdcS3pt12CYaokOkaTctfVPsMiH7BTUz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5433
+References: <20220928094149.118943-1-contact@emersion.fr>
+ <20220928130623.60b56910@eldfell>
+ <aP95gLg6WmDLYM18uEppie64PTBeG8L7xEHbDjTgYgil7h_aABI04mgTXkqwRjN3BUfax3IYjB507EsGnKWrtM_uy_oti7Ks_Bfh9VKMtQs=@emersion.fr>
+In-Reply-To: <aP95gLg6WmDLYM18uEppie64PTBeG8L7xEHbDjTgYgil7h_aABI04mgTXkqwRjN3BUfax3IYjB507EsGnKWrtM_uy_oti7Ks_Bfh9VKMtQs=@emersion.fr>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Thu, 29 Sep 2022 20:20:39 +0200
+Message-ID: <CA+hFU4wc6TCV5-yNpCDECkvhCnNoHvZjJUVG2NjpFWEOnTRJWg@mail.gmail.com>
+Subject: Re: [PATCH v3] drm: document uAPI page-flip flags
+To: Simon Ser <contact@emersion.fr>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,43 +76,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.09.22 um 19:24 schrieb Arvind Yadav:
-> Fence signaling must be enabled to make sure that
-> the dma_fence_is_signaled_locked() function ever returns true.
-> Since drivers and implementations sometimes mess this up,
-> this ensures correct behaviour when DMABUF_DEBUG_ENABLE_SIGNALING
-> is used during debugging.
-> This should make any implementation bugs resulting in not
-> signaled fences much more obvious.
-
-Are all IGT tests now passing with this? That would be a bit unfortunate 
-because it means we still have missed the bug in drm_syncobj.
-
-Christian.
-
+On Thu, Sep 29, 2022 at 8:11 PM Simon Ser <contact@emersion.fr> wrote:
 >
-> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
-> ---
->   include/linux/dma-fence.h | 5 +++++
->   1 file changed, 5 insertions(+)
+> On Wednesday, September 28th, 2022 at 12:06, Pekka Paalanen <ppaalanen@gmail.com> wrote:
 >
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 775cdc0b4f24..5156dc6be0a6 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -398,6 +398,11 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence);
->   static inline bool
->   dma_fence_is_signaled_locked(struct dma_fence *fence)
->   {
-> +#ifdef CONFIG_DMABUF_DEBUG_ENABLE_SIGNALING
-> +	if (!test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags))
-> +		return false;
-> +#endif
-> +
->   	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->   		return true;
->   
+> > > +/**
+> > > + * DRM_MODE_PAGE_FLIP_FLAGS
+> > > + *
+> > > + * Bitmask of flags suitable for &drm_mode_crtc_page_flip_target.flags.
+> >
+> > Should this mention also drm_mode_crtc_page_flip.flags?
+> >
+> > UAPI header defines both structs.
+>
+> drm_mode_crtc_page_flip is "v1", drm_mode_crtc_page_flip_target is "v2". The
+> latter just replaces a reserved field with a new one. So I figured "v1" is
+> mostly kept around for backwards compat and everybody should use "v2" for
+> simplicity's sake.
+>
+> > > +/**
+> > > + * DRM_MODE_ATOMIC_ALLOW_MODESET
+> > > + *
+> > > + * Allow the update to result in temporary or transient visible artifacts while
+> > > + * the update is being applied. Applying the update may also take significantly
+> > > + * more time than a page flip. All visual artifacts will disappear by the time
+> > > + * the update is completed, as signalled throught the vblank event's timestamp
+> >
+> > typo: throught
+>
+> Indeed!
+>
+> > > + * (see struct drm_event_vblank).
+> > > + *
+> > > + * This flag must be set when the KMS update might cause visible artifacts.
+> > > + * Without this flag such KMS update will return a EINVAL error. What kind of
+> > > + * update may cause visible artifacts depends on the driver and the hardware.
+> > > + * User-space that needs to know beforehand if an update might cause visible
+> > > + * artifacts can use &DRM_MODE_ATOMIC_TEST_ONLY without
+> > > + * &DRM_MODE_ATOMIC_ALLOW_MODESET to see if it fails.
+> > > + *
+> > > + * To the best of the driver's knowledge, visual artifacts are guaranteed to
+> > > + * not appear when this flag is not set. Some sinks might display visual
+> > > + * artifacts outside of the driver's control.
+> >
+> > Ok, so we kept the "visual artifacts" semantics and allow monitors to
+> > do otherwise.
+> >
+> > I'm still not sure what this means for things like infoframe data where
+> > changing a certain field (e.g. HDR_OUTPUT_METADATA structure's EOTF
+> > field) has a high risk of causing a visual glitch. I cannot imagine why
+> > a monitor manufacturer would not be able to avoid the glitch if they
+> > wanted to. The glitch might or might not happen, and we cannot know in
+> > advance or afterwards whether it did happen, but it is probable that
+> > many monitors will glitch.
+> >
+> > I think "To the best of driver's knowledge" means that if someone
+> > reports a monitor to glitch, the driver/kernel would need to add that
+> > field to the "needs modeset" set. But doing so can regress other
+> > monitors that didn't glitch, so it needs to be a monitor quirk.
+> >
+> > This is not something for this patch, but would it be possible to agree
+> > on the kernel development policy here? Should glitches be reported and
+> > added to monitor quirks list? Or should drivers be defensive from the
+> > start and require modeset if the field is known to cause glitches on
+> > some monitors?
+>
+> Good question. I am not sure there is even a desire to have a quirks table for
+> this among driver developers.
+>
+> This reminds me of some VRR displays showing visual artifacts when user-space
+> changes its page-flip rate. If we took this definition by the letter, the
+> kernel should require ALLOW_MODESET at each page-flip... (The better solution
+> would be to just to have a slew rate implemented in the kernel. I think it's
+> implemented to some extent in amdgpu/i915 but still some monitors are having
+> issues.)
+>
+
+Honestly the right thing to do here is give up on the "no visual
+artifacts" phrashing. This is really about not having to interrupt the
+stream which definitely results in visual artifacts but avoiding that
+doesn't guarantee no artifacts.
 
