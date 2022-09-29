@@ -2,140 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EB85EFE87
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 22:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980305EFEAD
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 22:34:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CDD410ECBF;
-	Thu, 29 Sep 2022 20:18:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E73110ECA7;
+	Thu, 29 Sep 2022 20:34:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3281F10ECBF;
- Thu, 29 Sep 2022 20:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664482705; x=1696018705;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=aXTKP2hA4TTd5GOUtOlRrbGUNV3lymOTyksjJcpW+rc=;
- b=nC/D3jZQxkvLUI9rfXx4SUDjcfw09mQTtVzmNwLB5a+K8CZj47alLZYw
- hkFNDCIx2PwKlAZXGN+Xypz+heWNkND7qONLiNzLpp9aH/qVthd3sqT5f
- lP3vThYro2f326CjUNkW6bgPHSMUK195TdrqoLhPQvFJXr6PvLPr7XoOX
- iCCvQeF5m3K2Wov9axhVgP1MdilLCnD+dWNaAeC+GQiNJsh+wmAq2hw9m
- gWbFfr/cONvWUJjZpVJDJuvAc4cDMwdWV3F0VQl7ybr6zUhb7TvHKN4bi
- Tq2JGkI5mWaNmuz/T1X5EUZLPInKnFgGy7L5FIbTB6j+9PwLITTdyguG9 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="281725358"
-X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; d="scan'208";a="281725358"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 13:18:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="622511041"
-X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; d="scan'208";a="622511041"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga002.jf.intel.com with ESMTP; 29 Sep 2022 13:18:23 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 13:18:23 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 13:18:22 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 29 Sep 2022 13:18:22 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.48) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 29 Sep 2022 13:18:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JxKg7JV5TbKxebG8X5nOT5H3+5v3aRhIYedr6eKWDAJYq4DCbnYCJk0inQjnrQd+KN74ke93Jf79Hl47G8W3i9nRUiVwuwBix+5qRnZ8cEQDMMPCIDTLk4Rx3/bPrE8ztrbEivJbUo6O/nfnokmqR/jBL59Rco2PmWAlosH6F9cMO2ppaH+ohOQVMNdHWfPOr+wvNFTa1qfg43tesSXNeyHkxP/Sdc/jcXoP/C2BjeL+2xoWJQIGO3t/86d9zAIeT5qn7kLV7UHukl8eUk2q/6vjBu6o/vlvYIwllW8d5riS9OrHQZrLX9khl5k2VQpWTp/n7gyX1GEmwOFbQc+xMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KNKrqr1uzlYR5GE864X3DtFeAzdFM7zR0O2O0WKvmMY=;
- b=Ww5+vvu/8wvz1Iu7LO2o1xeTOMJJfFupmgYgNDMTpr2FaLiS7sN7PbAEfMhYF6qfsVxE5triWJhDMMxTy3WkW/PyklXE/3r0x+No6vypUQkoAGoun0xOuxj/i5tzkB7LWx2lsPAUmjHniTxK3NWZ8Scr2mhzf1DgBxPgRndfztCACHjGH4aarvKlTaEyNmFcih5kttEf31SVKM2vtwvZMKUBgJnxwhRyyqWvHbCVshNlSComeX/EQuDIkUCy4PcM2l0w8RwCaucskgiLDG/AAO3TefXHG6P7VjI7Fbkj+SL0C4apSnmcqozvKqdPOoQx7OHkakDnyNzvq0EnM+Ju4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
- (2603:10b6:301:50::20) by BL1PR11MB6028.namprd11.prod.outlook.com
- (2603:10b6:208:393::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Thu, 29 Sep
- 2022 20:18:19 +0000
-Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
- ([fe80::7d5a:684d:99f7:4e83]) by MWHPR1101MB2126.namprd11.prod.outlook.com
- ([fe80::7d5a:684d:99f7:4e83%12]) with mapi id 15.20.5676.017; Thu, 29 Sep
- 2022 20:18:19 +0000
-Date: Thu, 29 Sep 2022 13:18:15 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH 2/7] mm: Free device private pages have zero refcount
-Message-ID: <6335fd87adc7f_f6c9d29474@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.f15b25597fc3afd45b144df863eeca3b2c13f9f4.1664171943.git-series.apopple@nvidia.com>
- <3d74bb439723c7e46cbe47d1711795308aee4ae3.1664171943.git-series.apopple@nvidia.com>
- <YzG42766BJSxro0R@nvidia.com> <877d1plfrm.fsf@nvdebian.thelocal>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <877d1plfrm.fsf@nvdebian.thelocal>
-X-ClientProxiedBy: BY5PR16CA0014.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::27) To MWHPR1101MB2126.namprd11.prod.outlook.com
- (2603:10b6:301:50::20)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1541310EBD1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 20:33:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E29D247C;
+ Thu, 29 Sep 2022 22:33:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1664483636;
+ bh=uv8awXPacLHhOS3HajjryADSopwjfB9Eq+dmGGVAFrI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=thnLVZr3b4DVuFXzBMmJhHTUq2raD1HEE9kwxQpXrZW88pw833ytVx7ASsXPcafZo
+ NK+OYO3hpdgpJYzA0yhxBB+GOLYBuIKHS65qQFfK5gjWIMOU9IFBGpg7VJqTQ8f+WH
+ Vtmz0+tPeCYvGs5ga6yO0A1EEH4c4bQsf5mk4df8=
+Date: Thu, 29 Sep 2022 23:33:54 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Liu Ying <victor.liu@oss.nxp.com>
+Subject: Re: [PATCH v2 4/4] drm: lcdif: Add support for YUV planes
+Message-ID: <YzYBMq4TlRZFrARG@pendragon.ideasonboard.com>
+References: <20220928005812.21060-1-laurent.pinchart@ideasonboard.com>
+ <20220928005812.21060-5-laurent.pinchart@ideasonboard.com>
+ <91e95c22f0683203de8ca6b4233d77a0b133c4d9.camel@oss.nxp.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1101MB2126:EE_|BL1PR11MB6028:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a3252f0-b0bf-4553-5aa5-08daa257c00a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jC3+dv6LeCP5V2fTY5TzsjeA9p+CpffiUwi+iLVJM8i+9FhXlrNWUEBprETz6AqMiSb5nnm5/WvVEFygTa4IdSgu+DMvxXhMKoVnZl2mxN3Odl5Kse9rykaYI921NvBVsu/MZcVTUrShKaO/e//a0iA3BSrTJUWxRrScVRq15vq6G9iOCQ1X81+X9GOzgq9W5i1BcllEKrwR+mChvJRPa2bzpXJD+zplDtbKdW8hJoiVN1IE8CZFx6xcB+2w7Q8SXcKnjVGrdbFzfKgp4n6YP3I0MNbevZtJ2yk7vY86FB4gW92uS2qmaDmq8EtlrpV2ft/XdAr2VdzUObpO5xXsIH3VvKHPqIGhxRYnHatcSfZTTdXg0aoWgNfgyKkVeYVfThrooV99RhzEIn4MfzPmuqvJenaT9OwjBA6ZkXWCw99LACVNVnmH5tqrGKp3bA6awYT2ruCgKpumjYOF/zgFmUD+HEGFTeSrWXsa0gMxMR6E9fGtZm2hSmJM3R+fRSHqh6GwcRgSBcNNpGgIG5Ch/oB2TY7lgpWWVYt4Apxc6aBvbiuoRBvycnlxiCrjB5mPVu9u8bikBLui1RgYMjJ7rH5vGKe52ApnP2f0chjtV+E7pIwmnl25Y0oprWHmOR5Vr8bKDzLhHlIMTMqMw0cnJ3bfSYNC6w8+eDdD7J3/kc7PvFgQ+VP1Uu8vU1zxThPPUyRl8/8OYR5Yly1AN7oTLgAuHLwmXy9B91sCiG4VKaty+3E77MSTjy/X4F5lC/Pl
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1101MB2126.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(39860400002)(136003)(366004)(376002)(396003)(451199015)(107886003)(6512007)(6506007)(6486002)(5660300002)(966005)(83380400001)(2906002)(186003)(6666004)(9686003)(41300700001)(54906003)(66946007)(26005)(478600001)(110136005)(8936002)(66556008)(4326008)(8676002)(7416002)(66476007)(316002)(86362001)(38100700002)(82960400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LiGQsplyDfZYEOhPFYCXv0SFaBOZ+4ygYv+dTXjYKjh3cU6N9ulQdbsX+bCw?=
- =?us-ascii?Q?9RJ+gUD13bLzipJz6UcS3N7Xpd0UOfTjL3fFfpUHaZelqy5faMuBl9PDwXPU?=
- =?us-ascii?Q?MkrtVjMH2xZSxGDK+MldgFy/Y/rrS/3xF5NvjS2suilpvVDaWiwem8/m1DIp?=
- =?us-ascii?Q?Z6yOwx0pa/6DnkVXFXx+cpmYl0Dut6NusEbhYBuhL1oQQr6nDbImOJ1BIW7U?=
- =?us-ascii?Q?xHIXTtEnoHtG+lpyRo9IV2p9z9ot6pcCa0aDXXwfZuYq2LKkDa9bt4O4BWPh?=
- =?us-ascii?Q?SMDFMnDQ8BGyC8cv5R2iI7J0A784OWQV40XC3Jxrrwmk7Gim35GNbmondCQx?=
- =?us-ascii?Q?TrxzJYkfc7I86jtsPY0GpWHZgIvz7uxKfcu802X6TKAh9rM/FFKtW0S1ZRLB?=
- =?us-ascii?Q?Ly/BbHMA3+KZujYN0PAq9grjzcaHR7Hs8T/GnLOIjGj0EzamuCvjxVY1FxXW?=
- =?us-ascii?Q?o4xswtxNS+6q2+IOs9949kTk3VssH/vl777PBBtEEBnE1ZUpHpYo6Qw5Sm8m?=
- =?us-ascii?Q?2EYsXYZ5gJafOUUuPluOHzorAATFqrmygJOJpXEYAkRaujrHTMvhWDUGGb4C?=
- =?us-ascii?Q?jM9PcJbpBQKsrkoFG8czaTngMzNc1vkPLQdlMeCCLs6f1UzbUM00zKFGx5Xk?=
- =?us-ascii?Q?wvfBJOh37bYJmU9cdLj6pUgBQ4SgX5qodalDp0f6SFbcHh/g5twSnygxTssR?=
- =?us-ascii?Q?qTFK20iB2L5I1LcpSrEp170HxQ0wjWmC814IlpMQBbUb4X0LLsixZgzfI5bO?=
- =?us-ascii?Q?1CRoUgWqh5eW2Q2yA4QlHYKD0c9UZm98vvgiz5Bn3paKLui1F/aTzK/RKrey?=
- =?us-ascii?Q?+c/vi7g+DyCUv5lLUYAPw5YnTFDv/jej46mJzIx6VrYX/hXyjGkLKAP4bV2S?=
- =?us-ascii?Q?FZ4GXgDzkKcdEb7jvl1nilfgEC9Am1gfJ87GDjylwRecUShSJxYRzKVoOGya?=
- =?us-ascii?Q?3im6umudUq1Ix8De76jCmVi96HtwWdZfjMsJA3cWcSm2sIsBC9KBx3aeirhn?=
- =?us-ascii?Q?P19xc3n+n0IH9JKsCjfJrSYjmeAA2j+L77jf4HJv10Xs5t64OEo/Me6NvOft?=
- =?us-ascii?Q?VKEm0ML+FrPbUzl6s0KwP3lF37EnqjuRDIWFcYh4qmOmbwCX0Ej8S81t96yb?=
- =?us-ascii?Q?dAJk7vx5ZmD3YfucDQlbJTm1X9rP/QAzVqAGUv5htTKYUxM9DzJr75YjV1mc?=
- =?us-ascii?Q?1exwB13Fs6SOd26iuoDBC9HhNpfFSHcUnuonQTVhTjTFl7clrW5GFu3/i7FY?=
- =?us-ascii?Q?s/6oAIfItSH122Lu/5ftfktFBPbRhnjVwKZlIcvE1x7yPb15Z+SJLK3Z3qph?=
- =?us-ascii?Q?EYzgE4Yl4raQN0gw8YADX1xU7Y6IMSBRLofZBH49NY58nZBPuh3Bs7EyPCol?=
- =?us-ascii?Q?+hHl0OFHxn25/sTW9txcpgSUJBj5GlD2vz/jANMWakUCGOqMr0r/9l6L70CK?=
- =?us-ascii?Q?h0jfnpDfDXIxiBfX+tDNHnuOrBN7QPaaH1MIQ1jW1KJfBbfksIuyLZ5jrdje?=
- =?us-ascii?Q?/8mbctXH+IwYzSIwrTWQr26yhCfQJMXq68t/VNQdQve3siILAihwQYCPpyt+?=
- =?us-ascii?Q?gq6g71oR4qqTvfHARlmZETnHLUGWP81FYc2yCPK6LiuRaEtbLQlbYt9neXiK?=
- =?us-ascii?Q?bA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a3252f0-b0bf-4553-5aa5-08daa257c00a
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2126.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 20:18:19.6448 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RiqkXc8QDcfZweMsAuSV4Gj4przsyQTSaeziC1ABb1F0h3yzF9X/d5tB5QicY4aPgIFb/p1P4nMrgYLb5SfFAxA/R8jf+xMnjxbQJdo0aL8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6028
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <91e95c22f0683203de8ca6b4233d77a0b133c4d9.camel@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,68 +48,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, Karol Herbst <kherbst@redhat.com>,
- David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- amd-gfx@lists.freedesktop.org, Michael Ellerman <mpe@ellerman.id.au>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- Ben Skeggs <bskeggs@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>, Nicholas Piggin <npiggin@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>, Felix
- Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Daniel Scally <dan.scally@ideasonboard.com>,
+ Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Alistair Popple wrote:
-> 
-> Jason Gunthorpe <jgg@nvidia.com> writes:
-> 
-> > On Mon, Sep 26, 2022 at 04:03:06PM +1000, Alistair Popple wrote:
-> >> Since 27674ef6c73f ("mm: remove the extra ZONE_DEVICE struct page
-> >> refcount") device private pages have no longer had an extra reference
-> >> count when the page is in use. However before handing them back to the
-> >> owning device driver we add an extra reference count such that free
-> >> pages have a reference count of one.
-> >>
-> >> This makes it difficult to tell if a page is free or not because both
-> >> free and in use pages will have a non-zero refcount. Instead we should
-> >> return pages to the drivers page allocator with a zero reference count.
-> >> Kernel code can then safely use kernel functions such as
-> >> get_page_unless_zero().
-> >>
-> >> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> >> ---
-> >>  arch/powerpc/kvm/book3s_hv_uvmem.c       | 1 +
-> >>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 1 +
-> >>  drivers/gpu/drm/nouveau/nouveau_dmem.c   | 1 +
-> >>  lib/test_hmm.c                           | 1 +
-> >>  mm/memremap.c                            | 5 -----
-> >>  mm/page_alloc.c                          | 6 ++++++
-> >>  6 files changed, 10 insertions(+), 5 deletions(-)
-> >
-> > I think this is a great idea, but I'm surprised no dax stuff is
-> > touched here?
-> 
-> free_zone_device_page() shouldn't be called for pgmap->type ==
-> MEMORY_DEVICE_FS_DAX so I don't think we should have to worry about DAX
-> there. Except that the folio code looks like it might have introduced a
-> bug. AFAICT put_page() always calls
-> put_devmap_managed_page(&folio->page) but folio_put() does not (although
-> folios_put() does!). So it seems folio_put() won't end up calling
-> __put_devmap_managed_page_refs() as I think it should.
-> 
-> I think you're right about the change to __init_zone_device_page() - I
-> should limit it to DEVICE_PRIVATE/COHERENT pages only. But I need to
-> look at Dan's patch series more closely as I suspect it might be better
-> to rebase this patch on top of that.
+Hi Liu,
 
-Apologies for the delay I was travelling the past few days. Yes, I think
-this patch slots in nicely to avoid the introduction of an init_mode
-[1]:
+On Thu, Sep 29, 2022 at 05:53:37PM +0800, Liu Ying wrote:
+> On Wed, 2022-09-28 at 03:58 +0300, Laurent Pinchart wrote:
+> > From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> > 
+> > The LCDIF includes a color space converter that supports YUV input. Use
+> > it to support YUV planes, either through the converter if the output
+> > format is RGB, or in conversion bypass mode otherwise.
+> > 
+> > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Support all YCbCr encodings and quantization ranges
+> > - Drop incorrect comment
+> > ---
+> >  drivers/gpu/drm/mxsfb/lcdif_kms.c  | 183 +++++++++++++++++++++++++----
+> >  drivers/gpu/drm/mxsfb/lcdif_regs.h |   5 +-
+> >  2 files changed, 164 insertions(+), 24 deletions(-)
+> 
+> I have a chance to test this series and find that my
+> 'koe,tx26d202vm0bwa' 1920x1200 LVDS panel connected with i.MX8mp EVK
+> can only show the test pattern at the top half of the display with YUV
+> fb. Looks like something with wrong stride. XR24 fb is ok, but RG16 fb
+> has similar issue. Anything I missed?
+> 
+> The command I'm using to test YUV fb:
+> modetest -M imx-lcdif -P 31@35:1920x1200@YUYV 
 
-https://lore.kernel.org/nvdimm/166329940343.2786261.6047770378829215962.stgit@dwillia2-xfh.jf.intel.com/
+Thanks for the bug report. The problem didn't occur with kmstest nor the
+libcamera 'cam' test application, but I have been able to reproduce it
+with modetest. The modetest application uses the legacy mode setting API
+by default, so it exercises code paths in the driver in different ways,
+uncovering a few preexisting issues.
 
-Mind if I steal it into my series?
+The problem is caused by the fact that the functions called from the
+.atomic_enable() handler access the frame buffer from the plane state
+and configure the hardware using that information. Depending on how the
+device is configured, the display can be enabled with one frame buffer,
+and then immediately switch to a different frame buffer that has a
+different format and/or pitch.
+
+Properties of the frame buffer should only be accessed from the plane
+.atomic_update() operation. Fixing this requires quite a bit of
+refactoring of the driver, which I won't have time to work on at the
+moment. Marek, would you have some time to look at this ? As the issue
+isn't introduced by this series but preexists (you should be able to
+reproduce it by selecting the XR15 format instead of XR24 for instance),
+can YUV support be merged already (after I send v3) ?
+
+-- 
+Regards,
+
+Laurent Pinchart
