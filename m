@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE40D5EEB91
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 04:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E865A5EEB90
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 04:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEBDA10E9D1;
-	Thu, 29 Sep 2022 02:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8DF310E9C3;
+	Thu, 29 Sep 2022 02:17:36 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD7210E9B3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F9110E9B5;
  Thu, 29 Sep 2022 02:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664417840; x=1695953840;
+ t=1664417841; x=1695953841;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ENpCFuUeyMklBPIs4eytPNwOQzZ/U5oKTlL7Vk++Cko=;
- b=XubDWglyBNmmpXTH47NzkQjVZago6D4ugZdA0UQBt1hBUUQht6oLV4QH
- 07lIS79wOBU6dV8qzY7b9UREzeei8W67n5PPR3dL/QFrzlKWaaM4uYHpo
- 2DrufjQCcesxHT4u/yy5BcDIi4dWJci/J7tFxuPYlwqp3FMPAbwVfKQwO
- OgBaVATmE/dsb269ihc7apGFdcmtFWV6q4GujQtU3Z62mQWjoTSRJc2Rl
- +B/qeLHSniHh6Yr7JKEmRkmsHwF43qSrMsPxqp2HL1BtyMBQFQ1U8E22s
- GCrb5tNskzdcsGcuwJDpCWCMQK8DMjvl/lV8FlZQ4ozTbtiYcFVbMJKL8 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="281484119"
-X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; d="scan'208";a="281484119"
+ bh=98oUPF9VM/8Gi2R84yql31r0pAjY++0fmWb6OK1mOJw=;
+ b=m09LQa1SM3initdB682noAsGT6NHsikKfJ+XiFmpkzXfPauph9OGYE3/
+ 7/ihrV4yN3dCHEWnB8Q4CWuU2OIUGCrI/gsPKbkve7Y/DeZAX97sJdIWL
+ jf9Ua6+nuV+t77OxYYlUGYHpRh624+GzFJPVHqrxzrjy01HpKq07erNcb
+ ZDVgmKswZFNjxIuPlHHIZcH358JWVwTWMz1bzQG+1Ath0/QSmakDxnIQN
+ WeevZTigc5c5+loji1BS3Ga59g7FfogZDvoZvK50DTjNthWeWba7DcHWb
+ 5uj0sydjpdTNMMAzCQYf6q7gaGU1+o9ftWBuAgtf/LlXd+VVWfncG0nsi w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="281484121"
+X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; d="scan'208";a="281484121"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Sep 2022 19:17:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="573275948"
-X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; d="scan'208";a="573275948"
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="573275952"
+X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; d="scan'208";a="573275952"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.142])
  by orsmga003.jf.intel.com with ESMTP; 28 Sep 2022 19:17:19 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v4 3/4] drm/i915: Make the heartbeat play nice with long
- pre-emption timeouts
-Date: Wed, 28 Sep 2022 19:18:12 -0700
-Message-Id: <20220929021813.2172701-4-John.C.Harrison@Intel.com>
+Subject: [PATCH v4 4/4] drm/i915: Improve long running compute w/a for GuC
+ submission
+Date: Wed, 28 Sep 2022 19:18:13 -0700
+Message-Id: <20220929021813.2172701-5-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
 References: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
@@ -59,71 +59,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Michal Mrozek <michal.mrozek@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Compute workloads are inherently not pre-emptible for long periods on
-current hardware. As a workaround for this, the pre-emption timeout
-for compute capable engines was disabled. This is undesirable with GuC
-submission as it prevents per engine reset of hung contexts. Hence the
-next patch will re-enable the timeout but bumped up by an order of
-magnitude.
+A workaround was added to the driver to allow compute workloads to run
+'forever' by disabling pre-emption on the RCS engine for Gen12.
+It is not totally unbound as the heartbeat will kick in eventually
+and cause a reset of the hung engine.
 
-However, the heartbeat might not respect that. Depending upon current
-activity, a pre-emption to the heartbeat pulse might not even be
-attempted until the last heartbeat period. Which means that only one
-period is granted for the pre-emption to occur. With the aforesaid
-bump, the pre-emption timeout could be significantly larger than this
-heartbeat period.
+However, this does not work well in GuC submission mode. In GuC mode,
+the pre-emption timeout is how GuC detects hung contexts and triggers
+a per engine reset. Thus, disabling the timeout means also losing all
+per engine reset ability. A full GT reset will still occur when the
+heartbeat finally expires, but that is a much more destructive and
+undesirable mechanism.
 
-So adjust the heartbeat code to take the pre-emption timeout into
-account. When it reaches the final (high priority) period, it now
-ensures the delay before hitting reset is bigger than the pre-emption
-timeout.
+The purpose of the workaround is actually to give compute tasks longer
+to reach a pre-emption point after a pre-emption request has been
+issued. This is necessary because Gen12 does not support mid-thread
+pre-emption and compute tasks can have long running threads.
 
-v2: Fix for selftests which adjust the heartbeat period manually.
+So, rather than disabling the timeout completely, just set it to a
+'long' value.
+
+v2: Review feedback from Tvrtko - must hard code the 'long' value
+instead of determining it algorithmically. So make it an extra CONFIG
+definition. Also, remove the execlist centric comment from the
+existing pre-emption timeout CONFIG option given that it applies to
+more than just execlists.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com> (v1)
+Acked-by: Michal Mrozek <michal.mrozek@intel.com>
 ---
- .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/gpu/drm/i915/Kconfig.profile      | 26 +++++++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c |  9 ++++++--
+ 2 files changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-index a3698f611f457..823a790a0e2ae 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-@@ -22,9 +22,28 @@
+diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
+index 39328567c2007..7cc38d25ee5c8 100644
+--- a/drivers/gpu/drm/i915/Kconfig.profile
++++ b/drivers/gpu/drm/i915/Kconfig.profile
+@@ -57,10 +57,28 @@ config DRM_I915_PREEMPT_TIMEOUT
+ 	default 640 # milliseconds
+ 	help
+ 	  How long to wait (in milliseconds) for a preemption event to occur
+-	  when submitting a new context via execlists. If the current context
+-	  does not hit an arbitration point and yield to HW before the timer
+-	  expires, the HW will be reset to allow the more important context
+-	  to execute.
++	  when submitting a new context. If the current context does not hit
++	  an arbitration point and yield to HW before the timer expires, the
++	  HW will be reset to allow the more important context to execute.
++
++	  This is adjustable via
++	  /sys/class/drm/card?/engine/*/preempt_timeout_ms
++
++	  May be 0 to disable the timeout.
++
++	  The compiled in default may get overridden at driver probe time on
++	  certain platforms and certain engines which will be reflected in the
++	  sysfs control.
++
++config DRM_I915_PREEMPT_TIMEOUT_COMPUTE
++	int "Preempt timeout for compute engines (ms, jiffy granularity)"
++	default 7500 # milliseconds
++	help
++	  How long to wait (in milliseconds) for a preemption event to occur
++	  when submitting a new context to a compute capable engine. If the
++	  current context does not hit an arbitration point and yield to HW
++	  before the timer expires, the HW will be reset to allow the more
++	  important context to execute.
  
- static bool next_heartbeat(struct intel_engine_cs *engine)
- {
-+	struct i915_request *rq;
- 	long delay;
+ 	  This is adjustable via
+ 	  /sys/class/drm/card?/engine/*/preempt_timeout_ms
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index fcbccd8d244e9..c1257723d1949 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -508,9 +508,14 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+ 	engine->props.timeslice_duration_ms =
+ 		CONFIG_DRM_I915_TIMESLICE_DURATION;
  
- 	delay = READ_ONCE(engine->props.heartbeat_interval_ms);
-+
-+	rq = engine->heartbeat.systole;
-+
-+	if (rq && rq->sched.attr.priority >= I915_PRIORITY_BARRIER &&
-+	    delay == engine->defaults.heartbeat_interval_ms) {
-+		long longer;
-+
-+		/*
-+		 * The final try is at the highest priority possible. Up until now
-+		 * a pre-emption might not even have been attempted. So make sure
-+		 * this last attempt allows enough time for a pre-emption to occur.
-+		 */
-+		longer = READ_ONCE(engine->props.preempt_timeout_ms) * 2;
-+		longer = intel_clamp_heartbeat_interval_ms(engine, longer);
-+		if (longer > delay)
-+			delay = longer;
-+	}
-+
- 	if (!delay)
- 		return false;
+-	/* Override to uninterruptible for OpenCL workloads. */
++	/*
++	 * Mid-thread pre-emption is not available in Gen12. Unfortunately,
++	 * some compute workloads run quite long threads. That means they get
++	 * reset due to not pre-empting in a timely manner. So, bump the
++	 * pre-emption timeout value to be much higher for compute engines.
++	 */
+ 	if (GRAPHICS_VER(i915) == 12 && (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE))
+-		engine->props.preempt_timeout_ms = 0;
++		engine->props.preempt_timeout_ms = CONFIG_DRM_I915_PREEMPT_TIMEOUT_COMPUTE;
  
+ 	/* Cap properties according to any system limits */
+ #define CLAMP_PROP(field) \
 -- 
 2.37.3
 
