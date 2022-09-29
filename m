@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7E45EF64D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 15:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606465EF647
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 15:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4507C10EA5E;
-	Thu, 29 Sep 2022 13:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC69C10E61A;
+	Thu, 29 Sep 2022 13:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A0410E61A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 13:21:40 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id rk17so2787753ejb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 06:21:40 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E60FA10E61A
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 13:21:41 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id dv25so2726957ejb.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 06:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=+703B+ecEWc5RD4rB/fwdJkcq6GMHMBl7UdtMi4NdSs=;
- b=pvhfUt/XQ4E73xa/5hwHegqbJGGqodQrHqoYHHe4qFllKuQHB+i9kwE47sUZdwa9w9
- HRmDjiT2kElpOgyog0itFxguuj5Mw1DQjfaDuUq7GCDQ8j57Oht91tHIsZ30uV12OQ6v
- Lh9QYgFBMp1L4ExvRdr81Tq6nNvwNYk1dsHMyVD/CNAXvHxhe+RdGuRufT0JwE8gBy2r
- l2uGFhyuRZUXqH06GKCf8VA20dP9ioKAgV0475u+XfA9PaO4O+vyYu2X6MkKJLcNLzMF
- uthWPz5FQF0iYEQeaCYxI4ktaKZhyoaWGy48q/aaCA0dMObNHt1H2S1Lnjn6/SGaJWPS
- s56A==
+ bh=Mk095mcuW7h+d0K7+O9spF3m19iEbhY6Mw+WEYy58/0=;
+ b=GTimkZT8l+IBWkN/ezpqb9BFfYksXHlNEI/lBzXMJXrK2TQP/ZVUcKcAuCIT9i0emo
+ mhV9cwrMnnShDelaEbO5T+b81KwnSob83MYCfLZDifqLNEO+TaccqcpDHyHj26FWC0FZ
+ LmipWebvTaZknOhnPaK1yYkLFio+vjd/bE9/t1SedRSOPNp7QSuD93VJwLPGThEjzy0T
+ 42WsSI+GaD2S+JWpknsq1OjHEUH8d5vJHyM3A7Xdn/xoJrdg6WNGsU/iXZGyZ+YZ8AjI
+ NYwaXD+9y3m9viQuDYnpz0n97ZOBnj7TW9kQiONyOpxsQ9v63FPZcAloLKusJSD/HW2V
+ 3N+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=+703B+ecEWc5RD4rB/fwdJkcq6GMHMBl7UdtMi4NdSs=;
- b=ID7EKcA+2TMBhuw9Yuv+XVnWm5YztsTXxR3bdqwbB1434SaRaU8AHiZr+fadzIlEis
- QHhNtSh+j1tZFhmgen3D9OEFda2i5QwMV6qvhMWa9sUfz0njBh76Qs4n0f6ZR3NMyCaW
- 8wS6TjI+gvMLXzDtP735bMhs6805LbGq+pbRWP4008gEyrz68eKug1hna14Xrc3cMBHC
- jvrILBLzfFvXRwz0VUQWyxHZorJLvE/YKFw/CBxiJYIK17JKm6uESPoX2iXvhDeIt4qY
- lKxyeQoSBEbk3JILkXyG3Q1oFhivTCqHfI2C1/BAhGofkbXv6VWRlLDyDW3grviqqRHh
- FMtQ==
-X-Gm-Message-State: ACrzQf1BOa7OnF3ya6kV2gq3O5HqW+PnLmZNtWEOzpOBwGBs54u3uT4n
- zhIWSRrpgtWq0Ctmv9VoYYzKmPeN8nU=
-X-Google-Smtp-Source: AMsMyM58ttEjFNOah7LawsQQOoX1yGS6MECjBYfxaN+/rQuvd8AhwlRYEv9waLRL2xaHHhpYGRen0w==
-X-Received: by 2002:a17:907:2e02:b0:77c:405e:e740 with SMTP id
- ig2-20020a1709072e0200b0077c405ee740mr2682986ejc.139.1664457699309; 
- Thu, 29 Sep 2022 06:21:39 -0700 (PDT)
+ bh=Mk095mcuW7h+d0K7+O9spF3m19iEbhY6Mw+WEYy58/0=;
+ b=pyxP5mebHY7+9M3te9W3M3oiFWokdebs4JvyUFH/y9CGM37/STNVOBHggfDlu7RJw6
+ jLm4Bbldcih/KPN5PT6QbIn0PuhoW6w6LAiAJrOXvYFXL/DIi7nAgZtnI8oVVuyhhBJj
+ 8Trz8bVO0YOD1uVMb+Ds4GV6gVWnifWEvugUAPPnbzHIuACVNOBV+f+sout++ikPHnIr
+ xCBb32ynJFozjmhWhzNede9EZeE/znEjyIid+4vSClRdmKMyFHLylOAz1j3CCrF7bl3F
+ PJv09aR3ueRsDIxH9GqHGk5Bq8SEt/tWGZdBYAKMFzhqHtwg+d7IS2OBZUS6mEwxt2B3
+ nYoA==
+X-Gm-Message-State: ACrzQf240mJNrbMbxA7YCmrUiAXSXkHwjwWG6v5pFShS5X7aUqD0veQG
+ fX+wS6P8iK5uLRUHoqkL5AypCop9mFg=
+X-Google-Smtp-Source: AMsMyM7DDZzwkKcEHodIqZIBNqILx19OsjNZVPzPTMn3vqx3r56VK0PPq+a+63t6aswWQlPnwxLBZQ==
+X-Received: by 2002:a17:907:160d:b0:782:bc5d:162e with SMTP id
+ hb13-20020a170907160d00b00782bc5d162emr2731745ejc.291.1664457700362; 
+ Thu, 29 Sep 2022 06:21:40 -0700 (PDT)
 Received: from able.fritz.box (p4fc20ebf.dip0.t-ipconnect.de. [79.194.14.191])
  by smtp.gmail.com with ESMTPSA id
- gx6-20020a1709068a4600b007836d075152sm3983807ejc.187.2022.09.29.06.21.38
+ gx6-20020a1709068a4600b007836d075152sm3983807ejc.187.2022.09.29.06.21.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 06:21:38 -0700 (PDT)
+ Thu, 29 Sep 2022 06:21:39 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/13] drm/scheduler: add drm_sched_job_add_resv_dependencies
-Date: Thu, 29 Sep 2022 15:21:25 +0200
-Message-Id: <20220929132136.1715-2-christian.koenig@amd.com>
+Subject: [PATCH 03/13] drm/amdgpu: use drm_sched_job_add_resv_dependencies for
+ moves
+Date: Thu, 29 Sep 2022 15:21:26 +0200
+Message-Id: <20220929132136.1715-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220929132136.1715-1-christian.koenig@amd.com>
 References: <20220929132136.1715-1-christian.koenig@amd.com>
@@ -79,117 +80,40 @@ Cc: shansheng.wang@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new function to update job dependencies from a resv obj.
+Use the new common scheduler functions to figure out what to wait for.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 49 ++++++++++++++++++--------
- include/drm/gpu_scheduler.h            |  5 +++
- 2 files changed, 39 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index e0ab14e0fb6b..6e2cd0f906b2 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -685,32 +685,28 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
- EXPORT_SYMBOL(drm_sched_job_add_dependency);
- 
- /**
-- * drm_sched_job_add_implicit_dependencies - adds implicit dependencies as job
-- *   dependencies
-+ * drm_sched_job_add_resv_dependencies - add all fences from the resv to the job
-  * @job: scheduler job to add the dependencies to
-- * @obj: the gem object to add new dependencies from.
-- * @write: whether the job might write the object (so we need to depend on
-- * shared fences in the reservation object).
-+ * @resv: the dma_resv object to get the fences from
-+ * @usage: the dma_resv_usage to use to filter the fences
-  *
-- * This should be called after drm_gem_lock_reservations() on your array of
-- * GEM objects used in the job but before updating the reservations with your
-- * own fences.
-+ * This adds all fences matching the given usage from @resv to @job.
-+ * Must be called with the @resv lock held.
-  *
-  * Returns:
-  * 0 on success, or an error on failing to expand the array.
-  */
--int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
--					    struct drm_gem_object *obj,
--					    bool write)
-+int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
-+					struct dma_resv *resv,
-+					enum dma_resv_usage usage)
- {
- 	struct dma_resv_iter cursor;
- 	struct dma_fence *fence;
- 	int ret;
- 
--	dma_resv_assert_held(obj->resv);
-+	dma_resv_assert_held(resv);
- 
--	dma_resv_for_each_fence(&cursor, obj->resv, dma_resv_usage_rw(write),
--				fence) {
-+	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
- 		/* Make sure to grab an additional ref on the added fence */
- 		dma_fence_get(fence);
- 		ret = drm_sched_job_add_dependency(job, fence);
-@@ -721,8 +717,31 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 134575a3893c..4fabb194ef89 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1977,17 +1977,11 @@ static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
+ 							adev->gart.bo);
+ 		(*job)->vm_needs_flush = true;
  	}
- 	return 0;
+-	if (resv) {
+-		r = amdgpu_sync_resv(adev, &(*job)->sync, resv,
+-				     AMDGPU_SYNC_ALWAYS,
+-				     AMDGPU_FENCE_OWNER_UNDEFINED);
+-		if (r) {
+-			DRM_ERROR("sync failed (%d).\n", r);
+-			amdgpu_job_free(*job);
+-			return r;
+-		}
+-	}
+-	return 0;
++	if (!resv)
++		return 0;
++
++	return drm_sched_job_add_resv_dependencies(&(*job)->base, resv,
++						   DMA_RESV_USAGE_BOOKKEEP);
  }
--EXPORT_SYMBOL(drm_sched_job_add_implicit_dependencies);
-+EXPORT_SYMBOL(drm_sched_job_add_resv_dependencies);
  
-+/**
-+ * drm_sched_job_add_implicit_dependencies - adds implicit dependencies as job
-+ *   dependencies
-+ * @job: scheduler job to add the dependencies to
-+ * @obj: the gem object to add new dependencies from.
-+ * @write: whether the job might write the object (so we need to depend on
-+ * shared fences in the reservation object).
-+ *
-+ * This should be called after drm_gem_lock_reservations() on your array of
-+ * GEM objects used in the job but before updating the reservations with your
-+ * own fences.
-+ *
-+ * Returns:
-+ * 0 on success, or an error on failing to expand the array.
-+ */
-+int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
-+					    struct drm_gem_object *obj,
-+					    bool write)
-+{
-+	return drm_sched_job_add_resv_dependencies(job, obj->resv,
-+						   dma_resv_usage_rw(write));
-+}
-+EXPORT_SYMBOL(drm_sched_job_add_implicit_dependencies);
- 
- /**
-  * drm_sched_job_cleanup - clean up scheduler job resources
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 0fca8f38bee4..3315e5be7791 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -32,6 +32,8 @@
- 
- #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
- 
-+enum dma_resv_usage;
-+struct dma_resv;
- struct drm_gem_object;
- 
- struct drm_gpu_scheduler;
-@@ -474,6 +476,9 @@ int drm_sched_job_init(struct drm_sched_job *job,
- void drm_sched_job_arm(struct drm_sched_job *job);
- int drm_sched_job_add_dependency(struct drm_sched_job *job,
- 				 struct dma_fence *fence);
-+int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
-+					struct dma_resv *resv,
-+					enum dma_resv_usage usage);
- int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
- 					    struct drm_gem_object *obj,
- 					    bool write);
+ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
 -- 
 2.25.1
 
