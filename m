@@ -2,50 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF645EF0A7
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 10:37:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1582B5EF0BA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 10:40:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA8210E336;
-	Thu, 29 Sep 2022 08:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792E410E3AD;
+	Thu, 29 Sep 2022 08:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94BDC10E3D2;
- Thu, 29 Sep 2022 08:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664440646; x=1695976646;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=Y0T8lpxJFurjnxxDGFDdmqLbfP82UgdNhHjDFAAckvo=;
- b=aSjUX9asUPiT8N9lpQ+qMkFG8FLg8xNW18mYPB5ncIOYqgj9M/Q1iXVO
- OpPqMIlNF9YQrhl/DyKo434IUiq/15BCtSKAz4fASJxzIjOQNVEK3bNhQ
- Ir2Ile5cJyZd4ysjGTk0l8L3OmO1YsgTMuQzUdXw2Ped0ydkBIVocttW/
- II4CQcvdq0sdlCcR9+loiGqrng3AbFau+HjEgGqjrpEn8tC5haBIMSmDm
- bNs/u5vhxd3vv3fNHXY4nLlzWP7PU5CvybNd/xwPbTIofmWo887ZRpAMo
- HzQ/vYrd52OlfLaqsblfCA6j95Y9PvIrZpryIxOuUNKIfi4hlUTWc+q/u g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="300551088"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="300551088"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 01:37:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="797473230"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="797473230"
-Received: from lkp-server01.sh.intel.com (HELO 6126f2790925) ([10.239.97.150])
- by orsmga005.jf.intel.com with ESMTP; 29 Sep 2022 01:37:19 -0700
-Received: from kbuild by 6126f2790925 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1odp2k-0000uK-2Y;
- Thu, 29 Sep 2022 08:37:18 +0000
-Date: Thu, 29 Sep 2022 16:36:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- de90d455a35e474a184c898e66a6a108c3a99434
-Message-ID: <6335591f.BHWTYTiAbxJo9pPx%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBF510E3AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 08:40:17 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id h7so1002070wru.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 01:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:reply-to:from
+ :references:cc:to:content-language:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date;
+ bh=9yCHudwWTs8iGGjOW2yzGpZ+XsTes14RKtIMcMyggXE=;
+ b=YFayQv5zccBSzwC1ZnIbDUZbLsM5Aw0c4lFGDl4BO08Fpc4xl1cSeF9XXRqN5P5wBe
+ rUvsdp0+jezwGpqFcH1QtaHdcASZqq7taW1fiJdA9oSjTXpvHWhdwa/CoOO9UXMZBZ7w
+ 577un9+SStHkbJq2UtdLIG+55k8dJPgURuKlXUvVybFvIDYQnf5aWia3bF5ivDeCRVsW
+ YV0IeKrGlCWORDAyaSR278Awgf8LrUJyhCdsMhgZcEpy0rUK5tEf5qaGZAdddCm9czVw
+ 645Ecj0rvYLRyzmy5GTcIB6sEWkKytHF34Tikwf4yGojhiBUIuOUewdrRPhOibhw8imB
+ hxig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:reply-to:from
+ :references:cc:to:content-language:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=9yCHudwWTs8iGGjOW2yzGpZ+XsTes14RKtIMcMyggXE=;
+ b=BXENNSBp4ft8DXAGFaImwbkNS0Be4XhAO+PMALZeX+Zkh4vgu4PcFQxeQS+K0WDsmw
+ 3zFLf15ljpw3ltfUMHjw3J3bB175/cS/GFiNyljNhH+j7yUprHj02A21noEU/Ij3hgu+
+ OmD0zA5bBab3gSo1luc41GbBgMIlrgKiw2TGFuBLr6x1OEJjEl6fhINa1uE2+ztSN+8S
+ nTPZpOC3zEoDxueUaIBITgW0JtfyCM8FhRZNbK/Ls5hl8GW05rurZViclpFIUqyT1y/g
+ 3mzac0eCAyzmvIFw33RdsBGWpKLcN9yuKg5D2VQMTYusPcY5yeZKiQ6wNtWzkkJjeKUo
+ Rhsw==
+X-Gm-Message-State: ACrzQf1eKbHqRbmUVrrPmsAJVDeh7jSIJGwJ4B8X23bvW0H8gRSSQgnX
+ TlVHtIhg3UFIe7+BhbvDo0KxHQ==
+X-Google-Smtp-Source: AMsMyM6dwuUJdxC7BENyYXPsQCOd+CranHMYc70MqG9BZMnC1YgoC1MsI3vRIn9cBDMtsz0FCbVOkg==
+X-Received: by 2002:a05:6000:98b:b0:22c:c3b1:3f2a with SMTP id
+ by11-20020a056000098b00b0022cc3b13f2amr1359248wrb.11.1664440815789; 
+ Thu, 29 Sep 2022 01:40:15 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:1f17:3ea3:4e46:dff?
+ ([2a01:e0a:982:cbb0:1f17:3ea3:4e46:dff])
+ by smtp.gmail.com with ESMTPSA id
+ e16-20020a05600c2dd000b003b47e8a5d22sm3963146wmh.23.2022.09.29.01.40.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Sep 2022 01:40:15 -0700 (PDT)
+Message-ID: <aaf68eff-17da-3f27-c8dc-48b9659e7b50@linaro.org>
+Date: Thu, 29 Sep 2022 10:40:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: it6505: add properties to restrict
+ output bandwidth
+Content-Language: en-US
+To: allen <allen.chen@ite.com.tw>
+References: <20220929014456.30077-1-allen.chen@ite.com.tw>
+ <20220929014456.30077-2-allen.chen@ite.com.tw>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20220929014456.30077-2-allen.chen@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,184 +78,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, apparmor@lists.ubuntu.com,
- dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>, iommu@lists.linux.dev,
- Mark Brown <broonie@kernel.org>, amd-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Reply-To: neil.armstrong@linaro.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Kenneth Hung <Kenneth.Hung@ite.com.tw>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
+ Rob Herring <robh+dt@kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: de90d455a35e474a184c898e66a6a108c3a99434  Add linux-next specific files for 20220928
+Hi,
 
-Error/Warning reports:
+On 29/09/2022 03:44, allen wrote:
+> From: allen chen <allen.chen@ite.com.tw>
+> 
+> Add properties to restrict dp output data-lanes and clock.
+> 
+> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+> ---
+>   .../devicetree/bindings/display/bridge/ite,it6505.yaml | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> index 833d11b2303a..62b9f2192202 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> @@ -52,6 +52,14 @@ properties:
+>       maxItems: 1
+>       description: extcon specifier for the Power Delivery
+>   
+> +  data-lanes:
+> +    maxItems: 1
+> +    description: restrict the dp output data-lanes with value of 1-4
 
-https://lore.kernel.org/linux-mm/202209150141.WgbAKqmX-lkp@intel.com
-https://lore.kernel.org/llvm/202209220019.Yr2VuXhg-lkp@intel.com
+Can't you use the data-lanes property in the first port endpoint ?
 
-Error/Warning: (recently discovered and may have been fixed)
+Look at Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
 
-ERROR: modpost: "devm_iio_channel_get_all" [drivers/power/supply/mt6370-charger.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/clk/xilinx/clk-xlnx-clock-wizard.ko] undefined!
-ERROR: modpost: "iio_read_channel_processed" [drivers/power/supply/mt6370-charger.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-aarch64-linux-ld: security/apparmor/lsm.c:1545: undefined reference to `zstd_max_clevel'
-arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
-arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
-depmod: ERROR: Cycle detected: nf_conntrack -> nf_nat -> nf_conntrack
-depmod: ERROR: Found 2 modules in dependency cycles!
-drivers/gpu/drm/msm/msm_gem_shrinker.c:29:28: error: '__GFP_ATOMIC' undeclared (first use in this function); did you mean 'GFP_ATOMIC'?
-drivers/gpu/drm/tests/drm_format_helper_test.c:381:31: warning: use of NULL 'buf' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
-drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined but not used [-Wunused-const-variable=]
-include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_243' declared with attribute error: FIELD_PREP: mask is not constant
-include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_256' declared with attribute error: FIELD_PREP: mask is not constant
-include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_265' declared with attribute error: FIELD_PREP: mask is not constant
-include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_284' declared with attribute error: FIELD_PREP: mask is not constant
-include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_290' declared with attribute error: FIELD_PREP: mask is not constant
-include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_408' declared with attribute error: FIELD_PREP: mask is not constant
-security/apparmor/apparmorfs.c:1204: undefined reference to `zstd_min_clevel'
-security/apparmor/apparmorfs.c:1210: undefined reference to `zstd_max_clevel'
-security/apparmor/lsm.c:1545: undefined reference to `zstd_min_clevel'
+> +
+> +  max-pixel-clock-khz:
+> +    maxItems: 1
+> +    description: restrict max pixel clock
 
-Error/Warning ids grouped by kconfigs:
+New vendor specific properties should have the ite, prefix.
 
-gcc_recent_errors
-|-- arc-randconfig-r043-20220926
-|   |-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_PREP:mask-is-not-constant
-|-- arm-buildonly-randconfig-r001-20220926
-|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_PREP:mask-is-not-constant
-|-- arm-randconfig-c002-20220925
-|   `-- drivers-gpu-drm-tests-drm_format_helper_test.c:warning:use-of-NULL-buf-where-non-null-expected-CWE
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- arm64-buildonly-randconfig-r006-20220926
-|   |-- aarch64-linux-ld:security-apparmor-lsm.c:undefined-reference-to-zstd_max_clevel
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|   |-- security-apparmor-apparmorfs.c:undefined-reference-to-zstd_max_clevel
-|   |-- security-apparmor-apparmorfs.c:undefined-reference-to-zstd_min_clevel
-|   `-- security-apparmor-lsm.c:undefined-reference-to-zstd_min_clevel
-|-- arm64-randconfig-r035-20220926
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_PREP:mask-is-not-constant
-|-- i386-buildonly-randconfig-r003-20220926
-|   `-- drivers-iommu-ipmmu-vmsa.c:warning:ipmmu_of_ids-defined-but-not-used
-|-- ia64-allmodconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- nios2-buildonly-randconfig-r005-20220925
-|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_PREP:mask-is-not-constant
-|-- openrisc-randconfig-r015-20220925
-|   |-- ERROR:devm_iio_channel_get_all-drivers-power-supply-mt6370-charger.ko-undefined
-|   `-- ERROR:iio_read_channel_processed-drivers-power-supply-mt6370-charger.ko-undefined
-|-- powerpc-buildonly-randconfig-r003-20220925
-|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_PREP:mask-is-not-constant
-|-- s390-allmodconfig
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-qcom-hdma.ko-undefined
-|   |-- ERROR:devm_memremap-drivers-misc-open-dice.ko-undefined
-|   |-- ERROR:devm_memunmap-drivers-misc-open-dice.ko-undefined
-|   |-- ERROR:devm_platform_ioremap_resource-drivers-char-xillybus-xillybus_of.ko-undefined
-|   |-- ERROR:devm_platform_ioremap_resource-drivers-clk-xilinx-clk-xlnx-clock-wizard.ko-undefined
-|   |-- ERROR:ioremap-drivers-tty-ipwireless-ipwireless.ko-undefined
-|   |-- ERROR:iounmap-drivers-net-ethernet-pcnet_cs.ko-undefined
-|   `-- ERROR:iounmap-drivers-tty-ipwireless-ipwireless.ko-undefined
-|-- sparc-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- sparc-randconfig-r036-20220926
-|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_PREP:mask-is-not-constant
-`-- x86_64-rhel-8.3-kselftests
-    |-- depmod:ERROR:Cycle-detected:nf_conntrack-nf_nat-nf_conntrack
-    `-- depmod:ERROR:Found-modules-in-dependency-cycles
-clang_recent_errors
-`-- s390-randconfig-r044-20220926
-    `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-function-virtual_disable_link_output
+> +
+>     port:
+>       $ref: /schemas/graph.yaml#/properties/port
+>       description: A port node pointing to DPI host port node
+> @@ -84,6 +92,8 @@ examples:
+>               pwr18-supply = <&it6505_pp18_reg>;
+>               reset-gpios = <&pio 179 1>;
+>               extcon = <&usbc_extcon>;
+> +            data-lanes = <2>;
+> +            max-pixel-clock-khz = <150000>;
+>   
+>               port {
+>                   it6505_in: endpoint {
 
-elapsed time: 729m
-
-configs tested: 64
-configs skipped: 2
-
-gcc tested configs:
-arc                                 defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-alpha                               defconfig
-x86_64                          rhel-8.3-func
-s390                             allmodconfig
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-s390                                defconfig
-s390                             allyesconfig
-x86_64                              defconfig
-arm                                 defconfig
-x86_64               randconfig-a002-20220926
-x86_64               randconfig-a004-20220926
-x86_64                               rhel-8.3
-x86_64               randconfig-a001-20220926
-powerpc                           allnoconfig
-i386                          randconfig-a001
-i386                                defconfig
-i386                          randconfig-a003
-x86_64               randconfig-a003-20220926
-x86_64               randconfig-a005-20220926
-i386                          randconfig-a005
-x86_64               randconfig-a006-20220926
-x86_64                           allyesconfig
-i386                             allyesconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-arm                              allyesconfig
-arc                  randconfig-r043-20220925
-arm64                            allyesconfig
-riscv                randconfig-r042-20220925
-alpha                            allyesconfig
-arc                  randconfig-r043-20220926
-arc                              allyesconfig
-s390                 randconfig-r044-20220925
-m68k                             allmodconfig
-m68k                             allyesconfig
-ia64                             allmodconfig
-
-clang tested configs:
-i386                          randconfig-a002
-i386                 randconfig-a012-20220926
-i386                 randconfig-a011-20220926
-i386                          randconfig-a006
-i386                 randconfig-a015-20220926
-i386                          randconfig-a004
-i386                 randconfig-a014-20220926
-i386                 randconfig-a013-20220926
-x86_64               randconfig-a012-20220926
-i386                 randconfig-a016-20220926
-x86_64               randconfig-a014-20220926
-x86_64               randconfig-a016-20220926
-x86_64               randconfig-a013-20220926
-hexagon              randconfig-r045-20220925
-x86_64               randconfig-a011-20220926
-hexagon              randconfig-r041-20220926
-x86_64               randconfig-a015-20220926
-hexagon              randconfig-r045-20220926
-hexagon              randconfig-r041-20220925
-riscv                randconfig-r042-20220926
-s390                 randconfig-r044-20220926
-x86_64                          rhel-8.3-rust
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Thanks,
+Neil
