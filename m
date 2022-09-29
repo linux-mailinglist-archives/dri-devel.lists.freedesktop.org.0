@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC625EF7E8
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 16:43:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A985EF808
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 16:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0DC10EAAA;
-	Thu, 29 Sep 2022 14:43:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14C0F10EAA6;
+	Thu, 29 Sep 2022 14:53:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD8A10EAAD;
- Thu, 29 Sep 2022 14:43:45 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C80851F855;
- Thu, 29 Sep 2022 14:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664462623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vNZxJO59vQpf9H0uoOd8/7jNIlIANXDFGLL/tnu+Dns=;
- b=CCayV1Nxx2PLZe8WoHMV4max0gu184rc1tzkkKO10Co6RpD2TnHLl9OmfOjL17hNVvduHr
- EkVIkQthcOPcRS8678OqxFmIkIzfYGDm35v0spp900gRF+snSEdxs0y79xWmWK8OmBZuQo
- AihOshHayoieSYFSRNMueUbE4yXq//Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664462623;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vNZxJO59vQpf9H0uoOd8/7jNIlIANXDFGLL/tnu+Dns=;
- b=EjQIycavrL5uNnyijVKPTlk1ujm8QPFITTX5fZGTcFk5ULx6LeNDNQc0bO0vgVOiEhTjAl
- bHXV/HQNBCZklqAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 90A2313A71;
- Thu, 29 Sep 2022 14:43:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yyBxIh+vNWPGSAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 29 Sep 2022 14:43:43 +0000
-Date: Thu, 29 Sep 2022 16:43:42 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <YzWvHhaqHhYirn4L@linux-uq9g>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C16D110EAA6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 14:53:33 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CEC591650;
+ Thu, 29 Sep 2022 07:53:39 -0700 (PDT)
+Received: from [10.1.38.20] (e122027.cambridge.arm.com [10.1.38.20])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 693D83F792;
+ Thu, 29 Sep 2022 07:53:30 -0700 (PDT)
+Message-ID: <e613a225-dabf-7e87-2624-a3244df8a877@arm.com>
+Date: Thu, 29 Sep 2022 15:53:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 5/6] drm/sched: Use parent fence instead of finished
+Content-Language: en-GB
+To: Arvind Yadav <Arvind.Yadav@amd.com>, Christian.Koenig@amd.com,
+ andrey.grodzovsky@amd.com, shashank.sharma@amd.com,
+ amaranath.somalapuram@amd.com, Arunpravin.PaneerSelvam@amd.com,
+ sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
+ daniel@ffwll.ch, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
+ <20220914164321.2156-6-Arvind.Yadav@amd.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20220914164321.2156-6-Arvind.Yadav@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,62 +50,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On 14/09/2022 17:43, Arvind Yadav wrote:
+> Using the parent fence instead of the finished fence
+> to get the job status. This change is to avoid GPU
+> scheduler timeout error which can cause GPU reset.
 
-this is the PR for drm-misc-fixes for this week.
+I'm able to reproduce crashes on Panfrost and I believe this commit is
+the cause. Specifically it's possible for job->s_fence->parent to be NULL.
 
-Best regards
-Thomas
+The underlying issue seems to involve drm_sched_resubmit_jobs_ext() - if
+the run_jobs() callback returns an error it will set s_fence->parent to
+NULL after signalling s_fence->finished:
 
-drm-misc-fixes-2022-09-29:
-Short summary of fixes pull:
+> 		fence = sched->ops->run_job(s_job);
+> 		i++;
+> 
+> 		if (IS_ERR_OR_NULL(fence)) {
+> 			if (IS_ERR(fence))
+> 				dma_fence_set_error(&s_fence->finished, PTR_ERR(fence));
+> 
+> 			s_job->s_fence->parent = NULL;
 
- * bridge/analogix: Revert earlier suspend fix
- * bridge/lt8912b: Fix corrupt display output
-The following changes since commit d8a79c03054911c375a2252627a429c9bc4615b6:
+I don't understand the reasoning behind this change, but it doesn't seem
+right to be using the parent fence when we have code which can be
+setting that pointer to NULL.
 
-  drm/hisilicon: Add depends on MMU (2022-09-20 11:15:09 +0200)
+Since I don't understand the reasoning my only suggestion is to revert
+this patch (and potentially the dependent patch "dma-buf: Check status
+of enable-signaling bit on debug"?).
 
-are available in the Git repository at:
+Can anyone suggest a better fix?
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-09-29
+Thanks,
 
-for you to fetch changes up to cc62d98bd56d45de4531844ca23913a15136c05b:
+Steve
 
-  Revert "drm: bridge: analogix/dp: add panel prepare/unprepare in suspend/resume time" (2022-09-23 07:15:18 -0700)
+> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+> Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+> 
+> changes in v1,v2 - Enable signaling for finished fence in sche_main()
+> is removed
+> 
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index e0ab14e0fb6b..2ac28ad11432 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -829,7 +829,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>  	job = list_first_entry_or_null(&sched->pending_list,
+>  				       struct drm_sched_job, list);
+>  
+> -	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+> +	if (job && dma_fence_is_signaled(job->s_fence->parent)) {
+>  		/* remove job from pending_list */
+>  		list_del_init(&job->list);
+>  
+> @@ -841,7 +841,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>  
+>  		if (next) {
+>  			next->s_fence->scheduled.timestamp =
+> -				job->s_fence->finished.timestamp;
+> +				job->s_fence->parent->timestamp;
+>  			/* start TO timer for next job */
+>  			drm_sched_start_timeout(sched);
+>  		}
 
-----------------------------------------------------------------
-Short summary of fixes pull:
-
- * bridge/analogix: Revert earlier suspend fix
- * bridge/lt8912b: Fix corrupt display output
-
-----------------------------------------------------------------
-Brian Norris (1):
-      Revert "drm: bridge: analogix/dp: add panel prepare/unprepare in suspend/resume time"
-
-Francesco Dolcini (1):
-      drm/bridge: lt8912b: fix corrupted image output
-
-Philippe Schenker (2):
-      drm/bridge: lt8912b: add vsync hsync
-      drm/bridge: lt8912b: set hdmi or dvi mode
-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 13 -------------
- drivers/gpu/drm/bridge/lontium-lt8912b.c           | 13 +++++++++++--
- 2 files changed, 11 insertions(+), 15 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
