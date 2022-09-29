@@ -2,80 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E18A5EF5B8
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 14:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E67D5EF5C9
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 14:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815E010E5F8;
-	Thu, 29 Sep 2022 12:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F1910E602;
+	Thu, 29 Sep 2022 12:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 344F010E299
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 12:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664455871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KouUCILkI9jFd0vyuAxaoxmo9Gwcr90oMq3oQp5pXck=;
- b=X16NZ4m7ql/quawF1xdCk1h20ULqef1EjGurhYPRxs6ujI5VGFn6dXc8nAZ8QNos6fboHD
- 1C/YUL6d16sdMC0zxmV0I6+T/WJ5bcBnM7LVzR0NOFPVkpyhZM9+apapGcoT5vu4BQoK57
- QptJklLTXICqvihb3KCziuKkOSVC/XQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-141-JFghCZXfMReUtieBkGVJdQ-1; Thu, 29 Sep 2022 08:51:04 -0400
-X-MC-Unique: JFghCZXfMReUtieBkGVJdQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 84-20020a1c0257000000b003b4be28d7e3so2942167wmc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 05:51:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=KouUCILkI9jFd0vyuAxaoxmo9Gwcr90oMq3oQp5pXck=;
- b=oV3zKB4PSh35u8TuJ++P3I8zdH+ZKZS7LF1XDe4lfMcKwmovepAhvZ7tH9omkbU8EQ
- 6dexUFnfDuQ5aysUTSjkSV2K9AfGsQedZrSTfEcREgZ6a32Rr1EC3zRbzzKmHO6E2d6I
- lYh3r/90zIIhF/Nv2+4xon2fJwiILSMDskNM3X8WbA3KAZUSsAGd/T5C3nXXswYvZ4QP
- Ycfc3G+wThgAAoXIhEwMnZw4bP9xQ7opp9dnI/CEtREfVyHkfXBO4QT5Ox+ToznflSHW
- 0nBOxUIwd4+H2Ws9oMbhlG3puw66cvVyzMxG23tlTRpX7rgDxOtgXECt0FEsA0bcAlo7
- oX5A==
-X-Gm-Message-State: ACrzQf1OYagHdb8ccZTUUQxhD1vZXQXwu9w04Z/LW+0vFny2nsYkANLg
- mdt41f3o+V1onPExtjS0EiKwkLNTIufSYP54tJbGpii+XmxgmUFSQfWP2bJodal2OMdK2gmDP19
- Anuj9VKkZx5GhMd05o4Qh1XXKUD2d
-X-Received: by 2002:a05:6000:1f8e:b0:22b:113b:536 with SMTP id
- bw14-20020a0560001f8e00b0022b113b0536mr2326464wrb.619.1664455863274; 
- Thu, 29 Sep 2022 05:51:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6rp6RI4jcodrP2DgvaJNGney1wUw9Ceb6lpNNGPpLYsiO5qL8Mvx7WlHvHMhK9p2lb41C0XA==
-X-Received: by 2002:a05:6000:1f8e:b0:22b:113b:536 with SMTP id
- bw14-20020a0560001f8e00b0022b113b0536mr2326446wrb.619.1664455863032; 
- Thu, 29 Sep 2022 05:51:03 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- p13-20020a05600c1d8d00b003b332a7bf15sm4465130wms.7.2022.09.29.05.51.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Sep 2022 05:51:02 -0700 (PDT)
-Message-ID: <a4e37b99-bd18-850a-2485-6239870de3f9@redhat.com>
-Date: Thu, 29 Sep 2022 14:51:01 +0200
+Received: from mail.codeweavers.com (mail.codeweavers.com [65.103.31.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D0310E299;
+ Thu, 29 Sep 2022 12:55:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
+ Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=sLRVBiowlV3tgU9aNfa7uL8HAclPzQwxQlHwwavoEO4=; b=MojYtUJRl8xO+X4QxgC3u5xer8
+ zhKa4ZNMN3KOOlNDjCx4QcE7qWgbUR7wngGBdOpD9qVqXXJbWVpk3VTi+dgH7gmc9C43bYkRnLHVF
+ XWxmGESyyUch0KKrU3UXzf3ZGOTKfSKkaXryLOWFp6RJW2/8ESTXELWQM/mA7Y/x0+DM=;
+Received: from jwhite.vpn.codeweavers.com ([10.69.141.101] helo=[10.0.0.18])
+ by mail.codeweavers.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <jwhite@codeweavers.com>)
+ id 1odt4P-00087X-TW; Thu, 29 Sep 2022 07:55:18 -0500
+Message-ID: <0dff419f-1c40-16ba-b067-a88ba46305eb@codeweavers.com>
+Date: Thu, 29 Sep 2022 07:55:17 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 01/16] drm/udl: Rename struct udl_drm_connector to struct
- udl_connector
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- sean@poorly.run, daniel@ffwll.ch
-References: <20220919130408.21486-1-tzimmermann@suse.de>
- <20220919130408.21486-2-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220919130408.21486-2-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: events@lists.x.org, xorg-devel@lists.freedesktop.org,
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org
+From: Jeremy White <jwhite@codeweavers.com>
+Subject: Information about XDC 2022 - next week!
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,25 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+﻿Hi folks,
 
-On 9/19/22 15:03, Thomas Zimmermann wrote:
-> Remove the _drm_ infix from struct udl_drm_connector and introduce a
-> macro for upcasting from struct drm_connector. No functional changes.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+We are excited to welcome you in person to the 2022 X.Org Developers 
+Conference, held in conjunction with WineConf and FOSS XR conference.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+The conference will start officially on Tuesday morning, October 4th. 
+The program is here:
+   https://indico.freedesktop.org/event/2/timetable/#all.detailed
+The official events start at 8:30 am, but we will have coffee and 
+pastries available from 7:30 on Tuesday and 8 on Wednesday and Thursday.
 
--- 
-Best regards,
+We expect everyone attending to be vaccinated and to be respectful of 
+people that are trying to avoid catching COVID. Masks are mandatory, 
+except when presenting or eating.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+A small number of us will gather informally at Brit’s Pub, starting at 
+around 4:00 pm on Monday, October 3rd.  We’ll try to have a table with 
+some sort of a sign, and folks can connect, have a drink, and then 
+perhaps group up to explore alternate food.  Note that if the weather is 
+nice, we may be up on the roof, so explore far to find us.
 
+We will be on the Minneapolis campus of St. Thomas, which is a mildly 
+confusing campus.  We have given instructions and a picture to guide you 
+here:
+ 
+https://indico.freedesktop.org/event/2/page/10-attending-xdc-wineconf-foss-xr
+We are working on the remote experience, and expect to have streaming of 
+all events available. The above page will have those details just as 
+soon as they are finalized.
+
+We have a page of instructions for folks that will be presenting:
+   https://indico.freedesktop.org/event/2/page/18-speaker-instructions
+
+We are also excited to announce the happy hour taking place on 
+Wednesday, from 6:00 pm until 8:00 pm.  The hope is that all three 
+projects can mingle and socialize and enjoy the return of in person 
+meetings.
+
+Also, this year we plan to adopt the Wine strategy of using a deliberate 
+Matrix chat room just for the conference.  Matrix has a variety of apps, 
+and Element, the default one is easy to configure on many devices, 
+including mobile phones.  The link to that channel is here:
+   https://matrix.to/#/#xdc-wineconf-fossxr-2022:matrix.org
+We find the chat channel a good place to learn what restaurants and bars 
+are chosen, and just a good way to track the social aspects of the 
+conference.
+
+We look forward to seeing you next week!
+
+Cheers,
+
+Jeremy
