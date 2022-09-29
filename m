@@ -1,67 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210535EF65F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 15:23:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA005EF660
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 15:23:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7533910EA6A;
-	Thu, 29 Sep 2022 13:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF70E10EA60;
+	Thu, 29 Sep 2022 13:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB1410E61A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 13:21:52 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id sd10so2793754ejc.2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 06:21:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=O6G/jlhP0pScogU1Ie7r8eWmzR1pGWot/0ldJplXsr4=;
- b=R7Mpjm17rTzHhZT3L0BPTengcktM0r1rGt3F14FRI+a+kUShdIXGAmX9krt+vEiAv3
- 6k9ZCszjtBBmNglL0FqZd95Mo5YFqAy87F/CkkCEl0xg8qGDfDe+D4IwxMlI4fEopeCA
- LBCBKCswbx/t0tiO2rKoePjI0TGb8RhnLDLtUSJeWZ6EcdxGZaWUOOI7fXN4X7ky60dz
- Y4LV9+MrwJCUMU/kvdJLpsepArotzeUe2EcObw77LDXn+wmKMacDvfxGi5IWg962+zn2
- 9jcMVcfczkPt6MLUOPeZbrybHs9wmyzHQSWPk/AqbUdxU9tq4l3IqtVrQdaYaKPAodhD
- 0MWw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC2010EA6C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 13:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664457813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oG/yZJxiQer6lEcGvbF50JzMIcd4QWOG+Bq41x4RRP8=;
+ b=aJ+JMjipyCrNFv+OL9hfNeS+mWMj1UkCxTYFRbFveaRIObDGqmmjZN/lglJL/NKH69xCrd
+ rXQ4NZ0kTsNGsNRQBakMj8CKdMzqRqteZSaTGMgByadPFrW7IFDGY1XlTNpHI9OW8GW7a/
+ wrQxngZfnjPdCd5397B8MOwYzly/dTw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-263-vOAd_9awMB22eDDLB_XYwQ-1; Thu, 29 Sep 2022 09:23:32 -0400
+X-MC-Unique: vOAd_9awMB22eDDLB_XYwQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r23-20020adfb1d7000000b002286358a916so530404wra.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 06:23:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=O6G/jlhP0pScogU1Ie7r8eWmzR1pGWot/0ldJplXsr4=;
- b=6+hXDKJkT7bBrXhsqWS9dueymS38Rdc7AJxEIMArpJsRjoMj3dE5M93+MLZn1czHov
- LSY1p85IkJ8WfgJZ8aRSDLwfls9nM8/H1TFkdLlqhT5g/0M7NpSIKpNPu6JPThQ+LqoA
- gQLdoz3UD0B+S5zZlhJN2iIOskS3aH9swOSwHEGwm0p7wHVA0FI/xAQuSreBvYA3YsLk
- HVOeQC2TqnE37ZZAZTv1V6y03wAE/wMAOBsO6ZzEOXfpN1ZpBrYk/jMScXZKLX5PlpW5
- srqsjWlNg5N6CggWBtrdAmcGV/Q49525CHjbYnffssAwhGXyvTxVn9536AzEDo0ooTpO
- jGmQ==
-X-Gm-Message-State: ACrzQf0ULVxYEN6s1qsD1fmWlXN0z1QmjBRZl86oz7F3X0IOR2GBVzG/
- Rh+khgWwcNo1JpbdrlrYOIlmzG9Sr1Q=
-X-Google-Smtp-Source: AMsMyM4P8xBOMC7q2GyGKY5D4hOKSyh8lnu2XwkqW5wA0T8Z4qwXUYPbN46iv3v06LjLiN+Udeu7tg==
-X-Received: by 2002:a17:907:6d08:b0:787:9027:cb8d with SMTP id
- sa8-20020a1709076d0800b007879027cb8dmr2845529ejc.396.1664457710963; 
- Thu, 29 Sep 2022 06:21:50 -0700 (PDT)
-Received: from able.fritz.box (p4fc20ebf.dip0.t-ipconnect.de. [79.194.14.191])
- by smtp.gmail.com with ESMTPSA id
- gx6-20020a1709068a4600b007836d075152sm3983807ejc.187.2022.09.29.06.21.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 06:21:50 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/13] drm/scheduler: rename dependency callback into
- prepare_job
-Date: Thu, 29 Sep 2022 15:21:36 +0200
-Message-Id: <20220929132136.1715-13-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220929132136.1715-1-christian.koenig@amd.com>
-References: <20220929132136.1715-1-christian.koenig@amd.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=oG/yZJxiQer6lEcGvbF50JzMIcd4QWOG+Bq41x4RRP8=;
+ b=2ysEvXRdvvs3+29EDzOvF3cSFInOG2zZ6Xyh0Ht7tD/QOptwLKLfQ5y9MnmAvWC/mU
+ jvsJrIQPot3I+SBot4ZbeNCxK5gi7Foz/y0Iy0mRCizM75DwKSP5UIXZfHkPAxYDhk7E
+ uhL5gaYV2jFgCm5vMTqOArfaPcAF1e/v49BHb3NRNtL/848zi533Evl7bC5fg2gvF0n/
+ jnmEWWDizhF8LfqN805y2IZyCnLRF4LO9s4n3zTSp012iIAb4JRcQNPhJM4w1UuywH8T
+ IgBnFVpHmw8DNJD6wdY/iEglu5CC7YZdB4FKnhfnSD8rJvoeaTINmvg5uZIryN79/UXi
+ xDNg==
+X-Gm-Message-State: ACrzQf0mzwZ+3rSNBpbNgwSoMmsQQslT8ThYNmcfi/Ce6c4z1djlb/Dh
+ AG7UB41wln+H2o/2mkvpg0RNt44Yo0YkqLfSlX9WJWPzld1C26GsGzW5V0tHRTIDuLoNqBLuUoU
+ DQzM4K5hipbYZBRFT/hkgdW+8qqW5
+X-Received: by 2002:a05:600c:2241:b0:3b4:88aa:dcba with SMTP id
+ a1-20020a05600c224100b003b488aadcbamr2372924wmm.203.1664457810926; 
+ Thu, 29 Sep 2022 06:23:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6zT8rTh7Ln6nBwE0Ij220TM1S5fwk1RgEkcl1aNUY40pgAlT2Eq/Ouac+UATRYNhRIrr5Prw==
+X-Received: by 2002:a05:600c:2241:b0:3b4:88aa:dcba with SMTP id
+ a1-20020a05600c224100b003b488aadcbamr2372905wmm.203.1664457810687; 
+ Thu, 29 Sep 2022 06:23:30 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l17-20020a05600c4f1100b003b4ff30e566sm3114365wmq.3.2022.09.29.06.23.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Sep 2022 06:23:30 -0700 (PDT)
+Message-ID: <7bc2bcad-46c8-14bd-b0fb-7bdf13ed04e5@redhat.com>
+Date: Thu, 29 Sep 2022 15:23:29 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 03/16] drm/udl: Use USB timeout constant when reading EDID
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ sean@poorly.run, daniel@ffwll.ch
+References: <20220919130408.21486-1-tzimmermann@suse.de>
+ <20220919130408.21486-4-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220919130408.21486-4-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,95 +87,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: shansheng.wang@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- luben.tuikov@amd.com, WenChieh.Chien@amd.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This now matches much better what this is doing.
+On 9/19/22 15:03, Thomas Zimmermann wrote:
+> Set the USB control-message timeout to the USB default of 5 seconds.
+> Done for consistency with other uses of usb_control_msg() in udl and
+> other drivers.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/udl/udl_connector.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
+> index e9539829032c..cb3d6820eaf9 100644
+> --- a/drivers/gpu/drm/udl/udl_connector.c
+> +++ b/drivers/gpu/drm/udl/udl_connector.c
+> @@ -31,7 +31,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
+>  		int bval = (i + block * EDID_LENGTH) << 8;
+>  		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+>  				      0x02, (0x80 | (0x02 << 5)), bval,
+> -				      0xA1, read_buff, 2, 1000);
+> +				      0xA1, read_buff, 2, USB_CTRL_GET_TIMEOUT);
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  4 ++--
- drivers/gpu/drm/scheduler/sched_entity.c |  4 ++--
- include/drm/gpu_scheduler.h              | 13 ++++++-------
- 3 files changed, 10 insertions(+), 11 deletions(-)
+Agreed, much better than an arbitrary 1 sec.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index 98e05f16cd55..7176b18f664f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -238,7 +238,7 @@ int amdgpu_job_submit_direct(struct amdgpu_job *job, struct amdgpu_ring *ring,
- }
- 
- static struct dma_fence *
--amdgpu_job_dependency(struct drm_sched_job *sched_job,
-+amdgpu_job_prepare_job(struct drm_sched_job *sched_job,
- 		      struct drm_sched_entity *s_entity)
- {
- 	struct amdgpu_ring *ring = to_amdgpu_ring(s_entity->rq->sched);
-@@ -327,7 +327,7 @@ void amdgpu_job_stop_all_jobs_on_sched(struct drm_gpu_scheduler *sched)
- }
- 
- const struct drm_sched_backend_ops amdgpu_sched_ops = {
--	.dependency = amdgpu_job_dependency,
-+	.prepare_job = amdgpu_job_prepare_job,
- 	.run_job = amdgpu_job_run,
- 	.timedout_job = amdgpu_job_timedout,
- 	.free_job = amdgpu_job_free_cb
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 1d448e376811..45b10ee0c12f 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -396,8 +396,8 @@ drm_sched_job_dependency(struct drm_sched_job *job,
- 	if (!xa_empty(&job->dependencies))
- 		return xa_erase(&job->dependencies, job->last_dependency++);
- 
--	if (job->sched->ops->dependency)
--		return job->sched->ops->dependency(job, entity);
-+	if (job->sched->ops->prepare_job)
-+		return job->sched->ops->prepare_job(job, entity);
- 
- 	return NULL;
- }
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 5f51eef2a835..5a790d0a0009 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -297,7 +297,7 @@ struct drm_sched_job {
- 	 */
- 	union {
- 		struct dma_fence_cb		finish_cb;
--		struct irq_work 		work;
-+		struct irq_work			work;
- 	};
- 
- 	uint64_t			id;
-@@ -338,18 +338,17 @@ enum drm_gpu_sched_stat {
-  */
- struct drm_sched_backend_ops {
- 	/**
--	 * @dependency:
-+	 * @prepare_job:
- 	 *
- 	 * Called when the scheduler is considering scheduling this job next, to
- 	 * get another struct dma_fence for this job to block on.  Once it
- 	 * returns NULL, run_job() may be called.
- 	 *
--	 * If a driver exclusively uses drm_sched_job_add_dependency() and
--	 * drm_sched_job_add_implicit_dependencies() this can be ommitted and
--	 * left as NULL.
-+	 * Can be NULL if no additional preparation to the dependencies are
-+	 * necessary. Skipped when jobs are killed instead of run.
- 	 */
--	struct dma_fence *(*dependency)(struct drm_sched_job *sched_job,
--					struct drm_sched_entity *s_entity);
-+	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
-+					 struct drm_sched_entity *s_entity);
- 
- 	/**
-          * @run_job: Called to execute the job once all of the dependencies
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.25.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
