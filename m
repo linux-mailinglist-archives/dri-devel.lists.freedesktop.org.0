@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E05F5EED32
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 07:25:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5875EED34
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 07:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DB510E90C;
-	Thu, 29 Sep 2022 05:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8446C10E8EC;
+	Thu, 29 Sep 2022 05:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8A2E10E830;
- Thu, 29 Sep 2022 05:25:17 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB7810E8EC;
+ Thu, 29 Sep 2022 05:25:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664429117; x=1695965117;
+ t=1664429141; x=1695965141;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=lntUbo5PiYfSUjMnl+x9Y6SvkCJde6aSjtnbDcJUAlw=;
- b=RwtuhS1Q5MTCHZYejIL5UJLnsIfn2W/cEG6V8RtAEjMQsO+ICFlymM1q
- BoQuASo0rg5vO+JlauF+TaYc9ubTAFZp2JfPoooQ0jceDs3B3hMUc3BkB
- hVCx17Zo8XBtAZq1RL0kbIrhbQQum3MNcIwsu5PRfXSSAHjGrpRVdaqIG
- gxRqnYVDkIqDt7+l1psly5zZSRQJ/gYK6uGmUynrr9rLtMFAvde8DrfPk
- b7WBSsPQLpm8vO3xBgOWUqVEx5L+GjAXDn/ykjImHAcEHegkzpWNZRQqt
- GHg1m7x32C7pW+LyAvG8NwiywgmU4XUst8fuVrOgtwVjNdzcnPNeaD1mA A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="281512229"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="281512229"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 22:25:16 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="617470912"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="617470912"
+ bh=RSU8QNr8G4CnSQzotTSVmpvWLBI0rM9L0QRr6LB3Z+Y=;
+ b=DsmcP8ZpyvlXTmqwmE61SJsGKckRPqcZmzO/drTCNyr25h6AlMqLKgiC
+ KAtPQyKlK0HqNl3YXHEAtpckCGCOl/wo2kIN8Q1DyHVtRh/rzGRW3hc+j
+ tlPjqHD1F2WgTu98j0DhAhs3+0AoD+9gfc/1XclmnSwpVygbfjbUv6oGX
+ Jaj80nHTBKVjCrA2t+n3K9MKzkvIK/Dx+Chjg8lp/hxyKkzih698CUrNI
+ Y3vhC4RZpV/vHHYWFQv3xMwIrXQinEZrY50ozQUN2wrXjZlD6MpVEl+Pd
+ U+aPrdNUCQB8pDDSmUfPjIPGoKFLZwjEuArYZlkP1nsTfoOmOagbjUsdl A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="301772045"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="301772045"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 22:25:41 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="764576790"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="764576790"
 Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 22:24:47 -0700
-Date: Wed, 28 Sep 2022 22:24:24 -0700
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 22:25:36 -0700
+Date: Wed, 28 Sep 2022 22:25:14 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH 05/16] drm/i915/vm_bind: Implement bind and unbind of
- object
-Message-ID: <20220929052424.GI16345@nvishwa1-DESK>
+To: "Welty, Brian" <brian.welty@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 05/16] drm/i915/vm_bind: Implement bind and
+ unbind of object
+Message-ID: <20220929052514.GJ16345@nvishwa1-DESK>
 References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
  <20220928061918.6340-6-niranjana.vishwanathapura@intel.com>
- <da26c1a5-efd4-25ff-c2b4-5d4e454772a6@intel.com>
+ <51c77cde-e57e-9feb-9901-2d639a962834@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <da26c1a5-efd4-25ff-c2b4-5d4e454772a6@intel.com>
+In-Reply-To: <51c77cde-e57e-9feb-9901-2d639a962834@intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,16 +61,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: paulo.r.zanoni@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, daniel.vetter@intel.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 28, 2022 at 06:52:21PM +0100, Matthew Auld wrote:
->On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
+On Wed, Sep 28, 2022 at 01:06:18PM -0700, Welty, Brian wrote:
+>
+>
+>On 9/27/2022 11:19 PM, Niranjana Vishwanathapura wrote:
 >>Add uapi and implement support for bind and unbind of an
 >>object at the specified GPU virtual addresses.
 >>
@@ -516,6 +517,17 @@ On Wed, Sep 28, 2022 at 06:52:21PM +0100, Matthew Auld wrote:
 >>+	 * False: allow only legacy execbuff method of binding.
 >>+	 */
 >>+	bool vm_bind_mode:1;
+>
+>Place bool next to the other ones below?
+>
+
+Thanks Brian for the review.
+Ok, will move it down.
+
+Regards,
+Niranjana
+
+>
 >>+
 >>+	/** @vm_bind_lock: Mutex to protect @vm_bind_list and @vm_bound_list */
 >>+	struct mutex vm_bind_lock;
@@ -622,18 +634,6 @@ On Wed, Sep 28, 2022 at 06:52:21PM +0100, Matthew Auld wrote:
 >>+ * @start, @offset and @length must be 64K aligned. Also, UMDs should not mix
 >>+ * the local memory 64K page and the system memory 4K page bindings in the same
 >>+ * 2M range.
->
->This is hopefully no longer the case if we land:
->https://patchwork.freedesktop.org/series/109126/
->
->Should only need 64K alignment, and mixing should be fine now, which 
->should be a lot nicer. Hopefully doesn't really impact your series, 
->other than just updating the comment here?
->
-
-Oh great. Will remove the last sentence then.
-Yah, we just need to remove the extra comment here.
-
 >>+ *
 >>+ * Error code -EINVAL will be returned if @start, @offset and @length are not
 >>+ * properly aligned. In version 1 (See I915_PARAM_VM_BIND_VERSION), error code
@@ -668,18 +668,6 @@ Yah, we just need to remove the extra comment here.
 >>+
 >>+	/** @rsvd: Reserved, MBZ */
 >>+	__u64 rsvd[2];
->
->There is lots of rsvd stuff here and below, but I don't see where we 
->are verifying if it is actually MBZ?
->
-
-These rsvd fields are temporary and is replaced by a later patch in
-the series. However, the rsvd field in vm_unbind structure below is
-needed and I will update the code to check for 0.
-
-Regards,
-Niranjana
-
 >>+
 >>+	/**
 >>+	 * @extensions: Zero-terminated chain of extensions.
