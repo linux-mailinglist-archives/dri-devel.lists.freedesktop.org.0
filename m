@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846E85EF72D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 16:07:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201945EF743
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 16:13:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B374B10E3AC;
-	Thu, 29 Sep 2022 14:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5E8010E5E5;
+	Thu, 29 Sep 2022 14:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC47510E3AC
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 14:07:16 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 99B3E1F8B2;
- Thu, 29 Sep 2022 14:07:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664460435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=YiFWg4Pmfo4LpBOA7ObrqGAy/L/wVbPJZijfHblVTcI=;
- b=15RSfvRFO9GtNxF1vmeh+EAx7P6N7BBQZHbPv44MLsPG/EnZwTj1ajBzQzcUDWKphCp1/9
- HcfFL+eyLSQtepdWc11d7cOGBQI/1E83oS8F5E/FYb3I+BfHzWif1KWRJMJBLVt+UeE24U
- eYVadZjn6MWfhi77O828Zp85yeeSgvc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664460435;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=YiFWg4Pmfo4LpBOA7ObrqGAy/L/wVbPJZijfHblVTcI=;
- b=Sq6YkNatSLaPBKcqieHbUc4Dmo3SpZO7hJyh11zniHT0g9/BUhe002wgptZSrGqeoZz5W4
- OSn1EU9Jz5ULx3Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 64BCC13A71;
- Thu, 29 Sep 2022 14:07:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id an23F5OmNWOLOAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 29 Sep 2022 14:07:15 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com, daniel@ffwll.ch, airlied@gmail.com,
- ville.syrjala@linux.intel.com, daniel@fooishbar.org, javierm@redhat.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH] drm/atomic-helper: Don't allocated plane state in CRTC check
-Date: Thu, 29 Sep 2022 16:07:14 +0200
-Message-Id: <20220929140714.14794-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.3
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA2210E2B7;
+ Thu, 29 Sep 2022 14:13:22 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-131a7bce1acso1938653fac.7; 
+ Thu, 29 Sep 2022 07:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=mloVIeljer3m4x3IP6zAVZuCniwYsBfPjozV1XjLZow=;
+ b=LE/nSUG2sHQ/+H++WAaLzzsIBuq/3YWsc/o4Cf1YI3Xd+LcSi8f0TBy1MqScX00ozT
+ 1W/+yvIMxQxm9fq5PYrlP+SjqEhcHBZ0sdmaaRNZZw3CAzTERC6WgsVDZ9SStwLE0QlL
+ yVB9v2Hh11KRx58IJ55B+nf/2ukYqd4WFS50qCfG22zxkXPLHVBnMnLMa0qhT8fRQ4E/
+ 6033HJ50CbdMGvrf88+UCMsJMDbYMdAJW16Ow0AltInVRd3h/NjGFaznnBAhFAbsZeqE
+ lSbl+yNpCYTfKHmYEYLtV8IC71cZjkMA/oFGKRH0uDqt7TZWuIApv4NWDjFMnlL6nsnp
+ /71A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=mloVIeljer3m4x3IP6zAVZuCniwYsBfPjozV1XjLZow=;
+ b=WATxTri/41gMx2oWz2ndV0ynDNdVovAxvOsgbSs/h5KslqygA3PtLnn9oZ/asiOi6C
+ nr7DaaDpCNcNzdRKvfedRCqPAz057PDU7XHZsrf43i+GdREseCnhpK0jMK8pF1twUIFy
+ i1VJD4onV5HK6RA2VQg/eANkRtdFch1NWSS+3EOo4kl1taQw7yoz8CttcdsjIa4rUnjk
+ fNT9Jg6krnjqHRoJ9VGM++zX6BAaLqyMqSRLUAnjXjQKRE5fAtu0C3EN+WVVCkl7yl1Y
+ gQe/SjHRIC8AsNVPO9fOeeSNXsAuOzyqtDjJiQoGU+DxE7wiKTzJLipj0nSVQS+gYT4P
+ VLZQ==
+X-Gm-Message-State: ACrzQf3T8hXpdJMohNrNxRDWHQxb6LEx3iyZE4DS3WCs4PnrAVA3u42V
+ h4WW7IPCgRJWGguVzM0Dk/lUUsfVQQahAwC6IqA=
+X-Google-Smtp-Source: AMsMyM5Abrogb9L+PSYxClr7zcD7GHO9mVSXAGr7zMh/FUb9Jj419xqale6vPsxVV5JO47kUfxb3ic5pfKDTmWmQ3SA=
+X-Received: by 2002:a05:6870:c5a4:b0:131:6edd:3955 with SMTP id
+ ba36-20020a056870c5a400b001316edd3955mr1991343oab.96.1664460801749; Thu, 29
+ Sep 2022 07:13:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220830172851.269402-1-contact@emersion.fr>
+In-Reply-To: <20220830172851.269402-1-contact@emersion.fr>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 29 Sep 2022 10:13:10 -0400
+Message-ID: <CADnq5_NiWYaVoSDSjhqiJUd2NmmE9v_sXnYyfO_NsHzty67+eQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] Add support for atomic async page-flips
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,82 +64,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: andrealmeid@igalia.com, daniel.vetter@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ mwen@igalia.com, dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ hwentlan@amd.com, nicholas.kazlauskas@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_atomic_helper_check_crtc_state(), do not add a new plane state
-to the global state if it does not exist already. Adding a new plane
-state will results in overhead for the plane during the atomic-commit
-step.
+On Tue, Aug 30, 2022 at 1:29 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> This series adds support for DRM_MODE_PAGE_FLIP_ASYNC for atomic
+> commits, aka. "immediate flip" (which might result in tearing).
+> The feature was only available via the legacy uAPI, however for
+> gaming use-cases it may be desirable to enable it via the atomic
+> uAPI too.
+>
+> - v1: https://patchwork.freedesktop.org/series/107683/
+> - User-space patch: https://github.com/Plagman/gamescope/pull/595
+> - IGT patch: https://patchwork.freedesktop.org/series/107681/
+>
+> Main changes in v2: add docs, fail atomic commit if async flip isn't
+> possible.
+>
+> Tested on an AMD Picasso iGPU.
 
-For the test in drm_atomic_helper_check_crtc_state() to succeed, it is
-important that the CRTC has an enabled primary plane after the commit.
-This can be a newly enabled plane or an already enabled plane. So if a
-plane is not part of the commit, use the plane's existing state. The new
-helper drm_atomic_get_next_plane_state() returns the correct instance.
+Series is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: d6b9af1097fe ("drm/atomic-helper: Add helper drm_atomic_helper_check_crtc_state()")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/drm_atomic_helper.c |  4 +---
- include/drm/drm_atomic.h            | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 98cc3137c062..463d4f3fa443 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -960,9 +960,7 @@ int drm_atomic_helper_check_crtc_state(struct drm_crtc_state *crtc_state,
- 
- 			if (plane->type != DRM_PLANE_TYPE_PRIMARY)
- 				continue;
--			plane_state = drm_atomic_get_plane_state(state, plane);
--			if (IS_ERR(plane_state))
--				return PTR_ERR(plane_state);
-+			plane_state = drm_atomic_get_next_plane_state(state, plane);
- 			if (plane_state->fb && plane_state->crtc) {
- 				has_primary_plane = true;
- 				break;
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 10b1990bc1f6..4006f2d459e3 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -623,6 +623,26 @@ drm_atomic_get_new_plane_state(struct drm_atomic_state *state,
- 	return state->planes[drm_plane_index(plane)].new_state;
- }
- 
-+/**
-+ * drm_atomic_get_next_plane_state - get plane state after atomic commit
-+ * @state: global atomic state object
-+ * @plane: plane to grab
-+ *
-+ * This function returns the plane state that the given plane will have
-+ * after the atomic commit. This will be the new plane state if the plane
-+ * is part of the global atomic state, or the current state otherwise.
-+ */
-+static inline struct drm_plane_state *
-+drm_atomic_get_next_plane_state(struct drm_atomic_state *state,
-+				struct drm_plane *plane)
-+{
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+
-+	if (plane_state)
-+		return plane_state;
-+	return plane->state;
-+}
-+
- /**
-  * drm_atomic_get_existing_connector_state - get connector state, if it exists
-  * @state: global atomic state object
--- 
-2.37.3
-
+>
+> Simon Ser (6):
+>   amd/display: only accept async flips for fast updates
+>   drm: document DRM_MODE_PAGE_FLIP_ASYNC
+>   drm: introduce drm_mode_config.atomic_async_page_flip_not_supported
+>   drm: allow DRM_MODE_PAGE_FLIP_ASYNC for atomic commits
+>   drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
+>   amd/display: indicate support for atomic async page-flips on DC
+>
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++++++
+>  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 10 +++++++
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  1 +
+>  drivers/gpu/drm/drm_atomic_uapi.c             | 28 +++++++++++++++++--
+>  drivers/gpu/drm/drm_ioctl.c                   |  5 ++++
+>  drivers/gpu/drm/i915/display/intel_display.c  |  1 +
+>  drivers/gpu/drm/nouveau/nouveau_display.c     |  1 +
+>  drivers/gpu/drm/vc4/vc4_kms.c                 |  1 +
+>  include/drm/drm_mode_config.h                 | 11 ++++++++
+>  include/uapi/drm/drm.h                        | 10 ++++++-
+>  include/uapi/drm/drm_mode.h                   | 11 ++++++++
+>  11 files changed, 83 insertions(+), 4 deletions(-)
+>
+> --
+> 2.37.2
+>
+>
