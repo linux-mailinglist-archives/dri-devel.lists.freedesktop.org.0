@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304C25EFC40
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 19:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DBAF5EFC95
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 20:02:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A8910EBA5;
-	Thu, 29 Sep 2022 17:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5390B10EBBC;
+	Thu, 29 Sep 2022 18:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBFA410EBA7
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 17:49:59 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id u9so364505qvo.11
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 10:49:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=xa8hoH9SnDPlJIeXGYh843CRJD1tjWdMf/dTq8TipPM=;
- b=TTqX1qhbwY8oXLjTYWELHEsRERRC+tYA4I14qRpviPTnMPxxd/vPEPS/znbsofO0+c
- 4bwTdW8+z/pWbH07euOuLtVPnrXYN4FM3+Cx3+6df9BnwzMRVSyQ1vC15hIyhMjMipuQ
- qlzZ7Fu4h7IQcnc4aD13PnswpHL+dCBN4e0DgSfgytTo+Borsg650FpgD3ZVlkkzogU1
- opPTvDdjbXUTLZKa0F4b83jrDhZt81cEI/hRhpm0Bun+0Wq7SRl0wOcvarlvT3D7N0e1
- b7XskLXtlA/O+SKSR/BQgRPL969bnpg4P6x3JIZubcOO7fHzsFTljemfyNnz/GZSpyiX
- iL9A==
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E54FC10EBBD
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 18:01:54 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id dv25so4375343ejb.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 11:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=LaEimOJ+lgAKHH6s6K+Wo5MzjV2hXKpsGHLUik//E4Q=;
+ b=DVmma2ghf0EWkhqeApwGvXZR1uhJeLozlil7vTK+JcqOFFye6T3klz/n2SSy16LrWI
+ w0AFDf4ZtjKifkcRt7ZQhnZZeRh4Dle3IONmmIW77q6/aLG/7/fR8ieE+oHHV/dDCbCG
+ RAPQfFRnZlyJcFKj/jvRbLiFU1B1+qcFGb8AcZkl7U3ZBq8ByI5ZN3A82Blk7PM3crq0
+ 2ouowjvnlCc5cYlGy1WOB6480eX7JFQN+6MDtk4PgXswT4kuG93W/4Hi/NfQ4PqWzb1C
+ pKbWQ+9NEuNvL/YDGPrUsImEgGO8bns77f/M+WJzqiCrLbsgmIXo2A9/zbv9+PZrd2Zk
+ MiqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=xa8hoH9SnDPlJIeXGYh843CRJD1tjWdMf/dTq8TipPM=;
- b=qcVo3Uq196CyLCPYB/Gt2eCyeRSf2ulFLfq/W1PayfMgdXM0O+wnBotCBj24j82UbP
- FA9rwah5cikdNyU1HPB/az6AxmK/WJK00V+E/wk3ZAVI+rQ+8QGkNXNMSJ+vdDOkR/6K
- Ujf/GLkrPbxqqB+BUuEAdyX2OqEzyRwuwTQEAqaq7bAkrdKzq7lfiHSPHTZR+bdntVil
- WOpdwhSnXeeuFJh4wJY7i+8LJ0GCliMkfLWsJe3gfBO8MfQ/vCbPkpZLaRgDPNMFI8Vk
- BFM2jjOc+wzHot2eTKRJDZzp5zvBH9dIKkK3TRvhWtddSPWX9g3xzTq9572ZG8SqjGoI
- f2bQ==
-X-Gm-Message-State: ACrzQf0CcFTyMs+o/emKXAjf4OKAicAThGpONuC8SYRc2ZhNelxoPe67
- Qo6MUVYgg3U8ydThD4v4NaY0Hw==
-X-Google-Smtp-Source: AMsMyM7Xarezc23TZVeEEbR3Uk9puQBAc1mIn47qgL8JGhJP31afpTjPWuOiERJgd9lOx+IPbEN2Vg==
-X-Received: by 2002:a05:6214:3006:b0:496:ad87:6784 with SMTP id
- ke6-20020a056214300600b00496ad876784mr3557984qvb.7.1664473798680; 
- Thu, 29 Sep 2022 10:49:58 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.122.23]) by smtp.gmail.com with ESMTPSA id
- 85-20020a370758000000b006ceb8f36302sm6929qkh.71.2022.09.29.10.49.56
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=LaEimOJ+lgAKHH6s6K+Wo5MzjV2hXKpsGHLUik//E4Q=;
+ b=xp2p3ats84+uI4KW723lq3qj3bcYhZEtXszp6f334M3JyV95yqXiYyWPokjSSFz8o/
+ hi5P4zG3WnW0kbOLSilYHOxMGSfBW+eI1v0ZyU+F/gwm7xD2CpHmwWnyORGK0xw5Cval
+ TKYdum5iyG0MeKwEECGQnTtoECXBrsz7BfJ1Htv6TTbgGbi0Zna1jWleUlnQ4X1E1OiM
+ 1I0kARXP3KTTYwnbi2a64qH+Pz8eGddZb+rYXFgjeBw/K7PvJ9lnFormVzwv+8b8lbD1
+ cTWkSfuEYRoclLFYlZg+y+h1pOStueb8Pvjp2+I6VwMXg/6yIRKgYK40ZraWiDu8M9SF
+ 0sdQ==
+X-Gm-Message-State: ACrzQf3JHVKZCMgLL/hJ2wztQzdW7CeMH6r6A+SbOe4OZcfCUCTKTshT
+ vvmOdidWgNO4uyWt3WzyBFQMp5zyVpI=
+X-Google-Smtp-Source: AMsMyM4hJLCLg+xey5xdCI6B4b/1qshoeMfP320v4CKZMWYaKnb66om+iXgEnhx9zz6pp9LZ6MPbqg==
+X-Received: by 2002:a17:907:3f8b:b0:782:3668:3d26 with SMTP id
+ hr11-20020a1709073f8b00b0078236683d26mr3652100ejc.85.1664474513416; 
+ Thu, 29 Sep 2022 11:01:53 -0700 (PDT)
+Received: from able.fritz.box (p4fc20ebf.dip0.t-ipconnect.de. [79.194.14.191])
+ by smtp.gmail.com with ESMTPSA id
+ u1-20020a1709061da100b0078194737761sm4255257ejh.124.2022.09.29.11.01.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 10:49:57 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1odxfY-003fcM-BW;
- Thu, 29 Sep 2022 14:49:56 -0300
-Date: Thu, 29 Sep 2022 14:49:56 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v4 15/15] vfio: Add struct device to vfio_device
-Message-ID: <YzXaxPpkc+90Xx+T@ziepe.ca>
-References: <20220921104401.38898-1-kevin.tian@intel.com>
- <20220921104401.38898-16-kevin.tian@intel.com>
- <20220929105519.5c9ae1d8.alex.williamson@redhat.com>
+ Thu, 29 Sep 2022 11:01:52 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: steven.price@arm.com, andrey.grodzovsky@amd.com,
+ Arunpravin.PaneerSelvam@amd.com, luben.tuikov@amd.com,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/scheduler: fix fence ref counting
+Date: Thu, 29 Sep 2022 20:01:50 +0200
+Message-Id: <20220929180151.139751-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929105519.5c9ae1d8.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,44 +72,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, David Airlie <airlied@linux.ie>,
- Eric Farman <farman@linux.ibm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>, Christoph Hellwig <hch@infradead.org>,
- Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
- Leon Romanovsky <leon@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
- Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 29, 2022 at 10:55:19AM -0600, Alex Williamson wrote:
-> Hi Kevin,
-> 
-> This introduced the regression discovered here:
-> 
-> https://lore.kernel.org/all/20220928125650.0a2ea297.alex.williamson@redhat.com/
-> 
-> Seems we're not releasing the resources when removing an mdev.  This is
-> a regression, so it needs to be fixed or reverted before the merge
-> window.  Thanks,
+We leaked dependency fences when processes were beeing killed.
 
-My guess at the fix for this:
+Additional to that grab a reference to the last scheduled fence.
 
-https://lore.kernel.org/r/0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Jason
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 6b25b2f4f5a3..7ef1a086a6fb 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -207,6 +207,7 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+ 						 finish_cb);
+ 
++	dma_fence_put(f);
+ 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+ 	schedule_work(&job->work);
+ }
+@@ -234,8 +235,10 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
+ 		struct drm_sched_fence *s_fence = job->s_fence;
+ 
+ 		/* Wait for all dependencies to avoid data corruptions */
+-		while ((f = drm_sched_job_dependency(job, entity)))
++		while ((f = drm_sched_job_dependency(job, entity))) {
+ 			dma_fence_wait(f, false);
++			dma_fence_put(f);
++		}
+ 
+ 		drm_sched_fence_scheduled(s_fence);
+ 		dma_fence_set_error(&s_fence->finished, -ESRCH);
+@@ -250,6 +253,7 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
+ 			continue;
+ 		}
+ 
++		dma_fence_get(entity->last_scheduled);
+ 		r = dma_fence_add_callback(entity->last_scheduled,
+ 					   &job->finish_cb,
+ 					   drm_sched_entity_kill_jobs_cb);
+-- 
+2.25.1
+
