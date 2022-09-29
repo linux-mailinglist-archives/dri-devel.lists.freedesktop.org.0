@@ -2,45 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E67D5EF5C9
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 14:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39AC5EF5F0
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 15:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2F1910E602;
-	Thu, 29 Sep 2022 12:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A7A10E604;
+	Thu, 29 Sep 2022 13:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [65.103.31.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D0310E299;
- Thu, 29 Sep 2022 12:55:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
- Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sLRVBiowlV3tgU9aNfa7uL8HAclPzQwxQlHwwavoEO4=; b=MojYtUJRl8xO+X4QxgC3u5xer8
- zhKa4ZNMN3KOOlNDjCx4QcE7qWgbUR7wngGBdOpD9qVqXXJbWVpk3VTi+dgH7gmc9C43bYkRnLHVF
- XWxmGESyyUch0KKrU3UXzf3ZGOTKfSKkaXryLOWFp6RJW2/8ESTXELWQM/mA7Y/x0+DM=;
-Received: from jwhite.vpn.codeweavers.com ([10.69.141.101] helo=[10.0.0.18])
- by mail.codeweavers.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <jwhite@codeweavers.com>)
- id 1odt4P-00087X-TW; Thu, 29 Sep 2022 07:55:18 -0500
-Message-ID: <0dff419f-1c40-16ba-b067-a88ba46305eb@codeweavers.com>
-Date: Thu, 29 Sep 2022 07:55:17 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 378DA10E604
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 13:01:50 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id u10so1973446wrq.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 06:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=QKIpHGs3LeinzeIaUGKa0ICPFZL+uew+WBou+/qEEMs=;
+ b=AgFahVNBMPAdTt6Hji1RhoPcnR8MCGZgvz/2UE5Q1CTjXVo9CW0ak/uSx1R+Vq8LPI
+ U6nGupIT3g1fujwOUBuemHE58YZu1E5MiLno/O/luh9m6dchtkEs62VjfDkZkPxImpQA
+ t3sDG+ehBpLP3dFCgjV6xQP4qBUYtyfshdD8TVIkwAD9om7bLf7WSEghDLkQ/L7diKJ1
+ FlGMrf6Q1kFxxEen86Qbwl+o5C+b2T31ZgQ1bDX51wzN6PbMuKltWkFJzQFr7U4esERu
+ sFe7Y3tiwEuE+2Vh2+uoJvCbR72J69DxTNPMuukHXoVFQr5x+LCQg0dtMPRiWgK8Hchp
+ HWLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=QKIpHGs3LeinzeIaUGKa0ICPFZL+uew+WBou+/qEEMs=;
+ b=r6g8hvI8BMoDvbsug9yRYyYtzVmxthQn1odW33VuIFPdIBGYMekFnfgifzeODW9A1W
+ 6MELknRWCfycql/DKHVkqVUOpHUJrN23/p/YXvaKW2yccf54oXNv0Yul/v+vXiZOOQ5m
+ xd48FxNQnSbVEh1MRT9xeqmgEQGOv87qpw4R2T0h2N6kO7+nWC2Dzfe4sq5D6HOpdtqa
+ nvIBURLTREY1Yp+YvQhOdI7DHxF36yN55opkLxwrB2Dsf4t53nQYvxe6HdXiPDISHMHO
+ e6YwlqjN8cKcUP7UIfMibE05ZeXqm3XhooLv0qpCAargGuJ1x4g7qoJ6MDSzuXFayu9/
+ 2bLA==
+X-Gm-Message-State: ACrzQf0BVwvmeazRX6SPsg/uuLAZnrwyoOQHsyOcekzyFC/j9IJrT/Ec
+ Eg10dPKpiIYisV8BzsfZtO/VnpKrAmra2f9T
+X-Google-Smtp-Source: AMsMyM5vXaXH5fZ3dIbmRJWeClvpwWiO6Y9sSQYzNl6JW42LcFYRMSzFHH58H6hdJJTPcWhcyowbbQ==
+X-Received: by 2002:a05:6000:1051:b0:228:e1a0:7221 with SMTP id
+ c17-20020a056000105100b00228e1a07221mr2213671wrx.165.1664456508569; 
+ Thu, 29 Sep 2022 06:01:48 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ m13-20020a5d4a0d000000b0021e43b4edf0sm6555454wrq.20.2022.09.29.06.01.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 06:01:48 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-phy@lists.infradead.org
+Subject: [PATCH] phy: phy-mtk-dp: make array driving_params static const
+Date: Thu, 29 Sep 2022 14:01:47 +0100
+Message-Id: <20220929130147.97375-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: events@lists.x.org, xorg-devel@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev@lists.libre-soc.org
-From: Jeremy White <jwhite@codeweavers.com>
-Subject: Information about XDC 2022 - next week!
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,58 +74,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-﻿Hi folks,
+Don't populate the read-only array driving_params on the stack but instead
+make it static const. Also makes the object code a little smaller.
 
-We are excited to welcome you in person to the 2022 X.Org Developers 
-Conference, held in conjunction with WineConf and FOSS XR conference.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/phy/mediatek/phy-mtk-dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The conference will start officially on Tuesday morning, October 4th. 
-The program is here:
-   https://indico.freedesktop.org/event/2/timetable/#all.detailed
-The official events start at 8:30 am, but we will have coffee and 
-pastries available from 7:30 on Tuesday and 8 on Wednesday and Thursday.
+diff --git a/drivers/phy/mediatek/phy-mtk-dp.c b/drivers/phy/mediatek/phy-mtk-dp.c
+index 31266e7ca324..232fd3f1ff1b 100644
+--- a/drivers/phy/mediatek/phy-mtk-dp.c
++++ b/drivers/phy/mediatek/phy-mtk-dp.c
+@@ -85,7 +85,7 @@ struct mtk_dp_phy {
+ static int mtk_dp_phy_init(struct phy *phy)
+ {
+ 	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
+-	u32 driving_params[] = {
++	static const u32 driving_params[] = {
+ 		DRIVING_PARAM_3_DEFAULT,
+ 		DRIVING_PARAM_4_DEFAULT,
+ 		DRIVING_PARAM_5_DEFAULT,
+-- 
+2.37.1
 
-We expect everyone attending to be vaccinated and to be respectful of 
-people that are trying to avoid catching COVID. Masks are mandatory, 
-except when presenting or eating.
-
-A small number of us will gather informally at Brit’s Pub, starting at 
-around 4:00 pm on Monday, October 3rd.  We’ll try to have a table with 
-some sort of a sign, and folks can connect, have a drink, and then 
-perhaps group up to explore alternate food.  Note that if the weather is 
-nice, we may be up on the roof, so explore far to find us.
-
-We will be on the Minneapolis campus of St. Thomas, which is a mildly 
-confusing campus.  We have given instructions and a picture to guide you 
-here:
- 
-https://indico.freedesktop.org/event/2/page/10-attending-xdc-wineconf-foss-xr
-We are working on the remote experience, and expect to have streaming of 
-all events available. The above page will have those details just as 
-soon as they are finalized.
-
-We have a page of instructions for folks that will be presenting:
-   https://indico.freedesktop.org/event/2/page/18-speaker-instructions
-
-We are also excited to announce the happy hour taking place on 
-Wednesday, from 6:00 pm until 8:00 pm.  The hope is that all three 
-projects can mingle and socialize and enjoy the return of in person 
-meetings.
-
-Also, this year we plan to adopt the Wine strategy of using a deliberate 
-Matrix chat room just for the conference.  Matrix has a variety of apps, 
-and Element, the default one is easy to configure on many devices, 
-including mobile phones.  The link to that channel is here:
-   https://matrix.to/#/#xdc-wineconf-fossxr-2022:matrix.org
-We find the chat channel a good place to learn what restaurants and bars 
-are chosen, and just a good way to track the social aspects of the 
-conference.
-
-We look forward to seeing you next week!
-
-Cheers,
-
-Jeremy
