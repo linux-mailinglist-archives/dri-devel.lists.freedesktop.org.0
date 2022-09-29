@@ -2,80 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737E45EF643
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 15:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 033575EF646
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 15:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A2510E619;
-	Thu, 29 Sep 2022 13:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3019510E61C;
+	Thu, 29 Sep 2022 13:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4468210E617
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 13:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664457659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ADRj/CZhJu+YRYhcRWl5EAnXhCoDamXVX7Xznhs4ZBU=;
- b=BAVrTq6SGgmAtHlPGI8c38RYWgEqUV+B/5Cgm4k0skhuxghZun1QHXitcvLO2qIoXF+WJb
- R4Xxyrol47jtCmSyK34xEemS/ZMOVK3WOhbQ9MAKI79U0y0BOuB1Vu6vT9qQ5rNPDYfhkl
- y7NKrZ2QWD+rKJ/UAixvZCj5JMQaflY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-614-RzaJ5NnQO-SES7CYy5wEDg-1; Thu, 29 Sep 2022 09:20:58 -0400
-X-MC-Unique: RzaJ5NnQO-SES7CYy5wEDg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m3-20020adfc583000000b0022cd60175bbso527766wrg.6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 06:20:58 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5DF110E61A
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 13:21:39 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id hy2so2741887ejc.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 06:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=ltkovj+/loEOckwZa/4aGpUBDfAHhHGNM2nYn963icw=;
+ b=pDbZXw/mtvVrTXm+yj9tLYMMm/rai3KKy9jF3iD08HgpsOqt8+eVGtTn2l2H2O/zY2
+ rED/7UzwcA/hEbIx739MPWqvYP2QOJDf3+AOnBm5j2nwYwKeZ3x+AFMsup7noo9N6Krg
+ CnqhlqxsDcMjUY/bn9CKhVw8XV/cnSK6fWJ5Jbt4b9EkKCOzh36IOEtSC9XUSQ1zZtGU
+ ZYGcAjy+mDXaAI0QjEj1qcsIlFVexplPdg5W/BzCzZBs6RfDIoc2vMYhHezActYEQwJi
+ EpchR5jhka2krrcfRZBfuByO9oAcgNViVysH6lNBKUXxdPX/gjm6/BrXeJSth74oF9gb
+ POZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=ADRj/CZhJu+YRYhcRWl5EAnXhCoDamXVX7Xznhs4ZBU=;
- b=yTQa/Joyc8NGzIdowGdXRNdWMDyuj3FDeOf3pSH4tnGwco8czPkDFS+K2LZlRUzVGB
- QnK/yLk8A6l5RwU32+S9Xz8upFm3zFXwDquftFYx/srPPo/ZFcYuzwLy3jrA+DoVQt19
- HPtoFytx4YuKl7cn4ogbKqwxcj4Gcgzt5YdJWual5DhdACdvXym8S5cRfi6KC2aBfMOm
- T1aslCloa2FZVwoSVc2eWZGzvMES0W0FJpeDtZ18qsGc5Hx7c4IzEK1hun5oVt2nEmSV
- pzM9+yPCMMnavnLUd49852+QT5Ow25Rp5tEZh1tiJ2+K9i0hNTuEpFVGvDB4p5zzyV+V
- DGzA==
-X-Gm-Message-State: ACrzQf1/R3VGyHPjMCW1pxDMm7tcHPdIGPoc+KLnxnkfgnf7JbHLXHhj
- GsJbIVvL7mBUknrY7rM2AMhjN4Sk4ock1g4f9fE+cPavzGSjIrk0lNy7KJj5dF5hAt9PeffpQHu
- gyAasjOA4q4ud29TxzLZ35rHgCLDE
-X-Received: by 2002:a5d:6dac:0:b0:22a:fbff:b2d3 with SMTP id
- u12-20020a5d6dac000000b0022afbffb2d3mr2193703wrs.543.1664457655732; 
- Thu, 29 Sep 2022 06:20:55 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7snOu42qNw5+9xxR/RA94kSZhLn0J2M5vFF7uHjcw2FjAx1r3IuVCrikE6en9/BNjPW8r3MA==
-X-Received: by 2002:a5d:6dac:0:b0:22a:fbff:b2d3 with SMTP id
- u12-20020a5d6dac000000b0022afbffb2d3mr2193688wrs.543.1664457655502; 
- Thu, 29 Sep 2022 06:20:55 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b8-20020a5d45c8000000b0022ca921dc67sm6550047wrs.88.2022.09.29.06.20.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Sep 2022 06:20:55 -0700 (PDT)
-Message-ID: <562ca68d-a241-90e9-975b-c1274db329f6@redhat.com>
-Date: Thu, 29 Sep 2022 15:20:54 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=ltkovj+/loEOckwZa/4aGpUBDfAHhHGNM2nYn963icw=;
+ b=ID7MPKsZTHlc0vMbgbgzhJRe0Tv+fJVMGDZXRmtse/hCeX+plktBXqij97Wljle093
+ U0nkBnBOS6w3FakmyIfs1FodkGsDnCZlswUHWjw7unEMjkOEX6cyxp5NZQjp9CpPlWHz
+ xrOc2pEg3Pl7ufRq0pmp86LXr+GS/QyjxgYiI2T+lF5GoMR/fHkE7XNg/R6YXFNbloWl
+ qHVsQmeFKq0TOxQV8gEV1OgJ224yKKjlV49V3k2pVoOsM2uslsT3AjPBP+BiWNis9vww
+ A1vRqQTdI55N5HAnhF51RqANEcq+BXnDWwPYlUnG4MFeXHGRtp7RJz1QiHJ1h3O46FXS
+ UP6g==
+X-Gm-Message-State: ACrzQf07jNyIACc4wgU56D+5lyPN2xXkXCvCMIL8qIQ/sSkOZYD9qipF
+ hISOs7LUneAdffo7VGKyQQEZDHwlG+E=
+X-Google-Smtp-Source: AMsMyM5iRtfiS0rO28B/s8OsB0Q4BaQ3dG7i5PX/G8knJjI4IoHiD+JOLeVJZ8JMUPVOGmr87Lk/gA==
+X-Received: by 2002:a17:907:72c3:b0:783:a9ea:4ad7 with SMTP id
+ du3-20020a17090772c300b00783a9ea4ad7mr2633108ejc.533.1664457698199; 
+ Thu, 29 Sep 2022 06:21:38 -0700 (PDT)
+Received: from able.fritz.box (p4fc20ebf.dip0.t-ipconnect.de. [79.194.14.191])
+ by smtp.gmail.com with ESMTPSA id
+ gx6-20020a1709068a4600b007836d075152sm3983807ejc.187.2022.09.29.06.21.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 06:21:37 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/13] drm/scheduler: fix fence ref counting
+Date: Thu, 29 Sep 2022 15:21:24 +0200
+Message-Id: <20220929132136.1715-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 02/16] drm/udl: Test pixel limit in mode-config's
- mode-valid function
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- sean@poorly.run, daniel@ffwll.ch
-References: <20220919130408.21486-1-tzimmermann@suse.de>
- <20220919130408.21486-3-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220919130408.21486-3-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,57 +70,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: shansheng.wang@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ luben.tuikov@amd.com, WenChieh.Chien@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/19/22 15:03, Thomas Zimmermann wrote:
-> The sku_pixel_limit is a per-device property, similar to the amount
-> of available video memory. Move the respective mode-valid test from
-> the connector to the mode-config structure.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+We leaked dependency fences when processes were beeing killed.
 
-[...]
+Additional to that grab a reference to the last scheduled fence.
 
-> +static enum drm_mode_status udl_mode_config_mode_valid(struct drm_device *dev,
-> +						       const struct drm_display_mode *mode)
-> +{
-> +	struct udl_device *udl = to_udl(dev);
-> +
-> +	if (udl->sku_pixel_limit) {
-> +		if (mode->vdisplay * mode->hdisplay > udl->sku_pixel_limit)
-> +			return MODE_MEM;
-> +	}
-> +
-> +	return MODE_OK;
-> +}
-> +
->  static const struct drm_mode_config_funcs udl_mode_funcs = {
->  	.fb_create = drm_gem_fb_create_with_dirty,
-> +	.mode_valid = udl_mode_config_mode_valid,
->  	.atomic_check  = drm_atomic_helper_check,
->  	.atomic_commit = drm_atomic_helper_commit,
->  };
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-It's always confusing to me whether something has to be in the .mode_valid
-for drm_mode_config helper function or for the drm_crtc_helper_funcs. This
-driver is still using the simple-KMS at this point so that will be in the
-udl_simple_display_pipe_mode_valid() if should be the latter.
-
-In this case since it seems to be about a pixel limit, it might make sense
-to have this constraint for the DRM mode config. But since it depends on the
-{h,v}display, I thought that needed to ask if instead should be for the CRTC.
-
-Any in case,
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 191c56064f19..1bb1437a8fed 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -207,6 +207,7 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+ 						 finish_cb);
+ 
++	dma_fence_put(f);
+ 	init_irq_work(&job->work, drm_sched_entity_kill_jobs_irq_work);
+ 	irq_work_queue(&job->work);
+ }
+@@ -234,8 +235,10 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
+ 		struct drm_sched_fence *s_fence = job->s_fence;
+ 
+ 		/* Wait for all dependencies to avoid data corruptions */
+-		while ((f = drm_sched_job_dependency(job, entity)))
++		while ((f = drm_sched_job_dependency(job, entity))) {
+ 			dma_fence_wait(f, false);
++			dma_fence_put(f);
++		}
+ 
+ 		drm_sched_fence_scheduled(s_fence);
+ 		dma_fence_set_error(&s_fence->finished, -ESRCH);
+@@ -250,6 +253,7 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
+ 			continue;
+ 		}
+ 
++		dma_fence_get(entity->last_scheduled);
+ 		r = dma_fence_add_callback(entity->last_scheduled,
+ 					   &job->finish_cb,
+ 					   drm_sched_entity_kill_jobs_cb);
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.25.1
 
