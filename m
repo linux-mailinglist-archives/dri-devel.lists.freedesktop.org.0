@@ -1,58 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B08C5EF3B6
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 12:52:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D825EF3D3
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 13:01:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8103010E5CE;
-	Thu, 29 Sep 2022 10:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF9F10E5CF;
+	Thu, 29 Sep 2022 11:01:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C52A10E5A0;
- Thu, 29 Sep 2022 10:51:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664448718; x=1695984718;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=vPEfpmPLTWfPSgdb0UDPVCEVEP0UYcIIULB4nP49s6c=;
- b=QinY51P9CtQCLp3AcbU1U3H6uNXsdZkZBvPx3NRfQBcMSIvt0DYfz4rB
- n9pg33a9+HaKpHV0SYHicsyKnGXoRUvxDcG1jXkdBohN2LlaMd3HUtQZl
- StwbJWvN84CIJm4DamNOwz/JToE1Q/fNK/FM/UfVBF0iRJjNNplJ21jv0
- FgMWn6qCtflEf8PIxh1iwWzvRTjmf7ddEnWVa8nTyEayff5+XkRBvwua2
- ongfICo4OoYGJJz+GYfHP490Ryo+L8jReevxlfgluRqvXl2+PWHUNBiyK
- 2HVbYBUZJKh6yke3IxWXeemdaWHY02z6kvAfMOK3lAQL/xf2QdkLeoPCu Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="289022890"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="289022890"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 03:51:57 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="747790308"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="747790308"
-Received: from bpingot-mobl1.ger.corp.intel.com (HELO [10.252.6.106])
- ([10.252.6.106])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 03:51:53 -0700
-Message-ID: <51187670-1505-3806-1c6b-ed35318d6150@intel.com>
-Date: Thu, 29 Sep 2022 11:51:51 +0100
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2075.outbound.protection.outlook.com [40.107.244.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C585910E5D8;
+ Thu, 29 Sep 2022 11:01:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X3jR7C69QNukBSQfCD0XMDxNW04FWvPGBKiz5/wbbE0MWJpVo/WZflNPkN6uwevIwQietocIHoN9sSNtyf0c7H7U2Dkzp0BeDlp5M99BWRYscmHZ4v7IRBAnJw/TgxMvA+p0QJaXsCR0qe9qjQmFS6t/ngE3h7emRj3LcO4+npmVZDDERzGbbkUBoAkcTOQiZADiVTqZBez7SusQU4cJ791vzWuquvIz8bqbBuSTG7HNDZ+oHNzd3jGt4Fn1FlKH7sErFAH7FwegJOc7K64BuTf5tpjmQKsg9prbv7o3fAMSVDCdIfjeDQjycuIhbxIuyKUoYm47cIoTmMvPY7Fitw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NJHqDUeC/VW47eCy9EAwMIltMALfpAEdMm5nVJuq23A=;
+ b=jLeRI+kL4BCY5EsKrk/Drn3WGAcUBeAk2uc/SNAlqV5+eWqKH0XvCmsYRMV+StxE2ul4lpuYtvAQku+Ybz9oAHkb3qopf2bkss8+ET3y+4+NGaDtcAgu45hhMg7m3Nts4viBMX049PYRPHX3hqTbz/7b1DGr9YHUVtkloIgSo+tke/Gh44kJVHMgbCW+JJlprsWzrdvL4fEl6Y1GhR4CYfCiyEuGQvIAvVKJch7Qe1ecsONtQRqeJV9UcOdG9CEquHU7hZxDChsMzhMXmQRlyUy9h8VOa/DPVSZWknbeZ9ItrVTGw8xgGbd1+wqbo39aCySY+813mAiGv7cuVsawCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NJHqDUeC/VW47eCy9EAwMIltMALfpAEdMm5nVJuq23A=;
+ b=GGRhLTM69TOP9rW//L940gMp2U9Bkla46egv75vXzkIu7l7/OgT9KWO4YuFHzGF51dqlpWSu8Hs14EbNz0ZfFRoTBd0hmnhVv7xhAJHHIAJKnAsMgCSQRed/2WweI9rPWq1owRYI/CjNIk99mSIaAMgLdm0PCm9oYA7a1pLxGFi735/DzgKVwl7tfZ//mL7xR0/8eH6A/iFSWrwg9gkcIgTFUTeK6xpPtRFP6AP/kaOZmVuOkuNo9+mLj8nHcwiyPq+npe/ZibrcZmrwmqQUxDIWGnRadAxXAdS7u0rGFn0afYoBvmBpOnGICLw7zo046S2f+g3GTtk5wcDcgpWtJQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ by SA1PR12MB5658.namprd12.prod.outlook.com (2603:10b6:806:235::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Thu, 29 Sep
+ 2022 11:01:08 +0000
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::4064:6c13:72e5:a936]) by BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::4064:6c13:72e5:a936%5]) with mapi id 15.20.5676.020; Thu, 29 Sep 2022
+ 11:01:07 +0000
+References: <cover.60659b549d8509ddecafad4f498ee7f03bb23c69.1664366292.git-series.apopple@nvidia.com>
+ <a73cf109de0224cfd118d22be58ddebac3ae2897.1664366292.git-series.apopple@nvidia.com>
+ <20220928081017.3bf0b67d34a674b0a6df6b0d@linux-foundation.org>
+User-agent: mu4e 1.8.10; emacs 27.1
+From: Alistair Popple <apopple@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 8/8] hmm-tests: Add test for migrate_device_range()
+Date: Thu, 29 Sep 2022 21:00:23 +1000
+In-reply-to: <20220928081017.3bf0b67d34a674b0a6df6b0d@linux-foundation.org>
+Message-ID: <87v8p6igwi.fsf@nvdebian.thelocal>
+Content-Type: text/plain
+X-ClientProxiedBy: SY2PR01CA0016.ausprd01.prod.outlook.com
+ (2603:10c6:1:14::28) To BYAPR12MB3176.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::26)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH 05/16] drm/i915/vm_bind: Implement bind and unbind of
- object
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-6-niranjana.vishwanathapura@intel.com>
- <da26c1a5-efd4-25ff-c2b4-5d4e454772a6@intel.com>
- <20220929052424.GI16345@nvishwa1-DESK>
- <15d078d7-8164-6327-1e4b-29a4d56cc9d5@intel.com>
-In-Reply-To: <15d078d7-8164-6327-1e4b-29a4d56cc9d5@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:EE_|SA1PR12MB5658:EE_
+X-MS-Office365-Filtering-Correlation-Id: c87ce34c-07ee-47c4-f4fb-08daa209e8be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hWjNcerQyy/3r+9nOjWy2KrAoZY0VCrelIEL2mFmJG2Ap7LyEWJ7KuCfI1IVXWlT086h8N/aMP4giChehrZpk9YRO1WyKMVEzWm+PhqI5Fpbgt/Loh+sLr2vFn25dY1fG5eDzpOTDw/S8/Q2AdQTD89jjIhHoITDPXcwm0gtRD2Px5SG2wnGe7Fg9WkxCH7csAb/BgNS/XUVVKFNFm4bERshtIG48Isvbn5for6XH/hlq1f0WYOQKHiCXNHUmQwMevwkGgTmHSv4YPGz/DctMJzNc+xRvasu4dzcStMWK7p1GwkI4Zf1rJonJhgKJEh6wmbgYxAWZBBKeRuWmlooAIVaaIbscbJTIS0N3+XwYBkjFxpOPqIJodKICBhYIcGki1Enjd9XhRTQbQvg4uJBOFdAwGimOyX1ouMTMUdpENJvjjF3uuZd+VUuX4cS5aUFVHrW+e7vx6lH6dyyiAKwli7l+hKEIk+EAgzjZO8/WPjemnSuvUrE1Dyl+lBjRHuCD4RjDLCsKMwq5IzXaa9LLntyu1ki7z9iXHlv1BkAPVCtAf6p7z2lFAUvnTcMjVVSVAJL0plqpalEvGvpQsvEUWYtLnmiQSIz4i0Dz+QCgRJiBVbMDaMcPi5tJ37x03I2tKM31VU7DtoJAJ0WPX4kstCefITTaMh9u8nPEnNem66hL/U+6x0vWjSbVTz3qveTnGi6pCWCq68gNaOvM4I68BduT4EbumDM+/2sp5Vux4qEj7zwHK8Ni2UswDuAodqt62+QamxB/4cJyN9V6ao5NZ4HR55NnvZo240y982D8qg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(451199015)(8936002)(41300700001)(966005)(6486002)(5660300002)(83380400001)(186003)(8676002)(4326008)(66946007)(66476007)(54906003)(38100700002)(478600001)(66556008)(86362001)(6916009)(9686003)(6506007)(26005)(6512007)(6666004)(316002)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vPDpQfB5mRQLBTFmElP9tmgwDarrslPMb1MQG2/RDFrvtZlSDqZ1UUtQKLhz?=
+ =?us-ascii?Q?PQFUuFXXQkDExdkXmuJ/UPxWMt09qGMg1BctVYK9kWQqIybWabZtRmEJ0SVT?=
+ =?us-ascii?Q?2LFGN+mZ4Fv3KvkWDhkMIIpxd4RBCBoYALHkkaU/OfrP3qiUiAfySMyrU23u?=
+ =?us-ascii?Q?PW1lKi6+Gtqsd7fmhrUdC/x7JkS2/gpNOY7sbGOvjmvDgxzPzHXNZRSWp2l+?=
+ =?us-ascii?Q?FTFMFx0Nsspa8YY1Q+gtNH5ZsjHC9fIVkenKgVXKRHIIaCac53G9E/z9OX0t?=
+ =?us-ascii?Q?zMoGu+zEN/5tm9XPlx4fLIiVabSIOraOoybhLCvLRQOACsd99GANzQFY+fO2?=
+ =?us-ascii?Q?J5MYWDNltWLIYf8YkFwKWxBriQx1VzTn79IGZgUqjYeoc1PVv/XizToEgM0e?=
+ =?us-ascii?Q?DMjEELv1y0kJM8HPMy+IlwXqkQgRfML183VYzCVQh66YVtOKcJhMJrAePrDt?=
+ =?us-ascii?Q?i6DC7nJG5UMclSnnn6Pwkf9v/tUDPbnEVsPvM9uWVUtt8SxAHzPdgo2aGeAQ?=
+ =?us-ascii?Q?kwZuwoAeAea0LWltc1Ffuzn5olaau7yEP62MDXD9yQy4ZSh8UtqI1qThBEi2?=
+ =?us-ascii?Q?LlWzV9ZATvs2CGs/u9hot5dXtjheKJgfNZwp47vH0/ElsodtRYYSErNK6PEx?=
+ =?us-ascii?Q?sHP1wL/x+J821BTDIFlWqr0H9t6hojRHgpCH1YW62WkBSN4Sq9WFVB2Rb7yz?=
+ =?us-ascii?Q?KJ4p7QFx5aH01vJmmjx/Dzi9HJmBaAZV6PqQAaJ3/kVGIjmShdpSzMS0CsJ2?=
+ =?us-ascii?Q?dI8jIJkTQe3VqEbWUARxsbUD79RkrswIdQyIxoEN5LXD7SibEy9gThEIlBQG?=
+ =?us-ascii?Q?0cmKdvM/XVHd2R+3iraZpQ8a6C8bi61jWGxD+U43G6EkSNB+4+V/jvAVPneS?=
+ =?us-ascii?Q?136xmVs5VoO9Lj0f6ng4G6WzixidNUnj1dO6d5ZauWUyUpRxIj/iENe+TvcL?=
+ =?us-ascii?Q?Reuio05/PIB2VqAzHe8b1u6HcokxGyE22CTKj/28uhsQgmvlwhUUEM4KTRiE?=
+ =?us-ascii?Q?IglCJ1OI9p5D37NL74w41IOf3YF7DjPSMAgkmM4dQ7jTfYYsBDL7RQzcp922?=
+ =?us-ascii?Q?w0d/WgOo3OG20m5x8IV4VAAPr8WZfqdNX58T3if9WsyndmKHRntU2I/A6tWd?=
+ =?us-ascii?Q?potQFsf7Cg0OKWJf0nEsSY4yFhGsOhaIcqovZFlQgehGjlaHd4MIPjg0i0/y?=
+ =?us-ascii?Q?YYt0jUdASy4RUQ7WB5rih0/rhHbOdcZMrrETDzx0aauCubJM8hOE2aUTfUZq?=
+ =?us-ascii?Q?M0tLMBn87lkMqJocDYKSIkIgGSJwV/3Z+5Cf+pbWYS3gWjRiZ8KWyriJn42/?=
+ =?us-ascii?Q?6IvXclWzmtbR9wHrtSDNQ6aOWXilz1PJUlmFCDmbWiEmp1hSAmKYzP8HTrhc?=
+ =?us-ascii?Q?Arx44bom3qTlmKKjY9/dWLSHhhAr3dvOZAn0dNLyi5fboJ1yHjigGfyg4EDA?=
+ =?us-ascii?Q?S6L/pPYfb8vK3NbZTfsd5dYsuA0N2vO99CX9P7ksli+Z7nrdMdYMparqkzjT?=
+ =?us-ascii?Q?fJYYY/JdgozBELbK0DNIfJO9mnI5whGt0aiViv3RaNksCr30qvFAHr5dQzi0?=
+ =?us-ascii?Q?3IY0OQzi1DbMwWw9d2Jtp6UDYGuGKg9IJ2JCdXJc?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c87ce34c-07ee-47c4-f4fb-08daa209e8be
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 11:01:07.3174 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QnjajFzNNncTqhuh4CCjHcKGCpMnf9stHeDi/t8/mn1AnjbkTuE9InKGDD4x9bTetluhwvXXK8E04T7JczyjxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5658
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,774 +115,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Alex Sierra <alex.sierra@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/09/2022 10:03, Matthew Auld wrote:
-> On 29/09/2022 06:24, Niranjana Vishwanathapura wrote:
->> On Wed, Sep 28, 2022 at 06:52:21PM +0100, Matthew Auld wrote:
->>> On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
->>>> Add uapi and implement support for bind and unbind of an
->>>> object at the specified GPU virtual addresses.
->>>>
->>>> The vm_bind mode is not supported in legacy execbuf2 ioctl.
->>>> It will be supported only in the newer execbuf3 ioctl.
->>>>
->>>> Signed-off-by: Niranjana Vishwanathapura 
->>>> <niranjana.vishwanathapura@intel.com>
->>>> Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
->>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>> ---
->>>>  drivers/gpu/drm/i915/Makefile                 |   1 +
->>>>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   5 +
->>>>  drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  26 ++
->>>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    | 306 ++++++++++++++++++
->>>>  drivers/gpu/drm/i915/gt/intel_gtt.c           |  10 +
->>>>  drivers/gpu/drm/i915/gt/intel_gtt.h           |  17 +
->>>>  drivers/gpu/drm/i915/i915_driver.c            |   3 +
->>>>  drivers/gpu/drm/i915/i915_vma.c               |   1 +
->>>>  drivers/gpu/drm/i915/i915_vma_types.h         |  14 +
->>>>  include/uapi/drm/i915_drm.h                   | 112 +++++++
->>>>  10 files changed, 495 insertions(+)
->>>>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
->>>>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/Makefile 
->>>> b/drivers/gpu/drm/i915/Makefile
->>>> index a26edcdadc21..9bf939ef18ea 100644
->>>> --- a/drivers/gpu/drm/i915/Makefile
->>>> +++ b/drivers/gpu/drm/i915/Makefile
->>>> @@ -166,6 +166,7 @@ gem-y += \
->>>>      gem/i915_gem_ttm_move.o \
->>>>      gem/i915_gem_ttm_pm.o \
->>>>      gem/i915_gem_userptr.o \
->>>> +    gem/i915_gem_vm_bind_object.o \
->>>>      gem/i915_gem_wait.o \
->>>>      gem/i915_gemfs.o
->>>>  i915-y += \
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>>> index cd75b0ca2555..f85f10cf9c34 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>>> @@ -781,6 +781,11 @@ static int eb_select_context(struct 
->>>> i915_execbuffer *eb)
->>>>      if (unlikely(IS_ERR(ctx)))
->>>>          return PTR_ERR(ctx);
->>>> +    if (ctx->vm->vm_bind_mode) {
->>>> +        i915_gem_context_put(ctx);
->>>> +        return -EOPNOTSUPP;
->>>> +    }
->>>> +
->>>>      eb->gem_context = ctx;
->>>>      if (i915_gem_context_has_full_ppgtt(ctx))
->>>>          eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
->>>> new file mode 100644
->>>> index 000000000000..36262a6357b5
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
->>>> @@ -0,0 +1,26 @@
->>>> +/* SPDX-License-Identifier: MIT */
->>>> +/*
->>>> + * Copyright © 2022 Intel Corporation
->>>> + */
->>>> +
->>>> +#ifndef __I915_GEM_VM_BIND_H
->>>> +#define __I915_GEM_VM_BIND_H
->>>> +
->>>> +#include <linux/types.h>
->>>> +
->>>> +struct drm_device;
->>>> +struct drm_file;
->>>> +struct i915_address_space;
->>>> +struct i915_vma;
->>>> +
->>>> +struct i915_vma *
->>>> +i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va);
->>>> +
->>>> +int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,
->>>> +               struct drm_file *file);
->>>> +int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
->>>> +                 struct drm_file *file);
->>>> +
->>>> +void i915_gem_vm_unbind_all(struct i915_address_space *vm);
->>>> +
->>>> +#endif /* __I915_GEM_VM_BIND_H */
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>>> new file mode 100644
->>>> index 000000000000..e529162abd2c
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>>> @@ -0,0 +1,306 @@
->>>> +// SPDX-License-Identifier: MIT
->>>> +/*
->>>> + * Copyright © 2022 Intel Corporation
->>>> + */
->>>> +
->>>> +#include <uapi/drm/i915_drm.h>
->>>> +
->>>> +#include <linux/interval_tree_generic.h>
->>>> +
->>>> +#include "gem/i915_gem_context.h"
->>>> +#include "gem/i915_gem_vm_bind.h"
->>>> +
->>>> +#include "gt/intel_gpu_commands.h"
->>>> +
->>>> +#define START(node) ((node)->start)
->>>> +#define LAST(node) ((node)->last)
->>>> +
->>>> +INTERVAL_TREE_DEFINE(struct i915_vma, rb, u64, __subtree_last,
->>>> +             START, LAST, static inline, i915_vm_bind_it)
->>>> +
->>>> +#undef START
->>>> +#undef LAST
->>>> +
->>>> +/**
->>>> + * DOC: VM_BIND/UNBIND ioctls
->>>> + *
->>>> + * DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM 
->>>> buffer
->>>> + * objects (BOs) or sections of a BOs at specified GPU virtual 
->>>> addresses on a
->>>> + * specified address space (VM). Multiple mappings can map to the 
->>>> same physical
->>>> + * pages of an object (aliasing). These mappings (also referred to 
->>>> as persistent
->>>> + * mappings) will be persistent across multiple GPU submissions 
->>>> (execbuf calls)
->>>> + * issued by the UMD, without user having to provide a list of all 
->>>> required
->>>> + * mappings during each submission (as required by older execbuf 
->>>> mode).
->>>> + *
->>>> + * The VM_BIND/UNBIND calls allow UMDs to request a timeline out 
->>>> fence for
->>>> + * signaling the completion of bind/unbind operation.
->>>> + *
->>>> + * VM_BIND feature is advertised to user via 
->>>> I915_PARAM_VM_BIND_VERSION.
->>>> + * User has to opt-in for VM_BIND mode of binding for an address 
->>>> space (VM)
->>>> + * during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND 
->>>> extension.
->>>> + *
->>>> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads 
->>>> concurrently
->>>> + * are not ordered. Furthermore, parts of the VM_BIND/UNBIND 
->>>> operations can be
->>>> + * done asynchronously, when valid out fence is specified.
->>>> + *
->>>> + * VM_BIND locking order is as below.
->>>> + *
->>>> + * 1) vm_bind_lock mutex will protect vm_bind lists. This lock is 
->>>> taken in
->>>> + *    vm_bind/vm_unbind ioctl calls, in the execbuf path and while 
->>>> releasing the
->>>> + *    mapping.
->>>> + *
->>>> + *    In future, when GPU page faults are supported, we can 
->>>> potentially use a
->>>> + *    rwsem instead, so that multiple page fault handlers can take 
->>>> the read
->>>> + *    side lock to lookup the mapping and hence can run in parallel.
->>>> + *    The older execbuf mode of binding do not need this lock.
->>>> + *
->>>> + * 2) The object's dma-resv lock will protect i915_vma state and needs
->>>> + *    to be held while binding/unbinding a vma in the async worker 
->>>> and while
->>>> + *    updating dma-resv fence list of an object. Note that private 
->>>> BOs of a VM
->>>> + *    will all share a dma-resv object.
->>>> + *
->>>> + * 3) Spinlock/s to protect some of the VM's lists like the list of
->>>> + *    invalidated vmas (due to eviction and userptr invalidation) etc.
->>>> + */
->>>> +
->>>> +/**
->>>> + * i915_gem_vm_bind_lookup_vma() - lookup for persistent vma mapped 
->>>> at a
->>>> + * specified address
->>>> + * @vm: virtual address space to look for persistent vma
->>>> + * @va: starting address where vma is mapped
->>>> + *
->>>> + * Retrieves the persistent vma mapped address @va from the @vm's 
->>>> vma tree.
->>>> + *
->>>> + * Returns vma pointer on success, NULL on failure.
->>>> + */
->>>> +struct i915_vma *
->>>> +i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va)
->>>> +{
->>>> +    lockdep_assert_held(&vm->vm_bind_lock);
->>>> +
->>>> +    return i915_vm_bind_it_iter_first(&vm->va, va, va);
->>>> +}
->>>> +
->>>> +static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool 
->>>> release_obj)
->>>> +{
->>>> +    lockdep_assert_held(&vma->vm->vm_bind_lock);
->>>> +
->>>> +    list_del_init(&vma->vm_bind_link);
->>>> +    i915_vm_bind_it_remove(vma, &vma->vm->va);
->>>> +
->>>> +    /* Release object */
->>>> +    if (release_obj)
->>>> +        i915_gem_object_put(vma->obj);
->>>> +}
->>>> +
->>>> +static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
->>>> +                  struct drm_i915_gem_vm_unbind *va)
->>>> +{
->>>> +    struct drm_i915_gem_object *obj;
->>>> +    struct i915_vma *vma;
->>>> +    int ret;
->>>> +
->>>> +    ret = mutex_lock_interruptible(&vm->vm_bind_lock);
->>>> +    if (ret)
->>>> +        return ret;
->>>> +
->>>> +    va->start = gen8_noncanonical_addr(va->start);
->>>> +    vma = i915_gem_vm_bind_lookup_vma(vm, va->start);
->>>> +
->>>> +    if (!vma)
->>>> +        ret = -ENOENT;
->>>> +    else if (vma->size != va->length)
->>>> +        ret = -EINVAL;
->>>> +
->>>> +    if (ret) {
->>>> +        mutex_unlock(&vm->vm_bind_lock);
->>>> +        return ret;
->>>> +    }
->>>> +
->>>> +    i915_gem_vm_bind_remove(vma, false);
->>>> +
->>>> +    mutex_unlock(&vm->vm_bind_lock);
->>>> +
->>>> +    /* Destroy vma and then release object */
->>>> +    obj = vma->obj;
->>>> +    ret = i915_gem_object_lock(obj, NULL);
->>>> +    if (ret)
->>>> +        return ret;
->>>> +
->>>> +    i915_vma_destroy(vma);
->>>> +    i915_gem_object_unlock(obj);
->>>> +
->>>> +    i915_gem_object_put(obj);
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +/**
->>>> + * i915_gem_vm_unbind_all() - unbind all persistent mappings from an
->>>> + * address space
->>>> + * @vm: Address spece to remove persistent mappings from
->>>> + *
->>>> + * Unbind all userspace requested vm_bind mappings from @vm.
->>>> + */
->>>> +void i915_gem_vm_unbind_all(struct i915_address_space *vm)
->>>> +{
->>>> +    struct i915_vma *vma, *t;
->>>> +
->>>> +    mutex_lock(&vm->vm_bind_lock);
->>>> +    list_for_each_entry_safe(vma, t, &vm->vm_bind_list, vm_bind_link)
->>>> +        i915_gem_vm_bind_remove(vma, true);
->>>> +    list_for_each_entry_safe(vma, t, &vm->vm_bound_list, vm_bind_link)
->>>> +        i915_gem_vm_bind_remove(vma, true);
->>>> +    mutex_unlock(&vm->vm_bind_lock);
->>>> +}
->>>> +
->>>> +static struct i915_vma *vm_bind_get_vma(struct i915_address_space *vm,
->>>> +                    struct drm_i915_gem_object *obj,
->>>> +                    struct drm_i915_gem_vm_bind *va)
->>>> +{
->>>> +    struct i915_gtt_view view;
->>>> +    struct i915_vma *vma;
->>>> +
->>>> +    va->start = gen8_noncanonical_addr(va->start);
->>>> +    vma = i915_gem_vm_bind_lookup_vma(vm, va->start);
->>>> +    if (vma)
->>>> +        return ERR_PTR(-EEXIST);
->>>> +
->>>> +    view.type = I915_GTT_VIEW_PARTIAL;
->>>> +    view.partial.offset = va->offset >> PAGE_SHIFT;
->>>> +    view.partial.size = va->length >> PAGE_SHIFT;
->>>> +    vma = i915_vma_create_persistent(obj, vm, &view);
->>>> +    if (IS_ERR(vma))
->>>> +        return vma;
->>>> +
->>>> +    vma->start = va->start;
->>>> +    vma->last = va->start + va->length - 1;
->>>> +
->>>> +    return vma;
->>>> +}
->>>> +
->>>> +static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
->>>> +                struct drm_i915_gem_vm_bind *va,
->>>> +                struct drm_file *file)
->>>> +{
->>>> +    struct drm_i915_gem_object *obj;
->>>> +    struct i915_vma *vma = NULL;
->>>> +    struct i915_gem_ww_ctx ww;
->>>> +    u64 pin_flags;
->>>> +    int ret = 0;
->>>> +
->>>> +    if (!vm->vm_bind_mode)
->>>> +        return -EOPNOTSUPP;
->>>> +
->>>> +    obj = i915_gem_object_lookup(file, va->handle);
->>>> +    if (!obj)
->>>> +        return -ENOENT;
->>>> +
->>>> +    if (!va->length ||
->>>> +        !IS_ALIGNED(va->offset | va->length,
->>>> +            i915_gem_object_max_page_size(obj->mm.placements,
->>>> +                              obj->mm.n_placements)) ||
->>>> +        range_overflows_t(u64, va->offset, va->length, 
->>>> obj->base.size)) {
->>>> +        ret = -EINVAL;
->>>> +        goto put_obj;
->>>> +    }
->>>> +
->>>> +    ret = mutex_lock_interruptible(&vm->vm_bind_lock);
->>>> +    if (ret)
->>>> +        goto put_obj;
->>>> +
->>>> +    vma = vm_bind_get_vma(vm, obj, va);
->>>> +    if (IS_ERR(vma)) {
->>>> +        ret = PTR_ERR(vma);
->>>> +        goto unlock_vm;
->>>> +    }
->>>> +
->>>> +    pin_flags = va->start | PIN_OFFSET_FIXED | PIN_USER;
->>>> +
->>>> +    for_i915_gem_ww(&ww, ret, true) {
->>>> +        ret = i915_gem_object_lock(vma->obj, &ww);
->>>> +        if (ret)
->>>> +            continue;
->>>> +
->>>> +        ret = i915_vma_pin_ww(vma, &ww, 0, 0, pin_flags);
->>>> +        if (ret)
->>>> +            continue;
->>>> +
->>>> +        /* Make it evictable */
->>>> +        __i915_vma_unpin(vma);
->>>> +
->>>> +        list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
->>>> +        i915_vm_bind_it_insert(vma, &vm->va);
->>>> +
->>>> +        /* Hold object reference until vm_unbind */
->>>> +        i915_gem_object_get(vma->obj);
->>>> +    }
->>>> +
->>>> +    if (ret)
->>>> +        i915_vma_destroy(vma);
->>>> +unlock_vm:
->>>> +    mutex_unlock(&vm->vm_bind_lock);
->>>> +put_obj:
->>>> +    i915_gem_object_put(obj);
->>>> +
->>>> +    return ret;
->>>> +}
->>>> +
->>>> +/**
->>>> + * i915_gem_vm_bind_ioctl() - ioctl function for binding a section 
->>>> of object
->>>> + * at a specified virtual address
->>>> + * @dev: drm_device pointer
->>>> + * @data: ioctl data structure
->>>> + * @file: drm_file pointer
->>>> + *
->>>> + * Adds the specified persistent mapping (virtual address to a 
->>>> section of an
->>>> + * object) and binds it in the device page table.
->>>> + *
->>>> + * Returns 0 on success, error code on failure.
->>>> + */
->>>> +int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,
->>>> +               struct drm_file *file)
->>>> +{
->>>> +    struct drm_i915_gem_vm_bind *args = data;
->>>> +    struct i915_address_space *vm;
->>>> +    int ret;
->>>> +
->>>> +    vm = i915_gem_vm_lookup(file->driver_priv, args->vm_id);
->>>> +    if (unlikely(!vm))
->>>> +        return -ENOENT;
->>>> +
->>>> +    ret = i915_gem_vm_bind_obj(vm, args, file);
->>>> +
->>>> +    i915_vm_put(vm);
->>>> +    return ret;
->>>> +}
->>>> +
->>>> +/**
->>>> + * i915_gem_vm_unbind_ioctl() - ioctl function for unbinding a 
->>>> mapping at a
->>>> + * specified virtual address
->>>> + * @dev: drm_device pointer
->>>> + * @data: ioctl data structure
->>>> + * @file: drm_file pointer
->>>> + *
->>>> + * Removes the persistent mapping at the specified address and 
->>>> unbinds it
->>>> + * from the device page table.
->>>> + *
->>>> + * Returns 0 on success, error code on failure. -ENOENT is returned 
->>>> if the
->>>> + * specified mapping is not found.
->>>> + */
->>>> +int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
->>>> +                 struct drm_file *file)
->>>> +{
->>>> +    struct drm_i915_gem_vm_unbind *args = data;
->>>> +    struct i915_address_space *vm;
->>>> +    int ret;
->>>> +
->>>> +    vm = i915_gem_vm_lookup(file->driver_priv, args->vm_id);
->>>> +    if (unlikely(!vm))
->>>> +        return -ENOENT;
->>>> +
->>>> +    ret = i915_gem_vm_unbind_vma(vm, args);
->>>> +
->>>> +    i915_vm_put(vm);
->>>> +    return ret;
->>>> +}
->>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c 
->>>> b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>> index b67831833c9a..0daa70c6ed0d 100644
->>>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>> @@ -12,6 +12,7 @@
->>>>  #include "gem/i915_gem_internal.h"
->>>>  #include "gem/i915_gem_lmem.h"
->>>> +#include "gem/i915_gem_vm_bind.h"
->>>>  #include "i915_trace.h"
->>>>  #include "i915_utils.h"
->>>>  #include "intel_gt.h"
->>>> @@ -176,6 +177,8 @@ int i915_vm_lock_objects(struct 
->>>> i915_address_space *vm,
->>>>  void i915_address_space_fini(struct i915_address_space *vm)
->>>>  {
->>>>      drm_mm_takedown(&vm->mm);
->>>> +    GEM_BUG_ON(!RB_EMPTY_ROOT(&vm->va.rb_root));
->>>> +    mutex_destroy(&vm->vm_bind_lock);
->>>>  }
->>>>  /**
->>>> @@ -202,6 +205,8 @@ static void __i915_vm_release(struct work_struct 
->>>> *work)
->>>>      struct i915_address_space *vm =
->>>>          container_of(work, struct i915_address_space, release_work);
->>>> +    i915_gem_vm_unbind_all(vm);
->>>> +
->>>>      __i915_vm_close(vm);
->>>>      /* Synchronize async unbinds. */
->>>> @@ -282,6 +287,11 @@ void i915_address_space_init(struct 
->>>> i915_address_space *vm, int subclass)
->>>>      INIT_LIST_HEAD(&vm->bound_list);
->>>>      INIT_LIST_HEAD(&vm->unbound_list);
->>>> +
->>>> +    vm->va = RB_ROOT_CACHED;
->>>> +    INIT_LIST_HEAD(&vm->vm_bind_list);
->>>> +    INIT_LIST_HEAD(&vm->vm_bound_list);
->>>> +    mutex_init(&vm->vm_bind_lock);
->>>>  }
->>>>  void *__px_vaddr(struct drm_i915_gem_object *p)
->>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h 
->>>> b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>> index c0ca53cba9f0..b52061858161 100644
->>>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>> @@ -259,6 +259,23 @@ struct i915_address_space {
->>>>       */
->>>>      struct list_head unbound_list;
->>>> +    /**
->>>> +     * @vm_bind_mode: flag to indicate vm_bind method of binding
->>>> +     *
->>>> +     * True: allow only vm_bind method of binding.
->>>> +     * False: allow only legacy execbuff method of binding.
->>>> +     */
->>>> +    bool vm_bind_mode:1;
->>>> +
->>>> +    /** @vm_bind_lock: Mutex to protect @vm_bind_list and 
->>>> @vm_bound_list */
->>>> +    struct mutex vm_bind_lock;
->>>> +    /** @vm_bind_list: List of vm_binding in process */
->>>> +    struct list_head vm_bind_list;
->>>> +    /** @vm_bound_list: List of vm_binding completed */
->>>> +    struct list_head vm_bound_list;
->>>> +    /* @va: tree of persistent vmas */
->>>> +    struct rb_root_cached va;
->>>> +
->>>>      /* Global GTT */
->>>>      bool is_ggtt:1;
->>>> diff --git a/drivers/gpu/drm/i915/i915_driver.c 
->>>> b/drivers/gpu/drm/i915/i915_driver.c
->>>> index fb3826dabe8b..c3a9a5031cdb 100644
->>>> --- a/drivers/gpu/drm/i915/i915_driver.c
->>>> +++ b/drivers/gpu/drm/i915/i915_driver.c
->>>> @@ -69,6 +69,7 @@
->>>>  #include "gem/i915_gem_ioctls.h"
->>>>  #include "gem/i915_gem_mman.h"
->>>>  #include "gem/i915_gem_pm.h"
->>>> +#include "gem/i915_gem_vm_bind.h"
->>>>  #include "gt/intel_gt.h"
->>>>  #include "gt/intel_gt_pm.h"
->>>>  #include "gt/intel_rc6.h"
->>>> @@ -1893,6 +1894,8 @@ static const struct drm_ioctl_desc 
->>>> i915_ioctls[] = {
->>>>      DRM_IOCTL_DEF_DRV(I915_QUERY, i915_query_ioctl, DRM_RENDER_ALLOW),
->>>>      DRM_IOCTL_DEF_DRV(I915_GEM_VM_CREATE, i915_gem_vm_create_ioctl, 
->>>> DRM_RENDER_ALLOW),
->>>>      DRM_IOCTL_DEF_DRV(I915_GEM_VM_DESTROY, 
->>>> i915_gem_vm_destroy_ioctl, DRM_RENDER_ALLOW),
->>>> +    DRM_IOCTL_DEF_DRV(I915_GEM_VM_BIND, i915_gem_vm_bind_ioctl, 
->>>> DRM_RENDER_ALLOW),
->>>> +    DRM_IOCTL_DEF_DRV(I915_GEM_VM_UNBIND, i915_gem_vm_unbind_ioctl, 
->>>> DRM_RENDER_ALLOW),
->>>>  };
->>>>  /*
->>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
->>>> b/drivers/gpu/drm/i915/i915_vma.c
->>>> index 5839e1f55f00..33f910473263 100644
->>>> --- a/drivers/gpu/drm/i915/i915_vma.c
->>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
->>>> @@ -239,6 +239,7 @@ vma_create(struct drm_i915_gem_object *obj,
->>>>      spin_unlock(&obj->vma.lock);
->>>>      mutex_unlock(&vm->mutex);
->>>> +    INIT_LIST_HEAD(&vma->vm_bind_link);
->>>>      return vma;
->>>>  err_unlock:
->>>> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h 
->>>> b/drivers/gpu/drm/i915/i915_vma_types.h
->>>> index 2200f1f103ba..f56ac07c6cfa 100644
->>>> --- a/drivers/gpu/drm/i915/i915_vma_types.h
->>>> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
->>>> @@ -296,6 +296,20 @@ struct i915_vma {
->>>>      /** This object's place on the active/inactive lists */
->>>>      struct list_head vm_link;
->>>> +    /** @vm_bind_link: node for the vm_bind related lists of vm */
->>>> +    struct list_head vm_bind_link;
->>>> +
->>>> +    /** Interval tree structures for persistent vma */
->>>> +
->>>> +    /** @rb: node for the interval tree of vm for persistent vmas */
->>>> +    struct rb_node rb;
->>>> +    /** @start: start endpoint of the rb node */
->>>> +    u64 start;
->>>> +    /** @last: Last endpoint of the rb node */
->>>> +    u64 last;
->>>> +    /** @__subtree_last: last in subtree */
->>>> +    u64 __subtree_last;
->>>> +
->>>>      struct list_head obj_link; /* Link in the object's VMA list */
->>>>      struct rb_node obj_node;
->>>>      struct hlist_node obj_hash;
->>>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->>>> index 520ad2691a99..9760564b4693 100644
->>>> --- a/include/uapi/drm/i915_drm.h
->>>> +++ b/include/uapi/drm/i915_drm.h
->>>> @@ -470,6 +470,8 @@ typedef struct _drm_i915_sarea {
->>>>  #define DRM_I915_GEM_VM_CREATE        0x3a
->>>>  #define DRM_I915_GEM_VM_DESTROY        0x3b
->>>>  #define DRM_I915_GEM_CREATE_EXT        0x3c
->>>> +#define DRM_I915_GEM_VM_BIND        0x3d
->>>> +#define DRM_I915_GEM_VM_UNBIND        0x3e
->>>>  /* Must be kept compact -- no holes */
->>>>  #define DRM_IOCTL_I915_INIT        DRM_IOW( DRM_COMMAND_BASE + 
->>>> DRM_I915_INIT, drm_i915_init_t)
->>>> @@ -534,6 +536,8 @@ typedef struct _drm_i915_sarea {
->>>>  #define DRM_IOCTL_I915_QUERY            DRM_IOWR(DRM_COMMAND_BASE + 
->>>> DRM_I915_QUERY, struct drm_i915_query)
->>>>  #define DRM_IOCTL_I915_GEM_VM_CREATE    DRM_IOWR(DRM_COMMAND_BASE + 
->>>> DRM_I915_GEM_VM_CREATE, struct drm_i915_gem_vm_control)
->>>>  #define DRM_IOCTL_I915_GEM_VM_DESTROY    DRM_IOW (DRM_COMMAND_BASE 
->>>> + DRM_I915_GEM_VM_DESTROY, struct drm_i915_gem_vm_control)
->>>> +#define DRM_IOCTL_I915_GEM_VM_BIND    DRM_IOWR(DRM_COMMAND_BASE + 
->>>> DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
->>>> +#define DRM_IOCTL_I915_GEM_VM_UNBIND    DRM_IOWR(DRM_COMMAND_BASE + 
->>>> DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_unbind)
->>>>  /* Allow drivers to submit batchbuffers directly to hardware, relying
->>>>   * on the security mechanisms provided by hardware.
->>>> @@ -3717,6 +3721,114 @@ struct 
->>>> drm_i915_gem_create_ext_protected_content {
->>>>  /* ID of the protected content session managed by i915 when PXP is 
->>>> active */
->>>>  #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
->>>> +/**
->>>> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
->>>> + *
->>>> + * This structure is passed to VM_BIND ioctl and specifies the 
->>>> mapping of GPU
->>>> + * virtual address (VA) range to the section of an object that 
->>>> should be bound
->>>> + * in the device page table of the specified address space (VM).
->>>> + * The VA range specified must be unique (ie., not currently bound) 
->>>> and can
->>>> + * be mapped to whole object or a section of the object (partial 
->>>> binding).
->>>> + * Multiple VA mappings can be created to the same section of the 
->>>> object
->>>> + * (aliasing).
->>>> + *
->>>> + * The @start, @offset and @length must be 4K page aligned. However 
->>>> the DG2
->>>> + * and XEHPSDV has 64K page size for device local memory and has 
->>>> compact page
->>>> + * table. On those platforms, for binding device local-memory 
->>>> objects, the
->>>> + * @start, @offset and @length must be 64K aligned. Also, UMDs 
->>>> should not mix
->>>> + * the local memory 64K page and the system memory 4K page bindings 
->>>> in the same
->>>> + * 2M range.
->>>
->>> This is hopefully no longer the case if we land:
->>> https://patchwork.freedesktop.org/series/109126/
->>>
->>> Should only need 64K alignment, and mixing should be fine now, which 
->>> should be a lot nicer. Hopefully doesn't really impact your series, 
->>> other than just updating the comment here?
->>>
->>
->> Oh great. Will remove the last sentence then.
->> Yah, we just need to remove the extra comment here.
->>
->>>> + *
->>>> + * Error code -EINVAL will be returned if @start, @offset and 
->>>> @length are not
->>>> + * properly aligned. In version 1 (See I915_PARAM_VM_BIND_VERSION), 
->>>> error code
->>>> + * -ENOSPC will be returned if the VA range specified can't be 
->>>> reserved.
->>>> + *
->>>> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads 
->>>> concurrently
->>>> + * are not ordered. Furthermore, parts of the VM_BIND operation can 
->>>> be done
->>>> + * asynchronously, if valid @fence is specified.
->>>> + */
->>>> +struct drm_i915_gem_vm_bind {
->>>> +    /** @vm_id: VM (address space) id to bind */
->>>> +    __u32 vm_id;
->>>> +
->>>> +    /** @handle: Object handle */
->>>> +    __u32 handle;
->>>> +
->>>> +    /** @start: Virtual Address start to bind */
->>>> +    __u64 start;
->>>> +
->>>> +    /** @offset: Offset in object to bind */
->>>> +    __u64 offset;
->>>> +
->>>> +    /** @length: Length of mapping to bind */
->>>> +    __u64 length;
->>>> +
->>>> +    /**
->>>> +     * @flags: Currently reserved, MBZ.
->>>> +     *
->>>> +     * Note that @fence carries its own flags.
->>>> +     */
->>>> +    __u64 flags;
->>>> +
->>>> +    /** @rsvd: Reserved, MBZ */
->>>> +    __u64 rsvd[2];
->>>
->>> There is lots of rsvd stuff here and below, but I don't see where we 
->>> are verifying if it is actually MBZ?
->>>
->>
->> These rsvd fields are temporary and is replaced by a later patch in
->> the series. However, the rsvd field in vm_unbind structure below is
->> needed and I will update the code to check for 0.
-> 
-> Ideally each patch by itself should be functional, so here we should 
-> check the padding, and then later remove the checks for the additional 
-> functionally. Or just keep the ioctls(s) disabled (return -ENODEV or so) 
-> at this point in the series, and then have the last patch in the series 
-> turn on the vm_bind support by removing the -ENODEV guards.
 
-It looks like that is maybe already the case as per the final patch: 
-"Add uapi for user to enable vm_bind_mode"?
+Andrew Morton <akpm@linux-foundation.org> writes:
 
-> 
+> On Wed, 28 Sep 2022 22:01:22 +1000 Alistair Popple <apopple@nvidia.com> wrote:
+>
+>> @@ -1401,22 +1494,7 @@ static int dmirror_device_init(struct dmirror_device *mdevice, int id)
 >>
->> Regards,
->> Niranjana
->>
->>>> +
->>>> +    /**
->>>> +     * @extensions: Zero-terminated chain of extensions.
->>>> +     *
->>>> +     * For future extensions. See struct i915_user_extension.
->>>> +     */
->>>> +    __u64 extensions;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
->>>> + *
->>>> + * This structure is passed to VM_UNBIND ioctl and specifies the 
->>>> GPU virtual
->>>> + * address (VA) range that should be unbound from the device page 
->>>> table of the
->>>> + * specified address space (VM). VM_UNBIND will force unbind the 
->>>> specified
->>>> + * range from device page table without waiting for any GPU job to 
->>>> complete.
->>>> + * It is UMDs responsibility to ensure the mapping is no longer in 
->>>> use before
->>>> + * calling VM_UNBIND.
->>>> + *
->>>> + * If the specified mapping is not found, the ioctl will simply 
->>>> return without
->>>> + * any error.
->>>> + *
->>>> + * VM_BIND/UNBIND ioctl calls executed on different CPU threads 
->>>> concurrently
->>>> + * are not ordered. Furthermore, parts of the VM_UNBIND operation 
->>>> can be done
->>>> + * asynchronously, if valid @fence is specified.
->>>> + */
->>>> +struct drm_i915_gem_vm_unbind {
->>>> +    /** @vm_id: VM (address space) id to bind */
->>>> +    __u32 vm_id;
->>>> +
->>>> +    /** @rsvd: Reserved, MBZ */
->>>> +    __u32 rsvd;
->>>> +
->>>> +    /** @start: Virtual Address start to unbind */
->>>> +    __u64 start;
->>>> +
->>>> +    /** @length: Length of mapping to unbind */
->>>> +    __u64 length;
->>>> +
->>>> +    /**
->>>> +     * @flags: Currently reserved, MBZ.
->>>> +     *
->>>> +     * Note that @fence carries its own flags.
->>>> +     */
->>>> +    __u64 flags;
->>>> +
->>>> +    /** @rsvd2: Reserved, MBZ */
->>>> +    __u64 rsvd2[2];
->>>> +
->>>> +    /**
->>>> +     * @extensions: Zero-terminated chain of extensions.
->>>> +     *
->>>> +     * For future extensions. See struct i915_user_extension.
->>>> +     */
->>>> +    __u64 extensions;
->>>> +};
->>>> +
->>>>  #if defined(__cplusplus)
->>>>  }
->>>>  #endif
+>>  static void dmirror_device_remove(struct dmirror_device *mdevice)
+>>  {
+>> -	unsigned int i;
+>> -
+>> -	if (mdevice->devmem_chunks) {
+>> -		for (i = 0; i < mdevice->devmem_count; i++) {
+>> -			struct dmirror_chunk *devmem =
+>> -				mdevice->devmem_chunks[i];
+>> -
+>> -			memunmap_pages(&devmem->pagemap);
+>> -			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
+>> -				release_mem_region(devmem->pagemap.range.start,
+>> -						   range_len(&devmem->pagemap.range));
+>> -			kfree(devmem);
+>> -		}
+>> -		kfree(mdevice->devmem_chunks);
+>> -	}
+>> -
+>> +	dmirror_device_remove_chunks(mdevice);
+>>  	cdev_del(&mdevice->cdevice);
+>>  }
+>
+> Needed a bit or rework due to
+> https://lkml.kernel.org/r/20220826050631.25771-1-mpenttil@redhat.com.
+> Please check my resolution.
+
+Thanks. Rework looks good to me.
+
+> --- a/lib/test_hmm.c~hmm-tests-add-test-for-migrate_device_range
+> +++ a/lib/test_hmm.c
+> @@ -100,6 +100,7 @@ struct dmirror {
+>  struct dmirror_chunk {
+>  	struct dev_pagemap	pagemap;
+>  	struct dmirror_device	*mdevice;
+> +	bool remove;
+>  };
+>
+>  /*
+> @@ -192,11 +193,15 @@ static int dmirror_fops_release(struct i
+>  	return 0;
+>  }
+>
+> +static struct dmirror_chunk *dmirror_page_to_chunk(struct page *page)
+> +{
+> +	return container_of(page->pgmap, struct dmirror_chunk, pagemap);
+> +}
+> +
+>  static struct dmirror_device *dmirror_page_to_device(struct page *page)
+>
+>  {
+> -	return container_of(page->pgmap, struct dmirror_chunk,
+> -			    pagemap)->mdevice;
+> +	return dmirror_page_to_chunk(page)->mdevice;
+>  }
+>
+>  static int dmirror_do_fault(struct dmirror *dmirror, struct hmm_range *range)
+> @@ -1218,6 +1223,85 @@ static int dmirror_snapshot(struct dmirr
+>  	return ret;
+>  }
+>
+> +static void dmirror_device_evict_chunk(struct dmirror_chunk *chunk)
+> +{
+> +	unsigned long start_pfn = chunk->pagemap.range.start >> PAGE_SHIFT;
+> +	unsigned long end_pfn = chunk->pagemap.range.end >> PAGE_SHIFT;
+> +	unsigned long npages = end_pfn - start_pfn + 1;
+> +	unsigned long i;
+> +	unsigned long *src_pfns;
+> +	unsigned long *dst_pfns;
+> +
+> +	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
+> +	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
+> +
+> +	migrate_device_range(src_pfns, start_pfn, npages);
+> +	for (i = 0; i < npages; i++) {
+> +		struct page *dpage, *spage;
+> +
+> +		spage = migrate_pfn_to_page(src_pfns[i]);
+> +		if (!spage || !(src_pfns[i] & MIGRATE_PFN_MIGRATE))
+> +			continue;
+> +
+> +		if (WARN_ON(!is_device_private_page(spage) &&
+> +			    !is_device_coherent_page(spage)))
+> +			continue;
+> +		spage = BACKING_PAGE(spage);
+> +		dpage = alloc_page(GFP_HIGHUSER_MOVABLE | __GFP_NOFAIL);
+> +		lock_page(dpage);
+> +		copy_highpage(dpage, spage);
+> +		dst_pfns[i] = migrate_pfn(page_to_pfn(dpage));
+> +		if (src_pfns[i] & MIGRATE_PFN_WRITE)
+> +			dst_pfns[i] |= MIGRATE_PFN_WRITE;
+> +	}
+> +	migrate_device_pages(src_pfns, dst_pfns, npages);
+> +	migrate_device_finalize(src_pfns, dst_pfns, npages);
+> +	kfree(src_pfns);
+> +	kfree(dst_pfns);
+> +}
+> +
+> +/* Removes free pages from the free list so they can't be re-allocated */
+> +static void dmirror_remove_free_pages(struct dmirror_chunk *devmem)
+> +{
+> +	struct dmirror_device *mdevice = devmem->mdevice;
+> +	struct page *page;
+> +
+> +	for (page = mdevice->free_pages; page; page = page->zone_device_data)
+> +		if (dmirror_page_to_chunk(page) == devmem)
+> +			mdevice->free_pages = page->zone_device_data;
+> +}
+> +
+> +static void dmirror_device_remove_chunks(struct dmirror_device *mdevice)
+> +{
+> +	unsigned int i;
+> +
+> +	mutex_lock(&mdevice->devmem_lock);
+> +	if (mdevice->devmem_chunks) {
+> +		for (i = 0; i < mdevice->devmem_count; i++) {
+> +			struct dmirror_chunk *devmem =
+> +				mdevice->devmem_chunks[i];
+> +
+> +			spin_lock(&mdevice->lock);
+> +			devmem->remove = true;
+> +			dmirror_remove_free_pages(devmem);
+> +			spin_unlock(&mdevice->lock);
+> +
+> +			dmirror_device_evict_chunk(devmem);
+> +			memunmap_pages(&devmem->pagemap);
+> +			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
+> +				release_mem_region(devmem->pagemap.range.start,
+> +						   range_len(&devmem->pagemap.range));
+> +			kfree(devmem);
+> +		}
+> +		mdevice->devmem_count = 0;
+> +		mdevice->devmem_capacity = 0;
+> +		mdevice->free_pages = NULL;
+> +		kfree(mdevice->devmem_chunks);
+> +		mdevice->devmem_chunks = NULL;
+> +	}
+> +	mutex_unlock(&mdevice->devmem_lock);
+> +}
+> +
+>  static long dmirror_fops_unlocked_ioctl(struct file *filp,
+>  					unsigned int command,
+>  					unsigned long arg)
+> @@ -1272,6 +1356,11 @@ static long dmirror_fops_unlocked_ioctl(
+>  		ret = dmirror_snapshot(dmirror, &cmd);
+>  		break;
+>
+> +	case HMM_DMIRROR_RELEASE:
+> +		dmirror_device_remove_chunks(dmirror->mdevice);
+> +		ret = 0;
+> +		break;
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -1326,9 +1415,13 @@ static void dmirror_devmem_free(struct p
+>
+>  	mdevice = dmirror_page_to_device(page);
+>  	spin_lock(&mdevice->lock);
+> -	mdevice->cfree++;
+> -	page->zone_device_data = mdevice->free_pages;
+> -	mdevice->free_pages = page;
+> +
+> +	/* Return page to our allocator if not freeing the chunk */
+> +	if (!dmirror_page_to_chunk(page)->remove) {
+> +		mdevice->cfree++;
+> +		page->zone_device_data = mdevice->free_pages;
+> +		mdevice->free_pages = page;
+> +	}
+>  	spin_unlock(&mdevice->lock);
+>  }
+>
+> @@ -1408,22 +1501,7 @@ static int dmirror_device_init(struct dm
+>
+>  static void dmirror_device_remove(struct dmirror_device *mdevice)
+>  {
+> -	unsigned int i;
+> -
+> -	if (mdevice->devmem_chunks) {
+> -		for (i = 0; i < mdevice->devmem_count; i++) {
+> -			struct dmirror_chunk *devmem =
+> -				mdevice->devmem_chunks[i];
+> -
+> -			memunmap_pages(&devmem->pagemap);
+> -			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
+> -				release_mem_region(devmem->pagemap.range.start,
+> -						   range_len(&devmem->pagemap.range));
+> -			kfree(devmem);
+> -		}
+> -		kfree(mdevice->devmem_chunks);
+> -	}
+> -
+> +	dmirror_device_remove_chunks(mdevice);
+>  	cdev_device_del(&mdevice->cdevice, &mdevice->device);
+>  }
+>
+> --- a/lib/test_hmm_uapi.h~hmm-tests-add-test-for-migrate_device_range
+> +++ a/lib/test_hmm_uapi.h
+> @@ -36,6 +36,7 @@ struct hmm_dmirror_cmd {
+>  #define HMM_DMIRROR_SNAPSHOT		_IOWR('H', 0x04, struct hmm_dmirror_cmd)
+>  #define HMM_DMIRROR_EXCLUSIVE		_IOWR('H', 0x05, struct hmm_dmirror_cmd)
+>  #define HMM_DMIRROR_CHECK_EXCLUSIVE	_IOWR('H', 0x06, struct hmm_dmirror_cmd)
+> +#define HMM_DMIRROR_RELEASE		_IOWR('H', 0x07, struct hmm_dmirror_cmd)
+>
+>  /*
+>   * Values returned in hmm_dmirror_cmd.ptr for HMM_DMIRROR_SNAPSHOT.
+> --- a/tools/testing/selftests/vm/hmm-tests.c~hmm-tests-add-test-for-migrate_device_range
+> +++ a/tools/testing/selftests/vm/hmm-tests.c
+> @@ -1054,6 +1054,55 @@ TEST_F(hmm, migrate_fault)
+>  	hmm_buffer_free(buffer);
+>  }
+>
+> +TEST_F(hmm, migrate_release)
+> +{
+> +	struct hmm_buffer *buffer;
+> +	unsigned long npages;
+> +	unsigned long size;
+> +	unsigned long i;
+> +	int *ptr;
+> +	int ret;
+> +
+> +	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
+> +	ASSERT_NE(npages, 0);
+> +	size = npages << self->page_shift;
+> +
+> +	buffer = malloc(sizeof(*buffer));
+> +	ASSERT_NE(buffer, NULL);
+> +
+> +	buffer->fd = -1;
+> +	buffer->size = size;
+> +	buffer->mirror = malloc(size);
+> +	ASSERT_NE(buffer->mirror, NULL);
+> +
+> +	buffer->ptr = mmap(NULL, size, PROT_READ | PROT_WRITE,
+> +			   MAP_PRIVATE | MAP_ANONYMOUS, buffer->fd, 0);
+> +	ASSERT_NE(buffer->ptr, MAP_FAILED);
+> +
+> +	/* Initialize buffer in system memory. */
+> +	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
+> +		ptr[i] = i;
+> +
+> +	/* Migrate memory to device. */
+> +	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
+> +	ASSERT_EQ(ret, 0);
+> +	ASSERT_EQ(buffer->cpages, npages);
+> +
+> +	/* Check what the device read. */
+> +	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
+> +		ASSERT_EQ(ptr[i], i);
+> +
+> +	/* Release device memory. */
+> +	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_RELEASE, buffer, npages);
+> +	ASSERT_EQ(ret, 0);
+> +
+> +	/* Fault pages back to system memory and check them. */
+> +	for (i = 0, ptr = buffer->ptr; i < size / (2 * sizeof(*ptr)); ++i)
+> +		ASSERT_EQ(ptr[i], i);
+> +
+> +	hmm_buffer_free(buffer);
+> +}
+> +
+>  /*
+>   * Migrate anonymous shared memory to device private memory.
+>   */
+> _
