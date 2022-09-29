@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AC55EFE5A
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 22:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F5F5EFE51
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 22:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7A4D10ECB2;
-	Thu, 29 Sep 2022 20:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1EB10ECA6;
+	Thu, 29 Sep 2022 20:04:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 622C910EC9C;
- Thu, 29 Sep 2022 20:04:53 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id 29so3404493edv.7;
- Thu, 29 Sep 2022 13:04:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=C1SQMmBRmTyEVOMbhaAQMeOUONnQ+FGaXxnl2YAvmrE=;
- b=n7IgS7SXNECRDQUeaRBSJ5wli4+QS2+jeKAKKZtFPXRGZ+vy0RGU/spfyHKGXvTST4
- OX5GOKeQi2OMG7nsWx3CUo5zhYlLHt9okBO8iB6/OuX5lHhfmfNm1IS8hsi8+xJLG7SJ
- 7ErOeGBYUbUWe44r7ZazZP0BQezo8arc2e2Xs1yYe+r5P898AYsB3mL9KT52OfmSQABr
- qaIQu76s8lHj1d1jKbL+w5AvjDlywqzhPhSJtA+ExxHEykewqzJvNCVieTBBd/ZhIS40
- 3rDhBRWqC7wrsxDA19+GhdZr2Qz0pTjjDdYoIdfluB8szD3h7pAJcezEoG/oowZTqghU
- uUEw==
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
+ [209.85.160.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F315610EC9C;
+ Thu, 29 Sep 2022 20:04:50 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id
+ 586e51a60fabf-13189cd5789so3094400fac.11; 
+ Thu, 29 Sep 2022 13:04:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=C1SQMmBRmTyEVOMbhaAQMeOUONnQ+FGaXxnl2YAvmrE=;
- b=xxG6NVZzKZ8zsLvqykTpap3QwfDEErzZvgAw5JeysXl7HIaNEbUT7VC5RIYOlTJ1DV
- 3tZmmJCb/cKqX/0RnkCq8mu/vpJBrugMaioaSZ3iinyIlV+i8jdNdLJm+tFgWUgkoD95
- f1PZkGNFruFCWJRR2Hqvdh1EdwD2Eu0O0XNVDoSEIWY1uzdMYiEJYkE/aja8ZUFRZ7V4
- bVo81clfnxHfzwPp/WIIpaA7lwroDGRLhMt6SjrLYpKVbWmN/iRarWAZltfAmwJFH2Oy
- asiyubvrV1NhZYGmREQun3MDfkNR9PqL1Gxc/WQq+tjbruRkPFb30Eomvdbc+DuTc+UJ
- cQRw==
-X-Gm-Message-State: ACrzQf1YoPdlZdXfyhEqZEZN1AJL486iDemUB5drG21OKABB9hWIYotl
- ZSwAjUb5greDRTNH6FFqUyP6UTNUTOkw+rkgWBc=
-X-Google-Smtp-Source: AMsMyM6/XBxE8xjr69xW6e+lpK4ZrqBzJk6Ez4gqwoceyaoK2joYM/B1UGIPEZZoXP/4uBGvWQK0R6+StrjO1YqKrCE=
-X-Received: by 2002:a05:6402:3489:b0:451:a859:8a4f with SMTP id
- v9-20020a056402348900b00451a8598a4fmr4775818edc.279.1664481891760; Thu, 29
- Sep 2022 13:04:51 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=UOb2OpT+RmVgYvUl1vJinRQ2SLSghdo0bfKmgz0QTUg=;
+ b=Xv3gW6sjPfL/BPedw+qcc2nOSE1QHcYguA350Kabk6QK4HPzOID8TsN8IajiNiqYPJ
+ hO6HKZUFDdyYP7zuNPmaxGAh0FgP0jcXup3m2ahOY8ZFaf2xwNh6kJK4twTKMzHbRIj8
+ TFQHXbF5YtiEWvfRwYve2vnWH08mlDLO6GeOFM4kv1IBpZbT8AOlWy8VV3XjxLODtxG8
+ KBMhohnotERhi5iZAS5n4bsmHCxIaYeScjB42v7yuM2QAZkssqur8QveA69McZm1mvyg
+ 1pOE2pJNPlQk/l9bXiJ1x6jL5q/cibUdAtZj1wttMFy12x1i2kAzlRQzqscCZrGx7Spe
+ 7NMA==
+X-Gm-Message-State: ACrzQf1jSjz5j9PHf6Q7RUofvKcU58LvrdXc05//pEF2RiF9xPkpJvs0
+ ocx6kBvE4sJGq4+1FHbYmQ==
+X-Google-Smtp-Source: AMsMyM6iOD6lOvLB454gWm8TA6RsYfA8tIZxlW9vJiH96267EzqdfWPIM9JMoRmq/zzfNkOr/SFFBA==
+X-Received: by 2002:a05:6870:c59b:b0:131:8d2e:e808 with SMTP id
+ ba27-20020a056870c59b00b001318d2ee808mr8047505oab.280.1664481890061; 
+ Thu, 29 Sep 2022 13:04:50 -0700 (PDT)
+Received: from macbook.herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ 30-20020a9d04a1000000b0063b2875246dsm141051otm.49.2022.09.29.13.04.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 13:04:49 -0700 (PDT)
+Received: (nullmailer pid 2653001 invoked by uid 1000);
+ Thu, 29 Sep 2022 20:04:48 -0000
+Date: Thu, 29 Sep 2022 15:04:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v8 08/12] dt-bindings: display/msm: split dpu-sdm845 into
+ DPU and MDSS parts
+Message-ID: <166448188823.2652936.7167488373212756986.robh@kernel.org>
+References: <20220924123611.225520-1-dmitry.baryshkov@linaro.org>
+ <20220924123611.225520-9-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-References: <20220923224043.2449152-1-robdclark@gmail.com>
-In-Reply-To: <20220923224043.2449152-1-robdclark@gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 29 Sep 2022 13:04:40 -0700
-Message-ID: <CAPaKu7SiVjW2oQcdUJ9jrJVR1RXKSd2f6DhbHTtYCyzsukGd9g@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm/gem: Unpin objects slightly later
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220924123611.225520-9-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 23, 2022 at 3:41 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> The introduction of 025d27239a2f exposes a problem with f371bcc0c2ac, in
-> that we need to keep the object pinned in the time the submit is queued
-> up in the gpu scheduler.  Otherwise the shrinker will see it as a thing
-> that can be evicted if we wait for it to be signaled.  But if the
-> shrinker path is waiting on it with the obj lock held, the job cannot be
-> scheduled, as that also requires briefly grabbing the obj lock, leading
-> to deadlock.  (Not to mention, we don't want the shrinker to evict an
-> obj queued up in gpu scheduler.)
->
-> Fixes: f371bcc0c2ac ("drm/msm/gem: Unpin buffers earlier")
-> Fixes: 025d27239a2f ("drm/msm/gem: Evict active GEM objects when necessary")
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/19
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-Tested-by: Chia-I Wu <olvaffe@gmail.com>
+On Sat, 24 Sep 2022 15:36:07 +0300, Dmitry Baryshkov wrote:
+> In order to make the schema more readable, split dpu-sdm845 into the DPU
+> and MDSS parts, each one describing just a single device binding.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/msm/msm_gem_submit.c | 4 ++--
->  drivers/gpu/drm/msm/msm_ringbuffer.c | 3 ++-
->  2 files changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> index 5599d93ec0d2..c670591995e6 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -501,11 +501,11 @@ static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_object *ob
->   */
->  static void submit_cleanup(struct msm_gem_submit *submit, bool error)
->  {
-> -       unsigned cleanup_flags = BO_LOCKED | BO_OBJ_PINNED;
-> +       unsigned cleanup_flags = BO_LOCKED;
->         unsigned i;
->
->         if (error)
-> -               cleanup_flags |= BO_VMA_PINNED;
-> +               cleanup_flags |= BO_VMA_PINNED | BO_OBJ_PINNED;
->
->         for (i = 0; i < submit->nr_bos; i++) {
->                 struct msm_gem_object *msm_obj = submit->bos[i].obj;
-> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-> index cad4c3525f0b..57a8e9564540 100644
-> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-> @@ -25,7 +25,8 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
->
->                 msm_gem_lock(obj);
->                 msm_gem_unpin_vma_fenced(submit->bos[i].vma, fctx);
-> -               submit->bos[i].flags &= ~BO_VMA_PINNED;
-> +               msm_gem_unpin_locked(obj);
-> +               submit->bos[i].flags &= ~(BO_VMA_PINNED | BO_OBJ_PINNED);
->                 msm_gem_unlock(obj);
->         }
->
-> --
-> 2.37.2
->
+>  .../bindings/display/msm/dpu-sdm845.yaml      | 148 ------------------
+>  .../bindings/display/msm/qcom,sdm845-dpu.yaml |  90 +++++++++++
+>  .../display/msm/qcom,sdm845-mdss.yaml         | 117 ++++++++++++++
+>  3 files changed, 207 insertions(+), 148 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
