@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB135EF0DB
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 10:50:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B335EF120
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 11:01:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C864D10E9E5;
-	Thu, 29 Sep 2022 08:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C7710E3E3;
+	Thu, 29 Sep 2022 09:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECB210E9E5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 08:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664441426;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=beW0Hkme/U2SUxgF06TlOpERYlFOrbQewybs7yh0ftM=;
- b=HYDhbW/tkwr4RReBYR/nCuUkOAtA3qSCxlDwjNoZf1GjeV2xEIpMJuK+A9OfzlZPAkuEGR
- 2L1kFY52aHmRebFtTuXN3JBI4SuU9W+FW3Ba9umyLWJZchTVQGnkA/eXwMM9EVsU6neHAE
- Poue26iWdj9ATqopQ21aGfZ8DW39yUc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-KDTNF1PZN0yWoD6aFNGrtA-1; Thu, 29 Sep 2022 04:50:22 -0400
-X-MC-Unique: KDTNF1PZN0yWoD6aFNGrtA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70DA1101CC6D;
- Thu, 29 Sep 2022 08:50:22 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0D1F2166B26;
- Thu, 29 Sep 2022 08:50:21 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com
-Subject: [PATCH] drm/ast: Add Atomic gamma lut support for aspeed
-Date: Thu, 29 Sep 2022 10:50:05 +0200
-Message-Id: <20220929085005.300409-1-jfalempe@redhat.com>
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E31010E3C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 09:00:53 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id f26so377456qto.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 02:00:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Ir+IzupNAXvXvPBkZ1yh/qacu5xVXDJ2KC3L3ZMV+D4=;
+ b=mRNKXG1DYIBAv5Zr+278wDvrAVYA694k4aeEUbJA56K71lt1fGblm6nOuDe74jCyjW
+ yDolEJ1euTLR7qa0wLNyQutMX2HdhIgwW8Nb87egiiVHpyqEZ+4fNR3KieIEl7OjTcJl
+ gxPpdI7IwLih0aqN9Wx0jaooLbSJc1AjkHJxQHpOirMtScz7r+Thn1Fb4ZN62tURGgiN
+ Mx4srrewOOdN4laMUEV3LDCQuGKSWm9BGw5JBjueTbPK5E1yNaAqW/iKnY7O1dzO9wD2
+ QIINfCLpnU5smSzuf0nhybCHQwcrcBJSIqBLCNcYNFj3ypKiI6E8dO6NNXl5QcyckwWy
+ H3Xw==
+X-Gm-Message-State: ACrzQf14FypEIZ7OT+2wvrOklwgOZSX7N+ksGvcHVMiRM9CQiAgIon/e
+ wasCQBR9fn0Cn/EZo9yyI7wqg/iy/aAHMw==
+X-Google-Smtp-Source: AMsMyM4y2zQnyrdbbqxficrjIMcxy6kWcOKZG6bOtFlLlsZnGgQmkMls9fRbkkE93LhuzpC5Zcbm0w==
+X-Received: by 2002:ac8:4e89:0:b0:35d:5856:919a with SMTP id
+ 9-20020ac84e89000000b0035d5856919amr1402041qtp.647.1664442052054; 
+ Thu, 29 Sep 2022 02:00:52 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
+ s12-20020a05620a0bcc00b006ce7d9dea7asm5755476qki.13.2022.09.29.02.00.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Sep 2022 02:00:51 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 4so767030ybe.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 02:00:51 -0700 (PDT)
+X-Received: by 2002:a5b:104:0:b0:6b0:429:3fe9 with SMTP id
+ 4-20020a5b0104000000b006b004293fe9mr2016091ybx.543.1664442041163; 
+ Thu, 29 Sep 2022 02:00:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20220923202822.2667581-1-keescook@chromium.org>
+ <20220923202822.2667581-2-keescook@chromium.org>
+ <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
+ <202209281011.66DD717D@keescook> <874jwqfuh6.fsf@mpe.ellerman.id.au>
+In-Reply-To: <874jwqfuh6.fsf@mpe.ellerman.id.au>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 29 Sep 2022 11:00:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVOvs4adSV7G6ucZ8dcr+RxfZOOK=jXeO2tEAaXkv80Xg@mail.gmail.com>
+Message-ID: <CAMuHMdVOvs4adSV7G6ucZ8dcr+RxfZOOK=jXeO2tEAaXkv80Xg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/16] slab: Remove __malloc attribute from realloc
+ functions
+To: Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,104 +71,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, dri-devel@lists.freedesktop.org,
+ "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ Eric Dumazet <edumazet@google.com>, linux-hardening@vger.kernel.org,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Christoph Lameter <cl@linux.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, dev@openvswitch.org, x86@kernel.org,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ intel-wired-lan@lists.osuosl.org, David Rientjes <rientjes@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, llvm@lists.linux.dev,
+ Kees Cook <keescook@chromium.org>, Josef Bacik <josef@toxicpanda.com>,
+ linaro-mm-sig@lists.linaro.org, Yonghong Song <yhs@fb.com>,
+ David Sterba <dsterba@suse.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Alex Elder <elder@kernel.org>,
+ linux-mm@kvack.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pekka Enberg <penberg@kernel.org>, Daniel Micay <danielmicay@gmail.com>,
+ netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current ast driver only supports legacy gamma interface.
-This also fixes a Gnome3/Wayland error which incorrectly adds
-gamma to atomic commit:
-"Page flip discarded: CRTC property (GAMMA_LUT) not found"
+Hi Michael,
 
-I only tested remotely, so I wasn't able to check that it had
-an effect on the VGA output. But when activating "Night Light"
-in Gnome, ast_crtc_load_lut() is called.
+On Thu, Sep 29, 2022 at 10:36 AM Michael Ellerman <mpe@ellerman.id.au> wrot=
+e:
+> Kees Cook <keescook@chromium.org> writes:
+> > On Wed, Sep 28, 2022 at 09:26:15AM +0200, Geert Uytterhoeven wrote:
+> >> On Fri, Sep 23, 2022 at 10:35 PM Kees Cook <keescook@chromium.org> wro=
+te:
+> >> > The __malloc attribute should not be applied to "realloc" functions,=
+ as
+> >> > the returned pointer may alias the storage of the prior pointer. Ins=
+tead
+> >> > of splitting __malloc from __alloc_size, which would be a huge amoun=
+t of
+> >> > churn, just create __realloc_size for the few cases where it is need=
+ed.
+> >> >
+> >> > Additionally removes the conditional test for __alloc_size__, which =
+is
+> >> > always defined now.
+> >> >
+> >> > Cc: Christoph Lameter <cl@linux.com>
+> >> > Cc: Pekka Enberg <penberg@kernel.org>
+> >> > Cc: David Rientjes <rientjes@google.com>
+> >> > Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+> >> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> >> > Cc: Vlastimil Babka <vbabka@suse.cz>
+> >> > Cc: Roman Gushchin <roman.gushchin@linux.dev>
+> >> > Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> >> > Cc: Marco Elver <elver@google.com>
+> >> > Cc: linux-mm@kvack.org
+> >> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> >>
+> >> Thanks for your patch, which is now commit 63caa04ec60583b1 ("slab:
+> >> Remove __malloc attribute from realloc functions") in next-20220927.
+> >>
+> >> Noreply@ellerman.id.au reported all gcc8-based builds to fail
+> >> (e.g. [1], more at [2]):
+> >>
+> >>     In file included from <command-line>:
+> >>     ./include/linux/percpu.h: In function =E2=80=98__alloc_reserved_pe=
+rcpu=E2=80=99:
+> >>     ././include/linux/compiler_types.h:279:30: error: expected
+> >> declaration specifiers before =E2=80=98__alloc_size__=E2=80=99
+> >>      #define __alloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__) __=
+malloc
+> >>                                   ^~~~~~~~~~~~~~
+> >>     ./include/linux/percpu.h:120:74: note: in expansion of macro =E2=
+=80=98__alloc_size=E2=80=99
+> >>     [...]
+> >>
+> >> It's building fine with e.g. gcc-9 (which is my usual m68k cross-compi=
+ler).
+> >> Reverting this commit on next-20220927 fixes the issue.
+> >>
+> >> [1] http://kisskb.ellerman.id.au/kisskb/buildresult/14803908/
+> >> [2] http://kisskb.ellerman.id.au/kisskb/head/1bd8b75fe6adeaa89d02968bd=
+d811ffe708cf839/
+> >
+> > Eek! Thanks for letting me know. I'm confused about this --
+> > __alloc_size__ wasn't optional in compiler_attributes.h -- but obviousl=
+y
+> > I broke something! I'll go figure this out.
+>
+> This fixes it for me.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 35 +++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+Kees submitted a similar patch 20 minutes before:
+https://lore.kernel.org/all/20220929081642.1932200-1-keescook@chromium.org
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 214b10178454..0561fd7e7bb2 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -63,20 +63,23 @@ static inline void ast_load_palette_index(struct ast_private *ast,
- 	ast_io_read8(ast, AST_IO_SEQ_PORT);
- }
- 
--static void ast_crtc_load_lut(struct ast_private *ast, struct drm_crtc *crtc)
-+static void ast_crtc_load_lut(struct ast_private *ast, struct drm_crtc_state *state)
- {
--	u16 *r, *g, *b;
- 	int i;
- 
--	if (!crtc->enabled)
--		return;
--
--	r = crtc->gamma_store;
--	g = r + crtc->gamma_size;
--	b = g + crtc->gamma_size;
-+	if (state->gamma_lut) {
-+		struct drm_color_lut *lut = (struct drm_color_lut *)state->gamma_lut->data;
- 
--	for (i = 0; i < 256; i++)
--		ast_load_palette_index(ast, i, *r++ >> 8, *g++ >> 8, *b++ >> 8);
-+		for (i = 0; i < 256; i++)
-+			ast_load_palette_index(ast,
-+				i,
-+				lut[i].red >> 8,
-+				lut[i].green >> 8,
-+				lut[i].blue >> 8);
-+	} else {
-+		for (i = 0; i < 256; i++)
-+			ast_load_palette_index(ast, i, i, i, i);
-+	}
- }
- 
- static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
-@@ -1019,8 +1022,7 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- 			ast_set_color_reg(ast, format);
- 			ast_set_vbios_color_reg(ast, format, vbios_mode_info);
- 		}
--
--		ast_crtc_load_lut(ast, crtc);
-+		ast_crtc_load_lut(ast, crtc->state);
- 		break;
- 	case DRM_MODE_DPMS_STANDBY:
- 	case DRM_MODE_DPMS_SUSPEND:
-@@ -1158,20 +1160,17 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- {
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
- 									  crtc);
--	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
--									      crtc);
- 	struct drm_device *dev = crtc->dev;
- 	struct ast_private *ast = to_ast_private(dev);
- 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
--	struct ast_crtc_state *old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
- 	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
- 
- 	/*
- 	 * The gamma LUT has to be reloaded after changing the primary
- 	 * plane's color format.
- 	 */
--	if (old_ast_crtc_state->format != ast_crtc_state->format)
--		ast_crtc_load_lut(ast, crtc);
-+	if (crtc_state->enable && crtc_state->color_mgmt_changed)
-+		ast_crtc_load_lut(ast, crtc_state);
- 
- 	//Set Aspeed Display-Port
- 	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
-@@ -1310,6 +1309,8 @@ static int ast_crtc_init(struct drm_device *dev)
- 		return ret;
- 
- 	drm_mode_crtc_set_gamma_size(crtc, 256);
-+	drm_crtc_enable_color_mgmt(crtc, 0, false, 256);
-+
- 	drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
- 
- 	return 0;
--- 
-2.37.3
+> --- a/include/linux/compiler_types.h
+> +++ b/include/linux/compiler_types.h
+> @@ -275,8 +275,13 @@ struct ftrace_likely_data {
+>   * be performing a _reallocation_, as that may alias the existing pointe=
+r.
+>   * For these, use __realloc_size().
+>   */
+> -#define __alloc_size(x, ...)   __alloc_size__(x, ## __VA_ARGS__) __mallo=
+c
+> -#define __realloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__)
+> +#ifdef __alloc_size__
+> +# define __alloc_size(x, ...)  __alloc_size__(x, ## __VA_ARGS__) __mallo=
+c
+> +# define __realloc_size(x, ...)        __alloc_size__(x, ## __VA_ARGS__)
+> +#else
+> +# define __alloc_size(x, ...)  __malloc
+> +# define __realloc_size(x, ...)
+> +#endif
+>
+>  #ifndef asm_volatile_goto
+>  #define asm_volatile_goto(x...) asm goto(x)
 
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
