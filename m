@@ -1,108 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D825EF3D3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 13:01:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F141A5EF482
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 13:42:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF9F10E5CF;
-	Thu, 29 Sep 2022 11:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 120CD10E5E1;
+	Thu, 29 Sep 2022 11:42:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2075.outbound.protection.outlook.com [40.107.244.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C585910E5D8;
- Thu, 29 Sep 2022 11:01:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X3jR7C69QNukBSQfCD0XMDxNW04FWvPGBKiz5/wbbE0MWJpVo/WZflNPkN6uwevIwQietocIHoN9sSNtyf0c7H7U2Dkzp0BeDlp5M99BWRYscmHZ4v7IRBAnJw/TgxMvA+p0QJaXsCR0qe9qjQmFS6t/ngE3h7emRj3LcO4+npmVZDDERzGbbkUBoAkcTOQiZADiVTqZBez7SusQU4cJ791vzWuquvIz8bqbBuSTG7HNDZ+oHNzd3jGt4Fn1FlKH7sErFAH7FwegJOc7K64BuTf5tpjmQKsg9prbv7o3fAMSVDCdIfjeDQjycuIhbxIuyKUoYm47cIoTmMvPY7Fitw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NJHqDUeC/VW47eCy9EAwMIltMALfpAEdMm5nVJuq23A=;
- b=jLeRI+kL4BCY5EsKrk/Drn3WGAcUBeAk2uc/SNAlqV5+eWqKH0XvCmsYRMV+StxE2ul4lpuYtvAQku+Ybz9oAHkb3qopf2bkss8+ET3y+4+NGaDtcAgu45hhMg7m3Nts4viBMX049PYRPHX3hqTbz/7b1DGr9YHUVtkloIgSo+tke/Gh44kJVHMgbCW+JJlprsWzrdvL4fEl6Y1GhR4CYfCiyEuGQvIAvVKJch7Qe1ecsONtQRqeJV9UcOdG9CEquHU7hZxDChsMzhMXmQRlyUy9h8VOa/DPVSZWknbeZ9ItrVTGw8xgGbd1+wqbo39aCySY+813mAiGv7cuVsawCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NJHqDUeC/VW47eCy9EAwMIltMALfpAEdMm5nVJuq23A=;
- b=GGRhLTM69TOP9rW//L940gMp2U9Bkla46egv75vXzkIu7l7/OgT9KWO4YuFHzGF51dqlpWSu8Hs14EbNz0ZfFRoTBd0hmnhVv7xhAJHHIAJKnAsMgCSQRed/2WweI9rPWq1owRYI/CjNIk99mSIaAMgLdm0PCm9oYA7a1pLxGFi735/DzgKVwl7tfZ//mL7xR0/8eH6A/iFSWrwg9gkcIgTFUTeK6xpPtRFP6AP/kaOZmVuOkuNo9+mLj8nHcwiyPq+npe/ZibrcZmrwmqQUxDIWGnRadAxXAdS7u0rGFn0afYoBvmBpOnGICLw7zo046S2f+g3GTtk5wcDcgpWtJQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
- by SA1PR12MB5658.namprd12.prod.outlook.com (2603:10b6:806:235::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Thu, 29 Sep
- 2022 11:01:08 +0000
-Received: from BYAPR12MB3176.namprd12.prod.outlook.com
- ([fe80::4064:6c13:72e5:a936]) by BYAPR12MB3176.namprd12.prod.outlook.com
- ([fe80::4064:6c13:72e5:a936%5]) with mapi id 15.20.5676.020; Thu, 29 Sep 2022
- 11:01:07 +0000
-References: <cover.60659b549d8509ddecafad4f498ee7f03bb23c69.1664366292.git-series.apopple@nvidia.com>
- <a73cf109de0224cfd118d22be58ddebac3ae2897.1664366292.git-series.apopple@nvidia.com>
- <20220928081017.3bf0b67d34a674b0a6df6b0d@linux-foundation.org>
-User-agent: mu4e 1.8.10; emacs 27.1
-From: Alistair Popple <apopple@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 8/8] hmm-tests: Add test for migrate_device_range()
-Date: Thu, 29 Sep 2022 21:00:23 +1000
-In-reply-to: <20220928081017.3bf0b67d34a674b0a6df6b0d@linux-foundation.org>
-Message-ID: <87v8p6igwi.fsf@nvdebian.thelocal>
-Content-Type: text/plain
-X-ClientProxiedBy: SY2PR01CA0016.ausprd01.prod.outlook.com
- (2603:10c6:1:14::28) To BYAPR12MB3176.namprd12.prod.outlook.com
- (2603:10b6:a03:134::26)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B4D210E5E1;
+ Thu, 29 Sep 2022 11:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664451723; x=1695987723;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=h8CW2B0dh/ZVDKt9hnUUTN6yoGvGeyKTdgcq378HQfE=;
+ b=RcsSJMsWqXfOQVzUcw7g9XWYTGq22j0L3NwmiMsMzGPYMgMKvOuKFFWZ
+ xp9xaUmRJdlJMZ+nJ02VDPSaedqFh9GWBbzrrFLPZYOXyU6DWVu9QLvY5
+ MtpA/GE7UUsOEZ0LCGM+6Ar9IicBl5+LejWjb0YePdfBd3TV7xjHpfSAI
+ 0zDnq+WcMFbl1p/qAg3TY4AuUWDRHrDrunIA+SbQYy2fSO2155v6lIwp1
+ 6YSFnoIXLQuzdoFCDlbhnPWMv6D49m1X5nxJ56rdttQ9mgeNohqhuw8rO
+ O6KtX5XIot728WjdlogTQY77aTdxbacAz3ywEsSuPBUHwEoQWSaLExaES g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="281583141"
+X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; d="scan'208";a="281583141"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 04:42:02 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="624533254"
+X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; d="scan'208";a="624533254"
+Received: from aravind-dev.iind.intel.com ([10.145.162.80])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 04:41:58 -0700
+From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5] drm/i915/mtl: enable local stolen memory
+Date: Thu, 29 Sep 2022 17:16:58 +0530
+Message-Id: <20220929114658.145287-1-aravind.iddamsetty@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:EE_|SA1PR12MB5658:EE_
-X-MS-Office365-Filtering-Correlation-Id: c87ce34c-07ee-47c4-f4fb-08daa209e8be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hWjNcerQyy/3r+9nOjWy2KrAoZY0VCrelIEL2mFmJG2Ap7LyEWJ7KuCfI1IVXWlT086h8N/aMP4giChehrZpk9YRO1WyKMVEzWm+PhqI5Fpbgt/Loh+sLr2vFn25dY1fG5eDzpOTDw/S8/Q2AdQTD89jjIhHoITDPXcwm0gtRD2Px5SG2wnGe7Fg9WkxCH7csAb/BgNS/XUVVKFNFm4bERshtIG48Isvbn5for6XH/hlq1f0WYOQKHiCXNHUmQwMevwkGgTmHSv4YPGz/DctMJzNc+xRvasu4dzcStMWK7p1GwkI4Zf1rJonJhgKJEh6wmbgYxAWZBBKeRuWmlooAIVaaIbscbJTIS0N3+XwYBkjFxpOPqIJodKICBhYIcGki1Enjd9XhRTQbQvg4uJBOFdAwGimOyX1ouMTMUdpENJvjjF3uuZd+VUuX4cS5aUFVHrW+e7vx6lH6dyyiAKwli7l+hKEIk+EAgzjZO8/WPjemnSuvUrE1Dyl+lBjRHuCD4RjDLCsKMwq5IzXaa9LLntyu1ki7z9iXHlv1BkAPVCtAf6p7z2lFAUvnTcMjVVSVAJL0plqpalEvGvpQsvEUWYtLnmiQSIz4i0Dz+QCgRJiBVbMDaMcPi5tJ37x03I2tKM31VU7DtoJAJ0WPX4kstCefITTaMh9u8nPEnNem66hL/U+6x0vWjSbVTz3qveTnGi6pCWCq68gNaOvM4I68BduT4EbumDM+/2sp5Vux4qEj7zwHK8Ni2UswDuAodqt62+QamxB/4cJyN9V6ao5NZ4HR55NnvZo240y982D8qg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(451199015)(8936002)(41300700001)(966005)(6486002)(5660300002)(83380400001)(186003)(8676002)(4326008)(66946007)(66476007)(54906003)(38100700002)(478600001)(66556008)(86362001)(6916009)(9686003)(6506007)(26005)(6512007)(6666004)(316002)(2906002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vPDpQfB5mRQLBTFmElP9tmgwDarrslPMb1MQG2/RDFrvtZlSDqZ1UUtQKLhz?=
- =?us-ascii?Q?PQFUuFXXQkDExdkXmuJ/UPxWMt09qGMg1BctVYK9kWQqIybWabZtRmEJ0SVT?=
- =?us-ascii?Q?2LFGN+mZ4Fv3KvkWDhkMIIpxd4RBCBoYALHkkaU/OfrP3qiUiAfySMyrU23u?=
- =?us-ascii?Q?PW1lKi6+Gtqsd7fmhrUdC/x7JkS2/gpNOY7sbGOvjmvDgxzPzHXNZRSWp2l+?=
- =?us-ascii?Q?FTFMFx0Nsspa8YY1Q+gtNH5ZsjHC9fIVkenKgVXKRHIIaCac53G9E/z9OX0t?=
- =?us-ascii?Q?zMoGu+zEN/5tm9XPlx4fLIiVabSIOraOoybhLCvLRQOACsd99GANzQFY+fO2?=
- =?us-ascii?Q?J5MYWDNltWLIYf8YkFwKWxBriQx1VzTn79IGZgUqjYeoc1PVv/XizToEgM0e?=
- =?us-ascii?Q?DMjEELv1y0kJM8HPMy+IlwXqkQgRfML183VYzCVQh66YVtOKcJhMJrAePrDt?=
- =?us-ascii?Q?i6DC7nJG5UMclSnnn6Pwkf9v/tUDPbnEVsPvM9uWVUtt8SxAHzPdgo2aGeAQ?=
- =?us-ascii?Q?kwZuwoAeAea0LWltc1Ffuzn5olaau7yEP62MDXD9yQy4ZSh8UtqI1qThBEi2?=
- =?us-ascii?Q?LlWzV9ZATvs2CGs/u9hot5dXtjheKJgfNZwp47vH0/ElsodtRYYSErNK6PEx?=
- =?us-ascii?Q?sHP1wL/x+J821BTDIFlWqr0H9t6hojRHgpCH1YW62WkBSN4Sq9WFVB2Rb7yz?=
- =?us-ascii?Q?KJ4p7QFx5aH01vJmmjx/Dzi9HJmBaAZV6PqQAaJ3/kVGIjmShdpSzMS0CsJ2?=
- =?us-ascii?Q?dI8jIJkTQe3VqEbWUARxsbUD79RkrswIdQyIxoEN5LXD7SibEy9gThEIlBQG?=
- =?us-ascii?Q?0cmKdvM/XVHd2R+3iraZpQ8a6C8bi61jWGxD+U43G6EkSNB+4+V/jvAVPneS?=
- =?us-ascii?Q?136xmVs5VoO9Lj0f6ng4G6WzixidNUnj1dO6d5ZauWUyUpRxIj/iENe+TvcL?=
- =?us-ascii?Q?Reuio05/PIB2VqAzHe8b1u6HcokxGyE22CTKj/28uhsQgmvlwhUUEM4KTRiE?=
- =?us-ascii?Q?IglCJ1OI9p5D37NL74w41IOf3YF7DjPSMAgkmM4dQ7jTfYYsBDL7RQzcp922?=
- =?us-ascii?Q?w0d/WgOo3OG20m5x8IV4VAAPr8WZfqdNX58T3if9WsyndmKHRntU2I/A6tWd?=
- =?us-ascii?Q?potQFsf7Cg0OKWJf0nEsSY4yFhGsOhaIcqovZFlQgehGjlaHd4MIPjg0i0/y?=
- =?us-ascii?Q?YYt0jUdASy4RUQ7WB5rih0/rhHbOdcZMrrETDzx0aauCubJM8hOE2aUTfUZq?=
- =?us-ascii?Q?M0tLMBn87lkMqJocDYKSIkIgGSJwV/3Z+5Cf+pbWYS3gWjRiZ8KWyriJn42/?=
- =?us-ascii?Q?6IvXclWzmtbR9wHrtSDNQ6aOWXilz1PJUlmFCDmbWiEmp1hSAmKYzP8HTrhc?=
- =?us-ascii?Q?Arx44bom3qTlmKKjY9/dWLSHhhAr3dvOZAn0dNLyi5fboJ1yHjigGfyg4EDA?=
- =?us-ascii?Q?S6L/pPYfb8vK3NbZTfsd5dYsuA0N2vO99CX9P7ksli+Z7nrdMdYMparqkzjT?=
- =?us-ascii?Q?fJYYY/JdgozBELbK0DNIfJO9mnI5whGt0aiViv3RaNksCr30qvFAHr5dQzi0?=
- =?us-ascii?Q?3IY0OQzi1DbMwWw9d2Jtp6UDYGuGKg9IJ2JCdXJc?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c87ce34c-07ee-47c4-f4fb-08daa209e8be
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 11:01:07.3174 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QnjajFzNNncTqhuh4CCjHcKGCpMnf9stHeDi/t8/mn1AnjbkTuE9InKGDD4x9bTetluhwvXXK8E04T7JczyjxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5658
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,282 +54,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
- nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, anshuman.gupta@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As an integrated GPU, MTL does not have local memory and HAS_LMEM()
+returns false.  However the platform's stolen memory is presented via
+BAR2 (i.e., the BAR we traditionally consider to be the GMADR on IGFX)
+and should be managed by the driver the same way that local memory is
+on dgpu platforms (which includes setting the "lmem" bit on page table
+entries).  We use the term "local stolen memory" to refer to this
+model.
 
-Andrew Morton <akpm@linux-foundation.org> writes:
+The major difference from the traditional BAR2 (GMADR) is that
+the stolen area is mapped via the BAR2 while in the former BAR2 is an
+aperture into the GTT VA through which access are made into stolen area.
 
-> On Wed, 28 Sep 2022 22:01:22 +1000 Alistair Popple <apopple@nvidia.com> wrote:
->
->> @@ -1401,22 +1494,7 @@ static int dmirror_device_init(struct dmirror_device *mdevice, int id)
->>
->>  static void dmirror_device_remove(struct dmirror_device *mdevice)
->>  {
->> -	unsigned int i;
->> -
->> -	if (mdevice->devmem_chunks) {
->> -		for (i = 0; i < mdevice->devmem_count; i++) {
->> -			struct dmirror_chunk *devmem =
->> -				mdevice->devmem_chunks[i];
->> -
->> -			memunmap_pages(&devmem->pagemap);
->> -			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
->> -				release_mem_region(devmem->pagemap.range.start,
->> -						   range_len(&devmem->pagemap.range));
->> -			kfree(devmem);
->> -		}
->> -		kfree(mdevice->devmem_chunks);
->> -	}
->> -
->> +	dmirror_device_remove_chunks(mdevice);
->>  	cdev_del(&mdevice->cdevice);
->>  }
->
-> Needed a bit or rework due to
-> https://lkml.kernel.org/r/20220826050631.25771-1-mpenttil@redhat.com.
-> Please check my resolution.
+BSPEC: 53098, 63830
 
-Thanks. Rework looks good to me.
+v2:
+1. dropped is_dsm_invalid, updated valid_stolen_size check from Lucas
+(Jani, Lucas)
+2. drop lmembar_is_igpu_stolen
+3. revert to referring GFXMEM_BAR as GEN12_LMEM_BAR (Lucas)
 
-> --- a/lib/test_hmm.c~hmm-tests-add-test-for-migrate_device_range
-> +++ a/lib/test_hmm.c
-> @@ -100,6 +100,7 @@ struct dmirror {
->  struct dmirror_chunk {
->  	struct dev_pagemap	pagemap;
->  	struct dmirror_device	*mdevice;
-> +	bool remove;
->  };
->
->  /*
-> @@ -192,11 +193,15 @@ static int dmirror_fops_release(struct i
->  	return 0;
->  }
->
-> +static struct dmirror_chunk *dmirror_page_to_chunk(struct page *page)
-> +{
-> +	return container_of(page->pgmap, struct dmirror_chunk, pagemap);
-> +}
-> +
->  static struct dmirror_device *dmirror_page_to_device(struct page *page)
->
->  {
-> -	return container_of(page->pgmap, struct dmirror_chunk,
-> -			    pagemap)->mdevice;
-> +	return dmirror_page_to_chunk(page)->mdevice;
->  }
->
->  static int dmirror_do_fault(struct dmirror *dmirror, struct hmm_range *range)
-> @@ -1218,6 +1223,85 @@ static int dmirror_snapshot(struct dmirr
->  	return ret;
->  }
->
-> +static void dmirror_device_evict_chunk(struct dmirror_chunk *chunk)
-> +{
-> +	unsigned long start_pfn = chunk->pagemap.range.start >> PAGE_SHIFT;
-> +	unsigned long end_pfn = chunk->pagemap.range.end >> PAGE_SHIFT;
-> +	unsigned long npages = end_pfn - start_pfn + 1;
-> +	unsigned long i;
-> +	unsigned long *src_pfns;
-> +	unsigned long *dst_pfns;
-> +
-> +	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
-> +	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
-> +
-> +	migrate_device_range(src_pfns, start_pfn, npages);
-> +	for (i = 0; i < npages; i++) {
-> +		struct page *dpage, *spage;
-> +
-> +		spage = migrate_pfn_to_page(src_pfns[i]);
-> +		if (!spage || !(src_pfns[i] & MIGRATE_PFN_MIGRATE))
-> +			continue;
-> +
-> +		if (WARN_ON(!is_device_private_page(spage) &&
-> +			    !is_device_coherent_page(spage)))
-> +			continue;
-> +		spage = BACKING_PAGE(spage);
-> +		dpage = alloc_page(GFP_HIGHUSER_MOVABLE | __GFP_NOFAIL);
-> +		lock_page(dpage);
-> +		copy_highpage(dpage, spage);
-> +		dst_pfns[i] = migrate_pfn(page_to_pfn(dpage));
-> +		if (src_pfns[i] & MIGRATE_PFN_WRITE)
-> +			dst_pfns[i] |= MIGRATE_PFN_WRITE;
-> +	}
-> +	migrate_device_pages(src_pfns, dst_pfns, npages);
-> +	migrate_device_finalize(src_pfns, dst_pfns, npages);
-> +	kfree(src_pfns);
-> +	kfree(dst_pfns);
-> +}
-> +
-> +/* Removes free pages from the free list so they can't be re-allocated */
-> +static void dmirror_remove_free_pages(struct dmirror_chunk *devmem)
-> +{
-> +	struct dmirror_device *mdevice = devmem->mdevice;
-> +	struct page *page;
-> +
-> +	for (page = mdevice->free_pages; page; page = page->zone_device_data)
-> +		if (dmirror_page_to_chunk(page) == devmem)
-> +			mdevice->free_pages = page->zone_device_data;
-> +}
-> +
-> +static void dmirror_device_remove_chunks(struct dmirror_device *mdevice)
-> +{
-> +	unsigned int i;
-> +
-> +	mutex_lock(&mdevice->devmem_lock);
-> +	if (mdevice->devmem_chunks) {
-> +		for (i = 0; i < mdevice->devmem_count; i++) {
-> +			struct dmirror_chunk *devmem =
-> +				mdevice->devmem_chunks[i];
-> +
-> +			spin_lock(&mdevice->lock);
-> +			devmem->remove = true;
-> +			dmirror_remove_free_pages(devmem);
-> +			spin_unlock(&mdevice->lock);
-> +
-> +			dmirror_device_evict_chunk(devmem);
-> +			memunmap_pages(&devmem->pagemap);
-> +			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
-> +				release_mem_region(devmem->pagemap.range.start,
-> +						   range_len(&devmem->pagemap.range));
-> +			kfree(devmem);
-> +		}
-> +		mdevice->devmem_count = 0;
-> +		mdevice->devmem_capacity = 0;
-> +		mdevice->free_pages = NULL;
-> +		kfree(mdevice->devmem_chunks);
-> +		mdevice->devmem_chunks = NULL;
-> +	}
-> +	mutex_unlock(&mdevice->devmem_lock);
-> +}
-> +
->  static long dmirror_fops_unlocked_ioctl(struct file *filp,
->  					unsigned int command,
->  					unsigned long arg)
-> @@ -1272,6 +1356,11 @@ static long dmirror_fops_unlocked_ioctl(
->  		ret = dmirror_snapshot(dmirror, &cmd);
->  		break;
->
-> +	case HMM_DMIRROR_RELEASE:
-> +		dmirror_device_remove_chunks(dmirror->mdevice);
-> +		ret = 0;
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -1326,9 +1415,13 @@ static void dmirror_devmem_free(struct p
->
->  	mdevice = dmirror_page_to_device(page);
->  	spin_lock(&mdevice->lock);
-> -	mdevice->cfree++;
-> -	page->zone_device_data = mdevice->free_pages;
-> -	mdevice->free_pages = page;
-> +
-> +	/* Return page to our allocator if not freeing the chunk */
-> +	if (!dmirror_page_to_chunk(page)->remove) {
-> +		mdevice->cfree++;
-> +		page->zone_device_data = mdevice->free_pages;
-> +		mdevice->free_pages = page;
-> +	}
->  	spin_unlock(&mdevice->lock);
->  }
->
-> @@ -1408,22 +1501,7 @@ static int dmirror_device_init(struct dm
->
->  static void dmirror_device_remove(struct dmirror_device *mdevice)
->  {
-> -	unsigned int i;
-> -
-> -	if (mdevice->devmem_chunks) {
-> -		for (i = 0; i < mdevice->devmem_count; i++) {
-> -			struct dmirror_chunk *devmem =
-> -				mdevice->devmem_chunks[i];
-> -
-> -			memunmap_pages(&devmem->pagemap);
-> -			if (devmem->pagemap.type == MEMORY_DEVICE_PRIVATE)
-> -				release_mem_region(devmem->pagemap.range.start,
-> -						   range_len(&devmem->pagemap.range));
-> -			kfree(devmem);
-> -		}
-> -		kfree(mdevice->devmem_chunks);
-> -	}
-> -
-> +	dmirror_device_remove_chunks(mdevice);
->  	cdev_device_del(&mdevice->cdevice, &mdevice->device);
->  }
->
-> --- a/lib/test_hmm_uapi.h~hmm-tests-add-test-for-migrate_device_range
-> +++ a/lib/test_hmm_uapi.h
-> @@ -36,6 +36,7 @@ struct hmm_dmirror_cmd {
->  #define HMM_DMIRROR_SNAPSHOT		_IOWR('H', 0x04, struct hmm_dmirror_cmd)
->  #define HMM_DMIRROR_EXCLUSIVE		_IOWR('H', 0x05, struct hmm_dmirror_cmd)
->  #define HMM_DMIRROR_CHECK_EXCLUSIVE	_IOWR('H', 0x06, struct hmm_dmirror_cmd)
-> +#define HMM_DMIRROR_RELEASE		_IOWR('H', 0x07, struct hmm_dmirror_cmd)
->
->  /*
->   * Values returned in hmm_dmirror_cmd.ptr for HMM_DMIRROR_SNAPSHOT.
-> --- a/tools/testing/selftests/vm/hmm-tests.c~hmm-tests-add-test-for-migrate_device_range
-> +++ a/tools/testing/selftests/vm/hmm-tests.c
-> @@ -1054,6 +1054,55 @@ TEST_F(hmm, migrate_fault)
->  	hmm_buffer_free(buffer);
->  }
->
-> +TEST_F(hmm, migrate_release)
-> +{
-> +	struct hmm_buffer *buffer;
-> +	unsigned long npages;
-> +	unsigned long size;
-> +	unsigned long i;
-> +	int *ptr;
-> +	int ret;
-> +
-> +	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-> +	ASSERT_NE(npages, 0);
-> +	size = npages << self->page_shift;
-> +
-> +	buffer = malloc(sizeof(*buffer));
-> +	ASSERT_NE(buffer, NULL);
-> +
-> +	buffer->fd = -1;
-> +	buffer->size = size;
-> +	buffer->mirror = malloc(size);
-> +	ASSERT_NE(buffer->mirror, NULL);
-> +
-> +	buffer->ptr = mmap(NULL, size, PROT_READ | PROT_WRITE,
-> +			   MAP_PRIVATE | MAP_ANONYMOUS, buffer->fd, 0);
-> +	ASSERT_NE(buffer->ptr, MAP_FAILED);
-> +
-> +	/* Initialize buffer in system memory. */
-> +	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-> +		ptr[i] = i;
-> +
-> +	/* Migrate memory to device. */
-> +	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-> +	ASSERT_EQ(ret, 0);
-> +	ASSERT_EQ(buffer->cpages, npages);
-> +
-> +	/* Check what the device read. */
-> +	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-> +		ASSERT_EQ(ptr[i], i);
-> +
-> +	/* Release device memory. */
-> +	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_RELEASE, buffer, npages);
-> +	ASSERT_EQ(ret, 0);
-> +
-> +	/* Fault pages back to system memory and check them. */
-> +	for (i = 0, ptr = buffer->ptr; i < size / (2 * sizeof(*ptr)); ++i)
-> +		ASSERT_EQ(ptr[i], i);
-> +
-> +	hmm_buffer_free(buffer);
-> +}
-> +
->  /*
->   * Migrate anonymous shared memory to device private memory.
->   */
-> _
+v3:(Jani)
+1. rename get_mtl_gms_size to mtl_get_gms_size
+2. define register for MMIO address
+
+v4:(Matt)
+1. Use REG_FIELD_GET to read GMS value
+2. replace the calculations with SZ_256M/SZ_8M
+
+v5: Include more details to commit message on how it is different from
+earlier platforms (Anshuman)
+
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+
+Signed-off-by: CQ Tang <cq.tang@intel.com>
+Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Original-author: CQ Tang
+---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 83 ++++++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_ggtt.c       |  2 +-
+ drivers/gpu/drm/i915/i915_drv.h            |  3 +
+ drivers/gpu/drm/i915/i915_reg.h            |  4 ++
+ 4 files changed, 76 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index c5a4035c99cd..910086974454 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -77,9 +77,9 @@ void i915_gem_stolen_remove_node(struct drm_i915_private *i915,
+ 	mutex_unlock(&i915->mm.stolen_lock);
+ }
+ 
+-static bool valid_stolen_size(struct resource *dsm)
++static bool valid_stolen_size(struct drm_i915_private *i915, struct resource *dsm)
+ {
+-	return dsm->start != 0 && dsm->end > dsm->start;
++	return (dsm->start != 0 || HAS_BAR2_SMEM_STOLEN(i915)) && dsm->end > dsm->start;
+ }
+ 
+ static int adjust_stolen(struct drm_i915_private *i915,
+@@ -88,7 +88,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
+ 
+-	if (!valid_stolen_size(dsm))
++	if (!valid_stolen_size(i915, dsm))
+ 		return -EINVAL;
+ 
+ 	/*
+@@ -135,7 +135,7 @@ static int adjust_stolen(struct drm_i915_private *i915,
+ 		}
+ 	}
+ 
+-	if (!valid_stolen_size(dsm))
++	if (!valid_stolen_size(i915, dsm))
+ 		return -EINVAL;
+ 
+ 	return 0;
+@@ -149,8 +149,11 @@ static int request_smem_stolen(struct drm_i915_private *i915,
+ 	/*
+ 	 * With stolen lmem, we don't need to request system memory for the
+ 	 * address range since it's local to the gpu.
++	 *
++	 * Starting MTL, in IGFX devices the stolen memory is exposed via
++	 * BAR2 and shall be considered similar to stolen lmem.
+ 	 */
+-	if (HAS_LMEM(i915))
++	if (HAS_LMEM(i915) || HAS_BAR2_SMEM_STOLEN(i915))
+ 		return 0;
+ 
+ 	/*
+@@ -385,8 +388,6 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+ 
+ 	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = 0x%016llx\n", reg_val);
+ 
+-	*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
+-
+ 	switch (reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK) {
+ 	case GEN8_STOLEN_RESERVED_1M:
+ 		*size = 1024 * 1024;
+@@ -404,6 +405,12 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+ 		*size = 8 * 1024 * 1024;
+ 		MISSING_CASE(reg_val & GEN8_STOLEN_RESERVED_SIZE_MASK);
+ 	}
++
++	if (HAS_BAR2_SMEM_STOLEN(i915))
++		/* the base is initialized to stolen top so subtract size to get base */
++		*base -= *size;
++	else
++		*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
+ }
+ 
+ /*
+@@ -833,6 +840,29 @@ static const struct intel_memory_region_ops i915_region_stolen_lmem_ops = {
+ 	.init_object = _i915_gem_object_stolen_init,
+ };
+ 
++static int mtl_get_gms_size(struct intel_uncore *uncore)
++{
++	u16 ggc, gms;
++
++	ggc = intel_uncore_read16(uncore, GGC);
++
++	/* check GGMS, should be fixed 0x3 (8MB) */
++	if ((ggc & GGMS_MASK) != GGMS_MASK)
++		return -EIO;
++
++	/* return valid GMS value, -EIO if invalid */
++	gms = REG_FIELD_GET(GMS_MASK, ggc);
++	switch (gms) {
++	case 0x0 ... 0x04:
++		return gms * 32;
++	case 0xf0 ... 0xfe:
++		return (gms - 0xf0 + 1) * 4;
++	default:
++		MISSING_CASE(gms);
++		return -EIO;
++	}
++}
++
+ struct intel_memory_region *
+ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 			   u16 instance)
+@@ -843,6 +873,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 	struct intel_memory_region *mem;
+ 	resource_size_t io_start, io_size;
+ 	resource_size_t min_page_size;
++	int ret;
+ 
+ 	if (WARN_ON_ONCE(instance))
+ 		return ERR_PTR(-ENODEV);
+@@ -850,12 +881,8 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 	if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
+ 		return ERR_PTR(-ENXIO);
+ 
+-	/* Use DSM base address instead for stolen memory */
+-	dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
+-	if (IS_DG1(uncore->i915)) {
++	if (HAS_BAR2_SMEM_STOLEN(i915) || IS_DG1(i915)) {
+ 		lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
+-		if (WARN_ON(lmem_size < dsm_base))
+-			return ERR_PTR(-ENODEV);
+ 	} else {
+ 		resource_size_t lmem_range;
+ 
+@@ -864,13 +891,39 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 		lmem_size *= SZ_1G;
+ 	}
+ 
+-	dsm_size = lmem_size - dsm_base;
+-	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
++	if (HAS_BAR2_SMEM_STOLEN(i915)) {
++		/*
++		 * MTL dsm size is in GGC register.
++		 * Also MTL uses offset to DSMBASE in ptes, so i915
++		 * uses dsm_base = 0 to setup stolen region.
++		 */
++		ret = mtl_get_gms_size(uncore);
++		if (ret < 0) {
++			drm_err(&i915->drm, "invalid MTL GGC register setting\n");
++			return ERR_PTR(ret);
++		}
++
++		dsm_base = 0;
++		dsm_size = (resource_size_t)(ret * SZ_1M);
++
++		GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
++		GEM_BUG_ON((dsm_size + SZ_8M) > lmem_size);
++	} else {
++		/* Use DSM base address instead for stolen memory */
++		dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE);
++		if (WARN_ON(lmem_size < dsm_base))
++			return ERR_PTR(-ENODEV);
++		dsm_size = lmem_size - dsm_base;
++	}
++
++	io_size = dsm_size;
++	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < dsm_size) {
+ 		io_start = 0;
+ 		io_size = 0;
++	} else if (HAS_BAR2_SMEM_STOLEN(i915)) {
++		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + SZ_8M;
+ 	} else {
+ 		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
+-		io_size = dsm_size;
+ 	}
+ 
+ 	min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 30cf5c3369d9..b31fe0fb013f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -931,7 +931,7 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+ 	unsigned int size;
+ 	u16 snb_gmch_ctl;
+ 
+-	if (!HAS_LMEM(i915)) {
++	if (!HAS_LMEM(i915) && !HAS_BAR2_SMEM_STOLEN(i915)) {
+ 		if (!i915_pci_resource_valid(pdev, GTT_APERTURE_BAR))
+ 			return -ENXIO;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 84a2f6b16f57..90ed8e6db2fe 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -974,6 +974,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ 
+ #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_fuse_bit)
+ 
++#define HAS_BAR2_SMEM_STOLEN(i915) (!HAS_LMEM(i915) && \
++				    GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
++
+ /* intel_device_info.c */
+ static inline struct intel_device_info *
+ mkwrite_device_info(struct drm_i915_private *dev_priv)
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 5003a5ffbc6a..2126e441199d 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -7967,6 +7967,10 @@ enum skl_power_gate {
+ 							   _ICL_PIPE_DSS_CTL2_PB, \
+ 							   _ICL_PIPE_DSS_CTL2_PC)
+ 
++#define GGC				_MMIO(0x108040)
++#define   GMS_MASK			REG_GENMASK(15, 8)
++#define   GGMS_MASK			REG_GENMASK(7, 6)
++
+ #define GEN12_GSMBASE			_MMIO(0x108100)
+ #define GEN12_DSMBASE			_MMIO(0x1080C0)
+ #define   GEN12_BDSM_MASK		REG_GENMASK64(63, 20)
+-- 
+2.25.1
+
