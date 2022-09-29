@@ -1,122 +1,136 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8415EF944
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 17:41:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1925EF99E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Sep 2022 17:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91B1C10EAB6;
-	Thu, 29 Sep 2022 15:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DB910EABD;
+	Thu, 29 Sep 2022 15:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E295A10EAB5;
- Thu, 29 Sep 2022 15:41:39 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E51010E616;
+ Thu, 29 Sep 2022 15:58:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664467097; x=1696003097;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=GN5HIyZTqc+TQjoWlAnDKi1ThFNaKC+XMJpPghhzWhM=;
+ b=TysMnkPDt35dWIzDj36000S3U3uRfWbwp1OMgujzHOeoUB07fltUnXyY
+ oJe8VPIL/SaRVoc78xD//0Dnp7axlKkBFOK+0NB9NDk2Fr9p3GJle5kjJ
+ I9N/D+JG3cPSsm1ICo+qc41jjcUkndivtkZVznbuavtpCxPVd/M3cy3jI
+ LHRAcEIBEdqfux+FnoHoTArvmZDT1gegjQrP+nnztbb2qMu/RoMwFRZ7l
+ xj6ChRFkNNu4OYXWI246sJXZdcL9E4ka9schDR0dB9o9u44c2Mo+uk/Fd
+ rgydqMOSwU5H60BRGG/Gb/kdhEsbsleHTrev97IEzZqt1J7f9qcLSFlVc Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="303427270"
+X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; d="scan'208";a="303427270"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 08:58:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="764768756"
+X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; d="scan'208";a="764768756"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga001.fm.intel.com with ESMTP; 29 Sep 2022 08:58:16 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 29 Sep 2022 08:58:16 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 29 Sep 2022 08:58:15 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 29 Sep 2022 08:58:15 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.105)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 29 Sep 2022 08:58:15 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UjHI3wPArXLsnDQzG1llbOvfKpkx+IpsPK0XyvpCB7W5ZvIpKGncBQgABPIKM5hXMIKlbDy8JTbK2vvY7Ra5VX0SpZHBpYmvtTS6o5Wf5TfFxpd+nov2HkQw3AcIbt8ZO+E1EnkuEMfsv4f6NJWC/nuc8RjNxfFv5jZ2vN5amB3FCxmtGr1QYgiMZ3DmUFVr5I9ee0M0cngSWg7mmhtR1E7Xs1iG23u4OBWstAPYswPe08swHT8/LSkA1anOInfFEXhmTDFRXskc6m4O8iFTlDraS3g4zdspjToemNrLo6u4qJWpftp859dKP7AXwhI45SVAVFp8WYbXOKqhklY5Nw==
+ b=Gx/7zJGoEPexYzKyAtPck4BipmJkMbh9HyUg51T7EnI1+PnsZSRlDq9HN5/c1hQAN3xiItscsgGnOrif6X5igJa7vF6cA/M8PrzRMniI1zwaT2sHVafErEoT4LyFxOCDOxuM2bponAF5Wunjhhj9E1Ge5dBPaLiIj7z7NyDdX1gImgOoRITLqsz/p/SrWjJ1WrqUbD/BuBiXWedDQEudXRmxcGEEsu9rMJt/aSbOxHhKhhGP33tXg10A4McqQVb9cTZCqi41alCb3A/LPJUtCSRNAyPSLAJgQ64QjUUgP7FCO9jCoeNdOkxbQEAKwh5zZwNQFgKqgYXND8PBAFlqAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=khTbcs/bgvE176u6a6oh8sPHyEbpz+7cKc2BcUjOxg8=;
- b=W4j7exyO3a3JwwstmI7pkWvtosUycgAWHnKp5wm5ciVEQMRTbFfk3qY13/X4FJzSStrMZuEZ0ZtcGYpeFPTS6Xk/neYM5iKrdf6b36dH52NqZcW6gJ2IEQmKGb13g6jt0UGxkEjgJ1RsWB3pVr0gVRCs+MsrAU0LlK2qV6Psfc17BW1tX/4Zmrg0fsdoMHOeI6UyKb38XWTMWu8Qw3zpum0kyjqjm6I4HCd9iEdtXQgAptcUv7sP5/INotURA4V5oH2o2ZXrC7JQiK/2p588Lo8GF97oQynjmtugT7jyF0i7VlCaHy2it8yBdjrajQDi+Fs3mSNqt/0/8XUC+UNMtg==
+ bh=YKQPTFn7uLwOT6nTKAEPT5G6Oh7DuXikQr0CL+/KRVc=;
+ b=jEtl3q73uMPDG8WFstMarloEMGBq7KpFQWeJu4BBULhNgjI9ekwck1MiiXKWNP6qgbqni3he1yb6STqLrCwuZWJuPqpFdzuNvNSXkiEBpRrzylrYHpxahCULH5NxM7ZghH5rSHxv0JWlWpLmbcGILdeM0E61z7FayiDdgLR+lMTqdZ4s/+pLhwI6MH9/K8cJH8mjhFljDn4COB5EkargPwsgmMVpSvIFqWbjHOj6yOBJ7+RVtMzWz0xYQAhSqZH0io68ZDwyEhYe6YiZ0CO2enQzgZHG1p6kVjkYkVUYUifr6V83oDKivbJXs+KiW6b30PHwEyHEoOl2uiKIr0PO6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=khTbcs/bgvE176u6a6oh8sPHyEbpz+7cKc2BcUjOxg8=;
- b=Ifqk1SgGZxnZVS+vUcLtzYrGWRRDifMu/pdV55ZcMdJrjpXLhyk42rFjuc5Ua4PXc4++TriRpHqIXvBGvnOBjWffW7HvCe1KJsuCjlpqHnXAidSgt7oOWU7/YyWabRPtMEJrX/8QZg1cvqqCjoKDPxA/OHza7F6hss6u4VtahnE=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- CH2PR12MB4327.namprd12.prod.outlook.com (2603:10b6:610:7d::13) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5676.18; Thu, 29 Sep 2022 15:41:37 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::8423:8031:a9f3:20d5]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::8423:8031:a9f3:20d5%8]) with mapi id 15.20.5676.017; Thu, 29 Sep 2022
- 15:41:37 +0000
-Message-ID: <4b21a150-a567-dafa-1a55-8496cdb0cec6@amd.com>
-Date: Thu, 29 Sep 2022 11:41:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] drm/amd/display: fix array-bounds error in
- dc_stream_remove_writeback()
-To: Felix Kuehling <felix.kuehling@amd.com>,
- "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20220927191200.216488-1-hamza.mahfooz@amd.com>
- <CH0PR12MB5284EAC9E9D095B2624631228B559@CH0PR12MB5284.namprd12.prod.outlook.com>
- <13763d3b-bf7f-aaff-3bcd-60e69df86820@amd.com>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <13763d3b-bf7f-aaff-3bcd-60e69df86820@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR04CA0010.namprd04.prod.outlook.com
- (2603:10b6:610:52::20) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by PH7PR11MB6380.namprd11.prod.outlook.com (2603:10b6:510:1f8::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.20; Thu, 29 Sep
+ 2022 15:58:13 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7ea6:6f6c:f2dc:cec7]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7ea6:6f6c:f2dc:cec7%3]) with mapi id 15.20.5676.020; Thu, 29 Sep 2022
+ 15:58:13 +0000
+Date: Thu, 29 Sep 2022 11:58:08 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YzXAkH1a32pYJD33@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: BYAPR08CA0042.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::19) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|CH2PR12MB4327:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0482b3d7-45a6-4c34-a30f-08daa2311852
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|PH7PR11MB6380:EE_
+X-MS-Office365-Filtering-Correlation-Id: 872cae09-0366-4df5-0ff1-08daa2336a1e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fyyiPUyIL7BTC8U21ANbsw13NDRZQe4v4pqLCi16uL5TlQ7834kh720++PZMoe21CYmYwjGmIHWKSOBDSpGKLzHUoPo2Wh/oF42QyQxQM56cdj5B2EdP5vR/CMvvxL8j0dURY9iMtoE77dK9qMW15l5CQ9YK0kVpNj1UHiNBP1byuMwkDcfjbJyqJcLF1T8b0CDfM+Vz9P/wluyZXG9mNEJDt1motHPv+5vbYGJrXh7gtJGgpastPPD6xO6rDmjonrYT/SSyvMT+0cWtcQhZgLnoD1H4DOTmdfQhxK3AXnlVggShnb926WS8gXvro4rECPIZ1+h0gHng6KwospwgV+TmCZINCaUHaoUf/Zl2cfXHx6j62RseNRdDi53udRm0NefDmdf3hcaRJHF2w0PGucHDExZPipcpIQK3zPVAI0Nk6ID7IqlbX3efWUrqv3R+kFdA0u2j8t/qRWt0nnayHCClfFffXLE4TkChFwztEp7Moc5xamDbJqcxa0gcGNgcy9bn9tOUUa8eNysVt7tPH4W8F2QTYeFEXJXQkN2BFfq9ye+QpzFWOhu6lUFmkuAtU2k7e37kqOcVOewpVvDXZ+Gb8m75Z5pY+8HGpaGv3h0aJPjstLH+denRwwmjEiRf6/Pza7jNQ+KTzClhHfn4WZeXzUEQ9BcaAmkAHGfMkDnJeXJLjjTXPgKYC+rdxSZ86lFjvCrqLN6wIe5+xQUEdcyo3YbaKCh0PLCA+rs6Cs9oVsHDK5dHEDccLUYKcr/zLNSb2xQuS2+kQi5esEE4/rV9LIC1j6SnjNKfix2DpOA=
+X-Microsoft-Antispam-Message-Info: /bRJ232sJCYUNmj/s1qtku+IhD3KsgiyuDOFOadONMbDHZ78MxoNkYGvrur2r/UwQf6qbpqKoDvS5SpKl+3XNoPO0GY6Gz6Feh5hMrC5/ANaXyUvBjzZXv/ZoDIPWcGwE90BIgi+eSdKF8BGcBRahhpUwYVLLo0lPy3dtL4T7Ei4r/t7nkjM+EBR3q33tfx9ui3Jv3PSVWPH+nU4xH/Ysd2JDJv0tfPXMcsX2rVjn/2s1fOEGVeyk4gBy8LKaI/opKxlmOknYMEVyF1Srvhwk3mbPNZ6Om+bjyni5DBVkIM7NMlkIakJlk7yZM3rAfgc5cJcSPIFK+xLUNfDFJropQNHu1mjRfEgqvpC5Xm74ASikgQUBpD5isTVvXGNfpmu9CR9/qgxNSnJ0PgZAl+PTdVp3TX31LmO5qqWOxeoXBIFSMIJCMWOC+iR8x/yrbM6HNO5+MtaMlmQZo9VIzYZb1C3m/nlc25K9rz0VkO0xrsAZ7371Iwb0YKCZCZYYls8xrkMKb2P9G2neoK7g5HYmSzoQ9Um7DseAQa2iRBBeYf+/A98k2M3Dj4OuKV9Nj0984Ui8Dutw55ePv2FHKUkLD+e2o6k3ktOuIadtIU3z0QS8zhs6JaiVLn+pwnGO4EtGTUkPuP4dmN7IoRKOG/DeGbb1lmsLWZXx5dn4gFTfN8xUAv4RsIAfMmr4EpumRmMJHQhIZE5qQzSwaoZn1tjtQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(136003)(39860400002)(376002)(346002)(451199015)(31696002)(38100700002)(86362001)(36756003)(66556008)(2906002)(186003)(44832011)(5660300002)(2616005)(6666004)(6506007)(26005)(6512007)(478600001)(53546011)(83380400001)(8676002)(4326008)(66476007)(66946007)(31686004)(54906003)(316002)(110136005)(8936002)(6486002)(41300700001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(346002)(376002)(396003)(366004)(136003)(451199015)(26005)(6512007)(6486002)(38100700002)(478600001)(86362001)(41300700001)(8936002)(316002)(54906003)(6666004)(110136005)(7416002)(2906002)(6506007)(83380400001)(5660300002)(44832011)(2616005)(186003)(4326008)(36756003)(82960400001)(8676002)(66556008)(66476007)(66946007);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bzduK2dUZkFROUNaRzNFZEtqN1pGajk4UXBEQWNzUm50QWVvMHpxTk94bXdL?=
- =?utf-8?B?S3piMEJZTTN4MTdabG5PSlVMQmZsbmcxTnBsU0M0S2YyTUhxaWhKZWw0aE51?=
- =?utf-8?B?RDNDbVFsQURmSUkyci8vNmFjdTR4NnhaTUk3VERSOU9SazRxRWx2VVhiUGEr?=
- =?utf-8?B?UFZsc051ZWdQSnRCT3dycWZOUkR1eUFiUVFxSlJXWTRmWVpPRE90VmUyNm1J?=
- =?utf-8?B?V1lNaU1PYVNTbU9hWEo5eHFSUkdXRHRGU2VUWUE3WHdYUzZiUGpnalZFRUFY?=
- =?utf-8?B?UHd0anpuUEtNWEhmWkZLeVZOVVZzSlZYNmptcTlYei9mZVI0Y1I2dlBnZ2pQ?=
- =?utf-8?B?cHd5bzVtSVlwekdUSDY5Slc2bnRzbEV1ajR5UEMyUEROVlIzQ2RwRVJESTg5?=
- =?utf-8?B?L0dJYzQ5RXdWQ1lCc2V2dFE4Y3J1ZlQ4dHhNTTdqRnZKS2lac2tRRGZpR0dj?=
- =?utf-8?B?WVN6enowZk54NnJKVFNlOG41Q3V0UGN0emYvbVdsSHVNcjZFVkhZdnV5bHZy?=
- =?utf-8?B?ZFR4UmVuNHVkWnQ3T2VZL3lBTjJ5NmlJNWk0WWl0SjAyNmx4VEhFYmpxK21R?=
- =?utf-8?B?RVVwZm1YNkt3czRhOGFsOEZSbWQ5RDZodkNiL0FmZkpxZFVUSitORVp2d0Fs?=
- =?utf-8?B?WU9CMWR1NXRpTXByY1dQdzN2UmhHeGxVQmRPcmRHdXlNb3VpdDlCV3RDQloy?=
- =?utf-8?B?M0poQ2V5UGNqaVIzUm8vWEhKTSt4WjNLS1BwK1M0MzBKS01MTEIrbWF5YVBi?=
- =?utf-8?B?QklFRkJlbGRUTVA1dy9WQVpCWURXQUxrSFNpOHZyR0lyUTBhWVYyd1lVM3M5?=
- =?utf-8?B?VUhzQ0tJZ0lDT2o1d0xEMWxOZlluQ0V5VHVtblVrUzIvenJtZkQycmIvNlhF?=
- =?utf-8?B?OUptY0MvUktISFNXTHhrQkJPa1U5dGZySUcrTzNFczNONDZjRDgzWS9lVWxj?=
- =?utf-8?B?YlBUdGF0QXFxWGpDRHlVK1RzSXFLdEdRdkRVdFcyVk40WTlGemcxRkx3UDNM?=
- =?utf-8?B?Q3F1TkRjd2s4SlJrUnF1NnpBanJjNndqdWtpdXlkZ3l2V1hoM2xFRU56UHJx?=
- =?utf-8?B?a0lKd3drbVhwQ2ZqZGxGUldVZUN1RVZJQnVGWFg4cUF6SStRenhseUEwcmhx?=
- =?utf-8?B?ZThzNDRISE1nWWx6Uko4UDNHUkc4OGpETHJlNFdrUjcvbms4MDUrVTJWNjBB?=
- =?utf-8?B?Ty9EalJWemxWSUt5WTUwYmhoK3hiTTZKaHpzNjEzc2VwTmhnb0JONFcyemZo?=
- =?utf-8?B?K3dLQXdQektXTVJtVUJuL2YyVktmOENZZXMyNmtIS09QenJubVZoVjNldHlS?=
- =?utf-8?B?TWRxNVhrZlZ1ZXhKWUNmOXRrUmVsNDdQU2hOTGVqNTJIQUNrbi93OUZQcVpp?=
- =?utf-8?B?Ukl6bzZNaUhoeGdIVEVhYmdlV1JPWFZGcHZUcDBCMzZGQkdLWTU3VTd2M0tF?=
- =?utf-8?B?Tm95VjRsNU8ydDBrK1Y4bE56RGZ6Mm42cVdvN3dQL1hRemFwM2JNVlZCTHZk?=
- =?utf-8?B?S0RQQXduZW1FL1BHQUQwWitDcnFuQVZaUm1zMUZ1dEdlOWp0TlBGQVozV2JQ?=
- =?utf-8?B?SExqSG9KQUdjMUFOTkhnMEZpZGs1UEsyQTNSVkdDSUxQTmh0ZGRxMisxSE1w?=
- =?utf-8?B?RVRMdmtQRkt6L2U2cjdQMG9QWDZjL0lmcVlXc2Fsa2xZNU9hYUlIZUcyTllP?=
- =?utf-8?B?N3dzTVpPUnJTVkFuZU5nUVU0am1VL2xjTWgybVI0UERURnVWT2pQWFNMb2J0?=
- =?utf-8?B?Q3Nkd1M5QXgxVWpzRTd3UlBmamxQM2NTMk1tZzZ2UW9EK0dBcWszM01BSU1t?=
- =?utf-8?B?TzNXSGl1c3FWOWVJTXVnckpYVmQ3c0R2MDBwbHp4OFhPaEM4TVZ6dnN6VjNZ?=
- =?utf-8?B?VFhuOWIrMnVJRjdrb2xsVU45N1VtdHZDeHhRalpTb1JyMkZXaGxlYlR4OHBK?=
- =?utf-8?B?NjlSUnNEOEZyT1NyN1l4WHdjc2g2WlhjcHE3MlBnajNOZ3lGMDhOZHgyTW5O?=
- =?utf-8?B?YTk3akFzMk9GRUFpaDBhYzNqOEw2VXo5RVhJb0N4K0lqV2pVZTdsbHI3R2li?=
- =?utf-8?B?aDQ1MmYzYjM3YmVNVVZQcnRjSDlONVY0bXhpUUc2VzRDcDVIR1UvZHN1Q0NR?=
- =?utf-8?Q?ksAtIt981PRiSpsOTuIJmZ/6c?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0482b3d7-45a6-4c34-a30f-08daa2311852
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uXWZ4h9Ufu+f6Q7IRvukfrNqCRTkN5RIf3HWsOOGu5+V7Cvb2c2SO7GlR193?=
+ =?us-ascii?Q?ZC0CE0iEXNW8t4MATtoSi9iyp0ob8ZSsJFafePtOzydMRc/b+FeqL/bG/N8c?=
+ =?us-ascii?Q?mcegrpIsZmOac++8j4NdHuIG7g5skS9iIbQsVp8slMVYqD6cqeIiSs9a7v5t?=
+ =?us-ascii?Q?KuOanmSDUbKYOPdncKxNHVhRd6xtOGiZSYfhNHORt/boQjfHOxUVb5aJ9hdU?=
+ =?us-ascii?Q?zammFiAKY+ZgI9fU9wPssmaIfnmTLcGP9kbpejSDMzoqL+snYhDC5ahDozWD?=
+ =?us-ascii?Q?4r7i4u6b1MpU4Z0GusoQbAvcH1ghOBpdUD/Ow/LsTkLIMBfTUj7xyAZsU3cV?=
+ =?us-ascii?Q?1dRv/BuBHQw0or+iH+nexNT8VfUBBLaoLPFd53P9bjV9UU3ajqJJEUCwanuZ?=
+ =?us-ascii?Q?iU/EIgnN7GuhzMbPN7eh2ORFUT6ilNZlypGvE9JaTPgP5EE+kBi/M+FBhPjB?=
+ =?us-ascii?Q?esx3GD7mk8X+hpvZ2+3HVVwRihsaKP19NDzUnSjcyWH3Amh2BsSoKE9vGZkt?=
+ =?us-ascii?Q?IR8lLOqp8Wp0Bc5HZiz+R11Ynz5ZTwdcTvNxFbSM5gWPbS+iMDrSah89BOvH?=
+ =?us-ascii?Q?4qfQe4ih83NBjjVnslHm58ocgr6Fp0xMq0OOkclOhUcoIiQE7rLZn+Xw0g2T?=
+ =?us-ascii?Q?7+Mk8P8QYgOaLEpt1hSPP3064h99rWtMuuqhRS9FEqwIUIlMojEt3p2N2CTQ?=
+ =?us-ascii?Q?CmcHR0YkfkkmRYid38kVaPNdecvZORsz0BXcUcdHQVuU+lYFmm0yW4eV8CVE?=
+ =?us-ascii?Q?iKZn3srKY5U7J4MY1XBl3WQTxYsmNBTLTr8ARv2dGSaV1sh/R3r8HXlp8N4p?=
+ =?us-ascii?Q?SlUpNY4OYfkH36e2TgOXTYmdqJXd9s8aiAQbeEVIz27tQ5SjWEeU/yLuB9fZ?=
+ =?us-ascii?Q?o34RIiSZvDF491smRIYIYmBjVFwFyWXMnTT0zhx7O1WZAw8nzCWX7UFQSxV2?=
+ =?us-ascii?Q?IXhEYG0GxmSFmx8uX5cl7c+lCtsVeNq5g5ik6kJyu7F3ZHBzyZXmn8niC1px?=
+ =?us-ascii?Q?yGvr/hlptjG3TDBvvsjJGnhUtdldlOc9vCvfZnZQFUHw+kbfxd8NzsY319zc?=
+ =?us-ascii?Q?DxBdq8/dQujw0VcKe86E++cBRNm4GGNkD4prJ1EKoepxlvxN1AkTE9YyJ9ax?=
+ =?us-ascii?Q?6K7U/c9xif9n87mHNx3FaGH1p/neMOFU2nSrT4LRdAll6M7Ka7hTIzhK2z+S?=
+ =?us-ascii?Q?u0UO+GfMjkQFqdw3v8AjMXSvdJrB/RUuRjF8+cf583MbUIiNyvdmVmh3hoT6?=
+ =?us-ascii?Q?XHcydSjxAID7CmHGBokbCLO3DRRuDwFXwgSEFKI4tluqt2jb7YuJtvcZkm+I?=
+ =?us-ascii?Q?jcUGTXIwOdIpCCDiFo8lUmjnxC7aNDzEiwOgfS++8FIumBtumK1P7ZattQVG?=
+ =?us-ascii?Q?04C2aamfuBTRNhLP4EHUodUmb8KRYqNmj1FK+TkBxzYQREU1P/XlgfZ6oFYG?=
+ =?us-ascii?Q?bnuVhWsh7GW54779cIe9VLN05NY6HKXHf+nxQEUp2RsnM3DWMwdsghGPc/HY?=
+ =?us-ascii?Q?25JJF+BqBShHJC8YaQVn5fJ7g2U+sVz5gVtEbA98oT4M3RoFCpZYbFITJiWD?=
+ =?us-ascii?Q?n+fOm74faHxD+z1UluQnj7e+4BumjrG1rhB/j+gDzpqfbYqTz/hq1GC2h4Vi?=
+ =?us-ascii?Q?rQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 872cae09-0366-4df5-0ff1-08daa2336a1e
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 15:41:37.2918 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 15:58:13.6402 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GpsClb9fUxgrNGFZRdQHc6q7tQs8EHrO1hj+YfP/jfBiMxn2Y7n9KFSvCwF7zEKHSoNn/qmjWMda/l4J8lqCyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4327
+X-MS-Exchange-CrossTenant-UserPrincipalName: pXVmdw6rDSwkk51bdD+MaOmx9QCSc7S69ieYBlriK1+7GItAirYbNVFj+sLXqmA9NwWtc5xY1BCKg0lWZn0M5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6380
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,121 +143,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Wang, Chao-kai \(Stylon\)" <Stylon.Wang@amd.com>, "Li,
- Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, David Airlie <airlied@linux.ie>, "Hung,
- Alex" <Alex.Hung@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Kotarac,
- Pavle" <Pavle.Kotarac@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
- Po-Yu Hsieh Paul <Paul.Hsieh@amd.com>, Jimmy Kizito <Jimmy.Kizito@amd.com>,
- "Ma, Leo" <Hanghong.Ma@amd.com>, "Lee, Alvin" <Alvin.Lee2@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave and Daniel,
 
+Here goes drm-intel-fixes-2022-09-29:
 
-On 2022-09-29 11:36, Felix Kuehling wrote:
-> I'm still seeing a warning even with this fix:
-> 
-> /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function ?dc_stream_remove_writeback?:
-> /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:55: warning: array subscript 1 is above array bounds of ?struct dc_writeback_info[1]? [-Warray-bounds]
->    527 |     stream->writeback_info[j] = stream->writeback_info[i];
->        |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~
-> 
+- Restrict forced preemption to the active context (Chris)
+- Restrict perf_limit_reasons to the supported platforms - gen11+ (Ashutosh)
 
-What version of GCC are you using? I don't see it on GCC 12.2 with this 
-patch applied.
+Thanks,
+Rodrigo.
 
-> Regards,
->    Felix
-> 
-> 
-> Am 2022-09-27 um 16:35 schrieb Pillai, Aurabindo:
->>
->> [AMD Official Use Only - General]
->>
->>
->> [AMD Official Use Only - General]
->>
->>
->> Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
->>
->> -- 
->>
->> Regards,
->> Jay
->> ------------------------------------------------------------------------
->> *From:* Mahfooz, Hamza <Hamza.Mahfooz@amd.com>
->> *Sent:* Tuesday, September 27, 2022 3:12 PM
->> *To:* linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
->> *Cc:* Mahfooz, Hamza <Hamza.Mahfooz@amd.com>; Wentland, Harry 
->> <Harry.Wentland@amd.com>; Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; 
->> Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>; Deucher, Alexander 
->> <Alexander.Deucher@amd.com>; Koenig, Christian 
->> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David 
->> Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Lee, Alvin 
->> <Alvin.Lee2@amd.com>; Hung, Alex <Alex.Hung@amd.com>; Kotarac, Pavle 
->> <Pavle.Kotarac@amd.com>; Wang, Chao-kai (Stylon) 
->> <Stylon.Wang@amd.com>; Pillai, Aurabindo <Aurabindo.Pillai@amd.com>; 
->> Ma, Leo <Hanghong.Ma@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Po-Yu 
->> Hsieh Paul <Paul.Hsieh@amd.com>; Jimmy Kizito <Jimmy.Kizito@amd.com>; 
->> amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; 
->> dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>
->> *Subject:* [PATCH] drm/amd/display: fix array-bounds error in 
->> dc_stream_remove_writeback()
->> Address the following error:
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 
->> ‘dc_stream_remove_writeback’:
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:55: 
->> error: array subscript [0, 0] is outside array bounds of ‘struct 
->> dc_writeback_info[1]’ [-Werror=array-bounds]
->>   527 | stream->writeback_info[j] = stream->writeback_info[i];
->>       | ~~~~~~~~~~~~~~~~~~~~~~^~~
->> In file included from 
->> ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:1269,
->>                  from 
->> ./drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
->>                  from 
->> ./drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
->>                  from 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:27:
->> ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: 
->> while referencing ‘writeback_info’
->>   241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
->>       |
->>
->> Currently, we aren't checking to see if j remains within
->> writeback_info[]'s bounds. So, add a check to make sure that we aren't
->> overflowing the buffer.
->>
->> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
->> ---
->>  drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c 
->> b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
->> index 3ca1592ce7ac..ae13887756bf 100644
->> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
->> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
->> @@ -520,7 +520,7 @@ bool dc_stream_remove_writeback(struct dc *dc,
->>          }
->>
->>          /* remove writeback info for disabled writeback pipes from 
->> stream */
->> -       for (i = 0, j = 0; i < stream->num_wb_info; i++) {
->> +       for (i = 0, j = 0; i < stream->num_wb_info && j < 
->> MAX_DWB_PIPES; i++) {
->>                  if (stream->writeback_info[i].wb_enabled) {
->>                          if (i != j)
->>                                  /* trim the array */
->> -- 
->> 2.37.2
->>
+The following changes since commit f76349cf41451c5c42a99f18a9163377e4b364ff:
 
--- 
-Hamza
+  Linux 6.0-rc7 (2022-09-25 14:01:02 -0700)
 
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-09-29
+
+for you to fetch changes up to 7738be973fc4e2ba22154fafd3a5d7b9666f9abf:
+
+  drm/i915/gt: Perf_limit_reasons are only available for Gen11+ (2022-09-28 16:39:26 -0400)
+
+----------------------------------------------------------------
+- Restrict forced preemption to the active context (Chris)
+- Restrict perf_limit_reasons to the supported platforms - gen11+ (Ashutosh)
+
+----------------------------------------------------------------
+Ashutosh Dixit (1):
+      drm/i915/gt: Perf_limit_reasons are only available for Gen11+
+
+Chris Wilson (1):
+      drm/i915/gt: Restrict forced preemption to the active context
+
+ drivers/gpu/drm/i915/gt/intel_engine_types.h        | 15 +++++++++++++++
+ .../gpu/drm/i915/gt/intel_execlists_submission.c    | 21 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c         | 15 +++++++++++----
+ 3 files changed, 46 insertions(+), 5 deletions(-)
