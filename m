@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70735F0945
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:45:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6633D5F0948
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:46:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23E1E10EC68;
-	Fri, 30 Sep 2022 10:45:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46FBF10EC6E;
+	Fri, 30 Sep 2022 10:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D1310EC7D;
- Fri, 30 Sep 2022 10:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664534741; x=1696070741;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Z5ldiK+eU4EyhQditQtoqlaBEggtUu54Oy4CIhQqtN8=;
- b=V6Gek7AyfUJqaxLJtASlD7lyY851bDizxzLEjTjuMelPEGL6BcXyWy14
- ZRz+7EXphBBYcgvrINvFnDNxChPZxtNhf/B9JHHyg+2o3ltV+iuStAApY
- bJXOjQV/OZog7bfyXqwN46IsXzTIYzMQND86SPawWhdyd+GH6NQ+r6p2Y
- Jrzg6ywfcG2RpS4MSSDV+tfDbTNc2z+ejIupEs5fK92eFwSi2RVC5/1NM
- tRdX0mc3eBCEmo3JnfVYKde4QQyg+RaTWbuBV5MQtW4cB9HAXWEcdE0tc
- qaUQcTWGYdrGy0nE7ICVXL36m0IhI0LOQjWZvm8Ic6nChWDVQJJB4XBuW g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="302135518"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="302135518"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 03:45:40 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="797930064"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="797930064"
-Received: from dtrawins-mobl1.ger.corp.intel.com (HELO [10.252.7.39])
- ([10.252.7.39])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 03:45:37 -0700
-Message-ID: <e88e01a5-fea0-5c6b-97b2-7cbac90a4019@intel.com>
-Date: Fri, 30 Sep 2022 11:45:34 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5A010EC6E
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 10:45:48 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0892821972;
+ Fri, 30 Sep 2022 10:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1664534747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pAnLK261UdqOEXdD8rMZSmnCYNG/eu3UbuuLESQ1CrA=;
+ b=mGZulreLmOv1jqPeGUGD0k7QhemkpRRG6C8oA0kEQjyedplXXPYfqgOgrZphn6USAWuQFB
+ Sp2FtBZ4TzBcQHx+boKDG7LAaxdKmi6xwr9GkiDQQKUKHq3nfq3kKWfrRG6g+RyPbD6ZMR
+ D3Wc6lXf3S62VI1sNha0qSp8gNvNihU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1664534747;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pAnLK261UdqOEXdD8rMZSmnCYNG/eu3UbuuLESQ1CrA=;
+ b=pu0FAlkCywdlVlhtZgCK647xwdfiPzjmdvhc/gI2Ep9muRoj7P9gg5YqhmVU7EqghVNTV1
+ aril85aIrjNnNuDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DF94113776;
+ Fri, 30 Sep 2022 10:45:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WbUFNdrINmNJfAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 30 Sep 2022 10:45:46 +0000
+Message-ID: <15147124-d074-8349-46ff-b6ea977a8265@suse.de>
+Date: Fri, 30 Sep 2022 12:45:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH 10/16] drm/i915/vm_bind: Abstract out common execbuf
- functions
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-11-niranjana.vishwanathapura@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220928061918.6340-11-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4] drm/ast: Add Atomic gamma lut support for aspeed
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
+References: <20220930094754.745626-1-jfalempe@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220930094754.745626-1-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------4eBoa8GVrywjACAni0UCo3NE"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,304 +70,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
- daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
-> The new execbuf3 ioctl path and the legacy execbuf ioctl
-> paths have many common functionalities.
-> Abstract out the common execbuf functionalities into a
-> separate file where possible, thus allowing code sharing.
-> 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> ---
->   drivers/gpu/drm/i915/Makefile                 |   1 +
->   .../drm/i915/gem/i915_gem_execbuffer_common.c | 664 ++++++++++++++++++
->   .../drm/i915/gem/i915_gem_execbuffer_common.h |  74 ++
->   3 files changed, 739 insertions(+)
->   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
->   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 9bf939ef18ea..bf952f478555 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -148,6 +148,7 @@ gem-y += \
->   	gem/i915_gem_create.o \
->   	gem/i915_gem_dmabuf.o \
->   	gem/i915_gem_domain.o \
-> +	gem/i915_gem_execbuffer_common.o \
->   	gem/i915_gem_execbuffer.o \
->   	gem/i915_gem_internal.o \
->   	gem/i915_gem_object.o \
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
-> new file mode 100644
-> index 000000000000..a7efd74afc9c
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
-> @@ -0,0 +1,664 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +
-> +#include <linux/dma-fence-array.h>
-> +
-> +#include <drm/drm_syncobj.h>
-> +
-> +#include "gt/intel_context.h"
-> +#include "gt/intel_gt.h"
-> +#include "gt/intel_gt_pm.h"
-> +#include "gt/intel_ring.h"
-> +
-> +#include "i915_gem_execbuffer_common.h"
-> +
-> +#define __EXEC_COMMON_FENCE_WAIT	BIT(0)
-> +#define __EXEC_COMMON_FENCE_SIGNAL	BIT(1)
-> +
-> +static struct i915_request *eb_throttle(struct intel_context *ce)
-> +{
-> +	struct intel_ring *ring = ce->ring;
-> +	struct intel_timeline *tl = ce->timeline;
-> +	struct i915_request *rq;
-> +
-> +	/*
-> +	 * Completely unscientific finger-in-the-air estimates for suitable
-> +	 * maximum user request size (to avoid blocking) and then backoff.
-> +	 */
-> +	if (intel_ring_update_space(ring) >= PAGE_SIZE)
-> +		return NULL;
-> +
-> +	/*
-> +	 * Find a request that after waiting upon, there will be at least half
-> +	 * the ring available. The hysteresis allows us to compete for the
-> +	 * shared ring and should mean that we sleep less often prior to
-> +	 * claiming our resources, but not so long that the ring completely
-> +	 * drains before we can submit our next request.
-> +	 */
-> +	list_for_each_entry(rq, &tl->requests, link) {
-> +		if (rq->ring != ring)
-> +			continue;
-> +
-> +		if (__intel_ring_space(rq->postfix,
-> +				       ring->emit, ring->size) > ring->size / 2)
-> +			break;
-> +	}
-> +	if (&rq->link == &tl->requests)
-> +		return NULL; /* weird, we will check again later for real */
-> +
-> +	return i915_request_get(rq);
-> +}
-> +
-> +static int eb_pin_timeline(struct intel_context *ce, bool throttle,
-> +			   bool nonblock)
-> +{
-> +	struct intel_timeline *tl;
-> +	struct i915_request *rq = NULL;
-> +
-> +	/*
-> +	 * Take a local wakeref for preparing to dispatch the execbuf as
-> +	 * we expect to access the hardware fairly frequently in the
-> +	 * process, and require the engine to be kept awake between accesses.
-> +	 * Upon dispatch, we acquire another prolonged wakeref that we hold
-> +	 * until the timeline is idle, which in turn releases the wakeref
-> +	 * taken on the engine, and the parent device.
-> +	 */
-> +	tl = intel_context_timeline_lock(ce);
-> +	if (IS_ERR(tl))
-> +		return PTR_ERR(tl);
-> +
-> +	intel_context_enter(ce);
-> +	if (throttle)
-> +		rq = eb_throttle(ce);
-> +	intel_context_timeline_unlock(tl);
-> +
-> +	if (rq) {
-> +		long timeout = nonblock ? 0 : MAX_SCHEDULE_TIMEOUT;
-> +
-> +		if (i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE,
-> +				      timeout) < 0) {
-> +			i915_request_put(rq);
-> +
-> +			/*
-> +			 * Error path, cannot use intel_context_timeline_lock as
-> +			 * that is user interruptable and this clean up step
-> +			 * must be done.
-> +			 */
-> +			mutex_lock(&ce->timeline->mutex);
-> +			intel_context_exit(ce);
-> +			mutex_unlock(&ce->timeline->mutex);
-> +
-> +			if (nonblock)
-> +				return -EWOULDBLOCK;
-> +			else
-> +				return -EINTR;
-> +		}
-> +		i915_request_put(rq);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * i915_eb_pin_engine() - Pin the engine
-> + * @ce: the context
-> + * @ww: optional locking context or NULL
-> + * @throttle: throttle to ensure enough ring space
-> + * @nonblock: do not block during throttle
-> + *
-> + * Pin the @ce timeline. If @throttle is set, enable throttling to ensure
-> + * enough ring space is available either by waiting for requests to complete
-> + * (if @nonblock is not set) or by returning error -EWOULDBLOCK (if @nonblock
-> + * is set).
-> + *
-> + * Returns 0 upon success, -ve error code upon error.
-> + */
-> +int i915_eb_pin_engine(struct intel_context *ce, struct i915_gem_ww_ctx *ww,
-> +		       bool throttle, bool nonblock)
-> +{
-> +	struct intel_context *child;
-> +	int err;
-> +	int i = 0, j = 0;
-> +
-> +	if (unlikely(intel_context_is_banned(ce)))
-> +		return -EIO;
-> +
-> +	/*
-> +	 * Pinning the contexts may generate requests in order to acquire
-> +	 * GGTT space, so do this first before we reserve a seqno for
-> +	 * ourselves.
-> +	 */
-> +	err = intel_context_pin_ww(ce, ww);
-> +	if (err)
-> +		return err;
-> +
-> +	for_each_child(ce, child) {
-> +		err = intel_context_pin_ww(child, ww);
-> +		GEM_BUG_ON(err);	/* perma-pinned should incr a counter */
-> +	}
-> +
-> +	for_each_child(ce, child) {
-> +		err = eb_pin_timeline(child, throttle, nonblock);
-> +		if (err)
-> +			goto unwind;
-> +		++i;
-> +	}
-> +	err = eb_pin_timeline(ce, throttle, nonblock);
-> +	if (err)
-> +		goto unwind;
-> +
-> +	return 0;
-> +
-> +unwind:
-> +	for_each_child(ce, child) {
-> +		if (j++ < i) {
-> +			mutex_lock(&child->timeline->mutex);
-> +			intel_context_exit(child);
-> +			mutex_unlock(&child->timeline->mutex);
-> +		}
-> +	}
-> +	for_each_child(ce, child)
-> +		intel_context_unpin(child);
-> +	intel_context_unpin(ce);
-> +	return err;
-> +}
-> +
-> +/**
-> + * i915_eb_unpin_engine() - Unpin the engine
-> + * @ce: the context
-> + *
-> + * Unpin the @ce timeline.
-> + */
-> +void i915_eb_unpin_engine(struct intel_context *ce)
-> +{
-> +	struct intel_context *child;
-> +
-> +	for_each_child(ce, child) {
-> +		mutex_lock(&child->timeline->mutex);
-> +		intel_context_exit(child);
-> +		mutex_unlock(&child->timeline->mutex);
-> +
-> +		intel_context_unpin(child);
-> +	}
-> +
-> +	mutex_lock(&ce->timeline->mutex);
-> +	intel_context_exit(ce);
-> +	mutex_unlock(&ce->timeline->mutex);
-> +
-> +	intel_context_unpin(ce);
-> +}
-> +
-> +/**
-> + * i915_eb_find_context() - Find the context
-> + * @context: the context
-> + * @context_number: required context index
-> + *
-> + * Returns the @context_number'th child of specified @context,
-> + * or NULL if the child context is not found.
-> + * If @context_number is 0, return the specified @context.
-> + */
-> +struct intel_context *
-> +i915_eb_find_context(struct intel_context *context, unsigned int context_number)
-> +{
-> +	struct intel_context *child;
-> +
-> +	if (likely(context_number == 0))
-> +		return context;
-> +
-> +	for_each_child(context, child)
-> +		if (!--context_number)
-> +			return child;
-> +
-> +	GEM_BUG_ON("Context not found");
-> +
-> +	return NULL;
-> +}
-> +
-> +static void __free_fence_array(struct eb_fence *fences, u64 n)
-> +{
-> +	while (n--) {
-> +		drm_syncobj_put(ptr_mask_bits(fences[n].syncobj, 2));
-> +		dma_fence_put(fences[n].dma_fence);
-> +		dma_fence_chain_free(fences[n].chain_fence);
-> +	}
-> +	kvfree(fences);
-> +}
-> +
-> +/**
-> + * i915_eb_put_fence_array() - Free Execbuffer fence array
-> + * @fences: Pointer to array of Execbuffer fences (See struct eb_fences)
-> + * @num_fences: Number of fences in @fences array
-> + *
-> + * Free the Execbuffer fences in @fences array.
-> + */
-> +void i915_eb_put_fence_array(struct eb_fence *fences, u64 num_fences)
-> +{
-> +	if (fences)
-> +		__free_fence_array(fences, num_fences);
-> +}
-> +
-> +/**
-> + * i915_eb_add_timeline_fence() - Add a fence to the specified Execbuffer fence
-> + * array.
-> + * @file: drm file pointer
-> + * @handle: drm_syncobj handle
-> + * @point: point in the timeline
-> + * @f: Execbuffer fence
-> + * @wait: wait for the specified fence
-> + * @signal: signal the specified fence
-> + *
-> + * Add the fence specified by drm_syncobj @handle at specified @point in the
-> + * timeline to the Execbuffer fence array @f. If @wait is specified, it is an
-> + * input fence and if @signal is specified it is an output fence.
-> + *
-> + * Returns 0 upon success, -ve error upon failure.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------4eBoa8GVrywjACAni0UCo3NE
+Content-Type: multipart/mixed; boundary="------------8mpIchaX0E0iqqbZRkBybuxv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
+Message-ID: <15147124-d074-8349-46ff-b6ea977a8265@suse.de>
+Subject: Re: [PATCH v4] drm/ast: Add Atomic gamma lut support for aspeed
+References: <20220930094754.745626-1-jfalempe@redhat.com>
+In-Reply-To: <20220930094754.745626-1-jfalempe@redhat.com>
 
-Also can return 1, which also means success. Also maybe clarify that 
-zero here is special.
+--------------8mpIchaX0E0iqqbZRkBybuxv
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Acked-by: Matthew Auld <matthew.auld@intel.com>
+SGksDQoNCmxvb2tzIGdvb2QgdG8gbWUuIExldCdzIHdhaXQgdW50aWwgbmV4dCB3ZWVrIGJl
+Zm9yZSBsYW5kaW5nIHRoZSBwYXRjaCwgDQpzbyB0aGF0IG90aGVycyBjYW4gY29tbWVudCBv
+biBpdC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KQW0gMzAuMDkuMjIgdW0gMTE6NDcg
+c2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+IFRoZSBjdXJyZW50IGFzdCBkcml2ZXIgb25s
+eSBzdXBwb3J0cyBsZWdhY3kgZ2FtbWEgaW50ZXJmYWNlLg0KPiBUaGlzIGFsc28gZml4ZXMg
+YSBHbm9tZTMvV2F5bGFuZCBlcnJvciB3aGljaCBpbmNvcnJlY3RseSBhZGRzDQo+IGdhbW1h
+IHRvIGF0b21pYyBjb21taXQ6DQo+ICJQYWdlIGZsaXAgZGlzY2FyZGVkOiBDUlRDIHByb3Bl
+cnR5IChHQU1NQV9MVVQpIG5vdCBmb3VuZCINCj4gDQo+IEkgb25seSB0ZXN0ZWQgcmVtb3Rl
+bHksIHNvIEkgd2Fzbid0IGFibGUgdG8gY2hlY2sgdGhhdCBpdCBoYWQNCj4gYW4gZWZmZWN0
+IG9uIHRoZSBWR0Egb3V0cHV0LiBCdXQgd2hlbiBhY3RpdmF0aW5nICJOaWdodCBMaWdodCIN
+Cj4gaW4gR25vbWUsIGFzdF9jcnRjX2xvYWRfbHV0KCkgaXMgY2FsbGVkLg0KPiANCj4gdjI6
+IHVzZSB0aGUgc2FtZSBmdW5jdGlvbnMgYXMgbWdhZzIwMC4NCj4gICAgICBoYW5kbGUgMTZi
+aXRzIGNvbG9yIG1vZGUuDQo+IA0KPiB2MzogQ2hlY2sgZ2FtbWFfbHV0IHNpemUgaW4gYXRv
+bWljIGNoZWNrLg0KPiANCj4gdjQ6IHJldmVydCAxNmJpdHMgbW9kZSwgdjEgd2FzIGNvcnJl
+Y3QuDQo+ICAgICAgbWFrZSBzdXJlIGdhbW1hIHRhYmxlIGFyZSBzZXQgd2hlbiBwcmltYXJ5
+IHBsYW5lIGZvcm1hdA0KPiAgICAgIGNoYW5nZXMuDQo+ICAgICAgcmVtb3ZlIHJnYjg4OCBm
+b3JtYXQgdGhhdCBpcyBub3QgdXNlZC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEpvY2VseW4g
+RmFsZW1wZSA8amZhbGVtcGVAcmVkaGF0LmNvbT4NCj4gVGVzdGVkLWJ5OiBUaG9tYXMgWmlt
+bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gUmV2aWV3ZWQtYnk6IFRob21hcyBa
+aW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiAtLS0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vYXN0L2FzdF9tb2RlLmMgfCA4NyArKysrKysrKysrKysrKysrKysrKysrKysrKyst
+LS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDcwIGluc2VydGlvbnMoKyksIDE3IGRlbGV0
+aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21v
+ZGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPiBpbmRleCAyMTRiMTAx
+Nzg0NTQuLjg5ZmNiOGUzZWExNiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Fz
+dC9hc3RfbW9kZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0K
+PiBAQCAtNDksNiArNDksOCBAQA0KPiAgICNpbmNsdWRlICJhc3RfZHJ2LmgiDQo+ICAgI2lu
+Y2x1ZGUgImFzdF90YWJsZXMuaCINCj4gICANCj4gKyNkZWZpbmUgQVNUX0xVVF9TSVpFIDI1
+Ng0KPiArDQo+ICAgc3RhdGljIGlubGluZSB2b2lkIGFzdF9sb2FkX3BhbGV0dGVfaW5kZXgo
+c3RydWN0IGFzdF9wcml2YXRlICphc3QsDQo+ICAgCQkJCSAgICAgdTggaW5kZXgsIHU4IHJl
+ZCwgdTggZ3JlZW4sDQo+ICAgCQkJCSAgICAgdTggYmx1ZSkNCj4gQEAgLTYzLDIwICs2NSw0
+NiBAQCBzdGF0aWMgaW5saW5lIHZvaWQgYXN0X2xvYWRfcGFsZXR0ZV9pbmRleChzdHJ1Y3Qg
+YXN0X3ByaXZhdGUgKmFzdCwNCj4gICAJYXN0X2lvX3JlYWQ4KGFzdCwgQVNUX0lPX1NFUV9Q
+T1JUKTsNCj4gICB9DQo+ICAgDQo+IC1zdGF0aWMgdm9pZCBhc3RfY3J0Y19sb2FkX2x1dChz
+dHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdCwgc3RydWN0IGRybV9jcnRjICpjcnRjKQ0KPiArc3Rh
+dGljIHZvaWQgYXN0X2NydGNfc2V0X2dhbW1hX2xpbmVhcihzdHJ1Y3QgYXN0X3ByaXZhdGUg
+KmFzdCwNCj4gKwkJCQkgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3Jt
+YXQpDQo+ICAgew0KPiAtCXUxNiAqciwgKmcsICpiOw0KPiAgIAlpbnQgaTsNCj4gICANCj4g
+LQlpZiAoIWNydGMtPmVuYWJsZWQpDQo+IC0JCXJldHVybjsNCj4gKwlzd2l0Y2ggKGZvcm1h
+dC0+Zm9ybWF0KSB7DQo+ICsJY2FzZSBEUk1fRk9STUFUX0M4OiAvKiBJbiB0aGlzIGNhc2Us
+IGdhbW1hIHRhYmxlIGlzIHVzZWQgYXMgY29sb3IgcGFsZXR0ZSAqLw0KPiArCWNhc2UgRFJN
+X0ZPUk1BVF9SR0I1NjU6DQo+ICsJY2FzZSBEUk1fRk9STUFUX1hSR0I4ODg4Og0KPiArCQlm
+b3IgKGkgPSAwOyBpIDwgQVNUX0xVVF9TSVpFOyBpKyspDQo+ICsJCQlhc3RfbG9hZF9wYWxl
+dHRlX2luZGV4KGFzdCwgaSwgaSwgaSwgaSk7DQo+ICsJCWJyZWFrOw0KPiArCWRlZmF1bHQ6
+DQo+ICsJCWRybV93YXJuX29uY2UoJmFzdC0+YmFzZSwgIlVuc3VwcG9ydGVkIGZvcm1hdCAl
+cDRjYyBmb3IgZ2FtbWEgY29ycmVjdGlvblxuIiwNCj4gKwkJCSAgICAgICZmb3JtYXQtPmZv
+cm1hdCk7DQo+ICsJCWJyZWFrOw0KPiArCX0NCj4gK30NCj4gICANCj4gLQlyID0gY3J0Yy0+
+Z2FtbWFfc3RvcmU7DQo+IC0JZyA9IHIgKyBjcnRjLT5nYW1tYV9zaXplOw0KPiAtCWIgPSBn
+ICsgY3J0Yy0+Z2FtbWFfc2l6ZTsNCj4gK3N0YXRpYyB2b2lkIGFzdF9jcnRjX3NldF9nYW1t
+YShzdHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdCwNCj4gKwkJCSAgICAgICBjb25zdCBzdHJ1Y3Qg
+ZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQsDQo+ICsJCQkgICAgICAgc3RydWN0IGRybV9jb2xv
+cl9sdXQgKmx1dCkNCj4gK3sNCj4gKwlpbnQgaTsNCj4gICANCj4gLQlmb3IgKGkgPSAwOyBp
+IDwgMjU2OyBpKyspDQo+IC0JCWFzdF9sb2FkX3BhbGV0dGVfaW5kZXgoYXN0LCBpLCAqcisr
+ID4+IDgsICpnKysgPj4gOCwgKmIrKyA+PiA4KTsNCj4gKwlzd2l0Y2ggKGZvcm1hdC0+Zm9y
+bWF0KSB7DQo+ICsJY2FzZSBEUk1fRk9STUFUX0M4OiAvKiBJbiB0aGlzIGNhc2UsIGdhbW1h
+IHRhYmxlIGlzIHVzZWQgYXMgY29sb3IgcGFsZXR0ZSAqLw0KPiArCWNhc2UgRFJNX0ZPUk1B
+VF9SR0I1NjU6DQo+ICsJY2FzZSBEUk1fRk9STUFUX1hSR0I4ODg4Og0KPiArCQlmb3IgKGkg
+PSAwOyBpIDwgQVNUX0xVVF9TSVpFOyBpKyspDQo+ICsJCQlhc3RfbG9hZF9wYWxldHRlX2lu
+ZGV4KGFzdCwgaSwNCj4gKwkJCQkJICAgICAgIGx1dFtpXS5yZWQgPj4gOCwNCj4gKwkJCQkJ
+ICAgICAgIGx1dFtpXS5ncmVlbiA+PiA4LA0KPiArCQkJCQkgICAgICAgbHV0W2ldLmJsdWUg
+Pj4gOCk7DQo+ICsJCWJyZWFrOw0KPiArCWRlZmF1bHQ6DQo+ICsJCWRybV93YXJuX29uY2Uo
+JmFzdC0+YmFzZSwgIlVuc3VwcG9ydGVkIGZvcm1hdCAlcDRjYyBmb3IgZ2FtbWEgY29ycmVj
+dGlvblxuIiwNCj4gKwkJCSAgICAgICZmb3JtYXQtPmZvcm1hdCk7DQo+ICsJCWJyZWFrOw0K
+PiArCX0NCj4gICB9DQo+ICAgDQo+ICAgc3RhdGljIGJvb2wgYXN0X2dldF92Ymlvc19tb2Rl
+X2luZm8oY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0LA0KPiBAQCAtMTAx
+OCw5ICsxMDQ2LDExIEBAIHN0YXRpYyB2b2lkIGFzdF9jcnRjX2RwbXMoc3RydWN0IGRybV9j
+cnRjICpjcnRjLCBpbnQgbW9kZSkNCj4gICANCj4gICAJCQlhc3Rfc2V0X2NvbG9yX3JlZyhh
+c3QsIGZvcm1hdCk7DQo+ICAgCQkJYXN0X3NldF92Ymlvc19jb2xvcl9yZWcoYXN0LCBmb3Jt
+YXQsIHZiaW9zX21vZGVfaW5mbyk7DQo+ICsJCQlpZiAoY3J0Yy0+c3RhdGUtPmdhbW1hX2x1
+dCkNCj4gKwkJCQlhc3RfY3J0Y19zZXRfZ2FtbWEoYXN0LCBmb3JtYXQsIGNydGMtPnN0YXRl
+LT5nYW1tYV9sdXQtPmRhdGEpOw0KPiArCQkJZWxzZQ0KPiArCQkJCWFzdF9jcnRjX3NldF9n
+YW1tYV9saW5lYXIoYXN0LCBmb3JtYXQpOw0KPiAgIAkJfQ0KPiAtDQo+IC0JCWFzdF9jcnRj
+X2xvYWRfbHV0KGFzdCwgY3J0Yyk7DQo+ICAgCQlicmVhazsNCj4gICAJY2FzZSBEUk1fTU9E
+RV9EUE1TX1NUQU5EQlk6DQo+ICAgCWNhc2UgRFJNX01PREVfRFBNU19TVVNQRU5EOg0KPiBA
+QCAtMTEwOSw2ICsxMTM5LDggQEAgc3RhdGljIGludCBhc3RfY3J0Y19oZWxwZXJfYXRvbWlj
+X2NoZWNrKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywNCj4gICAJCQkJCXN0cnVjdCBkcm1fYXRv
+bWljX3N0YXRlICpzdGF0ZSkNCj4gICB7DQo+ICAgCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAq
+Y3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19jcnRjX3N0YXRlKHN0YXRlLCBjcnRj
+KTsNCj4gKwlzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9sZF9jcnRjX3N0YXRlID0gZHJtX2F0
+b21pY19nZXRfb2xkX2NydGNfc3RhdGUoc3RhdGUsIGNydGMpOw0KPiArCXN0cnVjdCBhc3Rf
+Y3J0Y19zdGF0ZSAqb2xkX2FzdF9jcnRjX3N0YXRlID0gdG9fYXN0X2NydGNfc3RhdGUob2xk
+X2NydGNfc3RhdGUpOw0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY3J0Yy0+ZGV2
+Ow0KPiAgIAlzdHJ1Y3QgYXN0X2NydGNfc3RhdGUgKmFzdF9zdGF0ZTsNCj4gICAJY29uc3Qg
+c3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0Ow0KPiBAQCAtMTEyOCw2ICsxMTYwLDIy
+IEBAIHN0YXRpYyBpbnQgYXN0X2NydGNfaGVscGVyX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJt
+X2NydGMgKmNydGMsDQo+ICAgCWlmIChkcm1fV0FSTl9PTl9PTkNFKGRldiwgIWZvcm1hdCkp
+DQo+ICAgCQlyZXR1cm4gLUVJTlZBTDsgLyogQlVHOiBXZSBkaWRuJ3Qgc2V0IGZvcm1hdCBp
+biBwcmltYXJ5IGNoZWNrKCkuICovDQo+ICAgDQo+ICsJLyoNCj4gKwkgKiBUaGUgZ2FtbWEg
+TFVUIGhhcyB0byBiZSByZWxvYWRlZCBhZnRlciBjaGFuZ2luZyB0aGUgcHJpbWFyeQ0KPiAr
+CSAqIHBsYW5lJ3MgY29sb3IgZm9ybWF0Lg0KPiArCSAqLw0KPiArCWlmIChvbGRfYXN0X2Ny
+dGNfc3RhdGUtPmZvcm1hdCAhPSBmb3JtYXQpDQo+ICsJCWNydGNfc3RhdGUtPmNvbG9yX21n
+bXRfY2hhbmdlZCA9IHRydWU7DQo+ICsNCj4gKwlpZiAoY3J0Y19zdGF0ZS0+Y29sb3JfbWdt
+dF9jaGFuZ2VkICYmIGNydGNfc3RhdGUtPmdhbW1hX2x1dCkgew0KPiArCQlpZiAoY3J0Y19z
+dGF0ZS0+Z2FtbWFfbHV0LT5sZW5ndGggIT0NCj4gKwkJICAgIEFTVF9MVVRfU0laRSAqIHNp
+emVvZihzdHJ1Y3QgZHJtX2NvbG9yX2x1dCkpIHsNCj4gKwkJCWRybV9lcnIoZGV2LCAiV3Jv
+bmcgc2l6ZSBmb3IgZ2FtbWFfbHV0ICV6dVxuIiwNCj4gKwkJCQljcnRjX3N0YXRlLT5nYW1t
+YV9sdXQtPmxlbmd0aCk7DQo+ICsJCQlyZXR1cm4gLUVJTlZBTDsNCj4gKwkJfQ0KPiArCX0N
+Cj4gKw0KPiAgIAlzdWNjID0gYXN0X2dldF92Ymlvc19tb2RlX2luZm8oZm9ybWF0LCAmY3J0
+Y19zdGF0ZS0+bW9kZSwNCj4gICAJCQkJICAgICAgICZjcnRjX3N0YXRlLT5hZGp1c3RlZF9t
+b2RlLA0KPiAgIAkJCQkgICAgICAgJmFzdF9zdGF0ZS0+dmJpb3NfbW9kZV9pbmZvKTsNCj4g
+QEAgLTExNTgsMjAgKzEyMDYsMjMgQEAgYXN0X2NydGNfaGVscGVyX2F0b21pY19mbHVzaChz
+dHJ1Y3QgZHJtX2NydGMgKmNydGMsDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJtX2NydGNfc3Rh
+dGUgKmNydGNfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfY3J0Y19zdGF0ZShzdGF0ZSwN
+Cj4gICAJCQkJCQkJCQkgIGNydGMpOw0KPiAtCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqb2xk
+X2NydGNfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9vbGRfY3J0Y19zdGF0ZShzdGF0ZSwNCj4g
+LQkJCQkJCQkJCSAgICAgIGNydGMpOw0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0g
+Y3J0Yy0+ZGV2Ow0KPiAgIAlzdHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdCA9IHRvX2FzdF9wcml2
+YXRlKGRldik7DQo+ICAgCXN0cnVjdCBhc3RfY3J0Y19zdGF0ZSAqYXN0X2NydGNfc3RhdGUg
+PSB0b19hc3RfY3J0Y19zdGF0ZShjcnRjX3N0YXRlKTsNCj4gLQlzdHJ1Y3QgYXN0X2NydGNf
+c3RhdGUgKm9sZF9hc3RfY3J0Y19zdGF0ZSA9IHRvX2FzdF9jcnRjX3N0YXRlKG9sZF9jcnRj
+X3N0YXRlKTsNCj4gICAJc3RydWN0IGFzdF92Ymlvc19tb2RlX2luZm8gKnZiaW9zX21vZGVf
+aW5mbyA9ICZhc3RfY3J0Y19zdGF0ZS0+dmJpb3NfbW9kZV9pbmZvOw0KPiAgIA0KPiAgIAkv
+Kg0KPiAgIAkgKiBUaGUgZ2FtbWEgTFVUIGhhcyB0byBiZSByZWxvYWRlZCBhZnRlciBjaGFu
+Z2luZyB0aGUgcHJpbWFyeQ0KPiAgIAkgKiBwbGFuZSdzIGNvbG9yIGZvcm1hdC4NCj4gICAJ
+ICovDQo+IC0JaWYgKG9sZF9hc3RfY3J0Y19zdGF0ZS0+Zm9ybWF0ICE9IGFzdF9jcnRjX3N0
+YXRlLT5mb3JtYXQpDQo+IC0JCWFzdF9jcnRjX2xvYWRfbHV0KGFzdCwgY3J0Yyk7DQo+ICsJ
+aWYgKGNydGNfc3RhdGUtPmVuYWJsZSAmJiBjcnRjX3N0YXRlLT5jb2xvcl9tZ210X2NoYW5n
+ZWQpIHsNCj4gKwkJaWYgKGNydGNfc3RhdGUtPmdhbW1hX2x1dCkNCj4gKwkJCWFzdF9jcnRj
+X3NldF9nYW1tYShhc3QsDQo+ICsJCQkJCSAgIGFzdF9jcnRjX3N0YXRlLT5mb3JtYXQsDQo+
+ICsJCQkJCSAgIGNydGNfc3RhdGUtPmdhbW1hX2x1dC0+ZGF0YSk7DQo+ICsJCWVsc2UNCj4g
+KwkJCWFzdF9jcnRjX3NldF9nYW1tYV9saW5lYXIoYXN0LCBhc3RfY3J0Y19zdGF0ZS0+Zm9y
+bWF0KTsNCj4gKwl9DQo+ICAgDQo+ICAgCS8vU2V0IEFzcGVlZCBEaXNwbGF5LVBvcnQNCj4g
+ICAJaWYgKGFzdC0+dHhfY2hpcF90eXBlcyAmIEFTVF9UWF9BU1REUF9CSVQpDQo+IEBAIC0x
+MzA5LDcgKzEzNjAsOSBAQCBzdGF0aWMgaW50IGFzdF9jcnRjX2luaXQoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldikNCj4gICAJaWYgKHJldCkNCj4gICAJCXJldHVybiByZXQ7DQo+ICAgDQo+
+IC0JZHJtX21vZGVfY3J0Y19zZXRfZ2FtbWFfc2l6ZShjcnRjLCAyNTYpOw0KPiArCWRybV9t
+b2RlX2NydGNfc2V0X2dhbW1hX3NpemUoY3J0YywgQVNUX0xVVF9TSVpFKTsNCj4gKwlkcm1f
+Y3J0Y19lbmFibGVfY29sb3JfbWdtdChjcnRjLCAwLCBmYWxzZSwgQVNUX0xVVF9TSVpFKTsN
+Cj4gKw0KPiAgIAlkcm1fY3J0Y19oZWxwZXJfYWRkKGNydGMsICZhc3RfY3J0Y19oZWxwZXJf
+ZnVuY3MpOw0KPiAgIA0KPiAgIAlyZXR1cm4gMDsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
+CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
+ZXYNCg==
+
+--------------8mpIchaX0E0iqqbZRkBybuxv--
+
+--------------4eBoa8GVrywjACAni0UCo3NE
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM2yNoFAwAAAAAACgkQlh/E3EQov+By
+dg/+Lk9MS/B65txHParhKDI3BjHYZiSnrRGBtoo4aZriuW1kWmSOlRgxkfPwnIcvrMWzMzz+Uvan
+d9SVFxja3UYjAnx5JvQ4jaLwT6tcnZifn2P38q5aht/pD7Jf39eJnzBXynzf73mHowLmmPLAWdfi
+Q6C96p2Cmmy6D3RcHyJp71lwFTHW6GrwrARc4kvoX/bAAFacw+LwxMwVlpE6vGd4JRAdcge77eBv
+XTN/cFXNSEFyPsYdvTzL6vKZAaZQzewVKLbAdAxFJY7SuUzGzGcQW/K9DAv0laz9J0n4UnUfJod9
+DhE3V+fmA9sEifxtaWKor1oG06A9vzp0vfFWHdE3brcqfNVL/iKwLBCOpGkF22q4k7VcQuYHhz0E
+pwUsHt+Blr1ejAbPAh1pZVChDy899yRh/KcB/sCiGQlF44VU4autvB7ndpywoogQ8tAa2uBoLM1O
+vZVw/wQrAaURAZbkUJVuQnIGb0DU1EK3Q0wUvrjUP1qZhWHKXAnG98GQ0CuEPZwE+mSn9F1KrpLd
+LRE7Oewcd+bE5yM7PptTInEWnU/9fSRvec/fXw5WRTIAa0m2yXRL1Zh1v27Vo8L7P7n6puY0Fji4
+k41eTMKFqWI37Oibnmbo9CTJ+XF0cmHJ9X8bFrGN8C4PCyoktgFVLhuiYnUKuuERPPFATjfhzPvM
+14s=
+=2j28
+-----END PGP SIGNATURE-----
+
+--------------4eBoa8GVrywjACAni0UCo3NE--
