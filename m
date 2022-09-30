@@ -1,75 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBB85F14EB
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 23:32:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF9D5F1527
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 23:45:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4104F10EDBB;
-	Fri, 30 Sep 2022 21:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2094010EDB0;
+	Fri, 30 Sep 2022 21:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB98610EDB0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 21:31:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664573507;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7MZyE4q4pUK9exbRcIZDL/JbobrwIaDD99sfovICQ4I=;
- b=Dy4fDLGrhU4x/HdAFAAywLi8FlRZDm9pK0+cPfdxqqixiGQ0y/ANYJPWg2V5Tud26W/1hI
- kQQHzdazQO61C1GY2vRLi+QPhe3xsSNRGlu1ULTFrUSSX1TEmeKQlZrbyq/+A1NzjrkewD
- n2RqBmQi6vA/ec6m2GJpbWupXBP9gUo=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-106-mUEIUdigMIqjY7zsjheI9g-1; Fri, 30 Sep 2022 17:31:45 -0400
-X-MC-Unique: mUEIUdigMIqjY7zsjheI9g-1
-Received: by mail-il1-f199.google.com with SMTP id
- l12-20020a056e0212ec00b002f96a08aaf1so1563416iln.5
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 14:31:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=7MZyE4q4pUK9exbRcIZDL/JbobrwIaDD99sfovICQ4I=;
- b=6p2d2Vt+IcOExH+f30izUrd/Bu/Vp+/ZTmAVlfdtpkEhpLpUuYODmOVEDaIA/b+sj5
- VZ9Lggv1REG+GEftT9UWpHrn6NEB8c2OswGlfhnGxX66ztn66Yay4PvYSn6krlkMQgdY
- KNaZmACY4W5PaA4B+w0Bje+j+vx7+O6krcGTIs8JMJ8qOqSb7Av5b7yFMN9wV9WHJHrM
- ak+67r1sv7SM8Q1j8GTANhvSKuzxsyzAzYMEFcw38N1K71kk9TG/Cb0Nx+MYYLHlXDqC
- uvJxOrHrnaCW/4XYTSnpwMFfutZs+OpkLdVdwk35Ix9kEZba2pEWUq4h0eo3aiV8Kkp2
- ZjgQ==
-X-Gm-Message-State: ACrzQf1rwoR8FqjRW3hftrq+SQTA07v1KL6zbEAw5JiwOr1FCdGUsqIv
- uyTlu0kJE9xrLdQq/ir/JeJ+zCzurGkjPZdpXRIxIoadFO+mBxDOh+EbCg+tN4X0th9s3inv+Fy
- lUe5N3CBchDGfEsWuwTXtks2tZYLw
-X-Received: by 2002:a05:6638:4416:b0:35a:3cca:4db3 with SMTP id
- bp22-20020a056638441600b0035a3cca4db3mr5665329jab.0.1664573503689; 
- Fri, 30 Sep 2022 14:31:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5cqLb3noeJWS0YhPhgS37XjFCTWP2XxFR9rFh11+Uu4oQtCWPM3VbBWg5g6mGXkpdAVP6H6g==
-X-Received: by 2002:a05:6638:4416:b0:35a:3cca:4db3 with SMTP id
- bp22-20020a056638441600b0035a3cca4db3mr5665306jab.0.1664573503392; 
- Fri, 30 Sep 2022 14:31:43 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- l15-20020a02cd8f000000b0034c107ac9bbsm1343303jap.8.2022.09.30.14.31.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 14:31:42 -0700 (PDT)
-Date: Fri, 30 Sep 2022 15:31:39 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH] drm/i915/gvt: Add missing vfio_unregister_group_dev() call
-Message-ID: <20220930153139.0d60652b.alex.williamson@redhat.com>
-In-Reply-To: <0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com>
-References: <0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com>
-Organization: Red Hat
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 984D210EDCC
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 21:45:01 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UJxSHp019817;
+ Fri, 30 Sep 2022 21:44:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : from : subject : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=yLJvKl0v2EUAArqZEXWgOm8yqsVc/z01Hp32rPoGufo=;
+ b=YPdq/C8SCVwS19uFncxKb4YCYJoA5R5MUf+g9cT7bhuxPD+K96KdFhZ2OjPjFFjm4ai0
+ elQcTegJgFKL455sPcFbWbgNUy8BaWVPW4vyQbF0WOjy+M5KVEWJnWWs6bauwmIukWvq
+ KcSCQlvanysWf5W2ToduqLeOyk882BJrUjinwTYjPkxyRZvGEUnAmojAvXWUoswgcicA
+ Nrl7yWVMi3A/fHirSu/9OwDXguj+J2OGiyX3vUsokPBlSS53k3ZeO81P97avelr+QVrm
+ 3fMcwQhu85SrR3qaCn2UVbRIY2xri2R3zEK6haGGrkgD6+Wf0NbY6XkQeQEAzbgc0Z+V PA== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jwr8g3uy3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 21:44:55 +0000
+Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com
+ [10.53.140.1])
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28ULisGa009156
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 21:44:54 GMT
+Received: from [10.71.111.47] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 30 Sep
+ 2022 14:44:54 -0700
+Message-ID: <fc14b1e8-1f8e-0b9a-a7c6-0d4c615efaaf@quicinc.com>
+Date: Fri, 30 Sep 2022 14:44:45 -0700
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [RESEND PATCH libdrm v3 2/2] tests/modetest: Add support for
+ writeback connector
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220901230924.145-1-quic_jesszhan@quicinc.com>
+ <20220901230924.145-3-quic_jesszhan@quicinc.com>
+ <10B842D5-E61B-4D29-A0FD-CE65687734B5@linaro.org>
+Content-Language: en-US
+In-Reply-To: <10B842D5-E61B-4D29-A0FD-CE65687734B5@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: d3Hgh_yixv4hqdv9KmHYnG5XYApcluIT
+X-Proofpoint-GUID: d3Hgh_yixv4hqdv9KmHYnG5XYApcluIT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 clxscore=1011 phishscore=0 spamscore=0 bulkscore=0
+ mlxscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2209300135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,49 +85,462 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- stable@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
- Christoph Hellwig <hch@lst.de>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: Rohith Iyer <quic_rohiiyer@quicinc.com>, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, hoegsberg@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Sep 2022 14:48:35 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Hi Dmitry,
 
-> When converting to directly create the vfio_device the mdev driver has to
-> put a vfio_register_emulated_iommu_dev() in the probe() and a pairing
-> vfio_unregister_group_dev() in the remove.
-> 
-> This was missed for gvt, add it.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 978cf586ac35 ("drm/i915/gvt: convert to use vfio_register_emulated_iommu_dev")
-> Reported-by: Alex Williamson <alex.williamson@redhat.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/gpu/drm/i915/gvt/kvmgt.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> Should go through Alex's tree.
 
-Applied to vfio next branch for v6.1.  Thanks for the quick fix!
-
-Alex
- 
-> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> index 41bba40feef8f4..9003145adb5a93 100644
-> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> @@ -1615,6 +1615,7 @@ static void intel_vgpu_remove(struct mdev_device *mdev)
->  	if (WARN_ON_ONCE(vgpu->attached))
->  		return;
->  
-> +	vfio_unregister_group_dev(&vgpu->vfio_device);
->  	vfio_put_device(&vgpu->vfio_device);
->  }
->  
+On 9/1/2022 11:40 PM, Dmitry Baryshkov wrote:
 > 
-> base-commit: c72e0034e6d4c36322d958b997d11d2627c6056c
+> 
+> On 2 September 2022 02:09:24 GMT+03:00, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>> From: Rohith Iyer <quic_rohiiyer@quicinc.com>
+>>
+>> Add writeback support to modetest with the below options:
+>>
+>> - Passing in -c will now also show the writeback connector
+>>
+>> - Test a built-in mode on writeback connector
+>>
+>> - Test a custom mode from user input on writeback connector
+>>   Usage: "./modetest -M msm -x <connector_id>:<mode_parameters>
+>>             -a -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24."
+>>   Refer to --help for exact syntax
+>>
+>> - Dump the writeback output buffer to bitstream
+>>   Usage: "./modetest -M msm -s <connector_id>:<widthxheight>
+>>           -a -o <filepath>
+>>           -P <plane_id>@<crtc_id>:<widthxheight>+0+0@RG24"
+>>
+>> This currently supports a singular writeback connector.
+>>
+>> Changes made in V2:
+>> - Added helper method that checks if user pipe has writeback connector
+>> - Added error message for dump flag if no writeback connector is found
+>> - Polls on the writeback fence fd until writeback is complete
+>>
+>> Changes made in V3:
+>> - Resolved compiler warnings
+>> - Defined ETIME to ETIMEDOUT in cases where ETIME is undefined
+>>
+>> Co-developed-by: Rohith Iyer <quic_rohiiyer@quicinc.com>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>> tests/modetest/buffers.c  |  19 ++++
+>> tests/modetest/buffers.h  |   1 +
+>> tests/modetest/modetest.c | 183 ++++++++++++++++++++++++++++++++++----
+>> 3 files changed, 184 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
+>> index 8a8d9e01..279d7b28 100644
+>> --- a/tests/modetest/buffers.c
+>> +++ b/tests/modetest/buffers.c
+>> @@ -353,3 +353,22 @@ void bo_destroy(struct bo *bo)
+>>
+>> 	free(bo);
+>> }
+>> +
+>> +void bo_dump(struct bo *bo, const char *filename)
+>> +{
+>> +	FILE *fp;
+>> +
+>> +	if (!bo || !filename)
+>> +		return;
+>> +
+>> +	fp = fopen(filename, "wb");
+>> +	if (fp) {
+>> +		void *addr;
+>> +
+>> +		bo_map(bo, &addr);
+>> +		printf("Dumping buffer %p to file %s.\n", bo->ptr, filename);
+>> +		fwrite(bo->ptr, 1, bo->size, fp);
+>> +		bo_unmap(bo);
+>> +		fclose(fp);
+> 
+> Any chance of using libpng, libungif or at the very least implementing minimal ppm or bmp support here? Dumping to the image file would help a lot.
 
+I can try checking out libpng, but it will take a while to implement. 
+Would it be alright if we kept the raw dump for now then submit a 
+separate series for adding libpng support?
+
+Since this series adds more than just the dump feature, I want to avoid 
+having this block the rest of the patch from being merged unless 
+absolutely necessary.
+
+> 
+>> +	}
+>> +}
+>> diff --git a/tests/modetest/buffers.h b/tests/modetest/buffers.h
+>> index 7f95396b..cbd54e9e 100644
+>> --- a/tests/modetest/buffers.h
+>> +++ b/tests/modetest/buffers.h
+>> @@ -36,5 +36,6 @@ struct bo *bo_create(int fd, unsigned int format,
+>> 		   unsigned int handles[4], unsigned int pitches[4],
+>> 		   unsigned int offsets[4], enum util_fill_pattern pattern);
+>> void bo_destroy(struct bo *bo);
+>> +void bo_dump(struct bo *bo, const char *filename);
+>>
+>> #endif
+>> diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+>> index 2c31c4fc..8073d143 100644
+>> --- a/tests/modetest/modetest.c
+>> +++ b/tests/modetest/modetest.c
+>> @@ -68,8 +68,13 @@
+>> #include "buffers.h"
+>> #include "cursor.h"
+>>
+>> +#ifndef ETIME
+>> +#define ETIME ETIMEDOUT
+>> +#endif
+> 
+> ETIME is on its way to obsolescence. Please use ETIMEDOUT. See https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/errno.h.html
+
+Ah, got it. Had originally used ETIME to match the IGT implementation 
+[1], but will use ETIMEDOUT instead.
+
+> 
+>> +
+>> static enum util_fill_pattern primary_fill = UTIL_PATTERN_SMPTE;
+>> static enum util_fill_pattern secondary_fill = UTIL_PATTERN_TILES;
+>> +static enum util_fill_pattern plain_fill = UTIL_PATTERN_PLAIN;
+>>
+>> struct crtc {
+>> 	drmModeCrtc *crtc;
+>> @@ -128,6 +133,7 @@ struct device {
+>>
+>> 	int use_atomic;
+>> 	drmModeAtomicReq *req;
+>> +	int32_t writeback_fence_fd;
+>> };
+>>
+>> static inline int64_t U642I64(uint64_t val)
+>> @@ -135,6 +141,11 @@ static inline int64_t U642I64(uint64_t val)
+>> 	return (int64_t)*((int64_t *)&val);
+>> }
+>>
+>> +static inline uint64_t to_user_pointer(const void *ptr)
+>> +{
+>> +	return (uintptr_t)ptr;
+>> +}
+>> +
+>> static float mode_vrefresh(drmModeModeInfo *mode)
+>> {
+>> 	return  mode->clock * 1000.00
+>> @@ -811,6 +822,10 @@ struct pipe_arg {
+>> 	struct crtc *crtc;
+>> 	unsigned int fb_id[2], current_fb_id;
+>> 	struct timeval start;
+>> +	unsigned int out_fb_id;
+>> +	struct bo *out_bo;
+>> +	bool custom;
+>> +	bool dump;
+>>
+>> 	int swap_count;
+>> };
+>> @@ -917,27 +932,43 @@ static struct crtc *pipe_find_crtc(struct device *dev, struct pipe_arg *pipe)
+>> 	return &dev->resources->crtcs[crtc_idx - 1];
+>> }
+>>
+>> +static int parse_mode_string(char *mode_string, drmModeModeInfo *user_mode)
+>> +{
+>> +	return sscanf(mode_string, "%u,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%u,%s",
+>> +			&user_mode->clock, &user_mode->hdisplay, &user_mode->hsync_start,
+>> +			&user_mode->hsync_end, &user_mode->htotal, &user_mode->hskew,
+>> +			&user_mode->vdisplay, &user_mode->vsync_start, &user_mode->vsync_end,
+>> +			&user_mode->vtotal, &user_mode->vscan, &user_mode->vrefresh,
+>> +			user_mode->name);
+>> +}
+>> +
+>> static int pipe_find_crtc_and_mode(struct device *dev, struct pipe_arg *pipe)
+> 
+> I'd instead rename this to pipe_find_crtc_and_builtin_mode to limit the indent level to remain sane.
+> 
+> Then define new function supporting builtin and custom modes.
+
+Sounds good.
+
+> 
+>> {
+>> 	drmModeModeInfo *mode = NULL;
+>> 	int i;
+>> +	static drmModeModeInfo user_mode;
+> 
+> Minor nit. If this a global variable, defining it so is more obvious compared to the hidden static global.
+
+Noted -- will move to top outside of method.
+
+> 
+>>
+>> -	pipe->mode = NULL;
+>> -
+>> -	for (i = 0; i < (int)pipe->num_cons; i++) {
+>> -		mode = connector_find_mode(dev, pipe->con_ids[i],
+>> -					   pipe->mode_str, pipe->vrefresh);
+>> -		if (mode == NULL) {
+>> -			if (pipe->vrefresh)
+>> -				fprintf(stderr,
+>> -				"failed to find mode "
+>> -				"\"%s-%.2fHz\" for connector %s\n",
+>> -				pipe->mode_str, pipe->vrefresh, pipe->cons[i]);
+>> -			else
+>> -				fprintf(stderr,
+>> -				"failed to find mode \"%s\" for connector %s\n",
+>> -				pipe->mode_str, pipe->cons[i]);
+>> +	if (pipe->custom) {
+>> +		if (parse_mode_string(pipe->mode_str, &user_mode) == 13)
+>> +			mode = &user_mode;
+>> +		else
+>> 			return -EINVAL;
+>> +	} else {
+>> +		for (i = 0; i < (int)pipe->num_cons; i++) {
+>> +			mode = connector_find_mode(dev, pipe->con_ids[i],
+>> +						   pipe->mode_str, pipe->vrefresh);
+>> +			if (mode == NULL) {
+>> +				if (pipe->vrefresh)
+>> +					fprintf(stderr,
+>> +					"failed to find mode "
+>> +					"\"%s-%.2fHz\" for connector %s\n",
+>> +					pipe->mode_str, pipe->vrefresh, pipe->cons[i]);
+>> +				else
+>> +					fprintf(stderr,
+>> +					"failed to find mode \"%s\" for connector %s\n",
+>> +					pipe->mode_str, pipe->cons[i]);
+>> +				return -EINVAL;
+>> +			}
+>> 		}
+>> 	}
+>>
+>> @@ -1441,6 +1472,24 @@ static int pipe_resolve_connectors(struct device *dev, struct pipe_arg *pipe)
+>> 	return 0;
+>> }
+>>
+>> +static bool pipe_has_writeback_connector(struct device *dev, struct pipe_arg *pipes,
+>> +		unsigned int count)
+>> +{
+>> +	drmModeConnector *connector;
+>> +	unsigned int i, j;
+>> +
+>> +	for (j = 0; j < count; j++) {
+>> +		struct pipe_arg *pipe = &pipes[j];
+>> +
+>> +		for (i = 0; i < pipe->num_cons; i++) {
+>> +			connector = get_connector_by_id(dev, pipe->con_ids[i]);
+>> +			if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+>> +				return true;
+>> +		}
+>> +	}
+>> +	return false;
+>> +}
+>> +
+>> static int pipe_attempt_connector(struct device *dev, drmModeConnector *con,
+>> 		struct pipe_arg *pipe)
+>> {
+>> @@ -1662,6 +1711,70 @@ static void set_mode(struct device *dev, struct pipe_arg *pipes, unsigned int co
+>> 	}
+>> }
+>>
+>> +static void writeback_config(struct device *dev, struct pipe_arg *pipes, unsigned int count)
+>> +{
+>> +	drmModeConnector *connector;
+>> +	unsigned int i, j;
+>> +
+>> +	for (j = 0; j < count; j++) {
+>> +		struct pipe_arg *pipe = &pipes[j];
+>> +
+>> +		for (i = 0; i < pipe->num_cons; i++) {
+>> +			connector = get_connector_by_id(dev, pipe->con_ids[i]);
+>> +			if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK) {
+>> +				bo_fb_create(dev->fd, pipes[j].fourcc, pipe->mode->hdisplay,
+>> +					 pipe->mode->vdisplay, plain_fill, &pipe->out_bo,
+>> +					 &pipe->out_fb_id);
+>> +				add_property(dev, pipe->con_ids[i], "WRITEBACK_FB_ID",
+>> +					 pipe->out_fb_id);
+>> +				add_property(dev, pipe->con_ids[i], "WRITEBACK_OUT_FENCE_PTR",
+>> +					 to_user_pointer(&dev->writeback_fence_fd));
+>> +			}
+>> +		}
+>> +	}
+>> +}
+>> +
+>> +static int poll_writeback_fence(int fd, int timeout)
+>> +{
+>> +	struct pollfd fds = { fd, POLLIN };
+>> +	int ret;
+>> +
+>> +	do {
+>> +		ret = poll(&fds, 1, timeout);
+>> +		if (ret > 0) {
+>> +			if (fds.revents & (POLLERR | POLLNVAL))
+>> +				return -EINVAL;
+>> +
+>> +			return 0;
+>> +		} else if (ret == 0) {
+>> +			return -ETIME;
+>> +		} else {
+>> +			ret = -errno;
+>> +			if (ret == -EINTR || ret == -EAGAIN)
+>> +				continue;
+>> +			return ret;
+>> +		}
+>> +	} while (1);
+>> +
+>> +}
+>> +
+>> +static void dump_output_fb(struct device *dev, struct pipe_arg *pipes, char *dump_path,
+>> +			unsigned int count)
+>> +{
+>> +	drmModeConnector *connector;
+>> +	unsigned int i, j;
+>> +
+>> +	for (j = 0; j < count; j++) {
+>> +		struct pipe_arg *pipe = &pipes[j];
+>> +
+>> +		for (i = 0; i < pipe->num_cons; i++) {
+>> +			connector = get_connector_by_id(dev, pipe->con_ids[i]);
+>> +			if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+>> +				bo_dump(pipe->out_bo, dump_path);
+>> +		}
+>> +	}
+>> +}
+>> +
+>> static void atomic_clear_mode(struct device *dev, struct pipe_arg *pipes, unsigned int count)
+>> {
+>> 	unsigned int i;
+>> @@ -1990,7 +2103,7 @@ static void parse_fill_patterns(char *arg)
+>>
+>> static void usage(char *name)
+>> {
+>> -	fprintf(stderr, "usage: %s [-acDdefMPpsCvrw]\n", name);
+>> +	fprintf(stderr, "usage: %s [-acDdefMPpsCvrwx]\n", name);
+>>
+>> 	fprintf(stderr, "\n Query options:\n\n");
+>> 	fprintf(stderr, "\t-c\tlist connectors\n");
+>> @@ -2000,7 +2113,12 @@ static void usage(char *name)
+>>
+>> 	fprintf(stderr, "\n Test options:\n\n");
+>> 	fprintf(stderr, "\t-P <plane_id>@<crtc_id>:<w>x<h>[+<x>+<y>][*<scale>][@<format>]\tset a plane\n");
+>> -	fprintf(stderr, "\t-s <connector_id>[,<connector_id>][@<crtc_id>]:[#<mode index>]<mode>[-<vrefresh>][@<format>]\tset a mode\n");
+>> +	fprintf(stderr, "\t-s <connector_id>[,<connector_id>][@<crtc_id>]:[#<mode index>]");
+>> +	fprintf(stderr, "<mode>[-<vrefresh>][@<format>]\tset a built-in mode\n");
+>> +	fprintf(stderr, "\t-x <connector_id>[@<crtc_id>]:<clock,hdisplay,hsyncstart,hsyncend,");
+>> +	fprintf(stderr, "htotal,hskew,vdisplay,vsyncstart,vsyncend,vtotal,vscan,");
+> 
+> Does this work for non-WB connectors?
+
+No, testing custom modes is a WB-only feature... will add checks for it 
+and mention it in the help text.
+
+> 
+>> +	fprintf(stderr, "vrefresh,name>\tset a custom mode\n");
+> 
+> 
+>> +	fprintf(stderr, "\t-o <desired file path> \t Dump writeback output buffer to file\n");
+>> 	fprintf(stderr, "\t-C\ttest hw cursor\n");
+>> 	fprintf(stderr, "\t-v\ttest vsynced page flipping\n");
+>> 	fprintf(stderr, "\t-r\tset the preferred mode for all connectors\n");
+>> @@ -2017,7 +2135,7 @@ static void usage(char *name)
+>> 	exit(0);
+>> }
+>>
+>> -static char optstr[] = "acdD:efF:M:P:ps:Cvrw:";
+>> +static const char optstr[] = "acdD:efF:M:o:P:ps:Cvrw:x:";
+>>
+>> int main(int argc, char **argv)
+>> {
+>> @@ -2040,6 +2158,7 @@ int main(int argc, char **argv)
+>> 	struct property_arg *prop_args = NULL;
+>> 	unsigned int args = 0;
+>> 	int ret;
+>> +	char *dump_path;
+>>
+>> 	memset(&dev, 0, sizeof dev);
+>>
+>> @@ -2078,6 +2197,10 @@ int main(int argc, char **argv)
+>> 			/* Preserve the default behaviour of dumping all information. */
+>> 			args--;
+>> 			break;
+>> +		case 'o':
+>> +			pipe_args->dump = true;
+>> +			dump_path = optarg;
+>> +			break;
+>> 		case 'P':
+>> 			plane_args = realloc(plane_args,
+>> 					     (plane_count + 1) * sizeof *plane_args);
+>> @@ -2096,6 +2219,7 @@ int main(int argc, char **argv)
+>> 			crtcs = 1;
+>> 			planes = 1;
+>> 			break;
+>> +		case 'x':
+>> 		case 's':
+>> 			pipe_args = realloc(pipe_args,
+>> 					    (count + 1) * sizeof *pipe_args);
+>> @@ -2107,7 +2231,7 @@ int main(int argc, char **argv)
+>>
+>> 			if (parse_connector(&pipe_args[count], optarg) < 0)
+>> 				usage(argv[0]);
+>> -
+>> +			pipe_args->custom = (c == 'x');
+>> 			count++;
+>> 			break;
+>> 		case 'C':
+>> @@ -2163,6 +2287,7 @@ int main(int argc, char **argv)
+>>
+>> 	if (use_atomic) {
+>> 		ret = drmSetClientCap(dev.fd, DRM_CLIENT_CAP_ATOMIC, 1);
+>> +		drmSetClientCap(dev.fd, DRM_CLIENT_CAP_WRITEBACK_CONNECTORS, 1);
+> 
+> Only if dump was requested?
+
+Dumping the output is just an optional flag for testing the writeback 
+connector.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+> 
+>> 		if (ret) {
+>> 			fprintf(stderr, "no atomic modesetting support: %s\n", strerror(errno));
+>> 			drmClose(dev.fd);
+>> @@ -2206,6 +2331,12 @@ int main(int argc, char **argv)
+>> 			if (set_preferred || count)
+>> 				set_mode(&dev, pipe_args, count);
+>>
+>> +			if (pipe_has_writeback_connector(&dev, pipe_args, count))
+>> +				writeback_config(&dev, pipe_args, count);
+>> +			else if (pipe_args->dump)
+>> +				fprintf(stderr,
+>> +						"No writeback connector found - dump will be skipped.\n");
+>> +
+>> 			if (plane_count)
+>> 				atomic_set_planes(&dev, plane_args, plane_count, false);
+>>
+>> @@ -2215,6 +2346,20 @@ int main(int argc, char **argv)
+>> 				return 1;
+>> 			}
+>>
+>> +			/*
+>> +			 * Since only writeback connectors have an output fb, this should only be
+>> +			 * called for writeback.
+>> +			 */
+>> +			if (pipe_has_writeback_connector(&dev, pipe_args, count)) {
+>> +				ret = poll_writeback_fence(dev.writeback_fence_fd, 1000);
+>> +				if (ret)
+>> +					fprintf(stderr,
+>> +							"Poll for writeback error: %d. Skipping Dump.\n",
+>> +							ret);
+>> +				else if (pipe_args->dump)
+>> +					dump_output_fb(&dev, pipe_args, dump_path, count);
+>> +			}
+>> +
+>> 			if (test_vsync)
+>> 				atomic_test_page_flip(&dev, pipe_args, plane_args, plane_count);
+>>
+> 
+> -- 
+> With best wishes
+> Dmitry
