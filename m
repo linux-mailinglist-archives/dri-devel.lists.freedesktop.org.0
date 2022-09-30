@@ -1,75 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25C25F0D55
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:20:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC7B5F0D62
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D8510ED27;
-	Fri, 30 Sep 2022 14:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B015210ED1E;
+	Fri, 30 Sep 2022 14:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55DBE10ED27
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 14:20:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664547644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CzWpz0a2W5iHF0jddbxM40PLvmu5slzC9+FHSaNHSwE=;
- b=jHRr4r7pyxaSCB/7uLOPPNe9JVv+jJzWndqbnkRGsWgx3DaDMP3NMB0JYJ7BjnQne/yWl3
- JqDgL1vu6J1DK67JflDYGOZjHapPI50jJVvWT4B3kTL+TjjS4Nl4V3WjhkM2kZk+5k3c9T
- goGcZ6eN2+dio9fNxcqUEI383z0ZjWM=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-220-gNgi3_E9OkC2oep8MbtukA-1; Fri, 30 Sep 2022 10:20:43 -0400
-X-MC-Unique: gNgi3_E9OkC2oep8MbtukA-1
-Received: by mail-lj1-f200.google.com with SMTP id
- s7-20020a2e9c07000000b0026c1202d438so1323700lji.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 07:20:43 -0700 (PDT)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99E7B10ED27
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 14:20:48 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id lc7so9416451ejb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 07:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Qmhw/xvm52V9JeMhrCZ4QdfkWP6FtOLW3fI49wxSg5A=;
+ b=WmLVs0TVUi9h5JUoYO3o2oJG0kF5hKWGPBnaIQjuqBGkFyD2xGC/n9DnqnZNC5oT2m
+ xPoGmEoybMS080J9SO3uVChRxY9triUbx+DgkIx8SxCrqIVijAMlWUTtqm3MT/tYDw87
+ gOZxTn+eBlAaBE6/xxUSAl0ky3sLCGIurURNE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=CzWpz0a2W5iHF0jddbxM40PLvmu5slzC9+FHSaNHSwE=;
- b=uEURZ0Y68DMmusHUDvy8T6vGvtzsZbSAz21sxvhSBU+MPur+SFgkG8QJ1rEmkvXfJS
- 2aALOno5IwB0XP+y1U2lTRCiL4rMMSM7Xp0TptAbABi+MAKN8bheNlT1HcbQblKGxERj
- KMwB9agxSTo6W7/ZfZ29lcJG9tomWU45FtPb08G6FOxxG+BzzDqnSxOIYDIHMx7o2iwB
- 988bO2/1UREXv59By03pVuNWHhZ/w0A/Mw4itddO0PdPgp5VTSLyWhEuhvpi/2audofZ
- Yst6GmtUk7L4X63QxLC+a+gsnBzu2W552azkwg7gSqnnNHWjAEsM1fu8ehkCTQuS+Jiy
- 0TZA==
-X-Gm-Message-State: ACrzQf1L/O1zJSNOCdILErioUTcP20tunc0Z0JQUBDaUJHaEhKb7LhEr
- Cr/75pToDkN7PrjZyh6pPQf/5+4wlSd80KT3sdJg7QkAcDVfqUjwZK1jmJdDXn+FKlvWc2mhfdO
- 90skdUd3GA0aRFAbFgOR4jeLe4ypFJ94K/XjUiyCf5ejj
-X-Received: by 2002:a05:6512:3b10:b0:498:fd40:51d2 with SMTP id
- f16-20020a0565123b1000b00498fd4051d2mr3360047lfv.11.1664547641088; 
- Fri, 30 Sep 2022 07:20:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7nzISyYqrMLLpSb5RbnRIAULsL0s3wmFAf+y8cN0o27dYxXYisS7ai4fbCDMuqrRcvskt0UiazOgrANtqzJN0=
-X-Received: by 2002:a05:6512:3b10:b0:498:fd40:51d2 with SMTP id
- f16-20020a0565123b1000b00498fd4051d2mr3360037lfv.11.1664547640741; Fri, 30
- Sep 2022 07:20:40 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Qmhw/xvm52V9JeMhrCZ4QdfkWP6FtOLW3fI49wxSg5A=;
+ b=OEj9gUWbUjLh/y2GwfJ4UD2e6NbBCfCMzMncOObT2KsmGy1TkS+N9iuyHIjRmQWWFe
+ In+hcT3gwSHNAh+aIQc2s5WFLmxc03nG4HySepjsm7Wqjf+rNsvE2Nz6l3OehyWuiQIh
+ d+mnAUiuDSME9oLbjCzRKxFDs8fQao4LJY3+DrGifnOYetSnoDjulampChojdVdW9T50
+ fpWyqb6Qm/CQcC0h51MZxjOxzw2Gu4c9QO7bkjLqWaRKevURrHEoSWE9u5ft1w9ULm+5
+ WLbOAKDCJXgNJtkneE+h4UqGNgOETgdgwg2PPZ4dE6oDJ8uwiHDNE6pOFEihhQffgxDS
+ U76g==
+X-Gm-Message-State: ACrzQf2Em1/1B/C3J95FIlo+ZQAgd/jjJpWzz/BPVVrMI6ojpstcrHuY
+ kfColGSuuPfSaL4vDwH1Cs065ucoZlj3SRvJ
+X-Google-Smtp-Source: AMsMyM4ZV1YxPJx1I1O8qFHOnIdKidOKKLldpVtHZyJNF99pLQeE5vKdPKCvTYY2KF70EHRhx8rVZQ==
+X-Received: by 2002:a17:906:9fc1:b0:761:9192:504f with SMTP id
+ hj1-20020a1709069fc100b007619192504fmr6653574ejc.116.1664547646870; 
+ Fri, 30 Sep 2022 07:20:46 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
+ [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
+ n2-20020a509342000000b0043df042bfc6sm1804485eda.47.2022.09.30.07.20.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 07:20:45 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id
+ i203-20020a1c3bd4000000b003b3df9a5ecbso5143547wma.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 07:20:45 -0700 (PDT)
+X-Received: by 2002:a05:600c:500d:b0:3b5:234:d7e9 with SMTP id
+ n13-20020a05600c500d00b003b50234d7e9mr6041734wmr.57.1664547644935; Fri, 30
+ Sep 2022 07:20:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
- <878rm3zuge.fsf@intel.com> <YzQojrDOGNhm4D8l@intel.com>
- <YzQseBFa5EvDUDSw@intel.com>
- <CA+hFU4xRV74r3Wbs-TTWmtAkEwdJaEb+1QXUZSh52LVRwfddeA@mail.gmail.com>
- <20220930103956.1c3df79e@eldfell>
-In-Reply-To: <20220930103956.1c3df79e@eldfell>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Fri, 30 Sep 2022 16:20:29 +0200
-Message-ID: <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
-Subject: Re: [RFC v2] drm/kms: control display brightness through
- drm_connector properties
-To: Pekka Paalanen <ppaalanen@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220930042506.2529522-1-jason.yen@paradetech.corp-partner.google.com>
+In-Reply-To: <20220930042506.2529522-1-jason.yen@paradetech.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 30 Sep 2022 07:20:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XoyhpoRpQpv5dNYy0qEJcu=JRw=1TKynX-5ecjLJoibw@mail.gmail.com>
+Message-ID: <CAD=FV=XoyhpoRpQpv5dNYy0qEJcu=JRw=1TKynX-5ecjLJoibw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: ps8640: Add software to support aux defer
+To: Jason Yen <jason.yen@paradetech.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,152 +73,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- Martin Roukala <martin.roukala@mupuf.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Yusuf Khan <yusisamerican@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Pin-yen Lin <treapking@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 30, 2022 at 9:40 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Thu, 29 Sep 2022 20:06:50 +0200
-> Sebastian Wick <sebastian.wick@redhat.com> wrote:
->
-> > If it is supposed to be a non-linear luminance curve, which one is it?
-> > It would be much clearer if user space can control linear luminance
-> > and use whatever definition of perceived brightness it wants. The
-> > obvious downside of it is that it requires bits to encode changes that
-> > users can't perceive. What about backlights which only have a few
-> > predefined luminance levels? How would user space differentiate
-> > between the continuous and discrete backlight? What about
-> > self-emitting displays? They usually increase the dynamic range when
-> > they increase in brightness because the black level doesn't rise. They
-> > also probably employ some tonemapping to adjust for that. What about
-> > the range of the backlight? What about the absolute luminance of the
-> > backlight? I want to know about that all in user space.
-> >
-> > I understand that most of the time the kernel doesn't have answers to
-> > those questions right now but the API should account for all of that.
->
-> Hi,
->
-> if the API accounts for all that, and the kernel doesn't know, then how
-> can the API not lie? If the API sometimes lies, how could we ever trust
-> it at all?
+Hi,
 
-Make it possible for the API to say "I don't know". I'd much rather
-have an API tell me explicitly what it does and doesn't know instead
-of having to guess what data I can actually rely on.
+On Thu, Sep 29, 2022 at 9:25 PM Jason Yen
+<jason.yen@paradetech.corp-partner.google.com> wrote:
+>
+> This chip can not handle aux defer if the host directly program
+> its aux registers to access edid/dpcd. So we need let software
+> to handle the aux defer situation.
+>
+> Signed-off-by: Jason Yen <jason.yen@paradetech.corp-partner.google.com>
+> ---
+>
+> Changes in v2:
+> - Add aux defer handler
+> - Remove incorrect statements
+>
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 31e88cb39f8a..76ada237096d 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -286,7 +286,6 @@ static ssize_t ps8640_aux_transfer_msg(struct drm_dp_aux *aux,
+>         }
+>
+>         switch (data & SWAUX_STATUS_MASK) {
+> -       /* Ignore the DEFER cases as they are already handled in hardware */
+>         case SWAUX_STATUS_NACK:
+>         case SWAUX_STATUS_I2C_NACK:
+>                 /*
+> @@ -303,6 +302,14 @@ static ssize_t ps8640_aux_transfer_msg(struct drm_dp_aux *aux,
+>         case SWAUX_STATUS_ACKM:
+>                 len = data & SWAUX_M_MASK;
+>                 break;
+> +       case SWAUX_STATUS_DEFER:
+> +       case SWAUX_STATUS_I2C_DEFER:
+> +               if (is_native_aux)
+> +                       msg->reply |= DP_AUX_NATIVE_REPLY_DEFER;
+> +               else
+> +                       msg->reply |= DP_AUX_I2C_REPLY_DEFER;
+> +               len = data & SWAUX_M_MASK;
+> +               break;
 
-For example if the kernel knows the luminance is linear on one display
-and doesn't know anything about the other display and it exposes them
-both in the same way I can not possibly write any code which relies on
-exact control over the luminance for either display.
+This seems fine to me now. There is nothing too controversial here but
+I'll still give this a few days on the list for anyone else to speak
+up. I'll plan to land it midway through next week unless anything
+comes up.
 
->
-> Personally I have the feeling that if we can even get to the level of
-> "each step in the value is a more or less perceivable change", that
-> would be good enough. Think of UI, e.g. hotkeys to change brightness.
-> You'd expect almost every press to change it a bit.
-
-The nice thing is that you can have that even if you have no further
-information about the brightness control and it might be good enough
-for some use cases but it isn't for others.
-
-> If an end user wants defined and controlled luminance, I'd suggest they
-> need to profile (physically measure) the response of the display at
-> hand. This is no different from color profiling displays, but you need
-> a measurement device that produces absolute measurements if absolute
-> control is what they want.
-
-If that's the kind of user experience you're after, good for you. I
-certainly want things to work out of the box which makes this just a
-big no-go.
-
->
-> If there ever becomes an industry standard and conformance test
-> definitions for luminance levels and backlight control, then things
-> could be different. But until that, I believe trying to make one in the
-> kernel is futile, because I have got the impression that there is
-> practically no consistency between different displays in general.
-
-I'm aware that this is the current situation but it's one that must
-change and we should at least try to create an API which still works
-when we get more and better data.
-
->
-> Besides, I would expect some backlights to wear over time, grow dimmer
-> for the same input value. Without a physical active feedback loop
-> (measurements), it just won't work.
->
-> If this is mostly for laptop displays, would end users even care?
->
->
-> Thanks,
-> pq
->
-> > On Wed, Sep 28, 2022 at 1:14 PM Ville Syrj=C3=A4l=C3=A4
-> > <ville.syrjala@linux.intel.com> wrote:
-> > >
-> > > On Wed, Sep 28, 2022 at 01:57:18PM +0300, Ville Syrj=C3=A4l=C3=A4 wro=
-te:
-> > > > On Wed, Sep 28, 2022 at 01:04:01PM +0300, Jani Nikula wrote:
-> > > > > On Fri, 09 Sep 2022, Hans de Goede <hdegoede@redhat.com> wrote:
-> > > > > > Hi all,
-> > > > > >
-> > > > > > Here is v2 of my "drm/kms: control display brightness through d=
-rm_connector properties" RFC:
->
-> ...
->
-> > > > > > Unlike the /sys/class/backlight/foo/brightness this brightness =
-property
-> > > > > > has a clear definition for the value 0. The kernel must ensure =
-that 0
-> > > > > > means minimum brightness (so 0 should _never_ turn the backligh=
-t off).
-> > > > > > If necessary the kernel must enforce a minimum value by adding
-> > > > > > an offset to the value seen in the property to ensure this beha=
-vior.
-> > > > > >
-> > > > > > For example if necessary the driver must clamp 0-255 to 10-255,=
- which then
-> > > > > > becomes 0-245 on the brightness property, adding 10 internally =
-to writes
-> > > > > > done to the brightness property. This adding of an extra offset=
- when
-> > > > > > necessary must only be done on the brightness property,
-> > > > > > the /sys/class/backlight interface should be left unchanged to =
-not break
-> > > > > > userspace which may rely on 0 =3D off on some systems.
-> > > > > >
-> > > > > > Note amdgpu already does something like this even for /sys/clas=
-s/backlight,
-> > > > > > see the use of AMDGPU_DM_DEFAULT_MIN_BACKLIGHT in amdgpu.
-> > > > > >
-> > > > > > Also whenever possible the kernel must ensure that the brightne=
-ss range
-> > > > > > is in perceived brightness, but this cannot always be guarantee=
-d.
-> > > > >
-> > > > > Do you mean every step should be a visible change?
-> > > >
-> > > > Hmm. I guess due to this. I'd prefer the opposite tbh so I could
-> > > > just put in my opregion BCLM patch. It's annoying to have to
-> > > > carry it locally just to have reasonable backlight behaviour
-> > >
-> > > After second though I guess I'm actually agreeing with Hans here.
-> > > The current situation is where small change in the value near one
-> > > end of the range does basically nothing, while a small change at
-> > > the other of the range causes a massive brightness change. That
-> > > is no good.
-> > >
-> > > --
-> > > Ville Syrj=C3=A4l=C3=A4
-> > > Intel
-> > >
-> >
->
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
