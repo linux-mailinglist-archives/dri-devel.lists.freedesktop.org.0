@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD375F0DD1
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:44:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A91DB5F0DE4
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58F0810ED33;
-	Fri, 30 Sep 2022 14:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F082010ED3A;
+	Fri, 30 Sep 2022 14:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE0410E1D4;
- Fri, 30 Sep 2022 14:44:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664549062; x=1696085062;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=YsZnePun6MVZZBFh8GTCLEGFD/oFPQLVAN8Q7WFoLu8=;
- b=C4CNDMLGtIYcpor0TTWLUiBYYhciGWAc//srXwqa1+HkJ25GxQJqvLv+
- XS0VkQP3hNXcdUygVOB92Tce4NLhIiUEE5jfwr2sbbwzikzM/FF2CJu8N
- x81xKUDSHLdMpsxpbhOCuvDmC55+WUXJqt6bbaCXO+8kXfsLlpO+cf4rR
- F3WVPoMEJj8OprOMNl3mmXkWqkQYw9fr59ZT4vyYcooE96yWQyHOI5KQJ
- DPr1BQ4DvxoQPuTnDxFAZnKEQGpAJpEz0I0Hh2b57ypLjOfI+OAkB4iGa
- g9lK/dNPuPwPz921Ip/07iNLKORn/KIYZRNstRKNZjKGbmavXZG5pmVJg Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="281917684"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="281917684"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 07:44:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="765148210"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="765148210"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga001.fm.intel.com with SMTP; 30 Sep 2022 07:44:18 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 30 Sep 2022 17:44:17 +0300
-Date: Fri, 30 Sep 2022 17:44:17 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [RFC v2] drm/kms: control display brightness through
- drm_connector properties
-Message-ID: <YzcAwVC8tm1imNOL@intel.com>
-References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
- <878rm3zuge.fsf@intel.com> <YzQojrDOGNhm4D8l@intel.com>
- <YzQseBFa5EvDUDSw@intel.com>
- <CA+hFU4xRV74r3Wbs-TTWmtAkEwdJaEb+1QXUZSh52LVRwfddeA@mail.gmail.com>
- <20220930103956.1c3df79e@eldfell>
- <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09FB10ED36;
+ Fri, 30 Sep 2022 14:47:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=mNNkRRw0Gbq4V+ztYG6L23EmoagwCkTjNrLNxOdS6h0=; b=pJNR3S8cONTj/8h4P2g2LUDXUa
+ P4qz1z/bkXJaUIs7binQsqWk3/AwoR64GRyNbZeAAPKEG3VvG0VqEcUktWPwzbIS2+dyAb3bglkrR
+ Gbp26oZwNi/2R9lfWfSlBtmhJWFxmcgI7a8IAf0g/52W794SXMJJL6jGDr825vE7BQXwjQEyRfFWP
+ Uy9SFNlE4SEEbsM7JDtb3cgFOqTncjGrvOfEEg27A/Pdv0HXPMkV2SSwbECAhxDsIdVOyX3o9TeE3
+ 96jn29a4os1mr+hXMBkJegjmqljW/OW889m7G0N9eIO4FA8PmW8PWAHgCqUfr7qmdT5HDwQG4Mp7P
+ Q5vpA6jg==;
+Received: from [2a01:799:961:d200:c807:6849:43f8:dd23] (port=51305)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oeHIa-0005u3-EX; Fri, 30 Sep 2022 16:47:32 +0200
+Message-ID: <7341c6f0-a6ca-25e5-c246-3665da441069@tronnes.org>
+Date: Fri, 30 Sep 2022 16:47:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v4 03/30] drm/tests: Add Kunit Helpers
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
+ Lyude Paul <lyude@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v4-3-60d38873f782@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v4-3-60d38873f782@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,89 +66,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- Martin Roukala <martin.roukala@mupuf.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 30, 2022 at 04:20:29PM +0200, Sebastian Wick wrote:
-> On Fri, Sep 30, 2022 at 9:40 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >
-> > On Thu, 29 Sep 2022 20:06:50 +0200
-> > Sebastian Wick <sebastian.wick@redhat.com> wrote:
-> >
-> > > If it is supposed to be a non-linear luminance curve, which one is it?
-> > > It would be much clearer if user space can control linear luminance
-> > > and use whatever definition of perceived brightness it wants. The
-> > > obvious downside of it is that it requires bits to encode changes that
-> > > users can't perceive. What about backlights which only have a few
-> > > predefined luminance levels? How would user space differentiate
-> > > between the continuous and discrete backlight? What about
-> > > self-emitting displays? They usually increase the dynamic range when
-> > > they increase in brightness because the black level doesn't rise. They
-> > > also probably employ some tonemapping to adjust for that. What about
-> > > the range of the backlight? What about the absolute luminance of the
-> > > backlight? I want to know about that all in user space.
-> > >
-> > > I understand that most of the time the kernel doesn't have answers to
-> > > those questions right now but the API should account for all of that.
-> >
-> > Hi,
-> >
-> > if the API accounts for all that, and the kernel doesn't know, then how
-> > can the API not lie? If the API sometimes lies, how could we ever trust
-> > it at all?
-> 
-> Make it possible for the API to say "I don't know". I'd much rather
-> have an API tell me explicitly what it does and doesn't know instead
-> of having to guess what data I can actually rely on.
-> 
-> For example if the kernel knows the luminance is linear on one display
-> and doesn't know anything about the other display and it exposes them
-> both in the same way I can not possibly write any code which relies on
-> exact control over the luminance for either display.
-> 
-> >
-> > Personally I have the feeling that if we can even get to the level of
-> > "each step in the value is a more or less perceivable change", that
-> > would be good enough. Think of UI, e.g. hotkeys to change brightness.
-> > You'd expect almost every press to change it a bit.
-> 
-> The nice thing is that you can have that even if you have no further
-> information about the brightness control and it might be good enough
-> for some use cases but it isn't for others.
-> 
-> > If an end user wants defined and controlled luminance, I'd suggest they
-> > need to profile (physically measure) the response of the display at
-> > hand. This is no different from color profiling displays, but you need
-> > a measurement device that produces absolute measurements if absolute
-> > control is what they want.
-> 
-> If that's the kind of user experience you're after, good for you. I
-> certainly want things to work out of the box which makes this just a
-> big no-go.
 
-I think if we have the information to make the default behaviour
-better then we should do that. Ie. if the firmaware gives us a
-table to remap the values for a more linear response we should
-make use of that by default.
 
-We can of course provide a way for the user to plug in their own
-actually measured data later. But IMO that doesn't even have to
-happen in the initial implementation. Just need to avoid painting
-ourselves totally in the corner in a way that would prevent later
-additions like that.
+Den 29.09.2022 18.30, skrev Maxime Ripard:
+> As the number of kunit tests in KMS grows further, we start to have
+> multiple test suites that, for example, need to register a mock DRM
+> driver to interact with the KMS function they are supposed to test.
+> 
+> Let's add a file meant to provide those kind of helpers to avoid
+> duplication.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
 
-I just hate the current limbo where we're somehow too afraid to
-change the current behaviour to do the remapping by default.
-I see no upsides in the current behaviour of just blindly
-exposing the raw hardware register values more or less. They
-mean absolutely nothing to any user.
-
--- 
-Ville Syrj‰l‰
-Intel
+Reviewed-by: Noralf Tr√∏nnes <noralf@tronnes.org>
