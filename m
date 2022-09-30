@@ -1,140 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46725F01B2
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 02:10:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 912B55F01B5
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 02:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 012B710EC3C;
-	Fri, 30 Sep 2022 00:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02B210EC3B;
+	Fri, 30 Sep 2022 00:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16F310EC34;
- Fri, 30 Sep 2022 00:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664496639; x=1696032639;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=D9wGp9/6KRZ1de8Ip7HwVsLCroDKC7m3tL7Ge54uvJE=;
- b=mKUV8IQZxB8/46gnhowK8NfM+ybNdWnVUuy1N2jmdSYho4qHCt+Y7cea
- 6fgFalRODpY4GlBsNGayQ3PP0gLn4WHOdmclVotN7LO9hHZLQLxmi0bwD
- +4Gy1oMSrBkuc2H1nWi4gmFBK87BJciGbRBsWmmExWb/WASUxkDn3XfNu
- 2WK0QUVt5FQGjA4pJP+PJymHT3+2L+vybOxRtiAQSsoudpO1v2tB+SubB
- 1fzd6t1gWOKX48ssnb6oXQ8KTUEIqv2E0fU0mOLRFMQqjNsb4HVp5gHXK
- GeDWTCnOIU8ein3GS5xCYOlHZzlP2CKiw4MoRxie9en0CTmGBZJ862Y5A Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="366112081"
-X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; d="scan'208";a="366112081"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 17:10:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="617809019"
-X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; d="scan'208";a="617809019"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga007.jf.intel.com with ESMTP; 29 Sep 2022 17:10:38 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 17:10:38 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 17:10:38 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 29 Sep 2022 17:10:38 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 29 Sep 2022 17:10:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jHa6mDnNedx8aCg8RdkCSMFkidZfVC2SXE+SVDMD0tFC/iWDtzpmxS5CimhTwbzbBOUAcFS0SXYruKDQeBgrdiedbKpjCiCvpgXt4Je2F54A9/eDn1Ocf2tehSBRNPANt+GaadbXNtT898u298eqoi2IcdOsK+t3xfkY3fuTZpeAs8Lof5Z+E6t1wRSUTbHjnrdEVvfDL1erVr0FDLpOWFNsdOpwpanjv0HGZ4yGzhm/NVMAEJoUdgUFYfXeXKR8dGLYGsJo7lt5a6GOfjaLQRXPM8T6R6VetCKeD1r6S0L2x4E6vOi68R+/iAvFbW0Z4ID8bXIsh5o7igkXGrvWuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D9wGp9/6KRZ1de8Ip7HwVsLCroDKC7m3tL7Ge54uvJE=;
- b=VxkQAZvyLF61y4FY65rNzkp5858mlYtJzSnjQNows9qCWrJOXhbqHsLgUUfGZh64ot/0AjrGBWovh2LqSxbdxgXVd5oHBxENAacO4UIE5UW2uUayfboGF7xPGNBxLvgWBYOxzsAsvw7moU5TSpzPtbX4mUwyFS7bicOYMesrhS8xu2R2pGooZgLMymHCxh15V/a8ya4JEDRyR1BEBn0k2rpS3Nu0Z1nBPjLzuvB7CCMyHQ+oM7zhIGsiidI6HPqhoQUVQSTHDvhXsp/o1ktIsnM0eMVVVsKf5WqmmWJwS9KO7lraFuGcRQLXU2u6QKz9K3bBPzW8CfE7DEKmA4ZG5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SN7PR11MB6797.namprd11.prod.outlook.com (2603:10b6:806:263::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Fri, 30 Sep
- 2022 00:10:35 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7246:dc8c:c81f:5a10]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7246:dc8c:c81f:5a10%3]) with mapi id 15.20.5654.025; Fri, 30 Sep 2022
- 00:10:35 +0000
-Date: Thu, 29 Sep 2022 17:10:31 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Subject: Re: [PATCH v4.1] drm/i915/mtl: Define engine context layouts
-Message-ID: <20220930001031.35cnjng7txadie5b@ldmartin-desk2.lan>
-X-Patchwork-Hint: comment
-References: <20220928155511.2379663-1-radhakrishna.sripada@intel.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220928155511.2379663-1-radhakrishna.sripada@intel.com>
-X-ClientProxiedBy: BY5PR13CA0015.namprd13.prod.outlook.com
- (2603:10b6:a03:180::28) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE66210E71A
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 00:12:58 +0000 (UTC)
+Received: by mail-io1-xd31.google.com with SMTP id y189so324210iof.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 17:12:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Mc1yUxLf68mdjipnfvOYI/nSXzD1WDAJ8f0qHaCzrCY=;
+ b=jUympOnSEUyRQ7hba3Isg0fn+ppGfJ6wX9uEUD8x61FewiuHeDYWiDPujXuRj9sysO
+ aeWPP0TaJyT48YIwEXScrp0/pL0FV3HpK8MH/+Ndga/TfbnrEpkpqFY9M7DKxDKw2GTl
+ ev+7gWWZEwaAIJZntN4n9OfYXBpibgpFwpe/faIzlCFrUwxrhDhj5jkP0SluoxKV+3h3
+ nAmdknRzeCfhrzsEKgQ9osJ5NkIGuUBGzr9ZNqmKarBt5b8Jy5rhLdM4KYxrHycLvk9n
+ lk2IRvwwg33e79DWKGbx9VjxHlh8CrfuQxYGQaDhzv7WKr0bG2NCN+tyYNVcDXTvEv/2
+ KCFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Mc1yUxLf68mdjipnfvOYI/nSXzD1WDAJ8f0qHaCzrCY=;
+ b=G5SQKg2gV+wmxJYtnNplHFKe96kulmMnpdhEoH9AdSYFErKPRIW1x6BVQvvV3yQdN4
+ l85s0vzylKbL7+xx0FXFXhxLywN4tArpSLnRQMRaRvz8Pblown0t4vGwMJtJTxQ4Ms7q
+ OYQUVsc7rAgexkFIG3eZ2hwaRbWLuS42oDvTU+tjLHKj/94LBNOyQwqOpui8zCB3GKUb
+ 2xBKWtH7SN9YBGGrgIWhOEhQlAYvzb1RKXOVdfwKl6o/li3Fxk/KbvGHydtWom8+yEGd
+ siioiyMbGPeyNVZPlNw3qxiihjSXiEy1JO9zE9oPh7z9ErfZDPfIR8l9fVUhha38zbgs
+ eBKA==
+X-Gm-Message-State: ACrzQf2C90UKyGfsz/WHCp+QCv3G29i0i9oKeOkloynF7GTIKBKY7rQD
+ r5sflb4y/lcSExljoflYuuqrVx3kTr2YdBdlFDY=
+X-Google-Smtp-Source: AMsMyM4cRwQfnJJcv0tOIvxC8XnUQYtIxRa/cNgXcgm/JhwIX+ZdQ19s+6vBRcwlDo1PYBdvbUeX4U9Qqq71v8xqhQk=
+X-Received: by 2002:a02:cf27:0:b0:359:fec8:544a with SMTP id
+ s7-20020a02cf27000000b00359fec8544amr3298988jar.214.1664496777794; Thu, 29
+ Sep 2022 17:12:57 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SN7PR11MB6797:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ed2f20e-8d90-4103-23d2-08daa2783257
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jMqgY3yNgv969jiC0WNwVMCzsfbzmRxMJ8re/wJ5Dya9FRq9GadaELLpa/CcPCprELG5wRsWqre8YKN07M65bOGGJ2jQ1Z+2UJkfFiJ2G5/bOyAlMy2Cbh+fcTXUvABdVjNxPCdAOVsfMZChFmEJfu7wsWi5Q68sDi1X+Xa9h5+I8Ve9+WE0qnbarZWHtxSstwlQSpio4O4GWXDtKrVdwS4qq5sNMs7HQHmr6c9XujJpAIFp/P2/1mCoFXyyStFYWXLPK7iATeCAPSo2N+H+XAGuovkKC9/FJ7Vrqohef7TYnRKXSMeW6XR3Ml0vUvtT8xA4v0PBzrFZt1UCYEig0FuDcN9oylF4phO6+q+JHV13KYlbPRbFQGAyxiqwsUe+/DlZIt/VAtLDczLzEf8s7ru4BDDiA1x0KeETsvpnZWskEe5/p/StTWP8hdzSSuGN6xw37iSEo8vytv6NjfTVEdnPtH0KMfbRLgZJb1SgLGsD9Z222aUdK5O4Qui+jMq8vN3qeNDOVZdoneyDmcBraWXsn8jJy5+Th+YVMJhFfiotMAEm7SPVbXiOBMyH9gikG1sWfZbaimTVAOoenlLIns3MMp/uUDgQxbcM8RPb9ZcXJD0CAV+tBlJN9IuFk1IiUik7DX22IeqMUIRTH+3HMwOOHFMmaoarlOzKJB1Tj2ueaeQ/k3KmZ4G1a0TPQCW25bETq1m/RK1CXUFnzoLnMQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(396003)(366004)(376002)(136003)(346002)(451199015)(450100002)(8936002)(316002)(41300700001)(6636002)(83380400001)(36756003)(26005)(478600001)(9686003)(6506007)(6512007)(6666004)(2906002)(6486002)(86362001)(5660300002)(186003)(1076003)(6862004)(82960400001)(38100700002)(66476007)(66556008)(66946007)(4326008)(8676002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kdaFVD1Jo5Mi0rkjLxH6NYeIUsctqwp2IsfYh/ywDu/bDXwHQ8foh41SwiCD?=
- =?us-ascii?Q?49KXhNvIqxtBrsVU3nRq65Ho+Ru07FWwMqhJ8Mj3uI93goKvP49wQuryGndZ?=
- =?us-ascii?Q?IHu+VZAmf7OYNr+9DgLLTkI4EVDr+Q9dJaz2Fc7FU6sRS5gUeXaJnO+Hygiy?=
- =?us-ascii?Q?cyz0iKnhlFhcXZXPX/augnBHl+ZzqlllELAOt08pURrvZnOlJxpcM+Tw/nIE?=
- =?us-ascii?Q?h8Qh5XDqZAiDMfx/F0q1oajQRCqFfSX2WGm73GV5i7nfsE+aN9o9p7BOhLvJ?=
- =?us-ascii?Q?mhoA7Xb9Ge9HJdMhuDcPlj3dEfJUe2Qm1Nf96v3zuDDI42nQ7o1QOJp0Ejbz?=
- =?us-ascii?Q?+ndtGP+cLhqaVjq89R8iEx5RH8HeCYI9YQ2JrRlauCs6USM9b8ust0+sHv9c?=
- =?us-ascii?Q?+yrZ8Q4nNIUBc+/Dpk1GkKUx/C0MCQQWe69U0oramd0Bi605OtHESxevxsUZ?=
- =?us-ascii?Q?0GJZq8e0JjUC9ZS3aTXun8JRMm/Gv+kKHwdyjbTSbbf53G5zF+dUTngPOHoA?=
- =?us-ascii?Q?MI4idf4Zn+cKRPqh0gFTK7njBcWk38D3n4szA4WvexpQluDx0JAHKYAkn+9x?=
- =?us-ascii?Q?QwR4uB3yQNdh79YiC/FhiDK4NtMofLKG6yNc8hfC4dYOGTeO1IRobJkmwQNA?=
- =?us-ascii?Q?38QJAraAVUDklfW3iFgxRYnqDCC1qlSvGt6UfPCrkDH05DXOJgb787kYV5lu?=
- =?us-ascii?Q?q0IlK6Zj3ycZDG9pdlpKLxrsWimPUUl/oRFVDt1PU+kiWwidAszSWITXgmoF?=
- =?us-ascii?Q?/rxR2MZVLceZNYn1YhtyeB7VPzf5bjcMSe7WFWjiePLJKiikiOb8QZHwRZ1y?=
- =?us-ascii?Q?jLQhGMkSt0N0dXw4cQNBKBAwfUTQIAdN/g/LwAt2XpeQ18uJo5U1/mI19Tld?=
- =?us-ascii?Q?ubv361n4RQa/j1gFRqx7ubYZS3VDojW0XJwuHNL6JrABrtvmPyUDrZBBvFEc?=
- =?us-ascii?Q?K+aBUZtHyz4FKkS/kDxWIbeOUqfqOzouAGabMEUJazfuqYQ2ehAxnese57O0?=
- =?us-ascii?Q?wnUBGySGFV93vcMeGdR8yO+MdV8eU9hhJVlCvbWXp0NT5lYCmtFR+d6xzp2F?=
- =?us-ascii?Q?CY+QXTr4M/88Q0ByqDGnsgRKtskDVIOO8XPeZnvfQwhlN2OpvJQbqmTtEIEx?=
- =?us-ascii?Q?1eA1gw7IjvkLnC7f7M6WjPuVLzu5yagWjbaYDkbFQmt2Y8WWNC55B6z+aCla?=
- =?us-ascii?Q?uuOfBFs6de1XX+7enyaBALyEajfXYPA8J4L7RCqrjbdw9xjotqReQDxo/BHA?=
- =?us-ascii?Q?FrvlzPry4LDfqsAP4MiVn4aguWaAegave1jwcOCIzMaqDSZVGHK7+ziY03/5?=
- =?us-ascii?Q?u7OlsxRKVRkiZbFWh+LrXvYyg2l7No4ftAB1brVR2kWKJVSGImjjyaf8mulj?=
- =?us-ascii?Q?WdLCL5Ys0dnSG8gxZ1VVL7hYf7XawjNmpNafFe9QjUuYcPV+aogfSFDjwOPD?=
- =?us-ascii?Q?pcThTUbXAfkN/mYIwgTEJQGJ3KJMSScXLys3R7tY+GSVZxVKXdphgi453Zd0?=
- =?us-ascii?Q?CC4PaJhn205yHr1iM8W1jm9jOcIiyzCyehiLPxaJDCZHMsz/xKoZRlDdsEek?=
- =?us-ascii?Q?L7FEZD4/J26caHteUerYD3+fW7gaJJfhg7kDJzN9xjtB0TpqsbT5tI0upGEc?=
- =?us-ascii?Q?xQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ed2f20e-8d90-4103-23d2-08daa2783257
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 00:10:35.2880 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PgY0SklDxO6C8LTzH/gzUZgBHf14Oz47yhA7s9EtakkhufeIc35g89xY6rF8nzpMEmanSARIPpgSeLpRkr3LJ7rnPfpHVkUCugXB4RocuYY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6797
-X-OriginatorOrg: intel.com
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 30 Sep 2022 10:12:45 +1000
+Message-ID: <CAPM=9txBybqG30QMLH-fyovjw_m7eiFyE6rBr9Q-=rMb_sak3A@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.0 final
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,39 +62,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 28, 2022 at 08:55:11AM -0700, Radhakrishna Sripada wrote:
->From: Matt Roper <matthew.d.roper@intel.com>
->
->The part of the media and blitter engine contexts that we care about for
->setting up an initial state on MTL are nearly similar to DG2 (and PVC).
->The difference being PRT_BB_STATE being replaced with NOP.
->
->For render/compute engines, the part of the context images are nearly
->the same, although the layout had a very slight change --- one POSH
->register was removed and the placement of some LRI/noops adjusted
->slightly to compensate.
->
->v2:
-> - Dg2, mtl xcs offsets slightly vary. Use a separate offsets array(Bala)
-> - Add missing nop in xcs offsets(Bala)
->v3:
-> - Fix the spacing for nop in xcs offset(MattR)
->v4:
-> - Fix rcs register offset(MattR)
->v4.1:
-> - Fix commit message(Lucas)
->
->Bspec: 46261, 46260, 45585
->Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
->Cc: Licas De Marchi <lucas.demarchi@intel.com>
->Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
->Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Hi Linus,
 
+Last set of fixes for 6.0 hopefully, minor bridge fixes, i915 fixes,
+and a bunch of amdgpu fixes for new IP blocks, along with a couple of
+regression fixes. Hopefully all set for merge window next week.
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Dave.
 
-Lucas De Marchi
+drm-fixes-2022-09-30-1:
+drm fixes for 6.0 final
+
+amdgpu:
+- GC 11.x fixes
+- SMU 13.x fixes
+- DCN 3.1.4 fixes
+- DCN 3.2.x fixes
+- GC 9.x fix
+- Fence fix
+- SR-IOV supend/resume fix
+- PSR regression fix
+
+i915:
+- Restrict forced preemption to the active context
+- Restrict perf_limit_reasons to the supported platforms - gen11+
+
+bridge:
+- analogix: Revert earlier suspend fix
+- lt8912b: Fix corrupt display output
+The following changes since commit f76349cf41451c5c42a99f18a9163377e4b364ff:
+
+  Linux 6.0-rc7 (2022-09-25 14:01:02 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-09-30-1
+
+for you to fetch changes up to 6643b3836f3908c4f77883b2fae72451e85cf3ca:
+
+  Merge tag 'drm-intel-fixes-2022-09-29' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-09-30
+09:28:58 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.0 final
+
+amdgpu:
+- GC 11.x fixes
+- SMU 13.x fixes
+- DCN 3.1.4 fixes
+- DCN 3.2.x fixes
+- GC 9.x fix
+- Fence fix
+- SR-IOV supend/resume fix
+- PSR regression fix
+
+i915:
+- Restrict forced preemption to the active context
+- Restrict perf_limit_reasons to the supported platforms - gen11+
+
+bridge:
+- analogix: Revert earlier suspend fix
+- lt8912b: Fix corrupt display output
+
+----------------------------------------------------------------
+Alvin Lee (1):
+      drm/amd/display: Update DCN32 to use new SR latencies
+
+Aric Cyr (1):
+      drm/amd/display: Fix audio on display after unplugging another
+
+Ashutosh Dixit (1):
+      drm/i915/gt: Perf_limit_reasons are only available for Gen11+
+
+Bokun Zhang (1):
+      drm/amdgpu: Add amdgpu suspend-resume code path under SRIOV
+
+Brian Norris (1):
+      Revert "drm: bridge: analogix/dp: add panel prepare/unprepare in
+suspend/resume time"
+
+Chris Wilson (1):
+      drm/i915/gt: Restrict forced preemption to the active context
+
+Dave Airlie (3):
+      Merge tag 'drm-misc-fixes-2022-09-29' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'amd-drm-fixes-6.0-2022-09-29' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2022-09-29' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Eric Bernstein (1):
+      drm/amd/display: Remove assert for odm transition case
+
+Evan Quan (3):
+      drm/amdgpu: avoid gfx register accessing during gfxoff
+      drm/amd/pm: enable gfxoff feature for SMU 13.0.0
+      drm/amd/pm: use adverse selection for dpm features unsupported by driver
+
+Francesco Dolcini (1):
+      drm/bridge: lt8912b: fix corrupted image output
+
+Graham Sider (3):
+      drm/amdkfd: fix MQD init for GFX11 in init_mqd
+      drm/amdgpu: pass queue size and is_aql_queue to MES
+      drm/amdkfd: fix dropped interrupt in kfd_int_process_v11
+
+Jiadong.Zhu (2):
+      drm/amdgpu: Correct the position in patch_cond_exec
+      drm/amdgpu: Remove fence_process in count_emitted
+
+Leo Li (1):
+      drm/amd/display: Prevent OTG shutdown during PSR SU
+
+Nicholas Kazlauskas (3):
+      drm/amd/display: Do DIO FIFO enable after DP video stream enable
+      drm/amd/display: Wrap OTG disable workaround with FIFO control
+      drm/amd/display: Add explicit FIFO disable for DP blank
+
+Philippe Schenker (2):
+      drm/bridge: lt8912b: add vsync hsync
+      drm/bridge: lt8912b: set hdmi or dvi mode
+
+Samson Tam (1):
+      drm/amd/display: fill in clock values when DPM is not enabled
+
+Taimur Hassan (3):
+      drm/amd/display: Avoid avoid unnecessary pixel rate divider programming
+      drm/amd/display: Fix typo in get_pixel_rate_div
+      drm/amd/display: Avoid unnecessary pixel rate divider programming
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |  4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 27 ++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |  2 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  4 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  2 +-
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  4 +
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  2 +
+ drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c   |  6 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c   |  4 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |  8 +-
+ .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c | 11 ++-
+ .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   | 14 ++++
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  6 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c    | 47 ++++++++++++
+ .../display/dc/dcn314/dcn314_dio_stream_encoder.c  | 25 ++++--
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c  | 53 +++++++++++++
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.c    | 10 ++-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   | 43 ++++++++++-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.h   |  2 +
+ .../drm/amd/display/dc/inc/hw/clk_mgr_internal.h   |  2 +
+ drivers/gpu/drm/amd/include/mes_v11_api_def.h      |  3 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 89 +++++++---------------
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 13 ----
+ drivers/gpu/drm/bridge/lontium-lt8912b.c           | 13 +++-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h       | 15 ++++
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   | 21 ++++-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        | 15 +++-
+ 28 files changed, 340 insertions(+), 106 deletions(-)
