@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6334F5F0AA3
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 13:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC9F5F0AA7
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 13:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F3410EC9D;
-	Fri, 30 Sep 2022 11:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A1410ECA9;
+	Fri, 30 Sep 2022 11:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A68D710EC9A;
- Fri, 30 Sep 2022 11:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0B210EC9A
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 11:37:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
  References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7Di28lWOOvJdb7/KJIOtxHafXM6u5ojd9FOh8YHDwCU=; b=tk8OCpw79AlGWFAmVnxYVlB+F0
- LBPcXRDMb/vz/ERMFSH8Hl8ySWNc96e9C+AogFh+UjMU34GJHp9P7bzomGLe8Rk/zSPKkU+7wkhSo
- 99uZzMlp23oyplax2bgnxnx/ZREvU0mQIl+6OB/e+F+0xGw74ASB2sVpbn9iklF8iJj3jq/APAQQ1
- QagX1o/tzUk1VOCvdqNj9NvJfx0g35oEw2Y1b748DsOKi58Q/j3abQWZgblEuoASeTW/qHWtGt0E/
- HOvhI++NcKviGTCoNzDYWDfH5oSdlnSflPa+2XHeejXGdEpl/lSMMSMMEx3HWNAzlwCr3kdja81NI
- gK2xqamg==;
-Received: from [2a01:799:961:d200:c807:6849:43f8:dd23] (port=54733)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oeEIM-0002yg-BL; Fri, 30 Sep 2022 13:35:06 +0200
-Message-ID: <f3ae391f-2656-549e-ee73-f7efc547c0be@tronnes.org>
-Date: Fri, 30 Sep 2022 13:34:58 +0200
+ bh=kto352C5JbXS9gyJb/ZdeGb8qmDghRhIJpwf498en+s=; b=q0CzIU2Ghmr6YyWy9t8I/dyoSX
+ ICGSoWeKulgf/3yBh4oD7L7WRkwd1ZwXcqpkfk6sssOVlzVlc1EAQmXFAi3oZYwa4IGqtmcPEnrh/
+ s9FKn4XTjLhDMynP/qdhxUIOpvx2rpJmZkFKVfzXMx2IYdLtrn379rA5X0iaTyK/TWrQdeKuPAc8N
+ C6jXXNKoAiA8ZPBskkax9j7rqpVcwceMzqx89cXX9Kl+8Xf0OaG/4rhmzWJgU3zb41ymac2UiD9B1
+ wAcBHpxzSwa+qqOgTow92yqe2Pj/fGwTTOQOB8YYX9UPaksZfvQchyn8CcqbAN2j5+f3f7h1DQBJ1
+ 6FjdTD6A==;
+Received: from [177.34.169.227] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1oeEKa-000MGs-OC; Fri, 30 Sep 2022 13:37:24 +0200
+Message-ID: <9e5f6178-5edc-2ec9-f336-5df3e5b887f8@igalia.com>
+Date: Fri, 30 Sep 2022 08:37:05 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v4 01/30] drm/docs: Remove unused TV Standard property
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
- Lyude Paul <lyude@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
- <20220728-rpi-analog-tv-properties-v4-1-60d38873f782@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v4-1-60d38873f782@cerno.tech>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2 2/2] drm/tests: Split
+ drm_test_dp_mst_sideband_msg_req_decode into parameterized tests
+To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ David Gow <davidgow@google.com>
+References: <20220927221206.55930-1-mcanal@igalia.com>
+ <20220927221206.55930-2-mcanal@igalia.com>
+ <20220929223333.vh6wy45mfx6kccds@nostramo>
+ <CABVgOSkx7KYNRKCN5h=37zQGR0qu+BDCb6cQeqbCwX8UxC3knw@mail.gmail.com>
+ <20220930091156.zt7w74g5axfozlts@nostramo>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20220930091156.zt7w74g5axfozlts@nostramo>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,50 +60,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ Arthur Grillo <arthur.grillo@usp.br>, magalilemes00@gmail.com,
+ David Airlie <airlied@linux.ie>, Tales Aparecida <tales.aparecida@gmail.com>,
+ Daniel Latypov <dlatypov@google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Melissa Wen <mwen@igalia.com>, Isabella Basso <isabbasso@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/30/22 06:11, Michał Winiarski wrote:
+> On Fri, Sep 30, 2022 at 02:50:43PM +0800, David Gow wrote:
+>> On Fri, Sep 30, 2022 at 6:33 AM Michał Winiarski
+>> <michal.winiarski@intel.com> wrote:
+>>>
+>>> On Tue, Sep 27, 2022 at 07:12:06PM -0300, Maíra Canal wrote:
+>>>> The drm_test_dp_mst_sideband_msg_req_decode repeats the same test
+>>>> structure with different parameters. This could be better represented
+>>>> by parameterized tests, provided by KUnit.
+>>>>
+>>>> In order to convert the tests to parameterized tests, the test case for
+>>>> the client ID was changed: instead of using get_random_bytes to generate
+>>>> the client ID, the client ID is now hardcoded in the test case.
+>>>
+>>> Generally "random" usage is not incompatible with parameterized tests, we can
+>>> create parameterized tests that use random data.
+>>> The idea is to pass a function that generates the actual param (where we have a
+>>> pointer to function as one of the members in "params" struct).
+>>>
+>>> For example, see "random_dp_query_enc_client_id" usage here:
+>>> https://lore.kernel.org/dri-devel/20220117232259.180459-7-michal.winiarski@intel.com/
 
+Although it is possible, I don't see the benefit in this case to use the
+get_random_bytes instead of hardcoding. I believe it will only add more
+boilerplate to the tests.
 
-Den 29.09.2022 18.30, skrev Maxime Ripard:
-> That property is not used or exposed by any driver in the kernel. Remove
-> it from the documentation.
+>>>
+>>> In this case, we just compare data going in with data going out (and the data
+>>> itself is not transformed in any way), so it doesn't really matter for coverage
+>>> and we can hardcode.
+>>>
+>>> -Michał
+>>
+>> FWIW, while the uses of randomness in DRM tests so far haven't
+>> concerned me much, I think we'll eventually want to have some way of
+>> ensuring the inputs to tests are deterministic.
+>>
+>> My thoughts are that (at some point) we'll add a kunit_random()
+>> function or similar, which will use a pseudorandom number generator
+>> which can be set to a deterministic seed before each test case. That
+>> way, there'd be a way to reproduce an error easily if it occurred. (Of
+>> course, there'd be a way of setting different or random seeds to
+>> preserve the extra coverage you'd otherwise get.)
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> That's exactly what DRM tests do (well... most DRM tests, this one being the
+> exception, and those other tests also seem to have lost a printk with seed value
+> after being refactored into kunit).
+
+I will take a look at those lost printk in drm_mm_test and
+drm_buddy_test, as they are important to assure the reproducibility of
+the tests.
+
+> See the usage of DRM_RND_STATE in drm_mm_test and drm_buddy_test.
+> Having kunit_random() would definitely be useful and let us remove bunch of
+> boilerplate from the tests, but it doesn't prevent using reproducible random
+> data in existing tests.
 > 
-> ---
-> Changes in v4:
-> - New patch
-> ---
->  Documentation/gpu/kms-properties.csv | 1 -
->  1 file changed, 1 deletion(-)
+>> I don't think this is something worth holding up or changing existing
+>> tests at the moment, but having tests behave deterministically is
+>> definitely desirable, so +1 to avoiding get_random_bytes() if it's not
+>> giving you any real benefit.
 > 
-> diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
-> index 07ed22ea3bd6..45c12e3e82f4 100644
-> --- a/Documentation/gpu/kms-properties.csv
-> +++ b/Documentation/gpu/kms-properties.csv
-> @@ -91,7 +91,6 @@ omap,Generic,“zorder”,RANGE,"Min=0, Max=3","CRTC, Plane",TBD
->  qxl,Generic,"“hotplug_mode_update""",RANGE,"Min=0, Max=1",Connector,TBD
->  radeon,DVI-I,“coherent”,RANGE,"Min=0, Max=1",Connector,TBD
->  ,DAC enable load detect,“load detection”,RANGE,"Min=0, Max=1",Connector,TBD
-> -,TV Standard,"""tv standard""",ENUM,"{ ""ntsc"", ""pal"", ""pal-m"", ""pal-60"", ""ntsc-j"" , ""scart-pal"", ""pal-cn"", ""secam"" }",Connector,TBD
+> Yeah - all I was refering to in my previous message was the wording of the
+> commit message. We're just removing it because it is desirable in this
+> particular case, not because of the fact that the test is now parameterized and
+> that's somehow preventing get_random_bytes() usage.
 
-This property is listed under radeon and it is used in
-drivers/gpu/drm/radeon/radeon_display.c
+I will send a v3 rewording the commit message to make it more clear.
 
-Noralf.
+Best Regards,
+- Maíra Canal
 
->  ,legacy TMDS PLL detect,"""tmds_pll""",ENUM,"{ ""driver"", ""bios"" }",-,TBD
->  ,Underscan,"""underscan""",ENUM,"{ ""off"", ""on"", ""auto"" }",Connector,TBD
->  ,,"""underscan hborder""",RANGE,"Min=0, Max=128",Connector,TBD
+> 
+> -Michał
+> 
+>> We've also had a few requests in the past for being able to pass in a
+>> custom set of parameters from userspace, which opens up some other
+>> interesting possibilities, though it's not a priority at the moment.
+>>
+>> Cheers,
+>> -- David
+> 
 > 
