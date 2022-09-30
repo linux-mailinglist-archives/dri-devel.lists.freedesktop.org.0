@@ -1,52 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0C65F0452
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 07:52:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 597D15F04BC
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 08:19:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C449B10EB79;
-	Fri, 30 Sep 2022 05:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8427510E1A1;
+	Fri, 30 Sep 2022 06:19:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5160D10E038;
- Fri, 30 Sep 2022 05:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664517134; x=1696053134;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=3KPEcgR85ZOMW5q/JgOUeEEbfoaGIM6iNZckmuOtgYs=;
- b=OfkmDMIQEryd0AhYOQeI11qEfUKsnPUZKJY3w9rQkb8hQOi/lksP3JOY
- +w3xzsPNx5+5Z+TH5WK9nHwDQJIhL/rRC3eBKhLgHP3jsLjAkyJfwsmvL
- CGxgphEp3z26faMAqS9Sg0GKzW0wqezL4OmjDmQqXsJ04GahaX+vT2mi1
- rEAeU9SNmYuqDiPZXtPMpGRi+FxtcIRa8oka9wmVAiwiET/pDiXWFDOl9
- TdLIJJ66jykWkYlABgxdRLlfEREnSLKGW2IAjqYmXM/G0M8KI6PM1xxi/
- 81seGbSeiGY1Nzj6XigRMjfM7mcgl+9iNHDfcg97HEw/JR7ZkwehycGlW w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="366161190"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="366161190"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 22:52:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="748117448"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="748117448"
-Received: from lkp-server01.sh.intel.com (HELO 14cc182da2d0) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 29 Sep 2022 22:52:10 -0700
-Received: from kbuild by 14cc182da2d0 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oe8wT-0000Zf-2Q;
- Fri, 30 Sep 2022 05:52:09 +0000
-Date: Fri, 30 Sep 2022 13:51:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 1c6c4f42b3de4f18ea96d62950d0e266ca35a055
-Message-ID: <633683f5.q63D6Na3AYhI/Rp2%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6D010E1A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 06:19:36 +0000 (UTC)
+X-UUID: 229bf0281b14485a85ef06c19501762a-20220930
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=Of3F+7sPVVjfsHtBLdfkKfBmX3fY1czHUbh00fJZAUE=; 
+ b=bDo2qFqa/2Ci1EsPqzdagbjS1wcInvYNSPmaxh0qb6XhQCi/Soh0H+uQKepV7HR87lw81D6l/LYV+pNC5aNBnyonH75DdDwelSijxWQsz8WVOAkO+rmE8F4fIl7Md92dNv6IE3lJM9QTyBemfZrPJpjDTxfP9ZA8JoJXDJw3ndU=;
+X-CID-UNFAMILIAR: 1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11, REQID:ef91c13f-c991-421a-ac2b-fd2f76bbf4e2, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:54,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:49
+X-CID-INFO: VERSION:1.1.11, REQID:ef91c13f-c991-421a-ac2b-fd2f76bbf4e2, IP:0,
+ URL
+ :0,TC:0,Content:-5,EDM:0,RT:0,SF:54,FILE:0,BULK:0,RULE:Release_HamU,ACTION
+ :release,TS:49
+X-CID-META: VersionHash:39a5ff1, CLOUDID:cd4098a3-dc04-435c-b19b-71e131a5fc35,
+ B
+ ulkID:220930141931YWE3718G,BulkQuantity:0,Recheck:0,SF:38|28|16|19|48|823|
+ 824|102,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:
+ nil,COL:0
+X-UUID: 229bf0281b14485a85ef06c19501762a-20220930
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <xiaoyong.lu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 2007110508; Fri, 30 Sep 2022 14:19:29 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Fri, 30 Sep 2022 14:19:28 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 30 Sep 2022 14:19:27 +0800
+Message-ID: <75bbf320eb1c54d2834012c1aafcc87105204e8d.camel@mediatek.com>
+Subject: Re: [RFC PATCH v3] media: mediatek: vcodec: support stateless AV1
+ decoder
+From: "xiaoyong.lu@mediatek.com" <xiaoyong.lu@mediatek.com>
+To: Daniel Almeida <daniel.almeida@collabora.com>, Yunfei Dong
+ <yunfei.dong@mediatek.com>, Alexandre Courbot <acourbot@chromium.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Date: Fri, 30 Sep 2022 14:19:26 +0800
+In-Reply-To: <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
+References: <20220901110416.21191-1-xiaoyong.lu@mediatek.com>
+ <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,216 +79,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 1c6c4f42b3de4f18ea96d62950d0e266ca35a055  Add linux-next specific files for 20220929
+Dear Daniel,
+Thanks for your good suggestion!
 
-Error/Warning reports:
+I have updated v4 to fix
+your comment.
 
-https://lore.kernel.org/linux-mm/202209150141.WgbAKqmX-lkp@intel.com
-https://lore.kernel.org/llvm/202209300609.14WJ5tgf-lkp@intel.com
-https://lore.kernel.org/llvm/202209300825.jcUh1OUm-lkp@intel.com
+Changes from v3:
 
-Error/Warning: (recently discovered and may have been fixed)
+- modify comment for struct vdec_av1_slice_slot
+- add define SEG_LVL_ALT_Q
+- change use_lr/use_chroma_lr parse from av1 spec
+- use ARRAY_SIZE to replace size for loop_filter_level and
+loop_filter_mode_deltas
+- change array size of loop_filter_mode_deltas from 4 to 2
+- add define SECONDARY_FILTER_STRENGTH_NUM_BITS
+- change some hex values from upper case to lower case
+- change *dpb_sz equal to V4L2_AV1_TOTAL_REFS_PER_FRAME + 1
+- convert vb2_find_timestamp to vb2_find_buffer
+- test by av1 fluster, result is 173/239
 
-/kbuild/src/minority/drivers/gpu/drm/msm/msm_gem_shrinker.c:29:28: error: '__GFP_ATOMIC' undeclared (first use in this function); did you mean 'GFP_ATOMIC'?
-ERROR: modpost: "devm_iio_channel_get_all" [drivers/power/supply/mt6370-charger.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/clk/xilinx/clk-xlnx-clock-wizard.ko] undefined!
-ERROR: modpost: "iio_read_channel_processed" [drivers/power/supply/mt6370-charger.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
-arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
-depmod: ERROR: Cycle detected: nf_conntrack -> nf_nat -> nf_conntrack
-depmod: ERROR: Found 2 modules in dependency cycles!
-drivers/gpu/drm/msm/msm_gem_shrinker.c:29:28: error: '__GFP_ATOMIC' undeclared (first use in this function); did you mean 'GFP_ATOMIC'?
-drivers/pinctrl/pinctrl-amd.c:288 amd_gpio_dbg_show() warn: format string contains non-ascii character '\x9a'
-drivers/pinctrl/pinctrl-amd.c:288 amd_gpio_dbg_show() warn: format string contains non-ascii character '\xa1'
-drivers/pinctrl/pinctrl-amd.c:370 amd_gpio_dbg_show() warn: format string contains non-ascii character '\x95'
-grep: smatch_trinity_*: No such file or directory
+detail in link:
 
-Error/Warning ids grouped by kconfigs:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220930033000.22579-1-xiaoyong.lu@mediatek.com/
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- arc-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- arm-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- arm-defconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- arm64-buildonly-randconfig-r001-20220926
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- arm64-buildonly-randconfig-r002-20220926
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- arm64-randconfig-r002-20220926
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- arm64-randconfig-r033-20220926
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- ia64-allmodconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- m68k-allmodconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- m68k-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- microblaze-randconfig-m041-20220925
-|   |-- drivers-gpu-drm-display-drm_dp_helper.c-drm_dp_phy_name()-warn:unsigned-dp_phy-is-never-less-than-zero.
-|   |-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|   |-- drivers-pinctrl-pinctrl-amd.c-amd_gpio_dbg_show()-warn:format-string-contains-non-ascii-character-x95
-|   |-- drivers-pinctrl-pinctrl-amd.c-amd_gpio_dbg_show()-warn:format-string-contains-non-ascii-character-x9a
-|   |-- drivers-pinctrl-pinctrl-amd.c-amd_gpio_dbg_show()-warn:format-string-contains-non-ascii-character-xa1
-|   `-- grep:smatch_trinity_:No-such-file-or-directory
-|-- mips-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- nios2-buildonly-randconfig-r004-20220928
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- openrisc-randconfig-r015-20220925
-|   |-- ERROR:devm_iio_channel_get_all-drivers-power-supply-mt6370-charger.ko-undefined
-|   `-- ERROR:iio_read_channel_processed-drivers-power-supply-mt6370-charger.ko-undefined
-|-- powerpc-allmodconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:__GFP_ATOMIC-undeclared-(first-use-in-this-function)
-|-- s390-allmodconfig
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
-clang_recent_errors
-|-- arm-randconfig-r001-20220928
-|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
-|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
-|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
-|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
-|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
-|-- hexagon-allmodconfig
-|   `-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:use-of-undeclared-identifier-__GFP_ATOMIC
-|-- powerpc-buildonly-randconfig-r002-20220928
-|   |-- drivers-gpu-drm-msm-msm_gem_shrinker.c:error:use-of-undeclared-identifier-__GFP_ATOMIC
-|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
-|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
-|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
-|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
-|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
-|-- s390-randconfig-r044-20220928
-|   |-- apparmorfs.c:(.text):undefined-reference-to-zstd_max_clevel
-|   |-- apparmorfs.c:(.text):undefined-reference-to-zstd_min_clevel
-|   |-- lsm.c:(.text):undefined-reference-to-zstd_min_clevel
-|   `-- s39-linux-ld:lsm.c:(.text):undefined-reference-to-zstd_max_clevel
-`-- x86_64-rhel-8.3-rust
-    |-- ld.lld:error:undefined-symbol:__rust_alloc
-    |-- ld.lld:error:undefined-symbol:__rust_dealloc
-    |-- ld.lld:error:undefined-symbol:__rust_realloc
-    |-- ld.lld:error:undefined-symbol:bool-as-core::fmt::Display::fmt
-    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_list
-    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_lower_hex
-    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_upper_hex
-    |-- ld.lld:error:undefined-symbol:core::fmt::builders::DebugList::entry
-    |-- ld.lld:error:undefined-symbol:core::fmt::builders::DebugList::finish
-    |-- ld.lld:error:undefined-symbol:core::panicking::panic
-    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::Display::fmt
-    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::LowerHex::fmt
-    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::UpperHex::fmt
-    |-- ld.lld:error:undefined-symbol:kernel::error::Error-as-core::convert::From-alloc::collections::TryReserveError::from
-    |-- ld.lld:error:undefined-symbol:kernel::error::Error::to_kernel_errno
-    |-- ld.lld:error:undefined-symbol:kernel::print::call_printk
-    |-- ld.lld:error:undefined-symbol:kernel::print::format_strings::INFO
-    `-- ld.lld:error:undefined-symbol:rust_fmt_argument
 
-elapsed time: 735m
+thanks !
+Xiaoyong Lu
 
-configs tested: 65
-configs skipped: 2
+On Thu, 2022-09-22 at 13:36 -0300, Daniel Almeida wrote:
+> Hi Xiaoyong.
+> 
+> Comments below (other code removed for brevity)
+> 
+> +/**
+> + * struct vdec_av1_slice_slot - slot info need save in global
+> instance
+> + * @frame_info: frame info for each slot
+> + * @timestamp:  time stamp info
+> + */
+> +struct vdec_av1_slice_slot {
+> +	struct vdec_av1_slice_frame_info
+> frame_info[AV1_MAX_FRAME_BUF_COUNT];
+> +	u64 timestamp[AV1_MAX_FRAME_BUF_COUNT];
+> +};
+> 
+> nit: slot info that needs to be saved in the global instance
+> 
+> +static int vdec_av1_slice_get_qindex(struct 
+> vdec_av1_slice_uncompressed_header *uh,
+> +				     int segmentation_id)
+> +{
+> +	struct vdec_av1_slice_seg *seg = &uh->seg;
+> +	struct vdec_av1_slice_quantization *quant = &uh->quant;
+> +	int data = 0, qindex = 0;
+> +
+> +	if (seg->segmentation_enabled &&
+> +	    (seg->feature_enabled_mask[segmentation_id] & BIT(0))) {
+> +		data = seg->feature_data[segmentation_id][0];
+> 
+> 
+> Maybe you should replace the 0 above by SEG_LVL_ALT_Q to be more 
+> explicit. Same goes for BIT(0).
+> 
+> +static void vdec_av1_slice_setup_lr(struct vdec_av1_slice_lr *lr,
+> +				    struct
+> v4l2_av1_loop_restoration  *ctrl_lr)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < V4L2_AV1_NUM_PLANES_MAX; i++) {
+> +		lr->frame_restoration_type[i] = ctrl_lr-
+> >frame_restoration_type[i];
+> +		lr->loop_restoration_size[i] = ctrl_lr-
+> >loop_restoration_size[i];
+> +	}
+> +	lr->use_lr = !!lr->frame_restoration_type[0];
+> +	lr->use_chroma_lr = !!lr->frame_restoration_type[1];
+> +}
+> 
+>  From a first glance, this looks a bit divergent from the spec?
+> 
+> for ( i = 0; i < NumPlanes; i++ ) {
+>      lr_type
+>      FrameRestorationType[i] = Remap_Lr_Type[lr_type]
+>      if ( FrameRestorationType[i] != RESTORE_NONE ) {
+>          UsesLr = 1
+>          if ( i > 0 ) {
+>              usesChromaLr = 1
+>          }
+>      }
+> }
+> 
+> I will include these two variables in the next iteration of the uapi
+> if 
+> computing them in the driver is problematic.
+> 
+> +static void vdec_av1_slice_setup_lf(struct
+> vdec_av1_slice_loop_filter *lf,
+> +				    struct v4l2_av1_loop_filter
+> *ctrl_lf)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < 4; i++)
+> +		lf->loop_filter_level[i] = ctrl_lf->level[i];
+> +
+> +	for (i = 0; i < V4L2_AV1_TOTAL_REFS_PER_FRAME; i++)
+> +		lf->loop_filter_ref_deltas[i] = ctrl_lf->ref_deltas[i];
+> +
+> +	for (i = 0; i < 2; i++)
+> +		lf->loop_filter_mode_deltas[i] = ctrl_lf-
+> >mode_deltas[i];
+> +
+> +	lf->loop_filter_sharpness = ctrl_lf->sharpness;
+> +	lf->loop_filter_delta_enabled =
+> +		   BIT_FLAG(ctrl_lf,
+> V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED);
+> +}
+> 
+> Maybe ARRAY_SIZE can be of use in the loop indices here?
+> 
+> +static void vdec_av1_slice_setup_cdef(struct vdec_av1_slice_cdef
+> *cdef,
+> +				      struct v4l2_av1_cdef *ctrl_cdef)
+> +{
+> +	int i;
+> +
+> +	cdef->cdef_damping = ctrl_cdef->damping_minus_3 + 3;
+> +	cdef->cdef_bits = ctrl_cdef->bits;
+> +
+> +	for (i = 0; i < V4L2_AV1_CDEF_MAX; i++) {
+> +		if (ctrl_cdef->y_sec_strength[i] == 4)
+> +			ctrl_cdef->y_sec_strength[i] -= 1;
+> +
+> +		if (ctrl_cdef->uv_sec_strength[i] == 4)
+> +			ctrl_cdef->uv_sec_strength[i] -= 1;
+> +
+> +		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] 
+> << 2 |
+> +					   ctrl_cdef-
+> >y_sec_strength[i];
+> +		cdef->cdef_uv_strength[i] = ctrl_cdef-
+> >uv_pri_strength[i] << 2 |
+> +					    ctrl_cdef-
+> >uv_sec_strength[i];
+> +	}
+> +}
+> 
+> Maybe:
+> 
+> #define SECONDARY_FILTER_STRENGTH_NUM_BITS 2
+> 
+> +		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] 
+> << 
+> SECONDARY_FILTER_STRENGTH_NUM_BITS |
+> +					   ctrl_cdef-
+> >y_sec_strength[i];
+> +		cdef->cdef_uv_strength[i] = ctrl_cdef-
+> >uv_pri_strength[i] << 
+> SECONDARY_FILTER_STRENGTH_NUM_BITS |
+> +					    ctrl_cdef-
+> >uv_sec_strength[i];
+> 
+> This should make it clearer.
+> 
+> +		sb_boundary_x_m1 =
+> +			(tile->mi_col_starts[tile_col + 1] - tile-
+> >mi_col_starts[tile_col] - 
+> 1) &
+> +			0x3F;
+> +		sb_boundary_y_m1 =
+> +			(tile->mi_row_starts[tile_row + 1] - tile-
+> >mi_row_starts[tile_row] - 
+> 1) &
+> +			0x1FF;
+> +
+> 
+> IIRC there's a preference for lower case hex values in the media
+> subsystem.
+> 
+> +static void vdec_av1_slice_get_dpb_size(struct
+> vdec_av1_slice_instance 
+> *instance, u32 *dpb_sz)
+> +{
+> +	/* refer av1 specification */
+> +	*dpb_sz = 9;
+> +}
+> 
+> That's actually defined as 8 in the spec, i.e.:
+> 
+> NUM_REF_FRAMES 8 Number of frames that can be stored for future
+> reference.
+> 
+> It's helpful to indicate the section if you reference the
+> specification, 
+> as it makes it easier for the reviewer to cross check.
+> 
+> +	/* get buffer address from vb2buf */
+> +	for (i = 0; i < V4L2_AV1_REFS_PER_FRAME; i++) {
+> +		struct vdec_av1_slice_fb *vref = &vsi->ref[i];
+> +		int idx = vb2_find_timestamp(vq, pfc->ref_idx[i], 0);
+> 
+> Needs to be converted to vb2_find_buffer in light of 
+> 
+https://lore.kernel.org/lkml/20220706182657.210650-3-ezequiel@vanguardiasur.com.ar/T/
+> 
+> -- Daniel
+> 
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-arc                                 defconfig
-i386                                defconfig
-x86_64                              defconfig
-alpha                               defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-i386                 randconfig-a001-20220926
-i386                 randconfig-a004-20220926
-i386                 randconfig-a002-20220926
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-s390                             allmodconfig
-i386                 randconfig-a003-20220926
-s390                                defconfig
-x86_64               randconfig-a002-20220926
-i386                 randconfig-a006-20220926
-x86_64                           rhel-8.3-kvm
-i386                 randconfig-a005-20220926
-x86_64               randconfig-a004-20220926
-arm                                 defconfig
-s390                             allyesconfig
-arc                  randconfig-r043-20220928
-x86_64                           allyesconfig
-i386                             allyesconfig
-sh                               allmodconfig
-x86_64               randconfig-a001-20220926
-m68k                             allmodconfig
-arm                              allyesconfig
-mips                             allyesconfig
-x86_64               randconfig-a003-20220926
-arm64                            allyesconfig
-x86_64               randconfig-a005-20220926
-x86_64               randconfig-a006-20220926
-arc                              allyesconfig
-powerpc                          allmodconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-ia64                             allmodconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-
-clang tested configs:
-i386                 randconfig-a011-20220926
-i386                 randconfig-a015-20220926
-i386                 randconfig-a014-20220926
-i386                 randconfig-a013-20220926
-i386                 randconfig-a016-20220926
-x86_64               randconfig-a014-20220926
-hexagon              randconfig-r041-20220928
-x86_64               randconfig-a016-20220926
-i386                 randconfig-a012-20220926
-x86_64               randconfig-a013-20220926
-riscv                randconfig-r042-20220928
-hexagon              randconfig-r045-20220928
-s390                 randconfig-r044-20220928
-x86_64               randconfig-a011-20220926
-x86_64                          rhel-8.3-rust
-x86_64               randconfig-a015-20220926
-x86_64               randconfig-a012-20220926
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
