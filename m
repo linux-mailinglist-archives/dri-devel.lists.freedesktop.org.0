@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBA95F094C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:47:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E24EC5F094E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8B010EC6F;
-	Fri, 30 Sep 2022 10:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE4DD10E144;
+	Fri, 30 Sep 2022 10:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B633D10E144;
- Fri, 30 Sep 2022 10:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664534852; x=1696070852;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=q2dHTM3USU+BMAo6RHkLsz68CSBSZvHOx9FwJDeiDhU=;
- b=ZdeTy43Kn+FcdEOtzjAXYmeNQNmdlND3G5txN2r+0qtpRLyujt0S1Vsx
- dPqa03XBgKePzXeWeUM0paC8qXiCxAVh+ksTXlkI71oN/Dn4b1ObYM2vT
- 2Z9hNNkLyfNHcfLID6T4872ShRRIWfo4aqjOKA1fF9qGlh6l1mK6v4/ER
- s0S7+BixK1OWBT0ptvFsXyf3P5RuVlmOpRk6MEVUh8cc9E92Dd2+SO9n2
- Zi+lMwHg5W343zdh/OLLiKWso5Y3OzthhXorP1dnEaYlQE9CCzaLFibqS
- SMWzsNzepnfIHn4F/fbx/GnJHTZ4FBw31X1LN/zv/7abHF399j5UbpEBD A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="328544740"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="328544740"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 03:47:12 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="797930416"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="797930416"
-Received: from dtrawins-mobl1.ger.corp.intel.com (HELO [10.252.7.39])
- ([10.252.7.39])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 03:47:09 -0700
-Message-ID: <8fe80949-8b66-2277-0efd-00577b92a0f1@intel.com>
-Date: Fri, 30 Sep 2022 11:47:07 +0100
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB4310E144
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 10:49:34 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id b24so4374282ljk.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 03:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=LQmSfvmdYcsQ3TJepFnKd/I61iUETxbyLBYaG0YvPbI=;
+ b=Y+JUJPVygm/ITXHKeSfUaFFgpAaI72Jh2PqOZmcQbr7wEp/T21V1m1zqkb7bdugTVK
+ zVG/Ozek+Mr1dlouceNXls+BAU5UiECu/CgM0WtVvmeR/QJ3rlRuI7vVGgpmn8LOQQ8f
+ Ndfs34MSlH6zNitvV4S5VBKBARAUvcqT6J31HXC0rxISSqZnAq7KXyyOyZUmU8QfeNnW
+ Yk/3yUBxsPhKkdhpJ5hjvPPGt07fYg1kc3TKX5JsLbgXqKleWz2ouwU+vIKk+W8ffCR7
+ odxsWCkgiCLk77IjVeadGAgft4V82TUO+QfaO9ydbejomjCQ7bBsIMKjdI+ixkFTd43K
+ kYjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=LQmSfvmdYcsQ3TJepFnKd/I61iUETxbyLBYaG0YvPbI=;
+ b=pkHJTzoJsle6hizB9q2SoeY8BT2toIH36RsEVPt4c6ruBYYmm+bvVpHdOPOUDszUh1
+ LhusCpsNtBSoRwjymMk+NqTrmu/t15bPmOU3NhLL9r16DMA09biv1fjefnUsFCexQK0V
+ bL2hzVPwTctC46Bcra2QwAJnvrD71YpwcYjXEOz/VmoBKAQ5X3PtualuG+X5FgkulYAm
+ HFdyshwq+12nam6U+sfTkcdtq3K3/7du9uDw+ehGFgZd6se36XkX04KbnDyRPKkbQ683
+ da1WMd4BZDcf8xlAqlGxwBXLrMXA+rQ+8QyjRP1RoM9YDwAOZRGq01kj+c42+YQYASl4
+ eozw==
+X-Gm-Message-State: ACrzQf3jwdaPKiyg1QNVfxuSPXlSEFyQtcYBqpPj97sxVIETDhSvOz8g
+ CFDo6eKKDxYbOOvepNlXdj1Dvg==
+X-Google-Smtp-Source: AMsMyM7iRCfgwHnj4h/qw1Yb45TDQhUYhGG/iT/OtytoacNNDFFRxQ8wUpFxhvqSHgxpX4K25dcMfg==
+X-Received: by 2002:a2e:86cf:0:b0:26b:fe50:8c4c with SMTP id
+ n15-20020a2e86cf000000b0026bfe508c4cmr2557212ljj.17.1664534972789; 
+ Fri, 30 Sep 2022 03:49:32 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ q12-20020ac246ec000000b004945c1c5cccsm253083lfo.268.2022.09.30.03.49.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 03:49:32 -0700 (PDT)
+Message-ID: <efa2f644-0a1d-00f7-970c-f17ceb0cc550@linaro.org>
+Date: Fri, 30 Sep 2022 12:49:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH 11/16] drm/i915/vm_bind: Use common execbuf functions in
- execbuf path
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-12-niranjana.vishwanathapura@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220928061918.6340-12-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.3.0
+Subject: Re: [PATCH 1/4] dt-bindings: display: Add bindings for JDI LPM102A188A
+Content-Language: en-US
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
+ <20220929170502.1034040-2-diogo.ivo@tecnico.ulisboa.pt>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220929170502.1034040-2-diogo.ivo@tecnico.ulisboa.pt>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,16 +75,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
- daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, arnd@arndb.de, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, robh+dt@kernel.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-tegra@vger.kernel.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
-> Update the execbuf path to use common execbuf functions to
-> reduce code duplication with the newer execbuf3 path.
+On 29/09/2022 19:04, Diogo Ivo wrote:
+> The LPM102A188A is a 10.2" 2560x1800 IPS panel found in
+> the Google Pixel C.
 > 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Acked-by: Matthew Auld <matthew.auld@intel.com>
+
+
+Thank you for your patch. There is something to discuss/improve.
+
+> +  Each of the DSI channels controls a separate DSI peripheral. The peripheral
+> +  driven by the first link (DSI-LINK1) is considered the primary peripheral
+> +  and controls the device. The 'link2' property contains a phandle to the
+> +  peripheral driven by the second link (DSI-LINK2).
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: jdi,lpm102a188a
+> +
+> +  reg: true
+> +  enable-gpios: true
+> +  reset-gpios: true
+> +  power-supply: true
+> +  backlight: true
+> +
+> +  ts-reset-gpios:
+> +    maxItems: 1
+> +    description: |
+> +      Specifier for a GPIO connected to the touchscreen reset control signal.
+> +      The reset signal is active low.
+
+Isn't touchscreen a separate (input) device?
+
+> +
+> +  ddi-supply:
+> +    description: The regulator that provides IOVCC (1.8V).
+> +
+> +  link2:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      phandle to the DSI peripheral on the secondary link. Note that the
+> +      presence of this property marks the containing node as DSI-LINK1.
+
+Best regards,
+Krzysztof
+
