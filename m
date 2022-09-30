@@ -2,56 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5135F0EBF
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 17:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281F55F0EC7
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 17:27:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B310210ED4B;
-	Fri, 30 Sep 2022 15:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1506910ED55;
+	Fri, 30 Sep 2022 15:27:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC8F10ED4B
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 15:25:28 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- d74-20020a4a524d000000b004755f8aae16so2441739oob.11
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 08:25:28 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B682A10ED55;
+ Fri, 30 Sep 2022 15:27:07 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id l12so5155355ljg.9;
+ Fri, 30 Sep 2022 08:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=Hljtzq4LxPszjdviGSAf9Ri9pdqrOuFOhdOf1VUAn+A=;
- b=Ub58Y0EPC7QGqgvdATLSzyfvKczuA5ebXYNu36wbS+I5xpAr6p+YZqYGpfSWV5wd2z
- DL2j70AC6IqdunewyVO3K2GoayVw3kWdjxqFFjnIXDyzH6wfIAEMf+qYBACLHIM4JHDR
- F5eL76qSX2FsM/Df2DJeB/t1mhU/A8Zxaq+7X1gPFcq9uaNCxLQE/yZbdrMO1eZOD5Kh
- 9B7qJSmw39s4AzgQiC1y7+7Jv7AChIBlMQCZeStIyQnxwOpzUn9jOzwRMi8RnmWJM+Rg
- 88TcGbD8F4UwtICp9KAdwQenPgtdlvALwZr8MN2WXmhi+ReCyO8nR6GLfX1h3w6vLzPk
- ItuA==
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date;
+ bh=sh4WpFH4VRgbZqu2TCFsx29IE7XfQXI/T25VeVqE+RQ=;
+ b=D2NUYdhi+n16SepJfBd1vPj8ATXcYNPZh+bxCbA85o7PJuqrHKDbRmkLaJoG7IdCkx
+ T3ZrQerNpLnyP1N/ya2lpKpGk12Ma09tVogCQTsJfqkM+g5FI4gAcfDWjTRn+6t3qhYK
+ 7DnPWuSR9PGydI/gIea+bt9Vi0hgRWgDuuJ2dQJPa+FuiQR1TDe5S29o7i6Lsdp6waN9
+ V8aYEIZL5qpxl22zN7U16hU9Duj/UjSvKhbCYJpWklkUCZKcciO1POxrUKn68lXSA4QF
+ X0PomCG0XKW/XWCjRRptGtkGn+UE1cIiovdrp7YulVJYJxkc35P/3VbtS+5um4Y4CebC
+ 4u0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Hljtzq4LxPszjdviGSAf9Ri9pdqrOuFOhdOf1VUAn+A=;
- b=qbSI2E1F688xPN+nu5HB4GvdAjP1OVlZoB9i65mLAVH3/sG9Ln6JmhXFbvUqGgIkoO
- m5futYSQbcnJSrcK6NNAmpfltQ5avBxlTwgGcemvP5ko31nuFbaDoYVwDcOoyE5wQ5aj
- Iyhlxyqesm0+e01yB+KCK0DpS5LJpgHIE0w9HSOYGIc3yoM4r7YQkt0Sy7Rynv+72YKt
- iJ5v+7ZG6drqREqB62XcHLK/oHYmWZZBcuksS+7umO7ApFQtrVk0JBdge88RKJXMQ63K
- fzArEz7ONsjk/iJKyqdJ/d8juQ8EIg3zX4J3pJsqC/8OKyWEuL702+dmWrjNcAjvakwK
- oq7g==
-X-Gm-Message-State: ACrzQf3uejsbbtfkyZad9vlEKvJsA7d9bKNtRwUtjYrtgky5QY0kICjC
- tSUXNe/a7LbYyFUKxO40BzV3n2KBgPCge1HAODordrTJ
-X-Google-Smtp-Source: AMsMyM7StYleTpvmhzeAiJfa0t5hMiqYK/EP4TyJThrD2TxG+hHzbNeJQvyYf51y443pdFsPEEVKLhkQ25duxpyniPk=
-X-Received: by 2002:a4a:a78a:0:b0:472:a078:98d6 with SMTP id
- l10-20020a4aa78a000000b00472a07898d6mr3612768oom.97.1664551526306; Fri, 30
- Sep 2022 08:25:26 -0700 (PDT)
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date;
+ bh=sh4WpFH4VRgbZqu2TCFsx29IE7XfQXI/T25VeVqE+RQ=;
+ b=kmIL8iE+xIlQyFD/AOFI0nuT6qJ5gia9riGv9tBJ04aWcEnyGd8eTr/UxDOKvsNZsP
+ 5Z1GslWF1jVkouIImvp/SW6jhw+FGRLo6ly4sBxg/7u2TLAYNpjq9zFsw07CFR79kvul
+ fPYH2B+VOaqYF3kz8huBEs8g0/N0DrP4iJkXvrY/LO8gKpaVvEqVh0oDVc0Vi2Eimd1A
+ 9nygj0LNy6Rd6ZphJfhZhqtFnGutQtM5RIwly2i8gbHJ2/HPtTHYJUHc3N8YloHTy9j7
+ escBbT1WBe5ndh65En6kbP9rHSSNOMiVNUmvz/mCY9tdznp7Ri1JtTS/EVJK6C0ESCcn
+ xRDA==
+X-Gm-Message-State: ACrzQf0Nt3cbH20oO48QI7+7yVL6N6SlPMcjz6zESJ3DDG2OrsDi5DOb
+ gX4Kblw5k6MYPEjZG2K3aYE=
+X-Google-Smtp-Source: AMsMyM6qB0AykGQyaIOLWj08o3iWE+EZSYUEQusKNw3bNmxRIom0arP83L4JD4jEgBH05cHBuNd90g==
+X-Received: by 2002:a05:651c:104e:b0:26b:fceb:a526 with SMTP id
+ x14-20020a05651c104e00b0026bfceba526mr2873604ljm.109.1664551625659; 
+ Fri, 30 Sep 2022 08:27:05 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ t8-20020a2e8e68000000b0026bddcf75d1sm177536ljk.44.2022.09.30.08.27.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Sep 2022 08:27:05 -0700 (PDT)
+Date: Fri, 30 Sep 2022 18:26:52 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [RFC v2] drm/kms: control display brightness through
+ drm_connector properties
+Message-ID: <20220930182652.4ea10013@eldfell>
+In-Reply-To: <YzcAwVC8tm1imNOL@intel.com>
+References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
+ <878rm3zuge.fsf@intel.com> <YzQojrDOGNhm4D8l@intel.com>
+ <YzQseBFa5EvDUDSw@intel.com>
+ <CA+hFU4xRV74r3Wbs-TTWmtAkEwdJaEb+1QXUZSh52LVRwfddeA@mail.gmail.com>
+ <20220930103956.1c3df79e@eldfell>
+ <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
+ <YzcAwVC8tm1imNOL@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CAPM=9txBybqG30QMLH-fyovjw_m7eiFyE6rBr9Q-=rMb_sak3A@mail.gmail.com>
-In-Reply-To: <CAPM=9txBybqG30QMLH-fyovjw_m7eiFyE6rBr9Q-=rMb_sak3A@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 30 Sep 2022 11:25:15 -0400
-Message-ID: <CADnq5_PDS+wbpvvMpQMOzJgPy7WYuYzzf41mXY7qQN8Mc2NqBw@mail.gmail.com>
-Subject: Re: [git pull] drm fixes for 6.0 final
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/pgb3QEFiEKsQWKs9bkTqgT7";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,182 +76,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 29, 2022 at 8:13 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> Hi Linus,
->
-> Last set of fixes for 6.0 hopefully, minor bridge fixes, i915 fixes,
-> and a bunch of amdgpu fixes for new IP blocks, along with a couple of
-> regression fixes. Hopefully all set for merge window next week.
->
-> Dave.
+--Sig_/pgb3QEFiEKsQWKs9bkTqgT7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Dave,
+On Fri, 30 Sep 2022 17:44:17 +0300
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-Actually I just sent you another -PR to deal with recent board/bios
-revisions containing new IPs.  That should be it though.
+> On Fri, Sep 30, 2022 at 04:20:29PM +0200, Sebastian Wick wrote:
+> > On Fri, Sep 30, 2022 at 9:40 AM Pekka Paalanen <ppaalanen@gmail.com> wr=
+ote: =20
+> > >
+> > > On Thu, 29 Sep 2022 20:06:50 +0200
+> > > Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> > > =20
+> > > > If it is supposed to be a non-linear luminance curve, which one is =
+it?
+> > > > It would be much clearer if user space can control linear luminance
+> > > > and use whatever definition of perceived brightness it wants. The
+> > > > obvious downside of it is that it requires bits to encode changes t=
+hat
+> > > > users can't perceive. What about backlights which only have a few
+> > > > predefined luminance levels? How would user space differentiate
+> > > > between the continuous and discrete backlight? What about
+> > > > self-emitting displays? They usually increase the dynamic range when
+> > > > they increase in brightness because the black level doesn't rise. T=
+hey
+> > > > also probably employ some tonemapping to adjust for that. What about
+> > > > the range of the backlight? What about the absolute luminance of the
+> > > > backlight? I want to know about that all in user space.
+> > > >
+> > > > I understand that most of the time the kernel doesn't have answers =
+to
+> > > > those questions right now but the API should account for all of tha=
+t. =20
+> > >
+> > > Hi,
+> > >
+> > > if the API accounts for all that, and the kernel doesn't know, then h=
+ow
+> > > can the API not lie? If the API sometimes lies, how could we ever tru=
+st
+> > > it at all? =20
+> >=20
+> > Make it possible for the API to say "I don't know". I'd much rather
+> > have an API tell me explicitly what it does and doesn't know instead
+> > of having to guess what data I can actually rely on.
+> >=20
+> > For example if the kernel knows the luminance is linear on one display
+> > and doesn't know anything about the other display and it exposes them
+> > both in the same way I can not possibly write any code which relies on
+> > exact control over the luminance for either display.
+> >  =20
+> > >
+> > > Personally I have the feeling that if we can even get to the level of
+> > > "each step in the value is a more or less perceivable change", that
+> > > would be good enough. Think of UI, e.g. hotkeys to change brightness.
+> > > You'd expect almost every press to change it a bit. =20
+> >=20
+> > The nice thing is that you can have that even if you have no further
+> > information about the brightness control and it might be good enough
+> > for some use cases but it isn't for others.
+> >  =20
+> > > If an end user wants defined and controlled luminance, I'd suggest th=
+ey
+> > > need to profile (physically measure) the response of the display at
+> > > hand. This is no different from color profiling displays, but you need
+> > > a measurement device that produces absolute measurements if absolute
+> > > control is what they want. =20
+> >=20
+> > If that's the kind of user experience you're after, good for you. I
+> > certainly want things to work out of the box which makes this just a
+> > big no-go. =20
+>=20
+> I think if we have the information to make the default behaviour
+> better then we should do that. Ie. if the firmaware gives us a
+> table to remap the values for a more linear response we should
+> make use of that by default.
+
+But that's only like 20% of what Sebastian is asking for.
+
+What's "linear"? Radiometric or perceptual?
+
+Radiometric linear control would make a terrible UX, so if the control
+is radiometric, userspace needs to remap it. That might be a good
+thing, but it's also complicated, because the relationship between
+brightness and luminance is somewhere between a power curve and
+exponential curve. You need to make sure that the userspace remapping
+works for different backlights with different luminance ranges. That's
+not obvious to me.
+
+> We can of course provide a way for the user to plug in their own
+> actually measured data later. But IMO that doesn't even have to
+> happen in the initial implementation. Just need to avoid painting
+> ourselves totally in the corner in a way that would prevent later
+> additions like that.
+
+For userspace delivering its own curve, you need to define the units.
+Absolute or relative? Radiometric or perceptual? Otherwise the
+resulting control is not portable between window systems.
+
+> I just hate the current limbo where we're somehow too afraid to
+> change the current behaviour to do the remapping by default.
+> I see no upsides in the current behaviour of just blindly
+> exposing the raw hardware register values more or less. They
+> mean absolutely nothing to any user.
+
+I never argued like that.
+
+I'm saying that what looks realistic to me is somewhere *between*
+status quo and what Sebastian is asking for. Whatever you mean by "linear
+remapping" is probably a realistic goal, because you know you have some
+hardware/firmware delivering that information already.
+
+OTOH, designing UAPI for information that exists only in our dreams
+is... well.
+
 
 Thanks,
+pq
 
-Alex
+--Sig_/pgb3QEFiEKsQWKs9bkTqgT7
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
->
-> drm-fixes-2022-09-30-1:
-> drm fixes for 6.0 final
->
-> amdgpu:
-> - GC 11.x fixes
-> - SMU 13.x fixes
-> - DCN 3.1.4 fixes
-> - DCN 3.2.x fixes
-> - GC 9.x fix
-> - Fence fix
-> - SR-IOV supend/resume fix
-> - PSR regression fix
->
-> i915:
-> - Restrict forced preemption to the active context
-> - Restrict perf_limit_reasons to the supported platforms - gen11+
->
-> bridge:
-> - analogix: Revert earlier suspend fix
-> - lt8912b: Fix corrupt display output
-> The following changes since commit f76349cf41451c5c42a99f18a9163377e4b364ff:
->
->   Linux 6.0-rc7 (2022-09-25 14:01:02 -0700)
->
-> are available in the Git repository at:
->
->   git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-09-30-1
->
-> for you to fetch changes up to 6643b3836f3908c4f77883b2fae72451e85cf3ca:
->
->   Merge tag 'drm-intel-fixes-2022-09-29' of
-> git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-09-30
-> 09:28:58 +1000)
->
-> ----------------------------------------------------------------
-> drm fixes for 6.0 final
->
-> amdgpu:
-> - GC 11.x fixes
-> - SMU 13.x fixes
-> - DCN 3.1.4 fixes
-> - DCN 3.2.x fixes
-> - GC 9.x fix
-> - Fence fix
-> - SR-IOV supend/resume fix
-> - PSR regression fix
->
-> i915:
-> - Restrict forced preemption to the active context
-> - Restrict perf_limit_reasons to the supported platforms - gen11+
->
-> bridge:
-> - analogix: Revert earlier suspend fix
-> - lt8912b: Fix corrupt display output
->
-> ----------------------------------------------------------------
-> Alvin Lee (1):
->       drm/amd/display: Update DCN32 to use new SR latencies
->
-> Aric Cyr (1):
->       drm/amd/display: Fix audio on display after unplugging another
->
-> Ashutosh Dixit (1):
->       drm/i915/gt: Perf_limit_reasons are only available for Gen11+
->
-> Bokun Zhang (1):
->       drm/amdgpu: Add amdgpu suspend-resume code path under SRIOV
->
-> Brian Norris (1):
->       Revert "drm: bridge: analogix/dp: add panel prepare/unprepare in
-> suspend/resume time"
->
-> Chris Wilson (1):
->       drm/i915/gt: Restrict forced preemption to the active context
->
-> Dave Airlie (3):
->       Merge tag 'drm-misc-fixes-2022-09-29' of
-> git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
->       Merge tag 'amd-drm-fixes-6.0-2022-09-29' of
-> https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
->       Merge tag 'drm-intel-fixes-2022-09-29' of
-> git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
->
-> Eric Bernstein (1):
->       drm/amd/display: Remove assert for odm transition case
->
-> Evan Quan (3):
->       drm/amdgpu: avoid gfx register accessing during gfxoff
->       drm/amd/pm: enable gfxoff feature for SMU 13.0.0
->       drm/amd/pm: use adverse selection for dpm features unsupported by driver
->
-> Francesco Dolcini (1):
->       drm/bridge: lt8912b: fix corrupted image output
->
-> Graham Sider (3):
->       drm/amdkfd: fix MQD init for GFX11 in init_mqd
->       drm/amdgpu: pass queue size and is_aql_queue to MES
->       drm/amdkfd: fix dropped interrupt in kfd_int_process_v11
->
-> Jiadong.Zhu (2):
->       drm/amdgpu: Correct the position in patch_cond_exec
->       drm/amdgpu: Remove fence_process in count_emitted
->
-> Leo Li (1):
->       drm/amd/display: Prevent OTG shutdown during PSR SU
->
-> Nicholas Kazlauskas (3):
->       drm/amd/display: Do DIO FIFO enable after DP video stream enable
->       drm/amd/display: Wrap OTG disable workaround with FIFO control
->       drm/amd/display: Add explicit FIFO disable for DP blank
->
-> Philippe Schenker (2):
->       drm/bridge: lt8912b: add vsync hsync
->       drm/bridge: lt8912b: set hdmi or dvi mode
->
-> Samson Tam (1):
->       drm/amd/display: fill in clock values when DPM is not enabled
->
-> Taimur Hassan (3):
->       drm/amd/display: Avoid avoid unnecessary pixel rate divider programming
->       drm/amd/display: Fix typo in get_pixel_rate_div
->       drm/amd/display: Avoid unnecessary pixel rate divider programming
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |  4 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 27 ++++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |  1 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |  2 +
->  drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  4 +
->  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  2 +-
->  drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  4 +
->  .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  2 +
->  drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c   |  6 +-
->  drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c   |  4 +
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |  8 +-
->  .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c | 11 ++-
->  .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   | 14 ++++
->  .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  6 +-
->  .../gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c    | 47 ++++++++++++
->  .../display/dc/dcn314/dcn314_dio_stream_encoder.c  | 25 ++++--
->  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c  | 53 +++++++++++++
->  .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.c    | 10 ++-
->  .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   | 43 ++++++++++-
->  .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.h   |  2 +
->  .../drm/amd/display/dc/inc/hw/clk_mgr_internal.h   |  2 +
->  drivers/gpu/drm/amd/include/mes_v11_api_def.h      |  3 +-
->  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 89 +++++++---------------
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 13 ----
->  drivers/gpu/drm/bridge/lontium-lt8912b.c           | 13 +++-
->  drivers/gpu/drm/i915/gt/intel_engine_types.h       | 15 ++++
->  .../gpu/drm/i915/gt/intel_execlists_submission.c   | 21 ++++-
->  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        | 15 +++-
->  28 files changed, 340 insertions(+), 106 deletions(-)
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmM3CrwACgkQI1/ltBGq
+qqe00Q//Z2bNmrd/e9GxRcVnlSAvi5qV8ovhJRpVxXHVdiLOymCeurzoLoKE0jDy
+nYIlyIxjBoxnFV+6gE1/tGAcbaSemXbXDINILt0w4/e2Ez0HByWzTHV9hegI8kx8
+0TUo/++i6cUxF8NLsw/BcZ7v53YcNmuTYXTfHZUv2MZehv24RPFk1Li47VuG52IT
+19AlAQrRziKu0gSBSsg+UESLIHUCiv9yzCRei+Mf8YUGQLQCyDnMSDzqodNwpyAv
+nookIytfTXQECOh51Gwk11Y8NSL0Qr/L0xAWIFQ1+N6L0kdIY9KLJ0dv9oW71swe
+vblB0Y0W4qBJoK5k4njbxznxHcCKl/7blDC78pvLG6cyT6TRdqtN+TwqdS2coOjt
+b5z6zh6n1JibPZeYwaTuQVlkvoPBw0WhyYSy6HzMUD8AjBprId69JCq2GN/VlO+m
+73moPBNJiS9onWZRvIpYLxkTTw1DyUhI/G6e755uB/VRmiiXuvobptNrLmZvoN+1
+TuPaQKlBcP7wTJizKyJBw2yMvgke5p4L67m4PHvVRPydmpnptL49/j090C/z8ous
+9+3zm0706Ev/Ne+M83MzGqexbak1ZfOudk9ezAeLflI7XD59LiUlp6StPaneE9P9
+WGxJexgra3tmdssFQKEce7cBo/vbqRnkJAi1eLaAtxMzP5UprNM=
+=Gx2D
+-----END PGP SIGNATURE-----
+
+--Sig_/pgb3QEFiEKsQWKs9bkTqgT7--
