@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B9B5F0D31
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:14:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6A45F0D46
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:19:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5158610ED18;
-	Fri, 30 Sep 2022 14:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE05510ED21;
+	Fri, 30 Sep 2022 14:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12D7A10ED18
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 14:14:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4F0DCB82779
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 14:14:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CBDFC433B5
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 14:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664547285;
- bh=7UnwSXOB6shKfCQHM7L0KOwifPttNCBnzJ2w0rnlzK0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=EKgvh2WZQOLQHVQIJMdTU8+8dMdHbNnxgBm2yxJJF21w2sXsPGKzJqrbrz1iEI+TP
- kKU45+mkYZWfm4i9TrM+lH5B9Z3YJfGPKp+LXwFIdUR4lpN3s7y5Xceu8eyp1fBayX
- qqXvlzGcxE2VW8Ejau/TQAFjzypKn8fZiM5P3B4B4pEdsfBrccSMz3GY5IY26lSZJq
- x+GvtVlfcrmC9c2UKuxtKbRs6lsX5hBfniQqdDb32wzRz1InTjv/8SSoLl0yBbCGlU
- XE7gVW881cFrgaZVwo6TJXSGRZPL3G98dVY65QqgcUKZ96SSi0oUlpwteRhITKxhJC
- geig+OOOWZpWw==
-Received: by mail-ua1-f43.google.com with SMTP id z14so1758443uam.10
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 07:14:45 -0700 (PDT)
-X-Gm-Message-State: ACrzQf34ZtQ7KSRSejMOm0XWS2c534gCpsg3YsUFx53Rs86bhTVk5q8N
- 2ZNt/heaQaUPznwuMf4w2xWDgSeRPFYTGetoWw==
-X-Google-Smtp-Source: AMsMyM6tmbeGs8WAbsagouNnCGeikv0UgHuHEpeJ7scOJRA6OHmQzWBNHAz3+EbsX5QLTinYFxLw9PZO5FxxSogzzL8=
-X-Received: by 2002:a9f:29a3:0:b0:3d6:4c6f:9d92 with SMTP id
- s32-20020a9f29a3000000b003d64c6f9d92mr1117022uas.43.1664547284059; Fri, 30
- Sep 2022 07:14:44 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B321510ED21;
+ Fri, 30 Sep 2022 14:19:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664547565; x=1696083565;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=F58cMeBr5bBgEWRI8zvTrTMwUw7dIxvTR6vfVIlERyU=;
+ b=CBDROqWA5i4538DuAlkZe1nqqJjdaKKDwUqmjfNqGcaqqG28nVuKF2W3
+ lBWC9UNV0WYNbDphn28JxkEzI1mTxjHPwkySijUY7ny0Arj6A1Jc+NySG
+ BXIeaZL2iQWuk80CQwTaSpAWd/u+XFtMFM5+O9PAxd3AXN6Qr+C9Z3AKc
+ pa44qqzPMLttEc4OnSM5sqmfKE5ryC3OK+59YEZfxSI9ugqdjWYhyeeVN
+ YxuFBr45FT2CH30SDqp2PN0PH9/7goYbToy6h6j8i8OSI8Ge4dCo+TeJr
+ qFeUHDAAFJI+rTWOm/Yvc5WCGraL6TSu1RGWxEgJ6e+x+dnbEy33VTTpa w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="303110482"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="303110482"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 07:19:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="573875507"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="573875507"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga003.jf.intel.com with SMTP; 30 Sep 2022 07:19:08 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 30 Sep 2022 17:19:07 +0300
+Date: Fri, 30 Sep 2022 17:19:07 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3 0/6] Add support for atomic async page-flips
+Message-ID: <Yzb6203nHF8fVH/W@intel.com>
+References: <20220929184307.258331-1-contact@emersion.fr>
+ <Yzb0uNjB5FpjCIjq@intel.com>
 MIME-Version: 1.0
-References: <20220930132842.23421-1-r-ravikumar@ti.com>
- <20220930132842.23421-2-r-ravikumar@ti.com>
-In-Reply-To: <20220930132842.23421-2-r-ravikumar@ti.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Fri, 30 Sep 2022 09:14:33 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJVhAJ6TFNtndDtUX1FukuQorvm_o0eKK_CE6ANsPob1g@mail.gmail.com>
-Message-ID: <CAL_JsqJVhAJ6TFNtndDtUX1FukuQorvm_o0eKK_CE6ANsPob1g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: dp-connector: Fix the property name for
- dp pwr
-To: Rahul T R <r-ravikumar@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yzb0uNjB5FpjCIjq@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,27 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, devicetree@vger.kernel.org, kristo@kernel.org,
- tomi.valkeinen@ideasonboard.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, vigneshr@ti.com
+Cc: andrealmeid@igalia.com, daniel.vetter@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ mwen@igalia.com, dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ hwentlan@amd.com, nicholas.kazlauskas@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 30, 2022 at 8:29 AM Rahul T R <r-ravikumar@ti.com> wrote:
->
-> Property name for DisplayPort regulator is not matching in
-> the binding and the driver implementation. Fix the same
-> in the binding
->
-> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> Reported-by: Nishanth Menon <nm@ti.com>
-> ---
->  .../devicetree/bindings/display/connector/dp-connector.yaml     | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Sep 30, 2022 at 04:52:56PM +0300, Ville Syrjälä wrote:
+> On Thu, Sep 29, 2022 at 06:43:15PM +0000, Simon Ser wrote:
+> > This series adds support for DRM_MODE_PAGE_FLIP_ASYNC for atomic
+> > commits, aka. "immediate flip" (which might result in tearing).
+> > The feature was only available via the legacy uAPI, however for
+> > gaming use-cases it may be desirable to enable it via the atomic
+> > uAPI too.
+> > 
+> > - Patchwork: https://patchwork.freedesktop.org/series/107683/
+> > - User-space patch: https://github.com/Plagman/gamescope/pull/595
+> > - IGT patch: https://patchwork.freedesktop.org/series/107681/
+> 
+> So no tests that actually verify that the kernel properly rejects
+> stuff stuff like modesets, gamma LUT updates, plane movement,
+> etc.?
 
-NAK. The binding is correct.
+Pondering this a bit more, it just occurred to me the current driver
+level checks might easily lead to confusing behaviour. Eg. is
+the ioctl going to succeed if you ask for an async change of some
+random property while the crtc disabled, but fails if you ask for
+the same async property change when the crtc is active?
 
-Are you confused that the regulator framework appends '-supply' for you?
+So another reason why rejecting most properties already at
+the uapi level might be a good idea.
 
-Rob
+-- 
+Ville Syrjälä
+Intel
