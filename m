@@ -1,67 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A5F5F038E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 06:25:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 261625F0410
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 07:10:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E2810EB2E;
-	Fri, 30 Sep 2022 04:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2851110EB56;
+	Fri, 30 Sep 2022 05:10:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22E5110EB2E
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 04:25:30 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id 70so3170536pjo.4
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 21:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=paradetech-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=ua2CSrcc4+s+YVRSAUzNcpQVlpY+dzHINIhgN6gplb0=;
- b=4XlFTYMrZPfOIVs+cVbucYVJAWGt8s1yJrTDQB7kVJBlZTC5rqls1yCwJArMS8IdGr
- QZaraZv6ZqWcSiiBnF9jhrv1tKah7vAG3w8s+TrEuDHXlROO7Ew54gEgxO6cJZw0jYdI
- cDF76p3waGjAQlU6NgZoNV/vOTzpYpIRYCSQu5/uOK9n1yqDBYmSuvuCn7ULjdBdVw7O
- txO9yIXKIK72yJFB8OuyxYH87b8ZMzrXjPs12CckYec9H90oLtPLjKF789ms4ETQcScY
- Tm7kxdNeOwfn6e0zGIrq6ymoKYsL9+UwHLK+6KYWjusLzetJG+nfN6CxQTicyw3bmdik
- YRYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=ua2CSrcc4+s+YVRSAUzNcpQVlpY+dzHINIhgN6gplb0=;
- b=ZCC41eWSQ+vfcuEwNff7aQpEdfUwQqryRrHn07//dEfDYLwRYqlhH5uy/9JpM/7Vcq
- Q6IFOcfabOUqYbCMFPu5538Nd6YJkhlQyzZ5Rx8Dmq8+NsqdyGlAvJFOaFrKHBR1xmCB
- 2Fca6g0MvzQ6Lh1F5Ui0d0UYQZBbo5Os+q0NUa6YinnKvQO4dvm5jU6syZ9tZ8WaPyjJ
- 0hlyHjR31guZfFl9a86XQPSAAOHLLLaktjldBZ0ZN9ONGMaYi1T6U3V/yjXe3mDYZxMR
- WbRxyjJxj6wvag1bLKbV32QO4e+AYieJIsK2EpMsHWvdJ4aQqBE31DBcScQtefpWYKlz
- RXLw==
-X-Gm-Message-State: ACrzQf2an8vYprwI/W2HUpiHCxqKEIO/CaTn/IyFfDacrSjNSHuZiElH
- vXI0bNJ42xHlE6zAOmuIZ/7TxQ==
-X-Google-Smtp-Source: AMsMyM6W0/5fgyQbbNfwZpW//Zplh6Np7NoxH0rNh0NvD6dM4daQr/NGbJiMtd4s8l8nsxzthnPDvw==
-X-Received: by 2002:a17:902:6943:b0:178:4751:a76b with SMTP id
- k3-20020a170902694300b001784751a76bmr6717778plt.37.1664511929420; 
- Thu, 29 Sep 2022 21:25:29 -0700 (PDT)
-Received: from jason-ThinkPad-L15-Gen-2.. ([203.67.103.146])
- by smtp.gmail.com with ESMTPSA id
- o17-20020a639a11000000b0043ba3d6ea3fsm760638pge.54.2022.09.29.21.25.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 21:25:28 -0700 (PDT)
-From: Jason Yen <jason.yen@paradetech.corp-partner.google.com>
-To: LKML <linux-kernel@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/bridge: ps8640: Add software to support aux defer
-Date: Fri, 30 Sep 2022 12:25:06 +0800
-Message-Id: <20220930042506.2529522-1-jason.yen@paradetech.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 787CF10EB4D;
+ Fri, 30 Sep 2022 05:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664514592; x=1696050592;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=YYG0VPaXVkCI5MGrJEb29K5S9JDFkWLm68XVVeNz5XA=;
+ b=GRtnaz/j+bdTC7VCemZafwZEQb1xaiZV6/gmrQC6xWFraMoned7zDOij
+ sAAHIRpEW/cdvX37ffp6mMYMNbCtLvqg+jISiWi59PwniRoQMg6kJZ5k8
+ 6qeFYk9ykCg1J9bZl8KgkY89K19hThvwRXyTXbOHyv+FIhKWyKYenTuE7
+ p2WnHAzrZQPKbXvVYJGcKquSVBwALJ40+dPBBAluqiz0CMcUMO0E5oBAu
+ FLBGFt7ycxE1e6DraEps2OXTcD6xk+71c/wJWCUJ7tSuO2nDKLq17ootS
+ UTuYrOYgPbUup8d/Qz6ivqcg2m1tvnjhAPB28oWTLSsuSMneLFf3k35Wd Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="282469422"
+X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="282469422"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 22:09:50 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="711668529"
+X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="711668529"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.143])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 22:09:47 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/i915: Improve register state context init
+Date: Thu, 29 Sep 2022 22:09:00 -0700
+Message-Id: <20220930050903.3479619-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,52 +55,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Yen <jason.yen@paradetech.corp-partner.google.com>,
- treapking@google.com
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris.p.wilson@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This chip can not handle aux defer if the host directly program
-its aux registers to access edid/dpcd. So we need let software
-to handle the aux defer situation.
+Some small improvements to future-proof the initialization around the
+register state context.
 
-Signed-off-by: Jason Yen <jason.yen@paradetech.corp-partner.google.com>
----
+Lucas De Marchi (3):
+  drm/i915: Fix __gen125_emit_bb_start() without WA
+  drm/i915/gt: Document function to decode register state context
+  drm/i915/gt: Fix platform prefix
 
-Changes in v2:
-- Add aux defer handler
-- Remove incorrect statements
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 26 +++++------
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h      | 12 +++---
+ .../drm/i915/gt/intel_execlists_submission.c  |  4 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           | 43 ++++++++++++++-----
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 +-
+ 5 files changed, 56 insertions(+), 31 deletions(-)
 
- drivers/gpu/drm/bridge/parade-ps8640.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 31e88cb39f8a..76ada237096d 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -286,7 +286,6 @@ static ssize_t ps8640_aux_transfer_msg(struct drm_dp_aux *aux,
- 	}
- 
- 	switch (data & SWAUX_STATUS_MASK) {
--	/* Ignore the DEFER cases as they are already handled in hardware */
- 	case SWAUX_STATUS_NACK:
- 	case SWAUX_STATUS_I2C_NACK:
- 		/*
-@@ -303,6 +302,14 @@ static ssize_t ps8640_aux_transfer_msg(struct drm_dp_aux *aux,
- 	case SWAUX_STATUS_ACKM:
- 		len = data & SWAUX_M_MASK;
- 		break;
-+	case SWAUX_STATUS_DEFER:
-+	case SWAUX_STATUS_I2C_DEFER:
-+		if (is_native_aux)
-+			msg->reply |= DP_AUX_NATIVE_REPLY_DEFER;
-+		else
-+			msg->reply |= DP_AUX_I2C_REPLY_DEFER;
-+		len = data & SWAUX_M_MASK;
-+		break;
- 	case SWAUX_STATUS_INVALID:
- 		return -EOPNOTSUPP;
- 	case SWAUX_STATUS_TIMEOUT:
 -- 
-2.34.1
+2.37.3
 
