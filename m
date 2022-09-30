@@ -1,39 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7385C5F074A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 11:12:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 217385F0776
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 11:22:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0A410EBEF;
-	Fri, 30 Sep 2022 09:12:49 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 595F110EBEF
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 09:12:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9993615A1;
- Fri, 30 Sep 2022 02:12:51 -0700 (PDT)
-Received: from [10.1.31.20] (e122027.cambridge.arm.com [10.1.31.20])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B11F23F73B;
- Fri, 30 Sep 2022 02:12:43 -0700 (PDT)
-Message-ID: <2f9fccae-afc6-20f8-4ffb-6a09294d840c@arm.com>
-Date: Fri, 30 Sep 2022 10:12:41 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC6F10EBED;
+	Fri, 30 Sep 2022 09:22:09 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C353210EBED;
+ Fri, 30 Sep 2022 09:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664529724; x=1696065724;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=m4uEmzkAK2yg8pfQwPUIF7uLCfVjAIWOMIl5haqlhtE=;
+ b=dwIv8lJaWDtQDenPe2ci2ir8tg3MExfs7d9jjEE5s/z3H0jCQ1/eOm0y
+ QAxJCoLvggl2mkq0KFbpxbhsVn5hBvXZGdjW9KQo0UyoPjpAGCPr9dPJB
+ ab3ljiqJC658jQ+XaIb0k7KQT7SmE1zVMMFrejRW4zmj6SfPNpg3YmvVR
+ kESouzYFFTYPpVql5YkdCfrQU0/168Z6cmFtxEOUsywS+kag9ubkw+w/w
+ 2C+bvC8umv0pamYbVZtdO8mQ+TD1S9EVt/z1Hi60dtZSZyqyHSr7Ox+PE
+ mEX8GGar3VJj0HaYOhvBrBfQt647ObNTVykL3JA15+oO9OuY5VA6PhkqJ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="388427104"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="388427104"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 02:22:03 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="617936297"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="617936297"
+Received: from dsawant-mobl.ger.corp.intel.com (HELO [10.213.195.50])
+ ([10.213.195.50])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 02:22:02 -0700
+Message-ID: <28690581-b934-b99f-feb9-78a8e6c2d052@linux.intel.com>
+Date: Fri, 30 Sep 2022 10:22:01 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] drm/sched: add missing NULL check in
- drm_sched_get_cleanup_job
-Content-Language: en-GB
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- andrey.grodzovsky@amd.com, Arunpravin.PaneerSelvam@amd.com,
- luben.tuikov@amd.com, dri-devel@lists.freedesktop.org
-References: <20220929180151.139751-1-christian.koenig@amd.com>
- <20220929180151.139751-2-christian.koenig@amd.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20220929180151.139751-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [Intel-gfx] [PATCH v4 3/4] drm/i915: Make the heartbeat play nice
+ with long pre-emption timeouts
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
+ <20220929021813.2172701-4-John.C.Harrison@Intel.com>
+ <a2c2cddf-009b-a2e0-2af2-6f1553c59cbc@linux.intel.com>
+ <ae042c9d-f6f1-2ecd-e23a-7d6994c97151@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ae042c9d-f6f1-2ecd-e23a-7d6994c97151@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,46 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/09/2022 19:01, Christian König wrote:
-> Otherwise we would crash if the job is not resubmitted.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 4f2395d1a791..23e5e8275dc7 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -829,7 +829,8 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
->  	job = list_first_entry_or_null(&sched->pending_list,
->  				       struct drm_sched_job, list);
->  
-> -	if (job && dma_fence_is_signaled(job->s_fence->parent)) {
-> +	if (job && (!job->s_fence->parent ||
-> +		    dma_fence_is_signaled(job->s_fence->parent))) {
->  		/* remove job from pending_list */
->  		list_del_init(&job->list);
->  
 
-Sadly there's another use further down, so this isn't a complete fix:
+On 29/09/2022 17:21, John Harrison wrote:
+> On 9/29/2022 00:42, Tvrtko Ursulin wrote:
+>> On 29/09/2022 03:18, John.C.Harrison@Intel.com wrote:
+>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>
+>>> Compute workloads are inherently not pre-emptible for long periods on
+>>> current hardware. As a workaround for this, the pre-emption timeout
+>>> for compute capable engines was disabled. This is undesirable with GuC
+>>> submission as it prevents per engine reset of hung contexts. Hence the
+>>> next patch will re-enable the timeout but bumped up by an order of
+>>> magnitude.
+>>>
+>>> However, the heartbeat might not respect that. Depending upon current
+>>> activity, a pre-emption to the heartbeat pulse might not even be
+>>> attempted until the last heartbeat period. Which means that only one
+>>> period is granted for the pre-emption to occur. With the aforesaid
+>>> bump, the pre-emption timeout could be significantly larger than this
+>>> heartbeat period.
+>>>
+>>> So adjust the heartbeat code to take the pre-emption timeout into
+>>> account. When it reaches the final (high priority) period, it now
+>>> ensures the delay before hitting reset is bigger than the pre-emption
+>>> timeout.
+>>>
+>>> v2: Fix for selftests which adjust the heartbeat period manually.
+>>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>> ---
+>>>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 19 +++++++++++++++++++
+>>>   1 file changed, 19 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>> index a3698f611f457..823a790a0e2ae 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>> @@ -22,9 +22,28 @@
+>>>     static bool next_heartbeat(struct intel_engine_cs *engine)
+>>>   {
+>>> +    struct i915_request *rq;
+>>>       long delay;
+>>>         delay = READ_ONCE(engine->props.heartbeat_interval_ms);
+>>> +
+>>> +    rq = engine->heartbeat.systole;
+>>> +
+>>> +    if (rq && rq->sched.attr.priority >= I915_PRIORITY_BARRIER &&
+>>> +        delay == engine->defaults.heartbeat_interval_ms) {
+>>
+>> Maybe I forgot but what is the reason for the check against the 
+>> default heartbeat interval?
+> That's the 'v2: fix for selftests that manually adjust the heartbeat'. 
+> If something (or someone) has explicitly set an override of the 
+> heartbeat then it has to be assumed that they know what they are doing, 
+> and if things don't work any more that's their problem. But if we don't 
+> respect their override then they won't get the timings they expect and 
+> the selftest will fail.
 
-> 		/* cancel this job's TO timer */
-> 		cancel_delayed_work(&sched->work_tdr);
-> 		/* make the scheduled timestamp more accurate */
-> 		next = list_first_entry_or_null(&sched->pending_list,
-> 						typeof(*next), list);
-> 
-> 		if (next) {
-> 			next->s_fence->scheduled.timestamp =
-> 				job->s_fence->parent->timestamp;
+Isn't this a bit too strict for the non-selftest case? If the new 
+concept is extending the last pulse to guarantee preemption, then I 
+think we could allow tweaking of the heartbeat period. Like what if user 
+wants 1s, or 10s instead of 2.5s - why would that need to break the 
+improvement from this patch?
 
-From the comment I presume that just skipping this section (when parent
-is NULL) would be fine.
+In what ways selftests fail? Are they trying to guess time to reset 
+based on the hearbeat period set? If so perhaps add a helper to query it 
+based on the last pulse extension.
 
-Steve
+Regards,
+
+Tvrtko
