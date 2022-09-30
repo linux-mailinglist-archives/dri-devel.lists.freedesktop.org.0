@@ -1,150 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ADE45F025B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 03:47:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 130245F025D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 03:48:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 274A210E71A;
-	Fri, 30 Sep 2022 01:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF9110E189;
+	Fri, 30 Sep 2022 01:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED8E10E132;
- Fri, 30 Sep 2022 01:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664502432; x=1696038432;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=mtQxMJfZ0TTOzEckiCsvjImu1igtU8g+7cy/x31PzGI=;
- b=AUfUo0yhWIkejkq+SZoMWfFacVFRbfb9wI2kmmXTnr2vhPFpuP49TU3h
- 7M1eY10NBnYDGFxpRpvqC01g3cXxFvUzTuKdPx+1ifBqFdLdR1JWzMqn/
- EYl3prQmm2RRIQnA7rgsgCIkUX31SjQ8AEZO2r5+mwn0Tz9XO72cSAzA8
- xyDW4z+mrvxsR38p3NAdCRwjxWND3KwtRjfqb16HqytJcbyP7lY4o5JI2
- 39HOxAj7mk0YihrX3XIxdoBa30zvSoqvEH+WFWFFvVO5Z9/7GT8xlcQzZ
- crL6ljlYiKXCT+ZqChj23U5mhxmAFat0dvvyxL0nhCI4Oqs6IZVh8pLY2 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="289239573"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="289239573"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 18:47:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="867632763"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="867632763"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga006.fm.intel.com with ESMTP; 29 Sep 2022 18:47:11 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4106A10E132;
+ Fri, 30 Sep 2022 01:48:23 +0000 (UTC)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MdtKv0SxFzHtnP;
+ Fri, 30 Sep 2022 09:43:31 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 18:47:10 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ 15.1.2375.31; Fri, 30 Sep 2022 09:48:20 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 18:47:10 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 29 Sep 2022 18:47:10 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 29 Sep 2022 18:47:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a2LiPlRCJaponE1cPJM4eavATVtI6Q8qqqTJS6mVSIVClzaXvyTRZKqYSWuj4z1upFbZxtFuL07Gp+r0wCXr1P6YXbatiYrhOqRIrbcjjYYwdYJmI4XIDxhlQvmBJ1oR4uinstEoX0KTygtY6XEtWdzsQcChFBbk/+iZX2h2u4TcWtnrH90IbeM4EUtIRjILF5/oWt8zyXGzvkeMVpqY+UU0wEavDPgjB33ZjJtvKCzvri/JTBVxTNourMBooj6wAO4GWWzBvRdKiAaAkZcgUUfdlOz6ZE+wKHtBvtCgriqRtWV1z8XZ3TXSNHIvDXU3n1hAW5Ri9AzS2n2wxyKKog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mtQxMJfZ0TTOzEckiCsvjImu1igtU8g+7cy/x31PzGI=;
- b=BM5L7RStglNG5lS+ajzJofZcZ+tb60OFQQIQUAX5IDAQN4k85077gL1+i5ScljcHDwRXkAZR2lZ5PRmLKx/fG/1TCjXjimM0UqPj3Exo4DXGxG2z0Xd0MPFwrebGChoKkLQeJihtv0gnjocBW/6h0C6teu2UDhTUcpICXj6SWeeJarlXGUgEsoPWP9TCY0BWnMbWDS6F5rh/MF0RrZsBcvFupE26DNhhAiK6+cRGTSCVGk5LxHihQLfU9eY8I2N8d5fLOSctcCENoPpU2WhKGWrOyjy706EIX87FKYQMFedXimZBIADaYBvK3XTfyzd3QeQCzS0HqClznPYyg9cLdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by SA2PR11MB4955.namprd11.prod.outlook.com (2603:10b6:806:fa::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
- 2022 01:47:09 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::ff76:db8b:f7e9:ac80]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::ff76:db8b:f7e9:ac80%5]) with mapi id 15.20.5676.023; Fri, 30 Sep 2022
- 01:47:08 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-gvt-dev@lists.freedesktop.org"
- <intel-gvt-dev@lists.freedesktop.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Zhenyu Wang
- <zhenyuw@linux.intel.com>
-Subject: RE: [PATCH] drm/i915/gvt: Add missing vfio_unregister_group_dev() call
-Thread-Topic: [PATCH] drm/i915/gvt: Add missing vfio_unregister_group_dev()
- call
-Thread-Index: AQHY1CvD04pCQF3zs02055qhA9FU4a33NJ0Q
-Date: Fri, 30 Sep 2022 01:47:08 +0000
-Message-ID: <BN9PR11MB5276EF442E0321C0D1B704E08C569@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com>
-In-Reply-To: <0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SA2PR11MB4955:EE_
-x-ms-office365-filtering-correlation-id: b093cd0f-eade-4766-a3ce-08daa285afb0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Q1bAPXQmw6ZgZQG3V608QnoDzxXNcVgbwetYD38lD+9E6wuLw+3ChTLXII6ejXueHLlRBoWOauvXxfQZRO6sWbepyvnZia3FEcDuLWyw5L43d+GBaj/ajhhpNvQbPrUou3BFru12IEV81zOS4fKJIbsN7qVeZgrOUJezBvaZcr2W1MVjUqn+Pw6v6O9J+mlx/MaFquoaJziDvztsEIiuYoC1XTeG+2B8z7A80k9qyLmtYTnp3IXwd3lXiPIFWHwiHsxAiKmPWH9C9lb2oYgd7BpcOr0YDL+2p3qaD/KbmhIylpyvRKZroVAE7OAQCfBhyB3VgKNE1cBRTAzq2c8+920LlvXU/jOJVreheasVWxkR+C2DNxvwb9at8sq1tpFvnnxaXkLOV6I4chlLT7jInU5pTfQq44LQQXMMYjAfqvqIkZoYrQ1a713tgQ+K7OEs9Od9nveVW2sXTJDx8rMnSUheuKefar4tBlPC9YNMoEX/D4xdcPS9lg0AZZOmTC01kycJJ15ztpYAU8wBFiRoHqSeLVrN/xRmmWSWlCOFdyaXnA/084c8Xge1b3RI4FstNu+DsIXjZLRWvnuWHbwRZTWR4uUOC/HptA36QXsIieq/1yknbQ3XQMy6Tel79b+HyFTbOQx5UF59sIqHILbgyODucCav+JpdXQuJmRHGS642aECpvSmZQ820lya/Z5wu2g1QJzFwLyuKpq5m2PG5xWZ8QLnfQLAYcCqdkzzUKfnugohifBnl+VfExG56raNj5Ic3db4m6+Crr0rwk+4uRbBkUqUqIDKRdUdV+XIR6bM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(376002)(346002)(396003)(366004)(136003)(451199015)(316002)(110136005)(54906003)(52536014)(71200400001)(64756008)(66446008)(66476007)(66556008)(66946007)(76116006)(7416002)(5660300002)(8936002)(8676002)(4326008)(41300700001)(7696005)(6506007)(478600001)(4744005)(9686003)(26005)(38070700005)(82960400001)(921005)(2906002)(186003)(38100700002)(33656002)(55016003)(86362001)(122000001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?YMxCld/w4+hPAAdPCQMTFiOYNGjFl9EyklHFSdDIW1jZZ+flTfRgQ4qbCHoP?=
- =?us-ascii?Q?tGjAP6lhc0QywzvNGNL3sONx8hX0X2F6xRnrcyVPSVWwrwRGgK/EF/HrqsIj?=
- =?us-ascii?Q?dKKaN78qCF09w7kP1Ro6C0ZS9WYkVJKMvf0zZRI8DJxX8BCXzddjco0tL+OX?=
- =?us-ascii?Q?gAHrmCIwmQoaM5SR01ogtlVivu3LWtWuG55RgTISZ4e81Sz+/TxrN82cN+EE?=
- =?us-ascii?Q?BncPJmH+s5IIDfHveqwvkzY+j3L48HvPIJDvsaTqRgoMS53MnsGHOXZCpna7?=
- =?us-ascii?Q?g2M23IpMxCgMIeHJ+p3QAj//KRl5N9LKp8FYeIeqJV7W3W6//QEKU1mjrYw4?=
- =?us-ascii?Q?fhP+F3Dim9npea7+/v5BwD+X/JX4kF4XO+OM/ZeFgvvZ/9KxwNJqIl057XqS?=
- =?us-ascii?Q?HzVfeZHp61k0lt2Io39Dal9Jlu8WtrOztm3kl6W+ZrgdJsoxPg8bLAsFT5l/?=
- =?us-ascii?Q?fR5LwjH+T465s0M3qwlxHe5u/VRB5bjCvJZjdZP8VrJTiz/ZWQZp3msyZ28s?=
- =?us-ascii?Q?7Rgb5eGDHs/03sJwyYvTJKAbYOvJcu8fyKp6S8eE9n4/YLviJ6A8MT9h9g9x?=
- =?us-ascii?Q?Yob1mD2j9KO5cAdU+vwZqisdGm5uAmvfPkTG101WJsM5tKvwLkaqrL6o03xq?=
- =?us-ascii?Q?HH2SzoGpgKICW/hFsObUr90yoy4NpsgWT1BDARTMjkBFAs16RWrEwPYwRPWE?=
- =?us-ascii?Q?2EpyA9JDl2RWMAdCj8/QF6FH3amhOfH8/0fxbCvQIrD/4dNMY3hgSnVcNPin?=
- =?us-ascii?Q?vsTqE+TvZVm52jCeccsMf4mRIvpZ6gCjy8DH6ckRrJuAxp4lhivZDlS8xhCV?=
- =?us-ascii?Q?y3WlhQx3MB5EFtsd7JabguV2R6seoHdhDFhQpcnyZGLrKBAVY9J3iJ/ib70A?=
- =?us-ascii?Q?zj2uGlUZs3ntEhtS5VuWVg1ykvulet7w0HCHjk3DbypfBUkeiTgEwOyPQ7eF?=
- =?us-ascii?Q?fuHYsZjHjeG4ZS29/1Zr9eChLEn6UCYH8Pd/S0LGnSkxZt1lzRcSZVcKipVO?=
- =?us-ascii?Q?+Xg1flrZymCWlgY6orSVWU2xsDNtTnbdm3pL3SQ1k0otn9q/bmcwe8Ey7nNi?=
- =?us-ascii?Q?WVuhlXKKxe9vtCDI6m16kSWK3Z4W+ZySZ3ogKNOn22xQoQo6tVKP9A2DiBfa?=
- =?us-ascii?Q?PojnqTIVhhb5PBECOohvng1PaRaQIN5PxMEdwO13rw/e31zQ0weo68GSzcrq?=
- =?us-ascii?Q?at660C8SKfUzX34cJ2TIZmnf7/PbbnWvzZmrryQcYDBpmFKoNEYZl8RxIQFU?=
- =?us-ascii?Q?lQXebNd1q5rrg/QKsz8RQHEWiIGorwz1hBOSdoVN96hdqxHIu75um5bpQpNn?=
- =?us-ascii?Q?Rs+zAWRL1D62iES2wLLkwA1txWer7tL6agDt/2PrRiQtUNVvV2X2JPSr8eHZ?=
- =?us-ascii?Q?YpT8mf+zs4EZBJ1iYBacIoMeFc31LwBZxFnhyKdDv78edww7SBUHOls/gUXs?=
- =?us-ascii?Q?FLm8jgOE/jIxgR7buKlA/ECp4v38sinmtF144XKU1Esr7AVAbP4zNn3Xeg/L?=
- =?us-ascii?Q?knc5Az/tmEoUdX3XtN9kr9SvOXu4Wf4YHbvXEHdbh1pD6zfvh2c+qZgJRTTx?=
- =?us-ascii?Q?CMoiSjiTt92l017EIhBEaiOs19sLUZtQiRDkV1P4?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.1.2375.31; Fri, 30 Sep 2022 09:48:19 +0800
+Subject: Re: [Freedreno] [PATCH -next] drm/msm/msm_gem_shrinker: fix compile
+ error in can_block()
+To: Rob Clark <robdclark@gmail.com>, Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20220929093022.2428520-1-yangyingliang@huawei.com>
+ <6504933c-048d-310a-1651-58528f868bdb@quicinc.com>
+ <CAF6AEGvKFF+xrz0y39d0YU9+0empuMCqq2zF3Qtrjkk_oyxdUw@mail.gmail.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <e6b58363-5a45-245e-05bf-d230950948e2@huawei.com>
+Date: Fri, 30 Sep 2022 09:48:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b093cd0f-eade-4766-a3ce-08daa285afb0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2022 01:47:08.7972 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PseIyDa6ubA2zaqn6wmD/djPRR1QmE0g6rUk6Ru3wY0NJbqChc/p2xKxZEksbFfXJ/fmYTBJrLsZB2OR7jx2lw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4955
-X-OriginatorOrg: intel.com
+In-Reply-To: <CAF6AEGvKFF+xrz0y39d0YU9+0empuMCqq2zF3Qtrjkk_oyxdUw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,25 +55,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>, Christoph Hellwig <hch@lst.de>,
- "Wang, Zhi A" <zhi.a.wang@intel.com>
+Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ yangyingliang@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> From: Jason Gunthorpe
-> Sent: Friday, September 30, 2022 1:49 AM
->=20
-> When converting to directly create the vfio_device the mdev driver has to
-> put a vfio_register_emulated_iommu_dev() in the probe() and a pairing
-> vfio_unregister_group_dev() in the remove.
->=20
-> This was missed for gvt, add it.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: 978cf586ac35 ("drm/i915/gvt: convert to use
-> vfio_register_emulated_iommu_dev")
-> Reported-by: Alex Williamson <alex.williamson@redhat.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+Hi,
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+On 2022/9/30 4:38, Rob Clark wrote:
+> On Thu, Sep 29, 2022 at 4:51 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>> On 9/29/2022 3:00 PM, Yang Yingliang wrote:
+>>> I got the compile error:
+>>>
+>>>     drivers/gpu/drm/msm/msm_gem_shrinker.c: In function ‘can_block’:
+>>>     drivers/gpu/drm/msm/msm_gem_shrinker.c:29:21: error: ‘__GFP_ATOMIC’ undeclared (first use in this function); did you mean ‘GFP_ATOMIC’?
+>>>       if (sc->gfp_mask & __GFP_ATOMIC)
+>>>                          ^~~~~~~~~~~~
+>>>                          GFP_ATOMIC
+>>>     drivers/gpu/drm/msm/msm_gem_shrinker.c:29:21: note: each undeclared identifier is reported only once for each function it appears in
+>>>
+>>> __GFP_ATOMIC is dropped by commit 6708fe6bec50 ("mm: discard __GFP_ATOMIC").
+>>> Use __GFP_HIGH instead.
+>>>
+>>> Fixes: 025d27239a2f ("drm/msm/gem: Evict active GEM objects when necessary")
+>>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>>> ---
+>>>    drivers/gpu/drm/msm/msm_gem_shrinker.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+>>> index 58e0513be5f4..6a0de6cdb82b 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
+>>> +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+>>> @@ -26,7 +26,7 @@ static bool can_swap(void)
+>>>
+>>>    static bool can_block(struct shrink_control *sc)
+>>>    {
+>>> -     if (sc->gfp_mask & __GFP_ATOMIC)
+>>> +     if (sc->gfp_mask & __GFP_HIGH)
+>>>                return false;
+>>>        return current_is_kswapd() || (sc->gfp_mask & __GFP_RECLAIM);
+>>>    }
+>> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>
+> Somehow the original patch didn't show up in my inbox, but I've sent this:
+>
+> https://patchwork.freedesktop.org/series/109255/
+When __GFP_ATOMIC is not dropped, if __GFP_KSWAPD_RECLAIM is set,
+it allows sleep(can_block() returns true).
+In your patch case, if __GFP_KSWAPD_RECLAIM is set but 
+__GFP_DIRECT_RECLAIM is
+not set, it don't allows sleep(can_blcok() returns false). It's 
+different from earlier behavior.
+
+Thanks,
+Yang
+>
+> I guess __GFP_HIGH could also be used to detect GFP_ATOMIC, but
+> checking that direct reclaim is ok seems safer (ie. it should always
+> be safe to sleep in that case)
+>
+> BR,
+> -R
+>
+>> -Akhil.
+> .
