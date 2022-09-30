@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91DB5F0DE4
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25AC5F0DEB
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F082010ED3A;
-	Fri, 30 Sep 2022 14:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 753B810ED36;
+	Fri, 30 Sep 2022 14:48:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D09FB10ED36;
- Fri, 30 Sep 2022 14:47:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mNNkRRw0Gbq4V+ztYG6L23EmoagwCkTjNrLNxOdS6h0=; b=pJNR3S8cONTj/8h4P2g2LUDXUa
- P4qz1z/bkXJaUIs7binQsqWk3/AwoR64GRyNbZeAAPKEG3VvG0VqEcUktWPwzbIS2+dyAb3bglkrR
- Gbp26oZwNi/2R9lfWfSlBtmhJWFxmcgI7a8IAf0g/52W794SXMJJL6jGDr825vE7BQXwjQEyRfFWP
- Uy9SFNlE4SEEbsM7JDtb3cgFOqTncjGrvOfEEg27A/Pdv0HXPMkV2SSwbECAhxDsIdVOyX3o9TeE3
- 96jn29a4os1mr+hXMBkJegjmqljW/OW889m7G0N9eIO4FA8PmW8PWAHgCqUfr7qmdT5HDwQG4Mp7P
- Q5vpA6jg==;
-Received: from [2a01:799:961:d200:c807:6849:43f8:dd23] (port=51305)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oeHIa-0005u3-EX; Fri, 30 Sep 2022 16:47:32 +0200
-Message-ID: <7341c6f0-a6ca-25e5-c246-3665da441069@tronnes.org>
-Date: Fri, 30 Sep 2022 16:47:24 +0200
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6495710E1B6;
+ Fri, 30 Sep 2022 14:48:42 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id m130so4932135oif.6;
+ Fri, 30 Sep 2022 07:48:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=IrD2HiOAvlqhSlCj89Kg6AmBSA4GqWLvYu4q+ahkxqw=;
+ b=FTvf7jWuva7dVerCSj72BQDqO1vmZDve/XbFr29Mq3HYSofxF+vBpy5/iZIer9Og4Y
+ 9h9F3CcvgYFpfZv/yejrKiCERLYeqz2LvHnqwyadSVZvy1nEtIRl4rT3HlqWRWLdN9Fl
+ 6z0FgRXM7sbCz6Z/CQe/zjsqbO0WbtHUvFQJuxhfcMd++iUyY6+M4itfmhGQZbhoBV+/
+ z/5sGbycYevtssfYgpjygcJfdUu/LmcZ9NcHFq80jtTHXwXBv/Qdeq1Le8d1AVN+kh6m
+ a/h4uMAu3+3AcZPIHZjPsE86B4QD+PgbXUNdsEbbs59ljH5g3agTf5/GQHtlACPfj0hV
+ k7EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=IrD2HiOAvlqhSlCj89Kg6AmBSA4GqWLvYu4q+ahkxqw=;
+ b=jDqpIBApu4X1qa8zWM3kt69tqwXV4HCtu2A73AhEYCDJfD9xeF3j7/OuV+dKfoKgQy
+ zpAltMB0y+UiUtMrWJs3oJvyYLRbDAslTETgPTYX2pm+K2PrXzSNN/ByPVrjXjA+i5Ba
+ JDKgPnZEZHJQlGrrOBlFZ6AyFPmwkT5smblPU3LP83FJLySSvRwT51pGcoh9sGXFb5QN
+ ZVSE8vu4VHsj8AqXAqicZDE+BvPtCkjwzKOjxXtKfAiiTYn4rUxZVnoMDy+VAzg3zl3U
+ FDub6bh3L9U4fU0c4ZDbIyaqTsntIcOs0LOqmgpYYWZUkV5vqGH0b/+QZKVtP122C7Oi
+ 9siQ==
+X-Gm-Message-State: ACrzQf39FMzhbVRYwCaJOTwu//UWKv2+6idCo0ktBrqr/+006fYxPe5b
+ MaX7snNhW0Q2u7sUWO6+IutYWj0Rf+Td5YoJLzU=
+X-Google-Smtp-Source: AMsMyM6sqVe8c4bTD9YFY2G/C+1svDf3GvVoxIluh8OGYmkdHCKavHRdrDmDo8TK3DWsOb6b2Gm9Uq4Bb3RTeg+9OAc=
+X-Received: by 2002:a05:6808:2194:b0:350:cb3d:ecd2 with SMTP id
+ be20-20020a056808219400b00350cb3decd2mr9930656oib.46.1664549321709; Fri, 30
+ Sep 2022 07:48:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v4 03/30] drm/tests: Add Kunit Helpers
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
- Lyude Paul <lyude@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
- <20220728-rpi-analog-tv-properties-v4-3-60d38873f782@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v4-3-60d38873f782@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220930053859.100235-1-yang.lee@linux.alibaba.com>
+ <20220930053859.100235-2-yang.lee@linux.alibaba.com>
+In-Reply-To: <20220930053859.100235-2-yang.lee@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 30 Sep 2022 10:48:30 -0400
+Message-ID: <CADnq5_O24ZXhE3qfKajjtP1gj8Pd8DO7ZVrQE6QN5cY_vf4Gvw@mail.gmail.com>
+Subject: Re: [PATCH -next 2/2] drm/amd/display: clean up one inconsistent
+ indenting
+To: Yang Li <yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,30 +65,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: sunpeng.li@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied the series.  Thanks!
 
-
-Den 29.09.2022 18.30, skrev Maxime Ripard:
-> As the number of kunit tests in KMS grows further, we start to have
-> multiple test suites that, for example, need to register a mock DRM
-> driver to interact with the KMS function they are supposed to test.
-> 
-> Let's add a file meant to provide those kind of helpers to avoid
-> duplication.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+On Fri, Sep 30, 2022 at 1:39 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
+>
+> clean up one inconsistent indenting
+>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2321
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
+> index 559e563d5bc1..f04595b750ab 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
+> @@ -852,7 +852,7 @@ static struct hubbub *dcn301_hubbub_create(struct dc_context *ctx)
+>                 vmid->masks = &vmid_masks;
+>         }
+>
+> -        hubbub3->num_vmid = res_cap_dcn301.num_vmid;
+> +       hubbub3->num_vmid = res_cap_dcn301.num_vmid;
+>
+>         return &hubbub3->base;
+>  }
+> --
+> 2.20.1.7.g153144c
+>
