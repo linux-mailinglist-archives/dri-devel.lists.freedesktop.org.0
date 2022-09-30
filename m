@@ -1,58 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217385F0776
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 11:22:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C265F0789
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 11:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC6F10EBED;
-	Fri, 30 Sep 2022 09:22:09 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C353210EBED;
- Fri, 30 Sep 2022 09:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664529724; x=1696065724;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=m4uEmzkAK2yg8pfQwPUIF7uLCfVjAIWOMIl5haqlhtE=;
- b=dwIv8lJaWDtQDenPe2ci2ir8tg3MExfs7d9jjEE5s/z3H0jCQ1/eOm0y
- QAxJCoLvggl2mkq0KFbpxbhsVn5hBvXZGdjW9KQo0UyoPjpAGCPr9dPJB
- ab3ljiqJC658jQ+XaIb0k7KQT7SmE1zVMMFrejRW4zmj6SfPNpg3YmvVR
- kESouzYFFTYPpVql5YkdCfrQU0/168Z6cmFtxEOUsywS+kag9ubkw+w/w
- 2C+bvC8umv0pamYbVZtdO8mQ+TD1S9EVt/z1Hi60dtZSZyqyHSr7Ox+PE
- mEX8GGar3VJj0HaYOhvBrBfQt647ObNTVykL3JA15+oO9OuY5VA6PhkqJ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="388427104"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="388427104"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 02:22:03 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="617936297"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="617936297"
-Received: from dsawant-mobl.ger.corp.intel.com (HELO [10.213.195.50])
- ([10.213.195.50])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 02:22:02 -0700
-Message-ID: <28690581-b934-b99f-feb9-78a8e6c2d052@linux.intel.com>
-Date: Fri, 30 Sep 2022 10:22:01 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FFA10EC1D;
+	Fri, 30 Sep 2022 09:25:45 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A339510EC1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 09:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664529939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wHizq7BlPFEQ4Or7gBQDWV2H9Bve5A4TC0jGsXwCKqY=;
+ b=g8gqIXytf+QbvddoxkwfFxaGeF5Pz8RF8ta8LXEBVAPxPqIVJosUcuMLrHT2wiidj6kc5I
+ CrkbSVmGybbAKMvQ1twltM1+L3c+TuWGbfV4jy23Kfk7Wtol6ftNLcyy5sjWWdRhSqUjHq
+ WPh7r3kMuN+urU+7hUmXbFyq2ZOIj7M=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-62-QNNnDoNGMmycaDvwBtmbSg-1; Fri, 30 Sep 2022 05:25:38 -0400
+X-MC-Unique: QNNnDoNGMmycaDvwBtmbSg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ e28-20020adfa45c000000b0022cc7d071b4so1359426wra.23
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 02:25:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=wHizq7BlPFEQ4Or7gBQDWV2H9Bve5A4TC0jGsXwCKqY=;
+ b=Q8BxhuR0wlGvAJMEbWn/mZwCtrc9lpqK8WEnZX3eRl5X5X3VaNP5y6pEcVZkAN3IEd
+ e7rzbC2PuPfPtGsCpUNOBPv3deEtYQNlsi6KxFUTd+59BRa6o0255Jr4ow74Ph67Dz0I
+ Fuii3SaHxcmS2x1ycZvX0YQdAoul1IGWNL4t2L4XeGeCpJZ2AHiJYzC2d0/zu1u5kAJn
+ Zkq1BKEq4HD1g5b34ysKXK0G8KPUf4JNuLwA9XfGISm9LEtLGJkYVbhwMtkyPMn6NSiN
+ 0yJ1LK+ne94fhVDHIdxCN4U5Ir3tJII9/WhY9PYkw9cFTOK/jzvtU24UH702A1OMLT+6
+ j1HA==
+X-Gm-Message-State: ACrzQf3oU3pTF6gB4MjOBm9YNjnesbZZxaj/DeIz98rcO3xGw3inCE/c
+ mhh34XSAIkCbDZVPQJvsmdPHoYlHaVGFCQDHh8r47PxYGUTGOUa0Tq1Eh/httDYrE0QZmJvCMGu
+ 0mkQI36tz07/XXqnaoaaTfMfLKIND
+X-Received: by 2002:a5d:5a1a:0:b0:22a:ad99:d6eb with SMTP id
+ bq26-20020a5d5a1a000000b0022aad99d6ebmr5618688wrb.76.1664529937450; 
+ Fri, 30 Sep 2022 02:25:37 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM69Z1NMeezNfWti8y4P1oywT0JJcVH22qy0OB4L5lj8XASLTSigVkXmdmqLEoZUymOkuE/tXQ==
+X-Received: by 2002:a5d:5a1a:0:b0:22a:ad99:d6eb with SMTP id
+ bq26-20020a5d5a1a000000b0022aad99d6ebmr5618677wrb.76.1664529937242; 
+ Fri, 30 Sep 2022 02:25:37 -0700 (PDT)
+Received: from [10.0.6.199] ([91.126.32.244]) by smtp.gmail.com with ESMTPSA id
+ n186-20020a1ca4c3000000b003a8434530bbsm6305484wme.13.2022.09.30.02.25.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 02:25:36 -0700 (PDT)
+Message-ID: <da9fddaa-2329-c91b-a89d-c998c5720917@redhat.com>
+Date: Fri, 30 Sep 2022 11:25:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [Intel-gfx] [PATCH v4 3/4] drm/i915: Make the heartbeat play nice
- with long pre-emption timeouts
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] drm/ssd130x: Iterate over damage clips instead of using a
+ merged rect
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220930080123.2441629-1-javierm@redhat.com>
+ <a72d4736-74e1-1485-e952-f39909d94fbc@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <a72d4736-74e1-1485-e952-f39909d94fbc@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
- <20220929021813.2172701-4-John.C.Harrison@Intel.com>
- <a2c2cddf-009b-a2e0-2af2-6f1553c59cbc@linux.intel.com>
- <ae042c9d-f6f1-2ecd-e23a-7d6994c97151@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ae042c9d-f6f1-2ecd-e23a-7d6994c97151@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +86,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: David Airlie <airlied@linux.ie>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Thomas,
 
-On 29/09/2022 17:21, John Harrison wrote:
-> On 9/29/2022 00:42, Tvrtko Ursulin wrote:
->> On 29/09/2022 03:18, John.C.Harrison@Intel.com wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> Compute workloads are inherently not pre-emptible for long periods on
->>> current hardware. As a workaround for this, the pre-emption timeout
->>> for compute capable engines was disabled. This is undesirable with GuC
->>> submission as it prevents per engine reset of hung contexts. Hence the
->>> next patch will re-enable the timeout but bumped up by an order of
->>> magnitude.
->>>
->>> However, the heartbeat might not respect that. Depending upon current
->>> activity, a pre-emption to the heartbeat pulse might not even be
->>> attempted until the last heartbeat period. Which means that only one
->>> period is granted for the pre-emption to occur. With the aforesaid
->>> bump, the pre-emption timeout could be significantly larger than this
->>> heartbeat period.
->>>
->>> So adjust the heartbeat code to take the pre-emption timeout into
->>> account. When it reaches the final (high priority) period, it now
->>> ensures the delay before hitting reset is bigger than the pre-emption
->>> timeout.
->>>
->>> v2: Fix for selftests which adjust the heartbeat period manually.
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> ---
->>>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 19 +++++++++++++++++++
->>>   1 file changed, 19 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c 
->>> b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->>> index a3698f611f457..823a790a0e2ae 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->>> @@ -22,9 +22,28 @@
->>>     static bool next_heartbeat(struct intel_engine_cs *engine)
->>>   {
->>> +    struct i915_request *rq;
->>>       long delay;
->>>         delay = READ_ONCE(engine->props.heartbeat_interval_ms);
->>> +
->>> +    rq = engine->heartbeat.systole;
->>> +
->>> +    if (rq && rq->sched.attr.priority >= I915_PRIORITY_BARRIER &&
->>> +        delay == engine->defaults.heartbeat_interval_ms) {
+Thanks a lot for your feedback.
+
+On 9/30/22 10:26, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 30.09.22 um 10:01 schrieb Javier Martinez Canillas:
+>> The drm_atomic_helper_damage_merged() helper merges all the damage clips
+>> into one rectangle. If there are multiple damage clips that aren't close
+>> to each other, the resulting rectangle could be quite big.
 >>
->> Maybe I forgot but what is the reason for the check against the 
->> default heartbeat interval?
-> That's the 'v2: fix for selftests that manually adjust the heartbeat'. 
-> If something (or someone) has explicitly set an override of the 
-> heartbeat then it has to be assumed that they know what they are doing, 
-> and if things don't work any more that's their problem. But if we don't 
-> respect their override then they won't get the timings they expect and 
-> the selftest will fail.
+>> Instead of using that function helper, iterate over all the damage clips
+>> and update them one by one.
+>>
+>> Suggested-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> ---
+>>
+>>   drivers/gpu/drm/solomon/ssd130x.c | 18 ++++++++++--------
+>>   1 file changed, 10 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+>> index bc41a5ae810a..2428f1813a8d 100644
+>> --- a/drivers/gpu/drm/solomon/ssd130x.c
+>> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+>> @@ -578,21 +578,23 @@ static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>>   	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+>>   	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+>>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>> +	struct drm_atomic_helper_damage_iter iter;
+>>   	struct drm_device *drm = plane->dev;
+>> -	struct drm_rect src_clip, dst_clip;
+>> +	struct drm_rect dst_clip;
+>> +	struct drm_rect damage;
+>>   	int idx;
+>>   
+>> -	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &src_clip))
+>> -		return;
+>> -
+>>   	dst_clip = plane_state->dst;
+>> -	if (!drm_rect_intersect(&dst_clip, &src_clip))
+>> -		return;
+>> -
+>>   	if (!drm_dev_enter(drm, &idx))
+>>   		return;
+>>   
+>> -	ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &dst_clip);
+>> +	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+>> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
+>> +		if (!drm_rect_intersect(&dst_clip, &damage))
+>> +			continue;
+> 
+> dst_clip will be overwritten here. So need to init it within the loop first.
+> 
 
-Isn't this a bit too strict for the non-selftest case? If the new 
-concept is extending the last pulse to guarantee preemption, then I 
-think we could allow tweaking of the heartbeat period. Like what if user 
-wants 1s, or 10s instead of 2.5s - why would that need to break the 
-improvement from this patch?
+Oh, indeed. I'll move it inside the loop. Thanks for catching this.
 
-In what ways selftests fail? Are they trying to guess time to reset 
-based on the hearbeat period set? If so perhaps add a helper to query it 
-based on the last pulse extension.
+>> +
+>> +		ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &damage);
+> 
+> In simpledrm, we adjust the destination address with dst_clip like this:
+> 
+>    iosys_map_incr(&dst, drm_fb_clip_offset(sdev->pitch, sdev->format, 
+> &dst_clip));
+> 
+> How does this work in ssd130x? You never use dst_clip to adjust to the 
+> changed location. Won't you have out-of-bounds writes on the device?
+> 
 
-Regards,
+Right, in ssd130x what I do is:
 
-Tvrtko
+static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_map *vmap,
+				struct drm_rect *rect)
+{
+	struct iosys_map dst;
+...
+	u8 *buf = NULL;
+...
+	buf = kcalloc(dst_pitch, drm_rect_height(rect), GFP_KERNEL);
+...
+	iosys_map_set_vaddr(&dst, buf);
+	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect);
+...
+	ssd130x_update_rect(ssd130x, buf, rect);
+}
+
+I understand that's correct too?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
