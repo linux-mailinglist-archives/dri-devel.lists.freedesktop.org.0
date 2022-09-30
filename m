@@ -2,42 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF085F021F
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 03:11:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73745F024A
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 03:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E9210EC88;
-	Fri, 30 Sep 2022 01:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F5410ECBD;
+	Fri, 30 Sep 2022 01:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A23110EC88
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 01:11:02 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MdsWP29vLz1P70S;
- Fri, 30 Sep 2022 09:06:41 +0800 (CST)
-Received: from [10.174.178.41] (10.174.178.41) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 30 Sep 2022 09:10:59 +0800
-Message-ID: <1f3deeff-1150-c77f-1773-53d2cb1561b4@huawei.com>
-Date: Fri, 30 Sep 2022 09:10:58 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E60C10ECAB;
+ Fri, 30 Sep 2022 01:37:07 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28TKaSGk012711;
+ Fri, 30 Sep 2022 01:37:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=8uskSYXZrC8wCallSBV0TUOAeGS6evy4WyhF7aiBzFc=;
+ b=QOkbhHVS6+vX7RljFXCRdQ7S1yPyldL1IwQ9Bi1G5JOKvGYxIvu8OL0aMwj2lYhO7p9i
+ lVswuF9Ua+RlcO8PHAPCac0Wb5cnwF/StpWbiRGMkx45NefJ2G+AE1ntmw8yNGJWr/5r
+ VWYkeg5fpdltdux4qPLQFEDNtxg7q3PuG5vlPjITmBA3RVONTXNYe5T9pLeCY3QSodXv
+ 8i3q/RYNAoPndNfG6Q3v4g64WQVCooflpwSqcQOaLCiSAMg29L5irIbfq91f7rt0GuJ6
+ t1PT6TMioPdv6jjFpAroGHC3jjGZiJ49KsSJMRcKtEpClzfKUD3rFcAsezOx/6Gt2xjC xg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jw4xqbpm6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 01:36:59 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28U1axDI018655
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 01:36:59 GMT
+Received: from [10.111.171.63] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 29 Sep
+ 2022 18:36:55 -0700
+Message-ID: <36e191e0-9ddc-80b8-7f59-e002d5d458c1@quicinc.com>
+Date: Thu, 29 Sep 2022 18:36:53 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2 2/2] drm/panel: simple: Use dev_err_probe() to simplify
- code
-To: Doug Anderson <dianders@chromium.org>
-References: <20220929015503.17301-1-yuancan@huawei.com>
- <20220929015503.17301-3-yuancan@huawei.com>
- <CAD=FV=WsTfN_HJ5VA8gLytL=X6O-k=EYLfie5-RAvM81AZkyCQ@mail.gmail.com>
-From: Yuan Can <yuancan@huawei.com>
-In-Reply-To: <CAD=FV=WsTfN_HJ5VA8gLytL=X6O-k=EYLfie5-RAvM81AZkyCQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v5 1/3] drm/msm/dp: cleared DP_DOWNSPREAD_CTRL register
+ before start link training
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <bjorn.andersson@linaro.org>
+References: <1662999830-13916-1-git-send-email-quic_khsieh@quicinc.com>
+ <1662999830-13916-2-git-send-email-quic_khsieh@quicinc.com>
+ <0f381285-860f-aaa2-2ae7-834608d0b4e8@linaro.org>
+ <e6543dd7-30ac-d210-6bf0-95bb9d22ca0a@quicinc.com>
+ <47f661b6-b5b9-9f28-10cf-1e7bbb8b282a@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <47f661b6-b5b9-9f28-10cf-1e7bbb8b282a@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.41]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500024.china.huawei.com (7.185.36.10)
-X-CFilter-Loop: Reflected
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: RkK_-3mHW8BCHBgGWeQKK1mxBrTba1Ae
+X-Proofpoint-ORIG-GUID: RkK_-3mHW8BCHBgGWeQKK1mxBrTba1Ae
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-30_01,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ spamscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 suspectscore=0
+ malwarescore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2209300008
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,37 +92,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-在 2022/9/30 5:08, Doug Anderson 写道:
-> Hi,
->
-> On Wed, Sep 28, 2022 at 6:57 PM Yuan Can <yuancan@huawei.com> wrote:
->> In the probe path, dev_err() can be replaced with dev_err_probe()
->> which will check if error code is -EPROBE_DEFER and prints the
->> error name. It also sets the defer probe reason which can be
->> checked later through debugfs.
+
+On 9/12/2022 12:25 PM, Dmitry Baryshkov wrote:
+> On 12/09/2022 22:21, Kuogee Hsieh wrote:
 >>
->> Signed-off-by: Yuan Can <yuancan@huawei.com>
->> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->> ---
->>   drivers/gpu/drm/panel/panel-simple.c | 9 +++------
->>   1 file changed, 3 insertions(+), 6 deletions(-)
-> Pushed to drm-misc-next:
->
-> c9b48b91e2fb drm/panel: simple: Use dev_err_probe() to simplify code
->
-> For the other patches in your original series, I'll assume folks
-> paying more attention to those panel drivers will commit them. If they
-> totally stall for a while, though, then yell and I can try taking a
-> look at them. :-)
-That's great, Thanks!😁
+>> On 9/12/2022 11:39 AM, Dmitry Baryshkov wrote:
+>>> On 12/09/2022 19:23, Kuogee Hsieh wrote:
+>>>> DOWNSPREAD_CTRL (0x107) shall be cleared to 0 upon power-on reset or an
+>>>> upstream device disconnect. This patch will enforce this rule by always
+>>>> cleared DOWNSPREAD_CTRL register to 0 before start link training. At 
+>>>> rare
+>>>> case that DP MSA timing parameters may be mis-interpreted by the sink
+>>>> which causes audio sampling rate be calculated wrongly and cause audio
+>>>> did not work at sink if DOWNSPREAD_CTRL register is not cleared to 0.
+>>>>
+>>>> Changes in v2:
+>>>> 1) fix spelling at commit text
+>>>> 2) merge ssc variable into encoding[0]
+>>>>
+>>>> Changes in v3:
+>>>> -- correct spelling of DOWNSPREAD_CTRL
+>>>> -- replace err with len of ssize_t
+>>>>
+>>>> Changes in v4:
+>>>> -- split into 2 patches
+>>>>
+>>>> Fixes: 154b5a7da0fd ("drm/msm/dp: add displayPort driver support")
 
--- 
-Best regards,
-Yuan Can
+Fixes tag is wrong here. It should be:
 
+Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+
+>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>>> ---
+>>>>   drivers/gpu/drm/msm/dp/dp_ctrl.c | 13 +++++--------
+>>>>   1 file changed, 5 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
+>>>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>> index ab6aa13..2c74c59 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>> @@ -1245,8 +1245,7 @@ static int dp_ctrl_link_train(struct 
+>>>> dp_ctrl_private *ctrl,
+>>>>   {
+>>>>       int ret = 0;
+>>>>       const u8 *dpcd = ctrl->panel->dpcd;
+>>>> -    u8 encoding = DP_SET_ANSI_8B10B;
+>>>> -    u8 ssc;
+>>>> +    u8 encoding[] = { 0, DP_SET_ANSI_8B10B };
+>>>>       u8 assr;
+>>>>       struct dp_link_info link_info = {0};
+>>>>   @@ -1258,13 +1257,11 @@ static int dp_ctrl_link_train(struct 
+>>>> dp_ctrl_private *ctrl,
+>>>>         dp_aux_link_configure(ctrl->aux, &link_info);
+>>>>   -    if (drm_dp_max_downspread(dpcd)) {
+>>>> -        ssc = DP_SPREAD_AMP_0_5;
+>>>> -        drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, &ssc, 1);
+>>>> -    }
+>>>> +    if (drm_dp_max_downspread(dpcd))
+>>>> +        encoding[0] |= DP_SPREAD_AMP_0_5;
+>>>
+>>> It would be simpler to call drm_dp_dpcd_write(ssc, 
+>>> DP_DOWNSPREAD_CTRL, 1) unconditionally here. You won't have to change 
+>>> the encoding/DP_MAIN_LINK_CHANNEL_CODING_SET/etc.
+>>
+>> The difference is one write with 2 bytes against two writes with one 
+>> byte each.
+>>
+>> I think it is more efficient to combine two bytes into one write since 
+>> these two bytes are consecutive address.
+> 
+> I probably wouldn't do so, nevertheless:
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+>>
+>>>
+>>>>   -    drm_dp_dpcd_write(ctrl->aux, DP_MAIN_LINK_CHANNEL_CODING_SET,
+>>>> -                &encoding, 1);
+>>>> +    /* config DOWNSPREAD_CTRL and MAIN_LINK_CHANNEL_CODING_SET */
+>>>> +    drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, encoding, 2);
+>>>>         if (drm_dp_alternate_scrambler_reset_cap(dpcd)) {
+>>>>           assr = DP_ALTERNATE_SCRAMBLER_RESET_ENABLE;
+>>>
+> 
