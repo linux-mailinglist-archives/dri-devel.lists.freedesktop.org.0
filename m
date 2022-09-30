@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E9D5F082C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715795F0847
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:11:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE16910EC37;
-	Fri, 30 Sep 2022 10:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1F810EC34;
+	Fri, 30 Sep 2022 10:11:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A75610E104;
- Fri, 30 Sep 2022 10:01:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664532083; x=1696068083;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=wLLvlgkfaK8iy1NaRmZIJaB4yHvwCkS1/sF2uThIIDU=;
- b=jHB5f45Gq5zgvTY8ih2n0AsNgeBUiWCRxek4o0K5oKRA5Bl4OxbrsXpx
- utc1EqM8KXKLiTt9jWSv1YAWVzkDfZbVU1hlkLyGWenDS7Jhi3i2+i4Eg
- UOYkMIjTgTR3YKhTSKnWMy2gKeFLPhpknD8C92lmN2lbWR006/zP7O6QU
- zmDL+iFagSHL9S/UKeV0lYQ0csecTNU+l3P20TA8nKVbFRqOpsOnpsfz+
- msnPIU+GBjiMeVPQMC0ZvdbbikRnqJR+JhkyUwL+J5BVPNU6F+ytF0yd7
- 8YXMCfblIv/WfzgjqBaCop/ZLYfy17eXRZgEvYsdWPMyIb1hYRFiCQ7bT g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="282519742"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="282519742"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 03:01:22 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="622719782"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="622719782"
-Received: from dtrawins-mobl1.ger.corp.intel.com (HELO [10.252.7.39])
- ([10.252.7.39])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 03:01:19 -0700
-Message-ID: <110254ac-a4af-395c-0581-73de653e8cd9@intel.com>
-Date: Fri, 30 Sep 2022 11:01:17 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B37DF10EC34
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 10:11:02 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7214B1F86B;
+ Fri, 30 Sep 2022 10:11:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1664532661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ipPL8K7GWD7doGo6TpSeoTpSR79g8wTtKq37M8sYqRY=;
+ b=NRA1IjLWqDII1XYk54w2vUbGDGIM/mUV6zILTr8aAGE69vRaJ63Y71VAkijbPyszOmfPpo
+ iau11436PD0j45a8HK5U4GTPqU6uj2hc262bzR1c+ASdV3k4afav8cVKiCDXCDwrBAzkgz
+ RKFqreVZI1yYeNj8nUdcfjWliYIterI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1664532661;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ipPL8K7GWD7doGo6TpSeoTpSR79g8wTtKq37M8sYqRY=;
+ b=lLo2kvnAZusskLKo2jBQ3vx0NDIa7YPw8z7QntiwYjoR0SeMg7lfN9/yuhPIdHygIhbqaS
+ XK2LdQm1FL/w9xAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5329013677;
+ Fri, 30 Sep 2022 10:11:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EpZ4E7XANmN1bgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 30 Sep 2022 10:11:01 +0000
+Message-ID: <65fd4526-f223-d425-3e69-04fe5485c87c@suse.de>
+Date: Fri, 30 Sep 2022 12:11:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH 16/16] drm/i915/vm_bind: Add uapi for user to enable
- vm_bind_mode
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-17-niranjana.vishwanathapura@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220928061918.6340-17-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] drm/ssd130x: Iterate over damage clips instead of using a
+ merged rect
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220930080123.2441629-1-javierm@redhat.com>
+ <a72d4736-74e1-1485-e952-f39909d94fbc@suse.de>
+ <da9fddaa-2329-c91b-a89d-c998c5720917@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <da9fddaa-2329-c91b-a89d-c998c5720917@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Wmym8a30k7p3Wl5HBMYto2M8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,132 +72,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
- daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: David Airlie <airlied@linux.ie>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
-> Add getparam support for VM_BIND capability version.
-> Add VM creation time flag to enable vm_bind_mode for the VM.
-> 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.c |  9 +++++++-
->   drivers/gpu/drm/i915/i915_drv.h             |  2 ++
->   drivers/gpu/drm/i915/i915_getparam.c        |  3 +++
->   include/uapi/drm/i915_drm.h                 | 24 ++++++++++++++++++++-
->   4 files changed, 36 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index f4e648ec01ed..c20bd6e8aaf8 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1808,9 +1808,13 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
->   	if (!HAS_FULL_PPGTT(i915))
->   		return -ENODEV;
->   
-> -	if (args->flags)
-> +	if (args->flags & I915_VM_CREATE_FLAGS_UNKNOWN)
->   		return -EINVAL;
->   
-> +	if ((args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND) &&
-> +	    !HAS_VM_BIND(i915))
-> +		return -EOPNOTSUPP;
-> +
->   	ppgtt = i915_ppgtt_create(to_gt(i915), 0);
->   	if (IS_ERR(ppgtt))
->   		return PTR_ERR(ppgtt);
-> @@ -1828,6 +1832,9 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
->   	if (err)
->   		goto err_put;
->   
-> +	if (args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND)
-> +		ppgtt->vm.vm_bind_mode = true;
-> +
->   	GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
->   	args->vm_id = id;
->   	return 0;
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 84a2f6b16f57..e77393d74c6f 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -974,6 +974,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->   
->   #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_fuse_bit)
->   
-> +#define HAS_VM_BIND(dev_priv) (GRAPHICS_VER(dev_priv) >= 12)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Wmym8a30k7p3Wl5HBMYto2M8
+Content-Type: multipart/mixed; boundary="------------zrPzZb4Gou7T986Fk91LhYPN";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <65fd4526-f223-d425-3e69-04fe5485c87c@suse.de>
+Subject: Re: [PATCH] drm/ssd130x: Iterate over damage clips instead of using a
+ merged rect
+References: <20220930080123.2441629-1-javierm@redhat.com>
+ <a72d4736-74e1-1485-e952-f39909d94fbc@suse.de>
+ <da9fddaa-2329-c91b-a89d-c998c5720917@redhat.com>
+In-Reply-To: <da9fddaa-2329-c91b-a89d-c998c5720917@redhat.com>
 
-s/dev_priv/i915/
+--------------zrPzZb4Gou7T986Fk91LhYPN
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> +
->   /* intel_device_info.c */
->   static inline struct intel_device_info *
->   mkwrite_device_info(struct drm_i915_private *dev_priv)
-> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-> index 342c8ca6414e..f45b3c684bcf 100644
-> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> @@ -175,6 +175,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
->   	case I915_PARAM_PERF_REVISION:
->   		value = i915_perf_ioctl_version();
->   		break;
-> +	case I915_PARAM_VM_BIND_VERSION:
-> +		value = HAS_VM_BIND(i915);
-> +		break;
->   	default:
->   		DRM_DEBUG("Unknown parameter %d\n", param->param);
->   		return -EINVAL;
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index f3a5b198b3e7..9a033acc254b 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -755,6 +755,27 @@ typedef struct drm_i915_irq_wait {
->   /* Query if the kernel supports the I915_USERPTR_PROBE flag. */
->   #define I915_PARAM_HAS_USERPTR_PROBE 56
->   
-> +/*
-> + * VM_BIND feature version supported.
-> + *
-> + * The following versions of VM_BIND have been defined:
-> + *
-> + * 0: No VM_BIND support.
-> + *
-> + * 1: In VM_UNBIND calls, the UMD must specify the exact mappings created
-> + *    previously with VM_BIND, the ioctl will not support unbinding multiple
-> + *    mappings or splitting them. Similarly, VM_BIND calls will not replace
-> + *    any existing mappings.
-> + *
-> + * 2: The restrictions on unbinding partial or multiple mappings is
-> + *    lifted, Similarly, binding will replace any mappings in the given range.
+SGkNCg0KQW0gMzAuMDkuMjIgdW0gMTE6MjUgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IFRoYW5rcyBhIGxvdCBmb3IgeW91ciBm
+ZWVkYmFjay4NCj4gDQo+IE9uIDkvMzAvMjIgMTA6MjYsIFRob21hcyBaaW1tZXJtYW5uIHdy
+b3RlOg0KPj4gSGkNCj4+DQo+PiBBbSAzMC4wOS4yMiB1bSAxMDowMSBzY2hyaWViIEphdmll
+ciBNYXJ0aW5leiBDYW5pbGxhczoNCj4+PiBUaGUgZHJtX2F0b21pY19oZWxwZXJfZGFtYWdl
+X21lcmdlZCgpIGhlbHBlciBtZXJnZXMgYWxsIHRoZSBkYW1hZ2UgY2xpcHMNCj4+PiBpbnRv
+IG9uZSByZWN0YW5nbGUuIElmIHRoZXJlIGFyZSBtdWx0aXBsZSBkYW1hZ2UgY2xpcHMgdGhh
+dCBhcmVuJ3QgY2xvc2UNCj4+PiB0byBlYWNoIG90aGVyLCB0aGUgcmVzdWx0aW5nIHJlY3Rh
+bmdsZSBjb3VsZCBiZSBxdWl0ZSBiaWcuDQo+Pj4NCj4+PiBJbnN0ZWFkIG9mIHVzaW5nIHRo
+YXQgZnVuY3Rpb24gaGVscGVyLCBpdGVyYXRlIG92ZXIgYWxsIHRoZSBkYW1hZ2UgY2xpcHMN
+Cj4+PiBhbmQgdXBkYXRlIHRoZW0gb25lIGJ5IG9uZS4NCj4+Pg0KPj4+IFN1Z2dlc3RlZC1i
+eTogSm9jZWx5biBGYWxlbXBlIDxqZmFsZW1wZUByZWRoYXQuY29tPg0KPj4+IFNpZ25lZC1v
+ZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0K
+Pj4+IC0tLQ0KPj4+DQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5j
+IHwgMTggKysrKysrKysrKy0tLS0tLS0tDQo+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDEwIGlu
+c2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jIGIvZHJpdmVycy9ncHUvZHJtL3NvbG9t
+b24vc3NkMTMweC5jDQo+Pj4gaW5kZXggYmM0MWE1YWU4MTBhLi4yNDI4ZjE4MTNhOGQgMTAw
+NjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jDQo+Pj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jDQo+Pj4gQEAgLTU3OCwy
+MSArNTc4LDIzIEBAIHN0YXRpYyB2b2lkIHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9oZWxwZXJf
+YXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwNCj4+PiAgICAJc3RydWN0
+IGRybV9wbGFuZV9zdGF0ZSAqcGxhbmVfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxh
+bmVfc3RhdGUoc3RhdGUsIHBsYW5lKTsNCj4+PiAgICAJc3RydWN0IGRybV9wbGFuZV9zdGF0
+ZSAqb2xkX3BsYW5lX3N0YXRlID0gZHJtX2F0b21pY19nZXRfb2xkX3BsYW5lX3N0YXRlKHN0
+YXRlLCBwbGFuZSk7DQo+Pj4gICAgCXN0cnVjdCBkcm1fc2hhZG93X3BsYW5lX3N0YXRlICpz
+aGFkb3dfcGxhbmVfc3RhdGUgPSB0b19kcm1fc2hhZG93X3BsYW5lX3N0YXRlKHBsYW5lX3N0
+YXRlKTsNCj4+PiArCXN0cnVjdCBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRlciBpdGVy
+Ow0KPj4+ICAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtID0gcGxhbmUtPmRldjsNCj4+PiAt
+CXN0cnVjdCBkcm1fcmVjdCBzcmNfY2xpcCwgZHN0X2NsaXA7DQo+Pj4gKwlzdHJ1Y3QgZHJt
+X3JlY3QgZHN0X2NsaXA7DQo+Pj4gKwlzdHJ1Y3QgZHJtX3JlY3QgZGFtYWdlOw0KPj4+ICAg
+IAlpbnQgaWR4Ow0KPj4+ICAgIA0KPj4+IC0JaWYgKCFkcm1fYXRvbWljX2hlbHBlcl9kYW1h
+Z2VfbWVyZ2VkKG9sZF9wbGFuZV9zdGF0ZSwgcGxhbmVfc3RhdGUsICZzcmNfY2xpcCkpDQo+
+Pj4gLQkJcmV0dXJuOw0KPj4+IC0NCj4+PiAgICAJZHN0X2NsaXAgPSBwbGFuZV9zdGF0ZS0+
+ZHN0Ow0KPj4+IC0JaWYgKCFkcm1fcmVjdF9pbnRlcnNlY3QoJmRzdF9jbGlwLCAmc3JjX2Ns
+aXApKQ0KPj4+IC0JCXJldHVybjsNCj4+PiAtDQo+Pj4gICAgCWlmICghZHJtX2Rldl9lbnRl
+cihkcm0sICZpZHgpKQ0KPj4+ICAgIAkJcmV0dXJuOw0KPj4+ICAgIA0KPj4+IC0Jc3NkMTMw
+eF9mYl9ibGl0X3JlY3QocGxhbmVfc3RhdGUtPmZiLCAmc2hhZG93X3BsYW5lX3N0YXRlLT5k
+YXRhWzBdLCAmZHN0X2NsaXApOw0KPj4+ICsJZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0
+ZXJfaW5pdCgmaXRlciwgb2xkX3BsYW5lX3N0YXRlLCBwbGFuZV9zdGF0ZSk7DQo+Pj4gKwlk
+cm1fYXRvbWljX2Zvcl9lYWNoX3BsYW5lX2RhbWFnZSgmaXRlciwgJmRhbWFnZSkgew0KPj4+
+ICsJCWlmICghZHJtX3JlY3RfaW50ZXJzZWN0KCZkc3RfY2xpcCwgJmRhbWFnZSkpDQo+Pj4g
+KwkJCWNvbnRpbnVlOw0KPj4NCj4+IGRzdF9jbGlwIHdpbGwgYmUgb3ZlcndyaXR0ZW4gaGVy
+ZS4gU28gbmVlZCB0byBpbml0IGl0IHdpdGhpbiB0aGUgbG9vcCBmaXJzdC4NCj4+DQo+IA0K
+PiBPaCwgaW5kZWVkLiBJJ2xsIG1vdmUgaXQgaW5zaWRlIHRoZSBsb29wLiBUaGFua3MgZm9y
+IGNhdGNoaW5nIHRoaXMuDQo+IA0KPj4+ICsNCj4+PiArCQlzc2QxMzB4X2ZiX2JsaXRfcmVj
+dChwbGFuZV9zdGF0ZS0+ZmIsICZzaGFkb3dfcGxhbmVfc3RhdGUtPmRhdGFbMF0sICZkYW1h
+Z2UpOw0KPj4NCj4+IEluIHNpbXBsZWRybSwgd2UgYWRqdXN0IHRoZSBkZXN0aW5hdGlvbiBh
+ZGRyZXNzIHdpdGggZHN0X2NsaXAgbGlrZSB0aGlzOg0KPj4NCj4+ICAgICBpb3N5c19tYXBf
+aW5jcigmZHN0LCBkcm1fZmJfY2xpcF9vZmZzZXQoc2Rldi0+cGl0Y2gsIHNkZXYtPmZvcm1h
+dCwNCj4+ICZkc3RfY2xpcCkpOw0KPj4NCj4+IEhvdyBkb2VzIHRoaXMgd29yayBpbiBzc2Qx
+MzB4PyBZb3UgbmV2ZXIgdXNlIGRzdF9jbGlwIHRvIGFkanVzdCB0byB0aGUNCj4+IGNoYW5n
+ZWQgbG9jYXRpb24uIFdvbid0IHlvdSBoYXZlIG91dC1vZi1ib3VuZHMgd3JpdGVzIG9uIHRo
+ZSBkZXZpY2U/DQo+Pg0KPiANCj4gUmlnaHQsIGluIHNzZDEzMHggd2hhdCBJIGRvIGlzOg0K
+PiANCj4gc3RhdGljIGludCBzc2QxMzB4X2ZiX2JsaXRfcmVjdChzdHJ1Y3QgZHJtX2ZyYW1l
+YnVmZmVyICpmYiwgY29uc3Qgc3RydWN0IGlvc3lzX21hcCAqdm1hcCwNCj4gCQkJCXN0cnVj
+dCBkcm1fcmVjdCAqcmVjdCkNCj4gew0KPiAJc3RydWN0IGlvc3lzX21hcCBkc3Q7DQo+IC4u
+Lg0KPiAJdTggKmJ1ZiA9IE5VTEw7DQo+IC4uLg0KPiAJYnVmID0ga2NhbGxvYyhkc3RfcGl0
+Y2gsIGRybV9yZWN0X2hlaWdodChyZWN0KSwgR0ZQX0tFUk5FTCk7DQo+IC4uLg0KPiAJaW9z
+eXNfbWFwX3NldF92YWRkcigmZHN0LCBidWYpOw0KPiAJZHJtX2ZiX3hyZ2I4ODg4X3RvX21v
+bm8oJmRzdCwgJmRzdF9waXRjaCwgdm1hcCwgZmIsIHJlY3QpOw0KPiAuLi4NCj4gCXNzZDEz
+MHhfdXBkYXRlX3JlY3Qoc3NkMTMweCwgYnVmLCByZWN0KTsNCj4gfQ0KPiANCj4gSSB1bmRl
+cnN0YW5kIHRoYXQncyBjb3JyZWN0IHRvbz8NCg0KIEZyb20gd2hhdCBJIHVuZGVyc3RhbmQg
+YWJvdXQgc3NkMTMweCwgYmxpdF9yZWN0IGxvb2tzIGNvcnJlY3QgdXAgdG8gdGhlIA0KY2Fs
+bCB0byB1cGRhdGVfcmVjdC4gIFRoZSB2YWx1ZXMgaW4gdGhlIHJlY3QgcGFyYW1ldGVyIGFy
+ZSBmb3IgdGhlIA0KZGFtYWdlIGFyZWEgb2YgdGhlIHBsYW5lLiBJbiB1cGRhdGVfcmVjdCwg
+dGhlIGRlc3RpbmF0aW9uIGNvb3JkcyB4IGFuZCB5IA0KYXJlIGFsc28gdGFrZW4gZnJvbSBy
+ZWN0LiBCdXQgdGhleSBzaG91bGQgY29tZSBmcm9tIGRzdF9jbGlwLCB3aGljaCBpcyANCnRo
+ZSBvbi1zY3JlZW4gbG9jYXRpb24uIERvZXMgdGhhdCBtYWtlIHNlbnNlPw0KDQpCZXN0IHJl
+Z2FyZHMNClRob21hcw0KDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
+cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
+YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
+OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Should we just remove 2 for now? It looks like 1 is this series.
+--------------zrPzZb4Gou7T986Fk91LhYPN--
 
-> + *
-> + * See struct drm_i915_gem_vm_bind and struct drm_i915_gem_vm_unbind.
-> + *
-> + * vm_bind versions are backward compatible.
-> + */
-> +#define I915_PARAM_VM_BIND_VERSION	57
-> +
->   /* Must be kept compact -- no holes and well documented */
->   
->   /**
-> @@ -2622,7 +2643,8 @@ struct drm_i915_gem_vm_control {
->   	/** @extensions: Zero-terminated chain of extensions. */
->   	__u64 extensions;
->   
-> -	/** @flags: reserved for future usage, currently MBZ */
-> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1u << 0)
+--------------Wmym8a30k7p3Wl5HBMYto2M8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Some kernel-doc for that would be good, even if it's kind of obvious.
+-----BEGIN PGP SIGNATURE-----
 
-Acked-by: Matthew Auld <matthew.auld@intel.com>
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM2wLQFAwAAAAAACgkQlh/E3EQov+AP
+hBAAorUwte7CSZkSjzMD6HHU3cT1O7O7ch+Iq5DS+OF2MBk48XIGZBSw6svrFWQdOIh5Wx4qcg8d
+rFcPRMnv2/PZ3ivM0ZtSbsQEL+iqobS+H/krK0k4EewnOpUKY8SFrkce5h4ViNCY8AG3Qy4fLVbR
+ExHeSpN6mNx2GsIz7ajRzB3l71VDb5o17UWj28MUyyLpZXmc6Z+ndOgERVRWrpVJPJ9uRnyHgkMs
+QChslXJDnoOFCeLpm+E0HPJtO7gmqKB5jYqpr3OMJgkQpGuKb7CmtYCLznAxL9TBZtSV3yuP6xkP
+3sQ2MCoBcN6IY4GqMGdUNorF9xC1qD152V9wwaMSE2n2INKUE+fl42dzl6eKmy61l4Hyw1neJebP
+nwSYYdG91hiIZQ8fcxBpoSylO9jvQEUY/VtkatOw+1hVj8P/V8Cfi7UFXL2LOKhAouMCmfpr0WuL
+UdDyai0+lxB7SmvdLTc76MzkXhqb7UAeqaOAK3nfKT2VhfjTyak2zGvZarVhO4jmDK6LbrD8KzbY
+PqRjCI1qDGXwJb7TmMEy1ZAwXyxQQ5fhq3laFA4IyGvvSfWda178OzVRNsoBQ1/mwpXDlKvRoukE
+rKi0IYsqFhs39lwpqkrOX3TT4ioOKXmADPrX84epwbf87BVH80lt8N4yB665+VqTJz1rlwkOx9L6
+tc8=
+=dqyf
+-----END PGP SIGNATURE-----
 
-> +#define I915_VM_CREATE_FLAGS_UNKNOWN	(-(I915_VM_CREATE_FLAGS_USE_VM_BIND << 1))
->   	__u32 flags;
->   
->   	/** @vm_id: Id of the VM created or to be destroyed */
+--------------Wmym8a30k7p3Wl5HBMYto2M8--
