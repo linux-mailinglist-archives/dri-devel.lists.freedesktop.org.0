@@ -1,72 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597D15F04BC
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 08:19:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFFF5F0559
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 08:51:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8427510E1A1;
-	Fri, 30 Sep 2022 06:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 681DB10E1AF;
+	Fri, 30 Sep 2022 06:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6D010E1A1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 06:19:36 +0000 (UTC)
-X-UUID: 229bf0281b14485a85ef06c19501762a-20220930
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=Of3F+7sPVVjfsHtBLdfkKfBmX3fY1czHUbh00fJZAUE=; 
- b=bDo2qFqa/2Ci1EsPqzdagbjS1wcInvYNSPmaxh0qb6XhQCi/Soh0H+uQKepV7HR87lw81D6l/LYV+pNC5aNBnyonH75DdDwelSijxWQsz8WVOAkO+rmE8F4fIl7Md92dNv6IE3lJM9QTyBemfZrPJpjDTxfP9ZA8JoJXDJw3ndU=;
-X-CID-UNFAMILIAR: 1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:ef91c13f-c991-421a-ac2b-fd2f76bbf4e2, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:54,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:49
-X-CID-INFO: VERSION:1.1.11, REQID:ef91c13f-c991-421a-ac2b-fd2f76bbf4e2, IP:0,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:54,FILE:0,BULK:0,RULE:Release_HamU,ACTION
- :release,TS:49
-X-CID-META: VersionHash:39a5ff1, CLOUDID:cd4098a3-dc04-435c-b19b-71e131a5fc35,
- B
- ulkID:220930141931YWE3718G,BulkQuantity:0,Recheck:0,SF:38|28|16|19|48|823|
- 824|102,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:
- nil,COL:0
-X-UUID: 229bf0281b14485a85ef06c19501762a-20220930
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <xiaoyong.lu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2007110508; Fri, 30 Sep 2022 14:19:29 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Fri, 30 Sep 2022 14:19:28 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 30 Sep 2022 14:19:27 +0800
-Message-ID: <75bbf320eb1c54d2834012c1aafcc87105204e8d.camel@mediatek.com>
-Subject: Re: [RFC PATCH v3] media: mediatek: vcodec: support stateless AV1
- decoder
-From: "xiaoyong.lu@mediatek.com" <xiaoyong.lu@mediatek.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>, Yunfei Dong
- <yunfei.dong@mediatek.com>, Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Date: Fri, 30 Sep 2022 14:19:26 +0800
-In-Reply-To: <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
-References: <20220901110416.21191-1-xiaoyong.lu@mediatek.com>
- <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
+ [IPv6:2607:f8b0:4864:20::a2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 646D910E1AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 06:50:55 +0000 (UTC)
+Received: by mail-vk1-xa2d.google.com with SMTP id b15so1803160vkp.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 23:50:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=B3puPSD7pZHrHXbl5YI0fsNw4I+r92A58bxTydU+T68=;
+ b=LerCOyeMtv7pyvrPvJRYelG9p0HtQmaybaxosu9aQWR2DXSLOoIqwrLn+Yvk1zElTs
+ 4eFnjbS6dnpzZLfR4ZFrFAwdyN9BwDEKGrJtRJ3v1kiNxRbJna1JD3SShIqyhwSBEDJH
+ jTucDUsL0OSX8zznKT8Cn2jALCxuR7c8cs4GtHBywOCkw2W8yJxmRcC1SMNInpemuJy9
+ 2dTXOXbLOMWHwEXy+Es2Nng6ShA5KI97R/RHknRxhmt7KSsVdIEEaOI5gHJUm5x+9FJV
+ LU/TTgnGzL3UvZDoc96XLeYczCRqm01fM6YIy+nQviZvzJGr4Vq6w5IzAnzwy7iF30d7
+ d1ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=B3puPSD7pZHrHXbl5YI0fsNw4I+r92A58bxTydU+T68=;
+ b=alTFn1IjGA9Rsmt4V9+VwyPQiFHvU5hmvCzRIsynZf2np8EV8EqiSAOeE0Rs0AstLt
+ Y8u+na0qKEntCccHrmF9xtkFRB2e6laPP6sSMWK8K4CPtIlXZehRgGxxYmgSh1FtJOs6
+ +r7OXTivBpuB6QNUpJ6QZRWFb0kEKFpMjyMFbySqCjRoBf+5cR21HkZvHZG66/VEZAsE
+ 3W5o9aiyA9tvOH1j0CSU7SJxjkC+LxR5698qaPl6GRDJw0/RFEGqrv2UoAyDHBSkwa+W
+ qDpo6UTbxoVyriNLw4PTfMjwJtFtVNao/ce2pJRXWRBzS2K98jFRpGKm/KJLAnf5mL/T
+ T63g==
+X-Gm-Message-State: ACrzQf1xh1VWGA2bfcyTEkLLWAJ9Ff14crQ/pa17MmVIBz6puEN9n2zg
+ Vs5SBlKmH2LP0mvIDlxM9xYkZD6L1kVdHmyUpe3VfA==
+X-Google-Smtp-Source: AMsMyM5mR67gOWTWESSJVt2alBBUArnw+HvrAEm+llg5MrPUhP4xrrud0K4NHEXhqRk0uTv8GmVXIAkxj7mwRxfMdVY=
+X-Received: by 2002:a1f:a788:0:b0:3a1:e690:a2a3 with SMTP id
+ q130-20020a1fa788000000b003a1e690a2a3mr3625477vke.4.1664520654348; Thu, 29
+ Sep 2022 23:50:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220927221206.55930-1-mcanal@igalia.com>
+ <20220927221206.55930-2-mcanal@igalia.com>
+ <20220929223333.vh6wy45mfx6kccds@nostramo>
+In-Reply-To: <20220929223333.vh6wy45mfx6kccds@nostramo>
+From: David Gow <davidgow@google.com>
+Date: Fri, 30 Sep 2022 14:50:43 +0800
+Message-ID: <CABVgOSkx7KYNRKCN5h=37zQGR0qu+BDCb6cQeqbCwX8UxC3knw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/tests: Split
+ drm_test_dp_mst_sideband_msg_req_decode into parameterized tests
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="00000000000058196505e9df6af9"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,223 +67,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Arthur Grillo <arthur.grillo@usp.br>, magalilemes00@gmail.com,
+ David Airlie <airlied@linux.ie>, Tales Aparecida <tales.aparecida@gmail.com>,
+ Daniel Latypov <dlatypov@google.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Melissa Wen <mwen@igalia.com>, Isabella Basso <isabbasso@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Daniel,
-Thanks for your good suggestion!
+--00000000000058196505e9df6af9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I have updated v4 to fix
-your comment.
+On Fri, Sep 30, 2022 at 6:33 AM Micha=C5=82 Winiarski
+<michal.winiarski@intel.com> wrote:
+>
+> On Tue, Sep 27, 2022 at 07:12:06PM -0300, Ma=C3=ADra Canal wrote:
+> > The drm_test_dp_mst_sideband_msg_req_decode repeats the same test
+> > structure with different parameters. This could be better represented
+> > by parameterized tests, provided by KUnit.
+> >
+> > In order to convert the tests to parameterized tests, the test case for
+> > the client ID was changed: instead of using get_random_bytes to generat=
+e
+> > the client ID, the client ID is now hardcoded in the test case.
+>
+> Generally "random" usage is not incompatible with parameterized tests, we=
+ can
+> create parameterized tests that use random data.
+> The idea is to pass a function that generates the actual param (where we =
+have a
+> pointer to function as one of the members in "params" struct).
+>
+> For example, see "random_dp_query_enc_client_id" usage here:
+> https://lore.kernel.org/dri-devel/20220117232259.180459-7-michal.winiarsk=
+i@intel.com/
+>
+> In this case, we just compare data going in with data going out (and the =
+data
+> itself is not transformed in any way), so it doesn't really matter for co=
+verage
+> and we can hardcode.
+>
+> -Micha=C5=82
 
-Changes from v3:
+FWIW, while the uses of randomness in DRM tests so far haven't
+concerned me much, I think we'll eventually want to have some way of
+ensuring the inputs to tests are deterministic.
 
-- modify comment for struct vdec_av1_slice_slot
-- add define SEG_LVL_ALT_Q
-- change use_lr/use_chroma_lr parse from av1 spec
-- use ARRAY_SIZE to replace size for loop_filter_level and
-loop_filter_mode_deltas
-- change array size of loop_filter_mode_deltas from 4 to 2
-- add define SECONDARY_FILTER_STRENGTH_NUM_BITS
-- change some hex values from upper case to lower case
-- change *dpb_sz equal to V4L2_AV1_TOTAL_REFS_PER_FRAME + 1
-- convert vb2_find_timestamp to vb2_find_buffer
-- test by av1 fluster, result is 173/239
+My thoughts are that (at some point) we'll add a kunit_random()
+function or similar, which will use a pseudorandom number generator
+which can be set to a deterministic seed before each test case. That
+way, there'd be a way to reproduce an error easily if it occurred. (Of
+course, there'd be a way of setting different or random seeds to
+preserve the extra coverage you'd otherwise get.)
 
-detail in link:
+I don't think this is something worth holding up or changing existing
+tests at the moment, but having tests behave deterministically is
+definitely desirable, so +1 to avoiding get_random_bytes() if it's not
+giving you any real benefit.
 
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220930033000.22579-1-xiaoyong.lu@mediatek.com/
+We've also had a few requests in the past for being able to pass in a
+custom set of parameters from userspace, which opens up some other
+interesting possibilities, though it's not a priority at the moment.
 
+Cheers,
+-- David
 
-thanks !
-Xiaoyong Lu
+--00000000000058196505e9df6af9
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-On Thu, 2022-09-22 at 13:36 -0300, Daniel Almeida wrote:
-> Hi Xiaoyong.
-> 
-> Comments below (other code removed for brevity)
-> 
-> +/**
-> + * struct vdec_av1_slice_slot - slot info need save in global
-> instance
-> + * @frame_info: frame info for each slot
-> + * @timestamp:  time stamp info
-> + */
-> +struct vdec_av1_slice_slot {
-> +	struct vdec_av1_slice_frame_info
-> frame_info[AV1_MAX_FRAME_BUF_COUNT];
-> +	u64 timestamp[AV1_MAX_FRAME_BUF_COUNT];
-> +};
-> 
-> nit: slot info that needs to be saved in the global instance
-> 
-> +static int vdec_av1_slice_get_qindex(struct 
-> vdec_av1_slice_uncompressed_header *uh,
-> +				     int segmentation_id)
-> +{
-> +	struct vdec_av1_slice_seg *seg = &uh->seg;
-> +	struct vdec_av1_slice_quantization *quant = &uh->quant;
-> +	int data = 0, qindex = 0;
-> +
-> +	if (seg->segmentation_enabled &&
-> +	    (seg->feature_enabled_mask[segmentation_id] & BIT(0))) {
-> +		data = seg->feature_data[segmentation_id][0];
-> 
-> 
-> Maybe you should replace the 0 above by SEG_LVL_ALT_Q to be more 
-> explicit. Same goes for BIT(0).
-> 
-> +static void vdec_av1_slice_setup_lr(struct vdec_av1_slice_lr *lr,
-> +				    struct
-> v4l2_av1_loop_restoration  *ctrl_lr)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < V4L2_AV1_NUM_PLANES_MAX; i++) {
-> +		lr->frame_restoration_type[i] = ctrl_lr-
-> >frame_restoration_type[i];
-> +		lr->loop_restoration_size[i] = ctrl_lr-
-> >loop_restoration_size[i];
-> +	}
-> +	lr->use_lr = !!lr->frame_restoration_type[0];
-> +	lr->use_chroma_lr = !!lr->frame_restoration_type[1];
-> +}
-> 
->  From a first glance, this looks a bit divergent from the spec?
-> 
-> for ( i = 0; i < NumPlanes; i++ ) {
->      lr_type
->      FrameRestorationType[i] = Remap_Lr_Type[lr_type]
->      if ( FrameRestorationType[i] != RESTORE_NONE ) {
->          UsesLr = 1
->          if ( i > 0 ) {
->              usesChromaLr = 1
->          }
->      }
-> }
-> 
-> I will include these two variables in the next iteration of the uapi
-> if 
-> computing them in the driver is problematic.
-> 
-> +static void vdec_av1_slice_setup_lf(struct
-> vdec_av1_slice_loop_filter *lf,
-> +				    struct v4l2_av1_loop_filter
-> *ctrl_lf)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < 4; i++)
-> +		lf->loop_filter_level[i] = ctrl_lf->level[i];
-> +
-> +	for (i = 0; i < V4L2_AV1_TOTAL_REFS_PER_FRAME; i++)
-> +		lf->loop_filter_ref_deltas[i] = ctrl_lf->ref_deltas[i];
-> +
-> +	for (i = 0; i < 2; i++)
-> +		lf->loop_filter_mode_deltas[i] = ctrl_lf-
-> >mode_deltas[i];
-> +
-> +	lf->loop_filter_sharpness = ctrl_lf->sharpness;
-> +	lf->loop_filter_delta_enabled =
-> +		   BIT_FLAG(ctrl_lf,
-> V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED);
-> +}
-> 
-> Maybe ARRAY_SIZE can be of use in the loop indices here?
-> 
-> +static void vdec_av1_slice_setup_cdef(struct vdec_av1_slice_cdef
-> *cdef,
-> +				      struct v4l2_av1_cdef *ctrl_cdef)
-> +{
-> +	int i;
-> +
-> +	cdef->cdef_damping = ctrl_cdef->damping_minus_3 + 3;
-> +	cdef->cdef_bits = ctrl_cdef->bits;
-> +
-> +	for (i = 0; i < V4L2_AV1_CDEF_MAX; i++) {
-> +		if (ctrl_cdef->y_sec_strength[i] == 4)
-> +			ctrl_cdef->y_sec_strength[i] -= 1;
-> +
-> +		if (ctrl_cdef->uv_sec_strength[i] == 4)
-> +			ctrl_cdef->uv_sec_strength[i] -= 1;
-> +
-> +		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] 
-> << 2 |
-> +					   ctrl_cdef-
-> >y_sec_strength[i];
-> +		cdef->cdef_uv_strength[i] = ctrl_cdef-
-> >uv_pri_strength[i] << 2 |
-> +					    ctrl_cdef-
-> >uv_sec_strength[i];
-> +	}
-> +}
-> 
-> Maybe:
-> 
-> #define SECONDARY_FILTER_STRENGTH_NUM_BITS 2
-> 
-> +		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] 
-> << 
-> SECONDARY_FILTER_STRENGTH_NUM_BITS |
-> +					   ctrl_cdef-
-> >y_sec_strength[i];
-> +		cdef->cdef_uv_strength[i] = ctrl_cdef-
-> >uv_pri_strength[i] << 
-> SECONDARY_FILTER_STRENGTH_NUM_BITS |
-> +					    ctrl_cdef-
-> >uv_sec_strength[i];
-> 
-> This should make it clearer.
-> 
-> +		sb_boundary_x_m1 =
-> +			(tile->mi_col_starts[tile_col + 1] - tile-
-> >mi_col_starts[tile_col] - 
-> 1) &
-> +			0x3F;
-> +		sb_boundary_y_m1 =
-> +			(tile->mi_row_starts[tile_row + 1] - tile-
-> >mi_row_starts[tile_row] - 
-> 1) &
-> +			0x1FF;
-> +
-> 
-> IIRC there's a preference for lower case hex values in the media
-> subsystem.
-> 
-> +static void vdec_av1_slice_get_dpb_size(struct
-> vdec_av1_slice_instance 
-> *instance, u32 *dpb_sz)
-> +{
-> +	/* refer av1 specification */
-> +	*dpb_sz = 9;
-> +}
-> 
-> That's actually defined as 8 in the spec, i.e.:
-> 
-> NUM_REF_FRAMES 8 Number of frames that can be stored for future
-> reference.
-> 
-> It's helpful to indicate the section if you reference the
-> specification, 
-> as it makes it easier for the reviewer to cross check.
-> 
-> +	/* get buffer address from vb2buf */
-> +	for (i = 0; i < V4L2_AV1_REFS_PER_FRAME; i++) {
-> +		struct vdec_av1_slice_fb *vref = &vsi->ref[i];
-> +		int idx = vb2_find_timestamp(vq, pfc->ref_idx[i], 0);
-> 
-> Needs to be converted to vb2_find_buffer in light of 
-> 
-https://lore.kernel.org/lkml/20220706182657.210650-3-ezequiel@vanguardiasur.com.ar/T/
-> 
-> -- Daniel
-> 
-
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
+VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
+ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
+OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
+3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
+lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCZ
+52dqCR2wWMEzupKSD30RVEmos3EIyytijvbGsGvKFTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA5MzAwNjUwNTRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAMoyqirby0KPoX5R/iRhg
+6WPJ6+jP+COKyCTwbkAQo5PascZxHozOM1TC/WnwrPtlpjOQdQ9zqbXGMKKmaw2qYCjOQ1/3sQYn
+ZNp5bkLKQcAwlMrcK0TFEBCrUK2JRzpZU3XqSDCMTI38WOgT4DeQ8uG+Fqv8sixg9lWNZgej1zQh
+VCCGGcIpDlIcRKIIxPnYJ2YDCKtZz+RAJdo+cpqTpqy24Kusop3nxdAg+JJb8ISM/IoCEjc2LyQH
+B+xrBeJF2762dcvtRO/95vixe140vAyQx1zWCazUDlWvf+eSQs/7QCn18HY9nvzu5e6WczXHuDZ3
+btwa11ORlI82ytMg6Q==
+--00000000000058196505e9df6af9--
