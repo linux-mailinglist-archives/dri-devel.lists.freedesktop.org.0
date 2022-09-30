@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06CA5F07F3
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 11:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E9D5F082C
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:01:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B30EC10EC12;
-	Fri, 30 Sep 2022 09:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE16910EC37;
+	Fri, 30 Sep 2022 10:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C241810E0BB
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 09:48:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664531281;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SekqAO7jejdRWjE9viVgkTm/JbVxzpH0TgbR+N3ecMc=;
- b=Jc82x5HbRE2DJq6sO0OLoHD9MUt1TvTFHYhB+4Bne9I1N/0H5gu/Y06JndBvI0YtiniBUH
- BQ3eHD7+sm5Wn9ILmO6Lu/NVj+8Gm/JWJejxcK+TOCAJXJ/zTRNlO0RYj0JV4ZY74nHQXj
- bZJki3hiW7YWEVzHKVZRbEB6nQcei6s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-l3kl_yD8PZWHZVDsHiD7JA-1; Fri, 30 Sep 2022 05:47:58 -0400
-X-MC-Unique: l3kl_yD8PZWHZVDsHiD7JA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D3BD1C06EDB;
- Fri, 30 Sep 2022 09:47:58 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53DD5111E3E4;
- Fri, 30 Sep 2022 09:47:57 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com
-Subject: [PATCH v4] drm/ast: Add Atomic gamma lut support for aspeed
-Date: Fri, 30 Sep 2022 11:47:54 +0200
-Message-Id: <20220930094754.745626-1-jfalempe@redhat.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A75610E104;
+ Fri, 30 Sep 2022 10:01:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664532083; x=1696068083;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=wLLvlgkfaK8iy1NaRmZIJaB4yHvwCkS1/sF2uThIIDU=;
+ b=jHB5f45Gq5zgvTY8ih2n0AsNgeBUiWCRxek4o0K5oKRA5Bl4OxbrsXpx
+ utc1EqM8KXKLiTt9jWSv1YAWVzkDfZbVU1hlkLyGWenDS7Jhi3i2+i4Eg
+ UOYkMIjTgTR3YKhTSKnWMy2gKeFLPhpknD8C92lmN2lbWR006/zP7O6QU
+ zmDL+iFagSHL9S/UKeV0lYQ0csecTNU+l3P20TA8nKVbFRqOpsOnpsfz+
+ msnPIU+GBjiMeVPQMC0ZvdbbikRnqJR+JhkyUwL+J5BVPNU6F+ytF0yd7
+ 8YXMCfblIv/WfzgjqBaCop/ZLYfy17eXRZgEvYsdWPMyIb1hYRFiCQ7bT g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="282519742"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="282519742"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 03:01:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="622719782"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="622719782"
+Received: from dtrawins-mobl1.ger.corp.intel.com (HELO [10.252.7.39])
+ ([10.252.7.39])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 03:01:19 -0700
+Message-ID: <110254ac-a4af-395c-0581-73de653e8cd9@intel.com>
+Date: Fri, 30 Sep 2022 11:01:17 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.0
+Subject: Re: [PATCH 16/16] drm/i915/vm_bind: Add uapi for user to enable
+ vm_bind_mode
+Content-Language: en-GB
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
+ <20220928061918.6340-17-niranjana.vishwanathapura@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220928061918.6340-17-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,191 +63,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current ast driver only supports legacy gamma interface.
-This also fixes a Gnome3/Wayland error which incorrectly adds
-gamma to atomic commit:
-"Page flip discarded: CRTC property (GAMMA_LUT) not found"
+On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
+> Add getparam support for VM_BIND capability version.
+> Add VM creation time flag to enable vm_bind_mode for the VM.
+> 
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c |  9 +++++++-
+>   drivers/gpu/drm/i915/i915_drv.h             |  2 ++
+>   drivers/gpu/drm/i915/i915_getparam.c        |  3 +++
+>   include/uapi/drm/i915_drm.h                 | 24 ++++++++++++++++++++-
+>   4 files changed, 36 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index f4e648ec01ed..c20bd6e8aaf8 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1808,9 +1808,13 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
+>   	if (!HAS_FULL_PPGTT(i915))
+>   		return -ENODEV;
+>   
+> -	if (args->flags)
+> +	if (args->flags & I915_VM_CREATE_FLAGS_UNKNOWN)
+>   		return -EINVAL;
+>   
+> +	if ((args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND) &&
+> +	    !HAS_VM_BIND(i915))
+> +		return -EOPNOTSUPP;
+> +
+>   	ppgtt = i915_ppgtt_create(to_gt(i915), 0);
+>   	if (IS_ERR(ppgtt))
+>   		return PTR_ERR(ppgtt);
+> @@ -1828,6 +1832,9 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
+>   	if (err)
+>   		goto err_put;
+>   
+> +	if (args->flags & I915_VM_CREATE_FLAGS_USE_VM_BIND)
+> +		ppgtt->vm.vm_bind_mode = true;
+> +
+>   	GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
+>   	args->vm_id = id;
+>   	return 0;
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 84a2f6b16f57..e77393d74c6f 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -974,6 +974,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>   
+>   #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_fuse_bit)
+>   
+> +#define HAS_VM_BIND(dev_priv) (GRAPHICS_VER(dev_priv) >= 12)
 
-I only tested remotely, so I wasn't able to check that it had
-an effect on the VGA output. But when activating "Night Light"
-in Gnome, ast_crtc_load_lut() is called.
+s/dev_priv/i915/
 
-v2: use the same functions as mgag200.
-    handle 16bits color mode.
+> +
+>   /* intel_device_info.c */
+>   static inline struct intel_device_info *
+>   mkwrite_device_info(struct drm_i915_private *dev_priv)
+> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+> index 342c8ca6414e..f45b3c684bcf 100644
+> --- a/drivers/gpu/drm/i915/i915_getparam.c
+> +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> @@ -175,6 +175,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+>   	case I915_PARAM_PERF_REVISION:
+>   		value = i915_perf_ioctl_version();
+>   		break;
+> +	case I915_PARAM_VM_BIND_VERSION:
+> +		value = HAS_VM_BIND(i915);
+> +		break;
+>   	default:
+>   		DRM_DEBUG("Unknown parameter %d\n", param->param);
+>   		return -EINVAL;
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index f3a5b198b3e7..9a033acc254b 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -755,6 +755,27 @@ typedef struct drm_i915_irq_wait {
+>   /* Query if the kernel supports the I915_USERPTR_PROBE flag. */
+>   #define I915_PARAM_HAS_USERPTR_PROBE 56
+>   
+> +/*
+> + * VM_BIND feature version supported.
+> + *
+> + * The following versions of VM_BIND have been defined:
+> + *
+> + * 0: No VM_BIND support.
+> + *
+> + * 1: In VM_UNBIND calls, the UMD must specify the exact mappings created
+> + *    previously with VM_BIND, the ioctl will not support unbinding multiple
+> + *    mappings or splitting them. Similarly, VM_BIND calls will not replace
+> + *    any existing mappings.
+> + *
+> + * 2: The restrictions on unbinding partial or multiple mappings is
+> + *    lifted, Similarly, binding will replace any mappings in the given range.
 
-v3: Check gamma_lut size in atomic check.
+Should we just remove 2 for now? It looks like 1 is this series.
 
-v4: revert 16bits mode, v1 was correct.
-    make sure gamma table are set when primary plane format
-    changes.
-    remove rgb888 format that is not used.
+> + *
+> + * See struct drm_i915_gem_vm_bind and struct drm_i915_gem_vm_unbind.
+> + *
+> + * vm_bind versions are backward compatible.
+> + */
+> +#define I915_PARAM_VM_BIND_VERSION	57
+> +
+>   /* Must be kept compact -- no holes and well documented */
+>   
+>   /**
+> @@ -2622,7 +2643,8 @@ struct drm_i915_gem_vm_control {
+>   	/** @extensions: Zero-terminated chain of extensions. */
+>   	__u64 extensions;
+>   
+> -	/** @flags: reserved for future usage, currently MBZ */
+> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1u << 0)
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_mode.c | 87 +++++++++++++++++++++++++++-------
- 1 file changed, 70 insertions(+), 17 deletions(-)
+Some kernel-doc for that would be good, even if it's kind of obvious.
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 214b10178454..89fcb8e3ea16 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -49,6 +49,8 @@
- #include "ast_drv.h"
- #include "ast_tables.h"
- 
-+#define AST_LUT_SIZE 256
-+
- static inline void ast_load_palette_index(struct ast_private *ast,
- 				     u8 index, u8 red, u8 green,
- 				     u8 blue)
-@@ -63,20 +65,46 @@ static inline void ast_load_palette_index(struct ast_private *ast,
- 	ast_io_read8(ast, AST_IO_SEQ_PORT);
- }
- 
--static void ast_crtc_load_lut(struct ast_private *ast, struct drm_crtc *crtc)
-+static void ast_crtc_set_gamma_linear(struct ast_private *ast,
-+				      const struct drm_format_info *format)
- {
--	u16 *r, *g, *b;
- 	int i;
- 
--	if (!crtc->enabled)
--		return;
-+	switch (format->format) {
-+	case DRM_FORMAT_C8: /* In this case, gamma table is used as color palette */
-+	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_XRGB8888:
-+		for (i = 0; i < AST_LUT_SIZE; i++)
-+			ast_load_palette_index(ast, i, i, i, i);
-+		break;
-+	default:
-+		drm_warn_once(&ast->base, "Unsupported format %p4cc for gamma correction\n",
-+			      &format->format);
-+		break;
-+	}
-+}
- 
--	r = crtc->gamma_store;
--	g = r + crtc->gamma_size;
--	b = g + crtc->gamma_size;
-+static void ast_crtc_set_gamma(struct ast_private *ast,
-+			       const struct drm_format_info *format,
-+			       struct drm_color_lut *lut)
-+{
-+	int i;
- 
--	for (i = 0; i < 256; i++)
--		ast_load_palette_index(ast, i, *r++ >> 8, *g++ >> 8, *b++ >> 8);
-+	switch (format->format) {
-+	case DRM_FORMAT_C8: /* In this case, gamma table is used as color palette */
-+	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_XRGB8888:
-+		for (i = 0; i < AST_LUT_SIZE; i++)
-+			ast_load_palette_index(ast, i,
-+					       lut[i].red >> 8,
-+					       lut[i].green >> 8,
-+					       lut[i].blue >> 8);
-+		break;
-+	default:
-+		drm_warn_once(&ast->base, "Unsupported format %p4cc for gamma correction\n",
-+			      &format->format);
-+		break;
-+	}
- }
- 
- static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
-@@ -1018,9 +1046,11 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- 
- 			ast_set_color_reg(ast, format);
- 			ast_set_vbios_color_reg(ast, format, vbios_mode_info);
-+			if (crtc->state->gamma_lut)
-+				ast_crtc_set_gamma(ast, format, crtc->state->gamma_lut->data);
-+			else
-+				ast_crtc_set_gamma_linear(ast, format);
- 		}
--
--		ast_crtc_load_lut(ast, crtc);
- 		break;
- 	case DRM_MODE_DPMS_STANDBY:
- 	case DRM_MODE_DPMS_SUSPEND:
-@@ -1109,6 +1139,8 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 					struct drm_atomic_state *state)
- {
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
-+	struct ast_crtc_state *old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
- 	struct drm_device *dev = crtc->dev;
- 	struct ast_crtc_state *ast_state;
- 	const struct drm_format_info *format;
-@@ -1128,6 +1160,22 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 	if (drm_WARN_ON_ONCE(dev, !format))
- 		return -EINVAL; /* BUG: We didn't set format in primary check(). */
- 
-+	/*
-+	 * The gamma LUT has to be reloaded after changing the primary
-+	 * plane's color format.
-+	 */
-+	if (old_ast_crtc_state->format != format)
-+		crtc_state->color_mgmt_changed = true;
-+
-+	if (crtc_state->color_mgmt_changed && crtc_state->gamma_lut) {
-+		if (crtc_state->gamma_lut->length !=
-+		    AST_LUT_SIZE * sizeof(struct drm_color_lut)) {
-+			drm_err(dev, "Wrong size for gamma_lut %zu\n",
-+				crtc_state->gamma_lut->length);
-+			return -EINVAL;
-+		}
-+	}
-+
- 	succ = ast_get_vbios_mode_info(format, &crtc_state->mode,
- 				       &crtc_state->adjusted_mode,
- 				       &ast_state->vbios_mode_info);
-@@ -1158,20 +1206,23 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- {
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
- 									  crtc);
--	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
--									      crtc);
- 	struct drm_device *dev = crtc->dev;
- 	struct ast_private *ast = to_ast_private(dev);
- 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
--	struct ast_crtc_state *old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
- 	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
- 
- 	/*
- 	 * The gamma LUT has to be reloaded after changing the primary
- 	 * plane's color format.
- 	 */
--	if (old_ast_crtc_state->format != ast_crtc_state->format)
--		ast_crtc_load_lut(ast, crtc);
-+	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
-+		if (crtc_state->gamma_lut)
-+			ast_crtc_set_gamma(ast,
-+					   ast_crtc_state->format,
-+					   crtc_state->gamma_lut->data);
-+		else
-+			ast_crtc_set_gamma_linear(ast, ast_crtc_state->format);
-+	}
- 
- 	//Set Aspeed Display-Port
- 	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
-@@ -1309,7 +1360,9 @@ static int ast_crtc_init(struct drm_device *dev)
- 	if (ret)
- 		return ret;
- 
--	drm_mode_crtc_set_gamma_size(crtc, 256);
-+	drm_mode_crtc_set_gamma_size(crtc, AST_LUT_SIZE);
-+	drm_crtc_enable_color_mgmt(crtc, 0, false, AST_LUT_SIZE);
-+
- 	drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
- 
- 	return 0;
--- 
-2.37.3
+Acked-by: Matthew Auld <matthew.auld@intel.com>
 
+> +#define I915_VM_CREATE_FLAGS_UNKNOWN	(-(I915_VM_CREATE_FLAGS_USE_VM_BIND << 1))
+>   	__u32 flags;
+>   
+>   	/** @vm_id: Id of the VM created or to be destroyed */
