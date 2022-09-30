@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73985F0DB2
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB325F0DC9
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:43:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B005910ED35;
-	Fri, 30 Sep 2022 14:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68A6510ED38;
+	Fri, 30 Sep 2022 14:42:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C18110ED34;
- Fri, 30 Sep 2022 14:37:34 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id s125so4943061oie.4;
- Fri, 30 Sep 2022 07:37:34 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAA6710ED36;
+ Fri, 30 Sep 2022 14:42:55 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id q10so4935651oib.5;
+ Fri, 30 Sep 2022 07:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=0EKYKtDamt6m6L+nsr6b+dVkqG7/Q0rILbWJkS9SPPI=;
- b=VhEaTkvJmfCmAySCbqKnICx5hPGtMJXj6MVvx1d6dhuFM6BQyD6tUXjzQPW0Avaq6r
- ShZTz17o2dBJ84vKDf0fKt9Pl6fjAnFpZLXkU6b31s+lMQ6WGaGXZXl1lGqmtaG6hN0S
- MfuK68Yvp5oIlgVYOlMY0dBKOKDUjGiuxEPhJJiWEnirszUfMNpDUwcG57WMUyXV4dIm
- eYHyL6hxvjTMMqlKlf0tOfeFBOqTiOfRUUJae8/emmZUBjhh9Mi/eZNN9S0p8Je60VwI
- YTvq23Da4531ZcJ3GIVx8M96ZUMYdRscN5RNzTukNr884v4UvO3jctATs8jBHKtS2LkT
- 61TQ==
+ bh=8y2c2TXn+uSosI4ZLTz+ogttj1trZ26bdcKYksnCapE=;
+ b=C+Y8ZNBSwPPc+m+SjB0bDFHqKJzfWC1iWpmSG3lUsgVw7qgbSsIP2I5LsL3TYnqahZ
+ fUXZbWkoVkKYuexMDdVOL4nHtkR0kCjBYEh4ypTZLGJ52Z2kIOqBS2w9EDlUJ6VvDTBA
+ x5E0oDBgJQYjdxqL0QL+XY4F56pAF+4xDQYUEdU+C/Y/6B0TCsfctxD18h6OdJ6xKsYk
+ s9rBc/SajO1K99fPQtSvzECex68fPPp8UXGn5+wqkadqZM8un2RbbQGqFwiZO5YYCjdy
+ +RuNof5Sbqp9qP2WeAufmPiGaKLtABtGZYJRKcE9/8YgcU60Pr90jad0IQIUEHRcU6gk
+ lZcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=0EKYKtDamt6m6L+nsr6b+dVkqG7/Q0rILbWJkS9SPPI=;
- b=TIdBKUeseiFMoxeda8y3gw0cXkbS9PSUeW6wSZU9TmzCcl41FpKlrvfo0utyMGDrE6
- cska8mLket0JGeOk3wKjgZ0bt2RvcQTiq0nDeGWfDYzGDKmFAcwNcu1krnJAqIL+kdiY
- smN0/YdfG5g6jsc6SGV1dFEFYYH25dixNnoVgvjLa2TPACTfzJ1qnYjNWYux85j/aPlr
- Cj1bIfe0QORCCzmCgf1j2z7Kdm+qiYNlSZPES923LEx0P5GZ9mlItJWKWgZJ2ceRwEBA
- mAUsqlIcAU9m2gMpHAdlOkgdvIALrDnxmskPo2JBzYA2+W1JXnyS/tYPYqx1XmooXdue
- /OgA==
-X-Gm-Message-State: ACrzQf1hFEDslhRdfrBL44b7ylk4MUwWsZ5ZYRKTzoWRWaVnTZ2RrmPD
- wVrkE7cuOo9aOQD5FI38i501XTRzW7fqXI3X8ls=
-X-Google-Smtp-Source: AMsMyM4BeOGwS6oExymXYAyzUZTfLr1KYoPz1/85vr6zRGjgWJpmrIwWEOfXHuhMicv5tJO1qjkRqJioVHywDrwalH0=
-X-Received: by 2002:a05:6808:2194:b0:350:cb3d:ecd2 with SMTP id
- be20-20020a056808219400b00350cb3decd2mr9913017oib.46.1664548653230; Fri, 30
- Sep 2022 07:37:33 -0700 (PDT)
+ bh=8y2c2TXn+uSosI4ZLTz+ogttj1trZ26bdcKYksnCapE=;
+ b=kPmIubOlTvEyJhVaY1Cdv8ooIEDDm83woINi9XQzN5mvLGliVg0/E+wUwj9gG8fBh8
+ dEx7RlbWa2jgUr9mxDk3dwhgUdVAQ/KmxfRwQReo+Sxzx5OlgLwaQpWARL8GRiBzMqFR
+ UJ0BI95f7y45I5NrL3q3ax9P6CpfdhMGj60b/m7BdFuqp/MY1xxC64cR9uJHjXPSGfNk
+ p2uRFOJMWlLsfX7LKSEC/qI+LY1oQKKah/tZeTk8p8xaIt77cX2QIc59etI+NZaBGko1
+ p/0OkHpm5iCElPPlQK7VXG77Y24e9sPyCp5waNrdmLQroe0N2+hJBtbvD5eeG7baC9+b
+ qjog==
+X-Gm-Message-State: ACrzQf3Ku6Tr1Vz43h9H/t4qIUOJT6EUNSbZREYCxpRXtIXvd1yuKMLG
+ GzQj4nngUwr7lCBm2+r9x1ESIMmyQqBWv/eB8hg=
+X-Google-Smtp-Source: AMsMyM7osDVSZWUajrm3Igj7tejlkKVde0W47IAuomOnGAHzL5fMvLtUccMvXi++Z7Y6na5VELlgPTFDliQfdzBRFVU=
+X-Received: by 2002:a05:6808:2390:b0:350:5c6b:5ef9 with SMTP id
+ bp16-20020a056808239000b003505c6b5ef9mr4092691oib.96.1664548974916; Fri, 30
+ Sep 2022 07:42:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220929090200.2189669-1-yangyingliang@huawei.com>
-In-Reply-To: <20220929090200.2189669-1-yangyingliang@huawei.com>
+References: <20220924221939.1736291-1-floridsleeves@gmail.com>
+In-Reply-To: <20220924221939.1736291-1-floridsleeves@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 30 Sep 2022 10:37:21 -0400
-Message-ID: <CADnq5_O3e5=yyAhNO7CShMatc+ZxhvQosUkBdPa+CkJTcqUTNw@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: change to
- enc314_stream_encoder_dp_blank static
-To: Yang Yingliang <yangyingliang@huawei.com>
+Date: Fri, 30 Sep 2022 10:42:43 -0400
+Message-ID: <CADnq5_MKscz-yV6PZUKpAY6oj7Wso6qUeX6B6RKaUGqa0vy+5g@mail.gmail.com>
+Subject: Re: [PATCH v2] drivers/amd/pm: check the return value of
+ amdgpu_bo_kmap
+To: Li Zhong <floridsleeves@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,39 +64,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com
+Cc: lijo.lazar@amd.com, airlied@linux.ie, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, evan.quan@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Sep 24, 2022 at 6:20 PM Li Zhong <floridsleeves@gmail.com> wrote:
+>
+> amdgpu_bo_kmap() returns error when fails to map buffer object. Add the
+> error check and propagate the error.
+>
+> Signed-off-by: Li Zhong <floridsleeves@gmail.com>
+> ---
+>
+> v2: revise the compile error
+
 Applied.  Thanks!
 
-Alex
-
-On Thu, Sep 29, 2022 at 4:46 AM Yang Yingliang <yangyingliang@huawei.com> wrote:
 >
-> enc314_stream_encoder_dp_blank is only used in dcn314_dio_stream_encoder.c now,
-> change it to static.
+>  drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c       | 5 ++++-
+>  drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 ++++-
+>  2 files changed, 8 insertions(+), 2 deletions(-)
 >
-> Fixes: c9c2ff53cc20 ("drm/amd/display: Add explicit FIFO disable for DP blank")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  .../gpu/drm/amd/display/dc/dcn314/dcn314_dio_stream_encoder.c   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dio_stream_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dio_stream_encoder.c
-> index 0d2ffb692957..7e773bf7b895 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dio_stream_encoder.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dio_stream_encoder.c
-> @@ -262,7 +262,7 @@ static bool is_two_pixels_per_containter(const struct dc_crtc_timing *timing)
->         return two_pix;
->  }
->
-> -void enc314_stream_encoder_dp_blank(
-> +static void enc314_stream_encoder_dp_blank(
->         struct dc_link *link,
->         struct stream_encoder *enc)
+> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
+> index 8fd0782a2b20..f5e08b60f66e 100644
+> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
+> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
+> @@ -1384,13 +1384,16 @@ static int kv_dpm_enable(struct amdgpu_device *adev)
+>  static void kv_dpm_disable(struct amdgpu_device *adev)
 >  {
+>         struct kv_power_info *pi = kv_get_pi(adev);
+> +       int err;
+>
+>         amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
+>                        AMDGPU_THERMAL_IRQ_LOW_TO_HIGH);
+>         amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
+>                        AMDGPU_THERMAL_IRQ_HIGH_TO_LOW);
+>
+> -       amdgpu_kv_smc_bapm_enable(adev, false);
+> +       err = amdgpu_kv_smc_bapm_enable(adev, false);
+> +       if (err)
+> +               DRM_ERROR("amdgpu_kv_smc_bapm_enable failed\n");
+>
+>         if (adev->asic_type == CHIP_MULLINS)
+>                 kv_enable_nb_dpm(adev, false);
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+> index 1eb4e613b27a..ec055858eb95 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+> @@ -1485,6 +1485,7 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
+>  {
+>         struct pp_hwmgr *hwmgr = handle;
+>         struct amdgpu_device *adev = hwmgr->adev;
+> +       int err;
+>
+>         if (!addr || !size)
+>                 return -EINVAL;
+> @@ -1492,7 +1493,9 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
+>         *addr = NULL;
+>         *size = 0;
+>         if (adev->pm.smu_prv_buffer) {
+> -               amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
+> +               err = amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
+> +               if (err)
+> +                       return err;
+>                 *size = adev->pm.smu_prv_buffer_size;
+>         }
+>
 > --
 > 2.25.1
 >
