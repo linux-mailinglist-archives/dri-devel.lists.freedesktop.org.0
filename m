@@ -2,59 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFFF5F0559
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 08:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854FD5F0563
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 08:52:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 681DB10E1AF;
-	Fri, 30 Sep 2022 06:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D037892EA;
+	Fri, 30 Sep 2022 06:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
- [IPv6:2607:f8b0:4864:20::a2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 646D910E1AF
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 06:50:55 +0000 (UTC)
-Received: by mail-vk1-xa2d.google.com with SMTP id b15so1803160vkp.2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 23:50:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=B3puPSD7pZHrHXbl5YI0fsNw4I+r92A58bxTydU+T68=;
- b=LerCOyeMtv7pyvrPvJRYelG9p0HtQmaybaxosu9aQWR2DXSLOoIqwrLn+Yvk1zElTs
- 4eFnjbS6dnpzZLfR4ZFrFAwdyN9BwDEKGrJtRJ3v1kiNxRbJna1JD3SShIqyhwSBEDJH
- jTucDUsL0OSX8zznKT8Cn2jALCxuR7c8cs4GtHBywOCkw2W8yJxmRcC1SMNInpemuJy9
- 2dTXOXbLOMWHwEXy+Es2Nng6ShA5KI97R/RHknRxhmt7KSsVdIEEaOI5gHJUm5x+9FJV
- LU/TTgnGzL3UvZDoc96XLeYczCRqm01fM6YIy+nQviZvzJGr4Vq6w5IzAnzwy7iF30d7
- d1ZA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9D9610EB8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 06:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664520745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=38OxQG33hIzfeq+/5AMNkq8qUV6Y0xKzlzgF2nIq4z0=;
+ b=RNGWg1OpJfLWtMwmpXEsbD72gfEhqkieZahy2WdIoyH6CrkrQ1ylTcD/dxTgFnK+u3yg+r
+ oW2VrQqkBUCl8ltg2L3v2biKbr9FsioFGjbDyATWC/qHPoiPTkCLqh0x7QnEP9fBHHeXwn
+ RgdPd1Oh8OVjGjXrOr6I2SO5EZX7Gdg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-81-Jq4zNnp8Pk-1Tmzd8jiiJQ-1; Fri, 30 Sep 2022 02:52:22 -0400
+X-MC-Unique: Jq4zNnp8Pk-1Tmzd8jiiJQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d18-20020adfa352000000b0022cbe33d2a5so1239282wrb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Sep 2022 23:52:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=B3puPSD7pZHrHXbl5YI0fsNw4I+r92A58bxTydU+T68=;
- b=alTFn1IjGA9Rsmt4V9+VwyPQiFHvU5hmvCzRIsynZf2np8EV8EqiSAOeE0Rs0AstLt
- Y8u+na0qKEntCccHrmF9xtkFRB2e6laPP6sSMWK8K4CPtIlXZehRgGxxYmgSh1FtJOs6
- +r7OXTivBpuB6QNUpJ6QZRWFb0kEKFpMjyMFbySqCjRoBf+5cR21HkZvHZG66/VEZAsE
- 3W5o9aiyA9tvOH1j0CSU7SJxjkC+LxR5698qaPl6GRDJw0/RFEGqrv2UoAyDHBSkwa+W
- qDpo6UTbxoVyriNLw4PTfMjwJtFtVNao/ce2pJRXWRBzS2K98jFRpGKm/KJLAnf5mL/T
- T63g==
-X-Gm-Message-State: ACrzQf1xh1VWGA2bfcyTEkLLWAJ9Ff14crQ/pa17MmVIBz6puEN9n2zg
- Vs5SBlKmH2LP0mvIDlxM9xYkZD6L1kVdHmyUpe3VfA==
-X-Google-Smtp-Source: AMsMyM5mR67gOWTWESSJVt2alBBUArnw+HvrAEm+llg5MrPUhP4xrrud0K4NHEXhqRk0uTv8GmVXIAkxj7mwRxfMdVY=
-X-Received: by 2002:a1f:a788:0:b0:3a1:e690:a2a3 with SMTP id
- q130-20020a1fa788000000b003a1e690a2a3mr3625477vke.4.1664520654348; Thu, 29
- Sep 2022 23:50:54 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=38OxQG33hIzfeq+/5AMNkq8qUV6Y0xKzlzgF2nIq4z0=;
+ b=rFRClnXweEShEiuQZEV3mIAarOJB9q6YJpYsBoDyIMp1tNciQQYwwfocn99IcSeE75
+ gBEwAQqhAFeO3WLvGYVOdLSqyUanXzgdKg2MufyhlZtk6rs7DA5MiWhpbXxAChnQFlm9
+ T+Oq3vEHeAR31mIP3xK89B5A0zIDv/n/imycAA3WSG50/6pPkmyWjW1b4OWBK5PqpCvE
+ iBAb0gp/K6FvZ9n2bDCLDCzLpnorwfIGdSmIKHsK3BunevMP8guMm0Duh8DocTWBeSIi
+ oRuUwvk9zJBtSvgNkS+t+7l4NC9jG76j02tOQ/kaTOBIMaJDW9cf36tEfitHe/w8U2wz
+ S6eA==
+X-Gm-Message-State: ACrzQf1702O4PUpkc9P6+UfjItlYCtZ2yFK5vtDWowBA3ZAYq+XXZqJm
+ P6l7XcXU/aIDyNb+dtYw8nX0JONwx+Bhq6abXiH4srG7uQFE6gV+UuDTmPFuR/n4/V91/KoNIAK
+ muOi2h19OgcsGbgc+AGZw1iatJouM
+X-Received: by 2002:a05:600c:354c:b0:3b4:a328:1412 with SMTP id
+ i12-20020a05600c354c00b003b4a3281412mr12610932wmq.145.1664520741205; 
+ Thu, 29 Sep 2022 23:52:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6zZMhp7V7QTMBLv+LF5pu/rMGDCYPCsS1aQZXiZAzgDk8pHqGTgBiZJi9uEAIyZg1eyI5o7Q==
+X-Received: by 2002:a05:600c:354c:b0:3b4:a328:1412 with SMTP id
+ i12-20020a05600c354c00b003b4a3281412mr12610926wmq.145.1664520740984; 
+ Thu, 29 Sep 2022 23:52:20 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b?
+ ([2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b])
+ by smtp.gmail.com with ESMTPSA id
+ x6-20020adfdcc6000000b0022add371ed2sm1235546wrm.55.2022.09.29.23.52.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Sep 2022 23:52:20 -0700 (PDT)
+Message-ID: <3cdc8045-c302-b7f8-4025-f12b5d8d2906@redhat.com>
+Date: Fri, 30 Sep 2022 08:52:19 +0200
 MIME-Version: 1.0
-References: <20220927221206.55930-1-mcanal@igalia.com>
- <20220927221206.55930-2-mcanal@igalia.com>
- <20220929223333.vh6wy45mfx6kccds@nostramo>
-In-Reply-To: <20220929223333.vh6wy45mfx6kccds@nostramo>
-From: David Gow <davidgow@google.com>
-Date: Fri, 30 Sep 2022 14:50:43 +0800
-Message-ID: <CABVgOSkx7KYNRKCN5h=37zQGR0qu+BDCb6cQeqbCwX8UxC3knw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/tests: Split
- drm_test_dp_mst_sideband_msg_req_decode into parameterized tests
-To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000058196505e9df6af9"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2] drm/ast: Add Atomic gamma lut support for aspeed
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com
+References: <20220929132050.591283-1-jfalempe@redhat.com>
+ <a00b65b4-5315-4262-3ed3-d580d3f6df7a@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <a00b65b4-5315-4262-3ed3-d580d3f6df7a@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,151 +88,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Arthur Grillo <arthur.grillo@usp.br>, magalilemes00@gmail.com,
- David Airlie <airlied@linux.ie>, Tales Aparecida <tales.aparecida@gmail.com>,
- Daniel Latypov <dlatypov@google.com>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Melissa Wen <mwen@igalia.com>, Isabella Basso <isabbasso@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000058196505e9df6af9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 29/09/2022 17:27, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 29.09.22 um 15:20 schrieb Jocelyn Falempe:
+>> The current ast driver only supports legacy gamma interface.
+>> This also fixes a Gnome3/Wayland error which incorrectly adds
+>> gamma to atomic commit:
+>> "Page flip discarded: CRTC property (GAMMA_LUT) not found"
+>>
+>> I only tested remotely, so I wasn't able to check that it had
+>> an effect on the VGA output. But when activating "Night Light"
+>> in Gnome, ast_crtc_load_lut() is called.
+>>
+>> v2: use the same functions as mgag200.
+>>      handle 16bits color mode.
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> That works well on my AST2300 test system. The one thing missing is the 
+> CRTC's atomic_check code. See
+> 
+> 
+> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/mgag200/mgag200_mode.c#n597
 
-On Fri, Sep 30, 2022 at 6:33 AM Micha=C5=82 Winiarski
-<michal.winiarski@intel.com> wrote:
->
-> On Tue, Sep 27, 2022 at 07:12:06PM -0300, Ma=C3=ADra Canal wrote:
-> > The drm_test_dp_mst_sideband_msg_req_decode repeats the same test
-> > structure with different parameters. This could be better represented
-> > by parameterized tests, provided by KUnit.
-> >
-> > In order to convert the tests to parameterized tests, the test case for
-> > the client ID was changed: instead of using get_random_bytes to generat=
-e
-> > the client ID, the client ID is now hardcoded in the test case.
->
-> Generally "random" usage is not incompatible with parameterized tests, we=
- can
-> create parameterized tests that use random data.
-> The idea is to pass a function that generates the actual param (where we =
-have a
-> pointer to function as one of the members in "params" struct).
->
-> For example, see "random_dp_query_enc_client_id" usage here:
-> https://lore.kernel.org/dri-devel/20220117232259.180459-7-michal.winiarsk=
-i@intel.com/
->
-> In this case, we just compare data going in with data going out (and the =
-data
-> itself is not transformed in any way), so it doesn't really matter for co=
-verage
-> and we can hardcode.
->
-> -Micha=C5=82
+Thanks for the test and confirmation that it's working.
+I'm adding the check and will send a v3 soon.
 
-FWIW, while the uses of randomness in DRM tests so far haven't
-concerned me much, I think we'll eventually want to have some way of
-ensuring the inputs to tests are deterministic.
+Best regards,
 
-My thoughts are that (at some point) we'll add a kunit_random()
-function or similar, which will use a pseudorandom number generator
-which can be set to a deterministic seed before each test case. That
-way, there'd be a way to reproduce an error easily if it occurred. (Of
-course, there'd be a way of setting different or random seeds to
-preserve the extra coverage you'd otherwise get.)
+-- 
 
-I don't think this is something worth holding up or changing existing
-tests at the moment, but having tests behave deterministically is
-definitely desirable, so +1 to avoiding get_random_bytes() if it's not
-giving you any real benefit.
+Jocelyn
 
-We've also had a few requests in the past for being able to pass in a
-custom set of parameters from userspace, which opens up some other
-interesting possibilities, though it's not a priority at the moment.
+> 
+> for what to do. With this test implemented, you can add
+> 
+> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> to the patch.
+> 
+> Best regards
+> Thomas
+> 
+>> ---
+>>   drivers/gpu/drm/ast/ast_mode.c | 94 ++++++++++++++++++++++++++++------
+>>   1 file changed, 77 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>> b/drivers/gpu/drm/ast/ast_mode.c
+>> index 214b10178454..06ea13c3a9b4 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -49,6 +49,8 @@
+>>   #include "ast_drv.h"
+>>   #include "ast_tables.h"
+>> +#define AST_LUT_SIZE 256
+>> +
+>>   static inline void ast_load_palette_index(struct ast_private *ast,
+>>                        u8 index, u8 red, u8 green,
+>>                        u8 blue)
+>> @@ -63,20 +65,71 @@ static inline void ast_load_palette_index(struct 
+>> ast_private *ast,
+>>       ast_io_read8(ast, AST_IO_SEQ_PORT);
+>>   }
+>> -static void ast_crtc_load_lut(struct ast_private *ast, struct 
+>> drm_crtc *crtc)
+>> +static void ast_crtc_set_gamma_linear(struct ast_private *ast,
+>> +                      const struct drm_format_info *format)
+>>   {
+>> -    u16 *r, *g, *b;
+>>       int i;
+>> -    if (!crtc->enabled)
+>> -        return;
+>> +    switch (format->format) {
+>> +    case DRM_FORMAT_RGB565:
+>> +        /* Use better interpolation, to take 32 values from 0 to 255 */
+>> +        for (i = 0; i < AST_LUT_SIZE / 8; i++)
+>> +            ast_load_palette_index(ast,
+>> +                           i,
+>> +                           i * 8 + i / 4,
+>> +                           i * 4 + i / 16,
+>> +                           i * 8 + i / 4);
+>> +        /* Green has one more bit, so add padding with 0 for red and 
+>> blue. */
+>> +        for (i = AST_LUT_SIZE / 8; i < AST_LUT_SIZE / 4; i++)
+>> +            ast_load_palette_index(ast, i, 0, i * 4 + i / 16, 0);
+>> +        break;
+>> +    case DRM_FORMAT_C8: /* In this case, gamma table is used as color 
+>> palette */
+>> +    case DRM_FORMAT_RGB888:
+>> +    case DRM_FORMAT_XRGB8888:
+>> +        for (i = 0; i < AST_LUT_SIZE; i++)
+>> +            ast_load_palette_index(ast, i, i, i, i);
+>> +        break;
+>> +    default:
+>> +        drm_warn_once(&ast->base, "Unsupported format %p4cc for gamma 
+>> correction\n",
+>> +                  &format->format);
+>> +        break;
+>> +    }
+>> +}
+>> -    r = crtc->gamma_store;
+>> -    g = r + crtc->gamma_size;
+>> -    b = g + crtc->gamma_size;
+>> +static void ast_crtc_set_gamma(struct ast_private *ast,
+>> +                   const struct drm_format_info *format,
+>> +                   struct drm_color_lut *lut)
+>> +{
+>> +    int i;
+>> -    for (i = 0; i < 256; i++)
+>> -        ast_load_palette_index(ast, i, *r++ >> 8, *g++ >> 8, *b++ >> 8);
+>> +    switch (format->format) {
+>> +    case DRM_FORMAT_RGB565:
+>> +        /* Use better interpolation, to take 32 values from lut[0] to 
+>> lut[255] */
+>> +        for (i = 0; i < AST_LUT_SIZE / 8; i++)
+>> +            ast_load_palette_index(ast,
+>> +                           i,
+>> +                           lut[i * 8 + i / 4].red >> 8,
+>> +                           lut[i * 4 + i / 16].green >> 8,
+>> +                           lut[i * 8 + i / 4].blue >> 8);
+>> +        /* Green has one more bit, so add padding with 0 for red and 
+>> blue. */
+>> +        for (i = AST_LUT_SIZE / 8; i < AST_LUT_SIZE / 4; i++)
+>> +            ast_load_palette_index(ast, i, 0, lut[i * 4 + i / 
+>> 16].green >> 8, 0);
+>> +        break;
+>> +    case DRM_FORMAT_C8: /* In this case, gamma table is used as color 
+>> palette */
+>> +    case DRM_FORMAT_RGB888:
+>> +    case DRM_FORMAT_XRGB8888:
+>> +        for (i = 0; i < AST_LUT_SIZE; i++)
+>> +            ast_load_palette_index(ast,
+>> +                           i,
+>> +                           lut[i].red >> 8,
+>> +                           lut[i].green >> 8,
+>> +                           lut[i].blue >> 8);
+>> +        break;
+>> +    default:
+>> +        drm_warn_once(&ast->base, "Unsupported format %p4cc for gamma 
+>> correction\n",
+>> +                  &format->format);
+>> +        break;
+>> +    }
+>>   }
+>>   static bool ast_get_vbios_mode_info(const struct drm_format_info 
+>> *format,
+>> @@ -1018,9 +1071,11 @@ static void ast_crtc_dpms(struct drm_crtc 
+>> *crtc, int mode)
+>>               ast_set_color_reg(ast, format);
+>>               ast_set_vbios_color_reg(ast, format, vbios_mode_info);
+>> +            if (crtc->state->gamma_lut)
+>> +                ast_crtc_set_gamma(ast, format, 
+>> crtc->state->gamma_lut->data);
+>> +            else
+>> +                ast_crtc_set_gamma_linear(ast, format);
+>>           }
+>> -
+>> -        ast_crtc_load_lut(ast, crtc);
+>>           break;
+>>       case DRM_MODE_DPMS_STANDBY:
+>>       case DRM_MODE_DPMS_SUSPEND:
+>> @@ -1158,20 +1213,23 @@ ast_crtc_helper_atomic_flush(struct drm_crtc 
+>> *crtc,
+>>   {
+>>       struct drm_crtc_state *crtc_state = 
+>> drm_atomic_get_new_crtc_state(state,
+>>                                         crtc);
+>> -    struct drm_crtc_state *old_crtc_state = 
+>> drm_atomic_get_old_crtc_state(state,
+>> -                                          crtc);
+>>       struct drm_device *dev = crtc->dev;
+>>       struct ast_private *ast = to_ast_private(dev);
+>>       struct ast_crtc_state *ast_crtc_state = 
+>> to_ast_crtc_state(crtc_state);
+>> -    struct ast_crtc_state *old_ast_crtc_state = 
+>> to_ast_crtc_state(old_crtc_state);
+>>       struct ast_vbios_mode_info *vbios_mode_info = 
+>> &ast_crtc_state->vbios_mode_info;
+>>       /*
+>>        * The gamma LUT has to be reloaded after changing the primary
+>>        * plane's color format.
+>>        */
+>> -    if (old_ast_crtc_state->format != ast_crtc_state->format)
+>> -        ast_crtc_load_lut(ast, crtc);
+>> +    if (crtc_state->enable && crtc_state->color_mgmt_changed) {
+>> +        if (crtc_state->gamma_lut)
+>> +            ast_crtc_set_gamma(ast,
+>> +                       ast_crtc_state->format,
+>> +                       crtc_state->gamma_lut->data);
+>> +        else
+>> +            ast_crtc_set_gamma_linear(ast, ast_crtc_state->format);
+>> +    }
+>>       //Set Aspeed Display-Port
+>>       if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
+>> @@ -1309,7 +1367,9 @@ static int ast_crtc_init(struct drm_device *dev)
+>>       if (ret)
+>>           return ret;
+>> -    drm_mode_crtc_set_gamma_size(crtc, 256);
+>> +    drm_mode_crtc_set_gamma_size(crtc, AST_LUT_SIZE);
+>> +    drm_crtc_enable_color_mgmt(crtc, 0, false, AST_LUT_SIZE);
+>> +
+>>       drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
+>>       return 0;
+> 
 
-Cheers,
--- David
-
---00000000000058196505e9df6af9
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCZ
-52dqCR2wWMEzupKSD30RVEmos3EIyytijvbGsGvKFTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA5MzAwNjUwNTRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAMoyqirby0KPoX5R/iRhg
-6WPJ6+jP+COKyCTwbkAQo5PascZxHozOM1TC/WnwrPtlpjOQdQ9zqbXGMKKmaw2qYCjOQ1/3sQYn
-ZNp5bkLKQcAwlMrcK0TFEBCrUK2JRzpZU3XqSDCMTI38WOgT4DeQ8uG+Fqv8sixg9lWNZgej1zQh
-VCCGGcIpDlIcRKIIxPnYJ2YDCKtZz+RAJdo+cpqTpqy24Kusop3nxdAg+JJb8ISM/IoCEjc2LyQH
-B+xrBeJF2762dcvtRO/95vixe140vAyQx1zWCazUDlWvf+eSQs/7QCn18HY9nvzu5e6WczXHuDZ3
-btwa11ORlI82ytMg6Q==
---00000000000058196505e9df6af9--
