@@ -2,91 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E205F144E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 23:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856E15F148F
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 23:10:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F09E10EDAC;
-	Fri, 30 Sep 2022 21:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5DFC10EDAF;
+	Fri, 30 Sep 2022 21:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2055.outbound.protection.outlook.com [40.107.101.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B60910EDAC;
- Fri, 30 Sep 2022 21:05:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KTT36xWL44r2Av9iKs52Cdb1lMuQBSDVtGUzPorTJm2vsok5bTHQnxuVO5k8Y1veyorGvWHbRp7RV30DCilCSxb5M+6XDIEPO+6bHYa1vFw+bVuaTMAwuVNidajsei9wcTA1t9MfC7kFhE3zwZRwXgvfJ4QHMluhoNUVWhp+SdUzdktSTK/JXwBf7fmq5ip4QSfIYG2jcy8UTDCBUiMZ0pCRsU5X8SBmHIwkFzL9Z244NDDHN7jD1ORlmZe8IxchDPPSslrSmPIlRb59X8IXAuNjNEL1Ua6J1/omUGQUfIw2moyzea7Md086YP23pWEPRx7cqcwgKUs4PKO5vEXO9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iQhvd6OWattytd2Xqu4QdsoZpGu4hioUp6JXf+gvZMc=;
- b=GLL5rfKwoTMwJwWI2LJSbQQLIxN4DetDxaXkUGqk7QklyzFCm166RlUW2Nwt21pFMPwphze+sRPKbm7j+WqRIQrHt0B83Xnvil8QZ+XeMWJJYX8H1MqIODuDc3y2HVDSjG3I2oVirG9rSujRzIDNZGKhG6acia/q3WHFyKUOko5bF9mGFIrGevf7sDm9S+U5dWQratr8Sig6EBObXhGzS+WT0yhV9mgexh7dWGlMX4N0g8SYDrL/o0usLj3RL/2ZkYx7pXHkGDCk0MDDn6djTzFH+53Tzqy+W1imLhH3rIkvE2QsvaBXuUOZ8BGpjX8+hgOS74tGlAIWBg6oMQ+SCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iQhvd6OWattytd2Xqu4QdsoZpGu4hioUp6JXf+gvZMc=;
- b=zhb6BqNl/wfCD+WUl9vMmytSW6yPVAW81IOHywSTe+L5iKbimyRehuvHGFQJTgjWIacvEOgPiMOrwN0pG2pJL0XGdltK2UI5I+xT2mA8n7eSruI4mJ4lA8RPCQegPQzfKeNCimQc4JFkklyDqcVXhRG6wpTZm2IQZHpoe8IGggI=
-Received: from DS7PR03CA0149.namprd03.prod.outlook.com (2603:10b6:5:3b4::34)
- by DM4PR12MB6496.namprd12.prod.outlook.com (2603:10b6:8:bd::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
- 2022 21:05:08 +0000
-Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b4:cafe::43) by DS7PR03CA0149.outlook.office365.com
- (2603:10b6:5:3b4::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.20 via Frontend
- Transport; Fri, 30 Sep 2022 21:05:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5676.17 via Frontend Transport; Fri, 30 Sep 2022 21:05:07 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 30 Sep
- 2022 16:05:06 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu drm-fixes-6.0
-Date: Fri, 30 Sep 2022 17:04:54 -0400
-Message-ID: <20220930210454.542719-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.37.3
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBEA10EDAF;
+ Fri, 30 Sep 2022 21:10:12 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-357208765adso14771147b3.12; 
+ Fri, 30 Sep 2022 14:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=M1w1EWPn1vLoOId55Q91gnxn8wS8AwPmtHIhCGOHN0M=;
+ b=REbiTCxqzTXXjShheYbGyeOylXALyVd3WWejaZI1kZe1D+P0wnqNuB3hXoSpZfK4Fa
+ JnWc8punZ2lcrdDg5a5hNaNxNBTwaLGc75orEzHnYlq9F7mRhGQPJGMswayT9rSgIkk1
+ UrzlwX/md/fIxSk48OXrH0uTZc7DhiLOEYA03R8OzCqCIwIEulWd7z737PgqMUaTwmrW
+ Ai2H7An1NPeX8HiuDxhKx792lD2bGFalMewrK2z8z8+0Fnp0VMMrX1HmVrDuJ5A8orgF
+ 7XdUPCT6pbKngPw9cb8qTXq3yBBY0vFca3wYvqy/WejC6aK/xITzxH/PeCIFFvD4BZxj
+ mCLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=M1w1EWPn1vLoOId55Q91gnxn8wS8AwPmtHIhCGOHN0M=;
+ b=qr7K/Z8NXpplZDZnBMpNVjLO5X83BXVkG1S0/J/pHxNdUQixmdg1ZiWZwi/HmvY5lt
+ kQfTbArNYasVDzx2i23Lctv5IelBrO3epUUPLvaCDN+/TryYuSgXk4mxotsJ1fAewt7+
+ D7A32X6ITchl0gmXs3IxTYogkXX338b6JZa4EcVMCJO+/z2bhNgEmdYNb4LJh80ugso6
+ kiaYWd6Z6RDJN7nhqWNOygW1zHmW+WIK2uLE++/K+uyWSNkLisKAqOa0rR/ZpzFFmD36
+ qHR5cUL4wBrUJcCug+63Z7g0qz09LWv7aJZYVDQ6zUh+LgyyikP+al7PXGbtjT7q6QLH
+ +ByQ==
+X-Gm-Message-State: ACrzQf3FD0ZGm1zin64HPb31RByTE21wjig6BJTFIGp2CrxBWBBuJoS6
+ BbN/lqcVU1szH+SGhszhVXR6yj6ZQYV6Iz2QdOY=
+X-Google-Smtp-Source: AMsMyM4a+PlK5rozN6GTpMcjF7T3JXqNFGUhpP5HbCOi8rUxczy4AxJq4KL4QkhOwDL95P8jdmXP2Rrw+SQKqI4sgWg=
+X-Received: by 2002:a0d:e581:0:b0:356:cd48:a936 with SMTP id
+ o123-20020a0de581000000b00356cd48a936mr2920874ywe.397.1664572211698; Fri, 30
+ Sep 2022 14:10:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT034:EE_|DM4PR12MB6496:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf866d81-eca7-4c8b-e6c0-08daa3277488
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uC41FFbcS2CFYxAzBLZ3cxT6zvsjY/PpQLHFE5slij8i1oZcbK9OUJ/0zEv99R8jR3nSb0lnzj0rll4BKDkddcEMq3ek49tNsbtc6SJcBVTBdJATpXmCs1ucbSMZuCEfomnh4VuoR4CkhaokI+DP/RS7K6ZO3/4bUvZ4EaBAdURtmLv7pkhNkLM5kq2a2HHOUrvNahwjH199u5ragGd6T3LddKTUJZEJCiYRbkVROPw85crBLWRf/Iky+FnybIBL7AwUmoDUodIf6eHcOR0ZsNjbsC4poNu1nhT0+HMp9DQgqwi7u/zwlcEb2MOtgFS4la0se/8UkCcR87QCD9e1G23/ATA0ByQWiZMMgEImGSBQuDn4IC2HQ2R1qo+ifQZa895OLzpQBYR/M8yLrY7t1mCVP4B4Qat5qdajf2LAGqUloS1LWkhK1iEp8NKLxsU8vi2xamSESQ9yIQQUIDMgcijBKYdSan+1cdYBpPe0PGQ295fd54x2oWAlOm4tESjf6W6zAQOXnvgqRjJUXHgkg+rr/bBEv3W+LNVUxjd7XeK5LNw+l/hfoIRn45gniqTO59EkcJEY6d+NK6qB/MuCF3x2XO9DqT+kQPaMSMnmCu4lGPS+RgLVZFlpph84+seNhPDKUjH4eb7VdhNsOGyPkEo3Gf0G2Khs7X77AQ/k0qmvOvooCn9sFYmtApCcOg907Akee5pjnJJZ+XXXpULIkxX1JdTWEl9rt4i+mnoPoh8867XjMpWXcqvqny503s/v
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(39860400002)(346002)(396003)(376002)(451199015)(46966006)(40470700004)(36840700001)(66899015)(966005)(110136005)(316002)(478600001)(70586007)(70206006)(8676002)(4326008)(5660300002)(86362001)(40480700001)(26005)(7696005)(336012)(186003)(1076003)(16526019)(2616005)(36756003)(2906002)(6666004)(41300700001)(36860700001)(47076005)(426003)(82740400003)(8936002)(40460700003)(82310400005)(83380400001)(81166007)(356005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 21:05:07.9590 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf866d81-eca7-4c8b-e6c0-08daa3277488
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6496
+References: <20220819200928.401416-1-kherbst@redhat.com>
+ <YymY+3+C2aI7T3GU@eldamar.lan>
+ <CACO55ts7rpbyYv3ovWt1iCfkGsChCUVitmHqtzAwFpfbPEZGYQ@mail.gmail.com>
+ <YymrJSfXe4LaXmkA@eldamar.lan>
+In-Reply-To: <YymrJSfXe4LaXmkA@eldamar.lan>
+From: Computer Enthusiastic <computer.enthusiastic@gmail.com>
+Date: Fri, 30 Sep 2022 23:09:59 +0200
+Message-ID: <CAHSpYy1mcTns0JS6eivjK82CZ9_ajSwH-H7gtDwCkNyfvihaAw@mail.gmail.com>
+Subject: Re: [PATCH] nouveau: explicitly wait on the fence in
+ nouveau_bo_move_m2mf
+To: Salvatore Bonaccorso <carnil@debian.org>
+Content-Type: multipart/mixed; boundary="00000000000061ec3805e9eb6b35"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,61 +68,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+--00000000000061ec3805e9eb6b35
+Content-Type: text/plain; charset="UTF-8"
 
-Sorry, some last minute changes to deal with updated firmwares/bioses and
-board revisions containing new IPs added in this cycle.  It required
-pulling in some cleanup patches for the RLC firmware handing, but they
-are only applied to GC 11 in this case.  I figured that would be cleaner
-then a bunch of local fixes that would cause merge conflicts for -next,
-and time was getting short for 6.0. They are only applied to GC 11, so no
-chance of regression on existing asics.
+Hello,
 
-V2: fixed S-O-Bs.
+Il giorno mar 20 set 2022 alle ore 13:59 Salvatore Bonaccorso
+<carnil@debian.org> ha scritto:
+[..]
+> Computer Enthusiastic, can you verify the problem as well in a
+> non-Debian patched upstream kernel directly from the 5.10.y series
+> (latest 5.10.144) and verify the fix there?
+>
+> Regards,
+> Salvatore
 
-The following changes since commit 83ca5fb40e758e0a0257bf4e3a1148dd52c6d0f2:
+I've tested the vanilla kernel 5.10.145 (it was the latest one week
+ago) without Debian kernel patches, but using the kernel config file
+from the latest kernel for Debian Stable:
+- without the Karol's patch: it always fails both suspend to ram and
+hibernate to disk with the usual behavior (a very long time to suspend
+or hibernate, then it fails on resume with a garbled screen)
+- with the Karol's patch: it succeeds both suspend and hibernate and
+it correctly resumes afterwards.
 
-  drm/amd/display: Prevent OTG shutdown during PSR SU (2022-09-29 10:07:42 -0400)
+The kernel was tested using the following graphic adapter:
+Graphics:  Device-1: NVIDIA G96CM [GeForce 9600M GT] driver: nouveau v: kernel
+          Device-2: Suyin Acer HD Crystal Eye webcam type: USB driver:
+uvcvideo
+          Display: x11 server: X.Org 1.20.11 driver: loaded:
+modesetting unloaded: fbdev,vesa
+          resolution: 1280x800~60Hz
+          OpenGL: renderer: NV96 v: 3.3 Mesa 20.3.5
 
-are available in the Git repository at:
+Therefore, 5.10.y series of the kernel need to be patched to work
+correctly at least with the aforementioned graphic card.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.0-2022-09-30-1
+The script I used to compile the kernel are attached for further
+reference and verification.
 
-for you to fetch changes up to 0fd85e89b5bf18447e56099a010ee5be5dc9f2b0:
+Hope that helps.
 
-  drm/amdgpu/gfx11: switch to amdgpu_gfx_rlc_init_microcode (2022-09-30 16:59:06 -0400)
+--00000000000061ec3805e9eb6b35
+Content-Type: application/octet-stream; name="vanilla-kernel-build-5.10.145"
+Content-Disposition: attachment; filename="vanilla-kernel-build-5.10.145"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l8oz7w3z0>
+X-Attachment-Id: f_l8oz7w3z0
 
-----------------------------------------------------------------
-amd-drm-fixes-6.0-2022-09-30-1:
+IyBEb3dubG9hZCBzb3VyY2UgY29kZQp3Z2V0IC1uYyBodHRwczovL2Nkbi5rZXJuZWwub3JnL3B1
+Yi9saW51eC9rZXJuZWwvdjUueC9saW51eC01LjEwLjE0NS50YXIueHoKdGFyIHhmIGxpbnV4LTUu
+MTAuMTQ1LnRhci54egoKIyBBdXRvbWF0ZSBzdWJ2ZXJzaW9uIGluZGV4ClNVQlZFUlNJT05fSU5E
+RVg9IjEiCgojIERlbGV0ZSBmcm9tIHByZXZpb3VzIGJ1aWxkcwpjZCBsaW51eC01LjEwLjE0NQpy
+bSAtcmYgLi9kZWJpYW4Kcm0gLXJmIC4uL2xpbnV4Lm9yaWcvCnJtIC1yZiAuLi9saW51eC11cHN0
+cmVhbSoKCmNwIC9ib290L2NvbmZpZy01LjEwLjAtMTgtYW1kNjQgLmNvbmZpZwptYWtlIG9sZGRl
+ZmNvbmZpZwoKc2NyaXB0cy9jb25maWcgLS1kaXNhYmxlIFNZU1RFTV9UUlVTVEVEX0tFWVJJTkcK
+c2NyaXB0cy9jb25maWcgLS1zZXQtc3RyIFNZU1RFTV9UUlVTVEVEX0tFWVMgJycKCiMgQnVpbGQg
+a2VybmVsCnRpbWUgbWFrZSAtaiA4IGRlYi1wa2cgTE9DQUxWRVJTSU9OPS12YW5pbGxhIEtERUJf
+UEtHVkVSU0lPTj0kKG1ha2Uga2VybmVsdmVyc2lvbiktJFNVQlZFUlNJT05fSU5ERVgKCmV4aXQg
+MAo=
+--00000000000061ec3805e9eb6b35
+Content-Type: application/octet-stream; 
+	name="vanilla-kernel-build-5.10.145-patched"
+Content-Disposition: attachment; 
+	filename="vanilla-kernel-build-5.10.145-patched"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l8oz7w5a1>
+X-Attachment-Id: f_l8oz7w5a1
 
-amdgpu:
-- VCN 4.x fixes
-- RLC fixes for GC 11.x
-
-----------------------------------------------------------------
-Hawking Zhang (8):
-      drm/amdgpu: save rlcv/rlcp ucode version in amdgpu_gfx
-      drm/amdgpu: add helper to init rlc fw in header v2_0
-      drm/amdgpu: add helper to init rlc fw in header v2_1
-      drm/amdgpu: add helper to init rlc fw in header v2_2
-      drm/amdgpu: add helper to init rlc fw in header v2_3
-      drm/amdgpu: add helper to init rlc fw in header v2_4
-      drm/amdgpu: add helper to init rlc firmware
-      drm/amdgpu/gfx11: switch to amdgpu_gfx_rlc_init_microcode
-
-Sonny Jiang (2):
-      drm/amdgpu: Enable VCN DPG for GC11_0_1
-      drm/amdgpu: Enable sram on vcn_4_0_2
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h   |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.c   | 264 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.h   |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c   |   2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c    | 151 +----------------
- drivers/gpu/drm/amd/amdgpu/soc21.c        |   1 +
- 7 files changed, 281 insertions(+), 149 deletions(-)
+IyBEb3dubG9hZCBzb3VyY2UgY29kZQp3Z2V0IC1uYyBodHRwczovL2Nkbi5rZXJuZWwub3JnL3B1
+Yi9saW51eC9rZXJuZWwvdjUueC9saW51eC01LjEwLjE0NS50YXIueHoKdGFyIHhmIGxpbnV4LTUu
+MTAuMTQ1LnRhci54egoKIyBnZXQgcGF0Y2gKd2dldCBuYyAtTyBub3V2ZWF1LnBhdGNoIGh0dHBz
+Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3N0YWJsZS9saW51eC5n
+aXQvcGF0Y2gvP2lkPTM2NDBjZGNjYmU3NWI4OTIyZTViZmMwMTkxZGQzN2UzYWFhMjQ4MzMKCiMg
+QXV0b21hdGUgc3VidmVyc2lvbiBpbmRleApTVUJWRVJTSU9OX0lOREVYPSIxIgoKIyBEZWxldGUg
+ZnJvbSBwcmV2aW91cyBidWlsZHMKY2QgbGludXgtNS4xMC4xNDUKcm0gLXJmIC4vZGViaWFuCnJt
+IC1yZiAuLi9saW51eC5vcmlnLwpybSAtcmYgLi4vbGludXgtdXBzdHJlYW0qCgpjcCAvYm9vdC9j
+b25maWctNS4xMC4wLTE4LWFtZDY0IC5jb25maWcKbWFrZSBvbGRkZWZjb25maWcKCnNjcmlwdHMv
+Y29uZmlnIC0tZGlzYWJsZSBTWVNURU1fVFJVU1RFRF9LRVlSSU5HCnNjcmlwdHMvY29uZmlnIC0t
+c2V0LXN0ciBTWVNURU1fVFJVU1RFRF9LRVlTICcnCgojIEFwcGx5IHBhdGNoCnBhdGNoIC1wIDEg
+PCAuLi9ub3V2ZWF1LnBhdGNoIHx8IGV4aXQgMQoKIyBCdWlsZCBrZXJuZWwKdGltZSBtYWtlIC1q
+IDggZGViLXBrZyBMT0NBTFZFUlNJT049LXBhdGNoZWQgS0RFQl9QS0dWRVJTSU9OPSQobWFrZSBr
+ZXJuZWx2ZXJzaW9uKS0kU1VCVkVSU0lPTl9JTkRFWAoKZXhpdCAwCg==
+--00000000000061ec3805e9eb6b35--
