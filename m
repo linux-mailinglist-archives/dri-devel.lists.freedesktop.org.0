@@ -2,66 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2978E5F09ED
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 13:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E81C5F0A01
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 13:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6B9D10EC87;
-	Fri, 30 Sep 2022 11:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E90510EC90;
+	Fri, 30 Sep 2022 11:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813DD10EC87
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 11:20:53 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id z4so6395325lft.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 04:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=tSS0OwapmGCYXAOpgg6xlNApn7RpwyeG1gXGqydrbJ4=;
- b=RnNLp5XOC5FP1l1QOpxkRAxm3SlY4+bFuwv0pJvVxm9o2BmI7JrUaMTpc0m30QGvQG
- d1Z+Dk2GdC95Rwi8IFxxd2jGsY0fNMHD5rwNXWrvw/HOyxMGCYhj8XhlnOqerGM3QkIP
- gKm+aRIpScjhv4OapLjH9oPyK+vtEVwNy+8dUrcrWMPeWtYXiJLJ5zVeGeJaUwHJpYIo
- cggQFA664pyFL5A46dvED+9oxamy1IrFZaziE2EoKL93Cbh8a8GD8leRWDV56UED7sIN
- +/EsrEDdSojmlNWOTBRHXMKkoKVTroqXqpOmYJhh1L0otqOa6iiMr9otpnOz+UYMlhpJ
- ZUEA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B3710EC90
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 11:22:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664536940;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NIY8LT1ugRWlfKqWsvrTNSHb2e7mEKJMdmnnIobz0+0=;
+ b=LsI2gkQqASai2z3+0gjE97uqODYFq8U2yFDTr0sf7EPclz4JzwNx8QRObgmJHGHvetu0KX
+ We/IQ026Oj9/AxGGWGGmxU1SDNDsiN9w1TRCet2wLM00Y803Mh7DQhyCAR5XtS5FQc/cnv
+ t9yHwo2PXNMPAImSYPp6NVEzZS0oER8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-327-xUkufsbqNVGTAfNm9uKyUg-1; Fri, 30 Sep 2022 07:22:19 -0400
+X-MC-Unique: xUkufsbqNVGTAfNm9uKyUg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n7-20020a1c2707000000b003a638356355so1935730wmn.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 04:22:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=tSS0OwapmGCYXAOpgg6xlNApn7RpwyeG1gXGqydrbJ4=;
- b=Si6iTnODst1zauIS7N0Zhgnr+jnLDiKCFGUs6tJGZCvVZKptJ2qLE1Sz7OCVhW0iA5
- C7SaXte5zL1iqvxsSqNwxb6tdWAU5rURrZD8p9d/OUULsMSBSjkUhBUFJMp+AMiQLqQ9
- UTsDW1aIMwMs6LDXSKNnzGm093Uxi9JrtMTZCuuhwzGzBZgvN6brfUXEAfCw/XGKHoQu
- hgoH+nhnEAGxyU8Xkm2QV4wSeSwypIjiYQ3rtwhMN7rYLHkWcUyNaf5dKRLmucvMYTJf
- DBNaJBlVZzw44qumjXaF0UoDZmTsS2W5KHgbo+Q+Zc4lXX4G0VKF6dFUjT3YX8MbWnwZ
- 7jIw==
-X-Gm-Message-State: ACrzQf3IXclMBsJ2jpq85J33okmF4QkzhzabUibv2KtcydReaWWvAkm4
- gYkc35IX8cR9VpESi9Yu9YZtAQ==
-X-Google-Smtp-Source: AMsMyM5+Br4pooYTCe1wcBue2LneLOWrbvkc2W5kR2lwYUem3rqWngE6Go7DjWuEqVmBFTIhyvEK3g==
-X-Received: by 2002:a05:6512:3503:b0:496:55d:a186 with SMTP id
- h3-20020a056512350300b00496055da186mr3040836lfs.340.1664536851811; 
- Fri, 30 Sep 2022 04:20:51 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- j22-20020a056512109600b0048af397c827sm258553lfg.218.2022.09.30.04.20.50
+ bh=NIY8LT1ugRWlfKqWsvrTNSHb2e7mEKJMdmnnIobz0+0=;
+ b=YwcIO/xl0ESb3+DGGNOHw9EaeJUU105Uf7cNCKgDjYcdH1t5+YkEssHkeB3n16itji
+ 39sFG27C/ysGE+084Fqy9pQPq1whfI1U2Ooa/NXgGejbvuJa/x/zXQuggMnMd43f2EWb
+ S32DZM7zFo/m017Y15btL+fS9vsgEMSzCGtnH7IRpntPUJJUlob4j/IvBPUcyKBr/Xbe
+ qTWrvql+eIArgit2yg+0NYG9Ir1wNtbEuXYKPsN+x0sga8TTSmCY56bF0NLMtz8QnTF3
+ LOj9tTbk7X6619HCo+yDasZIYcGzSQhb0bm0o4RoK0710SCzY/IIVEet5dZ/n/SUZgI5
+ Y74g==
+X-Gm-Message-State: ACrzQf1eklHyTHzSE7k7uVuzDBEg+qNjpU7OkQLp5sBH0Xi4GxZUzk/a
+ p3RXdqVMHG4iM7bpOQjbo6jr1ddJ1EpqueIqfARzXN52X/LOEOBFDp9cMhtKnQu8RuIz9pj5Xb1
+ O6FQzE29lovm83BzEve6WkCSCqqRT
+X-Received: by 2002:a05:600c:221a:b0:3b4:75b8:3f7f with SMTP id
+ z26-20020a05600c221a00b003b475b83f7fmr5389152wml.175.1664536938344; 
+ Fri, 30 Sep 2022 04:22:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6eh4/mcd2KYdSDOHHgpKNlEvirzPAZUgKCO+3PZhxJKjfyP3Jmv5uSx5Dz7KM57sx+HtZzsg==
+X-Received: by 2002:a05:600c:221a:b0:3b4:75b8:3f7f with SMTP id
+ z26-20020a05600c221a00b003b475b83f7fmr5389141wml.175.1664536938143; 
+ Fri, 30 Sep 2022 04:22:18 -0700 (PDT)
+Received: from [172.20.10.4] ([84.78.249.224])
+ by smtp.gmail.com with ESMTPSA id
+ g6-20020a05600c310600b003b4f86b31dfsm6438527wmo.33.2022.09.30.04.22.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 04:20:51 -0700 (PDT)
-Message-ID: <a0254559-a76d-de87-3458-e7dc148a8daf@linaro.org>
-Date: Fri, 30 Sep 2022 13:20:50 +0200
+ Fri, 30 Sep 2022 04:22:17 -0700 (PDT)
+Message-ID: <79e665bb-c51a-0ac1-3f2f-f0e5eba22388@redhat.com>
+Date: Fri, 30 Sep 2022 13:22:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 4/4] arm64: dts: smaug: Add display panel node
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] drm/ssd130x: Iterate over damage clips instead of using a
+ merged rect
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220930080123.2441629-1-javierm@redhat.com>
+ <a72d4736-74e1-1485-e952-f39909d94fbc@suse.de>
+ <da9fddaa-2329-c91b-a89d-c998c5720917@redhat.com>
+ <65fd4526-f223-d425-3e69-04fe5485c87c@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <65fd4526-f223-d425-3e69-04fe5485c87c@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
- <20220929170502.1034040-5-diogo.ivo@tecnico.ulisboa.pt>
- <23bc38b8-ed67-d243-9739-f07b7411be3a@linaro.org> <YzbPz8mL0Yo+vgSS@orome>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YzbPz8mL0Yo+vgSS@orome>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,49 +89,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, arnd@arndb.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, linux-tegra@vger.kernel.org,
- sam@ravnborg.org
+Cc: David Airlie <airlied@linux.ie>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/09/2022 13:15, Thierry Reding wrote:
-> On Fri, Sep 30, 2022 at 12:51:07PM +0200, Krzysztof Kozlowski wrote:
->> On 29/09/2022 19:05, Diogo Ivo wrote:
->>> The Google Pixel C has a JDI LPM102A188A display panel. Add a
->>> DT node for it. Tested on Pixel C.
->>>
->>> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
->>> ---
->>>  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 72 +++++++++++++++++++
->>>  1 file changed, 72 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
->>> index 20d092812984..271ef70747f1 100644
->>> --- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
->>> +++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
->>> @@ -31,6 +31,39 @@ memory {
->>>  	};
->>>  
->>>  	host1x@50000000 {
->>> +		dc@54200000 {
->>> +			status = "okay";
+Hello Thomas,
+
+On 9/30/22 12:11, Thomas Zimmermann wrote:
+
+[...]
+
 >>
->> You should override by labels, not by full path.
+>>>> +
+>>>> +		ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &damage);
+>>>
+>>> In simpledrm, we adjust the destination address with dst_clip like this:
+>>>
+>>>     iosys_map_incr(&dst, drm_fb_clip_offset(sdev->pitch, sdev->format,
+>>> &dst_clip));
+>>>
+>>> How does this work in ssd130x? You never use dst_clip to adjust to the
+>>> changed location. Won't you have out-of-bounds writes on the device?
+>>>
+>>
+>> Right, in ssd130x what I do is:
+>>
+>> static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_map *vmap,
+>> 				struct drm_rect *rect)
+>> {
+>> 	struct iosys_map dst;
+>> ...
+>> 	u8 *buf = NULL;
+>> ...
+>> 	buf = kcalloc(dst_pitch, drm_rect_height(rect), GFP_KERNEL);
+>> ...
+>> 	iosys_map_set_vaddr(&dst, buf);
+>> 	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect);
+>> ...
+>> 	ssd130x_update_rect(ssd130x, buf, rect);
+>> }
+>>
+>> I understand that's correct too?
 > 
-> Why exactly is that? I've always stayed away from that (and asked others
-> not to do so, at least on Tegra) because I find it impossible to parse
-> for my human brain. Replicating the original full hierarchy makes it
-> much more obvious to me where the changes are happening than the
-> spaghetti-like mess that you get from overriding by label reference.
+>  From what I understand about ssd130x, blit_rect looks correct up to the 
+> call to update_rect.  The values in the rect parameter are for the 
+> damage area of the plane. In update_rect, the destination coords x and y 
+> are also taken from rect. But they should come from dst_clip, which is 
+> the on-screen location. Does that make sense?
+> 
 
-Sure, it's entirely up to you. I forgot your preference.
+I believe you are correct. Then what I should do is to not pass the damage
+area to ssd130x_fb_blit_rect() as the struct drm_rect argument but instead
+the dst_clip as filled by drm_rect_intersect(). Does that sound correct ?
 
-But it is a really nice way to have duplicated nodes and mistakes (which
-happen from time to time).
+In other words, the following:
 
+	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+	drm_atomic_for_each_plane_damage(&iter, &damage) {
+		dst_clip = plane_state->dst;
+		if (!drm_rect_intersect(&dst_clip, &damage))
+			continue;
+
+		ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &dst_clip);
+	}
+
+-- 
 Best regards,
-Krzysztof
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
