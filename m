@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D795F093D
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70735F0945
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 12:45:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E46D10E1D6;
-	Fri, 30 Sep 2022 10:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23E1E10EC68;
+	Fri, 30 Sep 2022 10:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89D8010E1D6
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 10:41:17 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49D1310EC7D;
+ Fri, 30 Sep 2022 10:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664534477; x=1696070477;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=id16aj2W5snHCt2hQnkatdFa6ul5NVbOlpoxGE274OA=;
- b=gI5zbNIKyYrc5B3MdEqn/M0CxHyGvLnKVBjC2EmmMkvcwKQZabi+0AYT
- PMeXUEqE0cqpnlXdwBev3a6hfkEAgr5Lq3bEO//Y5rDNnP68EYGV6DOpp
- /HJjJW02ds7jEH3COt1SznEzoKtYTrLF3oQVtYUGJo3Iob5LsN/gsg4o7
- Rr4BUGcTMVDdi/2r11spLelvf/yuZmnYSUl0q9+5KvucEttqSlc8SN6Xo
- 9VGqQDdZYrPkb18hu/1L1p6uUbPVjQffjnx2LzjgJZWXcR74utwGs7cfz
- J7jG+8gdaZZIoe0cZUCuYgwYFS5m/njS8rE9ZMrZBQHWuXSw0os8xqvFb g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="364004514"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="364004514"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 03:41:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="748192637"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="748192637"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga004.jf.intel.com with SMTP; 30 Sep 2022 03:41:13 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 30 Sep 2022 13:41:13 +0300
-Date: Fri, 30 Sep 2022 13:41:13 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/atomic-helper: Don't allocated plane state in CRTC
- check
-Message-ID: <YzbHySnBy1fEbQjh@intel.com>
-References: <20220929140714.14794-1-tzimmermann@suse.de>
- <YzXsFOjOuRUdeNo6@intel.com>
- <7e01f298-152c-d2b3-057c-b788c6f577b8@suse.de>
- <Yzay6XYpfuZrknUZ@intel.com> <YzbEYyUQIJX1ut1q@intel.com>
- <20a4ba1c-a813-151e-9118-702fbf9c1b3e@suse.de>
+ t=1664534741; x=1696070741;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Z5ldiK+eU4EyhQditQtoqlaBEggtUu54Oy4CIhQqtN8=;
+ b=V6Gek7AyfUJqaxLJtASlD7lyY851bDizxzLEjTjuMelPEGL6BcXyWy14
+ ZRz+7EXphBBYcgvrINvFnDNxChPZxtNhf/B9JHHyg+2o3ltV+iuStAApY
+ bJXOjQV/OZog7bfyXqwN46IsXzTIYzMQND86SPawWhdyd+GH6NQ+r6p2Y
+ Jrzg6ywfcG2RpS4MSSDV+tfDbTNc2z+ejIupEs5fK92eFwSi2RVC5/1NM
+ tRdX0mc3eBCEmo3JnfVYKde4QQyg+RaTWbuBV5MQtW4cB9HAXWEcdE0tc
+ qaUQcTWGYdrGy0nE7ICVXL36m0IhI0LOQjWZvm8Ic6nChWDVQJJB4XBuW g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="302135518"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="302135518"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 03:45:40 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="797930064"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="797930064"
+Received: from dtrawins-mobl1.ger.corp.intel.com (HELO [10.252.7.39])
+ ([10.252.7.39])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 03:45:37 -0700
+Message-ID: <e88e01a5-fea0-5c6b-97b2-7cbac90a4019@intel.com>
+Date: Fri, 30 Sep 2022 11:45:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.0
+Subject: Re: [PATCH 10/16] drm/i915/vm_bind: Abstract out common execbuf
+ functions
+Content-Language: en-GB
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
+ <20220928061918.6340-11-niranjana.vishwanathapura@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220928061918.6340-11-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20a4ba1c-a813-151e-9118-702fbf9c1b3e@suse.de>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,87 +63,304 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, jfalempe@redhat.com, javierm@redhat.com,
- dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 30, 2022 at 12:36:45PM +0200, Thomas Zimmermann wrote:
-> Hi
+On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
+> The new execbuf3 ioctl path and the legacy execbuf ioctl
+> paths have many common functionalities.
+> Abstract out the common execbuf functionalities into a
+> separate file where possible, thus allowing code sharing.
 > 
-> Am 30.09.22 um 12:26 schrieb Ville Syrjälä:
-> > On Fri, Sep 30, 2022 at 12:12:09PM +0300, Ville Syrjälä wrote:
-> >> On Fri, Sep 30, 2022 at 11:01:52AM +0200, Thomas Zimmermann wrote:
-> >>> Hi,
-> >>>
-> >>> thanks for reviewing.
-> >>>
-> >>> Am 29.09.22 um 21:03 schrieb Ville Syrjälä:
-> >>>> On Thu, Sep 29, 2022 at 04:07:14PM +0200, Thomas Zimmermann wrote:
-> >>>>> In drm_atomic_helper_check_crtc_state(), do not add a new plane state
-> >>>>> to the global state if it does not exist already. Adding a new plane
-> >>>>> state will results in overhead for the plane during the atomic-commit
-> >>>>> step.
-> >>>>>
-> >>>>> For the test in drm_atomic_helper_check_crtc_state() to succeed, it is
-> >>>>> important that the CRTC has an enabled primary plane after the commit.
-> >>>>> This can be a newly enabled plane or an already enabled plane. So if a
-> >>>>> plane is not part of the commit, use the plane's existing state. The new
-> >>>>> helper drm_atomic_get_next_plane_state() returns the correct instance.
-> >>>>>
-> >>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>> Fixes: d6b9af1097fe ("drm/atomic-helper: Add helper drm_atomic_helper_check_crtc_state()")
-> >>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> >>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>>>> Cc: Maxime Ripard <mripard@kernel.org>
-> >>>>> Cc: David Airlie <airlied@linux.ie>
-> >>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >>>>> Cc: dri-devel@lists.freedesktop.org
-> >>>>> ---
-> >>>>>    drivers/gpu/drm/drm_atomic_helper.c |  4 +---
-> >>>>>    include/drm/drm_atomic.h            | 20 ++++++++++++++++++++
-> >>>>>    2 files changed, 21 insertions(+), 3 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> >>>>> index 98cc3137c062..463d4f3fa443 100644
-> >>>>> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> >>>>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> >>>>> @@ -960,9 +960,7 @@ int drm_atomic_helper_check_crtc_state(struct drm_crtc_state *crtc_state,
-> >>>>>    
-> >>>>>    			if (plane->type != DRM_PLANE_TYPE_PRIMARY)
-> >>>>>    				continue;
-> >>>>> -			plane_state = drm_atomic_get_plane_state(state, plane);
-> >>>>> -			if (IS_ERR(plane_state))
-> >>>>> -				return PTR_ERR(plane_state);
-> >>>>> +			plane_state = drm_atomic_get_next_plane_state(state, plane);
-> >>>>>    			if (plane_state->fb && plane_state->crtc) {
-> >>>>
-> >>>> Hmm. Why this is even looking at these. If the plane is in the crtc's
-> >>>> plane_mask then surely plane_state->crtc must already point to this
-> >>>> crtc? And I don't think ->fb and ->crtc are allowed to disagree, so
-> >>>> if one is set then surely the other one must be as well or we'd
-> >>>> return an error at some point somewhere?
-> >>>
-> >>> Yeah, the crtc test is done for keeping consistency. Other places also
-> >>> sometimes validate that these fields don't disagree. I'll remove the
-> >>> crtc test in the next version. The fb test is the important one.
-> >>
-> >> What I'm asking how can you have crtc!=NULL && fb==NULL at all here?
-> >> Some other plane state check function (can't remember which one
-> >> specifically) should have rejected that. So either you're checking
-> >> for impossible things, or there is a bug somewhere else.
-> > 
-> > Oh and btw, fb != NULL doesn't guarantee the plane is actually
-> > visible (could have been fully clipped), if that is what you're
-> > trying to check here.
-> > 
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> ---
+>   drivers/gpu/drm/i915/Makefile                 |   1 +
+>   .../drm/i915/gem/i915_gem_execbuffer_common.c | 664 ++++++++++++++++++
+>   .../drm/i915/gem/i915_gem_execbuffer_common.h |  74 ++
+>   3 files changed, 739 insertions(+)
+>   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+>   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
 > 
-> No, it's really just about having a primary plane enabled on the CRTC.
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 9bf939ef18ea..bf952f478555 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -148,6 +148,7 @@ gem-y += \
+>   	gem/i915_gem_create.o \
+>   	gem/i915_gem_dmabuf.o \
+>   	gem/i915_gem_domain.o \
+> +	gem/i915_gem_execbuffer_common.o \
+>   	gem/i915_gem_execbuffer.o \
+>   	gem/i915_gem_internal.o \
+>   	gem/i915_gem_object.o \
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+> new file mode 100644
+> index 000000000000..a7efd74afc9c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+> @@ -0,0 +1,664 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright Â© 2022 Intel Corporation
+> + */
+> +
+> +#include <linux/dma-fence-array.h>
+> +
+> +#include <drm/drm_syncobj.h>
+> +
+> +#include "gt/intel_context.h"
+> +#include "gt/intel_gt.h"
+> +#include "gt/intel_gt_pm.h"
+> +#include "gt/intel_ring.h"
+> +
+> +#include "i915_gem_execbuffer_common.h"
+> +
+> +#define __EXEC_COMMON_FENCE_WAIT	BIT(0)
+> +#define __EXEC_COMMON_FENCE_SIGNAL	BIT(1)
+> +
+> +static struct i915_request *eb_throttle(struct intel_context *ce)
+> +{
+> +	struct intel_ring *ring = ce->ring;
+> +	struct intel_timeline *tl = ce->timeline;
+> +	struct i915_request *rq;
+> +
+> +	/*
+> +	 * Completely unscientific finger-in-the-air estimates for suitable
+> +	 * maximum user request size (to avoid blocking) and then backoff.
+> +	 */
+> +	if (intel_ring_update_space(ring) >= PAGE_SIZE)
+> +		return NULL;
+> +
+> +	/*
+> +	 * Find a request that after waiting upon, there will be at least half
+> +	 * the ring available. The hysteresis allows us to compete for the
+> +	 * shared ring and should mean that we sleep less often prior to
+> +	 * claiming our resources, but not so long that the ring completely
+> +	 * drains before we can submit our next request.
+> +	 */
+> +	list_for_each_entry(rq, &tl->requests, link) {
+> +		if (rq->ring != ring)
+> +			continue;
+> +
+> +		if (__intel_ring_space(rq->postfix,
+> +				       ring->emit, ring->size) > ring->size / 2)
+> +			break;
+> +	}
+> +	if (&rq->link == &tl->requests)
+> +		return NULL; /* weird, we will check again later for real */
+> +
+> +	return i915_request_get(rq);
+> +}
+> +
+> +static int eb_pin_timeline(struct intel_context *ce, bool throttle,
+> +			   bool nonblock)
+> +{
+> +	struct intel_timeline *tl;
+> +	struct i915_request *rq = NULL;
+> +
+> +	/*
+> +	 * Take a local wakeref for preparing to dispatch the execbuf as
+> +	 * we expect to access the hardware fairly frequently in the
+> +	 * process, and require the engine to be kept awake between accesses.
+> +	 * Upon dispatch, we acquire another prolonged wakeref that we hold
+> +	 * until the timeline is idle, which in turn releases the wakeref
+> +	 * taken on the engine, and the parent device.
+> +	 */
+> +	tl = intel_context_timeline_lock(ce);
+> +	if (IS_ERR(tl))
+> +		return PTR_ERR(tl);
+> +
+> +	intel_context_enter(ce);
+> +	if (throttle)
+> +		rq = eb_throttle(ce);
+> +	intel_context_timeline_unlock(tl);
+> +
+> +	if (rq) {
+> +		long timeout = nonblock ? 0 : MAX_SCHEDULE_TIMEOUT;
+> +
+> +		if (i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE,
+> +				      timeout) < 0) {
+> +			i915_request_put(rq);
+> +
+> +			/*
+> +			 * Error path, cannot use intel_context_timeline_lock as
+> +			 * that is user interruptable and this clean up step
+> +			 * must be done.
+> +			 */
+> +			mutex_lock(&ce->timeline->mutex);
+> +			intel_context_exit(ce);
+> +			mutex_unlock(&ce->timeline->mutex);
+> +
+> +			if (nonblock)
+> +				return -EWOULDBLOCK;
+> +			else
+> +				return -EINTR;
+> +		}
+> +		i915_request_put(rq);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * i915_eb_pin_engine() - Pin the engine
+> + * @ce: the context
+> + * @ww: optional locking context or NULL
+> + * @throttle: throttle to ensure enough ring space
+> + * @nonblock: do not block during throttle
+> + *
+> + * Pin the @ce timeline. If @throttle is set, enable throttling to ensure
+> + * enough ring space is available either by waiting for requests to complete
+> + * (if @nonblock is not set) or by returning error -EWOULDBLOCK (if @nonblock
+> + * is set).
+> + *
+> + * Returns 0 upon success, -ve error code upon error.
+> + */
+> +int i915_eb_pin_engine(struct intel_context *ce, struct i915_gem_ww_ctx *ww,
+> +		       bool throttle, bool nonblock)
+> +{
+> +	struct intel_context *child;
+> +	int err;
+> +	int i = 0, j = 0;
+> +
+> +	if (unlikely(intel_context_is_banned(ce)))
+> +		return -EIO;
+> +
+> +	/*
+> +	 * Pinning the contexts may generate requests in order to acquire
+> +	 * GGTT space, so do this first before we reserve a seqno for
+> +	 * ourselves.
+> +	 */
+> +	err = intel_context_pin_ww(ce, ww);
+> +	if (err)
+> +		return err;
+> +
+> +	for_each_child(ce, child) {
+> +		err = intel_context_pin_ww(child, ww);
+> +		GEM_BUG_ON(err);	/* perma-pinned should incr a counter */
+> +	}
+> +
+> +	for_each_child(ce, child) {
+> +		err = eb_pin_timeline(child, throttle, nonblock);
+> +		if (err)
+> +			goto unwind;
+> +		++i;
+> +	}
+> +	err = eb_pin_timeline(ce, throttle, nonblock);
+> +	if (err)
+> +		goto unwind;
+> +
+> +	return 0;
+> +
+> +unwind:
+> +	for_each_child(ce, child) {
+> +		if (j++ < i) {
+> +			mutex_lock(&child->timeline->mutex);
+> +			intel_context_exit(child);
+> +			mutex_unlock(&child->timeline->mutex);
+> +		}
+> +	}
+> +	for_each_child(ce, child)
+> +		intel_context_unpin(child);
+> +	intel_context_unpin(ce);
+> +	return err;
+> +}
+> +
+> +/**
+> + * i915_eb_unpin_engine() - Unpin the engine
+> + * @ce: the context
+> + *
+> + * Unpin the @ce timeline.
+> + */
+> +void i915_eb_unpin_engine(struct intel_context *ce)
+> +{
+> +	struct intel_context *child;
+> +
+> +	for_each_child(ce, child) {
+> +		mutex_lock(&child->timeline->mutex);
+> +		intel_context_exit(child);
+> +		mutex_unlock(&child->timeline->mutex);
+> +
+> +		intel_context_unpin(child);
+> +	}
+> +
+> +	mutex_lock(&ce->timeline->mutex);
+> +	intel_context_exit(ce);
+> +	mutex_unlock(&ce->timeline->mutex);
+> +
+> +	intel_context_unpin(ce);
+> +}
+> +
+> +/**
+> + * i915_eb_find_context() - Find the context
+> + * @context: the context
+> + * @context_number: required context index
+> + *
+> + * Returns the @context_number'th child of specified @context,
+> + * or NULL if the child context is not found.
+> + * If @context_number is 0, return the specified @context.
+> + */
+> +struct intel_context *
+> +i915_eb_find_context(struct intel_context *context, unsigned int context_number)
+> +{
+> +	struct intel_context *child;
+> +
+> +	if (likely(context_number == 0))
+> +		return context;
+> +
+> +	for_each_child(context, child)
+> +		if (!--context_number)
+> +			return child;
+> +
+> +	GEM_BUG_ON("Context not found");
+> +
+> +	return NULL;
+> +}
+> +
+> +static void __free_fence_array(struct eb_fence *fences, u64 n)
+> +{
+> +	while (n--) {
+> +		drm_syncobj_put(ptr_mask_bits(fences[n].syncobj, 2));
+> +		dma_fence_put(fences[n].dma_fence);
+> +		dma_fence_chain_free(fences[n].chain_fence);
+> +	}
+> +	kvfree(fences);
+> +}
+> +
+> +/**
+> + * i915_eb_put_fence_array() - Free Execbuffer fence array
+> + * @fences: Pointer to array of Execbuffer fences (See struct eb_fences)
+> + * @num_fences: Number of fences in @fences array
+> + *
+> + * Free the Execbuffer fences in @fences array.
+> + */
+> +void i915_eb_put_fence_array(struct eb_fence *fences, u64 num_fences)
+> +{
+> +	if (fences)
+> +		__free_fence_array(fences, num_fences);
+> +}
+> +
+> +/**
+> + * i915_eb_add_timeline_fence() - Add a fence to the specified Execbuffer fence
+> + * array.
+> + * @file: drm file pointer
+> + * @handle: drm_syncobj handle
+> + * @point: point in the timeline
+> + * @f: Execbuffer fence
+> + * @wait: wait for the specified fence
+> + * @signal: signal the specified fence
+> + *
+> + * Add the fence specified by drm_syncobj @handle at specified @point in the
+> + * timeline to the Execbuffer fence array @f. If @wait is specified, it is an
+> + * input fence and if @signal is specified it is an output fence.
+> + *
+> + * Returns 0 upon success, -ve error upon failure.
 
-Not sure what you mean by enabled. Usually a fully clipped plane
-will actually be disabled in hardware.
+Also can return 1, which also means success. Also maybe clarify that 
+zero here is special.
 
--- 
-Ville Syrjälä
-Intel
+Acked-by: Matthew Auld <matthew.auld@intel.com>
