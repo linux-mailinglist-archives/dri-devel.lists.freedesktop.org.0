@@ -1,120 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69605F0C79
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 15:31:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AEA75F0C99
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 15:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2E9B10ECFF;
-	Fri, 30 Sep 2022 13:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71CCE10ECF3;
+	Fri, 30 Sep 2022 13:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2064.outbound.protection.outlook.com [40.107.92.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEB810ECFD;
- Fri, 30 Sep 2022 13:31:38 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2082.outbound.protection.outlook.com [40.107.96.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC9A10E274;
+ Fri, 30 Sep 2022 13:42:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FB+UX4wJdtO+TQ3DvFEuMBzkdhFh8n7Qd5ZA81Rgm4SwGT/0oQ/TrMIgf5sAPQFt9l5QGr/YJ/p9LF0ZgSTKkWD8+To70IHmMPHnDhU1s2gvGTANysRi9dHtiqIqhpg5eoBG5NfVI6v6BCoI8rdJELmFP78BdkC4dYJw2whtD//3ho9A6P8CFJqFMbE889OeDbVhGAxG5JUQOE0gCBXeDEuQP+PQeI3eW0IfkKT5X8cLjdrpm0CJq8V27gIUdYn/6M+xtynQPhz4ZPHNEfOeyP9gyOQefoA3/Ee032ia3fQEQEhfJk5YVg6WjDtkyJTvnDGHH3OAGMlIsH9IZyAVpA==
+ b=aZz1wtP2DmOpqFxvcbwuvklFSYusPTZhTokyJqEVocJv9l/ljMN53kSN2KCFgAzHO/BJT6TomDY5O6YIqX+9rSL20pv0BlkWsH+LhKZ78b0nwLuo5z0xA6a1EPmCJyZTygf91PoT/baxavKhLfeoHbXEItw1GBJ8b1zV/rrJiTbvKJgjebiUPiwe9yLH8grgScBuJSN7oVH7Y4PROumGCe5fin/wW1WmN9CV2eld/6E0rk6eAhQ4lsOMTKTvfbjwQ1ba+/q09eUoq9JZuTj9udmHMRIPVetHBLgTHo6Lw1K22W1PzJBBLr3t3ePhCOGNcvpusUmXzNO/5MFjzpZS4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pqOr0zXxHyVkBaDSc//pXQSjUfXfSUJ9vamXF9h/GSU=;
- b=UScx3J132Snxckx4L+rP+kxYu6tGvK9Z5K1jTo3iREqHxS9B+/kQLc6n7EFxOoJMkIb4K4UwoQGss9ygK7+aQPdLhFOt4z+wTdbjdxzbfp2D9/CBkvTU0GrJhHA37R5lg7e9jvDLKuFWm/06ime9Xv7WKptn4PaSHS/BWMQeu3A2l3J/awnyRsSZ8zMA3A0ZLagLNHCcZEbXQqEwETpfnDnmZUUhyOHR4zKiuyvAtk0qQfLlxS8qv4kkhKRfAstMhelAcHdYHnoWBzxyFiNFZi8g7wi+18KFUhXQZwvTPDUVeZz+feOW8MLTa5jXh1/AfR5HNi9gtP9lmpcbxCVsEA==
+ bh=jXn9raogH8iUXjN0Ep9rLEtIIeyksMGtTJDSBpxjo4s=;
+ b=NaGRFTWtyTrXoSyPgo/e1m4fBtkuegGPF/dOhU5QgsMkl3cm1pkP2MFJ8SnLbbCUzZWjo5jrQA2sLPnmM++MZAnVhf9QwqCm/vET+OCDRmezWI78K+z/EfkEZENfAPgMX1a/jHbE7Gj5gKZ+DjlxuvMqevaNACZpCA7mqnH07LObZ/AKAUUUJ4vp3ab3I9a2pm/AYiTmHKQ09+TOK93QqRmHUIHtLvVGE/vDWcIi5TLb2xZrWkBHwhwNzhqbO21zUOYzi+Z564J+A8LAy91GcILFNgtNKmV2887hGvFUbuYfzaLWDw8gyTbQk+80IQK9xkYebNtOmyOI7pbnEXrpdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pqOr0zXxHyVkBaDSc//pXQSjUfXfSUJ9vamXF9h/GSU=;
- b=1XzqxWYOqd1TOIivER6ede+2N1UezFSQDwAHd2Wfp/+GXoyRKle7aw6HxasNGxbpJ1LUCQNwpcItRPi6IoQpcVxgyyNGGsSH6LJaX1+pBC2rAzzEtj+9h5oIatSbhF63/hw7lJl4ceXRL9nrG/jsY02socZbVIZ6+Dm7Pocfd10=
+ bh=jXn9raogH8iUXjN0Ep9rLEtIIeyksMGtTJDSBpxjo4s=;
+ b=BbrqQBQ8+z2fJWcfImKvm8L9tQ2Fx+y2KC+5Sb1cAlhChf9ow83gNtnVXZZG9f7cHBvlDr6W2bIKI7hs+PqDjM6gzPMhYF5WIR3Gogh0No53YvERmXMx6Imd8DagguMdoqfwJ39enn/w2UWH6GtwNgd3ooMLRyZKx5SdIvOXh/4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
- by PH7PR12MB6934.namprd12.prod.outlook.com (2603:10b6:510:1b8::17) with
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SJ0PR12MB7083.namprd12.prod.outlook.com (2603:10b6:a03:4ae::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Fri, 30 Sep
- 2022 13:31:34 +0000
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::5c7:e934:c098:f2ac]) by DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::5c7:e934:c098:f2ac%8]) with mapi id 15.20.5676.023; Fri, 30 Sep 2022
- 13:31:32 +0000
-Message-ID: <5f66f608-61f3-1e31-c713-2fa63b1e37e7@amd.com>
-Date: Fri, 30 Sep 2022 09:31:30 -0400
+ 2022 13:42:13 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::9033:772f:1339:75f6]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::9033:772f:1339:75f6%4]) with mapi id 15.20.5676.023; Fri, 30 Sep 2022
+ 13:42:13 +0000
+Message-ID: <6e28372e-82a0-bc1d-9585-a089c3232927@amd.com>
+Date: Fri, 30 Sep 2022 09:42:05 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v8] drm/sched: Add FIFO sched policy to run queue
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 0/6] Add support for atomic async page-flips
 Content-Language: en-US
-To: Luben Tuikov <luben.tuikov@amd.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-References: <20220930041258.1050247-1-luben.tuikov@amd.com>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-In-Reply-To: <20220930041258.1050247-1-luben.tuikov@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
+References: <20220929184307.258331-1-contact@emersion.fr>
+From: Harry Wentland <hwentlan@amd.com>
+In-Reply-To: <20220929184307.258331-1-contact@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT1PR01CA0075.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2d::14) To DM5PR12MB1947.namprd12.prod.outlook.com
- (2603:10b6:3:111::23)
+X-ClientProxiedBy: YT1PR01CA0135.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::14) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1947:EE_|PH7PR12MB6934:EE_
-X-MS-Office365-Filtering-Correlation-Id: 884999b6-1e36-4713-f203-08daa2e816ae
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SJ0PR12MB7083:EE_
+X-MS-Office365-Filtering-Correlation-Id: baead941-9964-455c-378f-08daa2e99479
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OSRjUqY50oZxj1KgDiJyDUNXggd8NgpIuTNWnPaIupZ6gsuHLAHdMknvHxBcZI3vbjXO1WFnBMBsu6+kWDExA41/ZXFBsDoxLCIc8Tn2gGFfWvYDey2UVFzaxNS2/SBJbUW+fAsFUAirUuJE9PKQ2UyRgSTwAq0OnSRSYmIiKGpBOYXMeyN+6iUswwfGTqc1kfbFLZOJplizke6US/PGJkKeuxp5jwx1UaA5wSJhodAPeRMyl5SML3GkbTT6CBbdv6v6LZgekWrU37eLQu9MM6d58SSIHcQhHpJLM7TIQvvMrAlVH72PAk2tBZ1FvVpz1iQQe3kdmSnATxtkHbpA5V0gSMctTLJyN9w4So4BfYDscHOdsNeSfFYYVNZQf2EYYtRgSa2LPNg2L7LuZJsQgKxkESZ0Jjv5+Hw7IebI0GKYOqY6nF85PMOHMRkwesPN7szIFn293j2KsLif9RlpQrKpjTCo+NdA7YNQ7UCD91kDmCnqu1hsNJEiAi5uFY0bG5Ix2TGH8MAXvVZothGQCDrhgASNCESNbQBaxh9ftifZ1aHEcRoH6Z4HetWQxUNst8tBbsN3KPb4sFONOOSXSwpm39G27dAAVnwJS1sFrLcYwdWvSQx+p254e1/PXCN8XyuZPPI934PGygTK7gHOpESGzV/8I97MhVJzRPJ2kcT4yC77rfbAsbmHN6ZsjAoo1/aWBKhDw+v+ElTAia8nJlUNxu9YeLumnOrvDAAuTN9MVwtfdL7LOUvFhzpyOdNcpvSy7SlGNl2thr6YTnJPGkvcmkg8Bg+TtrSPKW3Xdvo=
+X-Microsoft-Antispam-Message-Info: fxWsXWNPPSEqJHEUG5x4DKQfziuLEEFe2jlwqjFYyIZV4xNCpYtZaCLGEXOpYGvFWorrO3aov1qLAKPy1+udDLLeW4fW69WW0pG+Qk59jgEsepwjyN6I+RZvRZeD2HFVFjsmx++TsB3EdSVkHuZpdI+3wXmXYJgoYF55KKXxLIKw7OTlfv8XizVbWECqhdzgsTOM8+Hn9fCpf1Qxd0l+iwOa3MEFLUJ15CmfyrmLkU/fn9GVmumbNZV7G+zmfmTEoNkdS14qe/5HlsgmmzyLiagINIeB0WpS4yhMrMgLfsNcf9jIh8v1az+g2uHOQmUa6YqU6EuHwnPAlAxVYzETXGQukjqd5pVq2gg3a8XRTRE9CXRlEypiAJ1He2QXp7kWUVxM2gHopRQwOQ9brIY4GJh7BZi6hnBcyuzAky3Agx5kidWDpOxO5trbdq/09y37a1r7fEdZvvO3IjgmuQFApbiW8aNerX6u107WK6b7cmvAGqTLrYmgRWIWwp5WLIE4YgNPjLHv8PTq8DNhKLAYf73hM4datZzZV8wJ/G1V91lm23DpHsONbMf1knLzeQA9hLK2eM1ei6xF7/jJuRkDZ7NtuEZwN5xli+jhGdchxLsXQpb5a8wnZiQ6xKTO345mXb+d4N74bx2C8uysAPgoxjuuk74SEUJYiKNaAiGpIHafm8c0K8ifRkUROIrdMVQWkhw5Dodt7+HgZgs7XpHERbQrvgLOhfvDLqsUlZklzrDBEeIh/tLHIbniCYNPKW4WP6PDHdpDnXNyvLF0vFPP+baVCgDGmtQvrg5maCTNrGlb47NkTWVKn088cX43kD4RgfqFqQ6xp78eTnPEezw+kA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(376002)(136003)(366004)(39860400002)(396003)(451199015)(110136005)(450100002)(4326008)(66556008)(66946007)(44832011)(66476007)(316002)(83380400001)(86362001)(30864003)(2906002)(8676002)(31696002)(36756003)(41300700001)(5660300002)(8936002)(6486002)(6506007)(38100700002)(6512007)(53546011)(54906003)(2616005)(186003)(66574015)(478600001)(31686004)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(39860400002)(346002)(136003)(376002)(396003)(451199015)(4326008)(66556008)(316002)(478600001)(66946007)(45080400002)(66476007)(8676002)(6486002)(31686004)(6666004)(6506007)(8936002)(41300700001)(966005)(53546011)(5660300002)(6512007)(26005)(36756003)(83380400001)(2616005)(38100700002)(186003)(2906002)(31696002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qk5rMUsxMVoxOEt6bkNjaWJEYitzQS8rQm5QMElib1JidFJhK05UR2llNlox?=
- =?utf-8?B?QmtxcnR4YzB6TDJjUmxJSVhEa0NuQ2hNa1IzcmcwYnhPNy9ZTjJmZE5ZUmJu?=
- =?utf-8?B?cUFJYnl3SSt4MHduRmxOdjZvNkR0dVhXR0c0bHZHcVBpQytOU1l5bWYyR2tD?=
- =?utf-8?B?RUh0bzNIR1NSSFpiSDcwOTB6UnJnNEFmRG5jaTFNVEpTNUJ6QjR3c3p4U29v?=
- =?utf-8?B?RE5kQ3NvSW85K244djAxbERJYWp6akM1WVYrVXk2akF6OTBMM1VzckJEWFZ4?=
- =?utf-8?B?RDA0d08wVDZsNE5tTDN5YjBZOXFPYUtYazIyY25PaXBPZ2xxS0wzNDhqSXps?=
- =?utf-8?B?TXhNMGdDUWwzSVZ0enVuSEIrUzRCYWtKdFFoWGE4VnhtOXkvQ0tLUm9UNmdI?=
- =?utf-8?B?UnRFc3BOU3gzTFZuMjFEZzBKUGIrUDRER2ZURm9lRXhGYTVoVnRuOU1yYzky?=
- =?utf-8?B?TXRBd1E5QVJZa3hReUtrTGRMUnVHTk10Wlp3MUdlaUNsWkRidUQ1aTJ6WGlp?=
- =?utf-8?B?ZHh6dGtQN0RYY3BnQUx4S1VONFBqcXhYWGl5RWVBNWp1V2NUem5TQWg3WWo2?=
- =?utf-8?B?dTlaUmd4cTR2RkRLWWFpY0RRNzR3amVHdFJHNTlLc05OOUk5ZWtqQk05MGsr?=
- =?utf-8?B?MEdwZm1adnY2UEowbUpNTmlqTEFxZStWbExzaTVPUkFoTWFCaEFPR0grYmw4?=
- =?utf-8?B?Y3dPR1dJUFo2OU12QlZaa1dKMDFuZ0pYYnJLMDF1bnYrTjc5VDUyL0FXSG5i?=
- =?utf-8?B?S1MwVXc5VDRvdU5jdW93eGphSW12Z0ZFUm5WRGJQTmh0T3pLSEJHRDBFbzRJ?=
- =?utf-8?B?Ykd6RUttd1Y5ZG94bis3VEdmMjUwUHhKdmNSM2R2ZzNTYVp3QWpDejZUNWdI?=
- =?utf-8?B?aS9jSWxBRHRja012RVI5SFczSXRwZHhkNHVJaFZTRmNmQVlCclZhczJmMElK?=
- =?utf-8?B?NUM5ek5Ca3luelViTTMydldNQnVkbHBaT0dVVi9QTFBQQnZJM2F2VzRDR1F1?=
- =?utf-8?B?OWFBWkl3Sk5QdElJSGlrclNaZnpTN3dRSXU0RmVsMlVjSytnb3phQ3ZkY1dh?=
- =?utf-8?B?amdBbWtmWDVycTNGZThTM2YwNmxnOGtvWkw4bUg1SGFlOFFCdG1VVWZxZ3J2?=
- =?utf-8?B?L3c5allMZnpXZDJ5QWUxU2ZMOWU1YlFBMXpKR1JhVXpEZzZTNkVaZ3AxSjZR?=
- =?utf-8?B?UzNiQmNTV1lwcmk2V3Zxd2g1K0lrcnZmeHVTQ0xtRDVCK2pYOFNYRHA2UG9v?=
- =?utf-8?B?Wm1jK1M4eDA2OEZVR3hmRXJXS3RLVVFUUVJIcE5IUFJzaVcxSy85V2NUTm82?=
- =?utf-8?B?aGlVNHM2c0EzSmlJNWJzWVhBTHl6aTM4bmprRU1BVHU2OHlic1VkNmtXQVZR?=
- =?utf-8?B?MGttd01OaFhsSmxGMlgwUXBSU1Q4RTJjTVRGdGorVHBOVXQrL0w1dTN5M0Yx?=
- =?utf-8?B?YU4xUTA0dExRS0RuOExjZGNJZ2h6SS82WEpVWE1zaHkvTjhoTEZSVUdZdlVk?=
- =?utf-8?B?SjFGVGZRV3lReUtxRjA4ME1nS0QxeHVnZEI3NTZFMm93MVl6SlJXcmw4TGpK?=
- =?utf-8?B?VkZDc3BJTjJqYkdhMThiNldWaDdvaWw4bTFwQ1hDSXE1amJFenhESnRtVkV4?=
- =?utf-8?B?TVkwQmJ2KyttdmtvVzJOaEVhRHVpVngvMDFaUmR6a3pET2d5elRWYVFHMUdJ?=
- =?utf-8?B?RmZuWUNaMm0xc0pRZ1FWRWRQMng2aWxvQk4wQmZqbW1ueG95aERkaUl6VG1N?=
- =?utf-8?B?ZjFIamxyN25mRlVhM1creGxTRlhYRTZlRE00eVp6b2gwWWQ3UE5aNTdXM2NZ?=
- =?utf-8?B?NlIrZDB0aHVjcVlrWFNFSVJBQlgyQnV6SmxOd09EYWRZdlRCWGJmNHVNdHhM?=
- =?utf-8?B?ZTdKbzB4NGd1MVFoQmRRVWlNUHJTUVUrd2FQRjFPZ3JKMXZhRGNDU2RFK1V6?=
- =?utf-8?B?Skl2Ulh2SGdSQXMwaEdPei9ub3J1YldzUjY3b3JKbUgzTWNabWlNczZ3SVVX?=
- =?utf-8?B?bk02L1QvT3JLL2V4YW9zeVNTYTFpbXhucUpROTBPVDhZWTNTM2NFVEI1T0dD?=
- =?utf-8?B?TXBNRWFaT3RoTHV3R3VXaUh3VEkzNlV6RFRKNXpjS0ZCeHZYM0hoeUVaZ1ZW?=
- =?utf-8?B?ekFJNVBseWtXbmRDMjVLNU1CNWtML3R2UWZYRDErMm5CaUdOREwvRkFuUlN2?=
- =?utf-8?Q?k/dSkgQNRE81+7z566DrpQOO1uSBt4KCLrPgKHGM6VlW?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bUoySHFQQk01ZHl6YmdPM1Z0bmxtTFNQZG5WZzRHWTFud1ZIRDNqaThyd2F2?=
+ =?utf-8?B?d0duVG5nR01TU0hQSWgyVWZtN0ZlQkJMZ0c5MDVVd0R3ck8xUjhlTDlEbUtL?=
+ =?utf-8?B?WmdmT0dFNXlYUUJaVFFGbHY2YWh4RE4veHM0WXduNFphM2tKREIrRmdKU01t?=
+ =?utf-8?B?YTVvUnVwL2dER1ZzUXA5d2FldXl5cU0wKzZjOUpTN3pEZWg3V1c1OUpJSDNM?=
+ =?utf-8?B?RDhyS1ZtYkpyTlZWV2txdk9NMDNuanR2RFNCVHhRR1l0QWJpQXdMUjVCSjZX?=
+ =?utf-8?B?ZkYrWHk5T281OTd1eFhaRFpBTWs0NVhiVG5zVC82YkwyaHVqd0N1N0o3L2NR?=
+ =?utf-8?B?N2hyaTcvM2FXVW9uamdlenltT1ViMEZ0SkROTlZoZXkxTlNoYUN2T2F5aW8v?=
+ =?utf-8?B?RDRDVFRLQnVOYno3MzVxRFdxUE9XY1JGNlcyV0l1dHVtazNmR1BKek1vZjNr?=
+ =?utf-8?B?UDdEd0ovK1krMUJlNmNsT2hiZVVPT3ZLNmF0T01OaEJtUDE2QmdGUmVOOXF4?=
+ =?utf-8?B?bU5iNWRraWpYK0dJd2x6WkwzaDl1Zk83NVcxcG9IclQ5Yk9LOXRnc3IrNThB?=
+ =?utf-8?B?NFIwenpnclo2ZCtubjNEY0JJTjdubjR5ekdLM0JocloyazVqUHRxZmQxaHda?=
+ =?utf-8?B?R09zaVRHVnk4R1ovZGZPRzRoS2V6cEN4KzRvc09PVCtyYURyR3NLN3JlWTZt?=
+ =?utf-8?B?ajFVbWtCUUJSSndJNjgwL05LdllMb004UEloUWpObTJxMFpNSFVEQnhZbGhV?=
+ =?utf-8?B?NjF5SzlGaWcxWGFvZzc2bGc5QjFSVzZJNFRlbWZTUHFIdjBLdTluSGU5Sktq?=
+ =?utf-8?B?R0svOW1XZFkvK3hkY2ZYdUs3a1UwaTdKc21TclhBeW54OWNFcWRTODRHUG00?=
+ =?utf-8?B?SXN3N0g0Z3kzWHJWNmJyWGw4WVJWc0ZTUU9xejNMRzdtY3Z3TVl6L2xGUHlu?=
+ =?utf-8?B?ZTl6Yk1kOE9xbW1OM2xKWEdPK0N1b3hhNjFzL1QwMjluSW95NUlUZnpyalhv?=
+ =?utf-8?B?RC9tZTRYK0I5dTdnOVVzTTlwcVRmYlNuNUt6NjNGSU52YTltc3Rqcks0ZWg4?=
+ =?utf-8?B?ZWd5YmdPOEpQYkNjOTd4VXZqRVZHT2hsSnhQTlk2UGF2cEtiNVJJOFJqcER4?=
+ =?utf-8?B?SXdzOVZXM1R1Q2VkMk9CaWE0WDNwaWxPQjhuTSszZXIrRzFKbGE3eVZIOU8w?=
+ =?utf-8?B?UndpM1A5NEJrbG9rZElnU2tORG05MkpFUVFwZHExL3lBNVRYVWxsREgrdDN3?=
+ =?utf-8?B?bGtSQzcwVkw5bDVQT0Y4Y21VMFp6SmRuZE9Wd0pCalhhdXJhOVVMSWt3L3FB?=
+ =?utf-8?B?OVhhd0pURWJ3bGRYTUI2YVZLVWFiUWw1azg4UEdKT280V2J4dVNxU0RMb3N4?=
+ =?utf-8?B?Rjh5OFZzUG5MRjNIbG5FSVpMWXk2R2M1aGtqSEJ4V3E5OWRUR1crTVBMemk0?=
+ =?utf-8?B?aTNuUm9NYlpaODZtL3NHaTNNRVZ2NytrTSs0NGhQTlYyckpDRXd1bzhVZXRH?=
+ =?utf-8?B?Z040bUNaRXJROENoWUdCL1R2UWdpaVRrZ01uT3FBK0ZDcTh3VzBaQllTdllJ?=
+ =?utf-8?B?VzFvS20zSmZBdHVjeHlmNVlsQldxd2RCamM4SXMyRi9ldnpOOFkxVCtvNXd4?=
+ =?utf-8?B?SUZJS09wRFRrN0NXMTRBUHQvclBVcGxWK2N5empxbWkzOGVhWFBxOVNIWFh2?=
+ =?utf-8?B?K2JvT0JGd0lOY2pSS3ZBNjYwSE5sYno5alpKcllKUEhjM1pFVEQ3UDlXSEVo?=
+ =?utf-8?B?RklJT1JzeE1oM1lkWWNkY0d4R1JCQWZ4VldqVDh2ckRtQ21OM1YyWEF2UUNU?=
+ =?utf-8?B?TlIyYWEzd2tVU1Yza0hhZ0Yvdmx1YUlMcktzNFpScUdnUEJva1huUmlDU2pp?=
+ =?utf-8?B?SksrWWY3RUpzQk40S2NVS3d3dTRlRkhlcElrNkNQS3NFZGVyVXdlVUhsNjBV?=
+ =?utf-8?B?U2RmYllUL2xRaFRicml5WSs5VnBubHlEamNGYVdpMlNoYTRyZnlvQ1Z0Qk92?=
+ =?utf-8?B?QWRHaVNlWml5SmFENmhsL2F0Y1l3UmhFb25JZkxPNTJUZ2ZCZ2FDc0RsQyto?=
+ =?utf-8?B?TUovamkrbGdGR0JYQ3Yvakxxa050RHFjbTYwZEYzTk5ySG1Rb0VNdms5V00r?=
+ =?utf-8?Q?7qj6z7IFZwBdqwnjNKHnSF3AH?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 884999b6-1e36-4713-f203-08daa2e816ae
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: baead941-9964-455c-378f-08daa2e99479
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 13:31:32.5053 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 13:42:13.1054 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RI8I3uH2yAygwUPBaCBkNij7HlsQ2JNhV/b+i/juF1GBQbkNzOjsPvDgyPCiQROnRkeXBELEiiDNiDJsvekkfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6934
+X-MS-Exchange-CrossTenant-UserPrincipalName: +euvX9yHVb//sEOHkWO7piDF2oFnFusWhGlo7kf9YVKEARMKNlPEJBJjDiMCgVEcwSycJVnlvF+2YXYc+vIuvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7083
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,368 +125,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yunxiang Li <Yunxiang.Li@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- AMD Graphics <amd-gfx@lists.freedesktop.org>
+Cc: andrealmeid@igalia.com, daniel.vetter@ffwll.ch, mwen@igalia.com,
+ alexander.deucher@amd.com, nicholas.kazlauskas@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for helping with review and good improvement ideas.
 
-Pushed to drm-misc-next.
 
-Andrey
+On 9/29/22 14:43, Simon Ser wrote:
+> This series adds support for DRM_MODE_PAGE_FLIP_ASYNC for atomic
+> commits, aka. "immediate flip" (which might result in tearing).
+> The feature was only available via the legacy uAPI, however for
+> gaming use-cases it may be desirable to enable it via the atomic
+> uAPI too.
+> 
+> - Patchwork: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fseries%2F107683%2F&amp;data=05%7C01%7CHarry.Wentland%40amd.com%7Cac97e739abd04e7d3f9c08daa24a7de9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638000738084626501%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=J3DbO0agtOXfEt0XNA%2FKvmSLmJrFPW048T214BSl4dA%3D&amp;reserved=0
+> - User-space patch: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FPlagman%2Fgamescope%2Fpull%2F595&amp;data=05%7C01%7CHarry.Wentland%40amd.com%7Cac97e739abd04e7d3f9c08daa24a7de9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638000738084626501%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=6vJftf%2Bl5h4vR3ANZKWw9AhghZpPhAcHdXR5EI8Xwrs%3D&amp;reserved=0
+> - IGT patch: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fseries%2F107681%2F&amp;data=05%7C01%7CHarry.Wentland%40amd.com%7Cac97e739abd04e7d3f9c08daa24a7de9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638000738084626501%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=hOJssKhjj39wIHkrd%2FEI8csLvpZDoENbakqqkN%2F22O8%3D&amp;reserved=0
+> 
+> Main changes in v2: add docs, fail atomic commit if async flip isn't
+> possible.
+> 
+> Changes in v3: add a note in the documentation about Intel hardware,
+> add R-b tags.
+> 
+> Tested on an AMD Picasso iGPU (Simon) and an AMD Vangogh GPU (André).
+> 
+> Simon Ser (6):
+>   drm: document DRM_MODE_PAGE_FLIP_ASYNC
+>   amd/display: only accept async flips for fast updates
+>   drm: introduce drm_mode_config.atomic_async_page_flip_not_supported
+>   drm: allow DRM_MODE_PAGE_FLIP_ASYNC for atomic commits
+>   drm: introduce DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
+>   amd/display: indicate support for atomic async page-flips on DC
+> 
 
-On 2022-09-30 00:12, Luben Tuikov wrote:
-> From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->
-> When many entities are competing for the same run queue
-> on the same scheduler, we observe an unusually long wait
-> times and some jobs get starved. This has been observed on GPUVis.
->
-> The issue is due to the Round Robin policy used by schedulers
-> to pick up the next entity's job queue for execution. Under stress
-> of many entities and long job queues within entity some
-> jobs could be stuck for very long time in it's entity's
-> queue before being popped from the queue and executed
-> while for other entities with smaller job queues a job
-> might execute earlier even though that job arrived later
-> then the job in the long queue.
->
-> Fix:
-> Add FIFO selection policy to entities in run queue, chose next entity
-> on run queue in such order that if job on one entity arrived
-> earlier then job on another entity the first job will start
-> executing earlier regardless of the length of the entity's job
-> queue.
->
-> v2:
-> Switch to rb tree structure for entities based on TS of
-> oldest job waiting in the job queue of an entity. Improves next
-> entity extraction to O(1). Entity TS update
-> O(log N) where N is the number of entities in the run-queue
->
-> Drop default option in module control parameter.
->
-> v3:
-> Various cosmetical fixes and minor refactoring of fifo update function. (Luben)
->
-> v4:
-> Switch drm_sched_rq_select_entity_fifo to in order search (Luben)
->
-> v5: Fix up drm_sched_rq_select_entity_fifo loop (Luben)
->
-> v6: Add missing drm_sched_rq_remove_fifo_locked
->
-> v7: Fix ts sampling bug and more cosmetic stuff (Luben)
->
-> v8: Fix module parameter string (Luben)
->
-> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
-> Cc: AMD Graphics <amd-gfx@lists.freedesktop.org>
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> Tested-by: Yunxiang Li (Teddy) <Yunxiang.Li@amd.com>
-> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
-> Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 20 +++++
->   drivers/gpu/drm/scheduler/sched_main.c   | 96 +++++++++++++++++++++++-
->   include/drm/gpu_scheduler.h              | 32 ++++++++
->   3 files changed, 145 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 6b25b2f4f5a308..7060e4ed5a3148 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -73,6 +73,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->   	entity->priority = priority;
->   	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
->   	entity->last_scheduled = NULL;
-> +	RB_CLEAR_NODE(&entity->rb_tree_node);
->   
->   	if(num_sched_list)
->   		entity->rq = &sched_list[0]->sched_rq[entity->priority];
-> @@ -443,6 +444,19 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->   	smp_wmb();
->   
->   	spsc_queue_pop(&entity->job_queue);
-> +
-> +	/*
-> +	 * Update the entity's location in the min heap according to
-> +	 * the timestamp of the next job, if any.
-> +	 */
-> +	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
-> +		struct drm_sched_job *next;
-> +
-> +		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
-> +		if (next)
-> +			drm_sched_rq_update_fifo(entity, next->submit_ts);
-> +	}
-> +
->   	return sched_job;
->   }
->   
-> @@ -507,6 +521,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->   	atomic_inc(entity->rq->sched->score);
->   	WRITE_ONCE(entity->last_user, current->group_leader);
->   	first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
-> +	sched_job->submit_ts = ktime_get();
->   
->   	/* first job wakes up scheduler */
->   	if (first) {
-> @@ -518,8 +533,13 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->   			DRM_ERROR("Trying to push to a killed entity\n");
->   			return;
->   		}
-> +
->   		drm_sched_rq_add_entity(entity->rq, entity);
->   		spin_unlock(&entity->rq_lock);
-> +
-> +		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> +			drm_sched_rq_update_fifo(entity, sched_job->submit_ts);
-> +
->   		drm_sched_wakeup(entity->rq->sched);
->   	}
->   }
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 4f2395d1a79182..ce86b03e838699 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -62,6 +62,55 @@
->   #define to_drm_sched_job(sched_job)		\
->   		container_of((sched_job), struct drm_sched_job, queue_node)
->   
-> +int drm_sched_policy = DRM_SCHED_POLICY_RR;
-> +
-> +/**
-> + * DOC: sched_policy (int)
-> + * Used to override default entities scheduling policy in a run queue.
-> + */
-> +MODULE_PARM_DESC(sched_policy, "Specify schedule policy for entities on a runqueue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin (default), " __stringify(DRM_SCHED_POLICY_FIFO) " = use FIFO.");
-> +module_param_named(sched_policy, drm_sched_policy, int, 0444);
-> +
-> +static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
-> +							    const struct rb_node *b)
-> +{
-> +	struct drm_sched_entity *ent_a =  rb_entry((a), struct drm_sched_entity, rb_tree_node);
-> +	struct drm_sched_entity *ent_b =  rb_entry((b), struct drm_sched_entity, rb_tree_node);
-> +
-> +	return ktime_before(ent_a->oldest_job_waiting, ent_b->oldest_job_waiting);
-> +}
-> +
-> +static inline void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity)
-> +{
-> +	struct drm_sched_rq *rq = entity->rq;
-> +
-> +	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
-> +		rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
-> +		RB_CLEAR_NODE(&entity->rb_tree_node);
-> +	}
-> +}
-> +
-> +void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts)
-> +{
-> +	/*
-> +	 * Both locks need to be grabbed, one to protect from entity->rq change
-> +	 * for entity from within concurrent drm_sched_entity_select_rq and the
-> +	 * other to update the rb tree structure.
-> +	 */
-> +	spin_lock(&entity->rq_lock);
-> +	spin_lock(&entity->rq->lock);
-> +
-> +	drm_sched_rq_remove_fifo_locked(entity);
-> +
-> +	entity->oldest_job_waiting = ts;
-> +
-> +	rb_add_cached(&entity->rb_tree_node, &entity->rq->rb_tree_root,
-> +		      drm_sched_entity_compare_before);
-> +
-> +	spin_unlock(&entity->rq->lock);
-> +	spin_unlock(&entity->rq_lock);
-> +}
-> +
->   /**
->    * drm_sched_rq_init - initialize a given run queue struct
->    *
-> @@ -75,6 +124,7 @@ static void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
->   {
->   	spin_lock_init(&rq->lock);
->   	INIT_LIST_HEAD(&rq->entities);
-> +	rq->rb_tree_root = RB_ROOT_CACHED;
->   	rq->current_entity = NULL;
->   	rq->sched = sched;
->   }
-> @@ -92,9 +142,12 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
->   {
->   	if (!list_empty(&entity->list))
->   		return;
-> +
->   	spin_lock(&rq->lock);
-> +
->   	atomic_inc(rq->sched->score);
->   	list_add_tail(&entity->list, &rq->entities);
-> +
->   	spin_unlock(&rq->lock);
->   }
->   
-> @@ -111,23 +164,30 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->   {
->   	if (list_empty(&entity->list))
->   		return;
-> +
->   	spin_lock(&rq->lock);
-> +
->   	atomic_dec(rq->sched->score);
->   	list_del_init(&entity->list);
-> +
->   	if (rq->current_entity == entity)
->   		rq->current_entity = NULL;
-> +
-> +	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> +		drm_sched_rq_remove_fifo_locked(entity);
-> +
->   	spin_unlock(&rq->lock);
->   }
->   
->   /**
-> - * drm_sched_rq_select_entity - Select an entity which could provide a job to run
-> + * drm_sched_rq_select_entity_rr - Select an entity which could provide a job to run
->    *
->    * @rq: scheduler run queue to check.
->    *
->    * Try to find a ready entity, returns NULL if none found.
->    */
->   static struct drm_sched_entity *
-> -drm_sched_rq_select_entity(struct drm_sched_rq *rq)
-> +drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
->   {
->   	struct drm_sched_entity *entity;
->   
-> @@ -163,6 +223,34 @@ drm_sched_rq_select_entity(struct drm_sched_rq *rq)
->   	return NULL;
->   }
->   
-> +/**
-> + * drm_sched_rq_select_entity_fifo - Select an entity which provides a job to run
-> + *
-> + * @rq: scheduler run queue to check.
-> + *
-> + * Find oldest waiting ready entity, returns NULL if none found.
-> + */
-> +static struct drm_sched_entity *
-> +drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
-> +{
-> +	struct rb_node *rb;
-> +
-> +	spin_lock(&rq->lock);
-> +	for (rb = rb_first_cached(&rq->rb_tree_root); rb; rb = rb_next(rb)) {
-> +		struct drm_sched_entity *entity;
-> +
-> +		entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
-> +		if (drm_sched_entity_is_ready(entity)) {
-> +			rq->current_entity = entity;
-> +			reinit_completion(&entity->entity_idle);
-> +			break;
-> +		}
-> +	}
-> +	spin_unlock(&rq->lock);
-> +
-> +	return rb ? rb_entry(rb, struct drm_sched_entity, rb_tree_node) : NULL;
-> +}
-> +
->   /**
->    * drm_sched_job_done - complete a job
->    * @s_job: pointer to the job which is done
-> @@ -803,7 +891,9 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
->   
->   	/* Kernel run queue has higher priority than normal run queue*/
->   	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
-> -		entity = drm_sched_rq_select_entity(&sched->sched_rq[i]);
-> +		entity = drm_sched_policy == DRM_SCHED_POLICY_FIFO ?
-> +			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
-> +			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
->   		if (entity)
->   			break;
->   	}
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 599855c6a6727b..1f7d9dd1a44484 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -50,6 +50,12 @@ enum drm_sched_priority {
->   	DRM_SCHED_PRIORITY_UNSET = -2
->   };
->   
-> +/* Used to chose between FIFO and RR jobs scheduling */
-> +extern int drm_sched_policy;
-> +
-> +#define DRM_SCHED_POLICY_RR    0
-> +#define DRM_SCHED_POLICY_FIFO  1
-> +
->   /**
->    * struct drm_sched_entity - A wrapper around a job queue (typically
->    * attached to the DRM file_priv).
-> @@ -196,6 +202,21 @@ struct drm_sched_entity {
->   	 * drm_sched_entity_fini().
->   	 */
->   	struct completion		entity_idle;
-> +
-> +	/**
-> +	 * @oldest_job_waiting:
-> +	 *
-> +	 * Marks earliest job waiting in SW queue
-> +	 */
-> +	ktime_t				oldest_job_waiting;
-> +
-> +	/**
-> +	 * @rb_tree_node:
-> +	 *
-> +	 * The node used to insert this entity into time based priority queue
-> +	 */
-> +	struct rb_node			rb_tree_node;
-> +
->   };
->   
->   /**
-> @@ -205,6 +226,7 @@ struct drm_sched_entity {
->    * @sched: the scheduler to which this rq belongs to.
->    * @entities: list of the entities to be scheduled.
->    * @current_entity: the entity which is to be scheduled.
-> + * @rb_tree_root: root of time based priory queue of entities for FIFO scheduling
->    *
->    * Run queue is a set of entities scheduling command submissions for
->    * one specific ring. It implements the scheduling policy that selects
-> @@ -215,6 +237,7 @@ struct drm_sched_rq {
->   	struct drm_gpu_scheduler	*sched;
->   	struct list_head		entities;
->   	struct drm_sched_entity		*current_entity;
-> +	struct rb_root_cached		rb_tree_root;
->   };
->   
->   /**
-> @@ -314,6 +337,13 @@ struct drm_sched_job {
->   
->   	/** @last_dependency: tracks @dependencies as they signal */
->   	unsigned long			last_dependency;
-> +
-> +	/**
-> +	 * @submit_ts:
-> +	 *
-> +	 * When the job was pushed into the entity queue.
-> +	 */
-> +	ktime_t                         submit_ts;
->   };
->   
->   static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
-> @@ -503,6 +533,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
->   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->   				struct drm_sched_entity *entity);
->   
-> +void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts);
-> +
->   int drm_sched_entity_init(struct drm_sched_entity *entity,
->   			  enum drm_sched_priority priority,
->   			  struct drm_gpu_scheduler **sched_list,
->
-> base-commit: 2ab69739209c843a47af82c0620036b233c83688
+Finally had a chance to go through this. Series looks good
+and is
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+
+Harry
+
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++++++
+>  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 10 +++++++
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  1 +
+>  drivers/gpu/drm/drm_atomic_uapi.c             | 28 +++++++++++++++++--
+>  drivers/gpu/drm/drm_ioctl.c                   |  5 ++++
+>  drivers/gpu/drm/i915/display/intel_display.c  |  1 +
+>  drivers/gpu/drm/nouveau/nouveau_display.c     |  1 +
+>  drivers/gpu/drm/vc4/vc4_kms.c                 |  1 +
+>  include/drm/drm_mode_config.h                 | 11 ++++++++
+>  include/uapi/drm/drm.h                        | 10 ++++++-
+>  include/uapi/drm/drm_mode.h                   | 16 +++++++++++
+>  11 files changed, 88 insertions(+), 4 deletions(-)
+> 
