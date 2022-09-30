@@ -1,63 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD495F0660
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 10:26:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF105F06AF
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 10:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C48CF10EBAE;
-	Fri, 30 Sep 2022 08:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2F8D10E1D7;
+	Fri, 30 Sep 2022 08:39:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE9C710EBAE
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 08:26:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7A5511F8C9;
- Fri, 30 Sep 2022 08:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664526363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XG1j7h2Rqb+uAeDqhDWqB/3siS41xWqvoriAkKn2zts=;
- b=YzDpp75v31ouun7649trIpyXOlwz9q4rBaVAkuKqYIDjuwNzckZDw7PE7c/GWsEk0+MtGW
- FX6QLoMf5PB/qSL/ELvuNm15ehNQhaocO4A7T9RPEshgj3JPxsDuHQY6zfwWyzpZXMRAU0
- 120xge8RG8xu04IT9sAgjXgZ7wi3Bvc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664526363;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XG1j7h2Rqb+uAeDqhDWqB/3siS41xWqvoriAkKn2zts=;
- b=ofi+euSNhRKilIzjS9Hy2w6CrqGyQrzF7exWXre1/inonrfRJ89ZFoFuwZg/Bjkeg7qpCz
- XnuY1N+g/i3RVnDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5EB7513776;
- Fri, 30 Sep 2022 08:26:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id BrITFhuoNmOcQgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 30 Sep 2022 08:26:03 +0000
-Message-ID: <a72d4736-74e1-1485-e952-f39909d94fbc@suse.de>
-Date: Fri, 30 Sep 2022 10:26:02 +0200
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2060.outbound.protection.outlook.com [40.107.93.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1A3A10E1D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 08:39:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UpbvKcs3LnHRe0wW9lYB1K/+0yL3PqwSbZObMnpkYa+2ewS7sIXpHQ6W2kL6YhBbdLh06aGl70cvwUk+AKM7hNqAVjLK23rv4JuaQ/Lo/GwBilbwuUYAOOXgB72vY5VoSWli8dXu2JW0CWw0lAKMBZI8x16/piqqwjlCmb+srlskU65aWFhhVYTkSfb7RmRxzXzS8CXMY5il3eEyHiYyUGEnKOEi3Y5spsDy+iI0u8IQWBD3fQQ29mfBz1aqIKo4ZCOQegutPKpjQu0W5//8+MKGt9jKi6LluTDcS3SljVhbcpheXXMSbOQQYDIEYyngwKJAwxbnsaZdLA0qUEyZyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QRVe+irIhR5dhl3rwxRVJItNumO1KPRFGlC7UQFfTKE=;
+ b=O0KWVr6msM0fPD7V/oF8fzO8t/QmyCIzdpaOYP8JjUOOjrmgl4Fr9hGqfrIKCv7jn5QWB5UwhXn7LmYNV9UTpOGb3hfNU68rNVTmPYQ/HnHRGXqPa9oZaUIk+806siBdZOfXncvP80UHlFHYxXwX/y/OKEjQXk/vDcmlIDYFIvW2l/+db8QWcZAoWrIFBCAbKkkJDcsTmLC3A0g23OtV5CFfLnfsFGcIkVlf/MjXpNpE64uzoTvRZ0CwAiqSG4/cnzYG1g0t8prtlb2+VrkeaWxGgjdAAwZPNa2fAurDj/EFRH6MzoXylJDES2RPydmUmvLVMl/icZaSkLQv5CAo0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QRVe+irIhR5dhl3rwxRVJItNumO1KPRFGlC7UQFfTKE=;
+ b=U3OK4zW0wJ69LtbQAlVf0H1MDZFYXglT+lNM9bC3pNHDk8SdgS6H+EhO2IhPu6MniNaNFcq7hjaXiIuGBpfEifY5DXXouHg/HQEXRXZ5C1SWLBz9WGX5AeP2cc9HBFCEzLSZugDoEirkwDmb3eZAp4NzspARrJg+JjZLe7MHipU=
+Received: from MW3PR06CA0002.namprd06.prod.outlook.com (2603:10b6:303:2a::7)
+ by DM4PR12MB5310.namprd12.prod.outlook.com (2603:10b6:5:39e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
+ 2022 08:39:45 +0000
+Received: from CO1NAM11FT080.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:2a:cafe::ed) by MW3PR06CA0002.outlook.office365.com
+ (2603:10b6:303:2a::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.23 via Frontend
+ Transport; Fri, 30 Sep 2022 08:39:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT080.mail.protection.outlook.com (10.13.174.99) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5676.17 via Frontend Transport; Fri, 30 Sep 2022 08:39:44 +0000
+Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 30 Sep
+ 2022 03:39:39 -0500
+From: Arvind Yadav <Arvind.Yadav@amd.com>
+To: <Christian.Koenig@amd.com>, <andrey.grodzovsky@amd.com>,
+ <shashank.sharma@amd.com>, <amaranath.somalapuram@amd.com>,
+ <Arunpravin.PaneerSelvam@amd.com>, <sumit.semwal@linaro.org>,
+ <gustavo@padovan.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+ <steven.price@arm.com>
+Subject: [PATCH] Add NULL check for s_fence->parent
+Date: Fri, 30 Sep 2022 14:08:57 +0530
+Message-ID: <20220930083857.3950-1-Arvind.Yadav@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] drm/ssd130x: Iterate over damage clips instead of using a
- merged rect
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20220930080123.2441629-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220930080123.2441629-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0s57s0R9h03VUUATRyaHTiv0"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT080:EE_|DM4PR12MB5310:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3298a2d0-b5b9-4f59-b005-08daa2bf536d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bUJZAyg2fTnx08FV5s/yww7KpwdINCuH4T9wgf2LNentPDLEbJktGP2AGQ9CYSgOkFPXWQiG7L9FAQUuyBZHk8JRVjyQcLXSDyyqx0apCnFtJCnxedgEBjL3FtonN0AeGjmvzfKnenLc6Nnwvr3XCnXw26klvp0MsLc0P9PkU1LJ7oDV0xIbYij1LXfbfYZa/Fvv1IKEU4NpN0fRSu3ydcLxCQR4T5yT3nGzan1MvVp3n5ghUvQhs0SRtNAV+FjgeSCce07BpCdtlegvhUNRRATr4NONlK9IiIFZs0llAguWiheTM0LZfiZn0qM0lnRHlCpXRt+Jcrx0kCybQN84Lk/xjEjZCTSonVgsZhxORQL3li+n059d2bLig+dWDUvPKtWqz1K2QqAxcOQq3OrPsDEeqMbH83FH8oh7a4ytllsy38Bt7GACr6drRn/9/9T3sLC66uHIwO9ThA6QrzzDMkPRIYeX6ntU0p9noUskgsryPYgztDEbjCSW/enTE/Vh1oT9tlwcbyn7PIIjRj8HlLkAS6Eenw2Xi1sY3wHewbFIGOINjWQt1326DuHWpfJv6urjNLd8QKmwN6KWcF8mYq9iGwGsHdPU/3r2sqMdzdAwxdOWwc3Xf4rSGM+LnauMWlpUnGzhIy3mPngeeeePpPiijXEtLprQQWliGCpRucZnoZ0LdRwKxveYSV2n7Hd06nVeUmgwttS078D8bQe6XGhB+WWX+BfAnLAaHLhFhsxpN9ovAd+napW8aYRgjvHxeOF9VgO/dU2o2d8GtJfY9owkZHPtddXW940L+PbrDCBjM4zy8Hlh37UD/5UNFfUaqU/GnWg2KboL1K3CSbR3ZInzqwHrZ35+G3Wzp3QrHvc=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(396003)(376002)(346002)(136003)(451199015)(40470700004)(36840700001)(46966006)(186003)(1076003)(16526019)(336012)(47076005)(2616005)(426003)(5660300002)(6666004)(82310400005)(7696005)(26005)(4744005)(81166007)(478600001)(921005)(82740400003)(40480700001)(86362001)(356005)(2906002)(40460700003)(83380400001)(36756003)(36860700001)(70586007)(41300700001)(8676002)(4326008)(70206006)(110136005)(8936002)(316002)(83996005)(2101003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 08:39:44.6622 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3298a2d0-b5b9-4f59-b005-08daa2bf536d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT080.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5310
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,104 +104,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Jocelyn Falempe <jfalempe@redhat.com>,
- dri-devel@lists.freedesktop.org
+Cc: Arvind Yadav <Arvind.Yadav@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0s57s0R9h03VUUATRyaHTiv0
-Content-Type: multipart/mixed; boundary="------------fFNulouk5SvXp2wSZxoZD0Cx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org
-Message-ID: <a72d4736-74e1-1485-e952-f39909d94fbc@suse.de>
-Subject: Re: [PATCH] drm/ssd130x: Iterate over damage clips instead of using a
- merged rect
-References: <20220930080123.2441629-1-javierm@redhat.com>
-In-Reply-To: <20220930080123.2441629-1-javierm@redhat.com>
+NULL check is added for s_fence->parent.
 
---------------fFNulouk5SvXp2wSZxoZD0Cx
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-SGkNCg0KQW0gMzAuMDkuMjIgdW0gMTA6MDEgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IFRoZSBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKCkgaGVscGVy
-IG1lcmdlcyBhbGwgdGhlIGRhbWFnZSBjbGlwcw0KPiBpbnRvIG9uZSByZWN0YW5nbGUuIElm
-IHRoZXJlIGFyZSBtdWx0aXBsZSBkYW1hZ2UgY2xpcHMgdGhhdCBhcmVuJ3QgY2xvc2UNCj4g
-dG8gZWFjaCBvdGhlciwgdGhlIHJlc3VsdGluZyByZWN0YW5nbGUgY291bGQgYmUgcXVpdGUg
-YmlnLg0KPiANCj4gSW5zdGVhZCBvZiB1c2luZyB0aGF0IGZ1bmN0aW9uIGhlbHBlciwgaXRl
-cmF0ZSBvdmVyIGFsbCB0aGUgZGFtYWdlIGNsaXBzDQo+IGFuZCB1cGRhdGUgdGhlbSBvbmUg
-Ynkgb25lLg0KPiANCj4gU3VnZ2VzdGVkLWJ5OiBKb2NlbHluIEZhbGVtcGUgPGpmYWxlbXBl
-QHJlZGhhdC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxh
-cyA8amF2aWVybUByZWRoYXQuY29tPg0KPiAtLS0NCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L3NvbG9tb24vc3NkMTMweC5jIHwgMTggKysrKysrKysrKy0tLS0tLS0tDQo+ICAgMSBmaWxl
-IGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jIGIvZHJpdmVycy9n
-cHUvZHJtL3NvbG9tb24vc3NkMTMweC5jDQo+IGluZGV4IGJjNDFhNWFlODEwYS4uMjQyOGYx
-ODEzYThkIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2QxMzB4
-LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jDQo+IEBAIC01
-NzgsMjEgKzU3OCwyMyBAQCBzdGF0aWMgdm9pZCBzc2QxMzB4X3ByaW1hcnlfcGxhbmVfaGVs
-cGVyX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+ICAgCXN0cnVj
-dCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3Bs
-YW5lX3N0YXRlKHN0YXRlLCBwbGFuZSk7DQo+ICAgCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUg
-Km9sZF9wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0
-ZSwgcGxhbmUpOw0KPiAgIAlzdHJ1Y3QgZHJtX3NoYWRvd19wbGFuZV9zdGF0ZSAqc2hhZG93
-X3BsYW5lX3N0YXRlID0gdG9fZHJtX3NoYWRvd19wbGFuZV9zdGF0ZShwbGFuZV9zdGF0ZSk7
-DQo+ICsJc3RydWN0IGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyIGl0ZXI7DQo+ICAg
-CXN0cnVjdCBkcm1fZGV2aWNlICpkcm0gPSBwbGFuZS0+ZGV2Ow0KPiAtCXN0cnVjdCBkcm1f
-cmVjdCBzcmNfY2xpcCwgZHN0X2NsaXA7DQo+ICsJc3RydWN0IGRybV9yZWN0IGRzdF9jbGlw
-Ow0KPiArCXN0cnVjdCBkcm1fcmVjdCBkYW1hZ2U7DQo+ICAgCWludCBpZHg7DQo+ICAgDQo+
-IC0JaWYgKCFkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKG9sZF9wbGFuZV9zdGF0
-ZSwgcGxhbmVfc3RhdGUsICZzcmNfY2xpcCkpDQo+IC0JCXJldHVybjsNCj4gLQ0KPiAgIAlk
-c3RfY2xpcCA9IHBsYW5lX3N0YXRlLT5kc3Q7DQo+IC0JaWYgKCFkcm1fcmVjdF9pbnRlcnNl
-Y3QoJmRzdF9jbGlwLCAmc3JjX2NsaXApKQ0KPiAtCQlyZXR1cm47DQo+IC0NCj4gICAJaWYg
-KCFkcm1fZGV2X2VudGVyKGRybSwgJmlkeCkpDQo+ICAgCQlyZXR1cm47DQo+ICAgDQo+IC0J
-c3NkMTMweF9mYl9ibGl0X3JlY3QocGxhbmVfc3RhdGUtPmZiLCAmc2hhZG93X3BsYW5lX3N0
-YXRlLT5kYXRhWzBdLCAmZHN0X2NsaXApOw0KPiArCWRybV9hdG9taWNfaGVscGVyX2RhbWFn
-ZV9pdGVyX2luaXQoJml0ZXIsIG9sZF9wbGFuZV9zdGF0ZSwgcGxhbmVfc3RhdGUpOw0KPiAr
-CWRybV9hdG9taWNfZm9yX2VhY2hfcGxhbmVfZGFtYWdlKCZpdGVyLCAmZGFtYWdlKSB7DQo+
-ICsJCWlmICghZHJtX3JlY3RfaW50ZXJzZWN0KCZkc3RfY2xpcCwgJmRhbWFnZSkpDQo+ICsJ
-CQljb250aW51ZTsNCg0KZHN0X2NsaXAgd2lsbCBiZSBvdmVyd3JpdHRlbiBoZXJlLiBTbyBu
-ZWVkIHRvIGluaXQgaXQgd2l0aGluIHRoZSBsb29wIGZpcnN0Lg0KDQo+ICsNCj4gKwkJc3Nk
-MTMweF9mYl9ibGl0X3JlY3QocGxhbmVfc3RhdGUtPmZiLCAmc2hhZG93X3BsYW5lX3N0YXRl
-LT5kYXRhWzBdLCAmZGFtYWdlKTsNCg0KSW4gc2ltcGxlZHJtLCB3ZSBhZGp1c3QgdGhlIGRl
-c3RpbmF0aW9uIGFkZHJlc3Mgd2l0aCBkc3RfY2xpcCBsaWtlIHRoaXM6DQoNCiAgIGlvc3lz
-X21hcF9pbmNyKCZkc3QsIGRybV9mYl9jbGlwX29mZnNldChzZGV2LT5waXRjaCwgc2Rldi0+
-Zm9ybWF0LCANCiZkc3RfY2xpcCkpOw0KDQpIb3cgZG9lcyB0aGlzIHdvcmsgaW4gc3NkMTMw
-eD8gWW91IG5ldmVyIHVzZSBkc3RfY2xpcCB0byBhZGp1c3QgdG8gdGhlIA0KY2hhbmdlZCBs
-b2NhdGlvbi4gV29uJ3QgeW91IGhhdmUgb3V0LW9mLWJvdW5kcyB3cml0ZXMgb24gdGhlIGRl
-dmljZT8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KDQo+ICsJfQ0KPiAgIA0KPiAgIAlk
-cm1fZGV2X2V4aXQoaWR4KTsNCj4gICB9DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdy
-YXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
-bnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJC
-IDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 4f2395d1a791..6684d88463b4 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -829,7 +829,8 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+ 	job = list_first_entry_or_null(&sched->pending_list,
+ 				       struct drm_sched_job, list);
+ 
+-	if (job && dma_fence_is_signaled(job->s_fence->parent)) {
++	if (job && job->s_fence->parent &&
++	    dma_fence_is_signaled(job->s_fence->parent)) {
+ 		/* remove job from pending_list */
+ 		list_del_init(&job->list);
+ 
+-- 
+2.25.1
 
-
---------------fFNulouk5SvXp2wSZxoZD0Cx--
-
---------------0s57s0R9h03VUUATRyaHTiv0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM2qBsFAwAAAAAACgkQlh/E3EQov+C2
-ew/+PJZfSxvCjop/wOtaRoYwKHu2qt51pfL98AIxSVMDkGVbGBWzP/6fGFMESNvwyLL8QbGNb/Jz
-uRmUrCNQc6e3Dk+N336knqzXKEgCFTea8aBPUkTRhwvvel8hziflwPdAOz8mJ3Gee5dnReOtpBoj
-F8Q2AENmT6UeEQLgcJGFmGKWOTC7mHXUhhinioay8ypT9Zl+C1m9cy+VjGNYnZor6Ua5+YO/oYJG
-60T2I3yUZ4hYTloxzZ7C6gtVO2iHNeFSr3pmeTSIhdT1qUABlbXuI6hC4Q2FPj0cTtTYHezyud0o
-LJbgKbdut4tWGqRuZSN7c24hvtSKLUS/aw1z4GJilLY3ONJEW4S8Lw8qdih4vTIn1hw2UmfQkziU
-sjSK6Wl6OvUj1hur8WSSvIJfpPaqcdYxN9S4tsFV9Y/Wte7RbVSZoPYGxIXtz46Q9miFna3FeARW
-/4fLd5zcQMgEy/987197fBc8bnEVFV+WcliB9lvNW9QgzXtVOebbgDZ/skEQ3edROmjkhqMeAqGz
-UkbR+RnxOAzmSZ1eowohAv9TIri0lbytdlMHLuyJyP5dzmAPL7OplvzS6fIKhsYRbo59zJ4AXHgr
-j+nNYufuucmYmKlKmbLwwS5LfVB9yShOoCx+0q8kV2dJyp7Gnt82TPCRYbadGtr8z1SQJUJDb1gL
-Ris=
-=I0Op
------END PGP SIGNATURE-----
-
---------------0s57s0R9h03VUUATRyaHTiv0--
