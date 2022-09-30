@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB325F0DC9
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD375F0DD1
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Sep 2022 16:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68A6510ED38;
-	Fri, 30 Sep 2022 14:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58F0810ED33;
+	Fri, 30 Sep 2022 14:44:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAA6710ED36;
- Fri, 30 Sep 2022 14:42:55 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id q10so4935651oib.5;
- Fri, 30 Sep 2022 07:42:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=8y2c2TXn+uSosI4ZLTz+ogttj1trZ26bdcKYksnCapE=;
- b=C+Y8ZNBSwPPc+m+SjB0bDFHqKJzfWC1iWpmSG3lUsgVw7qgbSsIP2I5LsL3TYnqahZ
- fUXZbWkoVkKYuexMDdVOL4nHtkR0kCjBYEh4ypTZLGJ52Z2kIOqBS2w9EDlUJ6VvDTBA
- x5E0oDBgJQYjdxqL0QL+XY4F56pAF+4xDQYUEdU+C/Y/6B0TCsfctxD18h6OdJ6xKsYk
- s9rBc/SajO1K99fPQtSvzECex68fPPp8UXGn5+wqkadqZM8un2RbbQGqFwiZO5YYCjdy
- +RuNof5Sbqp9qP2WeAufmPiGaKLtABtGZYJRKcE9/8YgcU60Pr90jad0IQIUEHRcU6gk
- lZcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=8y2c2TXn+uSosI4ZLTz+ogttj1trZ26bdcKYksnCapE=;
- b=kPmIubOlTvEyJhVaY1Cdv8ooIEDDm83woINi9XQzN5mvLGliVg0/E+wUwj9gG8fBh8
- dEx7RlbWa2jgUr9mxDk3dwhgUdVAQ/KmxfRwQReo+Sxzx5OlgLwaQpWARL8GRiBzMqFR
- UJ0BI95f7y45I5NrL3q3ax9P6CpfdhMGj60b/m7BdFuqp/MY1xxC64cR9uJHjXPSGfNk
- p2uRFOJMWlLsfX7LKSEC/qI+LY1oQKKah/tZeTk8p8xaIt77cX2QIc59etI+NZaBGko1
- p/0OkHpm5iCElPPlQK7VXG77Y24e9sPyCp5waNrdmLQroe0N2+hJBtbvD5eeG7baC9+b
- qjog==
-X-Gm-Message-State: ACrzQf3Ku6Tr1Vz43h9H/t4qIUOJT6EUNSbZREYCxpRXtIXvd1yuKMLG
- GzQj4nngUwr7lCBm2+r9x1ESIMmyQqBWv/eB8hg=
-X-Google-Smtp-Source: AMsMyM7osDVSZWUajrm3Igj7tejlkKVde0W47IAuomOnGAHzL5fMvLtUccMvXi++Z7Y6na5VELlgPTFDliQfdzBRFVU=
-X-Received: by 2002:a05:6808:2390:b0:350:5c6b:5ef9 with SMTP id
- bp16-20020a056808239000b003505c6b5ef9mr4092691oib.96.1664548974916; Fri, 30
- Sep 2022 07:42:54 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE0410E1D4;
+ Fri, 30 Sep 2022 14:44:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664549062; x=1696085062;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=YsZnePun6MVZZBFh8GTCLEGFD/oFPQLVAN8Q7WFoLu8=;
+ b=C4CNDMLGtIYcpor0TTWLUiBYYhciGWAc//srXwqa1+HkJ25GxQJqvLv+
+ XS0VkQP3hNXcdUygVOB92Tce4NLhIiUEE5jfwr2sbbwzikzM/FF2CJu8N
+ x81xKUDSHLdMpsxpbhOCuvDmC55+WUXJqt6bbaCXO+8kXfsLlpO+cf4rR
+ F3WVPoMEJj8OprOMNl3mmXkWqkQYw9fr59ZT4vyYcooE96yWQyHOI5KQJ
+ DPr1BQ4DvxoQPuTnDxFAZnKEQGpAJpEz0I0Hh2b57ypLjOfI+OAkB4iGa
+ g9lK/dNPuPwPz921Ip/07iNLKORn/KIYZRNstRKNZjKGbmavXZG5pmVJg Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="281917684"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="281917684"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 07:44:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="765148210"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; d="scan'208";a="765148210"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga001.fm.intel.com with SMTP; 30 Sep 2022 07:44:18 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 30 Sep 2022 17:44:17 +0300
+Date: Fri, 30 Sep 2022 17:44:17 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: [RFC v2] drm/kms: control display brightness through
+ drm_connector properties
+Message-ID: <YzcAwVC8tm1imNOL@intel.com>
+References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
+ <878rm3zuge.fsf@intel.com> <YzQojrDOGNhm4D8l@intel.com>
+ <YzQseBFa5EvDUDSw@intel.com>
+ <CA+hFU4xRV74r3Wbs-TTWmtAkEwdJaEb+1QXUZSh52LVRwfddeA@mail.gmail.com>
+ <20220930103956.1c3df79e@eldfell>
+ <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220924221939.1736291-1-floridsleeves@gmail.com>
-In-Reply-To: <20220924221939.1736291-1-floridsleeves@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 30 Sep 2022 10:42:43 -0400
-Message-ID: <CADnq5_MKscz-yV6PZUKpAY6oj7Wso6qUeX6B6RKaUGqa0vy+5g@mail.gmail.com>
-Subject: Re: [PATCH v2] drivers/amd/pm: check the return value of
- amdgpu_bo_kmap
-To: Li Zhong <floridsleeves@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,74 +66,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lijo.lazar@amd.com, airlied@linux.ie, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, evan.quan@amd.com, christian.koenig@amd.com
+Cc: Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 24, 2022 at 6:20 PM Li Zhong <floridsleeves@gmail.com> wrote:
->
-> amdgpu_bo_kmap() returns error when fails to map buffer object. Add the
-> error check and propagate the error.
->
-> Signed-off-by: Li Zhong <floridsleeves@gmail.com>
-> ---
->
-> v2: revise the compile error
+On Fri, Sep 30, 2022 at 04:20:29PM +0200, Sebastian Wick wrote:
+> On Fri, Sep 30, 2022 at 9:40 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> >
+> > On Thu, 29 Sep 2022 20:06:50 +0200
+> > Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> >
+> > > If it is supposed to be a non-linear luminance curve, which one is it?
+> > > It would be much clearer if user space can control linear luminance
+> > > and use whatever definition of perceived brightness it wants. The
+> > > obvious downside of it is that it requires bits to encode changes that
+> > > users can't perceive. What about backlights which only have a few
+> > > predefined luminance levels? How would user space differentiate
+> > > between the continuous and discrete backlight? What about
+> > > self-emitting displays? They usually increase the dynamic range when
+> > > they increase in brightness because the black level doesn't rise. They
+> > > also probably employ some tonemapping to adjust for that. What about
+> > > the range of the backlight? What about the absolute luminance of the
+> > > backlight? I want to know about that all in user space.
+> > >
+> > > I understand that most of the time the kernel doesn't have answers to
+> > > those questions right now but the API should account for all of that.
+> >
+> > Hi,
+> >
+> > if the API accounts for all that, and the kernel doesn't know, then how
+> > can the API not lie? If the API sometimes lies, how could we ever trust
+> > it at all?
+> 
+> Make it possible for the API to say "I don't know". I'd much rather
+> have an API tell me explicitly what it does and doesn't know instead
+> of having to guess what data I can actually rely on.
+> 
+> For example if the kernel knows the luminance is linear on one display
+> and doesn't know anything about the other display and it exposes them
+> both in the same way I can not possibly write any code which relies on
+> exact control over the luminance for either display.
+> 
+> >
+> > Personally I have the feeling that if we can even get to the level of
+> > "each step in the value is a more or less perceivable change", that
+> > would be good enough. Think of UI, e.g. hotkeys to change brightness.
+> > You'd expect almost every press to change it a bit.
+> 
+> The nice thing is that you can have that even if you have no further
+> information about the brightness control and it might be good enough
+> for some use cases but it isn't for others.
+> 
+> > If an end user wants defined and controlled luminance, I'd suggest they
+> > need to profile (physically measure) the response of the display at
+> > hand. This is no different from color profiling displays, but you need
+> > a measurement device that produces absolute measurements if absolute
+> > control is what they want.
+> 
+> If that's the kind of user experience you're after, good for you. I
+> certainly want things to work out of the box which makes this just a
+> big no-go.
 
-Applied.  Thanks!
+I think if we have the information to make the default behaviour
+better then we should do that. Ie. if the firmaware gives us a
+table to remap the values for a more linear response we should
+make use of that by default.
 
->
->  drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c       | 5 ++++-
->  drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 ++++-
->  2 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-> index 8fd0782a2b20..f5e08b60f66e 100644
-> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-> @@ -1384,13 +1384,16 @@ static int kv_dpm_enable(struct amdgpu_device *adev)
->  static void kv_dpm_disable(struct amdgpu_device *adev)
->  {
->         struct kv_power_info *pi = kv_get_pi(adev);
-> +       int err;
->
->         amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
->                        AMDGPU_THERMAL_IRQ_LOW_TO_HIGH);
->         amdgpu_irq_put(adev, &adev->pm.dpm.thermal.irq,
->                        AMDGPU_THERMAL_IRQ_HIGH_TO_LOW);
->
-> -       amdgpu_kv_smc_bapm_enable(adev, false);
-> +       err = amdgpu_kv_smc_bapm_enable(adev, false);
-> +       if (err)
-> +               DRM_ERROR("amdgpu_kv_smc_bapm_enable failed\n");
->
->         if (adev->asic_type == CHIP_MULLINS)
->                 kv_enable_nb_dpm(adev, false);
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-> index 1eb4e613b27a..ec055858eb95 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-> @@ -1485,6 +1485,7 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
->  {
->         struct pp_hwmgr *hwmgr = handle;
->         struct amdgpu_device *adev = hwmgr->adev;
-> +       int err;
->
->         if (!addr || !size)
->                 return -EINVAL;
-> @@ -1492,7 +1493,9 @@ static int pp_get_prv_buffer_details(void *handle, void **addr, size_t *size)
->         *addr = NULL;
->         *size = 0;
->         if (adev->pm.smu_prv_buffer) {
-> -               amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
-> +               err = amdgpu_bo_kmap(adev->pm.smu_prv_buffer, addr);
-> +               if (err)
-> +                       return err;
->                 *size = adev->pm.smu_prv_buffer_size;
->         }
->
-> --
-> 2.25.1
->
+We can of course provide a way for the user to plug in their own
+actually measured data later. But IMO that doesn't even have to
+happen in the initial implementation. Just need to avoid painting
+ourselves totally in the corner in a way that would prevent later
+additions like that.
+
+I just hate the current limbo where we're somehow too afraid to
+change the current behaviour to do the remapping by default.
+I see no upsides in the current behaviour of just blindly
+exposing the raw hardware register values more or less. They
+mean absolutely nothing to any user.
+
+-- 
+Ville Syrjälä
+Intel
