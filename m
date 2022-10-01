@@ -2,38 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40E15F19D3
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 06:34:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C515F1AC4
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 10:07:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59E010EE30;
-	Sat,  1 Oct 2022 04:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48DEE10E36F;
+	Sat,  1 Oct 2022 08:07:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B001C10EE30;
- Sat,  1 Oct 2022 04:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=yzRhoSXitZkteWBbefnaFUu5z/aCl4xs+54yx9AB+xM=; b=k8Xff1HVD0rv8ur41fg0tb3gfc
- 0j68WNXNxpDQBkeh6B8xJl+W04rbEwAV1/BlY2mAabVb04xDerD2Fzz8Seez2nn+IsHYfLQiH5RrI
- O9FpnBCAFSheFcMBbaHJPuXcUw40moMQ+B3MnhEhu0zzsNQ0C068s8DFv1qlWoDsbWZAQ7ziixKp/
- xvQphbJ2rT7CJLiVRmJKg9fCA0xdrijkQa5cU/PyqvZvGG2N6S6tZzFkFkF1CWVQA2AZALzRz0S5F
- AZ0fnCDXq1bgckjR+CLtC76Qk3vLoQms1nSYbQYgM1cE7ijEW1/k8RK5PqDbDeoR4YbBCgsfnpmIR
- PihMVxjA==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1oeUCW-00EpNJ-Lu; Sat, 01 Oct 2022 04:34:09 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: amd: clean up dcn32_fpu.c kernel-doc
-Date: Fri, 30 Sep 2022 21:33:54 -0700
-Message-Id: <20221001043354.22608-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.37.3
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9D210E36F
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 08:07:15 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id w2so6145734pfb.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Oct 2022 01:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=f2/sunB1LnJ5LmZFp20lgms1Dr4ed7SwWpkE0LxREhs=;
+ b=eYE9fxG/g4fN3hv1Xsn4GWm0owQ1/xJHmjy2kVEJaeCobw9OD4Zb1hAcXfBG1uHR0f
+ RWzUnNhi1jMP6L3FxYy0bzfeW/hHBrW+jDbVsuWpmRElnAm3QJIk6sonaTDLOTIMPqbi
+ KVJWAHGiGg5gfY4npA4G+8jIuwM5n3t/o2vmc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=f2/sunB1LnJ5LmZFp20lgms1Dr4ed7SwWpkE0LxREhs=;
+ b=IracUMwp+xVwCZozGzYIKvz/1fQApZsdLCs5+FgAr4R84pPPIkUrB5lPRDzAtnfCzR
+ vuhtBaFmQYEZJYrGK8DSehSEPDzfT/28EPCsk3pn7UvgEIljUKWbO96kGjiajwvI1OTn
+ djIfIWWUa6BoDDhMm8szJZI0dOzr8mgWPaZajBIXzMYIC5YC+Fs+RhfYI5YJDdSLqzdC
+ yFGcrIvteKezjlP36ZfSA+Vxo5i4273QFHT8cs/Qfpp9qmCADxu+bd4o4ExEMDCCO3P6
+ leuhuzRhxTV1C7QsASCNH3t0MStglrLIstSkJlDJyCwkXSd+9N331fZTnJ2KW8Z5A5zV
+ YMxw==
+X-Gm-Message-State: ACrzQf0zeYnUXnDcIrD/fxw6dUVAUxXPnk+pA1ccPqluew/bekUAOrKM
+ Z1eGWGC97dz9ZuyJEAlmfI+L2A==
+X-Google-Smtp-Source: AMsMyM7JKh6uflQudzYdb0q2EMBIAzFGt0PglXp9ph2b8jjHveHvi3EIGRF0AvVL+Y2Tz6t/KcFuVA==
+X-Received: by 2002:a65:4bc1:0:b0:439:e6a5:122a with SMTP id
+ p1-20020a654bc1000000b00439e6a5122amr10666688pgr.443.1664611634883; 
+ Sat, 01 Oct 2022 01:07:14 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c00a:a073:7254:4392:bc7c:c69])
+ by smtp.gmail.com with ESMTPSA id
+ c194-20020a624ecb000000b005409c9d2d41sm3167041pfb.62.2022.10.01.01.07.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Oct 2022 01:07:14 -0700 (PDT)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>
+Subject: [PATCH v6 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
+Date: Sat,  1 Oct 2022 13:36:40 +0530
+Message-Id: <20221001080650.1007043-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,308 +77,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, kernel test robot <lkp@intel.com>,
- Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
- Randy Dunlap <rdunlap@infradead.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Nevenko Stupar <Nevenko.Stupar@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- George Shen <george.shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rectify multiple kernel-doc warnings in dcn32_fpu.c.
-E.g.:
+This series supports common bridge support for Samsung MIPI DSIM
+which is used in Exynos and i.MX8MM SoC's.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:247: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Finds dummy_latency_index when MCLK switching using firmware based
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:484: warning: Function parameter or member 'phantom_stream' not described in 'dcn32_set_phantom_stream_timing'
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:601: warning: Function parameter or member 'dc' not described in 'dcn32_assign_subvp_pipe'
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:601: warning: Function parameter or member 'context' not described in 'dcn32_assign_subvp_pipe'
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:601: warning: Function parameter or member 'index' not described in 'dcn32_assign_subvp_pipe'
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2140: warning: Function parameter or member 'dc' not described in 'dcn32_update_bw_bounding_box_fpu'
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2140: warning: Function parameter or member 'bw_params' not described in 'dcn32_update_bw_bounding_box_fpu'
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2140: warning: expecting prototype for dcn32_update_bw_bounding_box(). Prototype was for dcn32_update_bw_bounding_box_fpu() instead
+The final bridge supports both the Exynos and i.MX8MM DSI devices.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: George Shen <george.shen@amd.com>
-Cc: Alvin Lee <alvin.lee2@amd.com>
-Cc: Nevenko Stupar <Nevenko.Stupar@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
----
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c |  116 ++++------
- 1 file changed, 49 insertions(+), 67 deletions(-)
+Changes for v6:
+* handle previous bridge for exynos dsi while attaching bridge 
 
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -243,7 +243,7 @@ void dcn32_build_wm_range_table_fpu(stru
- 	clk_mgr->base.bw_params->wm_table.nv_entries[WM_D].pmfw_breakdown.max_uclk = 0xFFFF;
- }
- 
--/**
-+/*
-  * Finds dummy_latency_index when MCLK switching using firmware based
-  * vblank stretch is enabled. This function will iterate through the
-  * table of dummy pstate latencies until the lowest value that allows
-@@ -290,15 +290,14 @@ int dcn32_find_dummy_latency_index_for_f
- /**
-  * dcn32_helper_populate_phantom_dlg_params - Get DLG params for phantom pipes
-  * and populate pipe_ctx with those params.
-- *
-- * This function must be called AFTER the phantom pipes are added to context
-- * and run through DML (so that the DLG params for the phantom pipes can be
-- * populated), and BEFORE we program the timing for the phantom pipes.
-- *
-  * @dc: [in] current dc state
-  * @context: [in] new dc state
-  * @pipes: [in] DML pipe params array
-  * @pipe_cnt: [in] DML pipe count
-+ *
-+ * This function must be called AFTER the phantom pipes are added to context
-+ * and run through DML (so that the DLG params for the phantom pipes can be
-+ * populated), and BEFORE we program the timing for the phantom pipes.
-  */
- void dcn32_helper_populate_phantom_dlg_params(struct dc *dc,
- 					      struct dc_state *context,
-@@ -331,8 +330,9 @@ void dcn32_helper_populate_phantom_dlg_p
- }
- 
- /**
-- * *******************************************************************************************
-- * dcn32_predict_pipe_split: Predict if pipe split will occur for a given DML pipe
-+ * dcn32_predict_pipe_split - Predict if pipe split will occur for a given DML pipe
-+ * @context: [in] New DC state to be programmed
-+ * @pipe_e2e: [in] DML pipe end to end context
-  *
-  * This function takes in a DML pipe (pipe_e2e) and predicts if pipe split is required (both
-  * ODM and MPC). For pipe split, ODM combine is determined by the ODM mode, and MPC combine is
-@@ -343,12 +343,7 @@ void dcn32_helper_populate_phantom_dlg_p
-  * - MPC combine is only chosen if there is no ODM combine requirements / policy in place, and
-  *   MPC is required
-  *
-- * @param [in]: context: New DC state to be programmed
-- * @param [in]: pipe_e2e: DML pipe end to end context
-- *
-- * @return: Number of splits expected (1 for 2:1 split, 3 for 4:1 split, 0 for no splits).
-- *
-- * *******************************************************************************************
-+ * Return: Number of splits expected (1 for 2:1 split, 3 for 4:1 split, 0 for no splits).
-  */
- uint8_t dcn32_predict_pipe_split(struct dc_state *context,
- 				  display_e2e_pipe_params_st *pipe_e2e)
-@@ -504,7 +499,14 @@ void insert_entry_into_table_sorted(stru
- }
- 
- /**
-- * dcn32_set_phantom_stream_timing: Set timing params for the phantom stream
-+ * dcn32_set_phantom_stream_timing - Set timing params for the phantom stream
-+ * @dc: current dc state
-+ * @context: new dc state
-+ * @ref_pipe: Main pipe for the phantom stream
-+ * @phantom_stream: target phantom stream state
-+ * @pipes: DML pipe params
-+ * @pipe_cnt: number of DML pipes
-+ * @dc_pipe_idx: DC pipe index for the main pipe (i.e. ref_pipe)
-  *
-  * Set timing params of the phantom stream based on calculated output from DML.
-  * This function first gets the DML pipe index using the DC pipe index, then
-@@ -517,13 +519,6 @@ void insert_entry_into_table_sorted(stru
-  * that separately.
-  *
-  * - Set phantom backporch = vstartup of main pipe
-- *
-- * @dc: current dc state
-- * @context: new dc state
-- * @ref_pipe: Main pipe for the phantom stream
-- * @pipes: DML pipe params
-- * @pipe_cnt: number of DML pipes
-- * @dc_pipe_idx: DC pipe index for the main pipe (i.e. ref_pipe)
-  */
- void dcn32_set_phantom_stream_timing(struct dc *dc,
- 				     struct dc_state *context,
-@@ -592,16 +587,14 @@ void dcn32_set_phantom_stream_timing(str
- }
- 
- /**
-- * dcn32_get_num_free_pipes: Calculate number of free pipes
-+ * dcn32_get_num_free_pipes - Calculate number of free pipes
-+ * @dc: current dc state
-+ * @context: new dc state
-  *
-  * This function assumes that a "used" pipe is a pipe that has
-  * both a stream and a plane assigned to it.
-  *
-- * @dc: current dc state
-- * @context: new dc state
-- *
-- * Return:
-- * Number of free pipes available in the context
-+ * Return: Number of free pipes available in the context
-  */
- static unsigned int dcn32_get_num_free_pipes(struct dc *dc, struct dc_state *context)
- {
-@@ -625,7 +618,10 @@ static unsigned int dcn32_get_num_free_p
- }
- 
- /**
-- * dcn32_assign_subvp_pipe: Function to decide which pipe will use Sub-VP.
-+ * dcn32_assign_subvp_pipe - Function to decide which pipe will use Sub-VP.
-+ * @dc: current dc state
-+ * @context: new dc state
-+ * @index: [out] dc pipe index for the pipe chosen to have phantom pipes assigned
-  *
-  * We enter this function if we are Sub-VP capable (i.e. enough pipes available)
-  * and regular P-State switching (i.e. VACTIVE/VBLANK) is not supported, or if
-@@ -639,12 +635,7 @@ static unsigned int dcn32_get_num_free_p
-  * for determining which should be the SubVP pipe (need a way to determine if a pipe / plane doesn't
-  * support MCLK switching naturally [i.e. ACTIVE or VBLANK]).
-  *
-- * @param dc: current dc state
-- * @param context: new dc state
-- * @param index: [out] dc pipe index for the pipe chosen to have phantom pipes assigned
-- *
-- * Return:
-- * True if a valid pipe assignment was found for Sub-VP. Otherwise false.
-+ * Return: True if a valid pipe assignment was found for Sub-VP. Otherwise false.
-  */
- static bool dcn32_assign_subvp_pipe(struct dc *dc,
- 				    struct dc_state *context,
-@@ -711,7 +702,9 @@ static bool dcn32_assign_subvp_pipe(stru
- }
- 
- /**
-- * dcn32_enough_pipes_for_subvp: Function to check if there are "enough" pipes for SubVP.
-+ * dcn32_enough_pipes_for_subvp - Function to check if there are "enough" pipes for SubVP.
-+ * @dc: current dc state
-+ * @context: new dc state
-  *
-  * This function returns true if there are enough free pipes
-  * to create the required phantom pipes for any given stream
-@@ -723,9 +716,6 @@ static bool dcn32_assign_subvp_pipe(stru
-  * pipe which can be used as the phantom pipe for the non pipe
-  * split pipe.
-  *
-- * @dc: current dc state
-- * @context: new dc state
-- *
-  * Return:
-  * True if there are enough free pipes to assign phantom pipes to at least one
-  * stream that does not already have phantom pipes assigned. Otherwise false.
-@@ -764,7 +754,9 @@ static bool dcn32_enough_pipes_for_subvp
- }
- 
- /**
-- * subvp_subvp_schedulable: Determine if SubVP + SubVP config is schedulable
-+ * subvp_subvp_schedulable - Determine if SubVP + SubVP config is schedulable
-+ * @dc: current dc state
-+ * @context: new dc state
-  *
-  * High level algorithm:
-  * 1. Find longest microschedule length (in us) between the two SubVP pipes
-@@ -772,11 +764,7 @@ static bool dcn32_enough_pipes_for_subvp
-  * pipes still allows for the maximum microschedule to fit in the active
-  * region for both pipes.
-  *
-- * @dc: current dc state
-- * @context: new dc state
-- *
-- * Return:
-- * bool - True if the SubVP + SubVP config is schedulable, false otherwise
-+ * Return: True if the SubVP + SubVP config is schedulable, false otherwise
-  */
- static bool subvp_subvp_schedulable(struct dc *dc, struct dc_state *context)
- {
-@@ -836,7 +824,10 @@ static bool subvp_subvp_schedulable(stru
- }
- 
- /**
-- * subvp_drr_schedulable: Determine if SubVP + DRR config is schedulable
-+ * subvp_drr_schedulable - Determine if SubVP + DRR config is schedulable
-+ * @dc: current dc state
-+ * @context: new dc state
-+ * @drr_pipe: DRR pipe_ctx for the SubVP + DRR config
-  *
-  * High level algorithm:
-  * 1. Get timing for SubVP pipe, phantom pipe, and DRR pipe
-@@ -845,12 +836,7 @@ static bool subvp_subvp_schedulable(stru
-  * 3.If (SubVP Active - Prefetch > Stretched DRR frame + max(MALL region, Stretched DRR frame))
-  * then report the configuration as supported
-  *
-- * @dc: current dc state
-- * @context: new dc state
-- * @drr_pipe: DRR pipe_ctx for the SubVP + DRR config
-- *
-- * Return:
-- * bool - True if the SubVP + DRR config is schedulable, false otherwise
-+ * Return: True if the SubVP + DRR config is schedulable, false otherwise
-  */
- static bool subvp_drr_schedulable(struct dc *dc, struct dc_state *context, struct pipe_ctx *drr_pipe)
- {
-@@ -914,7 +900,9 @@ static bool subvp_drr_schedulable(struct
- 
- 
- /**
-- * subvp_vblank_schedulable: Determine if SubVP + VBLANK config is schedulable
-+ * subvp_vblank_schedulable - Determine if SubVP + VBLANK config is schedulable
-+ * @dc: current dc state
-+ * @context: new dc state
-  *
-  * High level algorithm:
-  * 1. Get timing for SubVP pipe, phantom pipe, and VBLANK pipe
-@@ -922,11 +910,7 @@ static bool subvp_drr_schedulable(struct
-  * then report the configuration as supported
-  * 3. If the VBLANK display is DRR, then take the DRR static schedulability path
-  *
-- * @dc: current dc state
-- * @context: new dc state
-- *
-- * Return:
-- * bool - True if the SubVP + VBLANK/DRR config is schedulable, false otherwise
-+ * Return: True if the SubVP + VBLANK/DRR config is schedulable, false otherwise
-  */
- static bool subvp_vblank_schedulable(struct dc *dc, struct dc_state *context)
- {
-@@ -1003,20 +987,18 @@ static bool subvp_vblank_schedulable(str
- }
- 
- /**
-- * subvp_validate_static_schedulability: Check which SubVP case is calculated and handle
-- * static analysis based on the case.
-+ * subvp_validate_static_schedulability - Check which SubVP case is calculated
-+ * and handle static analysis based on the case.
-+ * @dc: current dc state
-+ * @context: new dc state
-+ * @vlevel: Voltage level calculated by DML
-  *
-  * Three cases:
-  * 1. SubVP + SubVP
-  * 2. SubVP + VBLANK (DRR checked internally)
-  * 3. SubVP + VACTIVE (currently unsupported)
-  *
-- * @dc: current dc state
-- * @context: new dc state
-- * @vlevel: Voltage level calculated by DML
-- *
-- * Return:
-- * bool - True if statically schedulable, false otherwise
-+ * Return: True if statically schedulable, false otherwise
-  */
- static bool subvp_validate_static_schedulability(struct dc *dc,
- 				struct dc_state *context,
-@@ -2275,7 +2257,7 @@ static int build_synthetic_soc_states(st
- 	return 0;
- }
- 
--/**
-+/*
-  * dcn32_update_bw_bounding_box
-  *
-  * This would override some dcn3_2 ip_or_soc initial parameters hardcoded from
+Changes for v5:
+* bridge changes to support multi-arch
+* updated and clear commit messages
+* add hw_type via plat data
+* removed unneeded quirk
+* rebased on linux-next
+
+Changes for v4:
+* include Inki Dae in MAINTAINERS
+* remove dsi_driver probe in exynos_drm_drv to support multi-arch build
+* update init handling to ensure host init done on first cmd transfer
+
+Changes for v3:
+* fix the mult-arch build
+* fix dsi host init
+* updated commit messages
+
+Changes for v2:
+* fix bridge handling
+* fix dsi host init
+* correct the commit messages
+
+Patch 0001: 	Samsung DSIM bridge
+
+Patch 0002:	PHY optional
+
+Patch 0003:	OF-graph or Child node lookup
+
+Patch 0004: 	DSI host initialization 
+
+Patch 0005:	atomic check
+
+Patch 0006:	PMS_P offset via plat data
+
+Patch 0007:	atomic_get_input_bus_fmts
+
+Patch 0008:	input_bus_flags
+
+Patch 0009:	document fsl,imx8mm-mipi-dsim
+
+Patch 0010:	add i.MX8MM DSIM support
+
+Tested in Engicam i.Core MX8M Mini SoM.
+
+Repo:
+https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v6
+
+Any inputs?
+Jagan.
+
+Jagan Teki (10):
+  drm: bridge: Add Samsung DSIM bridge driver
+  drm: bridge: samsung-dsim: Lookup OF-graph or Child node devices
+  drm: bridge: samsung-dsim: Mark PHY as optional
+  drm: bridge: samsung-dsim: Handle proper DSI host initialization
+  drm: bridge: samsung-dsim: Add atomic_check
+  drm: bridge: samsung-dsim: Add platform PLL_P (PMS_P) offset
+  drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
+  drm: bridge: samsung-dsim: Add input_bus_flags
+  dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
+  drm: bridge: samsung-dsim: Add i.MX8MM support
+
+ .../bindings/display/exynos/exynos_dsim.txt   |    1 +
+ MAINTAINERS                                   |    9 +
+ drivers/gpu/drm/bridge/Kconfig                |   12 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/samsung-dsim.c         | 1856 +++++++++++++++++
+ drivers/gpu/drm/exynos/Kconfig                |    1 +
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1769 ++--------------
+ include/drm/bridge/samsung-dsim.h             |  115 +
+ 8 files changed, 2111 insertions(+), 1653 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
+ create mode 100644 include/drm/bridge/samsung-dsim.h
+
+-- 
+2.25.1
+
