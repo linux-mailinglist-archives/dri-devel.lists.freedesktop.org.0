@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAB95F1F50
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 22:22:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1552D5F1F54
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 22:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 544B610E67E;
-	Sat,  1 Oct 2022 20:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90A010E682;
+	Sat,  1 Oct 2022 20:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8177A10E67E
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 20:22:24 +0000 (UTC)
-Received: from [192.168.1.101] (95.49.31.201.neoplus.adsl.tpnet.pl
- [95.49.31.201])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 7C12A200A7;
- Sat,  1 Oct 2022 22:22:21 +0200 (CEST)
-Message-ID: <82b0c4a2-454b-da87-5474-ee174c94e9c0@somainline.org>
-Date: Sat, 1 Oct 2022 22:22:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 2/5] drm/msm/dsi: Remove repeated calculation of
- slice_per_intf
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E07C010E682
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 20:23:16 +0000 (UTC)
+Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
+ [94.209.172.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id A6E70200A7;
+ Sat,  1 Oct 2022 22:23:14 +0200 (CEST)
+Date: Sat, 1 Oct 2022 22:23:13 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH 5/5] drm/dsc: Prevent negative BPG offsets from shadowing
+ adjacent bitfields
+Message-ID: <20221001202313.fkdsv5ul4v6akhc3@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
  phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Vinod Koul <vkoul@kernel.org>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Lyude Paul <lyude@redhat.com>
 References: <20221001190807.358691-1-marijn.suijten@somainline.org>
- <20221001190807.358691-3-marijn.suijten@somainline.org>
-From: Konrad Dybcio <konrad.dybcio@somainline.org>
-In-Reply-To: <20221001190807.358691-3-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20221001190807.358691-6-marijn.suijten@somainline.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221001190807.358691-6-marijn.suijten@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,63 +65,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, freedreno@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
+Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
  Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@linux.ie>,
  Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <sean@poorly.run>
+ Alex Deucher <alexander.deucher@amd.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1.10.2022 21:08, Marijn Suijten wrote:
-> slice_per_intf is already computed for intf_width, which holds the same
-> value as hdisplay.
+On 2022-10-01 21:08:07, Marijn Suijten wrote:
+> msm's dsi_host specifies negative BPG offsets which fill the full 8 bits
+> of a char thanks to two's complement: this however results in those bits
+> bleeding into the next parameter when the field is only expected to
+> contain 6-bit wide values.
+> As a consequence random slices appear corrupted on-screen (tested on a
+> Sony Tama Akatsuki device with sdm845).
 > 
-> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
+> Use AND operators to limit all values that constitute the RC Range
+> parameter fields to their expected size.
+> 
+> Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-
-Konrad
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/display/drm_dsc_helper.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index e05bae647431..cb6f2fa11f58 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -842,7 +842,7 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
->  static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mode, u32 hdisplay)
->  {
->  	struct drm_dsc_config *dsc = msm_host->dsc;
-> -	u32 reg, intf_width, reg_ctrl, reg_ctrl2;
-> +	u32 reg, reg_ctrl, reg_ctrl2;
->  	u32 slice_per_intf, total_bytes_per_intf;
->  	u32 pkt_per_line;
->  	u32 bytes_in_slice;
-> @@ -851,8 +851,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->  	/* first calculate dsc parameters and then program
->  	 * compress mode registers
+> diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
+> index c869c6e51e2b..2e7ef242685d 100644
+> --- a/drivers/gpu/drm/display/drm_dsc_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
+> @@ -243,11 +243,11 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
 >  	 */
-> -	intf_width = hdisplay;
-> -	slice_per_intf = DIV_ROUND_UP(intf_width, dsc->slice_width);
-> +	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
+>  	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
+>  		pps_payload->rc_range_parameters[i] =
+> -			cpu_to_be16((dsc_cfg->rc_range_params[i].range_min_qp <<
+> +			cpu_to_be16(((dsc_cfg->rc_range_params[i].range_min_qp & 0x1f) <<
+>  				     DSC_PPS_RC_RANGE_MINQP_SHIFT) |
+> -				    (dsc_cfg->rc_range_params[i].range_max_qp <<
+> +				    ((dsc_cfg->rc_range_params[i].range_max_qp & 0x1f) <<
+>  				     DSC_PPS_RC_RANGE_MAXQP_SHIFT) |
+> -				    (dsc_cfg->rc_range_params[i].range_bpg_offset));
+> +				    (dsc_cfg->rc_range_params[i].range_bpg_offset & 0x3f));
+
+Pre-empting the reviews: I was contemplating whether to use FIELD_PREP
+here, given that it's not yet used anywhere else in this file.  For that
+I'd remove the existing _SHIFT definitions and replace them with:
+
+	#define DSC_PPS_RC_RANGE_MINQP_MASK		GENMASK(15, 11)
+	#define DSC_PPS_RC_RANGE_MAXQP_MASK		GENMASK(10, 6)
+	#define DSC_PPS_RC_RANGE_BPG_OFFSET_MASK	GENMASK(5, 0)
+
+And turn this section of code into:
+
+	cpu_to_be16(FIELD_PREP(DSC_PPS_RC_RANGE_MINQP_MASK,
+			       dsc_cfg->rc_range_params[i].range_min_qp) |
+		    FIELD_PREP(DSC_PPS_RC_RANGE_MAXQP_MASK,
+			       dsc_cfg->rc_range_params[i].range_max_qp) |
+		    FIELD_PREP(DSC_PPS_RC_RANGE_BPG_OFFSET_MASK,
+			       dsc_cfg->rc_range_params[i].range_bpg_offset));
+
+Is that okay/recommended?
+
+- Marijn
+
+>  	}
 >  
->  	/* If slice_per_pkt is greater than slice_per_intf
->  	 * then default to 1. This can happen during partial
-> @@ -861,7 +860,6 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->  	if (slice_per_intf > dsc->slice_count)
->  		dsc->slice_count = 1;
->  
-> -	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
->  	bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
->  
->  	dsc->slice_chunk_size = bytes_in_slice;
+>  	/* PPS 88 */
+> -- 
+> 2.37.3
+> 
