@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CE05F179F
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 02:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFD15F178B
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 02:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BD010EE01;
-	Sat,  1 Oct 2022 00:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D203F10EDF6;
+	Sat,  1 Oct 2022 00:46:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D161310EDF3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88FCB10E4A4;
  Sat,  1 Oct 2022 00:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1664585183; x=1696121183;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MWmYQejfGrh/T2TU2UgZu/SEYh2twhb2uhi56qcGliQ=;
- b=FRAEus8YPgwcdGbXo9/SU5k6BeEudxZHsZNCJAFpZ7YppUdhTHR9B5Ak
- g2V9qTtNmSFc7qf9Exw+25xKDdUWLfD5799yKhkbCphLOz5CKfexnCqQ0
- IOjyfZZq5ZrDYYXDgfUtJmGiOSMJ6wLhIWmv3d0ZFXITdPFuY9MgUTl9I
- G38OcQ1QJkH9Ib5shH0d3NEF9h2FfqnWlglsZDjt7z044MEckuUpXLCBi
- wCOqtTJWhb2odd7fgt7n3yJ/txyVPZT78QV4AyPdHHswxI5ehOMIolDOi
- 4TBMs6mVA3dfdNiwLIjCCxhy/x8CabMA6+O46usWshpsWIzMpSCHfcZgn A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="388607936"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="388607936"
+ bh=ZJij893k4g5E12XSKRc6qNWUUh0OXDrRnK9GCA9ePwc=;
+ b=VLxCrpab5pZB2waJlr3vMyoUAXZjjiTTYk6Y53/n8QH+RA8Ppw+1QDPl
+ W5oTBnRf+pQfr5izr/kXp1aIK4LXvIDqzXtHaNPbABJtkP7WRFM6lvk/i
+ uTx9XUh56M6TYStJlaqjnI0gZUXL8mio0XwKxTUgciRqmk8pv60moBuM3
+ iQw410MjJMni9ep2QlAgiuoDNJ/FJgRrwE2wFXKs5zZ4E97/XKgMHGsoa
+ PS4Ir5R1hVwY3TXfpa4963xmR3/tZYIxUvMdPKwpqAQiI9kmJDucR1VAZ
+ LwQdgtcEXGwkRaPt6s6ns6eFfB5u54dJ7yfK3YhZq6KxGMgChZRPdZgv3 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="388607934"
+X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="388607934"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Sep 2022 17:46:12 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="685477629"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="685477629"
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="685477631"
+X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="685477631"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Sep 2022 17:46:09 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 06/14] drm/i915/xehp: Check for faults on primary GAM
-Date: Fri, 30 Sep 2022 17:45:42 -0700
-Message-Id: <20221001004550.3031431-7-matthew.d.roper@intel.com>
+Subject: [PATCH v2 07/14] drm/i915/gt: Add intel_gt_mcr_wait_for_reg_fw()
+Date: Fri, 30 Sep 2022 17:45:43 -0700
+Message-Id: <20221001004550.3031431-8-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221001004550.3031431-1-matthew.d.roper@intel.com>
 References: <20221001004550.3031431-1-matthew.d.roper@intel.com>
@@ -61,136 +61,101 @@ Cc: ravi.kumar.vodapalli@intel.com, balasubramani.vivekanandan@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Xe_HP the fault registers are now in a multicast register range.
-However as part of the GAM these registers follow special rules and we
-need only read from the "primary" GAM's instance to get the information
-we need.  So a single intel_gt_mcr_read_any() (which will automatically
-steer to the primary GAM) is sufficient; we don't need to loop over each
-instance of the MCR register.
+Xe_HP has some MCR registers that need to be polled for completion of
+operations like TLB invalidation.  Those registers are in the GAM range,
+which rolls up the status from each unit into the 'primary' instance's
+value.  This makes it useful to have a dedicated 'wait for register'
+function that handles this on MCR registers, similar to the
+__intel_wait_for_register_fw() function we already have for regular
+registers.
 
-v2:
- - Update more instances of fault registers.  (Bala)
-
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c    | 52 +++++++++++++++++++++++----
- drivers/gpu/drm/i915/i915_gpu_error.c | 12 +++++--
- 2 files changed, 55 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 55 ++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.h |  7 ++++
+ 2 files changed, 62 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 445e171940fa..e14f159ad9fc 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -270,7 +270,11 @@ intel_gt_clear_error_registers(struct intel_gt *gt,
- 				   I915_MASTER_ERROR_INTERRUPT);
- 	}
- 
--	if (GRAPHICS_VER(i915) >= 12) {
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
-+		intel_gt_mcr_multicast_rmw(gt, XEHP_RING_FAULT_REG,
-+					   RING_FAULT_VALID, 0);
-+		intel_gt_mcr_read_any(gt, XEHP_RING_FAULT_REG);
-+	} else if (GRAPHICS_VER(i915) >= 12) {
- 		rmw_clear(uncore, GEN12_RING_FAULT_REG, RING_FAULT_VALID);
- 		intel_uncore_posting_read(uncore, GEN12_RING_FAULT_REG);
- 	} else if (GRAPHICS_VER(i915) >= 8) {
-@@ -308,17 +312,49 @@ static void gen6_check_faults(struct intel_gt *gt)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+index 962d3e974384..a2bc77c33835 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+@@ -564,3 +564,58 @@ void intel_gt_mcr_get_ss_steering(struct intel_gt *gt, unsigned int dss,
+ 		return;
  	}
  }
- 
-+static void xehp_check_faults(struct intel_gt *gt)
++
++/**
++ * intel_gt_mcr_wait_for_reg_fw - wait until MCR register matches expected state
++ * @gt: GT structure
++ * @reg: the register to read
++ * @mask: mask to apply to register value
++ * @value: value to wait for
++ * @fast_timeout_us: fast timeout in microsecond for atomic/tight wait
++ * @slow_timeout_ms: slow timeout in millisecond
++ *
++ * This routine waits until the target register @reg contains the expected
++ * @value after applying the @mask, i.e. it waits until ::
++ *
++ *     (intel_gt_mcr_read_any_fw(gt, reg) & mask) == value
++ *
++ * Otherwise, the wait will timeout after @slow_timeout_ms milliseconds.
++ * For atomic context @slow_timeout_ms must be zero and @fast_timeout_us
++ * must be not larger than 20,0000 microseconds.
++ *
++ * This function is basically an MCR-friendly version of
++ * __intel_wait_for_register_fw().  Generally this function will only be used
++ * on GAM registers which are a bit special --- although they're MCR registers,
++ * reads (e.g., waiting for status updates) are always directed to the primary
++ * instance.
++ *
++ * Note that this routine assumes the caller holds forcewake asserted, it is
++ * not suitable for very long waits.
++ *
++ * Return: 0 if the register matches the desired condition, or -ETIMEDOUT.
++ */
++int intel_gt_mcr_wait_for_reg_fw(struct intel_gt *gt,
++				 i915_reg_t reg,
++				 u32 mask,
++				 u32 value,
++				 unsigned int fast_timeout_us,
++				 unsigned int slow_timeout_ms)
 +{
-+	u32 fault;
++	u32 reg_value = 0;
++#define done (((reg_value = intel_gt_mcr_read_any_fw(gt, reg)) & mask) == value)
++	int ret;
 +
-+	/*
-+	 * Although the fault register now lives in an MCR register range,
-+	 * the GAM registers are special and we only truly need to read
-+	 * the "primary" GAM instance rather than handling each instance
-+	 * individually.  intel_gt_mcr_read_any() will automatically steer
-+	 * toward the primary instance.
-+	 */
-+	fault = intel_gt_mcr_read_any(gt, XEHP_RING_FAULT_REG);
-+	if (fault & RING_FAULT_VALID) {
-+		u32 fault_data0, fault_data1;
-+		u64 fault_addr;
++	/* Catch any overuse of this function */
++	might_sleep_if(slow_timeout_ms);
++	GEM_BUG_ON(fast_timeout_us > 20000);
++	GEM_BUG_ON(!fast_timeout_us && !slow_timeout_ms);
 +
-+		fault_data0 = intel_gt_mcr_read_any(gt, XEHP_FAULT_TLB_DATA0);
-+		fault_data1 = intel_gt_mcr_read_any(gt, XEHP_FAULT_TLB_DATA1);
++	ret = -ETIMEDOUT;
++	if (fast_timeout_us && fast_timeout_us <= 20000)
++		ret = _wait_for_atomic(done, fast_timeout_us, 0);
++	if (ret && slow_timeout_ms)
++		ret = wait_for(done, slow_timeout_ms);
 +
-+		fault_addr = ((u64)(fault_data1 & FAULT_VA_HIGH_BITS) << 44) |
-+			     ((u64)fault_data0 << 12);
-+
-+		drm_dbg(&gt->i915->drm, "Unexpected fault\n"
-+			"\tAddr: 0x%08x_%08x\n"
-+			"\tAddress space: %s\n"
-+			"\tEngine ID: %d\n"
-+			"\tSource ID: %d\n"
-+			"\tType: %d\n",
-+			upper_32_bits(fault_addr), lower_32_bits(fault_addr),
-+			fault_data1 & FAULT_GTT_SEL ? "GGTT" : "PPGTT",
-+			GEN8_RING_FAULT_ENGINE_ID(fault),
-+			RING_FAULT_SRCID(fault),
-+			RING_FAULT_FAULT_TYPE(fault));
-+	}
++	return ret;
++#undef done
 +}
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+index e47e75e66835..96979af01f2b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+@@ -37,6 +37,13 @@ void intel_gt_mcr_report_steering(struct drm_printer *p, struct intel_gt *gt,
+ void intel_gt_mcr_get_ss_steering(struct intel_gt *gt, unsigned int dss,
+ 				  unsigned int *group, unsigned int *instance);
+ 
++int intel_gt_mcr_wait_for_reg_fw(struct intel_gt *gt,
++				 i915_reg_t reg,
++				 u32 mask,
++				 u32 value,
++				 unsigned int fast_timeout_us,
++				 unsigned int slow_timeout_ms);
 +
- static void gen8_check_faults(struct intel_gt *gt)
- {
- 	struct intel_uncore *uncore = gt->uncore;
- 	i915_reg_t fault_reg, fault_data0_reg, fault_data1_reg;
- 	u32 fault;
- 
--	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 50)) {
--		fault_reg = XEHP_RING_FAULT_REG;
--		fault_data0_reg = XEHP_FAULT_TLB_DATA0;
--		fault_data1_reg = XEHP_FAULT_TLB_DATA1;
--	} else if (GRAPHICS_VER(gt->i915) >= 12) {
-+	if (GRAPHICS_VER(gt->i915) >= 12) {
- 		fault_reg = GEN12_RING_FAULT_REG;
- 		fault_data0_reg = GEN12_FAULT_TLB_DATA0;
- 		fault_data1_reg = GEN12_FAULT_TLB_DATA1;
-@@ -358,7 +394,9 @@ void intel_gt_check_and_clear_faults(struct intel_gt *gt)
- 	struct drm_i915_private *i915 = gt->i915;
- 
- 	/* From GEN8 onwards we only have one 'All Engine Fault Register' */
--	if (GRAPHICS_VER(i915) >= 8)
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
-+		xehp_check_faults(gt);
-+	else if (GRAPHICS_VER(i915) >= 8)
- 		gen8_check_faults(gt);
- 	else if (GRAPHICS_VER(i915) >= 6)
- 		gen6_check_faults(gt);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 9ea2fe34e7d3..f2d53edcd2ee 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1221,7 +1221,10 @@ static void engine_record_registers(struct intel_engine_coredump *ee)
- 	if (GRAPHICS_VER(i915) >= 6) {
- 		ee->rc_psmi = ENGINE_READ(engine, RING_PSMI_CTL);
- 
--		if (GRAPHICS_VER(i915) >= 12)
-+		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
-+			ee->fault_reg = intel_gt_mcr_read_any(engine->gt,
-+							      XEHP_RING_FAULT_REG);
-+		else if (GRAPHICS_VER(i915) >= 12)
- 			ee->fault_reg = intel_uncore_read(engine->uncore,
- 							  GEN12_RING_FAULT_REG);
- 		else if (GRAPHICS_VER(i915) >= 8)
-@@ -1820,7 +1823,12 @@ static void gt_record_global_regs(struct intel_gt_coredump *gt)
- 	if (GRAPHICS_VER(i915) == 7)
- 		gt->err_int = intel_uncore_read(uncore, GEN7_ERR_INT);
- 
--	if (GRAPHICS_VER(i915) >= 12) {
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
-+		gt->fault_data0 = intel_gt_mcr_read_any((struct intel_gt *)gt->_gt,
-+							XEHP_FAULT_TLB_DATA0);
-+		gt->fault_data1 = intel_gt_mcr_read_any((struct intel_gt *)gt->_gt,
-+							XEHP_FAULT_TLB_DATA1);
-+	} else if (GRAPHICS_VER(i915) >= 12) {
- 		gt->fault_data0 = intel_uncore_read(uncore,
- 						    GEN12_FAULT_TLB_DATA0);
- 		gt->fault_data1 = intel_uncore_read(uncore,
+ /*
+  * Helper for for_each_ss_steering loop.  On pre-Xe_HP platforms, subslice
+  * presence is determined by using the group/instance as direct lookups in the
 -- 
 2.37.3
 
