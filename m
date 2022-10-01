@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576305F1DBF
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 18:40:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4A55F1DC0
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 18:40:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C28910E667;
-	Sat,  1 Oct 2022 16:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7575310E65F;
+	Sat,  1 Oct 2022 16:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A48210E664
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 16:40:11 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFFF210E666
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 16:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664642410;
+ s=mimecast20190719; t=1664642415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7y8Kg9mwa0vUvwm8PGHbH7MwQR+LJsA0v4Hu5SumJhk=;
- b=flt4+5OYLLNX0KdPkEDBfxjLnoNbXaWbz142IenohxzqlvmMaA8T4mhVu3ni2UlR1NF86P
- GprLEfSgoo9VdU3EDgRHdeZewx0vgV4sPtub9ZDl97Xl7jLk/upQ9GyWlAVehETgIcMwBy
- rlMlP+jwh/o9nOODq9DhFpUxSXCEl38=
+ bh=X4+Ptu+qDGFqb0SHVblFALZEdZlh0sqNqyuMfzJpFUM=;
+ b=IU6qOcdsHc4sdS+PK/KsA2WMfvWvByxJpjJBQZ2bj7m18rFH+xghKWDEaqMQDJkVFXzl2M
+ x6GAbMHGWpMV23/H6wfy+G10vTMkKx1h0ZX+O0vDtT14//dUMm6Iyw575bOiKfTk1Pywoq
+ TCE7WgSwDWlMpIfPvFO8cp3R+sJXHjg=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-630-ohK6r1YbMYW1rlQC1VF7pg-1; Sat, 01 Oct 2022 12:40:09 -0400
-X-MC-Unique: ohK6r1YbMYW1rlQC1VF7pg-1
+ us-mta-619-mc5muNS7Oz22ei_H2nIdIg-1; Sat, 01 Oct 2022 12:40:14 -0400
+X-MC-Unique: mc5muNS7Oz22ei_H2nIdIg-1
 Received: by mail-ed1-f70.google.com with SMTP id
- h13-20020a056402280d00b004581108ba90so5725534ede.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Oct 2022 09:40:08 -0700 (PDT)
+ dz21-20020a0564021d5500b0045217702048so5685078edb.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Oct 2022 09:40:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=7y8Kg9mwa0vUvwm8PGHbH7MwQR+LJsA0v4Hu5SumJhk=;
- b=1efYxgrICMcYy9+U3sQSZAbN9ShRwvVMT6yYIdRfRLoobuSixUf8Ew8g/7201/RbKX
- H0awlyjdRvPQ1/YFIWO6Y7kNTBqlgLGWaon9xdKQZGJBgrN7VFPDPnqZxXeBWBPe1uG9
- iBr534tp1OL3FfEQYHsNGSiyE2iV8O/HSOE2x0QzQfErKO6Ra+tH35UIA0bbaVJQmg4/
- qsdp2UvVBm4zC3CX8gJWlBzUnh9bD7yPO+QL2Ddupnync8RaXXzDlLgNAeNQalCfWO3f
- 9TUXlgFR1JBG2LkP6yaIz3xH+5Farqz2TZGSmxo8hefcqiX24fAY3kZ/aATUdAxvQ/tT
- xCNA==
-X-Gm-Message-State: ACrzQf39abj9MkMhiY+JVTcYltJ7zYkc6pkuwQL+Sx8qS/N/2gI4koDJ
- QKitq7HilkRghnM4NCjFqYZgPK7xCwpBIrniZW8JO3beHnAMJaZBoflycOrteiTwf1JxCHpAMTL
- BYTL3qTpmyfUObD+nhkVexq3s1Cfd
-X-Received: by 2002:a05:6402:4441:b0:454:8a74:5459 with SMTP id
- o1-20020a056402444100b004548a745459mr11944340edb.155.1664642408036; 
- Sat, 01 Oct 2022 09:40:08 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4DTCDeA0KWBh6kSo2zm+j4Tg0+Kb8tU2UeueTgZVbg3102O9jUVRVuOw8bgSS/D1ZVeC8EAw==
-X-Received: by 2002:a05:6402:4441:b0:454:8a74:5459 with SMTP id
- o1-20020a056402444100b004548a745459mr11944325edb.155.1664642407879; 
- Sat, 01 Oct 2022 09:40:07 -0700 (PDT)
+ bh=X4+Ptu+qDGFqb0SHVblFALZEdZlh0sqNqyuMfzJpFUM=;
+ b=R+Xuxwo6TRKxSnikCORYPKseCnOOwKG7jlOISBX6gJ9759OphyVc0Tc0wJNOd9GJHN
+ Z5T2mLg3kSV2uxIWl66yY1X5+dO5BH7ZRyC+v9aMNVzHhU4u9W4AY2gdZqBwYFf9YGNG
+ nzhPoNvJiXTn6lwHFbaye9w1+/2A8cieI8ZWy2V43IvVxBiDVuV0aiRBfxlVFgY2lxO0
+ PFyZUTUK4fgrj6agSwql7TMHLdhJ6SdCii1+dpE0Q3nhTLp1CORXr3Cr6sGE1V570VE+
+ Nq+texuPJSl+L4Ha2RcBZFNsDBsCUOy7yrEllW5DrQWzT7EJ0dnDa0JnzIhaBfey5o9k
+ hD7Q==
+X-Gm-Message-State: ACrzQf3fcSSqHDRaI3bqxgyVD9KZA4pFzCBUVCOhYpCiXgKUeGrQHI1i
+ R4zXKlmdrzABzOnP7oEwYylDkjGIiUVCeIn+lE93iBuhNQQkc5dOvRGikz7AZdgnr7ERhYBqwwO
+ bL3VUybGwe7/TJ4w0Lb+mivQnfUEo
+X-Received: by 2002:a17:906:db02:b0:780:24e:cf9 with SMTP id
+ xj2-20020a170906db0200b00780024e0cf9mr10115648ejb.460.1664642411750; 
+ Sat, 01 Oct 2022 09:40:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4sqRzShEvzcXK3sHQwN9XIDX9ReJ+nLvVhphfWZ1v1LAlyL8kh4A0p/0J+VR7oZU5jC9b3Sw==
+X-Received: by 2002:a17:906:db02:b0:780:24e:cf9 with SMTP id
+ xj2-20020a170906db0200b00780024e0cf9mr10115640ejb.460.1664642411595; 
+ Sat, 01 Oct 2022 09:40:11 -0700 (PDT)
 Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- o25-20020a1709062e9900b0077f15e98256sm2865110eji.203.2022.10.01.09.40.07
+ b18-20020a17090630d200b0073dd8e5a39fsm2888945ejb.156.2022.10.01.09.40.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 09:40:07 -0700 (PDT)
+ Sat, 01 Oct 2022 09:40:11 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
  liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH drm-misc-next v2 5/9] drm/arm/malidp: use drm_dev_unplug()
-Date: Sat,  1 Oct 2022 18:39:42 +0200
-Message-Id: <20221001163946.534067-6-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v2 6/9] drm/arm/malidp: plane: protect device
+ resources after removal
+Date: Sat,  1 Oct 2022 18:39:43 +0200
+Message-Id: <20221001163946.534067-7-dakr@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221001163946.534067-1-dakr@redhat.com>
 References: <20221001163946.534067-1-dakr@redhat.com>
@@ -89,38 +90,63 @@ Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the driver is unbound, there might still be users in userspace
-having an open fd and are calling into the driver.
+(Hardware) resources which are bound to the driver and device lifecycle
+must not be accessed after the device and driver are unbound.
 
-While this is fine for drm managed resources, it is not for resources
-bound to the device/driver lifecycle, e.g. clocks or MMIO mappings.
+However, the DRM device isn't freed as long as the last user didn't
+close it, hence userspace can still call into the driver.
 
-To prevent use-after-free issues we need to protect those resources with
-drm_dev_enter() and drm_dev_exit(). This does only work if we indicate
-that the drm device was unplugged, hence use drm_dev_unplug() instead of
-drm_dev_unregister().
-
-Protecting the particular resources with drm_dev_enter()/drm_dev_exit()
-is handled by subsequent patches.
+Therefore protect the critical sections which are accessing those
+resources with drm_dev_enter() and drm_dev_exit().
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/arm/malidp_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/arm/malidp_planes.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 678c5b0d8014..aedd30f5f451 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -893,7 +893,7 @@ static void malidp_unbind(struct device *dev)
- 	struct malidp_drm *malidp = drm_to_malidp(drm);
- 	struct malidp_hw_device *hwdev = malidp->dev;
+diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
+index 34547edf1ee3..d2ea60549454 100644
+--- a/drivers/gpu/drm/arm/malidp_planes.c
++++ b/drivers/gpu/drm/arm/malidp_planes.c
+@@ -790,9 +790,12 @@ static void malidp_de_plane_update(struct drm_plane *plane,
+ 	u16 pixel_alpha = new_state->pixel_blend_mode;
+ 	u8 plane_alpha = new_state->alpha >> 8;
+ 	u32 src_w, src_h, dest_w, dest_h, val;
+-	int i;
++	int i, idx;
+ 	struct drm_framebuffer *fb = plane->state->fb;
  
--	drm_dev_unregister(drm);
-+	drm_dev_unplug(drm);
- 	drm_kms_helper_poll_fini(drm);
- 	pm_runtime_get_sync(dev);
- 	drm_atomic_helper_shutdown(drm);
++	if (!drm_dev_enter(plane->dev, &idx))
++		return;
++
+ 	mp = to_malidp_plane(plane);
+ 
+ 	/*
+@@ -897,16 +900,24 @@ static void malidp_de_plane_update(struct drm_plane *plane,
+ 
+ 	malidp_hw_write(mp->hwdev, val,
+ 			mp->layer->base + MALIDP_LAYER_CONTROL);
++
++	drm_dev_exit(idx);
+ }
+ 
+ static void malidp_de_plane_disable(struct drm_plane *plane,
+ 				    struct drm_atomic_state *state)
+ {
+ 	struct malidp_plane *mp = to_malidp_plane(plane);
++	int idx;
++
++	if (!drm_dev_enter(plane->dev, &idx))
++		return;
+ 
+ 	malidp_hw_clearbits(mp->hwdev,
+ 			    LAYER_ENABLE | LAYER_FLOWCFG(LAYER_FLOWCFG_MASK),
+ 			    mp->layer->base + MALIDP_LAYER_CONTROL);
++
++	drm_dev_exit(idx);
+ }
+ 
+ static const struct drm_plane_helper_funcs malidp_de_plane_helper_funcs = {
 -- 
 2.37.3
 
