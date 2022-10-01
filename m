@@ -1,67 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06F85F1C5E
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 15:36:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6415F1C2F
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 14:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110C510E5CD;
-	Sat,  1 Oct 2022 13:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D57510E54C;
+	Sat,  1 Oct 2022 12:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 039AC10E63F
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 13:35:57 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id a2so10731951lfb.6
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Oct 2022 06:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
- :date; bh=CG8R/L4pPWym3ANx8yZmnov0YG/TUNdQM5EA24rS0E4=;
- b=N9J0yu8iM/3JtfDrLUqQ7eLX+G46XOkk9eo7UzHX5O/dCngza/nNFP6sKRwKRegMck
- m+zUfXZ1UWd5SQPtZCLuUxS+cnJshjHAenZsqrdRkoE+DM60rl+XEPSi4WSMddAGtzmi
- YAH8a87oMDq8yZwcVCt87/7+G6EqZ0HaZFCyY0utpKzvKwtg7YiezDQSSSQ69nNUPlyU
- 18Cq7UWSYds2OkpFofvAfX9fFTnAaU+Al36tPqeZbyPOZIChMytX/DHDTeb/bo6n+dXl
- hi4WbxCUNmgsCtGiSfupJqBuxN5nUwF0Z3sn1SB5mD3yRhI3H7OjR9qv4Lt/2Zfehsm8
- NMyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=CG8R/L4pPWym3ANx8yZmnov0YG/TUNdQM5EA24rS0E4=;
- b=T+sUnqh3lxOHUEQ2t08OmkTfno/AdEryb1GNdpbUhm1OwMaSFa4xDBun7AmHxuE8Rx
- +qSYre80KE9kJpd/qYFhDw7eEVRuEv9RVnSdVV5S32Y4UrNpTEbVxS3P2LxOSfcoGsE3
- TrybKEnZ+ww76n3UnJHkcfK1sQso+ef4eAYDVu9CFh74wPmWu74s0IFbqrk20QQoKfQq
- P6K1fMiHgTqoTDYv4kzNSg2YMnHrJDkhuS2Bmp1UpSq5XM9gLRY28GJ0mfVoUvDrulBb
- W1VxxkvWM330DFmNMbsHcN0o10fpkiAgqC/d5HSln3JzCahuUMpsB8XyZd15ubW0IJ3d
- Ttig==
-X-Gm-Message-State: ACrzQf3dIEsgJph5eXSLrC5/6Bm5RTgG2onHYnYqN0EXimihSXceuDR/
- w9dpJu3f3Y7DsyWv1v0CxF8YckcnE953ig==
-X-Google-Smtp-Source: AMsMyM6tNn6Klrg0MZ813hnxa860FCdvafuOX5sG75uoogp4vuSYjUvohonmolvNEZP3W0ujEByI9g==
-X-Received: by 2002:a05:6512:31d1:b0:499:fa38:3d7b with SMTP id
- j17-20020a05651231d100b00499fa383d7bmr4763301lfe.544.1664631356000; 
- Sat, 01 Oct 2022 06:35:56 -0700 (PDT)
-Received: from [127.0.0.1] ([188.162.64.124]) by smtp.gmail.com with ESMTPSA id
- q9-20020a0565123a8900b004994c190581sm761096lfu.123.2022.10.01.06.35.55
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 01 Oct 2022 06:35:55 -0700 (PDT)
-Date: Fri, 30 Sep 2022 11:29:17 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Doug Anderson <dianders@chromium.org>,
- Kalyan Thota <quic_kalyant@quicinc.com>
-Subject: =?US-ASCII?Q?Re=3A_=5Bv5=5D_drm/msm/disp/dpu1=3A_add_suppo?=
- =?US-ASCII?Q?rt_for_dspp_sub_block_flush_in_sc7280?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAD=FV=UT-GmAOYrCBRU0bhGeXU=pOGDbk=Jq7JEk40tyEH0zLA@mail.gmail.com>
-References: <1663157784-22232-1-git-send-email-quic_kalyant@quicinc.com>
- <CAD=FV=UT-GmAOYrCBRU0bhGeXU=pOGDbk=Jq7JEk40tyEH0zLA@mail.gmail.com>
-Message-ID: <59745151-7A97-4640-A8A2-5D06ABE1FBF4@linaro.org>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3FBC10E2C2;
+ Sat,  1 Oct 2022 12:37:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6NLjqlmPvPzsTA6vBPevXpCXhWVbqtndMWvi9+f1bGI=; b=jhtbUCYzLQSly2Ci/UfjnGhszW
+ LuUWNd9yhuchnKssqz1rB56YFTNwc0ZVdSNpo3/U5U5zSIrD0mfTxnNKHzij/Scea9YjsSL5RmiJ6
+ H/4F1B8zOfFv0BTvfZj/CUCp4ryGk25X/lHf/WZBglOcR7FB7ENvinvlwD5kQwYdhCLNXkngxHxe8
+ SlCYH3cg1OR9tK6CdLQMJS768k2cxhykDj7HGfQ2MGAGIT9GERvUUB6877copsJ0Zh9+urHznyhNi
+ UK8OTkzzM9M8eKPor3bJ0ECuUdbJHOkIEPTWKq3oKJNmlj1dszewPzuxHaRI2JrMHXuuMZvky+fbb
+ NC2RFcXA==;
+Received: from [2a01:799:961:d200:138:ce02:d9d4:d972] (port=58514)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oebkd-00044m-E3; Sat, 01 Oct 2022 14:37:51 +0200
+Message-ID: <415275a6-7b3c-0550-6ed4-01245f385331@tronnes.org>
+Date: Sat, 1 Oct 2022 14:37:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v4 30/30] drm/sun4i: tv: Convert to the new TV mode
+ property
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
+ Lyude Paul <lyude@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v4-30-60d38873f782@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v4-30-60d38873f782@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,68 +67,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Vinod Polimera <quic_vpolimer@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>, y@qualcomm.com
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 29 September 2022 19:13:20 GMT+03:00, Doug Anderson <dianders@chromium=
-=2Eorg> wrote:
->Hi,
->
->On Wed, Sep 14, 2022 at 5:16 AM Kalyan Thota <quic_kalyant@quicinc=2Ecom>=
- wrote:
->>
->> Flush mechanism for DSPP blocks has changed in sc7280 family, it
->> allows individual sub blocks to be flushed in coordination with
->> master flush control=2E
->>
->> Representation: master_flush && (PCC_flush | IGC_flush =2E=2E etc )
->>
->> This change adds necessary support for the above design=2E
->>
->> Changes in v1:
->> - Few nits (Doug, Dmitry)
->> - Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
->>
->> Changes in v2:
->> - Move the address offset to flush macro (Dmitry)
->> - Seperate ops for the sub block flush (Dmitry)
->>
->> Changes in v3:
->> - Reuse the DPU_DSPP_xx enum instead of a new one (Dmitry)
->>
->> Changes in v4:
->> - Use shorter version for unsigned int (Stephen)
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
->> ---
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc=2Ec       |  2 +-
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Ec |  5 +++-
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog=2Eh |  4 +++
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Ec     | 35 ++++++++++++++++=
-++++++++--
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl=2Eh     | 10 ++++++--
->>  5 files changed, 50 insertions(+), 6 deletions(-)
->
->Breadcrumbs: though this is tagged in the subject as v5 I think the
->newest version is actually "resend v4" [1] which just fixes the
->Signed-off-by=2E
+Den 29.09.2022 18.31, skrev Maxime Ripard:
+> Now that the core can deal fine with analog TV modes, let's convert the
+> sun4i TV driver to leverage those new features.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_tv.c | 148 ++++++++++++++-------------------------
+>  drivers/gpu/drm/vc4/vc4_vec.c    |   5 +-
+>  2 files changed, 54 insertions(+), 99 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
 
-Not to mention that v5 misses the S-o-B tag=2E
+> @@ -467,35 +398,46 @@ static const struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
+>  
+>  static int sun4i_tv_comp_get_modes(struct drm_connector *connector)
+>  {
+> -	int i;
+> +	struct drm_display_mode *mode;
+> +	int count = 0;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
+> -		struct drm_display_mode *mode;
+> -		const struct tv_mode *tv_mode = &tv_modes[i];
+> -
+> -		mode = drm_mode_create(connector->dev);
+> -		if (!mode) {
+> -			DRM_ERROR("Failed to create a new display mode\n");
+> -			return 0;
+> -		}
+> +	mode = drm_mode_analog_ntsc_480i(connector->dev);
+> +	if (!mode) {
+> +		DRM_ERROR("Failed to create a new display mode\n");
+> +		return -ENOMEM;
+> +	}
+>  
+> -		strcpy(mode->name, tv_mode->name);
+> +	mode->type |= DRM_MODE_TYPE_PREFERRED;
+> +	drm_mode_probed_add(connector, mode);
+> +	count += 1;
+>  
+> -		sun4i_tv_mode_to_drm_mode(tv_mode, mode);
+> -		drm_mode_probed_add(connector, mode);
+> +	mode = drm_mode_analog_pal_576i(connector->dev);
+> +	if (!mode) {
+> +		DRM_ERROR("Failed to create a new display mode\n");
+> +		return -ENOMEM;
+>  	}
+>  
+> -	return i;
+> +	drm_mode_probed_add(connector, mode);
+> +	count += 1;
+> +
+> +	return count;
 
->
->[1] https://lore=2Ekernel=2Eorg/r/1663825463-6715-1-git-send-email-quic_k=
-alyant@quicinc=2Ecom
+count is always 2 so you can just return 2.
 
---=20
-With best wishes
-Dmitry
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
+
+>  }
+
+This stray hunk belongs to the vc4 TV mode patch I guess:
+
+> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
+> index 8d37d7ba9b2a..88b4330bfa39 100644
+> --- a/drivers/gpu/drm/vc4/vc4_vec.c
+> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
+> @@ -322,7 +322,7 @@ vc4_vec_tv_mode_lookup(unsigned int mode)
+>  	return NULL;
+>  }
+>  
+> -static const struct drm_prop_enum_list tv_mode_names[] = {
+> +static const struct drm_prop_enum_list legacy_tv_mode_names[] = {
+>  	{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
+>  	{ VC4_VEC_TV_MODE_NTSC_443, "NTSC-443", },
+>  	{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
+> @@ -498,7 +498,8 @@ static int vc4_vec_connector_init(struct drm_device *dev, struct vc4_vec *vec)
+>  				   DRM_MODE_TV_MODE_NTSC);
+>  
+>  	prop = drm_property_create_enum(dev, 0, "mode",
+> -					tv_mode_names, ARRAY_SIZE(tv_mode_names));
+> +					legacy_tv_mode_names,
+> +					ARRAY_SIZE(legacy_tv_mode_names));
+>  	if (!prop)
+>  		return -ENOMEM;
+>  	vec->legacy_tv_mode_property = prop;
+> 
+
+Noralf.
