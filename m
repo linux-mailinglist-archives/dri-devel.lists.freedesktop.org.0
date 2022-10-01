@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1705F1AD3
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 10:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D460F5F1AD5
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 10:10:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3852E10E52B;
-	Sat,  1 Oct 2022 08:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 529B310E52C;
+	Sat,  1 Oct 2022 08:10:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DABD110E52B
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 08:09:43 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id jo24so5213881plb.13
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Oct 2022 01:09:43 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2212810E52C
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 08:10:11 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id f23so5781640plr.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Oct 2022 01:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=bIsBpWYKGaRb2gfWU/8omTUwq6r8O+ulvfUN+TCAIdY=;
- b=lfTdedK41vWtMebW3Wcp94YL7ucmrlEryRuuPWEj+o7FAAPRkjDA+9D5Pac+YlQm3+
- pBpTLZbP/U95I+bN063h+cFVsvEu91POyJnliuPN/4No7TVkOfPBVS12IJtx/3QVP//U
- RcI9Ck1SO4KholGKAGSZoHwFS9y8khcFmTCA8=
+ bh=/wOwPBnm9F+B6EUxE0EwDr5bec7v1ZzaQI0ncINcEEQ=;
+ b=Yr+KjrdROxVsREjh1ynA2uo4DlPOxokxTsDToUrFOH2o7Dt17vXjhGsqWwiKK5X2Sh
+ L/9HN67ayNzogP9iWvS0oLGQWZgKr27VJr/e1NVphMK/siE+j4pi+5kfpq5jhEK+f4M8
+ 3dKNSUbd3ilmJ9AbAvEr93KHT3MlN8PSp6Fy0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=bIsBpWYKGaRb2gfWU/8omTUwq6r8O+ulvfUN+TCAIdY=;
- b=xPsCm/6vEdIuxOvFB12w7PKeFYsbOPoOqjGoylZ1xWw4JQtWFVg3fApoOdPTKvbI2m
- K41l6yU8f+9VtSsSvZ61xG/AVduy+MQaAurreuY3Lb12i0aAen2iOSovuEe9dTmV5yuA
- TrT00z2LRnaIGjxcPMXftxXC5yOpw19/CJ0u8EBTVIS2Wn6Av9nla4JRWzn6zkKVlxpr
- pyBEMBpvr4XxWGnkvZIzc8UYeKy0GPAhxr0OgZchQybJ7+GgZdfSgk6I0AVWfgmhstrj
- pGd+gtqC5zX+sXoCQuysbopO3XXf2GgKuDjBFV+GzXtyvIWzmdbrHdQSVCRJnAo+uUos
- /oOw==
-X-Gm-Message-State: ACrzQf0IN78wvBWkb5Cg8aHX1onhS4cSa1IwMuohhnz3JJKwFq0u0jnu
- F5eW9rJg/HlP3U/iMM0csyO7HQ==
-X-Google-Smtp-Source: AMsMyM7A6yv4u9IjhcSR+PGTiZiBShQT4hp8vwLtDbTRUwpJ55h1OAzyFhyKY2oLDVzQW/Ntc0WcjQ==
-X-Received: by 2002:a17:902:f650:b0:172:8ee1:7f40 with SMTP id
- m16-20020a170902f65000b001728ee17f40mr12989210plg.101.1664611783492; 
- Sat, 01 Oct 2022 01:09:43 -0700 (PDT)
+ bh=/wOwPBnm9F+B6EUxE0EwDr5bec7v1ZzaQI0ncINcEEQ=;
+ b=gvxl3Dtv4PpxcPuzwDyT333ZJqv8wdIf3zfR0J/8xWFz2oR5QaxBQHPYGHH1ebvBH3
+ ws0V5sC9YWxyyFPLOw6aG3y92wBcr/6SqOi2FE/ZOtODvI8G3LpA6juIWBOSrwF2K0aX
+ 66vCh6YkMfchU8OxFXF+/wHjJyxwd+S+hNp0txamHVY3KbXgi0azRmU+68JYjn2UEHYx
+ kRWWMMHfdR5BvVkfZPxIOzt8ONmcf1pDfixjxF/P31uise9mPH+Q/cQvsvhp6eaE7xpR
+ egEtG795gVuqvrrxKx8gU0JFdbmNGkqe0WLBifGKIWhSdBS+N5gAkY2tTYncfmRIFed7
+ XsVg==
+X-Gm-Message-State: ACrzQf0o/7rCSUmo9Gs1c/brCyrZu/8w69tcFnQyM0powMRplkogJIv4
+ x+OW1cVD1QZajzakVebDf8OvDA==
+X-Google-Smtp-Source: AMsMyM4WWThhOeR7xZ08N6zla/HEqxatjILfotzm2bCjMVN+iyfgHlEjngVKbpobMpMRcufvi+o3ww==
+X-Received: by 2002:a17:902:9a49:b0:17a:6662:9334 with SMTP id
+ x9-20020a1709029a4900b0017a66629334mr12368026plv.63.1664611810678; 
+ Sat, 01 Oct 2022 01:10:10 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a073:7254:4392:bc7c:c69])
  by smtp.gmail.com with ESMTPSA id
- c194-20020a624ecb000000b005409c9d2d41sm3167041pfb.62.2022.10.01.01.09.27
+ c194-20020a624ecb000000b005409c9d2d41sm3167041pfb.62.2022.10.01.01.09.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 01:09:43 -0700 (PDT)
+ Sat, 01 Oct 2022 01:10:10 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -60,9 +60,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v6 08/10] drm: bridge: samsung-dsim: Add input_bus_flags
-Date: Sat,  1 Oct 2022 13:36:48 +0530
-Message-Id: <20221001080650.1007043-9-jagan@amarulasolutions.com>
+Subject: [PATCH v6 09/10] dt-bindings: display: exynos: dsim: Add NXP i.MX8MM
+ support
+Date: Sat,  1 Oct 2022 13:36:49 +0530
+Message-Id: <20221001080650.1007043-10-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221001080650.1007043-1-jagan@amarulasolutions.com>
 References: <20221001080650.1007043-1-jagan@amarulasolutions.com>
@@ -87,48 +88,40 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-eLCDIF is expecting to have input_bus_flags as DE_LOW in order to
-set active low during valid data transfer on each horizontal line.
+Samsung MIPI DSIM bridge can also be found in i.MX8MM SoC.
 
-Add DE_LOW flag via drm bridge timings.
+Add dt-bingings for it.
 
-v6:
+v6, v5, v4:
 * none
 
-v5:
-* rebased based on updated bridge changes
+v3:
+* collect Rob Acked-by
 
-v4, v3, v2, v1:
-* none
+v2:
+* updated comments
 
+v1:
+* new patch
+
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 4fd77172bb4b..49406a07d655 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1601,6 +1601,10 @@ static const struct samsung_dsim_host_ops samsung_dsim_generic_host_ops = {
- 	.unregister_host = samsung_dsim_unregister_host,
- };
- 
-+static const struct drm_bridge_timings samsung_dsim_bridge_timings = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
-+};
-+
- int samsung_dsim_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1681,6 +1685,7 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 
- 	dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
- 	dsi->bridge.of_node = dev->of_node;
-+	dsi->bridge.timings = &samsung_dsim_bridge_timings;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
- 	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
+diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+index be377786e8cd..8efcf4728e0b 100644
+--- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
++++ b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+@@ -7,6 +7,7 @@ Required properties:
+ 		"samsung,exynos5410-mipi-dsi" /* for Exynos5410/5420/5440 SoCs */
+ 		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
+ 		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
++		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini SoCs */
+   - reg: physical base address and length of the registers set for the device
+   - interrupts: should contain DSI interrupt
+   - clocks: list of clock specifiers, must contain an entry for each required
 -- 
 2.25.1
 
