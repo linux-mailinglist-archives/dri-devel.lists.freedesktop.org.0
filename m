@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8835F1845
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 03:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9785F1847
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 03:19:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF7910EE04;
-	Sat,  1 Oct 2022 01:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E2510EE05;
+	Sat,  1 Oct 2022 01:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF60B10EE04
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 01:19:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6048110EE05
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 01:19:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664587170;
+ s=mimecast20190719; t=1664587173;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VOw+nn7ti+m5Q8fWTW3IpLkOdVFAAWp2wbEVH0hCZZg=;
- b=FYOiL4+pquoGr8fBNj94+zNlgf+Pt4z3Bg+oXJAy32WZLO15ISIAJ/NZWOWZqjGSPxIxYq
- F6BN3LqDzhzUtWUslmd5Aw2T3PFgxDR+SEMtO9Tmm1OcDI7fsuFDq0uXPXrSvb3XVuXnDJ
- acj6Oi8cOEipUCXjDH1H0lfbSjYiteo=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IDL/AgTFWdm+PP/N7/EovNn2CFq5LCV9poLaDqClvoQ=;
+ b=WQhpMBxIBG1TlpdilNZtTa49/48WxSbXE5Ojw42LxhgeAJ3pT4bEKuwg67p6XlY//UkK2x
+ C7QNnaRTrLotPzZQHOejUTYOuHYihnv7OLV0idqife3DrzK4WsbeqPMPzN2xxKwCQYUXi3
+ 9OTepbjsm+YCOV0uqHdm7SVG+EaVmRs=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-413-dVB-DlQXPfa7MNuPezF0Vg-1; Fri, 30 Sep 2022 21:19:28 -0400
-X-MC-Unique: dVB-DlQXPfa7MNuPezF0Vg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w20-20020a05640234d400b00450f24c8ca6so4622199edc.13
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 18:19:28 -0700 (PDT)
+ us-mta-7-aam0GDC7PbKrdg3viOnjuA-1; Fri, 30 Sep 2022 21:19:32 -0400
+X-MC-Unique: aam0GDC7PbKrdg3viOnjuA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ e15-20020a056402190f00b0044f41e776a0so4640976edz.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Sep 2022 18:19:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=VOw+nn7ti+m5Q8fWTW3IpLkOdVFAAWp2wbEVH0hCZZg=;
- b=06zHC1ClD+K4QZ2yXSTir2IU53zmiYR67f5oUz2iEEzLP2oBu5wY5Ih2a9iMPi/82H
- hv2KtHhr7zqJeiSnauXppSoP0a3zl24uK4rRYbmuzzIrovN4uCh0ZVljplt0cwGlAbOF
- y4Ft1YAeyYnnxRgak2WzFb2ejb9ivFRxCyrSjIwrzp5giD+iAbCjnfWUu1dMm3VN0+dV
- MpP2YpxMOSngu6T2665eqOUuPpANrcjl8orXQrQuOcDiRolQpsK1crXYKf7hgbIhOxJw
- uDPfPIJ5Q3IXqFid5YcnwwnUvK3BxkrKxcvp9k03+5ZET/6uFGoXcAxnD6eGlnotCP/Z
- FLbw==
-X-Gm-Message-State: ACrzQf13VrTBA9qa5uLJ4Fe+8BTbzLy2ZcrIiLyFXTQWhjMpsqImxdCI
- qe9CKyQl8JcA0c8VeC9r/64TFlg/DM97xy4xWdUH+BD9eJo8Ww1xFPS8LtP660NxLQtuWI9NLRM
- MkoeUUPJQcb+nbL2VQyzEtXIgkJRr
-X-Received: by 2002:a05:6402:1f89:b0:453:8093:c4e5 with SMTP id
- c9-20020a0564021f8900b004538093c4e5mr10144844edc.182.1664587167487; 
- Fri, 30 Sep 2022 18:19:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Cz2MhkPwjR82bZuuI/cuJB5Tw0OCSgZ/P3E5KDFUBi+NqgMptkOjbE77f1V0GFF7/gDVgWg==
-X-Received: by 2002:a05:6402:1f89:b0:453:8093:c4e5 with SMTP id
- c9-20020a0564021f8900b004538093c4e5mr10144830edc.182.1664587167242; 
- Fri, 30 Sep 2022 18:19:27 -0700 (PDT)
+ bh=IDL/AgTFWdm+PP/N7/EovNn2CFq5LCV9poLaDqClvoQ=;
+ b=jk3Sx1nsBrCqbSqoJcXD58ET3b9J3puulP6yOZ87EehJQckOLZVukewp1jN58D6Oge
+ ogIVRs++nAsuMNYd8sCSUqSQxEwRLuzM3Z/nLjoaL+DH+Kydgsk4V/yxQjzpHxbYHwtg
+ PVnB11Fwgyh4XzuLnARprKS/JmeP6FeKUKLkHRiYG+bd1Wro4WKxMQRPbZUh1Jze6gei
+ wt7W3H3M3SIa04WR0p/1H8GZrMhSPd38b3/9mRFjQdba1kr1Eoe09ZZY2fzJhXm9nfYY
+ +5nEZkzbWb7mBW9BO0KoWX/Jev1zJcF8bc91o6SDLaS9JcBfT08Ab3xucleVgduF6c42
+ dN+g==
+X-Gm-Message-State: ACrzQf309h31TBJwPILitO9aPTbWWQY7D4kSdgfdxxmSMoHGfm1Mp/PJ
+ 4lMMhT2BCvdpaxfW8tTH4toiciFLmA65J/b/Z+xInVOUMfQ6u55jKVwFJo0neHLuk0nfWgWaoxw
+ D/H77tgaVIkPnjgK0/6Jq4OAddKKZ
+X-Received: by 2002:a17:907:7f13:b0:783:6227:b939 with SMTP id
+ qf19-20020a1709077f1300b007836227b939mr7826772ejc.416.1664587171146; 
+ Fri, 30 Sep 2022 18:19:31 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7wyZtxUwtQbZgS2YO5wic9h7BmWOQ9xCf4l19faoKnOUNoHKq43TyHpezKHLZZwq7kSKONgA==
+X-Received: by 2002:a17:907:7f13:b0:783:6227:b939 with SMTP id
+ qf19-20020a1709077f1300b007836227b939mr7826762ejc.416.1664587170962; 
+ Fri, 30 Sep 2022 18:19:30 -0700 (PDT)
 Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- c9-20020a17090618a900b007821f4bc328sm1948804ejf.178.2022.09.30.18.19.26
+ oz23-20020a170906cd1700b007724b8e6576sm1931950ejb.32.2022.09.30.18.19.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 18:19:26 -0700 (PDT)
+ Fri, 30 Sep 2022 18:19:30 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
  liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH drm-misc-next v3 5/7] drm/arm/hdlcd: crtc: protect device
+Subject: [PATCH drm-misc-next v3 6/7] drm/arm/hdlcd: debugfs: protect device
  resources after removal
-Date: Sat,  1 Oct 2022 03:19:03 +0200
-Message-Id: <20221001011905.433408-6-dakr@redhat.com>
+Date: Sat,  1 Oct 2022 03:19:04 +0200
+Message-Id: <20221001011905.433408-7-dakr@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221001011905.433408-1-dakr@redhat.com>
 References: <20221001011905.433408-1-dakr@redhat.com>
@@ -101,160 +101,35 @@ resources with drm_dev_enter() and drm_dev_exit().
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/arm/hdlcd_crtc.c | 60 +++++++++++++++++++++++++++++---
- 1 file changed, 55 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/arm/hdlcd_drv.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-index 1de0f7b23766..7ce88fb6e822 100644
---- a/drivers/gpu/drm/arm/hdlcd_crtc.c
-+++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-@@ -18,6 +18,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
-@@ -39,28 +40,50 @@
- static void hdlcd_crtc_cleanup(struct drm_crtc *crtc)
- {
- 	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index e41def6d47cc..020c7d0c70a5 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -204,11 +204,19 @@ static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
+ 	struct drm_info_node *node = (struct drm_info_node *)m->private;
+ 	struct drm_device *drm = node->minor->dev;
+ 	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
+-	unsigned long clkrate = clk_get_rate(hdlcd->clk);
+-	unsigned long mode_clock = hdlcd->crtc.mode.crtc_clock * 1000;
++	unsigned long clkrate, mode_clock;
 +	int idx;
 +
-+	if (!drm_dev_enter(crtc->dev, &idx))
-+		goto cleanup;
- 
- 	/* stop the controller on cleanup */
- 	hdlcd_write(hdlcd, HDLCD_REG_COMMAND, 0);
-+
-+	drm_dev_exit(idx);
-+
-+cleanup:
- 	drm_crtc_cleanup(crtc);
- }
- 
- static int hdlcd_crtc_enable_vblank(struct drm_crtc *crtc)
- {
- 	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
--	unsigned int mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
-+	unsigned int mask;
-+	int idx;
- 
-+	if (!drm_dev_enter(crtc->dev, &idx))
++	if (!drm_dev_enter(drm, &idx))
 +		return -ENODEV;
 +
-+	mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
- 	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, mask | HDLCD_INTERRUPT_VSYNC);
++	clkrate = clk_get_rate(hdlcd->clk);
++	mode_clock = hdlcd->crtc.mode.crtc_clock * 1000;
  
-+	drm_dev_exit(idx);
+ 	seq_printf(m, "hw  : %lu\n", clkrate);
+ 	seq_printf(m, "mode: %lu\n", mode_clock);
 +
++	drm_dev_exit(idx);
  	return 0;
  }
  
- static void hdlcd_crtc_disable_vblank(struct drm_crtc *crtc)
- {
- 	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
--	unsigned int mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
-+	unsigned int mask;
-+	int idx;
- 
-+	if (!drm_dev_enter(crtc->dev, &idx))
-+		return;
-+
-+	mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
- 	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, mask & ~HDLCD_INTERRUPT_VSYNC);
-+
-+	drm_dev_exit(idx);
- }
- 
- static const struct drm_crtc_funcs hdlcd_crtc_funcs = {
-@@ -171,21 +194,33 @@ static void hdlcd_crtc_atomic_enable(struct drm_crtc *crtc,
- 				     struct drm_atomic_state *state)
- {
- 	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
-+	int idx;
-+
-+	if (!drm_dev_enter(crtc->dev, &idx))
-+		return;
- 
- 	clk_prepare_enable(hdlcd->clk);
- 	hdlcd_crtc_mode_set_nofb(crtc);
- 	hdlcd_write(hdlcd, HDLCD_REG_COMMAND, 1);
- 	drm_crtc_vblank_on(crtc);
-+
-+	drm_dev_exit(idx);
- }
- 
- static void hdlcd_crtc_atomic_disable(struct drm_crtc *crtc,
- 				      struct drm_atomic_state *state)
- {
- 	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
-+	int idx;
-+
-+	if (!drm_dev_enter(crtc->dev, &idx))
-+		return;
- 
- 	drm_crtc_vblank_off(crtc);
- 	hdlcd_write(hdlcd, HDLCD_REG_COMMAND, 0);
- 	clk_disable_unprepare(hdlcd->clk);
-+
-+	drm_dev_exit(idx);
- }
- 
- static enum drm_mode_status hdlcd_crtc_mode_valid(struct drm_crtc *crtc,
-@@ -193,15 +228,23 @@ static enum drm_mode_status hdlcd_crtc_mode_valid(struct drm_crtc *crtc,
- {
- 	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
- 	long rate, clk_rate = mode->clock * 1000;
-+	enum drm_mode_status status = MODE_OK;
-+	int idx;
-+
-+	if (!drm_dev_enter(crtc->dev, &idx))
-+		return MODE_NOCLOCK;
- 
- 	rate = clk_round_rate(hdlcd->clk, clk_rate);
- 	/* 0.1% seems a close enough tolerance for the TDA19988 on Juno */
- 	if (abs(rate - clk_rate) * 1000 > clk_rate) {
- 		/* clock required by mode not supported by hardware */
--		return MODE_NOCLOCK;
-+		status = MODE_NOCLOCK;
-+		goto out;
- 	}
- 
--	return MODE_OK;
-+out:
-+	drm_dev_exit(idx);
-+	return status;
- }
- 
- static void hdlcd_crtc_atomic_begin(struct drm_crtc *crtc,
-@@ -268,10 +311,14 @@ static void hdlcd_plane_atomic_update(struct drm_plane *plane,
- 	struct hdlcd_drm_private *hdlcd;
- 	u32 dest_h;
- 	dma_addr_t scanout_start;
-+	int idx;
- 
--	if (!fb)
-+	if (!drm_dev_enter(plane->dev, &idx))
- 		return;
- 
-+	if (!fb)
-+		goto out;
-+
- 	dest_h = drm_rect_height(&new_plane_state->dst);
- 	scanout_start = drm_fb_dma_get_gem_addr(fb, new_plane_state, 0);
- 
-@@ -280,6 +327,9 @@ static void hdlcd_plane_atomic_update(struct drm_plane *plane,
- 	hdlcd_write(hdlcd, HDLCD_REG_FB_LINE_PITCH, fb->pitches[0]);
- 	hdlcd_write(hdlcd, HDLCD_REG_FB_LINE_COUNT, dest_h - 1);
- 	hdlcd_write(hdlcd, HDLCD_REG_FB_BASE, scanout_start);
-+
-+out:
-+	drm_dev_exit(idx);
- }
- 
- static const struct drm_plane_helper_funcs hdlcd_plane_helper_funcs = {
 -- 
 2.37.3
 
