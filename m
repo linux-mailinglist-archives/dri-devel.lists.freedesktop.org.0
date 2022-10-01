@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC2E5F1774
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 02:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B555F177D
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 02:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1AF310E484;
-	Sat,  1 Oct 2022 00:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A735A10E493;
+	Sat,  1 Oct 2022 00:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4B410E484;
- Sat,  1 Oct 2022 00:42:12 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F0010E485;
+ Sat,  1 Oct 2022 00:46:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664584932; x=1696120932;
+ t=1664585165; x=1696121165;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=x7EcMXr1UubUyzuquPZblu1EW6W/+xVYNLRgy2qjmjE=;
- b=L21sJEXZ4F2rv9mJmKI1wld+1Tq3J1jyvoSYJe/NTlQv6U58BCXKHWJN
- KwBeKmhRzNdLQf+I2SPlG/kjRX3Rf7xNjt8hqo1mOsyw1seCgRAO94Wos
- poc0iJfmgL78Sytlvq+0Pk/4TwpkPATDGHtm34G+NOR78ECyLYiUOZrpQ
- 0QnU4RJRqYE1ce7fsTRACTZaR+ybVxajfq2l+8hiOIH7rhYgPzKIhGScb
- BKvqytxO7PQFgSRDlpswCV3LaJYV87BBBkZ+GgzihuJPsektw3ZtfYe1K
- fGE1BI2QuYECsY0cH09Lav2nEZHn+9emiUk5F2Wxz0Qrh7BTmg8y3GciG Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="328706554"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="328706554"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2022 17:42:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="656137817"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="656137817"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga001.jf.intel.com with ESMTP; 30 Sep 2022 17:42:10 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/slpc: Update frequency debugfs for SLPC
-Date: Fri, 30 Sep 2022 17:41:20 -0700
-Message-Id: <20221001004120.2696-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.35.1
+ bh=jcaGDCXaUePbL+gwbg3hWD3ASLmwDIpAwSBYwVoQIx0=;
+ b=H8UBAT6FazXb0IXZG48kZuEqaA/tG6eRBUdgcEB6Ydz06N8HznFmSd6P
+ Ml1JIpybvl+Enbr/YKKMtb6O33h+wsgEaq/ZKDOTgIFKp1QkmuHxSubNA
+ 1dzchql6MFabzbR7qd3rycx7qPtcCBHGmrnReFSconL3ow0P8K93IT7V8
+ 5ZxAtkfNx9PNMka8u+gJP+eSVvQTSsfPYA4aQUb2RtwJH6lAKkUBQnEBg
+ 5N0zAQ8D/c2uhCygGRDTHy7xhJNdSUU31eDMCpwrCaLjoHbVi4nwHfLzU
+ K1CFhood3FDqWVJHTYRHJYeUI3X3X/vJYA+BmxV26+cLEVAT4mzoheHva w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="302299559"
+X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="302299559"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 17:46:04 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="685477594"
+X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; d="scan'208";a="685477594"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2022 17:46:04 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 00/14] Explicit MCR handling and MTL steering
+Date: Fri, 30 Sep 2022 17:45:36 -0700
+Message-Id: <20221001004550.3031431-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,425 +54,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: ravi.kumar.vodapalli@intel.com, balasubramani.vivekanandan@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a wrapper to print out the frequency debugfs for
-SLPC and non-SLPC cases. Most of the RPS related information
-is no longer valid when SLPC is enabled.
+Steering of multicast/replicated registers becomes a bit more
+complicated on Meteor Lake.  Whereas previously the control register we
+used to manage the steering was only used by our driver[*], software's
+control of steering has now been consolidated with the controls for
+various other hardware/firmware agents into a single register.  We can
+no longer utilize pre-programmed implicit steering since other firmware
+agents may change the steering target and not restore it afterward;
+we'll need to explicitly steer all types of MCR registers (including the
+GSLICE/COMPUTE/DSS ranges that have been handled implicitly in the
+past).  Furthermore, since multiple agents will now be sharing a single
+steering control register, races are possible.  To address this, the
+hardware adds a new MCR semaphore register which is supposed to be used
+to temporarily lock the steering while performing MCR operations.
 
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 157 +-------------
- drivers/gpu/drm/i915/gt/intel_rps.c           | 205 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.h           |   2 +
- 3 files changed, 208 insertions(+), 156 deletions(-)
+It's going to become important for us to handle accesses of multicast
+registers very explicitly going forward.  This series provides some prep
+work for that by updating our register definitions to clearly define
+registers as either MCR or non-MCR and ensure that we're using the
+intel_gt_mcr_*() functions rather than intel_uncore_*() when operating
+on MCR registers.  By declaring MCR registers as a new C type (i.e., not
+an i915_reg_t) we can have the compiler help us find any mistakes where
+non-MCR functions are used on MCR registers and vice-versa.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-index 9fd4d9255a97..d5afa08c54e3 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-@@ -344,162 +344,7 @@ void intel_gt_pm_frequency_dump(struct intel_gt *gt, struct drm_printer *p)
- 		drm_printf(p, "efficient (RPe) frequency: %d MHz\n",
- 			   intel_gpu_freq(rps, rps->efficient_freq));
- 	} else if (GRAPHICS_VER(i915) >= 6) {
--		u32 rp_state_limits;
--		u32 gt_perf_status;
--		struct intel_rps_freq_caps caps;
--		u32 rpmodectl, rpinclimit, rpdeclimit;
--		u32 rpstat, cagf, reqf;
--		u32 rpcurupei, rpcurup, rpprevup;
--		u32 rpcurdownei, rpcurdown, rpprevdown;
--		u32 rpupei, rpupt, rpdownei, rpdownt;
--		u32 pm_ier, pm_imr, pm_isr, pm_iir, pm_mask;
--
--		rp_state_limits = intel_uncore_read(uncore, GEN6_RP_STATE_LIMITS);
--		gen6_rps_get_freq_caps(rps, &caps);
--		if (IS_GEN9_LP(i915))
--			gt_perf_status = intel_uncore_read(uncore, BXT_GT_PERF_STATUS);
--		else
--			gt_perf_status = intel_uncore_read(uncore, GEN6_GT_PERF_STATUS);
--
--		/* RPSTAT1 is in the GT power well */
--		intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
--
--		reqf = intel_uncore_read(uncore, GEN6_RPNSWREQ);
--		if (GRAPHICS_VER(i915) >= 9) {
--			reqf >>= 23;
--		} else {
--			reqf &= ~GEN6_TURBO_DISABLE;
--			if (IS_HASWELL(i915) || IS_BROADWELL(i915))
--				reqf >>= 24;
--			else
--				reqf >>= 25;
--		}
--		reqf = intel_gpu_freq(rps, reqf);
--
--		rpmodectl = intel_uncore_read(uncore, GEN6_RP_CONTROL);
--		rpinclimit = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
--		rpdeclimit = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
--
--		rpstat = intel_uncore_read(uncore, GEN6_RPSTAT1);
--		rpcurupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
--		rpcurup = intel_uncore_read(uncore, GEN6_RP_CUR_UP) & GEN6_CURBSYTAVG_MASK;
--		rpprevup = intel_uncore_read(uncore, GEN6_RP_PREV_UP) & GEN6_CURBSYTAVG_MASK;
--		rpcurdownei = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN_EI) & GEN6_CURIAVG_MASK;
--		rpcurdown = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN) & GEN6_CURBSYTAVG_MASK;
--		rpprevdown = intel_uncore_read(uncore, GEN6_RP_PREV_DOWN) & GEN6_CURBSYTAVG_MASK;
--
--		rpupei = intel_uncore_read(uncore, GEN6_RP_UP_EI);
--		rpupt = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
--
--		rpdownei = intel_uncore_read(uncore, GEN6_RP_DOWN_EI);
--		rpdownt = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
--
--		cagf = intel_rps_read_actual_frequency(rps);
--
--		intel_uncore_forcewake_put(uncore, FORCEWAKE_ALL);
--
--		if (GRAPHICS_VER(i915) >= 11) {
--			pm_ier = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE);
--			pm_imr = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_MASK);
--			/*
--			 * The equivalent to the PM ISR & IIR cannot be read
--			 * without affecting the current state of the system
--			 */
--			pm_isr = 0;
--			pm_iir = 0;
--		} else if (GRAPHICS_VER(i915) >= 8) {
--			pm_ier = intel_uncore_read(uncore, GEN8_GT_IER(2));
--			pm_imr = intel_uncore_read(uncore, GEN8_GT_IMR(2));
--			pm_isr = intel_uncore_read(uncore, GEN8_GT_ISR(2));
--			pm_iir = intel_uncore_read(uncore, GEN8_GT_IIR(2));
--		} else {
--			pm_ier = intel_uncore_read(uncore, GEN6_PMIER);
--			pm_imr = intel_uncore_read(uncore, GEN6_PMIMR);
--			pm_isr = intel_uncore_read(uncore, GEN6_PMISR);
--			pm_iir = intel_uncore_read(uncore, GEN6_PMIIR);
--		}
--		pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
--
--		drm_printf(p, "Video Turbo Mode: %s\n",
--			   str_yes_no(rpmodectl & GEN6_RP_MEDIA_TURBO));
--		drm_printf(p, "HW control enabled: %s\n",
--			   str_yes_no(rpmodectl & GEN6_RP_ENABLE));
--		drm_printf(p, "SW control enabled: %s\n",
--			   str_yes_no((rpmodectl & GEN6_RP_MEDIA_MODE_MASK) == GEN6_RP_MEDIA_SW_MODE));
--
--		drm_printf(p, "PM IER=0x%08x IMR=0x%08x, MASK=0x%08x\n",
--			   pm_ier, pm_imr, pm_mask);
--		if (GRAPHICS_VER(i915) <= 10)
--			drm_printf(p, "PM ISR=0x%08x IIR=0x%08x\n",
--				   pm_isr, pm_iir);
--		drm_printf(p, "pm_intrmsk_mbz: 0x%08x\n",
--			   rps->pm_intrmsk_mbz);
--		drm_printf(p, "GT_PERF_STATUS: 0x%08x\n", gt_perf_status);
--		drm_printf(p, "Render p-state ratio: %d\n",
--			   (gt_perf_status & (GRAPHICS_VER(i915) >= 9 ? 0x1ff00 : 0xff00)) >> 8);
--		drm_printf(p, "Render p-state VID: %d\n",
--			   gt_perf_status & 0xff);
--		drm_printf(p, "Render p-state limit: %d\n",
--			   rp_state_limits & 0xff);
--		drm_printf(p, "RPSTAT1: 0x%08x\n", rpstat);
--		drm_printf(p, "RPMODECTL: 0x%08x\n", rpmodectl);
--		drm_printf(p, "RPINCLIMIT: 0x%08x\n", rpinclimit);
--		drm_printf(p, "RPDECLIMIT: 0x%08x\n", rpdeclimit);
--		drm_printf(p, "RPNSWREQ: %dMHz\n", reqf);
--		drm_printf(p, "CAGF: %dMHz\n", cagf);
--		drm_printf(p, "RP CUR UP EI: %d (%lldns)\n",
--			   rpcurupei,
--			   intel_gt_pm_interval_to_ns(gt, rpcurupei));
--		drm_printf(p, "RP CUR UP: %d (%lldns)\n",
--			   rpcurup, intel_gt_pm_interval_to_ns(gt, rpcurup));
--		drm_printf(p, "RP PREV UP: %d (%lldns)\n",
--			   rpprevup, intel_gt_pm_interval_to_ns(gt, rpprevup));
--		drm_printf(p, "Up threshold: %d%%\n",
--			   rps->power.up_threshold);
--		drm_printf(p, "RP UP EI: %d (%lldns)\n",
--			   rpupei, intel_gt_pm_interval_to_ns(gt, rpupei));
--		drm_printf(p, "RP UP THRESHOLD: %d (%lldns)\n",
--			   rpupt, intel_gt_pm_interval_to_ns(gt, rpupt));
--
--		drm_printf(p, "RP CUR DOWN EI: %d (%lldns)\n",
--			   rpcurdownei,
--			   intel_gt_pm_interval_to_ns(gt, rpcurdownei));
--		drm_printf(p, "RP CUR DOWN: %d (%lldns)\n",
--			   rpcurdown,
--			   intel_gt_pm_interval_to_ns(gt, rpcurdown));
--		drm_printf(p, "RP PREV DOWN: %d (%lldns)\n",
--			   rpprevdown,
--			   intel_gt_pm_interval_to_ns(gt, rpprevdown));
--		drm_printf(p, "Down threshold: %d%%\n",
--			   rps->power.down_threshold);
--		drm_printf(p, "RP DOWN EI: %d (%lldns)\n",
--			   rpdownei, intel_gt_pm_interval_to_ns(gt, rpdownei));
--		drm_printf(p, "RP DOWN THRESHOLD: %d (%lldns)\n",
--			   rpdownt, intel_gt_pm_interval_to_ns(gt, rpdownt));
--
--		drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
--			   intel_gpu_freq(rps, caps.min_freq));
--		drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
--			   intel_gpu_freq(rps, caps.rp1_freq));
--		drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
--			   intel_gpu_freq(rps, caps.rp0_freq));
--		drm_printf(p, "Max overclocked frequency: %dMHz\n",
--			   intel_gpu_freq(rps, rps->max_freq));
--
--		drm_printf(p, "Current freq: %d MHz\n",
--			   intel_gpu_freq(rps, rps->cur_freq));
--		drm_printf(p, "Actual freq: %d MHz\n", cagf);
--		drm_printf(p, "Idle freq: %d MHz\n",
--			   intel_gpu_freq(rps, rps->idle_freq));
--		drm_printf(p, "Min freq: %d MHz\n",
--			   intel_gpu_freq(rps, rps->min_freq));
--		drm_printf(p, "Boost freq: %d MHz\n",
--			   intel_gpu_freq(rps, rps->boost_freq));
--		drm_printf(p, "Max freq: %d MHz\n",
--			   intel_gpu_freq(rps, rps->max_freq));
--		drm_printf(p,
--			   "efficient (RPe) frequency: %d MHz\n",
--			   intel_gpu_freq(rps, rps->efficient_freq));
-+		gen6_rps_frequency_dump(rps, p);
- 	} else {
- 		drm_puts(p, "no P-state info available\n");
- 	}
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 17b40b625e31..d0847bd4b90f 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -2219,6 +2219,211 @@ u32 intel_rps_get_rpn_frequency(struct intel_rps *rps)
- 		return intel_gpu_freq(rps, rps->min_freq);
- }
- 
-+static void slpc_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-+{
-+	struct intel_gt *gt = rps_to_gt(rps);
-+	struct intel_uncore *uncore = gt->uncore;
-+	struct intel_rps_freq_caps caps;
-+	u32 pm_mask;
-+
-+	gen6_rps_get_freq_caps(rps, &caps);
-+	pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
-+
-+	drm_printf(p, "PM MASK=0x%08x\n", pm_mask);
-+	drm_printf(p, "RPSTAT1: 0x%08x\n", intel_uncore_read(uncore, GEN6_RPSTAT1));
-+	drm_printf(p, "RPNSWREQ: %dMHz\n", intel_rps_get_requested_frequency(rps));
-+	drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
-+		   intel_gpu_freq(rps, caps.min_freq));
-+	drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
-+		   intel_gpu_freq(rps, caps.rp1_freq));
-+	drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
-+		   intel_gpu_freq(rps, caps.rp0_freq));
-+	drm_printf(p, "Current freq: %d MHz\n",
-+		   intel_rps_get_requested_frequency(rps));
-+	drm_printf(p, "Actual freq: %d MHz\n",
-+		   intel_rps_read_actual_frequency(rps));
-+	drm_printf(p, "Min freq: %d MHz\n",
-+		   intel_rps_get_min_frequency(rps));
-+	drm_printf(p, "Boost freq: %d MHz\n",
-+		   intel_rps_get_boost_frequency(rps));
-+	drm_printf(p, "Max freq: %d MHz\n",
-+		   intel_rps_get_max_frequency(rps));
-+	drm_printf(p,
-+		   "efficient (RPe) frequency: %d MHz\n",
-+		   intel_gpu_freq(rps, caps.rp1_freq));
-+}
-+
-+static void rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-+{
-+	struct intel_gt *gt = rps_to_gt(rps);
-+	struct drm_i915_private *i915 = gt->i915;
-+	struct intel_uncore *uncore = gt->uncore;
-+	struct intel_rps_freq_caps caps;
-+	u32 rp_state_limits;
-+	u32 gt_perf_status;
-+	u32 rpmodectl, rpinclimit, rpdeclimit;
-+	u32 rpstat, cagf, reqf;
-+	u32 rpcurupei, rpcurup, rpprevup;
-+	u32 rpcurdownei, rpcurdown, rpprevdown;
-+	u32 rpupei, rpupt, rpdownei, rpdownt;
-+	u32 pm_ier, pm_imr, pm_isr, pm_iir, pm_mask;
-+
-+	rp_state_limits = intel_uncore_read(uncore, GEN6_RP_STATE_LIMITS);
-+	gen6_rps_get_freq_caps(rps, &caps);
-+	if (IS_GEN9_LP(i915))
-+		gt_perf_status = intel_uncore_read(uncore, BXT_GT_PERF_STATUS);
-+	else
-+		gt_perf_status = intel_uncore_read(uncore, GEN6_GT_PERF_STATUS);
-+
-+	/* RPSTAT1 is in the GT power well */
-+	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
-+
-+	reqf = intel_uncore_read(uncore, GEN6_RPNSWREQ);
-+	if (GRAPHICS_VER(i915) >= 9) {
-+		reqf >>= 23;
-+	} else {
-+		reqf &= ~GEN6_TURBO_DISABLE;
-+		if (IS_HASWELL(i915) || IS_BROADWELL(i915))
-+			reqf >>= 24;
-+		else
-+			reqf >>= 25;
-+	}
-+	reqf = intel_gpu_freq(rps, reqf);
-+
-+	rpmodectl = intel_uncore_read(uncore, GEN6_RP_CONTROL);
-+	rpinclimit = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
-+	rpdeclimit = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
-+
-+	rpstat = intel_uncore_read(uncore, GEN6_RPSTAT1);
-+	rpcurupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
-+	rpcurup = intel_uncore_read(uncore, GEN6_RP_CUR_UP) & GEN6_CURBSYTAVG_MASK;
-+	rpprevup = intel_uncore_read(uncore, GEN6_RP_PREV_UP) & GEN6_CURBSYTAVG_MASK;
-+	rpcurdownei = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN_EI) & GEN6_CURIAVG_MASK;
-+	rpcurdown = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN) & GEN6_CURBSYTAVG_MASK;
-+	rpprevdown = intel_uncore_read(uncore, GEN6_RP_PREV_DOWN) & GEN6_CURBSYTAVG_MASK;
-+
-+	rpupei = intel_uncore_read(uncore, GEN6_RP_UP_EI);
-+	rpupt = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
-+
-+	rpdownei = intel_uncore_read(uncore, GEN6_RP_DOWN_EI);
-+	rpdownt = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
-+
-+	cagf = intel_rps_read_actual_frequency(rps);
-+
-+	intel_uncore_forcewake_put(uncore, FORCEWAKE_ALL);
-+
-+	if (GRAPHICS_VER(i915) >= 11) {
-+		pm_ier = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE);
-+		pm_imr = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_MASK);
-+		/*
-+		 * The equivalent to the PM ISR & IIR cannot be read
-+		 * without affecting the current state of the system
-+		 */
-+		pm_isr = 0;
-+		pm_iir = 0;
-+	} else if (GRAPHICS_VER(i915) >= 8) {
-+		pm_ier = intel_uncore_read(uncore, GEN8_GT_IER(2));
-+		pm_imr = intel_uncore_read(uncore, GEN8_GT_IMR(2));
-+		pm_isr = intel_uncore_read(uncore, GEN8_GT_ISR(2));
-+		pm_iir = intel_uncore_read(uncore, GEN8_GT_IIR(2));
-+	} else {
-+		pm_ier = intel_uncore_read(uncore, GEN6_PMIER);
-+		pm_imr = intel_uncore_read(uncore, GEN6_PMIMR);
-+		pm_isr = intel_uncore_read(uncore, GEN6_PMISR);
-+		pm_iir = intel_uncore_read(uncore, GEN6_PMIIR);
-+	}
-+	pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
-+
-+	drm_printf(p, "Video Turbo Mode: %s\n",
-+		   str_yes_no(rpmodectl & GEN6_RP_MEDIA_TURBO));
-+	drm_printf(p, "HW control enabled: %s\n",
-+		   str_yes_no(rpmodectl & GEN6_RP_ENABLE));
-+	drm_printf(p, "SW control enabled: %s\n",
-+		   str_yes_no((rpmodectl & GEN6_RP_MEDIA_MODE_MASK) == GEN6_RP_MEDIA_SW_MODE));
-+
-+	drm_printf(p, "PM IER=0x%08x IMR=0x%08x, MASK=0x%08x\n",
-+		   pm_ier, pm_imr, pm_mask);
-+	if (GRAPHICS_VER(i915) <= 10)
-+		drm_printf(p, "PM ISR=0x%08x IIR=0x%08x\n",
-+			   pm_isr, pm_iir);
-+	drm_printf(p, "pm_intrmsk_mbz: 0x%08x\n",
-+		   rps->pm_intrmsk_mbz);
-+	drm_printf(p, "GT_PERF_STATUS: 0x%08x\n", gt_perf_status);
-+	drm_printf(p, "Render p-state ratio: %d\n",
-+		   (gt_perf_status & (GRAPHICS_VER(i915) >= 9 ? 0x1ff00 : 0xff00)) >> 8);
-+	drm_printf(p, "Render p-state VID: %d\n",
-+		   gt_perf_status & 0xff);
-+	drm_printf(p, "Render p-state limit: %d\n",
-+		   rp_state_limits & 0xff);
-+	drm_printf(p, "RPSTAT1: 0x%08x\n", rpstat);
-+	drm_printf(p, "RPMODECTL: 0x%08x\n", rpmodectl);
-+	drm_printf(p, "RPINCLIMIT: 0x%08x\n", rpinclimit);
-+	drm_printf(p, "RPDECLIMIT: 0x%08x\n", rpdeclimit);
-+	drm_printf(p, "RPNSWREQ: %dMHz\n", reqf);
-+	drm_printf(p, "CAGF: %dMHz\n", cagf);
-+	drm_printf(p, "RP CUR UP EI: %d (%lldns)\n",
-+		   rpcurupei,
-+		   intel_gt_pm_interval_to_ns(gt, rpcurupei));
-+	drm_printf(p, "RP CUR UP: %d (%lldns)\n",
-+		   rpcurup, intel_gt_pm_interval_to_ns(gt, rpcurup));
-+	drm_printf(p, "RP PREV UP: %d (%lldns)\n",
-+		   rpprevup, intel_gt_pm_interval_to_ns(gt, rpprevup));
-+	drm_printf(p, "Up threshold: %d%%\n",
-+		   rps->power.up_threshold);
-+	drm_printf(p, "RP UP EI: %d (%lldns)\n",
-+		   rpupei, intel_gt_pm_interval_to_ns(gt, rpupei));
-+	drm_printf(p, "RP UP THRESHOLD: %d (%lldns)\n",
-+		   rpupt, intel_gt_pm_interval_to_ns(gt, rpupt));
-+
-+	drm_printf(p, "RP CUR DOWN EI: %d (%lldns)\n",
-+		   rpcurdownei,
-+		   intel_gt_pm_interval_to_ns(gt, rpcurdownei));
-+	drm_printf(p, "RP CUR DOWN: %d (%lldns)\n",
-+		   rpcurdown,
-+		   intel_gt_pm_interval_to_ns(gt, rpcurdown));
-+	drm_printf(p, "RP PREV DOWN: %d (%lldns)\n",
-+		   rpprevdown,
-+		   intel_gt_pm_interval_to_ns(gt, rpprevdown));
-+	drm_printf(p, "Down threshold: %d%%\n",
-+		   rps->power.down_threshold);
-+	drm_printf(p, "RP DOWN EI: %d (%lldns)\n",
-+		   rpdownei, intel_gt_pm_interval_to_ns(gt, rpdownei));
-+	drm_printf(p, "RP DOWN THRESHOLD: %d (%lldns)\n",
-+		   rpdownt, intel_gt_pm_interval_to_ns(gt, rpdownt));
-+
-+	drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
-+		   intel_gpu_freq(rps, caps.min_freq));
-+	drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
-+		   intel_gpu_freq(rps, caps.rp1_freq));
-+	drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
-+		   intel_gpu_freq(rps, caps.rp0_freq));
-+	drm_printf(p, "Max overclocked frequency: %dMHz\n",
-+		   intel_gpu_freq(rps, rps->max_freq));
-+
-+	drm_printf(p, "Current freq: %d MHz\n",
-+		   intel_gpu_freq(rps, rps->cur_freq));
-+	drm_printf(p, "Actual freq: %d MHz\n", cagf);
-+	drm_printf(p, "Idle freq: %d MHz\n",
-+		   intel_gpu_freq(rps, rps->idle_freq));
-+	drm_printf(p, "Min freq: %d MHz\n",
-+		   intel_gpu_freq(rps, rps->min_freq));
-+	drm_printf(p, "Boost freq: %d MHz\n",
-+		   intel_gpu_freq(rps, rps->boost_freq));
-+	drm_printf(p, "Max freq: %d MHz\n",
-+		   intel_gpu_freq(rps, rps->max_freq));
-+	drm_printf(p,
-+		   "efficient (RPe) frequency: %d MHz\n",
-+		   intel_gpu_freq(rps, rps->efficient_freq));
-+}
-+
-+void gen6_rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-+{
-+	if (rps_uses_slpc(rps))
-+		return slpc_frequency_dump(rps, p);
-+	else
-+		return rps_frequency_dump(rps, p);
-+}
-+
- static int set_max_freq(struct intel_rps *rps, u32 val)
- {
- 	struct drm_i915_private *i915 = rps_to_i915(rps);
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
-index 4509dfdc52e0..c408c26c5192 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.h
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.h
-@@ -10,6 +10,7 @@
- #include "i915_reg_defs.h"
- 
- struct i915_request;
-+struct drm_printer;
- 
- void intel_rps_init_early(struct intel_rps *rps);
- void intel_rps_init(struct intel_rps *rps);
-@@ -54,6 +55,7 @@ void intel_rps_lower_unslice(struct intel_rps *rps);
- u32 intel_rps_read_throttle_reason(struct intel_rps *rps);
- bool rps_read_mask_mmio(struct intel_rps *rps, i915_reg_t reg32, u32 mask);
- 
-+void gen6_rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p);
- void gen5_rps_irq_handler(struct intel_rps *rps);
- void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
- void gen11_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
+This series also includes the general MCR steering tables and logic, but
+does not yet introduce the support for the semaphore register that will
+be used to coordinate steering updates with other agents; we'll provide
+that support in a separate series once this preparation work has landed.
+
+
+[*] This is a bit of an oversimplification; there are some hardware and
+software debug tools that use the same MCR_SELECTOR register that i915
+does and which could potentially re-steer MCR accesses behind our back.
+E.g., simply using IGT's "intel_reg" tool to write the MCR_SELECTOR
+register at the wrong time could interfere with driver operation.  But
+given that these debug facilities require root privileges to run and are
+only used by people intentionally debugging the driver or hardware, we
+can ignore such races for real-world usage.
+
+v2:
+ - Add MCR handling of TLB invalidation registers (since they're in the
+   GAM range, their read behavior behaves a bit more like unicast
+   registers, but they should still be treated as MCR for writes).
+ - Add MCR rmw and 'wait_for_reg' operations; these are only typically
+   needed for GAM registers.
+ - Switched a few more instances of MISCCPCTL, HALF_SLICE_CHICKEN3, and
+   the fault registers over to MCR handling where appropriate.  (Bala)
+
+Matt Roper (14):
+  drm/i915/gen8: Create separate reg definitions for new MCR registers
+  drm/i915/xehp: Create separate reg definitions for new MCR registers
+  drm/i915/gt: Drop a few unused register definitions
+  drm/i915/gt: Correct prefix on a few registers
+  drm/i915/gt: Add intel_gt_mcr_multicast_rmw() operation
+  drm/i915/xehp: Check for faults on primary GAM
+  drm/i915/gt: Add intel_gt_mcr_wait_for_reg_fw()
+  drm/i915: Define MCR registers explicitly
+  drm/i915/gt: Always use MCR functions on multicast registers
+  drm/i915/guc: Handle save/restore of MCR registers explicitly
+  drm/i915/gt: Add MCR-specific workaround initializers
+  drm/i915: Define multicast registers as a new type
+  drm/i915/mtl: Add multicast steering for render GT
+  drm/i915/mtl: Add multicast steering for media GT
+
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   4 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |   4 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 126 ++++-
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c        | 228 +++++++--
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.h        |  24 +-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 162 +++---
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   9 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  22 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   2 +-
+ drivers/gpu/drm/i915/gt/intel_mocs.c          |  12 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 474 +++++++++++-------
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |   9 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  60 ++-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |   8 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  12 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           |  19 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       |  16 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  12 +-
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/i915_reg_defs.h          |  22 +-
+ drivers/gpu/drm/i915/intel_gvt_mmio_table.c   |  12 +-
+ drivers/gpu/drm/i915/intel_pm.c               |  20 +-
+ 23 files changed, 862 insertions(+), 398 deletions(-)
+
 -- 
-2.35.1
+2.37.3
 
