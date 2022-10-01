@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0190B5F1EDF
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 21:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B3F5F1EE5
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Oct 2022 21:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B5CD10E499;
-	Sat,  1 Oct 2022 19:08:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D25910E4D0;
+	Sat,  1 Oct 2022 19:08:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
  [IPv6:2001:4b7a:2000:18::165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4B310E2A3
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 19:08:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F4310E08D
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 19:08:21 +0000 (UTC)
 Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id CB1A020363;
- Sat,  1 Oct 2022 21:08:17 +0200 (CEST)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id BB91F2036C;
+ Sat,  1 Oct 2022 21:08:19 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH 0/5] drm: Fix math issues in MSM DSC implementation
-Date: Sat,  1 Oct 2022 21:08:02 +0200
-Message-Id: <20221001190807.358691-1-marijn.suijten@somainline.org>
+Subject: [PATCH 1/5] drm/msm/dsi: Remove useless math in DSC calculation
+Date: Sat,  1 Oct 2022 21:08:03 +0200
+Message-Id: <20221001190807.358691-2-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221001190807.358691-1-marijn.suijten@somainline.org>
+References: <20221001190807.358691-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,7 +44,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+Cc: Marek Vasut <marex@denx.de>, freedreno@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Jami Kettunen <jami.kettunen@somainline.org>,
  Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
@@ -58,36 +61,34 @@ Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Various removals of complex yet unnecessary math, fixing all uses of
-drm_dsc_config::bits_per_pixel to deal with the fact that this field
-includes four fractional bits, and finally an approach for dealing with
-dsi_host setting negative values in range_bpg_offset, resulting in
-overflow inside drm_dsc_pps_payload_pack().
+Multiplying a value by 2 and adding 1 to it always results in a value
+that is uneven, and that 1 gets truncated immediately when performing
+integer division by 2 again.  There is no "rounding" possible here.
 
-Note that updating the static bpg_offset array to limit the size of
-these negative values to 6 bits changes what would be written to the DPU
-hardware at register(s) DSC_RANGE_BPG_OFFSET, hence the choice has been
-made to cover up for this while packing the value into a smaller field
-instead.
+Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-Altogether this series is responsible for solving _all_ Display Stream
-Compression issues and artifacts on the Sony Tama (sdm845) Akatsuki
-smartphone (2880x1440p).
-
-Marijn Suijten (5):
-  drm/msm/dsi: Remove useless math in DSC calculation
-  drm/msm/dsi: Remove repeated calculation of slice_per_intf
-  drm/msm/dsi: Account for DSC's bits_per_pixel having 4 fractional bits
-  drm/msm/dpu1: Account for DSC's bits_per_pixel having 4 fractional
-    bits
-  drm/dsc: Prevent negative BPG offsets from shadowing adjacent
-    bitfields
-
- drivers/gpu/drm/display/drm_dsc_helper.c   |  6 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 11 +-----
- drivers/gpu/drm/msm/dsi/dsi_host.c         | 45 ++++++++++++++--------
- 3 files changed, 33 insertions(+), 29 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 8e4bc586c262..e05bae647431 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1864,12 +1864,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+ 	data = 2048 * (dsc->rc_model_size - dsc->initial_offset + num_extra_mux_bits);
+ 	dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
+ 
+-	/* bpp * 16 + 0.5 */
+-	data = dsc->bits_per_pixel * 16;
+-	data *= 2;
+-	data++;
+-	data /= 2;
+-	target_bpp_x16 = data;
++	target_bpp_x16 = dsc->bits_per_pixel * 16;
+ 
+ 	data = (dsc->initial_xmit_delay * target_bpp_x16) / 16;
+ 	final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
+-- 
 2.37.3
 
