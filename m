@@ -2,50 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CD95F205B
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Oct 2022 00:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6955F2120
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Oct 2022 05:15:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80AC610E69C;
-	Sat,  1 Oct 2022 22:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEE3010E013;
+	Sun,  2 Oct 2022 03:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD2210E69C
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Oct 2022 22:35:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ZSRJIw1tdj1dY9EvrG/UVz7mPnEvPkPfNEjC1cXg/BU=; b=rIkNF03pyjKlSBBa7eu/TWMhnt
- jxAxtq1o5ekeYaqKlMX+WCgwOKFznGQCa4T7ag0UTOGIVh49xKPs2XRZXNnm6aDA4UEUp+3wd2lpN
- ejxSa31CcIsDWtQC3fsdD2WDRd1bTNnW+YwL+paTyL5JDASMlyP1MV5L6D+fG+1rPLv4CC2IS+AIq
- NcY+TjGwjqFVOI1i0/HKAkADVhZEiqy9HYC0cSFqfmOAs7B+yYx2iS79NUVa4pV/2hNg6Xw4MWfMX
- oz/ZNGhrfQkAD4YhSuWx3Z5MFUoJTHxcZSj3/9K5r626xQ9yvBWi+EqDlTrW9KA8L9EVP0Q1GnLyb
- 5KgHdPUA==;
-Received: from [177.34.169.227] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oel4o-002xSh-1T; Sun, 02 Oct 2022 00:35:18 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Daniel Latypov <dlatypov@google.com>, David Gow <davidgow@google.com>
-Subject: [PATCH v3 2/2] drm/tests: Split
- drm_test_dp_mst_sideband_msg_req_decode into parameterized tests
-Date: Sat,  1 Oct 2022 19:34:22 -0300
-Message-Id: <20221001223422.857505-2-mcanal@igalia.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221001223422.857505-1-mcanal@igalia.com>
-References: <20221001223422.857505-1-mcanal@igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA0810E013;
+ Sun,  2 Oct 2022 03:15:30 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2923Bjon009131;
+ Sun, 2 Oct 2022 03:15:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc : subject : date : message-id; s=qcppdkim1;
+ bh=reX6/dGjnL0PQ8kavnNWIg+YIvF9/2N89qNmt1N4lOk=;
+ b=FVwh//lW4s4t3SiSU0qFMu4e1adV1zaanWy4Xoci3X8o0I4mB6OqWCJmcMkCRkgZxbkb
+ Rl1SZDmvef/gxU3r+/jAySy4AYOnAY21sB//2V1kCgPWW9e7dvOW3ajOK1tUa1GbWj1z
+ 40F8FIrgFdqAr4jLJXQxrQnJcLQ6nJEhvpVXYXGjd2AZUcEOO9sIdptHH1CmxTCE3KLO
+ SB5tgzC3Pe93SsAARwxAsH7+cUZz4H2iHUIjDrKlf+iJw5FQXAdETpwlkYKmuK9MVbP9
+ BwzX8xByxE0UlMWDk0axhhp+Tcpj8adFKB+K8nXIG/vnwrmOWIX2qZtTxLKTEK1bCKIV Uw== 
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jxb8n9m4q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 02 Oct 2022 03:15:26 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2923FMfJ029226; 
+ Sun, 2 Oct 2022 03:15:22 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3jxemk496g-1;
+ Sun, 02 Oct 2022 03:15:22 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2923FLaX029221;
+ Sun, 2 Oct 2022 03:15:22 GMT
+Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
+ [10.204.66.210])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 2923FLml029220;
+ Sun, 02 Oct 2022 03:15:21 +0000
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 139F817DD; Sat,  1 Oct 2022 20:15:21 -0700 (PDT)
+From: Kalyan Thota <quic_kalyant@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v6] drm/msm/disp/dpu1: add support for dspp sub block flush in sc7280
+Date: Sat,  1 Oct 2022 20:15:06 -0700
+Message-Id: <1664680506-8336-1-git-send-email-quic_kalyant@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: OOn5xwc4F92VRO0GX3Nal89Mj4E5DZyW
+X-Proofpoint-GUID: OOn5xwc4F92VRO0GX3Nal89Mj4E5DZyW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-01_15,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 spamscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ bulkscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210020020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,460 +81,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arthur Grillo <arthur.grillo@usp.br>, magalilemes00@gmail.com,
- tales.aparecida@gmail.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Isabella Basso <isabbasso@riseup.net>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, dianders@chromium.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_vpolimer@quicinc.com, dmitry.baryshkov@linaro.org, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_test_dp_mst_sideband_msg_req_decode repeats the same test
-structure with different parameters. This could be better represented
-by parameterized tests, provided by KUnit.
+Flush mechanism for DSPP blocks has changed in sc7280 family, it
+allows individual sub blocks to be flushed in coordination with
+master flush control.
 
-In addition to the parameterization of the tests, the test case for the
-client ID was changed: instead of using get_random_bytes to generate
-the client ID, the client ID is now hardcoded in the test case. This
-doesn't affect the assertively of the tests, as this test case only compare
-the data going in with the data going out and it doesn't transform the data
-itself in any way.
+Representation: master_flush && (PCC_flush | IGC_flush .. etc )
 
-So, convert drm_test_dp_mst_sideband_msg_req_decode into parameterized
-tests and make the tests' allocations and prints completely managed by KUnit.
+This change adds necessary support for the above design.
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Changes in v1:
+- Few nits (Doug, Dmitry)
+- Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
+
+Changes in v2:
+- Move the address offset to flush macro (Dmitry)
+- Seperate ops for the sub block flush (Dmitry)
+
+Changes in v3:
+- Reuse the DPU_DSPP_xx enum instead of a new one (Dmitry)
+
+Changes in v4:
+- Use shorter version for unsigned int (Stephen)
+
+Changes in v5:
+- Spurious patch please ignore.
+
+Changes in v6:
+- Add SOB tag (Doug, Dmitry)
+
+Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-v1 -> v2: https://lore.kernel.org/dri-devel/20220925222719.345424-1-mcanal@igalia.com/T/#m056610a23a63109484afeafefb5846178c4d36b2
-- Mention on the commit message the change on the test case for the client ID (Michał Winiarski).
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 35 ++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     | 10 ++++++--
+ 5 files changed, 50 insertions(+), 6 deletions(-)
 
-v2 -> v3: https://lore.kernel.org/dri-devel/20220927221206.55930-1-mcanal@igalia.com/T/#m2dc961da2d4921566cd0f9a8ed9d2d33a1cf4416
-- Mention on the commit message that the "random" usage is not incompatible with parameterized tests (Michał Winiarski).
----
- .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 370 ++++++++++++------
- 1 file changed, 243 insertions(+), 127 deletions(-)
-
-diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-index 12f41881db6b..545beea33e8c 100644
---- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-@@ -5,12 +5,8 @@
-  * Copyright (c) 2022 Maíra Canal <mairacanal@riseup.net>
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 601d687..4170fbe 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -766,7 +766,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ 
+ 		/* stage config flush mask */
+ 		ctl->ops.update_pending_flush_dspp(ctl,
+-			mixer[i].hw_dspp->idx);
++			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 27f029f..0eecb2f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -65,7 +65,10 @@
+ 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
+ 
+ #define CTL_SC7280_MASK \
+-	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
++	(BIT(DPU_CTL_ACTIVE_CFG) | \
++	 BIT(DPU_CTL_FETCH_ACTIVE) | \
++	 BIT(DPU_CTL_VM_CFG) | \
++	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
+ 
+ #define MERGE_3D_SM8150_MASK (0)
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 38aa38a..8148e91 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -161,10 +161,12 @@ enum {
+  * DSPP sub-blocks
+  * @DPU_DSPP_PCC             Panel color correction block
+  * @DPU_DSPP_GC              Gamma correction block
++ * @DPU_DSPP_IGC             Inverse Gamma correction block
   */
- 
--#define PREFIX_STR "[drm_dp_mst_helper]"
--
- #include <kunit/test.h>
- 
--#include <linux/random.h>
--
- #include <drm/display/drm_dp_mst_helper.h>
- #include <drm/drm_print.h>
- 
-@@ -72,6 +68,217 @@ static void dp_mst_calc_pbn_mode_desc(const struct drm_dp_mst_calc_pbn_mode_test
- KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_cases,
- 		  dp_mst_calc_pbn_mode_desc);
- 
-+static u8 data[] = { 0xff, 0x00, 0xdd };
-+
-+struct drm_dp_mst_sideband_msg_req_test {
-+	const char *desc;
-+	const struct drm_dp_sideband_msg_req_body in;
-+};
-+
-+static const struct drm_dp_mst_sideband_msg_req_test drm_dp_mst_sideband_msg_req_cases[] = {
-+	{
-+		.desc = "DP_ENUM_PATH_RESOURCES with port number",
-+		.in = {
-+			.req_type = DP_ENUM_PATH_RESOURCES,
-+			.u.port_num.port_number = 5,
-+		},
-+	},
-+	{
-+		.desc = "DP_POWER_UP_PHY with port number",
-+		.in = {
-+			.req_type = DP_POWER_UP_PHY,
-+			.u.port_num.port_number = 5,
-+		},
-+	},
-+	{
-+		.desc = "DP_POWER_DOWN_PHY with port number",
-+		.in = {
-+			.req_type = DP_POWER_DOWN_PHY,
-+			.u.port_num.port_number = 5,
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with SDP stream sinks",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.number_sdp_streams = 3,
-+			.u.allocate_payload.sdp_stream_sink = { 1, 2, 3 },
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with port number",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with VCPI",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.vcpi = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_ALLOCATE_PAYLOAD with PBN",
-+		.in = {
-+			.req_type = DP_ALLOCATE_PAYLOAD,
-+			.u.allocate_payload.pbn = U16_MAX,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_PAYLOAD with port number",
-+		.in = {
-+			.req_type = DP_QUERY_PAYLOAD,
-+			.u.query_payload.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_PAYLOAD with VCPI",
-+		.in = {
-+			.req_type = DP_QUERY_PAYLOAD,
-+			.u.query_payload.vcpi = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_READ with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_READ,
-+			.u.dpcd_read.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_READ with DPCD address",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_READ,
-+			.u.dpcd_read.dpcd_address = 0xfedcb,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_READ with max number of bytes",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_READ,
-+			.u.dpcd_read.num_bytes = U8_MAX,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_WRITE with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_WRITE,
-+			.u.dpcd_write.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_WRITE with DPCD address",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_WRITE,
-+			.u.dpcd_write.dpcd_address = 0xfedcb,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_DPCD_WRITE with data array",
-+		.in = {
-+			.req_type = DP_REMOTE_DPCD_WRITE,
-+			.u.dpcd_write.num_bytes = ARRAY_SIZE(data),
-+			.u.dpcd_write.bytes = data,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_READ with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_READ,
-+			.u.i2c_read.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_READ with I2C device ID",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_READ,
-+			.u.i2c_read.read_i2c_device_id = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_READ with transactions array",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_READ,
-+			.u.i2c_read.num_transactions = 3,
-+			.u.i2c_read.num_bytes_read = ARRAY_SIZE(data) * 3,
-+			.u.i2c_read.transactions = {
-+				{ .bytes = data, .num_bytes = ARRAY_SIZE(data), .i2c_dev_id = 0x7f,
-+				  .i2c_transaction_delay = 0xf, },
-+				{ .bytes = data, .num_bytes = ARRAY_SIZE(data), .i2c_dev_id = 0x7e,
-+				  .i2c_transaction_delay = 0xe, },
-+				{ .bytes = data, .num_bytes = ARRAY_SIZE(data), .i2c_dev_id = 0x7d,
-+				  .i2c_transaction_delay = 0xd, },
-+			},
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_WRITE with port number",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_WRITE,
-+			.u.i2c_write.port_number = 0xf,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_WRITE with I2C device ID",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_WRITE,
-+			.u.i2c_write.write_i2c_device_id = 0x7f,
-+		},
-+	},
-+	{
-+		.desc = "DP_REMOTE_I2C_WRITE with data array",
-+		.in = {
-+			.req_type = DP_REMOTE_I2C_WRITE,
-+			.u.i2c_write.num_bytes = ARRAY_SIZE(data),
-+			.u.i2c_write.bytes = data,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with stream ID",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.stream_id = 1,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with client ID",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.client_id = { 0x4f, 0x7f, 0xb4, 0x00, 0x8c, 0x0d, 0x67 },
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with stream event",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.stream_event = 3,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with valid stream event",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.valid_stream_event = 0,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with stream behavior",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.stream_behavior = 3,
-+		},
-+	},
-+	{
-+		.desc = "DP_QUERY_STREAM_ENC_STATUS with a valid stream behavior",
-+		.in = {
-+			.req_type = DP_QUERY_STREAM_ENC_STATUS,
-+			.u.enc_status.valid_stream_behavior = 1,
-+		}
-+	},
-+};
-+
- static bool
- sideband_msg_req_equal(const struct drm_dp_sideband_msg_req_body *in,
- 		       const struct drm_dp_sideband_msg_req_body *out)
-@@ -147,41 +354,41 @@ sideband_msg_req_equal(const struct drm_dp_sideband_msg_req_body *in,
- 	return true;
- }
- 
--static bool
--sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
-+static void drm_test_dp_mst_msg_printf(struct drm_printer *p, struct va_format *vaf)
-+{
-+	struct kunit *test = p->arg;
-+
-+	kunit_err(test, "%pV", vaf);
-+}
-+
-+static void drm_test_dp_mst_sideband_msg_req_decode(struct kunit *test)
- {
-+	const struct drm_dp_mst_sideband_msg_req_test *params = test->param_value;
-+	const struct drm_dp_sideband_msg_req_body *in = &params->in;
- 	struct drm_dp_sideband_msg_req_body *out;
--	struct drm_printer p = drm_err_printer(PREFIX_STR);
- 	struct drm_dp_sideband_msg_tx *txmsg;
--	int i, ret;
--	bool result = true;
-+	struct drm_printer p = {
-+		.printfn = drm_test_dp_mst_msg_printf,
-+		.arg = test
-+	};
-+	int i;
- 
--	out = kzalloc(sizeof(*out), GFP_KERNEL);
--	if (!out)
--		return false;
-+	out = kunit_kzalloc(test, sizeof(*out), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, out);
- 
--	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
--	if (!txmsg) {
--		kfree(out);
--		return false;
--	}
-+	txmsg = kunit_kzalloc(test, sizeof(*txmsg), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, txmsg);
- 
- 	drm_dp_encode_sideband_req(in, txmsg);
--	ret = drm_dp_decode_sideband_req(txmsg, out);
--	if (ret < 0) {
--		drm_printf(&p, "Failed to decode sideband request: %d\n",
--			   ret);
--		result = false;
--		goto out;
--	}
-+	KUNIT_EXPECT_GE_MSG(test, drm_dp_decode_sideband_req(txmsg, out), 0,
-+			    "Failed to decode sideband request");
- 
- 	if (!sideband_msg_req_equal(in, out)) {
--		drm_printf(&p, "Encode/decode failed, expected:\n");
-+		KUNIT_FAIL(test, "Encode/decode failed");
-+		kunit_err(test, "Expected:");
- 		drm_dp_dump_sideband_msg_req_body(in, 1, &p);
--		drm_printf(&p, "Got:\n");
-+		kunit_err(test, "Got:");
- 		drm_dp_dump_sideband_msg_req_body(out, 1, &p);
--		result = false;
--		goto out;
- 	}
- 
- 	switch (in->req_type) {
-@@ -196,112 +403,21 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
- 		kfree(out->u.i2c_write.bytes);
- 		break;
- 	}
--
--	/* Clear everything but the req_type for the input */
--	memset(&in->u, 0, sizeof(in->u));
--
--out:
--	kfree(out);
--	kfree(txmsg);
--	return result;
- }
- 
--static void drm_test_dp_mst_sideband_msg_req_decode(struct kunit *test)
-+static void
-+drm_dp_mst_sideband_msg_req_desc(const struct drm_dp_mst_sideband_msg_req_test *t, char *desc)
- {
--	struct drm_dp_sideband_msg_req_body in = { 0 };
--	u8 data[] = { 0xff, 0x0, 0xdd };
--	int i;
--
--	in.req_type = DP_ENUM_PATH_RESOURCES;
--	in.u.port_num.port_number = 5;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_POWER_UP_PHY;
--	in.u.port_num.port_number = 5;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_POWER_DOWN_PHY;
--	in.u.port_num.port_number = 5;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_ALLOCATE_PAYLOAD;
--	in.u.allocate_payload.number_sdp_streams = 3;
--	for (i = 0; i < in.u.allocate_payload.number_sdp_streams; i++)
--		in.u.allocate_payload.sdp_stream_sink[i] = i + 1;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.allocate_payload.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.allocate_payload.vcpi = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.allocate_payload.pbn = U16_MAX;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_QUERY_PAYLOAD;
--	in.u.query_payload.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.query_payload.vcpi = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_DPCD_READ;
--	in.u.dpcd_read.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_read.dpcd_address = 0xfedcb;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_read.num_bytes = U8_MAX;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_DPCD_WRITE;
--	in.u.dpcd_write.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_write.dpcd_address = 0xfedcb;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.dpcd_write.num_bytes = ARRAY_SIZE(data);
--	in.u.dpcd_write.bytes = data;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_I2C_READ;
--	in.u.i2c_read.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_read.read_i2c_device_id = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_read.num_transactions = 3;
--	in.u.i2c_read.num_bytes_read = ARRAY_SIZE(data) * 3;
--	for (i = 0; i < in.u.i2c_read.num_transactions; i++) {
--		in.u.i2c_read.transactions[i].bytes = data;
--		in.u.i2c_read.transactions[i].num_bytes = ARRAY_SIZE(data);
--		in.u.i2c_read.transactions[i].i2c_dev_id = 0x7f & ~i;
--		in.u.i2c_read.transactions[i].i2c_transaction_delay = 0xf & ~i;
--	}
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_REMOTE_I2C_WRITE;
--	in.u.i2c_write.port_number = 0xf;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_write.write_i2c_device_id = 0x7f;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.i2c_write.num_bytes = ARRAY_SIZE(data);
--	in.u.i2c_write.bytes = data;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--
--	in.req_type = DP_QUERY_STREAM_ENC_STATUS;
--	in.u.enc_status.stream_id = 1;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	get_random_bytes(in.u.enc_status.client_id,
--			 sizeof(in.u.enc_status.client_id));
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.stream_event = 3;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.valid_stream_event = 0;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.stream_behavior = 3;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
--	in.u.enc_status.valid_stream_behavior = 1;
--	KUNIT_EXPECT_TRUE(test, sideband_msg_req_encode_decode(&in));
-+	strcpy(desc, t->desc);
- }
- 
-+KUNIT_ARRAY_PARAM(drm_dp_mst_sideband_msg_req, drm_dp_mst_sideband_msg_req_cases,
-+		  drm_dp_mst_sideband_msg_req_desc);
-+
- static struct kunit_case drm_dp_mst_helper_tests[] = {
- 	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_gen_params),
--	KUNIT_CASE(drm_test_dp_mst_sideband_msg_req_decode),
-+	KUNIT_CASE_PARAM(drm_test_dp_mst_sideband_msg_req_decode,
-+			 drm_dp_mst_sideband_msg_req_gen_params),
- 	{ }
+ enum {
+ 	DPU_DSPP_PCC = 0x1,
+ 	DPU_DSPP_GC,
++	DPU_DSPP_IGC,
+ 	DPU_DSPP_MAX
  };
  
+@@ -191,6 +193,7 @@ enum {
+  * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
+  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
+  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
++ * @DPU_CTL_DSPP_BLOCK_FLUSH: CTL config to support dspp sub-block flush
+  * @DPU_CTL_MAX
+  */
+ enum {
+@@ -198,6 +201,7 @@ enum {
+ 	DPU_CTL_ACTIVE_CFG,
+ 	DPU_CTL_FETCH_ACTIVE,
+ 	DPU_CTL_VM_CFG,
++	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
+ 	DPU_CTL_MAX
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index a35ecb6..f26f484 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -33,6 +33,7 @@
+ #define   CTL_INTF_FLUSH                0x110
+ #define   CTL_INTF_MASTER               0x134
+ #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
++#define   CTL_DSPP_n_FLUSH(n)		((0x13C) + ((n - 1) * 4))
+ 
+ #define CTL_MIXER_BORDER_OUT            BIT(24)
+ #define CTL_FLUSH_MASK_CTL              BIT(17)
+@@ -287,8 +288,9 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
+ }
+ 
+ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+-	enum dpu_dspp dspp)
++	enum dpu_dspp dspp, u32 dspp_sub_blk)
+ {
++
+ 	switch (dspp) {
+ 	case DSPP_0:
+ 		ctx->pending_flush_mask |= BIT(13);
+@@ -307,6 +309,31 @@ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+ 	}
+ }
+ 
++static void dpu_hw_ctl_update_pending_flush_dspp_subblocks(
++	struct dpu_hw_ctl *ctx,	enum dpu_dspp dspp, u32 dspp_sub_blk)
++{
++	u32 flushbits = 0, active;
++
++	switch (dspp_sub_blk) {
++	case DPU_DSPP_IGC:
++		flushbits = BIT(2);
++		break;
++	case DPU_DSPP_PCC:
++		flushbits = BIT(4);
++		break;
++	case DPU_DSPP_GC:
++		flushbits = BIT(5);
++		break;
++	default:
++		return;
++	}
++
++	active = DPU_REG_READ(&ctx->hw, CTL_DSPP_n_FLUSH(dspp));
++	DPU_REG_WRITE(&ctx->hw, CTL_DSPP_n_FLUSH(dspp), active | flushbits);
++
++	ctx->pending_flush_mask |= BIT(29);
++}
++
+ static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
+ {
+ 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+@@ -675,7 +702,11 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
+ 	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
+ 	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
+-	ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
++	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
++		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_subblocks;
++	else
++		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
++
+ 	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
+ 		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
+ };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 96c012e..1743572 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -149,12 +149,18 @@ struct dpu_hw_ctl_ops {
+ 
+ 	/**
+ 	 * OR in the given flushbits to the cached pending_flush_mask
+-	 * No effect on hardware
++	 *
++	 * If the hardware supports dspp sub block flush, then sub-block
++	 * flushes are written to the hardware and main dspp flush will
++	 * be cached in the pending_flush_mask.
++	 *
+ 	 * @ctx       : ctl path ctx pointer
+ 	 * @blk       : DSPP block index
++	 * @dspp_sub_blk : DSPP sub-block index
+ 	 */
+ 	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
+-		enum dpu_dspp blk);
++		enum dpu_dspp blk,  u32 dspp_sub_blk);
++
+ 	/**
+ 	 * Write the value of the pending_flush_mask to hardware
+ 	 * @ctx       : ctl path ctx pointer
 -- 
-2.37.3
+2.7.4
 
