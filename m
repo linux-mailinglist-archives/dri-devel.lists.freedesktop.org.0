@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51CF5F240D
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Oct 2022 18:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E785F2456
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Oct 2022 19:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 368CA10E35C;
-	Sun,  2 Oct 2022 16:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5667610E02F;
+	Sun,  2 Oct 2022 17:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B42F10E35C
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Oct 2022 16:17:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0AD10E02F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Oct 2022 17:42:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5B493B80D69
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Oct 2022 16:17:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0EACDC433C1
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Oct 2022 16:17:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B0EF2B80D22
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Oct 2022 17:42:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7C1FBC433B5
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Oct 2022 17:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664727469;
- bh=em1y7+5e6cFRoC30bmhT52x18ihC6y7E2EGL38VdVIE=;
- h=From:To:Subject:Date:From;
- b=DaDlSsjNgB4WJzkUCpmhVJjthbJjv7BQITHOoa+Sc8JjWVZeIjY7svJl+B2ZEcATg
- ws6HzSoJ34hGenKNrquPS0TSZa05sTsJ+HCQGPC2xRpPUXGNwbOONaY2fWdis2Srct
- Mhuzg+K9KWz/ONpoHZ1K/rIQipdCC7XKYyeJKL594KmDnxoGOKHhZQPPOXqP+ILMIK
- /uuNc9JQGAzl6UddF5zQc4N4//aOrcFSVtHzuQz/T/zd6bfGFeDvYTlVt/PlkTcp7W
- TWMvay++n75qy8rwsT+Au3Vv4IkJfGB6OvyCLEo+04OpK6wAqEuSyDleMQQFNHoesc
- +Hsfqj1NHaf4g==
+ s=k20201202; t=1664732544;
+ bh=DPfWMxMYTV8DQuA++3iPri5+jBwpAo38WIF4dCMcZ+g=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ru9SXTIv60+wzZDunqIrVk3nzYl6GqFzOewxzBCu/iVUbqrNzyzEv0cTQvjq4Uxce
+ rHGL8G4NxEFu37xEUW8vYbsgkF9c+vudMIMdgV+boD8im26aA7IF7S4nr2wT1OU9TP
+ oMP+2ZqR7sAC+M0XUxkWa83g57rbyRZsGM/SBWXmgu5wbMyG0bgeSfRf1umE+Eiwhg
+ EB9ZJcvOjtolPuPGoeqOw4+OpGZZOD3C3oW8lue7jU1ZKOZsLajrVLulCv4rYI+Jye
+ xH0Hfvet77nJ9j4TMH10SCYZIYqNxNF+tvZI4kD+ZpgTD3vhU0RuQRFR3I+zZ58x3f
+ Fra8trT3m65jg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id EE30CC433E6; Sun,  2 Oct 2022 16:17:48 +0000 (UTC)
+ from userid 48) id 60738C433E9; Sun,  2 Oct 2022 17:42:24 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216549] New: AMDGPU crash with kernel NULL pointer dereference, 
- RIP: 0010:amdgpu_bo_get_memory
-Date: Sun, 02 Oct 2022 16:17:48 +0000
+Subject: [Bug 213823] Broken power management for amdgpu
+Date: Sun, 02 Oct 2022 17:42:24 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bxkx@duck.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: bruno.n.pagani@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-216549-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-213823-2300-Y90U38BwXw@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213823-2300@https.bugzilla.kernel.org/>
+References: <bug-213823-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -74,39 +73,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216549
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213823
 
-            Bug ID: 216549
-           Summary: AMDGPU crash with kernel NULL pointer dereference,
-                    RIP: 0010:amdgpu_bo_get_memory
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.19.12
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: bxkx@duck.com
-        Regression: No
+Bruno Pagani (bruno.n.pagani@gmail.com) changed:
 
-Created attachment 302142
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D302142&action=3Dedit
-Journal log of the error
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
 
-I experienced this GPU crash. I couldn't find any info about the first call
-trace on the internet, though.
-
-
-
-The monitor output froze, system still running, I tried to switch TTY and it
-changed the output but froze/couldn't do anything. System looks like it kept
-running until I hit the reset button, logged until the end.
-
-I'm using a RX 6600
+--- Comment #7 from Bruno Pagani (bruno.n.pagani@gmail.com) ---
+Closing this old bug, this seems gone now on newer kernels.
 
 --=20
 You may reply to this email to add a comment.
