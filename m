@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763B85F376F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 23:05:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B1A5F3774
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 23:06:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8096D10E012;
-	Mon,  3 Oct 2022 21:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B010510E403;
+	Mon,  3 Oct 2022 21:06:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6498610E012;
- Mon,  3 Oct 2022 21:05:21 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF4010E4DD;
+ Mon,  3 Oct 2022 21:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664831121; x=1696367121;
+ t=1664831201; x=1696367201;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=qiYqJpmLqwJvheSAPoxbEvbqQ2iLEHPRq69OgGegij4=;
- b=d6t6eatIinsU9X1lLiybatoqfLiPJYkEBwNStv9vWQ1OgiTo7bB67DZt
- uyo1Z0fWG0YJsKd7b2Nn6Zc+obvY3lbGc1GlloWilv0gZ3Q6S5U1ulNgK
- Cy2jbxKp+00PBhjPJ7gKmfQdcM17hAU/uMPwaZGZz3soshORkPxPrJpHt
- 0VwqH8SR1FrohojnDlgBGrvu7T5Fv5H6jU356vvGPU5ohBKbcYiNlX+g8
- CxnkcLapVq7LacPy9XwmFC+aFLUO9C19BZY7SnNn/nUwrCNOL4hQp6OBc
- NAMlUfrT9X7Mk5kAfQbIDBw4bPFfkTL93OT8KTR9c/2snLMkOTNnapc7i w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="366858268"
-X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; d="scan'208";a="366858268"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2022 14:05:20 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="618885484"
-X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; d="scan'208";a="618885484"
-Received: from kbalinsk-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.213.7.91])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2022 14:05:18 -0700
-Date: Mon, 3 Oct 2022 23:05:14 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 3/7] drm/i915/hwmon: Power PL1 limit and TDP
- setting
-Message-ID: <YztOiqUsMTzfK4q3@ashyti-mobl2.lan>
-References: <20220927055020.3499420-1-badal.nilawar@intel.com>
- <20220927055020.3499420-4-badal.nilawar@intel.com>
+ bh=NTANcti3jW61xJIsT3X4G9rN9EeZ+ba9f6aNeuuixeo=;
+ b=UiWl6fqxDPkz8A7LM/s2PX317AtgYyJFKz4i5yT7Z0gWZ/17UoB43Mln
+ MB07t/i+x/iNcoGplsma4MLxydpMQIhCPzbsPQbAD1Vg59RKNvZtIgZPc
+ HDLUF7ghz2y0dC7CUygOsfiv6KXQ3guH++yynzJOMPkiT4N28brif0mey
+ NGZmYzxuJ+SP9nEj5hZmQxyt5yTBTdJnfbHuISZoESEn3d52dhzG8SWPa
+ Gn64NyNpeiEoRh9PRuzEVigT25LYJ1KcqxtFMZbqaj/vwFc1dzm3ZRrNv
+ Is9UKVD43LUDPrd4x4TMAjb/odLFoE9Pg0r6ZKgkEzNRhwNhhqEvs2gTn A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="329161018"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; d="scan'208";a="329161018"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 14:06:40 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="625944838"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; d="scan'208";a="625944838"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 14:06:40 -0700
+Date: Mon, 3 Oct 2022 14:06:18 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v2 10/17] drm/i915/vm_bind: Abstract out common execbuf
+ functions
+Message-ID: <20221003210617.GT22224@nvishwa1-DESK>
+References: <20221003061245.12716-1-niranjana.vishwanathapura@intel.com>
+ <20221003061245.12716-11-niranjana.vishwanathapura@intel.com>
+ <YzsFgcxgwHGgqvW0@ashyti-mobl2.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220927055020.3499420-4-badal.nilawar@intel.com>
+In-Reply-To: <YzsFgcxgwHGgqvW0@ashyti-mobl2.lan>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +60,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
+ lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Badal,
+On Mon, Oct 03, 2022 at 05:53:37PM +0200, Andi Shyti wrote:
+>Hi Niranjana,
+>
+>[...]
+>
+>> +	for_each_child(ce, child) {
+>> +		err = intel_context_pin_ww(child, ww);
+>> +		GEM_BUG_ON(err);	/* perma-pinned should incr a counter */
+>> +	}
+>> +
+>> +	for_each_child(ce, child) {
+>> +		err = eb_pin_timeline(child, throttle, nonblock);
+>> +		if (err)
+>> +			goto unwind;
+>> +		++i;
+>> +	}
+>
+>any reason for having two separate for_each_child here?
+>
 
-[...]
+This part is ported as is from i915_gem_execbuffer.c.
+Probably the author found it easy to unwind in case of error.
 
->  hwm_get_preregistration_info(struct drm_i915_private *i915)
->  {
->  	struct i915_hwmon *hwmon = i915->hwmon;
-> +	struct intel_uncore *uncore = &i915->uncore;
-> +	intel_wakeref_t wakeref;
-> +	u32 val_sku_unit;
->  
-> -	if (IS_DG1(i915) || IS_DG2(i915))
-> +	if (IS_DG1(i915) || IS_DG2(i915)) {
->  		hwmon->rg.gt_perf_status = GEN12_RPSTAT1;
-> -	else
-> +		hwmon->rg.pkg_power_sku_unit = PCU_PACKAGE_POWER_SKU_UNIT;
-> +		hwmon->rg.pkg_power_sku = PCU_PACKAGE_POWER_SKU;
-> +		hwmon->rg.pkg_rapl_limit = PCU_PACKAGE_RAPL_LIMIT;
-> +	} else {
->  		hwmon->rg.gt_perf_status = INVALID_MMIO_REG;
-> +		hwmon->rg.pkg_power_sku_unit = INVALID_MMIO_REG;
-> +		hwmon->rg.pkg_power_sku = INVALID_MMIO_REG;
-> +		hwmon->rg.pkg_rapl_limit = INVALID_MMIO_REG;
-> +	}
-> +
-> +	with_intel_runtime_pm(uncore->rpm, wakeref) {
-> +		/*
-> +		 * The contents of register hwmon->rg.pkg_power_sku_unit do not change,
-> +		 * so read it once and store the shift values.
-> +		 */
-> +		if (i915_mmio_reg_valid(hwmon->rg.pkg_power_sku_unit)) {
-> +			val_sku_unit = intel_uncore_read(uncore,
-> +							 hwmon->rg.pkg_power_sku_unit);
-> +		} else {
-> +			val_sku_unit = 0;
-> +		}
+Regards,
+Niranjana
 
-please remove the brackets here and, just a small nitpick:
-
-move val_sky_unit inside the "with_intel_runtime_pm()" and
-initialize it to '0', you will save the else statement.
-
-Other than that:
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Thanks,
-Andi
+>Andi
+>
+>> +	err = eb_pin_timeline(ce, throttle, nonblock);
+>> +	if (err)
+>> +		goto unwind;
+>> +
+>> +	return 0;
+>> +
+>> +unwind:
+>> +	for_each_child(ce, child) {
+>> +		if (j++ < i) {
+>> +			mutex_lock(&child->timeline->mutex);
+>> +			intel_context_exit(child);
+>> +			mutex_unlock(&child->timeline->mutex);
+>> +		}
+>> +	}
+>> +	for_each_child(ce, child)
+>> +		intel_context_unpin(child);
+>
+>[...]
