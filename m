@@ -1,72 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C115F32BC
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 17:39:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D74A5F32EE
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 17:53:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D3610E400;
-	Mon,  3 Oct 2022 15:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC2D10E402;
+	Mon,  3 Oct 2022 15:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3546810E400
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Oct 2022 15:39:26 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- e11-20020a17090a77cb00b00205edbfd646so15670073pjs.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Oct 2022 08:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:from:to:cc:subject:date;
- bh=sBjMELHhs7ootP+M1ePzkemYasHrxvoQKWyxZ5SKdJc=;
- b=6TeHRYpKr4iA6ltAvmCjUEoPS1XHVEd06IoCPr9cBmfj4KcCCpxO4crfMKOV3j+ttD
- nSeOZOMohexUm4wDctC02d16DMakiBRtjI4eW7FpPc2+VsURaV8CZmi/Rv50Ju0O6bDZ
- mdJ6TzLmnXN/GWGyzbrtYytsMwPzUJ4T13JD1nY6dCnb/sWc4wLvd3XZoRV5ZBtrJSXZ
- NYuEIairpytFb3UeLbZhZryD3bGVjUZEKacG8YLZDJT1Z/e2blxmqYGhx6Od824QDPR1
- oAdtoO8RRJNF37qDOUwsRz2nYEHUq2YFqJ+davPWQhI4GkSOm08p1XzZO+oufH7CzHlN
- JmWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:x-gm-message-state:from:to:cc:subject:date;
- bh=sBjMELHhs7ootP+M1ePzkemYasHrxvoQKWyxZ5SKdJc=;
- b=dbwT6CQGyOqCmpr1IyLT0lgCpL8ANCsh86VWVitWxWZCIDmgUQwwQq1X5Qhd/80bL2
- Hgx5oR7u40CvkoeRuJARaZdR1aQd2QCFOpGY7BGW8YPqYGSovCM9f0TN2cU6iPaFMGwc
- O8/C/A/oGgEy9n2LAK1nrljbqgDeJ5nJe60d3vm9YQFmeEV7VJYYVkwSmtyO+mh0z1F6
- 0lQ/RUrC0uVFtPYD9jdIhHPSsD8FF8M14/2rTtZDMI/AsaV9dBFeotbwNExU1B6EbdGs
- ZJCy1rbQFUM6mO3eDIQD/ywZXaeZgvZGT+ZLbX5hWI2MOGE/3RYdJxH3kWiLGyikydUK
- GE8w==
-X-Gm-Message-State: ACrzQf0Q+cjuZMgJi3oBjyCmixbYSkD0nL0jFq0N0/OqlI6SXwQb+2M+
- gKOGO4RzUABD1zTf3Jz4213LQ4SLbqSiPWSlY+0F9A==
-X-Google-Smtp-Source: AMsMyM67n5/JfkI+ezU4sEpOAQkHL4Lr8SNXTP6tBMjqPf4oPEqHcs7Y4we6Zo0o6qrkQaDBeTf58h4qBuFfOWQ+eNE=
-X-Received: by 2002:a17:90b:2643:b0:205:bd0d:bdff with SMTP id
- pa3-20020a17090b264300b00205bd0dbdffmr12433645pjb.99.1664811565787; Mon, 03
- Oct 2022 08:39:25 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 3 Oct 2022 17:39:25 +0200
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-9-4844816c9808@baylibre.com>
- <5920ba96-886c-1195-656a-a98d7b1f6623@collabora.com>
-In-Reply-To: <5920ba96-886c-1195-656a-a98d7b1f6623@collabora.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC68E10E41D;
+ Mon,  3 Oct 2022 15:53:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664812423; x=1696348423;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gC8m0zYeZVlKkkTc8qqST/RNP20W4HgOjyiGybIErxQ=;
+ b=gIOYu2Istv3h1j1hLf+z9ra/8wCpfcG4vnRqaJL0ppZpsW1HwjZBNfPp
+ sWIfRYKWv/zNFlF/5OD0EnsWWbQgoqAtchxD8g/DlNVj+QbB9sLOxG1x2
+ XMGoSuc2dfslmN4T/uzP3elRavGhuzjc7P+ECCtro+Zdp3ggkpuVRINlQ
+ JaXXesXdN1X2mcdcO//fMGO9XH+WTS373wOXkkYuQMacttNX+2DhlBaNG
+ MP1fFsF2f63Mrh41iw8X2A5AdhBrs26L2g50S11nmT7k1T/lK9g9edZrI
+ QQpMUYIl+rVYoWkIazfBrJf8KP8uZNd17hTMgDzJ3LlXzjXcumL1qpthY A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="304182582"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="304182582"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 08:53:43 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="618774563"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="618774563"
+Received: from ashyti-mobl2.igk.intel.com (HELO intel.com) ([172.28.182.81])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 08:53:40 -0700
+Date: Mon, 3 Oct 2022 17:53:37 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Subject: Re: [PATCH v2 10/17] drm/i915/vm_bind: Abstract out common execbuf
+ functions
+Message-ID: <YzsFgcxgwHGgqvW0@ashyti-mobl2.lan>
+References: <20221003061245.12716-1-niranjana.vishwanathapura@intel.com>
+ <20221003061245.12716-11-niranjana.vishwanathapura@intel.com>
 MIME-Version: 1.0
-Date: Mon, 3 Oct 2022 17:39:25 +0200
-Message-ID: <CABnWg9vdYYgxPxMY=qm=JSd4ZV4hHB7g8M4he3GzUj6-rzmfQw@mail.gmail.com>
-Subject: Re: [PATCH v1 09/17] drm/mediatek: hdmi: add connector flag
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Chunfeng Yun <chunfeng.yun@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
- Jitao shi <jitao.shi@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>,
- Kishon Vijay Abraham I <kishon@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221003061245.12716-11-niranjana.vishwanathapura@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +58,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
+ lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Sep 2022 12:38, AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->Il 19/09/22 18:56, Guillaume Ranquet ha scritto:
->> Add a flag to indicate support for an external connector
->>
->> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> index 86653ebaacfd..30407603d693 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> @@ -199,20 +199,22 @@ int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi, struct platform_device *pdev,
->>   		goto put_device;
->>   	}
->>
->> -	remote = of_graph_get_remote_node(np, 1, 0);
->> -	if (!remote) {
->> -		ret = -EINVAL;
->> -		goto put_device;
->> -	}
->> -
->> -	if (!of_device_is_compatible(remote, "hdmi-connector")) {
->> -		hdmi->next_bridge = of_drm_find_bridge(remote);
->> -		if (!hdmi->next_bridge) {
->> -			dev_err(dev, "Waiting for external bridge\n");
->> -			of_node_put(remote);
->> -			ret = -EPROBE_DEFER;
->> +	if (hdmi->conf->has_connector) {
->
->If MT8195's DPI uses the internal HDMI->DP converter, I say that the external
->DP has HDMI input and DP output.
->Logically, you can't have a HDMI port that's connected to nothing.
->
->Please, rethink this change.
->
->Regards,
->Angelo
+Hi Niranjana,
 
-Hi Angelo,
-Sorry for the late answer.
+[...]
 
-I have reworked this for V2, to use an hdmi connector device node to "bind"
-both the hdmi and hdmi-ddc driver together as with "legacy" code.
-So this patch is dropped in V2 (hopefully ready soon).
+> +	for_each_child(ce, child) {
+> +		err = intel_context_pin_ww(child, ww);
+> +		GEM_BUG_ON(err);	/* perma-pinned should incr a counter */
+> +	}
+> +
+> +	for_each_child(ce, child) {
+> +		err = eb_pin_timeline(child, throttle, nonblock);
+> +		if (err)
+> +			goto unwind;
+> +		++i;
+> +	}
 
-Just to make things clear, the hardware path on mt8195 is:
-DPI1 -> HDMI Tx -> HDMI Phy
-DP Intf1 -> DP Tx -> USB Type C Mux -> DP over USB-C
+any reason for having two separate for_each_child here?
 
-So there's no HDMI->DP converter involved.
+Andi
 
-Thx,
-Guillaume.
+> +	err = eb_pin_timeline(ce, throttle, nonblock);
+> +	if (err)
+> +		goto unwind;
+> +
+> +	return 0;
+> +
+> +unwind:
+> +	for_each_child(ce, child) {
+> +		if (j++ < i) {
+> +			mutex_lock(&child->timeline->mutex);
+> +			intel_context_exit(child);
+> +			mutex_unlock(&child->timeline->mutex);
+> +		}
+> +	}
+> +	for_each_child(ce, child)
+> +		intel_context_unpin(child);
+
+[...]
