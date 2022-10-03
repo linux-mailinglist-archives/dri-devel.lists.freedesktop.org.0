@@ -1,121 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550715F349D
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 19:35:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9B35F34C6
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 19:46:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB6B10E444;
-	Mon,  3 Oct 2022 17:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97E5B10E3AF;
+	Mon,  3 Oct 2022 17:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2045.outbound.protection.outlook.com [40.107.94.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D040D10E3AF;
- Mon,  3 Oct 2022 17:35:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ln2YVAKWfjqWX2s9c5iee4Mc7BDf/VqU0+pV5En6zgpIPWz3baFIgotnO1NKBBt5J0yt9Z1MXes4ksY3GPCRPNvmEPUIPLhc8DJhEvk6ASlI4yK0hhJFQvTyg7J9EHmuymvLPxa5OfoS/RrNiDx9Edf2pVn+nyU4higj/vXPKsqejECNPM+o6buB9dug8Sgt9462B1qXng+OPxEvX7RsYIoAGQ1bLj+wITSM8Adl46VrzwxIJDECCkAf8zTNlJ0tUJw0IGeK+k+HhfNGiOvCk4GeaxKfvw4iNSm2KM/i6s4c+NG1U5vf2qYcmSmTwUCZcmFXQ+/L5Tq5II4bZvHlGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NF7dfQKeSqh8ynhquhZrh745V3KeR78SBykcC4p6liE=;
- b=T6b2vpV2CA7UnXvmQwzcJuE4ebGPZmejKzrI6uPp/sV2CAcueHT+epfxddmGIuM4/b23wat5pfSRfdr6zP1bgXEr9U/272UgwQQ4P14+1+VQDvSMKylP5+sRi+ewVAudvN5tMt9Oy4UzKGFuHPHlHhV63JYhQv/VRwZNF6J/Fu7OZhAOloUoZoUb/kAPDzE07YL7hq4qOMrSc9b/h903FasoQu7s1s85lDISYdegW8KFQdELO+5hYTVmEZ26dFc6uZlYWEWyuCS3JBZ+oQ/VNIG4h5nOIMRPpTi1Js1dvlvh5G3Pr33IHbfcMNBIW2abxj8ZhNQqOdo/jlGJhOBmqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NF7dfQKeSqh8ynhquhZrh745V3KeR78SBykcC4p6liE=;
- b=2jF3GaDERdc2HXvR+BJMQi8kY6k7/OpD+EGzVfOiKYd7emE/w8fJlh+mf5JPrIKTTJJkg83dCLDogh67J+UuyniUR9Yssjy6NZ18hcIrpW8qBW+cgq5kYDqDpyJHqzUBKlvvOeTUkiiJfA/0jF6sQSxJ825LseG1ZhMEc9r6Pew=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by BY5PR12MB5016.namprd12.prod.outlook.com (2603:10b6:a03:1c5::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Mon, 3 Oct
- 2022 17:35:01 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::3de4:456f:800d:e013]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::3de4:456f:800d:e013%5]) with mapi id 15.20.5676.028; Mon, 3 Oct 2022
- 17:35:01 +0000
-Message-ID: <55f267cf-eef7-f2e9-d174-9653f1c04b59@amd.com>
-Date: Mon, 3 Oct 2022 13:34:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/8] mm/memory.c: Fix race when faulting a device
- private page
-Content-Language: en-US
-To: Alistair Popple <apopple@nvidia.com>
-References: <cover.60659b549d8509ddecafad4f498ee7f03bb23c69.1664366292.git-series.apopple@nvidia.com>
- <d3e813178a59e565e8d78d9b9a4e2562f6494f90.1664366292.git-series.apopple@nvidia.com>
- <2193303e-84b9-d0a1-b121-d2a145fcc43a@amd.com>
- <87pmf9y9st.fsf@nvdebian.thelocal>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <87pmf9y9st.fsf@nvdebian.thelocal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0015.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:86::24) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74FE110E3AF;
+ Mon,  3 Oct 2022 17:46:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9B15661190;
+ Mon,  3 Oct 2022 17:46:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34E75C433C1;
+ Mon,  3 Oct 2022 17:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664819195;
+ bh=/f51HmdYSMwGoK97fiXtvVcjzPlO15efBoGUbL5csbw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sRc/oipKz6gITuiS/0obu/fcX7fO2Yot2+cqtIivZOasmiIqBZwTP7oS8UJ5gp2b9
+ AVDZSwHHRmibGht+fOIACtchbbJISrnAn3lIviW7q7H+0dJB4qCQMBlV6fWqtQJaS9
+ jtyPwYXNczwK8gy8+xdh0HFDfivDW5i+RShdvNQtu0gO7HiwTG+O7z/NTuFpMgMBXC
+ UA01x2IgHwLcpqWmpjDYdN9BUybKGFGuZtUnBL+sImeg2a1KC2C25SQUgbQcAuP9yt
+ Sw/gRTkSz06VuhqDDP5eZ6/zENIwv3msRm0KezZSXL2Fqpj/EGsuhR0X8RJiAzSkCV
+ wD6hdWDp2lD2w==
+Date: Mon, 3 Oct 2022 10:46:32 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix CFI violations in gt_sysfs
+Message-ID: <Yzsf+B8eVGfKD1dJ@dev-arch.thelio-3990X>
+References: <20220922195127.2607496-1-nathan@kernel.org>
+ <9c7cc54d-5525-f909-b8b3-40cd828ae293@intel.com>
+ <YzYf2LNOCBMDosAl@dev-arch.thelio-3990X>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|BY5PR12MB5016:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7289fec3-e018-4f91-e222-08daa5659973
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mS16v/m4vozCL9E7UC/MRxiCWCMD2/ZF7JdKfpsVpAj/f31Aebb4mooqfNEB0vvXVtCSpFoR1V5DE5X8YckS/LYU6PYG7omBXTMrtiJZHtyClbIBw13q88ZuT8qQ/xVIpQceDdL0dQ6h8oXqEDD/HxDrY9Zc7Zv7BEDBH/LsL871BdoQgzADlqFzh3LR2PCoi+YN3JDQ4TDf3P6EIhmLtndpSxDNXt2cAPbvDHyew/yOBOT/to4iPefg9+fFdvcAuYL/Px5MfvVg5HgyJ8GOFobkEa1RdINS9U3Ji/bjFTRxcqVmoVLSO1MD+Vt5SYkyWil9NoeBlUdCC5znKm1pxBC7djoTnE+mfqi3038GvOROZBRqirT+TK92t9JNCORsNqrixpH7b4EmHyuvy86ydU3GPY7wN0ml2pAeGc/B4H8reeRzSvCeMdCLhwKJIAw/CIltIRN9C+LyyHr8ccRywxxtMLsoAeQ77DHhFMtQ3xxU7ZoSndxpRoh148SDufrWZjDg38vtqEvB9VtQwSXyS6jmm3akq9ybqOtt6SjzuqTe99Eq/Sws8om7eIorLDTOViHwYK3/o3+d+56VKSDwHRRK/3Sq//r46o/DCCZwBTjCfXaQz2qCC3Y4jDKzteTmVh7QPzmB0ffbbOfcXY+by0vEZm9uh41HeJ/6KkMHDiUUUnUlk5djKing0d0OzbthGPbaUTz39Bsc4Mqlj2WbOnGkndFQgtDOpQt12It8cbC7BcLBKkYD4z1M5mRw+UzO+bsudueqoaXGzoR5VITJy+rVh8lk8hUdygi2cB9V0h4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(136003)(376002)(366004)(396003)(346002)(451199015)(38100700002)(86362001)(41300700001)(83380400001)(2906002)(6512007)(31696002)(53546011)(26005)(316002)(54906003)(6916009)(66476007)(6506007)(8676002)(36756003)(4326008)(186003)(2616005)(6486002)(7416002)(66556008)(44832011)(66946007)(5660300002)(31686004)(66899015)(30864003)(478600001)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXR6Tk9BQVRaOUFsK3JtNDJzNElRakVRWTMzb1huaEcrUE1lMXNTcWlXUHpp?=
- =?utf-8?B?SS9YYzZLZVRoZFZ0ZkJyRDVvMmxQSmhKckpzOGNjZTBpM29pcXl4NG16WHpD?=
- =?utf-8?B?NUxXSW41Y0x1a3d4Sm9QVStLcytuQlBydk81V1dFTlRHMXd3VWRSamxTWnlS?=
- =?utf-8?B?aTNQNWI4WU01b252MTBVUytnOVJXeEp5eXZBR0RmTldUeHNDQ0UybnBHTyta?=
- =?utf-8?B?RnpwSDk1YTk5UEZ0ZS80YUhtQ0FiUXRpVmVDdnlGdmVROEFXWkNMR01RUkw2?=
- =?utf-8?B?QkNBOG1wRzRGTXp0OEpjS2UyTFpBdDFGazB0aTdIVXAxUWlsdFFRaDRsbSto?=
- =?utf-8?B?N3R3ZUJCZTBNR3dOZG44VlpqRWlTSDQwOWFuUVl5MW5rdksxbXpVa1Q2ZVVj?=
- =?utf-8?B?djhBaVR1ZEJRSXR1a2tPSmJsYlBBakkyc3g4aWZzYVpGUnpPQWsvQzZKVnd1?=
- =?utf-8?B?dkp5ZzFwVTl3SXBLTldLanFNQUJoQTR3NWxOemN5UDFNT1E5cHZua09YaDBp?=
- =?utf-8?B?ZVNZRnRRNURlRzV6TkxSc1YxbUduNmozT05ZYk1lQ3M1TEZwSmtCZFliZ09w?=
- =?utf-8?B?UUorRkQ4bG8wa0oraGtSWDdCRXZxZytENGIyWFFkUkxvamU1TElaTzFtZHBk?=
- =?utf-8?B?d2Yray9ySG9sTHlHN3REcU5tNGd4eEV1T1orWjY3dXNCQnpPTVBIVzMwbWZW?=
- =?utf-8?B?L1Y2Q25aV0E0b1BER01YZzljckZ6eVZDQk8vOWpHczVDVmNVQWU5Qmd6RTVu?=
- =?utf-8?B?Q3ZFOXpId20va1lqVmgyUUtnUVRESXpqRWZaTjNvbEQxTlNSL24waitEWkg1?=
- =?utf-8?B?czBtbnhUYlNiNWFtZTFTdm41VHFENjkxbXZVUW96cmlQaUJ4RmptRFdRMXNV?=
- =?utf-8?B?MlVtbHNOV0ZVUnJValpqVFJUWkVsVS9ON042VTY5YjI4NFlrK01UUnNnYWFk?=
- =?utf-8?B?dmxwQUhLK09Jam5VZitrTHQzcHVjUjd0bmJNMU9uVytTVER0ejNPdWZ3OVJY?=
- =?utf-8?B?VWxGL05oOThETE9jQ0RiR0QyMFBCd2NacFZyVzd6RnBUajdwSzFNZ1k0TzU1?=
- =?utf-8?B?OG9USkdRSWdEYk1JcGE2TFpqTVpTcnptNzhkL2dTUFdZOE1WS2NLUG5JZi9i?=
- =?utf-8?B?YjA3RUNlM0p5QjNkM0p5OU9lOU5IbDNla2ErY25EblFwSndOZUZXQTUxTlpX?=
- =?utf-8?B?UExhR0ZYMlNSZXZEd0o1UzY4V3c2V2pxZ0NvOWR6N1JONnJWalBvMWhiMm5W?=
- =?utf-8?B?OG1iM3BTR2xZL0Z5cENNRVplWmZscDdtZ3daQWwwb2E5QlVkNTdCV3FWTWlT?=
- =?utf-8?B?a2NQSWVJZ3U5aStiS3RtRGZySFpGWEJQem1yeTZxYkljNVVObTlZZGRyclRy?=
- =?utf-8?B?THZCM1VnMTU2S0luQjlSUlBBREFlcTUzeXNSQnppZ2hDTzNpRGh0V1JVTmZn?=
- =?utf-8?B?ZEZMWUkxQW9FcTFXNGt1ckRtaXVwbEhXZmU4RzRTcEdsVG56TG8zNUdGRVhx?=
- =?utf-8?B?aVQ4d0ZTbkljNTg4R1gwdnpObUs1K1U5WGM5dDVKOFBldlFoYnUrYjNLVDE3?=
- =?utf-8?B?V3pvNkQzNHNSelp0d2NqemlRdlQwaFRJb0syaElCK1BwZVNONVhoOHpKZjZF?=
- =?utf-8?B?NGg2dWpIWk00TklRTUxudFZlTVFXd1IvK2lSbEl1cnB5RFJiV3JUZE0xcnow?=
- =?utf-8?B?a0t3Vk9vRE93WThoWVJsVyswbW9uNDFzVnJFRFR1SkVHOTN4SHVuK2E0SG0v?=
- =?utf-8?B?MU5aVGJEOHN5S2Q0cmhPcFc2U0tjMWRxdDcxS1JETSszQncvV2RZb2thRmpp?=
- =?utf-8?B?ZFB5Z1A0UXJVZTg0NUNqR1B2Zk1NSHJIalJ6VDdvZXhuNzAzVDdld0Q0Q3o2?=
- =?utf-8?B?alRNSmxSNElrOGVSVWpkaVBXUjRKTC9kQm9XT0ovc2E5V1hodTJJbHB2cVBX?=
- =?utf-8?B?NGE2SVFTUVNZY3NtcFNCR20zaTBLdC9pYWVQbWh5bzd4aXlhc0JkdkZZRFA3?=
- =?utf-8?B?U2hVSVBGSmNMaVVUcXBNQ1hKRTNvalhMbUpGU2VKbXIxbE1FcmJFYWRSUXFD?=
- =?utf-8?B?M2Q5WmZ3Y3pGU25Zb2VSTXJFbjhFWVFlaWovSnh4UWE4Wi9WcUQvSHl6UGVh?=
- =?utf-8?Q?HQIi/hMKB9q178cGWBLU47upY?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7289fec3-e018-4f91-e222-08daa5659973
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2022 17:35:01.1916 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6R4XcllTgv9JIMqRnn+HeogqGB0QGphI9O+xB0k6fCKgaP+9fnIrJKWRH4vdP5HVid3jlH6pvhTuNntVZaDkaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB5016
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzYf2LNOCBMDosAl@dev-arch.thelio-3990X>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,461 +54,1024 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>,
- Michael Ellerman <mpe@ellerman.id.au>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, llvm@lists.linux.dev,
+ Kees Cook <keescook@chromium.org>, Tom Rix <trix@redhat.com>,
+ intel-gfx@lists.freedesktop.org, Nick Desaulniers <ndesaulniers@google.com>,
+ patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Sami Tolvanen <samitolvanen@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2022-10-02 um 20:53 schrieb Alistair Popple:
-> Felix Kuehling <felix.kuehling@amd.com> writes:
->
->> On 2022-09-28 08:01, Alistair Popple wrote:
->>> When the CPU tries to access a device private page the migrate_to_ram()
->>> callback associated with the pgmap for the page is called. However no
->>> reference is taken on the faulting page. Therefore a concurrent
->>> migration of the device private page can free the page and possibly the
->>> underlying pgmap. This results in a race which can crash the kernel due
->>> to the migrate_to_ram() function pointer becoming invalid. It also means
->>> drivers can't reliably read the zone_device_data field because the page
->>> may have been freed with memunmap_pages().
->>>
->>> Close the race by getting a reference on the page while holding the ptl
->>> to ensure it has not been freed. Unfortunately the elevated reference
->>> count will cause the migration required to handle the fault to fail. To
->>> avoid this failure pass the faulting page into the migrate_vma functions
->>> so that if an elevated reference count is found it can be checked to see
->>> if it's expected or not.
->> Do we really have to drag the fault_page all the way into the migrate structure?
->> Is the elevated refcount still needed at that time? Maybe it would be easier to
->> drop the refcount early in the ops->migrage_to_ram callbacks, so we won't have
->> to deal with it in all the migration code.
-> That would also work. Honestly I don't really like either solution :-)
+Hi Andrzej,
 
-Then we agree. :)
+On Thu, Sep 29, 2022 at 03:44:40PM -0700, Nathan Chancellor wrote:
+> On Fri, Sep 30, 2022 at 12:34:41AM +0200, Andrzej Hajda wrote:
+> > On 22.09.2022 21:51, Nathan Chancellor wrote:
+> > > When booting with clang's kernel control flow integrity series [1],
+> > > there are numerous violations when accessing the files under
+> > > /sys/devices/pci0000:00/0000:00:02.0/drm/card0/gt/gt0:
+> > > 
+> > >    $ cd /sys/devices/pci0000:00/0000:00:02.0/drm/card0/gt/gt0
+> > > 
+> > >    $ grep . *
+> > >    id:0
+> > >    punit_req_freq_mhz:350
+> > >    rc6_enable:1
+> > >    rc6_residency_ms:214934
+> > >    rps_act_freq_mhz:1300
+> > >    rps_boost_freq_mhz:1300
+> > >    rps_cur_freq_mhz:350
+> > >    rps_max_freq_mhz:1300
+> > >    rps_min_freq_mhz:350
+> > >    rps_RP0_freq_mhz:1300
+> > >    rps_RP1_freq_mhz:350
+> > >    rps_RPn_freq_mhz:350
+> > >    throttle_reason_pl1:0
+> > >    throttle_reason_pl2:0
+> > >    throttle_reason_pl4:0
+> > >    throttle_reason_prochot:0
+> > >    throttle_reason_ratl:0
+> > >    throttle_reason_status:0
+> > >    throttle_reason_thermal:0
+> > >    throttle_reason_vr_tdc:0
+> > >    throttle_reason_vr_thermalert:0
+> > > 
+> > >    $ sudo dmesg &| grep "CFI failure at"
+> > >    [  214.595903] CFI failure at kobj_attr_show+0x19/0x30 (target: id_show+0x0/0x70 [i915]; expected type: 0xc527b809)
+> > >    [  214.596064] CFI failure at kobj_attr_show+0x19/0x30 (target: punit_req_freq_mhz_show+0x0/0x40 [i915]; expected type: 0xc527b809)
+> > >    [  214.596407] CFI failure at kobj_attr_show+0x19/0x30 (target: rc6_enable_show+0x0/0x40 [i915]; expected type: 0xc527b809)
+> > >    [  214.596528] CFI failure at kobj_attr_show+0x19/0x30 (target: rc6_residency_ms_show+0x0/0x270 [i915]; expected type: 0xc527b809)
+> > >    [  214.596682] CFI failure at kobj_attr_show+0x19/0x30 (target: act_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.596792] CFI failure at kobj_attr_show+0x19/0x30 (target: boost_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.596893] CFI failure at kobj_attr_show+0x19/0x30 (target: cur_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.596996] CFI failure at kobj_attr_show+0x19/0x30 (target: max_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.597099] CFI failure at kobj_attr_show+0x19/0x30 (target: min_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.597198] CFI failure at kobj_attr_show+0x19/0x30 (target: RP0_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.597301] CFI failure at kobj_attr_show+0x19/0x30 (target: RP1_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.597405] CFI failure at kobj_attr_show+0x19/0x30 (target: RPn_freq_mhz_show+0x0/0xe0 [i915]; expected type: 0xc527b809)
+> > >    [  214.597538] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.597701] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.597836] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.597952] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.598071] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.598177] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.598307] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.598439] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > >    [  214.598542] CFI failure at kobj_attr_show+0x19/0x30 (target: throttle_reason_bool_show+0x0/0x50 [i915]; expected type: 0xc527b809)
+> > > 
+> > > With kCFI, indirect calls are validated against their expected type
+> > > versus actual type and failures occur when the two types do not match.
+> > 
+> > Have you tried this tool with drm subsytem, IIRC there are also similar
+> > cases with callbacks expecting ptr to different struct than actually passed.
+> 
+> Yes, I have also run a kCFI kernel on an AMD system that I have and I
+> have not seen any failures from them. I only have AMD and Intel systems
+> with graphics so there could be other problems lurking in other drivers.
+> 
+> > > The ultimate issue is that these sysfs functions are expecting to be
+> > > called via dev_attr_show() but they may also be called via
+> > > kobj_attr_show(), as certain files are created under two different
+> > > kobjects that have two different sysfs_ops in intel_gt_sysfs_register(),
+> > > hence the warnings above. When accessing the gt_ files under
+> > > /sys/devices/pci0000:00/0000:00:02.0/drm/card0, which are using the same
+> > > sysfs functions, there are no violations, meaning the functions are
+> > > being called with the proper type.
+> > > 
+> > > To make everything work properly, adjust certain functions to match the
+> > > type of the ->show() and ->store() members in 'struct kobj_attribute'.
+> > > Add a macro to generate functions for that can be called via both
+> > > dev_attr_{show,store}() or kobj_attr_{show,store}() so that they can be
+> > > called through both kobject locations without violating kCFI and adjust
+> > > the attribute groups to account for this.
+> > > 
+> > > [1]: https://lore.kernel.org/20220908215504.3686827-1-samitolvanen@google.com/
+> > > 
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1716
+> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_gt_sysfs.c    |  15 +-
+> > >   drivers/gpu/drm/i915/gt/intel_gt_sysfs.h    |   2 +-
+> > >   drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 462 +++++++++-----------
+> > >   3 files changed, 221 insertions(+), 258 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
+> > > index d651ccd0ab20..9486dd3bed99 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
+> > > @@ -22,11 +22,9 @@ bool is_object_gt(struct kobject *kobj)
+> > >   	return !strncmp(kobj->name, "gt", 2);
+> > >   }
+> > > -struct intel_gt *intel_gt_sysfs_get_drvdata(struct device *dev,
+> > > +struct intel_gt *intel_gt_sysfs_get_drvdata(struct kobject *kobj,
+> > >   					    const char *name)
+> > >   {
+> > > -	struct kobject *kobj = &dev->kobj;
+> > > -
+> > >   	/*
+> > >   	 * We are interested at knowing from where the interface
+> > >   	 * has been called, whether it's called from gt/ or from
+> > > @@ -38,6 +36,7 @@ struct intel_gt *intel_gt_sysfs_get_drvdata(struct device *dev,
+> > >   	 * "struct drm_i915_private *" type.
+> > >   	 */
+> > >   	if (!is_object_gt(kobj)) {
+> > > +		struct device *dev = kobj_to_dev(kobj);
+> > >   		struct drm_i915_private *i915 = kdev_minor_to_i915(dev);
+> > >   		return to_gt(i915);
+> > > @@ -51,18 +50,18 @@ static struct kobject *gt_get_parent_obj(struct intel_gt *gt)
+> > >   	return &gt->i915->drm.primary->kdev->kobj;
+> > >   }
+> > > -static ssize_t id_show(struct device *dev,
+> > > -		       struct device_attribute *attr,
+> > > +static ssize_t id_show(struct kobject *kobj,
+> > > +		       struct kobj_attribute *attr,
+> > >   		       char *buf)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > >   	return sysfs_emit(buf, "%u\n", gt->info.id);
+> > >   }
+> > > -static DEVICE_ATTR_RO(id);
+> > > +static struct kobj_attribute attr_id = __ATTR_RO(id);
+> > >   static struct attribute *id_attrs[] = {
+> > > -	&dev_attr_id.attr,
+> > > +	&attr_id.attr,
+> > >   	NULL,
+> > >   };
+> > >   ATTRIBUTE_GROUPS(id);
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.h b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.h
+> > > index 6232923a420d..c3a123faee98 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.h
+> > > @@ -30,7 +30,7 @@ static inline struct intel_gt *kobj_to_gt(struct kobject *kobj)
+> > >   void intel_gt_sysfs_register(struct intel_gt *gt);
+> > >   void intel_gt_sysfs_unregister(struct intel_gt *gt);
+> > > -struct intel_gt *intel_gt_sysfs_get_drvdata(struct device *dev,
+> > > +struct intel_gt *intel_gt_sysfs_get_drvdata(struct kobject *kobj,
+> > >   					    const char *name);
+> > >   #endif /* SYSFS_GT_H */
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> > > index 904160952369..308d54008983 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> > > @@ -24,14 +24,15 @@ enum intel_gt_sysfs_op {
+> > >   };
+> > >   static int
+> > > -sysfs_gt_attribute_w_func(struct device *dev, struct device_attribute *attr,
+> > > +sysfs_gt_attribute_w_func(struct kobject *kobj, struct attribute attr,
+> > >   			  int (func)(struct intel_gt *gt, u32 val), u32 val)
+> > >   {
+> > >   	struct intel_gt *gt;
+> > >   	int ret;
+> > > -	if (!is_object_gt(&dev->kobj)) {
+> > > +	if (!is_object_gt(kobj)) {
+> > >   		int i;
+> > > +		struct device *dev = kobj_to_dev(kobj);
+> > >   		struct drm_i915_private *i915 = kdev_minor_to_i915(dev);
+> > >   		for_each_gt(gt, i915, i) {
+> > > @@ -40,7 +41,7 @@ sysfs_gt_attribute_w_func(struct device *dev, struct device_attribute *attr,
+> > >   				break;
+> > >   		}
+> > >   	} else {
+> > > -		gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +		gt = intel_gt_sysfs_get_drvdata(kobj, attr.name);
+> > >   		ret = func(gt, val);
+> > >   	}
+> > > @@ -48,7 +49,7 @@ sysfs_gt_attribute_w_func(struct device *dev, struct device_attribute *attr,
+> > >   }
+> > >   static u32
+> > > -sysfs_gt_attribute_r_func(struct device *dev, struct device_attribute *attr,
+> > > +sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute attr,
+> > >   			  u32 (func)(struct intel_gt *gt),
+> > >   			  enum intel_gt_sysfs_op op)
+> > >   {
+> > > @@ -57,8 +58,9 @@ sysfs_gt_attribute_r_func(struct device *dev, struct device_attribute *attr,
+> > >   	ret = (op == INTEL_GT_SYSFS_MAX) ? 0 : (u32) -1;
+> > > -	if (!is_object_gt(&dev->kobj)) {
+> > > +	if (!is_object_gt(kobj)) {
+> > >   		int i;
+> > > +		struct device *dev = kobj_to_dev(kobj);
+> > >   		struct drm_i915_private *i915 = kdev_minor_to_i915(dev);
+> > >   		for_each_gt(gt, i915, i) {
+> > > @@ -77,7 +79,7 @@ sysfs_gt_attribute_r_func(struct device *dev, struct device_attribute *attr,
+> > >   			}
+> > >   		}
+> > >   	} else {
+> > > -		gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +		gt = intel_gt_sysfs_get_drvdata(kobj, attr.name);
+> > >   		ret = func(gt);
+> > >   	}
+> > > @@ -92,6 +94,77 @@ sysfs_gt_attribute_r_func(struct device *dev, struct device_attribute *attr,
+> > >   #define sysfs_gt_attribute_r_max_func(d, a, f) \
+> > >   		sysfs_gt_attribute_r_func(d, a, f, INTEL_GT_SYSFS_MAX)
+> > > +#define INTEL_GT_SYSFS_SHOW(_name, _attr_type)							\
+> > > +	static ssize_t _name##_show(struct kobject *kobj,					\
+> > > +				    struct kobj_attribute *attr, char *buff)			\
+> > > +	{											\
+> > > +		u32 val = sysfs_gt_attribute_r_##_attr_type##_func(kobj, attr->attr,		\
+> > > +								   __##_name##_show);		\
+> > > +												\
+> > > +		return sysfs_emit(buff, "%u\n", val);						\
+> > > +	}											\
+> > > +	static ssize_t _name##_dev_show(struct device *dev,					\
+> > > +					struct device_attribute *attr, char *buff)		\
+> > > +	{											\
+> > > +		u32 val = sysfs_gt_attribute_r_##_attr_type##_func(&dev->kobj, attr->attr,	\
+> > > +								   __##_name##_show);		\
+> > > +												\
+> > > +		return sysfs_emit(buff, "%u\n", val);						\
+> > > +	}
+> > > +
+> > > +#define INTEL_GT_SYSFS_STORE(_name, _func)						\
+> > > +	static ssize_t _name##_store(struct kobject *kobj,				\
+> > > +				     struct kobj_attribute *attr, const char *buff,	\
+> > > +				     size_t count)					\
+> > > +	{										\
+> > > +		int ret;								\
+> > > +		u32 val;								\
+> > > +											\
+> > > +		ret = kstrtou32(buff, 0, &val);						\
+> > > +		if (ret)								\
+> > > +			return ret;							\
+> > > +											\
+> > > +		ret = sysfs_gt_attribute_w_func(kobj, attr->attr, _func, val);		\
+> > > +											\
+> > > +		return ret ?: count;							\
+> > > +	}										\
+> > > +	static ssize_t _name##_dev_store(struct device *dev,				\
+> > > +					 struct device_attribute *attr,			\
+> > > +					 const char *buff, size_t count)		\
+> > > +	{										\
+> > > +		int ret;								\
+> > > +		u32 val;								\
+> > > +											\
+> > > +		ret = kstrtou32(buff, 0, &val);						\
+> > > +		if (ret)								\
+> > > +			return ret;							\
+> > > +											\
+> > > +		ret = sysfs_gt_attribute_w_func(&dev->kobj, attr->attr, _func, val);	\
+> > > +											\
+> > > +		return ret ?: count;							\
+> > > +	}
+> > 
+> > In both cases above I guess 2nd function can just call 1st one instead of
+> > copy/paste (small, but still). For example:
+> > static ssize_t _name##_dev_store(...)
+> > {
+> > 	return _name##_store(&dev->kobj, attr->attr, _func, val);
+> > }
+> 
+> Ah great point, I had thought about that but never jumped on it for some
+> reason... I can send a v2 on Monday (I will be offline Friday) to give a
+> chance for others to comment.
 
+Now that I am back online and looking into a v2, this suggestion will
+not quite work. The second parameter to the _name##_store function is of
+type 'struct kobj_attribute', not 'struct attribute', so we cannot pass
+either 'attr' or 'attr->attr', as neither are 'struct kobj_attribute'.
 
-> I didn't like having to plumb it all through the migration code
-> but I ended up going this way because I felt it was easier to explain
-> the life time of vmf->page for the migrate_to_ram() callback. This way
-> vmf->page is guaranteed to be valid for the duration of the
-> migrate_to_ram() callbak.
->
-> As you suggest we could instead have drivers call put_page(vmf->page)
-> somewhere in migrate_to_ram() before calling migrate_vma_setup(). The
-> reason I didn't go this way is IMHO it's more subtle because in general
-> the page will remain valid after that put_page() anyway. So it would be
-> easy for drivers to introduce a bug assuming the vmf->page is still
-> valid and not notice because most of the time it is.
+  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:400:1: error: incompatible pointer types passing 'struct device_attribute *' to parameter of type 'struct kobj_attribute *' [-Werror,-Wincompatible-pointer-types]
+  INTEL_GT_SYSFS_STORE(min_freq_mhz, __set_min_freq);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:132:36: note: expanded from macro 'INTEL_GT_SYSFS_STORE'
+                  return _name##_store(&dev->kobj, attr, buff, count);                    \
+                                                   ^~~~
+  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:400:1: note: passing argument to parameter 'attr' here
+  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:114:33: note: expanded from macro 'INTEL_GT_SYSFS_STORE'
+                                       struct kobj_attribute *attr, const char *buff,     \
+                                                              ^
 
-I guess I'm biased because my migrate_to_ram implementation doesn't use 
-the vmf->page at all. I agree that dropping the refcount in the callback 
-is subtle. But handling an elevated refcount for just one special page 
-in the migration code also looks a bit fragile to me.
+I cannot change the second parameter to 'struct attribute' because the
+function prototype has to match the ->show() and ->store() members of
+'struct kobj_attribute'.
 
-It's not my call to make. But my preference is very clear. Either way, 
-if the decision is to go with your solution, then you have my
+I could introduce a third function then have the existing functions call
+that one to reduce duplication, which might look something like the
+following, if that is what you would prefer? I am happy to send a v2
+with this included if it works for you.
 
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+index 308d54008983..2b5f05b31187 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+@@ -24,7 +24,7 @@ enum intel_gt_sysfs_op {
+ };
+ 
+ static int
+-sysfs_gt_attribute_w_func(struct kobject *kobj, struct attribute attr,
++sysfs_gt_attribute_w_func(struct kobject *kobj, struct attribute *attr,
+ 			  int (func)(struct intel_gt *gt, u32 val), u32 val)
+ {
+ 	struct intel_gt *gt;
+@@ -41,7 +41,7 @@ sysfs_gt_attribute_w_func(struct kobject *kobj, struct attribute attr,
+ 				break;
+ 		}
+ 	} else {
+-		gt = intel_gt_sysfs_get_drvdata(kobj, attr.name);
++		gt = intel_gt_sysfs_get_drvdata(kobj, attr->name);
+ 		ret = func(gt, val);
+ 	}
+ 
+@@ -49,7 +49,7 @@ sysfs_gt_attribute_w_func(struct kobject *kobj, struct attribute attr,
+ }
+ 
+ static u32
+-sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute attr,
++sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute *attr,
+ 			  u32 (func)(struct intel_gt *gt),
+ 			  enum intel_gt_sysfs_op op)
+ {
+@@ -79,7 +79,7 @@ sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute attr,
+ 			}
+ 		}
+ 	} else {
+-		gt = intel_gt_sysfs_get_drvdata(kobj, attr.name);
++		gt = intel_gt_sysfs_get_drvdata(kobj, attr->name);
+ 		ret = func(gt);
+ 	}
+ 
+@@ -95,27 +95,29 @@ sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute attr,
+ 		sysfs_gt_attribute_r_func(d, a, f, INTEL_GT_SYSFS_MAX)
+ 
+ #define INTEL_GT_SYSFS_SHOW(_name, _attr_type)							\
+-	static ssize_t _name##_show(struct kobject *kobj,					\
+-				    struct kobj_attribute *attr, char *buff)			\
++	static ssize_t _name##_show_common(struct kobject *kobj,				\
++					   struct attribute *attr, char *buff)			\
+ 	{											\
+-		u32 val = sysfs_gt_attribute_r_##_attr_type##_func(kobj, attr->attr,		\
++		u32 val = sysfs_gt_attribute_r_##_attr_type##_func(kobj, attr,			\
+ 								   __##_name##_show);		\
+ 												\
+ 		return sysfs_emit(buff, "%u\n", val);						\
+ 	}											\
++	static ssize_t _name##_show(struct kobject *kobj,					\
++				    struct kobj_attribute *attr, char *buff)			\
++	{											\
++		return _name ##_show_common(kobj, &attr->attr, buff);				\
++	}											\
+ 	static ssize_t _name##_dev_show(struct device *dev,					\
+ 					struct device_attribute *attr, char *buff)		\
+ 	{											\
+-		u32 val = sysfs_gt_attribute_r_##_attr_type##_func(&dev->kobj, attr->attr,	\
+-								   __##_name##_show);		\
+-												\
+-		return sysfs_emit(buff, "%u\n", val);						\
++		return _name##_show_common(&dev->kobj, &attr->attr, buff);			\
+ 	}
+ 
+ #define INTEL_GT_SYSFS_STORE(_name, _func)						\
+-	static ssize_t _name##_store(struct kobject *kobj,				\
+-				     struct kobj_attribute *attr, const char *buff,	\
+-				     size_t count)					\
++	static ssize_t _name##_store_common(struct kobject *kobj,			\
++					    struct attribute *attr,			\
++					    const char *buff, size_t count)		\
+ 	{										\
+ 		int ret;								\
+ 		u32 val;								\
+@@ -124,24 +126,21 @@ sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute attr,
+ 		if (ret)								\
+ 			return ret;							\
+ 											\
+-		ret = sysfs_gt_attribute_w_func(kobj, attr->attr, _func, val);		\
++		ret = sysfs_gt_attribute_w_func(kobj, attr, _func, val);		\
+ 											\
+ 		return ret ?: count;							\
+ 	}										\
++	static ssize_t _name##_store(struct kobject *kobj,				\
++				     struct kobj_attribute *attr, const char *buff,	\
++				     size_t count)					\
++	{										\
++		return _name##_store_common(kobj, &attr->attr, buff, count);		\
++	}										\
+ 	static ssize_t _name##_dev_store(struct device *dev,				\
+ 					 struct device_attribute *attr,			\
+ 					 const char *buff, size_t count)		\
+ 	{										\
+-		int ret;								\
+-		u32 val;								\
+-											\
+-		ret = kstrtou32(buff, 0, &val);						\
+-		if (ret)								\
+-			return ret;							\
+-											\
+-		ret = sysfs_gt_attribute_w_func(&dev->kobj, attr->attr, _func, val);	\
+-											\
+-		return ret ?: count;							\
++		return _name##_store_common(&dev->kobj, &attr->attr, buff, count);	\
+ 	}
+ 
+ #define INTEL_GT_SYSFS_SHOW_MAX(_name) INTEL_GT_SYSFS_SHOW(_name, max)
 
-
->
-> Let me know if you disagree with my reasoning though - would appreciate
-> any review here.
->
->> Regards,
->>    Felix
->>
->>
->>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
->>> Cc: Jason Gunthorpe <jgg@nvidia.com>
->>> Cc: John Hubbard <jhubbard@nvidia.com>
->>> Cc: Ralph Campbell <rcampbell@nvidia.com>
->>> Cc: Michael Ellerman <mpe@ellerman.id.au>
->>> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
->>> Cc: Lyude Paul <lyude@redhat.com>
->>> ---
->>>    arch/powerpc/kvm/book3s_hv_uvmem.c       | 15 ++++++-----
->>>    drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 17 +++++++------
->>>    drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |  2 +-
->>>    drivers/gpu/drm/amd/amdkfd/kfd_svm.c     | 11 +++++---
->>>    include/linux/migrate.h                  |  8 ++++++-
->>>    lib/test_hmm.c                           |  7 ++---
->>>    mm/memory.c                              | 16 +++++++++++-
->>>    mm/migrate.c                             | 34 ++++++++++++++-----------
->>>    mm/migrate_device.c                      | 18 +++++++++----
->>>    9 files changed, 87 insertions(+), 41 deletions(-)
->>>
->>> diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
->>> index 5980063..d4eacf4 100644
->>> --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
->>> +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
->>> @@ -508,10 +508,10 @@ unsigned long kvmppc_h_svm_init_start(struct kvm *kvm)
->>>    static int __kvmppc_svm_page_out(struct vm_area_struct *vma,
->>>    		unsigned long start,
->>>    		unsigned long end, unsigned long page_shift,
->>> -		struct kvm *kvm, unsigned long gpa)
->>> +		struct kvm *kvm, unsigned long gpa, struct page *fault_page)
->>>    {
->>>    	unsigned long src_pfn, dst_pfn = 0;
->>> -	struct migrate_vma mig;
->>> +	struct migrate_vma mig = { 0 };
->>>    	struct page *dpage, *spage;
->>>    	struct kvmppc_uvmem_page_pvt *pvt;
->>>    	unsigned long pfn;
->>> @@ -525,6 +525,7 @@ static int __kvmppc_svm_page_out(struct vm_area_struct *vma,
->>>    	mig.dst = &dst_pfn;
->>>    	mig.pgmap_owner = &kvmppc_uvmem_pgmap;
->>>    	mig.flags = MIGRATE_VMA_SELECT_DEVICE_PRIVATE;
->>> +	mig.fault_page = fault_page;
->>>      	/* The requested page is already paged-out, nothing to do */
->>>    	if (!kvmppc_gfn_is_uvmem_pfn(gpa >> page_shift, kvm, NULL))
->>> @@ -580,12 +581,14 @@ static int __kvmppc_svm_page_out(struct vm_area_struct *vma,
->>>    static inline int kvmppc_svm_page_out(struct vm_area_struct *vma,
->>>    				      unsigned long start, unsigned long end,
->>>    				      unsigned long page_shift,
->>> -				      struct kvm *kvm, unsigned long gpa)
->>> +				      struct kvm *kvm, unsigned long gpa,
->>> +				      struct page *fault_page)
->>>    {
->>>    	int ret;
->>>      	mutex_lock(&kvm->arch.uvmem_lock);
->>> -	ret = __kvmppc_svm_page_out(vma, start, end, page_shift, kvm, gpa);
->>> +	ret = __kvmppc_svm_page_out(vma, start, end, page_shift, kvm, gpa,
->>> +				fault_page);
->>>    	mutex_unlock(&kvm->arch.uvmem_lock);
->>>      	return ret;
->>> @@ -736,7 +739,7 @@ static int kvmppc_svm_page_in(struct vm_area_struct *vma,
->>>    		bool pagein)
->>>    {
->>>    	unsigned long src_pfn, dst_pfn = 0;
->>> -	struct migrate_vma mig;
->>> +	struct migrate_vma mig = { 0 };
->>>    	struct page *spage;
->>>    	unsigned long pfn;
->>>    	struct page *dpage;
->>> @@ -994,7 +997,7 @@ static vm_fault_t kvmppc_uvmem_migrate_to_ram(struct vm_fault *vmf)
->>>      	if (kvmppc_svm_page_out(vmf->vma, vmf->address,
->>>    				vmf->address + PAGE_SIZE, PAGE_SHIFT,
->>> -				pvt->kvm, pvt->gpa))
->>> +				pvt->kvm, pvt->gpa, vmf->page))
->>>    		return VM_FAULT_SIGBUS;
->>>    	else
->>>    		return 0;
->>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
->>> index b059a77..776448b 100644
->>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
->>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
->>> @@ -409,7 +409,7 @@ svm_migrate_vma_to_vram(struct amdgpu_device *adev, struct svm_range *prange,
->>>    	uint64_t npages = (end - start) >> PAGE_SHIFT;
->>>    	struct kfd_process_device *pdd;
->>>    	struct dma_fence *mfence = NULL;
->>> -	struct migrate_vma migrate;
->>> +	struct migrate_vma migrate = { 0 };
->>>    	unsigned long cpages = 0;
->>>    	dma_addr_t *scratch;
->>>    	void *buf;
->>> @@ -668,7 +668,7 @@ svm_migrate_copy_to_ram(struct amdgpu_device *adev, struct svm_range *prange,
->>>    static long
->>>    svm_migrate_vma_to_ram(struct amdgpu_device *adev, struct svm_range *prange,
->>>    		       struct vm_area_struct *vma, uint64_t start, uint64_t end,
->>> -		       uint32_t trigger)
->>> +		       uint32_t trigger, struct page *fault_page)
->>>    {
->>>    	struct kfd_process *p = container_of(prange->svms, struct kfd_process, svms);
->>>    	uint64_t npages = (end - start) >> PAGE_SHIFT;
->>> @@ -676,7 +676,7 @@ svm_migrate_vma_to_ram(struct amdgpu_device *adev, struct svm_range *prange,
->>>    	unsigned long cpages = 0;
->>>    	struct kfd_process_device *pdd;
->>>    	struct dma_fence *mfence = NULL;
->>> -	struct migrate_vma migrate;
->>> +	struct migrate_vma migrate = { 0 };
->>>    	dma_addr_t *scratch;
->>>    	void *buf;
->>>    	int r = -ENOMEM;
->>> @@ -699,6 +699,7 @@ svm_migrate_vma_to_ram(struct amdgpu_device *adev, struct svm_range *prange,
->>>      	migrate.src = buf;
->>>    	migrate.dst = migrate.src + npages;
->>> +	migrate.fault_page = fault_page;
->>>    	scratch = (dma_addr_t *)(migrate.dst + npages);
->>>      	kfd_smi_event_migration_start(adev->kfd.dev, p->lead_thread->pid,
->>> @@ -766,7 +767,7 @@ svm_migrate_vma_to_ram(struct amdgpu_device *adev, struct svm_range *prange,
->>>     * 0 - OK, otherwise error code
->>>     */
->>>    int svm_migrate_vram_to_ram(struct svm_range *prange, struct mm_struct *mm,
->>> -			    uint32_t trigger)
->>> +			    uint32_t trigger, struct page *fault_page)
->>>    {
->>>    	struct amdgpu_device *adev;
->>>    	struct vm_area_struct *vma;
->>> @@ -807,7 +808,8 @@ int svm_migrate_vram_to_ram(struct svm_range *prange, struct mm_struct *mm,
->>>    		}
->>>      		next = min(vma->vm_end, end);
->>> -		r = svm_migrate_vma_to_ram(adev, prange, vma, addr, next, trigger);
->>> +		r = svm_migrate_vma_to_ram(adev, prange, vma, addr, next, trigger,
->>> +			fault_page);
->>>    		if (r < 0) {
->>>    			pr_debug("failed %ld to migrate prange %p\n", r, prange);
->>>    			break;
->>> @@ -851,7 +853,7 @@ svm_migrate_vram_to_vram(struct svm_range *prange, uint32_t best_loc,
->>>    	pr_debug("from gpu 0x%x to gpu 0x%x\n", prange->actual_loc, best_loc);
->>>      	do {
->>> -		r = svm_migrate_vram_to_ram(prange, mm, trigger);
->>> +		r = svm_migrate_vram_to_ram(prange, mm, trigger, NULL);
->>>    		if (r)
->>>    			return r;
->>>    	} while (prange->actual_loc && --retries);
->>> @@ -938,7 +940,8 @@ static vm_fault_t svm_migrate_to_ram(struct vm_fault *vmf)
->>>    		goto out_unlock_prange;
->>>    	}
->>>    -	r = svm_migrate_vram_to_ram(prange, mm,
->>> KFD_MIGRATE_TRIGGER_PAGEFAULT_CPU);
->>> +	r = svm_migrate_vram_to_ram(prange, mm, KFD_MIGRATE_TRIGGER_PAGEFAULT_CPU,
->>> +				vmf->page);
->>>    	if (r)
->>>    		pr_debug("failed %d migrate 0x%p [0x%lx 0x%lx] to ram\n", r,
->>>    			 prange, prange->start, prange->last);
->>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
->>> index b3f0754..a5d7e6d 100644
->>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
->>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
->>> @@ -43,7 +43,7 @@ enum MIGRATION_COPY_DIR {
->>>    int svm_migrate_to_vram(struct svm_range *prange,  uint32_t best_loc,
->>>    			struct mm_struct *mm, uint32_t trigger);
->>>    int svm_migrate_vram_to_ram(struct svm_range *prange, struct mm_struct *mm,
->>> -			    uint32_t trigger);
->>> +			    uint32_t trigger, struct page *fault_page);
->>>    unsigned long
->>>    svm_migrate_addr_to_pfn(struct amdgpu_device *adev, unsigned long addr);
->>>    diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> index 11074cc..9139e5a 100644
->>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> @@ -2913,13 +2913,15 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
->>>    				 */
->>>    				if (prange->actual_loc)
->>>    					r = svm_migrate_vram_to_ram(prange, mm,
->>> -					   KFD_MIGRATE_TRIGGER_PAGEFAULT_GPU);
->>> +					   KFD_MIGRATE_TRIGGER_PAGEFAULT_GPU,
->>> +					   NULL);
->>>    				else
->>>    					r = 0;
->>>    			}
->>>    		} else {
->>>    			r = svm_migrate_vram_to_ram(prange, mm,
->>> -					KFD_MIGRATE_TRIGGER_PAGEFAULT_GPU);
->>> +					KFD_MIGRATE_TRIGGER_PAGEFAULT_GPU,
->>> +					NULL);
->>>    		}
->>>    		if (r) {
->>>    			pr_debug("failed %d to migrate svms %p [0x%lx 0x%lx]\n",
->>> @@ -3242,7 +3244,8 @@ svm_range_trigger_migration(struct mm_struct *mm, struct svm_range *prange,
->>>    		return 0;
->>>      	if (!best_loc) {
->>> -		r = svm_migrate_vram_to_ram(prange, mm, KFD_MIGRATE_TRIGGER_PREFETCH);
->>> +		r = svm_migrate_vram_to_ram(prange, mm,
->>> +					KFD_MIGRATE_TRIGGER_PREFETCH, NULL);
->>>    		*migrated = !r;
->>>    		return r;
->>>    	}
->>> @@ -3303,7 +3306,7 @@ static void svm_range_evict_svm_bo_worker(struct work_struct *work)
->>>    		mutex_lock(&prange->migrate_mutex);
->>>    		do {
->>>    			r = svm_migrate_vram_to_ram(prange, mm,
->>> -						KFD_MIGRATE_TRIGGER_TTM_EVICTION);
->>> +					KFD_MIGRATE_TRIGGER_TTM_EVICTION, NULL);
->>>    		} while (!r && prange->actual_loc && --retries);
->>>      		if (!r && prange->actual_loc)
->>> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
->>> index 22c0a0c..82ffa47 100644
->>> --- a/include/linux/migrate.h
->>> +++ b/include/linux/migrate.h
->>> @@ -62,6 +62,8 @@ extern const char *migrate_reason_names[MR_TYPES];
->>>    #ifdef CONFIG_MIGRATION
->>>      extern void putback_movable_pages(struct list_head *l);
->>> +int migrate_folio_extra(struct address_space *mapping, struct folio *dst,
->>> +		struct folio *src, enum migrate_mode mode, int extra_count);
->>>    int migrate_folio(struct address_space *mapping, struct folio *dst,
->>>    		struct folio *src, enum migrate_mode mode);
->>>    extern int migrate_pages(struct list_head *l, new_page_t new, free_page_t free,
->>> @@ -212,6 +214,12 @@ struct migrate_vma {
->>>    	 */
->>>    	void			*pgmap_owner;
->>>    	unsigned long		flags;
->>> +
->>> +	/*
->>> +	 * Set to vmf->page if this is being called to migrate a page as part of
->>> +	 * a migrate_to_ram() callback.
->>> +	 */
->>> +	struct page		*fault_page;
->>>    };
->>>      int migrate_vma_setup(struct migrate_vma *args);
->>> diff --git a/lib/test_hmm.c b/lib/test_hmm.c
->>> index e3965ca..89463ff 100644
->>> --- a/lib/test_hmm.c
->>> +++ b/lib/test_hmm.c
->>> @@ -907,7 +907,7 @@ static int dmirror_migrate_to_system(struct dmirror *dmirror,
->>>    	struct vm_area_struct *vma;
->>>    	unsigned long src_pfns[64] = { 0 };
->>>    	unsigned long dst_pfns[64] = { 0 };
->>> -	struct migrate_vma args;
->>> +	struct migrate_vma args = { 0 };
->>>    	unsigned long next;
->>>    	int ret;
->>>    @@ -968,7 +968,7 @@ static int dmirror_migrate_to_device(struct dmirror
->>> *dmirror,
->>>    	unsigned long src_pfns[64] = { 0 };
->>>    	unsigned long dst_pfns[64] = { 0 };
->>>    	struct dmirror_bounce bounce;
->>> -	struct migrate_vma args;
->>> +	struct migrate_vma args = { 0 };
->>>    	unsigned long next;
->>>    	int ret;
->>>    @@ -1334,7 +1334,7 @@ static void dmirror_devmem_free(struct page *page)
->>>      static vm_fault_t dmirror_devmem_fault(struct vm_fault *vmf)
->>>    {
->>> -	struct migrate_vma args;
->>> +	struct migrate_vma args = { 0 };
->>>    	unsigned long src_pfns = 0;
->>>    	unsigned long dst_pfns = 0;
->>>    	struct page *rpage;
->>> @@ -1357,6 +1357,7 @@ static vm_fault_t dmirror_devmem_fault(struct vm_fault *vmf)
->>>    	args.dst = &dst_pfns;
->>>    	args.pgmap_owner = dmirror->mdevice;
->>>    	args.flags = dmirror_select_device(dmirror);
->>> +	args.fault_page = vmf->page;
->>>      	if (migrate_vma_setup(&args))
->>>    		return VM_FAULT_SIGBUS;
->>> diff --git a/mm/memory.c b/mm/memory.c
->>> index b994784..65d3977 100644
->>> --- a/mm/memory.c
->>> +++ b/mm/memory.c
->>> @@ -3742,7 +3742,21 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
->>>    			ret = remove_device_exclusive_entry(vmf);
->>>    		} else if (is_device_private_entry(entry)) {
->>>    			vmf->page = pfn_swap_entry_to_page(entry);
->>> -			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
->>> +			vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
->>> +					vmf->address, &vmf->ptl);
->>> +			if (unlikely(!pte_same(*vmf->pte, vmf->orig_pte))) {
->>> +				spin_unlock(vmf->ptl);
->>> +				goto out;
->>> +			}
->>> +
->>> +			/*
->>> +			 * Get a page reference while we know the page can't be
->>> +			 * freed.
->>> +			 */
->>> +			get_page(vmf->page);
->>> +			pte_unmap_unlock(vmf->pte, vmf->ptl);
->>> +			vmf->page->pgmap->ops->migrate_to_ram(vmf);
->>> +			put_page(vmf->page);
->>>    		} else if (is_hwpoison_entry(entry)) {
->>>    			ret = VM_FAULT_HWPOISON;
->>>    		} else if (is_swapin_error_entry(entry)) {
->>> diff --git a/mm/migrate.c b/mm/migrate.c
->>> index ce6a58f..e3f78a7 100644
->>> --- a/mm/migrate.c
->>> +++ b/mm/migrate.c
->>> @@ -620,6 +620,25 @@ EXPORT_SYMBOL(folio_migrate_copy);
->>>     *                    Migration functions
->>>     ***********************************************************/
->>>    +int migrate_folio_extra(struct address_space *mapping, struct folio *dst,
->>> +		struct folio *src, enum migrate_mode mode, int extra_count)
->>> +{
->>> +	int rc;
->>> +
->>> +	BUG_ON(folio_test_writeback(src));	/* Writeback must be complete */
->>> +
->>> +	rc = folio_migrate_mapping(mapping, dst, src, extra_count);
->>> +
->>> +	if (rc != MIGRATEPAGE_SUCCESS)
->>> +		return rc;
->>> +
->>> +	if (mode != MIGRATE_SYNC_NO_COPY)
->>> +		folio_migrate_copy(dst, src);
->>> +	else
->>> +		folio_migrate_flags(dst, src);
->>> +	return MIGRATEPAGE_SUCCESS;
->>> +}
->>> +
->>>    /**
->>>     * migrate_folio() - Simple folio migration.
->>>     * @mapping: The address_space containing the folio.
->>> @@ -635,20 +654,7 @@ EXPORT_SYMBOL(folio_migrate_copy);
->>>    int migrate_folio(struct address_space *mapping, struct folio *dst,
->>>    		struct folio *src, enum migrate_mode mode)
->>>    {
->>> -	int rc;
->>> -
->>> -	BUG_ON(folio_test_writeback(src));	/* Writeback must be complete */
->>> -
->>> -	rc = folio_migrate_mapping(mapping, dst, src, 0);
->>> -
->>> -	if (rc != MIGRATEPAGE_SUCCESS)
->>> -		return rc;
->>> -
->>> -	if (mode != MIGRATE_SYNC_NO_COPY)
->>> -		folio_migrate_copy(dst, src);
->>> -	else
->>> -		folio_migrate_flags(dst, src);
->>> -	return MIGRATEPAGE_SUCCESS;
->>> +	return migrate_folio_extra(mapping, dst, src, mode, 0);
->>>    }
->>>    EXPORT_SYMBOL(migrate_folio);
->>>    diff --git a/mm/migrate_device.c b/mm/migrate_device.c
->>> index 7235424..f756c00 100644
->>> --- a/mm/migrate_device.c
->>> +++ b/mm/migrate_device.c
->>> @@ -313,14 +313,14 @@ static void migrate_vma_collect(struct migrate_vma *migrate)
->>>     * folio_migrate_mapping(), except that here we allow migration of a
->>>     * ZONE_DEVICE page.
->>>     */
->>> -static bool migrate_vma_check_page(struct page *page)
->>> +static bool migrate_vma_check_page(struct page *page, struct page *fault_page)
->>>    {
->>>    	/*
->>>    	 * One extra ref because caller holds an extra reference, either from
->>>    	 * isolate_lru_page() for a regular page, or migrate_vma_collect() for
->>>    	 * a device page.
->>>    	 */
->>> -	int extra = 1;
->>> +	int extra = 1 + (page == fault_page);
->>>      	/*
->>>    	 * FIXME support THP (transparent huge page), it is bit more complex to
->>> @@ -393,7 +393,8 @@ static void migrate_vma_unmap(struct migrate_vma *migrate)
->>>    		if (folio_mapped(folio))
->>>    			try_to_migrate(folio, 0);
->>>    -		if (page_mapped(page) || !migrate_vma_check_page(page)) {
->>> +		if (page_mapped(page) ||
->>> +		    !migrate_vma_check_page(page, migrate->fault_page)) {
->>>    			if (!is_zone_device_page(page)) {
->>>    				get_page(page);
->>>    				putback_lru_page(page);
->>> @@ -505,6 +506,8 @@ int migrate_vma_setup(struct migrate_vma *args)
->>>    		return -EINVAL;
->>>    	if (!args->src || !args->dst)
->>>    		return -EINVAL;
->>> +	if (args->fault_page && !is_device_private_page(args->fault_page))
->>> +		return -EINVAL;
->>>      	memset(args->src, 0, sizeof(*args->src) * nr_pages);
->>>    	args->cpages = 0;
->>> @@ -735,8 +738,13 @@ void migrate_vma_pages(struct migrate_vma *migrate)
->>>    			continue;
->>>    		}
->>>    -		r = migrate_folio(mapping, page_folio(newpage),
->>> -				page_folio(page), MIGRATE_SYNC_NO_COPY);
->>> +		if (migrate->fault_page == page)
->>> +			r = migrate_folio_extra(mapping, page_folio(newpage),
->>> +						page_folio(page),
->>> +						MIGRATE_SYNC_NO_COPY, 1);
->>> +		else
->>> +			r = migrate_folio(mapping, page_folio(newpage),
->>> +					page_folio(page), MIGRATE_SYNC_NO_COPY);
->>>    		if (r != MIGRATEPAGE_SUCCESS)
->>>    			migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
->>>    	}
+> > Beside this:
+> > Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> 
+> Thank you for taking a look!
+> 
+> Cheers,
+> Nathan
+> 
+> > Nice work.
+> > 
+> > Regards
+> > Andrzej
+> > 
+> > > +
+> > > +#define INTEL_GT_SYSFS_SHOW_MAX(_name) INTEL_GT_SYSFS_SHOW(_name, max)
+> > > +#define INTEL_GT_SYSFS_SHOW_MIN(_name) INTEL_GT_SYSFS_SHOW(_name, min)
+> > > +
+> > > +#define INTEL_GT_ATTR_RW(_name) \
+> > > +	static struct kobj_attribute attr_##_name = __ATTR_RW(_name)
+> > > +
+> > > +#define INTEL_GT_ATTR_RO(_name) \
+> > > +	static struct kobj_attribute attr_##_name = __ATTR_RO(_name)
+> > > +
+> > > +#define INTEL_GT_DUAL_ATTR_RW(_name) \
+> > > +	static struct device_attribute dev_attr_##_name = __ATTR(_name, 0644,		\
+> > > +								 _name##_dev_show,	\
+> > > +								 _name##_dev_store);	\
+> > > +	INTEL_GT_ATTR_RW(_name)
+> > > +
+> > > +#define INTEL_GT_DUAL_ATTR_RO(_name) \
+> > > +	static struct device_attribute dev_attr_##_name = __ATTR(_name, 0444,		\
+> > > +								 _name##_dev_show,	\
+> > > +								 NULL);			\
+> > > +	INTEL_GT_ATTR_RO(_name)
+> > > +
+> > >   #ifdef CONFIG_PM
+> > >   static u32 get_residency(struct intel_gt *gt, i915_reg_t reg)
+> > >   {
+> > > @@ -104,11 +177,8 @@ static u32 get_residency(struct intel_gt *gt, i915_reg_t reg)
+> > >   	return DIV_ROUND_CLOSEST_ULL(res, 1000);
+> > >   }
+> > > -static ssize_t rc6_enable_show(struct device *dev,
+> > > -			       struct device_attribute *attr,
+> > > -			       char *buff)
+> > > +static u8 get_rc6_mask(struct intel_gt *gt)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > >   	u8 mask = 0;
+> > >   	if (HAS_RC6(gt->i915))
+> > > @@ -118,37 +188,35 @@ static ssize_t rc6_enable_show(struct device *dev,
+> > >   	if (HAS_RC6pp(gt->i915))
+> > >   		mask |= BIT(2);
+> > > -	return sysfs_emit(buff, "%x\n", mask);
+> > > +	return mask;
+> > >   }
+> > > -static u32 __rc6_residency_ms_show(struct intel_gt *gt)
+> > > +static ssize_t rc6_enable_show(struct kobject *kobj,
+> > > +			       struct kobj_attribute *attr,
+> > > +			       char *buff)
+> > >   {
+> > > -	return get_residency(gt, GEN6_GT_GFX_RC6);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > > +
+> > > +	return sysfs_emit(buff, "%x\n", get_rc6_mask(gt));
+> > >   }
+> > > -static ssize_t rc6_residency_ms_show(struct device *dev,
+> > > -				     struct device_attribute *attr,
+> > > -				     char *buff)
+> > > +static ssize_t rc6_enable_dev_show(struct device *dev,
+> > > +				   struct device_attribute *attr,
+> > > +				   char *buff)
+> > >   {
+> > > -	u32 rc6_residency = sysfs_gt_attribute_r_min_func(dev, attr,
+> > > -						      __rc6_residency_ms_show);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(&dev->kobj, attr->attr.name);
+> > > -	return sysfs_emit(buff, "%u\n", rc6_residency);
+> > > +	return sysfs_emit(buff, "%x\n", get_rc6_mask(gt));
+> > >   }
+> > > -static u32 __rc6p_residency_ms_show(struct intel_gt *gt)
+> > > +static u32 __rc6_residency_ms_show(struct intel_gt *gt)
+> > >   {
+> > > -	return get_residency(gt, GEN6_GT_GFX_RC6p);
+> > > +	return get_residency(gt, GEN6_GT_GFX_RC6);
+> > >   }
+> > > -static ssize_t rc6p_residency_ms_show(struct device *dev,
+> > > -				      struct device_attribute *attr,
+> > > -				      char *buff)
+> > > +static u32 __rc6p_residency_ms_show(struct intel_gt *gt)
+> > >   {
+> > > -	u32 rc6p_residency = sysfs_gt_attribute_r_min_func(dev, attr,
+> > > -						__rc6p_residency_ms_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", rc6p_residency);
+> > > +	return get_residency(gt, GEN6_GT_GFX_RC6p);
+> > >   }
+> > >   static u32 __rc6pp_residency_ms_show(struct intel_gt *gt)
+> > > @@ -156,67 +224,69 @@ static u32 __rc6pp_residency_ms_show(struct intel_gt *gt)
+> > >   	return get_residency(gt, GEN6_GT_GFX_RC6pp);
+> > >   }
+> > > -static ssize_t rc6pp_residency_ms_show(struct device *dev,
+> > > -				       struct device_attribute *attr,
+> > > -				       char *buff)
+> > > -{
+> > > -	u32 rc6pp_residency = sysfs_gt_attribute_r_min_func(dev, attr,
+> > > -						__rc6pp_residency_ms_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", rc6pp_residency);
+> > > -}
+> > > -
+> > >   static u32 __media_rc6_residency_ms_show(struct intel_gt *gt)
+> > >   {
+> > >   	return get_residency(gt, VLV_GT_MEDIA_RC6);
+> > >   }
+> > > -static ssize_t media_rc6_residency_ms_show(struct device *dev,
+> > > -					   struct device_attribute *attr,
+> > > -					   char *buff)
+> > > -{
+> > > -	u32 rc6_residency = sysfs_gt_attribute_r_min_func(dev, attr,
+> > > -						__media_rc6_residency_ms_show);
+> > > +INTEL_GT_SYSFS_SHOW_MIN(rc6_residency_ms);
+> > > +INTEL_GT_SYSFS_SHOW_MIN(rc6p_residency_ms);
+> > > +INTEL_GT_SYSFS_SHOW_MIN(rc6pp_residency_ms);
+> > > +INTEL_GT_SYSFS_SHOW_MIN(media_rc6_residency_ms);
+> > > -	return sysfs_emit(buff, "%u\n", rc6_residency);
+> > > -}
+> > > -
+> > > -static DEVICE_ATTR_RO(rc6_enable);
+> > > -static DEVICE_ATTR_RO(rc6_residency_ms);
+> > > -static DEVICE_ATTR_RO(rc6p_residency_ms);
+> > > -static DEVICE_ATTR_RO(rc6pp_residency_ms);
+> > > -static DEVICE_ATTR_RO(media_rc6_residency_ms);
+> > > +INTEL_GT_DUAL_ATTR_RO(rc6_enable);
+> > > +INTEL_GT_DUAL_ATTR_RO(rc6_residency_ms);
+> > > +INTEL_GT_DUAL_ATTR_RO(rc6p_residency_ms);
+> > > +INTEL_GT_DUAL_ATTR_RO(rc6pp_residency_ms);
+> > > +INTEL_GT_DUAL_ATTR_RO(media_rc6_residency_ms);
+> > >   static struct attribute *rc6_attrs[] = {
+> > > +	&attr_rc6_enable.attr,
+> > > +	&attr_rc6_residency_ms.attr,
+> > > +	NULL
+> > > +};
+> > > +
+> > > +static struct attribute *rc6p_attrs[] = {
+> > > +	&attr_rc6p_residency_ms.attr,
+> > > +	&attr_rc6pp_residency_ms.attr,
+> > > +	NULL
+> > > +};
+> > > +
+> > > +static struct attribute *media_rc6_attrs[] = {
+> > > +	&attr_media_rc6_residency_ms.attr,
+> > > +	NULL
+> > > +};
+> > > +
+> > > +static struct attribute *rc6_dev_attrs[] = {
+> > >   	&dev_attr_rc6_enable.attr,
+> > >   	&dev_attr_rc6_residency_ms.attr,
+> > >   	NULL
+> > >   };
+> > > -static struct attribute *rc6p_attrs[] = {
+> > > +static struct attribute *rc6p_dev_attrs[] = {
+> > >   	&dev_attr_rc6p_residency_ms.attr,
+> > >   	&dev_attr_rc6pp_residency_ms.attr,
+> > >   	NULL
+> > >   };
+> > > -static struct attribute *media_rc6_attrs[] = {
+> > > +static struct attribute *media_rc6_dev_attrs[] = {
+> > >   	&dev_attr_media_rc6_residency_ms.attr,
+> > >   	NULL
+> > >   };
+> > >   static const struct attribute_group rc6_attr_group[] = {
+> > >   	{ .attrs = rc6_attrs, },
+> > > -	{ .name = power_group_name, .attrs = rc6_attrs, },
+> > > +	{ .name = power_group_name, .attrs = rc6_dev_attrs, },
+> > >   };
+> > >   static const struct attribute_group rc6p_attr_group[] = {
+> > >   	{ .attrs = rc6p_attrs, },
+> > > -	{ .name = power_group_name, .attrs = rc6p_attrs, },
+> > > +	{ .name = power_group_name, .attrs = rc6p_dev_attrs, },
+> > >   };
+> > >   static const struct attribute_group media_rc6_attr_group[] = {
+> > >   	{ .attrs = media_rc6_attrs, },
+> > > -	{ .name = power_group_name, .attrs = media_rc6_attrs, },
+> > > +	{ .name = power_group_name, .attrs = media_rc6_dev_attrs, },
+> > >   };
+> > >   static int __intel_gt_sysfs_create_group(struct kobject *kobj,
+> > > @@ -271,104 +341,34 @@ static u32 __act_freq_mhz_show(struct intel_gt *gt)
+> > >   	return intel_rps_read_actual_frequency(&gt->rps);
+> > >   }
+> > > -static ssize_t act_freq_mhz_show(struct device *dev,
+> > > -				 struct device_attribute *attr, char *buff)
+> > > -{
+> > > -	u32 actual_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						    __act_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", actual_freq);
+> > > -}
+> > > -
+> > >   static u32 __cur_freq_mhz_show(struct intel_gt *gt)
+> > >   {
+> > >   	return intel_rps_get_requested_frequency(&gt->rps);
+> > >   }
+> > > -static ssize_t cur_freq_mhz_show(struct device *dev,
+> > > -				 struct device_attribute *attr, char *buff)
+> > > -{
+> > > -	u32 cur_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						 __cur_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", cur_freq);
+> > > -}
+> > > -
+> > >   static u32 __boost_freq_mhz_show(struct intel_gt *gt)
+> > >   {
+> > >   	return intel_rps_get_boost_frequency(&gt->rps);
+> > >   }
+> > > -static ssize_t boost_freq_mhz_show(struct device *dev,
+> > > -				   struct device_attribute *attr,
+> > > -				   char *buff)
+> > > -{
+> > > -	u32 boost_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						   __boost_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", boost_freq);
+> > > -}
+> > > -
+> > >   static int __boost_freq_mhz_store(struct intel_gt *gt, u32 val)
+> > >   {
+> > >   	return intel_rps_set_boost_frequency(&gt->rps, val);
+> > >   }
+> > > -static ssize_t boost_freq_mhz_store(struct device *dev,
+> > > -				    struct device_attribute *attr,
+> > > -				    const char *buff, size_t count)
+> > > -{
+> > > -	ssize_t ret;
+> > > -	u32 val;
+> > > -
+> > > -	ret = kstrtou32(buff, 0, &val);
+> > > -	if (ret)
+> > > -		return ret;
+> > > -
+> > > -	return sysfs_gt_attribute_w_func(dev, attr,
+> > > -					 __boost_freq_mhz_store, val) ?: count;
+> > > -}
+> > > -
+> > > -static u32 __rp0_freq_mhz_show(struct intel_gt *gt)
+> > > +static u32 __RP0_freq_mhz_show(struct intel_gt *gt)
+> > >   {
+> > >   	return intel_rps_get_rp0_frequency(&gt->rps);
+> > >   }
+> > > -static ssize_t RP0_freq_mhz_show(struct device *dev,
+> > > -				 struct device_attribute *attr, char *buff)
+> > > -{
+> > > -	u32 rp0_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						     __rp0_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", rp0_freq);
+> > > -}
+> > > -
+> > > -static u32 __rp1_freq_mhz_show(struct intel_gt *gt)
+> > > -{
+> > > -	return intel_rps_get_rp1_frequency(&gt->rps);
+> > > -}
+> > > -
+> > > -static ssize_t RP1_freq_mhz_show(struct device *dev,
+> > > -				 struct device_attribute *attr, char *buff)
+> > > -{
+> > > -	u32 rp1_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						     __rp1_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", rp1_freq);
+> > > -}
+> > > -
+> > > -static u32 __rpn_freq_mhz_show(struct intel_gt *gt)
+> > > +static u32 __RPn_freq_mhz_show(struct intel_gt *gt)
+> > >   {
+> > >   	return intel_rps_get_rpn_frequency(&gt->rps);
+> > >   }
+> > > -static ssize_t RPn_freq_mhz_show(struct device *dev,
+> > > -				 struct device_attribute *attr, char *buff)
+> > > +static u32 __RP1_freq_mhz_show(struct intel_gt *gt)
+> > >   {
+> > > -	u32 rpn_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						     __rpn_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", rpn_freq);
+> > > +	return intel_rps_get_rp1_frequency(&gt->rps);
+> > >   }
+> > >   static u32 __max_freq_mhz_show(struct intel_gt *gt)
+> > > @@ -376,71 +376,21 @@ static u32 __max_freq_mhz_show(struct intel_gt *gt)
+> > >   	return intel_rps_get_max_frequency(&gt->rps);
+> > >   }
+> > > -static ssize_t max_freq_mhz_show(struct device *dev,
+> > > -				 struct device_attribute *attr, char *buff)
+> > > -{
+> > > -	u32 max_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						     __max_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", max_freq);
+> > > -}
+> > > -
+> > >   static int __set_max_freq(struct intel_gt *gt, u32 val)
+> > >   {
+> > >   	return intel_rps_set_max_frequency(&gt->rps, val);
+> > >   }
+> > > -static ssize_t max_freq_mhz_store(struct device *dev,
+> > > -				  struct device_attribute *attr,
+> > > -				  const char *buff, size_t count)
+> > > -{
+> > > -	int ret;
+> > > -	u32 val;
+> > > -
+> > > -	ret = kstrtou32(buff, 0, &val);
+> > > -	if (ret)
+> > > -		return ret;
+> > > -
+> > > -	ret = sysfs_gt_attribute_w_func(dev, attr, __set_max_freq, val);
+> > > -
+> > > -	return ret ?: count;
+> > > -}
+> > > -
+> > >   static u32 __min_freq_mhz_show(struct intel_gt *gt)
+> > >   {
+> > >   	return intel_rps_get_min_frequency(&gt->rps);
+> > >   }
+> > > -static ssize_t min_freq_mhz_show(struct device *dev,
+> > > -				 struct device_attribute *attr, char *buff)
+> > > -{
+> > > -	u32 min_freq = sysfs_gt_attribute_r_min_func(dev, attr,
+> > > -						     __min_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", min_freq);
+> > > -}
+> > > -
+> > >   static int __set_min_freq(struct intel_gt *gt, u32 val)
+> > >   {
+> > >   	return intel_rps_set_min_frequency(&gt->rps, val);
+> > >   }
+> > > -static ssize_t min_freq_mhz_store(struct device *dev,
+> > > -				  struct device_attribute *attr,
+> > > -				  const char *buff, size_t count)
+> > > -{
+> > > -	int ret;
+> > > -	u32 val;
+> > > -
+> > > -	ret = kstrtou32(buff, 0, &val);
+> > > -	if (ret)
+> > > -		return ret;
+> > > -
+> > > -	ret = sysfs_gt_attribute_w_func(dev, attr, __set_min_freq, val);
+> > > -
+> > > -	return ret ?: count;
+> > > -}
+> > > -
+> > >   static u32 __vlv_rpe_freq_mhz_show(struct intel_gt *gt)
+> > >   {
+> > >   	struct intel_rps *rps = &gt->rps;
+> > > @@ -448,23 +398,31 @@ static u32 __vlv_rpe_freq_mhz_show(struct intel_gt *gt)
+> > >   	return intel_gpu_freq(rps, rps->efficient_freq);
+> > >   }
+> > > -static ssize_t vlv_rpe_freq_mhz_show(struct device *dev,
+> > > -				     struct device_attribute *attr, char *buff)
+> > > -{
+> > > -	u32 rpe_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+> > > -						 __vlv_rpe_freq_mhz_show);
+> > > -
+> > > -	return sysfs_emit(buff, "%u\n", rpe_freq);
+> > > -}
+> > > -
+> > > -#define INTEL_GT_RPS_SYSFS_ATTR(_name, _mode, _show, _store) \
+> > > -	static struct device_attribute dev_attr_gt_##_name = __ATTR(gt_##_name, _mode, _show, _store); \
+> > > -	static struct device_attribute dev_attr_rps_##_name = __ATTR(rps_##_name, _mode, _show, _store)
+> > > -
+> > > -#define INTEL_GT_RPS_SYSFS_ATTR_RO(_name)				\
+> > > -		INTEL_GT_RPS_SYSFS_ATTR(_name, 0444, _name##_show, NULL)
+> > > -#define INTEL_GT_RPS_SYSFS_ATTR_RW(_name)				\
+> > > -		INTEL_GT_RPS_SYSFS_ATTR(_name, 0644, _name##_show, _name##_store)
+> > > +INTEL_GT_SYSFS_SHOW_MAX(act_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MAX(boost_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MAX(cur_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MAX(RP0_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MAX(RP1_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MAX(RPn_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MAX(max_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MIN(min_freq_mhz);
+> > > +INTEL_GT_SYSFS_SHOW_MAX(vlv_rpe_freq_mhz);
+> > > +INTEL_GT_SYSFS_STORE(boost_freq_mhz, __boost_freq_mhz_store);
+> > > +INTEL_GT_SYSFS_STORE(max_freq_mhz, __set_max_freq);
+> > > +INTEL_GT_SYSFS_STORE(min_freq_mhz, __set_min_freq);
+> > > +
+> > > +#define INTEL_GT_RPS_SYSFS_ATTR(_name, _mode, _show, _store, _show_dev, _store_dev)		\
+> > > +	static struct device_attribute dev_attr_gt_##_name = __ATTR(gt_##_name, _mode,		\
+> > > +								    _show_dev, _store_dev);	\
+> > > +	static struct kobj_attribute attr_rps_##_name = __ATTR(rps_##_name, _mode,		\
+> > > +							       _show, _store)
+> > > +
+> > > +#define INTEL_GT_RPS_SYSFS_ATTR_RO(_name)						\
+> > > +		INTEL_GT_RPS_SYSFS_ATTR(_name, 0444, _name##_show, NULL,		\
+> > > +					_name##_dev_show, NULL)
+> > > +#define INTEL_GT_RPS_SYSFS_ATTR_RW(_name)						\
+> > > +		INTEL_GT_RPS_SYSFS_ATTR(_name, 0644, _name##_show, _name##_store,	\
+> > > +					_name##_dev_show, _name##_dev_store)
+> > >   /* The below macros generate static structures */
+> > >   INTEL_GT_RPS_SYSFS_ATTR_RO(act_freq_mhz);
+> > > @@ -475,32 +433,31 @@ INTEL_GT_RPS_SYSFS_ATTR_RO(RP1_freq_mhz);
+> > >   INTEL_GT_RPS_SYSFS_ATTR_RO(RPn_freq_mhz);
+> > >   INTEL_GT_RPS_SYSFS_ATTR_RW(max_freq_mhz);
+> > >   INTEL_GT_RPS_SYSFS_ATTR_RW(min_freq_mhz);
+> > > -
+> > > -static DEVICE_ATTR_RO(vlv_rpe_freq_mhz);
+> > > -
+> > > -#define GEN6_ATTR(s) { \
+> > > -		&dev_attr_##s##_act_freq_mhz.attr, \
+> > > -		&dev_attr_##s##_cur_freq_mhz.attr, \
+> > > -		&dev_attr_##s##_boost_freq_mhz.attr, \
+> > > -		&dev_attr_##s##_max_freq_mhz.attr, \
+> > > -		&dev_attr_##s##_min_freq_mhz.attr, \
+> > > -		&dev_attr_##s##_RP0_freq_mhz.attr, \
+> > > -		&dev_attr_##s##_RP1_freq_mhz.attr, \
+> > > -		&dev_attr_##s##_RPn_freq_mhz.attr, \
+> > > +INTEL_GT_RPS_SYSFS_ATTR_RO(vlv_rpe_freq_mhz);
+> > > +
+> > > +#define GEN6_ATTR(p, s) { \
+> > > +		&p##attr_##s##_act_freq_mhz.attr, \
+> > > +		&p##attr_##s##_cur_freq_mhz.attr, \
+> > > +		&p##attr_##s##_boost_freq_mhz.attr, \
+> > > +		&p##attr_##s##_max_freq_mhz.attr, \
+> > > +		&p##attr_##s##_min_freq_mhz.attr, \
+> > > +		&p##attr_##s##_RP0_freq_mhz.attr, \
+> > > +		&p##attr_##s##_RP1_freq_mhz.attr, \
+> > > +		&p##attr_##s##_RPn_freq_mhz.attr, \
+> > >   		NULL, \
+> > >   	}
+> > > -#define GEN6_RPS_ATTR GEN6_ATTR(rps)
+> > > -#define GEN6_GT_ATTR  GEN6_ATTR(gt)
+> > > +#define GEN6_RPS_ATTR GEN6_ATTR(, rps)
+> > > +#define GEN6_GT_ATTR  GEN6_ATTR(dev_, gt)
+> > >   static const struct attribute * const gen6_rps_attrs[] = GEN6_RPS_ATTR;
+> > >   static const struct attribute * const gen6_gt_attrs[]  = GEN6_GT_ATTR;
+> > > -static ssize_t punit_req_freq_mhz_show(struct device *dev,
+> > > -				       struct device_attribute *attr,
+> > > +static ssize_t punit_req_freq_mhz_show(struct kobject *kobj,
+> > > +				       struct kobj_attribute *attr,
+> > >   				       char *buff)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > >   	u32 preq = intel_rps_read_punit_req_frequency(&gt->rps);
+> > >   	return sysfs_emit(buff, "%u\n", preq);
+> > > @@ -508,17 +465,17 @@ static ssize_t punit_req_freq_mhz_show(struct device *dev,
+> > >   struct intel_gt_bool_throttle_attr {
+> > >   	struct attribute attr;
+> > > -	ssize_t (*show)(struct device *dev, struct device_attribute *attr,
+> > > +	ssize_t (*show)(struct kobject *kobj, struct kobj_attribute *attr,
+> > >   			char *buf);
+> > >   	i915_reg_t (*reg32)(struct intel_gt *gt);
+> > >   	u32 mask;
+> > >   };
+> > > -static ssize_t throttle_reason_bool_show(struct device *dev,
+> > > -					 struct device_attribute *attr,
+> > > +static ssize_t throttle_reason_bool_show(struct kobject *kobj,
+> > > +					 struct kobj_attribute *attr,
+> > >   					 char *buff)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > >   	struct intel_gt_bool_throttle_attr *t_attr =
+> > >   				(struct intel_gt_bool_throttle_attr *) attr;
+> > >   	bool val = rps_read_mask_mmio(&gt->rps, t_attr->reg32(gt), t_attr->mask);
+> > > @@ -534,7 +491,7 @@ struct intel_gt_bool_throttle_attr attr_##sysfs_func__ = { \
+> > >   	.mask = mask__, \
+> > >   }
+> > > -static DEVICE_ATTR_RO(punit_req_freq_mhz);
+> > > +INTEL_GT_ATTR_RO(punit_req_freq_mhz);
+> > >   static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_status, GT0_PERF_LIMIT_REASONS_MASK);
+> > >   static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_pl1, POWER_LIMIT_1_MASK);
+> > >   static INTEL_GT_RPS_BOOL_ATTR_RO(throttle_reason_pl2, POWER_LIMIT_2_MASK);
+> > > @@ -597,8 +554,8 @@ static const struct attribute *throttle_reason_attrs[] = {
+> > >   #define U8_8_VAL_MASK           0xffff
+> > >   #define U8_8_SCALE_TO_VALUE     "0.00390625"
+> > > -static ssize_t freq_factor_scale_show(struct device *dev,
+> > > -				      struct device_attribute *attr,
+> > > +static ssize_t freq_factor_scale_show(struct kobject *kobj,
+> > > +				      struct kobj_attribute *attr,
+> > >   				      char *buff)
+> > >   {
+> > >   	return sysfs_emit(buff, "%s\n", U8_8_SCALE_TO_VALUE);
+> > > @@ -610,11 +567,11 @@ static u32 media_ratio_mode_to_factor(u32 mode)
+> > >   	return !mode ? mode : 256 / mode;
+> > >   }
+> > > -static ssize_t media_freq_factor_show(struct device *dev,
+> > > -				      struct device_attribute *attr,
+> > > +static ssize_t media_freq_factor_show(struct kobject *kobj,
+> > > +				      struct kobj_attribute *attr,
+> > >   				      char *buff)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > >   	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
+> > >   	intel_wakeref_t wakeref;
+> > >   	u32 mode;
+> > > @@ -641,11 +598,11 @@ static ssize_t media_freq_factor_show(struct device *dev,
+> > >   	return sysfs_emit(buff, "%u\n", media_ratio_mode_to_factor(mode));
+> > >   }
+> > > -static ssize_t media_freq_factor_store(struct device *dev,
+> > > -				       struct device_attribute *attr,
+> > > +static ssize_t media_freq_factor_store(struct kobject *kobj,
+> > > +				       struct kobj_attribute *attr,
+> > >   				       const char *buff, size_t count)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > >   	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
+> > >   	u32 factor, mode;
+> > >   	int err;
+> > > @@ -670,11 +627,11 @@ static ssize_t media_freq_factor_store(struct device *dev,
+> > >   	return err ?: count;
+> > >   }
+> > > -static ssize_t media_RP0_freq_mhz_show(struct device *dev,
+> > > -				       struct device_attribute *attr,
+> > > +static ssize_t media_RP0_freq_mhz_show(struct kobject *kobj,
+> > > +				       struct kobj_attribute *attr,
+> > >   				       char *buff)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > >   	u32 val;
+> > >   	int err;
+> > > @@ -691,11 +648,11 @@ static ssize_t media_RP0_freq_mhz_show(struct device *dev,
+> > >   	return sysfs_emit(buff, "%u\n", val);
+> > >   }
+> > > -static ssize_t media_RPn_freq_mhz_show(struct device *dev,
+> > > -				       struct device_attribute *attr,
+> > > +static ssize_t media_RPn_freq_mhz_show(struct kobject *kobj,
+> > > +				       struct kobj_attribute *attr,
+> > >   				       char *buff)
+> > >   {
+> > > -	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+> > > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+> > >   	u32 val;
+> > >   	int err;
+> > > @@ -712,17 +669,17 @@ static ssize_t media_RPn_freq_mhz_show(struct device *dev,
+> > >   	return sysfs_emit(buff, "%u\n", val);
+> > >   }
+> > > -static DEVICE_ATTR_RW(media_freq_factor);
+> > > -static struct device_attribute dev_attr_media_freq_factor_scale =
+> > > +INTEL_GT_ATTR_RW(media_freq_factor);
+> > > +static struct kobj_attribute attr_media_freq_factor_scale =
+> > >   	__ATTR(media_freq_factor.scale, 0444, freq_factor_scale_show, NULL);
+> > > -static DEVICE_ATTR_RO(media_RP0_freq_mhz);
+> > > -static DEVICE_ATTR_RO(media_RPn_freq_mhz);
+> > > +INTEL_GT_ATTR_RO(media_RP0_freq_mhz);
+> > > +INTEL_GT_ATTR_RO(media_RPn_freq_mhz);
+> > >   static const struct attribute *media_perf_power_attrs[] = {
+> > > -	&dev_attr_media_freq_factor.attr,
+> > > -	&dev_attr_media_freq_factor_scale.attr,
+> > > -	&dev_attr_media_RP0_freq_mhz.attr,
+> > > -	&dev_attr_media_RPn_freq_mhz.attr,
+> > > +	&attr_media_freq_factor.attr,
+> > > +	&attr_media_freq_factor_scale.attr,
+> > > +	&attr_media_RP0_freq_mhz.attr,
+> > > +	&attr_media_RPn_freq_mhz.attr,
+> > >   	NULL
+> > >   };
+> > > @@ -754,20 +711,29 @@ static const struct attribute * const rps_defaults_attrs[] = {
+> > >   	NULL
+> > >   };
+> > > -static int intel_sysfs_rps_init(struct intel_gt *gt, struct kobject *kobj,
+> > > -				const struct attribute * const *attrs)
+> > > +static int intel_sysfs_rps_init(struct intel_gt *gt, struct kobject *kobj)
+> > >   {
+> > > +	const struct attribute * const *attrs;
+> > > +	struct attribute *vlv_attr;
+> > >   	int ret;
+> > >   	if (GRAPHICS_VER(gt->i915) < 6)
+> > >   		return 0;
+> > > +	if (is_object_gt(kobj)) {
+> > > +		attrs = gen6_rps_attrs;
+> > > +		vlv_attr = &attr_rps_vlv_rpe_freq_mhz.attr;
+> > > +	} else {
+> > > +		attrs = gen6_gt_attrs;
+> > > +		vlv_attr = &dev_attr_gt_vlv_rpe_freq_mhz.attr;
+> > > +	}
+> > > +
+> > >   	ret = sysfs_create_files(kobj, attrs);
+> > >   	if (ret)
+> > >   		return ret;
+> > >   	if (IS_VALLEYVIEW(gt->i915) || IS_CHERRYVIEW(gt->i915))
+> > > -		ret = sysfs_create_file(kobj, &dev_attr_vlv_rpe_freq_mhz.attr);
+> > > +		ret = sysfs_create_file(kobj, vlv_attr);
+> > >   	return ret;
+> > >   }
+> > > @@ -778,9 +744,7 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
+> > >   	intel_sysfs_rc6_init(gt, kobj);
+> > > -	ret = is_object_gt(kobj) ?
+> > > -	      intel_sysfs_rps_init(gt, kobj, gen6_rps_attrs) :
+> > > -	      intel_sysfs_rps_init(gt, kobj, gen6_gt_attrs);
+> > > +	ret = intel_sysfs_rps_init(gt, kobj);
+> > >   	if (ret)
+> > >   		drm_warn(&gt->i915->drm,
+> > >   			 "failed to create gt%u RPS sysfs files (%pe)",
+> > > @@ -790,7 +754,7 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
+> > >   	if (!is_object_gt(kobj))
+> > >   		return;
+> > > -	ret = sysfs_create_file(kobj, &dev_attr_punit_req_freq_mhz.attr);
+> > > +	ret = sysfs_create_file(kobj, &attr_punit_req_freq_mhz.attr);
+> > >   	if (ret)
+> > >   		drm_warn(&gt->i915->drm,
+> > >   			 "failed to create gt%u punit_req_freq_mhz sysfs (%pe)",
+> > > 
+> > > base-commit: 783f6f852cc061e59962e53aa9824aa785de0d8c
+> > 
+> 
