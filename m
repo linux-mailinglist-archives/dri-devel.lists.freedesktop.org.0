@@ -1,52 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682005F355F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 20:13:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D865F35EB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 20:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E00810E454;
-	Mon,  3 Oct 2022 18:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E4D210E481;
+	Mon,  3 Oct 2022 18:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C5110E454
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Oct 2022 18:12:52 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 544BB601700F;
- Mon,  3 Oct 2022 19:12:50 +0100 (WEST)
-X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
- tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
- with LMTP id GwoSyjvnYk2U; Mon,  3 Oct 2022 19:12:47 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id C0EE26017005;
- Mon,  3 Oct 2022 19:12:47 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
- s=mail; t=1664820767;
- bh=u0FdMsL27iX2Cm0TjA0vq2VZt2TiP1NpXkTMsX39mZE=;
- h=Date:From:Cc:Subject:References:In-Reply-To;
- b=d6N6ca4ArUdIljA4KFglU+PYaUPPNWbe7bznwSh2vWKgf3t6+2U+wKBc6U2XiBfos
- Ics8AWZvC/rl/cOY510XkM7Z0bqEchvKmw07O9blpuZIKtUW5+RJfsRCv6In79YuKZ
- 1xU5OoOLxJKZYbbvjN/I66TXLWCcoKO7ntQ6bKro=
-Received: from wslaptop (unknown [IPv6:2001:818:dcb5:dc00:7a88:7f12:8ed8:518d])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id B723E360079;
- Mon,  3 Oct 2022 19:12:46 +0100 (WEST)
-Date: Mon, 3 Oct 2022 19:13:19 +0100
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Subject: Re: [PATCH 2/4] drm/tegra: dsi: Clear enable register if powered by
- bootloader
-Message-ID: <20221003181319.4uibu2kfhop3cx7h@wslaptop>
-References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
- <20220929170502.1034040-3-diogo.ivo@tecnico.ulisboa.pt>
- <YzbOzoGDtY2kI2Dv@orome>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1BE10E481
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Oct 2022 18:54:44 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id qx23so6074720ejb.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Oct 2022 11:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=ZWtjJZk+dGfZ5Cry9jnZ+BrR/YXPmSkUOKLcc77u3W4=;
+ b=DY4r3/PicRAOO9FkdHH4rccSAGulqdS9/1tnOHNNVIGd1Ldqq1zVd6/XvoMeQ9W+k5
+ wNrTt6AzXUy+hyiINs7EK5KT7PoBRGE1SQEtNiA6rm2wPYr5yjxIvla9g32Dj7XSNkqd
+ ONMu0gXko05+tsPCpqfFo/Whw2uEyQjAlMBMilJzrZS+9xG5DwJnlGHJ0V7tChTbpiMy
+ QFCf9nbZNFzagzahmVSbmOe2yVUbpA4bNAZgYcvkUZQNK1LmKhGY5HYFTfStwHTFqYcN
+ DE+4B1ak8POvVUdq/GtJUzXp5AMU3vWPttE9Rx0p7L/cBOX/cgW8rYqHjkQU3Vlqapyj
+ DnMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=ZWtjJZk+dGfZ5Cry9jnZ+BrR/YXPmSkUOKLcc77u3W4=;
+ b=bNCQsdc/msCUKt7d9f/YYinJGL5y984I00cwTsocgLh8cA3QqINZJ+FG05UN6J6erK
+ STWhYHZeSNV/DVgaNTYwgXgGVX98POyAQAI8hS7SeXm8yWG8HYm3Sltyc1zk2JQbAEqQ
+ +WRF06/xqHLb+C1jQaMSlAAMwjCVwi+lDiWKQJ5YBUnKxcjrVXnPjsb0vmG4LUdl6lHR
+ MYiAjZzI5TLuoeRIgVVuITnOa5n+HRSwZaBefS2+brT3wyRgyctIc3KWmJFbXErDO4O4
+ 8YLIYC9IP3RDuOWvEyOnXAn6RLbJn8y/v7AtTEL5JkSUVSOIYP9uzKluiMG139BKL55H
+ sdug==
+X-Gm-Message-State: ACrzQf2JpAiaTDS0tln8o1/mv8tm1OLACHizZVqgk+38D6ciQHNSKHmO
+ D593qzXhDML5uOCWJEL1yXpEmDrT7lXnhLXcZbSKvg==
+X-Google-Smtp-Source: AMsMyM5g2fe/v9D9TU86UO8XUkvOTh5zkJrZWXucxKTmYfl8xARkrTTR7rXFy5Cn17tH4Qi/oJCqy5ktrjOgejVUGS4=
+X-Received: by 2002:a17:907:a064:b0:78c:1511:a3cd with SMTP id
+ ia4-20020a170907a06400b0078c1511a3cdmr3340550ejc.203.1664823282532; Mon, 03
+ Oct 2022 11:54:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzbOzoGDtY2kI2Dv@orome>
+References: <20220928093103.64014-1-khalid.masum.92@gmail.com>
+In-Reply-To: <20220928093103.64014-1-khalid.masum.92@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 3 Oct 2022 20:54:31 +0200
+Message-ID: <CACRpkdbZWMk9+wH8ndFEzZyUwKecjNfgT2xJnZEQx0ACPzLWbw@mail.gmail.com>
+Subject: Re: [PATCH] drm/tve200: Use drm_* variants for logging
+To: Khalid Masum <khalid.masum.92@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,61 +63,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- arnd@arndb.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, diogo.ivo@tecnico.ulisboa.pt, robh+dt@kernel.org,
- thierry.reding@gmail.com, linux-tegra@vger.kernel.org, sam@ravnborg.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 30, 2022 at 01:11:10PM +0200, Thierry Reding wrote:
-> On Thu, Sep 29, 2022 at 06:05:00PM +0100, Diogo Ivo wrote:
-> > +
-> >  	err = tegra_dsi_prepare(dsi);
-> >  	if (err < 0) {
-> >  		dev_err(dsi->dev, "failed to prepare: %d\n", err);
-> > @@ -1573,6 +1600,8 @@ static int tegra_dsi_probe(struct platform_device *pdev)
-> >  
-> >  	dsi->output.connector.polled = DRM_CONNECTOR_POLL_HPD;
-> >  
-> > +	/* Check if the DSI module was left on by bootloader. */
-> > +	dsi->enabled = of_property_read_bool(pdev->dev.of_node, "nvidia,boot-on");
-> 
-> The isn't a documented property. But before you go and add this, are
-> there no alternative ways to detect that the DSI controller is active?
-> Could we not read one of the registers to find out?
+On Wed, Sep 28, 2022 at 11:31 AM Khalid Masum <khalid.masum.92@gmail.com> wrote:
 
-Hello, thank you for your feedback.
+> We have routines like drm_info/warn/err for logging. Use them instead
+> of dev_* variants to get drm-formatted log messages.
+>
+> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
 
-You are correct, it is possible to simply read a register to obtain
-this information, and this property is not needed.
+So is this the new thing? We've been through:
+- DRM_INFO_ETC BIG CAPITAL LETTER MACROS
+- Just use dev_info() & friends like everyone else
+- Now drm_info() & co
 
-> DRM/KMS has built-in mechanisms to read back hardware state on boot, so
-> I wonder if we can hook that up. It'd make the most sense if all sub-
-> drivers did this, because then we could eventually inherit the
-> bootloader configuration and transition to the kernel display driver
-> seamlessly, but doing this in DSI first may help prepare for that more
-> extended use-case.
+Note I don't wanna bikeshed about this, just tell me there is
+consensus now so we know what to do.
 
-I have only recently started digging in the DRM/KMS subsystem, could
-you point out what those mechanisms are? That end goal seems like
-something worth pursuing.
-
-> A slightly simpler alternative would be to add the reset code to the
-> encoder's or connector's ->reset() implementation. This is called at the
-> right time (i.e. when the mode configuration is first reset), so you can
-> run the workaround from tegra_dsi_encoder_enable() there. That's better
-> than having this guarded by the dsi->enabled flag so that it is run only
-> once.
-> 
-> Thierry
-
-Regarding the placement of the workaround, I placed it in encoder_enable()
-since my attempts of placing it in other functions (such as the connector's
-->reset() method) resulted in a kernel hang, and I have no solution for this.
-I'm assuming this is due to some part of the DSI hardware not being fully
-initialized, but I haven't been able to confirm this.
-
-Best regards,
-
-Diogo
+Yours,
+Linus Walleij
