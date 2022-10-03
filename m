@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561675F2FFB
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 14:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E927B5F3010
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 14:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6DC10E386;
-	Mon,  3 Oct 2022 12:00:12 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C0710E326;
- Mon,  3 Oct 2022 12:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95C6610E331;
+	Mon,  3 Oct 2022 12:16:51 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5FC410E331;
+ Mon,  3 Oct 2022 12:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664798404; x=1696334404;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=0vLRwsAghV2ruv4X8qB76VGZ6XMlYF5Ra33xu3JU8kY=;
- b=N/rkstRq+fXfjAdJkFAUrA+wL/RZ8Rok47n56reg5oYQa+IWqE3k0zXO
- EhTJ5Y8naFAX+FyBtr01rbso+Ddw8URgTV1Q8dkiKTvfoXsKheSApSvYj
- 8aCWoCwPvurKJXS/EsnlrupzbCmfw9g7/4vSCjF53yn4khKMwTRxVp63F
- c43a6DHohTcumGVSiQg1rDJjNh0vamXfdbgljBWOvRoIC4BKZ0uF5m9gw
- klIIEH5e1d1D0bDG+RsDLwCHMTuO2Z6anwcs2GcQ9pN5T3HjQi1Z0ogmo
- 9m2ahgRsa8uQ/aCXdGSFB62hYecWcbE8k6817Ek2/o+079Ut3eZgP0M3R g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="285750553"
-X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="285750553"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2022 05:00:03 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="623505926"
-X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="623505926"
-Received: from praffert-mobl.ger.corp.intel.com (HELO [10.213.196.20])
+ t=1664799407; x=1696335407;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=R51OAp+f64kQaIBoysffby4cH37ByGJPbCUL8p6RLco=;
+ b=NRvqGZ8h9Tf6ku9DY/JQwAmAmNg0ui1gxlHxshX3haxUrzqrKcyxZhUF
+ Kanjq6u+H1x8t/BV680hyLLsOZu2T9wH4yihlgve5IxZ5alwoXwPAyPOv
+ n/4vWw9qwgiJFDhb16ZIvo8U5lC6R7aXrkshHworCmhZJg3bg5BqtbEdD
+ 1/BDYee4H/qzSZVmfybpLrWHfp7A51Tr9Yrl5ZkvLUUjBe8vsFhQG8Byl
+ O+PeFE1FU8h45Y1mAzmuu3rqC+eBsBaUw2ZV+MtJMi+pMiyp50a5bdo7l
+ MwsSrd5c95awitJE6V7uoDrigSvgeeR6N+ckyZpSdPY+ZTcMJmL0zaFE1 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="366661863"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="366661863"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 05:16:47 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="712569369"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="712569369"
+Received: from praffert-mobl.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.196.20])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2022 05:00:02 -0700
-Message-ID: <0e29ab23-4304-bd62-7065-4d1ab3a1461a@linux.intel.com>
-Date: Mon, 3 Oct 2022 13:00:00 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [Intel-gfx] [PATCH v4 3/4] drm/i915: Make the heartbeat play nice
- with long pre-emption timeouts
-Content-Language: en-US
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 05:16:45 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
- <20220929021813.2172701-4-John.C.Harrison@Intel.com>
- <a2c2cddf-009b-a2e0-2af2-6f1553c59cbc@linux.intel.com>
- <ae042c9d-f6f1-2ecd-e23a-7d6994c97151@intel.com>
- <28690581-b934-b99f-feb9-78a8e6c2d052@linux.intel.com>
- <89566262-2cd0-f456-e8b2-c7bc6ad6fe36@intel.com>
- <c61d540a-9b3a-76f5-2641-c508a6e2bcbd@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <c61d540a-9b3a-76f5-2641-c508a6e2bcbd@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/guc: Fix revocation of non-persistent contexts
+Date: Mon,  3 Oct 2022 13:16:30 +0100
+Message-Id: <20221003121630.694249-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220930094716.430937-1-tvrtko.ursulin@linux.intel.com>
+References: <20220930094716.430937-1-tvrtko.ursulin@linux.intel.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,119 +57,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, stable@vger.kernel.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-On 03/10/2022 08:53, Tvrtko Ursulin wrote:
-> 
-> On 30/09/2022 18:44, John Harrison wrote:
->> On 9/30/2022 02:22, Tvrtko Ursulin wrote:
->>> On 29/09/2022 17:21, John Harrison wrote:
->>>> On 9/29/2022 00:42, Tvrtko Ursulin wrote:
->>>>> On 29/09/2022 03:18, John.C.Harrison@Intel.com wrote:
->>>>>> From: John Harrison <John.C.Harrison@Intel.com>
->>>>>>
->>>>>> Compute workloads are inherently not pre-emptible for long periods on
->>>>>> current hardware. As a workaround for this, the pre-emption timeout
->>>>>> for compute capable engines was disabled. This is undesirable with 
->>>>>> GuC
->>>>>> submission as it prevents per engine reset of hung contexts. Hence 
->>>>>> the
->>>>>> next patch will re-enable the timeout but bumped up by an order of
->>>>>> magnitude.
->>>>>>
->>>>>> However, the heartbeat might not respect that. Depending upon current
->>>>>> activity, a pre-emption to the heartbeat pulse might not even be
->>>>>> attempted until the last heartbeat period. Which means that only one
->>>>>> period is granted for the pre-emption to occur. With the aforesaid
->>>>>> bump, the pre-emption timeout could be significantly larger than this
->>>>>> heartbeat period.
->>>>>>
->>>>>> So adjust the heartbeat code to take the pre-emption timeout into
->>>>>> account. When it reaches the final (high priority) period, it now
->>>>>> ensures the delay before hitting reset is bigger than the pre-emption
->>>>>> timeout.
->>>>>>
->>>>>> v2: Fix for selftests which adjust the heartbeat period manually.
->>>>>>
->>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>>>>> ---
->>>>>>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 19 
->>>>>> +++++++++++++++++++
->>>>>>   1 file changed, 19 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c 
->>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->>>>>> index a3698f611f457..823a790a0e2ae 100644
->>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->>>>>> @@ -22,9 +22,28 @@
->>>>>>     static bool next_heartbeat(struct intel_engine_cs *engine)
->>>>>>   {
->>>>>> +    struct i915_request *rq;
->>>>>>       long delay;
->>>>>>         delay = READ_ONCE(engine->props.heartbeat_interval_ms);
->>>>>> +
->>>>>> +    rq = engine->heartbeat.systole;
->>>>>> +
->>>>>> +    if (rq && rq->sched.attr.priority >= I915_PRIORITY_BARRIER &&
->>>>>> +        delay == engine->defaults.heartbeat_interval_ms) {
->>>>>
->>>>> Maybe I forgot but what is the reason for the check against the 
->>>>> default heartbeat interval?
->>>> That's the 'v2: fix for selftests that manually adjust the 
->>>> heartbeat'. If something (or someone) has explicitly set an override 
->>>> of the heartbeat then it has to be assumed that they know what they 
->>>> are doing, and if things don't work any more that's their problem. 
->>>> But if we don't respect their override then they won't get the 
->>>> timings they expect and the selftest will fail.
->>>
->>> Isn't this a bit too strict for the non-selftest case? If the new 
->>> concept is extending the last pulse to guarantee preemption, then I 
->>> think we could allow tweaking of the heartbeat period. Like what if 
->>> user wants 1s, or 10s instead of 2.5s - why would that need to break 
->>> the improvement from this patch?
->> Then the user is back to where they were before this patch.
->>
->>>
->>> In what ways selftests fail? Are they trying to guess time to reset 
->>> based on the hearbeat period set? If so perhaps add a helper to query 
->>> it based on the last pulse extension.
->>
->> I don't recall. It was six months ago when I was actually working on 
->> this. And right now I do not have the time to go back and re-run all 
->> the testing and re-write a bunch of self tests with whole new helpers 
->> and algorithms and whatever else might be necessary to polish this to 
->> perfection. And in the meantime, all the existing issues are still 
->> present - there is no range checking on any of this stuff, it is very 
->> possible for a driver with default settings to break a legal workload 
->> because the heartbeat and pre-emption are fighting with each other, we 
->> don't even have per engine resets enabled, etc.
->>
->> Maybe it could be even better with a follow up patch. Feel free to do 
->> that. But as it stands, this patch set significantly improves the 
->> situation without making anything worse.
-> 
-> As we seem to be in agreement that the check against default heartbeat 
-> is a hack with only purpose to work around assumptions made by 
-> selftests, then please file a Jira about removing it (this hack). Then 
-> work can be assigned to someone to clean it up. With that done I would 
-> agree the series is indeed an improvement and it would have my ack.
+Patch which added graceful exit for non-persistent contexts missed the
+fact it is not enough to set the exiting flag on a context and let the
+backend handle it from there.
 
-One more thing - put a comment in the code along the lines of 
-"FIXME/HACK: Work around selftests assumptions by only extending the 
-last heartbeat if the period is at default value". The the Jira can 
-associate to that comment.
+GuC backend cannot handle it because it runs independently in the
+firmware and driver might not see the requests ever again. Patch also
+missed the fact some usages of intel_context_is_banned in the GuC backend
+needed replacing with newly introduced intel_context_is_schedulable.
 
-Until that is resolve it may also be worth emitting a drm_notice if 
-heartbeat is changed via sysfs? Informing users the things will not work 
-as expected if they fiddle with it. Whether as a blanket warning or 
-checking first the 3-4x heartbeat vs preempt timeout value. That message 
-should then go away once the follow up work to fix the selftests is 
-done. See what the other reviewers will think.
+Fix the first issue by calling into backend revoke when we know this is
+the last chance to do it. Fix the second issue by replacing
+intel_context_is_banned with intel_context_is_schedulable, which should
+always be safe since latter is a superset of the former.
 
-Regards,
+v2:
+ * Just call ce->ops->revoke unconditionally. (Andrzej)
 
-Tvrtko
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Fixes: 45c64ecf97ee ("drm/i915: Improve user experience and driver robustness under SIGINT or similar")
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: <stable@vger.kernel.org> # v6.0+
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  8 +-----
+ drivers/gpu/drm/i915/gt/intel_context.c       |  5 ++--
+ drivers/gpu/drm/i915/gt/intel_context.h       |  3 +--
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 26 +++++++++----------
+ 4 files changed, 17 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 0bcde53c50c6..1e29b1e6d186 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -1387,14 +1387,8 @@ kill_engines(struct i915_gem_engines *engines, bool exit, bool persistent)
+ 	 */
+ 	for_each_gem_engine(ce, engines, it) {
+ 		struct intel_engine_cs *engine;
+-		bool skip = false;
+ 
+-		if (exit)
+-			skip = intel_context_set_exiting(ce);
+-		else if (!persistent)
+-			skip = intel_context_exit_nonpersistent(ce, NULL);
+-
+-		if (skip)
++		if ((exit || !persistent) && intel_context_revoke(ce))
+ 			continue; /* Already marked. */
+ 
+ 		/*
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+index 654a092ed3d6..e94365b08f1e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -614,13 +614,12 @@ bool intel_context_ban(struct intel_context *ce, struct i915_request *rq)
+ 	return ret;
+ }
+ 
+-bool intel_context_exit_nonpersistent(struct intel_context *ce,
+-				      struct i915_request *rq)
++bool intel_context_revoke(struct intel_context *ce)
+ {
+ 	bool ret = intel_context_set_exiting(ce);
+ 
+ 	if (ce->ops->revoke)
+-		ce->ops->revoke(ce, rq, ce->engine->props.preempt_timeout_ms);
++		ce->ops->revoke(ce, NULL, ce->engine->props.preempt_timeout_ms);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+index 8e2d70630c49..be09fb2e883a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.h
++++ b/drivers/gpu/drm/i915/gt/intel_context.h
+@@ -329,8 +329,7 @@ static inline bool intel_context_set_exiting(struct intel_context *ce)
+ 	return test_and_set_bit(CONTEXT_EXITING, &ce->flags);
+ }
+ 
+-bool intel_context_exit_nonpersistent(struct intel_context *ce,
+-				      struct i915_request *rq);
++bool intel_context_revoke(struct intel_context *ce);
+ 
+ static inline bool
+ intel_context_force_single_submission(const struct intel_context *ce)
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 0ef295a94060..88a4476b8e92 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -685,7 +685,7 @@ static int __guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+ 	 * Corner case where requests were sitting in the priority list or a
+ 	 * request resubmitted after the context was banned.
+ 	 */
+-	if (unlikely(intel_context_is_banned(ce))) {
++	if (unlikely(!intel_context_is_schedulable(ce))) {
+ 		i915_request_put(i915_request_mark_eio(rq));
+ 		intel_engine_signal_breadcrumbs(ce->engine);
+ 		return 0;
+@@ -871,15 +871,15 @@ static int guc_wq_item_append(struct intel_guc *guc,
+ 			      struct i915_request *rq)
+ {
+ 	struct intel_context *ce = request_to_scheduling_context(rq);
+-	int ret = 0;
++	int ret;
+ 
+-	if (likely(!intel_context_is_banned(ce))) {
+-		ret = __guc_wq_item_append(rq);
++	if (unlikely(!intel_context_is_schedulable(ce)))
++		return 0;
+ 
+-		if (unlikely(ret == -EBUSY)) {
+-			guc->stalled_request = rq;
+-			guc->submission_stall_reason = STALL_MOVE_LRC_TAIL;
+-		}
++	ret = __guc_wq_item_append(rq);
++	if (unlikely(ret == -EBUSY)) {
++		guc->stalled_request = rq;
++		guc->submission_stall_reason = STALL_MOVE_LRC_TAIL;
+ 	}
+ 
+ 	return ret;
+@@ -898,7 +898,7 @@ static bool multi_lrc_submit(struct i915_request *rq)
+ 	 * submitting all the requests generated in parallel.
+ 	 */
+ 	return test_bit(I915_FENCE_FLAG_SUBMIT_PARALLEL, &rq->fence.flags) ||
+-		intel_context_is_banned(ce);
++	       !intel_context_is_schedulable(ce);
+ }
+ 
+ static int guc_dequeue_one_context(struct intel_guc *guc)
+@@ -967,7 +967,7 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+ 		struct intel_context *ce = request_to_scheduling_context(last);
+ 
+ 		if (unlikely(!ctx_id_mapped(guc, ce->guc_id.id) &&
+-			     !intel_context_is_banned(ce))) {
++			     intel_context_is_schedulable(ce))) {
+ 			ret = try_context_registration(ce, false);
+ 			if (unlikely(ret == -EPIPE)) {
+ 				goto deadlk;
+@@ -1577,7 +1577,7 @@ static void guc_reset_state(struct intel_context *ce, u32 head, bool scrub)
+ {
+ 	struct intel_engine_cs *engine = __context_to_physical_engine(ce);
+ 
+-	if (intel_context_is_banned(ce))
++	if (!intel_context_is_schedulable(ce))
+ 		return;
+ 
+ 	GEM_BUG_ON(!intel_context_is_pinned(ce));
+@@ -4518,12 +4518,12 @@ static void guc_handle_context_reset(struct intel_guc *guc,
+ {
+ 	trace_intel_context_reset(ce);
+ 
+-	if (likely(!intel_context_is_banned(ce))) {
++	if (likely(intel_context_is_schedulable(ce))) {
+ 		capture_error_state(guc, ce);
+ 		guc_context_replay(ce);
+ 	} else {
+ 		drm_info(&guc_to_gt(guc)->i915->drm,
+-			 "Ignoring context reset notification of banned context 0x%04X on %s",
++			 "Ignoring context reset notification of exiting context 0x%04X on %s",
+ 			 ce->guc_id.id, ce->engine->name);
+ 	}
+ }
+-- 
+2.34.1
+
