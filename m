@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530F75F2FC1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 13:38:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 561675F2FFB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 14:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 447B610E329;
-	Mon,  3 Oct 2022 11:38:52 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6A910E329
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Oct 2022 11:38:50 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E26276602045;
- Mon,  3 Oct 2022 12:38:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1664797128;
- bh=VaX129b4BNwVQU4FPh9jbsOSti9h5ZFnOnyy64nSsnM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YXMd6j0kIOIjv7crq7kTWn8nHhYIHjMOXxJGSeOHA9HD0/0Pd7wKgnyVCFjutzDBm
- w+zdjMDKDLQV9c6ZyBwNLePYI6zLn1eeQbS9/zxqvQExEaA+KVqoGBCHJX2msaXKu6
- 7BtVIqn4KA4eAhGApyavHGLg1igD6lMgkZLNflEw/vXZQH5sFXK5/YJqMWJhXyk9LF
- JzPuFiPeyvYr9xH/GtVzuwusTrREvmqH5P1kndVc4JEQwDHv+brd3ujqe/oB2/jXy1
- aeyTh466cxuRfTauV9tyXTG/VZxhW63yptaFDBzXSCMkg96HGLySO1v4z82lwYopUN
- ekRoIKkCYbDpw==
-Message-ID: <cece2c1d-6e9b-d850-5321-31fae15cadb7@collabora.com>
-Date: Mon, 3 Oct 2022 13:38:45 +0200
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6DC10E386;
+	Mon,  3 Oct 2022 12:00:12 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C0710E326;
+ Mon,  3 Oct 2022 12:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664798404; x=1696334404;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=0vLRwsAghV2ruv4X8qB76VGZ6XMlYF5Ra33xu3JU8kY=;
+ b=N/rkstRq+fXfjAdJkFAUrA+wL/RZ8Rok47n56reg5oYQa+IWqE3k0zXO
+ EhTJ5Y8naFAX+FyBtr01rbso+Ddw8URgTV1Q8dkiKTvfoXsKheSApSvYj
+ 8aCWoCwPvurKJXS/EsnlrupzbCmfw9g7/4vSCjF53yn4khKMwTRxVp63F
+ c43a6DHohTcumGVSiQg1rDJjNh0vamXfdbgljBWOvRoIC4BKZ0uF5m9gw
+ klIIEH5e1d1D0bDG+RsDLwCHMTuO2Z6anwcs2GcQ9pN5T3HjQi1Z0ogmo
+ 9m2ahgRsa8uQ/aCXdGSFB62hYecWcbE8k6817Ek2/o+079Ut3eZgP0M3R g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="285750553"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="285750553"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 05:00:03 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="623505926"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="623505926"
+Received: from praffert-mobl.ger.corp.intel.com (HELO [10.213.196.20])
+ ([10.213.196.20])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 05:00:02 -0700
+Message-ID: <0e29ab23-4304-bd62-7065-4d1ab3a1461a@linux.intel.com>
+Date: Mon, 3 Oct 2022 13:00:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2 1/2] drm/bridge: it6505: Adapt runtime power management
- framework
+ Thunderbird/102.3.1
+Subject: Re: [Intel-gfx] [PATCH v4 3/4] drm/i915: Make the heartbeat play nice
+ with long pre-emption timeouts
 Content-Language: en-US
-To: Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20221003050335.1007931-1-treapking@chromium.org>
- <20221003050335.1007931-2-treapking@chromium.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221003050335.1007931-2-treapking@chromium.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
+ <20220929021813.2172701-4-John.C.Harrison@Intel.com>
+ <a2c2cddf-009b-a2e0-2af2-6f1553c59cbc@linux.intel.com>
+ <ae042c9d-f6f1-2ecd-e23a-7d6994c97151@intel.com>
+ <28690581-b934-b99f-feb9-78a8e6c2d052@linux.intel.com>
+ <89566262-2cd0-f456-e8b2-c7bc6ad6fe36@intel.com>
+ <c61d540a-9b3a-76f5-2641-c508a6e2bcbd@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <c61d540a-9b3a-76f5-2641-c508a6e2bcbd@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,72 +68,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Allen Chen <allen.chen@ite.com.tw>, Hermes Wu <hermes.wu@ite.com.tw>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 03/10/22 07:03, Pin-yen Lin ha scritto:
-> Use pm_runtime_(get|put)_sync to control the bridge power, and add
-> SET_SYSTEM_SLEEP_PM_OPS with pm_runtime_force_(suspend|resume) to it6505
-> driver. Without SET_SYSTEM_SLEEP_PM_OPS, the bridge will be powered on
-> unnecessarily when no external display is connected.
-> 
-> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> 
-> ---
-> 
-> Changes in v2:
-> - Handle the error from pm_runtime_get_sync in it6505_extcon_work
-> 
->   drivers/gpu/drm/bridge/ite-it6505.c | 33 +++++++++++++++++++++--------
->   1 file changed, 24 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 2bb957cffd94..685d8e750b12 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -421,6 +421,7 @@ struct it6505 {
->   	struct notifier_block event_nb;
->   	struct extcon_dev *extcon;
->   	struct work_struct extcon_wq;
-> +	int extcon_state;
->   	enum drm_connector_status connector_status;
->   	enum link_train_status link_state;
->   	struct work_struct link_works;
-> @@ -2685,31 +2686,42 @@ static void it6505_extcon_work(struct work_struct *work)
->   {
->   	struct it6505 *it6505 = container_of(work, struct it6505, extcon_wq);
->   	struct device *dev = &it6505->client->dev;
-> -	int state = extcon_get_state(it6505->extcon, EXTCON_DISP_DP);
-> -	unsigned int pwroffretry = 0;
-> +	int state, ret;
->   
->   	if (it6505->enable_drv_hold)
->   		return;
->   
->   	mutex_lock(&it6505->extcon_lock);
->   
-> +	state = extcon_get_state(it6505->extcon, EXTCON_DISP_DP);
->   	DRM_DEV_DEBUG_DRIVER(dev, "EXTCON_DISP_DP = 0x%02x", state);
-> +
-> +	if (state == it6505->extcon_state)
-> +		goto unlock;
 
-Even if it's unlikely for anything bad to happen, please add error handling,
-or we might end up with unbalanced pm_runtime calls.
+On 03/10/2022 08:53, Tvrtko Ursulin wrote:
+> 
+> On 30/09/2022 18:44, John Harrison wrote:
+>> On 9/30/2022 02:22, Tvrtko Ursulin wrote:
+>>> On 29/09/2022 17:21, John Harrison wrote:
+>>>> On 9/29/2022 00:42, Tvrtko Ursulin wrote:
+>>>>> On 29/09/2022 03:18, John.C.Harrison@Intel.com wrote:
+>>>>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>>>>
+>>>>>> Compute workloads are inherently not pre-emptible for long periods on
+>>>>>> current hardware. As a workaround for this, the pre-emption timeout
+>>>>>> for compute capable engines was disabled. This is undesirable with 
+>>>>>> GuC
+>>>>>> submission as it prevents per engine reset of hung contexts. Hence 
+>>>>>> the
+>>>>>> next patch will re-enable the timeout but bumped up by an order of
+>>>>>> magnitude.
+>>>>>>
+>>>>>> However, the heartbeat might not respect that. Depending upon current
+>>>>>> activity, a pre-emption to the heartbeat pulse might not even be
+>>>>>> attempted until the last heartbeat period. Which means that only one
+>>>>>> period is granted for the pre-emption to occur. With the aforesaid
+>>>>>> bump, the pre-emption timeout could be significantly larger than this
+>>>>>> heartbeat period.
+>>>>>>
+>>>>>> So adjust the heartbeat code to take the pre-emption timeout into
+>>>>>> account. When it reaches the final (high priority) period, it now
+>>>>>> ensures the delay before hitting reset is bigger than the pre-emption
+>>>>>> timeout.
+>>>>>>
+>>>>>> v2: Fix for selftests which adjust the heartbeat period manually.
+>>>>>>
+>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>>>> ---
+>>>>>>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 19 
+>>>>>> +++++++++++++++++++
+>>>>>>   1 file changed, 19 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c 
+>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>>>>> index a3698f611f457..823a790a0e2ae 100644
+>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>>>>> @@ -22,9 +22,28 @@
+>>>>>>     static bool next_heartbeat(struct intel_engine_cs *engine)
+>>>>>>   {
+>>>>>> +    struct i915_request *rq;
+>>>>>>       long delay;
+>>>>>>         delay = READ_ONCE(engine->props.heartbeat_interval_ms);
+>>>>>> +
+>>>>>> +    rq = engine->heartbeat.systole;
+>>>>>> +
+>>>>>> +    if (rq && rq->sched.attr.priority >= I915_PRIORITY_BARRIER &&
+>>>>>> +        delay == engine->defaults.heartbeat_interval_ms) {
+>>>>>
+>>>>> Maybe I forgot but what is the reason for the check against the 
+>>>>> default heartbeat interval?
+>>>> That's the 'v2: fix for selftests that manually adjust the 
+>>>> heartbeat'. If something (or someone) has explicitly set an override 
+>>>> of the heartbeat then it has to be assumed that they know what they 
+>>>> are doing, and if things don't work any more that's their problem. 
+>>>> But if we don't respect their override then they won't get the 
+>>>> timings they expect and the selftest will fail.
+>>>
+>>> Isn't this a bit too strict for the non-selftest case? If the new 
+>>> concept is extending the last pulse to guarantee preemption, then I 
+>>> think we could allow tweaking of the heartbeat period. Like what if 
+>>> user wants 1s, or 10s instead of 2.5s - why would that need to break 
+>>> the improvement from this patch?
+>> Then the user is back to where they were before this patch.
+>>
+>>>
+>>> In what ways selftests fail? Are they trying to guess time to reset 
+>>> based on the hearbeat period set? If so perhaps add a helper to query 
+>>> it based on the last pulse extension.
+>>
+>> I don't recall. It was six months ago when I was actually working on 
+>> this. And right now I do not have the time to go back and re-run all 
+>> the testing and re-write a bunch of self tests with whole new helpers 
+>> and algorithms and whatever else might be necessary to polish this to 
+>> perfection. And in the meantime, all the existing issues are still 
+>> present - there is no range checking on any of this stuff, it is very 
+>> possible for a driver with default settings to break a legal workload 
+>> because the heartbeat and pre-emption are fighting with each other, we 
+>> don't even have per engine resets enabled, etc.
+>>
+>> Maybe it could be even better with a follow up patch. Feel free to do 
+>> that. But as it stands, this patch set significantly improves the 
+>> situation without making anything worse.
+> 
+> As we seem to be in agreement that the check against default heartbeat 
+> is a hack with only purpose to work around assumptions made by 
+> selftests, then please file a Jira about removing it (this hack). Then 
+> work can be assigned to someone to clean it up. With that done I would 
+> agree the series is indeed an improvement and it would have my ack.
 
-	if (state == it6505->extcon_state || unlikely(state < 0))
-		goto unlock;
-	it6505->extcon_state = state;
-	if (state) {
-		....
-	} else {
-		....
-	}
+One more thing - put a comment in the code along the lines of 
+"FIXME/HACK: Work around selftests assumptions by only extending the 
+last heartbeat if the period is at default value". The the Jira can 
+associate to that comment.
+
+Until that is resolve it may also be worth emitting a drm_notice if 
+heartbeat is changed via sysfs? Informing users the things will not work 
+as expected if they fiddle with it. Whether as a blanket warning or 
+checking first the 3-4x heartbeat vs preempt timeout value. That message 
+should then go away once the follow up work to fix the selftests is 
+done. See what the other reviewers will think.
 
 Regards,
-Angelo
 
+Tvrtko
