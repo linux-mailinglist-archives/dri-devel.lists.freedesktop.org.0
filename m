@@ -2,55 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D865F35EB
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 20:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C985E5F3641
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 21:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E4D210E481;
-	Mon,  3 Oct 2022 18:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4F910E4B7;
+	Mon,  3 Oct 2022 19:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1BE10E481
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Oct 2022 18:54:44 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id qx23so6074720ejb.11
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Oct 2022 11:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=ZWtjJZk+dGfZ5Cry9jnZ+BrR/YXPmSkUOKLcc77u3W4=;
- b=DY4r3/PicRAOO9FkdHH4rccSAGulqdS9/1tnOHNNVIGd1Ldqq1zVd6/XvoMeQ9W+k5
- wNrTt6AzXUy+hyiINs7EK5KT7PoBRGE1SQEtNiA6rm2wPYr5yjxIvla9g32Dj7XSNkqd
- ONMu0gXko05+tsPCpqfFo/Whw2uEyQjAlMBMilJzrZS+9xG5DwJnlGHJ0V7tChTbpiMy
- QFCf9nbZNFzagzahmVSbmOe2yVUbpA4bNAZgYcvkUZQNK1LmKhGY5HYFTfStwHTFqYcN
- DE+4B1ak8POvVUdq/GtJUzXp5AMU3vWPttE9Rx0p7L/cBOX/cgW8rYqHjkQU3Vlqapyj
- DnMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=ZWtjJZk+dGfZ5Cry9jnZ+BrR/YXPmSkUOKLcc77u3W4=;
- b=bNCQsdc/msCUKt7d9f/YYinJGL5y984I00cwTsocgLh8cA3QqINZJ+FG05UN6J6erK
- STWhYHZeSNV/DVgaNTYwgXgGVX98POyAQAI8hS7SeXm8yWG8HYm3Sltyc1zk2JQbAEqQ
- +WRF06/xqHLb+C1jQaMSlAAMwjCVwi+lDiWKQJ5YBUnKxcjrVXnPjsb0vmG4LUdl6lHR
- MYiAjZzI5TLuoeRIgVVuITnOa5n+HRSwZaBefS2+brT3wyRgyctIc3KWmJFbXErDO4O4
- 8YLIYC9IP3RDuOWvEyOnXAn6RLbJn8y/v7AtTEL5JkSUVSOIYP9uzKluiMG139BKL55H
- sdug==
-X-Gm-Message-State: ACrzQf2JpAiaTDS0tln8o1/mv8tm1OLACHizZVqgk+38D6ciQHNSKHmO
- D593qzXhDML5uOCWJEL1yXpEmDrT7lXnhLXcZbSKvg==
-X-Google-Smtp-Source: AMsMyM5g2fe/v9D9TU86UO8XUkvOTh5zkJrZWXucxKTmYfl8xARkrTTR7rXFy5Cn17tH4Qi/oJCqy5ktrjOgejVUGS4=
-X-Received: by 2002:a17:907:a064:b0:78c:1511:a3cd with SMTP id
- ia4-20020a170907a06400b0078c1511a3cdmr3340550ejc.203.1664823282532; Mon, 03
- Oct 2022 11:54:42 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD5D010E4B6;
+ Mon,  3 Oct 2022 19:24:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664825083; x=1696361083;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Or7ZX6z70KVcv7Yq2HAczp74W1Gi9S74jEoIPvGX6Ec=;
+ b=NOqdABOgP/E8Q0hEtYPNjWs8V/t9saj/oRXP8+kt8XkPi0LpSJ6+rVNw
+ XlCJVsr/ybl2sB8E7lXavllraI4Okz3pfgv2kAcart+UvxCXaLcD3hk7i
+ iTfLHSp5EBYX27J1wU84dPLjV8EA3bYluOMWh5EiPsfO8hxV2N04Twnl4
+ NK8tJklIpewHmdov/arSRiJpzzTrUfXJYdd5K8Qj1rlYzj9D8GvHTc3kY
+ OkHB4Sbx71YI7zgmn6rMwU/AgbKy1imV7huE8KZluAeK1wI7t6Z9KhSur
+ 34D+sTO0BgILqhTzj54HPcetWzMSns8HuKui9VAhnTIUC2pHWu44DfDCN Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="304282101"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; d="scan'208";a="304282101"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 12:24:25 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="625918218"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; d="scan'208";a="625918218"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
+ ([10.165.21.138])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 12:24:25 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/pmu: Match frequencies reported by PMU and sysfs
+Date: Mon,  3 Oct 2022 12:24:19 -0700
+Message-Id: <20221003192419.3541088-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220928093103.64014-1-khalid.masum.92@gmail.com>
-In-Reply-To: <20220928093103.64014-1-khalid.masum.92@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 3 Oct 2022 20:54:31 +0200
-Message-ID: <CACRpkdbZWMk9+wH8ndFEzZyUwKecjNfgT2xJnZEQx0ACPzLWbw@mail.gmail.com>
-Subject: Re: [PATCH] drm/tve200: Use drm_* variants for logging
-To: Khalid Masum <khalid.masum.92@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,25 +55,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 28, 2022 at 11:31 AM Khalid Masum <khalid.masum.92@gmail.com> wrote:
+PMU and sysfs use different wakeref's to "interpret" zero freq. Sysfs uses
+runtime PM wakeref (see intel_rps_read_punit_req and
+intel_rps_read_actual_frequency). PMU uses the GT parked/unparked
+wakeref. In general the GT wakeref is held for less time that the runtime
+PM wakeref which causes PMU to report a lower average freq than the average
+freq obtained from sampling sysfs.
 
-> We have routines like drm_info/warn/err for logging. Use them instead
-> of dev_* variants to get drm-formatted log messages.
->
-> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+To resolve this, use the same freq functions (and wakeref's) in PMU as
+those used in sysfs.
 
-So is this the new thing? We've been through:
-- DRM_INFO_ETC BIG CAPITAL LETTER MACROS
-- Just use dev_info() & friends like everyone else
-- Now drm_info() & co
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7025
+Reported-by: Ashwin Kumar Kulkarni <ashwin.kumar.kulkarni@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+---
+ drivers/gpu/drm/i915/i915_pmu.c | 27 ++-------------------------
+ 1 file changed, 2 insertions(+), 25 deletions(-)
 
-Note I don't wanna bikeshed about this, just tell me there is
-consensus now so we know what to do.
+diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+index 958b37123bf1..eda03f264792 100644
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@ -371,37 +371,16 @@ static void
+ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
+ {
+ 	struct drm_i915_private *i915 = gt->i915;
+-	struct intel_uncore *uncore = gt->uncore;
+ 	struct i915_pmu *pmu = &i915->pmu;
+ 	struct intel_rps *rps = &gt->rps;
+ 
+ 	if (!frequency_sampling_enabled(pmu))
+ 		return;
+ 
+-	/* Report 0/0 (actual/requested) frequency while parked. */
+-	if (!intel_gt_pm_get_if_awake(gt))
+-		return;
+-
+ 	if (pmu->enable & config_mask(I915_PMU_ACTUAL_FREQUENCY)) {
+-		u32 val;
+-
+-		/*
+-		 * We take a quick peek here without using forcewake
+-		 * so that we don't perturb the system under observation
+-		 * (forcewake => !rc6 => increased power use). We expect
+-		 * that if the read fails because it is outside of the
+-		 * mmio power well, then it will return 0 -- in which
+-		 * case we assume the system is running at the intended
+-		 * frequency. Fortunately, the read should rarely fail!
+-		 */
+-		val = intel_uncore_read_fw(uncore, GEN6_RPSTAT1);
+-		if (val)
+-			val = intel_rps_get_cagf(rps, val);
+-		else
+-			val = rps->cur_freq;
+-
+ 		add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_ACT],
+-				intel_gpu_freq(rps, val), period_ns / 1000);
++				intel_rps_read_actual_frequency(rps),
++				period_ns / 1000);
+ 	}
+ 
+ 	if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQUENCY)) {
+@@ -409,8 +388,6 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
+ 				intel_rps_get_requested_frequency(rps),
+ 				period_ns / 1000);
+ 	}
+-
+-	intel_gt_pm_put_async(gt);
+ }
+ 
+ static enum hrtimer_restart i915_sample(struct hrtimer *hrtimer)
+-- 
+2.34.1
 
-Yours,
-Linus Walleij
