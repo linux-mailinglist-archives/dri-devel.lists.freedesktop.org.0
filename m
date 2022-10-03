@@ -2,55 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D075F2BF6
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 10:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE1E5F2C07
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 10:38:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1409610E26A;
-	Mon,  3 Oct 2022 08:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13B8010E275;
+	Mon,  3 Oct 2022 08:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C301410E26A;
- Mon,  3 Oct 2022 08:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664786230; x=1696322230;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Xa0LzseXE7pQXn/O8JGe1q/Fv/Sh74zQh85I/aNwdtw=;
- b=h1h2WrdejD2PiVYEgXQy04qx4TUDFwJXzfkmamGhFYQk8HmPZiHzw00a
- IrVHGmc4Bwi5sqp1kZ4uRfPSCK1eMyKo3aBNC93IsT51zQqp6ehH1+Hgc
- iXcFImPJlUR6xuG4cIQkhvr13fsuV9TgXMq/fmYQHpal/QYBa6oDANTFN
- KqZmaiPtpxFI1aPHn4kqnkgcH0J6VjcjpIbDT0j97hjwvoNE7MIRxNaH6
- XPMs8jvpZzA/QF3kOLuXzfa43+tgq37G/soSHY0sEXBDk0uS+Mx2xH/iF
- 93lyxhZUMd6QvYrpsgf1kWThAK7eRGggAdpsi2ip5IQAXY0ZDbL7AaBRa w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="303485955"
-X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="303485955"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2022 01:36:43 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="712510649"
-X-IronPort-AV: E=Sophos;i="5.93,364,1654585200"; d="scan'208";a="712510649"
-Received: from adejeanb-mobl.ger.corp.intel.com (HELO [10.252.6.198])
- ([10.252.6.198])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2022 01:36:40 -0700
-Message-ID: <a60eec17-b46b-e367-40fa-6d85e9fc63de@intel.com>
-Date: Mon, 3 Oct 2022 09:36:38 +0100
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED07D10E27A;
+ Mon,  3 Oct 2022 08:37:56 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id b6so10939983ljr.10;
+ Mon, 03 Oct 2022 01:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date;
+ bh=c1RTDhUptXubmqIOjpWFCwnR4r/J+8GY3N7lqKxbdmM=;
+ b=b1NN/hwm5NmZH121SW3EqtZHoyHLILnWha5gNCSC9jPLVvLrR6JsUfbwX1zEaUVN92
+ SPc9VLPW0PgCuvW3vW1tE2DwEePGe+Xr9UM8rotrRPy7ICRjfm8+ayE1gZuJEq31W0bw
+ 7R/uiWMM4A0h3ZHt/XoK4ijJjOghnUsooeN2rG/JjKmQkD1z07OYwCg8mD/vodsSYv2W
+ oXFc+Xw9iUppRjCxwgH+wkI9lxPGiZ+rLkA9ZNx09n4CnDJn5wCsBiV2EFxEwgqOxsi3
+ MXCDpJBcoqaPCfsjTveiouEsgnbTGo6HzxoEShQKgwfU4+VLaKev9T30RUVCCl4a466X
+ p+OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date;
+ bh=c1RTDhUptXubmqIOjpWFCwnR4r/J+8GY3N7lqKxbdmM=;
+ b=5TrdUDQYR0qEV1lMm/7XRRz8/ItXr1VNudc2aKnQeFtcz3ntoZ/R+l95+d81TBgy0q
+ opRNZSmjBt6B07T23QCkYKqNI8WzAN/NpbmDyW32/IST5mY1s9aMK+cnfnLT3X47RAuH
+ 4cLlaqalCQa10dWrlfl0upLMWW302vKy4QmobiAyugVF2h3djfyH4JokgXMwPJNwGRBG
+ 2DL0L3IjIvElwJLo09b6gcn665PTBdwys2TRHIDExgjdx/2sCMglvcjSvqr9Kiaaz5QL
+ Mzht3SA8okMX/PvCo0H88e7AkvDdbQnkoexzrwUg/1V96jU/MenPAHifoYj6qK2oqcm2
+ wqFQ==
+X-Gm-Message-State: ACrzQf2a3gI5BPi8j8Pd5x7KZIFHX6SailSB0kiOLmv8HYeCgeSDUa1P
+ rB88lvOw2ttunWaEByBx+K8=
+X-Google-Smtp-Source: AMsMyM6pQeUmbSYUece/ulrOZoIXtZaQgdV2OzQLUNKRso8lOiXUq+HhkKh6glULeFsXi0xNtlSNfw==
+X-Received: by 2002:a2e:8756:0:b0:26d:e096:a0d8 with SMTP id
+ q22-20020a2e8756000000b0026de096a0d8mr864535ljj.500.1664786275165; 
+ Mon, 03 Oct 2022 01:37:55 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ u12-20020a05651c130c00b0025e00e0116esm822350lja.128.2022.10.03.01.37.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 01:37:54 -0700 (PDT)
+Date: Mon, 3 Oct 2022 11:37:50 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>, Ville =?UTF-8?B?U3lyasOk?=
+ =?UTF-8?B?bMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [RFC v2] drm/kms: control display brightness through
+ drm_connector properties
+Message-ID: <20221003113750.64d0417a@eldfell>
+In-Reply-To: <CA+hFU4zat+-0eW_6BaY0pbHzKxBjPtnyV5M=X=9Y0Rn8JJe8Wg@mail.gmail.com>
+References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
+ <878rm3zuge.fsf@intel.com> <YzQojrDOGNhm4D8l@intel.com>
+ <YzQseBFa5EvDUDSw@intel.com>
+ <CA+hFU4xRV74r3Wbs-TTWmtAkEwdJaEb+1QXUZSh52LVRwfddeA@mail.gmail.com>
+ <20220930103956.1c3df79e@eldfell>
+ <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
+ <YzcAwVC8tm1imNOL@intel.com> <20220930182652.4ea10013@eldfell>
+ <CA+hFU4zat+-0eW_6BaY0pbHzKxBjPtnyV5M=X=9Y0Rn8JJe8Wg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.1
-Subject: Re: [PATCH 14/16] drm/i915/vm_bind: Handle persistent vmas in execbuf3
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-References: <20220928061918.6340-1-niranjana.vishwanathapura@intel.com>
- <20220928061918.6340-15-niranjana.vishwanathapura@intel.com>
- <f9bdd880-d14e-cca7-ab9f-53e6535b4522@intel.com>
- <20221002062842.GN22224@nvishwa1-DESK>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20221002062842.GN22224@nvishwa1-DESK>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/P3pTp+YAHVyilJq1=3mjf0h";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,320 +78,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/10/2022 07:28, Niranjana Vishwanathapura wrote:
-> On Fri, Sep 30, 2022 at 10:47:48AM +0100, Matthew Auld wrote:
->> On 28/09/2022 07:19, Niranjana Vishwanathapura wrote:
->>> Handle persistent (VM_BIND) mappings during the request submission
->>> in the execbuf3 path.
->>>
->>> Signed-off-by: Niranjana Vishwanathapura 
->>> <niranjana.vishwanathapura@intel.com>
->>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>> ---
->>>  .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 188 +++++++++++++++++-
->>>  1 file changed, 187 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c 
->>> b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>> index 92af88bc8deb..1aeeff5e8540 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>> @@ -19,6 +19,7 @@
->>>  #include "i915_gem_vm_bind.h"
->>>  #include "i915_trace.h"
->>> +#define __EXEC3_HAS_PIN            BIT_ULL(33)
->>>  #define __EXEC3_ENGINE_PINNED        BIT_ULL(32)
->>>  #define __EXEC3_INTERNAL_FLAGS        (~0ull << 32)
->>> @@ -42,7 +43,9 @@
->>>   * execlist. Hence, no support for implicit sync.
->>>   *
->>>   * The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND 
->>> mode only
->>> - * works with execbuf3 ioctl for submission.
->>> + * works with execbuf3 ioctl for submission. All BOs mapped on that 
->>> VM (through
->>> + * VM_BIND call) at the time of execbuf3 call are deemed required 
->>> for that
->>> + * submission.
->>>   *
->>>   * The execbuf3 ioctl directly specifies the batch addresses instead 
->>> of as
->>>   * object handles as in execbuf2 ioctl. The execbuf3 ioctl will also 
->>> not
->>> @@ -58,6 +61,13 @@
->>>   * So, a lot of code supporting execbuf2 ioctl, like relocations, VA 
->>> evictions,
->>>   * vma lookup table, implicit sync, vma active reference tracking 
->>> etc., are not
->>>   * applicable for execbuf3 ioctl.
->>> + *
->>> + * During each execbuf submission, request fence is added to all 
->>> VM_BIND mapped
->>> + * objects with DMA_RESV_USAGE_BOOKKEEP. The DMA_RESV_USAGE_BOOKKEEP 
->>> usage will
->>> + * prevent over sync (See enum dma_resv_usage). Note that 
->>> DRM_I915_GEM_WAIT and
->>> + * DRM_I915_GEM_BUSY ioctls do not check for DMA_RESV_USAGE_BOOKKEEP 
->>> usage and
->>> + * hence should not be used for end of batch check. Instead, the 
->>> execbuf3
->>> + * timeline out fence should be used for end of batch check.
->>>   */
->>>  /**
->>> @@ -127,6 +137,23 @@ eb_find_vma(struct i915_address_space *vm, u64 
->>> addr)
->>>      return i915_gem_vm_bind_lookup_vma(vm, va);
->>>  }
->>> +static void eb_scoop_unbound_vma_all(struct i915_address_space *vm)
->>> +{
->>> +    struct i915_vma *vma, *vn;
->>> +
->>> +    /**
->>> +     * Move all unbound vmas back into vm_bind_list so that they are
->>> +     * revalidated.
->>> +     */
->>> +    spin_lock(&vm->vm_rebind_lock);
->>> +    list_for_each_entry_safe(vma, vn, &vm->vm_rebind_list, 
->>> vm_rebind_link) {
->>> +        list_del_init(&vma->vm_rebind_link);
->>> +        if (!list_empty(&vma->vm_bind_link))
->>> +            list_move_tail(&vma->vm_bind_link, &vm->vm_bind_list);
->>> +    }
->>> +    spin_unlock(&vm->vm_rebind_lock);
->>> +}
->>> +
->>>  static int eb_lookup_vma_all(struct i915_execbuffer *eb)
->>>  {
->>>      unsigned int i, current_batch = 0;
->>> @@ -141,14 +168,121 @@ static int eb_lookup_vma_all(struct 
->>> i915_execbuffer *eb)
->>>          ++current_batch;
->>>      }
->>> +    eb_scoop_unbound_vma_all(eb->context->vm);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int eb_lock_vma_all(struct i915_execbuffer *eb)
->>> +{
->>> +    struct i915_address_space *vm = eb->context->vm;
->>> +    struct i915_vma *vma;
->>> +    int err;
->>> +
->>> +    err = i915_gem_object_lock(eb->context->vm->root_obj, &eb->ww);
->>> +    if (err)
->>> +        return err;
->>> +
->>> +    list_for_each_entry(vma, &vm->non_priv_vm_bind_list,
->>> +                non_priv_vm_bind_link) {
->>> +        err = i915_gem_object_lock(vma->obj, &eb->ww);
->>> +        if (err)
->>> +            return err;
->>> +    }
->>> +
->>>      return 0;
->>>  }
->>> +static void eb_release_persistent_vma_all(struct i915_execbuffer *eb,
->>> +                      bool final)
->>> +{
->>> +    struct i915_address_space *vm = eb->context->vm;
->>> +    struct i915_vma *vma, *vn;
->>> +
->>> +    lockdep_assert_held(&vm->vm_bind_lock);
->>> +
->>> +    if (!(eb->args->flags & __EXEC3_HAS_PIN))
->>> +        return;
->>> +
->>> +    assert_object_held(vm->root_obj);
->>> +
->>> +    list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link)
->>> +        __i915_vma_unpin(vma);
->>> +
->>> +    eb->args->flags &= ~__EXEC3_HAS_PIN;
->>> +    if (!final)
->>> +        return;
->>> +
->>> +    list_for_each_entry_safe(vma, vn, &vm->vm_bind_list, vm_bind_link)
->>> +        if (i915_vma_verify_bind_complete(vma))
->>> +            list_move_tail(&vma->vm_bind_link, &vm->vm_bound_list);
->>> +}
->>> +
->>>  static void eb_release_vma_all(struct i915_execbuffer *eb, bool final)
->>>  {
->>> +    eb_release_persistent_vma_all(eb, final);
->>>      eb_unpin_engine(eb);
->>>  }
->>> +static int eb_reserve_fence_for_persistent_vma_all(struct 
->>> i915_execbuffer *eb)
->>> +{
->>> +    struct i915_address_space *vm = eb->context->vm;
->>> +    struct i915_vma *vma;
->>> +    int ret;
->>> +
->>> +    ret = dma_resv_reserve_fences(vm->root_obj->base.resv, 1);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    list_for_each_entry(vma, &vm->non_priv_vm_bind_list,
->>> +                non_priv_vm_bind_link) {
->>> +        ret = dma_resv_reserve_fences(vma->obj->base.resv, 1);
->>> +        if (ret)
->>> +            return ret;
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int eb_validate_persistent_vma_all(struct i915_execbuffer *eb)
->>> +{
->>> +    struct i915_address_space *vm = eb->context->vm;
->>> +    struct i915_vma *vma, *last_pinned_vma = NULL;
->>> +    int ret = 0;
->>> +
->>> +    lockdep_assert_held(&vm->vm_bind_lock);
->>> +    assert_object_held(vm->root_obj);
->>> +
->>> +    ret = eb_reserve_fence_for_persistent_vma_all(eb);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    if (list_empty(&vm->vm_bind_list))
->>> +        return 0;
->>> +
->>> +    list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link) {
->>> +        u64 pin_flags = vma->start | PIN_OFFSET_FIXED | PIN_USER;
->>> +
->>> +        ret = i915_vma_pin_ww(vma, &eb->ww, 0, 0, pin_flags);
->>> +        if (ret)
->>> +            break;
->>> +
->>> +        last_pinned_vma = vma;
->>> +    }
->>> +
->>> +    if (ret && last_pinned_vma) {
->>> +        list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link) {
->>> +            __i915_vma_unpin(vma);
->>> +            if (vma == last_pinned_vma)
->>> +                break;
->>> +        }
->>> +    } else if (last_pinned_vma) {
->>> +        eb->args->flags |= __EXEC3_HAS_PIN;
->>> +    }
->>> +
->>> +    return ret;
->>> +}
->>> +
->>>  /*
->>>   * Using two helper loops for the order of which requests / batches 
->>> are created
->>>   * and added the to backend. Requests are created in order from the 
->>> parent to
->>> @@ -161,8 +295,43 @@ static void eb_release_vma_all(struct 
->>> i915_execbuffer *eb, bool final)
->>>  #define for_each_batch_create_order(_eb) \
->>>      for (unsigned int i = 0; i < (_eb)->num_batches; ++i)
->>> +static void __eb_persistent_add_shared_fence(struct 
->>> drm_i915_gem_object *obj,
->>> +                         struct dma_fence *fence)
->>> +{
->>> +    dma_resv_add_fence(obj->base.resv, fence, DMA_RESV_USAGE_BOOKKEEP);
->>> +    obj->write_domain = 0;
->>> +    obj->read_domains |= I915_GEM_GPU_DOMAINS;
->>> +    obj->mm.dirty = true;
->>> +}
->>> +
->>> +static void eb_persistent_add_shared_fence(struct i915_execbuffer *eb)
->>> +{
->>> +    struct i915_address_space *vm = eb->context->vm;
->>> +    struct dma_fence *fence;
->>> +    struct i915_vma *vma;
->>> +
->>> +    fence = eb->composite_fence ? eb->composite_fence :
->>> +        &eb->requests[0]->fence;
->>> +
->>> +    __eb_persistent_add_shared_fence(vm->root_obj, fence);
->>> +    list_for_each_entry(vma, &vm->non_priv_vm_bind_list,
->>> +                non_priv_vm_bind_link)
->>> +        __eb_persistent_add_shared_fence(vma->obj, fence);
->>
->> See: 842d9346b2fd ("drm/i915: Individualize fences before adding to 
->> dma_resv obj"). Do we not need something similar?
->>
-> 
-> I don't fully get it. Looks like in normal case, request's fences are
-> not dma_fence_array type and we reserve eb->num_batches fences and
-> we add one fence per each of eb->num_batches requests.
-> What is the use case of having dma_fence_array and this individualization
-> of fences? I just don't get it be looking at code.
-> 
-> I am not sure if such scenario applies for execbuf3 path (which is
-> much leaner). Also, I am only adding the fence of the last request to be
-> executed under the assumption that all other requests would be completed
-> befor that. If that is not ture, then we need to add the fence of all
-> requests. But that is a different question here.
+--Sig_/P3pTp+YAHVyilJq1=3mjf0h
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I think it just means that we can't do add_fence(fence), where fence is 
-a "container", which AFAIK is the case for the composite_fence above, 
-where we can have multiple batches per execbuf. The concern here is that 
-this then triggers the WARN_ON(dma_fence_is_container(fence)) in 
-add_fence(). There seem to be IGTs for this (multi-bb or so), but they 
-are using execbuf2.
+On Fri, 30 Sep 2022 18:17:39 +0200
+Sebastian Wick <sebastian.wick@redhat.com> wrote:
 
-> 
-> Niranjana
-> 
->>> +}
->>> +
->>> +static void eb_move_all_persistent_vma_to_active(struct 
->>> i915_execbuffer *eb)
->>> +{
->>> +    /* Add fence to BOs dma-resv fence list */
->>> +    eb_persistent_add_shared_fence(eb);
->>> +}
->>> +
->>>  static int eb_move_to_gpu(struct i915_execbuffer *eb)
->>>  {
->>> +    lockdep_assert_held(&eb->context->vm->vm_bind_lock);
->>> +    assert_object_held(eb->context->vm->root_obj);
->>> +
->>> +    eb_move_all_persistent_vma_to_active(eb);
->>> +
->>>      /* Unconditionally flush any chipset caches (for streaming 
->>> writes). */
->>>      intel_gt_chipset_flush(eb->gt);
->>> @@ -478,6 +647,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->>>      mutex_lock(&eb.context->vm->vm_bind_lock);
->>> +lookup_vmas:
->>>      err = eb_lookup_vma_all(&eb);
->>>      if (err) {
->>>          eb_release_vma_all(&eb, true);
->>> @@ -494,6 +664,22 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->>>      /* only throttle once, even if we didn't need to throttle */
->>>      throttle = false;
->>> +    err = eb_lock_vma_all(&eb);
->>> +    if (err)
->>> +        goto err_validate;
->>> +
->>> +    /**
->>> +     * No object unbinds possible once the objects are locked. So,
->>> +     * check for any unbinds here, which needs to be scooped up.
->>> +     */
->>> +    if (!list_empty(&eb.context->vm->vm_rebind_list)) {
->>> +        eb_release_vma_all(&eb, true);
->>> +        i915_gem_ww_ctx_fini(&eb.ww);
->>> +        goto lookup_vmas;
->>> +    }
->>> +
->>> +    err = eb_validate_persistent_vma_all(&eb);
->>> +
->>>  err_validate:
->>>      if (err == -EDEADLK) {
->>>          eb_release_vma_all(&eb, false);
+> On Fri, Sep 30, 2022 at 5:27 PM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
+> >
+> > On Fri, 30 Sep 2022 17:44:17 +0300
+> > Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+> > =20
+> > > On Fri, Sep 30, 2022 at 04:20:29PM +0200, Sebastian Wick wrote: =20
+> > > > On Fri, Sep 30, 2022 at 9:40 AM Pekka Paalanen <ppaalanen@gmail.com=
+> wrote: =20
+> > > > >
+> > > > > On Thu, 29 Sep 2022 20:06:50 +0200
+> > > > > Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> > > > > =20
+> > > > > > If it is supposed to be a non-linear luminance curve, which one=
+ is it?
+> > > > > > It would be much clearer if user space can control linear lumin=
+ance
+> > > > > > and use whatever definition of perceived brightness it wants. T=
+he
+> > > > > > obvious downside of it is that it requires bits to encode chang=
+es that
+> > > > > > users can't perceive. What about backlights which only have a f=
+ew
+> > > > > > predefined luminance levels? How would user space differentiate
+> > > > > > between the continuous and discrete backlight? What about
+> > > > > > self-emitting displays? They usually increase the dynamic range=
+ when
+> > > > > > they increase in brightness because the black level doesn't ris=
+e. They
+> > > > > > also probably employ some tonemapping to adjust for that. What =
+about
+> > > > > > the range of the backlight? What about the absolute luminance o=
+f the
+> > > > > > backlight? I want to know about that all in user space.
+> > > > > >
+> > > > > > I understand that most of the time the kernel doesn't have answ=
+ers to
+> > > > > > those questions right now but the API should account for all of=
+ that. =20
+
+...
+
+> > I'm saying that what looks realistic to me is somewhere *between*
+> > status quo and what Sebastian is asking for. Whatever you mean by "line=
+ar
+> > remapping" is probably a realistic goal, because you know you have some
+> > hardware/firmware delivering that information already.
+> >
+> > OTOH, designing UAPI for information that exists only in our dreams
+> > is... well. =20
+>=20
+> I also didn't say that we should design an UAPI for what doesn't
+> exist, just that we should design the UAPI we actually need in a way
+> that when we get more information we can properly expose that. So if
+> the UAPI exposes anything other than the luminance (e.g. "each step is
+> a perceptual step in brightness", "linear brightness", ..) we have to
+> put some human perception model into the kernel which is ridiculous
+> and it makes it impossible to expose luminance to user space if the
+> kernel has that information.
+
+You don't need a human perception model in the kernel. You also cannot
+have one, because I would expect most or all backlight and their
+metadata to not define luminance at all. But that is just a guess.
+
+I suppose the firmware may expose some tables that may allow mapping
+raw hardware values into something more pleasant to use. Like something
+where each step is more or less a visible change. That does not have to
+imply anything about linearity in any space, they may just be "good
+values" for e.g. keyboard-based changing of backlight levels with no
+mathematical or physical basis.
+
+Ville, what kind of tables do you know about? What do they actually
+tell?
+
+Let's say we have these first properties defined as "reasonable steps
+for manual backlight control": one integer for the value, another
+integer for the max. If we later see that we can actually get more
+precise or high-level information, we can add new optional properties,
+e.g. a blob with table that maps the integers into some better defined
+quantity.
+
+Then we know what the values mean, but the steps may be quite
+coarse, much coarser than what the raw control value allows. That's the
+next problem: if we want as fine control as hardware is capable, how do
+you expose that?
+
+Should the answer be, that the exposed integer is actually a raw value
+for hardware, merely offsetted so that zero maps to minimum but visible
+backlight level, and then add another property from the start with a
+table for the "good values" for keyboard control?
+
+And the "good values" would be literally just that, no implication of
+linearity of anything.
+
+
+Thanks,
+pq
+
+--Sig_/P3pTp+YAHVyilJq1=3mjf0h
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmM6n14ACgkQI1/ltBGq
+qqcWCA//enubbdApd9bvVrtji/5td9VgtLsWNzUU9aL7/gSJMb5j9h+qk/P/bxDv
+jCOqb3bT4Na68y1xTz8iPwyrJR5tw9zc09j6E6HPsdIKvGgpl5nVPak9F1WDwBUW
+Xrlf30/ppa32SLXTyQi0OLDGhJ/SYr1XCWxIWmKd40ASLV5cauSRMNGxyX/YbpxS
+DNd7Q6ocsiEiz7bg5MP+7+7FVLzyFcPkVMbLHXB/dhyoipAIxqVrp7h3SIsl4mG7
+bkFA6F0q6m5IFPutoBQr7Os1QRXepwSQUkMdNdEHssiqXwDUdEFb0p764onE9LrP
+MXg1qw/6/Zc2y800nL5y2yaktKQxskyR7QSUSE4yN/zoLUmeDwhls3BN3zg2XrFa
+5Vg8WYHZzxVZc2EIg9WpMHY77VHhe4vluH95rSLTEx0todjkdo6s7QWgusxiUUBV
+CMfDWhvAJX7gJJApE+pAWjRD2c9VNe6YpDlqXwXMYZPix8c1VIpQrFamy82mCoKv
+GOnAlmV2RCsbInSplFrMVK8pStiKqbij+4eBE+9YuUg+wxse8MfzKvELzRVHYBlj
+l0N/6edvj1uMo5M8P1dEC4ynVdjQO14cFNRyjCojtL6wS++EwCLVrJV01ZQRSX01
+BgfJXnvZjLarE+tjO86BKNdxfum5lm37PS/HjMYxWaTzRjKfEqM=
+=X50s
+-----END PGP SIGNATURE-----
+
+--Sig_/P3pTp+YAHVyilJq1=3mjf0h--
