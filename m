@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE3B5F2814
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 07:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAAB5F2864
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 08:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A4010E205;
-	Mon,  3 Oct 2022 05:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8513E10E20E;
+	Mon,  3 Oct 2022 06:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D93410E0D5
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Oct 2022 05:03:57 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id a23so1089811pgi.10
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Oct 2022 22:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=ztuWh3+lm3Xgyvy8ErwnYqF7ln3RGH0S/A4OyK3wmIE=;
- b=Hz8TZprhU9xLfxIJDPiq1ixTjaUkHrGur4fPPa52CFjvLABRT995xyhJWJ8w1pt/HX
- HySMjpKk8DIwly7hIZgDp/G/m5E0OlvM9cErN3xt2UTEUFfpeAkJVSqgtG64B52weKIn
- 3sJUdQFTYCDzyfRzvyj+a7heHPSPmwzHDY4Zo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=ztuWh3+lm3Xgyvy8ErwnYqF7ln3RGH0S/A4OyK3wmIE=;
- b=HDI06a01y0TWKHyGBzdOKksvZa9pMh3e8YCuDEdCH2M/9GIBK90BDf5onAaBgzK1+O
- OGADXQbEFtdvkTXox8ZO4XUP4dJs1jwXwAeOATygRrIRucrx9bwx+wI25E0kfKW/cP49
- eARL+PdK5Ao581ImcEZyIHV0gkUrGzrfsK4b+A8za7QldA/LkKO5nFsSAaUYSyM2rJWk
- 4Rm/qj/cey3h5U4dMul+xGCAO3z9ApPNyaO4l9HSb+hRB6DbeRMfClm6Lqd3EXig06UU
- MvXcVcc6g4tKjTPhFuy6OOxEuJ5AfzJdQgeAKWZR4nzDuMegdIpZwBeHuVF8612k6N6w
- mr6g==
-X-Gm-Message-State: ACrzQf2jSzuljG02u+BZKrt0VL5hv6kxxzgIXZQPLfLeWSeeEU591n4y
- qhZ3K3aMTkoYVBA+TkasXVhxKw==
-X-Google-Smtp-Source: AMsMyM7w6djAOyImUB/oWDtW7Wxj/dH2t2EMQ4LGPYCFTqC3FDUnNEPHJfsbQCiA4dt1fFO01grIFg==
-X-Received: by 2002:a05:6a00:14c4:b0:542:cd3a:591e with SMTP id
- w4-20020a056a0014c400b00542cd3a591emr20437876pfu.27.1664773436673; 
- Sun, 02 Oct 2022 22:03:56 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:dfa6:5a1a:b35a:db69])
- by smtp.gmail.com with ESMTPSA id
- y8-20020a170902b48800b0017680faa1a8sm6174628plr.112.2022.10.02.22.03.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Oct 2022 22:03:55 -0700 (PDT)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 2/2] drm/bridge: it6505: Add pre_enable/post_disable
- callback
-Date: Mon,  3 Oct 2022 13:03:35 +0800
-Message-Id: <20221003050335.1007931-3-treapking@chromium.org>
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
-In-Reply-To: <20221003050335.1007931-1-treapking@chromium.org>
-References: <20221003050335.1007931-1-treapking@chromium.org>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA7F10E054;
+ Mon,  3 Oct 2022 06:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664777597; x=1696313597;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=C5fMyO6FVu/m/lLU81PvzcOkqJUxEYSJo/Td0OtnL9c=;
+ b=nDGjCKr+Zsgjvc/aznD2fYMVoo0thp7Pfx/901Vd1STFR3uUuzkS4gam
+ juhF07wRLXz1iIdpPoffJodif4COGX2Ju72tR3xJIal0nAIn0QeeUbni+
+ FhwAivdXdZX4GvQogsSmgAzXcSxKJkL96IfQDpBzRD9WvcLkMed05JXs9
+ OjSW4A/bP5xZLkREdCdBEErTchCUEJR4sF0sXoyuoY8mwTref6yiymyLw
+ 2q0MM31RG9DdW/8x2cOTCWvdcw7SXsNNY6ZbjQq6paFwWLu7bK2TUIFSh
+ bGIlW5INloUtcaMM3lHFkpe8tPWGKsHEBd+XZxTPjPJwr+tYAOwZ32k6T Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="300159056"
+X-IronPort-AV: E=Sophos;i="5.93,364,1654585200"; d="scan'208";a="300159056"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2022 23:13:16 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="574516784"
+X-IronPort-AV: E=Sophos;i="5.93,364,1654585200"; d="scan'208";a="574516784"
+Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 02 Oct 2022 23:13:16 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 00/17] drm/i915/vm_bind: Add VM_BIND functionality
+Date: Sun,  2 Oct 2022 23:12:28 -0700
+Message-Id: <20221003061245.12716-1-niranjana.vishwanathapura@intel.com>
+X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,70 +55,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Allen Chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>,
- Hermes Wu <hermes.wu@ite.com.tw>, Hsin-Yi Wang <hsinyi@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add atomic_pre_enable and atomic_post_disable callback to make sure the
-bridge is not powered off until atomic_post_disable is called. This
-prevents a power leakage when it6505 is powered off, but the upstream
-DRM bridge is still sending display signals.
+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM
+buffer objects (BOs) or sections of a BOs at specified GPU virtual
+addresses on a specified address space (VM). Multiple mappings can map
+to the same physical pages of an object (aliasing). These mappings (also
+referred to as persistent mappings) will be persistent across multiple
+GPU submissions (execbuf calls) issued by the UMD, without user having
+to provide a list of all required mappings during each submission (as
+required by older execbuf mode).
 
-Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+This patch series support VM_BIND version 1, as described by the param
+I915_PARAM_VM_BIND_VERSION.
 
----
+Add new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only works in
+vm_bind mode. The vm_bind mode only works with this new execbuf3 ioctl.
+The new execbuf3 ioctl will not have any execlist support and all the
+legacy support like relocations etc., are removed.
 
-(no changes since v1)
+TODOs:
+* Support out fence for VM_UNBIND ioctl.
+* Async VM_UNBIND support.
+* Optimizations.
 
- drivers/gpu/drm/bridge/ite-it6505.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+NOTEs:
+* It is based on below VM_BIND design+uapi rfc.
+  Documentation/gpu/rfc/i915_vm_bind.rst
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 685d8e750b12..27de6652f842 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2992,6 +2992,28 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
- 	}
- }
- 
-+static void it6505_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					    struct drm_bridge_state *old_state)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+	struct device *dev = &it6505->client->dev;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "start");
-+
-+	pm_runtime_get_sync(dev);
-+}
-+
-+static void it6505_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+					      struct drm_bridge_state *old_state)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+	struct device *dev = &it6505->client->dev;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "start");
-+
-+	pm_runtime_put_sync(dev);
-+}
-+
- static enum drm_connector_status
- it6505_bridge_detect(struct drm_bridge *bridge)
- {
-@@ -3026,6 +3048,8 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.mode_valid = it6505_bridge_mode_valid,
- 	.atomic_enable = it6505_bridge_atomic_enable,
- 	.atomic_disable = it6505_bridge_atomic_disable,
-+	.atomic_pre_enable = it6505_bridge_atomic_pre_enable,
-+	.atomic_post_disable = it6505_bridge_atomic_post_disable,
- 	.detect = it6505_bridge_detect,
- 	.get_edid = it6505_bridge_get_edid,
- };
+* The IGT RFC series is posted as,
+  [PATCH i-g-t v2 0/8] vm_bind: Add VM_BIND validation support
+
+v2: Address various review comments
+
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+
+Niranjana Vishwanathapura (17):
+  drm/i915/vm_bind: Expose vm lookup function
+  drm/i915/vm_bind: Add __i915_sw_fence_await_reservation()
+  drm/i915/vm_bind: Expose i915_gem_object_max_page_size()
+  drm/i915/vm_bind: Add support to create persistent vma
+  drm/i915/vm_bind: Implement bind and unbind of object
+  drm/i915/vm_bind: Support for VM private BOs
+  drm/i915/vm_bind: Add support to handle object evictions
+  drm/i915/vm_bind: Support persistent vma activeness tracking
+  drm/i915/vm_bind: Add out fence support
+  drm/i915/vm_bind: Abstract out common execbuf functions
+  drm/i915/vm_bind: Use common execbuf functions in execbuf path
+  drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3 ioctl
+  drm/i915/vm_bind: Update i915_vma_verify_bind_complete()
+  drm/i915/vm_bind: Expose i915_request_await_bind()
+  drm/i915/vm_bind: Handle persistent vmas in execbuf3
+  drm/i915/vm_bind: userptr dma-resv changes
+  drm/i915/vm_bind: Add uapi for user to enable vm_bind_mode
+
+ drivers/gpu/drm/i915/Makefile                 |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  20 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  67 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 516 +----------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 867 ++++++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.c | 666 ++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.h |  74 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  17 +
+ drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  30 +
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    | 439 +++++++++
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  18 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  27 +
+ drivers/gpu/drm/i915/i915_driver.c            |   4 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  39 +
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |   3 +
+ drivers/gpu/drm/i915/i915_getparam.c          |   3 +
+ drivers/gpu/drm/i915/i915_sw_fence.c          |  28 +-
+ drivers/gpu/drm/i915/i915_sw_fence.h          |  23 +-
+ drivers/gpu/drm/i915/i915_vma.c               | 116 ++-
+ drivers/gpu/drm/i915/i915_vma.h               |  57 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  39 +
+ include/uapi/drm/i915_drm.h                   | 281 +++++-
+ 30 files changed, 2842 insertions(+), 519 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+
 -- 
-2.38.0.rc1.362.ged0d419d3c-goog
+2.21.0.rc0.32.g243a4c7e27
 
