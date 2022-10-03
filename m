@@ -2,87 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4435F2F41
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 13:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2715F2F71
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Oct 2022 13:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D72C410E305;
-	Mon,  3 Oct 2022 11:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACC1110E304;
+	Mon,  3 Oct 2022 11:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1676910E2FB
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Oct 2022 11:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664794961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XBRaEk64P6mie4C7pS6Mkny4/N0w0c7seruBIYCPAk0=;
- b=Gk+14CvNFr63LJ+k0UrwYHDULpN1xuWMxGcxDb2VahMyp1Qn6QVGUjBRAzJHmOqRGobGsC
- qFs2ydPC+x4Ntq+nDoZUDSfPAricsrWsWWxQqUP3gS3AvTlqFSnOGBGtcuF7VGtsuavPvt
- EuVCs0QTVRqoK0zOxmzDQZLZloV4TVk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613-tcn0Ut6MNpm1kBp3XAoDMg-1; Mon, 03 Oct 2022 07:02:40 -0400
-X-MC-Unique: tcn0Ut6MNpm1kBp3XAoDMg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- xh12-20020a170906da8c00b007413144e87fso3145233ejb.14
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Oct 2022 04:02:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=XBRaEk64P6mie4C7pS6Mkny4/N0w0c7seruBIYCPAk0=;
- b=ufwoTlozRonLCbSEugCdLEoF7JeBusvyy0cxxST9TaVE2CeSPB99npj2opDfLREjgR
- DgSH5kfpfuhibSVslgaPPjWYqQQW3a4qEvyQvVkYey/3D0NHU9/DI5bJ2AMFbbr1ZiYF
- qkl4q9C2OmFUoYMsE2P8X8lsKCVImijSF75cn63fc3jMKg6qaVWYqakEkdCbouAcuo8i
- 57FeGgpo1BnroWilW/hm+6eGyorWKjhfVJMMsY9BbjBP9spYXC/yvRbiYQLdHHnyHnb9
- sNkGpTPs5gR5y6/izWyMeslEvSkFZQ3WmWc6cdpjyFte9fNbeu6zkBozIk4T7ROdfiAH
- llqw==
-X-Gm-Message-State: ACrzQf2ikibyjzA2h/k3zEMhQxdmV2gH/IhhbElPDTptmppsJ9vFECtl
- 0czaNb2hu3EcWnLRSecMUrqP4ydQAkAt5a+h42GBGB/hVDPxGYTzif2rko24JRT85PjleftArNR
- izc0pHoZqX1MBJoHoQIkyVNf1Rda2
-X-Received: by 2002:aa7:cc86:0:b0:457:f801:2951 with SMTP id
- p6-20020aa7cc86000000b00457f8012951mr18246641edt.16.1664794959074; 
- Mon, 03 Oct 2022 04:02:39 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5eCoztAiejpswbMucVDYiGb7go5+FMjlw/DVout72wfrQ5NqQlQNh8MISCADxllyOZYwtyiw==
-X-Received: by 2002:aa7:cc86:0:b0:457:f801:2951 with SMTP id
- p6-20020aa7cc86000000b00457f8012951mr18246607edt.16.1664794958815; 
- Mon, 03 Oct 2022 04:02:38 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- g3-20020a170906538300b0078128c89439sm5269220ejo.6.2022.10.03.04.02.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Oct 2022 04:02:37 -0700 (PDT)
-Message-ID: <627fd6ee-3811-70fb-2615-50730965104e@redhat.com>
-Date: Mon, 3 Oct 2022 13:02:36 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAD5E10E2FB;
+ Mon,  3 Oct 2022 11:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664795853; x=1696331853;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=yElIsmi0mul65mrAW5b0egA73dOID9z93Zv+TF9UrGY=;
+ b=lO2+g1ut4lIFEDiXWXLUFOF4UEbXX4F4wfVoiWWmNhIKmKPaJFkPmqNE
+ Zms/guRbZDh75VzYItfB2r6xMQVh2fwpVd+SIiDcCHfW9YK+6npXYps96
+ NnzX8+wD3MFvj3NKJKjYdQBWorMf9x6RuWJzLZegtfFtlA1wGeoGlUnWj
+ 9q90Cs/xvsWtqmTDvtidbSoFK9geq8XdQIXTb9mYxZ1P+V57MYZyUV3ho
+ KiGhBQMfWErs0DJsFmPoX/9hDk9kXo6T4/JRzCbExaZaMfqcTSnCZhXGE
+ YFKJwB6UX8Xp16AW0WTtI7MDusAR8bL3uYQa5YhGAVtUPVhQFDVXEkQ8z g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="300210713"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="300210713"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 04:17:33 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10488"; a="692017599"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; d="scan'208";a="692017599"
+Received: from zlukwins-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.60.249])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2022 04:17:31 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/slpc: Update frequency debugfs for SLPC
+In-Reply-To: <20221001004120.2696-1-vinay.belgaumkar@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221001004120.2696-1-vinay.belgaumkar@intel.com>
+Date: Mon, 03 Oct 2022 14:17:28 +0300
+Message-ID: <8735c5w3zr.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [RFC v2] drm/kms: control display brightness through
- drm_connector properties
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com>
- <878rm3zuge.fsf@intel.com> <YzQojrDOGNhm4D8l@intel.com>
- <YzQseBFa5EvDUDSw@intel.com>
- <CA+hFU4xRV74r3Wbs-TTWmtAkEwdJaEb+1QXUZSh52LVRwfddeA@mail.gmail.com>
- <20220930103956.1c3df79e@eldfell>
- <CA+hFU4yR542C3Qo_8ggkXKF+OZs=Pt9awsQ7Q4bXGoiv+7-VyQ@mail.gmail.com>
- <YzcAwVC8tm1imNOL@intel.com> <20220930182652.4ea10013@eldfell>
- <CA+hFU4zat+-0eW_6BaY0pbHzKxBjPtnyV5M=X=9Y0Rn8JJe8Wg@mail.gmail.com>
- <44df4468-955b-0226-67e7-89467291d38f@redhat.com>
- <20221003133222.7f34862f@eldfell>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20221003133222.7f34862f@eldfell>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,68 +58,432 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- Martin Roukala <martin.roukala@mupuf.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, 30 Sep 2022, Vinay Belgaumkar <vinay.belgaumkar@intel.com> wrote:
+> Create a wrapper to print out the frequency debugfs for
+> SLPC and non-SLPC cases. Most of the RPS related information
+> is no longer valid when SLPC is enabled.
 
-On 10/3/22 12:32, Pekka Paalanen wrote:
-> On Mon, 3 Oct 2022 11:44:56 +0200
-> Hans de Goede <hdegoede@redhat.com> wrote:
-> 
->> One example mentioned here is that laptops with Intel integrated
->> graphics may have some "perceived brightness" mapping table
->> in their Video BIOS Tables (VBT) it would be interesting to use
->> this and to export the curve coming from that to userspace as
->> extra information (including allow userspace to write it).
->> Since in this case (unlike many other cases) at least this
->> curve is done in the kernel I guess we can then also add a boolean
->> property to disable the curve (making it linear) in case that
->> is helpful for HDR scenarios.
-> 
-> Hi Hans,
-> 
-> what if you would export that curve to userspace and not apply it in
-> the kernel, aside from the min-luminance=0 offset?
-> 
-> I'm not sure if that was your intention, I didn't see it clearly said.
-> Of course this can be only about curves that are supposed to be applied
-> by the OS and not applied in firmware or hardware. Call it "software
-> curve"?
-> 
-> Let userspace apply that curve if it happens to exist. Then, if we get
-> some other definition replacing that curve on some hardware, the kernel
-> could just expose the other thing as a new thing, and the old curve API
-> would not be interfering. Userspace that does not understand the new
-> thing (and the old curve property is not populated) would still be able
-> to control the brightness, just not in as pleasant way.
-> 
-> It would also make using a custom curve a completely userspace thing with
-> no need for the kernel to support overwriting it.
+Please split code movement and functional changes to separate patches.
 
-Userspace comes in many forms, which is why my preference for "software curve"
-support would be for it to be applied by the kernel by default (if present
-in the VBT) but then with a "software curve enable" flag to allow advanced
-userspace to disable it and then apply a curve of userspace's own choosing
-itself.
+BR,
+Jani.
 
-This allows a simple implementation for desktop-environments which are
-unlikely to implement all this themselves, giving everyone the benefit of
-the nicer behavior of the VBT provided curve while allowing advanced
-desktop environments (likely mainly KDE + GNOME/mutter) to do something
-more advanced.
+>
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 157 +-------------
+>  drivers/gpu/drm/i915/gt/intel_rps.c           | 205 ++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/intel_rps.h           |   2 +
+>  3 files changed, 208 insertions(+), 156 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> index 9fd4d9255a97..d5afa08c54e3 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> @@ -344,162 +344,7 @@ void intel_gt_pm_frequency_dump(struct intel_gt *gt, struct drm_printer *p)
+>  		drm_printf(p, "efficient (RPe) frequency: %d MHz\n",
+>  			   intel_gpu_freq(rps, rps->efficient_freq));
+>  	} else if (GRAPHICS_VER(i915) >= 6) {
+> -		u32 rp_state_limits;
+> -		u32 gt_perf_status;
+> -		struct intel_rps_freq_caps caps;
+> -		u32 rpmodectl, rpinclimit, rpdeclimit;
+> -		u32 rpstat, cagf, reqf;
+> -		u32 rpcurupei, rpcurup, rpprevup;
+> -		u32 rpcurdownei, rpcurdown, rpprevdown;
+> -		u32 rpupei, rpupt, rpdownei, rpdownt;
+> -		u32 pm_ier, pm_imr, pm_isr, pm_iir, pm_mask;
+> -
+> -		rp_state_limits = intel_uncore_read(uncore, GEN6_RP_STATE_LIMITS);
+> -		gen6_rps_get_freq_caps(rps, &caps);
+> -		if (IS_GEN9_LP(i915))
+> -			gt_perf_status = intel_uncore_read(uncore, BXT_GT_PERF_STATUS);
+> -		else
+> -			gt_perf_status = intel_uncore_read(uncore, GEN6_GT_PERF_STATUS);
+> -
+> -		/* RPSTAT1 is in the GT power well */
+> -		intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+> -
+> -		reqf = intel_uncore_read(uncore, GEN6_RPNSWREQ);
+> -		if (GRAPHICS_VER(i915) >= 9) {
+> -			reqf >>= 23;
+> -		} else {
+> -			reqf &= ~GEN6_TURBO_DISABLE;
+> -			if (IS_HASWELL(i915) || IS_BROADWELL(i915))
+> -				reqf >>= 24;
+> -			else
+> -				reqf >>= 25;
+> -		}
+> -		reqf = intel_gpu_freq(rps, reqf);
+> -
+> -		rpmodectl = intel_uncore_read(uncore, GEN6_RP_CONTROL);
+> -		rpinclimit = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
+> -		rpdeclimit = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
+> -
+> -		rpstat = intel_uncore_read(uncore, GEN6_RPSTAT1);
+> -		rpcurupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
+> -		rpcurup = intel_uncore_read(uncore, GEN6_RP_CUR_UP) & GEN6_CURBSYTAVG_MASK;
+> -		rpprevup = intel_uncore_read(uncore, GEN6_RP_PREV_UP) & GEN6_CURBSYTAVG_MASK;
+> -		rpcurdownei = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN_EI) & GEN6_CURIAVG_MASK;
+> -		rpcurdown = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN) & GEN6_CURBSYTAVG_MASK;
+> -		rpprevdown = intel_uncore_read(uncore, GEN6_RP_PREV_DOWN) & GEN6_CURBSYTAVG_MASK;
+> -
+> -		rpupei = intel_uncore_read(uncore, GEN6_RP_UP_EI);
+> -		rpupt = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
+> -
+> -		rpdownei = intel_uncore_read(uncore, GEN6_RP_DOWN_EI);
+> -		rpdownt = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
+> -
+> -		cagf = intel_rps_read_actual_frequency(rps);
+> -
+> -		intel_uncore_forcewake_put(uncore, FORCEWAKE_ALL);
+> -
+> -		if (GRAPHICS_VER(i915) >= 11) {
+> -			pm_ier = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE);
+> -			pm_imr = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_MASK);
+> -			/*
+> -			 * The equivalent to the PM ISR & IIR cannot be read
+> -			 * without affecting the current state of the system
+> -			 */
+> -			pm_isr = 0;
+> -			pm_iir = 0;
+> -		} else if (GRAPHICS_VER(i915) >= 8) {
+> -			pm_ier = intel_uncore_read(uncore, GEN8_GT_IER(2));
+> -			pm_imr = intel_uncore_read(uncore, GEN8_GT_IMR(2));
+> -			pm_isr = intel_uncore_read(uncore, GEN8_GT_ISR(2));
+> -			pm_iir = intel_uncore_read(uncore, GEN8_GT_IIR(2));
+> -		} else {
+> -			pm_ier = intel_uncore_read(uncore, GEN6_PMIER);
+> -			pm_imr = intel_uncore_read(uncore, GEN6_PMIMR);
+> -			pm_isr = intel_uncore_read(uncore, GEN6_PMISR);
+> -			pm_iir = intel_uncore_read(uncore, GEN6_PMIIR);
+> -		}
+> -		pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
+> -
+> -		drm_printf(p, "Video Turbo Mode: %s\n",
+> -			   str_yes_no(rpmodectl & GEN6_RP_MEDIA_TURBO));
+> -		drm_printf(p, "HW control enabled: %s\n",
+> -			   str_yes_no(rpmodectl & GEN6_RP_ENABLE));
+> -		drm_printf(p, "SW control enabled: %s\n",
+> -			   str_yes_no((rpmodectl & GEN6_RP_MEDIA_MODE_MASK) == GEN6_RP_MEDIA_SW_MODE));
+> -
+> -		drm_printf(p, "PM IER=0x%08x IMR=0x%08x, MASK=0x%08x\n",
+> -			   pm_ier, pm_imr, pm_mask);
+> -		if (GRAPHICS_VER(i915) <= 10)
+> -			drm_printf(p, "PM ISR=0x%08x IIR=0x%08x\n",
+> -				   pm_isr, pm_iir);
+> -		drm_printf(p, "pm_intrmsk_mbz: 0x%08x\n",
+> -			   rps->pm_intrmsk_mbz);
+> -		drm_printf(p, "GT_PERF_STATUS: 0x%08x\n", gt_perf_status);
+> -		drm_printf(p, "Render p-state ratio: %d\n",
+> -			   (gt_perf_status & (GRAPHICS_VER(i915) >= 9 ? 0x1ff00 : 0xff00)) >> 8);
+> -		drm_printf(p, "Render p-state VID: %d\n",
+> -			   gt_perf_status & 0xff);
+> -		drm_printf(p, "Render p-state limit: %d\n",
+> -			   rp_state_limits & 0xff);
+> -		drm_printf(p, "RPSTAT1: 0x%08x\n", rpstat);
+> -		drm_printf(p, "RPMODECTL: 0x%08x\n", rpmodectl);
+> -		drm_printf(p, "RPINCLIMIT: 0x%08x\n", rpinclimit);
+> -		drm_printf(p, "RPDECLIMIT: 0x%08x\n", rpdeclimit);
+> -		drm_printf(p, "RPNSWREQ: %dMHz\n", reqf);
+> -		drm_printf(p, "CAGF: %dMHz\n", cagf);
+> -		drm_printf(p, "RP CUR UP EI: %d (%lldns)\n",
+> -			   rpcurupei,
+> -			   intel_gt_pm_interval_to_ns(gt, rpcurupei));
+> -		drm_printf(p, "RP CUR UP: %d (%lldns)\n",
+> -			   rpcurup, intel_gt_pm_interval_to_ns(gt, rpcurup));
+> -		drm_printf(p, "RP PREV UP: %d (%lldns)\n",
+> -			   rpprevup, intel_gt_pm_interval_to_ns(gt, rpprevup));
+> -		drm_printf(p, "Up threshold: %d%%\n",
+> -			   rps->power.up_threshold);
+> -		drm_printf(p, "RP UP EI: %d (%lldns)\n",
+> -			   rpupei, intel_gt_pm_interval_to_ns(gt, rpupei));
+> -		drm_printf(p, "RP UP THRESHOLD: %d (%lldns)\n",
+> -			   rpupt, intel_gt_pm_interval_to_ns(gt, rpupt));
+> -
+> -		drm_printf(p, "RP CUR DOWN EI: %d (%lldns)\n",
+> -			   rpcurdownei,
+> -			   intel_gt_pm_interval_to_ns(gt, rpcurdownei));
+> -		drm_printf(p, "RP CUR DOWN: %d (%lldns)\n",
+> -			   rpcurdown,
+> -			   intel_gt_pm_interval_to_ns(gt, rpcurdown));
+> -		drm_printf(p, "RP PREV DOWN: %d (%lldns)\n",
+> -			   rpprevdown,
+> -			   intel_gt_pm_interval_to_ns(gt, rpprevdown));
+> -		drm_printf(p, "Down threshold: %d%%\n",
+> -			   rps->power.down_threshold);
+> -		drm_printf(p, "RP DOWN EI: %d (%lldns)\n",
+> -			   rpdownei, intel_gt_pm_interval_to_ns(gt, rpdownei));
+> -		drm_printf(p, "RP DOWN THRESHOLD: %d (%lldns)\n",
+> -			   rpdownt, intel_gt_pm_interval_to_ns(gt, rpdownt));
+> -
+> -		drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
+> -			   intel_gpu_freq(rps, caps.min_freq));
+> -		drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
+> -			   intel_gpu_freq(rps, caps.rp1_freq));
+> -		drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
+> -			   intel_gpu_freq(rps, caps.rp0_freq));
+> -		drm_printf(p, "Max overclocked frequency: %dMHz\n",
+> -			   intel_gpu_freq(rps, rps->max_freq));
+> -
+> -		drm_printf(p, "Current freq: %d MHz\n",
+> -			   intel_gpu_freq(rps, rps->cur_freq));
+> -		drm_printf(p, "Actual freq: %d MHz\n", cagf);
+> -		drm_printf(p, "Idle freq: %d MHz\n",
+> -			   intel_gpu_freq(rps, rps->idle_freq));
+> -		drm_printf(p, "Min freq: %d MHz\n",
+> -			   intel_gpu_freq(rps, rps->min_freq));
+> -		drm_printf(p, "Boost freq: %d MHz\n",
+> -			   intel_gpu_freq(rps, rps->boost_freq));
+> -		drm_printf(p, "Max freq: %d MHz\n",
+> -			   intel_gpu_freq(rps, rps->max_freq));
+> -		drm_printf(p,
+> -			   "efficient (RPe) frequency: %d MHz\n",
+> -			   intel_gpu_freq(rps, rps->efficient_freq));
+> +		gen6_rps_frequency_dump(rps, p);
+>  	} else {
+>  		drm_puts(p, "no P-state info available\n");
+>  	}
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> index 17b40b625e31..d0847bd4b90f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -2219,6 +2219,211 @@ u32 intel_rps_get_rpn_frequency(struct intel_rps *rps)
+>  		return intel_gpu_freq(rps, rps->min_freq);
+>  }
+>  
+> +static void slpc_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
+> +{
+> +	struct intel_gt *gt = rps_to_gt(rps);
+> +	struct intel_uncore *uncore = gt->uncore;
+> +	struct intel_rps_freq_caps caps;
+> +	u32 pm_mask;
+> +
+> +	gen6_rps_get_freq_caps(rps, &caps);
+> +	pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
+> +
+> +	drm_printf(p, "PM MASK=0x%08x\n", pm_mask);
+> +	drm_printf(p, "RPSTAT1: 0x%08x\n", intel_uncore_read(uncore, GEN6_RPSTAT1));
+> +	drm_printf(p, "RPNSWREQ: %dMHz\n", intel_rps_get_requested_frequency(rps));
+> +	drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
+> +		   intel_gpu_freq(rps, caps.min_freq));
+> +	drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
+> +		   intel_gpu_freq(rps, caps.rp1_freq));
+> +	drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
+> +		   intel_gpu_freq(rps, caps.rp0_freq));
+> +	drm_printf(p, "Current freq: %d MHz\n",
+> +		   intel_rps_get_requested_frequency(rps));
+> +	drm_printf(p, "Actual freq: %d MHz\n",
+> +		   intel_rps_read_actual_frequency(rps));
+> +	drm_printf(p, "Min freq: %d MHz\n",
+> +		   intel_rps_get_min_frequency(rps));
+> +	drm_printf(p, "Boost freq: %d MHz\n",
+> +		   intel_rps_get_boost_frequency(rps));
+> +	drm_printf(p, "Max freq: %d MHz\n",
+> +		   intel_rps_get_max_frequency(rps));
+> +	drm_printf(p,
+> +		   "efficient (RPe) frequency: %d MHz\n",
+> +		   intel_gpu_freq(rps, caps.rp1_freq));
+> +}
+> +
+> +static void rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
+> +{
+> +	struct intel_gt *gt = rps_to_gt(rps);
+> +	struct drm_i915_private *i915 = gt->i915;
+> +	struct intel_uncore *uncore = gt->uncore;
+> +	struct intel_rps_freq_caps caps;
+> +	u32 rp_state_limits;
+> +	u32 gt_perf_status;
+> +	u32 rpmodectl, rpinclimit, rpdeclimit;
+> +	u32 rpstat, cagf, reqf;
+> +	u32 rpcurupei, rpcurup, rpprevup;
+> +	u32 rpcurdownei, rpcurdown, rpprevdown;
+> +	u32 rpupei, rpupt, rpdownei, rpdownt;
+> +	u32 pm_ier, pm_imr, pm_isr, pm_iir, pm_mask;
+> +
+> +	rp_state_limits = intel_uncore_read(uncore, GEN6_RP_STATE_LIMITS);
+> +	gen6_rps_get_freq_caps(rps, &caps);
+> +	if (IS_GEN9_LP(i915))
+> +		gt_perf_status = intel_uncore_read(uncore, BXT_GT_PERF_STATUS);
+> +	else
+> +		gt_perf_status = intel_uncore_read(uncore, GEN6_GT_PERF_STATUS);
+> +
+> +	/* RPSTAT1 is in the GT power well */
+> +	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+> +
+> +	reqf = intel_uncore_read(uncore, GEN6_RPNSWREQ);
+> +	if (GRAPHICS_VER(i915) >= 9) {
+> +		reqf >>= 23;
+> +	} else {
+> +		reqf &= ~GEN6_TURBO_DISABLE;
+> +		if (IS_HASWELL(i915) || IS_BROADWELL(i915))
+> +			reqf >>= 24;
+> +		else
+> +			reqf >>= 25;
+> +	}
+> +	reqf = intel_gpu_freq(rps, reqf);
+> +
+> +	rpmodectl = intel_uncore_read(uncore, GEN6_RP_CONTROL);
+> +	rpinclimit = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
+> +	rpdeclimit = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
+> +
+> +	rpstat = intel_uncore_read(uncore, GEN6_RPSTAT1);
+> +	rpcurupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
+> +	rpcurup = intel_uncore_read(uncore, GEN6_RP_CUR_UP) & GEN6_CURBSYTAVG_MASK;
+> +	rpprevup = intel_uncore_read(uncore, GEN6_RP_PREV_UP) & GEN6_CURBSYTAVG_MASK;
+> +	rpcurdownei = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN_EI) & GEN6_CURIAVG_MASK;
+> +	rpcurdown = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN) & GEN6_CURBSYTAVG_MASK;
+> +	rpprevdown = intel_uncore_read(uncore, GEN6_RP_PREV_DOWN) & GEN6_CURBSYTAVG_MASK;
+> +
+> +	rpupei = intel_uncore_read(uncore, GEN6_RP_UP_EI);
+> +	rpupt = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
+> +
+> +	rpdownei = intel_uncore_read(uncore, GEN6_RP_DOWN_EI);
+> +	rpdownt = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
+> +
+> +	cagf = intel_rps_read_actual_frequency(rps);
+> +
+> +	intel_uncore_forcewake_put(uncore, FORCEWAKE_ALL);
+> +
+> +	if (GRAPHICS_VER(i915) >= 11) {
+> +		pm_ier = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE);
+> +		pm_imr = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_MASK);
+> +		/*
+> +		 * The equivalent to the PM ISR & IIR cannot be read
+> +		 * without affecting the current state of the system
+> +		 */
+> +		pm_isr = 0;
+> +		pm_iir = 0;
+> +	} else if (GRAPHICS_VER(i915) >= 8) {
+> +		pm_ier = intel_uncore_read(uncore, GEN8_GT_IER(2));
+> +		pm_imr = intel_uncore_read(uncore, GEN8_GT_IMR(2));
+> +		pm_isr = intel_uncore_read(uncore, GEN8_GT_ISR(2));
+> +		pm_iir = intel_uncore_read(uncore, GEN8_GT_IIR(2));
+> +	} else {
+> +		pm_ier = intel_uncore_read(uncore, GEN6_PMIER);
+> +		pm_imr = intel_uncore_read(uncore, GEN6_PMIMR);
+> +		pm_isr = intel_uncore_read(uncore, GEN6_PMISR);
+> +		pm_iir = intel_uncore_read(uncore, GEN6_PMIIR);
+> +	}
+> +	pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
+> +
+> +	drm_printf(p, "Video Turbo Mode: %s\n",
+> +		   str_yes_no(rpmodectl & GEN6_RP_MEDIA_TURBO));
+> +	drm_printf(p, "HW control enabled: %s\n",
+> +		   str_yes_no(rpmodectl & GEN6_RP_ENABLE));
+> +	drm_printf(p, "SW control enabled: %s\n",
+> +		   str_yes_no((rpmodectl & GEN6_RP_MEDIA_MODE_MASK) == GEN6_RP_MEDIA_SW_MODE));
+> +
+> +	drm_printf(p, "PM IER=0x%08x IMR=0x%08x, MASK=0x%08x\n",
+> +		   pm_ier, pm_imr, pm_mask);
+> +	if (GRAPHICS_VER(i915) <= 10)
+> +		drm_printf(p, "PM ISR=0x%08x IIR=0x%08x\n",
+> +			   pm_isr, pm_iir);
+> +	drm_printf(p, "pm_intrmsk_mbz: 0x%08x\n",
+> +		   rps->pm_intrmsk_mbz);
+> +	drm_printf(p, "GT_PERF_STATUS: 0x%08x\n", gt_perf_status);
+> +	drm_printf(p, "Render p-state ratio: %d\n",
+> +		   (gt_perf_status & (GRAPHICS_VER(i915) >= 9 ? 0x1ff00 : 0xff00)) >> 8);
+> +	drm_printf(p, "Render p-state VID: %d\n",
+> +		   gt_perf_status & 0xff);
+> +	drm_printf(p, "Render p-state limit: %d\n",
+> +		   rp_state_limits & 0xff);
+> +	drm_printf(p, "RPSTAT1: 0x%08x\n", rpstat);
+> +	drm_printf(p, "RPMODECTL: 0x%08x\n", rpmodectl);
+> +	drm_printf(p, "RPINCLIMIT: 0x%08x\n", rpinclimit);
+> +	drm_printf(p, "RPDECLIMIT: 0x%08x\n", rpdeclimit);
+> +	drm_printf(p, "RPNSWREQ: %dMHz\n", reqf);
+> +	drm_printf(p, "CAGF: %dMHz\n", cagf);
+> +	drm_printf(p, "RP CUR UP EI: %d (%lldns)\n",
+> +		   rpcurupei,
+> +		   intel_gt_pm_interval_to_ns(gt, rpcurupei));
+> +	drm_printf(p, "RP CUR UP: %d (%lldns)\n",
+> +		   rpcurup, intel_gt_pm_interval_to_ns(gt, rpcurup));
+> +	drm_printf(p, "RP PREV UP: %d (%lldns)\n",
+> +		   rpprevup, intel_gt_pm_interval_to_ns(gt, rpprevup));
+> +	drm_printf(p, "Up threshold: %d%%\n",
+> +		   rps->power.up_threshold);
+> +	drm_printf(p, "RP UP EI: %d (%lldns)\n",
+> +		   rpupei, intel_gt_pm_interval_to_ns(gt, rpupei));
+> +	drm_printf(p, "RP UP THRESHOLD: %d (%lldns)\n",
+> +		   rpupt, intel_gt_pm_interval_to_ns(gt, rpupt));
+> +
+> +	drm_printf(p, "RP CUR DOWN EI: %d (%lldns)\n",
+> +		   rpcurdownei,
+> +		   intel_gt_pm_interval_to_ns(gt, rpcurdownei));
+> +	drm_printf(p, "RP CUR DOWN: %d (%lldns)\n",
+> +		   rpcurdown,
+> +		   intel_gt_pm_interval_to_ns(gt, rpcurdown));
+> +	drm_printf(p, "RP PREV DOWN: %d (%lldns)\n",
+> +		   rpprevdown,
+> +		   intel_gt_pm_interval_to_ns(gt, rpprevdown));
+> +	drm_printf(p, "Down threshold: %d%%\n",
+> +		   rps->power.down_threshold);
+> +	drm_printf(p, "RP DOWN EI: %d (%lldns)\n",
+> +		   rpdownei, intel_gt_pm_interval_to_ns(gt, rpdownei));
+> +	drm_printf(p, "RP DOWN THRESHOLD: %d (%lldns)\n",
+> +		   rpdownt, intel_gt_pm_interval_to_ns(gt, rpdownt));
+> +
+> +	drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
+> +		   intel_gpu_freq(rps, caps.min_freq));
+> +	drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
+> +		   intel_gpu_freq(rps, caps.rp1_freq));
+> +	drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
+> +		   intel_gpu_freq(rps, caps.rp0_freq));
+> +	drm_printf(p, "Max overclocked frequency: %dMHz\n",
+> +		   intel_gpu_freq(rps, rps->max_freq));
+> +
+> +	drm_printf(p, "Current freq: %d MHz\n",
+> +		   intel_gpu_freq(rps, rps->cur_freq));
+> +	drm_printf(p, "Actual freq: %d MHz\n", cagf);
+> +	drm_printf(p, "Idle freq: %d MHz\n",
+> +		   intel_gpu_freq(rps, rps->idle_freq));
+> +	drm_printf(p, "Min freq: %d MHz\n",
+> +		   intel_gpu_freq(rps, rps->min_freq));
+> +	drm_printf(p, "Boost freq: %d MHz\n",
+> +		   intel_gpu_freq(rps, rps->boost_freq));
+> +	drm_printf(p, "Max freq: %d MHz\n",
+> +		   intel_gpu_freq(rps, rps->max_freq));
+> +	drm_printf(p,
+> +		   "efficient (RPe) frequency: %d MHz\n",
+> +		   intel_gpu_freq(rps, rps->efficient_freq));
+> +}
+> +
+> +void gen6_rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
+> +{
+> +	if (rps_uses_slpc(rps))
+> +		return slpc_frequency_dump(rps, p);
+> +	else
+> +		return rps_frequency_dump(rps, p);
+> +}
+> +
+>  static int set_max_freq(struct intel_rps *rps, u32 val)
+>  {
+>  	struct drm_i915_private *i915 = rps_to_i915(rps);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
+> index 4509dfdc52e0..c408c26c5192 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.h
+> @@ -10,6 +10,7 @@
+>  #include "i915_reg_defs.h"
+>  
+>  struct i915_request;
+> +struct drm_printer;
+>  
+>  void intel_rps_init_early(struct intel_rps *rps);
+>  void intel_rps_init(struct intel_rps *rps);
+> @@ -54,6 +55,7 @@ void intel_rps_lower_unslice(struct intel_rps *rps);
+>  u32 intel_rps_read_throttle_reason(struct intel_rps *rps);
+>  bool rps_read_mask_mmio(struct intel_rps *rps, i915_reg_t reg32, u32 mask);
+>  
+> +void gen6_rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p);
+>  void gen5_rps_irq_handler(struct intel_rps *rps);
+>  void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
+>  void gen11_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
 
-Either way, this is all future extensions. First lets get the basic
-brightness control with just brightness + brightness-max attributes
-in place.
-
-Regards,
-
-Hans
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
