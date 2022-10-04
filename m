@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8A95F4AC3
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 23:15:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6C25F4AC6
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 23:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D9310E175;
-	Tue,  4 Oct 2022 21:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7964B10E173;
+	Tue,  4 Oct 2022 21:15:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BD910E175;
- Tue,  4 Oct 2022 21:15:39 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B855410E17C;
+ Tue,  4 Oct 2022 21:15:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XUL8lDJBLxWV4HU799Eb6FR462ivh5vZSK7SrAPo8WLLylojSJbCcmYR3P120048SVsxiOkqf2pytY5i6zu9OVCzYnoHw+d8kXnkQUvZEJC9XtoLcdk5oDwG3kz5ppsQcZsNynexbX9TF3svWcly+f1zf0wD7vluB7UGu9QAk0myvDZifdeyqGmkuOBOZdtTNhPqeV1/v5domET2NGGpdqIzmsugOhDkwrVztrTpT/xCtgYxNnVOtJ7sKxDkMigH/BmqG0ZrgIjuX5p0iLINZJSp+uwSrsMLDbpX1AV3z2YCKrjSDxfKXrJOiOPg5dOW+CQ98/klTeOh6RKt9ewhgg==
+ b=eYOtw+/YedmBC3y7bryOLOyerBpZGJl9WJS+2cczJ4csvUqoQpobL1LvL3qqCV650aWGG1wAtpmRsj/pz+nihFXPMOBlhVpnOjDNVqsHjZtKSriShBevEYXG4jA4kI+TN+sIZHb9qGIbtz0ERonzxubX1PfxJZ+QeaH3+3bawDxJ6z1Ifn/wCWtEyaZwSAxC5/PNKQguqgfuE0HoMWNqY1u5WQA4kP+FF2M1fkySwaksVsR/6PyP2pkFhKYuJ0vOTiGm26GLVuyEGu79zuND5KAJVJfKFFuJRlNC1Kn+xKffWD/q3PVgPH4KwSe34Mk1CmDh+I6D1PlrYGkmRH3yVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FV858alN1mcjh+MzxWw1Af0T0pExKwQlZvu/eoWwt5E=;
- b=AGP48r1R4ioBjJmlz+CO7blXjNKIkD7hSkQ0cvUje2Pf8TBxz4JhoiMqRsfjoiMxZ2hRxpfT+rfn8cBZoTkVG4PbptFB9OpqDx/Yqe+WQlem6GIgAU5QRwbjzzS/gYrqoRjqKDC5DjM3NWyNt4qVjCIg/tKoIQk09frx6BHgARjleWnNmknnzKxYph9O6wpHQFqlKlofJxZbIaM24EMnL8lm9/nborxr6cJ/OG4bMjeivz5/E7zvfgyfX5HwiIeqMah8yGLosIEMPhZcc/hkWp9XM/nLjcXpfBC0wwra/8B6owepo1lEHADYe0D7ga1ifiIrhc7DPa0EfYlekarThg==
+ bh=yyPP/8lfjJWHvaRIFbruseaJVeK1uMm7fAzJE2i5eCM=;
+ b=O/YrM68F0rxregyp0Xob7KJres7eI7rqYm8jeyd/3E28dDfpEwB783452S5T7kq6B9AEMsqZodbBBRLACBPN/HZoDcsL3aSK43QcmBy5FlZ/+pZ0Z30F0A3oOopYG56FXePOcWR/kUkE5TaDBMoJ3ZT2ff33MlrYW1tQ6TzBrcqLH1djZRC8UYTnMDodHVqNWLj0XQSfOCkeVDgqW8P07eiSoID83JSEsIM0Rq+bhHbsrjJY64E60UmeK7R4D+T/054S2oRz4W11mlQxsVmNsgKuq3xQWMUk6cmjsiiAcEHWsRINl8BT7bLG5kxIPMe6Hi4T4+WfLKsjXdEC7kLwAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FV858alN1mcjh+MzxWw1Af0T0pExKwQlZvu/eoWwt5E=;
- b=ljk3v3yCgdbG3CYe/6P9kqauEfpe5VxFV2M3Swk2tcF0CcVq2yVVSSCosfBqLhPw6cjXb4bDFJcniBG3b1ndr5hVusk/KP8SHGPvqgsm4caoiY7mzSgK1bIC12qhLJLWgcpJxsWqyYI9TXE+f0pGsLfS2c3HDkzAlyGp/LE2kdA=
-Received: from BN9PR03CA0537.namprd03.prod.outlook.com (2603:10b6:408:131::32)
- by LV2PR12MB5728.namprd12.prod.outlook.com (2603:10b6:408:17c::7)
+ bh=yyPP/8lfjJWHvaRIFbruseaJVeK1uMm7fAzJE2i5eCM=;
+ b=xV4lPEO6yy6QlF4WI9oCFx0naBeGpB3t71wYyiLlNU2CvZMxQ9X2AjA7k7QWnNnDBpLKwq7yYArsWc9ALnYlfr+u0eXAgOvULR65TiCf6gT/7papg34nY/NzoMovW/+exg2H/08tlG1RjIjTK0bvYj2o3XKh8AH8HIDN76Vbh3s=
+Received: from BN9PR03CA0384.namprd03.prod.outlook.com (2603:10b6:408:f7::29)
+ by SA1PR12MB7247.namprd12.prod.outlook.com (2603:10b6:806:2bb::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Tue, 4 Oct
- 2022 21:15:35 +0000
-Received: from BN8NAM11FT099.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:131:cafe::b5) by BN9PR03CA0537.outlook.office365.com
- (2603:10b6:408:131::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23 via Frontend
- Transport; Tue, 4 Oct 2022 21:15:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Tue, 4 Oct
+ 2022 21:15:42 +0000
+Received: from BN8NAM11FT091.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f7:cafe::6f) by BN9PR03CA0384.outlook.office365.com
+ (2603:10b6:408:f7::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.22 via Frontend
+ Transport; Tue, 4 Oct 2022 21:15:39 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,18 +45,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT099.mail.protection.outlook.com (10.13.177.197) with Microsoft SMTP
+ BN8NAM11FT091.mail.protection.outlook.com (10.13.176.134) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5709.10 via Frontend Transport; Tue, 4 Oct 2022 21:15:35 +0000
+ 15.20.5709.10 via Frontend Transport; Tue, 4 Oct 2022 21:15:39 +0000
 Received: from dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 4 Oct
- 2022 16:15:26 -0500
+ 2022 16:15:38 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [RFC PATCH 2/5] drm: Add Plane 3DLUT and 3DLUT mode properties
-Date: Tue, 4 Oct 2022 15:14:48 -0600
-Message-ID: <20221004211451.1475215-3-alex.hung@amd.com>
+Subject: [RFC PATCH 3/5] drm/amd/display: Define 3D LUT struct for HDR planes
+Date: Tue, 4 Oct 2022 15:14:49 -0600
+Message-ID: <20221004211451.1475215-4-alex.hung@amd.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221004211451.1475215-1-alex.hung@amd.com>
 References: <20221004211451.1475215-1-alex.hung@amd.com>
@@ -68,26 +68,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT099:EE_|LV2PR12MB5728:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa37bec4-da73-4537-2123-08daa64d93f7
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT091:EE_|SA1PR12MB7247:EE_
+X-MS-Office365-Filtering-Correlation-Id: a15425ae-c8e6-4fe0-e466-08daa64d96c1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K7e0NXhsh/ZCP4t4/zE8vE2zQgePMlHo77gBnmnsVAO5q4qib+677woHVBBYqirAxDoBMA1uOAkT5/1IWBV9ZwVhttrZqPdtM5tstbd9MRgWgD9yyKMY4SJ8XLVt9BH7ISbreve2VepcQwUpUCR3ZFsRXBvV79aKXv7qt/1TbDADyvXgFXa+Rn8wV1r091mKmQarALNdIBsgd3Sw6V6QBu4BmddI37JAYz41EqgYeq8AHdL+GoEEfcx9cEjwT/k/wymkxHqOGkA3WNqf7TsIHgV/avnmtSSCXm+aVodZ1WgUdA+i9rbIW6bYxRdCUBJeD9fHbX+RREOOlCLJ0+YSGgauvUzmfaAgHpwgqdN8z0B3d1IdNqXGa/KsnDaFp9OewAPsjC/0Rxzg06AfdTaAm1HSzoNK/KGC8ixdpItk4pU9JX1M6045O2h4WFPEalaKzvOehVtqpM1j8pSHsC97/TQwmdQNAc5DR5jaR3aIrjWOhwt1XCRb+H7u1IlvgPU+DzDPjXRCRWLrlAgZIEGNInAdbGwN4V2XHdx7sWnxJJJk1RT+tO+JxDkNB5s7LVJh65WkWuJjnf5cvrpLqe+p4Qk7UhvpBJHo/qPqB8cV234UvHcRrBZTr7+QOFwff/tKoUHd7xGojEI02mQnBq+iEiv8m8AVpFdSCf1xSg1M8dNHJiJm98QjGS/r7FexHCRwSoEtA7daHNQQrXylKTn/KcehTlHCgzEGN5XoVS7D6atyIlob5M5vgp8hiPwH58zv3cCEWXxKDne/1idCuSyGexU5326RXWOD3bJt9VZy51Gfn5eGsvydCopckW4kCm1A
+X-Microsoft-Antispam-Message-Info: hgUWk5ugej0AIY47OlZJDKICursRyYjQImnsZitSLy4+smLdCUV1YPJnhRmSmr7vJeGZomC025DIKNzhmCukVs+we0jX9OfYh9AXMJRmFdpSKwDPKEUlC6nBCLIeSk1I6t/tJU22IwMP//9DeskrP/XYqGenJXHasSJRg2lFUPxES6MUN4ZMShuEXSdsKjz0Aa3wjf4ycZ/9dtZ6I9MNnZ/IfqLkzyFXVdlAfmKRcXBeeswOujICHU9zX2fdwEDoEA5WfF27fSVfcVoSLMw4d235iRLDpwQQkLG8cxMlU2I3e3ubzT841Xhr0F1v3Jic8XI+oJ6ev91rupY2WIruxLizpCcyCWWlfWayhvfllmvCFZueWYiAy6oaIKYU4bvrDCefWqshjKou49j75x7HWXtD0EvXQOXe+E6aqyGu5hVwrwYPRkb6PEiqrn9epF98aNf5srljYoyki4RyExF86vYFfVCL8wwczejkR+cBkViyaypjHCrTGfeXsJcCrV2jfsHAlzt7j1Bv7U+z1k8IRLuqUapAOepPn4paYuIl3ny9kCPRzbDWa9Z8Luv+4rg1CMTocN9y5snzP7TYU4oEVZ17W7rLFaBuiGE0hdwTb6vprPxFqoK2BnTOs/mpm4dm3VFrvVJnL8hO2ocMa2Y+yrCmo4kMUr+omOT2sKlCCcnjrac2fSqQ6ZINOYdxlCzr2zMgM9f2NGXUUMIrC31GtH7Mei8oj7khHYOucv58qYEVRkAZ482zk5e1ZeuGNB8YCyqsL/xPRF9GvWVdBjXmmaxGP7eh0yWHe/u/kcPGknDnRldu8DD5e8E/NwfZoBSc
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(39860400002)(136003)(396003)(346002)(451199015)(40470700004)(36840700001)(46966006)(82740400003)(16526019)(70586007)(40460700003)(81166007)(8676002)(2616005)(356005)(70206006)(186003)(426003)(40480700001)(478600001)(6666004)(336012)(1076003)(47076005)(36756003)(7696005)(36860700001)(316002)(4326008)(54906003)(26005)(86362001)(110136005)(82310400005)(83380400001)(2906002)(44832011)(41300700001)(5660300002)(8936002)(36900700001);
+ SFS:(13230022)(4636009)(136003)(376002)(39860400002)(346002)(396003)(451199015)(36840700001)(46966006)(40470700004)(44832011)(36756003)(8936002)(186003)(1076003)(16526019)(8676002)(2616005)(2906002)(70586007)(41300700001)(4326008)(26005)(7696005)(6666004)(70206006)(82740400003)(82310400005)(356005)(81166007)(40460700003)(336012)(40480700001)(83380400001)(86362001)(47076005)(426003)(36860700001)(5660300002)(110136005)(478600001)(54906003)(316002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2022 21:15:35.0392 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa37bec4-da73-4537-2123-08daa64d93f7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2022 21:15:39.7703 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a15425ae-c8e6-4fe0-e466-08daa64d96c1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT099.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT091.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5728
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7247
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,206 +104,46 @@ Cc: mwen@igalia.com, bhawanpreet.lakha@amd.com, Alex Hung <alex.hung@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add plane lut_3d mode and lut_3d as blob properties.
-
-lut_3d mode is an enum property with values as blob_ids.
-Userspace can get supported modes and also set one of the modes.
+Add a 3D LUT mode supported by amdgpu driver.
 
 Note: A patchset "IGT tests for pre-blending 3D LUT interfaces" for this
 proposal is sent to IGT mailing list.
 
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 ++
- drivers/gpu/drm/drm_atomic_state_helper.c     |  3 ++
- drivers/gpu/drm/drm_atomic_uapi.c             | 11 ++++++
- drivers/gpu/drm/drm_color_mgmt.c              | 37 +++++++++++++++++++
- include/drm/drm_mode_object.h                 |  2 +-
- include/drm/drm_plane.h                       | 31 ++++++++++++++++
- 6 files changed, 87 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/display/modules/color/color_gamma.h  | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f546c1326db3..ee277f357140 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8006,6 +8006,10 @@ static int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
- 	drm_plane_attach_gamma_properties(plane);
- 	drm_plane_attach_ctm_property(plane);
+diff --git a/drivers/gpu/drm/amd/display/modules/color/color_gamma.h b/drivers/gpu/drm/amd/display/modules/color/color_gamma.h
+index e06e0a8effc8..aceb23b03a4b 100644
+--- a/drivers/gpu/drm/amd/display/modules/color/color_gamma.h
++++ b/drivers/gpu/drm/amd/display/modules/color/color_gamma.h
+@@ -27,6 +27,7 @@
+ #define COLOR_MOD_COLOR_GAMMA_H_
  
-+	/* TODO need to check ASICs */
-+	drm_plane_create_3d_lut_properties(plane->dev, plane, 1);
-+	drm_plane_attach_3dlut_properties(plane);
-+
- 	/* Create (reset) the plane state */
- 	if (plane->funcs->reset)
- 		plane->funcs->reset(plane);
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 7ddf6e4b956b..85900cd1bffe 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -318,6 +318,8 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
- 		drm_property_blob_get(state->ctm);
- 	if (state->gamma_lut)
- 		drm_property_blob_get(state->gamma_lut);
-+	if (state->lut_3d)
-+		drm_property_blob_get(state->lut_3d);
+ #include "color_table.h"
++#include <drm/drm_fourcc.h>
  
- 	state->color_mgmt_changed = false;
- }
-@@ -369,6 +371,7 @@ void __drm_atomic_helper_plane_destroy_state(struct drm_plane_state *state)
- 	drm_property_blob_put(state->degamma_lut);
- 	drm_property_blob_put(state->ctm);
- 	drm_property_blob_put(state->gamma_lut);
-+	drm_property_blob_put(state->lut_3d);
- }
- EXPORT_SYMBOL(__drm_atomic_helper_plane_destroy_state);
+ struct dc_transfer_func;
+ struct dc_gamma;
+@@ -35,6 +36,17 @@ struct dc_rgb_fixed;
+ struct dc_color_caps;
+ enum dc_transfer_func_predefined;
  
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index ba3e64cb184a..66e59e7c194d 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -622,6 +622,13 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
- 					&replaced);
- 		state->color_mgmt_changed |= replaced;
- 		return ret;
-+	} else if (property == plane->lut_3d_property) {
-+		ret = drm_atomic_replace_property_blob_from_id(dev,
-+					&state->lut_3d, val, -1, 8, &replaced);
-+		state->color_mgmt_changed |= replaced;
-+		return 0;
-+	} else if (property == plane->lut_3d_mode_property) {
-+		state->lut_3d_mode = val;
- 	} else if (property == config->prop_fb_damage_clips) {
- 		ret = drm_atomic_replace_property_blob_from_id(dev,
- 					&state->fb_damage_clips,
-@@ -700,6 +707,10 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
- 	} else if (property == plane->gamma_lut_property) {
- 		*val = (state->gamma_lut) ?
- 			state->gamma_lut->base.id : 0;
-+	} else if (property == plane->lut_3d_property) {
-+		*val = (state->lut_3d) ? state->lut_3d->base.id : 0;
-+	} else if (property == plane->lut_3d_mode_property) {
-+		*val = state->lut_3d_mode;
- 	} else if (property == config->prop_fb_damage_clips) {
- 		*val = (state->fb_damage_clips) ?
- 			state->fb_damage_clips->base.id : 0;
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index b5b3ff7f654d..4bfe5b5c9670 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -706,6 +706,43 @@ void drm_plane_attach_gamma_properties(struct drm_plane *plane)
- }
- EXPORT_SYMBOL(drm_plane_attach_gamma_properties);
- 
-+int drm_plane_create_3d_lut_properties(struct drm_device *dev,
-+					   struct drm_plane *plane,
-+					   int num_values)
-+{
-+	struct drm_property *mode;
-+	struct drm_property *blob;
++/*
++ * 3D LUT mode for 17x17x17 LUT and 12 bits of color depth
++ */
++static const struct drm_mode_3dlut_mode lut_3d_mode_17_12bit = {
++	.lut_size = 17,
++	.lut_stride = {17, 17, 18},
++	.bit_depth = 12,
++	.color_format = DRM_FORMAT_XRGB16161616,
++	.flags = 0,
++};
 +
-+	mode = drm_property_create(dev, DRM_MODE_PROP_ENUM, "PLANE_3D_LUT_MODE", num_values);
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	plane->lut_3d_mode_property = mode;
-+
-+	blob = drm_property_create(dev, DRM_MODE_PROP_BLOB, "PLANE_3D_LUT", 0);
-+	if (!blob)
-+		return -ENOMEM;
-+
-+	plane->lut_3d_property = blob;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_plane_create_3d_lut_properties);
-+
-+void drm_plane_attach_3dlut_properties(struct drm_plane *plane)
-+{
-+	if (!plane->lut_3d_property)
-+		return;
-+
-+	drm_object_attach_property(&plane->base, plane->lut_3d_property, 0);
-+
-+	if (!plane->lut_3d_mode_property)
-+		return;
-+
-+	drm_object_attach_property(&plane->base, plane->lut_3d_mode_property, 0);
-+}
-+EXPORT_SYMBOL(drm_plane_attach_3dlut_properties);
-+
- int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
- 						 const char *name,
- 						 const struct drm_color_lut_range *ranges,
-diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
-index d4128c7daa08..c2b31dbf7325 100644
---- a/include/drm/drm_mode_object.h
-+++ b/include/drm/drm_mode_object.h
-@@ -60,7 +60,7 @@ struct drm_mode_object {
- 	void (*free_cb)(struct kref *kref);
- };
- 
--#define DRM_OBJECT_MAX_PROPERTY 26
-+#define DRM_OBJECT_MAX_PROPERTY 28
- /**
-  * struct drm_object_properties - property tracking for &drm_mode_object
-  */
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 8989bb1aa46c..4e272144170f 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -275,6 +275,21 @@ struct drm_plane_state {
- 	 */
- 	struct drm_property_blob *gamma_lut;
- 
-+	/**
-+	 * @lut_3d_mode:
-+	 * This is a blob_id and exposes the platform capabilities wrt
-+	 * various 3dlut. This also helps user select a 3dlut mode amongst
-+	 * the supported ones.
-+	 */
-+	u32 lut_3d_mode;
-+
-+	/**
-+	 * @lut_3d:
-+	 * 3D lookup table blob. The blob data is laid out as defined by the
-+	 * FOURCC value in color_format in the drm_mode_3dlut_mode struct.
-+	 */
-+	struct drm_property_blob *lut_3d;
-+
- 	u8 color_mgmt_changed : 1;
- };
- 
-@@ -818,6 +833,18 @@ struct drm_plane {
- 	 * used to convert the framebuffer's colors to non-linear gamma.
- 	 */
- 	struct drm_property *gamma_lut_property;
-+
-+	/**
-+	 * @lut_3d_mode_property: Optional Plane property to set the 3DLUT mode
-+	 * used to convert the framebuffer's colors to non-linear gamma.
-+	 */
-+	struct drm_property *lut_3d_mode_property;
-+
-+	/**
-+	 * @lut_3d_property: Optional Plane property to set the 3DLUT
-+	 * used to convert the framebuffer's colors to non-linear gamma.
-+	 */
-+	struct drm_property *lut_3d_property;
- };
- 
- #define obj_to_plane(x) container_of(x, struct drm_plane, base)
-@@ -915,6 +942,10 @@ int drm_plane_create_color_mgmt_properties(struct drm_device *dev,
- void drm_plane_attach_degamma_properties(struct drm_plane *plane);
- void drm_plane_attach_ctm_property(struct drm_plane *plane);
- void drm_plane_attach_gamma_properties(struct drm_plane *plane);
-+int drm_plane_create_3d_lut_properties(struct drm_device *dev,
-+					   struct drm_plane *plane,
-+					   int num_values);
-+void drm_plane_attach_3dlut_properties(struct drm_plane *plane);
- int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
- 						 const char *name,
- 						 const struct drm_color_lut_range *ranges,
+ static const struct drm_color_lut_range nonlinear_pwl[] = {
+        { 
+                .flags = (DRM_MODE_LUT_GAMMA | DRM_MODE_LUT_REFLECT_NEGATIVE | DRM_MODE_LUT_INTERPOLATE | DRM_MODE_LUT_REUSE_LAST | DRM_MODE_LUT_NON_DECREASING),
 -- 
 2.37.3
 
