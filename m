@@ -1,64 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830575F43AD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 14:55:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F765F43B5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 14:57:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7444110E630;
-	Tue,  4 Oct 2022 12:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22CC310E622;
+	Tue,  4 Oct 2022 12:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1EF610E5E1
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 12:54:56 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id b4so14223078wrs.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 05:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PkPNtuib5iRHSYoXuvCITszxB1jeo5nPeYiHHZL01UU=;
- b=aKbbnZoDBY06Fjy3RSKQhfzAXP/Fpd7Z0NocPlMkBTEjqE9KysXAj0smHAg6k5bZ52
- G3kcQkx0Y+fM9LPYRSAHWxnErO5LuGtgSVK5VU7qtIpqFjFr8isprkSzhfCKvlZNg5Uc
- bblamli2YxIlhbGYCKmlXDAzxtU1rW+o67ONYWDWlTadw7ufy/9sA5vbxKE5/l3KtwTE
- z2gYoyV1NmPHkKI13GaBFPLMSiD5exh43C6GJXFeIVNiDI/a1bE/3dHN4HF/N3uh3LPY
- CplV3F1T6nmpxOHlfxlj29KE5vlrZJQcjHRWqW7O8bdocUUXeHQeZbuxNPrGVVl6tSYg
- r5TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PkPNtuib5iRHSYoXuvCITszxB1jeo5nPeYiHHZL01UU=;
- b=aSCWZ7PY0Cx4Y4xnjeVGbJnIBMCTvstR9J5K+bG32GQJhUwfgvCzLPMXZZ5BCTomKj
- TE9pu5pro/ILINkM9HoyJpvzLg8UAity9LIMzqEpQnweUF8aXmKye8Bq4jkHyNEQKkU7
- 5I5osLXQz2sWYk+pD4+Xk4M9kGl1bbybqjoIvJj9LfmqgXzrUUyWBmERoDiJCcUb2s3q
- +ZxKylAVw0L0nZASTs+2zjGjEWMN+ZCZGyzyU7+srgmOnnV5ab3mnHGfQERIulMlhMhM
- LvJYNeYZ3gkHfw8MUe4TsGDOgeQLnGnQ2YB7ddt0LJjmM83FSYLojFLpnpj0rzkZWbei
- mywg==
-X-Gm-Message-State: ACrzQf1EgJ2mTvGfRH3ZvoVh2fJWIRgHHlg+Wms9aBLKTCSZycLwVdag
- VEle+Oy1miYh9XG/zTwFOVSqFg==
-X-Google-Smtp-Source: AMsMyM6zkuocVUmsW5crCUEXtpbvBS7DDgsVlES5Am7dCaMtOQ/Tak12eHP2HL2OCi1vm5tQZq3p3Q==
-X-Received: by 2002:a5d:588f:0:b0:22b:5cc:e1d3 with SMTP id
- n15-20020a5d588f000000b0022b05cce1d3mr15148579wrf.142.1664888095272; 
- Tue, 04 Oct 2022 05:54:55 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- w10-20020a05600c474a00b003b4ac05a8a4sm25305803wmo.27.2022.10.04.05.54.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 05:54:54 -0700 (PDT)
-Date: Tue, 4 Oct 2022 13:54:51 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [RFC/PATCH] backlight: hx8357: prepare to conversion to gpiod API
-Message-ID: <YzwtG8CT9sTCqQQk@maple.lan>
-References: <YzN6A9Y20Ea1LdEz@google.com>
- <CACRpkdZF9TVA3+3pgjqm_cnhfPO6p0oOT=2jrqFafMCHe2cwDg@mail.gmail.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F6B10E5F4;
+ Tue,  4 Oct 2022 12:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664888215; x=1696424215;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=flBQ9dEnV0xRD9UVmKe5eJISSpQJuxugos6sYNwF9ko=;
+ b=VhmtWHTXGNS27iPbsBK8a0IZWl8k7lrPw/q+JWI263/EkseJUWyKdFxB
+ W+jNtPS0IwrcNJZpjZFMez0tiEi6ROmXJd6kxNds83w+I9R/VbLnW6gxQ
+ wblYWZgQ/2YsxpBhr6EI0UdHgF/qF2BSkEGu6N3quUir/2yDvce5WoAai
+ feRdwvMPOgCniH9ottoOSsjr7qyYCaHk3Q1IgSVQlEuwm+1PbDJLlzQVo
+ HgJ1ffjeuuXkPidEmiNva1O9Gc1qOvQc9GZYVCJHBoE52r73lOpkKKW9h
+ KOZ2NnEuwNAf6qf9r39ltMYjwzLPmI39XHsjHSEhEpDZZ1A8JhCJDmIor w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="329306437"
+X-IronPort-AV: E=Sophos;i="5.95,157,1661842800"; d="scan'208";a="329306437"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2022 05:56:52 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="654760423"
+X-IronPort-AV: E=Sophos;i="5.93,157,1654585200"; d="scan'208";a="654760423"
+Received: from pvarla-mobl4.gar.corp.intel.com (HELO localhost)
+ ([10.252.39.104])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2022 05:56:46 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 12/14] drm/i915: Define multicast registers as a new
+ type
+In-Reply-To: <20221001004550.3031431-13-matthew.d.roper@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221001004550.3031431-1-matthew.d.roper@intel.com>
+ <20221001004550.3031431-13-matthew.d.roper@intel.com>
+Date: Tue, 04 Oct 2022 15:56:43 +0300
+Message-ID: <87czb7u4qc.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZF9TVA3+3pgjqm_cnhfPO6p0oOT=2jrqFafMCHe2cwDg@mail.gmail.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,56 +59,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: ravi.kumar.vodapalli@intel.com, balasubramani.vivekanandan@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 04, 2022 at 11:02:06AM +0200, Linus Walleij wrote:
-> On Wed, Sep 28, 2022 at 12:32 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
->
-> > Properties describing GPIOs should be named as "<property>-gpios" or
-> > "<property>-gpio", and that is what gpiod API expects, however the
-> > driver uses non-standard "gpios-reset" name. Let's adjust this, and also
-> > note that the reset line is active low as that is also important to
-> > gpiod API.
-> >
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->
-> I think the gods of Open Firmware will try to punish you for such
-> incompatible changes. But I have long since renounced them.
->
-> > Another option is to add another quirk into gpiolib-of.c, but we
-> > may end up with a ton of them once we convert everything away from
-> > of_get_named_gpio() to gpiod API, so I'd prefer not doing that.
->
-> We need to know if i.MX is shipping device trees stored in flash,
-> or if they bundle it with the kernel.
+On Fri, 30 Sep 2022, Matt Roper <matthew.d.roper@intel.com> wrote:
+> diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
+> index 8f486f77609f..e823869b9afd 100644
+> --- a/drivers/gpu/drm/i915/i915_reg_defs.h
+> +++ b/drivers/gpu/drm/i915/i915_reg_defs.h
+> @@ -104,22 +104,16 @@ typedef struct {
+>  
+>  #define _MMIO(r) ((const i915_reg_t){ .reg = (r) })
+>  
+> -#define INVALID_MMIO_REG _MMIO(0)
+> -
+> -static __always_inline u32 i915_mmio_reg_offset(i915_reg_t reg)
+> -{
+> -	return reg.reg;
+> -}
+> +typedef struct {
+> +	u32 reg;
+> +} i915_mcr_reg_t;
+>  
+> -static inline bool i915_mmio_reg_equal(i915_reg_t a, i915_reg_t b)
+> -{
+> -	return i915_mmio_reg_offset(a) == i915_mmio_reg_offset(b);
+> -}
+> +#define INVALID_MMIO_REG _MMIO(0)
+>  
+> -static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+> -{
+> -	return !i915_mmio_reg_equal(reg, INVALID_MMIO_REG);
+> -}
+> +/* These macros can be used on either i915_reg_t or i915_mcr_reg_t */
+> +#define i915_mmio_reg_offset(r) (r.reg)
+> +#define i915_mmio_reg_equal(a, b) (i915_mmio_reg_offset(a) == i915_mmio_reg_offset(b))
+> +#define i915_mmio_reg_valid(r) (!i915_mmio_reg_equal(r, INVALID_MMIO_REG))
+>  
 
-This part is frequently found in add-on boards so it's not purely an
-i.MX-only question.
+I don't really like losing the type safety here. The whole and only
+purpose of typedeffing i915_reg_t as a struct instead of just u32 was
+the strict type safety.
+
+BR,
+Jani.
 
 
-> In the former case, you have to add quirks, in the latter case this
-> patch is fine.
->
-> Sascha, what does the Freescale maintainer say?
-
-IMHO for not-in-the-soc devices like this the presence of in-kernel DTs
-isn't enough to make a decision. What is needed is a degree of
-due-diligence to show that there are no obvious out-of-kernel users.
-
-To be honest, I suspect the due-diligence checks will probably yield a
-green light for this one. Most of the tutorials for the popular HX8357
-devices, show how to run python code in userspace that sends raw SPI
-commands. That sucks but at least it doesn't raise any concerns about
-bindings maintenance.
-
-
-Daniel.
+-- 
+Jani Nikula, Intel Open Source Graphics Center
