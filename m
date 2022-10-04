@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482B35F3C32
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 06:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4555F3C38
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 06:50:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CF010E430;
-	Tue,  4 Oct 2022 04:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4491210E599;
+	Tue,  4 Oct 2022 04:49:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3DBE10E430;
- Tue,  4 Oct 2022 04:43:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B9327B81243;
- Tue,  4 Oct 2022 04:43:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AECE7C433C1;
- Tue,  4 Oct 2022 04:43:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664858583;
- bh=eYy7EY3wMGZQPeArL+2hroT5fu2zAsiPf6zlIP9+Gm0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LwErs2ts4afxfSLyft8B10Lg3CRv3yfwGdn0RW2OozMWrmg6HpA9ebRxLny+aKKNl
- ojMXD2JpInZesbJ5C5dH6v8X5akzAA/PjKH29ojszQdp4omrh4g9jD8HIkv6lVIx6o
- htDoicY1k3fY3qPJ8ieSkRUnT0gitArCGM71VhiHUHHTn1cJB9DQ30yxOM9LhMPvXu
- uAOTAWNlYUfxhGG3pg+o94/mxZBf2EBaVpfPMmIb9k6XY0egzYdYhqZPDxd0S8YLEs
- fdlv5dGGUhf24B0/I15ZuweoCf4kZifJzlhds7tyC65N6caF0T1wCIcK82HzKarQbK
- fIEzbrfEwVgOw==
-Date: Tue, 4 Oct 2022 10:12:58 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH 0/5] drm: Fix math issues in MSM DSC implementation
-Message-ID: <Yzu50ly1AxZwmyvi@matsya>
-References: <20221001190807.358691-1-marijn.suijten@somainline.org>
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3968410E599
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 04:49:51 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id f193so11773525pgc.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Oct 2022 21:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=/xVdKxSIlA3DamunWOFIjrLXOpuuwkDNyivJpgCyiPU=;
+ b=QK8w8Nbim8Dy4b7jBA6WMd0/bAxFA6dLjO9vWe3fw3TyZ/GBjHN8JXbKNa7rnSX/nG
+ +XPUS37IimuizTqi1z6wAa7liidEbUFx2k3iUgNhmmBvAG157qymamz3mZ+2j4AgkUvp
+ WtjaSi1e8D9m2ErJKJ1XN0bITDZX3dLTGr1Rc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=/xVdKxSIlA3DamunWOFIjrLXOpuuwkDNyivJpgCyiPU=;
+ b=pcsh/t2WXu5usW2nvftM4vE2YySIy66/do74DuGl+nL3bRZ28gvwR2p9LpebBupRF+
+ u+72ZxiUJLLDs1N5QaY5OBNK8VIM9MCFvHFDVmOteii6cEeRGJMJS/mv0sy4hxWQiBsa
+ 2MFRGAGP6rTRlPfYpV1hanZSDcrEu6hugYHUTP/E3sQW2L9FN176kHi9ghwSziuWOc9T
+ W/SLtKt5qpH19wzR5mFYo4V1YGt+kgZhMIaRfazC7KNbYyahSMq6GjsqqQ5Jn2FpCsQ4
+ Z6N8jslO5vg2/MLwyg1Gh1ZP0K7qEOs1ahyr51tD1nW+gkJtGsyFD15qe+Sv/cNM+ZTw
+ QPig==
+X-Gm-Message-State: ACrzQf3nfXHYwSmMe0gey65DrE/A7XEZdaMRml3/wa8YmswL/FKTZ6wd
+ +hPiCW9PF7nF5XOpNRfgGOPXSg==
+X-Google-Smtp-Source: AMsMyM4ZLKqSUOaZeoB/LQLmyjuSOO6HvPUcObJzr5sJGGqZz1PKZWAFs+4r053KrZ5RlLuU492T0w==
+X-Received: by 2002:a63:188:0:b0:43c:22e9:2d10 with SMTP id
+ 130-20020a630188000000b0043c22e92d10mr21837722pgb.12.1664858990734; 
+ Mon, 03 Oct 2022 21:49:50 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com
+ ([2401:fa00:1:10:5713:ccf0:f1dd:69d2])
+ by smtp.gmail.com with ESMTPSA id
+ gl1-20020a17090b120100b0020ab3f9c27dsm1095051pjb.55.2022.10.03.21.49.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 21:49:50 -0700 (PDT)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 0/2] drm/bridge: it6505: Power management fixes for it6505
+ bridge
+Date: Tue,  4 Oct 2022 12:49:41 +0800
+Message-Id: <20221004044943.2407781-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221001190807.358691-1-marijn.suijten@somainline.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,44 +71,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@linux.ie>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>, phone-devel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: Allen Chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>,
+ Hermes Wu <hermes.wu@ite.com.tw>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01-10-22, 21:08, Marijn Suijten wrote:
-> Various removals of complex yet unnecessary math, fixing all uses of
-> drm_dsc_config::bits_per_pixel to deal with the fact that this field
-> includes four fractional bits, and finally an approach for dealing with
-> dsi_host setting negative values in range_bpg_offset, resulting in
-> overflow inside drm_dsc_pps_payload_pack().
-> 
-> Note that updating the static bpg_offset array to limit the size of
-> these negative values to 6 bits changes what would be written to the DPU
-> hardware at register(s) DSC_RANGE_BPG_OFFSET, hence the choice has been
-> made to cover up for this while packing the value into a smaller field
-> instead.
+This series contains 2 fixes related to it6505 power management.
 
-Thanks for fixing these. I dont have my pixel3 availble but changes lgtm
+Changes in v3:
+- Handle the error from extcon_get_state
+- Collect review tag
 
-Reviewed-by: Vinod Koul <vkoul@kernel.org>
+Changes in v2:
+- Handle the error from pm_runtime_get_sync in it6505_extcon_work
 
-> Altogether this series is responsible for solving _all_ Display Stream
-> Compression issues and artifacts on the Sony Tama (sdm845) Akatsuki
-> smartphone (2880x1440p).
+Pin-yen Lin (2):
+  drm/bridge: it6505: Adapt runtime power management framework
+  drm/bridge: it6505: Add pre_enable/post_disable callback
 
-Does it need two dsi lanes?
+ drivers/gpu/drm/bridge/ite-it6505.c | 58 ++++++++++++++++++++++++-----
+ 1 file changed, 48 insertions(+), 10 deletions(-)
 
 -- 
-~Vinod
+2.38.0.rc1.362.ged0d419d3c-goog
+
