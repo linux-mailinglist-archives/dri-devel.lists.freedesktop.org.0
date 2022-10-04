@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12C75F3EFC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 10:59:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D55065F3F11
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 11:02:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A82110E2D9;
-	Tue,  4 Oct 2022 08:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D814C10E3AA;
+	Tue,  4 Oct 2022 09:02:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20EB910E2D9
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 08:59:06 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id qx23so9328635ejb.11
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 01:59:06 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E92E310E3AA
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 09:02:18 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id bj12so27382001ejb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 02:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=fIJl4IiOeRHaHh1QoEObM4QlmMAVfHee9nuHBfhnVzU=;
- b=ZQ+T6F0KeYd1rXAGaq4pxLHWYpf52ZDDnEygNdrbIpL4s8YBrdQcO7AfkSEGUv0rgs
- PFX0nZ/YZZ/5vJRhcUQ+KCgKq9FzByTKnxWsqzqYCUpn5HPGNhy5wX6BHW/FjjLL2QCy
- HwA1c1OlDZEfrap4fJFg2E2Mw0PCrw0R/BLqEOwvYia3xo6QivtKrEUBbwlHEdoXV8du
- UcZnicgvZAEOIVbuJuUzwSBnx5SdiDi8i1HODdcZWVQztvfcWGdGi2SUkfTPAqwcU7sL
- 7lzBpIBghaemabuGvzCLQLHwmMYibGDsJfrB+EmoBaLd94CkVF+boO890RDD1EwpvN7q
- 5m7Q==
+ bh=MaE+VYQSDiY92kjGX4h2jSkOyA7XFQBMOSLljPLW3Fs=;
+ b=kOrG/KsOgzPslDjCA/2wVvVO8wIY+Cw63qRlS34Bc2Gp0ysABkZAdfwKG3GoOZ3Qov
+ t4oapKrVCSblA5nYqcznfIMp6w4ItdU0n5J/SYR+0Hceg0Jqz/Q6SNrd3vhaaCFEqQdD
+ zeNuwz5e8oIdedEly8BXGR4rPJLr85M/PVlA/PCGFIq+Ggxp+UmRpOxC53yYJetG5DYL
+ Q+HgO/POXHyWYUav/27yx9hiPsg7rGyNS5edBzAQjt7AAACiph3U60WYVAvU393riZGy
+ 0XVfHUXoDmykiCYSMMFso6leDg6qDMmNQAV3bd8hLOxObTYNZhQ4bCRzK59pirN9TatC
+ 3v8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=fIJl4IiOeRHaHh1QoEObM4QlmMAVfHee9nuHBfhnVzU=;
- b=4aPnrlEOwnZEscGDSpKBxE7tTPd6vQiMC1RV6wWAsdO6kAW4xnbgaYfAHrbPaMwckB
- JLmMHLb52h0E8gcXAFdUPrYJuDPX8BXgL99wvs+yEXN6ylov/bXsK5EVKO1xKmbnFe6g
- A2xUFJaweXdTfWgYcPV4eXmeuN4S4ffRaAOvh2AC3FqFBXNGG9OPl+DYAynf/HLmsa0U
- v85mjSJ60+RTMFnF1I8mC3g6tF4xHKFE4lyqk4qFD/eNzdutspH7cQeZ0EIb0CjCzBbz
- Ar32cGF7oPkxpevhAXMMQnMWNyzHVKzmCQUFkNkw/uDFAFawCYPsjdtyhRg8Pm9LLIvz
- GCZQ==
-X-Gm-Message-State: ACrzQf3lBgrZiXLccwuNVdCvi5WkWsHWIHYQvkG8gifqM6lmh2PQmuXz
- i0ulht2njmRJ5VToNbeZAhzvgqDn3yteMLi77HCicw==
-X-Google-Smtp-Source: AMsMyM50R+yprH9k7KbiVmostQiMsE/qB5tlByDLHsJ+zV6rySTLqnkxwD56v0PwMao+NlnRa0NGkBqpPXx5ZKsHAAI=
-X-Received: by 2002:a17:907:7805:b0:780:24fd:c4e8 with SMTP id
- la5-20020a170907780500b0078024fdc4e8mr18694277ejc.78.1664873944675; Tue, 04
- Oct 2022 01:59:04 -0700 (PDT)
+ bh=MaE+VYQSDiY92kjGX4h2jSkOyA7XFQBMOSLljPLW3Fs=;
+ b=fg69EfqY2OTyjOnaM0VJBjZu19n9jqomSm11uDSaTCS/WCaKxGlnsIrq5OJmEvZKZL
+ +6kMsR2+Qj/Rgs5YfXfrMrigrPzjH6UwJCL94xSh07aCMbvL6/S2bH7H0CulqsVXB1JV
+ UNZ5UeSF0GyJA4s4ontqoUi6GDiNtwQDfEVEFil5Nlo7XEK+cFnmLmxlaoHw/TvxpJ9N
+ jxOZUsm4ZuVUxV8o3MWs/p7tQ01sfICEor/3XXYnXBZzAa4ezdQr+5iDTm/KTDN2iU3B
+ DMbAbzCHz9lOpDetpas1TEF+wlq9D0DUFkM4OLrql11x0wRdV3/fJS/HoIaXHxh4OJuY
+ Hi2A==
+X-Gm-Message-State: ACrzQf0bc4FovImfwwhwyjn5ka6V9FjCsimbwqJEbVQsPQglSxDl+aFC
+ JdI/feDyoSoZBYk9QF63x8aWFv6m++xhw/B0pYqpsQ==
+X-Google-Smtp-Source: AMsMyM4xndojXaNMN2ex8pnWSc6yo524zQadaqbeACW6jhGMMrzwPKdUyNStMO3sE6xymDGbSG30wCrcXWZUR4MZZtg=
+X-Received: by 2002:a17:906:5d04:b0:77f:ca9f:33d1 with SMTP id
+ g4-20020a1709065d0400b0077fca9f33d1mr19070022ejt.526.1664874137461; Tue, 04
+ Oct 2022 02:02:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221004044943.2407781-1-treapking@chromium.org>
-In-Reply-To: <20221004044943.2407781-1-treapking@chromium.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 4 Oct 2022 10:58:53 +0200
-Message-ID: <CAG3jFytkKjuW0frBUf1-MEKgzTnfdZEHcdxTTFoeXmvRJz7Y3w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] drm/bridge: it6505: Power management fixes for
- it6505 bridge
-To: Pin-yen Lin <treapking@chromium.org>
+References: <YzN6A9Y20Ea1LdEz@google.com>
+In-Reply-To: <YzN6A9Y20Ea1LdEz@google.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 4 Oct 2022 11:02:06 +0200
+Message-ID: <CACRpkdZF9TVA3+3pgjqm_cnhfPO6p0oOT=2jrqFafMCHe2cwDg@mail.gmail.com>
+Subject: Re: [RFC/PATCH] backlight: hx8357: prepare to conversion to gpiod API
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,36 +64,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Hermes Wu <hermes.wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Oct 2022 at 06:49, Pin-yen Lin <treapking@chromium.org> wrote:
->
-> This series contains 2 fixes related to it6505 power management.
->
-> Changes in v3:
-> - Handle the error from extcon_get_state
-> - Collect review tag
->
-> Changes in v2:
-> - Handle the error from pm_runtime_get_sync in it6505_extcon_work
->
-> Pin-yen Lin (2):
->   drm/bridge: it6505: Adapt runtime power management framework
->   drm/bridge: it6505: Add pre_enable/post_disable callback
->
->  drivers/gpu/drm/bridge/ite-it6505.c | 58 ++++++++++++++++++++++++-----
->  1 file changed, 48 insertions(+), 10 deletions(-)
->
-> --
-> 2.38.0.rc1.362.ged0d419d3c-goog
->
+On Wed, Sep 28, 2022 at 12:32 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-Applied to drm-misc-next.
+> Properties describing GPIOs should be named as "<property>-gpios" or
+> "<property>-gpio", and that is what gpiod API expects, however the
+> driver uses non-standard "gpios-reset" name. Let's adjust this, and also
+> note that the reset line is active low as that is also important to
+> gpiod API.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+I think the gods of Open Firmware will try to punish you for such
+incompatible changes. But I have long since renounced them.
+
+> Another option is to add another quirk into gpiolib-of.c, but we
+> may end up with a ton of them once we convert everything away from
+> of_get_named_gpio() to gpiod API, so I'd prefer not doing that.
+
+We need to know if i.MX is shipping device trees stored in flash,
+or if they bundle it with the kernel.
+
+In the former case, you have to add quirks, in the latter case this
+patch is fine.
+
+Sascha, what does the Freescale maintainer say?
+
+Yours,
+Linus Walleij
