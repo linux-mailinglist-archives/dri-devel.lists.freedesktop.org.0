@@ -2,54 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289295F47B9
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 18:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA7A5F4805
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 19:03:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DAB110E01F;
-	Tue,  4 Oct 2022 16:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D457410E011;
+	Tue,  4 Oct 2022 17:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269AC10E01F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 16:36:51 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 074816005417;
- Tue,  4 Oct 2022 17:36:50 +0100 (WEST)
-X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
- tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
- with LMTP id j8yPc4mpqb_j; Tue,  4 Oct 2022 17:36:47 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
- [IPv6:2001:690:2100:1::b3dd:b9ac])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 0E566600881E;
- Tue,  4 Oct 2022 17:36:45 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
- s=mail; t=1664901407;
- bh=DMhcGkQbTq6SDO0SLsiFN4a0xZV0HfX1yyp+AGRsmVo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=fabVcPBNbSXlLC7+WUv5tqiPTOvXo7j6AWxsirSb9ZAAs5TBaofkbX8nH15fURDWi
- b0YZ/T8CHc5BQt9d0Gp0oe2dJQAshoByDzia6i6beu2KnhknCX6/BpU3VC4jUwwq3Z
- KzCcthCBp5fPl8PwJtoa0cSOlD5HAnue6jO9lJOo=
-Received: from wslaptop (unknown [IPv6:2001:818:dcb5:dc00:7a88:7f12:8ed8:518d])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id B7304360083;
- Tue,  4 Oct 2022 17:36:44 +0100 (WEST)
-Date: Tue, 4 Oct 2022 17:37:18 +0100
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/4] dt-bindings: display: Add bindings for JDI LPM102A188A
-Message-ID: <20221004163718.ederwgmvt24kvhms@wslaptop>
-References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
- <20220929170502.1034040-2-diogo.ivo@tecnico.ulisboa.pt>
- <efa2f644-0a1d-00f7-970c-f17ceb0cc550@linaro.org>
- <20221003170634.56jibls3xjxiiulg@wslaptop>
- <98d3b42d-3f9f-9b6e-8c17-46deae4b4030@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03E3910E011;
+ Tue,  4 Oct 2022 17:03:42 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 294Gokcm000924;
+ Tue, 4 Oct 2022 17:03:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=AEYsfh/eAt8nDw1iuATZ7PecSdIMZP841nXjfzpjNoo=;
+ b=daszagFtoy1GJbxo+QhBtAoqxy7nSHXjCYF5M3+ZSmYrRiuK/mJga6rY9SQG7DbEQBfS
+ lGbYaY/UHescM4ZqIRZrIOOlkz5io2n7jAXnO4Jh5QlT7e9Cd+xUsYoDmVgdsinZXwVF
+ blzE1KHUbXPOAHPk8jfUD69jv4p0i6xNOD7H5cwLNU6Gv22qPXlsISSGVU0DvCBqWIoC
+ wSoyO+SWqDpQxwTZgduXzj7Zu+DCowZ0WG6kc0vM9TZSW2uosa63jh9fgLrPTtH/7Or1
+ FcNa7S21FYjmpF19cUTTNR6pl23hU5biRpbjq4lOrjUK1Ks8RaIbPy+1nkTWahlzqqdk Rg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jxd58pd5d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Oct 2022 17:03:13 +0000
+Received: from pps.filterd (NALASPPMTA02.qualcomm.com [127.0.0.1])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 294H1PAi003695; 
+ Tue, 4 Oct 2022 17:03:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 3jxemkktrb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Oct 2022 17:03:11 +0000
+Received: from NALASPPMTA02.qualcomm.com (NALASPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 294H3B1c005319;
+ Tue, 4 Oct 2022 17:03:11 GMT
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 294H3BLF005318
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Oct 2022 17:03:11 +0000
+Received: from [10.111.163.178] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 4 Oct 2022
+ 10:03:08 -0700
+Message-ID: <7f7a5d78-e50f-b6af-bb3e-bbfbc7fa5f75@quicinc.com>
+Date: Tue, 4 Oct 2022 10:03:07 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <98d3b42d-3f9f-9b6e-8c17-46deae4b4030@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 4/5] drm/msm/dpu1: Account for DSC's bits_per_pixel having
+ 4 fractional bits
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ <phone-devel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, Vinod Koul <vkoul@kernel.org>
+References: <20221001190807.358691-1-marijn.suijten@somainline.org>
+ <20221001190807.358691-5-marijn.suijten@somainline.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20221001190807.358691-5-marijn.suijten@somainline.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pGloqYhjcMLdcZlFUuZu5eaz0S-vN8EE
+X-Proofpoint-ORIG-GUID: pGloqYhjcMLdcZlFUuZu5eaz0S-vN8EE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-04_08,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1015 spamscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210040110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,48 +100,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, arnd@arndb.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- diogo.ivo@tecnico.ulisboa.pt, robh+dt@kernel.org, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, linux-tegra@vger.kernel.org,
- sam@ravnborg.org
+Cc: Sean Paul <sean@poorly.run>, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@linux.ie>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Thomas Zimmermann <tzimmermann@suse.de>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 04, 2022 at 01:05:04PM +0200, Krzysztof Kozlowski wrote:
-> On 03/10/2022 19:06, Diogo Ivo wrote:
-> > On Fri, Sep 30, 2022 at 12:49:31PM +0200, Krzysztof Kozlowski wrote:
-> >> Isn't touchscreen a separate (input) device?
-> > 
-> > Hello, thank you for the feedback.
-> > 
-> > According to the downstream kernel's log, it seems like the panel and
-> > the touchscreen controller are considered to be embedded in the same unit
-> > (for example in [1]), 
+
+
+On 10/1/2022 12:08 PM, Marijn Suijten wrote:
+> According to the comment this DPU register contains the bits per pixel
+> as a 6.4 fractional value, conveniently matching the contents of
+> bits_per_pixel in struct drm_dsc_config which also uses 4 fractional
+> bits.  However, the downstream source this implementation was
+> copy-pasted from has its bpp field stored _without_ fractional part.
 > 
-> Downstream kernel is not a proof of proper description of hardware. If
-> downstream says orange is an apple, does it mean orange is really an
-> apple? No... Downstream creates a lot of junk, hacks and workarounds.
-
-After some searching (which I should have done sooner, so
-apologies) I came across a teardown of the Pixel C ([1], for completeness),
-which incorporates this panel. Indeed a separate touch controller was found,
-so it seems the downstream kernel threw me off as per your warning.
-
-[1]: https://www.ifixit.com/Teardown/Google+Pixel+C+Teardown/62277 (Step 4)
-
-> > with the touch input being transmitted via HID-over-I2C,
-> > and since I did not find any reset gpio handling in that driver I opted to
-> > include this reset here, unless there is a better way of going about this.
+> This makes the entire convoluted math obsolete as it is impossible to
+> pull those 4 fractional bits out of thin air, by somehow trying to reuse
+> the lowest 2 bits of a non-fractional bpp (lsb = bpp % 4??).
 > 
-> Instead it should be in touch screen device.
+> The rest of the code merely attempts to keep the integer part a multiple
+> of 4, which is rendered useless thanks to data |= dsc->bits_per_pixel <<
+> 12; already filling up those bits anyway (but not on downstream).
+> 
+> Fixes: c110cfd1753e ("drm/msm/disp/dpu1: Add support for DSC")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-Noted, I will remove it from the binding in the next version. 
+Many of this bugs are because the downstream code from which this 
+implementation was derived wasnt the latest perhaps?
 
-> Where is the DTS of that device?
+Earlier, downstream had its own DSC struct maybe leading to this 
+redundant math but now we have migrated over to use the upstream struct 
+drm_dsc_config.
 
-The relevant part of the DTS can be found here:
-https://android.googlesource.com/kernel/tegra/+/refs/heads/android-tegra-dragon-3.18-oreo/arch/arm64/boot/dts/tegra/tegra210-smaug.dtsi
-
-Best regards,
-Diogo
+That being said, this patch LGTM
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 11 ++---------
+>   1 file changed, 2 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> index f2ddcfb6f7ee..3662df698dae 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> @@ -42,7 +42,7 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
+>   			      u32 initial_lines)
+>   {
+>   	struct dpu_hw_blk_reg_map *c = &hw_dsc->hw;
+> -	u32 data, lsb, bpp;
+> +	u32 data;
+>   	u32 slice_last_group_size;
+>   	u32 det_thresh_flatness;
+>   	bool is_cmd_mode = !(mode & DSC_MODE_VIDEO);
+> @@ -56,14 +56,7 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
+>   	data = (initial_lines << 20);
+>   	data |= ((slice_last_group_size - 1) << 18);
+>   	/* bpp is 6.4 format, 4 LSBs bits are for fractional part */
+> -	data |= dsc->bits_per_pixel << 12;
+> -	lsb = dsc->bits_per_pixel % 4;
+> -	bpp = dsc->bits_per_pixel / 4;
+> -	bpp *= 4;
+> -	bpp <<= 4;
+> -	bpp |= lsb;
+> -
+> -	data |= bpp << 8;
+> +	data |= (dsc->bits_per_pixel << 8);
+>   	data |= (dsc->block_pred_enable << 7);
+>   	data |= (dsc->line_buf_depth << 3);
+>   	data |= (dsc->simple_422 << 2);
