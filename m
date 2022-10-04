@@ -2,76 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DFB5F4790
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 18:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 289295F47B9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 18:37:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5992D10E0CD;
-	Tue,  4 Oct 2022 16:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DAB110E01F;
+	Tue,  4 Oct 2022 16:36:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9030C10E0AE;
- Tue,  4 Oct 2022 16:28:12 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 294F89UI001775;
- Tue, 4 Oct 2022 16:28:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=er6WiFdir6EGtOJNKUaGEwi0MCH4cdt6wj/WNtIk28c=;
- b=gM63uEQl+NrPYdjvUp/K0JfGmBB8R9fV4mGkjS6iO+P8OXxTseH65+suTSsftmz4DbfV
- WIepsMJaW8FDJB6bIUmJJD/vL6tP22+T7hcRih5f7LRPLcviDXN5P2hC6w18IaY1VHrv
- room6h05PjpgeS4oodWOo8h4RdgC9ScG0p6fPKPPYJfGBrz+tddmp2nQ0LrcTCokPZ1S
- QDmrXMD0hVIT+WtHK9OYC/NdJ4TnZHOiRsZD1eUD0BSmdJS5OtEbc3SYgTOI6xJd7VO9
- o14mcYWBgCldXol9tqacWmkzBNw83UTveI8psPsaXARej0hulAPtTRwqjA8OEvJda806 Ww== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k0escs8r9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Oct 2022 16:28:01 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 294GS1qm032218
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 4 Oct 2022 16:28:01 GMT
-Received: from [10.111.163.178] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 4 Oct 2022
- 09:27:58 -0700
-Message-ID: <fa74e1c0-53bb-4e73-4df5-c69cd455dd11@quicinc.com>
-Date: Tue, 4 Oct 2022 09:27:56 -0700
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269AC10E01F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 16:36:51 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 074816005417;
+ Tue,  4 Oct 2022 17:36:50 +0100 (WEST)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id j8yPc4mpqb_j; Tue,  4 Oct 2022 17:36:47 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
+ [IPv6:2001:690:2100:1::b3dd:b9ac])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 0E566600881E;
+ Tue,  4 Oct 2022 17:36:45 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1664901407;
+ bh=DMhcGkQbTq6SDO0SLsiFN4a0xZV0HfX1yyp+AGRsmVo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=fabVcPBNbSXlLC7+WUv5tqiPTOvXo7j6AWxsirSb9ZAAs5TBaofkbX8nH15fURDWi
+ b0YZ/T8CHc5BQt9d0Gp0oe2dJQAshoByDzia6i6beu2KnhknCX6/BpU3VC4jUwwq3Z
+ KzCcthCBp5fPl8PwJtoa0cSOlD5HAnue6jO9lJOo=
+Received: from wslaptop (unknown [IPv6:2001:818:dcb5:dc00:7a88:7f12:8ed8:518d])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id B7304360083;
+ Tue,  4 Oct 2022 17:36:44 +0100 (WEST)
+Date: Tue, 4 Oct 2022 17:37:18 +0100
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/4] dt-bindings: display: Add bindings for JDI LPM102A188A
+Message-ID: <20221004163718.ederwgmvt24kvhms@wslaptop>
+References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
+ <20220929170502.1034040-2-diogo.ivo@tecnico.ulisboa.pt>
+ <efa2f644-0a1d-00f7-970c-f17ceb0cc550@linaro.org>
+ <20221003170634.56jibls3xjxiiulg@wslaptop>
+ <98d3b42d-3f9f-9b6e-8c17-46deae4b4030@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH -next] drm/msm: Remove unused variables 'top'
-Content-Language: en-US
-To: Chen Zhongjin <chenzhongjin@huawei.com>, <linux-kernel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20221010024010.2873633-1-chenzhongjin@huawei.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221010024010.2873633-1-chenzhongjin@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: eTWAbwP9wnza17SGp2NVwyKAzZq0dcIZ
-X-Proofpoint-GUID: eTWAbwP9wnza17SGp2NVwyKAzZq0dcIZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-04_07,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 adultscore=0 clxscore=1011 suspectscore=0 mlxscore=0
- mlxlogscore=999 impostorscore=0 spamscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210040106
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98d3b42d-3f9f-9b6e-8c17-46deae4b4030@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,47 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dmitry.baryshkov@linaro.org, andersson@kernel.org, sean@poorly.run,
- dianders@chromium.org, swboyd@chromium.org
+Cc: devicetree@vger.kernel.org, arnd@arndb.de, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+ diogo.ivo@tecnico.ulisboa.pt, robh+dt@kernel.org, thierry.reding@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, linux-tegra@vger.kernel.org,
+ sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10/9/2022 7:40 PM, Chen Zhongjin wrote:
-> 'commit 1e5df24b996c ("drm/msm/dpu: drop length from struct dpu_hw_blk_reg_map")'
-> 'commit 9403f9a42c88 ("drm/msm/dpu: merge base_off with blk_off in struct dpu_hw_blk_reg_map")'
-> These commits had merged hw.blk_off and hw.blk_off to mdp.
-> So we don't need to get dpu_hw_mdp in dpu_kms_mdp_snapshot() now.
+On Tue, Oct 04, 2022 at 01:05:04PM +0200, Krzysztof Kozlowski wrote:
+> On 03/10/2022 19:06, Diogo Ivo wrote:
+> > On Fri, Sep 30, 2022 at 12:49:31PM +0200, Krzysztof Kozlowski wrote:
+> >> Isn't touchscreen a separate (input) device?
+> > 
+> > Hello, thank you for the feedback.
+> > 
+> > According to the downstream kernel's log, it seems like the panel and
+> > the touchscreen controller are considered to be embedded in the same unit
+> > (for example in [1]), 
 > 
-> Since there is no code using 'top' in this function. Remove it.
+> Downstream kernel is not a proof of proper description of hardware. If
+> downstream says orange is an apple, does it mean orange is really an
+> apple? No... Downstream creates a lot of junk, hacks and workarounds.
+
+After some searching (which I should have done sooner, so
+apologies) I came across a teardown of the Pixel C ([1], for completeness),
+which incorporates this panel. Indeed a separate touch controller was found,
+so it seems the downstream kernel threw me off as per your warning.
+
+[1]: https://www.ifixit.com/Teardown/Google+Pixel+C+Teardown/62277 (Step 4)
+
+> > with the touch input being transmitted via HID-over-I2C,
+> > and since I did not find any reset gpio handling in that driver I opted to
+> > include this reset here, unless there is a better way of going about this.
 > 
-> Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
+> Instead it should be in touch screen device.
 
-This has already been fixed with:
+Noted, I will remove it from the binding in the next version. 
 
-https://gitlab.freedesktop.org/drm/msm/-/commit/4bca876458caf7c105ab2ae9d80ff2cc9c60388d
+> Where is the DTS of that device?
 
+The relevant part of the DTS can be found here:
+https://android.googlesource.com/kernel/tegra/+/refs/heads/android-tegra-dragon-3.18-oreo/arch/arm64/boot/dts/tegra/tegra210-smaug.dtsi
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 008e1420e6e5..79e81f1443be 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -902,13 +902,9 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
->   	int i;
->   	struct dpu_kms *dpu_kms;
->   	const struct dpu_mdss_cfg *cat;
-> -	struct dpu_hw_mdp *top;
->   
->   	dpu_kms = to_dpu_kms(kms);
-> -
->   	cat = dpu_kms->catalog;
-> -	top = dpu_kms->hw_mdp;
-> -
->   	pm_runtime_get_sync(&dpu_kms->pdev->dev);
->   
->   	/* dump CTL sub-blocks HW regs info */
+Best regards,
+Diogo
