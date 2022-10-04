@@ -1,56 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8299D5F4BA8
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 00:11:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB27C5F4BBE
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 00:17:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B4F10E031;
-	Tue,  4 Oct 2022 22:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B053D10E1C6;
+	Tue,  4 Oct 2022 22:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C022310E031;
- Tue,  4 Oct 2022 22:11:37 +0000 (UTC)
-Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 5CD8A20088;
- Wed,  5 Oct 2022 00:11:35 +0200 (CEST)
-Date: Wed, 5 Oct 2022 00:11:34 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH 4/5] drm/msm/dpu1: Account for DSC's bits_per_pixel
- having 4 fractional bits
-Message-ID: <20221004221134.roino4u2waawgh6u@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, freedreno@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@linux.ie>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
-References: <20221001190807.358691-1-marijn.suijten@somainline.org>
- <20221001190807.358691-5-marijn.suijten@somainline.org>
- <7f7a5d78-e50f-b6af-bb3e-bbfbc7fa5f75@quicinc.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9002310E1C9
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 22:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664921827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ainQo1jpmboo4R+EhHECAmUqFpH7esI7tM787udSaoo=;
+ b=XGk/TaIb3AtXmdKosG9xYYMU58oASrdTlsPFGc4rGX7Dl5YxLy5sy+Huvba0qvWAuAtuT0
+ a/xrJew5bGulbv7cMKSmsD+nSRJ4mjF74qU6OcXrBTpwHdbO9cW2q/JNzMbzdfjWqQUuhP
+ UmkaN8Y7A0BVMAcNntc4eQHI0OVMgd0=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-386-Gk0jkh9gOgG01p7Oa17Ieg-1; Tue, 04 Oct 2022 18:17:06 -0400
+X-MC-Unique: Gk0jkh9gOgG01p7Oa17Ieg-1
+Received: by mail-il1-f197.google.com with SMTP id
+ g10-20020a056e021e0a00b002f9db676704so5396136ila.14
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 15:17:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ainQo1jpmboo4R+EhHECAmUqFpH7esI7tM787udSaoo=;
+ b=ZYYGnhWihxftWsCxSHC06vDG2G7x/DSAWDHe5X45VgVeksN7WOWvPwzsxn5mp2tBnW
+ Yj/p44Uj6hQtfy5RhsWWi+7xT3H7f6O2bSNeaUuI1BA9ObcChKQsHiSh+YJABs5zFvbo
+ 2drGFKmDcuK2O7bnouKRmi/+eFwR3p111gtmCXEQYqtXzyv9UgpGIUkD74jADFgVQcia
+ BafeFH8D3cX6pABM9pz5fesYN2GbKxM1364C2+MlEf3DXG18rUgYctW0LeILPoEOF5kd
+ Kj5F0MMfsAhp+CHHzU2TZhFDTXrjGe1E/ZRHCf9+sDVFhBTOfht29VyMEWTQaXzsB8W0
+ bQEw==
+X-Gm-Message-State: ACrzQf3KIXm9ZWNPsAgFGVa0Gvzb2O1xEiwDPPmgwZhRT2iTcmHrB0D6
+ exANafkskiRo5yiqJTQaSzmW+FQ0Mqcgb16QdUN76MR02fJMNElcz/f3u6G8AuQEKIpjEb+m6Mc
+ FylU5thnYv8LVHItpWhoFaJV/6DPm
+X-Received: by 2002:a92:d843:0:b0:2f3:5f18:bbe7 with SMTP id
+ h3-20020a92d843000000b002f35f18bbe7mr13192184ilq.108.1664921826116; 
+ Tue, 04 Oct 2022 15:17:06 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4YMyQG/02c/f7DODWxjMlYoeNA29oqF0/AVFUlTJqwmbwrFyaS3U3uX4pbzfHap/HSvU8/3A==
+X-Received: by 2002:a92:d843:0:b0:2f3:5f18:bbe7 with SMTP id
+ h3-20020a92d843000000b002f35f18bbe7mr13192171ilq.108.1664921825889; 
+ Tue, 04 Oct 2022 15:17:05 -0700 (PDT)
+Received: from [10.56.18.1] ([140.209.96.0]) by smtp.gmail.com with ESMTPSA id
+ a13-20020a027a0d000000b0034a6d12aa25sm5650895jac.4.2022.10.04.15.17.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Oct 2022 15:17:05 -0700 (PDT)
+Message-ID: <be291a31-e1a7-2323-f031-750a690b2c07@redhat.com>
+Date: Wed, 5 Oct 2022 00:17:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f7a5d78-e50f-b6af-bb3e-bbfbc7fa5f75@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 09/16] drm/udl: Support DRM hot-unplugging
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ sean@poorly.run, daniel@ffwll.ch
+References: <20220919130408.21486-1-tzimmermann@suse.de>
+ <20220919130408.21486-10-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220919130408.21486-10-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +86,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Alex Deucher <alexander.deucher@amd.com>,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- David Airlie <airlied@linux.ie>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Thomas Zimmermann <tzimmermann@suse.de>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Javier Martinez Canillas <javierm@redhat.com>, phone-devel@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-04 10:03:07, Abhinav Kumar wrote:
+On 9/19/22 15:04, Thomas Zimmermann wrote:
+> Add drm_dev_enter() and drm_dev_exit() to the various modesetting
+> functions that interact with the device. After hot-unplugging the
+> device, these functions will return early. So far, the udl driver
+> relied on USB interfaces to handle unplugging of the device.
 > 
-> 
-> On 10/1/2022 12:08 PM, Marijn Suijten wrote:
-> > According to the comment this DPU register contains the bits per pixel
-> > as a 6.4 fractional value, conveniently matching the contents of
-> > bits_per_pixel in struct drm_dsc_config which also uses 4 fractional
-> > bits.  However, the downstream source this implementation was
-> > copy-pasted from has its bpp field stored _without_ fractional part.
-> > 
-> > This makes the entire convoluted math obsolete as it is impossible to
-> > pull those 4 fractional bits out of thin air, by somehow trying to reuse
-> > the lowest 2 bits of a non-fractional bpp (lsb = bpp % 4??).
-> > 
-> > The rest of the code merely attempts to keep the integer part a multiple
-> > of 4, which is rendered useless thanks to data |= dsc->bits_per_pixel <<
-> > 12; already filling up those bits anyway (but not on downstream).
-> > 
-> > Fixes: c110cfd1753e ("drm/msm/disp/dpu1: Add support for DSC")
-> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
-> Many of this bugs are because the downstream code from which this 
-> implementation was derived wasnt the latest perhaps?
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Perhaps, this code is "identical" to what I'm looking at in some
-downstream 4.14 / 4.19, where the upstream struct for DSC either wasn't
-there or wasn't used.  We have to find and address these bugs one by one
-to make our panels work, and this series gets one platform (sdm845) down
-but has more work pending for others (sm8250 has my current focus).
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Or are you suggesting to "redo" the DSC integration work based on a
-(much) newer display techpack (SDE driver)?
+-- 
+Best regards,
 
-> Earlier, downstream had its own DSC struct maybe leading to this 
-> redundant math but now we have migrated over to use the upstream struct 
-> drm_dsc_config.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-Found the 3-year-old `disp: msm: use upstream dsc config data` commit
-that makes this change.  It carries a similar comment:
-
-    /* integer bpp support only */
-
-The superfluous math was howerver removed earlier, in:
-
-    disp: msm: fix dsc parameters related to 10 bpc 10 bpp
-
-- Marijn
-
-> That being said, this patch LGTM
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
