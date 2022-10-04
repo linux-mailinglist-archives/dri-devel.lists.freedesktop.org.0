@@ -1,51 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657225F411C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 12:53:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B445F415A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 13:05:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C99010E544;
-	Tue,  4 Oct 2022 10:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E21A10E545;
+	Tue,  4 Oct 2022 11:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A0C10E544;
- Tue,  4 Oct 2022 10:53:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664880802; x=1696416802;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=a2wU+GAVDZgGV4Oab4o3rHrgVN9KNV/Qmq6gBDfLcHY=;
- b=UCM0hiOywgeyM9oSGHWq9Zgrg6bhS+WDAHyQxxlBYTp61OoSNlBIMSCH
- RhlgeZgkVs108JczbNhPqXHcyqTJu/lbGFwQJVCfr7UeGszdIT3dRZ6Yb
- QJdZZCUSiTFPMeg5xGXSj/+/F9hNDixvTp4/hD4P5v/vxGNTFbUP4tsHW
- X5ULzRWJDoQdxbefk4MTr259Fs0DJjJh5zR68KJLDjaagvpL1wF96POBd
- Ir/1TqyO3ilsZIYOVe+Lz1eMIJl/WqoiKkChEvNUyrUQBsKLA7kFt2f7w
- fjkN38QqpjsjgWqgORWyQuOLCwxw1zS+ouARuDCk70TNcZMaITWilUmdM w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="302859158"
-X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; d="scan'208";a="302859158"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 03:53:21 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="868958366"
-X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; d="scan'208";a="868958366"
-Received: from pvarla-mobl4.gar.corp.intel.com (HELO localhost)
- ([10.252.39.104])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 03:53:18 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Subject: Re: [PATCH 2/2] drm/i915: remove circ_buf.h includes
-In-Reply-To: <20221004102837.12181-2-jirislaby@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221004102837.12181-1-jirislaby@kernel.org>
- <20221004102837.12181-2-jirislaby@kernel.org>
-Date: Tue, 04 Oct 2022 13:53:15 +0300
-Message-ID: <87k05fuag4.fsf@intel.com>
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 264E410E545
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 11:05:08 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id d18so7541186lfb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 04:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=CdB5pNPn1z3hOORutMayY9OylE9bDXafftjb5ZY85Ls=;
+ b=Aicc3p/LBIP8Hd7tOw2WCIqknBYo352b1b1KQPR9O/IjkKO71/O57c7Mz4gv7Ats4F
+ 6Dq02RpB3MiBwI6H5tolRswKTCzujMlCDphrtPw3DoCBFbLUcSSMhbaFbj8KqUECeEyB
+ ZZb0FdgYEr1F/SR58Kf5vl7t1BDV+Sq4E+kQonxwwhbrOiQ1wa5YuKEWSEu0hG657lkg
+ Q5bwbVNQs2oqNWPcYE1LEglqVVxrN/RzJjVRdunJYo7teb7yhI3OExHJZPdd6C3F2yZ4
+ GU+t8aWxSjNcxC7osUORq7KOsKR8G6In8RWM8yOxr0rEBPRdD1oZQxMWBZUqftHV/+CQ
+ FhkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=CdB5pNPn1z3hOORutMayY9OylE9bDXafftjb5ZY85Ls=;
+ b=QaRjBxrP2jolwYoaFVDaaOPg2ySA2kKUl+aPkVda6m5OhE7Yqi6Jr+1utnYjROeOw2
+ 6c344bMzT9zcqMMlJEAA0duJnlejERO6f6gLvoh+gLAyyuC1X67r4VSS9acoaXgGf1JX
+ kuAzDMKIP0NHGjVetHy3y6zkUIze55XImaIKgmRPezFgi0IXwRtbeWOk9dxhFo4bHhNk
+ oushTHJpaPLQjxo0plfAT4Ubq+aFHXUnRfxGFDKzuF7KfFnnsLvX78STITJJ3/paXPOy
+ LUmVF3uY9008Yi6UZNxOQdssqFkrQoOQeE2a0lEihCL+2vHjLLZ9HDsnHqr80kOD2gvB
+ hptg==
+X-Gm-Message-State: ACrzQf34bvsbbToZQUz8EftgqLgt1nRtZWhMrOojYnWfNJXyqne/SLXY
+ 1HGemfwC5ANaHSAvQNeTKi+3ZA==
+X-Google-Smtp-Source: AMsMyM6qbKEnyaJKurccIDdstvhYg0/dHAN3kIdwHg1wwhfHgZh++ybgBnDtI2SIdmUXvVbaaM5x1w==
+X-Received: by 2002:a05:6512:3a8b:b0:4a2:515e:eb51 with SMTP id
+ q11-20020a0565123a8b00b004a2515eeb51mr1098564lfu.540.1664881506353; 
+ Tue, 04 Oct 2022 04:05:06 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ p18-20020a2eb992000000b0026c47426cd0sm1177909ljp.140.2022.10.04.04.05.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Oct 2022 04:05:05 -0700 (PDT)
+Message-ID: <98d3b42d-3f9f-9b6e-8c17-46deae4b4030@linaro.org>
+Date: Tue, 4 Oct 2022 13:05:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH 1/4] dt-bindings: display: Add bindings for JDI LPM102A188A
+Content-Language: en-US
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
+ <20220929170502.1034040-2-diogo.ivo@tecnico.ulisboa.pt>
+ <efa2f644-0a1d-00f7-970c-f17ceb0cc550@linaro.org>
+ <20221003170634.56jibls3xjxiiulg@wslaptop>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221003170634.56jibls3xjxiiulg@wslaptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,59 +77,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
+Cc: devicetree@vger.kernel.org, arnd@arndb.de, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, robh+dt@kernel.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-tegra@vger.kernel.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 04 Oct 2022, "Jiri Slaby (SUSE)" <jirislaby@kernel.org> wrote:
-> The last user of macros from that include was removed in 2018 by the
-> commit below.
->
-> Fixes: 6cc42152b02b ("drm/i915: Remove support for legacy debugfs crc interface")
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+On 03/10/2022 19:06, Diogo Ivo wrote:
+> On Fri, Sep 30, 2022 at 12:49:31PM +0200, Krzysztof Kozlowski wrote:
+>>> +  ts-reset-gpios:
+>>> +    maxItems: 1
+>>> +    description: |
+>>> +      Specifier for a GPIO connected to the touchscreen reset control signal.
+>>> +      The reset signal is active low.
+>>
+>> Isn't touchscreen a separate (input) device?
+> 
+> Hello, thank you for the feedback.
+> 
+> According to the downstream kernel's log, it seems like the panel and
+> the touchscreen controller are considered to be embedded in the same unit
+> (for example in [1]), 
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Downstream kernel is not a proof of proper description of hardware. If
+downstream says orange is an apple, does it mean orange is really an
+apple? No... Downstream creates a lot of junk, hacks and workarounds.
 
-> ---
->  drivers/gpu/drm/i915/display/intel_pipe_crc.c | 1 -
->  drivers/gpu/drm/i915/i915_irq.c               | 1 -
->  2 files changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_pipe_crc.c b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-> index 8ac263f471be..9070935b0443 100644
-> --- a/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-> @@ -24,7 +24,6 @@
->   *
->   */
->  
-> -#include <linux/circ_buf.h>
->  #include <linux/ctype.h>
->  #include <linux/debugfs.h>
->  #include <linux/seq_file.h>
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index 86a42d9e8041..09d728b34a47 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -28,7 +28,6 @@
->  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
-> -#include <linux/circ_buf.h>
->  #include <linux/slab.h>
->  #include <linux/sysrq.h>
+> with the touch input being transmitted via HID-over-I2C,
+> and since I did not find any reset gpio handling in that driver I opted to
+> include this reset here, unless there is a better way of going about this.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Instead it should be in touch screen device.
+
+> 
+> Best regards,
+> 
+> Diogo
+> 
+> [1]: https://android.googlesource.com/kernel/tegra/+/bca61c34db9f72113af058f53eeb9fbd5e69a1d0
+
+Where is the DTS of that device?
+
+Best regards,
+Krzysztof
+
