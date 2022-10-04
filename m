@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D4C5F3B94
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 05:06:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 482B35F3C32
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 06:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0E810E415;
-	Tue,  4 Oct 2022 03:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99CF010E430;
+	Tue,  4 Oct 2022 04:43:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC7B10E412
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 03:06:05 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MhMzG5dmtz4wgr;
- Tue,  4 Oct 2022 14:06:02 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1664852764;
- bh=KaoAdFRv76b7rRGW35lgp7SYKID3xoN5gkoVTMtSlRc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LdhbgaLGFGjeJ9Paa6YlOKqyBJA7D/wyBWT0hd5TqpL9mE6SzbKU2RQPZ9izmMJ77
- R2kNrwnBbXVaW5z669jBZqbqS2ylhn6C3HroymogBFqiAWtu9EMN/oJ2Hv25fiVGQF
- VCF/GHqflkMJw7S6f7e5v6Mw1xT+DLSoSeUuN11QJ4bwObdWNftsAsQE6crioJgRSb
- Fr5IrYYHRfGSEjV961+uHB1NMzlrIR191UIrR+SOOrxb0CxLLnMgRVb1GIeNw6YyQ4
- F5v7V7ba/YzkauELSP1XGhrwl67SB42S5r89+xGZPvhiUkbRR1/KrdWwbDoMNDKNmc
- LHJTB+kGkP7Nw==
-Date: Tue, 4 Oct 2022 14:05:58 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: David Airlie <airlied@redhat.com>
-Subject: Re: linux-next: build failure after merge of the drm tree
-Message-ID: <20221004140558.64f59f2c@canb.auug.org.au>
-In-Reply-To: <CAMwc25oshRcJBoCT70B+b42bh5sPqgyoHuBx6K6ZLrwBMHnJzw@mail.gmail.com>
-References: <20220930105434.111407-1-broonie@kernel.org>
- <20221004132047.435d42db@canb.auug.org.au>
- <CAMwc25oshRcJBoCT70B+b42bh5sPqgyoHuBx6K6ZLrwBMHnJzw@mail.gmail.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3DBE10E430;
+ Tue,  4 Oct 2022 04:43:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B9327B81243;
+ Tue,  4 Oct 2022 04:43:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AECE7C433C1;
+ Tue,  4 Oct 2022 04:43:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664858583;
+ bh=eYy7EY3wMGZQPeArL+2hroT5fu2zAsiPf6zlIP9+Gm0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LwErs2ts4afxfSLyft8B10Lg3CRv3yfwGdn0RW2OozMWrmg6HpA9ebRxLny+aKKNl
+ ojMXD2JpInZesbJ5C5dH6v8X5akzAA/PjKH29ojszQdp4omrh4g9jD8HIkv6lVIx6o
+ htDoicY1k3fY3qPJ8ieSkRUnT0gitArCGM71VhiHUHHTn1cJB9DQ30yxOM9LhMPvXu
+ uAOTAWNlYUfxhGG3pg+o94/mxZBf2EBaVpfPMmIb9k6XY0egzYdYhqZPDxd0S8YLEs
+ fdlv5dGGUhf24B0/I15ZuweoCf4kZifJzlhds7tyC65N6caF0T1wCIcK82HzKarQbK
+ fIEzbrfEwVgOw==
+Date: Tue, 4 Oct 2022 10:12:58 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [PATCH 0/5] drm: Fix math issues in MSM DSC implementation
+Message-ID: <Yzu50ly1AxZwmyvi@matsya>
+References: <20221001190807.358691-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/zn3cNZXJ4akLAJ9548KNlKz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221001190807.358691-1-marijn.suijten@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,94 +52,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, broonie@kernel.org,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@linux.ie>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, phone-devel@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/zn3cNZXJ4akLAJ9548KNlKz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 01-10-22, 21:08, Marijn Suijten wrote:
+> Various removals of complex yet unnecessary math, fixing all uses of
+> drm_dsc_config::bits_per_pixel to deal with the fact that this field
+> includes four fractional bits, and finally an approach for dealing with
+> dsi_host setting negative values in range_bpg_offset, resulting in
+> overflow inside drm_dsc_pps_payload_pack().
+> 
+> Note that updating the static bpg_offset array to limit the size of
+> these negative values to 6 bits changes what would be written to the DPU
+> hardware at register(s) DSC_RANGE_BPG_OFFSET, hence the choice has been
+> made to cover up for this while packing the value into a smaller field
+> instead.
 
-Hi Dave,
+Thanks for fixing these. I dont have my pixel3 availble but changes lgtm
 
-On Tue, 4 Oct 2022 12:24:37 +1000 David Airlie <airlied@redhat.com> wrote:
->
-> On Tue, Oct 4, 2022 at 12:21 PM Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
-> >
-> > On Fri, 30 Sep 2022 11:54:34 +0100 broonie@kernel.org wrote: =20
-> > >
-> > > After merging the drm tree, today's linux-next build (x86_64
-> > > allmodconfig) failed like this:
-> > >
-> > > /tmp/next/build/drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stre=
-am.c: In function 'dc_stream_remove_writeback':
-> > > /tmp/next/build/drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stre=
-am.c:527:55: error: array subscript [0, 0] is outside array bounds of 'stru=
-ct dc_writeback_info[1]' [-Werror=3Darray-bounds]
-> > >   527 |     stream->writeback_info[j] =3D stream->writeback_info[i];
-> > >       |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~
-> > > cc1: all warnings being treated as errors
-> > >
-> > > Caused by
-> > >
-> > >     5d8c3e836fc224 ("drm/amd/display: fix array-bounds error in dc_st=
-ream_remove_writeback()")
-> > >
-> > > I have reverted that commit for today. =20
-> >
-> > I am still getting this failure.  The full error is:
-> >
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function =
-'dc_stream_remove_writeback':
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error=
-: array subscript [0, 0] is outside array bounds of 'struct dc_writeback_in=
-fo[1]' [-Werror=3Darray-bounds]
-> >   527 |                                 stream->writeback_info[j] =3D s=
-tream->writeback_info[i];
-> >       |                                                             ~~~=
-~~~~~~~~~~~~~~~~~~~^~~
-> > In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:126=
-9,
-> >                  from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core=
-_types.h:29,
-> >                  from drivers/gpu/drm/amd/amdgpu/../display/dc/basics/d=
-c_common.h:29,
-> >                  from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_=
-stream.c:27:
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: whil=
-e referencing 'writeback_info'
-> >   241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
-> >       |                                  ^~~~~~~~~~~~~~ =20
->=20
-> I'm not seeing it here, what gcc is this with?
+Reviewed-by: Vinod Koul <vkoul@kernel.org>
 
-I am using an x86_64 cross compiler hosted on ppc64le - gcc v11.2.0 (on
-Debian).
+> Altogether this series is responsible for solving _all_ Display Stream
+> Compression issues and artifacts on the Sony Tama (sdm845) Akatsuki
+> smartphone (2880x1440p).
 
---=20
-Cheers,
-Stephen Rothwell
+Does it need two dsi lanes?
 
---Sig_/zn3cNZXJ4akLAJ9548KNlKz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmM7oxYACgkQAVBC80lX
-0GxCgwgAirX4hMjmK8WlBWOZCmyEx6ZfWt3FpSnRNI5RuL5GOSP/n7YCwjV7W4D/
-i9qtIOBy/d7DUc1wGOm0zzmVFxA7gTTVbDzVIR/HM8Ua+Z0VLsaX4HtNpqnRQKiH
-7YCTkzet6ZS5IuryLx+TGtdPdNvx+3U6b/alD1451o1D+gQAfiSMHBqEx0JFTvBE
-RMAAvce1RvIoKE2QMcjllgdUQOkHda2r0J2VChv6anK2WeLcfbGD0YFgvQP7B4P/
-5A09YflWT4c5/aToSwPpRD2wxpgRand7UB9D/1ces+R0aF1zH1Bi0HfNIezgcm8M
-qI1v4Xquw6YyBXKXfObTIj2bRyG/Rg==
-=jndg
------END PGP SIGNATURE-----
-
---Sig_/zn3cNZXJ4akLAJ9548KNlKz--
+-- 
+~Vinod
