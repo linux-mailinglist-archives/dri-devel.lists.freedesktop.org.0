@@ -2,107 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F115F4BEE
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 00:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FC45F4BFB
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 00:35:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F14B10E1F8;
-	Tue,  4 Oct 2022 22:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825EE10E101;
+	Tue,  4 Oct 2022 22:35:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10FD910E0A8;
- Tue,  4 Oct 2022 22:31:22 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 294MRZED022237;
- Tue, 4 Oct 2022 22:31:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=UGLXDdeB7SNoXJnKYZwjp/y/7hp5GEoXOcW+DWQ4dwA=;
- b=nNrqmyFM7u3XqB9hwfVH4nNesu8JdNjgVDr3fNP16gxgroQHXE6nX8RoQZoG8Azx3Vwd
- QlQN1Bigkxnb1/NPkuZYPgvBGeJrdSyFvNQFp7s49zL3Gpm5cBQC6JLimT6U6pAKR6wB
- oB2zG9Nh48MDsR6aTPj49aN31M6cbGVfE7B0A7TDhfGyrKHpQwVbdJ56diXWrWrssYP3
- AMH06lJLu1LH5qH23q5oAuWK3YtKmqdJZ5eBL7MpAiDtHrI8qwrU6pIwHhzxbVmEwIm1
- 8XeK8fn2bocFymesorrESTr3sOI+g23U1+5T/DoWoxzihI0M2o1mdrnVAv0SnaNVj0m+ sw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k0rf40j7w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Oct 2022 22:31:16 +0000
-Received: from pps.filterd (NALASPPMTA02.qualcomm.com [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 294MUDuL010823; 
- Tue, 4 Oct 2022 22:31:15 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 3jxemkmmu9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Oct 2022 22:31:15 +0000
-Received: from NALASPPMTA02.qualcomm.com (NALASPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 294MVFv9011565;
- Tue, 4 Oct 2022 22:31:15 GMT
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 294MVF4r011564
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Oct 2022 22:31:15 +0000
-Received: from [10.38.243.69] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 4 Oct 2022
- 15:31:12 -0700
-Message-ID: <1a5ed43e-914e-079d-96bf-c9e3912a9473@quicinc.com>
-Date: Tue, 4 Oct 2022 15:31:10 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 5/5] drm/dsc: Prevent negative BPG offsets from shadowing
- adjacent bitfields
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- <phone-devel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, <~postmarketos/upstreaming@lists.sr.ht>,
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE8910E0A8
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 22:35:08 +0000 (UTC)
+Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
+ [94.209.172.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 0D8DE3F3BC;
+ Wed,  5 Oct 2022 00:35:06 +0200 (CEST)
+Date: Wed, 5 Oct 2022 00:35:04 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 3/5] drm/msm/dsi: Account for DSC's bits_per_pixel having
+ 4 fractional bits
+Message-ID: <20221004223504.vlfmxerdv47tlkdu@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
  Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Sean Paul
- <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>, Javier Martinez
- Canillas <javierm@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Douglas Anderson <dianders@chromium.org>, Vladimir Lypak
- <vladimir.lypak@gmail.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- Lyude Paul <lyude@redhat.com>
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Marek Vasut <marex@denx.de>
 References: <20221001190807.358691-1-marijn.suijten@somainline.org>
- <20221001190807.358691-6-marijn.suijten@somainline.org>
- <55d7e20b-79cd-ece6-b643-8b542beb7474@quicinc.com>
- <20221004215745.zdfvulqx4exlujgk@SoMainline.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221004215745.zdfvulqx4exlujgk@SoMainline.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: wx_SAnp-_Tvfow-WM0yEoh2sQr1s_12h
-X-Proofpoint-ORIG-GUID: wx_SAnp-_Tvfow-WM0yEoh2sQr1s_12h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-04_09,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- spamscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210040145
+ <20221001190807.358691-4-marijn.suijten@somainline.org>
+ <CAA8EJppYJ-PYCsaKn=sGDpnJJdW2QBx=MOqUr6qzY0bAZtpGxA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJppYJ-PYCsaKn=sGDpnJJdW2QBx=MOqUr6qzY0bAZtpGxA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,118 +64,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Marek Vasut <marex@denx.de>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10/4/2022 2:57 PM, Marijn Suijten wrote:
-> On 2022-10-04 13:22:25, Abhinav Kumar wrote:
->>
->> On 10/1/2022 12:08 PM, Marijn Suijten wrote:
->>> msm's dsi_host specifies negative BPG offsets which fill the full 8 bits
->>> of a char thanks to two's complement: this however results in those bits
->>> bleeding into the next parameter when the field is only expected to
->>> contain 6-bit wide values.
->>> As a consequence random slices appear corrupted on-screen (tested on a
->>> Sony Tama Akatsuki device with sdm845).
->>>
->>> Use AND operators to limit all values that constitute the RC Range
->>> parameter fields to their expected size.
->>>
->>> Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
->>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
->>> ---
->>>    drivers/gpu/drm/display/drm_dsc_helper.c | 6 +++---
->>>    1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
->>> index c869c6e51e2b..2e7ef242685d 100644
->>> --- a/drivers/gpu/drm/display/drm_dsc_helper.c
->>> +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
->>> @@ -243,11 +243,11 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
->>>    	 */
->>>    	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
->>>    		pps_payload->rc_range_parameters[i] =
->>> -			cpu_to_be16((dsc_cfg->rc_range_params[i].range_min_qp <<
->>> +			cpu_to_be16(((dsc_cfg->rc_range_params[i].range_min_qp & 0x1f) <<
->>>    				     DSC_PPS_RC_RANGE_MINQP_SHIFT) |
->>> -				    (dsc_cfg->rc_range_params[i].range_max_qp <<
->>> +				    ((dsc_cfg->rc_range_params[i].range_max_qp & 0x1f) <<
->>>    				     DSC_PPS_RC_RANGE_MAXQP_SHIFT) |
->>> -				    (dsc_cfg->rc_range_params[i].range_bpg_offset));
->>> +				    (dsc_cfg->rc_range_params[i].range_bpg_offset & 0x3f));
->>>    	}
->>>    
->>
->> Looking at some examples of this for other vendors, they have managed to
->> limit the value to 6 bits in their drivers:
->>
->> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/i915/display/intel_vdsc.c#L532
->>
->> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/amd/display/dc/dsc/rc_calc_dpi.c#L87
->>
->> Perhaps, msm should do the same thing instead of the helper change.
+On 2022-10-04 17:45:50, Dmitry Baryshkov wrote:
+> On Sat, 1 Oct 2022 at 22:08, Marijn Suijten
+> <marijn.suijten@somainline.org> wrote:
+> [..]
+> > -       bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
+> > +       bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * bpp, 8);
 > 
-> Thanks, I should have done my due-diligence and look up how other
-> drivers dealt with this, but wasn't immediately expecting negative
-> values elsewhere.
 > 
-> Alas, as explained in the cover letter I opted to perform the masking in
-> the PPS packing code as the DSC block code also reads these values, and
-> would suddenly write 6-bit intead of 8-bit values to the
-> DSC_RANGE_BPG_OFFSET registers.  Quick testing on the mentioned sdm845
-> platform shows no regressions, but I'm not sure if that's safe to rely
-> on?
+> bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8 * 16); ?
 
-I looked up the MDP_DSC_0_RANGE_BPG_OFFSET_* registers.
-They take only a 6-bit value according to the SW documentation ( bits 5:0 )
+Not necessarily a fan of this, it "hides" the fact that we are dealing
+with 4 fractional bits (1/16th precision, it is correct though); but
+since this is the only use of `bpp` I can change it and document this
+fact wiht a comment on top (including referencing the validation pointed
+out in dsi_populate_dsc_params()).
 
-It was always expecting only a 6-bit value and not 8.
+Alternatively we can inline the `>> 4` here?
 
-So this change is safe.
-
+> >
+> >         dsc->slice_chunk_size = bytes_in_slice;
+> >
+> > @@ -913,6 +918,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+> >         u32 va_end = va_start + mode->vdisplay;
+> >         u32 hdisplay = mode->hdisplay;
+> >         u32 wc;
+> > +       int ret;
+> >
+> >         DBG("");
+> >
+> > @@ -948,7 +954,9 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+> >                 /* we do the calculations for dsc parameters here so that
+> >                  * panel can use these parameters
+> >                  */
+> > -               dsi_populate_dsc_params(dsc);
+> > +               ret = dsi_populate_dsc_params(dsc);
+> > +               if (ret)
+> > +                       return;
+> >
+> >                 /* Divide the display by 3 but keep back/font porch and
+> >                  * pulse width same
+> > @@ -1229,6 +1237,10 @@ static int dsi_cmd_dma_add(struct msm_dsi_host *msm_host,
+> >         if (packet.size < len)
+> >                 memset(data + packet.size, 0xff, len - packet.size);
+> >
+> > +       if (msg->type == MIPI_DSI_PICTURE_PARAMETER_SET)
+> > +               print_hex_dump(KERN_DEBUG, "ALL:", DUMP_PREFIX_NONE,
+> > +                               16, 1, data, len, false);
+> > +
+> >         if (cfg_hnd->ops->tx_buf_put)
+> >                 cfg_hnd->ops->tx_buf_put(msm_host);
+> >
+> > @@ -1786,6 +1798,12 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+> >         int data;
+> >         int final_value, final_scale;
+> >         int i;
+> > +       int bpp = dsc->bits_per_pixel >> 4;
+> > +
+> > +       if (dsc->bits_per_pixel & 0xf) {
+> > +               pr_err("DSI does not support fractional bits_per_pixel\n");
+> > +               return -EINVAL;
+> > +       }
+> >
+> >         dsc->rc_model_size = 8192;
+> >         dsc->first_line_bpg_offset = 12;
+> > @@ -1807,7 +1825,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+> >         }
+> >
+> >         dsc->initial_offset = 6144; /* Not bpp 12 */
+> > -       if (dsc->bits_per_pixel != 8)
+> > +       if (bpp != 8)
+> >                 dsc->initial_offset = 2048;     /* bpp = 12 */
+> >
+> >         mux_words_size = 48;            /* bpc == 8/10 */
+> > @@ -1830,16 +1848,16 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+> >          * params are calculated
+> >          */
+> >         groups_per_line = DIV_ROUND_UP(dsc->slice_width, 3);
+> > -       dsc->slice_chunk_size = dsc->slice_width * dsc->bits_per_pixel / 8;
+> > -       if ((dsc->slice_width * dsc->bits_per_pixel) % 8)
+> > +       dsc->slice_chunk_size = dsc->slice_width * bpp / 8;
+> > +       if ((dsc->slice_width * bpp) % 8)
 > 
->> If you want to move to helper, other drivers need to be changed too to
->> remove duplicate & 0x3f.
+> One can use fixed point math here too:
 > 
-> Sure, we only have to confirm whether those drivers also read back the
-> value(s) in rc_range_params, and expect / allow this to be 8 instead of
-> 6 bits.
+> dsc->slice_chunk_size = (dsc->slice_width * dsc->bits_per_pixel  + 8 *
+> 16 - 1)/ (8 * 16);
+
+Good catch, this is effectively a DIV_ROUND_UP() that we happened to
+call bytes_in_slice above...
+
+Shall I tackle this in the same patch, or insert another cleanup patch?
+
+In fact dsi_populate_dsc_params() is called first (this comment),
+followed by dsi_update_dsc_timing(), meaning that slice_chunk_size is
+already provided and shouldn't be recomputed.
+
+> >                 dsc->slice_chunk_size++;
+> >
+> >         /* rbs-min */
+> >         min_rate_buffer_size =  dsc->rc_model_size - dsc->initial_offset +
+> > -                               dsc->initial_xmit_delay * dsc->bits_per_pixel +
+> > +                               dsc->initial_xmit_delay * bpp +
+> >                                 groups_per_line * dsc->first_line_bpg_offset;
+> >
+> > -       hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, dsc->bits_per_pixel);
+> > +       hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, bpp);
+> >
+> >         dsc->initial_dec_delay = hrd_delay - dsc->initial_xmit_delay;
+> >
+> > @@ -1862,7 +1880,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+> >         data = 2048 * (dsc->rc_model_size - dsc->initial_offset + num_extra_mux_bits);
+> >         dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
+> >
+> > -       target_bpp_x16 = dsc->bits_per_pixel * 16;
+> > +       target_bpp_x16 = bpp * 16;
+> >
+> >         data = (dsc->initial_xmit_delay * target_bpp_x16) / 16;
 > 
->> FWIW, this too has already been fixed in the latest downstream driver too.
+> It looks like this can be replaced with the direct multiplication
+> instead, maybe with support for overflow/rounding.
+
+Thanks, Abhinav pointed out the same in patch 1/5 which originally
+cleaned up most - but apparently not all! - of the math here.  I don't
+think this value should ever overlow, nor does this `* 16 / 16` have any
+effect on rounding (that'd be `/ 16 * 16`).
+
+> >         final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
+> > --
+> > 2.37.3
+> >
 > 
-> What is this supposed to mean?  Is there a downstream DPU project that
-> has pending patches needing to be upstreamed?  Or is the downstream SDE,
-> techpack/display, or whatever it is called nowadays, slowly using more
-> DRM structs like drm_dsc_config and this drm_dsc_pps_payload_pack()
-> helper function as pointed out in an earlier mail?
 > 
-
-No, what I meant was, the version of downstream driver based on which 
-the upstream DSC was made seems to be an older version. Downstream 
-drivers keep getting updated and we always keep trying to align with 
-upstream structs.
-
-This is true not just for DSC but even other blocks.
-
-So as part of that effort, we started using struct drm_dsc_config . That 
-change was made on newer chipsets. But the downstream SW on sdm845 based 
-on which the DSC was upstreamed seems like didnt have that. Hence all 
-this redundant math happened.
-
-So this comment was more of a explanation about why this issue happened 
-even though latest downstream didnt have this issue.
-
-> Offtopic: are SDE and DPU growing closer together, hopefully achieving
-> feature parity allowing the SDE project to be dropped in favour of a
-> fully upstreamed DPU driver for day-one out-of-the-box mainline support
-> for new SoCs (as long as work is published and on its way upstream)?
-> 
-
-There is still a lot of gap between SDE and DPU drivers at this point. 
-We keep trying to upstream as many features as possible to minimize the 
-gap but there is still a lot of work to do.
-
-
-> - Marijn
+> -- 
+> With best wishes
+> Dmitry
