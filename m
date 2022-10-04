@@ -2,54 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59915F404D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 11:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345415F407A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 12:00:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8459610E410;
-	Tue,  4 Oct 2022 09:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F7710E1ED;
+	Tue,  4 Oct 2022 10:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D284710E4C8
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 09:51:19 +0000 (UTC)
-Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D0810E1ED
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 10:00:34 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 4972C3F2EB;
- Tue,  4 Oct 2022 11:51:16 +0200 (CEST)
-Date: Tue, 4 Oct 2022 11:51:14 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH 0/5] drm: Fix math issues in MSM DSC implementation
-Message-ID: <20221004095114.tr2gk76epbycflfa@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Vinod Koul <vkoul@kernel.org>, phone-devel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Douglas Anderson <dianders@chromium.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20221001190807.358691-1-marijn.suijten@somainline.org>
- <Yzu50ly1AxZwmyvi@matsya>
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4MhY9V5b2yz4xFv;
+ Tue,  4 Oct 2022 21:00:30 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1664877631;
+ bh=0Ci8/uUmOT04hPf5Pe5xj4GFHiksvHxBWHES0kA602s=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Ha4EyGe2tGv5iHR/nXG4182TK2vfcWT3BQ88cHE9e6opq9Ge9UNmYIJVkCEoeQoCH
+ 7cB/kPHNCQdsy/GL2cBJr9vR3LJXFY79gCTKWFbEVfOAvD4yd6/O6/5uqnkTvengfU
+ 6j4dcFbiMbNg923l2r1KonYf85Q5SqfECvT3eC8KFyylEFWrla0NEbwJ3vE8TfTTF6
+ 8tWYcPIE9xB/Fy8p1h4UQOQGz/Y+1s9VM8xTuzsSegf/szjKbwzwW5KUt/aSpxcmwJ
+ HzGtyv7zP09J1Nrvb7MhzfgbG5G5eARTmn7IHbacotQKZKhcz/L4kfHqP34mp7gkGE
+ DKIkBi11P1Wbw==
+Date: Tue, 4 Oct 2022 21:00:29 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Andrew Morton <akpm@linux-foundation.org>, Dave Airlie <airlied@redhat.com>
+Subject: linux-next: manual merge of the mm tree with the drm tree
+Message-ID: <20221004210029.7412fcfd@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yzu50ly1AxZwmyvi@matsya>
+Content-Type: multipart/signed; boundary="Sig_/=/oXt9/ITx=mXJPGED4dsZU";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,64 +48,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@linux.ie>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>, phone-devel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: Philip Yang <Philip.Yang@amd.com>, Alistair Popple <apopple@nvidia.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-04 10:12:58, Vinod Koul wrote:
-> On 01-10-22, 21:08, Marijn Suijten wrote:
-> > Various removals of complex yet unnecessary math, fixing all uses of
-> > drm_dsc_config::bits_per_pixel to deal with the fact that this field
-> > includes four fractional bits, and finally an approach for dealing with
-> > dsi_host setting negative values in range_bpg_offset, resulting in
-> > overflow inside drm_dsc_pps_payload_pack().
-> > 
-> > Note that updating the static bpg_offset array to limit the size of
-> > these negative values to 6 bits changes what would be written to the DPU
-> > hardware at register(s) DSC_RANGE_BPG_OFFSET, hence the choice has been
-> > made to cover up for this while packing the value into a smaller field
-> > instead.
-> 
-> Thanks for fixing these. I dont have my pixel3 availble but changes lgtm
-> 
-> Reviewed-by: Vinod Koul <vkoul@kernel.org>
+--Sig_/=/oXt9/ITx=mXJPGED4dsZU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks; any comment on the self-review I sent in for patch 3 and 5?
+Hi all,
 
-> > Altogether this series is responsible for solving _all_ Display Stream
-> > Compression issues and artifacts on the Sony Tama (sdm845) Akatsuki
-> > smartphone (2880x1440p).
-> 
-> Does it need two dsi lanes?
+Today's linux-next merge of the mm tree got a conflict in:
 
-This panel has the default of four dsi data lanes enabled:
+  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
 
-https://github.com/sonyxperiadev/kernel/blob/f956fbd9a234033bd18234d456a2c32c126b38f3/arch/arm64/boot/dts/qcom/dsi-panel-somc-akatsuki.dtsi#L74-L77
+between commit:
 
-Unless you are referring to dual-dsi (ctrl/phy); this panel doesn't have
-a dual connection, but I do have devices on sm8350/sm8450 with a
-"4k"@120Hz display that have this, in case you want it to be tested?
+  3a876060892b ("drm/amdkfd: Migrate in CPU page fault use current mm")
 
-However, for the time being I'm focussing on a similar panel (4 data
-lanes, single DSI ctrl/phy) on sm8250 which keeps showing corrupted /
-garbled data and resulting in ping-pong timeouts.  I haven't yet
-confirmed if this is due to the "integration" of the pingpong block with
-the intf (since relevant registers and interrupts still seem to be
-accessible), a mismatching resource topology, or a misconfiguration
-elswhere.  Relevant panel dts if you're interested:
+from the drm tree and commit:
 
-https://github.com/sonyxperiadev/kernel/blob/e70161ec43b147b0b02578d05ab64552fd2df2cd/arch/arm64/boot/dts/somc/dsi-panel-sofef03_m-fhd_plus.dtsi
+  c5f45c35acc4 ("mm/memory.c: fix race when faulting a device private page")
 
-- Marijn
+from the mm tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+index c70c026c9a93,97a684568ae0..000000000000
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@@ -949,11 -940,11 +951,12 @@@ static vm_fault_t svm_migrate_to_ram(st
+  		goto out_unlock_prange;
+  	}
+ =20
+ -	r =3D svm_migrate_vram_to_ram(prange, mm, KFD_MIGRATE_TRIGGER_PAGEFAULT_=
+CPU,
+ -				vmf->page);
+ +	r =3D svm_migrate_vram_to_ram(prange, vmf->vma->vm_mm,
+- 				    KFD_MIGRATE_TRIGGER_PAGEFAULT_CPU);
+++				    KFD_MIGRATE_TRIGGER_PAGEFAULT_CPU,
+++				    vmf->page);
+  	if (r)
+ -		pr_debug("failed %d migrate 0x%p [0x%lx 0x%lx] to ram\n", r,
+ -			 prange, prange->start, prange->last);
+ +		pr_debug("failed %d migrate svms 0x%p range 0x%p [0x%lx 0x%lx]\n",
+ +			 r, prange->svms, prange, prange->start, prange->last);
+ =20
+  	/* xnack on, update mapping on GPUs with ACCESS_IN_PLACE */
+  	if (p->xnack_enabled && parent =3D=3D prange)
+
+--Sig_/=/oXt9/ITx=mXJPGED4dsZU
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmM8BD0ACgkQAVBC80lX
+0GxPywf/W/cftK6RJvXrF/dnFSE2Vpvp4uldszz8RtQxK/maCJ9oH9FqUhVWaQQx
+wjARjFFN+gME4pnYoiZCB5WwFF2TH5ssGaDnw+AhBGzWAzVlVluQdXGj+ceq1mY+
+InPxiPC2Z6FHKO4TgDQYDEbd5pDR+rM4T9DE6X0tiQl7AGSblU2SN93Slly4Rp26
+fTIj9q/RU3jLjb5QqNrRHQ0HOYFxm4z90pgAYZUtx9L6rvVNbFWeZxVPotJIMpmI
+GYRwijrqcSjiqCVBlLggALLVJeh/V1GqS+E1tuHg9OyoRYz71IbWHYl8TfRr2xWR
+HY07184/VizpDow3c0+aLSlBnTvK6w==
+=2syx
+-----END PGP SIGNATURE-----
+
+--Sig_/=/oXt9/ITx=mXJPGED4dsZU--
