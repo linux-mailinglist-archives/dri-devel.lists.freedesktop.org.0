@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8795F3F9A
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 11:29:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B59915F404D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 11:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E045F10E3C5;
-	Tue,  4 Oct 2022 09:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8459610E410;
+	Tue,  4 Oct 2022 09:51:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6C910E3C5;
- Tue,  4 Oct 2022 09:29:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664875785; x=1696411785;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mpf5/q5+Vzo+E1pBNy1Oh/maPG73r4HQ+EJPJ2Tf2oc=;
- b=EiNXy/9PI9xT2519wCPXn41hVXrR92Pa8hsrbqlHAdO9W/M7PTRvnmjZ
- gz9dkUBTa1O4f4mt3q8qTx1STKeU79lfKHrUU7vXixPY575EII0IcTDKW
- icmfRyZlAW5BLDH8ifm2vY6TFhJOQUVJxbaMYo2u99mZKsYp5BELVHpFx
- Eu+2hv0vp6QD8BLM8y+NrWMJy/XSNXUIC8OW+EycQML4zJbB1hRBKs0/N
- yywLuqLzbXVGmUyY70guDaFnM4Ta6Z+v6C1fjG0p18hQT8nvMtkgcPKhH
- +7M4vVWZHXUCkPiFyDsi6CDnWutqXSmSSfIFamjKoTvKOsoMbvMTCOCvB w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="364764939"
-X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; d="scan'208";a="364764939"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 02:29:45 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="749312658"
-X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; d="scan'208";a="749312658"
-Received: from tomfin1x-mobl1.ger.corp.intel.com (HELO [10.213.229.10])
- ([10.213.229.10])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 02:29:44 -0700
-Message-ID: <d83e3b3b-25ee-74cd-b4a3-bee6c567d50a@linux.intel.com>
-Date: Tue, 4 Oct 2022 10:29:42 +0100
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D284710E4C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 09:51:19 +0000 (UTC)
+Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
+ [94.209.172.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 4972C3F2EB;
+ Tue,  4 Oct 2022 11:51:16 +0200 (CEST)
+Date: Tue, 4 Oct 2022 11:51:14 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH 0/5] drm: Fix math issues in MSM DSC implementation
+Message-ID: <20221004095114.tr2gk76epbycflfa@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Koul <vkoul@kernel.org>, phone-devel@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+References: <20221001190807.358691-1-marijn.suijten@somainline.org>
+ <Yzu50ly1AxZwmyvi@matsya>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] drm/i915/pmu: Match frequencies reported by PMU and sysfs
-Content-Language: en-US
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20221003192419.3541088-1-ashutosh.dixit@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20221003192419.3541088-1-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yzu50ly1AxZwmyvi@matsya>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,114 +62,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@linux.ie>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, phone-devel@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 03/10/2022 20:24, Ashutosh Dixit wrote:
-> PMU and sysfs use different wakeref's to "interpret" zero freq. Sysfs uses
-> runtime PM wakeref (see intel_rps_read_punit_req and
-> intel_rps_read_actual_frequency). PMU uses the GT parked/unparked
-> wakeref. In general the GT wakeref is held for less time that the runtime
-> PM wakeref which causes PMU to report a lower average freq than the average
-> freq obtained from sampling sysfs.
+On 2022-10-04 10:12:58, Vinod Koul wrote:
+> On 01-10-22, 21:08, Marijn Suijten wrote:
+> > Various removals of complex yet unnecessary math, fixing all uses of
+> > drm_dsc_config::bits_per_pixel to deal with the fact that this field
+> > includes four fractional bits, and finally an approach for dealing with
+> > dsi_host setting negative values in range_bpg_offset, resulting in
+> > overflow inside drm_dsc_pps_payload_pack().
+> > 
+> > Note that updating the static bpg_offset array to limit the size of
+> > these negative values to 6 bits changes what would be written to the DPU
+> > hardware at register(s) DSC_RANGE_BPG_OFFSET, hence the choice has been
+> > made to cover up for this while packing the value into a smaller field
+> > instead.
 > 
-> To resolve this, use the same freq functions (and wakeref's) in PMU as
-> those used in sysfs.
+> Thanks for fixing these. I dont have my pixel3 availble but changes lgtm
 > 
-> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7025
-> Reported-by: Ashwin Kumar Kulkarni <ashwin.kumar.kulkarni@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> ---
->   drivers/gpu/drm/i915/i915_pmu.c | 27 ++-------------------------
->   1 file changed, 2 insertions(+), 25 deletions(-)
+> Reviewed-by: Vinod Koul <vkoul@kernel.org>
+
+Thanks; any comment on the self-review I sent in for patch 3 and 5?
+
+> > Altogether this series is responsible for solving _all_ Display Stream
+> > Compression issues and artifacts on the Sony Tama (sdm845) Akatsuki
+> > smartphone (2880x1440p).
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-> index 958b37123bf1..eda03f264792 100644
-> --- a/drivers/gpu/drm/i915/i915_pmu.c
-> +++ b/drivers/gpu/drm/i915/i915_pmu.c
-> @@ -371,37 +371,16 @@ static void
->   frequency_sample(struct intel_gt *gt, unsigned int period_ns)
->   {
->   	struct drm_i915_private *i915 = gt->i915;
-> -	struct intel_uncore *uncore = gt->uncore;
->   	struct i915_pmu *pmu = &i915->pmu;
->   	struct intel_rps *rps = &gt->rps;
->   
->   	if (!frequency_sampling_enabled(pmu))
->   		return;
->   
-> -	/* Report 0/0 (actual/requested) frequency while parked. */
-> -	if (!intel_gt_pm_get_if_awake(gt))
-> -		return;
-> -
->   	if (pmu->enable & config_mask(I915_PMU_ACTUAL_FREQUENCY)) {
-> -		u32 val;
-> -
-> -		/*
-> -		 * We take a quick peek here without using forcewake
-> -		 * so that we don't perturb the system under observation
-> -		 * (forcewake => !rc6 => increased power use). We expect
-> -		 * that if the read fails because it is outside of the
-> -		 * mmio power well, then it will return 0 -- in which
-> -		 * case we assume the system is running at the intended
-> -		 * frequency. Fortunately, the read should rarely fail!
-> -		 */
-> -		val = intel_uncore_read_fw(uncore, GEN6_RPSTAT1);
-> -		if (val)
-> -			val = intel_rps_get_cagf(rps, val);
-> -		else
-> -			val = rps->cur_freq;
-> -
->   		add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_ACT],
-> -				intel_gpu_freq(rps, val), period_ns / 1000);
-> +				intel_rps_read_actual_frequency(rps),
-> +				period_ns / 1000);
->   	}
->   
->   	if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQUENCY)) {
+> Does it need two dsi lanes?
 
-What is software tracking of requested frequency showing when GT is 
-parked or runtime suspended? With this change sampling would be outside 
-any such checks so we need to be sure reported value makes sense.
+This panel has the default of four dsi data lanes enabled:
 
-Although more important open is around what is actually correct.
+https://github.com/sonyxperiadev/kernel/blob/f956fbd9a234033bd18234d456a2c32c126b38f3/arch/arm64/boot/dts/qcom/dsi-panel-somc-akatsuki.dtsi#L74-L77
 
-For instance how does the patch affect RC6 and power? I don't know how 
-power management of different blocks is wired up, so personally I would 
-only be able to look at it empirically. In other words what I am asking 
-is this - if we changed from skipping obtaining forcewake even when 
-unparked, to obtaining forcewake if not runtime suspended - what 
-hardware blocks does that power up and how it affects RC6 and power? Can 
-it affect actual frequency or not? (Will "something" power up the clocks 
-just because we will be getting forcewake?)
+Unless you are referring to dual-dsi (ctrl/phy); this panel doesn't have
+a dual connection, but I do have devices on sm8350/sm8450 with a
+"4k"@120Hz display that have this, in case you want it to be tested?
 
-Or maybe question simplified - does 200Hz polling on existing sysfs 
-actual frequency field disturbs the system under some circumstances? 
-(Increases power and decreases RC6.) If it does then that would be a 
-problem. We want a solution which shows the real data, but where the act 
-of monitoring itself does not change it too much. If it doesn't then 
-it's okay.
+However, for the time being I'm focussing on a similar panel (4 data
+lanes, single DSI ctrl/phy) on sm8250 which keeps showing corrupted /
+garbled data and resulting in ping-pong timeouts.  I haven't yet
+confirmed if this is due to the "integration" of the pingpong block with
+the intf (since relevant registers and interrupts still seem to be
+accessible), a mismatching resource topology, or a misconfiguration
+elswhere.  Relevant panel dts if you're interested:
 
-Could you somehow investigate on these topics? Maybe log RAPL GPU power 
-while polling on sysfs, versus getting the actual frequency from the 
-existing PMU implementation and see if that shows anything? Or actually 
-simpler - RAPL GPU power for current PMU intel_gpu_top versus this 
-patch? On idle(-ish) desktop workloads perhaps? Power and frequency 
-graphed for both.
+https://github.com/sonyxperiadev/kernel/blob/e70161ec43b147b0b02578d05ab64552fd2df2cd/arch/arm64/boot/dts/somc/dsi-panel-sofef03_m-fhd_plus.dtsi
 
-Regards,
-
-Tvrtko
-
-> @@ -409,8 +388,6 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
->   				intel_rps_get_requested_frequency(rps),
->   				period_ns / 1000);
->   	}
-> -
-> -	intel_gt_pm_put_async(gt);
->   }
->   
->   static enum hrtimer_restart i915_sample(struct hrtimer *hrtimer)
+- Marijn
