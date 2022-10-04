@@ -1,58 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199B15F45DD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 16:46:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6365F45F1
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 16:53:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7284610E03C;
-	Tue,  4 Oct 2022 14:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 702B610E717;
+	Tue,  4 Oct 2022 14:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDD410E70C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 14:46:02 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id j7so17035073ybb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 07:46:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=9dr7qJ7Qml93GSKT3iv83T/pfmaFSKB83Wj12OdpTQ8=;
- b=BQUx0AnFkzWaEdyMHn06vsVqq+yQguDgxDoorjEzwbCeIhb79FOsXeaumiJird5sbr
- 2g/PeBB9u87eoalbUaukckm53a5qp3qdr5tb27Dbc0Pib/XrQrrbSd+be50cvo4aY8FZ
- bqpZ1QIMsyoCXGebe/HmBUfWDjYnU1huyVBw0DUZgiEN2RA/kMimiTBnPSUHWKNpehEa
- X+N4ebBwrfiOX4Zbph+suwdKVXRHYowi56Bq/I1heGJ3QFnECihqOdBXggwWPe2Sq5rL
- zBwqXVTLPedYXauuUC3MWxR/C3R9UJGcUkb4cFFCFchDZ+7oFMXCfYCV0vG9L/9te7sn
- NNlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=9dr7qJ7Qml93GSKT3iv83T/pfmaFSKB83Wj12OdpTQ8=;
- b=ntbInxWiX6gUE1nKN0JWuCsKVaUQJ2eKzVNe7KS2b4ACDpg+Sv2m/0rvlSJ88l6nAn
- iqF5nwNKEYaNzTVfxNUywePvZNUeqyF2n+zuSGxTUI2kz0CKa4nUpRNJ6iOAQck10WnI
- lc77XYX2KC6vu8gZI4huzpU+7ZjddjkihgdjBAVh6bdYADD66/50gjHPXH7i8aJJl+/G
- phyCwSCNKnT98uFXSI0ircto6kqCpGf+LxdJr0EpuK2ygNwXch6WhPwDIbH1SChBhxyq
- C9iBzF37Psd/4JzX0rpxs9f+n6Xi7Jl5yabVN1LyFj4Q7DXGvMOauPoDvE8E7UuX9vwp
- VO4g==
-X-Gm-Message-State: ACrzQf3TZhvYCMkv7ovzhuF2rjb1dEqwQ7A8oi67jeCtlo+h3pGd/yoU
- oQR0fv0IckCEtWos7Hi1nUWwVfhJmiqlvdPPC7aY0A==
-X-Google-Smtp-Source: AMsMyM4GlEKH++HoB5HPsS9oEYIc89cjO+AgKYwLjkK0bJ21xdnrimtiaSFkoCg2fZuKNZ0WWx6CCLoFq3t7mgRVYEc=
-X-Received: by 2002:a5b:c:0:b0:6bd:f84c:b63e with SMTP id
- a12-20020a5b000c000000b006bdf84cb63emr7242772ybp.275.1664894761093; 
- Tue, 04 Oct 2022 07:46:01 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4728B10E5E5;
+ Tue,  4 Oct 2022 14:53:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BmfvxgLnRdFs5lc8T99POzt94H1XVTSx0aSrxwkg7HvQH0pod/NuiCwLhPDLHj5S4Rojahfzd9AhbtlVnbNJ2/J41+y2ME+phkY+0JJ7bSGVCUYztX9M/duXNW4yAxBUwUhUSpqrCz9r8MsrGyH0ZKlgun+B8A3ytko//Oyf2h41FCUxt9V68e7DgLBqeDUDA3bjSavMqiMdxMLohuN0y9+/V6Ytig0cBjN0Q/ubuHQL20sdFd40iVukm2XC0NszvTEdmkTF5pLM03HeqRmvW9CBN0BOKSCRhY1SLk+0tEngrZMQCAenzxcoTCECmxx32fix2XhT7fmCjD42TAXcIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=crPQ7PmXRwJAsvNU5GJgT++63k2rB78au4d4zlvngLo=;
+ b=L7vPG46wu5BuZ7YfrXuItAnvQzhOiXg8/GFZn7ca0wcyPq0BohduHle8Wod/1+cKlkBH/+utLCwe6ijtp3BsfjZgn+AQuNiEWHGBPEsgKxrhNYTivWf509CrcGMqzGwxh/fyefWYqmIHmS1xzg9TkhYs1le7EN2uXYbd0OdFU3z2d/UKX/BgSKegp01O72bmD/S5mQh1+lg8e5SCM91wFw00yeoqNupo1f2m9SovBknUd976IRgY0tQOyO8hersIh8KLLA1ilnePW3MfubQeg9GPELqnoEjzvQmKWNu49hQhOFZXPgAmNIV5u9bn6tysLYygBWBgGka1kANRH3Gvtg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=crPQ7PmXRwJAsvNU5GJgT++63k2rB78au4d4zlvngLo=;
+ b=SwOWQ5NAIad1EozZwhUTLU15WyZhOQQP4EeaUijP843XO/GtGljvrv9UBjQPMMiV0/9LG6m3aCICneP5vTt/+ZHyakL47MX+LFydcsRfyIliBONLFBySzDFFiHut53TnA14hLNjzLR8NtLekGABbNOJL/XD1pfnuxBcwjsyFtR8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
+ by MN2PR12MB4504.namprd12.prod.outlook.com (2603:10b6:208:24f::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Tue, 4 Oct
+ 2022 14:53:15 +0000
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::588c:ac12:d318:bfee]) by MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::588c:ac12:d318:bfee%7]) with mapi id 15.20.5676.031; Tue, 4 Oct 2022
+ 14:53:15 +0000
+Message-ID: <a80f39a1-6df5-cf4a-10e5-be46db8a778f@amd.com>
+Date: Tue, 4 Oct 2022 10:53:12 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH -next] drm/amd/display: Removed unused variable
+ 'sdp_stream_enable'
+Content-Language: en-US
+To: Dong Chenchen <dongchenchen2@huawei.com>, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20220930063827.1835856-1-dongchenchen2@huawei.com>
+From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
+In-Reply-To: <20220930063827.1835856-1-dongchenchen2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR17CA0001.namprd17.prod.outlook.com
+ (2603:10b6:208:15e::14) To MN2PR12MB2941.namprd12.prod.outlook.com
+ (2603:10b6:208:a9::12)
 MIME-Version: 1.0
-References: <20221001190807.358691-1-marijn.suijten@somainline.org>
- <20221001190807.358691-4-marijn.suijten@somainline.org>
-In-Reply-To: <20221001190807.358691-4-marijn.suijten@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 4 Oct 2022 17:45:50 +0300
-Message-ID: <CAA8EJppYJ-PYCsaKn=sGDpnJJdW2QBx=MOqUr6qzY0bAZtpGxA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] drm/msm/dsi: Account for DSC's bits_per_pixel having
- 4 fractional bits
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB2941:EE_|MN2PR12MB4504:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b1618a3-5604-4d78-e7cd-08daa6182a5b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SVaLxKz5Bh914Mkg8LP8W6Jz9yWZN42iU1KHfVqCVDkUwksNl/OEEm7BL0wXQfiQMiQfrci+NH0XfwvYi/e+wPZPVfb+NSRJB4CGHLlRoXtDLzIckiKxf8VpkwGpYkUefEAAkm9aCuMg5+wv3iRY6UYZMO7uAaUxB522MkhZe9L9erX9JWe2gr374D0imwFGkVSPq0eGN9opQoEisEhaf8KHMbfVpTEghir1N+VvdkZ/WFfn0Lo2pxydXLzm4+pVlnCh4YS1gkuOFt+rPM9iAc/6Ykk5LzOBIYWcFvkMhLhQ97PE2LiT1JBfo7r1yo2IIjX8xsIjA2pn5LTY3eZglC+FENp+fQY4F2zPA/wnMhl6LRkqe+cgVMk9CQuP/YwrUjwwgf8TTnvjJ8dPC5Gjc3jy+yCt+LLuKavNVJAM0Tm0IeymCkJiVgJ7zcMamb6nTxBB6VDDhZn+Zdxh1ah7fYIZyy7achbbk+mOfq7Lgv5HLEdj2CGcDeow98tSwP0YNFYvC5y1vA+D+BZzLcM1hnEEEdFy4/vwPzApH/7/vd+dWglJD6/5kzGpLZN5tGSVD9rdwFE5wuY73OY66P0N96Xh4s5biWFzVh62TZHTZ32tvn/4UfK4HBnW0Kc8OctU+uV/1YP7in5hBoTwn3TKonchGbpHhlbSbSJTEbrA7JtmWOXzKvWSLMALOjhhwRDVpd5dE9Fgwo1Z0hVgQjKVTUmUJVy09l89BW/JCEe/khHvqjxnCFwQrHFwZScpQ6p5kQRfxAHu89BJKtf8Av9VKSoRD6yKPYcGo1Nacv+ycyA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(346002)(376002)(396003)(366004)(136003)(451199015)(8936002)(6506007)(6512007)(53546011)(86362001)(5660300002)(41300700001)(186003)(38100700002)(6666004)(26005)(36756003)(83380400001)(2906002)(2616005)(31696002)(316002)(31686004)(478600001)(6486002)(66556008)(4326008)(66476007)(8676002)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFQ0T1lNTXZWNE1SV0poU0VKZ2I5ZnBkQUtkQWZWVE12b3ArKy9Oa0RtRTJW?=
+ =?utf-8?B?ZUQyS0lWaG1CS3ZyVko0ZDE1Y2ZIT3lRcjFycWZtRWExVzlCSHZMR01jdkE1?=
+ =?utf-8?B?akdFOXZmRmpsNXplbXh4dlJIQzd0VHNFaFY1VlJ0R0FFTzZzMVh5ZU12UVht?=
+ =?utf-8?B?Y0FTLzlvRGVQWTNtLzY2akEySmYrQkZPZ1JHWWNUNTRlU3U4bmFYQmlLRHVM?=
+ =?utf-8?B?cHAya2ZtMnBUQ1Z4SFlubktNYjRtUFdXcy9hYThLTGwwYlA5N3hncFkyTnFa?=
+ =?utf-8?B?NGdRb3dYRHo1ZzdrTkJzTjZLQU1uNzFJbk50UDU2TGVLRU5GUWRDeXYyMUtV?=
+ =?utf-8?B?ZEJNWmhmdXdMbTYrQWpxYXZHK0VUa3cxQ0k0YVRkdklPZlJ6QlBoUnQrbVU0?=
+ =?utf-8?B?bmZibnp5RUVqeTErQjZSZnFNTmFaemhjQzhWTytOQ3p5bnA2c2NvcU1pak5J?=
+ =?utf-8?B?SXVXODBBL2J3NHU0YkhKdkVXSHBFc3pvU2NHSVhneDNWWEV5Vm1RMWRlOVRz?=
+ =?utf-8?B?RFNkZjhYbk5ibTNVZGQ1S0lsc3BCaDd0U3V4ajU4Qm1XUjUxcStkWlllbWMz?=
+ =?utf-8?B?ak9uY3lja00vSHJHK1BvV1Q2SnMyd0IrOWExU205ZjN0RHErTFNJbnFPUVp4?=
+ =?utf-8?B?dlc3NFBHUzEwUUw2Rmh3RDZiNWJRcFY3VUV6dXVtQ0ltVzFRekl0d1BLYnVh?=
+ =?utf-8?B?MGxwNWlYbFFDR1JQZEY2Zm1nd1M1OXVORWRGSnJqbmgraWdFakxhSFJXU3ZJ?=
+ =?utf-8?B?T0c2ZlNmMDdvTFlURlFYQkVreXJFY1JkZGxsUWZIT3orRmQxeUlTQ2k0VVA0?=
+ =?utf-8?B?ajZnc2tHTkFRNmpOK0h6Z1R4UkJxWFhiamIwdTVsN3dFcEVQZytHdmtudGhX?=
+ =?utf-8?B?cG5NdmJaMno5SWNxQkoraU9Xb3k5Y2NyZUxoTFRYaEpvT2RFRXlNcDlIdU5K?=
+ =?utf-8?B?aDdjL2kzanozaUVOTG9DR1hJdUJ5WDZlZWI2OU0zNVhIUkt5clkxUHZBU2wy?=
+ =?utf-8?B?MS84MlRSaEp3UGxHNW5Eei9QNE5KazdPbjBMOUtGalZrc0M3NnRFTCtCVjBC?=
+ =?utf-8?B?TFRjeHlPTVlTd3JBSDVWcFk5YVFrMnE5SlpBY1BDRnVnWlQ4c1kxeEREWXE0?=
+ =?utf-8?B?d0g1RVF5TUlnNzRCemc1MUZGbUowdDdzWVJqMVNybEg2K0RTb1VIQ20rYlB1?=
+ =?utf-8?B?OVR3TWRVc0NLM2FkaG5SMGdsWU9WdjBDWmxWYTBsamlUK1Q4R1BFVW13UGQ1?=
+ =?utf-8?B?blU1UHdKTGdtd2JBTnN0Z0dPWnNRMVRNZW1ndWd2dXl2TzYzZWxxWDJ4cU5S?=
+ =?utf-8?B?QjBvQ01UUWE1ZW1vd2pTUzM2aVVwSmhrOEJYeWdHaEhlTXV4WmV6emEveVU2?=
+ =?utf-8?B?VFk3NEkzL1Q2Vmt6dUNvUXAxdHZOdUVQZ1orNDgyK1NIK0l3Y0hEbitCMURG?=
+ =?utf-8?B?c20xNlIrMHVCSnBrTUdWdy9KYmF1UHllM1h3NEd4RlFxMHU1RnI4c3JjQWJO?=
+ =?utf-8?B?RWU0T2ZTcWFGVFB3VHV3VG1uYndQbmpldHYwZUlYYXNrTjNrUys5RG9NMnhu?=
+ =?utf-8?B?VHc1WHAybVREcENTN3RDNjVKbVYzOXlKZmNMSGdEMGxpMjFhQTVtZVRKZXdZ?=
+ =?utf-8?B?clNFYlM4bUQ4ZE0zNFBsSGp1dmU2K1JnYnJzZXJBdEwvSEJJS1NXY0Q0cElq?=
+ =?utf-8?B?Z3p4ZjBkK1FsUThNYlAxZ0ZDd1VaNENWQU5ENnNiWVZQd1VPdG9sVTQ0Z3k3?=
+ =?utf-8?B?TGlyTjRNSG14emdyU0J2Z3dYNkZTUjFyU3NvaEwyRE9sTll2NnA4VUZaWjFT?=
+ =?utf-8?B?NkRJNUZueFUwQzBhRjhtL210ZkFVSUg2bFZTci9LMC9MNlVIQWo1YW9CU2VE?=
+ =?utf-8?B?NSsxN3hqSWEwcmkzMTVRMFgzWnZDM1c5ZVRGWU9GWFBFNXcyR21PRlFSN0hi?=
+ =?utf-8?B?QnVOUGE2VHQwWXdENjJtcXBZd3cxNnR0cm4zYzFrTjA3TFhyRU42Q3R6MWRW?=
+ =?utf-8?B?aE5ZMEdJZTFraUlXWkFCejVtWlk4VUx2LzNla3hBV1VFNEZFV1NsbkR0REhj?=
+ =?utf-8?B?VHVuN3djeGllSHJqU2xlM2hOelZKMGxXYXhpNGRKTkh3amtvNTExSnpDeloz?=
+ =?utf-8?Q?3KgPEviH0HX7NZHY5JOKiaRDI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b1618a3-5604-4d78-e7cd-08daa6182a5b
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2022 14:53:14.8938 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TSfGUebH4ZZjqin0LOJ+1B1vL/zIAQFhBE3b39Ji3ANafriqxLAlH8UGF4bVLB80i4D/Nw9tv7TBuJRNdCnHNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4504
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,166 +126,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, Marek Vasut <marex@denx.de>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ yuehaibing@huawei.com, linux-mips@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, Jerry.Zuo@amd.com,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 1 Oct 2022 at 22:08, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
->
-> drm_dsc_config's bits_per_pixel field holds a fractional value with 4
-> bits, which all panel drivers should adhere to for
-> drm_dsc_pps_payload_pack() to generate a valid payload.  All code in the
-> DSI driver here seems to assume that this field doesn't contain any
-> fractional bits, hence resulting in the wrong values being computed.
-> Since none of the calculations leave any room for fractional bits or
-> seem to indicate any possible area of support, disallow such values
-> altogether.
->
-> Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+
+
+On 2022-09-30 02:38, Dong Chenchen wrote:
+> Kernel test robot throws below warning ->
+> 
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c:
+> In function 'dcn31_hpo_dp_stream_enc_update_dp_info_packets':
+>     drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c:439:14:
+> warning: variable 'sdp_stream_enable' set but not used
+> [-Wunused-but-set-variable]
+>     439 |         bool sdp_stream_enable = false;
+> 
+> Removed unused variable 'sdp_stream_enable'.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Dong Chenchen <dongchenchen2@huawei.com>
 > ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 34 +++++++++++++++++++++++-------
->  1 file changed, 26 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index cb6f2fa11f58..42a5c9776f52 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -847,6 +847,11 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->         u32 pkt_per_line;
->         u32 bytes_in_slice;
->         u32 eol_byte_num;
-> +       int bpp = dsc->bits_per_pixel >> 4;
+>   .../dc/dcn31/dcn31_hpo_dp_stream_encoder.c       | 16 ++++++----------
+>   1 file changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c
+> index 23621ff08c90..7daafbab98da 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c
+> @@ -436,32 +436,28 @@ static void dcn31_hpo_dp_stream_enc_update_dp_info_packets(
+>   {
+>   	struct dcn31_hpo_dp_stream_encoder *enc3 = DCN3_1_HPO_DP_STREAM_ENC_FROM_HPO_STREAM_ENC(enc);
+>   	uint32_t dmdata_packet_enabled = 0;
+> -	bool sdp_stream_enable = false;
+>   
+> -	if (info_frame->vsc.valid) {
+> +	if (info_frame->vsc.valid)
+>   		enc->vpg->funcs->update_generic_info_packet(
+>   				enc->vpg,
+>   				0,  /* packetIndex */
+>   				&info_frame->vsc,
+>   				true);
+> -		sdp_stream_enable = true;
+> -	}
+> -	if (info_frame->spd.valid) {
 > +
-> +       if (dsc->bits_per_pixel & 0xf)
-> +               /* dsi_populate_dsc_params() already caught this case */
-> +               pr_err("DSI does not support fractional bits_per_pixel\n");
->
->         /* first calculate dsc parameters and then program
->          * compress mode registers
-> @@ -860,7 +865,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->         if (slice_per_intf > dsc->slice_count)
->                 dsc->slice_count = 1;
->
-> -       bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
-> +       bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * bpp, 8);
-
-
-bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8 * 16); ?
-
->
->         dsc->slice_chunk_size = bytes_in_slice;
->
-> @@ -913,6 +918,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->         u32 va_end = va_start + mode->vdisplay;
->         u32 hdisplay = mode->hdisplay;
->         u32 wc;
-> +       int ret;
->
->         DBG("");
->
-> @@ -948,7 +954,9 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->                 /* we do the calculations for dsc parameters here so that
->                  * panel can use these parameters
->                  */
-> -               dsi_populate_dsc_params(dsc);
-> +               ret = dsi_populate_dsc_params(dsc);
-> +               if (ret)
-> +                       return;
->
->                 /* Divide the display by 3 but keep back/font porch and
->                  * pulse width same
-> @@ -1229,6 +1237,10 @@ static int dsi_cmd_dma_add(struct msm_dsi_host *msm_host,
->         if (packet.size < len)
->                 memset(data + packet.size, 0xff, len - packet.size);
->
-> +       if (msg->type == MIPI_DSI_PICTURE_PARAMETER_SET)
-> +               print_hex_dump(KERN_DEBUG, "ALL:", DUMP_PREFIX_NONE,
-> +                               16, 1, data, len, false);
+> +	if (info_frame->spd.valid)
+>   		enc->vpg->funcs->update_generic_info_packet(
+>   				enc->vpg,
+>   				2,  /* packetIndex */
+>   				&info_frame->spd,
+>   				true);
+> -		sdp_stream_enable = true;
+> -	}
+> -	if (info_frame->hdrsmd.valid) {
 > +
->         if (cfg_hnd->ops->tx_buf_put)
->                 cfg_hnd->ops->tx_buf_put(msm_host);
->
-> @@ -1786,6 +1798,12 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
->         int data;
->         int final_value, final_scale;
->         int i;
-> +       int bpp = dsc->bits_per_pixel >> 4;
+> +	if (info_frame->hdrsmd.valid)
+>   		enc->vpg->funcs->update_generic_info_packet(
+>   				enc->vpg,
+>   				3,  /* packetIndex */
+>   				&info_frame->hdrsmd,
+>   				true);
+> -		sdp_stream_enable = true;
+> -	}
 > +
-> +       if (dsc->bits_per_pixel & 0xf) {
-> +               pr_err("DSI does not support fractional bits_per_pixel\n");
-> +               return -EINVAL;
-> +       }
->
->         dsc->rc_model_size = 8192;
->         dsc->first_line_bpg_offset = 12;
-> @@ -1807,7 +1825,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
->         }
->
->         dsc->initial_offset = 6144; /* Not bpp 12 */
-> -       if (dsc->bits_per_pixel != 8)
-> +       if (bpp != 8)
->                 dsc->initial_offset = 2048;     /* bpp = 12 */
->
->         mux_words_size = 48;            /* bpc == 8/10 */
-> @@ -1830,16 +1848,16 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
->          * params are calculated
->          */
->         groups_per_line = DIV_ROUND_UP(dsc->slice_width, 3);
-> -       dsc->slice_chunk_size = dsc->slice_width * dsc->bits_per_pixel / 8;
-> -       if ((dsc->slice_width * dsc->bits_per_pixel) % 8)
-> +       dsc->slice_chunk_size = dsc->slice_width * bpp / 8;
-> +       if ((dsc->slice_width * bpp) % 8)
+>   	/* enable/disable transmission of packet(s).
+>   	 * If enabled, packet transmission begins on the next frame
+>   	 */
 
-One can use fixed point math here too:
+Thanks a lot for your patch,
 
-dsc->slice_chunk_size = (dsc->slice_width * dsc->bits_per_pixel  + 8 *
-16 - 1)/ (8 * 16);
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 
->                 dsc->slice_chunk_size++;
->
->         /* rbs-min */
->         min_rate_buffer_size =  dsc->rc_model_size - dsc->initial_offset +
-> -                               dsc->initial_xmit_delay * dsc->bits_per_pixel +
-> +                               dsc->initial_xmit_delay * bpp +
->                                 groups_per_line * dsc->first_line_bpg_offset;
->
-> -       hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, dsc->bits_per_pixel);
-> +       hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, bpp);
->
->         dsc->initial_dec_delay = hrd_delay - dsc->initial_xmit_delay;
->
-> @@ -1862,7 +1880,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
->         data = 2048 * (dsc->rc_model_size - dsc->initial_offset + num_extra_mux_bits);
->         dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
->
-> -       target_bpp_x16 = dsc->bits_per_pixel * 16;
-> +       target_bpp_x16 = bpp * 16;
->
->         data = (dsc->initial_xmit_delay * target_bpp_x16) / 16;
+and applied to amd-staging-drm-next.
 
-It looks like this can be replaced with the direct multiplication
-instead, maybe with support for overflow/rounding.
-
->         final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
-> --
-> 2.37.3
->
-
-
--- 
-With best wishes
-Dmitry
+Thanks
+Siqueira
