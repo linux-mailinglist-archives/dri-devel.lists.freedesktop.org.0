@@ -1,59 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00465F4C44
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 00:56:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DBF5F4C4F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 00:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 851B110E2BC;
-	Tue,  4 Oct 2022 22:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 068F710E146;
+	Tue,  4 Oct 2022 22:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC5D10E146
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 22:56:08 +0000 (UTC)
-Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 132B4200D2;
- Wed,  5 Oct 2022 00:56:06 +0200 (CEST)
-Date: Wed, 5 Oct 2022 00:56:04 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 3/5] drm/msm/dsi: Account for DSC's bits_per_pixel having
- 4 fractional bits
-Message-ID: <20221004225604.4ysjrc2zmnbqordk@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Vinod Koul <vkoul@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Douglas Anderson <dianders@chromium.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Marek Vasut <marex@denx.de>
-References: <20221001190807.358691-1-marijn.suijten@somainline.org>
- <20221001190807.358691-4-marijn.suijten@somainline.org>
- <CAA8EJppYJ-PYCsaKn=sGDpnJJdW2QBx=MOqUr6qzY0bAZtpGxA@mail.gmail.com>
- <20221004223504.vlfmxerdv47tlkdu@SoMainline.org>
- <b47e3be7-7de1-0f0c-8aa6-054e99dcaab3@linaro.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD27410E146
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 22:59:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664924363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SxsHGOwWFgsgEwiulhhhbB3ByGLDt5P6KbUmTZAsR4E=;
+ b=eespwzCkV1rLc8BVo+oif7C3oIwXzobPPmvez/FxlLa1VuAaJ/i+wywio2j/8c0+Z8CZDt
+ AtI51kzRaX4IDdhIJ3oWWrCXdXhSQSpxgv12+vI0BGwxO28YFcKMRfr87+V0FVmGFV9uwk
+ /vPoxfaecug2PkVwCZJYBksfxV1Twi4=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-644-Mf7NOEbDMU22iqrJU9Weog-1; Tue, 04 Oct 2022 18:59:20 -0400
+X-MC-Unique: Mf7NOEbDMU22iqrJU9Weog-1
+Received: by mail-io1-f71.google.com with SMTP id
+ f25-20020a5d8799000000b006a44e33ddb6so9923546ion.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 15:59:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=SxsHGOwWFgsgEwiulhhhbB3ByGLDt5P6KbUmTZAsR4E=;
+ b=P98rDhI62qEvp9jxE1tUnBGhBhAV/dgds1Fpbn3OejtwWn5Ok+kUoPHdFnLe5WWQve
+ ZJV/f/6zuxawrDUdwjO1GGdqZQV3gkuzJBjTQl2NSuNi2e357BS9FW0/jXv9OsnSn8XC
+ JOXScyfSRb9Jp/i00DUwhXW+ucZ1uuS4fCnDKOWBO9hWTGNjNbxoVBq5qC/jQHfMDyXt
+ wi2xiSnvWEDsIbO3az8g6rh8wr4dVCHSn0/6jvFO+jmn+v9Gkr8b/ofVuizgRNtZUceV
+ 0QLNMQbg2bnAwvY7uk+e7Stf0PMqUSiUBDUdjgMaiqwxP/Dj8C5UnYXxwMCWKL0882wt
+ QKlQ==
+X-Gm-Message-State: ACrzQf3S/thVOoDl6Y19M1f9pNgVUDHGHPPI5t7LpuHfMrPx8g0XufsV
+ ZCpNK9T7VaKJqDsYneDb8wGuwyaDwF3uqQ09B3qrracIVWrdQDnZuKwtjmzH3gnUtFc+GLhdqLC
+ sdIJHjfQUVnofDoqXlnETIeJu7/Bf
+X-Received: by 2002:a05:6602:1609:b0:6a1:899e:bf36 with SMTP id
+ x9-20020a056602160900b006a1899ebf36mr11692577iow.121.1664924359208; 
+ Tue, 04 Oct 2022 15:59:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5OzCZpFCwc7XvZEthAd+76IU03cxcHI6YKa8ZkbhJ2M3Jodz1djE+c0xiMlH3o8yeYd1ORgg==
+X-Received: by 2002:a05:6602:1609:b0:6a1:899e:bf36 with SMTP id
+ x9-20020a056602160900b006a1899ebf36mr11692571iow.121.1664924359050; 
+ Tue, 04 Oct 2022 15:59:19 -0700 (PDT)
+Received: from [10.56.18.1] ([140.209.96.0]) by smtp.gmail.com with ESMTPSA id
+ y12-20020a056638228c00b003620e89b4c2sm1835176jas.11.2022.10.04.15.59.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Oct 2022 15:59:18 -0700 (PDT)
+Message-ID: <994ea685-be4f-ae0a-a8c6-3c664d9eff54@redhat.com>
+Date: Wed, 5 Oct 2022 00:59:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b47e3be7-7de1-0f0c-8aa6-054e99dcaab3@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 15/16] drm/udl: Add register constants for framebuffer
+ scanout addresses
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ sean@poorly.run, daniel@ffwll.ch
+References: <20220919130408.21486-1-tzimmermann@suse.de>
+ <20220919130408.21486-16-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220919130408.21486-16-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,73 +87,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, Marek Vasut <marex@denx.de>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-05 01:40:12, Dmitry Baryshkov wrote:
-> On 05/10/2022 01:35, Marijn Suijten wrote:
-> > On 2022-10-04 17:45:50, Dmitry Baryshkov wrote:
-> >> On Sat, 1 Oct 2022 at 22:08, Marijn Suijten
-> >> <marijn.suijten@somainline.org> wrote:
-> >> [..]
-> >>> -       bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
-> >>> +       bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * bpp, 8);
-> >>
-> >>
-> >> bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8 * 16); ?
-> > 
-> > Not necessarily a fan of this, it "hides" the fact that we are dealing
-> > with 4 fractional bits (1/16th precision, it is correct though); but
-> > since this is the only use of `bpp` I can change it and document this
-> > fact wiht a comment on top (including referencing the validation pointed
-> > out in dsi_populate_dsc_params()).
-> > 
-> > Alternatively we can inline the `>> 4` here?
+On 9/19/22 15:04, Thomas Zimmermann wrote:
+> Add register constants for the framebuffer scanout addresses and
+> update the related helper functions. No functional changes.
 > 
-> No, I don't think so. If we shift by 4 bits, we'd loose the fractional 
-> part. DIV_ROUND_UP( .... , 8 * 16) ensures that we round it up rather 
-> than just dropping it.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-I'd still keep the `-EINVAL` on `if (dsc->bits_per_pixel & 0xf)` to
-guarantee that there is no fractional part.
-After all, as explained in the patch description, none of this code /
-the DSI driver in general seems to be able to handle fractional bits per
-pixel.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> >>> [..]
-> >>> -       dsc->slice_chunk_size = dsc->slice_width * dsc->bits_per_pixel / 8;
-> >>> -       if ((dsc->slice_width * dsc->bits_per_pixel) % 8)
-> >>> +       dsc->slice_chunk_size = dsc->slice_width * bpp / 8;
-> >>> +       if ((dsc->slice_width * bpp) % 8)
-> >>
-> >> One can use fixed point math here too:
-> >>
-> >> dsc->slice_chunk_size = (dsc->slice_width * dsc->bits_per_pixel  + 8 *
-> >> 16 - 1)/ (8 * 16);
-> > 
-> > Good catch, this is effectively a DIV_ROUND_UP() that we happened to
-> > call bytes_in_slice above...
-> > 
-> > Shall I tackle this in the same patch, or insert another cleanup patch?
-> 
-> It's up to you. I usually prefer separate patches, even if just to ease 
-> bisecting between unrelated changes.
+[...]
 
-Same feeling here, and have already set it up that way; added two extra
-patches to 1. replace this with DIV_ROUND_UP() and 2. remove the
-recalculation of slice_chunk_size (disguised as bytes_in_slice) above.
+> +	u8 reg20 = (base & 0xff0000) >> 16;
+> +	u8 reg21 = (base & 0x00ff00) >> 8;
+> +	u8 reg22 = (base & 0x0000ff);
+> +
 
-- Marijn
+Maybe would be cleaner to use the FIELD_PREP() and GENMASK() macros instead ?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
