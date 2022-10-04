@@ -1,51 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85795F4256
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 13:50:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2F05F426E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 13:55:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 501D410E59D;
-	Tue,  4 Oct 2022 11:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF59D10E57E;
+	Tue,  4 Oct 2022 11:55:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F22C10E57A;
- Tue,  4 Oct 2022 11:49:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664884177; x=1696420177;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=sf7u3sNKyQ2+IDNJwgeempYELoIiyQGL8iIKCFW74dY=;
- b=kaihZ1YgjImtZFU/bPJcca1YNfqR94kise7kIRNuMxvGAJQ/nP2sEYMz
- RcovLw0r69yoxdB3ssaJDg2O31JFUoi6JKU7UrA68uW9VlTi7BluYEmp0
- hwQuWkl9C5CzYkOKdQqXJ0S7JzOhAhRS6iy6XuSZFQtrIp8b1usqis0XI
- Agwos0EWY0l7WyD63CP5lfwPmILeR2wwF8uZCtcLelXDZ9uYGhbrVfGae
- qqVo3NiQFhs7Ifqps1yZCzdvRQ3XKhc625/4pa2xdXfVChfRLfARF8/VT
- GGCzxm7GwxqzsqsgbC2sk7lGDR+gJgn7Ca6+wLNJL8ix1Tz4TIjVkySUT A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="300491018"
-X-IronPort-AV: E=Sophos;i="5.93,157,1654585200"; d="scan'208";a="300491018"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 04:49:37 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="654744582"
-X-IronPort-AV: E=Sophos;i="5.93,157,1654585200"; d="scan'208";a="654744582"
-Received: from ngverso-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.7.149])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 04:49:34 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/i915/uapi: expose GTT alignment
-Date: Tue,  4 Oct 2022 12:49:15 +0100
-Message-Id: <20221004114915.221708-2-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221004114915.221708-1-matthew.auld@intel.com>
-References: <20221004114915.221708-1-matthew.auld@intel.com>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01FD310E57E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 11:55:11 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id g1so20745288lfu.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 04:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:from:to:cc:subject:date;
+ bh=AVHgfeK+0yXNwYMJqLB3RuEuq3zMmGUnN/V4RFLasQ8=;
+ b=HCraqwA4dmNVerhXpmAuHLH4r2VSVcfXCEXH9CybnppQCmsY4LWHa0k0aB34ps+YJh
+ D0FCBE7aw2MjUV0uur4XGgPoQ+QSzmM9HHhfdqDSG1s+xvs4O3W5qunm3BtDzZJSuY0u
+ atHJpYrSENjx/q+LeBwFD/q3EUd4D6MtToFTnDGC56yykmwQKeCUxnfhgeJSRsusknmk
+ 5QTgbwRmJsAEpECIgtW2tn0jLsRksRyDmpr40kHA82vkMhu4WLJVFFVVO3Ek9nYL7w0v
+ jv4ujvhJiLhHm6GueGGupHX7HtNZhEaqeHSwTAdwcPOlX/QIGWXNIJtMftYwAj5M+A49
+ V8VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=AVHgfeK+0yXNwYMJqLB3RuEuq3zMmGUnN/V4RFLasQ8=;
+ b=ndO8ERNtXQeUOf9nS6bylG6lO3689zQE4NWzS6B4YMuuxOrUPDAQW35snnkZqa/nnY
+ 2Y5QbmApE/j7x0WmxWamG9UBKyF/ejIUWwX8ldZMCXofs4fiVE0z4HA/KK/IQJA7OyFF
+ kxfIHsJUhRteBAf4LHP7PEgrqh06dUShnLHLna5HvriGJWrr9fa6lbwxasVe3rmuATIt
+ MpzlZe+CJpGFLN42Td4+m1oYLyF8oHYQMLvcf3Ez+tDpw96lxxwC8B6rBfDq831z6kFb
+ Ml0XQylff94YosE/umw9ndeJZoOcg1VXAtpDM6+yNV9bOcqRP4cTE/6f9M5jCz4djKvc
+ IjEA==
+X-Gm-Message-State: ACrzQf3VOLmZsiTC5a4L8MjooUuZu8eSuR+qJt147K02WKKJMy3tWnbl
+ 2VcAWlIMuH6x8+EXgPwpO+SflLUJ0M3mf8wwQB48wg==
+X-Google-Smtp-Source: AMsMyM7T5HmFHtYzBToQIDw740pyxsyZD3CK3phoCdY5v6/uoVZEM5zyMYJH17SMmdaDtr3rE0uxWHutyCOz+oUYcFU=
+X-Received: by 2002:ac2:44b6:0:b0:4a2:5084:6163 with SMTP id
+ c22-20020ac244b6000000b004a250846163mr1242968lfm.446.1664884510269; Tue, 04
+ Oct 2022 04:55:10 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 4 Oct 2022 04:55:07 -0700
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: meli 0.7.2
+References: <20220919-v1-0-4844816c9808@baylibre.com>
+ <20220919-v1-17-4844816c9808@baylibre.com>
+ <a0a3c427-c851-ae5d-4010-e94740bf9f6e@linaro.org>
+ <CABnWg9s3N_Ua9g0S3x0uj8PN4FtOX6DO+zQcBzGFqoLTL1J24A@mail.gmail.com>
+ <bc64b69d-3d65-f5ca-a688-2ad1a055ba4b@linaro.org>
+ <CABnWg9sJFBAXi1bu_yHDppFOmg=H=G7QTn9Bzqkr-t7qm5vUFw@mail.gmail.com>
+ <db1abf9d-ba40-f71c-0d37-c3912ac1bd8e@linaro.org>
+In-Reply-To: <db1abf9d-ba40-f71c-0d37-c3912ac1bd8e@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 4 Oct 2022 04:55:07 -0700
+Message-ID: <CABnWg9vOHWpdLPAFdXAG3GNgsxpbzgh2gTq_tm72Tk2uR54LaQ@mail.gmail.com>
+Subject: Re: [PATCH v1 17/17] drm/mediatek: Add mt8195-dpi support to drm_drv
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Michael Turquette <mturquette@baylibre.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
+ Jitao shi <jitao.shi@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,89 +82,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Yang A Shi <yang.a.shi@intel.com>, Jordan Justen <jordan.l.justen@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Stuart Summers <stuart.summers@intel.com>,
- Michal Mrozek <michal.mrozek@intel.com>, dri-devel@lists.freedesktop.org,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some platforms we potentially have different alignment restrictions
-depending on the memory type. We also now have different alignment
-restrictions for the same region across different kernel versions.
-Extend the region query to return the minimum required GTT alignment.
+On Tue, 04 Oct 2022 12:49, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>On 03/10/2022 17:29, Guillaume Ranquet wrote:
+>> On Tue, 27 Sep 2022 16:28, Krzysztof Kozlowski
+>> <krzysztof.kozlowski@linaro.org> wrote:
+>>> On 27/09/2022 15:04, Guillaume Ranquet wrote:
+>>>> On Thu, 22 Sep 2022 09:20, Krzysztof Kozlowski
+>>>> <krzysztof.kozlowski@linaro.org> wrote:
+>>>>> On 19/09/2022 18:56, Guillaume Ranquet wrote:
+>>>>>> Add dpi support to enable the HDMI path.
+>>>>>>
+>>>>>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>>>>> index 72049a530ae1..27f029ca760b 100644
+>>>>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>>>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>>>>> @@ -820,6 +820,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
+>>>>>>  	  .data = (void *)MTK_DPI },
+>>>>>>  	{ .compatible = "mediatek,mt8192-dpi",
+>>>>>>  	  .data = (void *)MTK_DPI },
+>>>>>> +	{ .compatible = "mediatek,mt8195-dpi",
+>>>>>> +	  .data = (void *)MTK_DPI },
+>>>>>
+>>>>> It's compatible with the others. You don't need more compatibles.
+>>>>
+>>>> Hi Krzysztof,
+>>>>
+>>>> It's a bit confusing, because this compatible is used in both
+>>>> mtk_drm_drv.c and in mtk_dpi.c
+>>>>
+>>>> Albeit it's entirely the same thing regarding the mtk_drm_drv module,
+>>>> it's pretty different
+>>>> regarding the mtk_dpi module.
+>>>
+>>> Sure, but this does not explain why do you need these entries here in
+>>> mtk_drm_drv.
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>>
+>>
+>> Hi Krzysztof,
+>>
+>> Sorry for the late answer.
+>> The mtk_drm_drv is the component master of the full mediatek drm stack.
+>>
+>> it "binds" all of the crtc/dpi/ovl/mutex/merge... components of the stack.
+>>
+>> That mtk_ddp_comp_dt_ids array is iterated over to find all of the components
+>> from the device tree.
+>
+>No. You said what the code is doing. I think I understand this. You
+>still do not need more compatibles. Your sentence did not clarify it
+>because it did not answer at all to question "why". Why do you need it?
+>
+>Sorry, the change looks not correct.
+>
+>Best regards,
+>Krzysztof
+>
 
-Testcase: igt@gem_create@create-ext-placement-alignment
-Testcase: igt@i915_query@query-regions-sanity-check
-Suggested-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Michal Mrozek <michal.mrozek@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Stuart Summers <stuart.summers@intel.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Yang A Shi <yang.a.shi@intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
----
- drivers/gpu/drm/i915/i915_query.c |  1 +
- include/uapi/drm/i915_drm.h       | 29 +++++++++++++++++++++++++++--
- 2 files changed, 28 insertions(+), 2 deletions(-)
+I need a new compatible to adress the specifics of mt8195 in the mtk_dpi driver,
+the change is in this series with:
+[PATCH v1 16/17] drm/mediatek: dpi: Add mt8195 hdmi to DPI driver [1]
 
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index 6ec9c9fb7b0d..111377f210ed 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -498,6 +498,7 @@ static int query_memregion_info(struct drm_i915_private *i915,
- 		info.region.memory_class = mr->type;
- 		info.region.memory_instance = mr->instance;
- 		info.probed_size = mr->total;
-+		info.gtt_alignment = mr->min_page_size;
- 
- 		if (mr->type == INTEL_MEMORY_LOCAL)
- 			info.probed_cpu_visible_size = mr->io_size;
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 08d69e36fb66..2e613109356b 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3346,8 +3346,33 @@ struct drm_i915_memory_region_info {
- 	/** @region: The class:instance pair encoding */
- 	struct drm_i915_gem_memory_class_instance region;
- 
--	/** @rsvd0: MBZ */
--	__u32 rsvd0;
-+	union {
-+		/** @rsvd0: MBZ */
-+		__u32 rsvd0;
-+		/**
-+		 * @gtt_alignment:
-+		 *
-+		 * The minimum required GTT alignment for this type of memory.
-+		 * When allocating a GTT address it must be aligned to this
-+		 * value or larger. On some platforms the kernel might opt to
-+		 * using 64K pages for I915_MEMORY_CLASS_DEVICE, where 64K GTT
-+		 * pages can then be used if we also use 64K GTT alignment.
-+		 *
-+		 * NOTE: If this is zero then this must be an older
-+		 * kernel which lacks support for this field.
-+		 *
-+		 * Side note: For larger objects (especially for
-+		 * I915_MEMORY_CLASS_DEVICE), like 2M+ in size, userspace should
-+		 * consider potentially bumping the GTT alignment to say 2M,
-+		 * which could potentially increase the likelihood of the kernel
-+		 * being able to utilise 2M GTT pages underneath, if the layout
-+		 * of the physical pages allows it.  On some configurations we
-+		 * can then also use a more efficient page-table layout, if we
-+		 * can't use the more desirable 2M GTT page, so long as we know
-+		 * that the entire page-table will be used by this object.
-+		 */
-+		__u32 gtt_alignment;
-+	};
- 
- 	/**
- 	 * @probed_size: Memory probed by the driver
--- 
-2.37.3
+I then need to add that compatible to the "list" here in mtk_drm_drv.
+I don't see a way around this unless I rewrite the way mtk_drm_drv works?
 
+Maybe if I declare a new compatible that is generic to all mediatek
+dpi variants?
+and have all the dts specify the node with both the generic dpi and
+the specific compatible?
+
+dpi@xxx {
+	compatible = "mediatek,dpi", "mediatek,mt8195-dpi";
+	...
+}
+
+Then I can "collapse" all the dpi related nodes in mtk_drm_drv under
+"mediatek,dpi" ?
+
+I guess would have to do the change for all other components that are needed in
+mtk_drm_drv (mmsys, aal, ccor, color, dither, dsc, gamma, mutex...).
+
+That's the only trivial way I can think of implementing this with the
+current status
+of the mtk_drm stack.
+
+Do you have any other ideas in mind?
+
+Thx,
+Guillaume.
+
+[1] : https://lore.kernel.org/all/20220919-v1-16-4844816c9808@baylibre.com/
