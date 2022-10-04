@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6C25F4AC6
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF395F4AC7
 	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 23:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7964B10E173;
-	Tue,  4 Oct 2022 21:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85B410E17C;
+	Tue,  4 Oct 2022 21:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B855410E17C;
- Tue,  4 Oct 2022 21:15:46 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2074.outbound.protection.outlook.com [40.107.96.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B58D10E17C;
+ Tue,  4 Oct 2022 21:15:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eYOtw+/YedmBC3y7bryOLOyerBpZGJl9WJS+2cczJ4csvUqoQpobL1LvL3qqCV650aWGG1wAtpmRsj/pz+nihFXPMOBlhVpnOjDNVqsHjZtKSriShBevEYXG4jA4kI+TN+sIZHb9qGIbtz0ERonzxubX1PfxJZ+QeaH3+3bawDxJ6z1Ifn/wCWtEyaZwSAxC5/PNKQguqgfuE0HoMWNqY1u5WQA4kP+FF2M1fkySwaksVsR/6PyP2pkFhKYuJ0vOTiGm26GLVuyEGu79zuND5KAJVJfKFFuJRlNC1Kn+xKffWD/q3PVgPH4KwSe34Mk1CmDh+I6D1PlrYGkmRH3yVQ==
+ b=eDBZauqvmjWoZlMTW3M151fsoFE+vGxzcOynyNPLxQIKATwJ9KD6s41IfBrjaWy/wXGfgORKSWaxMvBxCKYZdggFkGkbIIjkQcxrTitDHGkR+IkMZCvaOeY2BzqxKzzCAghoF4DH75zasO/cCvFz1+zrBDEMv4Rq3pWR/+Nfmm4tP75uUedxkoVtkkyNdN8hUf0F5YQQlyjlQXJEl3HvprSOkz1lh7qtGyX0CSUperwUYfM3q1K2lC/dep2hBrOxwmVFO3LnqeIBuL28W0X7Vk9xACXYLDywpci1E1BcquL7bqzv695wKNpxTnuaJ2dzA+NWJzLsjy05YwazPHkEPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yyPP/8lfjJWHvaRIFbruseaJVeK1uMm7fAzJE2i5eCM=;
- b=O/YrM68F0rxregyp0Xob7KJres7eI7rqYm8jeyd/3E28dDfpEwB783452S5T7kq6B9AEMsqZodbBBRLACBPN/HZoDcsL3aSK43QcmBy5FlZ/+pZ0Z30F0A3oOopYG56FXePOcWR/kUkE5TaDBMoJ3ZT2ff33MlrYW1tQ6TzBrcqLH1djZRC8UYTnMDodHVqNWLj0XQSfOCkeVDgqW8P07eiSoID83JSEsIM0Rq+bhHbsrjJY64E60UmeK7R4D+T/054S2oRz4W11mlQxsVmNsgKuq3xQWMUk6cmjsiiAcEHWsRINl8BT7bLG5kxIPMe6Hi4T4+WfLKsjXdEC7kLwAA==
+ bh=3afo120obYNF6Gm4zQlRRP7aTATA+4Qr7LwuRCOt0Mc=;
+ b=Y7MXpV7FA0nHDMhe5joZbyniPF9x8+y+y4RJh7eVw4a2R9wnAHasDlGJgMozstf+2r8T1gEQWChJQ2h6+oSlocaPzQ0WuXkhFTHPoaSrFA5Lo2wOROGLaeXhkvBEQ09pcmnczXMjsveTB92ByxQH83o2Ztqbk75wHaGB9GEZoJuzpo1s9CQkFwzTdvcAZeItr5A/8X8j78LUazE7CsyiUdOvEwHy8lrTI1IBNLvI33fZh4piWnfDMEvMs8NHGo8nNYr+TFLbMqZvMjn2UjBH9kpFHc1RsBHNv+6LDtekJd50eK75JP5sCfDTfxEYY+OeDLe7N1Ja7QZQMTxeoyJFtg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yyPP/8lfjJWHvaRIFbruseaJVeK1uMm7fAzJE2i5eCM=;
- b=xV4lPEO6yy6QlF4WI9oCFx0naBeGpB3t71wYyiLlNU2CvZMxQ9X2AjA7k7QWnNnDBpLKwq7yYArsWc9ALnYlfr+u0eXAgOvULR65TiCf6gT/7papg34nY/NzoMovW/+exg2H/08tlG1RjIjTK0bvYj2o3XKh8AH8HIDN76Vbh3s=
-Received: from BN9PR03CA0384.namprd03.prod.outlook.com (2603:10b6:408:f7::29)
- by SA1PR12MB7247.namprd12.prod.outlook.com (2603:10b6:806:2bb::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Tue, 4 Oct
- 2022 21:15:42 +0000
-Received: from BN8NAM11FT091.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:f7:cafe::6f) by BN9PR03CA0384.outlook.office365.com
- (2603:10b6:408:f7::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.22 via Frontend
- Transport; Tue, 4 Oct 2022 21:15:39 +0000
+ bh=3afo120obYNF6Gm4zQlRRP7aTATA+4Qr7LwuRCOt0Mc=;
+ b=UPoBOGp+L61YyTkjkKa9WchbfnaSL0tUf2ghvkToYw1T5H78kduvec9H0TfHBfF2XUakkjvaYdXNPap/7kN7lTHX0TUueFS9lDCXariyGf9+OwM96LyUA/xdscJN0W+mnFAGHW5VqIN0otjaipag7FUeWIbburnLhWbvBDpL64U=
+Received: from BN9PR03CA0174.namprd03.prod.outlook.com (2603:10b6:408:f4::29)
+ by CH0PR12MB5187.namprd12.prod.outlook.com (2603:10b6:610:ba::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Tue, 4 Oct
+ 2022 21:15:51 +0000
+Received: from BN8NAM11FT115.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f4:cafe::21) by BN9PR03CA0174.outlook.office365.com
+ (2603:10b6:408:f4::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23 via Frontend
+ Transport; Tue, 4 Oct 2022 21:15:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,18 +45,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT091.mail.protection.outlook.com (10.13.176.134) with Microsoft SMTP
+ BN8NAM11FT115.mail.protection.outlook.com (10.13.177.151) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5709.10 via Frontend Transport; Tue, 4 Oct 2022 21:15:39 +0000
+ 15.20.5709.10 via Frontend Transport; Tue, 4 Oct 2022 21:15:51 +0000
 Received: from dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 4 Oct
- 2022 16:15:38 -0500
+ 2022 16:15:50 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [RFC PATCH 3/5] drm/amd/display: Define 3D LUT struct for HDR planes
-Date: Tue, 4 Oct 2022 15:14:49 -0600
-Message-ID: <20221004211451.1475215-4-alex.hung@amd.com>
+Subject: [RFC PATCH 4/5] drm/amd/display: Enable plane 3DLUT mode
+Date: Tue, 4 Oct 2022 15:14:50 -0600
+Message-ID: <20221004211451.1475215-5-alex.hung@amd.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221004211451.1475215-1-alex.hung@amd.com>
 References: <20221004211451.1475215-1-alex.hung@amd.com>
@@ -68,26 +68,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT091:EE_|SA1PR12MB7247:EE_
-X-MS-Office365-Filtering-Correlation-Id: a15425ae-c8e6-4fe0-e466-08daa64d96c1
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT115:EE_|CH0PR12MB5187:EE_
+X-MS-Office365-Filtering-Correlation-Id: 59495d62-4951-4384-b1cd-08daa64d9de3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hgUWk5ugej0AIY47OlZJDKICursRyYjQImnsZitSLy4+smLdCUV1YPJnhRmSmr7vJeGZomC025DIKNzhmCukVs+we0jX9OfYh9AXMJRmFdpSKwDPKEUlC6nBCLIeSk1I6t/tJU22IwMP//9DeskrP/XYqGenJXHasSJRg2lFUPxES6MUN4ZMShuEXSdsKjz0Aa3wjf4ycZ/9dtZ6I9MNnZ/IfqLkzyFXVdlAfmKRcXBeeswOujICHU9zX2fdwEDoEA5WfF27fSVfcVoSLMw4d235iRLDpwQQkLG8cxMlU2I3e3ubzT841Xhr0F1v3Jic8XI+oJ6ev91rupY2WIruxLizpCcyCWWlfWayhvfllmvCFZueWYiAy6oaIKYU4bvrDCefWqshjKou49j75x7HWXtD0EvXQOXe+E6aqyGu5hVwrwYPRkb6PEiqrn9epF98aNf5srljYoyki4RyExF86vYFfVCL8wwczejkR+cBkViyaypjHCrTGfeXsJcCrV2jfsHAlzt7j1Bv7U+z1k8IRLuqUapAOepPn4paYuIl3ny9kCPRzbDWa9Z8Luv+4rg1CMTocN9y5snzP7TYU4oEVZ17W7rLFaBuiGE0hdwTb6vprPxFqoK2BnTOs/mpm4dm3VFrvVJnL8hO2ocMa2Y+yrCmo4kMUr+omOT2sKlCCcnjrac2fSqQ6ZINOYdxlCzr2zMgM9f2NGXUUMIrC31GtH7Mei8oj7khHYOucv58qYEVRkAZ482zk5e1ZeuGNB8YCyqsL/xPRF9GvWVdBjXmmaxGP7eh0yWHe/u/kcPGknDnRldu8DD5e8E/NwfZoBSc
+X-Microsoft-Antispam-Message-Info: nRpYLl9jLho5i21EYCA2Qi4hirSBd7ud2TYvgAORqMCL9s2UbVhw0WJmMxUVhMng0CIduvUVSKWBlvynwnQvaiv6VXF7X2NM0oNueUxdEBTBN9nc7OtIKws/E0KImXRB/HPcalvlTXpewWop3dmOcAs500gabaLrBBf4EZrgwYsdnglovEExsq0lrT2gss9zplqrMRKQ3b9kEUCmQqpgUs5QJXNi5LrmXc1foDVPg7QOmZr9LCxV9KwUzqbYikhloEZAxTXjWdWAAJ8E9Y015FeMas6H7FScxiZldskH1SPu3VzGA8CyiClXOooHYDUFJ5uGWC5Buji5LaSS2WNDCyj4MiNouKacYWNLHh8E2pRay+EJh+w+UJbY6TN/fTikDS8Ap1wdkT0HVYMmXNoXjz4wySTH8H77V76Wm0Tgrx5PfKVv6DBXqljQQTP2EHkSB1CgFJVnBHkpsMnciZvjSgRY78bJ4Kxp5JbIxwM3kBCMA/mnGNMXPQqVhs2fqlf8wAViJbh7IHTM9DKqS7d4UoLy+0BMyyQ32vMpGp3ZagdfdQPs9G16EzYyn98C80Ahc8sdqsBdwEgEcGRqAFcsZ+3lp+Ml4ISue23s+C6x4wxg8JW6eSYAGrzTM5PRV6Dq8QgwzO/oTdRSKtQXd8t5Oe5QyahImxxgaZkjSxVaUwwa3IyQY46G3LDT/KMP3ABmj+yzDiTNpfpBFJBOnLBv1/ut/btrcjWhNK5ksu4dxEKLnvk+BBtuPtqdNLydOMZmDng22+rLnYQh1GAAhoHq540euVPgGq7pZADea9xrg6wANA+uLeGQRr3M/ChSVBwv
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(376002)(39860400002)(346002)(396003)(451199015)(36840700001)(46966006)(40470700004)(44832011)(36756003)(8936002)(186003)(1076003)(16526019)(8676002)(2616005)(2906002)(70586007)(41300700001)(4326008)(26005)(7696005)(6666004)(70206006)(82740400003)(82310400005)(356005)(81166007)(40460700003)(336012)(40480700001)(83380400001)(86362001)(47076005)(426003)(36860700001)(5660300002)(110136005)(478600001)(54906003)(316002)(36900700001);
+ SFS:(13230022)(4636009)(39860400002)(346002)(396003)(136003)(376002)(451199015)(40470700004)(36840700001)(46966006)(4326008)(110136005)(70586007)(70206006)(478600001)(41300700001)(8936002)(316002)(54906003)(36756003)(36860700001)(40480700001)(356005)(40460700003)(82740400003)(82310400005)(7696005)(1076003)(2616005)(26005)(426003)(16526019)(186003)(47076005)(86362001)(81166007)(336012)(44832011)(2906002)(8676002)(5660300002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2022 21:15:39.7703 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a15425ae-c8e6-4fe0-e466-08daa64d96c1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2022 21:15:51.7359 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59495d62-4951-4384-b1cd-08daa64d9de3
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT091.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT115.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7247
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5187
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,46 +104,87 @@ Cc: mwen@igalia.com, bhawanpreet.lakha@amd.com, Alex Hung <alex.hung@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a 3D LUT mode supported by amdgpu driver.
+Enable the 3D LUT mode supported by amdgpu.
 
 Note: A patchset "IGT tests for pre-blending 3D LUT interfaces" for this
 proposal is sent to IGT mailing list.
 
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 ---
- .../gpu/drm/amd/display/modules/color/color_gamma.h  | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 ++
+ drivers/gpu/drm/drm_color_mgmt.c              | 31 +++++++++++++++++++
+ include/drm/drm_plane.h                       |  2 ++
+ 3 files changed, 36 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/color/color_gamma.h b/drivers/gpu/drm/amd/display/modules/color/color_gamma.h
-index e06e0a8effc8..aceb23b03a4b 100644
---- a/drivers/gpu/drm/amd/display/modules/color/color_gamma.h
-+++ b/drivers/gpu/drm/amd/display/modules/color/color_gamma.h
-@@ -27,6 +27,7 @@
- #define COLOR_MOD_COLOR_GAMMA_H_
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index ee277f357140..7094578a683f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8008,6 +8008,9 @@ static int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
  
- #include "color_table.h"
-+#include <drm/drm_fourcc.h>
+ 	/* TODO need to check ASICs */
+ 	drm_plane_create_3d_lut_properties(plane->dev, plane, 1);
++	res = drm_plane_color_add_3dlut_mode(plane, "3dlut_17_12bit", &lut_3d_mode_17_12bit, sizeof(lut_3d_mode_17_12bit));
++	if (res)
++		return res;
+ 	drm_plane_attach_3dlut_properties(plane);
  
- struct dc_transfer_func;
- struct dc_gamma;
-@@ -35,6 +36,17 @@ struct dc_rgb_fixed;
- struct dc_color_caps;
- enum dc_transfer_func_predefined;
+ 	/* Create (reset) the plane state */
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index 4bfe5b5c9670..5418ca24db73 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -743,6 +743,37 @@ void drm_plane_attach_3dlut_properties(struct drm_plane *plane)
+ }
+ EXPORT_SYMBOL(drm_plane_attach_3dlut_properties);
  
-+/*
-+ * 3D LUT mode for 17x17x17 LUT and 12 bits of color depth
-+ */
-+static const struct drm_mode_3dlut_mode lut_3d_mode_17_12bit = {
-+	.lut_size = 17,
-+	.lut_stride = {17, 17, 18},
-+	.bit_depth = 12,
-+	.color_format = DRM_FORMAT_XRGB16161616,
-+	.flags = 0,
-+};
++int drm_plane_color_add_3dlut_mode(struct drm_plane *plane,
++						 const char *name,
++						 const struct drm_mode_3dlut_mode *mode_3dlut,
++						 size_t length)
++{
++	struct drm_property_blob *blob;
++	struct drm_property *prop = NULL;
++	int ret;
 +
- static const struct drm_color_lut_range nonlinear_pwl[] = {
-        { 
-                .flags = (DRM_MODE_LUT_GAMMA | DRM_MODE_LUT_REFLECT_NEGATIVE | DRM_MODE_LUT_INTERPOLATE | DRM_MODE_LUT_REUSE_LAST | DRM_MODE_LUT_NON_DECREASING),
++	prop = plane->lut_3d_mode_property;
++
++	if (!prop)
++		return -EINVAL;
++
++	if (length == 0 && name)
++		return drm_property_add_enum(prop, 0, name);
++
++	blob = drm_property_create_blob(plane->dev, length, mode_3dlut);
++	if (IS_ERR(blob))
++		return PTR_ERR(blob);
++
++	ret = drm_property_add_enum(prop, blob->base.id, name);
++	if (ret) {
++		drm_property_blob_put(blob);
++		return ret;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_plane_color_add_3dlut_mode);
++
+ int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
+ 						 const char *name,
+ 						 const struct drm_color_lut_range *ranges,
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 4e272144170f..f94f91466675 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -946,6 +946,8 @@ int drm_plane_create_3d_lut_properties(struct drm_device *dev,
+ 					   struct drm_plane *plane,
+ 					   int num_values);
+ void drm_plane_attach_3dlut_properties(struct drm_plane *plane);
++int drm_plane_color_add_3dlut_mode(struct drm_plane *plane, const char *name,
++						 const struct drm_mode_3dlut_mode *mode_3dlut, size_t length);
+ int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
+ 						 const char *name,
+ 						 const struct drm_color_lut_range *ranges,
 -- 
 2.37.3
 
