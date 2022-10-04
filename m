@@ -1,81 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECCF5F4103
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 12:49:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7EC5F4118
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 12:52:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B4710E53D;
-	Tue,  4 Oct 2022 10:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E940D10E052;
+	Tue,  4 Oct 2022 10:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 765F210E53D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 10:49:14 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id q17so14840237lji.11
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 03:49:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=c5k6ZNI6sRUrczxfcsYS/c25P0zEUbDCEvkzt7XYe8g=;
- b=G3EHcKhnNoAjSMx/ocs4bY3RbE16aUdmufD3yRS9x3AiIWwFIVmiUyH3IVcGQfEBOA
- SOXUyuEBtDpV89NZXv+7EWvp+cd9xsdD3xaSL0A57S0b5UUssTcLrnH/kmLHFJ60Xc7N
- XSjN9c2UgwOuylWXLVt5dyUsQRJVUcbWdrqKpB+VBc8MoQRapE8TS2VFk88zVXHjcx5W
- ThHuO2bdbBT1tx225065qEGDNcPrs/gmls6CQhP19fQ4spldz5EkBKGEBhS4kZbNfvn0
- p+MgX0Mr3qJro8BJAMpJ+eC4hlNypUoBGetW4VCEaEzVZIjCq1NKFEaDWSCi8I6/7qPT
- afdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=c5k6ZNI6sRUrczxfcsYS/c25P0zEUbDCEvkzt7XYe8g=;
- b=NnQxxH7dH2DPlLmLMPNm5B2ChkyFzslYlgRYhiB8Zl14jBBdp4V/bgC11j18KPVVpI
- FhDhiDUZGiaWrHeg9jWb9plI8/IYkx72QYub25QP8xEjgAWv6ANtRT9Ksxaz538scSRX
- Rd+5MYFfpSVW2/TRjgYjVgH8/37Dp8MHJ2/ACmoxMVYvJNGDupR6N5wOm7orY3vudjcC
- VKm2hzTbMS7qxahdWR2fjcRL+9/lTsbKql2hhyD3b1ftufn1hwKTQfGtwiNe8Diz+8H1
- mMr+2wGqsaL6MFjupN6dyv4GgR5vh6ae5+hYF6y1LbZ7TndXdPA+q1NTHjmf6O2Y1mkp
- SFgA==
-X-Gm-Message-State: ACrzQf0C6eYPdGaqnJEZ2NNnjBSj43iuu6neBN7RVL5exJjTSkvJzyns
- Bhlv4apzT/Bwu5iEWRjrnyHNPg==
-X-Google-Smtp-Source: AMsMyM46dEzBBMohqQM+6j/OIqQeD7GRLhgNru1yX5N6Xlq3dupGTB8jWnZAA/XhAo1mPgS/lyXmiQ==
-X-Received: by 2002:a2e:9d88:0:b0:26a:95c1:218f with SMTP id
- c8-20020a2e9d88000000b0026a95c1218fmr7776212ljj.223.1664880552796; 
- Tue, 04 Oct 2022 03:49:12 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- 2-20020ac24842000000b0048b3926351bsm1869697lfy.56.2022.10.04.03.49.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Oct 2022 03:49:12 -0700 (PDT)
-Message-ID: <db1abf9d-ba40-f71c-0d37-c3912ac1bd8e@linaro.org>
-Date: Tue, 4 Oct 2022 12:49:11 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 537E710E052;
+ Tue,  4 Oct 2022 10:52:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664880735; x=1696416735;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=GsLBEQ+iiyq0tqzhsDbPlBVlnya42aOoxzUP/81MpLo=;
+ b=L5uFUZFjiPQmh5nBWG07O43wNuwKoqGJU1AOzZiXX5KRmZwPGOZ2GGnb
+ PoF8H8Qlj9ZNJ/hurlVaDXiTTPOS/uxtQ7Dj1J4S70qGjsjkrYth7im4O
+ 9FZ1Gjdh4OZTBUi11oGlLEQSIWDUPVqox/+QZwCi0C+dWXl5EHRLmwVzh
+ 8HvqsRxNZ4VYw4iRdcS06R1kQskyp0vf9s9nTyFQr/ZS3Ragq3wcjwITV
+ Hfdfl+zHFVN8DYT0qM3oM6IGd3y1L41qlEA2PcK56AaKXopCUU8HmU2qi
+ xDpjxnyzRhpwPfXxefFDNPYYLkzohrVXkLqettYBIJ0MDAJQMhUJDvGaK w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="286070571"
+X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; d="scan'208";a="286070571"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2022 03:52:14 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="686506525"
+X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; d="scan'208";a="686506525"
+Received: from pvarla-mobl4.gar.corp.intel.com (HELO localhost)
+ ([10.252.39.104])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2022 03:52:11 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Subject: Re: [PATCH 1/2] drm/i915/display: fix randconfig build
+In-Reply-To: <20221004102837.12181-1-jirislaby@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221004102837.12181-1-jirislaby@kernel.org>
+Date: Tue, 04 Oct 2022 13:52:08 +0300
+Message-ID: <87mtabuahz.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v1 17/17] drm/mediatek: Add mt8195-dpi support to drm_drv
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>
-References: <20220919-v1-0-4844816c9808@baylibre.com>
- <20220919-v1-17-4844816c9808@baylibre.com>
- <a0a3c427-c851-ae5d-4010-e94740bf9f6e@linaro.org>
- <CABnWg9s3N_Ua9g0S3x0uj8PN4FtOX6DO+zQcBzGFqoLTL1J24A@mail.gmail.com>
- <bc64b69d-3d65-f5ca-a688-2ad1a055ba4b@linaro.org>
- <CABnWg9sJFBAXi1bu_yHDppFOmg=H=G7QTn9Bzqkr-t7qm5vUFw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABnWg9sJFBAXi1bu_yHDppFOmg=H=G7QTn9Bzqkr-t7qm5vUFw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,70 +58,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Martin =?utf-8?Q?Li=C5=A1ka?= <mliska@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/10/2022 17:29, Guillaume Ranquet wrote:
-> On Tue, 27 Sep 2022 16:28, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 27/09/2022 15:04, Guillaume Ranquet wrote:
->>> On Thu, 22 Sep 2022 09:20, Krzysztof Kozlowski
->>> <krzysztof.kozlowski@linaro.org> wrote:
->>>> On 19/09/2022 18:56, Guillaume Ranquet wrote:
->>>>> Add dpi support to enable the HDMI path.
->>>>>
->>>>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->>>>>
->>>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
->>>>> index 72049a530ae1..27f029ca760b 100644
->>>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
->>>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
->>>>> @@ -820,6 +820,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->>>>>  	  .data = (void *)MTK_DPI },
->>>>>  	{ .compatible = "mediatek,mt8192-dpi",
->>>>>  	  .data = (void *)MTK_DPI },
->>>>> +	{ .compatible = "mediatek,mt8195-dpi",
->>>>> +	  .data = (void *)MTK_DPI },
->>>>
->>>> It's compatible with the others. You don't need more compatibles.
->>>
->>> Hi Krzysztof,
->>>
->>> It's a bit confusing, because this compatible is used in both
->>> mtk_drm_drv.c and in mtk_dpi.c
->>>
->>> Albeit it's entirely the same thing regarding the mtk_drm_drv module,
->>> it's pretty different
->>> regarding the mtk_dpi module.
->>
->> Sure, but this does not explain why do you need these entries here in
->> mtk_drm_drv.
->>
->> Best regards,
->> Krzysztof
->>
-> 
-> Hi Krzysztof,
-> 
-> Sorry for the late answer.
-> The mtk_drm_drv is the component master of the full mediatek drm stack.
-> 
-> it "binds" all of the crtc/dpi/ovl/mutex/merge... components of the stack.
-> 
-> That mtk_ddp_comp_dt_ids array is iterated over to find all of the components
-> from the device tree.
+On Tue, 04 Oct 2022, "Jiri Slaby (SUSE)" <jirislaby@kernel.org> wrote:
+> When DRM_I915=3Dy and BACKLIGHT_CLASS_DEVICE=3Dm, the build fails:
+> ld: drivers/gpu/drm/i915/display/intel_backlight.o: in function `intel_ba=
+cklight_device_register':
+> intel_backlight.c:(.text+0x5587): undefined reference to `backlight_devic=
+e_get_by_name'
+>
+> ld: drivers/gpu/drm/i915/display/intel_backlight.o: in function `intel_ba=
+cklight_device_unregister':
+> intel_backlight.c:(.text+0x576e): undefined reference to `backlight_devic=
+e_unregister'
+>
+> To fix this, use IS_REACHABLE(), not IS_ENABLED() in backlight. That is,
+> with the above config, backlight support is disabled.
 
-No. You said what the code is doing. I think I understand this. You
-still do not need more compatibles. Your sentence did not clarify it
-because it did not answer at all to question "why". Why do you need it?
+So I don't want this. I'll take a patch that fixes the dependencies to
+block DRM_I915=3Dy and BACKLIGHT_CLASS_DEVICE=3Dm. Nobody wants that combo,
+and IMO using IS_REACHABLE() is a workaround to hide a broken config
+under the carpet.
 
-Sorry, the change looks not correct.
+The right thing to do is
 
-Best regards,
-Krzysztof
+config DRM_I915
+	depends on BACKLIGHT_CLASS_DEVICE || BACKLIGHT_CLASS_DEVICE=3Dn.
 
+We're selecting BACKLIGHT_CLASS_DEVICE because almost everyone else is
+too, and a combo of selecting and depending leads to circular
+dependencies. But depending is the right fix.
+
+Documentation/kbuild/kconfig-language.rst:
+
+  Note:
+	select should be used with care. select will force
+	a symbol to a value without visiting the dependencies.
+	By abusing select you are able to select a symbol FOO even
+	if FOO depends on BAR that is not set.
+	In general use select only for non-visible symbols
+	(no prompts anywhere) and for symbols with no dependencies.
+	That will limit the usefulness but on the other hand avoid
+	the illegal configurations all over.
+
+
+BR,
+Jani.
+
+>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Reported-by: Martin Li=C5=A1ka <mliska@suse.cz>
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> ---
+>  drivers/gpu/drm/i915/display/intel_backlight.c | 2 +-
+>  drivers/gpu/drm/i915/display/intel_backlight.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu=
+/drm/i915/display/intel_backlight.c
+> index beba39a38c87..c1ba68796b6d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+> @@ -825,7 +825,7 @@ void intel_backlight_enable(const struct intel_crtc_s=
+tate *crtc_state,
+>  	mutex_unlock(&dev_priv->display.backlight.lock);
+>  }
+>=20=20
+> -#if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
+> +#if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
+>  static u32 intel_panel_get_backlight(struct intel_connector *connector)
+>  {
+>  	struct drm_i915_private *dev_priv =3D to_i915(connector->base.dev);
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.h b/drivers/gpu=
+/drm/i915/display/intel_backlight.h
+> index 339643f63897..207fe1c613d8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.h
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.h
+> @@ -36,7 +36,7 @@ u32 intel_backlight_invert_pwm_level(struct intel_conne=
+ctor *connector, u32 leve
+>  u32 intel_backlight_level_to_pwm(struct intel_connector *connector, u32 =
+level);
+>  u32 intel_backlight_level_from_pwm(struct intel_connector *connector, u3=
+2 val);
+>=20=20
+> -#if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
+> +#if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
+>  int intel_backlight_device_register(struct intel_connector *connector);
+>  void intel_backlight_device_unregister(struct intel_connector *connector=
+);
+>  #else /* CONFIG_BACKLIGHT_CLASS_DEVICE */
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
