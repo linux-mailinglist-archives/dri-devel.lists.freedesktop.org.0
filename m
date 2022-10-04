@@ -1,39 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64E15F43DD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 15:03:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C295F43E8
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Oct 2022 15:06:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E7E10E6CC;
-	Tue,  4 Oct 2022 13:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E14110E6DA;
+	Tue,  4 Oct 2022 13:06:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C06C10E6CC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Oct 2022 13:03:13 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECF7A2D9;
- Tue,  4 Oct 2022 15:03:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1664888591;
- bh=2ynmfYdyqP5fJ1srOy1TW6LiWh7wjTgnJ020UhOJKVI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Gf2CACt8kKiY5uTqfnXwr19UmKSe1vConrkOaRl5hJk5sY7HjFldCQU60KPtUTcWv
- ei46VBytQs08lepKoAPLSOpjL1VtiSzqkqXZzqUP3AKQ7Tpvp0zcas06kVfhwEyQbr
- pj/r78kWmrEdyGavJaJdmqS3evzP8mDwTLAV9QoE=
-Date: Tue, 4 Oct 2022 16:03:08 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] dt-bindings: display: panel: use spi-peripheral-props.yaml
-Message-ID: <YzwvDEKAzbqjSYjT@pendragon.ideasonboard.com>
-References: <20221004120907.72767-1-krzysztof.kozlowski@linaro.org>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDFB10E5F6;
+ Tue,  4 Oct 2022 13:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664888759; x=1696424759;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=jJaQCjdVJze25eq6DHdeSbzA+Pw1FOoPFZEb1WdBOKc=;
+ b=BCJMqZmr7amB08G+yuAe3J3FWKSP5xYtWo9zWuJ+npoj0cYHZX4pyClu
+ VbYQB8dVYVF5VBQKsaUJYP20PaalwNjwWwGJ5uiu0m1gmgbZtxwkA8RDH
+ LVvY9dF2E5wZPs7XWkEPXeWHPTS3X+5+EQEKp2C5NYGVvjv6mWeOx2cSf
+ c24r5F9KHaKC40IT0Rnkf9egkeHXzo/ZTkLN9liW6RtWHuZNcURAyPlXY
+ nwgVn/5FfaQjVoNNvPpJp5Bh/ZBVLbo3kSqdSwFVxDToiBgt/hrb4b2MN
+ DD3xKU84tS7qTB/F1ZM/+ofZvrWtlyYKyB62XqOubL9tzpOvVOCQRRnOx A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="283271137"
+X-IronPort-AV: E=Sophos;i="5.95,157,1661842800"; d="scan'208";a="283271137"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2022 06:05:58 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="623925383"
+X-IronPort-AV: E=Sophos;i="5.95,157,1661842800"; d="scan'208";a="623925383"
+Received: from tomfin1x-mobl1.ger.corp.intel.com (HELO [10.213.229.10])
+ ([10.213.229.10])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2022 06:05:57 -0700
+Message-ID: <7b7fe361-bdeb-7fe0-7572-c64cd8eb6ad6@linux.intel.com>
+Date: Tue, 4 Oct 2022 14:05:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221004120907.72767-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] drm/i915/pmu: Match frequencies reported by PMU and sysfs
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20221003192419.3541088-1-ashutosh.dixit@intel.com>
+ <d83e3b3b-25ee-74cd-b4a3-bee6c567d50a@linux.intel.com>
+ <dce4c792-fd6d-0647-1977-613026c8c5b3@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <dce4c792-fd6d-0647-1977-613026c8c5b3@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,185 +63,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Dillon Min <dillon.minfei@gmail.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Mack <daniel@zonque.org>, Markuss Broks <markuss.broks@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
 
-Thank you for the patch.
-
-On Tue, Oct 04, 2022 at 02:09:07PM +0200, Krzysztof Kozlowski wrote:
-> For devices connectable by SPI bus (e.g. already using
-> "spi-max-frequency" property), reference the "spi-peripheral-props.yaml"
-> schema to allow using all SPI device properties, even these which device
-> bindings author did not tried yet.
-
-Isn't this done implicitly by spi-controller.yaml ? SPI devices that are
-children of an SPI controller should match the patternProperties
-"^.*@[0-9a-f]+$" in that file, which has a $ref: spi-peripheral-props.yaml.
-Is there something I'm missing ?
-
-> Change "additionalProperties" to "unevaluatedProperties", so the actual
-> other properties from "spi-peripheral-props.yaml" can be used.  This has
-> additional impact of allowing also other properties from
-> panel-common.yaml to be used.
+On 04/10/2022 14:00, Tvrtko Ursulin wrote:
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/display/panel/ilitek,ili9163.yaml    | 3 ++-
->  .../devicetree/bindings/display/panel/ilitek,ili9341.yaml    | 1 +
->  .../devicetree/bindings/display/panel/nec,nl8048hl11.yaml    | 3 ++-
->  .../bindings/display/panel/samsung,lms380kf01.yaml           | 5 ++---
->  .../bindings/display/panel/samsung,lms397kf04.yaml           | 3 ++-
->  .../devicetree/bindings/display/panel/samsung,s6d27a1.yaml   | 4 ++--
->  .../devicetree/bindings/display/panel/tpo,tpg110.yaml        | 1 +
->  7 files changed, 12 insertions(+), 8 deletions(-)
+> On 04/10/2022 10:29, Tvrtko Ursulin wrote:
+>>
+>> On 03/10/2022 20:24, Ashutosh Dixit wrote:
+>>> PMU and sysfs use different wakeref's to "interpret" zero freq. Sysfs 
+>>> uses
+>>> runtime PM wakeref (see intel_rps_read_punit_req and
+>>> intel_rps_read_actual_frequency). PMU uses the GT parked/unparked
+>>> wakeref. In general the GT wakeref is held for less time that the 
+>>> runtime
+>>> PM wakeref which causes PMU to report a lower average freq than the 
+>>> average
+>>> freq obtained from sampling sysfs.
+>>>
+>>> To resolve this, use the same freq functions (and wakeref's) in PMU as
+>>> those used in sysfs.
+>>>
+>>> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7025
+>>> Reported-by: Ashwin Kumar Kulkarni <ashwin.kumar.kulkarni@intel.com>
+>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>>> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/i915_pmu.c | 27 ++-------------------------
+>>>   1 file changed, 2 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_pmu.c 
+>>> b/drivers/gpu/drm/i915/i915_pmu.c
+>>> index 958b37123bf1..eda03f264792 100644
+>>> --- a/drivers/gpu/drm/i915/i915_pmu.c
+>>> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+>>> @@ -371,37 +371,16 @@ static void
+>>>   frequency_sample(struct intel_gt *gt, unsigned int period_ns)
+>>>   {
+>>>       struct drm_i915_private *i915 = gt->i915;
+>>> -    struct intel_uncore *uncore = gt->uncore;
+>>>       struct i915_pmu *pmu = &i915->pmu;
+>>>       struct intel_rps *rps = &gt->rps;
+>>>       if (!frequency_sampling_enabled(pmu))
+>>>           return;
+>>> -    /* Report 0/0 (actual/requested) frequency while parked. */
+>>> -    if (!intel_gt_pm_get_if_awake(gt))
+>>> -        return;
+>>> -
+>>>       if (pmu->enable & config_mask(I915_PMU_ACTUAL_FREQUENCY)) {
+>>> -        u32 val;
+>>> -
+>>> -        /*
+>>> -         * We take a quick peek here without using forcewake
+>>> -         * so that we don't perturb the system under observation
+>>> -         * (forcewake => !rc6 => increased power use). We expect
+>>> -         * that if the read fails because it is outside of the
+>>> -         * mmio power well, then it will return 0 -- in which
+>>> -         * case we assume the system is running at the intended
+>>> -         * frequency. Fortunately, the read should rarely fail!
+>>> -         */
+>>> -        val = intel_uncore_read_fw(uncore, GEN6_RPSTAT1);
+>>> -        if (val)
+>>> -            val = intel_rps_get_cagf(rps, val);
+>>> -        else
+>>> -            val = rps->cur_freq;
+>>> -
+>>>           add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_ACT],
+>>> -                intel_gpu_freq(rps, val), period_ns / 1000);
+>>> +                intel_rps_read_actual_frequency(rps),
+>>> +                period_ns / 1000);
+>>>       }
+>>>       if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQUENCY)) {
+>>
+>> What is software tracking of requested frequency showing when GT is 
+>> parked or runtime suspended? With this change sampling would be 
+>> outside any such checks so we need to be sure reported value makes sense.
+>>
+>> Although more important open is around what is actually correct.
+>>
+>> For instance how does the patch affect RC6 and power? I don't know how 
+>> power management of different blocks is wired up, so personally I 
+>> would only be able to look at it empirically. In other words what I am 
+>> asking is this - if we changed from skipping obtaining forcewake even 
+>> when unparked, to obtaining forcewake if not runtime suspended - what 
+>> hardware blocks does that power up and how it affects RC6 and power? 
+>> Can it affect actual frequency or not? (Will "something" power up the 
+>> clocks just because we will be getting forcewake?)
+>>
+>> Or maybe question simplified - does 200Hz polling on existing sysfs 
+>> actual frequency field disturbs the system under some circumstances? 
+>> (Increases power and decreases RC6.) If it does then that would be a 
+>> problem. We want a solution which shows the real data, but where the 
+>> act of monitoring itself does not change it too much. If it doesn't 
+>> then it's okay.
+>>
+>> Could you somehow investigate on these topics? Maybe log RAPL GPU 
+>> power while polling on sysfs, versus getting the actual frequency from 
+>> the existing PMU implementation and see if that shows anything? Or 
+>> actually simpler - RAPL GPU power for current PMU intel_gpu_top versus 
+>> this patch? On idle(-ish) desktop workloads perhaps? Power and 
+>> frequency graphed for both.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
-> index 7e7a8362b951..a4154b51043e 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
-> @@ -15,6 +15,7 @@ description:
->  
->  allOf:
->    - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->  
->  properties:
->    compatible:
-> @@ -41,7 +42,7 @@ required:
->    - dc-gpios
->    - reset-gpios
->  
-> -additionalProperties: false
-> +unevaluatedProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-> index 99e0cb9440cf..94f169ea065a 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-> @@ -16,6 +16,7 @@ description: |
->  
->  allOf:
->    - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->  
->  properties:
->    compatible:
-> diff --git a/Documentation/devicetree/bindings/display/panel/nec,nl8048hl11.yaml b/Documentation/devicetree/bindings/display/panel/nec,nl8048hl11.yaml
-> index aa788eaa2f71..3b09b359023e 100644
-> --- a/Documentation/devicetree/bindings/display/panel/nec,nl8048hl11.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/nec,nl8048hl11.yaml
-> @@ -15,6 +15,7 @@ maintainers:
->  
->  allOf:
->    - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->  
->  properties:
->    compatible:
-> @@ -34,7 +35,7 @@ required:
->    - reset-gpios
->    - port
->  
-> -additionalProperties: false
-> +unevaluatedProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
-> index 251f0c7115aa..70ffc88d2a08 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
-> @@ -9,14 +9,13 @@ title: Samsung LMS380KF01 display panel
->  description: The LMS380KF01 is a 480x800 DPI display panel from Samsung Mobile
->    Displays (SMD) utilizing the WideChips WS2401 display controller. It can be
->    used with internal or external backlight control.
-> -  The panel must obey the rules for a SPI slave device as specified in
-> -  spi/spi-controller.yaml
->  
->  maintainers:
->    - Linus Walleij <linus.walleij@linaro.org>
->  
->  allOf:
->    - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->  
->  properties:
->    compatible:
-> @@ -59,7 +58,7 @@ required:
->    - spi-cpol
->    - port
->  
-> -additionalProperties: false
-> +unevaluatedProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml b/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
-> index cd62968426fb..5e77cee93f83 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
-> @@ -14,6 +14,7 @@ maintainers:
->  
->  allOf:
->    - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->  
->  properties:
->    compatible:
-> @@ -51,7 +52,7 @@ required:
->    - spi-cpol
->    - port
->  
-> -additionalProperties: false
-> +unevaluatedProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml
-> index 26e3c820a2f7..d273faf4442a 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml
-> @@ -7,14 +7,14 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: Samsung S6D27A1 display panel
->  
->  description: The S6D27A1 is a 480x800 DPI display panel from Samsung Mobile
-> -  Displays (SMD). The panel must obey the rules for a SPI slave device
-> -  as specified in spi/spi-controller.yaml
-> +  Displays (SMD).
->  
->  maintainers:
->    - Markuss Broks <markuss.broks@gmail.com>
->  
->  allOf:
->    - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->  
->  properties:
->    compatible:
-> diff --git a/Documentation/devicetree/bindings/display/panel/tpo,tpg110.yaml b/Documentation/devicetree/bindings/display/panel/tpo,tpg110.yaml
-> index 6f1f02044b4b..f0243d196191 100644
-> --- a/Documentation/devicetree/bindings/display/panel/tpo,tpg110.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/tpo,tpg110.yaml
-> @@ -41,6 +41,7 @@ description: |+
->  
->  allOf:
->    - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->  
->  properties:
->    compatible:
+> Another thought - considering that bspec says for 0xa01c "This register 
+> reflects real-time values and thus does not have a pre-determined 
+> default value out of reset" - could it be that it also does not reflect 
+> a real value when GPU is not executing anything (so zero), just happens 
+> to be not runtime suspended? That would mean sysfs reads could maybe 
+> show last known value? Just a thought to check.
+> 
+> I've also tried on my Alderlake desktop:
+> 
+> 1)
+> 
+> while true; do cat gt_act_freq_mhz >/dev/null; sleep 0.005; done
+> 
+> This costs ~120mW of GPU power and ~20% decrease in RC6.
+> 
+> 
+> 2)
+> 
+> intel_gpu_top -l -s 5 >/dev/null
 
--- 
+This "-s 5" was pointless though. :)
+
 Regards,
 
-Laurent Pinchart
+Tvrtko
+
+> 
+> This costs no power or RC6.
+> 
+> I have also never observed sysfs to show below min freq. This was with 
+> no desktop so it's possible this register indeed does not reflect the 
+> real situation when things are idle.
+> 
+> So I think it is possible sysfs value is the misleading one.
+> 
+> Regards,
+> 
+> Tvrtko
