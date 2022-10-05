@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E195F4D5F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 03:25:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C975F4EF0
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 05:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF39B10E449;
-	Wed,  5 Oct 2022 01:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587A310E112;
+	Wed,  5 Oct 2022 03:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7786488784;
- Wed,  5 Oct 2022 01:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664933092; x=1696469092;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hc6JMSPiJlvgmGXKMwfQ7P8GV4w5qUr4GYo6xlozwlc=;
- b=X/sbKKHnZUT8ubij90khj81QgsYsDd5tggFrTk0Frpbgd2XIkoPWZQ1j
- 7Xr4H8oWeBXn2gaDxq8w8CDKxxzQQnPbas0OsJjFbESHQLwbIYl8df9M2
- gfNHRveqGO128pxWTkTBalzpH1FnszWFlj0ygtGm3KHy/YqcVSYBS+naA
- 1R8oXmlfZUfcaboTaD6cWhzhRs467atC4sEfB31OKlHM3SAbbY/Ddxc4y
- mNm50yc3xtsV7hGUzK+Aicyhwn8CFfv9/qfGg5VtF2JVZItaDdO54zu6a
- 1IkHuLJwrsVEkB0kNxmeCMgjwbs/2xNuEw/vzvVvwYSxtcwh2Y1Rbr8wc A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="300664880"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="300664880"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 18:24:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="655012212"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="655012212"
-Received: from lkp-server01.sh.intel.com (HELO d4f44333118a) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 04 Oct 2022 18:24:47 -0700
-Received: from kbuild by d4f44333118a with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oft9S-0000jv-1D;
- Wed, 05 Oct 2022 01:24:46 +0000
-Date: Wed, 5 Oct 2022 09:23:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/2] drm/i915/slpc: Update the frequency debugfs
-Message-ID: <202210050944.Kk3m7iKw-lkp@intel.com>
-References: <20221004222903.23898-3-vinay.belgaumkar@intel.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F14D910E112
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 03:42:02 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id bj12so32800682ejb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Oct 2022 20:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Rja10dJYLFVPA31GrFITVv+ZPzbny44P7OkW8GZo5EA=;
+ b=RoVqey0Oadp0elWjHuyY7pfQA0h7v8je/Zj4/TbwmWm1TIce3M9jUv7u1jG6fKPIr+
+ A/yKe0G5R8sK+5pE3vibCIGjVAj4qu/F/8bMpD5RDE43+NJ92niUJ7hbjfr7QnDDq9MI
+ xYnQXCCu/K7lRGAFL2CZm3MfnCkz+OPQ+XqXKhGk6OyvLps6G5CVHd4Jl52ksPbGpJ29
+ UHP85D6jqCXFuL3rQ2IsvxOGsAZl5sJ5fNLLhg56HUoyh8cLKyZvcDDHy2zp0KCM05aZ
+ SoJJk3+rUA4dTSk+yiZPyLi0QJkuqnuFnH8ggvEiCvbFPai5iBbRfLo52eeJQUUFyEM+
+ 7gIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Rja10dJYLFVPA31GrFITVv+ZPzbny44P7OkW8GZo5EA=;
+ b=BSEYb2esGW7V4aQvfWov6jecP4ljBc9ENWEgyMfzhbWAmbrY8aMmpVXoTZSSnGSNEQ
+ yMSO/r+rs/EzI84SVVdv5yzblzOFbBTwf16REEBjyhc7dPrQjz7GpXSzwU5MvOIb+4cD
+ DyroSkx6+T7BStkTH7ItQetYHRZjw7HJOkLHZqYyiJWPhgJyJnyQD7WMB8yOWaiVTiUd
+ PwX48zw7MlqE2y/gawzGUYfwnNU6sac3AUTNBAnfzv07gKAeaclszmXqOd/0C1AO7mC4
+ JtIhgds1+w7FTCrFvzm6rwyRadnNaeNNWSzwchHSt7a+WzzU/zWELQMtPnxUnbDCciii
+ zhNA==
+X-Gm-Message-State: ACrzQf02LX3ti9ajRKcFeYkhNIWlg42cNTRxh/mwqdzzyqdGnPqkW6fw
+ MVG1snAjFpu40peowqoZhLRDY+9w1NyXOmhqXD4=
+X-Google-Smtp-Source: AMsMyM7+r7zqXo9HJR+nJR494J1Lepd/sLW/TAiJ5TzvoBfmXXDVwe/7is8aL5mF42CmJInZWY5PLZ961VTbaG6B3PA=
+X-Received: by 2002:a17:906:db02:b0:780:24e:cf9 with SMTP id
+ xj2-20020a170906db0200b00780024e0cf9mr22005547ejb.460.1664941320675; Tue, 04
+ Oct 2022 20:42:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="WbDZ0Uq7p8YcvShx"
-Content-Disposition: inline
-In-Reply-To: <20221004222903.23898-3-vinay.belgaumkar@intel.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 5 Oct 2022 13:41:47 +1000
+Message-ID: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
+Subject: [git pull] drm for 6.1-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,6797 +64,3894 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>, kbuild-all@lists.01.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---WbDZ0Uq7p8YcvShx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Vinay,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vinay-Belgaumkar/drm-i915-slpc-Update-frequency-debugfs-for-SLPC/20221005-063101
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-rhel-8.3-func
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/52d4cf9a124b92a8c435dc05307cbaa5edbffacf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vinay-Belgaumkar/drm-i915-slpc-Update-frequency-debugfs-for-SLPC/20221005-063101
-        git checkout 52d4cf9a124b92a8c435dc05307cbaa5edbffacf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/gt/intel_rps.c:2222:6: warning: no previous prototype for 'rps_frequency_dump' [-Wmissing-prototypes]
-    2222 | void rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-         |      ^~~~~~~~~~~~~~~~~~
-
-
-vim +/rps_frequency_dump +2222 drivers/gpu/drm/i915/gt/intel_rps.c
-
-  2221	
-> 2222	void rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-  2223	{
-  2224		struct intel_gt *gt = rps_to_gt(rps);
-  2225		struct drm_i915_private *i915 = gt->i915;
-  2226		struct intel_uncore *uncore = gt->uncore;
-  2227		struct intel_rps_freq_caps caps;
-  2228		u32 rp_state_limits;
-  2229		u32 gt_perf_status;
-  2230		u32 rpmodectl, rpinclimit, rpdeclimit;
-  2231		u32 rpstat, cagf, reqf;
-  2232		u32 rpcurupei, rpcurup, rpprevup;
-  2233		u32 rpcurdownei, rpcurdown, rpprevdown;
-  2234		u32 rpupei, rpupt, rpdownei, rpdownt;
-  2235		u32 pm_ier, pm_imr, pm_isr, pm_iir, pm_mask;
-  2236	
-  2237		rp_state_limits = intel_uncore_read(uncore, GEN6_RP_STATE_LIMITS);
-  2238		gen6_rps_get_freq_caps(rps, &caps);
-  2239		if (IS_GEN9_LP(i915))
-  2240			gt_perf_status = intel_uncore_read(uncore, BXT_GT_PERF_STATUS);
-  2241		else
-  2242			gt_perf_status = intel_uncore_read(uncore, GEN6_GT_PERF_STATUS);
-  2243	
-  2244		/* RPSTAT1 is in the GT power well */
-  2245		intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
-  2246	
-  2247		reqf = intel_uncore_read(uncore, GEN6_RPNSWREQ);
-  2248		if (GRAPHICS_VER(i915) >= 9) {
-  2249			reqf >>= 23;
-  2250		} else {
-  2251			reqf &= ~GEN6_TURBO_DISABLE;
-  2252			if (IS_HASWELL(i915) || IS_BROADWELL(i915))
-  2253				reqf >>= 24;
-  2254			else
-  2255				reqf >>= 25;
-  2256		}
-  2257		reqf = intel_gpu_freq(rps, reqf);
-  2258	
-  2259		rpmodectl = intel_uncore_read(uncore, GEN6_RP_CONTROL);
-  2260		rpinclimit = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
-  2261		rpdeclimit = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
-  2262	
-  2263		rpstat = intel_uncore_read(uncore, GEN6_RPSTAT1);
-  2264		rpcurupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
-  2265		rpcurup = intel_uncore_read(uncore, GEN6_RP_CUR_UP) & GEN6_CURBSYTAVG_MASK;
-  2266		rpprevup = intel_uncore_read(uncore, GEN6_RP_PREV_UP) & GEN6_CURBSYTAVG_MASK;
-  2267		rpcurdownei = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN_EI) & GEN6_CURIAVG_MASK;
-  2268		rpcurdown = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN) & GEN6_CURBSYTAVG_MASK;
-  2269		rpprevdown = intel_uncore_read(uncore, GEN6_RP_PREV_DOWN) & GEN6_CURBSYTAVG_MASK;
-  2270	
-  2271		rpupei = intel_uncore_read(uncore, GEN6_RP_UP_EI);
-  2272		rpupt = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
-  2273	
-  2274		rpdownei = intel_uncore_read(uncore, GEN6_RP_DOWN_EI);
-  2275		rpdownt = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
-  2276	
-  2277		cagf = intel_rps_read_actual_frequency(rps);
-  2278	
-  2279		intel_uncore_forcewake_put(uncore, FORCEWAKE_ALL);
-  2280	
-  2281		if (GRAPHICS_VER(i915) >= 11) {
-  2282			pm_ier = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE);
-  2283			pm_imr = intel_uncore_read(uncore, GEN11_GPM_WGBOXPERF_INTR_MASK);
-  2284			/*
-  2285			 * The equivalent to the PM ISR & IIR cannot be read
-  2286			 * without affecting the current state of the system
-  2287			 */
-  2288			pm_isr = 0;
-  2289			pm_iir = 0;
-  2290		} else if (GRAPHICS_VER(i915) >= 8) {
-  2291			pm_ier = intel_uncore_read(uncore, GEN8_GT_IER(2));
-  2292			pm_imr = intel_uncore_read(uncore, GEN8_GT_IMR(2));
-  2293			pm_isr = intel_uncore_read(uncore, GEN8_GT_ISR(2));
-  2294			pm_iir = intel_uncore_read(uncore, GEN8_GT_IIR(2));
-  2295		} else {
-  2296			pm_ier = intel_uncore_read(uncore, GEN6_PMIER);
-  2297			pm_imr = intel_uncore_read(uncore, GEN6_PMIMR);
-  2298			pm_isr = intel_uncore_read(uncore, GEN6_PMISR);
-  2299			pm_iir = intel_uncore_read(uncore, GEN6_PMIIR);
-  2300		}
-  2301		pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
-  2302	
-  2303		drm_printf(p, "Video Turbo Mode: %s\n",
-  2304			   str_yes_no(rpmodectl & GEN6_RP_MEDIA_TURBO));
-  2305		drm_printf(p, "HW control enabled: %s\n",
-  2306			   str_yes_no(rpmodectl & GEN6_RP_ENABLE));
-  2307		drm_printf(p, "SW control enabled: %s\n",
-  2308			   str_yes_no((rpmodectl & GEN6_RP_MEDIA_MODE_MASK) == GEN6_RP_MEDIA_SW_MODE));
-  2309	
-  2310		drm_printf(p, "PM IER=0x%08x IMR=0x%08x, MASK=0x%08x\n",
-  2311			   pm_ier, pm_imr, pm_mask);
-  2312		if (GRAPHICS_VER(i915) <= 10)
-  2313			drm_printf(p, "PM ISR=0x%08x IIR=0x%08x\n",
-  2314				   pm_isr, pm_iir);
-  2315		drm_printf(p, "pm_intrmsk_mbz: 0x%08x\n",
-  2316			   rps->pm_intrmsk_mbz);
-  2317		drm_printf(p, "GT_PERF_STATUS: 0x%08x\n", gt_perf_status);
-  2318		drm_printf(p, "Render p-state ratio: %d\n",
-  2319			   (gt_perf_status & (GRAPHICS_VER(i915) >= 9 ? 0x1ff00 : 0xff00)) >> 8);
-  2320		drm_printf(p, "Render p-state VID: %d\n",
-  2321			   gt_perf_status & 0xff);
-  2322		drm_printf(p, "Render p-state limit: %d\n",
-  2323			   rp_state_limits & 0xff);
-  2324		drm_printf(p, "RPSTAT1: 0x%08x\n", rpstat);
-  2325		drm_printf(p, "RPMODECTL: 0x%08x\n", rpmodectl);
-  2326		drm_printf(p, "RPINCLIMIT: 0x%08x\n", rpinclimit);
-  2327		drm_printf(p, "RPDECLIMIT: 0x%08x\n", rpdeclimit);
-  2328		drm_printf(p, "RPNSWREQ: %dMHz\n", reqf);
-  2329		drm_printf(p, "CAGF: %dMHz\n", cagf);
-  2330		drm_printf(p, "RP CUR UP EI: %d (%lldns)\n",
-  2331			   rpcurupei,
-  2332			   intel_gt_pm_interval_to_ns(gt, rpcurupei));
-  2333		drm_printf(p, "RP CUR UP: %d (%lldns)\n",
-  2334			   rpcurup, intel_gt_pm_interval_to_ns(gt, rpcurup));
-  2335		drm_printf(p, "RP PREV UP: %d (%lldns)\n",
-  2336			   rpprevup, intel_gt_pm_interval_to_ns(gt, rpprevup));
-  2337		drm_printf(p, "Up threshold: %d%%\n",
-  2338			   rps->power.up_threshold);
-  2339		drm_printf(p, "RP UP EI: %d (%lldns)\n",
-  2340			   rpupei, intel_gt_pm_interval_to_ns(gt, rpupei));
-  2341		drm_printf(p, "RP UP THRESHOLD: %d (%lldns)\n",
-  2342			   rpupt, intel_gt_pm_interval_to_ns(gt, rpupt));
-  2343	
-  2344		drm_printf(p, "RP CUR DOWN EI: %d (%lldns)\n",
-  2345			   rpcurdownei,
-  2346			   intel_gt_pm_interval_to_ns(gt, rpcurdownei));
-  2347		drm_printf(p, "RP CUR DOWN: %d (%lldns)\n",
-  2348			   rpcurdown,
-  2349			   intel_gt_pm_interval_to_ns(gt, rpcurdown));
-  2350		drm_printf(p, "RP PREV DOWN: %d (%lldns)\n",
-  2351			   rpprevdown,
-  2352			   intel_gt_pm_interval_to_ns(gt, rpprevdown));
-  2353		drm_printf(p, "Down threshold: %d%%\n",
-  2354			   rps->power.down_threshold);
-  2355		drm_printf(p, "RP DOWN EI: %d (%lldns)\n",
-  2356			   rpdownei, intel_gt_pm_interval_to_ns(gt, rpdownei));
-  2357		drm_printf(p, "RP DOWN THRESHOLD: %d (%lldns)\n",
-  2358			   rpdownt, intel_gt_pm_interval_to_ns(gt, rpdownt));
-  2359	
-  2360		drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
-  2361			   intel_gpu_freq(rps, caps.min_freq));
-  2362		drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
-  2363			   intel_gpu_freq(rps, caps.rp1_freq));
-  2364		drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
-  2365			   intel_gpu_freq(rps, caps.rp0_freq));
-  2366		drm_printf(p, "Max overclocked frequency: %dMHz\n",
-  2367			   intel_gpu_freq(rps, rps->max_freq));
-  2368	
-  2369		drm_printf(p, "Current freq: %d MHz\n",
-  2370			   intel_gpu_freq(rps, rps->cur_freq));
-  2371		drm_printf(p, "Actual freq: %d MHz\n", cagf);
-  2372		drm_printf(p, "Idle freq: %d MHz\n",
-  2373			   intel_gpu_freq(rps, rps->idle_freq));
-  2374		drm_printf(p, "Min freq: %d MHz\n",
-  2375			   intel_gpu_freq(rps, rps->min_freq));
-  2376		drm_printf(p, "Boost freq: %d MHz\n",
-  2377			   intel_gpu_freq(rps, rps->boost_freq));
-  2378		drm_printf(p, "Max freq: %d MHz\n",
-  2379			   intel_gpu_freq(rps, rps->max_freq));
-  2380		drm_printf(p,
-  2381			   "efficient (RPe) frequency: %d MHz\n",
-  2382			   intel_gpu_freq(rps, rps->efficient_freq));
-  2383	}
-  2384	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
-
---WbDZ0Uq7p8YcvShx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=config
-
-#
-# Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 6.0.0-rc7 Kernel Configuration
-#
-CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-5) 11.3.0"
-CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=110300
-CONFIG_CLANG_VERSION=0
-CONFIG_AS_IS_GNU=y
-CONFIG_AS_VERSION=23890
-CONFIG_LD_IS_BFD=y
-CONFIG_LD_VERSION=23890
-CONFIG_LLD_VERSION=0
-CONFIG_CC_CAN_LINK=y
-CONFIG_CC_CAN_LINK_STATIC=y
-CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
-CONFIG_CC_HAS_ASM_INLINE=y
-CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
-CONFIG_PAHOLE_VERSION=123
-CONFIG_CONSTRUCTORS=y
-CONFIG_IRQ_WORK=y
-CONFIG_BUILDTIME_TABLE_SORT=y
-CONFIG_THREAD_INFO_IN_TASK=y
-
-#
-# General setup
-#
-CONFIG_INIT_ENV_ARG_LIMIT=32
-# CONFIG_COMPILE_TEST is not set
-# CONFIG_WERROR is not set
-CONFIG_LOCALVERSION=""
-CONFIG_LOCALVERSION_AUTO=y
-CONFIG_BUILD_SALT=""
-CONFIG_HAVE_KERNEL_GZIP=y
-CONFIG_HAVE_KERNEL_BZIP2=y
-CONFIG_HAVE_KERNEL_LZMA=y
-CONFIG_HAVE_KERNEL_XZ=y
-CONFIG_HAVE_KERNEL_LZO=y
-CONFIG_HAVE_KERNEL_LZ4=y
-CONFIG_HAVE_KERNEL_ZSTD=y
-CONFIG_KERNEL_GZIP=y
-# CONFIG_KERNEL_BZIP2 is not set
-# CONFIG_KERNEL_LZMA is not set
-# CONFIG_KERNEL_XZ is not set
-# CONFIG_KERNEL_LZO is not set
-# CONFIG_KERNEL_LZ4 is not set
-# CONFIG_KERNEL_ZSTD is not set
-CONFIG_DEFAULT_INIT=""
-CONFIG_DEFAULT_HOSTNAME="(none)"
-CONFIG_SYSVIPC=y
-CONFIG_SYSVIPC_SYSCTL=y
-CONFIG_SYSVIPC_COMPAT=y
-CONFIG_POSIX_MQUEUE=y
-CONFIG_POSIX_MQUEUE_SYSCTL=y
-CONFIG_WATCH_QUEUE=y
-CONFIG_CROSS_MEMORY_ATTACH=y
-# CONFIG_USELIB is not set
-CONFIG_AUDIT=y
-CONFIG_HAVE_ARCH_AUDITSYSCALL=y
-CONFIG_AUDITSYSCALL=y
-
-#
-# IRQ subsystem
-#
-CONFIG_GENERIC_IRQ_PROBE=y
-CONFIG_GENERIC_IRQ_SHOW=y
-CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK=y
-CONFIG_GENERIC_PENDING_IRQ=y
-CONFIG_GENERIC_IRQ_MIGRATION=y
-CONFIG_GENERIC_IRQ_INJECTION=y
-CONFIG_HARDIRQS_SW_RESEND=y
-CONFIG_IRQ_DOMAIN=y
-CONFIG_IRQ_DOMAIN_HIERARCHY=y
-CONFIG_GENERIC_MSI_IRQ=y
-CONFIG_GENERIC_MSI_IRQ_DOMAIN=y
-CONFIG_IRQ_MSI_IOMMU=y
-CONFIG_GENERIC_IRQ_MATRIX_ALLOCATOR=y
-CONFIG_GENERIC_IRQ_RESERVATION_MODE=y
-CONFIG_IRQ_FORCED_THREADING=y
-CONFIG_SPARSE_IRQ=y
-# CONFIG_GENERIC_IRQ_DEBUGFS is not set
-# end of IRQ subsystem
-
-CONFIG_CLOCKSOURCE_WATCHDOG=y
-CONFIG_ARCH_CLOCKSOURCE_INIT=y
-CONFIG_CLOCKSOURCE_VALIDATE_LAST_CYCLE=y
-CONFIG_GENERIC_TIME_VSYSCALL=y
-CONFIG_GENERIC_CLOCKEVENTS=y
-CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
-CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST=y
-CONFIG_GENERIC_CMOS_UPDATE=y
-CONFIG_HAVE_POSIX_CPU_TIMERS_TASK_WORK=y
-CONFIG_POSIX_CPU_TIMERS_TASK_WORK=y
-CONFIG_CONTEXT_TRACKING=y
-CONFIG_CONTEXT_TRACKING_IDLE=y
-
-#
-# Timers subsystem
-#
-CONFIG_TICK_ONESHOT=y
-CONFIG_NO_HZ_COMMON=y
-# CONFIG_HZ_PERIODIC is not set
-# CONFIG_NO_HZ_IDLE is not set
-CONFIG_NO_HZ_FULL=y
-CONFIG_CONTEXT_TRACKING_USER=y
-# CONFIG_CONTEXT_TRACKING_USER_FORCE is not set
-CONFIG_NO_HZ=y
-CONFIG_HIGH_RES_TIMERS=y
-CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US=100
-# end of Timers subsystem
-
-CONFIG_BPF=y
-CONFIG_HAVE_EBPF_JIT=y
-CONFIG_ARCH_WANT_DEFAULT_BPF_JIT=y
-
-#
-# BPF subsystem
-#
-# CONFIG_BPF_SYSCALL is not set
-CONFIG_BPF_JIT=y
-CONFIG_BPF_JIT_DEFAULT_ON=y
-# end of BPF subsystem
-
-CONFIG_PREEMPT_VOLUNTARY_BUILD=y
-# CONFIG_PREEMPT_NONE is not set
-CONFIG_PREEMPT_VOLUNTARY=y
-# CONFIG_PREEMPT is not set
-CONFIG_PREEMPT_COUNT=y
-# CONFIG_PREEMPT_DYNAMIC is not set
-# CONFIG_SCHED_CORE is not set
-
-#
-# CPU/Task time and stats accounting
-#
-CONFIG_VIRT_CPU_ACCOUNTING=y
-CONFIG_VIRT_CPU_ACCOUNTING_GEN=y
-CONFIG_IRQ_TIME_ACCOUNTING=y
-CONFIG_HAVE_SCHED_AVG_IRQ=y
-CONFIG_BSD_PROCESS_ACCT=y
-CONFIG_BSD_PROCESS_ACCT_V3=y
-CONFIG_TASKSTATS=y
-CONFIG_TASK_DELAY_ACCT=y
-CONFIG_TASK_XACCT=y
-CONFIG_TASK_IO_ACCOUNTING=y
-# CONFIG_PSI is not set
-# end of CPU/Task time and stats accounting
-
-CONFIG_CPU_ISOLATION=y
-
-#
-# RCU Subsystem
-#
-CONFIG_TREE_RCU=y
-CONFIG_RCU_EXPERT=y
-CONFIG_SRCU=y
-CONFIG_TREE_SRCU=y
-CONFIG_TASKS_RCU_GENERIC=y
-CONFIG_FORCE_TASKS_RCU=y
-CONFIG_TASKS_RCU=y
-# CONFIG_FORCE_TASKS_RUDE_RCU is not set
-CONFIG_TASKS_RUDE_RCU=y
-CONFIG_FORCE_TASKS_TRACE_RCU=y
-CONFIG_TASKS_TRACE_RCU=y
-CONFIG_RCU_STALL_COMMON=y
-CONFIG_RCU_NEED_SEGCBLIST=y
-CONFIG_RCU_FANOUT=64
-CONFIG_RCU_FANOUT_LEAF=16
-CONFIG_RCU_NOCB_CPU=y
-# CONFIG_RCU_NOCB_CPU_DEFAULT_ALL is not set
-# CONFIG_TASKS_TRACE_RCU_READ_MB is not set
-# end of RCU Subsystem
-
-CONFIG_IKCONFIG=y
-CONFIG_IKCONFIG_PROC=y
-# CONFIG_IKHEADERS is not set
-CONFIG_LOG_BUF_SHIFT=20
-CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
-CONFIG_PRINTK_SAFE_LOG_BUF_SHIFT=13
-# CONFIG_PRINTK_INDEX is not set
-CONFIG_HAVE_UNSTABLE_SCHED_CLOCK=y
-
-#
-# Scheduler features
-#
-# CONFIG_UCLAMP_TASK is not set
-# end of Scheduler features
-
-CONFIG_ARCH_SUPPORTS_NUMA_BALANCING=y
-CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH=y
-CONFIG_CC_HAS_INT128=y
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
-CONFIG_GCC12_NO_ARRAY_BOUNDS=y
-CONFIG_ARCH_SUPPORTS_INT128=y
-CONFIG_NUMA_BALANCING=y
-CONFIG_NUMA_BALANCING_DEFAULT_ENABLED=y
-CONFIG_CGROUPS=y
-CONFIG_PAGE_COUNTER=y
-# CONFIG_CGROUP_FAVOR_DYNMODS is not set
-CONFIG_MEMCG=y
-CONFIG_MEMCG_SWAP=y
-CONFIG_MEMCG_KMEM=y
-CONFIG_BLK_CGROUP=y
-CONFIG_CGROUP_WRITEBACK=y
-CONFIG_CGROUP_SCHED=y
-CONFIG_FAIR_GROUP_SCHED=y
-CONFIG_CFS_BANDWIDTH=y
-CONFIG_RT_GROUP_SCHED=y
-CONFIG_CGROUP_PIDS=y
-CONFIG_CGROUP_RDMA=y
-CONFIG_CGROUP_FREEZER=y
-CONFIG_CGROUP_HUGETLB=y
-CONFIG_CPUSETS=y
-CONFIG_PROC_PID_CPUSET=y
-CONFIG_CGROUP_DEVICE=y
-CONFIG_CGROUP_CPUACCT=y
-CONFIG_CGROUP_PERF=y
-# CONFIG_CGROUP_MISC is not set
-# CONFIG_CGROUP_DEBUG is not set
-CONFIG_SOCK_CGROUP_DATA=y
-CONFIG_NAMESPACES=y
-CONFIG_UTS_NS=y
-CONFIG_TIME_NS=y
-CONFIG_IPC_NS=y
-CONFIG_USER_NS=y
-CONFIG_PID_NS=y
-CONFIG_NET_NS=y
-CONFIG_CHECKPOINT_RESTORE=y
-CONFIG_SCHED_AUTOGROUP=y
-# CONFIG_SYSFS_DEPRECATED is not set
-CONFIG_RELAY=y
-CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE=""
-CONFIG_RD_GZIP=y
-CONFIG_RD_BZIP2=y
-CONFIG_RD_LZMA=y
-CONFIG_RD_XZ=y
-CONFIG_RD_LZO=y
-CONFIG_RD_LZ4=y
-CONFIG_RD_ZSTD=y
-# CONFIG_BOOT_CONFIG is not set
-CONFIG_INITRAMFS_PRESERVE_MTIME=y
-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
-# CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
-CONFIG_LD_ORPHAN_WARN=y
-CONFIG_SYSCTL=y
-CONFIG_HAVE_UID16=y
-CONFIG_SYSCTL_EXCEPTION_TRACE=y
-CONFIG_HAVE_PCSPKR_PLATFORM=y
-CONFIG_EXPERT=y
-CONFIG_UID16=y
-CONFIG_MULTIUSER=y
-CONFIG_SGETMASK_SYSCALL=y
-CONFIG_SYSFS_SYSCALL=y
-CONFIG_FHANDLE=y
-CONFIG_POSIX_TIMERS=y
-CONFIG_PRINTK=y
-CONFIG_BUG=y
-CONFIG_ELF_CORE=y
-CONFIG_PCSPKR_PLATFORM=y
-CONFIG_BASE_FULL=y
-CONFIG_FUTEX=y
-CONFIG_FUTEX_PI=y
-CONFIG_EPOLL=y
-CONFIG_SIGNALFD=y
-CONFIG_TIMERFD=y
-CONFIG_EVENTFD=y
-CONFIG_SHMEM=y
-CONFIG_AIO=y
-CONFIG_IO_URING=y
-CONFIG_ADVISE_SYSCALLS=y
-CONFIG_MEMBARRIER=y
-CONFIG_KALLSYMS=y
-CONFIG_KALLSYMS_ALL=y
-CONFIG_KALLSYMS_ABSOLUTE_PERCPU=y
-CONFIG_KALLSYMS_BASE_RELATIVE=y
-CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
-CONFIG_KCMP=y
-CONFIG_RSEQ=y
-# CONFIG_DEBUG_RSEQ is not set
-# CONFIG_EMBEDDED is not set
-CONFIG_HAVE_PERF_EVENTS=y
-CONFIG_GUEST_PERF_EVENTS=y
-# CONFIG_PC104 is not set
-
-#
-# Kernel Performance Events And Counters
-#
-CONFIG_PERF_EVENTS=y
-# CONFIG_DEBUG_PERF_USE_VMALLOC is not set
-# end of Kernel Performance Events And Counters
-
-CONFIG_SYSTEM_DATA_VERIFICATION=y
-CONFIG_PROFILING=y
-CONFIG_TRACEPOINTS=y
-# end of General setup
-
-CONFIG_64BIT=y
-CONFIG_X86_64=y
-CONFIG_X86=y
-CONFIG_INSTRUCTION_DECODER=y
-CONFIG_OUTPUT_FORMAT="elf64-x86-64"
-CONFIG_LOCKDEP_SUPPORT=y
-CONFIG_STACKTRACE_SUPPORT=y
-CONFIG_MMU=y
-CONFIG_ARCH_MMAP_RND_BITS_MIN=28
-CONFIG_ARCH_MMAP_RND_BITS_MAX=32
-CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MIN=8
-CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MAX=16
-CONFIG_GENERIC_ISA_DMA=y
-CONFIG_GENERIC_BUG=y
-CONFIG_GENERIC_BUG_RELATIVE_POINTERS=y
-CONFIG_ARCH_MAY_HAVE_PC_FDC=y
-CONFIG_GENERIC_CALIBRATE_DELAY=y
-CONFIG_ARCH_HAS_CPU_RELAX=y
-CONFIG_ARCH_HIBERNATION_POSSIBLE=y
-CONFIG_ARCH_NR_GPIO=1024
-CONFIG_ARCH_SUSPEND_POSSIBLE=y
-CONFIG_AUDIT_ARCH=y
-CONFIG_KASAN_SHADOW_OFFSET=0xdffffc0000000000
-CONFIG_HAVE_INTEL_TXT=y
-CONFIG_X86_64_SMP=y
-CONFIG_ARCH_SUPPORTS_UPROBES=y
-CONFIG_FIX_EARLYCON_MEM=y
-CONFIG_DYNAMIC_PHYSICAL_MASK=y
-CONFIG_PGTABLE_LEVELS=5
-CONFIG_CC_HAS_SANE_STACKPROTECTOR=y
-
-#
-# Processor type and features
-#
-CONFIG_SMP=y
-CONFIG_X86_FEATURE_NAMES=y
-CONFIG_X86_X2APIC=y
-CONFIG_X86_MPPARSE=y
-# CONFIG_GOLDFISH is not set
-# CONFIG_X86_CPU_RESCTRL is not set
-CONFIG_X86_EXTENDED_PLATFORM=y
-# CONFIG_X86_NUMACHIP is not set
-# CONFIG_X86_VSMP is not set
-CONFIG_X86_UV=y
-# CONFIG_X86_GOLDFISH is not set
-# CONFIG_X86_INTEL_MID is not set
-CONFIG_X86_INTEL_LPSS=y
-# CONFIG_X86_AMD_PLATFORM_DEVICE is not set
-CONFIG_IOSF_MBI=y
-# CONFIG_IOSF_MBI_DEBUG is not set
-CONFIG_X86_SUPPORTS_MEMORY_FAILURE=y
-# CONFIG_SCHED_OMIT_FRAME_POINTER is not set
-CONFIG_HYPERVISOR_GUEST=y
-CONFIG_PARAVIRT=y
-# CONFIG_PARAVIRT_DEBUG is not set
-CONFIG_PARAVIRT_SPINLOCKS=y
-CONFIG_X86_HV_CALLBACK_VECTOR=y
-# CONFIG_XEN is not set
-CONFIG_KVM_GUEST=y
-CONFIG_ARCH_CPUIDLE_HALTPOLL=y
-# CONFIG_PVH is not set
-CONFIG_PARAVIRT_TIME_ACCOUNTING=y
-CONFIG_PARAVIRT_CLOCK=y
-# CONFIG_JAILHOUSE_GUEST is not set
-# CONFIG_ACRN_GUEST is not set
-CONFIG_INTEL_TDX_GUEST=y
-# CONFIG_MK8 is not set
-# CONFIG_MPSC is not set
-# CONFIG_MCORE2 is not set
-# CONFIG_MATOM is not set
-CONFIG_GENERIC_CPU=y
-CONFIG_X86_INTERNODE_CACHE_SHIFT=6
-CONFIG_X86_L1_CACHE_SHIFT=6
-CONFIG_X86_TSC=y
-CONFIG_X86_CMPXCHG64=y
-CONFIG_X86_CMOV=y
-CONFIG_X86_MINIMUM_CPU_FAMILY=64
-CONFIG_X86_DEBUGCTLMSR=y
-CONFIG_IA32_FEAT_CTL=y
-CONFIG_X86_VMX_FEATURE_NAMES=y
-CONFIG_PROCESSOR_SELECT=y
-CONFIG_CPU_SUP_INTEL=y
-# CONFIG_CPU_SUP_AMD is not set
-# CONFIG_CPU_SUP_HYGON is not set
-# CONFIG_CPU_SUP_CENTAUR is not set
-# CONFIG_CPU_SUP_ZHAOXIN is not set
-CONFIG_HPET_TIMER=y
-CONFIG_HPET_EMULATE_RTC=y
-CONFIG_DMI=y
-CONFIG_BOOT_VESA_SUPPORT=y
-CONFIG_MAXSMP=y
-CONFIG_NR_CPUS_RANGE_BEGIN=8192
-CONFIG_NR_CPUS_RANGE_END=8192
-CONFIG_NR_CPUS_DEFAULT=8192
-CONFIG_NR_CPUS=8192
-CONFIG_SCHED_CLUSTER=y
-CONFIG_SCHED_SMT=y
-CONFIG_SCHED_MC=y
-CONFIG_SCHED_MC_PRIO=y
-CONFIG_X86_LOCAL_APIC=y
-CONFIG_X86_IO_APIC=y
-CONFIG_X86_REROUTE_FOR_BROKEN_BOOT_IRQS=y
-CONFIG_X86_MCE=y
-CONFIG_X86_MCELOG_LEGACY=y
-CONFIG_X86_MCE_INTEL=y
-CONFIG_X86_MCE_THRESHOLD=y
-CONFIG_X86_MCE_INJECT=m
-
-#
-# Performance monitoring
-#
-CONFIG_PERF_EVENTS_INTEL_UNCORE=m
-CONFIG_PERF_EVENTS_INTEL_RAPL=m
-CONFIG_PERF_EVENTS_INTEL_CSTATE=m
-# end of Performance monitoring
-
-CONFIG_X86_16BIT=y
-CONFIG_X86_ESPFIX64=y
-CONFIG_X86_VSYSCALL_EMULATION=y
-CONFIG_X86_IOPL_IOPERM=y
-CONFIG_MICROCODE=y
-CONFIG_MICROCODE_INTEL=y
-CONFIG_MICROCODE_LATE_LOADING=y
-CONFIG_X86_MSR=y
-CONFIG_X86_CPUID=y
-CONFIG_X86_5LEVEL=y
-CONFIG_X86_DIRECT_GBPAGES=y
-# CONFIG_X86_CPA_STATISTICS is not set
-CONFIG_X86_MEM_ENCRYPT=y
-CONFIG_NUMA=y
-# CONFIG_AMD_NUMA is not set
-CONFIG_X86_64_ACPI_NUMA=y
-CONFIG_NUMA_EMU=y
-CONFIG_NODES_SHIFT=10
-CONFIG_ARCH_SPARSEMEM_ENABLE=y
-CONFIG_ARCH_SPARSEMEM_DEFAULT=y
-# CONFIG_ARCH_MEMORY_PROBE is not set
-CONFIG_ARCH_PROC_KCORE_TEXT=y
-CONFIG_ILLEGAL_POINTER_VALUE=0xdead000000000000
-CONFIG_X86_PMEM_LEGACY_DEVICE=y
-CONFIG_X86_PMEM_LEGACY=m
-CONFIG_X86_CHECK_BIOS_CORRUPTION=y
-# CONFIG_X86_BOOTPARAM_MEMORY_CORRUPTION_CHECK is not set
-CONFIG_MTRR=y
-CONFIG_MTRR_SANITIZER=y
-CONFIG_MTRR_SANITIZER_ENABLE_DEFAULT=1
-CONFIG_MTRR_SANITIZER_SPARE_REG_NR_DEFAULT=1
-CONFIG_X86_PAT=y
-CONFIG_ARCH_USES_PG_UNCACHED=y
-CONFIG_X86_UMIP=y
-CONFIG_CC_HAS_IBT=y
-# CONFIG_X86_KERNEL_IBT is not set
-CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS=y
-# CONFIG_X86_INTEL_TSX_MODE_OFF is not set
-# CONFIG_X86_INTEL_TSX_MODE_ON is not set
-CONFIG_X86_INTEL_TSX_MODE_AUTO=y
-# CONFIG_X86_SGX is not set
-CONFIG_EFI=y
-CONFIG_EFI_STUB=y
-CONFIG_EFI_MIXED=y
-# CONFIG_HZ_100 is not set
-# CONFIG_HZ_250 is not set
-# CONFIG_HZ_300 is not set
-CONFIG_HZ_1000=y
-CONFIG_HZ=1000
-CONFIG_SCHED_HRTICK=y
-CONFIG_KEXEC=y
-CONFIG_KEXEC_FILE=y
-CONFIG_ARCH_HAS_KEXEC_PURGATORY=y
-# CONFIG_KEXEC_SIG is not set
-CONFIG_CRASH_DUMP=y
-CONFIG_KEXEC_JUMP=y
-CONFIG_PHYSICAL_START=0x1000000
-CONFIG_RELOCATABLE=y
-# CONFIG_RANDOMIZE_BASE is not set
-CONFIG_PHYSICAL_ALIGN=0x200000
-CONFIG_DYNAMIC_MEMORY_LAYOUT=y
-CONFIG_HOTPLUG_CPU=y
-CONFIG_BOOTPARAM_HOTPLUG_CPU0=y
-# CONFIG_DEBUG_HOTPLUG_CPU0 is not set
-# CONFIG_COMPAT_VDSO is not set
-CONFIG_LEGACY_VSYSCALL_XONLY=y
-# CONFIG_LEGACY_VSYSCALL_NONE is not set
-# CONFIG_CMDLINE_BOOL is not set
-CONFIG_MODIFY_LDT_SYSCALL=y
-# CONFIG_STRICT_SIGALTSTACK_SIZE is not set
-CONFIG_HAVE_LIVEPATCH=y
-CONFIG_LIVEPATCH=y
-# end of Processor type and features
-
-CONFIG_CC_HAS_SLS=y
-CONFIG_CC_HAS_RETURN_THUNK=y
-CONFIG_SPECULATION_MITIGATIONS=y
-CONFIG_PAGE_TABLE_ISOLATION=y
-CONFIG_RETPOLINE=y
-CONFIG_RETHUNK=y
-CONFIG_CPU_IBRS_ENTRY=y
-# CONFIG_SLS is not set
-CONFIG_ARCH_HAS_ADD_PAGES=y
-CONFIG_ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE=y
-
-#
-# Power management and ACPI options
-#
-CONFIG_ARCH_HIBERNATION_HEADER=y
-CONFIG_SUSPEND=y
-CONFIG_SUSPEND_FREEZER=y
-# CONFIG_SUSPEND_SKIP_SYNC is not set
-CONFIG_HIBERNATE_CALLBACKS=y
-CONFIG_HIBERNATION=y
-CONFIG_HIBERNATION_SNAPSHOT_DEV=y
-CONFIG_PM_STD_PARTITION=""
-CONFIG_PM_SLEEP=y
-CONFIG_PM_SLEEP_SMP=y
-# CONFIG_PM_AUTOSLEEP is not set
-# CONFIG_PM_USERSPACE_AUTOSLEEP is not set
-# CONFIG_PM_WAKELOCKS is not set
-CONFIG_PM=y
-CONFIG_PM_DEBUG=y
-# CONFIG_PM_ADVANCED_DEBUG is not set
-# CONFIG_PM_TEST_SUSPEND is not set
-CONFIG_PM_SLEEP_DEBUG=y
-# CONFIG_DPM_WATCHDOG is not set
-# CONFIG_PM_TRACE_RTC is not set
-CONFIG_PM_CLK=y
-# CONFIG_WQ_POWER_EFFICIENT_DEFAULT is not set
-# CONFIG_ENERGY_MODEL is not set
-CONFIG_ARCH_SUPPORTS_ACPI=y
-CONFIG_ACPI=y
-CONFIG_ACPI_LEGACY_TABLES_LOOKUP=y
-CONFIG_ARCH_MIGHT_HAVE_ACPI_PDC=y
-CONFIG_ACPI_SYSTEM_POWER_STATES_SUPPORT=y
-# CONFIG_ACPI_DEBUGGER is not set
-CONFIG_ACPI_SPCR_TABLE=y
-# CONFIG_ACPI_FPDT is not set
-CONFIG_ACPI_LPIT=y
-CONFIG_ACPI_SLEEP=y
-CONFIG_ACPI_REV_OVERRIDE_POSSIBLE=y
-CONFIG_ACPI_EC_DEBUGFS=m
-CONFIG_ACPI_AC=y
-CONFIG_ACPI_BATTERY=y
-CONFIG_ACPI_BUTTON=y
-CONFIG_ACPI_VIDEO=m
-CONFIG_ACPI_FAN=y
-CONFIG_ACPI_TAD=m
-CONFIG_ACPI_DOCK=y
-CONFIG_ACPI_CPU_FREQ_PSS=y
-CONFIG_ACPI_PROCESSOR_CSTATE=y
-CONFIG_ACPI_PROCESSOR_IDLE=y
-CONFIG_ACPI_CPPC_LIB=y
-CONFIG_ACPI_PROCESSOR=y
-CONFIG_ACPI_IPMI=m
-CONFIG_ACPI_HOTPLUG_CPU=y
-CONFIG_ACPI_PROCESSOR_AGGREGATOR=m
-CONFIG_ACPI_THERMAL=y
-CONFIG_ACPI_PLATFORM_PROFILE=m
-CONFIG_ARCH_HAS_ACPI_TABLE_UPGRADE=y
-CONFIG_ACPI_TABLE_UPGRADE=y
-# CONFIG_ACPI_DEBUG is not set
-CONFIG_ACPI_PCI_SLOT=y
-CONFIG_ACPI_CONTAINER=y
-CONFIG_ACPI_HOTPLUG_MEMORY=y
-CONFIG_ACPI_HOTPLUG_IOAPIC=y
-CONFIG_ACPI_SBS=m
-CONFIG_ACPI_HED=y
-# CONFIG_ACPI_CUSTOM_METHOD is not set
-CONFIG_ACPI_BGRT=y
-# CONFIG_ACPI_REDUCED_HARDWARE_ONLY is not set
-CONFIG_ACPI_NFIT=m
-# CONFIG_NFIT_SECURITY_DEBUG is not set
-CONFIG_ACPI_NUMA=y
-# CONFIG_ACPI_HMAT is not set
-CONFIG_HAVE_ACPI_APEI=y
-CONFIG_HAVE_ACPI_APEI_NMI=y
-CONFIG_ACPI_APEI=y
-CONFIG_ACPI_APEI_GHES=y
-CONFIG_ACPI_APEI_PCIEAER=y
-CONFIG_ACPI_APEI_MEMORY_FAILURE=y
-CONFIG_ACPI_APEI_EINJ=m
-# CONFIG_ACPI_APEI_ERST_DEBUG is not set
-# CONFIG_ACPI_DPTF is not set
-CONFIG_ACPI_WATCHDOG=y
-CONFIG_ACPI_EXTLOG=m
-CONFIG_ACPI_ADXL=y
-# CONFIG_ACPI_CONFIGFS is not set
-# CONFIG_ACPI_PFRUT is not set
-CONFIG_ACPI_PCC=y
-CONFIG_PMIC_OPREGION=y
-CONFIG_ACPI_PRMT=y
-CONFIG_X86_PM_TIMER=y
-
-#
-# CPU Frequency scaling
-#
-CONFIG_CPU_FREQ=y
-CONFIG_CPU_FREQ_GOV_ATTR_SET=y
-CONFIG_CPU_FREQ_GOV_COMMON=y
-CONFIG_CPU_FREQ_STAT=y
-CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
-# CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL is not set
-CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
-CONFIG_CPU_FREQ_GOV_POWERSAVE=y
-CONFIG_CPU_FREQ_GOV_USERSPACE=y
-CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
-CONFIG_CPU_FREQ_GOV_SCHEDUTIL=y
-
-#
-# CPU frequency scaling drivers
-#
-CONFIG_X86_INTEL_PSTATE=y
-# CONFIG_X86_PCC_CPUFREQ is not set
-# CONFIG_X86_AMD_PSTATE is not set
-CONFIG_X86_ACPI_CPUFREQ=m
-CONFIG_X86_POWERNOW_K8=m
-# CONFIG_X86_SPEEDSTEP_CENTRINO is not set
-CONFIG_X86_P4_CLOCKMOD=m
-
-#
-# shared options
-#
-CONFIG_X86_SPEEDSTEP_LIB=m
-# end of CPU Frequency scaling
-
-#
-# CPU Idle
-#
-CONFIG_CPU_IDLE=y
-# CONFIG_CPU_IDLE_GOV_LADDER is not set
-CONFIG_CPU_IDLE_GOV_MENU=y
-# CONFIG_CPU_IDLE_GOV_TEO is not set
-# CONFIG_CPU_IDLE_GOV_HALTPOLL is not set
-CONFIG_HALTPOLL_CPUIDLE=y
-# end of CPU Idle
-
-CONFIG_INTEL_IDLE=y
-# end of Power management and ACPI options
-
-#
-# Bus options (PCI etc.)
-#
-CONFIG_PCI_DIRECT=y
-CONFIG_PCI_MMCONFIG=y
-CONFIG_MMCONF_FAM10H=y
-# CONFIG_PCI_CNB20LE_QUIRK is not set
-# CONFIG_ISA_BUS is not set
-CONFIG_ISA_DMA_API=y
-# end of Bus options (PCI etc.)
-
-#
-# Binary Emulations
-#
-CONFIG_IA32_EMULATION=y
-# CONFIG_X86_X32_ABI is not set
-CONFIG_COMPAT_32=y
-CONFIG_COMPAT=y
-CONFIG_COMPAT_FOR_U64_ALIGNMENT=y
-# end of Binary Emulations
-
-CONFIG_HAVE_KVM=y
-CONFIG_HAVE_KVM_PFNCACHE=y
-CONFIG_HAVE_KVM_IRQCHIP=y
-CONFIG_HAVE_KVM_IRQFD=y
-CONFIG_HAVE_KVM_IRQ_ROUTING=y
-CONFIG_HAVE_KVM_DIRTY_RING=y
-CONFIG_HAVE_KVM_EVENTFD=y
-CONFIG_KVM_MMIO=y
-CONFIG_KVM_ASYNC_PF=y
-CONFIG_HAVE_KVM_MSI=y
-CONFIG_HAVE_KVM_CPU_RELAX_INTERCEPT=y
-CONFIG_KVM_VFIO=y
-CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y
-CONFIG_KVM_COMPAT=y
-CONFIG_HAVE_KVM_IRQ_BYPASS=y
-CONFIG_HAVE_KVM_NO_POLL=y
-CONFIG_KVM_XFER_TO_GUEST_WORK=y
-CONFIG_HAVE_KVM_PM_NOTIFIER=y
-CONFIG_VIRTUALIZATION=y
-CONFIG_KVM=m
-# CONFIG_KVM_WERROR is not set
-CONFIG_KVM_INTEL=m
-# CONFIG_KVM_AMD is not set
-# CONFIG_KVM_XEN is not set
-CONFIG_AS_AVX512=y
-CONFIG_AS_SHA1_NI=y
-CONFIG_AS_SHA256_NI=y
-CONFIG_AS_TPAUSE=y
-
-#
-# General architecture-dependent options
-#
-CONFIG_CRASH_CORE=y
-CONFIG_KEXEC_CORE=y
-CONFIG_HOTPLUG_SMT=y
-CONFIG_GENERIC_ENTRY=y
-CONFIG_KPROBES=y
-CONFIG_JUMP_LABEL=y
-# CONFIG_STATIC_KEYS_SELFTEST is not set
-# CONFIG_STATIC_CALL_SELFTEST is not set
-CONFIG_OPTPROBES=y
-CONFIG_KPROBES_ON_FTRACE=y
-CONFIG_UPROBES=y
-CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y
-CONFIG_ARCH_USE_BUILTIN_BSWAP=y
-CONFIG_KRETPROBES=y
-CONFIG_KRETPROBE_ON_RETHOOK=y
-CONFIG_USER_RETURN_NOTIFIER=y
-CONFIG_HAVE_IOREMAP_PROT=y
-CONFIG_HAVE_KPROBES=y
-CONFIG_HAVE_KRETPROBES=y
-CONFIG_HAVE_OPTPROBES=y
-CONFIG_HAVE_KPROBES_ON_FTRACE=y
-CONFIG_ARCH_CORRECT_STACKTRACE_ON_KRETPROBE=y
-CONFIG_HAVE_FUNCTION_ERROR_INJECTION=y
-CONFIG_HAVE_NMI=y
-CONFIG_TRACE_IRQFLAGS_SUPPORT=y
-CONFIG_TRACE_IRQFLAGS_NMI_SUPPORT=y
-CONFIG_HAVE_ARCH_TRACEHOOK=y
-CONFIG_HAVE_DMA_CONTIGUOUS=y
-CONFIG_GENERIC_SMP_IDLE_THREAD=y
-CONFIG_ARCH_HAS_FORTIFY_SOURCE=y
-CONFIG_ARCH_HAS_SET_MEMORY=y
-CONFIG_ARCH_HAS_SET_DIRECT_MAP=y
-CONFIG_HAVE_ARCH_THREAD_STRUCT_WHITELIST=y
-CONFIG_ARCH_WANTS_DYNAMIC_TASK_STRUCT=y
-CONFIG_ARCH_WANTS_NO_INSTR=y
-CONFIG_HAVE_ASM_MODVERSIONS=y
-CONFIG_HAVE_REGS_AND_STACK_ACCESS_API=y
-CONFIG_HAVE_RSEQ=y
-CONFIG_HAVE_FUNCTION_ARG_ACCESS_API=y
-CONFIG_HAVE_HW_BREAKPOINT=y
-CONFIG_HAVE_MIXED_BREAKPOINTS_REGS=y
-CONFIG_HAVE_USER_RETURN_NOTIFIER=y
-CONFIG_HAVE_PERF_EVENTS_NMI=y
-CONFIG_HAVE_HARDLOCKUP_DETECTOR_PERF=y
-CONFIG_HAVE_PERF_REGS=y
-CONFIG_HAVE_PERF_USER_STACK_DUMP=y
-CONFIG_HAVE_ARCH_JUMP_LABEL=y
-CONFIG_HAVE_ARCH_JUMP_LABEL_RELATIVE=y
-CONFIG_MMU_GATHER_TABLE_FREE=y
-CONFIG_MMU_GATHER_RCU_TABLE_FREE=y
-CONFIG_MMU_GATHER_MERGE_VMAS=y
-CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG=y
-CONFIG_HAVE_ALIGNED_STRUCT_PAGE=y
-CONFIG_HAVE_CMPXCHG_LOCAL=y
-CONFIG_HAVE_CMPXCHG_DOUBLE=y
-CONFIG_ARCH_WANT_COMPAT_IPC_PARSE_VERSION=y
-CONFIG_ARCH_WANT_OLD_COMPAT_IPC=y
-CONFIG_HAVE_ARCH_SECCOMP=y
-CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
-CONFIG_SECCOMP=y
-CONFIG_SECCOMP_FILTER=y
-# CONFIG_SECCOMP_CACHE_DEBUG is not set
-CONFIG_HAVE_ARCH_STACKLEAK=y
-CONFIG_HAVE_STACKPROTECTOR=y
-CONFIG_STACKPROTECTOR=y
-CONFIG_STACKPROTECTOR_STRONG=y
-CONFIG_ARCH_SUPPORTS_LTO_CLANG=y
-CONFIG_ARCH_SUPPORTS_LTO_CLANG_THIN=y
-CONFIG_LTO_NONE=y
-CONFIG_HAVE_ARCH_WITHIN_STACK_FRAMES=y
-CONFIG_HAVE_CONTEXT_TRACKING_USER=y
-CONFIG_HAVE_CONTEXT_TRACKING_USER_OFFSTACK=y
-CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
-CONFIG_HAVE_IRQ_TIME_ACCOUNTING=y
-CONFIG_HAVE_MOVE_PUD=y
-CONFIG_HAVE_MOVE_PMD=y
-CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE=y
-CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD=y
-CONFIG_HAVE_ARCH_HUGE_VMAP=y
-CONFIG_HAVE_ARCH_HUGE_VMALLOC=y
-CONFIG_ARCH_WANT_HUGE_PMD_SHARE=y
-CONFIG_HAVE_ARCH_SOFT_DIRTY=y
-CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
-CONFIG_MODULES_USE_ELF_RELA=y
-CONFIG_HAVE_IRQ_EXIT_ON_IRQ_STACK=y
-CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK=y
-CONFIG_SOFTIRQ_ON_OWN_STACK=y
-CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
-CONFIG_HAVE_ARCH_MMAP_RND_BITS=y
-CONFIG_HAVE_EXIT_THREAD=y
-CONFIG_ARCH_MMAP_RND_BITS=28
-CONFIG_HAVE_ARCH_MMAP_RND_COMPAT_BITS=y
-CONFIG_ARCH_MMAP_RND_COMPAT_BITS=8
-CONFIG_HAVE_ARCH_COMPAT_MMAP_BASES=y
-CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
-CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
-CONFIG_HAVE_OBJTOOL=y
-CONFIG_HAVE_JUMP_LABEL_HACK=y
-CONFIG_HAVE_NOINSTR_HACK=y
-CONFIG_HAVE_NOINSTR_VALIDATION=y
-CONFIG_HAVE_UACCESS_VALIDATION=y
-CONFIG_HAVE_STACK_VALIDATION=y
-CONFIG_HAVE_RELIABLE_STACKTRACE=y
-CONFIG_OLD_SIGSUSPEND3=y
-CONFIG_COMPAT_OLD_SIGACTION=y
-CONFIG_COMPAT_32BIT_TIME=y
-CONFIG_HAVE_ARCH_VMAP_STACK=y
-CONFIG_VMAP_STACK=y
-CONFIG_HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET=y
-CONFIG_RANDOMIZE_KSTACK_OFFSET=y
-# CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT is not set
-CONFIG_ARCH_HAS_STRICT_KERNEL_RWX=y
-CONFIG_STRICT_KERNEL_RWX=y
-CONFIG_ARCH_HAS_STRICT_MODULE_RWX=y
-CONFIG_STRICT_MODULE_RWX=y
-CONFIG_HAVE_ARCH_PREL32_RELOCATIONS=y
-CONFIG_ARCH_USE_MEMREMAP_PROT=y
-# CONFIG_LOCK_EVENT_COUNTS is not set
-CONFIG_ARCH_HAS_MEM_ENCRYPT=y
-CONFIG_ARCH_HAS_CC_PLATFORM=y
-CONFIG_HAVE_STATIC_CALL=y
-CONFIG_HAVE_STATIC_CALL_INLINE=y
-CONFIG_HAVE_PREEMPT_DYNAMIC=y
-CONFIG_HAVE_PREEMPT_DYNAMIC_CALL=y
-CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
-CONFIG_ARCH_SUPPORTS_DEBUG_PAGEALLOC=y
-CONFIG_ARCH_SUPPORTS_PAGE_TABLE_CHECK=y
-CONFIG_ARCH_HAS_ELFCORE_COMPAT=y
-CONFIG_ARCH_HAS_PARANOID_L1D_FLUSH=y
-CONFIG_DYNAMIC_SIGFRAME=y
-
-#
-# GCOV-based kernel profiling
-#
-# CONFIG_GCOV_KERNEL is not set
-CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
-# end of GCOV-based kernel profiling
-
-CONFIG_HAVE_GCC_PLUGINS=y
-CONFIG_GCC_PLUGINS=y
-# CONFIG_GCC_PLUGIN_LATENT_ENTROPY is not set
-# end of General architecture-dependent options
-
-CONFIG_RT_MUTEXES=y
-CONFIG_BASE_SMALL=0
-CONFIG_MODULE_SIG_FORMAT=y
-CONFIG_MODULES=y
-CONFIG_MODULE_FORCE_LOAD=y
-CONFIG_MODULE_UNLOAD=y
-# CONFIG_MODULE_FORCE_UNLOAD is not set
-# CONFIG_MODULE_UNLOAD_TAINT_TRACKING is not set
-# CONFIG_MODVERSIONS is not set
-# CONFIG_MODULE_SRCVERSION_ALL is not set
-CONFIG_MODULE_SIG=y
-# CONFIG_MODULE_SIG_FORCE is not set
-CONFIG_MODULE_SIG_ALL=y
-# CONFIG_MODULE_SIG_SHA1 is not set
-# CONFIG_MODULE_SIG_SHA224 is not set
-CONFIG_MODULE_SIG_SHA256=y
-# CONFIG_MODULE_SIG_SHA384 is not set
-# CONFIG_MODULE_SIG_SHA512 is not set
-CONFIG_MODULE_SIG_HASH="sha256"
-CONFIG_MODULE_COMPRESS_NONE=y
-# CONFIG_MODULE_COMPRESS_GZIP is not set
-# CONFIG_MODULE_COMPRESS_XZ is not set
-# CONFIG_MODULE_COMPRESS_ZSTD is not set
-# CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
-CONFIG_MODPROBE_PATH="/sbin/modprobe"
-# CONFIG_TRIM_UNUSED_KSYMS is not set
-CONFIG_MODULES_TREE_LOOKUP=y
-CONFIG_BLOCK=y
-CONFIG_BLOCK_LEGACY_AUTOLOAD=y
-CONFIG_BLK_CGROUP_RWSTAT=y
-CONFIG_BLK_DEV_BSG_COMMON=y
-CONFIG_BLK_ICQ=y
-CONFIG_BLK_DEV_BSGLIB=y
-CONFIG_BLK_DEV_INTEGRITY=y
-CONFIG_BLK_DEV_INTEGRITY_T10=m
-CONFIG_BLK_DEV_ZONED=y
-CONFIG_BLK_DEV_THROTTLING=y
-# CONFIG_BLK_DEV_THROTTLING_LOW is not set
-CONFIG_BLK_WBT=y
-CONFIG_BLK_WBT_MQ=y
-# CONFIG_BLK_CGROUP_IOLATENCY is not set
-# CONFIG_BLK_CGROUP_IOCOST is not set
-# CONFIG_BLK_CGROUP_IOPRIO is not set
-CONFIG_BLK_DEBUG_FS=y
-CONFIG_BLK_DEBUG_FS_ZONED=y
-# CONFIG_BLK_SED_OPAL is not set
-# CONFIG_BLK_INLINE_ENCRYPTION is not set
-
-#
-# Partition Types
-#
-# CONFIG_PARTITION_ADVANCED is not set
-CONFIG_MSDOS_PARTITION=y
-CONFIG_EFI_PARTITION=y
-# end of Partition Types
-
-CONFIG_BLOCK_COMPAT=y
-CONFIG_BLK_MQ_PCI=y
-CONFIG_BLK_MQ_VIRTIO=y
-CONFIG_BLK_MQ_RDMA=y
-CONFIG_BLK_PM=y
-CONFIG_BLOCK_HOLDER_DEPRECATED=y
-CONFIG_BLK_MQ_STACKING=y
-
-#
-# IO Schedulers
-#
-CONFIG_MQ_IOSCHED_DEADLINE=y
-CONFIG_MQ_IOSCHED_KYBER=y
-CONFIG_IOSCHED_BFQ=y
-CONFIG_BFQ_GROUP_IOSCHED=y
-# CONFIG_BFQ_CGROUP_DEBUG is not set
-# end of IO Schedulers
-
-CONFIG_PREEMPT_NOTIFIERS=y
-CONFIG_PADATA=y
-CONFIG_ASN1=y
-CONFIG_INLINE_SPIN_UNLOCK_IRQ=y
-CONFIG_INLINE_READ_UNLOCK=y
-CONFIG_INLINE_READ_UNLOCK_IRQ=y
-CONFIG_INLINE_WRITE_UNLOCK=y
-CONFIG_INLINE_WRITE_UNLOCK_IRQ=y
-CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=y
-CONFIG_MUTEX_SPIN_ON_OWNER=y
-CONFIG_RWSEM_SPIN_ON_OWNER=y
-CONFIG_LOCK_SPIN_ON_OWNER=y
-CONFIG_ARCH_USE_QUEUED_SPINLOCKS=y
-CONFIG_QUEUED_SPINLOCKS=y
-CONFIG_ARCH_USE_QUEUED_RWLOCKS=y
-CONFIG_QUEUED_RWLOCKS=y
-CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE=y
-CONFIG_ARCH_HAS_SYNC_CORE_BEFORE_USERMODE=y
-CONFIG_ARCH_HAS_SYSCALL_WRAPPER=y
-CONFIG_FREEZER=y
-
-#
-# Executable file formats
-#
-CONFIG_BINFMT_ELF=y
-CONFIG_COMPAT_BINFMT_ELF=y
-CONFIG_ELFCORE=y
-CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS=y
-CONFIG_BINFMT_SCRIPT=y
-CONFIG_BINFMT_MISC=m
-CONFIG_COREDUMP=y
-# end of Executable file formats
-
-#
-# Memory Management options
-#
-CONFIG_ZPOOL=y
-CONFIG_SWAP=y
-CONFIG_ZSWAP=y
-# CONFIG_ZSWAP_DEFAULT_ON is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_DEFLATE is not set
-CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZO=y
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_842 is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4 is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4HC is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_ZSTD is not set
-CONFIG_ZSWAP_COMPRESSOR_DEFAULT="lzo"
-CONFIG_ZSWAP_ZPOOL_DEFAULT_ZBUD=y
-# CONFIG_ZSWAP_ZPOOL_DEFAULT_Z3FOLD is not set
-# CONFIG_ZSWAP_ZPOOL_DEFAULT_ZSMALLOC is not set
-CONFIG_ZSWAP_ZPOOL_DEFAULT="zbud"
-CONFIG_ZBUD=y
-# CONFIG_Z3FOLD is not set
-CONFIG_ZSMALLOC=y
-CONFIG_ZSMALLOC_STAT=y
-
-#
-# SLAB allocator options
-#
-# CONFIG_SLAB is not set
-CONFIG_SLUB=y
-# CONFIG_SLOB is not set
-CONFIG_SLAB_MERGE_DEFAULT=y
-CONFIG_SLAB_FREELIST_RANDOM=y
-# CONFIG_SLAB_FREELIST_HARDENED is not set
-# CONFIG_SLUB_STATS is not set
-CONFIG_SLUB_CPU_PARTIAL=y
-# end of SLAB allocator options
-
-CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
-# CONFIG_COMPAT_BRK is not set
-CONFIG_SPARSEMEM=y
-CONFIG_SPARSEMEM_EXTREME=y
-CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-CONFIG_SPARSEMEM_VMEMMAP=y
-CONFIG_HAVE_FAST_GUP=y
-CONFIG_NUMA_KEEP_MEMINFO=y
-CONFIG_MEMORY_ISOLATION=y
-CONFIG_EXCLUSIVE_SYSTEM_RAM=y
-CONFIG_HAVE_BOOTMEM_INFO_NODE=y
-CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG=y
-CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE=y
-CONFIG_MEMORY_HOTPLUG=y
-# CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE is not set
-CONFIG_MEMORY_HOTREMOVE=y
-CONFIG_MHP_MEMMAP_ON_MEMORY=y
-CONFIG_SPLIT_PTLOCK_CPUS=4
-CONFIG_ARCH_ENABLE_SPLIT_PMD_PTLOCK=y
-CONFIG_MEMORY_BALLOON=y
-CONFIG_BALLOON_COMPACTION=y
-CONFIG_COMPACTION=y
-CONFIG_PAGE_REPORTING=y
-CONFIG_MIGRATION=y
-CONFIG_DEVICE_MIGRATION=y
-CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION=y
-CONFIG_ARCH_ENABLE_THP_MIGRATION=y
-CONFIG_CONTIG_ALLOC=y
-CONFIG_PHYS_ADDR_T_64BIT=y
-CONFIG_MMU_NOTIFIER=y
-CONFIG_KSM=y
-CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
-CONFIG_ARCH_SUPPORTS_MEMORY_FAILURE=y
-CONFIG_MEMORY_FAILURE=y
-CONFIG_HWPOISON_INJECT=m
-CONFIG_ARCH_WANT_GENERAL_HUGETLB=y
-CONFIG_ARCH_WANTS_THP_SWAP=y
-CONFIG_TRANSPARENT_HUGEPAGE=y
-CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS=y
-# CONFIG_TRANSPARENT_HUGEPAGE_MADVISE is not set
-CONFIG_THP_SWAP=y
-# CONFIG_READ_ONLY_THP_FOR_FS is not set
-CONFIG_NEED_PER_CPU_EMBED_FIRST_CHUNK=y
-CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK=y
-CONFIG_USE_PERCPU_NUMA_NODE_ID=y
-CONFIG_HAVE_SETUP_PER_CPU_AREA=y
-CONFIG_FRONTSWAP=y
-CONFIG_CMA=y
-# CONFIG_CMA_DEBUG is not set
-# CONFIG_CMA_DEBUGFS is not set
-# CONFIG_CMA_SYSFS is not set
-CONFIG_CMA_AREAS=19
-# CONFIG_MEM_SOFT_DIRTY is not set
-CONFIG_GENERIC_EARLY_IOREMAP=y
-CONFIG_DEFERRED_STRUCT_PAGE_INIT=y
-CONFIG_PAGE_IDLE_FLAG=y
-CONFIG_IDLE_PAGE_TRACKING=y
-CONFIG_ARCH_HAS_CACHE_LINE_SIZE=y
-CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
-CONFIG_ARCH_HAS_PTE_DEVMAP=y
-CONFIG_ARCH_HAS_ZONE_DMA_SET=y
-CONFIG_ZONE_DMA=y
-CONFIG_ZONE_DMA32=y
-CONFIG_ZONE_DEVICE=y
-CONFIG_HMM_MIRROR=y
-CONFIG_GET_FREE_REGION=y
-CONFIG_DEVICE_PRIVATE=y
-CONFIG_VMAP_PFN=y
-CONFIG_ARCH_USES_HIGH_VMA_FLAGS=y
-CONFIG_ARCH_HAS_PKEYS=y
-CONFIG_VM_EVENT_COUNTERS=y
-# CONFIG_PERCPU_STATS is not set
-# CONFIG_GUP_TEST is not set
-CONFIG_ARCH_HAS_PTE_SPECIAL=y
-CONFIG_SECRETMEM=y
-# CONFIG_ANON_VMA_NAME is not set
-# CONFIG_USERFAULTFD is not set
-
-#
-# Data Access Monitoring
-#
-# CONFIG_DAMON is not set
-# end of Data Access Monitoring
-# end of Memory Management options
-
-CONFIG_NET=y
-CONFIG_COMPAT_NETLINK_MESSAGES=y
-CONFIG_NET_INGRESS=y
-CONFIG_NET_EGRESS=y
-CONFIG_SKB_EXTENSIONS=y
-
-#
-# Networking options
-#
-CONFIG_PACKET=y
-CONFIG_PACKET_DIAG=m
-CONFIG_UNIX=y
-CONFIG_UNIX_SCM=y
-CONFIG_AF_UNIX_OOB=y
-CONFIG_UNIX_DIAG=m
-CONFIG_TLS=m
-CONFIG_TLS_DEVICE=y
-# CONFIG_TLS_TOE is not set
-CONFIG_XFRM=y
-CONFIG_XFRM_OFFLOAD=y
-CONFIG_XFRM_ALGO=y
-CONFIG_XFRM_USER=y
-# CONFIG_XFRM_USER_COMPAT is not set
-# CONFIG_XFRM_INTERFACE is not set
-CONFIG_XFRM_SUB_POLICY=y
-CONFIG_XFRM_MIGRATE=y
-CONFIG_XFRM_STATISTICS=y
-CONFIG_XFRM_AH=m
-CONFIG_XFRM_ESP=m
-CONFIG_XFRM_IPCOMP=m
-CONFIG_NET_KEY=m
-CONFIG_NET_KEY_MIGRATE=y
-# CONFIG_SMC is not set
-CONFIG_INET=y
-CONFIG_IP_MULTICAST=y
-CONFIG_IP_ADVANCED_ROUTER=y
-CONFIG_IP_FIB_TRIE_STATS=y
-CONFIG_IP_MULTIPLE_TABLES=y
-CONFIG_IP_ROUTE_MULTIPATH=y
-CONFIG_IP_ROUTE_VERBOSE=y
-CONFIG_IP_ROUTE_CLASSID=y
-CONFIG_IP_PNP=y
-CONFIG_IP_PNP_DHCP=y
-# CONFIG_IP_PNP_BOOTP is not set
-# CONFIG_IP_PNP_RARP is not set
-CONFIG_NET_IPIP=m
-CONFIG_NET_IPGRE_DEMUX=m
-CONFIG_NET_IP_TUNNEL=m
-CONFIG_NET_IPGRE=m
-CONFIG_NET_IPGRE_BROADCAST=y
-CONFIG_IP_MROUTE_COMMON=y
-CONFIG_IP_MROUTE=y
-CONFIG_IP_MROUTE_MULTIPLE_TABLES=y
-CONFIG_IP_PIMSM_V1=y
-CONFIG_IP_PIMSM_V2=y
-CONFIG_SYN_COOKIES=y
-CONFIG_NET_IPVTI=m
-CONFIG_NET_UDP_TUNNEL=m
-# CONFIG_NET_FOU is not set
-# CONFIG_NET_FOU_IP_TUNNELS is not set
-CONFIG_INET_AH=m
-CONFIG_INET_ESP=m
-CONFIG_INET_ESP_OFFLOAD=m
-# CONFIG_INET_ESPINTCP is not set
-CONFIG_INET_IPCOMP=m
-CONFIG_INET_XFRM_TUNNEL=m
-CONFIG_INET_TUNNEL=m
-CONFIG_INET_DIAG=m
-CONFIG_INET_TCP_DIAG=m
-CONFIG_INET_UDP_DIAG=m
-CONFIG_INET_RAW_DIAG=m
-# CONFIG_INET_DIAG_DESTROY is not set
-CONFIG_TCP_CONG_ADVANCED=y
-CONFIG_TCP_CONG_BIC=m
-CONFIG_TCP_CONG_CUBIC=y
-CONFIG_TCP_CONG_WESTWOOD=m
-CONFIG_TCP_CONG_HTCP=m
-CONFIG_TCP_CONG_HSTCP=m
-CONFIG_TCP_CONG_HYBLA=m
-CONFIG_TCP_CONG_VEGAS=m
-CONFIG_TCP_CONG_NV=m
-CONFIG_TCP_CONG_SCALABLE=m
-CONFIG_TCP_CONG_LP=m
-CONFIG_TCP_CONG_VENO=m
-CONFIG_TCP_CONG_YEAH=m
-CONFIG_TCP_CONG_ILLINOIS=m
-CONFIG_TCP_CONG_DCTCP=m
-# CONFIG_TCP_CONG_CDG is not set
-CONFIG_TCP_CONG_BBR=m
-CONFIG_DEFAULT_CUBIC=y
-# CONFIG_DEFAULT_RENO is not set
-CONFIG_DEFAULT_TCP_CONG="cubic"
-CONFIG_TCP_MD5SIG=y
-CONFIG_IPV6=y
-CONFIG_IPV6_ROUTER_PREF=y
-CONFIG_IPV6_ROUTE_INFO=y
-CONFIG_IPV6_OPTIMISTIC_DAD=y
-CONFIG_INET6_AH=m
-CONFIG_INET6_ESP=m
-CONFIG_INET6_ESP_OFFLOAD=m
-# CONFIG_INET6_ESPINTCP is not set
-CONFIG_INET6_IPCOMP=m
-CONFIG_IPV6_MIP6=m
-# CONFIG_IPV6_ILA is not set
-CONFIG_INET6_XFRM_TUNNEL=m
-CONFIG_INET6_TUNNEL=m
-CONFIG_IPV6_VTI=m
-CONFIG_IPV6_SIT=m
-CONFIG_IPV6_SIT_6RD=y
-CONFIG_IPV6_NDISC_NODETYPE=y
-CONFIG_IPV6_TUNNEL=m
-CONFIG_IPV6_GRE=m
-CONFIG_IPV6_MULTIPLE_TABLES=y
-# CONFIG_IPV6_SUBTREES is not set
-CONFIG_IPV6_MROUTE=y
-CONFIG_IPV6_MROUTE_MULTIPLE_TABLES=y
-CONFIG_IPV6_PIMSM_V2=y
-# CONFIG_IPV6_SEG6_LWTUNNEL is not set
-# CONFIG_IPV6_SEG6_HMAC is not set
-# CONFIG_IPV6_RPL_LWTUNNEL is not set
-# CONFIG_IPV6_IOAM6_LWTUNNEL is not set
-CONFIG_NETLABEL=y
-# CONFIG_MPTCP is not set
-CONFIG_NETWORK_SECMARK=y
-CONFIG_NET_PTP_CLASSIFY=y
-CONFIG_NETWORK_PHY_TIMESTAMPING=y
-CONFIG_NETFILTER=y
-CONFIG_NETFILTER_ADVANCED=y
-CONFIG_BRIDGE_NETFILTER=m
-
-#
-# Core Netfilter Configuration
-#
-CONFIG_NETFILTER_INGRESS=y
-CONFIG_NETFILTER_EGRESS=y
-CONFIG_NETFILTER_SKIP_EGRESS=y
-CONFIG_NETFILTER_NETLINK=m
-CONFIG_NETFILTER_FAMILY_BRIDGE=y
-CONFIG_NETFILTER_FAMILY_ARP=y
-# CONFIG_NETFILTER_NETLINK_HOOK is not set
-# CONFIG_NETFILTER_NETLINK_ACCT is not set
-CONFIG_NETFILTER_NETLINK_QUEUE=m
-CONFIG_NETFILTER_NETLINK_LOG=m
-CONFIG_NETFILTER_NETLINK_OSF=m
-CONFIG_NF_CONNTRACK=m
-CONFIG_NF_LOG_SYSLOG=m
-CONFIG_NETFILTER_CONNCOUNT=m
-CONFIG_NF_CONNTRACK_MARK=y
-CONFIG_NF_CONNTRACK_SECMARK=y
-CONFIG_NF_CONNTRACK_ZONES=y
-CONFIG_NF_CONNTRACK_PROCFS=y
-CONFIG_NF_CONNTRACK_EVENTS=y
-CONFIG_NF_CONNTRACK_TIMEOUT=y
-CONFIG_NF_CONNTRACK_TIMESTAMP=y
-CONFIG_NF_CONNTRACK_LABELS=y
-CONFIG_NF_CT_PROTO_DCCP=y
-CONFIG_NF_CT_PROTO_GRE=y
-CONFIG_NF_CT_PROTO_SCTP=y
-CONFIG_NF_CT_PROTO_UDPLITE=y
-CONFIG_NF_CONNTRACK_AMANDA=m
-CONFIG_NF_CONNTRACK_FTP=m
-CONFIG_NF_CONNTRACK_H323=m
-CONFIG_NF_CONNTRACK_IRC=m
-CONFIG_NF_CONNTRACK_BROADCAST=m
-CONFIG_NF_CONNTRACK_NETBIOS_NS=m
-CONFIG_NF_CONNTRACK_SNMP=m
-CONFIG_NF_CONNTRACK_PPTP=m
-CONFIG_NF_CONNTRACK_SANE=m
-CONFIG_NF_CONNTRACK_SIP=m
-CONFIG_NF_CONNTRACK_TFTP=m
-CONFIG_NF_CT_NETLINK=m
-CONFIG_NF_CT_NETLINK_TIMEOUT=m
-CONFIG_NF_CT_NETLINK_HELPER=m
-CONFIG_NETFILTER_NETLINK_GLUE_CT=y
-CONFIG_NF_NAT=m
-CONFIG_NF_NAT_AMANDA=m
-CONFIG_NF_NAT_FTP=m
-CONFIG_NF_NAT_IRC=m
-CONFIG_NF_NAT_SIP=m
-CONFIG_NF_NAT_TFTP=m
-CONFIG_NF_NAT_REDIRECT=y
-CONFIG_NF_NAT_MASQUERADE=y
-CONFIG_NETFILTER_SYNPROXY=m
-CONFIG_NF_TABLES=m
-CONFIG_NF_TABLES_INET=y
-CONFIG_NF_TABLES_NETDEV=y
-CONFIG_NFT_NUMGEN=m
-CONFIG_NFT_CT=m
-CONFIG_NFT_CONNLIMIT=m
-CONFIG_NFT_LOG=m
-CONFIG_NFT_LIMIT=m
-CONFIG_NFT_MASQ=m
-CONFIG_NFT_REDIR=m
-CONFIG_NFT_NAT=m
-# CONFIG_NFT_TUNNEL is not set
-CONFIG_NFT_OBJREF=m
-CONFIG_NFT_QUEUE=m
-CONFIG_NFT_QUOTA=m
-CONFIG_NFT_REJECT=m
-CONFIG_NFT_REJECT_INET=m
-CONFIG_NFT_COMPAT=m
-CONFIG_NFT_HASH=m
-CONFIG_NFT_FIB=m
-CONFIG_NFT_FIB_INET=m
-# CONFIG_NFT_XFRM is not set
-CONFIG_NFT_SOCKET=m
-# CONFIG_NFT_OSF is not set
-# CONFIG_NFT_TPROXY is not set
-# CONFIG_NFT_SYNPROXY is not set
-CONFIG_NF_DUP_NETDEV=m
-CONFIG_NFT_DUP_NETDEV=m
-CONFIG_NFT_FWD_NETDEV=m
-CONFIG_NFT_FIB_NETDEV=m
-# CONFIG_NFT_REJECT_NETDEV is not set
-# CONFIG_NF_FLOW_TABLE is not set
-CONFIG_NETFILTER_XTABLES=y
-CONFIG_NETFILTER_XTABLES_COMPAT=y
-
-#
-# Xtables combined modules
-#
-CONFIG_NETFILTER_XT_MARK=m
-CONFIG_NETFILTER_XT_CONNMARK=m
-CONFIG_NETFILTER_XT_SET=m
-
-#
-# Xtables targets
-#
-CONFIG_NETFILTER_XT_TARGET_AUDIT=m
-CONFIG_NETFILTER_XT_TARGET_CHECKSUM=m
-CONFIG_NETFILTER_XT_TARGET_CLASSIFY=m
-CONFIG_NETFILTER_XT_TARGET_CONNMARK=m
-CONFIG_NETFILTER_XT_TARGET_CONNSECMARK=m
-CONFIG_NETFILTER_XT_TARGET_CT=m
-CONFIG_NETFILTER_XT_TARGET_DSCP=m
-CONFIG_NETFILTER_XT_TARGET_HL=m
-CONFIG_NETFILTER_XT_TARGET_HMARK=m
-CONFIG_NETFILTER_XT_TARGET_IDLETIMER=m
-# CONFIG_NETFILTER_XT_TARGET_LED is not set
-CONFIG_NETFILTER_XT_TARGET_LOG=m
-CONFIG_NETFILTER_XT_TARGET_MARK=m
-CONFIG_NETFILTER_XT_NAT=m
-CONFIG_NETFILTER_XT_TARGET_NETMAP=m
-CONFIG_NETFILTER_XT_TARGET_NFLOG=m
-CONFIG_NETFILTER_XT_TARGET_NFQUEUE=m
-CONFIG_NETFILTER_XT_TARGET_NOTRACK=m
-CONFIG_NETFILTER_XT_TARGET_RATEEST=m
-CONFIG_NETFILTER_XT_TARGET_REDIRECT=m
-CONFIG_NETFILTER_XT_TARGET_MASQUERADE=m
-CONFIG_NETFILTER_XT_TARGET_TEE=m
-CONFIG_NETFILTER_XT_TARGET_TPROXY=m
-CONFIG_NETFILTER_XT_TARGET_TRACE=m
-CONFIG_NETFILTER_XT_TARGET_SECMARK=m
-CONFIG_NETFILTER_XT_TARGET_TCPMSS=m
-CONFIG_NETFILTER_XT_TARGET_TCPOPTSTRIP=m
-
-#
-# Xtables matches
-#
-CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=m
-CONFIG_NETFILTER_XT_MATCH_BPF=m
-CONFIG_NETFILTER_XT_MATCH_CGROUP=m
-CONFIG_NETFILTER_XT_MATCH_CLUSTER=m
-CONFIG_NETFILTER_XT_MATCH_COMMENT=m
-CONFIG_NETFILTER_XT_MATCH_CONNBYTES=m
-CONFIG_NETFILTER_XT_MATCH_CONNLABEL=m
-CONFIG_NETFILTER_XT_MATCH_CONNLIMIT=m
-CONFIG_NETFILTER_XT_MATCH_CONNMARK=m
-CONFIG_NETFILTER_XT_MATCH_CONNTRACK=m
-CONFIG_NETFILTER_XT_MATCH_CPU=m
-CONFIG_NETFILTER_XT_MATCH_DCCP=m
-CONFIG_NETFILTER_XT_MATCH_DEVGROUP=m
-CONFIG_NETFILTER_XT_MATCH_DSCP=m
-CONFIG_NETFILTER_XT_MATCH_ECN=m
-CONFIG_NETFILTER_XT_MATCH_ESP=m
-CONFIG_NETFILTER_XT_MATCH_HASHLIMIT=m
-CONFIG_NETFILTER_XT_MATCH_HELPER=m
-CONFIG_NETFILTER_XT_MATCH_HL=m
-# CONFIG_NETFILTER_XT_MATCH_IPCOMP is not set
-CONFIG_NETFILTER_XT_MATCH_IPRANGE=m
-CONFIG_NETFILTER_XT_MATCH_IPVS=m
-# CONFIG_NETFILTER_XT_MATCH_L2TP is not set
-CONFIG_NETFILTER_XT_MATCH_LENGTH=m
-CONFIG_NETFILTER_XT_MATCH_LIMIT=m
-CONFIG_NETFILTER_XT_MATCH_MAC=m
-CONFIG_NETFILTER_XT_MATCH_MARK=m
-CONFIG_NETFILTER_XT_MATCH_MULTIPORT=m
-# CONFIG_NETFILTER_XT_MATCH_NFACCT is not set
-CONFIG_NETFILTER_XT_MATCH_OSF=m
-CONFIG_NETFILTER_XT_MATCH_OWNER=m
-CONFIG_NETFILTER_XT_MATCH_POLICY=m
-CONFIG_NETFILTER_XT_MATCH_PHYSDEV=m
-CONFIG_NETFILTER_XT_MATCH_PKTTYPE=m
-CONFIG_NETFILTER_XT_MATCH_QUOTA=m
-CONFIG_NETFILTER_XT_MATCH_RATEEST=m
-CONFIG_NETFILTER_XT_MATCH_REALM=m
-CONFIG_NETFILTER_XT_MATCH_RECENT=m
-CONFIG_NETFILTER_XT_MATCH_SCTP=m
-CONFIG_NETFILTER_XT_MATCH_SOCKET=m
-CONFIG_NETFILTER_XT_MATCH_STATE=m
-CONFIG_NETFILTER_XT_MATCH_STATISTIC=m
-CONFIG_NETFILTER_XT_MATCH_STRING=m
-CONFIG_NETFILTER_XT_MATCH_TCPMSS=m
-# CONFIG_NETFILTER_XT_MATCH_TIME is not set
-# CONFIG_NETFILTER_XT_MATCH_U32 is not set
-# end of Core Netfilter Configuration
-
-CONFIG_IP_SET=m
-CONFIG_IP_SET_MAX=256
-CONFIG_IP_SET_BITMAP_IP=m
-CONFIG_IP_SET_BITMAP_IPMAC=m
-CONFIG_IP_SET_BITMAP_PORT=m
-CONFIG_IP_SET_HASH_IP=m
-CONFIG_IP_SET_HASH_IPMARK=m
-CONFIG_IP_SET_HASH_IPPORT=m
-CONFIG_IP_SET_HASH_IPPORTIP=m
-CONFIG_IP_SET_HASH_IPPORTNET=m
-CONFIG_IP_SET_HASH_IPMAC=m
-CONFIG_IP_SET_HASH_MAC=m
-CONFIG_IP_SET_HASH_NETPORTNET=m
-CONFIG_IP_SET_HASH_NET=m
-CONFIG_IP_SET_HASH_NETNET=m
-CONFIG_IP_SET_HASH_NETPORT=m
-CONFIG_IP_SET_HASH_NETIFACE=m
-CONFIG_IP_SET_LIST_SET=m
-CONFIG_IP_VS=m
-CONFIG_IP_VS_IPV6=y
-# CONFIG_IP_VS_DEBUG is not set
-CONFIG_IP_VS_TAB_BITS=12
-
-#
-# IPVS transport protocol load balancing support
-#
-CONFIG_IP_VS_PROTO_TCP=y
-CONFIG_IP_VS_PROTO_UDP=y
-CONFIG_IP_VS_PROTO_AH_ESP=y
-CONFIG_IP_VS_PROTO_ESP=y
-CONFIG_IP_VS_PROTO_AH=y
-CONFIG_IP_VS_PROTO_SCTP=y
-
-#
-# IPVS scheduler
-#
-CONFIG_IP_VS_RR=m
-CONFIG_IP_VS_WRR=m
-CONFIG_IP_VS_LC=m
-CONFIG_IP_VS_WLC=m
-CONFIG_IP_VS_FO=m
-CONFIG_IP_VS_OVF=m
-CONFIG_IP_VS_LBLC=m
-CONFIG_IP_VS_LBLCR=m
-CONFIG_IP_VS_DH=m
-CONFIG_IP_VS_SH=m
-# CONFIG_IP_VS_MH is not set
-CONFIG_IP_VS_SED=m
-CONFIG_IP_VS_NQ=m
-# CONFIG_IP_VS_TWOS is not set
-
-#
-# IPVS SH scheduler
-#
-CONFIG_IP_VS_SH_TAB_BITS=8
-
-#
-# IPVS MH scheduler
-#
-CONFIG_IP_VS_MH_TAB_INDEX=12
-
-#
-# IPVS application helper
-#
-CONFIG_IP_VS_FTP=m
-CONFIG_IP_VS_NFCT=y
-CONFIG_IP_VS_PE_SIP=m
-
-#
-# IP: Netfilter Configuration
-#
-CONFIG_NF_DEFRAG_IPV4=m
-CONFIG_NF_SOCKET_IPV4=m
-CONFIG_NF_TPROXY_IPV4=m
-CONFIG_NF_TABLES_IPV4=y
-CONFIG_NFT_REJECT_IPV4=m
-CONFIG_NFT_DUP_IPV4=m
-CONFIG_NFT_FIB_IPV4=m
-CONFIG_NF_TABLES_ARP=y
-CONFIG_NF_DUP_IPV4=m
-CONFIG_NF_LOG_ARP=m
-CONFIG_NF_LOG_IPV4=m
-CONFIG_NF_REJECT_IPV4=m
-CONFIG_NF_NAT_SNMP_BASIC=m
-CONFIG_NF_NAT_PPTP=m
-CONFIG_NF_NAT_H323=m
-CONFIG_IP_NF_IPTABLES=m
-CONFIG_IP_NF_MATCH_AH=m
-CONFIG_IP_NF_MATCH_ECN=m
-CONFIG_IP_NF_MATCH_RPFILTER=m
-CONFIG_IP_NF_MATCH_TTL=m
-CONFIG_IP_NF_FILTER=m
-CONFIG_IP_NF_TARGET_REJECT=m
-CONFIG_IP_NF_TARGET_SYNPROXY=m
-CONFIG_IP_NF_NAT=m
-CONFIG_IP_NF_TARGET_MASQUERADE=m
-CONFIG_IP_NF_TARGET_NETMAP=m
-CONFIG_IP_NF_TARGET_REDIRECT=m
-CONFIG_IP_NF_MANGLE=m
-# CONFIG_IP_NF_TARGET_CLUSTERIP is not set
-CONFIG_IP_NF_TARGET_ECN=m
-CONFIG_IP_NF_TARGET_TTL=m
-CONFIG_IP_NF_RAW=m
-CONFIG_IP_NF_SECURITY=m
-CONFIG_IP_NF_ARPTABLES=m
-CONFIG_IP_NF_ARPFILTER=m
-CONFIG_IP_NF_ARP_MANGLE=m
-# end of IP: Netfilter Configuration
-
-#
-# IPv6: Netfilter Configuration
-#
-CONFIG_NF_SOCKET_IPV6=m
-CONFIG_NF_TPROXY_IPV6=m
-CONFIG_NF_TABLES_IPV6=y
-CONFIG_NFT_REJECT_IPV6=m
-CONFIG_NFT_DUP_IPV6=m
-CONFIG_NFT_FIB_IPV6=m
-CONFIG_NF_DUP_IPV6=m
-CONFIG_NF_REJECT_IPV6=m
-CONFIG_NF_LOG_IPV6=m
-CONFIG_IP6_NF_IPTABLES=m
-CONFIG_IP6_NF_MATCH_AH=m
-CONFIG_IP6_NF_MATCH_EUI64=m
-CONFIG_IP6_NF_MATCH_FRAG=m
-CONFIG_IP6_NF_MATCH_OPTS=m
-CONFIG_IP6_NF_MATCH_HL=m
-CONFIG_IP6_NF_MATCH_IPV6HEADER=m
-CONFIG_IP6_NF_MATCH_MH=m
-CONFIG_IP6_NF_MATCH_RPFILTER=m
-CONFIG_IP6_NF_MATCH_RT=m
-# CONFIG_IP6_NF_MATCH_SRH is not set
-# CONFIG_IP6_NF_TARGET_HL is not set
-CONFIG_IP6_NF_FILTER=m
-CONFIG_IP6_NF_TARGET_REJECT=m
-CONFIG_IP6_NF_TARGET_SYNPROXY=m
-CONFIG_IP6_NF_MANGLE=m
-CONFIG_IP6_NF_RAW=m
-CONFIG_IP6_NF_SECURITY=m
-CONFIG_IP6_NF_NAT=m
-CONFIG_IP6_NF_TARGET_MASQUERADE=m
-CONFIG_IP6_NF_TARGET_NPT=m
-# end of IPv6: Netfilter Configuration
-
-CONFIG_NF_DEFRAG_IPV6=m
-CONFIG_NF_TABLES_BRIDGE=m
-# CONFIG_NFT_BRIDGE_META is not set
-CONFIG_NFT_BRIDGE_REJECT=m
-# CONFIG_NF_CONNTRACK_BRIDGE is not set
-CONFIG_BRIDGE_NF_EBTABLES=m
-CONFIG_BRIDGE_EBT_BROUTE=m
-CONFIG_BRIDGE_EBT_T_FILTER=m
-CONFIG_BRIDGE_EBT_T_NAT=m
-CONFIG_BRIDGE_EBT_802_3=m
-CONFIG_BRIDGE_EBT_AMONG=m
-CONFIG_BRIDGE_EBT_ARP=m
-CONFIG_BRIDGE_EBT_IP=m
-CONFIG_BRIDGE_EBT_IP6=m
-CONFIG_BRIDGE_EBT_LIMIT=m
-CONFIG_BRIDGE_EBT_MARK=m
-CONFIG_BRIDGE_EBT_PKTTYPE=m
-CONFIG_BRIDGE_EBT_STP=m
-CONFIG_BRIDGE_EBT_VLAN=m
-CONFIG_BRIDGE_EBT_ARPREPLY=m
-CONFIG_BRIDGE_EBT_DNAT=m
-CONFIG_BRIDGE_EBT_MARK_T=m
-CONFIG_BRIDGE_EBT_REDIRECT=m
-CONFIG_BRIDGE_EBT_SNAT=m
-CONFIG_BRIDGE_EBT_LOG=m
-CONFIG_BRIDGE_EBT_NFLOG=m
-# CONFIG_BPFILTER is not set
-# CONFIG_IP_DCCP is not set
-CONFIG_IP_SCTP=m
-# CONFIG_SCTP_DBG_OBJCNT is not set
-# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_MD5 is not set
-CONFIG_SCTP_DEFAULT_COOKIE_HMAC_SHA1=y
-# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_NONE is not set
-CONFIG_SCTP_COOKIE_HMAC_MD5=y
-CONFIG_SCTP_COOKIE_HMAC_SHA1=y
-CONFIG_INET_SCTP_DIAG=m
-# CONFIG_RDS is not set
-CONFIG_TIPC=m
-# CONFIG_TIPC_MEDIA_IB is not set
-CONFIG_TIPC_MEDIA_UDP=y
-CONFIG_TIPC_CRYPTO=y
-CONFIG_TIPC_DIAG=m
-CONFIG_ATM=m
-CONFIG_ATM_CLIP=m
-# CONFIG_ATM_CLIP_NO_ICMP is not set
-CONFIG_ATM_LANE=m
-# CONFIG_ATM_MPOA is not set
-CONFIG_ATM_BR2684=m
-# CONFIG_ATM_BR2684_IPFILTER is not set
-CONFIG_L2TP=m
-CONFIG_L2TP_DEBUGFS=m
-CONFIG_L2TP_V3=y
-CONFIG_L2TP_IP=m
-CONFIG_L2TP_ETH=m
-CONFIG_STP=m
-CONFIG_GARP=m
-CONFIG_MRP=m
-CONFIG_BRIDGE=m
-CONFIG_BRIDGE_IGMP_SNOOPING=y
-CONFIG_BRIDGE_VLAN_FILTERING=y
-# CONFIG_BRIDGE_MRP is not set
-# CONFIG_BRIDGE_CFM is not set
-# CONFIG_NET_DSA is not set
-CONFIG_VLAN_8021Q=m
-CONFIG_VLAN_8021Q_GVRP=y
-CONFIG_VLAN_8021Q_MVRP=y
-# CONFIG_DECNET is not set
-CONFIG_LLC=m
-# CONFIG_LLC2 is not set
-# CONFIG_ATALK is not set
-# CONFIG_X25 is not set
-# CONFIG_LAPB is not set
-# CONFIG_PHONET is not set
-CONFIG_6LOWPAN=m
-# CONFIG_6LOWPAN_DEBUGFS is not set
-# CONFIG_6LOWPAN_NHC is not set
-# CONFIG_IEEE802154 is not set
-CONFIG_NET_SCHED=y
-
-#
-# Queueing/Scheduling
-#
-CONFIG_NET_SCH_CBQ=m
-CONFIG_NET_SCH_HTB=m
-CONFIG_NET_SCH_HFSC=m
-CONFIG_NET_SCH_ATM=m
-CONFIG_NET_SCH_PRIO=m
-CONFIG_NET_SCH_MULTIQ=m
-CONFIG_NET_SCH_RED=m
-CONFIG_NET_SCH_SFB=m
-CONFIG_NET_SCH_SFQ=m
-CONFIG_NET_SCH_TEQL=m
-CONFIG_NET_SCH_TBF=m
-# CONFIG_NET_SCH_CBS is not set
-# CONFIG_NET_SCH_ETF is not set
-# CONFIG_NET_SCH_TAPRIO is not set
-CONFIG_NET_SCH_GRED=m
-CONFIG_NET_SCH_DSMARK=m
-CONFIG_NET_SCH_NETEM=m
-CONFIG_NET_SCH_DRR=m
-CONFIG_NET_SCH_MQPRIO=m
-# CONFIG_NET_SCH_SKBPRIO is not set
-CONFIG_NET_SCH_CHOKE=m
-CONFIG_NET_SCH_QFQ=m
-CONFIG_NET_SCH_CODEL=m
-CONFIG_NET_SCH_FQ_CODEL=y
-# CONFIG_NET_SCH_CAKE is not set
-CONFIG_NET_SCH_FQ=m
-CONFIG_NET_SCH_HHF=m
-CONFIG_NET_SCH_PIE=m
-# CONFIG_NET_SCH_FQ_PIE is not set
-CONFIG_NET_SCH_INGRESS=m
-CONFIG_NET_SCH_PLUG=m
-# CONFIG_NET_SCH_ETS is not set
-CONFIG_NET_SCH_DEFAULT=y
-# CONFIG_DEFAULT_FQ is not set
-# CONFIG_DEFAULT_CODEL is not set
-CONFIG_DEFAULT_FQ_CODEL=y
-# CONFIG_DEFAULT_SFQ is not set
-# CONFIG_DEFAULT_PFIFO_FAST is not set
-CONFIG_DEFAULT_NET_SCH="fq_codel"
-
-#
-# Classification
-#
-CONFIG_NET_CLS=y
-CONFIG_NET_CLS_BASIC=m
-CONFIG_NET_CLS_TCINDEX=m
-CONFIG_NET_CLS_ROUTE4=m
-CONFIG_NET_CLS_FW=m
-CONFIG_NET_CLS_U32=m
-CONFIG_CLS_U32_PERF=y
-CONFIG_CLS_U32_MARK=y
-CONFIG_NET_CLS_RSVP=m
-CONFIG_NET_CLS_RSVP6=m
-CONFIG_NET_CLS_FLOW=m
-CONFIG_NET_CLS_CGROUP=y
-CONFIG_NET_CLS_BPF=m
-CONFIG_NET_CLS_FLOWER=m
-CONFIG_NET_CLS_MATCHALL=m
-CONFIG_NET_EMATCH=y
-CONFIG_NET_EMATCH_STACK=32
-CONFIG_NET_EMATCH_CMP=m
-CONFIG_NET_EMATCH_NBYTE=m
-CONFIG_NET_EMATCH_U32=m
-CONFIG_NET_EMATCH_META=m
-CONFIG_NET_EMATCH_TEXT=m
-# CONFIG_NET_EMATCH_CANID is not set
-CONFIG_NET_EMATCH_IPSET=m
-# CONFIG_NET_EMATCH_IPT is not set
-CONFIG_NET_CLS_ACT=y
-CONFIG_NET_ACT_POLICE=m
-CONFIG_NET_ACT_GACT=m
-CONFIG_GACT_PROB=y
-CONFIG_NET_ACT_MIRRED=m
-CONFIG_NET_ACT_SAMPLE=m
-# CONFIG_NET_ACT_IPT is not set
-CONFIG_NET_ACT_NAT=m
-CONFIG_NET_ACT_PEDIT=m
-CONFIG_NET_ACT_SIMP=m
-CONFIG_NET_ACT_SKBEDIT=m
-CONFIG_NET_ACT_CSUM=m
-# CONFIG_NET_ACT_MPLS is not set
-CONFIG_NET_ACT_VLAN=m
-CONFIG_NET_ACT_BPF=m
-# CONFIG_NET_ACT_CONNMARK is not set
-# CONFIG_NET_ACT_CTINFO is not set
-CONFIG_NET_ACT_SKBMOD=m
-# CONFIG_NET_ACT_IFE is not set
-CONFIG_NET_ACT_TUNNEL_KEY=m
-# CONFIG_NET_ACT_GATE is not set
-# CONFIG_NET_TC_SKB_EXT is not set
-CONFIG_NET_SCH_FIFO=y
-CONFIG_DCB=y
-CONFIG_DNS_RESOLVER=m
-# CONFIG_BATMAN_ADV is not set
-CONFIG_OPENVSWITCH=m
-CONFIG_OPENVSWITCH_GRE=m
-CONFIG_VSOCKETS=m
-CONFIG_VSOCKETS_DIAG=m
-CONFIG_VSOCKETS_LOOPBACK=m
-CONFIG_VMWARE_VMCI_VSOCKETS=m
-CONFIG_VIRTIO_VSOCKETS=m
-CONFIG_VIRTIO_VSOCKETS_COMMON=m
-CONFIG_NETLINK_DIAG=m
-CONFIG_MPLS=y
-CONFIG_NET_MPLS_GSO=y
-CONFIG_MPLS_ROUTING=m
-CONFIG_MPLS_IPTUNNEL=m
-CONFIG_NET_NSH=y
-# CONFIG_HSR is not set
-CONFIG_NET_SWITCHDEV=y
-CONFIG_NET_L3_MASTER_DEV=y
-# CONFIG_QRTR is not set
-# CONFIG_NET_NCSI is not set
-CONFIG_PCPU_DEV_REFCNT=y
-CONFIG_RPS=y
-CONFIG_RFS_ACCEL=y
-CONFIG_SOCK_RX_QUEUE_MAPPING=y
-CONFIG_XPS=y
-CONFIG_CGROUP_NET_PRIO=y
-CONFIG_CGROUP_NET_CLASSID=y
-CONFIG_NET_RX_BUSY_POLL=y
-CONFIG_BQL=y
-CONFIG_NET_FLOW_LIMIT=y
-
-#
-# Network testing
-#
-CONFIG_NET_PKTGEN=m
-CONFIG_NET_DROP_MONITOR=y
-# end of Network testing
-# end of Networking options
-
-# CONFIG_HAMRADIO is not set
-CONFIG_CAN=m
-CONFIG_CAN_RAW=m
-CONFIG_CAN_BCM=m
-CONFIG_CAN_GW=m
-# CONFIG_CAN_J1939 is not set
-# CONFIG_CAN_ISOTP is not set
-# CONFIG_BT is not set
-# CONFIG_AF_RXRPC is not set
-# CONFIG_AF_KCM is not set
-CONFIG_STREAM_PARSER=y
-# CONFIG_MCTP is not set
-CONFIG_FIB_RULES=y
-CONFIG_WIRELESS=y
-CONFIG_WEXT_CORE=y
-CONFIG_WEXT_PROC=y
-CONFIG_CFG80211=m
-# CONFIG_NL80211_TESTMODE is not set
-# CONFIG_CFG80211_DEVELOPER_WARNINGS is not set
-# CONFIG_CFG80211_CERTIFICATION_ONUS is not set
-CONFIG_CFG80211_REQUIRE_SIGNED_REGDB=y
-CONFIG_CFG80211_USE_KERNEL_REGDB_KEYS=y
-CONFIG_CFG80211_DEFAULT_PS=y
-# CONFIG_CFG80211_DEBUGFS is not set
-CONFIG_CFG80211_CRDA_SUPPORT=y
-CONFIG_CFG80211_WEXT=y
-CONFIG_MAC80211=m
-CONFIG_MAC80211_HAS_RC=y
-CONFIG_MAC80211_RC_MINSTREL=y
-CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
-CONFIG_MAC80211_RC_DEFAULT="minstrel_ht"
-CONFIG_MAC80211_MESH=y
-CONFIG_MAC80211_LEDS=y
-CONFIG_MAC80211_DEBUGFS=y
-# CONFIG_MAC80211_MESSAGE_TRACING is not set
-# CONFIG_MAC80211_DEBUG_MENU is not set
-CONFIG_MAC80211_STA_HASH_MAX_SIZE=0
-CONFIG_RFKILL=m
-CONFIG_RFKILL_LEDS=y
-CONFIG_RFKILL_INPUT=y
-# CONFIG_RFKILL_GPIO is not set
-CONFIG_NET_9P=y
-CONFIG_NET_9P_FD=y
-CONFIG_NET_9P_VIRTIO=y
-# CONFIG_NET_9P_RDMA is not set
-# CONFIG_NET_9P_DEBUG is not set
-# CONFIG_CAIF is not set
-CONFIG_CEPH_LIB=m
-# CONFIG_CEPH_LIB_PRETTYDEBUG is not set
-CONFIG_CEPH_LIB_USE_DNS_RESOLVER=y
-# CONFIG_NFC is not set
-CONFIG_PSAMPLE=m
-# CONFIG_NET_IFE is not set
-CONFIG_LWTUNNEL=y
-CONFIG_LWTUNNEL_BPF=y
-CONFIG_DST_CACHE=y
-CONFIG_GRO_CELLS=y
-CONFIG_SOCK_VALIDATE_XMIT=y
-CONFIG_NET_SELFTESTS=y
-CONFIG_NET_SOCK_MSG=y
-CONFIG_FAILOVER=m
-CONFIG_ETHTOOL_NETLINK=y
-
-#
-# Device Drivers
-#
-CONFIG_HAVE_EISA=y
-# CONFIG_EISA is not set
-CONFIG_HAVE_PCI=y
-CONFIG_PCI=y
-CONFIG_PCI_DOMAINS=y
-CONFIG_PCIEPORTBUS=y
-CONFIG_HOTPLUG_PCI_PCIE=y
-CONFIG_PCIEAER=y
-CONFIG_PCIEAER_INJECT=m
-CONFIG_PCIE_ECRC=y
-CONFIG_PCIEASPM=y
-CONFIG_PCIEASPM_DEFAULT=y
-# CONFIG_PCIEASPM_POWERSAVE is not set
-# CONFIG_PCIEASPM_POWER_SUPERSAVE is not set
-# CONFIG_PCIEASPM_PERFORMANCE is not set
-CONFIG_PCIE_PME=y
-CONFIG_PCIE_DPC=y
-# CONFIG_PCIE_PTM is not set
-# CONFIG_PCIE_EDR is not set
-CONFIG_PCI_MSI=y
-CONFIG_PCI_MSI_IRQ_DOMAIN=y
-CONFIG_PCI_QUIRKS=y
-# CONFIG_PCI_DEBUG is not set
-# CONFIG_PCI_REALLOC_ENABLE_AUTO is not set
-CONFIG_PCI_STUB=y
-CONFIG_PCI_PF_STUB=m
-CONFIG_PCI_ATS=y
-CONFIG_PCI_LOCKLESS_CONFIG=y
-CONFIG_PCI_IOV=y
-CONFIG_PCI_PRI=y
-CONFIG_PCI_PASID=y
-# CONFIG_PCI_P2PDMA is not set
-CONFIG_PCI_LABEL=y
-# CONFIG_PCIE_BUS_TUNE_OFF is not set
-CONFIG_PCIE_BUS_DEFAULT=y
-# CONFIG_PCIE_BUS_SAFE is not set
-# CONFIG_PCIE_BUS_PERFORMANCE is not set
-# CONFIG_PCIE_BUS_PEER2PEER is not set
-CONFIG_VGA_ARB=y
-CONFIG_VGA_ARB_MAX_GPUS=64
-CONFIG_HOTPLUG_PCI=y
-CONFIG_HOTPLUG_PCI_ACPI=y
-CONFIG_HOTPLUG_PCI_ACPI_IBM=m
-# CONFIG_HOTPLUG_PCI_CPCI is not set
-CONFIG_HOTPLUG_PCI_SHPC=y
-
-#
-# PCI controller drivers
-#
-CONFIG_VMD=y
-
-#
-# DesignWare PCI Core Support
-#
-# CONFIG_PCIE_DW_PLAT_HOST is not set
-# CONFIG_PCI_MESON is not set
-# end of DesignWare PCI Core Support
-
-#
-# Mobiveil PCIe Core Support
-#
-# end of Mobiveil PCIe Core Support
-
-#
-# Cadence PCIe controllers support
-#
-# end of Cadence PCIe controllers support
-# end of PCI controller drivers
-
-#
-# PCI Endpoint
-#
-# CONFIG_PCI_ENDPOINT is not set
-# end of PCI Endpoint
-
-#
-# PCI switch controller drivers
-#
-# CONFIG_PCI_SW_SWITCHTEC is not set
-# end of PCI switch controller drivers
-
-# CONFIG_CXL_BUS is not set
-# CONFIG_PCCARD is not set
-# CONFIG_RAPIDIO is not set
-
-#
-# Generic Driver Options
-#
-CONFIG_AUXILIARY_BUS=y
-# CONFIG_UEVENT_HELPER is not set
-CONFIG_DEVTMPFS=y
-CONFIG_DEVTMPFS_MOUNT=y
-# CONFIG_DEVTMPFS_SAFE is not set
-CONFIG_STANDALONE=y
-CONFIG_PREVENT_FIRMWARE_BUILD=y
-
-#
-# Firmware loader
-#
-CONFIG_FW_LOADER=y
-CONFIG_FW_LOADER_PAGED_BUF=y
-CONFIG_FW_LOADER_SYSFS=y
-CONFIG_EXTRA_FIRMWARE=""
-CONFIG_FW_LOADER_USER_HELPER=y
-# CONFIG_FW_LOADER_USER_HELPER_FALLBACK is not set
-# CONFIG_FW_LOADER_COMPRESS is not set
-CONFIG_FW_CACHE=y
-# CONFIG_FW_UPLOAD is not set
-# end of Firmware loader
-
-CONFIG_ALLOW_DEV_COREDUMP=y
-# CONFIG_DEBUG_DRIVER is not set
-# CONFIG_DEBUG_DEVRES is not set
-# CONFIG_DEBUG_TEST_DRIVER_REMOVE is not set
-# CONFIG_TEST_ASYNC_DRIVER_PROBE is not set
-CONFIG_GENERIC_CPU_AUTOPROBE=y
-CONFIG_GENERIC_CPU_VULNERABILITIES=y
-CONFIG_REGMAP=y
-CONFIG_REGMAP_I2C=m
-CONFIG_REGMAP_SPI=m
-CONFIG_DMA_SHARED_BUFFER=y
-# CONFIG_DMA_FENCE_TRACE is not set
-# end of Generic Driver Options
-
-#
-# Bus devices
-#
-# CONFIG_MHI_BUS is not set
-# CONFIG_MHI_BUS_EP is not set
-# end of Bus devices
-
-CONFIG_CONNECTOR=y
-CONFIG_PROC_EVENTS=y
-
-#
-# Firmware Drivers
-#
-
-#
-# ARM System Control and Management Interface Protocol
-#
-# end of ARM System Control and Management Interface Protocol
-
-CONFIG_EDD=m
-# CONFIG_EDD_OFF is not set
-CONFIG_FIRMWARE_MEMMAP=y
-CONFIG_DMIID=y
-CONFIG_DMI_SYSFS=y
-CONFIG_DMI_SCAN_MACHINE_NON_EFI_FALLBACK=y
-# CONFIG_ISCSI_IBFT is not set
-CONFIG_FW_CFG_SYSFS=y
-# CONFIG_FW_CFG_SYSFS_CMDLINE is not set
-CONFIG_SYSFB=y
-# CONFIG_SYSFB_SIMPLEFB is not set
-# CONFIG_GOOGLE_FIRMWARE is not set
-
-#
-# EFI (Extensible Firmware Interface) Support
-#
-CONFIG_EFI_ESRT=y
-CONFIG_EFI_VARS_PSTORE=y
-CONFIG_EFI_VARS_PSTORE_DEFAULT_DISABLE=y
-CONFIG_EFI_RUNTIME_MAP=y
-# CONFIG_EFI_FAKE_MEMMAP is not set
-CONFIG_EFI_DXE_MEM_ATTRIBUTES=y
-CONFIG_EFI_RUNTIME_WRAPPERS=y
-CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER=y
-# CONFIG_EFI_BOOTLOADER_CONTROL is not set
-# CONFIG_EFI_CAPSULE_LOADER is not set
-# CONFIG_EFI_TEST is not set
-# CONFIG_APPLE_PROPERTIES is not set
-# CONFIG_RESET_ATTACK_MITIGATION is not set
-# CONFIG_EFI_RCI2_TABLE is not set
-# CONFIG_EFI_DISABLE_PCI_DMA is not set
-CONFIG_EFI_EARLYCON=y
-CONFIG_EFI_CUSTOM_SSDT_OVERLAYS=y
-# CONFIG_EFI_DISABLE_RUNTIME is not set
-# CONFIG_EFI_COCO_SECRET is not set
-# end of EFI (Extensible Firmware Interface) Support
-
-CONFIG_UEFI_CPER=y
-CONFIG_UEFI_CPER_X86=y
-
-#
-# Tegra firmware driver
-#
-# end of Tegra firmware driver
-# end of Firmware Drivers
-
-# CONFIG_GNSS is not set
-# CONFIG_MTD is not set
-# CONFIG_OF is not set
-CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
-CONFIG_PARPORT=m
-CONFIG_PARPORT_PC=m
-CONFIG_PARPORT_SERIAL=m
-# CONFIG_PARPORT_PC_FIFO is not set
-# CONFIG_PARPORT_PC_SUPERIO is not set
-# CONFIG_PARPORT_AX88796 is not set
-CONFIG_PARPORT_1284=y
-CONFIG_PNP=y
-# CONFIG_PNP_DEBUG_MESSAGES is not set
-
-#
-# Protocols
-#
-CONFIG_PNPACPI=y
-CONFIG_BLK_DEV=y
-CONFIG_BLK_DEV_NULL_BLK=m
-CONFIG_BLK_DEV_NULL_BLK_FAULT_INJECTION=y
-# CONFIG_BLK_DEV_FD is not set
-CONFIG_CDROM=m
-# CONFIG_PARIDE is not set
-# CONFIG_BLK_DEV_PCIESSD_MTIP32XX is not set
-CONFIG_ZRAM=m
-CONFIG_ZRAM_DEF_COMP_LZORLE=y
-# CONFIG_ZRAM_DEF_COMP_LZO is not set
-CONFIG_ZRAM_DEF_COMP="lzo-rle"
-CONFIG_ZRAM_WRITEBACK=y
-# CONFIG_ZRAM_MEMORY_TRACKING is not set
-CONFIG_BLK_DEV_LOOP=m
-CONFIG_BLK_DEV_LOOP_MIN_COUNT=0
-# CONFIG_BLK_DEV_DRBD is not set
-CONFIG_BLK_DEV_NBD=m
-CONFIG_BLK_DEV_RAM=m
-CONFIG_BLK_DEV_RAM_COUNT=16
-CONFIG_BLK_DEV_RAM_SIZE=16384
-CONFIG_CDROM_PKTCDVD=m
-CONFIG_CDROM_PKTCDVD_BUFFERS=8
-# CONFIG_CDROM_PKTCDVD_WCACHE is not set
-# CONFIG_ATA_OVER_ETH is not set
-CONFIG_VIRTIO_BLK=m
-CONFIG_BLK_DEV_RBD=m
-# CONFIG_BLK_DEV_UBLK is not set
-
-#
-# NVME Support
-#
-CONFIG_NVME_CORE=m
-CONFIG_BLK_DEV_NVME=m
-CONFIG_NVME_MULTIPATH=y
-# CONFIG_NVME_VERBOSE_ERRORS is not set
-# CONFIG_NVME_HWMON is not set
-CONFIG_NVME_FABRICS=m
-# CONFIG_NVME_RDMA is not set
-# CONFIG_NVME_FC is not set
-# CONFIG_NVME_TCP is not set
-# CONFIG_NVME_AUTH is not set
-CONFIG_NVME_TARGET=m
-# CONFIG_NVME_TARGET_PASSTHRU is not set
-CONFIG_NVME_TARGET_LOOP=m
-# CONFIG_NVME_TARGET_RDMA is not set
-CONFIG_NVME_TARGET_FC=m
-# CONFIG_NVME_TARGET_TCP is not set
-# CONFIG_NVME_TARGET_AUTH is not set
-# end of NVME Support
-
-#
-# Misc devices
-#
-CONFIG_SENSORS_LIS3LV02D=m
-# CONFIG_AD525X_DPOT is not set
-# CONFIG_DUMMY_IRQ is not set
-# CONFIG_IBM_ASM is not set
-# CONFIG_PHANTOM is not set
-CONFIG_TIFM_CORE=m
-CONFIG_TIFM_7XX1=m
-# CONFIG_ICS932S401 is not set
-CONFIG_ENCLOSURE_SERVICES=m
-CONFIG_SGI_XP=m
-CONFIG_HP_ILO=m
-CONFIG_SGI_GRU=m
-# CONFIG_SGI_GRU_DEBUG is not set
-CONFIG_APDS9802ALS=m
-CONFIG_ISL29003=m
-CONFIG_ISL29020=m
-CONFIG_SENSORS_TSL2550=m
-CONFIG_SENSORS_BH1770=m
-CONFIG_SENSORS_APDS990X=m
-# CONFIG_HMC6352 is not set
-# CONFIG_DS1682 is not set
-CONFIG_VMWARE_BALLOON=m
-# CONFIG_LATTICE_ECP3_CONFIG is not set
-# CONFIG_SRAM is not set
-# CONFIG_DW_XDATA_PCIE is not set
-# CONFIG_PCI_ENDPOINT_TEST is not set
-# CONFIG_XILINX_SDFEC is not set
-CONFIG_MISC_RTSX=m
-# CONFIG_C2PORT is not set
-
-#
-# EEPROM support
-#
-# CONFIG_EEPROM_AT24 is not set
-# CONFIG_EEPROM_AT25 is not set
-CONFIG_EEPROM_LEGACY=m
-CONFIG_EEPROM_MAX6875=m
-CONFIG_EEPROM_93CX6=m
-# CONFIG_EEPROM_93XX46 is not set
-# CONFIG_EEPROM_IDT_89HPESX is not set
-# CONFIG_EEPROM_EE1004 is not set
-# end of EEPROM support
-
-CONFIG_CB710_CORE=m
-# CONFIG_CB710_DEBUG is not set
-CONFIG_CB710_DEBUG_ASSUMPTIONS=y
-
-#
-# Texas Instruments shared transport line discipline
-#
-# CONFIG_TI_ST is not set
-# end of Texas Instruments shared transport line discipline
-
-CONFIG_SENSORS_LIS3_I2C=m
-CONFIG_ALTERA_STAPL=m
-CONFIG_INTEL_MEI=m
-CONFIG_INTEL_MEI_ME=m
-# CONFIG_INTEL_MEI_TXE is not set
-# CONFIG_INTEL_MEI_GSC is not set
-# CONFIG_INTEL_MEI_HDCP is not set
-# CONFIG_INTEL_MEI_PXP is not set
-CONFIG_VMWARE_VMCI=m
-# CONFIG_GENWQE is not set
-# CONFIG_ECHO is not set
-# CONFIG_BCM_VK is not set
-# CONFIG_MISC_ALCOR_PCI is not set
-CONFIG_MISC_RTSX_PCI=m
-# CONFIG_MISC_RTSX_USB is not set
-# CONFIG_HABANA_AI is not set
-# CONFIG_UACCE is not set
-CONFIG_PVPANIC=y
-# CONFIG_PVPANIC_MMIO is not set
-# CONFIG_PVPANIC_PCI is not set
-# end of Misc devices
-
-#
-# SCSI device support
-#
-CONFIG_SCSI_MOD=y
-CONFIG_RAID_ATTRS=m
-CONFIG_SCSI_COMMON=y
-CONFIG_SCSI=y
-CONFIG_SCSI_DMA=y
-CONFIG_SCSI_NETLINK=y
-CONFIG_SCSI_PROC_FS=y
-
-#
-# SCSI support type (disk, tape, CD-ROM)
-#
-CONFIG_BLK_DEV_SD=m
-CONFIG_CHR_DEV_ST=m
-CONFIG_BLK_DEV_SR=m
-CONFIG_CHR_DEV_SG=m
-CONFIG_BLK_DEV_BSG=y
-CONFIG_CHR_DEV_SCH=m
-CONFIG_SCSI_ENCLOSURE=m
-CONFIG_SCSI_CONSTANTS=y
-CONFIG_SCSI_LOGGING=y
-CONFIG_SCSI_SCAN_ASYNC=y
-
-#
-# SCSI Transports
-#
-CONFIG_SCSI_SPI_ATTRS=m
-CONFIG_SCSI_FC_ATTRS=m
-CONFIG_SCSI_ISCSI_ATTRS=m
-CONFIG_SCSI_SAS_ATTRS=m
-CONFIG_SCSI_SAS_LIBSAS=m
-CONFIG_SCSI_SAS_ATA=y
-CONFIG_SCSI_SAS_HOST_SMP=y
-CONFIG_SCSI_SRP_ATTRS=m
-# end of SCSI Transports
-
-CONFIG_SCSI_LOWLEVEL=y
-# CONFIG_ISCSI_TCP is not set
-# CONFIG_ISCSI_BOOT_SYSFS is not set
-# CONFIG_SCSI_CXGB3_ISCSI is not set
-# CONFIG_SCSI_CXGB4_ISCSI is not set
-# CONFIG_SCSI_BNX2_ISCSI is not set
-# CONFIG_BE2ISCSI is not set
-# CONFIG_BLK_DEV_3W_XXXX_RAID is not set
-# CONFIG_SCSI_HPSA is not set
-# CONFIG_SCSI_3W_9XXX is not set
-# CONFIG_SCSI_3W_SAS is not set
-# CONFIG_SCSI_ACARD is not set
-# CONFIG_SCSI_AACRAID is not set
-# CONFIG_SCSI_AIC7XXX is not set
-# CONFIG_SCSI_AIC79XX is not set
-# CONFIG_SCSI_AIC94XX is not set
-# CONFIG_SCSI_MVSAS is not set
-# CONFIG_SCSI_MVUMI is not set
-# CONFIG_SCSI_ADVANSYS is not set
-# CONFIG_SCSI_ARCMSR is not set
-# CONFIG_SCSI_ESAS2R is not set
-# CONFIG_MEGARAID_NEWGEN is not set
-# CONFIG_MEGARAID_LEGACY is not set
-# CONFIG_MEGARAID_SAS is not set
-CONFIG_SCSI_MPT3SAS=m
-CONFIG_SCSI_MPT2SAS_MAX_SGE=128
-CONFIG_SCSI_MPT3SAS_MAX_SGE=128
-# CONFIG_SCSI_MPT2SAS is not set
-# CONFIG_SCSI_MPI3MR is not set
-# CONFIG_SCSI_SMARTPQI is not set
-# CONFIG_SCSI_HPTIOP is not set
-# CONFIG_SCSI_BUSLOGIC is not set
-# CONFIG_SCSI_MYRB is not set
-# CONFIG_SCSI_MYRS is not set
-# CONFIG_VMWARE_PVSCSI is not set
-# CONFIG_LIBFC is not set
-# CONFIG_SCSI_SNIC is not set
-# CONFIG_SCSI_DMX3191D is not set
-# CONFIG_SCSI_FDOMAIN_PCI is not set
-CONFIG_SCSI_ISCI=m
-# CONFIG_SCSI_IPS is not set
-# CONFIG_SCSI_INITIO is not set
-# CONFIG_SCSI_INIA100 is not set
-# CONFIG_SCSI_PPA is not set
-# CONFIG_SCSI_IMM is not set
-# CONFIG_SCSI_STEX is not set
-# CONFIG_SCSI_SYM53C8XX_2 is not set
-# CONFIG_SCSI_IPR is not set
-# CONFIG_SCSI_QLOGIC_1280 is not set
-# CONFIG_SCSI_QLA_FC is not set
-# CONFIG_SCSI_QLA_ISCSI is not set
-# CONFIG_SCSI_LPFC is not set
-# CONFIG_SCSI_EFCT is not set
-# CONFIG_SCSI_DC395x is not set
-# CONFIG_SCSI_AM53C974 is not set
-# CONFIG_SCSI_WD719X is not set
-CONFIG_SCSI_DEBUG=m
-# CONFIG_SCSI_PMCRAID is not set
-# CONFIG_SCSI_PM8001 is not set
-# CONFIG_SCSI_BFA_FC is not set
-# CONFIG_SCSI_VIRTIO is not set
-# CONFIG_SCSI_CHELSIO_FCOE is not set
-CONFIG_SCSI_DH=y
-CONFIG_SCSI_DH_RDAC=y
-CONFIG_SCSI_DH_HP_SW=y
-CONFIG_SCSI_DH_EMC=y
-CONFIG_SCSI_DH_ALUA=y
-# end of SCSI device support
-
-CONFIG_ATA=m
-CONFIG_SATA_HOST=y
-CONFIG_PATA_TIMINGS=y
-CONFIG_ATA_VERBOSE_ERROR=y
-CONFIG_ATA_FORCE=y
-CONFIG_ATA_ACPI=y
-# CONFIG_SATA_ZPODD is not set
-CONFIG_SATA_PMP=y
-
-#
-# Controllers with non-SFF native interface
-#
-CONFIG_SATA_AHCI=m
-CONFIG_SATA_MOBILE_LPM_POLICY=0
-CONFIG_SATA_AHCI_PLATFORM=m
-# CONFIG_SATA_INIC162X is not set
-# CONFIG_SATA_ACARD_AHCI is not set
-# CONFIG_SATA_SIL24 is not set
-CONFIG_ATA_SFF=y
-
-#
-# SFF controllers with custom DMA interface
-#
-# CONFIG_PDC_ADMA is not set
-# CONFIG_SATA_QSTOR is not set
-# CONFIG_SATA_SX4 is not set
-CONFIG_ATA_BMDMA=y
-
-#
-# SATA SFF controllers with BMDMA
-#
-CONFIG_ATA_PIIX=m
-# CONFIG_SATA_DWC is not set
-# CONFIG_SATA_MV is not set
-# CONFIG_SATA_NV is not set
-# CONFIG_SATA_PROMISE is not set
-# CONFIG_SATA_SIL is not set
-# CONFIG_SATA_SIS is not set
-# CONFIG_SATA_SVW is not set
-# CONFIG_SATA_ULI is not set
-# CONFIG_SATA_VIA is not set
-# CONFIG_SATA_VITESSE is not set
-
-#
-# PATA SFF controllers with BMDMA
-#
-# CONFIG_PATA_ALI is not set
-# CONFIG_PATA_AMD is not set
-# CONFIG_PATA_ARTOP is not set
-# CONFIG_PATA_ATIIXP is not set
-# CONFIG_PATA_ATP867X is not set
-# CONFIG_PATA_CMD64X is not set
-# CONFIG_PATA_CYPRESS is not set
-# CONFIG_PATA_EFAR is not set
-# CONFIG_PATA_HPT366 is not set
-# CONFIG_PATA_HPT37X is not set
-# CONFIG_PATA_HPT3X2N is not set
-# CONFIG_PATA_HPT3X3 is not set
-# CONFIG_PATA_IT8213 is not set
-# CONFIG_PATA_IT821X is not set
-# CONFIG_PATA_JMICRON is not set
-# CONFIG_PATA_MARVELL is not set
-# CONFIG_PATA_NETCELL is not set
-# CONFIG_PATA_NINJA32 is not set
-# CONFIG_PATA_NS87415 is not set
-# CONFIG_PATA_OLDPIIX is not set
-# CONFIG_PATA_OPTIDMA is not set
-# CONFIG_PATA_PDC2027X is not set
-# CONFIG_PATA_PDC_OLD is not set
-# CONFIG_PATA_RADISYS is not set
-# CONFIG_PATA_RDC is not set
-# CONFIG_PATA_SCH is not set
-# CONFIG_PATA_SERVERWORKS is not set
-# CONFIG_PATA_SIL680 is not set
-# CONFIG_PATA_SIS is not set
-# CONFIG_PATA_TOSHIBA is not set
-# CONFIG_PATA_TRIFLEX is not set
-# CONFIG_PATA_VIA is not set
-# CONFIG_PATA_WINBOND is not set
-
-#
-# PIO-only SFF controllers
-#
-# CONFIG_PATA_CMD640_PCI is not set
-# CONFIG_PATA_MPIIX is not set
-# CONFIG_PATA_NS87410 is not set
-# CONFIG_PATA_OPTI is not set
-# CONFIG_PATA_PLATFORM is not set
-# CONFIG_PATA_RZ1000 is not set
-
-#
-# Generic fallback / legacy drivers
-#
-# CONFIG_PATA_ACPI is not set
-CONFIG_ATA_GENERIC=m
-# CONFIG_PATA_LEGACY is not set
-CONFIG_MD=y
-CONFIG_BLK_DEV_MD=y
-CONFIG_MD_AUTODETECT=y
-CONFIG_MD_LINEAR=m
-CONFIG_MD_RAID0=m
-CONFIG_MD_RAID1=m
-CONFIG_MD_RAID10=m
-CONFIG_MD_RAID456=m
-CONFIG_MD_MULTIPATH=m
-CONFIG_MD_FAULTY=m
-CONFIG_MD_CLUSTER=m
-# CONFIG_BCACHE is not set
-CONFIG_BLK_DEV_DM_BUILTIN=y
-CONFIG_BLK_DEV_DM=m
-CONFIG_DM_DEBUG=y
-CONFIG_DM_BUFIO=m
-# CONFIG_DM_DEBUG_BLOCK_MANAGER_LOCKING is not set
-CONFIG_DM_BIO_PRISON=m
-CONFIG_DM_PERSISTENT_DATA=m
-# CONFIG_DM_UNSTRIPED is not set
-CONFIG_DM_CRYPT=m
-CONFIG_DM_SNAPSHOT=m
-CONFIG_DM_THIN_PROVISIONING=m
-CONFIG_DM_CACHE=m
-CONFIG_DM_CACHE_SMQ=m
-CONFIG_DM_WRITECACHE=m
-# CONFIG_DM_EBS is not set
-CONFIG_DM_ERA=m
-# CONFIG_DM_CLONE is not set
-CONFIG_DM_MIRROR=m
-CONFIG_DM_LOG_USERSPACE=m
-CONFIG_DM_RAID=m
-CONFIG_DM_ZERO=m
-CONFIG_DM_MULTIPATH=m
-CONFIG_DM_MULTIPATH_QL=m
-CONFIG_DM_MULTIPATH_ST=m
-# CONFIG_DM_MULTIPATH_HST is not set
-# CONFIG_DM_MULTIPATH_IOA is not set
-CONFIG_DM_DELAY=m
-# CONFIG_DM_DUST is not set
-CONFIG_DM_UEVENT=y
-CONFIG_DM_FLAKEY=m
-CONFIG_DM_VERITY=m
-# CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG is not set
-# CONFIG_DM_VERITY_FEC is not set
-CONFIG_DM_SWITCH=m
-CONFIG_DM_LOG_WRITES=m
-CONFIG_DM_INTEGRITY=m
-# CONFIG_DM_ZONED is not set
-CONFIG_DM_AUDIT=y
-CONFIG_TARGET_CORE=m
-CONFIG_TCM_IBLOCK=m
-CONFIG_TCM_FILEIO=m
-CONFIG_TCM_PSCSI=m
-CONFIG_TCM_USER2=m
-CONFIG_LOOPBACK_TARGET=m
-CONFIG_ISCSI_TARGET=m
-# CONFIG_SBP_TARGET is not set
-# CONFIG_FUSION is not set
-
-#
-# IEEE 1394 (FireWire) support
-#
-CONFIG_FIREWIRE=m
-CONFIG_FIREWIRE_OHCI=m
-CONFIG_FIREWIRE_SBP2=m
-CONFIG_FIREWIRE_NET=m
-# CONFIG_FIREWIRE_NOSY is not set
-# end of IEEE 1394 (FireWire) support
-
-CONFIG_MACINTOSH_DRIVERS=y
-CONFIG_MAC_EMUMOUSEBTN=y
-CONFIG_NETDEVICES=y
-CONFIG_MII=y
-CONFIG_NET_CORE=y
-# CONFIG_BONDING is not set
-CONFIG_DUMMY=m
-# CONFIG_WIREGUARD is not set
-# CONFIG_EQUALIZER is not set
-# CONFIG_NET_FC is not set
-# CONFIG_IFB is not set
-# CONFIG_NET_TEAM is not set
-# CONFIG_MACVLAN is not set
-# CONFIG_IPVLAN is not set
-# CONFIG_VXLAN is not set
-# CONFIG_GENEVE is not set
-# CONFIG_BAREUDP is not set
-# CONFIG_GTP is not set
-# CONFIG_AMT is not set
-CONFIG_MACSEC=m
-CONFIG_NETCONSOLE=m
-CONFIG_NETCONSOLE_DYNAMIC=y
-CONFIG_NETPOLL=y
-CONFIG_NET_POLL_CONTROLLER=y
-CONFIG_TUN=m
-# CONFIG_TUN_VNET_CROSS_LE is not set
-CONFIG_VETH=m
-CONFIG_VIRTIO_NET=m
-# CONFIG_NLMON is not set
-# CONFIG_NET_VRF is not set
-# CONFIG_VSOCKMON is not set
-# CONFIG_ARCNET is not set
-CONFIG_ATM_DRIVERS=y
-# CONFIG_ATM_DUMMY is not set
-# CONFIG_ATM_TCP is not set
-# CONFIG_ATM_LANAI is not set
-# CONFIG_ATM_ENI is not set
-# CONFIG_ATM_NICSTAR is not set
-# CONFIG_ATM_IDT77252 is not set
-# CONFIG_ATM_IA is not set
-# CONFIG_ATM_FORE200E is not set
-# CONFIG_ATM_HE is not set
-# CONFIG_ATM_SOLOS is not set
-CONFIG_ETHERNET=y
-CONFIG_MDIO=y
-# CONFIG_NET_VENDOR_3COM is not set
-CONFIG_NET_VENDOR_ADAPTEC=y
-# CONFIG_ADAPTEC_STARFIRE is not set
-CONFIG_NET_VENDOR_AGERE=y
-# CONFIG_ET131X is not set
-CONFIG_NET_VENDOR_ALACRITECH=y
-# CONFIG_SLICOSS is not set
-CONFIG_NET_VENDOR_ALTEON=y
-# CONFIG_ACENIC is not set
-# CONFIG_ALTERA_TSE is not set
-CONFIG_NET_VENDOR_AMAZON=y
-# CONFIG_ENA_ETHERNET is not set
-# CONFIG_NET_VENDOR_AMD is not set
-CONFIG_NET_VENDOR_AQUANTIA=y
-# CONFIG_AQTION is not set
-CONFIG_NET_VENDOR_ARC=y
-CONFIG_NET_VENDOR_ASIX=y
-# CONFIG_SPI_AX88796C is not set
-CONFIG_NET_VENDOR_ATHEROS=y
-# CONFIG_ATL2 is not set
-# CONFIG_ATL1 is not set
-# CONFIG_ATL1E is not set
-# CONFIG_ATL1C is not set
-# CONFIG_ALX is not set
-# CONFIG_CX_ECAT is not set
-CONFIG_NET_VENDOR_BROADCOM=y
-# CONFIG_B44 is not set
-# CONFIG_BCMGENET is not set
-# CONFIG_BNX2 is not set
-# CONFIG_CNIC is not set
-# CONFIG_TIGON3 is not set
-# CONFIG_BNX2X is not set
-# CONFIG_SYSTEMPORT is not set
-# CONFIG_BNXT is not set
-CONFIG_NET_VENDOR_CADENCE=y
-# CONFIG_MACB is not set
-CONFIG_NET_VENDOR_CAVIUM=y
-# CONFIG_THUNDER_NIC_PF is not set
-# CONFIG_THUNDER_NIC_VF is not set
-# CONFIG_THUNDER_NIC_BGX is not set
-# CONFIG_THUNDER_NIC_RGX is not set
-CONFIG_CAVIUM_PTP=y
-# CONFIG_LIQUIDIO is not set
-# CONFIG_LIQUIDIO_VF is not set
-CONFIG_NET_VENDOR_CHELSIO=y
-# CONFIG_CHELSIO_T1 is not set
-# CONFIG_CHELSIO_T3 is not set
-# CONFIG_CHELSIO_T4 is not set
-# CONFIG_CHELSIO_T4VF is not set
-CONFIG_NET_VENDOR_CISCO=y
-# CONFIG_ENIC is not set
-CONFIG_NET_VENDOR_CORTINA=y
-CONFIG_NET_VENDOR_DAVICOM=y
-# CONFIG_DM9051 is not set
-# CONFIG_DNET is not set
-CONFIG_NET_VENDOR_DEC=y
-# CONFIG_NET_TULIP is not set
-CONFIG_NET_VENDOR_DLINK=y
-# CONFIG_DL2K is not set
-# CONFIG_SUNDANCE is not set
-CONFIG_NET_VENDOR_EMULEX=y
-# CONFIG_BE2NET is not set
-CONFIG_NET_VENDOR_ENGLEDER=y
-# CONFIG_TSNEP is not set
-CONFIG_NET_VENDOR_EZCHIP=y
-CONFIG_NET_VENDOR_FUNGIBLE=y
-# CONFIG_FUN_ETH is not set
-CONFIG_NET_VENDOR_GOOGLE=y
-# CONFIG_GVE is not set
-CONFIG_NET_VENDOR_HUAWEI=y
-# CONFIG_HINIC is not set
-CONFIG_NET_VENDOR_I825XX=y
-CONFIG_NET_VENDOR_INTEL=y
-# CONFIG_E100 is not set
-CONFIG_E1000=y
-CONFIG_E1000E=y
-CONFIG_E1000E_HWTS=y
-CONFIG_IGB=y
-CONFIG_IGB_HWMON=y
-# CONFIG_IGBVF is not set
-# CONFIG_IXGB is not set
-CONFIG_IXGBE=y
-CONFIG_IXGBE_HWMON=y
-# CONFIG_IXGBE_DCB is not set
-# CONFIG_IXGBE_IPSEC is not set
-# CONFIG_IXGBEVF is not set
-CONFIG_I40E=y
-# CONFIG_I40E_DCB is not set
-# CONFIG_I40EVF is not set
-# CONFIG_ICE is not set
-# CONFIG_FM10K is not set
-CONFIG_IGC=y
-CONFIG_NET_VENDOR_WANGXUN=y
-# CONFIG_TXGBE is not set
-# CONFIG_JME is not set
-CONFIG_NET_VENDOR_LITEX=y
-CONFIG_NET_VENDOR_MARVELL=y
-# CONFIG_MVMDIO is not set
-# CONFIG_SKGE is not set
-# CONFIG_SKY2 is not set
-# CONFIG_OCTEON_EP is not set
-# CONFIG_PRESTERA is not set
-CONFIG_NET_VENDOR_MELLANOX=y
-# CONFIG_MLX4_EN is not set
-# CONFIG_MLX5_CORE is not set
-# CONFIG_MLXSW_CORE is not set
-# CONFIG_MLXFW is not set
-CONFIG_NET_VENDOR_MICREL=y
-# CONFIG_KS8842 is not set
-# CONFIG_KS8851 is not set
-# CONFIG_KS8851_MLL is not set
-# CONFIG_KSZ884X_PCI is not set
-CONFIG_NET_VENDOR_MICROCHIP=y
-# CONFIG_ENC28J60 is not set
-# CONFIG_ENCX24J600 is not set
-# CONFIG_LAN743X is not set
-CONFIG_NET_VENDOR_MICROSEMI=y
-CONFIG_NET_VENDOR_MICROSOFT=y
-CONFIG_NET_VENDOR_MYRI=y
-# CONFIG_MYRI10GE is not set
-# CONFIG_FEALNX is not set
-CONFIG_NET_VENDOR_NI=y
-# CONFIG_NI_XGE_MANAGEMENT_ENET is not set
-CONFIG_NET_VENDOR_NATSEMI=y
-# CONFIG_NATSEMI is not set
-# CONFIG_NS83820 is not set
-CONFIG_NET_VENDOR_NETERION=y
-# CONFIG_S2IO is not set
-CONFIG_NET_VENDOR_NETRONOME=y
-# CONFIG_NFP is not set
-CONFIG_NET_VENDOR_8390=y
-# CONFIG_NE2K_PCI is not set
-CONFIG_NET_VENDOR_NVIDIA=y
-# CONFIG_FORCEDETH is not set
-CONFIG_NET_VENDOR_OKI=y
-# CONFIG_ETHOC is not set
-CONFIG_NET_VENDOR_PACKET_ENGINES=y
-# CONFIG_HAMACHI is not set
-# CONFIG_YELLOWFIN is not set
-CONFIG_NET_VENDOR_PENSANDO=y
-# CONFIG_IONIC is not set
-CONFIG_NET_VENDOR_QLOGIC=y
-# CONFIG_QLA3XXX is not set
-# CONFIG_QLCNIC is not set
-# CONFIG_NETXEN_NIC is not set
-# CONFIG_QED is not set
-CONFIG_NET_VENDOR_BROCADE=y
-# CONFIG_BNA is not set
-CONFIG_NET_VENDOR_QUALCOMM=y
-# CONFIG_QCOM_EMAC is not set
-# CONFIG_RMNET is not set
-CONFIG_NET_VENDOR_RDC=y
-# CONFIG_R6040 is not set
-CONFIG_NET_VENDOR_REALTEK=y
-# CONFIG_ATP is not set
-# CONFIG_8139CP is not set
-# CONFIG_8139TOO is not set
-CONFIG_R8169=y
-CONFIG_NET_VENDOR_RENESAS=y
-CONFIG_NET_VENDOR_ROCKER=y
-# CONFIG_ROCKER is not set
-CONFIG_NET_VENDOR_SAMSUNG=y
-# CONFIG_SXGBE_ETH is not set
-CONFIG_NET_VENDOR_SEEQ=y
-CONFIG_NET_VENDOR_SILAN=y
-# CONFIG_SC92031 is not set
-CONFIG_NET_VENDOR_SIS=y
-# CONFIG_SIS900 is not set
-# CONFIG_SIS190 is not set
-CONFIG_NET_VENDOR_SOLARFLARE=y
-# CONFIG_SFC is not set
-# CONFIG_SFC_FALCON is not set
-# CONFIG_SFC_SIENA is not set
-CONFIG_NET_VENDOR_SMSC=y
-# CONFIG_EPIC100 is not set
-# CONFIG_SMSC911X is not set
-# CONFIG_SMSC9420 is not set
-CONFIG_NET_VENDOR_SOCIONEXT=y
-CONFIG_NET_VENDOR_STMICRO=y
-# CONFIG_STMMAC_ETH is not set
-CONFIG_NET_VENDOR_SUN=y
-# CONFIG_HAPPYMEAL is not set
-# CONFIG_SUNGEM is not set
-# CONFIG_CASSINI is not set
-# CONFIG_NIU is not set
-CONFIG_NET_VENDOR_SYNOPSYS=y
-# CONFIG_DWC_XLGMAC is not set
-CONFIG_NET_VENDOR_TEHUTI=y
-# CONFIG_TEHUTI is not set
-CONFIG_NET_VENDOR_TI=y
-# CONFIG_TI_CPSW_PHY_SEL is not set
-# CONFIG_TLAN is not set
-CONFIG_NET_VENDOR_VERTEXCOM=y
-# CONFIG_MSE102X is not set
-CONFIG_NET_VENDOR_VIA=y
-# CONFIG_VIA_RHINE is not set
-# CONFIG_VIA_VELOCITY is not set
-CONFIG_NET_VENDOR_WIZNET=y
-# CONFIG_WIZNET_W5100 is not set
-# CONFIG_WIZNET_W5300 is not set
-CONFIG_NET_VENDOR_XILINX=y
-# CONFIG_XILINX_EMACLITE is not set
-# CONFIG_XILINX_AXI_EMAC is not set
-# CONFIG_XILINX_LL_TEMAC is not set
-# CONFIG_FDDI is not set
-# CONFIG_HIPPI is not set
-# CONFIG_NET_SB1000 is not set
-CONFIG_PHYLIB=y
-CONFIG_SWPHY=y
-# CONFIG_LED_TRIGGER_PHY is not set
-CONFIG_FIXED_PHY=y
-
-#
-# MII PHY device drivers
-#
-# CONFIG_AMD_PHY is not set
-# CONFIG_ADIN_PHY is not set
-# CONFIG_ADIN1100_PHY is not set
-# CONFIG_AQUANTIA_PHY is not set
-CONFIG_AX88796B_PHY=y
-# CONFIG_BROADCOM_PHY is not set
-# CONFIG_BCM54140_PHY is not set
-# CONFIG_BCM7XXX_PHY is not set
-# CONFIG_BCM84881_PHY is not set
-# CONFIG_BCM87XX_PHY is not set
-# CONFIG_CICADA_PHY is not set
-# CONFIG_CORTINA_PHY is not set
-# CONFIG_DAVICOM_PHY is not set
-# CONFIG_ICPLUS_PHY is not set
-# CONFIG_LXT_PHY is not set
-# CONFIG_INTEL_XWAY_PHY is not set
-# CONFIG_LSI_ET1011C_PHY is not set
-# CONFIG_MARVELL_PHY is not set
-# CONFIG_MARVELL_10G_PHY is not set
-# CONFIG_MARVELL_88X2222_PHY is not set
-# CONFIG_MAXLINEAR_GPHY is not set
-# CONFIG_MEDIATEK_GE_PHY is not set
-# CONFIG_MICREL_PHY is not set
-# CONFIG_MICROCHIP_PHY is not set
-# CONFIG_MICROCHIP_T1_PHY is not set
-# CONFIG_MICROSEMI_PHY is not set
-# CONFIG_MOTORCOMM_PHY is not set
-# CONFIG_NATIONAL_PHY is not set
-# CONFIG_NXP_C45_TJA11XX_PHY is not set
-# CONFIG_NXP_TJA11XX_PHY is not set
-# CONFIG_QSEMI_PHY is not set
-CONFIG_REALTEK_PHY=y
-# CONFIG_RENESAS_PHY is not set
-# CONFIG_ROCKCHIP_PHY is not set
-# CONFIG_SMSC_PHY is not set
-# CONFIG_STE10XP is not set
-# CONFIG_TERANETICS_PHY is not set
-# CONFIG_DP83822_PHY is not set
-# CONFIG_DP83TC811_PHY is not set
-# CONFIG_DP83848_PHY is not set
-# CONFIG_DP83867_PHY is not set
-# CONFIG_DP83869_PHY is not set
-# CONFIG_DP83TD510_PHY is not set
-# CONFIG_VITESSE_PHY is not set
-# CONFIG_XILINX_GMII2RGMII is not set
-# CONFIG_MICREL_KS8995MA is not set
-CONFIG_CAN_DEV=m
-CONFIG_CAN_VCAN=m
-# CONFIG_CAN_VXCAN is not set
-CONFIG_CAN_NETLINK=y
-CONFIG_CAN_CALC_BITTIMING=y
-# CONFIG_CAN_CAN327 is not set
-# CONFIG_CAN_KVASER_PCIEFD is not set
-CONFIG_CAN_SLCAN=m
-CONFIG_CAN_C_CAN=m
-CONFIG_CAN_C_CAN_PLATFORM=m
-CONFIG_CAN_C_CAN_PCI=m
-CONFIG_CAN_CC770=m
-# CONFIG_CAN_CC770_ISA is not set
-CONFIG_CAN_CC770_PLATFORM=m
-# CONFIG_CAN_CTUCANFD_PCI is not set
-# CONFIG_CAN_IFI_CANFD is not set
-# CONFIG_CAN_M_CAN is not set
-# CONFIG_CAN_PEAK_PCIEFD is not set
-CONFIG_CAN_SJA1000=m
-CONFIG_CAN_EMS_PCI=m
-# CONFIG_CAN_F81601 is not set
-CONFIG_CAN_KVASER_PCI=m
-CONFIG_CAN_PEAK_PCI=m
-CONFIG_CAN_PEAK_PCIEC=y
-CONFIG_CAN_PLX_PCI=m
-# CONFIG_CAN_SJA1000_ISA is not set
-# CONFIG_CAN_SJA1000_PLATFORM is not set
-CONFIG_CAN_SOFTING=m
-
-#
-# CAN SPI interfaces
-#
-# CONFIG_CAN_HI311X is not set
-# CONFIG_CAN_MCP251X is not set
-# CONFIG_CAN_MCP251XFD is not set
-# end of CAN SPI interfaces
-
-#
-# CAN USB interfaces
-#
-# CONFIG_CAN_8DEV_USB is not set
-# CONFIG_CAN_EMS_USB is not set
-# CONFIG_CAN_ESD_USB is not set
-# CONFIG_CAN_ETAS_ES58X is not set
-# CONFIG_CAN_GS_USB is not set
-# CONFIG_CAN_KVASER_USB is not set
-# CONFIG_CAN_MCBA_USB is not set
-# CONFIG_CAN_PEAK_USB is not set
-# CONFIG_CAN_UCAN is not set
-# end of CAN USB interfaces
-
-# CONFIG_CAN_DEBUG_DEVICES is not set
-CONFIG_MDIO_DEVICE=y
-CONFIG_MDIO_BUS=y
-CONFIG_FWNODE_MDIO=y
-CONFIG_ACPI_MDIO=y
-CONFIG_MDIO_DEVRES=y
-# CONFIG_MDIO_BITBANG is not set
-# CONFIG_MDIO_BCM_UNIMAC is not set
-# CONFIG_MDIO_MVUSB is not set
-# CONFIG_MDIO_THUNDER is not set
-
-#
-# MDIO Multiplexers
-#
-
-#
-# PCS device drivers
-#
-# end of PCS device drivers
-
-# CONFIG_PLIP is not set
-# CONFIG_PPP is not set
-# CONFIG_SLIP is not set
-CONFIG_USB_NET_DRIVERS=y
-# CONFIG_USB_CATC is not set
-# CONFIG_USB_KAWETH is not set
-# CONFIG_USB_PEGASUS is not set
-# CONFIG_USB_RTL8150 is not set
-CONFIG_USB_RTL8152=y
-# CONFIG_USB_LAN78XX is not set
-CONFIG_USB_USBNET=y
-CONFIG_USB_NET_AX8817X=y
-CONFIG_USB_NET_AX88179_178A=y
-# CONFIG_USB_NET_CDCETHER is not set
-# CONFIG_USB_NET_CDC_EEM is not set
-# CONFIG_USB_NET_CDC_NCM is not set
-# CONFIG_USB_NET_HUAWEI_CDC_NCM is not set
-# CONFIG_USB_NET_CDC_MBIM is not set
-# CONFIG_USB_NET_DM9601 is not set
-# CONFIG_USB_NET_SR9700 is not set
-# CONFIG_USB_NET_SR9800 is not set
-# CONFIG_USB_NET_SMSC75XX is not set
-# CONFIG_USB_NET_SMSC95XX is not set
-# CONFIG_USB_NET_GL620A is not set
-# CONFIG_USB_NET_NET1080 is not set
-# CONFIG_USB_NET_PLUSB is not set
-# CONFIG_USB_NET_MCS7830 is not set
-# CONFIG_USB_NET_RNDIS_HOST is not set
-# CONFIG_USB_NET_CDC_SUBSET is not set
-# CONFIG_USB_NET_ZAURUS is not set
-# CONFIG_USB_NET_CX82310_ETH is not set
-# CONFIG_USB_NET_KALMIA is not set
-# CONFIG_USB_NET_QMI_WWAN is not set
-# CONFIG_USB_HSO is not set
-# CONFIG_USB_NET_INT51X1 is not set
-# CONFIG_USB_IPHETH is not set
-# CONFIG_USB_SIERRA_NET is not set
-# CONFIG_USB_NET_CH9200 is not set
-# CONFIG_USB_NET_AQC111 is not set
-CONFIG_WLAN=y
-CONFIG_WLAN_VENDOR_ADMTEK=y
-# CONFIG_ADM8211 is not set
-CONFIG_WLAN_VENDOR_ATH=y
-# CONFIG_ATH_DEBUG is not set
-# CONFIG_ATH5K is not set
-# CONFIG_ATH5K_PCI is not set
-# CONFIG_ATH9K is not set
-# CONFIG_ATH9K_HTC is not set
-# CONFIG_CARL9170 is not set
-# CONFIG_ATH6KL is not set
-# CONFIG_AR5523 is not set
-# CONFIG_WIL6210 is not set
-# CONFIG_ATH10K is not set
-# CONFIG_WCN36XX is not set
-# CONFIG_ATH11K is not set
-CONFIG_WLAN_VENDOR_ATMEL=y
-# CONFIG_ATMEL is not set
-# CONFIG_AT76C50X_USB is not set
-CONFIG_WLAN_VENDOR_BROADCOM=y
-# CONFIG_B43 is not set
-# CONFIG_B43LEGACY is not set
-# CONFIG_BRCMSMAC is not set
-# CONFIG_BRCMFMAC is not set
-CONFIG_WLAN_VENDOR_CISCO=y
-# CONFIG_AIRO is not set
-CONFIG_WLAN_VENDOR_INTEL=y
-# CONFIG_IPW2100 is not set
-# CONFIG_IPW2200 is not set
-# CONFIG_IWL4965 is not set
-# CONFIG_IWL3945 is not set
-# CONFIG_IWLWIFI is not set
-CONFIG_WLAN_VENDOR_INTERSIL=y
-# CONFIG_HOSTAP is not set
-# CONFIG_HERMES is not set
-# CONFIG_P54_COMMON is not set
-CONFIG_WLAN_VENDOR_MARVELL=y
-# CONFIG_LIBERTAS is not set
-# CONFIG_LIBERTAS_THINFIRM is not set
-# CONFIG_MWIFIEX is not set
-# CONFIG_MWL8K is not set
-# CONFIG_WLAN_VENDOR_MEDIATEK is not set
-CONFIG_WLAN_VENDOR_MICROCHIP=y
-# CONFIG_WILC1000_SDIO is not set
-# CONFIG_WILC1000_SPI is not set
-CONFIG_WLAN_VENDOR_PURELIFI=y
-# CONFIG_PLFXLC is not set
-CONFIG_WLAN_VENDOR_RALINK=y
-# CONFIG_RT2X00 is not set
-CONFIG_WLAN_VENDOR_REALTEK=y
-# CONFIG_RTL8180 is not set
-# CONFIG_RTL8187 is not set
-CONFIG_RTL_CARDS=m
-# CONFIG_RTL8192CE is not set
-# CONFIG_RTL8192SE is not set
-# CONFIG_RTL8192DE is not set
-# CONFIG_RTL8723AE is not set
-# CONFIG_RTL8723BE is not set
-# CONFIG_RTL8188EE is not set
-# CONFIG_RTL8192EE is not set
-# CONFIG_RTL8821AE is not set
-# CONFIG_RTL8192CU is not set
-# CONFIG_RTL8XXXU is not set
-# CONFIG_RTW88 is not set
-# CONFIG_RTW89 is not set
-CONFIG_WLAN_VENDOR_RSI=y
-# CONFIG_RSI_91X is not set
-CONFIG_WLAN_VENDOR_SILABS=y
-# CONFIG_WFX is not set
-CONFIG_WLAN_VENDOR_ST=y
-# CONFIG_CW1200 is not set
-CONFIG_WLAN_VENDOR_TI=y
-# CONFIG_WL1251 is not set
-# CONFIG_WL12XX is not set
-# CONFIG_WL18XX is not set
-# CONFIG_WLCORE is not set
-CONFIG_WLAN_VENDOR_ZYDAS=y
-# CONFIG_USB_ZD1201 is not set
-# CONFIG_ZD1211RW is not set
-CONFIG_WLAN_VENDOR_QUANTENNA=y
-# CONFIG_QTNFMAC_PCIE is not set
-CONFIG_MAC80211_HWSIM=m
-# CONFIG_USB_NET_RNDIS_WLAN is not set
-# CONFIG_VIRT_WIFI is not set
-# CONFIG_WAN is not set
-
-#
-# Wireless WAN
-#
-# CONFIG_WWAN is not set
-# end of Wireless WAN
-
-# CONFIG_VMXNET3 is not set
-# CONFIG_FUJITSU_ES is not set
-# CONFIG_NETDEVSIM is not set
-CONFIG_NET_FAILOVER=m
-# CONFIG_ISDN is not set
-
-#
-# Input device support
-#
-CONFIG_INPUT=y
-CONFIG_INPUT_LEDS=y
-CONFIG_INPUT_FF_MEMLESS=m
-CONFIG_INPUT_SPARSEKMAP=m
-# CONFIG_INPUT_MATRIXKMAP is not set
-CONFIG_INPUT_VIVALDIFMAP=y
-
-#
-# Userland interfaces
-#
-CONFIG_INPUT_MOUSEDEV=y
-# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
-CONFIG_INPUT_MOUSEDEV_SCREEN_X=1024
-CONFIG_INPUT_MOUSEDEV_SCREEN_Y=768
-CONFIG_INPUT_JOYDEV=m
-CONFIG_INPUT_EVDEV=y
-# CONFIG_INPUT_EVBUG is not set
-
-#
-# Input Device Drivers
-#
-CONFIG_INPUT_KEYBOARD=y
-# CONFIG_KEYBOARD_ADP5588 is not set
-# CONFIG_KEYBOARD_ADP5589 is not set
-# CONFIG_KEYBOARD_APPLESPI is not set
-CONFIG_KEYBOARD_ATKBD=y
-# CONFIG_KEYBOARD_QT1050 is not set
-# CONFIG_KEYBOARD_QT1070 is not set
-# CONFIG_KEYBOARD_QT2160 is not set
-# CONFIG_KEYBOARD_DLINK_DIR685 is not set
-# CONFIG_KEYBOARD_LKKBD is not set
-# CONFIG_KEYBOARD_GPIO is not set
-# CONFIG_KEYBOARD_GPIO_POLLED is not set
-# CONFIG_KEYBOARD_TCA6416 is not set
-# CONFIG_KEYBOARD_TCA8418 is not set
-# CONFIG_KEYBOARD_MATRIX is not set
-# CONFIG_KEYBOARD_LM8323 is not set
-# CONFIG_KEYBOARD_LM8333 is not set
-# CONFIG_KEYBOARD_MAX7359 is not set
-# CONFIG_KEYBOARD_MCS is not set
-# CONFIG_KEYBOARD_MPR121 is not set
-# CONFIG_KEYBOARD_NEWTON is not set
-# CONFIG_KEYBOARD_OPENCORES is not set
-# CONFIG_KEYBOARD_SAMSUNG is not set
-# CONFIG_KEYBOARD_STOWAWAY is not set
-# CONFIG_KEYBOARD_SUNKBD is not set
-# CONFIG_KEYBOARD_TM2_TOUCHKEY is not set
-# CONFIG_KEYBOARD_XTKBD is not set
-# CONFIG_KEYBOARD_CYPRESS_SF is not set
-CONFIG_INPUT_MOUSE=y
-CONFIG_MOUSE_PS2=y
-CONFIG_MOUSE_PS2_ALPS=y
-CONFIG_MOUSE_PS2_BYD=y
-CONFIG_MOUSE_PS2_LOGIPS2PP=y
-CONFIG_MOUSE_PS2_SYNAPTICS=y
-CONFIG_MOUSE_PS2_SYNAPTICS_SMBUS=y
-CONFIG_MOUSE_PS2_CYPRESS=y
-CONFIG_MOUSE_PS2_LIFEBOOK=y
-CONFIG_MOUSE_PS2_TRACKPOINT=y
-CONFIG_MOUSE_PS2_ELANTECH=y
-CONFIG_MOUSE_PS2_ELANTECH_SMBUS=y
-CONFIG_MOUSE_PS2_SENTELIC=y
-# CONFIG_MOUSE_PS2_TOUCHKIT is not set
-CONFIG_MOUSE_PS2_FOCALTECH=y
-CONFIG_MOUSE_PS2_VMMOUSE=y
-CONFIG_MOUSE_PS2_SMBUS=y
-CONFIG_MOUSE_SERIAL=m
-# CONFIG_MOUSE_APPLETOUCH is not set
-# CONFIG_MOUSE_BCM5974 is not set
-CONFIG_MOUSE_CYAPA=m
-CONFIG_MOUSE_ELAN_I2C=m
-CONFIG_MOUSE_ELAN_I2C_I2C=y
-CONFIG_MOUSE_ELAN_I2C_SMBUS=y
-CONFIG_MOUSE_VSXXXAA=m
-# CONFIG_MOUSE_GPIO is not set
-CONFIG_MOUSE_SYNAPTICS_I2C=m
-# CONFIG_MOUSE_SYNAPTICS_USB is not set
-# CONFIG_INPUT_JOYSTICK is not set
-# CONFIG_INPUT_TABLET is not set
-# CONFIG_INPUT_TOUCHSCREEN is not set
-CONFIG_INPUT_MISC=y
-# CONFIG_INPUT_AD714X is not set
-# CONFIG_INPUT_BMA150 is not set
-# CONFIG_INPUT_E3X0_BUTTON is not set
-# CONFIG_INPUT_PCSPKR is not set
-# CONFIG_INPUT_MMA8450 is not set
-# CONFIG_INPUT_APANEL is not set
-# CONFIG_INPUT_GPIO_BEEPER is not set
-# CONFIG_INPUT_GPIO_DECODER is not set
-# CONFIG_INPUT_GPIO_VIBRA is not set
-# CONFIG_INPUT_ATLAS_BTNS is not set
-# CONFIG_INPUT_ATI_REMOTE2 is not set
-# CONFIG_INPUT_KEYSPAN_REMOTE is not set
-# CONFIG_INPUT_KXTJ9 is not set
-# CONFIG_INPUT_POWERMATE is not set
-# CONFIG_INPUT_YEALINK is not set
-# CONFIG_INPUT_CM109 is not set
-CONFIG_INPUT_UINPUT=y
-# CONFIG_INPUT_PCF8574 is not set
-# CONFIG_INPUT_PWM_BEEPER is not set
-# CONFIG_INPUT_PWM_VIBRA is not set
-# CONFIG_INPUT_GPIO_ROTARY_ENCODER is not set
-# CONFIG_INPUT_DA7280_HAPTICS is not set
-# CONFIG_INPUT_ADXL34X is not set
-# CONFIG_INPUT_IMS_PCU is not set
-# CONFIG_INPUT_IQS269A is not set
-# CONFIG_INPUT_IQS626A is not set
-# CONFIG_INPUT_IQS7222 is not set
-# CONFIG_INPUT_CMA3000 is not set
-# CONFIG_INPUT_IDEAPAD_SLIDEBAR is not set
-# CONFIG_INPUT_DRV260X_HAPTICS is not set
-# CONFIG_INPUT_DRV2665_HAPTICS is not set
-# CONFIG_INPUT_DRV2667_HAPTICS is not set
-CONFIG_RMI4_CORE=m
-CONFIG_RMI4_I2C=m
-CONFIG_RMI4_SPI=m
-CONFIG_RMI4_SMB=m
-CONFIG_RMI4_F03=y
-CONFIG_RMI4_F03_SERIO=m
-CONFIG_RMI4_2D_SENSOR=y
-CONFIG_RMI4_F11=y
-CONFIG_RMI4_F12=y
-CONFIG_RMI4_F30=y
-CONFIG_RMI4_F34=y
-# CONFIG_RMI4_F3A is not set
-CONFIG_RMI4_F55=y
-
-#
-# Hardware I/O ports
-#
-CONFIG_SERIO=y
-CONFIG_ARCH_MIGHT_HAVE_PC_SERIO=y
-CONFIG_SERIO_I8042=y
-CONFIG_SERIO_SERPORT=y
-# CONFIG_SERIO_CT82C710 is not set
-# CONFIG_SERIO_PARKBD is not set
-# CONFIG_SERIO_PCIPS2 is not set
-CONFIG_SERIO_LIBPS2=y
-CONFIG_SERIO_RAW=m
-CONFIG_SERIO_ALTERA_PS2=m
-# CONFIG_SERIO_PS2MULT is not set
-CONFIG_SERIO_ARC_PS2=m
-# CONFIG_SERIO_GPIO_PS2 is not set
-# CONFIG_USERIO is not set
-# CONFIG_GAMEPORT is not set
-# end of Hardware I/O ports
-# end of Input device support
-
-#
-# Character devices
-#
-CONFIG_TTY=y
-CONFIG_VT=y
-CONFIG_CONSOLE_TRANSLATIONS=y
-CONFIG_VT_CONSOLE=y
-CONFIG_VT_CONSOLE_SLEEP=y
-CONFIG_HW_CONSOLE=y
-CONFIG_VT_HW_CONSOLE_BINDING=y
-CONFIG_UNIX98_PTYS=y
-# CONFIG_LEGACY_PTYS is not set
-CONFIG_LDISC_AUTOLOAD=y
-
-#
-# Serial drivers
-#
-CONFIG_SERIAL_EARLYCON=y
-CONFIG_SERIAL_8250=y
-# CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
-CONFIG_SERIAL_8250_PNP=y
-# CONFIG_SERIAL_8250_16550A_VARIANTS is not set
-# CONFIG_SERIAL_8250_FINTEK is not set
-CONFIG_SERIAL_8250_CONSOLE=y
-CONFIG_SERIAL_8250_DMA=y
-CONFIG_SERIAL_8250_PCI=y
-CONFIG_SERIAL_8250_EXAR=y
-CONFIG_SERIAL_8250_NR_UARTS=64
-CONFIG_SERIAL_8250_RUNTIME_UARTS=4
-CONFIG_SERIAL_8250_EXTENDED=y
-CONFIG_SERIAL_8250_MANY_PORTS=y
-CONFIG_SERIAL_8250_SHARE_IRQ=y
-# CONFIG_SERIAL_8250_DETECT_IRQ is not set
-CONFIG_SERIAL_8250_RSA=y
-CONFIG_SERIAL_8250_DWLIB=y
-CONFIG_SERIAL_8250_DW=y
-# CONFIG_SERIAL_8250_RT288X is not set
-CONFIG_SERIAL_8250_LPSS=y
-CONFIG_SERIAL_8250_MID=y
-CONFIG_SERIAL_8250_PERICOM=y
-
-#
-# Non-8250 serial port support
-#
-# CONFIG_SERIAL_MAX3100 is not set
-# CONFIG_SERIAL_MAX310X is not set
-# CONFIG_SERIAL_UARTLITE is not set
-CONFIG_SERIAL_CORE=y
-CONFIG_SERIAL_CORE_CONSOLE=y
-CONFIG_SERIAL_JSM=m
-# CONFIG_SERIAL_LANTIQ is not set
-# CONFIG_SERIAL_SCCNXP is not set
-# CONFIG_SERIAL_SC16IS7XX is not set
-# CONFIG_SERIAL_ALTERA_JTAGUART is not set
-# CONFIG_SERIAL_ALTERA_UART is not set
-CONFIG_SERIAL_ARC=m
-CONFIG_SERIAL_ARC_NR_PORTS=1
-# CONFIG_SERIAL_RP2 is not set
-# CONFIG_SERIAL_FSL_LPUART is not set
-# CONFIG_SERIAL_FSL_LINFLEXUART is not set
-# CONFIG_SERIAL_SPRD is not set
-# end of Serial drivers
-
-CONFIG_SERIAL_MCTRL_GPIO=y
-CONFIG_SERIAL_NONSTANDARD=y
-# CONFIG_MOXA_INTELLIO is not set
-# CONFIG_MOXA_SMARTIO is not set
-CONFIG_SYNCLINK_GT=m
-CONFIG_N_HDLC=m
-CONFIG_N_GSM=m
-CONFIG_NOZOMI=m
-# CONFIG_NULL_TTY is not set
-CONFIG_HVC_DRIVER=y
-# CONFIG_SERIAL_DEV_BUS is not set
-# CONFIG_TTY_PRINTK is not set
-CONFIG_PRINTER=m
-# CONFIG_LP_CONSOLE is not set
-CONFIG_PPDEV=m
-CONFIG_VIRTIO_CONSOLE=m
-CONFIG_IPMI_HANDLER=m
-CONFIG_IPMI_DMI_DECODE=y
-CONFIG_IPMI_PLAT_DATA=y
-CONFIG_IPMI_PANIC_EVENT=y
-CONFIG_IPMI_PANIC_STRING=y
-CONFIG_IPMI_DEVICE_INTERFACE=m
-CONFIG_IPMI_SI=m
-CONFIG_IPMI_SSIF=m
-CONFIG_IPMI_WATCHDOG=m
-CONFIG_IPMI_POWEROFF=m
-CONFIG_HW_RANDOM=y
-CONFIG_HW_RANDOM_TIMERIOMEM=m
-CONFIG_HW_RANDOM_INTEL=m
-# CONFIG_HW_RANDOM_AMD is not set
-# CONFIG_HW_RANDOM_BA431 is not set
-CONFIG_HW_RANDOM_VIA=m
-CONFIG_HW_RANDOM_VIRTIO=y
-# CONFIG_HW_RANDOM_XIPHERA is not set
-# CONFIG_APPLICOM is not set
-# CONFIG_MWAVE is not set
-CONFIG_DEVMEM=y
-CONFIG_NVRAM=y
-CONFIG_DEVPORT=y
-CONFIG_HPET=y
-CONFIG_HPET_MMAP=y
-# CONFIG_HPET_MMAP_DEFAULT is not set
-CONFIG_HANGCHECK_TIMER=m
-CONFIG_UV_MMTIMER=m
-CONFIG_TCG_TPM=y
-CONFIG_HW_RANDOM_TPM=y
-CONFIG_TCG_TIS_CORE=y
-CONFIG_TCG_TIS=y
-# CONFIG_TCG_TIS_SPI is not set
-# CONFIG_TCG_TIS_I2C is not set
-# CONFIG_TCG_TIS_I2C_CR50 is not set
-CONFIG_TCG_TIS_I2C_ATMEL=m
-CONFIG_TCG_TIS_I2C_INFINEON=m
-CONFIG_TCG_TIS_I2C_NUVOTON=m
-CONFIG_TCG_NSC=m
-CONFIG_TCG_ATMEL=m
-CONFIG_TCG_INFINEON=m
-CONFIG_TCG_CRB=y
-# CONFIG_TCG_VTPM_PROXY is not set
-CONFIG_TCG_TIS_ST33ZP24=m
-CONFIG_TCG_TIS_ST33ZP24_I2C=m
-# CONFIG_TCG_TIS_ST33ZP24_SPI is not set
-CONFIG_TELCLOCK=m
-# CONFIG_XILLYBUS is not set
-# CONFIG_XILLYUSB is not set
-CONFIG_RANDOM_TRUST_CPU=y
-CONFIG_RANDOM_TRUST_BOOTLOADER=y
-# end of Character devices
-
-#
-# I2C support
-#
-CONFIG_I2C=y
-CONFIG_ACPI_I2C_OPREGION=y
-CONFIG_I2C_BOARDINFO=y
-CONFIG_I2C_COMPAT=y
-CONFIG_I2C_CHARDEV=m
-CONFIG_I2C_MUX=m
-
-#
-# Multiplexer I2C Chip support
-#
-# CONFIG_I2C_MUX_GPIO is not set
-# CONFIG_I2C_MUX_LTC4306 is not set
-# CONFIG_I2C_MUX_PCA9541 is not set
-# CONFIG_I2C_MUX_PCA954x is not set
-# CONFIG_I2C_MUX_REG is not set
-CONFIG_I2C_MUX_MLXCPLD=m
-# end of Multiplexer I2C Chip support
-
-CONFIG_I2C_HELPER_AUTO=y
-CONFIG_I2C_SMBUS=m
-CONFIG_I2C_ALGOBIT=y
-CONFIG_I2C_ALGOPCA=m
-
-#
-# I2C Hardware Bus support
-#
-
-#
-# PC SMBus host controller drivers
-#
-# CONFIG_I2C_ALI1535 is not set
-# CONFIG_I2C_ALI1563 is not set
-# CONFIG_I2C_ALI15X3 is not set
-# CONFIG_I2C_AMD756 is not set
-# CONFIG_I2C_AMD8111 is not set
-# CONFIG_I2C_AMD_MP2 is not set
-CONFIG_I2C_I801=m
-CONFIG_I2C_ISCH=m
-CONFIG_I2C_ISMT=m
-CONFIG_I2C_PIIX4=m
-CONFIG_I2C_NFORCE2=m
-CONFIG_I2C_NFORCE2_S4985=m
-# CONFIG_I2C_NVIDIA_GPU is not set
-# CONFIG_I2C_SIS5595 is not set
-# CONFIG_I2C_SIS630 is not set
-CONFIG_I2C_SIS96X=m
-CONFIG_I2C_VIA=m
-CONFIG_I2C_VIAPRO=m
-
-#
-# ACPI drivers
-#
-CONFIG_I2C_SCMI=m
-
-#
-# I2C system bus drivers (mostly embedded / system-on-chip)
-#
-# CONFIG_I2C_CBUS_GPIO is not set
-CONFIG_I2C_DESIGNWARE_CORE=m
-# CONFIG_I2C_DESIGNWARE_SLAVE is not set
-CONFIG_I2C_DESIGNWARE_PLATFORM=m
-# CONFIG_I2C_DESIGNWARE_AMDPSP is not set
-CONFIG_I2C_DESIGNWARE_BAYTRAIL=y
-# CONFIG_I2C_DESIGNWARE_PCI is not set
-# CONFIG_I2C_EMEV2 is not set
-# CONFIG_I2C_GPIO is not set
-# CONFIG_I2C_OCORES is not set
-CONFIG_I2C_PCA_PLATFORM=m
-CONFIG_I2C_SIMTEC=m
-# CONFIG_I2C_XILINX is not set
-
-#
-# External I2C/SMBus adapter drivers
-#
-# CONFIG_I2C_DIOLAN_U2C is not set
-# CONFIG_I2C_CP2615 is not set
-CONFIG_I2C_PARPORT=m
-# CONFIG_I2C_ROBOTFUZZ_OSIF is not set
-# CONFIG_I2C_TAOS_EVM is not set
-# CONFIG_I2C_TINY_USB is not set
-
-#
-# Other I2C/SMBus bus drivers
-#
-CONFIG_I2C_MLXCPLD=m
-# CONFIG_I2C_VIRTIO is not set
-# end of I2C Hardware Bus support
-
-CONFIG_I2C_STUB=m
-# CONFIG_I2C_SLAVE is not set
-# CONFIG_I2C_DEBUG_CORE is not set
-# CONFIG_I2C_DEBUG_ALGO is not set
-# CONFIG_I2C_DEBUG_BUS is not set
-# end of I2C support
-
-# CONFIG_I3C is not set
-CONFIG_SPI=y
-# CONFIG_SPI_DEBUG is not set
-CONFIG_SPI_MASTER=y
-# CONFIG_SPI_MEM is not set
-
-#
-# SPI Master Controller Drivers
-#
-# CONFIG_SPI_ALTERA is not set
-# CONFIG_SPI_AXI_SPI_ENGINE is not set
-# CONFIG_SPI_BITBANG is not set
-# CONFIG_SPI_BUTTERFLY is not set
-# CONFIG_SPI_CADENCE is not set
-# CONFIG_SPI_DESIGNWARE is not set
-# CONFIG_SPI_NXP_FLEXSPI is not set
-# CONFIG_SPI_GPIO is not set
-# CONFIG_SPI_LM70_LLP is not set
-# CONFIG_SPI_MICROCHIP_CORE is not set
-# CONFIG_SPI_LANTIQ_SSC is not set
-# CONFIG_SPI_OC_TINY is not set
-# CONFIG_SPI_PXA2XX is not set
-# CONFIG_SPI_ROCKCHIP is not set
-# CONFIG_SPI_SC18IS602 is not set
-# CONFIG_SPI_SIFIVE is not set
-# CONFIG_SPI_MXIC is not set
-# CONFIG_SPI_XCOMM is not set
-# CONFIG_SPI_XILINX is not set
-# CONFIG_SPI_ZYNQMP_GQSPI is not set
-# CONFIG_SPI_AMD is not set
-
-#
-# SPI Multiplexer support
-#
-# CONFIG_SPI_MUX is not set
-
-#
-# SPI Protocol Masters
-#
-# CONFIG_SPI_SPIDEV is not set
-# CONFIG_SPI_LOOPBACK_TEST is not set
-# CONFIG_SPI_TLE62X0 is not set
-# CONFIG_SPI_SLAVE is not set
-CONFIG_SPI_DYNAMIC=y
-# CONFIG_SPMI is not set
-# CONFIG_HSI is not set
-CONFIG_PPS=y
-# CONFIG_PPS_DEBUG is not set
-
-#
-# PPS clients support
-#
-# CONFIG_PPS_CLIENT_KTIMER is not set
-CONFIG_PPS_CLIENT_LDISC=m
-CONFIG_PPS_CLIENT_PARPORT=m
-CONFIG_PPS_CLIENT_GPIO=m
-
-#
-# PPS generators support
-#
-
-#
-# PTP clock support
-#
-CONFIG_PTP_1588_CLOCK=y
-CONFIG_PTP_1588_CLOCK_OPTIONAL=y
-# CONFIG_DP83640_PHY is not set
-# CONFIG_PTP_1588_CLOCK_INES is not set
-CONFIG_PTP_1588_CLOCK_KVM=m
-# CONFIG_PTP_1588_CLOCK_IDT82P33 is not set
-# CONFIG_PTP_1588_CLOCK_IDTCM is not set
-# CONFIG_PTP_1588_CLOCK_VMW is not set
-# end of PTP clock support
-
-CONFIG_PINCTRL=y
-# CONFIG_DEBUG_PINCTRL is not set
-# CONFIG_PINCTRL_AMD is not set
-# CONFIG_PINCTRL_MCP23S08 is not set
-# CONFIG_PINCTRL_SX150X is not set
-
-#
-# Intel pinctrl drivers
-#
-# CONFIG_PINCTRL_BAYTRAIL is not set
-# CONFIG_PINCTRL_CHERRYVIEW is not set
-# CONFIG_PINCTRL_LYNXPOINT is not set
-# CONFIG_PINCTRL_ALDERLAKE is not set
-# CONFIG_PINCTRL_BROXTON is not set
-# CONFIG_PINCTRL_CANNONLAKE is not set
-# CONFIG_PINCTRL_CEDARFORK is not set
-# CONFIG_PINCTRL_DENVERTON is not set
-# CONFIG_PINCTRL_ELKHARTLAKE is not set
-# CONFIG_PINCTRL_EMMITSBURG is not set
-# CONFIG_PINCTRL_GEMINILAKE is not set
-# CONFIG_PINCTRL_ICELAKE is not set
-# CONFIG_PINCTRL_JASPERLAKE is not set
-# CONFIG_PINCTRL_LAKEFIELD is not set
-# CONFIG_PINCTRL_LEWISBURG is not set
-# CONFIG_PINCTRL_METEORLAKE is not set
-# CONFIG_PINCTRL_SUNRISEPOINT is not set
-# CONFIG_PINCTRL_TIGERLAKE is not set
-# end of Intel pinctrl drivers
-
-#
-# Renesas pinctrl drivers
-#
-# end of Renesas pinctrl drivers
-
-CONFIG_GPIOLIB=y
-CONFIG_GPIOLIB_FASTPATH_LIMIT=512
-CONFIG_GPIO_ACPI=y
-# CONFIG_DEBUG_GPIO is not set
-CONFIG_GPIO_SYSFS=y
-CONFIG_GPIO_CDEV=y
-CONFIG_GPIO_CDEV_V1=y
-
-#
-# Memory mapped GPIO drivers
-#
-# CONFIG_GPIO_AMDPT is not set
-# CONFIG_GPIO_DWAPB is not set
-# CONFIG_GPIO_EXAR is not set
-# CONFIG_GPIO_GENERIC_PLATFORM is not set
-CONFIG_GPIO_ICH=m
-# CONFIG_GPIO_MB86S7X is not set
-# CONFIG_GPIO_VX855 is not set
-# CONFIG_GPIO_AMD_FCH is not set
-# end of Memory mapped GPIO drivers
-
-#
-# Port-mapped I/O GPIO drivers
-#
-# CONFIG_GPIO_F7188X is not set
-# CONFIG_GPIO_IT87 is not set
-# CONFIG_GPIO_SCH is not set
-# CONFIG_GPIO_SCH311X is not set
-# CONFIG_GPIO_WINBOND is not set
-# CONFIG_GPIO_WS16C48 is not set
-# end of Port-mapped I/O GPIO drivers
-
-#
-# I2C GPIO expanders
-#
-# CONFIG_GPIO_ADP5588 is not set
-# CONFIG_GPIO_MAX7300 is not set
-# CONFIG_GPIO_MAX732X is not set
-# CONFIG_GPIO_PCA953X is not set
-# CONFIG_GPIO_PCA9570 is not set
-# CONFIG_GPIO_PCF857X is not set
-# CONFIG_GPIO_TPIC2810 is not set
-# end of I2C GPIO expanders
-
-#
-# MFD GPIO expanders
-#
-# end of MFD GPIO expanders
-
-#
-# PCI GPIO expanders
-#
-# CONFIG_GPIO_AMD8111 is not set
-# CONFIG_GPIO_BT8XX is not set
-# CONFIG_GPIO_ML_IOH is not set
-# CONFIG_GPIO_PCI_IDIO_16 is not set
-# CONFIG_GPIO_PCIE_IDIO_24 is not set
-# CONFIG_GPIO_RDC321X is not set
-# end of PCI GPIO expanders
-
-#
-# SPI GPIO expanders
-#
-# CONFIG_GPIO_MAX3191X is not set
-# CONFIG_GPIO_MAX7301 is not set
-# CONFIG_GPIO_MC33880 is not set
-# CONFIG_GPIO_PISOSR is not set
-# CONFIG_GPIO_XRA1403 is not set
-# end of SPI GPIO expanders
-
-#
-# USB GPIO expanders
-#
-# end of USB GPIO expanders
-
-#
-# Virtual GPIO drivers
-#
-# CONFIG_GPIO_AGGREGATOR is not set
-# CONFIG_GPIO_MOCKUP is not set
-# CONFIG_GPIO_VIRTIO is not set
-# CONFIG_GPIO_SIM is not set
-# end of Virtual GPIO drivers
-
-# CONFIG_W1 is not set
-CONFIG_POWER_RESET=y
-# CONFIG_POWER_RESET_RESTART is not set
-CONFIG_POWER_SUPPLY=y
-# CONFIG_POWER_SUPPLY_DEBUG is not set
-CONFIG_POWER_SUPPLY_HWMON=y
-# CONFIG_PDA_POWER is not set
-# CONFIG_IP5XXX_POWER is not set
-# CONFIG_TEST_POWER is not set
-# CONFIG_CHARGER_ADP5061 is not set
-# CONFIG_BATTERY_CW2015 is not set
-# CONFIG_BATTERY_DS2780 is not set
-# CONFIG_BATTERY_DS2781 is not set
-# CONFIG_BATTERY_DS2782 is not set
-# CONFIG_BATTERY_SAMSUNG_SDI is not set
-# CONFIG_BATTERY_SBS is not set
-# CONFIG_CHARGER_SBS is not set
-# CONFIG_MANAGER_SBS is not set
-# CONFIG_BATTERY_BQ27XXX is not set
-# CONFIG_BATTERY_MAX17040 is not set
-# CONFIG_BATTERY_MAX17042 is not set
-# CONFIG_CHARGER_MAX8903 is not set
-# CONFIG_CHARGER_LP8727 is not set
-# CONFIG_CHARGER_GPIO is not set
-# CONFIG_CHARGER_LT3651 is not set
-# CONFIG_CHARGER_LTC4162L is not set
-# CONFIG_CHARGER_MAX77976 is not set
-# CONFIG_CHARGER_BQ2415X is not set
-# CONFIG_CHARGER_BQ24257 is not set
-# CONFIG_CHARGER_BQ24735 is not set
-# CONFIG_CHARGER_BQ2515X is not set
-# CONFIG_CHARGER_BQ25890 is not set
-# CONFIG_CHARGER_BQ25980 is not set
-# CONFIG_CHARGER_BQ256XX is not set
-# CONFIG_BATTERY_GAUGE_LTC2941 is not set
-# CONFIG_BATTERY_GOLDFISH is not set
-# CONFIG_BATTERY_RT5033 is not set
-# CONFIG_CHARGER_RT9455 is not set
-# CONFIG_CHARGER_BD99954 is not set
-# CONFIG_BATTERY_UG3105 is not set
-CONFIG_HWMON=y
-CONFIG_HWMON_VID=m
-# CONFIG_HWMON_DEBUG_CHIP is not set
-
-#
-# Native drivers
-#
-CONFIG_SENSORS_ABITUGURU=m
-CONFIG_SENSORS_ABITUGURU3=m
-# CONFIG_SENSORS_AD7314 is not set
-CONFIG_SENSORS_AD7414=m
-CONFIG_SENSORS_AD7418=m
-CONFIG_SENSORS_ADM1025=m
-CONFIG_SENSORS_ADM1026=m
-CONFIG_SENSORS_ADM1029=m
-CONFIG_SENSORS_ADM1031=m
-# CONFIG_SENSORS_ADM1177 is not set
-CONFIG_SENSORS_ADM9240=m
-CONFIG_SENSORS_ADT7X10=m
-# CONFIG_SENSORS_ADT7310 is not set
-CONFIG_SENSORS_ADT7410=m
-CONFIG_SENSORS_ADT7411=m
-CONFIG_SENSORS_ADT7462=m
-CONFIG_SENSORS_ADT7470=m
-CONFIG_SENSORS_ADT7475=m
-# CONFIG_SENSORS_AHT10 is not set
-# CONFIG_SENSORS_AQUACOMPUTER_D5NEXT is not set
-# CONFIG_SENSORS_AS370 is not set
-CONFIG_SENSORS_ASC7621=m
-# CONFIG_SENSORS_AXI_FAN_CONTROL is not set
-CONFIG_SENSORS_K8TEMP=m
-CONFIG_SENSORS_APPLESMC=m
-CONFIG_SENSORS_ASB100=m
-# CONFIG_SENSORS_ASPEED is not set
-CONFIG_SENSORS_ATXP1=m
-# CONFIG_SENSORS_CORSAIR_CPRO is not set
-# CONFIG_SENSORS_CORSAIR_PSU is not set
-# CONFIG_SENSORS_DRIVETEMP is not set
-CONFIG_SENSORS_DS620=m
-CONFIG_SENSORS_DS1621=m
-# CONFIG_SENSORS_DELL_SMM is not set
-CONFIG_SENSORS_I5K_AMB=m
-CONFIG_SENSORS_F71805F=m
-CONFIG_SENSORS_F71882FG=m
-CONFIG_SENSORS_F75375S=m
-CONFIG_SENSORS_FSCHMD=m
-# CONFIG_SENSORS_FTSTEUTATES is not set
-CONFIG_SENSORS_GL518SM=m
-CONFIG_SENSORS_GL520SM=m
-CONFIG_SENSORS_G760A=m
-# CONFIG_SENSORS_G762 is not set
-# CONFIG_SENSORS_HIH6130 is not set
-CONFIG_SENSORS_IBMAEM=m
-CONFIG_SENSORS_IBMPEX=m
-CONFIG_SENSORS_I5500=m
-CONFIG_SENSORS_CORETEMP=m
-CONFIG_SENSORS_IT87=m
-CONFIG_SENSORS_JC42=m
-# CONFIG_SENSORS_POWR1220 is not set
-CONFIG_SENSORS_LINEAGE=m
-# CONFIG_SENSORS_LTC2945 is not set
-# CONFIG_SENSORS_LTC2947_I2C is not set
-# CONFIG_SENSORS_LTC2947_SPI is not set
-# CONFIG_SENSORS_LTC2990 is not set
-# CONFIG_SENSORS_LTC2992 is not set
-CONFIG_SENSORS_LTC4151=m
-CONFIG_SENSORS_LTC4215=m
-# CONFIG_SENSORS_LTC4222 is not set
-CONFIG_SENSORS_LTC4245=m
-# CONFIG_SENSORS_LTC4260 is not set
-CONFIG_SENSORS_LTC4261=m
-# CONFIG_SENSORS_MAX1111 is not set
-# CONFIG_SENSORS_MAX127 is not set
-CONFIG_SENSORS_MAX16065=m
-CONFIG_SENSORS_MAX1619=m
-CONFIG_SENSORS_MAX1668=m
-CONFIG_SENSORS_MAX197=m
-# CONFIG_SENSORS_MAX31722 is not set
-# CONFIG_SENSORS_MAX31730 is not set
-# CONFIG_SENSORS_MAX6620 is not set
-# CONFIG_SENSORS_MAX6621 is not set
-CONFIG_SENSORS_MAX6639=m
-CONFIG_SENSORS_MAX6650=m
-CONFIG_SENSORS_MAX6697=m
-# CONFIG_SENSORS_MAX31790 is not set
-CONFIG_SENSORS_MCP3021=m
-# CONFIG_SENSORS_MLXREG_FAN is not set
-# CONFIG_SENSORS_TC654 is not set
-# CONFIG_SENSORS_TPS23861 is not set
-# CONFIG_SENSORS_MR75203 is not set
-# CONFIG_SENSORS_ADCXX is not set
-CONFIG_SENSORS_LM63=m
-# CONFIG_SENSORS_LM70 is not set
-CONFIG_SENSORS_LM73=m
-CONFIG_SENSORS_LM75=m
-CONFIG_SENSORS_LM77=m
-CONFIG_SENSORS_LM78=m
-CONFIG_SENSORS_LM80=m
-CONFIG_SENSORS_LM83=m
-CONFIG_SENSORS_LM85=m
-CONFIG_SENSORS_LM87=m
-CONFIG_SENSORS_LM90=m
-CONFIG_SENSORS_LM92=m
-CONFIG_SENSORS_LM93=m
-CONFIG_SENSORS_LM95234=m
-CONFIG_SENSORS_LM95241=m
-CONFIG_SENSORS_LM95245=m
-CONFIG_SENSORS_PC87360=m
-CONFIG_SENSORS_PC87427=m
-# CONFIG_SENSORS_NCT6683 is not set
-CONFIG_SENSORS_NCT6775_CORE=m
-CONFIG_SENSORS_NCT6775=m
-# CONFIG_SENSORS_NCT6775_I2C is not set
-# CONFIG_SENSORS_NCT7802 is not set
-# CONFIG_SENSORS_NCT7904 is not set
-# CONFIG_SENSORS_NPCM7XX is not set
-# CONFIG_SENSORS_NZXT_KRAKEN2 is not set
-# CONFIG_SENSORS_NZXT_SMART2 is not set
-CONFIG_SENSORS_PCF8591=m
-CONFIG_PMBUS=m
-CONFIG_SENSORS_PMBUS=m
-# CONFIG_SENSORS_ADM1266 is not set
-CONFIG_SENSORS_ADM1275=m
-# CONFIG_SENSORS_BEL_PFE is not set
-# CONFIG_SENSORS_BPA_RS600 is not set
-# CONFIG_SENSORS_DELTA_AHE50DC_FAN is not set
-# CONFIG_SENSORS_FSP_3Y is not set
-# CONFIG_SENSORS_IBM_CFFPS is not set
-# CONFIG_SENSORS_DPS920AB is not set
-# CONFIG_SENSORS_INSPUR_IPSPS is not set
-# CONFIG_SENSORS_IR35221 is not set
-# CONFIG_SENSORS_IR36021 is not set
-# CONFIG_SENSORS_IR38064 is not set
-# CONFIG_SENSORS_IRPS5401 is not set
-# CONFIG_SENSORS_ISL68137 is not set
-CONFIG_SENSORS_LM25066=m
-# CONFIG_SENSORS_LT7182S is not set
-CONFIG_SENSORS_LTC2978=m
-# CONFIG_SENSORS_LTC3815 is not set
-# CONFIG_SENSORS_MAX15301 is not set
-CONFIG_SENSORS_MAX16064=m
-# CONFIG_SENSORS_MAX16601 is not set
-# CONFIG_SENSORS_MAX20730 is not set
-# CONFIG_SENSORS_MAX20751 is not set
-# CONFIG_SENSORS_MAX31785 is not set
-CONFIG_SENSORS_MAX34440=m
-CONFIG_SENSORS_MAX8688=m
-# CONFIG_SENSORS_MP2888 is not set
-# CONFIG_SENSORS_MP2975 is not set
-# CONFIG_SENSORS_MP5023 is not set
-# CONFIG_SENSORS_PIM4328 is not set
-# CONFIG_SENSORS_PLI1209BC is not set
-# CONFIG_SENSORS_PM6764TR is not set
-# CONFIG_SENSORS_PXE1610 is not set
-# CONFIG_SENSORS_Q54SJ108A2 is not set
-# CONFIG_SENSORS_STPDDC60 is not set
-# CONFIG_SENSORS_TPS40422 is not set
-# CONFIG_SENSORS_TPS53679 is not set
-CONFIG_SENSORS_UCD9000=m
-CONFIG_SENSORS_UCD9200=m
-# CONFIG_SENSORS_XDPE152 is not set
-# CONFIG_SENSORS_XDPE122 is not set
-CONFIG_SENSORS_ZL6100=m
-# CONFIG_SENSORS_SBTSI is not set
-# CONFIG_SENSORS_SBRMI is not set
-CONFIG_SENSORS_SHT15=m
-CONFIG_SENSORS_SHT21=m
-# CONFIG_SENSORS_SHT3x is not set
-# CONFIG_SENSORS_SHT4x is not set
-# CONFIG_SENSORS_SHTC1 is not set
-CONFIG_SENSORS_SIS5595=m
-# CONFIG_SENSORS_SY7636A is not set
-CONFIG_SENSORS_DME1737=m
-CONFIG_SENSORS_EMC1403=m
-# CONFIG_SENSORS_EMC2103 is not set
-CONFIG_SENSORS_EMC6W201=m
-CONFIG_SENSORS_SMSC47M1=m
-CONFIG_SENSORS_SMSC47M192=m
-CONFIG_SENSORS_SMSC47B397=m
-CONFIG_SENSORS_SCH56XX_COMMON=m
-CONFIG_SENSORS_SCH5627=m
-CONFIG_SENSORS_SCH5636=m
-# CONFIG_SENSORS_STTS751 is not set
-# CONFIG_SENSORS_SMM665 is not set
-# CONFIG_SENSORS_ADC128D818 is not set
-CONFIG_SENSORS_ADS7828=m
-# CONFIG_SENSORS_ADS7871 is not set
-CONFIG_SENSORS_AMC6821=m
-CONFIG_SENSORS_INA209=m
-CONFIG_SENSORS_INA2XX=m
-# CONFIG_SENSORS_INA238 is not set
-# CONFIG_SENSORS_INA3221 is not set
-# CONFIG_SENSORS_TC74 is not set
-CONFIG_SENSORS_THMC50=m
-CONFIG_SENSORS_TMP102=m
-# CONFIG_SENSORS_TMP103 is not set
-# CONFIG_SENSORS_TMP108 is not set
-CONFIG_SENSORS_TMP401=m
-CONFIG_SENSORS_TMP421=m
-# CONFIG_SENSORS_TMP464 is not set
-# CONFIG_SENSORS_TMP513 is not set
-CONFIG_SENSORS_VIA_CPUTEMP=m
-CONFIG_SENSORS_VIA686A=m
-CONFIG_SENSORS_VT1211=m
-CONFIG_SENSORS_VT8231=m
-# CONFIG_SENSORS_W83773G is not set
-CONFIG_SENSORS_W83781D=m
-CONFIG_SENSORS_W83791D=m
-CONFIG_SENSORS_W83792D=m
-CONFIG_SENSORS_W83793=m
-CONFIG_SENSORS_W83795=m
-# CONFIG_SENSORS_W83795_FANCTRL is not set
-CONFIG_SENSORS_W83L785TS=m
-CONFIG_SENSORS_W83L786NG=m
-CONFIG_SENSORS_W83627HF=m
-CONFIG_SENSORS_W83627EHF=m
-# CONFIG_SENSORS_XGENE is not set
-
-#
-# ACPI drivers
-#
-CONFIG_SENSORS_ACPI_POWER=m
-CONFIG_SENSORS_ATK0110=m
-# CONFIG_SENSORS_ASUS_WMI is not set
-# CONFIG_SENSORS_ASUS_WMI_EC is not set
-# CONFIG_SENSORS_ASUS_EC is not set
-CONFIG_THERMAL=y
-# CONFIG_THERMAL_NETLINK is not set
-# CONFIG_THERMAL_STATISTICS is not set
-CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
-CONFIG_THERMAL_HWMON=y
-CONFIG_THERMAL_WRITABLE_TRIPS=y
-CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE=y
-# CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE is not set
-# CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
-CONFIG_THERMAL_GOV_FAIR_SHARE=y
-CONFIG_THERMAL_GOV_STEP_WISE=y
-CONFIG_THERMAL_GOV_BANG_BANG=y
-CONFIG_THERMAL_GOV_USER_SPACE=y
-# CONFIG_THERMAL_EMULATION is not set
-
-#
-# Intel thermal drivers
-#
-CONFIG_INTEL_POWERCLAMP=m
-CONFIG_X86_THERMAL_VECTOR=y
-CONFIG_X86_PKG_TEMP_THERMAL=m
-# CONFIG_INTEL_SOC_DTS_THERMAL is not set
-
-#
-# ACPI INT340X thermal drivers
-#
-# CONFIG_INT340X_THERMAL is not set
-# end of ACPI INT340X thermal drivers
-
-CONFIG_INTEL_PCH_THERMAL=m
-# CONFIG_INTEL_TCC_COOLING is not set
-# CONFIG_INTEL_MENLOW is not set
-# CONFIG_INTEL_HFI_THERMAL is not set
-# end of Intel thermal drivers
-
-CONFIG_WATCHDOG=y
-CONFIG_WATCHDOG_CORE=y
-# CONFIG_WATCHDOG_NOWAYOUT is not set
-CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y
-CONFIG_WATCHDOG_OPEN_TIMEOUT=0
-CONFIG_WATCHDOG_SYSFS=y
-# CONFIG_WATCHDOG_HRTIMER_PRETIMEOUT is not set
-
-#
-# Watchdog Pretimeout Governors
-#
-# CONFIG_WATCHDOG_PRETIMEOUT_GOV is not set
-
-#
-# Watchdog Device Drivers
-#
-CONFIG_SOFT_WATCHDOG=m
-CONFIG_WDAT_WDT=m
-# CONFIG_XILINX_WATCHDOG is not set
-# CONFIG_ZIIRAVE_WATCHDOG is not set
-# CONFIG_MLX_WDT is not set
-# CONFIG_CADENCE_WATCHDOG is not set
-# CONFIG_DW_WATCHDOG is not set
-# CONFIG_MAX63XX_WATCHDOG is not set
-# CONFIG_ACQUIRE_WDT is not set
-# CONFIG_ADVANTECH_WDT is not set
-CONFIG_ALIM1535_WDT=m
-CONFIG_ALIM7101_WDT=m
-# CONFIG_EBC_C384_WDT is not set
-CONFIG_F71808E_WDT=m
-# CONFIG_SP5100_TCO is not set
-CONFIG_SBC_FITPC2_WATCHDOG=m
-# CONFIG_EUROTECH_WDT is not set
-CONFIG_IB700_WDT=m
-CONFIG_IBMASR=m
-# CONFIG_WAFER_WDT is not set
-CONFIG_I6300ESB_WDT=y
-CONFIG_IE6XX_WDT=m
-CONFIG_ITCO_WDT=y
-CONFIG_ITCO_VENDOR_SUPPORT=y
-CONFIG_IT8712F_WDT=m
-CONFIG_IT87_WDT=m
-CONFIG_HP_WATCHDOG=m
-CONFIG_HPWDT_NMI_DECODING=y
-# CONFIG_SC1200_WDT is not set
-# CONFIG_PC87413_WDT is not set
-CONFIG_NV_TCO=m
-# CONFIG_60XX_WDT is not set
-# CONFIG_CPU5_WDT is not set
-CONFIG_SMSC_SCH311X_WDT=m
-# CONFIG_SMSC37B787_WDT is not set
-# CONFIG_TQMX86_WDT is not set
-CONFIG_VIA_WDT=m
-CONFIG_W83627HF_WDT=m
-CONFIG_W83877F_WDT=m
-CONFIG_W83977F_WDT=m
-CONFIG_MACHZ_WDT=m
-# CONFIG_SBC_EPX_C3_WATCHDOG is not set
-CONFIG_INTEL_MEI_WDT=m
-# CONFIG_NI903X_WDT is not set
-# CONFIG_NIC7018_WDT is not set
-# CONFIG_MEN_A21_WDT is not set
-
-#
-# PCI-based Watchdog Cards
-#
-CONFIG_PCIPCWATCHDOG=m
-CONFIG_WDTPCI=m
-
-#
-# USB-based Watchdog Cards
-#
-# CONFIG_USBPCWATCHDOG is not set
-CONFIG_SSB_POSSIBLE=y
-# CONFIG_SSB is not set
-CONFIG_BCMA_POSSIBLE=y
-CONFIG_BCMA=m
-CONFIG_BCMA_HOST_PCI_POSSIBLE=y
-CONFIG_BCMA_HOST_PCI=y
-# CONFIG_BCMA_HOST_SOC is not set
-CONFIG_BCMA_DRIVER_PCI=y
-CONFIG_BCMA_DRIVER_GMAC_CMN=y
-CONFIG_BCMA_DRIVER_GPIO=y
-# CONFIG_BCMA_DEBUG is not set
-
-#
-# Multifunction device drivers
-#
-CONFIG_MFD_CORE=y
-# CONFIG_MFD_AS3711 is not set
-# CONFIG_PMIC_ADP5520 is not set
-# CONFIG_MFD_AAT2870_CORE is not set
-# CONFIG_MFD_BCM590XX is not set
-# CONFIG_MFD_BD9571MWV is not set
-# CONFIG_MFD_AXP20X_I2C is not set
-# CONFIG_MFD_MADERA is not set
-# CONFIG_PMIC_DA903X is not set
-# CONFIG_MFD_DA9052_SPI is not set
-# CONFIG_MFD_DA9052_I2C is not set
-# CONFIG_MFD_DA9055 is not set
-# CONFIG_MFD_DA9062 is not set
-# CONFIG_MFD_DA9063 is not set
-# CONFIG_MFD_DA9150 is not set
-# CONFIG_MFD_DLN2 is not set
-# CONFIG_MFD_MC13XXX_SPI is not set
-# CONFIG_MFD_MC13XXX_I2C is not set
-# CONFIG_MFD_MP2629 is not set
-# CONFIG_HTC_PASIC3 is not set
-# CONFIG_HTC_I2CPLD is not set
-# CONFIG_MFD_INTEL_QUARK_I2C_GPIO is not set
-CONFIG_LPC_ICH=m
-CONFIG_LPC_SCH=m
-CONFIG_MFD_INTEL_LPSS=y
-CONFIG_MFD_INTEL_LPSS_ACPI=y
-CONFIG_MFD_INTEL_LPSS_PCI=y
-# CONFIG_MFD_INTEL_PMC_BXT is not set
-# CONFIG_MFD_IQS62X is not set
-# CONFIG_MFD_JANZ_CMODIO is not set
-# CONFIG_MFD_KEMPLD is not set
-# CONFIG_MFD_88PM800 is not set
-# CONFIG_MFD_88PM805 is not set
-# CONFIG_MFD_88PM860X is not set
-# CONFIG_MFD_MAX14577 is not set
-# CONFIG_MFD_MAX77693 is not set
-# CONFIG_MFD_MAX77843 is not set
-# CONFIG_MFD_MAX8907 is not set
-# CONFIG_MFD_MAX8925 is not set
-# CONFIG_MFD_MAX8997 is not set
-# CONFIG_MFD_MAX8998 is not set
-# CONFIG_MFD_MT6360 is not set
-# CONFIG_MFD_MT6397 is not set
-# CONFIG_MFD_MENF21BMC is not set
-# CONFIG_EZX_PCAP is not set
-# CONFIG_MFD_VIPERBOARD is not set
-# CONFIG_MFD_RETU is not set
-# CONFIG_MFD_PCF50633 is not set
-# CONFIG_MFD_RDC321X is not set
-# CONFIG_MFD_RT4831 is not set
-# CONFIG_MFD_RT5033 is not set
-# CONFIG_MFD_RC5T583 is not set
-# CONFIG_MFD_SI476X_CORE is not set
-# CONFIG_MFD_SIMPLE_MFD_I2C is not set
-CONFIG_MFD_SM501=m
-CONFIG_MFD_SM501_GPIO=y
-# CONFIG_MFD_SKY81452 is not set
-# CONFIG_MFD_SYSCON is not set
-# CONFIG_MFD_TI_AM335X_TSCADC is not set
-# CONFIG_MFD_LP3943 is not set
-# CONFIG_MFD_LP8788 is not set
-# CONFIG_MFD_TI_LMU is not set
-# CONFIG_MFD_PALMAS is not set
-# CONFIG_TPS6105X is not set
-# CONFIG_TPS65010 is not set
-# CONFIG_TPS6507X is not set
-# CONFIG_MFD_TPS65086 is not set
-# CONFIG_MFD_TPS65090 is not set
-# CONFIG_MFD_TI_LP873X is not set
-# CONFIG_MFD_TPS6586X is not set
-# CONFIG_MFD_TPS65910 is not set
-# CONFIG_MFD_TPS65912_I2C is not set
-# CONFIG_MFD_TPS65912_SPI is not set
-# CONFIG_TWL4030_CORE is not set
-# CONFIG_TWL6040_CORE is not set
-# CONFIG_MFD_WL1273_CORE is not set
-# CONFIG_MFD_LM3533 is not set
-# CONFIG_MFD_TQMX86 is not set
-CONFIG_MFD_VX855=m
-# CONFIG_MFD_ARIZONA_I2C is not set
-# CONFIG_MFD_ARIZONA_SPI is not set
-# CONFIG_MFD_WM8400 is not set
-# CONFIG_MFD_WM831X_I2C is not set
-# CONFIG_MFD_WM831X_SPI is not set
-# CONFIG_MFD_WM8350_I2C is not set
-# CONFIG_MFD_WM8994 is not set
-# CONFIG_MFD_ATC260X_I2C is not set
-# CONFIG_MFD_INTEL_M10_BMC is not set
-# end of Multifunction device drivers
-
-# CONFIG_REGULATOR is not set
-CONFIG_RC_CORE=m
-CONFIG_LIRC=y
-CONFIG_RC_MAP=m
-CONFIG_RC_DECODERS=y
-CONFIG_IR_IMON_DECODER=m
-CONFIG_IR_JVC_DECODER=m
-CONFIG_IR_MCE_KBD_DECODER=m
-CONFIG_IR_NEC_DECODER=m
-CONFIG_IR_RC5_DECODER=m
-CONFIG_IR_RC6_DECODER=m
-# CONFIG_IR_RCMM_DECODER is not set
-CONFIG_IR_SANYO_DECODER=m
-# CONFIG_IR_SHARP_DECODER is not set
-CONFIG_IR_SONY_DECODER=m
-# CONFIG_IR_XMP_DECODER is not set
-CONFIG_RC_DEVICES=y
-CONFIG_IR_ENE=m
-CONFIG_IR_FINTEK=m
-# CONFIG_IR_IGORPLUGUSB is not set
-# CONFIG_IR_IGUANA is not set
-# CONFIG_IR_IMON is not set
-# CONFIG_IR_IMON_RAW is not set
-CONFIG_IR_ITE_CIR=m
-# CONFIG_IR_MCEUSB is not set
-CONFIG_IR_NUVOTON=m
-# CONFIG_IR_REDRAT3 is not set
-CONFIG_IR_SERIAL=m
-CONFIG_IR_SERIAL_TRANSMITTER=y
-# CONFIG_IR_STREAMZAP is not set
-# CONFIG_IR_TOY is not set
-# CONFIG_IR_TTUSBIR is not set
-CONFIG_IR_WINBOND_CIR=m
-# CONFIG_RC_ATI_REMOTE is not set
-# CONFIG_RC_LOOPBACK is not set
-# CONFIG_RC_XBOX_DVD is not set
-
-#
-# CEC support
-#
-# CONFIG_MEDIA_CEC_SUPPORT is not set
-# end of CEC support
-
-CONFIG_MEDIA_SUPPORT=m
-CONFIG_MEDIA_SUPPORT_FILTER=y
-CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
-
-#
-# Media device types
-#
-# CONFIG_MEDIA_CAMERA_SUPPORT is not set
-# CONFIG_MEDIA_ANALOG_TV_SUPPORT is not set
-# CONFIG_MEDIA_DIGITAL_TV_SUPPORT is not set
-# CONFIG_MEDIA_RADIO_SUPPORT is not set
-# CONFIG_MEDIA_SDR_SUPPORT is not set
-# CONFIG_MEDIA_PLATFORM_SUPPORT is not set
-# CONFIG_MEDIA_TEST_SUPPORT is not set
-# end of Media device types
-
-#
-# Media drivers
-#
-
-#
-# Drivers filtered as selected at 'Filter media drivers'
-#
-
-#
-# Media drivers
-#
-# CONFIG_MEDIA_USB_SUPPORT is not set
-# CONFIG_MEDIA_PCI_SUPPORT is not set
-# end of Media drivers
-
-#
-# Media ancillary drivers
-#
-# end of Media ancillary drivers
-
-#
-# Graphics support
-#
-CONFIG_APERTURE_HELPERS=y
-# CONFIG_AGP is not set
-CONFIG_INTEL_GTT=m
-CONFIG_VGA_SWITCHEROO=y
-CONFIG_DRM=m
-CONFIG_DRM_MIPI_DSI=y
-CONFIG_DRM_KMS_HELPER=m
-# CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS is not set
-# CONFIG_DRM_DEBUG_MODESET_LOCK is not set
-CONFIG_DRM_FBDEV_EMULATION=y
-CONFIG_DRM_FBDEV_OVERALLOC=100
-# CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is not set
-CONFIG_DRM_LOAD_EDID_FIRMWARE=y
-CONFIG_DRM_DISPLAY_HELPER=m
-CONFIG_DRM_DISPLAY_DP_HELPER=y
-CONFIG_DRM_DISPLAY_HDCP_HELPER=y
-CONFIG_DRM_DISPLAY_HDMI_HELPER=y
-CONFIG_DRM_DP_AUX_CHARDEV=y
-# CONFIG_DRM_DP_CEC is not set
-CONFIG_DRM_TTM=m
-CONFIG_DRM_BUDDY=m
-CONFIG_DRM_VRAM_HELPER=m
-CONFIG_DRM_TTM_HELPER=m
-CONFIG_DRM_GEM_SHMEM_HELPER=m
-
-#
-# I2C encoder or helper chips
-#
-CONFIG_DRM_I2C_CH7006=m
-CONFIG_DRM_I2C_SIL164=m
-# CONFIG_DRM_I2C_NXP_TDA998X is not set
-# CONFIG_DRM_I2C_NXP_TDA9950 is not set
-# end of I2C encoder or helper chips
-
-#
-# ARM devices
-#
-# end of ARM devices
-
-# CONFIG_DRM_RADEON is not set
-# CONFIG_DRM_AMDGPU is not set
-# CONFIG_DRM_NOUVEAU is not set
-CONFIG_DRM_I915=m
-CONFIG_DRM_I915_FORCE_PROBE=""
-CONFIG_DRM_I915_CAPTURE_ERROR=y
-CONFIG_DRM_I915_COMPRESS_ERROR=y
-CONFIG_DRM_I915_USERPTR=y
-# CONFIG_DRM_I915_GVT_KVMGT is not set
-
-#
-# drm/i915 Debugging
-#
-# CONFIG_DRM_I915_WERROR is not set
-# CONFIG_DRM_I915_DEBUG is not set
-# CONFIG_DRM_I915_DEBUG_MMIO is not set
-# CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS is not set
-# CONFIG_DRM_I915_SW_FENCE_CHECK_DAG is not set
-# CONFIG_DRM_I915_DEBUG_GUC is not set
-# CONFIG_DRM_I915_SELFTEST is not set
-# CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS is not set
-# CONFIG_DRM_I915_DEBUG_VBLANK_EVADE is not set
-# CONFIG_DRM_I915_DEBUG_RUNTIME_PM is not set
-# end of drm/i915 Debugging
-
-#
-# drm/i915 Profile Guided Optimisation
-#
-CONFIG_DRM_I915_REQUEST_TIMEOUT=20000
-CONFIG_DRM_I915_FENCE_TIMEOUT=10000
-CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND=250
-CONFIG_DRM_I915_HEARTBEAT_INTERVAL=2500
-CONFIG_DRM_I915_PREEMPT_TIMEOUT=640
-CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT=8000
-CONFIG_DRM_I915_STOP_TIMEOUT=100
-CONFIG_DRM_I915_TIMESLICE_DURATION=1
-# end of drm/i915 Profile Guided Optimisation
-
-# CONFIG_DRM_VGEM is not set
-# CONFIG_DRM_VKMS is not set
-# CONFIG_DRM_VMWGFX is not set
-CONFIG_DRM_GMA500=m
-# CONFIG_DRM_UDL is not set
-CONFIG_DRM_AST=m
-# CONFIG_DRM_MGAG200 is not set
-CONFIG_DRM_QXL=m
-CONFIG_DRM_VIRTIO_GPU=m
-CONFIG_DRM_PANEL=y
-
-#
-# Display Panels
-#
-# CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN is not set
-# CONFIG_DRM_PANEL_WIDECHIPS_WS2401 is not set
-# end of Display Panels
-
-CONFIG_DRM_BRIDGE=y
-CONFIG_DRM_PANEL_BRIDGE=y
-
-#
-# Display Interface Bridges
-#
-# CONFIG_DRM_ANALOGIX_ANX78XX is not set
-# end of Display Interface Bridges
-
-# CONFIG_DRM_ETNAVIV is not set
-CONFIG_DRM_BOCHS=m
-CONFIG_DRM_CIRRUS_QEMU=m
-# CONFIG_DRM_GM12U320 is not set
-# CONFIG_DRM_PANEL_MIPI_DBI is not set
-# CONFIG_DRM_SIMPLEDRM is not set
-# CONFIG_TINYDRM_HX8357D is not set
-# CONFIG_TINYDRM_ILI9163 is not set
-# CONFIG_TINYDRM_ILI9225 is not set
-# CONFIG_TINYDRM_ILI9341 is not set
-# CONFIG_TINYDRM_ILI9486 is not set
-# CONFIG_TINYDRM_MI0283QT is not set
-# CONFIG_TINYDRM_REPAPER is not set
-# CONFIG_TINYDRM_ST7586 is not set
-# CONFIG_TINYDRM_ST7735R is not set
-# CONFIG_DRM_VBOXVIDEO is not set
-# CONFIG_DRM_GUD is not set
-# CONFIG_DRM_SSD130X is not set
-# CONFIG_DRM_LEGACY is not set
-CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
-CONFIG_DRM_NOMODESET=y
-CONFIG_DRM_PRIVACY_SCREEN=y
-
-#
-# Frame buffer Devices
-#
-CONFIG_FB_CMDLINE=y
-CONFIG_FB_NOTIFY=y
-CONFIG_FB=y
-# CONFIG_FIRMWARE_EDID is not set
-CONFIG_FB_CFB_FILLRECT=y
-CONFIG_FB_CFB_COPYAREA=y
-CONFIG_FB_CFB_IMAGEBLIT=y
-CONFIG_FB_SYS_FILLRECT=m
-CONFIG_FB_SYS_COPYAREA=m
-CONFIG_FB_SYS_IMAGEBLIT=m
-# CONFIG_FB_FOREIGN_ENDIAN is not set
-CONFIG_FB_SYS_FOPS=m
-CONFIG_FB_DEFERRED_IO=y
-# CONFIG_FB_MODE_HELPERS is not set
-CONFIG_FB_TILEBLITTING=y
-
-#
-# Frame buffer hardware drivers
-#
-# CONFIG_FB_CIRRUS is not set
-# CONFIG_FB_PM2 is not set
-# CONFIG_FB_CYBER2000 is not set
-# CONFIG_FB_ARC is not set
-# CONFIG_FB_ASILIANT is not set
-# CONFIG_FB_IMSTT is not set
-# CONFIG_FB_VGA16 is not set
-# CONFIG_FB_UVESA is not set
-CONFIG_FB_VESA=y
-CONFIG_FB_EFI=y
-# CONFIG_FB_N411 is not set
-# CONFIG_FB_HGA is not set
-# CONFIG_FB_OPENCORES is not set
-# CONFIG_FB_S1D13XXX is not set
-# CONFIG_FB_NVIDIA is not set
-# CONFIG_FB_RIVA is not set
-# CONFIG_FB_I740 is not set
-# CONFIG_FB_LE80578 is not set
-# CONFIG_FB_MATROX is not set
-# CONFIG_FB_RADEON is not set
-# CONFIG_FB_ATY128 is not set
-# CONFIG_FB_ATY is not set
-# CONFIG_FB_S3 is not set
-# CONFIG_FB_SAVAGE is not set
-# CONFIG_FB_SIS is not set
-# CONFIG_FB_VIA is not set
-# CONFIG_FB_NEOMAGIC is not set
-# CONFIG_FB_KYRO is not set
-# CONFIG_FB_3DFX is not set
-# CONFIG_FB_VOODOO1 is not set
-# CONFIG_FB_VT8623 is not set
-# CONFIG_FB_TRIDENT is not set
-# CONFIG_FB_ARK is not set
-# CONFIG_FB_PM3 is not set
-# CONFIG_FB_CARMINE is not set
-# CONFIG_FB_SM501 is not set
-# CONFIG_FB_SMSCUFX is not set
-# CONFIG_FB_UDL is not set
-# CONFIG_FB_IBM_GXT4500 is not set
-# CONFIG_FB_VIRTUAL is not set
-# CONFIG_FB_METRONOME is not set
-# CONFIG_FB_MB862XX is not set
-# CONFIG_FB_SIMPLE is not set
-# CONFIG_FB_SSD1307 is not set
-# CONFIG_FB_SM712 is not set
-# end of Frame buffer Devices
-
-#
-# Backlight & LCD device support
-#
-CONFIG_LCD_CLASS_DEVICE=m
-# CONFIG_LCD_L4F00242T03 is not set
-# CONFIG_LCD_LMS283GF05 is not set
-# CONFIG_LCD_LTV350QV is not set
-# CONFIG_LCD_ILI922X is not set
-# CONFIG_LCD_ILI9320 is not set
-# CONFIG_LCD_TDO24M is not set
-# CONFIG_LCD_VGG2432A4 is not set
-CONFIG_LCD_PLATFORM=m
-# CONFIG_LCD_AMS369FG06 is not set
-# CONFIG_LCD_LMS501KF03 is not set
-# CONFIG_LCD_HX8357 is not set
-# CONFIG_LCD_OTM3225A is not set
-CONFIG_BACKLIGHT_CLASS_DEVICE=y
-# CONFIG_BACKLIGHT_KTD253 is not set
-# CONFIG_BACKLIGHT_PWM is not set
-CONFIG_BACKLIGHT_APPLE=m
-# CONFIG_BACKLIGHT_QCOM_WLED is not set
-# CONFIG_BACKLIGHT_SAHARA is not set
-# CONFIG_BACKLIGHT_ADP8860 is not set
-# CONFIG_BACKLIGHT_ADP8870 is not set
-# CONFIG_BACKLIGHT_LM3630A is not set
-# CONFIG_BACKLIGHT_LM3639 is not set
-CONFIG_BACKLIGHT_LP855X=m
-# CONFIG_BACKLIGHT_GPIO is not set
-# CONFIG_BACKLIGHT_LV5207LP is not set
-# CONFIG_BACKLIGHT_BD6107 is not set
-# CONFIG_BACKLIGHT_ARCXCNN is not set
-# end of Backlight & LCD device support
-
-CONFIG_HDMI=y
-
-#
-# Console display driver support
-#
-CONFIG_VGA_CONSOLE=y
-CONFIG_DUMMY_CONSOLE=y
-CONFIG_DUMMY_CONSOLE_COLUMNS=80
-CONFIG_DUMMY_CONSOLE_ROWS=25
-CONFIG_FRAMEBUFFER_CONSOLE=y
-# CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION is not set
-CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
-CONFIG_FRAMEBUFFER_CONSOLE_ROTATION=y
-# CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER is not set
-# end of Console display driver support
-
-CONFIG_LOGO=y
-# CONFIG_LOGO_LINUX_MONO is not set
-# CONFIG_LOGO_LINUX_VGA16 is not set
-CONFIG_LOGO_LINUX_CLUT224=y
-# end of Graphics support
-
-# CONFIG_SOUND is not set
-
-#
-# HID support
-#
-CONFIG_HID=y
-CONFIG_HID_BATTERY_STRENGTH=y
-CONFIG_HIDRAW=y
-CONFIG_UHID=m
-CONFIG_HID_GENERIC=y
-
-#
-# Special HID drivers
-#
-CONFIG_HID_A4TECH=m
-# CONFIG_HID_ACCUTOUCH is not set
-CONFIG_HID_ACRUX=m
-# CONFIG_HID_ACRUX_FF is not set
-CONFIG_HID_APPLE=m
-# CONFIG_HID_APPLEIR is not set
-CONFIG_HID_ASUS=m
-CONFIG_HID_AUREAL=m
-CONFIG_HID_BELKIN=m
-# CONFIG_HID_BETOP_FF is not set
-# CONFIG_HID_BIGBEN_FF is not set
-CONFIG_HID_CHERRY=m
-# CONFIG_HID_CHICONY is not set
-# CONFIG_HID_CORSAIR is not set
-# CONFIG_HID_COUGAR is not set
-# CONFIG_HID_MACALLY is not set
-CONFIG_HID_CMEDIA=m
-# CONFIG_HID_CP2112 is not set
-# CONFIG_HID_CREATIVE_SB0540 is not set
-CONFIG_HID_CYPRESS=m
-CONFIG_HID_DRAGONRISE=m
-# CONFIG_DRAGONRISE_FF is not set
-# CONFIG_HID_EMS_FF is not set
-# CONFIG_HID_ELAN is not set
-CONFIG_HID_ELECOM=m
-# CONFIG_HID_ELO is not set
-CONFIG_HID_EZKEY=m
-# CONFIG_HID_FT260 is not set
-CONFIG_HID_GEMBIRD=m
-CONFIG_HID_GFRM=m
-# CONFIG_HID_GLORIOUS is not set
-# CONFIG_HID_HOLTEK is not set
-# CONFIG_HID_VIVALDI is not set
-# CONFIG_HID_GT683R is not set
-CONFIG_HID_KEYTOUCH=m
-CONFIG_HID_KYE=m
-# CONFIG_HID_UCLOGIC is not set
-CONFIG_HID_WALTOP=m
-# CONFIG_HID_VIEWSONIC is not set
-# CONFIG_HID_XIAOMI is not set
-CONFIG_HID_GYRATION=m
-CONFIG_HID_ICADE=m
-CONFIG_HID_ITE=m
-CONFIG_HID_JABRA=m
-CONFIG_HID_TWINHAN=m
-CONFIG_HID_KENSINGTON=m
-CONFIG_HID_LCPOWER=m
-CONFIG_HID_LED=m
-CONFIG_HID_LENOVO=m
-# CONFIG_HID_LETSKETCH is not set
-CONFIG_HID_LOGITECH=m
-CONFIG_HID_LOGITECH_DJ=m
-CONFIG_HID_LOGITECH_HIDPP=m
-# CONFIG_LOGITECH_FF is not set
-# CONFIG_LOGIRUMBLEPAD2_FF is not set
-# CONFIG_LOGIG940_FF is not set
-# CONFIG_LOGIWHEELS_FF is not set
-CONFIG_HID_MAGICMOUSE=y
-# CONFIG_HID_MALTRON is not set
-# CONFIG_HID_MAYFLASH is not set
-# CONFIG_HID_MEGAWORLD_FF is not set
-# CONFIG_HID_REDRAGON is not set
-CONFIG_HID_MICROSOFT=m
-CONFIG_HID_MONTEREY=m
-CONFIG_HID_MULTITOUCH=m
-# CONFIG_HID_NINTENDO is not set
-CONFIG_HID_NTI=m
-# CONFIG_HID_NTRIG is not set
-CONFIG_HID_ORTEK=m
-CONFIG_HID_PANTHERLORD=m
-# CONFIG_PANTHERLORD_FF is not set
-# CONFIG_HID_PENMOUNT is not set
-CONFIG_HID_PETALYNX=m
-CONFIG_HID_PICOLCD=m
-CONFIG_HID_PICOLCD_FB=y
-CONFIG_HID_PICOLCD_BACKLIGHT=y
-CONFIG_HID_PICOLCD_LCD=y
-CONFIG_HID_PICOLCD_LEDS=y
-CONFIG_HID_PICOLCD_CIR=y
-CONFIG_HID_PLANTRONICS=m
-# CONFIG_HID_RAZER is not set
-CONFIG_HID_PRIMAX=m
-# CONFIG_HID_RETRODE is not set
-# CONFIG_HID_ROCCAT is not set
-CONFIG_HID_SAITEK=m
-CONFIG_HID_SAMSUNG=m
-# CONFIG_HID_SEMITEK is not set
-# CONFIG_HID_SIGMAMICRO is not set
-# CONFIG_HID_SONY is not set
-CONFIG_HID_SPEEDLINK=m
-# CONFIG_HID_STEAM is not set
-CONFIG_HID_STEELSERIES=m
-CONFIG_HID_SUNPLUS=m
-CONFIG_HID_RMI=m
-CONFIG_HID_GREENASIA=m
-# CONFIG_GREENASIA_FF is not set
-CONFIG_HID_SMARTJOYPLUS=m
-# CONFIG_SMARTJOYPLUS_FF is not set
-CONFIG_HID_TIVO=m
-CONFIG_HID_TOPSEED=m
-CONFIG_HID_THINGM=m
-CONFIG_HID_THRUSTMASTER=m
-# CONFIG_THRUSTMASTER_FF is not set
-# CONFIG_HID_UDRAW_PS3 is not set
-# CONFIG_HID_U2FZERO is not set
-# CONFIG_HID_WACOM is not set
-CONFIG_HID_WIIMOTE=m
-CONFIG_HID_XINMO=m
-CONFIG_HID_ZEROPLUS=m
-# CONFIG_ZEROPLUS_FF is not set
-CONFIG_HID_ZYDACRON=m
-CONFIG_HID_SENSOR_HUB=y
-CONFIG_HID_SENSOR_CUSTOM_SENSOR=m
-CONFIG_HID_ALPS=m
-# CONFIG_HID_MCP2221 is not set
-# end of Special HID drivers
-
-#
-# USB HID support
-#
-CONFIG_USB_HID=y
-# CONFIG_HID_PID is not set
-# CONFIG_USB_HIDDEV is not set
-# end of USB HID support
-
-#
-# I2C HID support
-#
-# CONFIG_I2C_HID_ACPI is not set
-# end of I2C HID support
-
-#
-# Intel ISH HID support
-#
-CONFIG_INTEL_ISH_HID=m
-# CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER is not set
-# end of Intel ISH HID support
-
-#
-# AMD SFH HID Support
-#
-# CONFIG_AMD_SFH_HID is not set
-# end of AMD SFH HID Support
-# end of HID support
-
-CONFIG_USB_OHCI_LITTLE_ENDIAN=y
-CONFIG_USB_SUPPORT=y
-CONFIG_USB_COMMON=y
-# CONFIG_USB_LED_TRIG is not set
-# CONFIG_USB_ULPI_BUS is not set
-# CONFIG_USB_CONN_GPIO is not set
-CONFIG_USB_ARCH_HAS_HCD=y
-CONFIG_USB=y
-CONFIG_USB_PCI=y
-CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
-
-#
-# Miscellaneous USB options
-#
-CONFIG_USB_DEFAULT_PERSIST=y
-# CONFIG_USB_FEW_INIT_RETRIES is not set
-# CONFIG_USB_DYNAMIC_MINORS is not set
-# CONFIG_USB_OTG is not set
-# CONFIG_USB_OTG_PRODUCTLIST is not set
-# CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB is not set
-CONFIG_USB_LEDS_TRIGGER_USBPORT=y
-CONFIG_USB_AUTOSUSPEND_DELAY=2
-CONFIG_USB_MON=y
-
-#
-# USB Host Controller Drivers
-#
-# CONFIG_USB_C67X00_HCD is not set
-CONFIG_USB_XHCI_HCD=y
-# CONFIG_USB_XHCI_DBGCAP is not set
-CONFIG_USB_XHCI_PCI=y
-# CONFIG_USB_XHCI_PCI_RENESAS is not set
-# CONFIG_USB_XHCI_PLATFORM is not set
-CONFIG_USB_EHCI_HCD=y
-CONFIG_USB_EHCI_ROOT_HUB_TT=y
-CONFIG_USB_EHCI_TT_NEWSCHED=y
-CONFIG_USB_EHCI_PCI=y
-# CONFIG_USB_EHCI_FSL is not set
-# CONFIG_USB_EHCI_HCD_PLATFORM is not set
-# CONFIG_USB_OXU210HP_HCD is not set
-# CONFIG_USB_ISP116X_HCD is not set
-# CONFIG_USB_FOTG210_HCD is not set
-# CONFIG_USB_MAX3421_HCD is not set
-CONFIG_USB_OHCI_HCD=y
-CONFIG_USB_OHCI_HCD_PCI=y
-# CONFIG_USB_OHCI_HCD_PLATFORM is not set
-CONFIG_USB_UHCI_HCD=y
-# CONFIG_USB_SL811_HCD is not set
-# CONFIG_USB_R8A66597_HCD is not set
-# CONFIG_USB_HCD_BCMA is not set
-# CONFIG_USB_HCD_TEST_MODE is not set
-
-#
-# USB Device Class drivers
-#
-# CONFIG_USB_ACM is not set
-# CONFIG_USB_PRINTER is not set
-# CONFIG_USB_WDM is not set
-# CONFIG_USB_TMC is not set
-
-#
-# NOTE: USB_STORAGE depends on SCSI but BLK_DEV_SD may
-#
-
-#
-# also be needed; see USB_STORAGE Help for more info
-#
-CONFIG_USB_STORAGE=m
-# CONFIG_USB_STORAGE_DEBUG is not set
-# CONFIG_USB_STORAGE_REALTEK is not set
-# CONFIG_USB_STORAGE_DATAFAB is not set
-# CONFIG_USB_STORAGE_FREECOM is not set
-# CONFIG_USB_STORAGE_ISD200 is not set
-# CONFIG_USB_STORAGE_USBAT is not set
-# CONFIG_USB_STORAGE_SDDR09 is not set
-# CONFIG_USB_STORAGE_SDDR55 is not set
-# CONFIG_USB_STORAGE_JUMPSHOT is not set
-# CONFIG_USB_STORAGE_ALAUDA is not set
-# CONFIG_USB_STORAGE_ONETOUCH is not set
-# CONFIG_USB_STORAGE_KARMA is not set
-# CONFIG_USB_STORAGE_CYPRESS_ATACB is not set
-# CONFIG_USB_STORAGE_ENE_UB6250 is not set
-# CONFIG_USB_UAS is not set
-
-#
-# USB Imaging devices
-#
-# CONFIG_USB_MDC800 is not set
-# CONFIG_USB_MICROTEK is not set
-# CONFIG_USBIP_CORE is not set
-# CONFIG_USB_CDNS_SUPPORT is not set
-# CONFIG_USB_MUSB_HDRC is not set
-# CONFIG_USB_DWC3 is not set
-# CONFIG_USB_DWC2 is not set
-# CONFIG_USB_CHIPIDEA is not set
-# CONFIG_USB_ISP1760 is not set
-
-#
-# USB port drivers
-#
-# CONFIG_USB_USS720 is not set
-CONFIG_USB_SERIAL=m
-CONFIG_USB_SERIAL_GENERIC=y
-# CONFIG_USB_SERIAL_SIMPLE is not set
-# CONFIG_USB_SERIAL_AIRCABLE is not set
-# CONFIG_USB_SERIAL_ARK3116 is not set
-# CONFIG_USB_SERIAL_BELKIN is not set
-# CONFIG_USB_SERIAL_CH341 is not set
-# CONFIG_USB_SERIAL_WHITEHEAT is not set
-# CONFIG_USB_SERIAL_DIGI_ACCELEPORT is not set
-# CONFIG_USB_SERIAL_CP210X is not set
-# CONFIG_USB_SERIAL_CYPRESS_M8 is not set
-# CONFIG_USB_SERIAL_EMPEG is not set
-# CONFIG_USB_SERIAL_FTDI_SIO is not set
-# CONFIG_USB_SERIAL_VISOR is not set
-# CONFIG_USB_SERIAL_IPAQ is not set
-# CONFIG_USB_SERIAL_IR is not set
-# CONFIG_USB_SERIAL_EDGEPORT is not set
-# CONFIG_USB_SERIAL_EDGEPORT_TI is not set
-# CONFIG_USB_SERIAL_F81232 is not set
-# CONFIG_USB_SERIAL_F8153X is not set
-# CONFIG_USB_SERIAL_GARMIN is not set
-# CONFIG_USB_SERIAL_IPW is not set
-# CONFIG_USB_SERIAL_IUU is not set
-# CONFIG_USB_SERIAL_KEYSPAN_PDA is not set
-# CONFIG_USB_SERIAL_KEYSPAN is not set
-# CONFIG_USB_SERIAL_KLSI is not set
-# CONFIG_USB_SERIAL_KOBIL_SCT is not set
-# CONFIG_USB_SERIAL_MCT_U232 is not set
-# CONFIG_USB_SERIAL_METRO is not set
-# CONFIG_USB_SERIAL_MOS7720 is not set
-# CONFIG_USB_SERIAL_MOS7840 is not set
-# CONFIG_USB_SERIAL_MXUPORT is not set
-# CONFIG_USB_SERIAL_NAVMAN is not set
-# CONFIG_USB_SERIAL_PL2303 is not set
-# CONFIG_USB_SERIAL_OTI6858 is not set
-# CONFIG_USB_SERIAL_QCAUX is not set
-# CONFIG_USB_SERIAL_QUALCOMM is not set
-# CONFIG_USB_SERIAL_SPCP8X5 is not set
-# CONFIG_USB_SERIAL_SAFE is not set
-# CONFIG_USB_SERIAL_SIERRAWIRELESS is not set
-# CONFIG_USB_SERIAL_SYMBOL is not set
-# CONFIG_USB_SERIAL_TI is not set
-# CONFIG_USB_SERIAL_CYBERJACK is not set
-# CONFIG_USB_SERIAL_OPTION is not set
-# CONFIG_USB_SERIAL_OMNINET is not set
-# CONFIG_USB_SERIAL_OPTICON is not set
-# CONFIG_USB_SERIAL_XSENS_MT is not set
-# CONFIG_USB_SERIAL_WISHBONE is not set
-# CONFIG_USB_SERIAL_SSU100 is not set
-# CONFIG_USB_SERIAL_QT2 is not set
-# CONFIG_USB_SERIAL_UPD78F0730 is not set
-# CONFIG_USB_SERIAL_XR is not set
-CONFIG_USB_SERIAL_DEBUG=m
-
-#
-# USB Miscellaneous drivers
-#
-# CONFIG_USB_EMI62 is not set
-# CONFIG_USB_EMI26 is not set
-# CONFIG_USB_ADUTUX is not set
-# CONFIG_USB_SEVSEG is not set
-# CONFIG_USB_LEGOTOWER is not set
-# CONFIG_USB_LCD is not set
-# CONFIG_USB_CYPRESS_CY7C63 is not set
-# CONFIG_USB_CYTHERM is not set
-# CONFIG_USB_IDMOUSE is not set
-# CONFIG_USB_FTDI_ELAN is not set
-# CONFIG_USB_APPLEDISPLAY is not set
-# CONFIG_APPLE_MFI_FASTCHARGE is not set
-# CONFIG_USB_SISUSBVGA is not set
-# CONFIG_USB_LD is not set
-# CONFIG_USB_TRANCEVIBRATOR is not set
-# CONFIG_USB_IOWARRIOR is not set
-# CONFIG_USB_TEST is not set
-# CONFIG_USB_EHSET_TEST_FIXTURE is not set
-# CONFIG_USB_ISIGHTFW is not set
-# CONFIG_USB_YUREX is not set
-# CONFIG_USB_EZUSB_FX2 is not set
-# CONFIG_USB_HUB_USB251XB is not set
-# CONFIG_USB_HSIC_USB3503 is not set
-# CONFIG_USB_HSIC_USB4604 is not set
-# CONFIG_USB_LINK_LAYER_TEST is not set
-# CONFIG_USB_CHAOSKEY is not set
-# CONFIG_USB_ATM is not set
-
-#
-# USB Physical Layer drivers
-#
-# CONFIG_NOP_USB_XCEIV is not set
-# CONFIG_USB_GPIO_VBUS is not set
-# CONFIG_USB_ISP1301 is not set
-# end of USB Physical Layer drivers
-
-# CONFIG_USB_GADGET is not set
-CONFIG_TYPEC=y
-# CONFIG_TYPEC_TCPM is not set
-CONFIG_TYPEC_UCSI=y
-# CONFIG_UCSI_CCG is not set
-CONFIG_UCSI_ACPI=y
-# CONFIG_UCSI_STM32G0 is not set
-# CONFIG_TYPEC_TPS6598X is not set
-# CONFIG_TYPEC_RT1719 is not set
-# CONFIG_TYPEC_STUSB160X is not set
-# CONFIG_TYPEC_WUSB3801 is not set
-
-#
-# USB Type-C Multiplexer/DeMultiplexer Switch support
-#
-# CONFIG_TYPEC_MUX_FSA4480 is not set
-# CONFIG_TYPEC_MUX_PI3USB30532 is not set
-# end of USB Type-C Multiplexer/DeMultiplexer Switch support
-
-#
-# USB Type-C Alternate Mode drivers
-#
-# CONFIG_TYPEC_DP_ALTMODE is not set
-# end of USB Type-C Alternate Mode drivers
-
-# CONFIG_USB_ROLE_SWITCH is not set
-CONFIG_MMC=m
-CONFIG_MMC_BLOCK=m
-CONFIG_MMC_BLOCK_MINORS=8
-CONFIG_SDIO_UART=m
-# CONFIG_MMC_TEST is not set
-
-#
-# MMC/SD/SDIO Host Controller Drivers
-#
-# CONFIG_MMC_DEBUG is not set
-CONFIG_MMC_SDHCI=m
-CONFIG_MMC_SDHCI_IO_ACCESSORS=y
-CONFIG_MMC_SDHCI_PCI=m
-CONFIG_MMC_RICOH_MMC=y
-CONFIG_MMC_SDHCI_ACPI=m
-CONFIG_MMC_SDHCI_PLTFM=m
-# CONFIG_MMC_SDHCI_F_SDH30 is not set
-# CONFIG_MMC_WBSD is not set
-# CONFIG_MMC_TIFM_SD is not set
-# CONFIG_MMC_SPI is not set
-# CONFIG_MMC_CB710 is not set
-# CONFIG_MMC_VIA_SDMMC is not set
-# CONFIG_MMC_VUB300 is not set
-# CONFIG_MMC_USHC is not set
-# CONFIG_MMC_USDHI6ROL0 is not set
-# CONFIG_MMC_REALTEK_PCI is not set
-CONFIG_MMC_CQHCI=m
-# CONFIG_MMC_HSQ is not set
-# CONFIG_MMC_TOSHIBA_PCI is not set
-# CONFIG_MMC_MTK is not set
-# CONFIG_MMC_SDHCI_XENON is not set
-# CONFIG_SCSI_UFSHCD is not set
-# CONFIG_MEMSTICK is not set
-CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=y
-# CONFIG_LEDS_CLASS_FLASH is not set
-# CONFIG_LEDS_CLASS_MULTICOLOR is not set
-# CONFIG_LEDS_BRIGHTNESS_HW_CHANGED is not set
-
-#
-# LED drivers
-#
-# CONFIG_LEDS_APU is not set
-CONFIG_LEDS_LM3530=m
-# CONFIG_LEDS_LM3532 is not set
-# CONFIG_LEDS_LM3642 is not set
-# CONFIG_LEDS_PCA9532 is not set
-# CONFIG_LEDS_GPIO is not set
-CONFIG_LEDS_LP3944=m
-# CONFIG_LEDS_LP3952 is not set
-# CONFIG_LEDS_LP50XX is not set
-# CONFIG_LEDS_PCA955X is not set
-# CONFIG_LEDS_PCA963X is not set
-# CONFIG_LEDS_DAC124S085 is not set
-# CONFIG_LEDS_PWM is not set
-# CONFIG_LEDS_BD2802 is not set
-CONFIG_LEDS_INTEL_SS4200=m
-CONFIG_LEDS_LT3593=m
-# CONFIG_LEDS_TCA6507 is not set
-# CONFIG_LEDS_TLC591XX is not set
-# CONFIG_LEDS_LM355x is not set
-# CONFIG_LEDS_IS31FL319X is not set
-
-#
-# LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
-#
-CONFIG_LEDS_BLINKM=m
-CONFIG_LEDS_MLXCPLD=m
-# CONFIG_LEDS_MLXREG is not set
-# CONFIG_LEDS_USER is not set
-# CONFIG_LEDS_NIC78BX is not set
-# CONFIG_LEDS_TI_LMU_COMMON is not set
-
-#
-# Flash and Torch LED drivers
-#
-
-#
-# RGB LED drivers
-#
-
-#
-# LED Triggers
-#
-CONFIG_LEDS_TRIGGERS=y
-CONFIG_LEDS_TRIGGER_TIMER=m
-CONFIG_LEDS_TRIGGER_ONESHOT=m
-# CONFIG_LEDS_TRIGGER_DISK is not set
-CONFIG_LEDS_TRIGGER_HEARTBEAT=m
-CONFIG_LEDS_TRIGGER_BACKLIGHT=m
-# CONFIG_LEDS_TRIGGER_CPU is not set
-# CONFIG_LEDS_TRIGGER_ACTIVITY is not set
-CONFIG_LEDS_TRIGGER_GPIO=m
-CONFIG_LEDS_TRIGGER_DEFAULT_ON=m
-
-#
-# iptables trigger is under Netfilter config (LED target)
-#
-CONFIG_LEDS_TRIGGER_TRANSIENT=m
-CONFIG_LEDS_TRIGGER_CAMERA=m
-# CONFIG_LEDS_TRIGGER_PANIC is not set
-# CONFIG_LEDS_TRIGGER_NETDEV is not set
-# CONFIG_LEDS_TRIGGER_PATTERN is not set
-CONFIG_LEDS_TRIGGER_AUDIO=m
-# CONFIG_LEDS_TRIGGER_TTY is not set
-
-#
-# Simple LED drivers
-#
-# CONFIG_ACCESSIBILITY is not set
-CONFIG_INFINIBAND=m
-CONFIG_INFINIBAND_USER_MAD=m
-CONFIG_INFINIBAND_USER_ACCESS=m
-CONFIG_INFINIBAND_USER_MEM=y
-CONFIG_INFINIBAND_ON_DEMAND_PAGING=y
-CONFIG_INFINIBAND_ADDR_TRANS=y
-CONFIG_INFINIBAND_ADDR_TRANS_CONFIGFS=y
-CONFIG_INFINIBAND_VIRT_DMA=y
-# CONFIG_INFINIBAND_EFA is not set
-# CONFIG_INFINIBAND_ERDMA is not set
-# CONFIG_MLX4_INFINIBAND is not set
-# CONFIG_INFINIBAND_MTHCA is not set
-# CONFIG_INFINIBAND_OCRDMA is not set
-# CONFIG_INFINIBAND_USNIC is not set
-# CONFIG_INFINIBAND_RDMAVT is not set
-CONFIG_RDMA_RXE=m
-CONFIG_RDMA_SIW=m
-CONFIG_INFINIBAND_IPOIB=m
-# CONFIG_INFINIBAND_IPOIB_CM is not set
-CONFIG_INFINIBAND_IPOIB_DEBUG=y
-# CONFIG_INFINIBAND_IPOIB_DEBUG_DATA is not set
-CONFIG_INFINIBAND_SRP=m
-CONFIG_INFINIBAND_SRPT=m
-# CONFIG_INFINIBAND_ISER is not set
-# CONFIG_INFINIBAND_ISERT is not set
-# CONFIG_INFINIBAND_RTRS_CLIENT is not set
-# CONFIG_INFINIBAND_RTRS_SERVER is not set
-# CONFIG_INFINIBAND_OPA_VNIC is not set
-CONFIG_EDAC_ATOMIC_SCRUB=y
-CONFIG_EDAC_SUPPORT=y
-CONFIG_EDAC=y
-CONFIG_EDAC_LEGACY_SYSFS=y
-# CONFIG_EDAC_DEBUG is not set
-CONFIG_EDAC_GHES=y
-CONFIG_EDAC_E752X=m
-CONFIG_EDAC_I82975X=m
-CONFIG_EDAC_I3000=m
-CONFIG_EDAC_I3200=m
-CONFIG_EDAC_IE31200=m
-CONFIG_EDAC_X38=m
-CONFIG_EDAC_I5400=m
-CONFIG_EDAC_I7CORE=m
-CONFIG_EDAC_I5000=m
-CONFIG_EDAC_I5100=m
-CONFIG_EDAC_I7300=m
-CONFIG_EDAC_SBRIDGE=m
-CONFIG_EDAC_SKX=m
-# CONFIG_EDAC_I10NM is not set
-CONFIG_EDAC_PND2=m
-# CONFIG_EDAC_IGEN6 is not set
-CONFIG_RTC_LIB=y
-CONFIG_RTC_MC146818_LIB=y
-CONFIG_RTC_CLASS=y
-CONFIG_RTC_HCTOSYS=y
-CONFIG_RTC_HCTOSYS_DEVICE="rtc0"
-# CONFIG_RTC_SYSTOHC is not set
-# CONFIG_RTC_DEBUG is not set
-CONFIG_RTC_NVMEM=y
-
-#
-# RTC interfaces
-#
-CONFIG_RTC_INTF_SYSFS=y
-CONFIG_RTC_INTF_PROC=y
-CONFIG_RTC_INTF_DEV=y
-# CONFIG_RTC_INTF_DEV_UIE_EMUL is not set
-# CONFIG_RTC_DRV_TEST is not set
-
-#
-# I2C RTC drivers
-#
-# CONFIG_RTC_DRV_ABB5ZES3 is not set
-# CONFIG_RTC_DRV_ABEOZ9 is not set
-# CONFIG_RTC_DRV_ABX80X is not set
-CONFIG_RTC_DRV_DS1307=m
-# CONFIG_RTC_DRV_DS1307_CENTURY is not set
-CONFIG_RTC_DRV_DS1374=m
-# CONFIG_RTC_DRV_DS1374_WDT is not set
-CONFIG_RTC_DRV_DS1672=m
-CONFIG_RTC_DRV_MAX6900=m
-CONFIG_RTC_DRV_RS5C372=m
-CONFIG_RTC_DRV_ISL1208=m
-CONFIG_RTC_DRV_ISL12022=m
-CONFIG_RTC_DRV_X1205=m
-CONFIG_RTC_DRV_PCF8523=m
-# CONFIG_RTC_DRV_PCF85063 is not set
-# CONFIG_RTC_DRV_PCF85363 is not set
-CONFIG_RTC_DRV_PCF8563=m
-CONFIG_RTC_DRV_PCF8583=m
-CONFIG_RTC_DRV_M41T80=m
-CONFIG_RTC_DRV_M41T80_WDT=y
-CONFIG_RTC_DRV_BQ32K=m
-# CONFIG_RTC_DRV_S35390A is not set
-CONFIG_RTC_DRV_FM3130=m
-# CONFIG_RTC_DRV_RX8010 is not set
-CONFIG_RTC_DRV_RX8581=m
-CONFIG_RTC_DRV_RX8025=m
-CONFIG_RTC_DRV_EM3027=m
-# CONFIG_RTC_DRV_RV3028 is not set
-# CONFIG_RTC_DRV_RV3032 is not set
-# CONFIG_RTC_DRV_RV8803 is not set
-# CONFIG_RTC_DRV_SD3078 is not set
-
-#
-# SPI RTC drivers
-#
-# CONFIG_RTC_DRV_M41T93 is not set
-# CONFIG_RTC_DRV_M41T94 is not set
-# CONFIG_RTC_DRV_DS1302 is not set
-# CONFIG_RTC_DRV_DS1305 is not set
-# CONFIG_RTC_DRV_DS1343 is not set
-# CONFIG_RTC_DRV_DS1347 is not set
-# CONFIG_RTC_DRV_DS1390 is not set
-# CONFIG_RTC_DRV_MAX6916 is not set
-# CONFIG_RTC_DRV_R9701 is not set
-CONFIG_RTC_DRV_RX4581=m
-# CONFIG_RTC_DRV_RS5C348 is not set
-# CONFIG_RTC_DRV_MAX6902 is not set
-# CONFIG_RTC_DRV_PCF2123 is not set
-# CONFIG_RTC_DRV_MCP795 is not set
-CONFIG_RTC_I2C_AND_SPI=y
-
-#
-# SPI and I2C RTC drivers
-#
-CONFIG_RTC_DRV_DS3232=m
-CONFIG_RTC_DRV_DS3232_HWMON=y
-# CONFIG_RTC_DRV_PCF2127 is not set
-CONFIG_RTC_DRV_RV3029C2=m
-# CONFIG_RTC_DRV_RV3029_HWMON is not set
-# CONFIG_RTC_DRV_RX6110 is not set
-
-#
-# Platform RTC drivers
-#
-CONFIG_RTC_DRV_CMOS=y
-CONFIG_RTC_DRV_DS1286=m
-CONFIG_RTC_DRV_DS1511=m
-CONFIG_RTC_DRV_DS1553=m
-# CONFIG_RTC_DRV_DS1685_FAMILY is not set
-CONFIG_RTC_DRV_DS1742=m
-CONFIG_RTC_DRV_DS2404=m
-CONFIG_RTC_DRV_STK17TA8=m
-# CONFIG_RTC_DRV_M48T86 is not set
-CONFIG_RTC_DRV_M48T35=m
-CONFIG_RTC_DRV_M48T59=m
-CONFIG_RTC_DRV_MSM6242=m
-CONFIG_RTC_DRV_BQ4802=m
-CONFIG_RTC_DRV_RP5C01=m
-CONFIG_RTC_DRV_V3020=m
-
-#
-# on-CPU RTC drivers
-#
-# CONFIG_RTC_DRV_FTRTC010 is not set
-
-#
-# HID Sensor RTC drivers
-#
-# CONFIG_RTC_DRV_GOLDFISH is not set
-CONFIG_DMADEVICES=y
-# CONFIG_DMADEVICES_DEBUG is not set
-
-#
-# DMA Devices
-#
-CONFIG_DMA_ENGINE=y
-CONFIG_DMA_VIRTUAL_CHANNELS=y
-CONFIG_DMA_ACPI=y
-# CONFIG_ALTERA_MSGDMA is not set
-CONFIG_INTEL_IDMA64=m
-# CONFIG_INTEL_IDXD is not set
-# CONFIG_INTEL_IDXD_COMPAT is not set
-CONFIG_INTEL_IOATDMA=m
-# CONFIG_PLX_DMA is not set
-# CONFIG_AMD_PTDMA is not set
-# CONFIG_QCOM_HIDMA_MGMT is not set
-# CONFIG_QCOM_HIDMA is not set
-CONFIG_DW_DMAC_CORE=y
-CONFIG_DW_DMAC=m
-CONFIG_DW_DMAC_PCI=y
-# CONFIG_DW_EDMA is not set
-# CONFIG_DW_EDMA_PCIE is not set
-CONFIG_HSU_DMA=y
-# CONFIG_SF_PDMA is not set
-# CONFIG_INTEL_LDMA is not set
-
-#
-# DMA Clients
-#
-CONFIG_ASYNC_TX_DMA=y
-CONFIG_DMATEST=m
-CONFIG_DMA_ENGINE_RAID=y
-
-#
-# DMABUF options
-#
-CONFIG_SYNC_FILE=y
-# CONFIG_SW_SYNC is not set
-# CONFIG_UDMABUF is not set
-# CONFIG_DMABUF_MOVE_NOTIFY is not set
-# CONFIG_DMABUF_DEBUG is not set
-# CONFIG_DMABUF_SELFTESTS is not set
-# CONFIG_DMABUF_HEAPS is not set
-# CONFIG_DMABUF_SYSFS_STATS is not set
-# end of DMABUF options
-
-CONFIG_DCA=m
-# CONFIG_AUXDISPLAY is not set
-# CONFIG_PANEL is not set
-CONFIG_UIO=m
-CONFIG_UIO_CIF=m
-CONFIG_UIO_PDRV_GENIRQ=m
-# CONFIG_UIO_DMEM_GENIRQ is not set
-CONFIG_UIO_AEC=m
-CONFIG_UIO_SERCOS3=m
-CONFIG_UIO_PCI_GENERIC=m
-# CONFIG_UIO_NETX is not set
-# CONFIG_UIO_PRUSS is not set
-# CONFIG_UIO_MF624 is not set
-CONFIG_VFIO=m
-CONFIG_VFIO_IOMMU_TYPE1=m
-CONFIG_VFIO_VIRQFD=m
-CONFIG_VFIO_NOIOMMU=y
-CONFIG_VFIO_PCI_CORE=m
-CONFIG_VFIO_PCI_MMAP=y
-CONFIG_VFIO_PCI_INTX=y
-CONFIG_VFIO_PCI=m
-# CONFIG_VFIO_PCI_VGA is not set
-# CONFIG_VFIO_PCI_IGD is not set
-CONFIG_VFIO_MDEV=m
-CONFIG_IRQ_BYPASS_MANAGER=m
-# CONFIG_VIRT_DRIVERS is not set
-CONFIG_VIRTIO_ANCHOR=y
-CONFIG_VIRTIO=y
-CONFIG_VIRTIO_PCI_LIB=y
-CONFIG_VIRTIO_PCI_LIB_LEGACY=y
-CONFIG_VIRTIO_MENU=y
-CONFIG_VIRTIO_PCI=y
-CONFIG_VIRTIO_PCI_LEGACY=y
-# CONFIG_VIRTIO_PMEM is not set
-CONFIG_VIRTIO_BALLOON=m
-# CONFIG_VIRTIO_MEM is not set
-CONFIG_VIRTIO_INPUT=m
-# CONFIG_VIRTIO_MMIO is not set
-CONFIG_VIRTIO_DMA_SHARED_BUFFER=m
-# CONFIG_VDPA is not set
-CONFIG_VHOST_IOTLB=m
-CONFIG_VHOST=m
-CONFIG_VHOST_MENU=y
-CONFIG_VHOST_NET=m
-# CONFIG_VHOST_SCSI is not set
-CONFIG_VHOST_VSOCK=m
-# CONFIG_VHOST_CROSS_ENDIAN_LEGACY is not set
-
-#
-# Microsoft Hyper-V guest support
-#
-# CONFIG_HYPERV is not set
-# end of Microsoft Hyper-V guest support
-
-# CONFIG_GREYBUS is not set
-# CONFIG_COMEDI is not set
-# CONFIG_STAGING is not set
-# CONFIG_CHROME_PLATFORMS is not set
-CONFIG_MELLANOX_PLATFORM=y
-CONFIG_MLXREG_HOTPLUG=m
-# CONFIG_MLXREG_IO is not set
-# CONFIG_MLXREG_LC is not set
-# CONFIG_NVSW_SN2201 is not set
-CONFIG_SURFACE_PLATFORMS=y
-# CONFIG_SURFACE3_WMI is not set
-# CONFIG_SURFACE_3_POWER_OPREGION is not set
-# CONFIG_SURFACE_GPE is not set
-# CONFIG_SURFACE_HOTPLUG is not set
-# CONFIG_SURFACE_PRO3_BUTTON is not set
-CONFIG_X86_PLATFORM_DEVICES=y
-CONFIG_ACPI_WMI=m
-CONFIG_WMI_BMOF=m
-# CONFIG_HUAWEI_WMI is not set
-# CONFIG_UV_SYSFS is not set
-CONFIG_MXM_WMI=m
-# CONFIG_PEAQ_WMI is not set
-# CONFIG_NVIDIA_WMI_EC_BACKLIGHT is not set
-# CONFIG_XIAOMI_WMI is not set
-# CONFIG_GIGABYTE_WMI is not set
-# CONFIG_YOGABOOK_WMI is not set
-CONFIG_ACERHDF=m
-# CONFIG_ACER_WIRELESS is not set
-CONFIG_ACER_WMI=m
-# CONFIG_AMD_PMC is not set
-# CONFIG_ADV_SWBUTTON is not set
-CONFIG_APPLE_GMUX=m
-CONFIG_ASUS_LAPTOP=m
-# CONFIG_ASUS_WIRELESS is not set
-CONFIG_ASUS_WMI=m
-CONFIG_ASUS_NB_WMI=m
-# CONFIG_ASUS_TF103C_DOCK is not set
-# CONFIG_MERAKI_MX100 is not set
-CONFIG_EEEPC_LAPTOP=m
-CONFIG_EEEPC_WMI=m
-# CONFIG_X86_PLATFORM_DRIVERS_DELL is not set
-CONFIG_AMILO_RFKILL=m
-CONFIG_FUJITSU_LAPTOP=m
-CONFIG_FUJITSU_TABLET=m
-# CONFIG_GPD_POCKET_FAN is not set
-CONFIG_HP_ACCEL=m
-# CONFIG_WIRELESS_HOTKEY is not set
-CONFIG_HP_WMI=m
-# CONFIG_IBM_RTL is not set
-CONFIG_IDEAPAD_LAPTOP=m
-CONFIG_SENSORS_HDAPS=m
-CONFIG_THINKPAD_ACPI=m
-# CONFIG_THINKPAD_ACPI_DEBUGFACILITIES is not set
-# CONFIG_THINKPAD_ACPI_DEBUG is not set
-# CONFIG_THINKPAD_ACPI_UNSAFE_LEDS is not set
-CONFIG_THINKPAD_ACPI_VIDEO=y
-CONFIG_THINKPAD_ACPI_HOTKEY_POLL=y
-# CONFIG_THINKPAD_LMI is not set
-# CONFIG_INTEL_ATOMISP2_PM is not set
-# CONFIG_INTEL_SAR_INT1092 is not set
-CONFIG_INTEL_PMC_CORE=m
-
-#
-# Intel Speed Select Technology interface support
-#
-# CONFIG_INTEL_SPEED_SELECT_INTERFACE is not set
-# end of Intel Speed Select Technology interface support
-
-CONFIG_INTEL_WMI=y
-# CONFIG_INTEL_WMI_SBL_FW_UPDATE is not set
-CONFIG_INTEL_WMI_THUNDERBOLT=m
-
-#
-# Intel Uncore Frequency Control
-#
-# CONFIG_INTEL_UNCORE_FREQ_CONTROL is not set
-# end of Intel Uncore Frequency Control
-
-CONFIG_INTEL_HID_EVENT=m
-CONFIG_INTEL_VBTN=m
-# CONFIG_INTEL_INT0002_VGPIO is not set
-CONFIG_INTEL_OAKTRAIL=m
-# CONFIG_INTEL_ISHTP_ECLITE is not set
-# CONFIG_INTEL_PUNIT_IPC is not set
-CONFIG_INTEL_RST=m
-# CONFIG_INTEL_SMARTCONNECT is not set
-CONFIG_INTEL_TURBO_MAX_3=y
-# CONFIG_INTEL_VSEC is not set
-CONFIG_MSI_LAPTOP=m
-CONFIG_MSI_WMI=m
-# CONFIG_PCENGINES_APU2 is not set
-# CONFIG_BARCO_P50_GPIO is not set
-CONFIG_SAMSUNG_LAPTOP=m
-CONFIG_SAMSUNG_Q10=m
-CONFIG_TOSHIBA_BT_RFKILL=m
-# CONFIG_TOSHIBA_HAPS is not set
-# CONFIG_TOSHIBA_WMI is not set
-CONFIG_ACPI_CMPC=m
-CONFIG_COMPAL_LAPTOP=m
-# CONFIG_LG_LAPTOP is not set
-CONFIG_PANASONIC_LAPTOP=m
-CONFIG_SONY_LAPTOP=m
-CONFIG_SONYPI_COMPAT=y
-# CONFIG_SYSTEM76_ACPI is not set
-CONFIG_TOPSTAR_LAPTOP=m
-# CONFIG_SERIAL_MULTI_INSTANTIATE is not set
-CONFIG_MLX_PLATFORM=m
-CONFIG_INTEL_IPS=m
-# CONFIG_INTEL_SCU_PCI is not set
-# CONFIG_INTEL_SCU_PLATFORM is not set
-# CONFIG_SIEMENS_SIMATIC_IPC is not set
-# CONFIG_WINMATE_FM07_KEYS is not set
-CONFIG_P2SB=y
-CONFIG_HAVE_CLK=y
-CONFIG_HAVE_CLK_PREPARE=y
-CONFIG_COMMON_CLK=y
-# CONFIG_LMK04832 is not set
-# CONFIG_COMMON_CLK_MAX9485 is not set
-# CONFIG_COMMON_CLK_SI5341 is not set
-# CONFIG_COMMON_CLK_SI5351 is not set
-# CONFIG_COMMON_CLK_SI544 is not set
-# CONFIG_COMMON_CLK_CDCE706 is not set
-# CONFIG_COMMON_CLK_CS2000_CP is not set
-# CONFIG_COMMON_CLK_PWM is not set
-# CONFIG_XILINX_VCU is not set
-CONFIG_HWSPINLOCK=y
-
-#
-# Clock Source drivers
-#
-CONFIG_CLKEVT_I8253=y
-CONFIG_I8253_LOCK=y
-CONFIG_CLKBLD_I8253=y
-# end of Clock Source drivers
-
-CONFIG_MAILBOX=y
-CONFIG_PCC=y
-# CONFIG_ALTERA_MBOX is not set
-CONFIG_IOMMU_IOVA=y
-CONFIG_IOASID=y
-CONFIG_IOMMU_API=y
-CONFIG_IOMMU_SUPPORT=y
-
-#
-# Generic IOMMU Pagetable Support
-#
-# end of Generic IOMMU Pagetable Support
-
-# CONFIG_IOMMU_DEBUGFS is not set
-# CONFIG_IOMMU_DEFAULT_DMA_STRICT is not set
-CONFIG_IOMMU_DEFAULT_DMA_LAZY=y
-# CONFIG_IOMMU_DEFAULT_PASSTHROUGH is not set
-CONFIG_IOMMU_DMA=y
-CONFIG_IOMMU_SVA=y
-# CONFIG_AMD_IOMMU is not set
-CONFIG_DMAR_TABLE=y
-CONFIG_INTEL_IOMMU=y
-CONFIG_INTEL_IOMMU_SVM=y
-# CONFIG_INTEL_IOMMU_DEFAULT_ON is not set
-CONFIG_INTEL_IOMMU_FLOPPY_WA=y
-CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON=y
-CONFIG_IRQ_REMAP=y
-# CONFIG_VIRTIO_IOMMU is not set
-
-#
-# Remoteproc drivers
-#
-# CONFIG_REMOTEPROC is not set
-# end of Remoteproc drivers
-
-#
-# Rpmsg drivers
-#
-# CONFIG_RPMSG_QCOM_GLINK_RPM is not set
-# CONFIG_RPMSG_VIRTIO is not set
-# end of Rpmsg drivers
-
-# CONFIG_SOUNDWIRE is not set
-
-#
-# SOC (System On Chip) specific Drivers
-#
-
-#
-# Amlogic SoC drivers
-#
-# end of Amlogic SoC drivers
-
-#
-# Broadcom SoC drivers
-#
-# end of Broadcom SoC drivers
-
-#
-# NXP/Freescale QorIQ SoC drivers
-#
-# end of NXP/Freescale QorIQ SoC drivers
-
-#
-# fujitsu SoC drivers
-#
-# end of fujitsu SoC drivers
-
-#
-# i.MX SoC drivers
-#
-# end of i.MX SoC drivers
-
-#
-# Enable LiteX SoC Builder specific drivers
-#
-# end of Enable LiteX SoC Builder specific drivers
-
-#
-# Qualcomm SoC drivers
-#
-# end of Qualcomm SoC drivers
-
-# CONFIG_SOC_TI is not set
-
-#
-# Xilinx SoC drivers
-#
-# end of Xilinx SoC drivers
-# end of SOC (System On Chip) specific Drivers
-
-# CONFIG_PM_DEVFREQ is not set
-# CONFIG_EXTCON is not set
-# CONFIG_MEMORY is not set
-# CONFIG_IIO is not set
-CONFIG_NTB=m
-# CONFIG_NTB_MSI is not set
-# CONFIG_NTB_AMD is not set
-# CONFIG_NTB_IDT is not set
-# CONFIG_NTB_INTEL is not set
-# CONFIG_NTB_EPF is not set
-# CONFIG_NTB_SWITCHTEC is not set
-# CONFIG_NTB_PINGPONG is not set
-# CONFIG_NTB_TOOL is not set
-# CONFIG_NTB_PERF is not set
-# CONFIG_NTB_TRANSPORT is not set
-CONFIG_PWM=y
-CONFIG_PWM_SYSFS=y
-# CONFIG_PWM_DEBUG is not set
-# CONFIG_PWM_CLK is not set
-# CONFIG_PWM_DWC is not set
-CONFIG_PWM_LPSS=m
-CONFIG_PWM_LPSS_PCI=m
-CONFIG_PWM_LPSS_PLATFORM=m
-# CONFIG_PWM_PCA9685 is not set
-
-#
-# IRQ chip support
-#
-# end of IRQ chip support
-
-# CONFIG_IPACK_BUS is not set
-# CONFIG_RESET_CONTROLLER is not set
-
-#
-# PHY Subsystem
-#
-# CONFIG_GENERIC_PHY is not set
-# CONFIG_USB_LGM_PHY is not set
-# CONFIG_PHY_CAN_TRANSCEIVER is not set
-
-#
-# PHY drivers for Broadcom platforms
-#
-# CONFIG_BCM_KONA_USB2_PHY is not set
-# end of PHY drivers for Broadcom platforms
-
-# CONFIG_PHY_PXA_28NM_HSIC is not set
-# CONFIG_PHY_PXA_28NM_USB2 is not set
-# CONFIG_PHY_INTEL_LGM_EMMC is not set
-# end of PHY Subsystem
-
-CONFIG_POWERCAP=y
-CONFIG_INTEL_RAPL_CORE=m
-CONFIG_INTEL_RAPL=m
-# CONFIG_IDLE_INJECT is not set
-# CONFIG_MCB is not set
-
-#
-# Performance monitor support
-#
-# end of Performance monitor support
-
-CONFIG_RAS=y
-# CONFIG_RAS_CEC is not set
-# CONFIG_USB4 is not set
-
-#
-# Android
-#
-# CONFIG_ANDROID_BINDER_IPC is not set
-# end of Android
-
-CONFIG_LIBNVDIMM=m
-CONFIG_BLK_DEV_PMEM=m
-CONFIG_ND_CLAIM=y
-CONFIG_ND_BTT=m
-CONFIG_BTT=y
-CONFIG_ND_PFN=m
-CONFIG_NVDIMM_PFN=y
-CONFIG_NVDIMM_DAX=y
-CONFIG_NVDIMM_KEYS=y
-CONFIG_DAX=y
-CONFIG_DEV_DAX=m
-CONFIG_DEV_DAX_PMEM=m
-CONFIG_DEV_DAX_KMEM=m
-CONFIG_NVMEM=y
-CONFIG_NVMEM_SYSFS=y
-# CONFIG_NVMEM_RMEM is not set
-
-#
-# HW tracing support
-#
-CONFIG_STM=m
-# CONFIG_STM_PROTO_BASIC is not set
-# CONFIG_STM_PROTO_SYS_T is not set
-CONFIG_STM_DUMMY=m
-CONFIG_STM_SOURCE_CONSOLE=m
-CONFIG_STM_SOURCE_HEARTBEAT=m
-CONFIG_STM_SOURCE_FTRACE=m
-CONFIG_INTEL_TH=m
-CONFIG_INTEL_TH_PCI=m
-CONFIG_INTEL_TH_ACPI=m
-CONFIG_INTEL_TH_GTH=m
-CONFIG_INTEL_TH_STH=m
-CONFIG_INTEL_TH_MSU=m
-CONFIG_INTEL_TH_PTI=m
-# CONFIG_INTEL_TH_DEBUG is not set
-# end of HW tracing support
-
-# CONFIG_FPGA is not set
-# CONFIG_SIOX is not set
-# CONFIG_SLIMBUS is not set
-# CONFIG_INTERCONNECT is not set
-# CONFIG_COUNTER is not set
-# CONFIG_MOST is not set
-# CONFIG_PECI is not set
-# CONFIG_HTE is not set
-# end of Device Drivers
-
-#
-# File systems
-#
-CONFIG_DCACHE_WORD_ACCESS=y
-# CONFIG_VALIDATE_FS_PARSER is not set
-CONFIG_FS_IOMAP=y
-CONFIG_EXT2_FS=m
-CONFIG_EXT2_FS_XATTR=y
-CONFIG_EXT2_FS_POSIX_ACL=y
-CONFIG_EXT2_FS_SECURITY=y
-# CONFIG_EXT3_FS is not set
-CONFIG_EXT4_FS=y
-CONFIG_EXT4_FS_POSIX_ACL=y
-CONFIG_EXT4_FS_SECURITY=y
-# CONFIG_EXT4_DEBUG is not set
-CONFIG_JBD2=y
-# CONFIG_JBD2_DEBUG is not set
-CONFIG_FS_MBCACHE=y
-# CONFIG_REISERFS_FS is not set
-# CONFIG_JFS_FS is not set
-CONFIG_XFS_FS=m
-CONFIG_XFS_SUPPORT_V4=y
-CONFIG_XFS_QUOTA=y
-CONFIG_XFS_POSIX_ACL=y
-CONFIG_XFS_RT=y
-CONFIG_XFS_ONLINE_SCRUB=y
-CONFIG_XFS_ONLINE_REPAIR=y
-CONFIG_XFS_DEBUG=y
-CONFIG_XFS_ASSERT_FATAL=y
-CONFIG_GFS2_FS=m
-CONFIG_GFS2_FS_LOCKING_DLM=y
-CONFIG_OCFS2_FS=m
-CONFIG_OCFS2_FS_O2CB=m
-CONFIG_OCFS2_FS_USERSPACE_CLUSTER=m
-CONFIG_OCFS2_FS_STATS=y
-CONFIG_OCFS2_DEBUG_MASKLOG=y
-# CONFIG_OCFS2_DEBUG_FS is not set
-CONFIG_BTRFS_FS=m
-CONFIG_BTRFS_FS_POSIX_ACL=y
-# CONFIG_BTRFS_FS_CHECK_INTEGRITY is not set
-# CONFIG_BTRFS_FS_RUN_SANITY_TESTS is not set
-# CONFIG_BTRFS_DEBUG is not set
-# CONFIG_BTRFS_ASSERT is not set
-# CONFIG_BTRFS_FS_REF_VERIFY is not set
-# CONFIG_NILFS2_FS is not set
-CONFIG_F2FS_FS=m
-CONFIG_F2FS_STAT_FS=y
-CONFIG_F2FS_FS_XATTR=y
-CONFIG_F2FS_FS_POSIX_ACL=y
-CONFIG_F2FS_FS_SECURITY=y
-# CONFIG_F2FS_CHECK_FS is not set
-# CONFIG_F2FS_FAULT_INJECTION is not set
-# CONFIG_F2FS_FS_COMPRESSION is not set
-CONFIG_F2FS_IOSTAT=y
-# CONFIG_F2FS_UNFAIR_RWSEM is not set
-# CONFIG_ZONEFS_FS is not set
-CONFIG_FS_DAX=y
-CONFIG_FS_DAX_PMD=y
-CONFIG_FS_POSIX_ACL=y
-CONFIG_EXPORTFS=y
-CONFIG_EXPORTFS_BLOCK_OPS=y
-CONFIG_FILE_LOCKING=y
-CONFIG_FS_ENCRYPTION=y
-CONFIG_FS_ENCRYPTION_ALGS=y
-# CONFIG_FS_VERITY is not set
-CONFIG_FSNOTIFY=y
-CONFIG_DNOTIFY=y
-CONFIG_INOTIFY_USER=y
-CONFIG_FANOTIFY=y
-CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y
-CONFIG_QUOTA=y
-CONFIG_QUOTA_NETLINK_INTERFACE=y
-CONFIG_PRINT_QUOTA_WARNING=y
-# CONFIG_QUOTA_DEBUG is not set
-CONFIG_QUOTA_TREE=y
-# CONFIG_QFMT_V1 is not set
-CONFIG_QFMT_V2=y
-CONFIG_QUOTACTL=y
-CONFIG_AUTOFS4_FS=y
-CONFIG_AUTOFS_FS=y
-CONFIG_FUSE_FS=m
-CONFIG_CUSE=m
-# CONFIG_VIRTIO_FS is not set
-CONFIG_OVERLAY_FS=m
-# CONFIG_OVERLAY_FS_REDIRECT_DIR is not set
-# CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW is not set
-# CONFIG_OVERLAY_FS_INDEX is not set
-# CONFIG_OVERLAY_FS_XINO_AUTO is not set
-# CONFIG_OVERLAY_FS_METACOPY is not set
-
-#
-# Caches
-#
-CONFIG_NETFS_SUPPORT=y
-CONFIG_NETFS_STATS=y
-CONFIG_FSCACHE=m
-CONFIG_FSCACHE_STATS=y
-# CONFIG_FSCACHE_DEBUG is not set
-CONFIG_CACHEFILES=m
-# CONFIG_CACHEFILES_DEBUG is not set
-# CONFIG_CACHEFILES_ERROR_INJECTION is not set
-# CONFIG_CACHEFILES_ONDEMAND is not set
-# end of Caches
-
-#
-# CD-ROM/DVD Filesystems
-#
-CONFIG_ISO9660_FS=m
-CONFIG_JOLIET=y
-CONFIG_ZISOFS=y
-CONFIG_UDF_FS=m
-# end of CD-ROM/DVD Filesystems
-
-#
-# DOS/FAT/EXFAT/NT Filesystems
-#
-CONFIG_FAT_FS=m
-CONFIG_MSDOS_FS=m
-CONFIG_VFAT_FS=m
-CONFIG_FAT_DEFAULT_CODEPAGE=437
-CONFIG_FAT_DEFAULT_IOCHARSET="ascii"
-# CONFIG_FAT_DEFAULT_UTF8 is not set
-# CONFIG_EXFAT_FS is not set
-# CONFIG_NTFS_FS is not set
-# CONFIG_NTFS3_FS is not set
-# end of DOS/FAT/EXFAT/NT Filesystems
-
-#
-# Pseudo filesystems
-#
-CONFIG_PROC_FS=y
-CONFIG_PROC_KCORE=y
-CONFIG_PROC_VMCORE=y
-CONFIG_PROC_VMCORE_DEVICE_DUMP=y
-CONFIG_PROC_SYSCTL=y
-CONFIG_PROC_PAGE_MONITOR=y
-CONFIG_PROC_CHILDREN=y
-CONFIG_PROC_PID_ARCH_STATUS=y
-CONFIG_KERNFS=y
-CONFIG_SYSFS=y
-CONFIG_TMPFS=y
-CONFIG_TMPFS_POSIX_ACL=y
-CONFIG_TMPFS_XATTR=y
-# CONFIG_TMPFS_INODE64 is not set
-CONFIG_HUGETLBFS=y
-CONFIG_HUGETLB_PAGE=y
-CONFIG_ARCH_WANT_HUGETLB_PAGE_OPTIMIZE_VMEMMAP=y
-CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP=y
-# CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON is not set
-CONFIG_MEMFD_CREATE=y
-CONFIG_ARCH_HAS_GIGANTIC_PAGE=y
-CONFIG_CONFIGFS_FS=y
-CONFIG_EFIVAR_FS=y
-# end of Pseudo filesystems
-
-CONFIG_MISC_FILESYSTEMS=y
-# CONFIG_ORANGEFS_FS is not set
-# CONFIG_ADFS_FS is not set
-# CONFIG_AFFS_FS is not set
-# CONFIG_ECRYPT_FS is not set
-# CONFIG_HFS_FS is not set
-# CONFIG_HFSPLUS_FS is not set
-# CONFIG_BEFS_FS is not set
-# CONFIG_BFS_FS is not set
-# CONFIG_EFS_FS is not set
-CONFIG_CRAMFS=m
-CONFIG_CRAMFS_BLOCKDEV=y
-CONFIG_SQUASHFS=m
-# CONFIG_SQUASHFS_FILE_CACHE is not set
-CONFIG_SQUASHFS_FILE_DIRECT=y
-# CONFIG_SQUASHFS_DECOMP_SINGLE is not set
-# CONFIG_SQUASHFS_DECOMP_MULTI is not set
-CONFIG_SQUASHFS_DECOMP_MULTI_PERCPU=y
-CONFIG_SQUASHFS_XATTR=y
-CONFIG_SQUASHFS_ZLIB=y
-# CONFIG_SQUASHFS_LZ4 is not set
-CONFIG_SQUASHFS_LZO=y
-CONFIG_SQUASHFS_XZ=y
-# CONFIG_SQUASHFS_ZSTD is not set
-# CONFIG_SQUASHFS_4K_DEVBLK_SIZE is not set
-# CONFIG_SQUASHFS_EMBEDDED is not set
-CONFIG_SQUASHFS_FRAGMENT_CACHE_SIZE=3
-# CONFIG_VXFS_FS is not set
-CONFIG_MINIX_FS=m
-# CONFIG_OMFS_FS is not set
-# CONFIG_HPFS_FS is not set
-# CONFIG_QNX4FS_FS is not set
-# CONFIG_QNX6FS_FS is not set
-# CONFIG_ROMFS_FS is not set
-CONFIG_PSTORE=y
-CONFIG_PSTORE_DEFAULT_KMSG_BYTES=10240
-CONFIG_PSTORE_DEFLATE_COMPRESS=y
-# CONFIG_PSTORE_LZO_COMPRESS is not set
-# CONFIG_PSTORE_LZ4_COMPRESS is not set
-# CONFIG_PSTORE_LZ4HC_COMPRESS is not set
-# CONFIG_PSTORE_842_COMPRESS is not set
-# CONFIG_PSTORE_ZSTD_COMPRESS is not set
-CONFIG_PSTORE_COMPRESS=y
-CONFIG_PSTORE_DEFLATE_COMPRESS_DEFAULT=y
-CONFIG_PSTORE_COMPRESS_DEFAULT="deflate"
-# CONFIG_PSTORE_CONSOLE is not set
-# CONFIG_PSTORE_PMSG is not set
-# CONFIG_PSTORE_FTRACE is not set
-CONFIG_PSTORE_RAM=m
-# CONFIG_PSTORE_BLK is not set
-# CONFIG_SYSV_FS is not set
-# CONFIG_UFS_FS is not set
-# CONFIG_EROFS_FS is not set
-CONFIG_NETWORK_FILESYSTEMS=y
-CONFIG_NFS_FS=y
-# CONFIG_NFS_V2 is not set
-CONFIG_NFS_V3=y
-CONFIG_NFS_V3_ACL=y
-CONFIG_NFS_V4=m
-# CONFIG_NFS_SWAP is not set
-CONFIG_NFS_V4_1=y
-CONFIG_NFS_V4_2=y
-CONFIG_PNFS_FILE_LAYOUT=m
-CONFIG_PNFS_BLOCK=m
-CONFIG_PNFS_FLEXFILE_LAYOUT=m
-CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN="kernel.org"
-# CONFIG_NFS_V4_1_MIGRATION is not set
-CONFIG_NFS_V4_SECURITY_LABEL=y
-CONFIG_ROOT_NFS=y
-# CONFIG_NFS_USE_LEGACY_DNS is not set
-CONFIG_NFS_USE_KERNEL_DNS=y
-CONFIG_NFS_DEBUG=y
-CONFIG_NFS_DISABLE_UDP_SUPPORT=y
-# CONFIG_NFS_V4_2_READ_PLUS is not set
-CONFIG_NFSD=m
-CONFIG_NFSD_V2_ACL=y
-CONFIG_NFSD_V3_ACL=y
-CONFIG_NFSD_V4=y
-CONFIG_NFSD_PNFS=y
-# CONFIG_NFSD_BLOCKLAYOUT is not set
-CONFIG_NFSD_SCSILAYOUT=y
-# CONFIG_NFSD_FLEXFILELAYOUT is not set
-# CONFIG_NFSD_V4_2_INTER_SSC is not set
-CONFIG_NFSD_V4_SECURITY_LABEL=y
-CONFIG_GRACE_PERIOD=y
-CONFIG_LOCKD=y
-CONFIG_LOCKD_V4=y
-CONFIG_NFS_ACL_SUPPORT=y
-CONFIG_NFS_COMMON=y
-CONFIG_NFS_V4_2_SSC_HELPER=y
-CONFIG_SUNRPC=y
-CONFIG_SUNRPC_GSS=m
-CONFIG_SUNRPC_BACKCHANNEL=y
-CONFIG_RPCSEC_GSS_KRB5=m
-# CONFIG_SUNRPC_DISABLE_INSECURE_ENCTYPES is not set
-CONFIG_SUNRPC_DEBUG=y
-CONFIG_SUNRPC_XPRT_RDMA=m
-CONFIG_CEPH_FS=m
-# CONFIG_CEPH_FSCACHE is not set
-CONFIG_CEPH_FS_POSIX_ACL=y
-# CONFIG_CEPH_FS_SECURITY_LABEL is not set
-CONFIG_CIFS=m
-CONFIG_CIFS_STATS2=y
-CONFIG_CIFS_ALLOW_INSECURE_LEGACY=y
-CONFIG_CIFS_UPCALL=y
-CONFIG_CIFS_XATTR=y
-CONFIG_CIFS_POSIX=y
-CONFIG_CIFS_DEBUG=y
-# CONFIG_CIFS_DEBUG2 is not set
-# CONFIG_CIFS_DEBUG_DUMP_KEYS is not set
-CONFIG_CIFS_DFS_UPCALL=y
-# CONFIG_CIFS_SWN_UPCALL is not set
-# CONFIG_CIFS_SMB_DIRECT is not set
-# CONFIG_CIFS_FSCACHE is not set
-# CONFIG_SMB_SERVER is not set
-CONFIG_SMBFS_COMMON=m
-# CONFIG_CODA_FS is not set
-# CONFIG_AFS_FS is not set
-CONFIG_9P_FS=y
-CONFIG_9P_FS_POSIX_ACL=y
-# CONFIG_9P_FS_SECURITY is not set
-CONFIG_NLS=y
-CONFIG_NLS_DEFAULT="utf8"
-CONFIG_NLS_CODEPAGE_437=y
-CONFIG_NLS_CODEPAGE_737=m
-CONFIG_NLS_CODEPAGE_775=m
-CONFIG_NLS_CODEPAGE_850=m
-CONFIG_NLS_CODEPAGE_852=m
-CONFIG_NLS_CODEPAGE_855=m
-CONFIG_NLS_CODEPAGE_857=m
-CONFIG_NLS_CODEPAGE_860=m
-CONFIG_NLS_CODEPAGE_861=m
-CONFIG_NLS_CODEPAGE_862=m
-CONFIG_NLS_CODEPAGE_863=m
-CONFIG_NLS_CODEPAGE_864=m
-CONFIG_NLS_CODEPAGE_865=m
-CONFIG_NLS_CODEPAGE_866=m
-CONFIG_NLS_CODEPAGE_869=m
-CONFIG_NLS_CODEPAGE_936=m
-CONFIG_NLS_CODEPAGE_950=m
-CONFIG_NLS_CODEPAGE_932=m
-CONFIG_NLS_CODEPAGE_949=m
-CONFIG_NLS_CODEPAGE_874=m
-CONFIG_NLS_ISO8859_8=m
-CONFIG_NLS_CODEPAGE_1250=m
-CONFIG_NLS_CODEPAGE_1251=m
-CONFIG_NLS_ASCII=y
-CONFIG_NLS_ISO8859_1=m
-CONFIG_NLS_ISO8859_2=m
-CONFIG_NLS_ISO8859_3=m
-CONFIG_NLS_ISO8859_4=m
-CONFIG_NLS_ISO8859_5=m
-CONFIG_NLS_ISO8859_6=m
-CONFIG_NLS_ISO8859_7=m
-CONFIG_NLS_ISO8859_9=m
-CONFIG_NLS_ISO8859_13=m
-CONFIG_NLS_ISO8859_14=m
-CONFIG_NLS_ISO8859_15=m
-CONFIG_NLS_KOI8_R=m
-CONFIG_NLS_KOI8_U=m
-CONFIG_NLS_MAC_ROMAN=m
-CONFIG_NLS_MAC_CELTIC=m
-CONFIG_NLS_MAC_CENTEURO=m
-CONFIG_NLS_MAC_CROATIAN=m
-CONFIG_NLS_MAC_CYRILLIC=m
-CONFIG_NLS_MAC_GAELIC=m
-CONFIG_NLS_MAC_GREEK=m
-CONFIG_NLS_MAC_ICELAND=m
-CONFIG_NLS_MAC_INUIT=m
-CONFIG_NLS_MAC_ROMANIAN=m
-CONFIG_NLS_MAC_TURKISH=m
-CONFIG_NLS_UTF8=m
-CONFIG_DLM=m
-# CONFIG_DLM_DEPRECATED_API is not set
-CONFIG_DLM_DEBUG=y
-# CONFIG_UNICODE is not set
-CONFIG_IO_WQ=y
-# end of File systems
-
-#
-# Security options
-#
-CONFIG_KEYS=y
-# CONFIG_KEYS_REQUEST_CACHE is not set
-CONFIG_PERSISTENT_KEYRINGS=y
-CONFIG_TRUSTED_KEYS=y
-CONFIG_TRUSTED_KEYS_TPM=y
-CONFIG_ENCRYPTED_KEYS=y
-# CONFIG_USER_DECRYPTED_DATA is not set
-# CONFIG_KEY_DH_OPERATIONS is not set
-# CONFIG_KEY_NOTIFICATIONS is not set
-# CONFIG_SECURITY_DMESG_RESTRICT is not set
-CONFIG_SECURITY=y
-CONFIG_SECURITYFS=y
-CONFIG_SECURITY_NETWORK=y
-# CONFIG_SECURITY_INFINIBAND is not set
-CONFIG_SECURITY_NETWORK_XFRM=y
-# CONFIG_SECURITY_PATH is not set
-CONFIG_INTEL_TXT=y
-CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
-CONFIG_HARDENED_USERCOPY=y
-CONFIG_FORTIFY_SOURCE=y
-# CONFIG_STATIC_USERMODEHELPER is not set
-# CONFIG_SECURITY_SELINUX is not set
-# CONFIG_SECURITY_SMACK is not set
-# CONFIG_SECURITY_TOMOYO is not set
-# CONFIG_SECURITY_APPARMOR is not set
-# CONFIG_SECURITY_LOADPIN is not set
-CONFIG_SECURITY_YAMA=y
-# CONFIG_SECURITY_SAFESETID is not set
-# CONFIG_SECURITY_LOCKDOWN_LSM is not set
-# CONFIG_SECURITY_LANDLOCK is not set
-CONFIG_INTEGRITY=y
-CONFIG_INTEGRITY_SIGNATURE=y
-CONFIG_INTEGRITY_ASYMMETRIC_KEYS=y
-CONFIG_INTEGRITY_TRUSTED_KEYRING=y
-# CONFIG_INTEGRITY_PLATFORM_KEYRING is not set
-CONFIG_INTEGRITY_AUDIT=y
-# CONFIG_IMA is not set
-# CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
-# CONFIG_EVM is not set
-CONFIG_DEFAULT_SECURITY_DAC=y
-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
-
-#
-# Kernel hardening options
-#
-
-#
-# Memory initialization
-#
-CONFIG_INIT_STACK_NONE=y
-# CONFIG_GCC_PLUGIN_STRUCTLEAK_USER is not set
-# CONFIG_GCC_PLUGIN_STACKLEAK is not set
-# CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
-# CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
-CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
-# CONFIG_ZERO_CALL_USED_REGS is not set
-# end of Memory initialization
-
-CONFIG_RANDSTRUCT_NONE=y
-# CONFIG_RANDSTRUCT_FULL is not set
-# CONFIG_RANDSTRUCT_PERFORMANCE is not set
-# end of Kernel hardening options
-# end of Security options
-
-CONFIG_XOR_BLOCKS=m
-CONFIG_ASYNC_CORE=m
-CONFIG_ASYNC_MEMCPY=m
-CONFIG_ASYNC_XOR=m
-CONFIG_ASYNC_PQ=m
-CONFIG_ASYNC_RAID6_RECOV=m
-CONFIG_CRYPTO=y
-
-#
-# Crypto core or helper
-#
-CONFIG_CRYPTO_ALGAPI=y
-CONFIG_CRYPTO_ALGAPI2=y
-CONFIG_CRYPTO_AEAD=y
-CONFIG_CRYPTO_AEAD2=y
-CONFIG_CRYPTO_SKCIPHER=y
-CONFIG_CRYPTO_SKCIPHER2=y
-CONFIG_CRYPTO_HASH=y
-CONFIG_CRYPTO_HASH2=y
-CONFIG_CRYPTO_RNG=y
-CONFIG_CRYPTO_RNG2=y
-CONFIG_CRYPTO_RNG_DEFAULT=y
-CONFIG_CRYPTO_AKCIPHER2=y
-CONFIG_CRYPTO_AKCIPHER=y
-CONFIG_CRYPTO_KPP2=y
-CONFIG_CRYPTO_KPP=m
-CONFIG_CRYPTO_ACOMP2=y
-CONFIG_CRYPTO_MANAGER=y
-CONFIG_CRYPTO_MANAGER2=y
-CONFIG_CRYPTO_USER=m
-CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
-CONFIG_CRYPTO_GF128MUL=y
-CONFIG_CRYPTO_NULL=y
-CONFIG_CRYPTO_NULL2=y
-CONFIG_CRYPTO_PCRYPT=m
-CONFIG_CRYPTO_CRYPTD=y
-CONFIG_CRYPTO_AUTHENC=m
-# CONFIG_CRYPTO_TEST is not set
-CONFIG_CRYPTO_SIMD=y
-
-#
-# Public-key cryptography
-#
-CONFIG_CRYPTO_RSA=y
-CONFIG_CRYPTO_DH=m
-# CONFIG_CRYPTO_DH_RFC7919_GROUPS is not set
-CONFIG_CRYPTO_ECC=m
-CONFIG_CRYPTO_ECDH=m
-# CONFIG_CRYPTO_ECDSA is not set
-# CONFIG_CRYPTO_ECRDSA is not set
-# CONFIG_CRYPTO_SM2 is not set
-# CONFIG_CRYPTO_CURVE25519 is not set
-# CONFIG_CRYPTO_CURVE25519_X86 is not set
-
-#
-# Authenticated Encryption with Associated Data
-#
-CONFIG_CRYPTO_CCM=m
-CONFIG_CRYPTO_GCM=y
-CONFIG_CRYPTO_CHACHA20POLY1305=m
-# CONFIG_CRYPTO_AEGIS128 is not set
-# CONFIG_CRYPTO_AEGIS128_AESNI_SSE2 is not set
-CONFIG_CRYPTO_SEQIV=y
-CONFIG_CRYPTO_ECHAINIV=m
-
-#
-# Block modes
-#
-CONFIG_CRYPTO_CBC=y
-CONFIG_CRYPTO_CFB=y
-CONFIG_CRYPTO_CTR=y
-CONFIG_CRYPTO_CTS=m
-CONFIG_CRYPTO_ECB=y
-CONFIG_CRYPTO_LRW=m
-# CONFIG_CRYPTO_OFB is not set
-CONFIG_CRYPTO_PCBC=m
-CONFIG_CRYPTO_XTS=m
-# CONFIG_CRYPTO_KEYWRAP is not set
-# CONFIG_CRYPTO_NHPOLY1305_SSE2 is not set
-# CONFIG_CRYPTO_NHPOLY1305_AVX2 is not set
-# CONFIG_CRYPTO_ADIANTUM is not set
-# CONFIG_CRYPTO_HCTR2 is not set
-CONFIG_CRYPTO_ESSIV=m
-
-#
-# Hash modes
-#
-CONFIG_CRYPTO_CMAC=m
-CONFIG_CRYPTO_HMAC=y
-CONFIG_CRYPTO_XCBC=m
-CONFIG_CRYPTO_VMAC=m
-
-#
-# Digest
-#
-CONFIG_CRYPTO_CRC32C=y
-CONFIG_CRYPTO_CRC32C_INTEL=m
-CONFIG_CRYPTO_CRC32=m
-CONFIG_CRYPTO_CRC32_PCLMUL=m
-CONFIG_CRYPTO_XXHASH=m
-CONFIG_CRYPTO_BLAKE2B=m
-# CONFIG_CRYPTO_BLAKE2S_X86 is not set
-CONFIG_CRYPTO_CRCT10DIF=y
-CONFIG_CRYPTO_CRCT10DIF_PCLMUL=m
-CONFIG_CRYPTO_CRC64_ROCKSOFT=m
-CONFIG_CRYPTO_GHASH=y
-# CONFIG_CRYPTO_POLYVAL_CLMUL_NI is not set
-CONFIG_CRYPTO_POLY1305=m
-CONFIG_CRYPTO_POLY1305_X86_64=m
-CONFIG_CRYPTO_MD4=m
-CONFIG_CRYPTO_MD5=y
-CONFIG_CRYPTO_MICHAEL_MIC=m
-CONFIG_CRYPTO_RMD160=m
-CONFIG_CRYPTO_SHA1=y
-CONFIG_CRYPTO_SHA1_SSSE3=y
-CONFIG_CRYPTO_SHA256_SSSE3=y
-CONFIG_CRYPTO_SHA512_SSSE3=m
-CONFIG_CRYPTO_SHA256=y
-CONFIG_CRYPTO_SHA512=y
-CONFIG_CRYPTO_SHA3=m
-# CONFIG_CRYPTO_SM3_GENERIC is not set
-# CONFIG_CRYPTO_SM3_AVX_X86_64 is not set
-# CONFIG_CRYPTO_STREEBOG is not set
-CONFIG_CRYPTO_WP512=m
-CONFIG_CRYPTO_GHASH_CLMUL_NI_INTEL=m
-
-#
-# Ciphers
-#
-CONFIG_CRYPTO_AES=y
-# CONFIG_CRYPTO_AES_TI is not set
-CONFIG_CRYPTO_AES_NI_INTEL=y
-CONFIG_CRYPTO_ANUBIS=m
-CONFIG_CRYPTO_ARC4=m
-CONFIG_CRYPTO_BLOWFISH=m
-CONFIG_CRYPTO_BLOWFISH_COMMON=m
-CONFIG_CRYPTO_BLOWFISH_X86_64=m
-CONFIG_CRYPTO_CAMELLIA=m
-CONFIG_CRYPTO_CAMELLIA_X86_64=m
-CONFIG_CRYPTO_CAMELLIA_AESNI_AVX_X86_64=m
-CONFIG_CRYPTO_CAMELLIA_AESNI_AVX2_X86_64=m
-CONFIG_CRYPTO_CAST_COMMON=m
-CONFIG_CRYPTO_CAST5=m
-CONFIG_CRYPTO_CAST5_AVX_X86_64=m
-CONFIG_CRYPTO_CAST6=m
-CONFIG_CRYPTO_CAST6_AVX_X86_64=m
-CONFIG_CRYPTO_DES=m
-# CONFIG_CRYPTO_DES3_EDE_X86_64 is not set
-CONFIG_CRYPTO_FCRYPT=m
-CONFIG_CRYPTO_KHAZAD=m
-CONFIG_CRYPTO_CHACHA20=m
-CONFIG_CRYPTO_CHACHA20_X86_64=m
-CONFIG_CRYPTO_SEED=m
-# CONFIG_CRYPTO_ARIA is not set
-CONFIG_CRYPTO_SERPENT=m
-CONFIG_CRYPTO_SERPENT_SSE2_X86_64=m
-CONFIG_CRYPTO_SERPENT_AVX_X86_64=m
-CONFIG_CRYPTO_SERPENT_AVX2_X86_64=m
-# CONFIG_CRYPTO_SM4_GENERIC is not set
-# CONFIG_CRYPTO_SM4_AESNI_AVX_X86_64 is not set
-# CONFIG_CRYPTO_SM4_AESNI_AVX2_X86_64 is not set
-CONFIG_CRYPTO_TEA=m
-CONFIG_CRYPTO_TWOFISH=m
-CONFIG_CRYPTO_TWOFISH_COMMON=m
-CONFIG_CRYPTO_TWOFISH_X86_64=m
-CONFIG_CRYPTO_TWOFISH_X86_64_3WAY=m
-CONFIG_CRYPTO_TWOFISH_AVX_X86_64=m
-
-#
-# Compression
-#
-CONFIG_CRYPTO_DEFLATE=y
-CONFIG_CRYPTO_LZO=y
-# CONFIG_CRYPTO_842 is not set
-# CONFIG_CRYPTO_LZ4 is not set
-# CONFIG_CRYPTO_LZ4HC is not set
-# CONFIG_CRYPTO_ZSTD is not set
-
-#
-# Random Number Generation
-#
-CONFIG_CRYPTO_ANSI_CPRNG=m
-CONFIG_CRYPTO_DRBG_MENU=y
-CONFIG_CRYPTO_DRBG_HMAC=y
-CONFIG_CRYPTO_DRBG_HASH=y
-CONFIG_CRYPTO_DRBG_CTR=y
-CONFIG_CRYPTO_DRBG=y
-CONFIG_CRYPTO_JITTERENTROPY=y
-CONFIG_CRYPTO_USER_API=y
-CONFIG_CRYPTO_USER_API_HASH=y
-CONFIG_CRYPTO_USER_API_SKCIPHER=y
-CONFIG_CRYPTO_USER_API_RNG=y
-# CONFIG_CRYPTO_USER_API_RNG_CAVP is not set
-CONFIG_CRYPTO_USER_API_AEAD=y
-CONFIG_CRYPTO_USER_API_ENABLE_OBSOLETE=y
-# CONFIG_CRYPTO_STATS is not set
-CONFIG_CRYPTO_HASH_INFO=y
-CONFIG_CRYPTO_HW=y
-CONFIG_CRYPTO_DEV_PADLOCK=m
-CONFIG_CRYPTO_DEV_PADLOCK_AES=m
-CONFIG_CRYPTO_DEV_PADLOCK_SHA=m
-# CONFIG_CRYPTO_DEV_ATMEL_ECC is not set
-# CONFIG_CRYPTO_DEV_ATMEL_SHA204A is not set
-CONFIG_CRYPTO_DEV_CCP=y
-CONFIG_CRYPTO_DEV_QAT=m
-CONFIG_CRYPTO_DEV_QAT_DH895xCC=m
-CONFIG_CRYPTO_DEV_QAT_C3XXX=m
-CONFIG_CRYPTO_DEV_QAT_C62X=m
-# CONFIG_CRYPTO_DEV_QAT_4XXX is not set
-CONFIG_CRYPTO_DEV_QAT_DH895xCCVF=m
-CONFIG_CRYPTO_DEV_QAT_C3XXXVF=m
-CONFIG_CRYPTO_DEV_QAT_C62XVF=m
-CONFIG_CRYPTO_DEV_NITROX=m
-CONFIG_CRYPTO_DEV_NITROX_CNN55XX=m
-# CONFIG_CRYPTO_DEV_VIRTIO is not set
-# CONFIG_CRYPTO_DEV_SAFEXCEL is not set
-# CONFIG_CRYPTO_DEV_AMLOGIC_GXL is not set
-CONFIG_ASYMMETRIC_KEY_TYPE=y
-CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
-CONFIG_X509_CERTIFICATE_PARSER=y
-# CONFIG_PKCS8_PRIVATE_KEY_PARSER is not set
-CONFIG_PKCS7_MESSAGE_PARSER=y
-# CONFIG_PKCS7_TEST_KEY is not set
-CONFIG_SIGNED_PE_FILE_VERIFICATION=y
-# CONFIG_FIPS_SIGNATURE_SELFTEST is not set
-
-#
-# Certificates for signature checking
-#
-CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
-CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
-# CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
-CONFIG_SYSTEM_TRUSTED_KEYRING=y
-CONFIG_SYSTEM_TRUSTED_KEYS=""
-# CONFIG_SYSTEM_EXTRA_CERTIFICATE is not set
-# CONFIG_SECONDARY_TRUSTED_KEYRING is not set
-CONFIG_SYSTEM_BLACKLIST_KEYRING=y
-CONFIG_SYSTEM_BLACKLIST_HASH_LIST=""
-# CONFIG_SYSTEM_REVOCATION_LIST is not set
-# CONFIG_SYSTEM_BLACKLIST_AUTH_UPDATE is not set
-# end of Certificates for signature checking
-
-CONFIG_BINARY_PRINTF=y
-
-#
-# Library routines
-#
-CONFIG_RAID6_PQ=m
-CONFIG_RAID6_PQ_BENCHMARK=y
-# CONFIG_PACKING is not set
-CONFIG_BITREVERSE=y
-CONFIG_GENERIC_STRNCPY_FROM_USER=y
-CONFIG_GENERIC_STRNLEN_USER=y
-CONFIG_GENERIC_NET_UTILS=y
-CONFIG_CORDIC=m
-# CONFIG_PRIME_NUMBERS is not set
-CONFIG_RATIONAL=y
-CONFIG_GENERIC_PCI_IOMAP=y
-CONFIG_GENERIC_IOMAP=y
-CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
-CONFIG_ARCH_HAS_FAST_MULTIPLIER=y
-CONFIG_ARCH_USE_SYM_ANNOTATIONS=y
-
-#
-# Crypto library routines
-#
-CONFIG_CRYPTO_LIB_AES=y
-CONFIG_CRYPTO_LIB_ARC4=m
-CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
-CONFIG_CRYPTO_ARCH_HAVE_LIB_CHACHA=m
-CONFIG_CRYPTO_LIB_CHACHA_GENERIC=m
-# CONFIG_CRYPTO_LIB_CHACHA is not set
-# CONFIG_CRYPTO_LIB_CURVE25519 is not set
-CONFIG_CRYPTO_LIB_DES=m
-CONFIG_CRYPTO_LIB_POLY1305_RSIZE=11
-CONFIG_CRYPTO_ARCH_HAVE_LIB_POLY1305=m
-CONFIG_CRYPTO_LIB_POLY1305_GENERIC=m
-# CONFIG_CRYPTO_LIB_POLY1305 is not set
-# CONFIG_CRYPTO_LIB_CHACHA20POLY1305 is not set
-CONFIG_CRYPTO_LIB_SHA1=y
-CONFIG_CRYPTO_LIB_SHA256=y
-# end of Crypto library routines
-
-CONFIG_LIB_MEMNEQ=y
-CONFIG_CRC_CCITT=y
-CONFIG_CRC16=y
-CONFIG_CRC_T10DIF=y
-CONFIG_CRC64_ROCKSOFT=m
-CONFIG_CRC_ITU_T=m
-CONFIG_CRC32=y
-# CONFIG_CRC32_SELFTEST is not set
-CONFIG_CRC32_SLICEBY8=y
-# CONFIG_CRC32_SLICEBY4 is not set
-# CONFIG_CRC32_SARWATE is not set
-# CONFIG_CRC32_BIT is not set
-CONFIG_CRC64=m
-# CONFIG_CRC4 is not set
-CONFIG_CRC7=m
-CONFIG_LIBCRC32C=m
-CONFIG_CRC8=m
-CONFIG_XXHASH=y
-# CONFIG_RANDOM32_SELFTEST is not set
-CONFIG_ZLIB_INFLATE=y
-CONFIG_ZLIB_DEFLATE=y
-CONFIG_LZO_COMPRESS=y
-CONFIG_LZO_DECOMPRESS=y
-CONFIG_LZ4_DECOMPRESS=y
-CONFIG_ZSTD_COMPRESS=m
-CONFIG_ZSTD_DECOMPRESS=y
-CONFIG_XZ_DEC=y
-CONFIG_XZ_DEC_X86=y
-CONFIG_XZ_DEC_POWERPC=y
-CONFIG_XZ_DEC_IA64=y
-CONFIG_XZ_DEC_ARM=y
-CONFIG_XZ_DEC_ARMTHUMB=y
-CONFIG_XZ_DEC_SPARC=y
-# CONFIG_XZ_DEC_MICROLZMA is not set
-CONFIG_XZ_DEC_BCJ=y
-# CONFIG_XZ_DEC_TEST is not set
-CONFIG_DECOMPRESS_GZIP=y
-CONFIG_DECOMPRESS_BZIP2=y
-CONFIG_DECOMPRESS_LZMA=y
-CONFIG_DECOMPRESS_XZ=y
-CONFIG_DECOMPRESS_LZO=y
-CONFIG_DECOMPRESS_LZ4=y
-CONFIG_DECOMPRESS_ZSTD=y
-CONFIG_GENERIC_ALLOCATOR=y
-CONFIG_REED_SOLOMON=m
-CONFIG_REED_SOLOMON_ENC8=y
-CONFIG_REED_SOLOMON_DEC8=y
-CONFIG_TEXTSEARCH=y
-CONFIG_TEXTSEARCH_KMP=m
-CONFIG_TEXTSEARCH_BM=m
-CONFIG_TEXTSEARCH_FSM=m
-CONFIG_INTERVAL_TREE=y
-CONFIG_XARRAY_MULTI=y
-CONFIG_ASSOCIATIVE_ARRAY=y
-CONFIG_HAS_IOMEM=y
-CONFIG_HAS_IOPORT_MAP=y
-CONFIG_HAS_DMA=y
-CONFIG_DMA_OPS=y
-CONFIG_NEED_SG_DMA_LENGTH=y
-CONFIG_NEED_DMA_MAP_STATE=y
-CONFIG_ARCH_DMA_ADDR_T_64BIT=y
-CONFIG_ARCH_HAS_FORCE_DMA_UNENCRYPTED=y
-CONFIG_SWIOTLB=y
-CONFIG_DMA_CMA=y
-# CONFIG_DMA_PERNUMA_CMA is not set
-
-#
-# Default contiguous memory area size:
-#
-CONFIG_CMA_SIZE_MBYTES=0
-CONFIG_CMA_SIZE_SEL_MBYTES=y
-# CONFIG_CMA_SIZE_SEL_PERCENTAGE is not set
-# CONFIG_CMA_SIZE_SEL_MIN is not set
-# CONFIG_CMA_SIZE_SEL_MAX is not set
-CONFIG_CMA_ALIGNMENT=8
-# CONFIG_DMA_API_DEBUG is not set
-# CONFIG_DMA_MAP_BENCHMARK is not set
-CONFIG_SGL_ALLOC=y
-CONFIG_CHECK_SIGNATURE=y
-CONFIG_CPUMASK_OFFSTACK=y
-CONFIG_CPU_RMAP=y
-CONFIG_DQL=y
-CONFIG_GLOB=y
-# CONFIG_GLOB_SELFTEST is not set
-CONFIG_NLATTR=y
-CONFIG_CLZ_TAB=y
-CONFIG_IRQ_POLL=y
-CONFIG_MPILIB=y
-CONFIG_SIGNATURE=y
-CONFIG_DIMLIB=y
-CONFIG_OID_REGISTRY=y
-CONFIG_UCS2_STRING=y
-CONFIG_HAVE_GENERIC_VDSO=y
-CONFIG_GENERIC_GETTIMEOFDAY=y
-CONFIG_GENERIC_VDSO_TIME_NS=y
-CONFIG_FONT_SUPPORT=y
-# CONFIG_FONTS is not set
-CONFIG_FONT_8x8=y
-CONFIG_FONT_8x16=y
-CONFIG_SG_POOL=y
-CONFIG_ARCH_HAS_PMEM_API=y
-CONFIG_MEMREGION=y
-CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE=y
-CONFIG_ARCH_HAS_COPY_MC=y
-CONFIG_ARCH_STACKWALK=y
-CONFIG_STACKDEPOT=y
-CONFIG_STACKDEPOT_ALWAYS_INIT=y
-CONFIG_SBITMAP=y
-# end of Library routines
-
-CONFIG_ASN1_ENCODER=y
-
-#
-# Kernel hacking
-#
-
-#
-# printk and dmesg options
-#
-CONFIG_PRINTK_TIME=y
-CONFIG_PRINTK_CALLER=y
-# CONFIG_STACKTRACE_BUILD_ID is not set
-CONFIG_CONSOLE_LOGLEVEL_DEFAULT=7
-CONFIG_CONSOLE_LOGLEVEL_QUIET=4
-CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
-CONFIG_BOOT_PRINTK_DELAY=y
-CONFIG_DYNAMIC_DEBUG=y
-CONFIG_DYNAMIC_DEBUG_CORE=y
-CONFIG_SYMBOLIC_ERRNAME=y
-CONFIG_DEBUG_BUGVERBOSE=y
-# end of printk and dmesg options
-
-CONFIG_DEBUG_KERNEL=y
-CONFIG_DEBUG_MISC=y
-
-#
-# Compile-time checks and compiler options
-#
-CONFIG_DEBUG_INFO=y
-# CONFIG_DEBUG_INFO_NONE is not set
-# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
-CONFIG_DEBUG_INFO_DWARF4=y
-# CONFIG_DEBUG_INFO_DWARF5 is not set
-CONFIG_DEBUG_INFO_REDUCED=y
-# CONFIG_DEBUG_INFO_COMPRESSED is not set
-# CONFIG_DEBUG_INFO_SPLIT is not set
-CONFIG_PAHOLE_HAS_SPLIT_BTF=y
-# CONFIG_GDB_SCRIPTS is not set
-CONFIG_FRAME_WARN=8192
-CONFIG_STRIP_ASM_SYMS=y
-# CONFIG_READABLE_ASM is not set
-# CONFIG_HEADERS_INSTALL is not set
-CONFIG_DEBUG_SECTION_MISMATCH=y
-CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-# CONFIG_DEBUG_FORCE_FUNCTION_ALIGN_64B is not set
-CONFIG_OBJTOOL=y
-# CONFIG_VMLINUX_MAP is not set
-# CONFIG_DEBUG_FORCE_WEAK_PER_CPU is not set
-# end of Compile-time checks and compiler options
-
-#
-# Generic Kernel Debugging Instruments
-#
-CONFIG_MAGIC_SYSRQ=y
-CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x1
-CONFIG_MAGIC_SYSRQ_SERIAL=y
-CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE=""
-CONFIG_DEBUG_FS=y
-CONFIG_DEBUG_FS_ALLOW_ALL=y
-# CONFIG_DEBUG_FS_DISALLOW_MOUNT is not set
-# CONFIG_DEBUG_FS_ALLOW_NONE is not set
-CONFIG_HAVE_ARCH_KGDB=y
-# CONFIG_KGDB is not set
-CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
-CONFIG_UBSAN=y
-# CONFIG_UBSAN_TRAP is not set
-CONFIG_CC_HAS_UBSAN_BOUNDS=y
-CONFIG_UBSAN_BOUNDS=y
-CONFIG_UBSAN_ONLY_BOUNDS=y
-CONFIG_UBSAN_SHIFT=y
-# CONFIG_UBSAN_DIV_ZERO is not set
-# CONFIG_UBSAN_BOOL is not set
-# CONFIG_UBSAN_ENUM is not set
-# CONFIG_UBSAN_ALIGNMENT is not set
-CONFIG_UBSAN_SANITIZE_ALL=y
-# CONFIG_TEST_UBSAN is not set
-CONFIG_HAVE_ARCH_KCSAN=y
-CONFIG_HAVE_KCSAN_COMPILER=y
-# end of Generic Kernel Debugging Instruments
-
-#
-# Networking Debugging
-#
-# CONFIG_NET_DEV_REFCNT_TRACKER is not set
-# CONFIG_NET_NS_REFCNT_TRACKER is not set
-# CONFIG_DEBUG_NET is not set
-# end of Networking Debugging
-
-#
-# Memory Debugging
-#
-CONFIG_PAGE_EXTENSION=y
-# CONFIG_DEBUG_PAGEALLOC is not set
-CONFIG_SLUB_DEBUG=y
-# CONFIG_SLUB_DEBUG_ON is not set
-CONFIG_PAGE_OWNER=y
-# CONFIG_PAGE_TABLE_CHECK is not set
-# CONFIG_PAGE_POISONING is not set
-# CONFIG_DEBUG_PAGE_REF is not set
-# CONFIG_DEBUG_RODATA_TEST is not set
-CONFIG_ARCH_HAS_DEBUG_WX=y
-# CONFIG_DEBUG_WX is not set
-CONFIG_GENERIC_PTDUMP=y
-# CONFIG_PTDUMP_DEBUGFS is not set
-# CONFIG_DEBUG_OBJECTS is not set
-# CONFIG_SHRINKER_DEBUG is not set
-CONFIG_HAVE_DEBUG_KMEMLEAK=y
-# CONFIG_DEBUG_KMEMLEAK is not set
-# CONFIG_DEBUG_STACK_USAGE is not set
-# CONFIG_SCHED_STACK_END_CHECK is not set
-CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE=y
-# CONFIG_DEBUG_VM is not set
-# CONFIG_DEBUG_VM_PGTABLE is not set
-CONFIG_ARCH_HAS_DEBUG_VIRTUAL=y
-# CONFIG_DEBUG_VIRTUAL is not set
-CONFIG_DEBUG_MEMORY_INIT=y
-# CONFIG_DEBUG_PER_CPU_MAPS is not set
-CONFIG_HAVE_ARCH_KASAN=y
-CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
-CONFIG_CC_HAS_KASAN_GENERIC=y
-CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
-CONFIG_KASAN=y
-CONFIG_KASAN_GENERIC=y
-# CONFIG_KASAN_OUTLINE is not set
-CONFIG_KASAN_INLINE=y
-CONFIG_KASAN_STACK=y
-CONFIG_KASAN_VMALLOC=y
-# CONFIG_KASAN_MODULE_TEST is not set
-CONFIG_HAVE_ARCH_KFENCE=y
-# CONFIG_KFENCE is not set
-# end of Memory Debugging
-
-CONFIG_DEBUG_SHIRQ=y
-
-#
-# Debug Oops, Lockups and Hangs
-#
-CONFIG_PANIC_ON_OOPS=y
-CONFIG_PANIC_ON_OOPS_VALUE=1
-CONFIG_PANIC_TIMEOUT=0
-CONFIG_LOCKUP_DETECTOR=y
-CONFIG_SOFTLOCKUP_DETECTOR=y
-# CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
-CONFIG_HARDLOCKUP_DETECTOR_PERF=y
-CONFIG_HARDLOCKUP_CHECK_TIMESTAMP=y
-CONFIG_HARDLOCKUP_DETECTOR=y
-CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
-CONFIG_DETECT_HUNG_TASK=y
-CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=480
-# CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
-CONFIG_WQ_WATCHDOG=y
-# CONFIG_TEST_LOCKUP is not set
-# end of Debug Oops, Lockups and Hangs
-
-#
-# Scheduler Debugging
-#
-CONFIG_SCHED_DEBUG=y
-CONFIG_SCHED_INFO=y
-CONFIG_SCHEDSTATS=y
-# end of Scheduler Debugging
-
-# CONFIG_DEBUG_TIMEKEEPING is not set
-
-#
-# Lock Debugging (spinlocks, mutexes, etc...)
-#
-CONFIG_LOCK_DEBUGGING_SUPPORT=y
-# CONFIG_PROVE_LOCKING is not set
-# CONFIG_LOCK_STAT is not set
-# CONFIG_DEBUG_RT_MUTEXES is not set
-# CONFIG_DEBUG_SPINLOCK is not set
-# CONFIG_DEBUG_MUTEXES is not set
-# CONFIG_DEBUG_WW_MUTEX_SLOWPATH is not set
-# CONFIG_DEBUG_RWSEMS is not set
-# CONFIG_DEBUG_LOCK_ALLOC is not set
-CONFIG_DEBUG_ATOMIC_SLEEP=y
-# CONFIG_DEBUG_LOCKING_API_SELFTESTS is not set
-# CONFIG_LOCK_TORTURE_TEST is not set
-# CONFIG_WW_MUTEX_SELFTEST is not set
-# CONFIG_SCF_TORTURE_TEST is not set
-# CONFIG_CSD_LOCK_WAIT_DEBUG is not set
-# end of Lock Debugging (spinlocks, mutexes, etc...)
-
-# CONFIG_DEBUG_IRQFLAGS is not set
-CONFIG_STACKTRACE=y
-# CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
-# CONFIG_DEBUG_KOBJECT is not set
-
-#
-# Debug kernel data structures
-#
-CONFIG_DEBUG_LIST=y
-# CONFIG_DEBUG_PLIST is not set
-# CONFIG_DEBUG_SG is not set
-# CONFIG_DEBUG_NOTIFIERS is not set
-CONFIG_BUG_ON_DATA_CORRUPTION=y
-# end of Debug kernel data structures
-
-# CONFIG_DEBUG_CREDENTIALS is not set
-
-#
-# RCU Debugging
-#
-CONFIG_TORTURE_TEST=m
-# CONFIG_RCU_SCALE_TEST is not set
-# CONFIG_RCU_TORTURE_TEST is not set
-CONFIG_RCU_REF_SCALE_TEST=m
-CONFIG_RCU_CPU_STALL_TIMEOUT=60
-CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
-# CONFIG_RCU_TRACE is not set
-# CONFIG_RCU_EQS_DEBUG is not set
-# end of RCU Debugging
-
-# CONFIG_DEBUG_WQ_FORCE_RR_CPU is not set
-# CONFIG_CPU_HOTPLUG_STATE_CONTROL is not set
-CONFIG_LATENCYTOP=y
-CONFIG_USER_STACKTRACE_SUPPORT=y
-CONFIG_NOP_TRACER=y
-CONFIG_HAVE_RETHOOK=y
-CONFIG_RETHOOK=y
-CONFIG_HAVE_FUNCTION_TRACER=y
-CONFIG_HAVE_FUNCTION_GRAPH_TRACER=y
-CONFIG_HAVE_DYNAMIC_FTRACE=y
-CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS=y
-CONFIG_HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y
-CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS=y
-CONFIG_HAVE_FTRACE_MCOUNT_RECORD=y
-CONFIG_HAVE_SYSCALL_TRACEPOINTS=y
-CONFIG_HAVE_FENTRY=y
-CONFIG_HAVE_OBJTOOL_MCOUNT=y
-CONFIG_HAVE_C_RECORDMCOUNT=y
-CONFIG_HAVE_BUILDTIME_MCOUNT_SORT=y
-CONFIG_BUILDTIME_MCOUNT_SORT=y
-CONFIG_TRACER_MAX_TRACE=y
-CONFIG_TRACE_CLOCK=y
-CONFIG_RING_BUFFER=y
-CONFIG_EVENT_TRACING=y
-CONFIG_CONTEXT_SWITCH_TRACER=y
-CONFIG_TRACING=y
-CONFIG_GLOBAL_TRACE_BUF_SIZE=1441792
-CONFIG_GENERIC_TRACER=y
-CONFIG_TRACING_SUPPORT=y
-CONFIG_FTRACE=y
-# CONFIG_BOOTTIME_TRACING is not set
-CONFIG_FUNCTION_TRACER=y
-CONFIG_FUNCTION_GRAPH_TRACER=y
-CONFIG_DYNAMIC_FTRACE=y
-CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
-CONFIG_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y
-CONFIG_DYNAMIC_FTRACE_WITH_ARGS=y
-# CONFIG_FPROBE is not set
-CONFIG_FUNCTION_PROFILER=y
-CONFIG_STACK_TRACER=y
-# CONFIG_IRQSOFF_TRACER is not set
-CONFIG_SCHED_TRACER=y
-CONFIG_HWLAT_TRACER=y
-# CONFIG_OSNOISE_TRACER is not set
-# CONFIG_TIMERLAT_TRACER is not set
-# CONFIG_MMIOTRACE is not set
-CONFIG_FTRACE_SYSCALLS=y
-CONFIG_TRACER_SNAPSHOT=y
-# CONFIG_TRACER_SNAPSHOT_PER_CPU_SWAP is not set
-CONFIG_BRANCH_PROFILE_NONE=y
-# CONFIG_PROFILE_ANNOTATED_BRANCHES is not set
-# CONFIG_BLK_DEV_IO_TRACE is not set
-CONFIG_KPROBE_EVENTS=y
-# CONFIG_KPROBE_EVENTS_ON_NOTRACE is not set
-CONFIG_UPROBE_EVENTS=y
-CONFIG_DYNAMIC_EVENTS=y
-CONFIG_PROBE_EVENTS=y
-CONFIG_FTRACE_MCOUNT_RECORD=y
-CONFIG_FTRACE_MCOUNT_USE_CC=y
-CONFIG_TRACING_MAP=y
-CONFIG_SYNTH_EVENTS=y
-CONFIG_HIST_TRIGGERS=y
-# CONFIG_TRACE_EVENT_INJECT is not set
-# CONFIG_TRACEPOINT_BENCHMARK is not set
-CONFIG_RING_BUFFER_BENCHMARK=m
-# CONFIG_TRACE_EVAL_MAP_FILE is not set
-# CONFIG_FTRACE_RECORD_RECURSION is not set
-# CONFIG_FTRACE_STARTUP_TEST is not set
-# CONFIG_FTRACE_SORT_STARTUP_TEST is not set
-# CONFIG_RING_BUFFER_STARTUP_TEST is not set
-# CONFIG_RING_BUFFER_VALIDATE_TIME_DELTAS is not set
-# CONFIG_PREEMPTIRQ_DELAY_TEST is not set
-# CONFIG_SYNTH_EVENT_GEN_TEST is not set
-# CONFIG_KPROBE_EVENT_GEN_TEST is not set
-# CONFIG_HIST_TRIGGERS_DEBUG is not set
-# CONFIG_RV is not set
-CONFIG_PROVIDE_OHCI1394_DMA_INIT=y
-# CONFIG_SAMPLES is not set
-CONFIG_HAVE_SAMPLE_FTRACE_DIRECT=y
-CONFIG_HAVE_SAMPLE_FTRACE_DIRECT_MULTI=y
-CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
-CONFIG_STRICT_DEVMEM=y
-# CONFIG_IO_STRICT_DEVMEM is not set
-
-#
-# x86 Debugging
-#
-CONFIG_EARLY_PRINTK_USB=y
-CONFIG_X86_VERBOSE_BOOTUP=y
-CONFIG_EARLY_PRINTK=y
-CONFIG_EARLY_PRINTK_DBGP=y
-CONFIG_EARLY_PRINTK_USB_XDBC=y
-# CONFIG_EFI_PGT_DUMP is not set
-# CONFIG_DEBUG_TLBFLUSH is not set
-CONFIG_HAVE_MMIOTRACE_SUPPORT=y
-# CONFIG_X86_DECODER_SELFTEST is not set
-CONFIG_IO_DELAY_0X80=y
-# CONFIG_IO_DELAY_0XED is not set
-# CONFIG_IO_DELAY_UDELAY is not set
-# CONFIG_IO_DELAY_NONE is not set
-CONFIG_DEBUG_BOOT_PARAMS=y
-# CONFIG_CPA_DEBUG is not set
-# CONFIG_DEBUG_ENTRY is not set
-# CONFIG_DEBUG_NMI_SELFTEST is not set
-# CONFIG_X86_DEBUG_FPU is not set
-# CONFIG_PUNIT_ATOM_DEBUG is not set
-CONFIG_UNWINDER_ORC=y
-# CONFIG_UNWINDER_FRAME_POINTER is not set
-# end of x86 Debugging
-
-#
-# Kernel Testing and Coverage
-#
-# CONFIG_KUNIT is not set
-# CONFIG_NOTIFIER_ERROR_INJECTION is not set
-CONFIG_FUNCTION_ERROR_INJECTION=y
-CONFIG_FAULT_INJECTION=y
-# CONFIG_FAILSLAB is not set
-# CONFIG_FAIL_PAGE_ALLOC is not set
-# CONFIG_FAULT_INJECTION_USERCOPY is not set
-CONFIG_FAIL_MAKE_REQUEST=y
-# CONFIG_FAIL_IO_TIMEOUT is not set
-# CONFIG_FAIL_FUTEX is not set
-CONFIG_FAULT_INJECTION_DEBUG_FS=y
-# CONFIG_FAIL_FUNCTION is not set
-# CONFIG_FAIL_MMC_REQUEST is not set
-# CONFIG_FAIL_SUNRPC is not set
-CONFIG_ARCH_HAS_KCOV=y
-CONFIG_CC_HAS_SANCOV_TRACE_PC=y
-# CONFIG_KCOV is not set
-CONFIG_RUNTIME_TESTING_MENU=y
-# CONFIG_LKDTM is not set
-# CONFIG_TEST_MIN_HEAP is not set
-# CONFIG_TEST_DIV64 is not set
-# CONFIG_BACKTRACE_SELF_TEST is not set
-# CONFIG_TEST_REF_TRACKER is not set
-# CONFIG_RBTREE_TEST is not set
-# CONFIG_REED_SOLOMON_TEST is not set
-# CONFIG_INTERVAL_TREE_TEST is not set
-# CONFIG_PERCPU_TEST is not set
-# CONFIG_ATOMIC64_SELFTEST is not set
-# CONFIG_ASYNC_RAID6_TEST is not set
-# CONFIG_TEST_HEXDUMP is not set
-# CONFIG_STRING_SELFTEST is not set
-# CONFIG_TEST_STRING_HELPERS is not set
-# CONFIG_TEST_STRSCPY is not set
-# CONFIG_TEST_KSTRTOX is not set
-# CONFIG_TEST_PRINTF is not set
-# CONFIG_TEST_SCANF is not set
-# CONFIG_TEST_BITMAP is not set
-# CONFIG_TEST_UUID is not set
-# CONFIG_TEST_XARRAY is not set
-# CONFIG_TEST_RHASHTABLE is not set
-# CONFIG_TEST_SIPHASH is not set
-# CONFIG_TEST_IDA is not set
-# CONFIG_TEST_LKM is not set
-# CONFIG_TEST_BITOPS is not set
-# CONFIG_TEST_VMALLOC is not set
-# CONFIG_TEST_USER_COPY is not set
-CONFIG_TEST_BPF=m
-# CONFIG_TEST_BLACKHOLE_DEV is not set
-# CONFIG_FIND_BIT_BENCHMARK is not set
-# CONFIG_TEST_FIRMWARE is not set
-# CONFIG_TEST_SYSCTL is not set
-# CONFIG_TEST_UDELAY is not set
-# CONFIG_TEST_STATIC_KEYS is not set
-# CONFIG_TEST_KMOD is not set
-# CONFIG_TEST_MEMCAT_P is not set
-# CONFIG_TEST_LIVEPATCH is not set
-# CONFIG_TEST_MEMINIT is not set
-# CONFIG_TEST_HMM is not set
-# CONFIG_TEST_FREE_PAGES is not set
-# CONFIG_TEST_FPU is not set
-# CONFIG_TEST_CLOCKSOURCE_WATCHDOG is not set
-CONFIG_ARCH_USE_MEMTEST=y
-# CONFIG_MEMTEST is not set
-# end of Kernel Testing and Coverage
-# end of Kernel hacking
-
---WbDZ0Uq7p8YcvShx--
+Hi Linus,
+
+This is the main drm pull request for 6.1-rc1.
+
+Lots of stuff all over, some new AMD IP support and gang
+submit support. i915 has further DG2 and Meteorlake pieces,
+and a bunch of i915 display refactoring. msm has a shrinker
+rework. There are also a bunch of conversions to use
+kunit.
+
+This has two external pieces, some MEI changes needed for
+future Intel discrete GPUs. These should be acked by Greg.
+There is also a cross maintainer shared tree with some
+backlight rework from Hans in here.
+
+This is very conflict heavy, mostly the correct answer is picking
+the version from drm-next. I've put a completed merge here:
+
+https://cgit.freedesktop.org/~airlied/linux/log/?h=3Ddrm-next-6.1-merged
+
+Hopefully you get similar answers.
+
+Dave.
+
+drm-next-2022-10-05:
+drm pull for 6.1-rc1
+
+core:
+- convert selftests to kunit
+- managed init for more objects
+- move to idr_init_base
+- rename fb and gem cma helpers to dma
+- hide unregistered connectors from getconnector ioctl
+- DSC passthrough aux support
+- backlight handling improvements
+- add dma_resv_assert_held to vmap/vunmap
+
+edid:
+- move luminance calculation to core
+
+fbdev:
+- fix aperture helper usage
+
+fourcc:
+- add more format helpers
+- add DRM_FORMAT_Cxx, DRM_FORMAT_Rxx, DRM_FORMAT_Dxx
+- add packed AYUV8888, XYUV8888
+- add some kunit tests
+
+ttm:
+- allow bos without backing store
+- rewrite placement to use intersect/compatible functions
+
+dma-buf:
+- docs update
+- improve signalling when debugging
+
+udmabuf:
+- fix failure path GPF
+
+dp:
+- drop dp/mst legacy code
+- atomic mst state support
+- audio infoframe packing
+
+panel:
+- Samsung LTL101AL01
+- B120XAN01.0
+- R140NWF5 RH
+- DMT028VGHMCMI-1A T
+- AUO B133UAN02.1
+- IVO M133NW4J-R3
+- Innolux N120ACA-EA1
+
+amdgpu:
+- Gang submit support
+- Mode2 reset for RDNA2
+- New IP support:
+  DCN 3.1.4, 3.2
+  SMU 13.x
+  NBIO 7.7
+  GC 11.x
+  PSP 13.x
+  SDMA 6.x
+  GMC 11.x
+- DSC passthrough support
+- PSP fixes for TA support
+- vangogh GFXOFF stats
+- clang fixes
+- gang submit CS cleanup prep work
+- fix VRAM eviction issues
+
+amdkfd:
+- GC 10.3 IP ISA fixes
+- fix CRIU regression
+- CPU fault on COW mapping fixes
+
+i915:
+- align fw versioning with kernel practices
+- add display substruct to i915 private
+- add initial runtime info to driver info
+- split out HDCP and backlight registers
+- MEI XeHP SDV GSC support
+- add per-gt sysfs defaults
+- TLB invalidation improvements
+- Disable PCI BAR resize on 32-bit
+- GuC firmware updates and compat changes
+- GuC log timestamp translation
+- DG2 preemption workaround changes
+- DG2 improved HDMI pixel clocks support
+- PCI BAR sanity checks
+- Enable DC5 on DG2
+- DG2 DMC fw bumped
+- ADL-S PCI ID added
+- Meteorlake enablement
+- Rename ggtt_view to gtt_view
+- host RPS fixes
+- release mmaps on rpm suspend on discrete
+- clocking and dpll refactoring
+- VBT definitions and parsing updates
+- SKL watermark code extracted to separate file
+- allow seamless M/N changes on eDP panels
+- BUG_ON removal and cleanups
+
+msm:
+- DPU: simplified VBIF configuration
+-      cleanup CTL interfaces
+- DSI: removed unused msm_display_dsc_config struct
+-      switch regulator calls to new API
+-      switched to PANEL_BRIDGE for direct attached panels
+- DSI_PHY: convert drivers to parent_hws
+- DP: cleanup pixel_rate handling
+- HDMI: turned hdmi-phy-8996 into OF clk provider
+- misc dt-bindings fixes
+- choose eDP as primary display if it's available
+- support getting interconnects from either the mdss or the mdp5/dpu
+  device nodes
+- gem: Shrinker + LRU re-work:
+- adds a shared GEM LRU+shrinker helper and moves msm over to that
+- reduces lock contention between retire and submit by avoiding the
+  need to acquire obj lock in retire path (and instead using resv
+  seeing obj's busyness in the shrinker
+- fix reclaim vs submit issues
+- GEM fault injection for triggering userspace error paths
+- Map/unmap optimization
+- Improved robustness for a6xx GPU recovery
+
+virtio:
+- Improve error and edge conditions handling
+- Convert to use managed helpers
+- stop exposing LINEAR modifier
+
+mgag200:
+- split modeset handling per model
+
+udl:
+- suspend/disconnect handling improvements
+
+vc4:
+- rework HDMI power up
+- depend on PM
+- better unplugging support
+
+ast:
+- resolution handling improvements
+
+ingenic:
+- Add JZ4760(B) support
+- avoid a modeset when sharpness property is unchanged
+- use the new PM ops
+
+it6505:
+- power seq and clock updates
+
+ssd130x:
+- regmap bulk write
+- use atomic helpers instead of simple helpers
+
+via:
+- rename via_drv to via_dri1, consolidate all code.
+
+radeon:
+- drop DP MST experimental support
+- delayed work flush fix
+- use time_after
+
+ti-sn65dsi86:
+- DP support
+
+mediatek:
+- MT8195 DP support
+- drop of_gpio header
+- remove unneeded result
+- small DP code improvements
+
+vkms:
+- RGB565, XRGB64 and ARGB64 support
+
+sun4i:
+- tv: convert to atomic
+
+rcar-du:
+- Synopsys DW HDMI bridge DT bindings update
+
+exynos:
+- use drm_display_info.is_hdmi
+- correct return of mixer_mode_valid and hdmi_mode_valid
+
+omap:
+- refcounting fix
+
+rockchip:
+- RK3568 support
+- RK3399 gamma support
+The following changes since commit 1c23f9e627a7b412978b4e852793c5e3c3efc555=
+:
+
+  Linux 6.0-rc2 (2022-08-21 17:32:54 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-next-2022-10-05
+
+for you to fetch changes up to 65898687cf7392c372ea8d04a88617e2cb794465:
+
+  Merge tag 'amd-drm-next-6.1-2022-09-30' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next (2022-10-04
+09:42:24 +1000)
+
+----------------------------------------------------------------
+drm pull for 6.1-rc1
+
+core:
+- convert selftests to kunit
+- managed init for more objects
+- move to idr_init_base
+- rename fb and gem cma helpers to dma
+- hide unregistered connectors from getconnector ioctl
+- DSC passthrough aux support
+- backlight handling improvements
+- add dma_resv_assert_held to vmap/vunmap
+
+edid:
+- move luminance calculation to core
+
+fbdev:
+- fix aperture helper usage
+
+fourcc:
+- add more format helpers
+- add DRM_FORMAT_Cxx, DRM_FORMAT_Rxx, DRM_FORMAT_Dxx
+- add packed AYUV8888, XYUV8888
+- add some kunit tests
+
+ttm:
+- allow bos without backing store
+- rewrite placement to use intersect/compatible functions
+
+dma-buf:
+- docs update
+- improve signalling when debugging
+
+udmabuf:
+- fix failure path GPF
+
+dp:
+- drop dp/mst legacy code
+- atomic mst state support
+- audio infoframe packing
+
+panel:
+- Samsung LTL101AL01
+- B120XAN01.0
+- R140NWF5 RH
+- DMT028VGHMCMI-1A T
+- AUO B133UAN02.1
+- IVO M133NW4J-R3
+- Innolux N120ACA-EA1
+
+amdgpu:
+- Gang submit support
+- Mode2 reset for RDNA2
+- New IP support:
+  DCN 3.1.4, 3.2
+  SMU 13.x
+  NBIO 7.7
+  GC 11.x
+  PSP 13.x
+  SDMA 6.x
+  GMC 11.x
+- DSC passthrough support
+- PSP fixes for TA support
+- vangogh GFXOFF stats
+- clang fixes
+- gang submit CS cleanup prep work
+- fix VRAM eviction issues
+
+amdkfd:
+- GC 10.3 IP ISA fixes
+- fix CRIU regression
+- CPU fault on COW mapping fixes
+
+i915:
+- align fw versioning with kernel practices
+- add display substruct to i915 private
+- add initial runtime info to driver info
+- split out HDCP and backlight registers
+- MEI XeHP SDV GSC support
+- add per-gt sysfs defaults
+- TLB invalidation improvements
+- Disable PCI BAR resize on 32-bit
+- GuC firmware updates and compat changes
+- GuC log timestamp translation
+- DG2 preemption workaround changes
+- DG2 improved HDMI pixel clocks support
+- PCI BAR sanity checks
+- Enable DC5 on DG2
+- DG2 DMC fw bumped
+- ADL-S PCI ID added
+- Meteorlake enablement
+- Rename ggtt_view to gtt_view
+- host RPS fixes
+- release mmaps on rpm suspend on discrete
+- clocking and dpll refactoring
+- VBT definitions and parsing updates
+- SKL watermark code extracted to separate file
+- allow seamless M/N changes on eDP panels
+- BUG_ON removal and cleanups
+
+msm:
+- DPU: simplified VBIF configuration
+-      cleanup CTL interfaces
+- DSI: removed unused msm_display_dsc_config struct
+-      switch regulator calls to new API
+-      switched to PANEL_BRIDGE for direct attached panels
+- DSI_PHY: convert drivers to parent_hws
+- DP: cleanup pixel_rate handling
+- HDMI: turned hdmi-phy-8996 into OF clk provider
+- misc dt-bindings fixes
+- choose eDP as primary display if it's available
+- support getting interconnects from either the mdss or the mdp5/dpu
+  device nodes
+- gem: Shrinker + LRU re-work:
+- adds a shared GEM LRU+shrinker helper and moves msm over to that
+- reduces lock contention between retire and submit by avoiding the
+  need to acquire obj lock in retire path (and instead using resv
+  seeing obj's busyness in the shrinker
+- fix reclaim vs submit issues
+- GEM fault injection for triggering userspace error paths
+- Map/unmap optimization
+- Improved robustness for a6xx GPU recovery
+
+virtio:
+- Improve error and edge conditions handling
+- Convert to use managed helpers
+- stop exposing LINEAR modifier
+
+mgag200:
+- split modeset handling per model
+
+udl:
+- suspend/disconnect handling improvements
+
+vc4:
+- rework HDMI power up
+- depend on PM
+- better unplugging support
+
+ast:
+- resolution handling improvements
+
+ingenic:
+- Add JZ4760(B) support
+- avoid a modeset when sharpness property is unchanged
+- use the new PM ops
+
+it6505:
+- power seq and clock updates
+
+ssd130x:
+- regmap bulk write
+- use atomic helpers instead of simple helpers
+
+via:
+- rename via_drv to via_dri1, consolidate all code.
+
+radeon:
+- drop DP MST experimental support
+- delayed work flush fix
+- use time_after
+
+ti-sn65dsi86:
+- DP support
+
+mediatek:
+- MT8195 DP support
+- drop of_gpio header
+- remove unneeded result
+- small DP code improvements
+
+vkms:
+- RGB565, XRGB64 and ARGB64 support
+
+sun4i:
+- tv: convert to atomic
+
+rcar-du:
+- Synopsys DW HDMI bridge DT bindings update
+
+exynos:
+- use drm_display_info.is_hdmi
+- correct return of mixer_mode_valid and hdmi_mode_valid
+
+omap:
+- refcounting fix
+
+rockchip:
+- RK3568 support
+- RK3399 gamma support
+
+----------------------------------------------------------------
+Abhinav Kumar (1):
+      drm/msm/dpu: populate wb or intf before reset_intf_cfg
+
+Adri=C3=A1n Larumbe (5):
+      drm/panfrost: Add specific register offset macros for JS and MMU AS
+      drm/panfrost: Add support for devcoredump
+      drm/meson: reorder driver deinit sequence to fix use-after-free bug
+      drm/meson: explicitly remove aggregate driver at module unload time
+      drm/meson: remove drm bridges at aggregate driver unbind time
+
+Akhil P Oommen (7):
+      drm/msm: Remove unnecessary pm_runtime_get/put
+      drm/msm: Take single rpm refcount on behalf of all submits
+      drm/msm: Correct pm_runtime votes in recover worker
+      drm/msm: Fix cx collapse issue during recovery
+      drm/msm/a6xx: Ensure CX collapse during gpu recovery
+      drm/msm/a6xx: Improve gpu recovery sequence
+      drm/msm/a6xx: Handle GMU prepare-slumber hfi failure
+
+Alan Previn (1):
+      drm/i915/guc: Add a helper for log buffer size
+
+Alex Deucher (7):
+      drm/amd/display: fix documentation for amdgpu_dm_update_freesync_caps=
+()
+      drm/amdgpu: add HDP remap functionality to nbio 7.7
+      drm/amdgpu: fix warning about missing imu prototype
+      drm/amdgpu: move nbio ih_doorbell_range() into ih code for vega
+      drm/amdgpu: move nbio sdma_doorbell_range() into sdma code for vega
+      drm/amdgpu: make sure to init common IP before gmc
+      drm/amdgpu: don't register a dirty callback for non-atomic
+
+Alex Sierra (1):
+      drm/amdgpu: ensure no PCIe peer access for CPU XGMI iolinks
+
+Alexander Usyskin (5):
+      drm/i915/gsc: add slow_firmware flag to the gsc device definition
+      drm/i915/gsc: add GSC XeHP SDV platform definition
+      mei: gsc: wait for reset thread on stop
+      mei: extend timeouts on slow devices
+      mei: drop ready bits check after start
+
+Alisa Khabibrakhmanova (1):
+      drm/via: Add new condition to via_dma_cleanup()
+
+Alvin Lee (25):
+      drm/amd/display: Free phantom plane and stream properly
+      drm/amd/display: Add interface to track PHY state
+      drm/amd/display: Uncomment SubVP scaling case
+      drm/amd/display: Don't choose SubVP display if ActiveMargin > 0
+      drm/amd/display: Only commit SubVP state after pipe programming
+      drm/amd/display: SubVP missing scaling case
+      drm/amd/display: Update MBLK calculation for SubVP
+      drm/amd/display: SW cursor fallback for SubVP
+      drm/amd/display: Update viewport position for phantom pipes
+      drm/amd/display: Refactor SubVP calculation to remove FPU
+      drm/amd/display: Fix pipe split prediction
+      drm/amd/display: Only consider pixle rate div policy for DCN32+
+      drm/amd/display: For ODM seamless transition require AUTO mode
+      drm/amd/display: Add debug option for allocating extra way for cursor
+      drm/amd/display: SubVP pipe split case
+      drm/amd/display: Disable SubVP on driver disable
+      drm/amd/display: Fix SubVP way calculation
+      drm/amd/display: Uncomment SubVP pipe split assignment in driver
+      drm/amd/display: Don't allocate DET for phantom pipes
+      drm/amd/display: Do second pass through DML for DET calculation
+      drm/amd/display: Update DCN32 to use new SR latencies
+      drm/amd/display: Disable MALL when TMZ surface
+      drm/amd/display: Update MALL SS NumWays calculation
+      drm/amd/display: Fix CAB allocation calculation
+      drm/amd/display: Only use ODM2:1 policy for high pixel rate displays
+
+Alvin =C5=A0ipraga (2):
+      drm: bridge: adv7511: fix CEC power down control register offset
+      drm: bridge: adv7511: unregister cec i2c device after cec adapter
+
+Andrzej Hajda (4):
+      drm/i915/selftests: allow misaligned_pin test work with unmappable me=
+mory
+      drm/i915/hpd: suspend MST at the end of intel_modeset_driver_remove
+      drm/i915/fbdev: suspend HPD before fbdev unregistration
+      drm/i915/fbdev: do not create fbdev if HPD is suspended
+
+Andr=C3=A9 Almeida (4):
+      drm/amd: Add detailed GFXOFF stats to debugfs
+      drm/amd/pm: Implement GFXOFF's entry count and residency for vangogh
+      Documentation/gpu: Document GFXOFF's count and residency
+      drm/amdgpu: Document gfx_off members of struct amdgpu_gfx
+
+Ankit Nautiyal (2):
+      drm/i915/hdmi: Prune modes that require HDMI2.1 FRL
+      drm/i915/vdsc: Set VDSC PIC_HEIGHT before using for DP DSC
+
+Anshuman Gupta (2):
+      drm/i915: Refactor userfault_wakeref to re-use
+      drm/i915/dgfx: Release mmap on rpm suspend
+
+Anthony Koo (3):
+      drm/amd/display: [FW Promotion] Release 0.0.130.0
+      drm/amd/display: [FW Promotion] Release 0.0.132.0
+      drm/amd/display: [FW Promotion] Release 0.0.134.0
+
+Anusha Srivatsa (3):
+      drm/i915/display: Cleanup intel_phy_is_combo()
+      drm/i915: Pass drm_i915_private struct instead of gt for
+gen11_gu_misc_irq_handler/ack()
+      drm/i915/dg2: Add support for DC5 state
+
+Aric Cyr (12):
+      drm/amd/display: 3.2.199
+      drm/amd/display: 3.2.200
+      drm/amd/display: 3.2.201
+      drm/amd/display: Optimizations for DML math
+      drm/amd/display: Fix divide by zero in DML
+      drm/amd/display: Don't adjust VRR unnecessarily
+      drm/amd/display: 3.2.202
+      drm/amd/display: 3.2.203
+      drm/amd/display: 3.2.204
+      drm/amd/display: Remove interface for periodic interrupt 1
+      drm/amd/display: Fix audio on display after unplugging another
+      drm/amd/display: 3.2.205
+
+Arthur Grillo (1):
+      drm: selftest: convert drm_mm selftest to KUnit
+
+Arun R Murthy (1):
+      drm/i915/display: avoid warnings when registering dual panel backligh=
+t
+
+Arunpravin Paneer Selvam (9):
+      Revert "drm/amdgpu: move internal vram_mgr function into the C file"
+      Revert "drm/amdgpu: fix start calculation in amdgpu_vram_mgr_new"
+      drm/ttm: Add new callbacks to ttm res mgr
+      drm/ttm: Implement intersect/compatible functions
+      drm/amdgpu: Implement intersect/compatible functions
+      drm/i915: Implement intersect/compatible functions
+      drm/nouveau: Implement intersect/compatible functions
+      drm/ttm: Switch to using the new res callback
+      drm/amdgpu: Fix VRAM eviction issue
+
+Arvind Yadav (5):
+      dma-buf: Remove the signaled bit status check
+      dma-buf: set signaling bit for the stub fence
+      dma-buf: Enable signaling on fence for selftests
+      dma-buf: dma_fence_wait must enable signaling
+      drm/sched: Use parent fence instead of finished
+
+Asher Song (2):
+      drm/amd/display: remove a duplicated declaration
+      drm/amdgpu: fix a compiling error in old kernels
+
+Ashutosh Dixit (3):
+      drm/i915/gt: Create gt/gtN/.defaults/ for per gt sysfs defaults
+      drm/i915/gt: Expose per-gt RPS defaults in sysfs
+      drm/i915/gt: Fix perf limit reasons bit positions
+
+Aurabindo Pillai (16):
+      drm/amd/display: change to runtime initialization for reg
+offsets for DCN32
+      drm/amd/display: change to runtime initialization for reg
+offsets for DCN321
+      drm/amd/display: program k1/k2 divider for virtual signal for DCN32
+      drm/amd/display: Fix CAB cursor size allocation for DCN32/321
+      drm/amd/display: disable display fresh from MALL on an edge case
+for DCN321
+      drm/amd/display: use actual cursor size instead of max for CAB alloca=
+tion
+      drm/amd/display: Revert "program k1/k2 divider for virtual
+signal for DCN32"
+      drm/amd/display: Use correct plane for CAB cursor size allocation
+      drm/amd/display: Revert "Fallback to SW cursor if SubVP + cursor too =
+big"
+      drm/amd/display: add workaround for subvp cursor corruption for DCN32=
+/321
+      drm/amd/display: Fix register definitions for DCN32/321
+      drm/amd/display: Remove some unused definitions from DCN32/321
+      drm/amd/display: Enable committing subvp config
+      drm/amd/display: skip phantom pipes when checking for pending flip
+      drm/amd/display: skip phantom pipes when checking for pending flip
+      drm/amd/display: fix a divide by zero error
+
+Beniamin Sandu (1):
+      drm/nouveau/hwmon: use simplified HWMON_CHANNEL_INFO macro
+
+Bernard Zhao (4):
+      drm/amd: fix potential memory leak
+      drm/amd: fix potential memory leak
+      drm/amd: remove possible condition with no effect (if =3D=3D else)
+      drm/amd: remove possible condition with no effect (if =3D=3D else)
+
+Biju Das (2):
+      drm: rcar-du: Drop unused encoder header files
+      drm: rcar-du: Use %p4cc to print 4CC format
+
+Bjorn Andersson (1):
+      drm/msm/gpu: Drop qos request if devm_devfreq_add_device() fails
+
+Bo Liu (1):
+      drm/i915/irq: Fix a "the the" typo
+
+Bo-Chen Chen (7):
+      drm/mediatek: dp: Add multiple bridge types support
+      drm/mediatek: dp: Add multiple smc commands support
+      drm/mediatek: dp: Add multiple calibration data formats support
+      drm/mediatek: dp: Determine device of next_bridge
+      drm/mediatek: dp: Reduce indentation in mtk_dp_bdg_detect()
+      drm/mediatek: dp: Remove unused register definitions
+      drm/mediatek: dp: Fix compiler warning in mtk_dp_video_mute()
+
+Bokun Zhang (1):
+      drm/amdgpu: Add amdgpu suspend-resume code path under SRIOV
+
+Brandon Syu (1):
+      drm/amd/display: Add debug option for exiting idle optimizations
+on cursor updates
+
+Candice Li (5):
+      drm/amdgpu: Check num_gfx_rings for gfx v9_0 rb setup.
+      drm/amdgpu: Rely on MCUMC_STATUS for umc v8_10 correctable error
+counter only
+      drm/amdgpu: Enable full reset when RAS is supported on gc v11_0_0
+      drm/amdgpu: Add EEPROM I2C address for smu v13_0_0
+      drm/amdgpu: Skip reset error status for psp v13_0_0
+
+Carsten Haitzler (2):
+      drm/komeda: Add legacy FB support so VT's work as expected
+      drm/komeda - At init write GCU control block to handle already on DPU
+
+Charlene Liu (7):
+      drm/amd/display: fix wrong register access
+      drm/amd/display: update header files
+      drm/amd/display: add debug option for dramclk_change_latency in apu
+      drm/amd/display: Expose few dchubbub functions
+      drm/amd/display: update dccg based on HW delta
+      drm/amd/display: correct num_dsc based on HW cap
+      drm/amd/display: add debug keys for override bios settings.
+
+Chen-Yu Tsai (2):
+      drm/bridge: parade-ps8640: Fix regulator supply order
+      drm/panel-edp: Add Innolux N120ACA-EA1 panel entry
+
+Chengming Gui (3):
+      drm/amd/amdgpu: avoid soft reset check when gpu recovery disabled
+      drm/amd/amdgpu: skip ucode loading if ucode_size =3D=3D 0
+      drm/amd/amdgpu: add rlc_firmware_header_v2_4 to amdgpu_firmware_heade=
+r
+
+Chia-I Wu (1):
+      drm/virtio: set fb_modifiers_not_supported
+
+Chris Morgan (4):
+      dt-bindings: Add byteswap order to chrontel ch7033
+      drm/bridge: chrontel-ch7033: Add byteswap order setting
+      dt-bindings: display: rockchip-dsi: add rk3568 compatible
+      drm/rockchip: dsi: add rk3568 support
+
+Chris Park (2):
+      drm/amd/display: Correct I2C register offset
+      drm/amd/display: Port DCN30 420 logic to DCN32
+
+Chris Wilson (13):
+      drm/i915/reset: Handle reset timeouts under unrelated kernel hangs
+      drm/i915: Suppress oom warning for shmemfs object allocation failure
+      drm/i915/gt: Ignore TLB invalidations on idle engines
+      drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
+      drm/i915/gt: Skip TLB invalidations once wedged
+      drm/i915/gt: Batch TLB invalidations
+      drm/i915/gem: Remove shared locking on freeing objects
+      drm/i915/guc: Use streaming loads to speed up dumping the guc log
+      drm/i915/gt: Explicitly clear BB_OFFSET for new contexts
+      drm/i915/selftests: Check for incomplete LRI from the context image
+      drm/i915/selftest: Always cancel semaphore on error
+      drm/i915/selftest: Clear the output buffers before GPU writes
+      drm/i915/gt: Use i915_vm_put on ppgtt_create error paths
+
+Christian K=C3=B6nig (26):
+      drm/ttm: rename and cleanup ttm_bo_init
+      drm/amdgpu: audit bo->resource usage
+      drm/nouveau: audit bo->resource usage
+      drm/ttm: audit bo->resource usage v2
+      dma-buf: revert "return only unsignaled fences in
+dma_fence_unwrap_for_each v3"
+      drm/amdgpu: reapply "fix start calculation in amdgpu_vram_mgr_new""
+      drm/amdgpu: re-apply "move internal vram_mgr function into the C file=
+""
+      dma-buf/dma_resv_usage: update explicit sync documentation
+      drm/sched: move calling drm_sched_entity_select_rq
+      drm/amdgpu: remove SRIOV and MCBP dependencies from the CS
+      drm/amdgpu: move setting the job resources
+      drm/amdgpu: revert "partial revert "remove ctx->lock" v2"
+      drm/amdgpu: use DMA_RESV_USAGE_BOOKKEEP v2
+      drm/amdgpu: cleanup CS init/fini and pass1
+      drm/amdgpu: reorder CS code
+      dma-buf: fix dma_fence_default_wait() signaling check
+      drm/amdgpu: cleanup CS pass2 v6
+      drm/amdgpu: cleanup error handling in amdgpu_cs_parser_bos
+      drm/amdgpu: move entity selection and job init earlier during CS
+      drm/amdgpu: revert "fix limiting AV1 to the first instance on VCN3" v=
+3
+      drm/amdgpu: cleanup instance limit on VCN4 v4
+      drm/amdgpu: add gang submit backend v2
+      drm/amdgpu: add gang submit frontend v6
+      drm/amdgpu: properly initialize return value during CS
+      drm/amdgpu: bump minor for gang submit
+      drm/ttm: add dma_resv_assert_held() calls to vmap/vunmap
+
+Christoph Niedermaier (2):
+      dt-bindings: display: simple: Add Multi-Inno Technology MI0800FT-9 pa=
+nel
+      drm/panel: simple: Add Multi-Inno Technology MI0800FT-9
+
+Christophe JAILLET (1):
+      drm/bochs: Fix some error handling paths in bochs_pci_probe()
+
+Clint Taylor (1):
+      drm/i915/mtl: Fix rawclk for Meteorlake PCH
+
+Colin Ian King (1):
+      drm/amdkfd: Fix spelling mistake "detroyed" -> "destroyed"
+
+Cruise Hung (1):
+      drm/amd/display: Fix DP MST timeslot issue when fallback happened
+
+Dan Carpenter (3):
+      drm/bridge: Avoid uninitialized variable warning
+      drm/vmwgfx: clean up some error pointer checking
+      virtio-gpu: fix shift wrapping bug in virtio_gpu_fence_event_create()
+
+Daniel Miess (1):
+      drm/amd/display: Add shift and mask for ICH_RESET_AT_END_OF_LINE
+
+Daniel Vetter (2):
+      fbdev: Make registered_fb[] private to fbmem.c
+      Merge tag 'drm-misc-next-2022-08-20-1' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next
+
+Daniele Ceraolo Spurio (4):
+      drm/i915/guc: support v69 in parallel to v70
+      drm/i915/guc: Don't send policy update for child contexts.
+      drm/i915/guc: skip scrub_ctbs selftest if reset is disabled
+      drm/i915/guc: clear stalled request after a reset
+
+Danilo Krummrich (22):
+      drm/virtio: plane: use drm managed resources
+      drm/virtio: kms: use drm managed resources
+      drm/amdgpu: use idr_init_base() to initialize mgr->ctx_handles
+      drm/amdgpu: use idr_init_base() to initialize fpriv->bo_list_handles
+      drm: use idr_init_base() to initialize master->magic_map
+      drm: use idr_init_base() to initialize master->lessee_idr
+      drm: use idr_init_base() to initialize mode_config.object_idr
+      drm: use idr_init_base() to initialize mode_config.tile_idr
+      drm/sis: use idr_init_base() to initialize dev_priv->object_idr
+      drm/v3d: use idr_init_base() to initialize v3d_priv->perfmon.idr
+      drm/via: use idr_init_base() to initialize dev_priv->object_idr
+      drm/todo: remove task for idr_init_base()
+      drm/fb: remove unused includes of drm_fb_cma_helper.h
+      drm/fb: rename FB CMA helpers to FB DMA helpers
+      drm/gem: rename GEM CMA helpers to GEM DMA helpers
+      drm/gem: rename struct drm_gem_dma_object.{paddr =3D> dma_addr}
+      drm/todo: remove task to rename CMA helpers
+      drm/virtio: remove drm_plane_cleanup() destroy hook
+      drm/vc4: hdmi: unlock mutex when device is unplugged
+      drm/vc4: plane: protect device resources after removal
+      drm/vc4: crtc: protect device resources after removal
+      drm/vc4: hvs: protect drm_print_regset32()
+
+Dave Airlie (17):
+      Merge tag 'drm-intel-gt-next-2022-08-24' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'drm-misc-next-2022-09-09' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next
+      Merge tag 'amd-drm-next-6.1-2022-09-08' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+      Merge tag 'drm-intel-gt-next-2022-09-09' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'drm-intel-next-2022-08-29' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'drm-intel-gt-next-2022-09-16' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'drm-intel-next-2022-09-16-1' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'amd-drm-next-6.1-2022-09-16' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+      Merge tag 'du-next-20220907' of
+git://linuxtv.org/pinchartl/media into drm-next
+      Merge tag 'exynos-drm-next-for-v6.1' of
+git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into
+drm-next
+      Merge tag 'mediatek-drm-next-6.1' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-next
+      Merge tag 'drm-msm-next-2022-09-22' of
+https://gitlab.freedesktop.org/drm/msm into drm-next
+      Merge tag 'drm-misc-next-2022-09-23' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next
+      Merge tag 'amd-drm-next-6.1-2022-09-23' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+      Merge tag 'drm-intel-next-fixes-2022-09-29' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'drm-misc-next-2022-09-30' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next
+      Merge tag 'amd-drm-next-6.1-2022-09-30' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+
+David Belanger (2):
+      drm/amdkfd: Added GFX 11.0.3 Support
+      drm/amdgpu: Enable SA software trap.
+
+David Gow (1):
+      drm/amd/display: fix overflow on MIN_I64 definition
+
+Derek Lai (1):
+      drm/amd/display: do not change pipe split policy for RV2
+
+Diego Santa Cruz (1):
+      drm/i915/glk: ECS Liva Q2 needs GLK HDMI port timing quirk
+
+Dillon Varone (1):
+      drm/amd/display: Fix various dynamic ODM transitions on DCN32
+
+Dmitry Baryshkov (27):
+      drm/bridge: ti-sn65dsi86: fetch bpc using drm_atomic_state
+      drm/bridge: ti-sn65dsi86: support DRM_BRIDGE_ATTACH_NO_CONNECTOR
+      drm/msm/dpu: use drm_dsc_config instead of msm_display_dsc_config
+      drm/msm/dsi: use drm_dsc_config instead of msm_display_dsc_config
+      dt-bindings: display/msm/gpu: allow specifying several IOMMU nodes
+      dt-bindings: display/msm/gmu: account for different GMU variants
+      dt-bindings: display/msm/mdp4: require 4 IOMMUs
+      drm/msm: lookup the ICC paths in both mdp5/dpu and mdss devices
+      drm/msm/dpu: index dpu_kms->hw_vbif using vbif_idx
+      drm/msm/dpu: fix error handling around dpu_hw_vbif_init
+      drm/msm/dpu: drop VBIF indices
+      drm/msm/dpu: drop unused memory allocation
+      drm/msm/dpu: drop unused variable from dpu_kms_mdp_snapshot()
+      drm/msm/dpu: rip out master planes support
+      drm/msm/dpu: do not limit the zpos property
+      drm/msm/dpu: inline dpu_plane_get_ctl_flush
+      drm/msm/dpu: get rid of cached flush_mask
+      dt-bindings: msm/dp: mark vdda supplies as deprecated
+      dt-bindings: msm/dp: add missing properties
+      dt-bindings: msm/dp: handle DP vs eDP difference
+      drm/msm/dsi: drop the hpd worker
+      drm/mipi-dsi: pass DSC data through the struct mipi_dsi_device
+      drm/msm/dsi: fetch DSC pps payload from struct mipi_dsi_device
+      drm/panel: drop DSC pps pointer
+      drm/msm/dsi: switch to DRM_PANEL_BRIDGE
+      dt-bindings: phy: qcom, hdmi-phy-qmp: add clock-cells and XO clock
+      drm/msm/hdmi: make hdmi_phy_8996 OF clk provider
+
+Dmitry Osipenko (9):
+      drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
+      drm/virtio: Check whether transferred 2D BO is shmem
+      drm/virtio: Unlock reservations on virtio_gpu_object_shmem_init() err=
+or
+      drm/virtio: Unlock reservations on dma_resv_reserve_fences() error
+      drm/virtio: Use appropriate atomic state in virtio_gpu_plane_cleanup_=
+fb()
+      drm/virtio: Simplify error handling of virtio_gpu_object_create()
+      drm/virtio: Improve DMA API usage for shmem BOs
+      drm/virtio: Use dev_is_pci()
+      drm/virtio: Return proper error codes instead of -1
+
+Dmytro Laktyushkin (2):
+      drm/amd/display: fix dcn315 memory channel count and width read
+      drm/amd/display: increase dcn315 pstate change latency
+
+Douglas Anderson (8):
+      MAINTAINERS: Add myself as a reviewer for panel-edp.c
+      drm/panel-edp: Fix typo in kerneldoc comment (appers=3D>appears)
+      drm/msm/dsi: Fix number of regulators for msm8996_dsi_cfg
+      drm/msm/dsi: Fix number of regulators for SDM660
+      drm/msm/dsi: Don't set a load before disabling a regulator
+      drm/msm/dsi: Use the new regulator bulk feature to specify the load
+      drm/msm/dsi: Take advantage of devm_regulator_bulk_get_const()
+      drm/msm/dsi: Improve dsi_phy_driver_probe() probe error handling
+
+Duncan Ma (2):
+      drm/amd/display: Fix OTG H timing reset for dcn314
+      drm/amd/display: Correct dram channel width for dcn314
+
+Eric Bernstein (1):
+      drm/amd/display: Remove assert for odm transition case
+
+Ethan Wellenreiter (2):
+      drm/amd/display: Re-initialize viewport after pipe merge
+      drm/amd/display: Fix check for stream and plane
+
+Evan Quan (10):
+      drm/amd/pm: update SMU 13.0.0 driver_if header
+      drm/amd/pm: use vbios carried pptable for those supported SKUs
+      drm/amd/pm: use vbios carried pptable for all SMU13.0.7 SKUs
+      drm/amd/pm: bump SMU 13.0.0 driver_if header version
+      drm/amd/pm: add missing SetMGpuFanBoostLimitRpm mapping for SMU 13.0.=
+7
+      drm/amd/pm: add support for 3794 pptable for SMU13.0.0
+      drm/amd/pm: drop the pptable related workarounds for SMU 13.0.0
+      drm/amdgpu: avoid gfx register accessing during gfxoff
+      drm/amd/pm: enable gfxoff feature for SMU 13.0.0
+      drm/amd/pm: use adverse selection for dpm features unsupported by dri=
+ver
+
+Felix Kuehling (2):
+      drm/amdkfd: Allocate doorbells only when needed
+      drm/amdkfd: Fix UBSAN shift-out-of-bounds warning
+
+Francesco Dolcini (2):
+      drm/bridge: lt8912b: clarify lvds output status
+      drm/bridge: lt8912b: fix corrupted image output
+
+Frank Min (3):
+      drm/amdgpu: support psp v13_0_10 ip block
+      drm/amdgpu: add new ip block for PSP 13.0
+      drm/amdgpu: add gc v11_0_3 ip headers
+
+Gabe Teeger (2):
+      drm/amd/display: Cursor lag with PSR1 eDP
+      drm/amd/display: Cleanup PSR flag
+
+Gaosheng Cui (6):
+      drm/i915: remove unused i915_gem_lmem_obj_ops declaration
+      drm/vmwgfx: remove unused vmw_bo_is_vmw_bo() declaration
+      drm/radeon/r600_cs: remove r600_cs_legacy_get_tiling_conf() declarati=
+on
+      drm/radeon: remove unused declarations for radeon
+      drm/gma500: remove unused declarations in psb_intel_drv.h
+      drm/amd/pm: remove unused declarations in hardwaremanager.h
+
+Geert Uytterhoeven (14):
+      drm/fourcc: Add drm_format_info_bpp() helper
+      drm/fourcc: Add drm_format_info.is_color_indexed flag
+      drm/client: Use actual bpp when allocating frame buffers
+      drm/framebuffer: Use actual bpp for DRM_IOCTL_MODE_GETFB
+      drm/fourcc: Add DRM_FORMAT_C[124]
+      drm/fb-helper: Add support for DRM_FORMAT_C[124]
+      drm/gem-fb-helper: Use actual bpp for size calculations
+      drm/fourcc: Clarify the meaning of single-channel "red"
+      drm/fourcc: Add DRM_FORMAT_R[124]
+      drm/fourcc: Add DRM_FORMAT_D[1248]
+      drm/mode: Improve drm_mode_fb_cmd2 documentation
+      drm/fb: Improve drm_framebuffer.offsets documentation
+      drm/format-helper: Fix endianness in drm_fb_*_to_*() conversion helpe=
+rs
+      drm/gud: Fix endianness in gud_xrgb8888_to_color() helper
+
+George Shen (3):
+      drm/amd/display: Fix DCN32 DPSTREAMCLK_CNTL programming
+      drm/amd/display: Fix urgent latency override for DCN32/DCN321
+      drm/amd/display: Update dummy P-state search to use DCN32 DML
+
+Gerd Hoffmann (1):
+      drm/bochs: fix blanking
+
+Graham Sider (5):
+      drm/amdgpu: Update mes_v11_api_def.h
+      drm/amdkfd: fix MQD init for GFX11 in init_mqd
+      drm/amdgpu: pass queue size and is_aql_queue to MES
+      drm/amdkfd: fix dropped interrupt in kfd_int_process_v11
+      drm/amdgpu: remove switch from amdgpu_gmc_noretry_set
+
+Greg Kroah-Hartman (1):
+      drm/amd/display: fix memory leak when using debugfs_lookup()
+
+Guchun Chen (5):
+      drm/amdgpu: use adev_to_drm to get drm device
+      drm/amdgpu: use dev_info to benefit mGPU case
+      drm/amdgpu: disable FRU access on special SIENNA CICHLID card
+      drm/amdgpu: prevent toc firmware memory leak
+      drm/amd/pm: disable BACO entry/exit completely on several sienna
+cichlid cards
+
+Guillaume Ranquet (2):
+      drm/mediatek: dp: Add MT8195 External DisplayPort support
+      drm/mediatek: dp: Audio support for MT8195
+
+Guo Zhengkui (1):
+      drm: omapdrm: dss: replace ternary operator with max()
+
+Hamza Mahfooz (9):
+      drm/dp_mst: add passthrough_aux to struct drm_dp_mst_port
+      drm/amd/display: consider DSC pass-through during mode validation
+      drm/amd/display: implement DSC pass-through support
+      drm/amd/display: include soc._clock_tmp[] into DC's scratch region
+      drm/amd/display: fix i386 frame size warning
+      drm/amd/display: fix indentation in commit_planes_for_stream()
+      drm/bridge: it6505: use drm_debug_enabled() in it6505_debug_print()
+      drm/amdgpu: use dirty framebuffer helper
+      drm/amd/display: fix array-bounds error in dc_stream_remove_writeback=
+()
+
+Hans de Goede (42):
+      ACPI: video: Add acpi_video_backlight_use_native() helper
+      drm/i915: Don't register backlight when another backlight should
+be used (v2)
+      drm/amdgpu: Don't register backlight when another backlight
+should be used (v3)
+      drm/radeon: Don't register backlight when another backlight
+should be used (v3)
+      drm/nouveau: Don't register backlight when another backlight
+should be used (v2)
+      ACPI: video: Drop backlight_device_get_by_type() call from
+acpi_video_get_backlight_type()
+      ACPI: video: Remove acpi_video_bus from list before tearing it down
+      ACPI: video: Simplify acpi_video_unregister_backlight()
+      ACPI: video: Make backlight class device registration a separate step=
+ (v2)
+      ACPI: video: Remove code to unregister acpi_video backlight when
+a native backlight registers
+      drm/i915: Call acpi_video_register_backlight() (v3)
+      drm/nouveau: Register ACPI video backlight when nv_backlight
+registration fails (v2)
+      drm/amdgpu: Register ACPI video backlight when skipping amdgpu
+backlight registration
+      drm/radeon: Register ACPI video backlight when skipping radeon
+backlight registration
+      platform/x86: nvidia-wmi-ec-backlight: Move fw interface
+definitions to a header (v2)
+      ACPI: video: Refactor acpi_video_get_backlight_type() a bit
+      ACPI: video: Add Nvidia WMI EC brightness control detection (v3)
+      ACPI: video: Add Apple GMUX brightness control detection
+      platform/x86: nvidia-wmi-ec-backlight: Use acpi_video_get_backlight_t=
+ype()
+      platform/x86: apple-gmux: Stop calling acpi/video.h functions
+      platform/x86: toshiba_acpi: Stop using acpi_video_set_dmi_backlight_t=
+ype()
+      platform/x86: acer-wmi: Move backlight DMI quirks to acpi/video_detec=
+t.c
+      platform/x86: asus-wmi: Drop DMI chassis-type check from
+backlight handling
+      platform/x86: asus-wmi: Move acpi_backlight=3Dvendor quirks to
+ACPI video_detect.c
+      platform/x86: asus-wmi: Move acpi_backlight=3Dnative quirks to
+ACPI video_detect.c
+      platform/x86: samsung-laptop: Move
+acpi_backlight=3D[vendor|native] quirks to ACPI video_detect.c
+      ACPI: video: Remove acpi_video_set_dmi_backlight_type()
+      ACPI: video: Drop "Samsung X360" acpi_backlight=3Dnative quirk
+      ACPI: video: Drop NL5x?U, PF4NU1F and PF5?U?? acpi_backlight=3Dnative=
+ quirks
+      ACPI: video: Fix indentation of video_detect_dmi_table[] entries
+      drm/todo: Add entry about dealing with brightness control on
+devices with > 1 panel
+      drm/gma500: Fix (vblank) IRQs not working after suspend/resume
+      drm/gma500: Remove runtime_allowed dead code in psb_unlocked_ioctl()
+      drm/gma500: Remove never set dev_priv->rpm_enabled flag
+      drm/gma500: Remove a couple of not useful function wrappers
+      drm/gma500: Rewrite power management code
+      drm/gma500: Remove unnecessary suspend/resume wrappers
+      drm/gma500: Refactor backlight support (v2)
+      drm/gma500: Change registered backlight device type to raw/native
+      drm/gma500: Use backlight_get_brightness() to get the brightness
+      drm/gma500: Don't register backlight when another backlight should be=
+ used
+      drm/gma500: Call acpi_video_register_backlight()
+
+Harish Chegondi (1):
+      drm/i915/dg2: Add Wa_1509727124
+
+Harshit Mogalapalli (1):
+      drm/vkms: fix variable dereferenced before check warning
+
+Hawking Zhang (30):
+      drm/amdgpu: drop gc 11_0_0 golden settings
+      drm/amdgpu: initialize common sw config for v11_0_3
+      drm/amdgpu: add new ip block for SOC21
+      drm/amdgpu: declare firmware for new SDMA 6.0.3
+      drm/amdgpu: add new ip block for sdma 6.0
+      drm/amdgpu: add new ip block for LSDMA 6.0
+      drm/amdgpu: only init tap_delay ucode when it's included in ucode bin=
+ary
+      drm/amdgpu: initialize gmc sw config for v11_0_3
+      drm/amdgpu: add new ip block for GMC 11.0
+      drm/amdgpu: declare firmware for new GC 11.0.3
+      drm/amdgpu: declare firmware for new MES 11.0.3
+      drm/amdgpu: init gfx config for gfx v11_0_3
+      drm/amdgpu: enable imu_rlc_ram programming for v11_0_3
+      drm/amdgpu: Set GC family for GC 11.0.3
+      drm/amdgpu: add new ip block for GFX 11.0
+      drm/amdgpu: add new ip block for MES 11.0.3
+      drm/amdgpu: save rlcv/rlcp ucode version in amdgpu_gfx
+      drm/amdgpu: support print rlc v2_x ucode hdr
+      drm/amdgpu: add two new subquery ids
+      drm/amdgpu: add rlcv/rlcp version info to debugfs
+      drm/amdgpu: add helper to init rlc fw in header v2_0
+      drm/amdgpu: add helper to init rlc fw in header v2_1
+      drm/amdgpu: add helper to init rlc fw in header v2_2
+      drm/amdgpu: add helper to init rlc fw in header v2_3
+      drm/amdgpu: add helper to init rlc fw in header v2_4
+      drm/amdgpu: add helper to init rlc firmware
+      drm/amdgpu/gfx9: switch to amdgpu_gfx_rlc_init_microcode
+      drm/amdgpu/gfx10: switch to amdgpu_gfx_rlc_init_microcode
+      drm/amdgpu/gfx11: switch to amdgpu_gfx_rlc_init_microcode
+      drm/amdgpu: add rlc_sr_cntl_list to firmware array
+
+Horace Chen (7):
+      drm/amdgpu: add CHIP_IP_DISCOVERY support for virtualization
+      drm/amdgpu: add sriov nbio callback structure
+      drm/amdgpu: add a compute pipe reset for RS64
+      drm/amdgpu: enable WPTR_POLL_ENABLE for sriov on sdma_v6_0
+      drm/amdgpu: refine virtualization psp fw skip check
+      drm/amdgpu: sriov remove vcn_4_0 and jpeg_4_0
+      drm/amdgpu: Support PSP 13.0.10 on SR-IOV
+
+Hsin-Yi Wang (1):
+      drm/bridge: ps8640: Add double reset T4 and T5 to power-on sequence
+
+Hugh Cole-Baker (2):
+      drm/rockchip: define gamma registers for RK3399
+      drm/rockchip: support gamma control on RK3399
+
+Hugo Hu (1):
+      drm/amd/display: update gamut remap if plane has changed
+
+Ian Chen (4):
+      drm/amd/display: Refactor edp dsc codes.
+      drm/amd/display: Add comments.
+      drm/amd/display: Refactor edp panel power sequencer(PPS) codes
+      drm/amd/display: Add ABM control to panel_config struct.
+
+Igor Torrente (9):
+      drm: vkms: Replace hardcoded value of `vkms_composer.map` to
+DRM_FORMAT_MAX_PLANES
+      drm: vkms: Rename `vkms_composer` to `vkms_frame_info`
+      drm: drm_atomic_helper: Add a new helper to deal with the
+writeback connector validation
+      drm: vkms: get the reference to `drm_framebuffer` instead if coping i=
+t
+      drm: vkms: Add fb information to `vkms_writeback_job`
+      drm: vkms: Refactor the plane composer to accept new formats
+      drm: vkms: Supports to the case where primary plane doesn't match the=
+ CRTC
+      drm: vkms: Adds XRGB_16161616 and ARGB_1616161616 formats
+      drm: vkms: Add support to the RGB565 format
+
+Ilya Bakoulin (2):
+      drm/amd/display: Change AUX NACK behavior
+      drm/amd/display: Change EDID fallback condition
+
+Imre Deak (10):
+      drm/i915/tgl+: Fix HDMI transcoder clock vs. DDI BUF disabling order
+      drm/i915/d12+: Disable DMC handlers during loading/disabling the firm=
+ware
+      drm/i915/d13: Add Wa_16015201720 disabling clock gating for PIPEDMC-A=
+/B
+      drm/i915/xelpd: Fix unclaimed accesses while loading PIPEDMC-C/D
+      drm/i915/tc: Fix PHY ownership programming in HDMI legacy mode
+      drm/i915/mtl: Add VBT port and AUX_CH mapping
+      drm/i915/dp_mst: Fix mst_mgr lookup during atomic check
+      drm/dp_mst: Avoid deleting payloads for connectors staying enabled
+      drm/i915/mtl: Add display power wells
+      drm/i915/mtl: Add DP AUX support on TypeC ports
+
+Iswara Nagulendran (1):
+      drm/amd/display: Fix primary EDP link detection
+
+Jaehyun Chung (1):
+      drm/amd/display: Assume connectors are on single slot
+
+Jammy Huang (2):
+      drm/ast: Add resolution support for 1152x864@75
+      drm/ast: Fix video broken in some resolutions on ast2600
+
+Jane Jian (4):
+      drm/amdgpu/vcn: Disable CG/PG for SRIOV
+      drm/amdgpu/vcn: Add vcn/vcn1 in white list to load its firmware
+under sriov
+      drm/amdgpu/vcn: Add sriov VCN v4_0 unified queue support
+      drm/amdgpu/vcn: Add MMSCH v4_0 support for sriov
+
+Jani Nikula (92):
+      drm/i915/hdcp: split out hdcp registers to a separate file
+      drm/i915/hdcp: replace BIT() with REG_BIT() in register definitions
+      drm/i915/backlight: split out backlight registers to a separate file
+      drm/i915/dsi: filter invalid backlight and CABC ports
+      drm/i915/dsi: fix dual-link DSI backlight and CABC ports for display =
+11+
+      drm/i915/dsi: use VBT backlight and CABC port definitions directly
+      drm/i915/mtl: Meteorlake and later support DP 2.0
+      drm/i915/utils: remove unused KBps/MBps/GBps macros
+      drm/i915/guc: remove runtime info printing from time stamp logging
+      drm/i915: combine device info printing into one
+      drm/i915: add initial runtime info into device info
+      drm/i915: move graphics.ver and graphics.rel to runtime info
+      drm/i915: move fbc_mask to runtime info
+      drm/i915: move page_sizes to runtime info
+      drm/i915: move ppgtt_type and ppgtt_size to runtime info
+      drm/i915: move has_pooled_eu to runtime info
+      drm/i915: move memory_regions to runtime info
+      drm/i915: move platform_engine_mask to runtime info
+      drm/i915: move pipe_mask and cpu_transcoder_mask to runtime info
+      drm/i915: move has_hdcp to runtime info
+      drm/i915: move has_dmc to runtime info
+      drm/i915: move has_dsc to runtime info
+      drm/i915: add display sub-struct to drm_i915_private
+      drm/i915: move cdclk_funcs to display.funcs
+      drm/i915: move dpll_funcs to display.funcs
+      drm/i915: move hotplug_funcs to display.funcs
+      drm/i915: move wm_disp funcs to display.funcs
+      drm/i915: move fdi_funcs to display.funcs
+      drm/i915: move color_funcs to display.funcs
+      drm/i915: move and group gmbus members under display.gmbus
+      drm/i915: move and group pps members under display.pps
+      drm/i915: move dmc to display.dmc
+      drm/i915: move and split audio under display.audio and display.funcs
+      drm/i915: move dpll under display.dpll
+      drm/i915: move and group fbdev under display.fbdev
+      drm/i915: move wm to display.wm
+      drm/i915: move hotplug to display.hotplug
+      drm/i915: move overlay to display.overlay
+      drm/i915: move and group sagv under display.sagv
+      drm/i915/vrr: drop window2_delay member from i915
+      drm/i915: move INTEL_FRONTBUFFER_* macros to intel_frontbuffer.h
+      drm/i915: split gem quirks from display quirks
+      Merge drm/drm-next into drm-intel-next
+      drm/dp: add drm_dp_phy_name() for getting DP PHY name
+      drm/i915: move and group hdcp under display.hdcp
+      drm/i915: move and group max_bw and bw_obj under display.bw
+      drm/i915: move opregion to display.opregion
+      drm/i915: move and group cdclk under display.cdclk
+      drm/i915: move backlight to display.backlight
+      drm/i915: move mipi_mmio_base to display.dsi
+      drm/i915: move vbt to display.vbt
+      drm/i915: move fbc to display.fbc
+      drm/i915: move and group power related members under display.power
+      drm/i915: move and group fdi members under display.fdi
+      drm/i915: move fb_tracking under display sub-struct
+      drm/i915: move dbuf under display sub-struct
+      drm/i915: move and group modeset_wq and flip_wq under display.wq
+      drm/i915/quirks: abstract checking for display quirks
+      drm/i915/quirks: abstract quirks further by making quirk ids an enum
+      drm/i915: move quirks under display sub-struct
+      drm/i915: move atomic_helper under display sub-struct
+      drm/i915: move and group properties under display.properties
+      drm/i915/gmbus: split out gmbus regs in a separate file
+      drm/i915/gmbus: whitespace cleanup in reg definitions
+      drm/i915/gmbus: add wrapper for gmbus mmio base
+      drm/i915/gmbus: stop using implicit dev_priv in register definitions
+      drm/i915/reg: stop using implicit dev_priv in DSPCLK_GATE_D
+      drm/i915/gmbus: mass dev_priv -> i915 rename
+      drm/i915/crt: remove BUG_ON()
+      drm/i915/dpll: replace BUG_ON() with drm_WARN_ON()
+      drm/i915/pch: replace BUG_ON() with drm_WARN_ON()
+      drm/i915/perf: replace BUG_ON() with WARN_ON()
+      drm/i915/fence: replace BUG_ON() with BUILD_BUG_ON()
+      drm/i915: remove unused macro I915_GTT_OFFSET_NONE
+      drm/i915: remove unused i915_gem_set_global_seqno() declaration
+      drm/i915: un-inline i915_gem_drain_workqueue()
+      drm/i915: un-inline i915_gem_drain_freed_objects()
+      drm/i915: split out i915_gem.c declarations to i915_gem.h
+      Revert "drm/i915: Add DSC support to MST path"
+      Revert "drm/i915: Extract drm_dp_atomic_find_vcpi_slots cycle to
+separate function"
+      Revert "drm/i915: Fix intel_dp_mst_compute_link_config"
+      Revert "drm: Add missing DP DSC extended capability definitions."
+      drm/i915/dsb: hide struct intel_dsb better
+      Merge drm/drm-next into drm-intel-next
+      drm/i915/dp: use drm_dp_phy_name() for logging
+      drm/i915/ipc: refactor and rename IPC functions
+      drm/i915/ipc: move IPC debugfs to skl_watermark.c
+      drm/i915/ipc: register debugfs only if IPC available
+      drm/i915/display: move IPC under display wm sub-struct
+      drm/i915/ipc: use intel_uncore_rmw() to enable/disable
+      drm/i915/display: remove ipc_enabled from struct drm_i915_private
+      drm/i915: fix device info for devices without display
+
+Jason Wang (4):
+      drm/i915/gt: Remove unneeded semicolon
+      drm/i915/selftests: Fix comment typo
+      drm/gma500: Fix comment typo
+      drm/msm/dpu: Fix comment typo
+
+Javier Martinez Canillas (10):
+      drm: Use size_t type for len variable in drm_copy_field()
+      drm: Prevent drm_copy_field() to attempt copying a NULL pointer
+      drm/ssd130x: Use new regmap bulk write support to drop custom bus
+      drm/bridge: ti-sn65dsi86: Use dev_err_probe() to avoid polluting the =
+log
+      drm/msm: Make .remove and .shutdown HW shutdown consistent
+      drm/ssd130x: Replace simple display helpers with the atomic helpers
+      drm/plane-helper: Add a drm_plane_helper_atomic_check() helper
+      drm/msm: Make .remove and .shutdown HW shutdown consistent
+      drm/ssd130x: Use drm_atomic_get_new_plane_state()
+      drm/ssd130x: Synchronize access to dma-buf imported GEM BOs
+
+JeromeHong (1):
+      drm/amd/display: Avoid force minimal transaction in case of
+surface_count equal to 0
+
+Jiadong.Zhu (2):
+      drm/amdgpu: Correct the position in patch_cond_exec
+      drm/amdgpu: Remove fence_process in count_emitted
+
+Jianglei Nie (2):
+      drm/nouveau: fix a use-after-free in nouveau_gem_prime_import_sg_tabl=
+e()
+      drm/nouveau/nouveau_bo: fix potential memory leak in nouveau_bo_alloc=
+()
+
+Jiapeng Chong (14):
+      drm/amd/display: make enc32_stream_encoder_dvi_set_stream_attribute s=
+tatic
+      drm/amd/display: make dscl32_calc_lb_num_partitions static
+      drm/amd/display: make dcn32_link_encoder_is_in_alt_mode and
+dcn32_link_encoder_get_max_link_cap static
+      drm/amd/display: make mpc32_program_shaper and mpc32_program_3dlut st=
+atic
+      drm/amd/display: Remove the unused function copy_stream_update_to_str=
+eam()
+      drm/amd/display: make some functions static
+      drm/amd/display: make
+enc314_stream_encoder_dvi_set_stream_attribute static
+      drm/amd/display: make optc314_phantom_crtc_post_enable static
+      drm/amd/display: make some functions static
+      drm/amd/display: make mmhubbub32_config_mcif_buf static
+      drm/amd/display: make some functions static
+      drm/amd/display: make some functions static
+      drm/amd/display: make optc32_phantom_crtc_post_enable,
+optc32_setup_manual_trigger and optc32_set_drr static
+      drm/atomic-helper: Fix kernel-doc
+
+Jilin Yuan (4):
+      drm/gma500: fix repeated words in comments
+      drm/tidss: fix repeated words in comments
+      drm/amd/display: fix repeated words in comments
+      drm/vboxvideo: fix repeated words in comments
+
+JinZe.Xu (1):
+      drm/amd/display: Assign link type before check dsc workaround.
+
+Jingyu Wang (5):
+      drm/amdgpu: cleanup coding style in amdgpu_acpi.c
+      drm/amdgpu: cleanup coding style in amdgpu_sync.c file
+      drm/amdgpu: cleanup coding style in amdgpu_amdkfd.c
+      drm/amdgpu: cleanup coding style in amdgpu_amdkfd_gpuvm.c
+      drm/amdgpu/display: remove unneeded "default n" options
+
+Jinpeng Cui (2):
+      drm/amd/display: remove redundant vertical_line_start variable
+      drm/amdkfd: remove redundant variables err and ret
+
+Jitao Shi (1):
+      drm/mediatek: dp: Add hpd debounce
+
+Johan Hovold (1):
+      drm/panel-edp: add AUO B133UAN02.1 panel entry
+
+John Clements (4):
+      drm/amdgpu: added firmware module for psp 13.0.10
+      drm/amdgpu: added supported smu 13.0.10 sw pptable
+      drm/amdgpu: enable smu block for smu 13.0.10
+      drm/amdgpu: added support for ras driver loading
+
+John Harrison (14):
+      drm/i915/guc: Don't use pr_err when not necessary
+      drm/i915/selftest: Cope with not having an RCS engine
+      drm/i915/guc: Don't abort on CTB_UNUSED status
+      drm/i915/dg2: Update DG2 to GuC v70.4.1
+      drm/i915/guc: Fix capture size warning and bump the size
+      drm/i915/guc: Add GuC <-> kernel time stamp translation information
+      drm/i915/guc: Record CTB info in error logs
+      drm/i915/guc: Make GuC log sizes runtime configurable
+      drm/i915/guc: Reduce spam from error capture
+      drm/i915/uc: Support for version reduced and multiple firmware files
+      drm/i915/uc: Add patch level version number support
+      drm/i915/uc: Fix issues with overriding firmware files
+      drm/i915/uc: Update to latest GuC and use new-format GuC/HuC names
+      drm/i915/guc: Fix release build bug in 'remove log size module parame=
+ters'
+
+Joonas Lahtinen (1):
+      drm/i915/guc: Remove log size module parameters
+
+Josip Pavic (2):
+      drm/amd/display: do not compare integers of different widths
+      drm/amd/display: log vertical interrupt 1 for debug
+
+Jos=C3=A9 Exp=C3=B3sito (7):
+      drm/format-helper: Fix test on big endian architectures
+      drm/format-helper: Rename test cases to make them more generic
+      drm/format-helper: Support multiple target formats results
+      drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_rgb565()
+      drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_rgb888()
+      drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_xrgb2101010=
+()
+      drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_gray8()
+
+Jos=C3=A9 Roberto de Souza (4):
+      Revert "drm/i915/display: Ensure PSR gets disabled if no
+encoders in new state"
+      drm/i915/psr: Disable PSR before disable pipe
+      drm/i915/display/mtl: Extend MBUS programming
+      drm/i915: Add new ADL-S pci id
+
+Jouni H=C3=B6gander (11):
+      drm/i915/display: Ensure PSR gets disabled if no encoders in new stat=
+e
+      drm: New function to get luminance range based on static hdr metadata
+      drm/amdgpu_dm: Rely on split out luminance calculation function
+      drm/i915: Use luminance range calculated during edid parsing
+      drm/i915/backlight: Disable pps power hook for aux based backlight
+      drm/i915/psr: Equation changed for sending start/stop on prior line
+      drm/i915/psr: Disable PSR2 when SDP is sent on prior line
+      drm/i915/display: Use original src in psr2 sel fetch area calculation
+      drm/i915/display: Use drm helper instead of own loop for damage clips
+      drm: Use original src rect while initializing damage iterator
+      drm/tests: Set also mock plane src_x, src_y, src_w and src_h
+
+Juston Li (1):
+      drm/i915/pxp: don't start pxp without mei_pxp bind
+
+Khaled Almahallawy (1):
+      drm/dp: Don't rewrite link config when setting phy test pattern
+
+Krzysztof Kozlowski (5):
+      dt-bindings: display/msm: dpu-msm8998: add missing DPU opp-table
+      dt-bindings: display/msm: dpu-qcm2290: add missing DPU opp-table
+      dt-bindings: display/msm: dpu-sc7180: add missing DPU opp-table
+      dt-bindings: display/msm: dpu-sc7280: add missing DPU opp-table
+      dt-bindings: display/msm: dpu-sdm845: add missing DPU opp-table
+
+Kuogee Hsieh (3):
+      drm/msm/dp: make eDP panel as the first connected connector
+      drm/msm/dp: delete DP_RECOVERED_CLOCK_OUT_EN to fix tps4
+      drm/msm/dp: correct 1.62G link rate at dp_catalog_ctrl_config_msa()
+
+Lad Prabhakar (1):
+      dt-bindings: display: bridge: renesas,dw-hdmi: Add resets property
+
+Laurent Pinchart (4):
+      drm/fourcc: Add formats for packed YUV 4:4:4 AVUY and XVUY permutatio=
+ns
+      drm/bridge: ti-sn65dsi86: Support DisplayPort (non-eDP) mode
+      drm/bridge: ti-sn65dsi86: Implement bridge connector operations for D=
+P
+      drm: rcar-du: Drop leftovers variables from Makefile
+
+Le Ma (1):
+      drm/amdgpu: correct the memcpy size for ip discovery firmware
+
+Lee, Alvin (1):
+      drm/amd/display: Added debug option for forcing subvp num ways
+
+Leo (Hanghong) Ma (2):
+      drm/amd/display: Add support for visual confirm color
+      drm/amd/display: Add visual confirm color support for SubVP
+
+Leo Chen (6):
+      drm/amd/display: Adding log clock table from SMU
+      drm/amd/display: add a override flag as wa for some specific dongle
+      drm/amd/display: Missing HPO instance added
+      drm/amd/display: Fixing DIG FIFO Error
+      drm/amd/display: Adding log for spread_spectrum_info
+      drm/amd/display: Various logs added
+
+Leo Li (3):
+      drm/amd/display: Fix double cursor on non-video RGB MPO
+      drm/amd/display: Prevent OTG shutdown during PSR SU
+      drm/amdgpu: Fix mc_umc_status used uninitialized warning
+
+Lewis Huang (1):
+      drm/amd/display: Refine aux transaction before retrieve caps
+
+Li Ma (1):
+      drm/amd/pm:add new gpu_metrics_v2_3 to acquire average temperature in=
+fo
+
+Li Zhong (1):
+      drivers/amd/pm: check the return value of amdgpu_bo_kmap
+
+Li zeming (1):
+      drm/ttm: Remove unnecessary '0' values from ret
+
+Liang He (4):
+      drm/bridge: anx7625: Fix refcount bug in anx7625_parse_dt()
+      drm/bridge: tc358767: Add of_node_put() when breaking out of loop
+      drm:pl111: Add of_node_put() when breaking out of
+for_each_available_child_of_node()
+      drm/omap: dss: Fix refcount leak bugs
+
+Lijo Lazar (3):
+      drm/amdgpu: Don't enable LTR if not supported
+      drm/amdgpu: Disable verbose for p2p dist calc
+      drm/amdgpu: Use simplified API for p2p dist calc
+
+Likun Gao (12):
+      drm/amdgpu: add MGCG perfmon setting for gfx11
+      drm/amdgpu: add function to init CP microcode
+      drm/amdgpu/gfx9: use common function to init cp fw
+      drm/amdgpu/gfx10: use common function to init CP fw
+      drm/amdgpu/gfx11: use common function to init cp fw
+      drm/amdgpu: add function to init SDMA microcode
+      drm/amdgpu/sdma4: use common function to init sdma fw
+      drm/amdgpu/sdma5: use common function to init sdma fw
+      drm/amdgpu: support sdma struct v2 fw init
+      drm/amdgpu/sdma6: use common function to init sdma fw
+      drm/amdgpu: fix compiler warning for amdgpu_gfx_cp_init_microcode
+      drm/amdgpu: fix sdma v4 init microcode error
+
+Linus Walleij (1):
+      drm/tve200: Fix smatch warning
+
+Liu Zixian (1):
+      drm: correct comments
+
+Liviu Dudau (1):
+      drm/komeda: Fix handling of atomic commits in the atomic_commit_tail =
+hook
+
+Lucas De Marchi (7):
+      Revert "drm/i915/dg2: extend Wa_1409120013 to DG2"
+      drm/i915/gt: Use MEDIA_VER() when handling media fuses
+      drm/i915/gt: Extract function to apply media fuses
+      drm/i915: Skip applying copy engine fuses
+      drm/i915: Invert if/else ladder for frequency read
+      drm/i915/gt: Extract per-platform function for frequency read
+      drm/i915: Invert if/else ladder for stolen init
+
+Lucas Stach (4):
+      drm/bridge: tc358767: don't fixup mode sync polarity
+      drm/bridge: tc358767: increase CLRSIPO count
+      drm/bridge: tc358767: disable main link PHYs on main link disable
+      drm: bridge: dw_hdmi: only trigger hotplug event on link change
+
+Lyude Paul (18):
+      drm/nouveau/kms/nv140-: Disable interlacing
+      drm/amdgpu/dc/mst: Rename dp_mst_stream_allocation(_table)
+      drm/amdgpu/dm/mst: Rename get_payload_table()
+      drm/display/dp_mst: Rename drm_dp_mst_vcpi_allocation
+      drm/display/dp_mst: Call them time slots, not VCPI slots
+      drm/display/dp_mst: Fix confusing docs for
+drm_dp_atomic_release_time_slots()
+      drm/display/dp_mst: Add some missing kdocs for atomic MST structs
+      drm/display/dp_mst: Add helper for finding payloads in atomic MST sta=
+te
+      drm/display/dp_mst: Add nonblocking helpers for DP MST
+      drm/display/dp_mst: Don't open code modeset checks for releasing
+time slots
+      drm/display/dp_mst: Fix modeset tracking in
+drm_dp_atomic_release_vcpi_slots()
+      drm/nouveau/kms: Cache DP encoders in nouveau_connector
+      drm/nouveau/kms: Pull mst state in for all modesets
+      drm/display/dp_mst: Add helpers for serializing SST <-> MST transitio=
+ns
+      drm/display/dp_mst: Drop all ports from topology on CSNs before
+queueing link address work
+      drm/display/dp_mst: Maintain time slot allocations when deleting payl=
+oads
+      drm/radeon: Drop legacy MST support
+      drm/display/dp_mst: Move all payload info into the atomic state
+
+Madhumitha Tolakanahalli Pradeep (2):
+      drm/i915/dmc: Update DG2 DMC firmware to v2.07
+      drm/i915/mtl: Update CHICKEN_TRANS* register addresses
+
+Magali Lemes (1):
+      drm/amd/display: remove unused header
+
+Marek Vasut (20):
+      drm/panel/panel-sitronix-st7701: Make DSI mode flags common to ST7701
+      drm/panel/panel-sitronix-st7701: Enable DSI burst mode, LPM,
+non-continuous clock
+      drm/panel/panel-sitronix-st7701: Make voltage supplies common to ST77=
+01
+      drm/panel/panel-sitronix-st7701: Make gamma correction TFT specific
+      drm/panel/panel-sitronix-st7701: Infer vertical line count from TFT m=
+ode
+      drm/panel/panel-sitronix-st7701: Adjust porch control bitfield name
+      drm/panel/panel-sitronix-st7701: Infer horizontal pixel count
+from TFT mode
+      drm/panel/panel-sitronix-st7701: Parametrize voltage and timing
+      drm/panel/panel-sitronix-st7701: Split GIP and init sequences
+      dt-bindings: display: panel: sitronix,st7701: Add Densitron
+DMT028VGHMCMI-1A TFT
+      drm/panel/panel-sitronix-st7701: Add Densitron DMT028VGHMCMI-1A TFT
+      drm/lcdif: Clean up headers
+      drm/lcdif: Consistently use plain timings
+      drm/lcdif: Clean up debug prints and comments
+      drm/lcdif: switch to devm_drm_of_get_bridge
+      drm: bridge: icn6211: Add and use hs_rate and lp_rate
+      dt-bindings: display: bridge: icn6211: Add support for external REFCL=
+K
+      drm: bridge: icn6211: Add support for external REFCLK
+      drm/bridge: tc358767: Handle bridge past DPI output
+      drm/bridge: lvds-codec: Fix error checking of
+drm_of_lvds_get_data_mapping()
+
+Marijn Suijten (8):
+      drm/msm/dsi/phy: Reindent and reflow multiline function calls
+      drm/msm/dsi_phy_28nm_8960: Use stack memory for temporary clock names
+      drm/msm/dsi/phy: Replace hardcoded char-array length with sizeof()
+      drm/msm/dsi_phy_28nm_8960: Replace parent names with clk_hw pointers
+      drm/msm/dsi_phy_28nm: Replace parent names with clk_hw pointers
+      drm/msm/dsi_phy_14nm: Replace parent names with clk_hw pointers
+      drm/msm/dsi_phy_10nm: Replace parent names with clk_hw pointers
+      drm/msm/dsi_phy_7nm: Replace parent names with clk_hw pointers
+
+Markus Schneider-Pargmann (3):
+      dt-bindings: mediatek,dp: Add Display Port binding
+      video/hdmi: Add audio_infoframe packing for DP
+      drm/mediatek: Add MT8195 Embedded DisplayPort driver
+
+Martin J=C3=BCcker (2):
+      dt-bindings: display: simple: add support for Samsung LTL101AL01
+      drm/panel: simple: add support for the Samsung LTL101AL01 panel
+
+Martin Tsai (1):
+      drm/amd/display: Correct cursor position on horizontal mirror
+
+Mateusz Kwiatkowski (3):
+      drm/vc4: vec: Refactor VEC TV mode setting
+      drm/vc4: vec: Remove redundant atomic_mode_set
+      drm/vc4: vec: Fix timings for VEC modes
+
+Matt Roper (22):
+      drm/i915: Add Wa_14016291713
+      drm/i915/gt: Add dedicated function for non-ctx register tuning setti=
+ngs
+      drm/i915/dg2: Add additional tuning settings
+      drm/i915/mtl: MMIO range is now 4MB
+      drm/i915/mtl: Don't mask off CCS according to DSS fusing
+      drm/i915/dg2: Incorporate Wa_16014892111 into DRAW_WATERMARK tuning
+      Revert "drm/i915/dg2: Add preemption changes for Wa_14015141709"
+      drm/i915/ats-m: Add thread execution tuning setting
+      drm/i915: Move locking and unclaimed check into
+mmio_debug_{suspend, resume}
+      drm/i915: Only hook up uncore->debug for primary uncore
+      drm/i915: Use managed allocations for extra uncore objects
+      drm/i915: Drop intel_gt_tile_cleanup()
+      drm/i915: Prepare more multi-GT initialization
+      drm/i915: Rename and expose common GT early init routine
+      drm/i915: Use a DRM-managed action to release the PCI bridge device
+      drm/i915: Initialize MMIO access for each GT
+      drm/i915: Handle each GT on init/release and suspend/resume
+      drm/i915/uncore: Add GSI offset to uncore
+      drm/i915/mtl: Add gsi_offset when emitting aux table invalidation
+      drm/i915/xelpmp: Expose media as another GT
+      drm/i915/mtl: Use primary GT's irq lock for media GT
+      drm/i915/mtl: Hook up interrupts for standalone media
+
+Matthew Auld (5):
+      drm/i915/ttm: don't leak the ccs state
+      drm/i915/ttm: remove calc_ctrl_surf_instr_size
+      drm/i915/ttm: fix CCS handling
+      Revert "drm/i915/guc: Add delay to disable scheduling after pin
+count goes to zero"
+      drm/i915: consider HAS_FLAT_CCS() in needs_ccs_pages
+
+Matthew Brost (4):
+      drm/i915/guc: Fix issues with live_preempt_cancel
+      drm/i915/guc: Support larger contexts on newer hardware
+      drm/i915/selftests: Use correct selfest calls for live tests
+      drm/i915/guc: Add delay to disable scheduling after pin count goes to=
+ zero
+
+Mauro Carvalho Chehab (3):
+      drm/i915/gt: document with_intel_gt_pm_if_awake()
+      drm/i915/gt: describe the new tlb parameter at i915_vma_resource
+      drm/i915: pass a pointer for tlb seqno at vma_invalidate_tlb()
+
+Max Tseng (1):
+      drm/amd/display: Cursor Info Update refactor
+
+Maxime Ripard (92):
+      drm/vc4: hdmi: Depends on CONFIG_PM
+      drm/vc4: hdmi: Rework power up
+      Merge drm/drm-next into drm-misc-next
+      drm/mipi-dsi: Detach devices when removing the host
+      drm/crtc: Introduce drmm_crtc_init_with_planes
+      drm/encoder: Introduce drmm_encoder_init
+      drm/connector: Reorder headers
+      drm/connector: Mention the cleanup after drm_connector_init
+      drm/connector: Clarify when drm_connector_unregister is needed
+      drm/connector: Consolidate Connector Initialization
+      drm/connector: Check for destroy implementation
+      drm/connector: Introduce drmm_connector_init
+      drm/bridge: panel: Introduce drmm_panel_bridge_add
+      drm/bridge: panel: Introduce drmm_of_get_bridge
+      drm/vc4: drv: Call component_unbind_all()
+      drm/vc4: drv: Use drm_dev_unplug
+      drm/vc4: crtc: Create vblank reporting function
+      drm/vc4: hvs: Protect device resources after removal
+      drm/vc4: hvs: Remove planes currently allocated before taking down
+      drm/vc4: plane: Take possible_crtcs as an argument
+      drm/vc4: crtc: Remove manual plane removal on error
+      drm/vc4: plane: Switch to drmm_universal_plane_alloc()
+      drm/vc4: crtc: Move debugfs_name to crtc_data
+      drm/vc4: crtc: Switch to drmm_kzalloc
+      drm/vc4: crtc: Switch to DRM-managed CRTC initialization
+      drm/vc4: dpi: Remove vc4_dev dpi pointer
+      drm/vc4: dpi: Embed DRM structures into the private structure
+      drm/vc4: dpi: Switch to drmm_kzalloc
+      drm/vc4: dpi: Return an error if we can't enable our clock
+      drm/vc4: dpi: Remove unnecessary drm_of_panel_bridge_remove call
+      drm/vc4: dpi: Add action to disable the clock
+      drm/vc4: dpi: Switch to DRM-managed encoder initialization
+      drm/vc4: dpi: Switch to drmm_of_get_bridge
+      drm/vc4: dpi: Protect device resources
+      drm/vc4: dsi: Embed DRM structures into the private structure
+      drm/vc4: dsi: Switch to DRM-managed encoder initialization
+      drm/vc4: dsi: Switch to drmm_of_get_bridge
+      drm/vc4: dsi: Fix the driver structure lifetime
+      drm/vc4: dsi: Switch to devm_pm_runtime_enable
+      drm/vc4: hdmi: Switch to drmm_kzalloc
+      drm/vc4: hdmi: Remove call to drm_connector_unregister()
+      drm/vc4: hdmi: Switch to DRM-managed encoder initialization
+      drm/vc4: hdmi: Switch to DRM-managed connector initialization
+      drm/vc4: hdmi: Switch to device-managed ALSA initialization
+      drm/vc4: hdmi: Switch to device-managed CEC initialization
+      drm/vc4: hdmi: Use a device-managed action for DDC
+      drm/vc4: hdmi: Switch to DRM-managed kfree to build regsets
+      drm/vc4: hdmi: Use devm to register hotplug interrupts
+      drm/vc4: hdmi: Move audio structure offset checks
+      drm/vc4: hdmi: Protect device resources after removal
+      drm/vc4: hdmi: Switch to devm_pm_runtime_enable
+      drm/vc4: txp: Remove vc4_dev txp pointer
+      drm/vc4: txp: Remove duplicate regset
+      drm/vc4: txp: Switch to drmm_kzalloc
+      drm/vc4: txp: Remove call to drm_connector_unregister()
+      drm/vc4: txp: Protect device resources
+      drm/vc4: vec: Remove vc4_dev vec pointer
+      drm/vc4: vec: Embed DRM structures into the private structure
+      drm/vc4: vec: Switch to drmm_kzalloc
+      drm/vc4: vec: Remove call to drm_connector_unregister()
+      drm/vc4: vec: Switch to DRM-managed encoder initialization
+      drm/vc4: vec: Switch to DRM-managed connector initialization
+      drm/vc4: vec: Protect device resources after removal
+      drm/vc4: vec: Switch to devm_pm_runtime_enable
+      drm/vc4: debugfs: Protect device resources
+      drm/vc4: debugfs: Return an error on failure
+      drm/vc4: debugfs: Simplify debugfs registration
+      drm/vc4: Switch to drmm_mutex_init
+      drm/vc4: perfmon: Add missing mutex_destroy
+      drm/vc4: v3d: Stop disabling interrupts
+      drm/vc4: v3d: Rework the runtime_pm setup
+      drm/vc4: v3d: Switch to devm_pm_runtime_enable
+      drm/vc4: vec: Remove empty mode_fixup
+      drm/vc4: vec: Convert to atomic helpers
+      drm/sun4i: tv: Remove unused mode_valid
+      drm/sun4i: tv: Convert to atomic hooks
+      drm/sun4i: tv: Remove useless function
+      drm/sun4i: tv: Remove useless destroy function
+      drm/sun4i: tv: Rename error label
+      drm/sun4i: tv: Add missing reset assertion
+      drm/sun4i: tv: Merge mode_set into atomic_enable
+      drm/sun4i: tv: Include drm_atomic.h
+      drm/vc4: hdmi: Constify drm_display_mode
+      drm/vc4: hdmi: Remove unused argument in vc4_hdmi_supports_scrambling
+      drm/vc4: hdmi: Remove mutex in detect
+      drm/vc4: hdmi: Simplify the hotplug handling
+      drm/vc4: hdmi: Switch to detect_ctx
+      drm/vc4: hdmi: Move vc4_hdmi_supports_scrambling() around
+      drm/vc4: hdmi: Reset link on hotplug
+      drm/scdc: Document hotplug gotchas
+      Merge drm/drm-next into drm-misc-next
+      Merge tag 'backlight-detect-refactor-1' of
+git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86
+into drm-misc-next
+
+Maya Matuszczyk (2):
+      drm: panel-orientation-quirks: Add quirk for Anbernic Win600
+      drm: panel-orientation-quirks: Add quirk for Aya Neo Air
+
+Ma=C3=ADra Canal (14):
+      drm: selftest: convert drm_damage_helper selftest to KUnit
+      drm: selftest: convert drm_cmdline_parser selftest to KUnit
+      drm: selftest: convert drm_rect selftest to KUnit
+      drm: selftest: convert drm_format selftest to KUnit
+      drm: selftest: convert drm_plane_helper selftest to KUnit
+      drm: selftest: convert drm_dp_mst_helper selftest to KUnit
+      drm: selftest: convert drm_framebuffer selftest to KUnit
+      drm: selftest: convert drm_buddy selftest to KUnit
+      drm/tests: Split up test cases in igt_check_drm_format_min_pitch
+      drm/vc4: Drop of_gpio header
+      drm/amd/display: Include missing header
+      drm/mediatek: Drop of_gpio header
+      drm/tests: Split drm_framebuffer_create_test into parameterized tests
+      drm/tests: Change "igt_" prefix to "drm_test_"
+
+Meenakshikumar Somasundaram (1):
+      drm/amd/display: Display distortion after hotplug 5K tiled display
+
+Melissa Wen (5):
+      Documentation/amdgpu_dm: Add DM color correction documentation
+      Documentation/amdgpu/display: add DC color caps info
+      drm/amd/display: add doc entries for MPC blending configuration
+      Documentation/gpu/amdgpu/amdgpu_dm: add DM docs for pixel blend mode
+      drm/vkms: fix 32bit compilation error by replacing macros
+
+Michael Strauss (3):
+      drm/amd/display: Add DC debug option to force LTTPR mode
+      drm/amd/display: Assume an LTTPR is always present on fixed_vs links
+      drm/amd/display: Refactor LTTPR mode selection
+
+Micha=C5=82 Winiarski (5):
+      drm/i915/guc: Route semaphores to GuC for Gen12+
+      drm/cmdline-parser: Merge negative tests
+      drm/cmdline-parser: Use assert when needed
+      drm/format: Use appropriate types in expect/assert
+      drm/format: Split into more granular test cases
+
+Minghao Chi (1):
+      drm: bridge/dw-hdmi-ahb-audio: use strscpy() is more robust and safer
+
+Mitul Golani (1):
+      drm/i915/display: Fix warning callstack for imbalance wakeref
+
+Mukul Joshi (2):
+      drm/amdgpu: Fix page table setup on Arcturus
+      drm/amdgpu: Update PTE flags with TF enabled
+
+Nagulendran, Iswara (1):
+      drm/amd/display: Reverted DSC programming sequence change
+
+Nathan Chancellor (9):
+      drm/simpledrm: Fix return type of
+simpledrm_simple_display_pipe_mode_valid()
+      drm/amd/display: Reduce number of arguments of
+dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport()
+      drm/amd/display: Reduce number of arguments of
+dml32_CalculatePrefetchSchedule()
+      drm/amd/display: Reduce number of arguments of dml31's
+CalculateWatermarksAndDRAMSpeedChangeSupport()
+      drm/amd/display: Reduce number of arguments of dml31's
+CalculateFlipSchedule()
+      drm/amd/display: Mark dml30's UseMinimumDCFCLK() as noinline for
+stack usage
+      drm/msm/dsi: Remove use of device_node in dsi_host_parse_dt()
+      drm/amd/display: Reduce number of arguments of dml314's
+CalculateWatermarksAndDRAMSpeedChangeSupport()
+      drm/amd/display: Reduce number of arguments of dml314's
+CalculateFlipSchedule()
+
+Nathan Huckleberry (2):
+      drm/i915: Fix return type of mode_valid function hook
+      drm/exynos: Fix return type for mixer_mode_valid and hdmi_mode_valid
+
+Nicholas Kazlauskas (6):
+      drm/amd/display: Hook up DCN314 specific dml implementation
+      drm/amd/display: Relax swizzle checks for video non-RGB formats on DC=
+N314
+      drm/amd/display: Disable OTG WA for the plane_state NULL case on DCN3=
+14
+      drm/amd/display: Do DIO FIFO enable after DP video stream enable
+      drm/amd/display: Wrap OTG disable workaround with FIFO control
+      drm/amd/display: Add explicit FIFO disable for DP blank
+
+Niranjana Vishwanathapura (1):
+      drm/i915: Rename ggtt_view as gtt_view
+
+Nirmoy Das (4):
+      drm/i915: disable pci resize on 32-bit machine
+      drm/i915/ttm: Abort suspend on i915_ttm_backup failure
+      drm/i915: Set correct domains values at _i915_vma_move_to_active
+      drm/i915: Do not cleanup obj with NULL bo->resource
+
+N=C3=ADcolas F. R. A. Prado (2):
+      drm/panel-edp: Add panel entry for R140NWF5 RH
+      drm/panel-edp: Add panel entry for B120XAN01.0
+
+Patrik Jakobsson (1):
+      drm/gma500: Fix SDVO command debug printing
+
+Paul Cercueil (5):
+      dt-bindings/display: ingenic: Add compatible string for the JZ4760(B)
+      drm/ingenic: Fix MODULE_LICENSE() string
+      drm/ingenic: Add support for the JZ4760(B)
+      drm/ingenic: Don't request full modeset if property is not modified
+      drm/ingenic: Use the new PM macros
+
+Pavle Kotarac (2):
+      drm/amd/display: Added new DCN301 Asic Id
+      drm/amd/display: Removing 2 phys
+
+Philip Yang (12):
+      drm/amdkfd: handle CPU fault on COW mapping
+      drm/amdkfd: Remove prefault before migrating to VRAM
+      drm/amdkfd: Migrate in CPU page fault use current mm
+      drm/amdgpu: SDMA update use unlocked iterator
+      drm/amdgpu: Rename vm invalidate lock to status_lock
+      drm/amdgpu: Use vm status_lock to protect relocated list
+      drm/amdgpu: Use vm status_lock to protect vm idle list
+      drm/amdgpu: Use vm status_lock to protect vm moved list
+      drm/amdgpu: Use vm status_lock to protect vm evicted list
+      drm/amdgpu: Use vm status_lock to protect pt free
+      drm/amdgpu: Fix amdgpu_vm_pt_free warning
+      drm/amdkfd: Track unified memory when switching xnack mode
+
+Philippe Schenker (2):
+      drm/bridge: lt8912b: add vsync hsync
+      drm/bridge: lt8912b: set hdmi or dvi mode
+
+Pin-Yen Lin (1):
+      drm/bridge: it6505: Power on downstream device in .atomic_enable
+
+Pin-yen Lin (1):
+      drm/bridge: it6505: Fix the order of DP_SET_POWER commands
+
+Piotr Pi=C3=B3rkowski (2):
+      drm/i915: Use of BARs names instead of numbers
+      drm/i915: Sanitycheck PCI BARs
+
+Prike Liang (1):
+      drm/amdkfd: Fix isa version for the GC 10.3.7
+
+Qu Huang (1):
+      drm/amdgpu: mmVM_L2_CNTL3 register not initialized correctly
+
+Radhakrishna Sripada (11):
+      drm/i915: Skip Bit12 fw domain reset for gen12+
+      drm/i915/mtl: Add PCH support
+      drm/i915/mtl: Add support for MTL in Display Init sequences
+      drm/i915: Extract wm latency adjustment to its own function
+      drm/i915/mtl: memory latency data from LATENCY_LPX_LPY for WM
+      drm/i915/mtl: Update memory bandwidth parameters
+      drm/i915/mtl: Reuse adl-p DBUF calculations
+      drm/i915: Move display and media IP version to runtime info
+      drm/i915/mtl: Add gmbus and gpio support
+      drm/i915/mtl: Obtain SAGV values from MMIO instead of GT pcode mailbo=
+x
+      drm/i915/mtl: Update MBUS_DBOX credits
+
+Rafael J. Wysocki (1):
+      drm: amd: amdgpu: ACPI: Add comment about ACPI_FADT_LOW_POWER_S0
+
+Rafael Mendonca (2):
+      drm/amdgpu: Fix memory leak in hpd_rx_irq_create_workqueue()
+      drm/vmwgfx: Fix memory leak in vmw_mksstat_add_ioctl()
+
+Rahul Kumar Singh (1):
+      drm/i915/guc: Add selftest for a hung GuC
+
+Rajneesh Bhardwaj (1):
+      drm/amdkfd: Fix CRIU restore op due to doorbell offset
+
+Randy Dunlap (3):
+      drm/panel: use 'select' for Ili9341 panel driver helpers
+      drm: fix drm_mipi_dbi build errors
+      drm/scheduler: quieten kernel-doc warnings
+
+Rob Clark (21):
+      drm/virtio: Fix same-context optimization
+      drm/msm: Reorder lock vs submit alloc
+      drm/msm: Small submit cleanup
+      drm/msm: Split out idr_lock
+      drm/msm/gem: Check for active in shrinker path
+      drm/msm/gem: Rename update_inactive
+      drm/msm/gem: Rename to pin/unpin_pages
+      drm/msm/gem: Consolidate pin/unpin paths
+      drm/msm/gem: Remove active refcnt
+      drm/gem: Add LRU/shrinker helper
+      drm/msm/gem: Convert to using drm_gem_lru
+      drm/msm/gem: Unpin buffers earlier
+      drm/msm/gem: Consolidate shrinker trace
+      drm/msm/gem: Evict active GEM objects when necessary
+      drm/msm/gem: Add msm_gem_assert_locked()
+      drm/msm/gem: Convert to lockdep assert
+      drm/msm: Add fault-injection support
+      drm/msm/iommu: optimize map/unmap
+      drm/msm: De-open-code some CP_EVENT_WRITE
+      drm/msm/rd: Fix FIFO-full deadlock
+      drm/msm: Fix build break with recent mm tree
+
+Robert Foss (4):
+      Revert "dt-bindings: Add byteswap order to chrontel ch7033"
+      Revert "drm/bridge: ti-sn65dsi86: Implement bridge connector
+operations for DP"
+      Revert "Revert "drm/bridge: ti-sn65dsi86: Implement bridge
+connector operations for DP""
+      Revert "drm/bridge: chrontel-ch7033: Add byteswap order setting"
+
+Robin Chen (2):
+      drm/amd/display: Cursor flicker when entering PSRSU
+      drm/amd/display: Revise Sink device string ID
+
+Robin Murphy (3):
+      drm/arm/hdlcd: Take over EFI framebuffer properly
+      drm/arm/hdlcd: Simplify IRQ install/uninstall
+      drm/panfrost: Update io-pgtable API
+
+Rodrigo Siqueira (13):
+      drm/amd/display: Add documentation to some of the cursor struct
+      drm/amd/display: Add basic kernel doc to CRC code under DC
+      drm/amd/display: Add some extra kernel doc to amdgpu_dm
+      drm/amd/display: Document pipe split policy
+      drm/amd/display: Expand documentation for timing
+      drm/amd/display: Document some of the DML structs
+      drm/amd/display: Remove unused code
+      Documentation/gpu: Add info table for ASICs
+      Documentation/gpu: Add an explanation about the DCN pipeline
+      Documentation/gpu: Add Multiplane Overlay doc
+      drm/amd/display: Fix compilation errors on DCN314
+      drm/amd/display: Enable dlg and vba compilation for dcn314
+      drm/amd/display: Ignore k1/k2 values for virtual signal
+
+Rodrigo Vivi (4):
+      Merge drm/drm-next into drm-intel-next
+      drm/i915/slpc: Fix inconsistent locked return
+      drm/i915/slpc: Let's fix the PCODE min freq table setup for SLPC
+      drm/i915: Don't try to disable host RPS when this was never enabled.
+
+Roman Li (2):
+      drm/amd/display: enable PCON support for dcn314
+      drm/amd/display: Remove redundant check in atomic_check
+
+Ruijing Dong (1):
+      drm/amdgpu/vcn: update vcn4 fw shared data structure
+
+Saaem Rizvi (1):
+      drm/amd/display: HDMI ODM Combine Policy Correction
+
+Sam Ravnborg (13):
+      drm/via: Rename via_drv to via_dri1
+      drm/via: Embed via_dma in via_dri1
+      drm/via: Embed via_map in via_dri1
+      drm/via: Embed via_mm in via_dri1
+      drm/via: Embed via_video in via_dri1
+      drm/via: Embed via_irq in via_dri1
+      drm/via: Embed via_dmablit in via_dri1
+      drm/via: Embed via_verifier in via_dri1
+      drm/via: Embed via_drv.h in via_dri1
+      drm/via: Update to the latest via_3d_reg header
+      drm/via: Use SPDX tag for MIT license in via_3d_reg header
+      drm/via: Make macros readable in the via_3d_reg header
+      drm/via: Fix style issues in via_3d_reg header
+
+Samson Tam (2):
+      drm/amd/display: fix odm 2:1 policy not being applied
+consistently in 4k144 modes
+      drm/amd/display: fill in clock values when DPM is not enabled
+
+Samuel Holland (1):
+      drm/sun4i: Update Kconfig defaults and descriptions
+
+Sean Hong (8):
+      drm/panel-edp: Add INX N116BCN-EA1
+      drm/panel-edp: Add BOE NT116WHM-N21 (HW: V8.1)
+      drm/panel-edp: Add BOE NT116WHM-N21
+      drm/panel-edp: Add AUO B116XAK01.6
+      drm/panel-edp: Add INX N116BCA-EA2
+      drm/panel-edp: Fix delays for INX N116BCN-EA1 (HW: C4)
+      drm/panel-edp: Fix delays for INX N116BCA-EA2 (HW: C1)
+      drm/panel-edp: Add BOE NT116WHM-N4C (HW: V8.1)
+
+Sherry Wang (1):
+      drm/amd/display: correct hostvm flag
+
+Shiwu Zhang (1):
+      drm/amdkfd: Use the consolidated MQD manager functions for GFX11
+
+Simon Ser (6):
+      drm/dp_mst: fix drm_dp_dpcd_read return value checks
+      drm: fix whitespace in drm_plane_create_color_properties()
+      drm: hide unregistered connectors from GETCONNECTOR IOCTL
+      drm/atomic-helper: print message on driver connector check failure
+      drm/atomic-helper: log EINVAL cause in drm_atomic_helper_async_check(=
+)
+      drm/framebuffer: convert to drm_dbg_kms()
+
+Slark Xiao (1):
+      drm: Fix typo 'the the' in comment
+
+Sonny Jiang (3):
+      drm/amdgpu: Enable pg/cg flags on GC11_0_3 for VCN
+      drm/amdgpu: Enable VCN DPG for GC11_0_1
+      drm/amdgpu: Enable sram on vcn_4_0_2
+
+Stanislav Lisovskiy (6):
+      drm/i915/dg2: Bump up CDCLK for DG2
+      drm/i915: Start using REG_BIT* macros with CDCLK registers
+      drm: Add missing DP DSC extended capability definitions.
+      drm/i915: Fix intel_dp_mst_compute_link_config
+      drm/i915: Extract drm_dp_atomic_find_vcpi_slots cycle to separate fun=
+ction
+      drm/i915: Add DSC support to MST path
+
+Steev Klimaszewski (1):
+      drm/panel-edp: add IVO M133NW4J-R3 panel entry
+
+Stephen Boyd (4):
+      drm/msm/dp: Reorganize code to avoid forward declaration
+      drm/msm/dp: Remove pixel_rate from struct dp_ctrl
+      drm/msm/dp: Get rid of dp_ctrl_on_stream_phy_test_report()
+      drm/msm/dp: Silence inconsistent indent warning
+
+Swati Sharma (2):
+      drm/i915/display: Add debug print for scaler filter
+      drm/i915/dsc: convert dsc debugfs entry from output_bpp to input_bpc
+
+Taimur Hassan (7):
+      drm/amd/display: Set ODM policy based on number of DSC slices
+      drm/amd/display: Remove assert from PHY state update
+      drm/amd/display: Allow PHY state update between same states
+      drm/amd/display: Round cursor width up for MALL allocation
+      drm/amd/display: Avoid avoid unnecessary pixel rate divider programmi=
+ng
+      drm/amd/display: Fix typo in get_pixel_rate_div
+      drm/amd/display: Avoid unnecessary pixel rate divider programming
+
+Takanari Hayama (3):
+      media: vsp1: Add premultiplied alpha support
+      drm: rcar-du: Add DRM_MODE_BLEND_PREMULTI support
+      drm: rcar-du: Add DRM_MODE_BLEND_PIXEL_NONE support
+
+Takashi Iwai (14):
+      drm/udl: Replace semaphore with a simple wait queue
+      drm/udl: Sync pending URBs at suspend / disconnect
+      drm/udl: Kill pending URBs at suspend and disconnect
+      drm/udl: Replace BUG_ON() with WARN_ON()
+      drm/udl: Restore display mode on resume
+      Revert "drm/udl: Kill pending URBs at suspend and disconnect"
+      drm/udl: Suppress error print for -EPROTO at URB completion
+      drm/udl: Increase the default URB list size to 20
+      drm/udl: Drop unneeded alignment
+      drm/udl: Pass rectangle directly to udl_handle_damage()
+      drm/udl: Fix potential URB leaks
+      drm/udl: Fix inconsistent urbs.count value during udl_free_urb_list()
+      drm/udl: Don't re-initialize stuff at retrying the URB list allocatio=
+n
+      drm/udl: Sync pending URBs at the end of suspend
+
+Tales Aparecida (2):
+      drm/amd/display: fix minor codestyle problems
+      drm/amd/display: remove unneeded defines from bios parser
+
+Tao Zhou (4):
+      drm/amdgpu: export umc error address convert interface
+      drm/amdgpu: support to convert dedicated umc mca address
+      drm/amdgpu: use RAS error address convert api in mca notifier
+      drm/amdgpu: add page retirement handling for CPU RAS
+
+Taylor, Clinton A (1):
+      drm/i915/dg2: Add additional HDMI pixel clock frequencies
+
+Tetsuo Handa (1):
+      gpu/drm/bridge/cadence: avoid flush_scheduled_work() usage
+
+Thierry Reding (1):
+      drm/aperture: Fix some kerneldoc comments
+
+Thomas Zimmermann (68):
+      fbdev: Remove trailing whitespaces
+      fbdev/vga16fb: Create EGA/VGA devices in sysfb code
+      fbdev/vga16fb: Auto-generate module init/exit code
+      fbdev/core: Remove remove_conflicting_pci_framebuffers()
+      fbdev: Convert drivers to aperture helpers
+      fbdev: Remove conflicting devices on PCI bus
+      video/aperture: Disable and unregister sysfb devices via aperture hel=
+pers
+      video: Provide constants for VGA I/O range
+      video/aperture: Remove conflicting VGA devices, if any
+      fbdev: Acquire framebuffer apertures for firmware devices
+      fbdev: Remove conflict-handling code
+      fbdev: Fix order of arguments to aperture_remove_conflicting_devices(=
+)
+      drm/vmwgfx: Remove trailing whitespace
+      drm/atomic-helper: Move DRM_PLANE_HELPER_NO_SCALING to atomic helpers
+      drm/atomic-helper: Remove _HELPER_ infix from DRM_PLANE_HELPER_NO_SCA=
+LING
+      drm: Remove unnecessary include statements of drm_plane_helper.h
+      drm/plane-helper: Export individual helpers
+      drm/armada: Use drm_plane_helper_destroy()
+      drm/fsl-dcu: Use drm_plane_helper_destroy()
+      drm/mgag200: Split mgag200_modeset_init()
+      drm/mgag200: Move DAC-register setup into model-specific code
+      drm/mgag200: Move ER/EW3 register initialization to per-model code
+      drm/mgag200: Acquire I/O-register lock in atomic_commit_tail function
+      drm/mgag200: Store primary plane's color format in CRTC state
+      drm/mgag200: Reorganize before dropping simple-KMS helpers
+      drm/mgag200: Replace simple-KMS with regular atomic helpers
+      drm/mgag200: Set SCROFF in primary-plane code
+      drm/mgag200: Add per-device callbacks
+      drm/mgag200: Provide per-device callbacks for BMC synchronization
+      drm/mgag200: Provide per-device callbacks for PIXPLLC
+      drm/mgag200: Move mode-config to model-specific code
+      drm/mgag200: Move CRTC atomic_enable to model-specific code
+      drm/mgag200: Remove type field from struct mga_device
+      Merge drm/drm-next into drm-misc-next
+      drm/simpledrm: Remove mem field from device structure
+      drm/simpledrm: Inline device-init helpers
+      drm/simpledrm: Remove pdev field from device structure
+      drm/simpledrm: Compute framebuffer stride if not set
+      drm/simpledrm: Convert to atomic helpers
+      iosys-map: Add IOSYS_MAP_INIT_VADDR_IOMEM()
+      drm/format-helper: Provide drm_fb_blit()
+      drm/format-helper: Merge drm_fb_memcpy() and drm_fb_memcpy_toio()
+      drm/format-helper: Convert drm_fb_swab() to struct iosys_map
+      drm/format-helper: Rework XRGB8888-to-RGBG332 conversion
+      drm/format-helper: Rework XRGB8888-to-RGBG565 conversion
+      drm/format-helper: Rework XRGB8888-to-RGB888 conversion
+      drm/format-helper: Rework RGB565-to-XRGB8888 conversion
+      drm/format-helper: Rework RGB888-to-XRGB8888 conversion
+      drm/format-helper: Rework XRGB8888-to-XRGB2101010 conversion
+      drm/format-helper: Rework XRGB8888-to-GRAY8 conversion
+      drm/format-helper: Rework XRGB8888-to-MONO conversion
+      drm/format-helper: Move destination-buffer handling into internal hel=
+per
+      drm/format-helper: Rename parameter vmap to src
+      drm/udl: Add reset_resume
+      drm/udl: Enable damage clipping
+      drm/probe-helper: Add drm_connector_helper_get_modes_fixed()
+      drm/probe-helper: Add drm_crtc_helper_mode_valid_fixed()
+      drm/modes: Add initializer macro DRM_MODE_INIT()
+      drm/format-helper: Add drm_fb_build_fourcc_list() helper
+      drm/plane: Remove drm_plane_init()
+      drm/plane: Allocate planes with drm_universal_plane_alloc()
+      drm/plane-helper: Warn if atomic drivers call non-atomic helpers
+      drm/plane-helper: Provide DRM_PLANE_NON_ATOMIC_FUNCS initializer macr=
+o
+      drm/simpledrm: Compute linestride with drm_format_info_min_pitch()
+      drm/simpledrm: Use drm_atomic_get_new_plane_state()
+      drm/simpledrm: Remove !fb check from atomic_update
+      drm/simpledrm: Iterate over damage clips
+      drm/simpledrm: Synchronize access to GEM BOs
+
+Tim Huang (5):
+      drm/amdgpu: enable GFXOFF allow control for GC IP v11.0.1
+      drm/amdgpu: add TX_POWER_CTRL_1 macro definitions for NBIO IP v7.7.0
+      drm/amdgpu: add NBIO IP v7.7.0 Clock Gating support
+      drm/amdgpu: enable NBIO IP v7.7.0 Clock Gating
+      drm/amdgpu: add sdma instance check for gfx11 CGCG
+
+Tom Rix (3):
+      drm/nouveau/bios: set info only when the return is not 0
+      drm/vmwgfx: cleanup comments
+      drm/rockchip: remove vop_writel from vop1 driver
+
+Tom St Denis (3):
+      drm/amd/amdgpu: Add missing CGTS*TCC_DISABLE to 10.3 headers
+      drm/amd/amdgpu: update GC 10.3.0 pwrdec
+      drm/amd/amdgpu: Add missing XGMI hive registers for mmhub 9.4.1
+
+Tomas Winkler (7):
+      mei: add kdoc for struct mei_aux_device
+      mei: add slow_firmware flag to the mei auxiliary device
+      mei: gsc: use polling instead of interrupts
+      mei: mkhi: add memory ready command
+      mei: gsc: setup gsc extended operational memory
+      mei: debugfs: add pxp mode to devstate in debugfs
+      drm/i915/gsc: allocate extended operational memory in LMEM
+
+Tomi Valkeinen (8):
+      drm/bridge: ti-sn65dsi86: Reject modes with too large blanking
+      drm: rcar-du: Remove unnecessary include
+      drm: rcar-du: Fix r8a779a0 color issue
+      drm: rcar-du: lvds: Rename pclk enable/disable functions
+      drm: rcar-du: dsi: Properly stop video mode TX
+      drm: rcar-du: dsi: Improve DSI shutdown
+      drm: rcar-du: Fix DSI enable & disable sequence
+      drm: rcar-du: dsi: Fix VCLKSET write
+
+Umesh Nerlige Ramappa (1):
+      drm/i915/guc: Cancel GuC engine busyness worker synchronously
+
+Uwe Kleine-K=C3=B6nig (3):
+      drm/panel: simple: Make panel_simple_remove() return void
+      drm/panel-novatek-nt35510: Emit an error message if power off fails
+      drm/mipi-dsi: Make remove callback return void
+
+Vandita Kulkarni (2):
+      drm/i915/dsc/mtl: Update the DSC minor version
+      drm/i915/dsc/mtl: Enable alternate ICH method
+
+Victor Zhao (6):
+      drm/amdgpu: add mode2 reset for sienna_cichlid
+      drm/amdgpu: let mode2 reset fallback to default when failure
+      drm/amdgpu: add debugfs amdgpu_reset_level
+      drm/amdgpu: save and restore gc hub regs
+      drm/amdgpu: revert context to stop engine before mode2 reset
+      drm/amdgpu: reduce reset time
+
+Vignesh Chander (3):
+      drm/amdgpu: skip set_topology_info for VF
+      drm/amdgpu: Fix hive reference count leak
+      drm/amdgpu: Skip put_reset_domain if it doesn't exist
+
+Ville Syrj=C3=A4l=C3=A4 (44):
+      drm/i915/mtl: Introduce FBC B
+      drm/i915: Skip wm/ddb readout for disabled pipes
+      drm/i915/bios: Dump PNPID and panel name
+      drm/i915/bios: Copy the whole MIPI sequence block
+      drm/i915: Allow more varied alternate fixed modes for panels
+      drm/i915/bios: Validate fp_timing terminator presence
+      drm/i915/bios: Use hardcoded fp_timing size for generating LFP
+data pointers
+      drm/i915: Implement WaEdpLinkRateDataReload
+      Revert "drm/i915/display: Re-add check for low voltage sku for
+max dp source rate"
+      drm/i915: Unify VBT version number comments
+      drm/i915: Add some more VBT version number comments
+      drm/i915: Properly define the DP redriver VBT bits
+      drm/i915: Define VBT eDP/DP max lane count bits
+      drm/i915: Add the VBT LTTPR transparent vs. non-transparent bits
+      drm/i915: Define VBT max HDMI FRL rate bits
+      drm/i915: Document the sets of bits in the driver features block
+      drm/i915: Define more VBT driver features block bits
+      drm/i915: Define all possible VBT device handles
+      drm/i915: Rename some VBT bits
+      drm/i915: Parse DP/eDP max lane count from VBT
+      drm/i915: Relocate intel_crtc_dotclock()
+      drm/i915: Shuffle some PLL code around
+      drm/i915: Extract HAS_DOUBLE_BUFFERED_M_N()
+      drm/i915/dsi: Extract {vlv,bxt}_get_pclk()
+      drm/i915: Do .crtc_compute_clock() earlier
+      drm/i915: Reassign DPLLs only for crtcs going throug .compute_config(=
+)
+      drm/i915: Feed the DPLL output freq back into crtc_state
+      drm/i915: Compute clocks earlier
+      drm/i915: Make M/N checks non-fuzzy
+      drm/i915: Make all clock checks non-fuzzy
+      drm/i915: Set active dpll early for icl+
+      drm/i915: Nuke fastet state copy hacks
+      drm/i915: Skip intel_modeset_pipe_config_late() if the pipe is not en=
+abled
+      drm/i915: Add intel_panel_highest_mode()
+      drm/i915: Allow M/N change during fastset on bdw+
+      drm/i915: Use a fixed N value always
+      drm/i915: Round TMDS clock to nearest
+      drm/i915: Split intel_read_wm_latency() into per-platform versions
+      drm/i915: Extract skl_watermark.c
+      drm/i915: Use REG_FIELD_GET() to extract skl+ wm latencies
+      drm/i915/bios: Fix VBT ACPI DPMS bit polarity
+      drm/i915/bios: Add the "Disable compression for the Display
+Port/HDMI external display" bit
+      drm/i915: Fix TV encoder clock computation
+      drm/i915: Force DPLL calculation for TC ports after readout
+
+Vinay Belgaumkar (1):
+      drm/i915/guc/slpc: Allow SLPC to use efficient frequency
+
+Vitaly Lubart (3):
+      drm/i915/gsc: skip irq initialization if using polling
+      mei: bus: export common mkhi definitions into a separate header
+      mei: gsc: add transition to PXP mode in resume flow
+
+Vivek Kasireddy (1):
+      udmabuf: Set ubuf->sg =3D NULL if the creation of sg table fails
+
+Vladimir Stempen (1):
+      drm/amd/display: Fix black flash when switching from ODM2to1 to ODMBy=
+pass
+
+Wang Fudong (1):
+      drm/amd/display: set dig fifo read start level to 7 before dig fifo r=
+eset
+
+Wang Jingjin (1):
+      drm/vc4: Add explicit declaration of 'drmm_of_get_bridge'
+
+Wenjing Liu (5):
+      drm/amd/display: rework recent update PHY state commit
+      drm/amd/display: support proper mst payload removal when link is
+not in mst mode in dc
+      drm/amd/display: solve regression in update phy state refactor
+      drm/amd/display: add missing null check
+      drm/amd/display: polling vid stream status in hpo dp blank
+
+Xin Ji (2):
+      drm/bridge: anx7625: Support HDMI_I2S audio format
+      drm/bridge: anx7625: Set HPD irq detect window to 2ms
+
+Xu Panda (1):
+      drm/amd/display/amdgpu_dm: remove duplicate included header files
+
+XueBing Chen (1):
+      dma-buf/sync_file: use strscpy to replace strlcpy
+
+Yang Li (14):
+      drm/amd/display: remove unneeded semicolon
+      drm/amd/display: clean up one inconsistent indenting
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: Simplify bool conversion
+      drm/amd/display: remove possible condition with no effect (if =3D=3D =
+else)
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+      drm/amd/display: clean up some inconsistent indentings
+
+Yang Wang (4):
+      drm/amd/pm: add smu_v13_0_10 support
+      drm/amd/pm: add smu_v13_0_10 driver if version
+      drm/amdgpu: add gfxhub_v3_0_3 support
+      drm/amdgpu: change the alignment size of TMR BO to 1M
+
+Yang Yingliang (2):
+      drm/amdgpu: add missing pci_disable_device() in
+amdgpu_pmops_runtime_resume()
+      drm/mediatek: dp: change mtk_dp_driver to static
+
+Yao Wang1 (1):
+      drm/amd/display: Limit user regamma to a valid value
+
+YiPeng Chai (7):
+      drm/amdgpu: Move psp_xgmi_terminate call from
+amdgpu_xgmi_remove_device to psp_hw_fini
+      drm/amdgpu: fix hive reference leak when adding xgmi device
+      drm/amdgpu: TA unload messages are not actually sent to psp when
+amdgpu is uninstalled
+      drm/amdgpu: Adjust removal control flow for smu v13_0_2
+      drm/amdgpu: Fixed psp fence and memory issues when removing amdgpu de=
+vice
+      drm/amd/pm: Remove redundant check condition
+      drm/amdgpu: Fixed ras warning when uninstalling amdgpu
+
+Yifan Zha (8):
+      drm/amdgpu: Use PSP program IH_RB_CNTL registers under SRIOV
+      drm/amdgpu: Skip the program of MMMC_VM_AGP_* in SRIOV on MMHUB v3_0_=
+0
+      drm/amdgpu: skip "Issue additional private vm invalidation to
+MMHUB" on SRIOV
+      drm/amdgpu: Skip the VRAM base offset on SRIOV
+      drm/amdgpu: Skip program SDMA0_SEM_WAIT_FAIL_TIMER_CNTL under SRIOV V=
+F
+      drm/amdgpu: Use RLCG to program GRBM_GFX_CNTL during full access time
+      drm/admgpu: Skip CG/PG on SOC21 under SRIOV VF
+      drm/amd: Skip smu_v13 register irq on SRIOV VF
+
+Yifan Zhang (4):
+      drm/amdgpu/mes: zero the sdma_hqd_mask of 2nd SDMA engine for SDMA 6.=
+0.1
+      drm/amdkfd: print address in hex format rather than decimal
+      drm/amdgpu: correct doorbell range/size value for CSDMA_DOORBELL_RANG=
+E
+      drm/amdgpu: add MES and MES-KIQ version in debugfs
+
+Yihao Han (1):
+      drm/amd/display: fix boolconv.cocci warning
+
+Yu Zhe (1):
+      drm/radeon: use time_after(a,b) to replace "a>b"
+
+YuBiao Wang (1):
+      drm/amdgpu: Fix use-after-free in amdgpu_cs_ioctl
+
+Yuan Can (2):
+      drm/panel: panel-edp: Use dev_err_probe() to simplify code
+      drm/panel: simple: Use dev_err_probe() to simplify code
+
+Yury Zhuravlev (1):
+      drm/amdgpu: getting fan speed pwm for vega10 properly
+
+Zack Rusin (2):
+      drm/vmwgfx: Remove unused hugepage support
+      drm: Remove the drm_get_unmapped_area() helper
+
+Zeng Jingxiang (1):
+      gpu: lontium-lt9611: Fix NULL pointer dereference in
+lt9611_connector_init()
+
+Zhanjun Dong (1):
+      drm/i915/guc: Check for ct enabled while waiting for response
+
+Zhenneng Li (1):
+      drm/radeon: add a force flush to delay work when radeon
+
+Zheyu Ma (1):
+      drm/bridge: megachips: Fix a null pointer dereference bug
+
+Zongmin Zhou (2):
+      drm/qxl: fix the suspend/resume issue on qxl device
+      drm/qxl: drop set_prod_notify parameter from qxl_ring_create
+
+allen chen (3):
+      drm/bridge: it6505: Modified power sequence
+      drm/bridge: it6505: Add i2c api power on check
+      drm/bridge: it6505: Modified video clock calculation and video
+debug message
+
+hongao (2):
+      drm/amdgpu: fix initial connector audio value
+      drm/exynos: replace drm_detect_hdmi_monitor() with
+drm_display_info.is_hdmi
+
+min tang (2):
+      drm/amd/display: Fix comment typo
+      drm/amd/display: Unneeded semicolon
+
+muansari (1):
+      drm/amd/display: Modify DML to adjust Vstartup Position
+
+pengfuyuan (1):
+      drm/arm: Fix spelling typo in comments
+
+ruanjinjie (1):
+      drm/ast: make ast_modeset static
+
+shaomin Deng (3):
+      drm/mgag200:remove rebundant word "or" in comments
+      drm:delete the repeated word "the" in comments
+      drm:remove rebundant word "in" in comments
+
+shaoyunl (3):
+      drm/amdgpu: use sjt mec fw on aldebaran for sriov
+      drm/amdgpu: Remove the additional kfd pre reset call for sriov
+      drm/amdgpu: Use per device reset_domain for XGMI on sriov configurati=
+on
+
+sunliming (2):
+      drm/amd/display: Fix variable dereferenced before check
+      drm/msm/dsi: fix the inconsistent indenting
+
+wangjianli (3):
+      subdev/clk: fix repeated words in comments
+      drm/rockchip: vop: fix repeated words in comment
+      amd/amdkfd: fix repeated words in comments
+
+ye xingchen (9):
+      drm/mediatek: Remove the unneeded result
+      drm/amdgpu: Remove the unneeded result variable
+      drm/amdgpu: Remove the unneeded result variable 'r'
+      drm/omap: dmm_tiler:Remove the print function dev_err()
+      drm/radeon/ci_dpm: Remove the unneeded result variable
+      drm/radeon: Remove the unneeded result variable
+      drm/msm/dsi: Remove the unneeded result variable
+      drm/amd/pm: Remove the unneeded result variable
+      drm/amd/pm: Remove unneeded result variable
+
+zhang songyi (2):
+      drm/amd/display: Remove the unneeded result variable
+      drm/amdgpu: Remove the unneeded result variable
+
+zhikzhai (1):
+      drm/amd/display: skip audio setup when audio stream is enabled
+
+=C5=81ukasz Bartosik (1):
+      drm/i915: fix null pointer dereference
+
+ .../bindings/display/bridge/chipone,icn6211.yaml   |     9 +
+ .../bindings/display/bridge/renesas,dw-hdmi.yaml   |     5 +
+ .../devicetree/bindings/display/ingenic,lcd.yaml   |     2 +
+ .../bindings/display/mediatek/mediatek,dp.yaml     |   116 +
+ .../bindings/display/msm/dp-controller.yaml        |    47 +-
+ .../bindings/display/msm/dpu-msm8998.yaml          |     4 +
+ .../bindings/display/msm/dpu-qcm2290.yaml          |     3 +
+ .../bindings/display/msm/dpu-sc7180.yaml           |     3 +
+ .../bindings/display/msm/dpu-sc7280.yaml           |     3 +
+ .../bindings/display/msm/dpu-sdm845.yaml           |     4 +
+ .../devicetree/bindings/display/msm/gmu.yaml       |   166 +-
+ .../devicetree/bindings/display/msm/gpu.yaml       |     3 +-
+ .../devicetree/bindings/display/msm/mdp4.yaml      |     2 +-
+ .../bindings/display/panel/panel-simple.yaml       |     4 +
+ .../bindings/display/panel/sitronix,st7701.yaml    |     4 +
+ .../display/rockchip/dw_mipi_dsi_rockchip.txt      |     1 +
+ .../devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml |    15 +-
+ Documentation/gpu/amdgpu/apu-asic-info-table.csv   |     8 +
+ Documentation/gpu/amdgpu/dgpu-asic-info-table.csv  |    24 +
+ Documentation/gpu/amdgpu/display/dc-glossary.rst   |     2 +-
+ Documentation/gpu/amdgpu/display/dcn-overview.rst  |    59 +
+ .../gpu/amdgpu/display/dcn2_cm_drm_current.svg     |  1370 +
+ .../gpu/amdgpu/display/dcn3_cm_drm_current.svg     |  1529 +
+ .../gpu/amdgpu/display/display-manager.rst         |   141 +
+ Documentation/gpu/amdgpu/display/index.rst         |     1 +
+ Documentation/gpu/amdgpu/display/mpo-cursor.svg    |   435 +
+ Documentation/gpu/amdgpu/display/mpo-overview.rst  |   242 +
+ .../multi-display-hdcp-mpo-less-pipe-ex.svg        |   220 +
+ .../gpu/amdgpu/display/multi-display-hdcp-mpo.svg  |   171 +
+ .../gpu/amdgpu/display/pipeline_4k_no_split.svg    |   958 +
+ .../gpu/amdgpu/display/pipeline_4k_split.svg       |  1062 +
+ .../display/single-display-mpo-multi-video.svg     |   339 +
+ .../gpu/amdgpu/display/single-display-mpo.svg      |   266 +
+ Documentation/gpu/amdgpu/driver-misc.rst           |    17 +
+ Documentation/gpu/amdgpu/thermal.rst               |    18 +-
+ Documentation/gpu/drm-kms-helpers.rst              |     8 +-
+ Documentation/gpu/drm-kms.rst                      |     2 +
+ Documentation/gpu/drm-mm.rst                       |    16 +-
+ Documentation/gpu/todo.rst                         |   104 +-
+ Documentation/gpu/vkms.rst                         |     7 +-
+ MAINTAINERS                                        |     6 +
+ drivers/acpi/Kconfig                               |     1 +
+ drivers/acpi/acpi_video.c                          |    64 +-
+ drivers/acpi/video_detect.c                        |   428 +-
+ drivers/dma-buf/dma-fence.c                        |    22 +-
+ drivers/dma-buf/st-dma-fence-chain.c               |     4 +
+ drivers/dma-buf/st-dma-fence-unwrap.c              |    22 +
+ drivers/dma-buf/st-dma-fence.c                     |    16 +
+ drivers/dma-buf/st-dma-resv.c                      |    10 +
+ drivers/dma-buf/sync_file.c                        |     8 +-
+ drivers/dma-buf/udmabuf.c                          |     9 +-
+ drivers/firmware/sysfb.c                           |     4 +
+ drivers/gpu/drm/Kconfig                            |    39 +-
+ drivers/gpu/drm/Makefile                           |     7 +-
+ drivers/gpu/drm/amd/amdgpu/Makefile                |     7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |     9 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |    21 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |    10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |    32 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |     7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  1742 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.h             |    10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |     6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h            |     1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   170 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   164 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |    19 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |    13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |     2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |    43 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |     1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     |     9 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   181 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |    20 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfxhub.h         |     3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |    48 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h            |    26 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |    38 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c            |    55 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h            |    10 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |    50 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |     3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |     2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |     1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |     4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |    66 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |     7 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |    38 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |    10 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c          |    21 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h          |     5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |     3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.c            |   272 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.h            |     4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c           |   133 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |     4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c           |     4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h          |    12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |    48 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c          |   168 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h          |     6 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h            |     6 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |     2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |    19 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |    57 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h           |     5 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |     4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   100 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |     9 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c          |    44 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c        |    12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |    68 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |    26 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h           |     1 +
+ drivers/gpu/drm/amd/amdgpu/atombios_encoders.c     |    14 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |   281 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |   396 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   223 +-
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v2_1.c           |   108 +
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v3_0_3.c         |   511 +
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v3_0_3.h         |    29 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |    19 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |     7 +-
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c               |    26 +-
+ drivers/gpu/drm/amd/amdgpu/imu_v11_0.c             |     6 +
+ drivers/gpu/drm/amd/amdgpu/imu_v11_0_3.c           |   145 +
+ drivers/gpu/drm/amd/amdgpu/imu_v11_0_3.h           |    29 +
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |    11 +
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c            |     1 +
+ drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c            |    10 +-
+ drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c            |    12 +-
+ drivers/gpu/drm/amd/amdgpu/mmsch_v4_0.h            |   140 +
+ drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c              |     1 +
+ drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c              |     1 +
+ drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c              |     1 +
+ drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             |     9 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c             |    44 +
+ drivers/gpu/drm/amd/amdgpu/nbio_v4_3.h             |     1 +
+ drivers/gpu/drm/amd/amdgpu/nbio_v6_1.c             |     9 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c             |     9 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_7.c             |    93 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             |     9 +
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |   115 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c             |    49 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c             |    74 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c             |    87 +-
+ drivers/gpu/drm/amd/amdgpu/sienna_cichlid.c        |   303 +
+ .../inc/dml_wrapper.h =3D> amdgpu/sienna_cichlid.h}  |    14 +-
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 |    25 -
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |    43 +-
+ drivers/gpu/drm/amd/amdgpu/umc_v6_7.c              |    58 +-
+ drivers/gpu/drm/amd/amdgpu/umc_v8_10.c             |    12 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |    17 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              |   343 +-
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c             |     4 +
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |     4 +
+ drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     |   771 +-
+ .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx10.asm |    21 +
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |    54 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |     3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |    14 +-
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |    47 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_doorbell.c          |    12 +
+ drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c   |     6 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |    57 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c   |    89 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c           |     5 -
+ .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |     7 +
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |    82 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.h               |     3 +-
+ drivers/gpu/drm/amd/display/Kconfig                |     2 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   171 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |    47 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    |   109 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |     1 +
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   181 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |   209 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |     7 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h    |     8 -
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |     8 +-
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c |   103 +-
+ .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   |    57 +-
+ .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c |    75 +-
+ .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |    84 +-
+ .../amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c |    11 +-
+ .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   |    14 +
+ drivers/gpu/drm/amd/display/dc/core/dc.c           |   203 +-
+ .../gpu/drm/amd/display/dc/core/dc_hw_sequencer.c  |    38 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |   130 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c  |    18 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   439 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c |    33 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |    42 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |     5 +-
+ drivers/gpu/drm/amd/display/dc/dc.h                |   141 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |   164 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.h       |     2 +
+ drivers/gpu/drm/amd/display/dc/dc_hw_types.h       |   148 +-
+ drivers/gpu/drm/amd/display/dc/dc_link.h           |    30 +-
+ drivers/gpu/drm/amd/display/dc/dc_stream.h         |     8 +-
+ drivers/gpu/drm/amd/display/dc/dce/dce_audio.c     |     2 +-
+ drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       |    12 +-
+ drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c      |     7 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |   156 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.h    |    20 +-
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.c   |     5 +-
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c  |     9 +-
+ .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |   153 +-
+ .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.h  |     3 +-
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_init.c  |     4 +
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.c  |    47 +-
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h  |     2 +
+ .../gpu/drm/amd/display/dc/dcn10/dcn10_resource.c  |    18 +
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dccg.h  |     1 +
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.h   |   220 -
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c  |     9 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |    38 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_init.c  |     4 +
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_mmhubbub.c  |     3 +-
+ .../gpu/drm/amd/display/dc/dcn201/dcn201_hwseq.c   |     3 +-
+ .../gpu/drm/amd/display/dc/dcn201/dcn201_init.c    |     4 +
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c  |     4 +
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |    21 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c  |     4 +
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_mmhubbub.h  |     8 -
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |     7 +-
+ .../gpu/drm/amd/display/dc/dcn301/dcn301_init.c    |     4 +
+ .../drm/amd/display/dc/dcn301/dcn301_resource.c    |     5 +-
+ .../drm/amd/display/dc/dcn302/dcn302_resource.c    |     3 +-
+ .../drm/amd/display/dc/dcn303/dcn303_resource.c    |     1 +
+ .../amd/display/dc/dcn31/dcn31_dio_link_encoder.c  |     3 +
+ .../display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c |     6 +-
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.c    |     2 +-
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.h    |     2 +
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c |     2 +-
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c  |     4 +
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |     3 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c    |    53 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_dccg.h    |    70 +-
+ .../display/dc/dcn314/dcn314_dio_stream_encoder.c  |    29 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c   |    19 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h   |     2 -
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_init.c    |     5 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_optc.c    |     5 +-
+ .../drm/amd/display/dc/dcn314/dcn314_resource.c    |    18 +-
+ .../drm/amd/display/dc/dcn315/dcn315_resource.c    |     1 -
+ .../drm/amd/display/dc/dcn316/dcn316_resource.c    |     1 -
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c  |    69 +-
+ .../amd/display/dc/dcn32/dcn32_dio_link_encoder.c  |     4 +-
+ .../display/dc/dcn32/dcn32_dio_stream_encoder.c    |     7 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dpp.c   |     2 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.c    |    24 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.h    |    29 +
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.c  |    24 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |   417 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.h |    16 +
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c  |     7 +
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_mmhubbub.c  |     2 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_mmhubbub.h  |    10 -
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c   |     6 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c  |     6 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |   776 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.h  |  1172 +-
+ .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |   217 +-
+ .../drm/amd/display/dc/dcn321/dcn321_resource.c    |   682 +-
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h        |    12 +-
+ drivers/gpu/drm/amd/display/dc/dml/Makefile        |     3 +
+ .../gpu/drm/amd/display/dc/dml/calcs/bw_fixed.c    |    14 +-
+ .../drm/amd/display/dc/dml/calcs/dcn_calc_auto.c   |    22 +-
+ .../drm/amd/display/dc/dml/calcs/dcn_calc_math.c   |    16 +-
+ .../gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c   |    32 +-
+ .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   |    34 +-
+ .../display/dc/dml/dcn20/display_mode_vba_20v2.c   |    10 +-
+ .../amd/display/dc/dml/dcn21/display_mode_vba_21.c |     8 +-
+ .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |   305 +-
+ .../gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c |    45 +-
+ .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c   |   101 +-
+ .../amd/display/dc/dml/dcn31/display_mode_vba_31.c |   430 +-
+ .../gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c |    12 +-
+ .../display/dc/dml/dcn314/display_mode_vba_314.c   |   443 +-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |   290 +-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.h   |    18 +-
+ .../amd/display/dc/dml/dcn32/display_mode_vba_32.c |   272 +-
+ .../dc/dml/dcn32/display_mode_vba_util_32.c        |   395 +-
+ .../dc/dml/dcn32/display_mode_vba_util_32.h        |    53 +-
+ .../gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.c |    14 +-
+ .../gpu/drm/amd/display/dc/dml/display_mode_lib.c  |    12 +
+ .../gpu/drm/amd/display/dc/dml/display_mode_lib.h  |     1 +
+ .../drm/amd/display/dc/dml/display_mode_structs.h  |    37 +-
+ .../gpu/drm/amd/display/dc/dml/display_mode_vba.c  |     1 +
+ .../gpu/drm/amd/display/dc/dml/display_mode_vba.h  |    11 +-
+ .../gpu/drm/amd/display/dc/dml/dml_inline_defs.h   |     9 +-
+ drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c   |  1884 -
+ .../amd/display/dc/dml/dml_wrapper_translation.c   |   284 -
+ drivers/gpu/drm/amd/display/dc/inc/core_types.h    |     4 +
+ drivers/gpu/drm/amd/display/dc/inc/dc_link_dp.h    |     5 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr.h    |     1 +
+ .../drm/amd/display/dc/inc/hw/clk_mgr_internal.h   |     2 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/hw_shared.h  |    14 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h        |    91 +-
+ .../drm/amd/display/dc/inc/hw/timing_generator.h   |    14 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw_sequencer.h  |    38 +-
+ .../drm/amd/display/dc/inc/hw_sequencer_private.h  |     2 +
+ drivers/gpu/drm/amd/display/dc/inc/link_hwss.h     |     6 +-
+ drivers/gpu/drm/amd/display/dc/inc/resource.h      |     6 +
+ .../gpu/drm/amd/display/dc/link/link_hwss_dio.c    |     4 +-
+ .../gpu/drm/amd/display/dc/link/link_hwss_dio.h    |     2 +-
+ .../gpu/drm/amd/display/dc/link/link_hwss_dpia.c   |     2 +-
+ .../gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c |     6 +-
+ .../drm/amd/display/dc/virtual/virtual_link_hwss.c |     8 +
+ drivers/gpu/drm/amd/display/dmub/dmub_srv.h        |     1 +
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |    69 +-
+ drivers/gpu/drm/amd/display/include/dal_asic_id.h  |     1 +
+ .../drm/amd/display/include/ddc_service_types.h    |     4 +-
+ .../drm/amd/display/include/link_service_types.h   |    15 +-
+ .../drm/amd/display/modules/color/color_gamma.c    |     4 +
+ .../drm/amd/include/asic_reg/gc/gc_10_3_0_offset.h |   108 +
+ .../amd/include/asic_reg/gc/gc_10_3_0_sh_mask.h    |  1469 +-
+ .../drm/amd/include/asic_reg/gc/gc_11_0_3_offset.h | 12086 +++++
+ .../amd/include/asic_reg/gc/gc_11_0_3_sh_mask.h    | 44640 +++++++++++++++=
+++++
+ .../include/asic_reg/mmhub/mmhub_9_4_1_offset.h    |     4 +
+ .../include/asic_reg/mmhub/mmhub_9_4_1_sh_mask.h   |     8 +
+ .../amd/include/asic_reg/nbio/nbio_7_7_0_offset.h  |     2 +
+ .../amd/include/asic_reg/nbio/nbio_7_7_0_sh_mask.h |    13 +
+ drivers/gpu/drm/amd/include/kgd_pp_interface.h     |    58 +
+ drivers/gpu/drm/amd/include/mes_v11_api_def.h      |     4 +-
+ drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |    45 +
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |     3 -
+ drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h            |     3 +
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c   |     5 +-
+ .../drm/amd/pm/powerplay/hwmgr/vega10_thermal.c    |    25 +-
+ .../pm/powerplay/hwmgr/vega12_processpptables.c    |     5 +-
+ .../gpu/drm/amd/pm/powerplay/inc/hardwaremanager.h |     2 -
+ .../drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c |     4 +-
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |    34 +
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |    22 +
+ .../pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_0.h |    31 +-
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v11_0_7_ppsmc.h   |     4 +-
+ .../drm/amd/pm/swsmu/inc/pmfw_if/smu_v11_5_ppsmc.h |     5 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |     6 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |     9 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |    65 +
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |   236 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |    72 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |   130 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |    36 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |     3 +
+ drivers/gpu/drm/amd/pm/swsmu/smu_internal.h        |     3 +
+ drivers/gpu/drm/arm/Kconfig                        |     4 +-
+ drivers/gpu/drm/arm/display/Kconfig                |     2 +-
+ drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c   |     3 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |     5 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_drv.c    |     2 +
+ .../drm/arm/display/komeda/komeda_framebuffer.c    |    12 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |    31 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.h    |     2 +
+ .../drm/arm/display/komeda/komeda_pipeline_state.c |     2 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_plane.c  |     1 -
+ drivers/gpu/drm/arm/hdlcd_crtc.c                   |    11 +-
+ drivers/gpu/drm/arm/hdlcd_drv.c                    |    77 +-
+ drivers/gpu/drm/arm/malidp_drv.c                   |     9 +-
+ drivers/gpu/drm/arm/malidp_mw.c                    |     8 +-
+ drivers/gpu/drm/arm/malidp_planes.c                |    35 +-
+ drivers/gpu/drm/arm/malidp_regs.h                  |     2 +-
+ drivers/gpu/drm/armada/armada_crtc.c               |     1 -
+ drivers/gpu/drm/armada/armada_gem.c                |     6 +-
+ drivers/gpu/drm/armada/armada_overlay.c            |     8 +-
+ drivers/gpu/drm/armada/armada_plane.c              |     2 +-
+ drivers/gpu/drm/aspeed/Kconfig                     |     2 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c           |    10 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c            |     7 +-
+ drivers/gpu/drm/ast/ast_drv.c                      |     2 +-
+ drivers/gpu/drm/ast/ast_mode.c                     |    28 +-
+ drivers/gpu/drm/ast/ast_tables.h                   |     7 +
+ drivers/gpu/drm/atmel-hlcdc/Kconfig                |     2 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c       |     6 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c    |     9 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511.h           |     5 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_cec.c       |     4 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |     5 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |    38 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.h          |     6 +
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |     3 +-
+ drivers/gpu/drm/bridge/chipone-icn6211.c           |    48 +-
+ drivers/gpu/drm/bridge/ite-it6505.c                |    27 +-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c           |    39 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |     3 +-
+ .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |     4 +-
+ drivers/gpu/drm/bridge/panel.c                     |    74 +
+ drivers/gpu/drm/bridge/parade-ps8640.c             |     9 +-
+ .../gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c    |     6 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |    13 +-
+ drivers/gpu/drm/bridge/tc358762.c                  |     4 +-
+ drivers/gpu/drm/bridge/tc358764.c                  |     4 +-
+ drivers/gpu/drm/bridge/tc358767.c                  |    90 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |   119 +-
+ drivers/gpu/drm/display/drm_dp_helper.c            |    43 +-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |  1149 +-
+ drivers/gpu/drm/display/drm_scdc_helper.c          |    13 +
+ drivers/gpu/drm/drm_aperture.c                     |    10 +-
+ drivers/gpu/drm/drm_atomic_helper.c                |    84 +-
+ drivers/gpu/drm/drm_auth.c                         |     4 +-
+ drivers/gpu/drm/drm_bridge.c                       |     4 +-
+ drivers/gpu/drm/drm_client.c                       |     4 +-
+ drivers/gpu/drm/drm_color_mgmt.c                   |     2 +-
+ drivers/gpu/drm/drm_connector.c                    |   135 +-
+ drivers/gpu/drm/drm_crtc.c                         |    94 +-
+ drivers/gpu/drm/drm_crtc_helper.c                  |     1 -
+ drivers/gpu/drm/drm_damage_helper.c                |    11 +-
+ drivers/gpu/drm/drm_edid.c                         |    52 +-
+ drivers/gpu/drm/drm_encoder.c                      |    75 +-
+ .../{drm_fb_cma_helper.c =3D> drm_fb_dma_helper.c}   |    67 +-
+ drivers/gpu/drm/drm_fb_helper.c                    |   101 +-
+ drivers/gpu/drm/drm_file.c                         |   143 +-
+ drivers/gpu/drm/drm_format_helper.c                |   702 +-
+ drivers/gpu/drm/drm_fourcc.c                       |    55 +-
+ drivers/gpu/drm/drm_framebuffer.c                  |    70 +-
+ drivers/gpu/drm/drm_gem.c                          |   170 +
+ .../{drm_gem_cma_helper.c =3D> drm_gem_dma_helper.c} |   302 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c       |    12 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c             |     2 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c              |     6 +-
+ drivers/gpu/drm/drm_ioctl.c                        |     8 +-
+ drivers/gpu/drm/drm_mipi_dbi.c                     |    49 +-
+ drivers/gpu/drm/drm_mipi_dsi.c                     |     5 +-
+ drivers/gpu/drm/drm_mode_config.c                  |     7 +-
+ drivers/gpu/drm/drm_modeset_helper.c               |    66 +-
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     |    18 +
+ drivers/gpu/drm/drm_plane.c                        |    70 +-
+ drivers/gpu/drm/drm_plane_helper.c                 |   114 +-
+ drivers/gpu/drm/drm_probe_helper.c                 |    64 +
+ drivers/gpu/drm/drm_simple_kms_helper.c            |     5 +-
+ drivers/gpu/drm/exynos/exynos_drm_plane.c          |     1 -
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |     6 +-
+ drivers/gpu/drm/exynos/exynos_mixer.c              |     2 +-
+ drivers/gpu/drm/fsl-dcu/Kconfig                    |     2 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c          |     7 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c          |     1 -
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c        |    18 +-
+ drivers/gpu/drm/gma500/Kconfig                     |     2 +
+ drivers/gpu/drm/gma500/backlight.c                 |   102 +-
+ drivers/gpu/drm/gma500/cdv_device.c                |    54 +-
+ drivers/gpu/drm/gma500/cdv_intel_dp.c              |     2 +-
+ drivers/gpu/drm/gma500/gma_display.c               |    19 +-
+ drivers/gpu/drm/gma500/gma_display.h               |     2 -
+ drivers/gpu/drm/gma500/oaktrail_crtc.c             |     2 +-
+ drivers/gpu/drm/gma500/oaktrail_device.c           |    70 +-
+ drivers/gpu/drm/gma500/oaktrail_lvds.c             |     1 -
+ drivers/gpu/drm/gma500/opregion.c                  |     6 +-
+ drivers/gpu/drm/gma500/power.c                     |   166 +-
+ drivers/gpu/drm/gma500/power.h                     |    18 -
+ drivers/gpu/drm/gma500/psb_device.c                |    73 +-
+ drivers/gpu/drm/gma500/psb_drv.c                   |    52 +-
+ drivers/gpu/drm/gma500/psb_drv.h                   |    25 +-
+ drivers/gpu/drm/gma500/psb_intel_display.c         |     2 -
+ drivers/gpu/drm/gma500/psb_intel_drv.h             |     5 -
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c            |    62 +-
+ drivers/gpu/drm/gma500/psb_irq.c                   |    30 +-
+ drivers/gpu/drm/gma500/psb_irq.h                   |     2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |    34 +-
+ drivers/gpu/drm/hisilicon/kirin/Kconfig            |     2 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c    |    15 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |     3 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c        |     9 +-
+ drivers/gpu/drm/i915/Kconfig                       |     2 +
+ drivers/gpu/drm/i915/Makefile                      |     4 +-
+ drivers/gpu/drm/i915/display/g4x_dp.c              |     4 +-
+ drivers/gpu/drm/i915/display/hsw_ips.c             |     2 +-
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |     7 +-
+ drivers/gpu/drm/i915/display/icl_dsi.c             |    22 +-
+ drivers/gpu/drm/i915/display/intel_acpi.c          |    27 +
+ drivers/gpu/drm/i915/display/intel_acpi.h          |     3 +
+ drivers/gpu/drm/i915/display/intel_atomic.c        |     9 +-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  |     3 +-
+ drivers/gpu/drm/i915/display/intel_audio.c         |   102 +-
+ drivers/gpu/drm/i915/display/intel_backlight.c     |    84 +-
+ .../gpu/drm/i915/display/intel_backlight_regs.h    |   124 +
+ drivers/gpu/drm/i915/display/intel_bios.c          |   392 +-
+ drivers/gpu/drm/i915/display/intel_bios.h          |     1 +
+ drivers/gpu/drm/i915/display/intel_bw.c            |   152 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c         |   293 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.h         |     4 +-
+ drivers/gpu/drm/i915/display/intel_color.c         |    35 +-
+ drivers/gpu/drm/i915/display/intel_connector.c     |     8 +-
+ drivers/gpu/drm/i915/display/intel_crt.c           |    13 +-
+ drivers/gpu/drm/i915/display/intel_crtc.c          |     1 -
+ .../gpu/drm/i915/display/intel_crtc_state_dump.c   |     9 +-
+ drivers/gpu/drm/i915/display/intel_cursor.c        |     7 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |    89 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |   383 +-
+ drivers/gpu/drm/i915/display/intel_display.h       |     8 +-
+ drivers/gpu/drm/i915/display/intel_display_core.h  |   418 +
+ .../gpu/drm/i915/display/intel_display_debugfs.c   |   147 +-
+ drivers/gpu/drm/i915/display/intel_display_power.c |   153 +-
+ .../gpu/drm/i915/display/intel_display_power_map.c |   119 +-
+ .../drm/i915/display/intel_display_power_well.c    |   129 +-
+ .../drm/i915/display/intel_display_power_well.h    |    16 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |     5 +-
+ drivers/gpu/drm/i915/display/intel_dmc.c           |   142 +-
+ drivers/gpu/drm/i915/display/intel_dmc.h           |     1 +
+ drivers/gpu/drm/i915/display/intel_dmc_regs.h      |     2 +
+ drivers/gpu/drm/i915/display/intel_dp.c            |   156 +-
+ drivers/gpu/drm/i915/display/intel_dp_aux.c        |    57 +-
+ .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |    15 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c       |     1 +
+ .../gpu/drm/i915/display/intel_dp_link_training.c  |   105 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |   105 +-
+ drivers/gpu/drm/i915/display/intel_dpio_phy.c      |     2 +-
+ drivers/gpu/drm/i915/display/intel_dpll.c          |   111 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |   326 +-
+ drivers/gpu/drm/i915/display/intel_dsb.c           |    30 +
+ drivers/gpu/drm/i915/display/intel_dsb.h           |    28 -
+ drivers/gpu/drm/i915/display/intel_dsi.c           |     2 +-
+ drivers/gpu/drm/i915/display/intel_dsi.h           |     3 -
+ .../gpu/drm/i915/display/intel_dsi_dcs_backlight.c |    14 +-
+ drivers/gpu/drm/i915/display/intel_dvo_dev.h       |     4 +-
+ drivers/gpu/drm/i915/display/intel_fb.c            |    18 +-
+ drivers/gpu/drm/i915/display/intel_fb_pin.c        |     4 +-
+ drivers/gpu/drm/i915/display/intel_fb_pin.h        |     4 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c           |    18 +-
+ drivers/gpu/drm/i915/display/intel_fbc.h           |     1 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |    40 +-
+ drivers/gpu/drm/i915/display/intel_fdi.c           |    20 +-
+ drivers/gpu/drm/i915/display/intel_frontbuffer.c   |    56 +-
+ drivers/gpu/drm/i915/display/intel_frontbuffer.h   |    18 +
+ drivers/gpu/drm/i915/display/intel_gmbus.c         |   290 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.h         |     1 +
+ drivers/gpu/drm/i915/display/intel_gmbus_regs.h    |    81 +
+ drivers/gpu/drm/i915/display/intel_hdcp.c          |   163 +-
+ drivers/gpu/drm/i915/display/intel_hdcp_regs.h     |   270 +
+ drivers/gpu/drm/i915/display/intel_hdmi.c          |    12 +-
+ drivers/gpu/drm/i915/display/intel_hotplug.c       |   116 +-
+ drivers/gpu/drm/i915/display/intel_lpe_audio.c     |    47 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c          |     4 +-
+ drivers/gpu/drm/i915/display/intel_modeset_setup.c |    15 +-
+ .../gpu/drm/i915/display/intel_modeset_verify.c    |     8 +-
+ drivers/gpu/drm/i915/display/intel_opregion.c      |    42 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c       |    16 +-
+ drivers/gpu/drm/i915/display/intel_panel.c         |    45 +-
+ drivers/gpu/drm/i915/display/intel_panel.h         |     3 +
+ drivers/gpu/drm/i915/display/intel_pch_refclk.c    |    16 +-
+ drivers/gpu/drm/i915/display/intel_pch_refclk.h    |     1 +
+ drivers/gpu/drm/i915/display/intel_plane_initial.c |     2 +-
+ drivers/gpu/drm/i915/display/intel_pps.c           |    51 +-
+ drivers/gpu/drm/i915/display/intel_psr.c           |    43 +-
+ drivers/gpu/drm/i915/display/intel_quirks.c        |    25 +-
+ drivers/gpu/drm/i915/display/intel_quirks.h        |    14 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c          |    18 +-
+ drivers/gpu/drm/i915/display/intel_snps_phy.c      |  1116 +
+ drivers/gpu/drm/i915/display/intel_sprite.c        |     9 +-
+ drivers/gpu/drm/i915/display/intel_tc.c            |     4 +-
+ drivers/gpu/drm/i915/display/intel_tv.c            |    23 +-
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h      |   346 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c          |     5 +-
+ drivers/gpu/drm/i915/display/intel_vrr.c           |    14 +-
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |    11 +-
+ drivers/gpu/drm/i915/display/skl_watermark.c       |  3562 ++
+ drivers/gpu/drm/i915/display/skl_watermark.h       |    80 +
+ drivers/gpu/drm/i915/display/vlv_dsi.c             |    30 +-
+ drivers/gpu/drm/i915/display/vlv_dsi_pll.c         |   141 +-
+ drivers/gpu/drm/i915/display/vlv_dsi_regs.h        |   188 +-
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c         |     4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h           |     2 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |    39 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.h           |     1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c         |     5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h         |     2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |     3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c          |     4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c             |     2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |     6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |    62 +-
+ drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |     4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |    86 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c         |     7 +-
+ drivers/gpu/drm/i915/gem/selftests/huge_pages.c    |    18 +-
+ .../drm/i915/gem/selftests/i915_gem_client_blt.c   |     2 +-
+ .../drm/i915/gem/selftests/i915_gem_coherency.c    |     2 +-
+ .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |     2 +-
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |    10 +-
+ .../gpu/drm/i915/gem/selftests/i915_gem_object.c   |     2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |    16 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |    15 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h           |     3 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |    58 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   158 +-
+ drivers/gpu/drm/i915/gt/intel_engine_regs.h        |     1 +
+ drivers/gpu/drm/i915/gt/intel_ggtt.c               |    16 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |     3 +-
+ drivers/gpu/drm/i915/gt/intel_gsc.c                |   106 +-
+ drivers/gpu/drm/i915/gt/intel_gsc.h                |     3 +
+ drivers/gpu/drm/i915/gt/intel_gt.c                 |   114 +-
+ drivers/gpu/drm/i915/gt/intel_gt.h                 |     4 +-
+ drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c     |   174 +-
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c             |    35 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h              |     8 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |     4 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c          |     8 +-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h            |    23 +
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.c           |    10 +-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.h           |     6 +
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        |    34 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h           |    45 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c                |     3 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h                |     3 -
+ drivers/gpu/drm/i915/gt/intel_llc.c                |    19 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c                |    50 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c            |    81 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c              |     2 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c        |    17 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c              |     8 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c                |    88 +-
+ drivers/gpu/drm/i915/gt/intel_rps.h                |     2 +
+ drivers/gpu/drm/i915/gt/intel_sa_media.c           |    47 +
+ drivers/gpu/drm/i915/gt/intel_sa_media.h           |    15 +
+ drivers/gpu/drm/i915/gt/intel_sseu.c               |     5 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        |    85 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c       |    16 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |    12 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c             |   115 +-
+ drivers/gpu/drm/i915/gt/selftest_slpc.c            |     9 +
+ .../drm/i915/gt/uc/abi/guc_communication_ctb_abi.h |     8 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c             |    94 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h             |     2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         |    10 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c     |   113 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h     |     1 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          |    45 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |   229 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h         |    42 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h         |     4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |    98 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |    69 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c              |    12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |   476 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |    39 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h       |     8 +-
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c          |    40 +-
+ .../gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c    |   159 +
+ .../gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c    |    10 +-
+ drivers/gpu/drm/i915/gvt/cfg_space.c               |     5 +-
+ drivers/gpu/drm/i915/gvt/edid.c                    |     3 +-
+ drivers/gpu/drm/i915/gvt/handlers.c                |     4 +-
+ drivers/gpu/drm/i915/i915_debugfs.c                |    63 +-
+ drivers/gpu/drm/i915/i915_driver.c                 |   147 +-
+ drivers/gpu/drm/i915/i915_drv.h                    |   531 +-
+ drivers/gpu/drm/i915/i915_gem.c                    |    56 +-
+ drivers/gpu/drm/i915/i915_gem.h                    |    43 +
+ drivers/gpu/drm/i915/i915_getparam.c               |     2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c              |    84 +-
+ drivers/gpu/drm/i915/i915_gpu_error.h              |    21 +-
+ drivers/gpu/drm/i915/i915_irq.c                    |   100 +-
+ drivers/gpu/drm/i915/i915_pci.c                    |   308 +-
+ drivers/gpu/drm/i915/i915_pci.h                    |     6 +
+ drivers/gpu/drm/i915/i915_perf.c                   |     3 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |   557 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c               |     2 -
+ drivers/gpu/drm/i915/i915_sw_fence.h               |     6 +-
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c      |    73 +
+ drivers/gpu/drm/i915/i915_utils.h                  |     4 -
+ drivers/gpu/drm/i915/i915_vma.c                    |    43 +-
+ drivers/gpu/drm/i915/i915_vma.h                    |    18 +-
+ drivers/gpu/drm/i915/i915_vma_resource.c           |     4 +
+ drivers/gpu/drm/i915/i915_vma_types.h              |    42 +-
+ drivers/gpu/drm/i915/intel_device_info.c           |    97 +-
+ drivers/gpu/drm/i915/intel_device_info.h           |    97 +-
+ drivers/gpu/drm/i915/intel_dram.c                  |    41 +-
+ drivers/gpu/drm/i915/intel_gvt_mmio_table.c        |     1 +
+ drivers/gpu/drm/i915/intel_mchbar_regs.h           |     3 +
+ drivers/gpu/drm/i915/intel_pch.c                   |     9 +-
+ drivers/gpu/drm/i915/intel_pch.h                   |     4 +
+ drivers/gpu/drm/i915/intel_pci_config.h            |     7 +
+ drivers/gpu/drm/i915/intel_pm.c                    |  4062 +-
+ drivers/gpu/drm/i915/intel_pm.h                    |    65 +-
+ drivers/gpu/drm/i915/intel_uncore.c                |   112 +-
+ drivers/gpu/drm/i915/intel_uncore.h                |    40 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp.c               |    19 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c       |     4 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c           |    14 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c       |     4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |     4 +-
+ .../gpu/drm/i915/selftests/i915_live_selftests.h   |     1 +
+ drivers/gpu/drm/i915/selftests/i915_perf.c         |     2 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c      |     4 +-
+ drivers/gpu/drm/i915/selftests/i915_vma.c          |    70 +-
+ drivers/gpu/drm/i915/selftests/mock_gem_device.c   |     9 +-
+ drivers/gpu/drm/imx/Kconfig                        |     2 +-
+ drivers/gpu/drm/imx/dcss/Kconfig                   |     2 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                |     6 +-
+ drivers/gpu/drm/imx/dcss/dcss-plane.c              |    18 +-
+ drivers/gpu/drm/imx/imx-drm-core.c                 |    10 +-
+ drivers/gpu/drm/imx/imx-drm.h                      |     2 +-
+ drivers/gpu/drm/imx/ipuv3-crtc.c                   |     3 +-
+ drivers/gpu/drm/imx/ipuv3-plane.c                  |    33 +-
+ drivers/gpu/drm/ingenic/Kconfig                    |     2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |    58 +-
+ drivers/gpu/drm/ingenic/ingenic-ipu.c              |    17 +-
+ drivers/gpu/drm/kmb/Kconfig                        |     2 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                      |     6 +-
+ drivers/gpu/drm/kmb/kmb_plane.c                    |    15 +-
+ drivers/gpu/drm/logicvc/Kconfig                    |     4 +-
+ drivers/gpu/drm/logicvc/logicvc_crtc.c             |     2 +-
+ drivers/gpu/drm/logicvc/logicvc_drm.c              |    10 +-
+ drivers/gpu/drm/logicvc/logicvc_interface.c        |     2 +-
+ drivers/gpu/drm/logicvc/logicvc_layer.c            |    11 +-
+ drivers/gpu/drm/logicvc/logicvc_mode.c             |     3 +-
+ drivers/gpu/drm/mcde/Kconfig                       |     2 +-
+ drivers/gpu/drm/mcde/mcde_display.c                |     8 +-
+ drivers/gpu/drm/mcde/mcde_drv.c                    |    10 +-
+ drivers/gpu/drm/mediatek/Kconfig                   |    11 +-
+ drivers/gpu/drm/mediatek/Makefile                  |     2 +
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |  2663 ++
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h              |   350 +
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |     1 -
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |     1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |     7 +-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c             |     4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c           |     9 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |     1 -
+ drivers/gpu/drm/meson/Kconfig                      |     2 +-
+ drivers/gpu/drm/meson/meson_drv.c                  |    24 +-
+ drivers/gpu/drm/meson/meson_drv.h                  |     7 +
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |    13 +
+ drivers/gpu/drm/meson/meson_encoder_cvbs.h         |     1 +
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |    13 +
+ drivers/gpu/drm/meson/meson_encoder_hdmi.h         |     1 +
+ drivers/gpu/drm/meson/meson_overlay.c              |    19 +-
+ drivers/gpu/drm/meson/meson_plane.c                |    13 +-
+ drivers/gpu/drm/mgag200/Makefile                   |     4 +-
+ drivers/gpu/drm/mgag200/mgag200_bmc.c              |    99 +
+ drivers/gpu/drm/mgag200/mgag200_drv.c              |    21 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.h              |   208 +-
+ drivers/gpu/drm/mgag200/mgag200_g200.c             |   254 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c           |   277 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c          |   181 +-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c           |   315 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c           |   316 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c          |   192 +-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c           |   431 +-
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c           |   326 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c             |   726 +-
+ drivers/gpu/drm/mgag200/mgag200_pll.c              |   997 -
+ drivers/gpu/drm/mgag200/mgag200_reg.h              |     2 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |     2 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |     2 +-
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h              |     4 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |    83 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |    45 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |    50 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h           |     1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |    37 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |     2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |     9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |     2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |    78 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |    35 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |    74 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |     4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |     6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |     3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |     4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |    27 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |    94 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |    22 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c           |    65 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |     9 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |     2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |   150 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |     1 -
+ drivers/gpu/drm/msm/dp/dp_link.c                   |     5 +-
+ drivers/gpu/drm/msm/dsi/dsi.c                      |    37 +-
+ drivers/gpu/drm/msm/dsi/dsi.h                      |    31 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |   172 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |     3 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |   299 +-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |   288 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   162 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |     5 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c         |   185 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |    87 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c         |    14 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c         |   145 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c    |   102 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |   188 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c           |    25 +-
+ drivers/gpu/drm/msm/msm_debugfs.c                  |     8 +
+ drivers/gpu/drm/msm/msm_drv.c                      |    50 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |    89 +-
+ drivers/gpu/drm/msm/msm_gem.c                      |   179 +-
+ drivers/gpu/drm/msm/msm_gem.h                      |   123 +-
+ drivers/gpu/drm/msm/msm_gem_prime.c                |     4 +-
+ drivers/gpu/drm/msm/msm_gem_shrinker.c             |   164 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c               |    78 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |    24 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |    14 +-
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c              |     2 +
+ drivers/gpu/drm/msm/msm_gpu_trace.h                |    36 +-
+ drivers/gpu/drm/msm/msm_io_utils.c                 |    22 +
+ drivers/gpu/drm/msm/msm_iommu.c                    |   101 +-
+ drivers/gpu/drm/msm/msm_rd.c                       |     3 +
+ drivers/gpu/drm/msm/msm_ringbuffer.c               |     4 -
+ drivers/gpu/drm/msm/msm_submitqueue.c              |     1 +
+ drivers/gpu/drm/mxsfb/Kconfig                      |     4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c                  |    27 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.h                  |     1 +
+ drivers/gpu/drm/mxsfb/lcdif_kms.c                  |    25 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |     6 +-
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c                  |    39 +-
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c            |    43 +-
+ drivers/gpu/drm/nouveau/dispnv04/overlay.c         |    13 +-
+ drivers/gpu/drm/nouveau/dispnv50/base507c.c        |     5 +-
+ drivers/gpu/drm/nouveau/dispnv50/curs507a.c        |     5 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |   198 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.h            |     2 +
+ drivers/gpu/drm/nouveau/dispnv50/ovly507e.c        |     5 +-
+ drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c        |     5 +-
+ drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c        |     1 -
+ drivers/gpu/drm/nouveau/nouveau_acpi.c             |    10 +
+ drivers/gpu/drm/nouveau/nouveau_acpi.h             |     4 +
+ drivers/gpu/drm/nouveau/nouveau_backlight.c        |    13 +
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |    13 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.c        |    21 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h        |     3 +
+ drivers/gpu/drm/nouveau/nouveau_hwmon.c            |    85 +-
+ drivers/gpu/drm/nouveau/nouveau_mem.c              |    29 +
+ drivers/gpu/drm/nouveau/nouveau_mem.h              |     6 +
+ drivers/gpu/drm/nouveau/nouveau_prime.c            |     1 -
+ drivers/gpu/drm/nouveau/nouveau_ttm.c              |    24 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c     |     5 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c    |     2 +-
+ drivers/gpu/drm/omapdrm/dss/dispc.c                |     2 +-
+ drivers/gpu/drm/omapdrm/dss/dss.c                  |     3 +
+ drivers/gpu/drm/omapdrm/omap_crtc.c                |     1 -
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c           |     4 +-
+ drivers/gpu/drm/omapdrm/omap_overlay.c             |     1 -
+ drivers/gpu/drm/omapdrm/omap_plane.c               |     1 -
+ drivers/gpu/drm/panel/Kconfig                      |     4 +-
+ .../gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c   |     4 +-
+ drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c     |     4 +-
+ drivers/gpu/drm/panel/panel-boe-himax8279d.c       |     4 +-
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |     4 +-
+ drivers/gpu/drm/panel/panel-dsi-cm.c               |     4 +-
+ drivers/gpu/drm/panel/panel-ebbg-ft8719.c          |     4 +-
+ drivers/gpu/drm/panel/panel-edp.c                  |    42 +-
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c       |     4 +-
+ drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c  |     4 +-
+ .../gpu/drm/panel/panel-feiyang-fy07024di26a30d.c  |     4 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c       |     7 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      |     4 +-
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c      |     4 +-
+ drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c       |     4 +-
+ drivers/gpu/drm/panel/panel-jdi-lt070me05000.c     |     4 +-
+ drivers/gpu/drm/panel/panel-khadas-ts050.c         |     4 +-
+ drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c |     4 +-
+ drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c |     4 +-
+ drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c |     4 +-
+ drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c   |     4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c      |     9 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35560.c      |     4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c      |     4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt36672a.c     |     4 +-
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c   |     4 +-
+ drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c |     4 +-
+ .../gpu/drm/panel/panel-panasonic-vvx10f034n00.c   |     4 +-
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c      |     4 +-
+ drivers/gpu/drm/panel/panel-raydium-rm68200.c      |     4 +-
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c       |     4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d16d0.c      |     4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c      |     4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c   |     4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c  |     3 +-
+ .../drm/panel/panel-samsung-s6e88a0-ams452ef01.c   |     4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c      |     4 +-
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c      |     4 +-
+ drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c    |     6 +-
+ drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c    |     4 +-
+ drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c    |     4 +-
+ drivers/gpu/drm/panel/panel-simple.c               |    88 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c      |   547 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c      |     4 +-
+ .../gpu/drm/panel/panel-sony-tulip-truly-nt35521.c |     4 +-
+ drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c       |     4 +-
+ drivers/gpu/drm/panel/panel-truly-nt35597.c        |     3 +-
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c     |     3 +-
+ drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c   |     4 +-
+ drivers/gpu/drm/panfrost/Kconfig                   |     1 +
+ drivers/gpu/drm/panfrost/Makefile                  |     3 +-
+ drivers/gpu/drm/panfrost/panfrost_dump.c           |   249 +
+ drivers/gpu/drm/panfrost/panfrost_dump.h           |    12 +
+ drivers/gpu/drm/panfrost/panfrost_job.c            |     3 +
+ drivers/gpu/drm/panfrost/panfrost_mmu.c            |    44 +-
+ drivers/gpu/drm/panfrost/panfrost_regs.h           |    42 +-
+ drivers/gpu/drm/pl111/Kconfig                      |     2 +-
+ drivers/gpu/drm/pl111/pl111_display.c              |     8 +-
+ drivers/gpu/drm/pl111/pl111_drv.c                  |     9 +-
+ drivers/gpu/drm/pl111/pl111_versatile.c            |     1 +
+ drivers/gpu/drm/qxl/qxl_cmd.c                      |     8 -
+ drivers/gpu/drm/qxl/qxl_display.c                  |     4 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                      |     3 +-
+ drivers/gpu/drm/qxl/qxl_drv.h                      |     2 -
+ drivers/gpu/drm/qxl/qxl_kms.c                      |     4 +-
+ drivers/gpu/drm/qxl/qxl_object.c                   |     2 +-
+ drivers/gpu/drm/radeon/Makefile                    |     2 +-
+ drivers/gpu/drm/radeon/atombios_crtc.c             |    11 +-
+ drivers/gpu/drm/radeon/atombios_encoders.c         |    66 +-
+ drivers/gpu/drm/radeon/ci_dpm.c                    |     6 +-
+ drivers/gpu/drm/radeon/r600_cs.c                   |     2 -
+ drivers/gpu/drm/radeon/radeon.h                    |     3 -
+ drivers/gpu/drm/radeon/radeon_atombios.c           |     2 -
+ drivers/gpu/drm/radeon/radeon_connectors.c         |    61 +-
+ drivers/gpu/drm/radeon/radeon_device.c             |     4 +-
+ drivers/gpu/drm/radeon/radeon_display.c            |     1 -
+ drivers/gpu/drm/radeon/radeon_dp_mst.c             |   778 -
+ drivers/gpu/drm/radeon/radeon_drv.c                |     9 +-
+ drivers/gpu/drm/radeon/radeon_encoders.c           |    25 +-
+ drivers/gpu/drm/radeon/radeon_irq_kms.c            |    10 +-
+ drivers/gpu/drm/radeon/radeon_legacy_encoders.c    |     7 +
+ drivers/gpu/drm/radeon/radeon_mode.h               |    41 -
+ drivers/gpu/drm/radeon/radeon_object.c             |     6 +-
+ drivers/gpu/drm/radeon/radeon_pm.c                 |     2 +-
+ drivers/gpu/drm/rcar-du/Kconfig                    |     2 +-
+ drivers/gpu/drm/rcar-du/Makefile                   |     7 -
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c             |    34 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c              |     9 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h              |     3 +
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c          |     9 +-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c              |    41 +-
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c            |    31 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c              |    35 +-
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |     4 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                |     8 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.h                |    10 +-
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c            |    69 +-
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h            |    31 +
+ drivers/gpu/drm/rockchip/Kconfig                   |     2 +-
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |    51 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |     2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c        |     4 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |   122 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h        |     2 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |     1 -
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |    24 +-
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.h        |     1 +
+ drivers/gpu/drm/scheduler/sched_main.c             |    10 +-
+ drivers/gpu/drm/selftests/Makefile                 |     8 -
+ drivers/gpu/drm/selftests/drm_buddy_selftests.h    |    15 -
+ drivers/gpu/drm/selftests/drm_cmdline_selftests.h  |    68 -
+ drivers/gpu/drm/selftests/drm_mm_selftests.h       |    28 -
+ drivers/gpu/drm/selftests/drm_modeset_selftests.h  |    40 -
+ drivers/gpu/drm/selftests/drm_selftest.c           |   109 -
+ drivers/gpu/drm/selftests/drm_selftest.h           |    41 -
+ drivers/gpu/drm/selftests/test-drm_buddy.c         |   994 -
+ .../gpu/drm/selftests/test-drm_cmdline_parser.c    |  1141 -
+ drivers/gpu/drm/selftests/test-drm_damage_helper.c |   668 -
+ drivers/gpu/drm/selftests/test-drm_format.c        |   280 -
+ .../gpu/drm/selftests/test-drm_modeset_common.c    |    32 -
+ .../gpu/drm/selftests/test-drm_modeset_common.h    |    52 -
+ drivers/gpu/drm/selftests/test-drm_rect.c          |   223 -
+ drivers/gpu/drm/shmobile/Kconfig                   |     2 +-
+ drivers/gpu/drm/shmobile/shmob_drm_crtc.c          |    15 +-
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c           |     6 +-
+ drivers/gpu/drm/shmobile/shmob_drm_kms.c           |     3 +-
+ drivers/gpu/drm/shmobile/shmob_drm_kms.h           |     2 +-
+ drivers/gpu/drm/shmobile/shmob_drm_plane.c         |    21 +-
+ drivers/gpu/drm/sis/sis_drv.c                      |     2 +-
+ drivers/gpu/drm/solomon/ssd130x-spi.c              |    21 +-
+ drivers/gpu/drm/solomon/ssd130x.c                  |   263 +-
+ drivers/gpu/drm/solomon/ssd130x.h                  |     9 +-
+ drivers/gpu/drm/sprd/Kconfig                       |     2 +-
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |    15 +-
+ drivers/gpu/drm/sprd/sprd_drm.c                    |     6 +-
+ drivers/gpu/drm/sti/Kconfig                        |     2 +-
+ drivers/gpu/drm/sti/sti_crtc.c                     |     1 -
+ drivers/gpu/drm/sti/sti_cursor.c                   |    14 +-
+ drivers/gpu/drm/sti/sti_drv.c                      |     7 +-
+ drivers/gpu/drm/sti/sti_gdp.c                      |    18 +-
+ drivers/gpu/drm/sti/sti_hqvdp.c                    |    18 +-
+ drivers/gpu/drm/sti/sti_plane.c                    |     3 +-
+ drivers/gpu/drm/sti/sti_plane.h                    |     1 -
+ drivers/gpu/drm/stm/Kconfig                        |     2 +-
+ drivers/gpu/drm/stm/drv.c                          |    11 +-
+ drivers/gpu/drm/stm/ltdc.c                         |    17 +-
+ drivers/gpu/drm/sun4i/Kconfig                      |    28 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c              |    17 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c                  |     9 +-
+ drivers/gpu/drm/sun4i/sun4i_frontend.c             |    26 +-
+ drivers/gpu/drm/sun4i/sun4i_layer.c                |     1 -
+ drivers/gpu/drm/sun4i/sun4i_tv.c                   |    64 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c                |     4 +-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c             |    27 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c             |    27 +-
+ drivers/gpu/drm/tegra/dc.c                         |     1 -
+ drivers/gpu/drm/tegra/fb.c                         |     2 +-
+ drivers/gpu/drm/tegra/plane.c                      |     1 -
+ drivers/gpu/drm/tests/Makefile                     |     4 +-
+ drivers/gpu/drm/tests/drm_buddy_test.c             |   756 +
+ drivers/gpu/drm/tests/drm_cmdline_parser_test.c    |   991 +
+ drivers/gpu/drm/tests/drm_damage_helper_test.c     |   639 +
+ .../drm_dp_mst_helper_test.c}                      |    89 +-
+ drivers/gpu/drm/tests/drm_format_helper_test.c     |   370 +-
+ drivers/gpu/drm/tests/drm_format_test.c            |   359 +
+ .../drm_framebuffer_test.c}                        |   120 +-
+ .../test-drm_mm.c =3D> tests/drm_mm_test.c}          |  1253 +-
+ .../drm_plane_helper_test.c}                       |   155 +-
+ drivers/gpu/drm/tests/drm_rect_test.c              |   214 +
+ drivers/gpu/drm/tidss/Kconfig                      |     2 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c                 |     4 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c                |    28 +-
+ drivers/gpu/drm/tidss/tidss_drv.c                  |     6 +-
+ drivers/gpu/drm/tidss/tidss_kms.c                  |     3 +-
+ drivers/gpu/drm/tidss/tidss_plane.c                |     1 -
+ drivers/gpu/drm/tilcdc/Kconfig                     |     2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c               |    10 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c                |     6 +-
+ drivers/gpu/drm/tilcdc/tilcdc_plane.c              |    10 +-
+ drivers/gpu/drm/tiny/Kconfig                       |    22 +-
+ drivers/gpu/drm/tiny/arcpgu.c                      |    14 +-
+ drivers/gpu/drm/tiny/bochs.c                       |    14 +-
+ drivers/gpu/drm/tiny/cirrus.c                      |    19 +-
+ drivers/gpu/drm/tiny/hx8357d.c                     |     7 +-
+ drivers/gpu/drm/tiny/ili9163.c                     |     7 +-
+ drivers/gpu/drm/tiny/ili9225.c                     |    12 +-
+ drivers/gpu/drm/tiny/ili9341.c                     |     7 +-
+ drivers/gpu/drm/tiny/ili9486.c                     |     7 +-
+ drivers/gpu/drm/tiny/mi0283qt.c                    |     7 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c              |     7 +-
+ drivers/gpu/drm/tiny/repaper.c                     |    42 +-
+ drivers/gpu/drm/tiny/simpledrm.c                   |   594 +-
+ drivers/gpu/drm/tiny/st7586.c                      |    17 +-
+ drivers/gpu/drm/tiny/st7735r.c                     |     7 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                       |   172 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c                  |    11 +-
+ drivers/gpu/drm/ttm/ttm_range_manager.c            |    33 +
+ drivers/gpu/drm/ttm/ttm_resource.c                 |    64 +-
+ drivers/gpu/drm/tve200/Kconfig                     |     2 +-
+ drivers/gpu/drm/tve200/tve200_display.c            |    12 +-
+ drivers/gpu/drm/tve200/tve200_drv.c                |    10 +-
+ drivers/gpu/drm/udl/udl_drv.c                      |    19 +-
+ drivers/gpu/drm/udl/udl_drv.h                      |     5 +-
+ drivers/gpu/drm/udl/udl_main.c                     |   128 +-
+ drivers/gpu/drm/udl/udl_modeset.c                  |    49 +-
+ drivers/gpu/drm/udl/udl_transfer.c                 |    46 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                      |     1 -
+ drivers/gpu/drm/v3d/v3d_gem.c                      |     4 +-
+ drivers/gpu/drm/v3d/v3d_perfmon.c                  |     2 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c              |    12 +-
+ drivers/gpu/drm/vboxvideo/vboxvideo.h              |     2 +-
+ drivers/gpu/drm/vc4/Kconfig                        |     3 +-
+ drivers/gpu/drm/vc4/vc4_bo.c                       |    79 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c                     |   149 +-
+ drivers/gpu/drm/vc4/vc4_debugfs.c                  |    72 +-
+ drivers/gpu/drm/vc4/vc4_dpi.c                      |   131 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                      |    28 +-
+ drivers/gpu/drm/vc4/vc4_drv.h                      |    65 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c                      |   131 +-
+ drivers/gpu/drm/vc4/vc4_gem.c                      |    22 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   982 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |    15 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c                      |   145 +-
+ drivers/gpu/drm/vc4/vc4_irq.c                      |     4 +-
+ drivers/gpu/drm/vc4/vc4_kms.c                      |     1 -
+ drivers/gpu/drm/vc4/vc4_perfmon.c                  |     1 +
+ drivers/gpu/drm/vc4/vc4_plane.c                    |    71 +-
+ drivers/gpu/drm/vc4/vc4_render_cl.c                |    40 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                      |    63 +-
+ drivers/gpu/drm/vc4/vc4_v3d.c                      |    73 +-
+ drivers/gpu/drm/vc4/vc4_validate.c                 |    28 +-
+ drivers/gpu/drm/vc4/vc4_validate_shaders.c         |     2 +-
+ drivers/gpu/drm/vc4/vc4_vec.c                      |   273 +-
+ drivers/gpu/drm/via/Makefile                       |     2 +-
+ drivers/gpu/drm/via/via_3d_reg.h                   |   349 +-
+ drivers/gpu/drm/via/via_dma.c                      |   744 -
+ drivers/gpu/drm/via/via_dmablit.c                  |   807 -
+ drivers/gpu/drm/via/via_dmablit.h                  |   140 -
+ drivers/gpu/drm/via/via_dri1.c                     |  3630 ++
+ drivers/gpu/drm/via/via_drv.c                      |   124 -
+ drivers/gpu/drm/via/via_drv.h                      |   229 -
+ drivers/gpu/drm/via/via_irq.c                      |   388 -
+ drivers/gpu/drm/via/via_map.c                      |   132 -
+ drivers/gpu/drm/via/via_mm.c                       |   241 -
+ drivers/gpu/drm/via/via_verifier.c                 |  1110 -
+ drivers/gpu/drm/via/via_verifier.h                 |    62 -
+ drivers/gpu/drm/via/via_video.c                    |    94 -
+ drivers/gpu/drm/virtio/virtgpu_display.c           |     2 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c               |    53 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h               |     5 +-
+ drivers/gpu/drm/virtio/virtgpu_gem.c               |     4 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c             |     4 +-
+ drivers/gpu/drm/virtio/virtgpu_kms.c               |    23 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c            |    65 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c             |    40 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c                |    21 +-
+ drivers/gpu/drm/vkms/Makefile                      |     1 +
+ drivers/gpu/drm/vkms/vkms_composer.c               |   314 +-
+ drivers/gpu/drm/vkms/vkms_drv.h                    |    33 +-
+ drivers/gpu/drm/vkms/vkms_formats.c                |   286 +
+ drivers/gpu/drm/vkms/vkms_formats.h                |    12 +
+ drivers/gpu/drm/vkms/vkms_plane.c                  |    56 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c              |    39 +-
+ .../gpu/drm/vmwgfx/device_include/vm_basic_types.h |     2 +-
+ drivers/gpu/drm/vmwgfx/ttm_object.h                |     4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |    14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c         |     8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |    13 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |     1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            |     4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |    11 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |     2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |     1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c                |     1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |     8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |     3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c    |     2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |     1 -
+ drivers/gpu/drm/xlnx/Kconfig                       |     2 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c                 |    13 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |     8 +-
+ drivers/media/platform/renesas/vsp1/vsp1_drm.c     |     2 +
+ drivers/misc/mei/bus-fixup.c                       |   106 +-
+ drivers/misc/mei/client.c                          |    16 +-
+ drivers/misc/mei/debugfs.c                         |    19 +-
+ drivers/misc/mei/gsc-me.c                          |    77 +-
+ drivers/misc/mei/hbm.c                             |    14 +-
+ drivers/misc/mei/hw-me-regs.h                      |     9 +-
+ drivers/misc/mei/hw-me.c                           |   138 +-
+ drivers/misc/mei/hw-me.h                           |    17 +-
+ drivers/misc/mei/hw-txe.c                          |     4 +-
+ drivers/misc/mei/hw.h                              |     7 +-
+ drivers/misc/mei/init.c                            |    35 +-
+ drivers/misc/mei/main.c                            |     4 +-
+ drivers/misc/mei/mei_dev.h                         |    35 +-
+ drivers/misc/mei/mkhi.h                            |    55 +
+ drivers/misc/mei/pci-me.c                          |     4 +-
+ drivers/platform/x86/Kconfig                       |     1 +
+ drivers/platform/x86/acer-wmi.c                    |    66 -
+ drivers/platform/x86/apple-gmux.c                  |     3 -
+ drivers/platform/x86/asus-nb-wmi.c                 |    21 -
+ drivers/platform/x86/asus-wmi.c                    |    13 -
+ drivers/platform/x86/asus-wmi.h                    |     2 -
+ drivers/platform/x86/eeepc-wmi.c                   |    25 +-
+ drivers/platform/x86/nvidia-wmi-ec-backlight.c     |    82 +-
+ drivers/platform/x86/samsung-laptop.c              |    87 -
+ drivers/platform/x86/toshiba_acpi.c                |    16 -
+ drivers/staging/sm750fb/sm750.c                    |    15 +-
+ drivers/video/aperture.c                           |    69 +-
+ drivers/video/fbdev/arkfb.c                        |     5 +
+ drivers/video/fbdev/asiliantfb.c                   |     5 +
+ drivers/video/fbdev/aty/aty128fb.c                 |    57 +-
+ drivers/video/fbdev/aty/atyfb_base.c               |     7 +-
+ drivers/video/fbdev/aty/radeon_base.c              |    83 +-
+ drivers/video/fbdev/carminefb.c                    |     5 +
+ drivers/video/fbdev/chipsfb.c                      |    13 +-
+ drivers/video/fbdev/cirrusfb.c                     |     5 +
+ drivers/video/fbdev/core/fbmem.c                   |   219 +-
+ drivers/video/fbdev/cyber2000fb.c                  |     5 +
+ drivers/video/fbdev/geode/gx1fb_core.c             |     5 +
+ drivers/video/fbdev/geode/gxfb_core.c              |     5 +
+ drivers/video/fbdev/geode/lxfb_core.c              |     5 +
+ drivers/video/fbdev/gxt4500.c                      |     5 +
+ drivers/video/fbdev/hyperv_fb.c                    |     6 +-
+ drivers/video/fbdev/i740fb.c                       |     5 +
+ drivers/video/fbdev/i810/i810_main.c               |   315 +-
+ drivers/video/fbdev/imsttfb.c                      |    36 +-
+ drivers/video/fbdev/intelfb/intelfbdrv.c           |     5 +
+ drivers/video/fbdev/kyro/fbdev.c                   |     5 +
+ drivers/video/fbdev/matrox/matroxfb_base.c         |     5 +
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c         |     5 +
+ drivers/video/fbdev/neofb.c                        |    41 +-
+ drivers/video/fbdev/nvidia/nvidia.c                |     7 +-
+ drivers/video/fbdev/pm2fb.c                        |     5 +
+ drivers/video/fbdev/pm3fb.c                        |     5 +
+ drivers/video/fbdev/pvr2fb.c                       |     5 +
+ drivers/video/fbdev/riva/fbdev.c                   |    67 +-
+ drivers/video/fbdev/s3fb.c                         |     5 +
+ drivers/video/fbdev/savage/savagefb_driver.c       |     5 +
+ drivers/video/fbdev/sis/sis_main.c                 |     5 +
+ drivers/video/fbdev/skeletonfb.c                   |   210 +-
+ drivers/video/fbdev/sm712fb.c                      |     5 +
+ drivers/video/fbdev/sstfb.c                        |    43 +-
+ drivers/video/fbdev/sunxvr2500.c                   |     5 +
+ drivers/video/fbdev/sunxvr500.c                    |     5 +
+ drivers/video/fbdev/tdfxfb.c                       |     5 +
+ drivers/video/fbdev/tgafb.c                        |    17 +-
+ drivers/video/fbdev/tridentfb.c                    |     5 +
+ drivers/video/fbdev/vermilion/vermilion.c          |     7 +-
+ drivers/video/fbdev/vga16fb.c                      |   191 +-
+ drivers/video/fbdev/via/via-core.c                 |     5 +
+ drivers/video/fbdev/vt8623fb.c                     |     5 +
+ drivers/video/hdmi.c                               |    82 +-
+ include/acpi/video.h                               |     9 +-
+ include/drm/display/drm_dp.h                       |     3 +
+ include/drm/display/drm_dp_helper.h                |     2 +
+ include/drm/display/drm_dp_mst_helper.h            |   237 +-
+ include/drm/drm_atomic_helper.h                    |    12 +
+ include/drm/drm_bridge.h                           |    12 +
+ include/drm/drm_connector.h                        |    26 +
+ include/drm/drm_crtc.h                             |     9 +
+ include/drm/drm_encoder.h                          |     6 +
+ .../{drm_fb_cma_helper.h =3D> drm_fb_dma_helper.h}   |    10 +-
+ include/drm/drm_file.h                             |     9 -
+ include/drm/drm_format_helper.h                    |    69 +-
+ include/drm/drm_fourcc.h                           |     4 +
+ include/drm/drm_framebuffer.h                      |     8 +-
+ include/drm/drm_gem.h                              |    57 +-
+ .../{drm_gem_cma_helper.h =3D> drm_gem_dma_helper.h} |   158 +-
+ include/drm/drm_gem_shmem_helper.h                 |     2 +-
+ include/drm/drm_mipi_dbi.h                         |     2 +
+ include/drm/drm_mipi_dsi.h                         |     4 +-
+ include/drm/drm_modes.h                            |    35 +-
+ include/drm/drm_panel.h                            |     7 -
+ include/drm/drm_plane.h                            |    52 +-
+ include/drm/drm_plane_helper.h                     |    40 +-
+ include/drm/drm_probe_helper.h                     |     9 +-
+ include/drm/gpu_scheduler.h                        |     9 +-
+ include/drm/i915_pciids.h                          |     1 +
+ include/drm/ttm/ttm_bo_api.h                       |    93 +-
+ include/drm/ttm/ttm_bo_driver.h                    |     2 +-
+ include/drm/ttm/ttm_resource.h                     |    40 +
+ include/linux/dma-resv.h                           |    16 +-
+ include/linux/fb.h                                 |    10 -
+ include/linux/hdmi.h                               |     7 +-
+ include/linux/iosys-map.h                          |    15 +-
+ include/linux/mei_aux.h                            |    12 +
+ .../platform_data/x86/nvidia-wmi-ec-backlight.h    |    76 +
+ include/media/vsp1.h                               |     2 +
+ include/uapi/drm/amdgpu_drm.h                      |     8 +
+ include/uapi/drm/drm_fourcc.h                      |    34 +-
+ include/uapi/drm/drm_mode.h                        |     8 +-
+ include/uapi/drm/panfrost_drm.h                    |    47 +
+ include/video/vga.h                                |    20 +-
+ 1230 files changed, 115744 insertions(+), 38384 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+ create mode 100644 Documentation/gpu/amdgpu/apu-asic-info-table.csv
+ create mode 100644 Documentation/gpu/amdgpu/dgpu-asic-info-table.csv
+ create mode 100644 Documentation/gpu/amdgpu/display/dcn2_cm_drm_current.sv=
+g
+ create mode 100644 Documentation/gpu/amdgpu/display/dcn3_cm_drm_current.sv=
+g
+ create mode 100644 Documentation/gpu/amdgpu/display/mpo-cursor.svg
+ create mode 100644 Documentation/gpu/amdgpu/display/mpo-overview.rst
+ create mode 100644
+Documentation/gpu/amdgpu/display/multi-display-hdcp-mpo-less-pipe-ex.svg
+ create mode 100644 Documentation/gpu/amdgpu/display/multi-display-hdcp-mpo=
+.svg
+ create mode 100644 Documentation/gpu/amdgpu/display/pipeline_4k_no_split.s=
+vg
+ create mode 100644 Documentation/gpu/amdgpu/display/pipeline_4k_split.svg
+ create mode 100644
+Documentation/gpu/amdgpu/display/single-display-mpo-multi-video.svg
+ create mode 100644 Documentation/gpu/amdgpu/display/single-display-mpo.svg
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/gfxhub_v3_0_3.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/gfxhub_v3_0_3.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/imu_v11_0_3.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/imu_v11_0_3.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/mmsch_v4_0.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/sienna_cichlid.c
+ rename drivers/gpu/drm/amd/{display/dc/inc/dml_wrapper.h =3D>
+amdgpu/sienna_cichlid.h} (81%)
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translat=
+ion.c
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/gc/gc_11_0_3_offse=
+t.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/gc/gc_11_0_3_sh_ma=
+sk.h
+ rename drivers/gpu/drm/{drm_fb_cma_helper.c =3D> drm_fb_dma_helper.c} (60%=
+)
+ rename drivers/gpu/drm/{drm_gem_cma_helper.c =3D> drm_gem_dma_helper.c} (6=
+1%)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_backlight_regs.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_display_core.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_gmbus_regs.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_hdcp_regs.h
+ create mode 100644 drivers/gpu/drm/i915/display/skl_watermark.c
+ create mode 100644 drivers/gpu/drm/i915/display/skl_watermark.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_sa_media.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+ create mode 100644 drivers/gpu/drm/mgag200/mgag200_bmc.c
+ delete mode 100644 drivers/gpu/drm/mgag200/mgag200_pll.c
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.c
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.h
+ delete mode 100644 drivers/gpu/drm/radeon/radeon_dp_mst.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
+ delete mode 100644 drivers/gpu/drm/selftests/Makefile
+ delete mode 100644 drivers/gpu/drm/selftests/drm_buddy_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_cmdline_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_mm_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_modeset_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.c
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.h
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_buddy.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_cmdline_parser.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_damage_helper.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_format.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.h
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_rect.c
+ create mode 100644 drivers/gpu/drm/tests/drm_buddy_test.c
+ create mode 100644 drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+ create mode 100644 drivers/gpu/drm/tests/drm_damage_helper_test.c
+ rename drivers/gpu/drm/{selftests/test-drm_dp_mst_helper.c =3D>
+tests/drm_dp_mst_helper_test.c} (71%)
+ create mode 100644 drivers/gpu/drm/tests/drm_format_test.c
+ rename drivers/gpu/drm/{selftests/test-drm_framebuffer.c =3D>
+tests/drm_framebuffer_test.c} (80%)
+ rename drivers/gpu/drm/{selftests/test-drm_mm.c =3D> tests/drm_mm_test.c} =
+(54%)
+ rename drivers/gpu/drm/{selftests/test-drm_plane_helper.c =3D>
+tests/drm_plane_helper_test.c} (51%)
+ create mode 100644 drivers/gpu/drm/tests/drm_rect_test.c
+ delete mode 100644 drivers/gpu/drm/via/via_dma.c
+ delete mode 100644 drivers/gpu/drm/via/via_dmablit.c
+ delete mode 100644 drivers/gpu/drm/via/via_dmablit.h
+ create mode 100644 drivers/gpu/drm/via/via_dri1.c
+ delete mode 100644 drivers/gpu/drm/via/via_drv.c
+ delete mode 100644 drivers/gpu/drm/via/via_drv.h
+ delete mode 100644 drivers/gpu/drm/via/via_irq.c
+ delete mode 100644 drivers/gpu/drm/via/via_map.c
+ delete mode 100644 drivers/gpu/drm/via/via_mm.c
+ delete mode 100644 drivers/gpu/drm/via/via_verifier.c
+ delete mode 100644 drivers/gpu/drm/via/via_verifier.h
+ delete mode 100644 drivers/gpu/drm/via/via_video.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_formats.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
+ create mode 100644 drivers/misc/mei/mkhi.h
+ rename include/drm/{drm_fb_cma_helper.h =3D> drm_fb_dma_helper.h} (56%)
+ rename include/drm/{drm_gem_cma_helper.h =3D> drm_gem_dma_helper.h} (53%)
+ create mode 100644 include/linux/platform_data/x86/nvidia-wmi-ec-backlight=
+.h
