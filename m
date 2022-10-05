@@ -1,67 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828C25F5028
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 09:09:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D5D5F502E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 09:11:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A966B10E038;
-	Wed,  5 Oct 2022 07:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B682D10E45A;
+	Wed,  5 Oct 2022 07:11:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D578610E038
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 07:09:07 +0000 (UTC)
-X-UUID: 6d33eb611c5c4ea59ddcb9328b5d8be8-20221005
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=PI8V11iT32Q2jycjSqRqVQTX4d7OUvBcmL01MKyGhek=; 
- b=mw+qhw6kSEYudPk/0CJBJoABZWHa6Os5USGIwcfWV5Nq6SePlaOU0hem2qvDpgxPKgQvBjZPGf9MGug+UiSActLg9oYDrUNE9zNwJXSX16EvXOVREMRWtHNL9RzR2klgY1B5eh+Hhvu4Fhe92MHCUO8ZmBEZ37THCi4K+ba3qhw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11, REQID:d164eeba-8066-457a-aeaa-0226fb3f0edd, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:40
-X-CID-INFO: VERSION:1.1.11, REQID:d164eeba-8066-457a-aeaa-0226fb3f0edd, IP:0,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:40
-X-CID-META: VersionHash:39a5ff1, CLOUDID:45daeb69-c578-4abf-baf4-d93ecc5e701f,
- B
- ulkID:22100515090097W74NHL,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48|823|
- 824|102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:
- nil,COL:0
-X-UUID: 6d33eb611c5c4ea59ddcb9328b5d8be8-20221005
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1787151296; Wed, 05 Oct 2022 15:08:59 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 5 Oct 2022 15:08:57 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Wed, 5 Oct 2022 15:08:57 +0800
-Message-ID: <ac0a8cadf18291575d5fc798f0d6b99f5c3a4258.camel@mediatek.com>
-Subject: Re: [PATCH v5 3/6] soc: mediatek: add mtk-mmsys support for mt8195
- vdosys0
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Date: Wed, 5 Oct 2022 15:08:57 +0800
-In-Reply-To: <0e67041f-a61d-1e34-2ce4-6a199c2c9f8e@collabora.com>
-References: <20220927152704.12018-1-jason-jh.lin@mediatek.com>
- <20220927152704.12018-4-jason-jh.lin@mediatek.com>
- <0e67041f-a61d-1e34-2ce4-6a199c2c9f8e@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF64C10E45A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 07:11:14 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id r13so3035585wrj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 00:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date;
+ bh=B4NuR15p1M5h+Qpf+trsp5mYdzxvdiwFoP+0+HDomaA=;
+ b=TuK5WGh0hEIyfywa/E8MohJHIfkBV4b2cRp99lOsAUg/E/4ktietnlg4HZGuIHCBlK
+ yVwXX9K7be9jl4x/XN65u6YZ2QT5yoEVFV/Z0l66h8Pcnh5bCVujYYwEH+RRa/3wlxSX
+ F6F1REJPglaOz3SyvhsJ/7PwDIGXBtkIO0D9/Lgv091Bu2h4lBO91wwY7eNu4Nzpg2W9
+ lV19fbIMkKJADRZVksT/KtnYzkiw09kquLpZ0kyp8VdgIWV+mFVbyMT5fZBlJnN4ZqlA
+ 9buxUhkk0mL+M0BvnNWs3NzZkAnUFi+wW24E5A2DAPk44yeOy/z3CO2VP7wXq7NAiZVO
+ W3Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=B4NuR15p1M5h+Qpf+trsp5mYdzxvdiwFoP+0+HDomaA=;
+ b=igqABY/uCIjtuHxWQRVQJg0KW4OB3979Oe3EVeR30VZzjqRY2hyV2+nzXRucY6ica9
+ BCHHKftuOmGrjkUPSKqLyNIN4YvDONNFx7K1Dz9zKMdp9LZ9QKsR4J9gWuLpqZL6q92+
+ szLUZyKFMjArRGDDyKV8MwrgNzGd6FDqTiqJGlQIBjYEYsr36Jb84tVrZhr+0xjOVPaf
+ r6wt/IKzhoqmWyXEuuHyZR1qHR7BpRYZmJJCtp0r0RpdNYyF9b3wJWRNe/obp8g9Ig0E
+ pK0BOeKUCqdSTUp7qgi6v7gcxypY1zB86uIcLAD1r5e/82cJzFyXlFzmJMra+n8k6ihF
+ cQmA==
+X-Gm-Message-State: ACrzQf3Ok/3EcIyjIvAofrDrKW0FwoZ0Tgg2XL2VTjCP5kPEIYnkouEY
+ n77bzjb2NTqlhp9MMjgurrPzUA==
+X-Google-Smtp-Source: AMsMyM5Dd3WxdNnd9W4ljS+WL4sP+ML6m11PngmoIu9sDz9xnz0n/YxZIW53GLiY5XtM0gP+ujnwKg==
+X-Received: by 2002:a5d:4581:0:b0:228:a8e5:253c with SMTP id
+ p1-20020a5d4581000000b00228a8e5253cmr17416176wrq.506.1664953873383; 
+ Wed, 05 Oct 2022 00:11:13 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:94af:b87a:5119:ff73?
+ ([2a01:e0a:982:cbb0:94af:b87a:5119:ff73])
+ by smtp.gmail.com with ESMTPSA id
+ d3-20020a5d6dc3000000b0022e3cba367fsm7752494wrz.100.2022.10.05.00.11.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Oct 2022 00:11:12 -0700 (PDT)
+Message-ID: <720cc44b-a6fd-5424-1db6-fda1290c23e7@linaro.org>
+Date: Wed, 5 Oct 2022 09:11:11 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: it6505: add properties to restrict
+ output bandwidth
+Content-Language: en-US
+To: allen.chen@ite.com.tw
+References: <20220929014456.30077-1-allen.chen@ite.com.tw>
+ <20220929014456.30077-2-allen.chen@ite.com.tw>
+ <aaf68eff-17da-3f27-c8dc-48b9659e7b50@linaro.org>
+ <087811c1bc224a468f117ca4f2fff3cd@ite.com.tw>
+Organization: Linaro Developer Services
+In-Reply-To: <087811c1bc224a468f117ca4f2fff3cd@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,36 +80,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Reply-To: neil.armstrong@linaro.org
+Cc: devicetree@vger.kernel.org, Kenneth.Hung@ite.com.tw,
+ andrzej.hajda@intel.com, Jau-Chih.Tseng@ite.com.tw, airlied@linux.ie,
+ robert.foss@linaro.org, narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, treapking@chromium.org, Hermes.Wu@ite.com.tw,
+ robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
-
-Do you have any comment for this binding?
-
-Can you help us review the soc/mediatek related patches?
-
-Regards,
-Jason-JH.Lin
-
-On Wed, 2022-09-28 at 10:14 +0200, AngeloGioacchino Del Regno wrote:
-> Il 27/09/22 17:27, Jason-JH.Lin ha scritto:
-> > 1. Add mt8195 driver data with compatible "mediatek-mt8195-
-> > vdosys0".
-> > 2. Add mt8195 routing table settings of vdosys0.
-> > 
-> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+On 05/10/2022 08:19, allen.chen@ite.com.tw wrote:
+> Hi
 > 
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
+> data-lanes is output configuration. Maybe it is not suitable to put data-lanes in input endpoint.
+> extcon doesn't have output endpoint, so I don't know where to put is better.
+
+Ok it wasn't clear enough
+
+Then rename the property to something more specific like:
+ite,dp-output-data-lane-count
+
+Use the same naming scheme for the other property:
+ite,dp-output-max-pixel-clock-khz
+
+Neil
+
 > 
+> -----Original Message-----
+> From: Neil Armstrong <neil.armstrong@linaro.org>
+> Sent: Thursday, September 29, 2022 4:40 PM
+> To: Allen Chen (陳柏宇) <allen.chen@ite.com.tw>
+> Cc: open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>; Kenneth Hung (洪家倫) <Kenneth.Hung@ite.com.tw>; Jernej Skrabec <jernej.skrabec@gmail.com>; Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Jau-Chih Tseng (曾昭智) <Jau-Chih.Tseng@ite.com.tw>; David Airlie <airlied@linux.ie>; open list:DRM DRIVERS <dri-devel@lists.freedesktop.org>; Neil Armstrong <narmstrong@baylibre.com>; open list <linux-kernel@vger.kernel.org>; Robert Foss <robert.foss@linaro.org>; Pin-yen Lin <treapking@chromium.org>; Hermes Wu (吳佳宏) <Hermes.Wu@ite.com.tw>; Rob Herring <robh+dt@kernel.org>; Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Andrzej Hajda <andrzej.hajda@intel.com>; Jonas Karlman <jonas@kwiboo.se>
+> Subject: Re: [PATCH v2 1/2] dt-bindings: it6505: add properties to restrict output bandwidth
 > 
+> Hi,
 > 
--- 
-Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> On 29/09/2022 03:44, allen wrote:
+>> From: allen chen <allen.chen@ite.com.tw>
+>>
+>> Add properties to restrict dp output data-lanes and clock.
+>>
+>> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+>> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+>> ---
+>>    .../devicetree/bindings/display/bridge/ite,it6505.yaml | 10 ++++++++++
+>>    1 file changed, 10 insertions(+)
+>>
+>> diff --git
+>> a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+>> b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+>> index 833d11b2303a..62b9f2192202 100644
+>> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+>> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+>> @@ -52,6 +52,14 @@ properties:
+>>        maxItems: 1
+>>        description: extcon specifier for the Power Delivery
+>>    
+>> +  data-lanes:
+>> +    maxItems: 1
+>> +    description: restrict the dp output data-lanes with value of 1-4
+> 
+> Can't you use the data-lanes property in the first port endpoint ?
+> 
+> Look at Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> 
+>> +
+>> +  max-pixel-clock-khz:
+>> +    maxItems: 1
+>> +    description: restrict max pixel clock
+> 
+> New vendor specific properties should have the ite, prefix.
+> 
+>> +
+>>      port:
+>>        $ref: /schemas/graph.yaml#/properties/port
+>>        description: A port node pointing to DPI host port node @@ -84,6
+>> +92,8 @@ examples:
+>>                pwr18-supply = <&it6505_pp18_reg>;
+>>                reset-gpios = <&pio 179 1>;
+>>                extcon = <&usbc_extcon>;
+>> +            data-lanes = <2>;
+>> +            max-pixel-clock-khz = <150000>;
+>>    
+>>                port {
+>>                    it6505_in: endpoint {
+> 
+> Thanks,
+> Neil
 
