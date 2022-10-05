@@ -2,80 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C405F57F5
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 18:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AD35F5889
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 18:45:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1A110E6BC;
-	Wed,  5 Oct 2022 16:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9B2510E2E8;
+	Wed,  5 Oct 2022 16:45:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FAD10E6E8
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 16:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664985849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6VmuEPh0GKIRK6E1m3VF5nVWqHKHTtX99Nr9gjfAcjc=;
- b=VspYXMJmCCLekaXr3HXHiFyjVSXjXJMor+cJLc4RLQtWXVHe2c+HYJAvwN6qx0Jt1X1Vtt
- BZtwQnGr/njuR3xNf4jx229+p8ZdDXSvXlmWQpn1F8qdGM3kvvThIiCoyb9qW3cLD4xm9V
- R7fSt9wVLSQGBQ32zew0OKIha6krSgw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-SueAWi0-PIuCTp6823kLcw-1; Wed, 05 Oct 2022 12:04:00 -0400
-X-MC-Unique: SueAWi0-PIuCTp6823kLcw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 7-20020a05600c020700b003b4ce6e6b12so561423wmi.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 09:04:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=6VmuEPh0GKIRK6E1m3VF5nVWqHKHTtX99Nr9gjfAcjc=;
- b=e4izOmNPdi/EXO8GWdwjIxKhZ96jJRF97fxAOXQ2E5LtSR6ceCPjpDQr8IMPBjvWk3
- ksSJzy/gy497ig73YCaC3rmsjDh1b0mfcqumNyFZS287hM1UazdV5k4KXc90HgRlTEOy
- jBmXrWz1ME9CJTia2K0KXasUBF7cUZyqCSZpdXpoGRrOYt3VxKrDO+lxN6crCADvhtK0
- 3XxW5niW/pPU0L1WxTmaJ6VYZQioyEP5OooFw2ZxYXtxy1Bo+P86rQGMQec0oB1wSx2g
- YyKYpdC8Jb6MQ70om///Tg1jcCPdZhui2ZL5LGe83o6CefX9UL6LdLzsZ/qP1aCrz7mR
- DdqA==
-X-Gm-Message-State: ACrzQf1ByY9q99yZFxmngiOAEhEjBqgCoYPeMb3z0qbvcldQp5wqvtF3
- qG1v6ZxkWaE1buUVpB80MSeLKYzt9a1/rV4/dImsE8ns3Fd6qYuH8RW2mTIsezo+Asi2ym8W61B
- qbBs8VOGppVZtQ9R2J/x6K/+nwjxF
-X-Received: by 2002:adf:dbc3:0:b0:22a:d393:bd84 with SMTP id
- e3-20020adfdbc3000000b0022ad393bd84mr306728wrj.626.1664985839291; 
- Wed, 05 Oct 2022 09:03:59 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4ub+BWBZ9Bnr1wUlcgYmYfBzOPzm9jUvYXY24urJlTeq9Da+W040vVGlZxm/Nce6n0Lecszw==
-X-Received: by 2002:adf:dbc3:0:b0:22a:d393:bd84 with SMTP id
- e3-20020adfdbc3000000b0022ad393bd84mr306700wrj.626.1664985838973; 
- Wed, 05 Oct 2022 09:03:58 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- t189-20020a1c46c6000000b003a5537bb2besm2462446wma.25.2022.10.05.09.03.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Oct 2022 09:03:58 -0700 (PDT)
-Message-ID: <86a1c1de-3cc9-b00e-ca35-23ccaa45a43d@redhat.com>
-Date: Wed, 5 Oct 2022 18:03:57 +0200
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2086.outbound.protection.outlook.com [40.107.94.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 977A910E2E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 16:45:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lZuA84DIl7dk6WIMkJeoBLgf/Buy/Ee9P+MIYPs56IoLeFG9fp92ctT92iR+rEwBadh5wXlmM6HDMrQWqm7qlqlWMl39dO1uT8Yv7fTR2nUee3V8W3le9IIPTX7fqwgvh9RWSks9RhK8BSY99OGVZXTXEFQktcTQ8hjeRuR1qgWBeGgCn1Qqn/xGwuKs0+H0cH7HurbEai11kPJ8OTARTN0wugBQevQslqw7AIxvTz9d82X+D8mwRhGGnUmixpd2vkjhtXwtVUGFSli/tNHCVCf0Yi/dIoUXmRxrt3NuPYqBzIHBe0qFGv8q6mcIhaWHZtcjETQAfcGb4PHUBMPQsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ll2LfZ+5YJWAwGZPtgpKq9Abl+//nhuwOXGf52ew9MY=;
+ b=eRUZF+wDqRFow2ajsj4HL4GyFbMeIGycibArvp7ziWQ4a6ccUT/y2+lII/ebYv0tMOaHMeP0RbU3vscK57k13hA3dYYOlZTxdouq4PUlP04JFajuXIsh8j8Th+r1EqnEJxAz+4NXG9jJ2Zkt7PBvpIM4dts36btFPolgSyK3h2f7eHId5raOdR4jJmBYNWLOmeF0ZRsSWZyWCHZ+z08ScyYTcjEXTYr2nQRknuu47eTzTv6gy1XVYb73v6AwlTidPycIjvViLd0YGJhyzQnC257xpxgJuNqf+BCClvTS1y6N532zRPfeLEWBrYSokllXIGCWdmmApxCL4wdnKO4DEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ll2LfZ+5YJWAwGZPtgpKq9Abl+//nhuwOXGf52ew9MY=;
+ b=dbi740zO9oYPChQcesex285VzhFOy/vT9l+vhEhLagmXu85pl1aB1Gj57v94uW5JJdog1UONzhQIcduD9m9ORlQ1uMAOThFO7fdRfYXrCki1dhGXoUOZ4ZH3RsJYQh6g7tiHG661YMlUz4m1IIoFeWsXoRBjIc/cLgn/Sheuz+I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ MN2PR12MB4064.namprd12.prod.outlook.com (2603:10b6:208:1d3::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Wed, 5 Oct
+ 2022 16:45:08 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::8d54:65c4:c1e5:8f02]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::8d54:65c4:c1e5:8f02%4]) with mapi id 15.20.5676.032; Wed, 5 Oct 2022
+ 16:45:07 +0000
+Message-ID: <09cd11c5-2a15-3653-957c-88c751fa9029@amd.com>
+Date: Wed, 5 Oct 2022 12:45:31 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
-Subject: Re: [PATCH v4] drm/ast: Add Atomic gamma lut support for aspeed
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com
-References: <20220930094754.745626-1-jfalempe@redhat.com>
- <15147124-d074-8349-46ff-b6ea977a8265@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <15147124-d074-8349-46ff-b6ea977a8265@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: linux-next: build failure after merge of the drm tree
 Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>, Mark Brown <broonie@kernel.org>
+References: <20220930105434.111407-1-broonie@kernel.org>
+ <20221004132047.435d42db@canb.auug.org.au>
+ <CAMwc25oshRcJBoCT70B+b42bh5sPqgyoHuBx6K6ZLrwBMHnJzw@mail.gmail.com>
+ <20221004140558.64f59f2c@canb.auug.org.au> <YzwbW4YQwQPsRPYw@sirena.org.uk>
+ <CADnq5_PbPQPui1tOdUMB+OYbz6UBMKCgtwvE95oA+SfcN0RzNg@mail.gmail.com>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <CADnq5_PbPQPui1tOdUMB+OYbz6UBMKCgtwvE95oA+SfcN0RzNg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR02CA0030.namprd02.prod.outlook.com
+ (2603:10b6:610:4e::40) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|MN2PR12MB4064:EE_
+X-MS-Office365-Filtering-Correlation-Id: 107da295-96eb-49a1-33d6-08daa6f0f5e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RrfKiTEC8NvYwY2qrFfR2tJA8zVyfBwYDYWKdl3fQF/+HsVUA2fx9hh0Eqrd7KsqEt7/rvxbLQuCFV2On+E2CIVRqXsZiYX4a027PuEW0dUGerCxcEIdfTSO49VCZvTzqIq5RAyoqLwOIWd9K30cynWNiSAMBIAAjCBQEM35qDU9aBfP6qNt6K4ZjOqVM8x5aX7hQXiLNzXQ0vXKB/n6YkJeWHI5i5TGPQeK401Mcp+ltmIBZDy7zXFMq2XtWL6gxdfFc5Jhk8kgcLrDxpwSwnY/U8AvFR7i4sKQbkNlCeAZykwwbgvJQE+hb/7cdR2RyxMOj6eToKcgTMuCHhJG1nkImoQuJRXLJl6HXfpHCArQLZrnbKK8COFGff0CfieUN8lOy+nLKlZXjWtGftbr2Gqh/9/m9gwdz675T17BzhGZrooQ6GwL4GqD14HwjnO5ulJwvT3g4NVdi+BSB1jrFk7SEYiWbOCcPNGKIAUlAfWRywKXT6RikCv5M+wSg4TzuqU7ykCBXMQDlA3oNE4Zswa+5GNGex+xUO1LkQgwwmulJdkHYf2qIyIAzJrK590PTZGC/9qP0bUvhprVH8rF0rK7R5iGJy1rOoIqFwKjpKsERe3T3ru9X4Z7T4t+Xr886QM9gfgYraHGHujqPxQpn1shq3Vk9JxA6bYCAsZH0elO5knh7anpBMPiWl4+DRvCmha34WXtlsWA1C+v02dtQ9rkp3iAFi2XlS1fkURxL9Wd33T2HRMq+lxxaw2mwzWuS8HCcjACMKuzBWzxMwe/pvRvuO2xPhe39AVnnelSmhs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(396003)(136003)(346002)(39860400002)(366004)(451199015)(2906002)(186003)(83380400001)(38100700002)(66946007)(66476007)(66556008)(4326008)(8676002)(316002)(54906003)(44832011)(41300700001)(8936002)(5660300002)(110136005)(53546011)(6666004)(6506007)(6512007)(26005)(6486002)(478600001)(2616005)(31686004)(31696002)(36756003)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFNGOHNFa1pVN2VPOTBvNHUzbExiNnpPUE1YVGQzRFh3bC9mcFl3RmFVVWZh?=
+ =?utf-8?B?dG5rcElPN0lBajdMMGFKSERHOFNBSjhxV0pRcGFERDdLV3pRYkVOcWw2UzBk?=
+ =?utf-8?B?eWYzRFE2WUtLZXMvSitucXVyM0JLTEFiaVU4ZzI3bElqVXN4MkZrV1NQRzhD?=
+ =?utf-8?B?L3VVTjZwbkR3RkRldFpya1p3RDAwRlI1UjVCcGdyOFlOSFNVVW1rVE5vV3Zr?=
+ =?utf-8?B?UndVNmY1ckd1d3NaakZKdTRTWTdsMFZ4allBT1BHRFFjNDFTeHNpU04zNE00?=
+ =?utf-8?B?VnRmRms0cW8yTVJzU3JhYWhWNjRkZFhDYWYyczhPZUZxR0NnaFpiZ3VSY2JY?=
+ =?utf-8?B?QVNnSzlId0ZDU2ZHNU5UUWJBc3YyT0pFMzdKQkFjZVM5OWhMZmpvNVhaWTVK?=
+ =?utf-8?B?WmlRVk00N0tMSDhURTZFQ1p5eVNTZjIvV0c5b2JrTklSOENXeU5ud0hONUc3?=
+ =?utf-8?B?bVV2UHRPN09LZS8xTytIVFBZckpkQnZXMjZLQzNtVjB6SUp6VXphUnE4bisr?=
+ =?utf-8?B?VE80MHZXVE53T1NEclF1cWQ4aUtHbTVMdXU4TlZnNnhhYVM2VVJDZ2lIQ3hG?=
+ =?utf-8?B?TjNmb2ExZTBJcGdFelcvc3NhbStnTEZCditaNGhLWFpITDV2bFdpREhUMVlk?=
+ =?utf-8?B?ci9nVzlEY3YyUWlSblVlOFNvOUR1RklTZGZGeDQvalNlMVVCdnNHaGwwNTA4?=
+ =?utf-8?B?ZTg5d2V6UGJCOE1MRURIT3NHRDNIQUp6dGxneXM4TVFwc2QrZTdKNzJGcS9Y?=
+ =?utf-8?B?REJyOWFYVTA3RmtHWVhrTm81SC9pOVhMOVdWenJ2cWJjZ2JBVmRhVVRvbkdh?=
+ =?utf-8?B?SWVmSWtXQTJ6aHRId0FaVllJSWZMUnJkYU9qWTlubVY1N2tqRkxsbGRCMjdD?=
+ =?utf-8?B?MXp6dkZCSGJUZVpuVUxMWDhzQmxKQS9NbUUxdFhDbG1yR3g3VHYrSHpyeGVK?=
+ =?utf-8?B?RUI1RHpMelA1RFNDVmd2b1JBRm1pdUJ3clRvNm1Od2Q2eEF4NkFxUUpzNCtp?=
+ =?utf-8?B?SzRNNkVJR0dRT3g4bzRvZHQyZjQ3TTVMZ2JpUWQwN2c2V1J4WGRTeWdwaitL?=
+ =?utf-8?B?RVkxa3FLZlIvOS9OUzEvRHhPVVpieWNybzBYNzh3ODRUR1BpS0FVak1aSzBi?=
+ =?utf-8?B?NDNnRit4ODB3MU5kVzR4eXdyTjZkeHlCWTdVb1FJV1dqVWxvbWJMMENmL2tx?=
+ =?utf-8?B?RFVZeUNkNGNrS3crRlZjS1owOHl4ZWp6WVVtS1ZGVmsreUUxcGZLTis5TGI5?=
+ =?utf-8?B?WXBFT3N2VzVIKzJQY1FMbnhqOExlMHZkN0ZzelpSTTBPZisreGM3QlRJM0o5?=
+ =?utf-8?B?dk5Xa240aHArNzJoSXpPcjFhYmxKVW10U2FmRTZkaXdvUTBLOVFzOEh5YTRG?=
+ =?utf-8?B?bUhVWWFRV0IxNDlmcTNSVFh4SGE2YVBVSFIzazlIaDB2TnNpdjBOWVJhbWZG?=
+ =?utf-8?B?WkJhclYxZXk3bVpPdlNsZ0NTN2FzZzFaN2ZPSnB2QWIrdGlhM1hTQzNqZGw3?=
+ =?utf-8?B?RWFHMjBDUDg5SWV5aEtvSi9lQnExK1JPZzRPZXQycHg1VHgzZnNiS3oxd2tz?=
+ =?utf-8?B?WTU2MnNZa2ZQY2FjQjlOK0VWTmJYRlgxaTdiVmQxS1JyR3dkUEZWdU1Cb25F?=
+ =?utf-8?B?aU1mcFgrK01NOEtGYUN5MTlSaUNPd282bTA1Z2JQOE81cVhkSWxvdzlZZk1I?=
+ =?utf-8?B?YmNXVlRWaDdmbGNIS2VXdHhoWkxmUWwzY0lwbFo4WHBwRW90VVE3cHZqejVF?=
+ =?utf-8?B?UFVKK1MvWUo5cG1mZWNhV0daY1FWZG1Relp0TC9zWkRyUE5NVHFnU3g4WDM4?=
+ =?utf-8?B?TkdGUHhmYnJsQ0MrMExNRWtKdDhzbXVqelRBYXptamkycmVGdGFiZ0pqU1I3?=
+ =?utf-8?B?TTk4bTNYWE9UbzVvNTRmOVpzdjRQcysxR0hpT0xuVmlhMStROUZoN0QvVDVX?=
+ =?utf-8?B?VHFSREhRRzVVWUlkNk52N1ZGcnVqd1dUOHE4dDhFeUZTN2RUdjZtTHk2a0ZX?=
+ =?utf-8?B?Z1drNjdHaTJRRTZ1ZHcrTEtBZjlBRVdMaGtaTUJwRk1RNllYUmYvZ3lOL3Vi?=
+ =?utf-8?B?LzlYVjV6NGY2N1BJQWJ1ZHhrdkZDUjBtWnpiakVLQVY1Q0pTNzVoVWg0VTAy?=
+ =?utf-8?Q?scYJHPLRD4XBI6kj6d2eDJ0FM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 107da295-96eb-49a1-33d6-08daa6f0f5e4
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2022 16:45:07.8455 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JUNlm4yh3qJjsnMNifwxKkt1iLNDGKJFCZwxet3T5aA/etPb1Kla8x6L6NAoHgPZ3x/9j2LuN7LRQku25u2P4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,218 +128,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/09/2022 12:45, Thomas Zimmermann wrote:
-> Hi,
+On 2022-10-05 11:30, Alex Deucher wrote:
+> @Mahfooz, Hamza
+> @Aurabindo Pillai can you get this fixed up?
 > 
-> looks good to me. Let's wait until next week before landing the patch, 
-> so that others can comment on it.
 
-applied to drm-misc-next
+Seems like this is a false positive for GCC versions pre-12, because I'm 
+not seeing this warning on GCC 12.2.
+However, we can fix this for older GCC versions with the following:
 
-Thanks,
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_stream.h 
+b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+index 9e6025c98db9..67fede4bf248 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_stream.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+@@ -238,7 +238,7 @@ struct dc_stream_state {
+
+  	/* writeback */
+  	unsigned int num_wb_info;
+-	struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
++	struct dc_writeback_info writeback_info[MAX_DWB_PIPES + 1];
+  	const struct dc_transfer_func *func_shaper;
+  	const struct dc_3dlut *lut3d_func;
+  	/* Computed state bits */
+
+
+> Thanks,
+> 
+> Alex
+> 
+> On Tue, Oct 4, 2022 at 7:39 AM Mark Brown <broonie@kernel.org> wrote:
+>>
+>> On Tue, Oct 04, 2022 at 02:05:58PM +1100, Stephen Rothwell wrote:
+>>> On Tue, 4 Oct 2022 12:24:37 +1000 David Airlie <airlied@redhat.com> wrote:
+>>>> On Tue, Oct 4, 2022 at 12:21 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>>
+>>>> I'm not seeing it here, what gcc is this with?
+>>
+>>> I am using an x86_64 cross compiler hosted on ppc64le - gcc v11.2.0 (on
+>>> Debian).
+>>
+>> I was seeing this with an x86_64 cross compiler hosted on arm64 -
+>> Ubuntu 11.2.0-17ubuntu1 from the looks of it.
 
 -- 
-
-Jocelyn
-
-> 
-> Best regards
-> Thomas
-> 
-> Am 30.09.22 um 11:47 schrieb Jocelyn Falempe:
->> The current ast driver only supports legacy gamma interface.
->> This also fixes a Gnome3/Wayland error which incorrectly adds
->> gamma to atomic commit:
->> "Page flip discarded: CRTC property (GAMMA_LUT) not found"
->>
->> I only tested remotely, so I wasn't able to check that it had
->> an effect on the VGA output. But when activating "Night Light"
->> in Gnome, ast_crtc_load_lut() is called.
->>
->> v2: use the same functions as mgag200.
->>      handle 16bits color mode.
->>
->> v3: Check gamma_lut size in atomic check.
->>
->> v4: revert 16bits mode, v1 was correct.
->>      make sure gamma table are set when primary plane format
->>      changes.
->>      remove rgb888 format that is not used.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/ast/ast_mode.c | 87 +++++++++++++++++++++++++++-------
->>   1 file changed, 70 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->> b/drivers/gpu/drm/ast/ast_mode.c
->> index 214b10178454..89fcb8e3ea16 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -49,6 +49,8 @@
->>   #include "ast_drv.h"
->>   #include "ast_tables.h"
->> +#define AST_LUT_SIZE 256
->> +
->>   static inline void ast_load_palette_index(struct ast_private *ast,
->>                        u8 index, u8 red, u8 green,
->>                        u8 blue)
->> @@ -63,20 +65,46 @@ static inline void ast_load_palette_index(struct 
->> ast_private *ast,
->>       ast_io_read8(ast, AST_IO_SEQ_PORT);
->>   }
->> -static void ast_crtc_load_lut(struct ast_private *ast, struct 
->> drm_crtc *crtc)
->> +static void ast_crtc_set_gamma_linear(struct ast_private *ast,
->> +                      const struct drm_format_info *format)
->>   {
->> -    u16 *r, *g, *b;
->>       int i;
->> -    if (!crtc->enabled)
->> -        return;
->> +    switch (format->format) {
->> +    case DRM_FORMAT_C8: /* In this case, gamma table is used as color 
->> palette */
->> +    case DRM_FORMAT_RGB565:
->> +    case DRM_FORMAT_XRGB8888:
->> +        for (i = 0; i < AST_LUT_SIZE; i++)
->> +            ast_load_palette_index(ast, i, i, i, i);
->> +        break;
->> +    default:
->> +        drm_warn_once(&ast->base, "Unsupported format %p4cc for gamma 
->> correction\n",
->> +                  &format->format);
->> +        break;
->> +    }
->> +}
->> -    r = crtc->gamma_store;
->> -    g = r + crtc->gamma_size;
->> -    b = g + crtc->gamma_size;
->> +static void ast_crtc_set_gamma(struct ast_private *ast,
->> +                   const struct drm_format_info *format,
->> +                   struct drm_color_lut *lut)
->> +{
->> +    int i;
->> -    for (i = 0; i < 256; i++)
->> -        ast_load_palette_index(ast, i, *r++ >> 8, *g++ >> 8, *b++ >> 8);
->> +    switch (format->format) {
->> +    case DRM_FORMAT_C8: /* In this case, gamma table is used as color 
->> palette */
->> +    case DRM_FORMAT_RGB565:
->> +    case DRM_FORMAT_XRGB8888:
->> +        for (i = 0; i < AST_LUT_SIZE; i++)
->> +            ast_load_palette_index(ast, i,
->> +                           lut[i].red >> 8,
->> +                           lut[i].green >> 8,
->> +                           lut[i].blue >> 8);
->> +        break;
->> +    default:
->> +        drm_warn_once(&ast->base, "Unsupported format %p4cc for gamma 
->> correction\n",
->> +                  &format->format);
->> +        break;
->> +    }
->>   }
->>   static bool ast_get_vbios_mode_info(const struct drm_format_info 
->> *format,
->> @@ -1018,9 +1046,11 @@ static void ast_crtc_dpms(struct drm_crtc 
->> *crtc, int mode)
->>               ast_set_color_reg(ast, format);
->>               ast_set_vbios_color_reg(ast, format, vbios_mode_info);
->> +            if (crtc->state->gamma_lut)
->> +                ast_crtc_set_gamma(ast, format, 
->> crtc->state->gamma_lut->data);
->> +            else
->> +                ast_crtc_set_gamma_linear(ast, format);
->>           }
->> -
->> -        ast_crtc_load_lut(ast, crtc);
->>           break;
->>       case DRM_MODE_DPMS_STANDBY:
->>       case DRM_MODE_DPMS_SUSPEND:
->> @@ -1109,6 +1139,8 @@ static int ast_crtc_helper_atomic_check(struct 
->> drm_crtc *crtc,
->>                       struct drm_atomic_state *state)
->>   {
->>       struct drm_crtc_state *crtc_state = 
->> drm_atomic_get_new_crtc_state(state, crtc);
->> +    struct drm_crtc_state *old_crtc_state = 
->> drm_atomic_get_old_crtc_state(state, crtc);
->> +    struct ast_crtc_state *old_ast_crtc_state = 
->> to_ast_crtc_state(old_crtc_state);
->>       struct drm_device *dev = crtc->dev;
->>       struct ast_crtc_state *ast_state;
->>       const struct drm_format_info *format;
->> @@ -1128,6 +1160,22 @@ static int ast_crtc_helper_atomic_check(struct 
->> drm_crtc *crtc,
->>       if (drm_WARN_ON_ONCE(dev, !format))
->>           return -EINVAL; /* BUG: We didn't set format in primary 
->> check(). */
->> +    /*
->> +     * The gamma LUT has to be reloaded after changing the primary
->> +     * plane's color format.
->> +     */
->> +    if (old_ast_crtc_state->format != format)
->> +        crtc_state->color_mgmt_changed = true;
->> +
->> +    if (crtc_state->color_mgmt_changed && crtc_state->gamma_lut) {
->> +        if (crtc_state->gamma_lut->length !=
->> +            AST_LUT_SIZE * sizeof(struct drm_color_lut)) {
->> +            drm_err(dev, "Wrong size for gamma_lut %zu\n",
->> +                crtc_state->gamma_lut->length);
->> +            return -EINVAL;
->> +        }
->> +    }
->> +
->>       succ = ast_get_vbios_mode_info(format, &crtc_state->mode,
->>                          &crtc_state->adjusted_mode,
->>                          &ast_state->vbios_mode_info);
->> @@ -1158,20 +1206,23 @@ ast_crtc_helper_atomic_flush(struct drm_crtc 
->> *crtc,
->>   {
->>       struct drm_crtc_state *crtc_state = 
->> drm_atomic_get_new_crtc_state(state,
->>                                         crtc);
->> -    struct drm_crtc_state *old_crtc_state = 
->> drm_atomic_get_old_crtc_state(state,
->> -                                          crtc);
->>       struct drm_device *dev = crtc->dev;
->>       struct ast_private *ast = to_ast_private(dev);
->>       struct ast_crtc_state *ast_crtc_state = 
->> to_ast_crtc_state(crtc_state);
->> -    struct ast_crtc_state *old_ast_crtc_state = 
->> to_ast_crtc_state(old_crtc_state);
->>       struct ast_vbios_mode_info *vbios_mode_info = 
->> &ast_crtc_state->vbios_mode_info;
->>       /*
->>        * The gamma LUT has to be reloaded after changing the primary
->>        * plane's color format.
->>        */
->> -    if (old_ast_crtc_state->format != ast_crtc_state->format)
->> -        ast_crtc_load_lut(ast, crtc);
->> +    if (crtc_state->enable && crtc_state->color_mgmt_changed) {
->> +        if (crtc_state->gamma_lut)
->> +            ast_crtc_set_gamma(ast,
->> +                       ast_crtc_state->format,
->> +                       crtc_state->gamma_lut->data);
->> +        else
->> +            ast_crtc_set_gamma_linear(ast, ast_crtc_state->format);
->> +    }
->>       //Set Aspeed Display-Port
->>       if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
->> @@ -1309,7 +1360,9 @@ static int ast_crtc_init(struct drm_device *dev)
->>       if (ret)
->>           return ret;
->> -    drm_mode_crtc_set_gamma_size(crtc, 256);
->> +    drm_mode_crtc_set_gamma_size(crtc, AST_LUT_SIZE);
->> +    drm_crtc_enable_color_mgmt(crtc, 0, false, AST_LUT_SIZE);
->> +
->>       drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
->>       return 0;
-> 
+Hamza
 
