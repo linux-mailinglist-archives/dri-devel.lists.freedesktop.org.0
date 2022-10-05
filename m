@@ -2,139 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A6B75F504C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 09:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FEA5F5078
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 09:52:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B99B10E462;
-	Wed,  5 Oct 2022 07:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8771F10E1A9;
+	Wed,  5 Oct 2022 07:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3152B10E462;
- Wed,  5 Oct 2022 07:24:44 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4396410E1A9;
+ Wed,  5 Oct 2022 07:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664954684; x=1696490684;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=h/mhnZSAIbSvZvHuYZPViXFMZYPJyvAtM/+9LeA4ds8=;
- b=bginXsPLtftDHRCMOOX2M2/S3RXOO5yckZQD9s5qoA1ZB6tRtNamUPmg
- jriZ5NTj3SgyVHR0OfbX2xfQcjYz62BpkOa2jZjOQtbhhAuPPGaoOkY4R
- qk4YO24oBLhtFoUuHiZsxsjckc3Au8IXHfbz2GtroJ2loYGwZxkpd4meC
- hbgYvbNm1LpiGgGqpQXakynI3KTk0FcJsLAn7EiKibYLJhDEdTjZACvEZ
- f8jYcm/nQx4xoeQUpgpnokz3nKFhconbWR3Sw9AbxsQOuBPnBV6ZJlH6n
- M2zP8MBZQWnm7CDEUMVuBYMBd/g3AGwnCbJa72vGHFeAJ/2FF4T63Jn1H Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="282814883"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="282814883"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2022 00:24:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="624230826"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="624230826"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga002.jf.intel.com with ESMTP; 05 Oct 2022 00:24:41 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 5 Oct 2022 00:24:41 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 5 Oct 2022 00:24:40 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 5 Oct 2022 00:24:40 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 5 Oct 2022 00:24:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ve2hnmnKO7I5V4r53KsVVGIvNpc1KLQ7HiGLi0iMilGH8EVF91vNtBVeBbIE6ryME30ecwce8SRdr/ZAxtDr6iJWmNtEDHjS2C5iei9B+2Bats/+ZauK2c4uFg61tfR1R9MxCt91Q+/qPo8seRD/libbQJcwGLBQF2xMMz1HtbhjNwpG6syGvLbDKMS6NqygKbSssyFywhGQmHZeO7jh5ihURnJG2FdVP7LuFHZZBGiCuuTKuNTeI8vb4DpFXErdf+EjpqrZo/ENQcBJLk+NRuagnlhZ2wK8CyQhN1DPgfecd75RRlrtsBpWPrGUcIV8xC5MpwLnM3fVbJtHDu2ZJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yS3vt+7V7UIIzFukwAhNEOVbYSAVLx5+gEmjOj5/PVA=;
- b=Tm9rfl4bgzPXitXYdjZIPQExsuAY/U+9H8lWy++c07KwfHidDbHIjc6pIv2fTrsqi7qp4wSkbYr5h5+rO0WFOf4KpB8pqFxZbg/qLUWS4fr3MjHQV+v/h+1/X93w38Kwa88MJ9zYZY46w7clIhm5MOHNAls1bRYkSViQJcwnalGNohAZ3jQ5eMjtHl84t0UGFi0Y2oB7sVMdfa5DEY4Q7Dl5JghMYWuiWBGJs3QX4wmjO23b7XcTYlopq30RHnBLWt/CJnBkoPHbYh5jW3T7yXrUf4daDlHV+Ku5vx3xEuKCAcZ9FzL3tufzqfY9TqQdy1CRSM4eGPEOnwZ2o8oOdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by DS7PR11MB6197.namprd11.prod.outlook.com (2603:10b6:8:9b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Wed, 5 Oct
- 2022 07:24:38 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7246:dc8c:c81f:5a10]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7246:dc8c:c81f:5a10%4]) with mapi id 15.20.5676.031; Wed, 5 Oct 2022
- 07:24:38 +0000
-Date: Wed, 5 Oct 2022 00:24:36 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Subject: Re: [PATCH] drm/i915/mtl: Add MTP ddc pin configuration
-Message-ID: <20221005072436.r6esamkhcw22sipd@ldmartin-desk2.lan>
-X-Patchwork-Hint: comment
-References: <20221005002534.2966978-1-radhakrishna.sripada@intel.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20221005002534.2966978-1-radhakrishna.sripada@intel.com>
-X-ClientProxiedBy: BYAPR03CA0025.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::38) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DS7PR11MB6197:EE_
-X-MS-Office365-Filtering-Correlation-Id: 266adc71-86ed-44c6-9d5f-08daa6a2a971
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AeSFB67SFzwosOvF5z7d6wiFLzvR3RX8c8Gtljet3AF0dG14zGAELpcIM+eb+8L/p/XKqcCOtqWt8c7FcNnKPcLkByQm2+uQaz4d+8QHWlmzRyDbRjRmoVARU7gfANwToSydAxPikDjPw5qM9/AkVFwFF/e38OUa+qlBPbAx6i7QHoaQytGOeMgWU+GiesMfWDXoap4Vn3JJfrFEaLgKz0/6QVsNJT2BvGhnQLGeQ2gTVXcqGvZF0e5DtJ3CA05IbM2uLisW82yIvK5sDo8m8OJqdIhk0hBRjJNqnhgjT7R3o6Zde42Jgg+YYBlMVARauTRrMoe4ECnPY9GyI5Yx0T9R0v5R3bMOJcy3sZNRdRQ3iBgRF6EDZuLXQhy8PPWfvH8a1M0WnL8QGJd3hAetJvHKYqyziswCDLtLBdHT7eZOVpCbsSkmdzvcZflHNmqRTvrmm5N1x6L1S9qS5B/c9DWLCXlrpvqO4iT7m3qObD01FOKa0ZzJFz8q27SLxvgbCI9mOEjV12tGdu2GG8tDLSWDdjGCU6ZY8WObfCnsNcFUsbO1zgaKMkivtLBD97579L9hubjC6cqJBt7l5rjtmzuLNbc0zTjWCa/VJ7f5rGc8vIG0ZknSkZ2TDqsheNFGrGsvVLW8UnPN3MUlKiWTGmFgTPC1rjaSEZNdOKGcSz84K7moiAP2QDTLZGLA0A3eBcQF8PDwdKfRiuTvJ3hbzQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(39860400002)(376002)(366004)(136003)(396003)(451199015)(41300700001)(2906002)(6862004)(5660300002)(8936002)(4326008)(478600001)(66556008)(38100700002)(82960400001)(86362001)(36756003)(66476007)(26005)(66946007)(8676002)(316002)(6512007)(6506007)(9686003)(6636002)(450100002)(6486002)(186003)(83380400001)(1076003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i0/cVer+XBJ3/F3NsTSQLqegLf11FKR7bLVx2NqL0uCgRsIKj5GYVmLwYX48?=
- =?us-ascii?Q?pcoF8/GXnGI70TTjj3eJQahyjzwN0Lc4TxhHnTtLGkm9l/NeRcArgxf6O6+7?=
- =?us-ascii?Q?0nKxJGBW4TQpNv5N/bZ4ctxIM9/UMzQ/5lEZJi/mXeVXRUJ5nbzfVT+4RwHf?=
- =?us-ascii?Q?0mDYzi5wPJUT5ap1puoMY3mhmlg0t/dlTRAgM/vYqzczi297WdvBIdUT18sG?=
- =?us-ascii?Q?IFy73meWfpx3o2OvNYjoCeqd8nLwWd10ufmhA1MzBzjLIZCYwRyWr3+Nx74s?=
- =?us-ascii?Q?Rvljot1NO/cOE5mmnKXYCO+Xpp/BJlr20D0RMwOpY4fd8gkHObyTZG/0luHl?=
- =?us-ascii?Q?MC/oQSVX5EYyItyK8AtAHE2aXDrykxaeTXz1C6dsu2WwOai8uHmaMwtTGN1+?=
- =?us-ascii?Q?3ZF+CmQKrPkTzuTKembOu+1TtPNwnfOA5RdA6eaK7CAxtAAoce5PlDaNkcGg?=
- =?us-ascii?Q?WplE/GAD/M0rsyx5sRuPorCR7+LFSFPig8iI4R52zartNkY5s92MFKW34toE?=
- =?us-ascii?Q?AHmg0FECzp5jMsjWiMgWz6jl6jXBMQqG0LXsVrDq1XDT/GfluvFHAZrEZOqe?=
- =?us-ascii?Q?vYPatBtX+Vbpae7ycmv7TfeEo/d1B5cAzF+rgHyVS6lUYkmSivaKVEZO/vO0?=
- =?us-ascii?Q?ZnpFdq1HEKt0iNzmsge+aM/VV6VTG229a1SeqD1h/WHfQkH7+HBe/XjSnlUe?=
- =?us-ascii?Q?kGAEMBb3wEYP3AIDBc3wul0q5JDJ0W02m+/vHBIN4PHB6cBu9bfhK1o4/75a?=
- =?us-ascii?Q?qt6vmafbrN7mPrQ1+r5PphAQsgrdPAwr1DGscZRiNX3BCgLH+EaTw+SRPCr9?=
- =?us-ascii?Q?FTs23gqI9gcXdUyv85wauUwIUiUJFiUHIAypGmDLVcoNbh3YM7Cbr4qolMR0?=
- =?us-ascii?Q?A8NhwuzX+QuFtwHfjDvjw8PLOLOuEIbwk5I4iLfte5IYXATW9GxLcfPZV9Hw?=
- =?us-ascii?Q?IcHBH4J9CpCf6XXYWbHkNYm9Q5lM2n+Ii57ghiUZBDlsUZeTlUwE9Hr5buCn?=
- =?us-ascii?Q?U3GctW3WZIef/LuS84e99Ga1o5WtLc6DVjPjGjQ+hmhLQVbDnyNRK5uXKjNN?=
- =?us-ascii?Q?Ib1+1B3Xmecl+YmyNd/WRz3/x3yYhTa1AupD/BETav/umCe5wyGBU49d27ev?=
- =?us-ascii?Q?cp261RF8cgFWbIPUKB1l6DIFFUXD7fhRXLX16EPzMiD8jk6+et+plKlxcne9?=
- =?us-ascii?Q?S9g76vLTO9V6VWlWtO46tUqLj64RTSy6oImJDflzyUrubTlbQbVjVPBiN6SE?=
- =?us-ascii?Q?kDYV4UxUEjsZI6oQys4Z6PY2mBKKSGrpz0wsskjKYf6YX3Ek/iw1K+A0ev4H?=
- =?us-ascii?Q?0DwumuELMy16Of/7aIoRQDVh32OXil8OX0/KShDHJW78e4flXtKDZjuQ0bGu?=
- =?us-ascii?Q?bqJrIkLQO9RL0s/N+/bEnY8vlRZuHfRCMztj9/kdREUt0Ug6m/3MWfY/rWM2?=
- =?us-ascii?Q?YetWGy5FoKQ3yw0w4WneT1jyc3yR6IWZ3JdD/mMTvOsOHBAySaH0P0tTnsNw?=
- =?us-ascii?Q?/rORb8nSddHVUSrsdndLP4L9L9Yt+4IaQUI4HkNEv6VtErg7mWh5MS4O7MrO?=
- =?us-ascii?Q?9B7SpPrRATTkBmjecXd2XC49C7eQFKZOw05su5A0N9J5aY1Swb1frfU75J30?=
- =?us-ascii?Q?qg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 266adc71-86ed-44c6-9d5f-08daa6a2a971
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2022 07:24:38.5460 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HdjT2D9hG8uIgn8kbiSdiUlTiYPw8rXYpDF2c3+rLmYikxE09L/nsX9ps8dp//TKi5WiE0/kgI7ZJafljHLrXubw0qv5/brKsyvtgJ6NMiI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6197
-X-OriginatorOrg: intel.com
+ t=1664956353; x=1696492353;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=NzGv+WkIkasEkGM0i/r9lU95OJ63suX/JjPuF5uCz2s=;
+ b=hwa5ltWpmwbIKPS72vrYQ6S+0dwJNZoMmTD48lCKsqCxy0/pOCppiG6I
+ J/zgClgifQ2SadFT3yQfbvvDtc9fNy8Yn0b1Zgwx//4B2BdQYWwoVUD/P
+ m3+2BbfW327o7RnwcO3ptxUJkeEZbYZA3MbjBRGVTHyTABnsc0HCetX3c
+ exDX3KlYXdD1kEAN3/3t6e33MdNGyldmo0PfxLFtkaF9sLe+Qek3AkLH7
+ J+Eexa6T1X3+iRSOyJ0v8AQYWJ96RbttsMvfTVosC494CWe38DGKskJTB
+ pB9rAfwMP+c1AsyhzlHE0nBIpNRYLx2eD8VgX19UU1/V75waIIIFyE9vz g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="304089397"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="304089397"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2022 00:52:32 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="692808944"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="692808944"
+Received: from jko-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.181.240])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2022 00:51:22 -0700
+Date: Wed, 05 Oct 2022 00:40:34 -0700
+Message-ID: <878rluzpjh.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/pmu: Match frequencies reported by PMU and sysfs
+In-Reply-To: <dce4c792-fd6d-0647-1977-613026c8c5b3@linux.intel.com>
+References: <20221003192419.3541088-1-ashutosh.dixit@intel.com>
+ <d83e3b3b-25ee-74cd-b4a3-bee6c567d50a@linux.intel.com>
+ <dce4c792-fd6d-0647-1977-613026c8c5b3@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,42 +66,167 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 04, 2022 at 05:25:34PM -0700, Radhakrishna Sripada wrote:
->Meteorlake PCH reuses Alderlake ddc pin mapping. Extend
->ADL-P pin mapping for Meteorlake.
+On Tue, 04 Oct 2022 06:00:22 -0700, Tvrtko Ursulin wrote:
 >
->Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 
-This is actually the vbt -> display engine mapping.
+Hi Tvrtko,
 
-Bspec 20124 - worth noting the absence of MTP in the VBT field, which
-leads to the conclusion "should be the same pin mapping", if that holds
-true in local tests.
-
-with a reworded  commit messages with some more details like above,
-this is  Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-
-thanks
-Lucas De Marchi
-
->---
-> drivers/gpu/drm/i915/display/intel_bios.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
 >
->diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
->index 4c543e8205ca..c2987f2c2b2e 100644
->--- a/drivers/gpu/drm/i915/display/intel_bios.c
->+++ b/drivers/gpu/drm/i915/display/intel_bios.c
->@@ -2188,7 +2188,7 @@ static u8 map_ddc_pin(struct drm_i915_private *i915, u8 vbt_pin)
-> 	const u8 *ddc_pin_map;
-> 	int n_entries;
+> On 04/10/2022 10:29, Tvrtko Ursulin wrote:
+> >
+> > On 03/10/2022 20:24, Ashutosh Dixit wrote:
+> >> PMU and sysfs use different wakeref's to "interpret" zero freq. Sysfs
+> >> uses
+> >> runtime PM wakeref (see intel_rps_read_punit_req and
+> >> intel_rps_read_actual_frequency). PMU uses the GT parked/unparked
+> >> wakeref. In general the GT wakeref is held for less time that the runt=
+ime
+> >> PM wakeref which causes PMU to report a lower average freq than the
+> >> average
+> >> freq obtained from sampling sysfs.
+> >>
+> >> To resolve this, use the same freq functions (and wakeref's) in PMU as
+> >> those used in sysfs.
+> >>
+> >> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7025
+> >> Reported-by: Ashwin Kumar Kulkarni <ashwin.kumar.kulkarni@intel.com>
+> >> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> >> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> >> ---
+> >> =A0 drivers/gpu/drm/i915/i915_pmu.c | 27 ++-------------------------
+> >> =A0 1 file changed, 2 insertions(+), 25 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/i915_pmu.c
+> >> b/drivers/gpu/drm/i915/i915_pmu.c
+> >> index 958b37123bf1..eda03f264792 100644
+> >> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> >> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> >> @@ -371,37 +371,16 @@ static void
+> >> =A0 frequency_sample(struct intel_gt *gt, unsigned int period_ns)
+> >> =A0 {
+> >> =A0=A0=A0=A0=A0 struct drm_i915_private *i915 =3D gt->i915;
+> >> -=A0=A0=A0 struct intel_uncore *uncore =3D gt->uncore;
+> >> =A0=A0=A0=A0=A0 struct i915_pmu *pmu =3D &i915->pmu;
+> >> =A0=A0=A0=A0=A0 struct intel_rps *rps =3D &gt->rps;
+> >> =A0=A0=A0=A0=A0 if (!frequency_sampling_enabled(pmu))
+> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0 return;
+> >> -=A0=A0=A0 /* Report 0/0 (actual/requested) frequency while parked. */
+> >> -=A0=A0=A0 if (!intel_gt_pm_get_if_awake(gt))
+> >> -=A0=A0=A0=A0=A0=A0=A0 return;
+> >> -
+> >> =A0=A0=A0=A0=A0 if (pmu->enable & config_mask(I915_PMU_ACTUAL_FREQUENC=
+Y)) {
+> >> -=A0=A0=A0=A0=A0=A0=A0 u32 val;
+> >> -
+> >> -=A0=A0=A0=A0=A0=A0=A0 /*
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 * We take a quick peek here without using fo=
+rcewake
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 * so that we don't perturb the system under =
+observation
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 * (forcewake =3D> !rc6 =3D> increased power =
+use). We expect
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 * that if the read fails because it is outsi=
+de of the
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 * mmio power well, then it will return 0 -- =
+in which
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 * case we assume the system is running at th=
+e intended
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 * frequency. Fortunately, the read should ra=
+rely fail!
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0 */
+> >> -=A0=A0=A0=A0=A0=A0=A0 val =3D intel_uncore_read_fw(uncore, GEN6_RPSTA=
+T1);
+> >> -=A0=A0=A0=A0=A0=A0=A0 if (val)
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 val =3D intel_rps_get_cagf(rps, val=
+);
+> >> -=A0=A0=A0=A0=A0=A0=A0 else
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 val =3D rps->cur_freq;
+> >> -
+> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0 add_sample_mult(&pmu->sample[__I915_SAMPLE=
+_FREQ_ACT],
+> >> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 intel_gpu_freq(rps, val=
+), period_ns / 1000);
+> >> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 intel_rps_read_actual_f=
+requency(rps),
+> >> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 period_ns / 1000);
+> >> =A0=A0=A0=A0=A0 }
+> >> =A0=A0=A0=A0=A0 if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQU=
+ENCY)) {
+> >
+> > What is software tracking of requested frequency showing when GT is
+> > parked or runtime suspended? With this change sampling would be outside
+> > any such checks so we need to be sure reported value makes sense.
+> >
+> > Although more important open is around what is actually correct.
+> >
+> > For instance how does the patch affect RC6 and power? I don't know how
+> > power management of different blocks is wired up, so personally I would
+> > only be able to look at it empirically. In other words what I am asking
+> > is this - if we changed from skipping obtaining forcewake even when
+> > unparked, to obtaining forcewake if not runtime suspended - what hardwa=
+re
+> > blocks does that power up and how it affects RC6 and power? Can it affe=
+ct
+> > actual frequency or not? (Will "something" power up the clocks just
+> > because we will be getting forcewake?)
+> >
+> > Or maybe question simplified - does 200Hz polling on existing sysfs
+> > actual frequency field disturbs the system under some circumstances?
+> > (Increases power and decreases RC6.) If it does then that would be a
+> > problem. We want a solution which shows the real data, but where the act
+> > of monitoring itself does not change it too much. If it doesn't then it=
+'s
+> > okay.
+> >
+> > Could you somehow investigate on these topics? Maybe log RAPL GPU power
+> > while polling on sysfs, versus getting the actual frequency from the
+> > existing PMU implementation and see if that shows anything? Or actually
+> > simpler - RAPL GPU power for current PMU intel_gpu_top versus this patc=
+h?
+> > On idle(-ish) desktop workloads perhaps? Power and frequency graphed for
+> > both.
 >
->-	if (IS_ALDERLAKE_P(i915)) {
->+	if (HAS_PCH_MTP(i915) || IS_ALDERLAKE_P(i915)) {
-> 		ddc_pin_map = adlp_ddc_pin_map;
-> 		n_entries = ARRAY_SIZE(adlp_ddc_pin_map);
-> 	} else if (IS_ALDERLAKE_S(i915)) {
->-- 
->2.34.1
+> Another thought - considering that bspec says for 0xa01c "This register
+> reflects real-time values and thus does not have a pre-determined default
+> value out of reset" - could it be that it also does not reflect a real
+> value when GPU is not executing anything (so zero), just happens to be not
+> runtime suspended? That would mean sysfs reads could maybe show last known
+> value? Just a thought to check.
+
+Thanks for the suggestion, I'll try to check and report what I find.
+
+> I've also tried on my Alderlake desktop:
 >
+> 1)
+>
+> while true; do cat gt_act_freq_mhz >/dev/null; sleep 0.005; done
+>
+> This costs ~120mW of GPU power and ~20% decrease in RC6.
+>
+>
+> 2)
+>
+> intel_gpu_top -l -s 5 >/dev/null
+>
+> This costs no power or RC6.
+
+Thanks for the experiments. As I mentioned for Gen12+ is a different
+register which doesn't require taking a forcewake (it's not upstream yet
+but you can see it in this patch:
+https://patchwork.freedesktop.org/patch/504920/?series=3D109116&rev=3D1#com=
+ment_910146)
+so this issue should not be there at least for Gen12+.
+
+> I have also never observed sysfs to show below min freq. This was with no
+> desktop so it's possible this register indeed does not reflect the real
+> situation when things are idle.
+>
+> So I think it is possible sysfs value is the misleading one.
+
+Thanks I will check. The other possibility is if someone is holding a
+forcewake, the products where we are seeing this is have GuC controlling
+the both the frequency (SLPC) as well RC6 (GUCRC).
+
+Thanks.
+--
+Ashutosh
