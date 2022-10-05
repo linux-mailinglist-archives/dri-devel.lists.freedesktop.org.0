@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218AC5F573A
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 17:14:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E36E5F5737
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 17:13:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF26610E447;
-	Wed,  5 Oct 2022 15:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D33A10E118;
+	Wed,  5 Oct 2022 15:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7BED10E648
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 15:13:27 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id l127so10551995iof.12
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 08:13:27 -0700 (PDT)
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626BF10E447
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 15:13:29 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id n198so1710111iod.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 08:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CTE4OyoAPPvHX4/voYrSXggdSk25Ceo5ZBjV7AJSfnQ=;
- b=c5/d6Kr0FFnq30GHdmiuMG2sUP0T5m/KQzZqYN5lgKNE0NGjYSyg1kF81kpvPCTIoL
- AENd7cCb5meoc5UDzQZmaBruBQotgvTERB8G06jevzdtyrj8p8YGGfqvKav0XY3B+Yhf
- Kfvt8icGywu0qYhuJ6hNRoaFSV8lfnkVcLz6w=
+ bh=RQZh1WL8LN/9jE0F7Kfj3L3iyOE3VYmZbk12zg0k2YE=;
+ b=QmcCZNdjvn4xJDQhu1/YU9JkJPrdAbyl4Kc7KfNzdq6AH8j4Qk15udzMAvjGNlLwDf
+ ravXapf48/bcPFQb+zX8AcbMhIpUkjAYVsbg3kZv/pXDz9ZhNqiiYxs2Wul45mEQph0X
+ hvEGxqx7oUbQkJAow9MpjbjKvsmeY0X33QysE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CTE4OyoAPPvHX4/voYrSXggdSk25Ceo5ZBjV7AJSfnQ=;
- b=R5XWN4tLamFFIzD5ZHRtb8L1zPiOK2mtRazjNjr4/s/+pA4Q58PZ342plT4RyAMkvi
- U1DfeW3uLzGAWt06/W8uQNS3wmEgriewmqV5apnC0hwXs2x2Fykw5urjJyr93oRKpw4I
- jreX6ysFZ+CXBByMdb+vxGG/Knry7HPibgUCdY4cVU/DadIWdqUrPT2nGiSnz7MStFcU
- eknUYPr7GEcqPOOPkm95DasUagdgh8SV1ftNXfxKpJ5vFu871rdDr8zA+VVt0cvJbtE8
- Fy7YVWiznKeDJiJj3el0yK/YnLyDaGJQRrXMFs3CEZ+dCcr0FhR+aaQpF3JyrySRKoUq
- 3v7Q==
-X-Gm-Message-State: ACrzQf3av9+rsF5tK4nY2dVjFBjLhaSIB7B3U+6cquJkFgiN4RwzamkU
- aRRzGSxHJRW3xilTmIXuVuR69w==
-X-Google-Smtp-Source: AMsMyM40pIuHfCdrxZqp1NZDN/lFDmsgc2lreRe9h5tfHkJksCNCxPUH6RvZ3c43rzSAfevYpzbwQg==
-X-Received: by 2002:a02:ccf9:0:b0:356:71fc:26a5 with SMTP id
- l25-20020a02ccf9000000b0035671fc26a5mr49162jaq.165.1664982806826; 
- Wed, 05 Oct 2022 08:13:26 -0700 (PDT)
+ bh=RQZh1WL8LN/9jE0F7Kfj3L3iyOE3VYmZbk12zg0k2YE=;
+ b=BkwDCCRE9OoBj3dtuCpuCRHfdFSStkvTUGlDxg1KxVjBf5gX037Knf2fBxOhykfb67
+ fXIsQ8qSzsC3wFbrZ4sCCeJxyc8v/GPNZTFbdmlFOdG+n9uCrgH4EvTaN6FisslGPUNp
+ ZPkhFrb3Ef3ZYoJj7pFIYwZsLhifH5CP2mX8mS0NWgQ6UowLNEuxKPph01yem5pdNulc
+ Kn77KgpiMDnL65G3/dkNNZz4L/JVR/UQd6fUU3z5BAO9aaQmE4+F6zr1qz2j/a9vwlfI
+ DMx/cKGr79j7eGAGo2s3jdVtprqOpTnucZ0N/Q5l9JHtP/e19wn+XghMFNQzOKz5rr5l
+ MioA==
+X-Gm-Message-State: ACrzQf2xHcrJrX/XF6nJ0tV88x6ZzJlGy1o9xYhxaof7HFAtAL5h3C2a
+ 9in4se4FB2c2TDiEx0Hau2LSEA==
+X-Google-Smtp-Source: AMsMyM55piOjJ29rBh3EAxJKxdmTnLY6qdSde/uB4CpDbefwoxKucpm391ho7Vm67rBWK1zmLX9zqw==
+X-Received: by 2002:a02:cc85:0:b0:363:3812:9509 with SMTP id
+ s5-20020a02cc85000000b0036338129509mr44215jap.249.1664982808649; 
+ Wed, 05 Oct 2022 08:13:28 -0700 (PDT)
 Received: from j-ThinkPad-E14-Gen-2.stthomas.edu ([140.209.96.21])
  by smtp.gmail.com with ESMTPSA id
- w15-20020a056602034f00b0068a235db030sm7089276iou.27.2022.10.05.08.13.25
+ w15-20020a056602034f00b0068a235db030sm7089276iou.27.2022.10.05.08.13.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 08:13:26 -0700 (PDT)
+ Wed, 05 Oct 2022 08:13:28 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,10 +61,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v7 04/10] drm: bridge: samsung-dsim: Handle proper DSI host
- initialization
-Date: Wed,  5 Oct 2022 20:43:03 +0530
-Message-Id: <20221005151309.7278-5-jagan@amarulasolutions.com>
+Subject: [PATCH v7 05/10] drm: bridge: samsung-dsim: Add atomic_check
+Date: Wed,  5 Oct 2022 20:43:04 +0530
+Message-Id: <20221005151309.7278-6-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221005151309.7278-1-jagan@amarulasolutions.com>
 References: <20221005151309.7278-1-jagan@amarulasolutions.com>
@@ -89,128 +88,94 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSI host initialization handling in previous exynos dsi driver has
-some pitfalls. It initializes the host during host transfer() hook
-that is indeed not the desired call flow for I2C and any other DSI
-configured downstream bridges.
+Look like an explicit fixing up of mode_flags is required for DSIM IP
+present in i.MX8M Mini/Nano SoCs.
 
-Host transfer() is usually triggered for downstream DSI panels or
-bridges and I2C-configured-DSI bridges miss these host initialization
-as these downstream bridges use bridge operations hooks like pre_enable,
-and enable in order to initialize or set up the host.
+At least the LCDIF + DSIM needs active low sync polarities in order
+to correlate the correct sync flags of the surrounding components in
+the chain to make sure the whole pipeline can work properly.
 
-This patch is trying to handle the host init handler to satisfy all
-downstream panels and bridges. Added the DSIM_STATE_REINITIALIZED state
-flag to ensure that host init is also done on first cmd transfer, this
-helps existing DSI panels work on exynos platform (form Marek
-Szyprowski).
+On the other hand the i.MX 8M Mini Applications Processor Reference Manual,
+Rev. 3, 11/2020 says.
+"13.6.3.5.2 RGB interface
+ Vsync, Hsync, and VDEN are active high signals."
 
-v7, v6, v5:
+No clear evidence about whether it can be documentation issues or
+something, so added a comment FIXME for this and updated the active low
+sync polarities using SAMSUNG_DSIM_TYPE_IMX8MM hw_type.
+
+v7:
+* fix the hw_type checking logic
+
+v6:
 * none
+
+v5:
+* rebase based new bridge changes [mszyprow]
+* remove DSIM_QUIRK_FIXUP_SYNC_POL
+* add hw_type check for sync polarities change.
 
 v4:
-* update init handling to ensure host init done on first cmd transfer
-
-v3:
 * none
 
+v3:
+* add DSIM_QUIRK_FIXUP_SYNC_POL to handle mode_flasg fixup
+
 v2:
-* check initialized state in samsung_dsim_init
+* none
 
 v1:
-* keep DSI init in host transfer
+* fix mode flags in atomic_check instead of mode_fixup
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++--------
- include/drm/bridge/samsung-dsim.h     |  5 +++--
- 2 files changed, 20 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 1bae3673151b..563781bb27c4 100644
+index 563781bb27c4..b46346232c52 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1234,12 +1234,17 @@ static void samsung_dsim_disable_irq(struct samsung_dsim *dsi)
- 	disable_irq(dsi->irq);
+@@ -1315,6 +1315,31 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+ 	pm_runtime_put_sync(dsi->dev);
  }
  
--static int samsung_dsim_init(struct samsung_dsim *dsi)
-+static int samsung_dsim_init(struct samsung_dsim *dsi, unsigned int flag)
- {
- 	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
- 
-+	if (dsi->state & flag)
-+		return 0;
++static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
++				     struct drm_bridge_state *bridge_state,
++				     struct drm_crtc_state *crtc_state,
++				     struct drm_connector_state *conn_state)
++{
++	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
++	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
 +
- 	samsung_dsim_reset(dsi);
--	samsung_dsim_enable_irq(dsi);
++	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) {
++		/**
++		 * FIXME:
++		 * At least LCDIF + DSIM needs active low sync,
++		 * but i.MX 8M Mini Applications Processor Reference Manual,
++		 * Rev. 3, 11/2020 says
++		 *
++		 * 13.6.3.5.2 RGB interface
++		 * Vsync, Hsync, and VDEN are active high signals.
++		 */
++		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
++		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
++	}
 +
-+	if (!(dsi->state & DSIM_STATE_INITIALIZED))
-+		samsung_dsim_enable_irq(dsi);
- 
- 	if (driver_data->reg_values[RESET_TYPE] == DSIM_FUNCRST)
- 		samsung_dsim_enable_lane(dsi, BIT(dsi->lanes) - 1);
-@@ -1250,6 +1255,8 @@ static int samsung_dsim_init(struct samsung_dsim *dsi)
- 	samsung_dsim_set_phy_ctrl(dsi);
- 	samsung_dsim_init_link(dsi);
- 
-+	dsi->state |= flag;
++	return 0;
++}
 +
- 	return 0;
- }
- 
-@@ -1269,6 +1276,10 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
- 	}
- 
- 	dsi->state |= DSIM_STATE_ENABLED;
-+
-+	ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
-+	if (ret)
-+		return;
- }
- 
- static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
-@@ -1458,12 +1469,9 @@ static ssize_t samsung_dsim_host_transfer(struct mipi_dsi_host *host,
- 	if (!(dsi->state & DSIM_STATE_ENABLED))
- 		return -EINVAL;
- 
--	if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
--		ret = samsung_dsim_init(dsi);
--		if (ret)
--			return ret;
--		dsi->state |= DSIM_STATE_INITIALIZED;
--	}
-+	ret = samsung_dsim_init(dsi, DSIM_STATE_REINITIALIZED);
-+	if (ret)
-+		return ret;
- 
- 	ret = mipi_dsi_create_packet(&xfer.packet, msg);
- 	if (ret < 0)
-@@ -1653,6 +1661,7 @@ static int __maybe_unused samsung_dsim_suspend(struct device *dev)
- 
- 	if (dsi->state & DSIM_STATE_INITIALIZED) {
- 		dsi->state &= ~DSIM_STATE_INITIALIZED;
-+		dsi->state &= ~DSIM_STATE_REINITIALIZED;
- 
- 		samsung_dsim_disable_clock(dsi);
- 
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index b8132bf8e36f..0c5a905f3de7 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -17,8 +17,9 @@ struct samsung_dsim;
- 
- #define DSIM_STATE_ENABLED		BIT(0)
- #define DSIM_STATE_INITIALIZED		BIT(1)
--#define DSIM_STATE_CMD_LPM		BIT(2)
--#define DSIM_STATE_VIDOUT_AVAILABLE	BIT(3)
-+#define DSIM_STATE_REINITIALIZED	BIT(2)
-+#define DSIM_STATE_CMD_LPM		BIT(3)
-+#define DSIM_STATE_VIDOUT_AVAILABLE	BIT(4)
- 
- enum samsung_dsim_type {
- 	SAMSUNG_DSIM_TYPE_EXYNOS3250,
+ static void samsung_dsim_mode_set(struct drm_bridge *bridge,
+ 				  const struct drm_display_mode *mode,
+ 				  const struct drm_display_mode *adjusted_mode)
+@@ -1353,6 +1378,7 @@ static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
+ 	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset			= drm_atomic_helper_bridge_reset,
++	.atomic_check			= samsung_dsim_atomic_check,
+ 	.atomic_pre_enable		= samsung_dsim_atomic_pre_enable,
+ 	.atomic_enable			= samsung_dsim_atomic_enable,
+ 	.atomic_disable			= samsung_dsim_atomic_disable,
 -- 
 2.25.1
 
