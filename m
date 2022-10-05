@@ -1,80 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454EE5F5AAA
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 21:37:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A43545F5AC1
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 21:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3283A10E766;
-	Wed,  5 Oct 2022 19:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73F3A10E769;
+	Wed,  5 Oct 2022 19:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E6DB10E766
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 19:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664998651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=om/4sfRsXfwNwWQKPv9CFi8IwmnaiLcb7IYF4maF9ko=;
- b=FFMTAw/OOw4LyK1YBIdyL2S8ULSwvFQq8k0q47DYvQ+QzK8eLgFb+fziCfwiruT/tFblH1
- BWcAAiGkmNjdlKbzKv9eNo53XtDbQs6J3rXNYXrYEv7Zu/JcsfOzoPRTXfu9/vDtMRobHs
- DxKKw0EC3kqmuIhfCBQ5rKilQGCcunQ=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613-La_aRso2PoqkXg-cJBv69Q-1; Wed, 05 Oct 2022 15:37:30 -0400
-X-MC-Unique: La_aRso2PoqkXg-cJBv69Q-1
-Received: by mail-io1-f69.google.com with SMTP id
- b5-20020a05660214c500b006a43c89e0bdso11790585iow.22
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 12:37:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=om/4sfRsXfwNwWQKPv9CFi8IwmnaiLcb7IYF4maF9ko=;
- b=hOauwfjKkF+z0YldyOEF8deMDHh4PtG1FukmDMmmlkEKkd2bH1CxBRZRlPsv3QGXno
- S0xd7PVCy3rgo1xvTxkv3phdk72N69dwfrBcSwBjn1loiOzdLy9+qs0QmhZDCkunxY4d
- JN3xsVjKSg3Y1gIY5g3ipgL32eCdPhNStI3li8N58fF6TYrRG1eMDhV9v93VqzXXXdA2
- FCMhyLEaCDF5Co2CEK7iN8TtPLDnRDVYZj82C8YS0y+qvg87bFq27v7ewAgXOPm5NWNh
- Ymj8HacuOKD3+wjImAA8h4dDHgIz71ubuLRO0IZsEghjZvoyFUNDPTjQADO/mJ3fNtH0
- o0nA==
-X-Gm-Message-State: ACrzQf1lPS6Scv4QusH6dBC5fmJnJ85vkyoOay5h0h/niwNP4WxA+1Q2
- x2/+fZOpWdadloBY9DaMtxUeV6apfvbUVE56JhWQHke4QFVk057qtWaPOcjJvJgYbC/WsIM6fek
- cpcDIq4OIyPL/5zgpg8e4iW+cm4ex
-X-Received: by 2002:a92:ca4c:0:b0:2f9:5143:faad with SMTP id
- q12-20020a92ca4c000000b002f95143faadmr601813ilo.3.1664998649690; 
- Wed, 05 Oct 2022 12:37:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6XbJTCCAKAeqFGgRlGD4yz9P7kGpD2LZ94vAS1Q5FqKSmlWF3438/LCyxGKw4Wvc+9bqy0jQ==
-X-Received: by 2002:a92:ca4c:0:b0:2f9:5143:faad with SMTP id
- q12-20020a92ca4c000000b002f95143faadmr601788ilo.3.1664998649468; 
- Wed, 05 Oct 2022 12:37:29 -0700 (PDT)
-Received: from [10.56.18.113] ([140.209.96.86])
- by smtp.gmail.com with ESMTPSA id
- o9-20020a056e02068900b002f4ab5c3d7fsm6109000ils.62.2022.10.05.12.37.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 12:37:28 -0700 (PDT)
-Message-ID: <128762cfb6524d17e6ee7308aa7e859dd350fa63.camel@redhat.com>
-Subject: Re: [PATCH] drm/amdgpu/dm/mst: Fix incorrect usage of
- drm_dp_add_payload_part2()
-From: Lyude Paul <lyude@redhat.com>
-To: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>, 
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Date: Wed, 05 Oct 2022 14:37:25 -0500
-In-Reply-To: <d3b272e1-3b5d-c843-e8ac-57dc5e3a7ced@amd.com>
-References: <20221004202429.124422-1-lyude@redhat.com>
- <d3b272e1-3b5d-c843-e8ac-57dc5e3a7ced@amd.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-eastusazon11010011.outbound.protection.outlook.com [52.101.51.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4097D10E769
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 19:49:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hV9p7XRIFEbvL8sOFVfKm+QnrJ1eb1gr4upU26Pcwjehlhrl0FnHkWnmODPDdYnyVhmsdZq0QkhyI3s/0yryVv1ePJoJJYLgIZCZLacVo2shUC0CShG5IpRvC2o1B9cPhRtlwW1guvtwxYz9q3jz8Y0/xvrXzdHCIp0MQ9kGe/yNxjgO22bZ08ENBYnrdbZlSTDdwWpuk+cV1UDcLPK5BCw9/D+0OkkhmrhuFxkZLDDVMAcg+EeF2X3UYWWRGS67MuecJ3EwYCf7hbwCIf+8I8lTUHyfMdIE4Zjf5v1slFDWaA9cAod1PbmuK9G6jIlZfwZ0a4+8XuO4JVPqKo5DUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kEdI77TPR0on31BBcMd+R+HhXKMOJJyl7AOGZzkLMKo=;
+ b=EvpOOmkxB3plMPAKQN1KYGcEumd+q7edR1c98P/kVzMhz/Iy7xjzf27Y04eWgCPsJHyWj4dMJgJK+PF8zVufDIRgqPJY1CJI1m+lMqvej6Si0/alHLGm3yAsjbjl06X5Q++YkO3UxakDd4CeZoYD3oPuDmZ4OxvvaRhQMP9zlq7Wy/es3S+4I+IopCf3i7+jIy/3XKeONrOESqNeTHDL2USyaslcBpzCQgUUmyo57WksE5Erd9VQs3JYKf0XHZLTjrp91mKa/DKsTiTiNR6ju6OXIgpTSnVrTQxGkomvxip8VhxlmZjy4PwOAU0iPHr/HS07YfDygYlnXtuDnoU0iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kEdI77TPR0on31BBcMd+R+HhXKMOJJyl7AOGZzkLMKo=;
+ b=2Inv8y1TiOY7YrGkJBiJclhyOvGSUT/fWL9utdZlS7/kW6VG//e8j9LKLbuq90ZbBhYYIBeQeV1Uw8ezeaclbZsRuiWGAchhAG4l/12XPre+C04UFjdlByxCHaYg47gCDbf8rZSzxEAuDQymjqQihP72QMzIp5udfyKuXkPgAR4=
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
+ by DM5PR0501MB3832.namprd05.prod.outlook.com (2603:10b6:4:7b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.7; Wed, 5 Oct
+ 2022 19:49:17 +0000
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::d893:b27e:529:35ae]) by CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::d893:b27e:529:35ae%7]) with mapi id 15.20.5709.009; Wed, 5 Oct 2022
+ 19:49:17 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "tzimmermann@suse.de" <tzimmermann@suse.de>
+Subject: drm fb helpers hotplug/resize
+Thread-Topic: drm fb helpers hotplug/resize
+Thread-Index: AQHY2PONgaPiyFyXo0CBzirg/4P2Zw==
+Date: Wed, 5 Oct 2022 19:49:17 +0000
+Message-ID: <9884c2f0daeccbaeaa9995bd8bdb25b98838b980.camel@vmware.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY4PR05MB3047:EE_|DM5PR0501MB3832:EE_
+x-ms-office365-filtering-correlation-id: 77756ec3-7002-4916-a03e-08daa70ab059
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LOp+9EL2f0G2ILsVksFGITRg5PG88nf0W7rLiRQGHBwrNXSbpFAKNvzBnJbHCveLLyjmtlb/IcQlIY96nqXQH3JpBA0BkOzow4HtvcEPckXHVeGlvxB9Liqk3ih1j4+WvI9E5Lklcl5PaVk4pHesNg6uBUuyUoPbRPK/E98Ku3fQrC2Z5Uhmj3jafg5aDVXscESCsf6Ai8KYFr0WKBa5J3adBVptLp5oYWhGGVGd4o9g/kr/xvT/Ok/1I0Y4SmuGN3yAxXVw27FpWWeVIhfUyY5r8BCJybOCA//ouq9CSYYtdLCDO6snC3VQcCWIvKA+IARrLUala4IUZjY/0LamnEHca/APvZVg4qomkWvelyiDCbf22EYhvjtKo0k+WeqEwbfrrzK1enNVrcAggS+WmoZXWPVWuyJ1+8THv+XzKnVeLtrO16Vgy+RQWUGUnnm6SLx0WBvAq9axwtReomKAxXYWAF6ulKCkByWcwsNWO8r1jueXWIvNWeJx9pM4g1As8l8fil/RKEEpRLwKpjkFYPTBGrFuuBV4d0rWi+qD+s1kqWui1uEWt0u3GCePlKkgUkMjqJ/tz4IGjeD2fChg3dAX+G6XSeiZWKk4ycRIJQBk12bMf5meA8MNHa7sKvp537vqJEoJB9xFcycbAjnWxKz7L8KJjIE9b9s3ZQv+7/eCaLbKVOs8KLR0kC5yh0X4SLRy7jvaPgl5gawpYb5xzncs8IvYQoejP5BHtYgih2NOqVJwLb+TxK5Zwkgh+/uGQ4b7BahJtKfvOUKlE6RG0HyHFqzmGaJjcYDlWhoiE/hq0JungKUxftwjJIQFvvSrtIvfHoPjPdg6hj0BbsvtCuOb/tYgwV3Ids6fcmA+dd037AKSH5iAMqvkT4dPIH2d/sDd7ImLnHCkgzi7FwhI1I72tbyinCwy41yL3qxzNbHiuN3GhS6PZtJIryGbQhOA
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(366004)(39860400002)(396003)(136003)(346002)(451199015)(2906002)(8676002)(38070700005)(26005)(6506007)(86362001)(38100700002)(122000001)(6512007)(6916009)(2616005)(71200400001)(54906003)(316002)(966005)(66946007)(6486002)(76116006)(66446008)(5660300002)(8936002)(41300700001)(64756008)(91956017)(66556008)(4326008)(66476007)(478600001)(186003)(66899015)(36756003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cFZEMXQyMlVmUDFjYmNCOWY5YmNnb21ZS0lQTDAxOGEycVkyV3Y2a09tdEZT?=
+ =?utf-8?B?aERrU0pqOEdNZkx5dWN5bXkxR2hYa1RhcS9iTWtaV2NpWEhjYWxWdERGWk9l?=
+ =?utf-8?B?M1FxelNNZUF0c0RnN3hUallPS0hJMWJ0bjJITVJlOSsvUENGbnBsVlpmeEkv?=
+ =?utf-8?B?RnROZ0dIOEFZWG83WHlhVjBoYWVMcy9SbVNRV0NIOTdKRkxFVmhFN0RieVZx?=
+ =?utf-8?B?em1pblNWTjRVNzhqZXpRL0F6Q3NuMlI4WHUyam5JeVpqZGszTnhxYStBM0JO?=
+ =?utf-8?B?c2N3S1ZNeHdRdTI2WVhpZHM1bnczS2dTVjVzc2JBVnAxcnRNQ2lPVDM4QktG?=
+ =?utf-8?B?Qmk0UVpJZ3dpUFNDcXFFVTBiRlc3TXpFck1PNFU5UStYc0lSbnB1QklmQTdt?=
+ =?utf-8?B?bmtBZnd4cElkQitZRHFrQmJQNytxemNtWitjTEN3N2dvTVRzL3MzdGtvL3Rk?=
+ =?utf-8?B?cWxUMVlKN1N6Z1pvY2tKWnVCdHRzVHA3cGorbXdKcGhHL1pwSEE0c1NOMzlK?=
+ =?utf-8?B?ZC9pMXl5b3p4MnFVb3h2ZTZuWGNUOW1scVFjWkFMekk1MExadzNqSFRUcHNF?=
+ =?utf-8?B?ckFzb3lTSTRTTVlIQStXNE9SdFZBRld0anVhd2ZZbFBZZFM4VWo1elZCUjg0?=
+ =?utf-8?B?UkVia2ZGMnE3Zlh6NU53K3FJMm9yQnlsa1p5Zy9Wd25aWFlDallndXVqeGcy?=
+ =?utf-8?B?Vi9obEJTU2xkV1NidkFqL1dVdk1TNUcvTHFwNmVJbUtJSUFkZVE4dHRBblVR?=
+ =?utf-8?B?K3cwMTZvbjNkTSt2cllVc1h5OFpUNHR0WnY1TlRoa012dml0OEU3eUwyQi9F?=
+ =?utf-8?B?ejFqdEI1SnkwR09SMTR2TGhGVDBoQldGcS9Td1gyNGZ2bzhKODl4N01qQVY4?=
+ =?utf-8?B?TnI0cFp1MWI4WGhIYTlIZ3pxVWRBOXh2UUpHbkxlZDgvTDBsVkJ1b0h0b29L?=
+ =?utf-8?B?ckdSRW10SUdvamxmamNsTFc3cDhsNWE2Z3pwVHNWVDNkdjhKeDhFWTZ6cGpS?=
+ =?utf-8?B?Z3B0Y24yZ29UbmQxN1F4ZERMQUJYcFlXOVN5VUFyS3FGNDhNUzJ2ZXJsalY0?=
+ =?utf-8?B?SDRKaWpiRisxYld1dFJ0bnJTNjNxblJsTlA3a3hTMmVhYjhBVmNUUUZHdlhy?=
+ =?utf-8?B?YzV2Ulk2dk4yS3I5V0JNaThNNHExREl3SlJ6b3JJTFJxckZUQkxJMy83R3VC?=
+ =?utf-8?B?QVBPRGt3YURtSDZkQ1RxdjlmU1NUZ3ZUWW90ZXVhMFowSmFmTmhZTGx1SWs1?=
+ =?utf-8?B?cktSV2pjN2RqdzRnbjlGeGtwUEprUWRjS0NDZVZ2M3laQnhkYldKZUFmWG9S?=
+ =?utf-8?B?QW9PcTNTYUFPNVY4Q2Y0TEd6QmVKdkRGOUlDbldJOFllaFNjV0dEcXRiSkdS?=
+ =?utf-8?B?ZnBTcGhvT1VmR2tuZmYwbU1oL1ZhVWJRbTVWMUVZeXNXMmJMcTFxRlR5N1dC?=
+ =?utf-8?B?OXRtKzJzRlpBMkVpb1V5V3hiTTVnSkdEQXE1T0JBc2NVMXRCa2FYN1c2dDFK?=
+ =?utf-8?B?aDd1U1lPT3NoL0pheVBNSXc0YjBqanVMU0xoYXpEUGdWNk1DcUVZR3JpdVp4?=
+ =?utf-8?B?TCtTTDdTMXAzY1hwUVlYa2g4bElkRXhSd2l0a3UwSndkTkxidGJKdnltTm9J?=
+ =?utf-8?B?bWRJNkVmdDZkeGhYZFZTWTh1ZEd1TDBBVm5kdC9VTzJEelJuNzV5VXdoMjVR?=
+ =?utf-8?B?ejMraTl0NEFoelRmVHdLZ08xR3pVSlVIcXJUZVBkeHlrREU5WHFIUGpzUWdp?=
+ =?utf-8?B?dTRST0NoRE1wOTZQNXo4M1NQVzNuYXhPVWlCZFBseXJUb1A3ajhzMVpjUkwy?=
+ =?utf-8?B?bGNPNnZnVFAxZktQSWRIblZINzNac1FYK2J6WDBNMWZzRk5ERDJSUEMrLzdh?=
+ =?utf-8?B?TkZLWjE2MEQ4NFgzNFJ0bWgyUzRpbkNnenV4YnczRHMxNGYrcTdDcTEyemxF?=
+ =?utf-8?B?N0tEZ3RrZ0syeU5VV3I0S08zWUhOUklUMGdhNEFuZ3l4ZDVEVytNelVaN3Uz?=
+ =?utf-8?B?dWdtUlhuakpIeGZOSy9WSEJCNFRlcW1aUy9KNXkxdTZrUzlMRk80ejdScmxR?=
+ =?utf-8?B?aUo2V1lMaUVuVmdlTmRnanlnZFljNG1xekU0MlRJMWl5TmhYb1hEUlhVZFI0?=
+ =?utf-8?Q?Ru0bdjipIEyM92ZExNdnEClp2?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8C18FBC1A58CC942BD23DFCC8F348FE9@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77756ec3-7002-4916-a03e-08daa70ab059
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2022 19:49:17.5896 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oLHI12wZf9iOQH1d8ndSPSRGyrnW8XE6iVVrdpUJS+ij8YsqT9XToBPiyR/AaUiNjFpGodRYN8ZMT0xpo/mZ+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0501MB3832
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,64 +125,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ian Chen <ian.chen@amd.com>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
- Jani Nikula <jani.nikula@intel.com>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Claudio Suarez <cssk@net-c.es>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Colin Ian King <colin.i.king@gmail.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-10-04 at 16:46 -0400, Rodrigo Siqueira Jordao wrote:
-> 
-> On 2022-10-04 16:24, Lyude Paul wrote:
-> > Yikes, it appears somehow I totally made a mistake here. We're currently
-> > checking to see if drm_dp_add_payload_part2() returns a non-zero value to
-> > indicate success. That's totally wrong though, as this function only
-> > returns a zero value on success - not the other way around.
-> > 
-> > So, fix that.
-> > 
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > Issue: https://gitlab.freedesktop.org/drm/amd/-/issues/2171
-> > Fixes: 4d07b0bc4034 ("drm/display/dp_mst: Move all payload info into the atomic state")
-> > ---
-> >   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > index b8077fcd4651..00598def5b39 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > @@ -297,7 +297,7 @@ bool dm_helpers_dp_mst_send_payload_allocation(
-> >   		clr_flag = MST_ALLOCATE_NEW_PAYLOAD;
-> >   	}
-> >   
-> > -	if (enable && drm_dp_add_payload_part2(mst_mgr, mst_state->base.state, payload)) {
-> > +	if (enable && drm_dp_add_payload_part2(mst_mgr, mst_state->base.state, payload) == 0) {
-> >   		amdgpu_dm_set_mst_status(&aconnector->mst_status,
-> >   			set_flag, false);
-> >   	} else {
-> 
-> Hi Lyude,
-> 
-> Maybe I'm missing something, but I can't find the 
-> drm_dp_add_payload_part2() function on amd-staging-drm-next. Which repo 
-> are you using?
-
-If it's not on amd-staging-drm-next then it likely hasn't gotten backported to
-amd's branch yet and is in drm-misc-next
-
-> 
-> Thanks
-> Siqueira
-> 
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+SGksIFRob21hcy4NCg0KQmVjYXVzZSB5b3UndmUgYmVlbiB0aGUgb25lIHdobydzIGJlZW4gd29y
+a2luZyBvbiBkcm1fZmJfaGVscGVyLmMgdGhlIG1vc3QgdGhlIGxhc3QNCmZldyB5ZWFycyBJIHdh
+bnRlZCB0byBwaWNrIHlvdXIgYnJhaW4gYSBiaXQuDQoNCkkgd2FzIHBvcnRpbmcgdm13Z2Z4IHRv
+IGRybV9mYl9oZWxwZXIgY29kZSB3aGljaCBpcyBsYXJnZWx5IHRyaXZpYWwsIGp1c3QgcmVtb3Zp
+bmcNCmFsbCBvZiB2bXdnZnhfZmIuYyBhbmQgcmVwbGFjaW5nIGl0IHdpdGggYSBjYWxsIHRvIGRy
+bV9mYmRldl9nZW5lcmljX3NldHVwLiBCdXQNCmRybV9mYl9oZWxwZXIuYyBjb2RlIG5ldmVyIGRl
+YWxzIHdpdGggcmVzaXplcyB3aGljaCBpcyBhIGJpdCBvZiBhIHByb2JsZW0uDQoNCmUuZy4gcmVw
+bGFjaW5nIHRoZSBkcm1fc3lzZnNfaG90cGx1Z19ldmVudCgpIGNhbGwgZnJvbQ0KaHR0cHM6Ly9l
+bGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vdm13
+Z2Z4L3Ztd2dmeF9rbXMuYyNMMjI1NQ0Kd2l0aCBkcm1fa21zX2hlbHBlcl9ob3RwbHVnX2V2ZW50
+IHdpbGwgY2FsbCBkcm1fZmJkZXZfY2xpZW50X2hvdHBsdWcgYW5kIGVuZCB1cCBpbiANCmRybV9m
+Yl9oZWxwZXJfaG90cGx1Z19ldmVudDoNCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4
+L2xhdGVzdC9zb3VyY2UvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyNMMjAwMw0KDQpO
+b3cgZHJtX2ZiX2hlbHBlcl9ob3RwbHVnX2V2ZW50IGRvZXMgZHJtX2NsaWVudF9tb2Rlc2V0X3By
+b2JlIGJ1dCBpdCBuZXZlciByZXNpemVzDQpkcm1fZmJfaGVscGVyOjpidWZmZXIgYW5kIGRybV9m
+Yl9oZWxwZXI6OmZiIHNvIHRoZXkncmUgYm90aCBpbmNvcnJlY3RseSBzaXplZC4gDQoNCkluIGdl
+bmVyYWwgSSBkb24ndCBzZWUgZHJtX2ZiX2hlbHBlciBjb2RlIGV2ZXIgYmVpbmcgYWJsZSB0byBk
+ZWFsIHdpdGggcmVzaXplcy4gSW4NCnBhcnRpY3VsYXIgYmVjYXVzZSB0aGUgZmJkZXYncyB4cmVz
+X3ZpcnR1YWwveXJlc192aXJ0dWFsIGFyZSBzaXplZCBleGFjdGx5IHRvIHRoZQ0KaW5pdGlhbCB4
+cmVzL3lyZXMuIA0KDQpJdCdzIGRlZmluaXRlbHkgYSBsb3QgYmlnZ2VyIGlzc3VlIG9uIHZpcnR1
+YWxpemVkIGVudmlyb25tZW50cyB3aGVyZSBhdCBib290IHdlJ2xsDQpoYXZlIHNvbWUgdmVyeSBj
+b25zZXJ2YXRpdmUgc2l6ZSAoODAweDYwMCkgb24gdm13Z2Z4IHdoaWNoIGlzIHRoZW4gdXN1YWxs
+eSByZXNpemVkDQp0byB0aGUgc2l6ZSBvZiB0aGUgd2luZG93LiBkcm1fZmJfaGVscGVyIGJyZWFr
+cyBwcmV0dHkgYmFkIGluIHRoYXQgY2FzZSBiZWNhdXNlIGl0DQpjYW4ndCBkZWFsIHdpdGggdGhv
+c2UgcmVzaXplcyBhdCBhbGwuIA0KDQpJcyB0aGlzIHNjZW5hcmlvIHNvbWV0aGluZyB0aGF0IGRy
+bV9mYl9oZWxwZXIgc2hvdWxkIGJlIGFibGUgdG8gaGFuZGxlIG9yIGlzIGl0IG5vdA0Kd29ydGgg
+cHVyc3VpbmcgaXQ/IEkgZG9uJ3QgdGhpbmsgdGhlcmUncyBhIHRyaXZpYWwgd2F5IG9mIGhhbmRs
+aW5nIGl0IHNvIG15IGd1ZXNzIGlzDQp0aGF0IGl0IHdvdWxkIG1ha2UgZHJtX2ZiX2hlbHBlciBx
+dWl0ZSBhIGJpdCBtb3JlIGNvbXBsaWNhdGVkLg0KDQp6DQo=
