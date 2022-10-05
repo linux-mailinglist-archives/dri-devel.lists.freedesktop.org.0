@@ -2,36 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1145F59B9
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 20:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1843A5F59DE
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 20:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC3810E73C;
-	Wed,  5 Oct 2022 18:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D5510E74F;
+	Wed,  5 Oct 2022 18:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3554D10E741
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 18:17:27 +0000 (UTC)
-Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB6B10E74F
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 18:29:39 +0000 (UTC)
+Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 9BF103EF3C;
- Wed,  5 Oct 2022 20:17:24 +0200 (CEST)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 789713EED5;
+ Wed,  5 Oct 2022 20:29:37 +0200 (CEST)
+Date: Wed, 5 Oct 2022 20:29:35 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
-To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 5/5] drm/dsc: Prevent negative BPG offsets from shadowing
+ adjacent bitfields
+Message-ID: <20221005182935.7xdp5axnags5obu6@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v2 7/7] drm/msm/dsi: Prevent signed BPG offsets from bleeding
- into adjacent bits
-Date: Wed,  5 Oct 2022 20:16:57 +0200
-Message-Id: <20221005181657.784375-8-marijn.suijten@somainline.org>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221005181657.784375-1-marijn.suijten@somainline.org>
-References: <20221005181657.784375-1-marijn.suijten@somainline.org>
+ Vinod Koul <vkoul@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sean Paul <sean@poorly.run>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Lyude Paul <lyude@redhat.com>
+References: <20221001190807.358691-1-marijn.suijten@somainline.org>
+ <20221001190807.358691-6-marijn.suijten@somainline.org>
+ <55d7e20b-79cd-ece6-b643-8b542beb7474@quicinc.com>
+ <20221004215745.zdfvulqx4exlujgk@SoMainline.org>
+ <1a5ed43e-914e-079d-96bf-c9e3912a9473@quicinc.com>
+ <20221004223940.stfsyvubx7ecd3a3@SoMainline.org>
+ <57732804-9eb1-2f92-f2cd-0ae66f3e28cd@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57732804-9eb1-2f92-f2cd-0ae66f3e28cd@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,55 +69,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@linux.ie>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
+Cc: David Airlie <airlied@linux.ie>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+ phone-devel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-arm-msm@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bpg_offset array contains negative BPG offsets which fill the full 8
-bits of a char thanks to two's complement: this however results in those
-bits bleeding into the next field when the value is packed into DSC PPS
-by the drm_dsc_helper function, which only expects range_bpg_offset to
-contain 6-bit wide values.  As a consequence random slices appear
-corrupted on-screen (tested on a Sony Tama Akatsuki device with sdm845).
+On 2022-10-05 08:33:23, Abhinav Kumar wrote:
+[..]
+> hmm .... downstream seems to have the & just before the reg write
+> 
+> https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/blob/DISPLAY.LA.2.0.r1-08000-WAIPIO.0/msm/sde/sde_hw_dsc_1_2.c#L310
 
-Use AND operators to limit these two's complement values to 6 bits,
-similar to the AMD and i915 drivers.
+https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/blob/DISPLAY.LA.2.0.r1-08000-WAIPIO.0/msm/sde/sde_hw_dsc.c#L156
 
-Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+The reference code for NON-v1.2 doesn't do this here, but you already
+confirmed by the docs - and I confirmed by testing a set of size #1 -
+that the register is fine with having only 6 bits.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 4717d49d76be..b3cff3d3aa85 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1806,7 +1806,11 @@ static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc
- 	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
- 		dsc->rc_range_params[i].range_min_qp = min_qp[i];
- 		dsc->rc_range_params[i].range_max_qp = max_qp[i];
--		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i];
-+		/*
-+		 * Range BPG Offset contains two's-complement signed values that fill
-+		 * 8 bits, yet the registers and DCS PPS field are only 6 bits wide.
-+		 */
-+		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i] & DSC_RANGE_BPG_OFFSET_MASK;
- 	}
- 
- 	dsc->initial_offset = 6144; /* Not bpp 12 */
--- 
-2.38.0
+> But yes, we can move this to the dsi calculation to match what others 
+> are doing. I am fine with that.
 
+Thanks, done that in v2.
+
+> > [..]
+> 
+> Even I wasnt. When I was reviewing this series, it seemed like a valid 
+> change so I checked the latest downstream code like i always do to see 
+> whether and how this is handled and found that these issues were 
+> addressed there so thought i would update that here.
+
+Thanks for confirming that it was done in the correct/same way :)
+
+> > [..]
+> Its not really parallel development OR competing drivers.
+> The design of these features downstream (not just DSC but many others) 
+> is quite different because some of the downstream designs wont get 
+> accepted upstream as its tightly coupled with our 
+> compositor/device-tree. Thats where we are slowly trying to implement 
+> these in an upstream compatible way.
+
+But this is what it feels like.
+
+To me this sounds like downstream is more of a staging / prototyping
+area that is actively used in production, while the driver
+implementation is fleshed out and slowly brought to mainline in a
+careful and controlled manner.
+
+That's not a bad thing, but it does mean that mainline always lags
+behind in terms of features and hardware support.  At least I'm glad
+to hear that downstream is slowly using more DRM primitives, and the
+driver is becoming more digestible as well.
+
+> BTW, that being said. Its not always the case that every issue seen 
+> upstream has already been fixed downstream. In fact, on some occasions 
+> we found something fixed in upstream in a better way and ported them 
+> downstream too.
+
+I wasn't expecting anything else, as different drivers have inevitably
+different details and different bugs.  The issues this series fixes
+weren't applicable to the downstream kernel because it (at the time)
+wasn't even using this drm_dsc_config struct with different semantics.
+Regardless, it's good to hear that fixes are transplanted in both ways
+even if it does mean extra overhead maintaining and keeping tabs on two
+drivers at once.
+
+- Marijn
