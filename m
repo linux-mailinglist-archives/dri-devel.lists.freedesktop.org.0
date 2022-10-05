@@ -1,43 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2965F546C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 14:29:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 204855F5575
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 15:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C55310E5F5;
-	Wed,  5 Oct 2022 12:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C4710E625;
+	Wed,  5 Oct 2022 13:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 99DCE10E5F5
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 12:29:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C68C3113E;
- Wed,  5 Oct 2022 05:29:11 -0700 (PDT)
-Received: from [10.57.65.170] (unknown [10.57.65.170])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF7223F73B;
- Wed,  5 Oct 2022 05:29:03 -0700 (PDT)
-Message-ID: <583a33d6-9386-14c8-8374-ab53deb4fe34@arm.com>
-Date: Wed, 5 Oct 2022 13:28:57 +0100
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B6610E625;
+ Wed,  5 Oct 2022 13:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664976776; x=1696512776;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=eILrqrbum5QwAkBtdxqbrJnoct2lE9sWsCAfF3dyF/Q=;
+ b=dIpC8Ho1up6yISb9Wnuo3kmC5PINc/OCO+fS7FgYvPCDcUhTukQK8qSL
+ 5THj7i9GYm8Dl0RFXJWgK3ldJPYDZjarllruxE1Ys7U3MDQYGTPLwZQQi
+ 9dIKAl8r/sBxXd9bxNme2ugBfLrsL1i0WhmsiTuCVbysQ6pdB59L2fx6G
+ FDaxeG9QQsXC5xZnVnDKrg10k7H8cQ1GtGWfc3BtvNAKf2zdWMshjNHwF
+ N5/w+ZNsHDdIb/yffzl83E5MX7syc7N3yHbdQFXbz0MYSmdi12zbdmYY3
+ wvbgvM4sYuL9pg6QMksANo20jeuq8nqvon1BULdcIIZNRZY+WAFfwp2O4 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="329571263"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="329571263"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2022 06:32:56 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="624309124"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="624309124"
+Received: from vadimbel-mobl2.ger.corp.intel.com (HELO [10.252.23.121])
+ ([10.252.23.121])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2022 06:32:54 -0700
+Message-ID: <e9722ab4-31fe-3f2e-a1e6-5df5d1bef623@intel.com>
+Date: Wed, 5 Oct 2022 14:32:52 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2 0/2] drm/rockchip: dw_hdmi: Add 4k@30 support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.1
+Subject: Re: [PATCH RESEND] drm/i915: Fix display problems after resume
 Content-Language: en-GB
-To: Sascha Hauer <s.hauer@pengutronix.de>, Dan Johansen <strit@manjaro.org>
-References: <20220926080435.259617-1-s.hauer@pengutronix.de>
- <cf2285dc-d732-0c6d-83bc-022f23f29524@wolfvision.net>
- <2430a203-f8e7-7d78-3e9e-9e1d9c6826c9@manjaro.org>
- <20220928083755.GU986@pengutronix.de>
- <2f341aa8-b960-26d1-8073-737f828a8805@manjaro.org>
- <20221005100618.GS12909@pengutronix.de>
- <7721ac8b-7e8d-5131-70aa-7579d912a2bb@manjaro.org>
- <20221005111004.GS986@pengutronix.de>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20221005111004.GS986@pengutronix.de>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20221005121159.340245-1-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20221005121159.340245-1-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,61 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de
+Cc: Kevin Boulain <kevinboulain@gmail.com>,
+ David de Sousa <davidesousa@gmail.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-05 12:10, Sascha Hauer wrote:
-> On Wed, Oct 05, 2022 at 12:51:57PM +0200, Dan Johansen wrote:
->>
->> Den 05.10.2022 kl. 12.06 skrev Sascha Hauer:
->>> On Wed, Sep 28, 2022 at 10:39:27AM +0200, Dan Johansen wrote:
->>>> Den 28.09.2022 kl. 10.37 skrev Sascha Hauer:
->>>>> On Tue, Sep 27, 2022 at 07:53:54PM +0200, Dan Johansen wrote:
->>>>>> Den 26.09.2022 kl. 12.30 skrev Michael Riesch:
->>>>>>> Hi Sascha,
->>>>>>>
->>>>>>> On 9/26/22 10:04, Sascha Hauer wrote:
->>>>>>>> This series adds support for 4k@30 to the rockchip HDMI controller. This
->>>>>>>> has been tested on a rk3568 rock3a board. It should be possible to add
->>>>>>>> 4k@60 support the same way, but it doesn't work for me, so let's add
->>>>>>>> 4k@30 as a first step.
->>>>>>>> 														     Sascha
->>>>>>>>
->>>>>>>> Changes since v1:
->>>>>>>> - Allow non standard clock rates only on Synopsys phy as suggested by
->>>>>>>>       Robin Murphy
->>>>>>>>
->>>>>>>> Sascha Hauer (2):
->>>>>>>>       drm/rockchip: dw_hdmi: relax mode_valid hook
->>>>>>>>       drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
->>>>>>>>
->>>>>>>>      drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 34 ++++++++++++++++-----
->>>>>>>>      1 file changed, 27 insertions(+), 7 deletions(-)
->>>>>>> Thanks for the v2! On a RK3568 EVB1 with a HP 27f 4k monitor
->>>>>>>
->>>>>>> Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
->>>>>> Sadly this still doesn't give my display out on my 2k monitor. Not even just
->>>>>> 1080p picture like the old current implementation does.
->>>>> By "like the old current implementation" you mean that this patchset
->>>>> introduces a regression for you?
->>>> Yes. What currently in the kernel at least shows as 1080p on my 2K monitor,
->>>> while this patchset turns off the screen.
->>> Which SoC are you testing this on? I assume RK3568, right? Which patch
->>> introduces that regression, the first or the second one?
->> I tested on the Odroid M, which is rk3568.
->> I have only applied them both, as I was under the impression that both are
->> needed for the 4k support.
+Hi Thomas,
+
+On 05/10/2022 13:11, Thomas Hellström wrote:
+> Commit 39a2bd34c933 ("drm/i915: Use the vma resource as argument for gtt
+> binding / unbinding") introduced a regression that due to the vma resource
+> tracking of the binding state, dpt ptes were not correctly repopulated.
+> Fix this by clearing the vma resource state before repopulating.
+> The state will subsequently be restored by the bind_vma operation.
 > 
-> Yes, both I needed, but I am interested which one introduces the
-> regression as I can't reproduce it.
+> Fixes: 39a2bd34c933 ("drm/i915: Use the vma resource as argument for gtt binding / unbinding")
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20220912121957.31310-1-thomas.hellstrom@linux.intel.com
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.18+
+> Reported-and-tested-by: Kevin Boulain <kevinboulain@gmail.com>
+> Tested-by: David de Sousa <davidesousa@gmail.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-One thing that might be worthwhile is to compare what "drm.debug=4" 
-output says about the chosen mode and its clock rate vs. what 
-/sys/kernel/debug/clk/clk_summary says about how things ended up in 
-practice, to see whether it's a case of the clock not being able to get 
-close enough to the correct rate at all.
-
-Robin.
