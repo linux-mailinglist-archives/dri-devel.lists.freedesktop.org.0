@@ -1,52 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E865F5138
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 10:55:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 097525F515A
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 11:07:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE3110E1AB;
-	Wed,  5 Oct 2022 08:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDA6D10E1C1;
+	Wed,  5 Oct 2022 09:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D1D10E1AB;
- Wed,  5 Oct 2022 08:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664960121; x=1696496121;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=PAMzlPy8xXqCuMGUI5kJ3ducvgdsZTKRFiblO/VmJOQ=;
- b=ipTTrx9j0324Fw8gH0tjIJrJ9egyDm4Y3Tun8K55EB+JoRINNcwkMW69
- rOrFWV/2kJ5ojWSGVOFovj/i4Cwz251SZ5j57OBWwoEaR4L6o3B44cDNA
- SRppeyrymW1DdtNDq/aSVTX01hsiWDVYpUP3vmqyHOoO4+KQFxg5Dnz9f
- 0gH07En1txFmuspJzbaWTkHQVy9trg5z62dNPDljpE7clrt3iOoQgIAPA
- MDjQIZX3mbhIB0y0txDrXGUY8RWJXhVEzH9kW316kCnVih7Z1s6VglbgN
- 3/nx8scMEADjAVCit8KVevgKuBbcmY0AGdE/mkbIS1bFHxOVWJLLv/75v Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="286326394"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="286326394"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2022 01:55:20 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="657446007"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; d="scan'208";a="657446007"
-Received: from gionescu-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.39.173])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2022 01:55:19 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915/slpc: Update the frequency
- debugfs
-In-Reply-To: <20221004222903.23898-3-vinay.belgaumkar@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221004222903.23898-1-vinay.belgaumkar@intel.com>
- <20221004222903.23898-3-vinay.belgaumkar@intel.com>
-Date: Wed, 05 Oct 2022 11:55:16 +0300
-Message-ID: <87bkqqsl8r.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE0A810E1C1;
+ Wed,  5 Oct 2022 09:07:40 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2958c0Io013174;
+ Wed, 5 Oct 2022 09:07:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=WKK193DeUkzacHgCqgZn1fZGpo8hFFg5A/8xRrv1rG4=;
+ b=cgOcvuAM35g3fzQEcx/OGnUqh4fHQ/taoqkWOP91puxa6UGZrW/lU9XN5otqo7ExBkOz
+ ge2ovWlrQSGyZJloZ3FBnjcsJGleEpV0PYO+Nu5Cl8apknkyznSpXS7NMpndAhA0sbKk
+ H8AAluc6BQXmKOn+2NHJI3MOY6TaRnIbvo1EroKyYRUXNLK74tlGwq4RBws4qvWm4Z/c
+ Ot5jGxRlp59+kzpgN/ukoVwkS7mzyhEH6hutG7ihGYUgO4K3stFd+PVmfWSqiqIAyIIP
+ SOSiTk3tbqmt62HoUQHEB99XkCKLXvjFVzbhYXveBfs32LjyFCllnhxHOQkqjBe0eRdo 4A== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k0sq5s8vy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Oct 2022 09:07:29 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29597SZj009299
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 5 Oct 2022 09:07:28 GMT
+Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Wed, 5 Oct 2022 02:07:21 -0700
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v7 0/6] clk/qcom: Support gdsc collapse polling using 'reset'
+ interface
+Date: Wed, 5 Oct 2022 14:36:58 +0530
+Message-ID: <1664960824-20951-1-git-send-email-quic_akhilpo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: M1iZJKbT-CIlpy9m8o03DwIVJZRFH-FI
+X-Proofpoint-GUID: M1iZJKbT-CIlpy9m8o03DwIVJZRFH-FI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-04_09,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0
+ mlxlogscore=999 phishscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ mlxscore=0 bulkscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210050057
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,93 +82,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>, Konrad
+ Dybcio <konrad.dybcio@somainline.org>, Douglas Anderson <dianders@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, krzysztof.kozlowski@linaro.org,
+ Andy Gross <agross@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Sean Paul <sean@poorly.run>, linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 04 Oct 2022, Vinay Belgaumkar <vinay.belgaumkar@intel.com> wrote:
-> Read the values stored in the SLPC structures. Remove the
-> fields that are no longer valid (like RPS interrupts) as
-> well.
->
-> v2: Move all functionality changes to this patch (Jani)
->
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_rps.c | 46 ++++++++++++++++++++++++++++-
->  1 file changed, 45 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-> index 737db780db00..8181d85e89f8 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-> @@ -2219,7 +2219,7 @@ u32 intel_rps_get_rpn_frequency(struct intel_rps *rps)
->  		return intel_gpu_freq(rps, rps->min_freq);
->  }
->  
-> -void gen6_rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-> +void rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
->  {
->  	struct intel_gt *gt = rps_to_gt(rps);
->  	struct drm_i915_private *i915 = gt->i915;
-> @@ -2382,6 +2382,50 @@ void gen6_rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
->  		   intel_gpu_freq(rps, rps->efficient_freq));
->  }
->  
-> +static void slpc_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-> +{
-> +	struct intel_gt *gt = rps_to_gt(rps);
-> +	struct intel_uncore *uncore = gt->uncore;
-> +	struct intel_rps_freq_caps caps;
-> +	u32 pm_mask;
-> +
-> +	gen6_rps_get_freq_caps(rps, &caps);
-> +	pm_mask = intel_uncore_read(uncore, GEN6_PMINTRMSK);
-> +
-> +	drm_printf(p, "PM MASK=0x%08x\n", pm_mask);
-> +	drm_printf(p, "pm_intrmsk_mbz: 0x%08x\n",
-> +		   rps->pm_intrmsk_mbz);
-> +	drm_printf(p, "RPSTAT1: 0x%08x\n", intel_uncore_read(uncore, GEN6_RPSTAT1));
-> +	drm_printf(p, "RPNSWREQ: %dMHz\n", intel_rps_get_requested_frequency(rps));
-> +	drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
-> +		   intel_gpu_freq(rps, caps.min_freq));
-> +	drm_printf(p, "Nominal (RP1) frequency: %dMHz\n",
-> +		   intel_gpu_freq(rps, caps.rp1_freq));
-> +	drm_printf(p, "Max non-overclocked (RP0) frequency: %dMHz\n",
-> +		   intel_gpu_freq(rps, caps.rp0_freq));
-> +	drm_printf(p, "Current freq: %d MHz\n",
-> +		   intel_rps_get_requested_frequency(rps));
-> +	drm_printf(p, "Actual freq: %d MHz\n",
-> +		   intel_rps_read_actual_frequency(rps));
-> +	drm_printf(p, "Min freq: %d MHz\n",
-> +		   intel_rps_get_min_frequency(rps));
-> +	drm_printf(p, "Boost freq: %d MHz\n",
-> +		   intel_rps_get_boost_frequency(rps));
-> +	drm_printf(p, "Max freq: %d MHz\n",
-> +		   intel_rps_get_max_frequency(rps));
-> +	drm_printf(p,
-> +		   "efficient (RPe) frequency: %d MHz\n",
-> +		   intel_gpu_freq(rps, caps.rp1_freq));
-> +}
-> +
-> +void gen6_rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
-> +{
-> +	if (!rps_uses_slpc(rps))
 
-Please don't use "if not" when you have two branches like this. Just
-flip them around and use the positive.
+Some clients like adreno gpu driver would like to ensure that its gdsc
+is collapsed at hardware during a gpu reset sequence. This is because it
+has a votable gdsc which could be ON due to a vote from another subsystem
+like tz, hyp etc or due to an internal hardware signal. To allow
+this, gpucc driver can expose an interface to the client driver using
+reset framework. Using this the client driver can trigger a polling within
+the gdsc driver.
 
-BR,
-Jani.
+This series is rebased on top of qcom/linux:for-next branch.
 
+Related discussion: https://patchwork.freedesktop.org/patch/493144/
 
-> +		return rps_frequency_dump(rps, p);
-> +	else
-> +		return slpc_frequency_dump(rps, p);
-> +}
-> +
->  static int set_max_freq(struct intel_rps *rps, u32 val)
->  {
->  	struct drm_i915_private *i915 = rps_to_i915(rps);
+Changes in v7:
+- Update commit message (Bjorn)
+- Rebased on top of qcom/linux:for-next branch.
+
+Changes in v6:
+- No code changes in this version. Just captured the Acked-by tags
+
+Changes in v5:
+- Nit: Remove a duplicate blank line (Krzysztof)
+
+Changes in v4:
+- Update gpu dt-binding schema
+- Typo fix in commit text
+
+Changes in v3:
+- Use pointer to const for "struct qcom_reset_ops" in qcom_reset_map (Krzysztof)
+
+Changes in v2:
+- Return error when a particular custom reset op is not implemented. (Dmitry)
+
+Akhil P Oommen (6):
+  dt-bindings: clk: qcom: Support gpu cx gdsc reset
+  clk: qcom: Allow custom reset ops
+  clk: qcom: gdsc: Add a reset op to poll gdsc collapse
+  clk: qcom: gpucc-sc7280: Add cx collapse reset support
+  dt-bindings: drm/msm/gpu: Add optional resets
+  arm64: dts: qcom: sc7280: Add Reset support for gpu
+
+ .../devicetree/bindings/display/msm/gpu.yaml       |  6 +++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               |  3 +++
+ drivers/clk/qcom/gdsc.c                            | 23 ++++++++++++++----
+ drivers/clk/qcom/gdsc.h                            |  7 ++++++
+ drivers/clk/qcom/gpucc-sc7280.c                    | 10 ++++++++
+ drivers/clk/qcom/reset.c                           | 27 +++++++++++++++++++++-
+ drivers/clk/qcom/reset.h                           |  8 +++++++
+ include/dt-bindings/clock/qcom,gpucc-sc7280.h      |  3 +++
+ 8 files changed, 82 insertions(+), 5 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.7.4
+
