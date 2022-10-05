@@ -1,66 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4625F56D8
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 16:56:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0065F5733
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 17:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 325FF10E68F;
-	Wed,  5 Oct 2022 14:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A31BE10E09E;
+	Wed,  5 Oct 2022 15:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10AC610E6AB
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 14:56:43 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A3DC61F38D;
- Wed,  5 Oct 2022 14:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664981802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hUAUaXt9Z+HEX/qk3xBlxDgXYCQzHplsBR6fjBIh9CY=;
- b=E3wFhRjuE5HiAruI/jvVDJNCqxBnFY7aCrMnK7L3HvLTd87JCUbKUFYBFBMLoy6fqd3AN0
- Lg4r1a5Sazrv9WsZXixpA9G6T3o2SlavfwHwHRoKRtU2Ml3AWCdsSvSXrZ4B+g4/yg3DZz
- KDsdtX6yhuwllGliKqX9bWCxWL9HFws=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664981802;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hUAUaXt9Z+HEX/qk3xBlxDgXYCQzHplsBR6fjBIh9CY=;
- b=VcnY9VTly4E79o8ctbVTBdinfqBahp6H96cO2M0P14S0cgNXkSGGy1HsdvrK8fvGvH1RL7
- WI5vODAUgU61wwBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 872D413ABD;
- Wed,  5 Oct 2022 14:56:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sN00ICqbPWMJMgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 05 Oct 2022 14:56:42 +0000
-Message-ID: <50a78327-31a6-f7c9-9ba6-6e1e31cf001f@suse.de>
-Date: Wed, 5 Oct 2022 16:56:42 +0200
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com
+ [IPv6:2607:f8b0:4864:20::d2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4263510E09E
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 15:13:20 +0000 (UTC)
+Received: by mail-io1-xd2a.google.com with SMTP id y189so11203336iof.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 08:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=p1b/OkZVE0RzV7zia8rRogaQ7aQF3pfaZimR6lGLDog=;
+ b=diIXyEYNda1xcH4QZUqkqsVHDjzHdPiYi9gt6Jmkp2mv7z+f8ZrI/b5LM0FluhspRk
+ ub/ZRGjbZQKfROu3PD7L/YiJ9Y1vMLd3dkFzvGlbzcGouEVBNSHK0mDAf4vdONi9H7tw
+ +v36EKHZyYYcQX/xQZYkrO13nqD6GB08UzEWw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=p1b/OkZVE0RzV7zia8rRogaQ7aQF3pfaZimR6lGLDog=;
+ b=l/8q5Hi/7kZyqDOmZnMJNU2UOVz/v3nJX48k5l4P2T+HKWxvONm1qpyvJKrlC9Ompl
+ FATrAZg/znxLEobk1zswYlsUIVvajj/nDUqEXFID/yTotcG08KzKn91D3TnI3Tuyg1VB
+ n6dakpNr8q/fywphKOTRSFMVJabhzWZAnd9Q6ngPfOUoFRK6XGLQu0Kymi2xZoJO9Yrp
+ ki6QvHmrHdHh+/WmAwPWvegBNLBStIxCliIkYhxy5+RNHX+oFoYRryXwCkQ9mPjdH2cy
+ o4lqFsMNfBbN862+p3DveT9m86HsrzkPPPLvOE1VxR/Ahh1501J+UzxtPsAUjMP9VPZp
+ NkSA==
+X-Gm-Message-State: ACrzQf0cCEuWad9p7jl5EmHzLs7NN6ZfHvuNkfwBhdj+SDHbNhekTyHf
+ xmcWEvJ0HILbwnCVa0/o5ZhQsg==
+X-Google-Smtp-Source: AMsMyM7yCcF+7doyamms1Xy0nXKGpHXASuNpsqSYFXaX4PPlbtMRZNiDUYYHW+R3KkO1lPSxdNsMDA==
+X-Received: by 2002:a05:6638:13ca:b0:35a:7ece:3c6a with SMTP id
+ i10-20020a05663813ca00b0035a7ece3c6amr54330jaj.318.1664982799364; 
+ Wed, 05 Oct 2022 08:13:19 -0700 (PDT)
+Received: from j-ThinkPad-E14-Gen-2.stthomas.edu ([140.209.96.21])
+ by smtp.gmail.com with ESMTPSA id
+ w15-20020a056602034f00b0068a235db030sm7089276iou.27.2022.10.05.08.13.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Oct 2022 08:13:18 -0700 (PDT)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>
+Subject: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
+Date: Wed,  5 Oct 2022 20:42:59 +0530
+Message-Id: <20221005151309.7278-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 15/16] drm/udl: Add register constants for framebuffer
- scanout addresses
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, airlied@redhat.com,
- sean@poorly.run, daniel@ffwll.ch
-References: <20220919130408.21486-1-tzimmermann@suse.de>
- <20220919130408.21486-16-tzimmermann@suse.de>
- <994ea685-be4f-ae0a-a8c6-3c664d9eff54@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <994ea685-be4f-ae0a-a8c6-3c664d9eff54@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JQVtf6LOZoZQwqUnDIV5sb69"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,69 +78,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JQVtf6LOZoZQwqUnDIV5sb69
-Content-Type: multipart/mixed; boundary="------------TFYQTY0LTAuh1POs306z0Yvl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, airlied@redhat.com,
- sean@poorly.run, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <50a78327-31a6-f7c9-9ba6-6e1e31cf001f@suse.de>
-Subject: Re: [PATCH 15/16] drm/udl: Add register constants for framebuffer
- scanout addresses
-References: <20220919130408.21486-1-tzimmermann@suse.de>
- <20220919130408.21486-16-tzimmermann@suse.de>
- <994ea685-be4f-ae0a-a8c6-3c664d9eff54@redhat.com>
-In-Reply-To: <994ea685-be4f-ae0a-a8c6-3c664d9eff54@redhat.com>
+This series supports common bridge support for Samsung MIPI DSIM
+which is used in Exynos and i.MX8MM SoC's.
 
---------------TFYQTY0LTAuh1POs306z0Yvl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+The final bridge supports both the Exynos and i.MX8MM DSI devices.
 
-SGkNCg0KQW0gMDUuMTAuMjIgdW0gMDA6NTkgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IE9uIDkvMTkvMjIgMTU6MDQsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0K
-Pj4gQWRkIHJlZ2lzdGVyIGNvbnN0YW50cyBmb3IgdGhlIGZyYW1lYnVmZmVyIHNjYW5vdXQg
-YWRkcmVzc2VzIGFuZA0KPj4gdXBkYXRlIHRoZSByZWxhdGVkIGhlbHBlciBmdW5jdGlvbnMu
-IE5vIGZ1bmN0aW9uYWwgY2hhbmdlcy4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMg
-WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPiANCj4gUmV2aWV3
-ZWQtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0K
-PiANCj4gWy4uLl0NCj4gDQo+PiArCXU4IHJlZzIwID0gKGJhc2UgJiAweGZmMDAwMCkgPj4g
-MTY7DQo+PiArCXU4IHJlZzIxID0gKGJhc2UgJiAweDAwZmYwMCkgPj4gODsNCj4+ICsJdTgg
-cmVnMjIgPSAoYmFzZSAmIDB4MDAwMGZmKTsNCj4+ICsNCj4gDQo+IE1heWJlIHdvdWxkIGJl
-IGNsZWFuZXIgdG8gdXNlIHRoZSBGSUVMRF9QUkVQKCkgYW5kIEdFTk1BU0soKSBtYWNyb3Mg
-aW5zdGVhZCA/DQo+IA0KDQpUaGFuayB5b3UgZm9yIHJldmlld2luZyBteSBwYXRjaHNldC4g
-SSdsbCB1cGRhdGUgdGhlIHBhdGNoIHdpdGggdGhlc2UgDQptYWNyb3MuDQoNCkJlc3QgcmVn
-YXJkcw0KVGhvbWFzDQoNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
-dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
-IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Changes for v7:
+* fix the drm bridge attach chain for exynos drm dsi driver
+* fix the hw_type checking logic
 
---------------TFYQTY0LTAuh1POs306z0Yvl--
+Changes for v6:
+* handle previous bridge for exynos dsi while attaching bridge 
 
---------------JQVtf6LOZoZQwqUnDIV5sb69
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Changes for v5:
+* bridge changes to support multi-arch
+* updated and clear commit messages
+* add hw_type via plat data
+* removed unneeded quirk
+* rebased on linux-next
 
------BEGIN PGP SIGNATURE-----
+Changes for v4:
+* include Inki Dae in MAINTAINERS
+* remove dsi_driver probe in exynos_drm_drv to support multi-arch build
+* update init handling to ensure host init done on first cmd transfer
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM9myoFAwAAAAAACgkQlh/E3EQov+AA
-ShAAs6VZNH03Ps7whGsIY0QFEFY16McxDQ9jxwY/z72lvHfw7bL2fHCB+eyFrtY3okOA6yY0mBwY
-2TieVQrCUwJjU18GAolGRRveSYwsS9qQvBxUthGegPzCXrCv3udNWBhuSKKbXQHZowB7md2CyMq4
-ilWROv5OGiso1Ba/93BR10DrlU/CQFu6bPBuBBauPdFsj5XO1v27jFtgiY2GuI/mwiDbLF/3pL6E
-RXvgouXfBrKvq2hs13QA3qKiz5WkJIBz3vm8uVn9Xg/3XbmTLBifd0lguyf3K2Os5SWdkPsCjPl/
-Q5R+A9iXDKZ4a/fBSi9DODPdwmRjh6xwefUQXVUvE/DsnpsQLDguWaoLnKOcUu/MVKuYK3LKFaql
-NT3SmJZ8wcWpGRc0ngZt0oiA3fdz6NgLUbtxBDGG8neOJG25XFsHX7o7QHtptZT2QeSDsWbz7XRi
-wnZEesqmOYh64GQ3EQde2LEdd0pJlV9kim0+fW6qI/2Oj2boybcTeje3BgAlYGjf+tZuQItCskNW
-dVBxjdcmZzXIl+rU1yxjaOh0dY4rdpokxjZyOq9euqOT0dzv1+SRjPFhVuP6dQSi7x5rbC4evsaO
-OJBOAVWXr72wLBAmDHlYRcQ++X9f5nEue1zV9DAhr3PB+c3lOHK1cxH/EbtCinlmpmanaV1y6gaE
-8E0=
-=XIP6
------END PGP SIGNATURE-----
+Changes for v3:
+* fix the mult-arch build
+* fix dsi host init
+* updated commit messages
 
---------------JQVtf6LOZoZQwqUnDIV5sb69--
+Changes for v2:
+* fix bridge handling
+* fix dsi host init
+* correct the commit messages
+
+Patch 0001: 	Samsung DSIM bridge
+
+Patch 0002:	PHY optional
+
+Patch 0003:	OF-graph or Child node lookup
+
+Patch 0004: 	DSI host initialization 
+
+Patch 0005:	atomic check
+
+Patch 0006:	PMS_P offset via plat data
+
+Patch 0007:	atomic_get_input_bus_fmts
+
+Patch 0008:	input_bus_flags
+
+Patch 0009:	document fsl,imx8mm-mipi-dsim
+
+Patch 0010:	add i.MX8MM DSIM support
+
+Tested in Engicam i.Core MX8M Mini SoM.
+
+Repo:
+https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v7
+
+Any inputs?
+Jagan.
+
+Jagan Teki (10):
+  drm: bridge: Add Samsung DSIM bridge driver
+  drm: bridge: samsung-dsim: Lookup OF-graph or Child node devices
+  drm: bridge: samsung-dsim: Mark PHY as optional
+  drm: bridge: samsung-dsim: Handle proper DSI host initialization
+  drm: bridge: samsung-dsim: Add atomic_check
+  drm: bridge: samsung-dsim: Add platform PLL_P (PMS_P) offset
+  drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
+  drm: bridge: samsung-dsim: Add input_bus_flags
+  dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
+  drm: bridge: samsung-dsim: Add i.MX8MM support
+
+ .../bindings/display/exynos/exynos_dsim.txt   |    1 +
+ MAINTAINERS                                   |    9 +
+ drivers/gpu/drm/bridge/Kconfig                |   12 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/samsung-dsim.c         | 1856 +++++++++++++++++
+ drivers/gpu/drm/exynos/Kconfig                |    1 +
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1766 +---------------
+ include/drm/bridge/samsung-dsim.h             |  115 +
+ 8 files changed, 2108 insertions(+), 1653 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
+ create mode 100644 include/drm/bridge/samsung-dsim.h
+
+-- 
+2.25.1
+
