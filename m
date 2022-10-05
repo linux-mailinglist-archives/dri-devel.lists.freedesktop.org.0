@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D125F59A3
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 20:17:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322745F59B2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 20:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35A110E307;
-	Wed,  5 Oct 2022 18:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C2F10E734;
+	Wed,  5 Oct 2022 18:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D428F10E307
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 18:17:12 +0000 (UTC)
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFF510E307
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 18:17:15 +0000 (UTC)
 Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D57D83F63B;
- Wed,  5 Oct 2022 20:17:10 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id BBE6A3F5B6;
+ Wed,  5 Oct 2022 20:17:12 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v2 1/7] drm/msm/dsi: Remove useless math in DSC calculations
-Date: Wed,  5 Oct 2022 20:16:51 +0200
-Message-Id: <20221005181657.784375-2-marijn.suijten@somainline.org>
+Subject: [PATCH v2 2/7] drm/msm/dsi: Remove repeated calculation of
+ slice_per_intf
+Date: Wed,  5 Oct 2022 20:16:52 +0200
+Message-Id: <20221005181657.784375-3-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221005181657.784375-1-marijn.suijten@somainline.org>
 References: <20221005181657.784375-1-marijn.suijten@somainline.org>
@@ -56,52 +56,54 @@ Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Multiplying a value by 2 and adding 1 to it always results in a value
-that is uneven, and that 1 gets truncated immediately when performing
-integer division by 2 again.  There is no "rounding" possible here.
+slice_per_intf is already computed for intf_width, which holds the same
+value as hdisplay.
 
-After that target_bpp_x16 is used to store a multiplication of
-bits_per_pixel by 16 which is only ever read to immediately be divided
-by 16 again, and is elided in much the same way.
-
-Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
+Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 8e4bc586c262..70077d1f0f21 100644
+index 70077d1f0f21..c746ed5d61f9 100644
 --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
 +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1784,7 +1784,6 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
- 	int hrd_delay;
- 	int pre_num_extra_mux_bits, num_extra_mux_bits;
- 	int slice_bits;
--	int target_bpp_x16;
- 	int data;
- 	int final_value, final_scale;
- 	int i;
-@@ -1864,14 +1863,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
- 	data = 2048 * (dsc->rc_model_size - dsc->initial_offset + num_extra_mux_bits);
- 	dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
+@@ -842,7 +842,7 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mode, u32 hdisplay)
+ {
+ 	struct drm_dsc_config *dsc = msm_host->dsc;
+-	u32 reg, intf_width, reg_ctrl, reg_ctrl2;
++	u32 reg, reg_ctrl, reg_ctrl2;
+ 	u32 slice_per_intf, total_bytes_per_intf;
+ 	u32 pkt_per_line;
+ 	u32 bytes_in_slice;
+@@ -851,8 +851,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+ 	/* first calculate dsc parameters and then program
+ 	 * compress mode registers
+ 	 */
+-	intf_width = hdisplay;
+-	slice_per_intf = DIV_ROUND_UP(intf_width, dsc->slice_width);
++	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
  
--	/* bpp * 16 + 0.5 */
--	data = dsc->bits_per_pixel * 16;
--	data *= 2;
--	data++;
--	data /= 2;
--	target_bpp_x16 = data;
--
--	data = (dsc->initial_xmit_delay * target_bpp_x16) / 16;
-+	data = dsc->initial_xmit_delay * dsc->bits_per_pixel;
- 	final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
- 	dsc->final_offset = final_value;
+ 	/* If slice_per_pkt is greater than slice_per_intf
+ 	 * then default to 1. This can happen during partial
+@@ -861,7 +860,6 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+ 	if (slice_per_intf > dsc->slice_count)
+ 		dsc->slice_count = 1;
  
+-	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
+ 	bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
+ 
+ 	dsc->slice_chunk_size = bytes_in_slice;
 -- 
 2.38.0
 
