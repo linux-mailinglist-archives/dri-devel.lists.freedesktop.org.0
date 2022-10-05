@@ -1,93 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12ACF5F5BD2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 23:38:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E13D75F5C5C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 00:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7CC210E79A;
-	Wed,  5 Oct 2022 21:37:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A95B10E79D;
+	Wed,  5 Oct 2022 22:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E41910E79A;
- Wed,  5 Oct 2022 21:37:57 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 295JKLqI025641;
- Wed, 5 Oct 2022 21:37:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=9prHnzD6OwG3iwoLmDhhOtBkKcdiOjUUhhhFWk/oQro=;
- b=TFiGD53k1eetuLVG/ISslSP84bFPsX/hWLP3b2G4AJp8pm+fxARiCGdcM6cDu2nM9Gvq
- O3o3EvHIwU++vqKcH2WZgB1owGY2dUaPavt695F3/7jBC772DhwIfCQc1TIjmpY7245x
- FiT3e1zQF8eQR75f2yqhKZAwPVIPdgckUPDR3RprsR66ujTl37NCvvrubZOUPRj3kGPe
- srDFkTuaq64bT1N477sm/S9K/56cqg2tB+aNbCflVICnOrZ7S2dqEDm6/4aetq3qdSh+
- sUC4QQ+igHJFB0slxWEbKT46slhgCqt0yen1Zh3Dw7f5t7SZUVYrjmCSvvUZkCtSqkL6 kA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k0m88kus0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Oct 2022 21:37:49 +0000
-Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 295LbmYo018156; 
- Wed, 5 Oct 2022 21:37:48 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 3k1e0drq1t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Oct 2022 21:37:48 +0000
-Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 295LblAc018150;
- Wed, 5 Oct 2022 21:37:48 GMT
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 295Lbll4018148
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Oct 2022 21:37:47 +0000
-Received: from [10.38.244.136] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 5 Oct 2022
- 14:37:44 -0700
-Message-ID: <e029bbc0-d291-f761-d3ca-201d42a6bdbf@quicinc.com>
-Date: Wed, 5 Oct 2022 14:37:43 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 996FE10E79C
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 22:04:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665007441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J9nH6SAe2p+4G72Hb/60qeaydYa0VcigbbhPU+GvRYc=;
+ b=bvTMxNjk3nKRN4OQ88kKOMLZ5Fqyv5y1QuwSAYWz9sZfchYu1s/It0zr0HYcE3C+ZWdORv
+ 1L5+lONufG3EZ8SsjS5++PQSQmvYzWjJPbH3Vwj72pCnLCxlrhxJ476vfAzFXGhTJrP82g
+ wHZRfCd8yygURCE2To/sjtcAGZ5u95k=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-168-_yv6u6UkP7irwpp9nlXYlw-1; Wed, 05 Oct 2022 18:04:00 -0400
+X-MC-Unique: _yv6u6UkP7irwpp9nlXYlw-1
+Received: by mail-io1-f72.google.com with SMTP id
+ a15-20020a6b660f000000b006a0d0794ad1so11761682ioc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 15:04:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=J9nH6SAe2p+4G72Hb/60qeaydYa0VcigbbhPU+GvRYc=;
+ b=ztmefh353d15/kS3YYp11U1KPMI9u3VQhDDaV9fhqK4SjSaM+sgp1hgk7XE1sXPqmx
+ s8PMqBFk/q+AFTc2hC1KFAF1A46R4r8sIvlx6eddT4/0G1pD0ItU9pRzc8CMN8j2G8S9
+ 0+w0ZMtuPlyRxkbHt42+iJ1E0gIZjx7t9YCZQs0GPau45j2GAEyZXlDIx6goe1j0Vovt
+ WPz9tY2JL5L7v1j+svWpuM+I7rJBrszVBK45+FdSIsvGIN5ZRLnXRLFCc9epZ760wRUy
+ 65rTkJakGYVUJFy4Gi7IbAtFruMn1i++jbNLU2BZFB8p0d7yXzhIXVbJkJ2gAsTrvHKK
+ jn/g==
+X-Gm-Message-State: ACrzQf1v0uW/5qxRz1NMeHoHjQnoV/BwHb4XXD6AWx4Dlflhw+Ihbaz6
+ 0/bEzuytcoq7bsStPqWOeOBUHC5FsVn4hB7eXETtxdAj0ztp5UcnK/e9fpLMtYkmLz+3uh2ptMU
+ sZkFOTtGb55wsqSEeh/XCB1spnLnE
+X-Received: by 2002:a05:6e02:1785:b0:2fa:2428:a37b with SMTP id
+ y5-20020a056e02178500b002fa2428a37bmr800230ilu.312.1665007440088; 
+ Wed, 05 Oct 2022 15:04:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM54tO6NXBc78ZQZvuhnh2uwZGv6Nq26Wj8onM9ymY8rQSrnmcaGBAN7T7WDiA6bSu4ubQQJEA==
+X-Received: by 2002:a05:6e02:1785:b0:2fa:2428:a37b with SMTP id
+ y5-20020a056e02178500b002fa2428a37bmr800221ilu.312.1665007439878; 
+ Wed, 05 Oct 2022 15:03:59 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ n10-20020a02a90a000000b0035b6b21c21fsm4474450jam.17.2022.10.05.15.03.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Oct 2022 15:03:58 -0700 (PDT)
+Date: Wed, 5 Oct 2022 16:03:56 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH] drm/i915/gvt: Add missing vfio_unregister_group_dev() call
+Message-ID: <20221005160356.52d6428c.alex.williamson@redhat.com>
+In-Reply-To: <20221005141717.234c215e.alex.williamson@redhat.com>
+References: <0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com>
+ <20221005141717.234c215e.alex.williamson@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 4/7] drm/msm/dsi: Reuse earlier computed
- dsc->slice_chunk_size
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- <phone-devel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Vinod Koul <vkoul@kernel.org>
-References: <20221005181657.784375-1-marijn.suijten@somainline.org>
- <20221005181657.784375-5-marijn.suijten@somainline.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221005181657.784375-5-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: _Po1bYHf1ZhSRD1rP3H2jTs2PPmxtsqi
-X-Proofpoint-ORIG-GUID: _Po1bYHf1ZhSRD1rP3H2jTs2PPmxtsqi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-05_05,2022-10-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- adultscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210050132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,65 +83,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, David Airlie <airlied@linux.ie>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ stable@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>, Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 5 Oct 2022 14:17:17 -0600
+Alex Williamson <alex.williamson@redhat.com> wrote:
 
+> On Thu, 29 Sep 2022 14:48:35 -0300
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
+> 
+> > When converting to directly create the vfio_device the mdev driver has to
+> > put a vfio_register_emulated_iommu_dev() in the probe() and a pairing
+> > vfio_unregister_group_dev() in the remove.
+> > 
+> > This was missed for gvt, add it.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: 978cf586ac35 ("drm/i915/gvt: convert to use vfio_register_emulated_iommu_dev")
+> > Reported-by: Alex Williamson <alex.williamson@redhat.com>
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > ---
+> >  drivers/gpu/drm/i915/gvt/kvmgt.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > Should go through Alex's tree.
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > index 41bba40feef8f4..9003145adb5a93 100644
+> > --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > @@ -1615,6 +1615,7 @@ static void intel_vgpu_remove(struct mdev_device *mdev)
+> >  	if (WARN_ON_ONCE(vgpu->attached))
+> >  		return;
 
-On 10/5/2022 11:16 AM, Marijn Suijten wrote:
-> dsi_populate_dsc_params() is called prior to dsi_update_dsc_timing() and
-> already computes a value for slice_chunk_size, whose value doesn't need
-> to be recomputed and re-set here.
+Actually, what's the purpose of this ^^^^ ?
+
+We can't have a .remove callback that does nothing, this breaks
+removing the device while it's in use.  Once we have the
+vfio_unregister_group_dev() fix below, we'll block until the device is
+unused, at which point vgpu->attached becomes false.  Unless I'm
+missing something, I think we should also follow-up with a patch to
+remove that bogus warn-on branch, right?  Thanks,
+
+Alex
+
+> >  
+> > +	vfio_unregister_group_dev(&vgpu->vfio_device);
+> >  	vfio_put_device(&vgpu->vfio_device);
+> >  }
+> >  
+> > 
+> > base-commit: c72e0034e6d4c36322d958b997d11d2627c6056c  
 > 
-> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 9 ++-------
->   1 file changed, 2 insertions(+), 7 deletions(-)
+> This is marked for stable, but I think the stable backport for
+> existing kernels is actually:
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 48c966375ffa..f42794cdd4c1 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -845,7 +845,6 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->   	u32 reg, reg_ctrl, reg_ctrl2;
->   	u32 slice_per_intf, total_bytes_per_intf;
->   	u32 pkt_per_line;
-> -	u32 bytes_in_slice;
->   	u32 eol_byte_num;
->   
->   	/* first calculate dsc parameters and then program
-> @@ -860,11 +859,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->   	if (slice_per_intf > dsc->slice_count)
->   		dsc->slice_count = 1;
->   
-> -	bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
-> -
-> -	dsc->slice_chunk_size = bytes_in_slice;
-> -
-> -	total_bytes_per_intf = bytes_in_slice * slice_per_intf;
-> +	total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
->   
->   	eol_byte_num = total_bytes_per_intf % 3;
->   	pkt_per_line = slice_per_intf / dsc->slice_count;
-> @@ -890,7 +885,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->   		reg_ctrl |= reg;
->   
->   		reg_ctrl2 &= ~DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
-> -		reg_ctrl2 |= DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(bytes_in_slice);
-> +		reg_ctrl2 |= DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(dsc->slice_chunk_size);
->   
->   		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg_ctrl);
->   		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2, reg_ctrl2);
+> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> index e3cd58946477..de89946c4817 100644
+> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> @@ -1595,6 +1595,9 @@ static void intel_vgpu_remove(struct mdev_device *mdev)
+>  
+>  	if (WARN_ON_ONCE(vgpu->attached))
+>  		return;
+> +
+> +	vfio_unregister_group_dev(&vgpu->vfio_device);
+> +	vfio_uninit_group_dev(&vgpu->vfio_device);
+>  	intel_gvt_destroy_vgpu(vgpu);
+>  }
+
