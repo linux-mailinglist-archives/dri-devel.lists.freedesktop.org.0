@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322745F59B2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 20:17:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 353BB5F59BB
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Oct 2022 20:18:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C2F10E734;
-	Wed,  5 Oct 2022 18:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46BC10E73D;
+	Wed,  5 Oct 2022 18:17:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFF510E307
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 18:17:15 +0000 (UTC)
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 565A010E735
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Oct 2022 18:17:17 +0000 (UTC)
 Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id BBE6A3F5B6;
- Wed,  5 Oct 2022 20:17:12 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id ADD943F64A;
+ Wed,  5 Oct 2022 20:17:14 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v2 2/7] drm/msm/dsi: Remove repeated calculation of
- slice_per_intf
-Date: Wed,  5 Oct 2022 20:16:52 +0200
-Message-Id: <20221005181657.784375-3-marijn.suijten@somainline.org>
+Subject: [PATCH v2 3/7] drm/msm/dsi: Use DIV_ROUND_UP instead of conditional
+ increment on modulo
+Date: Wed,  5 Oct 2022 20:16:53 +0200
+Message-Id: <20221005181657.784375-4-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221005181657.784375-1-marijn.suijten@somainline.org>
 References: <20221005181657.784375-1-marijn.suijten@somainline.org>
@@ -56,54 +56,34 @@ Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-slice_per_intf is already computed for intf_width, which holds the same
-value as hdisplay.
+This exact same math is used to compute bytes_in_slice above in
+dsi_update_dsc_timing(), also used to fill slice_chunk_size.
 
-Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Vinod Koul <vkoul@kernel.org>
+Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 70077d1f0f21..c746ed5d61f9 100644
+index c746ed5d61f9..48c966375ffa 100644
 --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
 +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -842,7 +842,7 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
- static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mode, u32 hdisplay)
- {
- 	struct drm_dsc_config *dsc = msm_host->dsc;
--	u32 reg, intf_width, reg_ctrl, reg_ctrl2;
-+	u32 reg, reg_ctrl, reg_ctrl2;
- 	u32 slice_per_intf, total_bytes_per_intf;
- 	u32 pkt_per_line;
- 	u32 bytes_in_slice;
-@@ -851,8 +851,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
- 	/* first calculate dsc parameters and then program
- 	 * compress mode registers
+@@ -1829,9 +1829,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+ 	 * params are calculated
  	 */
--	intf_width = hdisplay;
--	slice_per_intf = DIV_ROUND_UP(intf_width, dsc->slice_width);
-+	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
+ 	groups_per_line = DIV_ROUND_UP(dsc->slice_width, 3);
+-	dsc->slice_chunk_size = dsc->slice_width * dsc->bits_per_pixel / 8;
+-	if ((dsc->slice_width * dsc->bits_per_pixel) % 8)
+-		dsc->slice_chunk_size++;
++	dsc->slice_chunk_size = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
  
- 	/* If slice_per_pkt is greater than slice_per_intf
- 	 * then default to 1. This can happen during partial
-@@ -861,7 +860,6 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
- 	if (slice_per_intf > dsc->slice_count)
- 		dsc->slice_count = 1;
- 
--	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
- 	bytes_in_slice = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
- 
- 	dsc->slice_chunk_size = bytes_in_slice;
+ 	/* rbs-min */
+ 	min_rate_buffer_size =  dsc->rc_model_size - dsc->initial_offset +
 -- 
 2.38.0
 
