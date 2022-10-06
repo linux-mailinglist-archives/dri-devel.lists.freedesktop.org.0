@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D725F6269
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 10:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0259E5F6313
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 10:51:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 769A810E4EB;
-	Thu,  6 Oct 2022 08:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F2C10E369;
+	Thu,  6 Oct 2022 08:51:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B57A110E4EB
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 08:16:58 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id bp15so1551621lfb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 01:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=FfDc+hEkZ6RwsaJ4+0A43rieR6v2jH+WTZvfAnZBz1Y=;
- b=VY5EY1z4bbWvQXGas+BbfF2JQm5bmRSHtb1XKkt64fbrhSp6hulWrZnHh/r7teY+p9
- +G5qYPBCmVMc5i6u1kHpqWaGS4CRnjO/7YXZ1fjDK4pjhCNzONFh8nOwmARzSFNKVfeg
- iUCW6RMzluXWlsBIkkFMXJZ1xBf2ixJLbak9i5qGWXuHR1vwA22EoeyEkQB8lllCQFI3
- K41PIq3ivmz3jf/QLe63dTa7awGdMJ61F8hKfQ9C63xF8QxgqsjTYAAGCpt6PcNTyfjz
- xBuRYy4US5IpZsdC/1rb/QQDyDi7MII3DTx00pfjYu8N+PC3hHt/paXZWqNOnqnZNgUW
- eeVw==
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E33910E369;
+ Thu,  6 Oct 2022 08:51:10 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id j16so1613200wrh.5;
+ Thu, 06 Oct 2022 01:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aIf8xFSpdZbA1GQzuqts7ymYscMRXeakvYyTWUDLadI=;
+ b=G2GZPFQtAV+fYMiWZUUw9Ycw4NyH/47he9vDSPotO9NB+kd/J+ZTdp4QRwxs3nUmel
+ HsE6XDKEW5sgrt/QH6ElbgDbCHmOcxh+iT0NqyFTt3vJCqNtDZ7xBXJUf2RQDiFIZTFO
+ BVmPbl+qzzABOI+E2a3Ou4i+0l7AqwQhJlxrFI10eOvuLOOv39p2bgFOjVUq3IzTNgdm
+ imCSquDjoB7r8VPw0135RDuR5doUnprvSetHHzy/LNFGfEJ/YtD0Ir9yiut3enBuyACk
+ uQoH3GbZCQR93o/HCw39kkDnAKJWHAGH1wnBO/YrX9FY3UIYazs78CpMd5gNZhMYqaud
+ BKEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=FfDc+hEkZ6RwsaJ4+0A43rieR6v2jH+WTZvfAnZBz1Y=;
- b=u/+IyYpsOUv/2MfDXgsXLXKKtOL0/P7wzw8OouUK9QLWJhicwIkPmindWmabh3xow5
- iS6DL3FG94fxU1hYtKjsc6ORdDL8qIpTiPLQo6r7l5yW7okH4Rcn1HEXeWdRXpJb5S1Q
- jFxAVx3/MkVH6SN/1a2IPJ4KFIrDk8NbsQeC0qRh+0FiumqNwpmGslpYLiGfE+BROfUh
- 6/PEqLYj/Gn87A8Fm3EE+s4JgKDFVcXaa3EJcT49t0L6ELg+3IZnY29zjUppvvA0kKrd
- K3eNKVnmg02MgRaW29imw0RjYFV2ss4qeaV8ALoGIEk/RPeYvp7hMo2JbmLV7fUJ54NU
- cNPw==
-X-Gm-Message-State: ACrzQf2IY0WpTG/fxPV/3krBEI/hi3xwGiO6RjrYM+WUlj+PGGI2l6Gg
- GtPbpUxx3I3qD38fFdtGa/2XdA==
-X-Google-Smtp-Source: AMsMyM7GpuGlUY84ykYp+oEDm2ZghpfDWhH+LgsZpb9xJ2vsDcx500yy62Ye1D2zhYbdCgSKUMhbJA==
-X-Received: by 2002:ac2:4c8d:0:b0:4a0:559c:d40e with SMTP id
- d13-20020ac24c8d000000b004a0559cd40emr1340565lfl.508.1665044216972; 
- Thu, 06 Oct 2022 01:16:56 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- y13-20020a19750d000000b00497a1f92a72sm2617457lfe.221.2022.10.06.01.16.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Oct 2022 01:16:56 -0700 (PDT)
-Message-ID: <94c660bc-b7eb-1aea-8ae2-0ee7993091fd@linaro.org>
-Date: Thu, 6 Oct 2022 10:16:55 +0200
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aIf8xFSpdZbA1GQzuqts7ymYscMRXeakvYyTWUDLadI=;
+ b=m+Q4rIHPbKjU6nJ7oyw8LGwPJYZk5MgZKECYlqwxADWDYTz6xnfhD3K1wD8IZBWavN
+ QQRuORELUS8LZqKR30ntgdZzqkbmh4FZbLcXN1MgK/Xih72BcVwIddEt8CqcCiHQPj9X
+ 2pDl7VkoU+IqE1beHTAgVsg1kkENUnNZKcl1EgZd47JWEo4KPamPISPGgGcyrnb6NgCa
+ zI3FQ64tyQgVpYKoU4LD3Xvso8bvEmMa1EypXorklKFyMSugdbk/baqBzyNEpqywdGi8
+ 3nVNXG5Uukx3rsrnI+4aGC3+i8EWl2fqL8EkzP9T6zMzy14aFaDYi4F5n/lmxZxmYeWR
+ YqvQ==
+X-Gm-Message-State: ACrzQf2BeMjeIppjzgEpVdEJ/DPMR/6xrUsL5JuZgkrhESW3yboBFoHZ
+ z3Ve/8F5uBRZ1TeBFFF21aY=
+X-Google-Smtp-Source: AMsMyM5MMGYHRauq4eVLkpLLZvw2RTDbvRrV8/jSalu4l28kT8hstXJuRFCaWh2Nh/nRrelPatgN7w==
+X-Received: by 2002:adf:ef43:0:b0:22d:c507:dd48 with SMTP id
+ c3-20020adfef43000000b0022dc507dd48mr2337256wrp.416.1665046268371; 
+ Thu, 06 Oct 2022 01:51:08 -0700 (PDT)
+Received: from debian (host-78-150-37-98.as13285.net. [78.150.37.98])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020a05600c3b0700b003a1980d55c4sm4886918wms.47.2022.10.06.01.51.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Oct 2022 01:51:08 -0700 (PDT)
+Date: Thu, 6 Oct 2022 09:51:06 +0100
+From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: mainline build failure due to 5d8c3e836fc2 ("drm/amd/display: fix
+ array-bounds error in dc_stream_remove_writeback()")
+Message-ID: <Yz6W+j+l0cJbr5dX@debian>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 1/2] dt-bindings: it6505: add properties to restrict
- output bandwidth
-Content-Language: en-US
-To: allen <allen.chen@ite.com.tw>
-References: <20221006020444.15823-1-allen.chen@ite.com.tw>
- <20221006020444.15823-2-allen.chen@ite.com.tw>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221006020444.15823-2-allen.chen@ite.com.tw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,55 +69,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/10/2022 04:04, allen wrote:
-> From: allen chen <allen.chen@ite.com.tw>
-> 
-> Add properties to restrict dp output data-lanes and clock.
-> 
-> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> ---
->  .../bindings/display/bridge/ite,it6505.yaml          | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> index 833d11b2303a..f5482a614d05 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> @@ -52,6 +52,16 @@ properties:
->      maxItems: 1
->      description: extcon specifier for the Power Delivery
->  
-> +  ite,dp-output-data-lane-count:
-> +    description: restrict the dp output data-lanes with value of 1-4
+Hi All,
 
-Drop "with value of 1-4" because it is redundant, but instead explain
-what this property is about. "Restrict output" is not yet enough.
-Restrict the number? Or choose specific lanes? Why it cannot be
-data-lanes from video-interfaces?
+The latest mainline kernel branch fails to build allmodconfig for every
+ARCH with gcc-11 with the error:
 
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [ 1, 2, 4 ]
-> +
-> +  ite,dp-output-max-pixel-clock-mhz:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript [0, 0] is outside array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
+  527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
+      |                                                             ~~~~~~~~~~~~~~~~~~~~~~^~~
+In file included from ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:1269,
+                 from ./drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
+                 from ./drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
+                 from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:27:
+./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: while referencing 'writeback_info'
+  241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
+      |                                  ^~~~~~~~~~~~~~
 
-Test your patches before sending.
 
-Best regards,
-Krzysztof
+git bisect pointed to 5d8c3e836fc2 ("drm/amd/display: fix array-bounds error in dc_stream_remove_writeback()")
 
+I will be happy to test any patch or provide any extra log if needed.
+
+Note:
+This is only seen with gcc-11, gcc-12 builds are ok.
+
+
+-- 
+Regards
+Sudip
