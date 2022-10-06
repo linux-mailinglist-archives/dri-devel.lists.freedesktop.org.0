@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6555F60AF
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 07:34:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 584395F60AD
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 07:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8BE110E7E7;
-	Thu,  6 Oct 2022 05:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADD510E7E2;
+	Thu,  6 Oct 2022 05:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D44C10E4A0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:45:27 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id lx7so817024pjb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 21:45:27 -0700 (PDT)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0967310E4A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:48:12 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id b15so774516pje.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 21:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=BXKZz/gOYpFYEK/kvAD1ks5ZMqdWWvWPR9euDTlMinY=;
- b=Pa5J7iVIfOPPpc5FnD+VCPFKYUv3DdEsBgX8F3veGLnr0MqCAKKnFqdt9Zn7I1vA4a
- hp/m/n+zFRiftLounW3GI1Yh9t5CRw9Qy1PoS1A+KhEfND0rtCnNn/VAYMO7oSLOURb7
- x/xHspG9KrvXOaDvidgpTqZEY9MLlutH21Sdk=
+ bh=Zga/kwguXOa9tZGzF2X+ZLpnzxGRszRa7j7kheBbr2g=;
+ b=VDYXzBjTmlsVIl+Y4iF0uyvrgTLR7zDCDitOOtRhnnkCI+cj7BOAV+jXORmkdJC8NR
+ kLVeoGGmNjWIzbs7ngaNL2av6vzDETZ5xNshsjkA6+Ddrv+XZy7wZSPrRI2h/WYQMveo
+ FOjR6IXNtLQ2MzWVWNTzoDYr9QH87X51UPqiU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=BXKZz/gOYpFYEK/kvAD1ks5ZMqdWWvWPR9euDTlMinY=;
- b=UsO+POvuuI15tY38TZOAZS/e5pSeX19UJNDlfMfkHSYMfJZvB3iTedlOFJsZdQCLJI
- VXXkbZfa2tSgg3tqx2gIHfByCM/nitI6sF9Be00Jd290C0C6W6PJZWRwV7RPIXi92kI4
- QMQkc2ZyLvAuhsNYhELyikCnR4PpdZtmik37pwQIhUQM3ljxt6q8jFXywRQ7LrTOcAqe
- zTW2c8ZZULFcNeXu5t8bEEh9OXONz2QbLVtN2ZubR2TZKKqrpB2QTmPkzZeKXLcuqWMH
- 1Z/rM6WTOW08oLYL/88lH9Emg9fW2db7amhlrU8r0L5p13f60PWIbzHCCOKKZZSmcw3Q
- BC1g==
-X-Gm-Message-State: ACrzQf06zTtR4B4U8wX0jcPdB0EhugyqapF7soJX/CKObDbN21BNZGTO
- 1aNjnJmw4C5PvzYdBafwtc3v2w==
-X-Google-Smtp-Source: AMsMyM7BFOiJDjGZF65COEMp2Clzr5vtXi0588PB1vqUCkCeq9oCGZAqcRbRAS5gmL3ROlmwc9XhOA==
-X-Received: by 2002:a17:90b:384a:b0:203:7388:64bf with SMTP id
- nl10-20020a17090b384a00b00203738864bfmr8697904pjb.115.1665031527009; 
- Wed, 05 Oct 2022 21:45:27 -0700 (PDT)
+ bh=Zga/kwguXOa9tZGzF2X+ZLpnzxGRszRa7j7kheBbr2g=;
+ b=YntVwGMpKRk0Jw01g1o74SHaC3gMP3xzwcLzNfA7lYEd4FmDikciDZt3zhYeIEVkwZ
+ TNMoHugCc2rTkKh4Z7kC2+yRZ+gkf2qVEtaLeui4BZ09Y/B8/M9zAEb+0S03j/tvQ+Mv
+ 1LseRDQmSzQ+HrJej3o7GdRZDj4Oxi6t1nmpgLmEtGPaBTck0TllMILzCF//LbpA7PB+
+ 1txGR/qG+LW0+o7KPRxldjtT9uEgZbnSZH8b5jE1rmDxjT3U67H7rkCSUyyV8T3187+A
+ O2xxQp2Hp1S9cHxj1Pu5BV8LhiBsZhYJJ+a4y31V7lQko3sbMkzUvpksUdf3PcABW0Nv
+ vgxQ==
+X-Gm-Message-State: ACrzQf0qGaGyidkjtswMCjmNGaxzG3ePQt7ruQOHCWTFXpg9IDhZBIh7
+ CLi3ruOp4txGvEMuz6F2ZhIDLw==
+X-Google-Smtp-Source: AMsMyM5noNd8dF5/8fuBkrlB/HNbt95GlgliJJ8jYtlN4mBVQXEji+jNlD1vk9tphNCBxko7f/llIA==
+X-Received: by 2002:a17:90b:254b:b0:200:a860:5bf9 with SMTP id
+ nw11-20020a17090b254b00b00200a8605bf9mr8436942pjb.176.1665031691628; 
+ Wed, 05 Oct 2022 21:48:11 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
  by smtp.gmail.com with ESMTPSA id
- d5-20020a62f805000000b0054124008c14sm11733797pfh.154.2022.10.05.21.45.23
+ t20-20020a170902dcd400b00178a8f4d4f2sm11197475pll.74.2022.10.05.21.48.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 21:45:24 -0700 (PDT)
-Date: Wed, 5 Oct 2022 21:45:22 -0700
+ Wed, 05 Oct 2022 21:48:10 -0700 (PDT)
+Date: Wed, 5 Oct 2022 21:48:09 -0700
 From: Kees Cook <keescook@chromium.org>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Subject: Re: [PATCH v1 4/5] treewide: use get_random_bytes when possible
-Message-ID: <202210052144.5DA3690D@keescook>
+Message-ID: <202210052148.AA3C7BB@keescook>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
  <20221005214844.2699-5-Jason@zx2c4.com>
 MIME-Version: 1.0
@@ -187,6 +187,8 @@ On Wed, Oct 05, 2022 at 11:48:43PM +0200, Jason A. Donenfeld wrote:
 > get_random_bytes() for several releases now, and compiles down to the
 > exact same code. Replace the deprecated wrapper with a direct call to
 > the real function.
+> 
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
 Global search/replace matches. :)
 
