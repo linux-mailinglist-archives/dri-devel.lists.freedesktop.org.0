@@ -1,52 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EC55F63D7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 11:54:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F745F63E8
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 11:55:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95E6910E002;
-	Thu,  6 Oct 2022 09:54:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE4A10E2F1;
+	Thu,  6 Oct 2022 09:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94EED10E002
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7BD010E09D
  for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 09:53:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DEAEC2190B;
- Thu,  6 Oct 2022 09:53:56 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1397521990;
+ Thu,  6 Oct 2022 09:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665050036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=WlvlqOD6ZbIMiPpLScZYgvPIa/WMPF5c3jwUFP1Ituc=;
- b=lZJduG2KAglg3lW4hzOFZ3d52yrokTcsHx4L5foWyCWLgi9/KsllJBoVSnYP2f2tJdl0th
- rCFwRiAOnz4eACIAdB5cUBUOB6DoqWMlcUyLxlBAgkhbaWM2LLl0GKE1J1phWYwN5i7YZb
- ShErLCK/KyB56AKknKEvq4QAborqueQ=
+ t=1665050037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1em5hesKWRhJLTzm0Qb6KGTTmCVg0SINRlWYQ8jR+Qo=;
+ b=vYEgE8CtVNIJ55kOgyL/PE4dVX1EQk2pnVhoDLytPIqp6nga1N5tcROUWAnZdY3QnHtQMA
+ IrKFAtKEeQH38hHpP3A1y60C6HgrIvFqWSNqgdo8GsEtX+enbAdkc+HnmSeXuiBoZDBz6x
+ wJm02tucg+apja6ZV6f9uMX4Jnt4bWQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665050036;
+ s=susede2_ed25519; t=1665050037;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=WlvlqOD6ZbIMiPpLScZYgvPIa/WMPF5c3jwUFP1Ituc=;
- b=iK01QJTeaEpEYTA9AyFml1fouMZvqMLVz72eFwRZdL2OFwRW8g3HwwUn4Xm/ii0sdsvmq4
- d9IavtNoqXjBhJCw==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1em5hesKWRhJLTzm0Qb6KGTTmCVg0SINRlWYQ8jR+Qo=;
+ b=Tty1qvkhN67VZ8KmOh5XwobeDxkO8ouHGmmUiHRiJ9V6VwPtc8kpyu7ecr+rAKej03WZgw
+ oTk9px7HM2f++8Cw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B8BD913AC8;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E0F1B13ACC;
  Thu,  6 Oct 2022 09:53:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id i/JOLLSlPmNnYAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id kAEaNrSlPmNnYAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 06 Oct 2022 09:53:56 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, airlied@redhat.com, sean@poorly.run, daniel@ffwll.ch
-Subject: [PATCH v2 00/16] drm/udl: Better modesetting, hot-unplug, protocol
-Date: Thu,  6 Oct 2022 11:53:39 +0200
-Message-Id: <20221006095355.23579-1-tzimmermann@suse.de>
+Subject: [PATCH v2 01/16] drm/udl: Rename struct udl_drm_connector to struct
+ udl_connector
+Date: Thu,  6 Oct 2022 11:53:40 +0200
+Message-Id: <20221006095355.23579-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221006095355.23579-1-tzimmermann@suse.de>
+References: <20221006095355.23579-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,57 +72,97 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset reworks the udl driver's modesetting code.
+Remove the _drm_ infix from struct udl_drm_connector and introduce a
+macro for upcasting from struct drm_connector. No functional changes.
 
-Patches #1 to #5 improve the connector code with various updates.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/gpu/drm/udl/udl_connector.c | 19 +++++--------------
+ drivers/gpu/drm/udl/udl_connector.h | 10 ++++++++--
+ 2 files changed, 13 insertions(+), 16 deletions(-)
 
-Patches #6 to #10 improve the modesetting code. Patch #7 replaces the
-simple-KMS helpers with the regular atomic helpers. Patch #9 adds DRM
-hot-unplugging. The driver had some unplugging support via USB functions,
-the DRM side was probably not prepared yet. Patch #10 changes damage
-updates to the damage iterator. This minimizes the amount of data to
-send over USB.
-
-Patches #11 to #16 add protocol constants for the various UDL display
-operations.
-
-Tested with X11, console and Weston.
-
-v2:
-	* use FIELD_GET macros when programming scanout address (Javier)
-	* improve commit messages (Javier)
-	* drop empty atomic_disable plane helper
-
-Thomas Zimmermann (16):
-  drm/udl: Rename struct udl_drm_connector to struct udl_connector
-  drm/udl: Test pixel limit in mode-config's mode-valid function
-  drm/udl: Use USB timeout constant when reading EDID
-  drm/udl: Various improvements to the connector
-  drm/udl: Move connector to modesetting code
-  drm/udl: Remove udl_simple_display_pipe_mode_valid()
-  drm/udl: Convert to atomic-modesetting helpers
-  drm/udl: Simplify modesetting in CRTC's enable function
-  drm/udl: Support DRM hot-unplugging
-  drm/udl: Use damage iterator
-  drm/udl: Move register constants to udl_proto.h
-  drm/udl: Add constants for display-mode registers
-  drm/udl: Add register constants for color depth
-  drm/udl: Add register constants for video locks
-  drm/udl: Add register constants for framebuffer scanout addresses
-  drm/udl: Add constants for commands
-
- drivers/gpu/drm/udl/Makefile        |   2 +-
- drivers/gpu/drm/udl/udl_connector.c | 139 -------
- drivers/gpu/drm/udl/udl_connector.h |  15 -
- drivers/gpu/drm/udl/udl_drv.h       |  42 +--
- drivers/gpu/drm/udl/udl_modeset.c   | 563 ++++++++++++++++++----------
- drivers/gpu/drm/udl/udl_proto.h     |  68 ++++
- drivers/gpu/drm/udl/udl_transfer.c  |   7 +-
- 7 files changed, 451 insertions(+), 385 deletions(-)
- delete mode 100644 drivers/gpu/drm/udl/udl_connector.c
- delete mode 100644 drivers/gpu/drm/udl/udl_connector.h
- create mode 100644 drivers/gpu/drm/udl/udl_proto.h
-
+diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
+index fade4c7adbf7..3c8068626384 100644
+--- a/drivers/gpu/drm/udl/udl_connector.c
++++ b/drivers/gpu/drm/udl/udl_connector.c
+@@ -46,10 +46,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
+ 
+ static int udl_get_modes(struct drm_connector *connector)
+ {
+-	struct udl_drm_connector *udl_connector =
+-					container_of(connector,
+-					struct udl_drm_connector,
+-					connector);
++	struct udl_connector *udl_connector = to_udl_connector(connector);
+ 
+ 	drm_connector_update_edid_property(connector, udl_connector->edid);
+ 	if (udl_connector->edid)
+@@ -74,10 +71,7 @@ static enum drm_connector_status
+ udl_detect(struct drm_connector *connector, bool force)
+ {
+ 	struct udl_device *udl = to_udl(connector->dev);
+-	struct udl_drm_connector *udl_connector =
+-					container_of(connector,
+-					struct udl_drm_connector,
+-					connector);
++	struct udl_connector *udl_connector = to_udl_connector(connector);
+ 
+ 	/* cleanup previous edid */
+ 	if (udl_connector->edid != NULL) {
+@@ -94,10 +88,7 @@ udl_detect(struct drm_connector *connector, bool force)
+ 
+ static void udl_connector_destroy(struct drm_connector *connector)
+ {
+-	struct udl_drm_connector *udl_connector =
+-					container_of(connector,
+-					struct udl_drm_connector,
+-					connector);
++	struct udl_connector *udl_connector = to_udl_connector(connector);
+ 
+ 	drm_connector_cleanup(connector);
+ 	kfree(udl_connector->edid);
+@@ -120,10 +111,10 @@ static const struct drm_connector_funcs udl_connector_funcs = {
+ 
+ struct drm_connector *udl_connector_init(struct drm_device *dev)
+ {
+-	struct udl_drm_connector *udl_connector;
++	struct udl_connector *udl_connector;
+ 	struct drm_connector *connector;
+ 
+-	udl_connector = kzalloc(sizeof(struct udl_drm_connector), GFP_KERNEL);
++	udl_connector = kzalloc(sizeof(*udl_connector), GFP_KERNEL);
+ 	if (!udl_connector)
+ 		return ERR_PTR(-ENOMEM);
+ 
+diff --git a/drivers/gpu/drm/udl/udl_connector.h b/drivers/gpu/drm/udl/udl_connector.h
+index 7f2d392df173..74ad68fd3cc9 100644
+--- a/drivers/gpu/drm/udl/udl_connector.h
++++ b/drivers/gpu/drm/udl/udl_connector.h
+@@ -1,15 +1,21 @@
+ #ifndef __UDL_CONNECTOR_H__
+ #define __UDL_CONNECTOR_H__
+ 
+-#include <drm/drm_crtc.h>
++#include <linux/container_of.h>
++
++#include <drm/drm_connector.h>
+ 
+ struct edid;
+ 
+-struct udl_drm_connector {
++struct udl_connector {
+ 	struct drm_connector connector;
+ 	/* last udl_detect edid */
+ 	struct edid *edid;
+ };
+ 
++static inline struct udl_connector *to_udl_connector(struct drm_connector *connector)
++{
++	return container_of(connector, struct udl_connector, connector);
++}
+ 
+ #endif //__UDL_CONNECTOR_H__
 -- 
 2.37.3
 
