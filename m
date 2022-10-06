@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348255F60A5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 07:33:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F995F60B2
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 07:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4AEC10E7DB;
-	Thu,  6 Oct 2022 05:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81BB10E7F8;
+	Thu,  6 Oct 2022 05:33:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F3210E1F4
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:22:43 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CAD0E61825
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:22:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1057CC43152
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665030161;
- bh=HB4K7E86nsfwh8pjE5w4FJpZB/dXbKFz0OtI2RFCH+s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=sovw+cMG1PqLu3BzWeR5UstVr29Ayo36LHZjAiDcfG20hbLu76k5LKE18tIq5krU9
- 2IlB4duW8vX1hOnpq03B41LTEc7Wa5d0AGgAs71PAR/M4iDr/bTeeDH1FloO1irXn2
- qyxMF4VVts5BCRediQoi+Safq01SOpOrcKX0H3I19tPcIWSCoK5Dyb0UKru6HoTuR1
- vlK/vQjlJBmjjMMWBLASnCnLuMi6HFCToTu24EHP4xItpTqpQuqDPRook7owBtQJZ9
- IPIHGEfoZ/tk2tw3ErCHQAkeB5/XSwS75qAaOVQYfkwmkURMi6cycxAciQq4oGw2vv
- f2vjWVjZrIETg==
-Received: by mail-ed1-f45.google.com with SMTP id u21so1098433edi.9
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 21:22:40 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2YHuEaCAEgIlOyrcvvqNhjSZXMBN64Y54b5XHxfN2+Qrjf5wGI
- +CaGiV2CIecC6uIaoQ/9Kx2Yp8mAJxFK4nccL17oCg==
-X-Google-Smtp-Source: AMsMyM4buFniz46ZSiVKh/+EZ3E6CrEv7WC+W0XWrOZd99wlz7Q68ThxnzcjqPbpKa49LlF82wYrc2S5syRYJ4jy1zU=
-X-Received: by 2002:a2e:7318:0:b0:26d:fdd9:6b2 with SMTP id
- o24-20020a2e7318000000b0026dfdd906b2mr1076019ljc.156.1665030148829; Wed, 05
- Oct 2022 21:22:28 -0700 (PDT)
-MIME-Version: 1.0
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4BC10E4A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:38:05 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ g1-20020a17090a708100b00203c1c66ae3so657195pjk.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 21:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=+S5GQGZ6/D/Mg+joUObE0SvwDFyqkvRT2sP5/5vRQvk=;
+ b=FnhfzhzYXlNcl6IxqwADyyzc747mTy8MU4rkgJN+LmLi1BBuM+8meOEr2rKBNA5cdb
+ UV5cg1R4d2Z6xBRg09lXiXAPPCtiRk0FnLoDXMxi1ZwCUSCYDye4OaZgSAusHDiISi0X
+ vF5wP8hNjXz8Z2pcn3GjqjTxVus9QcfOT5k48=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=+S5GQGZ6/D/Mg+joUObE0SvwDFyqkvRT2sP5/5vRQvk=;
+ b=ehv1sYGvsS4biQ/VLirT8QF+WfyNnZZF271ZrgmbSuJFh0v1IzGE6CxoFmsY54qXXZ
+ +GRW57BuJT9KhScAt/+85UjHJw3NOpSyWNv+ONe4UGX3RJzm0AIQPFeVB9iJBCQUJ5ZT
+ 3YAsSGvSyHwAQ3jJWsWPBryNzxHsmVD/QPyAQgXvKj/SMv1QEOB9k1mm6q+FDSd9PRCY
+ F770hT691+Z0rwtJknEFMGNbJyeTyWuS3SEdl3Sz/VlLtUtPfeFxRZ+Lxq5qkc7Fu7iS
+ 91cwZpg1535xkrEaAopqfqQmR9novAxTnLvTxLLqkWMfYCBjrMs1APgzHs4dczzVThwH
+ DgrQ==
+X-Gm-Message-State: ACrzQf3Li9eZ66BE4dCOePrO+go1QXGDztiw0S5x/j5enFWXl0O4tkS1
+ CgkKCE/VJkIIYdAjLKYhnB0a4A==
+X-Google-Smtp-Source: AMsMyM5wQShENjZofrpCE9JXF1y8+Mj33eJ2Bpuqg3wBtAV3umQgBeXMs02cH4EGpzIndWjF3gW38w==
+X-Received: by 2002:a17:902:db0a:b0:178:2636:b6de with SMTP id
+ m10-20020a170902db0a00b001782636b6demr2822346plx.58.1665031085103; 
+ Wed, 05 Oct 2022 21:38:05 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ l18-20020a17090aaa9200b001fd8316db51sm1928521pjq.7.2022.10.05.21.38.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Oct 2022 21:38:03 -0700 (PDT)
+Date: Wed, 5 Oct 2022 21:38:02 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH v1 2/5] treewide: use get_random_{u8,u16}() when possible
+Message-ID: <202210052126.B34A2C62@keescook>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-2-Jason@zx2c4.com>
- <202210052035.A1020E3@keescook>
-In-Reply-To: <202210052035.A1020E3@keescook>
-From: KP Singh <kpsingh@kernel.org>
-Date: Wed, 5 Oct 2022 21:22:17 -0700
-X-Gmail-Original-Message-ID: <CACYkzJ6w6DitDk9uoEyyNeg+HmNHZx_tckJ_=EroqmT=CN3VBA@mail.gmail.com>
-Message-ID: <CACYkzJ6w6DitDk9uoEyyNeg+HmNHZx_tckJ_=EroqmT=CN3VBA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] treewide: use prandom_u32_max() when possible
-To: Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+ <20221005214844.2699-3-Jason@zx2c4.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221005214844.2699-3-Jason@zx2c4.com>
 X-Mailman-Approved-At: Thu, 06 Oct 2022 05:33:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,12 +94,11 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
  Jiri Olsa <jolsa@kernel.org>, Jan Kara <jack@suse.com>,
  linux-fsdevel@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
  linux-media@vger.kernel.org, Claudiu Beznea <claudiu.beznea@microchip.com>,
- Sharvari Harisangam <sharvari.harisangam@nxp.com>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-doc@vger.kernel.org,
- linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- Song Liu <song@kernel.org>, Eric Dumazet <edumazet@google.com>,
- target-devel@vger.kernel.org, John Stultz <jstultz@google.com>,
- Stanislav Fomichev <sdf@google.com>,
+ Sharvari Harisangam <sharvari.harisangam@nxp.com>, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>, Song Liu <song@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, target-devel@vger.kernel.org,
+ John Stultz <jstultz@google.com>, Stanislav Fomichev <sdf@google.com>,
  Gregory Greenman <gregory.greenman@intel.com>, drbd-dev@lists.linbit.com,
  dev@openvswitch.org, Leon Romanovsky <leon@kernel.org>,
  Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
@@ -111,16 +116,16 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
  Theodore Ts'o <tytso@mit.edu>, Stephen Boyd <sboyd@kernel.org>,
  Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
  Florian Westphal <fw@strlen.de>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
  Jon Maloy <jmaloy@redhat.com>, Vlad Yasevich <vyasevich@gmail.com>,
  Anna Schumaker <anna@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>,
  Haoyue Xu <xuhaoyue1@hisilicon.com>, Heiner Kallweit <hkallweit1@gmail.com>,
  linux-wireless@vger.kernel.org,
  Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-fbdev@vger.kernel.org,
- linux-nvme@lists.infradead.org, Michal Januszewski <spock@gentoo.org>,
- linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
- Cong Wang <xiyou.wangcong@gmail.com>, Thomas Sailer <t.sailer@alumni.ethz.ch>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-nvme@lists.infradead.org,
+ Michal Januszewski <spock@gentoo.org>, linux-mtd@lists.infradead.org,
+ kasan-dev@googlegroups.com, Cong Wang <xiyou.wangcong@gmail.com>,
+ Thomas Sailer <t.sailer@alumni.ethz.ch>,
  Ajay Singh <ajay.kathat@microchip.com>, Xiubo Li <xiubli@redhat.com>,
  Sagi Grimberg <sagi@grimberg.me>, Daniel Borkmann <daniel@iogearbox.net>,
  Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
@@ -130,8 +135,9 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
  Pablo Neira Ayuso <pablo@netfilter.org>, Marco Elver <elver@google.com>,
  Yury Norov <yury.norov@gmail.com>,
  "James E . J . Bottomley" <jejb@linux.ibm.com>,
- Jamal Hadi Salim <jhs@mojatatu.com>, Borislav Petkov <bp@alien8.de>,
- Keith Busch <kbusch@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Jamal Hadi Salim <jhs@mojatatu.com>, KP Singh <kpsingh@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Keith Busch <kbusch@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Franky Lin <franky.lin@broadcom.com>, Arend van Spriel <aspriel@gmail.com>,
  linux-ext4@vger.kernel.org, Wenpeng Liang <liangwenpeng@huawei.com>,
@@ -141,7 +147,7 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
  netdev@vger.kernel.org, Ying Xue <ying.xue@windriver.com>,
  Manish Rangankar <mrangankar@marvell.com>,
  "David S . Miller" <davem@davemloft.net>,
- =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@toke.dk>,
+ Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
  Vignesh Raghavendra <vigneshr@ti.com>, Peter Zijlstra <peterz@infradead.org>,
  "H . Peter Anvin" <hpa@zytor.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -170,76 +176,87 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, David Ahern <dsahern@kernel.org>,
  Philipp Reisner <philipp.reisner@linbit.com>,
  Stephen Hemminger <stephen@networkplumber.org>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
  Vinod Koul <vkoul@kernel.org>, tipc-discussion@lists.sourceforge.net,
  Thomas Graf <tgraf@suug.ch>, Johannes Berg <johannes@sipsolutions.net>,
  Sungjong Seo <sj1557.seo@samsung.com>, Martin KaFai Lau <martin.lau@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 5, 2022 at 9:16 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Wed, Oct 05, 2022 at 11:48:40PM +0200, Jason A. Donenfeld wrote:
-> > Rather than incurring a division or requesting too many random bytes for
-> > the given range, use the prandom_u32_max() function, which only takes
-> > the minimum required bytes from the RNG and avoids divisions.
->
-> Yes please!
->
-> Since this is a treewide patch, it's helpful for (me at least) doing
-> reviews to detail the mechanism of the transformation.
->
-> e.g. I imagine this could be done with something like Coccinelle and
->
-> @no_modulo@
-> expression E;
-> @@
->
-> -       (prandom_u32() % (E))
-> +       prandom_u32_max(E)
->
-> > diff --git a/drivers/mtd/ubi/debug.h b/drivers/mtd/ubi/debug.h
-> > index 118248a5d7d4..4236c799a47c 100644
-> > --- a/drivers/mtd/ubi/debug.h
-> > +++ b/drivers/mtd/ubi/debug.h
-> > @@ -73,7 +73,7 @@ static inline int ubi_dbg_is_bgt_disabled(const struct ubi_device *ubi)
-> >  static inline int ubi_dbg_is_bitflip(const struct ubi_device *ubi)
-> >  {
-> >       if (ubi->dbg.emulate_bitflips)
-> > -             return !(prandom_u32() % 200);
-> > +             return !(prandom_u32_max(200));
-> >       return 0;
-> >  }
-> >
->
-> Because some looks automated (why the parens?)
->
-> > @@ -393,14 +387,11 @@ static struct test_driver {
-> >
-> >  static void shuffle_array(int *arr, int n)
-> >  {
-> > -     unsigned int rnd;
-> >       int i, j;
-> >
-> >       for (i = n - 1; i > 0; i--)  {
-> > -             rnd = prandom_u32();
-> > -
-> >               /* Cut the range. */
-> > -             j = rnd % i;
-> > +             j = prandom_u32_max(i);
-> >
-> >               /* Swap indexes. */
-> >               swap(arr[i], arr[j]);
->
-> And some by hand. :)
->
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+On Wed, Oct 05, 2022 at 11:48:41PM +0200, Jason A. Donenfeld wrote:
+> Rather than truncate a 32-bit value to a 16-bit value or an 8-bit value,
+> simply use the get_random_{u8,u16}() functions, which are faster than
+> wasting the additional bytes from a 32-bit value.
+> 
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Thanks!
+Same question about "mechanism of transformation".
 
-Reviewed-by: KP Singh <kpsingh@kernel.org>
+> diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+> index ddfe9208529a..ac452a0111a9 100644
+> --- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+> +++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+> @@ -1467,7 +1467,7 @@ static void make_established(struct sock *sk, u32 snd_isn, unsigned int opt)
+>  	tp->write_seq = snd_isn;
+>  	tp->snd_nxt = snd_isn;
+>  	tp->snd_una = snd_isn;
+> -	inet_sk(sk)->inet_id = prandom_u32();
+> +	inet_sk(sk)->inet_id = get_random_u16();
+>  	assign_rxopt(sk, opt);
+>  
+>  	if (tp->rcv_wnd > (RCV_BUFSIZ_M << 10))
 
+This one I had to go look at -- inet_id is u16, so yeah. :)
 
->
-> --
-> Kees Cook
+> diff --git a/lib/test_vmalloc.c b/lib/test_vmalloc.c
+> index 56ffaa8dd3f6..0131ed2cd1bd 100644
+> --- a/lib/test_vmalloc.c
+> +++ b/lib/test_vmalloc.c
+> @@ -80,7 +80,7 @@ static int random_size_align_alloc_test(void)
+>  	int i;
+>  
+>  	for (i = 0; i < test_loop_count; i++) {
+> -		rnd = prandom_u32();
+> +		rnd = get_random_u8();
+>  
+>  		/*
+>  		 * Maximum 1024 pages, if PAGE_SIZE is 4096.
+
+This wasn't obvious either, but it looks like it's because it never
+consumes more than u8?
+
+> diff --git a/net/netfilter/nf_nat_core.c b/net/netfilter/nf_nat_core.c
+> index 7981be526f26..57c7686ac485 100644
+> --- a/net/netfilter/nf_nat_core.c
+> +++ b/net/netfilter/nf_nat_core.c
+> @@ -468,7 +468,7 @@ static void nf_nat_l4proto_unique_tuple(struct nf_conntrack_tuple *tuple,
+>  	if (range->flags & NF_NAT_RANGE_PROTO_OFFSET)
+>  		off = (ntohs(*keyptr) - ntohs(range->base_proto.all));
+>  	else
+> -		off = prandom_u32();
+> +		off = get_random_u16();
+>  
+>  	attempts = range_size;
+
+Yup, u16 off;
+
+> diff --git a/net/sched/sch_sfb.c b/net/sched/sch_sfb.c
+> index 2829455211f8..7eb70acb4d58 100644
+> --- a/net/sched/sch_sfb.c
+> +++ b/net/sched/sch_sfb.c
+> @@ -379,7 +379,7 @@ static int sfb_enqueue(struct sk_buff *skb, struct Qdisc *sch,
+>  		goto enqueue;
+>  	}
+>  
+> -	r = prandom_u32() & SFB_MAX_PROB;
+> +	r = get_random_u16() & SFB_MAX_PROB;
+>  
+>  	if (unlikely(r < p_min)) {
+>  		if (unlikely(p_min > SFB_MAX_PROB / 2)) {
+
+include/uapi/linux/pkt_sched.h:#define SFB_MAX_PROB 0xFFFF
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
