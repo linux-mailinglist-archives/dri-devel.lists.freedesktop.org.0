@@ -1,51 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EC95F6254
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 10:13:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D725F6269
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 10:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F7F10E814;
-	Thu,  6 Oct 2022 08:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 769A810E4EB;
+	Thu,  6 Oct 2022 08:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF44910E806
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 08:12:53 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MjkhH5jsHz4xFv;
- Thu,  6 Oct 2022 19:12:47 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1665043968;
- bh=31lYof3k6TiuWy0jh42ikNoE+6WvWJWGhXoZV4qiUiM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ninumLr0iNSJyGMXf4X2E/vre60REOGPsV/mYzG6Nt4wZnsEKOK4BtU+gm/SRnwCJ
- edrp3BSvqVcDFCI+KDMCNg2CGaE92XHDfOlrn7CX6PYK+HwK6W9H6fx+IkBpq+6VQF
- mPpMfLna9jswtO1VCo7+/cWVHeP0EV7hrFtFbtGzmNsf/TF1qlm9zbfDN8vUyFNwcd
- 44n/lTks0r2Hj6/E5bC4KT08YaGnn7Fa01A/bFKpuZsD58jAA6xQL98mjVcfjDJM7/
- qCn2RlxrWDoaq4POb2w/4O7QFlKVy5YrG2e7I3hItTy5RZZ8hCBoXxH6kyRG88mfcq
- dOc9g6a5R/BrA==
-Date: Thu, 6 Oct 2022 19:12:45 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: David Airlie <airlied@redhat.com>
-Subject: Re: linux-next: build failure after merge of the drm tree
-Message-ID: <20221006191245.11bb0e2c@canb.auug.org.au>
-In-Reply-To: <20221006092810.0c3a2238@canb.auug.org.au>
-References: <20220930105434.111407-1-broonie@kernel.org>
- <20221004132047.435d42db@canb.auug.org.au>
- <CAMwc25oshRcJBoCT70B+b42bh5sPqgyoHuBx6K6ZLrwBMHnJzw@mail.gmail.com>
- <20221004140558.64f59f2c@canb.auug.org.au>
- <YzwbW4YQwQPsRPYw@sirena.org.uk>
- <CADnq5_PbPQPui1tOdUMB+OYbz6UBMKCgtwvE95oA+SfcN0RzNg@mail.gmail.com>
- <09cd11c5-2a15-3653-957c-88c751fa9029@amd.com>
- <20221006092810.0c3a2238@canb.auug.org.au>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B57A110E4EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 08:16:58 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id bp15so1551621lfb.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 01:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=FfDc+hEkZ6RwsaJ4+0A43rieR6v2jH+WTZvfAnZBz1Y=;
+ b=VY5EY1z4bbWvQXGas+BbfF2JQm5bmRSHtb1XKkt64fbrhSp6hulWrZnHh/r7teY+p9
+ +G5qYPBCmVMc5i6u1kHpqWaGS4CRnjO/7YXZ1fjDK4pjhCNzONFh8nOwmARzSFNKVfeg
+ iUCW6RMzluXWlsBIkkFMXJZ1xBf2ixJLbak9i5qGWXuHR1vwA22EoeyEkQB8lllCQFI3
+ K41PIq3ivmz3jf/QLe63dTa7awGdMJ61F8hKfQ9C63xF8QxgqsjTYAAGCpt6PcNTyfjz
+ xBuRYy4US5IpZsdC/1rb/QQDyDi7MII3DTx00pfjYu8N+PC3hHt/paXZWqNOnqnZNgUW
+ eeVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=FfDc+hEkZ6RwsaJ4+0A43rieR6v2jH+WTZvfAnZBz1Y=;
+ b=u/+IyYpsOUv/2MfDXgsXLXKKtOL0/P7wzw8OouUK9QLWJhicwIkPmindWmabh3xow5
+ iS6DL3FG94fxU1hYtKjsc6ORdDL8qIpTiPLQo6r7l5yW7okH4Rcn1HEXeWdRXpJb5S1Q
+ jFxAVx3/MkVH6SN/1a2IPJ4KFIrDk8NbsQeC0qRh+0FiumqNwpmGslpYLiGfE+BROfUh
+ 6/PEqLYj/Gn87A8Fm3EE+s4JgKDFVcXaa3EJcT49t0L6ELg+3IZnY29zjUppvvA0kKrd
+ K3eNKVnmg02MgRaW29imw0RjYFV2ss4qeaV8ALoGIEk/RPeYvp7hMo2JbmLV7fUJ54NU
+ cNPw==
+X-Gm-Message-State: ACrzQf2IY0WpTG/fxPV/3krBEI/hi3xwGiO6RjrYM+WUlj+PGGI2l6Gg
+ GtPbpUxx3I3qD38fFdtGa/2XdA==
+X-Google-Smtp-Source: AMsMyM7GpuGlUY84ykYp+oEDm2ZghpfDWhH+LgsZpb9xJ2vsDcx500yy62Ye1D2zhYbdCgSKUMhbJA==
+X-Received: by 2002:ac2:4c8d:0:b0:4a0:559c:d40e with SMTP id
+ d13-20020ac24c8d000000b004a0559cd40emr1340565lfl.508.1665044216972; 
+ Thu, 06 Oct 2022 01:16:56 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ y13-20020a19750d000000b00497a1f92a72sm2617457lfe.221.2022.10.06.01.16.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 01:16:56 -0700 (PDT)
+Message-ID: <94c660bc-b7eb-1aea-8ae2-0ee7993091fd@linaro.org>
+Date: Thu, 6 Oct 2022 10:16:55 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/fQ7FPaV88=DQ7b76DFZdCk_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 1/2] dt-bindings: it6505: add properties to restrict
+ output bandwidth
+Content-Language: en-US
+To: allen <allen.chen@ite.com.tw>
+References: <20221006020444.15823-1-allen.chen@ite.com.tw>
+ <20221006020444.15823-2-allen.chen@ite.com.tw>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221006020444.15823-2-allen.chen@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,105 +76,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Brown <broonie@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Kenneth Hung <Kenneth.Hung@ite.com.tw>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
+ open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/fQ7FPaV88=DQ7b76DFZdCk_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-On Thu, 6 Oct 2022 09:28:10 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->
-> I have applied the following hack for today:
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Thu, 6 Oct 2022 09:14:26 +1100
-> Subject: [PATCH] fix up for drivers/gpu/drm/amd/display/dc/core/dc_stream=
-.c
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+On 06/10/2022 04:04, allen wrote:
+> From: allen chen <allen.chen@ite.com.tw>
+> 
+> Add properties to restrict dp output data-lanes and clock.
+> 
+> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gp=
-u/drm/amd/display/dc/core/dc_stream.c
-> index ae13887756bf..a5da787b7876 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> @@ -520,9 +520,9 @@ bool dc_stream_remove_writeback(struct dc *dc,
->  	}
-> =20
->  	/* remove writeback info for disabled writeback pipes from stream */
-> -	for (i =3D 0, j =3D 0; i < stream->num_wb_info && j < MAX_DWB_PIPES; i+=
-+) {
-> +	for (i =3D 0, j =3D 0; i < stream->num_wb_info && i < MAX_DWB_PIPES; i+=
-+) {
->  		if (stream->writeback_info[i].wb_enabled) {
-> -			if (i !=3D j)
-> +			if ((j >=3D 0) && (j < i))
->  				/* trim the array */
->  				stream->writeback_info[j] =3D stream->writeback_info[i];
->  			j++;
+>  .../bindings/display/bridge/ite,it6505.yaml          | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> index 833d11b2303a..f5482a614d05 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> @@ -52,6 +52,16 @@ properties:
+>      maxItems: 1
+>      description: extcon specifier for the Power Delivery
+>  
+> +  ite,dp-output-data-lane-count:
+> +    description: restrict the dp output data-lanes with value of 1-4
 
-This works as well, and (in my opinion) is better:
+Drop "with value of 1-4" because it is redundant, but instead explain
+what this property is about. "Restrict output" is not yet enough.
+Restrict the number? Or choose specific lanes? Why it cannot be
+data-lanes from video-interfaces?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/=
-drm/amd/display/dc/core/dc_stream.c
-index ae13887756bf..fb6222d4c430 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -499,7 +499,7 @@ bool dc_stream_remove_writeback(struct dc *dc,
- 		struct dc_stream_state *stream,
- 		uint32_t dwb_pipe_inst)
- {
--	int i =3D 0, j =3D 0;
-+	unsigned int i, j;
- 	if (stream =3D=3D NULL) {
- 		dm_error("DC: dc_stream is NULL!\n");
- 		return false;
-@@ -520,9 +520,9 @@ bool dc_stream_remove_writeback(struct dc *dc,
- 	}
-=20
- 	/* remove writeback info for disabled writeback pipes from stream */
--	for (i =3D 0, j =3D 0; i < stream->num_wb_info && j < MAX_DWB_PIPES; i++)=
- {
-+	for (i =3D 0, j =3D 0; i < stream->num_wb_info; i++) {
- 		if (stream->writeback_info[i].wb_enabled) {
--			if (i !=3D j)
-+			if (j < i)
- 				/* trim the array */
- 				stream->writeback_info[j] =3D stream->writeback_info[i];
- 			j++;
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [ 1, 2, 4 ]
+> +
+> +  ite,dp-output-max-pixel-clock-mhz:
 
---=20
-Cheers,
-Stephen Rothwell
+Test your patches before sending.
 
---Sig_/fQ7FPaV88=DQ7b76DFZdCk_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Best regards,
+Krzysztof
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmM+jf0ACgkQAVBC80lX
-0GyyIgf/WR7MxcXzbxhywbtkI+Sx+47sAft5hdECwLaEzF1auZ3Nv3xKH4yY79fR
-npO+OjDaVJ9YXdXXi/tpoBTMPfzFIwbcd0aGfGClO0OtJjDM2p0roXx64TMXM3f3
-TIZjRXIyhRWZscBae7/M4iOgcrSJ5ac2fZB5j70pnuJi144QbQc0ttaGRiqdWgTJ
-3c2UurXu2DJlSu2VvNXaID3NkvSF55mbonCYmuOhwy1yPqPZPnubMr0EBi36ztEM
-QB+LZ5XyvE7/Iyw320ImgsZMjenH1sphsOVukH48H6nMFBdwhX1bO8WHqB1PFO3u
-oGyN/rdPlSafTCucGLqFK19xsG0LHg==
-=Xs6o
------END PGP SIGNATURE-----
-
---Sig_/fQ7FPaV88=DQ7b76DFZdCk_--
