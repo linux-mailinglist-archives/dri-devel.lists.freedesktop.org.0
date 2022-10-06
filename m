@@ -2,53 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0D35F6D25
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 19:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6843A5F6D86
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 20:31:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43FBB10E65F;
-	Thu,  6 Oct 2022 17:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 653E410E864;
+	Thu,  6 Oct 2022 18:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D36D010E65F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 17:43:01 +0000 (UTC)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4MjzLC11Gzz9syB;
- Thu,  6 Oct 2022 19:42:59 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LsXJRIhoNC1h; Thu,  6 Oct 2022 19:42:59 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4MjzLB5Dvqz9syS;
- Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 8738A8B78C;
- Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id z2OiiiTjoE_O; Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-Received: from [192.168.233.27] (po19210.idsi0.si.c-s.fr [192.168.233.27])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 4E53E8B77D;
- Thu,  6 Oct 2022 19:42:56 +0200 (CEST)
-Message-ID: <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
-Date: Thu, 6 Oct 2022 19:42:55 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 817FD10E864
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 18:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665081085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D/EnO+t9YxsYbYukQoQ5MDLGm5W9hFbMKzmQnM2kN40=;
+ b=KMh9aNe8iCq05t8fHDKPHAgH97jT4WmYN2KzB1udF10MAHVMQbeGwmBfkSBAWdU8X62bzT
+ NSG85IbptJzhzVCbX3ui0haqzx9t6ST/m/mh5/qB8GZ2gYxlHSvLdQZd4BfckffdBtliCx
+ fTv0/eSVT2w8Al76S4QXTLvOfwOh1is=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-588-tB_afenGO-y6FwLecE_m2g-1; Thu, 06 Oct 2022 14:31:24 -0400
+X-MC-Unique: tB_afenGO-y6FwLecE_m2g-1
+Received: by mail-io1-f71.google.com with SMTP id
+ y10-20020a5d914a000000b00688fa7b2252so1714155ioq.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 11:31:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=D/EnO+t9YxsYbYukQoQ5MDLGm5W9hFbMKzmQnM2kN40=;
+ b=sFzbZKuioBX+1dAj5s9ZtPrYyEjYfgDa4EnK4PRH+zTMkLCzRnk8EJuMFP6IuJf+RA
+ tWbC/FLuJaddSKmZ8P9EpopxPt9Nra7MlEjYp1SO4HuTOVCDVpk0IhQIHj1N3VU1BgM5
+ TwOUCfZACjTI7EQccG1W7/RdmnHmZRVTZfK1JG+agQ6FNPc6/Ra0l7kTMpkx2SLkXL8d
+ /9/38DzUTwSlPc1K65jAKalTtYZf0ViSZ2rIYjK7G9ddkpJ5LjoIuMspDi8GhYJ8E5ZA
+ +68qsPHPvj6mW3e4c1w0AmaIZED4SEnNG/XK9OCr0ANgIIPYA+cKrT4YEUIfMi4fnIjE
+ j97w==
+X-Gm-Message-State: ACrzQf3UFPlY+GmrBQyz3uWK8/Ti2K/CEqTVWrYkwddCP7nvDT04wVoW
+ KjLqeZaCKqlgMx3+hLxeFgq9n2F2gK78Rhm6gu5WfidK9s48fDHFJw2cfsQI2kIrgX2TUPvZpiE
+ 1OaNuxNc8ZqYlcJYqSDFLJ31poALj
+X-Received: by 2002:a6b:c3c1:0:b0:6a8:3ca0:dabf with SMTP id
+ t184-20020a6bc3c1000000b006a83ca0dabfmr539239iof.0.1665081083579; 
+ Thu, 06 Oct 2022 11:31:23 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7pXlhLelqt1wt/DC14P6+x2KJSzkrMLAIfpeD1/B//Vj/lBsUWd5ZxsZxZUGk5To+kMEPI+w==
+X-Received: by 2002:a6b:c3c1:0:b0:6a8:3ca0:dabf with SMTP id
+ t184-20020a6bc3c1000000b006a83ca0dabfmr539223iof.0.1665081083396; 
+ Thu, 06 Oct 2022 11:31:23 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ p2-20020a056638216200b003636e5c4612sm52644jak.33.2022.10.06.11.31.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Oct 2022 11:31:22 -0700 (PDT)
+Date: Thu, 6 Oct 2022 12:31:22 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH] drm/i915/gvt: Add missing vfio_unregister_group_dev() call
+Message-ID: <20221006123122.524c75c9.alex.williamson@redhat.com>
+In-Reply-To: <Yz695fy8hm0N9DvS@nvidia.com>
+References: <0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com>
+ <20221005141717.234c215e.alex.williamson@redhat.com>
+ <20221005160356.52d6428c.alex.williamson@redhat.com>
+ <Yz695fy8hm0N9DvS@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
- <20221006165346.73159-4-Jason@zx2c4.com>
- <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
- <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
- <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
-In-Reply-To: <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,141 +86,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, "x86@kernel.org" <x86@kernel.org>,
- Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- KP Singh <kpsingh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "patches@lists.linux.dev" <patches@lists.linux.dev>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Eric Dumazet <edumazet@google.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
- WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>,
- Russell King <linux@armlinux.org.uk>,
- "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
- Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Dave Airlie <airlied@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
- "James E . J . Bottomley" <jejb@linux.ibm.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Yury Norov <yury.norov@gmail.com>,
- =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgens?= =?UTF-8?Q?en?= <toke@toke.dk>,
- Heiko Carstens <hca@linux.ibm.com>,
- "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Jens Axboe <axboe@kernel.dk>,
- "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>,
- "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- Florian Westphal <fw@strlen.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Chuck Lever <chuck.lever@oracle.com>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- Jan Kara <jack@suse.com>, Thomas Graf <tgraf@suug.ch>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "David S . Miller" <davem@davemloft.net>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, stable@vger.kernel.org,
+ intel-gvt-dev@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 6 Oct 2022 08:37:09 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
+> On Wed, Oct 05, 2022 at 04:03:56PM -0600, Alex Williamson wrote:
+> > We can't have a .remove callback that does nothing, this breaks
+> > removing the device while it's in use.  Once we have the
+> > vfio_unregister_group_dev() fix below, we'll block until the device is
+> > unused, at which point vgpu->attached becomes false.  Unless I'm
+> > missing something, I think we should also follow-up with a patch to
+> > remove that bogus warn-on branch, right?  Thanks,  
+> 
+> Yes, looks right to me.
+> 
+> I question all the logical arround attached, where is the locking?
 
-Le 06/10/2022 à 19:31, Christophe Leroy a écrit :
-> 
-> 
-> Le 06/10/2022 à 19:24, Jason A. Donenfeld a écrit :
->> Hi Christophe,
->>
->> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
->> <christophe.leroy@csgroup.eu> wrote:
->>> Le 06/10/2022 à 18:53, Jason A. Donenfeld a écrit :
->>>> The prandom_u32() function has been a deprecated inline wrapper around
->>>> get_random_u32() for several releases now, and compiles down to the
->>>> exact same code. Replace the deprecated wrapper with a direct call to
->>>> the real function. The same also applies to get_random_int(), which is
->>>> just a wrapper around get_random_u32().
->>>>
->>>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>>> Acked-by: Toke Høiland-Jørgensen <toke@toke.dk> # for sch_cake
->>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
->>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
->>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
->>>> ---
->>>
->>>> diff --git a/arch/powerpc/kernel/process.c 
->>>> b/arch/powerpc/kernel/process.c
->>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
->>>> --- a/arch/powerpc/kernel/process.c
->>>> +++ b/arch/powerpc/kernel/process.c
->>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
->>>>    unsigned long arch_align_stack(unsigned long sp)
->>>>    {
->>>>        if (!(current->personality & ADDR_NO_RANDOMIZE) && 
->>>> randomize_va_space)
->>>> -             sp -= get_random_int() & ~PAGE_MASK;
->>>> +             sp -= get_random_u32() & ~PAGE_MASK;
->>>>        return sp & ~0xf;
->>>
->>> Isn't that a candidate for prandom_u32_max() ?
->>>
->>> Note that sp is deemed to be 16 bytes aligned at all time.
->>
->> Yes, probably. It seemed non-trivial to think about, so I didn't. But
->> let's see here... maybe it's not too bad:
->>
->> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
->> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
->> thing? Is that accurate? And holds across platforms (this comes up a
->> few places)? If so, I'll do that for a v4.
->>
-> 
-> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
-> 
-> /*
->   * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
->   * assign PAGE_MASK to a larger type it gets extended the way we want
->   * (i.e. with 1s in the high bits)
->   */
-> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
-> 
-> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
-> 
-> 
-> So it would work I guess.
+Zhenyu, Zhi, Kevin,
 
-But taking into account that sp must remain 16 bytes aligned, would it 
-be better to do something like ?
+Could someone please take a look at use of vgpu->attached in the GVT-g
+driver?  It's use in intel_vgpu_remove() is bogus, the .release
+callback needs to use vfio_unregister_group_dev() to wait for the
+device to be unused.  The WARN_ON/return here breaks all future use of
+the device.  I assume @attached has something to do with the page table
+interface with KVM, but it all looks racy anyway.
 
-	sp -= prandom_u32_max(PAGE_SIZE >> 4) << 4;
+Also, whatever purpose vgpu->released served looks unnecessary now.
+Thanks,
 
-	return sp;
-
+Alex
 
