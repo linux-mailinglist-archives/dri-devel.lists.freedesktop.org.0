@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9121B5F6A59
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 17:11:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 048615F6A8F
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 17:26:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C13D510E31D;
-	Thu,  6 Oct 2022 15:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0059010E3F6;
+	Thu,  6 Oct 2022 15:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2584D10E31D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 15:11:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665069102; x=1696605102;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=B7tV5AlyHCkpFv4WxENN3vaP2AnJXJUfg4loguOCffg=;
- b=eL1mIiBkkQBxGld3Fsjd6Jqu1w/uPuHzk/BADuTXj/fh2ka1Y1FBSs7X
- vH0m1m9C3A0//QsOoRwyitoPsWWoziHwAyblBjZ/Qb6dLQG5iieaK1kWc
- FKabBB/A94JJtnqxKBj52uBZH7Z1+mniRrVElHbfJZDFXBJXm4tlhXXBo
- Le13BFPyNTAuDTrauDGAwyK8jgiqxcgccgUfDeCJ4YE7PKnshpfL4pPfQ
- 1IfzlGQfXnYPk8KOxmnY+6ESeFZfjABUTnQPEDsTPAYt/jYfMc9yctIjj
- GZmZx2a6Mw8G/SdDuL6TlDxXHxoFhAPKXyDoBMIeXgXEDZCXpZcNj1p8g A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="302187482"
-X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; d="scan'208";a="302187482"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2022 08:11:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="655648459"
-X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; d="scan'208";a="655648459"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga008.jf.intel.com with SMTP; 06 Oct 2022 08:11:38 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 06 Oct 2022 18:11:37 +0300
-Date: Thu, 6 Oct 2022 18:11:37 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-Subject: Re: [PATCH v2] drm/display: Don't assume dual mode adaptors support
- i2c sub-addressing
-Message-ID: <Yz7wKZnJeUzbz4Dw@intel.com>
-References: <20221006113314.41101987@computer>
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 268CB10E3F6
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 15:26:35 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-13207a86076so2581370fac.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 08:26:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qEgg6vU+1CShCyrvh11UlBgdaJjiNvI37fqYdKhnNwU=;
+ b=pHuTH+IOzjjSQkyEAXbIYdJibMg2T/yHhNW5bdD+Zy7vO2BhlKqvuse1vTzTvXMGRC
+ SF5ZvW6rOBwK7IR88numKnbolMnzdd81s/JUyI4BJQEXdboIt+9+PdsAUPplNr+9lEkI
+ 1F3PYFoEx0vuMK157xQFZJn/k1s+BBAONABw1ruoJsjnJf3LFcpaf79quXg8V/NGuSUS
+ O+WQFwQScgrnwoIY4k9UXJNlM7ouOrxkEYjneqMblb4Seiye/7pOuTytLwX3OowTN7S2
+ e8inlXPIfglqz/SYAcCHWkzf9gvUrUaZAWUP+qLEPoi3jJCXxM8lpdk7mc3dAGPuH50F
+ fdYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qEgg6vU+1CShCyrvh11UlBgdaJjiNvI37fqYdKhnNwU=;
+ b=iKvFdUtVsldWgBLeddBoR/+4C4SZcX1oyQi+lrNbtmdMYSX72Z2HZXN3bOqutWPzUq
+ Z8p6T1iWHK29y8sdmTeArVs1NMXvAVa0hH17pHxAGNYaWFSfvEpVSyXR5TFCYFlyfd5u
+ 7qR7NTtAJnxFMjPIF4EzvDqqFzNmUgTFVjiIp4rEVX9UeiORuMoZNBAo6F2VMNQTVX4d
+ pwNf3hYpB7qwMmYjw647sxTuHhd0go8NkNL//EPuFbgCiFeiHJUKpOZ76d+nj2myYAW6
+ RmiMqAF4pbmMb6G9/ALXtgcq9YqXUAzuf2rLS1u5E1514QcuCkcRUKsgcQLoW0e5/dLM
+ kMpg==
+X-Gm-Message-State: ACrzQf3nkW0//8RSYUuclXIbZJdoVztE199mpJi4utpa7KsIwaIrGmzS
+ I+b6qkS0Dw0r+QSx8SGf4VIPC8uu8RiH+n8DuPgxvg==
+X-Google-Smtp-Source: AMsMyM7hTLBuIuqwNiVTXUWuH+V72A93pKxUMgju4zsOE/gKIpYqIL99d8dKTgGUpkiIKz3d+hdm7y6E6BtW4OfsIcY=
+X-Received: by 2002:a05:6870:15c8:b0:133:16e6:5af8 with SMTP id
+ k8-20020a05687015c800b0013316e65af8mr1653718oad.80.1665069994311; Thu, 06 Oct
+ 2022 08:26:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221006113314.41101987@computer>
-X-Patchwork-Hint: comment
+References: <CGME20221005151323eucas1p2c69fc9989b84a9d74d568469ccd81f35@eucas1p2.samsung.com>
+ <20221005151309.7278-1-jagan@amarulasolutions.com>
+ <df3abb7c-66ae-4495-4a73-c59880a6fdff@samsung.com>
+In-Reply-To: <df3abb7c-66ae-4495-4a73-c59880a6fdff@samsung.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Thu, 6 Oct 2022 08:26:22 -0700
+Message-ID: <CAJ+vNU0R95ZDkfwo6hz_fb1E8z7ZZRNd7XU2uArsE0WhxvaJDQ@mail.gmail.com>
+Subject: Re: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,152 +68,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 06, 2022 at 11:33:14AM +0200, Simon Rettberg wrote:
-> Current dual mode adaptor ("DP++") detection code assumes that all
-> adaptors support i2c sub-addressing for read operations from the
-> DP-HDMI adaptor ID buffer.  It has been observed that multiple
-> adaptors do not in fact support this, and always return data starting
-> at register 0.  On affected adaptors, the code fails to read the proper
-> registers that would identify the device as a type 2 adaptor, and
-> handles those as type 1, limiting the TMDS clock to 165MHz, even if
-> the according register would announce a higher TMDS clock.
-> Fix this by always reading the ID buffer starting from offset 0, and
-> discarding any bytes before the actual offset of interest.
-> 
-> We tried finding authoritative documentation on whether or not this is
-> allowed behaviour, but since all the official VESA docs are paywalled,
-> the best we could come up with was the spec sheet for Texas Instruments'
-> SNx5DP149 chip family.[1]  It explicitly mentions that sub-addressing is
-> supported for register writes, but *not* for reads (See NOTE in
-> section 8.5.3).  Unless TI openly decided to violate the VESA spec, one
-> could take that as a hint that sub-addressing is in fact not mandated
-> by VESA.
-> The other two adaptors affected used the PS8409(A) and the LT8611,
-> according to the data returned from their ID buffers.
-> 
-> [1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
-> 
-> Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
-> Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
-> ---
-> 
-> v2 changes form last submission's feedback (thanks for taking the time):
-> - Added a shortened version of our "background story" to the commit message
-> - Only use tmpbuf if the read offset is != 0
+On Wed, Oct 5, 2022 at 1:51 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Hi Jagan,
+>
+> On 05.10.2022 17:12, Jagan Teki wrote:
+> > This series supports common bridge support for Samsung MIPI DSIM
+> > which is used in Exynos and i.MX8MM SoC's.
+> >
+> > The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> >
+> > Changes for v7:
+> > * fix the drm bridge attach chain for exynos drm dsi driver
+> > * fix the hw_type checking logic
+> >
+> > Changes for v6:
+> > * handle previous bridge for exynos dsi while attaching bridge
+> >
+> > Changes for v5:
+> > * bridge changes to support multi-arch
+> > * updated and clear commit messages
+> > * add hw_type via plat data
+> > * removed unneeded quirk
+> > * rebased on linux-next
+> >
+> > Changes for v4:
+> > * include Inki Dae in MAINTAINERS
+> > * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
+> > * update init handling to ensure host init done on first cmd transfer
+> >
+> > Changes for v3:
+> > * fix the mult-arch build
+> > * fix dsi host init
+> > * updated commit messages
+> >
+> > Changes for v2:
+> > * fix bridge handling
+> > * fix dsi host init
+> > * correct the commit messages
+> >
+> > Patch 0001:   Samsung DSIM bridge
+> >
+> > Patch 0002:   PHY optional
+> >
+> > Patch 0003:   OF-graph or Child node lookup
+> >
+> > Patch 0004:   DSI host initialization
+> >
+> > Patch 0005:   atomic check
+> >
+> > Patch 0006:   PMS_P offset via plat data
+> >
+> > Patch 0007:   atomic_get_input_bus_fmts
+> >
+> > Patch 0008:   input_bus_flags
+> >
+> > Patch 0009:   document fsl,imx8mm-mipi-dsim
+> >
+> > Patch 0010:   add i.MX8MM DSIM support
+> >
+> > Tested in Engicam i.Core MX8M Mini SoM.
+>
+> This finally doesn't break Exynos DSI. :) Feel free to add:
+>
+> Acked-by: Marek Szyprowski
+>
+> Tested-by: Marek Szyprowski
+>
+> The next step would be to merge Dave's patchset and remove the hacks
+> added here and there. Otherwise we will end up adding even more hacks soon.
 
-Bounced to intel-gfx to get the i915 CI to check it...
+Jagan,
 
-> 
->  .../gpu/drm/display/drm_dp_dual_mode_helper.c | 51 +++++++++++--------
->  1 file changed, 29 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> index 3ea53bb67d3b..bd61e20770a5 100644
-> --- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-> @@ -63,23 +63,45 @@
->  ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
->  			      u8 offset, void *buffer, size_t size)
->  {
-> +	u8 zero = 0;
-> +	char *tmpbuf = NULL;
-> +	/*
-> +	 * As sub-addressing is not supported by all adaptors,
-> +	 * always explicitly read from the start and discard
-> +	 * any bytes that come before the requested offset.
-> +	 * This way, no matter whether the adaptor supports it
-> +	 * or not, we'll end up reading the proper data.
-> +	 */
->  	struct i2c_msg msgs[] = {
->  		{
->  			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
->  			.flags = 0,
->  			.len = 1,
-> -			.buf = &offset,
-> +			.buf = &zero,
->  		},
->  		{
->  			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
->  			.flags = I2C_M_RD,
-> -			.len = size,
-> +			.len = size + offset,
->  			.buf = buffer,
->  		},
->  	};
->  	int ret;
->  
-> +	if (offset) {
-> +		tmpbuf = kmalloc(size + offset, GFP_KERNEL);
-> +		if (!tmpbuf)
-> +			return -ENOMEM;
-> +
-> +		msgs[1].buf = tmpbuf;
-> +	}
-> +
->  	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (tmpbuf)
-> +		memcpy(buffer, tmpbuf + offset, size);
-> +
-> +	kfree(tmpbuf);
-> +
->  	if (ret < 0)
->  		return ret;
->  	if (ret != ARRAY_SIZE(msgs))
-> @@ -208,18 +230,6 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
->  	if (ret)
->  		return DRM_DP_DUAL_MODE_UNKNOWN;
->  
-> -	/*
-> -	 * Sigh. Some (maybe all?) type 1 adaptors are broken and ack
-> -	 * the offset but ignore it, and instead they just always return
-> -	 * data from the start of the HDMI ID buffer. So for a broken
-> -	 * type 1 HDMI adaptor a single byte read will always give us
-> -	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
-> -	 * (assuming it implements any registers). Fortunately neither
-> -	 * of those values will match the type 2 signature of the
-> -	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
-> -	 * the type 2 adaptor detection safely even in the presence
-> -	 * of broken type 1 adaptors.
-> -	 */
->  	ret = drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_ADAPTOR_ID,
->  				    &adaptor_id, sizeof(adaptor_id));
->  	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err %zd)\n", adaptor_id, ret);
-> @@ -233,11 +243,10 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
->  				return DRM_DP_DUAL_MODE_TYPE2_DVI;
->  		}
->  		/*
-> -		 * If neither a proper type 1 ID nor a broken type 1 adaptor
-> -		 * as described above, assume type 1, but let the user know
-> -		 * that we may have misdetected the type.
-> +		 * If not a proper type 1 ID, still assume type 1, but let
-> +		 * the user know that we may have misdetected the type.
->  		 */
-> -		if (!is_type1_adaptor(adaptor_id) && adaptor_id != hdmi_id[0])
-> +		if (!is_type1_adaptor(adaptor_id))
->  			drm_err(dev, "Unexpected DP dual mode adaptor ID %02x\n", adaptor_id);
->  
->  	}
-> @@ -343,10 +352,8 @@ EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
->   * @enable: enable (as opposed to disable) the TMDS output buffers
->   *
->   * Set the state of the TMDS output buffers in the adaptor. For
-> - * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
-> - * some type 1 adaptors have problems with registers (see comments
-> - * in drm_dp_dual_mode_detect()) we avoid touching the register,
-> - * making this function a no-op on type 1 adaptors.
-> + * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
-> + * Type1 adaptors do not support any register writes.
->   *
->   * Returns:
->   * 0 on success, negative error code on failure
-> -- 
-> 2.35.1
+I've also tested this latest series with a Gateworks
+imx8mm-venice-gw73xx-0x with a RaspberryPi MIPI DSI compatible DFR0550
+display with the following dt overlay:
 
--- 
-Ville Syrjälä
-Intel
+/dts-v1/;
+/plugin/;
+
+&{/} {
+        compatible = "gw,imx8mm-gw73xx-0x", "fsl,imx8mm";
+
+        panel {
+                compatible = "powertip,ph800480t013-idf02";
+                power-supply = <&attiny>;
+                backlight = <&attiny>;
+
+                port {
+                        panel_out_bridge: endpoint {
+                                remote-endpoint = <&bridge_out_panel>;
+                        };
+                };
+        };
+};
+
+&i2c3 {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        attiny: regulator@45 {
+                compatible = "raspberrypi,7inch-touchscreen-panel-regulator";
+                reg = <0x45>;
+        };
+};
+
+&dsi {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        status = "okay";
+
+        bridge@0 {
+                compatible = "toshiba,tc358762";
+                reg = <0>;
+                vddc-supply = <&attiny>;
+                status = "okay";
+
+                ports {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+
+                        port@0 {
+                                reg = <0>;
+                                bridge_in_dsi: endpoint {
+                                        remote-endpoint = <&dsi_out_bridge>;
+
+                                };
+                        };
+
+                        port@1 {
+                                reg = <1>;
+                                bridge_out_panel: endpoint {
+                                        remote-endpoint = <&panel_out_bridge>;
+                                };
+                        };
+                };
+        };
+
+        ports {
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                port@1 {
+                        reg = <1>;
+
+                        dsi_out_bridge: endpoint {
+                                remote-endpoint = <&bridge_in_dsi>;
+                        };
+                };
+        };
+};
+
+&lcdif {
+        status = "okay";
+};
+
+
+Tested-by: Tim Harvey <tharvey@gateworks.com> # imx8mm-venice-gw73xx-0x
+
+Thanks for all your work on this!
+
+Best Regards,
+
+Tim
+
+
+
+>
+> > Repo:
+> > https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v7
+> >
+> > Any inputs?
+> > Jagan.
+> >
+> > Jagan Teki (10):
+> >    drm: bridge: Add Samsung DSIM bridge driver
+> >    drm: bridge: samsung-dsim: Lookup OF-graph or Child node devices
+> >    drm: bridge: samsung-dsim: Mark PHY as optional
+> >    drm: bridge: samsung-dsim: Handle proper DSI host initialization
+> >    drm: bridge: samsung-dsim: Add atomic_check
+> >    drm: bridge: samsung-dsim: Add platform PLL_P (PMS_P) offset
+> >    drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
+> >    drm: bridge: samsung-dsim: Add input_bus_flags
+> >    dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
+> >    drm: bridge: samsung-dsim: Add i.MX8MM support
+> >
+> >   .../bindings/display/exynos/exynos_dsim.txt   |    1 +
+> >   MAINTAINERS                                   |    9 +
+> >   drivers/gpu/drm/bridge/Kconfig                |   12 +
+> >   drivers/gpu/drm/bridge/Makefile               |    1 +
+> >   drivers/gpu/drm/bridge/samsung-dsim.c         | 1856 +++++++++++++++++
+> >   drivers/gpu/drm/exynos/Kconfig                |    1 +
+> >   drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1766 +---------------
+> >   include/drm/bridge/samsung-dsim.h             |  115 +
+> >   8 files changed, 2108 insertions(+), 1653 deletions(-)
+> >   create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
+> >   create mode 100644 include/drm/bridge/samsung-dsim.h
+> >
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
