@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2463A5F642A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 12:11:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1124B5F6418
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 12:03:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 326BC10E2F9;
-	Thu,  6 Oct 2022 10:11:23 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80BB110E523
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 08:43:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1DBFC1F8EE;
- Thu,  6 Oct 2022 08:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1665045812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T7S6oIxhAYkW+alnUKWtP6uIux66B8EsW4GqVBZ8bto=;
- b=C+mCUjvr8q1OQndsJbfZXZJ3gLAGbiYxpXR3vx++9btLnUp9kZq0CQX7tRJDJnNrgG7sg5
- VElWf3eFRacsDUxORP+nZNrrB49Kgh2Bx5MZY0rmM5+1STk9bN9MDPldTLpppqJY9Iu6qN
- Bmlx+AbYfSwFuf+/9j41GSaP+BDPvUk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1665045812;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T7S6oIxhAYkW+alnUKWtP6uIux66B8EsW4GqVBZ8bto=;
- b=MznRw6bCrjyprmYZ/SVmvDwryyMeZenJtnn+Y1RkYEyFbKl4QJ6J7BM2yyxsWNj6DwaBEV
- ub8/BpYJGHJ7woDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E938D13AE0;
- Thu,  6 Oct 2022 08:43:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7/JaODOVPmPPPAAAMHmgww
- (envelope-from <jack@suse.cz>); Thu, 06 Oct 2022 08:43:31 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
- id 56F62A0668; Thu,  6 Oct 2022 10:43:31 +0200 (CEST)
-Date: Thu, 6 Oct 2022 10:43:31 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-Message-ID: <20221006084331.4bdktc2zlvbaszym@quack3>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-4-Jason@zx2c4.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC5A210E2DB;
+	Thu,  6 Oct 2022 10:03:44 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D192210E1F1;
+ Thu,  6 Oct 2022 10:03:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665050617; x=1696586617;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=393bczN3Xpumxlpq10XgfvqXt1jj1NoUMNHPSHEz4LU=;
+ b=i1hqUvJjDdbTN8LMYOhPjQaGIrRZgFymrq0IT3Bo0R2kXQVp99VP5krw
+ FjnJ6TWWQFL2gjkB6j20kUKwPc0TexhXxXjfeZttBRMszgCpaFPPxTGKY
+ uHfjrfltYKIn9ggJ6/yeOyb/D4xuGJjGDwx7BzRHE+PIbCCtBdfp5Ijym
+ HE7bJxm3Do2e/9ssNrySJrbRt0y8S0YS+liqWB5ePUkk4+QEcJ8cnCemv
+ xuT5CU1qzm4z2OhI5QQb+FK8Nmy4uzZlXcd9A8K2HYe6EoX4fgGHO97Cy
+ XqvJA/ciheChhEC1CCe/VUwGI3htWCAY0fpBnUq7g0KQ2iaLoY93R11aE A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="286627083"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; d="scan'208";a="286627083"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2022 03:03:37 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="953557938"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; d="scan'208";a="953557938"
+Received: from nnolan-mobl2.ger.corp.intel.com (HELO [10.213.212.51])
+ ([10.213.212.51])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2022 03:03:35 -0700
+Message-ID: <afa6ff3c-23a7-be32-d095-738976d5ab7b@linux.intel.com>
+Date: Thu, 6 Oct 2022 11:03:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221005214844.2699-4-Jason@zx2c4.com>
-X-Mailman-Approved-At: Thu, 06 Oct 2022 10:11:21 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [Intel-gfx] [PATCH v4 3/4] drm/i915: Make the heartbeat play nice
+ with long pre-emption timeouts
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220929021813.2172701-1-John.C.Harrison@Intel.com>
+ <20220929021813.2172701-4-John.C.Harrison@Intel.com>
+ <a2c2cddf-009b-a2e0-2af2-6f1553c59cbc@linux.intel.com>
+ <ae042c9d-f6f1-2ecd-e23a-7d6994c97151@intel.com>
+ <28690581-b934-b99f-feb9-78a8e6c2d052@linux.intel.com>
+ <89566262-2cd0-f456-e8b2-c7bc6ad6fe36@intel.com>
+ <c61d540a-9b3a-76f5-2641-c508a6e2bcbd@linux.intel.com>
+ <0e29ab23-4304-bd62-7065-4d1ab3a1461a@linux.intel.com>
+ <4cfc1d07-9197-ed5d-52b2-db63490416f9@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <4cfc1d07-9197-ed5d-52b2-db63490416f9@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,185 +70,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org,
- Andrii Nakryiko <andrii@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-sctp@vger.kernel.org, "Md . Haris Iqbal" <haris.iqbal@ionos.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Christoph Hellwig <hch@lst.de>,
- Andy Gospodarek <andy@greyhouse.net>, Sergey Matyukevich <geomatsi@gmail.com>,
- Rohit Maheshwari <rohitm@chelsio.com>, Michael Ellerman <mpe@ellerman.id.au>,
- ceph-devel@vger.kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jozsef Kadlecsik <kadlec@netfilter.org>, Nilesh Javali <njavali@marvell.com>,
- Jean-Paul Roubelat <jpr@f6fbb.org>, Dick Kennedy <dick.kennedy@broadcom.com>,
- Jay Vosburgh <j.vosburgh@gmail.com>, Potnuri Bharat Teja <bharat@chelsio.com>,
- Vinay Kumar Yadav <vinay.yadav@chelsio.com>, linux-nfs@vger.kernel.org,
- Nicholas Piggin <npiggin@gmail.com>, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Andy Lutomirski <luto@kernel.org>, linux-hams@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Trond Myklebust <trond.myklebust@hammerspace.com>, linux-raid@vger.kernel.org,
- Neil Horman <nhorman@tuxdriver.com>,
- Hante Meuleman <hante.meuleman@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Michael Chan <michael.chan@broadcom.com>, linux-kernel@vger.kernel.org,
- Varun Prakash <varun@chelsio.com>, Chuck Lever <chuck.lever@oracle.com>,
- netfilter-devel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
- Jiri Olsa <jolsa@kernel.org>, Jan Kara <jack@suse.com>,
- linux-fsdevel@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
- linux-media@vger.kernel.org, Claudiu Beznea <claudiu.beznea@microchip.com>,
- Sharvari Harisangam <sharvari.harisangam@nxp.com>, linux-fbdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>, Song Liu <song@kernel.org>,
- Eric Dumazet <edumazet@google.com>, target-devel@vger.kernel.org,
- John Stultz <jstultz@google.com>, Stanislav Fomichev <sdf@google.com>,
- Gregory Greenman <gregory.greenman@intel.com>, drbd-dev@lists.linbit.com,
- dev@openvswitch.org, Leon Romanovsky <leon@kernel.org>,
- Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
- James Smart <james.smart@broadcom.com>,
- Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
- Pravin B Shelar <pshelar@ovn.org>, Julian Anastasov <ja@ssi.bg>,
- coreteam@netfilter.org, Veaceslav Falico <vfalico@gmail.com>,
- Yonghong Song <yhs@fb.com>, Namjae Jeon <linkinjeon@kernel.org>,
- linux-crypto@vger.kernel.org, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
- Ganapathi Bhat <ganapathi017@gmail.com>, linux-actions@lists.infradead.org,
- Simon Horman <horms@verge.net.au>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Hao Luo <haoluo@google.com>,
- Theodore Ts'o <tytso@mit.edu>, Stephen Boyd <sboyd@kernel.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Florian Westphal <fw@strlen.de>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- Jon Maloy <jmaloy@redhat.com>, Vlad Yasevich <vyasevich@gmail.com>,
- Anna Schumaker <anna@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>,
- Haoyue Xu <xuhaoyue1@hisilicon.com>, Heiner Kallweit <hkallweit1@gmail.com>,
- linux-wireless@vger.kernel.org,
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-nvme@lists.infradead.org,
- Michal Januszewski <spock@gentoo.org>, linux-mtd@lists.infradead.org,
- kasan-dev@googlegroups.com, Cong Wang <xiyou.wangcong@gmail.com>,
- Thomas Sailer <t.sailer@alumni.ethz.ch>,
- Ajay Singh <ajay.kathat@microchip.com>, Xiubo Li <xiubli@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Borkmann <daniel@iogearbox.net>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- lvs-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
- Ilya Dryomov <idryomov@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>, Marco Elver <elver@google.com>,
- Kees Cook <keescook@chromium.org>, Yury Norov <yury.norov@gmail.com>,
- "James E . J . Bottomley" <jejb@linux.ibm.com>,
- Jamal Hadi Salim <jhs@mojatatu.com>, KP Singh <kpsingh@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Keith Busch <kbusch@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Franky Lin <franky.lin@broadcom.com>, Arend van Spriel <aspriel@gmail.com>,
- linux-ext4@vger.kernel.org, Wenpeng Liang <liangwenpeng@huawei.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Xinming Hu <huxinming820@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
- Jeff Layton <jlayton@kernel.org>, linux-xfs@vger.kernel.org,
- netdev@vger.kernel.org, Ying Xue <ying.xue@windriver.com>,
- Manish Rangankar <mrangankar@marvell.com>,
- "David S . Miller" <davem@davemloft.net>,
- Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
- Vignesh Raghavendra <vigneshr@ti.com>, Peter Zijlstra <peterz@infradead.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Amitkumar Karwar <amitkarwar@gmail.com>, linux-mm@kvack.org,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Ayush Sawal <ayush.sawal@chelsio.com>,
- Andreas Noever <andreas.noever@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
- linux-f2fs-devel@lists.sourceforge.net, Jack Wang <jinpu.wang@ionos.com>,
- Steffen Klassert <steffen.klassert@secunet.com>, rds-devel@oss.oracle.com,
- Herbert Xu <herbert@gondor.apana.org.au>, linux-scsi@vger.kernel.org,
- dccp@vger.kernel.org, Richard Weinberger <richard@nod.at>,
- Russell King <linux@armlinux.org.uk>, Jaehoon Chung <jh80.chung@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, SHA-cyfmac-dev-list@infineon.com,
- Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Michael Jamet <michael.jamet@intel.com>, Kalle Valo <kvalo@kernel.org>,
- Chao Yu <chao@kernel.org>, Akinobu Mita <akinobu.mita@gmail.com>,
- linux-block@vger.kernel.org, dmaengine@vger.kernel.org,
- Hannes Reinecke <hare@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Dmitry Vyukov <dvyukov@google.com>, Jens Axboe <axboe@kernel.dk>,
- cake@lists.bufferbloat.net, brcm80211-dev-list.pdl@broadcom.com,
- Yishai Hadas <yishaih@nvidia.com>, Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- linuxppc-dev@lists.ozlabs.org, David Ahern <dsahern@kernel.org>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Stephen Hemminger <stephen@networkplumber.org>,
- Christoph =?utf-8?Q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Vinod Koul <vkoul@kernel.org>, tipc-discussion@lists.sourceforge.net,
- Thomas Graf <tgraf@suug.ch>, Johannes Berg <johannes@sipsolutions.net>,
- Sungjong Seo <sj1557.seo@samsung.com>, Martin KaFai Lau <martin.lau@linux.dev>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 05-10-22 23:48:42, Jason A. Donenfeld wrote:
-> The prandom_u32() function has been a deprecated inline wrapper around
-> get_random_u32() for several releases now, and compiles down to the
-> exact same code. Replace the deprecated wrapper with a direct call to
-> the real function.
+
+On 05/10/2022 19:48, John Harrison wrote:
+> On 10/3/2022 05:00, Tvrtko Ursulin wrote:
+>> On 03/10/2022 08:53, Tvrtko Ursulin wrote:
+>>> On 30/09/2022 18:44, John Harrison wrote:
+>>>> On 9/30/2022 02:22, Tvrtko Ursulin wrote:
+>>>>> On 29/09/2022 17:21, John Harrison wrote:
+>>>>>> On 9/29/2022 00:42, Tvrtko Ursulin wrote:
+>>>>>>> On 29/09/2022 03:18, John.C.Harrison@Intel.com wrote:
+>>>>>>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>>>>>>
+>>>>>>>> Compute workloads are inherently not pre-emptible for long 
+>>>>>>>> periods on
+>>>>>>>> current hardware. As a workaround for this, the pre-emption timeout
+>>>>>>>> for compute capable engines was disabled. This is undesirable 
+>>>>>>>> with GuC
+>>>>>>>> submission as it prevents per engine reset of hung contexts. 
+>>>>>>>> Hence the
+>>>>>>>> next patch will re-enable the timeout but bumped up by an order of
+>>>>>>>> magnitude.
+>>>>>>>>
+>>>>>>>> However, the heartbeat might not respect that. Depending upon 
+>>>>>>>> current
+>>>>>>>> activity, a pre-emption to the heartbeat pulse might not even be
+>>>>>>>> attempted until the last heartbeat period. Which means that only 
+>>>>>>>> one
+>>>>>>>> period is granted for the pre-emption to occur. With the aforesaid
+>>>>>>>> bump, the pre-emption timeout could be significantly larger than 
+>>>>>>>> this
+>>>>>>>> heartbeat period.
+>>>>>>>>
+>>>>>>>> So adjust the heartbeat code to take the pre-emption timeout into
+>>>>>>>> account. When it reaches the final (high priority) period, it now
+>>>>>>>> ensures the delay before hitting reset is bigger than the 
+>>>>>>>> pre-emption
+>>>>>>>> timeout.
+>>>>>>>>
+>>>>>>>> v2: Fix for selftests which adjust the heartbeat period manually.
+>>>>>>>>
+>>>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>>>>>> ---
+>>>>>>>>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 19 
+>>>>>>>> +++++++++++++++++++
+>>>>>>>>   1 file changed, 19 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c 
+>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>>>>>>> index a3698f611f457..823a790a0e2ae 100644
+>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+>>>>>>>> @@ -22,9 +22,28 @@
+>>>>>>>>     static bool next_heartbeat(struct intel_engine_cs *engine)
+>>>>>>>>   {
+>>>>>>>> +    struct i915_request *rq;
+>>>>>>>>       long delay;
+>>>>>>>>         delay = READ_ONCE(engine->props.heartbeat_interval_ms);
+>>>>>>>> +
+>>>>>>>> +    rq = engine->heartbeat.systole;
+>>>>>>>> +
+>>>>>>>> +    if (rq && rq->sched.attr.priority >= I915_PRIORITY_BARRIER &&
+>>>>>>>> +        delay == engine->defaults.heartbeat_interval_ms) {
+>>>>>>>
+>>>>>>> Maybe I forgot but what is the reason for the check against the 
+>>>>>>> default heartbeat interval?
+>>>>>> That's the 'v2: fix for selftests that manually adjust the 
+>>>>>> heartbeat'. If something (or someone) has explicitly set an 
+>>>>>> override of the heartbeat then it has to be assumed that they know 
+>>>>>> what they are doing, and if things don't work any more that's 
+>>>>>> their problem. But if we don't respect their override then they 
+>>>>>> won't get the timings they expect and the selftest will fail.
+>>>>>
+>>>>> Isn't this a bit too strict for the non-selftest case? If the new 
+>>>>> concept is extending the last pulse to guarantee preemption, then I 
+>>>>> think we could allow tweaking of the heartbeat period. Like what if 
+>>>>> user wants 1s, or 10s instead of 2.5s - why would that need to 
+>>>>> break the improvement from this patch?
+>>>> Then the user is back to where they were before this patch.
+>>>>
+>>>>>
+>>>>> In what ways selftests fail? Are they trying to guess time to reset 
+>>>>> based on the hearbeat period set? If so perhaps add a helper to 
+>>>>> query it based on the last pulse extension.
+>>>>
+>>>> I don't recall. It was six months ago when I was actually working on 
+>>>> this. And right now I do not have the time to go back and re-run all 
+>>>> the testing and re-write a bunch of self tests with whole new 
+>>>> helpers and algorithms and whatever else might be necessary to 
+>>>> polish this to perfection. And in the meantime, all the existing 
+>>>> issues are still present - there is no range checking on any of this 
+>>>> stuff, it is very possible for a driver with default settings to 
+>>>> break a legal workload because the heartbeat and pre-emption are 
+>>>> fighting with each other, we don't even have per engine resets 
+>>>> enabled, etc.
+>>>>
+>>>> Maybe it could be even better with a follow up patch. Feel free to 
+>>>> do that. But as it stands, this patch set significantly improves the 
+>>>> situation without making anything worse.
+>>>
+>>> As we seem to be in agreement that the check against default 
+>>> heartbeat is a hack with only purpose to work around assumptions made 
+>>> by selftests, then please file a Jira about removing it (this hack). 
+>>> Then work can be assigned to someone to clean it up. With that done I 
+>>> would agree the series is indeed an improvement and it would have my 
+>>> ack.
+> VLK-39595
 > 
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>>
+>> One more thing - put a comment in the code along the lines of 
+>> "FIXME/HACK: Work around selftests assumptions by only extending the 
+>> last heartbeat if the period is at default value". The the Jira can 
+>> associate to that comment.
+>>
+>> Until that is resolve it may also be worth emitting a drm_notice if 
+>> heartbeat is changed via sysfs? Informing users the things will not 
+>> work as expected if they fiddle with it. Whether as a blanket warning 
+>> or checking first the 3-4x heartbeat vs preempt timeout value. That 
+>> message should then go away once the follow up work to fix the 
+>> selftests is done. See what the other reviewers will think.
+>>
+> What should the drm_notice say? How can you describe to an innocent end 
+> user what the symptoms might be in a single, concise line rather than 
+> the huge email thread that it took to explain to you, an experienced 
+> i915 kernel developer?
 
-...
+I think what would be useful is to have something like:
 
-> diff --git a/fs/ext2/ialloc.c b/fs/ext2/ialloc.c
-> index 998dd2ac8008..e439a872c398 100644
-> --- a/fs/ext2/ialloc.c
-> +++ b/fs/ext2/ialloc.c
-> @@ -277,7 +277,7 @@ static int find_group_orlov(struct super_block *sb, struct inode *parent)
->  		int best_ndir = inodes_per_group;
->  		int best_group = -1;
->  
-> -		group = prandom_u32();
-> +		group = get_random_u32();
->  		parent_group = (unsigned)group % ngroups;
->  		for (i = 0; i < ngroups; i++) {
->  			group = (parent_group + i) % ngroups;
+sysfs_write, or was it a setter helper?:
 
-The code here is effectively doing the
+/* FIXME: Remove together with equally marked hack in next_heartbeat. */
+if (heartbeat != default && heartbeat < 2 * preempt_timeout) {
+	if (guc)
+		drm_note("%s heartbeat interval adjusted to a non-default value which 
+may downgrade individual engine resets to full GPU resets!\n", 
+engine->name);
+	else
+		drm_note("%s heartbeat interval adjusted to a non-default value which 
+may cause engine resets to target innocent contexts!\n", engine->name);
+}
 
-	parent_group = prandom_u32_max(ngroups);
+Sounds correct? Double preempt timeout or maybe 1.5x, not sure.
 
-> diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-> index f73e5eb43eae..954ec9736a8d 100644
-> --- a/fs/ext4/ialloc.c
-> +++ b/fs/ext4/ialloc.c
-> @@ -465,7 +465,7 @@ static int find_group_orlov(struct super_block *sb, struct inode *parent,
->  			ext4fs_dirhash(parent, qstr->name, qstr->len, &hinfo);
->  			grp = hinfo.hash;
->  		} else
-> -			grp = prandom_u32();
-> +			grp = get_random_u32();
+I do accept this is something which we could have had from the start (of 
+heartbeats and preempt timeout), but now that this patch fixes the logic 
+to extend the last pulse, apart from the selftests hack which limits it 
+again, I think it is reasonable to add it in scope of this series.
 
-Similarly here we can use prandom_u32_max(ngroups) like:
+> Is there a single end user out there that actually uses the sysfs 
+> interface for tuning these parameters? AFAIK, the usage is 99.999% IGT, 
+> the rest is internal developers debugging problems. Maybe someone 
+> somewhere has noticed them because they have a compute task that takes 
+> tens of seconds to complete. But the official guidance for compute users 
+> is to simply disable the heartbeat completely. We never tell anyone to 
+> try to tune the period or the pre-emption timeout to their specific 
+> application. That's just too complicated and unpredictable. We need 
+> defaults that work for the general case and for compute it is disabled. 
+> Manual tuning just isn't useful. Unless it's to reduce the stupidly high 
+> pre-emption timeout to get a more responsive desktop because they never 
+> actually need to run long compute tasks. And in that case, you don't 
+> need extended last periods because your pre-emption timeout is already 
+> massively smaller than the period.
 
-		if (qstr) {
-			...
-			parent_group = hinfo.hash % ngroups;
-		} else
-			parent_group = prandom_u32_max(ngroups);
+Don't know if there are users but it's out there and it's ABI so I would 
+err on the side of caution. It happened in the past that we were 
+discussing how something is maybe not important and then with uncanny 
+coincidence users immediately appear complaining about the very same thing.
 
-> diff --git a/fs/ext4/mmp.c b/fs/ext4/mmp.c
-> index 9af68a7ecdcf..588cb09c5291 100644
-> --- a/fs/ext4/mmp.c
-> +++ b/fs/ext4/mmp.c
-> @@ -265,7 +265,7 @@ static unsigned int mmp_new_seq(void)
->  	u32 new_seq;
->  
->  	do {
-> -		new_seq = prandom_u32();
-> +		new_seq = get_random_u32();
->  	} while (new_seq > EXT4_MMP_SEQ_MAX);
+Again, I do agree the patch is not making anything worse - on the 
+contrary it is improving things in the default configuration. And as I 
+think the principle of last pulse extension is the right approach it 
+feels selftests are too weak of a reason to give up on it so easily.
 
-OK, here we again effectively implement prandom_u32_max(EXT4_MMP_SEQ_MAX + 1).
-Just presumably we didn't want to use modulo here because EXT4_MMP_SEQ_MAX
-is rather big and so the resulting 'new_seq' would be seriously
-non-uniform.
+Regards,
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Tvrtko
