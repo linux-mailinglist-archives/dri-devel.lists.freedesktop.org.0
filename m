@@ -1,77 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F7E5F6A42
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 17:07:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9121B5F6A59
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 17:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3047110E371;
-	Thu,  6 Oct 2022 15:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C13D510E31D;
+	Thu,  6 Oct 2022 15:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701FE10E31D;
- Thu,  6 Oct 2022 15:07:23 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 296EshGp012443;
- Thu, 6 Oct 2022 15:07:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=e0thPGu/eh7waB6bz+abZv21e/u3s+0/pPpunAqWPsQ=;
- b=JbjrmiDMr58wMp3m3i4vrqii7rnbPgqOwq8HWfdX8/3b1Xob5Z14KzyEoUGwLBf3OZYY
- K8IcyeifGmjWjSXrzZbu5NYw3cSzJ6iNYXAAThtTncMzdfZpds9NbmZjtJjZgq+Rf61H
- htt2ODs004N9HUtNPtL1FuIeV8MprrD7f1tsha+8hJgFWbKIkmD1IpoSt2S/o3/ix3NJ
- iioD7I5Iv4Oqh4xPlE5vFrJRwyGKqN1KEJa5fapA+ljjxnMuzwNarQbyxsPgXUjD215H
- g1AvjmCCngJDBcboBFqMbTr3cRhCRt6PWSZZFxPNDKonevBNTntrM9665rB9p59a88Co tg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k0hxpx4tf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Oct 2022 15:07:16 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 296F7GUB004770
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 6 Oct 2022 15:07:16 GMT
-Received: from [10.111.165.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 6 Oct 2022
- 08:07:13 -0700
-Message-ID: <c577e54e-675b-a9cb-556c-93ee122f2f6e@quicinc.com>
-Date: Thu, 6 Oct 2022 08:07:11 -0700
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2584D10E31D
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 15:11:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665069102; x=1696605102;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=B7tV5AlyHCkpFv4WxENN3vaP2AnJXJUfg4loguOCffg=;
+ b=eL1mIiBkkQBxGld3Fsjd6Jqu1w/uPuHzk/BADuTXj/fh2ka1Y1FBSs7X
+ vH0m1m9C3A0//QsOoRwyitoPsWWoziHwAyblBjZ/Qb6dLQG5iieaK1kWc
+ FKabBB/A94JJtnqxKBj52uBZH7Z1+mniRrVElHbfJZDFXBJXm4tlhXXBo
+ Le13BFPyNTAuDTrauDGAwyK8jgiqxcgccgUfDeCJ4YE7PKnshpfL4pPfQ
+ 1IfzlGQfXnYPk8KOxmnY+6ESeFZfjABUTnQPEDsTPAYt/jYfMc9yctIjj
+ GZmZx2a6Mw8G/SdDuL6TlDxXHxoFhAPKXyDoBMIeXgXEDZCXpZcNj1p8g A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="302187482"
+X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; d="scan'208";a="302187482"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2022 08:11:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="655648459"
+X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; d="scan'208";a="655648459"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga008.jf.intel.com with SMTP; 06 Oct 2022 08:11:38 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 06 Oct 2022 18:11:37 +0300
+Date: Thu, 6 Oct 2022 18:11:37 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
+Subject: Re: [PATCH v2] drm/display: Don't assume dual mode adaptors support
+ i2c sub-addressing
+Message-ID: <Yz7wKZnJeUzbz4Dw@intel.com>
+References: <20221006113314.41101987@computer>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH] drm/bridge: adv7533: remove dynamic lane
- switching from adv7533 bridge
-Content-Language: en-US
-To: Robert Foss <robert.foss@linaro.org>
-References: <1661797363-7564-1-git-send-email-quic_abhinavk@quicinc.com>
- <CAG3jFytm-zGsB23j+-myS1pnZAY1y848qkr45ER4yvHv-annvw@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAG3jFytm-zGsB23j+-myS1pnZAY1y848qkr45ER4yvHv-annvw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: csz1lW3oP6asjFgzR08e_4Zt5_7c9LSD
-X-Proofpoint-ORIG-GUID: csz1lW3oP6asjFgzR08e_4Zt5_7c9LSD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-06_03,2022-10-06_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0 mlxscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210060087
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221006113314.41101987@computer>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,239 +61,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com, quic_khsieh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robert
-
-Thanks for the review.
-
-On 10/4/2022 8:55 AM, Robert Foss wrote:
-> On Mon, 29 Aug 2022 at 20:23, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->> adv7533 bridge tries to dynamically switch lanes based on the
->> mode by detaching and attaching the mipi dsi device.
->>
->> This approach is incorrect because this method of dynamic switch of
->> detaching and attaching the mipi dsi device also results in removing
->> and adding the component which is not necessary.
->>
->> This approach is also prone to deadlocks. So for example, on the
->> db410c whenever this path is executed with lockdep enabled,
->> this results in a deadlock due to below ordering of locks.
->>
->> -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
->>          lock_acquire+0x6c/0x90
->>          drm_modeset_acquire_init+0xf4/0x150
->>          drmm_mode_config_init+0x220/0x770
->>          msm_drm_bind+0x13c/0x654
->>          try_to_bring_up_aggregate_device+0x164/0x1d0
->>          __component_add+0xa8/0x174
->>          component_add+0x18/0x2c
->>          dsi_dev_attach+0x24/0x30
->>          dsi_host_attach+0x98/0x14c
->>          devm_mipi_dsi_attach+0x38/0xb0
->>          adv7533_attach_dsi+0x8c/0x110
->>          adv7511_probe+0x5a0/0x930
->>          i2c_device_probe+0x30c/0x350
->>          really_probe.part.0+0x9c/0x2b0
->>          __driver_probe_device+0x98/0x144
->>          driver_probe_device+0xac/0x14c
->>          __device_attach_driver+0xbc/0x124
->>          bus_for_each_drv+0x78/0xd0
->>          __device_attach+0xa8/0x1c0
->>          device_initial_probe+0x18/0x24
->>          bus_probe_device+0xa0/0xac
->>          deferred_probe_work_func+0x90/0xd0
->>          process_one_work+0x28c/0x6b0
->>          worker_thread+0x240/0x444
->>          kthread+0x110/0x114
->>          ret_from_fork+0x10/0x20
->>
->> -> #0 (component_mutex){+.+.}-{3:3}:
->>          __lock_acquire+0x1280/0x20ac
->>          lock_acquire.part.0+0xe0/0x230
->>          lock_acquire+0x6c/0x90
->>          __mutex_lock+0x84/0x400
->>          mutex_lock_nested+0x3c/0x70
->>          component_del+0x34/0x170
->>          dsi_dev_detach+0x24/0x30
->>          dsi_host_detach+0x20/0x64
->>          mipi_dsi_detach+0x2c/0x40
->>          adv7533_mode_set+0x64/0x90
->>          adv7511_bridge_mode_set+0x210/0x214
->>          drm_bridge_chain_mode_set+0x5c/0x84
->>          crtc_set_mode+0x18c/0x1dc
->>          drm_atomic_helper_commit_modeset_disables+0x40/0x50
->>          msm_atomic_commit_tail+0x1d0/0x6e0
->>          commit_tail+0xa4/0x180
->>          drm_atomic_helper_commit+0x178/0x3b0
->>          drm_atomic_commit+0xa4/0xe0
->>          drm_client_modeset_commit_atomic+0x228/0x284
->>          drm_client_modeset_commit_locked+0x64/0x1d0
->>          drm_client_modeset_commit+0x34/0x60
->>          drm_fb_helper_lastclose+0x74/0xcc
->>          drm_lastclose+0x3c/0x80
->>          drm_release+0xfc/0x114
->>          __fput+0x70/0x224
->>          ____fput+0x14/0x20
->>          task_work_run+0x88/0x1a0
->>          do_exit+0x350/0xa50
->>          do_group_exit+0x38/0xa4
->>          __wake_up_parent+0x0/0x34
->>          invoke_syscall+0x48/0x114
->>          el0_svc_common.constprop.0+0x60/0x11c
->>          do_el0_svc+0x30/0xc0
->>          el0_svc+0x58/0x100
->>          el0t_64_sync_handler+0x1b0/0x1bc
->>          el0t_64_sync+0x18c/0x190
->>
->> Due to above reasons, remove the dynamic lane switching
->> code from adv7533 bridge chip and filter out the modes
->> which would need different number of lanes as compared
->> to the initialization time using the mode_valid callback.
->>
->> This can be potentially re-introduced by using the pre_enable()
->> callback but this needs to be evaluated first whether such an
->> approach will work so this will be done with a separate change.
->>
->> changes since RFC:
->>          - Fix commit text and add TODO comment
->>
->> Fixes: 62b2f026cd8e ("drm/bridge: adv7533: Change number of DSI lanes dynamically")
->> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/16
->> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
->>   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++++++++----
->>   drivers/gpu/drm/bridge/adv7511/adv7533.c     | 25 +++++++++++++------------
->>   3 files changed, 29 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
->> index 9e3bb8a8ee40..0a7cec80b75d 100644
->> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
->> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
->> @@ -417,7 +417,8 @@ static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->>
->>   void adv7533_dsi_power_on(struct adv7511 *adv);
->>   void adv7533_dsi_power_off(struct adv7511 *adv);
->> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode);
->> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
->> +               const struct drm_display_mode *mode);
->>   int adv7533_patch_registers(struct adv7511 *adv);
->>   int adv7533_patch_cec_registers(struct adv7511 *adv);
->>   int adv7533_attach_dsi(struct adv7511 *adv);
->> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
->> index 5bb9300040dd..1115ef9be83c 100644
->> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
->> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
->> @@ -697,7 +697,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
->>   }
->>
->>   static enum drm_mode_status adv7511_mode_valid(struct adv7511 *adv7511,
->> -                             struct drm_display_mode *mode)
->> +                             const struct drm_display_mode *mode)
->>   {
->>          if (mode->clock > 165000)
->>                  return MODE_CLOCK_HIGH;
->> @@ -791,9 +791,6 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
->>          regmap_update_bits(adv7511->regmap, 0x17,
->>                  0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
->>
->> -       if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
->> -               adv7533_mode_set(adv7511, adj_mode);
->> -
->>          drm_mode_copy(&adv7511->curr_mode, adj_mode);
->>
->>          /*
->> @@ -913,6 +910,18 @@ static void adv7511_bridge_mode_set(struct drm_bridge *bridge,
->>          adv7511_mode_set(adv, mode, adj_mode);
->>   }
->>
->> +static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
->> +               const struct drm_display_info *info,
->> +               const struct drm_display_mode *mode)
->> +{
->> +       struct adv7511 *adv = bridge_to_adv7511(bridge);
->> +
->> +       if (adv->type == ADV7533 || adv->type == ADV7535)
->> +               return adv7533_mode_valid(adv, mode);
->> +       else
->> +               return adv7511_mode_valid(adv, mode);
->> +}
->> +
->>   static int adv7511_bridge_attach(struct drm_bridge *bridge,
->>                                   enum drm_bridge_attach_flags flags)
->>   {
->> @@ -960,6 +969,7 @@ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
->>          .enable = adv7511_bridge_enable,
->>          .disable = adv7511_bridge_disable,
->>          .mode_set = adv7511_bridge_mode_set,
->> +       .mode_valid = adv7511_bridge_mode_valid,
->>          .attach = adv7511_bridge_attach,
->>          .detect = adv7511_bridge_detect,
->>          .get_edid = adv7511_bridge_get_edid,
->> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
->> index ef6270806d1d..5f590abd6403 100644
->> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
->> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
->> @@ -100,26 +100,27 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
->>          regmap_write(adv->regmap_cec, 0x27, 0x0b);
->>   }
->>
->> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode)
->> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
->> +               const struct drm_display_mode *mode)
->>   {
->> +       int lanes;
->>          struct mipi_dsi_device *dsi = adv->dsi;
->> -       int lanes, ret;
->> -
->> -       if (adv->num_dsi_lanes != 4)
->> -               return;
->>
->>          if (mode->clock > 80000)
->>                  lanes = 4;
->>          else
->>                  lanes = 3;
->>
->> -       if (lanes != dsi->lanes) {
->> -               mipi_dsi_detach(dsi);
->> -               dsi->lanes = lanes;
->> -               ret = mipi_dsi_attach(dsi);
->> -               if (ret)
->> -                       dev_err(&dsi->dev, "failed to change host lanes\n");
->> -       }
->> +       /*
->> +        * TODO: add support for dynamic switching of lanes
->> +        * by using the bridge pre_enable() op . Till then filter
->> +        * out the modes which shall need different number of lanes
->> +        * than what was configured in the device tree.
->> +        */
->> +       if (lanes != dsi->lanes)
->> +               return MODE_BAD;
->> +
->> +       return MODE_OK;
->>   }
->>
->>   int adv7533_patch_registers(struct adv7511 *adv)
->> --
->> 2.7.4
->>
+On Thu, Oct 06, 2022 at 11:33:14AM +0200, Simon Rettberg wrote:
+> Current dual mode adaptor ("DP++") detection code assumes that all
+> adaptors support i2c sub-addressing for read operations from the
+> DP-HDMI adaptor ID buffer.  It has been observed that multiple
+> adaptors do not in fact support this, and always return data starting
+> at register 0.  On affected adaptors, the code fails to read the proper
+> registers that would identify the device as a type 2 adaptor, and
+> handles those as type 1, limiting the TMDS clock to 165MHz, even if
+> the according register would announce a higher TMDS clock.
+> Fix this by always reading the ID buffer starting from offset 0, and
+> discarding any bytes before the actual offset of interest.
 > 
-> This patch has some checkpatch --style warnings, with those fixed feel
-> free to add my r-b.
+> We tried finding authoritative documentation on whether or not this is
+> allowed behaviour, but since all the official VESA docs are paywalled,
+> the best we could come up with was the spec sheet for Texas Instruments'
+> SNx5DP149 chip family.[1]  It explicitly mentions that sub-addressing is
+> supported for register writes, but *not* for reads (See NOTE in
+> section 8.5.3).  Unless TI openly decided to violate the VESA spec, one
+> could take that as a hint that sub-addressing is in fact not mandated
+> by VESA.
+> The other two adaptors affected used the PS8409(A) and the LT8611,
+> according to the data returned from their ID buffers.
+> 
+> [1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
+> 
+> Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
+> Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
+> ---
+> 
+> v2 changes form last submission's feedback (thanks for taking the time):
+> - Added a shortened version of our "background story" to the commit message
+> - Only use tmpbuf if the read offset is != 0
 
-I checked just now. I dont see any checkpatch errors on my end.
-I am not sure if we are running different versions of checkpatch but I 
-am using the one at the tip of msm-next.
-
-https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/scripts/checkpatch.pl
+Bounced to intel-gfx to get the i915 CI to check it...
 
 > 
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+>  .../gpu/drm/display/drm_dp_dual_mode_helper.c | 51 +++++++++++--------
+>  1 file changed, 29 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+> index 3ea53bb67d3b..bd61e20770a5 100644
+> --- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+> @@ -63,23 +63,45 @@
+>  ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
+>  			      u8 offset, void *buffer, size_t size)
+>  {
+> +	u8 zero = 0;
+> +	char *tmpbuf = NULL;
+> +	/*
+> +	 * As sub-addressing is not supported by all adaptors,
+> +	 * always explicitly read from the start and discard
+> +	 * any bytes that come before the requested offset.
+> +	 * This way, no matter whether the adaptor supports it
+> +	 * or not, we'll end up reading the proper data.
+> +	 */
+>  	struct i2c_msg msgs[] = {
+>  		{
+>  			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
+>  			.flags = 0,
+>  			.len = 1,
+> -			.buf = &offset,
+> +			.buf = &zero,
+>  		},
+>  		{
+>  			.addr = DP_DUAL_MODE_SLAVE_ADDRESS,
+>  			.flags = I2C_M_RD,
+> -			.len = size,
+> +			.len = size + offset,
+>  			.buf = buffer,
+>  		},
+>  	};
+>  	int ret;
+>  
+> +	if (offset) {
+> +		tmpbuf = kmalloc(size + offset, GFP_KERNEL);
+> +		if (!tmpbuf)
+> +			return -ENOMEM;
+> +
+> +		msgs[1].buf = tmpbuf;
+> +	}
+> +
+>  	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
+> +	if (tmpbuf)
+> +		memcpy(buffer, tmpbuf + offset, size);
+> +
+> +	kfree(tmpbuf);
+> +
+>  	if (ret < 0)
+>  		return ret;
+>  	if (ret != ARRAY_SIZE(msgs))
+> @@ -208,18 +230,6 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
+>  	if (ret)
+>  		return DRM_DP_DUAL_MODE_UNKNOWN;
+>  
+> -	/*
+> -	 * Sigh. Some (maybe all?) type 1 adaptors are broken and ack
+> -	 * the offset but ignore it, and instead they just always return
+> -	 * data from the start of the HDMI ID buffer. So for a broken
+> -	 * type 1 HDMI adaptor a single byte read will always give us
+> -	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
+> -	 * (assuming it implements any registers). Fortunately neither
+> -	 * of those values will match the type 2 signature of the
+> -	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
+> -	 * the type 2 adaptor detection safely even in the presence
+> -	 * of broken type 1 adaptors.
+> -	 */
+>  	ret = drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_ADAPTOR_ID,
+>  				    &adaptor_id, sizeof(adaptor_id));
+>  	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err %zd)\n", adaptor_id, ret);
+> @@ -233,11 +243,10 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
+>  				return DRM_DP_DUAL_MODE_TYPE2_DVI;
+>  		}
+>  		/*
+> -		 * If neither a proper type 1 ID nor a broken type 1 adaptor
+> -		 * as described above, assume type 1, but let the user know
+> -		 * that we may have misdetected the type.
+> +		 * If not a proper type 1 ID, still assume type 1, but let
+> +		 * the user know that we may have misdetected the type.
+>  		 */
+> -		if (!is_type1_adaptor(adaptor_id) && adaptor_id != hdmi_id[0])
+> +		if (!is_type1_adaptor(adaptor_id))
+>  			drm_err(dev, "Unexpected DP dual mode adaptor ID %02x\n", adaptor_id);
+>  
+>  	}
+> @@ -343,10 +352,8 @@ EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
+>   * @enable: enable (as opposed to disable) the TMDS output buffers
+>   *
+>   * Set the state of the TMDS output buffers in the adaptor. For
+> - * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
+> - * some type 1 adaptors have problems with registers (see comments
+> - * in drm_dp_dual_mode_detect()) we avoid touching the register,
+> - * making this function a no-op on type 1 adaptors.
+> + * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
+> + * Type1 adaptors do not support any register writes.
+>   *
+>   * Returns:
+>   * 0 on success, negative error code on failure
+> -- 
+> 2.35.1
+
+-- 
+Ville Syrjälä
+Intel
