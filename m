@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFADF5F60C9
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 07:50:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78445F612D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 08:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6049410E7E3;
-	Thu,  6 Oct 2022 05:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC86E10E7F1;
+	Thu,  6 Oct 2022 06:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 991 seconds by postgrey-1.36 at gabe;
- Thu, 06 Oct 2022 05:50:12 UTC
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E2A10E7E3
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 05:50:12 +0000 (UTC)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4Mjg8f3LxDz9srM;
- Thu,  6 Oct 2022 07:33:38 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FcCf-JPVJsZG; Thu,  6 Oct 2022 07:33:38 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4Mjg8f2WLzz9srL;
- Thu,  6 Oct 2022 07:33:38 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 47D268B765;
- Thu,  6 Oct 2022 07:33:38 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id n-KpVnNpT6jZ; Thu,  6 Oct 2022 07:33:38 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.232.234])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 2A94F8B763;
- Thu,  6 Oct 2022 07:33:38 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
- by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 2965XNRc212701
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Thu, 6 Oct 2022 07:33:23 +0200
-Received: (from chleroy@localhost)
- by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 2965XNgs212672;
- Thu, 6 Oct 2022 07:33:23 +0200
-X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to
- christophe.leroy@csgroup.eu using -f
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH] video: fbdev: mb862xx: Replace NO_IRQ by 0
-Date: Thu,  6 Oct 2022 07:33:17 +0200
-Message-Id: <58bf3cab7a6a7797f109ea40490cf5520c4b565d.1665034339.git.christophe.leroy@csgroup.eu>
-X-Mailer: git-send-email 2.37.1
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2796310E34E;
+ Thu,  6 Oct 2022 06:46:18 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id f193so1127666pgc.0;
+ Wed, 05 Oct 2022 23:46:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8U8sTusKp4JhPNItLtJY5qj5sKhcgHnhEpfdOFEcRoc=;
+ b=f0XpWhr7eCwozs4wwkPIJYQ/+vtm+mmphwUBVU9QPj4IA/j45fT8I6SSnjcgQAbu2f
+ zjv5a34R22FYrdrlUz9an2Y3CvArVzV39Hm/vOkSChKJzyX+NhsrblOdC+lfKlZNYQXt
+ 0EePa93WtFh9+sZtD4MCvZm8LJyA753SFTk253mIctN46PaC5cBKum59IVDUcNl8FBC9
+ giccn+9tT32i8A3PVRLF2bhwSE7ElFI1/Oo3jE8pvB2c/+hw6WBELE3UTSmNZR3kEPBs
+ /NGR5Ov4b0AnxilBLCc4UYmVvCbWEtCN2sM7LWvIhD/5v4coKTfREsIDH9Nsgd9wkMXl
+ fFyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8U8sTusKp4JhPNItLtJY5qj5sKhcgHnhEpfdOFEcRoc=;
+ b=6BL1n+KQz/n0mw0bV7c7w9IDDoN2zfEsLHA6wwmjRIs0Mfk2JckzeS1KwiPdV23Zo5
+ TCfkdujHiirRBsWZCBM4uLV7gM4cChZOzgnyG7HmcHreOO3652ljd3I90yulDjRHSA6H
+ hn1BV3uam5b++E4FRAt45g6+MQLbGm2lBlEZqO5ZbZhVhHLIpVSAdM2LjKZ1zKWrGnq/
+ /vEYWPwE6o/v4Om+qsKzErSLsW7ZfxlWfOZBS6PseTSarx/OSULp25FKQ/NnWJS1PNEI
+ dBUnQ1m2oqAyGKzr+brIersJ+gJmaLlzLocPIXocYrngG0vYLaq2vTE5mZ9HTiP8Hhcj
+ 1biQ==
+X-Gm-Message-State: ACrzQf3OeBqDnKAG2tmm67QzJtXGPqgPj6VCriSzA010+7EfQwrVMOlW
+ RT2woGhJZLSmpx/D8v/2k32JDJKpaU2lPA==
+X-Google-Smtp-Source: AMsMyM5u5IO13G+eelWsn4vfLpVx9Dbk4VoW5mUJ5i95QvSBXZ0Lyc6hEUtNTQNChRi+hrOR0NQGFQ==
+X-Received: by 2002:a63:211a:0:b0:451:f444:3b55 with SMTP id
+ h26-20020a63211a000000b00451f4443b55mr3111339pgh.60.1665038777524; 
+ Wed, 05 Oct 2022 23:46:17 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ p3-20020a1709026b8300b0017f62877604sm5852884plk.66.2022.10.05.23.46.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Oct 2022 23:46:16 -0700 (PDT)
+Date: Wed, 5 Oct 2022 23:46:15 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Subject: Re: [PATCH] drm/amd/display: fix array-bounds error in
+ dc_stream_remove_writeback()
+Message-ID: <20221006064615.GA2817657@roeck-us.net>
+References: <20220927191200.216488-1-hamza.mahfooz@amd.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1665034396; l=946; s=20211009;
- h=from:subject:message-id; bh=5rrnv9tXfKElM58dckx8PfsDwOBKrbY7NKno08H6cjA=;
- b=OK1tf77KEbziItN8h1cB68jly42cwL3MPYQqo3UrdTiKSLjRbeWZtYkpnbOg+ZMRHzaXTDM9eFze
- UyHMOdeQCm2nJRYP75OJFzzIQ5EQjzxHi27AX6LMawn2ucnwSOE0
-X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519;
- pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220927191200.216488-1-hamza.mahfooz@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,37 +73,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Stylon Wang <stylon.wang@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
+ Paul Hsieh <paul.hsieh@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ Hersen Wu <hersenwu@amd.com>, David Airlie <airlied@linux.ie>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Alex Hung <alex.hung@amd.com>,
+ "Lee, Alvin" <Alvin.Lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ "Leo \(Hanghong\) Ma" <hanghong.ma@amd.com>,
+ Jimmy Kizito <Jimmy.Kizito@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Pavle Kotarac <Pavle.Kotarac@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-NO_IRQ is used to check the return of irq_of_parse_and_map().
+On Tue, Sep 27, 2022 at 03:12:00PM -0400, Hamza Mahfooz wrote:
+> Address the following error:
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function ‘dc_stream_remove_writeback’:
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:55: error: array subscript [0, 0] is outside array bounds of ‘struct dc_writeback_info[1]’ [-Werror=array-bounds]
+>   527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
+>       |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~
+> In file included from ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:1269,
+>                  from ./drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
+>                  from ./drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
+>                  from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:27:
+> ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: while referencing ‘writeback_info’
+>   241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
+>       |
+> 
+> Currently, we aren't checking to see if j remains within
+> writeback_info[]'s bounds. So, add a check to make sure that we aren't
+> overflowing the buffer.
+> 
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-On some architecture NO_IRQ is 0, on other architectures it is -1.
+With gcc 11.3, this patch doesn't fix a problem, it introduces one.
 
-irq_of_parse_and_map() returns 0 on error, independent of NO_IRQ.
+Building csky:allmodconfig ... failed
+--------------
+Error log:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript 1 is above array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
+  527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
 
-So use 0 instead of using NO_IRQ.
+Building mips:allmodconfig ... failed
+--------------
+Error log:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript [0, 0] is outside array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
+  527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
 
-Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
----
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Building arm:allmodconfig ... failed
+--------------
+Error log:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript [0, 0] is outside array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
+  527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
 
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-index a7508f5be343..3f605d2d8f0c 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -692,7 +692,7 @@ static int of_platform_mb862xx_probe(struct platform_device *ofdev)
- 	par->dev = dev;
- 
- 	par->irq = irq_of_parse_and_map(np, 0);
--	if (par->irq == NO_IRQ) {
-+	if (!par->irq) {
- 		dev_err(dev, "failed to map irq\n");
- 		ret = -ENODEV;
- 		goto fbrel;
--- 
-2.37.1
-
+Guenter
