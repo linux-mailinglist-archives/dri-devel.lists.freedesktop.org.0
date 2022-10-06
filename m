@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAEC5F63E0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 11:54:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A355F642C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 12:11:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AFBB10E228;
-	Thu,  6 Oct 2022 09:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35DFA10E352;
+	Thu,  6 Oct 2022 10:11:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D3710E0FE
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 09:54:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9786B219B0;
- Thu,  6 Oct 2022 09:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665050039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=du4v/VvFNhwDWiXZbaXzibYUBFzgvwT5GgsH13h6COQ=;
- b=aFYbMNsSDLByZ5cgYuGY6qWrkwizGfYwxUHVf33gZJ5titO/QmZvx7Tr2gOST+5OuxhEKk
- Ffwbl2+toCb9kstRjFS+kDH8h0XyuRawZyuZqjAVE/wX0+FvYMZKXfUewI2hQy3vLTlWqV
- Eu/3/70adk9pXw44Ne0FcvqH37XtxB8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665050039;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=du4v/VvFNhwDWiXZbaXzibYUBFzgvwT5GgsH13h6COQ=;
- b=P557gMGugZb0dgMvAEte81R8jE4D/wF6qJRXRXIEa+HlqbjJZBDgBOH6xO7qi2kBmZUJHN
- 8NyagcTrMwQKTmDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7370713AC8;
- Thu,  6 Oct 2022 09:53:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ALUlG7elPmNnYAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 06 Oct 2022 09:53:59 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, airlied@redhat.com, sean@poorly.run, daniel@ffwll.ch
-Subject: [PATCH v2 16/16] drm/udl: Add constants for commands
-Date: Thu,  6 Oct 2022 11:53:55 +0200
-Message-Id: <20221006095355.23579-17-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221006095355.23579-1-tzimmermann@suse.de>
-References: <20221006095355.23579-1-tzimmermann@suse.de>
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4468410E4A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 05:40:39 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id d24so776560pls.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 22:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
+ b=HIlnByPTia/JV2Hio0Z3vTGHRO3pP+g3PDOdFVRfXo+4JMSWemnyOHulYs1b2f7JO3
+ 4B68mkEwVVg8IQ3IkOWlhCZu1DHmNpOVf5BI7g3+ztCRosIDaXqnmyXn8NbvhlX0kAlJ
+ 1+EIMZBflEmYzO5Z7VvIiaOCr5rSQzs8/emFI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
+ b=EnItpwUPpHw4V5mSsmsKtI28mSRzyKdBJCnmpFKK/FHlQAFHw1iZf18cx7NkLcRnfd
+ 5zO6tyVuLq2G8FIfYuuQ9tOYpfJjNH5a8AUyWe84VIhbfdMDeUwNfAEjAUjkTmgJE/LA
+ rZ74zyJ2du13NpBolsHjyip6iUWdUT1zEyQW+PkVGFYunkD9w7scHMPc+pf9XAa7krJq
+ ZQ4zlVRK5LA1ybDQ/Bh0rd+UrGV96Fml39We7bPB+vK4LDVWcmsInQpFstKacLiw56gp
+ o3FhRUITIQJcrj/fIStLnJ2hwVYYiSt8dEwlS6fqimr346PGlnC9y6FFUU+IQrw4Qr6B
+ TRUw==
+X-Gm-Message-State: ACrzQf3ZyT4897m2RKv/qlh1J7+/8rcj6ph7qeg4rx3n4EfFmbTFPorW
+ w5ET89xeXOQlCbH7cBix+fRDLQ==
+X-Google-Smtp-Source: AMsMyM5d8kq/QLGWHL1lT7d4vvr6wiHcKPw02UiifePzthTJzj01ofprelzHftcv9opKc24+zWNWRw==
+X-Received: by 2002:a17:90b:1943:b0:20a:85e9:f089 with SMTP id
+ nk3-20020a17090b194300b0020a85e9f089mr3484011pjb.47.1665034838827; 
+ Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ s9-20020a63ff49000000b0043be31d490dsm776833pgk.67.2022.10.05.22.40.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
+Date: Wed, 5 Oct 2022 22:40:36 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH v1 0/5] treewide cleanup of random integer usage
+Message-ID: <202210052240.23F1699@keescook>
+References: <20221005214844.2699-1-Jason@zx2c4.com>
+ <202210052148.B11CBC60@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202210052148.B11CBC60@keescook>
+X-Mailman-Approved-At: Thu, 06 Oct 2022 10:11:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,146 +68,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org,
+ Andrii Nakryiko <andrii@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-sctp@vger.kernel.org, "Md . Haris Iqbal" <haris.iqbal@ionos.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Christoph Hellwig <hch@lst.de>,
+ Andy Gospodarek <andy@greyhouse.net>, Sergey Matyukevich <geomatsi@gmail.com>,
+ Rohit Maheshwari <rohitm@chelsio.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ ceph-devel@vger.kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Nilesh Javali <njavali@marvell.com>,
+ Jean-Paul Roubelat <jpr@f6fbb.org>, Dick Kennedy <dick.kennedy@broadcom.com>,
+ Jay Vosburgh <j.vosburgh@gmail.com>, Potnuri Bharat Teja <bharat@chelsio.com>,
+ Vinay Kumar Yadav <vinay.yadav@chelsio.com>, linux-nfs@vger.kernel.org,
+ Nicholas Piggin <npiggin@gmail.com>, Igor Mitsyanko <imitsyanko@quantenna.com>,
+ Andy Lutomirski <luto@kernel.org>, linux-hams@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Trond Myklebust <trond.myklebust@hammerspace.com>, linux-raid@vger.kernel.org,
+ Neil Horman <nhorman@tuxdriver.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Michael Chan <michael.chan@broadcom.com>, linux-kernel@vger.kernel.org,
+ Varun Prakash <varun@chelsio.com>, Chuck Lever <chuck.lever@oracle.com>,
+ netfilter-devel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
+ Jiri Olsa <jolsa@kernel.org>, Jan Kara <jack@suse.com>,
+ linux-fsdevel@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+ linux-media@vger.kernel.org, Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Sharvari Harisangam <sharvari.harisangam@nxp.com>, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>, Song Liu <song@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, target-devel@vger.kernel.org,
+ John Stultz <jstultz@google.com>, Stanislav Fomichev <sdf@google.com>,
+ Gregory Greenman <gregory.greenman@intel.com>, drbd-dev@lists.linbit.com,
+ dev@openvswitch.org, Leon Romanovsky <leon@kernel.org>,
+ Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
+ James Smart <james.smart@broadcom.com>,
+ Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+ Pravin B Shelar <pshelar@ovn.org>, Julian Anastasov <ja@ssi.bg>,
+ coreteam@netfilter.org, Veaceslav Falico <vfalico@gmail.com>,
+ Yonghong Song <yhs@fb.com>, Namjae Jeon <linkinjeon@kernel.org>,
+ linux-crypto@vger.kernel.org, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ Ganapathi Bhat <ganapathi017@gmail.com>, linux-actions@lists.infradead.org,
+ Simon Horman <horms@verge.net.au>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Hao Luo <haoluo@google.com>,
+ Theodore Ts'o <tytso@mit.edu>, Stephen Boyd <sboyd@kernel.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Florian Westphal <fw@strlen.de>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+ Jon Maloy <jmaloy@redhat.com>, Vlad Yasevich <vyasevich@gmail.com>,
+ Anna Schumaker <anna@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>,
+ Haoyue Xu <xuhaoyue1@hisilicon.com>, Heiner Kallweit <hkallweit1@gmail.com>,
+ linux-wireless@vger.kernel.org,
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-nvme@lists.infradead.org,
+ Michal Januszewski <spock@gentoo.org>, linux-mtd@lists.infradead.org,
+ kasan-dev@googlegroups.com, Cong Wang <xiyou.wangcong@gmail.com>,
+ Thomas Sailer <t.sailer@alumni.ethz.ch>,
+ Ajay Singh <ajay.kathat@microchip.com>, Xiubo Li <xiubli@redhat.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Daniel Borkmann <daniel@iogearbox.net>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ lvs-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+ Ilya Dryomov <idryomov@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, Marco Elver <elver@google.com>,
+ Yury Norov <yury.norov@gmail.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ Jamal Hadi Salim <jhs@mojatatu.com>, KP Singh <kpsingh@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Keith Busch <kbusch@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Franky Lin <franky.lin@broadcom.com>, Arend van Spriel <aspriel@gmail.com>,
+ linux-ext4@vger.kernel.org, Wenpeng Liang <liangwenpeng@huawei.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Xinming Hu <huxinming820@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
+ Jeff Layton <jlayton@kernel.org>, linux-xfs@vger.kernel.org,
+ netdev@vger.kernel.org, Ying Xue <ying.xue@windriver.com>,
+ Manish Rangankar <mrangankar@marvell.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Peter Zijlstra <peterz@infradead.org>,
+ "H . Peter Anvin" <hpa@zytor.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Amitkumar Karwar <amitkarwar@gmail.com>, linux-mm@kvack.org,
+ Andreas Dilger <adilger.kernel@dilger.ca>,
+ Ayush Sawal <ayush.sawal@chelsio.com>,
+ Andreas Noever <andreas.noever@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+ linux-f2fs-devel@lists.sourceforge.net, Jack Wang <jinpu.wang@ionos.com>,
+ Steffen Klassert <steffen.klassert@secunet.com>, rds-devel@oss.oracle.com,
+ Herbert Xu <herbert@gondor.apana.org.au>, linux-scsi@vger.kernel.org,
+ dccp@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+ Russell King <linux@armlinux.org.uk>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, SHA-cyfmac-dev-list@infineon.com,
+ Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Jamet <michael.jamet@intel.com>, Kalle Valo <kvalo@kernel.org>,
+ Chao Yu <chao@kernel.org>, Akinobu Mita <akinobu.mita@gmail.com>,
+ linux-block@vger.kernel.org, dmaengine@vger.kernel.org,
+ Hannes Reinecke <hare@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Jens Axboe <axboe@kernel.dk>,
+ cake@lists.bufferbloat.net, brcm80211-dev-list.pdl@broadcom.com,
+ Yishai Hadas <yishaih@nvidia.com>, Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ linuxppc-dev@lists.ozlabs.org, David Ahern <dsahern@kernel.org>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Vinod Koul <vkoul@kernel.org>, tipc-discussion@lists.sourceforge.net,
+ Thomas Graf <tgraf@suug.ch>, Johannes Berg <johannes@sipsolutions.net>,
+ Sungjong Seo <sj1557.seo@samsung.com>, Martin KaFai Lau <martin.lau@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add constants for the various commands that the driver can send to
-the device and update the respective helper functions. No functional
-changes.
+On Wed, Oct 05, 2022 at 09:55:43PM -0700, Kees Cook wrote:
+> If any of the subsystems ask you to break this up (I hope not), I've got
+> this[1], which does a reasonable job of splitting a commit up into
+> separate commits for each matching subsystem.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/udl/udl_drv.h      | 10 ----------
- drivers/gpu/drm/udl/udl_modeset.c  | 16 +++++++++-------
- drivers/gpu/drm/udl/udl_proto.h    | 15 +++++++++++++++
- drivers/gpu/drm/udl/udl_transfer.c |  7 ++++---
- 4 files changed, 28 insertions(+), 20 deletions(-)
+[1] https://github.com/kees/kernel-tools/blob/trunk/split-on-maintainer
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index 580989087c54..282ebd6c02fd 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -102,14 +102,4 @@ int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb **urb_ptr,
- int udl_drop_usb(struct drm_device *dev);
- int udl_select_std_channel(struct udl_device *udl);
- 
--#define CMD_WRITE_RAW8   "\xAF\x60" /**< 8 bit raw write command. */
--#define CMD_WRITE_RL8    "\xAF\x61" /**< 8 bit run length command. */
--#define CMD_WRITE_COPY8  "\xAF\x62" /**< 8 bit copy command. */
--#define CMD_WRITE_RLX8   "\xAF\x63" /**< 8 bit extended run length command. */
--
--#define CMD_WRITE_RAW16  "\xAF\x68" /**< 16 bit raw write command. */
--#define CMD_WRITE_RL16   "\xAF\x69" /**< 16 bit run length command. */
--#define CMD_WRITE_COPY16 "\xAF\x6A" /**< 16 bit copy command. */
--#define CMD_WRITE_RLX16  "\xAF\x6B" /**< 16 bit extended run length command. */
--
- #endif
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 4462653e6736..3a25f3fc2b22 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -29,15 +29,17 @@
- #include "udl_proto.h"
- 
- /*
-- * All DisplayLink bulk operations start with 0xAF, followed by specific code
-- * All operations are written to buffers which then later get sent to device
-+ * All DisplayLink bulk operations start with 0xaf (UDL_MSG_BULK), followed by
-+ * a specific command code. All operations are written to a command buffer, which
-+ * the driver sends to the device.
-  */
- static char *udl_set_register(char *buf, u8 reg, u8 val)
- {
--	*buf++ = 0xAF;
--	*buf++ = 0x20;
-+	*buf++ = UDL_MSG_BULK;
-+	*buf++ = UDL_CMD_WRITEREG;
- 	*buf++ = reg;
- 	*buf++ = val;
-+
- 	return buf;
- }
- 
-@@ -179,8 +181,8 @@ static char *udl_set_display_mode(char *buf, struct drm_display_mode *mode)
- 
- static char *udl_dummy_render(char *wrptr)
- {
--	*wrptr++ = 0xAF;
--	*wrptr++ = 0x6A; /* copy */
-+	*wrptr++ = UDL_MSG_BULK;
-+	*wrptr++ = UDL_CMD_WRITECOPY16;
- 	*wrptr++ = 0x00; /* from addr */
- 	*wrptr++ = 0x00;
- 	*wrptr++ = 0x00;
-@@ -235,7 +237,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb,
- 		/* Send partial buffer remaining before exiting */
- 		int len;
- 		if (cmd < (char *)urb->transfer_buffer + urb->transfer_buffer_length)
--			*cmd++ = 0xAF;
-+			*cmd++ = UDL_MSG_BULK;
- 		len = cmd - (char *)urb->transfer_buffer;
- 		ret = udl_submit_urb(dev, urb, len);
- 	} else {
-diff --git a/drivers/gpu/drm/udl/udl_proto.h b/drivers/gpu/drm/udl/udl_proto.h
-index 8f143e75e797..c92d2109584c 100644
---- a/drivers/gpu/drm/udl/udl_proto.h
-+++ b/drivers/gpu/drm/udl/udl_proto.h
-@@ -5,6 +5,21 @@
- 
- #include <linux/bits.h>
- 
-+#define UDL_MSG_BULK		0xaf
-+
-+/* Register access */
-+#define UDL_CMD_WRITEREG	0x20 /* See register constants below */
-+
-+/* Framebuffer access */
-+#define UDL_CMD_WRITERAW8	0x60 /* 8 bit raw write command. */
-+#define UDL_CMD_WRITERL8	0x61 /* 8 bit run length command. */
-+#define UDL_CMD_WRITECOPY8	0x62 /* 8 bit copy command. */
-+#define UDL_CMD_WRITERLX8	0x63 /* 8 bit extended run length command. */
-+#define UDL_CMD_WRITERAW16	0x68 /* 16 bit raw write command. */
-+#define UDL_CMD_WRITERL16	0x69 /* 16 bit run length command. */
-+#define UDL_CMD_WRITECOPY16	0x6a /* 16 bit copy command. */
-+#define UDL_CMD_WRITERLX16	0x6b /* 16 bit extended run length command. */
-+
- /* Color depth */
- #define UDL_REG_COLORDEPTH		0x00
- #define UDL_COLORDEPTH_16BPP		0
-diff --git a/drivers/gpu/drm/udl/udl_transfer.c b/drivers/gpu/drm/udl/udl_transfer.c
-index b57844632dbd..5ff1037a3453 100644
---- a/drivers/gpu/drm/udl/udl_transfer.c
-+++ b/drivers/gpu/drm/udl/udl_transfer.c
-@@ -10,6 +10,7 @@
- #include <asm/unaligned.h>
- 
- #include "udl_drv.h"
-+#include "udl_proto.h"
- 
- #define MAX_CMD_PIXELS		255
- 
-@@ -89,8 +90,8 @@ static void udl_compress_hline16(
- 		const u8 *cmd_pixel_start, *cmd_pixel_end = NULL;
- 		uint16_t pixel_val16;
- 
--		*cmd++ = 0xaf;
--		*cmd++ = 0x6b;
-+		*cmd++ = UDL_MSG_BULK;
-+		*cmd++ = UDL_CMD_WRITERLX16;
- 		*cmd++ = (uint8_t) ((dev_addr >> 16) & 0xFF);
- 		*cmd++ = (uint8_t) ((dev_addr >> 8) & 0xFF);
- 		*cmd++ = (uint8_t) ((dev_addr) & 0xFF);
-@@ -152,7 +153,7 @@ static void udl_compress_hline16(
- 	if (cmd_buffer_end <= MIN_RLX_CMD_BYTES + cmd) {
- 		/* Fill leftover bytes with no-ops */
- 		if (cmd_buffer_end > cmd)
--			memset(cmd, 0xAF, cmd_buffer_end - cmd);
-+			memset(cmd, UDL_MSG_BULK, cmd_buffer_end - cmd);
- 		cmd = (uint8_t *) cmd_buffer_end;
- 	}
- 
 -- 
-2.37.3
-
+Kees Cook
