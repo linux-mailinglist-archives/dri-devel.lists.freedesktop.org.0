@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33605F63E7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 11:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAEC5F63E0
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 11:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41AD210E2CE;
-	Thu,  6 Oct 2022 09:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AFBB10E228;
+	Thu,  6 Oct 2022 09:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFDAC10E281
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8D3710E0FE
  for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 09:54:00 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6E2501F92B;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9786B219B0;
  Thu,  6 Oct 2022 09:53:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1665050039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zFVys5//JXE7NlehkrLrTu8OccP/UWYu+bo6cdeJw0A=;
- b=mwS387mtD8GCqzZs6PVVMiFd+ilSl9RF/YoO4ihAY6ETRIBpNlNU2hYsxEFLKPOfAkim7T
- AdE0913TpQGePMWU7sUgPy3NZZZ3bAx/13nGeSQpO2brMkpy1ou+RUYtTgcs6v5D107Q2P
- OmgZY5APZTudpl6n72SxSEkXlziZU0c=
+ bh=du4v/VvFNhwDWiXZbaXzibYUBFzgvwT5GgsH13h6COQ=;
+ b=aFYbMNsSDLByZ5cgYuGY6qWrkwizGfYwxUHVf33gZJ5titO/QmZvx7Tr2gOST+5OuxhEKk
+ Ffwbl2+toCb9kstRjFS+kDH8h0XyuRawZyuZqjAVE/wX0+FvYMZKXfUewI2hQy3vLTlWqV
+ Eu/3/70adk9pXw44Ne0FcvqH37XtxB8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1665050039;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zFVys5//JXE7NlehkrLrTu8OccP/UWYu+bo6cdeJw0A=;
- b=L7ELWAkVMC5lKvAOqEY4HpbzrVDs9Sce3lB5+T7zw2HUdDOUp7gA3mc+VndBeR7HXN9aB2
- 1qxvx4nswHViZOCA==
+ bh=du4v/VvFNhwDWiXZbaXzibYUBFzgvwT5GgsH13h6COQ=;
+ b=P557gMGugZb0dgMvAEte81R8jE4D/wF6qJRXRXIEa+HlqbjJZBDgBOH6xO7qi2kBmZUJHN
+ 8NyagcTrMwQKTmDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4C22313AC8;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7370713AC8;
  Thu,  6 Oct 2022 09:53:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IIi0EbelPmNnYAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id ALUlG7elPmNnYAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 06 Oct 2022 09:53:59 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, airlied@redhat.com, sean@poorly.run, daniel@ffwll.ch
-Subject: [PATCH v2 15/16] drm/udl: Add register constants for framebuffer
- scanout addresses
-Date: Thu,  6 Oct 2022 11:53:54 +0200
-Message-Id: <20221006095355.23579-16-tzimmermann@suse.de>
+Subject: [PATCH v2 16/16] drm/udl: Add constants for commands
+Date: Thu,  6 Oct 2022 11:53:55 +0200
+Message-Id: <20221006095355.23579-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221006095355.23579-1-tzimmermann@suse.de>
 References: <20221006095355.23579-1-tzimmermann@suse.de>
@@ -72,111 +71,142 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add register constants for the framebuffer scanout addresses and
-update the related helper functions. No functional changes.
-
-v2:
-	* extract address bytes with helper macros (Javier)
-	* fix comments
+Add constants for the various commands that the driver can send to
+the device and update the respective helper functions. No functional
+changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/udl/udl_modeset.c | 33 ++++++++++++++++++++++---------
- drivers/gpu/drm/udl/udl_proto.h   | 14 +++++++++++++
- 2 files changed, 38 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/udl/udl_drv.h      | 10 ----------
+ drivers/gpu/drm/udl/udl_modeset.c  | 16 +++++++++-------
+ drivers/gpu/drm/udl/udl_proto.h    | 15 +++++++++++++++
+ drivers/gpu/drm/udl/udl_transfer.c |  7 ++++---
+ 4 files changed, 28 insertions(+), 20 deletions(-)
 
+diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+index 580989087c54..282ebd6c02fd 100644
+--- a/drivers/gpu/drm/udl/udl_drv.h
++++ b/drivers/gpu/drm/udl/udl_drv.h
+@@ -102,14 +102,4 @@ int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb **urb_ptr,
+ int udl_drop_usb(struct drm_device *dev);
+ int udl_select_std_channel(struct udl_device *udl);
+ 
+-#define CMD_WRITE_RAW8   "\xAF\x60" /**< 8 bit raw write command. */
+-#define CMD_WRITE_RL8    "\xAF\x61" /**< 8 bit run length command. */
+-#define CMD_WRITE_COPY8  "\xAF\x62" /**< 8 bit copy command. */
+-#define CMD_WRITE_RLX8   "\xAF\x63" /**< 8 bit extended run length command. */
+-
+-#define CMD_WRITE_RAW16  "\xAF\x68" /**< 16 bit raw write command. */
+-#define CMD_WRITE_RL16   "\xAF\x69" /**< 16 bit run length command. */
+-#define CMD_WRITE_COPY16 "\xAF\x6A" /**< 16 bit copy command. */
+-#define CMD_WRITE_RLX16  "\xAF\x6B" /**< 16 bit extended run length command. */
+-
+ #endif
 diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index ea0388ccbd7e..4462653e6736 100644
+index 4462653e6736..3a25f3fc2b22 100644
 --- a/drivers/gpu/drm/udl/udl_modeset.c
 +++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -8,6 +8,8 @@
-  * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
-  */
- 
-+#include <linux/bitfield.h>
-+
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
-@@ -59,23 +61,36 @@ static char *udl_set_color_depth(char *buf, u8 selection)
- 	return udl_set_register(buf, UDL_REG_COLORDEPTH, selection);
- }
- 
--static char *udl_set_base16bpp(char *wrptr, u32 base)
-+static char *udl_set_base16bpp(char *buf, u32 base)
- {
--	/* the base pointer is 16 bits wide, 0x20 is hi byte. */
--	wrptr = udl_set_register(wrptr, 0x20, base >> 16);
--	wrptr = udl_set_register(wrptr, 0x21, base >> 8);
--	return udl_set_register(wrptr, 0x22, base);
-+	/* the base pointer is 24 bits wide, 0x20 is hi byte. */
-+	u8 reg20 = FIELD_GET(UDL_BASE_ADDR2_MASK, base);
-+	u8 reg21 = FIELD_GET(UDL_BASE_ADDR1_MASK, base);
-+	u8 reg22 = FIELD_GET(UDL_BASE_ADDR0_MASK, base);
-+
-+	buf = udl_set_register(buf, UDL_REG_BASE16BPP_ADDR2, reg20);
-+	buf = udl_set_register(buf, UDL_REG_BASE16BPP_ADDR1, reg21);
-+	buf = udl_set_register(buf, UDL_REG_BASE16BPP_ADDR0, reg22);
-+
-+	return buf;
- }
+@@ -29,15 +29,17 @@
+ #include "udl_proto.h"
  
  /*
-  * DisplayLink HW has separate 16bpp and 8bpp framebuffers.
-  * In 24bpp modes, the low 323 RGB bits go in the 8bpp framebuffer
+- * All DisplayLink bulk operations start with 0xAF, followed by specific code
+- * All operations are written to buffers which then later get sent to device
++ * All DisplayLink bulk operations start with 0xaf (UDL_MSG_BULK), followed by
++ * a specific command code. All operations are written to a command buffer, which
++ * the driver sends to the device.
   */
--static char *udl_set_base8bpp(char *wrptr, u32 base)
-+static char *udl_set_base8bpp(char *buf, u32 base)
+ static char *udl_set_register(char *buf, u8 reg, u8 val)
  {
--	wrptr = udl_set_register(wrptr, 0x26, base >> 16);
--	wrptr = udl_set_register(wrptr, 0x27, base >> 8);
--	return udl_set_register(wrptr, 0x28, base);
-+	/* the base pointer is 24 bits wide, 0x26 is hi byte. */
-+	u8 reg26 = FIELD_GET(UDL_BASE_ADDR2_MASK, base);
-+	u8 reg27 = FIELD_GET(UDL_BASE_ADDR1_MASK, base);
-+	u8 reg28 = FIELD_GET(UDL_BASE_ADDR0_MASK, base);
+-	*buf++ = 0xAF;
+-	*buf++ = 0x20;
++	*buf++ = UDL_MSG_BULK;
++	*buf++ = UDL_CMD_WRITEREG;
+ 	*buf++ = reg;
+ 	*buf++ = val;
 +
-+	buf = udl_set_register(buf, UDL_REG_BASE8BPP_ADDR2, reg26);
-+	buf = udl_set_register(buf, UDL_REG_BASE8BPP_ADDR1, reg27);
-+	buf = udl_set_register(buf, UDL_REG_BASE8BPP_ADDR0, reg28);
-+
-+	return buf;
+ 	return buf;
  }
  
- static char *udl_set_register_16(char *wrptr, u8 reg, u16 value)
+@@ -179,8 +181,8 @@ static char *udl_set_display_mode(char *buf, struct drm_display_mode *mode)
+ 
+ static char *udl_dummy_render(char *wrptr)
+ {
+-	*wrptr++ = 0xAF;
+-	*wrptr++ = 0x6A; /* copy */
++	*wrptr++ = UDL_MSG_BULK;
++	*wrptr++ = UDL_CMD_WRITECOPY16;
+ 	*wrptr++ = 0x00; /* from addr */
+ 	*wrptr++ = 0x00;
+ 	*wrptr++ = 0x00;
+@@ -235,7 +237,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb,
+ 		/* Send partial buffer remaining before exiting */
+ 		int len;
+ 		if (cmd < (char *)urb->transfer_buffer + urb->transfer_buffer_length)
+-			*cmd++ = 0xAF;
++			*cmd++ = UDL_MSG_BULK;
+ 		len = cmd - (char *)urb->transfer_buffer;
+ 		ret = udl_submit_urb(dev, urb, len);
+ 	} else {
 diff --git a/drivers/gpu/drm/udl/udl_proto.h b/drivers/gpu/drm/udl/udl_proto.h
-index 8e7d1a090644..8f143e75e797 100644
+index 8f143e75e797..c92d2109584c 100644
 --- a/drivers/gpu/drm/udl/udl_proto.h
 +++ b/drivers/gpu/drm/udl/udl_proto.h
-@@ -3,6 +3,8 @@
- #ifndef UDL_PROTO_H
- #define UDL_PROTO_H
+@@ -5,6 +5,21 @@
  
-+#include <linux/bits.h>
+ #include <linux/bits.h>
+ 
++#define UDL_MSG_BULK		0xaf
++
++/* Register access */
++#define UDL_CMD_WRITEREG	0x20 /* See register constants below */
++
++/* Framebuffer access */
++#define UDL_CMD_WRITERAW8	0x60 /* 8 bit raw write command. */
++#define UDL_CMD_WRITERL8	0x61 /* 8 bit run length command. */
++#define UDL_CMD_WRITECOPY8	0x62 /* 8 bit copy command. */
++#define UDL_CMD_WRITERLX8	0x63 /* 8 bit extended run length command. */
++#define UDL_CMD_WRITERAW16	0x68 /* 16 bit raw write command. */
++#define UDL_CMD_WRITERL16	0x69 /* 16 bit run length command. */
++#define UDL_CMD_WRITECOPY16	0x6a /* 16 bit copy command. */
++#define UDL_CMD_WRITERLX16	0x6b /* 16 bit extended run length command. */
 +
  /* Color depth */
  #define UDL_REG_COLORDEPTH		0x00
  #define UDL_COLORDEPTH_16BPP		0
-@@ -31,6 +33,18 @@
- #define UDL_BLANKMODE_HSYNC_OFF		0x05 /* hsync off, blanked */
- #define UDL_BLANKMODE_POWERDOWN		0x07 /* powered off; requires modeset */
+diff --git a/drivers/gpu/drm/udl/udl_transfer.c b/drivers/gpu/drm/udl/udl_transfer.c
+index b57844632dbd..5ff1037a3453 100644
+--- a/drivers/gpu/drm/udl/udl_transfer.c
++++ b/drivers/gpu/drm/udl/udl_transfer.c
+@@ -10,6 +10,7 @@
+ #include <asm/unaligned.h>
  
-+/* Framebuffer address */
-+#define UDL_REG_BASE16BPP_ADDR2		0x20
-+#define UDL_REG_BASE16BPP_ADDR1		0x21
-+#define UDL_REG_BASE16BPP_ADDR0		0x22
-+#define UDL_REG_BASE8BPP_ADDR2		0x26
-+#define UDL_REG_BASE8BPP_ADDR1		0x27
-+#define UDL_REG_BASE8BPP_ADDR0		0x28
-+
-+#define UDL_BASE_ADDR0_MASK		GENMASK(7, 0)
-+#define UDL_BASE_ADDR1_MASK		GENMASK(15, 8)
-+#define UDL_BASE_ADDR2_MASK		GENMASK(23, 16)
-+
- /* Lock/unlock video registers */
- #define UDL_REG_VIDREG			0xff
- #define UDL_VIDREG_LOCK			0x00
+ #include "udl_drv.h"
++#include "udl_proto.h"
+ 
+ #define MAX_CMD_PIXELS		255
+ 
+@@ -89,8 +90,8 @@ static void udl_compress_hline16(
+ 		const u8 *cmd_pixel_start, *cmd_pixel_end = NULL;
+ 		uint16_t pixel_val16;
+ 
+-		*cmd++ = 0xaf;
+-		*cmd++ = 0x6b;
++		*cmd++ = UDL_MSG_BULK;
++		*cmd++ = UDL_CMD_WRITERLX16;
+ 		*cmd++ = (uint8_t) ((dev_addr >> 16) & 0xFF);
+ 		*cmd++ = (uint8_t) ((dev_addr >> 8) & 0xFF);
+ 		*cmd++ = (uint8_t) ((dev_addr) & 0xFF);
+@@ -152,7 +153,7 @@ static void udl_compress_hline16(
+ 	if (cmd_buffer_end <= MIN_RLX_CMD_BYTES + cmd) {
+ 		/* Fill leftover bytes with no-ops */
+ 		if (cmd_buffer_end > cmd)
+-			memset(cmd, 0xAF, cmd_buffer_end - cmd);
++			memset(cmd, UDL_MSG_BULK, cmd_buffer_end - cmd);
+ 		cmd = (uint8_t *) cmd_buffer_end;
+ 	}
+ 
 -- 
 2.37.3
 
