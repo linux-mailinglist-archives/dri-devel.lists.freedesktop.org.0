@@ -2,56 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD29D5F6E40
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 21:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDCE5F6E4C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 21:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB3210E4F2;
-	Thu,  6 Oct 2022 19:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 804DE10E885;
+	Thu,  6 Oct 2022 19:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F106610E4F2
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 19:30:10 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id bj12so6713511ejb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 12:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E21EA10E4DF
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 19:40:01 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id s192so3206371oie.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 12:40:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=k2PLX7t8akejXX2rlvi6ieaQqVuMDuBcH+372rToY1E=;
- b=D5rsC75yDUF9kWV3SquzIST3kPDsCVq58ukVLeJ5qmZglaoUSOcG3mq/Kw1MhbQXt1
- YdLMe6XV4Yxmbg7yhHXcsAyt2922i6I8tCuoQNIeZoiAhUbwmggWK27n8m9FAWx4XKeY
- 0Ktpzjw4yvUWDXdDOWH9yFBMxQQrXCU2eGQma5j5beosI5UCpcvI6yq34F6Xkzj+51pt
- 6Jw2DeI6Rc03l7WXtCMp40MPb3VI54QHBKSYpTzaK7ESaxjkiNYLB6cO6EzjyZPpG+Mc
- mwOuf7y/fp5iJ/wLRZesKkdGJR3KMB4+Bvmw2+PBUFPBG6tHFu+WiSTB9v3lBuvojg0/
- C7mg==
+ bh=2rfFLTjrQP4Fs05vC2spzCNZmbqViurrXQPntyMULUc=;
+ b=YOZJVG6+3eUoB+z47gniaYwRj4q892BGbzsUmXa8JZ749nhmg4i+5R9Xkmj7Teg7Ts
+ qUsfZETBoSEUctCMzSHOHnJyiQnagLgha0o6TI8FZi2nYSdju6Q10U7rXsMWGIcI8QfE
+ sZdoeav9x+37Lg1XTxyJ0M4yci7/w3Xooven0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=k2PLX7t8akejXX2rlvi6ieaQqVuMDuBcH+372rToY1E=;
- b=1pGCPm3iIrbeI9chEDtxyj8QpkuPCcZC2E1ja7+IQXECbRujeOdXFI5MxwVf77pKZQ
- 63OPgttHu92NqcB4FiSPhXxRcW6MPLKG57DP6urgmXy6STgzlY4E48ZDSFipZM1S6QvQ
- zg2X3UOgiD6ZZ9tbeql8q0pHkIpAGmxTjW3hMdOKHetrQLuAufa+ukqcFIYU+aVv2zXa
- +ojOMfBGvBVMrCwQxlGAjjph638hNnseW3yeBN7bYwX4ibDp7IeQBtBUqnSDQRqeaKzd
- f64QPxiZWBGabGmfaw3WwbkSS0PeV6MH+Hd3EHncqFzhTFSVpEKNUw6VvdL3ex6fYEgD
- u89w==
-X-Gm-Message-State: ACrzQf3w1WiclUq2MJGIOT5XYV4sSpDOTx+uoYbXFvuaOKBS6lwGohL7
- Zg2oeE/3ke4EeS5B6c+NeO27C+LygZcpbBGHbH4=
-X-Google-Smtp-Source: AMsMyM5B4b9kXUU1nZSUXa3bnfD4TPjf2+WmtG8vzAMZ3L/4bjMQge3FqWc3rAzZz/eazJuyQiuRj/DzwNNGDxg2MgM=
-X-Received: by 2002:a17:906:5a44:b0:78d:4c17:9856 with SMTP id
- my4-20020a1709065a4400b0078d4c179856mr1177122ejc.477.1665084609198; Thu, 06
- Oct 2022 12:30:09 -0700 (PDT)
+ bh=2rfFLTjrQP4Fs05vC2spzCNZmbqViurrXQPntyMULUc=;
+ b=grtOUDAypXe9YvTYS2G7eKwnSIenofOgDBj504NVvg6BR/HCofk7gVBWvux8HVVLGJ
+ vNsDCaU4GUFUozzZB3OiTAKQU3nVLWI3HE88f6s7omT5vhy6SIIe26+AOVMm1UHx6JZn
+ 8LJQ/JLrHtH6PWAbs7rW69JxWLgfsCvbQQs0zL7Mo5udh/l3tqZRNvLKqv4Q4Lg2Ab35
+ z2B/PUNc4+TLuqa9vqklwOScpN8Fye9hPAF2T6gtIBKKlsT0+B2rEWR7HX8Vg+f9EzDV
+ 9J0p718ia9Zh7sgSgEEuTSenCJclJyCS5pVtxMd9f8inl3ksdpIhUDqQxD+0mZlnKJmw
+ B+hg==
+X-Gm-Message-State: ACrzQf0fe879dT7i8Ox9LNAxjpZ6nYN3gcah/E0myN1cgSOIPT/R8QdR
+ 6Rzk5uW5NJTzOILncWFU+cZFBiJuVyF8oA==
+X-Google-Smtp-Source: AMsMyM5iXYeRkBd0Ol+2/cWjKkFlrBDS65XMUFEC0CWncSaWmi3jVjAIAd+oq0LSoeNLQ4S++A2qmw==
+X-Received: by 2002:a05:6808:1a08:b0:354:2875:3d63 with SMTP id
+ bk8-20020a0568081a0800b0035428753d63mr583920oib.241.1665085200238; 
+ Thu, 06 Oct 2022 12:40:00 -0700 (PDT)
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com.
+ [209.85.161.50]) by smtp.gmail.com with ESMTPSA id
+ w19-20020a056808141300b003431d9b3edfsm44152oiv.2.2022.10.06.12.39.57
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 12:39:57 -0700 (PDT)
+Received: by mail-oo1-f50.google.com with SMTP id
+ q70-20020a4a3349000000b0047f9951ad3aso1594998ooq.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 12:39:57 -0700 (PDT)
+X-Received: by 2002:a05:6820:1992:b0:475:c2c0:3f92 with SMTP id
+ bp18-20020a056820199200b00475c2c03f92mr493824oob.96.1665085196830; Thu, 06
+ Oct 2022 12:39:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
- <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
-In-Reply-To: <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 7 Oct 2022 05:29:57 +1000
-Message-ID: <CAPM=9tzr1EAA=OaFmrPFT3UqQO+dixdZTPzs=tqdmgP+F_ojEA@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.1-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
+References: <Yz6W+j+l0cJbr5dX@debian>
+In-Reply-To: <Yz6W+j+l0cJbr5dX@debian>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 6 Oct 2022 12:39:40 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whR8T1x6DRnOMJsorajT3A-y9+j5Mpeh0zcUXcJiJWheg@mail.gmail.com>
+Message-ID: <CAHk-=whR8T1x6DRnOMJsorajT3A-y9+j5Mpeh0zcUXcJiJWheg@mail.gmail.com>
+Subject: Re: mainline build failure due to 5d8c3e836fc2 ("drm/amd/display: fix
+ array-bounds error in dc_stream_remove_writeback()")
+To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+ Kees Cook <keescook@chromium.org>, Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,52 +77,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 7 Oct 2022 at 04:48, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Thu, Oct 6, 2022 at 1:51 AM Sudip Mukherjee (Codethink)
+<sudipm.mukherjee@gmail.com> wrote:
 >
-> On Tue, Oct 4, 2022 at 8:42 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > Lots of stuff all over, some new AMD IP support and gang
-> > submit support [..]
->
-> Hmm.
->
-> I have now had my main desktop lock up twice after pulling this.
-> Nothing in the dmesg after a reboot, and nothing in particular that
-> seems to trigger it, so I have a hard time even guessing what's up,
-> but the drm changes are the primary suspect.
->
-> I will try to see if I can get any information out of the machine, but
-> with the symptom being just a dead machine ...
->
-> This is the same (old) Radeon device:
->
->    49:00.0 VGA compatible controller: Advanced Micro Devices, Inc.
-> [AMD/ATI] Ellesmere [Radeon RX 470/480/570/570X/580/580X/590] (rev e7)
->
-> with dual 4k monitors, running on my good old Threadripper setup.
->
-> Again, there's no explicit reason to blame the drm pull, except that
-> it started after that merge (that machine ran the kernel with the
-> networking pull for a day with no problems, and while there were other
-> pull requests in between them, they seem to be fairly unrelated to the
-> hardware I have).
->
-> But the lockup is so sporadic (twice in the last day) that I really
-> can't bisect it, so I'm afraid I have very very little info.
->
-> Any suggestions?
+> This is only seen with gcc-11, gcc-12 builds are ok.
 
-netconsole?
+Hmm. This seems to be some odd gcc issue.
 
-I'll plug in my 480 and see if I can make it die.
+I *think* that what is going on is that the test
 
-Dave.
+        j = 0 ; j < MAX_DWB_PIPES
+
+makes gcc decide that "hey, j is in the range [0,MAX_DWB_PIPES[", and
+then since MAX_DWB_PIPES is 1, that simplifies to "j must be zero".
+Good range analysis so far.
+
+But for 'i', we start off with that lower bound of 0, but the upper
+bound is not fixed (the test for "i" is: "i < stream->num_wb_info").
+
+And then that "if (i != j)", so now gcc decides that it can simplify
+that to "if (i != 0)", and then simplifies *that* to "oh, the lower
+bound of 'i' in that code is actually 1.
+
+So then it decides that "stream->writeback_info[i]" must be out of bounds.
+
+Of course, the *reality* is that stream->num_wb_info should be <=
+MAX_DWB_PIPES, and as such (with the current MAX_DWB_PIPES value of 1)
+it's not that 'i' can be 1, it's that the code in question cannot be
+reached at all.
+
+What confuses me is that error message ("array subscript [0, 0] is
+outside array bounds of 'struct dc_writeback_info[1]') which seems to
+be aware that the value is actually 0.
+
+So this seems to be some gcc-11 range analysis bug, but I don't know
+what the fix is. I suspect some random code change would magically
+just make gcc realize it's ok after all, but since it all depends on
+random gcc confusion, I don't know what the random code change would
+be.
+
+The fix *MAY* be to just add a '&& i < MAX_DWB_PIPES' to that loop
+too, and then gcc will see that both i and j are always 0, and that
+the code is unreachable and not warn about it. Hmm? Can you test that?
+
+And the reason gcc-12 builds are ok probably isn't that gcc-12 gets
+this right, it's simply that gcc-12 gets so many *opther* things wrong
+that we already disabled -Warray-bounds with gcc-12 entirely.
+
+If somebody cannot come up with a fix, I suspect the solution is "gcc
+array bounds analysis is terminally buggy" and we just need to disable
+it for gcc-11 too.
+
+Kees, any idea? Who else might be interested in fixing a -Warray-bounds issue?
+
+                 Linus
