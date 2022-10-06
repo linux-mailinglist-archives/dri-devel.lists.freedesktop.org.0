@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0259E5F6313
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 10:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BF85F6338
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 11:03:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40F2C10E369;
-	Thu,  6 Oct 2022 08:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EBA010E36F;
+	Thu,  6 Oct 2022 09:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E33910E369;
- Thu,  6 Oct 2022 08:51:10 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id j16so1613200wrh.5;
- Thu, 06 Oct 2022 01:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aIf8xFSpdZbA1GQzuqts7ymYscMRXeakvYyTWUDLadI=;
- b=G2GZPFQtAV+fYMiWZUUw9Ycw4NyH/47he9vDSPotO9NB+kd/J+ZTdp4QRwxs3nUmel
- HsE6XDKEW5sgrt/QH6ElbgDbCHmOcxh+iT0NqyFTt3vJCqNtDZ7xBXJUf2RQDiFIZTFO
- BVmPbl+qzzABOI+E2a3Ou4i+0l7AqwQhJlxrFI10eOvuLOOv39p2bgFOjVUq3IzTNgdm
- imCSquDjoB7r8VPw0135RDuR5doUnprvSetHHzy/LNFGfEJ/YtD0Ir9yiut3enBuyACk
- uQoH3GbZCQR93o/HCw39kkDnAKJWHAGH1wnBO/YrX9FY3UIYazs78CpMd5gNZhMYqaud
- BKEQ==
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DFCE10E394
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 09:03:29 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id 13so3120135ejn.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 02:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=1yddKYac+3X7pcirMtwSeEtzvk1L8p2YF/xQufQ19P8=;
+ b=SWNuVdxF51axUdgt0ko0fJT6zIZhBshW50rRpZrMwl697SOQn7tseTweQefqvLQAcv
+ OOcPUHDdvIkdC4kOeEnyAyInACdkhpkhPLfpYV/lJTN507mhFrxXA+DvgQ+yauMMVUWO
+ nNxJCe1R50v/saJ+oMWdHRGlwtmwUmbl4t64XwgDnF+W/4newn74BxLGDt3/meEmQzAZ
+ 5ZUlM0yF3ciy7Xcqqo6bjBqXBtJ1WTI0A86T7apbGmMMYbaR8GNpP3MfH13CZdkX2rlV
+ gK1WzySLAbwehIBjc9LCnB7nCCscby/rS7/vY7Pn62qDTu1ehUYrkdXYzK8/dF6wygjh
+ L2PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aIf8xFSpdZbA1GQzuqts7ymYscMRXeakvYyTWUDLadI=;
- b=m+Q4rIHPbKjU6nJ7oyw8LGwPJYZk5MgZKECYlqwxADWDYTz6xnfhD3K1wD8IZBWavN
- QQRuORELUS8LZqKR30ntgdZzqkbmh4FZbLcXN1MgK/Xih72BcVwIddEt8CqcCiHQPj9X
- 2pDl7VkoU+IqE1beHTAgVsg1kkENUnNZKcl1EgZd47JWEo4KPamPISPGgGcyrnb6NgCa
- zI3FQ64tyQgVpYKoU4LD3Xvso8bvEmMa1EypXorklKFyMSugdbk/baqBzyNEpqywdGi8
- 3nVNXG5Uukx3rsrnI+4aGC3+i8EWl2fqL8EkzP9T6zMzy14aFaDYi4F5n/lmxZxmYeWR
- YqvQ==
-X-Gm-Message-State: ACrzQf2BeMjeIppjzgEpVdEJ/DPMR/6xrUsL5JuZgkrhESW3yboBFoHZ
- z3Ve/8F5uBRZ1TeBFFF21aY=
-X-Google-Smtp-Source: AMsMyM5MMGYHRauq4eVLkpLLZvw2RTDbvRrV8/jSalu4l28kT8hstXJuRFCaWh2Nh/nRrelPatgN7w==
-X-Received: by 2002:adf:ef43:0:b0:22d:c507:dd48 with SMTP id
- c3-20020adfef43000000b0022dc507dd48mr2337256wrp.416.1665046268371; 
- Thu, 06 Oct 2022 01:51:08 -0700 (PDT)
-Received: from debian (host-78-150-37-98.as13285.net. [78.150.37.98])
- by smtp.gmail.com with ESMTPSA id
- m7-20020a05600c3b0700b003a1980d55c4sm4886918wms.47.2022.10.06.01.51.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 01:51:08 -0700 (PDT)
-Date: Thu, 6 Oct 2022 09:51:06 +0100
-From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: mainline build failure due to 5d8c3e836fc2 ("drm/amd/display: fix
- array-bounds error in dc_stream_remove_writeback()")
-Message-ID: <Yz6W+j+l0cJbr5dX@debian>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=1yddKYac+3X7pcirMtwSeEtzvk1L8p2YF/xQufQ19P8=;
+ b=ZFy57cUMUcaWAOdP4RCCfGcI/eawe7dSNObUQ4Vb0r2zrm7m/y/LmSkqnbU3jQITyP
+ jthfVNNDsn73EAHHgir+tMYRdAlzbKOyfbNrPbeVQ6+qC7rYvxxKdkjz/ccPxWB1JbNm
+ 0ocRa6fjLXl8Gsk0WWfB+yrC43ym9tCusZWx9n+aLKtnf5WJ+XCPvDHXwt3orcWhF1HY
+ LSvx6PEU29VT2pZoYohKvWcYQepHdINGLnRQy0nMXQG8UR9W2UW9V9J2JvkRDeiHeaZI
+ Y0VOlblsVtzOzd2nefDvFSGnMSA6R1mYGZuWcW4Bega16brGjkWv0Ra04llDm/0+boiG
+ s2bw==
+X-Gm-Message-State: ACrzQf3baWshuDUGc7KGggJvRZEVMIKm8beN4ejB6Qf404jfSQLh71yz
+ cdZDYVVpn5xfcxcTVL2i/NHR2sBfFhwBOeZaoKUeW5EUH+s=
+X-Google-Smtp-Source: AMsMyM5LyK8I/k//MgZDRg/DTE1jan/OXiYFcGl/lh1ZAAwpTB6ll4P4/NUvwUDZQKoGma/VN0owmFcpI+wwFuDf4UQ=
+X-Received: by 2002:a17:907:2d0b:b0:782:76dc:e557 with SMTP id
+ gs11-20020a1709072d0b00b0078276dce557mr3018467ejc.690.1665047007502; Thu, 06
+ Oct 2022 02:03:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <YzN6A9Y20Ea1LdEz@google.com>
+ <CACRpkdZF9TVA3+3pgjqm_cnhfPO6p0oOT=2jrqFafMCHe2cwDg@mail.gmail.com>
+ <YzwtG8CT9sTCqQQk@maple.lan>
+ <CACRpkdZ-DfZKgCOHaKn1UZ8vVwy1dEiFBBDNdxu6VNzrUdeEtA@mail.gmail.com>
+ <YzyZJSwy9xsy69WL@google.com>
+In-Reply-To: <YzyZJSwy9xsy69WL@google.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 6 Oct 2022 11:03:15 +0200
+Message-ID: <CACRpkdYecQPUd-evVpOpMLY1XUa87kP4i+E694QfTtDbEarJfQ@mail.gmail.com>
+Subject: Re: [RFC/PATCH] backlight: hx8357: prepare to conversion to gpiod API
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +67,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Linus Torvalds <torvalds@linux-foundation.org>,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+On Tue, Oct 4, 2022 at 10:35 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-The latest mainline kernel branch fails to build allmodconfig for every
-ARCH with gcc-11 with the error:
+> > Dmitry, could you fix this? Just patch away in gpiolib-of.c.
+>
+> Sure, I'll add a few quirks. I wonder what is the best way to merge
+> this? I can create a bunch of IBs to be pulled, or I can send quirks to
+> you/Bartosz and once they land send the patches to drivers...
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript [0, 0] is outside array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
-  527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
-      |                                                             ~~~~~~~~~~~~~~~~~~~~~~^~~
-In file included from ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:1269,
-                 from ./drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
-                 from ./drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
-                 from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:27:
-./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: while referencing 'writeback_info'
-  241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
-      |                                  ^~~~~~~~~~~~~~
+When I did it I was sufficiently convinced that I was the only one patching
+the quirks in gpiolib-of.c that merge window so I just included it as
+a hunk in the driver patch. If there will be some more patches to that
+file I guess some separate patch(es) for gpiolib-of.c is needed, maybe
+an immutable branch for those if it becomes a lot.
 
-
-git bisect pointed to 5d8c3e836fc2 ("drm/amd/display: fix array-bounds error in dc_stream_remove_writeback()")
-
-I will be happy to test any patch or provide any extra log if needed.
-
-Note:
-This is only seen with gcc-11, gcc-12 builds are ok.
-
-
--- 
-Regards
-Sudip
+Yours,
+Linus Walleij
