@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC845F6E39
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 21:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD29D5F6E40
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 21:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE9710E08D;
-	Thu,  6 Oct 2022 19:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB3210E4F2;
+	Thu,  6 Oct 2022 19:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
- [IPv6:2607:f8b0:4864:20::c2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E777310E08D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 19:28:40 +0000 (UTC)
-Received: by mail-oo1-xc2a.google.com with SMTP id
- i25-20020a4a8d99000000b0047fa712fc6dso916015ook.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 12:28:40 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F106610E4F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 19:30:10 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id bj12so6713511ejb.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 12:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QylbASj8mHMoZsensOf73cgYUPu6ciE5d8nOL8LnqTw=;
- b=GVveOlL1VjgEAGjoHyLhI8srzUiM+TTa6AisI33mOwo29FUxPFH3pUyhV7rqYAbR2a
- O1xyWQ6JDA7r9Ql4bfGTVWs84D1mkmsOzlrmGHnm3ct0NUm1bXfxPj6R2BFNKYvnHGW8
- wfb3nY4hnMxN3Av6FeWdMUDs1qAv3Tyy1Q6n4TCQeFrnbliWL/P4KAtIiZRu4srskDxv
- tJoxWpyirqYAhUWoL3FRfQdDddBGWzZup+QMtVtxJnWUdwBUOopRaRBhy+UZB6rWJql+
- lAH4T7wgVKW0/9mMR3ZKUHp/fKfDgx4Z8oEKyizhyiiqdUxL+/rrcI0wemV5+13VD3lh
- AxJQ==
+ bh=k2PLX7t8akejXX2rlvi6ieaQqVuMDuBcH+372rToY1E=;
+ b=D5rsC75yDUF9kWV3SquzIST3kPDsCVq58ukVLeJ5qmZglaoUSOcG3mq/Kw1MhbQXt1
+ YdLMe6XV4Yxmbg7yhHXcsAyt2922i6I8tCuoQNIeZoiAhUbwmggWK27n8m9FAWx4XKeY
+ 0Ktpzjw4yvUWDXdDOWH9yFBMxQQrXCU2eGQma5j5beosI5UCpcvI6yq34F6Xkzj+51pt
+ 6Jw2DeI6Rc03l7WXtCMp40MPb3VI54QHBKSYpTzaK7ESaxjkiNYLB6cO6EzjyZPpG+Mc
+ mwOuf7y/fp5iJ/wLRZesKkdGJR3KMB4+Bvmw2+PBUFPBG6tHFu+WiSTB9v3lBuvojg0/
+ C7mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=QylbASj8mHMoZsensOf73cgYUPu6ciE5d8nOL8LnqTw=;
- b=Y7T5kyw2cR3YmTehp5h8njtSN/RD9Kf+UBbe9+aJQYtyeVeaiwqwO8u39j7Opiz/JF
- HOoGf/PqyrXW3GP0FMCRAFI814uZUwbPsYcOYbtnP2Fgb8lHz+OW72UcP/kr46OeSINZ
- WZfhVL98kOx1AwO9mu+bGOFLOwqSrXL5E4YZCaPtT5/OKWJaz66grCcYr9zQYwdnxFmo
- Kwnvew6+s7C4+R8LWtq9mq9mwJ4AAGaGXYiULdwAAxLmIMPRSTLC9FBpQB9oN8OttXc2
- C/KTAil76MQX9zd12T+FT8BgAie1NO4UVGPV548rhtdW5jiIPoJDA0qArCe4F5xrULyI
- 1Idw==
-X-Gm-Message-State: ACrzQf3JrjE0z6RCOT5c8TDSphtFUNRaSvALkDvXAc+qEefRDu9wnALw
- lUdrd7bX4s6o0d4+bPJq6A4hCbAAeAlGqxyK1yc=
-X-Google-Smtp-Source: AMsMyM40pemucAMFt3x2dRzM1fcF+9+BTps0a0I4ERP0s9acIagU6U36M5B5fb0R3kh6xLHbX/596A/Fd8ZmTSFD944=
-X-Received: by 2002:a9d:6215:0:b0:660:f41e:513a with SMTP id
- g21-20020a9d6215000000b00660f41e513amr619627otj.123.1665084520085; Thu, 06
- Oct 2022 12:28:40 -0700 (PDT)
+ bh=k2PLX7t8akejXX2rlvi6ieaQqVuMDuBcH+372rToY1E=;
+ b=1pGCPm3iIrbeI9chEDtxyj8QpkuPCcZC2E1ja7+IQXECbRujeOdXFI5MxwVf77pKZQ
+ 63OPgttHu92NqcB4FiSPhXxRcW6MPLKG57DP6urgmXy6STgzlY4E48ZDSFipZM1S6QvQ
+ zg2X3UOgiD6ZZ9tbeql8q0pHkIpAGmxTjW3hMdOKHetrQLuAufa+ukqcFIYU+aVv2zXa
+ +ojOMfBGvBVMrCwQxlGAjjph638hNnseW3yeBN7bYwX4ibDp7IeQBtBUqnSDQRqeaKzd
+ f64QPxiZWBGabGmfaw3WwbkSS0PeV6MH+Hd3EHncqFzhTFSVpEKNUw6VvdL3ex6fYEgD
+ u89w==
+X-Gm-Message-State: ACrzQf3w1WiclUq2MJGIOT5XYV4sSpDOTx+uoYbXFvuaOKBS6lwGohL7
+ Zg2oeE/3ke4EeS5B6c+NeO27C+LygZcpbBGHbH4=
+X-Google-Smtp-Source: AMsMyM5B4b9kXUU1nZSUXa3bnfD4TPjf2+WmtG8vzAMZ3L/4bjMQge3FqWc3rAzZz/eazJuyQiuRj/DzwNNGDxg2MgM=
+X-Received: by 2002:a17:906:5a44:b0:78d:4c17:9856 with SMTP id
+ my4-20020a1709065a4400b0078d4c179856mr1177122ejc.477.1665084609198; Thu, 06
+ Oct 2022 12:30:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
  <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
 In-Reply-To: <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 6 Oct 2022 15:28:28 -0400
-Message-ID: <CADnq5_Of-8ZyBxee0fZ=0x-eV-2NX_+e9sd-9nmuHdLugSHp2g@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 7 Oct 2022 05:29:57 +1000
+Message-ID: <CAPM=9tzr1EAA=OaFmrPFT3UqQO+dixdZTPzs=tqdmgP+F_ojEA@mail.gmail.com>
 Subject: Re: [git pull] drm for 6.1-rc1
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -66,14 +65,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 6, 2022 at 2:48 PM Linus Torvalds
+On Fri, 7 Oct 2022 at 04:48, Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
 > On Tue, Oct 4, 2022 at 8:42 PM Dave Airlie <airlied@gmail.com> wrote:
@@ -109,9 +109,8 @@ On Thu, Oct 6, 2022 at 2:48 PM Linus Torvalds
 >
 > Any suggestions?
 
-Maybe you are seeing this which is an issue with GPU TLB flushes which
-is kind of sporadic:
-https://gitlab.freedesktop.org/drm/amd/-/issues/2113
-Are you seeing any GPU page faults in your kernel log?
+netconsole?
 
-Alex
+I'll plug in my 480 and see if I can make it die.
+
+Dave.
