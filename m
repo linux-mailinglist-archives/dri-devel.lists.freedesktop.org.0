@@ -2,78 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6843A5F6D86
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 20:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DC75F6DB1
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 20:48:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 653E410E864;
-	Thu,  6 Oct 2022 18:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB1110E86B;
+	Thu,  6 Oct 2022 18:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 817FD10E864
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 18:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665081085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D/EnO+t9YxsYbYukQoQ5MDLGm5W9hFbMKzmQnM2kN40=;
- b=KMh9aNe8iCq05t8fHDKPHAgH97jT4WmYN2KzB1udF10MAHVMQbeGwmBfkSBAWdU8X62bzT
- NSG85IbptJzhzVCbX3ui0haqzx9t6ST/m/mh5/qB8GZ2gYxlHSvLdQZd4BfckffdBtliCx
- fTv0/eSVT2w8Al76S4QXTLvOfwOh1is=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-588-tB_afenGO-y6FwLecE_m2g-1; Thu, 06 Oct 2022 14:31:24 -0400
-X-MC-Unique: tB_afenGO-y6FwLecE_m2g-1
-Received: by mail-io1-f71.google.com with SMTP id
- y10-20020a5d914a000000b00688fa7b2252so1714155ioq.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 11:31:24 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFFED10E86B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 18:48:03 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id v134so3017099oie.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 11:48:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vJ9aXvF0UV+hPF6vLhTwevLaf+MHU+7z3WZDrs6PuE8=;
+ b=C92DsrJa5pMHAVCLNB/mBu5Se8g4ReDdr4exh89KR8dSfA2vbRsHRJIS+8WJVKh7Hx
+ x3HTDXWT9+itDjTTvo+rRQuBc/f4nbRtWpv5Kk6ZOys8syaQSHrTO/XveqoM7wUChlyI
+ Yz8nvI/k5xSKmWTB2VxQGD63/h3PqBSNkLnZs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=D/EnO+t9YxsYbYukQoQ5MDLGm5W9hFbMKzmQnM2kN40=;
- b=sFzbZKuioBX+1dAj5s9ZtPrYyEjYfgDa4EnK4PRH+zTMkLCzRnk8EJuMFP6IuJf+RA
- tWbC/FLuJaddSKmZ8P9EpopxPt9Nra7MlEjYp1SO4HuTOVCDVpk0IhQIHj1N3VU1BgM5
- TwOUCfZACjTI7EQccG1W7/RdmnHmZRVTZfK1JG+agQ6FNPc6/Ra0l7kTMpkx2SLkXL8d
- /9/38DzUTwSlPc1K65jAKalTtYZf0ViSZ2rIYjK7G9ddkpJ5LjoIuMspDi8GhYJ8E5ZA
- +68qsPHPvj6mW3e4c1w0AmaIZED4SEnNG/XK9OCr0ANgIIPYA+cKrT4YEUIfMi4fnIjE
- j97w==
-X-Gm-Message-State: ACrzQf3UFPlY+GmrBQyz3uWK8/Ti2K/CEqTVWrYkwddCP7nvDT04wVoW
- KjLqeZaCKqlgMx3+hLxeFgq9n2F2gK78Rhm6gu5WfidK9s48fDHFJw2cfsQI2kIrgX2TUPvZpiE
- 1OaNuxNc8ZqYlcJYqSDFLJ31poALj
-X-Received: by 2002:a6b:c3c1:0:b0:6a8:3ca0:dabf with SMTP id
- t184-20020a6bc3c1000000b006a83ca0dabfmr539239iof.0.1665081083579; 
- Thu, 06 Oct 2022 11:31:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7pXlhLelqt1wt/DC14P6+x2KJSzkrMLAIfpeD1/B//Vj/lBsUWd5ZxsZxZUGk5To+kMEPI+w==
-X-Received: by 2002:a6b:c3c1:0:b0:6a8:3ca0:dabf with SMTP id
- t184-20020a6bc3c1000000b006a83ca0dabfmr539223iof.0.1665081083396; 
- Thu, 06 Oct 2022 11:31:23 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- p2-20020a056638216200b003636e5c4612sm52644jak.33.2022.10.06.11.31.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 11:31:22 -0700 (PDT)
-Date: Thu, 6 Oct 2022 12:31:22 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH] drm/i915/gvt: Add missing vfio_unregister_group_dev() call
-Message-ID: <20221006123122.524c75c9.alex.williamson@redhat.com>
-In-Reply-To: <Yz695fy8hm0N9DvS@nvidia.com>
-References: <0-v1-013609965fe8+9d-vfio_gvt_unregister_jgg@nvidia.com>
- <20221005141717.234c215e.alex.williamson@redhat.com>
- <20221005160356.52d6428c.alex.williamson@redhat.com>
- <Yz695fy8hm0N9DvS@nvidia.com>
-Organization: Red Hat
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vJ9aXvF0UV+hPF6vLhTwevLaf+MHU+7z3WZDrs6PuE8=;
+ b=Kr6Gvb7ryIYg3TTHNqG+y90p19raspFtDyC8CkamMaACvSg3f3pveP+vciWGzPrv49
+ FKDBtfUKrFJIo0mSXozkRzRxyZCds231KUF/0yaRf/KTU9bNZAJRADzBXaWKDpP1zwUV
+ eWkwQdmhUGTr/NnQl1KTP8untA8EGVNj+Wvwpz4lUK0+sCFVjpm1J+Bx4tQnpKpqTgze
+ 0yQ0dvN7ynelXDHpEbeNfIHcT3dJpliDXX96MqdjBdUq8twYvR4/a8C8A9Gh2O4P5Q/D
+ iWRZUT1dl1HUtnsGH/S72N9nB3VkJIAnLLqXWjiMaKRBXfKxb1iKCOaYVYULhvMd5el8
+ Xu4Q==
+X-Gm-Message-State: ACrzQf3JCSbRfUO32SYc9eOZ+EoJCXXuAP2EwHqJrMwl6PUXWfflpovh
+ 05EkuRybIYlTZAtJcbZqgRpA34GJBzJuYA==
+X-Google-Smtp-Source: AMsMyM4HnM1sRS5fOx1yCO2KIUmoWbj1I02+BqH5dvB7eqMkSgbXsg5mEuCkRm7r3uoyQ0GBFjpM1A==
+X-Received: by 2002:aca:5808:0:b0:350:9790:7fe with SMTP id
+ m8-20020aca5808000000b00350979007femr5919232oib.79.1665082082345; 
+ Thu, 06 Oct 2022 11:48:02 -0700 (PDT)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com.
+ [209.85.161.48]) by smtp.gmail.com with ESMTPSA id
+ q23-20020a0568080a9700b00342eade43d4sm5978567oij.13.2022.10.06.11.48.01
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 11:48:01 -0700 (PDT)
+Received: by mail-oo1-f48.google.com with SMTP id
+ c13-20020a4ac30d000000b0047663e3e16bso2018728ooq.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 11:48:01 -0700 (PDT)
+X-Received: by 2002:a05:6830:611:b0:65c:26ce:5dc with SMTP id
+ w17-20020a056830061100b0065c26ce05dcmr574454oti.176.1665082081255; Thu, 06
+ Oct 2022 11:48:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
+In-Reply-To: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 6 Oct 2022 11:47:45 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
+Message-ID: <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.1-rc1
+To: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,40 +76,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, stable@vger.kernel.org,
- intel-gvt-dev@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Oct 2022 08:37:09 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Tue, Oct 4, 2022 at 8:42 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> Lots of stuff all over, some new AMD IP support and gang
+> submit support [..]
 
-> On Wed, Oct 05, 2022 at 04:03:56PM -0600, Alex Williamson wrote:
-> > We can't have a .remove callback that does nothing, this breaks
-> > removing the device while it's in use.  Once we have the
-> > vfio_unregister_group_dev() fix below, we'll block until the device is
-> > unused, at which point vgpu->attached becomes false.  Unless I'm
-> > missing something, I think we should also follow-up with a patch to
-> > remove that bogus warn-on branch, right?  Thanks,  
-> 
-> Yes, looks right to me.
-> 
-> I question all the logical arround attached, where is the locking?
+Hmm.
 
-Zhenyu, Zhi, Kevin,
+I have now had my main desktop lock up twice after pulling this.
+Nothing in the dmesg after a reboot, and nothing in particular that
+seems to trigger it, so I have a hard time even guessing what's up,
+but the drm changes are the primary suspect.
 
-Could someone please take a look at use of vgpu->attached in the GVT-g
-driver?  It's use in intel_vgpu_remove() is bogus, the .release
-callback needs to use vfio_unregister_group_dev() to wait for the
-device to be unused.  The WARN_ON/return here breaks all future use of
-the device.  I assume @attached has something to do with the page table
-interface with KVM, but it all looks racy anyway.
+I will try to see if I can get any information out of the machine, but
+with the symptom being just a dead machine ...
 
-Also, whatever purpose vgpu->released served looks unnecessary now.
-Thanks,
+This is the same (old) Radeon device:
 
-Alex
+   49:00.0 VGA compatible controller: Advanced Micro Devices, Inc.
+[AMD/ATI] Ellesmere [Radeon RX 470/480/570/570X/580/580X/590] (rev e7)
 
+with dual 4k monitors, running on my good old Threadripper setup.
+
+Again, there's no explicit reason to blame the drm pull, except that
+it started after that merge (that machine ran the kernel with the
+networking pull for a day with no problems, and while there were other
+pull requests in between them, they seem to be fairly unrelated to the
+hardware I have).
+
+But the lockup is so sporadic (twice in the last day) that I really
+can't bisect it, so I'm afraid I have very very little info.
+
+Any suggestions?
+
+                      Linus
