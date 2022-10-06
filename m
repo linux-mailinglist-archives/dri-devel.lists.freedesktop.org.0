@@ -1,68 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FA85F71EA
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 01:37:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 286235F7207
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 01:45:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E63210E6A8;
-	Thu,  6 Oct 2022 23:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99AA610E6AC;
+	Thu,  6 Oct 2022 23:45:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0574C10E6A8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 23:37:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 28E4B61B66
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 23:37:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26241C433B5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 23:37:04 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="gcevlpT7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1665099422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eDWvYu+uSvuLU1D2yrcps4Uxg3s4afpQR1DZP1HAENk=;
- b=gcevlpT7G0qqMq/+yhbuLa/GWUjuP9yanMoWIVxtGPNbZscLlUsqrBHylYMdKoPFOZbSgq
- jhzSYPXQUFyW824NukPZ5k1txIP6Zoahl34HurtzDg2EyEItTUkXHKN6eoOYPEWyyu/8NH
- E92SgzFwRCAOghI5f75/YcGCFl4ysvQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c12855c7
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
- for <dri-devel@lists.freedesktop.org>;
- Thu, 6 Oct 2022 23:37:02 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id mg6so2153097qvb.10
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 16:37:00 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1YD2UXiddwgUdeC+RSyIRclEww/uE0fh/buzKzEfcDNFZg0bYG
- y2hjXWcGW/kiel7YKnwWOILVclHitpnnPB1jWw8=
-X-Google-Smtp-Source: AMsMyM5tvZWHSrcOLtkY/lX0Q7Qvr/oXlGj5vIRT4adjylKOfvaHnErU8AKkQNdqtGo/HZJDgntpViQRNpApZtsIptY=
-X-Received: by 2002:a05:6102:2908:b0:398:ac40:d352 with SMTP id
- cz8-20020a056102290800b00398ac40d352mr1292105vsb.55.1665099409449; Thu, 06
- Oct 2022 16:36:49 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 699D210E6AC
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 23:45:35 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id t79so3859835oie.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 16:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0UIpt5qbGLZX+l8DalBZlgk1bfpReda6mkVb7cX8QdQ=;
+ b=BnMwoemseLDRkIR1D5narDJJvmaVBsbjSkb5/+vanfF/XVhnkGjsNZ3tWnzkSx4ciX
+ E9YMP6WRJuK2MXYcdLHluOmh+v4dNk81NAZt87ZCKlPxa2zamiIZDqjJfDJzqumMTTw3
+ guxWdJ6UwoLe88lwygu3LX27x73ahXJjGx/xQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0UIpt5qbGLZX+l8DalBZlgk1bfpReda6mkVb7cX8QdQ=;
+ b=D2hs9Z4sxxR6xs3Is0PtOSw6JxYb5BhTPKncDuoWR5GMBJzq0TfdeFyZy/8Lhhk3U3
+ W28WjzKKVkmvhnIFORtveAG396yXUVRO2PQ7tkQC7a6UaUO69iKqF42HKy3LUgPwuwsq
+ phtyjdqKmUl0IGukisaaFCIQdwJEb+ATN3ZqAJI1vpsxuuXifVR1iiwlABxlVECCsOmw
+ hXPB0gRuPKy7WXNuKw7anWs+zDGb/mmCY83Otay4q4OlBNro0rCBnVYG+VMqQfeWQm1w
+ kCP8YjP0dT+gfGUR3xBwlMjgxEehqHsEDEHBLQr05TcsVQaSuoX0zkeWCIy3my1drbsC
+ lsyw==
+X-Gm-Message-State: ACrzQf25Os8lYefUBqp+GKzvIqDYhIMGQEwCp3U+8yYuKx0EBP8TQeOX
+ UQ/kilgXg3OuhJPqQP3F92Au+7ULM2GjMg==
+X-Google-Smtp-Source: AMsMyM7XRK1dVpQ6cujqZFGktbatI1A2sIC7AvR3Z7y1Kj8JWTgklYJKgV81DDIUbZmDz3a/5cIRGQ==
+X-Received: by 2002:a05:6808:1691:b0:351:48da:62e0 with SMTP id
+ bb17-20020a056808169100b0035148da62e0mr1106471oib.98.1665099933202; 
+ Thu, 06 Oct 2022 16:45:33 -0700 (PDT)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com.
+ [209.85.167.180]) by smtp.gmail.com with ESMTPSA id
+ e6-20020a4aa606000000b00475db5c28f9sm268323oom.10.2022.10.06.16.45.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 16:45:32 -0700 (PDT)
+Received: by mail-oi1-f180.google.com with SMTP id s192so3814853oie.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 16:45:31 -0700 (PDT)
+X-Received: by 2002:a05:6808:2123:b0:354:2823:f542 with SMTP id
+ r35-20020a056808212300b003542823f542mr1084598oiw.229.1665099931487; Thu, 06
+ Oct 2022 16:45:31 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:6ed0:0:b0:3d9:6dfd:499 with HTTP; Thu, 6 Oct 2022
- 16:36:48 -0700 (PDT)
-In-Reply-To: <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
- <20221006165346.73159-4-Jason@zx2c4.com>
- <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
- <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
- <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
- <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 6 Oct 2022 17:36:48 -0600
-X-Gmail-Original-Message-ID: <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
-Message-ID: <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
+References: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
+ <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
+ <CADnq5_Of-8ZyBxee0fZ=0x-eV-2NX_+e9sd-9nmuHdLugSHp2g@mail.gmail.com>
+ <CAHk-=wi43xD06UgO2McDT3R=ze_aHgOGjcDOoggSwmQRv2kA+A@mail.gmail.com>
+ <CADnq5_N0Ef+1VUoDLdpHfJXqZFuPYbx5Lq+94NWciHcQC+VrMg@mail.gmail.com>
+ <CAPM=9tyAOnzwXyyPuoceZ1mimAkzxR-63YmKfVtcQX=swywNvg@mail.gmail.com>
+In-Reply-To: <CAPM=9tyAOnzwXyyPuoceZ1mimAkzxR-63YmKfVtcQX=swywNvg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 6 Oct 2022 16:45:15 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgghR4N-4XWjoK18NDkvjBL7i00ab8+otQg955pNGG_dQ@mail.gmail.com>
+Message-ID: <CAHk-=wgghR4N-4XWjoK18NDkvjBL7i00ab8+otQg955pNGG_dQ@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.1-rc1
+To: Dave Airlie <airlied@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,149 +79,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, "x86@kernel.org" <x86@kernel.org>,
- Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- KP Singh <kpsingh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "patches@lists.linux.dev" <patches@lists.linux.dev>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Eric Dumazet <edumazet@google.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
- WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>,
- Russell King <linux@armlinux.org.uk>,
- "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
- Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Dave Airlie <airlied@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
- "James E . J . Bottomley" <jejb@linux.ibm.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Yury Norov <yury.norov@gmail.com>,
- =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@toke.dk>,
- Heiko Carstens <hca@linux.ibm.com>,
- "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Jens Axboe <axboe@kernel.dk>,
- "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>,
- "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- Florian Westphal <fw@strlen.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Chuck Lever <chuck.lever@oracle.com>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- Jan Kara <jack@suse.com>, Thomas Graf <tgraf@suug.ch>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "David S . Miller" <davem@davemloft.net>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/6/22, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+On Thu, Oct 6, 2022 at 1:25 PM Dave Airlie <airlied@gmail.com> wrote:
 >
 >
-> Le 06/10/2022 =C3=A0 19:31, Christophe Leroy a =C3=A9crit :
->>
->>
->> Le 06/10/2022 =C3=A0 19:24, Jason A. Donenfeld a =C3=A9crit :
->>> Hi Christophe,
->>>
->>> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
->>> <christophe.leroy@csgroup.eu> wrote:
->>>> Le 06/10/2022 =C3=A0 18:53, Jason A. Donenfeld a =C3=A9crit :
->>>>> The prandom_u32() function has been a deprecated inline wrapper aroun=
-d
->>>>> get_random_u32() for several releases now, and compiles down to the
->>>>> exact same code. Replace the deprecated wrapper with a direct call to
->>>>> the real function. The same also applies to get_random_int(), which i=
-s
->>>>> just a wrapper around get_random_u32().
->>>>>
->>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>>>> Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk> # for sch_c=
-ake
->>>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
->>>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
->>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
->>>>> ---
->>>>
->>>>> diff --git a/arch/powerpc/kernel/process.c
->>>>> b/arch/powerpc/kernel/process.c
->>>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
->>>>> --- a/arch/powerpc/kernel/process.c
->>>>> +++ b/arch/powerpc/kernel/process.c
->>>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
->>>>>    unsigned long arch_align_stack(unsigned long sp)
->>>>>    {
->>>>>        if (!(current->personality & ADDR_NO_RANDOMIZE) &&
->>>>> randomize_va_space)
->>>>> -             sp -=3D get_random_int() & ~PAGE_MASK;
->>>>> +             sp -=3D get_random_u32() & ~PAGE_MASK;
->>>>>        return sp & ~0xf;
->>>>
->>>> Isn't that a candidate for prandom_u32_max() ?
->>>>
->>>> Note that sp is deemed to be 16 bytes aligned at all time.
->>>
->>> Yes, probably. It seemed non-trivial to think about, so I didn't. But
->>> let's see here... maybe it's not too bad:
->>>
->>> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
->>> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
->>> thing? Is that accurate? And holds across platforms (this comes up a
->>> few places)? If so, I'll do that for a v4.
->>>
->>
->> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
->>
->> /*
->>   * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
->>   * assign PAGE_MASK to a larger type it gets extended the way we want
->>   * (i.e. with 1s in the high bits)
->>   */
->> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
->>
->> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
->>
->>
->> So it would work I guess.
->
-> But taking into account that sp must remain 16 bytes aligned, would it
-> be better to do something like ?
->
-> 	sp -=3D prandom_u32_max(PAGE_SIZE >> 4) << 4;
->
-> 	return sp;
+> [ 1234.778760] BUG: kernel NULL pointer dereference, address: 0000000000000088
+> [ 1234.778813] RIP: 0010:drm_sched_job_done.isra.0+0xc/0x140 [gpu_sched]
 
-Does this assume that sp is already aligned at the beginning of the
-function? I'd assume from the function's name that this isn't the
-case?
+As far as I can tell, that's the line
 
-Jason
+        struct drm_gpu_scheduler *sched = s_fence->sched;
+
+where 's_fence' is NULL. The code is
+
+   0: 0f 1f 44 00 00        nopl   0x0(%rax,%rax,1)
+   5: 41 54                push   %r12
+   7: 55                    push   %rbp
+   8: 53                    push   %rbx
+   9: 48 89 fb              mov    %rdi,%rbx
+   c:* 48 8b af 88 00 00 00 mov    0x88(%rdi),%rbp <-- trapping instruction
+  13: f0 ff 8d f0 00 00 00 lock decl 0xf0(%rbp)
+  1a: 48 8b 85 80 01 00 00 mov    0x180(%rbp),%rax
+
+and that next 'lock decl' instruction would have been the
+
+        atomic_dec(&sched->hw_rq_count);
+
+at the top of drm_sched_job_done().
+
+Now, as to *why* you'd have a NULL s_fence, it would seem that
+drm_sched_job_cleanup() was called with an active job. Looking at that
+code, it does
+
+        if (kref_read(&job->s_fence->finished.refcount)) {
+                /* drm_sched_job_arm() has been called */
+                dma_fence_put(&job->s_fence->finished);
+        ...
+
+but then it does
+
+        job->s_fence = NULL;
+
+anyway, despite the job still being active. The logic of that kind of
+"fake refcount" escapes me. The above looks fundamentally racy, not to
+say pointless and wrong (a refcount is a _count_, not a flag, so there
+could be multiple references to it, what says that you can just
+decrement one of them and say "I'm done").
+
+Now, _why_ any of that happens, I have no idea. I'm just looking at
+the immediate "that pointer is NULL" thing, and reacting to what looks
+like a completely bogus refcount pattern.
+
+But that odd refcount pattern isn't new, so it's presumably some user
+on the amd gpu side that changed.
+
+The problem hasn't happened again for me, but that's not saying a lot,
+since it was very random to begin with.
+
+                 Linus
