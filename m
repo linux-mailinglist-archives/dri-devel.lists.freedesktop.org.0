@@ -1,67 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737745F6CD3
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 19:23:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498725F6CD9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 19:24:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF03610E84B;
-	Thu,  6 Oct 2022 17:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FAAD10E84E;
+	Thu,  6 Oct 2022 17:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34E5910E84B;
- Thu,  6 Oct 2022 17:23:41 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id u24so2271753plq.12;
- Thu, 06 Oct 2022 10:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UAw0bo7BpTjbC8TYsIXNTxWUDQl2qr0AwdNXiKiDC5I=;
- b=Vi5knA1otkqB5+jtpnDMPTqLoMRutD6lVJ8HpHSBZv0XiHl/hWWWrS5HE3UG+eRg4U
- trridq884uNFOrwcf7QHSavxXsVnNGAE4lFccLyS2HAp/c/Q+X7WfNe14oxf8V/igNRQ
- 1NrgGnXJfSXOZEVSsD4FvFJTtmYfWzZ1SkjgpcouOyFjvbsFgZZAoL4cAbgAZAdCOiQS
- dSIkeOkMwUqcrYZgVyZZ9PyhhA/bDTAs2eBDmrpKcEqCkwKj4lG9NOx+SDRb5sOOgRZH
- lQIRQEJa73XHrWGVX+wakhbMTIY6suLIpzqSdsv1wMU6vrqK8i3LMkc8AVrZAfFDLuhj
- R1+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UAw0bo7BpTjbC8TYsIXNTxWUDQl2qr0AwdNXiKiDC5I=;
- b=gf8AMPA0qtxpoSXhb/dO9QMKvpnP8IL2GYxRRaXRQYwrsbQpgO46f5jt6Vi5sXxVW6
- bo5gJKVcsr2RoMqSA+QaHv9nsCshP4wKHnn6rwSpBMm4gqvu+sMFgus23jKIOCEITjey
- ASZPOr9zF+kGzMRmgxraeGrIRZ4E1kAoRHMgl7XMHsXl3H4nQ8iTDu5em2JiQgCQSgl6
- x46J7BGFe8diyCAQN9jf+DY1m5GNq9mH14N4IGc+ynjfIbny8IGIm3gmgTiVjfVBT0OF
- yGm17dXwO9ZVdK8z3S5cRsDK+17W1HAh37Ph61dTEH/+CUtyNfQBPXZt0ihEJjc4dbCt
- xcjA==
-X-Gm-Message-State: ACrzQf3v4P19JkH20hy0igNd5zkPuJsmNACDiCc+ijS2oBsAoTR6QNdw
- N13sl/eZMtWdx4Kw/VForXE=
-X-Google-Smtp-Source: AMsMyM76SSe/RbAiHrLfTgpz8b467HPmPADlaDsRY97uhvhSLw0E9/3l2Zvsfj3NUUgzLaoQhZummg==
-X-Received: by 2002:a17:90b:1805:b0:20a:cd8e:abd with SMTP id
- lw5-20020a17090b180500b0020acd8e0abdmr767315pjb.94.1665077020618; 
- Thu, 06 Oct 2022 10:23:40 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- y62-20020a17090a53c400b0020aaa678098sm3098894pjh.49.2022.10.06.10.23.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 10:23:39 -0700 (PDT)
-Date: Thu, 6 Oct 2022 10:23:37 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Subject: Re: [PATCH] drm/amd/display: fix array-bounds error in
- dc_stream_remove_writeback()
-Message-ID: <20221006172337.GA753466@roeck-us.net>
-References: <20220927191200.216488-1-hamza.mahfooz@amd.com>
- <20221006064615.GA2817657@roeck-us.net>
+X-Greylist: delayed 14008 seconds by postgrey-1.36 at gabe;
+ Thu, 06 Oct 2022 17:24:49 UTC
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2979410E84E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 17:24:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 9CB27CE16F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 17:24:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20E8C433C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 17:24:44 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="oE2wpGIb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1665077080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hw+hnIMvKUNp0lwyCAgNJh72KYkKEhg87FRQTBs88Es=;
+ b=oE2wpGIbQRQVj0ga2y8fZokAwaY6f7W//LHz39vdA93we7YjfP+S4VVZsgZ/z9qxD/wKnY
+ rgOmz2kzmG7Zr5oMwd1UjfwwhzSEAwNqecltCCcInlMsK7gF0WG7Xj4P/3BKgdNxZJmOiz
+ Wo+4gCC7YmXyyZVafcZnKjSX+SQ74Mw=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 125ae146
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
+ for <dri-devel@lists.freedesktop.org>;
+ Thu, 6 Oct 2022 17:24:38 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id 81so3008049ybf.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 10:24:38 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3PpQQvUEe4xJD9cqL8IGgUe0axzPFIJ7eue3k/gRpG3FCdkhCv
+ 0M6voR7bXlxNDsdEAOX9yelZ8HjSCMR7TLTLLKU=
+X-Google-Smtp-Source: AMsMyM5KG2gwBNORWG5lbntrblDeF/IiEaNCtjq1xHSusLtpHfgrAAJFtzxp/82W985F9k39J/OxSFTwH+6dW+Mrfqw=
+X-Received: by 2002:ab0:6cb0:0:b0:3d7:1184:847f with SMTP id
+ j16-20020ab06cb0000000b003d71184847fmr777504uaa.49.1665077067240; Thu, 06 Oct
+ 2022 10:24:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221006064615.GA2817657@roeck-us.net>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
+ <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
+In-Reply-To: <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Thu, 6 Oct 2022 11:24:16 -0600
+X-Gmail-Original-Message-ID: <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
+Message-ID: <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,91 +72,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- Paul Hsieh <paul.hsieh@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- Hersen Wu <hersenwu@amd.com>, regressions@lists.linux.dev,
- David Airlie <airlied@linux.ie>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Alex Hung <alex.hung@amd.com>, "Lee, Alvin" <Alvin.Lee2@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- "Leo \(Hanghong\) Ma" <hanghong.ma@amd.com>,
- Jimmy Kizito <Jimmy.Kizito@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pavle Kotarac <Pavle.Kotarac@amd.com>
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, "x86@kernel.org" <x86@kernel.org>,
+ Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ KP Singh <kpsingh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "patches@lists.linux.dev" <patches@lists.linux.dev>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Eric Dumazet <edumazet@google.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
+ WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>,
+ Russell King <linux@armlinux.org.uk>,
+ "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Dave Airlie <airlied@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
+ Yury Norov <yury.norov@gmail.com>,
+ =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@toke.dk>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+ Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Jens Axboe <axboe@kernel.dk>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>,
+ "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Florian Westphal <fw@strlen.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Chuck Lever <chuck.lever@oracle.com>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ Jan Kara <jack@suse.com>, Thomas Graf <tgraf@suug.ch>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 05, 2022 at 11:46:15PM -0700, Guenter Roeck wrote:
-> On Tue, Sep 27, 2022 at 03:12:00PM -0400, Hamza Mahfooz wrote:
-> > Address the following error:
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function ‘dc_stream_remove_writeback’:
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:55: error: array subscript [0, 0] is outside array bounds of ‘struct dc_writeback_info[1]’ [-Werror=array-bounds]
-> >   527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
-> >       |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~
-> > In file included from ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:1269,
-> >                  from ./drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
-> >                  from ./drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
-> >                  from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:27:
-> > ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: while referencing ‘writeback_info’
-> >   241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
-> >       |
-> > 
-> > Currently, we aren't checking to see if j remains within
-> > writeback_info[]'s bounds. So, add a check to make sure that we aren't
-> > overflowing the buffer.
-> > 
-> > Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> 
-> With gcc 11.3, this patch doesn't fix a problem, it introduces one.
-> 
-> Building csky:allmodconfig ... failed
-> --------------
-> Error log:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript 1 is above array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
->   527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
-> 
-> Building mips:allmodconfig ... failed
-> --------------
-> Error log:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript [0, 0] is outside array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
->   527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
-> 
-> Building arm:allmodconfig ... failed
-> --------------
-> Error log:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function 'dc_stream_remove_writeback':
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:83: error: array subscript [0, 0] is outside array bounds of 'struct dc_writeback_info[1]' [-Werror=array-bounds]
->   527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
-> 
+Hi Christophe,
 
-#regzbot introduced: 5d8c3e836fc2
+On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+> Le 06/10/2022 =C3=A0 18:53, Jason A. Donenfeld a =C3=A9crit :
+> > The prandom_u32() function has been a deprecated inline wrapper around
+> > get_random_u32() for several releases now, and compiles down to the
+> > exact same code. Replace the deprecated wrapper with a direct call to
+> > the real function. The same also applies to get_random_int(), which is
+> > just a wrapper around get_random_u32().
+> >
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk> # for sch_cak=
+e
+> > Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
+> > Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
+> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > ---
+>
+> > diff --git a/arch/powerpc/kernel/process.c b/arch/powerpc/kernel/proces=
+s.c
+> > index 0fbda89cd1bb..9c4c15afbbe8 100644
+> > --- a/arch/powerpc/kernel/process.c
+> > +++ b/arch/powerpc/kernel/process.c
+> > @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
+> >   unsigned long arch_align_stack(unsigned long sp)
+> >   {
+> >       if (!(current->personality & ADDR_NO_RANDOMIZE) && randomize_va_s=
+pace)
+> > -             sp -=3D get_random_int() & ~PAGE_MASK;
+> > +             sp -=3D get_random_u32() & ~PAGE_MASK;
+> >       return sp & ~0xf;
+>
+> Isn't that a candidate for prandom_u32_max() ?
+>
+> Note that sp is deemed to be 16 bytes aligned at all time.
 
-Complete list of build failures in my test system due to this patch,
-observed when building with gcc 11.3:
+Yes, probably. It seemed non-trivial to think about, so I didn't. But
+let's see here... maybe it's not too bad:
 
-Build results:
-	total: 149 pass: 131 fail: 18
-Failed builds:
-	alpha:allmodconfig
-	arm:allmodconfig
-	arm64:allmodconfig
-	csky:allmodconfig
-	i386:allyesconfig
-	i386:allmodconfig
-	mips:allmodconfig
-	openrisc:allmodconfig
-	parisc:allmodconfig
-	powerpc:allmodconfig
-	powerpc:ppc32_allmodconfig
-	riscv32:allmodconfig
-	riscv:allmodconfig
-	s390:allmodconfig
-	sparc64:allmodconfig
-	x86_64:allyesconfig
-	x86_64:allmodconfig
-	xtensa:allmodconfig
+If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
+(PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
+thing? Is that accurate? And holds across platforms (this comes up a
+few places)? If so, I'll do that for a v4.
 
-Guenter
+Jason
