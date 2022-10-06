@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584395F60AD
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 07:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A985F60A6
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 07:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADD510E7E2;
-	Thu,  6 Oct 2022 05:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D88E10E7DA;
+	Thu,  6 Oct 2022 05:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0967310E4A0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:48:12 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id b15so774516pje.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 21:48:12 -0700 (PDT)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F75610E7E0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 04:55:45 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id bh13so880610pgb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Oct 2022 21:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=Zga/kwguXOa9tZGzF2X+ZLpnzxGRszRa7j7kheBbr2g=;
- b=VDYXzBjTmlsVIl+Y4iF0uyvrgTLR7zDCDitOOtRhnnkCI+cj7BOAV+jXORmkdJC8NR
- kLVeoGGmNjWIzbs7ngaNL2av6vzDETZ5xNshsjkA6+Ddrv+XZy7wZSPrRI2h/WYQMveo
- FOjR6IXNtLQ2MzWVWNTzoDYr9QH87X51UPqiU=
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date;
+ bh=51dSYIsgEywaJmdEPyI7vbp82hVQfJ6jQKHayIqsWH8=;
+ b=e0wWc8f7UVTw3oXSVMh5SbOC8/ybqXORh0RfOsp37foz3bEHC+sZdUS2Cb48q2Rals
+ cLwchuP5t4lVTMm+j0edXnLdA6eiOkpTvFVeI+b/+yanhEnnWG77EYRopMXRVrLoop3K
+ nYwrVibqoZRWrTFw38o2fgxxWy4pLnB/kciNo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=Zga/kwguXOa9tZGzF2X+ZLpnzxGRszRa7j7kheBbr2g=;
- b=YntVwGMpKRk0Jw01g1o74SHaC3gMP3xzwcLzNfA7lYEd4FmDikciDZt3zhYeIEVkwZ
- TNMoHugCc2rTkKh4Z7kC2+yRZ+gkf2qVEtaLeui4BZ09Y/B8/M9zAEb+0S03j/tvQ+Mv
- 1LseRDQmSzQ+HrJej3o7GdRZDj4Oxi6t1nmpgLmEtGPaBTck0TllMILzCF//LbpA7PB+
- 1txGR/qG+LW0+o7KPRxldjtT9uEgZbnSZH8b5jE1rmDxjT3U67H7rkCSUyyV8T3187+A
- O2xxQp2Hp1S9cHxj1Pu5BV8LhiBsZhYJJ+a4y31V7lQko3sbMkzUvpksUdf3PcABW0Nv
- vgxQ==
-X-Gm-Message-State: ACrzQf0qGaGyidkjtswMCjmNGaxzG3ePQt7ruQOHCWTFXpg9IDhZBIh7
- CLi3ruOp4txGvEMuz6F2ZhIDLw==
-X-Google-Smtp-Source: AMsMyM5noNd8dF5/8fuBkrlB/HNbt95GlgliJJ8jYtlN4mBVQXEji+jNlD1vk9tphNCBxko7f/llIA==
-X-Received: by 2002:a17:90b:254b:b0:200:a860:5bf9 with SMTP id
- nw11-20020a17090b254b00b00200a8605bf9mr8436942pjb.176.1665031691628; 
- Wed, 05 Oct 2022 21:48:11 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=51dSYIsgEywaJmdEPyI7vbp82hVQfJ6jQKHayIqsWH8=;
+ b=HylJLDE77seBKtRe5AbtMybx5Nur6taET1xITnFhdSUPLdy3wrPxOYM7+HYuLzX0pI
+ ZJ+n4/fn5XYUrtECktAuXCjh4AWvfGhBMfi6kf9sHD/kP6OajorDPCGkqlXhrjpYKYEX
+ J4y/C7fE8C0+zfNl5QxsAapRlGWzbFP/e0/5hJC5xgHlq9cgUuxI1i4F/RuiDGJ7Rbc9
+ lSDD1x0vWTjJ4h55asyHlBNDB8hbqAaK6EklWjw4qNetlBnWPAEak+ydYfgcMMJyaKqG
+ ne2UVzViqa1EJY/8DfMeT8d2aJSH2LYMUyXQkVJpdjAYcE/FSccT48RCosQNqmtBwVjn
+ 0D8w==
+X-Gm-Message-State: ACrzQf0EvVmtefjFW9zMlpfgPDCwhYXhW2HiG7+xAExcYvmJlFckaVbE
+ mZRf9/X2G5m7C7bj2y6CTtmesA==
+X-Google-Smtp-Source: AMsMyM48HYcC17YfWxdcqN47yJn5oQWwbAuWOEmTE9E3JPhKRJg4eKNbmI4Bm6DfbK3tY9AIwV8yDw==
+X-Received: by 2002:a63:d613:0:b0:45a:654:cf16 with SMTP id
+ q19-20020a63d613000000b0045a0654cf16mr2835844pgg.611.1665032145428; 
+ Wed, 05 Oct 2022 21:55:45 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
  by smtp.gmail.com with ESMTPSA id
- t20-20020a170902dcd400b00178a8f4d4f2sm11197475pll.74.2022.10.05.21.48.10
+ s14-20020a17090302ce00b0017a09ebd1e2sm11252393plk.237.2022.10.05.21.55.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 21:48:10 -0700 (PDT)
-Date: Wed, 5 Oct 2022 21:48:09 -0700
+ Wed, 05 Oct 2022 21:55:44 -0700 (PDT)
+Date: Wed, 5 Oct 2022 21:55:43 -0700
 From: Kees Cook <keescook@chromium.org>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH v1 4/5] treewide: use get_random_bytes when possible
-Message-ID: <202210052148.AA3C7BB@keescook>
+Subject: Re: [PATCH v1 0/5] treewide cleanup of random integer usage
+Message-ID: <202210052148.B11CBC60@keescook>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-5-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221005214844.2699-5-Jason@zx2c4.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221005214844.2699-1-Jason@zx2c4.com>
 X-Mailman-Approved-At: Thu, 06 Oct 2022 05:33:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -182,17 +184,94 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 05, 2022 at 11:48:43PM +0200, Jason A. Donenfeld wrote:
-> The prandom_bytes() function has been a deprecated inline wrapper around
-> get_random_bytes() for several releases now, and compiles down to the
-> exact same code. Replace the deprecated wrapper with a direct call to
-> the real function.
+On Wed, Oct 05, 2022 at 11:48:39PM +0200, Jason A. Donenfeld wrote:
+> Hi folks,
 > 
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> This is a five part treewide cleanup of random integer handling. The
+> rules for random integers are:
+> 
+> - If you want a secure or an insecure random u64, use get_random_u64().
+> - If you want a secure or an insecure random u32, use get_random_u32().
+>   * The old function prandom_u32() has been deprecated for a while now
+>     and is just a wrapper around get_random_u32().
+> - If you want a secure or an insecure random u16, use get_random_u16().
+> - If you want a secure or an insecure random u8, use get_random_u8().
+> - If you want secure or insecure random bytes, use get_random_bytes().
+>   * The old function prandom_bytes() has been deprecated for a while now
+>     and has long been a wrapper around get_random_bytes().
+> - If you want a non-uniform random u32, u16, or u8 bounded by a certain
+>   open interval maximum, use prandom_u32_max().
+>   * I say "non-uniform", because it doesn't do any rejection sampling or
+>     divisions. Hence, it stays within the prandom_* namespace.
+> 
+> These rules ought to be applied uniformly, so that we can clean up the
+> deprecated functions, and earn the benefits of using the modern
+> functions. In particular, in addition to the boring substitutions, this
+> patchset accomplishes a few nice effects:
+> 
+> - By using prandom_u32_max() with an upper-bound that the compiler can
+>   prove at compile-time is ≤65536 or ≤256, internally get_random_u16()
+>   or get_random_u8() is used, which wastes fewer batched random bytes,
+>   and hence has higher throughput.
+> 
+> - By using prandom_u32_max() instead of %, when the upper-bound is not a
+>   constant, division is still avoided, because prandom_u32_max() uses
+>   a faster multiplication-based trick instead.
+> 
+> - By using get_random_u16() or get_random_u8() in cases where the return
+>   value is intended to indeed be a u16 or a u8, we waste fewer batched
+>   random bytes, and hence have higher throughput.
+> 
+> So, based on those rules and benefits from following them, this patchset
+> breaks down into the following five steps:
+> 
+> 1) Replace `prandom_u32() % max` and variants thereof with
+>    prandom_u32_max(max).
+> 
+> 2) Replace `(type)get_random_u32()` and variants thereof with
+>    get_random_u16() or get_random_u8(). I took the pains to actually
+>    look and see what every lvalue type was across the entire tree.
+> 
+> 3) Replace remaining deprecated uses of prandom_u32() with
+>    get_random_u32(). 
+> 
+> 4) Replace remaining deprecated uses of prandom_bytes() with
+>    get_random_bytes().
+> 
+> 5) Remove the deprecated and now-unused prandom_u32() and
+>    prandom_bytes() inline wrapper functions.
+> 
+> I was thinking of taking this through my random.git tree (on which this
+> series is currently based) and submitting it near the end of the merge
+> window, or waiting for the very end of the 6.1 cycle when there will be
+> the fewest new patches brewing. If somebody with some treewide-cleanup
+> experience might share some wisdom about what the best timing usually
+> winds up being, I'm all ears.
 
-Global search/replace matches. :)
+It'd be nice to capture some (all?) of the above somewhere. Perhaps just
+a massive comment in the header?
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+> I've CC'd get_maintainers.pl, which is a pretty big list. Probably some
+> portion of those are going to bounce, too, and everytime you reply to
+> this thread, you'll have to deal with a bunch of bounces coming
+> immediately after. And a recipient list this big will probably dock my
+> email domain's spam reputation, at least temporarily. Sigh. I think
+> that's just how it goes with treewide cleanups though. Again, let me
+> know if I'm doing it wrong.
+
+I usually stick to just mailing lists and subsystem maintainers.
+
+If any of the subsystems ask you to break this up (I hope not), I've got
+this[1], which does a reasonable job of splitting a commit up into
+separate commits for each matching subsystem.
+
+Showing that a treewide change can be reproduced mechanically helps with
+keeping it together as one bit treewide patch, too, I've found. :)
+
+Thank you for the cleanup! The "u8 rnd = get_random_u32()" in the tree
+has bothered me for a loooong time.
+
+-Kees
 
 -- 
 Kees Cook
