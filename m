@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A235F68A0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 15:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E11A5F697B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Oct 2022 16:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42DB910E2C2;
-	Thu,  6 Oct 2022 13:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D657C10E036;
+	Thu,  6 Oct 2022 14:21:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BF310E2C2
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 13:56:44 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- r15-20020a4abf0f000000b004761c7e6be1so1437422oop.9
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 06:56:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C1D10E036
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Oct 2022 14:21:36 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id qw20so4288972ejc.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 07:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/tGLue9QFBddVGPG1fUu/Vm6K4t9pa+6ym9D6yr+ZRI=;
- b=CJxfJ6xRFvFe0xRGHXb7hO+RqzLhVdFEA3eJcGFTiAeLFAGNotEztpUo78DXDaglEU
- iTwHL2Vj4qZZhRBZ/4fip4PYYNzGxdn5MF5FXTJ2zoOwF2DT4G4xiAYC8d+gGWMwnff5
- 0+FV+xCihxnquE3kJZbBcPZLSWgxyPxHg1DoSRDWo/L2JCexXjSpeJ5SmBr0M1h0wC8z
- SoIhDyv6A7R45rCVGfOYcN3fcNHqaSuEeb7C8ALy30+aVVNwgjiqkLQhDJTaPZw0Nmaj
- cqJyZ1cRljeRrAy7ayEZNV/GZ2OW/wJ7WmwSuvtY7D1wj8BgSwqc2pC/+6vzJGKaHV1s
- YprA==
+ bh=fXBXPvzEiAEH5ehv1zHDRG9gqpMMOtis32/SucrCl80=;
+ b=Wcj68O3BWIgWWj19pCPkOJ1c7xaya+yrBKMqyHBXAG2vcU8EsrOR0oAunzIXiBWn2b
+ FkNWsWDQ3LZ6YKBA2T8VwhsoaQmnttOGXoSduqCq/I1kzOMvRmS7WjZxpVQyNcgAw1Rq
+ cRt9bMVLA01HuYpifaVfgmApE7JHhyN4QhhOc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=/tGLue9QFBddVGPG1fUu/Vm6K4t9pa+6ym9D6yr+ZRI=;
- b=284KLSGpnG+gJrN7hhXVNI1N0WH7Wl73DX5FzykAjdIPKoBMXrx9isQJwr4YdtT8oN
- WqlW7aRrtWrOcnq1ujOFD8F8ztPcEA/KExXUOS3FZvIbtz9dIJhkTo+IwiHNUcZo/Ju7
- CWojfOI59YRlmpP/qBOCohTRmgtU/j076hr7MH3YufMaBXzc6cdWoVYKLwXeQTuMrux4
- e9odd+boq8pJtMSdwOF79VofyFG6P89TbH2x23m99EoDnLDlEI3A+M+BUKv1lyuNajcP
- sCa0mB7upSmGAMCyMgoMKu5BuTTs1cjrzHEQR1AD6IV7LC+6Mf42RurFmIaspbPsWcxT
- zHsQ==
-X-Gm-Message-State: ACrzQf3wLVziBt00vmgut0Z2ZCCvjjsTB8eBshJgoRGc2LzVUr9BKnz3
- aK+oebxEzudovU4qSGhSC6BQj6cdKx6Pzyd+b24=
-X-Google-Smtp-Source: AMsMyM7JEhRZLznaTVpUQ/ANn7XeGLOBPX/p97js8u3mIR8qd0bxqegHsBBzxRIQ4nttfAXKtUHNfSMd4v28DjD5t5U=
-X-Received: by 2002:a9d:6215:0:b0:660:f41e:513a with SMTP id
- g21-20020a9d6215000000b00660f41e513amr1490380otj.123.1665064603933; Thu, 06
- Oct 2022 06:56:43 -0700 (PDT)
+ bh=fXBXPvzEiAEH5ehv1zHDRG9gqpMMOtis32/SucrCl80=;
+ b=UQOQt7nmnqeB972H5BhTxjwlA1kPo1pYmDRvmVwaQxLdQ+CumhL7mx9hQvkcsi+jIt
+ TAhmthv0c3ucCq31GzhOmSnDsRGLCDJG+z1ao5YXg4nFWvIzYl3Oyj4zev39mjwXGMAT
+ Pig+MHeeqZ6P2eclVeUeXXc4/mMAG28msTjoIycjSxfdwJZnZ+aTKh4+PjAZHCHYZA1n
+ zY5ao5QKvMdKz9F/XChMqHw/W/ZQIAkZmh6/NxFYU+NWwdGbQwABjUdjCGQn8IZHLQuc
+ MN1ixxrJxkKsiykr1d3YKkRQKTNQxRpg10s1sPBg51ZAH/hViORlDflXCDwono2pdHcO
+ SrjA==
+X-Gm-Message-State: ACrzQf1GcAcuGg4+JiZHM1Z9d44SOxjiK9VFf7l9gP6q9fBJyBuX+uND
+ 3LMxRCQ1tAo1DDMV47ofR9D9pkJjvRs6cYuXkAomjQ==
+X-Google-Smtp-Source: AMsMyM5zfD+IcIiD4jIzzJDInCXOJceYLLjeWumY18xRsBZqIMlxpH/IpvyguY/dHTVbb8rSW4Yk4t4RAniBUAaC698=
+X-Received: by 2002:a17:906:5a4c:b0:78c:c893:74e6 with SMTP id
+ my12-20020a1709065a4c00b0078cc89374e6mr40190ejc.545.1665066094875; Thu, 06
+ Oct 2022 07:21:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220930105434.111407-1-broonie@kernel.org>
- <20221004132047.435d42db@canb.auug.org.au>
- <CAMwc25oshRcJBoCT70B+b42bh5sPqgyoHuBx6K6ZLrwBMHnJzw@mail.gmail.com>
- <20221004140558.64f59f2c@canb.auug.org.au> <YzwbW4YQwQPsRPYw@sirena.org.uk>
- <CADnq5_PbPQPui1tOdUMB+OYbz6UBMKCgtwvE95oA+SfcN0RzNg@mail.gmail.com>
- <09cd11c5-2a15-3653-957c-88c751fa9029@amd.com>
- <20221006092810.0c3a2238@canb.auug.org.au>
- <20221006191245.11bb0e2c@canb.auug.org.au>
-In-Reply-To: <20221006191245.11bb0e2c@canb.auug.org.au>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 6 Oct 2022 09:56:32 -0400
-Message-ID: <CADnq5_N1cZiG39KzUzdHCtLRRCipMMNXjaNuAvoQs8=VTjtGCA@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the drm tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
+References: <CGME20221005151323eucas1p2c69fc9989b84a9d74d568469ccd81f35@eucas1p2.samsung.com>
+ <20221005151309.7278-1-jagan@amarulasolutions.com>
+ <df3abb7c-66ae-4495-4a73-c59880a6fdff@samsung.com>
+In-Reply-To: <df3abb7c-66ae-4495-4a73-c59880a6fdff@samsung.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 6 Oct 2022 19:51:23 +0530
+Message-ID: <CAMty3ZDN6jK-fup=eHeU5doF8xqcuq87YPah4gVhcWuL-xdFmA@mail.gmail.com>
+Subject: Re: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,82 +64,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Brown <broonie@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This looks good to me.  Care to add you s-o-b?
+Hi Marek,
 
-Alex
+On Thu, Oct 6, 2022 at 2:21 AM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Hi Jagan,
+>
+> On 05.10.2022 17:12, Jagan Teki wrote:
+> > This series supports common bridge support for Samsung MIPI DSIM
+> > which is used in Exynos and i.MX8MM SoC's.
+> >
+> > The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> >
+> > Changes for v7:
+> > * fix the drm bridge attach chain for exynos drm dsi driver
+> > * fix the hw_type checking logic
+> >
+> > Changes for v6:
+> > * handle previous bridge for exynos dsi while attaching bridge
+> >
+> > Changes for v5:
+> > * bridge changes to support multi-arch
+> > * updated and clear commit messages
+> > * add hw_type via plat data
+> > * removed unneeded quirk
+> > * rebased on linux-next
+> >
+> > Changes for v4:
+> > * include Inki Dae in MAINTAINERS
+> > * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
+> > * update init handling to ensure host init done on first cmd transfer
+> >
+> > Changes for v3:
+> > * fix the mult-arch build
+> > * fix dsi host init
+> > * updated commit messages
+> >
+> > Changes for v2:
+> > * fix bridge handling
+> > * fix dsi host init
+> > * correct the commit messages
+> >
+> > Patch 0001:   Samsung DSIM bridge
+> >
+> > Patch 0002:   PHY optional
+> >
+> > Patch 0003:   OF-graph or Child node lookup
+> >
+> > Patch 0004:   DSI host initialization
+> >
+> > Patch 0005:   atomic check
+> >
+> > Patch 0006:   PMS_P offset via plat data
+> >
+> > Patch 0007:   atomic_get_input_bus_fmts
+> >
+> > Patch 0008:   input_bus_flags
+> >
+> > Patch 0009:   document fsl,imx8mm-mipi-dsim
+> >
+> > Patch 0010:   add i.MX8MM DSIM support
+> >
+> > Tested in Engicam i.Core MX8M Mini SoM.
+>
+> This finally doesn't break Exynos DSI. :) Feel free to add:
+>
+> Acked-by: Marek Szyprowski
+>
+> Tested-by: Marek Szyprowski
+>
+> The next step would be to merge Dave's patchset and remove the hacks
+> added here and there. Otherwise we will end up adding even more hacks soon.
 
-On Thu, Oct 6, 2022 at 4:12 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->
-> Hi all,
->
-> On Thu, 6 Oct 2022 09:28:10 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> >
-> > I have applied the following hack for today:
-> >
-> > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Date: Thu, 6 Oct 2022 09:14:26 +1100
-> > Subject: [PATCH] fix up for drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> >
-> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> > index ae13887756bf..a5da787b7876 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> > @@ -520,9 +520,9 @@ bool dc_stream_remove_writeback(struct dc *dc,
-> >       }
-> >
-> >       /* remove writeback info for disabled writeback pipes from stream */
-> > -     for (i = 0, j = 0; i < stream->num_wb_info && j < MAX_DWB_PIPES; i++) {
-> > +     for (i = 0, j = 0; i < stream->num_wb_info && i < MAX_DWB_PIPES; i++) {
-> >               if (stream->writeback_info[i].wb_enabled) {
-> > -                     if (i != j)
-> > +                     if ((j >= 0) && (j < i))
-> >                               /* trim the array */
-> >                               stream->writeback_info[j] = stream->writeback_info[i];
-> >                       j++;
->
-> This works as well, and (in my opinion) is better:
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> index ae13887756bf..fb6222d4c430 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> @@ -499,7 +499,7 @@ bool dc_stream_remove_writeback(struct dc *dc,
->                 struct dc_stream_state *stream,
->                 uint32_t dwb_pipe_inst)
->  {
-> -       int i = 0, j = 0;
-> +       unsigned int i, j;
->         if (stream == NULL) {
->                 dm_error("DC: dc_stream is NULL!\n");
->                 return false;
-> @@ -520,9 +520,9 @@ bool dc_stream_remove_writeback(struct dc *dc,
->         }
->
->         /* remove writeback info for disabled writeback pipes from stream */
-> -       for (i = 0, j = 0; i < stream->num_wb_info && j < MAX_DWB_PIPES; i++) {
-> +       for (i = 0, j = 0; i < stream->num_wb_info; i++) {
->                 if (stream->writeback_info[i].wb_enabled) {
-> -                       if (i != j)
-> +                       if (j < i)
->                                 /* trim the array */
->                                 stream->writeback_info[j] = stream->writeback_info[i];
->                         j++;
->
-> --
-> Cheers,
-> Stephen Rothwell
+I've some concerns about one of those patches, I will try to comment
+on that patch in mailing list or will send updated changes on top of
+those.
+
+Thanks,
+Jagan.
