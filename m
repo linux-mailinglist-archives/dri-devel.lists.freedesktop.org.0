@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B975F784C
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 14:50:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A424A5F784D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 14:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 391FF10E150;
-	Fri,  7 Oct 2022 12:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D13DA10E1B4;
+	Fri,  7 Oct 2022 12:50:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFDD310E109
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 12:50:02 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id x59so6886785ede.7
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Oct 2022 05:50:02 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F7310E159
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 12:50:07 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id f9so5565081ljk.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Oct 2022 05:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wrrrdznzTmRNvhxoL8SCZOK3Fq6gtgfxyHdbZJIJpnI=;
- b=CkS5WkwEuoScpkTqN/Vnex7SlTDJjmWf8ltwebDjzw/VuWw6FVU7zF8K5ztXKpeuba
- VS1xLXVshPj027dWbHUZcdS/Aqx0YvMDxeIjfjHni3JIso4h78Mljcc0v0+l6D8Pm4Le
- VGmDOswL/xq5CRRDXKCfl+Aqf6V8vsdF/NPHf5W3i9dV0QAzTQglQQCgEZzqWYbsCBCa
- GOcyi/3tT8Y/uHBoBWAKNAucE58ejBXYje4E1xJqCgs8sajAvLiDvVZQsQrdC3RFEbjm
- 11KxxuYoUM9uTPdeC3H1SPsWAanvMaQbQc0LS5VqUp9Q007tc7b90A+9HyDdizP7qpsw
- zFcA==
+ bh=f59EU1a1WnDP8FmZf3wrh4O5KrGlofpHUXUgEfyspJQ=;
+ b=CLZRyqPhA5+M6uyWDg31r6F8m+wKuz4Ptz9QRZt1FtszgNSWuDe5YGR3aeXy6AcqKT
+ 9tOE+oHq71rji+2VsBi5nKN5iHMLBSeUkMBJFFz+0ivIJRjXu9Kj9soi41d9E1xo65QC
+ EsOszCdKg8/8ejmsZ+fXL92Os6Z2ej9gn1sJYMqJLIS/RzwHFWeEjbCLhXXQ50kWYDJl
+ dzx+anyHHwGvYJnFoC3GCmOw/kY+iPbdje81zsQEfcnU3tK667WRAKPvl+jbImBNLlSq
+ cbxGJh61HQ3VB8T7VReug6JcELNSW7Ng/KgSNbbob6ktvF+UVt7pFPg7+Yln2vqdNypH
+ wNJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wrrrdznzTmRNvhxoL8SCZOK3Fq6gtgfxyHdbZJIJpnI=;
- b=171HZpmPJkbDU4GXzhsazj77XLocXMl18dIBGnM96ftiCarxZm8ooEwei3HOwHT0gC
- wGjnd4U5l9hyREnFzsaARTAnQzg36XC5h2dnPu/0/R0IXMVnZoA0n15/rFbZTKZQFrNM
- 40bjOrWgsBx8F6QITkYvQWjrTYGLsjHIlMxPgi1mw77sjCte4OYLnAC68Yp2MSshrm4D
- y1mPCq7vkKolLKceRjO7tge5SCFapYMM/5+/PswWn8BImBslUTaMO3C5zHQiswC90plJ
- vXmlH2OJ4HoaILsBuezlfa2b2cqARB9zhVZf7mQ4hXxquMg0e1m5c4x7t2VvtD4tiqCY
- MTqg==
-X-Gm-Message-State: ACrzQf3edf9KIOPf1PwcyjZ1LIp9qb4M0liLLRZTJsGdtJAW1nbGyxfh
- mOpzCgWtgUhkCwxupEO2ab4=
-X-Google-Smtp-Source: AMsMyM4k7Cw2VvtfHOta0Uf/xqpK0XGradDOXq7931skX0AqQ8CW2YMP4qvBGzzeZu89rWX/O1LqSg==
-X-Received: by 2002:a05:6402:35d4:b0:459:348d:a7ac with SMTP id
- z20-20020a05640235d400b00459348da7acmr4514891edc.149.1665147002327; 
- Fri, 07 Oct 2022 05:50:02 -0700 (PDT)
+ bh=f59EU1a1WnDP8FmZf3wrh4O5KrGlofpHUXUgEfyspJQ=;
+ b=CMrcA05o+8ApR5A4jVTrA9bY2Anbz6XXKV3IRYv52Dqv83zkQf/+FCvRShtePpMDIe
+ +kJADv0TVx8Zacej70wCTrO4mTp2oDBKibceT6H0sQZgBWPHLjXczmO2EzT5Nv2A01yz
+ goy3rFROS+BeBewHlSPJIUHf52+77AY5TSMdn2tD3KNLXsfv0KA52DVY1HFBYvfqfHUZ
+ UieIjPXdkRHXJk6ibu4UtqIyInZ2Ed3W8PPZin5SChO2G3oPaESgRJXkt2uyn/4dB8VE
+ hqNEGfgnzyPZZZg4NNs50DfvAK/ee5sa5ncaCIyMz1CTKou138z6ZG9pcAKXDB3p2nsn
+ GD1w==
+X-Gm-Message-State: ACrzQf32rXoqi6Fm8HBuRleqPlu5/GCATwMjpE2+yGhvpG5KdOkcv27L
+ fM2g+GZBk8LqAij4iIN9RY0=
+X-Google-Smtp-Source: AMsMyM5SeUv5h3OUh7LPJ7KiK1szc0oaT23XlSZ9LQ469HdOnpVCJpK8bPnerKLBmkxqF7Uxlp8l/g==
+X-Received: by 2002:a2e:bcc3:0:b0:26c:4c59:75ed with SMTP id
+ z3-20020a2ebcc3000000b0026c4c5975edmr1564412ljp.505.1665147004219; 
+ Fri, 07 Oct 2022 05:50:04 -0700 (PDT)
 Received: from localhost
  (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- mf22-20020a1709071a5600b0074136cac2e7sm1183617ejc.81.2022.10.07.05.50.00
+ a21-20020ac25055000000b0048b0099f40fsm281404lfm.216.2022.10.07.05.50.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 05:50:01 -0700 (PDT)
+ Fri, 07 Oct 2022 05:50:03 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 5/7] drm/format-helper: Support the XB24 format
-Date: Fri,  7 Oct 2022 14:49:44 +0200
-Message-Id: <20221007124946.406808-6-thierry.reding@gmail.com>
+Subject: [PATCH v2 6/7] drm/simpledrm: Support the XB24/AB24 format
+Date: Fri,  7 Oct 2022 14:49:45 +0200
+Message-Id: <20221007124946.406808-7-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221007124946.406808-1-thierry.reding@gmail.com>
 References: <20221007124946.406808-1-thierry.reding@gmail.com>
@@ -84,77 +84,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Add a conversion helper for the XB24 format to use in drm_fb_blit().
+Add XB24 and AB24 to the list of supported formats. The format helpers
+support conversion to these formats and they are documented in the
+simple-framebuffer device tree bindings.
 
-v2: support XB24 format instead of AB24
+v2: treat AB24 as XB24 and support both at the same time
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/drm_format_helper.c | 37 +++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ drivers/gpu/drm/tiny/simpledrm.c       | 2 ++
+ include/linux/platform_data/simplefb.h | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index e2f76621453c..8a7c200ecba9 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -503,6 +503,36 @@ static void drm_fb_rgb888_to_xrgb8888(struct iosys_map *dst, const unsigned int
- 		    drm_fb_rgb888_to_xrgb8888_line);
- }
- 
-+static void drm_fb_xrgb8888_to_xbgr8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
-+{
-+	__le32 *dbuf32 = dbuf;
-+	const __le32 *sbuf32 = sbuf;
-+	unsigned int x;
-+	u32 pix;
-+
-+	for (x = 0; x < pixels; x++) {
-+		pix = le32_to_cpu(sbuf32[x]);
-+		pix = ((pix & 0x00ff0000) >> 16) <<  0 |
-+		      ((pix & 0x0000ff00) >>  8) <<  8 |
-+		      ((pix & 0x000000ff) >>  0) << 16 |
-+		      0xff << 24;
-+		*dbuf32++ = cpu_to_le32(pix);
-+	}
-+}
-+
-+static void drm_fb_xrgb8888_to_xbgr8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-+					const struct iosys_map *src,
-+					const struct drm_framebuffer *fb,
-+					const struct drm_rect *clip)
-+{
-+	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-+		4,
-+	};
-+
-+	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
-+		    drm_fb_xrgb8888_to_xbgr8888_line);
-+}
-+
- static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
- 	__le32 *dbuf32 = dbuf;
-@@ -646,6 +676,8 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 		fb_format = DRM_FORMAT_XRGB8888;
- 	if (dst_format == DRM_FORMAT_ARGB8888)
- 		dst_format = DRM_FORMAT_XRGB8888;
-+	if (dst_format == DRM_FORMAT_ABGR8888)
-+		dst_format = DRM_FORMAT_XBGR8888;
- 	if (fb_format == DRM_FORMAT_ARGB2101010)
- 		fb_format = DRM_FORMAT_XRGB2101010;
- 	if (dst_format == DRM_FORMAT_ARGB2101010)
-@@ -673,6 +705,11 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 			drm_fb_rgb565_to_xrgb8888(dst, dst_pitch, src, fb, clip);
- 			return 0;
- 		}
-+	} else if (dst_format == DRM_FORMAT_XBGR8888) {
-+		if (fb_format == DRM_FORMAT_XRGB8888) {
-+			drm_fb_xrgb8888_to_xbgr8888(dst, dst_pitch, src, fb, clip);
-+			return 0;
-+		}
- 	} else if (dst_format == DRM_FORMAT_XRGB2101010) {
- 		if (fb_format == DRM_FORMAT_XRGB8888) {
- 			drm_fb_xrgb8888_to_xrgb2101010(dst, dst_pitch, src, fb, clip);
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index cf36f67d22e4..ecb303c89320 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -559,6 +559,8 @@ static int simpledrm_device_init_mm(struct simpledrm_device *sdev)
+ static const uint32_t simpledrm_primary_plane_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_ABGR8888,
+ 	DRM_FORMAT_RGB565,
+ 	//DRM_FORMAT_XRGB1555,
+ 	//DRM_FORMAT_ARGB1555,
+diff --git a/include/linux/platform_data/simplefb.h b/include/linux/platform_data/simplefb.h
+index 27ea99af6e1d..4f94d52ac99f 100644
+--- a/include/linux/platform_data/simplefb.h
++++ b/include/linux/platform_data/simplefb.h
+@@ -22,6 +22,7 @@
+ 	{ "r8g8b8", 24, {16, 8}, {8, 8}, {0, 8}, {0, 0}, DRM_FORMAT_RGB888 }, \
+ 	{ "x8r8g8b8", 32, {16, 8}, {8, 8}, {0, 8}, {0, 0}, DRM_FORMAT_XRGB8888 }, \
+ 	{ "a8r8g8b8", 32, {16, 8}, {8, 8}, {0, 8}, {24, 8}, DRM_FORMAT_ARGB8888 }, \
++	{ "x8b8g8r8", 32, {0, 8}, {8, 8}, {16, 8}, {0, 0}, DRM_FORMAT_XBGR8888 }, \
+ 	{ "a8b8g8r8", 32, {0, 8}, {8, 8}, {16, 8}, {24, 8}, DRM_FORMAT_ABGR8888 }, \
+ 	{ "x2r10g10b10", 32, {20, 10}, {10, 10}, {0, 10}, {0, 0}, DRM_FORMAT_XRGB2101010 }, \
+ 	{ "a2r10g10b10", 32, {20, 10}, {10, 10}, {0, 10}, {30, 2}, DRM_FORMAT_ARGB2101010 }, \
 -- 
 2.37.3
 
