@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581045F7498
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 09:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF635F749C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 09:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AFD610E289;
-	Fri,  7 Oct 2022 07:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6803D10E341;
+	Fri,  7 Oct 2022 07:16:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7B210E289
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 07:10:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A557D218EE;
- Fri,  7 Oct 2022 07:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665126627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gh0GW74J56y2+XiKHtbUMdTcJybZ1RZVhqwqiBU6OdU=;
- b=N2k99pkGFuZ9MNo0zysHxaEmEcs3na7EbleO6584fZYUe0wWX10DFsNQZzEoJyrt8OmkYP
- u8NVTtR3gcbPboww4Se1Ww/YvlPeq5XVgvC/8Q4ovr7Y1JyCtWKAcY6Coh+FXIe3E8oAjY
- JvKGjiOnmride9aEdX6lfOig4V1ogEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665126627;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gh0GW74J56y2+XiKHtbUMdTcJybZ1RZVhqwqiBU6OdU=;
- b=JzSaPpzVd2zJCtSI4gMYgUu4CoqXYi8qRSmEViRTO0hxkZmidusyxbt392bzzuZHM+4gP0
- EC/8Ry5YcbiC7+CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF01113A3D;
- Fri,  7 Oct 2022 07:10:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id fB21LePQP2PMVQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 07 Oct 2022 07:10:27 +0000
-Message-ID: <156b7bad-810b-80ce-3f79-bca10641d1a1@suse.de>
-Date: Fri, 7 Oct 2022 09:10:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F57D10E341
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 07:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665126962; x=1696662962;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=5nTDREGx6XROYfTyn5xMQb201aaqjkfEqm7Nb8JpeLo=;
+ b=RapmpQft2cn6IBFHfhwXcQJCn7ZxYi5brxxUrXvXmyRPpaTRia8BBtX+
+ ooI+CeHDb0XjcDUMshkxC45fsIKxCgUfVDjaST8MIghxnLlVdJ+ape8B/
+ rp5rScUrCW6cDng51kaUGELAa03OjnxNVnjkKU6NruzEDtSvoDSWp+pvE
+ 4aF+wGNSiTRst4COMl2kCwkuZykTj6ozZzx/CkGed1c/XF2LIIM7dagR4
+ TOaSxhOCJtdJbHUEu2s/yMOguYXAtx3egvVXxZwIN1PaQZLjwwrZrts+g
+ fhwKmf2exNK19OtrY2k1Yse66DOMa9BFiBO/8bltf5gSXeLPws0gCgR1e Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="305251666"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="305251666"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2022 00:16:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="767468351"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="767468351"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga001.fm.intel.com with SMTP; 07 Oct 2022 00:15:58 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 07 Oct 2022 10:15:58 +0300
+Date: Fri, 7 Oct 2022 10:15:58 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: drm fb helpers hotplug/resize
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>
+Message-ID: <Yz/SLn6jnUsTAw6y@intel.com>
 References: <9884c2f0daeccbaeaa9995bd8bdb25b98838b980.camel@vmware.com>
  <8fc0e4de-2448-1d04-d1b0-16f87498fe98@suse.de>
  <a3f7176eb7ae321f939d906adb1873cef7fe01ce.camel@vmware.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <a3f7176eb7ae321f939d906adb1873cef7fe01ce.camel@vmware.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------4Ou1WCM7U5BCkeoAG9MlitBB"
+ <156b7bad-810b-80ce-3f79-bca10641d1a1@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <156b7bad-810b-80ce-3f79-bca10641d1a1@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,157 +67,110 @@ Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------4Ou1WCM7U5BCkeoAG9MlitBB
-Content-Type: multipart/mixed; boundary="------------kqlJQBopqpHroj5cAemJQwD9";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Message-ID: <156b7bad-810b-80ce-3f79-bca10641d1a1@suse.de>
-Subject: Re: drm fb helpers hotplug/resize
-References: <9884c2f0daeccbaeaa9995bd8bdb25b98838b980.camel@vmware.com>
- <8fc0e4de-2448-1d04-d1b0-16f87498fe98@suse.de>
- <a3f7176eb7ae321f939d906adb1873cef7fe01ce.camel@vmware.com>
-In-Reply-To: <a3f7176eb7ae321f939d906adb1873cef7fe01ce.camel@vmware.com>
+On Fri, Oct 07, 2022 at 09:10:27AM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 07.10.22 um 04:16 schrieb Zack Rusin:
+> > On Thu, 2022-10-06 at 10:01 +0200, Thomas Zimmermann wrote:
+> >> Hi Zack
+> >>
+> >> Am 05.10.22 um 21:49 schrieb Zack Rusin:
+> >>> Hi, Thomas.
+> >>>
+> >>> Because you've been the one who's been working on drm_fb_helper.c the most the last
+> >>> few years I wanted to pick your brain a bit.
+> >>>
+> >>> I was porting vmwgfx to drm_fb_helper code which is largely trivial, just removing
+> >>> all of vmwgfx_fb.c and replacing it with a call to drm_fbdev_generic_setup. But
+> >>
+> >> Thanks a lot for this work. I have been looking into doing this
+> >> conversion myself at some point, but never found the time to actually do
+> >> it.
+> >>
+> >>> drm_fb_helper.c code never deals with resizes which is a bit of a problem.
+> >>>
+> >>> e.g. replacing the drm_sysfs_hotplug_event() call from
+> >>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c#L2255
+> >>> with drm_kms_helper_hotplug_event will call drm_fbdev_client_hotplug and end up in
+> >>> drm_fb_helper_hotplug_event:
+> >>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_fb_helper.c#L2003
+> >>>
+> >>> Now drm_fb_helper_hotplug_event does drm_client_modeset_probe but it never resizes
+> >>> drm_fb_helper::buffer and drm_fb_helper::fb so they're both incorrectly sized.
+> >>>
+> >>> In general I don't see drm_fb_helper code ever being able to deal with resizes. In
+> >>> particular because the fbdev's xres_virtual/yres_virtual are sized exactly to the
+> >>> initial xres/yres.
+> >>>
+> >>> It's definitely a lot bigger issue on virtualized environments where at boot we'll
+> >>> have some very conservative size (800x600) on vmwgfx which is then usually resized
+> >>> to the size of the window. drm_fb_helper breaks pretty bad in that case because it
+> >>> can't deal with those resizes at all.
+> 
+> The initial resolution of 800x600 is imposed by the driver, right? 
+> (VMW_MIN_INITIAL_{WIDTH,HEIGHT}) You can use video= on the kernel 
+> command line to select a resolution. That gives at least a workaround 
+> with fbdev emulation.
+> 
+> >>>
+> >>> Is this scenario something that drm_fb_helper should be able to handle or is it not
+> >>> worth pursuing it? I don't think there's a trivial way of handling it so my guess is
+> >>> that it would make drm_fb_helper quite a bit more complicated.
+> >>
+> >> I'm aware that resizing is missing. It's one of the few things I'd like
+> >> to see being added to generic fbdev emulation. But as you say, it's not
+> >> easy. The generic fbdev emulation has all kinds of code paths for the
+> >> various drivers' memory managers. That makes it complicated.
+> >>
+> >> The problem is that fbdev's mmap'ed memory cannot be reallocated. It is
+> >> expected to behave like 'real video memory.' So either reserve a chunk
+> >> of the video ram for fbdev's GEM objects or use deferred I/O, which
+> >> provides mmaped pages from a shadow buffer in system memory. vmwgfx uses
+> >> the latter IIRC.
+> >>
+> >> But ideally, we'd get rid of most of the shadow buffering and try to
+> >> mmap pages directly from GEM objects. For modesetting, this means that
+> >> the new mode's framebuffer has to inherit the old framebuffer's buffer
+> >> objects. Probably the easiest solution is to allocate a framebuffer once
+> >> and reconfigure its parameters (width, height, pitch) on each modeset
+> >> operation.
+> >>
+> >> Switching to a higher resolution would require more video memory.
+> >> Although we cannot reallocate, this problem can be solved with the
+> >> drm_fbdev_overalloc parameter. It gives the percentage of allocated
+> >> video memory. If you start with 800x600 with overalloc at 400, you'd get
+> >> enough video memory for 2400 scanlines. This allows for fbdev panning
+> >> (i.e., pageflipping). With that extra memory fbdev could switch to
+> >> another display mode with a higher resolution. For example, changing to
+> >> 1024x786 would result in 1875 scanlines at the given overalloc of 400.
+> >>
+> >> To implement this, I guess that some of fbdev's memory allocation needs
+> >> to be changed. The check_var and set_par code needs an update to handle
+> >> the modeset. And I suspect that there are other dark corners that need
+> >> to be reworked as well.
+> > 
+> > That sounds good. In a similar fashion to drm_fbdev_overalloc another, rather hacky
+> > but vastly simpler approach, would be to basically allow the drivers to specify the
+> > maximum size of fb to support in drm_fbdev_generic_setup. This would just directly
+> > set the drm_fb_helper_surface_size::surface_width and surface_height with the end
+> > result being that drm_client_framebuffer_create would be called with those values
+> > and xres_virtual/yres_virtual would be set to them. Resizing would basically just
+> > work then, right? Of course at the cost of possibly large allocation, e.g. 4k fb
+> > even when only 800x600 is actually used.
+> 
+> For the absolute size of fbdev memory, I think we should introduce a 
+> module parameter in drm_fb_helper, which an option to set a default 
+> value in the kernel config. It would benefit all drivers that use fbdev 
+> emulation and work how overalloc works.
+> 
+> If no size is given, the current approach would be used.
+> 
+> I don't think resizing would work immediately. There isn't anything in 
+> the check_var and set_par functions that implements the necessary atomic 
+> check and commit.
 
---------------kqlJQBopqpHroj5cAemJQwD9
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+set_par() is the thing tht does the commit.
 
-SGkNCg0KQW0gMDcuMTAuMjIgdW0gMDQ6MTYgc2NocmllYiBaYWNrIFJ1c2luOg0KPiBPbiBU
-aHUsIDIwMjItMTAtMDYgYXQgMTA6MDEgKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4gSGkgWmFjaw0KPj4NCj4+IEFtIDA1LjEwLjIyIHVtIDIxOjQ5IHNjaHJpZWIgWmFj
-ayBSdXNpbjoNCj4+PiBIaSwgVGhvbWFzLg0KPj4+DQo+Pj4gQmVjYXVzZSB5b3UndmUgYmVl
-biB0aGUgb25lIHdobydzIGJlZW4gd29ya2luZyBvbiBkcm1fZmJfaGVscGVyLmMgdGhlIG1v
-c3QgdGhlIGxhc3QNCj4+PiBmZXcgeWVhcnMgSSB3YW50ZWQgdG8gcGljayB5b3VyIGJyYWlu
-IGEgYml0Lg0KPj4+DQo+Pj4gSSB3YXMgcG9ydGluZyB2bXdnZnggdG8gZHJtX2ZiX2hlbHBl
-ciBjb2RlIHdoaWNoIGlzIGxhcmdlbHkgdHJpdmlhbCwganVzdCByZW1vdmluZw0KPj4+IGFs
-bCBvZiB2bXdnZnhfZmIuYyBhbmQgcmVwbGFjaW5nIGl0IHdpdGggYSBjYWxsIHRvIGRybV9m
-YmRldl9nZW5lcmljX3NldHVwLiBCdXQNCj4+DQo+PiBUaGFua3MgYSBsb3QgZm9yIHRoaXMg
-d29yay4gSSBoYXZlIGJlZW4gbG9va2luZyBpbnRvIGRvaW5nIHRoaXMNCj4+IGNvbnZlcnNp
-b24gbXlzZWxmIGF0IHNvbWUgcG9pbnQsIGJ1dCBuZXZlciBmb3VuZCB0aGUgdGltZSB0byBh
-Y3R1YWxseSBkbw0KPj4gaXQuDQo+Pg0KPj4+IGRybV9mYl9oZWxwZXIuYyBjb2RlIG5ldmVy
-IGRlYWxzIHdpdGggcmVzaXplcyB3aGljaCBpcyBhIGJpdCBvZiBhIHByb2JsZW0uDQo+Pj4N
-Cj4+PiBlLmcuIHJlcGxhY2luZyB0aGUgZHJtX3N5c2ZzX2hvdHBsdWdfZXZlbnQoKSBjYWxs
-IGZyb20NCj4+PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291
-cmNlL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jI0wyMjU1DQo+Pj4gd2l0
-aCBkcm1fa21zX2hlbHBlcl9ob3RwbHVnX2V2ZW50IHdpbGwgY2FsbCBkcm1fZmJkZXZfY2xp
-ZW50X2hvdHBsdWcgYW5kIGVuZCB1cCBpbg0KPj4+IGRybV9mYl9oZWxwZXJfaG90cGx1Z19l
-dmVudDoNCj4+PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291
-cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMjTDIwMDMNCj4+Pg0KPj4+IE5v
-dyBkcm1fZmJfaGVscGVyX2hvdHBsdWdfZXZlbnQgZG9lcyBkcm1fY2xpZW50X21vZGVzZXRf
-cHJvYmUgYnV0IGl0IG5ldmVyIHJlc2l6ZXMNCj4+PiBkcm1fZmJfaGVscGVyOjpidWZmZXIg
-YW5kIGRybV9mYl9oZWxwZXI6OmZiIHNvIHRoZXkncmUgYm90aCBpbmNvcnJlY3RseSBzaXpl
-ZC4NCj4+Pg0KPj4+IEluIGdlbmVyYWwgSSBkb24ndCBzZWUgZHJtX2ZiX2hlbHBlciBjb2Rl
-IGV2ZXIgYmVpbmcgYWJsZSB0byBkZWFsIHdpdGggcmVzaXplcy4gSW4NCj4+PiBwYXJ0aWN1
-bGFyIGJlY2F1c2UgdGhlIGZiZGV2J3MgeHJlc192aXJ0dWFsL3lyZXNfdmlydHVhbCBhcmUg
-c2l6ZWQgZXhhY3RseSB0byB0aGUNCj4+PiBpbml0aWFsIHhyZXMveXJlcy4NCj4+Pg0KPj4+
-IEl0J3MgZGVmaW5pdGVseSBhIGxvdCBiaWdnZXIgaXNzdWUgb24gdmlydHVhbGl6ZWQgZW52
-aXJvbm1lbnRzIHdoZXJlIGF0IGJvb3Qgd2UnbGwNCj4+PiBoYXZlIHNvbWUgdmVyeSBjb25z
-ZXJ2YXRpdmUgc2l6ZSAoODAweDYwMCkgb24gdm13Z2Z4IHdoaWNoIGlzIHRoZW4gdXN1YWxs
-eSByZXNpemVkDQo+Pj4gdG8gdGhlIHNpemUgb2YgdGhlIHdpbmRvdy4gZHJtX2ZiX2hlbHBl
-ciBicmVha3MgcHJldHR5IGJhZCBpbiB0aGF0IGNhc2UgYmVjYXVzZSBpdA0KPj4+IGNhbid0
-IGRlYWwgd2l0aCB0aG9zZSByZXNpemVzIGF0IGFsbC4NCg0KVGhlIGluaXRpYWwgcmVzb2x1
-dGlvbiBvZiA4MDB4NjAwIGlzIGltcG9zZWQgYnkgdGhlIGRyaXZlciwgcmlnaHQ/IA0KKFZN
-V19NSU5fSU5JVElBTF97V0lEVEgsSEVJR0hUfSkgWW91IGNhbiB1c2UgdmlkZW89IG9uIHRo
-ZSBrZXJuZWwgDQpjb21tYW5kIGxpbmUgdG8gc2VsZWN0IGEgcmVzb2x1dGlvbi4gVGhhdCBn
-aXZlcyBhdCBsZWFzdCBhIHdvcmthcm91bmQgDQp3aXRoIGZiZGV2IGVtdWxhdGlvbi4NCg0K
-Pj4+DQo+Pj4gSXMgdGhpcyBzY2VuYXJpbyBzb21ldGhpbmcgdGhhdCBkcm1fZmJfaGVscGVy
-IHNob3VsZCBiZSBhYmxlIHRvIGhhbmRsZSBvciBpcyBpdCBub3QNCj4+PiB3b3J0aCBwdXJz
-dWluZyBpdD8gSSBkb24ndCB0aGluayB0aGVyZSdzIGEgdHJpdmlhbCB3YXkgb2YgaGFuZGxp
-bmcgaXQgc28gbXkgZ3Vlc3MgaXMNCj4+PiB0aGF0IGl0IHdvdWxkIG1ha2UgZHJtX2ZiX2hl
-bHBlciBxdWl0ZSBhIGJpdCBtb3JlIGNvbXBsaWNhdGVkLg0KPj4NCj4+IEknbSBhd2FyZSB0
-aGF0IHJlc2l6aW5nIGlzIG1pc3NpbmcuIEl0J3Mgb25lIG9mIHRoZSBmZXcgdGhpbmdzIEkn
-ZCBsaWtlDQo+PiB0byBzZWUgYmVpbmcgYWRkZWQgdG8gZ2VuZXJpYyBmYmRldiBlbXVsYXRp
-b24uIEJ1dCBhcyB5b3Ugc2F5LCBpdCdzIG5vdA0KPj4gZWFzeS4gVGhlIGdlbmVyaWMgZmJk
-ZXYgZW11bGF0aW9uIGhhcyBhbGwga2luZHMgb2YgY29kZSBwYXRocyBmb3IgdGhlDQo+PiB2
-YXJpb3VzIGRyaXZlcnMnIG1lbW9yeSBtYW5hZ2Vycy4gVGhhdCBtYWtlcyBpdCBjb21wbGlj
-YXRlZC4NCj4+DQo+PiBUaGUgcHJvYmxlbSBpcyB0aGF0IGZiZGV2J3MgbW1hcCdlZCBtZW1v
-cnkgY2Fubm90IGJlIHJlYWxsb2NhdGVkLiBJdCBpcw0KPj4gZXhwZWN0ZWQgdG8gYmVoYXZl
-IGxpa2UgJ3JlYWwgdmlkZW8gbWVtb3J5LicgU28gZWl0aGVyIHJlc2VydmUgYSBjaHVuaw0K
-Pj4gb2YgdGhlIHZpZGVvIHJhbSBmb3IgZmJkZXYncyBHRU0gb2JqZWN0cyBvciB1c2UgZGVm
-ZXJyZWQgSS9PLCB3aGljaA0KPj4gcHJvdmlkZXMgbW1hcGVkIHBhZ2VzIGZyb20gYSBzaGFk
-b3cgYnVmZmVyIGluIHN5c3RlbSBtZW1vcnkuIHZtd2dmeCB1c2VzDQo+PiB0aGUgbGF0dGVy
-IElJUkMuDQo+Pg0KPj4gQnV0IGlkZWFsbHksIHdlJ2QgZ2V0IHJpZCBvZiBtb3N0IG9mIHRo
-ZSBzaGFkb3cgYnVmZmVyaW5nIGFuZCB0cnkgdG8NCj4+IG1tYXAgcGFnZXMgZGlyZWN0bHkg
-ZnJvbSBHRU0gb2JqZWN0cy4gRm9yIG1vZGVzZXR0aW5nLCB0aGlzIG1lYW5zIHRoYXQNCj4+
-IHRoZSBuZXcgbW9kZSdzIGZyYW1lYnVmZmVyIGhhcyB0byBpbmhlcml0IHRoZSBvbGQgZnJh
-bWVidWZmZXIncyBidWZmZXINCj4+IG9iamVjdHMuIFByb2JhYmx5IHRoZSBlYXNpZXN0IHNv
-bHV0aW9uIGlzIHRvIGFsbG9jYXRlIGEgZnJhbWVidWZmZXIgb25jZQ0KPj4gYW5kIHJlY29u
-ZmlndXJlIGl0cyBwYXJhbWV0ZXJzICh3aWR0aCwgaGVpZ2h0LCBwaXRjaCkgb24gZWFjaCBt
-b2Rlc2V0DQo+PiBvcGVyYXRpb24uDQo+Pg0KPj4gU3dpdGNoaW5nIHRvIGEgaGlnaGVyIHJl
-c29sdXRpb24gd291bGQgcmVxdWlyZSBtb3JlIHZpZGVvIG1lbW9yeS4NCj4+IEFsdGhvdWdo
-IHdlIGNhbm5vdCByZWFsbG9jYXRlLCB0aGlzIHByb2JsZW0gY2FuIGJlIHNvbHZlZCB3aXRo
-IHRoZQ0KPj4gZHJtX2ZiZGV2X292ZXJhbGxvYyBwYXJhbWV0ZXIuIEl0IGdpdmVzIHRoZSBw
-ZXJjZW50YWdlIG9mIGFsbG9jYXRlZA0KPj4gdmlkZW8gbWVtb3J5LiBJZiB5b3Ugc3RhcnQg
-d2l0aCA4MDB4NjAwIHdpdGggb3ZlcmFsbG9jIGF0IDQwMCwgeW91J2QgZ2V0DQo+PiBlbm91
-Z2ggdmlkZW8gbWVtb3J5IGZvciAyNDAwIHNjYW5saW5lcy4gVGhpcyBhbGxvd3MgZm9yIGZi
-ZGV2IHBhbm5pbmcNCj4+IChpLmUuLCBwYWdlZmxpcHBpbmcpLiBXaXRoIHRoYXQgZXh0cmEg
-bWVtb3J5IGZiZGV2IGNvdWxkIHN3aXRjaCB0bw0KPj4gYW5vdGhlciBkaXNwbGF5IG1vZGUg
-d2l0aCBhIGhpZ2hlciByZXNvbHV0aW9uLiBGb3IgZXhhbXBsZSwgY2hhbmdpbmcgdG8NCj4+
-IDEwMjR4Nzg2IHdvdWxkIHJlc3VsdCBpbiAxODc1IHNjYW5saW5lcyBhdCB0aGUgZ2l2ZW4g
-b3ZlcmFsbG9jIG9mIDQwMC4NCj4+DQo+PiBUbyBpbXBsZW1lbnQgdGhpcywgSSBndWVzcyB0
-aGF0IHNvbWUgb2YgZmJkZXYncyBtZW1vcnkgYWxsb2NhdGlvbiBuZWVkcw0KPj4gdG8gYmUg
-Y2hhbmdlZC4gVGhlIGNoZWNrX3ZhciBhbmQgc2V0X3BhciBjb2RlIG5lZWRzIGFuIHVwZGF0
-ZSB0byBoYW5kbGUNCj4+IHRoZSBtb2Rlc2V0LiBBbmQgSSBzdXNwZWN0IHRoYXQgdGhlcmUg
-YXJlIG90aGVyIGRhcmsgY29ybmVycyB0aGF0IG5lZWQNCj4+IHRvIGJlIHJld29ya2VkIGFz
-IHdlbGwuDQo+IA0KPiBUaGF0IHNvdW5kcyBnb29kLiBJbiBhIHNpbWlsYXIgZmFzaGlvbiB0
-byBkcm1fZmJkZXZfb3ZlcmFsbG9jIGFub3RoZXIsIHJhdGhlciBoYWNreQ0KPiBidXQgdmFz
-dGx5IHNpbXBsZXIgYXBwcm9hY2gsIHdvdWxkIGJlIHRvIGJhc2ljYWxseSBhbGxvdyB0aGUg
-ZHJpdmVycyB0byBzcGVjaWZ5IHRoZQ0KPiBtYXhpbXVtIHNpemUgb2YgZmIgdG8gc3VwcG9y
-dCBpbiBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cC4gVGhpcyB3b3VsZCBqdXN0IGRpcmVjdGx5
-DQo+IHNldCB0aGUgZHJtX2ZiX2hlbHBlcl9zdXJmYWNlX3NpemU6OnN1cmZhY2Vfd2lkdGgg
-YW5kIHN1cmZhY2VfaGVpZ2h0IHdpdGggdGhlIGVuZA0KPiByZXN1bHQgYmVpbmcgdGhhdCBk
-cm1fY2xpZW50X2ZyYW1lYnVmZmVyX2NyZWF0ZSB3b3VsZCBiZSBjYWxsZWQgd2l0aCB0aG9z
-ZSB2YWx1ZXMNCj4gYW5kIHhyZXNfdmlydHVhbC95cmVzX3ZpcnR1YWwgd291bGQgYmUgc2V0
-IHRvIHRoZW0uIFJlc2l6aW5nIHdvdWxkIGJhc2ljYWxseSBqdXN0DQo+IHdvcmsgdGhlbiwg
-cmlnaHQ/IE9mIGNvdXJzZSBhdCB0aGUgY29zdCBvZiBwb3NzaWJseSBsYXJnZSBhbGxvY2F0
-aW9uLCBlLmcuIDRrIGZiDQo+IGV2ZW4gd2hlbiBvbmx5IDgwMHg2MDAgaXMgYWN0dWFsbHkg
-dXNlZC4NCg0KRm9yIHRoZSBhYnNvbHV0ZSBzaXplIG9mIGZiZGV2IG1lbW9yeSwgSSB0aGlu
-ayB3ZSBzaG91bGQgaW50cm9kdWNlIGEgDQptb2R1bGUgcGFyYW1ldGVyIGluIGRybV9mYl9o
-ZWxwZXIsIHdoaWNoIGFuIG9wdGlvbiB0byBzZXQgYSBkZWZhdWx0IA0KdmFsdWUgaW4gdGhl
-IGtlcm5lbCBjb25maWcuIEl0IHdvdWxkIGJlbmVmaXQgYWxsIGRyaXZlcnMgdGhhdCB1c2Ug
-ZmJkZXYgDQplbXVsYXRpb24gYW5kIHdvcmsgaG93IG92ZXJhbGxvYyB3b3Jrcy4NCg0KSWYg
-bm8gc2l6ZSBpcyBnaXZlbiwgdGhlIGN1cnJlbnQgYXBwcm9hY2ggd291bGQgYmUgdXNlZC4N
-Cg0KSSBkb24ndCB0aGluayByZXNpemluZyB3b3VsZCB3b3JrIGltbWVkaWF0ZWx5LiBUaGVy
-ZSBpc24ndCBhbnl0aGluZyBpbiANCnRoZSBjaGVja192YXIgYW5kIHNldF9wYXIgZnVuY3Rp
-b25zIHRoYXQgaW1wbGVtZW50cyB0aGUgbmVjZXNzYXJ5IGF0b21pYyANCmNoZWNrIGFuZCBj
-b21taXQuDQoNCj4gDQo+IEVpdGhlciB3YXkgSSdsbCBzZW5kIG91dCB0aGUgcGF0Y2ggdGhh
-dCBwb3J0cyB2bXdnZnggdG8gZHJtX2ZiX2hlbHBlcnMgYmVjYXVzZSBldmVuDQo+IHdpdGhv
-dXQgcmVzaXppbmcgc3VwcG9ydCwgaXQgcmVtb3ZlcyB+MTAwMGxvYyBmcm9tIHZtd2dmeCBh
-bmQgSSB0aGluayBpcyB3ZWxsIHdvcnRoDQo+IGl0IGFuZCB3ZSBjYW4gZmlndXJlIG91dCBo
-b3cgdG8gaGFuZGxlIGRybV9mYl9oZWxwZXJzIGxhdGVyLg0KDQpPSywgaWYgdGhhdCBpc24n
-dCBhIHByb2JsZW0gZm9yIHZtd2dmeC4gSSByZW1lbWJlciB0aGF0IFN1c2UgaGFkIGEgDQpj
-dXN0b21lciB0aGF0IHVzZXMgWDExIG9uIHRvcCBvZiBmYmRldiAqd2l0aCogdm13Z2Z4J3Mg
-ZGlzcGxheSByZXNpemluZy4gDQpUaGVzZSB1c2VycyBjb3VsZCBjZXJ0YWlubHkgc3dpdGNo
-IHRvIHVzaW5nIERSTSB0aG91Z2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+
-IHoNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
-cg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1
-LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykN
-Ckdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
-
---------------kqlJQBopqpHroj5cAemJQwD9--
-
---------------4Ou1WCM7U5BCkeoAG9MlitBB
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM/0OMFAwAAAAAACgkQlh/E3EQov+Dj
-SQ/+MufIL6orPVMFwjMWJMPZLn2p1faP2pAQBr7aNkpXStBGaK/Y2K8o5kmDslpn/JRZMY8Vi+Za
-hhmv8ZnvmwX/3WaF6SSn3qliiEFq7MewxrCvXq7DfuXTMiVA7Tziqv/3reSY+O3a3gPenqVezuVt
-QNlAcYC9ZJyUvIABVVdoUWAIcyMKt5YbO9DAx4AaCfzakSEacNVUhM6M29OQJrryI2MmHq++XZDc
-K6jNs4e4BT20esDmSW1OOeUE3SdcQOXonvvLaQVzZfr+AHLr5qKZitWFodR2cDtGv57iktIosGFs
-Ob7q2X4HLYsKTv+fu+SJkgGEdV9bTWH2XKKMqKYouAiLjHjZDecs4CHGfqc1nS9SewU1LH477Tic
-FZysxhO4EnZaFRN/uWGifh92Ict1v/gsHrrezhEnWnF+fM/wsuCzAkKhB+AGllRb9J4TrDXgPX7b
-Zk0FfDtu2EyNVLqMjfLj/o/7uA7MA7jNcgIOknkCH6YF2mvcqTteI8MsDqP7qFBctjf4QuDyf0zJ
-pGQdfFWnmqjCgMS10d4p6ZA4fQtoLqWfYUQCJXHQUY3K6REvy87Tgl3o5K5uE4DMWaOm104t8/cX
-ojQo8VOAio0xH7nMYFPhYFVeDDyWf8safVU6KFIIlKdavSDrhlNin1rolDR7Gx+QIIuqMUH/zMWk
-5v4=
-=oQnL
------END PGP SIGNATURE-----
-
---------------4Ou1WCM7U5BCkeoAG9MlitBB--
+-- 
+Ville Syrjälä
+Intel
