@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F765F7508
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 10:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D9E5F751D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 10:16:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3C210E06E;
-	Fri,  7 Oct 2022 08:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F6A10E427;
+	Fri,  7 Oct 2022 08:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6EFB10E06E
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 08:06:28 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 450D321898;
- Fri,  7 Oct 2022 08:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665129987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+plFcqhzxAuYDCsC3MNYXR9/lOAr0AmkVzvWXp2aqU8=;
- b=l5zCV+YhXBaNEwTUBmHzkcO90JkoANVZG9UIYkrpgEIuZtsbbxT7T7MROdHaVWeIBHPHlZ
- il7JEauUJle+YnN7cPuUXz7wWNrgJlqUYBGGpccqfbV0Hm4dSkNKZP4fLw+ok/SF1DYrD7
- r1MUTHee2QOye29NPqSEq8EBtLzxjw8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665129987;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+plFcqhzxAuYDCsC3MNYXR9/lOAr0AmkVzvWXp2aqU8=;
- b=z2E5Ms+/oKNS+UhyqlKEo1wu+Zufey1ZhzS1dcyY41Hmf6e2jSGVGJlxfDow5rH4AyXJVG
- pWCgbce+KoHGnmAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A0A513A9A;
- Fri,  7 Oct 2022 08:06:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +kozCQPeP2PebAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 07 Oct 2022 08:06:27 +0000
-Message-ID: <cd7f1488-2e9b-11fb-a33f-bef861d31a2a@suse.de>
-Date: Fri, 7 Oct 2022 10:06:26 +0200
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
+ [IPv6:2607:f8b0:4864:20::c31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D04F10E34F
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 08:16:42 +0000 (UTC)
+Received: by mail-oo1-xc31.google.com with SMTP id
+ m11-20020a4aab8b000000b00476743c0743so3020017oon.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Oct 2022 01:16:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Di7HyMkQ1E5qdHPfa+7YWbbUBvN3xbsSG/cDo7IAkDM=;
+ b=MrjLo8ie8GdfLRNcCwYP5fd4Q8VT22NK7ZwfJ17iLQAZJ9+7gATFex7M0FKKDUuR3p
+ HZ0+65Ulq5X9CkhVjYINZ3IBF2bxUszQxbX2jltmOe0Q1T2gQZU9tCILNTD04E5H24AA
+ LZtUbWi6BPJgVwbdob0xrdtB2q7zk3bTa75xQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Di7HyMkQ1E5qdHPfa+7YWbbUBvN3xbsSG/cDo7IAkDM=;
+ b=5Z3qdGtDankq8xyJ35bM/cD34nboowzPtLf1DphMb3tDMxOoV4iCCLJmFA8ZbfPBf/
+ YgMUSJLHaW+loP7ZoxcYqYeEJyINqBtiZvIGy0posk2yGOqjmJsYLNbvvmLiZUUfjyg3
+ 2GryivIbFvf1UCXfjsipSUsPYubg83euRU5yoixCBfYmZCIw3RPv2RSX/2gN4EnScSdN
+ o1mA4fZw2cBpKFHZTu8BWuotAVP0XFogRU3OPyKI/rGz19HJRl1TCVcj4tudZM2P3fnk
+ elvUIN0ivXYsNIYqUxK574fWbtZiaBp/+EQHsUgzIoSu43VpAfoF4qLWraaEOQ+6XzLo
+ X+RQ==
+X-Gm-Message-State: ACrzQf3/mWVmFoTA2nm2jB9cbyHeESjLNyQRwIIMMOpbygd3CT+vB7TQ
+ l7DvpjafnNMKSKwcMTyqVIw1NMXUPtBD5VviWZQPuA==
+X-Google-Smtp-Source: AMsMyM6D/ujZCVrCawKe24O9hlJkW/1k8D/yf07qQC8qmpaJMrLx21hxKX6v+Ob9BOFyfWPYZ+C5z3wKbop+/7TtMbo=
+X-Received: by 2002:a9d:7f14:0:b0:659:2de8:2148 with SMTP id
+ j20-20020a9d7f14000000b006592de82148mr1575777otq.321.1665130601752; Fri, 07
+ Oct 2022 01:16:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v4 2/2] drm/atomic-helper: Replace
- drm_atomic_helper_check_crtc_state()
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20221005114002.3715-1-tzimmermann@suse.de>
- <20221005114002.3715-3-tzimmermann@suse.de>
- <7bea011f-f1d0-4375-ee1c-f97e12cd3f0a@redhat.com>
- <Yz/QICUIu25XjZGX@intel.com>
- <890f79b7-4c6b-0f99-f9c7-ba16bb9367a9@redhat.com>
- <Yz/VZqQN33gvk1Ab@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Yz/VZqQN33gvk1Ab@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------XKL2rFLNsTc96lErW0EfNqjI"
+References: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
+ <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
+ <CADnq5_Of-8ZyBxee0fZ=0x-eV-2NX_+e9sd-9nmuHdLugSHp2g@mail.gmail.com>
+ <CAHk-=wi43xD06UgO2McDT3R=ze_aHgOGjcDOoggSwmQRv2kA+A@mail.gmail.com>
+ <CADnq5_N0Ef+1VUoDLdpHfJXqZFuPYbx5Lq+94NWciHcQC+VrMg@mail.gmail.com>
+ <CAPM=9tyAOnzwXyyPuoceZ1mimAkzxR-63YmKfVtcQX=swywNvg@mail.gmail.com>
+ <CAHk-=wgghR4N-4XWjoK18NDkvjBL7i00ab8+otQg955pNGG_dQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wgghR4N-4XWjoK18NDkvjBL7i00ab8+otQg955pNGG_dQ@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 7 Oct 2022 10:16:30 +0200
+Message-ID: <CAKMK7uF_fKs=Ge5b3sCxa3YgWFaJsLBdCQVj+fDn6ukh9GvKKA@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.1-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,89 +68,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jfalempe@redhat.com, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------XKL2rFLNsTc96lErW0EfNqjI
-Content-Type: multipart/mixed; boundary="------------ybMTC0YdJ0awDlfDDQOXBIjl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: jfalempe@redhat.com, dri-devel@lists.freedesktop.org
-Message-ID: <cd7f1488-2e9b-11fb-a33f-bef861d31a2a@suse.de>
-Subject: Re: [PATCH v4 2/2] drm/atomic-helper: Replace
- drm_atomic_helper_check_crtc_state()
-References: <20221005114002.3715-1-tzimmermann@suse.de>
- <20221005114002.3715-3-tzimmermann@suse.de>
- <7bea011f-f1d0-4375-ee1c-f97e12cd3f0a@redhat.com>
- <Yz/QICUIu25XjZGX@intel.com>
- <890f79b7-4c6b-0f99-f9c7-ba16bb9367a9@redhat.com>
- <Yz/VZqQN33gvk1Ab@intel.com>
-In-Reply-To: <Yz/VZqQN33gvk1Ab@intel.com>
+On Fri, 7 Oct 2022 at 01:45, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Thu, Oct 6, 2022 at 1:25 PM Dave Airlie <airlied@gmail.com> wrote:
+> >
+> >
+> > [ 1234.778760] BUG: kernel NULL pointer dereference, address: 0000000000000088
+> > [ 1234.778813] RIP: 0010:drm_sched_job_done.isra.0+0xc/0x140 [gpu_sched]
+>
+> As far as I can tell, that's the line
+>
+>         struct drm_gpu_scheduler *sched = s_fence->sched;
+>
+> where 's_fence' is NULL. The code is
+>
+>    0: 0f 1f 44 00 00        nopl   0x0(%rax,%rax,1)
+>    5: 41 54                push   %r12
+>    7: 55                    push   %rbp
+>    8: 53                    push   %rbx
+>    9: 48 89 fb              mov    %rdi,%rbx
+>    c:* 48 8b af 88 00 00 00 mov    0x88(%rdi),%rbp <-- trapping instruction
+>   13: f0 ff 8d f0 00 00 00 lock decl 0xf0(%rbp)
+>   1a: 48 8b 85 80 01 00 00 mov    0x180(%rbp),%rax
+>
+> and that next 'lock decl' instruction would have been the
+>
+>         atomic_dec(&sched->hw_rq_count);
+>
+> at the top of drm_sched_job_done().
+>
+> Now, as to *why* you'd have a NULL s_fence, it would seem that
+> drm_sched_job_cleanup() was called with an active job. Looking at that
+> code, it does
+>
+>         if (kref_read(&job->s_fence->finished.refcount)) {
+>                 /* drm_sched_job_arm() has been called */
+>                 dma_fence_put(&job->s_fence->finished);
+>         ...
+>
+> but then it does
+>
+>         job->s_fence = NULL;
+>
+> anyway, despite the job still being active. The logic of that kind of
+> "fake refcount" escapes me. The above looks fundamentally racy, not to
+> say pointless and wrong (a refcount is a _count_, not a flag, so there
+> could be multiple references to it, what says that you can just
+> decrement one of them and say "I'm done").
 
---------------ybMTC0YdJ0awDlfDDQOXBIjl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Just figured I'll clarify this, because it's indeed a bit wtf and the
+comment doesn't explain much. drm_sched_job_cleanup can be called both
+when a real job is being cleaned up (which holds a full reference on
+job->s_fence and needs to drop it) and to simplify error path in job
+constructions (and the "is this refcount initialized already" signals
+what exactly needs to be cleaned up or not). So no race, because the
+only times this check goes different is when job construction has
+failed before the job struct is visible by any other thread.
 
-SGkNCg0KQW0gMDcuMTAuMjIgdW0gMDk6Mjkgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6DQo+
-IE9uIEZyaSwgT2N0IDA3LCAyMDIyIGF0IDA5OjE3OjUwQU0gKzAyMDAsIEphdmllciBNYXJ0
-aW5leiBDYW5pbGxhcyB3cm90ZToNCj4+IE9uIDEwLzcvMjIgMDk6MDcsIFZpbGxlIFN5cmrD
-pGzDpCB3cm90ZToNCj4+PiBPbiBUaHUsIE9jdCAwNiwgMjAyMiBhdCAxMDoyODoxMlBNICsw
-MjAwLCBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgd3JvdGU6DQo+Pj4+IE9uIDEwLzUvMjIg
-MTM6NDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+Pj4gUmVuYW1lIHRoZSBhdG9t
-aWMgaGVscGVyIGZ1bmN0aW9uIGRybV9hdG9taWNfaGVscGVyX2NoZWNrX2NydGNfc3RhdGUo
-KQ0KPj4+Pj4gdG8gZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfY3J0Y19wcmltYXJ5X3BsYW5l
-KCkgYW5kIG9ubHkgY2hlY2sgZm9yIGFuDQo+Pj4+PiBhdHRhY2hlZCBwcmltYXJ5IHBsYW5l
-LiBBZGFwdCBjYWxsZXJzLg0KPj4+Pj4NCj4+Pj4+IEluc3RlYWQgb2YgaGF2aW5nIG9uZSBi
-aWcgZnVuY3Rpb24gdG8gY2hlY2sgZm9yIHZhcmlvdXMgQ1JUQyBzdGF0ZQ0KPj4+Pj4gY29u
-ZGl0aW9ucywgd2UgcmF0aGVyIHdhbnQgc21hbGxlciBmdW5jdGlvbnMgdGhhdCBkcml2ZXJz
-IGNhbiBwaWNrDQo+Pj4+PiBpbmRpdmlkdWFsbHkuDQo+Pj4+Pg0KPj4+Pj4gU2lnbmVkLW9m
-Zi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+Pj4+PiAt
-LS0NCj4+Pj4NCj4+Pj4gUmV2aWV3ZWQtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8
-amF2aWVybUByZWRoYXQuY29tPg0KPj4+Pg0KPj4+PiBbLi4uXQ0KPj4+Pg0KPj4+Pj4gKwlk
-cm1fZm9yX2VhY2hfcGxhbmVfbWFzayhwbGFuZSwgZGV2LCBjcnRjX3N0YXRlLT5wbGFuZV9t
-YXNrKSB7DQo+Pj4+PiArCQlpZiAocGxhbmUtPnR5cGUgPT0gRFJNX1BMQU5FX1RZUEVfUFJJ
-TUFSWSkNCj4+Pj4+ICsJCQlyZXR1cm4gMDsNCj4+Pj4+ICAgCX0NCj4+Pj4NCj4+Pj4gSSBi
-ZWxpZXZlIHRoZSBjb2RlIGNvbnZlbnRpb24gaXMgdG8gZHJvcCB0aGUgY3VybHkgYnJhY2Vz
-IHdoZW4geW91DQo+Pj4+IGhhdmUgYSBzaW5nbGUgc3RhdGVtZW50IGluc2lkZSB0aGUgYSBs
-b29wID8NCj4+Pg0KPj4+IFRoaXMgaGFzIHR3by4NCj4+Pg0KPj4NCj4+IE5vLCBpdCBoYXMg
-b25seSBvbmUgdGhhdCBpcyB0aGUgaWYgc3RhdGVtZW50LiBTbyBhY2NvcmRpbmcgdG8gdGhl
-IExpbnV4DQo+PiBrZXJuZWwgY29kaW5nIHN0eWxlIEFGQUlVIGl0IHNob3VsZCBiZSB3cml0
-dGVuIGFzOg0KPj4NCj4+IAlkcm1fZm9yX2VhY2hfcGxhbmVfbWFzayhwbGFuZSwgZGV2LCBj
-cnRjX3N0YXRlLT5wbGFuZV9tYXNrKQ0KPj4gCQlpZiAocGxhbmUtPnR5cGUgPT0gRFJNX1BM
-QU5FX1RZUEVfUFJJTUFSWSkNCj4+IAkJCXJldHVybiAwOw0KPiANCj4gVGhhdCBpcyBleGFj
-dGx5IHdoYXQgaXQgc2F5cyBub3QgdG8gZG8uDQoNCkhleSwgbm8gbmVlZCB0byBiZSBzbyB1
-cGZyb250IGFib3V0IGl0LiBXaXRob3V0IHRoZSBvdXRlciBicmFjZXMsIEknZCANCmZpbmQg
-aXQgaGFyZCB0byBwYXJzZSBhbnl3YXkuDQoNCkJlc3QgcmVnYXJkDQpUaG9tYXMNCg0KPiAN
-Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5
-MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdl
-c2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+But yeah the comment could actually explain what's going on here :-)
 
---------------ybMTC0YdJ0awDlfDDQOXBIjl--
+And yeah the patch Dave reverted screws up the cascade of references
+that ensures this all stays alive until drm_sched_job_cleanup is
+called on active jobs, so looks all reasonable to me. Some Kunit tests
+maybe to exercise these corners? Not the first time pure scheduler
+code blew up, so proably worth the effort.
+-Daniel
 
---------------XKL2rFLNsTc96lErW0EfNqjI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>
+> Now, _why_ any of that happens, I have no idea. I'm just looking at
+> the immediate "that pointer is NULL" thing, and reacting to what looks
+> like a completely bogus refcount pattern.
+>
+> But that odd refcount pattern isn't new, so it's presumably some user
+> on the amd gpu side that changed.
+>
+> The problem hasn't happened again for me, but that's not saying a lot,
+> since it was very random to begin with.
+>
+>                  Linus
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM/3gIFAwAAAAAACgkQlh/E3EQov+C/
-Og//fuXj8bx4eWblW2vby0+94W7TJTi0ZdNX10x1+AaSiIszWkAe0ShIgNPECgEeSxK5w/5xHalD
-ucTfHTzKnU/wtVeyaTAEiZQqNKRn3I6h8YrJ14P1ViQ78nHxWAhAUqCYPx62WJsY9ScRFoJbu+mU
-hnxfvbniorAZE/fVLqxnG7qyaUXoNgPLaefttY7xCXIWW34Z6mkjaXn0/kojQoRf1j1w3mgcUP7M
-k84Q0nhyH5N+kGutAvH6t0REnVk4GdccnvfHWSr2j4NMyqpqLCZg/3BpSJPzZmTLntS3hp85NJ6h
-hdYmvPcQmA9ia4V8XwRM8duK24tOmukcVgMb8ZEtm8m1bs8m4Xdjz1tFP8iC/PGpwWKIy5FAN5ft
-HYfc7iP2PydQFQ3VC9ybvFuW6m15iorlp7E5/HqpfQ9NhlYlcPlk5d0I91E/TWzA+mQ4PYtpzGsJ
-ZAiu5VhrKc8p1V1NTFefhzxf+KJ5z33s4GwWVLkjyn3bZUQZRj3lNx1SV7iWyC74Luv/w6bmzPPi
-suHeH13olBZ2BqNk0oNrykY528SeeEThNSfvVYz2LjEJEFVLQv+kTbl/GjaO5P8Hd+fDxX/dAGTc
-kzGwfePFXDRtZ3fi7WuPG7jv/8V/LON/qEvXyW0Oe9rHEeX5Kv+GWKmX/OepxcrqU3Adq74l7WhW
-q1s=
-=deAb
------END PGP SIGNATURE-----
 
---------------XKL2rFLNsTc96lErW0EfNqjI--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
