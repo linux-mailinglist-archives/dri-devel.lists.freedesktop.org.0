@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AEDF5F77AF
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 13:52:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFE75F7823
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 14:44:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF0D110E030;
-	Fri,  7 Oct 2022 11:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30F1310E086;
+	Fri,  7 Oct 2022 12:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3C4410E94E
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 11:52:00 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id j71so4487696pge.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Oct 2022 04:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=US3Gb047SY8Dq4+eZYrFm7pCYLCCqm5ow/t9m2ICNWQ=;
- b=SAknEYDrNdrqAMzs7OhKIzQZfKbR2T+lY36/60vHTGYv9PIKFpzA+Acn/I0djXEHbu
- mKkq6CPFcqt50Zn5OHGXU16oDhZ+rNajeqCypfD0nrbOBln5h/b66KWQkMf7npSYmX4Y
- 1gUUluiiQ1fA7d7gb6HQ2Y7q4FVGhRfGYtImTAuIZplJEGCFkdslARV8OcKTCqwDb+ii
- C2bnc6dZ1qAQ3EvHEE9Rri62nx1t0FOKxXAwf90irjfNYuDsA4ehy19894ohiCTC6xj/
- hYnWGTDXxBYjo1B3YOGm2zYpWUH0cdYOJRwpKOSjoCQ9Wrzq3MamEO7wed/d8x/q8BaJ
- Dtrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=US3Gb047SY8Dq4+eZYrFm7pCYLCCqm5ow/t9m2ICNWQ=;
- b=BAAMpTyF5hj4sLALH8+G0MmYS2Ez6S3nmyewrUjOQzNVwlXQHln+mKYBNccGwB7TuV
- kWQ/96Dnha0FRod0LgCm6a1ZPdee/G4Mij1flOyg78B3rsUb45VRFpqi8JCcnr7pVQ6c
- 76IALJzQF1gqpKoBz4ch/y8C4QSFiIY6v0biMTtQJ5phIsiTx9WL5ariXevsT64M43Tq
- bMNaET0j+g6zut9K4FpgBCTzBMZij8tij9uSjHczaNvap0B1IzZQ8OpEanpJv5LhQpHX
- MZk0/pmZlSe0yIXd1FS8sESSkVLx+IHJU0kK3lJr93vnkJBhpZr8De2NZFOd9q5VjQ9N
- BYAg==
-X-Gm-Message-State: ACrzQf0tlLfkg9q1jGJV6IQUG0bIjaZpXgipBNH4h/4pICxOgHmGD7qi
- N5uE7COCS4lenui0rL/GSmBMS7TNlO2THEou/zY=
-X-Google-Smtp-Source: AMsMyM5bKM2n6T9R0fdy+E1igkb+3XmtmmLUSaAs2cCs5UN+499nLVCEvgNIqFTs88aNq59nky0o/a3tEdudon8s7+4=
-X-Received: by 2002:a62:144b:0:b0:562:38de:9a0e with SMTP id
- 72-20020a62144b000000b0056238de9a0emr4845862pfu.78.1665143520248; Fri, 07 Oct
- 2022 04:52:00 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C77B610E0BF
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 12:43:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B357C1F896;
+ Fri,  7 Oct 2022 12:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1665146624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=mnL1YIcdAmJnekbBjiUt9t+wh7wBGfCIblXkuicfFds=;
+ b=dfkOeIjblynD+pamzaMskJAp3OMTUIKUx7npV/D8DnTs1rh+8xPslj3h9159ZoEjxUvcHu
+ JeaW1QtU6F4wPd41uP/x11/IFqlpHxnaBfsPxE7DK5DgFOwtvTlcUL6Aun9FqMIjxt1jLj
+ MnoY5UxEJjnofaUfUOkozZ3E9G44U1o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1665146624;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=mnL1YIcdAmJnekbBjiUt9t+wh7wBGfCIblXkuicfFds=;
+ b=FNgfS+5hIEkIHJw7Pzxn8gl4BNXYWLH7NM8ZsvNzwNdAcijjQJ+xn64qGNOSZjpnBPPpv6
+ sE2e5a8CgaYircAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 768EF13A9A;
+ Fri,  7 Oct 2022 12:43:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 1vsqGwAfQGPdZAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 07 Oct 2022 12:43:44 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, daniel@ffwll.ch, airlied@gmail.com,
+ ville.syrjala@linux.intel.com, daniel@fooishbar.org, javierm@redhat.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Subject: [PATCH v5 0/2] drm/atomic-helpers: Fix CRTC primary-plane test
+Date: Fri,  7 Oct 2022 14:43:36 +0200
+Message-Id: <20221007124338.24152-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20221007111442.51481-1-a5b6@riseup.net>
- <20221007111442.51481-2-a5b6@riseup.net>
-In-Reply-To: <20221007111442.51481-2-a5b6@riseup.net>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 7 Oct 2022 08:51:45 -0300
-Message-ID: <CAOMZO5C3PgvV6uoOZ_2iO8=QpE6bHzquo-hxNV4QgX6EmpcUGQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drivers: gpu: drm: add driver for samsung
- s6e3fc2x01 cmd mode panel
-To: Nia Espera <a5b6@riseup.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,56 +63,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Caleb Connolly <caleb@connolly.tech>,
- Thierry Reding <thierry.reding@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nia,
+Fix the test for the CRTC's primary plane and clean up the test function
+to only do the test.
 
-On Fri, Oct 7, 2022 at 8:16 AM Nia Espera <a5b6@riseup.net> wrote:
+v5:
+	* fix commit message of patch 1 (Javier)
+	* rebase onto latest drm-tip
+v4:
+	* clean up the helper function (Ville)
 
-> +static int samsung_s6e3fc2x01_prepare(struct drm_panel *panel)
-> +{
-> +       struct samsung_s6e3fc2x01 *ctx = to_samsung_s6e3fc2x01(panel);
-> +       struct device *dev = &ctx->dsi->dev;
-> +       int ret;
-> +
-> +       if (ctx->prepared)
-> +               return 0;
-> +
-> +       ret = regulator_enable(ctx->supply);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to enable regulator: %d\n", ret);
-> +               return ret;
-> +       }
-> +
-> +       samsung_s6e3fc2x01_reset(ctx);
-> +
-> +       ret = samsung_s6e3fc2x01_on(ctx);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> +               gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+Thomas Zimmermann (2):
+  drm/atomic-helper: Don't allocate new plane state in CRTC check
+  drm/atomic-helper: Replace drm_atomic_helper_check_crtc_state()
 
-You should also call regulator_disable() here in the case of failure.
+ drivers/gpu/drm/ast/ast_mode.c          |  8 ++--
+ drivers/gpu/drm/drm_atomic_helper.c     | 60 ++++++++-----------------
+ drivers/gpu/drm/drm_simple_kms_helper.c |  6 ++-
+ drivers/gpu/drm/mgag200/mgag200_mode.c  |  8 ++--
+ drivers/gpu/drm/solomon/ssd130x.c       |  6 ++-
+ drivers/gpu/drm/tiny/simpledrm.c        |  6 ++-
+ drivers/gpu/drm/udl/udl_modeset.c       |  5 ++-
+ include/drm/drm_atomic_helper.h         |  3 +-
+ 8 files changed, 46 insertions(+), 56 deletions(-)
 
-> +static int samsung_s6e3fc2x01_unprepare(struct drm_panel *panel)
-> +{
-> +       struct samsung_s6e3fc2x01 *ctx = to_samsung_s6e3fc2x01(panel);
-> +       struct device *dev = &ctx->dsi->dev;
-> +       int ret;
-> +
-> +       if (!ctx->prepared)
-> +               return 0;
-> +
-> +       ret = samsung_s6e3fc2x01_off(ctx);
-> +       if (ret < 0)
-> +               dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-> +
-> +       gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+-- 
+2.37.3
 
-regulator_disable() should be called here as well.
