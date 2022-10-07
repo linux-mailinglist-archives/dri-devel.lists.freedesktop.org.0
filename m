@@ -2,51 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9B15F7636
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 11:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DA05F763D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 11:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF10C10E210;
-	Fri,  7 Oct 2022 09:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8352B10E2F6;
+	Fri,  7 Oct 2022 09:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B84510E210
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 09:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665134776; x=1696670776;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YIsvu8HuZoKfT0WBNxjXL2VasbVdSxWppe8Gs3rIq6U=;
- b=FsOizXMNUKlKwqSaXqK0kll0ZgBFmg3oSdkbKEgLnDsVVSENiwkaB9rs
- rdKLpvlNDXNuU7PPTUbfCbc9hcngAe+5dVrTRcXvq+H9IpA4OYI+mc3TM
- NkubIn4cYAod5mp/PfCD4ELzggwhrl5ZtYsVGQxiHx5+vJlB4I7Ke05H6
- OoqSpJQnGWYjsWkVBUZkPn1/JvA2lsBDf8xCEb65q6fE67nk1Rx1OB/0i
- bJn1hhxCllkeoGWYjtHO4cUyXqXqQb6RNCSFKfqQDbvGnix3fuNuwVKMc
- kqrnaCFs5543V6fQn92fXN/LP4ZOCT5lMLYIxNoaiZxIbiiq33NCD8YYH Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="367822051"
-X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="367822051"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2022 02:26:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="620199690"
-X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="620199690"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga007.jf.intel.com with ESMTP; 07 Oct 2022 02:26:03 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
- id 6645E17E; Fri,  7 Oct 2022 12:26:23 +0300 (EEST)
-Date: Fri, 7 Oct 2022 12:26:23 +0300
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Message-ID: <Yz/wv0sqBR+J+jy+@black.fi.intel.com>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
- <20221006165346.73159-4-Jason@zx2c4.com>
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 235F410E2F6
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 09:28:25 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id m130so4878499oif.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Oct 2022 02:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=JxLAH+bnod0VfWRdnLNFFaWOZptJDJqV0Gq0f68hNdc=;
+ b=Lld1GrctRhHOLbNsUNrujKK+MA6Gux6LyL6cFvYmqezas+x2uXUh0neHffeKlflrpg
+ dZkxx8hziJWp3N7O/T/3HPCuk+wbLZG0pbMfhDNLxG9i7Pulwx7P45z/gUbRlk7cHsWM
+ OULqzB+Sd9lowQX+RG4FzxkPt0m5B6fPgGT1k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JxLAH+bnod0VfWRdnLNFFaWOZptJDJqV0Gq0f68hNdc=;
+ b=0pNtZhFxwg511qSwrh+6r2WuAEBi2ZRGRw02HmqzE57Q8J4bUWKwQcxPxggcwNU7f5
+ XjWCjrRzCX0ieXfy/lsFYObKVsSBnuFlkH2OaqAEg25MU5K7djGvJ/cCkmqoSOiA6xA+
+ 4lPEv02+X53/G875onskOTvjJ5xDFTM8c2XWwwpaxCjEEc3eJtdgixKkp1FXvxErrlIZ
+ HNfiOQJRlx/8N/LDb9N5tlIWoUmhTvvFoF3eNbKfSD61o651wwTbIz/CbtRdb8XfRDOd
+ rTl/TX2KTx3f1rPoGuAlYMWzc5xTuMA111uz3E79tk0RfM7VDuAaPXmgCNDCl2qJPCOl
+ /i8w==
+X-Gm-Message-State: ACrzQf3EuNnui4XdXMQHfB8QVj+9qR0unqMCQZgLpTTT2Wxkhv5c37Gz
+ 3905KPt5sLxgDSYLeA1ORASti8IlH2pSqgj8rRSYjw==
+X-Google-Smtp-Source: AMsMyM4iCHqpCD5g3MdwdOFmIgnP809IboqOPrt054xZ791CkiY/TmbkuiTtOrcsRVDaXZe6VZnDY559987elRnrgWI=
+X-Received: by 2002:a05:6808:e8c:b0:354:2751:69ae with SMTP id
+ k12-20020a0568080e8c00b00354275169aemr2402247oil.228.1665134904319; Fri, 07
+ Oct 2022 02:28:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221006165346.73159-4-Jason@zx2c4.com>
+References: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
+ <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
+ <CADnq5_Of-8ZyBxee0fZ=0x-eV-2NX_+e9sd-9nmuHdLugSHp2g@mail.gmail.com>
+ <CAHk-=wi43xD06UgO2McDT3R=ze_aHgOGjcDOoggSwmQRv2kA+A@mail.gmail.com>
+ <CADnq5_N0Ef+1VUoDLdpHfJXqZFuPYbx5Lq+94NWciHcQC+VrMg@mail.gmail.com>
+ <CAPM=9tyAOnzwXyyPuoceZ1mimAkzxR-63YmKfVtcQX=swywNvg@mail.gmail.com>
+ <CAHk-=wgghR4N-4XWjoK18NDkvjBL7i00ab8+otQg955pNGG_dQ@mail.gmail.com>
+ <CAKMK7uF_fKs=Ge5b3sCxa3YgWFaJsLBdCQVj+fDn6ukh9GvKKA@mail.gmail.com>
+In-Reply-To: <CAKMK7uF_fKs=Ge5b3sCxa3YgWFaJsLBdCQVj+fDn6ukh9GvKKA@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 7 Oct 2022 11:28:12 +0200
+Message-ID: <CAKMK7uHsZejvVN1RcS23YsFhb4JvuScpHys17Vn+A7PirE+q1A@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.1-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,52 +69,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
- x86@kernel.org, Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, kernel-janitors@vger.kernel.org,
- KP Singh <kpsingh@kernel.org>, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
- "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
- WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Hugh Dickins <hughd@google.com>, Russell King <linux@armlinux.org.uk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Dave Airlie <airlied@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
- "James E . J . Bottomley" <jejb@linux.ibm.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Yury Norov <yury.norov@gmail.com>, Toke H??iland-J??rgensen <toke@toke.dk>,
- Heiko Carstens <hca@linux.ibm.com>, linux-um@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-block@vger.kernel.org,
- Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
- linux-nvme@lists.infradead.org, loongarch@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- linux-mmc@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Theodore Ts'o <tytso@mit.edu>, linux-parisc@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
- Christoph B??hmwalder <christoph.boehmwalder@linbit.com>,
- Chuck Lever <chuck.lever@oracle.com>, linux-crypto@vger.kernel.org,
- Jan Kara <jack@suse.com>, Thomas Graf <tgraf@suug.ch>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 06, 2022 at 10:53:44AM -0600, Jason A. Donenfeld wrote:
->  drivers/thunderbolt/xdomain.c                  |  2 +-
+Forgot to add Andrey as scheduler maintainer.
+-Daniel
 
-Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+On Fri, 7 Oct 2022 at 10:16, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> On Fri, 7 Oct 2022 at 01:45, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Thu, Oct 6, 2022 at 1:25 PM Dave Airlie <airlied@gmail.com> wrote:
+> > >
+> > >
+> > > [ 1234.778760] BUG: kernel NULL pointer dereference, address: 0000000000000088
+> > > [ 1234.778813] RIP: 0010:drm_sched_job_done.isra.0+0xc/0x140 [gpu_sched]
+> >
+> > As far as I can tell, that's the line
+> >
+> >         struct drm_gpu_scheduler *sched = s_fence->sched;
+> >
+> > where 's_fence' is NULL. The code is
+> >
+> >    0: 0f 1f 44 00 00        nopl   0x0(%rax,%rax,1)
+> >    5: 41 54                push   %r12
+> >    7: 55                    push   %rbp
+> >    8: 53                    push   %rbx
+> >    9: 48 89 fb              mov    %rdi,%rbx
+> >    c:* 48 8b af 88 00 00 00 mov    0x88(%rdi),%rbp <-- trapping instruction
+> >   13: f0 ff 8d f0 00 00 00 lock decl 0xf0(%rbp)
+> >   1a: 48 8b 85 80 01 00 00 mov    0x180(%rbp),%rax
+> >
+> > and that next 'lock decl' instruction would have been the
+> >
+> >         atomic_dec(&sched->hw_rq_count);
+> >
+> > at the top of drm_sched_job_done().
+> >
+> > Now, as to *why* you'd have a NULL s_fence, it would seem that
+> > drm_sched_job_cleanup() was called with an active job. Looking at that
+> > code, it does
+> >
+> >         if (kref_read(&job->s_fence->finished.refcount)) {
+> >                 /* drm_sched_job_arm() has been called */
+> >                 dma_fence_put(&job->s_fence->finished);
+> >         ...
+> >
+> > but then it does
+> >
+> >         job->s_fence = NULL;
+> >
+> > anyway, despite the job still being active. The logic of that kind of
+> > "fake refcount" escapes me. The above looks fundamentally racy, not to
+> > say pointless and wrong (a refcount is a _count_, not a flag, so there
+> > could be multiple references to it, what says that you can just
+> > decrement one of them and say "I'm done").
+>
+> Just figured I'll clarify this, because it's indeed a bit wtf and the
+> comment doesn't explain much. drm_sched_job_cleanup can be called both
+> when a real job is being cleaned up (which holds a full reference on
+> job->s_fence and needs to drop it) and to simplify error path in job
+> constructions (and the "is this refcount initialized already" signals
+> what exactly needs to be cleaned up or not). So no race, because the
+> only times this check goes different is when job construction has
+> failed before the job struct is visible by any other thread.
+>
+> But yeah the comment could actually explain what's going on here :-)
+>
+> And yeah the patch Dave reverted screws up the cascade of references
+> that ensures this all stays alive until drm_sched_job_cleanup is
+> called on active jobs, so looks all reasonable to me. Some Kunit tests
+> maybe to exercise these corners? Not the first time pure scheduler
+> code blew up, so proably worth the effort.
+> -Daniel
+>
+> >
+> > Now, _why_ any of that happens, I have no idea. I'm just looking at
+> > the immediate "that pointer is NULL" thing, and reacting to what looks
+> > like a completely bogus refcount pattern.
+> >
+> > But that odd refcount pattern isn't new, so it's presumably some user
+> > on the amd gpu side that changed.
+> >
+> > The problem hasn't happened again for me, but that's not saying a lot,
+> > since it was very random to begin with.
+> >
+> >                  Linus
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
