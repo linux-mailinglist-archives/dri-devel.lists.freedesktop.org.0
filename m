@@ -1,63 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C125F7605
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 11:19:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9B15F7636
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 11:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F39FB10E93D;
-	Fri,  7 Oct 2022 09:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF10C10E210;
+	Fri,  7 Oct 2022 09:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E46AD10E0C6;
- Fri,  7 Oct 2022 09:18:49 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id 10so6419871lfy.5;
- Fri, 07 Oct 2022 02:18:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=XlatRhPPHvjakB3hqRULplqr0Jjuky9gnjEbVvmO4oY=;
- b=YQ46SxPfi7XjxzCwus7XXZd/82UuGEEwVURK4TC98xwOAOHeFSXev7HbJdww6uxHQU
- skaCl5ufl7V7eToP2p9JOd/mZVAwBM0XxCRdlOIifvJCCLyHCjAEPMGc+4OSc1oAo6dW
- vCx7oCswFFr3l+mIS3sxTWSg27CPIhiBGQyB6R3aakH/zsRWcC2hPROd1nWqUwouuIJD
- qmb3OgTTSJcpMRNqeS7HDXO7+EiTDXnvzqnMnVIJ3XQfPWtMulZZrtqlqq3ZrR1mqjnf
- MmKcAmZy4oUOCat4pDASHykWzNoKOm7icuH28RXvWhBWOlMo68LFi55QHSeuc4qbhQZB
- Jb4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XlatRhPPHvjakB3hqRULplqr0Jjuky9gnjEbVvmO4oY=;
- b=uTK9H++ini7B6LVcF1zmWfMm9+9xiv2gMA8cdD/KVjR1DbuVYOUMYT3VyelpQNpWxd
- KjeOmH5aAq1NEKf9U4Rm8/BnxekHm8ayfcKE0ZdNyjNK8cLm5GY/QMCTEYN6WNlU9JjA
- SPmKx677IIylyhUgp3j3oMBwYqqtAkYxZTgSMHYod4UOctmQtZ7jSvTi3ifR3go0F39u
- uK1fnUlsXlteeTy5G27Vm7BzQG/LURprrRpfC/zRNHbq1nhGL4uDgRowNwGDxIe3H32j
- W7zM720qqOIeZ/7Sl/FENuv8i2GqDIG4YfvbOTY+XQBpQVD86jr5RcyobjPz13HJqYRX
- RjSw==
-X-Gm-Message-State: ACrzQf22jS5FIZT8sv0v7rjAwPYEY8LIVG7vpPRjbwv8JSPcCK3KhHHS
- /ZKr/zu/1OqUPtLdet1TIK4=
-X-Google-Smtp-Source: AMsMyM53KwWBWtUPIfPxQPZtW9RfTXhC2B923iEHltctvhLvkORbzBu8AkrG++f3IbOpl+OKAy5CKg==
-X-Received: by 2002:a19:ca46:0:b0:4a2:7c86:3a10 with SMTP id
- h6-20020a19ca46000000b004a27c863a10mr1593791lfj.649.1665134328027; 
- Fri, 07 Oct 2022 02:18:48 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- u13-20020a056512040d00b00494a1e875a9sm217842lfk.191.2022.10.07.02.18.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 02:18:47 -0700 (PDT)
-Date: Fri, 7 Oct 2022 12:18:36 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: "Hoosier, Matt" <Matt.Hoosier@garmin.com>
-Subject: Re: Internal DRI subsystem locking and contention between connector
- commits
-Message-ID: <20221007121836.61e573fa@eldfell>
-In-Reply-To: <0607ee97b0af4b9fa8f17cb99388e214@garmin.com>
-References: <0607ee97b0af4b9fa8f17cb99388e214@garmin.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B84510E210
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 09:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665134776; x=1696670776;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YIsvu8HuZoKfT0WBNxjXL2VasbVdSxWppe8Gs3rIq6U=;
+ b=FsOizXMNUKlKwqSaXqK0kll0ZgBFmg3oSdkbKEgLnDsVVSENiwkaB9rs
+ rdKLpvlNDXNuU7PPTUbfCbc9hcngAe+5dVrTRcXvq+H9IpA4OYI+mc3TM
+ NkubIn4cYAod5mp/PfCD4ELzggwhrl5ZtYsVGQxiHx5+vJlB4I7Ke05H6
+ OoqSpJQnGWYjsWkVBUZkPn1/JvA2lsBDf8xCEb65q6fE67nk1Rx1OB/0i
+ bJn1hhxCllkeoGWYjtHO4cUyXqXqQb6RNCSFKfqQDbvGnix3fuNuwVKMc
+ kqrnaCFs5543V6fQn92fXN/LP4ZOCT5lMLYIxNoaiZxIbiiq33NCD8YYH Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="367822051"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="367822051"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2022 02:26:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="620199690"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="620199690"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orsmga007.jf.intel.com with ESMTP; 07 Oct 2022 02:26:03 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+ id 6645E17E; Fri,  7 Oct 2022 12:26:23 +0300 (EEST)
+Date: Fri, 7 Oct 2022 12:26:23 +0300
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Message-ID: <Yz/wv0sqBR+J+jy+@black.fi.intel.com>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/cuuqWphze+kZ69v+reSSsEC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221006165346.73159-4-Jason@zx2c4.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +59,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>
+Cc: linux-wireless@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+ x86@kernel.org, Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, kernel-janitors@vger.kernel.org,
+ KP Singh <kpsingh@kernel.org>, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, linux-mm@kvack.org,
+ Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
+ "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
+ WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Hugh Dickins <hughd@google.com>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Dave Airlie <airlied@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
+ Yury Norov <yury.norov@gmail.com>, Toke H??iland-J??rgensen <toke@toke.dk>,
+ Heiko Carstens <hca@linux.ibm.com>, linux-um@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-block@vger.kernel.org,
+ Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
+ linux-nvme@lists.infradead.org, loongarch@lists.linux.dev,
+ Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-mmc@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Theodore Ts'o <tytso@mit.edu>, linux-parisc@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
+ Christoph B??hmwalder <christoph.boehmwalder@linbit.com>,
+ Chuck Lever <chuck.lever@oracle.com>, linux-crypto@vger.kernel.org,
+ Jan Kara <jack@suse.com>, Thomas Graf <tgraf@suug.ch>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/cuuqWphze+kZ69v+reSSsEC
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, Oct 06, 2022 at 10:53:44AM -0600, Jason A. Donenfeld wrote:
+>  drivers/thunderbolt/xdomain.c                  |  2 +-
 
-On Thu, 6 Oct 2022 12:03:56 +0000
-"Hoosier, Matt" <Matt.Hoosier@garmin.com> wrote:
-
-> I have a DRM master implementing a purpose-built compositor for a
-> dedicated use-case. It drives several different connectors, each on
-> its own vsync cadence (there's no clone mode happening here).
->=20
-> The goal is to have commits to each connector occur completely
-> without respect to whatever is happening on the other connectors.
-> There's a different thread issuing the DRI ioctl's for each connector.
->=20
-> In the compositor, each connector is treated like its own little
-> universe; a disjoint set of CRTCs and planes is earmarked for use by
-> each of the connectors. One intention for this is to avoid sharing
-> resources in a way that would introduce implicit synchronization
-> points between the two connector's event loops. So, atomic commits
-> made to one connector never attempt to use a resource that's ever
-> been used in a commit to a different connector. This may be relevant
-> to a question I'll ask a bit later below about resource locking
-> contention.
->=20
-> For some time, I've been noticing that even test-only atomic commits
-> done on connector A will sometimes block for many frame-times.
-> Analysis with the DRI driver implementor has shown that the atomic
-> commits to A--whether DRM_MODE_ATOMIC_TEST_ONLY or
-> DRM_MODE_ATOMIC_NONBLOCK--are getting stuck in the ioctl entry code
-> waiting for a DRI mutex.
->=20
-> It turns out that during these unexpected delays, the DRI driver's
-> commit thread holds that mutex while servicing a commit to connector
-> B. It does this while it waits for the fences to fire for all
-> framebuffer IDs referred to by the pending connector B scene. So the
-> commit to connector A can't be tested or enqueued until the commit to
-> B is completely finished. The driver author reckons that this is
-> unavoidable because every DRM_IOCTL_MODE_ATOMIC ioctl  needs to
-> acquire the same global singleton DRM connection_mutex in order to
-> query or manipulate the connector.
->=20
-> The result is that it's quite difficult to guarantee a framerate on
-> connector A, because unrelated activity performed on connector B can
-> hold global locks for an unpredictable amount of time.
->=20
-> The first question would be: does this story sound consistent? If so,
-> then a couple more questions follow.
->=20
-> Is this kind of implicit interlocking expected? Is there any way to
-> avoid the pending commits getting serialized like that on the kernel
-> side?
-
-Hi Matt,
-
-Ville actually mentioned something very much like that recently, see
-the thread at:
-https://lore.kernel.org/dri-devel/20220916163331.6849-1-ville.syrjala@linux=
-.intel.com/
-
-If even non-blocking commits can stall test-only commits, that could be
-a problem for Weston too. Weston being single-threaded wouldn't help.
-
-
-Thanks,
-pq
-
---Sig_/cuuqWphze+kZ69v+reSSsEC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmM/7uwACgkQI1/ltBGq
-qqfR6RAApGvzombfW/d2+/jxNl4WRN3tCuKAjmQiQdUVch+3nm4hp0j8HtFNl+p/
-FI+OhkmVM7AeWV2CHu6/SeDKtgxA3vaWMKtV+EBkMzjClEJOK3iR7iCUWNWZkwmz
-jDgJAk+KEfPS5HtmNokbNoS9wkNI+PTOsFC9Jnn4fuBdUz195jfzr/ZqWvMnK5qt
-HQ96yNTn6Z8jcD0dZ/dIroGCJSOMVPfDzAxRSIZ1HLo5wVI+Uv4VAOboY/zR134C
-tD/VsztoBWlDqV5hXWZXff8nG/p3KiZon09Th0hrkZZzsnxuAJ8HhJqXLAlJSOfK
-i6q0d/u320TjTInTZ6UqOem6Csq3bxUVFfPUdRhEulCPDyhBpOuXLRSCYe1RkUJC
-kF8CeaSWBC4jz3es7GjEE5fqueHQHQdlZGIBGbrY4gCJXbDsTSbOnT97wNeBDNQT
-uLq2lLc1onwAyhazRNu0pucSEyre3FYltGJpcVhyZ2O4NVqSaMmRnSm/ZmHfzkLj
-NXN6a02ZppyXrylbt98at9gT/gwA9XWbvbnHB2qbyTEY031WsIV0XFwMn+PdBSDS
-lffDryu9ixgO4QBrr0X8I0SIurlQ/nYDBZScpM674ACZByRn20Qm7NgT381eAeWZ
-1tHVQ3LZVymavLRioG/8OIKLA1BafXe64hPvg03Q/ZzAuZkx4f8=
-=U4ni
------END PGP SIGNATURE-----
-
---Sig_/cuuqWphze+kZ69v+reSSsEC--
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
