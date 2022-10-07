@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6C35F7746
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 13:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEDF5F77AF
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 13:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E81510E3F3;
-	Fri,  7 Oct 2022 11:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF0D110E030;
+	Fri,  7 Oct 2022 11:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1780010E3ED
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 11:16:04 +0000 (UTC)
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4MkQjH57yRzDs0B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 11:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1665141363; bh=zIWt3ZBSc+bV3Dn+srHiqJcjJphD9net3cqhSzXY4aI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UaYDPwaX47suEuEEOedexglItVJjS0nn+81B4FOiqhO6msYm9qVxSJowPUCgug7Rc
- Sm8+C5QNKhk1iaYBXSIXWrb2fEamURu3brr/JYlJBl+zSFb3jOCkmpU2G0PQArf/ul
- +mvMZFLA7SRCUkcNCciT7MuosaeeLUqtHRvCZg2U=
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4MkQjG6nkKz9sBk;
- Fri,  7 Oct 2022 11:16:02 +0000 (UTC)
-X-Riseup-User-ID: BB06A70AB150F67769D058BB21ED960A0426733427FF28DEBC2691D78F1D0B25
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4MkQjD6G5wz5vRK;
- Fri,  7 Oct 2022 11:16:00 +0000 (UTC)
-From: Nia Espera <a5b6@riseup.net>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drivers: gpu: drm: remove support for sofef00 driver
- on s6e3fc2x01 panel
-Date: Fri,  7 Oct 2022 13:14:45 +0200
-Message-Id: <20221007111442.51481-3-a5b6@riseup.net>
-In-Reply-To: <20221007111442.51481-1-a5b6@riseup.net>
-References: <20221007111442.51481-1-a5b6@riseup.net>
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3C4410E94E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 11:52:00 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id j71so4487696pge.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Oct 2022 04:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=US3Gb047SY8Dq4+eZYrFm7pCYLCCqm5ow/t9m2ICNWQ=;
+ b=SAknEYDrNdrqAMzs7OhKIzQZfKbR2T+lY36/60vHTGYv9PIKFpzA+Acn/I0djXEHbu
+ mKkq6CPFcqt50Zn5OHGXU16oDhZ+rNajeqCypfD0nrbOBln5h/b66KWQkMf7npSYmX4Y
+ 1gUUluiiQ1fA7d7gb6HQ2Y7q4FVGhRfGYtImTAuIZplJEGCFkdslARV8OcKTCqwDb+ii
+ C2bnc6dZ1qAQ3EvHEE9Rri62nx1t0FOKxXAwf90irjfNYuDsA4ehy19894ohiCTC6xj/
+ hYnWGTDXxBYjo1B3YOGm2zYpWUH0cdYOJRwpKOSjoCQ9Wrzq3MamEO7wed/d8x/q8BaJ
+ Dtrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=US3Gb047SY8Dq4+eZYrFm7pCYLCCqm5ow/t9m2ICNWQ=;
+ b=BAAMpTyF5hj4sLALH8+G0MmYS2Ez6S3nmyewrUjOQzNVwlXQHln+mKYBNccGwB7TuV
+ kWQ/96Dnha0FRod0LgCm6a1ZPdee/G4Mij1flOyg78B3rsUb45VRFpqi8JCcnr7pVQ6c
+ 76IALJzQF1gqpKoBz4ch/y8C4QSFiIY6v0biMTtQJ5phIsiTx9WL5ariXevsT64M43Tq
+ bMNaET0j+g6zut9K4FpgBCTzBMZij8tij9uSjHczaNvap0B1IzZQ8OpEanpJv5LhQpHX
+ MZk0/pmZlSe0yIXd1FS8sESSkVLx+IHJU0kK3lJr93vnkJBhpZr8De2NZFOd9q5VjQ9N
+ BYAg==
+X-Gm-Message-State: ACrzQf0tlLfkg9q1jGJV6IQUG0bIjaZpXgipBNH4h/4pICxOgHmGD7qi
+ N5uE7COCS4lenui0rL/GSmBMS7TNlO2THEou/zY=
+X-Google-Smtp-Source: AMsMyM5bKM2n6T9R0fdy+E1igkb+3XmtmmLUSaAs2cCs5UN+499nLVCEvgNIqFTs88aNq59nky0o/a3tEdudon8s7+4=
+X-Received: by 2002:a62:144b:0:b0:562:38de:9a0e with SMTP id
+ 72-20020a62144b000000b0056238de9a0emr4845862pfu.78.1665143520248; Fri, 07 Oct
+ 2022 04:52:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221007111442.51481-1-a5b6@riseup.net>
+ <20221007111442.51481-2-a5b6@riseup.net>
+In-Reply-To: <20221007111442.51481-2-a5b6@riseup.net>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 7 Oct 2022 08:51:45 -0300
+Message-ID: <CAOMZO5C3PgvV6uoOZ_2iO8=QpE6bHzquo-hxNV4QgX6EmpcUGQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drivers: gpu: drm: add driver for samsung
+ s6e3fc2x01 cmd mode panel
+To: Nia Espera <a5b6@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,82 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Caleb Connolly <caleb@connolly.tech>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Nia Espera <a5b6@riseup.net>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Caleb Connolly <caleb@connolly.tech>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Removes functionality from sofef00 panel driver which allowed it to
-drive the s6e3fc2x01 panel
+Hi Nia,
 
-Signed-off-by: Nia Espera <a5b6@riseup.net>
-Reviewed-by: Caleb Connolly <caleb@connolly.tech>
----
- drivers/gpu/drm/panel/Kconfig                 |  6 +++---
- drivers/gpu/drm/panel/panel-samsung-sofef00.c | 18 ------------------
- 2 files changed, 3 insertions(+), 21 deletions(-)
+On Fri, Oct 7, 2022 at 8:16 AM Nia Espera <a5b6@riseup.net> wrote:
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index ee62d5d8828a..62b9cb6acd05 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -547,16 +547,16 @@ config DRM_PANEL_SAMSUNG_S6E8AA0
- 	select VIDEOMODE_HELPERS
- 
- config DRM_PANEL_SAMSUNG_SOFEF00
--	tristate "Samsung sofef00/s6e3fc2x01 OnePlus 6/6T DSI cmd mode panels"
-+	tristate "Samsung sofef00 OnePlus 6 DSI cmd mode panel"
- 	depends on OF
- 	depends on DRM_MIPI_DSI
- 	depends on BACKLIGHT_CLASS_DEVICE
- 	select VIDEOMODE_HELPERS
- 	help
- 	  Say Y or M here if you want to enable support for the Samsung AMOLED
--	  command mode panels found in the OnePlus 6/6T smartphones.
-+	  command mode panel found in the OnePlus 6 smartphone.
- 
--	  The panels are 2280x1080@60Hz and 2340x1080@60Hz respectively
-+	  The panel is 2280x1080@60Hz
- 
- config DRM_PANEL_SAMSUNG_S6E3FC2X01
- 	tristate "Samsung s6e3fc2x01 OnePlus 6T DSI cmd mode panel"
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index bd02af81a4fe..68e58b9b8c5c 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -181,20 +181,6 @@ static const struct drm_display_mode enchilada_panel_mode = {
- 	.height_mm = 145,
- };
- 
--static const struct drm_display_mode fajita_panel_mode = {
--	.clock = (1080 + 72 + 16 + 36) * (2340 + 32 + 4 + 18) * 60 / 1000,
--	.hdisplay = 1080,
--	.hsync_start = 1080 + 72,
--	.hsync_end = 1080 + 72 + 16,
--	.htotal = 1080 + 72 + 16 + 36,
--	.vdisplay = 2340,
--	.vsync_start = 2340 + 32,
--	.vsync_end = 2340 + 32 + 4,
--	.vtotal = 2340 + 32 + 4 + 18,
--	.width_mm = 68,
--	.height_mm = 145,
--};
--
- static int sofef00_panel_get_modes(struct drm_panel *panel, struct drm_connector *connector)
- {
- 	struct drm_display_mode *mode;
-@@ -327,10 +313,6 @@ static const struct of_device_id sofef00_panel_of_match[] = {
- 		.compatible = "samsung,sofef00",
- 		.data = &enchilada_panel_mode,
- 	},
--	{ // OnePlus 6T / fajita
--		.compatible = "samsung,s6e3fc2x01",
--		.data = &fajita_panel_mode,
--	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, sofef00_panel_of_match);
--- 
-2.38.0
+> +static int samsung_s6e3fc2x01_prepare(struct drm_panel *panel)
+> +{
+> +       struct samsung_s6e3fc2x01 *ctx = to_samsung_s6e3fc2x01(panel);
+> +       struct device *dev = &ctx->dsi->dev;
+> +       int ret;
+> +
+> +       if (ctx->prepared)
+> +               return 0;
+> +
+> +       ret = regulator_enable(ctx->supply);
+> +       if (ret < 0) {
+> +               dev_err(dev, "Failed to enable regulator: %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       samsung_s6e3fc2x01_reset(ctx);
+> +
+> +       ret = samsung_s6e3fc2x01_on(ctx);
+> +       if (ret < 0) {
+> +               dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> +               gpiod_set_value_cansleep(ctx->reset_gpio, 1);
 
+You should also call regulator_disable() here in the case of failure.
+
+> +static int samsung_s6e3fc2x01_unprepare(struct drm_panel *panel)
+> +{
+> +       struct samsung_s6e3fc2x01 *ctx = to_samsung_s6e3fc2x01(panel);
+> +       struct device *dev = &ctx->dsi->dev;
+> +       int ret;
+> +
+> +       if (!ctx->prepared)
+> +               return 0;
+> +
+> +       ret = samsung_s6e3fc2x01_off(ctx);
+> +       if (ret < 0)
+> +               dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+> +
+> +       gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+
+regulator_disable() should be called here as well.
