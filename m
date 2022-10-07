@@ -1,67 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3195F7468
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 08:55:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A88215F7470
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 08:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B776A10E110;
-	Fri,  7 Oct 2022 06:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 544D210E14A;
+	Fri,  7 Oct 2022 06:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 424E910E110
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 06:55:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AAC9A1F88D;
- Fri,  7 Oct 2022 06:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665125723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+PbgSWSvuabOWac6/bFKZsx0FI5ldwVwm2rRzj1nuqU=;
- b=xIJ9bninSws8IwBzrKZVeviJn/oLvaA/wizjEzMW3xSDdToA4te7Wir3u3P9nYe1BMu1Mu
- e4AX3nXCqV2DOFR9dFSoR0/k0tM3nHK0NpndgikiKNmEZ6d/SYbAAnjaiySDz4ade2rb+E
- D5hdwh5Hj3Cacz2dKJMHpgGeEFcgSVQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665125723;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+PbgSWSvuabOWac6/bFKZsx0FI5ldwVwm2rRzj1nuqU=;
- b=LJD9bKPIFcykQ9KJHELFDmJI9PbTvAWC3tW8hKId9IPeHTbBUr1a/6NIbzbij2DoZvZ+88
- SmOnUiKGElMoCKBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6FE1813A3D;
- Fri,  7 Oct 2022 06:55:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CrMKGlvNP2NWTwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 07 Oct 2022 06:55:23 +0000
-Message-ID: <91dea8a0-a49b-fdaa-0a26-61b09e0901a7@suse.de>
-Date: Fri, 7 Oct 2022 08:55:22 +0200
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E754E10E341
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 06:58:08 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id a12so4663773ljr.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Oct 2022 23:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=nox5N58PUPNJ5yQ3AV4MMMQoVYs4CGRh4FHi/aYZtq8=;
+ b=cmIEcUaEDsgVERCGiwJFsICFmmfj8aGoPKoKJzFg9dKVokuVhnWNsdkJi+jizD9EdW
+ J7sMQP+R7NC0xH0YgSqYhSufWYLp233d+K0fYZ/qLsky5/99jpCAdw3wr6+was66hurw
+ S/mFnuFYVHg5h/oxryT60QiKLeViTkGx4NlpLs+hI2+x4YnZC68Ho35eaNqgZmgvRrBj
+ HfMhVLnvTcxbZt3HCyPcHld9XxBF1iFgW9Zause1Dse3Do7qR9Ckh2byYSo1xFqRcLEj
+ LneiL4XERdQlZYTPz7ytGILkLMDTzJhZSyBmbFE1UR87yTRcguSIMMsTQ9xCqtVGfIwf
+ Z/8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=nox5N58PUPNJ5yQ3AV4MMMQoVYs4CGRh4FHi/aYZtq8=;
+ b=h7LoEkxKpdBoW4gwHGhsbG+j4Wn5B8EjTBSoydvMzve5a4/KDEBRaAMVR8CCbxprTk
+ BO4bgdZ27FdikyecC7+SQ1eaKJgyPzXyjy5kPCgPQaF4L8qoCJFKLrZHsaXMuN8dh+GK
+ 96HcBsDy0PBmpZC9anufmdMypd9CMLGdUA7yECp+MI7YYqQQG45d2q6+b9+xHipDX3iO
+ hGb7tUbJ1urUPoPZmqozH1xMBwtp7XXej67UbzLbgbz7Loj479s0EAdLNyZ8UH7y/RBr
+ SxQf3wNULLpwazS1mgjN6zA46rbHaX1wgcLLk+Sel2QtVvjiwoQctGkzNXm/7cOfn7Nh
+ AyFQ==
+X-Gm-Message-State: ACrzQf0L3JKJnc7vc5br1F/m1qcdZxrGS0mhz5IsgaaEqpuLfosZNwti
+ xfzGtTzcnSxqyklX5779a1aFuQ==
+X-Google-Smtp-Source: AMsMyM6qoiQIAmh1kbEthnONGWlXkdxK6WQpyoTgkWMObI0QiE5aE0pH2esA9hnjH3V2xb61cNcIeQ==
+X-Received: by 2002:a05:651c:1a0a:b0:26c:d1e:7b3 with SMTP id
+ by10-20020a05651c1a0a00b0026c0d1e07b3mr1221828ljb.160.1665125887244; 
+ Thu, 06 Oct 2022 23:58:07 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ j15-20020a056512344f00b0049f9c732858sm168618lfr.254.2022.10.06.23.58.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 23:58:06 -0700 (PDT)
+Message-ID: <f66ebd71-3003-aefe-44ad-ef2cc78bf102@linaro.org>
+Date: Fri, 7 Oct 2022 08:58:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v4 1/2] drm/atomic-helper: Don't allocated plane state in
- CRTC check
-To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
- daniel@ffwll.ch, airlied@gmail.com, ville.syrjala@linux.intel.com,
- daniel@fooishbar.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-References: <20221005114002.3715-1-tzimmermann@suse.de>
- <20221005114002.3715-2-tzimmermann@suse.de>
- <24dfef10-da19-1dc2-4dec-7d0231a920c2@redhat.com>
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 1/2] dt-bindings: it6505: add properties to restrict
+ output bandwidth
+To: allen.chen@ite.com.tw
+References: <20221006020444.15823-1-allen.chen@ite.com.tw>
+ <20221006020444.15823-2-allen.chen@ite.com.tw>
+ <94c660bc-b7eb-1aea-8ae2-0ee7993091fd@linaro.org>
+ <7acf5664832f43fbaa684c19415894c7@ite.com.tw>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <24dfef10-da19-1dc2-4dec-7d0231a920c2@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------MTDCppisgw3JCYNLM7lcP3Hi"
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <7acf5664832f43fbaa684c19415894c7@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,87 +78,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Kenneth.Hung@ite.com.tw,
+ jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Jau-Chih.Tseng@ite.com.tw, linux-kernel@vger.kernel.org,
+ robert.foss@linaro.org, treapking@chromium.org, Hermes.Wu@ite.com.tw,
+ robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ jonas@kwiboo.se
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------MTDCppisgw3JCYNLM7lcP3Hi
-Content-Type: multipart/mixed; boundary="------------6Zi4Bqn5TCanguR4xSgCGyEV";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, jfalempe@redhat.com,
- daniel@ffwll.ch, airlied@gmail.com, ville.syrjala@linux.intel.com,
- daniel@fooishbar.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
-Message-ID: <91dea8a0-a49b-fdaa-0a26-61b09e0901a7@suse.de>
-Subject: Re: [PATCH v4 1/2] drm/atomic-helper: Don't allocated plane state in
- CRTC check
-References: <20221005114002.3715-1-tzimmermann@suse.de>
- <20221005114002.3715-2-tzimmermann@suse.de>
- <24dfef10-da19-1dc2-4dec-7d0231a920c2@redhat.com>
-In-Reply-To: <24dfef10-da19-1dc2-4dec-7d0231a920c2@redhat.com>
+On 07/10/2022 05:18, allen.chen@ite.com.tw wrote:
+> hi
+> 
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 
+> Sent: Thursday, October 6, 2022 4:17 PM
+> To: Allen Chen (陳柏宇) <allen.chen@ite.com.tw>
+> Cc: Jau-Chih Tseng (曾昭智) <Jau-Chih.Tseng@ite.com.tw>; Kenneth Hung (洪家倫) <Kenneth.Hung@ite.com.tw>; Hermes Wu (吳佳宏) <Hermes.Wu@ite.com.tw>; Pin-yen Lin <treapking@chromium.org>; Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong <narmstrong@baylibre.com>; Robert Foss <robert.foss@linaro.org>; Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; open list:DRM DRIVERS <dri-devel@lists.freedesktop.org>; open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>; open list <linux-kernel@vger.kernel.org>
+> Subject: Re: [PATCH v3 1/2] dt-bindings: it6505: add properties to restrict output bandwidth
+> 
+> On 06/10/2022 04:04, allen wrote:
+>> From: allen chen <allen.chen@ite.com.tw>
+>>
+>> Add properties to restrict dp output data-lanes and clock.
+>>
+>> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+>> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+>> ---
+>>  .../bindings/display/bridge/ite,it6505.yaml          | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>>
+>> diff --git 
+>> a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml 
+>> b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+>> index 833d11b2303a..f5482a614d05 100644
+>> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+>> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+>> @@ -52,6 +52,16 @@ properties:
+>>      maxItems: 1
+>>      description: extcon specifier for the Power Delivery
+>>  
+>> +  ite,dp-output-data-lane-count:
+>> +    description: restrict the dp output data-lanes with value of 1-4
+> 
+> Drop "with value of 1-4" because it is redundant, but instead explain what this property is about. "Restrict output" is not yet enough.
+> Restrict the number? Or choose specific lanes? Why it cannot be data-lanes from video-interfaces?
+> 
+> ==> DP output bandwidth depends on data-lane-count, so the number of output data-lane-count will restrict output bandwidth.
+> In this dt-binding we don't have output endpoint, so use another property name to configure.
+> If need to use data-lanes, where can we put in this dt-binding?
 
---------------6Zi4Bqn5TCanguR4xSgCGyEV
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I see you got review in v2 to rename it, but it still should be the same
+property, if it has similar/same meaning. It can be put here. You just
+need to define its type or reference other schema (e.g. video-interfaces
+if applicable) which defines it.
 
-SGkNCg0KQW0gMDYuMTAuMjIgdW0gMjI6MTggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IE9uIDEwLzUvMjIgMTM6NDAsIFRob21h
-cyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSW4gZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfY3J0
-Y19zdGF0ZSgpLCBkbyBub3QgYWRkIGEgbmV3IHBsYW5lIHN0YXRlDQo+PiB0byB0aGUgZ2xv
-YmFsIHN0YXRlIGlmIGl0IGRvZXMgbm90IGV4aXN0IGFscmVhZHkuIEFkZGluZyBhIG5ldyBw
-bGFuZQ0KPj4gc3RhdGUgd2lsbCByZXN1bHQgaW4gb3ZlcmhlYWQgZm9yIHRoZSBwbGFuZSBk
-dXJpbmcgdGhlIGF0b21pYy1jb21taXQNCj4+IHN0ZXAuDQo+Pg0KPj4gRm9yIHRoZSB0ZXN0
-IGluIGRybV9hdG9taWNfaGVscGVyX2NoZWNrX2NydGNfc3RhdGUoKSB0byBzdWNjZWVkLCBp
-dA0KPj4gaXMgaW1wb3J0YW50IHRoYXQgdGhlIENSVEMgaGFzIGFuIGVuYWJsZWQgcHJpbWFy
-eSBwbGFuZSBhZnRlciB0aGUNCj4+IGNvbW1pdC4gU2ltcGx5IHRlc3RpbmcgdGhlIENSVEMg
-c3RhdGUncyBwbGFuZV9tYXNrIGZvciBhIHByaW1hcnkgcGxhbmUNCj4+IGlzIHN1ZmZpY2ll
-bnQuDQo+Pg0KPj4gTm90ZSB0aGF0IHRoZSBoZWxwZXIgc3RpbGwgb25seSB0ZXN0cyBmb3Ig
-YW4gYXR0YWNoZWQgcHJpbWFyeSBwbGFuZS4NCj4+IERyaXZlcnMgaGF2ZSB0byBlbnN1cmUg
-dGhhdCB0aGUgcGxhbmUgY29udGFpbnMgdmFsaWQgcGl4ZWwgaW5mb3JtYXRpb24uDQo+Pg0K
-Pj4gdjM6DQo+PiAJKiB0ZXN0IGZvciBhIHByaW1hcnkgcGxhbmUgaW4gcGxhbmVfbWFzayAo
-VmlsbGUpDQo+PiB2MjoNCj4+IAkqIHJlbW92ZSB1bm5lY2Vzc2FyeSB0ZXN0IGZvciBwbGFu
-ZS0+Y3J0YyAoVmlsbGUpDQo+PiAJKiBpbmxpbmUgZHJtX2F0b21pY19nZXRfbmV4dF9wbGFu
-ZV9zdGF0ZSgpIChWaWxsZSkNCj4+IAkqIGFjcXVpcmUgcGxhbmUgbG9jayBiZWZvcmUgYWNj
-ZXNzaW5nIHBsYW5lLT5zdGF0ZSAoVmlsbGUpDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhv
-bWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiBGaXhlczogZDZiOWFm
-MTA5N2ZlICgiZHJtL2F0b21pYy1oZWxwZXI6IEFkZCBoZWxwZXIgZHJtX2F0b21pY19oZWxw
-ZXJfY2hlY2tfY3J0Y19zdGF0ZSgpIikNCj4gDQo+IFRoaXMgcGF0Y2ggbWFrZXMgc2Vuc2Ug
-dG8gbWUuDQo+IA0KPiBSZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxq
-YXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KPiBidXQgSSd2ZSBhIGhhcmQgdGltZSBwYXJzaW5n
-IHRoZSBzdWJqZWN0IGxpbmUuIERpZCB5b3UgbWVhbiBpbnN0ZWFkOg0KPiANCj4gImRybS9h
-dG9taWMtaGVscGVyOiBEb24ndCBhbGxvY2F0ZSBuZXcgcGxhbmUgc3RhdGUgaW4gQ1JUQyBj
-aGVjayIgPw0KDQpPaywgSSdsbCBkbyB0aGF0Lg0KDQpCZXN0IHJlZ2FyZA0KVGhvbWFzDQoN
-Cj4gDQo+IG9yICJkcm0vYXRvbWljLWhlbHBlcjogRG9uJ3QgYWRkIGEgbmV3IHBsYW5lIHN0
-YXRlIGluIENSVEMgY2hlY2siID8NCj4gDQo+IEluIGFueSBjYXNlIHlvdSBjYW4gZml4IHRo
-YXQgd2hpbGUgYXBwbHlpbmcgc28gbm8gbmVlZCB0byByZXNlbmQgSU1PLg0KPiANCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
-w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
-dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Best regards,
+Krzysztof
 
---------------6Zi4Bqn5TCanguR4xSgCGyEV--
-
---------------MTDCppisgw3JCYNLM7lcP3Hi
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmM/zVoFAwAAAAAACgkQlh/E3EQov+Ac
-gw//a+nRnEDyH5He5DG6kwOXwWoYyljP6VcHistSSmc0Hsv5HQTtjg1YJwZ/K8LeKTz7wy156q22
-wSac+XGbD01FsSvvZjqa6q/aF42RRZRNIxUj7JHYCzhnIbBYc4G6tPT1q5V+Pv5C+DwZN3nhLieH
-522quBuAQ9t0RahSEi7Z9xUyqkMuuWG07VPBMbvrHVhKeAQmTpxv94SdktCzB44pCtNM0uYZxj2Y
-Tx7Q/DUdjZMsGxTiyxkB6EaHhl8jludYbSFd/AZ63Ykfnh9Am3ypQxXM8UN5gnVyHmiguF2aEB3s
-oYdxmKNeDIDKzb/rXQS3ZoWs6mN9q0laAhCNo63nTxAG1nfBYkTu/38xoBKl9QQGzzD/WhJ7Qtmy
-h0oJrE1uP1M6cJELa0nQDY8Jf/pFVxXjLaI7LbAoa+9TEiDZay5XqhzE1G2COiS/u4UVqEtQI+/K
-SV+c6RUNSVSjbF6KSx5mf1xtaU+8Vu5HeMFOUF8QKgP46IgstljWgRyCJvHibshOzMXixoNLkkli
-8COxDgHabRe8wIPe5zZg51oB4UyjN/pbR0s3n1NgyWAou8G+mXeao6MZCFjI2oBWWkRLpJobUUqT
-thnY7wQZvxRkXCx7c+WH9J/VlV5Z+0qmkzPS5jGU8IyiRukF7nl/TuiOTJtXNmWpfPt+4f5ETTxV
-Ha0=
-=77ID
------END PGP SIGNATURE-----
-
---------------MTDCppisgw3JCYNLM7lcP3Hi--
