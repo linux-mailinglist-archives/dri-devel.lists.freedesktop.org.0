@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D9E5F751D
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 10:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FF95F752E
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Oct 2022 10:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F6A10E427;
-	Fri,  7 Oct 2022 08:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B9D10E34F;
+	Fri,  7 Oct 2022 08:19:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D04F10E34F
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 08:16:42 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- m11-20020a4aab8b000000b00476743c0743so3020017oon.10
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Oct 2022 01:16:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Di7HyMkQ1E5qdHPfa+7YWbbUBvN3xbsSG/cDo7IAkDM=;
- b=MrjLo8ie8GdfLRNcCwYP5fd4Q8VT22NK7ZwfJ17iLQAZJ9+7gATFex7M0FKKDUuR3p
- HZ0+65Ulq5X9CkhVjYINZ3IBF2bxUszQxbX2jltmOe0Q1T2gQZU9tCILNTD04E5H24AA
- LZtUbWi6BPJgVwbdob0xrdtB2q7zk3bTa75xQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Di7HyMkQ1E5qdHPfa+7YWbbUBvN3xbsSG/cDo7IAkDM=;
- b=5Z3qdGtDankq8xyJ35bM/cD34nboowzPtLf1DphMb3tDMxOoV4iCCLJmFA8ZbfPBf/
- YgMUSJLHaW+loP7ZoxcYqYeEJyINqBtiZvIGy0posk2yGOqjmJsYLNbvvmLiZUUfjyg3
- 2GryivIbFvf1UCXfjsipSUsPYubg83euRU5yoixCBfYmZCIw3RPv2RSX/2gN4EnScSdN
- o1mA4fZw2cBpKFHZTu8BWuotAVP0XFogRU3OPyKI/rGz19HJRl1TCVcj4tudZM2P3fnk
- elvUIN0ivXYsNIYqUxK574fWbtZiaBp/+EQHsUgzIoSu43VpAfoF4qLWraaEOQ+6XzLo
- X+RQ==
-X-Gm-Message-State: ACrzQf3/mWVmFoTA2nm2jB9cbyHeESjLNyQRwIIMMOpbygd3CT+vB7TQ
- l7DvpjafnNMKSKwcMTyqVIw1NMXUPtBD5VviWZQPuA==
-X-Google-Smtp-Source: AMsMyM6D/ujZCVrCawKe24O9hlJkW/1k8D/yf07qQC8qmpaJMrLx21hxKX6v+Ob9BOFyfWPYZ+C5z3wKbop+/7TtMbo=
-X-Received: by 2002:a9d:7f14:0:b0:659:2de8:2148 with SMTP id
- j20-20020a9d7f14000000b006592de82148mr1575777otq.321.1665130601752; Fri, 07
- Oct 2022 01:16:41 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A500B10E0F1
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Oct 2022 08:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665130788; x=1696666788;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=rkSLcZPhXlS0302lxoz6waCtvtB0TActkp2Ml/8/uqE=;
+ b=Fo1pTJjlilMtX56Puo0TrvaeEx1uO6GlAJyGIfE/BMTRDPtAPFpYiTKt
+ B0imcTHbVoAxE7IjEhdZ0WbHC+DIadAd4IT/EIHhLMGwbhon3BwzFhKDK
+ eToFwNshkOvbibexdhTsYjylOFyaMOZcTyqIK1W21poEUTl9FpDjHLJVB
+ cUfkhOTthl6Dwm9vsC7AmQRH/Bh1G892AxZMl5Wq6VIRH0QW1QasONBrE
+ 4HMAqbBrdcvVV8s3n/qVuQDseV81OaUazfb9lpyIH8aHB68FQxEQEH3/J
+ n5NFZkpxhOJGwJFbc9O0xKLGb6SAYF5htzZ2mNbOG8c1c3TTgwIB9pJWa w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="304681534"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="304681534"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2022 01:19:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="693709683"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="693709683"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga004.fm.intel.com with SMTP; 07 Oct 2022 01:19:45 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 07 Oct 2022 11:19:45 +0300
+Date: Fri, 7 Oct 2022 11:19:45 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: drm fb helpers hotplug/resize
+Message-ID: <Yz/hIZaKJhtznFnc@intel.com>
+References: <9884c2f0daeccbaeaa9995bd8bdb25b98838b980.camel@vmware.com>
+ <8fc0e4de-2448-1d04-d1b0-16f87498fe98@suse.de>
+ <a3f7176eb7ae321f939d906adb1873cef7fe01ce.camel@vmware.com>
+ <156b7bad-810b-80ce-3f79-bca10641d1a1@suse.de>
+ <Yz/SLn6jnUsTAw6y@intel.com>
+ <3e761cd0-7527-871e-5d53-1af223418fac@suse.de>
 MIME-Version: 1.0
-References: <CAPM=9tzs4n8dDQ_XVVPS_5jrBgsNkhDQvf-B_XmUg+EG_M2i4Q@mail.gmail.com>
- <CAHk-=whUp5Ufur6Bmv=H-rDDTNJJ-KVqOKkL+5FmR01jp0dbcA@mail.gmail.com>
- <CADnq5_Of-8ZyBxee0fZ=0x-eV-2NX_+e9sd-9nmuHdLugSHp2g@mail.gmail.com>
- <CAHk-=wi43xD06UgO2McDT3R=ze_aHgOGjcDOoggSwmQRv2kA+A@mail.gmail.com>
- <CADnq5_N0Ef+1VUoDLdpHfJXqZFuPYbx5Lq+94NWciHcQC+VrMg@mail.gmail.com>
- <CAPM=9tyAOnzwXyyPuoceZ1mimAkzxR-63YmKfVtcQX=swywNvg@mail.gmail.com>
- <CAHk-=wgghR4N-4XWjoK18NDkvjBL7i00ab8+otQg955pNGG_dQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wgghR4N-4XWjoK18NDkvjBL7i00ab8+otQg955pNGG_dQ@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 7 Oct 2022 10:16:30 +0200
-Message-ID: <CAKMK7uF_fKs=Ge5b3sCxa3YgWFaJsLBdCQVj+fDn6ukh9GvKKA@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.1-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3e761cd0-7527-871e-5d53-1af223418fac@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,96 +65,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 7 Oct 2022 at 01:45, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Thu, Oct 6, 2022 at 1:25 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> >
-> > [ 1234.778760] BUG: kernel NULL pointer dereference, address: 0000000000000088
-> > [ 1234.778813] RIP: 0010:drm_sched_job_done.isra.0+0xc/0x140 [gpu_sched]
->
-> As far as I can tell, that's the line
->
->         struct drm_gpu_scheduler *sched = s_fence->sched;
->
-> where 's_fence' is NULL. The code is
->
->    0: 0f 1f 44 00 00        nopl   0x0(%rax,%rax,1)
->    5: 41 54                push   %r12
->    7: 55                    push   %rbp
->    8: 53                    push   %rbx
->    9: 48 89 fb              mov    %rdi,%rbx
->    c:* 48 8b af 88 00 00 00 mov    0x88(%rdi),%rbp <-- trapping instruction
->   13: f0 ff 8d f0 00 00 00 lock decl 0xf0(%rbp)
->   1a: 48 8b 85 80 01 00 00 mov    0x180(%rbp),%rax
->
-> and that next 'lock decl' instruction would have been the
->
->         atomic_dec(&sched->hw_rq_count);
->
-> at the top of drm_sched_job_done().
->
-> Now, as to *why* you'd have a NULL s_fence, it would seem that
-> drm_sched_job_cleanup() was called with an active job. Looking at that
-> code, it does
->
->         if (kref_read(&job->s_fence->finished.refcount)) {
->                 /* drm_sched_job_arm() has been called */
->                 dma_fence_put(&job->s_fence->finished);
->         ...
->
-> but then it does
->
->         job->s_fence = NULL;
->
-> anyway, despite the job still being active. The logic of that kind of
-> "fake refcount" escapes me. The above looks fundamentally racy, not to
-> say pointless and wrong (a refcount is a _count_, not a flag, so there
-> could be multiple references to it, what says that you can just
-> decrement one of them and say "I'm done").
+On Fri, Oct 07, 2022 at 09:58:31AM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 07.10.22 um 09:15 schrieb Ville Syrjälä:
+> 
+> >>
+> >> For the absolute size of fbdev memory, I think we should introduce a
+> >> module parameter in drm_fb_helper, which an option to set a default
+> >> value in the kernel config. It would benefit all drivers that use fbdev
+> >> emulation and work how overalloc works.
+> >>
+> >> If no size is given, the current approach would be used.
+> >>
+> >> I don't think resizing would work immediately. There isn't anything in
+> >> the check_var and set_par functions that implements the necessary atomic
+> >> check and commit.
+> > 
+> > set_par() is the thing tht does the commit.
+> > 
+> 
+> I know. There actually even is a commit statement in set_par, which can 
+> restore the initial mode. My point is that it has no means of changing 
+> the display mode. A full modeset would require us to convert the fb 
+> screeninfo into an atomic state and commit that instead. For the fbconv 
+> helper, I once made code to convert between the two. Leaving this here 
+> for reference. [1][2]
 
-Just figured I'll clarify this, because it's indeed a bit wtf and the
-comment doesn't explain much. drm_sched_job_cleanup can be called both
-when a real job is being cleaned up (which holds a full reference on
-job->s_fence and needs to drop it) and to simplify error path in job
-constructions (and the "is this refcount initialized already" signals
-what exactly needs to be cleaned up or not). So no race, because the
-only times this check goes different is when job construction has
-failed before the job struct is visible by any other thread.
+Uff. Right, we'd probably just want to properly implemnt set_par()
+then. 
 
-But yeah the comment could actually explain what's going on here :-)
+BTW I had a slightly different take on the bitfiled stuff.
+Maybe a bit easier to extend for new formats, but full of macros:
+https://patchwork.freedesktop.org/patch/203189/?series=37820&rev=1
 
-And yeah the patch Dave reverted screws up the cascade of references
-that ensures this all stays alive until drm_sched_job_cleanup is
-called on active jobs, so looks all reasonable to me. Some Kunit tests
-maybe to exercise these corners? Not the first time pure scheduler
-code blew up, so proably worth the effort.
--Daniel
+> 
+> Similarly, in check_var we sort out and reject all mode changes. We'd 
+> have to change that as well.
 
->
-> Now, _why_ any of that happens, I have no idea. I'm just looking at
-> the immediate "that pointer is NULL" thing, and reacting to what looks
-> like a completely bogus refcount pattern.
->
-> But that odd refcount pattern isn't new, so it's presumably some user
-> on the amd gpu side that changed.
->
-> The problem hasn't happened again for me, but that's not saying a lot,
-> since it was very random to begin with.
->
->                  Linus
+I guess we could do a TEST_ONLY commit there. Though I think
+not doing that and just failing from set_par() should be fine
+too.
+
+> 
+> I guess we can continue to ignore non-atomic modesetting.
+> 
+> Best regards
+> Thomas
+> 
+> [1] 
+> https://gitlab.freedesktop.org/tzimmermann/linux/-/commit/385161cd2d048b5cf80544bff8ced3da7a82dfa9
+> [2] 
+> https://gitlab.freedesktop.org/tzimmermann/linux/-/commit/a541c405a638f47ee80389b222fbde6e311e8220
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Ivo Totev
+
 
 
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrjälä
+Intel
