@@ -2,45 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5815F8411
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Oct 2022 09:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3885F84F1
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Oct 2022 13:14:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F1D10E056;
-	Sat,  8 Oct 2022 07:40:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F05210E201;
+	Sat,  8 Oct 2022 11:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Sat, 08 Oct 2022 07:40:24 UTC
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F3510E056
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Oct 2022 07:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=zZQ88pPgtouR86lBpg+x1aw/csf1v9uxp8peXKk1cb0=;
- b=j3ST7SGnTYT/Y5wi6lWHZVyoTN6fTohW3n4oD0o9maLZmdhUccDAwXNB
- CrIK4oBY5dqegOsWJRE3rrwkzrofbuFPsdX2RZ0LPGmouitc76P+QhHmS
- HaFrH+aHq9cCtdo04t374NKt8+gA8QS7/hDJOozImMV5dxKm1CxmPsJ2W U=;
-Authentication-Results: mail2-relais-roc.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.95,169,1661810400"; d="scan'208";a="56593050"
-Received: from 51.123.68.85.rev.sfr.net (HELO hadrien) ([85.68.123.51])
- by mail2-relais-roc.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2022 09:33:09 +0200
-Date: Sat, 8 Oct 2022 09:33:08 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
-In-Reply-To: <53DD0148-ED15-4294-8496-9E4B4C7AD061@chromium.org>
-Message-ID: <alpine.DEB.2.22.394.2210080925390.2928@hadrien>
-References: <53DD0148-ED15-4294-8496-9E4B4C7AD061@chromium.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A7510E201
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Oct 2022 11:14:36 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id 13so16141860ejn.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Oct 2022 04:14:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:subject:to:content-language:user-agent
+ :mime-version:date:message-id:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=E/g2MqXTMJBiTI2dUhpmKL4Vy8diigManAxEoufcIXo=;
+ b=kYG+d61hWgiu0jxDX+0pPdpam/ltSY7cSvaq805zk43TbjgefLxLxbWxofnLgNfzSC
+ KvKoiYq789IeWzGNHdxjjMlVnbiZ4kEdDdj9tizex3Wx6281E0oqL5DwHgYOZkStEjFa
+ ecU2RVMEhxbMdTE949qRrtO3ebt27RlSnByiy3vU3dK2505t6E6CzILVhtzJWxxgkrIY
+ cfxS6zN9iUhajfyyjJVJK1o5i4VTDmErqWk192ZRrrZoniBpsgqVQgRYfe5YZ2nIVeIX
+ fQaCtYeh5uOTH+R9mMZTsS+MJZ7FPzFJgDuFWYOEgccQlpKOPoRVvsGGWiTi0GJxumh7
+ mazg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:subject:to:content-language:user-agent
+ :mime-version:date:message-id:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E/g2MqXTMJBiTI2dUhpmKL4Vy8diigManAxEoufcIXo=;
+ b=GWz2uZZGWzVFcFeBj5D0z6p5qPqu5TuL+vjPbjWYOL26RGYUQFrJ/Uchz0oOmfcIt1
+ oSSsnqrISjWPYT7p3ShoEgrlgClJqlYwgAVXuPyIU34WzH5UsM3ZoWfbf5zONMzJ5Ikj
+ m5gext5L6eUCDzCcQlV4JkjccTa6eFWw1bat0mANrubDGFbxhWS8TiE7DCNkRWCV4KPP
+ 61QaFVwnZJTkueidtUytDjt0G/ezun/eXq2KKCdjF21q6AZolIPHj1ZDxV3vuUuIESjB
+ Cl9xWBX9mzH8pK6BRIN1y9ce9Trpel7XjrQl5AMalOq9IPcERWin/to/YyHM8g5Dtf/O
+ h1WA==
+X-Gm-Message-State: ACrzQf3X5PEJK5xPe2IbNlUhy3B7OGTsXM2V3T+xH7ufhbCHQbn26sRu
+ tCrjTrx88hIrWw+hijr+eXMPRgNknCY=
+X-Google-Smtp-Source: AMsMyM4m1zv7brF8S3ksRzaLQ9EHH8KGviJkEU702iIsx7i2DqFJcLGrDHO1/tgZn4p09nDWfntmhw==
+X-Received: by 2002:a17:907:3fa7:b0:78d:96be:7143 with SMTP id
+ hr39-20020a1709073fa700b0078d96be7143mr1964356ejc.68.1665227674872; 
+ Sat, 08 Oct 2022 04:14:34 -0700 (PDT)
+Received: from ?IPV6:2001:7c7:20f7:4001:243:53bc:659d:894c?
+ ([2001:7c7:20f7:4001:243:53bc:659d:894c])
+ by smtp.gmail.com with ESMTPSA id
+ f14-20020a17090631ce00b0078246b1360fsm2558250ejf.131.2022.10.08.04.14.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Oct 2022 04:14:34 -0700 (PDT)
+From: Peter Maucher <bellosilicio@gmail.com>
+X-Google-Original-From: Peter Maucher <bello.silicio@gmail.com>
+Message-ID: <fa9d4fe7-9b3b-678c-f014-96008877de45@gmail.com>
+Date: Sat, 8 Oct 2022 13:14:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Content-Language: en-US
+To: dri-devel@lists.freedesktop.org
+Subject: Difference GART/GTT and related questions
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,69 +75,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- x86@kernel.org, Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, kernel-janitors@vger.kernel.org,
- KP Singh <kpsingh@kernel.org>, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
- "H. Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
- WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Hugh Dickins <hughd@google.com>, Russell King <linux@armlinux.org.uk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Dave Airlie <airlied@redhat.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Paolo Abeni <pabeni@redhat.com>, "James E. J. Bottomley" <jejb@linux.ibm.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Yury Norov <yury.norov@gmail.com>,
- Heiko Carstens <hca@linux.ibm.com>, linux-um@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-block@vger.kernel.org,
- Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
- linux-nvme@lists.infradead.org, loongarch@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- linux-mmc@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Theodore Ts'o <tytso@mit.edu>, linux-parisc@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
- =?ISO-8859-15?Q?Christoph_B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
- linux-crypto@vger.kernel.org, Jan Kara <jack@suse.com>,
- Thomas Graf <tgraf@suug.ch>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> >> @minus_one@
-> >> expression FULL;
-> >> @@
-> >>
-> >> - (get_random_int() & ((FULL) - 1)
-> >> + prandom_u32_max(FULL)
-> >
-> >Ahh, well, okay, this is the example I mentioned above. Only works if
-> >FULL is saturated. Any clever way to get coccinelle to prove that? Can
-> >it look at the value of constants?
->
-> I'm not sure if Cocci will do that without a lot of work. The literals trick I used below would need a lot of fanciness. :)
+Hi dri-devel,
 
-If FULL is an arbitrary expression, it would not be easy to automate.  If
-it is a constant then you can use python/ocaml to analyze its value.  But
-if it's a #define constant then you would need a previous rule to match the
-#define and find that value.
+what is the difference between GTT and GART for AMD GPUs?
+ From what I gathered when looking through the mailing list archives and 
+the freedesktop docs [1] as well as wikipedia [2],
+these terms seem to be synonymous, but that can not be the whole truth
+(different sizes in dmesg log, different kernel parameters in 
+amdgpu/radeon, ...).
 
-For LITERAL, I think you could just do constant int LITERAL; for the
-metavariable declaration.
+As far as I understand it currently,
+the size of the GART is depending on some HW/ASIC functionality [3].
+On the other hand, I was successfully able to increase the size of the 
+GART mapping(?) from 512MB to 1024MB by using amdgpu.gartsize=1024 on my 
+RX 6600, and booting the system.
 
-julia
+GTT, on the other hand, is the maximum amount of system memory visible 
+to the GPU, shared between all processes connected to the GPU.
+As I understand it, using GPUVM, each process can have one or more GARTs 
+for mapping?
+Apparently, there is also something called a GART table window,
+what's up with that?
+
+Also, according to what I found in the mailing list archives,
+the GPUVM functionality "replaces" old GART with new GART features,
+so what is the difference and what exactly is GPUVM?
+If I understood correctly, GPUVM is a MMU using page tables on the GPU?
+
+And, additionally, the addresses translated by the GART(s) are 
+optionally translated once more by the PCIe IOMMU,
+as the former is located on the GPU and the latter is in the CPU's PCIe 
+root complex?
+Wikipedia mentions something about (another?) GART in an AMD IOMMU...
+
+Lastly, do any of these numbers influence what the longest contiguous 
+mapping is for one buffer to the GPU?
+As in: can I map 95% or so of the available (GART/GTT?) space into one 
+buffer and have the GPU work on it?
+
+Thanks, Peter
+
+[1] https://dri.freedesktop.org/wiki/GART/
+[2] https://en.wikipedia.org/wiki/Graphics_address_remapping_table
+[3] https://www.kernel.org/doc/html/v6.0/gpu/amdgpu/module-parameters.html
+
