@@ -2,50 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB7C5F8D9A
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 20:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A9C5F8DAA
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 21:14:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA4F10E545;
-	Sun,  9 Oct 2022 18:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 216DB10E53C;
+	Sun,  9 Oct 2022 19:14:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C304210E545
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 18:58:08 +0000 (UTC)
-Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 5E60F1F969;
- Sun,  9 Oct 2022 20:58:06 +0200 (CEST)
-Date: Sun, 9 Oct 2022 20:58:04 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 06/10] drm/msm/dsi: Migrate to
- drm_dsc_compute_rc_parameters()
-Message-ID: <20221009185804.si22xuo4rs6qxicc@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20221009184824.457416-1-marijn.suijten@somainline.org>
- <20221009185058.460688-1-marijn.suijten@somainline.org>
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D428310E53C
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 19:14:18 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id j23so11018827lji.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Oct 2022 12:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eLmKWVTMUSHqEP9DIVkRM+ZnS7XRFcavZfbEdhp8mMc=;
+ b=D3znIKzXKwQaxB7Ox3lpizhW7NS6r19zfvTiJftlw02OF9QCPjt9kbEIllwQSDwAZm
+ bbQd6AGAx4o2TTHo7hE884uCEcGqpp6G4Ny7jvmIBpXYmT2rwz0rUyxYHHYb6xXZLDHc
+ E/DV8n9stU9dLyYaAgvDlJFsbnUibYlnZ3lQiZYIXY6gD7JTWs4L3E2890nEcjUZGl/p
+ uegdz2Z11CjMAJ7dwVkfNE9BlNRrCClWYLW6o+2UaccXyf4zJIrbSLQt8/GNaAY2oQap
+ k8xV2eGWsUXni6SEBMXVz/OEX8Xxc0HYD+ZcLhdkj1uBQdTp3VrXeNoO6jBsfp9PWNDD
+ kUfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eLmKWVTMUSHqEP9DIVkRM+ZnS7XRFcavZfbEdhp8mMc=;
+ b=YVqvlFTPVvA8QvfLqq2+jQF6XXRjVefBSs0zylRFtXRPOuauE86Tj+Mi+KobiAdWL8
+ 6vWsiBQupmGChK814qi/r1Ur+bs4Q+MEJo/uqzf0E/ZVniSV32/HnN1scOV5qDxxfYpZ
+ s6X+hl1YGlyZPDUbKRRvKuxpLvhwZ8tKd9w/hTf7Zmv/ZRqtIQ9q8fyvURXeh12AvhjT
+ ftK2AtZ5ZdxjeKmTCv5e6t3gKkNr1LpuA9Yc1UE7PO8KUOtTRwit4+YVOG1aY1uLb2fN
+ V5rSmuA6iBJxg5bTwyWVemxa/R/ggkjfuTexQKvnn6hpgay2TekJ38ZN4z6/AiHlghDj
+ ZqhQ==
+X-Gm-Message-State: ACrzQf18bwF1PoFUh8eNC8pMTh5z7SUuuwFWtjq1ps4umFdOl459wTxF
+ 3Wh54mHrsaxxF0nbfcpNRueciA==
+X-Google-Smtp-Source: AMsMyM4a9wjRAHNMLggg3ZrR/45pdnYmZIpeoXCdgpM946/5KOUGeLQrsUAwlMweZbXSn4hMmZKK0g==
+X-Received: by 2002:a2e:a54b:0:b0:26c:72ed:b758 with SMTP id
+ e11-20020a2ea54b000000b0026c72edb758mr5535281ljn.245.1665342857092; 
+ Sun, 09 Oct 2022 12:14:17 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020a056512368e00b004946c3cf53fsm1117170lfs.59.2022.10.09.12.14.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 09 Oct 2022 12:14:16 -0700 (PDT)
+Message-ID: <408bf6a2-47fe-3eaf-7235-578d33a576c9@linaro.org>
+Date: Sun, 9 Oct 2022 22:14:16 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221009185058.460688-1-marijn.suijten@somainline.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 10/10] drm/msm/dsi: Prevent signed BPG offsets from
+ bleeding into adjacent bits
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org
+References: <20221009184824.457416-1-marijn.suijten@somainline.org>
+ <20221009185316.462522-3-marijn.suijten@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221009185316.462522-3-marijn.suijten@somainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,139 +84,34 @@ Cc: Vinod Koul <vkoul@kernel.org>, Jami Kettunen <jami.kettunen@somainline.org>,
  Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-09 20:50:54, Marijn Suijten wrote:
-
-Apologies.  After attempting to recover from an unexpected interruption
-_right as I was sending this series_, this patch got sent twice as it
-only later appeared to also have made its way through in the first round
-[1], together with the cover letter and first five patches.
-
-[1]: https://lore.kernel.org/linux-arm-msm/20221009184824.457416-7-marijn.suijten@somainline.org/
-
-- Marijn
-
-> As per the FIXME this code is entirely duplicate with what is already
-> provided inside drm_dsc_compute_rc_parameters(), and it is yet unknown
-> why this comment was put in place instead of resolved from the get-go.
-> Not only does it save on duplication, it would have also spared certain
-> issues.
+On 09/10/2022 21:53, Marijn Suijten wrote:
+> The bpg_offset array contains negative BPG offsets which fill the full 8
+> bits of a char thanks to two's complement: this however results in those
+> bits bleeding into the next field when the value is packed into DSC PPS
+> by the drm_dsc_helper function, which only expects range_bpg_offset to
+> contain 6-bit wide values.  As a consequence random slices appear
+> corrupted on-screen (tested on a Sony Tama Akatsuki device with sdm845).
 > 
-> For example, this code from downstream assumed dsc->bits_per_pixel to
-> contain an integer value, whereas the upstream drm_dsc_config struct has
-> it with 4 fractional bits.  drm_dsc_compute_rc_parameters() already
-> accounts for this feat, and the sole remaining use of
-> dsc->bits_per_pixel inside dsi_populate_dsc_params() will be addressed
-> in a separate patch.
+> Use AND operators to limit these two's complement values to 6 bits,
+> similar to the AMD and i915 drivers.
 > 
 > Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 64 +++---------------------------
->  1 file changed, 6 insertions(+), 58 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 83cde4d62b68..68c39debc22f 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -21,6 +21,7 @@
->  
->  #include <video/mipi_display.h>
->  
-> +#include <drm/display/drm_dsc_helper.h>
->  #include <drm/drm_of.h>
->  
->  #include "dsi.h"
-> @@ -1771,14 +1772,6 @@ static char bpg_offset[DSC_NUM_BUF_RANGES] = {
->  
->  static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
->  {
-> -	int mux_words_size;
-> -	int groups_per_line, groups_total;
-> -	int min_rate_buffer_size;
-> -	int hrd_delay;
-> -	int pre_num_extra_mux_bits, num_extra_mux_bits;
-> -	int slice_bits;
-> -	int data;
-> -	int final_value, final_scale;
->  	int i;
->  
->  	dsc->rc_model_size = 8192;
-> @@ -1804,11 +1797,11 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
->  	if (dsc->bits_per_pixel != 8)
->  		dsc->initial_offset = 2048;	/* bpp = 12 */
->  
-> -	mux_words_size = 48;		/* bpc == 8/10 */
-> -	if (dsc->bits_per_component == 12)
-> -		mux_words_size = 64;
-> +	if (dsc->bits_per_component <= 10)
-> +		dsc->mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC;
-> +	else
-> +		dsc->mux_word_size = DSC_MUX_WORD_SIZE_12_BPC;
->  
-> -	dsc->mux_word_size = mux_words_size;
->  	dsc->initial_xmit_delay = 512;
->  	dsc->initial_scale_value = 32;
->  	dsc->first_line_bpg_offset = 12;
-> @@ -1820,52 +1813,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
->  	dsc->rc_quant_incr_limit0 = 11;
->  	dsc->rc_quant_incr_limit1 = 11;
->  
-> -	/* FIXME: need to call drm_dsc_compute_rc_parameters() so that rest of
-> -	 * params are calculated
-> -	 */
-> -	groups_per_line = DIV_ROUND_UP(dsc->slice_width, 3);
-> -	dsc->slice_chunk_size = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
-> -
-> -	/* rbs-min */
-> -	min_rate_buffer_size =  dsc->rc_model_size - dsc->initial_offset +
-> -				dsc->initial_xmit_delay * dsc->bits_per_pixel +
-> -				groups_per_line * dsc->first_line_bpg_offset;
-> -
-> -	hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, dsc->bits_per_pixel);
-> -
-> -	dsc->initial_dec_delay = hrd_delay - dsc->initial_xmit_delay;
-> -
-> -	dsc->initial_scale_value = 8 * dsc->rc_model_size /
-> -				       (dsc->rc_model_size - dsc->initial_offset);
-> -
-> -	slice_bits = 8 * dsc->slice_chunk_size * dsc->slice_height;
-> -
-> -	groups_total = groups_per_line * dsc->slice_height;
-> -
-> -	data = dsc->first_line_bpg_offset * 2048;
-> -
-> -	dsc->nfl_bpg_offset = DIV_ROUND_UP(data, (dsc->slice_height - 1));
-> -
-> -	pre_num_extra_mux_bits = 3 * (mux_words_size + (4 * dsc->bits_per_component + 4) - 2);
-> -
-> -	num_extra_mux_bits = pre_num_extra_mux_bits - (mux_words_size -
-> -			     ((slice_bits - pre_num_extra_mux_bits) % mux_words_size));
-> -
-> -	data = 2048 * (dsc->rc_model_size - dsc->initial_offset + num_extra_mux_bits);
-> -	dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
-> -
-> -	data = dsc->initial_xmit_delay * dsc->bits_per_pixel;
-> -	final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
-> -	dsc->final_offset = final_value;
-> -
-> -	final_scale = 8 * dsc->rc_model_size / (dsc->rc_model_size - final_value);
-> -
-> -	data = (final_scale - 9) * (dsc->nfl_bpg_offset + dsc->slice_bpg_offset);
-> -	dsc->scale_increment_interval = (2048 * dsc->final_offset) / data;
-> -
-> -	dsc->scale_decrement_interval = groups_per_line / (dsc->initial_scale_value - 8);
-> -
-> -	return 0;
-> +	return drm_dsc_compute_rc_parameters(dsc);
->  }
->  
->  static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
-> -- 
-> 2.38.0
-> 
+
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Side note: the DSC params tables are more or less common between amd, 
+i916 and msm drivers. It might be worth moving them to the DSC helpers 
+from the individual drivers. This would mean such masks handling can go 
+into the helper too.
+
+-- 
+With best wishes
+Dmitry
+
