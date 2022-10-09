@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994395F9434
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:53:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F67D5F9438
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE3B10E59B;
-	Sun,  9 Oct 2022 23:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F058010E5A1;
+	Sun,  9 Oct 2022 23:53:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4998B10E599;
- Sun,  9 Oct 2022 23:53:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C509D10E59B;
+ Sun,  9 Oct 2022 23:53:42 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C43CC60CF5;
- Sun,  9 Oct 2022 23:53:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A9CAC433D7;
- Sun,  9 Oct 2022 23:53:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4C36C60D3D;
+ Sun,  9 Oct 2022 23:53:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7087C433D7;
+ Sun,  9 Oct 2022 23:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359617;
- bh=Syyww4aE/A9q2YbgecUDjN7WhpYEeXohYESQpJiSY+w=;
+ s=k20201202; t=1665359621;
+ bh=/qVHldP64B5xa9jg2xsijaphwXXl0NsLnQSVOzxEN8M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=t/GjbnOj15vDcLlMONesQcQh3wA3K2sFz39R/OlzzT2ZXiDOdHDuKsRln1xgbVoxW
- 30pISaVwuJXQ8mL4lZ0fjkAUKPlB9pnGOMCeHL+l70SL9x+crxhja8QpEwi9kgMbjd
- mwSuT5zz1D8fMKP2CYM+mDM888CsVfT8maXz4hxhypnZaEehpchjiw4PS2O4cKwRUt
- G07t82mNaDmCj/W1nfwlZCh9/9U5s8R6BKaQXu5F16sewbs7RiqXr1/o0Vm0o80itf
- GeWzSt3TLpstyPexTh3Z+DXRo/oR1b0Kj/4+R3NRqHG6ANbompPjjJPcVXmlfzLx1P
- NGnn2QeJJj3yQ==
+ b=qye1RtXZzAWDQGCdvyQS930HuKPYxoE7sNFL8Vd02tMLH77mhFZqPCwWxFrORraYD
+ plswcu2licV313aPEHTMTUs2TvkWJ2jtd4wGPbF5BxCpGDIe3jC3kXW71kU2d09PuT
+ CKZ7I3CBDOTfch3yjvymubezGGmG5I0GxpHs5wTIOHpYYiaV5dxQ8zvC/6+RTV99/B
+ 6hmrYPBQ0Zb1wKO92l02W6xqIVqyGbEOFCL06xyCxLzVol6G0vT95ATKezpMN3Fa9g
+ NZXKBza1C9S+dIDAlW1CRjj8LYZDuBp1AZxf/PWaK9FtikF38jifXiS2mDMCS1rRe3
+ bP+oc/be8dMQA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 25/36] drm/amdgpu: SDMA update use unlocked
- iterator
-Date: Sun,  9 Oct 2022 19:52:11 -0400
-Message-Id: <20221009235222.1230786-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 26/36] drm/amd/display: correct hostvm flag
+Date: Sun,  9 Oct 2022 19:52:12 -0400
+Message-Id: <20221009235222.1230786-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235222.1230786-1-sashal@kernel.org>
 References: <20221009235222.1230786-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,66 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Charlene Liu <Charlene.Liu@amd.com>,
+ Eric.Yang2@amd.com, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ nicholas.kazlauskas@amd.com, mwen@igalia.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Sherry Wang <Yao.Wang1@amd.com>,
+ michael.strauss@amd.com, dri-devel@lists.freedesktop.org,
+ Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com, agustin.gutierrez@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Sherry Wang <Yao.Wang1@amd.com>
 
-[ Upstream commit 3913f0179ba366f7d7d160c506ce00de1602bbc4 ]
+[ Upstream commit 796d6a37ff5ffaf9f2dc0f3f4bf9f4a1034c00de ]
 
-SDMA update page table may be called from unlocked context, this
-generate below warning. Use unlocked iterator to handle this case.
+[Why]
+Hostvm should be enabled/disabled accordding to
+the status of riommu_active, but hostvm always
+be disabled on DCN31 which causes underflow
 
-WARNING: CPU: 0 PID: 1475 at
-drivers/dma-buf/dma-resv.c:483 dma_resv_iter_next
-Call Trace:
- dma_resv_iter_first+0x43/0xa0
- amdgpu_vm_sdma_update+0x69/0x2d0 [amdgpu]
- amdgpu_vm_ptes_update+0x29c/0x870 [amdgpu]
- amdgpu_vm_update_range+0x2f6/0x6c0 [amdgpu]
- svm_range_unmap_from_gpus+0x115/0x300 [amdgpu]
- svm_range_cpu_invalidate_pagetables+0x510/0x5e0 [amdgpu]
- __mmu_notifier_invalidate_range_start+0x1d3/0x230
- unmap_vmas+0x140/0x150
- unmap_region+0xa8/0x110
+[How]
+Set correct hostvm flag on DCN31
 
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Suggested-by: Felix Kuehling <felix.kuehling@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Charlene Liu <Charlene.Liu@amd.com>
+Acked-by: Wayne Lin <wayne.lin@amd.com>
+Signed-off-by: Sherry Wang <Yao.Wang1@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-index 1fd3cbca20a2..718db7d98e5a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-@@ -211,12 +211,15 @@ static int amdgpu_vm_sdma_update(struct amdgpu_vm_update_params *p,
- 	int r;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+index 3d9f07d4770b..8a0de6bfc716 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+@@ -892,7 +892,7 @@ static const struct dc_debug_options debug_defaults_drv = {
+ 	.enable_sw_cntl_psr = true,
+ 	.apply_vendor_specific_lttpr_wa = true,
+ 	.enable_z9_disable_interface = true, /* Allow support for the PMFW interface for disable Z9*/
+-	.dml_hostvm_override = DML_HOSTVM_OVERRIDE_FALSE,
++	.dml_hostvm_override = DML_HOSTVM_NO_OVERRIDE,
+ };
  
- 	/* Wait for PD/PT moves to be completed */
--	dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
--				DMA_RESV_USAGE_KERNEL, fence) {
-+	dma_resv_iter_begin(&cursor, bo->tbo.base.resv, DMA_RESV_USAGE_KERNEL);
-+	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 		r = amdgpu_sync_fence(&p->job->sync, fence);
--		if (r)
-+		if (r) {
-+			dma_resv_iter_end(&cursor);
- 			return r;
-+		}
- 	}
-+	dma_resv_iter_end(&cursor);
- 
- 	do {
- 		ndw = p->num_dw_left;
+ static const struct dc_debug_options debug_defaults_diags = {
 -- 
 2.35.1
 
