@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A1C5F9494
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:58:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6065F949A
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:58:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7993E10E603;
-	Sun,  9 Oct 2022 23:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2769910E60A;
+	Sun,  9 Oct 2022 23:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADF5810E5FA
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:57:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 868EA10E605
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:58:01 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3C5E360CF4;
- Sun,  9 Oct 2022 23:57:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9438FC433B5;
- Sun,  9 Oct 2022 23:57:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0EABA60C57;
+ Sun,  9 Oct 2022 23:58:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE4DC433D7;
+ Sun,  9 Oct 2022 23:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359877;
- bh=oLQNDm95SWVtvPjxRy2VakTKeT3riPaK0HtW3lY2t8k=;
+ s=k20201202; t=1665359880;
+ bh=Nxy2U0gzgIzMrtOcaB91OFC1EoClhzcPB5ggCZdx4mw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DkvfLrE22ivyZZ5hSIs6hHlX+qlV96o77u8kQp1xwkd54kOOzYvaGwtphUyA3ht6q
- KAodpqYvt37k4BI4SZ1YEMsQs/LRhaANz7KJfVO+nLaIj1HATMfAL9fzr9N8jmeo5Q
- w+R/7Extx4PXvPXsTiU/BKFD5c5sO/b0hHqbjgjY+xyUztgSBcXhntnYZfM6+000ks
- fp717gCT9OW76ElMwVFZ6NEoiGDbnOLhjU0xNVglpoWQ1BddU81PRUfUGoI7OJ3EA7
- 6ZXSBpwFXadhQHs7Mk1qsRLQaSLxhN4YYyOtMeNb1R8t5rcwNyl4CdagfWwZZNzIUZ
- CDy1cIehk8zDA==
+ b=Zay+xITU9gE5wMuWmTRMKlULDxEn2pZEsER+l4fXgcW3EyfBxMJa5SHerQYn0YgKX
+ 1PcjLv0vrlLAprrZyF/ZL4oEjYyJeXW9CWjxocVUoitnW6lmKQtvtwffE0mYE1Qt4+
+ bxD5NkNbEhTOCzJD1HJqDvSW1jYJiPl7bL2XXpN3u0BZXl9Ekk/ZHv2n4C+HTrNEDB
+ 0HvgggATVYMPNwF8VpebtOfkePgGoTl462qV/iOE91Wt8Xlqj5dQkvrDaYxEy4fwde
+ ELvNjFc+TSkBRZQ+YzE4DibjMwhK07ANaQfOB0phjIB8NMWhskEthB3jEVB2vvJX0t
+ 8ZqwgklLET4nQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 05/10] drm/vc4: vec: Fix timings for VEC modes
-Date: Sun,  9 Oct 2022 19:57:40 -0400
-Message-Id: <20221009235746.1232129-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 07/10] drm: panel-orientation-quirks: Add quirk
+ for Anbernic Win600
+Date: Sun,  9 Oct 2022 19:57:42 -0400
+Message-Id: <20221009235746.1232129-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235746.1232129-1-sashal@kernel.org>
 References: <20221009235746.1232129-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,57 +56,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+From: Maya Matuszczyk <maccraft123mc@gmail.com>
 
-[ Upstream commit 30d7565be96b3946c18a1ce3fd538f7946839092 ]
+[ Upstream commit 770e19076065e079a32f33eb11be2057c87f1cde ]
 
-This commit fixes vertical timings of the VEC (composite output) modes
-to accurately represent the 525-line ("NTSC") and 625-line ("PAL") ITU-R
-standards.
+This device is another x86 gaming handheld, and as (hopefully) there is
+only one set of DMI IDs it's using DMI_EXACT_MATCH
 
-Previous timings were actually defined as 502 and 601 lines, resulting
-in non-standard 62.69 Hz and 52 Hz signals being generated,
-respectively.
-
-Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220728-rpi-analog-tv-properties-v2-28-459522d653a7@cerno.tech
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220803182402.1217293-1-maccraft123mc@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_vec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index 8e7facb6514e..ae0354ceb2a3 100644
---- a/drivers/gpu/drm/vc4/vc4_vec.c
-+++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -291,7 +291,7 @@ static void vc4_vec_ntsc_j_mode_set(struct vc4_vec *vec)
- static const struct drm_display_mode ntsc_mode = {
- 	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
- 		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
--		 480, 480 + 3, 480 + 3 + 3, 480 + 3 + 3 + 16, 0,
-+		 480, 480 + 7, 480 + 7 + 6, 525, 0,
- 		 DRM_MODE_FLAG_INTERLACE)
- };
- 
-@@ -313,7 +313,7 @@ static void vc4_vec_pal_m_mode_set(struct vc4_vec *vec)
- static const struct drm_display_mode pal_mode = {
- 	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
- 		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
--		 576, 576 + 2, 576 + 2 + 3, 576 + 2 + 3 + 20, 0,
-+		 576, 576 + 4, 576 + 4 + 6, 625, 0,
- 		 DRM_MODE_FLAG_INTERLACE)
- };
- 
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 265df1e67eb3..bea1d3e7e964 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -95,6 +95,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* Anbernic Win600 */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Win600"),
++		},
++		.driver_data = (void *)&lcd720x1280_rightside_up,
+ 	}, {	/* Asus T100HA */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
 -- 
 2.35.1
 
