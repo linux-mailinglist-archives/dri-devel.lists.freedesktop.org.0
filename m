@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FA95F9422
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:53:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 640465F9424
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838FA10E58E;
-	Sun,  9 Oct 2022 23:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA4D10E58F;
+	Sun,  9 Oct 2022 23:53:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8F2310E58C
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:52:48 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376DF10E58C;
+ Sun,  9 Oct 2022 23:52:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 44B0E60D2B;
- Sun,  9 Oct 2022 23:52:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1675AC433C1;
- Sun,  9 Oct 2022 23:52:46 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D584AB80DE4;
+ Sun,  9 Oct 2022 23:52:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2FCDC43470;
+ Sun,  9 Oct 2022 23:52:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359567;
- bh=VmgxIigWdW5PxGDKM9INkjR8myLbENkFTD+P5Yn5K18=;
+ s=k20201202; t=1665359576;
+ bh=D57F51nhXs+6rwTKvULIB5lh9K58TqPulJrZALO2lFY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OjL4Gn7JCXPjvh5cZGr+XCaUxk2G8HvwkZza9NqJ4rgGGb4r91UqEY5/eAEOPRKfg
- 3rzE5kKo8ntrFEXU2uSAT95auKIFUVAMY3BUDq7DvXty/p6x0zOYD7C6XoXyryXisc
- nhHyLiEIGv3wN9kRRU46Ydc1/4FwE77PDkLPGU6gD7+KOhMW091oEjy907y72A/YXe
- CmtdWmUUzealtxCRkjJMotyL4+nywhFp85b5XT7wYx9rpvh2jSQzHR56aeJvstz4AB
- Qo3N9RxMjPHzdqBDcS+G1UP6mzFycQijcuq7vzkNoP299Qy5IMl53M1PHZ24aRNOQj
- lVQvBGr4mgZ5Q==
+ b=enQFCB6L9MIc5T3r0cwbsHiVtp1Nc0s/EcA5DmsQFPG0VilIxWFr3G4/j1CLF6JjE
+ 0X4eQ1HGMCPHZmNVDv+mNb6vyJeGxVDXfFradgrKG3CU5UctMZsjSeZupLIGv4pyiJ
+ mI8jBKanLb9gU9BnjAJgzKLRsrMu0xHckeb8nGslNDWV/gU3ZUL608KBermg2pvCMC
+ pMJiKHlKCPRKy6LCTBkQm0604xXukF2XuPTR8KD1cWN+mwQcPW6F91tOHmnTIqy2+5
+ Bsl+MNznd2WKI1ftn1XBJiYgOscyyOPs5ncn2+IrGNRnRVTM7MtZb1pzsd0Bn9eOGn
+ 9Yk1LLNIzZ1uA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 10/36] drm: bridge: dw_hdmi: only trigger hotplug
- event on link change
-Date: Sun,  9 Oct 2022 19:51:56 -0400
-Message-Id: <20221009235222.1230786-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 11/36] drm/amdgpu: Skip the program of
+ MMMC_VM_AGP_* in SRIOV on MMHUB v3_0_0
+Date: Sun,  9 Oct 2022 19:51:57 -0400
+Message-Id: <20221009235222.1230786-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235222.1230786-1-sashal@kernel.org>
 References: <20221009235222.1230786-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,71 +57,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
- tzimmermann@suse.de, Neil Armstrong <narmstrong@baylibre.com>,
- Sandor.yu@nxp.com, dri-devel@lists.freedesktop.org, javierm@redhat.com,
- Robert Foss <robert.foss@linaro.org>, maxime@cerno.tech,
- andrzej.hajda@intel.com
+Cc: Sasha Levin <sashal@kernel.org>, Jack.Xiao@amd.com, tianci.yin@amd.com,
+ Jack.Gui@amd.com, Horace Chen <horace.chen@amd.com>, Xinhui.Pan@amd.com,
+ aaron.liu@amd.com, amd-gfx@lists.freedesktop.org, ray.huang@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Yifan Zha <Yifan.Zha@amd.com>, evan.quan@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lucas Stach <l.stach@pengutronix.de>
+From: Yifan Zha <Yifan.Zha@amd.com>
 
-[ Upstream commit da09daf881082266e4075657fac53c7966de8e4d ]
+[ Upstream commit c1026c6f319724dc88fc08d9d9d35bcbdf492b42 ]
 
-There are two events that signal a real change of the link state: HPD going
-high means the sink is newly connected or wants the source to re-read the
-EDID, RX sense going low is a indication that the link has been disconnected.
+[Why]
+VF should not program these registers, the value were defined in the host.
 
-Ignore the other two events that also trigger interrupts, but don't need
-immediate attention: HPD going low does not necessarily mean the link has
-been lost and should not trigger a immediate read of the status. RX sense
-going high also does not require a detect cycle, as HPD going high is the
-right point in time to read the EDID.
+[How]
+Skip writing them in SRIOV environment and program them on host side.
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com> (v1)
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220826185733.3213248-1-l.stach@pengutronix.de
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Yifan Zha <Yifan.Zha@amd.com>
+Signed-off-by: Horace Chen <horace.chen@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 3e1be9894ed1..0552e9a3c838 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3095,6 +3095,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- {
- 	struct dw_hdmi *hdmi = dev_id;
- 	u8 intr_stat, phy_int_pol, phy_pol_mask, phy_stat;
-+	enum drm_connector_status status = connector_status_unknown;
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c
+index bc11b2de37ae..a1d26c4d80b8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c
+@@ -169,17 +169,17 @@ static void mmhub_v3_0_init_system_aperture_regs(struct amdgpu_device *adev)
+ 	uint64_t value;
+ 	uint32_t tmp;
  
- 	intr_stat = hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
- 	phy_int_pol = hdmi_readb(hdmi, HDMI_PHY_POL0);
-@@ -3133,13 +3134,15 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- 			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
- 			mutex_unlock(&hdmi->cec_notifier_mutex);
- 		}
--	}
- 
--	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
--		enum drm_connector_status status = phy_int_pol & HDMI_PHY_HPD
--						 ? connector_status_connected
--						 : connector_status_disconnected;
-+		if (phy_stat & HDMI_PHY_HPD)
-+			status = connector_status_connected;
+-	/* Disable AGP. */
+-	WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BASE, 0);
+-	WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_TOP, 0);
+-	WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BOT, 0x00FFFFFF);
+-
+ 	if (!amdgpu_sriov_vf(adev)) {
+ 		/*
+ 		 * the new L1 policy will block SRIOV guest from writing
+ 		 * these regs, and they will be programed at host.
+ 		 * so skip programing these regs.
+ 		 */
++		/* Disable AGP. */
++		WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BASE, 0);
++		WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_TOP, 0);
++		WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BOT, 0x00FFFFFF);
 +
-+		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
-+			status = connector_status_disconnected;
-+	}
- 
-+	if (status != connector_status_unknown) {
- 		dev_dbg(hdmi->dev, "EVENT=%s\n",
- 			status == connector_status_connected ?
- 			"plugin" : "plugout");
+ 		/* Program the system aperture low logical page number. */
+ 		WREG32_SOC15(MMHUB, 0, regMMMC_VM_SYSTEM_APERTURE_LOW_ADDR,
+ 			     adev->gmc.vram_start >> 18);
 -- 
 2.35.1
 
