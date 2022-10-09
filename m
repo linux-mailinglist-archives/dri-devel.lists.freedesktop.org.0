@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6B15F9449
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAFC5F9448
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:54:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8CF10E5AB;
-	Sun,  9 Oct 2022 23:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85D710E5B0;
+	Sun,  9 Oct 2022 23:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 293C510E5AD;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D1D10E5AE;
  Sun,  9 Oct 2022 23:54:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C066DB80D33;
- Sun,  9 Oct 2022 23:54:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C27C433C1;
- Sun,  9 Oct 2022 23:54:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D53C660D57;
+ Sun,  9 Oct 2022 23:54:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0B3C433D7;
+ Sun,  9 Oct 2022 23:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359663;
- bh=yJx+/E1EY/DtGN2LEmPxbKE0lwQuxR4Vl2+EU5o87LM=;
+ s=k20201202; t=1665359665;
+ bh=k1aIw9YxKECaGaO2jmbXqWliP/zH74AICWyaTZxJlzY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FreNLG2KCwW33odUyOINZ1Gyhdkq4lkMNi5gkJj0Jil+nFFLJnJzlJCqgPIFYI8eZ
- kgmWTgQ4GT5nZwUXilNGcYRKEnwuArKu/9PyCbUpd8+u0Qbr7J5yDxe3+0NNG/BW9Q
- MoLJowBdbYJBxE+iPqeWggXS+VAHugLL+QrLfJbrXYVzvhICKNQ8cEEE79tWX/upc+
- zSw1SmtIqyoef6Vm99yp2OazNk0Gn5zJ1VdeMitsNVKDkI/URviC8vzvHDjTC1thPW
- 2yFPz7+/T2MAeU1Qnfkj1LPCqrLONuJz8lNbPyHfbx2tM6sYhtXMzu1jatshnGdFrd
- bqj+TP3um/M8Q==
+ b=YX+As//5fuL/ISwn9hP7eN+vAjV/ARtB/IK8Lj5ErKRk/Fu2tdOzeS+grE2AC1B9S
+ ZKq9e1+XwCy1vMD5p3zwIOhKZsasjUkq/xqLnG4TzzcatZPgVT062lWOAxpTF4Vajf
+ 47o/9SW/7G6xQrifAchZJC9+jshRcA9qOTAOi/GGx+mo9Ko5KwbSnQ9kVJ7FOU/mck
+ vInmDX1OFTRBUclciQG9MiQqbN2VrhVN77x5bJ/ntxiCOS5fHZN4mSdjZJz4MKQiov
+ yinHzgW+mJ4RAJm1eN6MDvVrFMjL2cg3jL0ivwP6PJvDr+4gGVr6leCx9QUU8i+Sgz
+ OaXrOHED2d8pw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 35/36] drm/amd/display: fix array-bounds error in
- dc_stream_remove_writeback()
-Date: Sun,  9 Oct 2022 19:52:21 -0400
-Message-Id: <20221009235222.1230786-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 36/36] drm/amdkfd: Fix UBSAN shift-out-of-bounds
+ warning
+Date: Sun,  9 Oct 2022 19:52:22 -0400
+Message-Id: <20221009235222.1230786-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235222.1230786-1-sashal@kernel.org>
 References: <20221009235222.1230786-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,59 +56,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- sunpeng.li@amd.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, hersenwu@amd.com, alex.hung@amd.com,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, paul.hsieh@amd.com,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, hanghong.ma@amd.com,
- Pavle.Kotarac@amd.com, christian.koenig@amd.com, Jimmy.Kizito@amd.com,
- Alvin.Lee2@amd.com
+Cc: Ellis Michael <ellis@ellismichael.com>, Sasha Levin <sashal@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Graham Sider <Graham.Sider@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+From: Felix Kuehling <Felix.Kuehling@amd.com>
 
-[ Upstream commit 5d8c3e836fc224dfe633e41f7f2856753b39a905 ]
+[ Upstream commit b292cafe2dd02d96a07147e4b160927e8399d5cc ]
 
-Address the following error:
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function ‘dc_stream_remove_writeback’:
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:527:55: error: array subscript [0, 0] is outside array bounds of ‘struct dc_writeback_info[1]’ [-Werror=array-bounds]
-  527 |                                 stream->writeback_info[j] = stream->writeback_info[i];
-      |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~
-In file included from ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:1269,
-                 from ./drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
-                 from ./drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
-                 from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:27:
-./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_stream.h:241:34: note: while referencing ‘writeback_info’
-  241 |         struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
-      |
+This was fixed in initialize_cpsch before, but not in initialize_nocpsch.
+Factor sdma bitmap initialization into a helper function to apply the
+correct implementation in both cases without duplicating it.
 
-Currently, we aren't checking to see if j remains within
-writeback_info[]'s bounds. So, add a check to make sure that we aren't
-overflowing the buffer.
+v2: Added a range check
 
-Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Reported-by: Ellis Michael <ellis@ellismichael.com>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Reviewed-by: Graham Sider <Graham.Sider@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c | 45 +++++++++----------
+ 1 file changed, 21 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-index de8b214132a2..5e460b16d650 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -516,7 +516,7 @@ bool dc_stream_remove_writeback(struct dc *dc,
- 	}
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index e1797657b04c..7d3fc5849466 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -1232,6 +1232,24 @@ static void init_interrupts(struct device_queue_manager *dqm)
+ 			dqm->dev->kfd2kgd->init_interrupts(dqm->dev->adev, i);
+ }
  
- 	/* remove writeback info for disabled writeback pipes from stream */
--	for (i = 0, j = 0; i < stream->num_wb_info; i++) {
-+	for (i = 0, j = 0; i < stream->num_wb_info && j < MAX_DWB_PIPES; i++) {
- 		if (stream->writeback_info[i].wb_enabled) {
- 			if (i != j)
- 				/* trim the array */
++static void init_sdma_bitmaps(struct device_queue_manager *dqm)
++{
++	unsigned int num_sdma_queues =
++		min_t(unsigned int, sizeof(dqm->sdma_bitmap)*8,
++		      get_num_sdma_queues(dqm));
++	unsigned int num_xgmi_sdma_queues =
++		min_t(unsigned int, sizeof(dqm->xgmi_sdma_bitmap)*8,
++		      get_num_xgmi_sdma_queues(dqm));
++
++	if (num_sdma_queues)
++		dqm->sdma_bitmap = GENMASK_ULL(num_sdma_queues-1, 0);
++	if (num_xgmi_sdma_queues)
++		dqm->xgmi_sdma_bitmap = GENMASK_ULL(num_xgmi_sdma_queues-1, 0);
++
++	dqm->sdma_bitmap &= ~get_reserved_sdma_queues_bitmap(dqm);
++	pr_info("sdma_bitmap: %llx\n", dqm->sdma_bitmap);
++}
++
+ static int initialize_nocpsch(struct device_queue_manager *dqm)
+ {
+ 	int pipe, queue;
+@@ -1260,11 +1278,7 @@ static int initialize_nocpsch(struct device_queue_manager *dqm)
+ 
+ 	memset(dqm->vmid_pasid, 0, sizeof(dqm->vmid_pasid));
+ 
+-	dqm->sdma_bitmap = ~0ULL >> (64 - get_num_sdma_queues(dqm));
+-	dqm->sdma_bitmap &= ~(get_reserved_sdma_queues_bitmap(dqm));
+-	pr_info("sdma_bitmap: %llx\n", dqm->sdma_bitmap);
+-
+-	dqm->xgmi_sdma_bitmap = ~0ULL >> (64 - get_num_xgmi_sdma_queues(dqm));
++	init_sdma_bitmaps(dqm);
+ 
+ 	return 0;
+ }
+@@ -1442,9 +1456,6 @@ static int set_sched_resources(struct device_queue_manager *dqm)
+ 
+ static int initialize_cpsch(struct device_queue_manager *dqm)
+ {
+-	uint64_t num_sdma_queues;
+-	uint64_t num_xgmi_sdma_queues;
+-
+ 	pr_debug("num of pipes: %d\n", get_pipes_per_mec(dqm));
+ 
+ 	mutex_init(&dqm->lock_hidden);
+@@ -1453,24 +1464,10 @@ static int initialize_cpsch(struct device_queue_manager *dqm)
+ 	dqm->active_cp_queue_count = 0;
+ 	dqm->gws_queue_count = 0;
+ 	dqm->active_runlist = false;
+-
+-	num_sdma_queues = get_num_sdma_queues(dqm);
+-	if (num_sdma_queues >= BITS_PER_TYPE(dqm->sdma_bitmap))
+-		dqm->sdma_bitmap = ULLONG_MAX;
+-	else
+-		dqm->sdma_bitmap = (BIT_ULL(num_sdma_queues) - 1);
+-
+-	dqm->sdma_bitmap &= ~(get_reserved_sdma_queues_bitmap(dqm));
+-	pr_info("sdma_bitmap: %llx\n", dqm->sdma_bitmap);
+-
+-	num_xgmi_sdma_queues = get_num_xgmi_sdma_queues(dqm);
+-	if (num_xgmi_sdma_queues >= BITS_PER_TYPE(dqm->xgmi_sdma_bitmap))
+-		dqm->xgmi_sdma_bitmap = ULLONG_MAX;
+-	else
+-		dqm->xgmi_sdma_bitmap = (BIT_ULL(num_xgmi_sdma_queues) - 1);
+-
+ 	INIT_WORK(&dqm->hw_exception_work, kfd_process_hw_exception);
+ 
++	init_sdma_bitmaps(dqm);
++
+ 	return 0;
+ }
+ 
 -- 
 2.35.1
 
