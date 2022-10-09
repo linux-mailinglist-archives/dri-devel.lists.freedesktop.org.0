@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AEC5F9493
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BC75F949D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD32510E5FA;
-	Sun,  9 Oct 2022 23:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E258010E610;
+	Sun,  9 Oct 2022 23:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C01510E5FA;
- Sun,  9 Oct 2022 23:57:57 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36D5C10E600
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:57:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C1175B80DEE;
- Sun,  9 Oct 2022 23:57:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E00D7C433C1;
- Sun,  9 Oct 2022 23:57:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B92A260D3D;
+ Sun,  9 Oct 2022 23:57:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4254C433D6;
+ Sun,  9 Oct 2022 23:57:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359874;
- bh=IqXIc2zb1gPqjZAiZAuDXqBufstMjobSxTTlD79UXjo=;
+ s=k20201202; t=1665359876;
+ bh=dScKUJ0nPhkOV39awHXuLIp/Z907A7aNO1i/uZNzfkE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C6bj9ZKLOmLY6A3mq/CyShhW5QQdWxdXqwVpCB17oM7RGAPUbjcLaS8i3n94iEHJ7
- 5LX1xVNhNeu2zhy1g8GMPs10o7D5EWqaw/zSr1Yte+KvzJuSDsiEVrRhR9G3xqkDnK
- KJpDJVlsYfm0udwvpj6GV5xYBAP/w7VP8Jz1e+tm/VnW+bZ/aYLDgdQbhltTUhiYSA
- akwDpSRPxflbQoU1eBdjx4Jc3kvKdAvG0bVt5EqpBPm6lbu18nDIBSXRK8G2ubJsMF
- 5ZoOFw/ZLSI0pxu0wu/KC6oqirhEGct7/OfBpIJKyblMXQTAgoUMT5IqkWA59FEp8t
- crAbbt9OL6J9w==
+ b=lWSEUmcv40Cnp54id0+OkUT2HvFV2TqtwMKerhTPp55RMccjtLX7yqB1NfmNX8ket
+ rMCUeyy7X6oq6kYFkwhKyhT+AGPBLe6qlxJX0kwwjtjbs/ytDI/hUTrYe/lGirWVCc
+ nCnmJMX3olZUXtI4NLhc1iATf2Ff1BpdP9s+QwFxHuY4MqVM+xZn3WLiOzqJ6mWgf2
+ 1Z5bgJ1p3guHH20+mpCMkUtGTiX2T3ErfZ5Wiowro1xmoB4JrXcSsf9Dt5OH4LJCg8
+ DqNEy/HMBdJlDmcEIMzP4sA/mmT9OdX9zbvRzDqTSiuysefejT9pxYdWjp/keem/Cj
+ YiSfyuk0gPvpA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 03/10] drm/amd/display: fix overflow on MIN_I64
- definition
-Date: Sun,  9 Oct 2022 19:57:38 -0400
-Message-Id: <20221009235746.1232129-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 04/10] drm: hide unregistered connectors from
+ GETCONNECTOR IOCTL
+Date: Sun,  9 Oct 2022 19:57:39 -0400
+Message-Id: <20221009235746.1232129-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235746.1232129-1-sashal@kernel.org>
 References: <20221009235746.1232129-1-sashal@kernel.org>
@@ -57,60 +57,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, sunpeng.li@amd.com,
- Tales Aparecida <tales.aparecida@gmail.com>, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, isabbasso@riseup.net,
- dri-devel@lists.freedesktop.org, David Gow <davidgow@google.com>,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Gow <davidgow@google.com>
+From: Simon Ser <contact@emersion.fr>
 
-[ Upstream commit 6ae0632d17759852c07e2d1e0a31c728eb6ba246 ]
+[ Upstream commit 981f09295687f856d5345e19c7084aca481c1395 ]
 
-The definition of MIN_I64 in bw_fixed.c can cause gcc to whinge about
-integer overflow, because it is treated as a positive value, which is
-then negated. The temporary positive value is not necessarily
-representable.
+When registering a connector, the kernel sends a hotplug uevent in
+drm_connector_register(). When unregistering a connector, drivers
+are expected to send a uevent as well. However, user-space has no way
+to figure out that the connector isn't registered anymore: it'll still
+be reported in GETCONNECTOR IOCTLs.
 
-This causes the following warning:
-../drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/bw_fixed.c:30:19:
-warning: integer overflow in expression ‘-9223372036854775808’ of type
-‘long long int’ results in ‘-9223372036854775808’ [-Woverflow]
-  30 |         (int64_t)(-(1LL << 63))
-     |                   ^
+The documentation for DRM_CONNECTOR_UNREGISTERED states:
 
-Writing out (-MAX_I64 - 1) works instead.
+> The connector […] has since been unregistered and removed from
+> userspace, or the connector was unregistered before it had a chance
+> to be exposed to userspace
 
-Signed-off-by: David Gow <davidgow@google.com>
-Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220801133754.461037-1-contact@emersion.fr
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/calcs/bw_fixed.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_mode_config.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/calcs/bw_fixed.c b/drivers/gpu/drm/amd/display/dc/calcs/bw_fixed.c
-index 6ca288fb5fb9..2d46bc527b21 100644
---- a/drivers/gpu/drm/amd/display/dc/calcs/bw_fixed.c
-+++ b/drivers/gpu/drm/amd/display/dc/calcs/bw_fixed.c
-@@ -26,12 +26,12 @@
- #include "bw_fixed.h"
- 
- 
--#define MIN_I64 \
--	(int64_t)(-(1LL << 63))
--
- #define MAX_I64 \
- 	(int64_t)((1ULL << 63) - 1)
- 
-+#define MIN_I64 \
-+	(-MAX_I64 - 1)
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 21e353bd3948..acbe78f6e0d1 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -145,6 +145,9 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
+ 	count = 0;
+ 	connector_id = u64_to_user_ptr(card_res->connector_id_ptr);
+ 	drm_for_each_connector_iter(connector, &conn_iter) {
++		if (connector->registration_state != DRM_CONNECTOR_REGISTERED)
++			continue;
 +
- #define FRACTIONAL_PART_MASK \
- 	((1ULL << BW_FIXED_BITS_PER_FRACTIONAL_PART) - 1)
- 
+ 		/* only expose writeback connectors if userspace understands them */
+ 		if (!file_priv->writeback_connectors &&
+ 		    (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK))
 -- 
 2.35.1
 
