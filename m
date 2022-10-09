@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74E95F93E4
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515055F93E5
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305F710E2B6;
-	Sun,  9 Oct 2022 23:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48E1410E2B9;
+	Sun,  9 Oct 2022 23:50:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D972910E2A5;
- Sun,  9 Oct 2022 23:50:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437F010E2B9;
+ Sun,  9 Oct 2022 23:50:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 58F69B80DE3;
- Sun,  9 Oct 2022 23:50:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 195DCC433D6;
- Sun,  9 Oct 2022 23:50:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A517460C9B;
+ Sun,  9 Oct 2022 23:50:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB97C433C1;
+ Sun,  9 Oct 2022 23:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359414;
- bh=IlbwxedBFgehkgmZM83YAvGzi/DzkHI0VCuiL4xBrZo=;
+ s=k20201202; t=1665359423;
+ bh=D57F51nhXs+6rwTKvULIB5lh9K58TqPulJrZALO2lFY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FRofkGLicyZH+CbdbD8TM+Y2+QANMubrkVFxUbs49VDxEx5pnFYVeF4jYFDihQcUF
- e7eXpxWmiOgyKkrdey5WYMeE8V7QGM6+c+NpQEQLYKzMcVgov+b/KvI0D7gKksVtiq
- 0ix2hdWw5dTalgFtrP7NoMjgAwCc3ZtKZmMDEvxrwl8u5t/44IdJ/xCCLbdOupLfhJ
- 1fq8b0Ndy6pVVci5EYOluIcaU8JduKxq9HvAOv01j6atlFwD7eYMdzyCA1GCKzLTX6
- sYchNZGhKFAV7DFwuAD30mbYvK2eOkz5ZEbX4/L4ltmCfJ7/IJk07h0izC5V7ov7i4
- gPNpkx5RXCQoQ==
+ b=RTELeqsV4IpYnlBcoO4JHI1C2vkJW2lb10mUBZyR5Ctfx2YVO6fQxQUK2WWdxSpIJ
+ RASE4b47f0WQOhDZ3YH4hMb2FvoRP/khcct51GaIxj+CJtfeRxTnVqVMBzE74jsiFe
+ xZPg6zudvg5rIr5NkjE/tnD36ODVUYbY3BZaHZYvDrX+31WZaUQeAZPKuqpJ4StVt4
+ 8zJn83THEtp/r1dxAZJprfYfKsI1T5KgGLyMzNfgvjgTdNR613CH1kWBCu44Ii51Wt
+ ptLmoPn9po+A/Mj8W/DQksH+sNSVwHGEkdveXTLiGIOoKTHtJqk662H7+zrn7I8OGa
+ tWKlPlbAgJArg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 13/44] drm/amd/display: Fix variable dereferenced
- before check
-Date: Sun,  9 Oct 2022 19:49:01 -0400
-Message-Id: <20221009234932.1230196-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 14/44] drm/amdgpu: Skip the program of
+ MMMC_VM_AGP_* in SRIOV on MMHUB v3_0_0
+Date: Sun,  9 Oct 2022 19:49:02 -0400
+Message-Id: <20221009234932.1230196-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009234932.1230196-1-sashal@kernel.org>
 References: <20221009234932.1230196-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,53 +56,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Brian.Chang@amd.com,
- kernel test robot <lkp@intel.com>, felipe.clark@amd.com, sunpeng.li@amd.com,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com,
- sunliming <sunliming@kylinos.cn>, Alvin.Lee2@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, Jun.Lei@amd.com,
- christian.koenig@amd.com, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Sasha Levin <sashal@kernel.org>, tianci.yin@amd.com, Jack.Gui@amd.com,
+ Horace Chen <horace.chen@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, Likun.Gao@amd.com, ray.huang@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Yifan Zha <Yifan.Zha@amd.com>, evan.quan@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: sunliming <sunliming@kylinos.cn>
+From: Yifan Zha <Yifan.Zha@amd.com>
 
-[ Upstream commit 45a92f45f4578ff89da7dc5ef50bab4ef870f3b7 ]
+[ Upstream commit c1026c6f319724dc88fc08d9d9d35bcbdf492b42 ]
 
-Fixes the following smatch warning:
+[Why]
+VF should not program these registers, the value were defined in the host.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:311 dc_dmub_srv_p_state_delegate()
-warn: variable dereferenced before check 'dc' (see line 309)
+[How]
+Skip writing them in SRIOV environment and program them on host side.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: sunliming <sunliming@kylinos.cn>
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Yifan Zha <Yifan.Zha@amd.com>
+Signed-off-by: Horace Chen <horace.chen@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-index 52a61b3e5a8b..2e243b70747f 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-@@ -323,11 +323,13 @@ bool dc_dmub_srv_p_state_delegate(struct dc *dc, bool should_manage_pstate, stru
- 	struct dmub_cmd_fw_assisted_mclk_switch_config *config_data = &cmd.fw_assisted_mclk_switch.config_data;
- 	int i = 0;
- 	int ramp_up_num_steps = 1; // TODO: Ramp is currently disabled. Reenable it.
--	uint8_t visual_confirm_enabled = dc->debug.visual_confirm == VISUAL_CONFIRM_FAMS;
-+	uint8_t visual_confirm_enabled;
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c
+index bc11b2de37ae..a1d26c4d80b8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0.c
+@@ -169,17 +169,17 @@ static void mmhub_v3_0_init_system_aperture_regs(struct amdgpu_device *adev)
+ 	uint64_t value;
+ 	uint32_t tmp;
  
- 	if (dc == NULL)
- 		return false;
- 
-+	visual_confirm_enabled = dc->debug.visual_confirm == VISUAL_CONFIRM_FAMS;
+-	/* Disable AGP. */
+-	WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BASE, 0);
+-	WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_TOP, 0);
+-	WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BOT, 0x00FFFFFF);
+-
+ 	if (!amdgpu_sriov_vf(adev)) {
+ 		/*
+ 		 * the new L1 policy will block SRIOV guest from writing
+ 		 * these regs, and they will be programed at host.
+ 		 * so skip programing these regs.
+ 		 */
++		/* Disable AGP. */
++		WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BASE, 0);
++		WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_TOP, 0);
++		WREG32_SOC15(MMHUB, 0, regMMMC_VM_AGP_BOT, 0x00FFFFFF);
 +
- 	// Format command.
- 	cmd.fw_assisted_mclk_switch.header.type = DMUB_CMD__FW_ASSISTED_MCLK_SWITCH;
- 	cmd.fw_assisted_mclk_switch.header.sub_type = DMUB_CMD__FAMS_SETUP_FW_CTRL;
+ 		/* Program the system aperture low logical page number. */
+ 		WREG32_SOC15(MMHUB, 0, regMMMC_VM_SYSTEM_APERTURE_LOW_ADDR,
+ 			     adev->gmc.vram_start >> 18);
 -- 
 2.35.1
 
