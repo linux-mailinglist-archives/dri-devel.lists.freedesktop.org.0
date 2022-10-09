@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06365F94A3
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655BF5F94A5
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:59:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0539610E616;
-	Sun,  9 Oct 2022 23:59:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E34110E61A;
+	Sun,  9 Oct 2022 23:59:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD12B10E613
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:58:36 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A28C10E5F7;
+ Sun,  9 Oct 2022 23:58:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 67C6AB80C74;
- Sun,  9 Oct 2022 23:58:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10227C433D6;
- Sun,  9 Oct 2022 23:58:32 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 04137B80DEA;
+ Sun,  9 Oct 2022 23:58:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C73CC433D7;
+ Sun,  9 Oct 2022 23:58:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359914;
- bh=vE5rL+QOIEbIK8xVnEOaxCra1ZgilolzKDEk5wzU78s=;
+ s=k20201202; t=1665359920;
+ bh=1f/IIM22KhSPq/tEzKR9rXQnG4Nt9yGvBNVX09/3mEg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X3jxuk16BVtzm9fCkgbbWZWTUl/46jPCEoNk9jzq1VU+CfAtl8q9wr8nNFf6L7Q6e
- gSbOpLD55MDrXBzZvDkB+iJHgEOQveChx6TyTw+fVTAl5rVGfawLmLVfjNJ4+5tDPV
- mStuV7bG+Sjh0QvXtS6vSKOSbUGKZzetwDroIIZlrimkMW52rj9andbOwvZi6zhPIH
- gH7oRS48WfMa60S7gJoIx0p6AO8sN+7gi4HCmFKZuE2CQYcVEzIbrl0KT6zwnkFlTO
- U71qO3/dWuz5pvsu0u8Mg8iFJQd8cV3U+hwp9T6QOeLH25JhZ4eDS2wc53JWXM7nfF
- DuUG9mwU+dYAQ==
+ b=Ndedgr/Ai16WObmLsdK7PNKtZc7UzRyYeu3Em8c4ntpBqjxBeCrZnAQIOoqKlHY5T
+ /N6GVwOXZmkaM3ri9DtmVO17m42fglODE6R2OYp3PppkG407gihEb0lmKyi+B19dtN
+ 5RnWIORcvLGFx1eNUOkXDenhG3hITrxwPNywKjbYk4xgrnU6GUMP11O7QE73w7K9NE
+ nEP8Sq3LD69/OrRhgm2Otezn+Diy/Wl/HJi3+0atpT3hVbFENoo2bsQEM3EJ6tm1NX
+ dsYtrA8t3aqvi8XDDkUcFaBhjl2Sq69f4dz89nYQPqtO/J5xtfkxr4nHuF0YAeNmbE
+ AsvkO/uxw7cKA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/6] drm/vc4: vec: Fix timings for VEC modes
-Date: Sun,  9 Oct 2022 19:58:05 -0400
-Message-Id: <20221009235808.1232269-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 6/6] drm/amdgpu: fix initial connector audio value
+Date: Sun,  9 Oct 2022 19:58:08 -0400
+Message-Id: <20221009235808.1232269-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235808.1232269-1-sashal@kernel.org>
 References: <20221009235808.1232269-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,57 +54,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ hongao <hongao@uniontech.com>, cssk@net-c.es, maxime@cerno.tech,
+ Alex Deucher <alexander.deucher@amd.com>, zhou1615@umn.edu,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+From: hongao <hongao@uniontech.com>
 
-[ Upstream commit 30d7565be96b3946c18a1ce3fd538f7946839092 ]
+[ Upstream commit 4bb71fce58f30df3f251118291d6b0187ce531e6 ]
 
-This commit fixes vertical timings of the VEC (composite output) modes
-to accurately represent the 525-line ("NTSC") and 625-line ("PAL") ITU-R
-standards.
+This got lost somewhere along the way, This fixes
+audio not working until set_property was called.
 
-Previous timings were actually defined as 502 and 601 lines, resulting
-in non-standard 62.69 Hz and 52 Hz signals being generated,
-respectively.
-
-Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220728-rpi-analog-tv-properties-v2-28-459522d653a7@cerno.tech
+Signed-off-by: hongao <hongao@uniontech.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_vec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index 3a9a302247a2..bcf7880f84a8 100644
---- a/drivers/gpu/drm/vc4/vc4_vec.c
-+++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -291,7 +291,7 @@ static void vc4_vec_ntsc_j_mode_set(struct vc4_vec *vec)
- static const struct drm_display_mode ntsc_mode = {
- 	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
- 		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
--		 480, 480 + 3, 480 + 3 + 3, 480 + 3 + 3 + 16, 0,
-+		 480, 480 + 7, 480 + 7 + 6, 525, 0,
- 		 DRM_MODE_FLAG_INTERLACE)
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index 0894bb98dc51..be3a384cc1cf 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -1678,10 +1678,12 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 						   adev->mode_info.dither_property,
+ 						   AMDGPU_FMT_DITHER_DISABLE);
  
-@@ -313,7 +313,7 @@ static void vc4_vec_pal_m_mode_set(struct vc4_vec *vec)
- static const struct drm_display_mode pal_mode = {
- 	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
- 		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
--		 576, 576 + 2, 576 + 2 + 3, 576 + 2 + 3 + 20, 0,
-+		 576, 576 + 4, 576 + 4 + 6, 625, 0,
- 		 DRM_MODE_FLAG_INTERLACE)
- };
+-			if (amdgpu_audio != 0)
++			if (amdgpu_audio != 0) {
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
++			}
  
+ 			subpixel_order = SubPixelHorizontalRGB;
+ 			connector->interlace_allowed = true;
+@@ -1786,6 +1788,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
+@@ -1834,6 +1837,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
+@@ -1879,6 +1883,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
 -- 
 2.35.1
 
