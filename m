@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009F25F94A2
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:59:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1924F5F94A1
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A17910E619;
-	Sun,  9 Oct 2022 23:59:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CBD10E618;
+	Sun,  9 Oct 2022 23:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7EEE10E616
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:58:51 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8475610E613;
+ Sun,  9 Oct 2022 23:58:58 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4702E60D57;
- Sun,  9 Oct 2022 23:58:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8214CC43470;
- Sun,  9 Oct 2022 23:58:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2B378B80C74;
+ Sun,  9 Oct 2022 23:58:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E57C433C1;
+ Sun,  9 Oct 2022 23:58:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359930;
- bh=X/yaVTCsd4HiFHtbdFJlQ8rZWp6RFAEMkVoWeuW8S4A=;
+ s=k20201202; t=1665359935;
+ bh=91Cs5LiCxsUxrtJkM/+UxL67qhxRWjuYTje3L63IUJ0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H02B/gOx8qMxkLo9/bqFLPCCC2MMxsVgJE0AsrSQKrWhYrzIKip6H1zSJ81j6wL8+
- wKjyRk8NzmBzGi+iNpoBOmhPcxq7UkCosA9w5DkAv9tjApIbXfAe4bhksq6RwqUaGg
- C7ZbyBbmmAIZ2MhozyJaWSPYEeJXVGFB4P/HG8Yt/gFzht4xy18kMKXhEZ+ZpsN8a4
- E9M7F3mY0v/8SHDapphkhldYKMS82nx/+9SnhC3djw5SGCjqp2iMMQEsjWbqwv+Fkk
- l/DjYr6Egyy2t1Vxnq/RSL0SZafU6TujGtRqoc+ZhYlsGBUBDx71cFNnPWXBN6ZfYA
- 2BLCmskl1KFDg==
+ b=HIkjglbXlxP0o8pfkKGO2qrIWfQEaryZHUlcwsqW39E2G5t3mIg8PhrigNJFJDCU6
+ L3XLqraFrtu9AXM0w3yFUvpWarYGGthu86E+IWDAb7krLbAUUhrMhJUAA4DaMyzTRr
+ UPvR7uE0I7PEPIws9ZnmPnKjXuZV/F/2IvKGQlwKc7qLEkdEfah2Ppy7rX0Xw8GLRl
+ TkozpEDsxZMJrr9tVMKqR83kHuexPaj08S3jd+Gtu7b9xiVcdO3kBJco4WSnerUv1d
+ cJb4G5bQSfPcJo8Ok1+3bib36J4fRPrWLk8oLeimb2HZItp47yEVvLLzCe8HpO3Kci
+ aIf4vlmPvCGIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/4] drm: Prevent drm_copy_field() to attempt
- copying a NULL pointer
-Date: Sun,  9 Oct 2022 19:58:39 -0400
-Message-Id: <20221009235841.1232395-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 4/4] drm/amdgpu: fix initial connector audio value
+Date: Sun,  9 Oct 2022 19:58:41 -0400
+Message-Id: <20221009235841.1232395-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235841.1232395-1-sashal@kernel.org>
 References: <20221009235841.1232395-1-sashal@kernel.org>
@@ -56,91 +54,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ hongao <hongao@uniontech.com>, cssk@net-c.es, maxime@cerno.tech,
+ Alex Deucher <alexander.deucher@amd.com>, zhou1615@umn.edu,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Javier Martinez Canillas <javierm@redhat.com>
+From: hongao <hongao@uniontech.com>
 
-[ Upstream commit f6ee30407e883042482ad4ad30da5eaba47872ee ]
+[ Upstream commit 4bb71fce58f30df3f251118291d6b0187ce531e6 ]
 
-There are some struct drm_driver fields that are required by drivers since
-drm_copy_field() attempts to copy them to user-space via DRM_IOCTL_VERSION.
+This got lost somewhere along the way, This fixes
+audio not working until set_property was called.
 
-But it can be possible that a driver has a bug and did not set some of the
-fields, which leads to drm_copy_field() attempting to copy a NULL pointer:
-
-[ +10.395966] Unable to handle kernel access to user memory outside uaccess routines at virtual address 0000000000000000
-[  +0.010955] Mem abort info:
-[  +0.002835]   ESR = 0x0000000096000004
-[  +0.003872]   EC = 0x25: DABT (current EL), IL = 32 bits
-[  +0.005395]   SET = 0, FnV = 0
-[  +0.003113]   EA = 0, S1PTW = 0
-[  +0.003182]   FSC = 0x04: level 0 translation fault
-[  +0.004964] Data abort info:
-[  +0.002919]   ISV = 0, ISS = 0x00000004
-[  +0.003886]   CM = 0, WnR = 0
-[  +0.003040] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000115dad000
-[  +0.006536] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
-[  +0.006925] Internal error: Oops: 96000004 [#1] SMP
-...
-[  +0.011113] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  +0.007061] pc : __pi_strlen+0x14/0x150
-[  +0.003895] lr : drm_copy_field+0x30/0x1a4
-[  +0.004156] sp : ffff8000094b3a50
-[  +0.003355] x29: ffff8000094b3a50 x28: ffff8000094b3b70 x27: 0000000000000040
-[  +0.007242] x26: ffff443743c2ba00 x25: 0000000000000000 x24: 0000000000000040
-[  +0.007243] x23: ffff443743c2ba00 x22: ffff8000094b3b70 x21: 0000000000000000
-[  +0.007241] x20: 0000000000000000 x19: ffff8000094b3b90 x18: 0000000000000000
-[  +0.007241] x17: 0000000000000000 x16: 0000000000000000 x15: 0000aaab14b9af40
-[  +0.007241] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-[  +0.007239] x11: 0000000000000000 x10: 0000000000000000 x9 : ffffa524ad67d4d8
-[  +0.007242] x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : 6c6e6263606e7141
-[  +0.007239] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-[  +0.007241] x2 : 0000000000000000 x1 : ffff8000094b3b90 x0 : 0000000000000000
-[  +0.007240] Call trace:
-[  +0.002475]  __pi_strlen+0x14/0x150
-[  +0.003537]  drm_version+0x84/0xac
-[  +0.003448]  drm_ioctl_kernel+0xa8/0x16c
-[  +0.003975]  drm_ioctl+0x270/0x580
-[  +0.003448]  __arm64_sys_ioctl+0xb8/0xfc
-[  +0.003978]  invoke_syscall+0x78/0x100
-[  +0.003799]  el0_svc_common.constprop.0+0x4c/0xf4
-[  +0.004767]  do_el0_svc+0x38/0x4c
-[  +0.003357]  el0_svc+0x34/0x100
-[  +0.003185]  el0t_64_sync_handler+0x11c/0x150
-[  +0.004418]  el0t_64_sync+0x190/0x194
-[  +0.003716] Code: 92402c04 b200c3e8 f13fc09f 5400088c (a9400c02)
-[  +0.006180] ---[ end trace 0000000000000000 ]---
-
-Reported-by: Peter Robinson <pbrobinson@gmail.com>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220705100215.572498-3-javierm@redhat.com
+Signed-off-by: hongao <hongao@uniontech.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_ioctl.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index faa084ff4f17..ec505929cae7 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -421,6 +421,12 @@ static int drm_copy_field(char __user *buf, size_t *buf_len, const char *value)
- {
- 	size_t len;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index 7264169d5f2a..7c266dbb88a1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -1760,10 +1760,12 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 						   adev->mode_info.dither_property,
+ 						   AMDGPU_FMT_DITHER_DISABLE);
  
-+	/* don't attempt to copy a NULL pointer */
-+	if (WARN_ONCE(!value, "BUG: the value to copy was not set!")) {
-+		*buf_len = 0;
-+		return 0;
-+	}
-+
- 	/* don't overflow userbuf */
- 	len = strlen(value);
- 	if (len > *buf_len)
+-			if (amdgpu_audio != 0)
++			if (amdgpu_audio != 0) {
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
++			}
+ 
+ 			subpixel_order = SubPixelHorizontalRGB;
+ 			connector->interlace_allowed = true;
+@@ -1868,6 +1870,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
+@@ -1916,6 +1919,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
+@@ -1961,6 +1965,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
 -- 
 2.35.1
 
