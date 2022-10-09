@@ -1,64 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317115F8DD1
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 22:12:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F39935F93D0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF46110E048;
-	Sun,  9 Oct 2022 20:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C25510E1D0;
+	Sun,  9 Oct 2022 23:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD63810E048
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 20:11:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC3FC10E101;
+ Sun,  9 Oct 2022 23:49:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 07B0B60C4F
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 20:11:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 23416C43144
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 20:11:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 16FCE60C27;
+ Sun,  9 Oct 2022 23:49:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37FD0C433D6;
+ Sun,  9 Oct 2022 23:49:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665346314;
- bh=r9+tPe8JIedLlpsKJkdBp7Q8vubmhQ6M6n04BwzdS68=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NtRIKDG4VTncVrvGoJit0YuU49UWIFYdFAN4cOH9qkNq/B840I4I4QOFvcEZmVhhc
- C6eq1IixV/xnPZvSQMPZsq7uqlsdCdTu6H5/8SwoTgVHF/hVRaoGq4xAYlajO51bnZ
- PzKozwjFE+8UfwVL6qr0KPITyANf9UZVkYz1mg5pHQpNpsjhVdwxs1AXzbErFFSg5f
- ygmloo+hWSw6eJksVkKd3Y4lwhPiO7SG+M4InNrmG/CQlvchggKl0MNjzWqU4okfiG
- ESzx2RV10LWKJ4RizWDN7E084Voxik/+5tOU8g1d55QATnmJNpjdqLHHlZ/jh1+NiI
- 93mUY3bbtFK8Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 110B1C433E9; Sun,  9 Oct 2022 20:11:54 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
- Waiting for fences timed out!"
-Date: Sun, 09 Oct 2022 20:11:53 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: chewi@gentoo.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-213145-2300-TXQ042hH1k@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
-References: <bug-213145-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1665359375;
+ bh=Pn90kuPbeK/qdV/mITnz331Ur07Ew6mzmpWUpHOoTiM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=iqbkVpUBW4ChtfrNACIjriJwpHTJBgxN6AhpWbmKJLK6L822/hsQdSJCyVpsI51nv
+ d5GtXsFmd4wdTi6C4uvU795+BryM6UaGpImvxt1yYLF5vYHApjFPb71sX6MaMytzKg
+ jd7kGzjMj+ud7biKwf7MzC9j/nVRWaZObqZzL8m/JRAWSGgjIqERYjxTHfEf/7q9Kx
+ E4+YFm7mfacryG7EzRT4+bGe63JfCk+ebj4os53KBnvSQDXu+efDIH9/i8+6XUOSiD
+ BogCyQMHj3slQVdtQb5CoioNFYIKciqTIDVAOnAikDLIpXZ9yW3s73OianGvuiaA7R
+ RYPE37i32rMog==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 01/44] drm/nouveau/nouveau_bo: fix potential
+ memory leak in nouveau_bo_alloc()
+Date: Sun,  9 Oct 2022 19:48:49 -0400
+Message-Id: <20221009234932.1230196-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,24 +54,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sasha Levin <sashal@kernel.org>, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com, Jianglei Nie <niejianglei2021@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
+From: Jianglei Nie <niejianglei2021@163.com>
 
-James Le Cuirot (chewi@gentoo.org) changed:
+[ Upstream commit 6dc548745d5b5102e3c53dc5097296ac270b6c69 ]
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |chewi@gentoo.org
+nouveau_bo_alloc() allocates a memory chunk for "nvbo" with kzalloc().
+When some error occurs, "nvbo" should be released. But when
+WARN_ON(pi < 0)) equals true, the function return ERR_PTR without
+releasing the "nvbo", which will lead to a memory leak.
 
---- Comment #23 from James Le Cuirot (chewi@gentoo.org) ---
-Same. I see this quite frequently with my RX 6800 XT, particularly when usi=
-ng
-Vivaldi, though that may just be a coincidence, since I use it a lot.
+We should release the "nvbo" with kfree() if WARN_ON(pi < 0)) equals true.
 
---=20
-You may reply to this email to add a comment.
+Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220705094306.2244103-1-niejianglei2021@163.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index e29175e4b44c..07a327ad5e2a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -281,8 +281,10 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
+ 			break;
+ 	}
+ 
+-	if (WARN_ON(pi < 0))
++	if (WARN_ON(pi < 0)) {
++		kfree(nvbo);
+ 		return ERR_PTR(-EINVAL);
++	}
+ 
+ 	/* Disable compression if suitable settings couldn't be found. */
+ 	if (nvbo->comp && !vmm->page[pi].comp) {
+-- 
+2.35.1
+
