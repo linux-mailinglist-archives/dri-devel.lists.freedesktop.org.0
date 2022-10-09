@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B815F9455
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387B95F945B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:55:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65E1810E146;
-	Sun,  9 Oct 2022 23:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ECE510E5C1;
+	Sun,  9 Oct 2022 23:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD08210E5BD
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:54:50 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C54610E5BD
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:54:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 61F2E60D17;
+ by sin.source.kernel.org (Postfix) with ESMTPS id 40261CE1044;
+ Sun,  9 Oct 2022 23:54:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D66BC433D7;
  Sun,  9 Oct 2022 23:54:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AF91C4347C;
- Sun,  9 Oct 2022 23:54:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359689;
- bh=RY3cfM/ftCZjdDWwiDv/6mYDrpRONkhu8X8mieWXehg=;
+ s=k20201202; t=1665359691;
+ bh=E8lnajgY5yjgmA9Ze197EDHKNzbkkiNgzzOdflXRywI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GZd3vKs68hg2qhtmhqm8l9TmD7lRpAvSNiItnjZnLkCOnEhyOdJHb6zLVcLmceptO
- 0fvDIeWoGijVasxCrqnza2yHz83bIyVbXRpbqozgBX/ZHVLHnv7BChH+k1exj4xCyq
- 0yTSnnUs9xhOcmvAArR+vvt4uE3rtnl46OLebFDJCZLxxGrt7mpUuaOj21pI1UQ1in
- 7w4H6egUZm8XznS31B6AQ7MtJX7+kfURcpOFLcCjZ5Ha2bJ7/1QW60KmeYFBFYbaL7
- jPD5ZclR3Aj5H+AMDUBrCSPhLYbqDortW7pZswbewi6lb1pPcJaktgPXRM62ybSXQ8
- k5/R5lZA3h0DQ==
+ b=rZ8V1/D6Zw5gwz0jHIuImDbabWO4XClbv5KNGLakWEg2hKk67vMl4k1jueAu0OSKM
+ RAbuXvSha2bUQlmoC38W7d7t5fqDtvueLG/2MJzS+ibWE3I0OjXLP3kDDhNdKB8o3Z
+ XZELkuezVOKs9+RocBA8269gEPIyxbNwe7yZrD1Ciipc+/c2CSGcVB6RNLoLHmLwgQ
+ bBqaz3cioQPSALNhh00YitQyufLE43kH5PnyCcrnisMb8+WQVJH/yDKZISSIRbTluZ
+ Trrrt11Y3USFuTbadWr7SNaKFVeZvML7YENEtR81/HLrSqSCB0UpsjZ0MptPYEFiOC
+ oc2sJQIngmxvw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 09/25] drm: bridge: dw_hdmi: only trigger hotplug
- event on link change
-Date: Sun,  9 Oct 2022 19:54:09 -0400
-Message-Id: <20221009235426.1231313-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 10/25] drm: hide unregistered connectors from
+ GETCONNECTOR IOCTL
+Date: Sun,  9 Oct 2022 19:54:10 -0400
+Message-Id: <20221009235426.1231313-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235426.1231313-1-sashal@kernel.org>
 References: <20221009235426.1231313-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,71 +56,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
- tzimmermann@suse.de, Neil Armstrong <narmstrong@baylibre.com>,
- Sandor.yu@nxp.com, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>, jernej.skrabec@gmail.com,
- andrzej.hajda@intel.com, maxime@cerno.tech
+Cc: Sasha Levin <sashal@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lucas Stach <l.stach@pengutronix.de>
+From: Simon Ser <contact@emersion.fr>
 
-[ Upstream commit da09daf881082266e4075657fac53c7966de8e4d ]
+[ Upstream commit 981f09295687f856d5345e19c7084aca481c1395 ]
 
-There are two events that signal a real change of the link state: HPD going
-high means the sink is newly connected or wants the source to re-read the
-EDID, RX sense going low is a indication that the link has been disconnected.
+When registering a connector, the kernel sends a hotplug uevent in
+drm_connector_register(). When unregistering a connector, drivers
+are expected to send a uevent as well. However, user-space has no way
+to figure out that the connector isn't registered anymore: it'll still
+be reported in GETCONNECTOR IOCTLs.
 
-Ignore the other two events that also trigger interrupts, but don't need
-immediate attention: HPD going low does not necessarily mean the link has
-been lost and should not trigger a immediate read of the status. RX sense
-going high also does not require a detect cycle, as HPD going high is the
-right point in time to read the EDID.
+The documentation for DRM_CONNECTOR_UNREGISTERED states:
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com> (v1)
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220826185733.3213248-1-l.stach@pengutronix.de
+> The connector […] has since been unregistered and removed from
+> userspace, or the connector was unregistered before it had a chance
+> to be exposed to userspace
+
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220801133754.461037-1-contact@emersion.fr
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_mode_config.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 25d58dcfc87e..d3129a3e6ab7 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2970,6 +2970,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- {
- 	struct dw_hdmi *hdmi = dev_id;
- 	u8 intr_stat, phy_int_pol, phy_pol_mask, phy_stat;
-+	enum drm_connector_status status = connector_status_unknown;
- 
- 	intr_stat = hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
- 	phy_int_pol = hdmi_readb(hdmi, HDMI_PHY_POL0);
-@@ -3008,13 +3009,15 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- 			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
- 			mutex_unlock(&hdmi->cec_notifier_mutex);
- 		}
--	}
- 
--	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
--		enum drm_connector_status status = phy_int_pol & HDMI_PHY_HPD
--						 ? connector_status_connected
--						 : connector_status_disconnected;
-+		if (phy_stat & HDMI_PHY_HPD)
-+			status = connector_status_connected;
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 37b4b9f0e468..6a326b41d193 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -150,6 +150,9 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
+ 	count = 0;
+ 	connector_id = u64_to_user_ptr(card_res->connector_id_ptr);
+ 	drm_for_each_connector_iter(connector, &conn_iter) {
++		if (connector->registration_state != DRM_CONNECTOR_REGISTERED)
++			continue;
 +
-+		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
-+			status = connector_status_disconnected;
-+	}
- 
-+	if (status != connector_status_unknown) {
- 		dev_dbg(hdmi->dev, "EVENT=%s\n",
- 			status == connector_status_connected ?
- 			"plugin" : "plugout");
+ 		/* only expose writeback connectors if userspace understands them */
+ 		if (!file_priv->writeback_connectors &&
+ 		    (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK))
 -- 
 2.35.1
 
