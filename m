@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E715F9498
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:58:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC215F9496
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D327110E606;
-	Sun,  9 Oct 2022 23:58:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB38310E605;
+	Sun,  9 Oct 2022 23:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9D110E603;
- Sun,  9 Oct 2022 23:58:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCEBA10E604
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:58:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2A9E660D57;
- Sun,  9 Oct 2022 23:58:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F24C8C433D6;
- Sun,  9 Oct 2022 23:58:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4B38960DD3;
+ Sun,  9 Oct 2022 23:58:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15334C43141;
+ Sun,  9 Oct 2022 23:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359885;
- bh=x64p9PIf/71AI9EqI80e9YSybdV7Rzg21I92kH5YS6w=;
+ s=k20201202; t=1665359887;
+ bh=smQ+WOJ2DvzcoWgCJ8NdsVMDowvo9I+a12p6Z3muVUs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kup094IsubeVm3mUrxEkIrM/6d/Ifb/zX0SE8TObwsA4nuBqUQHMavDHMNQvOJlj6
- lD9mrb6sflmJ5BCDfabTCxOfjKa7H9LWxFhNK3OuOtTsf+rk3sX+utnmE5z+C58zCE
- q3jWMBZNBhD+iUsC0nhb6RLsNcqpGq07HGqixrYjzJbG5yFKE19qYgaThVF9PdhydN
- B0pVWUVMuZ3yKY8aPxTPQf+ScwCOgOyE6Nw0Ehy4YqdbbwChvP0HcGyMd23lu9wHXH
- ejM1b9PSq8+GISLWb9VV+x/fNeid5/WOSNAdrMBTeQcB2vEKx+aXkEIQ5MQAJiGr+E
- ihUCz4Yb+POYA==
+ b=D5MDaU90hyZH12wsdpfdQYWILWq7W6zKm+dDSF6MVlXf3zhWnxMEDR/XNqB4Yodt3
+ uxQXkSms29xREs4t0mjv2B+752yZfMIasuRrl6k7HOcGPzvshMUMlpESC+vIIdMKVN
+ jMOZDOI4MvET+mrfIvetOx5yKQSca5AHBVO9O6oMsm+vmIRLmcT9Ns9aAA5tpIgdL8
+ Hp3BdvqWCGmzel0XTgylexjn8AZ17Q+WnplHb6Dr8ZxH7K9Q99XeLb9c0WUZ+o+jSw
+ k9UacFgC5QKFqBXNjrTsJAdoix5ql5q/cuG9PaXAa33aHLzgVLczTqD0f243KGKYip
+ 7oHFhqm178pDg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 09/10] drm/amdgpu: fix initial connector audio
- value
-Date: Sun,  9 Oct 2022 19:57:44 -0400
-Message-Id: <20221009235746.1232129-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 10/10] drm/exynos: Fix return type for
+ mixer_mode_valid and hdmi_mode_valid
+Date: Sun,  9 Oct 2022 19:57:45 -0400
+Message-Id: <20221009235746.1232129-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235746.1232129-1-sashal@kernel.org>
 References: <20221009235746.1232129-1-sashal@kernel.org>
@@ -56,70 +56,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- hongao <hongao@uniontech.com>, cssk@net-c.es, maxime@cerno.tech,
- Alex Deucher <alexander.deucher@amd.com>, zhou1615@umn.edu,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, nathan@kernel.org,
+ linux-samsung-soc@vger.kernel.org, Dan Carpenter <error27@gmail.com>,
+ ndesaulniers@google.com, llvm@lists.linux.dev, sw0312.kim@samsung.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ Nathan Huckleberry <nhuck@google.com>, kyungmin.park@samsung.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: hongao <hongao@uniontech.com>
+From: Nathan Huckleberry <nhuck@google.com>
 
-[ Upstream commit 4bb71fce58f30df3f251118291d6b0187ce531e6 ]
+[ Upstream commit 1261255531088208daeca818e2b486030b5339e5 ]
 
-This got lost somewhere along the way, This fixes
-audio not working until set_property was called.
+The field mode_valid in exynos_drm_crtc_ops is expected to be of type enum
+drm_mode_status (*mode_valid)(struct exynos_drm_crtc *crtc,
+                                   const struct drm_display_mode *mode);
 
-Signed-off-by: hongao <hongao@uniontech.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Likewise for mode_valid in drm_connector_helper_funcs.
+
+The mismatched return type breaks forward edge kCFI since the underlying
+function definition does not match the function hook definition.
+
+The return type of mixer_mode_valid and hdmi_mode_valid should be changed
+from int to enum drm_mode_status.
+
+Reported-by: Dan Carpenter <error27@gmail.com>
+Link: https://protect2.fireeye.com/v1/url?k=3e644738-5fef521d-3e65cc77-
+74fe485cbff6-36ad29bf912d3c9f&q=1&e=5cc06174-77dd-4abd-ab50-
+155da5711aa3&u=https%3A%2F%2Fgithub.com%2FClangBuiltLinux%2Flinux%2Fissues%2F
+1703
+Cc: llvm@lists.linux.dev
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/exynos/exynos_hdmi.c  | 4 ++--
+ drivers/gpu/drm/exynos/exynos_mixer.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index 3e4305c3c983..86ceefb8b8fb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -1638,10 +1638,12 @@ amdgpu_connector_add(struct amdgpu_device *adev,
- 						   adev->mode_info.dither_property,
- 						   AMDGPU_FMT_DITHER_DISABLE);
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 2092a650df7d..227856f0a3c4 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -911,8 +911,8 @@ static int hdmi_find_phy_conf(struct hdmi_context *hdata, u32 pixel_clock)
+ 	return -EINVAL;
+ }
  
--			if (amdgpu_audio != 0)
-+			if (amdgpu_audio != 0) {
- 				drm_object_attach_property(&amdgpu_connector->base.base,
- 							   adev->mode_info.audio_property,
- 							   AMDGPU_AUDIO_AUTO);
-+				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
-+			}
+-static int hdmi_mode_valid(struct drm_connector *connector,
+-			struct drm_display_mode *mode)
++static enum drm_mode_status hdmi_mode_valid(struct drm_connector *connector,
++					    struct drm_display_mode *mode)
+ {
+ 	struct hdmi_context *hdata = connector_to_hdmi(connector);
+ 	int ret;
+diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos/exynos_mixer.c
+index 522d6c46d7b1..16a7624021a8 100644
+--- a/drivers/gpu/drm/exynos/exynos_mixer.c
++++ b/drivers/gpu/drm/exynos/exynos_mixer.c
+@@ -1018,7 +1018,7 @@ static void mixer_disable(struct exynos_drm_crtc *crtc)
+ 	clear_bit(MXR_BIT_POWERED, &ctx->flags);
+ }
  
- 			subpixel_order = SubPixelHorizontalRGB;
- 			connector->interlace_allowed = true;
-@@ -1746,6 +1748,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
- 				drm_object_attach_property(&amdgpu_connector->base.base,
- 							   adev->mode_info.audio_property,
- 							   AMDGPU_AUDIO_AUTO);
-+				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
- 			}
- 			drm_object_attach_property(&amdgpu_connector->base.base,
- 						   adev->mode_info.dither_property,
-@@ -1794,6 +1797,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
- 				drm_object_attach_property(&amdgpu_connector->base.base,
- 							   adev->mode_info.audio_property,
- 							   AMDGPU_AUDIO_AUTO);
-+				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
- 			}
- 			drm_object_attach_property(&amdgpu_connector->base.base,
- 						   adev->mode_info.dither_property,
-@@ -1839,6 +1843,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
- 				drm_object_attach_property(&amdgpu_connector->base.base,
- 							   adev->mode_info.audio_property,
- 							   AMDGPU_AUDIO_AUTO);
-+				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
- 			}
- 			drm_object_attach_property(&amdgpu_connector->base.base,
- 						   adev->mode_info.dither_property,
+-static int mixer_mode_valid(struct exynos_drm_crtc *crtc,
++static enum drm_mode_status mixer_mode_valid(struct exynos_drm_crtc *crtc,
+ 		const struct drm_display_mode *mode)
+ {
+ 	struct mixer_context *ctx = crtc->ctx;
 -- 
 2.35.1
 
