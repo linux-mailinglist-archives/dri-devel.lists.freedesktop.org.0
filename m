@@ -1,106 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD6A5F88EA
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 04:34:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE34C5F8910
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 04:58:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0E810E31A;
-	Sun,  9 Oct 2022 02:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A8910E3C0;
+	Sun,  9 Oct 2022 02:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60048.outbound.protection.outlook.com [40.107.6.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1102110E30B
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 02:34:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R6GHEabDm31QvdmB0BjXp3pHgnuyrmOpEjEPztv2lqkBdIQN5BW0QtnShDjuNF6I4wzHK0dDhis2rj6PvZTikjq21nSny/q/y1FcrX0DXTdYNOkcGIpGFP+uijYHc6ZIFOb7NrUk81zqzolEyOxpGUxzcFSKqG/NLn/GwbheDg1q2C676KrZdpLTXj6QXVwm/OgMoVxb4vKXx4D6NtnBn2cQsTCAmbsNL3upQG7oRxW2B1p2qJrUIglaSW5ZouabdV4eWYZUBKfwDYcJJwKFensf5m6xPcAgp/kKz2z0rp/tPY6I1zkrCkBnuN1JejfLefAvB1RrWEAdvPcbpD5hYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+X6/GXy1Llzv/9ki8+XdQOhq+ONYkO4HR3wJ1puQ/J4=;
- b=kKU3v49zj790UeOa+X1gqH5RGfiOXzn7/dqDP5btm2mbX+Kk6txzxgQR2J1tpbvCGDBJ4ppFqtt0zEVccG9mdTPn5PBfqksxEBLxNZeHkRzwGDji0Y304ce2Rfpn0EN6Zlu0tYBIJ1LhBQbcpNWicAwJcoARipeDzEukIRquuVafxt6XpfDB5KEjPxIM6h3I564s6NP+p5O7cv0hI6FQQfxBiluLPIPuTFnT4pk3dhQW2zH2pumVnntsbVXKy9bbSM6d9Rny3X3jEFxlEIOBl0Iu7E6HJF5VdM5a+p218kfXhnf6l+fWMRn/SC5a5V/wh3/KjmykKWverNUi+pXeJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+X6/GXy1Llzv/9ki8+XdQOhq+ONYkO4HR3wJ1puQ/J4=;
- b=bw2thLH8IozThbfc7hj41douWXX8Ke8BDLy3XvRxhFTQ8SnX9Zcmo3v8CqOJG1f7todvKUWSD0PYo36FV8LHYrCVyjUDhzH73gkU6oN8OiYDOTM2TICn4ayAdSxYTRKTv70DRigq+FRygGpvA/ItIox0aICx5lxZ0K1CO1dJPX4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM0PR04MB6833.eurprd04.prod.outlook.com (2603:10a6:208:17d::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.32; Sun, 9 Oct
- 2022 02:34:07 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::181b:75f7:dbc8:b4bc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::181b:75f7:dbc8:b4bc%7]) with mapi id 15.20.5709.015; Sun, 9 Oct 2022
- 02:34:07 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/imx: Kconfig: Remove duplicated 'select DRM_KMS_HELPER'
- line
-Date: Sun,  9 Oct 2022 10:35:27 +0800
-Message-Id: <20221009023527.3669647-1-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR03CA0085.apcprd03.prod.outlook.com
- (2603:1096:4:7c::13) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8569510E3C0
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 02:58:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 80CD3B80B91;
+ Sun,  9 Oct 2022 02:58:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6F02C433D6;
+ Sun,  9 Oct 2022 02:58:04 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="BCnShyLw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1665284282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PTr9nvXhCIMgKxMMIHmKX/lEwOczzX2VojqQXIdEQXM=;
+ b=BCnShyLwlwmwAtXh10NutIMIlSIhkA3vRZVyN65BKsRj3tXHWyoCFyOeejJMpbUNI3Ekb8
+ 49UE+EpPryrYxycNRVtDAFnXtv9x21EZGJQQn9h5YttxW9h0hZ/Z324YkU/7vcz00VHicb
+ bpNHNFK7pnOsAXwDr3Q1vkS9s34eCwg=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b38280f4
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Sun, 9 Oct 2022 02:58:02 +0000 (UTC)
+Date: Sat, 8 Oct 2022 20:57:54 -0600
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: David Laight <David.Laight@ACULAB.COM>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Message-ID: <Y0I4si9+cMracPAq@zx2c4.com>
+References: <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
+ <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
+ <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
+ <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
+ <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
+ <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
+ <Y0Ayvov/KQmrIwTS@zx2c4.com> <202210071010.52C672FA9@keescook>
+ <Y0BoQmVauPLC2uW5@zx2c4.com>
+ <69080fb8cace486db4e28e2e90f1d550@AcuMS.aculab.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM0PR04MB6833:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8ace01f-fb4f-4272-416b-08daa99ebd14
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SCqVYGCsIb5Ul8yw6xpPCJ4FVxgwHRL/97oH8oXMVRz95KQuLWdXW7jhIifHyFsLgAyXXdsStTXW6WAVF8Ei2EaezzIq9uihkULSCBlL8+MIrTyXLucWJps2CehYGnXXGqFj1nTXE8iXeNOQ1Bczz+1CTm1vSjW4RFl/SVeGHi7kNojGj4HkdEILaixYxTzZEp6C+6Jj8HoS/YOhpVlA+aFg/FOiXXN29THNXSMyFhSYImiT6DE1C6UYWO5sD9f6EZ9GrdWrE1uk+H5/1jic2KRqWQspPAuTK6uW/pwIko/wKbrD+kwRrQHtTJ0BsDMXaMAA+YpSsUrwa5ODxEsmY+6qWb4EtQcGFAEa3D16P+OiQ8iVgDCuDnQbIdtTQ9OYk0egxIp2PkX6U8JaSMDK4a/zCJGJFnEJqc8EXIhxlZJgYJAfqbq4MClVZNLxPSDoIo41HjrCt9dZ+d+SJCc+aXDugqsooQms/f2uhLRCX2B3lMtqevTc/OS/htkE8r459EsCbxa+SKv0eU4R0rGECe/FsEfkJ19iA0jQWk43galnPyTT/Qg5e28Eb2e7/LvMQCwNT2mtWZH3NpMQr5Gek33Qq5zGinS57eSmrfpDpemBTwCe72+dd8pyDD0ADCjCSuK5S2JxU+gmfmmBdJlbEJY3kCLWoSF6xg7RfhMTxKQmsTM4DZrvV+lX8FhxcmNHLEPC4nlb06TtpULOp92J2yfI3bi/xaUA5rdNIDcRwFkGtFgbFMa/DJiX4DUw6sUsUiszTzHlMNAiuqb3xcz2xQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(346002)(396003)(136003)(39860400002)(451199015)(1076003)(66476007)(41300700001)(66946007)(8676002)(36756003)(4744005)(316002)(7416002)(66556008)(5660300002)(2906002)(4326008)(86362001)(6486002)(38100700002)(83380400001)(26005)(8936002)(478600001)(186003)(6666004)(52116002)(6512007)(38350700002)(6506007)(2616005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?C6o1PxAIRloFRHqRjGWCP6jk3JR+Mhs1OBOZwpP7aNf2VodrpNJXRiQ69yev?=
- =?us-ascii?Q?UDTAclfV0so7y5Lr5QtJp3gRZdouV+ijRrZHjXyxA90dOLRn8e4yte8ozNzp?=
- =?us-ascii?Q?hvfsaGOv1yfSumrBDcPnSzqf0VQhcTKkQS0kajBDpAUDkx615B6JB36R5hnQ?=
- =?us-ascii?Q?dBZ9w//k8htMO6cgNAyZuw3vi6v3Cp31e71IAuluujmNG3wWrdKy4T5HrDTJ?=
- =?us-ascii?Q?4SuYPUUTMCn1rG7NZk6lmMrPN3YkaJernooliJuXfQ1/bRpzDpa97S79h3YB?=
- =?us-ascii?Q?naf+eGF54HvVg4OS1+kdV+QqElPmxqp/pt2MWAirsiMZZbHSfhxwyglSWDKa?=
- =?us-ascii?Q?tDi7QX1HnBIkeMqMl4XYd1mcp3n2kSmiI7kdsQ7+Lf1oAYLd41WeEnekKXxx?=
- =?us-ascii?Q?GtYfh1xnb7uE6ielRfebyS4jcfnqC94cQNS8fGAimuEtTWQJEKFBX5JKqO9i?=
- =?us-ascii?Q?7tmWBe+OaxeYFcsuZWvYNn5MzdIhbbvpsQ5xmiksBf8mcp8D944D9F+kmJWa?=
- =?us-ascii?Q?qcTeWEFQzF24XRx/pnoWwQ2Vh0wnHJJhI88jm4QdBD0dQTz2f9jRmadAtCHt?=
- =?us-ascii?Q?rTV64BJaOqegHFkUUU6ffuXa4uuRCeq/ns0+Mb9k1Di2wpVtzAWREuMVuFBm?=
- =?us-ascii?Q?ljrXh/MZtdcn6XsIGVpQecFImjOAuNwiGieuIr+r1/U+AckPag9+8qJJOEIc?=
- =?us-ascii?Q?yb3rdhSwa7A7mMudU7lIAejjpwIa1zkyiS56iCS+A3dRUaYePh+BRcpjVmqZ?=
- =?us-ascii?Q?E5HTbvaytVfc/+hWw+7qNESAr3gnoiH3PgZxgNnE9zRCOFEy5ad6BeafpHpa?=
- =?us-ascii?Q?87AUGCgXKpiy2/j1ZEQRFq8DL5DbuT2SZBZIlCiFfdqnO/iJrnTUmy9T1Hny?=
- =?us-ascii?Q?KI5rN0eTUqALcmyqgZAJ1hXbJtSdKIdBrbGl3o3usoGjRuJzyAh0Y+OhB23S?=
- =?us-ascii?Q?7gYzWkqQ7vU1jhFiMfek4ULV95YpktTSWI4KygVgPXR2fS975cZi5OSiAERg?=
- =?us-ascii?Q?GXIiw3l4qOpTqmplCrlKKUR2n1thWqWfYfxh3KrxpFyJIyd2tfgBhjN7AGwK?=
- =?us-ascii?Q?8umDx8tyIsakvFwhQoBlR1DZybCNz5PpH3gBe6GZAxju9FYOyZj85raHzMHJ?=
- =?us-ascii?Q?Ba0DCZwgpYpDlD53i75o+9+9aRi7jzeyZaThLSMfgPFAaPhPg/9Kz3MfOc6a?=
- =?us-ascii?Q?nUYrqwQxhU1dE9p89Zd1BiXYiNPLhiB4oQBfXLKMhyG4QAxGa1lRlZLO5oUs?=
- =?us-ascii?Q?Uz27tKzkKnEANUrtfK8WJ1P9BqeO0LosGXgJ1k9sfiRm+9BeCzaVyFCemCGX?=
- =?us-ascii?Q?K50egAq4EyzRH7Zeg+5nIYnbmCNAX/N0hg0XYgs6mJRFviFkf3LVbhwueo3Z?=
- =?us-ascii?Q?AaCzuhDBy83Uqm7NHig07Ej3a1QECxPYvJDxNrx9oe0AgcdcG2P+mZwR5jbh?=
- =?us-ascii?Q?aVkAPQk4shv6lOVbEYBxKYTh6fo9kRO6x9x3BNVrzbFQXSVJ+6mbSy120Iji?=
- =?us-ascii?Q?jW4PGYZNj1R+T8ESZroVrrtbrA7yGhp9bb3kLGQ+oZCOzh9bTmj2Ut43EeAv?=
- =?us-ascii?Q?TwtEgh+8r4xXiVeH/z1fz4Dn39hrqRFQ3g1RG+E7?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8ace01f-fb4f-4272-416b-08daa99ebd14
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2022 02:34:07.1931 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tOZl639Ck9fJV8y0UW3a44KaF2W6hMpXiFDSnvF8UD2bs0y/Lq1VL5TpXpWNoO83TgDnyLDXZb95DFKxtvOvrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6833
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <69080fb8cace486db4e28e2e90f1d550@AcuMS.aculab.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,33 +64,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, s.hauer@pengutronix.de, linux-imx@nxp.com,
- kernel@pengutronix.de, shawnguo@kernel.org
+Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, "x86@kernel.org" <x86@kernel.org>,
+ Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ KP Singh <kpsingh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Eric Dumazet <edumazet@google.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
+ WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Dave Airlie <airlied@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
+ Yury Norov <yury.norov@gmail.com>,
+ Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+ Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Jens Axboe <axboe@kernel.dk>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>,
+ "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Florian Westphal <fw@strlen.de>,
+ "patches@lists.linux.dev" <patches@lists.linux.dev>,
+ Christoph =?utf-8?Q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Chuck Lever <chuck.lever@oracle.com>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ Jan Kara <jack@suse.com>, Thomas Graf <tgraf@suug.ch>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A duplicated line 'select DRM_KMS_HELPER' was introduced in Kconfig file
-by commit 09717af7d13d ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option"),
-so remove it.
+On Sat, Oct 08, 2022 at 09:53:33PM +0000, David Laight wrote:
+> From: Jason A. Donenfeld
+> > Sent: 07 October 2022 18:56
+> ...
+> > > Given these kinds of less mechanical changes, it may make sense to split
+> > > these from the "trivial" conversions in a treewide patch. The chance of
+> > > needing a revert from the simple 1:1 conversions is much lower than the
+> > > need to revert by-hand changes.
+> > >
+> > > The Cocci script I suggested in my v1 review gets 80% of the first
+> > > patch, for example.
+> > 
+> > I'll split things up into a mechanical step and a non-mechanical step.
+> > Good idea.
+> 
+> I'd also do something about the 'get_random_int() & 3' cases.
+> (ie remainder by 2^n-1)
+> These can be converted to 'get_random_u8() & 3' (etc).
+> So they only need one random byte (not 4) and no multiply.
+> 
+> Possibly something based on (the quickly typed, and not C):
+> #define get_random_below(val) [
+> 	if (builtin_constant(val))
+> 		BUILD_BUG_ON(!val || val > 0x100000000ull)
+> 		if (!(val & (val - 1)) {
+> 			if (val <= 0x100)
+> 				return get_random_u8() & (val - 1);
+> 			if (val <= 0x10000)
+> 				return get_random_u16() & (val - 1);
+> 			return get_random_u32() & (val - 1);
+> 		}
+> 	}
+> 	BUILD_BUG_ON(sizeof (val) > 4);
+> 	return ((u64)get_random_u32() * val) >> 32;
 
-Fixes: 09717af7d13d ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option")
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/imx/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+This is already how the prandom_u32_max() implementation works, as
+suggested in the cover letter. The multiplication by constants in it
+reduces to bit shifts and you already get all the manual masking
+possible.
 
-diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
-index 975de4ff7313..fd5b2471fdf0 100644
---- a/drivers/gpu/drm/imx/Kconfig
-+++ b/drivers/gpu/drm/imx/Kconfig
-@@ -4,7 +4,6 @@ config DRM_IMX
- 	select DRM_KMS_HELPER
- 	select VIDEOMODE_HELPERS
- 	select DRM_GEM_DMA_HELPER
--	select DRM_KMS_HELPER
- 	depends on DRM && (ARCH_MXC || ARCH_MULTIPLATFORM || COMPILE_TEST)
- 	depends on IMX_IPUV3_CORE
- 	help
--- 
-2.37.1
+> get_random_below() is a much better name than prandom_u32_max().
 
+Yes, but that name is reserved for when I succeed at making a function
+that bounds with a uniform distribution. prandom_u32_max()'s
+distribution is non-uniform since it doesn't do rejection sampling. Work
+in progress is on https://git.zx2c4.com/linux-rng/commit/?h=jd/get_random_u32_below .
+But out of common respect for this already huge thread with a massive
+CC list, if you want to bikeshed my WIP stuff, please start a new thread
+for that and not bog this one down. IOW, no need to reply here directly.
+That'd annoy me.
+
+Jason
