@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2975F9412
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2AD5F9414
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C28C10E580;
-	Sun,  9 Oct 2022 23:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9D0310E583;
+	Sun,  9 Oct 2022 23:52:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3314010E57F
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:52:31 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C678610E57D
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:52:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8DB0160DC4;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 52ECE60CF5;
+ Sun,  9 Oct 2022 23:52:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2FBC43146;
  Sun,  9 Oct 2022 23:52:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BCAC4314A;
- Sun,  9 Oct 2022 23:52:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359550;
- bh=a+sMAFLjX68L2kxSVMElN69vaO37Vkarqiw6jNLmAIs=;
+ s=k20201202; t=1665359551;
+ bh=MaQazHfFY/HDy6I/LWmFBbykNt6P66Lp3uE6fOgsq4Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fX9S3jYXqG+qBfdFX/QGJlnDWwmCuYq82YEx1XvxEdZL/b6Ku1IMR7/z7fXxhFnYF
- HNdjdhW/EZ0rQkGUf0TCLe26HuPPLCz1WavCPfmZ3zXmbtvlxIOwCmtjqer8K1Q06a
- UVWejP1wKsRWo0iRBAvqBH819xZs4ndZT7SlSXlSdKipHPCEvs4EyanEd1kmIBrs4X
- xKuc0fN5q88Q7OoevxHFvB/7+W7T83Cqzy75Xun1YEIb1kpu1BYUA3Gv0V35eZp2tM
- Ph7ug6gBmQcpsniSwxf8FpNuYXEEWgduSTpaa8AeClqKhWT3m7VClpkhYcNzqpN3dK
- NxbtgS5CIpR+g==
+ b=gOw6C4QCJURDiQLDtBpS34fqB6RvPxYPRw06uFORPbSliLhrK70UHaAF3i7I8c09I
+ faNChn72+pEDaKLpPrvJ2Ln1kcKDjCtTyXOpIrSdj/0vglURUuDIc/H/CRbha7w94j
+ 31ptIU4AHVATPXgHnSGh041R0T7VOIHgLdjw0q4j/tfKo7R+3r6AgPJipZiGSqMOiK
+ u6NR0bHNGdfuSsPbme++4QxmOfiYClFyXX3kOtL9jqyozT3XH4yOZ1m9OwlcMfwMMY
+ 6WKHB9IzVJQ3wWWmSb48Jsi7WWCaEVEbYm4Vl84kUKmhizpgbGfyT2zyY4R9DuG9f0
+ zDwoCS2uD000Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 04/36] drm/komeda: Fix handling of atomic commits
- in the atomic_commit_tail hook
-Date: Sun,  9 Oct 2022 19:51:50 -0400
-Message-Id: <20221009235222.1230786-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 05/36] gpu: lontium-lt9611: Fix NULL pointer
+ dereference in lt9611_connector_init()
+Date: Sun,  9 Oct 2022 19:51:51 -0400
+Message-Id: <20221009235222.1230786-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235222.1230786-1-sashal@kernel.org>
 References: <20221009235222.1230786-1-sashal@kernel.org>
@@ -55,121 +56,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Carsten Haitzler <carsten.haitzler@arm.com>, christian.koenig@amd.com,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
- james.qian.wang@arm.com, mihail.atanassov@arm.com, linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
+ Zeng Jingxiang <linuszeng@tencent.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Liviu Dudau <liviu.dudau@arm.com>
+From: Zeng Jingxiang <linuszeng@tencent.com>
 
-[ Upstream commit eaa225b6b52233d45457fd33730e1528c604d92d ]
+[ Upstream commit ef8886f321c5dab8124b9153d25afa2a71d05323 ]
 
-Komeda driver relies on the generic DRM atomic helper functions to handle
-commits. It only implements an atomic_commit_tail hook for the
-mode_config_helper_funcs and even that one is pretty close to the generic
-implementation with the exception of additional dma_fence signalling.
+A NULL check for bridge->encoder shows that it may be NULL, but it
+already been dereferenced on all paths leading to the check.
+812	if (!bridge->encoder) {
 
-What the generic helper framework doesn't do is waiting for the actual
-hardware to signal that the commit parameters have been written into the
-appropriate registers. As we signal CRTC events only on the irq handlers,
-we need to flush the configuration and wait for the hardware to respond.
+Dereference the pointer bridge->encoder.
+810	drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
 
-Add the Komeda specific implementation for atomic_commit_hw_done() that
-flushes and waits for flip done before calling drm_atomic_helper_commit_hw_done().
-
-The fix was prompted by a patch from Carsten Haitzler where he was trying to
-solve the same issue but in a different way that I think can lead to wrong
-event signaling to userspace.
-
-Reported-by: Carsten Haitzler <carsten.haitzler@arm.com>
-Tested-by: Carsten Haitzler <carsten.haitzler@arm.com>
-Reviewed-by: Carsten Haitzler <carsten.haitzler@arm.com>
-Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220722122139.288486-1-liviu.dudau@arm.com
+Signed-off-by: Zeng Jingxiang <linuszeng@tencent.com>
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220727073119.1578972-1-zengjx95@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  4 ++--
- .../gpu/drm/arm/display/komeda/komeda_kms.c   | 21 ++++++++++++++++++-
- .../gpu/drm/arm/display/komeda/komeda_kms.h   |  2 ++
- 3 files changed, 24 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 59172acb9738..292f533d8cf0 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -235,7 +235,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
- 			crtc->state->event = NULL;
- 			drm_crtc_send_vblank_event(crtc, event);
- 		} else {
--			DRM_WARN("CRTC[%d]: FLIP happen but no pending commit.\n",
-+			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
- 				 drm_crtc_index(&kcrtc->base));
- 		}
- 		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-@@ -286,7 +286,7 @@ komeda_crtc_atomic_enable(struct drm_crtc *crtc,
- 	komeda_crtc_do_flush(crtc, old);
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index c0b182d1374e..7f688ebd36eb 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -807,13 +807,14 @@ static int lt9611_connector_init(struct drm_bridge *bridge, struct lt9611 *lt961
+ 
+ 	drm_connector_helper_add(&lt9611->connector,
+ 				 &lt9611_bridge_connector_helper_funcs);
+-	drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
+ 
+ 	if (!bridge->encoder) {
+ 		DRM_ERROR("Parent encoder object not found");
+ 		return -ENODEV;
+ 	}
+ 
++	drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
++
+ 	return 0;
  }
  
--static void
-+void
- komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
- 					 struct completion *input_flip_done)
- {
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-index 93b7f09b96ca..327051bba5b6 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-@@ -69,6 +69,25 @@ static const struct drm_driver komeda_kms_driver = {
- 	.minor = 1,
- };
- 
-+static void komeda_kms_atomic_commit_hw_done(struct drm_atomic_state *state)
-+{
-+	struct drm_device *dev = state->dev;
-+	struct komeda_kms_dev *kms = to_kdev(dev);
-+	int i;
-+
-+	for (i = 0; i < kms->n_crtcs; i++) {
-+		struct komeda_crtc *kcrtc = &kms->crtcs[i];
-+
-+		if (kcrtc->base.state->active) {
-+			struct completion *flip_done = NULL;
-+			if (kcrtc->base.state->event)
-+				flip_done = kcrtc->base.state->event->base.completion;
-+			komeda_crtc_flush_and_wait_for_flip_done(kcrtc, flip_done);
-+		}
-+	}
-+	drm_atomic_helper_commit_hw_done(state);
-+}
-+
- static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
- {
- 	struct drm_device *dev = old_state->dev;
-@@ -81,7 +100,7 @@ static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
- 
- 	drm_atomic_helper_commit_modeset_enables(dev, old_state);
- 
--	drm_atomic_helper_commit_hw_done(old_state);
-+	komeda_kms_atomic_commit_hw_done(old_state);
- 
- 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
- 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-index 456f3c435719..bf6e8fba5061 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-@@ -182,6 +182,8 @@ void komeda_kms_cleanup_private_objs(struct komeda_kms_dev *kms);
- 
- void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
- 			      struct komeda_events *evts);
-+void komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
-+					      struct completion *input_flip_done);
- 
- struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev);
- void komeda_kms_detach(struct komeda_kms_dev *kms);
 -- 
 2.35.1
 
