@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE0C5F9458
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760695F9464
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4882F10E5BF;
-	Sun,  9 Oct 2022 23:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8673210E5D2;
+	Sun,  9 Oct 2022 23:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7628610E5BF
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:55:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADBF610E5C1;
+ Sun,  9 Oct 2022 23:55:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A8900B80DED;
- Sun,  9 Oct 2022 23:55:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBDBC43141;
- Sun,  9 Oct 2022 23:55:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 31E3760C2B;
+ Sun,  9 Oct 2022 23:55:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE83CC433C1;
+ Sun,  9 Oct 2022 23:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359703;
- bh=CZYsMphJMpaNrKDew+OX76nRYFASQeGDTo1/8Np2474=;
+ s=k20201202; t=1665359712;
+ bh=yFuQDbmPwq9RUn5jwmUlLE30FAy6zEC5lrzi0/RXyRk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p5U+VlkNq+Nr6ME/1jY7dpQODhiYxHpzqAL3PY/1ZvzH/XB81Ld/wtQgEFo9ukTxz
- NULQplpIGuAl7dYy1vdp5oNMDFhckcvLq/YK3XCjaCq07OyBp829Dy5ujKxgTu84nM
- RPtv8r3r6DVOZebqD0XaF4h42HBhnfWbgYE886QzODMHkdMKcoXe2RKZCmszJB4sVR
- yAQhtJpNQouu6sQRqgJSFLvb6xNhHegPLidQUOo9p4ib4kF0mrgVT94wPody6HOabY
- GfBxr0MdopUSlZu7K6uf9XrhlFOPWiaLtkE1a8GCOFir76MxQhCvN83jH1BLp+vrG8
- xQHPdytlHvQAA==
+ b=l8eMEnQT2CUHjjupRJMDl/i8vgzpISUE3EmbJe18xEHkmW59ZnjatPj18ZkfXXYBI
+ JKonCy41Tno5i6vJ3GhfXalzNkJIjhgqb2zo2o5HpTrc5HwfQjIzK/H/k7cDQt+7Hf
+ xlX+C5kouGYdrXZOzkjE7kcrSPQr0QrxFXeplFFUpqsVKa1uCnAEDchD1MpD0OnQAp
+ 6171GBa1as3SvXaRsyNtoogY3r6n5Urswxcppvw85RfjaUAvsoWXkALQlKK/ztcJ5o
+ xY5I8TZjW5cMw7WMvsyGEgzT+UowmuR+wSjhEHBf15Z+aYnsfb1mRLnbkYYkhMn4pu
+ 5VwjK96MItUdQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 14/25] drm: panel-orientation-quirks: Add quirk
- for Anbernic Win600
-Date: Sun,  9 Oct 2022 19:54:14 -0400
-Message-Id: <20221009235426.1231313-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 18/25] drm/amdgpu: fix initial connector audio
+ value
+Date: Sun,  9 Oct 2022 19:54:18 -0400
+Message-Id: <20221009235426.1231313-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235426.1231313-1-sashal@kernel.org>
 References: <20221009235426.1231313-1-sashal@kernel.org>
@@ -56,45 +55,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ hongao <hongao@uniontech.com>, cssk@net-c.es, maxime@cerno.tech,
+ Alex Deucher <alexander.deucher@amd.com>, zhou1615@umn.edu,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maya Matuszczyk <maccraft123mc@gmail.com>
+From: hongao <hongao@uniontech.com>
 
-[ Upstream commit 770e19076065e079a32f33eb11be2057c87f1cde ]
+[ Upstream commit 4bb71fce58f30df3f251118291d6b0187ce531e6 ]
 
-This device is another x86 gaming handheld, and as (hopefully) there is
-only one set of DMI IDs it's using DMI_EXACT_MATCH
+This got lost somewhere along the way, This fixes
+audio not working until set_property was called.
 
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220803182402.1217293-1-maccraft123mc@gmail.com
+Signed-off-by: hongao <hongao@uniontech.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index f5ab891731d0..083273736c83 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -128,6 +128,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* Anbernic Win600 */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Win600"),
-+		},
-+		.driver_data = (void *)&lcd720x1280_rightside_up,
- 	}, {	/* Asus T100HA */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index a09876bb7ec8..4b1d62ebf8dd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -1671,10 +1671,12 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 						   adev->mode_info.dither_property,
+ 						   AMDGPU_FMT_DITHER_DISABLE);
+ 
+-			if (amdgpu_audio != 0)
++			if (amdgpu_audio != 0) {
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
++			}
+ 
+ 			subpixel_order = SubPixelHorizontalRGB;
+ 			connector->interlace_allowed = true;
+@@ -1796,6 +1798,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
+@@ -1849,6 +1852,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
+@@ -1899,6 +1903,7 @@ amdgpu_connector_add(struct amdgpu_device *adev,
+ 				drm_object_attach_property(&amdgpu_connector->base.base,
+ 							   adev->mode_info.audio_property,
+ 							   AMDGPU_AUDIO_AUTO);
++				amdgpu_connector->audio = AMDGPU_AUDIO_AUTO;
+ 			}
+ 			drm_object_attach_property(&amdgpu_connector->base.base,
+ 						   adev->mode_info.dither_property,
 -- 
 2.35.1
 
