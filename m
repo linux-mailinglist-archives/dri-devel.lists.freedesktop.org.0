@@ -1,66 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1215F8AC0
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 12:49:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 084695F8BBF
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 16:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2F010E0E3;
-	Sun,  9 Oct 2022 10:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2C910E06F;
+	Sun,  9 Oct 2022 14:18:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3777A10E18C
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 10:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1665312548;
- bh=9tw62jkaAE/5DMhlb+Rw7nroAjqsuNfhkDb8JdXGWvE=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=iHk0Ob5tM1qvUvtSlCKiOCwNSC3E86rsM1kbhVEcoKADKjr1VIay3F1F08WAiRpoT
- wDY9e14ESxt+gBZNNcC2sk7R9oPIERl70Mu6aRqy+hNBW4XR8ODOyFLJNcUQQvQx6+
- qNeEVwijjsF8mfbl9YUKsFWKmjx0TvPKxwIUaLGc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530 ([92.116.161.163]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIdeR-1ow23a3qQn-00EaM9; Sun, 09
- Oct 2022 12:49:08 +0200
-Date: Sun, 9 Oct 2022 12:49:05 +0200
-From: Helge Deller <deller@gmx.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes and updates for v6.1-rc1
-Message-ID: <Y0KnIfLe8WxtXc5c@ls3530>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C56710E06F
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 14:18:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9F728B80C91;
+ Sun,  9 Oct 2022 14:18:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659D2C433D6;
+ Sun,  9 Oct 2022 14:17:59 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="YgHbN0I0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1665325077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oirLAgHKzqbm2tDuRRRruxvBPFu6OuA1m1Bdo0JewVo=;
+ b=YgHbN0I0lUsk61F/tkacjTtELz9m0jTOee92icnhvNyHJrs9iBf1nxk5rIk4LCzkioh8sG
+ 190YFxxX+8obr4IDytSpJV/y+LGJPtZT2kSp6+N5MRfHp0a/WJLUeHRU53NaAsEmu2d/gM
+ WcwjBCYWAwT/EnbHfbZZP/9zFIVJmUM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 76b4077f
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Sun, 9 Oct 2022 14:17:57 +0000 (UTC)
+Date: Sun, 9 Oct 2022 08:17:41 -0600
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH v5 0/7] treewide cleanup of random integer usage
+Message-ID: <Y0LYBaooZKDbL93G@zx2c4.com>
+References: <20221008055359.286426-1-Jason@zx2c4.com>
+ <202210082028.692DFA21@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Provags-ID: V03:K1:kcrKBWACIMSXc8WglLRPxZtDvjATmQ7cjs3+tSAEoE2QImM2Y+6
- afhnoNl4jlBUZnz0ZNZFy6P6PdrWenJyNhNs+Ftrq/WTrz8FbFEKNWB3wdk0jZqKm8cbsyV
- HN59fKCj4KSFRAdJ7rEDkbf+1JRXdoyb+vsOIulugU81NlfLZf8P29C9/yOn2EFl7vrityo
- t760sa4DV6bTHkwoTVPKw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:g3nhewARNMg=:VhaddTOXN1ntXfBhvCxPI2
- nmPLLtH3/s+TkMmOQoy7QDH7DEzhGso2RUF2/R3WoEOIIsvVhKpVCR/e/jNT6IwxDwbes4y7D
- xJ6nXhnpwG+TCt0y4Dr5e++41cNL39EotY5V9TmcvJZTOa+t35+XgwnxZDi22iNYuPUCtD7R1
- B6UVtZeAP3ORciJiNL6zl5dPpKCTdebqwVQSCT/z4Fx2DZ3M5H72d2l7wMS5lwrhNgbzdrSIs
- LuqkOjyU2oGcFm9JnUea0sA5x/G3N1p/wlM4OGcG20zdgKNb10l3fWRgcZ3EK+siQqprPs85E
- T2cl/aA51pcMmQNfAhig5RBsnfRZbBGIcTXnPm3IkpeQvuZpA8HzB13tD1IfsKuBKtydiLRmr
- QM8Hkok2s0awjTZsxnbCzGHa3ceDlZwRgRz3WA62fkdOmbNZrIMTb/e3wy+V4Kn6ojq7NxqC0
- Je54H6zGsf9I/I5sRtAbr9r5KDXdiW5XIPH2apbYGwMCNciNK+dZksiugKXqI84R8snFqzF7v
- yCZG5YlCU/GCPCZnyUBVyqgj+g/00bk+FrX1pSLgsOEFNQTDQezyONJ1AFY/mQUCe0v/sXFPM
- gD3horUZk+sfycHIViBEPQfV9w0H9w3uVd+KU7U8JDmfxJPsWaNCWyyzjItsTJw2yxjW+3K9q
- b60/PXwgJlPFHhTztN2+tucLSjI6dk4tkrk8osPKjy2DLC4h0GDn8BAgVC0NYh+cDt9ZV8RDx
- 5bVx9zdTpO8wox+3sLueMqggSKmiF12M5K8PGqJRyoldiOlXfwa9TK3pQleAX04dxSQ0znOt6
- Hiew0qzhDYKVyut2hulQUTdsXPFDrVRlEvdQryRLnWhwbUUwP2UQ5JbTh5wSb8sgJe/immNmO
- gNx6iSAua16rOLD9/4QXtKnxLbY4nTwVqVJc9Y8SxoZbJFt3HEwb6lzvZDFsCAixNQoI2H58n
- FcIoF4jPYcqAcGi4qrL3nf5NZ2foqomFjvdAAi2uihHP5AamEaTM68ocNebdWYYgGSWowkSaL
- D9Q/ccPUPC4ry9T93hrxgdYn700cByFkHXCkn4ul71lIaHglgEQuG7s/KjmJFCRKpml/l0Y52
- 4GztVET2XX2msz7K9gspAvPG08kEAsAYIyoY+pJGm0qaCXYA6h7SbIhALRuavasb0ZRiJGVpc
- 3SHFw0bSZgHbdHso09XPq2mDSQg3AaeXhKVLpIqFjB5NULl/286d1qc/DFbRKqnII6q9T1OCI
- 6+QPxUelzivrDnrt6DijkM6HYd1K3jzxPz33Zdz2KaLl/TwJjrtRoQx2sp+O1VCNSBm2DYNRZ
- JYoP4tx8gBgBpds1ygcErpLEc2s1QMIKArqCimANBbzJoCnUUroW6AMFxyeHDDjpUDflzfLIK
- drSO4a9sDk8t/o+SAkTuUBr59dlYx7WFRVvKQpFGPoLV2HZCWpukNJR/dpldQUZWCuKoNrtXD
- hB3VNNFHbSuEg0op5lXH9d2MyJqzNKIVEvIAPVi1LcnIlWZ+hwrUuZULwUo+38BETneov3mDn
- brV01I6wWRN/4hPKS/mr9AU212Twjo7mRXaCNmVNKrTkv
+In-Reply-To: <202210082028.692DFA21@keescook>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,94 +57,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-wireless@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+ x86@kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, kernel-janitors@vger.kernel.org,
+ KP Singh <kpsingh@kernel.org>, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, linux-mm@kvack.org,
+ Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
+ "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
+ WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Hugh Dickins <hughd@google.com>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Dave Airlie <airlied@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Yury Norov <yury.norov@gmail.com>,
+ Heiko Carstens <hca@linux.ibm.com>, linux-um@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-block@vger.kernel.org,
+ Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
+ linux-nvme@lists.infradead.org, loongarch@lists.linux.dev,
+ Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-mmc@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Theodore Ts'o <tytso@mit.edu>, linux-parisc@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
+ Christoph =?utf-8?Q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ linux-crypto@vger.kernel.org, Jan Kara <jack@suse.com>,
+ Thomas Graf <tgraf@suug.ch>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Sat, Oct 08, 2022 at 08:41:14PM -0700, Kees Cook wrote:
+> On Fri, Oct 07, 2022 at 11:53:52PM -0600, Jason A. Donenfeld wrote:
+> > This is a five part treewide cleanup of random integer handling. The
+> > rules for random integers are:
+> 
+> Reviewing the delta between of my .cocci rules and your v5, everything
+> matches, except for get_random_int() conversions for files not in
+> your tree:
+> [...]
+> So, I guess I mean to say that "prandom: remove unused functions" is
+> going to cause some pain. :) Perhaps don't push that to -next, and do a
+> final pass next merge window to catch any new stuff, and then send those
+> updates and the removal before -rc1 closes?
 
-please pull the fbdev fixes and updates for kernel 6.1-rc1.
+Ooof. Actually I think what I'll do is include a suggested diff for the
+merge commit that fixes up the remaining two thankfully trivial cases.
 
-Included is a fix for the smscufx USB graphics card to prevent a kernel crash
-if it's plugged in/out too fast.  The other patches are mostly small cleanups,
-fixes in failure paths and code removal.
-
-More details are in the commit tag.
-
-Thanks,
-Helge
-
-
-The following changes since commit e8bc52cb8df80c31c73c726ab58ea9746e9ff734:
-
-  Merge tag 'driver-core-6.1-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core (2022-10-07 17:04:10 -0700)
-
-are available in the Git repository at:
-
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.1-rc1
-
-for you to fetch changes up to 29926f1cd3535f565f200430d5b6a794543fe130:
-
-  fbdev: mb862xx: Fix check of return value from irq_of_parse_and_map() (2022-10-08 15:20:09 +0200)
-
-----------------------------------------------------------------
-fbdev fixes and updates for kernel 6.1-rc1:
-
-- fixes an use-after-free in smscufx USB graphics driver,
-- adds missing pci_disable_device() in tridentfb failure paths,
-- correctly handle irq detection failure in mb862xx driver,
-- fixes resume code in omapfb/dss,
-- drops unused code in controlfb, tridentfb, arkfb, imxfb and udlfb,
-- converts uvesafb to use scnprintf() instead of snprintf(),
-- converts gbefb to use dev_groups,
-- adds MODULE_DEVICE_TABLE() entry to vga16fb
-
-----------------------------------------------------------------
-Christophe Leroy (1):
-      fbdev: mb862xx: Fix check of return value from irq_of_parse_and_map()
-
-Colin Ian King (1):
-      fbdev: udlfb: Remove redundant initialization to variable identical
-
-Hyunwoo Kim (1):
-      fbdev: smscufx: Fix use-after-free in ufx_ops_open()
-
-Jiapeng Chong (3):
-      fbdev: controlfb: Remove the unused function VAR_MATCH()
-      fbdev: tridentfb: Remove the unused function shadowmode_off()
-      fbdev: arkfb: Remove the unused function dac_read_reg()
-
-Jiasheng Jiang (1):
-      fbdev: gbefb: Convert to use dev_groups
-
-Jules Irenge (1):
-      fbdev: uvesafb: Convert snprintf to scnprintf
-
-Ruan Jinjie (1):
-      fbdev: tridentfb: Fix missing pci_disable_device() in probe and remove
-
-Shang XiaoJing (1):
-      fbdev: imxfb: Remove redundant dev_err() call
-
-Zeng Heng (1):
-      fbdev: vga16fb: Add missing MODULE_DEVICE_TABLE() entry
-
-Zhang Qilong (1):
-      fbdev: omapfb/dss: Use pm_runtime_resume_and_get() instead of pm_runtime_get_sync()
-
- drivers/video/fbdev/arkfb.c                  |  8 --------
- drivers/video/fbdev/controlfb.c              |  7 -------
- drivers/video/fbdev/gbefb.c                  | 20 +++++++-------------
- drivers/video/fbdev/imxfb.c                  |  1 -
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |  2 +-
- drivers/video/fbdev/omap2/omapfb/dss/dispc.c |  6 ++----
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c   |  6 ++----
- drivers/video/fbdev/omap2/omapfb/dss/dss.c   |  6 ++----
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c |  6 ++----
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c |  6 ++----
- drivers/video/fbdev/omap2/omapfb/dss/venc.c  |  6 ++----
- drivers/video/fbdev/smscufx.c                | 14 +++++++++++++-
- drivers/video/fbdev/tridentfb.c              | 11 +----------
- drivers/video/fbdev/udlfb.c                  |  2 +-
- drivers/video/fbdev/uvesafb.c                | 10 +++++-----
- drivers/video/fbdev/vga16fb.c                |  1 +
- 16 files changed, 41 insertions(+), 71 deletions(-)
+Jason
