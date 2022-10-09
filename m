@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0615F8D5B
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 20:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4495F8D56
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 20:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583C110E0AB;
-	Sun,  9 Oct 2022 18:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE1F10E07A;
+	Sun,  9 Oct 2022 18:48:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98D3510E06B
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 18:48:38 +0000 (UTC)
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF6310E067;
+ Sun,  9 Oct 2022 18:48:39 +0000 (UTC)
 Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 775AD1F939;
- Sun,  9 Oct 2022 20:48:34 +0200 (CEST)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 6427B1F925;
+ Sun,  9 Oct 2022 20:48:36 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v3 00/10] drm/msm: Fix math issues in MSM DSC implementation
-Date: Sun,  9 Oct 2022 20:48:14 +0200
-Message-Id: <20221009184824.457416-1-marijn.suijten@somainline.org>
+Subject: [PATCH v3 01/10] drm/msm/dsi: Remove useless math in DSC calculations
+Date: Sun,  9 Oct 2022 20:48:15 +0200
+Message-Id: <20221009184824.457416-2-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.38.0
+In-Reply-To: <20221009184824.457416-1-marijn.suijten@somainline.org>
+References: <20221009184824.457416-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,62 +56,49 @@ Cc: freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Various removals of complex yet unnecessary math, fixing all uses of
-drm_dsc_config::bits_per_pixel to deal with the fact that this field
-includes four fractional bits, and finally making sure that
-range_bpg_offset contains values 6-bits wide to prevent overflows in
-drm_dsc_pps_payload_pack().
+Multiplying a value by 2 and adding 1 to it always results in a value
+that is uneven, and that 1 gets truncated immediately when performing
+integer division by 2 again.  There is no "rounding" possible here.
 
-Altogether this series is responsible for solving _all_ Display Stream
-Compression issues and artifacts on the Sony Tama (sdm845) Akatsuki
-smartphone (2880x1440p).
+After that target_bpp_x16 is used to store a multiplication of
+bits_per_pixel by 16 which is only ever read to immediately be divided
+by 16 again, and is elided in much the same way.
 
-Changes since v2:
-- Generalize mux_word_size setting depending on bits_per_component;
-- Migrate DSI's DSC calculations to drm_dsc_compute_rc_parameters(),
-  implicitly addressing existing math issues;
-- Disallow any bits_per_component other than 8, until hardcoded values
-  are updated and tested to support such cases.
+Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-v2: https://lore.kernel.org/linux-arm-msm/20221005181657.784375-1-marijn.suijten@somainline.org/T/#u
-
-Changes since v1:
-
-- Propagate r-b's, except (obviously) in patches that were (heavily)
-  modified;
-- Remove accidental debug code in dsi_cmd_dma_add;
-- Move Range BPG Offset masking out of DCS PPS packing, back into the
-  DSI driver when it is assigned to drm_dsc_config (this series is now
-  strictly focusing on drm/msm again);
-- Replace modulo-check resulting in conditional increment with
-  DIV_ROUND_UP;
-- Remove repeated calculation of slice_chunk_size;
-- Use u16 instead of int when handling bits_per_pixel;
-- Use DRM_DEV_ERROR instead of pr_err in DSI code;
-- Also remove redundant target_bpp_x16 variable.
-
-v1: https://lore.kernel.org/linux-arm-msm/20221001190807.358691-1-marijn.suijten@somainline.org/T/#u
-
-Marijn Suijten (10):
-  drm/msm/dsi: Remove useless math in DSC calculations
-  drm/msm/dsi: Remove repeated calculation of slice_per_intf
-  drm/msm/dsi: Use DIV_ROUND_UP instead of conditional increment on
-    modulo
-  drm/msm/dsi: Reuse earlier computed dsc->slice_chunk_size
-  drm/msm/dsi: Appropriately set dsc->mux_word_size based on bpc
-  drm/msm/dsi: Migrate to drm_dsc_compute_rc_parameters()
-  drm/msm/dsi: Disallow 8 BPC DSC configuration for alternative BPC
-    values
-  drm/msm/dsi: Account for DSC's bits_per_pixel having 4 fractional bits
-  drm/msm/dpu1: Account for DSC's bits_per_pixel having 4 fractional
-    bits
-  drm/msm/dsi: Prevent signed BPG offsets from bleeding into adjacent
-    bits
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c |  11 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c         | 121 ++++++---------------
- 2 files changed, 37 insertions(+), 95 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 8e4bc586c262..70077d1f0f21 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1784,7 +1784,6 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+ 	int hrd_delay;
+ 	int pre_num_extra_mux_bits, num_extra_mux_bits;
+ 	int slice_bits;
+-	int target_bpp_x16;
+ 	int data;
+ 	int final_value, final_scale;
+ 	int i;
+@@ -1864,14 +1863,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+ 	data = 2048 * (dsc->rc_model_size - dsc->initial_offset + num_extra_mux_bits);
+ 	dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
+ 
+-	/* bpp * 16 + 0.5 */
+-	data = dsc->bits_per_pixel * 16;
+-	data *= 2;
+-	data++;
+-	data /= 2;
+-	target_bpp_x16 = data;
+-
+-	data = (dsc->initial_xmit_delay * target_bpp_x16) / 16;
++	data = dsc->initial_xmit_delay * dsc->bits_per_pixel;
+ 	final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
+ 	dsc->final_offset = final_value;
+ 
+-- 
 2.38.0
 
