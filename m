@@ -2,70 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34B45F8D75
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 20:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123A65F8D78
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Oct 2022 20:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89C5B10E533;
-	Sun,  9 Oct 2022 18:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C3D10E536;
+	Sun,  9 Oct 2022 18:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67F9B10E096
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 18:53:10 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id y5so13842541lfl.4
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Oct 2022 11:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pBU+42WDJEw6kYLIwt2kumcImvZMC7HZo1MXSpkSR94=;
- b=jDJ3EXLInv+837QzF0uKei/b0nAwTmwMivjyWNvCSqsaUS5uGhZZ5p+9jqAD8B9UlB
- 8EdqhKcYmnv2hL2QCErhihJMyZC89I3f9/nawFnuOCrl9PWS4h+5E6ni6rRBnibTZnsK
- v/9HwSotctDB0P/t9DvGueCCURctvR2IZ5zRPxT6vptb8gZoYriT45raWFk8Jz33QN0n
- K3p6q99y/AZC8YwNtpEfMkRE4ukJTFv3r81u1OM0D0Tgahzhn/K1Z3jYZJFTrQjufJDy
- aCwh5EMRWN59hWihxffQwUdCLGqdq/Y39bod3Hx0ZeTSNP6IZmQM8l88zVl1lJp0Edox
- 2jAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pBU+42WDJEw6kYLIwt2kumcImvZMC7HZo1MXSpkSR94=;
- b=TcAoTdjcQySlXPMOU1hAgyd5L4OcYnIFPJ7eQvsbxfgQalJQZ9Bs9nRPtOsBG/SiHa
- FOmb6XwgK98I1JPE9ue6Np635g3Jbfqf/zWtWytBQwlMuwfXuPedmcM7D7S1nb5uWc7c
- FStpuHgh3XXuqSbqrPAVzSGZhCrHMbEcuUK9zPILVj4fW3Zijyn8PlIsSxicrMoImWUZ
- sxzBXD66CUGrTonYhJgNmHqZWBxSZRbL0kir/nJxFwHTFPmxhwWyR53q8TBH094hBL08
- MrRDS1TwC3XLth9Di7D5m0jlqhApN4LVx5j0vkdwthI5ueWUSkIrGFKpj7TC3tc+BtMU
- 4LEg==
-X-Gm-Message-State: ACrzQf2uXczzrn1BCfINbGyQzirBhpcfeXmS3WyIUMczD8aQD5GGI1WK
- kwqKENdY2NeyhhOW6WW5d1zPew==
-X-Google-Smtp-Source: AMsMyM5aRVZkqZutaU0TMyEyIn4HXU3OyOVthzdxUsMrTnMrF4JH7w04zVBoJnyuKWcnF8FF4wsqsg==
-X-Received: by 2002:a05:6512:252b:b0:4a0:5642:dbc5 with SMTP id
- be43-20020a056512252b00b004a05642dbc5mr5643306lfb.436.1665341588751; 
- Sun, 09 Oct 2022 11:53:08 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- h5-20020a2ea485000000b0026e059a3455sm1367718lji.51.2022.10.09.11.53.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Oct 2022 11:53:08 -0700 (PDT)
-Message-ID: <f3d9bfac-507f-64e6-bbf7-29a3d9dfef31@linaro.org>
-Date: Sun, 9 Oct 2022 21:53:07 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 02/10] drm/msm/dsi: Remove repeated calculation of
- slice_per_intf
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Vinod Koul <vkoul@kernel.org>
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD12A10E536
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 18:53:32 +0000 (UTC)
+Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
+ [94.209.172.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id BCECA1F986;
+ Sun,  9 Oct 2022 20:53:30 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org
+Subject: [PATCH v3 08/10] drm/msm/dsi: Account for DSC's bits_per_pixel having
+ 4 fractional bits
+Date: Sun,  9 Oct 2022 20:53:13 +0200
+Message-Id: <20221009185316.462522-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.38.0
+In-Reply-To: <20221009184824.457416-1-marijn.suijten@somainline.org>
 References: <20221009184824.457416-1-marijn.suijten@somainline.org>
- <20221009184824.457416-3-marijn.suijten@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221009184824.457416-3-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,32 +42,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
+Cc: Vinod Koul <vkoul@kernel.org>, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Martin Botka <martin.botka@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2022 21:48, Marijn Suijten wrote:
-> slice_per_intf is already computed for intf_width, which holds the same
-> value as hdisplay.
-> 
-> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Reviewed-by: Vinod Koul <vkoul@kernel.org>
+drm_dsc_config's bits_per_pixel field holds a fractional value with 4
+bits, which all panel drivers should adhere to for
+drm_dsc_pps_payload_pack() to generate a valid payload.  All code in the
+DSI driver here seems to assume that this field doesn't contain any
+fractional bits, hence resulting in the wrong values being computed.
+Since none of the calculations leave any room for fractional bits or
+seem to indicate any possible area of support, disallow such values
+altogether.  calculate_rc_params() in intel_vdsc.c performs an identical
+bitshift to get at this integer value.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 7e6b7e506ae8..46032c576a59 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -34,7 +34,7 @@
+ 
+ #define DSI_RESET_TOGGLE_DELAY_MS 20
+ 
+-static int dsi_populate_dsc_params(struct drm_dsc_config *dsc);
++static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc_config *dsc);
+ 
+ static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
+ {
+@@ -909,6 +909,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 	u32 va_end = va_start + mode->vdisplay;
+ 	u32 hdisplay = mode->hdisplay;
+ 	u32 wc;
++	int ret;
+ 
+ 	DBG("");
+ 
+@@ -944,7 +945,9 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 		/* we do the calculations for dsc parameters here so that
+ 		 * panel can use these parameters
+ 		 */
+-		dsi_populate_dsc_params(dsc);
++		ret = dsi_populate_dsc_params(msm_host, dsc);
++		if (ret)
++			return;
+ 
+ 		/* Divide the display by 3 but keep back/font porch and
+ 		 * pulse width same
+@@ -1770,9 +1773,15 @@ static char bpg_offset[DSC_NUM_BUF_RANGES] = {
+ 	2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
+ };
+ 
+-static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
++static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc_config *dsc)
+ {
+ 	int i;
++	u16 bpp = dsc->bits_per_pixel >> 4;
++
++	if (dsc->bits_per_pixel & 0xf) {
++		DRM_DEV_ERROR(&msm_host->pdev->dev, "DSI does not support fractional bits_per_pixel\n");
++		return -EINVAL;
++	}
+ 
+ 	if (dsc->bits_per_component != 8) {
+ 		DRM_DEV_ERROR(&msm_host->pdev->dev, "DSI does not support bits_per_component != 8 yet\n");
+@@ -1798,8 +1807,8 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+ 		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i];
+ 	}
+ 
+-	dsc->initial_offset = 6144; /* Not bpp 12 */
+-	if (dsc->bits_per_pixel != 8)
++	dsc->initial_offset = 6144;		/* Not bpp 12 */
++	if (bpp != 8)
+ 		dsc->initial_offset = 2048;	/* bpp = 12 */
+ 
+ 	if (dsc->bits_per_component <= 10)
 -- 
-With best wishes
-Dmitry
+2.38.0
 
