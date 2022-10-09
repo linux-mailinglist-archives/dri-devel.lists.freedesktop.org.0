@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDBA5F947F
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7405F9476
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 01:56:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A5C10E5EF;
-	Sun,  9 Oct 2022 23:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A53E10E5E2;
+	Sun,  9 Oct 2022 23:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677B310E5DF
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:56:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8D110E5DF
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Oct 2022 23:56:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E498E60DC9;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 87C4C60DD1;
+ Sun,  9 Oct 2022 23:56:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C417EC4347C;
  Sun,  9 Oct 2022 23:56:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD534C433D7;
- Sun,  9 Oct 2022 23:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665359790;
- bh=4PTtWdXmjg58DcnDfoqUi1D2EwzL9HhrXD/pwzSWVpw=;
+ s=k20201202; t=1665359791;
+ bh=rDGR6WxWcKz0GLoKdiF+LPWjqv10NnK1ij4BucIKLCg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EdDl+sIQ3y4Zb16f0OJpWZrr6YpV9HBs1cnN5wO9YSN2hrJgEcwb7I6fXVv71OQgF
- FqK/9CQUJUjTnet2FZ4CiIksJPdNF7d+awp3mNGMgRUca3YK5HG09vTIr8qZoTLosq
- OObWP+W22jeulfF6/aROUtdRal41tQoA05zVJiYWzhZNaA16BsqNDYHnJAxQeUCOe4
- d9iOTwZgsA/hFIfkiLVQpwv08qxUyBAGrXZgCAz43kqvZFQVnmoJteG1Ml0oO2KwTk
- 5RXl5HDIKRazkkH+RJKIzkohlYvQA04OvW/JCHD95mXA2qd02omFimGHmVYx7EsFOR
- EDi09pazlasbw==
+ b=hiCBlY7CjKHxmOZO32doE9288uAX+CRRXDM1vE79uG761GMKwZd0pRoIMj5CG+pRE
+ BefhuEB1dEijMztgm7qTKTwE5K+hWtG4D8SN4G5l137bbfQfqZHbZUtVSOLeno+83A
+ G73DMRn9PgQ7yxx7SFBuJ/s8uMYe52dDaty83oeg7YAZw6E4FFHO6CYBZUBgCpHFDT
+ TFGBUNlxR1H/guluWrWN/GB5uC+/Y1W7/uZ/QmfySmKdLi/C+rtcWeOE04+CDAjSul
+ E1SsZYWALpBScSs+NI61bQYs6Vnt/BuXsYKiLfZIQxoUD2KrXQxDr6XVz7JnN2n5HJ
+ bjLuEnQQ+dFlQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 09/22] drm: hide unregistered connectors from
- GETCONNECTOR IOCTL
-Date: Sun,  9 Oct 2022 19:55:27 -0400
-Message-Id: <20221009235540.1231640-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 10/22] drm/vc4: vec: Fix timings for VEC modes
+Date: Sun,  9 Oct 2022 19:55:28 -0400
+Message-Id: <20221009235540.1231640-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221009235540.1231640-1-sashal@kernel.org>
 References: <20221009235540.1231640-1-sashal@kernel.org>
@@ -56,53 +55,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net,
+ dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Simon Ser <contact@emersion.fr>
+From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 
-[ Upstream commit 981f09295687f856d5345e19c7084aca481c1395 ]
+[ Upstream commit 30d7565be96b3946c18a1ce3fd538f7946839092 ]
 
-When registering a connector, the kernel sends a hotplug uevent in
-drm_connector_register(). When unregistering a connector, drivers
-are expected to send a uevent as well. However, user-space has no way
-to figure out that the connector isn't registered anymore: it'll still
-be reported in GETCONNECTOR IOCTLs.
+This commit fixes vertical timings of the VEC (composite output) modes
+to accurately represent the 525-line ("NTSC") and 625-line ("PAL") ITU-R
+standards.
 
-The documentation for DRM_CONNECTOR_UNREGISTERED states:
+Previous timings were actually defined as 502 and 601 lines, resulting
+in non-standard 62.69 Hz and 52 Hz signals being generated,
+respectively.
 
-> The connector […] has since been unregistered and removed from
-> userspace, or the connector was unregistered before it had a chance
-> to be exposed to userspace
-
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220801133754.461037-1-contact@emersion.fr
+Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220728-rpi-analog-tv-properties-v2-28-459522d653a7@cerno.tech
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_mode_config.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/vc4/vc4_vec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index f1affc1bb679..5ec0157b1426 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -150,6 +150,9 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
- 	count = 0;
- 	connector_id = u64_to_user_ptr(card_res->connector_id_ptr);
- 	drm_for_each_connector_iter(connector, &conn_iter) {
-+		if (connector->registration_state != DRM_CONNECTOR_REGISTERED)
-+			continue;
-+
- 		/* only expose writeback connectors if userspace understands them */
- 		if (!file_priv->writeback_connectors &&
- 		    (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK))
+diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
+index bd5b8eb58b18..c6bd168a5898 100644
+--- a/drivers/gpu/drm/vc4/vc4_vec.c
++++ b/drivers/gpu/drm/vc4/vc4_vec.c
+@@ -257,7 +257,7 @@ static void vc4_vec_ntsc_j_mode_set(struct vc4_vec *vec)
+ static const struct drm_display_mode ntsc_mode = {
+ 	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
+ 		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
+-		 480, 480 + 3, 480 + 3 + 3, 480 + 3 + 3 + 16, 0,
++		 480, 480 + 7, 480 + 7 + 6, 525, 0,
+ 		 DRM_MODE_FLAG_INTERLACE)
+ };
+ 
+@@ -279,7 +279,7 @@ static void vc4_vec_pal_m_mode_set(struct vc4_vec *vec)
+ static const struct drm_display_mode pal_mode = {
+ 	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
+ 		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
+-		 576, 576 + 2, 576 + 2 + 3, 576 + 2 + 3 + 20, 0,
++		 576, 576 + 4, 576 + 4 + 6, 625, 0,
+ 		 DRM_MODE_FLAG_INTERLACE)
+ };
+ 
 -- 
 2.35.1
 
