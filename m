@@ -2,85 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E17D5F9E75
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 14:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9C15F9E7A
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 14:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4D310E6E0;
-	Mon, 10 Oct 2022 12:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3111610E6FF;
+	Mon, 10 Oct 2022 12:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6AB310E4D4;
- Mon, 10 Oct 2022 12:11:22 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id E056E2B06398;
- Mon, 10 Oct 2022 08:11:17 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1DC10E6F1;
+ Mon, 10 Oct 2022 12:11:30 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id BE6FC2B05E7C;
+ Mon, 10 Oct 2022 08:11:24 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 10 Oct 2022 08:11:22 -0400
+ by compute2.internal (MEProxy); Mon, 10 Oct 2022 08:11:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665403877; x=
- 1665411077; bh=KfLeLBND2U5FFYxKmdsidgYpBYJw4BBLL4Hxf7Bm3DM=; b=d
- Jq8m6lRBijyH2Gu/bWNT9bxFI7SqXKfl2Yz5kTaIr8sPqDntS8nRM55a0wQTgSJE
- 3gi7RdAlQNGTXJgd6IwdDqwkp+UV1+FJUQMOWB1IdhoewoEIjuDnNWeU5Ci4Udq3
- cXYXSgo8tSBU0MSLpuK5lGgNwo+fGy/NGS3s0WyMW2CI391wDBQjnxt7SejRIJTM
- Y+7VkmLu4YIwLBPeDoIHa2qYW/7UioKHpZ+rgxNaOyYF2ad7avdyezbV1ykjhUfl
- 2zspX7UIKboBpanxXzeX+I+py6FsaMBgib2QzG+7AcAdEJolOfAbPSjQAL6/nsqo
- on3SZPWU18Bps+5zcFb/A==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665403884; x=
+ 1665411084; bh=EUBVg2jb+lnRA76hHrrpz9kERc9bhmowp7vu/vjyvG4=; b=G
+ t9fRM2X979WRZOF3BV5FgPSsJQhRuOvgTtZ6XKEoQQNGX7aO1ZXQa1TwqZssDtX6
+ oayF0GTPlWPc0vy1l8D4sVR9zkKiyyPXqiY2fi6oC2lkwpYtGyy3iwcMmoghNHlP
+ 7nQukqapcM9/lUDlaYZDjF008S0sGQ3MIk+jwkEsDqOl7n+3+biB+UJzG8gBosiN
+ /g6NaHhokHkSWvEn1abvTUFKOgboeq7Tge8ql7CjjXAM+YkfFAE5KnKZQN/OGNv9
+ sPSJ5ND82UNXEVOngu1hsQKcWKCvP7naxxDg65zWjltjzgGlfSW5QTurzBGx+aFu
+ bb2wtHB1jl/54eL+SaPvA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665403877; x=
- 1665411077; bh=KfLeLBND2U5FFYxKmdsidgYpBYJw4BBLL4Hxf7Bm3DM=; b=J
- spHYM7cLibIjljKg226jqyqFimkMlG7ZN+FImsPYCm4mwz5Rt2Ku1bkc9riVyiJu
- tB1t6GQR57keENvlyPyXRG3Fh+ZPGoSJgWbSkbpPdMjqJ75HvGVc6FaIaT/SOvUy
- J2ZCTU4gMCCx1ieKbM3hW6VT48aGAtGIxPJ67fyFsHfOJAz0Lc1RDnGDfD0SHx0y
- 6chGYwLPsrN5L/DlL9EKtQvhZtpEdY022BRkS3C9zjoARcBOMnkMmne/HkFz9iin
- mQdNMJXet/tZF7U+/H9vbkOA0JJ7Mi2ySGVGy062NIQTjFdl4H1EPPe2gziUSXDr
- NHG0vpttDlxrRBZ7ti9Sg==
-X-ME-Sender: <xms:5QtEY1vGNmoWCcil_vvAC4kIY41dVgqD0UxFb4mGWDVQtbdCPlFmQA>
- <xme:5QtEY-dSYn2aqx9DHw_BqMbL5tLMnBA0Zbfy4IQ9nTyu8IcjOZ9FYoM8QQgT9pELh
- WTwm_Lxr9X4KHNGQb8>
-X-ME-Received: <xmr:5QtEY4wurW-sshj7-u-RBo_M7OnsOuOlXq3-eDOGeEUSTQxQ_sNQi--0k8Ub>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgedggeefucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665403884; x=
+ 1665411084; bh=EUBVg2jb+lnRA76hHrrpz9kERc9bhmowp7vu/vjyvG4=; b=G
+ y/F7lNZMzV5J6qcaREM1QpFo35J8VaUCmgNH01UjHmzRGwvKL0+XX2dLJtJFNHeC
+ wr+XEAjHUHYsoOUXz1E2JkOkmm+CE5/O1GGJyHAyGDJW9y25VhdQ6s+YwcOdGOxG
+ /yxdW4pGjz8JKdBejFPdi9Vnwv04RT0A+rGlpS+j94rF0EFUXsgl0UGcm5Ev3bEf
+ SHml+JcaDNOKUdp305T53Zehlbd8bcABwALjY7mOQFg9PWa4R87cj/wVuGn4uOEQ
+ hR807Cgab5W97uzsHA7sL4o8mTuRKFv12QwOBMhHA+8U/XJFY8Q0Qwb7HW8BTSSL
+ aRClD5xFmVKTQYnweesGw==
+X-ME-Sender: <xms:7AtEY1mz6bnBjUqcX-nth4ntnJSbxLGAO8fpg81HjpIfhxxKxGQ__Q>
+ <xme:7AtEYw1vpesKzCKzHvOorGwYTh_BuNtI9Z3wONMsYSs3Ms-JV-EU00fbnAf6e8LzE
+ skRvnHgxlZAhXe4hkU>
+X-ME-Received: <xmr:7AtEY7pOkpR9X0rV0V78_7Cuh1sPUBYJqsTliOO7H3i_SwyoudYaaRuJlGza>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgedggeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
- vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ vedufeeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:5QtEY8MFgron5R1f_odB6VoRLtT5JXnOUrJOLL5hV0M-Qlc-TDf54g>
- <xmx:5QtEY19qkeDG5YAd9jl1ZNDZycshIGepxAYuM_k0nKSWfkpGfbIOrQ>
- <xmx:5QtEY8VA9jXJ7T7C6YLlM5wnwRvcDcA9pRYHyr-JKWOdsEWOscBxtw>
- <xmx:5QtEY9ZJTEGB3BouwwzvaA7Y9wir_JLe6aSh1T7PQj6YBrgYPVQ7AnZfwVw>
+X-ME-Proxy: <xmx:7AtEY1kNYtmgwSM6iJoTMnSepwLYV5-pX3I1KmT7B7QpsRxhvUF5GA>
+ <xmx:7AtEYz1pDV8ARLwjOCDaszudrMvMqIVUpBkAhEN0XLLZs6dAXND_0g>
+ <xmx:7AtEY0s5ZfAmEY9kBp08SP81Jr0bda_8my4lpExAu5xI6IHacusG5w>
+ <xmx:7AtEY7RWlXQL37Vl35Ag7ATDw_G_jYLjKbqWn4fO3ORRQlZKOGDzX61CLps>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Oct 2022 08:11:16 -0400 (EDT)
+ 10 Oct 2022 08:11:23 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
- Ben Skeggs <bskeggs@redhat.com>,
+To: Karol Herbst <kherbst@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
- David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, Maxime Ripard <maxime@cerno.tech>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: (subset) [PATCH v4 12/30] drm/modes: Only consider bpp and
- refresh before options
-Date: Mon, 10 Oct 2022 14:10:40 +0200
-Message-Id: <166540374295.183315.12011253963127991638.b4-ty@cerno.tech>
+ Ben Skeggs <bskeggs@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Emma Anholt <emma@anholt.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: (subset) [PATCH v4 13/30] drm/modes: parse_cmdline: Add support
+ for named modes containing dashes
+Date: Mon, 10 Oct 2022 14:10:41 +0200
+Message-Id: <166540374295.183315.13152036706758597010.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220728-rpi-analog-tv-properties-v4-12-60d38873f782@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v4-13-60d38873f782@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
- <20220728-rpi-analog-tv-properties-v4-12-60d38873f782@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v4-13-60d38873f782@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -108,13 +107,13 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Sep 2022 18:31:06 +0200, Maxime Ripard wrote:
-> Some video= options might have a value that contains a dash. However, the
-> command line parsing mode considers all dashes as the separator between the
-> mode and the bpp count.
+On Thu, 29 Sep 2022 18:31:07 +0200, Maxime Ripard wrote:
+> From: Geert Uytterhoeven <geert@linux-m68k.org>
 > 
-> Let's rework the parsing code a bit to only consider a dash as the bpp
-> separator if it before a comma, the options separator.
+> It is fairly common for named video modes to contain dashes (e.g.
+> "tt-mid" on Atari, "dblntsc-ff" on Amiga).  Currently such mode names
+> are not recognized, as the dash is considered to be a separator between
+> mode name and bpp.
 > 
 > [...]
 
