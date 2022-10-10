@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961695F9CDF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 12:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 170385F9CDD
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 12:37:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCBC10E1C7;
-	Mon, 10 Oct 2022 10:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ABB510E1FC;
+	Mon, 10 Oct 2022 10:36:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 968FC10E116
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC16210E1FC
  for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 10:36:29 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E17451F8C9;
- Mon, 10 Oct 2022 10:36:27 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 357421F8CA;
+ Mon, 10 Oct 2022 10:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665398187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1665398188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SA+QmncQcPSY1V9DsPzSPLCIUztwoKuqbXielFzRCiU=;
- b=NEjaT/dDtErq0cHmSEIzANVfGYs4OVtPMmtfmNE78Ue19yW9PelAcHD0Ky++2QGKzd/56K
- ilP+h5Rbe6ys7k9pY5qZiaCd+VB0YX2RmVd/vlwfT0EAv0lobeU41KoGzLHIajuHWtQgbK
- FrjbXx5Kdf+OWFlju/ohNoI7gieLPSI=
+ bh=v27vCdJw0V04vxBpklH7BKsiS9syCaWzYc9+LdW1EBM=;
+ b=vvvfqDcckdpYQnbt8RuKX559mNUvGMPcs1y8TutpMKGjDjgi7bkdHFzQcIuqNQn31S4XPV
+ hTckGh28uAJ3pZXOpFhbQigSisCUpw3a/SM3fM1BVC7CfXCuy0IoP9HCMh2K47mAAMMvXc
+ 5sVsK0lRk+dFWhz7pkYnDnONVXhoseg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665398187;
+ s=susede2_ed25519; t=1665398188;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SA+QmncQcPSY1V9DsPzSPLCIUztwoKuqbXielFzRCiU=;
- b=NvZ1dhZfm7AmIS0Z8pODRr20Un+HWOlGJU9q6+bnOPDyKTp8KuCZHPNBeVAggNGpusJsrU
- FYjyTMLOSNeATiAA==
+ bh=v27vCdJw0V04vxBpklH7BKsiS9syCaWzYc9+LdW1EBM=;
+ b=Nt3/kC9iHM53fRqrhcLQUK2KXnwG/1T9ma8O/5+J0FDeic/I0vftmAFXLu7wURx+9dspny
+ tSe1GhX8lkYFQsCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B090413AF9;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E5C5413ACA;
  Mon, 10 Oct 2022 10:36:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IIBPKav1Q2M4LgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8I7lNqv1Q2M4LgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 10 Oct 2022 10:36:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
  ilpo.jarvinen@cs.helsinki.fi
-Subject: [PATCH 3/8] drm/ast: Do not call drm_atomic_add_affected_planes()
-Date: Mon, 10 Oct 2022 12:36:20 +0200
-Message-Id: <20221010103625.19958-4-tzimmermann@suse.de>
+Subject: [PATCH 4/8] drm/ast: Remove cursor double buffering
+Date: Mon, 10 Oct 2022 12:36:21 +0200
+Message-Id: <20221010103625.19958-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221010103625.19958-1-tzimmermann@suse.de>
 References: <20221010103625.19958-1-tzimmermann@suse.de>
@@ -73,43 +73,191 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no need to add planes to the atomic state. Remove the call
-to drm_atomic_add_affected_planes() from ast.
+Update the cursor image via damage handling in-place. The cursor's
+double buffering has no visible effect on the output, so remove it.
 
-On full modesets, the DRM helpers already add a CRTC's planes to the
-atomic state; see drm_atomic_helper_check_modeset(). There's no reason
-to call drm_atomic_add_affected_planes() unconditionally in the CRTC's
-atomic_check() in ast. It's also too late, as the atomic_check() of
-the added planes will not be called before the commit.
+Done in preparation of switching ast to GEM SHMEM helpers. Removing
+double buffering will allow us to use the same data structure for
+primary and cursor plane.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  | 12 ++---
+ drivers/gpu/drm/ast/ast_mode.c | 83 +++++++++++++---------------------
+ 2 files changed, 35 insertions(+), 60 deletions(-)
 
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 2e44b971c3a6..12294c74d0fc 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -96,8 +96,6 @@ enum ast_tx_chip {
+ #define AST_HWC_SIZE		(AST_MAX_HWC_WIDTH * AST_MAX_HWC_HEIGHT * 2)
+ #define AST_HWC_SIGNATURE_SIZE	32
+ 
+-#define AST_DEFAULT_HWC_NUM	2
+-
+ /* define for signature structure */
+ #define AST_HWC_SIGNATURE_CHECKSUM	0x00
+ #define AST_HWC_SIGNATURE_SizeX		0x04
+@@ -110,13 +108,9 @@ enum ast_tx_chip {
+ struct ast_cursor_plane {
+ 	struct drm_plane base;
+ 
+-	struct {
+-		struct drm_gem_vram_object *gbo;
+-		struct iosys_map map;
+-		u64 off;
+-	} hwc[AST_DEFAULT_HWC_NUM];
+-
+-	unsigned int next_hwc_index;
++	struct drm_gem_vram_object *gbo;
++	struct iosys_map map;
++	u64 off;
+ };
+ 
+ static inline struct ast_cursor_plane *
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index e26471ecffb1..059e4906507d 100644
+index 059e4906507d..06ee79ec86f1 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1157,7 +1157,7 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+@@ -837,10 +837,8 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(new_state);
+ 	struct drm_framebuffer *fb = new_state->fb;
+ 	struct ast_private *ast = to_ast_private(plane->dev);
+-	struct iosys_map dst_map =
+-		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].map;
+-	u64 dst_off =
+-		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].off;
++	struct iosys_map dst_map = ast_cursor_plane->map;
++	u64 dst_off = ast_cursor_plane->off;
+ 	struct iosys_map src_map = shadow_plane_state->data[0];
+ 	unsigned int offset_x, offset_y;
+ 	u16 x, y;
+@@ -860,13 +858,9 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 
+ 	ast_update_cursor_image(dst, src, fb->width, fb->height);
+ 
+-	if (new_state->fb != old_state->fb) {
++	if (new_state->fb != old_state->fb)
+ 		ast_set_cursor_base(ast, dst_off);
+ 
+-		++ast_cursor_plane->next_hwc_index;
+-		ast_cursor_plane->next_hwc_index %= ARRAY_SIZE(ast_cursor_plane->hwc);
+-	}
+-
+ 	/*
+ 	 * Update location in HWC signature and registers.
+ 	 */
+@@ -917,17 +911,12 @@ static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
+ static void ast_cursor_plane_destroy(struct drm_plane *plane)
+ {
+ 	struct ast_cursor_plane *ast_cursor_plane = to_ast_cursor_plane(plane);
+-	size_t i;
+-	struct drm_gem_vram_object *gbo;
+-	struct iosys_map map;
++	struct drm_gem_vram_object *gbo = ast_cursor_plane->gbo;
++	struct iosys_map map = ast_cursor_plane->map;
+ 
+-	for (i = 0; i < ARRAY_SIZE(ast_cursor_plane->hwc); ++i) {
+-		gbo = ast_cursor_plane->hwc[i].gbo;
+-		map = ast_cursor_plane->hwc[i].map;
+-		drm_gem_vram_vunmap(gbo, &map);
+-		drm_gem_vram_unpin(gbo);
+-		drm_gem_vram_put(gbo);
+-	}
++	drm_gem_vram_vunmap(gbo, &map);
++	drm_gem_vram_unpin(gbo);
++	drm_gem_vram_put(gbo);
+ 
+ 	drm_plane_cleanup(plane);
+ }
+@@ -944,7 +933,7 @@ static int ast_cursor_plane_init(struct ast_private *ast)
+ 	struct drm_device *dev = &ast->base;
+ 	struct ast_cursor_plane *ast_cursor_plane = &ast->cursor_plane;
+ 	struct drm_plane *cursor_plane = &ast_cursor_plane->base;
+-	size_t size, i;
++	size_t size;
+ 	struct drm_gem_vram_object *gbo;
+ 	struct iosys_map map;
  	int ret;
+@@ -957,29 +946,27 @@ static int ast_cursor_plane_init(struct ast_private *ast)
  
- 	if (!crtc_state->enable)
--		goto out;
-+		return 0;
+ 	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
  
- 	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
- 	if (ret)
-@@ -1191,8 +1191,7 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 	if (!succ)
- 		return -EINVAL;
+-	for (i = 0; i < ARRAY_SIZE(ast_cursor_plane->hwc); ++i) {
+-		gbo = drm_gem_vram_create(dev, size, 0);
+-		if (IS_ERR(gbo)) {
+-			ret = PTR_ERR(gbo);
+-			goto err_hwc;
+-		}
+-		ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM |
+-					    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
+-		if (ret)
+-			goto err_drm_gem_vram_put;
+-		ret = drm_gem_vram_vmap(gbo, &map);
+-		if (ret)
+-			goto err_drm_gem_vram_unpin;
+-		off = drm_gem_vram_offset(gbo);
+-		if (off < 0) {
+-			ret = off;
+-			goto err_drm_gem_vram_vunmap;
+-		}
+-		ast_cursor_plane->hwc[i].gbo = gbo;
+-		ast_cursor_plane->hwc[i].map = map;
+-		ast_cursor_plane->hwc[i].off = off;
++	gbo = drm_gem_vram_create(dev, size, 0);
++	if (IS_ERR(gbo))
++		return PTR_ERR(gbo);
++
++	ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM |
++				    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
++	if (ret)
++		goto err_drm_gem_vram_put;
++	ret = drm_gem_vram_vmap(gbo, &map);
++	if (ret)
++		goto err_drm_gem_vram_unpin;
++	off = drm_gem_vram_offset(gbo);
++	if (off < 0) {
++		ret = off;
++		goto err_drm_gem_vram_vunmap;
+ 	}
  
--out:
--	return drm_atomic_add_affected_planes(state, crtc);
-+	return 0;
++	ast_cursor_plane->gbo = gbo;
++	ast_cursor_plane->map = map;
++	ast_cursor_plane->off = off;
++
+ 	/*
+ 	 * Create the cursor plane. The plane's destroy callback will release
+ 	 * the backing storages' BO memory.
+@@ -992,24 +979,18 @@ static int ast_cursor_plane_init(struct ast_private *ast)
+ 				       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
+ 	if (ret) {
+ 		drm_err(dev, "drm_universal_plane failed(): %d\n", ret);
+-		goto err_hwc;
++		goto err_drm_gem_vram_vunmap;
+ 	}
+ 	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
+ 
+ 	return 0;
+ 
+-err_hwc:
+-	while (i) {
+-		--i;
+-		gbo = ast_cursor_plane->hwc[i].gbo;
+-		map = ast_cursor_plane->hwc[i].map;
+ err_drm_gem_vram_vunmap:
+-		drm_gem_vram_vunmap(gbo, &map);
++	drm_gem_vram_vunmap(gbo, &map);
+ err_drm_gem_vram_unpin:
+-		drm_gem_vram_unpin(gbo);
++	drm_gem_vram_unpin(gbo);
+ err_drm_gem_vram_put:
+-		drm_gem_vram_put(gbo);
+-	}
++	drm_gem_vram_put(gbo);
+ 	return ret;
  }
  
- static void
 -- 
 2.37.3
 
