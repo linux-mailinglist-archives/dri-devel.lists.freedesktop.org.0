@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9DC5F9ABC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 10:14:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6F65F9ADC
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 10:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7EA10E464;
-	Mon, 10 Oct 2022 08:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23D5D10E45E;
+	Mon, 10 Oct 2022 08:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9C210E464;
- Mon, 10 Oct 2022 08:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665389648; x=1696925648;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=nD+TiFgre8EfP7ineZy7SVnMlN+CCTdmpGNG1FzZ/l8=;
- b=ANrguG0hoaaHVLeFwcC2oqL4LVQOaD6TbuakA99aNI1MJzSt7LmsnW3h
- KqQY+hZTRGfKkk5oD7L2Sz+RWTNYmVLCGYkAqo+ug28MfUGkJkHEEaygP
- oqdyac3curDQ3ayrWGSe+GXB4xm6quAXhwQPXhtS9tLlj4V2Xsb4R9QPB
- 9mmKjG/XYRASnywBB+0suYhNFeiM0a4VNky3AIn/BpeHvVGcaxlDQjiY0
- lDPU4z8QsDgmlyBEiWMIzuQYvcS32F2ZB5vwbBb4Myo2j5SxaTxHX/exi
- X9OdfgaE82O0B2gLcjBJQTADBF6i9Ke9h3MtX1y23C1cCCUe10Lmk9UDM A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="302908689"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="302908689"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 01:14:05 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="694544256"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="694544256"
-Received: from liammurp-mobl1.ger.corp.intel.com (HELO [10.213.197.233])
- ([10.213.197.233])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 01:14:03 -0700
-Message-ID: <96ba4258-4195-3a6a-e296-291f93a0b8de@linux.intel.com>
-Date: Mon, 10 Oct 2022 09:14:02 +0100
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B60D10E45E;
+ Mon, 10 Oct 2022 08:19:39 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id q7so9910833ljp.3;
+ Mon, 10 Oct 2022 01:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=I7v62s0tHV0kqa2FitvPMR54Nq/Z11yQVA+Wcx+cd0E=;
+ b=JUqavGJR51tPHny6+NaA1CBU0ntpqclouIJ6sEEmeJrmivsedgMh8GN8bTWaVhJj1A
+ yDBP6hhQ+illg1bv1/6MI4WTRgmY5P7twh1rE9Olse2sf4XO9ESFDKBQ03VHy+iQ5AGO
+ 4rulxXW0sF6Nz7MQAUFrf9RL2VvE9jxF8vPdKUtqa8xx+Z6kbIRkzpWgxiA2QpIy6dE4
+ xo9SWvZusi4tXpSz3STfVt72sS2YLZIOeZ6ByTL9dSOaslNeD2g13YJknSE1KgVcrLvy
+ j6NR88VZjVUhBbbADFp3WUQEglfvWt4JJwkzCl4SAsfT7ZOYX1jq90HOWPUYmvdn1mSZ
+ zV0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=I7v62s0tHV0kqa2FitvPMR54Nq/Z11yQVA+Wcx+cd0E=;
+ b=jx1ANirh9dgX4v12/Ae7fb4o1/24RK3qVVEc5WeFJaf3JjBO/RbLz/7qBq+LWJwEb6
+ RkPFsc/+BKH14fb2mvs+LMfOnh5HOVOU4Vzc8G6GWKZM9F/paMkBlJIuaNAR3Qfm11xe
+ WjCr/QM08KtMLxIH9K2OwKhrzN7yQzYuSa3rSbLbAv2s5gklwkfQWw8ef4bEBABy2la6
+ vi+EnCaWkVKllkGTGBzW/dAPhivg8GabbrPWFSlN4NWGbRlO317mzw25SQXpYXvhCvrT
+ 5aH1twsgWJvo2dWn5ztNHzEo6JhQ2Wnk4OwyPLxkdBNwrJoOtHpNKdzmLoubfVjFLtwH
+ tnDg==
+X-Gm-Message-State: ACrzQf1tXfuzdTiO7E5RiKY8WQqejD8TiR19rrI8kzAoi4MfxCq0n1b0
+ RKsRQ7uu0ecSL8uEhPWmLQE=
+X-Google-Smtp-Source: AMsMyM5SkyaQoAN0dhC+lUw/M4RUAUVBN5jpyX+JJIUTJjbKA9oArrexEuT3pso0e24BrpVW6s7gJw==
+X-Received: by 2002:a05:651c:1504:b0:26c:6331:3463 with SMTP id
+ e4-20020a05651c150400b0026c63313463mr6653833ljf.30.1665389977373; 
+ Mon, 10 Oct 2022 01:19:37 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ x17-20020a056512047100b0049496608d58sm1318250lfd.155.2022.10.10.01.19.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 01:19:37 -0700 (PDT)
+Date: Mon, 10 Oct 2022 11:19:34 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH] drm/syncobj: add IOCTL to register an eventfd for a
+ timeline
+Message-ID: <20221010111934.1e1d84ac@eldfell>
+In-Reply-To: <20221009144001.161124-1-contact@emersion.fr>
+References: <20221009144001.161124-1-contact@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH] drm/i915/perf: remove redundant variable 'taken'
-Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Colin Ian King <colin.i.king@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20221007195345.2749911-1-colin.i.king@gmail.com>
- <6a57b91b-8614-6596-ae0f-acce6a31d161@wanadoo.fr>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <6a57b91b-8614-6596-ae0f-acce6a31d161@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,86 +70,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>, James Jones <jajones@nvidia.com>,
+ dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 08/10/2022 12:55, Christophe JAILLET wrote:
-> Le 07/10/2022 à 21:53, Colin Ian King a écrit :
->> The assignment to variable taken is redundant and so it can be
->> removed as well as the variable too.
->>
->> Cleans up clang-scan build warnings:
->> warning: Although the value stored to 'taken' is used in the enclosing
->> expression, the value is never actually read from 'taken'
->> [deadcode.DeadStores]
-> 
-> Hi,
-> 
-> #define OA_TAKEN(tail, head)    ((tail - head) & (OA_BUFFER_SIZE - 1))
-> 
-> So if the result is not used, maybe calling OA_TAKEN() can be removed as 
-> well?
-> It looks like a no-op in such a case.
+On Sun, 09 Oct 2022 14:40:14 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-AFAICS result is used, just the copy/local variable is not.
+> Introduce a new DRM_IOCTL_SYNCOBJ_TIMELINE_REGISTER_EVENTFD IOCTL
+> which signals an eventfd when a timeline point completes.
+>=20
+> This is useful for Wayland compositors to handle wait-before-submit.
+> Wayland clients can send a timeline point to the compositor
+> before the point has materialized yet, then compositors can wait
+> for the point to materialize via this new IOCTL.
+>=20
+> The existing DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT IOCTL is not suitable
+> because it blocks. Compositors want to integrate the wait with
+> their poll(2)-based event loop.
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Cc: Daniel Stone <daniel@fooishbar.org>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: James Jones <jajones@nvidia.com>
+> ---
+>  drivers/gpu/drm/drm_internal.h |   3 +
+>  drivers/gpu/drm/drm_ioctl.c    |   3 +
+>  drivers/gpu/drm/drm_syncobj.c  | 113 +++++++++++++++++++++++++++++++--
+>  include/drm/drm_syncobj.h      |   6 +-
+>  include/uapi/drm/drm.h         |  15 +++++
+>  5 files changed, 133 insertions(+), 7 deletions(-)
 
-For the patch:
+...
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 642808520d92..359e21414196 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -909,6 +909,20 @@ struct drm_syncobj_timeline_wait {
+>  	__u32 pad;
+>  };
+> =20
 
-Thanks for the cleanup, will merge.
+Hi,
 
-Regards,
+I'm completely clueless about this API.
 
-Tvrtko
+> +/**
+> + * struct drm_syncobj_timeline_register_eventfd
+> + *
+> + * Register an eventfd to be signalled when a timeline point completes. =
+The
+> + * eventfd counter will be incremented by one.
+
+Sounds nice.
+
+Since the action is to increment the counter by one, does it mean it
+will be possible to wait for a bunch of completions and have the
+eventfd poll return only when they have all signaled?
+
+> + */
+> +struct drm_syncobj_timeline_register_eventfd {
+> +	__u32 handle;
+
+Handle of what?
+
+> +	__u32 flags;
+
+What flags are allowed? Must be zero for now?
+
+> +	__u64 point;
+
+Is this some Vulkan thingy?
+
+> +	__s32 fd;
+
+I guess the userspace needs to create an eventfd first, and pass it as
+the argument here? This is not creating a new eventfd itself?
+
+> +	__u32 pad;
+
+Must be zero?
 
 
-> 
-> CJ
-> 
->>
->> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->> ---
->>   drivers/gpu/drm/i915/i915_perf.c | 6 ++----
->>   1 file changed, 2 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_perf.c 
->> b/drivers/gpu/drm/i915/i915_perf.c
->> index 0defbb43ceea..15816df916c7 100644
->> --- a/drivers/gpu/drm/i915/i915_perf.c
->> +++ b/drivers/gpu/drm/i915/i915_perf.c
->> @@ -656,7 +656,6 @@ static int gen8_append_oa_reports(struct 
->> i915_perf_stream *stream,
->>       size_t start_offset = *offset;
->>       unsigned long flags;
->>       u32 head, tail;
->> -    u32 taken;
->>       int ret = 0;
->>       if (drm_WARN_ON(&uncore->i915->drm, !stream->enabled))
->> @@ -692,7 +691,7 @@ static int gen8_append_oa_reports(struct 
->> i915_perf_stream *stream,
->>       for (/* none */;
->> -         (taken = OA_TAKEN(tail, head));
->> +         OA_TAKEN(tail, head);
->>            head = (head + report_size) & mask) {
->>           u8 *report = oa_buf_base + head;
->>           u32 *report32 = (void *)report;
->> @@ -950,7 +949,6 @@ static int gen7_append_oa_reports(struct 
->> i915_perf_stream *stream,
->>       size_t start_offset = *offset;
->>       unsigned long flags;
->>       u32 head, tail;
->> -    u32 taken;
->>       int ret = 0;
->>       if (drm_WARN_ON(&uncore->i915->drm, !stream->enabled))
->> @@ -984,7 +982,7 @@ static int gen7_append_oa_reports(struct 
->> i915_perf_stream *stream,
->>       for (/* none */;
->> -         (taken = OA_TAKEN(tail, head));
->> +         OA_TAKEN(tail, head);
->>            head = (head + report_size) & mask) {
->>           u8 *report = oa_buf_base + head;
->>           u32 *report32 = (void *)report;
-> 
+Thanks,
+pq
+
+> +};
+> +
+> =20
+>  struct drm_syncobj_array {
+>  	__u64 handles;
+> @@ -1095,6 +1109,7 @@ extern "C" {
+>  #define DRM_IOCTL_SYNCOBJ_QUERY		DRM_IOWR(0xCB, struct drm_syncobj_timel=
+ine_array)
+>  #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_tra=
+nsfer)
+>  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_sync=
+obj_timeline_array)
+> +#define DRM_IOCTL_SYNCOBJ_TIMELINE_REGISTER_EVENTFD	DRM_IOWR(0xCE, struc=
+t drm_syncobj_timeline_register_eventfd)
+> =20
+>  /**
+>   * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
+
+
+--Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmND1ZYACgkQI1/ltBGq
+qqc/Vw//dO05Xqq4ZYZG1BPfH1+1V7JZk/UzAHpK0CmTmDDZbRJJA19gE3jJhmeV
+MgouxAN7KnDebR1pzCPOCvSJNY41/aZcPTjlUDnUfXMrd1O8Ii6LJrCaUoVPHjJ/
+1bKA0cdv+B0I00jiUP2kj8HPPB4sduuXVrp0CS90BjJZ3oTD7YKuNh4a4/uVG3S9
+H6FwasjzPiKjLHK7HwuQESo+HwYZ0Sl1TgaKT8HxcD9QekzTA5lUsqGQuZnnH1Aw
+xuktp3Za23cj5pjqXkSLHoOO26BWsqBLLKiQPqBWeNfVizyykZ2VxgPj6DsbeVNv
+NOu4ikPBA9PxjKiNfxh5ZB++K+uJrYsSa7+7se0n+JGFe7EXnm0Oh6RXl5BF8QVk
+IwjSJQEUdtKmrgOjY+0TP7mUrDrmGEzKKUh+j3BDyKdTVi3YS8BkKu+KowBgbNnC
+dOCBBALUP1kAG9DeSerdvn3j28YBBIT0ezGjxuaiOEXcmIT9dmpjyrITXwPQYxRt
+m9FKh0jgGq/93sebaEWYSmAbH/QEHQDGrdKS/6s1pR5D+dwSMHabJg9hdYETLwxQ
+wtNTtwOn/B6AiMf0wvqJ1o0zuChYk82+YUAbkJjcTLcBUd2SkqL/qLc1WiZ3GjrQ
+KjwTGxDt2lhOs4hurQ8azLT4YAMZ6oBuZLxV6gA5ogl9TOR0cVY=
+=IgOZ
+-----END PGP SIGNATURE-----
+
+--Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q--
