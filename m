@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DC85F9BB4
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 11:14:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB91A5F9BC0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 11:20:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8AD10E472;
-	Mon, 10 Oct 2022 09:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD49210E47B;
+	Mon, 10 Oct 2022 09:20:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B96A410E472;
- Mon, 10 Oct 2022 09:13:38 +0000 (UTC)
-Date: Mon, 10 Oct 2022 09:13:32 +0000
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A716E10E47B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 09:20:39 +0000 (UTC)
+Date: Mon, 10 Oct 2022 09:20:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1665393216; x=1665652416;
- bh=IhRc9ME0XQmtrkMr2qik0mhB74Aw0ir+9hohPtD/58c=;
+ s=protonmail3; t=1665393637; x=1665652837;
+ bh=kHPdIhM/Em5TO8ucghJIMTRtpzIEcDmFHgtYfmJo+vE=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID;
- b=fgW0UsmkctKWoaFhMyxha5TSkhhKQeycW+AtTL+3fGTlQwGMSz84K+x9NmJ7rKkxW
- 1id1Z+w1kMA5BeMtytnvEYamAwvLZg1L8Ye45gKRbbMhrp42D7hjozq/pTPOTKngVm
- dxkqRKNxgxt/BeEmllHsng+RG9j6Pz4jHRryPGI/EzpsdqxzNuhy2CmUrLLRRctZ1O
- 0Fel8gIXNTonAfyafrfnw4td6IcXf+1dptvNCjOv+YECrAkddOPb50hyR+OcYI2hqS
- 2zn3mFv0RdD8HFX6zFYelnh3WP1Q5Btha8+KJzUaMdSIKtYm6Da65kuRWEAMs0JtFP
- 7ttVy0IVFKzhg==
-To: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ b=UL/ef02js72MkEdyXCWhYb9nJoYRvVCxaFOLZ1ChDQXxN8sb4zOBtIehDdk9+0wy/
+ NNxJYCsNzlN5niQ8ve2oVX0xFCiTWfbK/44qRSIGv2cZnwCS5niA8qun6gJygDisU3
+ 743tg85iIyiTKCqqISy/DJQnW2LrALnATml0BqVt8Id0A7gbUuq/BVKiKcRgZEh/4s
+ DXYtAqYWHvvVg/yK6YiUKAnWjvCtMgtT4Gx8Rp7x6ADFLdW2AvhTVZmKH52ORpxI+V
+ 3l5xSY6e2zC9WOs7RXGrLawksIXiP1FW06lvpxVbH1+WC7yUDyC+YJAidq1ijU7zdM
+ hEfs2ptm/MBlw==
+To: Pekka Paalanen <ppaalanen@gmail.com>
 From: Simon Ser <contact@emersion.fr>
 Subject: Re: [RFC PATCH] drm/syncobj: add IOCTL to register an eventfd for a
  timeline
-Message-ID: <YlRyF1ugXQAIFNoNIuFRmDek7S85or_YpAz26fHKaaQIYeCB3RVGSjEaYhw6nI0iH_k6vDjPYeF6ekmVeEgUWyf5V5w4aMm8Z5oVPjGQKh4=@emersion.fr>
-In-Reply-To: <09e87ee7-4500-df21-1e20-641303a67b5c@amd.com>
+Message-ID: <PwH1v2fZRV20Te8iW4axdzC3kwoihXXBTjCXH1OLZKFxW2OcG2Mwz7b2TpgFgb9gtK6hsoHO50aZPg5wjgODd1qi5BjO-LgClq9nbLT4yhw=@emersion.fr>
+In-Reply-To: <20221010111934.1e1d84ac@eldfell>
 References: <20221009144001.161124-1-contact@emersion.fr>
- <09e87ee7-4500-df21-1e20-641303a67b5c@amd.com>
+ <20221010111934.1e1d84ac@eldfell>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -50,35 +50,72 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jason Ekstrand <jason@jlekstrand.net>, James Jones <jajones@nvidia.com>,
- wayland-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sunday, October 9th, 2022 at 20:00, Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
+On Monday, October 10th, 2022 at 10:19, Pekka Paalanen <ppaalanen@gmail.com=
+> wrote:
 
-> Am 09.10.22 um 16:40 schrieb Simon Ser:
+> I'm completely clueless about this API.
+
+No worries!
+
+> > +/**
+> > + * struct drm_syncobj_timeline_register_eventfd
+> > + *
+> > + * Register an eventfd to be signalled when a timeline point completes=
+. The
+> > + * eventfd counter will be incremented by one.
 >=20
-> > Introduce a new DRM_IOCTL_SYNCOBJ_TIMELINE_REGISTER_EVENTFD IOCTL
-> > which signals an eventfd when a timeline point completes.
+> Sounds nice.
 >=20
-> I was entertaining the same though for quite a while, but I would even
-> go a step further and actually always base the wait before signal
-> functionality of the drm_syncobj and the eventfd functionality. That
-> would save us quite a bit of complexity I think.
+> Since the action is to increment the counter by one, does it mean it
+> will be possible to wait for a bunch of completions and have the
+> eventfd poll return only when they have all signaled?
 
-Hm what do you mean exactly? I'm not sure I'm following.
+It is possible to perform the IOCTL multiple times with the same eventfd, b=
+ut
+eventfd semnatics would wake up user-space each time any timeline point
+completes.
 
-> As a general note I think the name
-> DRM_IOCTL_SYNCOBJ_TIMELINE_REGISTER_EVENTFD is just to long, just make
-> that DRM_IOCTL_SYNCOBJ_EVENTFD. Same for the function names as well.
+> > + */
+> > +struct drm_syncobj_timeline_register_eventfd {
+> > +=09__u32 handle;
+>=20
+> Handle of what?
 
-Agreed.
+drm_syncobj handle
 
-> Additional to that I think we should also always have a graceful
-> handling for binary syncobjs. So please try to avoid making this special
-> for the timeline case (the timeline case should of course still be
-> supported).
+> > +=09__u32 flags;
+>=20
+> What flags are allowed? Must be zero for now?
 
-This makes sense to me.
+Same flags as the wait IOCTL.
+
+Must be WAIT_AVAILABLE for now, but I'll implement the zero case as well (s=
+ee
+TODO).
+
+> > +=09__u64 point;
+>=20
+> Is this some Vulkan thingy?
+
+It's a drm_syncobj timeline thing. The timeline contains multiple sync poin=
+ts.
+
+> > +=09__s32 fd;
+>=20
+> I guess the userspace needs to create an eventfd first, and pass it as
+> the argument here? This is not creating a new eventfd itself?
+
+Correct
+
+> > +=09__u32 pad;
+>=20
+> Must be zero?
+
+Indeed.
+
+I'll spell out these requirements explicitly in the next version.
