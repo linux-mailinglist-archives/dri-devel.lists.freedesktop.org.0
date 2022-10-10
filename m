@@ -1,60 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D675FA232
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 18:53:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A67055FA25C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 19:02:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC5C210E02E;
-	Mon, 10 Oct 2022 16:52:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43AEA10E695;
+	Mon, 10 Oct 2022 17:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC84E10E02E
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 16:52:50 +0000 (UTC)
-Received: from [192.168.1.138] ([37.4.248.18]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MWiUg-1ofi0u2rqS-00X4lf; Mon, 10 Oct 2022 18:52:40 +0200
-Message-ID: <dad7dc1b-c94a-4547-260f-5efe50d959e8@i2se.com>
-Date: Mon, 10 Oct 2022 18:52:34 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F99510E68C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 17:02:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665421333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+c3EQZpIPsURLACPBP9f4RJ+bRE7qS3eRh9PTauwjJ8=;
+ b=Zufi3q5ZXEE3b4frhPVXQn1ZtFgUElIBUrFRJ5xC0cDMx3MfC0+hI8FmD7dXaXb59+u45o
+ a5BqvEqEC4hF6X89j/q+oO/zKoQI3o3okff07ntm4T5DxmaMuEsPPjqQdwGq1MGqEvO+cj
+ yq5OXZQPFUhiRvR94DTebtciwdgc2xE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-362-4K610ow1NJWybCW7ToXdig-1; Mon, 10 Oct 2022 13:02:12 -0400
+X-MC-Unique: 4K610ow1NJWybCW7ToXdig-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bg21-20020a05600c3c9500b003c2acbff422so3941475wmb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 10:02:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+c3EQZpIPsURLACPBP9f4RJ+bRE7qS3eRh9PTauwjJ8=;
+ b=yUXDd7/2CCFbjCXBZjg3lkxcsMq8xpspNknfPZ84FBxQiGPOst3Kbv/76vZybIjUuJ
+ J4OLAsw+1dPYTPNlt9O+gVBvMfrfic0gY3d8DNb+t0m5AfLZ+sVcrMn/djt2G0TIx6qB
+ uCtXPB+ekwgEWtBQEv6s74T3Tn6Dx7tc6/lQ2fvP6SjMA6N5eVM8RK8EPOXfrwuF74oc
+ vrDQtJrugsGquuwVcWqqr1OqHB1PBIXffJHiu0dzKZdy2o2piQzBQBvdO/Bq/Z3h4oY5
+ cpuI+90GlIkHq7klezYY2W3CqTDIFTiUK0ROF0wT69Q2/GYRCiqT1rIRXmCkq5OBBPXV
+ bFSA==
+X-Gm-Message-State: ACrzQf3jQcVyP7u+JNHB58fDPJ7B1tOvllGbBW/pltRBcI5ew/uA4YaW
+ UqcU2H0yE4yrvjwz7tNklJgfPU8HWFvpwd0yLWrfX1jPPVOIsuPLiXifpiOkH1FjYCzgIs5e5aY
+ q4VVdm9puFesulu6jTePRcpDzG0NO
+X-Received: by 2002:a05:6000:551:b0:22e:4499:a478 with SMTP id
+ b17-20020a056000055100b0022e4499a478mr12200551wrf.459.1665421330695; 
+ Mon, 10 Oct 2022 10:02:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Qgh7vPJ9S+rl4LeW8JqyrNbCa2SFM/S3yVwBP6AfOtVL67cbLaUPV6uIlzV1fKYJjvcIUXg==
+X-Received: by 2002:a05:6000:551:b0:22e:4499:a478 with SMTP id
+ b17-20020a056000055100b0022e4499a478mr12200529wrf.459.1665421330447; 
+ Mon, 10 Oct 2022 10:02:10 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ z5-20020a056000110500b0022b11a27e39sm9160551wrw.1.2022.10.10.10.02.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 10:02:09 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Add a drm_crtc_helper_atomic_check() helper
+Date: Mon, 10 Oct 2022 19:02:00 +0200
+Message-Id: <20221010170203.274949-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 3/7] firmware: raspberrypi: Provide a helper to query a
- clock max rate
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
- Florian Fainelli <f.fainelli@gmail.com>, David Airlie <airlied@linux.ie>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>,
- Emma Anholt <emma@anholt.net>, Ray Jui <rjui@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <20220815-rpi-fix-4k-60-v2-0-983276b83f62@cerno.tech>
- <20220815-rpi-fix-4k-60-v2-3-983276b83f62@cerno.tech>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20220815-rpi-fix-4k-60-v2-3-983276b83f62@cerno.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:xVuX/w3ngCM1Xs7bP8l36ga2yBUkRfiC5SZVOLDFVuhbEbaUOi8
- Ht7lb7ZE0v89ORFIUFBR3EcZ9hByi6Wj9zTVx7WihMoqFLggY4vIEi3SRcUo5lzctKBWVDl
- L8Gov+ZguoxDyaPpHg1BGnNdtyuV4Hhzy7JnX503K6i9Kqtpfv8Rh3VcY1VLf7i3vxUW7kD
- FfUhE94nGdfGvl/vyyTZg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5jfDTjv99BA=:IqmBkuyekdtld/M89dBtQF
- Re7hifvYF4SBrKs+GlGnEcCgnpAL27uhTcZxU6FwVTA1Atb1kKb3c6KYguBswF3V+LHTMFIE8
- iKC/Z25dkIn6jUSZcg+W8T5FLEat5RkJbiUpFM/YyWHDc1hG4ujgoLK9LuurOH7uiFdwIw2bw
- HizfQ8BBCHTJlpBNxhLDv9igdI3GKH3En7g6MXgd0q0Dtb+xFFS8luEGgozvqQXgIa1Yxufpr
- 3RV8WkouAR7J1uqEDaJrPGHPxFIsmvn3PYzaL0DZQr04PCKdFHq9nZWDWv+atNLguhDzPY4Ox
- Q8/P4OhVfdSuAVD2dKtPVB+RHOK3PbeQX5PXUTnd5c8oZueCeG9AFZeblw/9S6xX0yecvr1Zn
- NsfpxZTGks4bNSTtS49ngIgIVvCa8VBTVG7N/QRNNVmJof5lLPQoxzpPneg8zr+1cPql7B/Xe
- 3pBjaefrK4IfV+omLR/Y5WM7u0AtLKTjsKPFcR5J/CtBQGnoQ1NOjIXdWLVrHZ2lhdCaSFUzD
- a0eWFkkh5fsYlNdY3em51JWS0ZpllGLqZlFCiBHsonj53esckRkG/xtXWrSoCRPBJwrpYjO/Q
- 6QW3BLaXZNvNd7eXY7+jMAOwxF+sh5qEJo8xdixvnvwki7jZqmXfTJASGhjVi7NrQg85mDKge
- Dj7HStZnsIgmNFYivHIjF5zCbnNkwk2qoEO7AmJ5EuoAd7ti9p3t6TuFcwr8B4aupReULQszC
- yp/oR6C1WX6AzW6Lco3hq4duehQwPdrVXCIntIJALv9JkZs3IfSXbeDD5mYKnC9z5eDzf4t9d
- 0Z/ASLcbS5dnvytm4o+eTp6AuRPqw==
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,99 +80,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Add a helper function and make drivers that have the same logic in their
+struct drm_crtc_helper_funcs .atomic_check handler to use this instead.
 
-Am 20.09.22 um 14:50 schrieb Maxime Ripard:
-> The firmware allows to query for its clocks the operating range of a
-> given clock. We'll need this for some drivers (KMS, in particular) to
-> infer the state of some configuration options, so let's create a
-> function to do so.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberrypi.c
-> index b916e1e171f8..c4b9ea70f5a7 100644
-> --- a/drivers/firmware/raspberrypi.c
-> +++ b/drivers/firmware/raspberrypi.c
-> @@ -228,6 +228,21 @@ static void rpi_register_clk_driver(struct device *dev)
->   						-1, NULL, 0);
->   }
->   
-> +unsigned int rpi_firmware_clk_get_max_rate(struct rpi_firmware *fw, unsigned int id)
-> +{
-> +	struct rpi_firmware_clk_rate_request msg =
-> +		RPI_FIRMWARE_CLK_RATE_REQUEST(id);
-> +	int ret;
-> +
-> +	ret = rpi_firmware_property(fw, RPI_FIRMWARE_GET_MAX_CLOCK_RATE,
-> +				    &msg, sizeof(msg));
-> +	if (ret)
-> +		return 0;
-> +
-> +	return le32_to_cpu(msg.rate);
-> +}
-> +EXPORT_SYMBOL_GPL(rpi_firmware_clk_get_max_rate);
-> +
->   static void rpi_firmware_delete(struct kref *kref)
->   {
->   	struct rpi_firmware *fw = container_of(kref, struct rpi_firmware,
-> diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
-> index 74c7bcc1ac2a..10248c370229 100644
-> --- a/include/soc/bcm2835/raspberrypi-firmware.h
-> +++ b/include/soc/bcm2835/raspberrypi-firmware.h
-> @@ -154,12 +154,32 @@ enum rpi_firmware_clk_id {
->   	RPI_FIRMWARE_NUM_CLK_ID,
->   };
->   
-> +/**
-> + * struct rpi_firmware_clk_rate_request - Firmware Request for a rate
-> + * @id:	ID of the clock being queried
-> + * @rate: Rate in Hertz. Set by the firmware.
-> + *
-> + * Used by @RPI_FIRMWARE_GET_CLOCK_RATE, @RPI_FIRMWARE_GET_CLOCK_MEASURED,
-> + * @RPI_FIRMWARE_GET_MAX_CLOCK_RATE and @RPI_FIRMWARE_GET_MIN_CLOCK_RATE.
-> + */
-> +struct rpi_firmware_clk_rate_request {
-> +	__le32 id;
-> +	__le32 rate;
-> +} __packed;
-> +
-> +#define RPI_FIRMWARE_CLK_RATE_REQUEST(_id)	\
-> +	{					\
-> +		.id = _id,			\
-> +	}
-> +
->   #if IS_ENABLED(CONFIG_RASPBERRYPI_FIRMWARE)
->   int rpi_firmware_property(struct rpi_firmware *fw,
->   			  u32 tag, void *data, size_t len);
->   int rpi_firmware_property_list(struct rpi_firmware *fw,
->   			       void *data, size_t tag_size);
->   void rpi_firmware_put(struct rpi_firmware *fw);
-> +unsigned int rpi_firmware_clk_get_max_rate(struct rpi_firmware *fw,
-> +					   unsigned int id);
->   struct device_node *rpi_firmware_find_node(void);
->   struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node);
->   struct rpi_firmware *devm_rpi_firmware_get(struct device *dev,
-> @@ -179,6 +199,12 @@ static inline int rpi_firmware_property_list(struct rpi_firmware *fw,
->   
->   static inline void rpi_firmware_put(struct rpi_firmware *fw) { }
->   
-> +static inline unsigned int rpi_firmware_clk_get_max_rate(struct rpi_firmware *fw,
-> +							 unsigned int id)
-> +{
-> +	return UINT_MAX;
-In case the driver is disabled the function return UINT_MAX, but in case 
-the firmware doesn't support RPI_FIRMWARE_GET_MAX_CLOCK_RATE it returns 
-0. This looks a little bit inconsistent to me.
-> +}
-> +
->   static inline struct device_node *rpi_firmware_find_node(void)
->   {
->   	return NULL;
->
+Patch #1 and #2 are just cleanups for the simpledrm and ssd130x drivers
+respectively, so that these can be converted to use the helper added by
+patch #3. The changes are inspired by a patch from Thomas Zimmermann for
+the ast DRM driver:
+
+https://patchwork.kernel.org/project/dri-devel/patch/20221010103625.19958-4-tzimmermann@suse.de/
+
+Best regards,
+Javier
+
+
+Javier Martinez Canillas (3):
+  drm/simpledrm: Do not call drm_atomic_add_affected_planes()
+  drm/ssd130x: Do not call drm_atomic_add_affected_planes()
+  drm/crtc-helper: Add a drm_crtc_helper_atomic_check() helper
+
+ drivers/gpu/drm/drm_crtc_helper.c | 24 ++++++++++++++++++++++++
+ drivers/gpu/drm/solomon/ssd130x.c | 20 ++------------------
+ drivers/gpu/drm/tiny/simpledrm.c  | 20 ++------------------
+ include/drm/drm_crtc_helper.h     |  2 ++
+ 4 files changed, 30 insertions(+), 36 deletions(-)
+
+-- 
+2.37.3
+
