@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612B65FA0D6
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 17:02:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A5D5FA19E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 18:14:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5702B10E160;
-	Mon, 10 Oct 2022 15:02:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 939AC10E644;
+	Mon, 10 Oct 2022 16:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A0810E160
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 15:02:18 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id x13so4265170qkg.11
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 08:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=JPpRFGUSIzoMt8LN/733E0Q61TnN1honsnVXyQzS8nQ=;
- b=YWw9F5NqwHJKULwpoQ7j8sd1pHsI/tRs2AAi7xIwk2hHPgS6mZwzAcXsXCzXOFxu4S
- FUQaMdJ2T9h/ohlbIODgD5MoUt+0gmFb45h0cHwBPE2jI8fwIp8DhN1xSmiItfedprmC
- n+faJyyD7eMSSVutGz4fYsVQy9qa4wwxeHUz0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JPpRFGUSIzoMt8LN/733E0Q61TnN1honsnVXyQzS8nQ=;
- b=68/e+BDuimlkoZSWLpAtO2o10qZsIoQNwrVARYVj3aRb1IAmdDnnngHYnZczc0TfFM
- FTxiC8tn2iol2i9MBcHTtWgenaVQYdNqm9eKwape1t8y5H8v/H0tsIIMSoz2NJ8XwR0C
- 9Sqr4j5H5snXqkGrIOI0dWDV4/ul7gsGdhsFWBBrJ8fLek/KysXhZ6vYD24BRstfI5T5
- wjAsH1nYFiXwMplBMwvDdg09hQwek4/o+40lsnZIrUcFixW/KtlImmivZqe7f1sO/CE+
- AFGKOT9Uib8J11Kt+kHrDv/6Qgh6TlvZN12L4l2qEUP0/iXEom6oJwup1Yxg1oW6Prnu
- zmqg==
-X-Gm-Message-State: ACrzQf0qaWZvyFhBHs2FQmQH18KsKrH7NGEoqgxLG56gAlyTmabKVwvJ
- lWCrJS8KLtjSAUopjFIyHKRggg==
-X-Google-Smtp-Source: AMsMyM67eP6HZcp+OcUHO0E+qb1WIO7Z0QEgYUu5V2+IPK4meel8MY9AeyZFLVxF7/8ean+Sd/g7gQ==
-X-Received: by 2002:a37:9ac8:0:b0:6ea:a959:3eb5 with SMTP id
- c191-20020a379ac8000000b006eaa9593eb5mr8447012qke.551.1665414136939; 
- Mon, 10 Oct 2022 08:02:16 -0700 (PDT)
-Received: from greenjustin3.nyc.corp.google.com
- ([2620:0:1003:314:928d:3251:f739:a1c1])
- by smtp.gmail.com with ESMTPSA id
- g11-20020a05620a40cb00b006bbe6e89bdcsm10844690qko.31.2022.10.10.08.02.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 08:02:16 -0700 (PDT)
-From: Justin Green <greenjustin@chromium.org>
-X-Google-Original-From: Justin Green <greenjustin@google.com>
-To: linux-mediatek@lists.infradead.org,
-	dri-devel@lists.freedesktop.org
-Subject: [RESEND PATCH v2] drm/mediatek: Add AFBC support to Mediatek DRM
- driver
-Date: Mon, 10 Oct 2022 11:01:57 -0400
-Message-Id: <20221010150157.1864492-1-greenjustin@google.com>
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E48410E09E;
+ Mon, 10 Oct 2022 16:13:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665418422; x=1696954422;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+GnKQymPsYATRSI5yb7Bd5HK1vC03S4wrRHbxlsnxUc=;
+ b=QHJi20t0TB0TxkrY6GTaEqHmLw83wMOx13Ojay7a7Q5u5131Drz2WcCe
+ OlL46vz8H1rYtokREJMbec/Z/tVcm1B4zvhtcBIfo6zPJ93X3BtYt5w6M
+ uesMJ2E3IZagKaivhb2fpbWMeMdJBfWjnwm0+37dTT1dIopUX46RIYHKt
+ EcoCpygzYHWu7adWD68dcVAkVwO9BKT4fCTHupNlniPfK/nydet/BNX0S
+ C9ib1EE3q+i2uxIBYRigNkTdnt++Vwr14NAuLIYzOodpSDeJXP4Ibbp6d
+ Q56DkvtdqRNPipTQPDsvtT7F5F3ojONcNB033UhhjODrmkT2ZpU3EPfy5 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="283994856"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="283994856"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2022 09:12:11 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="871154895"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="871154895"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2022 09:12:10 -0700
+Date: Mon, 10 Oct 2022 09:11:48 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH v3 07/17] drm/i915/vm_bind: Add support to handle object
+ evictions
+Message-ID: <20221010161146.GE1773@nvishwa1-DESK>
+References: <20221010065826.32037-1-niranjana.vishwanathapura@intel.com>
+ <20221010065826.32037-8-niranjana.vishwanathapura@intel.com>
+ <b7bbe2fa-9dab-8a6d-bda0-a505ae0660dc@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <b7bbe2fa-9dab-8a6d-bda0-a505ae0660dc@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,321 +60,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, Justin Green <greenjustin@chromium.org>,
- airlied@linux.ie, jason-jh.lin@mediatek.com, justin.yeh@mediatek.com,
- wenst@chromium.org, matthias.bgg@gmail.com
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Justin Green <greenjustin@chromium.org>
+On Mon, Oct 10, 2022 at 02:30:49PM +0100, Matthew Auld wrote:
+>On 10/10/2022 07:58, Niranjana Vishwanathapura wrote:
+>>Support eviction by maintaining a list of evicted persistent vmas
+>>for rebinding during next submission. Ensure the list do not
+>>include persistent vmas that are being purged.
+>>
+>>v2: Remove unused I915_VMA_PURGED definition.
+>>v3: Properly handle __i915_vma_unbind_async() case.
+>>
+>>Acked-by: Matthew Auld <matthew.auld@intel.com>
+>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>---
+>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  6 ++++
+>>  drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 ++
+>>  drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +++
+>>  drivers/gpu/drm/i915/i915_vma.c               | 31 +++++++++++++++++--
+>>  drivers/gpu/drm/i915/i915_vma.h               | 10 ++++++
+>>  drivers/gpu/drm/i915/i915_vma_types.h         |  8 +++++
+>>  6 files changed, 59 insertions(+), 2 deletions(-)
+>>
+>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>index 8e3e6ceb9442..c435d49af2c8 100644
+>>--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>@@ -85,6 +85,12 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+>>  {
+>>  	lockdep_assert_held(&vma->vm->vm_bind_lock);
+>>+	spin_lock(&vma->vm->vm_rebind_lock);
+>>+	if (!list_empty(&vma->vm_rebind_link))
+>>+		list_del_init(&vma->vm_rebind_link);
+>>+	i915_vma_set_purged(vma);
+>>+	spin_unlock(&vma->vm->vm_rebind_lock);
+>>+
+>>  	list_del_init(&vma->vm_bind_link);
+>>  	list_del_init(&vma->non_priv_vm_bind_link);
+>>  	i915_vm_bind_it_remove(vma, &vma->vm->va);
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>>index 422394f8fb40..2fa37f46750b 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>>+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>>@@ -295,6 +295,8 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
+>>  	INIT_LIST_HEAD(&vm->vm_bound_list);
+>>  	mutex_init(&vm->vm_bind_lock);
+>>  	INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
+>>+	INIT_LIST_HEAD(&vm->vm_rebind_list);
+>>+	spin_lock_init(&vm->vm_rebind_lock);
+>>  }
+>>  void *__px_vaddr(struct drm_i915_gem_object *p)
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>>index 4ae5734f7d6b..443d1918ad4e 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+>>+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>>@@ -265,6 +265,10 @@ struct i915_address_space {
+>>  	struct list_head vm_bind_list;
+>>  	/** @vm_bound_list: List of vm_binding completed */
+>>  	struct list_head vm_bound_list;
+>>+	/* @vm_rebind_list: list of vmas to be rebinded */
+>>+	struct list_head vm_rebind_list;
+>>+	/* @vm_rebind_lock: protects vm_rebound_list */
+>>+	spinlock_t vm_rebind_lock;
+>>  	/* @va: tree of persistent vmas */
+>>  	struct rb_root_cached va;
+>>  	struct list_head non_priv_vm_bind_list;
+>>diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>>index 5d3d67a4bf47..b4be2cbe8382 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma.c
+>>+++ b/drivers/gpu/drm/i915/i915_vma.c
+>>@@ -241,6 +241,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>>  	INIT_LIST_HEAD(&vma->vm_bind_link);
+>>  	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
+>>+	INIT_LIST_HEAD(&vma->vm_rebind_link);
+>>  	return vma;
+>>  err_unlock:
+>>@@ -1686,6 +1687,14 @@ static void force_unbind(struct i915_vma *vma)
+>>  	if (!drm_mm_node_allocated(&vma->node))
+>>  		return;
+>>+	/*
+>>+	 * Persistent vma should have been purged by now.
+>>+	 * If not, issue a warning and purge it.
+>>+	 */
+>>+	if (GEM_WARN_ON(i915_vma_is_persistent(vma) &&
+>>+			!i915_vma_is_purged(vma)))
+>>+		i915_vma_set_purged(vma);
+>>+
+>>  	atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+>>  	WARN_ON(__i915_vma_unbind(vma));
+>>  	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+>>@@ -2047,6 +2056,16 @@ int __i915_vma_unbind(struct i915_vma *vma)
+>>  	__i915_vma_evict(vma, false);
+>>  	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
+>>+
+>>+	if (i915_vma_is_persistent(vma)) {
+>>+		spin_lock(&vma->vm->vm_rebind_lock);
+>>+		if (list_empty(&vma->vm_rebind_link) &&
+>>+		    !i915_vma_is_purged(vma))
+>>+			list_add_tail(&vma->vm_rebind_link,
+>>+				      &vma->vm->vm_rebind_list);
+>>+		spin_unlock(&vma->vm->vm_rebind_lock);
+>>+	}
+>>+
+>>  	return 0;
+>>  }
+>>@@ -2059,8 +2078,7 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
+>>  	if (!drm_mm_node_allocated(&vma->node))
+>>  		return NULL;
+>>-	if (i915_vma_is_pinned(vma) ||
+>>-	    &vma->obj->mm.rsgt->table != vma->resource->bi.pages)
+>
+>Hmm that's looks interesting. IIRC we only keep a ref on the rsgt for 
+>the object pages, and not the vma->bi.pages, where the vma pages can 
+>be destroyed before the async unbind completes, which I guess was the 
+>idea behind this check.
+>
+>But in practice it looks the vma->bi.pages are always just some subset 
+>or rearrangement of the objects rsgt pages, if not the same table, so 
+>the device mapping pointed at by the PTEs should still be valid here 
+>(assuming rsgt in not NULL), even if bi.pages gets nuked? I guess this 
+>change should rather be a patch by itself, with proper explanation in 
+>commit message, since this looks mostly orthogonal?
+>
 
-Add AFBC support to Mediatek DRM driver and enable on MT8195.
+Yah, I am not sure about the intent of this check. It is expecting the
+vma->resource->bi.pages to just point to the sg table of the object
+(vma->obj->mm.rsgt->table) which is reference counted, instead of
+decoupling it as you mentioned above. Also, the return code -EAGAIN
+is bit confusing to me as I am not sure how trying again will fix it.
 
-Tested on MT8195 and confirmed both correct video output and improved DRAM
-bandwidth performance.
+This check was preventing eviction of objects with persistent (vm_bind)
+vmas (Hence the update is in this patch).
+Persistent vmas have I915_GTT_VIEW_PARTIAL, so they will get their sg table
+by calling intel_partial_pages() which creates a new sg table instead of
+pointing to object's sg table (as done in the I915_GTT_VIEW_NORMAL case).]
 
-v2:
-Marked mtk_ovl_set_afbc as static, reflowed some lines to fit column
-limit.
+If the vma is removed before async unbind completes, we probably
+should wait for async unbind to complete before releaseing the vma
+pages? Other option is to have vma point to object's sg table even for
+partial gtt_view (instead of creating a new sg table) and handle
+partial binding during the page table update.
 
-Signed-off-by: Justin Green <greenjustin@chromium.org>
----
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c  | 108 ++++++++++++++++++++---
- drivers/gpu/drm/mediatek/mtk_drm_plane.c |  37 +++++++-
- drivers/gpu/drm/mediatek/mtk_drm_plane.h |   8 ++
- 3 files changed, 140 insertions(+), 13 deletions(-)
+I can also keep the above removed check and only don't check it for
+persistent vmas.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 002b0f6cae1a..1724ea85a840 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -29,17 +29,24 @@
- #define DISP_REG_OVL_DATAPATH_CON		0x0024
- #define OVL_LAYER_SMI_ID_EN				BIT(0)
- #define OVL_BGCLR_SEL_IN				BIT(2)
-+#define OVL_LAYER_AFBC_EN(n)				BIT(4+n)
- #define DISP_REG_OVL_ROI_BGCLR			0x0028
- #define DISP_REG_OVL_SRC_CON			0x002c
- #define DISP_REG_OVL_CON(n)			(0x0030 + 0x20 * (n))
- #define DISP_REG_OVL_SRC_SIZE(n)		(0x0038 + 0x20 * (n))
- #define DISP_REG_OVL_OFFSET(n)			(0x003c + 0x20 * (n))
-+#define DISP_REG_OVL_PITCH_MSB(n)		(0x0040 + 0x20 * (n))
-+#define OVL_PITCH_MSB_2ND_SUBBUF			BIT(16)
-+#define OVL_PITCH_MSB_YUV_TRANS			BIT(20)
- #define DISP_REG_OVL_PITCH(n)			(0x0044 + 0x20 * (n))
-+#define DISP_REG_OVL_CLIP(n)			(0x004c + 0x20 * (n))
- #define DISP_REG_OVL_RDMA_CTRL(n)		(0x00c0 + 0x20 * (n))
- #define DISP_REG_OVL_RDMA_GMC(n)		(0x00c8 + 0x20 * (n))
- #define DISP_REG_OVL_ADDR_MT2701		0x0040
- #define DISP_REG_OVL_ADDR_MT8173		0x0f40
- #define DISP_REG_OVL_ADDR(ovl, n)		((ovl)->data->addr + 0x20 * (n))
-+#define DISP_REG_OVL_HDR_ADDR(ovl, n)		((ovl)->data->addr + 0x20 * (n) + 0x04)
-+#define DISP_REG_OVL_HDR_PITCH(ovl, n)		((ovl)->data->addr + 0x20 * (n) + 0x08)
- 
- #define GMC_THRESHOLD_BITS	16
- #define GMC_THRESHOLD_HIGH	((1 << GMC_THRESHOLD_BITS) / 4)
-@@ -67,6 +74,7 @@ struct mtk_disp_ovl_data {
- 	unsigned int layer_nr;
- 	bool fmt_rgb565_is_0;
- 	bool smi_id_en;
-+	bool supports_afbc;
- };
- 
- /*
-@@ -172,7 +180,22 @@ void mtk_ovl_stop(struct device *dev)
- 		reg = reg & ~OVL_LAYER_SMI_ID_EN;
- 		writel_relaxed(reg, ovl->regs + DISP_REG_OVL_DATAPATH_CON);
- 	}
-+}
-+
-+static void mtk_ovl_set_afbc(struct device *dev, struct cmdq_pkt *cmdq_pkt,
-+			     int idx, bool enabled)
-+{
-+	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+	unsigned int reg;
- 
-+	reg = readl(ovl->regs + DISP_REG_OVL_DATAPATH_CON);
-+	if (enabled)
-+		reg = reg | OVL_LAYER_AFBC_EN(idx);
-+	else
-+		reg = reg & ~OVL_LAYER_AFBC_EN(idx);
-+
-+	mtk_ddp_write_relaxed(cmdq_pkt, reg, &ovl->cmdq_reg,
-+			      ovl->regs, DISP_REG_OVL_DATAPATH_CON);
- }
- 
- void mtk_ovl_config(struct device *dev, unsigned int w,
-@@ -208,6 +231,8 @@ int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
- {
- 	struct drm_plane_state *state = &mtk_state->base;
- 	unsigned int rotation = 0;
-+	unsigned long long modifier;
-+	unsigned int fourcc;
- 
- 	rotation = drm_rotation_simplify(state->rotation,
- 					 DRM_MODE_ROTATE_0 |
-@@ -226,6 +251,30 @@ int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
- 	if (state->fb->format->is_yuv && rotation != 0)
- 		return -EINVAL;
- 
-+	if (state->fb->modifier) {
-+		struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+
-+		if (!ovl->data->supports_afbc)
-+			return -EINVAL;
-+
-+		modifier = state->fb->modifier;
-+
-+		if (modifier != DRM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 |
-+							AFBC_FORMAT_MOD_SPLIT |
-+							AFBC_FORMAT_MOD_SPARSE))
-+			return -EINVAL;
-+
-+		fourcc = state->fb->format->format;
-+		if (fourcc != DRM_FORMAT_BGRA8888 &&
-+		    fourcc != DRM_FORMAT_ABGR8888 &&
-+		    fourcc != DRM_FORMAT_ARGB8888 &&
-+		    fourcc != DRM_FORMAT_XRGB8888 &&
-+		    fourcc != DRM_FORMAT_XBGR8888 &&
-+		    fourcc != DRM_FORMAT_RGB888 &&
-+		    fourcc != DRM_FORMAT_BGR888)
-+			return -EINVAL;
-+	}
-+
- 	state->rotation = rotation;
- 
- 	return 0;
-@@ -310,11 +359,14 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
- 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
- 	struct mtk_plane_pending_state *pending = &state->pending;
- 	unsigned int addr = pending->addr;
--	unsigned int pitch = pending->pitch & 0xffff;
-+	unsigned int hdr_addr = pending->hdr_addr;
-+	unsigned int pitch = pending->pitch;
-+	unsigned int hdr_pitch = pending->hdr_pitch;
- 	unsigned int fmt = pending->format;
- 	unsigned int offset = (pending->y << 16) | pending->x;
- 	unsigned int src_size = (pending->height << 16) | pending->width;
- 	unsigned int con;
-+	bool is_afbc = pending->modifier;
- 
- 	if (!pending->enable) {
- 		mtk_ovl_layer_off(dev, idx, cmdq_pkt);
-@@ -335,16 +387,39 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
- 		addr += pending->pitch - 1;
- 	}
- 
--	mtk_ddp_write_relaxed(cmdq_pkt, con, &ovl->cmdq_reg, ovl->regs,
--			      DISP_REG_OVL_CON(idx));
--	mtk_ddp_write_relaxed(cmdq_pkt, pitch, &ovl->cmdq_reg, ovl->regs,
--			      DISP_REG_OVL_PITCH(idx));
--	mtk_ddp_write_relaxed(cmdq_pkt, src_size, &ovl->cmdq_reg, ovl->regs,
--			      DISP_REG_OVL_SRC_SIZE(idx));
--	mtk_ddp_write_relaxed(cmdq_pkt, offset, &ovl->cmdq_reg, ovl->regs,
--			      DISP_REG_OVL_OFFSET(idx));
--	mtk_ddp_write_relaxed(cmdq_pkt, addr, &ovl->cmdq_reg, ovl->regs,
--			      DISP_REG_OVL_ADDR(ovl, idx));
-+	mtk_ovl_set_afbc(dev, cmdq_pkt, idx, is_afbc);
-+	if (!is_afbc) {
-+		mtk_ddp_write_relaxed(cmdq_pkt, con, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_CON(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, pitch & 0xFFFF, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_PITCH(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, src_size, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_SRC_SIZE(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, offset, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_OFFSET(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, addr, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_ADDR(ovl, idx));
-+	} else {
-+		mtk_ddp_write_relaxed(cmdq_pkt, addr, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_ADDR(ovl, idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, hdr_addr, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_HDR_ADDR(ovl, idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, src_size, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_SRC_SIZE(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt,
-+				      OVL_PITCH_MSB_2ND_SUBBUF | ((pitch >> 16) & 0xFFFF),
-+				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, pitch & 0xFFFF, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_PITCH(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, hdr_pitch, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_HDR_PITCH(ovl, idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, con, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_CON(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, offset, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_OFFSET(idx));
-+		mtk_ddp_write_relaxed(cmdq_pkt, 0, &ovl->cmdq_reg, ovl->regs,
-+				      DISP_REG_OVL_CLIP(idx));
-+	}
- 
- 	mtk_ovl_layer_on(dev, idx, cmdq_pkt);
- }
-@@ -492,6 +567,15 @@ static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
- 	.smi_id_en = true,
- };
- 
-+static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
-+	.addr = DISP_REG_OVL_ADDR_MT8173,
-+	.gmc_bits = 10,
-+	.layer_nr = 4,
-+	.fmt_rgb565_is_0 = true,
-+	.smi_id_en = true,
-+	.supports_afbc = true,
-+};
-+
- static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
- 	  .data = &mt2701_ovl_driver_data},
-@@ -505,6 +589,8 @@ static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
- 	  .data = &mt8192_ovl_driver_data},
- 	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
- 	  .data = &mt8192_ovl_2l_driver_data},
-+	{ .compatible = "mediatek,mt8195-disp-ovl",
-+	  .data = &mt8195_ovl_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_ovl_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index 5c0d9ce69931..734d2554b2b8 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -12,6 +12,7 @@
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_plane_helper.h>
-+#include <linux/align.h>
- 
- #include "mtk_drm_crtc.h"
- #include "mtk_drm_ddp_comp.h"
-@@ -52,6 +53,7 @@ static void mtk_plane_reset(struct drm_plane *plane)
- 
- 	state->base.plane = plane;
- 	state->pending.format = DRM_FORMAT_RGB565;
-+	state->pending.modifier = 0;
- }
- 
- static struct drm_plane_state *mtk_plane_duplicate_state(struct drm_plane *plane)
-@@ -120,21 +122,52 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
- 	struct drm_gem_object *gem;
- 	struct mtk_drm_gem_obj *mtk_gem;
- 	unsigned int pitch, format;
-+	unsigned long long modifier;
- 	dma_addr_t addr;
-+	dma_addr_t hdr_addr = 0;
-+	unsigned int hdr_pitch = 0;
- 
- 	gem = fb->obj[0];
- 	mtk_gem = to_mtk_gem_obj(gem);
- 	addr = mtk_gem->dma_addr;
- 	pitch = fb->pitches[0];
- 	format = fb->format->format;
-+	modifier = fb->modifier;
- 
--	addr += (new_state->src.x1 >> 16) * fb->format->cpp[0];
--	addr += (new_state->src.y1 >> 16) * pitch;
-+	if (!modifier) {
-+		addr += (new_state->src.x1 >> 16) * fb->format->cpp[0];
-+		addr += (new_state->src.y1 >> 16) * pitch;
-+	} else {
-+		int width_in_blocks = ALIGN(fb->width, AFBC_DATA_BLOCK_WIDTH)
-+				      / AFBC_DATA_BLOCK_WIDTH;
-+		int height_in_blocks = ALIGN(fb->height, AFBC_DATA_BLOCK_HEIGHT)
-+				       / AFBC_DATA_BLOCK_HEIGHT;
-+		int x_offset_in_blocks = (new_state->src.x1 >> 16) / AFBC_DATA_BLOCK_WIDTH;
-+		int y_offset_in_blocks = (new_state->src.y1 >> 16) / AFBC_DATA_BLOCK_HEIGHT;
-+		int hdr_size;
-+
-+		hdr_pitch = width_in_blocks * AFBC_HEADER_BLOCK_SIZE;
-+		pitch = width_in_blocks * AFBC_DATA_BLOCK_WIDTH *
-+			AFBC_DATA_BLOCK_HEIGHT * fb->format->cpp[0];
-+
-+		hdr_size = ALIGN(hdr_pitch * height_in_blocks, AFBC_HEADER_ALIGNMENT);
-+
-+		hdr_addr = addr + hdr_pitch * y_offset_in_blocks +
-+			   AFBC_HEADER_BLOCK_SIZE * x_offset_in_blocks;
-+		// The data plane is offset by 1 additional block.
-+		addr = addr + hdr_size +
-+		       pitch * y_offset_in_blocks +
-+		       AFBC_DATA_BLOCK_WIDTH * AFBC_DATA_BLOCK_HEIGHT *
-+		       fb->format->cpp[0] * (x_offset_in_blocks + 1);
-+	}
- 
- 	mtk_plane_state->pending.enable = true;
- 	mtk_plane_state->pending.pitch = pitch;
-+	mtk_plane_state->pending.hdr_pitch = hdr_pitch;
- 	mtk_plane_state->pending.format = format;
-+	mtk_plane_state->pending.modifier = modifier;
- 	mtk_plane_state->pending.addr = addr;
-+	mtk_plane_state->pending.hdr_addr = hdr_addr;
- 	mtk_plane_state->pending.x = new_state->dst.x1;
- 	mtk_plane_state->pending.y = new_state->dst.y1;
- 	mtk_plane_state->pending.width = drm_rect_width(&new_state->dst);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-index 2d5ec66e3df1..8f39011cdbfc 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-@@ -10,12 +10,20 @@
- #include <drm/drm_crtc.h>
- #include <linux/types.h>
- 
-+#define AFBC_DATA_BLOCK_WIDTH 32
-+#define AFBC_DATA_BLOCK_HEIGHT 8
-+#define AFBC_HEADER_BLOCK_SIZE 16
-+#define AFBC_HEADER_ALIGNMENT 1024
-+
- struct mtk_plane_pending_state {
- 	bool				config;
- 	bool				enable;
- 	dma_addr_t			addr;
-+	dma_addr_t			hdr_addr;
- 	unsigned int			pitch;
-+	unsigned int			hdr_pitch;
- 	unsigned int			format;
-+	unsigned long long		modifier;
- 	unsigned int			x;
- 	unsigned int			y;
- 	unsigned int			width;
--- 
-2.37.3.998.g577e59143f-goog
+Any thoughts?
 
+Niranjana
+
+>>+	if (i915_vma_is_pinned(vma))
+>>  		return ERR_PTR(-EAGAIN);
+>>  	/*
+>>@@ -2082,6 +2100,15 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
+>>  	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
+>>+	if (i915_vma_is_persistent(vma)) {
+>>+		spin_lock(&vma->vm->vm_rebind_lock);
+>>+		if (list_empty(&vma->vm_rebind_link) &&
+>>+		    !i915_vma_is_purged(vma))
+>>+			list_add_tail(&vma->vm_rebind_link,
+>>+				      &vma->vm->vm_rebind_list);
+>>+		spin_unlock(&vma->vm->vm_rebind_lock);
+>>+	}
+>>+
+>>  	return fence;
+>>  }
+>>diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+>>index c5378ec2f70a..9a4a7a8dfe5b 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma.h
+>>+++ b/drivers/gpu/drm/i915/i915_vma.h
+>>@@ -152,6 +152,16 @@ static inline void i915_vma_set_persistent(struct i915_vma *vma)
+>>  	set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+>>  }
+>>+static inline bool i915_vma_is_purged(const struct i915_vma *vma)
+>>+{
+>>+	return test_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
+>>+}
+>>+
+>>+static inline void i915_vma_set_purged(struct i915_vma *vma)
+>>+{
+>>+	set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
+>>+}
+>>+
+>>  static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
+>>  {
+>>  	i915_gem_object_get(vma->obj);
+>>diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+>>index b8176cca58c0..d32c72e8d242 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma_types.h
+>>+++ b/drivers/gpu/drm/i915/i915_vma_types.h
+>>@@ -267,8 +267,14 @@ struct i915_vma {
+>>  /**
+>>   * I915_VMA_PERSISTENT_BIT:
+>>   * The vma is persistent (created with VM_BIND call).
+>>+ *
+>>+ * I915_VMA_PURGED_BIT:
+>>+ * The persistent vma is force unbound either due to VM_UNBIND call
+>>+ * from UMD or VM is released. Do not check/wait for VM activeness
+>>+ * in i915_vma_is_active() and i915_vma_sync() calls.
+>>   */
+>>  #define I915_VMA_PERSISTENT_BIT	19
+>>+#define I915_VMA_PURGED_BIT	20
+>>  	struct i915_active active;
+>>@@ -299,6 +305,8 @@ struct i915_vma {
+>>  	struct list_head vm_bind_link;
+>>  	/* @non_priv_vm_bind_link: Link in non-private persistent VMA list */
+>>  	struct list_head non_priv_vm_bind_link;
+>>+	/* @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
+>>+	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
+>>  	/** Interval tree structures for persistent vma */
