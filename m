@@ -2,149 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9B95FA7E5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 00:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47285FA800
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 01:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4AE10E73C;
-	Mon, 10 Oct 2022 22:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E77510E73A;
+	Mon, 10 Oct 2022 23:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D77010E73A;
- Mon, 10 Oct 2022 22:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665442681; x=1696978681;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=+ZFv8MXgXo/ezLrtYcL7XP1x04uPajynOw3Y0RH5tZQ=;
- b=WXVIPlCTd90YwWQYu69yMW7OxcMd8mqmlhqmE6hS1mwjH2XZBh08vUBV
- RJUYsUMysjs8o1V9Wxb4flNDhvlQ3aPOcVgPx6pibdAx74x1U1KNB2THA
- e1Rv7sn+TDTsItL4kqn92o4RpNO5WlDfu9yM6HaYDlmYRf97rgoAVxGXY
- ynYf5mmxSvko+vZTBAnhcFni6MUSQypS3okgSBkCinB3Q3h3ax31e1Hu9
- PGQYr+lZt6Q9zfTuZIzGykXAtnFbHacMbcUHOek30PmFg2TYdEwiQLZYO
- 2jBIWoP68EIC3OIZtdaBT6/+ElnUtswVqHc65KaIJbyba80fdh07mRcfN w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="305409024"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="305409024"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 15:58:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="694829045"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="694829045"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga004.fm.intel.com with ESMTP; 10 Oct 2022 15:57:31 -0700
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 10 Oct 2022 15:57:30 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 10 Oct 2022 15:57:30 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 10 Oct 2022 15:57:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gQYUegGhhhJ1TK+YgiC8pj7Gu6Q8iVcm8n60qw6E08BsfDDTjKrD0e/LTuxjELUmTgbVXSYTyO1R3eZ22ZZW+TpOx4crvLyQkcUBgUKEOtvwQ0FrZ5ornVSysE9tUKL/wVajZHV0REHFYDnGWWNwGSo34hI7/SFwsTi73LoN/9VJft9mMmwWrDO3yCFptfYHFlvNtYEjQVY+CSA+Px+lBufFKQSDunOseGoO+lfau/jpyBggVk0IX7Myl0nnqzFf8InXX/sEfx619bA1jG8TDWQE0gPf0DHHRmtXbG5rWsTuhzqC5a6xQVhOCHdW3TLwbCqRXa7Icns0huNxOGiM2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NBnuAjyM7vycV+4NPTKq7G3MhtNuJQ+OU/S6R9AoJnw=;
- b=d8txGrGmLoWxZ8MRr0q7y4RbXQga0nv0JkMGTd4uZBHV4jppduqa31faDoApLo0VTGLqP6uJi++X+T6sKZEcDmkwJQlJd+NwEXuZgqsNLELP1qAFJwkQLXiAgqUO8k2fZpLE9xYHU+w5qLvY/FlajAuzx4WZPCLdNc2BRPz5Y5WYtitERPfy8Ln1RuN4n8oJpdj23LR+ujbAl4VDuYSfPXZftKdr9vCc1UFsQm7AYZgacC3WfMJGTqnlCTgFD81G1kxdZErujSnU0GOGNyuAi7nor7Cjk2QG4sDC4OyGf7A4QdeqpUkqixg+61ujXBazgiW/nGaIZBjwRFJ8OZsOKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- PH7PR11MB6378.namprd11.prod.outlook.com (2603:10b6:510:1fa::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.36; Mon, 10 Oct
- 2022 22:57:24 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::e8e8:7e00:919e:7a44]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::e8e8:7e00:919e:7a44%5]) with mapi id 15.20.5676.040; Mon, 10 Oct 2022
- 22:57:23 +0000
-Message-ID: <02f637e7-2751-995b-6039-715ebc2d3758@intel.com>
-Date: Mon, 10 Oct 2022 15:57:21 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2] drm/i915/huc: bump timeout for delayed load and reduce
- print verbosity
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20221010184812.1576601-1-daniele.ceraolospurio@intel.com>
- <0a63f729-f2b8-4782-f21b-00f536145ab2@intel.com>
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <0a63f729-f2b8-4782-f21b-00f536145ab2@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0017.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::22) To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFFDA10E73A
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 23:06:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B405460FDD;
+ Mon, 10 Oct 2022 23:06:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2675C433D6;
+ Mon, 10 Oct 2022 23:06:38 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="LJrnNFvf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1665443196;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KqVWEHtrBC2bSt6YfoMbVT2SYWISgaw7tOKuJ16fz7w=;
+ b=LJrnNFvfDOqQWYC4PoBtpE/7KEY/yAa5vkOQZ17V8pyw/dQ0Ut5sDiG9yCMxhlm9lRM7ie
+ 4zM0Rr22+8YQothSzq/M0zvd6io4jGoNkN8EgihYFT5cdIB2o32FIjoFBY6hstDwXqVhpG
+ NDQdZGAZ7Nc8LJm2dFAZNCOmr2q4rZg=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d37e5149
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 10 Oct 2022 23:06:36 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: [PATCH v6 0/7] treewide cleanup of random integer usage
+Date: Mon, 10 Oct 2022 17:06:06 -0600
+Message-Id: <20221010230613.1076905-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|PH7PR11MB6378:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8df1cd9f-f24f-4de2-afb7-08daab12cb3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BhPPCyyIrnB3RpVvMf/9baaKHJa/Zp4oxP8HyqxRceFq0OVIR/9O/rh3W2BOP9JG5QdV6UvINzX4qwg5O68oDHbn5Cx3j9nTUnc8PdH1Fkg/g1UbFV/n5AHAg97zyRSwiph0fTYTcIZcky5xjh0aMdEfW3A7D+8A33Pu60WVUPazz0Hc1Fasz80nXQIwPTYLriGgjVtE1e4DPyEJRriQccrxOzfzK60QwEEUUgpXgU7PJyAsjttQ3Qdx1lM9Rzxdl3DnNyyZjpRbcgsViTQbsPgs/+TqP/1EP269RCyNbiHbixPRyBEu63nI4eq/zH885Hp77POpcj8naffsX1RLdDQEsfr/FxLm/aw5XHaOId3G0fy7+ZH3mHs7zFDHpPitdxTOyuJhrn+CYlaPxiEVUHcAwO06kCI8TAQtdmlwOD5ITuIRJPiVgpyEavMG9BQzuczZL5UPsXewXvJJ8+Q2IhYtBj2Q2gSp3Ww9Lx/XL27D0RHDW/IGoZPtzzCTemFD/j0dP0f5uGRCd6rxn9G/0sRqDCcGBtqSqOrw+TIgnWKhdxqcmBaCVCyAWJr37r17hkha3iIq0IqH+RFjDTHFgAFiY+SGNb/0Z8LH15EtJNEvNDPy431RJQXDXTsXgOpkf/haie16dGl23tDCU7HOv3BumsE/04EG8UPDK5m8zr4fytsKth6q1xxCtbq0VxjS+XsGAehFuOMCST6v7O62LTuCDL+AE3Vom1EmqQbNClg2hvlHOHsNrk8MKtet3a7O
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(396003)(376002)(366004)(39860400002)(346002)(451199015)(41300700001)(5660300002)(66946007)(8676002)(450100002)(66476007)(2906002)(8936002)(53546011)(478600001)(6506007)(6486002)(316002)(26005)(4326008)(966005)(6512007)(186003)(107886003)(66556008)(36756003)(86362001)(31696002)(2616005)(83380400001)(82960400001)(38100700002)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WU9DVThxQjF2TXprTysyOU5SY2ZZR0FjVGpxbFpLamJsQlNmaHRFMzJ1Z3Fa?=
- =?utf-8?B?K3hDbkMxRVdRQ3BNTW5Qa2FZeXM3ZkQ3UVY3ZURacXdxaHBRUTdLdlFOUllC?=
- =?utf-8?B?Q2pCN2paRWFWWXpDSjBOSjJpZS9RNVhhVlk3SS9uekVPdGRndVNIZmVVRExK?=
- =?utf-8?B?NldsOWpYODRWenRsd28yQ0ROSC9BVnBjMGtlUkpiQU52ZWxZcFJrVFRJbERM?=
- =?utf-8?B?c01GKzRJNGVjMFBWUFdHVFl3WG9lSitrL2ZuY2JGaGJqYW9HVW1NYkZKb01M?=
- =?utf-8?B?LzN6WTBKeUJkMjRHUHlMbnBUZDdjWHNkRDBnVnZUc3hRUzNPYzRlZFFaMjd0?=
- =?utf-8?B?Tlpma0k1OG9ySk1PYlR2MDNVNkxlMU53cWxaU0h6WUMxY0l4NGJlYUljQTFE?=
- =?utf-8?B?N3hyaDUrZExqVC9wYkJsT0xLTEdiSW45bDBxaVpSc2lGazc4RmVCc2tqWDY1?=
- =?utf-8?B?NFFNOTBGYUFKd3FmejFLRlUzTVJBaW9kbW9GcHRaTVNzVTRkaGE4eVZWQU5n?=
- =?utf-8?B?ajZ4UTEyNXhWeE9WY2pqdWFacVFHajhPYnBsRCtDeWR4NE85L1grU25USW1l?=
- =?utf-8?B?UVI3aUZocjdaMlV2YnN3YmtYdnhKVWY3WGFRTFQvRHM3VXlEWU44SVMydU9t?=
- =?utf-8?B?OGNETUNlMzF3clQ4c2ZsRDIvcTFWQjlXUEdPVlRWT2NoQUpkaXBuaGdrcVF4?=
- =?utf-8?B?MDZMTXFMSFRwaE5Hb25XS254YzVKb09nTnNiM0VocHUrMGNmVStYSU85dklC?=
- =?utf-8?B?dEZFd1hnczlvaUVsdWlSUzZsQTlRLy83clJxdml5SFdxSTJFaWJYWXV0TmNv?=
- =?utf-8?B?c0hhYmFhYWVXZEFTSldtc0VtRTBGRHBsR1BJdlNYMzJJTFNSQ0l1N2dnUFJP?=
- =?utf-8?B?Q3J3RVh2YlprM2hLdTgzd3RjaEdicU1MbmVFUlp5K29EQ3h0a0RITy92MS9S?=
- =?utf-8?B?bWd4R1R4Y0hYWWk3RjlEeENFcXpjRFJtN0hHeEUwSmtaMGlwSGR0bUJ4dW5K?=
- =?utf-8?B?NG1uQmU2RE1CUHI2TlFJU1dSbkVoRWFmVnVLU2YrN0VGVlM5T2pRdnlCc3Ev?=
- =?utf-8?B?MFhsam5Ld2IxSHpGOTVuTTdYTVFHYkpGYlNleXhGRlRFQWpJWENyZHd1L3g2?=
- =?utf-8?B?TjlsSGtWS0hHa01OeVgwalhOWVJOanR1QmhiSEI4OERCOHZyNjdPclhMOVJU?=
- =?utf-8?B?T3BqZWNvV3RNR09qUzJwTjFNR21VMndyREYzeVdieXVFd0xMVmhPb3R4TW41?=
- =?utf-8?B?MUFBRUJQeTQ4Y0k5U2R4UXhpaEVlOEZKUnRveWN0d1FHcXBDUFg0dlNYQ3Ns?=
- =?utf-8?B?OXo1dTJVTmNaZHpHUk1lb1lLVkF0WG95ckNOUFkxT01manBCT0RjcmJ0VXho?=
- =?utf-8?B?RjZTTmtMdWRKeGIvOEdWazc1T2M1NlRCc2YwZzB4OXJGMnplcy9GTWxoWG9q?=
- =?utf-8?B?YXRRY1FKSWpFNVcvZWRoZU9mZytQU1pkbSttc0VEMHFnTnNIdGdYYW41NlBu?=
- =?utf-8?B?a0JvbzF6bWd2NkdmaS82ZFpiaEFxcHJyb2lESGF2M04xNlR1WGpEKzNGMHA1?=
- =?utf-8?B?ME1ERDY4TTRBSnlSQmZnVEVuMWJ6UTNrcWFycU1hSmdpd0QzOFFTNStZVnN4?=
- =?utf-8?B?KzZ1VEFKaFdPUU0yUkdBZHdTTXdzYWpXNzBPbFo2RUpvTGpQSE9PMkx5a1M1?=
- =?utf-8?B?QlNEYk5KRWx4UGNlaVcvWEJZWW5OVDJrL0d4THNjOEt3SDJVYkVDNEROMnhM?=
- =?utf-8?B?TWhRWmtveHZiY3B0ZlhMRzdieXJvazBNWXJTc2xvVDA1SE9EcDJTSXJHMWlx?=
- =?utf-8?B?OGd6SjQ3aHplZlVUNEtObDFKQVdVYVl6c25VSGhUTm9abk5ZWEovdVl3cDFz?=
- =?utf-8?B?OExmb2dpM2lDSFZpUzJGWGQzZWR4NjhHdkxzS2l5c29DeU52OUFWNHVaQ09a?=
- =?utf-8?B?blVWN1RNb2lXcmRxRWhjMjJkWVZiYjM1YnpFdEFkT2FGUnhYdmgvTXpXbThT?=
- =?utf-8?B?K0RCeGx2WkViMWVXZk9lck1RSWZFbVhJR1ZhNUdldkd4akJHcHVoc1lHOWR5?=
- =?utf-8?B?MGxyM21iT3dTalYyZjdYVFlBTkg2d3UyU2xkdWVJS3BzbEFVYVhZRy9OZjRN?=
- =?utf-8?B?OGFvNUhSUzFSWDFuL1JGRDFMUlYvSWNPNnJvWTF5WHdHY1dXT2hFbG5DNk5S?=
- =?utf-8?Q?bZg2I/kW66JhO7FqeLqrvE4=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8df1cd9f-f24f-4de2-afb7-08daab12cb3a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 22:57:23.7321 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aEZJwc8EdmCYHqEFgixhMbYqvUNm6eQkm9rkFg5wz59MSumNKkVAszty+y+dGiAjs5S1m3suMvOgsgMz/C+VvcdNTC7CUHnmaxZsA/SBPyU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6378
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,113 +55,405 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-wireless@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ x86@kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, kernel-janitors@vger.kernel.org,
+ KP Singh <kpsingh@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
+ "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
+ WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Hugh Dickins <hughd@google.com>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Dave Airlie <airlied@redhat.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, linux-media@vger.kernel.org,
+ Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
+ Yury Norov <yury.norov@gmail.com>, Heiko Carstens <hca@linux.ibm.com>,
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org,
+ Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
+ linux-nvme@lists.infradead.org, loongarch@lists.linux.dev,
+ Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-mmc@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Theodore Ts'o <tytso@mit.edu>, linux-parisc@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Florian Westphal <fw@strlen.de>, linux-mips@vger.kernel.org,
+ =?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ linux-crypto@vger.kernel.org, Jan Kara <jack@suse.com>,
+ Thomas Graf <tgraf@suug.ch>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes v5->v6:
+- Added a few missing conversions that weren't in my older tree, so now
+  this should be ready to go, as well as a couple nits people had from
+  v5. Barring something large and unforeseen, this is the "final
+  version", as this is ready to ship. Thanks to everyone who reviewed
+  this.
 
+Hi folks,
 
-On 10/10/2022 3:50 PM, John Harrison wrote:
-> On 10/10/2022 11:48, Daniele Ceraolo Spurio wrote:
->> We're observing sporadic HuC delayed load timeouts in CI, due to mei_pxp
->> binding completing later than we expected. HuC is still loaded when the
->> bind occurs, but in the meantime i915 has started allowing submission to
->> the VCS engines even if HuC is not there.
->> In most of the cases I've observed, the timeout was due to the
->> init/resume of another driver between i915 and mei hitting errors and
->> thus adding an extra delay, but HuC was still loaded before userspace
->> could submit, because the whole resume process time was increased by the
->> delays.
->>
->> Given that there is no upper bound to the delay that can be introduced
->> by other drivers, I've reached the following compromise with the media
->> team:
->>
->> 1) i915 is going to bump the timeout to 5s, to reduce the probability
->> of reaching it. We still expect HuC to be loaded before userspace
->> starts submitting, so increasing the timeout should have no impact on
->> normal operations, but in case something weird happens we don't want to
->> stall video submissions for too long.
->>
->> 2) The media driver will cope with the failing submissions that manage
->> to go through between i915 init/resume complete and HuC loading, if any
->> ever happen. This could cause a small corruption of video playback
->> immediately after a resume (we should be safe on boot because the media
->> driver polls the HUC_STATUS ioctl before starting submissions).
->>
->> Since we're accepting the timeout as a valid outcome, I'm also reducing
->> the print verbosity from error to notice.
->>
->> v2: use separate prints for MEI GSC and MEI PXP init timeouts (John)
->>
->> References: https://gitlab.freedesktop.org/drm/intel/-/issues/7033
->> Fixes: 27536e03271d ("drm/i915/huc: track delayed HuC load with a 
->> fence")
->> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> Cc: Tony Ye <tony.ye@intel.com>
->> Cc: John Harrison <john.c.harrison@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_huc.c | 14 ++++++++++----
->>   1 file changed, 10 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->> index 4d1cc383b681..41c032ab34b3 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->> @@ -52,10 +52,12 @@
->>    * guaranteed for this to happen during boot, so the big timeout is 
->> a safety net
->>    * that we never expect to need.
->>    * MEI-PXP + HuC load usually takes ~300ms, but if the GSC needs to 
->> be resumed
->> - * and/or reset, this can take longer.
->> + * and/or reset, this can take longer. Note that the kernel might 
->> schedule
->> + * other work between the i915 init/resume and the MEI one, which 
->> can add to
->> + * the delay.
->>    */
->>   #define GSC_INIT_TIMEOUT_MS 10000
->> -#define PXP_INIT_TIMEOUT_MS 2000
->> +#define PXP_INIT_TIMEOUT_MS 5000
->>     static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
->>                    enum i915_sw_fence_notify state)
->> @@ -104,8 +106,12 @@ static enum hrtimer_restart 
->> huc_delayed_load_timer_callback(struct hrtimer *hrti
->>       struct intel_huc *huc = container_of(hrtimer, struct intel_huc, 
->> delayed_load.timer);
->>         if (!intel_huc_is_authenticated(huc)) {
->> -        drm_err(&huc_to_gt(huc)->i915->drm,
->> -            "timed out waiting for GSC init to load HuC\n");
->> +        if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
->> +            drm_notice(&huc_to_gt(huc)->i915->drm,
->> +                   "timed out waiting for MEI GSC init to load HuC\n");
->> +        else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
->> +            drm_notice(&huc_to_gt(huc)->i915->drm,
->> +                   "timed out waiting for MEI PXP init to load HuC\n");
-> Hmm. It feels wrong to assume that the status can only be GSC or PXP. 
-> Granted, it certainly should be one of those two values if we get 
-> here. But it just seems like bad practice to have a partial if/elsif 
-> ladder for an enum value instead of a switch with a default path. What 
-> I meant originally was just have a single print that says 'timed out 
-> waiting for MEI GSC/PXP to load...', maybe with the status value being 
-> printed. I don't think it is critically important to differentiate 
-> between the two, I just meant that it was wrong to explicitly state 
-> GSC when it might not be.
+This is a five part treewide cleanup of random integer handling. The
+rules for random integers are:
 
-It is guaranteed that the state is one of those 2 in this callback. The 
-only other option is an error state, which we set from the 
-__gsc_init_error() below. I can make it an unconditional else, or add an 
-else MISSING_CASE(status) if you think that works better, but given the 
-errors we've seen I'd prefer to keep the prints separate for extra clarity.
+- If you want a secure or an insecure random u64, use get_random_u64().
+- If you want a secure or an insecure random u32, use get_random_u32().
+  * The old function prandom_u32() has been deprecated for a while now
+    and is just a wrapper around get_random_u32(). Same for
+    get_random_int().
+- If you want a secure or an insecure random u16, use get_random_u16().
+- If you want a secure or an insecure random u8, use get_random_u8().
+- If you want secure or insecure random bytes, use get_random_bytes().
+  * The old function prandom_bytes() has been deprecated for a while now
+    and has long been a wrapper around get_random_bytes().
+- If you want a non-uniform random u32, u16, or u8 bounded by a certain
+  open interval maximum, use prandom_u32_max().
+  * I say "non-uniform", because it doesn't do any rejection sampling or
+    divisions. Hence, it stays within the prandom_* namespace.
 
-Daniele
+These rules ought to be applied uniformly, so that we can clean up the
+deprecated functions, and earn the benefits of using the modern
+functions. In particular, in addition to the boring substitutions, this
+patchset accomplishes a few nice effects:
 
->
-> John.
->
->>             __gsc_init_error(huc);
->>       }
->
+- By using prandom_u32_max() with an upper-bound that the compiler can
+  prove at compile-time is ≤65536 or ≤256, internally get_random_u16()
+  or get_random_u8() is used, which wastes fewer batched random bytes,
+  and hence has higher throughput.
+
+- By using prandom_u32_max() instead of %, when the upper-bound is not a
+  constant, division is still avoided, because prandom_u32_max() uses
+  a faster multiplication-based trick instead.
+
+- By using get_random_u16() or get_random_u8() in cases where the return
+  value is intended to indeed be a u16 or a u8, we waste fewer batched
+  random bytes, and hence have higher throughput.
+
+So, based on those rules and benefits from following them, this patchset
+breaks down into the following five steps:
+
+1) Replace `prandom_u32() % max` and variants thereof with
+   prandom_u32_max(max).
+
+   * Part 1 is done with Coccinelle. Part 2 is done by hand.
+
+2) Replace `(type)get_random_u32()` and variants thereof with
+   get_random_u16() or get_random_u8(). I took the pains to actually
+   look and see what every lvalue type was across the entire tree.
+
+   * Part 1 is done with Coccinelle. Part 2 is done by hand.
+
+3) Replace remaining deprecated uses of prandom_u32() and
+   get_random_int() with get_random_u32(). 
+
+   * A boring search and replace operation.
+
+4) Replace remaining deprecated uses of prandom_bytes() with
+   get_random_bytes().
+
+   * A boring search and replace operation.
+
+5) Remove the deprecated and now-unused prandom_u32() and
+   prandom_bytes() inline wrapper functions.
+
+   * Just deleting code and updating comments.
+
+I'll be sending this toward the end of the 6.1 merge window via the
+random.git tree.
+
+Please take a look! The number of lines touched is quite small, so this
+should be reviewable, and as much as is possible has been pushed into
+Coccinelle scripts.
+
+Thanks,
+Jason
+
+Cc: Andreas Noever <andreas.noever@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: David S. Miller <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Florian Westphal <fw@strlen.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: H. Peter Anvin <hpa@zytor.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: James E.J. Bottomley <jejb@linux.ibm.com>
+Cc: Jan Kara <jack@suse.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Marco Elver <elver@google.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Thomas Graf <tgraf@suug.ch>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: WANG Xuerui <kernel@xen0n.name>
+Cc: Will Deacon <will@kernel.org>
+Cc: Yury Norov <yury.norov@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kasan-dev@googlegroups.com
+Cc: kernel-janitors@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-block@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-nvme@lists.infradead.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: loongarch@lists.linux.dev
+Cc: netdev@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: x86@kernel.org
+
+Jason A. Donenfeld (7):
+  treewide: use prandom_u32_max() when possible, part 1
+  treewide: use prandom_u32_max() when possible, part 2
+  treewide: use get_random_{u8,u16}() when possible, part 1
+  treewide: use get_random_{u8,u16}() when possible, part 2
+  treewide: use get_random_u32() when possible
+  treewide: use get_random_bytes() when possible
+  prandom: remove unused functions
+
+ Documentation/networking/filter.rst           |  2 +-
+ arch/arm/kernel/process.c                     |  2 +-
+ arch/arm/kernel/signal.c                      |  2 +-
+ arch/arm64/kernel/process.c                   |  2 +-
+ arch/arm64/kernel/syscall.c                   |  2 +-
+ arch/loongarch/kernel/process.c               |  2 +-
+ arch/loongarch/kernel/vdso.c                  |  2 +-
+ arch/mips/kernel/process.c                    |  2 +-
+ arch/mips/kernel/vdso.c                       |  2 +-
+ arch/parisc/kernel/process.c                  |  2 +-
+ arch/parisc/kernel/sys_parisc.c               |  4 +-
+ arch/parisc/kernel/vdso.c                     |  2 +-
+ arch/powerpc/crypto/crc-vpmsum_test.c         |  2 +-
+ arch/powerpc/kernel/process.c                 |  2 +-
+ arch/s390/kernel/process.c                    |  4 +-
+ arch/s390/kernel/vdso.c                       |  2 +-
+ arch/s390/mm/mmap.c                           |  2 +-
+ arch/sparc/vdso/vma.c                         |  2 +-
+ arch/um/kernel/process.c                      |  2 +-
+ arch/x86/entry/vdso/vma.c                     |  2 +-
+ arch/x86/kernel/cpu/amd.c                     |  2 +-
+ arch/x86/kernel/module.c                      |  2 +-
+ arch/x86/kernel/process.c                     |  2 +-
+ arch/x86/mm/pat/cpa-test.c                    |  4 +-
+ block/blk-crypto-fallback.c                   |  2 +-
+ crypto/async_tx/raid6test.c                   |  2 +-
+ crypto/testmgr.c                              | 94 +++++++++----------
+ drivers/block/drbd/drbd_receiver.c            |  4 +-
+ drivers/char/random.c                         | 11 +--
+ drivers/dma/dmatest.c                         |  2 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  6 +-
+ .../gpu/drm/i915/selftests/i915_selftest.c    |  2 +-
+ drivers/gpu/drm/tests/drm_buddy_test.c        |  2 +-
+ drivers/gpu/drm/tests/drm_mm_test.c           |  2 +-
+ drivers/infiniband/core/cma.c                 |  2 +-
+ drivers/infiniband/hw/cxgb4/cm.c              |  4 +-
+ drivers/infiniband/hw/cxgb4/id_table.c        |  4 +-
+ drivers/infiniband/hw/hfi1/tid_rdma.c         |  2 +-
+ drivers/infiniband/hw/hns/hns_roce_ah.c       |  5 +-
+ drivers/infiniband/hw/mlx4/mad.c              |  2 +-
+ drivers/infiniband/ulp/ipoib/ipoib_cm.c       |  2 +-
+ drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  3 +-
+ drivers/md/bcache/request.c                   |  2 +-
+ drivers/md/raid5-cache.c                      |  2 +-
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  2 +-
+ .../media/test-drivers/vivid/vivid-radio-rx.c |  4 +-
+ .../test-drivers/vivid/vivid-touch-cap.c      |  6 +-
+ drivers/misc/habanalabs/gaudi2/gaudi2.c       |  2 +-
+ drivers/mmc/core/core.c                       |  4 +-
+ drivers/mmc/host/dw_mmc.c                     |  2 +-
+ drivers/mtd/nand/raw/nandsim.c                |  8 +-
+ drivers/mtd/tests/mtd_nandecctest.c           | 12 +--
+ drivers/mtd/tests/speedtest.c                 |  2 +-
+ drivers/mtd/tests/stresstest.c                | 19 +---
+ drivers/mtd/ubi/debug.c                       |  2 +-
+ drivers/mtd/ubi/debug.h                       |  6 +-
+ drivers/net/bonding/bond_main.c               |  2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  2 +-
+ drivers/net/ethernet/broadcom/cnic.c          |  5 +-
+ .../chelsio/inline_crypto/chtls/chtls_cm.c    |  4 +-
+ .../chelsio/inline_crypto/chtls/chtls_io.c    |  4 +-
+ drivers/net/ethernet/rocker/rocker_main.c     |  8 +-
+ drivers/net/hamradio/baycom_epp.c             |  2 +-
+ drivers/net/hamradio/hdlcdrv.c                |  2 +-
+ drivers/net/hamradio/yam.c                    |  2 +-
+ drivers/net/phy/at803x.c                      |  2 +-
+ drivers/net/wireguard/selftest/allowedips.c   | 16 ++--
+ .../broadcom/brcm80211/brcmfmac/p2p.c         |  2 +-
+ .../broadcom/brcm80211/brcmfmac/pno.c         |  2 +-
+ .../net/wireless/intel/iwlwifi/mvm/mac-ctxt.c |  2 +-
+ .../net/wireless/marvell/mwifiex/cfg80211.c   |  4 +-
+ .../wireless/microchip/wilc1000/cfg80211.c    |  2 +-
+ .../net/wireless/quantenna/qtnfmac/cfg80211.c |  2 +-
+ drivers/net/wireless/st/cw1200/wsm.c          |  2 +-
+ drivers/net/wireless/ti/wlcore/main.c         |  2 +-
+ drivers/nvme/common/auth.c                    |  2 +-
+ drivers/scsi/cxgbi/cxgb4i/cxgb4i.c            |  4 +-
+ drivers/scsi/fcoe/fcoe_ctlr.c                 |  4 +-
+ drivers/scsi/lpfc/lpfc_hbadisc.c              |  6 +-
+ drivers/scsi/qedi/qedi_main.c                 |  2 +-
+ drivers/target/iscsi/cxgbit/cxgbit_cm.c       |  2 +-
+ drivers/thunderbolt/xdomain.c                 |  2 +-
+ drivers/video/fbdev/uvesafb.c                 |  2 +-
+ fs/ceph/inode.c                               |  2 +-
+ fs/ceph/mdsmap.c                              |  2 +-
+ fs/exfat/inode.c                              |  2 +-
+ fs/ext2/ialloc.c                              |  3 +-
+ fs/ext4/ialloc.c                              |  7 +-
+ fs/ext4/ioctl.c                               |  4 +-
+ fs/ext4/mmp.c                                 |  2 +-
+ fs/ext4/super.c                               |  7 +-
+ fs/f2fs/gc.c                                  |  2 +-
+ fs/f2fs/namei.c                               |  2 +-
+ fs/f2fs/segment.c                             |  8 +-
+ fs/fat/inode.c                                |  2 +-
+ fs/nfsd/nfs4state.c                           |  4 +-
+ fs/ntfs3/fslog.c                              |  6 +-
+ fs/ubifs/debug.c                              | 10 +-
+ fs/ubifs/journal.c                            |  2 +-
+ fs/ubifs/lpt_commit.c                         | 14 +--
+ fs/ubifs/tnc_commit.c                         |  2 +-
+ fs/xfs/libxfs/xfs_alloc.c                     |  2 +-
+ fs/xfs/libxfs/xfs_ialloc.c                    |  4 +-
+ fs/xfs/xfs_error.c                            |  2 +-
+ fs/xfs/xfs_icache.c                           |  2 +-
+ fs/xfs/xfs_log.c                              |  2 +-
+ include/linux/nodemask.h                      |  2 +-
+ include/linux/prandom.h                       | 12 ---
+ include/linux/random.h                        |  5 -
+ include/net/netfilter/nf_queue.h              |  2 +-
+ include/net/red.h                             |  2 +-
+ include/net/sock.h                            |  2 +-
+ kernel/bpf/bloom_filter.c                     |  2 +-
+ kernel/bpf/core.c                             |  6 +-
+ kernel/bpf/hashtab.c                          |  2 +-
+ kernel/bpf/verifier.c                         |  2 +-
+ kernel/kcsan/selftest.c                       |  4 +-
+ kernel/locking/test-ww_mutex.c                |  4 +-
+ kernel/time/clocksource.c                     |  2 +-
+ lib/cmdline_kunit.c                           |  4 +-
+ lib/fault-inject.c                            |  2 +-
+ lib/find_bit_benchmark.c                      |  4 +-
+ lib/kobject.c                                 |  2 +-
+ lib/random32.c                                |  4 +-
+ lib/reed_solomon/test_rslib.c                 | 12 +--
+ lib/sbitmap.c                                 |  4 +-
+ lib/test-string_helpers.c                     |  2 +-
+ lib/test_fprobe.c                             |  2 +-
+ lib/test_hexdump.c                            | 10 +-
+ lib/test_kasan.c                              |  6 +-
+ lib/test_kprobes.c                            |  2 +-
+ lib/test_list_sort.c                          |  2 +-
+ lib/test_min_heap.c                           |  6 +-
+ lib/test_objagg.c                             |  2 +-
+ lib/test_rhashtable.c                         |  6 +-
+ lib/test_vmalloc.c                            | 19 +---
+ lib/uuid.c                                    |  2 +-
+ mm/migrate.c                                  |  2 +-
+ mm/shmem.c                                    |  2 +-
+ mm/slab.c                                     |  2 +-
+ mm/slub.c                                     |  2 +-
+ net/802/garp.c                                |  2 +-
+ net/802/mrp.c                                 |  2 +-
+ net/ceph/mon_client.c                         |  2 +-
+ net/ceph/osd_client.c                         |  2 +-
+ net/core/neighbour.c                          |  2 +-
+ net/core/pktgen.c                             | 47 +++++-----
+ net/core/stream.c                             |  2 +-
+ net/dccp/ipv4.c                               |  4 +-
+ net/ipv4/datagram.c                           |  2 +-
+ net/ipv4/igmp.c                               |  6 +-
+ net/ipv4/inet_connection_sock.c               |  2 +-
+ net/ipv4/inet_hashtables.c                    |  2 +-
+ net/ipv4/ip_output.c                          |  2 +-
+ net/ipv4/route.c                              |  4 +-
+ net/ipv4/tcp_cdg.c                            |  2 +-
+ net/ipv4/tcp_ipv4.c                           |  4 +-
+ net/ipv4/udp.c                                |  2 +-
+ net/ipv6/addrconf.c                           |  8 +-
+ net/ipv6/ip6_flowlabel.c                      |  2 +-
+ net/ipv6/mcast.c                              | 10 +-
+ net/ipv6/output_core.c                        |  2 +-
+ net/mac80211/rc80211_minstrel_ht.c            |  2 +-
+ net/mac80211/scan.c                           |  2 +-
+ net/netfilter/ipvs/ip_vs_conn.c               |  2 +-
+ net/netfilter/ipvs/ip_vs_twos.c               |  4 +-
+ net/netfilter/nf_nat_core.c                   |  4 +-
+ net/netfilter/xt_statistic.c                  |  2 +-
+ net/openvswitch/actions.c                     |  2 +-
+ net/packet/af_packet.c                        |  2 +-
+ net/rds/bind.c                                |  2 +-
+ net/sched/act_gact.c                          |  2 +-
+ net/sched/act_sample.c                        |  2 +-
+ net/sched/sch_cake.c                          |  8 +-
+ net/sched/sch_netem.c                         | 22 ++---
+ net/sched/sch_pie.c                           |  2 +-
+ net/sched/sch_sfb.c                           |  2 +-
+ net/sctp/socket.c                             |  4 +-
+ net/sunrpc/auth_gss/gss_krb5_wrap.c           |  4 +-
+ net/sunrpc/cache.c                            |  2 +-
+ net/sunrpc/xprt.c                             |  2 +-
+ net/sunrpc/xprtsock.c                         |  2 +-
+ net/tipc/socket.c                             |  2 +-
+ net/unix/af_unix.c                            |  2 +-
+ net/xfrm/xfrm_state.c                         |  2 +-
+ 186 files changed, 379 insertions(+), 422 deletions(-)
+
+-- 
+2.37.3
 
