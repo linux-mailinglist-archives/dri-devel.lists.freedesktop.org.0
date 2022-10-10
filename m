@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9905F9E76
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 14:11:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE0A5F9E73
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 14:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644E310E6F8;
-	Mon, 10 Oct 2022 12:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9476D10E4E0;
+	Mon, 10 Oct 2022 12:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38BF10E4D1;
- Mon, 10 Oct 2022 12:11:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 5AFDC2B06398;
- Mon, 10 Oct 2022 08:11:03 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 10 Oct 2022 08:11:08 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E08E210E4D2;
+ Mon, 10 Oct 2022 12:11:15 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id E17F82B05E7C;
+ Mon, 10 Oct 2022 08:11:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 10 Oct 2022 08:11:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665403862; x=
- 1665411062; bh=DaOchJ9jz8E6sYZqHLcJ3bADUsZchCLmV8LJHufmPfk=; b=P
- pth+e40tTkdkMpHYH32Mz2oAXLX3mCnqDfm80TkrOETQU0iMY2fvQwS4edvrfb+G
- 5+djx/eU8+yje0g2iai9MAKaCt2pTeQ6G+J3b9TV3QatC9Z+An7Ioi7iExtGn7Dy
- g6nDCSA99tlDfqR2c43E4Q6yNh0+Zp7dAxPc403OsoE+W+5ziuWoSX6+yP9ylFE1
- 5UXvRbb6u8BWQCF+RIEhG47Qf37T3q60zkDJLe8yZbGs64satwY2Flmw+/FfisYz
- YI0i+86tNNx7KIbOs/UZCh7oorovNqHG28vSLuZiFkFRSphRosFdGBu090ltv+5c
- aZiZ328ZNoeZ2LQk/pDkA==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665403870; x=
+ 1665411070; bh=yOXrb8Qp+4qgwcgNsbRM6UGC7UshR8MKqJsY8Pq42Cs=; b=A
+ c/aDZxIvSd0X09MnrNkuj4r0YNzyvZPR3N4OX6u+sQSa8tVeoX8CLtHPczGvhtsy
+ QUH5qtbXDixYen4h6x1iT5zq0fF3cSuRMJGrgdVePXp4fKiI+yGdb5WBnHJakBe/
+ 7j0/f52SChC7RJu02AOy+16FCN6k0dYN8uaRILN1IvJDe2GsIezt6fZPqUwos3no
+ 8ksSjjNKfKAYznD9egv6ewt6oh8jCGsvzfw0jAhbuwQMsHEp4UYflAM2u0lQ2vjA
+ rH2vFyvrbL4Xv5fGtkzl/uswPlFhjtRT5ptekuXIiYjSHlGBxJAPRMb4ajIM4XxU
+ lhkHvfnpQCG7pM6pFt8qA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665403862; x=
- 1665411062; bh=DaOchJ9jz8E6sYZqHLcJ3bADUsZchCLmV8LJHufmPfk=; b=c
- Ey4fhVGJDY+NEmjeo2OeAXOmmwsXJCumHniXEdKJKCJ6J7ytdETL8uKc0QvHwBfH
- D/SWN+H40FpOCo2KR6LKqefi4qzls3j1f8TZdAfI05dKEKmSKybvU8ZbsZaujpYg
- cIMcgKNoaQyrrMZe20yJKOJoIWlIfFvPxITgfDLQywEJ8kE6YF+qVSkCMZ+9pPTV
- cU+JQxk91fCZ3vjq0+gSE+BRcKVbvFPvLoUO9uzNI9fGeg4/wW+u14lKxgLyCuWO
- 8F8+9pyWad20uEVBLnppbpMtGrnNtAPfmeo91X9kNXqtZQIQ1KWynjoVj+Gn84v+
- 57IeORujLOJCEOzkmifCw==
-X-ME-Sender: <xms:1AtEY3Nb6OBwUwRZjhHkQrCY_cmHS2H4qOpCX7ohRhamunr245wwrg>
- <xme:1AtEYx9eEtWXQwUsMHFA56PQ69LhQba3nzRk_TePIATkY_IhKWbL4MTqOwmOZ1xt8
- EJKaRdf6aXQzK681rk>
-X-ME-Received: <xmr:1AtEY2RFVtc7nj22QLmO2SnPh8H7wmabnx8w8pjOKIg-19ubHKasvU0xmgyw>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665403870; x=
+ 1665411070; bh=yOXrb8Qp+4qgwcgNsbRM6UGC7UshR8MKqJsY8Pq42Cs=; b=t
+ th2t9MbFYpTZpoyzsEJwHnBWITDfhyfjQWR0cccoM5yXJZ8OFdweaibrx2Jj5fMF
+ S+DflOmEz2OIaDWzFPFle4fKxvXYEkNdRSpHBu4ETEFgq4nGmZqsEZUQL5gAzyN+
+ Wr5UpvIeMCl2IyOmDQzJhoeiNqiw+AJ7RGypehUCp3QMbk8A7//ND9LJutY33rT3
+ CWQJMqBGXrwdCCy1MhvabDI8qqGXXxQdj0DcDNp+FhwCb6LAUBchMZR8nAGzzrWn
+ XaAyuXwgGvuLQTk39lOPSs88/FeRZgOzL16UlAZNhaT2kA1fKIC+ysmHK89wsWCj
+ 0tqYAb9Z5qm1AiWf7yQjQ==
+X-ME-Sender: <xms:3QtEY_f0QK04kU2SBnS6KISacizS5bAIQwjtRtyF-r-YqnH81wLXtA>
+ <xme:3QtEY1NTaG4JjFUNkjO_AKki368JuXQ8x1WR6MP_e2NJlY3o8XSzkpr0Kj9Nfx5fF
+ 7Jj1ez3Cjh6Cdw_yJg>
+X-ME-Received: <xmr:3QtEY4hkLH9OeZs3eza_07rfedbVtS7iLLrVVw3PT_kZ6OXpaIfHQpzUE3ao>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgedggeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,32 +54,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgedggeegucetufdoteggod
  grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
  vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:1AtEY7vPJid5561Iv_NxZIXIhiZZqXJRuKvhW6Vx_tRazYOHz8pTMQ>
- <xmx:1AtEY_c40HAb8TNdVsIpllkBj3zxBsQvp8CwfNuozqQKlGoKgSXQRA>
- <xmx:1AtEY33HcFJd60xZZnW8Gt6MzDHgXuhZcLzyy2XRXPZDn3xBFf8GXQ>
- <xmx:1gtEY25wF2MeHikuMOCBjVDer9DNAmp1vj-2A408JdSkckoSlA5o9oB0kkQ>
+X-ME-Proxy: <xmx:3QtEYw9qfOom3Qvdj3j3q5b8SE6Hois2eHONPQdfKpiBsTX4DZIJzQ>
+ <xmx:3QtEY7tmWqJKZnnZ0TBgJG9OVbRuYAh4toPKTtFzk4QRn6IIXx8EKw>
+ <xmx:3QtEY_FbFLjZ1UEzemCFCBMTbu1N8G_Fat5RxCkc79AgdR_lKjPTkg>
+ <xmx:3gtEYzIC3_cfqOt15oXLxtvVibOIi0tKbTE9Z1hbzoVYBy7g8EQ7cvBtLt4>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Oct 2022 08:11:00 -0400 (EDT)
+ 10 Oct 2022 08:11:09 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Samuel Holland <samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Ben Skeggs <bskeggs@redhat.com>,
  Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
  David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Emma Anholt <emma@anholt.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lyude Paul <lyude@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
+ Lyude Paul <lyude@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Maxime Ripard <maxime@cerno.tech>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: (subset) [PATCH v4 05/30] drm/connector: Rename subconnector
- state variable
-Date: Mon, 10 Oct 2022 14:10:38 +0200
-Message-Id: <166540374295.183315.14551634440076043126.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v4 06/30] drm/atomic: Add TV subconnector
+ property to get/set_property
+Date: Mon, 10 Oct 2022 14:10:39 +0200
+Message-Id: <166540374295.183315.3294508007715819278.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220728-rpi-analog-tv-properties-v4-5-60d38873f782@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v4-6-60d38873f782@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
- <20220728-rpi-analog-tv-properties-v4-5-60d38873f782@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v4-6-60d38873f782@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -107,13 +108,13 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Sep 2022 18:30:59 +0200, Maxime Ripard wrote:
-> There is two TV subconnector related properties registered by
-> drm_mode_create_tv_properties(): subconnector and select subconnector.
+On Thu, 29 Sep 2022 18:31:00 +0200, Maxime Ripard wrote:
+> The subconnector property was created by drm_mode_create_tv_properties(),
+> but wasn't exposed to the userspace through the generic
+> atomic_get/set_property implementation, and wasn't stored in any generic
+> state structure.
 > 
-> While the select subconnector property is stored in the kernel by the
-> drm_tv_connector_state structure, the subconnector property isn't stored
-> anywhere.
+> Let's solve this.
 > 
 > [...]
 
