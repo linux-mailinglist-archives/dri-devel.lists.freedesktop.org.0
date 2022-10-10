@@ -2,47 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53A35FA38C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 20:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E925FA3D0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 20:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 656A510E2DF;
-	Mon, 10 Oct 2022 18:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8532210E501;
+	Mon, 10 Oct 2022 18:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4D710E2DF;
- Mon, 10 Oct 2022 18:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665427574; x=1696963574;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IFaE6bCPAFgcWOp/D8w3vO+h4+GFNJNpqDIgqE8q15U=;
- b=kpnX+UmXZuSUuOoeXr7bSD194dAlenQocoB/NaS7KuddaB9nCKz/RLJl
- vhA6dI9gLg4TAQ3iiNRDzrbl9A21VOHkEYYf76kPa06HJNXCKYB3vBCsq
- k+54jMdGxcd4vPlbI3ie/3nE6prXkeHSElKFuEaAW6DKopyDEGnNlY09/
- V52ln8/frfw6pPsenodKLCpih5A93BbK0y7H6LwH4edYxQcOzdCc4Smdy
- GHyC8HXAkpEIxy9MMUWxBZ2m0g07Ex+T49Oaabz2I0qixe42tr3j1ddoD
- ozWggz4nnTCYVYFBOay9IDurakIswoaRg4LnRpQSwPISJ086ENGlVoxvj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="287548364"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="287548364"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 11:46:13 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="955022275"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="955022275"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 11:46:12 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/huc: bump timeout for delayed load and reduce
- print verbosity
-Date: Mon, 10 Oct 2022 11:48:12 -0700
-Message-Id: <20221010184812.1576601-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.3
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC9C10E501
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 18:56:39 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id s7so3263213qkj.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 11:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=mfdinePb/h+FQryCI1VnJk1iVMwwW9XbS8GRZ1SXnEM=;
+ b=Y1FJnNxKCCmUeBjERypSSpOT5hLZIa3B6ZfL7TmeBlDcYn7G53u+wzaqGztD4xstS6
+ H56NjZrTnnAs/mwbv/53uHY1GhzxoFxOLWj+6+255TR+XIgzukZ2wrhnTPfXH4rpl0ll
+ x20RYa7gkPKPOAB+2GjUbYRf86UKilK/+RP5mPzo1iTwxgbIcI/NL1hAwcQva+CI+c58
+ wXQg1m452/c0qjzqE/xGhDgd9xycIGhUX5tiX7SJhqTWnYftDSAsnXqQ0qceqqSNwxFf
+ a0gsQbHVGj7OQXKVN8LpCmOTHmcWT/lMPoHErC7k7GBXJjyyytJ8h/nDzI7STIfMcpme
+ CGHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mfdinePb/h+FQryCI1VnJk1iVMwwW9XbS8GRZ1SXnEM=;
+ b=yURmJM9wzsREWSQLs/qUvlI7P1OxUy6fWtibf/vBpczqDAOIe87EIbQYrH1LiPna/L
+ 3fBpDQ1l2BQB87MsVfuDAw85kUuTCJfsxluHhCKxUnbtaSeIXyGwa+d9aL/u3mc2oynX
+ YvRS/JZI2EL67Yg/KTG+bmkbQrG1Ye2GcS183puizZAPGcZO1U6FMpFOLYfqS0T3Hasl
+ r/u/GTeqCWJ5m1UJFUx1iGtXFi3bvlDql9aBUYgw9a+Isfnz7dm25YtSAg6Vee7eKVzt
+ vg4T01VGZoussqt2VZwBGoHPmoQgZUOy3v2TjYNZEk2vXtFphuFzjrj0aUVvIo1vE3so
+ jGWQ==
+X-Gm-Message-State: ACrzQf04ZeEis5soIVxt+tf2zRjg3gmiXSOOfYFmKBlxNOyCCcSBPKkC
+ 3FyhAUXSo7yifI3rzccnEjKiOg==
+X-Google-Smtp-Source: AMsMyM4cq1ZiSompu2ffs6ddf24dPwkk/2Lnq1GVt1O6/KQn3scUPTnTqdwZ/uWcjL7riJrPyy9iDQ==
+X-Received: by 2002:a05:620a:4397:b0:6e1:345a:e080 with SMTP id
+ a23-20020a05620a439700b006e1345ae080mr13783062qkp.677.1665428198984; 
+ Mon, 10 Oct 2022 11:56:38 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [47.55.122.23]) by smtp.gmail.com with ESMTPSA id
+ j8-20020a05620a288800b006bb2cd2f6d1sm10684472qkp.127.2022.10.10.11.56.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 11:56:38 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1ohxx7-0012V5-CO;
+ Mon, 10 Oct 2022 15:56:37 -0300
+Date: Mon, 10 Oct 2022 15:56:37 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v6 10/21] RDMA/umem: Prepare to dynamic dma-buf locking
+ specification
+Message-ID: <Y0Rq5Zb9+63++2z/@ziepe.ca>
+References: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
+ <20220928191600.5874-11-dmitry.osipenko@collabora.com>
+ <e3ba146d-8153-add5-2cf4-02fe6519abee@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <e3ba146d-8153-add5-2cf4-02fe6519abee@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,86 +79,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Ruhl Michael J <michael.j.ruhl@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma@vger.kernel.org,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>, linux-media@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Juergen Gross <jgross@suse.com>,
+ David Airlie <airlied@linux.ie>, amd-gfx@lists.freedesktop.org,
+ Tomi Valkeinen <tomba@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ Qiang Yu <yuq825@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're observing sporadic HuC delayed load timeouts in CI, due to mei_pxp
-binding completing later than we expected. HuC is still loaded when the
-bind occurs, but in the meantime i915 has started allowing submission to
-the VCS engines even if HuC is not there.
-In most of the cases I've observed, the timeout was due to the
-init/resume of another driver between i915 and mei hitting errors and
-thus adding an extra delay, but HuC was still loaded before userspace
-could submit, because the whole resume process time was increased by the
-delays.
+On Sun, Oct 09, 2022 at 03:08:56AM +0300, Dmitry Osipenko wrote:
+> On 9/28/22 22:15, Dmitry Osipenko wrote:
+> > Prepare InfiniBand drivers to the common dynamic dma-buf locking
+> > convention by starting to use the unlocked versions of dma-buf API
+> > functions.
+> > 
+> > Acked-by: Christian König <christian.koenig@amd.com>
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > ---
+> >  drivers/infiniband/core/umem_dmabuf.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+> > index 04c04e6d24c3..43b26bc12288 100644
+> > --- a/drivers/infiniband/core/umem_dmabuf.c
+> > +++ b/drivers/infiniband/core/umem_dmabuf.c
+> > @@ -26,7 +26,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+> >  	if (umem_dmabuf->sgt)
+> >  		goto wait_fence;
+> >  
+> > -	sgt = dma_buf_map_attachment(umem_dmabuf->attach, DMA_BIDIRECTIONAL);
+> > +	sgt = dma_buf_map_attachment_unlocked(umem_dmabuf->attach,
+> > +					      DMA_BIDIRECTIONAL);
+> >  	if (IS_ERR(sgt))
+> >  		return PTR_ERR(sgt);
+> >  
+> > @@ -102,8 +103,8 @@ void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf)
+> >  		umem_dmabuf->last_sg_trim = 0;
+> >  	}
+> >  
+> > -	dma_buf_unmap_attachment(umem_dmabuf->attach, umem_dmabuf->sgt,
+> > -				 DMA_BIDIRECTIONAL);
+> > +	dma_buf_unmap_attachment_unlocked(umem_dmabuf->attach, umem_dmabuf->sgt,
+> > +					  DMA_BIDIRECTIONAL);
+> >  
+> >  	umem_dmabuf->sgt = NULL;
+> >  }
+> 
+> Jason / Leon,
+> 
+> Could you please ack this patch?
 
-Given that there is no upper bound to the delay that can be introduced
-by other drivers, I've reached the following compromise with the media
-team:
+You probably don't need it, for something so simple, but sure
 
-1) i915 is going to bump the timeout to 5s, to reduce the probability
-of reaching it. We still expect HuC to be loaded before userspace
-starts submitting, so increasing the timeout should have no impact on
-normal operations, but in case something weird happens we don't want to
-stall video submissions for too long.
+Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 
-2) The media driver will cope with the failing submissions that manage
-to go through between i915 init/resume complete and HuC loading, if any
-ever happen. This could cause a small corruption of video playback
-immediately after a resume (we should be safe on boot because the media
-driver polls the HUC_STATUS ioctl before starting submissions).
-
-Since we're accepting the timeout as a valid outcome, I'm also reducing
-the print verbosity from error to notice.
-
-v2: use separate prints for MEI GSC and MEI PXP init timeouts (John)
-
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/7033
-Fixes: 27536e03271d ("drm/i915/huc: track delayed HuC load with a fence")
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Tony Ye <tony.ye@intel.com>
-Cc: John Harrison <john.c.harrison@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_huc.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index 4d1cc383b681..41c032ab34b3 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -52,10 +52,12 @@
-  * guaranteed for this to happen during boot, so the big timeout is a safety net
-  * that we never expect to need.
-  * MEI-PXP + HuC load usually takes ~300ms, but if the GSC needs to be resumed
-- * and/or reset, this can take longer.
-+ * and/or reset, this can take longer. Note that the kernel might schedule
-+ * other work between the i915 init/resume and the MEI one, which can add to
-+ * the delay.
-  */
- #define GSC_INIT_TIMEOUT_MS 10000
--#define PXP_INIT_TIMEOUT_MS 2000
-+#define PXP_INIT_TIMEOUT_MS 5000
- 
- static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
- 				 enum i915_sw_fence_notify state)
-@@ -104,8 +106,12 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
- 	struct intel_huc *huc = container_of(hrtimer, struct intel_huc, delayed_load.timer);
- 
- 	if (!intel_huc_is_authenticated(huc)) {
--		drm_err(&huc_to_gt(huc)->i915->drm,
--			"timed out waiting for GSC init to load HuC\n");
-+		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
-+			drm_notice(&huc_to_gt(huc)->i915->drm,
-+				   "timed out waiting for MEI GSC init to load HuC\n");
-+		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
-+			drm_notice(&huc_to_gt(huc)->i915->drm,
-+				   "timed out waiting for MEI PXP init to load HuC\n");
- 
- 		__gsc_init_error(huc);
- 	}
--- 
-2.37.3
-
+Jason
