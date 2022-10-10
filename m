@@ -1,63 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6F65F9ADC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 10:19:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 614D85F9B65
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 10:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23D5D10E45E;
-	Mon, 10 Oct 2022 08:19:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D1710E138;
+	Mon, 10 Oct 2022 08:51:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B60D10E45E;
- Mon, 10 Oct 2022 08:19:39 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id q7so9910833ljp.3;
- Mon, 10 Oct 2022 01:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=I7v62s0tHV0kqa2FitvPMR54Nq/Z11yQVA+Wcx+cd0E=;
- b=JUqavGJR51tPHny6+NaA1CBU0ntpqclouIJ6sEEmeJrmivsedgMh8GN8bTWaVhJj1A
- yDBP6hhQ+illg1bv1/6MI4WTRgmY5P7twh1rE9Olse2sf4XO9ESFDKBQ03VHy+iQ5AGO
- 4rulxXW0sF6Nz7MQAUFrf9RL2VvE9jxF8vPdKUtqa8xx+Z6kbIRkzpWgxiA2QpIy6dE4
- xo9SWvZusi4tXpSz3STfVt72sS2YLZIOeZ6ByTL9dSOaslNeD2g13YJknSE1KgVcrLvy
- j6NR88VZjVUhBbbADFp3WUQEglfvWt4JJwkzCl4SAsfT7ZOYX1jq90HOWPUYmvdn1mSZ
- zV0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I7v62s0tHV0kqa2FitvPMR54Nq/Z11yQVA+Wcx+cd0E=;
- b=jx1ANirh9dgX4v12/Ae7fb4o1/24RK3qVVEc5WeFJaf3JjBO/RbLz/7qBq+LWJwEb6
- RkPFsc/+BKH14fb2mvs+LMfOnh5HOVOU4Vzc8G6GWKZM9F/paMkBlJIuaNAR3Qfm11xe
- WjCr/QM08KtMLxIH9K2OwKhrzN7yQzYuSa3rSbLbAv2s5gklwkfQWw8ef4bEBABy2la6
- vi+EnCaWkVKllkGTGBzW/dAPhivg8GabbrPWFSlN4NWGbRlO317mzw25SQXpYXvhCvrT
- 5aH1twsgWJvo2dWn5ztNHzEo6JhQ2Wnk4OwyPLxkdBNwrJoOtHpNKdzmLoubfVjFLtwH
- tnDg==
-X-Gm-Message-State: ACrzQf1tXfuzdTiO7E5RiKY8WQqejD8TiR19rrI8kzAoi4MfxCq0n1b0
- RKsRQ7uu0ecSL8uEhPWmLQE=
-X-Google-Smtp-Source: AMsMyM5SkyaQoAN0dhC+lUw/M4RUAUVBN5jpyX+JJIUTJjbKA9oArrexEuT3pso0e24BrpVW6s7gJw==
-X-Received: by 2002:a05:651c:1504:b0:26c:6331:3463 with SMTP id
- e4-20020a05651c150400b0026c63313463mr6653833ljf.30.1665389977373; 
- Mon, 10 Oct 2022 01:19:37 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- x17-20020a056512047100b0049496608d58sm1318250lfd.155.2022.10.10.01.19.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 01:19:37 -0700 (PDT)
-Date: Mon, 10 Oct 2022 11:19:34 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH] drm/syncobj: add IOCTL to register an eventfd for a
- timeline
-Message-ID: <20221010111934.1e1d84ac@eldfell>
-In-Reply-To: <20221009144001.161124-1-contact@emersion.fr>
-References: <20221009144001.161124-1-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA56A10E138
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 08:51:04 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id C64F532005C1;
+ Mon, 10 Oct 2022 04:51:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 10 Oct 2022 04:51:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1665391860; x=1665478260; bh=F465zH3QC/
+ AbnVw6vk1lOdg6PlWTj/fhAYUsOOtabSo=; b=V3CyrMEXGFQc8Xc05yin7R5KnI
+ sKizRXnWMm2L4rbFdDyhhJQhF0trLKJo2g1hxkA3k8SLo+MEejGN0Yy362ULe1Ag
+ J8Kpxew+ONtKrwUksKtT8aBHOs7L85m4OyPzYdBZczTeTAWQShwmRXAAhePLRjmE
+ mkrkMvtKl2wDLfmxjGiQrgiYQj0wJt7foO7afBXhZsVoMsdwNjWEiVIuds++gcuv
+ LgkTaKQ4kstrAaO3C8TTuPLpgixpgjcqOrHiEIjfXrb2a3q/fnDt5nLt0npVCSv3
+ dC45SFLwlkia/PWZLn7q1k+I508R+Z2NGSlu6anp7KDIJeXln4NtKwks2V4A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1665391860; x=1665478260; bh=F465zH3QC/AbnVw6vk1lOdg6PlWT
+ j/fhAYUsOOtabSo=; b=n0SUXrJ+OHBSg04YiOa/xVQj5jjIn80uLRkcn1c/SZSC
+ qZvMjbx3NZ1yztxJCuESVa9Os/3HQtky3zH1NGEqce6QLmEaPYpBikX6+vQEf5dB
+ Htk1v4kPxx8kFArrIUFyg22ZfVzdUkV0wwUo+SHYAO0FpTqsA12W4BjaATfLpc+O
+ NN60AAmBBvpYB1DI7vRuGvk2egm9RGPRgaMWvSssCNrGpeCux6//SPEjmNutJtu4
+ /4XJTNoHCmtFdSkn+ptRl8wmd+xdbxHByAhY3OfHd5McgnFdrxAv6YAWon0393ZJ
+ K65QEjlficBzQEQuXH9FOTfu5ognrjJFvrI/Lf567g==
+X-ME-Sender: <xms:9NxDY6BbLy5mCOWeC6b1ej3HaXmZObqTegmSDihGdJNYIIvx3gzn5A>
+ <xme:9NxDY0jf8bXZU72JyzxBSg6T9vvkiK6jxyYnuapiSj1RA8v6vwatF2E68N1OaEpF7
+ FXTLGgHnj43B1lAyh0>
+X-ME-Received: <xmr:9NxDY9kZVwSEi6Fc2acRqDeT-sTszJe1Q1_bq_b8T37LHU3_3mhOEPzY5lOU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgedgtdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:9NxDY4xjPmETpSe3kx2rP3pRKgRO5_VMnp5JLbzdddK1LNBy-yXOOA>
+ <xmx:9NxDY_TuU94A5Fos0y7Xw94qLYDlj9AKy1lOAxDqrUtkA1l8Pv1xYA>
+ <xmx:9NxDYzaSQnRZ2sEU5WQ9C7DMVtHn8PbYfprmfq-u1OWzgW6G6EvlBA>
+ <xmx:9NxDYwDoPrGVKuCz0eiBB6pWglgJtWi19EajeREjUB32IKAwzKekAA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Oct 2022 04:50:59 -0400 (EDT)
+Date: Mon, 10 Oct 2022 10:50:58 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>
+Subject: Re: [PATCH 0/2] drm/vc4: hdmi: Fixes for the RaspberryPi 0-3 stalls
+Message-ID: <20221010085058.dvf4o6tsr55kmw7f@houat>
+References: <20220929-rpi-pi3-unplugged-fixes-v1-0-cd22e962296c@cerno.tech>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bthjslvleo7iysnz"
+Content-Disposition: inline
+In-Reply-To: <20220929-rpi-pi3-unplugged-fixes-v1-0-cd22e962296c@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,140 +85,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>, James Jones <jajones@nvidia.com>,
- dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q
-Content-Type: text/plain; charset=UTF-8
+
+--bthjslvleo7iysnz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 09 Oct 2022 14:40:14 +0000
-Simon Ser <contact@emersion.fr> wrote:
+Hi Mark, Stefan,
 
-> Introduce a new DRM_IOCTL_SYNCOBJ_TIMELINE_REGISTER_EVENTFD IOCTL
-> which signals an eventfd when a timeline point completes.
+On Thu, Sep 29, 2022 at 11:21:16AM +0200, Maxime Ripard wrote:
+> Here's a series addressing the current bug that has been reported for the
+> RaspberryPi3, where booting without an HDMI monitor attached and with vc4
+> compiled as a module will lead to a stuck system when the module is loade=
+d.
 >=20
-> This is useful for Wayland compositors to handle wait-before-submit.
-> Wayland clients can send a timeline point to the compositor
-> before the point has materialized yet, then compositors can wait
-> for the point to materialize via this new IOCTL.
+> This is due to the HSM clock not being initialized by anyone, and thus not
+> being functional once we start accessing the HDMI registers.
 >=20
-> The existing DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT IOCTL is not suitable
-> because it blocks. Compositors want to integrate the wait with
-> their poll(2)-based event loop.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Cc: Daniel Stone <daniel@fooishbar.org>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: James Jones <jajones@nvidia.com>
-> ---
->  drivers/gpu/drm/drm_internal.h |   3 +
->  drivers/gpu/drm/drm_ioctl.c    |   3 +
->  drivers/gpu/drm/drm_syncobj.c  | 113 +++++++++++++++++++++++++++++++--
->  include/drm/drm_syncobj.h      |   6 +-
->  include/uapi/drm/drm.h         |  15 +++++
->  5 files changed, 133 insertions(+), 7 deletions(-)
+> The first patch will fix this, and the second will make sure we avoid that
+> situation entirely in the future. This has been tested with 5.19.12. Earl=
+ier
+> versions might need a backport of 88110a9f6209 ("clk: bcm2835: fix
+> bcm2835_clock_choose_div").
 
-...
+Could you test/review this?
 
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 642808520d92..359e21414196 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -909,6 +909,20 @@ struct drm_syncobj_timeline_wait {
->  	__u32 pad;
->  };
-> =20
+Thanks
+Maxime
 
-Hi,
-
-I'm completely clueless about this API.
-
-> +/**
-> + * struct drm_syncobj_timeline_register_eventfd
-> + *
-> + * Register an eventfd to be signalled when a timeline point completes. =
-The
-> + * eventfd counter will be incremented by one.
-
-Sounds nice.
-
-Since the action is to increment the counter by one, does it mean it
-will be possible to wait for a bunch of completions and have the
-eventfd poll return only when they have all signaled?
-
-> + */
-> +struct drm_syncobj_timeline_register_eventfd {
-> +	__u32 handle;
-
-Handle of what?
-
-> +	__u32 flags;
-
-What flags are allowed? Must be zero for now?
-
-> +	__u64 point;
-
-Is this some Vulkan thingy?
-
-> +	__s32 fd;
-
-I guess the userspace needs to create an eventfd first, and pass it as
-the argument here? This is not creating a new eventfd itself?
-
-> +	__u32 pad;
-
-Must be zero?
-
-
-Thanks,
-pq
-
-> +};
-> +
-> =20
->  struct drm_syncobj_array {
->  	__u64 handles;
-> @@ -1095,6 +1109,7 @@ extern "C" {
->  #define DRM_IOCTL_SYNCOBJ_QUERY		DRM_IOWR(0xCB, struct drm_syncobj_timel=
-ine_array)
->  #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_tra=
-nsfer)
->  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_sync=
-obj_timeline_array)
-> +#define DRM_IOCTL_SYNCOBJ_TIMELINE_REGISTER_EVENTFD	DRM_IOWR(0xCE, struc=
-t drm_syncobj_timeline_register_eventfd)
-> =20
->  /**
->   * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
-
-
---Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--bthjslvleo7iysnz
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmND1ZYACgkQI1/ltBGq
-qqc/Vw//dO05Xqq4ZYZG1BPfH1+1V7JZk/UzAHpK0CmTmDDZbRJJA19gE3jJhmeV
-MgouxAN7KnDebR1pzCPOCvSJNY41/aZcPTjlUDnUfXMrd1O8Ii6LJrCaUoVPHjJ/
-1bKA0cdv+B0I00jiUP2kj8HPPB4sduuXVrp0CS90BjJZ3oTD7YKuNh4a4/uVG3S9
-H6FwasjzPiKjLHK7HwuQESo+HwYZ0Sl1TgaKT8HxcD9QekzTA5lUsqGQuZnnH1Aw
-xuktp3Za23cj5pjqXkSLHoOO26BWsqBLLKiQPqBWeNfVizyykZ2VxgPj6DsbeVNv
-NOu4ikPBA9PxjKiNfxh5ZB++K+uJrYsSa7+7se0n+JGFe7EXnm0Oh6RXl5BF8QVk
-IwjSJQEUdtKmrgOjY+0TP7mUrDrmGEzKKUh+j3BDyKdTVi3YS8BkKu+KowBgbNnC
-dOCBBALUP1kAG9DeSerdvn3j28YBBIT0ezGjxuaiOEXcmIT9dmpjyrITXwPQYxRt
-m9FKh0jgGq/93sebaEWYSmAbH/QEHQDGrdKS/6s1pR5D+dwSMHabJg9hdYETLwxQ
-wtNTtwOn/B6AiMf0wvqJ1o0zuChYk82+YUAbkJjcTLcBUd2SkqL/qLc1WiZ3GjrQ
-KjwTGxDt2lhOs4hurQ8azLT4YAMZ6oBuZLxV6gA5ogl9TOR0cVY=
-=IgOZ
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0Pc8gAKCRDj7w1vZxhR
+xZn/AP94RF6lqgwflNPDMX8dl3wXFOH7iQb0gQWvAODp7AHGHgEA+m2fHtdGFiGn
+z3lHqKdgvIpoXD4XtywFBQLeLT5Z2gc=
+=KvOl
 -----END PGP SIGNATURE-----
 
---Sig_/KJJW/2Q6hKj/DYwK5ZfxP2Q--
+--bthjslvleo7iysnz--
