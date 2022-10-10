@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8F05FA28A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 19:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D250B5FA2A7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 19:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 911FD10E691;
-	Mon, 10 Oct 2022 17:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF5710E6A6;
+	Mon, 10 Oct 2022 17:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB1C10E687;
- Mon, 10 Oct 2022 17:15:09 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44A7010E6A4;
+ Mon, 10 Oct 2022 17:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665422109; x=1696958109;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=0ZuoKt/U1ScSkc+bCfiorhJpaIdg/OLjHK8BqDvKtxI=;
- b=G6gO+xtL/m9iOYVl57tVzmcz2TJaviWuxv4/4lqtoU/glaOwoAr/52rg
- /FlW1nhMTI2fxcq3YQDtkRsQlfaACQRYaXcF+TiCtIY913XOwrwWkci+d
- qQ4/+xFHEPb6zLLqtsHAWo0/QixTYSHLY5MaIz4sh9GGrBwKAhW516VHo
- lsN/VEXn1qc4QRsYKPFIcwdjz85bCR3fDDWZciB/D1NeQEfpK7hRdYPXZ
- 8kTJVxTXf+tg0MEBsFKJYxiZrsCYlJ9DFoSePo9A4D2hpdEi6JN6fB2br
- fS3CcZ9ood/RWffDaLwM6x154cFx6zfIXlQFq+Tn9/qdzzQCxO0FzgQLB g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="330755492"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="330755492"
+ t=1665422462; x=1696958462;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=M93sagOiE/afYlRfaYmB3FD+toccP4mfctXeQdrive4=;
+ b=YTwI4Cdem4KArIZVURF4KhdTlX6KtV+deY5TQ+2dv2HI7sIKQ1nP5X7q
+ w/7wiQxQeavoS0DlNIytuubKijW2kuXtL1NuY90VRyBM6FlXoO7dWaAaD
+ WhHxCGqL1n/FSNr7RuLoKmwOhjq6ItdxUXdQf8yzau1vD6Xwedm9GGkiN
+ jMW3t7egg6lz0XW9pRKtqHMO3Mn+0POaN5pL2VmpyeYcNeWeGW7qGZLZj
+ 12Sjqm4pmWlQqN86g8SAFqBmgggg9yu7GjETh2gmszV6vY/AR9Ofk23iT
+ CegzVgHOiUSh79C3AAjbn8Vy8qxw3UMm8QV7sAiqikRBDhUvslKOpjMa5 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="284666503"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="284666503"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 10:15:08 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="577123042"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="577123042"
-Received: from ikonopko-mobl1.ger.corp.intel.com (HELO [10.252.24.191])
- ([10.252.24.191])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 10:15:05 -0700
-Message-ID: <37285083-957c-e02c-5e62-b8e11a1f79c5@intel.com>
-Date: Mon, 10 Oct 2022 18:15:02 +0100
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2022 10:21:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="577125185"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="577125185"
+Received: from lkp-server01.sh.intel.com (HELO 2af0a69ca4e0) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 10 Oct 2022 10:20:57 -0700
+Received: from kbuild by 2af0a69ca4e0 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ohwSX-00024U-0X;
+ Mon, 10 Oct 2022 17:20:57 +0000
+Date: Tue, 11 Oct 2022 01:20:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ cd9fd78f5c11b5e165d9317ef11e613f4aef4dd1
+Message-ID: <6344544c.DxCKNhruy5lsz7YH%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.1
-Subject: Re: [PATCH v3 07/17] drm/i915/vm_bind: Add support to handle object
- evictions
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-References: <20221010065826.32037-1-niranjana.vishwanathapura@intel.com>
- <20221010065826.32037-8-niranjana.vishwanathapura@intel.com>
- <b7bbe2fa-9dab-8a6d-bda0-a505ae0660dc@intel.com>
- <20221010161146.GE1773@nvishwa1-DESK>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20221010161146.GE1773@nvishwa1-DESK>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,240 +59,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: amd-gfx@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ linux-iio@vger.kernel.org, apparmor@lists.ubuntu.com,
+ linux-nvme@lists.infradead.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, loongarch@lists.linux.dev,
+ linux-ext4@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/10/2022 17:11, Niranjana Vishwanathapura wrote:
-> On Mon, Oct 10, 2022 at 02:30:49PM +0100, Matthew Auld wrote:
->> On 10/10/2022 07:58, Niranjana Vishwanathapura wrote:
->>> Support eviction by maintaining a list of evicted persistent vmas
->>> for rebinding during next submission. Ensure the list do not
->>> include persistent vmas that are being purged.
->>>
->>> v2: Remove unused I915_VMA_PURGED definition.
->>> v3: Properly handle __i915_vma_unbind_async() case.
->>>
->>> Acked-by: Matthew Auld <matthew.auld@intel.com>
->>> Signed-off-by: Niranjana Vishwanathapura 
->>> <niranjana.vishwanathapura@intel.com>
->>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>> ---
->>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  6 ++++
->>>  drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 ++
->>>  drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +++
->>>  drivers/gpu/drm/i915/i915_vma.c               | 31 +++++++++++++++++--
->>>  drivers/gpu/drm/i915/i915_vma.h               | 10 ++++++
->>>  drivers/gpu/drm/i915/i915_vma_types.h         |  8 +++++
->>>  6 files changed, 59 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c 
->>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>> index 8e3e6ceb9442..c435d49af2c8 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>> @@ -85,6 +85,12 @@ static void i915_gem_vm_bind_remove(struct 
->>> i915_vma *vma, bool release_obj)
->>>  {
->>>      lockdep_assert_held(&vma->vm->vm_bind_lock);
->>> +    spin_lock(&vma->vm->vm_rebind_lock);
->>> +    if (!list_empty(&vma->vm_rebind_link))
->>> +        list_del_init(&vma->vm_rebind_link);
->>> +    i915_vma_set_purged(vma);
->>> +    spin_unlock(&vma->vm->vm_rebind_lock);
->>> +
->>>      list_del_init(&vma->vm_bind_link);
->>>      list_del_init(&vma->non_priv_vm_bind_link);
->>>      i915_vm_bind_it_remove(vma, &vma->vm->va);
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c 
->>> b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>> index 422394f8fb40..2fa37f46750b 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>> @@ -295,6 +295,8 @@ void i915_address_space_init(struct 
->>> i915_address_space *vm, int subclass)
->>>      INIT_LIST_HEAD(&vm->vm_bound_list);
->>>      mutex_init(&vm->vm_bind_lock);
->>>      INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
->>> +    INIT_LIST_HEAD(&vm->vm_rebind_list);
->>> +    spin_lock_init(&vm->vm_rebind_lock);
->>>  }
->>>  void *__px_vaddr(struct drm_i915_gem_object *p)
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h 
->>> b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>> index 4ae5734f7d6b..443d1918ad4e 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
->>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>> @@ -265,6 +265,10 @@ struct i915_address_space {
->>>      struct list_head vm_bind_list;
->>>      /** @vm_bound_list: List of vm_binding completed */
->>>      struct list_head vm_bound_list;
->>> +    /* @vm_rebind_list: list of vmas to be rebinded */
->>> +    struct list_head vm_rebind_list;
->>> +    /* @vm_rebind_lock: protects vm_rebound_list */
->>> +    spinlock_t vm_rebind_lock;
->>>      /* @va: tree of persistent vmas */
->>>      struct rb_root_cached va;
->>>      struct list_head non_priv_vm_bind_list;
->>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
->>> b/drivers/gpu/drm/i915/i915_vma.c
->>> index 5d3d67a4bf47..b4be2cbe8382 100644
->>> --- a/drivers/gpu/drm/i915/i915_vma.c
->>> +++ b/drivers/gpu/drm/i915/i915_vma.c
->>> @@ -241,6 +241,7 @@ vma_create(struct drm_i915_gem_object *obj,
->>>      INIT_LIST_HEAD(&vma->vm_bind_link);
->>>      INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
->>> +    INIT_LIST_HEAD(&vma->vm_rebind_link);
->>>      return vma;
->>>  err_unlock:
->>> @@ -1686,6 +1687,14 @@ static void force_unbind(struct i915_vma *vma)
->>>      if (!drm_mm_node_allocated(&vma->node))
->>>          return;
->>> +    /*
->>> +     * Persistent vma should have been purged by now.
->>> +     * If not, issue a warning and purge it.
->>> +     */
->>> +    if (GEM_WARN_ON(i915_vma_is_persistent(vma) &&
->>> +            !i915_vma_is_purged(vma)))
->>> +        i915_vma_set_purged(vma);
->>> +
->>>      atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
->>>      WARN_ON(__i915_vma_unbind(vma));
->>>      GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
->>> @@ -2047,6 +2056,16 @@ int __i915_vma_unbind(struct i915_vma *vma)
->>>      __i915_vma_evict(vma, false);
->>>      drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
->>> +
->>> +    if (i915_vma_is_persistent(vma)) {
->>> +        spin_lock(&vma->vm->vm_rebind_lock);
->>> +        if (list_empty(&vma->vm_rebind_link) &&
->>> +            !i915_vma_is_purged(vma))
->>> +            list_add_tail(&vma->vm_rebind_link,
->>> +                      &vma->vm->vm_rebind_list);
->>> +        spin_unlock(&vma->vm->vm_rebind_lock);
->>> +    }
->>> +
->>>      return 0;
->>>  }
->>> @@ -2059,8 +2078,7 @@ static struct dma_fence 
->>> *__i915_vma_unbind_async(struct i915_vma *vma)
->>>      if (!drm_mm_node_allocated(&vma->node))
->>>          return NULL;
->>> -    if (i915_vma_is_pinned(vma) ||
->>> -        &vma->obj->mm.rsgt->table != vma->resource->bi.pages)
->>
->> Hmm that's looks interesting. IIRC we only keep a ref on the rsgt for 
->> the object pages, and not the vma->bi.pages, where the vma pages can 
->> be destroyed before the async unbind completes, which I guess was the 
->> idea behind this check.
->>
->> But in practice it looks the vma->bi.pages are always just some subset 
->> or rearrangement of the objects rsgt pages, if not the same table, so 
->> the device mapping pointed at by the PTEs should still be valid here 
->> (assuming rsgt in not NULL), even if bi.pages gets nuked? I guess this 
->> change should rather be a patch by itself, with proper explanation in 
->> commit message, since this looks mostly orthogonal?
->>
-> 
-> Yah, I am not sure about the intent of this check. It is expecting the
-> vma->resource->bi.pages to just point to the sg table of the object
-> (vma->obj->mm.rsgt->table) which is reference counted, instead of
-> decoupling it as you mentioned above. Also, the return code -EAGAIN
-> is bit confusing to me as I am not sure how trying again will fix it.
-> 
-> This check was preventing eviction of objects with persistent (vm_bind)
-> vmas (Hence the update is in this patch).
-> Persistent vmas have I915_GTT_VIEW_PARTIAL, so they will get their sg table
-> by calling intel_partial_pages() which creates a new sg table instead of
-> pointing to object's sg table (as done in the I915_GTT_VIEW_NORMAL case).]
-> 
-> If the vma is removed before async unbind completes, we probably
-> should wait for async unbind to complete before releaseing the vma
-> pages? Other option is to have vma point to object's sg table even for
-> partial gtt_view (instead of creating a new sg table) and handle
-> partial binding during the page table update.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: cd9fd78f5c11b5e165d9317ef11e613f4aef4dd1  Add linux-next specific files for 20221010
 
-Yeah, it's a new sg_table, but nothing is actually remmapped in there it 
-seems, so all the device addresses must map to something already in 
-obj->mm.rsgt->table (which is ref counted), so all the PTEs will still 
-be valid, even if the vma is nuked before the unbind actually completes, 
-AFAICT.
+Error/Warning reports:
 
-> 
-> I can also keep the above removed check and only don't check it for
-> persistent vmas.
-> 
-> Any thoughts?
-> 
-> Niranjana
-> 
->>> +    if (i915_vma_is_pinned(vma))
->>>          return ERR_PTR(-EAGAIN);
->>>      /*
->>> @@ -2082,6 +2100,15 @@ static struct dma_fence 
->>> *__i915_vma_unbind_async(struct i915_vma *vma)
->>>      drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
->>> +    if (i915_vma_is_persistent(vma)) {
->>> +        spin_lock(&vma->vm->vm_rebind_lock);
->>> +        if (list_empty(&vma->vm_rebind_link) &&
->>> +            !i915_vma_is_purged(vma))
->>> +            list_add_tail(&vma->vm_rebind_link,
->>> +                      &vma->vm->vm_rebind_list);
->>> +        spin_unlock(&vma->vm->vm_rebind_lock);
->>> +    }
->>> +
->>>      return fence;
->>>  }
->>> diff --git a/drivers/gpu/drm/i915/i915_vma.h 
->>> b/drivers/gpu/drm/i915/i915_vma.h
->>> index c5378ec2f70a..9a4a7a8dfe5b 100644
->>> --- a/drivers/gpu/drm/i915/i915_vma.h
->>> +++ b/drivers/gpu/drm/i915/i915_vma.h
->>> @@ -152,6 +152,16 @@ static inline void 
->>> i915_vma_set_persistent(struct i915_vma *vma)
->>>      set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
->>>  }
->>> +static inline bool i915_vma_is_purged(const struct i915_vma *vma)
->>> +{
->>> +    return test_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
->>> +}
->>> +
->>> +static inline void i915_vma_set_purged(struct i915_vma *vma)
->>> +{
->>> +    set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
->>> +}
->>> +
->>>  static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
->>>  {
->>>      i915_gem_object_get(vma->obj);
->>> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h 
->>> b/drivers/gpu/drm/i915/i915_vma_types.h
->>> index b8176cca58c0..d32c72e8d242 100644
->>> --- a/drivers/gpu/drm/i915/i915_vma_types.h
->>> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
->>> @@ -267,8 +267,14 @@ struct i915_vma {
->>>  /**
->>>   * I915_VMA_PERSISTENT_BIT:
->>>   * The vma is persistent (created with VM_BIND call).
->>> + *
->>> + * I915_VMA_PURGED_BIT:
->>> + * The persistent vma is force unbound either due to VM_UNBIND call
->>> + * from UMD or VM is released. Do not check/wait for VM activeness
->>> + * in i915_vma_is_active() and i915_vma_sync() calls.
->>>   */
->>>  #define I915_VMA_PERSISTENT_BIT    19
->>> +#define I915_VMA_PURGED_BIT    20
->>>      struct i915_active active;
->>> @@ -299,6 +305,8 @@ struct i915_vma {
->>>      struct list_head vm_bind_link;
->>>      /* @non_priv_vm_bind_link: Link in non-private persistent VMA 
->>> list */
->>>      struct list_head non_priv_vm_bind_link;
->>> +    /* @vm_rebind_link: link to vm_rebind_list and protected by 
->>> vm_rebind_lock */
->>> +    struct list_head vm_rebind_link; /* Link in vm_rebind_list */
->>>      /** Interval tree structures for persistent vma */
+https://lore.kernel.org/linux-doc/202209201326.sY9kHOLm-lkp@intel.com
+https://lore.kernel.org/linux-doc/202209231933.vcyETtUl-lkp@intel.com
+https://lore.kernel.org/linux-doc/202210070057.NpbaMyxB-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210090954.pTR6m6rj-lkp@intel.com
+https://lore.kernel.org/llvm/202209220019.Yr2VuXhg-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+Warning: Documentation/translations/zh_CN/devicetree/kernel-api.rst references a file that doesn't exist: Documentation/Devicetree/kernel-api.rst
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/clock/microchip,mpfs.yaml
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/amlogic,meson-nand.txt
+arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
+arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
+arch/loongarch/mm/init.c:166:24: warning: variable 'new' set but not used [-Wunused-but-set-variable]
+arch/parisc/kernel/setup.c:78 setup_cmdline() warn: curly braces intended?
+drivers/gpu/drm/amd/amdgpu/../display/dc/virtual/virtual_link_hwss.c:40:6: warning: no previous prototype for 'virtual_disable_link_output' [-Wmissing-prototypes]
+drivers/iio/adc/mcp3911.c:252 mcp3911_write_raw() error: buffer overflow 'mcp3911_osr_table' 8 <= 31
+drivers/iio/adc/mcp3911.c:499 mcp3911_probe() warn: passing zero to 'PTR_ERR'
+drivers/nvme/target/loop.c:578 nvme_loop_create_ctrl() warn: 'opts->queue_size - 1' 18446744073709551615 can't fit into 65535 'ctrl->ctrl.sqsize'
+drivers/nvme/target/loop.c:578 nvme_loop_create_ctrl() warn: 'opts->queue_size - 1' 4294967295 can't fit into 65535 'ctrl->ctrl.sqsize'
+fs/ext4/super.c:1744:19: warning: 'deprecated_msg' defined but not used [-Wunused-const-variable=]
+include/linux/compiler_types.h:357:45: error: call to '__compiletime_assert_422' declared with attribute error: FIELD_GET: mask is not constant
+include/linux/thread_info.h:217: undefined reference to `riscv_cbom_block_size'
+riscv64-linux-ld: include/linux/thread_info.h:217: undefined reference to `riscv_cbom_block_size'
+security/apparmor/policy_unpack.c:1089 unpack_profile() warn: passing zero to 'ERR_PTR'
+security/apparmor/policy_unpack.c:548 unpack_trans_table() error: uninitialized symbol 'table'.
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-randconfig-r002-20221010
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-virtual_disable_link_output
+|-- alpha-randconfig-r006-20221010
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-virtual_disable_link_output
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-virtual_disable_link_output
+|-- arm64-allyesconfig
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-virtual_disable_link_output
+|-- arm64-randconfig-c043-20221010
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-virtual_disable_link_output
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-defconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a011-20221010
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a012-20221010
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a014-20221010
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a016-20221010
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-c001-20221010
+|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_GET:mask-is-not-constant
+|-- i386-randconfig-c021-20221010
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-m021-20221010
+|   |-- arch-x86-kernel-apic-apic.c-generic_processor_info()-warn:always-true-condition-(num_processors-()-)-(-u32max-)
+|   |-- drivers-iio-adc-mcp3911.c-mcp3911_probe()-warn:passing-zero-to-PTR_ERR
+|   |-- drivers-iio-adc-mcp3911.c-mcp3911_write_raw()-error:buffer-overflow-mcp3911_osr_table
+|   |-- drivers-nvme-target-loop.c-nvme_loop_create_ctrl()-warn:opts-queue_size-can-t-fit-into-ctrl-ctrl.sqsize
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-s051-20221010
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- ia64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-virtual_disable_link_output
+|-- ia64-randconfig-r013-20221010
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-virtual_disable_link_output
+|-- ia64-randconfig-s041-20221010
+clang_recent_errors
+|-- arm-sama7_defconfig
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- arm64-randconfig-r004-20221010
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-function-apply_alternatives_vdso
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- hexagon-defconfig
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- hexagon-randconfig-r041-20221010
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   |-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-__vmnewmap
+|   |-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-__vmsetvec
+|   `-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-memset
+|-- i386-randconfig-a001-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a003-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a004-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a005-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- powerpc-mpc512x_defconfig
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- powerpc-mpc834x_itxgp_defconfig
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- powerpc-mpc866_ads_defconfig
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- powerpc-mpc885_ads_defconfig
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   `-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|-- powerpc-randconfig-r033-20221010
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-function-virtual_disable_link_output
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- x86_64-randconfig-a001-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- x86_64-randconfig-a003-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- x86_64-randconfig-a004-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- x86_64-randconfig-r031-20221010
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+
+elapsed time: 733m
+
+configs tested: 70
+configs skipped: 27
+
+gcc tested configs:
+csky                              allnoconfig
+arm                           imxrt_defconfig
+i386                 randconfig-a012-20221010
+sh                           sh2007_defconfig
+arc                               allnoconfig
+alpha                             allnoconfig
+sh                                  defconfig
+riscv                             allnoconfig
+i386                 randconfig-a011-20221010
+arc                  randconfig-r043-20221010
+i386                 randconfig-a013-20221010
+powerpc                     tqm8541_defconfig
+m68k                       m5275evb_defconfig
+xtensa                    xip_kc705_defconfig
+x86_64               randconfig-a011-20221010
+i386                 randconfig-a015-20221010
+i386                 randconfig-a014-20221010
+x86_64                         rhel-8.3-kunit
+riscv                randconfig-r042-20221010
+x86_64               randconfig-a012-20221010
+x86_64               randconfig-a013-20221010
+sh                          sdk7780_defconfig
+x86_64               randconfig-a016-20221010
+m68k                                defconfig
+i386                 randconfig-a016-20221010
+arm                       omap2plus_defconfig
+x86_64               randconfig-a014-20221010
+mips                          rb532_defconfig
+x86_64               randconfig-a015-20221010
+s390                 randconfig-r044-20221010
+parisc64                         alldefconfig
+parisc                generic-64bit_defconfig
+arm                        oxnas_v6_defconfig
+powerpc                 linkstation_defconfig
+arm                         at91_dt_defconfig
+nios2                         10m50_defconfig
+nios2                            alldefconfig
+powerpc                     ep8248e_defconfig
+powerpc                    sam440ep_defconfig
+powerpc                     sequoia_defconfig
+i386                 randconfig-c001-20221010
+arm                                 defconfig
+i386                                defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+ia64                             allmodconfig
+i386                             allyesconfig
+
+clang tested configs:
+x86_64               randconfig-a002-20221010
+x86_64               randconfig-a001-20221010
+x86_64               randconfig-a003-20221010
+i386                 randconfig-a003-20221010
+i386                 randconfig-a002-20221010
+i386                 randconfig-a001-20221010
+x86_64               randconfig-a006-20221010
+i386                 randconfig-a006-20221010
+hexagon              randconfig-r045-20221010
+powerpc                     mpc512x_defconfig
+x86_64               randconfig-a004-20221010
+i386                 randconfig-a004-20221010
+hexagon                             defconfig
+arm                          collie_defconfig
+x86_64               randconfig-a005-20221010
+arm                       versatile_defconfig
+hexagon              randconfig-r041-20221010
+i386                 randconfig-a005-20221010
+arm                           sama7_defconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                        bcm63xx_defconfig
+powerpc                  mpc866_ads_defconfig
+powerpc                  mpc885_ads_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
