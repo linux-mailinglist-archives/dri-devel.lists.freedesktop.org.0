@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A4B5F9CE2
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 12:37:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA3F5F9CDE
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 12:37:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80C4210E135;
-	Mon, 10 Oct 2022 10:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E30A210E116;
+	Mon, 10 Oct 2022 10:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AB1F10E1BD
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 10:36:29 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C414710E116
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 10:36:28 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3F2451F8AF;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7128321923;
  Mon, 10 Oct 2022 10:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1665398187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=8aqK90vvZP1jTa2u4kAYL9z7g1N+6V2TuBuGEttHztQ=;
- b=MoENMCghPgPMl1E4uI9SUUFYZViI5sTHAMz2fKX+DnL52Cskuu0LR96pun8npI+8KCIpIc
- YO9Br0xaypRPivyeBSL1LisIAb7tKoQ96UByL4Iq4/Fu7M5q0lapo1Q708I33cpCVgVbuC
- f+GaEesBcjpK4FH5b1xUORvJehKRG80=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hO/GmsCHEgOzgMu5EyqFUqs2Vgqaca1gWYfZWBciSxI=;
+ b=qq8e/beA70apyYD+/W8LXlvn2WRmeZUNCd/ZhOWRnx9m6tyI5+5vdgjKiXrYcSLU/QmcL9
+ 6HSPaLZ/MChxBSkj26GIlryZHpGfo+Z9pAImPxT3xnhaeyBVwepXotv7UivNesFSGhlT/g
+ 6O4BiGx1HqrUU5AuDQMu69JeuNRSsk4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1665398187;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=8aqK90vvZP1jTa2u4kAYL9z7g1N+6V2TuBuGEttHztQ=;
- b=CrIXTpaE9mFXPbqtq1t0C2BxYqVeaHBOs/UTrFeiA10F7X2hw+eXkrl9RcMJd7cUQhdOTD
- rKB8VJI21y41ATBg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hO/GmsCHEgOzgMu5EyqFUqs2Vgqaca1gWYfZWBciSxI=;
+ b=x62nkLOyGm2N24sM5zxLLr6blel0iJuZMnh70GloVxFnNoyr9vBxwhTjKikx794ZxBxMwM
+ EdzLKoo230MKCIBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0752613ACA;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F99F13AF4;
  Mon, 10 Oct 2022 10:36:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 1pzbAKv1Q2M4LgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id eDBxDqv1Q2M4LgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 10 Oct 2022 10:36:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
  ilpo.jarvinen@cs.helsinki.fi
-Subject: [PATCH 0/8] drm/ast: Convert ast driver to SHMEM
-Date: Mon, 10 Oct 2022 12:36:17 +0200
-Message-Id: <20221010103625.19958-1-tzimmermann@suse.de>
+Subject: [PATCH 1/8] drm/ast: Acquire I/O-register lock in atomic_commit_tail
+ function
+Date: Mon, 10 Oct 2022 12:36:18 +0200
+Message-Id: <20221010103625.19958-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221010103625.19958-1-tzimmermann@suse.de>
+References: <20221010103625.19958-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,53 +74,90 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset converts ast to GEM SHMEM helpers. Fixes problems with
-memory allocation and BMC scanout updates.
+Hold I/O-register lock in atomic_commit_tail to protect all pipeline
+updates at once. Protects modesetting against concurrent EDID reads.
 
-Patches 1 to 3 are fixes for various minor problems in the ast driver.
-We should merge them even without SHMEM support.
+Complex modesetting operations involve mode changes and plane updates.
+These steps used to be protected individually against concurrent I/O.
+Make all this atomic wrt to reading display modes via EDID. The EDID
+code in the conenctor's get_modes helper already acquires the necessary
+lock.
 
-Patches 4 to 6 prepare the driver for the conversion. The cursor double
-buffering is not required and prevents reuse among the plane code. Style
-issues are being fixed separately from the conversion.
+A similar issue was fixed in commit 2d70b9a1482e ("drm/mgag200: Acquire
+I/O-register lock in atomic_commit_tail function") for mgag200.
 
-The conversion itself is in patch 7. Not only does it fix problems with
-memory allocation, it also brings back several high-res display modes
-that got lost during the ast driver's conversion to atomic modesetting.
-There was an earlier RFC patch of this code that had issues with
-rendering performnce. [1] We've meanwhile improved these areas and
-performance was acceptable on the test systems.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 34 ++++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
 
-With SHMEM in place, the scanout address for the primary plane does not
-have to be changed often. Patch 8 fixes a performance problem where the
-BMC output freezes for several seconds after reprogramming the scanout
-address.
-
-Tested on AST 2100 and 2300 with fbdev emulation, weston, and Gnome in
-X11 and Wayland mode.
-
-[1] https://lore.kernel.org/dri-devel/5a3537c3-2c81-b9de-e4c7-c00577cdd43d@suse.de/
-
-Thomas Zimmermann (8):
-  drm/ast: Acquire I/O-register lock in atomic_commit_tail function
-  drm/ast: Call drm_atomic_helper_check_plane_state() unconditionally
-  drm/ast: Do not call drm_atomic_add_affected_planes()
-  drm/ast: Remove cursor double buffering
-  drm/ast: Rename struct ast_cursor_plane to struct ast_plane
-  drm/ast: Style cleanups in plane code
-  drm/ast: Convert ast to SHMEM
-  drm/ast: Avoid reprogramming primary-plane scanout address
-
- drivers/gpu/drm/ast/Kconfig    |   4 +-
- drivers/gpu/drm/ast/ast_drv.c  |   4 +-
- drivers/gpu/drm/ast/ast_drv.h  |  34 +--
- drivers/gpu/drm/ast/ast_main.c |   5 +-
- drivers/gpu/drm/ast/ast_mm.c   |  14 +-
- drivers/gpu/drm/ast/ast_mode.c | 399 ++++++++++++++++-----------------
- 6 files changed, 219 insertions(+), 241 deletions(-)
-
-
-base-commit: 74e2443e7681e4d442b45f551ddf12d09a6f00c3
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index d5ee3ad538a8..e1e07928906e 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1200,20 +1200,6 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 	return drm_atomic_add_affected_planes(state, crtc);
+ }
+ 
+-static void ast_crtc_helper_atomic_begin(struct drm_crtc *crtc, struct drm_atomic_state *state)
+-{
+-	struct drm_device *dev = crtc->dev;
+-	struct ast_private *ast = to_ast_private(dev);
+-
+-	/*
+-	 * Concurrent operations could possibly trigger a call to
+-	 * drm_connector_helper_funcs.get_modes by trying to read the
+-	 * display modes. Protect access to I/O registers by acquiring
+-	 * the I/O-register lock. Released in atomic_flush().
+-	 */
+-	mutex_lock(&ast->ioregs_lock);
+-}
+-
+ static void
+ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ 			     struct drm_atomic_state *state)
+@@ -1241,8 +1227,6 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ 	//Set Aspeed Display-Port
+ 	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
+ 		ast_dp_set_mode(crtc, vbios_mode_info);
+-
+-	mutex_unlock(&ast->ioregs_lock);
+ }
+ 
+ static void
+@@ -1301,7 +1285,6 @@ ast_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+ static const struct drm_crtc_helper_funcs ast_crtc_helper_funcs = {
+ 	.mode_valid = ast_crtc_helper_mode_valid,
+ 	.atomic_check = ast_crtc_helper_atomic_check,
+-	.atomic_begin = ast_crtc_helper_atomic_begin,
+ 	.atomic_flush = ast_crtc_helper_atomic_flush,
+ 	.atomic_enable = ast_crtc_helper_atomic_enable,
+ 	.atomic_disable = ast_crtc_helper_atomic_disable,
+@@ -1771,8 +1754,23 @@ static int ast_astdp_output_init(struct ast_private *ast)
+  * Mode config
+  */
+ 
++static void ast_mode_config_helper_atomic_commit_tail(struct drm_atomic_state *state)
++{
++	struct ast_private *ast = to_ast_private(state->dev);
++
++	/*
++	 * Concurrent operations could possibly trigger a call to
++	 * drm_connector_helper_funcs.get_modes by trying to read the
++	 * display modes. Protect access to I/O registers by acquiring
++	 * the I/O-register lock. Released in atomic_flush().
++	 */
++	mutex_lock(&ast->ioregs_lock);
++	drm_atomic_helper_commit_tail_rpm(state);
++	mutex_unlock(&ast->ioregs_lock);
++}
++
+ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs = {
+-	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
++	.atomic_commit_tail = ast_mode_config_helper_atomic_commit_tail,
+ };
+ 
+ static const struct drm_mode_config_funcs ast_mode_config_funcs = {
 -- 
 2.37.3
 
