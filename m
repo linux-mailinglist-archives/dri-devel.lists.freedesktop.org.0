@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54CE5FA357
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 20:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53A35FA38C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Oct 2022 20:46:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1F510E454;
-	Mon, 10 Oct 2022 18:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 656A510E2DF;
+	Mon, 10 Oct 2022 18:46:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6C310E454
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 18:24:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 249F9CE139C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 18:24:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C4F67C43144
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Oct 2022 18:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665426270;
- bh=dOFqOLvwMRY5J7qAfyytUbuX1nykxz0wFs3Z9AhlbCo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=bfpBzvFhc6+fw+wyu7poVhXGL2pAsUYTU7um64wFyxB+nFsQoICMP68dU7SNxsFRd
- KFUmRFSs69x5bgT1Dp6jfZTzid8Gz1DB7o0NsAkW6vpvkEo+SpTk/o3Qmez9ZNMMK8
- 1izkzvb/UbEHHhIAsyBZgV2hRpfYeJmgSQyPCmznIZfYhpacXfRMF0DxbkUSIIRzbD
- rjdNdTPoWa6tJlIbganPl5Zh+fUb4XsfoGeBh3wbIuY2RlWQD5GKeQ8lr5Pl3uJwc6
- WJg0ZvzbANxpsdFllKFViQRhJei/gmS259eCalxWE+T8oz2GPwGkibmAe0mSUhlB+0
- wrAkmZhP+pXqw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 96E04C433EA; Mon, 10 Oct 2022 18:24:30 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
- Waiting for fences timed out!"
-Date: Mon, 10 Oct 2022 18:24:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: vyoepdeygrbbsivo@stefan.wf
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213145-2300-fk0dnaOPGl@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
-References: <bug-213145-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4D710E2DF;
+ Mon, 10 Oct 2022 18:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665427574; x=1696963574;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=IFaE6bCPAFgcWOp/D8w3vO+h4+GFNJNpqDIgqE8q15U=;
+ b=kpnX+UmXZuSUuOoeXr7bSD194dAlenQocoB/NaS7KuddaB9nCKz/RLJl
+ vhA6dI9gLg4TAQ3iiNRDzrbl9A21VOHkEYYf76kPa06HJNXCKYB3vBCsq
+ k+54jMdGxcd4vPlbI3ie/3nE6prXkeHSElKFuEaAW6DKopyDEGnNlY09/
+ V52ln8/frfw6pPsenodKLCpih5A93BbK0y7H6LwH4edYxQcOzdCc4Smdy
+ GHyC8HXAkpEIxy9MMUWxBZ2m0g07Ex+T49Oaabz2I0qixe42tr3j1ddoD
+ ozWggz4nnTCYVYFBOay9IDurakIswoaRg4LnRpQSwPISJ086ENGlVoxvj A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="287548364"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="287548364"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2022 11:46:13 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="955022275"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="955022275"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2022 11:46:12 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/huc: bump timeout for delayed load and reduce
+ print verbosity
+Date: Mon, 10 Oct 2022 11:48:12 -0700
+Message-Id: <20221010184812.1576601-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,25 +55,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tony Ye <tony.ye@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
+We're observing sporadic HuC delayed load timeouts in CI, due to mei_pxp
+binding completing later than we expected. HuC is still loaded when the
+bind occurs, but in the meantime i915 has started allowing submission to
+the VCS engines even if HuC is not there.
+In most of the cases I've observed, the timeout was due to the
+init/resume of another driver between i915 and mei hitting errors and
+thus adding an extra delay, but HuC was still loaded before userspace
+could submit, because the whole resume process time was increased by the
+delays.
 
---- Comment #24 from rv1sr (vyoepdeygrbbsivo@stefan.wf) ---
-Do you guys by any chance use KWin?
+Given that there is no upper bound to the delay that can be introduced
+by other drivers, I've reached the following compromise with the media
+team:
 
-Had experienced this exact issue on a daily basis (kernel 5.19 + amdgpu),
-especially while running Firefox or Vivaldi.
+1) i915 is going to bump the timeout to 5s, to reduce the probability
+of reaching it. We still expect HuC to be loaded before userspace
+starts submitting, so increasing the timeout should have no impact on
+normal operations, but in case something weird happens we don't want to
+stall video submissions for too long.
 
-After setting the following environment variable in /etc/environment two we=
-eks
-ago, the issue no longer persists.
+2) The media driver will cope with the failing submissions that manage
+to go through between i915 init/resume complete and HuC loading, if any
+ever happen. This could cause a small corruption of video playback
+immediately after a resume (we should be safe on boot because the media
+driver polls the HUC_STATUS ioctl before starting submissions).
 
-KWIN_DRM_NO_DIRECT_SCANOUT=3D1
+Since we're accepting the timeout as a valid outcome, I'm also reducing
+the print verbosity from error to notice.
 
---=20
-You may reply to this email to add a comment.
+v2: use separate prints for MEI GSC and MEI PXP init timeouts (John)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/7033
+Fixes: 27536e03271d ("drm/i915/huc: track delayed HuC load with a fence")
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Tony Ye <tony.ye@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index 4d1cc383b681..41c032ab34b3 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -52,10 +52,12 @@
+  * guaranteed for this to happen during boot, so the big timeout is a safety net
+  * that we never expect to need.
+  * MEI-PXP + HuC load usually takes ~300ms, but if the GSC needs to be resumed
+- * and/or reset, this can take longer.
++ * and/or reset, this can take longer. Note that the kernel might schedule
++ * other work between the i915 init/resume and the MEI one, which can add to
++ * the delay.
+  */
+ #define GSC_INIT_TIMEOUT_MS 10000
+-#define PXP_INIT_TIMEOUT_MS 2000
++#define PXP_INIT_TIMEOUT_MS 5000
+ 
+ static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
+ 				 enum i915_sw_fence_notify state)
+@@ -104,8 +106,12 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
+ 	struct intel_huc *huc = container_of(hrtimer, struct intel_huc, delayed_load.timer);
+ 
+ 	if (!intel_huc_is_authenticated(huc)) {
+-		drm_err(&huc_to_gt(huc)->i915->drm,
+-			"timed out waiting for GSC init to load HuC\n");
++		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
++			drm_notice(&huc_to_gt(huc)->i915->drm,
++				   "timed out waiting for MEI GSC init to load HuC\n");
++		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
++			drm_notice(&huc_to_gt(huc)->i915->drm,
++				   "timed out waiting for MEI PXP init to load HuC\n");
+ 
+ 		__gsc_init_error(huc);
+ 	}
+-- 
+2.37.3
+
