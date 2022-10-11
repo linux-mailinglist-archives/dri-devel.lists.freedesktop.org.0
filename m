@@ -1,67 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B1C5FB1DB
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 13:55:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8035FB1DF
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 13:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A76310E0E0;
-	Tue, 11 Oct 2022 11:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D5A10E134;
+	Tue, 11 Oct 2022 11:56:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 855B010E0E0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 11:55:05 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id a26so30810002ejc.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 04:55:05 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3BD10E134
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 11:56:08 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id b2so30831557eja.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 04:56:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Ane0WxnU8zMDKafeRcdzayHfFv1c4aKVr3R2/sD6VN4=;
- b=LI7r/hyDr6N66B6EJnIlEpfjLkmEMUNHV7SpprLkm3M0VE+WldgDCxIZXTkS5nmc83
- mipdEC1kSX0TluiuuQT8dRXT2LShAgERakv5KqlLkXvGOe/CTijULJz0sH3fsmdfI8Zw
- Ki/og21yNPlztYTs9JsNMNiI0g8KFcKQtGh9e3QPnuGcE+Z8eWUbG78mvwLnlTfvnFI5
- H8oDTY+dA+BE8hkNmty05hN//e2OgMFd/bDG0HM6mi4uok+lNOj3yt1G+LH+m7oAqNmG
- JMKR4d8ASMMgmi2LL24+vsOT0K5Ndo51Nrp4isWf6BK6UzGb1BdG3tGBMoGtGKCWmOmz
- pF5Q==
+ bh=+17O6DhIX/vWRk2x7hhAAkHrzk7j2OP6V8DD2TTVYgU=;
+ b=bI1ZRN/YY6O5x4wKoe2BKCm5OW2zhxbFa2efYIbEMh8bKGECX9BQZWMIrVZPw/DllM
+ HXCRbPUUJt39DKHo8K1VvU99BLRi0MWmzGOA8na7LOdV904eVwwbtxiAK9oG8xEQOFi6
+ hYApCO6Rkc/eANU8EvL+eG72RgTgQAtxYkzk9HSyJmfivTBZdquhlcr0/q9iqjP7VpMN
+ +AmvdOL9K9stGqOvcwUrKRbfy69yLbb+ne52FpUWsoxrOHE48LyH2NDWm+XssEXyA+s2
+ iWmoLg1utNMo10gS3b3oTIms5sonOi3pBquTd8XksksW2jfEu5mS2sWpNRTBzhOmaZZg
+ Jwfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ane0WxnU8zMDKafeRcdzayHfFv1c4aKVr3R2/sD6VN4=;
- b=YKaAzeR4yUD3jmD/5ombmbRxzkZFWSNhIzBLEIj/T+mWqx3ucOxbiRSCsd1m11ROJE
- /LH29pN9cQNHtD3jzHLLCMYjUoDhKpcwTk7b16FjoRIleiF0/xtplxn8KvNPRqxy1zSR
- 7q0ZeKA979KqT2KSaTHaE/q32fXSEzNBY5UXAKM6EhfQlVAcFvsDg9v9zlpPmuohzBic
- ycYrzpsQk5mBGnQ5Eu2VpW9d4mkMZVyCxiU+FpO6h6i8bLM7w9rfOneQCbGxEym7lDq5
- ZftXHIcaGpXPPANf4CpIAuwZ3TgXHklXsEeEgjwRN8xmqW9vOIWLh+V79MtuKY+1e27e
- 28Lg==
-X-Gm-Message-State: ACrzQf032broTIV5GfzuY3vRNoqCavgiSxjULu2nrE36s1rz78D6AMTa
- 9nQXYgChMmCZAFkVRTWBQ9trakkbfEI=
-X-Google-Smtp-Source: AMsMyM7gCv1zjeI2/5RGwaW9IB1p1GFrb+JPtWy3dfSbUZBw7jdOWmrKs2coRodUu8jEv0Ml+nx/Nw==
-X-Received: by 2002:a17:907:7f93:b0:787:7fbc:8081 with SMTP id
- qk19-20020a1709077f9300b007877fbc8081mr18935242ejc.543.1665489303809; 
- Tue, 11 Oct 2022 04:55:03 -0700 (PDT)
+ bh=+17O6DhIX/vWRk2x7hhAAkHrzk7j2OP6V8DD2TTVYgU=;
+ b=d2mC5c8Zkx0BBelnsSMBUpPLXL2MTRtgxeQ+L4bUUMSlmyKJrPo3QjG1o0k0nZXNf/
+ L5UBMlVLGhh4khKiEJr8EYkjymJvLhsUOKU7CjKp500gpoelk/nXUNAsefRGcBp4oYRi
+ ohBxSmDanngd4tEsfc/D6JYyHdM4LkaCy8KWc+XOLDwcx0PVxnobXAfinkZRN+IEYsr1
+ /MZ7N1DlecYBLpVdumtfB7B74jGIW4eLRMhQVNXS+7xtMy80LG9MNts7YKiQRSSJgHAb
+ JVFKTwWlRtLqH3aqVyXUr3DjgU2NYZx8FImfPt5Gscc/QViLPCaLXhSpXAJGHA9/BFMT
+ /hQw==
+X-Gm-Message-State: ACrzQf1VTs9AoseMu75tHrkmveSm0auwcL9NwWZLSX3hNkLWwIYY8MVJ
+ uYKg7SL/YBXHkxi/rz2Mt0rFz8iV8jY=
+X-Google-Smtp-Source: AMsMyM7LHFJ1GqTHUG0pkUPKkcrZEw9Aik7n0+lNLXpwb6hgMR0tOSSyULD2IVozQKdcN9GWXSVngw==
+X-Received: by 2002:a17:906:478d:b0:78d:ec4d:e2e0 with SMTP id
+ cw13-20020a170906478d00b0078dec4de2e0mr83539ejc.34.1665489366766; 
+ Tue, 11 Oct 2022 04:56:06 -0700 (PDT)
 Received: from [192.168.178.21] (p5b0eacfe.dip0.t-ipconnect.de.
  [91.14.172.254]) by smtp.gmail.com with ESMTPSA id
- i17-20020aa7c711000000b004575085bf18sm9043850edq.74.2022.10.11.04.55.02
+ xf13-20020a17090731cd00b0073d71792c8dsm6688370ejb.180.2022.10.11.04.56.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 04:55:03 -0700 (PDT)
-Message-ID: <2701312e-975b-bfca-0cb5-fcef24f32e2c@gmail.com>
-Date: Tue, 11 Oct 2022 13:55:01 +0200
+ Tue, 11 Oct 2022 04:56:06 -0700 (PDT)
+Message-ID: <7f14fd6b-475c-0b75-4faf-b777ebc42b02@gmail.com>
+Date: Tue, 11 Oct 2022 13:56:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] drm: remove DRM_MINOR_CONTROL
+Subject: Re: Render only DRM devices
 Content-Language: en-US
 To: Simon Ser <contact@emersion.fr>
 References: <20221011110437.15258-1-christian.koenig@amd.com>
- <20221011110437.15258-2-christian.koenig@amd.com>
- <nrRxPQtWoC6aCzSuZn5fl7wccdhP9fOpc86YTIJUlck9LK2NtPTNb5QeZa_Gsl0PYpkTn5FiCcEAzsm_C-ypBEUP4jz4avyuUwJ2P6jmX3w=@emersion.fr>
+ <LDyPQX1u8PCwIfQuy1sQStoURXxBW-sM2cRZGiIJdf50YWWpG5HnlgD04FEfx88xnGtm0ZrvjF0XX4PF2qsXNYpdsUdmCswiuCO23-K2vaI=@emersion.fr>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <nrRxPQtWoC6aCzSuZn5fl7wccdhP9fOpc86YTIJUlck9LK2NtPTNb5QeZa_Gsl0PYpkTn5FiCcEAzsm_C-ypBEUP4jz4avyuUwJ2P6jmX3w=@emersion.fr>
+In-Reply-To: <LDyPQX1u8PCwIfQuy1sQStoURXxBW-sM2cRZGiIJdf50YWWpG5HnlgD04FEfx88xnGtm0ZrvjF0XX4PF2qsXNYpdsUdmCswiuCO23-K2vaI=@emersion.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,35 +75,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.10.22 um 13:39 schrieb Simon Ser:
+Am 11.10.22 um 13:37 schrieb Simon Ser:
 > On Tuesday, October 11th, 2022 at 13:04, Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
 >
->> --- a/include/drm/drm_file.h
->> +++ b/include/drm/drm_file.h
->> @@ -54,7 +54,6 @@ struct file;
->>    */
->>   enum drm_minor_type {
->>   	DRM_MINOR_PRIMARY,
->> -	DRM_MINOR_CONTROL,
->>   	DRM_MINOR_RENDER,
->>   };
-> This makes me uncomfortable: this enum no longer matches DRM_NODE_* in
-> libdrm.
+>> we already have quite a bunch of devices which are essentially render
+>> only and don't expose any connectors or more general display functionality.
+>>
+>> Just recently I ran into a case where an older X/DDX combination
+>> caused problems for such a device so I looked a bit into the
+>> possibility to allow drivers to disable the primary node and only
+>> expose the render node.
+>>
+>> It turned out that this effectively hides the device from X, but
+>> OpenGL and Vulkan can still use it perfectly fine.
+>>
+>> The only crux is that this is checked so early in the initialization
+>> that drivers don't have an opportunity to update their
+>> dev->driver_features. So we will always need a separate drm_driver
+>> structure for render only devices.
+> Typically render-only devices still expose a primary node, but don't
+> expose any KMS resources on it. See drmIsKMS() in libdrm.
+>
+> Primary nodes could still be used by older user-space for rendering with
+> legacy DRM authentication.
 
-Ah! There it was! I was remembering in the back of my head that we had 
-somehow used this in libdrm as well, but couldn't really get where exactly.
+Yeah, and that's exactly what we try to avoid :)
 
-But I don't really see a problem here. The control nodes are identified 
-by name and we don't expose them for quite some time now without any 
-negative impact.
-
-Even the minor number distribution stays the same. So what bad can come 
-from this?
-
-Thanks,
+Cheers,
 Christian.
