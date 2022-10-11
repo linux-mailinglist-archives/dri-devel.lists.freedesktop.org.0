@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B2A5FB7AC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 17:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDB15FB7D0
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 17:56:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F51510E3F6;
-	Tue, 11 Oct 2022 15:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A23C10E380;
+	Tue, 11 Oct 2022 15:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 488D010E3E6;
- Tue, 11 Oct 2022 15:48:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665503338; x=1697039338;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=KA0cLm3hg30fH3NRbxmN6bT4y+YjBKXUTzDe5gV2iSc=;
- b=lx8nNag/pyhugXIT1MhEuhAD4v0vRHdxgJwpkqCWlGuzS3ie/FNBkYA1
- wqYi/uY8mqzNqXpc8RDouWQePkJnTK2l/47x4mf0peNnScCBGKYepVX3n
- R4swDM4wVsITQFDXh9oqCKWqhRUT0Cs+fd2yZZfNyYDk7JMSZvSikRlre
- pfQGC8vA/rIVeOUW68+5lfozc+WuN1b47S6BrhiV/aYyyk4U8HmhRMMiJ
- a+f3FFiw3tlM+6Rl2kEzk9qV3eV791P+XieDGX9FE0NOFeZGLKAN5BiKG
- m0u5eXvs+9nyAPDaEfeXFdwb01eEhRgEVsDtxjLnQJgXNa3jXcbAtrSZK g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="306162339"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="306162339"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 08:48:57 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="659575765"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="659575765"
-Received: from korubohx-mobl.ger.corp.intel.com (HELO [10.252.10.79])
- ([10.252.10.79])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 08:48:54 -0700
-Message-ID: <08c9e525-06f3-90e6-b5c3-d5221507509c@intel.com>
-Date: Tue, 11 Oct 2022 16:48:52 +0100
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4D810E87B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 15:56:45 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id i16so5172776uak.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 08:56:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wH1Bl8itt96KxBsAlutBeKuPO2AccjwjUzu7pu+C0go=;
+ b=cHQS7SWHH1gASscavrPWCc246E7BVCVrvaxgOLz953W9ZYcFihTNZv8KTxGIoPE6VO
+ oxondL9qq+lJt4+IbHPqqpuaTIVC17a3n1VJ1GNQMzW5Pm1mS57FLx+5CAdHEkcfl7wu
+ Wwm66Rp6rTnBPjtVSfACGBqcakSKTvYQ47tmUJBN0sqjUjgLWyAS3SJ/fPNfhEGngrt2
+ 0ZoJeZbPXX2MoCGE4SpvxUHGHv/Ovju656QRtnZJsqWpbYmlQ7pygRvr4N6pOUPceDQl
+ dwHTSyp+zflFhfPwKszINz4PuTsGqtK2Jefl0RHElZbs7PwM+DjGcWnKFSSCX9OIqkfU
+ 4q6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wH1Bl8itt96KxBsAlutBeKuPO2AccjwjUzu7pu+C0go=;
+ b=5cDZx9CLu5O8I0Z9fVla9dJs1WsWuURJPMXcRYfBOdKCKxMO495gdZCVUtAJGAFZxM
+ 1d5y5LYW8I4Q2aPlWFAVlBZHGgvp7s+VhtAGDtEySIVAFE1LW8FFL2udJb5tHiAV1UgO
+ HztVThMEFCExZiVrouLmrEYPp/6NJIFvU5Q2ZOLjJrDGASoiUPT564RrjFFyCm5/cl4q
+ 94SgM1GiuZmQTFh64jz8f/FVZ/y3kD8EjNCey7/1BNdr30oT0YnQLWo9AZJ4Vd4t/PLa
+ sXwu0KhUJiASp5NSf0Hg5dzJVB7ffe2vSUBxKN7D2/IyOB1rnMr29XGulHVZQW29xdSN
+ MtFA==
+X-Gm-Message-State: ACrzQf1HCo6vMRVhLCtw5hES+QrK9c+KT7gyaomiCDo912om+kgf8G0W
+ jCqsCp9iBvJi8KCClvzX0yOuUvvoiHgBmxKiX2scbA==
+X-Google-Smtp-Source: AMsMyM7hO86TNlZ7RU1O5BbKxgzcrBU9iEjAHsEU8uEo45EdTTocB+iB/ZslSLRzKUzF+PENEMSkZ/nzKg+/gEiZ/rg=
+X-Received: by 2002:ab0:7a5b:0:b0:3b3:8eb9:5a25 with SMTP id
+ a27-20020ab07a5b000000b003b38eb95a25mr11832841uat.55.1665503804335; Tue, 11
+ Oct 2022 08:56:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.1
-Subject: Re: [PATCH v3 07/17] drm/i915/vm_bind: Add support to handle object
- evictions
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-References: <20221010065826.32037-1-niranjana.vishwanathapura@intel.com>
- <20221010065826.32037-8-niranjana.vishwanathapura@intel.com>
- <b7bbe2fa-9dab-8a6d-bda0-a505ae0660dc@intel.com>
- <20221010161146.GE1773@nvishwa1-DESK>
- <37285083-957c-e02c-5e62-b8e11a1f79c5@intel.com>
- <20221011004345.GF1773@nvishwa1-DESK> <20221011005531.GG1773@nvishwa1-DESK>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20221011005531.GG1773@nvishwa1-DESK>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20221011075519.3111928-1-shraash@google.com>
+In-Reply-To: <20221011075519.3111928-1-shraash@google.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Tue, 11 Oct 2022 08:56:33 -0700
+Message-ID: <CABXOdTdum0q=2Fy3yM3OnGmHM9ZkNyEURx6C08879ND7ye=vxg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Remove redundant check for 'submit'
+To: Aashish Sharma <shraash@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,271 +64,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ kernel test robot <lkp@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10/2022 01:55, Niranjana Vishwanathapura wrote:
-> On Mon, Oct 10, 2022 at 05:43:47PM -0700, Niranjana Vishwanathapura wrote:
->> On Mon, Oct 10, 2022 at 06:15:02PM +0100, Matthew Auld wrote:
->>> On 10/10/2022 17:11, Niranjana Vishwanathapura wrote:
->>>> On Mon, Oct 10, 2022 at 02:30:49PM +0100, Matthew Auld wrote:
->>>>> On 10/10/2022 07:58, Niranjana Vishwanathapura wrote:
->>>>>> Support eviction by maintaining a list of evicted persistent vmas
->>>>>> for rebinding during next submission. Ensure the list do not
->>>>>> include persistent vmas that are being purged.
->>>>>>
->>>>>> v2: Remove unused I915_VMA_PURGED definition.
->>>>>> v3: Properly handle __i915_vma_unbind_async() case.
->>>>>>
->>>>>> Acked-by: Matthew Auld <matthew.auld@intel.com>
->>>>>> Signed-off-by: Niranjana Vishwanathapura 
->>>>>> <niranjana.vishwanathapura@intel.com>
->>>>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>>>> ---
->>>>>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  6 ++++
->>>>>>  drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 ++
->>>>>>  drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +++
->>>>>>  drivers/gpu/drm/i915/i915_vma.c               | 31 
->>>>>> +++++++++++++++++--
->>>>>>  drivers/gpu/drm/i915/i915_vma.h               | 10 ++++++
->>>>>>  drivers/gpu/drm/i915/i915_vma_types.h         |  8 +++++
->>>>>>  6 files changed, 59 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c 
->>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>>>>> index 8e3e6ceb9442..c435d49af2c8 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>>>>> @@ -85,6 +85,12 @@ static void i915_gem_vm_bind_remove(struct 
->>>>>> i915_vma *vma, bool release_obj)
->>>>>>  {
->>>>>>      lockdep_assert_held(&vma->vm->vm_bind_lock);
->>>>>> +    spin_lock(&vma->vm->vm_rebind_lock);
->>>>>> +    if (!list_empty(&vma->vm_rebind_link))
->>>>>> +        list_del_init(&vma->vm_rebind_link);
->>>>>> +    i915_vma_set_purged(vma);
->>>>>> +    spin_unlock(&vma->vm->vm_rebind_lock);
->>>>>> +
->>>>>>      list_del_init(&vma->vm_bind_link);
->>>>>>      list_del_init(&vma->non_priv_vm_bind_link);
->>>>>>      i915_vm_bind_it_remove(vma, &vma->vm->va);
->>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c 
->>>>>> b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>>>> index 422394f8fb40..2fa37f46750b 100644
->>>>>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>>>> @@ -295,6 +295,8 @@ void i915_address_space_init(struct 
->>>>>> i915_address_space *vm, int subclass)
->>>>>>      INIT_LIST_HEAD(&vm->vm_bound_list);
->>>>>>      mutex_init(&vm->vm_bind_lock);
->>>>>>      INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
->>>>>> +    INIT_LIST_HEAD(&vm->vm_rebind_list);
->>>>>> +    spin_lock_init(&vm->vm_rebind_lock);
->>>>>>  }
->>>>>>  void *__px_vaddr(struct drm_i915_gem_object *p)
->>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h 
->>>>>> b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>>>> index 4ae5734f7d6b..443d1918ad4e 100644
->>>>>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>>>> @@ -265,6 +265,10 @@ struct i915_address_space {
->>>>>>      struct list_head vm_bind_list;
->>>>>>      /** @vm_bound_list: List of vm_binding completed */
->>>>>>      struct list_head vm_bound_list;
->>>>>> +    /* @vm_rebind_list: list of vmas to be rebinded */
->>>>>> +    struct list_head vm_rebind_list;
->>>>>> +    /* @vm_rebind_lock: protects vm_rebound_list */
->>>>>> +    spinlock_t vm_rebind_lock;
->>>>>>      /* @va: tree of persistent vmas */
->>>>>>      struct rb_root_cached va;
->>>>>>      struct list_head non_priv_vm_bind_list;
->>>>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
->>>>>> b/drivers/gpu/drm/i915/i915_vma.c
->>>>>> index 5d3d67a4bf47..b4be2cbe8382 100644
->>>>>> --- a/drivers/gpu/drm/i915/i915_vma.c
->>>>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
->>>>>> @@ -241,6 +241,7 @@ vma_create(struct drm_i915_gem_object *obj,
->>>>>>      INIT_LIST_HEAD(&vma->vm_bind_link);
->>>>>>      INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
->>>>>> +    INIT_LIST_HEAD(&vma->vm_rebind_link);
->>>>>>      return vma;
->>>>>>  err_unlock:
->>>>>> @@ -1686,6 +1687,14 @@ static void force_unbind(struct i915_vma *vma)
->>>>>>      if (!drm_mm_node_allocated(&vma->node))
->>>>>>          return;
->>>>>> +    /*
->>>>>> +     * Persistent vma should have been purged by now.
->>>>>> +     * If not, issue a warning and purge it.
->>>>>> +     */
->>>>>> +    if (GEM_WARN_ON(i915_vma_is_persistent(vma) &&
->>>>>> +            !i915_vma_is_purged(vma)))
->>>>>> +        i915_vma_set_purged(vma);
->>>>>> +
->>>>>>      atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
->>>>>>      WARN_ON(__i915_vma_unbind(vma));
->>>>>>      GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
->>>>>> @@ -2047,6 +2056,16 @@ int __i915_vma_unbind(struct i915_vma *vma)
->>>>>>      __i915_vma_evict(vma, false);
->>>>>>      drm_mm_remove_node(&vma->node); /* pairs with 
->>>>>> i915_vma_release() */
->>>>>> +
->>>>>> +    if (i915_vma_is_persistent(vma)) {
->>>>>> +        spin_lock(&vma->vm->vm_rebind_lock);
->>>>>> +        if (list_empty(&vma->vm_rebind_link) &&
->>>>>> +            !i915_vma_is_purged(vma))
->>>>>> +            list_add_tail(&vma->vm_rebind_link,
->>>>>> +                      &vma->vm->vm_rebind_list);
->>>>>> +        spin_unlock(&vma->vm->vm_rebind_lock);
->>>>>> +    }
->>>>>> +
->>>>>>      return 0;
->>>>>>  }
->>>>>> @@ -2059,8 +2078,7 @@ static struct dma_fence 
->>>>>> *__i915_vma_unbind_async(struct i915_vma *vma)
->>>>>>      if (!drm_mm_node_allocated(&vma->node))
->>>>>>          return NULL;
->>>>>> -    if (i915_vma_is_pinned(vma) ||
->>>>>> -        &vma->obj->mm.rsgt->table != vma->resource->bi.pages)
->>>>>
->>>>> Hmm that's looks interesting. IIRC we only keep a ref on the rsgt 
->>>>> for the object pages, and not the vma->bi.pages, where the vma 
->>>>> pages can be destroyed before the async unbind completes, which I 
->>>>> guess was the idea behind this check.
->>>>>
->>>>> But in practice it looks the vma->bi.pages are always just some 
->>>>> subset or rearrangement of the objects rsgt pages, if not the same 
->>>>> table, so the device mapping pointed at by the PTEs should still be 
->>>>> valid here (assuming rsgt in not NULL), even if bi.pages gets 
->>>>> nuked? I guess this change should rather be a patch by itself, with 
->>>>> proper explanation in commit message, since this looks mostly 
->>>>> orthogonal?
->>>>>
->>>>
->>>> Yah, I am not sure about the intent of this check. It is expecting the
->>>> vma->resource->bi.pages to just point to the sg table of the object
->>>> (vma->obj->mm.rsgt->table) which is reference counted, instead of
->>>> decoupling it as you mentioned above. Also, the return code -EAGAIN
->>>> is bit confusing to me as I am not sure how trying again will fix it.
->>>>
->>>> This check was preventing eviction of objects with persistent (vm_bind)
->>>> vmas (Hence the update is in this patch).
->>>> Persistent vmas have I915_GTT_VIEW_PARTIAL, so they will get their 
->>>> sg table
->>>> by calling intel_partial_pages() which creates a new sg table 
->>>> instead of
->>>> pointing to object's sg table (as done in the I915_GTT_VIEW_NORMAL 
->>>> case).]
->>>>
->>>> If the vma is removed before async unbind completes, we probably
->>>> should wait for async unbind to complete before releaseing the vma
->>>> pages? Other option is to have vma point to object's sg table even for
->>>> partial gtt_view (instead of creating a new sg table) and handle
->>>> partial binding during the page table update.
->>>
->>> Yeah, it's a new sg_table, but nothing is actually remmapped in there 
->>> it seems, so all the device addresses must map to something already 
->>> in obj->mm.rsgt->table (which is ref counted), so all the PTEs will 
->>> still be valid, even if the vma is nuked before the unbind actually 
->>> completes, AFAICT.
->>>
->>
->> Yah, it is just that vma->pages (hence vma_res.bi.pages), ie., the sg 
->> table
->> (if decoupled from obj's sg table) gets freed in __vma_put_pages() before
->> async vma resource is asynchronously unbound and released.
->> This technically seems fine as vma_res.bi.pages are only accessed during
->> binding and not during unbind. But seems bad to keep a pointer dangling
->> after releasing the memory.
->>
-> 
-> Perhaps we can set vma_res->bi.pages to NULL in __vma_put_pages() after
-> freeing the vma->pages.
+On Tue, Oct 11, 2022 at 12:55 AM Aashish Sharma <shraash@google.com> wrote:
+>
+> Rectify the below smatch warning:
+> drivers/gpu/drm/msm/msm_gem_submit.c:963 msm_ioctl_gem_submit() warn:
+> variable dereferenced before check 'submit'
+>
+> 'submit' is normally error pointer or valid, so remove its NULL
+> initializer as it's confusing and also remove a redundant check for it's
+> value.
+>
+> Signed-off-by: Aashish Sharma <shraash@google.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Seems reasonable to me.
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-> 
-> Regards,
-> Niranjana
-> 
->> Niranjana
->>
->>>>
->>>> I can also keep the above removed check and only don't check it for
->>>> persistent vmas.
->>>>
->>>> Any thoughts?
->>>>
->>>> Niranjana
->>>>
->>>>>> +    if (i915_vma_is_pinned(vma))
->>>>>>          return ERR_PTR(-EAGAIN);
->>>>>>      /*
->>>>>> @@ -2082,6 +2100,15 @@ static struct dma_fence 
->>>>>> *__i915_vma_unbind_async(struct i915_vma *vma)
->>>>>>      drm_mm_remove_node(&vma->node); /* pairs with 
->>>>>> i915_vma_release() */
->>>>>> +    if (i915_vma_is_persistent(vma)) {
->>>>>> +        spin_lock(&vma->vm->vm_rebind_lock);
->>>>>> +        if (list_empty(&vma->vm_rebind_link) &&
->>>>>> +            !i915_vma_is_purged(vma))
->>>>>> +            list_add_tail(&vma->vm_rebind_link,
->>>>>> +                      &vma->vm->vm_rebind_list);
->>>>>> +        spin_unlock(&vma->vm->vm_rebind_lock);
->>>>>> +    }
->>>>>> +
->>>>>>      return fence;
->>>>>>  }
->>>>>> diff --git a/drivers/gpu/drm/i915/i915_vma.h 
->>>>>> b/drivers/gpu/drm/i915/i915_vma.h
->>>>>> index c5378ec2f70a..9a4a7a8dfe5b 100644
->>>>>> --- a/drivers/gpu/drm/i915/i915_vma.h
->>>>>> +++ b/drivers/gpu/drm/i915/i915_vma.h
->>>>>> @@ -152,6 +152,16 @@ static inline void 
->>>>>> i915_vma_set_persistent(struct i915_vma *vma)
->>>>>>      set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
->>>>>>  }
->>>>>> +static inline bool i915_vma_is_purged(const struct i915_vma *vma)
->>>>>> +{
->>>>>> +    return test_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
->>>>>> +}
->>>>>> +
->>>>>> +static inline void i915_vma_set_purged(struct i915_vma *vma)
->>>>>> +{
->>>>>> +    set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
->>>>>> +}
->>>>>> +
->>>>>>  static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
->>>>>>  {
->>>>>>      i915_gem_object_get(vma->obj);
->>>>>> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h 
->>>>>> b/drivers/gpu/drm/i915/i915_vma_types.h
->>>>>> index b8176cca58c0..d32c72e8d242 100644
->>>>>> --- a/drivers/gpu/drm/i915/i915_vma_types.h
->>>>>> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
->>>>>> @@ -267,8 +267,14 @@ struct i915_vma {
->>>>>>  /**
->>>>>>   * I915_VMA_PERSISTENT_BIT:
->>>>>>   * The vma is persistent (created with VM_BIND call).
->>>>>> + *
->>>>>> + * I915_VMA_PURGED_BIT:
->>>>>> + * The persistent vma is force unbound either due to VM_UNBIND call
->>>>>> + * from UMD or VM is released. Do not check/wait for VM activeness
->>>>>> + * in i915_vma_is_active() and i915_vma_sync() calls.
->>>>>>   */
->>>>>>  #define I915_VMA_PERSISTENT_BIT    19
->>>>>> +#define I915_VMA_PURGED_BIT    20
->>>>>>      struct i915_active active;
->>>>>> @@ -299,6 +305,8 @@ struct i915_vma {
->>>>>>      struct list_head vm_bind_link;
->>>>>>      /* @non_priv_vm_bind_link: Link in non-private persistent VMA 
->>>>>> list */
->>>>>>      struct list_head non_priv_vm_bind_link;
->>>>>> +    /* @vm_rebind_link: link to vm_rebind_list and protected by 
->>>>>> vm_rebind_lock */
->>>>>> +    struct list_head vm_rebind_link; /* Link in vm_rebind_list */
->>>>>>      /** Interval tree structures for persistent vma */
+> ---
+>  drivers/gpu/drm/msm/msm_gem_submit.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index 5599d93ec0d2..74fe1c56cd65 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -706,7 +706,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>         struct msm_drm_private *priv = dev->dev_private;
+>         struct drm_msm_gem_submit *args = data;
+>         struct msm_file_private *ctx = file->driver_priv;
+> -       struct msm_gem_submit *submit = NULL;
+> +       struct msm_gem_submit *submit;
+>         struct msm_gpu *gpu = priv->gpu;
+>         struct msm_gpu_submitqueue *queue;
+>         struct msm_ringbuffer *ring;
+> @@ -946,8 +946,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>                 put_unused_fd(out_fence_fd);
+>         mutex_unlock(&queue->lock);
+>  out_post_unlock:
+> -       if (submit)
+> -               msm_gem_submit_put(submit);
+> +       msm_gem_submit_put(submit);
+>         if (!IS_ERR_OR_NULL(post_deps)) {
+>                 for (i = 0; i < args->nr_out_syncobjs; ++i) {
+>                         kfree(post_deps[i].chain);
+> --
+> 2.38.0.rc2.412.g84df46c1b4-goog
+>
