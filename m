@@ -2,81 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6AA5FADAC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 09:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA605FADCC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 09:51:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4AA10E7CD;
-	Tue, 11 Oct 2022 07:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADCA10E7DB;
+	Tue, 11 Oct 2022 07:51:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B287F10E363
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 07:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665474381;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WSO31FFSWdoXBgwUfILs3D/eoN5/MJjkcgNLNdrIA0I=;
- b=M5MocYAOobdoqhLDbm3x6fsN5RJNGfGy1et/9Npi8f8IAOhrOHIq7/mzu+gYSBbW1LKGgh
- UIwLTJ+HCMj2zrlJfq8ZegZUiGtzzHjrg/6baWwZ3xCo74HHkQ7lO3OOrjCIi5J3Fvibl7
- ds0g3j/VHU+y3zzemZudWgbXqOLytVI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613--evEx8agP8u6EWE_49bq4g-1; Tue, 11 Oct 2022 03:46:20 -0400
-X-MC-Unique: -evEx8agP8u6EWE_49bq4g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r132-20020a1c448a000000b003c3a87d8abdso5163598wma.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 00:46:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WSO31FFSWdoXBgwUfILs3D/eoN5/MJjkcgNLNdrIA0I=;
- b=NaH0PV2WIn1W//oMQSedEuJAAjbRkdsIWE1I2OE1BIRGMm3RcGn13fipmxlgcuENNd
- 3JKT59ZKR8WVxASjOsKFZXGVEU1vRziJrCySbvKNnmfVMCfc5382nXk3E6iVMNlGhYZO
- 8z354EVUgbStdr4Ib+0825JKxPMnvsDTnkfQ14s5dG7v+ody312IXiKScPtxlgYBapSs
- d7MgkpvTwYx92A5rsiZh5LJO2hJ9NKNMP1sgwBldWN3W6IoZHjZeX+TCDAG9gF0Zi8Kl
- kDsdtMeI9KXl8wxDl4pXGdXnG8zyHrCmdev/E5Fu/HKqtkp3GGdguLGN23+b7ekGTod2
- xLBA==
-X-Gm-Message-State: ACrzQf0kaE5YGHl3ny+Z1hzsFBHhjBS9BrHSi+C5kdo+LSpwm0CtZm49
- g/kLMDbWac5cbGcqRO4UoEvg+FWuEoItxJDGdDVZ7kFJi39b5acZgQF25cdFltYDTDNvWiuZjKs
- WaPIuQeSoHNw2i0mKkS1PVYEKkZaG
-X-Received: by 2002:a05:6000:184c:b0:22f:edd8:821f with SMTP id
- c12-20020a056000184c00b0022fedd8821fmr7415901wri.363.1665474379317; 
- Tue, 11 Oct 2022 00:46:19 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4dmWgqCGPFqZN8NPA8TsXuF3935TrGX3QAoadmbEV1e0/uHHFpUzYt1J3ZTNf2xQER2QOE6g==
-X-Received: by 2002:a05:6000:184c:b0:22f:edd8:821f with SMTP id
- c12-20020a056000184c00b0022fedd8821fmr7415879wri.363.1665474379063; 
- Tue, 11 Oct 2022 00:46:19 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bp15-20020a5d5a8f000000b0022cbf4cda62sm13716589wrb.27.2022.10.11.00.46.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 00:46:18 -0700 (PDT)
-Message-ID: <23333ff7-3ae1-494f-7abe-62da6698fd00@redhat.com>
-Date: Tue, 11 Oct 2022 09:46:16 +0200
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1C3B10E7DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 07:51:24 +0000 (UTC)
+Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
+ [94.209.172.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 3D3FC2063E;
+ Tue, 11 Oct 2022 09:51:21 +0200 (CEST)
+Date: Tue, 11 Oct 2022 09:51:19 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 10/10] drm/msm/dsi: Prevent signed BPG offsets from
+ bleeding into adjacent bits
+Message-ID: <20221011075119.tvn5j5jm6aqnhqv2@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20221009184824.457416-1-marijn.suijten@somainline.org>
+ <20221009185316.462522-3-marijn.suijten@somainline.org>
+ <408bf6a2-47fe-3eaf-7235-578d33a576c9@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v4 5/5] drm/ofdrm: Support big-endian scanout buffers
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
- msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
- paulus@samba.org, geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
-References: <20220928105010.18880-1-tzimmermann@suse.de>
- <20220928105010.18880-6-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220928105010.18880-6-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <408bf6a2-47fe-3eaf-7235-578d33a576c9@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,49 +60,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: Vinod Koul <vkoul@kernel.org>, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, freedreno@lists.freedesktop.org,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+On 2022-10-09 22:14:16, Dmitry Baryshkov wrote:
+> On 09/10/2022 21:53, Marijn Suijten wrote:
+> > The bpg_offset array contains negative BPG offsets which fill the full 8
+> > bits of a char thanks to two's complement: this however results in those
+> > bits bleeding into the next field when the value is packed into DSC PPS
+> > by the drm_dsc_helper function, which only expects range_bpg_offset to
+> > contain 6-bit wide values.  As a consequence random slices appear
+> > corrupted on-screen (tested on a Sony Tama Akatsuki device with sdm845).
+> > 
+> > Use AND operators to limit these two's complement values to 6 bits,
+> > similar to the AMD and i915 drivers.
+> > 
+> > Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> 
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Side note: the DSC params tables are more or less common between amd, 
+> i916 and msm drivers. It might be worth moving them to the DSC helpers 
+> from the individual drivers. This would mean such masks handling can go 
+> into the helper too.
 
-On 9/28/22 12:50, Thomas Zimmermann wrote:
-> All DRM formats assume little-endian byte order. On big-endian systems,
-> it is likely that the scanout buffer is in big endian as well. Update
+I'll queue this up in my list and perhaps tackle it in the next round of
+DSC fixes, assuming things don't get too big.
 
-You say it is likely, not always then? Does it depend on whether the Open
-Firmware is BE or LE ?
+If there are no more reviews I'll respin v4 with your review picked up
+and patch 7/10 reworked or reordered to have access to the msm_host
+pointer added in 8/10 (see kernel test robot mail).
 
-[...]
-
-> +static bool display_get_big_endian_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	bool big_endian;
-> +
-> +#ifdef __BIG_ENDIAN
-> +	big_endian = true;
-> +	if (of_get_property(of_node, "little-endian", NULL))
-> +		big_endian = false;
-> +#else
-> +	big_endian = false;
-> +	if (of_get_property(of_node, "big-endian", NULL))
-> +		big_endian = true;
-> +#endif
-> +
-> +	return big_endian;
-> +}
-> +
-
-Ah, I see. The heuristic then is whether the build is BE or LE or if the Device
-Tree has an explicit node defining the endianess. The patch looks good to me:
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+- Marijn
