@@ -2,80 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630855FB368
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 15:27:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEF45FB39F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 15:44:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76C4510E7FA;
-	Tue, 11 Oct 2022 13:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3F910E3BA;
+	Tue, 11 Oct 2022 13:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6994910E7FA
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 13:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665494808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C/D2ubrokwdjZ4UmudjC7tKrqdHyl96YEsZuvnHbSsY=;
- b=INVOubcVJh5Wm+xHuawpgU883hJ+rX3GXhvbwQ+lsaXfh4suxSW064Nmi3FCHkYEMUnRpI
- vnXpsYPQ8n2DdgS5INrFKtebzKNsdPeyJSj3vDOkHz/JzL7B6ZyevYfEszYl8Nh4dwBx6d
- qnenn0oAxyITQhoR4NYpcU3HzuVL+yQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-452-attI8UZxNRe2kDpFHqyn6Q-1; Tue, 11 Oct 2022 09:26:46 -0400
-X-MC-Unique: attI8UZxNRe2kDpFHqyn6Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c5-20020a1c3505000000b003c56da8e894so4432042wma.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 06:26:45 -0700 (PDT)
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78EC410E3BA;
+ Tue, 11 Oct 2022 13:44:36 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso15907060fac.4; 
+ Tue, 11 Oct 2022 06:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=hdOgpXIVzr2EZYZkvsQiaauFi/fh0de5ZMVYZE7lDc8=;
+ b=fHot2KzfzI6Yjztuqcs7KGUv1VniLbHFwrQWp42/onebcYB1h/acJ02L73XzFS2pfM
+ G97du6iYZ0Y9TRwDLUXHW/3nS18bmSN7V+3KggIXkYvqix/UU9VeLvcy9Vtv2gKz6Y7P
+ bS71/353KqYgtJZqSAbpI9VoUgVjx4tWrvdTxTNZphOe8zJ/ZpCwlZdbfcnZ1HDI4WUg
+ 2dbpE3S5xvqPAU+c0aqESMthrux12t9RCcGdeQsf8fKXhzUm4sHTRg1kwB6XZ/qAx9uJ
+ U8N+Vy6cCGs4dN3L2mjLTmWmW0MNxAntAg32BNMhofjbqV0rIALl41jvsOg9X+po8Zj5
+ Fp2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C/D2ubrokwdjZ4UmudjC7tKrqdHyl96YEsZuvnHbSsY=;
- b=K7bzeMigTeU/fAJAiYPX+9c6N/HkZNEcZ2Imb63pj2i/5Zqagf80pgn3RMGoGr9ZmP
- A3U0Q/VJ0EZoJqH+XY/ujxTl50lCo8kixy8imePsqQzw0nezZh2O1yUKB4eR622gc682
- GSKl0usEMetJPywkIm+FVgtaj0yGCWrzDfueWJknigXP9xegAGfX5sYzqzCrCOfvycpJ
- VO230fi/lbcHZ3KHlbsIOir57plAxoPyah7WmHJ3Gdh3TKyikPtagqJQpRnJZWgSufXa
- Rs9VwdEXbjI94UfNsCtioL0UPU8/uWbZkoWLYvzRmunm1u2U7idpl+2wiBhoO7nQGAo9
- gblg==
-X-Gm-Message-State: ACrzQf3H2QPgsaL0ndWuI1SzbhvzyJKm9NCjKlsx1VHPKePJXUl0A21i
- WMGUbmBYnjI7EdMy6oNlEhqzLrnop48Rn2QbkncnK1/+fDacxOCNddrse2g33hBNn31BYSfg0k+
- yESf4TwUnv8cOI22F32QYpCCvHCq/
-X-Received: by 2002:a5d:6f17:0:b0:22e:33e7:6f6c with SMTP id
- ay23-20020a5d6f17000000b0022e33e76f6cmr14672172wrb.201.1665494804647; 
- Tue, 11 Oct 2022 06:26:44 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7JCEmZje/mdCYZs1oElYJeXtNTZDsJU6C5VVdr9yT1pIHLP4srTC2ac//peQ+wjq9x4B44UA==
-X-Received: by 2002:a5d:6f17:0:b0:22e:33e7:6f6c with SMTP id
- ay23-20020a5d6f17000000b0022e33e76f6cmr14672159wrb.201.1665494804467; 
- Tue, 11 Oct 2022 06:26:44 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bd22-20020a05600c1f1600b003c6b822bfe8sm4797242wmb.29.2022.10.11.06.26.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 06:26:26 -0700 (PDT)
-Message-ID: <bbbd1ebb-f0cc-91d6-2959-28919a2e8893@redhat.com>
-Date: Tue, 11 Oct 2022 15:26:08 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hdOgpXIVzr2EZYZkvsQiaauFi/fh0de5ZMVYZE7lDc8=;
+ b=x3Gr1ctH0UnNgDCEPIbmxkTiZ4b/tHUip2fYb1Truy2bh7tQoeQ23ZGk3tx0Knrlnv
+ IGbGODO1G2xP0mzHuvzi8yCQnEaCWvGLto/FZVQ06wcmQw/ewfrH0o0VBK165uYYAf8d
+ fFLDd5KDBE/s/beoayhGZusibFtWdmwqtMy7uBQsG/wYqTqLJyMj95wvU+uxL2r49mua
+ jgdIDpgfi3N1xDgq4X+LboPCkqSj+YNEjGsbxC99EhWQHrZZcz55uw9E08hz5HYnQB0O
+ 0FI4oZmw6Oq7fNDXS1fOg+fcULnR4SIIMUpwEWZpbdbm1oQfjrjGz/CLxvSLBxZPiFXP
+ RPLw==
+X-Gm-Message-State: ACrzQf2QQrgty6tx/+fMrEk1Wg0lxlfDeO81gvBCbVBNFv6Lv6k5Xaf6
+ tyZ8O4sLGFTHtmmp/WMqZYJRP3XiXHbIxvMSz1s=
+X-Google-Smtp-Source: AMsMyM4ImNHwDo4PzM4b6LyAa/QX8U/OBf5aPIiIpkt3nta3iHvW75nISEIVdsNnW7PBSU4pknSYnWUUxZfH7ajrtA4=
+X-Received: by 2002:a05:6870:40c8:b0:136:4389:1375 with SMTP id
+ l8-20020a05687040c800b0013643891375mr9662275oal.46.1665495875585; Tue, 11 Oct
+ 2022 06:44:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 3/3] drm/crtc-helper: Add a drm_crtc_helper_atomic_check()
- helper
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20221010170203.274949-1-javierm@redhat.com>
- <20221010170203.274949-4-javierm@redhat.com>
- <f6a49350-74d0-4923-7c80-8e6233dc135b@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <f6a49350-74d0-4923-7c80-8e6233dc135b@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221011124103.2123883-1-yangyingliang@huawei.com>
+In-Reply-To: <20221011124103.2123883-1-yangyingliang@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 11 Oct 2022 09:44:24 -0400
+Message-ID: <CADnq5_Mm0=DNifw=+3hW_4YNRreMjtViLJikB6WsJsaJg+unmQ@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: fix build error on arm64
+To: Yang Yingliang <yangyingliang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,69 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, jun.lei@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/22 15:21, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 10.10.22 um 19:02 schrieb Javier Martinez Canillas:
->> Provides a default CRTC state check handler for CRTCs that only have one
->> primary plane attached.
->>
->> There are some drivers that duplicate this logic in their helpers, such as
->> simpledrm and ssd130x. Factor out this common code into a CRTC helper and
->> make drivers use it.
->>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> There really isn't much here for now. I suspect that there are more 
-> drivers that could use this helper. If you merge this before ofdrm, I'll 
-> rebase ofdrm on top.
+Applied.  Thanks.
+
+Alex
+
+On Tue, Oct 11, 2022 at 8:41 AM Yang Yingliang <yangyingliang@huawei.com> wrote:
 >
-
-Sure. I probably won't post a v2 until tomorrow and I believe ofdrm is
-ready to be merged, so I'll just rebase this series on top of that once
-just push it.
-
-> Please also see my comment below.
-> 
-> 
-
-[...]
-
->> +/**
->> + * drm_crtc_helper_atomic_check() - Helper to check CRTC atomic-state
->> + * @crtc: CRTC to check
->> + * @state: atomic state object
->> + *
->> + * Provides a default CRTC-state check handler for CRTCs that only have
->> + * one primary plane attached to it.
->> + *
->> + * This is often the case for the CRTC of simple framebuffers.
-> 
-> I'd add a reference to drm_plane_helper_atomic_check() to this 
-> paragraph. Like
-> 
->    See drm_plane_helper_atomic_check() for the respective plane helpers.
-> 
-> And also reference back from the plane-check helper to the CRTC-check 
-> helper.
+> dcn20_build_mapped_resource() and dcn20_acquire_dsc() is not defined,
+> if CONFIG_DRM_AMD_DC_DCN is disabled.
 >
-
-Good idea, I'll do that. Thanks for your review.
- 
-> Best regards
-> Thomas
-> 
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> Fix the following build error on arm64:
+>
+>   ERROR: modpost: "dcn20_build_mapped_resource" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>   ERROR: modpost: "dcn20_acquire_dsc" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>
+> Fixes: 20dad3813b3c ("drm/amd/display: Add a helper to map ODM/MPC/Multi-Plane resources")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> index 4a6e867369b8..bbed5685d847 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> @@ -3721,12 +3721,16 @@ bool dc_resource_acquire_secondary_pipe_for_mpc_odm(
+>                 else
+>                         sec_pipe->stream_res.opp = sec_pipe->top_pipe->stream_res.opp;
+>                 if (sec_pipe->stream->timing.flags.DSC == 1) {
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>                         dcn20_acquire_dsc(dc, &state->res_ctx, &sec_pipe->stream_res.dsc, pipe_idx);
+> +#endif
+>                         ASSERT(sec_pipe->stream_res.dsc);
+>                         if (sec_pipe->stream_res.dsc == NULL)
+>                                 return false;
+>                 }
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>                 dcn20_build_mapped_resource(dc, state, sec_pipe->stream);
+> +#endif
+>         }
+>
+>         return true;
+> --
+> 2.25.1
+>
