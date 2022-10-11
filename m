@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2665FB892
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 18:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2264E5FB897
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 18:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2D4B10E88D;
-	Tue, 11 Oct 2022 16:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDA7110E8A5;
+	Tue, 11 Oct 2022 16:52:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC4F10E836
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 16:52:00 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A14510E836
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 16:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665507119;
+ s=mimecast20190719; t=1665507121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IBnOwoRDbp5lIz7DyyRGWmB6mwXxMA+2lwoGkttbDwg=;
- b=QANCQQWuaAKu9SozPKqXl5esLddROk0RozNRmhgHH+CkzWfEhR1jdGARxc38yQnvFvUs53
- hOISXCbdyPaQXc32cAgS2H2OJtCmWmYzbwM2h4iSQiaExTIocLLu00rRVrEEgg8OzGi5qq
- 2DfmVY2KYzfDgAS/pNFB80DttOOPG74=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vaCOI9UDHObilr/FfRutdJn/+dgOSqkCuyMJ4ENmaOs=;
+ b=HOiO+GCmCiH/+4A/hOwWiX7Hh6NqOKmUtALSb+0Zjh+AAfU2r7cBh9HHC+GcPbZn1ZTrN/
+ t25SYIJtf5OGToy/DI9J4TKfKWxrS0yUw5+mr6wdc0GzQbjx74UHi4U726C9stFIu3Tqa6
+ D2f5wuzBWJ3L+VeNgp7W7aOK845xtfY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-290-FqZm6c6GON6vhcJ4ab1tRA-1; Tue, 11 Oct 2022 12:51:56 -0400
-X-MC-Unique: FqZm6c6GON6vhcJ4ab1tRA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- p7-20020adfba87000000b0022cc6f805b1so4106150wrg.21
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 09:51:55 -0700 (PDT)
+ us-mta-433-ZQ-rw7qfOaKpndDicOPtoQ-1; Tue, 11 Oct 2022 12:51:58 -0400
+X-MC-Unique: ZQ-rw7qfOaKpndDicOPtoQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b7-20020a05600c4e0700b003bde2d860d1so8705597wmq.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 09:51:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IBnOwoRDbp5lIz7DyyRGWmB6mwXxMA+2lwoGkttbDwg=;
- b=NNN1z7SIyyEXLPJJSh2d1ylqF4o6B/9nEFzLxn3JhBcwt4OFUdvzKjlCZGndW0Lxn2
- 0vIJ3qIQGJdoLJrI0P4Ae9KLquJfbf66tJoDagES2cMWYb/XryZvKUWTp97QtlFkRS7u
- dVIZvemzBD+dTPeE/ZAVCP9EVc2XLYmjWh0wO2QC+rEHfhloI7HlJ+LNYHPB1zwdrK3O
- ce5F99vwXcdcufiVRz7tKwD5piV2zCVOKysDVAFEHoWq9LtoFX9sdrrAgawNHFazwkEL
- +GhGgckxDjNJv79F46RtC3IMSVMnRTEkbkV6Iw5+y0CQqc8oyDJDmK1L/W08K+vQnDbc
- TZgA==
-X-Gm-Message-State: ACrzQf0CMAE97DbmwWL12b/VgyvpnoTQmog1QGmjYeE2VFuxy98PDBzE
- kvvE2NIunDRqX2hNTJL885wxXIQ7NO4hoYjnWaXKBMGm6x9FNSESg+Fle6/+h5nFXgnlphIhcyo
- EPec1l+N88z7i+DNqD58+8f1doApq
-X-Received: by 2002:adf:f709:0:b0:22e:327d:f147 with SMTP id
- r9-20020adff709000000b0022e327df147mr15586634wrp.240.1665507114902; 
- Tue, 11 Oct 2022 09:51:54 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7dY1FoQ99k7LwWCoZXgCqLmpVU8EUj6xpAdddZbJApMpnMONvuXyLssmYE8+jwEFMpfFP2QQ==
-X-Received: by 2002:adf:f709:0:b0:22e:327d:f147 with SMTP id
- r9-20020adff709000000b0022e327df147mr15586620wrp.240.1665507114554; 
- Tue, 11 Oct 2022 09:51:54 -0700 (PDT)
+ bh=vaCOI9UDHObilr/FfRutdJn/+dgOSqkCuyMJ4ENmaOs=;
+ b=fGzfKptlR0Ma83WUMDAHH2xrZXXrkzO+s0nTvPgqlzMiyXrvtRu8X2544ZsUblNkDE
+ oU/oJznXJpX56RYsK+amLSCovBYwOFLTrPsrf6lirB0/vy+o1qcnRsltKBAx2HoKq+mJ
+ 4GOUzGVMPDKFjDLsSF1baGX29BrOEv5YmDnI3C2N0q0ox1ScnDuqNOyYy+cWa3jg+WCX
+ U24tPp4R+1QaNniL/mV7HRTtA11/ZF5V7kQLKxasoAhxgwPeDVzac3eOTPCOkSoH1iyN
+ +S6nI/nV0O10gAB9e7aclxHk68xsgJSlNGiX/9VLOYZgKrZ+Nxon1DfUIHyG0MaWPY5v
+ VZsA==
+X-Gm-Message-State: ACrzQf1oUF73ydU9vOemut4qe+KV5dctMqysT9+g/MbFPhkB5MpQCngh
+ 3MipkFinTMmtJ+5vbTi7qCS6e04hExMryZBM1PBnL9/FdtJ51i+efozBRENA+8hjllL55xta3tF
+ cQItiWBM+aFiKaENplAuZt+ZhfopQ
+X-Received: by 2002:a5d:588e:0:b0:22e:5601:f6d with SMTP id
+ n14-20020a5d588e000000b0022e56010f6dmr15751892wrf.207.1665507117032; 
+ Tue, 11 Oct 2022 09:51:57 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7PmArjh64UHPJejX+ohWlZL4spASdLrxYeMDilCiSbo8QeLZylP8y7c2Z1G8l0Ownm8AjByA==
+X-Received: by 2002:a5d:588e:0:b0:22e:5601:f6d with SMTP id
+ n14-20020a5d588e000000b0022e56010f6dmr15751873wrf.207.1665507116611; 
+ Tue, 11 Oct 2022 09:51:56 -0700 (PDT)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c19-20020a05600c0a5300b003c6c76b43a1sm2025629wmq.13.2022.10.11.09.51.52
+ c19-20020a05600c0a5300b003c6c76b43a1sm2025629wmq.13.2022.10.11.09.51.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 09:51:52 -0700 (PDT)
+ Tue, 11 Oct 2022 09:51:56 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/4] drm/ssd130x: Do not call
- drm_atomic_add_affected_planes()
-Date: Tue, 11 Oct 2022 18:51:35 +0200
-Message-Id: <20221011165136.469750-4-javierm@redhat.com>
+Subject: [PATCH v2 4/4] drm/crtc-helper: Add a drm_crtc_helper_atomic_check()
+ helper
+Date: Tue, 11 Oct 2022 18:51:36 +0200
+Message-Id: <20221011165136.469750-5-javierm@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221011165136.469750-1-javierm@redhat.com>
 References: <20221011165136.469750-1-javierm@redhat.com>
@@ -84,55 +84,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no need to add planes to the atomic state. Remove the call
-to drm_atomic_add_affected_planes() from ssd130x.
+Provides a default CRTC state check handler for CRTCs that only have one
+primary plane attached.
 
-On full modesets, the DRM helpers already add a CRTC's planes to the
-atomic state; see drm_atomic_helper_check_modeset(). There's no reason
-to call drm_atomic_add_affected_planes() unconditionally in the CRTC's
-atomic_check() in ssd130x. It's also too late, as the atomic_check()
-of the added planes will not be called before the commit.
+There are some drivers that duplicate this logic in their helpers, such as
+simpledrm and ssd130x. Factor out this common code into a CRTC helper and
+make drivers use it.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
 
-(no changes since v1)
+Changes in v2:
+- Reference drm_plane_helper_atomic_check() from drm_crtc_atomic_check()
+  kernel doc comments and viceversa (Thomas Zimmermann).
 
- drivers/gpu/drm/solomon/ssd130x.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_crtc_helper.c  | 26 ++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_plane_helper.c |  4 +++-
+ drivers/gpu/drm/solomon/ssd130x.c  | 14 ++------------
+ drivers/gpu/drm/tiny/simpledrm.c   | 14 ++------------
+ include/drm/drm_crtc_helper.h      |  2 ++
+ 5 files changed, 35 insertions(+), 25 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+index 457448cc60f7..1f0a270ac984 100644
+--- a/drivers/gpu/drm/drm_crtc_helper.c
++++ b/drivers/gpu/drm/drm_crtc_helper.c
+@@ -421,6 +421,32 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
+ }
+ EXPORT_SYMBOL(drm_crtc_helper_set_mode);
+ 
++/**
++ * drm_crtc_helper_atomic_check() - Helper to check CRTC atomic-state
++ * @crtc: CRTC to check
++ * @state: atomic state object
++ *
++ * Provides a default CRTC-state check handler for CRTCs that only have
++ * one primary plane attached to it.
++ *
++ * This is often the case for the CRTC of simple framebuffers. See also
++ * drm_plane_helper_atomic_check() for the respective plane-state check
++ * helper function.
++ *
++ * RETURNS:
++ * Zero on success, or an errno code otherwise.
++ */
++int drm_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++
++	if (!new_crtc_state->enable)
++		return 0;
++
++	return drm_atomic_helper_check_crtc_primary_plane(new_crtc_state);
++}
++EXPORT_SYMBOL(drm_crtc_helper_atomic_check);
++
+ static void
+ drm_crtc_helper_disable(struct drm_crtc *crtc)
+ {
+diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
+index 865bd999b187..ba6a9136a065 100644
+--- a/drivers/gpu/drm/drm_plane_helper.c
++++ b/drivers/gpu/drm/drm_plane_helper.c
+@@ -298,7 +298,9 @@ EXPORT_SYMBOL(drm_plane_helper_destroy);
+  * scale and positioning are not expected to change since the plane is always
+  * a fullscreen scanout buffer.
+  *
+- * This is often the case for the primary plane of simple framebuffers.
++ * This is often the case for the primary plane of simple framebuffers. See
++ * also drm_crtc_helper_atomic_check() for the respective CRTC-state check
++ * helper function.
+  *
+  * RETURNS:
+  * Zero on success, or an errno code otherwise.
 diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 57e48355c008..0d4ab65233db 100644
+index 0d4ab65233db..f2795f90ea69 100644
 --- a/drivers/gpu/drm/solomon/ssd130x.c
 +++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -649,17 +649,11 @@ static int ssd130x_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 					    struct drm_atomic_state *new_state)
- {
- 	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
--	int ret;
+@@ -20,6 +20,7 @@
  
- 	if (!new_crtc_state->enable)
--		goto out;
--
--	ret = drm_atomic_helper_check_crtc_primary_plane(new_crtc_state);
--	if (ret)
--		return ret;
-+		return 0;
- 
--out:
--	return drm_atomic_add_affected_planes(new_state, crtc);
-+	return drm_atomic_helper_check_crtc_primary_plane(new_crtc_state);
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fb_helper.h>
+@@ -645,17 +646,6 @@ static enum drm_mode_status ssd130x_crtc_helper_mode_valid(struct drm_crtc *crtc
+ 	return MODE_OK;
  }
  
+-static int ssd130x_crtc_helper_atomic_check(struct drm_crtc *crtc,
+-					    struct drm_atomic_state *new_state)
+-{
+-	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
+-
+-	if (!new_crtc_state->enable)
+-		return 0;
+-
+-	return drm_atomic_helper_check_crtc_primary_plane(new_crtc_state);
+-}
+-
  /*
+  * The CRTC is always enabled. Screen updates are performed by
+  * the primary plane's atomic_update function. Disabling clears
+@@ -663,7 +653,7 @@ static int ssd130x_crtc_helper_atomic_check(struct drm_crtc *crtc,
+  */
+ static const struct drm_crtc_helper_funcs ssd130x_crtc_helper_funcs = {
+ 	.mode_valid = ssd130x_crtc_helper_mode_valid,
+-	.atomic_check = ssd130x_crtc_helper_atomic_check,
++	.atomic_check = drm_crtc_helper_atomic_check,
+ };
+ 
+ static void ssd130x_crtc_reset(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index f03f17f62a56..cbb100753154 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -11,6 +11,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_connector.h>
++#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+@@ -545,17 +546,6 @@ static enum drm_mode_status simpledrm_crtc_helper_mode_valid(struct drm_crtc *cr
+ 	return drm_crtc_helper_mode_valid_fixed(crtc, mode, &sdev->mode);
+ }
+ 
+-static int simpledrm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+-					      struct drm_atomic_state *new_state)
+-{
+-	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
+-
+-	if (!new_crtc_state->enable)
+-		return 0;
+-
+-	return drm_atomic_helper_check_crtc_primary_plane(new_crtc_state);
+-}
+-
+ /*
+  * The CRTC is always enabled. Screen updates are performed by
+  * the primary plane's atomic_update function. Disabling clears
+@@ -563,7 +553,7 @@ static int simpledrm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+  */
+ static const struct drm_crtc_helper_funcs simpledrm_crtc_helper_funcs = {
+ 	.mode_valid = simpledrm_crtc_helper_mode_valid,
+-	.atomic_check = simpledrm_crtc_helper_atomic_check,
++	.atomic_check = drm_crtc_helper_atomic_check,
+ };
+ 
+ static const struct drm_crtc_funcs simpledrm_crtc_funcs = {
+diff --git a/include/drm/drm_crtc_helper.h b/include/drm/drm_crtc_helper.h
+index a6d520d5b6ca..1840db247f69 100644
+--- a/include/drm/drm_crtc_helper.h
++++ b/include/drm/drm_crtc_helper.h
+@@ -50,6 +50,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
+ 			      struct drm_display_mode *mode,
+ 			      int x, int y,
+ 			      struct drm_framebuffer *old_fb);
++int drm_crtc_helper_atomic_check(struct drm_crtc *crtc,
++				 struct drm_atomic_state *state);
+ bool drm_helper_crtc_in_use(struct drm_crtc *crtc);
+ bool drm_helper_encoder_in_use(struct drm_encoder *encoder);
+ 
 -- 
 2.37.3
 
