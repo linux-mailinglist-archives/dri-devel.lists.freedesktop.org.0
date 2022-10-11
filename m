@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB7A5FB3C6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 15:50:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 577165FB3BF
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 15:50:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C535410E806;
-	Tue, 11 Oct 2022 13:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B83F10E5C2;
+	Tue, 11 Oct 2022 13:50:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519EF10E5C2;
- Tue, 11 Oct 2022 13:50:20 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6A310E5C2;
+ Tue, 11 Oct 2022 13:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665496220; x=1697032220;
+ t=1665496216; x=1697032216;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sk4Ro592J8JB79hfrw0B4b6IJkogkXUF/Z2L3LTOxp4=;
- b=cjwSRScvrGwmzJDXsLZCCPHLc1ieLAgup0znWV2RUprhUYEvDWZZYHmW
- RnDA3dVXduZwbw3QOheQVQaO23+UD6ldVAzpEhKPKrdBx1HuOTZ3wraJE
- iwOOvAGCnAKSkio3V7tUGZPKjTPtsrLTMEZIBwBOKRgCkd+/9TPqSzpLs
- ikgTEyjhcPcisE4Qb4CmaKK/1/5NhlY7SBTpyCcjTo93c1KbQ1BTYOlDE
- cOOronRI5DaCRCOPYsHEZXSsM1I2eMsXHLaCxJj0hrieRb7Z81jmUyTIA
- gFSSQsaoyoZDLgRNJeGqkJdJpKNe65i+Xa4v85ZNjYSE5murQzUinXcDC g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="303244760"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="303244760"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 06:50:19 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="871510048"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="871510048"
+ bh=N3PY5sTqIakd3ZAwXZ6GV5DaCIbckAbCs/P3GPnyNCI=;
+ b=EJ4IpyvCWznpmXhMOuJYH+a9i9PZT/Dr7v48e+N/7ChW3i3lX5F2XFw4
+ 7hEXqoknhvle63cagNvVUXkdelPtBMqv/ZQvYSIACwHD0KK3Vb6NjxFRF
+ P2pFetOG1avfYs4nkCiNl9cAEUy6Vpqht0baRFzVr5RdqXGg1LjXgxw9Z
+ m9AbR+u2uaHiHkXnsNXcr2L+Rd28f1XxgP7ndb24dUjA9EZ1HEWhFwQOE
+ QMEGIdqu8CzDEMffqV6X17UGn1N9zxGcxofFFLOe/EqhPlBK5vaPjrhAA
+ 69UI6TCSXTTEWWTixyiYbWEq50KFOjZ+HY7N9ExenfObINXPSS/yJI0qH g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="287770986"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="287770986"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 06:50:15 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="659539857"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="659539857"
 Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 06:50:06 -0700
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 06:50:13 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 03/15] drm/amd/display: stop using connector->override_edid
-Date: Tue, 11 Oct 2022 16:49:37 +0300
-Message-Id: <8620697ae6a13bb9202db9edbc26ff30d9f4e2e8.1665496046.git.jani.nikula@intel.com>
+Subject: [PATCH 04/15] drm/edid: debug log EDID override set/reset
+Date: Tue, 11 Oct 2022 16:49:38 +0300
+Message-Id: <3673fe73231b4eced1b3fe7da131950c602bb16e.1665496046.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1665496046.git.jani.nikula@intel.com>
 References: <cover.1665496046.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,52 +58,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The connector->override_edid flag is strictly for EDID override debugfs
-management, and drivers have no business using it.
+It's useful debugging information to know if and when an override EDID
+was set or reset.
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Xinhui Pan <Xinhui.Pan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
 ---
+ drivers/gpu/drm/drm_edid.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I really have no idea what the functional impact here is. I can only
-guess that the intention is to abuse ->override_edid to block EDID
-property updates. In any case, this use needs to go.
-
-It also seems really curious we get here via connector .get_modes hook!
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 4c73727e0b7d..d96877196a7f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6109,7 +6109,6 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 				aconnector->base.name);
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 47465b9765f1..a863cffa2dc5 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -2194,6 +2194,9 @@ int drm_edid_override_set(struct drm_connector *connector, const void *edid,
  
- 		aconnector->base.force = DRM_FORCE_OFF;
--		aconnector->base.override_edid = false;
- 		return;
- 	}
+ 	connector->override_edid = false;
  
-@@ -6144,8 +6143,6 @@ static void handle_edid_mgmt(struct amdgpu_dm_connector *aconnector)
- 		link->verified_link_cap.link_rate = LINK_RATE_HIGH2;
- 	}
++	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override set\n",
++		    connector->base.id, connector->name);
++
+ 	ret = drm_connector_update_edid_property(connector, edid);
+ 	if (!ret)
+ 		connector->override_edid = true;
+@@ -2206,6 +2209,9 @@ int drm_edid_override_reset(struct drm_connector *connector)
+ {
+ 	connector->override_edid = false;
  
--
--	aconnector->base.override_edid = true;
- 	create_eml_sink(aconnector);
++	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override reset\n",
++		    connector->base.id, connector->name);
++
+ 	return drm_connector_update_edid_property(connector, NULL);
  }
  
 -- 
