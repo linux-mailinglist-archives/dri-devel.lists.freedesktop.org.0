@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC0A5FBC58
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 22:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F125FBCB0
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 23:11:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6425C10E376;
-	Tue, 11 Oct 2022 20:45:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5F210E333;
+	Tue, 11 Oct 2022 21:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA7B10E376;
- Tue, 11 Oct 2022 20:45:36 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1364357a691so10852252fac.7; 
- Tue, 11 Oct 2022 13:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :references:in-reply-to:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yk/YC/vwhdA4SmlGq4Gb2K6GBPNqKnbli+wPdxVsRl0=;
- b=loYkHW4XCXD6gN3aQbD2PtMDX6dVUFR4bxTbXpA23pxkHtruKY/rumyNwQi2SKYcKX
- GImappNH+hyJqFQZOYR8FcsDkFBdrrYDaCJ2xgTajT3eGpcdO9azjspMy5gqvqUXpUDK
- /YyA1eyxcMThdyQk04m6QSZjD2bBG5IDt5esqj0ZDi/CD2OmfMZfa/EDxoYZNj7TvmXo
- 0+DKsXVEy5i5Ie92oceuxyh8HK27GrhfElbCLXGYqzpDEUzdapONLWeL/GAam/ebyOPV
- 0v4+Zlvu1wD0014NfcOVWDWDCMC/4ZR885eqzChDPSoSVjTPHP+TdcHChJVXm4Xyc58D
- mzlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :references:in-reply-to:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yk/YC/vwhdA4SmlGq4Gb2K6GBPNqKnbli+wPdxVsRl0=;
- b=8QNyZaHI5Zw33ih1JMBsB5kTFCVsro1zbaSYqFQSKpnWBeu+18waUjgcnRAFly+hN1
- o/3M35hVVlSIzV6iArvKutSAmAAVkZLS7ts3QfVHbj50vhJMSO5EnEkutKzoFJyi8saa
- JMpYfhgLoE/texmDeZkSGISQi+yt5F2yEB5zDWL25E11cuIqPyLitnG+imZ4dmPuxu8W
- mUfCiE1pFFWSS4U+QpXfzBgZ4M++yBzTDvK4Rk/xxyADXNSCN83iEkm24I/F4hRZXK02
- c0JmXG5+VcpYfU0hkyMk0kBwqzzUHatRhj7UiZtW5Uv2s/bemVNBC6IlCRQQR04eX84D
- hFrg==
-X-Gm-Message-State: ACrzQf3VVxmLfCLFryhNtVdUhcsGNtQpNlgJhYSY+dP2Mr4swRL47Fzg
- lS7PnNnDgMy+5aeGVaPc/SJLeVDSk4nyY5tDZJY=
-X-Google-Smtp-Source: AMsMyM4eCv5ypQ4ONMv0BAL3aePyZkoRRh+DKTwk9L4CXbyI0un2AuGl6d5pqupKKXwTvJW9TCSnPTX3iUD0/uSZp5o=
-X-Received: by 2002:a05:6870:b68c:b0:132:b864:2aa2 with SMTP id
- cy12-20020a056870b68c00b00132b8642aa2mr608499oab.130.1665521135691; Tue, 11
- Oct 2022 13:45:35 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E491810E310;
+ Tue, 11 Oct 2022 21:11:15 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29BHS6J9006380;
+ Tue, 11 Oct 2022 21:11:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=vmhGTej9bCGsmDLQUdsqE59l69J9ovCUAJfkaTBGTcM=;
+ b=kkoETs4fpCdjX7WVbi0axHQJj3j4Srs4lg8pp43V1SinsbKivgHHt87j2Gaz2Pf1REIB
+ dTjykX9fQ86vDhN6t7E5sRdoP4r24aQavDYSr8oUTtnocB4hXHYkyH+SauFtX8DB/pTo
+ RtXpfXMHDnha3dT2nxsvooxDEPgCR5FjnWMNNaT5ZzkLZ7WGvt2+lMEJDJtk4AdwxxNV
+ o6VE9GUTl3EpbFDxCRB9bmAMG5TngA4haaL2tSHz4howFmqZ/pQKm/Q34dIOVedOuESh
+ MNjRjJvDoY0lPWzZ10CJ481znQeOv5SVV8uK7qVyAo693X693f1NWxXq8oIpTG4FI9hd Mw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k4rwy483j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Oct 2022 21:11:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29BLB8WX007844
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Oct 2022 21:11:08 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Tue, 11 Oct 2022 14:11:07 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v2] drm/bridge: adv7533: remove dynamic lane switching from
+ adv7533 bridge
+Date: Tue, 11 Oct 2022 14:10:49 -0700
+Message-ID: <1665522649-3423-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a05:6838:7e8b:0:0:0:0 with HTTP; Tue, 11 Oct 2022 13:45:35
- -0700 (PDT)
-In-Reply-To: <87wn96yggd.fsf@intel.com>
-References: <20221006222146.2375217-1-jani.nikula@intel.com>
- <GLSKJR.CU4DWLJQSTHT2@gmail.com> <87wn96yggd.fsf@intel.com>
-From: Matthieu CHARETTE <matthieu.charette@gmail.com>
-Date: Tue, 11 Oct 2022 22:45:35 +0200
-Message-ID: <CA+FNwmJRZ-5BwuXykp3R6tQagQgunMC9EhfL9CRyi+Ff47TXhA@mail.gmail.com>
-Subject: Re: [PATCH] drm/edid/firmware: stop using throwaway platform device
-To: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 3H69OuX4vCIZtlJxEKs2d5uDIw6Ymshs
+X-Proofpoint-GUID: 3H69OuX4vCIZtlJxEKs2d5uDIw6Ymshs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-11_08,2022-10-11_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0 mlxscore=0
+ suspectscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2210110122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,104 +77,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, robert.foss@linaro.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_khsieh@quicinc.com, laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the EDID is requested during the resume. But since it's
-requested too early, this means before the filesystem is mounted, the
-firmware request fails. This make the DRM driver crash when resuming.
-This kind of issue should be prevented by the firmware caching process
-which cache every firmware requested for the next resume. But since we
-are using a temporary device, the firmware isn't cached on suspend
-since the device doesn't work anymore.
-When using a non temporary device to get the EDID, the firmware will
-be cached on suspend for the next resume. So requesting the firmware
-during resume will succeed.
-But if the firmware has never been requested since the boot, this
-means that the monitor isn't plugged since the boot. The kernel will
-not be caching the EDID. So if we plug the monitor while the machine
-is suspended. The resume will fail to load the firmware. And the DRM
-driver will crash.
-So basically, your fix should solve the issue except for the case
-where the monitor hasn't been plugged since boot and is plugged while
-the machine is suspended.
-I hope I was clear. Tell me if I wasn't. I'm not really good at explaining.
+adv7533 bridge tries to dynamically switch lanes based on the
+mode by detaching and attaching the mipi dsi device.
 
-Matthieu
+This approach is incorrect because this method of dynamic switch of
+detaching and attaching the mipi dsi device also results in removing
+and adding the component which is not necessary.
 
-On 10/11/22, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Tue, 11 Oct 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> wrot=
-e:
->> It should fix the issue. Meanwhile, the system will still crash if a
->> new monitor is plugged while the machine is suspended. We might need to
->> precache the EDID to prevent that.
->
-> Please elaborate.
->
-> BR,
-> Jani.
->
->
->>
->> Matthieu
->>
->> On Fri, Oct 7 2022 at 01:21:46 AM +0300, Jani Nikula
->> <jani.nikula@intel.com> wrote:
->>> We've used a temporary platform device for firmware EDID loading since
->>> it was introduced in commit da0df92b5731 ("drm: allow loading an EDID
->>> as
->>> firmware to override broken monitor"), but there's no explanation why.
->>>
->>> Do we need to?
->>>
->>> Maybe this fixes the suspend/resume issue?
->>>
->>> (Yes, I'll rewrite the commit message if this is the way to go ;)
->>>
->>> References:
->>> https://lore.kernel.org/r/20220727074152.43059-1-matthieu.charette@gmai=
-l.com
->>> Cc: Matthieu CHARETTE <matthieu.charette@gmail.com>
->>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>> ---
->>>  drivers/gpu/drm/drm_edid_load.c | 11 +----------
->>>  1 file changed, 1 insertion(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_edid_load.c
->>> b/drivers/gpu/drm/drm_edid_load.c
->>> index 37d8ba3ddb46..fbae12130234 100644
->>> --- a/drivers/gpu/drm/drm_edid_load.c
->>> +++ b/drivers/gpu/drm/drm_edid_load.c
->>> @@ -182,18 +182,9 @@ static void *edid_load(struct drm_connector
->>> *connector, const char *name,
->>>  		fwdata =3D generic_edid[builtin];
->>>  		fwsize =3D sizeof(generic_edid[builtin]);
->>>  	} else {
->>> -		struct platform_device *pdev;
->>>  		int err;
->>>
->>> -		pdev =3D platform_device_register_simple(connector_name, -1, NULL,
->>> 0);
->>> -		if (IS_ERR(pdev)) {
->>> -			DRM_ERROR("Failed to register EDID firmware platform device "
->>> -				  "for connector \"%s\"\n", connector_name);
->>> -			return ERR_CAST(pdev);
->>> -		}
->>> -
->>> -		err =3D request_firmware(&fw, name, &pdev->dev);
->>> -		platform_device_unregister(pdev);
->>> +		err =3D request_firmware(&fw, name, connector->dev->dev);
->>>  		if (err) {
->>>  			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=3D%d)\n",
->>>  				  name, err);
->>> --
->>> 2.34.1
->>>
->>
->>
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
->
+This approach is also prone to deadlocks. So for example, on the
+db410c whenever this path is executed with lockdep enabled,
+this results in a deadlock due to below ordering of locks.
+
+-> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
+        lock_acquire+0x6c/0x90
+        drm_modeset_acquire_init+0xf4/0x150
+        drmm_mode_config_init+0x220/0x770
+        msm_drm_bind+0x13c/0x654
+        try_to_bring_up_aggregate_device+0x164/0x1d0
+        __component_add+0xa8/0x174
+        component_add+0x18/0x2c
+        dsi_dev_attach+0x24/0x30
+        dsi_host_attach+0x98/0x14c
+        devm_mipi_dsi_attach+0x38/0xb0
+        adv7533_attach_dsi+0x8c/0x110
+        adv7511_probe+0x5a0/0x930
+        i2c_device_probe+0x30c/0x350
+        really_probe.part.0+0x9c/0x2b0
+        __driver_probe_device+0x98/0x144
+        driver_probe_device+0xac/0x14c
+        __device_attach_driver+0xbc/0x124
+        bus_for_each_drv+0x78/0xd0
+        __device_attach+0xa8/0x1c0
+        device_initial_probe+0x18/0x24
+        bus_probe_device+0xa0/0xac
+        deferred_probe_work_func+0x90/0xd0
+        process_one_work+0x28c/0x6b0
+        worker_thread+0x240/0x444
+        kthread+0x110/0x114
+        ret_from_fork+0x10/0x20
+
+-> #0 (component_mutex){+.+.}-{3:3}:
+        __lock_acquire+0x1280/0x20ac
+        lock_acquire.part.0+0xe0/0x230
+        lock_acquire+0x6c/0x90
+        __mutex_lock+0x84/0x400
+        mutex_lock_nested+0x3c/0x70
+        component_del+0x34/0x170
+        dsi_dev_detach+0x24/0x30
+        dsi_host_detach+0x20/0x64
+        mipi_dsi_detach+0x2c/0x40
+        adv7533_mode_set+0x64/0x90
+        adv7511_bridge_mode_set+0x210/0x214
+        drm_bridge_chain_mode_set+0x5c/0x84
+        crtc_set_mode+0x18c/0x1dc
+        drm_atomic_helper_commit_modeset_disables+0x40/0x50
+        msm_atomic_commit_tail+0x1d0/0x6e0
+        commit_tail+0xa4/0x180
+        drm_atomic_helper_commit+0x178/0x3b0
+        drm_atomic_commit+0xa4/0xe0
+        drm_client_modeset_commit_atomic+0x228/0x284
+        drm_client_modeset_commit_locked+0x64/0x1d0
+        drm_client_modeset_commit+0x34/0x60
+        drm_fb_helper_lastclose+0x74/0xcc
+        drm_lastclose+0x3c/0x80
+        drm_release+0xfc/0x114
+        __fput+0x70/0x224
+        ____fput+0x14/0x20
+        task_work_run+0x88/0x1a0
+        do_exit+0x350/0xa50
+        do_group_exit+0x38/0xa4
+        __wake_up_parent+0x0/0x34
+        invoke_syscall+0x48/0x114
+        el0_svc_common.constprop.0+0x60/0x11c
+        do_el0_svc+0x30/0xc0
+        el0_svc+0x58/0x100
+        el0t_64_sync_handler+0x1b0/0x1bc
+        el0t_64_sync+0x18c/0x190
+
+Due to above reasons, remove the dynamic lane switching
+code from adv7533 bridge chip and filter out the modes
+which would need different number of lanes as compared
+to the initialization time using the mode_valid callback.
+
+This can be potentially re-introduced by using the pre_enable()
+callback but this needs to be evaluated first whether such an
+approach will work so this will be done with a separate change.
+
+changes since RFC:
+	- Fix commit text and add TODO comment
+
+changes in v2:
+	- Fix checkpatch formatting errors
+
+Fixes: 62b2f026cd8e ("drm/bridge: adv7533: Change number of DSI lanes dynamically")
+Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/16
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Link: https://lore.kernel.org/r/1661797363-7564-1-git-send-email-quic_abhinavk@quicinc.com
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++++++++----
+ drivers/gpu/drm/bridge/adv7511/adv7533.c     | 25 +++++++++++++------------
+ 3 files changed, 29 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+index a031a0cd1f18..1053d185b24c 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+@@ -405,7 +405,8 @@ static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+ 
+ void adv7533_dsi_power_on(struct adv7511 *adv);
+ void adv7533_dsi_power_off(struct adv7511 *adv);
+-void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode);
++enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
++					const struct drm_display_mode *mode);
+ int adv7533_patch_registers(struct adv7511 *adv);
+ int adv7533_patch_cec_registers(struct adv7511 *adv);
+ int adv7533_attach_dsi(struct adv7511 *adv);
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 38bf28720f3a..4bc7aac94a16 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -697,7 +697,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
+ }
+ 
+ static enum drm_mode_status adv7511_mode_valid(struct adv7511 *adv7511,
+-			      struct drm_display_mode *mode)
++			      const struct drm_display_mode *mode)
+ {
+ 	if (mode->clock > 165000)
+ 		return MODE_CLOCK_HIGH;
+@@ -791,9 +791,6 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+ 	regmap_update_bits(adv7511->regmap, 0x17,
+ 		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
+ 
+-	if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
+-		adv7533_mode_set(adv7511, adj_mode);
+-
+ 	drm_mode_copy(&adv7511->curr_mode, adj_mode);
+ 
+ 	/*
+@@ -913,6 +910,18 @@ static void adv7511_bridge_mode_set(struct drm_bridge *bridge,
+ 	adv7511_mode_set(adv, mode, adj_mode);
+ }
+ 
++static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
++						      const struct drm_display_info *info,
++		const struct drm_display_mode *mode)
++{
++	struct adv7511 *adv = bridge_to_adv7511(bridge);
++
++	if (adv->type == ADV7533 || adv->type == ADV7535)
++		return adv7533_mode_valid(adv, mode);
++	else
++		return adv7511_mode_valid(adv, mode);
++}
++
+ static int adv7511_bridge_attach(struct drm_bridge *bridge,
+ 				 enum drm_bridge_attach_flags flags)
+ {
+@@ -960,6 +969,7 @@ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
+ 	.enable = adv7511_bridge_enable,
+ 	.disable = adv7511_bridge_disable,
+ 	.mode_set = adv7511_bridge_mode_set,
++	.mode_valid = adv7511_bridge_mode_valid,
+ 	.attach = adv7511_bridge_attach,
+ 	.detect = adv7511_bridge_detect,
+ 	.get_edid = adv7511_bridge_get_edid,
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+index ef6270806d1d..258c79d4dab0 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+@@ -100,26 +100,27 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
+ 	regmap_write(adv->regmap_cec, 0x27, 0x0b);
+ }
+ 
+-void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode)
++enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
++					const struct drm_display_mode *mode)
+ {
++	int lanes;
+ 	struct mipi_dsi_device *dsi = adv->dsi;
+-	int lanes, ret;
+-
+-	if (adv->num_dsi_lanes != 4)
+-		return;
+ 
+ 	if (mode->clock > 80000)
+ 		lanes = 4;
+ 	else
+ 		lanes = 3;
+ 
+-	if (lanes != dsi->lanes) {
+-		mipi_dsi_detach(dsi);
+-		dsi->lanes = lanes;
+-		ret = mipi_dsi_attach(dsi);
+-		if (ret)
+-			dev_err(&dsi->dev, "failed to change host lanes\n");
+-	}
++	/*
++	 * TODO: add support for dynamic switching of lanes
++	 * by using the bridge pre_enable() op . Till then filter
++	 * out the modes which shall need different number of lanes
++	 * than what was configured in the device tree.
++	 */
++	if (lanes != dsi->lanes)
++		return MODE_BAD;
++
++	return MODE_OK;
+ }
+ 
+ int adv7533_patch_registers(struct adv7511 *adv)
+-- 
+2.7.4
+
