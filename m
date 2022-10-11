@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A75E5FB07B
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:32:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B91095FB0E7
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 13:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9809C10E365;
-	Tue, 11 Oct 2022 10:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D2710E002;
+	Tue, 11 Oct 2022 11:04:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 601AB10E34E;
- Tue, 11 Oct 2022 10:32:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665484360; x=1697020360;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=PmoXsfsuU1g2vWiW+wkOkDnJcfLzJAQp/lvee/CHGEg=;
- b=EMFJT4kVcQa5Ak3RuhIKdSvA93mdWFyaBjVqPUCpxU9NpBTJTxCGc3Pu
- RLEhm7hqAf+ekb3JZcns7aOK9j6Xt5RZrVhJZQqNslLlRkfF/Ns6QehLz
- K63yeTO5yCzY3yTCZ8GUcZFPTSsa7Mo6DGR8YAJ31IK2UiC5p5EgFkT0B
- cwMs0REafcvvKChdGW3IqCweJk3MR/gu1ddTodTXf3bN3JBXklHdMevCb
- mOGoyNGy0nzEDlVC44+L1AwRbaTkiqsOVtH++IUdFfW91k7L2ZteFEBEN
- VYm2QOF/ZihKWf0eWgnKMqgtz8oNxr2Za3N2BMOvrzBDwve6eJlSAW7io g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="304457168"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="304457168"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 03:32:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="801410639"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="801410639"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga005.jf.intel.com with SMTP; 11 Oct 2022 03:32:36 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 11 Oct 2022 13:32:35 +0300
-Date: Tue, 11 Oct 2022 13:32:35 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use graphics ver, rel info for
- media on old platforms
-Message-ID: <Y0VGQ3jFguGOlh2w@intel.com>
-References: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
- <87pmeyyg3n.fsf@intel.com>
- <DM4PR11MB59714D6C8D496B5538DA27AB87239@DM4PR11MB5971.namprd11.prod.outlook.com>
- <87k056y8kt.fsf@intel.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48F210E002
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 11:04:42 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id k2so30590788ejr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 04:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RHmKNxQeYlL17It4UDJFUaAGwCKxU2/7jM91lczFG6Q=;
+ b=OHRXqQxVECmzpYs+O8Juj4pH0t07+KIxpOqfmaIAEYzTEjSYlsUEnFoWQ1jGMbhQ5v
+ SauK5044Y3qR1eY0OrlyHcR6GilfDAVBd39R8HiDRiOPybbvzv/o/Elfmh2EvP2bLWnw
+ BHp+NwesO07RDB/Uxsv/vrD2iUTIX9mS3PZCaOc7fMETnSzabmEVZxg+bNHPKBJm2pq1
+ jiALMqiCKBfHEzrEUIY3PLNCtSA2uJKobLO9+HuTCprhLJjLSNTuh4EhM8fcy+I60F2H
+ eCa4xHEzcLQWvib2VRRLBrax4RX40BgLG27+wfJAFLSLhVrRt2uUB3ZFp0U/K5z3gDat
+ 4Nqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RHmKNxQeYlL17It4UDJFUaAGwCKxU2/7jM91lczFG6Q=;
+ b=ipvJ7/mw3vVTyARrGwTiq0txhK6eT5tooVNKD1bCAW5uqvA73nTPdEUmridc7W3ew3
+ 9Jn+/MD6+r8ja9dVVJrpNqDECgPOZzLPMC25BJLjY/oXhiNf7jqikMBT7yGC/0CYKwXW
+ KEObY1yHxdT9KN4doPjPKVR7ndm0cn7GgTf6DyH4XqIO+RwyfIrolE8cPCLX2QM3mHWe
+ ZVMRUdmFMxA9SWO+89dZvlNBghqKTRyMxKFt07DXeEkMlInkJ8+GCqE5mj8P3mBY3Fy7
+ L9EOikoAc5t+nMwlt/12z3PgLVFDm2Ua4dkGSiU9QODDgR/k9h9rohUCdYAe5QvUORu3
+ 9CDQ==
+X-Gm-Message-State: ACrzQf0haaPH5V0gkBnpDaK603iwgscFErNssSESRv9+afB/pAPcwhZN
+ T47ys9CPBwJl/TZw3cc5I19fS6ho9eE=
+X-Google-Smtp-Source: AMsMyM4EqiY2sViv0PHqhlcGAEcK0LNfSU5xLDKfebvjkLG/stHRJfX5rXbIE5Ci7ZvyOe+0b+GfYA==
+X-Received: by 2002:a17:907:320c:b0:77b:6f08:9870 with SMTP id
+ xg12-20020a170907320c00b0077b6f089870mr17980027ejb.249.1665486281132; 
+ Tue, 11 Oct 2022 04:04:41 -0700 (PDT)
+Received: from able.fritz.box (p5b0eacfe.dip0.t-ipconnect.de. [91.14.172.254])
+ by smtp.gmail.com with ESMTPSA id
+ v8-20020aa7d9c8000000b00458478a4295sm8938122eds.9.2022.10.11.04.04.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Oct 2022 04:04:40 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@linux.ie
+Subject: Render only DRM devices
+Date: Tue, 11 Oct 2022 13:04:35 +0200
+Message-Id: <20221011110437.15258-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87k056y8kt.fsf@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,84 +72,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sripada,
- Radhakrishna" <radhakrishna.sripada@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 11, 2022 at 01:10:26PM +0300, Jani Nikula wrote:
-> On Tue, 11 Oct 2022, "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com> wrote:
-> > Hi Jani,
-> >
-> >> -----Original Message-----
-> >> From: Jani Nikula <jani.nikula@linux.intel.com>
-> >> Sent: Tuesday, October 11, 2022 12:28 AM
-> >> To: Sripada, Radhakrishna <radhakrishna.sripada@intel.com>; intel-
-> >> gfx@lists.freedesktop.org
-> >> Cc: dri-devel@lists.freedesktop.org; Sripada, Radhakrishna
-> >> <radhakrishna.sripada@intel.com>; De Marchi, Lucas
-> >> <lucas.demarchi@intel.com>; Roper, Matthew D
-> >> <matthew.d.roper@intel.com>
-> >> Subject: Re: [PATCH] drm/i915: Use graphics ver, rel info for media on old
-> >> platforms
-> >> 
-> >> On Mon, 10 Oct 2022, Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> >> wrote:
-> >> > Platforms prior to MTL do not have a separate media and graphics version.
-> >> > On platforms where GMD id is not supported, reuse the graphics ip version,
-> >> > release info for media.
-> >> >
-> >> > The rest of the IP graphics, display versions would be copied during driver
-> >> > creation.
-> >> >
-> >> > While at it warn if GMD is not used for platforms greater than gen12.
-> >> >
-> >> > Fixes: c2c7075225ef ("drm/i915: Read graphics/media/display arch version
-> >> from hw")
-> >> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> >> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> >> > Cc: Matt Roper <matthew.d.roper@intel.com>
-> >> > Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> >> > ---
-> >> >  drivers/gpu/drm/i915/intel_device_info.c | 12 +++++++++++-
-> >> >  1 file changed, 11 insertions(+), 1 deletion(-)
-> >> >
-> >> > diff --git a/drivers/gpu/drm/i915/intel_device_info.c
-> >> b/drivers/gpu/drm/i915/intel_device_info.c
-> >> > index 090097bb3c0a..ba178b61bceb 100644
-> >> > --- a/drivers/gpu/drm/i915/intel_device_info.c
-> >> > +++ b/drivers/gpu/drm/i915/intel_device_info.c
-> >> > @@ -329,8 +329,18 @@ static void intel_ipver_early_init(struct
-> >> drm_i915_private *i915)
-> >> >  {
-> >> >  	struct intel_runtime_info *runtime = RUNTIME_INFO(i915);
-> >> >
-> >> > -	if (!HAS_GMD_ID(i915))
-> >> > +	if (!HAS_GMD_ID(i915)) {
-> >> > +		drm_WARN_ON(&i915->drm, RUNTIME_INFO(i915)-
-> >> >graphics.ip.ver > 12);
-> >> > +		/*
-> >> > +		 * On older platforms, graphics and media share the same ip
-> >> > +		 * version and release.
-> >> > +		 */
-> >> > +		RUNTIME_INFO(i915)->media.ip.ver =
-> >> > +			RUNTIME_INFO(i915)->graphics.ip.ver;
-> >> > +		RUNTIME_INFO(i915)->media.ip.rel =
-> >> > +			RUNTIME_INFO(i915)->graphics.ip.rel;
-> >> 
-> >> You could assign the whole struct ip_version (*) at once, or is there a
-> >> reason you're intentionally not assigning step?
-> > Step info would anyways be determined later in the function intel_step_init.
-> > We already have macros in place to handle common gt and media steps there.
-> >
-> > Do you suggest we memcpy(&RUNTIME_INFO(i915)->media.ip, &RUNTIME_INFO->graphics.ip, sizeof(struct ip_version)) here?
-> 
-> Simple assign should do it for such a small struct.
+Hi guys,
 
-IMO for any struct. Only use memcpy() when copying arrays and such.
+we already have quite a bunch of devices which are essentially render only and don't expose any connectors or more general display functionality.
 
--- 
-Ville Syrjälä
-Intel
+Just recently I ran into a case where an older X/DDX combination caused problems for such a device so I looked a bit into the possibility to allow drivers to disable the primary node and only expose the render node.
+
+It turned out that this effectively hides the device from X, but OpenGL and Vulkan can still use it perfectly fine.
+
+The only crux is that this is checked so early in the initialization that drivers don't have an opportunity to update their dev->driver_features. So we will always need a separate drm_driver structure for render only devices.
+
+Please review and comment,
+Christian.
+
+
