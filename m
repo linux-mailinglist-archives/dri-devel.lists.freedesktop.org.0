@@ -1,49 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26BC5FB004
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:01:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F9B5FB032
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:10:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4AD10E7E6;
-	Tue, 11 Oct 2022 10:01:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9184210E7EF;
+	Tue, 11 Oct 2022 10:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2E410E51D;
- Tue, 11 Oct 2022 10:01:44 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E396C10E7F7;
+ Tue, 11 Oct 2022 10:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665482504; x=1697018504;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=niDb0mywGWpuXXVUWXdmmuqOz5Oq2nJNXHOGiwwI/So=;
- b=Dambd9H8aK0jiR+sxmNroVUN25BsBgtITR6X9B5hkCM1SSMgldrGCTGU
- pRePwzg3vs27IxGET7Z47IznaXdeu0vZd60Cvox+ZkGvIIOpChscbu0FJ
- 60XoTqCPruv2NvAXRVjZlmFbC1qcS4UnUGX4/taWOkjsGy8fj6pXS9X9z
- +6+rOx4dRs+5+QWXImeZV27VuHJ79BkbpFZr6Is9Cy6k78x1Ux9pfYiHD
- b04vqvAKg6hPOiNvLWNfF8qokTw25cSyy/+O/u+BNN2+U40W5H9Whe7xo
- /UkN1+u+D46/tPPxlV8s6A+c/QH1jfPc6E3MyaC7BTlx25fTr21V3kUMn w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="366454571"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="366454571"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 03:01:43 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="801402518"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="801402518"
+ t=1665483031; x=1697019031;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=stVivBrUOWNM3XfYcDu1vIrYQlmmFL5o1eWxnZQ3OZk=;
+ b=aqCeUwF6GQ8amXIbFMxu6qWV+CS2Q2bKLqsA9ELWF6i2nMPF+1kznh4X
+ kogPomIddO+adN2W+oeNbUYBQUSJqtevls+gYPad/Gbj8wDfzuxZ6oOmC
+ kg9UP5SX1XYivgnm2WAgrbLK7lYGZzFUWwXNHrtfizzOr0rA+1shqRh3P
+ qEyz5rEzAa1+6GDvipjMpNr9utctrwW8drI7Q4nmdZlppJqKaGaeFd43x
+ o+20jBliCFxsi+k5a2sW296OjhE3zWjVq0T/yPunMeEHgG2KqC2OFWb/a
+ /eYQ1/lH0u29OGwyQN0TG+Ns6rIA1SviXQ3LKs8SH7vcC+1cLg/Vw8bbS A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="330941052"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="330941052"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 03:10:31 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="657294434"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="657294434"
 Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 03:01:41 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC] drm: split build lists one per line and sort
-Date: Tue, 11 Oct 2022 13:01:37 +0300
-Message-Id: <20221011100137.2838947-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 03:10:29 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/i915: Use graphics ver, rel info for media on old
+ platforms
+In-Reply-To: <DM4PR11MB59714D6C8D496B5538DA27AB87239@DM4PR11MB5971.namprd11.prod.outlook.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
+ <87pmeyyg3n.fsf@intel.com>
+ <DM4PR11MB59714D6C8D496B5538DA27AB87239@DM4PR11MB5971.namprd11.prod.outlook.com>
+Date: Tue, 11 Oct 2022 13:10:26 +0300
+Message-ID: <87k056y8kt.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,178 +61,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
+Cc: "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While it takes more vertical space, sorted build lists with one object
-per line are arguably easier to manage, especially when there are
-conflicting changes.
+On Tue, 11 Oct 2022, "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com> wrote:
+> Hi Jani,
+>
+>> -----Original Message-----
+>> From: Jani Nikula <jani.nikula@linux.intel.com>
+>> Sent: Tuesday, October 11, 2022 12:28 AM
+>> To: Sripada, Radhakrishna <radhakrishna.sripada@intel.com>; intel-
+>> gfx@lists.freedesktop.org
+>> Cc: dri-devel@lists.freedesktop.org; Sripada, Radhakrishna
+>> <radhakrishna.sripada@intel.com>; De Marchi, Lucas
+>> <lucas.demarchi@intel.com>; Roper, Matthew D
+>> <matthew.d.roper@intel.com>
+>> Subject: Re: [PATCH] drm/i915: Use graphics ver, rel info for media on old
+>> platforms
+>> 
+>> On Mon, 10 Oct 2022, Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+>> wrote:
+>> > Platforms prior to MTL do not have a separate media and graphics version.
+>> > On platforms where GMD id is not supported, reuse the graphics ip version,
+>> > release info for media.
+>> >
+>> > The rest of the IP graphics, display versions would be copied during driver
+>> > creation.
+>> >
+>> > While at it warn if GMD is not used for platforms greater than gen12.
+>> >
+>> > Fixes: c2c7075225ef ("drm/i915: Read graphics/media/display arch version
+>> from hw")
+>> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>> > Cc: Matt Roper <matthew.d.roper@intel.com>
+>> > Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+>> > ---
+>> >  drivers/gpu/drm/i915/intel_device_info.c | 12 +++++++++++-
+>> >  1 file changed, 11 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/i915/intel_device_info.c
+>> b/drivers/gpu/drm/i915/intel_device_info.c
+>> > index 090097bb3c0a..ba178b61bceb 100644
+>> > --- a/drivers/gpu/drm/i915/intel_device_info.c
+>> > +++ b/drivers/gpu/drm/i915/intel_device_info.c
+>> > @@ -329,8 +329,18 @@ static void intel_ipver_early_init(struct
+>> drm_i915_private *i915)
+>> >  {
+>> >  	struct intel_runtime_info *runtime = RUNTIME_INFO(i915);
+>> >
+>> > -	if (!HAS_GMD_ID(i915))
+>> > +	if (!HAS_GMD_ID(i915)) {
+>> > +		drm_WARN_ON(&i915->drm, RUNTIME_INFO(i915)-
+>> >graphics.ip.ver > 12);
+>> > +		/*
+>> > +		 * On older platforms, graphics and media share the same ip
+>> > +		 * version and release.
+>> > +		 */
+>> > +		RUNTIME_INFO(i915)->media.ip.ver =
+>> > +			RUNTIME_INFO(i915)->graphics.ip.ver;
+>> > +		RUNTIME_INFO(i915)->media.ip.rel =
+>> > +			RUNTIME_INFO(i915)->graphics.ip.rel;
+>> 
+>> You could assign the whole struct ip_version (*) at once, or is there a
+>> reason you're intentionally not assigning step?
+> Step info would anyways be determined later in the function intel_step_init.
+> We already have macros in place to handle common gt and media steps there.
+>
+> Do you suggest we memcpy(&RUNTIME_INFO(i915)->media.ip, &RUNTIME_INFO->graphics.ip, sizeof(struct ip_version)) here?
 
-Split anything with more than one object file.
+Simple assign should do it for such a small struct.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/Makefile         | 106 ++++++++++++++++++++++---------
- drivers/gpu/drm/display/Makefile |  14 ++--
- 2 files changed, 84 insertions(+), 36 deletions(-)
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 25d0ba310509..c4e6ef321566 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -3,32 +3,70 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
- 
--drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
--		drm_file.o drm_gem.o drm_ioctl.o \
--		drm_drv.o \
--		drm_sysfs.o drm_mm.o \
--		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o drm_displayid.o \
--		drm_trace_points.o drm_prime.o \
--		drm_vma_manager.o \
--		drm_modeset_lock.o drm_atomic.o drm_bridge.o \
--		drm_framebuffer.o drm_connector.o drm_blend.o \
--		drm_encoder.o drm_mode_object.o drm_property.o \
--		drm_plane.o drm_color_mgmt.o drm_print.o \
--		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
--		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
--		drm_client_modeset.o drm_atomic_uapi.o \
--		drm_managed.o drm_vblank_work.o
--drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
--			    drm_hashtab.o drm_irq.o drm_legacy_misc.o drm_lock.o \
--			    drm_memory.o drm_scatter.o drm_vm.o
-+drm-y := \
-+	drm_aperture.o \
-+	drm_atomic.o \
-+	drm_atomic_uapi.o \
-+	drm_auth.o drm_cache.o \
-+	drm_blend.o \
-+	drm_bridge.o \
-+	drm_client.o \
-+	drm_client_modeset.o \
-+	drm_color_mgmt.o \
-+	drm_connector.o \
-+	drm_crtc.o \
-+	drm_displayid.o \
-+	drm_drv.o \
-+	drm_dumb_buffers.o \
-+	drm_edid.o \
-+	drm_encoder.o \
-+	drm_file.o \
-+	drm_fourcc.o \
-+	drm_framebuffer.o \
-+	drm_gem.o \
-+	drm_ioctl.o \
-+	drm_lease.o \
-+	drm_managed.o \
-+	drm_mm.o \
-+	drm_mode_config.o \
-+	drm_mode_object.o \
-+	drm_modes.o \
-+	drm_modeset_lock.o \
-+	drm_plane.o \
-+	drm_prime.o \
-+	drm_print.o \
-+	drm_property.o \
-+	drm_syncobj.o \
-+	drm_sysfs.o \
-+	drm_trace_points.o \
-+	drm_vblank.o \
-+	drm_vblank_work.o \
-+	drm_vma_manager.o \
-+	drm_writeback.o
-+drm-$(CONFIG_DRM_LEGACY) += \
-+	drm_agpsupport.o \
-+	drm_bufs.o \
-+	drm_context.o \
-+	drm_dma.o \
-+	drm_hashtab.o \
-+	drm_irq.o \
-+	drm_legacy_misc.o \
-+	drm_lock.o \
-+	drm_memory.o \
-+	drm_scatter.o \
-+	drm_vm.o
- drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
- drm-$(CONFIG_COMPAT) += drm_ioc32.o
- drm-$(CONFIG_DRM_PANEL) += drm_panel.o
- drm-$(CONFIG_OF) += drm_of.o
- drm-$(CONFIG_PCI) += drm_pci.o
--drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
-+drm-$(CONFIG_DEBUG_FS) += \
-+	drm_debugfs.o \
-+	drm_debugfs_crc.o
- drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
--drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
-+drm-$(CONFIG_DRM_PRIVACY_SCREEN) += \
-+	drm_privacy_screen.o \
-+	drm_privacy_screen_x86.o
- obj-$(CONFIG_DRM)	+= drm.o
- 
- obj-$(CONFIG_DRM_NOMODESET) += drm_nomodeset.o
-@@ -57,16 +95,24 @@ obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
- # Modesetting helpers
- #
- 
--drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o \
--		drm_encoder_slave.o drm_flip_work.o \
--		drm_probe_helper.o \
--		drm_plane_helper.o drm_atomic_helper.o \
--		drm_kms_helper_common.o \
--		drm_simple_kms_helper.o drm_modeset_helper.o \
--		drm_gem_atomic_helper.o \
--		drm_gem_framebuffer_helper.o \
--		drm_atomic_state_helper.o drm_damage_helper.o \
--		drm_format_helper.o drm_self_refresh_helper.o drm_rect.o
-+drm_kms_helper-y := \
-+	drm_atomic_helper.o \
-+	drm_atomic_state_helper.o \
-+	drm_bridge_connector.o \
-+	drm_crtc_helper.o \
-+	drm_damage_helper.o \
-+	drm_encoder_slave.o \
-+	drm_flip_work.o \
-+	drm_format_helper.o \
-+	drm_gem_atomic_helper.o \
-+	drm_gem_framebuffer_helper.o \
-+	drm_kms_helper_common.o \
-+	drm_modeset_helper.o \
-+	drm_plane_helper.o \
-+	drm_probe_helper.o \
-+	drm_rect.o \
-+	drm_self_refresh_helper.o \
-+	drm_simple_kms_helper.o
- drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
- drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
- obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
-diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-index 52cdda1180d9..17ac4a1006a8 100644
---- a/drivers/gpu/drm/display/Makefile
-+++ b/drivers/gpu/drm/display/Makefile
-@@ -3,13 +3,15 @@
- obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
- 
- drm_display_helper-y := drm_display_helper_mod.o
--drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += drm_dp_dual_mode_helper.o \
--						      drm_dp_helper.o \
--						      drm_dp_mst_topology.o \
--						      drm_dsc_helper.o
-+drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
-+	drm_dp_dual_mode_helper.o \
-+	drm_dp_helper.o \
-+	drm_dp_mst_topology.o \
-+	drm_dsc_helper.o
- drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
--drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += drm_hdmi_helper.o \
--							drm_scdc_helper.o
-+drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
-+	drm_hdmi_helper.o \
-+	drm_scdc_helper.o
- drm_display_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
- drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
- 
+>
+>> 
+>> BR,
+>> Jani.
+>> 
+>> (*) Why does that name not have intel_ prefix?
+> Good question. Since introduced in " a5b7ef27da60 drm/i915: Add struct to hold IP version"
+> we have been using as is. The author might have felt that the structure is not big enough/used in as many places
+> to have an intel_ prefix. Do you see a symbol collision here that we
+> need to add intel_ prefix?
+
+It's not just about avoiding any immediate symbol collisions, it's also
+about setting an example. People see this and think it's fine not to
+have the prefix. And then the practice proliferates until there's a
+collision.
+
+> If so should we do it in a separate patch?
+
+If there's a semantically separate change, it should always be a
+separate patch.
+
+BR,
+Jani.
+
+>
+> Thanks,
+> Radhakrishna(RK) Sripada
+>> 
+>> >  		return;
+>> > +	}
+>> >
+>> >  	ip_ver_read(i915, i915_mmio_reg_offset(GMD_ID_GRAPHICS),
+>> >  		    &runtime->graphics.ip);
+>> 
+>> --
+>> Jani Nikula, Intel Open Source Graphics Center
+
 -- 
-2.34.1
-
+Jani Nikula, Intel Open Source Graphics Center
