@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91095FB0E7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 13:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA945FB0E9
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 13:05:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D2710E002;
-	Tue, 11 Oct 2022 11:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6C310E09D;
+	Tue, 11 Oct 2022 11:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A48F210E002
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 11:04:42 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id k2so30590788ejr.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 04:04:42 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44A510E002
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 11:04:43 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id r14so5238179edc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 04:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=RHmKNxQeYlL17It4UDJFUaAGwCKxU2/7jM91lczFG6Q=;
- b=OHRXqQxVECmzpYs+O8Juj4pH0t07+KIxpOqfmaIAEYzTEjSYlsUEnFoWQ1jGMbhQ5v
- SauK5044Y3qR1eY0OrlyHcR6GilfDAVBd39R8HiDRiOPybbvzv/o/Elfmh2EvP2bLWnw
- BHp+NwesO07RDB/Uxsv/vrD2iUTIX9mS3PZCaOc7fMETnSzabmEVZxg+bNHPKBJm2pq1
- jiALMqiCKBfHEzrEUIY3PLNCtSA2uJKobLO9+HuTCprhLJjLSNTuh4EhM8fcy+I60F2H
- eCa4xHEzcLQWvib2VRRLBrax4RX40BgLG27+wfJAFLSLhVrRt2uUB3ZFp0U/K5z3gDat
- 4Nqw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hYvJPISu8Cd00aj0C7m3IzNcADb6NJxK33RBMy4pz1I=;
+ b=GEqGc7LyhJ+xLFWpYh6Xlru4O+i/UxkawIo3qehwQugVYylVDPhNoq2ec+XVozWc49
+ pfh3PP/gSqkmTbB05JU63q2DPfhjFKR14sCPUr62n61RAt05FAdm/Rp3GH9MWaEuozEB
+ BqX2jhp8rJ/upLbRBEDBnPqIFfkcFMQIUcY4GfDogOaO7Dc2FOtWqPdb8UNe/n3X4IJn
+ FuykbyCEgODHHXX/UqNHjkmaiQ7tBMkbyRa8UOUUzStQuXImaKxX7/WSzgeUIhNyJi2b
+ umI8cMqXbugCcvyFAZ161Rj5l+sHKqjuBDWJ9wvP+QbMKlgztziL9a8pWM89cf6r+YYb
+ 7b7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RHmKNxQeYlL17It4UDJFUaAGwCKxU2/7jM91lczFG6Q=;
- b=ipvJ7/mw3vVTyARrGwTiq0txhK6eT5tooVNKD1bCAW5uqvA73nTPdEUmridc7W3ew3
- 9Jn+/MD6+r8ja9dVVJrpNqDECgPOZzLPMC25BJLjY/oXhiNf7jqikMBT7yGC/0CYKwXW
- KEObY1yHxdT9KN4doPjPKVR7ndm0cn7GgTf6DyH4XqIO+RwyfIrolE8cPCLX2QM3mHWe
- ZVMRUdmFMxA9SWO+89dZvlNBghqKTRyMxKFt07DXeEkMlInkJ8+GCqE5mj8P3mBY3Fy7
- L9EOikoAc5t+nMwlt/12z3PgLVFDm2Ua4dkGSiU9QODDgR/k9h9rohUCdYAe5QvUORu3
- 9CDQ==
-X-Gm-Message-State: ACrzQf0haaPH5V0gkBnpDaK603iwgscFErNssSESRv9+afB/pAPcwhZN
- T47ys9CPBwJl/TZw3cc5I19fS6ho9eE=
-X-Google-Smtp-Source: AMsMyM4EqiY2sViv0PHqhlcGAEcK0LNfSU5xLDKfebvjkLG/stHRJfX5rXbIE5Ci7ZvyOe+0b+GfYA==
-X-Received: by 2002:a17:907:320c:b0:77b:6f08:9870 with SMTP id
- xg12-20020a170907320c00b0077b6f089870mr17980027ejb.249.1665486281132; 
- Tue, 11 Oct 2022 04:04:41 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hYvJPISu8Cd00aj0C7m3IzNcADb6NJxK33RBMy4pz1I=;
+ b=1ybYPozdw+WgNIhnDKTsNMHFig8CFLq8uqXlwWL91uDe/jrkw9fTyyMeZrTZH3Ijmd
+ 32HG8ICWMoqnOj8qtFWcHGADBJp/hKfbwRFEPLjwxMlclZIpzxjAV7qJnXpGIrxVASV3
+ 2++G2uWj+Z1yyxXPXwiAEOPr5j/KrLJHWTWzqxAUats4JzNnQxetaz78kLXtOnyNStcM
+ FP8XHYdpo+d5CLWQTKn1LXKGzao3tqUtylzkhpNDgULikS1HQbJOfO6dBP1gemK/ne+L
+ BW2q+XqSqAZuJgp/0CUpyNG+n7OVmOoWIESOrfOiFyPMHyhZhKklNRjDwSQuZdCp90Je
+ 6j5Q==
+X-Gm-Message-State: ACrzQf1VSUZ+4BOSe5jQqMBgjHpdswIIyTJRTnxFyrkG0mZ4Vafs1IVB
+ 5L9V9JUGO/dZr5oFYINghUdXK5p3xQE=
+X-Google-Smtp-Source: AMsMyM4PClmiCy0aYGP/3wJaQj0I747uoIMU4CBDfZsy6BB9ImpCBQ3OEQwckTm4Bxz//7dN7So3fQ==
+X-Received: by 2002:a05:6402:2549:b0:45b:e5fa:9681 with SMTP id
+ l9-20020a056402254900b0045be5fa9681mr13634762edb.72.1665486282141; 
+ Tue, 11 Oct 2022 04:04:42 -0700 (PDT)
 Received: from able.fritz.box (p5b0eacfe.dip0.t-ipconnect.de. [91.14.172.254])
  by smtp.gmail.com with ESMTPSA id
- v8-20020aa7d9c8000000b00458478a4295sm8938122eds.9.2022.10.11.04.04.39
+ v8-20020aa7d9c8000000b00458478a4295sm8938122eds.9.2022.10.11.04.04.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 04:04:40 -0700 (PDT)
+ Tue, 11 Oct 2022 04:04:41 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	daniel@ffwll.ch,
 	airlied@linux.ie
-Subject: Render only DRM devices
-Date: Tue, 11 Oct 2022 13:04:35 +0200
-Message-Id: <20221011110437.15258-1-christian.koenig@amd.com>
+Subject: [PATCH 1/2] drm: remove DRM_MINOR_CONTROL
+Date: Tue, 11 Oct 2022 13:04:36 +0200
+Message-Id: <20221011110437.15258-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221011110437.15258-1-christian.koenig@amd.com>
+References: <20221011110437.15258-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,20 +76,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi guys,
+Not used any more. This makes room for up to 128 DRM devices.
 
-we already have quite a bunch of devices which are essentially render only and don't expose any connectors or more general display functionality.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/drm_drv.c | 4 ++--
+ include/drm/drm_file.h    | 1 -
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Just recently I ran into a case where an older X/DDX combination caused problems for such a device so I looked a bit into the possibility to allow drivers to disable the primary node and only expose the render node.
-
-It turned out that this effectively hides the device from X, but OpenGL and Vulkan can still use it perfectly fine.
-
-The only crux is that this is checked so early in the initialization that drivers don't have an opportunity to update their dev->driver_features. So we will always need a separate drm_driver structure for render only devices.
-
-Please review and comment,
-Christian.
-
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 8214a0b1ab7f..d81783f43452 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -126,8 +126,8 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
+ 	spin_lock_irqsave(&drm_minor_lock, flags);
+ 	r = idr_alloc(&drm_minors_idr,
+ 		      NULL,
+-		      64 * type,
+-		      64 * (type + 1),
++		      128 * type,
++		      128 * (type + 1),
+ 		      GFP_NOWAIT);
+ 	spin_unlock_irqrestore(&drm_minor_lock, flags);
+ 	idr_preload_end();
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index d780fd151789..a3be533e99e0 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -54,7 +54,6 @@ struct file;
+  */
+ enum drm_minor_type {
+ 	DRM_MINOR_PRIMARY,
+-	DRM_MINOR_CONTROL,
+ 	DRM_MINOR_RENDER,
+ };
+ 
+-- 
+2.25.1
 
