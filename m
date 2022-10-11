@@ -2,62 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD4A5FB767
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 17:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239715FB777
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 17:40:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A8910E31D;
-	Tue, 11 Oct 2022 15:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D344E10E81E;
+	Tue, 11 Oct 2022 15:39:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 437BD10E31D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 15:34:42 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id i3so13831912pfk.9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 08:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=E4TT5+XgfF+fVIz+vKOOCmhNChiCny6uMsCa8RIlVyY=;
- b=Pgenw8jmi7PqQSftPG+9DPKuF12f9wmISSReQ4ohtRCWKJ565YBXodNHYUzhltct3W
- 3nFrgJsGXEWLfTAkIBvRUf/O3nna48ZcSh3YAz+Ajc0fpNS5T0XaT6lfn8kYkZWn6O/Z
- nzjnZvupeuF/QGn9Zolmw5a9m0d+EUzYbC15+NNNXBFszh4sdFoL0IQ+99iMly/6rcBb
- 9YcDkjWuty+iTUidy773H0PVF9iQVSk/IMEtsLlqvntuEQvxGLAlHl58/iu/Fdmy6Kh1
- 5slho+4PGXI4iPHB6/OyRaINtF9swY4KQqyqbNMFtxOYnYgDZfsZ97NNuH+ps8c7wV9m
- hlog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E4TT5+XgfF+fVIz+vKOOCmhNChiCny6uMsCa8RIlVyY=;
- b=vPxJEOEA9ee9I1dFaNzyIn6NCOwqTIG/jBKgD4HQEefj8sPVpC1j6hMoXAiucP4VzL
- SQ0t/FSBQT1qjL/Vn8B7L9enuk5ufdqeWDSGp0kpBOqgmgVXxYU1sQq7Tcb1bl2k53Qp
- rVBLviRgrzRSFiICLqwDEaJYMC32nvf9RDhsGVP4arK3a9J8T7e94mFqi/cY8X4yfim7
- Y83cttiS1XO4v2vMhgJib6lzKPcgYEHB9cMwXJDklsTUxeagkskIOKDVpropOjNh+4rs
- 7WkGcZ2jRZaMzQqbWvz3UcKLS5agKX23egRpSw1nUF1SnmweZL7E0l9ESVadXkQ0LZr9
- 90lA==
-X-Gm-Message-State: ACrzQf2N6f2zS6dGwThh/fxlFjqxfRBCVQZEYhzuMr0Mo/7v1Lhqh6Ei
- 2DIHuhLZ8A8D1bbgeWQeuy8=
-X-Google-Smtp-Source: AMsMyM4nTQJFjN5qA0FQqZDYin3Y7HzdWXMAoAJ3QezkkZYNF6NziPpjcC42tZ3Bldu2o3VdJwVJNQ==
-X-Received: by 2002:aa7:9212:0:b0:562:b5f6:f7d7 with SMTP id
- 18-20020aa79212000000b00562b5f6f7d7mr25048626pfo.70.1665502481594; 
- Tue, 11 Oct 2022 08:34:41 -0700 (PDT)
-Received: from ubuntu ([175.124.254.119]) by smtp.gmail.com with ESMTPSA id
- n5-20020a170902f60500b0017b5e1f486asm8737424plg.211.2022.10.11.08.34.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 08:34:41 -0700 (PDT)
-Date: Tue, 11 Oct 2022 08:34:36 -0700
-From: Hyunwoo Kim <imv4bel@gmail.com>
-To: ChenXiaoSong <chenxiaosong2@huawei.com>
-Subject: Re: Question about patch "fbdev: smscufx: Fix use-after-free in
- ufx_ops_open()"
-Message-ID: <20221011153436.GA4446@ubuntu>
-References: <363cdfe4-f54d-0ce4-2f03-bcfe998deeef@huawei.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BBF310E81E;
+ Tue, 11 Oct 2022 15:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665502781; x=1697038781;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=qugFPqyrKp2dvC4lex1KAYAs4NlXmCknPxIeyZaAxoc=;
+ b=CrEIE4N6C2SiibaChD7OkaerbYyUVODAmXgSaljD0gLPVqdIVhBHc+2n
+ FnkLN+l/nhyCPec2JExlelz7TnOPfuylRfyP1wJAAvW2wykw18Z7mkBLz
+ 1v3ak7TYUqU3mI6yHtwjtmvSqKlKbJ4XAx3biKfEzp96NYYhJqHK62Ibt
+ ryDOb+8XHcjifZ5ztsrGY4TkzLwd1mck8gsHQG9FVq10isiAiNbE66pI+
+ Wrh5BHBXhgk408PIlDRL8hgkgIJdFZ4QvDh+NZqVSZbdVzh6cZjX5ALJb
+ GmSK6JhNCYs8IXVZzpYSKuf0Adb7bPLXVeLLdkDfNMqnsGEhF6iCmQ5FU w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="305591630"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="305591630"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 08:39:26 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="768839274"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="768839274"
+Received: from invictus.jf.intel.com ([10.165.21.201])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 08:39:26 -0700
+From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/i915: Add intel_ prefix to struct ip_version
+Date: Tue, 11 Oct 2022 08:38:50 -0700
+Message-Id: <20221011153851.3781507-1-radhakrishna.sripada@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <363cdfe4-f54d-0ce4-2f03-bcfe998deeef@huawei.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +54,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: steve.glendinning@shawell.net, linux-fbdev@vger.kernel.org,
- yangerkun@huawei.com, dri-devel@lists.freedesktop.org, imv4bel@gmail.com,
- "zhangxiaoxu \(A\)" <zhangxiaoxu5@huawei.com>, deller@gmx.de
+Cc: dri-devel@lists.freedesktop.org,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 11, 2022 at 10:13:02PM +0800, ChenXiaoSong wrote:
-> Hi Hyunwoo:
-> 
-> [patch "fbdev: smscufx: Fix use-after-free in ufx_ops_open()"](https://lore.kernel.org/all/20220925133243.GA383897@ubuntu/T/)
-> fix [CVE-2022-41849](https://nvd.nist.gov/vuln/detail/CVE-2022-41849).
-> 
-> If the UAF scenarios is as follows, it seems that [fix path
-> v3](https://lore.kernel.org/all/20220925133243.GA383897@ubuntu/T/) will not
-> avoid race contidion of krefs:
-> 
-> ```
->           cpu0                       |        cpu1
-> -------------------------------------|---------------------------------------------------
->  1. open()                           |
->     ufx_ops_open()                   |
-> -------------------------------------|---------------------------------------------------
->                                      | 2. ufx_usb_disconnect()
->                                      |    dev->virtualized = true;
->                                      |    atomic_set()
->                                      |    usb_set_intfdata()
->                                      |
->                                      | 3. if (dev->fb_count == 0)
->                                      |    schedule_delayed_work()
->                                      |    kref_put()   <- kref count : 1
->                                      |    kref_put()   <- kref count : 0
->                                      |    ufx_free()
->                                      |    kfree(dev);
-> -------------------------------------|---------------------------------------------------
->  4. if (dev->virtualized) <==== UAF  |
-> ```
+Rename struct ip_version to intel_ip_version to comply with the
+naming conventions for structures.
 
-You are right. This v3 fix patch may prevent the UAF scenario I first suggested,
-but not the one you suggested.
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+---
+ drivers/gpu/drm/i915/intel_device_info.c | 2 +-
+ drivers/gpu/drm/i915/intel_device_info.h | 8 ++++----
+ drivers/gpu/drm/i915/intel_step.c        | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-Any good ideas for this?
-Could it be solved by adding a global flag variable indicating disconnected?
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index 090097bb3c0a..37267c662dc6 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -289,7 +289,7 @@ static void intel_device_info_subplatform_init(struct drm_i915_private *i915)
+ 	RUNTIME_INFO(i915)->platform_mask[pi] |= mask;
+ }
+ 
+-static void ip_ver_read(struct drm_i915_private *i915, u32 offset, struct ip_version *ip)
++static void ip_ver_read(struct drm_i915_private *i915, u32 offset, struct intel_ip_version *ip)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+ 	void __iomem *addr;
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index bc87d3156b14..0a37c0a3edc5 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -196,7 +196,7 @@ enum intel_ppgtt_type {
+ 	func(overlay_needs_physical); \
+ 	func(supports_tv);
+ 
+-struct ip_version {
++struct intel_ip_version {
+ 	u8 ver;
+ 	u8 rel;
+ 	u8 step;
+@@ -208,13 +208,13 @@ struct intel_runtime_info {
+ 	 * render, compute and copy behavior.
+ 	 */
+ 	struct {
+-		struct ip_version ip;
++		struct intel_ip_version ip;
+ 	} graphics;
+ 	struct {
+-		struct ip_version ip;
++		struct intel_ip_version ip;
+ 	} media;
+ 	struct {
+-		struct ip_version ip;
++		struct intel_ip_version ip;
+ 	} display;
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/intel_step.c b/drivers/gpu/drm/i915/intel_step.c
+index 91e7c51991b0..75d7a86c60c0 100644
+--- a/drivers/gpu/drm/i915/intel_step.c
++++ b/drivers/gpu/drm/i915/intel_step.c
+@@ -136,7 +136,7 @@ static const struct intel_step_info adlp_n_revids[] = {
+ };
+ 
+ static u8 gmd_to_intel_step(struct drm_i915_private *i915,
+-			    struct ip_version *gmd)
++			    struct intel_ip_version *gmd)
+ {
+ 	u8 step = gmd->step + STEP_A0;
+ 
+-- 
+2.34.1
 
-
-Regards,
-Hyunwoo Kim.
