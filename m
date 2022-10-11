@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E58A5FB8FF
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 19:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21185FB910
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 19:17:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D39410E8A9;
-	Tue, 11 Oct 2022 17:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32E5110E89B;
+	Tue, 11 Oct 2022 17:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C12610E8A9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 17:13:34 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E58810E89B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 17:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665508414;
+ s=mimecast20190719; t=1665508631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uPa6skpw+HR/XZWI2MvLpCGSoFPnjMvvsoBLNia0jKA=;
- b=INnN+dFpbnOoc9f+GLDitp+UMq0vIFsilq0AHSkN11E4iingWxXFXolwO3rZMvgTYv+7FN
- 2BGeBwdZ6mWGLMAiKYpybQMJnhG2CP+RFss94e5s4lpOMX4znNPkYeBTlteCWVA3mROqwr
- +SXEP1Zk9nRVYGMHfcYre/yIUHvcx7w=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HcmKDqCIJFIg50LHl+RB9p5JqMdYdYFWYDKtwwDNMrU=;
+ b=cTrbo+NXmiuqB25Gb+5U1vJ1LMnJOboTF3O9C+ZJNiqb7yRe98iYcp8J9JYW927ZvKpMcp
+ X4cjWyepS3gYgAmQBIHTCXR4az7F9jUUtPxMkgZPrdxBk357GpfAtwE+xucmmqQtmFuw/0
+ MPLGOisoyRTN4cJcv3dc1GEuuJsujBg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-62-4A1HXIyZOu2kSN-ykPdksA-1; Tue, 11 Oct 2022 13:13:25 -0400
-X-MC-Unique: 4A1HXIyZOu2kSN-ykPdksA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b7-20020a05600c4e0700b003bde2d860d1so8732836wmq.8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 10:13:25 -0700 (PDT)
+ us-mta-507-rGU8DKQZM6Ksu3c27xwTdQ-1; Tue, 11 Oct 2022 13:17:10 -0400
+X-MC-Unique: rGU8DKQZM6Ksu3c27xwTdQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v125-20020a1cac83000000b003bd44dc5242so10903307wme.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 10:17:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uPa6skpw+HR/XZWI2MvLpCGSoFPnjMvvsoBLNia0jKA=;
- b=UE76H0XBlmAwuelXCMIiu3BiVFhGkYNtiEJdPLgAWgI8V+2LtZeR494G7W6xgoNmWk
- V8pW7WAFtnmjPj/YuYc1nVSzNN4FxHKQOoMVrQIODlEKe+Q9J7dIq4mzRHKg0XNkXCsT
- qP+/++tvPsap+g9LTV6un4KqpT0HuW0OTOnNK+xesRkVL66wXRtDPshmkmVWDLG0Tbki
- twhWYQZY/zlt4yqmD43OSePo21jbxFU9IjV7bFOYohNQvrBoR6brMi4ZOlcgS5dxcYLH
- 7I4ScD4O7tyyIumdBpVRULD0216DVz/FCqh5bneE3LXTaQvuzZ8a+w2bmQvYlDLkoH+L
- Rzfw==
-X-Gm-Message-State: ACrzQf11Eg2kMfxDljziENGDZDW1cHBim3VD7GH5MIFDGoBL1f4J24xz
- jJ4pZfbb7sTwpiBxmOxPAttg2Wdj4M4JQNslco+0Ey5VS6dQxdNkrnopNqiHAshJUr1ku2qU8i5
- 9yAjey+B2xHq0s6SCCrEfUve+qIG0
-X-Received: by 2002:a1c:1983:0:b0:3be:e4ee:10d9 with SMTP id
- 125-20020a1c1983000000b003bee4ee10d9mr104937wmz.44.1665508404262; 
- Tue, 11 Oct 2022 10:13:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Zf3cew/xc2a5Ney6CNJIBo7jJ2GnbHNtS8yjnSVU2FKzEMLiV5VQiEa5FvNtaVKVNkCluUQ==
-X-Received: by 2002:a1c:1983:0:b0:3be:e4ee:10d9 with SMTP id
- 125-20020a1c1983000000b003bee4ee10d9mr104923wmz.44.1665508404010; 
- Tue, 11 Oct 2022 10:13:24 -0700 (PDT)
+ bh=HcmKDqCIJFIg50LHl+RB9p5JqMdYdYFWYDKtwwDNMrU=;
+ b=ti8jtqFzP/yGUeYzwL7e/lx2ybEP0qEH4pqZJYsTcUCnSLJRWwZr3SQaSw+dSV/Wd6
+ fMFEGCH9fascPlzypjUuTfCS0AyKvX/BLnMbHTHm29ECQp+Pq8yl+HddQ7wEqN+A1C2Q
+ F1eMQtDZl3cdfQPwoNEWGAJgdvopKpEXVvUB+xaFUqTK4NWGhp52uLwo3fb4XEu0Ge1Z
+ JOT8OhfoNd+M0LNat/RmkbdOc88PZZ453XEUOg7ZrLhqbVY0g+CJikEWNBT79FAiuVoX
+ +u1oFtMaoNjT1wD5bqmfeQyscwNb7f0xgn5aioqEgrLD8OfhNcoljGRUrASQVHUvKs+g
+ ilLQ==
+X-Gm-Message-State: ACrzQf1pKXmsktK3gIF00u+sEh4D4HyyyeCL74vAnPVjG7MdR7MiJDDc
+ W9d3SIEs27P/duRNQDm7zJoftHsXwAGbVC4JoYovtzYrslxc+YwjzrtKKzbbSlLz0QM49DDK7+x
+ azzfKk8mc8kjbQSxsdjGNKy1OiCw7
+X-Received: by 2002:a05:600c:1e18:b0:3b3:b9f8:2186 with SMTP id
+ ay24-20020a05600c1e1800b003b3b9f82186mr83166wmb.151.1665508628583; 
+ Tue, 11 Oct 2022 10:17:08 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4gUUpQhSVXraR9u4ArTfROyNsrm4P2yQAVhRgmFOo32vISQeR5L9fz4p0psKqryUWetqma3Q==
+X-Received: by 2002:a05:600c:1e18:b0:3b3:b9f8:2186 with SMTP id
+ ay24-20020a05600c1e1800b003b3b9f82186mr83140wmb.151.1665508628191; 
+ Tue, 11 Oct 2022 10:17:08 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
  ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
  by smtp.gmail.com with ESMTPSA id
- bt7-20020a056000080700b0022e62529888sm12183305wrb.67.2022.10.11.10.13.23
+ g20-20020a05600c4ed400b003b4ac05a8a4sm27602445wmq.27.2022.10.11.10.17.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 10:13:23 -0700 (PDT)
-Message-ID: <2e80d7f8-a12f-5e19-ba3f-753de6c7a604@redhat.com>
-Date: Tue, 11 Oct 2022 19:13:22 +0200
+ Tue, 11 Oct 2022 10:17:07 -0700 (PDT)
+Message-ID: <8b1783c5-af06-522c-c683-5fbb61fb7c0b@redhat.com>
+Date: Tue, 11 Oct 2022 19:17:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 1/8] drm/ast: Acquire I/O-register lock in
- atomic_commit_tail function
+Subject: Re: [PATCH 7/8] drm/ast: Convert ast to SHMEM
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  daniel@ffwll.ch, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
  ilpo.jarvinen@cs.helsinki.fi
 References: <20221010103625.19958-1-tzimmermann@suse.de>
- <20221010103625.19958-2-tzimmermann@suse.de>
+ <20221010103625.19958-8-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20221010103625.19958-2-tzimmermann@suse.de>
+In-Reply-To: <20221010103625.19958-8-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -95,92 +94,520 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/10/2022 12:36, Thomas Zimmermann wrote:
-> Hold I/O-register lock in atomic_commit_tail to protect all pipeline
-> updates at once. Protects modesetting against concurrent EDID reads.
+> Replace GEM VRAM helpers with GEM SHMEM helpers in ast. Avoids OOM
+> errors when allocating video memory. Also adds support for dma-buf
+> functionality.
 > 
-> Complex modesetting operations involve mode changes and plane updates.
-> These steps used to be protected individually against concurrent I/O.
-> Make all this atomic wrt to reading display modes via EDID. The EDID
-> code in the conenctor's get_modes helper already acquires the necessary
-small typo:  connector's
-
-> lock.
+> Aspeed display hardware supports display resolutions of FullHD and
+> more at 32-bit pixel depth. But the amount of video memory is in
+> the range of 8 MiB to 32 MiB, which adds contrains to the actually
+small typo: constraints
+> available resolutions. As atomic modesetting with VRAM helpers
+> requires double buffering in video memory, ast fails to pageflip
+> in some configurations. For example, FullHD with an active cursor
+> plane does not work on devices with 16 MiB of video memory.
 > 
-> A similar issue was fixed in commit 2d70b9a1482e ("drm/mgag200: Acquire
-> I/O-register lock in atomic_commit_tail function") for mgag200.
+> Resolve this problem by converting the ast driver to GEM SHMEM helpers.
+> Keep the buffer objects in system memory and copy to video memory
+> on pageflips via shadow-plane helpers. Userspace used to require shadow
+> planes for decent performance, but that's now provided by the driver.
+> To replaces the memory management, the patch also implements damage
+> handling for the primary plane.
+> 
+> The GEM SHMEM helpers, dma-buf import and export is now supported
+> by ast. This allows easier screen mirroring across devices or with
+> an Aspeed-based BMC. A corresponding feature request is available
+> at [1].
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://lore.kernel.org/dri-devel/20220901124451.2523077-1-oushixiong@kylinos.cn/ # [1]
 > ---
->   drivers/gpu/drm/ast/ast_mode.c | 34 ++++++++++++++++------------------
->   1 file changed, 16 insertions(+), 18 deletions(-)
+>   drivers/gpu/drm/ast/Kconfig    |   4 +-
+>   drivers/gpu/drm/ast/ast_drv.c  |   4 +-
+>   drivers/gpu/drm/ast/ast_drv.h  |  13 ++-
+>   drivers/gpu/drm/ast/ast_main.c |   5 +-
+>   drivers/gpu/drm/ast/ast_mm.c   |  14 +--
+>   drivers/gpu/drm/ast/ast_mode.c | 204 +++++++++++++++++----------------
+>   6 files changed, 129 insertions(+), 115 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index d5ee3ad538a8..e1e07928906e 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -1200,20 +1200,6 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
->   	return drm_atomic_add_affected_planes(state, crtc);
->   }
+> diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kconfig
+> index fbcf2f45cef5..d367a90cd3de 100644
+> --- a/drivers/gpu/drm/ast/Kconfig
+> +++ b/drivers/gpu/drm/ast/Kconfig
+> @@ -2,10 +2,8 @@
+>   config DRM_AST
+>   	tristate "AST server chips"
+>   	depends on DRM && PCI && MMU
+> +	select DRM_GEM_SHMEM_HELPER
+>   	select DRM_KMS_HELPER
+> -	select DRM_VRAM_HELPER
+> -	select DRM_TTM
+> -	select DRM_TTM_HELPER
+>   	help
+>   	 Say yes for experimental AST GPU driver. Do not enable
+>   	 this driver without having a working -modesetting,
+> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+> index b9392f31e629..bbeb5defc8f5 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.c
+> +++ b/drivers/gpu/drm/ast/ast_drv.c
+> @@ -33,7 +33,7 @@
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_crtc_helper.h>
+>   #include <drm/drm_drv.h>
+> -#include <drm/drm_gem_vram_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+>   #include <drm/drm_module.h>
+>   #include <drm/drm_probe_helper.h>
 >   
-> -static void ast_crtc_helper_atomic_begin(struct drm_crtc *crtc, struct drm_atomic_state *state)
-> -{
-> -	struct drm_device *dev = crtc->dev;
-> -	struct ast_private *ast = to_ast_private(dev);
-> -
-> -	/*
-> -	 * Concurrent operations could possibly trigger a call to
-> -	 * drm_connector_helper_funcs.get_modes by trying to read the
-> -	 * display modes. Protect access to I/O registers by acquiring
-> -	 * the I/O-register lock. Released in atomic_flush().
-> -	 */
-> -	mutex_lock(&ast->ioregs_lock);
-> -}
-> -
->   static void
->   ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
->   			     struct drm_atomic_state *state)
-> @@ -1241,8 +1227,6 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
->   	//Set Aspeed Display-Port
->   	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
->   		ast_dp_set_mode(crtc, vbios_mode_info);
-> -
-> -	mutex_unlock(&ast->ioregs_lock);
->   }
+> @@ -63,7 +63,7 @@ static const struct drm_driver ast_driver = {
+>   	.minor = DRIVER_MINOR,
+>   	.patchlevel = DRIVER_PATCHLEVEL,
 >   
->   static void
-> @@ -1301,7 +1285,6 @@ ast_crtc_helper_atomic_disable(struct drm_crtc *crtc,
->   static const struct drm_crtc_helper_funcs ast_crtc_helper_funcs = {
->   	.mode_valid = ast_crtc_helper_mode_valid,
->   	.atomic_check = ast_crtc_helper_atomic_check,
-> -	.atomic_begin = ast_crtc_helper_atomic_begin,
->   	.atomic_flush = ast_crtc_helper_atomic_flush,
->   	.atomic_enable = ast_crtc_helper_atomic_enable,
->   	.atomic_disable = ast_crtc_helper_atomic_disable,
-> @@ -1771,8 +1754,23 @@ static int ast_astdp_output_init(struct ast_private *ast)
->    * Mode config
->    */
->   
-> +static void ast_mode_config_helper_atomic_commit_tail(struct drm_atomic_state *state)
-> +{
-> +	struct ast_private *ast = to_ast_private(state->dev);
-> +
-> +	/*
-> +	 * Concurrent operations could possibly trigger a call to
-> +	 * drm_connector_helper_funcs.get_modes by trying to read the
-> +	 * display modes. Protect access to I/O registers by acquiring
-> +	 * the I/O-register lock. Released in atomic_flush().
-> +	 */
-> +	mutex_lock(&ast->ioregs_lock);
-> +	drm_atomic_helper_commit_tail_rpm(state);
-> +	mutex_unlock(&ast->ioregs_lock);
-> +}
-> +
->   static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs = {
-> -	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-> +	.atomic_commit_tail = ast_mode_config_helper_atomic_commit_tail,
+> -	DRM_GEM_VRAM_DRIVER
+> +	DRM_GEM_SHMEM_DRIVER_OPS
 >   };
 >   
+>   /*
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index 02120025b7ac..74f41282444f 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -112,9 +112,9 @@ enum ast_tx_chip {
+>   struct ast_plane {
+>   	struct drm_plane base;
+>   
+> -	struct drm_gem_vram_object *gbo;
+> -	struct iosys_map map;
+> -	u64 off;
+> +	void __iomem *vaddr;
+> +	u64 offset;
+> +	unsigned long size;
+>   };
+>   
+>   static inline struct ast_plane *to_ast_plane(struct drm_plane *plane)
+> @@ -172,7 +172,12 @@ struct ast_private {
+>   	uint32_t dram_type;
+>   	uint32_t mclk;
+>   
+> -	struct drm_plane primary_plane;
+> +	void __iomem	*vram;
+> +	unsigned long	vram_base;
+> +	unsigned long	vram_size;
+> +	unsigned long	vram_fb_available;
+> +
+> +	struct ast_plane primary_plane;
+>   	struct ast_plane cursor_plane;
+>   	struct drm_crtc crtc;
+>   	struct {
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index 067453266897..bffa310a0431 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -32,7 +32,6 @@
+>   #include <drm/drm_crtc_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem.h>
+> -#include <drm/drm_gem_vram_helper.h>
+>   #include <drm/drm_managed.h>
+>   
+>   #include "ast_drv.h"
+> @@ -461,8 +460,8 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
+>   
+>   	/* map reserved buffer */
+>   	ast->dp501_fw_buf = NULL;
+> -	if (dev->vram_mm->vram_size < pci_resource_len(pdev, 0)) {
+> -		ast->dp501_fw_buf = pci_iomap_range(pdev, 0, dev->vram_mm->vram_size, 0);
+> +	if (ast->vram_size < pci_resource_len(pdev, 0)) {
+> +		ast->dp501_fw_buf = pci_iomap_range(pdev, 0, ast->vram_size, 0);
+>   		if (!ast->dp501_fw_buf)
+>   			drm_info(dev, "failed to map reserved buffer!\n");
+>   	}
+> diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
+> index 6e999408dda9..248284a4b3ff 100644
+> --- a/drivers/gpu/drm/ast/ast_mm.c
+> +++ b/drivers/gpu/drm/ast/ast_mm.c
+> @@ -28,7 +28,6 @@
+>   
+>   #include <linux/pci.h>
+>   
+> -#include <drm/drm_gem_vram_helper.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_print.h>
+>   
+> @@ -80,7 +79,6 @@ int ast_mm_init(struct ast_private *ast)
+>   	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>   	resource_size_t base, size;
+>   	u32 vram_size;
+> -	int ret;
+>   
+>   	base = pci_resource_start(pdev, 0);
+>   	size = pci_resource_len(pdev, 0);
+> @@ -91,11 +89,13 @@ int ast_mm_init(struct ast_private *ast)
+>   
+>   	vram_size = ast_get_vram_size(ast);
+>   
+> -	ret = drmm_vram_helper_init(dev, base, vram_size);
+> -	if (ret) {
+> -		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+> -		return ret;
+> -	}
+> +	ast->vram = devm_ioremap_wc(dev->dev, base, vram_size);
+> +	if (!ast->vram)
+> +		return -ENOMEM;
+> +
+> +	ast->vram_base = base;
+> +	ast->vram_size = vram_size;
+> +	ast->vram_fb_available = vram_size;
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 59c70fd5b925..1b991658290b 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -36,11 +36,13 @@
+>   #include <drm/drm_atomic_state_helper.h>
+>   #include <drm/drm_crtc.h>
+>   #include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_damage_helper.h>
+>   #include <drm/drm_edid.h>
+> +#include <drm/drm_format_helper.h>
+>   #include <drm/drm_fourcc.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_gem_framebuffer_helper.h>
+> -#include <drm/drm_gem_vram_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_probe_helper.h>
+>   #include <drm/drm_simple_kms_helper.h>
+> @@ -565,6 +567,29 @@ static void ast_wait_for_vretrace(struct ast_private *ast)
+>   	} while (!(vgair1 & AST_IO_VGAIR1_VREFRESH) && time_before(jiffies, timeout));
+>   }
+>   
+> +/*
+> + * Planes
+> + */
+> +
+> +static int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
+> +			  void __iomem *vaddr, u64 offset, unsigned long size,
+> +			  uint32_t possible_crtcs,
+> +			  const struct drm_plane_funcs *funcs,
+> +			  const uint32_t *formats, unsigned int format_count,
+> +			  const uint64_t *format_modifiers,
+> +			  enum drm_plane_type type)
+> +{
+> +	struct drm_plane *plane = &ast_plane->base;
+> +
+> +	ast_plane->vaddr = vaddr;
+> +	ast_plane->offset = offset;
+> +	ast_plane->size = size;
+> +
+> +	return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
+> +					formats, format_count, format_modifiers,
+> +					type, NULL);
+> +}
+> +
+>   /*
+>    * Primary plane
+>    */
+> @@ -607,17 +632,29 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
+>   	return 0;
+>   }
+>   
+> +static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
+> +			      struct drm_framebuffer *fb,
+> +			      const struct drm_rect *clip)
+> +{
+> +	struct iosys_map dst = IOSYS_MAP_INIT_VADDR(ast_plane->vaddr);
+> +
+> +	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+> +	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
+> +}
+> +
+>   static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   						   struct drm_atomic_state *state)
+>   {
+>   	struct drm_device *dev = plane->dev;
+>   	struct ast_private *ast = to_ast_private(dev);
+>   	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>   	struct drm_framebuffer *fb = plane_state->fb;
+>   	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+>   	struct drm_framebuffer *old_fb = old_plane_state->fb;
+> -	struct drm_gem_vram_object *gbo;
+> -	s64 gpu_addr;
+> +	struct ast_plane *ast_plane = to_ast_plane(plane);
+> +	struct drm_rect damage;
+> +	struct drm_atomic_helper_damage_iter iter;
+>   
+>   	if (!old_fb || (fb->format != old_fb->format)) {
+>   		struct drm_crtc *crtc = plane_state->crtc;
+> @@ -629,13 +666,13 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
+>   	}
+>   
+> -	gbo = drm_gem_vram_of_gem(fb->obj[0]);
+> -	gpu_addr = drm_gem_vram_offset(gbo);
+> -	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
+> -		return; /* Bug: we didn't pin the BO to VRAM in prepare_fb. */
+> +	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> +		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
+> +	}
+>   
+>   	ast_set_offset_reg(ast, fb);
+> -	ast_set_start_address_crt1(ast, (u32)gpu_addr);
+> +	ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
+>   
+>   	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
+>   }
+> @@ -649,7 +686,7 @@ static void ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+>   }
+>   
+>   static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+> -	DRM_GEM_VRAM_PLANE_HELPER_FUNCS,
+> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+>   	.atomic_check = ast_primary_plane_helper_atomic_check,
+>   	.atomic_update = ast_primary_plane_helper_atomic_update,
+>   	.atomic_disable = ast_primary_plane_helper_atomic_disable,
+> @@ -659,27 +696,30 @@ static const struct drm_plane_funcs ast_primary_plane_funcs = {
+>   	.update_plane = drm_atomic_helper_update_plane,
+>   	.disable_plane = drm_atomic_helper_disable_plane,
+>   	.destroy = drm_plane_cleanup,
+> -	.reset = drm_atomic_helper_plane_reset,
+> -	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+> +	DRM_GEM_SHADOW_PLANE_FUNCS,
+>   };
+>   
+>   static int ast_primary_plane_init(struct ast_private *ast)
+>   {
+>   	struct drm_device *dev = &ast->base;
+> -	struct drm_plane *primary_plane = &ast->primary_plane;
+> +	struct ast_plane *ast_primary_plane = &ast->primary_plane;
+> +	struct drm_plane *primary_plane = &ast_primary_plane->base;
+> +	void __iomem *vaddr = ast->vram;
+> +	u64 offset = ast->vram_base;
+> +	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+> +	unsigned long size = ast->vram_fb_available - cursor_size;
+>   	int ret;
+>   
+> -	ret = drm_universal_plane_init(dev, primary_plane, 0x01,
+> -				       &ast_primary_plane_funcs,
+> -				       ast_primary_plane_formats,
+> -				       ARRAY_SIZE(ast_primary_plane_formats),
+> -				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
+> +	ret = ast_plane_init(dev, ast_primary_plane, vaddr, offset, size,
+> +			     0x01, &ast_primary_plane_funcs,
+> +			     ast_primary_plane_formats, ARRAY_SIZE(ast_primary_plane_formats),
+> +			     NULL, DRM_PLANE_TYPE_PRIMARY);
+>   	if (ret) {
+> -		drm_err(dev, "drm_universal_plane_init() failed: %d\n", ret);
+> +		drm_err(dev, "ast_plane_init() failed: %d\n", ret);
+>   		return ret;
+>   	}
+>   	drm_plane_helper_add(primary_plane, &ast_primary_plane_helper_funcs);
+> +	drm_plane_enable_fb_damage_clips(primary_plane);
+>   
+>   	return 0;
+>   }
+> @@ -828,31 +868,26 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>   	struct drm_framebuffer *fb = plane_state->fb;
+>   	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+> -	struct drm_framebuffer *old_fb = old_plane_state->fb;
+>   	struct ast_private *ast = to_ast_private(plane->dev);
+> -	struct iosys_map dst_map = ast_plane->map;
+> -	u64 dst_off = ast_plane->off;
+>   	struct iosys_map src_map = shadow_plane_state->data[0];
+> +	struct drm_rect damage;
+> +	const u8 *src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
+> +	u64 dst_off = ast_plane->offset;
+> +	u8 __iomem *dst = ast_plane->vaddr; /* TODO: Use mapping abstraction properly */
+> +	u8 __iomem *sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
+>   	unsigned int offset_x, offset_y;
+>   	u16 x, y;
+>   	u8 x_offset, y_offset;
+> -	u8 __iomem *dst;
+> -	u8 __iomem *sig;
+> -	const u8 *src;
+> -
+> -	src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
+> -	dst = dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
+> -	sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
+>   
+>   	/*
+> -	 * Do data transfer to HW cursor BO. If a new cursor image was installed,
+> -	 * point the scanout engine to dst_gbo's offset and page-flip the HWC buffers.
+> +	 * Do data transfer to hardware buffer and point the scanout
+> +	 * engine to the offset.
+>   	 */
+>   
+> -	ast_update_cursor_image(dst, src, fb->width, fb->height);
+> -
+> -	if (fb != old_fb)
+> +	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage)) {
+> +		ast_update_cursor_image(dst, src, fb->width, fb->height);
+>   		ast_set_cursor_base(ast, dst_off);
+> +	}
+>   
+>   	/*
+>   	 * Update location in HWC signature and registers.
+> @@ -900,36 +935,22 @@ static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
+>   	.atomic_disable = ast_cursor_plane_helper_atomic_disable,
+>   };
+>   
+> -static void ast_cursor_plane_destroy(struct drm_plane *plane)
+> -{
+> -	struct ast_plane *ast_plane = to_ast_plane(plane);
+> -	struct drm_gem_vram_object *gbo = ast_plane->gbo;
+> -	struct iosys_map map = ast_plane->map;
+> -
+> -	drm_gem_vram_vunmap(gbo, &map);
+> -	drm_gem_vram_unpin(gbo);
+> -	drm_gem_vram_put(gbo);
+> -
+> -	drm_plane_cleanup(plane);
+> -}
+> -
+>   static const struct drm_plane_funcs ast_cursor_plane_funcs = {
+>   	.update_plane = drm_atomic_helper_update_plane,
+>   	.disable_plane = drm_atomic_helper_disable_plane,
+> -	.destroy = ast_cursor_plane_destroy,
+> +	.destroy = drm_plane_cleanup,
+>   	DRM_GEM_SHADOW_PLANE_FUNCS,
+>   };
+>   
+>   static int ast_cursor_plane_init(struct ast_private *ast)
+>   {
+>   	struct drm_device *dev = &ast->base;
+> -	struct ast_plane *ast_plane = &ast->cursor_plane;
+> -	struct drm_plane *cursor_plane = &ast_plane->base;
+> +	struct ast_plane *ast_cursor_plane = &ast->cursor_plane;
+> +	struct drm_plane *cursor_plane = &ast_cursor_plane->base;
+>   	size_t size;
+> -	struct drm_gem_vram_object *gbo;
+> -	struct iosys_map map;
+> +	void __iomem *vaddr;
+> +	u64 offset;
+>   	int ret;
+> -	s64 off;
+>   
+>   	/*
+>   	 * Allocate backing storage for cursors. The BOs are permanently
+> @@ -938,52 +959,26 @@ static int ast_cursor_plane_init(struct ast_private *ast)
+>   
+>   	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+>   
+> -	gbo = drm_gem_vram_create(dev, size, 0);
+> -	if (IS_ERR(gbo))
+> -		return PTR_ERR(gbo);
+> -
+> -	ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM |
+> -				    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
+> -	if (ret)
+> -		goto err_drm_gem_vram_put;
+> -	ret = drm_gem_vram_vmap(gbo, &map);
+> -	if (ret)
+> -		goto err_drm_gem_vram_unpin;
+> -	off = drm_gem_vram_offset(gbo);
+> -	if (off < 0) {
+> -		ret = off;
+> -		goto err_drm_gem_vram_vunmap;
+> -	}
+> +	if (ast->vram_fb_available < size)
+> +		return -ENOMEM;
+>   
+> -	ast_plane->gbo = gbo;
+> -	ast_plane->map = map;
+> -	ast_plane->off = off;
+> -
+> -	/*
+> -	 * Create the cursor plane. The plane's destroy callback will release
+> -	 * the backing storages' BO memory.
+> -	 */
+> +	vaddr = ast->vram + ast->vram_fb_available - size;
+> +	offset = ast->vram_base + ast->vram_fb_available - size;
+>   
+> -	ret = drm_universal_plane_init(dev, cursor_plane, 0x01,
+> -				       &ast_cursor_plane_funcs,
+> -				       ast_cursor_plane_formats,
+> -				       ARRAY_SIZE(ast_cursor_plane_formats),
+> -				       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
+> +	ret = ast_plane_init(dev, ast_cursor_plane, vaddr, offset, size,
+> +			     0x01, &ast_cursor_plane_funcs,
+> +			     ast_cursor_plane_formats, ARRAY_SIZE(ast_cursor_plane_formats),
+> +			     NULL, DRM_PLANE_TYPE_CURSOR);
+>   	if (ret) {
+> -		drm_err(dev, "drm_universal_plane failed(): %d\n", ret);
+> -		goto err_drm_gem_vram_vunmap;
+> +		drm_err(dev, "ast_plane_init() failed: %d\n", ret);
+> +		return ret;
+>   	}
+>   	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
+> +	drm_plane_enable_fb_damage_clips(cursor_plane);
+>   
+> -	return 0;
+> +	ast->vram_fb_available -= size;
+>   
+> -err_drm_gem_vram_vunmap:
+> -	drm_gem_vram_vunmap(gbo, &map);
+> -err_drm_gem_vram_unpin:
+> -	drm_gem_vram_unpin(gbo);
+> -err_drm_gem_vram_put:
+> -	drm_gem_vram_put(gbo);
+> -	return ret;
+> +	return 0;
+>   }
+>   
+>   /*
+> @@ -1313,7 +1308,7 @@ static int ast_crtc_init(struct drm_device *dev)
+>   	struct drm_crtc *crtc = &ast->crtc;
+>   	int ret;
+>   
+> -	ret = drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane,
+> +	ret = drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane.base,
+>   					&ast->cursor_plane.base, &ast_crtc_funcs,
+>   					NULL);
+>   	if (ret)
+> @@ -1735,9 +1730,27 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
+>   	.atomic_commit_tail = ast_mode_config_helper_atomic_commit_tail,
+>   };
+>   
+> +static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
+> +						       const struct drm_display_mode *mode)
+> +{
+> +	static const unsigned long max_bpp = 4; /* DRM_FORMAT_XRGB8888 */
+> +	struct ast_private *ast = to_ast_private(dev);
+> +	unsigned long fbsize, fbpages, max_fbpages;
+> +
+> +	max_fbpages = (ast->vram_fb_available) >> PAGE_SHIFT;
+> +
+> +	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
+> +	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
+> +
+> +	if (fbpages > max_fbpages)
+> +		return MODE_MEM;
+> +
+> +	return MODE_OK;
+> +}
+> +
 >   static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+> -	.fb_create = drm_gem_fb_create,
+> -	.mode_valid = drm_vram_helper_mode_valid,
+> +	.fb_create = drm_gem_fb_create_with_dirty,
+> +	.mode_valid = ast_mode_config_mode_valid,
+>   	.atomic_check = drm_atomic_helper_check,
+>   	.atomic_commit = drm_atomic_helper_commit,
+>   };
+> @@ -1756,7 +1769,6 @@ int ast_mode_config_init(struct ast_private *ast)
+>   	dev->mode_config.min_width = 0;
+>   	dev->mode_config.min_height = 0;
+>   	dev->mode_config.preferred_depth = 24;
+> -	dev->mode_config.prefer_shadow = 1;
+>   	dev->mode_config.fb_base = pci_resource_start(pdev, 0);
+>   
+>   	if (ast->chip == AST2100 ||
 
 Best regards,
 
