@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5390C5FB067
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:25:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A75E5FB07B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7E5910E2F3;
-	Tue, 11 Oct 2022 10:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9809C10E365;
+	Tue, 11 Oct 2022 10:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 107D710E090;
- Tue, 11 Oct 2022 10:25:39 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 601AB10E34E;
+ Tue, 11 Oct 2022 10:32:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665483939; x=1697019939;
+ t=1665484360; x=1697020360;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8MjcMDNPFXWYvGZJPc+0BvHSgk1zBlXPrTWEqomf8Wk=;
- b=VKnHNHIGRWp8MQuV3QGpA170srEvYdPxbbOEE0J0N3YN0oRhJYXsSnnw
- 4qbsGl8LZALWYzdQkan+WLxPIeHrSZic/K3zIfXOpUWbpu2wRZQ82kGra
- DQO42ly4PK76stMsWQsWhXQkPcLkj/ybHxJe8uR4+Q3SFHugJsawSkGvM
- c9nUEDTa1/UNv1/j98QT5jA3cCIx7QbHlTCCkcJyAemVOpssV4QrQooS8
- RF+OTyFBDxhHWF3bZvxdRVgLMHkZZg6FbguwTughCPukOdaki5U6eItmW
- BOxwu5gclclFbBkVrJCljcQHrPPXT3z/BMlwZet7MaTsh0NKIeXuXhdaj Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="366458903"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="366458903"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 03:25:37 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="871459109"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="871459109"
-Received: from ashyti-mobl2.igk.intel.com (HELO intel.com) ([172.28.182.106])
- by fmsmga006-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2022 03:25:36 -0700
-Date: Tue, 11 Oct 2022 12:25:33 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [RFC] drm: split build lists one per line and sort
-Message-ID: <Y0VEnTB950XYrhBI@ashyti-mobl2.lan>
-References: <20221011100137.2838947-1-jani.nikula@intel.com>
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=PmoXsfsuU1g2vWiW+wkOkDnJcfLzJAQp/lvee/CHGEg=;
+ b=EMFJT4kVcQa5Ak3RuhIKdSvA93mdWFyaBjVqPUCpxU9NpBTJTxCGc3Pu
+ RLEhm7hqAf+ekb3JZcns7aOK9j6Xt5RZrVhJZQqNslLlRkfF/Ns6QehLz
+ K63yeTO5yCzY3yTCZ8GUcZFPTSsa7Mo6DGR8YAJ31IK2UiC5p5EgFkT0B
+ cwMs0REafcvvKChdGW3IqCweJk3MR/gu1ddTodTXf3bN3JBXklHdMevCb
+ mOGoyNGy0nzEDlVC44+L1AwRbaTkiqsOVtH++IUdFfW91k7L2ZteFEBEN
+ VYm2QOF/ZihKWf0eWgnKMqgtz8oNxr2Za3N2BMOvrzBDwve6eJlSAW7io g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="304457168"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="304457168"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 03:32:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="801410639"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="801410639"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga005.jf.intel.com with SMTP; 11 Oct 2022 03:32:36 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 11 Oct 2022 13:32:35 +0300
+Date: Tue, 11 Oct 2022 13:32:35 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use graphics ver, rel info for
+ media on old platforms
+Message-ID: <Y0VGQ3jFguGOlh2w@intel.com>
+References: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
+ <87pmeyyg3n.fsf@intel.com>
+ <DM4PR11MB59714D6C8D496B5538DA27AB87239@DM4PR11MB5971.namprd11.prod.outlook.com>
+ <87k056y8kt.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221011100137.2838947-1-jani.nikula@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87k056y8kt.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,72 +64,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sripada,
+ Radhakrishna" <radhakrishna.sripada@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
-
-> While it takes more vertical space, sorted build lists with one object
-> per line are arguably easier to manage, especially when there are
-> conflicting changes.
+On Tue, Oct 11, 2022 at 01:10:26PM +0300, Jani Nikula wrote:
+> On Tue, 11 Oct 2022, "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com> wrote:
+> > Hi Jani,
+> >
+> >> -----Original Message-----
+> >> From: Jani Nikula <jani.nikula@linux.intel.com>
+> >> Sent: Tuesday, October 11, 2022 12:28 AM
+> >> To: Sripada, Radhakrishna <radhakrishna.sripada@intel.com>; intel-
+> >> gfx@lists.freedesktop.org
+> >> Cc: dri-devel@lists.freedesktop.org; Sripada, Radhakrishna
+> >> <radhakrishna.sripada@intel.com>; De Marchi, Lucas
+> >> <lucas.demarchi@intel.com>; Roper, Matthew D
+> >> <matthew.d.roper@intel.com>
+> >> Subject: Re: [PATCH] drm/i915: Use graphics ver, rel info for media on old
+> >> platforms
+> >> 
+> >> On Mon, 10 Oct 2022, Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> >> wrote:
+> >> > Platforms prior to MTL do not have a separate media and graphics version.
+> >> > On platforms where GMD id is not supported, reuse the graphics ip version,
+> >> > release info for media.
+> >> >
+> >> > The rest of the IP graphics, display versions would be copied during driver
+> >> > creation.
+> >> >
+> >> > While at it warn if GMD is not used for platforms greater than gen12.
+> >> >
+> >> > Fixes: c2c7075225ef ("drm/i915: Read graphics/media/display arch version
+> >> from hw")
+> >> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> >> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> >> > Cc: Matt Roper <matthew.d.roper@intel.com>
+> >> > Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> >> > ---
+> >> >  drivers/gpu/drm/i915/intel_device_info.c | 12 +++++++++++-
+> >> >  1 file changed, 11 insertions(+), 1 deletion(-)
+> >> >
+> >> > diff --git a/drivers/gpu/drm/i915/intel_device_info.c
+> >> b/drivers/gpu/drm/i915/intel_device_info.c
+> >> > index 090097bb3c0a..ba178b61bceb 100644
+> >> > --- a/drivers/gpu/drm/i915/intel_device_info.c
+> >> > +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> >> > @@ -329,8 +329,18 @@ static void intel_ipver_early_init(struct
+> >> drm_i915_private *i915)
+> >> >  {
+> >> >  	struct intel_runtime_info *runtime = RUNTIME_INFO(i915);
+> >> >
+> >> > -	if (!HAS_GMD_ID(i915))
+> >> > +	if (!HAS_GMD_ID(i915)) {
+> >> > +		drm_WARN_ON(&i915->drm, RUNTIME_INFO(i915)-
+> >> >graphics.ip.ver > 12);
+> >> > +		/*
+> >> > +		 * On older platforms, graphics and media share the same ip
+> >> > +		 * version and release.
+> >> > +		 */
+> >> > +		RUNTIME_INFO(i915)->media.ip.ver =
+> >> > +			RUNTIME_INFO(i915)->graphics.ip.ver;
+> >> > +		RUNTIME_INFO(i915)->media.ip.rel =
+> >> > +			RUNTIME_INFO(i915)->graphics.ip.rel;
+> >> 
+> >> You could assign the whole struct ip_version (*) at once, or is there a
+> >> reason you're intentionally not assigning step?
+> > Step info would anyways be determined later in the function intel_step_init.
+> > We already have macros in place to handle common gt and media steps there.
+> >
+> > Do you suggest we memcpy(&RUNTIME_INFO(i915)->media.ip, &RUNTIME_INFO->graphics.ip, sizeof(struct ip_version)) here?
 > 
-> Split anything with more than one object file.
+> Simple assign should do it for such a small struct.
 
-looks much better! Just an error below.
+IMO for any struct. Only use memcpy() when copying arrays and such.
 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/Makefile         | 106 ++++++++++++++++++++++---------
->  drivers/gpu/drm/display/Makefile |  14 ++--
->  2 files changed, 84 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 25d0ba310509..c4e6ef321566 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -3,32 +3,70 @@
->  # Makefile for the drm device driver.  This driver provides support for the
->  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
->  
-> -drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
-> -		drm_file.o drm_gem.o drm_ioctl.o \
-> -		drm_drv.o \
-> -		drm_sysfs.o drm_mm.o \
-> -		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o drm_displayid.o \
-> -		drm_trace_points.o drm_prime.o \
-> -		drm_vma_manager.o \
-> -		drm_modeset_lock.o drm_atomic.o drm_bridge.o \
-> -		drm_framebuffer.o drm_connector.o drm_blend.o \
-> -		drm_encoder.o drm_mode_object.o drm_property.o \
-> -		drm_plane.o drm_color_mgmt.o drm_print.o \
-> -		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
-> -		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
-> -		drm_client_modeset.o drm_atomic_uapi.o \
-> -		drm_managed.o drm_vblank_work.o
-> -drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
-> -			    drm_hashtab.o drm_irq.o drm_legacy_misc.o drm_lock.o \
-> -			    drm_memory.o drm_scatter.o drm_vm.o
-> +drm-y := \
-> +	drm_aperture.o \
-> +	drm_atomic.o \
-> +	drm_atomic_uapi.o \
-> +	drm_auth.o drm_cache.o \
-
-You forgot to split here and drm_cache.o goes after drm_bridge.o
-
-Other than this there are no errors, I checked them all.
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Andi
-
-> +	drm_blend.o \
-> +	drm_bridge.o \
-> +	drm_client.o \
-> +	drm_client_modeset.o \
-> +	drm_color_mgmt.o \
-> +	drm_connector.o \
-> +	drm_crtc.o \
-
-[...]
+-- 
+Ville Syrjälä
+Intel
