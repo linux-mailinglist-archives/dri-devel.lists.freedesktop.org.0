@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041715FB04D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5390C5FB067
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:25:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6C4010E2E1;
-	Tue, 11 Oct 2022 10:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7E5910E2F3;
+	Tue, 11 Oct 2022 10:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAD2F10E7F7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 10:19:24 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id i6so7721036pli.12
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 03:19:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Yq/9loxiQhBqkMGuBqVSVER97PU6eqNrwXcwJJSQ4o8=;
- b=YQMKAEJu2Lqp0lr6XC66P8V857rodeAZ2poxsUDkoWg3pWPdvuULNzsOWa02Zg/92T
- lxqyY11dROObYQy7jaqYxhREieGrky1SSz0bgsk/fWFgWgEUq5QP5+M51hpDBdXo5izF
- GnXG6kwB2iRS53lBKhVLXKuhjjLlcNr/EMfqE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Yq/9loxiQhBqkMGuBqVSVER97PU6eqNrwXcwJJSQ4o8=;
- b=i6Jend4QwIDV/2yK0GAHoYUN0AMYhTvR54iKoSGjFDIwgCgEzLQTmDTR/p3C8kEs0R
- c7Ju4Tuf/30/m6UqmrZ2t2KbqCG0VGwZR6STCEu0S0luKj/ryRBKug6RfEjjJMV0+ge3
- MPlj8b0RlHC3zi+AGPxhweJp0vThPX58C031hzBiTBk+lzlr6s0UV3KZVLXkgnr0sGio
- Bjrb55nT8lUY/M/M3kR7kEIoi7ZqJqzxnrtZw4i0I9ytveUSqM/lGagk4CTuxH9xXCNV
- Lr+iQ6w6fv7DRKTUQ7EAPJq4f72DppGHh1gvZRnda6Av/oQ6uYNDkOUC1Lx/dypPmeoZ
- QINQ==
-X-Gm-Message-State: ACrzQf2QKpY+0J0oNWczVT8TEGSdH41wMERSI1HVO4y+ykc09Df3I149
- mjR1SYGPzULHEnJtqv8gVdff4Q==
-X-Google-Smtp-Source: AMsMyM4LINEjb4g0hFCLAALDCXfaB3pcV4PVIko37wfdn2j6GQwmNRf85N9NgRqisdThg1hBRZsIyA==
-X-Received: by 2002:a17:902:6a87:b0:181:c6c6:1d38 with SMTP id
- n7-20020a1709026a8700b00181c6c61d38mr12889488plk.74.1665483564107; 
- Tue, 11 Oct 2022 03:19:24 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:31e6:a0c9:ff22:7e86])
- by smtp.gmail.com with ESMTPSA id
- y12-20020a17090a1f4c00b0020d75e90d32sm488402pjy.17.2022.10.11.03.19.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 03:19:23 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>
-Subject: [PATCH] drm_bridge: register content protect property
-Date: Tue, 11 Oct 2022 18:18:51 +0800
-Message-Id: <20221011101850.200455-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 107D710E090;
+ Tue, 11 Oct 2022 10:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665483939; x=1697019939;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8MjcMDNPFXWYvGZJPc+0BvHSgk1zBlXPrTWEqomf8Wk=;
+ b=VKnHNHIGRWp8MQuV3QGpA170srEvYdPxbbOEE0J0N3YN0oRhJYXsSnnw
+ 4qbsGl8LZALWYzdQkan+WLxPIeHrSZic/K3zIfXOpUWbpu2wRZQ82kGra
+ DQO42ly4PK76stMsWQsWhXQkPcLkj/ybHxJe8uR4+Q3SFHugJsawSkGvM
+ c9nUEDTa1/UNv1/j98QT5jA3cCIx7QbHlTCCkcJyAemVOpssV4QrQooS8
+ RF+OTyFBDxhHWF3bZvxdRVgLMHkZZg6FbguwTughCPukOdaki5U6eItmW
+ BOxwu5gclclFbBkVrJCljcQHrPPXT3z/BMlwZet7MaTsh0NKIeXuXhdaj Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="366458903"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="366458903"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 03:25:37 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="871459109"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="871459109"
+Received: from ashyti-mobl2.igk.intel.com (HELO intel.com) ([172.28.182.106])
+ by fmsmga006-auth.fm.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2022 03:25:36 -0700
+Date: Tue, 11 Oct 2022 12:25:33 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [Intel-gfx] [RFC] drm: split build lists one per line and sort
+Message-ID: <Y0VEnTB950XYrhBI@ashyti-mobl2.lan>
+References: <20221011100137.2838947-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011100137.2838947-1-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some bridges are able to update HDCP status from userspace requests if
-they support HDCP.
+Hi Jani,
 
-HDCP property is the same as other connector properties that need to be
-created after the connecter is initialized and before the connector is
-registered.
+> While it takes more vertical space, sorted build lists with one object
+> per line are arguably easier to manage, especially when there are
+> conflicting changes.
+> 
+> Split anything with more than one object file.
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/drm_bridge_connector.c | 3 +++
- 1 file changed, 3 insertions(+)
+looks much better! Just an error below.
 
-diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-index 1c7d936523df5..a3b9ef8dc3f0b 100644
---- a/drivers/gpu/drm/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/drm_bridge_connector.c
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- 
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
-@@ -398,6 +399,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	if (panel_bridge)
- 		drm_panel_bridge_set_orientation(connector, panel_bridge);
- 
-+	drm_connector_attach_content_protection_property(connector, true);
-+
- 	return connector;
- }
- EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
--- 
-2.38.0.rc1.362.ged0d419d3c-goog
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/Makefile         | 106 ++++++++++++++++++++++---------
+>  drivers/gpu/drm/display/Makefile |  14 ++--
+>  2 files changed, 84 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 25d0ba310509..c4e6ef321566 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -3,32 +3,70 @@
+>  # Makefile for the drm device driver.  This driver provides support for the
+>  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+>  
+> -drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
+> -		drm_file.o drm_gem.o drm_ioctl.o \
+> -		drm_drv.o \
+> -		drm_sysfs.o drm_mm.o \
+> -		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o drm_displayid.o \
+> -		drm_trace_points.o drm_prime.o \
+> -		drm_vma_manager.o \
+> -		drm_modeset_lock.o drm_atomic.o drm_bridge.o \
+> -		drm_framebuffer.o drm_connector.o drm_blend.o \
+> -		drm_encoder.o drm_mode_object.o drm_property.o \
+> -		drm_plane.o drm_color_mgmt.o drm_print.o \
+> -		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+> -		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
+> -		drm_client_modeset.o drm_atomic_uapi.o \
+> -		drm_managed.o drm_vblank_work.o
+> -drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
+> -			    drm_hashtab.o drm_irq.o drm_legacy_misc.o drm_lock.o \
+> -			    drm_memory.o drm_scatter.o drm_vm.o
+> +drm-y := \
+> +	drm_aperture.o \
+> +	drm_atomic.o \
+> +	drm_atomic_uapi.o \
+> +	drm_auth.o drm_cache.o \
 
+You forgot to split here and drm_cache.o goes after drm_bridge.o
+
+Other than this there are no errors, I checked them all.
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Andi
+
+> +	drm_blend.o \
+> +	drm_bridge.o \
+> +	drm_client.o \
+> +	drm_client_modeset.o \
+> +	drm_color_mgmt.o \
+> +	drm_connector.o \
+> +	drm_crtc.o \
+
+[...]
