@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21185FB910
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 19:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6765FB91D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 19:22:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32E5110E89B;
-	Tue, 11 Oct 2022 17:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5E989EAE;
+	Tue, 11 Oct 2022 17:22:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E58810E89B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 17:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665508631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HcmKDqCIJFIg50LHl+RB9p5JqMdYdYFWYDKtwwDNMrU=;
- b=cTrbo+NXmiuqB25Gb+5U1vJ1LMnJOboTF3O9C+ZJNiqb7yRe98iYcp8J9JYW927ZvKpMcp
- X4cjWyepS3gYgAmQBIHTCXR4az7F9jUUtPxMkgZPrdxBk357GpfAtwE+xucmmqQtmFuw/0
- MPLGOisoyRTN4cJcv3dc1GEuuJsujBg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-507-rGU8DKQZM6Ksu3c27xwTdQ-1; Tue, 11 Oct 2022 13:17:10 -0400
-X-MC-Unique: rGU8DKQZM6Ksu3c27xwTdQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v125-20020a1cac83000000b003bd44dc5242so10903307wme.7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 10:17:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HcmKDqCIJFIg50LHl+RB9p5JqMdYdYFWYDKtwwDNMrU=;
- b=ti8jtqFzP/yGUeYzwL7e/lx2ybEP0qEH4pqZJYsTcUCnSLJRWwZr3SQaSw+dSV/Wd6
- fMFEGCH9fascPlzypjUuTfCS0AyKvX/BLnMbHTHm29ECQp+Pq8yl+HddQ7wEqN+A1C2Q
- F1eMQtDZl3cdfQPwoNEWGAJgdvopKpEXVvUB+xaFUqTK4NWGhp52uLwo3fb4XEu0Ge1Z
- JOT8OhfoNd+M0LNat/RmkbdOc88PZZ453XEUOg7ZrLhqbVY0g+CJikEWNBT79FAiuVoX
- +u1oFtMaoNjT1wD5bqmfeQyscwNb7f0xgn5aioqEgrLD8OfhNcoljGRUrASQVHUvKs+g
- ilLQ==
-X-Gm-Message-State: ACrzQf1pKXmsktK3gIF00u+sEh4D4HyyyeCL74vAnPVjG7MdR7MiJDDc
- W9d3SIEs27P/duRNQDm7zJoftHsXwAGbVC4JoYovtzYrslxc+YwjzrtKKzbbSlLz0QM49DDK7+x
- azzfKk8mc8kjbQSxsdjGNKy1OiCw7
-X-Received: by 2002:a05:600c:1e18:b0:3b3:b9f8:2186 with SMTP id
- ay24-20020a05600c1e1800b003b3b9f82186mr83166wmb.151.1665508628583; 
- Tue, 11 Oct 2022 10:17:08 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4gUUpQhSVXraR9u4ArTfROyNsrm4P2yQAVhRgmFOo32vISQeR5L9fz4p0psKqryUWetqma3Q==
-X-Received: by 2002:a05:600c:1e18:b0:3b3:b9f8:2186 with SMTP id
- ay24-20020a05600c1e1800b003b3b9f82186mr83140wmb.151.1665508628191; 
- Tue, 11 Oct 2022 10:17:08 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- g20-20020a05600c4ed400b003b4ac05a8a4sm27602445wmq.27.2022.10.11.10.17.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 10:17:07 -0700 (PDT)
-Message-ID: <8b1783c5-af06-522c-c683-5fbb61fb7c0b@redhat.com>
-Date: Tue, 11 Oct 2022 19:17:06 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E339E89EAE
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 17:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665508966; x=1697044966;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=r4TuGJ0pyvGXESQBnpg6LeIV8jkKiuC+BrkljNOz14g=;
+ b=cc7lQbFLMG2MCoUlF3M6AccMCIlvc0T4uXdl+R1H8ggbXvOj8S4FrGsz
+ 7PrZGeepbhZSueRNju+0hH3vK1KaPZo0Ax3LE0LBBFW7o5QSCtdBLqAG/
+ 8yq4hy7GShIP4iM4w68DwNs44D9IpJvvsF8tVndsSFByV5t4P9E0W7f54
+ QGCTAOjvcQcbVlm4R+65In6If8AsfQj35thHkMblIePHr2MbHpZOboNng
+ pl0pY8OkS5ZZriz1jTWbhlQdL8lT96+4MrSbUVkjNzSB6BknerSASkgGb
+ 2EfMaR5qx+xNUB8z26rfJbheOTO1WWhL1WK2+wHBvjalR+aY/XI01uzdy A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="304561775"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="304561775"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 10:22:46 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="689327097"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="689327097"
+Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.40.183])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 10:22:43 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Simon
+ Rettberg <simon.rettberg@rz.uni-freiburg.de>
+Subject: Re: [PATCH v2] drm/display: Don't assume dual mode adaptors support
+ i2c sub-addressing
+In-Reply-To: <Y0BbKr10gUO/xjZ/@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221006113314.41101987@computer> <Yz7wKZnJeUzbz4Dw@intel.com>
+ <Y0BbKr10gUO/xjZ/@intel.com>
+Date: Tue, 11 Oct 2022 20:22:41 +0300
+Message-ID: <874jwaxoke.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 7/8] drm/ast: Convert ast to SHMEM
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- daniel@ffwll.ch, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
- ilpo.jarvinen@cs.helsinki.fi
-References: <20221010103625.19958-1-tzimmermann@suse.de>
- <20221010103625.19958-8-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20221010103625.19958-8-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,529 +61,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/10/2022 12:36, Thomas Zimmermann wrote:
-> Replace GEM VRAM helpers with GEM SHMEM helpers in ast. Avoids OOM
-> errors when allocating video memory. Also adds support for dma-buf
-> functionality.
-> 
-> Aspeed display hardware supports display resolutions of FullHD and
-> more at 32-bit pixel depth. But the amount of video memory is in
-> the range of 8 MiB to 32 MiB, which adds contrains to the actually
-small typo: constraints
-> available resolutions. As atomic modesetting with VRAM helpers
-> requires double buffering in video memory, ast fails to pageflip
-> in some configurations. For example, FullHD with an active cursor
-> plane does not work on devices with 16 MiB of video memory.
-> 
-> Resolve this problem by converting the ast driver to GEM SHMEM helpers.
-> Keep the buffer objects in system memory and copy to video memory
-> on pageflips via shadow-plane helpers. Userspace used to require shadow
-> planes for decent performance, but that's now provided by the driver.
-> To replaces the memory management, the patch also implements damage
-> handling for the primary plane.
-> 
-> The GEM SHMEM helpers, dma-buf import and export is now supported
-> by ast. This allows easier screen mirroring across devices or with
-> an Aspeed-based BMC. A corresponding feature request is available
-> at [1].
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/dri-devel/20220901124451.2523077-1-oushixiong@kylinos.cn/ # [1]
-> ---
->   drivers/gpu/drm/ast/Kconfig    |   4 +-
->   drivers/gpu/drm/ast/ast_drv.c  |   4 +-
->   drivers/gpu/drm/ast/ast_drv.h  |  13 ++-
->   drivers/gpu/drm/ast/ast_main.c |   5 +-
->   drivers/gpu/drm/ast/ast_mm.c   |  14 +--
->   drivers/gpu/drm/ast/ast_mode.c | 204 +++++++++++++++++----------------
->   6 files changed, 129 insertions(+), 115 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kconfig
-> index fbcf2f45cef5..d367a90cd3de 100644
-> --- a/drivers/gpu/drm/ast/Kconfig
-> +++ b/drivers/gpu/drm/ast/Kconfig
-> @@ -2,10 +2,8 @@
->   config DRM_AST
->   	tristate "AST server chips"
->   	depends on DRM && PCI && MMU
-> +	select DRM_GEM_SHMEM_HELPER
->   	select DRM_KMS_HELPER
-> -	select DRM_VRAM_HELPER
-> -	select DRM_TTM
-> -	select DRM_TTM_HELPER
->   	help
->   	 Say yes for experimental AST GPU driver. Do not enable
->   	 this driver without having a working -modesetting,
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> index b9392f31e629..bbeb5defc8f5 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -33,7 +33,7 @@
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_drv.h>
-> -#include <drm/drm_gem_vram_helper.h>
-> +#include <drm/drm_gem_shmem_helper.h>
->   #include <drm/drm_module.h>
->   #include <drm/drm_probe_helper.h>
->   
-> @@ -63,7 +63,7 @@ static const struct drm_driver ast_driver = {
->   	.minor = DRIVER_MINOR,
->   	.patchlevel = DRIVER_PATCHLEVEL,
->   
-> -	DRM_GEM_VRAM_DRIVER
-> +	DRM_GEM_SHMEM_DRIVER_OPS
->   };
->   
->   /*
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 02120025b7ac..74f41282444f 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -112,9 +112,9 @@ enum ast_tx_chip {
->   struct ast_plane {
->   	struct drm_plane base;
->   
-> -	struct drm_gem_vram_object *gbo;
-> -	struct iosys_map map;
-> -	u64 off;
-> +	void __iomem *vaddr;
-> +	u64 offset;
-> +	unsigned long size;
->   };
->   
->   static inline struct ast_plane *to_ast_plane(struct drm_plane *plane)
-> @@ -172,7 +172,12 @@ struct ast_private {
->   	uint32_t dram_type;
->   	uint32_t mclk;
->   
-> -	struct drm_plane primary_plane;
-> +	void __iomem	*vram;
-> +	unsigned long	vram_base;
-> +	unsigned long	vram_size;
-> +	unsigned long	vram_fb_available;
-> +
-> +	struct ast_plane primary_plane;
->   	struct ast_plane cursor_plane;
->   	struct drm_crtc crtc;
->   	struct {
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 067453266897..bffa310a0431 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -32,7 +32,6 @@
->   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem.h>
-> -#include <drm/drm_gem_vram_helper.h>
->   #include <drm/drm_managed.h>
->   
->   #include "ast_drv.h"
-> @@ -461,8 +460,8 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
->   
->   	/* map reserved buffer */
->   	ast->dp501_fw_buf = NULL;
-> -	if (dev->vram_mm->vram_size < pci_resource_len(pdev, 0)) {
-> -		ast->dp501_fw_buf = pci_iomap_range(pdev, 0, dev->vram_mm->vram_size, 0);
-> +	if (ast->vram_size < pci_resource_len(pdev, 0)) {
-> +		ast->dp501_fw_buf = pci_iomap_range(pdev, 0, ast->vram_size, 0);
->   		if (!ast->dp501_fw_buf)
->   			drm_info(dev, "failed to map reserved buffer!\n");
->   	}
-> diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
-> index 6e999408dda9..248284a4b3ff 100644
-> --- a/drivers/gpu/drm/ast/ast_mm.c
-> +++ b/drivers/gpu/drm/ast/ast_mm.c
-> @@ -28,7 +28,6 @@
->   
->   #include <linux/pci.h>
->   
-> -#include <drm/drm_gem_vram_helper.h>
->   #include <drm/drm_managed.h>
->   #include <drm/drm_print.h>
->   
-> @@ -80,7 +79,6 @@ int ast_mm_init(struct ast_private *ast)
->   	struct pci_dev *pdev = to_pci_dev(dev->dev);
->   	resource_size_t base, size;
->   	u32 vram_size;
-> -	int ret;
->   
->   	base = pci_resource_start(pdev, 0);
->   	size = pci_resource_len(pdev, 0);
-> @@ -91,11 +89,13 @@ int ast_mm_init(struct ast_private *ast)
->   
->   	vram_size = ast_get_vram_size(ast);
->   
-> -	ret = drmm_vram_helper_init(dev, base, vram_size);
-> -	if (ret) {
-> -		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
-> -		return ret;
-> -	}
-> +	ast->vram = devm_ioremap_wc(dev->dev, base, vram_size);
-> +	if (!ast->vram)
-> +		return -ENOMEM;
-> +
-> +	ast->vram_base = base;
-> +	ast->vram_size = vram_size;
-> +	ast->vram_fb_available = vram_size;
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 59c70fd5b925..1b991658290b 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -36,11 +36,13 @@
->   #include <drm/drm_atomic_state_helper.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_damage_helper.h>
->   #include <drm/drm_edid.h>
-> +#include <drm/drm_format_helper.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_gem_framebuffer_helper.h>
-> -#include <drm/drm_gem_vram_helper.h>
-> +#include <drm/drm_gem_shmem_helper.h>
->   #include <drm/drm_managed.h>
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_simple_kms_helper.h>
-> @@ -565,6 +567,29 @@ static void ast_wait_for_vretrace(struct ast_private *ast)
->   	} while (!(vgair1 & AST_IO_VGAIR1_VREFRESH) && time_before(jiffies, timeout));
->   }
->   
-> +/*
-> + * Planes
-> + */
-> +
-> +static int ast_plane_init(struct drm_device *dev, struct ast_plane *ast_plane,
-> +			  void __iomem *vaddr, u64 offset, unsigned long size,
-> +			  uint32_t possible_crtcs,
-> +			  const struct drm_plane_funcs *funcs,
-> +			  const uint32_t *formats, unsigned int format_count,
-> +			  const uint64_t *format_modifiers,
-> +			  enum drm_plane_type type)
-> +{
-> +	struct drm_plane *plane = &ast_plane->base;
-> +
-> +	ast_plane->vaddr = vaddr;
-> +	ast_plane->offset = offset;
-> +	ast_plane->size = size;
-> +
-> +	return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
-> +					formats, format_count, format_modifiers,
-> +					type, NULL);
-> +}
-> +
->   /*
->    * Primary plane
->    */
-> @@ -607,17 +632,29 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
->   	return 0;
->   }
->   
-> +static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
-> +			      struct drm_framebuffer *fb,
-> +			      const struct drm_rect *clip)
-> +{
-> +	struct iosys_map dst = IOSYS_MAP_INIT_VADDR(ast_plane->vaddr);
-> +
-> +	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
-> +	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
-> +}
-> +
->   static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->   						   struct drm_atomic_state *state)
->   {
->   	struct drm_device *dev = plane->dev;
->   	struct ast_private *ast = to_ast_private(dev);
->   	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
->   	struct drm_framebuffer *fb = plane_state->fb;
->   	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
->   	struct drm_framebuffer *old_fb = old_plane_state->fb;
-> -	struct drm_gem_vram_object *gbo;
-> -	s64 gpu_addr;
-> +	struct ast_plane *ast_plane = to_ast_plane(plane);
-> +	struct drm_rect damage;
-> +	struct drm_atomic_helper_damage_iter iter;
->   
->   	if (!old_fb || (fb->format != old_fb->format)) {
->   		struct drm_crtc *crtc = plane_state->crtc;
-> @@ -629,13 +666,13 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->   		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
->   	}
->   
-> -	gbo = drm_gem_vram_of_gem(fb->obj[0]);
-> -	gpu_addr = drm_gem_vram_offset(gbo);
-> -	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
-> -		return; /* Bug: we didn't pin the BO to VRAM in prepare_fb. */
-> +	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
-> +		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-> +	}
->   
->   	ast_set_offset_reg(ast, fb);
-> -	ast_set_start_address_crt1(ast, (u32)gpu_addr);
-> +	ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
->   
->   	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
->   }
-> @@ -649,7 +686,7 @@ static void ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
->   }
->   
->   static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
-> -	DRM_GEM_VRAM_PLANE_HELPER_FUNCS,
-> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
->   	.atomic_check = ast_primary_plane_helper_atomic_check,
->   	.atomic_update = ast_primary_plane_helper_atomic_update,
->   	.atomic_disable = ast_primary_plane_helper_atomic_disable,
-> @@ -659,27 +696,30 @@ static const struct drm_plane_funcs ast_primary_plane_funcs = {
->   	.update_plane = drm_atomic_helper_update_plane,
->   	.disable_plane = drm_atomic_helper_disable_plane,
->   	.destroy = drm_plane_cleanup,
-> -	.reset = drm_atomic_helper_plane_reset,
-> -	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
-> -	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
-> +	DRM_GEM_SHADOW_PLANE_FUNCS,
->   };
->   
->   static int ast_primary_plane_init(struct ast_private *ast)
->   {
->   	struct drm_device *dev = &ast->base;
-> -	struct drm_plane *primary_plane = &ast->primary_plane;
-> +	struct ast_plane *ast_primary_plane = &ast->primary_plane;
-> +	struct drm_plane *primary_plane = &ast_primary_plane->base;
-> +	void __iomem *vaddr = ast->vram;
-> +	u64 offset = ast->vram_base;
-> +	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
-> +	unsigned long size = ast->vram_fb_available - cursor_size;
->   	int ret;
->   
-> -	ret = drm_universal_plane_init(dev, primary_plane, 0x01,
-> -				       &ast_primary_plane_funcs,
-> -				       ast_primary_plane_formats,
-> -				       ARRAY_SIZE(ast_primary_plane_formats),
-> -				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
-> +	ret = ast_plane_init(dev, ast_primary_plane, vaddr, offset, size,
-> +			     0x01, &ast_primary_plane_funcs,
-> +			     ast_primary_plane_formats, ARRAY_SIZE(ast_primary_plane_formats),
-> +			     NULL, DRM_PLANE_TYPE_PRIMARY);
->   	if (ret) {
-> -		drm_err(dev, "drm_universal_plane_init() failed: %d\n", ret);
-> +		drm_err(dev, "ast_plane_init() failed: %d\n", ret);
->   		return ret;
->   	}
->   	drm_plane_helper_add(primary_plane, &ast_primary_plane_helper_funcs);
-> +	drm_plane_enable_fb_damage_clips(primary_plane);
->   
->   	return 0;
->   }
-> @@ -828,31 +868,26 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
->   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
->   	struct drm_framebuffer *fb = plane_state->fb;
->   	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-> -	struct drm_framebuffer *old_fb = old_plane_state->fb;
->   	struct ast_private *ast = to_ast_private(plane->dev);
-> -	struct iosys_map dst_map = ast_plane->map;
-> -	u64 dst_off = ast_plane->off;
->   	struct iosys_map src_map = shadow_plane_state->data[0];
-> +	struct drm_rect damage;
-> +	const u8 *src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
-> +	u64 dst_off = ast_plane->offset;
-> +	u8 __iomem *dst = ast_plane->vaddr; /* TODO: Use mapping abstraction properly */
-> +	u8 __iomem *sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
->   	unsigned int offset_x, offset_y;
->   	u16 x, y;
->   	u8 x_offset, y_offset;
-> -	u8 __iomem *dst;
-> -	u8 __iomem *sig;
-> -	const u8 *src;
-> -
-> -	src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
-> -	dst = dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
-> -	sig = dst + AST_HWC_SIZE; /* TODO: Use mapping abstraction properly */
->   
->   	/*
-> -	 * Do data transfer to HW cursor BO. If a new cursor image was installed,
-> -	 * point the scanout engine to dst_gbo's offset and page-flip the HWC buffers.
-> +	 * Do data transfer to hardware buffer and point the scanout
-> +	 * engine to the offset.
->   	 */
->   
-> -	ast_update_cursor_image(dst, src, fb->width, fb->height);
-> -
-> -	if (fb != old_fb)
-> +	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage)) {
-> +		ast_update_cursor_image(dst, src, fb->width, fb->height);
->   		ast_set_cursor_base(ast, dst_off);
-> +	}
->   
->   	/*
->   	 * Update location in HWC signature and registers.
-> @@ -900,36 +935,22 @@ static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
->   	.atomic_disable = ast_cursor_plane_helper_atomic_disable,
->   };
->   
-> -static void ast_cursor_plane_destroy(struct drm_plane *plane)
-> -{
-> -	struct ast_plane *ast_plane = to_ast_plane(plane);
-> -	struct drm_gem_vram_object *gbo = ast_plane->gbo;
-> -	struct iosys_map map = ast_plane->map;
-> -
-> -	drm_gem_vram_vunmap(gbo, &map);
-> -	drm_gem_vram_unpin(gbo);
-> -	drm_gem_vram_put(gbo);
-> -
-> -	drm_plane_cleanup(plane);
-> -}
-> -
->   static const struct drm_plane_funcs ast_cursor_plane_funcs = {
->   	.update_plane = drm_atomic_helper_update_plane,
->   	.disable_plane = drm_atomic_helper_disable_plane,
-> -	.destroy = ast_cursor_plane_destroy,
-> +	.destroy = drm_plane_cleanup,
->   	DRM_GEM_SHADOW_PLANE_FUNCS,
->   };
->   
->   static int ast_cursor_plane_init(struct ast_private *ast)
->   {
->   	struct drm_device *dev = &ast->base;
-> -	struct ast_plane *ast_plane = &ast->cursor_plane;
-> -	struct drm_plane *cursor_plane = &ast_plane->base;
-> +	struct ast_plane *ast_cursor_plane = &ast->cursor_plane;
-> +	struct drm_plane *cursor_plane = &ast_cursor_plane->base;
->   	size_t size;
-> -	struct drm_gem_vram_object *gbo;
-> -	struct iosys_map map;
-> +	void __iomem *vaddr;
-> +	u64 offset;
->   	int ret;
-> -	s64 off;
->   
->   	/*
->   	 * Allocate backing storage for cursors. The BOs are permanently
-> @@ -938,52 +959,26 @@ static int ast_cursor_plane_init(struct ast_private *ast)
->   
->   	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
->   
-> -	gbo = drm_gem_vram_create(dev, size, 0);
-> -	if (IS_ERR(gbo))
-> -		return PTR_ERR(gbo);
-> -
-> -	ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM |
-> -				    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
-> -	if (ret)
-> -		goto err_drm_gem_vram_put;
-> -	ret = drm_gem_vram_vmap(gbo, &map);
-> -	if (ret)
-> -		goto err_drm_gem_vram_unpin;
-> -	off = drm_gem_vram_offset(gbo);
-> -	if (off < 0) {
-> -		ret = off;
-> -		goto err_drm_gem_vram_vunmap;
-> -	}
-> +	if (ast->vram_fb_available < size)
-> +		return -ENOMEM;
->   
-> -	ast_plane->gbo = gbo;
-> -	ast_plane->map = map;
-> -	ast_plane->off = off;
-> -
-> -	/*
-> -	 * Create the cursor plane. The plane's destroy callback will release
-> -	 * the backing storages' BO memory.
-> -	 */
-> +	vaddr = ast->vram + ast->vram_fb_available - size;
-> +	offset = ast->vram_base + ast->vram_fb_available - size;
->   
-> -	ret = drm_universal_plane_init(dev, cursor_plane, 0x01,
-> -				       &ast_cursor_plane_funcs,
-> -				       ast_cursor_plane_formats,
-> -				       ARRAY_SIZE(ast_cursor_plane_formats),
-> -				       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
-> +	ret = ast_plane_init(dev, ast_cursor_plane, vaddr, offset, size,
-> +			     0x01, &ast_cursor_plane_funcs,
-> +			     ast_cursor_plane_formats, ARRAY_SIZE(ast_cursor_plane_formats),
-> +			     NULL, DRM_PLANE_TYPE_CURSOR);
->   	if (ret) {
-> -		drm_err(dev, "drm_universal_plane failed(): %d\n", ret);
-> -		goto err_drm_gem_vram_vunmap;
-> +		drm_err(dev, "ast_plane_init() failed: %d\n", ret);
-> +		return ret;
->   	}
->   	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
-> +	drm_plane_enable_fb_damage_clips(cursor_plane);
->   
-> -	return 0;
-> +	ast->vram_fb_available -= size;
->   
-> -err_drm_gem_vram_vunmap:
-> -	drm_gem_vram_vunmap(gbo, &map);
-> -err_drm_gem_vram_unpin:
-> -	drm_gem_vram_unpin(gbo);
-> -err_drm_gem_vram_put:
-> -	drm_gem_vram_put(gbo);
-> -	return ret;
-> +	return 0;
->   }
->   
->   /*
-> @@ -1313,7 +1308,7 @@ static int ast_crtc_init(struct drm_device *dev)
->   	struct drm_crtc *crtc = &ast->crtc;
->   	int ret;
->   
-> -	ret = drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane,
-> +	ret = drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane.base,
->   					&ast->cursor_plane.base, &ast_crtc_funcs,
->   					NULL);
->   	if (ret)
-> @@ -1735,9 +1730,27 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
->   	.atomic_commit_tail = ast_mode_config_helper_atomic_commit_tail,
->   };
->   
-> +static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
-> +						       const struct drm_display_mode *mode)
-> +{
-> +	static const unsigned long max_bpp = 4; /* DRM_FORMAT_XRGB8888 */
-> +	struct ast_private *ast = to_ast_private(dev);
-> +	unsigned long fbsize, fbpages, max_fbpages;
-> +
-> +	max_fbpages = (ast->vram_fb_available) >> PAGE_SHIFT;
-> +
-> +	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
-> +	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
-> +
-> +	if (fbpages > max_fbpages)
-> +		return MODE_MEM;
-> +
-> +	return MODE_OK;
-> +}
-> +
->   static const struct drm_mode_config_funcs ast_mode_config_funcs = {
-> -	.fb_create = drm_gem_fb_create,
-> -	.mode_valid = drm_vram_helper_mode_valid,
-> +	.fb_create = drm_gem_fb_create_with_dirty,
-> +	.mode_valid = ast_mode_config_mode_valid,
->   	.atomic_check = drm_atomic_helper_check,
->   	.atomic_commit = drm_atomic_helper_commit,
->   };
-> @@ -1756,7 +1769,6 @@ int ast_mode_config_init(struct ast_private *ast)
->   	dev->mode_config.min_width = 0;
->   	dev->mode_config.min_height = 0;
->   	dev->mode_config.preferred_depth = 24;
-> -	dev->mode_config.prefer_shadow = 1;
->   	dev->mode_config.fb_base = pci_resource_start(pdev, 0);
->   
->   	if (ast->chip == AST2100 ||
+On Fri, 07 Oct 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Thu, Oct 06, 2022 at 06:11:37PM +0300, Ville Syrj=C3=A4l=C3=A4 wrote:
+>> On Thu, Oct 06, 2022 at 11:33:14AM +0200, Simon Rettberg wrote:
+>> > Current dual mode adaptor ("DP++") detection code assumes that all
+>> > adaptors support i2c sub-addressing for read operations from the
+>> > DP-HDMI adaptor ID buffer.  It has been observed that multiple
+>> > adaptors do not in fact support this, and always return data starting
+>> > at register 0.  On affected adaptors, the code fails to read the proper
+>> > registers that would identify the device as a type 2 adaptor, and
+>> > handles those as type 1, limiting the TMDS clock to 165MHz, even if
+>> > the according register would announce a higher TMDS clock.
+>> > Fix this by always reading the ID buffer starting from offset 0, and
+>> > discarding any bytes before the actual offset of interest.
+>> >=20
+>> > We tried finding authoritative documentation on whether or not this is
+>> > allowed behaviour, but since all the official VESA docs are paywalled,
+>> > the best we could come up with was the spec sheet for Texas Instrument=
+s'
+>> > SNx5DP149 chip family.[1]  It explicitly mentions that sub-addressing =
+is
+>> > supported for register writes, but *not* for reads (See NOTE in
+>> > section 8.5.3).  Unless TI openly decided to violate the VESA spec, one
+>> > could take that as a hint that sub-addressing is in fact not mandated
+>> > by VESA.
+>> > The other two adaptors affected used the PS8409(A) and the LT8611,
+>> > according to the data returned from their ID buffers.
+>> >=20
+>> > [1] https://www.ti.com/lit/ds/symlink/sn75dp149.pdf
+>> >=20
+>> > Signed-off-by: Simon Rettberg <simon.rettberg@rz.uni-freiburg.de>
+>> > Reviewed-by: Rafael Gieschke <rafael.gieschke@rz.uni-freiburg.de>
+>> > ---
+>> >=20
+>> > v2 changes form last submission's feedback (thanks for taking the time=
+):
+>> > - Added a shortened version of our "background story" to the commit me=
+ssage
+>> > - Only use tmpbuf if the read offset is !=3D 0
+>>=20
+>> Bounced to intel-gfx to get the i915 CI to check it...
+>
+> CI didn't blow up, and I also gave this a quick smoking on my end
+> with both type 1 HDMI and type 2 HDMI adaptors.=20
+>
+> I'm thinking we want a cc:stable on this? I can slap that on
+> when pushing if there are no objections?
 
-Best regards,
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
--- 
+>
+>>=20
+>> >=20
+>> >  .../gpu/drm/display/drm_dp_dual_mode_helper.c | 51 +++++++++++--------
+>> >  1 file changed, 29 insertions(+), 22 deletions(-)
+>> >=20
+>> > diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drive=
+rs/gpu/drm/display/drm_dp_dual_mode_helper.c
+>> > index 3ea53bb67d3b..bd61e20770a5 100644
+>> > --- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+>> > +++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+>> > @@ -63,23 +63,45 @@
+>> >  ssize_t drm_dp_dual_mode_read(struct i2c_adapter *adapter,
+>> >  			      u8 offset, void *buffer, size_t size)
+>> >  {
+>> > +	u8 zero =3D 0;
+>> > +	char *tmpbuf =3D NULL;
+>> > +	/*
+>> > +	 * As sub-addressing is not supported by all adaptors,
+>> > +	 * always explicitly read from the start and discard
+>> > +	 * any bytes that come before the requested offset.
+>> > +	 * This way, no matter whether the adaptor supports it
+>> > +	 * or not, we'll end up reading the proper data.
+>> > +	 */
+>> >  	struct i2c_msg msgs[] =3D {
+>> >  		{
+>> >  			.addr =3D DP_DUAL_MODE_SLAVE_ADDRESS,
+>> >  			.flags =3D 0,
+>> >  			.len =3D 1,
+>> > -			.buf =3D &offset,
+>> > +			.buf =3D &zero,
+>> >  		},
+>> >  		{
+>> >  			.addr =3D DP_DUAL_MODE_SLAVE_ADDRESS,
+>> >  			.flags =3D I2C_M_RD,
+>> > -			.len =3D size,
+>> > +			.len =3D size + offset,
+>> >  			.buf =3D buffer,
+>> >  		},
+>> >  	};
+>> >  	int ret;
+>> >=20=20
+>> > +	if (offset) {
+>> > +		tmpbuf =3D kmalloc(size + offset, GFP_KERNEL);
+>> > +		if (!tmpbuf)
+>> > +			return -ENOMEM;
+>> > +
+>> > +		msgs[1].buf =3D tmpbuf;
+>> > +	}
+>> > +
+>> >  	ret =3D i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
+>> > +	if (tmpbuf)
+>> > +		memcpy(buffer, tmpbuf + offset, size);
+>> > +
+>> > +	kfree(tmpbuf);
+>> > +
+>> >  	if (ret < 0)
+>> >  		return ret;
+>> >  	if (ret !=3D ARRAY_SIZE(msgs))
+>> > @@ -208,18 +230,6 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detec=
+t(const struct drm_device *dev,
+>> >  	if (ret)
+>> >  		return DRM_DP_DUAL_MODE_UNKNOWN;
+>> >=20=20
+>> > -	/*
+>> > -	 * Sigh. Some (maybe all?) type 1 adaptors are broken and ack
+>> > -	 * the offset but ignore it, and instead they just always return
+>> > -	 * data from the start of the HDMI ID buffer. So for a broken
+>> > -	 * type 1 HDMI adaptor a single byte read will always give us
+>> > -	 * 0x44, and for a type 1 DVI adaptor it should give 0x00
+>> > -	 * (assuming it implements any registers). Fortunately neither
+>> > -	 * of those values will match the type 2 signature of the
+>> > -	 * DP_DUAL_MODE_ADAPTOR_ID register so we can proceed with
+>> > -	 * the type 2 adaptor detection safely even in the presence
+>> > -	 * of broken type 1 adaptors.
+>> > -	 */
+>> >  	ret =3D drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_ADAPTOR_ID,
+>> >  				    &adaptor_id, sizeof(adaptor_id));
+>> >  	drm_dbg_kms(dev, "DP dual mode adaptor ID: %02x (err %zd)\n", adapto=
+r_id, ret);
+>> > @@ -233,11 +243,10 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_dete=
+ct(const struct drm_device *dev,
+>> >  				return DRM_DP_DUAL_MODE_TYPE2_DVI;
+>> >  		}
+>> >  		/*
+>> > -		 * If neither a proper type 1 ID nor a broken type 1 adaptor
+>> > -		 * as described above, assume type 1, but let the user know
+>> > -		 * that we may have misdetected the type.
+>> > +		 * If not a proper type 1 ID, still assume type 1, but let
+>> > +		 * the user know that we may have misdetected the type.
+>> >  		 */
+>> > -		if (!is_type1_adaptor(adaptor_id) && adaptor_id !=3D hdmi_id[0])
+>> > +		if (!is_type1_adaptor(adaptor_id))
+>> >  			drm_err(dev, "Unexpected DP dual mode adaptor ID %02x\n", adaptor_=
+id);
+>> >=20=20
+>> >  	}
+>> > @@ -343,10 +352,8 @@ EXPORT_SYMBOL(drm_dp_dual_mode_get_tmds_output);
+>> >   * @enable: enable (as opposed to disable) the TMDS output buffers
+>> >   *
+>> >   * Set the state of the TMDS output buffers in the adaptor. For
+>> > - * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
+>> > - * some type 1 adaptors have problems with registers (see comments
+>> > - * in drm_dp_dual_mode_detect()) we avoid touching the register,
+>> > - * making this function a no-op on type 1 adaptors.
+>> > + * type2 this is set via the DP_DUAL_MODE_TMDS_OEN register.
+>> > + * Type1 adaptors do not support any register writes.
+>> >   *
+>> >   * Returns:
+>> >   * 0 on success, negative error code on failure
+>> > --=20
+>> > 2.35.1
+>>=20
+>> --=20
+>> Ville Syrj=C3=A4l=C3=A4
+>> Intel
 
-Jocelyn
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
