@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5785FAD54
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 09:20:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76E15FAD77
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 09:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE2210E7C8;
-	Tue, 11 Oct 2022 07:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8B810E7D6;
+	Tue, 11 Oct 2022 07:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59EA510E7C5;
- Tue, 11 Oct 2022 07:20:23 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72E8B10E7D5;
+ Tue, 11 Oct 2022 07:28:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665472823; x=1697008823;
+ t=1665473296; x=1697009296;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=SWyygabijBYM8Iz4fQ8EX/wCoEDK8XDQK1VEUWJ79Iw=;
- b=R+MqcZ2nM+uMe2GR3pxkxf3hNsIGJjba/3fcuMhjAx0ybidlshK6WFV4
- +P+aZEzEML72GARua41OZ9b9Qsghd1zEQUJTEpTyJxFFJX1tCtgLj4IyX
- KPkaCz6nAVQBQx56I+utB8NaqqKYwQS7+tarcG2MhtHNbcEhowa+fnCGR
- mZNF7/hWIUb9BTsXz/f9qIMk+K59SqIeWf2cSb3WAIwwzsp2joU61n3T8
- iH2pffdIednAS227EzZXIIxzRWuGwdjDuHHptpWLQi4LspsDq5t62uW45
- S+zRBa5SvjeqGXcq3zw0t5Qpgh1Ridm/dUuCkqpaoYteAihEYjiDz5A1V g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="303170433"
-X-IronPort-AV: E=Sophos;i="5.95,175,1661842800"; d="scan'208";a="303170433"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 00:20:22 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="659439177"
-X-IronPort-AV: E=Sophos;i="5.95,175,1661842800"; d="scan'208";a="659439177"
+ message-id:mime-version;
+ bh=L5MBqgqp6MTU4ypjZqNT8kLPN3xIwjQwKf//0nsfzJk=;
+ b=cn6QbeH7FHI9zEiOgsoLwMaQFL+p5TQ+1UNzmJIeK2E0wUYpNl3mVHVL
+ JaEZHCTbNkmvB+mhiRSOs6MohiLvW0ZG0z3LPH1OEP4xsXavA/hvzhIkr
+ acZodIBctAxzf6cfCA6HgbvyvfOPEgoTT3Dbsrzo5HxRMkMZbRtSO+QVV
+ X6C4tGTFUTsWywCaMa5WixhCYEFHYNIbEDGH8dyuzmz/IJuNeXL16hAsi
+ l+evbC3iStjQadyfStiaT+LHLDF3DEIkioIFeVlmCk0/V37NjkjLdXelm
+ 7rn+dQ5lAHnVwQY54JYUgY3m2H/+kCtm/JfrV4R+5I6Esu1pIUgH4nH9O A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="390739348"
+X-IronPort-AV: E=Sophos;i="5.95,175,1661842800"; d="scan'208";a="390739348"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 00:28:01 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="730872554"
+X-IronPort-AV: E=Sophos;i="5.95,175,1661842800"; d="scan'208";a="730872554"
 Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 00:20:20 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Matthieu CHARETTE <matthieu.charette@gmail.com>
-Subject: Re: [PATCH] drm/edid/firmware: stop using throwaway platform device
-In-Reply-To: <GLSKJR.CU4DWLJQSTHT2@gmail.com>
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 00:27:59 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915: Use graphics ver, rel info for media on old
+ platforms
+In-Reply-To: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221006222146.2375217-1-jani.nikula@intel.com>
- <GLSKJR.CU4DWLJQSTHT2@gmail.com>
-Date: Tue, 11 Oct 2022 10:20:18 +0300
-Message-ID: <87wn96yggd.fsf@intel.com>
+References: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
+Date: Tue, 11 Oct 2022 10:27:56 +0300
+Message-ID: <87pmeyyg3n.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,79 +59,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 11 Oct 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> wrote:
-> It should fix the issue. Meanwhile, the system will still crash if a=20
-> new monitor is plugged while the machine is suspended. We might need to=20
-> precache the EDID to prevent that.
+On Mon, 10 Oct 2022, Radhakrishna Sripada <radhakrishna.sripada@intel.com> wrote:
+> Platforms prior to MTL do not have a separate media and graphics version.
+> On platforms where GMD id is not supported, reuse the graphics ip version,
+> release info for media.
+>
+> The rest of the IP graphics, display versions would be copied during driver
+> creation.
+>
+> While at it warn if GMD is not used for platforms greater than gen12.
+>
+> Fixes: c2c7075225ef ("drm/i915: Read graphics/media/display arch version from hw")
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> ---
+>  drivers/gpu/drm/i915/intel_device_info.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+> index 090097bb3c0a..ba178b61bceb 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.c
+> +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> @@ -329,8 +329,18 @@ static void intel_ipver_early_init(struct drm_i915_private *i915)
+>  {
+>  	struct intel_runtime_info *runtime = RUNTIME_INFO(i915);
+>  
+> -	if (!HAS_GMD_ID(i915))
+> +	if (!HAS_GMD_ID(i915)) {
+> +		drm_WARN_ON(&i915->drm, RUNTIME_INFO(i915)->graphics.ip.ver > 12);
+> +		/*
+> +		 * On older platforms, graphics and media share the same ip
+> +		 * version and release.
+> +		 */
+> +		RUNTIME_INFO(i915)->media.ip.ver =
+> +			RUNTIME_INFO(i915)->graphics.ip.ver;
+> +		RUNTIME_INFO(i915)->media.ip.rel =
+> +			RUNTIME_INFO(i915)->graphics.ip.rel;
 
-Please elaborate.
+You could assign the whole struct ip_version (*) at once, or is there a
+reason you're intentionally not assigning step?
 
 BR,
 Jani.
 
+(*) Why does that name not have intel_ prefix?
 
->
-> Matthieu
->
-> On Fri, Oct 7 2022 at 01:21:46 AM +0300, Jani Nikula=20
-> <jani.nikula@intel.com> wrote:
->> We've used a temporary platform device for firmware EDID loading since
->> it was introduced in commit da0df92b5731 ("drm: allow loading an EDID=20
->> as
->> firmware to override broken monitor"), but there's no explanation why.
->>=20
->> Do we need to?
->>=20
->> Maybe this fixes the suspend/resume issue?
->>=20
->> (Yes, I'll rewrite the commit message if this is the way to go ;)
->>=20
->> References:=20
->> https://lore.kernel.org/r/20220727074152.43059-1-matthieu.charette@gmail=
-.com
->> Cc: Matthieu CHARETTE <matthieu.charette@gmail.com>
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/drm_edid_load.c | 11 +----------
->>  1 file changed, 1 insertion(+), 10 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid_load.c=20
->> b/drivers/gpu/drm/drm_edid_load.c
->> index 37d8ba3ddb46..fbae12130234 100644
->> --- a/drivers/gpu/drm/drm_edid_load.c
->> +++ b/drivers/gpu/drm/drm_edid_load.c
->> @@ -182,18 +182,9 @@ static void *edid_load(struct drm_connector=20
->> *connector, const char *name,
->>  		fwdata =3D generic_edid[builtin];
->>  		fwsize =3D sizeof(generic_edid[builtin]);
->>  	} else {
->> -		struct platform_device *pdev;
->>  		int err;
->>=20
->> -		pdev =3D platform_device_register_simple(connector_name, -1, NULL,=20
->> 0);
->> -		if (IS_ERR(pdev)) {
->> -			DRM_ERROR("Failed to register EDID firmware platform device "
->> -				  "for connector \"%s\"\n", connector_name);
->> -			return ERR_CAST(pdev);
->> -		}
->> -
->> -		err =3D request_firmware(&fw, name, &pdev->dev);
->> -		platform_device_unregister(pdev);
->> +		err =3D request_firmware(&fw, name, connector->dev->dev);
->>  		if (err) {
->>  			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=3D%d)\n",
->>  				  name, err);
->> --
->> 2.34.1
->>=20
->
->
+>  		return;
+> +	}
+>  
+>  	ip_ver_read(i915, i915_mmio_reg_offset(GMD_ID_GRAPHICS),
+>  		    &runtime->graphics.ip);
 
---=20
+-- 
 Jani Nikula, Intel Open Source Graphics Center
