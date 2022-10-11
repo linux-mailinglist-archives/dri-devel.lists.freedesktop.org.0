@@ -2,61 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081315FB46F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 16:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DF95FB473
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 16:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7D7610E803;
-	Tue, 11 Oct 2022 14:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E4010E54C;
+	Tue, 11 Oct 2022 14:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
- [IPv6:2607:f8b0:4864:20::c35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFA110E81F;
- Tue, 11 Oct 2022 14:19:26 +0000 (UTC)
-Received: by mail-oo1-xc35.google.com with SMTP id
- h1-20020a4aa741000000b004756c611188so10138217oom.4; 
- Tue, 11 Oct 2022 07:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yKcxW5jQIBggwtbWJ3tJfNqR5dgpzYr4Id9N6Ao1MoQ=;
- b=d6ue1vYeYddTbsXjDRi6gq7D7vMWvAyAmM9sXnR3DBvKbycsXk2TK6sIJazIl8gRSq
- WxvsImUv2Ubpd5EP0yC27fJHvvE9kyGLRjUYCjoiyPNpGa6guxgE0ZmDElow/1Osekkd
- Z8VyDWU8K1Gdal2i1GUjiS5p9FIDg3CePsJgCWnIUwwNdQRTFsnRgguzkTAR+f+bdkEB
- zVSVyip8o17m1eH3WgFoRFQ6oGm/DRhzi5WXNa+HIlnXCjHy/DsIW2+JCtK/ZzUN27IR
- Q2Xq36eVzOpMY/OJh7n5zRIYDoGenYZb5tNgerFXGCneJJIndsrRAZfG8FkUMq6fiwCU
- s55A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8A310E54C
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 14:21:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665498108;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XC8meWqwPS+afhwut/KUbYG+4N/Pzp1T/iR/ntr3aXM=;
+ b=YlDoqnxlUuxZ2DqUizJq20zsRAD71S2oe/SPnscJrURqYT+0yTEK25Fiqcvq5VgH+rxVfF
+ bMhtg0OaWH9eV0/93P5sW2wkQ1AKBGTjWfyt7Undd6I2ORgXPeok5FlpR7HnGswfrQmool
+ z4ROq8SygWbA6yEtYHZASYrdlh2l3Fc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-257-BXGbFm6COTeX2m0u2_U8tw-1; Tue, 11 Oct 2022 10:21:47 -0400
+X-MC-Unique: BXGbFm6COTeX2m0u2_U8tw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i1-20020adfa501000000b0022cd1e1137bso3881428wrb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 07:21:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yKcxW5jQIBggwtbWJ3tJfNqR5dgpzYr4Id9N6Ao1MoQ=;
- b=y/Y0VifiahKgo/4bJ71JFMHFoEDnYiYeqlAS7QqndJnRNEP1QCuuvhRf4llcXfK+0G
- +LCGlEMBh/kq0tFT4OZIa1UPVUIFT27YNTLLcp4YfCvSmVSq+HrGqnOc8YjoQOOC0cXr
- i0cYa2rPKLW01YpKF+BSYIa0v2D6vRDXvFGhVHe2cXKFJEduvPjOOMqsTpFmrZzPFE4o
- mUjaKjEOaHcBBPFA1SxCu8FYfqYSGWG8YyiBhasliFRfk9cXUZHHMJgmLS4XHsP0rh3G
- Rs3h7Jx+GBbZdxccUeshGXULAFYrgzV4Pc9vdrW9J3JGn2Mocc1oXbTMrBemp4/l8LdZ
- XyPQ==
-X-Gm-Message-State: ACrzQf3+pUAXcEK8T+Wkft64BoQVRjyutPDuJHDkLxrRMvPeUFJ1mAyo
- yS75VgZjg6B3CDDewidhXz8wiWY5C4n7XjZeFtM=
-X-Google-Smtp-Source: AMsMyM5Hns/L7KGRSRFzm+03euir5VSOiwuzL+OL/6U5ycyJnX8wHWooiz6BKBAON3E8n+43oMW4GverGfZn9AG38g4=
-X-Received: by 2002:a4a:a78a:0:b0:472:a078:98d6 with SMTP id
- l10-20020a4aa78a000000b00472a07898d6mr9300258oom.97.1665497965815; Tue, 11
- Oct 2022 07:19:25 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XC8meWqwPS+afhwut/KUbYG+4N/Pzp1T/iR/ntr3aXM=;
+ b=5hGv7bGKw+7xiQTFD0kKOD4GT6Xm748uAcSaWh9UsRMQQXXfaVf3EDEUSGtLPYjXfd
+ HrBUsR1sP21D0w0Rptl2I0o2iNmYNdan0/0xPu1I3jxLnvo8lut09bAbesw2/KM8d9GP
+ 4iBKEQhfAC1do6JJ6vCRmCrvXbfP75QCJrH14ByNJ7aX5G6Zy3ecghdvgruGDL/ysWPk
+ a1p0RNpz+2byDMudm6XvhdeaJnbcue6kpbjxJL5Np6OCR7Yi5ZMOgjpbSM9FjqcpCVWG
+ dI4GNFwCdxXZkEmLt4fFM4uV+hc+Uk7w/TO3HUOhekjTpdBULTzjLo+6iBiMG5/fjDPq
+ Gf8g==
+X-Gm-Message-State: ACrzQf2M7PUmkaYeTFy+pEOvFTaTzO3gYsO13celEWBxjfjlNBFaMbj5
+ krDASTzxm8aRmS5rsh0krLro6idzQMJoX0knZkUchLFRsEQrgPspjNSrzx8dOQZCQqYvoDFYhkT
+ v9fcBmVHEyw9D47tGQQu/d8SAdTSe
+X-Received: by 2002:a5d:6d8a:0:b0:22f:1ade:de87 with SMTP id
+ l10-20020a5d6d8a000000b0022f1adede87mr12133962wrs.3.1665498106440; 
+ Tue, 11 Oct 2022 07:21:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Nbs/3jnXiiDVg8h+6qhWOZ4i2UObBq+E6Q2LTpAN3ptNTu3e66fwjmJF2Qj0rw3dS0LoMrw==
+X-Received: by 2002:a5d:6d8a:0:b0:22f:1ade:de87 with SMTP id
+ l10-20020a5d6d8a000000b0022f1adede87mr12133954wrs.3.1665498106165; 
+ Tue, 11 Oct 2022 07:21:46 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ y17-20020a5d4711000000b0022e47b57735sm11286382wrq.97.2022.10.11.07.21.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Oct 2022 07:21:45 -0700 (PDT)
+Message-ID: <73eb1f19-5900-a758-bf80-38cbd69395e6@redhat.com>
+Date: Tue, 11 Oct 2022 16:21:44 +0200
 MIME-Version: 1.0
-References: <cover.1665496046.git.jani.nikula@intel.com>
- <8620697ae6a13bb9202db9edbc26ff30d9f4e2e8.1665496046.git.jani.nikula@intel.com>
- <7724d8cc-54b9-1ef9-fe34-42fcbd9b93bf@amd.com> <877d16xxen.fsf@intel.com>
-In-Reply-To: <877d16xxen.fsf@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 11 Oct 2022 10:19:14 -0400
-Message-ID: <CADnq5_M_vFFroxvjT4hBszg5fw8q+DMKi+u-JKayfCtbUSzZRQ@mail.gmail.com>
-Subject: Re: [PATCH 03/15] drm/amd/display: stop using connector->override_edid
-To: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 8/8] drm/ast: Avoid reprogramming primary-plane scanout
+ address
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ daniel@ffwll.ch, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
+ ilpo.jarvinen@cs.helsinki.fi
+References: <20221010103625.19958-1-tzimmermann@suse.de>
+ <20221010103625.19958-9-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20221010103625.19958-9-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,85 +90,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Xinhui Pan <Xinhui.Pan@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 11, 2022 at 10:12 AM Jani Nikula <jani.nikula@intel.com> wrote:
->
-> On Tue, 11 Oct 2022, Harry Wentland <harry.wentland@amd.com> wrote:
-> > On 2022-10-11 09:49, Jani Nikula wrote:
-> >> The connector->override_edid flag is strictly for EDID override debugf=
-s
-> >> management, and drivers have no business using it.
-> >>
-> >> Cc: Alex Deucher <alexander.deucher@amd.com>
-> >> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >> Cc: Xinhui Pan <Xinhui.Pan@amd.com>
-> >> Cc: amd-gfx@lists.freedesktop.org
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >>
-> >> ---
-> >>
-> >> I really have no idea what the functional impact here is. I can only
-> >> guess that the intention is to abuse ->override_edid to block EDID
-> >> property updates. In any case, this use needs to go.
-> >>
-> >> It also seems really curious we get here via connector .get_modes hook=
-!
-> >> ---
-> >>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ---
-> >>  1 file changed, 3 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drive=
-rs/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> index 4c73727e0b7d..d96877196a7f 100644
-> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> @@ -6109,7 +6109,6 @@ static void create_eml_sink(struct amdgpu_dm_con=
-nector *aconnector)
-> >>                              aconnector->base.name);
-> >>
-> >>              aconnector->base.force =3D DRM_FORCE_OFF;
-> >> -            aconnector->base.override_edid =3D false;
-> >
-> > I'm not even sure the DRM_FORCE_OFF business is right.
-> >
-> > Either way, I don't think amdgpu should be messing with
-> > override_edid, so this is
-> > Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Thanks for the swift review; is it okay to merge this via drm-misc-next
-> along with the rest (once they've been reviewed, of course)?
+On 10/10/2022 12:36, Thomas Zimmermann wrote:
+> Some AST-based BMCs stop display output for up to 5 seconds after
+> reprogramming the scanout address. As the address is fixed, avoid
+> re-setting the address' value.
+> 
+> Reported-by: Jocelyn Falempe <jfalempe@redhat.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_mode.c | 12 ++++++++++--
+>   1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 1b991658290b..54a9643d86ce 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -672,9 +672,17 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   	}
+>   
+>   	ast_set_offset_reg(ast, fb);
+> -	ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
+>   
+> -	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
+> +	/*
+> +	 * Some BMCs stop scanning out the video signal after the driver
+> +	 * reprogrammed the scanout address. This stalls display output
+> +	 * for several seconds and makes the display unusable. Therefore
+> +	 * only reprogram the address after enabling the plane.
+> +	 */
+> +	if (!old_fb && fb) {
+> +		ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
+> +		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
+> +	}
+>   }
 
-Sure.  No problem.
+I've tested the series, and BMC is still very slow with Gnome/Wayland.
 
-Alex
+It's because ast_set_offset_reg() also trigger a 5s freeze of the BMC.
 
->
-> BR,
-> Jani.
->
-> >
-> > Harry
-> >
-> >>              return;
-> >>      }
-> >>
-> >> @@ -6144,8 +6143,6 @@ static void handle_edid_mgmt(struct amdgpu_dm_co=
-nnector *aconnector)
-> >>              link->verified_link_cap.link_rate =3D LINK_RATE_HIGH2;
-> >>      }
-> >>
-> >> -
-> >> -    aconnector->base.override_edid =3D true;
-> >>      create_eml_sink(aconnector);
-> >>  }
-> >>
-> >
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+I added this, and it works well:
+
+if (!old_fb || old_fb->pitches[0] != fb->pitches[0])
+     ast_set_offset_reg(ast, fb);
+
+
+>   
+>   static void ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+
+
+
+
+-- 
+
+Jocelyn
+
