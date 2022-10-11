@@ -2,79 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D605FB947
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 19:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181A45FB9B2
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 19:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC57310E663;
-	Tue, 11 Oct 2022 17:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C0C10E8D7;
+	Tue, 11 Oct 2022 17:31:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7243F10E835
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 17:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665509195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eYEYAe9fLAOLBvxf2chPDCV+/M1VFUTfl2N3k/lfuBI=;
- b=DC9iV2vu/8mvf/gi/zaQrCnFadrCFAcXARI9XCvY0Ie35SnTp+WpofCScH8+7O5ioBsgd+
- kW9p2af84cwapHhqxYf9z8MSSGD1Srs49Tcz4HRv9v/u96ucAlmO1MeW3f/aDu316qwhkk
- jTcal+qde1zlnVVySfEo0MJlfCmQEjI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-397-SI2mO8-QPcu95tlFE87A-A-1; Tue, 11 Oct 2022 13:26:34 -0400
-X-MC-Unique: SI2mO8-QPcu95tlFE87A-A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f26-20020a7bcc1a000000b003c03db14864so3931732wmh.6
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 10:26:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eYEYAe9fLAOLBvxf2chPDCV+/M1VFUTfl2N3k/lfuBI=;
- b=Xt2sQZcYOguqe4hp1jLpU3GXofay0LVdUAtGfz50hj90WqVDBT2zrirdkrMR+Iw7Kf
- G8fpHpbXWjsZxiCj50/h/Yv9V19wMD/uhm2qYEOwKDziY4iP+odxsmr2yHDztammxagi
- ImHts26NF43O8Q+Zg/fv1dKy/TdMYfT+YXhOt8crboBXhdbycb8XTe6tXb6/Opxsvtsj
- g/p5ALL7tIjZhsAH9J5QQ0I28uZxOTHcw//WMsA6NMrRlwVdDIDkPLNCxiov1v+9Nf6N
- uU8yZG6ijCg9f8cIswau6JNzjliZvskHE+aFJttiTMimfBgakOaOFX4YArE1cKtaoHg4
- RamQ==
-X-Gm-Message-State: ACrzQf0+q5kCV6Wd1Mk5zZK40976R+K0ap3EtboxOueuihQIGzn9sfTf
- wkuyVmaOef+EEurc4UCGmuT3vEOdixUbMVH1zf/5gRC23M6ZOy6MmEygYLmZvApzyb4oGgtfQ2u
- JxQ8iqVS2EWihkgwrDDBueliUy6Hy
-X-Received: by 2002:a05:600c:1d2a:b0:3c6:b7be:2879 with SMTP id
- l42-20020a05600c1d2a00b003c6b7be2879mr141311wms.84.1665509190121; 
- Tue, 11 Oct 2022 10:26:30 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6zrxc0AgFxFDNLUUwT5/sQzmmSOmXEXO2THv4sgqdo9q6YnmTY3ch9AltIGQhCV9Og2N0sLA==
-X-Received: by 2002:a05:600c:1d2a:b0:3c6:b7be:2879 with SMTP id
- l42-20020a05600c1d2a00b003c6b7be2879mr141297wms.84.1665509189936; 
- Tue, 11 Oct 2022 10:26:29 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- l36-20020a05600c1d2400b003a62052053csm24835760wms.18.2022.10.11.10.26.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 10:26:29 -0700 (PDT)
-Message-ID: <5e841ef0-de79-2e1c-83e1-2b6d31732ce9@redhat.com>
-Date: Tue, 11 Oct 2022 19:26:28 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7847610E835;
+ Tue, 11 Oct 2022 17:31:53 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-114.nat.spd-mgts.ru
+ [109.252.119.114])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BECC86602358;
+ Tue, 11 Oct 2022 18:31:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1665509511;
+ bh=FbjwvyBn8Jk5nWNvSwUKiVg917Dtcke8nkTgpCuxGHg=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=j9FFZ8t9+K/yyb3uyYTMRMmOZwbPmrFNo2nLiwt+NaQZrbzcY4YA8uPgvq9KqKyKu
+ qfSxAQSs3xdybENOLmYyju3gm2jzJes8ytBnen1UmrG70xGfL9X93PKjnudy4jAGU9
+ gl+8JqZyTgX4VAz30gatLmK/w1aZ0uiSfREFVnx4BKEjtHICZB25vE8HLEsmHDTqCu
+ yIpeJVFLrAb6mYjYFS9OIEMj1EcqLBHaz1mjNnYKGPhtHbHH9fs9DzhtYGqeU92wP3
+ bGYgN3stcLAlbVz256MpW1wDubM6bGRxeP+1wxa5ae3PSGyqaSwxKah/5yl/VkpzQm
+ rYhgIy9tlB8RA==
+Message-ID: <fd3baeeb-2277-768c-e0d1-f3adcecb848a@collabora.com>
+Date: Tue, 11 Oct 2022 20:31:45 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 0/8] drm/ast: Convert ast driver to SHMEM
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- daniel@ffwll.ch, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
- ilpo.jarvinen@cs.helsinki.fi
-References: <20221010103625.19958-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20221010103625.19958-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v6 00/21] Move all drivers to a common dma-buf locking
+ convention
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Qiang Yu <yuq825@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Ruhl Michael J <michael.j.ruhl@intel.com>
+References: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,72 +87,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks a lot for your series. This solves a big performance impact when 
-using Gnome/Wayland on some Aspeed chip, with BMC.
-This also remove the need for "shadowFB" workaround in userspace.
+On 9/28/22 22:15, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This series moves all drivers to a dynamic dma-buf locking specification.
+> From now on all dma-buf importers are made responsible for holding
+> dma-buf's reservation lock around all operations performed over dma-bufs
+> in accordance to the locking specification. This allows us to utilize
+> reservation lock more broadly around kernel without fearing of a potential
+> deadlocks.
+> 
+> This patchset passes all i915 selftests. It was also tested using VirtIO,
+> Panfrost, Lima, Tegra, udmabuf, AMDGPU and Nouveau drivers. I tested cases
+> of display+GPU, display+V4L and GPU+V4L dma-buf sharing (where appropriate),
+> which covers majority of kernel drivers since rest of the drivers share
+> same or similar code paths.
 
-With the small change in patch 8, and the two typo's,
-the whole series is
+All the non-drm patches have been acked by the respective maintainers.
+I'm now feeling comfortable to take this series into drm-misc-next and
+going to do it later this week.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Tested-by: Jocelyn Falempe <jfalempe@redhat.com>
+If anyone have more comments to add, then please do it now. It won't be
+possible to drop out patches from drm-misc once they will be merged. All
+further changes will have to be made on top of the applied patches.
 
-Best regards,
+Thanks to all who reviewed this patchset!
 
 -- 
-
-Jocelyn
-
-On 10/10/2022 12:36, Thomas Zimmermann wrote:
-> This patchset converts ast to GEM SHMEM helpers. Fixes problems with
-> memory allocation and BMC scanout updates.
-> 
-> Patches 1 to 3 are fixes for various minor problems in the ast driver.
-> We should merge them even without SHMEM support.
-> 
-> Patches 4 to 6 prepare the driver for the conversion. The cursor double
-> buffering is not required and prevents reuse among the plane code. Style
-> issues are being fixed separately from the conversion.
-> 
-> The conversion itself is in patch 7. Not only does it fix problems with
-> memory allocation, it also brings back several high-res display modes
-> that got lost during the ast driver's conversion to atomic modesetting.
-> There was an earlier RFC patch of this code that had issues with
-> rendering performnce. [1] We've meanwhile improved these areas and
-> performance was acceptable on the test systems.
-> 
-> With SHMEM in place, the scanout address for the primary plane does not
-> have to be changed often. Patch 8 fixes a performance problem where the
-> BMC output freezes for several seconds after reprogramming the scanout
-> address.
-> 
-> Tested on AST 2100 and 2300 with fbdev emulation, weston, and Gnome in
-> X11 and Wayland mode.
-> 
-> [1] https://lore.kernel.org/dri-devel/5a3537c3-2c81-b9de-e4c7-c00577cdd43d@suse.de/
-> 
-> Thomas Zimmermann (8):
->    drm/ast: Acquire I/O-register lock in atomic_commit_tail function
->    drm/ast: Call drm_atomic_helper_check_plane_state() unconditionally
->    drm/ast: Do not call drm_atomic_add_affected_planes()
->    drm/ast: Remove cursor double buffering
->    drm/ast: Rename struct ast_cursor_plane to struct ast_plane
->    drm/ast: Style cleanups in plane code
->    drm/ast: Convert ast to SHMEM
->    drm/ast: Avoid reprogramming primary-plane scanout address
-> 
->   drivers/gpu/drm/ast/Kconfig    |   4 +-
->   drivers/gpu/drm/ast/ast_drv.c  |   4 +-
->   drivers/gpu/drm/ast/ast_drv.h  |  34 +--
->   drivers/gpu/drm/ast/ast_main.c |   5 +-
->   drivers/gpu/drm/ast/ast_mm.c   |  14 +-
->   drivers/gpu/drm/ast/ast_mode.c | 399 ++++++++++++++++-----------------
->   6 files changed, 219 insertions(+), 241 deletions(-)
-> 
-> 
-> base-commit: 74e2443e7681e4d442b45f551ddf12d09a6f00c3
+Best regards,
+Dmitry
 
