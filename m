@@ -2,89 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27BE5FAFF0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26BC5FB004
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 518A010E4E9;
-	Tue, 11 Oct 2022 10:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4AD10E7E6;
+	Tue, 11 Oct 2022 10:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A14410E4E9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 10:00:42 +0000 (UTC)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B9iM3q008462;
- Tue, 11 Oct 2022 10:00:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=pp1;
- bh=cDUY+1vkbBQhdXB58PoxjcuGNo/DQDfRq3ZaWdWqAzc=;
- b=OOL8Hxcl0CKggxHmxcmT0PdgQBUgq70AseSjBOxMElBjpC3YsyKSp0LsFe55kHAJxmP/
- P3Jz3ag1O2AUkeUOaghVX6JDJ5kM0YJ7sL5PwnHUI6Ma39FfAvDjkjUnaxQ+dIXxKdyD
- 0UJEGZXrJzQKMLnVPW2vlNCgGVAfoSIsQ+WhotQC4kiRmGWKHnjea50FzdBUAJ71FJc+
- ha+oihFj3Y0sg1dbtCOh0rA793pGDPp0NNreqW6HwCNbBoPf1UwfbXpi/ZMgEAcXPr4L
- jGojWsVXNUI21pC2RMzUsTcR7A1Cv0qDFAHlZVwNEMYKhUUdOCyqynChy69sy9YVbhbH 4g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k54d0kknr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Oct 2022 10:00:28 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29B7spN5026272;
- Tue, 11 Oct 2022 10:00:27 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k54d0kkk0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Oct 2022 10:00:26 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29B9ok2w003853;
- Tue, 11 Oct 2022 10:00:23 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 3k30u9c3m9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Oct 2022 10:00:23 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29BA0LdC58196252
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Oct 2022 10:00:21 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 32F1DAE051;
- Tue, 11 Oct 2022 10:00:21 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 26CF8AE053;
- Tue, 11 Oct 2022 10:00:19 +0000 (GMT)
-Received: from osiris (unknown [9.152.212.239])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Tue, 11 Oct 2022 10:00:19 +0000 (GMT)
-Date: Tue, 11 Oct 2022 12:00:18 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH v6 5/7] treewide: use get_random_u32() when possible
-Message-ID: <Y0U+sluE4MidMk8M@osiris>
-References: <20221010230613.1076905-1-Jason@zx2c4.com>
- <20221010230613.1076905-6-Jason@zx2c4.com>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2E410E51D;
+ Tue, 11 Oct 2022 10:01:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665482504; x=1697018504;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=niDb0mywGWpuXXVUWXdmmuqOz5Oq2nJNXHOGiwwI/So=;
+ b=Dambd9H8aK0jiR+sxmNroVUN25BsBgtITR6X9B5hkCM1SSMgldrGCTGU
+ pRePwzg3vs27IxGET7Z47IznaXdeu0vZd60Cvox+ZkGvIIOpChscbu0FJ
+ 60XoTqCPruv2NvAXRVjZlmFbC1qcS4UnUGX4/taWOkjsGy8fj6pXS9X9z
+ +6+rOx4dRs+5+QWXImeZV27VuHJ79BkbpFZr6Is9Cy6k78x1Ux9pfYiHD
+ b04vqvAKg6hPOiNvLWNfF8qokTw25cSyy/+O/u+BNN2+U40W5H9Whe7xo
+ /UkN1+u+D46/tPPxlV8s6A+c/QH1jfPc6E3MyaC7BTlx25fTr21V3kUMn w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="366454571"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="366454571"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 03:01:43 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="801402518"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="801402518"
+Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.40.183])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 03:01:41 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC] drm: split build lists one per line and sort
+Date: Tue, 11 Oct 2022 13:01:37 +0300
+Message-Id: <20221011100137.2838947-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221010230613.1076905-6-Jason@zx2c4.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 3pMFFvEysNa_wNbSt0Vlrry7CHQANLe-
-X-Proofpoint-ORIG-GUID: 9Pz4WXqTZkXGRUv-u8RjmFHok1WNz2gs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-11_03,2022-10-10_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxscore=0
- spamscore=0 mlxlogscore=530 phishscore=0 priorityscore=1501
- impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210110053
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,71 +56,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
- x86@kernel.org, Jan Kara <jack@suse.cz>, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, kernel-janitors@vger.kernel.org,
- KP Singh <kpsingh@kernel.org>, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
- "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
- WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Hugh Dickins <hughd@google.com>, Russell King <linux@armlinux.org.uk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "Darrick J . Wong" <djwong@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Paolo Abeni <pabeni@redhat.com>, Pablo Neira Ayuso <pablo@netfilter.org>,
- linux-media@vger.kernel.org, Marco Elver <elver@google.com>,
- Kees Cook <keescook@chromium.org>, Yury Norov <yury.norov@gmail.com>,
- Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
- "James E . J . Bottomley" <jejb@linux.ibm.com>, linux-um@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-block@vger.kernel.org,
- Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
- linux-nvme@lists.infradead.org, loongarch@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- linux-mmc@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Theodore Ts'o <tytso@mit.edu>, linux-parisc@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
- Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Chuck Lever <chuck.lever@oracle.com>, linux-crypto@vger.kernel.org,
- Jan Kara <jack@suse.com>, Thomas Graf <tgraf@suug.ch>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 10, 2022 at 05:06:11PM -0600, Jason A. Donenfeld wrote:
-> The prandom_u32() function has been a deprecated inline wrapper around
-> get_random_u32() for several releases now, and compiles down to the
-> exact same code. Replace the deprecated wrapper with a direct call to
-> the real function. The same also applies to get_random_int(), which is
-> just a wrapper around get_random_u32(). This was done as a basic find
-> and replace.
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Yury Norov <yury.norov@gmail.com>
-> Acked-by: Toke Høiland-Jørgensen <toke@toke.dk> # for sch_cake
-> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
-> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
-> Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com> # for thunderbolt
-> Acked-by: Darrick J. Wong <djwong@kernel.org> # for xfs
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  arch/s390/mm/mmap.c                            |  2 +-
+While it takes more vertical space, sorted build lists with one object
+per line are arguably easier to manage, especially when there are
+conflicting changes.
 
-For s390:
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Split anything with more than one object file.
+
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/Makefile         | 106 ++++++++++++++++++++++---------
+ drivers/gpu/drm/display/Makefile |  14 ++--
+ 2 files changed, 84 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 25d0ba310509..c4e6ef321566 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -3,32 +3,70 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+ 
+-drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
+-		drm_file.o drm_gem.o drm_ioctl.o \
+-		drm_drv.o \
+-		drm_sysfs.o drm_mm.o \
+-		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o drm_displayid.o \
+-		drm_trace_points.o drm_prime.o \
+-		drm_vma_manager.o \
+-		drm_modeset_lock.o drm_atomic.o drm_bridge.o \
+-		drm_framebuffer.o drm_connector.o drm_blend.o \
+-		drm_encoder.o drm_mode_object.o drm_property.o \
+-		drm_plane.o drm_color_mgmt.o drm_print.o \
+-		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+-		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
+-		drm_client_modeset.o drm_atomic_uapi.o \
+-		drm_managed.o drm_vblank_work.o
+-drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
+-			    drm_hashtab.o drm_irq.o drm_legacy_misc.o drm_lock.o \
+-			    drm_memory.o drm_scatter.o drm_vm.o
++drm-y := \
++	drm_aperture.o \
++	drm_atomic.o \
++	drm_atomic_uapi.o \
++	drm_auth.o drm_cache.o \
++	drm_blend.o \
++	drm_bridge.o \
++	drm_client.o \
++	drm_client_modeset.o \
++	drm_color_mgmt.o \
++	drm_connector.o \
++	drm_crtc.o \
++	drm_displayid.o \
++	drm_drv.o \
++	drm_dumb_buffers.o \
++	drm_edid.o \
++	drm_encoder.o \
++	drm_file.o \
++	drm_fourcc.o \
++	drm_framebuffer.o \
++	drm_gem.o \
++	drm_ioctl.o \
++	drm_lease.o \
++	drm_managed.o \
++	drm_mm.o \
++	drm_mode_config.o \
++	drm_mode_object.o \
++	drm_modes.o \
++	drm_modeset_lock.o \
++	drm_plane.o \
++	drm_prime.o \
++	drm_print.o \
++	drm_property.o \
++	drm_syncobj.o \
++	drm_sysfs.o \
++	drm_trace_points.o \
++	drm_vblank.o \
++	drm_vblank_work.o \
++	drm_vma_manager.o \
++	drm_writeback.o
++drm-$(CONFIG_DRM_LEGACY) += \
++	drm_agpsupport.o \
++	drm_bufs.o \
++	drm_context.o \
++	drm_dma.o \
++	drm_hashtab.o \
++	drm_irq.o \
++	drm_legacy_misc.o \
++	drm_lock.o \
++	drm_memory.o \
++	drm_scatter.o \
++	drm_vm.o
+ drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+ drm-$(CONFIG_COMPAT) += drm_ioc32.o
+ drm-$(CONFIG_DRM_PANEL) += drm_panel.o
+ drm-$(CONFIG_OF) += drm_of.o
+ drm-$(CONFIG_PCI) += drm_pci.o
+-drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
++drm-$(CONFIG_DEBUG_FS) += \
++	drm_debugfs.o \
++	drm_debugfs_crc.o
+ drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
+-drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
++drm-$(CONFIG_DRM_PRIVACY_SCREEN) += \
++	drm_privacy_screen.o \
++	drm_privacy_screen_x86.o
+ obj-$(CONFIG_DRM)	+= drm.o
+ 
+ obj-$(CONFIG_DRM_NOMODESET) += drm_nomodeset.o
+@@ -57,16 +95,24 @@ obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
+ # Modesetting helpers
+ #
+ 
+-drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o \
+-		drm_encoder_slave.o drm_flip_work.o \
+-		drm_probe_helper.o \
+-		drm_plane_helper.o drm_atomic_helper.o \
+-		drm_kms_helper_common.o \
+-		drm_simple_kms_helper.o drm_modeset_helper.o \
+-		drm_gem_atomic_helper.o \
+-		drm_gem_framebuffer_helper.o \
+-		drm_atomic_state_helper.o drm_damage_helper.o \
+-		drm_format_helper.o drm_self_refresh_helper.o drm_rect.o
++drm_kms_helper-y := \
++	drm_atomic_helper.o \
++	drm_atomic_state_helper.o \
++	drm_bridge_connector.o \
++	drm_crtc_helper.o \
++	drm_damage_helper.o \
++	drm_encoder_slave.o \
++	drm_flip_work.o \
++	drm_format_helper.o \
++	drm_gem_atomic_helper.o \
++	drm_gem_framebuffer_helper.o \
++	drm_kms_helper_common.o \
++	drm_modeset_helper.o \
++	drm_plane_helper.o \
++	drm_probe_helper.o \
++	drm_rect.o \
++	drm_self_refresh_helper.o \
++	drm_simple_kms_helper.o
+ drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
+ drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+ obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
+diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+index 52cdda1180d9..17ac4a1006a8 100644
+--- a/drivers/gpu/drm/display/Makefile
++++ b/drivers/gpu/drm/display/Makefile
+@@ -3,13 +3,15 @@
+ obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
+ 
+ drm_display_helper-y := drm_display_helper_mod.o
+-drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += drm_dp_dual_mode_helper.o \
+-						      drm_dp_helper.o \
+-						      drm_dp_mst_topology.o \
+-						      drm_dsc_helper.o
++drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
++	drm_dp_dual_mode_helper.o \
++	drm_dp_helper.o \
++	drm_dp_mst_topology.o \
++	drm_dsc_helper.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
+-drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += drm_hdmi_helper.o \
+-							drm_scdc_helper.o
++drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
++	drm_hdmi_helper.o \
++	drm_scdc_helper.o
+ drm_display_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
+ drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
+ 
+-- 
+2.34.1
+
