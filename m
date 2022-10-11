@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDB15FB7D0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 17:56:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E51155FB7D9
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 17:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A23C10E380;
-	Tue, 11 Oct 2022 15:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9797410E63A;
+	Tue, 11 Oct 2022 15:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
- [IPv6:2607:f8b0:4864:20::92c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4D810E87B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 15:56:45 +0000 (UTC)
-Received: by mail-ua1-x92c.google.com with SMTP id i16so5172776uak.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 08:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E3B10E63A;
+ Tue, 11 Oct 2022 15:59:07 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id m81so16366737oia.1;
+ Tue, 11 Oct 2022 08:59:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wH1Bl8itt96KxBsAlutBeKuPO2AccjwjUzu7pu+C0go=;
- b=cHQS7SWHH1gASscavrPWCc246E7BVCVrvaxgOLz953W9ZYcFihTNZv8KTxGIoPE6VO
- oxondL9qq+lJt4+IbHPqqpuaTIVC17a3n1VJ1GNQMzW5Pm1mS57FLx+5CAdHEkcfl7wu
- Wwm66Rp6rTnBPjtVSfACGBqcakSKTvYQ47tmUJBN0sqjUjgLWyAS3SJ/fPNfhEGngrt2
- 0ZoJeZbPXX2MoCGE4SpvxUHGHv/Ovju656QRtnZJsqWpbYmlQ7pygRvr4N6pOUPceDQl
- dwHTSyp+zflFhfPwKszINz4PuTsGqtK2Jefl0RHElZbs7PwM+DjGcWnKFSSCX9OIqkfU
- 4q6A==
+ bh=hCRaapQLVmEofLP4NgKlOxU1foJi+Wo9dhzQ90svRlY=;
+ b=bnbrdNLdT/bUPd0qhqZflGfE0jb110BVyq5iZfWoFq/M1zGduhnVg/vJ6erAnWFVi0
+ deI+RfMqMTmYGZ0mw4be3stcKCcAaUfcgv83ld/iToqMsDm396BrQ2mfKex9UrOAdfUK
+ SrZfd/FrkJ56a6s/rHvp0yMLdUHnXhbGrb54vMEOxKPfC+mNZWtoYTWirLlX1x6GBao4
+ dcIvEifUKLE/8P4HSRH7XSxJjO2pEjFpxtZUDdJpGHBSDMW2hWpWNKj7TZCa+eCGBQtH
+ 3zn8vNhkuwuUGFyu3hEyn5xQcLop2mUoPhXPjfze8XTFIRxN+BPqpDdXE1Jdsd0lkOTN
+ hdpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wH1Bl8itt96KxBsAlutBeKuPO2AccjwjUzu7pu+C0go=;
- b=5cDZx9CLu5O8I0Z9fVla9dJs1WsWuURJPMXcRYfBOdKCKxMO495gdZCVUtAJGAFZxM
- 1d5y5LYW8I4Q2aPlWFAVlBZHGgvp7s+VhtAGDtEySIVAFE1LW8FFL2udJb5tHiAV1UgO
- HztVThMEFCExZiVrouLmrEYPp/6NJIFvU5Q2ZOLjJrDGASoiUPT564RrjFFyCm5/cl4q
- 94SgM1GiuZmQTFh64jz8f/FVZ/y3kD8EjNCey7/1BNdr30oT0YnQLWo9AZJ4Vd4t/PLa
- sXwu0KhUJiASp5NSf0Hg5dzJVB7ffe2vSUBxKN7D2/IyOB1rnMr29XGulHVZQW29xdSN
- MtFA==
-X-Gm-Message-State: ACrzQf1HCo6vMRVhLCtw5hES+QrK9c+KT7gyaomiCDo912om+kgf8G0W
- jCqsCp9iBvJi8KCClvzX0yOuUvvoiHgBmxKiX2scbA==
-X-Google-Smtp-Source: AMsMyM7hO86TNlZ7RU1O5BbKxgzcrBU9iEjAHsEU8uEo45EdTTocB+iB/ZslSLRzKUzF+PENEMSkZ/nzKg+/gEiZ/rg=
-X-Received: by 2002:ab0:7a5b:0:b0:3b3:8eb9:5a25 with SMTP id
- a27-20020ab07a5b000000b003b38eb95a25mr11832841uat.55.1665503804335; Tue, 11
- Oct 2022 08:56:44 -0700 (PDT)
+ bh=hCRaapQLVmEofLP4NgKlOxU1foJi+Wo9dhzQ90svRlY=;
+ b=RTdPLS7k6FaKDRU0xolNWS10RUqGbKMBj785ETCMudIhVdxsD9WdOCVXlkktY447+d
+ G9ovLkm7OcfgHmqk430cko+G18dHgPbMl/ipr4Z7DWuE3ksdJk2NU/ai25UXg5kbMgMn
+ zPIVoTnDK2+RiNpdpBLkF4BUVBrWQQ6uW0Maz2RcjRIBvnPOBKjs1EzVHmh4p90PvWXY
+ Zf+DJuTabVLycB351mQPg0j4p/WvRF7ZQUJe6tI5nXun11R8AvkqxkdEtc+yqtKuYGqy
+ peziZoo1As9eLBoPf8NPGWq8YGLnfMydTZ9QZ9v8XVjVRdOBaTU8TB96YSyTHfBcIXke
+ vZIg==
+X-Gm-Message-State: ACrzQf0XqJvPcadaz4JhhePaa4D13FnbDHN6CBd2yoKQR2C85UdZOqc+
+ psDIKD7/BNuQeRyD9+TxlSBNVe0CoglGWakgN84=
+X-Google-Smtp-Source: AMsMyM7bwOho1qC7OTbxH6DCCxTstEkqnH7nzwHY1xa44J0GzA+KA77eabXicN9UxDao65ssP4ZBPY2SB3/kE+Q7qFE=
+X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
+ f18-20020a05680814d200b00354c733abd3mr1202719oiw.96.1665503946454; Tue, 11
+ Oct 2022 08:59:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221011075519.3111928-1-shraash@google.com>
-In-Reply-To: <20221011075519.3111928-1-shraash@google.com>
-From: Guenter Roeck <groeck@google.com>
-Date: Tue, 11 Oct 2022 08:56:33 -0700
-Message-ID: <CABXOdTdum0q=2Fy3yM3OnGmHM9ZkNyEURx6C08879ND7ye=vxg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Remove redundant check for 'submit'
-To: Aashish Sharma <shraash@google.com>
+References: <20221010073803.88244-1-yang.lee@linux.alibaba.com>
+ <41663e73-6eb6-3624-7e7e-661745a72193@amd.com>
+In-Reply-To: <41663e73-6eb6-3624-7e7e-661745a72193@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 11 Oct 2022 11:58:54 -0400
+Message-ID: <CADnq5_My7KXYqQ1SrGqK2nj4P67NUh1hoYD+C+BngRJNC9YcCg@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: Simplify bool conversion
+To: Harry Wentland <harry.wentland@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,60 +65,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- kernel test robot <lkp@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Guenter Roeck <groeck@chromium.org>, Sean Paul <sean@poorly.run>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: sunpeng.li@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 11, 2022 at 12:55 AM Aashish Sharma <shraash@google.com> wrote:
->
-> Rectify the below smatch warning:
-> drivers/gpu/drm/msm/msm_gem_submit.c:963 msm_ioctl_gem_submit() warn:
-> variable dereferenced before check 'submit'
->
-> 'submit' is normally error pointer or valid, so remove its NULL
-> initializer as it's confusing and also remove a redundant check for it's
-> value.
->
-> Signed-off-by: Aashish Sharma <shraash@google.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Applied.  Thanks!
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+Alex
 
-> ---
->  drivers/gpu/drm/msm/msm_gem_submit.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+On Tue, Oct 11, 2022 at 11:27 AM Harry Wentland <harry.wentland@amd.com> wrote:
 >
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> index 5599d93ec0d2..74fe1c56cd65 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -706,7 +706,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
->         struct msm_drm_private *priv = dev->dev_private;
->         struct drm_msm_gem_submit *args = data;
->         struct msm_file_private *ctx = file->driver_priv;
-> -       struct msm_gem_submit *submit = NULL;
-> +       struct msm_gem_submit *submit;
->         struct msm_gpu *gpu = priv->gpu;
->         struct msm_gpu_submitqueue *queue;
->         struct msm_ringbuffer *ring;
-> @@ -946,8 +946,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
->                 put_unused_fd(out_fence_fd);
->         mutex_unlock(&queue->lock);
->  out_post_unlock:
-> -       if (submit)
-> -               msm_gem_submit_put(submit);
-> +       msm_gem_submit_put(submit);
->         if (!IS_ERR_OR_NULL(post_deps)) {
->                 for (i = 0; i < args->nr_out_syncobjs; ++i) {
->                         kfree(post_deps[i].chain);
-> --
-> 2.38.0.rc2.412.g84df46c1b4-goog
+> On 2022-10-10 03:38, Yang Li wrote:
+> > The result of 'pwr_status == 0' is Boolean, and the question mark
+> > expression is redundant.
+> >
+> > Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2354
+> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> > Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
+> > index 955ca273cfe1..cbda458bf040 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
+> > @@ -1401,7 +1401,7 @@ bool dcn32_dsc_pg_status(
+> >               break;
+> >       }
+> >
+> > -     return pwr_status == 0 ? true : false;
+> > +     return pwr_status == 0;
+> >  }
+> >
+> >  void dcn32_update_dsc_pg(struct dc *dc,
 >
