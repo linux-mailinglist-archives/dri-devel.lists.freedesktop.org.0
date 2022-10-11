@@ -2,57 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEF45FB39F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 15:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8125FB3BC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 15:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3F910E3BA;
-	Tue, 11 Oct 2022 13:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C322610E542;
+	Tue, 11 Oct 2022 13:50:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78EC410E3BA;
- Tue, 11 Oct 2022 13:44:36 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-12c8312131fso15907060fac.4; 
- Tue, 11 Oct 2022 06:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hdOgpXIVzr2EZYZkvsQiaauFi/fh0de5ZMVYZE7lDc8=;
- b=fHot2KzfzI6Yjztuqcs7KGUv1VniLbHFwrQWp42/onebcYB1h/acJ02L73XzFS2pfM
- G97du6iYZ0Y9TRwDLUXHW/3nS18bmSN7V+3KggIXkYvqix/UU9VeLvcy9Vtv2gKz6Y7P
- bS71/353KqYgtJZqSAbpI9VoUgVjx4tWrvdTxTNZphOe8zJ/ZpCwlZdbfcnZ1HDI4WUg
- 2dbpE3S5xvqPAU+c0aqESMthrux12t9RCcGdeQsf8fKXhzUm4sHTRg1kwB6XZ/qAx9uJ
- U8N+Vy6cCGs4dN3L2mjLTmWmW0MNxAntAg32BNMhofjbqV0rIALl41jvsOg9X+po8Zj5
- Fp2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hdOgpXIVzr2EZYZkvsQiaauFi/fh0de5ZMVYZE7lDc8=;
- b=x3Gr1ctH0UnNgDCEPIbmxkTiZ4b/tHUip2fYb1Truy2bh7tQoeQ23ZGk3tx0Knrlnv
- IGbGODO1G2xP0mzHuvzi8yCQnEaCWvGLto/FZVQ06wcmQw/ewfrH0o0VBK165uYYAf8d
- fFLDd5KDBE/s/beoayhGZusibFtWdmwqtMy7uBQsG/wYqTqLJyMj95wvU+uxL2r49mua
- jgdIDpgfi3N1xDgq4X+LboPCkqSj+YNEjGsbxC99EhWQHrZZcz55uw9E08hz5HYnQB0O
- 0FI4oZmw6Oq7fNDXS1fOg+fcULnR4SIIMUpwEWZpbdbm1oQfjrjGz/CLxvSLBxZPiFXP
- RPLw==
-X-Gm-Message-State: ACrzQf2QQrgty6tx/+fMrEk1Wg0lxlfDeO81gvBCbVBNFv6Lv6k5Xaf6
- tyZ8O4sLGFTHtmmp/WMqZYJRP3XiXHbIxvMSz1s=
-X-Google-Smtp-Source: AMsMyM4ImNHwDo4PzM4b6LyAa/QX8U/OBf5aPIiIpkt3nta3iHvW75nISEIVdsNnW7PBSU4pknSYnWUUxZfH7ajrtA4=
-X-Received: by 2002:a05:6870:40c8:b0:136:4389:1375 with SMTP id
- l8-20020a05687040c800b0013643891375mr9662275oal.46.1665495875585; Tue, 11 Oct
- 2022 06:44:35 -0700 (PDT)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5BE10E3E9;
+ Tue, 11 Oct 2022 13:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665496195; x=1697032195;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=EpRk0KKuhbH8+AAd/K+4lEe7mH4SRJwoyNP06bjqrn0=;
+ b=Dfg7+aiOQyNR4AvWzNZmoexjfNKJjCiLcHrfh6r8DPnkIkAepK6k3GOY
+ GVW49JMTxD++FuWPlveMF0XYP+j8wiMEYXOg5qqr0gnGLZFqqLudFuo7e
+ 0/i51EcuJMvPoSc0pr/GTlWqHtO5NI8W6o/rEgV4R/RyZxR1PGvOD6mFF
+ dQalW5O+kYjLAFFCLXfmfUQILC6F97GuJNHC/gFu0s7Cs6i9pEFXsmes4
+ AL8ago137NsXNsLgsKsvROb/6YNqHFjN5A0gV4QYyDj8jGO63S+6kDQvK
+ w7sEUGRba6Ug1jlBimjSS4sgoGS7/MuvFq/WkrDL/F7tyHZu6G3ATwYj2 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="366497654"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="366497654"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 06:49:54 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="871509939"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="871509939"
+Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.40.183])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 06:49:52 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/15] drm/edid: EDID override refactoring and fixes
+Date: Tue, 11 Oct 2022 16:49:34 +0300
+Message-Id: <cover.1665496046.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221011124103.2123883-1-yangyingliang@huawei.com>
-In-Reply-To: <20221011124103.2123883-1-yangyingliang@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 11 Oct 2022 09:44:24 -0400
-Message-ID: <CADnq5_Mm0=DNifw=+3hW_4YNRreMjtViLJikB6WsJsaJg+unmQ@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: fix build error on arm64
-To: Yang Yingliang <yangyingliang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,52 +57,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, jun.lei@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks.
+I set out to fix some issues in switching i915 over to use drm_edid more
+widely, and stumbled onto issues with edid override usage. Here's some
+resulting fixes, refactoring and cleanup.
 
-Alex
+BR,
+Jani.
 
-On Tue, Oct 11, 2022 at 8:41 AM Yang Yingliang <yangyingliang@huawei.com> wrote:
->
-> dcn20_build_mapped_resource() and dcn20_acquire_dsc() is not defined,
-> if CONFIG_DRM_AMD_DC_DCN is disabled.
->
-> Fix the following build error on arm64:
->
->   ERROR: modpost: "dcn20_build_mapped_resource" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->   ERROR: modpost: "dcn20_acquire_dsc" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->
-> Fixes: 20dad3813b3c ("drm/amd/display: Add a helper to map ODM/MPC/Multi-Plane resources")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-> index 4a6e867369b8..bbed5685d847 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-> @@ -3721,12 +3721,16 @@ bool dc_resource_acquire_secondary_pipe_for_mpc_odm(
->                 else
->                         sec_pipe->stream_res.opp = sec_pipe->top_pipe->stream_res.opp;
->                 if (sec_pipe->stream->timing.flags.DSC == 1) {
-> +#if defined(CONFIG_DRM_AMD_DC_DCN)
->                         dcn20_acquire_dsc(dc, &state->res_ctx, &sec_pipe->stream_res.dsc, pipe_idx);
-> +#endif
->                         ASSERT(sec_pipe->stream_res.dsc);
->                         if (sec_pipe->stream_res.dsc == NULL)
->                                 return false;
->                 }
-> +#if defined(CONFIG_DRM_AMD_DC_DCN)
->                 dcn20_build_mapped_resource(dc, state, sec_pipe->stream);
-> +#endif
->         }
->
->         return true;
-> --
-> 2.25.1
->
+Jani Nikula (15):
+  drm/i915/hdmi: do dual mode detect only if connected
+  drm/i915/hdmi: stop using connector->override_edid
+  drm/amd/display: stop using connector->override_edid
+  drm/edid: debug log EDID override set/reset
+  drm/edid: abstract debugfs override EDID show better
+  drm/edid: rename drm_add_override_edid_modes() to
+    drm_edid_override_connector_update()
+  drm/edid: split drm_edid block count helper
+  drm/edid: add function for checking drm_edid validity
+  drm/edid: detach debugfs EDID override from EDID property update
+  drm/edid/firmware: drop redundant connector_name variable/parameter
+  drm/edid/firmware: rename drm_load_edid_firmware() to
+    drm_edid_load_firmware()
+  drm/edid: use struct drm_edid for override/firmware EDID
+  drm/edid: move edid load declarations to internal header
+  drm/edid/firmware: convert to drm device specific logging
+  drm/edid: convert to device specific logging
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   3 -
+ drivers/gpu/drm/drm_crtc_internal.h           |  15 +-
+ drivers/gpu/drm/drm_debugfs.c                 |   8 +-
+ drivers/gpu/drm/drm_edid.c                    | 259 ++++++++++--------
+ drivers/gpu/drm/drm_edid_load.c               | 107 ++------
+ drivers/gpu/drm/drm_probe_helper.c            |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  21 +-
+ include/drm/drm_connector.h                   |  11 +-
+ include/drm/drm_edid.h                        |  10 +-
+ 9 files changed, 206 insertions(+), 230 deletions(-)
+
+-- 
+2.34.1
+
