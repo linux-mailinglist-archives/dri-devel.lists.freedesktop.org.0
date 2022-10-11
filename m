@@ -2,51 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76E15FAD77
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 09:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6AA5FADAC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 09:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8B810E7D6;
-	Tue, 11 Oct 2022 07:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4AA10E7CD;
+	Tue, 11 Oct 2022 07:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E8B10E7D5;
- Tue, 11 Oct 2022 07:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665473296; x=1697009296;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=L5MBqgqp6MTU4ypjZqNT8kLPN3xIwjQwKf//0nsfzJk=;
- b=cn6QbeH7FHI9zEiOgsoLwMaQFL+p5TQ+1UNzmJIeK2E0wUYpNl3mVHVL
- JaEZHCTbNkmvB+mhiRSOs6MohiLvW0ZG0z3LPH1OEP4xsXavA/hvzhIkr
- acZodIBctAxzf6cfCA6HgbvyvfOPEgoTT3Dbsrzo5HxRMkMZbRtSO+QVV
- X6C4tGTFUTsWywCaMa5WixhCYEFHYNIbEDGH8dyuzmz/IJuNeXL16hAsi
- l+evbC3iStjQadyfStiaT+LHLDF3DEIkioIFeVlmCk0/V37NjkjLdXelm
- 7rn+dQ5lAHnVwQY54JYUgY3m2H/+kCtm/JfrV4R+5I6Esu1pIUgH4nH9O A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="390739348"
-X-IronPort-AV: E=Sophos;i="5.95,175,1661842800"; d="scan'208";a="390739348"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 00:28:01 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="730872554"
-X-IronPort-AV: E=Sophos;i="5.95,175,1661842800"; d="scan'208";a="730872554"
-Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.40.183])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 00:27:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915: Use graphics ver, rel info for media on old
- platforms
-In-Reply-To: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
-Date: Tue, 11 Oct 2022 10:27:56 +0300
-Message-ID: <87pmeyyg3n.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B287F10E363
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 07:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665474381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WSO31FFSWdoXBgwUfILs3D/eoN5/MJjkcgNLNdrIA0I=;
+ b=M5MocYAOobdoqhLDbm3x6fsN5RJNGfGy1et/9Npi8f8IAOhrOHIq7/mzu+gYSBbW1LKGgh
+ UIwLTJ+HCMj2zrlJfq8ZegZUiGtzzHjrg/6baWwZ3xCo74HHkQ7lO3OOrjCIi5J3Fvibl7
+ ds0g3j/VHU+y3zzemZudWgbXqOLytVI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-613--evEx8agP8u6EWE_49bq4g-1; Tue, 11 Oct 2022 03:46:20 -0400
+X-MC-Unique: -evEx8agP8u6EWE_49bq4g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r132-20020a1c448a000000b003c3a87d8abdso5163598wma.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 00:46:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WSO31FFSWdoXBgwUfILs3D/eoN5/MJjkcgNLNdrIA0I=;
+ b=NaH0PV2WIn1W//oMQSedEuJAAjbRkdsIWE1I2OE1BIRGMm3RcGn13fipmxlgcuENNd
+ 3JKT59ZKR8WVxASjOsKFZXGVEU1vRziJrCySbvKNnmfVMCfc5382nXk3E6iVMNlGhYZO
+ 8z354EVUgbStdr4Ib+0825JKxPMnvsDTnkfQ14s5dG7v+ody312IXiKScPtxlgYBapSs
+ d7MgkpvTwYx92A5rsiZh5LJO2hJ9NKNMP1sgwBldWN3W6IoZHjZeX+TCDAG9gF0Zi8Kl
+ kDsdtMeI9KXl8wxDl4pXGdXnG8zyHrCmdev/E5Fu/HKqtkp3GGdguLGN23+b7ekGTod2
+ xLBA==
+X-Gm-Message-State: ACrzQf0kaE5YGHl3ny+Z1hzsFBHhjBS9BrHSi+C5kdo+LSpwm0CtZm49
+ g/kLMDbWac5cbGcqRO4UoEvg+FWuEoItxJDGdDVZ7kFJi39b5acZgQF25cdFltYDTDNvWiuZjKs
+ WaPIuQeSoHNw2i0mKkS1PVYEKkZaG
+X-Received: by 2002:a05:6000:184c:b0:22f:edd8:821f with SMTP id
+ c12-20020a056000184c00b0022fedd8821fmr7415901wri.363.1665474379317; 
+ Tue, 11 Oct 2022 00:46:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4dmWgqCGPFqZN8NPA8TsXuF3935TrGX3QAoadmbEV1e0/uHHFpUzYt1J3ZTNf2xQER2QOE6g==
+X-Received: by 2002:a05:6000:184c:b0:22f:edd8:821f with SMTP id
+ c12-20020a056000184c00b0022fedd8821fmr7415879wri.363.1665474379063; 
+ Tue, 11 Oct 2022 00:46:19 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ bp15-20020a5d5a8f000000b0022cbf4cda62sm13716589wrb.27.2022.10.11.00.46.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Oct 2022 00:46:18 -0700 (PDT)
+Message-ID: <23333ff7-3ae1-494f-7abe-62da6698fd00@redhat.com>
+Date: Tue, 11 Oct 2022 09:46:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v4 5/5] drm/ofdrm: Support big-endian scanout buffers
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
+ msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org, geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
+References: <20220928105010.18880-1-tzimmermann@suse.de>
+ <20220928105010.18880-6-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220928105010.18880-6-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,63 +89,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Oct 2022, Radhakrishna Sripada <radhakrishna.sripada@intel.com> wrote:
-> Platforms prior to MTL do not have a separate media and graphics version.
-> On platforms where GMD id is not supported, reuse the graphics ip version,
-> release info for media.
->
-> The rest of the IP graphics, display versions would be copied during driver
-> creation.
->
-> While at it warn if GMD is not used for platforms greater than gen12.
->
-> Fixes: c2c7075225ef ("drm/i915: Read graphics/media/display arch version from hw")
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> ---
->  drivers/gpu/drm/i915/intel_device_info.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-> index 090097bb3c0a..ba178b61bceb 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.c
-> +++ b/drivers/gpu/drm/i915/intel_device_info.c
-> @@ -329,8 +329,18 @@ static void intel_ipver_early_init(struct drm_i915_private *i915)
->  {
->  	struct intel_runtime_info *runtime = RUNTIME_INFO(i915);
->  
-> -	if (!HAS_GMD_ID(i915))
-> +	if (!HAS_GMD_ID(i915)) {
-> +		drm_WARN_ON(&i915->drm, RUNTIME_INFO(i915)->graphics.ip.ver > 12);
-> +		/*
-> +		 * On older platforms, graphics and media share the same ip
-> +		 * version and release.
-> +		 */
-> +		RUNTIME_INFO(i915)->media.ip.ver =
-> +			RUNTIME_INFO(i915)->graphics.ip.ver;
-> +		RUNTIME_INFO(i915)->media.ip.rel =
-> +			RUNTIME_INFO(i915)->graphics.ip.rel;
+Hello Thomas,
 
-You could assign the whole struct ip_version (*) at once, or is there a
-reason you're intentionally not assigning step?
+On 9/28/22 12:50, Thomas Zimmermann wrote:
+> All DRM formats assume little-endian byte order. On big-endian systems,
+> it is likely that the scanout buffer is in big endian as well. Update
 
-BR,
-Jani.
+You say it is likely, not always then? Does it depend on whether the Open
+Firmware is BE or LE ?
 
-(*) Why does that name not have intel_ prefix?
+[...]
 
->  		return;
-> +	}
->  
->  	ip_ver_read(i915, i915_mmio_reg_offset(GMD_ID_GRAPHICS),
->  		    &runtime->graphics.ip);
+> +static bool display_get_big_endian_of(struct drm_device *dev, struct device_node *of_node)
+> +{
+> +	bool big_endian;
+> +
+> +#ifdef __BIG_ENDIAN
+> +	big_endian = true;
+> +	if (of_get_property(of_node, "little-endian", NULL))
+> +		big_endian = false;
+> +#else
+> +	big_endian = false;
+> +	if (of_get_property(of_node, "big-endian", NULL))
+> +		big_endian = true;
+> +#endif
+> +
+> +	return big_endian;
+> +}
+> +
+
+Ah, I see. The heuristic then is whether the build is BE or LE or if the Device
+Tree has an explicit node defining the endianess. The patch looks good to me:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
