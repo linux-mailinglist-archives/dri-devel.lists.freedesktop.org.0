@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F9B5FB032
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:10:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 041715FB04D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Oct 2022 12:19:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9184210E7EF;
-	Tue, 11 Oct 2022 10:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C4010E2E1;
+	Tue, 11 Oct 2022 10:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E396C10E7F7;
- Tue, 11 Oct 2022 10:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665483031; x=1697019031;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=stVivBrUOWNM3XfYcDu1vIrYQlmmFL5o1eWxnZQ3OZk=;
- b=aqCeUwF6GQ8amXIbFMxu6qWV+CS2Q2bKLqsA9ELWF6i2nMPF+1kznh4X
- kogPomIddO+adN2W+oeNbUYBQUSJqtevls+gYPad/Gbj8wDfzuxZ6oOmC
- kg9UP5SX1XYivgnm2WAgrbLK7lYGZzFUWwXNHrtfizzOr0rA+1shqRh3P
- qEyz5rEzAa1+6GDvipjMpNr9utctrwW8drI7Q4nmdZlppJqKaGaeFd43x
- o+20jBliCFxsi+k5a2sW296OjhE3zWjVq0T/yPunMeEHgG2KqC2OFWb/a
- /eYQ1/lH0u29OGwyQN0TG+Ns6rIA1SviXQ3LKs8SH7vcC+1cLg/Vw8bbS A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="330941052"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="330941052"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 03:10:31 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="657294434"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; d="scan'208";a="657294434"
-Received: from milawils-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.40.183])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2022 03:10:29 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/i915: Use graphics ver, rel info for media on old
- platforms
-In-Reply-To: <DM4PR11MB59714D6C8D496B5538DA27AB87239@DM4PR11MB5971.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221010231720.3730568-1-radhakrishna.sripada@intel.com>
- <87pmeyyg3n.fsf@intel.com>
- <DM4PR11MB59714D6C8D496B5538DA27AB87239@DM4PR11MB5971.namprd11.prod.outlook.com>
-Date: Tue, 11 Oct 2022 13:10:26 +0300
-Message-ID: <87k056y8kt.fsf@intel.com>
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAD2F10E7F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 10:19:24 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id i6so7721036pli.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 03:19:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yq/9loxiQhBqkMGuBqVSVER97PU6eqNrwXcwJJSQ4o8=;
+ b=YQMKAEJu2Lqp0lr6XC66P8V857rodeAZ2poxsUDkoWg3pWPdvuULNzsOWa02Zg/92T
+ lxqyY11dROObYQy7jaqYxhREieGrky1SSz0bgsk/fWFgWgEUq5QP5+M51hpDBdXo5izF
+ GnXG6kwB2iRS53lBKhVLXKuhjjLlcNr/EMfqE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Yq/9loxiQhBqkMGuBqVSVER97PU6eqNrwXcwJJSQ4o8=;
+ b=i6Jend4QwIDV/2yK0GAHoYUN0AMYhTvR54iKoSGjFDIwgCgEzLQTmDTR/p3C8kEs0R
+ c7Ju4Tuf/30/m6UqmrZ2t2KbqCG0VGwZR6STCEu0S0luKj/ryRBKug6RfEjjJMV0+ge3
+ MPlj8b0RlHC3zi+AGPxhweJp0vThPX58C031hzBiTBk+lzlr6s0UV3KZVLXkgnr0sGio
+ Bjrb55nT8lUY/M/M3kR7kEIoi7ZqJqzxnrtZw4i0I9ytveUSqM/lGagk4CTuxH9xXCNV
+ Lr+iQ6w6fv7DRKTUQ7EAPJq4f72DppGHh1gvZRnda6Av/oQ6uYNDkOUC1Lx/dypPmeoZ
+ QINQ==
+X-Gm-Message-State: ACrzQf2QKpY+0J0oNWczVT8TEGSdH41wMERSI1HVO4y+ykc09Df3I149
+ mjR1SYGPzULHEnJtqv8gVdff4Q==
+X-Google-Smtp-Source: AMsMyM4LINEjb4g0hFCLAALDCXfaB3pcV4PVIko37wfdn2j6GQwmNRf85N9NgRqisdThg1hBRZsIyA==
+X-Received: by 2002:a17:902:6a87:b0:181:c6c6:1d38 with SMTP id
+ n7-20020a1709026a8700b00181c6c61d38mr12889488plk.74.1665483564107; 
+ Tue, 11 Oct 2022 03:19:24 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:31e6:a0c9:ff22:7e86])
+ by smtp.gmail.com with ESMTPSA id
+ y12-20020a17090a1f4c00b0020d75e90d32sm488402pjy.17.2022.10.11.03.19.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Oct 2022 03:19:23 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>
+Subject: [PATCH] drm_bridge: register content protect property
+Date: Tue, 11 Oct 2022 18:18:51 +0800
+Message-Id: <20221011101850.200455-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,118 +66,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 11 Oct 2022, "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com> wrote:
-> Hi Jani,
->
->> -----Original Message-----
->> From: Jani Nikula <jani.nikula@linux.intel.com>
->> Sent: Tuesday, October 11, 2022 12:28 AM
->> To: Sripada, Radhakrishna <radhakrishna.sripada@intel.com>; intel-
->> gfx@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org; Sripada, Radhakrishna
->> <radhakrishna.sripada@intel.com>; De Marchi, Lucas
->> <lucas.demarchi@intel.com>; Roper, Matthew D
->> <matthew.d.roper@intel.com>
->> Subject: Re: [PATCH] drm/i915: Use graphics ver, rel info for media on old
->> platforms
->> 
->> On Mon, 10 Oct 2022, Radhakrishna Sripada <radhakrishna.sripada@intel.com>
->> wrote:
->> > Platforms prior to MTL do not have a separate media and graphics version.
->> > On platforms where GMD id is not supported, reuse the graphics ip version,
->> > release info for media.
->> >
->> > The rest of the IP graphics, display versions would be copied during driver
->> > creation.
->> >
->> > While at it warn if GMD is not used for platforms greater than gen12.
->> >
->> > Fixes: c2c7075225ef ("drm/i915: Read graphics/media/display arch version
->> from hw")
->> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
->> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->> > Cc: Matt Roper <matthew.d.roper@intel.com>
->> > Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
->> > ---
->> >  drivers/gpu/drm/i915/intel_device_info.c | 12 +++++++++++-
->> >  1 file changed, 11 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/drivers/gpu/drm/i915/intel_device_info.c
->> b/drivers/gpu/drm/i915/intel_device_info.c
->> > index 090097bb3c0a..ba178b61bceb 100644
->> > --- a/drivers/gpu/drm/i915/intel_device_info.c
->> > +++ b/drivers/gpu/drm/i915/intel_device_info.c
->> > @@ -329,8 +329,18 @@ static void intel_ipver_early_init(struct
->> drm_i915_private *i915)
->> >  {
->> >  	struct intel_runtime_info *runtime = RUNTIME_INFO(i915);
->> >
->> > -	if (!HAS_GMD_ID(i915))
->> > +	if (!HAS_GMD_ID(i915)) {
->> > +		drm_WARN_ON(&i915->drm, RUNTIME_INFO(i915)-
->> >graphics.ip.ver > 12);
->> > +		/*
->> > +		 * On older platforms, graphics and media share the same ip
->> > +		 * version and release.
->> > +		 */
->> > +		RUNTIME_INFO(i915)->media.ip.ver =
->> > +			RUNTIME_INFO(i915)->graphics.ip.ver;
->> > +		RUNTIME_INFO(i915)->media.ip.rel =
->> > +			RUNTIME_INFO(i915)->graphics.ip.rel;
->> 
->> You could assign the whole struct ip_version (*) at once, or is there a
->> reason you're intentionally not assigning step?
-> Step info would anyways be determined later in the function intel_step_init.
-> We already have macros in place to handle common gt and media steps there.
->
-> Do you suggest we memcpy(&RUNTIME_INFO(i915)->media.ip, &RUNTIME_INFO->graphics.ip, sizeof(struct ip_version)) here?
+Some bridges are able to update HDCP status from userspace requests if
+they support HDCP.
 
-Simple assign should do it for such a small struct.
+HDCP property is the same as other connector properties that need to be
+created after the connecter is initialized and before the connector is
+registered.
 
-BR,
-Jani.
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+ drivers/gpu/drm/drm_bridge_connector.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
->
->> 
->> BR,
->> Jani.
->> 
->> (*) Why does that name not have intel_ prefix?
-> Good question. Since introduced in " a5b7ef27da60 drm/i915: Add struct to hold IP version"
-> we have been using as is. The author might have felt that the structure is not big enough/used in as many places
-> to have an intel_ prefix. Do you see a symbol collision here that we
-> need to add intel_ prefix?
-
-It's not just about avoiding any immediate symbol collisions, it's also
-about setting an example. People see this and think it's fine not to
-have the prefix. And then the practice proliferates until there's a
-collision.
-
-> If so should we do it in a separate patch?
-
-If there's a semantically separate change, it should always be a
-separate patch.
-
-BR,
-Jani.
-
->
-> Thanks,
-> Radhakrishna(RK) Sripada
->> 
->> >  		return;
->> > +	}
->> >
->> >  	ip_ver_read(i915, i915_mmio_reg_offset(GMD_ID_GRAPHICS),
->> >  		    &runtime->graphics.ip);
->> 
->> --
->> Jani Nikula, Intel Open Source Graphics Center
-
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+index 1c7d936523df5..a3b9ef8dc3f0b 100644
+--- a/drivers/gpu/drm/drm_bridge_connector.c
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -7,6 +7,7 @@
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ 
++#include <drm/display/drm_hdcp_helper.h>
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+@@ -398,6 +399,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	if (panel_bridge)
+ 		drm_panel_bridge_set_orientation(connector, panel_bridge);
+ 
++	drm_connector_attach_content_protection_property(connector, true);
++
+ 	return connector;
+ }
+ EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.38.0.rc1.362.ged0d419d3c-goog
+
