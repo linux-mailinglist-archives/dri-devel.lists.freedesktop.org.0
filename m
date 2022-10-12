@@ -1,43 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93E55FCB63
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 21:17:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E68115FCB69
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 21:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA9010E071;
-	Wed, 12 Oct 2022 19:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E60510E04D;
+	Wed, 12 Oct 2022 19:19:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com
- [216.40.44.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E871610E071
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 19:17:15 +0000 (UTC)
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay01.hostedemail.com (Postfix) with ESMTP id 2096E1C6C41;
- Wed, 12 Oct 2022 19:17:09 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf12.hostedemail.com (Postfix) with ESMTPA id AB9FC17; 
- Wed, 12 Oct 2022 19:16:43 +0000 (UTC)
-Message-ID: <f8ad3ba44d28dec1a5f7626b82c5e9c2aeefa729.camel@perches.com>
-Subject: Re: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-From: Joe Perches <joe@perches.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org
-Date: Wed, 12 Oct 2022 12:16:53 -0700
-In-Reply-To: <20221005214844.2699-4-Jason@zx2c4.com>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-4-Jason@zx2c4.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870BD10E04D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 19:18:57 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id l1so17104161pld.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 12:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HfNZT46KpoZ6E+JcaCCJsllBrcf6mEq3qk/ybdRTrq0=;
+ b=X+DPYNJrssrHWrE1RZGFFcJAHcL8f3jkXOrZa2E/MM2M/to/lV2QrCFKS8bI7qt/0E
+ 8/koq5Qr1X9hUTAPwaYWMWYd+CohHeCQZwo03o04Zwg3JXYnYwu93IAJaJCZbF767eTe
+ 6z3UH6dskbodOaDb67ec4ZtUKpL9WlqzWt0Uo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HfNZT46KpoZ6E+JcaCCJsllBrcf6mEq3qk/ybdRTrq0=;
+ b=ggJHFWY8TSuXBUu5x81Yhv29cht9ZAFEcklmn482Jjbg1ZBD9DgKtlg38l1ROSbzT9
+ ZKINLgg3IDCw0wLzmxhXnbT4CVJtx7Nf8jufz0wWZH7mC9Wx+T7m5DLeCrOwIcqOE4do
+ 8FKNZK9QcCRk2L8MonahHcGfYvmmy+g4gpC9BxV/rHz1erIMkIsSDLgGfoFxDBWRkY05
+ 9xjtAWTcKX36qDJzn0u9DoC8sHHdnHCYfTct/9F2QKwBLPJ1WJbVpxl2BmMuGsLGFjfv
+ +kll1TnINrHHk6y8R4YcWLRB8ADT/i1khPKOuvTsB8vHK+BxyjUGErdveGyiSA3kU8F0
+ 94Gw==
+X-Gm-Message-State: ACrzQf364KPD2ticOTava8oJOEDAoij37jEZhTjKz0WXhiam0ZiCpCqE
+ PQzssqvBOekRSkUQLVnoxFcdcw==
+X-Google-Smtp-Source: AMsMyM6/xIjOix8KD97FHd4GE6/wahQp6RRj0q3RGJzOPf50xMJPV0jcuY79BaTZXUVDboidomw0Gg==
+X-Received: by 2002:a17:90b:4c48:b0:20d:5c55:b8a8 with SMTP id
+ np8-20020a17090b4c4800b0020d5c55b8a8mr6894465pjb.207.1665602337108; 
+ Wed, 12 Oct 2022 12:18:57 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ z19-20020aa79593000000b0056316f0b7f8sm250273pfj.33.2022.10.12.12.18.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Oct 2022 12:18:56 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Helge Deller <deller@gmx.de>
+Subject: [PATCH] fbdev: MIPS supports iomem addresses
+Date: Wed, 12 Oct 2022 12:18:54 -0700
+Message-Id: <20221012191838.never.778-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=1.40
-X-Stat-Signature: c3d78nppyrywoyngway5d943fw3wwtdu
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: AB9FC17
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/Qw27OeRP8/mQW0Su38d7rwhSo1NO9QCw=
-X-HE-Tag: 1665602203-428634
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1339; h=from:subject:message-id;
+ bh=RSExtY7BNwRYriF1xMHXemT9zuCYbQ4xQoSpDfr8rVo=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjRxMeloP/ixxePXeqRevP8QT9EZXyWJkUAg4g2qmM
+ AE/qZjCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY0cTHgAKCRCJcvTf3G3AJmN4D/
+ 4hcVz71SZPswjgclHLavAl1hUb1O3LJ1wli7G8k2lX2OMCcN80qc088g6rbhMQOA1Ig6UWiLFJz6ZP
+ 3mDl2lt1VDZ1nOdA6412wHxsH8eVGKhtT/KFln4bCbGPDfEIAh5Uh2ih9uDdJ+yUCHJZlMi0EueYsy
+ ous3OfunCbRYnOJRm8VCCJYW8ow04uaO3Eiryj74ccpNGl8OZ0aZvnMSs0qCJpH7PLhmhKIDsnMDwJ
+ Chvht0XOjXBshmliHA8U/1Zta3yXsufhHO1wtSKL7Orkkv9UZDsrnIoCRAKkZYctL8pov/Po7zES2Q
+ rlBCf+Y094+ABm9epnmtuYCQMOOqFvNaGyzLzkqmqqVlS9sA2qQrWlZ95AlRLrPFfmlJ/rU0B6US4o
+ 1d/nwuLYg7vLtnV5sZnuTBH2Ur+tH7b2HK5QHDsPrNlE4uHPB6XwtwcT+xst9sFKEDHFzNWvRdut/9
+ JEWP+4LDD5z38jIjzDkeq5Ujv7KmYbu5be4pUNsVW+jBQj9eSBxV5gktwCh9sMylU87Qgw6CrgUpZb
+ bdgcoaPV8cTPL8br9Yt+eA+hm39dRSR+wcMRAJWI++zPLUXXZpwoGxlBNOhNqbudpn+QxRwgTChyFK
+ G2AW+Sk5wgsR2sjAZYcVFlkbg1esbL1G8/zRrAd2wjAmeI1/6aRSWjAUPKmw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp;
+ fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,74 +80,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, linux-sctp@vger.kernel.org, target-devel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- drbd-dev@lists.linbit.com, dev@openvswitch.org, rds-devel@oss.oracle.com,
- linux-scsi@vger.kernel.org, dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
- kasan-dev@googlegroups.com, lvs-devel@vger.kernel.org,
- SHA-cyfmac-dev-list@infineon.com, coreteam@netfilter.org,
- tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
- linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
- linux-nfs@vger.kernel.org, linux-block@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-hams@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, cake@lists.bufferbloat.net,
- brcm80211-dev-list.pdl@broadcom.com, linux-raid@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Cc: linux-fbdev@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-10-05 at 23:48 +0200, Jason A. Donenfeld wrote:
-> The prandom_u32() function has been a deprecated inline wrapper around
-> get_random_u32() for several releases now, and compiles down to the
-> exact same code. Replace the deprecated wrapper with a direct call to
-> the real function.
-[]
-> diff --git a/drivers/infiniband/hw/cxgb4/cm.c b/drivers/infiniband/hw/cxg=
-b4/cm.c
-[]
-> @@ -734,7 +734,7 @@ static int send_connect(struct c4iw_ep *ep)
->  				   &ep->com.remote_addr;
->  	int ret;
->  	enum chip_type adapter_type =3D ep->com.dev->rdev.lldi.adapter_type;
-> -	u32 isn =3D (prandom_u32() & ~7UL) - 1;
-> +	u32 isn =3D (get_random_u32() & ~7UL) - 1;
+Add MIPS to fb_* helpers list for iomem addresses. This silences Sparse
+warnings about lacking __iomem address space casts:
 
-trivia:
+drivers/video/fbdev/pvr2fb.c:800:9: sparse: sparse: incorrect type in argument 1 (different address spaces)
+drivers/video/fbdev/pvr2fb.c:800:9: sparse:     expected void const *
+drivers/video/fbdev/pvr2fb.c:800:9: sparse:     got char [noderef] __iomem *screen_base
 
-There are somewhat odd size mismatches here.
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/lkml/202210100209.tR2Iqbqk-lkp@intel.com/
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ include/linux/fb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I had to think a tiny bit if random() returned a value from 0 to 7
-and was promoted to a 64 bit value then truncated to 32 bit.
-
-Perhaps these would be clearer as ~7U and not ~7UL
-
->  	struct net_device *netdev;
->  	u64 params;
-> =20
-> @@ -2469,7 +2469,7 @@ static int accept_cr(struct c4iw_ep *ep, struct sk_=
-buff *skb,
->  	}
-> =20
->  	if (!is_t4(adapter_type)) {
-> -		u32 isn =3D (prandom_u32() & ~7UL) - 1;
-> +		u32 isn =3D (get_random_u32() & ~7UL) - 1;
-
-etc...
-
-drivers/infiniband/hw/cxgb4/cm.c:	u32 isn =3D (prandom_u32() & ~7UL) - 1;
-drivers/infiniband/hw/cxgb4/cm.c:		u32 isn =3D (prandom_u32() & ~7UL) - 1;
-drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c:	rpl5->iss =3D =
-cpu_to_be32((prandom_u32() & ~7UL) - 1);
-drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:		u32 isn =3D (prandom_u32() & ~7UL) - 1=
-;
-drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:		u32 isn =3D (prandom_u32() & ~7UL) - 1=
-;
-drivers/target/iscsi/cxgbit/cxgbit_cm.c:	rpl5->iss =3D cpu_to_be32((prandom=
-_u32() & ~7UL) - 1);
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 07fcd0e56682..3822734a38c7 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -555,7 +555,7 @@ static inline struct apertures_struct *alloc_apertures(unsigned int max_num) {
+ 
+ #elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) ||	\
+ 	defined(__hppa__) || defined(__sh__) || defined(__powerpc__) ||	\
+-	defined(__arm__) || defined(__aarch64__)
++	defined(__arm__) || defined(__aarch64__) || defined(__mips__)
+ 
+ #define fb_readb __raw_readb
+ #define fb_readw __raw_readw
+-- 
+2.34.1
 
