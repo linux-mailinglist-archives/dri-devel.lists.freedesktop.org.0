@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D44D5FC70F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 16:13:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5EE5FC757
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 16:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4B3E10E0B4;
-	Wed, 12 Oct 2022 14:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701E210E2D0;
+	Wed, 12 Oct 2022 14:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
- [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADB410E0B4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 14:12:57 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-35711e5a5ceso156360387b3.13
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 07:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TH/xJqHWFubxL/8O0+lYkHTensbsYI3zkNHhjgr66zA=;
- b=I9E/1WI4ktnBT8m0fMHpkqXGKZyazdnmx3YKFZRx2/W71/GOJmkt7fHT69WddzunTd
- Gk0DK4sM3lKbtFlbxkMYempB7jEgf/0XvyJT9VorRBukgDObzcOf6i08pbtt8uRBrBvb
- rsAv+xAoEKlP+rrpAUUjA2//DnkdvHHQLr3Es=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TH/xJqHWFubxL/8O0+lYkHTensbsYI3zkNHhjgr66zA=;
- b=P2mLYQ/UhLchPReoU4JkeYPbraWH6Jv7ogkhOntVvb4YeL7coREWwwIz6Bb+c+s2FP
- 4FikpBcncpUFU6YEp02P3SPHMtOFhYhwkEhPME0muLuB51Ib1iaiWWfkSHJhOZUuseVg
- oQ49UDbptNcpB1UNNs4QP4z8EaMq8bouqjLpJUZ+fHChIGIvG77+pm+Q8JcmgNJldA3B
- W5WS3f6X0hDghM7O6Tp0SxkqbZdPbviJ0o6yl1mrNdXesNcCj7RXDLNoOjfyTXtgvb5L
- gzDpcJytf8YbqaevBlF90FBx3MoIkKuRrE2rD+VzI4lhmQ6BHUp9DUijmdpyCN9xeUQc
- +nSQ==
-X-Gm-Message-State: ACrzQf1jSdD6ELSLqr2JMH+Gggf5rP/HFpkRoVVOhH4Rz6WyLEt7FqIU
- //K2SVomAoKgrBQn48NXyH93woYWSjKPocQ3KKPRdw==
-X-Google-Smtp-Source: AMsMyM7o1EvuERAWJAX9bodKYFU+0g3Q/158qBJWsuPNWlTTlrmvprjLKov6d3ED6ta+1nCXkDJK1XAbyyr2KLMU8Og=
-X-Received: by 2002:a81:1497:0:b0:360:1793:52be with SMTP id
- 145-20020a811497000000b00360179352bemr25006135ywu.447.1665583976380; Wed, 12
- Oct 2022 07:12:56 -0700 (PDT)
+X-Greylist: delayed 60506 seconds by postgrey-1.36 at gabe;
+ Wed, 12 Oct 2022 14:27:11 UTC
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E84A010E280
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 14:27:11 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 936DF1F45F;
+ Wed, 12 Oct 2022 14:27:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1665584830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bUIoEZRTB9r1lwBbrkvBK28f0PkDXtp6GQxBtOrWsPI=;
+ b=HyPb1yFQquCok37hotWVp1+Zij1t1706TKbh4gACWlWrc5llFVQAubq5qlfdM1tGfbLTgi
+ ezhLbkMtSQWqUd9V6dSfc+LEIHIjxy69utiEs0a4E4IcG2c0XP3HSe0u88uFDnXHm0FlVq
+ eIp4ihby3219zuNZU47kbkC73YglsD8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1665584830;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bUIoEZRTB9r1lwBbrkvBK28f0PkDXtp6GQxBtOrWsPI=;
+ b=pRJzz5ayEEG0IBdG1KJosmLHta58ronj+wi2sA0HDRLfAlEyZonma7ygjpcxKNKwRVx+qE
+ yKf4wDpmaaHxn/BQ==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id 8B2BA2C141;
+ Wed, 12 Oct 2022 14:27:08 +0000 (UTC)
+Date: Wed, 12 Oct 2022 16:27:07 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v4 5/5] drm/ofdrm: Support big-endian scanout buffers
+Message-ID: <20221012142707.GD28810@kitsune.suse.cz>
+References: <83071743-a7f2-f761-baa3-da688f26b5e3@suse.de>
+ <9162f41f-28c3-493c-ab54-b1c4a2fdf494@app.fastmail.com>
+ <fda959d7-1bae-716f-f01b-66d9db9096e0@suse.de>
+ <654e3cfe-80d7-46c9-8e5e-461846e4df35@app.fastmail.com>
+ <866c7033-0d4e-7b5d-008c-8eb16f99498b@suse.de>
+ <f26ca6a1-feb1-4822-ac96-bc484b22f8a0@app.fastmail.com>
+ <c80a6e2d-a3b9-8186-cc95-97c4775171ed@suse.de>
+ <fc33ebf7-ecb7-4686-ac31-0118a40595f6@app.fastmail.com>
+ <0a15ecf5-939d-3b00-bcde-0fc7b449cfda@suse.de>
+ <76d8a408-fc3e-4bd1-91c5-8278f7469979@app.fastmail.com>
 MIME-Version: 1.0
-References: <20221010150157.1864492-1-greenjustin@google.com>
- <664e32dc-3f91-48ae-64a1-6dcecc9dfb5b@collabora.com>
- <CAHC42Rf7o61NF3LNQkm4BFcBHMKEP2np3sZMvM7KYczCsurHKA@mail.gmail.com>
- <6548c0ea-d1c0-2de2-99b6-4cfc27e8b938@collabora.com>
-In-Reply-To: <6548c0ea-d1c0-2de2-99b6-4cfc27e8b938@collabora.com>
-From: Justin Green <greenjustin@chromium.org>
-Date: Wed, 12 Oct 2022 10:12:45 -0400
-Message-ID: <CAHC42RfKROmaPTkf73eCuU7CV3YhhxyCVEp9UA94XNjMfSzLAQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH v2] drm/mediatek: Add AFBC support to Mediatek DRM
- driver
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76d8a408-fc3e-4bd1-91c5-8278f7469979@app.fastmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,33 +70,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
- justin.yeh@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, linuxppc-dev@lists.ozlabs.org,
+ mark.cave-ayland@ilande.co.uk, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
+ Maxime Ripard <maxime@cerno.tech>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> These would be different from the macros that are available in bitfield.h, but
-> not *fundamentally* different, so these would look a little redundant...
->
-> I think that you refer to that `pitch` variable that's coming from the DRM(/fb)
-> API... and bitfield macros are for register access... so I guess that one clean
-> way of avoiding the magic shifting (that is purely used to split the 32-bits
-> number in two 16-bits 'chunks') would be to perhaps use a union, so that you
-> will have something like u.pitch_lsb, u.pitch_msb (with lsb/msb being two u16).
+Hello,
 
-Do you mean something like this?
+On Wed, Oct 12, 2022 at 03:12:35PM +0200, Arnd Bergmann wrote:
+> On Wed, Oct 12, 2022, at 2:00 PM, Thomas Zimmermann wrote:
+> >
+> > Could well be. But ofdrm intents to replace offb and this test has 
+> > worked well in offb for almost 15 yrs. If there are bug reports, I'm 
+> > happy to take patches, but until then I see no reason to change it.
+> 
+> I wouldn't change the code in offb unless a user reports a bug,
+> but I don't see a point in adding the same mistake to ofdrm if we
+> know it can't work on real hardware.
+> 
+> I tried to find out where this is configured in qemu, but it seems
+> to depend on the framebuffer backend there: most are always little-endian,
+> ati/bochs/vga-pci/virtio-vga are configurable from the guest through
+> some register setting, but vga.c picks a default from the
+> 'TARGET_WORDS_BIGENDIAN' macro, which I think is set differently
+> between qemu-system-ppc64le and qemu-system-ppc64.
+> 
+> If you are using the framebuffer code from vga.c, I would guess that
+> that you can run a big-endian kernel with qemu-system-ppc64,
+> or a little-endian kernel with qemu-system-ppc64le and get the
+> correct colors, while running a little-endian kernel with
+> qemu-system-ppc64 and vga.c, or using a different framebuffer
+> emulation on a big-endian kernel would give you the wrong colors.
 
-union pitch_val {
-     struct split_pitch_val {
-          uint16_t lsb;
-          uint16_t msb;
-     } split;
-     uint32_t val;
-};
+Thanks for digging this up.
 
-I think my concern with that approach would be it assumes the compiler
-packs structs tightly and it also assumes the endianness of the
-machine, whereas a bitshift is maybe more portable. Is this an issue
-worth considering since we know this driver will only run on specific
-MTK SoCs?
+That makes one thing clear: qemu does not emulate this framebuffer
+property correctly, and cannot be relied on for verification.
+
+If you can provide test results from real hardware that show the current
+logic as flawed it should be changed.
+
+In absence of such test results I think the most reasonable thing is to
+keep the logic that nobody complained about for 10+ years.
+
+Thanks
+
+Michal
