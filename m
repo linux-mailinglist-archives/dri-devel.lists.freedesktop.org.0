@@ -1,44 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9EE5FC13F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 09:25:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC7B5FC144
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 09:28:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D883010E12B;
-	Wed, 12 Oct 2022 07:25:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A27710E1F7;
+	Wed, 12 Oct 2022 07:28:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 198E510E12B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 07:25:42 +0000 (UTC)
-Date: Wed, 12 Oct 2022 07:25:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1665559539; x=1665818739;
- bh=YNnKBWMkizF9hzbILurW+IMdB42uOKnGrIWtsJAZ3oY=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID;
- b=buYU9vgAVtCJRKu+mgYz+bRChI8mVTHpMBtTYzoRFpPRjNf8xpOifJk+0inuRUiy4
- GjjamtMCsXeOmgKxcRqliXc3mB+OzuM77I2muMf5K7oH1xr8/PkEATeFbm2u0YAly/
- 4jwLYAGiukI8mVBn+QjvxwIcYXpKtFErwUEM5abCbTEQedDXydFxwCf2OHvfAVosKT
- kU2UXnLYRbCGYjgl6zcR3mYUgYSR9c3uN/4I9ar2bkMf6DZ9Rrm1Aew0SENedbE+M8
- IhYoFzoToQIbgkW0BPDJthsjMQHtXFCuj5OZYbfHiRIXvWFCuyc+ziJ8eVBu5awcRM
- dY4LIviP6o2yA==
-To: =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: Render only DRM devices
-Message-ID: <1_6_W-ecBTg81SqYCtJ0j7h1t09AqaxnoP2uufly-AtK9fkwiQ0oQQk05IxERgFKgsEAtooSOEoCkjJ1WctKz6z1574qKYgIuZZj_8SqH9k=@emersion.fr>
-In-Reply-To: <c99acf27-aa07-f365-2d1b-74cf160badd8@gmail.com>
-References: <20221011110437.15258-1-christian.koenig@amd.com>
- <LDyPQX1u8PCwIfQuy1sQStoURXxBW-sM2cRZGiIJdf50YWWpG5HnlgD04FEfx88xnGtm0ZrvjF0XX4PF2qsXNYpdsUdmCswiuCO23-K2vaI=@emersion.fr>
- <7f14fd6b-475c-0b75-4faf-b777ebc42b02@gmail.com>
- <7IxXaAojWv9lUvhfsVunLet4nXmj7JUmYWlg5w6FMjaIpwD3q4TTLa35cCXozQAkGTXw3SaNKn5h-kwS1zOYV7fR8SqOfaX36mylqAihZfE=@emersion.fr>
- <c99acf27-aa07-f365-2d1b-74cf160badd8@gmail.com>
-Feedback-ID: 1358184:user:proton
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB30F10E1F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 07:28:33 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3A1B81F8AC;
+ Wed, 12 Oct 2022 07:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1665559712; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yhkz+vC1osE7CDWPxUtmihbluXSrxTfokq3FTnRU+GE=;
+ b=FBSy/1736auVkQUhMnA5sPjg43U7GF9Blxdjlz3jdOt7axvl/uADJMKe8WJHjii3h0BIkQ
+ PkRfCpFavCDhgI17tdQL7Wr5cRW2jEa2Rz8imnjQUQkpXlM6EniI1n0Zn+mIQ7XUCHBith
+ VDzWj2wyrnl22F5eGh5OD3ptYL20Wwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1665559712;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yhkz+vC1osE7CDWPxUtmihbluXSrxTfokq3FTnRU+GE=;
+ b=XnXWIqjtLtccZ48zAF7WRfwNKShLtFJXLtkB+rzFMgG2EsQ4cesh9eUVP1fH1ZfGO8li7K
+ cI5fFImRPDLOkdDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 04BC613A5C;
+ Wed, 12 Oct 2022 07:28:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id omEgAKBsRmNkPgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Oct 2022 07:28:32 +0000
+Message-ID: <ef380e11-981a-9bdc-b6f0-4c392cb6acb1@suse.de>
+Date: Wed, 12 Oct 2022 09:28:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 1/4] drm/mgag200: Do not call
+ drm_atomic_add_affected_planes()
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20221011165136.469750-1-javierm@redhat.com>
+ <20221011165136.469750-2-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221011165136.469750-2-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------6ICbkyX0ltADwlsuXipA07sa"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,20 +71,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Dave Airlie <airlied@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, October 12th, 2022 at 08:18, Christian K=C3=B6nig <ckoenig.le=
-ichtzumerken@gmail.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------6ICbkyX0ltADwlsuXipA07sa
+Content-Type: multipart/mixed; boundary="------------l4ubzyQn3del5xhBJ6Ag0kl0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Message-ID: <ef380e11-981a-9bdc-b6f0-4c392cb6acb1@suse.de>
+Subject: Re: [PATCH v2 1/4] drm/mgag200: Do not call
+ drm_atomic_add_affected_planes()
+References: <20221011165136.469750-1-javierm@redhat.com>
+ <20221011165136.469750-2-javierm@redhat.com>
+In-Reply-To: <20221011165136.469750-2-javierm@redhat.com>
 
-> DRM auth based authentication is seen as a security risk and we want to
-> get rid of that for render only devices (at least for the new ones).
+--------------l4ubzyQn3del5xhBJ6Ag0kl0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Right, that makes sense for new hw/drivers. So we really need this to
-be opt-in, we can't just do it for all existing render-only drivers
-without breaking the kernel no-regression rule.
+DQoNCkFtIDExLjEwLjIyIHVtIDE4OjUxIHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
+bGFzOg0KPiBUaGVyZSdzIG5vIG5lZWQgdG8gYWRkIHBsYW5lcyB0byB0aGUgYXRvbWljIHN0
+YXRlLiBSZW1vdmUgdGhlIGNhbGwNCj4gdG8gZHJtX2F0b21pY19hZGRfYWZmZWN0ZWRfcGxh
+bmVzKCkgZnJvbSBtZ2FnMjAwLg0KPiANCj4gT24gZnVsbCBtb2Rlc2V0cywgdGhlIERSTSBo
+ZWxwZXJzIGFscmVhZHkgYWRkIGEgQ1JUQydzIHBsYW5lcyB0byB0aGUNCj4gYXRvbWljIHN0
+YXRlOyBzZWUgZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfbW9kZXNldCgpLiBUaGVyZSdzIG5v
+IHJlYXNvbg0KPiB0byBjYWxsIGRybV9hdG9taWNfYWRkX2FmZmVjdGVkX3BsYW5lcygpIHVu
+Y29uZGl0aW9uYWxseSBpbiB0aGUgQ1JUQydzDQo+IGF0b21pY19jaGVjaygpIGluIG1nYWcy
+MDAuIEl0J3MgYWxzbyB0b28gbGF0ZSwgYXMgdGhlIGF0b21pY19jaGVjaygpDQo+IG9mIHRo
+ZSBhZGRlZCBwbGFuZXMgd2lsbCBub3QgYmUgY2FsbGVkIGJlZm9yZSB0aGUgY29tbWl0Lg0K
+PiANCj4gU3VnZ2VzdGVkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
+ZS5kZT4NCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZp
+ZXJtQHJlZGhhdC5jb20+DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiAtLS0NCj4gDQo+IChubyBjaGFuZ2VzIHNpbmNlIHYx
+KQ0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYyB8IDIg
+Ky0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkN
+Cj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21v
+ZGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jDQo+IGluZGV4
+IDVmN2ViNjQyZjBjNi4uNzU4NjI5ZGE5NWQ5IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+bWdhZzIwMC9tZ2FnMjAwX21vZGUuYw0KPiBAQCAtNjAxLDcgKzYwMSw3IEBAIGludCBtZ2Fn
+MjAwX2NydGNfaGVscGVyX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIHN0
+cnVjdCBkcm1fYXRvbWljX3N0DQo+ICAgCQl9DQo+ICAgCX0NCj4gICANCj4gLQlyZXR1cm4g
+ZHJtX2F0b21pY19hZGRfYWZmZWN0ZWRfcGxhbmVzKG5ld19zdGF0ZSwgY3J0Yyk7DQo+ICsJ
+cmV0dXJuIDA7DQo+ICAgfQ0KPiAgIA0KPiAgIHZvaWQgbWdhZzIwMF9jcnRjX2hlbHBlcl9h
+dG9taWNfZmx1c2goc3RydWN0IGRybV9jcnRjICpjcnRjLCBzdHJ1Y3QgZHJtX2F0b21pY19z
+dGF0ZSAqb2xkX3N0YXRlKQ0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
+cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
+Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
+QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-> I should probably add a wider explanation to the commit message.
+--------------l4ubzyQn3del5xhBJ6Ag0kl0--
 
-Good idea!
+--------------6ICbkyX0ltADwlsuXipA07sa
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNGbJ8FAwAAAAAACgkQlh/E3EQov+D3
+WRAAo0PE1gwXEuGb7Zrs1qX/JjDqll0fLBaxphAdNfTsF5RVqLkWgDxNRN+d/MgU163JVTBbmcnh
+NisKZ6shG4Lx8o+ZofA0noghWu330l4Obt4IHKCouegR/M2Vv4AWYH9YN9q2MT2RIObdzYc5YM/7
+WwpIVKbvarOuwoOPCmP4GPo8pOjDaFwh3cbXG1KQ7e64nYkw8tC3jh0bnCRxCQ9aaBckJ1FYmNFC
+dRBHVqSXDrDZ6W+FI3EY1sbvGblaLCC2kFIgzVxSjK7DedQBxoO5eGnFVI0QWtnigmyRdXQZmSp0
+ar8zRdifo/u1Id+3fBIHxaXDdr0dkwYhJOsVX+Ep5EtnORxolIYTe+y8nJ2LBLsttFGqkMVBoMSE
+gtTC9OvekDopo8C4dArMlexUX6Uf4Ri2tW3RTKccAqhnUFE3CCHJDh75M8MgIhxvoUQuKsnGzhRg
+AXIikSVAhSAY/oD35ufBdclPsf6spzlmJ/RV9hF9eMmL4C9OCdLD/15s9K43/41OV6uy2bzXfsER
+cHl7mdHJFNSsNQTw6XxN8nHSYBIOkbc0n9GahQw8t+5bluNagJiszjxRs+F/abmlNkcFOliBA/6F
+/rUJvMZuWN6+Aja1QM9CKVpKmjN4CC4mc0/cXx8+cM2rpArsuG5R1JrN2sqicCZCZ32vveMwCxcp
+9D8=
+=oEOw
+-----END PGP SIGNATURE-----
+
+--------------6ICbkyX0ltADwlsuXipA07sa--
