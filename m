@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB695FC4D6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 14:03:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B92895FC4EE
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 14:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6265D10E43A;
-	Wed, 12 Oct 2022 12:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF0E10E44D;
+	Wed, 12 Oct 2022 12:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7598E10E43A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC63610E43D;
  Wed, 12 Oct 2022 12:02:55 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29C7xRTO022518;
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29CAofXC019416;
  Wed, 12 Oct 2022 12:02:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=trUU7Dutoa8QiSLvUV0dWrSkIo/oWClKBSIX2JC9GO8=;
- b=GN6o6Vk7T/Sx3MELdpEJly7rhdyyTNY9Tq13jrvUIqBsC8AO1Qz4u7K8z1+WLThHxJcA
- iIAcdzirPHAUBPfVRdUk4Ub2/iyEllw8CuWd6yiXkR5aZ9ZilaG2G9TIuVVht8QckXY+
- nmzbCt+9W3VyGuUznjLGI5JymqvL79vLvowQ7rqJCHLEBwoVUKcTbWRTEg9cqMtpRBKY
- 3ICPkjVpy0rSUeCn2YdBwL13PJ3WCswAwRVw9YtADrDOVtYzSe2GMAUZ3rHBDtj8WirP
- 7G/wGMykco1HjdDqH3m6RyWYuBHHsT0UlbFRrGY2tdlgndNz6oWgbeJ06ydC/l3HgrOR AQ== 
+ bh=5jYkfw8uF0wZhEX4SYCnpSA6qaL02kJLYhcKVZvnBOU=;
+ b=DB1GyY78fXqDyzVcywz6lTBKXPIPfl278Lv/f6F4rnvIqYwLv2GgHky++fET0zhLw9f4
+ NisoCCf2pri0inddVxdftHSfIqjmlc9ZhZeq7sq4jv2I8SsPHLpOOzhBky87pzazV4ru
+ X1EdN3JreT8dSBOxEz2iyQAo6n0fDTVx+qc7Z8OOkgM5oVuUnIYmktPqKEbv4AA4lRP6
+ mYrAoahweGD/rPmVLbHZQWNdve4/p26Htre2HtfowkIlnwYWt/fPe+MOClCZV+0IF6cc
+ 4p4GgXZ6xIdVgVrtJBXL+qn6lrldefxcvM0fHNZ5jrhYrJaVnQvAiqd3RfbJ9LwwntcN Eg== 
 Received: from apblrppmta02.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k5j7b1tdb-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k5e7fjbsk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 12 Oct 2022 12:02:53 +0000
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29CC2lOb026862; 
+ by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29CC2mtT026937; 
  Wed, 12 Oct 2022 12:02:50 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3k3jpu0t31-1
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3k3jpu0t2p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 12 Oct 2022 12:02:50 +0000
+ Wed, 12 Oct 2022 12:02:49 +0000
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29CC2l8I026838;
- Wed, 12 Oct 2022 12:02:49 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29CC2mwd026911;
+ Wed, 12 Oct 2022 12:02:48 GMT
 Received: from vpolimer-linux.qualcomm.com (vpolimer-linux.qualcomm.com
  [10.204.67.235])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 29CC2mMQ026874;
- Wed, 12 Oct 2022 12:02:49 +0000
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 29CC2mNp026872;
+ Wed, 12 Oct 2022 12:02:48 +0000
 Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 88366394C; Wed, 12 Oct 2022 17:32:47 +0530 (IST)
+ id 700113F05; Wed, 12 Oct 2022 17:32:47 +0530 (IST)
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v8 14/15] drm/msm/disp/dpu: reset the datapath after timing
- engine disable
-Date: Wed, 12 Oct 2022 17:32:38 +0530
-Message-Id: <1665576159-3749-15-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v8 15/15] drm/msm/disp/dpu: clear active interface in the
+ datapath cleanup
+Date: Wed, 12 Oct 2022 17:32:39 +0530
+Message-Id: <1665576159-3749-16-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1665576159-3749-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1665576159-3749-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -63,16 +63,16 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: A29oIhdsKouZh4nPRWRq7_Iql3FLcRX1
-X-Proofpoint-ORIG-GUID: A29oIhdsKouZh4nPRWRq7_Iql3FLcRX1
+X-Proofpoint-ORIG-GUID: G9BcDfnJhs3mfkKTF0IyF7VKrcaqlS4G
+X-Proofpoint-GUID: G9BcDfnJhs3mfkKTF0IyF7VKrcaqlS4G
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-12_06,2022-10-12_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- spamscore=0 suspectscore=0 clxscore=1015 impostorscore=0 adultscore=0
- mlxlogscore=950 malwarescore=0 priorityscore=1501 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=999 spamscore=0
+ impostorscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
+ malwarescore=0 adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2210120079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,26 +95,27 @@ Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reset the datapath after disabling the timing gen, such that
-it can start on a clean slate when the intf is enabled back.
-This was a recommended sequence from the DPU HW programming guide.
+Clear interface active register from the datapath for a clean shutdown of
+the datapath.
 
 Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 5a0dc54..aeeb759 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -590,6 +590,7 @@ static void dpu_encoder_phys_vid_disable(struct dpu_encoder_phys *phys_enc)
- 		}
- 	}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 9f4f4e5..ab44016 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2069,6 +2069,9 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+ 	if (phys_enc->hw_pp->merge_3d)
+ 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
  
-+	dpu_encoder_helper_phys_cleanup(phys_enc);
- 	phys_enc->enable_state = DPU_ENC_DISABLED;
- }
++	if (phys_enc->hw_intf)
++		intf_cfg.intf = phys_enc->hw_intf->idx;
++
+ 	if (ctl->ops.reset_intf_cfg)
+ 		ctl->ops.reset_intf_cfg(ctl, &intf_cfg);
  
 -- 
 2.7.4
