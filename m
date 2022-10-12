@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF98B5FBFFA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 06:52:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C545FBFFD
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 06:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD74C10E32A;
-	Wed, 12 Oct 2022 04:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9AB310E326;
+	Wed, 12 Oct 2022 04:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F32D10E31C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACF4010E320;
  Wed, 12 Oct 2022 04:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1665550303; x=1697086303;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=H4v1M05nUOxjGbYQ6sC47/OrUzmGPqCBlVIqhM2NPZU=;
- b=GRL7NQAAmUa1WSYNnC+SpRwdPlM105GU+F1tuH2NXvW60whn7Ss/4K45
- xohmUe/tF5hvYt//zbSyeu1awMy6VZrOQ/JMlFdxpe0ejmRjqQ3S5s5GJ
- nlFDrkS0eDDvfzuohH1+5fgBaD942+4M0P3vF2aqx5XYtpoTTzySfenpk
- zU/CUvUzVdSgF75Jppvl4UAtQtiuXleDYTg2O6fl6Vd8JhRyKvUxVksls
- PNxBBwZOBHsnLy4t4KOnU2quXMIdga1Xs/Kgirw9XvuMDKaQi49/OyzZz
- pngpzUBV0v82igHk10BdnObA5MBiPAOPYYvZcEAJxWodImv9NPK0iUHDD Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="284423458"
-X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="284423458"
+ bh=trOZeSN/sAQ6QPyIH22yKHJNbvNXL/LVcvSAB4nj+zU=;
+ b=JCqBySz5PYcWSK85MUojjOCGp2vFLWaMiIwKNObRzAipBJKGzC+NaiBZ
+ NW7VowRT22onuRjq1RM+wZa7meaPKr+X/7Ia3IazCmjQxqFwsaCK7SwDM
+ vGAfaV6KRy/H8Z5kCIRThupU8TTbUiw3kOuWfrTX2B+s4798CS6ENBxOB
+ muJyaxJbrDFwc/9b+FC5j8ALOtdBvI31aVUTl0B8mj6zdjBxYiBQ35wkt
+ XSxkmmeiQvZFppE1cOMO+l/sQxpaIxu5l8Smz4JGHcUunlKJIAojuobLb
+ 7wIc00IXLGYNXL2Mcp2j3qbPZhgxCCL5RiuMmCfijSKbv59pxo9Ff43eY w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="284423460"
+X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="284423460"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Oct 2022 21:51:42 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="577698655"
-X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="577698655"
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="577698658"
+X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="577698658"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.143])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Oct 2022 21:51:41 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH 1/3] drm/i915: Add _PICK_EVEN_RANGES()
-Date: Tue, 11 Oct 2022 21:51:08 -0700
-Message-Id: <20221011-pick-even-ranges-v1-1-1aaea52752ed@intel.com>
+Subject: [PATCH 2/3] drm/i915: Fix coding style on DPLL*_ENABLE defines
+Date: Tue, 11 Oct 2022 21:51:09 -0700
+Message-Id: <20221011-pick-even-ranges-v1-2-1aaea52752ed@intel.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221011-pick-even-ranges-v1-0-1aaea52752ed@intel.com>
 References: <20221011-pick-even-ranges-v1-0-1aaea52752ed@intel.com>
@@ -63,56 +63,63 @@ Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's a constant pattern in the driver to need to use 2 ranges of MMIOs
-based on port, phy, pll, etc. When that happens, instead of using
-_PICK_EVEN(), _PICK() needs to be used.  Using _PICK() is discouraged
-due to some reasons like:
-
-	1) It increases the code size since the array is declared in each
-	   call site
-	2) Developers need to be careful not to incur an out-of-bounds array
-	   access
-	3) Developers need to be careful that the indexes match the
-	   table. For that it may be that the table needs to contain
-	   holes, making (1) even worse.
+Abide by the rules in the top of the header: 2 spaces for bitfield,
+prefix offsets with underscore and prefer the use of REG_BIT().
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-(cherry picked from commit 55a65ca6e5d8f7f46fe4cf29c76a9f1b4ddef5ce)
+(cherry picked from commit c5545ec37a7f5b928f3f6e3993f1f24b9e70ba32)
 ---
- drivers/gpu/drm/i915/i915_reg.h | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/i915_reg.h | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 3edfbe92c6dd..d157dd693e41 100644
+index d157dd693e41..ad8f839046f5 100644
 --- a/drivers/gpu/drm/i915/i915_reg.h
 +++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -126,10 +126,24 @@
- #define _PICK_EVEN(__index, __a, __b) ((__a) + (__index) * ((__b) - (__a)))
+@@ -7305,20 +7305,20 @@ enum skl_power_gate {
+ 							ADLS_DPCLKA_DDIK_SEL_MASK)
  
- /*
-- * Given the arbitrary numbers in varargs, pick the 0-based __index'th number.
-+ * Like _PICK_EVEN(), but supports 2 ranges of evenly spaced addres offsets. The
-+ * @__use_first_range argument selects if the first or second range should be
-+ * used. It's usually in the form like ``(pll) < n``, in which ``n`` is the
-+ * number of registers in the first range. Example::
-  *
-- * Always prefer _PICK_EVEN() over this if the numbers are evenly spaced.
-+ * #define _FOO_A			0xf000
-+ * #define _FOO_B			0xf004
-+ * #define _FOO_C			0xf008
-+ * #define _SUPER_FOO_A			0xa000
-+ * #define _SUPER_FOO_B			0xaf00
-+ * #define FOO(x)			_MMIO(_PICK_EVEN_RANGES(x, (x) < 3,	\
-+ *					      _FOO_A, _FOO_B,			\
-+ *					      _SUPER_FOO_A, _SUPER_FOO_B))
-  */
-+#define _PICK_EVEN_RANGES(__index, __use_first_range, __a, __b, __c, __d)	\
-+	 ((__use_first_range) ? _PICK_EVEN(__index, __a, __b) :			\
-+	  _PICK_EVEN(__index, __c, __d))
-+
- #define _PICK(__index, ...) (((const u32 []){ __VA_ARGS__ })[__index])
+ /* ICL PLL */
+-#define DPLL0_ENABLE		0x46010
+-#define DPLL1_ENABLE		0x46014
++#define _DPLL0_ENABLE		0x46010
++#define _DPLL1_ENABLE		0x46014
+ #define _ADLS_DPLL2_ENABLE	0x46018
+ #define _ADLS_DPLL3_ENABLE	0x46030
+-#define  PLL_ENABLE		(1 << 31)
+-#define  PLL_LOCK		(1 << 30)
+-#define  PLL_POWER_ENABLE	(1 << 27)
+-#define  PLL_POWER_STATE	(1 << 26)
+-#define ICL_DPLL_ENABLE(pll)	_MMIO_PLL3(pll, DPLL0_ENABLE, DPLL1_ENABLE, \
++#define   PLL_ENABLE		REG_BIT(31)
++#define   PLL_LOCK		REG_BIT(30)
++#define   PLL_POWER_ENABLE	REG_BIT(27)
++#define   PLL_POWER_STATE	REG_BIT(26)
++#define ICL_DPLL_ENABLE(pll)	_MMIO_PLL3(pll, _DPLL0_ENABLE, _DPLL1_ENABLE, \
+ 					   _ADLS_DPLL2_ENABLE, _ADLS_DPLL3_ENABLE)
  
- /*
+ #define _DG2_PLL3_ENABLE	0x4601C
+ 
+-#define DG2_PLL_ENABLE(pll) _MMIO_PLL3(pll, DPLL0_ENABLE, DPLL1_ENABLE, \
++#define DG2_PLL_ENABLE(pll) _MMIO_PLL3(pll, _DPLL0_ENABLE, _DPLL1_ENABLE, \
+ 				       _ADLS_DPLL2_ENABLE, _DG2_PLL3_ENABLE)
+ 
+ #define TBT_PLL_ENABLE		_MMIO(0x46020)
+@@ -7327,12 +7327,12 @@ enum skl_power_gate {
+ #define _MG_PLL2_ENABLE		0x46034
+ #define _MG_PLL3_ENABLE		0x46038
+ #define _MG_PLL4_ENABLE		0x4603C
+-/* Bits are the same as DPLL0_ENABLE */
++/* Bits are the same as _DPLL0_ENABLE */
+ #define MG_PLL_ENABLE(tc_port)	_MMIO_PORT((tc_port), _MG_PLL1_ENABLE, \
+ 					   _MG_PLL2_ENABLE)
+ 
+ /* DG1 PLL */
+-#define DG1_DPLL_ENABLE(pll)    _MMIO_PLL3(pll, DPLL0_ENABLE, DPLL1_ENABLE, \
++#define DG1_DPLL_ENABLE(pll)    _MMIO_PLL3(pll, _DPLL0_ENABLE, _DPLL1_ENABLE, \
+ 					   _MG_PLL1_ENABLE, _MG_PLL2_ENABLE)
+ 
+ /* ADL-P Type C PLL */
 
 -- 
 b4 0.10.1
