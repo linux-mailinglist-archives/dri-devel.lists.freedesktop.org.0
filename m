@@ -1,150 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE305FC902
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 18:19:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3BF5FC941
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 18:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B16610E3AE;
-	Wed, 12 Oct 2022 16:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8FD10E34D;
+	Wed, 12 Oct 2022 16:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2AB10E3AE;
- Wed, 12 Oct 2022 16:19:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665591547; x=1697127547;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=dCAOIC566VZ6bZoUAplprOxYCvD1diVCQrE0mNH3KIs=;
- b=SLc9AvOUqNtmwEMTFjLE9hhpY5z2LPqeOF5Yw/7aINOZ1eS+gABdkChM
- uOkTb7BI8SIcHMJXOMflJLcaO9088fOOWSF9BRpdf9wfwML9/7/Bog0vL
- QK/j6/r6lsufNFcvJnVugjdQxDa7lW6uN+OVlgVMozGx1rPBMtPozCxIj
- eJrfIhxKa5m19HTkjptIEkLZlKvTwdaOs/ep2F+r42loTcGd+FURgnmjn
- eDJbqotghHnAlTWSMTBnv7hkivq1iRhrWQHX0mJBlEmWKrzAwknfAPz3p
- KrLZRlwNI1w0MNv2GD4iNjAEuZksdTDJ2fmo3RaSQ3xqA8K1vkwwekZuS g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="391142180"
-X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; d="scan'208";a="391142180"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2022 09:19:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="577883017"
-X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; d="scan'208";a="577883017"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga003.jf.intel.com with ESMTP; 12 Oct 2022 09:19:06 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 12 Oct 2022 09:19:06 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 12 Oct 2022 09:19:05 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 12 Oct 2022 09:19:05 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 12 Oct 2022 09:19:05 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8771210E343;
+ Wed, 12 Oct 2022 16:27:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mj65UC4PiPHHh2N1AnyWgmG5fkQhbpQsSnn/B9aYlFN6feWb/gz+mIdgFNLayBqg9Q6ypSIJrYMmsxUVoXCQdyYg6p4U6CZgJmhrSzx2EXW5ghRhUTdHBoudnUiD+n/IJfEbvOcpJlXrf2QKhYgl49CGqD+VKb+FER2EtTBLstGZC75LkbctrAHR+vaT/2dwVwoPrf4M2Mzj8QG+cq0sz8hCAy+Wpz7P7s6UuoCpBbNJOL1SEXRxQUfTecQSOEsjVDlNHoNntzFeyk4/6vMP8ElaHLANpSeT1vEOpnA4hzLppZaA/BMMtqh5uHyzn06QRci9z06wy7U7gXqKaCaYQw==
+ b=gvtbrDI8+DP5TrQZTk4refDG9kDZFHe3Uk3oIonkaZfj3eGl8Gp4ylcRP/7eCuBbxKsPs0oj6lt1+SjUDqXP3pusloZgxvsouIsjVAjhP5ahHZNcKuiSxtCXv5kZf/XGrVJmES4bDq4ASUS+TlLtfzwhlho4T+nftWmw5FW6H5/1TWfHkK41yH1I5czKh8Olr+DYKs4COAFDB0bjP5mGJS5DkkpEb8DUth1XRQUtocIchUQhG/83zPBzbPP/JprlFJaxmSW9+WUNKXRxypvGMuBl781OFAtbKQF1Er6hWEt62CpahcU9T1GPA2Gaf0U/z10BG1XqeGzmVHLsdl6K2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y4GGXgqICN72OxAMdSGfoNRQq2WFTWduhsPC3N5jNiI=;
- b=OH4tNP+R+HaT97gnworkuECOJlDIq95+dRlcMI9tZxmQ1qEJgecbTi8Wm9yIpmDgeo+3jxLJuEcf5M+CIRJPTsF79Q6WmZT22/9lacqSt3MVng1zRjjbTWwfMz7WyDtESqI7IMK3ZK9DzaexLdalxEWu+letz2l1u5Ubm/66VJlq+4Mab2w0igfyamAJitAYYCjT+2w4A9UhU2CYhZKZFT0XaXMsW0Xe2oFmAsz4MIRaSUSpHoavBwS8edBlBWCWnOJB4T6InsWqXrfl21oUBjA9zCSUL1E9RHKNvCweMLMwDqs+1diSmmocvgiHwA2JpLN5jud6g0ih91ikwIEsbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM5PR11MB1897.namprd11.prod.outlook.com (2603:10b6:3:112::9) by
- CH3PR11MB7348.namprd11.prod.outlook.com (2603:10b6:610:14d::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5676.17; Wed, 12 Oct 2022 16:19:03 +0000
-Received: from DM5PR11MB1897.namprd11.prod.outlook.com
- ([fe80::c0e8:f5ad:37d:ee67]) by DM5PR11MB1897.namprd11.prod.outlook.com
- ([fe80::c0e8:f5ad:37d:ee67%3]) with mapi id 15.20.5709.021; Wed, 12 Oct 2022
- 16:19:03 +0000
-Date: Wed, 12 Oct 2022 21:48:53 +0530
-From: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>, <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v2 09/14] drm/i915/gt: Always use MCR functions on
- multicast registers
-Message-ID: <Y0bo7eV74rhul+sU@bala-ubuntu>
-References: <20221001004550.3031431-1-matthew.d.roper@intel.com>
- <20221001004550.3031431-10-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20221001004550.3031431-10-matthew.d.roper@intel.com>
-X-ClientProxiedBy: PN3PR01CA0131.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:bf::18) To DM5PR11MB1897.namprd11.prod.outlook.com
- (2603:10b6:3:112::9)
+ bh=aAzaZfU2diPAdTK1NMinDGcZkXRS9sB6S5iwPobvHYw=;
+ b=Hw/2gU1xhKhKttzGcOp+AHsSb7dmbxciS/x96wM8Zq3JNn3HZivogxNHYEQh3Y5tV8t9D5lCHTLU0tp8LlLtW1gnP8kT47kPod93cvGf5vLPHiSUof6eHLuzITuQ88djpZjuG3cEbXCR8Mqt83I4GZLuP8jB8xXvcofWSoRkZUXtUhWXmv9+fmFrLiYp5QQ68Urwj4Ge8wYyBVwAOWCx5TaaYwLi4kfSTSftsRp+YGtsL8pneTFYGwJxdn7Sp0Je0ez2PJP/xuuruqvIlyhCLrO/hrrvOYy7Oqz8rprb1zA41KwRykx4PYwCxPwuQBfjRQMq3en83l75Qi8eoi36MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aAzaZfU2diPAdTK1NMinDGcZkXRS9sB6S5iwPobvHYw=;
+ b=1m2txMLcfCRAOMBgPYno+oQqfEAi2jLewGyCaVpf9mUzHDWB11x/KI09lLGxGzwgQPYp4862F8JH7Wbek3XqD86imOTCxiSnVnEI/HT/f/HKKcCZmkOAjp0zYXruklQLjjkfI4L3YzImMUIPu748KZ/pBDxwdkKEYC/429MPjDU=
+Received: from DS7PR06CA0002.namprd06.prod.outlook.com (2603:10b6:8:2a::16) by
+ MN0PR12MB6295.namprd12.prod.outlook.com (2603:10b6:208:3c0::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.21; Wed, 12 Oct
+ 2022 16:27:29 +0000
+Received: from DM6NAM11FT075.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:2a:cafe::61) by DS7PR06CA0002.outlook.office365.com
+ (2603:10b6:8:2a::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.22 via Frontend
+ Transport; Wed, 12 Oct 2022 16:27:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT075.mail.protection.outlook.com (10.13.173.42) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5723.20 via Frontend Transport; Wed, 12 Oct 2022 16:27:28 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 12 Oct
+ 2022 11:27:27 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.1
+Date: Wed, 12 Oct 2022 12:26:50 -0400
+Message-ID: <20221012162650.8810-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1897:EE_|CH3PR11MB7348:EE_
-X-MS-Office365-Filtering-Correlation-Id: 548df242-012c-4352-d00c-08daac6d7a48
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT075:EE_|MN0PR12MB6295:EE_
+X-MS-Office365-Filtering-Correlation-Id: a14cf341-c968-4687-9c96-08daac6ea7d0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KuRMvRARb6dD1EX5hT0q24TMDIUaPx/Hq2uqwjPhpubwR4rHkGpUVEiFI032ZJLWxfuljJ1iFkflarQLHs7/7ev2c0ruIfb/fBiCgrZoc59jwzfMwaXH3HHeE7PqjthM7HrkLJTTxFyrWq0xG1sF+/+V5yjNhTBQm9s+m0yVZESZolpaSXw790JuAuOQCO19DYxA29NXpOFtoLrLz3tg4x6pUTSaA9TPgb7wRLEPBOkies6dAPy3NH1DurRpNrE5tyChbuUoJgF7Z2Dp/Xxoh5BuvxAU+UNrJXh7WKwvjxcWuUFjLWn1+zQO6t1HzLQglw994zdu31Ipy1vxaDpcUBxJQd659XJ6syhjzzho/1QFhr4fB1pma33uANpoT8pFN+3ZxClfge0iLDXRDDzA4qdb4nycfvzHCx51sLhqYNeMzUY4mJYvPCzQXibJBjDe738+A/iHMWYnOgkitpXHQDC8JTD2Dfr9vc4eDhKrXlOF2HCMz1ABYRgi5bAQkoLycyszLJzJ82wPPuQ4mJiRm77RSZY7YOTvuSXbvYyzP+IAb/b9u4xR41MqlzSCGFsVYySHiW8hpPDsjZ12eSacvjgdW9WluNqtGgDBKPICCd2zuM+WBveHWX+hXuQbrnS3PeJuPXPLUys/TR28aCSwJibEUQEa+0Tia/d0dUCyduZ7/u7mjyOPnyeMR+VLkYCoQokg6+wXyoaag2Lz0+E8nUbOmgsLaDEtChx6AE6ZSp6gmIWJGT+cZ6HEcFgNKG8j
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR11MB1897.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(366004)(376002)(396003)(136003)(346002)(39860400002)(451199015)(26005)(6506007)(82960400001)(6512007)(6666004)(53546011)(5660300002)(44832011)(2906002)(83380400001)(8936002)(186003)(41300700001)(107886003)(38100700002)(9686003)(33716001)(6486002)(86362001)(450100002)(66946007)(66476007)(8676002)(316002)(66556008)(4326008)(478600001)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RGRaaFUwUUVXWVlFU1JTUDhLWkM5QlM4bEFXMXRlQU91ZC80TTlIV3pyN0Vu?=
- =?utf-8?B?R2VYQ3NhSjVHM3dBVFJnckpOUWlQQ3dXa001dFZiQlJSMTZneUVBUUNlM2po?=
- =?utf-8?B?NmpSaVJQalMzRG9MQzFUOHV1ekp5QTBYUTlrU1NNeERGM05leElOMjJyVnhw?=
- =?utf-8?B?eVc3cE5vM3Jua1BFaGN6ek9UUkVBZzJzb21mcUk3Q0JIVEZxZ2VmV1FYTFBL?=
- =?utf-8?B?TnZYSXR1OCtWOGJWV0JlcUVReXBNZEhBVmxDell6TzBLSlRMNFB5bTlSUWVG?=
- =?utf-8?B?QU1tZkQ4Z2xodzhPOU1POHpoNVVsc3ZKYTZyTzRGcStiQ3M5OUlZUzhqZktJ?=
- =?utf-8?B?OG5KQU5Qb0h1M2JmVStvemFVODNCamVsdkE3Y2tpRlBWT0gvMTBEY1pRSHlT?=
- =?utf-8?B?RC9EYWZGVFV0TENFK01XZm9UTmJEM1loN3YrM3V1eklVYWFoZjQxN1lpM0w4?=
- =?utf-8?B?TUJubUZOUkpOS0xRa3FaVHJoODZ6ekJUaDZ2Vm5sejIveDdQdmppZ0Nta2Rh?=
- =?utf-8?B?VXJSZDI3Zk5oU0QzSk84Ykh3VFhSNHBYVVpZNkdqUlpFMStSdFNNb2djeTY5?=
- =?utf-8?B?Mk9laCtvZHFxRlR2bVBOZFFqZFA0bWVKTUtQeXBUdTRxek1EU01wL3J1L3Vh?=
- =?utf-8?B?N0pmSHJqL3FiL3YwTjZRbjMwKy9rR2JEN0l5ak9DV1FnNWJsTWdpZnNnMUtI?=
- =?utf-8?B?ZkhlZFlHMWVxR3d4aTljTHNpQnZPNmM0bzhtek5GSy84K0l1YVpJWjlVV2lJ?=
- =?utf-8?B?a3NjUEt4RzRrcWhFSTdDQXBkUjNjR3lkTGNFeFVOek9VVUhaSFJydnR1bG1o?=
- =?utf-8?B?VkhKR2dYZnhNQ0pVZVd4aWpzQUQ0NFRqZnh4SkM3alBaNXA3cnVyaE5YcStX?=
- =?utf-8?B?elY1enRveTFscERQa0dlTTFnWkxPblJGaXJMK1VFT3FVQVBYaFU0T1ZGV2xD?=
- =?utf-8?B?bCs0MEtCUmY3M0ZDZVJPbHpSTFl5bEl1c3VBcS82Wko2L1FEc1NoeXVyemtu?=
- =?utf-8?B?OERMZXhOb2czajZUY1RsTzF3S2JsdlJ1SWZpQ29IN3ZpRm1HUmgyOFhEZWlP?=
- =?utf-8?B?di9QMyszS3ZXNUNQTEc5Z0poWmlpdXpHSFNlaVFUUGtWbmpWZURJWlNmZm1o?=
- =?utf-8?B?Tk91K1RvZ2NacU9OOUYzZGJiTjIzL3hqSm5OcG1WSTl4VExwbFNFS2NiM1M5?=
- =?utf-8?B?TnpDMndnem5SS0tVTjN1dzFTNlpXNzJGVGRLeTA0eVpVbXJxWW5TdFZVdXlt?=
- =?utf-8?B?RnJnMzdzRzBlTy92c005UGR0NS9HK3JjV1hSbGEwMWNZQ21Ic0VhVWNPUVN4?=
- =?utf-8?B?WkJBUjhaa24zMGlPYUpadUNlRW1paitJY1VaNnlTR1p4TWlOSnp6MzBNc1By?=
- =?utf-8?B?NU5uWW5CaUsxcVkvVmZacHJwOW9sOWhlaG9pSDlWYVVVN3FaWTRxdUtZTHZE?=
- =?utf-8?B?N3JJSDREOTlOTTFMbEFzSWJNM2VmZUxBOS9JQmY2cmprMk9heENoazZ2T2lO?=
- =?utf-8?B?UHo2NjNiam5LRm9NM2wrMTdtQytBM0I4dmMvTjBPL2UzbXdRTFFNNEtRSTBk?=
- =?utf-8?B?OVJ5TXVtL3hjQ2xvK0hnbTNWb1RVR1ZOOG1MUFN2bEdaVDlpQ2l0aWliazdG?=
- =?utf-8?B?N0xXVEVFZlpjSDk0NFlDNGhCS2dPVll1Tm5ORVZyMGUyRGpqSnQ1R3ZuWmhW?=
- =?utf-8?B?YWs2dFZzODVGRTFybS84Y0F3dUxLNTRya3l1b091dFFKVjVDWCtiNzVCRWpQ?=
- =?utf-8?B?REd3SHhEbnVaV1FFajFDWG1xSHlieHZEY3QrbVNNM3RDU2oxMmVOMCtUOW9E?=
- =?utf-8?B?c2Z1WFhwSm5wTkkxeStpNEtSUWlUd01EbHdtNmk1MVg2dXZjZzk1dnB4V0F6?=
- =?utf-8?B?UlBTcmZvckQzaG8yUXZVSjU3OUtqaUZmYlhsd1FlL0dBc2dlZUJlY1g1aGpY?=
- =?utf-8?B?NnUrbDZUKzdLeWNjc0Z4dXZkQVR5TkRmT1RWM1JFaExMdFppTE1xaUFOV1d1?=
- =?utf-8?B?WVF2ejhPQkd0R1BwTzg1dXJBNktJcWYxWk52d1ptYzdLYkpKSHJyVTNCSHFu?=
- =?utf-8?B?ZE9uZmFKMzNEOXExZEpSelE0ZERlZnhvbDJVUjM3REVETCtoK2tOc1kxVjkr?=
- =?utf-8?B?c0VJRzRONTd6dUFzN1VFU28zUGpqdDlZcUc2Qk5ISUdmK3BoUUNmQUxUZ3RP?=
- =?utf-8?Q?k/mWWpIIoZboiB3T3B1QeNw=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 548df242-012c-4352-d00c-08daac6d7a48
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1897.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2022 16:19:03.3882 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8Gfb21zk9sMoCQGWZ5PpgF5jPdIN1Me17RhXX0nfq29rdQI2GNAptldiftZ5MFFX6iRWZIym5jbZFotqOAd4hAzBTVuq1icIF9/W7jW0iLZfJyFx4Cvf2GjthlUK/vum
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7348
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: SaskHXnZ8XEsul4CcotY7pN8z3eM1kPdK5r6iK+AnSrxZk7Suga5h93mgvNwImpXB+GP2FeHw/+WJVvvRdlkrnsQH+2yFTHA66fA5ia/vJTKaTwkqyoq9r94muHsnr3pfeGYm8TdtM1yVIEqiH0sXXn+PmI7goq9pXnrhmlLGgY1FBy/UOFZjoaWQ/z888I/hqTV4ZfAnWSvoa2bNrU066hlrXuSuD00aJcEzw/MMy2wJUoOKMWdGRaD/T62lbLPPdulhIP/2xdJZP3iwU4jXpU2TBpvxGkq9wGBsymkus8JY8f/6VlwVqOxK1Va0fvBFso0MSwHp+ECgfBOKRoGlUA++J4RyZ8a+LRQqcHeXQIR5WBa8/jbuqRt3faHQUHafnNa7tP+NPuD4uYBDRAYX0601Sq6DBRTpt+Y5ZuZhwpspTLAt/LpTEJ+8rVufbIJSiyV9U8fy28YekUINDwf+bsJ1osR+ymPPenK34f8e+7QwEvkF4JyOKmk7ljmWrW7a1kmcRpoA2SHk3d55svmGY0SKyWpDpvGbvsk9UXb4UZOUDuNtH9DXDUravLrI6eXYJMonOoru7aF9v+j7fipwQuS7VLQnmJpxHqbnt5Jv1z/Ku3Y51aJ+EwZLtGERCxuPvIy+qQ3KXbWOQ1w7EqvIm4ab8yZcx7ll3ZpkFMVSyNMJ2e3NPA5APT5Ka/vnblsfCUCB4tZ3YLWhlwWflekPeCgzp83WXhtNidMVykGZN0Wd9DvwxX+jUgT/iYVad0g
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(136003)(39860400002)(396003)(451199015)(40470700004)(36840700001)(46966006)(36756003)(82310400005)(40460700003)(86362001)(66899015)(4001150100001)(30864003)(2906002)(5660300002)(4326008)(8676002)(70586007)(41300700001)(316002)(110136005)(70206006)(8936002)(356005)(82740400003)(81166007)(478600001)(36860700001)(966005)(6666004)(40480700001)(7696005)(26005)(83380400001)(47076005)(426003)(2616005)(16526019)(336012)(186003)(1076003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2022 16:27:28.7568 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a14cf341-c968-4687-9c96-08daac6ea7d0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT075.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6295
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,251 +99,330 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ravi.kumar.vodapalli@intel.com, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30.09.2022 17:45, Matt Roper wrote:
-> Rather than relying on the implicit behavior of intel_uncore_*()
-> functions, let's always use the intel_gt_mcr_*() functions to operate on
-> multicast/replicated registers.
-> 
-> v2:
->  - Add TLB invalidation registers
-> 
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt.c        | 42 ++++++++++++++++-------
->  drivers/gpu/drm/i915/gt/intel_mocs.c      | 13 +++----
->  drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 12 ++++---
->  drivers/gpu/drm/i915/intel_pm.c           | 20 ++++++-----
->  4 files changed, 56 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index e14f159ad9fc..e763dc719d3a 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -1017,6 +1017,32 @@ get_reg_and_bit(const struct intel_engine_cs *engine, const bool gen8,
->  	return rb;
->  }
->  
-> +/*
-> + * HW architecture suggest typical invalidation time at 40us,
-> + * with pessimistic cases up to 100us and a recommendation to
-> + * cap at 1ms. We go a bit higher just in case.
-> + */
-> +#define TLB_INVAL_TIMEOUT_US 100
-> +#define TLB_INVAL_TIMEOUT_MS 4
-> +
-> +/*
-> + * On Xe_HP the TLB invalidation registers are located at the same MMIO offsets
-> + * but are now considered MCR registers.  Since they exist within a GAM range,
-> + * the primary instance of the register rolls up the status from each unit.
-> + */
-> +static int wait_for_invalidate(struct intel_gt *gt, struct reg_and_bit rb)
-> +{
-> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 50))
-> +		return intel_gt_mcr_wait_for_reg_fw(gt, rb.reg, rb.bit, 0,
-> +						    TLB_INVAL_TIMEOUT_US,
-> +						    TLB_INVAL_TIMEOUT_MS);
-> +	else
-> +		return __intel_wait_for_register_fw(gt->uncore, rb.reg, rb.bit, 0,
-> +						    TLB_INVAL_TIMEOUT_US,
-> +						    TLB_INVAL_TIMEOUT_MS,
-> +						    NULL);
-> +}
-> +
->  static void mmio_invalidate_full(struct intel_gt *gt)
->  {
+Hi Dave, Daniel,
 
-mmio_invalidate_full() contains a non-MCR register write function - 
-`intel_uncore_write_fw(uncore, rb.reg, rb.bit)`
-This function is used for MCR registers as well.
+Fixes for 6.1.
 
-I notice in the later patches of the series mmio_invalidate_full() is
-modified to use the MCR functions for MCR registers. But I think those
-changes should be part of this patch.
+The following changes since commit 65898687cf7392c372ea8d04a88617e2cb794465:
 
+  Merge tag 'amd-drm-next-6.1-2022-09-30' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2022-10-04 09:42:24 +1000)
 
-Regards,
-Bala
+are available in the Git repository at:
 
->  	static const i915_reg_t gen8_regs[] = {
-> @@ -1099,22 +1125,12 @@ static void mmio_invalidate_full(struct intel_gt *gt)
->  	for_each_engine_masked(engine, gt, awake, tmp) {
->  		struct reg_and_bit rb;
->  
-> -		/*
-> -		 * HW architecture suggest typical invalidation time at 40us,
-> -		 * with pessimistic cases up to 100us and a recommendation to
-> -		 * cap at 1ms. We go a bit higher just in case.
-> -		 */
-> -		const unsigned int timeout_us = 100;
-> -		const unsigned int timeout_ms = 4;
-> -
->  		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
-> -		if (__intel_wait_for_register_fw(uncore,
-> -						 rb.reg, rb.bit, 0,
-> -						 timeout_us, timeout_ms,
-> -						 NULL))
-> +
-> +		if (wait_for_invalidate(gt, rb))
->  			drm_err_ratelimited(&gt->i915->drm,
->  					    "%s TLB invalidation did not complete in %ums!\n",
-> -					    engine->name, timeout_ms);
-> +					    engine->name, TLB_INVAL_TIMEOUT_MS);
->  	}
->  
->  	/*
-> diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> index 06643701bf24..89ef1e06bf1d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> @@ -7,6 +7,7 @@
->  
->  #include "intel_engine.h"
->  #include "intel_gt.h"
-> +#include "intel_gt_mcr.h"
->  #include "intel_gt_regs.h"
->  #include "intel_mocs.h"
->  #include "intel_ring.h"
-> @@ -601,17 +602,17 @@ static u32 l3cc_combine(u16 low, u16 high)
->  	     0; \
->  	     i++)
->  
-> -static void init_l3cc_table(struct intel_uncore *uncore,
-> +static void init_l3cc_table(struct intel_gt *gt,
->  			    const struct drm_i915_mocs_table *table)
->  {
->  	unsigned int i;
->  	u32 l3cc;
->  
->  	for_each_l3cc(l3cc, table, i)
-> -		if (GRAPHICS_VER_FULL(uncore->i915) >= IP_VER(12, 50))
-> -			intel_uncore_write_fw(uncore, XEHP_LNCFCMOCS(i), l3cc);
-> +		if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 50))
-> +			intel_gt_mcr_multicast_write_fw(gt, XEHP_LNCFCMOCS(i), l3cc);
->  		else
-> -			intel_uncore_write_fw(uncore, GEN9_LNCFCMOCS(i), l3cc);
-> +			intel_uncore_write_fw(gt->uncore, GEN9_LNCFCMOCS(i), l3cc);
->  }
->  
->  void intel_mocs_init_engine(struct intel_engine_cs *engine)
-> @@ -631,7 +632,7 @@ void intel_mocs_init_engine(struct intel_engine_cs *engine)
->  		init_mocs_table(engine, &table);
->  
->  	if (flags & HAS_RENDER_L3CC && engine->class == RENDER_CLASS)
-> -		init_l3cc_table(engine->uncore, &table);
-> +		init_l3cc_table(engine->gt, &table);
->  }
->  
->  static u32 global_mocs_offset(void)
-> @@ -667,7 +668,7 @@ void intel_mocs_init(struct intel_gt *gt)
->  	 * memory transactions including guc transactions
->  	 */
->  	if (flags & HAS_RENDER_L3CC)
-> -		init_l3cc_table(gt->uncore, &table);
-> +		init_l3cc_table(gt, &table);
->  }
->  
->  #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-> index 9229243992c2..5b86b2e286e0 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-> @@ -10,12 +10,15 @@
->   */
->  
->  #include "gt/intel_gt.h"
-> +#include "gt/intel_gt_mcr.h"
->  #include "gt/intel_gt_regs.h"
->  #include "intel_guc_fw.h"
->  #include "i915_drv.h"
->  
-> -static void guc_prepare_xfer(struct intel_uncore *uncore)
-> +static void guc_prepare_xfer(struct intel_gt *gt)
->  {
-> +	struct intel_uncore *uncore = gt->uncore;
-> +
->  	u32 shim_flags = GUC_ENABLE_READ_CACHE_LOGIC |
->  			 GUC_ENABLE_READ_CACHE_FOR_SRAM_DATA |
->  			 GUC_ENABLE_READ_CACHE_FOR_WOPCM_DATA |
-> @@ -35,8 +38,9 @@ static void guc_prepare_xfer(struct intel_uncore *uncore)
->  
->  	if (GRAPHICS_VER(uncore->i915) == 9) {
->  		/* DOP Clock Gating Enable for GuC clocks */
-> -		intel_uncore_rmw(uncore, GEN8_MISCCPCTL,
-> -				 0, GEN8_DOP_CLOCK_GATE_GUC_ENABLE);
-> +		intel_gt_mcr_multicast_write(gt, GEN8_MISCCPCTL,
-> +					     GEN8_DOP_CLOCK_GATE_GUC_ENABLE |
-> +					     intel_gt_mcr_read_any(gt, GEN8_MISCCPCTL));
->  
->  		/* allows for 5us (in 10ns units) before GT can go to RC6 */
->  		intel_uncore_write(uncore, GUC_ARAT_C6DIS, 0x1FF);
-> @@ -168,7 +172,7 @@ int intel_guc_fw_upload(struct intel_guc *guc)
->  	struct intel_uncore *uncore = gt->uncore;
->  	int ret;
->  
-> -	guc_prepare_xfer(uncore);
-> +	guc_prepare_xfer(gt);
->  
->  	/*
->  	 * Note that GuC needs the CSS header plus uKernel code to be copied
-> diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-> index c694433a7da5..381f3d7ef8a7 100644
-> --- a/drivers/gpu/drm/i915/intel_pm.c
-> +++ b/drivers/gpu/drm/i915/intel_pm.c
-> @@ -30,6 +30,8 @@
->  #include "display/skl_watermark.h"
->  
->  #include "gt/intel_engine_regs.h"
-> +#include "gt/intel_gt.h"
-> +#include "gt/intel_gt_mcr.h"
->  #include "gt/intel_gt_regs.h"
->  
->  #include "i915_drv.h"
-> @@ -4339,22 +4341,23 @@ static void gen8_set_l3sqc_credits(struct drm_i915_private *dev_priv,
->  	u32 val;
->  
->  	/* WaTempDisableDOPClkGating:bdw */
-> -	misccpctl = intel_uncore_read(&dev_priv->uncore, GEN8_MISCCPCTL);
-> -	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, misccpctl & ~GEN8_DOP_CLOCK_GATE_ENABLE);
-> +	misccpctl = intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_MISCCPCTL);
-> +	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_MISCCPCTL,
-> +				     misccpctl & ~GEN8_DOP_CLOCK_GATE_ENABLE);
->  
-> -	val = intel_uncore_read(&dev_priv->uncore, GEN8_L3SQCREG1);
-> +	val = intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_L3SQCREG1);
->  	val &= ~L3_PRIO_CREDITS_MASK;
->  	val |= L3_GENERAL_PRIO_CREDITS(general_prio_credits);
->  	val |= L3_HIGH_PRIO_CREDITS(high_prio_credits);
-> -	intel_uncore_write(&dev_priv->uncore, GEN8_L3SQCREG1, val);
-> +	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_L3SQCREG1, val);
->  
->  	/*
->  	 * Wait at least 100 clocks before re-enabling clock gating.
->  	 * See the definition of L3SQCREG1 in BSpec.
->  	 */
-> -	intel_uncore_posting_read(&dev_priv->uncore, GEN8_L3SQCREG1);
-> +	intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_L3SQCREG1);
->  	udelay(1);
-> -	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, misccpctl);
-> +	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_MISCCPCTL, misccpctl);
->  }
->  
->  static void icl_init_clock_gating(struct drm_i915_private *dev_priv)
-> @@ -4514,8 +4517,9 @@ static void skl_init_clock_gating(struct drm_i915_private *dev_priv)
->  	gen9_init_clock_gating(dev_priv);
->  
->  	/* WaDisableDopClockGating:skl */
-> -	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, intel_uncore_read(&dev_priv->uncore, GEN8_MISCCPCTL) &
-> -		   ~GEN8_DOP_CLOCK_GATE_ENABLE);
-> +	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_MISCCPCTL,
-> +				     intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_MISCCPCTL) &
-> +				     ~GEN8_DOP_CLOCK_GATE_ENABLE);
->  
->  	/* WAC6entrylatency:skl */
->  	intel_uncore_write(&dev_priv->uncore, FBC_LLC_READ_CTRL, intel_uncore_read(&dev_priv->uncore, FBC_LLC_READ_CTRL) |
-> -- 
-> 2.37.3
-> 
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.1-2022-10-12
+
+for you to fetch changes up to 0811b9e4530d7c46542a8993ce6b725d042c6154:
+
+  drm/amd/display: Add HUBP surface flip interrupt handler (2022-10-12 11:27:41 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.1-2022-10-12:
+
+amdgpu:
+- DC mutex fix
+- DC SubVP fixes
+- DCN 3.2.x fixes
+- DCN 3.1.x fixes
+- SDMA 6.x fixes
+- Enable DPIA for 3.1.4
+- VRR fixes
+- VRAM BO swapping fix
+- Revert dirty fb helper change
+- SR-IOV suspend/resume fixes
+- Work around GCC array bounds check fail warning
+- UMC 8.10 fixes
+- Misc fixes and cleanups
+
+----------------------------------------------------------------
+Alex Deucher (7):
+      drm/amdgpu: switch sdma buffer function tear down to a helper
+      drm/amdgpu: fix SDMA suspend/resume on SR-IOV
+      drm/amd/display: make dcn32_split_stream_for_mpc_or_odm static
+      drm/amd/display: fix indentation in dc.c
+      drm/amd/display: make virtual_disable_link_output static
+      drm/amd/display: add a license to cursor_reg_cache.h
+      drm/amd/display: fix transfer function passed to build_coefficients()
+
+Alexey Kodanev (2):
+      drm/amd/pm: vega10_hwmgr: fix potential off-by-one overflow in 'performance_levels'
+      drm/amd/pm: smu7_hwmgr: fix potential off-by-one overflow in 'performance_levels'
+
+Alvin Lee (5):
+      drm/amd/display: Only commit SubVP state after pipe programming
+      drm/amd/display: Block SubVP if rotation being used
+      drm/amd/display: Disable GSL when enabling phantom pipe
+      drm/amd/display: For SubVP pipe split case use min transition into MPO
+      drm/amd/display: Fix watermark calculation
+
+Aric Cyr (4):
+      Revert "drm/amd/display: correct hostvm flag"
+      drm/amd/display: Fix vupdate and vline position calculation
+      drm/amd/display: 3.2.206
+      drm/amd/display: 3.2.207
+
+Arunpravin Paneer Selvam (1):
+      drm/amdgpu: Fix VRAM BO swap issue
+
+Aurabindo Pillai (2):
+      drm/amd/display: Do not trigger timing sync for phantom pipes
+      drm/amd/display: Add HUBP surface flip interrupt handler
+
+Bokun Zhang (1):
+      drm/amdgpu: Fix SDMA engine resume issue under SRIOV
+
+Candice Li (2):
+      drm/amdgpu: Update umc v8_10_0 headers
+      drm/amdgpu: Add poison mode query for umc v8_10_0
+
+Charlene Liu (1):
+      drm/amd/display: prevent S4 test from failing
+
+Daniel Gomez (1):
+      drm/amd/display: Fix mutex lock in dcn10
+
+Dillon Varone (8):
+      drm/amd/display: Program SubVP in dc_commit_state_no_check
+      drm/amd/display: Reorder FCLK P-state switch sequence for DCN32
+      drm/amd/display: Increase compbuf size prior to updating clocks
+      drm/amd/display: Fix merging dynamic ODM+MPO configs on DCN32
+      Revert "drm/amd/display: skip commit minimal transition state"
+      drm/amd/display: Use correct pixel clock to program DTBCLK DTO's
+      drm/amd/display: Acquire FCLK DPM levels on DCN32
+      drm/amd/display: Fix bug preventing FCLK Pstate allow message being sent
+
+Dmytro Laktyushkin (3):
+      drm/amd/display: fix dcn315 dml detile overestimation
+      drm/amd/display: add dummy pstate workaround to dcn315
+      drm/amd/display: always allow pstate change when no dpps are active on dcn315
+
+Dong Chenchen (1):
+      drm/amd/display: Removed unused variable 'sdp_stream_enable'
+
+Eric Bernstein (1):
+      drm/amd/display: Fix disable DSC logic in the DIO code
+
+Fangzhi Zuo (1):
+      drm/amd/display: Validate DSC After Enable All New CRTCs
+
+George Shen (1):
+      drm/amd/display: Add missing SDP registers to DCN32 reglist
+
+Guenter Roeck (1):
+      drm/amd/display: fix array-bounds error in dc_stream_remove_writeback() [take 2]
+
+Hamza Mahfooz (1):
+      Revert "drm/amdgpu: use dirty framebuffer helper"
+
+Ian Chen (1):
+      drm/amd/display: Refactor edp ILR caps codes
+
+Iswara Nagulendran (1):
+      drm/amd/display: Allow PSR exit when panel is disconnected
+
+Josip Pavic (1):
+      drm/amd/display: do not compare integers of different widths
+
+Jun Lei (1):
+      drm/amd/display: Add a helper to map ODM/MPC/Multi-Plane resources
+
+Leo (Hanghong) Ma (1):
+      drm/amd/display: AUX tracing cleanup
+
+Leo Chen (1):
+      drm/amd/display: Add log for LTTPR
+
+Lewis Huang (1):
+      drm/amd/display: Keep OTG on when Z10 is disable
+
+Li Zhong (1):
+      drivers/amd/pm: check the return value of amdgpu_bo_kmap
+
+Martin Leung (3):
+      drm/amd/display: block odd h_total timings from halving pixel rate
+      drm/amd/display: unblock mcm_luts
+      drm/amd/display: zeromem mypipe heap struct before using it
+
+Max Tseng (1):
+      drm/amd/display: Use the same cursor info across features
+
+Meenakshikumar Somasundaram (1):
+      drm/amd/display: Display does not light up after S4 resume
+
+Nicholas Kazlauskas (1):
+      drm/amd/display: Update PMFW z-state interface for DCN314
+
+Philip Yang (2):
+      drm/amdgpu: Set vmbo destroy after pt bo is created
+      drm/amdgpu: Correct amdgpu_amdkfd_total_mem_size calculation
+
+Randy Dunlap (1):
+      drm/amd/display: clean up dcn32_fpu.c kernel-doc
+
+Rodrigo Siqueira (14):
+      drm/amd/display: Drop unused code for DCN32/321
+      drm/amd/display: Update DCN321 hook that deals with pipe aquire
+      drm/amd/display: Fix SubVP control flow in the MPO context
+      drm/amd/display: Remove OPTC lock check
+      drm/amd/display: Adding missing HDMI ACP SEND register
+      drm/amd/display: Add PState change high hook for DCN32
+      drm/amd/display: Enable 2 to 1 ODM policy if supported
+      drm/amd/display: Disconnect DSC for unused pipes during ODM transition
+      drm/amd/display: update DSC for DCN32
+      drm/amd/display: Minor code style change
+      drm/amd/display: Add a missing hook to DCN20
+      drm/amd/display: Use set_vtotal_min_max to configure OTG VTOTAL
+      drm/amd/display: Drop uncessary OTG lock check
+      drm/amd/display: Clean some DCN32 macros
+
+Roman Li (1):
+      drm/amd/display: Enable dpia support for dcn314
+
+Ruili Ji (1):
+      drm/amdgpu: Enable F32_WPTR_POLL_ENABLE in mqd
+
+Shirish S (1):
+      drm/amd/display: explicitly disable psr_feature_enable appropriately
+
+Sonny Jiang (1):
+      drm/amdgpu: Enable VCN PG on GC11_0_1
+
+Tao Zhou (4):
+      drm/amdgpu: remove check for CE in RAS error address query
+      drm/amdgpu: define RAS convert_error_address API
+      drm/amdgpu: define convert_error_address for umc v8.7
+      drm/amdgpu: fix coding style issue for mca notifier
+
+Vladimir Stempen (2):
+      drm/amd/display: properly configure DCFCLK when enable/disable Freesync
+      drm/amd/display: increase hardware status wait time
+
+Wenjing Liu (3):
+      drm/amd/display: fix integer overflow during MSA V_Freq calculation
+      drm/amd/display: write all 4 bytes of FFE_PRESET dpcd value
+      drm/amd/display: Add missing mask sh for SYM32_TP_SQ_PULSE register
+
+Yang Li (3):
+      drm/amd/display: clean up one inconsistent indenting
+      drm/amd/display: clean up one inconsistent indenting
+      drm/amd/display: Simplify bool conversion
+
+Yang Yingliang (3):
+      drm/amd/display: change to enc314_stream_encoder_dp_blank static
+      drm/amdgpu/sdma: add missing release_firmware() in amdgpu_sdma_init_microcode()
+      drm/amd/display: fix build error on arm64
+
+Yuan Can (1):
+      drm/amd/display: Remove unused struct i2c_id_config_access
+
+Yunxiang Li (1):
+      drm/amd/display: Fix vblank refcount in vrr transition
+
+Zhikai Zhai (1):
+      drm/amd/display: skip commit minimal transition state
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c           |  29 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  17 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h            |   7 +-
+ drivers/gpu/drm/amd/amdgpu/cik_sdma.c              |   6 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |  29 +--
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c             |  11 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c             |  15 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c             |  17 +-
+ drivers/gpu/drm/amd/amdgpu/si_dma.c                |   5 +-
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |   1 +
+ drivers/gpu/drm/amd/amdgpu/umc_v6_1.c              |  10 +-
+ drivers/gpu/drm/amd/amdgpu/umc_v6_7.c              | 165 ++++++--------
+ drivers/gpu/drm/amd/amdgpu/umc_v8_10.c             |  78 ++++---
+ drivers/gpu/drm/amd/amdgpu/umc_v8_7.c              |  63 +++---
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c   |   3 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  71 +++---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |   8 +-
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c |   7 -
+ .../amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.c   |   4 +-
+ .../drm/amd/display/dc/clk_mgr/dcn314/dcn314_smu.c |  11 +-
+ .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   |  85 +++++---
+ drivers/gpu/drm/amd/display/dc/core/dc.c           | 105 ++++++++-
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  11 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  70 +++---
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  53 ++++-
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   8 +-
+ drivers/gpu/drm/amd/display/dc/dc.h                |   8 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       | 147 ++++++++++++-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.h       |   1 +
+ drivers/gpu/drm/amd/display/dc/dc_link.h           |   4 +
+ drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       |  13 +-
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.c   |   1 +
+ .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  | 239 +++++----------------
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.c  |  40 +---
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h  |   1 -
+ .../gpu/drm/amd/display/dc/dcn10/dcn10_resource.c  |  66 +++++-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c  |  30 +++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  25 +--
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c  |   1 +
+ .../gpu/drm/amd/display/dc/dcn21/dcn21_hubbub.c    |   8 +-
+ .../gpu/drm/amd/display/dc/dcn21/dcn21_resource.c  |  13 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c   |   4 +
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c  |   3 +-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   4 +
+ .../drm/amd/display/dc/dcn301/dcn301_resource.c    |   2 +-
+ .../display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c |  20 +-
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_optc.c  |   2 -
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |  15 +-
+ .../display/dc/dcn314/dcn314_dio_stream_encoder.c  |   2 +-
+ .../drm/amd/display/dc/dcn314/dcn314_resource.c    |  16 +-
+ .../drm/amd/display/dc/dcn315/dcn315_resource.c    |  15 +-
+ .../drm/amd/display/dc/dcn316/dcn316_resource.c    |  13 +-
+ .../amd/display/dc/dcn32/dcn32_dio_link_encoder.c  |   7 -
+ .../amd/display/dc/dcn32/dcn32_dio_link_encoder.h  |   4 -
+ .../display/dc/dcn32/dcn32_dio_stream_encoder.c    |  57 +++--
+ .../display/dc/dcn32/dcn32_dio_stream_encoder.h    |  14 +-
+ .../display/dc/dcn32/dcn32_hpo_dp_link_encoder.h   |   1 +
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.c    |   1 +
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.c  |   6 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |  42 ++--
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c  |   2 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |  31 +++
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.h  |  22 ++
+ .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |  88 ++++++++
+ .../display/dc/dcn321/dcn321_dio_link_encoder.c    |   1 -
+ .../drm/amd/display/dc/dcn321/dcn321_resource.c    |   6 +-
+ .../gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c   | 118 +++++-----
+ .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c   |  96 +++------
+ .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h   |   1 +
+ .../amd/display/dc/dml/dcn31/display_mode_vba_31.c |  15 ++
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   | 131 ++++++-----
+ .../amd/display/dc/dml/dcn32/display_mode_vba_32.c |  21 +-
+ .../gpu/drm/amd/display/dc/dml/display_mode_lib.c  |   1 +
+ .../gpu/drm/amd/display/dc/dml/display_mode_lib.h  |   1 +
+ drivers/gpu/drm/amd/display/dc/inc/core_types.h    |   6 +-
+ drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h     |  19 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr.h    |  15 +-
+ .../drm/amd/display/dc/inc/hw/cursor_reg_cache.h   |  99 +++++++++
+ drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h        |   4 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h       |   5 +
+ .../drm/amd/display/dc/inc/hw/timing_generator.h   |   1 -
+ drivers/gpu/drm/amd/display/dc/inc/resource.h      |   6 +
+ .../gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c |   2 +-
+ .../drm/amd/display/dc/virtual/virtual_link_hwss.c |   2 +-
+ drivers/gpu/drm/amd/display/dmub/dmub_srv.h        |   1 +
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    | 140 ++++++++++--
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c  |   1 +
+ .../drm/amd/display/modules/color/color_gamma.c    |   2 +-
+ .../amd/include/asic_reg/umc/umc_8_10_0_offset.h   |   2 +
+ .../amd/include/asic_reg/umc/umc_8_10_0_sh_mask.h  |   3 +
+ drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c         |   5 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    |   2 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  |   2 +-
+ 100 files changed, 1617 insertions(+), 995 deletions(-)
+ create mode 100644 drivers/gpu/drm/amd/display/dc/inc/hw/cursor_reg_cache.h
