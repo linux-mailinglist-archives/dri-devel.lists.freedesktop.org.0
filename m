@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E895FC266
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 10:52:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3050C5FC3B3
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 12:26:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 076FA10E061;
-	Wed, 12 Oct 2022 08:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A19C710E210;
+	Wed, 12 Oct 2022 10:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244C010E061;
- Wed, 12 Oct 2022 08:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665564710; x=1697100710;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=vzI5rI1X43j0vMZDrnv2YYPaRQyDQuHgQrzAI7M6QqQ=;
- b=YUeic3SZuKPGXwfYO+aJQ6eE18di15Io9dtXCOYKVD76MZj59p5R3l0q
- yNYYDqVyRTOrgvZBgSDFTsZ48OhjPXV8LiBadWfIruLUCTAwtVQeaQzbH
- ucvH/IrF6sXvET2OLeYXDDmeOay+XSWHaOkucJ8hMdOfxBIeOUMlW6jrN
- WzEayKYLJfpFeoAG8bhWMpyRu+Db7aKTBhSvCntAdus0f13fl6QokvS3T
- AmjGElpfxjflYcSCNJduZ3tQlmtdHSSV/7Y66HhW3e3dR3mO5/oX0ghv8
- GM720MvdMakrJAItZsp+y2e9dlYJ5k6026FHY70cW7oNCcpB9f5k0req4 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="288007202"
-X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="288007202"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2022 01:51:49 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="731340827"
-X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="731340827"
-Received: from freeb-mobl.ger.corp.intel.com (HELO localhost) ([10.252.49.24])
- by fmsmga002-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 01:51:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Lucas De
- Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 0/3] Add _PICK_EVEN_RANGES
-In-Reply-To: <20221011-pick-even-ranges-v1-0-1aaea52752ed@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221011-pick-even-ranges-v1-0-1aaea52752ed@intel.com>
-Date: Wed, 12 Oct 2022 11:51:48 +0300
-Message-ID: <87mta1whjv.fsf@intel.com>
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBD4C10E0C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 10:25:41 +0000 (UTC)
+Date: Wed, 12 Oct 2022 10:25:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1665570339; x=1665829539;
+ bh=btPgFCl8Sd0yKLZXLQQ2Lx+6Yl/nzZKAI2NRTDgQivA=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=YxltpNeHyEECle4PRfxMMvaw2HLiAJYOCXup5R8ckkon3HAh8hIVQoJ0AciN5nInH
+ 9WH0s4NYEo37jI4masEM4t2EDfBW8F6BoBTUyB/cGXLll10gmt7+XsoU3Fe3Es7QaL
+ ArjuxI8JnOeCkIFSambZhmFn/nhPUl0zxV7hvFsW/RBr8j97BUItvdX5m+QciVhw3R
+ JB44OYwcr9D+x16zkpd9bZJ1MPx0vD/h0WX9ZurvlyWsvQ/Jg8ZMuktvpelxrU10Ip
+ TESTKpapmcdHJjQRDRjMVfe6z/70mzD2X+K7AZCPb7nHYMf4t2vnX6HtwkAn5mdrqi
+ QnNqc/RGDI8cg==
+To: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH] drm/syncobj: add IOCTL to register an eventfd for a
+ timeline
+Message-ID: <WVB2bcT7aLthDz-fKpP-_--tlos1G_EAuXbA2g5qnlTcZ4BK0z595RaTDjhaC8kK6R4P6dqvYOlgBf-ef8eAV7KMSZ_-v8HAztLFv0-_lA8=@emersion.fr>
+In-Reply-To: <240b0135-5219-b923-ac08-1ed574dcb901@amd.com>
+References: <20221009144001.161124-1-contact@emersion.fr>
+ <09e87ee7-4500-df21-1e20-641303a67b5c@amd.com>
+ <YlRyF1ugXQAIFNoNIuFRmDek7S85or_YpAz26fHKaaQIYeCB3RVGSjEaYhw6nI0iH_k6vDjPYeF6ekmVeEgUWyf5V5w4aMm8Z5oVPjGQKh4=@emersion.fr>
+ <240b0135-5219-b923-ac08-1ed574dcb901@amd.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,44 +51,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>, James Jones <jajones@nvidia.com>,
+ wayland-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 11 Oct 2022, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> Add a new macro, _PICK_EVEN_RANGES, that supports using 2 address
-> ranges. This should cover most of our needs for _MMIO_PLL3 and such.
-> To show what is achieved with the new macro, convert some PLL-related
-> macros to use it instead of _MMIO_PLL3.
+On Tuesday, October 11th, 2022 at 14:10, Christian K=C3=B6nig <christian.ko=
+enig@amd.com> wrote:
 
-While there's nothing particularly wrong about the solution when looked
-at in isolation, I do have pretty strong reservations on the whole.
+> Am 10.10.22 um 11:13 schrieb Simon Ser:
+> > On Sunday, October 9th, 2022 at 20:00, Christian K=C3=B6nig <christian.=
+koenig@amd.com> wrote:
+> >
+> >> Am 09.10.22 um 16:40 schrieb Simon Ser:
+> >>
+> >>> Introduce a new DRM_IOCTL_SYNCOBJ_TIMELINE_REGISTER_EVENTFD IOCTL
+> >>> which signals an eventfd when a timeline point completes.
+> >> I was entertaining the same though for quite a while, but I would even
+> >> go a step further and actually always base the wait before signal
+> >> functionality of the drm_syncobj and the eventfd functionality. That
+> >> would save us quite a bit of complexity I think.
+> > Hm what do you mean exactly? I'm not sure I'm following.
+>=20
+> Essentially we have the syncobj_wait_entry structure which is added to
+> the list whenever somebody starts to wait for a sequence which hasn't
+> materialized yet.
+>=20
+> Instead of extending this maybe just completely nuke the
+> syncobj_wait_entry handling and replace it with your implementation here.
 
-We have:
+Hm, no sure I understand how that would work. We don't have an eventfd in t=
+he
+WAIT IOCTL...
 
-1) _PICK_EVEN() used in _PIPE() and friends
-
-2) _PICK() used in _MMIO_PIPE3() and friends
-
-3) ->pipe_offsets[] etc. adjustment used in _MMIO_PIPE2() and friends
-
-4) ->ddi_index[] mapping proposed in [1]
-
-5) _PICK_EVEN_RANGES() proposed here
-
-Originally we only had the first one, when the hardware was
-simpler. Every single addition since then made sense at the time, but if
-we add 4 & 5 to the mix, I think it's just too many options.
-
-I think it's time to take a step back and figure out if there's a more
-generic approach that could be used.
-
-
-BR,
-Jani.
-
-
-[1] https://patchwork.freedesktop.org/series/108833/
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+We could merge the two structs and figure out which callback to invoke base=
+d
+on which fields are filled, but I figured two separate structs would be mak=
+e
+for a cleaner split.
