@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756C55FC80F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 17:16:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 356B25FC856
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 17:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C10D310E519;
-	Wed, 12 Oct 2022 15:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F39810E56D;
+	Wed, 12 Oct 2022 15:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22F0E10E519
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 15:16:13 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 43225660037C;
- Wed, 12 Oct 2022 16:16:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1665587771;
- bh=3+fGB/65ejU9q7GUMaC7sKOP/HgDUmBA+dw0IyewzE8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SoIIVHoaco8/OyxxveuNgb9Lhyv/OXfpquRyrU9psOC7prSoAY3gUmq9UzEAu55n1
- j2HTt7VI3X+uxfm046LpPTIOxOzDVZBN+zhUD87pM0+uLwy6G6SKl/k5KHt6UcM+vP
- VFJ3Qr63T39gi+onlgO6E2sY9KLAaiGpH09Y1UFeTelbiukOw7uIi1bHoF+xLTv7l5
- T/NLbNYiPo9GitAyk2p7bA4GXu7QFQlDC9hJm7hwa+SyBjUob2kxmk4nVIfpLU9V+y
- zS7G6VQ37QRY3jf+mQpi4lNXh7xY7K003R/IDN+gK6JIcwlxzObILR2BWdqT6e0tjz
- MYXV/Tphx/FuQ==
-Message-ID: <163306ba-09a1-3b27-0c0d-5bafc871f7dc@collabora.com>
-Date: Wed, 12 Oct 2022 17:16:08 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 763BC10E550;
+ Wed, 12 Oct 2022 15:22:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665588135; x=1697124135;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=iP8jiMGeDBm3ohY9fT4xIo19p94Zj1s9oDSDxNckFt8=;
+ b=KOY/dpCrIwg9s5CkDvesXqmZACHV98S8XvRqin8n7p8FKZeANIoVuAmC
+ I/w4yp3Nsyf7HNNtwFyx7rVpnx3/JMHYfbTlZFWdU03pJo5mmzg1Ioa1v
+ QAmXG1OmszmSyinvGuh3Cz/Jt6QJyEp7r2NffTlxC27uQg7NfqlC2yMUX
+ rB+SdH+gIvN06Kn6CcqYg9Md2Y6cvcfFTK1OcLEV98QP0UkxclXr8vrm5
+ aKuoku0ZbZp3wm9z4OalmjoUt/XLSnQBl4Cme9OI6vYkMbxNAZLwB9547
+ 4NTDultVY/L7H37sUJmB3SyrMF4h3toInC0J66ivSnUdja4X2nFrBEVk5 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="305879789"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; d="scan'208";a="305879789"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2022 08:21:50 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="629145636"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; d="scan'208";a="629145636"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2022 08:21:49 -0700
+Date: Wed, 12 Oct 2022 08:21:22 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH v3 12/17] drm/i915/vm_bind: Implement
+ I915_GEM_EXECBUFFER3 ioctl
+Message-ID: <20221012152122.GA26976@nvishwa1-DESK>
+References: <20221010065826.32037-1-niranjana.vishwanathapura@intel.com>
+ <20221010065826.32037-13-niranjana.vishwanathapura@intel.com>
+ <5aed1778-ae6f-58fe-625e-45e7195c2616@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [RESEND PATCH v2] drm/mediatek: Add AFBC support to Mediatek DRM
- driver
-Content-Language: en-US
-To: Justin Green <greenjustin@chromium.org>
-References: <20221010150157.1864492-1-greenjustin@google.com>
- <664e32dc-3f91-48ae-64a1-6dcecc9dfb5b@collabora.com>
- <CAHC42Rf7o61NF3LNQkm4BFcBHMKEP2np3sZMvM7KYczCsurHKA@mail.gmail.com>
- <6548c0ea-d1c0-2de2-99b6-4cfc27e8b938@collabora.com>
- <CAHC42RfKROmaPTkf73eCuU7CV3YhhxyCVEp9UA94XNjMfSzLAQ@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAHC42RfKROmaPTkf73eCuU7CV3YhhxyCVEp9UA94XNjMfSzLAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5aed1778-ae6f-58fe-625e-45e7195c2616@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,38 +61,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
- justin.yeh@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/10/22 16:12, Justin Green ha scritto:
->> These would be different from the macros that are available in bitfield.h, but
->> not *fundamentally* different, so these would look a little redundant...
+On Wed, Oct 12, 2022 at 11:32:18AM +0100, Matthew Auld wrote:
+>On 10/10/2022 07:58, Niranjana Vishwanathapura wrote:
+>>Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
+>>works in vm_bind mode. The vm_bind mode only works with
+>>this new execbuf3 ioctl.
 >>
->> I think that you refer to that `pitch` variable that's coming from the DRM(/fb)
->> API... and bitfield macros are for register access... so I guess that one clean
->> way of avoiding the magic shifting (that is purely used to split the 32-bits
->> number in two 16-bits 'chunks') would be to perhaps use a union, so that you
->> will have something like u.pitch_lsb, u.pitch_msb (with lsb/msb being two u16).
-> 
-> Do you mean something like this?
-> 
-> union pitch_val {
->       struct split_pitch_val {
->            uint16_t lsb;
->            uint16_t msb;
->       } split;
->       uint32_t val;
-> };
-> 
-> I think my concern with that approach would be it assumes the compiler
-> packs structs tightly and it also assumes the endianness of the
-> machine, whereas a bitshift is maybe more portable. Is this an issue
-> worth considering since we know this driver will only run on specific
-> MTK SoCs?
+>>The new execbuf3 ioctl will not have any list of objects to validate
+>>bind as all required objects binding would have been requested by the
+>>userspace before submitting the execbuf3.
+>>
+>>Legacy features like relocations etc are not supported by execbuf3.
+>>
+>>v2: Add more input validity checks.
+>>v3: batch_address is a VA (not an array) if num_batches=1,
+>>     minor cleanup
+>>
+>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>---
+>>  drivers/gpu/drm/i915/Makefile                 |   1 +
+>>  .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 580 ++++++++++++++++++
+>>  drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
+>>  drivers/gpu/drm/i915/i915_driver.c            |   1 +
+>>  include/uapi/drm/i915_drm.h                   |  61 ++
+>>  5 files changed, 645 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+>>
+>>diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>>index 3564307699ea..94520b79e7e7 100644
+>>--- a/drivers/gpu/drm/i915/Makefile
+>>+++ b/drivers/gpu/drm/i915/Makefile
+>>@@ -150,6 +150,7 @@ gem-y += \
+>>  	gem/i915_gem_domain.o \
+>>  	gem/i915_gem_execbuffer_common.o \
+>>  	gem/i915_gem_execbuffer.o \
+>>+	gem/i915_gem_execbuffer3.o \
+>>  	gem/i915_gem_internal.o \
+>>  	gem/i915_gem_object.o \
+>>  	gem/i915_gem_lmem.o \
+>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+>>new file mode 100644
+>>index 000000000000..1f38f658066a
+>>--- /dev/null
+>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+>>@@ -0,0 +1,580 @@
+>>+// SPDX-License-Identifier: MIT
+>>+/*
+>>+ * Copyright © 2022 Intel Corporation
+>>+ */
+>>+
+>>+#include <linux/dma-resv.h>
+>>+#include <linux/uaccess.h>
+>>+
+>>+#include <drm/drm_syncobj.h>
+>>+
+>>+#include "gt/intel_context.h"
+>>+#include "gt/intel_gpu_commands.h"
+>>+#include "gt/intel_gt.h"
+>>+
+>>+#include "i915_drv.h"
+>>+#include "i915_gem_context.h"
+>>+#include "i915_gem_execbuffer_common.h"
+>>+#include "i915_gem_ioctls.h"
+>>+#include "i915_gem_vm_bind.h"
+>>+#include "i915_trace.h"
+>>+
+>>+#define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
+>>+#define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
+>>+
+>>+/* Catch emission of unexpected errors for CI! */
+>>+#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
+>>+#undef EINVAL
+>>+#define EINVAL ({ \
+>>+	DRM_DEBUG_DRIVER("EINVAL at %s:%d\n", __func__, __LINE__); \
+>>+	22; \
+>>+})
+>>+#endif
+>>+
+>>+/**
+>>+ * DOC: User command execution with execbuf3 ioctl
+>>+ *
+>>+ * A VM in VM_BIND mode will not support older execbuf mode of binding.
+>>+ * The execbuf ioctl handling in VM_BIND mode differs significantly from the
+>>+ * older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
+>>+ * Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. (See
+>>+ * struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept any
+>>+ * execlist. Hence, no support for implicit sync.
+>>+ *
+>>+ * The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND mode only
+>>+ * works with execbuf3 ioctl for submission.
+>>+ *
+>>+ * The execbuf3 ioctl directly specifies the batch addresses instead of as
+>>+ * object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
+>>+ * support many of the older features like in/out/submit fences, fence array,
+>>+ * default gem context etc. (See struct drm_i915_gem_execbuffer3).
+>>+ *
+>>+ * In VM_BIND mode, VA allocation is completely managed by the user instead of
+>>+ * the i915 driver. Hence all VA assignment, eviction are not applicable in
+>>+ * VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
+>>+ * be using the i915_vma active reference tracking. It will instead check the
+>>+ * dma-resv object's fence list for that.
+>>+ *
+>>+ * So, a lot of code supporting execbuf2 ioctl, like relocations, VA evictions,
+>>+ * vma lookup table, implicit sync, vma active reference tracking etc., are not
+>>+ * applicable for execbuf3 ioctl.
+>
+>I guess EXEC_CAPTURE is also now gone? Is that expected? We ofc don't 
+>have the list of objects so perhaps doesn't make sense any more. Just 
+>double checking...
 
-Yes I mean something like that (except, use u16, u32 short form)... and that
-should be safe really. As for the endianness, a lot more would break already,
-so I don't see that as a concern right now.
+Yah, instead will have a VM_BIND_CAPTURE flag for user to request for capture
+during vm_bind call. It is not implemented yet.
+
+Niranjana
+
