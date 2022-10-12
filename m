@@ -1,68 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B4F5FC762
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 16:31:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 264195FC7DE
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 17:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB37A10E280;
-	Wed, 12 Oct 2022 14:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD1FA10E518;
+	Wed, 12 Oct 2022 15:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4D710E280
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 14:31:17 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9810C1F45F;
- Wed, 12 Oct 2022 14:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665585075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mmI2glnzNa+rLfgcRlQLUn9RCIkJH3QGtB0EhuzOQ64=;
- b=J00tJCRODQL1W4mCFm6NVWfPlO3uKKuSXAz32OjMOVpAqhFwVAz9MuPuG9HNckgQRGUArs
- q5rSIzbUpYHbYOCiRNfjiGpbcYUqb8wdnu1v2Pez2sXO4uUfpdc0vWnqExNp3IiOQh3Jld
- FLL8YN7x7uI7C3DpZGRxKGxh362XaSA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665585075;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mmI2glnzNa+rLfgcRlQLUn9RCIkJH3QGtB0EhuzOQ64=;
- b=SGNLjf0jcnxyGKqpvb/IwcehziZCySQLebc3+29ybC0WmI6ew5k4NKfHuon7FpLe5831nh
- wyzMbVByrND8GFBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 31C6413A5C;
- Wed, 12 Oct 2022 14:31:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ARAbC7PPRmPdIQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 12 Oct 2022 14:31:15 +0000
-Message-ID: <a81e1acf-64dd-f69d-d97f-4a1af534e8e6@suse.de>
-Date: Wed, 12 Oct 2022 16:31:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC98010E518
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 15:00:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665586800; x=1697122800;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=p5FnZ4+f6pmWst9wSfrEJB9i2nRqQShtidpftxEjnbE=;
+ b=RIRRtZtA+dBd4cvafmHCEJOIqz18JrKjwedQjaGYRp9UHMVvvgYywskB
+ 7MEdfPaddsjRl/6V06Fy+7FOjJzecc+p7Yhmx6+EZi/6Srk7eLcbIvqGu
+ w1k/fBe7KdYoYa1osGH/z9s49JgtbXpRmTEntVvDqt19Ii+AXRwOMUi4Q
+ ODUULmLXmPfnUP31NCDmNCt0IBzJaU/MLGrYEWsiPJTylhKyaShGvMJdF
+ 8cNyQFtamG1EHrONYa9YJNcs0Z+dn7QzNGtNglZ5xHxaGIjrnSTyWbRvi
+ CclCJsCCxiw4xN3ofwezk08TptTB1sin51ABQrN0zxxlkfXZzU7uAJSMJ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="331308572"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; d="scan'208";a="331308572"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2022 07:59:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="731455010"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; d="scan'208";a="731455010"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga002.fm.intel.com with SMTP; 12 Oct 2022 07:59:46 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 12 Oct 2022 17:59:45 +0300
+Date: Wed, 12 Oct 2022 17:59:45 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH v4 5/5] drm/ofdrm: Support big-endian scanout buffers
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Maxime Ripard <maxime@cerno.tech>,
- sam@ravnborg.org, Michal Suchanek <msuchanek@suse.de>,
- Michael Ellerman <mpe@ellerman.id.au>, benh@kernel.crashing.org,
- Paul Mackerras <paulus@samba.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, mark.cave-ayland@ilande.co.uk
-References: <20220928105010.18880-1-tzimmermann@suse.de>
- <20220928105010.18880-6-tzimmermann@suse.de>
- <23333ff7-3ae1-494f-7abe-62da6698fd00@redhat.com>
- <83071743-a7f2-f761-baa3-da688f26b5e3@suse.de>
- <9162f41f-28c3-493c-ab54-b1c4a2fdf494@app.fastmail.com>
+Message-ID: <Y0bWYb0z1HZ2PztG@intel.com>
+References: <9162f41f-28c3-493c-ab54-b1c4a2fdf494@app.fastmail.com>
  <fda959d7-1bae-716f-f01b-66d9db9096e0@suse.de>
  <654e3cfe-80d7-46c9-8e5e-461846e4df35@app.fastmail.com>
  <866c7033-0d4e-7b5d-008c-8eb16f99498b@suse.de>
@@ -71,11 +50,13 @@ References: <20220928105010.18880-1-tzimmermann@suse.de>
  <fc33ebf7-ecb7-4686-ac31-0118a40595f6@app.fastmail.com>
  <0a15ecf5-939d-3b00-bcde-0fc7b449cfda@suse.de>
  <76d8a408-fc3e-4bd1-91c5-8278f7469979@app.fastmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <76d8a408-fc3e-4bd1-91c5-8278f7469979@app.fastmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------gaUEgT2KtnHXOqRK1eItgq27"
+ <a81e1acf-64dd-f69d-d97f-4a1af534e8e6@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a81e1acf-64dd-f69d-d97f-4a1af534e8e6@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,106 +69,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, linuxppc-dev@lists.ozlabs.org,
+ mark.cave-ayland@ilande.co.uk, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
+ Maxime Ripard <maxime@cerno.tech>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Michal Suchanek <msuchanek@suse.de>, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------gaUEgT2KtnHXOqRK1eItgq27
-Content-Type: multipart/mixed; boundary="------------A5i4gih9Y4tk4061dxDdMyg7";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Maxime Ripard <maxime@cerno.tech>,
- sam@ravnborg.org, Michal Suchanek <msuchanek@suse.de>,
- Michael Ellerman <mpe@ellerman.id.au>, benh@kernel.crashing.org,
- Paul Mackerras <paulus@samba.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, mark.cave-ayland@ilande.co.uk
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <a81e1acf-64dd-f69d-d97f-4a1af534e8e6@suse.de>
-Subject: Re: [PATCH v4 5/5] drm/ofdrm: Support big-endian scanout buffers
-References: <20220928105010.18880-1-tzimmermann@suse.de>
- <20220928105010.18880-6-tzimmermann@suse.de>
- <23333ff7-3ae1-494f-7abe-62da6698fd00@redhat.com>
- <83071743-a7f2-f761-baa3-da688f26b5e3@suse.de>
- <9162f41f-28c3-493c-ab54-b1c4a2fdf494@app.fastmail.com>
- <fda959d7-1bae-716f-f01b-66d9db9096e0@suse.de>
- <654e3cfe-80d7-46c9-8e5e-461846e4df35@app.fastmail.com>
- <866c7033-0d4e-7b5d-008c-8eb16f99498b@suse.de>
- <f26ca6a1-feb1-4822-ac96-bc484b22f8a0@app.fastmail.com>
- <c80a6e2d-a3b9-8186-cc95-97c4775171ed@suse.de>
- <fc33ebf7-ecb7-4686-ac31-0118a40595f6@app.fastmail.com>
- <0a15ecf5-939d-3b00-bcde-0fc7b449cfda@suse.de>
- <76d8a408-fc3e-4bd1-91c5-8278f7469979@app.fastmail.com>
-In-Reply-To: <76d8a408-fc3e-4bd1-91c5-8278f7469979@app.fastmail.com>
+On Wed, Oct 12, 2022 at 04:31:14PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 12.10.22 um 15:12 schrieb Arnd Bergmann:
+> > On Wed, Oct 12, 2022, at 2:00 PM, Thomas Zimmermann wrote:
+> >>
+> >> Could well be. But ofdrm intents to replace offb and this test has
+> >> worked well in offb for almost 15 yrs. If there are bug reports, I'm
+> >> happy to take patches, but until then I see no reason to change it.
+> > 
+> > I wouldn't change the code in offb unless a user reports a bug,
+> > but I don't see a point in adding the same mistake to ofdrm if we
+> > know it can't work on real hardware.
+> 
+> As I said, this has worked with offb and apparently on real hardware. 
+> For all I know, ATI hardware (before it became AMD) was used in PPC 
+> Macintoshs and assumed big-endian access on those machines.
 
---------------A5i4gih9Y4tk4061dxDdMyg7
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+At least mach64 class hardware has two frame buffer apertures, and
+byte swapping can be configured separately for each. But that means
+you only get correct byte swapping for at most two bpps at the same
+time (and that only if you know which aperture to access each time).
+IIRC Rage 128 already has the surface register stuff where you
+could byte swap a limited set of ranges independently. And old
+mga hardware has just one byte swap setting for the whole frame
+buffer aperture, so only one bpp at a time.
 
-SGkNCg0KQW0gMTIuMTAuMjIgdW0gMTU6MTIgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
-biBXZWQsIE9jdCAxMiwgMjAyMiwgYXQgMjowMCBQTSwgVGhvbWFzIFppbW1lcm1hbm4gd3Jv
-dGU6DQo+Pg0KPj4gQ291bGQgd2VsbCBiZS4gQnV0IG9mZHJtIGludGVudHMgdG8gcmVwbGFj
-ZSBvZmZiIGFuZCB0aGlzIHRlc3QgaGFzDQo+PiB3b3JrZWQgd2VsbCBpbiBvZmZiIGZvciBh
-bG1vc3QgMTUgeXJzLiBJZiB0aGVyZSBhcmUgYnVnIHJlcG9ydHMsIEknbQ0KPj4gaGFwcHkg
-dG8gdGFrZSBwYXRjaGVzLCBidXQgdW50aWwgdGhlbiBJIHNlZSBubyByZWFzb24gdG8gY2hh
-bmdlIGl0Lg0KPiANCj4gSSB3b3VsZG4ndCBjaGFuZ2UgdGhlIGNvZGUgaW4gb2ZmYiB1bmxl
-c3MgYSB1c2VyIHJlcG9ydHMgYSBidWcsDQo+IGJ1dCBJIGRvbid0IHNlZSBhIHBvaW50IGlu
-IGFkZGluZyB0aGUgc2FtZSBtaXN0YWtlIHRvIG9mZHJtIGlmIHdlDQo+IGtub3cgaXQgY2Fu
-J3Qgd29yayBvbiByZWFsIGhhcmR3YXJlLg0KDQpBcyBJIHNhaWQsIHRoaXMgaGFzIHdvcmtl
-ZCB3aXRoIG9mZmIgYW5kIGFwcGFyZW50bHkgb24gcmVhbCBoYXJkd2FyZS4gDQpGb3IgYWxs
-IEkga25vdywgQVRJIGhhcmR3YXJlIChiZWZvcmUgaXQgYmVjYW1lIEFNRCkgd2FzIHVzZWQg
-aW4gUFBDIA0KTWFjaW50b3NocyBhbmQgYXNzdW1lZCBiaWctZW5kaWFuIGFjY2VzcyBvbiB0
-aG9zZSBtYWNoaW5lcy4NCg0KPiBJIHRyaWVkIHRvIGZpbmQgb3V0IHdoZXJlIHRoaXMgaXMg
-Y29uZmlndXJlZCBpbiBxZW11LCBidXQgaXQgc2VlbXMNCj4gdG8gZGVwZW5kIG9uIHRoZSBm
-cmFtZWJ1ZmZlciBiYWNrZW5kIHRoZXJlOiBtb3N0IGFyZSBhbHdheXMgbGl0dGxlLWVuZGlh
-biwNCj4gYXRpL2JvY2hzL3ZnYS1wY2kvdmlydGlvLXZnYSBhcmUgY29uZmlndXJhYmxlIGZy
-b20gdGhlIGd1ZXN0IHRocm91Z2gNCj4gc29tZSByZWdpc3RlciBzZXR0aW5nLCBidXQgdmdh
-LmMgcGlja3MgYSBkZWZhdWx0IGZyb20gdGhlDQo+ICdUQVJHRVRfV09SRFNfQklHRU5ESUFO
-JyBtYWNybywgd2hpY2ggSSB0aGluayBpcyBzZXQgZGlmZmVyZW50bHkNCj4gYmV0d2VlbiBx
-ZW11LXN5c3RlbS1wcGM2NGxlIGFuZCBxZW11LXN5c3RlbS1wcGM2NC4NCj4gDQo+IElmIHlv
-dSBhcmUgdXNpbmcgdGhlIGZyYW1lYnVmZmVyIGNvZGUgZnJvbSB2Z2EuYywgSSB3b3VsZCBn
-dWVzcyB0aGF0DQo+IHRoYXQgeW91IGNhbiBydW4gYSBiaWctZW5kaWFuIGtlcm5lbCB3aXRo
-IHFlbXUtc3lzdGVtLXBwYzY0LA0KPiBvciBhIGxpdHRsZS1lbmRpYW4ga2VybmVsIHdpdGgg
-cWVtdS1zeXN0ZW0tcHBjNjRsZSBhbmQgZ2V0IHRoZQ0KPiBjb3JyZWN0IGNvbG9ycywgd2hp
-bGUgcnVubmluZyBhIGxpdHRsZS1lbmRpYW4ga2VybmVsIHdpdGgNCj4gcWVtdS1zeXN0ZW0t
-cHBjNjQgYW5kIHZnYS5jLCBvciB1c2luZyBhIGRpZmZlcmVudCBmcmFtZWJ1ZmZlcg0KPiBl
-bXVsYXRpb24gb24gYSBiaWctZW5kaWFuIGtlcm5lbCB3b3VsZCBnaXZlIHlvdSB0aGUgd3Jv
-bmcgY29sb3JzLg0KDQpJZiBxZW11IGRvZXNuJ3QgZ2l2ZSB1cyB0aGUgbmVjZXNzYXJ5IERU
-IHByb3BlcnR5LCBpdCdzIGEgcWVtdSBidWcuIEluIA0KaW4gdGhlIGFic2VuY2Ugb2YgdGhl
-IHByb3BlcnR5LCBwaWNraW5nIHRoZSBrZXJuZWwncyBlbmRpYW5lc3MgaXMgYSANCnNlbnNp
-YmxlIGNob2ljZS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gV2hpY2ggY29t
-YmluYXRpb25zIGRpZCB5b3UgYWN0dWFsbHkgdGVzdD8NCj4gDQo+ICAgICAgIEFybmQNCg0K
-LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQw
-OSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2No
-w6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+That kind of horrible limitations of the byte swappers is the
+main reason why I wanted to make drm fourcc endianness explicit.
+Simply assuming host endianness would end in tears on big endian
+as soon as you need to access stuff with two bpps at the same time.
+Much better to just switch off those useless byte swappers and
+swap by hand when necessary.
 
---------------A5i4gih9Y4tk4061dxDdMyg7--
-
---------------gaUEgT2KtnHXOqRK1eItgq27
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNGz7IFAwAAAAAACgkQlh/E3EQov+DE
-rRAAsFjxzeOC/m16aMr6Hhcte91odTXSPvmjZW1AC6kA1WJtgShy3r5Q39Z4b9y8+QctQOcfuzWn
-fAUu6S3ykpLVgjBmREvuRorxHeqSNDo4cyctOBZbq6V57debmHastoVUBIsy7nppBhaEunqWX2K9
-X3+dbpHlOooU6BtWePcYHbziPTpPanL1vFsy8xCO8BBwz4GbOc/u89HEn7jBqGFP6a3gT7dfljJV
-Dnn2zwbEm0ejMRjANaoWRgmUl71YQnFGkAOJaSSRoC8JOdP0n2pQyxpXLpE37fT+iGGiiDtPne6R
-8gogOX2RQwk/gUOSsj+xodvl8EkZU3UPxkUd6mpXqDh3fX0bMejApfxhOCm7W14o6QkGTFZtQSXE
-hGnhSIUIjrFrqOjVUnYtrfnsZ9VImqGbacmyWpfsIgVIFDb5o0PwQrZm/CcEVQEcRfF1WpLEfcOV
-KODahtgis9IGSBeLLzcP6J9tjVUlUWlL1B5+zmnXkOeTw/ghsRawur2rcxh1jAVWrr79DrNxupnB
-p7j6jKErLnV+Gc/ccDWESrFLaR34fpzxCl++UiJUBdhWT64H/Aiy9FEBlLcAkQe7oj+F+6IcAetT
-nIZNOyf4mq+dmIjHoHlyKHdE4CPRp62Z81D9AcqDPPgeIf53hVtpdTdXw79MwzzhdEtZ0PhgNuIi
-uso=
-=28Ag
------END PGP SIGNATURE-----
-
---------------gaUEgT2KtnHXOqRK1eItgq27--
+-- 
+Ville Syrjälä
+Intel
