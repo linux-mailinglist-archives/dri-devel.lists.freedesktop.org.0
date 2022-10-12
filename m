@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A885FBFDD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 06:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305235FBFFB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Oct 2022 06:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAEB110E30E;
-	Wed, 12 Oct 2022 04:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0D6410E330;
+	Wed, 12 Oct 2022 04:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 171C810E30E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 04:20:59 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- t10-20020a17090a4e4a00b0020af4bcae10so901446pjl.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Oct 2022 21:20:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=99TdLCDiLCw1CKOLf2kqVlfCC+0M09AdfWZjON605rQ=;
- b=eztaR/oo+aVk7T4AjXlFgAUpkTdV8XUnPmBWH+GoE8TXoFcNI+OmgXPSMCm2ybcDXR
- nGpi0qlIsI+mSCfo7KdWfC0YB87LaAUaEIF/LTYpnZ7E7gxvcxFTynmlbSRzFPuepaUD
- kCJk0ovkpadyJkkW3u3JO/EfzpKXYDaRGr9sY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=99TdLCDiLCw1CKOLf2kqVlfCC+0M09AdfWZjON605rQ=;
- b=nBOt+1Lz7i2vxzcTyirIWO8IH0b+40phJCGr0a/uwlmj7Mld8N4l2LeSoCRgPy/Qw3
- ioJDvFKrxoJ3OsN35ApmKT3RQBOdUqcc/nhrh9DJZMex0+ISs+mCTJJJ7hCfSPeYCG7C
- rNmwaDgHGwX+OsWen0t+atLM6vaDeotgKL/0cub1GSKDJFgfClBHPay5/YKeiJArS6+5
- 9g13rGbc7Ks129BK9DRknFUJqoh+keC262OghVbs4vimx3baFzXngwzNvrnIuCZdeVrP
- iK0EizPUYNS7B4tWs7YjsZbHyV5Q6FXcS9vXeRc28V0BQ2EZlOF2XXvwbfB13U6C/H8r
- 0KMg==
-X-Gm-Message-State: ACrzQf2xaUFYZ6mMQDyD+sKdyqlLuzhi5dXEEjJWNG04pMPPYea97WGP
- yVJ5r+BRrJGHhrwyXpRPJ3eJYA==
-X-Google-Smtp-Source: AMsMyM47l4acst/sR04DCSeFadKyk5MwSU4caq5gnpulOX6YhUk2+D/6OnMS067g5lBoK+dyJezIeg==
-X-Received: by 2002:a17:90a:db54:b0:209:e4e4:9344 with SMTP id
- u20-20020a17090adb5400b00209e4e49344mr2859123pjx.62.1665548458546; 
- Tue, 11 Oct 2022 21:20:58 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:31e6:a0c9:ff22:7e86])
- by smtp.gmail.com with ESMTPSA id
- 131-20020a621989000000b00561969ea721sm10121806pfz.147.2022.10.11.21.20.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 21:20:58 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>
-Subject: [PATCH v2] drm_bridge: register content protect property
-Date: Wed, 12 Oct 2022 12:20:31 +0800
-Message-Id: <20221012042030.573466-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56E2110E319;
+ Wed, 12 Oct 2022 04:51:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665550303; x=1697086303;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=UHD4MHrA3NeiXgGrUMk+rGdFhgqSvbJdrpG5hsOsFro=;
+ b=S5Vnnw0a2bUOK6xUmu8E0D4pRiff+oUObwGuVyE2rzAGShAmy+TFLlbm
+ igXJHt65o11+joWOJJnjawzf6O4Mco7iUcGQS19m7QwLmIL2TBdWyjodT
+ qwFL7iHnRNqIppHi81ObOCAQeENkTvv0j5V0uR8g06f/FvVJMA7QJGoPz
+ cQBu46aEI1IzScPdThFgLZ27ec7AKm8jVOUnYn82XNJLRb74qZ2zzPUS+
+ PKIiqujB+2EiQE9Miet07Vlth6SHY/CWeW2m/EFKNX/xM3BRUGL1+hdUz
+ 9agbik2kyh6eoV9cVGc36Z0QU6yLjB+F8rWsWhjBqyV4d1kOBFVMWbtRf A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="284423456"
+X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="284423456"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 21:51:41 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="577698652"
+X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; d="scan'208";a="577698652"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.143])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2022 21:51:41 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH 0/3] Add _PICK_EVEN_RANGES
+Date: Tue, 11 Oct 2022 21:51:07 -0700
+Message-Id: <20221011-pick-even-ranges-v1-0-1aaea52752ed@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.10.1
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,69 +57,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some bridges are able to update HDCP status from userspace request if
-they support HDCP.
-
-HDCP property is the same as other connector properties that need to be
-created after the connecter is initialized and before the connector is
-registered.
-
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reported-by: kernel test robot <lkp@intel.com>
----
-v2: Fix compile error when config is not set.
----
- drivers/gpu/drm/drm_bridge_connector.c | 3 +++
- include/drm/display/drm_hdcp_helper.h  | 8 ++++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-index 1c7d936523df5..a3b9ef8dc3f0b 100644
---- a/drivers/gpu/drm/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/drm_bridge_connector.c
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- 
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
-@@ -398,6 +399,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	if (panel_bridge)
- 		drm_panel_bridge_set_orientation(connector, panel_bridge);
- 
-+	drm_connector_attach_content_protection_property(connector, true);
-+
- 	return connector;
- }
- EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
-diff --git a/include/drm/display/drm_hdcp_helper.h b/include/drm/display/drm_hdcp_helper.h
-index 8aaf87bf27351..c65d9f06a2532 100644
---- a/include/drm/display/drm_hdcp_helper.h
-+++ b/include/drm/display/drm_hdcp_helper.h
-@@ -15,8 +15,16 @@ struct drm_device;
- struct drm_connector;
- 
- int drm_hdcp_check_ksvs_revoked(struct drm_device *dev, u8 *ksvs, u32 ksv_count);
-+#if defined(CONFIG_DRM_DISPLAY_HDCP_HELPER)
- int drm_connector_attach_content_protection_property(struct drm_connector *connector,
- 						     bool hdcp_content_type);
-+#else
-+static inline int drm_connector_attach_content_protection_property(struct drm_connector *connector,
-+								   bool hdcp_content_type)
-+{
-+	return 0;
-+}
-+#endif
- void drm_hdcp_update_content_protection(struct drm_connector *connector, u64 val);
- 
- #endif
--- 
-2.38.0.rc1.362.ged0d419d3c-goog
-
+Add a new macro, _PICK_EVEN_RANGES, that supports using 2 address=0D
+ranges. This should cover most of our needs for _MMIO_PLL3 and such.=0D
+To show what is achieved with the new macro, convert some PLL-related=0D
+macros to use it instead of _MMIO_PLL3.=0D
+=0D
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>=0D
+---=0D
+Lucas De Marchi (3):=0D
+      drm/i915: Add _PICK_EVEN_RANGES()=0D
+      drm/i915: Fix coding style on DPLL*_ENABLE defines=0D
+      drm/i915: Convert pll macros to _PICK_EVEN_RANGES=0D
+=0D
+ drivers/gpu/drm/i915/i915_reg.h | 91 +++++++++++++++++++++++--------------=
+----=0D
+ 1 file changed, 52 insertions(+), 39 deletions(-)=0D
+---=0D
+base-commit: caaf8c4c270b6b9ce1b8610b4eea888190fc087f=0D
+change-id: 20221011-pick-even-ranges-76ad8a5007e9=0D
+=0D
+Best regards,=0D
+-- =0D
+Lucas De Marchi <lucas.demarchi@intel.com>=0D
