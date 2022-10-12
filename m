@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05175FCE90
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 00:48:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 184C05FCE93
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 00:49:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0034F10E149;
-	Wed, 12 Oct 2022 22:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6813310E1D2;
+	Wed, 12 Oct 2022 22:48:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4257D10E149
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 22:48:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8EA10E1B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 22:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665614900;
+ s=mimecast20190719; t=1665614929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6cQbK112G3CBY1iPorRDqAdSJlO6cOwytKNZM4RSxzY=;
- b=IzjXHV7n5n46eyg5F11Ee3Ub06ws1cT5hLIlm1++csVZxOuVOephzBQuX4lbMTSwv+aKAv
- wrpXkS4ujNbVBruLjHyFJy0QBRRnUcoOy4R2HQe0q5DKtb89m8sUSps99Z9b8+7Q5pnaSA
- GdoQ+KUONNELyoGXcg6RBPBFZECyhtk=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=p5nfuKdPwrQVXi/vnKW1FCyCONTVZtF3Xa0tpdwXNtg=;
+ b=T5hDaV15150hxKObhFeKN+XxoDHsE4/ilmXaSyvmiYPdeeKXdM3au/ezCPpfNeY91VBXuR
+ OaKRjuQI/SsbclGZTimM+08OLaTbU0IglPQpQgZhOdvlWcwdeUkijEBdE+NaFrHMfdhpaT
+ rCgRBYigwgU6NjLq/dI0ip+ZM/3qXaU=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-646-t9Csv7AyMoK94g6ebprY3Q-1; Wed, 12 Oct 2022 18:48:18 -0400
-X-MC-Unique: t9Csv7AyMoK94g6ebprY3Q-1
-Received: by mail-qv1-f69.google.com with SMTP id
- i7-20020a0cab47000000b004b4376895bfso194990qvb.20
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 15:48:18 -0700 (PDT)
+ us-mta-46-i4VlwFdfPZ-3VYsZgZUURA-1; Wed, 12 Oct 2022 18:48:48 -0400
+X-MC-Unique: i4VlwFdfPZ-3VYsZgZUURA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ w10-20020a05620a444a00b006ce9917ea1fso85973qkp.16
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Oct 2022 15:48:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:user-agent:organization
  :references:in-reply-to:date:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6cQbK112G3CBY1iPorRDqAdSJlO6cOwytKNZM4RSxzY=;
- b=l790IcY3leAHFopr0P8GYwENnYVTQJrNZBxhb1LFNGEkaK6TlXcrLYdOgMGAwcHSyF
- 80iopR0kBbgpL5kTgf8lFymdfOAukStjTt/adl1Ps00w4UVLBTLxbiNvmQec6Q7K94Gz
- ftAOYWrNHZwQJnAOd8xr9tiGGMnHoNdFq+O0M3K4PxZS6+A1pvD1jPLC26e7pp9JzRtJ
- Z/C4obio9eeoaVoCcnteG3ShYtGl5Cj+d5ExHW3QkjxBCIFChg3IYIXAUNGzlmVk7rY5
- woZyf9M8281qhZic8tFUWIgDgGBHfVzVVYHF4ke+ThUVr629cilMIeNShdf08dWmGIjM
- Dq5w==
-X-Gm-Message-State: ACrzQf2RMaZnHYXYOsckLQ/rrXo55R0DyoTah9uEUBxgcNfOGfrmWJCu
- mcn6qYU/tUnsNf6+CeVseClB5scuJ9nQeXU6HckjMRYGh07+96/8ETHlHbP4bIAQvQ6RaUQcWft
- RJUK6nYogeeBaPxVbLbfyBrcOR80c
-X-Received: by 2002:a05:622a:1183:b0:39c:606d:1f7f with SMTP id
- m3-20020a05622a118300b0039c606d1f7fmr8858884qtk.313.1665614897742; 
- Wed, 12 Oct 2022 15:48:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5tzPmYPKNIbVp3GJbjJyU2orb8Zq7NMYarr1l6JZruGvyaqWohInpYh6qO0ffWOFde1Yrniw==
-X-Received: by 2002:a05:622a:1183:b0:39c:606d:1f7f with SMTP id
- m3-20020a05622a118300b0039c606d1f7fmr8858864qtk.313.1665614897486; 
- Wed, 12 Oct 2022 15:48:17 -0700 (PDT)
+ bh=p5nfuKdPwrQVXi/vnKW1FCyCONTVZtF3Xa0tpdwXNtg=;
+ b=4k4BtTQQ66XDcP7oT/7GG+zCk/6FOELyizvuu5MdvGAnWJBuUBG/5QQV1rLIWHLyQU
+ qcmWbDrrL1UhTL5SVngAB2o5yTAoIQfszZCrcba/LTee5zcRP62dxgpzMIQQkYVX7h19
+ LyIm48MeX+X/7BLJugUyCaUhZIRl2vvv0kzfjYIeFJ75MJ4vqbHx4yMcKmDsx60oOkxJ
+ P4rZQ8VR1WYxiV/ZAt2qWs+Hz3CmgbZbyMYGsQOh8F7YG/wqF9EFdIBG4FKzbsa6Va9d
+ DUXeTYq6+XqMXF2FmXBIM4om3dn9jbiiZ90y8cPVcV1t18I8eg8vbvQAhIjWVi14vnJ/
+ nwUg==
+X-Gm-Message-State: ACrzQf27Ji4B8N/FhjUFwv/ZQyuE6jdUnpxQJuGzwRYSxCIPoc1YzwFS
+ bfvPo3YeqKkQdVOtx6e7RXPBj3TEbpUxX0I8oLBbgBt06ng0jeWb1pBamh3SC57z60Jr4TuMOnX
+ qua06bJnHsiyg9dDvZRc+Gb/cw4Vw
+X-Received: by 2002:a05:620a:27d2:b0:6cf:b644:f644 with SMTP id
+ i18-20020a05620a27d200b006cfb644f644mr22536279qkp.35.1665614928503; 
+ Wed, 12 Oct 2022 15:48:48 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM72AflosodYNtr/quj11dfW8xw1ovGZzl7sA9B7tx1ZGymI0DOPi1vu4e2bPcM1ZP1Q5MC8dg==
+X-Received: by 2002:a05:620a:27d2:b0:6cf:b644:f644 with SMTP id
+ i18-20020a05620a27d200b006cfb644f644mr22536261qkp.35.1665614928240; 
+ Wed, 12 Oct 2022 15:48:48 -0700 (PDT)
 Received: from ?IPv6:2600:4040:5c68:4300:fdba:af4a:bbcd:7e28?
  ([2600:4040:5c68:4300:fdba:af4a:bbcd:7e28])
  by smtp.gmail.com with ESMTPSA id
- x20-20020ac87014000000b0039cb9ef50b5sm3192209qtm.26.2022.10.12.15.48.16
+ l10-20020ac8148a000000b0039cc47752casm1669626qtj.77.2022.10.12.15.48.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Oct 2022 15:48:16 -0700 (PDT)
-Message-ID: <b52dbad5e3c2c5f19c605440de3e4e017e70a2ec.camel@redhat.com>
+ Wed, 12 Oct 2022 15:48:47 -0700 (PDT)
+Message-ID: <9c36a93654c5aa9c850cd5d42681aa951df9e769.camel@redhat.com>
 Subject: Re: [PATCH -next] drm/nouveau/disp: fix cast removes address space
  of expression warnings
 From: Lyude Paul <lyude@redhat.com>
@@ -69,7 +69,7 @@ To: ruanjinjie <ruanjinjie@huawei.com>, bskeggs@redhat.com,
  tzimmermann@suse.de,  hverkuil-cisco@xs4all.nl, greenfoo@u92.eu,
  seanpaul@chromium.org,  dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-Date: Wed, 12 Oct 2022 18:48:15 -0400
+Date: Wed, 12 Oct 2022 18:48:46 -0400
 In-Reply-To: <20220924092516.10007-1-ruanjinjie@huawei.com>
 References: <20220924092516.10007-1-ruanjinjie@huawei.com>
 Organization: Red Hat Inc.
@@ -94,8 +94,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Looks good to me (sorry for the slow response! I think this one just got lost
-in the noise). Will push to drm-misc-next in a moment
+...oops, totally forgot to actually give you the magic tag so patchwork knows
+I reviewed it:
+
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
 On Sat, 2022-09-24 at 17:25 +0800, ruanjinjie wrote:
 > When build Linux kernel with 'make C=2', encounter the following warnings:
