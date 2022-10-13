@@ -1,78 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE805FD688
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:00:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2215FD697
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:05:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79EFA10E6FD;
-	Thu, 13 Oct 2022 08:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8D9710E508;
+	Thu, 13 Oct 2022 09:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57A210E6A1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 08:59:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2B83C580467;
- Thu, 13 Oct 2022 04:59:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 13 Oct 2022 04:59:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1665651590; x=1665658790; bh=CTVtQG5QiC
- zBfichKHTfygU6liaBhjCGgKbiqW/tDag=; b=meAYUrWfzZ7ZLVN/7//nT42nm/
- J+AwjjQY0RXplKHkADeZH+p/c8Hr4fjdsejYw9Xt3QYy8catdQAKDWvipGj2bZI1
- sCQ/UuJ83ZWusQyumr1XXjfXf+20a3LZkhctBY93hlcvDzKDX9gwAbNJVp/4UA1x
- E3SHpxXn32ShXojQA6Oxi1FYZ+34Co3071J4qV0QkbyM1fwBngTzr3t0YVUfeG7f
- F0DgfKhAq1uaaI1zQIa2DQUEoGZo7onubZlvDLQTZrwmS/z9672F9DlVDSD9se1m
- iiPwyKsbskNK1cgEE73pcrCGYz1pyD8CTHn7aamlIS/JHEiCSdUjsNfddPjg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1665651590; x=1665658790; bh=CTVtQG5QiCzBfichKHTfygU6liaB
- hjCGgKbiqW/tDag=; b=VXzOGEqsT64dNHSl3mUD+EG9RJDP4bnk6x86Jh9cjWCa
- N5KbLjG1LbZtRyLDtvDhMHiUZxJFnwEU/hFB9NClM6CSbquX7lghRinvORkEUnv1
- xZKac1MNkRB11ZPECAFkcKh1BVtNKshNBghQDbu6JOZp4+X1RU1aH58Ew9QWePDu
- nFiB0IJFeEDo+M55e0L1Ot9am0rXlCNZW2bop94+EcDgjwb7lm+BA0+4fOqPuFQv
- haraG9KkzNDHJ6qMxBsJ0uiaRCgpdeGlukAtuwhDr9hhr1cijBVF3sTnYREbKmBj
- U7v24AByTwLbO71l+beZ11j4hxulG+qAH2w3nbtTsQ==
-X-ME-Sender: <xms:hdNHY4unUbygZrgmv_SNNW1E0i4vwIjGFTBczHXmhM5jPxLAyChhDw>
- <xme:hdNHY1dUZdE2DLzfBKT8Py41NV-o2BSDMz4Vvp_y0Bc4W1n_KYpYafxm7zyozRqg_
- 1K0NpZs0r_okwwUe4U>
-X-ME-Received: <xmr:hdNHYzxrf1vEbYFZRytIn4stBph8pRJvyq1IA6gLZeOY6d1ca-Psj7TevQPJs4occmUzWtKWS_Wcmkns4_Ufps6ku2dcfJFYZfH9>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgudduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:hdNHY7P8y5d8Oar6GTPsWEuLDWgZY7__3jyncN1aoqbTr8YJhfW8-A>
- <xmx:hdNHY48uK1KZcX6fsOqA6YnLaEL_xE0Rlu7nKlIY12DAt1E8tXpdNg>
- <xmx:hdNHYzXp8TYIgQHY6aN4knYcFx8Jm0bgr0v6A0KfX20DqI5A6uL6lQ>
- <xmx:htNHY8I7s84wa8XhqWLc1v8fSpmjQ0TSV37zs8ZFgFMl3y8FXAkUvg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 04:59:49 -0400 (EDT)
-Date: Thu, 13 Oct 2022 10:59:47 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH v2 0/7] drm/vc4: Fix the core clock behaviour
-Message-ID: <20221013085947.jux4tfbh64ldluin@houat>
-References: <20220815-rpi-fix-4k-60-v2-0-983276b83f62@cerno.tech>
- <20221010114420.beytjynzshjgiy6y@houat>
- <395633de-193f-609e-abc6-9dddb2cae3c0@gmail.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D0510E508
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:05:23 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EECB61F385;
+ Thu, 13 Oct 2022 09:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1665651921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WOnGgq9IUw7xGTBr51NrUAkoYYRVaIREesWzrM/IKTA=;
+ b=1W1i+3A4COH3c7GiQYSZFPdVF/uFEs5VM2anfP6J3Fuemd87l5bSAKLf0y/M3KBb9f+xtS
+ 3IBfoAORwrwgb08sH5Fm9GdCVc3NX7b8l/mHt1x+9toxRh8K6gtj9v4fBiMtoMNV/mIyLR
+ /pC/NyMFhRjQsq3VxJIi5EmJMA1iuis=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1665651921;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WOnGgq9IUw7xGTBr51NrUAkoYYRVaIREesWzrM/IKTA=;
+ b=mZLPES2SVmm9mzSvBjf6T1uHef/ys9qNl3PUV4Hc8Vdc6YVJ1lZxNqNNP9xAK5SLImSenC
+ gprCNJb7tVN4CgBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C020213AAA;
+ Thu, 13 Oct 2022 09:05:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OofeLdDUR2PfAQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Oct 2022 09:05:20 +0000
+Message-ID: <db634341-da68-e8a6-1143-445f17262c63@suse.de>
+Date: Thu, 13 Oct 2022 11:05:19 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xi2nxcoqs7owfyl4"
-Content-Disposition: inline
-In-Reply-To: <395633de-193f-609e-abc6-9dddb2cae3c0@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] drm/mgag200: Fix PLL setup for G200_SE_A rev >=4
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
+References: <20221013082901.471417-1-jfalempe@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221013082901.471417-1-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------GpuivNAmFfuBmweK0LBdPmEP"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,79 +70,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Scott Branden <sbranden@broadcom.com>,
- David Airlie <airlied@linux.ie>, Ray Jui <rjui@broadcom.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <sboyd@kernel.org>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: michel@daenzer.net, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------GpuivNAmFfuBmweK0LBdPmEP
+Content-Type: multipart/mixed; boundary="------------WiH907b0Dg84Bth0iAwE05Yl";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
+Cc: lyude@redhat.com, michel@daenzer.net, stable@vger.kernel.org
+Message-ID: <db634341-da68-e8a6-1143-445f17262c63@suse.de>
+Subject: Re: [PATCH] drm/mgag200: Fix PLL setup for G200_SE_A rev >=4
+References: <20221013082901.471417-1-jfalempe@redhat.com>
+In-Reply-To: <20221013082901.471417-1-jfalempe@redhat.com>
 
---xi2nxcoqs7owfyl4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------WiH907b0Dg84Bth0iAwE05Yl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi Florian,
+SGkNCg0KQW0gMTMuMTAuMjIgdW0gMTA6Mjkgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IEZvciBHMjAwX1NFX0EsIFBMTCBNIHNldHRpbmcgaXMgd3JvbmcsIHdoaWNoIGxlYWRzIHRv
+IGJsYW5rIHNjcmVlbiwNCj4gb3IgInNpZ25hbCBvdXQgb2YgcmFuZ2UiIG9uIFZHQSBkaXNw
+bGF5Lg0KPiBwcmV2aW91cyBjb2RlIGhhZCAibSB8PSAweDgwIiB3aGljaCB3YXMgY2hhbmdl
+ZCB0bw0KPiBtIHw9ICgocGl4cGxsY24gJiBCSVQoOCkpID4+IDEpOw0KPiANCj4gVGVzdGVk
+IG9uIEcyMDBfU0VfQSByZXYgNDINCj4gDQo+IFRoaXMgbGluZSBvZiBjb2RlIHdhcyBtb3Zl
+ZCB0byBhbm90aGVyIGZpbGUgd2l0aA0KPiBjb21taXQgODUzOTdmNmJjNGZmICgiZHJtL21n
+YWcyMDA6IEluaXRpYWxpemUgZWFjaCBtb2RlbCBpbiBzZXBhcmF0ZQ0KPiBmdW5jdGlvbiIp
+IGJ1dCBjYW4gYmUgZWFzaWx5IGJhY2twb3J0ZWQgYmVmb3JlIHRoaXMgY29tbWl0Lg0KPiAN
+Cj4gRml4ZXM6IDJkZDA0MDk0NmVjZiAoImRybS9tZ2FnMjAwOiBTdG9yZSB2YWx1ZXMgKG5v
+dCBiaXRzKSBpbiBzdHJ1Y3QgbWdhZzIwMF9wbGxfdmFsdWVzIikNCj4gQ2M6IHN0YWJsZUB2
+Z2VyLmtlcm5lbC5vcmcNCj4gU2lnbmVkLW9mZi1ieTogSm9jZWx5biBGYWxlbXBlIDxqZmFs
+ZW1wZUByZWRoYXQuY29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9t
+Z2FnMjAwX2cyMDBzZS5jIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZ2FnMjAwL21nYWcyMDBfZzIwMHNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9t
+Z2FnMjAwX2cyMDBzZS5jDQo+IGluZGV4IGJlMzg5ZWQ5MWNiZC4uNGVjMDM1MDI5YjhiIDEw
+MDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBzZS5j
+DQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMHNlLmMNCj4g
+QEAgLTI4NCw3ICsyODQsNyBAQCBzdGF0aWMgdm9pZCBtZ2FnMjAwX2cyMDBzZV8wNF9waXhw
+bGxjX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9jcnRjICpjcnRjLA0KPiAgIAlwaXhwbGxj
+cCA9IHBpeHBsbGMtPnAgLSAxOw0KPiAgIAlwaXhwbGxjcyA9IHBpeHBsbGMtPnM7DQo+ICAg
+DQo+IC0JeHBpeHBsbGNtID0gcGl4cGxsY20gfCAoKHBpeHBsbGNuICYgQklUKDgpKSA+PiAx
+KTsNCj4gKwl4cGl4cGxsY20gPSBwaXhwbGxjbSB8IEJJVCg3KTsNCg0KVGhhbmtzIGZvciBm
+aWd1cmluZyB0aGlzIG91dC4gRzIwMFNFIGFwcGFyZW50bHkgaXMgc3BlY2lhbCBjb21wYXJl
+ZCB0byANCnRoZSBvdGhlciBtb2RlbHMuIFRoZSBvbGQgTUdBIGRvY3Mgb25seSBsaXN0IHRo
+aXMgYml0IGFzIDxyZXNlcnZlZD4uIA0KUmVhbGx5IG1ha2VzIG1lIHdvbmRlciB3aHkgdGhp
+cyBpcyBkaWZmZXJlbnQuDQoNClBsZWFzZSB3cml0ZSBpdCBhcw0KDQogICBCSVQoNykgfCBw
+aXhwbGxjbQ0KDQpzbyB0aGF0IGJpdCBzZXR0aW5ncyBhcmUgb3JkZXJlZCBNU0ItdG8tTFNC
+IGFuZCBpbmNsdWRlIGEgb25lLWxpbmUgDQpjb21tZW50IHRoYXQgc2F5cyB0aGF0IEcyMDBT
+RSBuZWVkcyB0byBzZXQgdGhpcyBiaXQgdW5jb25kaXRpb25hbGx5Lg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQoNCg0KPiAgIAl4cGl4cGxsY24gPSBwaXhwbGxjbjsNCj4gICAJeHBp
+eHBsbGNwID0gKHBpeHBsbGNzIDw8IDMpIHwgcGl4cGxsY3A7DQo+ICAgDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
+ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
+aHJlcjogSXZvIFRvdGV2DQo=
 
-On Mon, Oct 10, 2022 at 12:07:22PM -0700, Florian Fainelli wrote:
-> On 10/10/22 04:44, Maxime Ripard wrote:
-> > Hi Florian,
-> >=20
-> > On Tue, Sep 20, 2022 at 02:50:19PM +0200, Maxime Ripard wrote:
-> > > Those patches used to be part of a larger clock fixes series:
-> > > https://lore.kernel.org/linux-clk/20220715160014.2623107-1-maxime@cer=
-no.tech/
-> > >=20
-> > > However, that series doesn't seem to be getting anywhere, so I've spl=
-it out
-> > > these patches that fix a regression that has been there since 5.18 an=
-d that
-> > > prevents the 4k output from working on the RaspberryPi4.
-> > >=20
-> > > Hopefully, we will be able to merge those patches through the DRM tre=
-e to avoid
-> > > any further disruption.
-> >=20
-> > Could you review this? Ideally this would be merged through drm-misc due
-> > to the dependencies between the new firmware functions and the DRM
-> > patches.
->=20
-> I suppose I can review the firmware parts if you would like me to
+--------------WiH907b0Dg84Bth0iAwE05Yl--
 
-I was of course asking for the firmware parts :)
-
-> for vc4 I am pretty much clueless, and despite efforts from Emma to
-> get the vc4 driver to be usable on platforms other than Pi, that never
-> happened unfortunately.
-
-Stefan had the same concerns, but I don't think that's a big one. If
-needs be, we can move the call to the firware into an if statement or
-whatever and support a firmware-less device.
-
-> It would be better to keep the firmware and vc4 drivers decoupled,
-> just so "wrong" assumptions are not made, but for all practical
-> purposes this is the only combination that exists.
-
-I know, and my initial proposal was relying on a generic CCF function to
-implement this. Stephen didn't feel like a single user for it was
-enough, and there were some technical drawbacks too that might not have
-made this solution robust enough. Hence the firmware solution.
-
-Maxime
-
---xi2nxcoqs7owfyl4
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------GpuivNAmFfuBmweK0LBdPmEP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0fTgwAKCRDj7w1vZxhR
-xWmxAQDOTnHICbSvwbYwASVkNAnE/Tiwz+E7mi+miG42l+Xi8wEAy7apqdl/hFYY
-g+PNXCY9HOx+PMldyNRRP9lFgFC1sQA=
-=oC3j
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNH1NAFAwAAAAAACgkQlh/E3EQov+A9
+0A/+JHeQjKYaMaeDmvTSyopfg9Ty3Xa2AKUJp9WuTKv9IODlSYsML120j+B2Sn/JNYKrn7XXv1nQ
+5MYDXAvqqjY04kzG4yd1N/sieQm128+2nVa8ZSxmdzTY3WTeWNOrYrJXd4KKiwxA2rRxNkcmtVH/
+eAP2ExwlayPuEHP2MH6TOq73C3lky/DH3YlDuB5/xHVCMHcCPqs5vVaA29sZ/9s4ZckICjTcSabE
+IwgrP9qZ1i4xuwzuXvNRopkRhMhbk9fC3XOk9Hc9+2QNeOEsA81CbE/u9A392hiiI9Uy8Cw/g8O+
+sfZ/P+oEZEjcG0n6xfoqCipCbeSGrtuhI0qp7+1eQ6DrK87Ihxt7WWYHBtE791Zp4V734PU38SWv
+pD1i1FUi+HoAcVKWkJO+t1DVbUZ2wbfy29RJsLV+wM/B5bUCmVeFAAaJZgEre1M+baSbYavDlw36
+8at0K1t3vsK86o2+Oh+rVBcwlbBWNG4HB3JnTDO7WB4K1wpT1uW+d8P8/MVnvVoe8XLDJivvqkij
+z0A3JQZ+2xc6uP1F4vxH4WHgJupWp8+ksKQ22WrzviB+fE23XSKawXffLdis0jG9vyX+tJ8sGVFV
+j4uWO2IC2bcOZ4cn08ktu3KPMe6Ht0ovm77RvJACUgJNdQyPYWkPaT7aDzRAT6Obe0TJgsEBLmCu
+qyI=
+=/znq
 -----END PGP SIGNATURE-----
 
---xi2nxcoqs7owfyl4--
+--------------GpuivNAmFfuBmweK0LBdPmEP--
