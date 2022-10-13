@@ -1,78 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98CB5FD592
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 09:34:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 675A65FD59B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 09:39:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D785010E470;
-	Thu, 13 Oct 2022 07:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 259A210E040;
+	Thu, 13 Oct 2022 07:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E452310E470
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 07:34:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0895A10E040
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 07:39:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665646470;
+ s=mimecast20190719; t=1665646766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7+kkmXxqmOAqWpnEkFmH+PPx54SR+ImezPG4mMhIn2E=;
- b=VVXbaHsjXika6IYd0uzKrUnsOX1LqHC5SUCg0RiKbVzs2Ud1HJ3abbYoYPxx3WxrCLWgoB
- Eu0E+uy0IFgYSCFaDxjWpsUFQtIc8ec8tDV4+dW4sceVq4E7xfABGOAa9oCFOB7NqfBVUb
- CJ/6pq7iIq8V4BRFduZOzaIfmat0H+U=
+ bh=SxL2Gm5Nvf7A3sd8fkrST2jbFEtQq1oZHcJN0U6gqnU=;
+ b=LBist10MeVaUAHVzTp2PURVGqXL0rWhRbW0zKSj5slIQ3haKDw0uHMkFz0fhZi/6niuGHs
+ 5Ui9OtksCACiHTk6RguZMRqAVgjYy7uEWVBmL78zbd8c5cWqqCJ4V3yXievtP+GL188VMy
+ qm2ynb4POvs90Y7PgwdxG5ihQyzbpbU=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-428-lT-8FzVjPvqDKuwNFWxjUw-1; Thu, 13 Oct 2022 03:34:28 -0400
-X-MC-Unique: lT-8FzVjPvqDKuwNFWxjUw-1
+ us-mta-662-xINOXEkIOyWJMnKzBW0abQ-1; Thu, 13 Oct 2022 03:39:24 -0400
+X-MC-Unique: xINOXEkIOyWJMnKzBW0abQ-1
 Received: by mail-wr1-f69.google.com with SMTP id
- i1-20020adfa501000000b0022cd1e1137bso228906wrb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 00:34:28 -0700 (PDT)
+ s5-20020adf9785000000b0022e1af0e7e8so227364wrb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 00:39:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7+kkmXxqmOAqWpnEkFmH+PPx54SR+ImezPG4mMhIn2E=;
- b=N8JgJi2ZPTwTBr6FiOyOoDe413EzrJ/N5St501/a95Jehk4BiCqvfrhHHBaaveVxsU
- sTahChavwCklIxcLzVXBdw+uqGoW6btgVNz3Eq2b8gxATFjs7TmrFjiJQBOc/9w62aNw
- DhmlVjGdv+lBApAlXTzHJ/uJTr7uXR/Gq+markRRz9iUH/oHuEDt8fn2+Op8wO2f91+W
- 4kkWJXrUEsKNwQ5ADIg9WjdC82xz1H0PqI10gTF2xk3ycmAHXIQ9VARMEHiwDjqQvp3r
- ZRkHuLZmMmJuyd+9gsDmKN5CT7g78yQO2L0Sxu40WV2srrjIh4frZjpbXwHYrPpPTmUi
- 7j7w==
-X-Gm-Message-State: ACrzQf1JH5J5TmL//kHmFwxsKYebYMYpFuE23eZNV98ip9HGGW5ARRdK
- 2c3c0je1BJTUqTYMj5GIp6NPUgPizMi8KnpXdKqZKAYU8Zkq4yDVB1bRYptZUNObuuBQGKTwDRi
- aXdQ54BkiGgnpcdgORX5TXRVuZU8U
-X-Received: by 2002:a7b:c047:0:b0:3b4:adc7:1ecb with SMTP id
- u7-20020a7bc047000000b003b4adc71ecbmr5333945wmc.144.1665646467794; 
- Thu, 13 Oct 2022 00:34:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM76Bw6kTXCm8sc8B5hU+9qB/ACfIxlbJt65LXBIFUWuX5g23uiXeaQ5PngFBdE8Z+HpUzxeLA==
-X-Received: by 2002:a7b:c047:0:b0:3b4:adc7:1ecb with SMTP id
- u7-20020a7bc047000000b003b4adc71ecbmr5333929wmc.144.1665646467584; 
- Thu, 13 Oct 2022 00:34:27 -0700 (PDT)
+ bh=SxL2Gm5Nvf7A3sd8fkrST2jbFEtQq1oZHcJN0U6gqnU=;
+ b=PzyWStZR1nFGLkEgGcxbl12UajFkLObO8aZffkZcY8yaF9HVKXqDxUzL4gqbCKWtFd
+ 6BzuXKVUNg+GnkL/q/RWg6vOLyA1+idE6W3OBnjiDuLs8zL+5ZHCPGbEXOde4CjeGJ9X
+ m3V5xk653mGwLnG6+FKl2CIsD2/i1JIMmfZOOinFn3f9a0sXUUdsJ+cFVGlUE9U19QkQ
+ WJsIiNUvTL0hRElpwc0AMHl2vLGp57MGp+vj08BO9Ahf5+jVWzno4qHfkyteQj1QYFrf
+ qJDssdN0AG7xS9Bq+GHZtDGkO8qPD5/t2kOLgdo+l/dDTdnyy/c0dKD+dtyX9fTpl2jM
+ SWrg==
+X-Gm-Message-State: ACrzQf3L1W6UY0dTBVOLieLKC9e0gxbVmIDyAtS0uk8viGW0xTFKNvan
+ ypgJYrx51TKW+VWYcrEmHtryosGXxfMw9siaX7mc4iWIhlSaO6LCZQqMnxoPqBecihH7V3HD0xN
+ G9GbeGHzYTJli8QHHq05b2VKWGukq
+X-Received: by 2002:adf:a40c:0:b0:22e:47fe:7ea3 with SMTP id
+ d12-20020adfa40c000000b0022e47fe7ea3mr19557229wra.248.1665646763680; 
+ Thu, 13 Oct 2022 00:39:23 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5KMxO3Yw68jgmaoO2Rl19Ndp0XdvFGPmI3mYt2GmovFka1lcVoPsM/CwVUy1TT0FzKmzx5lw==
+X-Received: by 2002:adf:a40c:0:b0:22e:47fe:7ea3 with SMTP id
+ d12-20020adfa40c000000b0022e47fe7ea3mr19557212wra.248.1665646763475; 
+ Thu, 13 Oct 2022 00:39:23 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b1-20020a05600c4e0100b003a3170a7af9sm3790192wmq.4.2022.10.13.00.34.26
+ a14-20020a5d456e000000b0022ccae2fa62sm1423311wrc.22.2022.10.13.00.39.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 00:34:27 -0700 (PDT)
-Message-ID: <b5e30da4-d958-4227-6e13-07f58ea0ccb8@redhat.com>
-Date: Thu, 13 Oct 2022 09:34:25 +0200
+ Thu, 13 Oct 2022 00:39:22 -0700 (PDT)
+Message-ID: <de796dba-1e75-e5a8-a908-f0aed4e01fec@redhat.com>
+Date: Thu, 13 Oct 2022 09:39:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 0/4] Add a drm_crtc_helper_atomic_check() helper
-To: linux-kernel@vger.kernel.org
-References: <20221011165136.469750-1-javierm@redhat.com>
+Subject: Re: [PATCH v4 5/5] drm/ofdrm: Support big-endian scanout buffers
+To: =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>
+References: <83071743-a7f2-f761-baa3-da688f26b5e3@suse.de>
+ <9162f41f-28c3-493c-ab54-b1c4a2fdf494@app.fastmail.com>
+ <fda959d7-1bae-716f-f01b-66d9db9096e0@suse.de>
+ <654e3cfe-80d7-46c9-8e5e-461846e4df35@app.fastmail.com>
+ <866c7033-0d4e-7b5d-008c-8eb16f99498b@suse.de>
+ <f26ca6a1-feb1-4822-ac96-bc484b22f8a0@app.fastmail.com>
+ <c80a6e2d-a3b9-8186-cc95-97c4775171ed@suse.de>
+ <fc33ebf7-ecb7-4686-ac31-0118a40595f6@app.fastmail.com>
+ <0a15ecf5-939d-3b00-bcde-0fc7b449cfda@suse.de>
+ <76d8a408-fc3e-4bd1-91c5-8278f7469979@app.fastmail.com>
+ <20221012142707.GD28810@kitsune.suse.cz>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221011165136.469750-1-javierm@redhat.com>
+In-Reply-To: <20221012142707.GD28810@kitsune.suse.cz>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,28 +96,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, mark.cave-ayland@ilande.co.uk,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ Paul Mackerras <paulus@samba.org>, Maxime Ripard <maxime@cerno.tech>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/22 18:51, Javier Martinez Canillas wrote:
-> Add a helper function and make drivers that have the same logic in their
-> struct drm_crtc_helper_funcs .atomic_check handler to use this instead.
+Hello,
+
+On 10/12/22 16:27, Michal Suchánek wrote:
+
+[...]
+
+>>
+>> If you are using the framebuffer code from vga.c, I would guess that
+>> that you can run a big-endian kernel with qemu-system-ppc64,
+>> or a little-endian kernel with qemu-system-ppc64le and get the
+>> correct colors, while running a little-endian kernel with
+>> qemu-system-ppc64 and vga.c, or using a different framebuffer
+>> emulation on a big-endian kernel would give you the wrong colors.
 > 
-> Patch #1, #2 and #3 are just cleanups for the mgag200, simpledrm and
-> ssd130x drivers respectively. Finally patch #4 converts the last two
-> drivers to use a helper instead of open coding it the same logic.
+> Thanks for digging this up.
 > 
-> The changes are inspired by a patch from Thomas Zimmermann for the ast
-> DRM driver:
+> That makes one thing clear: qemu does not emulate this framebuffer
+> property correctly, and cannot be relied on for verification.
 > 
-> https://patchwork.kernel.org/project/dri-devel/patch/20221010103625.19958-4-tzimmermann@suse.de/
+> If you can provide test results from real hardware that show the current
+> logic as flawed it should be changed.
 > 
-> This is a v2 that addresses issues pointed out also by Thomas in v1:
+> In absence of such test results I think the most reasonable thing is to
+> keep the logic that nobody complained about for 10+ years.
 > 
 
-Pushed this to drm-misc (drm-misc-next). Thanks!
+I agree with Michal and Thomas on this. I don't see a strong reason to not
+use the same heuristic that the offb fbdev driver has been doing for this.
+
+Otherwise if this turns out to be needed, it will cause a regression for a
+user that switches to this driver instead. Specially since both fbdev and
+DRM drivers match against the same "display" OF compatible string.
 
 -- 
 Best regards,
