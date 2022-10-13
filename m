@@ -1,83 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8FB5FD73A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:43:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B88225FD764
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:57:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C06510E6ED;
-	Thu, 13 Oct 2022 09:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5A0010E505;
+	Thu, 13 Oct 2022 09:57:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88D7710E6ED
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665654199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eRHBo5SUeLCV/E2K6kx3b4+ZRZldTZk3UWnaaDGNeBs=;
- b=IZ0P4ZL3N0N1dGgsnjpik20U5UARDmcMJGw4/8TbfQv/hFnD5xdofyeZJknwVzkmrS51Qg
- q2B0yDwv2fSpdWnx5kMgOpddwztgXlGu51+Zx90JmQKpve4f2HczxsHP48bjUQZ5uEVuZk
- Rl8jBuTZLa89Afqkw9KYJFUcs2ZW+7Y=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-493-FBE4U2lHMpyUv5j2IB7w0Q-1; Thu, 13 Oct 2022 05:43:18 -0400
-X-MC-Unique: FBE4U2lHMpyUv5j2IB7w0Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h129-20020a1c2187000000b003bf635eac31so874554wmh.4
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 02:43:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eRHBo5SUeLCV/E2K6kx3b4+ZRZldTZk3UWnaaDGNeBs=;
- b=uPfn5OHXu+7tIZTi33s0pvV6g+vFYr+15X/Fm9fTHn8YhVxAHEMzSKQ+MKQz/u/vZm
- SoVXlB8mOf2xqjixsepST4fs48solGrRrK03JvR8u+mOGWwG3KtPnm5e5mxqZ2riyL12
- wTh7QPkZcdto1L4TomgpXwFl61/R0gB8zpbec/zoK4O6THUaWTyE0EBVbpU9DHiT+x4n
- FSYHJKsQuPpWxF/scehdbVv2k/i0pr5RCFnTSFlfH/aCsQLzlIqwcFLUst4urWysiJd1
- cuMwlhJYa8zXx5jmScNfeo/y/SrcL+L2zIZD3aZNrcDDlokxYUC8PGHe8cHjzhKt01wf
- 6+ug==
-X-Gm-Message-State: ACrzQf306UnK4Xgh6/p+4DyFPAFWfUVN0IkRK+N4D/JNulks7nyaGOKe
- AMA/yU40RUmQJ8AsyDjjx6jdtmXkCIhJqtcJ/v1o9sf82wqjBF+ZvRCKCWVxwGc6oN6Ud+3OnfH
- z1klNMmqPbugBDX5JA066wsr2BLLN
-X-Received: by 2002:a05:600c:19c7:b0:3c6:dd03:2b26 with SMTP id
- u7-20020a05600c19c700b003c6dd032b26mr1846738wmq.37.1665654197400; 
- Thu, 13 Oct 2022 02:43:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM42THVg7nhaB7qLqF5GFVCwFxBO1/Ueag57fTSguAHHm0uXxPyMwk7RcOINk5grnJLE3KuYrw==
-X-Received: by 2002:a05:600c:19c7:b0:3c6:dd03:2b26 with SMTP id
- u7-20020a05600c19c700b003c6dd032b26mr1846717wmq.37.1665654197222; 
- Thu, 13 Oct 2022 02:43:17 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- e14-20020adffc4e000000b002301c026acasm1570167wrs.85.2022.10.13.02.43.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 02:43:16 -0700 (PDT)
-Message-ID: <44ac29ea-7836-1cd6-fced-9ffd88a7f056@redhat.com>
-Date: Thu, 13 Oct 2022 11:43:15 +0200
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A49B110E505
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:57:05 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id DC8775C007F;
+ Thu, 13 Oct 2022 05:57:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 13 Oct 2022 05:57:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1665655024; x=1665741424; bh=ElrFCOQYz9
+ 811QjA+EhljWQJuhopMm0PAtIt4Y0PiLk=; b=iH2vj+1AVMLQNpZSN3QgFdI8in
+ C40uzS6P9OGiTyC9cMNYtDhbpHHqe8bv9mhp4/MLs5+efc2saoFLxfDDGybR8mDI
+ nu6hReuNGs1ZUS3GRpzt1iwOMWNVlISaxcMA0XzmmKmb0iqbhq+MzGC244ZWm/VQ
+ h6PdsqJEuoNGI6O3Ix2aHcD+caqUITm/JTj4TREAR02wriG2RctIHH8MrA9LUuLQ
+ kFQRd5Y6Xs8MzSiLVBdXS+QLjMMU8trB3WeQNDPwV/wsY/dCD5XjsbGF1o3zBWlT
+ Zv9426I+pm60L9woeIgpCFIQL4nIgzk0lOGIRaXZKR5Rm/k/YEV2l9ByyK3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1665655024; x=1665741424; bh=ElrFCOQYz9811
+ QjA+EhljWQJuhopMm0PAtIt4Y0PiLk=; b=Y4teWWMceoV4F1I7ZuUd+/WDAP/4V
+ kARrTUAl0vvYdaNnkfp0DXHbouVSO9pf8AQTP/oYQwrFpIZJEeS3VmyoxGy8tnD7
+ Q9w4bu4otB7Hbtsj7Dyr0baFn+dXlTnsrXhdusg21qoVnHXzyVMOQlzCmsahIQDE
+ rHX351Qg/ieyfVvLETq0gNLPYBO+Zv0GpgMoSoSU6EQgu/wKPp3aabDLp8RNmXHM
+ XQ7qnMoKbIY6PJ5h2QCRQx/1O/XQlz96jrCNDEiWOyph7ZHp202fof5Xfxw8wi+V
+ z5aV2rdu26mv53rH1NvFDVZhooSKCBovYgAXNT7LQy3LGtYFgdmCln7MA==
+X-ME-Sender: <xms:8OBHYxg_CHC8TNkEsY_PK2T1_5OITwwNcQPk-UpeuzsroTeOgoN7qQ>
+ <xme:8OBHY2CJSF4ZGCRLp7sdFb7ly0l-uXyBE47O1KycAi-ez_hMwwlxADCcJvkTMT8eq
+ rwqwXS1wPAZ7W8bRK4>
+X-ME-Received: <xmr:8OBHYxEWLyx55AQX6wCrDiYDtnVYKHl-q-NRzRGc1JZZp6tweDc8yCPwsdfz>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgvdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepufggtgfghfffkffvvefosehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepvdehfeejtefhgeegudegveejieetfeeugeehveffteejkedufeeltedutdeu
+ geehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:8OBHY2QXb3jnZ8y1g6Bj-zDF66BYHvMb96Jc_eGqCWk6M_-rlndj4Q>
+ <xmx:8OBHY-yRxJp3u_KobENmMx9Fo3cOqcZ90y06SnHOZ4BuqyozeKEWiw>
+ <xmx:8OBHY87FQi_YXKz5g5C5lKPU1fmFqsF9qV6mleJoVl9RwbVPF-sykA>
+ <xmx:8OBHYw7obaVWRX8T79IH2OidkN3EFF_oBKqgoi3PuJpl79ueLQ71kw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Oct 2022 05:57:03 -0400 (EDT)
+Subject: [PATCH 0/7] drm/vc4: dpi: Various improvements
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 2/2] drm/vc4: hdmi: Check the HSM rate at runtime_resume
-To: Maxime Ripard <maxime@cerno.tech>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIANzgR2MC/w3LQQqEMAxA0atI1gZsSxG9TW3DGNAoiboR7z5Z/MVb/BeMlMlg7l5Qetj4EEfoO6
+ hrkR8hNzfEIcYwhIR6MjaP91OPh3aSy7CmNuacU6hpAl+XYoSLFqmrz3Jv2/f9AQtg5JhrAAAA
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Thu, 13 Oct 2022 11:56:44 +0200
+Message-Id: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
+To: Maxime Ripard <mripard@kernel.org>, Eric Anholt <eric@anholt.net>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>, Rob Herring <robh@kernel.org>,
  Emma Anholt <emma@anholt.net>
-References: <20220929-rpi-pi3-unplugged-fixes-v1-0-cd22e962296c@cerno.tech>
- <20220929-rpi-pi3-unplugged-fixes-v1-2-cd22e962296c@cerno.tech>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220929-rpi-pi3-unplugged-fixes-v1-2-cd22e962296c@cerno.tech>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.11.0-dev-7da52
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1493; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=mBzc73alVw2h+DQ2TtBLxfsGXPDhw2QfH578ZOwcUoQ=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnuD9666/w6fjWoe4066wn7iN2893YEhfEH/smT27zvX0Ni
+ z3fhjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAExkiiAjw4rrpROdRQ8IN9770r8l/G
+ 7pA+UFPz/MKtQxfHnOZMsBcx1Ghmcrv2bXxbmkX3y32Svmfw3fnjOcvfze6lvPbPJfeNt8GQMA
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,29 +92,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Marc Kleine-Budde <mkl@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Joerg Quinten <aBUGSworstnightmare@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>, Chris Morgan <macromorgan@hotmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/29/22 11:21, Maxime Ripard wrote:
-> If our HSM clock has not been properly initialized, any register access
-> will silently lock up the system.
-> 
-> Let's check that this can't happen by adding a check for the rate before
-> any register access, and error out otherwise.
-> 
-> Link: https://lore.kernel.org/dri-devel/20220922145448.w3xfywkn5ecak2et@pengutronix.de/
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
+Hi,
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Those patches have been in the downstream RaspberryPi tree for a while and help
+to support more DPI displays.
 
--- 
+Let me know what you think,
+Maxime
+
+To: Emma Anholt <emma@anholt.net>
+To: Maxime Ripard <mripard@kernel.org>
+To: David Airlie <airlied@linux.ie>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Eric Anholt <eric@anholt.net>
+To: Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Chris Morgan <macromorgan@hotmail.com>
+Cc: Joerg Quinten <aBUGSworstnightmare@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+---
+Chris Morgan (2):
+      media: uapi: add MEDIA_BUS_FMT_RGB565_1X24_CPADHI
+      drm/vc4: dpi: Support RGB565 format
+
+Dave Stevenson (2):
+      drm/vc4: dpi: Change the default DPI format to being 18bpp, not 24.
+      drm/vc4: dpi: Fix format mapping for RGB565
+
+Joerg Quinten (3):
+      media: uapi: add MEDIA_BUS_FMT_BGR666_1X18
+      media: uapi: add MEDIA_BUS_FMT_BGR666_1X24_CPADHI
+      drm/vc4: dpi: Support BGR666 formats
+
+ drivers/gpu/drm/vc4/vc4_dpi.c         | 16 +++++++++++++---
+ include/uapi/linux/media-bus-format.h |  5 ++++-
+ 2 files changed, 17 insertions(+), 4 deletions(-)
+---
+base-commit: c9b48b91e2fbb74fb981aa616a6ef3c78194077f
+change-id: 20221013-rpi-dpi-improvements-c3d755531c39
+
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+-- 
+Maxime Ripard <maxime@cerno.tech>
