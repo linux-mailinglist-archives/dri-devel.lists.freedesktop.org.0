@@ -2,152 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC785FDEBD
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 19:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3892A5FE10B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 20:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8555C10E30C;
-	Thu, 13 Oct 2022 17:13:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED8F110E303;
+	Thu, 13 Oct 2022 18:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81A0F10E305;
- Thu, 13 Oct 2022 17:13:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665681235; x=1697217235;
- h=message-id:date:subject:to:references:from:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=SiXHQwfSpxURR9acwzBrKe/4yACEEZAl0K063FdSxMo=;
- b=cX3WdlJDKPEj33Hw8JWJ7K5pNlsoRl6UxgZKkqnNQlEop0nOKO7oHwIo
- C8Ag3VmXUeKvquFTVrjp8Q7yB2S5KRGCj0UXGImzr5KQhjqodhfHSRlbq
- mXOFGDX/GbKaO89O9ZZsu4LmFAnPdM00mZQy6/2ACas2v2ADZUrZcD9uP
- K3clq4lD8n5KlOMvrNsHE47wWon7AenVbbjg1JxLaCkEbiRr59enKcR3H
- eVV5CK1/wZ1eAibiY/+cs8JFuNVCNqocPLTfAbuq7WMEIWOCTFdFSQIiY
- DSKSd/zdA1VGa3DvdSNTg3MsKmMBFvWOMZTp8Dfs0OQetWIRsmCYZ6Z8x g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="391456417"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="391456417"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 10:13:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="605058450"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="605058450"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga006.jf.intel.com with ESMTP; 13 Oct 2022 10:13:54 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 10:13:54 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 10:13:53 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 13 Oct 2022 10:13:53 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.102)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 13 Oct 2022 10:13:53 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ecTjmSX3xGVgrF/xZDNseyOT/LoTfPrfZ/pcLP4KkFxLCplPQPjzai9H4pv7a8VRdSKLvIqXbcKYlXga/wEHr8PLaGy4BN4Hbl0qY8lL39RvPNu8t0EviUyto8Bpt3q4iLpiz+SvQcI1uyhPZc8YTY9riyuHVvvvdXB7w8AFAcGPWiQbJrmXdlpVGUPRMJ5yz1x5DtAhb4le8CXjqfy1WgWphUEtXPeosdS9QEfUbZpJkCzUIyc0VMgm7fLAwcmmx+HO9VKetCRpjEPPfYxkrulHuD7uDKz1vDEv+AIhLTfbXQuUX0KfyTQPbtSbwQ+l2b9/engcgrHXTu+PxIi4RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XRPXidt/D6CiwZ7dam3Uy754b0hUBfyIzsEEJoouBYo=;
- b=Ihwng+NE/wqO6OKdxu3kSf19sZIzG9+XCiw8jveVdCWn1spsP8EwdI572ISyQbYhZH5SE+xL+TXP/GqwhZ9VzS+bz1KNuHqRbSF5UYVeB7msgL4SheBiul+xN/cdh5fvIHouwGyJjbC+YQ67/qZhakkXRIMgQr7BwO6UNrq5CGaHwUQoZglJJAClEPBAs6iFi+P7uFI9Mew3qTirWTkwMD7Ti0lZe2HKEItaKlauPVB05ULjsUHCsc+L+2a8aztFhZgzLBk9D7TJuqRx687SDweM1tcsaBmrnVv2xgpp335U+Br7eU2VCMLFjB73kFy3rFBS22LCNhep2PQ8Tbrbww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- by SA0PR11MB4718.namprd11.prod.outlook.com (2603:10b6:806:98::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Thu, 13 Oct
- 2022 17:13:51 +0000
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::c7a5:baef:b2be:1516]) by SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::c7a5:baef:b2be:1516%6]) with mapi id 15.20.5723.026; Thu, 13 Oct 2022
- 17:13:51 +0000
-Message-ID: <44a40ecc-c97d-ed55-1628-6f5e85e65232@intel.com>
-Date: Thu, 13 Oct 2022 22:43:42 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.13.1
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/slpc: Use platform limits for
- min/max frequency
-Content-Language: en-US
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Nirmoy
- Das" <nirmoy.das@intel.com>
-References: <20221013155524.25886-1-vinay.belgaumkar@intel.com>
-From: "Tauro, Riana" <riana.tauro@intel.com>
-In-Reply-To: <20221013155524.25886-1-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0145.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::30) To SJ0PR11MB4845.namprd11.prod.outlook.com
- (2603:10b6:a03:2d1::10)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E4C10E303;
+ Thu, 13 Oct 2022 18:23:55 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id a67so3749972edf.12;
+ Thu, 13 Oct 2022 11:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=80yVJmDj5IDbUK+aqS6l/dUBm+Bwn69DEdWiolHKVEQ=;
+ b=FSJPenagde4qSchQNLIGuKH7m39FqdZYDX4cXscDrSd4DQs0L1KMc4rzYAQdelzOnj
+ UF6Ak0NK52yT8/8DfdNJEj9A6gPHnDn66V7+1VWIUqHsECMy3uBtxD1ZuMqhx07ZGxmH
+ JrBntFO5CY3UNA85w3OBtKxuhgF5e76Lt7ylZMABNDblsdysCHcDVS8mPFZv9H1JdZ/I
+ AKJH0uhU+XEyG10Nd+LEc8vJ0DUGh/1JFMAtnOsnuQLT22u523AH4mmuX/7Zqs6DzjRA
+ bG2+Qr5Isa0Tcz+PCt82cXW69Q2hRvI0SGZdd/KO1uPpP7a67dpLrTUV1TBOjvgtGohS
+ UKkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=80yVJmDj5IDbUK+aqS6l/dUBm+Bwn69DEdWiolHKVEQ=;
+ b=JAMfg5Bvy3V5S23i3bvj5+daieW9U/8SUe7TWU1FUGarNC4NcH2hVrP7uqrSNRguPG
+ OFGt0e/5ScZjRSPfkv/vdvUWD/y9inbnbhdwKOSWQhmm1Ys0fyTqGTlfyuhbE57flE16
+ 3NU4sF2DpLRU+TVO1UivLhSLheUHMExD46iKJJAmOlx64zUb6c82pGCbvzVnhcw0Fy7K
+ jqiMo9uInPEAOCoLbr4DIZsWqwxp10mMDsqxPPNk3irmz9iDkovxLT55H9VZPzwk3QxW
+ BDG5Fe8L7AknFNHBmVyZ0TrtMWi32oDpV/xcC3MkyinWLt2wCAy2u0DQuj7/2t5osJl6
+ jRYA==
+X-Gm-Message-State: ACrzQf0/4kMhK9vMcc2UGww+Cn6FfqJog3q5QovqKr9Io38VWriXHLS5
+ 9VWe7vJWbXGcTEJqxGECaPI=
+X-Google-Smtp-Source: AMsMyM7ssKdTrHDlPNauUb77WDG9zWLblYWKO18kRWRI7jkR1dhN23ZFAp3iq6h3HOsgFFKHyT7dhQ==
+X-Received: by 2002:a05:6402:b3c:b0:458:f680:6ab8 with SMTP id
+ bo28-20020a0564020b3c00b00458f6806ab8mr923431edb.267.1665685433991; 
+ Thu, 13 Oct 2022 11:23:53 -0700 (PDT)
+Received: from kista.localnet (82-149-19-102.dynamic.telemach.net.
+ [82.149.19.102]) by smtp.gmail.com with ESMTPSA id
+ e2-20020a170906314200b00730df07629fsm196329eje.174.2022.10.13.11.23.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 11:23:53 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v5 22/22] drm/sun4i: tv: Convert to the new TV mode
+ property
+Date: Thu, 13 Oct 2022 20:23:51 +0200
+Message-ID: <6482539.4vTCxPXJkl@kista>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-22-d841cc64fe4b@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-22-d841cc64fe4b@cerno.tech>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|SA0PR11MB4718:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1435b82-d2ac-4826-cd5d-08daad3e4cd5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6DALSoUdx0Yrbf2MsHXRIHRKv7HKAN0QyscTwMsMNwj/Nxb96xasRbf+LoA7pLa4BLX3C3EudvTdz0uijNUYnNz0c5BKX2VVFwJPgaxbuAZuY2zaDliwKhMDl1popdhsYgM5JLZGvQRbU6m3iawekoHwhb7KBWWOITnhs6M2HDwr23Z0STcz36K6yM8Th7RbsB3/gFKjqS1OIhHq6x7BOS0FfSAMKWUSim7Rmgb4YVq6BVWFL7umxzz81ffD5KGeO470m1LKva8sgN5kj1KZKczMJ7CiWnMsJLL9UWd+inBm22T7ZUI+WmBlE0Eq8bp2nxfKrQLiptY7LlAyK4HF5+kuMDUKhi20b/k7LawpUGhxaS446YlaycvyVGfclndCH9D2IMtGHN4QzcKuaJh0gCsqAW9lDcnMhY/1f1YjWG1NnCRLNRqmhJjFCpgZBqdpsDlk82LSPCllWCdJ/dFYKitu2YdCh89NzK8pLczw3C7BzRiXG/CzFUaw1EXuMkXGfsZKoc4+uF/GXoDptH4qeV/5WEv70g/MplITK6fGElk5oCLHQ1l70zcedutn3KyRDZ1ig6mWh0IBwKgsJPKQyoxoWnpTc42goaBiO+0nx9s6/gzn7kRJQS2UhrJmEAMP/ZaH8ZWiDZ2NcDQZ/hVFSl+fzavNxsh5nIa8LVoKnJBu1+PWyzjXRNq5DzzqFUoGSa/hxlFfg46TBF/5xd0InJ2f3wwrZw59P/tsHS80EaUrj5AfbobDWLbVEH3/wfAJ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(366004)(346002)(376002)(396003)(39860400002)(451199015)(110136005)(316002)(478600001)(6636002)(6666004)(6486002)(966005)(450100002)(31686004)(66476007)(66946007)(8676002)(66556008)(6512007)(8936002)(26005)(41300700001)(186003)(5660300002)(6506007)(2616005)(2906002)(36756003)(83380400001)(82960400001)(38100700002)(53546011)(86362001)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c1hsMTlxaVBjUTFmYkNjMnkrZUFKK2F1ZDRmMGFQWkdkbVpaRk9FZU1oY0FP?=
- =?utf-8?B?THNrS09NOXJhOUcyL0t3WkRUdmJ3b0ZyMTBZaDVvZHdaN0FjcDNwaTkwYjh4?=
- =?utf-8?B?ZEU1YjllMUwwdi93ZFZ0SCsrc25XVUxpMjkycXdrM09maytQQ3M1SkRuQ3A2?=
- =?utf-8?B?bTBFNVY4TmNCL09JMmpyaUZHSXFxcWFtaXY3UjBLODdTYVlONHI5UjhQZC9s?=
- =?utf-8?B?MFUySFFtVzRMN3k0Rzg5VXUrNXNjSi9RUlpKL1pnQ1NpbXVKVFhUVnV5N1pt?=
- =?utf-8?B?ODF5RHhTUkowUkFnWVJYSlYzcWFSZUh5U3V4NjVhcE9Xb1lMV1NrVW50Q3lM?=
- =?utf-8?B?NERncVdSeDFjZVVoYnJVZXMrakhOS2F4cU1ValZBc1NEeUs0bkJJQUUvKzNH?=
- =?utf-8?B?OHM3dmZFR3ZhcDVZVU9rdXRyZ3pHZGI3M0hMeWpHYk9nM1Q3LzRSamRUZ0Zk?=
- =?utf-8?B?am1JK2oxcS9kdW9TRE1BMUFsakdGVDFKbmZmQWMxKzJybzFTNHhCaGtsWllG?=
- =?utf-8?B?blBuRHFkcHFSR2pEYmg4RlI3UFVtZ3BRWjRiVHYyTzZzOTIxc21ma2N1WXdY?=
- =?utf-8?B?YzFTK0QyKzIwUml5NDlBU1VzQVZleDJZNE9tVTRnUFBDSHMyUjh3OWE5SFFR?=
- =?utf-8?B?NkcydjBCOW1ITVM0NVd6OUU3eFZCVWE4VCtabSs1ZnZaM1pNanF1bmZuWkkw?=
- =?utf-8?B?Q1JVTDlvUVZ1ZGt3NTByK2NFM24zdlMzUWthNHRySlFLRXY0dk5KbDZsSTht?=
- =?utf-8?B?b2V4Y1R1MGRobGtmd3EzemNQeWZIc1NvYlpxcno4ZTEzWEdzOTJlQ2FIckpr?=
- =?utf-8?B?U1FFMXdHblhmMURDZjRranRUNlZ3Mk5NREkxUjh3LzBYdHp4M1FiRjFQYTRs?=
- =?utf-8?B?RFhoNGp3ZUF1T3hjQzlRNU9tY0xubHk1SHFST0R0MmxOSW1CNVZVNWRCd0ti?=
- =?utf-8?B?Mm02U0M3RHBNYmdIZy9ybWVnb2tuOE9EaFpnaG5CcGwyT0VhVkV5M2hhbTRR?=
- =?utf-8?B?RzNoUXVodFR0Y0hHQ3NjWHBCRS9WeHFFVXNhN2xCcVZZNnZJWWF4ZVhsc0lF?=
- =?utf-8?B?QnFsaWNoZzBRSmlzR2VlS3E1WUF1RUh2TlRuL3VCWFhDL0tzWnFyMkFPVEU3?=
- =?utf-8?B?NFhVNlVZa0tKTDkxZ2NnSmdMR3RxZDREUHFKVDcrd1NSWTZBK1lWZHhadGh2?=
- =?utf-8?B?dm5EWXY1QVJVcHJBRnZ5SS9YZ2phQktzbVlGTDREYy9OUFFLMUVRTVc4T1Jx?=
- =?utf-8?B?NkltcVMrME1Ta3REUGJrbEJ5bFk5WWdaOWJJV2YzVWVvUnBETEp5aWNQaUxN?=
- =?utf-8?B?Z2Z6ZUlEVWJzSXlPRWN1Y3NSMUtCUTRkbEVaQjdUVTZJR044N2pYZjNHTU5i?=
- =?utf-8?B?WGRyanRYOGprRWdnUGFqNmJqNVJVc0VBQjR0VyttV25EUW9WV2VqSnJ6YW9Y?=
- =?utf-8?B?dnl6Mmk4NWowZ2VQOWZTczlmZU5USGtSNGk5Z1NIMzdHQ3hNeDlnR0cxSVlI?=
- =?utf-8?B?OHZENHFWa1JpeUtLQ3IrWEtHOFFldXFDaldVSHE4SytQYkVSbElEWmZ3U3oz?=
- =?utf-8?B?MkE5L0trcER0aVNDRTE5SlJNSlE3M3kvK2JFaTR4YUs1TVNzR2crVHBSekVN?=
- =?utf-8?B?TVlHNjJFaERpV0JXdFBNYkcwTWVmL256RThZMTlUb2FjZ2ozanQ0Z292UlJQ?=
- =?utf-8?B?S0t2cmlaZ2JvUE1DUzRJU1AvU0tWVEZlV2w4V0ttY0F2NjRkR3NsQjlqVWhn?=
- =?utf-8?B?V0hiUmw3cjBPUlFPc21kT0t0dnlPWFY1UmZ3K3hlSUtvbE5Qdk9nMVJiUUln?=
- =?utf-8?B?ZnJIeDk2Rkg1MnZoMUN0WjlZbFpFWTdVamcyeitvdEpBeHlVNS9NZ0JmV0VL?=
- =?utf-8?B?OWp1Y29yMURFaHVRMjYvNTZuRzhneEgxb3ZITmlQeGFQQXpFT3VQN00rR2RH?=
- =?utf-8?B?YjFKWmFVQXZCOGNHYzhtaHBVV3I0VzlZalJ0YWszK1F3WjZFOHY0eUNjMmsw?=
- =?utf-8?B?M0dRVWFHVDFrdE1RWCtDcWphL2ZtN2x3Ym5oc1c1cG1LdWJPbVRsYU1Ha1Jm?=
- =?utf-8?B?QVB6dU81U25GMktnRk5zQTlVWm83VU5pbURnYnVtbFozTWk2b0RWZ29FT2lL?=
- =?utf-8?Q?3UKVaBT//SAONwpp5w/O3CiI6?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1435b82-d2ac-4826-cd5d-08daad3e4cd5
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2022 17:13:51.8299 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AKP74OtiXqELt5SgIADfHq0EwVPci+S4uy8p+TAK35pA25lG6Wsl3Q3ocvSZp0L7nRC/v/41XXeQupPduxMghA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4718
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,166 +84,320 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Noralf =?ISO-8859-1?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
-
-On 10/13/2022 9:25 PM, Vinay Belgaumkar wrote:
-> GuC will set the min/max frequencies to theoretical max on
-> ATS-M. This will break kernel ABI, so limit min/max frequency
-> to RP0(platform max) instead.
-> 
-> Also modify the SLPC selftest to update the min frequency
-> when we have a server part so that we can iterate between
-> platform min and max.
-> 
-> v2: Check softlimits instead of platform limits(Riana)
-> 
-> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7030
-> 
-> Acked-by: Nirmoy Das <nirmoy.das@intel.com>
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Reviewed-by: Riana Tauro <riana.tauro@intel.com>
+Dne =C4=8Detrtek, 13. oktober 2022 ob 15:19:06 CEST je Maxime Ripard napisa=
+l(a):
+> Now that the core can deal fine with analog TV modes, let's convert the
+> sun4i TV driver to leverage those new features.
+>=20
+> Acked-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
 > ---
->   drivers/gpu/drm/i915/gt/selftest_slpc.c       | 40 +++++++++++++------
->   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 29 ++++++++++++++
->   .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  3 ++
->   3 files changed, 60 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-> index 4c6e9257e593..e42bc215e54d 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-> @@ -234,6 +234,7 @@ static int run_test(struct intel_gt *gt, int test_type)
->   	enum intel_engine_id id;
->   	struct igt_spinner spin;
->   	u32 slpc_min_freq, slpc_max_freq;
-> +	u32 saved_min_freq;
->   	int err = 0;
->   
->   	if (!intel_uc_uses_guc_slpc(&gt->uc))
-> @@ -252,20 +253,35 @@ static int run_test(struct intel_gt *gt, int test_type)
->   		return -EIO;
->   	}
->   
-> -	/*
-> -	 * FIXME: With efficient frequency enabled, GuC can request
-> -	 * frequencies higher than the SLPC max. While this is fixed
-> -	 * in GuC, we level set these tests with RPn as min.
-> -	 */
-> -	err = slpc_set_min_freq(slpc, slpc->min_freq);
-> -	if (err)
-> -		return err;
-> +	if (slpc_min_freq == slpc_max_freq) {
-> +		/* Server parts will have min/max clamped to RP0 */
-> +		if (slpc->min_is_rpmax) {
-> +			err = slpc_set_min_freq(slpc, slpc->min_freq);
-> +			if (err) {
-> +				pr_err("Unable to update min freq on server part");
-> +				return err;
-> +			}
->   
-> -	if (slpc->min_freq == slpc->rp0_freq) {
-> -		pr_err("Min/Max are fused to the same value\n");
-> -		return -EINVAL;
-> +		} else {
-> +			pr_err("Min/Max are fused to the same value\n");
-> +			return -EINVAL;
-> +		}
-> +	} else {
-> +		/*
-> +		 * FIXME: With efficient frequency enabled, GuC can request
-> +		 * frequencies higher than the SLPC max. While this is fixed
-> +		 * in GuC, we level set these tests with RPn as min.
-> +		 */
-> +		err = slpc_set_min_freq(slpc, slpc->min_freq);
-> +		if (err)
-> +			return err;
->   	}
->   
-> +	saved_min_freq = slpc_min_freq;
+> Changes in v5:
+> - Removed the count variable in get_modes
+> - Removed spurious vc4 change
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_tv.c | 145
+> +++++++++++++-------------------------- 1 file changed, 48 insertions(+),
+> 97 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c
+> b/drivers/gpu/drm/sun4i/sun4i_tv.c index c65f0a89b6b0..4f07aff11551 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tv.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
+> @@ -141,23 +141,14 @@ struct resync_parameters {
+>  struct tv_mode {
+>  	char		*name;
+>=20
+> +	unsigned int	tv_mode;
 > +
-> +	/* New temp min freq = RPn */
-> +	slpc_min_freq = slpc->min_freq;
-> +
->   	intel_gt_pm_wait_for_idle(gt);
->   	intel_gt_pm_get(gt);
->   	for_each_engine(engine, gt, id) {
-> @@ -347,7 +363,7 @@ static int run_test(struct intel_gt *gt, int test_type)
->   
->   	/* Restore min/max frequencies */
->   	slpc_set_max_freq(slpc, slpc_max_freq);
-> -	slpc_set_min_freq(slpc, slpc_min_freq);
-> +	slpc_set_min_freq(slpc, saved_min_freq);
->   
->   	if (igt_flush_test(gt->i915))
->   		err = -EIO;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index fdd895f73f9f..11613d373a49 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -263,6 +263,7 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->   
->   	slpc->max_freq_softlimit = 0;
->   	slpc->min_freq_softlimit = 0;
-> +	slpc->min_is_rpmax = false;
->   
->   	slpc->boost_freq = 0;
->   	atomic_set(&slpc->num_waiters, 0);
-> @@ -588,6 +589,31 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
->   	return 0;
->   }
->   
-> +static bool is_slpc_min_freq_rpmax(struct intel_guc_slpc *slpc)
-> +{
-> +	int slpc_min_freq;
-> +
-> +	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq))
-> +		return false;
-> +
-> +	if (slpc_min_freq > slpc->rp0_freq)
-> +		return true;
-> +	else
-> +		return false;
-> +}
-> +
-> +static void update_server_min_softlimit(struct intel_guc_slpc *slpc)
-> +{
-> +	/* For server parts, SLPC min will be at RPMax.
-> +	 * Use min softlimit to clamp it to RP0 instead.
-> +	 */
-> +	if (is_slpc_min_freq_rpmax(slpc) &&
-> +	    !slpc->min_freq_softlimit) {
-> +		slpc->min_is_rpmax = true;
-> +		slpc->min_freq_softlimit = slpc->rp0_freq;
+>  	u32		mode;
+>  	u32		chroma_freq;
+>  	u16		back_porch;
+>  	u16		front_porch;
+> -	u16		line_number;
+>  	u16		vblank_level;
+
+isn't there a way to get or calculate back_porch, front_porch and vblank_le=
+vel=20
+from mode? From quick glance over removed values below, I would say that at=
+=20
+least back_porch can be removed too?
+
+Otherwise this patch looks ok.
+
+Best regards,
+Jernej
+
+>=20
+> -	u32		hdisplay;
+> -	u16		hfront_porch;
+> -	u16		hsync_len;
+> -	u16		hback_porch;
+> -
+> -	u32		vdisplay;
+> -	u16		vfront_porch;
+> -	u16		vsync_len;
+> -	u16		vback_porch;
+> -
+>  	bool		yc_en;
+>  	bool		dac3_en;
+>  	bool		dac_bit25_en;
+> @@ -213,7 +204,7 @@ static const struct resync_parameters
+> pal_resync_parameters =3D {
+>=20
+>  static const struct tv_mode tv_modes[] =3D {
+>  	{
+> -		.name		=3D "NTSC",
+> +		.tv_mode	=3D DRM_MODE_TV_MODE_NTSC,
+>  		.mode		=3D SUN4I_TVE_CFG0_RES_480i,
+>  		.chroma_freq	=3D 0x21f07c1f,
+>  		.yc_en		=3D true,
+> @@ -222,17 +213,6 @@ static const struct tv_mode tv_modes[] =3D {
+>=20
+>  		.back_porch	=3D 118,
+>  		.front_porch	=3D 32,
+> -		.line_number	=3D 525,
+> -
+> -		.hdisplay	=3D 720,
+> -		.hfront_porch	=3D 18,
+> -		.hsync_len	=3D 2,
+> -		.hback_porch	=3D 118,
+> -
+> -		.vdisplay	=3D 480,
+> -		.vfront_porch	=3D 26,
+> -		.vsync_len	=3D 2,
+> -		.vback_porch	=3D 17,
+>=20
+>  		.vblank_level	=3D 240,
+>=20
+> @@ -242,23 +222,12 @@ static const struct tv_mode tv_modes[] =3D {
+>  		.resync_params	=3D &ntsc_resync_parameters,
+>  	},
+>  	{
+> -		.name		=3D "PAL",
+> +		.tv_mode	=3D DRM_MODE_TV_MODE_PAL,
+>  		.mode		=3D SUN4I_TVE_CFG0_RES_576i,
+>  		.chroma_freq	=3D 0x2a098acb,
+>=20
+>  		.back_porch	=3D 138,
+>  		.front_porch	=3D 24,
+> -		.line_number	=3D 625,
+> -
+> -		.hdisplay	=3D 720,
+> -		.hfront_porch	=3D 3,
+> -		.hsync_len	=3D 2,
+> -		.hback_porch	=3D 139,
+> -
+> -		.vdisplay	=3D 576,
+> -		.vfront_porch	=3D 28,
+> -		.vsync_len	=3D 2,
+> -		.vback_porch	=3D 19,
+>=20
+>  		.vblank_level	=3D 252,
+>=20
+> @@ -276,63 +245,21 @@ drm_encoder_to_sun4i_tv(struct drm_encoder *encoder)
+>  			    encoder);
+>  }
+>=20
+> -/*
+> - * FIXME: If only the drm_display_mode private field was usable, this
+> - * could go away...
+> - *
+> - * So far, it doesn't seem to be preserved when the mode is passed by
+> - * to mode_set for some reason.
+> - */
+> -static const struct tv_mode *sun4i_tv_find_tv_by_mode(const struct
+> drm_display_mode *mode) +static const struct tv_mode *
+> +sun4i_tv_find_tv_by_mode(unsigned int mode)
+>  {
+>  	int i;
+>=20
+> -	/* First try to identify the mode by name */
+>  	for (i =3D 0; i < ARRAY_SIZE(tv_modes); i++) {
+>  		const struct tv_mode *tv_mode =3D &tv_modes[i];
+>=20
+> -		DRM_DEBUG_DRIVER("Comparing mode %s vs %s",
+> -				 mode->name, tv_mode->name);
+> -
+> -		if (!strcmp(mode->name, tv_mode->name))
+> -			return tv_mode;
+> -	}
+> -
+> -	/* Then by number of lines */
+> -	for (i =3D 0; i < ARRAY_SIZE(tv_modes); i++) {
+> -		const struct tv_mode *tv_mode =3D &tv_modes[i];
+> -
+> -		DRM_DEBUG_DRIVER("Comparing mode %s vs %s (X: %d vs=20
+%d)",
+> -				 mode->name, tv_mode->name,
+> -				 mode->vdisplay, tv_mode-
+>vdisplay);
+> -
+> -		if (mode->vdisplay =3D=3D tv_mode->vdisplay)
+> +		if (tv_mode->tv_mode =3D=3D mode)
+>  			return tv_mode;
+>  	}
+>=20
+>  	return NULL;
+>  }
+>=20
+> -static void sun4i_tv_mode_to_drm_mode(const struct tv_mode *tv_mode,
+> -				      struct drm_display_mode=20
+*mode)
+> -{
+> -	DRM_DEBUG_DRIVER("Creating mode %s\n", mode->name);
+> -
+> -	mode->type =3D DRM_MODE_TYPE_DRIVER;
+> -	mode->clock =3D 13500;
+> -	mode->flags =3D DRM_MODE_FLAG_INTERLACE;
+> -
+> -	mode->hdisplay =3D tv_mode->hdisplay;
+> -	mode->hsync_start =3D mode->hdisplay + tv_mode->hfront_porch;
+> -	mode->hsync_end =3D mode->hsync_start + tv_mode->hsync_len;
+> -	mode->htotal =3D mode->hsync_end  + tv_mode->hback_porch;
+> -
+> -	mode->vdisplay =3D tv_mode->vdisplay;
+> -	mode->vsync_start =3D mode->vdisplay + tv_mode->vfront_porch;
+> -	mode->vsync_end =3D mode->vsync_start + tv_mode->vsync_len;
+> -	mode->vtotal =3D mode->vsync_end  + tv_mode->vback_porch;
+> -}
+> -
+>  static void sun4i_tv_disable(struct drm_encoder *encoder,
+>  			    struct drm_atomic_state *state)
+>  {
+> @@ -356,7 +283,11 @@ static void sun4i_tv_enable(struct drm_encoder
+> *encoder, struct drm_crtc_state *crtc_state =3D
+>  		drm_atomic_get_new_crtc_state(state, encoder->crtc);
+>  	struct drm_display_mode *mode =3D &crtc_state->mode;
+> -	const struct tv_mode *tv_mode =3D sun4i_tv_find_tv_by_mode(mode);
+> +	struct drm_connector *connector =3D &tv->connector;
+> +	struct drm_connector_state *conn_state =3D
+> +		drm_atomic_get_new_connector_state(state, connector);
+> +	const struct tv_mode *tv_mode =3D
+> +		sun4i_tv_find_tv_by_mode(conn_state->tv.mode);
+>=20
+>  	DRM_DEBUG_DRIVER("Enabling the TV Output\n");
+>=20
+> @@ -404,7 +335,7 @@ static void sun4i_tv_enable(struct drm_encoder *encod=
+er,
+> /* Set the lines setup */
+>  	regmap_write(tv->regs, SUN4I_TVE_LINE_REG,
+>  		     SUN4I_TVE_LINE_FIRST(22) |
+> -		     SUN4I_TVE_LINE_NUMBER(tv_mode->line_number));
+> +		     SUN4I_TVE_LINE_NUMBER(mode->vtotal));
+>=20
+>  	regmap_write(tv->regs, SUN4I_TVE_LEVEL_REG,
+>  		     SUN4I_TVE_LEVEL_BLANK(tv_mode->video_levels-
+>blank) |
+> @@ -467,35 +398,43 @@ static const struct drm_encoder_helper_funcs
+> sun4i_tv_helper_funcs =3D {
+>=20
+>  static int sun4i_tv_comp_get_modes(struct drm_connector *connector)
+>  {
+> -	int i;
+> +	struct drm_display_mode *mode;
+>=20
+> -	for (i =3D 0; i < ARRAY_SIZE(tv_modes); i++) {
+> -		struct drm_display_mode *mode;
+> -		const struct tv_mode *tv_mode =3D &tv_modes[i];
+> -
+> -		mode =3D drm_mode_create(connector->dev);
+> -		if (!mode) {
+> -			DRM_ERROR("Failed to create a new display=20
+mode\n");
+> -			return 0;
+> -		}
+> +	mode =3D drm_mode_analog_ntsc_480i(connector->dev);
+> +	if (!mode) {
+> +		DRM_ERROR("Failed to create a new display mode\n");
+> +		return -ENOMEM;
 > +	}
+>=20
+> -		strcpy(mode->name, tv_mode->name);
+> +	mode->type |=3D DRM_MODE_TYPE_PREFERRED;
+> +	drm_mode_probed_add(connector, mode);
+>=20
+> -		sun4i_tv_mode_to_drm_mode(tv_mode, mode);
+> -		drm_mode_probed_add(connector, mode);
+> +	mode =3D drm_mode_analog_pal_576i(connector->dev);
+> +	if (!mode) {
+> +		DRM_ERROR("Failed to create a new display mode\n");
+> +		return -ENOMEM;
+>  	}
+>=20
+> -	return i;
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	return 2;
+>  }
+>=20
+>  static const struct drm_connector_helper_funcs
+> sun4i_tv_comp_connector_helper_funcs =3D { +	.atomic_check	=3D
+> drm_atomic_helper_connector_tv_check,
+>  	.get_modes	=3D sun4i_tv_comp_get_modes,
+>  };
+>=20
+> +static void sun4i_tv_connector_reset(struct drm_connector *connector)
+> +{
+> +	drm_atomic_helper_connector_reset(connector);
+> +	drm_atomic_helper_connector_tv_reset(connector);
 > +}
 > +
->   static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
->   {
->   	/* Force SLPC to used platform rp0 */
-> @@ -647,6 +673,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->   
->   	slpc_get_rp_values(slpc);
->   
-> +	/* Handle the case where min=max=RPmax */
-> +	update_server_min_softlimit(slpc);
+>  static const struct drm_connector_funcs sun4i_tv_comp_connector_funcs =
+=3D {
+>  	.fill_modes		=3D drm_helper_probe_single_connector_modes,
+>  	.destroy		=3D drm_connector_cleanup,
+> -	.reset			=3D=20
+drm_atomic_helper_connector_reset,
+> +	.reset			=3D sun4i_tv_connector_reset,
+>  	.atomic_duplicate_state	=3D=20
+drm_atomic_helper_connector_duplicate_state,
+>  	.atomic_destroy_state	=3D=20
+drm_atomic_helper_connector_destroy_state,
+>  };
+> @@ -587,8 +526,20 @@ static int sun4i_tv_bind(struct device *dev, struct
+> device *master,
+>=20
+>  	drm_connector_attach_encoder(&tv->connector, &tv->encoder);
+>=20
+> +	ret =3D drm_mode_create_tv_properties(drm,
+> +					   =20
+BIT(DRM_MODE_TV_MODE_NTSC) |
+> +					   =20
+BIT(DRM_MODE_TV_MODE_PAL));
+> +	if (ret)
+> +		goto err_cleanup_connector;
 > +
->   	/* Set SLPC max limit to RP0 */
->   	ret = slpc_use_fused_rp0(slpc);
->   	if (unlikely(ret)) {
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> index 73d208123528..a6ef53b04e04 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> @@ -19,6 +19,9 @@ struct intel_guc_slpc {
->   	bool supported;
->   	bool selected;
->   
-> +	/* Indicates this is a server part */
-> +	bool min_is_rpmax;
+> +	drm_object_attach_property(&tv->connector.base,
+> +				   drm-
+>mode_config.tv_mode_property,
+> +				   DRM_MODE_TV_MODE_NTSC);
 > +
->   	/* platform frequency limits */
->   	u32 min_freq;
->   	u32 rp0_freq;
+>  	return 0;
+>=20
+> +err_cleanup_connector:
+> +	drm_connector_cleanup(&tv->connector);
+>  err_cleanup_encoder:
+>  	drm_encoder_cleanup(&tv->encoder);
+>  err_disable_clk:
+>=20
+> --
+> b4 0.11.0-dev-7da52
+
+
