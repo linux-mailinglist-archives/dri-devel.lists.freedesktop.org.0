@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6B85FD76E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:57:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A09255FD770
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 593B510E7AC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4111010E742;
 	Thu, 13 Oct 2022 09:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 580EC10E71F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:57:12 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id B4F525C00A6;
- Thu, 13 Oct 2022 05:57:11 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5EF10E71F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:57:14 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6EE865C015A;
+ Thu, 13 Oct 2022 05:57:13 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 13 Oct 2022 05:57:11 -0400
+ by compute3.internal (MEProxy); Thu, 13 Oct 2022 05:57:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665655031; x=
- 1665741431; bh=u1MKeK43KUVSNr+zlGBU1hNNtkwDdXrF2GqPW2EMI4Y=; b=D
- +zZ1Fc4ZBFSXef7tM+bIuF1Seiv0mr6zF4Vqwd243kEn5i/QHGrMLmko0N/1O81a
- qKpyywvkMls4P2sbY3XEIss+fpgk7mFrpR4lQ+aiwjQA5nzcHODog5S9HXQvTzdb
- WYFQjxeNT0/YKGYz2rqr8ap5zhDVHdW85IQHYzDt69ZBjbDDHRNI3jSIPTS+VkQq
- GuhQyd0Ux0pqUFUqHZ6e2+OJZdZ/XefBKs14IJ58l/UpsSnZKueftjyV02r/Qha1
- WtR3dz/EJCqFFDQVf5QFYJPchxG8fGsg85r2Xf5jGEq4hMGy8KT5lVls9LU96pph
- 90titF7qZeGD+4Ki1SFtg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665655033; x=
+ 1665741433; bh=c9JIB0N1ry3TbulJgGhW5FL0vfJVlWv5g9q7AUZjWIo=; b=a
+ NN4L3WxEDdGU/FywYDQ1MClme1PcOXNzlN9aC5XJvCd2iPBt52WDRnmmea/Bw4tb
+ Pjq+CPcIfsGZqQ04GRmTtdkLgKUxSOL2fsxwLqRk69mEE7WB5cSgR1N8ifVZA1dr
+ VfeQ4VPHQmRG3y/ep4yOt1wA3d5PwY3phY0jtfSZd9ILFgHwxB7wf4kimQm/Wx84
+ nTh0NW8SSrKtGc/vcoK9siOC2HTUkWA0nPWpqS6gtp77toeHOFbPIL8F4AySGQ/U
+ n8GhbVf5DsjeAiO9u4BO8K/JiC2ds9e1ZOH/ungBoeg2oZdn3pq6nqJZLydQG/Nr
+ rEigCVRTMOB/oJFvuts+g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665655031; x=
- 1665741431; bh=u1MKeK43KUVSNr+zlGBU1hNNtkwDdXrF2GqPW2EMI4Y=; b=E
- MKMv+y19UkgmjQjJnz0/C0PQbdYCK3C+HlPyaVhiDPs08xmsw5waorM1KwnWd/LR
- e9jYpEyWlv/bPFixoX1woa/C4kTr0b4ju8HnqvFY50sNCdHodmquph8rS5afI1Tv
- 9o6QpFY+05eoGJLzG5C7y+zJXIN4ZvdEmaOB1bkC1TV1PbI8dF5WIR/5U7nCBK3i
- rh53bQmXgw87eWFGPoOqgTKVXMSmLcyzAQ70HZt+Hcof45JBv+nVD9Pe3KIrZh0s
- mlLJuPGFERFpe8w4d5JRDoyEyTxnKCO/yePo1A6HOalLJw+vGe6S56vMk6StwdlF
- 681aMbZ5r2C3h4hbQA7gw==
-X-ME-Sender: <xms:9-BHY1UPp81QmRrplMVb-gWvwpETKbr2HhJZ4VWGVExymihrbfxrIg>
- <xme:9-BHY1kBOshsN1gdJGfozyxn-1lUfN-igZ07E3LuApDrJckk6XwbVZc_Vbl1sxB9K
- K9C37edCWqbqHbe-Ic>
-X-ME-Received: <xmr:9-BHYxbhVMGqzRM_xl5Lh2idWwpw7M2aEG9I6miNvTOj46VtOzfgjyqIYqUc>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665655033; x=
+ 1665741433; bh=c9JIB0N1ry3TbulJgGhW5FL0vfJVlWv5g9q7AUZjWIo=; b=d
+ /0OVpEDQ4TNzQNUgQnRMlEeaIoZztjGK5DkZLhsgRkdUrbHrQa6hwSWFiNeemjS7
+ DICz4nAkECI8Xk8P+PxBoi3XLftlyoCXrxSdklqfr1aQEH8j0Xyd2Oj2ZGztQtk5
+ wolFOxmuWig42x/+YE5L/1TeuO/zzVpiSq2UKf7ntl4JVIRAEU9cvyRL3jE0Albl
+ VZHQU/txbAY3QuKGotCY8gQcy5LIYL18Tc1YKVfyoaa3heNPwtArFJY+IWiiocOi
+ XaKkzZGpx0ntWjQ5MM4M17eDgArCnL4eSO/BRFa0/EXJ4Wq2MNA6Au23AN2fVEvC
+ Txh61pU6ZsDT6q8/ggr5w==
+X-ME-Sender: <xms:-eBHY2Plv6XMYZO9LP1oIim3BOAHwQU6ZntucSyABvl4M6jxSirBBw>
+ <xme:-eBHY0-5BZRZxuWYiNqdFWphxUkvJM0w1WH89-a34oFq1GDA4hoFBJ77jzKBLvTgN
+ nMXZZb-YOfO8d7sRpc>
+X-ME-Received: <xmr:-eBHY9Q4IXmx3uM_b5Od6o_LNxWiVSH3CP8mEnfMnGN38lN3ozeiIyyh9TT_>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgvdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
- jeeltdevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
+ jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:9-BHY4UGiWxJz7RKbx1xXdBsfDeIZQkPPTy9HQ9zrrW5W_ZEcor5Tg>
- <xmx:9-BHY_kIE-c69j0KDJ0Zuk3udCkpybSiWqKZeOjvWgT4KolOsqHQHg>
- <xmx:9-BHY1cknTENdylFQ2YnMPJZj5T8aNwrisA5rzA7A20ZPZ7qvwQtEQ>
- <xmx:9-BHY9f6MCm7ygMXHu4FDsoxrNaDzg3WVEflxpUDNdgKNlq6NkufNQ>
+X-ME-Proxy: <xmx:-eBHY2sWh-wbTjwwImJnXfNxohWQrUY0XROoL2CgjvcdIXPxjkmNiw>
+ <xmx:-eBHY-dxkMR9121oKf4ra-ybZfjMfgHQ-2plRZ4SGMbv1y-a5Qh5fA>
+ <xmx:-eBHY62lsEvvnLB6AW-i3h-6_5n5FXZQO9kuQqK5nNGlbPFTmzBw_g>
+ <xmx:-eBHY619H8rPo6gtapZ0DGlojQIWCI4K-C5j1oVG5LYMWa7pVIXY6g>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 05:57:11 -0400 (EDT)
+ 13 Oct 2022 05:57:12 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 13 Oct 2022 11:56:48 +0200
-Subject: [PATCH 4/7] drm/vc4: dpi: Support RGB565 format
+Date: Thu, 13 Oct 2022 11:56:49 +0200
+Subject: [PATCH 5/7] drm/vc4: dpi: Support BGR666 formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221013-rpi-dpi-improvements-v1-4-8a7a96949cb0@cerno.tech>
+Message-Id: <20221013-rpi-dpi-improvements-v1-5-8a7a96949cb0@cerno.tech>
 References: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
 In-Reply-To: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>, Eric Anholt <eric@anholt.net>,
@@ -75,11 +75,11 @@ To: Maxime Ripard <mripard@kernel.org>, Eric Anholt <eric@anholt.net>,
  David Airlie <airlied@linux.ie>, Rob Herring <robh@kernel.org>,
  Emma Anholt <emma@anholt.net>
 X-Mailer: b4 0.11.0-dev-7da52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1126; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=ZQPHjwQYtyeJjJI91c4T4N+E7FyRjwcxYJLQyKTsOPQ=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnuD976HfHdkCzeup1vaZ7V8SR1Sy/mDWblL7pW/ftcJBnx
- 09+0o5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABMJTmH4H1lpb6z/XEcsaYrTxLrqPT
- t2bv3ys2/HlK5JBTJBqmz51gz/g/YYvBDJ2W93qfqS8dKFkyI7Z9eFGQc/qmJ3CuS78YORFQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1228; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=1jlV3cpohJvxfKQ50ZdTSBF7QOjvv8tfuT0cBwwSJJw=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnuD97e+tB6zFene/7a3+cWRQkq6T7c8kj9jwbzsdgwpf2n
+ F7Zmd5SyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiW50Z/tnk37Q7ZPRmkYSr+MFADY
+ viU1PWSG/iUrT3Zc+yeZErLsDI8Krnr5OYmNiuKdbuU2azRi988s3q28zfZuEmmZwu3lNs2QE=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,35 +102,38 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+From: Joerg Quinten <aBUGSworstnightmare@gmail.com>
 
-The RGB565 format with padding over 24 bits
-(MEDIA_BUS_FMT_RGB565_1X24_CPADHI) is supported by the vc4 DPI
-controller as "mode 3".  This is what the Geekworm MZP280 DPI display
-uses, so let's add support for it in the DPI controller driver.
+The VC4 DPI output can support multiple BGR666 variants, but they were
+never added to the driver. Let's add the the support for those formats.
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Joerg Quinten <aBUGSworstnightmare@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/vc4/vc4_dpi.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index 1f8f44b7b5a5..7da3dd1db50e 100644
+index 7da3dd1db50e..ecbe4cd87036 100644
 --- a/drivers/gpu/drm/vc4/vc4_dpi.c
 +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -182,6 +182,10 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_3,
+@@ -170,10 +170,16 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+ 				dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR,
+ 						       DPI_ORDER);
+ 				break;
++			case MEDIA_BUS_FMT_BGR666_1X24_CPADHI:
++				dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR, DPI_ORDER);
++				fallthrough;
+ 			case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
+ 				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_18BIT_666_RGB_2,
  						       DPI_FORMAT);
  				break;
-+			case MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-+				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_2,
-+						       DPI_FORMAT);
-+				break;
- 			default:
- 				DRM_ERROR("Unknown media bus format %d\n",
- 					  bus_format);
++			case MEDIA_BUS_FMT_BGR666_1X18:
++				dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR, DPI_ORDER);
++				fallthrough;
+ 			case MEDIA_BUS_FMT_RGB666_1X18:
+ 				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_18BIT_666_RGB_1,
+ 						       DPI_FORMAT);
 
 -- 
 b4 0.11.0-dev-7da52
