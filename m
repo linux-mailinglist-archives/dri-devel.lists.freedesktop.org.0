@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149325FD652
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 10:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF955FD653
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 10:40:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE3610E4DD;
-	Thu, 13 Oct 2022 08:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C7610E513;
+	Thu, 13 Oct 2022 08:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 025D210E4DD
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 08:39:47 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id k2so2391097ejr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 01:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36DA510E4DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 08:39:51 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id s3so568028qtn.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 01:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fVDvc0MfivE/+VMjGr9d2m+2mu7+xsyFwsz4JW46614=;
- b=caVQ2u+IeDYJcspF4WKLd2QWHHNULeGCp5YdOComqAXlCvDFVFlRIU8TrlC8QT6zDl
- whFfPuSSgikkcu+KcrppC030qChizcaObYpN073JL83ugHKBWVe9Phb4on8h2jGRlkeO
- 6FrpWwbTB0hkPc02hd1xqZxSNIruLM4FqR0WAuadybgTnBcgpOFizPrckpHUotpfbZIs
- iY+pj2uifofQWCut5RZvDJ9cxxL1T6OIAEHQpOxLpLMddYS8Gev+JktPY4CJPCX+Ee69
- renn9VINtCiv/Y0CWlJ21mKNjR8mTP6LDoY4V0bCc0kWtviXmjXoZtL/2MsqZCEKTapW
- mNzA==
+ bh=JW7cYSWMs3X1JnJ995reAiHAbwdAMxhVS43f0d8AqhQ=;
+ b=oL3hQnvFeLfSGMmM2SCC15Dwx0GOUEc5+iuaqSVi06nDz8CeYIKY9kxzFzKq6l8wue
+ /Aa91o9CSKGRPR68pLf6UX5i1EISLLv5en1MqYIn9q3lLUvcuJ+rOt4azIMOSrgoHO6W
+ nLAcxW/9qFfckBzRnEUelkBSEO5KCQid4XgrnBbYgyF/yn7MyDKmLjkNooxt86E+o3Z2
+ sl7DouwkLFZ3xvBKJs8by/H1Arf7eExWVdfTbr3sR8xUwnRIzRwKDDb0en/8FsD0Oj8c
+ Z90aCQ135DlxnleiGZRDhR0T+LlHvVEKosaoxtqFU5BQyhK+soGYIT39+RgpgYQLzZZI
+ dToQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fVDvc0MfivE/+VMjGr9d2m+2mu7+xsyFwsz4JW46614=;
- b=C5C7XyfRqFZ2G9InSOUnf29rTDBySWYacioZtL3aGtYDtHBMocTE22MmVsJrTOM6xQ
- tFOmuVh1pH0LGBGRKTzTNHoMk3R0fPg+xcqFa544pxiPFRpEcDAbo4t0JAvAaeY8J++k
- ZF9K25D9VJnffkOOJZdLnMvWbKdexl9G/LwZA+Jp8/amOHn/mRcsLGKNBLsiCucImRXM
- ulKjBC23D9D/lEDSbuic19jFIqZUOx3msNdgSXrACE7nSgtWtVxkADXt8BvR0bHylOYX
- hAieMoFFZGrcppnTFsSyizHCWprPcPWQEGkmHjiGP3wNyDQu+tGV1rKUuj4Ky7IeCDsr
- 29SQ==
-X-Gm-Message-State: ACrzQf190gn1n9UkTxYmyAR8hwfsb5IS952OIU4OoFLrDL7zAxVJYo+L
- z6+xmnxgJdgR2+e0ogCFZH70NpUs/pLGNT3Z4w8EqA==
-X-Google-Smtp-Source: AMsMyM6qIrJmEJ9I5jdCrb2NFHr8iXxMeaFaIkIS20xiKLeLy318jRGT78LBeFOJclQUQ7oHTEnJ9B68JfrhK1DWlXI=
-X-Received: by 2002:a17:907:7ba7:b0:78b:7d9e:9536 with SMTP id
- ne39-20020a1709077ba700b0078b7d9e9536mr25700977ejc.626.1665650386422; Thu, 13
- Oct 2022 01:39:46 -0700 (PDT)
+ bh=JW7cYSWMs3X1JnJ995reAiHAbwdAMxhVS43f0d8AqhQ=;
+ b=LmfqRdrd5/lfojqk55MieAAXg8dRwV37e/LXNg77IITW8O2UGzzhx5fVN66KRjObDs
+ /AzjgHHpdFbGEcFBCfmwC2wCeBMGOMXGGblJwr7Rdk3pd4PWH4PfK4MjIFswYKTT6xQR
+ iyQRDyjQPrmJbBUQvddT0Fh1EXsjkQWKfHidFQ61dzWyzHKvl9LpOCzLLACE85SDRtfP
+ fZlnald5kPmM0yRPErC4U1nVPKisRZNW9f1FJMleJdP+I3/Hq2q0umUYdaAnXyf928l7
+ sh32DPHTl9ZmZxy6mDWxaT+HkATuMeq30vWL1aXrQ/4xboB8kxHCZYB1Inq1XE6iN31q
+ SEnQ==
+X-Gm-Message-State: ACrzQf1zJk+bHzOk331proOoOWvVkoC2xKJmb/ubz043ChqLaMHBZTSM
+ JkH0RDijW0dKMni9bv0tKPkF1G80UWd92MxELbvFlw==
+X-Google-Smtp-Source: AMsMyM56gJDYUOKGS/SHpb2PTuu8b7YWZEjvXE6zuhxY1qdvLW/FufuVCozDc9G5x58SukgeScmeLrfL1zf+3XlL4rQ=
+X-Received: by 2002:ac8:5acf:0:b0:39c:d4d8:3f75 with SMTP id
+ d15-20020ac85acf000000b0039cd4d83f75mr86889qtd.579.1665650389977; Thu, 13 Oct
+ 2022 01:39:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <1665522649-3423-1-git-send-email-quic_abhinavk@quicinc.com>
-In-Reply-To: <1665522649-3423-1-git-send-email-quic_abhinavk@quicinc.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 13 Oct 2022 10:39:35 +0200
-Message-ID: <CAG3jFyshznjN8OnFA61OAp1iCydOkAp5EDmu-+44rexDOmx64A@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: adv7533: remove dynamic lane switching
- from adv7533 bridge
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20221012191226.1646315-1-greenjustin@chromium.org>
+In-Reply-To: <20221012191226.1646315-1-greenjustin@chromium.org>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 13 Oct 2022 09:39:38 +0100
+Message-ID: <CAPj87rPftXR6v=Z44Y7EKkF2w6Hh_sEueW_m0z1qmi0iH+moHw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/mediatek: Add AFBC support to Mediatek DRM driver
+To: Justin Green <greenjustin@chromium.org>
+Content-Type: multipart/alternative; boundary="000000000000d0a77705eae673d8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,229 +65,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
- quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
+ justin.yeh@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 11 Oct 2022 at 23:11, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+--000000000000d0a77705eae673d8
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Justin,
+
+On Wed, 12 Oct 2022 at 20:12, Justin Green <greenjustin@chromium.org> wrote:
+
+> @@ -226,6 +249,32 @@ int mtk_ovl_layer_check(struct device *dev, unsigned
+> int idx,
+>         if (state->fb->format->is_yuv && rotation != 0)
+>                 return -EINVAL;
 >
-> adv7533 bridge tries to dynamically switch lanes based on the
-> mode by detaching and attaching the mipi dsi device.
->
-> This approach is incorrect because this method of dynamic switch of
-> detaching and attaching the mipi dsi device also results in removing
-> and adding the component which is not necessary.
->
-> This approach is also prone to deadlocks. So for example, on the
-> db410c whenever this path is executed with lockdep enabled,
-> this results in a deadlock due to below ordering of locks.
->
-> -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
->         lock_acquire+0x6c/0x90
->         drm_modeset_acquire_init+0xf4/0x150
->         drmm_mode_config_init+0x220/0x770
->         msm_drm_bind+0x13c/0x654
->         try_to_bring_up_aggregate_device+0x164/0x1d0
->         __component_add+0xa8/0x174
->         component_add+0x18/0x2c
->         dsi_dev_attach+0x24/0x30
->         dsi_host_attach+0x98/0x14c
->         devm_mipi_dsi_attach+0x38/0xb0
->         adv7533_attach_dsi+0x8c/0x110
->         adv7511_probe+0x5a0/0x930
->         i2c_device_probe+0x30c/0x350
->         really_probe.part.0+0x9c/0x2b0
->         __driver_probe_device+0x98/0x144
->         driver_probe_device+0xac/0x14c
->         __device_attach_driver+0xbc/0x124
->         bus_for_each_drv+0x78/0xd0
->         __device_attach+0xa8/0x1c0
->         device_initial_probe+0x18/0x24
->         bus_probe_device+0xa0/0xac
->         deferred_probe_work_func+0x90/0xd0
->         process_one_work+0x28c/0x6b0
->         worker_thread+0x240/0x444
->         kthread+0x110/0x114
->         ret_from_fork+0x10/0x20
->
-> -> #0 (component_mutex){+.+.}-{3:3}:
->         __lock_acquire+0x1280/0x20ac
->         lock_acquire.part.0+0xe0/0x230
->         lock_acquire+0x6c/0x90
->         __mutex_lock+0x84/0x400
->         mutex_lock_nested+0x3c/0x70
->         component_del+0x34/0x170
->         dsi_dev_detach+0x24/0x30
->         dsi_host_detach+0x20/0x64
->         mipi_dsi_detach+0x2c/0x40
->         adv7533_mode_set+0x64/0x90
->         adv7511_bridge_mode_set+0x210/0x214
->         drm_bridge_chain_mode_set+0x5c/0x84
->         crtc_set_mode+0x18c/0x1dc
->         drm_atomic_helper_commit_modeset_disables+0x40/0x50
->         msm_atomic_commit_tail+0x1d0/0x6e0
->         commit_tail+0xa4/0x180
->         drm_atomic_helper_commit+0x178/0x3b0
->         drm_atomic_commit+0xa4/0xe0
->         drm_client_modeset_commit_atomic+0x228/0x284
->         drm_client_modeset_commit_locked+0x64/0x1d0
->         drm_client_modeset_commit+0x34/0x60
->         drm_fb_helper_lastclose+0x74/0xcc
->         drm_lastclose+0x3c/0x80
->         drm_release+0xfc/0x114
->         __fput+0x70/0x224
->         ____fput+0x14/0x20
->         task_work_run+0x88/0x1a0
->         do_exit+0x350/0xa50
->         do_group_exit+0x38/0xa4
->         __wake_up_parent+0x0/0x34
->         invoke_syscall+0x48/0x114
->         el0_svc_common.constprop.0+0x60/0x11c
->         do_el0_svc+0x30/0xc0
->         el0_svc+0x58/0x100
->         el0t_64_sync_handler+0x1b0/0x1bc
->         el0t_64_sync+0x18c/0x190
->
-> Due to above reasons, remove the dynamic lane switching
-> code from adv7533 bridge chip and filter out the modes
-> which would need different number of lanes as compared
-> to the initialization time using the mode_valid callback.
->
-> This can be potentially re-introduced by using the pre_enable()
-> callback but this needs to be evaluated first whether such an
-> approach will work so this will be done with a separate change.
->
-> changes since RFC:
->         - Fix commit text and add TODO comment
->
-> changes in v2:
->         - Fix checkpatch formatting errors
->
-> Fixes: 62b2f026cd8e ("drm/bridge: adv7533: Change number of DSI lanes dynamically")
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/16
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> Link: https://lore.kernel.org/r/1661797363-7564-1-git-send-email-quic_abhinavk@quicinc.com
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++++++++----
->  drivers/gpu/drm/bridge/adv7511/adv7533.c     | 25 +++++++++++++------------
->  3 files changed, 29 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> index a031a0cd1f18..1053d185b24c 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -405,7 +405,8 @@ static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->
->  void adv7533_dsi_power_on(struct adv7511 *adv);
->  void adv7533_dsi_power_off(struct adv7511 *adv);
-> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode);
-> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
-> +                                       const struct drm_display_mode *mode);
->  int adv7533_patch_registers(struct adv7511 *adv);
->  int adv7533_patch_cec_registers(struct adv7511 *adv);
->  int adv7533_attach_dsi(struct adv7511 *adv);
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index 38bf28720f3a..4bc7aac94a16 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -697,7 +697,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
->  }
->
->  static enum drm_mode_status adv7511_mode_valid(struct adv7511 *adv7511,
-> -                             struct drm_display_mode *mode)
-> +                             const struct drm_display_mode *mode)
->  {
->         if (mode->clock > 165000)
->                 return MODE_CLOCK_HIGH;
-> @@ -791,9 +791,6 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
->         regmap_update_bits(adv7511->regmap, 0x17,
->                 0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
->
-> -       if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
-> -               adv7533_mode_set(adv7511, adj_mode);
-> -
->         drm_mode_copy(&adv7511->curr_mode, adj_mode);
->
->         /*
-> @@ -913,6 +910,18 @@ static void adv7511_bridge_mode_set(struct drm_bridge *bridge,
->         adv7511_mode_set(adv, mode, adj_mode);
->  }
->
-> +static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
-> +                                                     const struct drm_display_info *info,
-> +               const struct drm_display_mode *mode)
-> +{
-> +       struct adv7511 *adv = bridge_to_adv7511(bridge);
-> +
-> +       if (adv->type == ADV7533 || adv->type == ADV7535)
-> +               return adv7533_mode_valid(adv, mode);
-> +       else
-> +               return adv7511_mode_valid(adv, mode);
-> +}
-> +
->  static int adv7511_bridge_attach(struct drm_bridge *bridge,
->                                  enum drm_bridge_attach_flags flags)
->  {
-> @@ -960,6 +969,7 @@ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
->         .enable = adv7511_bridge_enable,
->         .disable = adv7511_bridge_disable,
->         .mode_set = adv7511_bridge_mode_set,
-> +       .mode_valid = adv7511_bridge_mode_valid,
->         .attach = adv7511_bridge_attach,
->         .detect = adv7511_bridge_detect,
->         .get_edid = adv7511_bridge_get_edid,
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> index ef6270806d1d..258c79d4dab0 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> @@ -100,26 +100,27 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
->         regmap_write(adv->regmap_cec, 0x27, 0x0b);
->  }
->
-> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode)
-> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
-> +                                       const struct drm_display_mode *mode)
->  {
-> +       int lanes;
->         struct mipi_dsi_device *dsi = adv->dsi;
-> -       int lanes, ret;
-> -
-> -       if (adv->num_dsi_lanes != 4)
-> -               return;
->
->         if (mode->clock > 80000)
->                 lanes = 4;
->         else
->                 lanes = 3;
->
-> -       if (lanes != dsi->lanes) {
-> -               mipi_dsi_detach(dsi);
-> -               dsi->lanes = lanes;
-> -               ret = mipi_dsi_attach(dsi);
-> -               if (ret)
-> -                       dev_err(&dsi->dev, "failed to change host lanes\n");
-> -       }
-> +       /*
-> +        * TODO: add support for dynamic switching of lanes
-> +        * by using the bridge pre_enable() op . Till then filter
-> +        * out the modes which shall need different number of lanes
-> +        * than what was configured in the device tree.
-> +        */
-> +       if (lanes != dsi->lanes)
-> +               return MODE_BAD;
-> +
-> +       return MODE_OK;
->  }
->
->  int adv7533_patch_registers(struct adv7511 *adv)
-> --
-> 2.7.4
+> +       if (state->fb->modifier) {
 >
 
-Applied to drm-misc-next.
+Please spell this out explicitly as DRM_FORMAT_MOD_LINEAR. For some reason,
+we specify that 0 is explicitly block-linear, whilst INVALID ('unknown
+layout, figure it out by magic') is a non-zero value. So != 0 isn't a check
+for 'was a modifier explicitly specified', even if != 0 is almost always
+'is this buffer non-linear'.
+
++               unsigned long long modifier;
+> +               unsigned int fourcc;
+>
+
+u64, u32, but ...
+
+
+> +               if (!ovl->data->supports_afbc)
+> +                       return -EINVAL;
+> +
+> +               modifier = state->fb->modifier;
+> +
+> +               if (modifier !=
+> DRM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 |
+> +
+>  AFBC_FORMAT_MOD_SPLIT |
+> +
+>  AFBC_FORMAT_MOD_SPARSE))
+> +                       return -EINVAL;
+> +
+> +               fourcc = state->fb->format->format;
+> +               if (fourcc != DRM_FORMAT_BGRA8888 &&
+> +                   fourcc != DRM_FORMAT_ABGR8888 &&
+> +                   fourcc != DRM_FORMAT_ARGB8888 &&
+> +                   fourcc != DRM_FORMAT_XRGB8888 &&
+> +                   fourcc != DRM_FORMAT_XBGR8888 &&
+> +                   fourcc != DRM_FORMAT_RGB888 &&
+> +                   fourcc != DRM_FORMAT_BGR888)
+> +                       return -EINVAL;
+
+
+The core shouldn't allow a framebuffer to be created with a format/modifier
+pair which wasn't advertised, so these checks can be dropped. Except that
+it's never advertised.
+
+mtk_plane_init() passes a set of formats and modifiers to
+drm_universal_plane_init(); the AFBC modifier needs to be added here, as
+well as LINEAR and INVALID. Then you'll need to set the
+format_mod_supported() hook on the plane to filter out format/modifier
+pairs. After that, you should see (e.g. with drm_info) that you get an
+IN_FORMATS blob which advertises DRM_FORMAT_MOD_ARM_AFBC(...) as well as
+linear for DRM_FORMAT_XRGB8888, but only linear for DRM_FORMAT_RGB565.
+
+After doing that, you should see framebuffer creation fail for unsupported
+pairings, e.g. RGB565 + AFBC.
+
+
+>  +       bool is_afbc = pending->modifier;
+
+
+... != DRM_FORMAT_MOD_LINEAR
+
+
+> @@ -52,6 +53,7 @@ static void mtk_plane_reset(struct drm_plane *plane)
+>
+>         state->base.plane = plane;
+>         state->pending.format = DRM_FORMAT_RGB565;
+> +       state->pending.modifier = 0;
+>
+
+= DRM_FORMAT_MOD_LINEAR
+
+
+> @@ -120,21 +122,52 @@ static void mtk_plane_update_new_state(struct
+> drm_plane_state *new_state,
+>         struct drm_gem_object *gem;
+>         struct mtk_drm_gem_obj *mtk_gem;
+>         unsigned int pitch, format;
+> +       unsigned long long modifier;
+>
+
+u64
+
+
+> +       if (!modifier) {
+>
+
+modifier == DRM_FORMAT_MOD_LINEAR
+
+Cheers,
+Daniel
+
+--000000000000d0a77705eae673d8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Justin,</div><div dir=3D"ltr"><br></div><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 12 Oct 2022 =
+at 20:12, Justin Green &lt;<a href=3D"mailto:greenjustin@chromium.org">gree=
+njustin@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">@@ -226,6 +249,32 @@ int mtk_ovl_layer_check(struct dev=
+ice *dev, unsigned int idx,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (state-&gt;fb-&gt;format-&gt;is_yuv &amp;&am=
+p; rotation !=3D 0)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (state-&gt;fb-&gt;modifier) {<br></blockquot=
+e><div><br></div><div>Please spell this out explicitly as DRM_FORMAT_MOD_LI=
+NEAR. For some reason, we specify that 0 is explicitly block-linear, whilst=
+ INVALID (&#39;unknown layout, figure it out by magic&#39;) is a non-zero v=
+alue. So !=3D 0 isn&#39;t a check for &#39;was a modifier explicitly specif=
+ied&#39;, even if !=3D 0 is almost always &#39;is this buffer non-linear&#3=
+9;.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned long long =
+modifier;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int fourcc=
+;<br></blockquote><div><br></div><div>u64, u32, but ...</div><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ovl-&gt;data-&gt;supports_afbc)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return -EINVAL;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0modifier =3D state-=
+&gt;fb-&gt;modifier;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (modifier !=3D D=
+RM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AFBC_FORMAT_MOD_SPLIT |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AFBC_FORMAT_MOD_SPARSE))<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return -EINVAL;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fourcc =3D state-&g=
+t;fb-&gt;format-&gt;format;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fourcc !=3D DRM=
+_FORMAT_BGRA8888 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fourc=
+c !=3D DRM_FORMAT_ABGR8888 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fourc=
+c !=3D DRM_FORMAT_ARGB8888 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fourc=
+c !=3D DRM_FORMAT_XRGB8888 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fourc=
+c !=3D DRM_FORMAT_XBGR8888 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fourc=
+c !=3D DRM_FORMAT_RGB888 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fourc=
+c !=3D DRM_FORMAT_BGR888)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return -EINVAL;</blockquote><div><br></div><div>The core shouldn&=
+#39;t allow a framebuffer to be created with a format/modifier pair which w=
+asn&#39;t advertised, so these checks can be dropped. Except that it&#39;s =
+never advertised.</div><div><br></div><div>mtk_plane_init() passes a set of=
+ formats and modifiers to drm_universal_plane_init(); the AFBC modifier nee=
+ds to be added here, as well as LINEAR and INVALID. Then you&#39;ll need to=
+ set the format_mod_supported() hook on the plane to filter out format/modi=
+fier pairs. After that, you should see (e.g. with drm_info) that you get an=
+ IN_FORMATS blob which advertises DRM_FORMAT_MOD_ARM_AFBC(...) as well as l=
+inear for DRM_FORMAT_XRGB8888, but only linear for DRM_FORMAT_RGB565.</div>=
+<div><br></div><div>After doing that, you should see framebuffer creation f=
+ail for unsupported pairings, e.g. RGB565=C2=A0+ AFBC.</div><div>=C2=A0</di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0+=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0bool is_afbc =3D pending-&gt;modifier;</blockquote><div><br></=
+div><div>... !=3D DRM_FORMAT_MOD_LINEAR</div><div>=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">@@ -52,6 +53,7 @@ static void mtk_plan=
+e_reset(struct drm_plane *plane)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;base.plane =3D plane;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;pending.format =3D DRM_FORMAT_RGB565;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0state-&gt;pending.modifier =3D 0;<br></blockquo=
+te><div><br></div><div>=3D DRM_FORMAT_MOD_LINEAR</div><div>=C2=A0</div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">@@ -120,21 +122,52 @@ static =
+void mtk_plane_update_new_state(struct drm_plane_state *new_state,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_gem_object *gem;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct mtk_drm_gem_obj *mtk_gem;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int pitch, format;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned long long modifier;<br></blockquote><d=
+iv><br></div><div>u64</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!modifier) {<br></blockq=
+uote><div><br></div><div>modifier =3D=3D DRM_FORMAT_MOD_LINEAR</div><div>=
+=C2=A0</div><div>Cheers,</div><div>Daniel</div></div></div>
+
+--000000000000d0a77705eae673d8--
