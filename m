@@ -1,45 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72EC95FD7F2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 12:51:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBDF5FD80A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 13:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8813310E7BF;
-	Thu, 13 Oct 2022 10:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3FD910E7E3;
+	Thu, 13 Oct 2022 11:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2423010E7E0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 10:51:35 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 13 Oct 2022 18:51:35 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 29DApUoD073259;
- Thu, 13 Oct 2022 18:51:30 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from VirtualBox.internal.ite.com.tw (192.168.70.46) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.14; Thu, 13 Oct 2022 18:51:31 +0800
-From: allen <allen.chen@ite.com.tw>
-To: 
-Subject: [PATCH v4 2/2] drm/bridge: add it6505 driver to read data-lanes and
- link-frequencies from dt
-Date: Thu, 13 Oct 2022 18:51:14 +0800
-Message-ID: <20221013105116.180380-3-allen.chen@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221013105116.180380-1-allen.chen@ite.com.tw>
-References: <20221013105116.180380-1-allen.chen@ite.com.tw>
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF9810E7E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 11:04:19 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ q10-20020a17090a304a00b0020b1d5f6975so1621719pjl.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 04:04:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NvbS/I8HlQoCFmjUFv0JtyT8eokdGYfA7wkL/lpFTWg=;
+ b=Ay0J5G8NHLTOS6rXjLmiS8l9zTWmvHczbyNjwYRvR1qHrImNmrH1jY3wMiBONvPwm7
+ 7d61qgwf98/EqlwVd/mq+mqym9Goz9iqrqsVaezDsWE0Sljlcf7xwaCfGf4hUL/eN6ZW
+ uaj9TlPhDqmQaOXG3ZBWqgI3oiS7Fns5x968k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NvbS/I8HlQoCFmjUFv0JtyT8eokdGYfA7wkL/lpFTWg=;
+ b=O84PCWRJOwlHETFztM2hq45bCPcm0yor3VnTJVDKtk1Sa6/uJhWYzll8sUSyZcJbN9
+ 52y0sGInNSvd8U45x3gi/RSZvo2HBnUqgF5xXTZiQPx92LLtUOvaxsiDmi+EitTgTNYV
+ p2Mg4onUFKIctO7JYPD8Uc/UmPvC321Umcj5WpRbI2cERupzwwxf0xcqwkf+jZFTggRC
+ aNsW7HeDtAUGn1SOlcBHmeRJcOiQHK443/AE8Bnk8P/xbKZ+g+qzgQ/aSKGjzErNudXp
+ QRUOXQcehe12ojnJ3l0OkA0d0hmDBRkPSbQNov35Q/8CpIOq7A6ELaBReTDh/YPkqiXe
+ 6pnw==
+X-Gm-Message-State: ACrzQf2Q0xy9Eg4wBbfqVXmocvqofSXFee+g1+B9PKE8UIGbUTmG+B9d
+ vH8JO2j0p9gymp+cRcYsY/IHCA==
+X-Google-Smtp-Source: AMsMyM6lUXvMM5tpyfSOIQtS1+CZpp68m5DYgKdzV5fiouCWtlb7eX/ojNAakZQwNCRsgJS2BE/c2Q==
+X-Received: by 2002:a17:90b:23c5:b0:20b:1cb4:2ca9 with SMTP id
+ md5-20020a17090b23c500b0020b1cb42ca9mr10755124pjb.139.1665659058897; 
+ Thu, 13 Oct 2022 04:04:18 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com
+ ([2401:fa00:1:10:4b90:18ed:8d41:7622])
+ by smtp.gmail.com with ESMTPSA id
+ o11-20020a17090ab88b00b0020af2411721sm2914794pjr.34.2022.10.13.04.04.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 04:04:18 -0700 (PDT)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/3] Clean up it6505 driver and improve synchronization
+Date: Thu, 13 Oct 2022 19:04:07 +0800
+Message-Id: <20221013110411.1674359-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.46]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: AE3FFFA69BFB1B88C4AAB73DC9A6A3D38A4C3B34C64DA126DBA1D0564BCB07CB2002:8
-X-MAIL: mse.ite.com.tw 29DApUoD073259
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,124 +72,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- Allen Chen <allen.chen@ite.com.tw>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Allen Chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>,
+ Hermes Wu <hermes.wu@ite.com.tw>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: allen chen <allen.chen@ite.com.tw>
+The main purpose of this series is to improve the synchronizations of
+it6505 driver. The first two patches are required for the third one, but
+they alone can be clean ups to the driver.
 
-Add driver to read data-lanes and link-frequencies from dt property to
-restrict output bandwidth.
+Changes in v2:
+- Remove redundant spaces in it6505_detect
+- Read sink count in it6505_irq_hpd
+- Add the empty line back
 
-Signed-off-by: Allen chen <allen.chen@ite.com.tw>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 54 +++++++++++++++++++++++++++--
- 1 file changed, 51 insertions(+), 3 deletions(-)
+Pin-yen Lin (3):
+  drm/bridge: it6505: Initialize AUX channel in it6505_i2c_probe
+  drm/bridge: it6505: Setup links in it6505_irq_hpd
+  drm/bridge: it6505: Improve synchronization between extcon subsystem
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index a4302492cf8df..653ab38465b98 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -437,6 +437,8 @@ struct it6505 {
- 	bool powered;
- 	bool hpd_state;
- 	u32 afe_setting;
-+	u32 max_dpi_pixel_clock;
-+	u32 max_lane_count;
- 	enum hdcp_state hdcp_status;
- 	struct delayed_work hdcp_work;
- 	struct work_struct hdcp_wait_ksv_list;
-@@ -1476,7 +1478,8 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
- 	it6505->lane_count = link->num_lanes;
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink support %d lanes training",
- 			     it6505->lane_count);
--	it6505->lane_count = min_t(int, it6505->lane_count, MAX_LANE_COUNT);
-+	it6505->lane_count = min_t(int, it6505->lane_count,
-+				   it6505->max_lane_count);
- 
- 	it6505->branch_device = drm_dp_is_branch(it6505->dpcd);
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink %sbranch device",
-@@ -2912,7 +2915,7 @@ it6505_bridge_mode_valid(struct drm_bridge *bridge,
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		return MODE_NO_INTERLACE;
- 
--	if (mode->clock > DPI_PIXEL_CLK_MAX)
-+	if (mode->clock > it6505->max_dpi_pixel_clock)
- 		return MODE_CLOCK_HIGH;
- 
- 	it6505->video_info.clock = mode->clock;
-@@ -3102,7 +3105,13 @@ static int it6505_init_pdata(struct it6505 *it6505)
- static void it6505_parse_dt(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
-+	struct device_node *np = dev->of_node, *ep = NULL;
-+	int len;
-+	u64 link_frequencies;
-+	u32 data_lanes[4];
- 	u32 *afe_setting = &it6505->afe_setting;
-+	u32 *max_lane_count = &it6505->max_lane_count;
-+	u32 *max_dpi_pixel_clock = &it6505->max_dpi_pixel_clock;
- 
- 	it6505->lane_swap_disabled =
- 		device_property_read_bool(dev, "no-laneswap");
-@@ -3118,7 +3127,46 @@ static void it6505_parse_dt(struct it6505 *it6505)
- 	} else {
- 		*afe_setting = 0;
- 	}
--	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %d", *afe_setting);
-+
-+	len = of_property_read_variable_u32_array(np, "data-lanes",
-+						  data_lanes, 0,
-+						  ARRAY_SIZE(data_lanes));
-+	*max_lane_count = len;
-+
-+	if (len < 0 || *max_lane_count == 3 || *max_lane_count > 4) {
-+		dev_err(dev, "error data-lanes, use default");
-+		*max_lane_count = MAX_LANE_COUNT;
-+	}
-+
-+	ep = of_graph_get_endpoint_by_regs(np, 0, 0);
-+
-+	if (ep) {
-+		len = of_property_read_variable_u64_array(ep,
-+							  "link-frequencies",
-+							  &link_frequencies, 0,
-+							  1);
-+		if (len >= 0) {
-+			link_frequencies /= 1000;
-+			if (link_frequencies > 297000) {
-+				dev_err(dev,
-+					"max pixel clock error, use default");
-+				*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+			} else {
-+				*max_dpi_pixel_clock = link_frequencies;
-+			}
-+		} else {
-+			dev_err(dev, "error link frequencies, use default");
-+			*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+		}
-+	} else {
-+		dev_err(dev, "error endpoint, use default");
-+		*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %u, max_lane_count: %u",
-+			     it6505->afe_setting, it6505->max_lane_count);
-+	DRM_DEV_DEBUG_DRIVER(dev, "using max_dpi_pixel_clock: %u kHz",
-+			     it6505->max_dpi_pixel_clock);
- }
- 
- static ssize_t receive_timing_debugfs_show(struct file *file, char __user *buf,
+ drivers/gpu/drm/bridge/ite-it6505.c | 106 +++++++++++++---------------
+ 1 file changed, 51 insertions(+), 55 deletions(-)
+
 -- 
-2.25.1
+2.38.0.rc1.362.ged0d419d3c-goog
 
