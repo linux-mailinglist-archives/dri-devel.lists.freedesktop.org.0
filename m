@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE9A5FD6C5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1CB5FD6C6
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:14:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C244410E68D;
-	Thu, 13 Oct 2022 09:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8915010E69A;
+	Thu, 13 Oct 2022 09:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFBA910E55F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:13:21 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 2D7785C009B;
- Thu, 13 Oct 2022 05:13:21 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 13 Oct 2022 05:13:21 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9A710E55F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:13:23 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id DE78B5C0162;
+ Thu, 13 Oct 2022 05:13:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 13 Oct 2022 05:13:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665652401; x=
- 1665738801; bh=2JSMy2S6xUR+ZHeYAulhRYzlIjCrNr0csZYZefwkoR8=; b=O
- MUGa4dzGhLRMSNRLmAR0jDbypSzSMfqPEkSlpzyQ7CvJzYrwKdIC8Ryxcycy3PF3
- wUim0iW4UTjpigXSdNUcw3ewWQy8caPLTQAchTpzIVNyzERTcI6Dg8XxcStowR1A
- 9+BPYTYguYMRJFx5wYBlRUuHWpLxNtS+f5YafuVDZngM/riqOvfJMIeszogaevgW
- T193oukcZnoN/IT1SZq3BnPnJtLpUXXPJyLVBEjjOJScL6Ujg+4kAeDbdOfGmUqe
- FzixXTkug5jgaJtQv5LNob2vh/ZC1vGJWrrZW2VG4Lhd8CLPIyZuMeqNS6ZKGojR
- 7b0iHFiLVGUSDeRXrUPhg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665652402; x=
+ 1665738802; bh=qmzT73Nu8Eo80tOnAkFbYbAqOXBysXSE5lE905g1TjE=; b=d
+ l3+WEg5YQS895fzP8Iv6T22TGg5de4JRmgwkSHgT7i8T688LZn8IkrjHppYsoP8k
+ AvHpHaXwiviVbWxbKthEKPGfUq7fXfNRSv3P2gyxCP0VeRkC7019rv2SCCLhSOIB
+ HyTNvS3V5bWCVpF6PenHg8ZIvrUoJLTqVvLpCKLElkqDR9Lxtc+oe2JpKNPA+oIe
+ eJXWF+Gyq/Q5jF7bJ02a7aevmbB8UEkKyv7fs5wtfuL8TqUEZFSMUyY3XBJpRXg7
+ kgkSdVdkHCnyYiuTvH30EfveL/INnexP3VFugT2uqolu/snmRKNgcpTEvbVykqOM
+ Iq+VB5mPTjULSzsYrQMhQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665652401; x=
- 1665738801; bh=2JSMy2S6xUR+ZHeYAulhRYzlIjCrNr0csZYZefwkoR8=; b=A
- dXu5h0MxThMcz8HuEYg1nSc1QHA/BHjNBsINpe+hhmO7D/N/znd1j/OOGyLz07C4
- 5PkULwbRBL0xp2HlrbzavzcOqEbbJh2IAobzAzQgXEA8xZ1QYdSeplkwa8/XOSrZ
- nC0OeNSEaUwfI2Fnr9wz+UASE6TTTyPH/t3Pk4pCfr6BTWJFPhvc3s1yC1k0ZSr1
- N8YeKL+9B5uW1AlqxRg83bpcS6cwoE8PyK68VIJMw/WVJor9UOLe3m6qY3CeLCS8
- skYk/hRzaXvDAc3w0Sykrf+U4bRPDtGgJxwxBUd1QNMpOSNo7dDm3nEpNmfPmqiP
- IjC9qb5yfolJn5UTDLs7A==
-X-ME-Sender: <xms:sdZHYzDQ5H1mUUFsQ_DVJcxPGe0lkHlEzDeaXBcATZHIyYQfoMAGyg>
- <xme:sdZHY5jgrQG4_LQnmdhspesqS4R6wixUqm1QTlJLFcTVC6Y5Qsj1OKpVAjd2ie2uN
- AS0kwOn1QjeR7TKLYk>
-X-ME-Received: <xmr:sdZHY-mIUcKg45zRqzExRYp66hBbEPHNpEUKWtKji1clLgHpYPavmIaWrbfeTqOIxdQOm6vmsrhVnKZLM7wsDhc3XHXjx1SYc-ui>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665652402; x=
+ 1665738802; bh=qmzT73Nu8Eo80tOnAkFbYbAqOXBysXSE5lE905g1TjE=; b=A
+ nQIVh1bP0qcIsXkAlIvQ1h2kQA4MYkCxHMQzomBmSaq+X17CxBXpaOZBdiTB5Fg3
+ oRYOe4bvHU4EYG9en5v9+mEbq3rLldPkJ6E8RUKG+boHTlKPuDXKCEbO4mxqbuto
+ Q1HlBQD6gOOCJlZBJCTin8nYKk/gEET0v0ub9k8MBiMTYjIGoEbg41w3HdwSjIu4
+ 834no9bp4dZwTPzVOLsdbd7D4wlDtcyA3V/krL1bVUvpLxyQH+RnQBPWYWq2Ofwv
+ HzJp4//sAPxXNANwxjJsxRb7QoteIT8EgutlxrDMeSveKejNAOMc5pIRhVo5skWd
+ KEHFMSjxsJlLKBFRqHupQ==
+X-ME-Sender: <xms:stZHYylcTXvMtPmiEKyA2PRjBMpbJgNoUSaANvRWI9Ep3crzgdNHjA>
+ <xme:stZHY50vf8yX-D_FT7UyCK9sfLCB8ekm94O6pit7iycfa4OKiuYI5XBzNf3CPlnEo
+ HDE5ug1MoZd-DUxf6Y>
+X-ME-Received: <xmr:stZHYwqsClmJm0RNgR-d9fR5LKEHDa3bBvRGTF-gue8kqHkrrbxIDeEYqOm-AgYp937Qa4IqLIz-owQJi7l2VdxTnAC6-0rJZspj>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
- jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ jeeltdevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:sdZHY1wNaIdf3Fl-tuMvJCwpM8yzGG5fLcJv44FOMzSA1PS6kjI9KA>
- <xmx:sdZHY4QcYnh7ZT2h4UneHSURLxfUNpGV7xIgaSTRl2d-CWzZGErF1A>
- <xmx:sdZHY4ZY-6k45ozmz5fzN78gSkWguufLx8nrclmrYD21fC0iX9BYLg>
- <xmx:sdZHYxCNZL2vin6OK3txR2GTfVI-wcUYK4-qAs93jH-45BKYTCI6gQ>
+X-ME-Proxy: <xmx:stZHY2moNwqqfXA-JjlJPprVNAC2Teu1RtpRfw6A4auxk0YSz25m6g>
+ <xmx:stZHYw3PEOZX13IAWWCpF44sBkUtrgAVzXBWJcnTvRVGwnNgEDWLfQ>
+ <xmx:stZHY9tyELYerJzqrzLYd9O-e_KOyipVU0ckLtr_S76bd-SnBykmTg>
+ <xmx:stZHY5GlWjVhJMzjpNOCPv72R4dSPBeUVLohZqWy92WtJzR1NgZ4UA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 05:13:20 -0400 (EDT)
+ 13 Oct 2022 05:13:22 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 13 Oct 2022 11:13:12 +0200
-Subject: [PATCH v3 5/7] drm/vc4: hdmi: Rework hdmi_enable_4kp60 detection code
+Date: Thu, 13 Oct 2022 11:13:13 +0200
+Subject: [PATCH v3 6/7] drm/vc4: hdmi: Add more checks for 4k resolutions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220815-rpi-fix-4k-60-v3-5-fc56729d11fe@cerno.tech>
+Message-Id: <20220815-rpi-fix-4k-60-v3-6-fc56729d11fe@cerno.tech>
 References: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
 In-Reply-To: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
 To: Florian Fainelli <f.fainelli@gmail.com>,
@@ -78,11 +78,11 @@ To: Florian Fainelli <f.fainelli@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, 
  David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.11.0-dev-7da52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5858; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=DuTFZxWsGq/sZk7xQ05Ey8kf6JSb104QwOLdz5GnoB8=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnu15aoiD6OXct+bWenhoulu8480+NeE24WfLC/JKArKyW4
- UuNiRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACaiO5eR4U64+YQ7Xc0BTsnfG5Kdwt
- Ozteu3dOYvn8Rd6bt62jk2BkaG56W1T5Ic44Vddz4zWqf+yOL/mWsPgpv7bzLY7brjwRPHDQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3452; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=oHROItAGNywnvJYBrN7pZtlhRHDQIJa7w2WOAz0D1No=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnu15b47m09yaP5K5Pvd6jdX/9WDWE1a8vTz+ZrydYvtHKR
+ 1vzTUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgIkkTGD4Zxxv+20F63LB8/+z+vbPmd
+ Znq9ZUNN9CJvwYXyabcIY6EyPDqQsxJwUXNNhcs1CY7m0jFjy1QuK/jL9upbKxSFKU8F1GAA==
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,178 +104,96 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support higher HDMI frequencies, users have to set the
-hdmi_enable_4kp60 parameter in their config.txt file.
+From: Dom Cobley <popcornmix@gmail.com>
 
-This will have the side-effect of raising the maximum of the core clock,
-tied to the HVS, and managed by the HVS driver.
+At least the 4096x2160@60Hz mode requires some overclocking that isn't
+available by default, even if hdmi_enable_4kp60 is enabled.
 
-However, we are querying this in the HDMI driver by poking into the HVS
-structure to get our struct clk handle.
+Let's add some logic to detect whether we can satisfy the core clock
+requirements for that mode, and prevent it from being used otherwise.
 
-Let's make this part of the HVS bind implementation to have all the core
-clock related setup in the same place.
-
+Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.h  | 10 ++++++++++
- drivers/gpu/drm/vc4/vc4_hdmi.c | 15 ++++-----------
- drivers/gpu/drm/vc4/vc4_hdmi.h |  8 --------
- drivers/gpu/drm/vc4/vc4_hvs.c  | 23 +++++++++++++++++++++++
- 4 files changed, 37 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h  |  6 ++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 11 +++++++++--
+ drivers/gpu/drm/vc4/vc4_hvs.c  |  3 +++
+ 3 files changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 1beb96b77b8c..09cdbdb7fff0 100644
+index 09cdbdb7fff0..094ebe8567e2 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -328,6 +328,8 @@ struct vc4_hvs {
- 
- 	struct clk *core_clk;
- 
-+	unsigned long max_core_rate;
-+
- 	/* Memory manager for CRTCs to allocate space in the display
- 	 * list.  Units are dwords.
+@@ -349,6 +349,12 @@ struct vc4_hvs {
+ 	 * available.
  	 */
-@@ -339,6 +341,14 @@ struct vc4_hvs {
- 	struct drm_mm_node mitchell_netravali_filter;
- 
- 	struct debugfs_regset32 regset;
+ 	bool vc5_hdmi_enable_scrambling;
 +
 +	/*
-+	 * Even if HDMI0 on the RPi4 can output modes requiring a pixel
-+	 * rate higher than 297MHz, it needs some adjustments in the
-+	 * config.txt file to be able to do so and thus won't always be
-+	 * available.
++	 * 4096x2160@60 requires a core overclock to work, so register
++	 * whether that is sufficient.
 +	 */
-+	bool vc5_hdmi_enable_scrambling;
++	bool vc5_hdmi_enable_4096by2160;
  };
  
  struct vc4_plane {
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 3b75ac6fa0db..f367f93ca832 100644
+index f367f93ca832..cf1fee6c29f3 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -46,7 +46,6 @@
- #include <linux/pm_runtime.h>
- #include <linux/rational.h>
- #include <linux/reset.h>
--#include <soc/bcm2835/raspberrypi-clocks.h>
- #include <sound/dmaengine_pcm.h>
- #include <sound/hdmi-codec.h>
- #include <sound/pcm_drm_eld.h>
-@@ -277,6 +276,7 @@ static void vc4_hdmi_connector_destroy(struct drm_connector *connector)
- static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- {
- 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
-+	struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
- 	int ret = 0;
- 	struct edid *edid;
+@@ -1476,6 +1476,7 @@ vc4_hdmi_sink_supports_format_bpc(const struct vc4_hdmi *vc4_hdmi,
  
-@@ -293,7 +293,7 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- 	ret = drm_add_edid_modes(connector, edid);
- 	kfree(edid);
- 
--	if (vc4_hdmi->disable_4kp60) {
-+	if (!vc4->hvs->vc5_hdmi_enable_scrambling) {
- 		struct drm_device *drm = connector->dev;
- 		struct drm_display_mode *mode;
- 
-@@ -1480,11 +1480,12 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
+ static enum drm_mode_status
+ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
++			     const struct drm_display_mode *mode,
+ 			     unsigned long long clock)
  {
  	const struct drm_connector *connector = &vc4_hdmi->connector;
- 	const struct drm_display_info *info = &connector->display_info;
-+	struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
- 
- 	if (clock > vc4_hdmi->variant->max_pixel_clock)
+@@ -1488,6 +1489,12 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
+ 	if (!vc4->hvs->vc5_hdmi_enable_scrambling && clock > HDMI_14_MAX_TMDS_CLK)
  		return MODE_CLOCK_HIGH;
  
--	if (vc4_hdmi->disable_4kp60 && clock > HDMI_14_MAX_TMDS_CLK)
-+	if (!vc4->hvs->vc5_hdmi_enable_scrambling && clock > HDMI_14_MAX_TMDS_CLK)
- 		return MODE_CLOCK_HIGH;
- 
++	/* 4096x2160@60 is not reliable without overclocking core */
++	if (!vc4->hvs->vc5_hdmi_enable_4096by2160 &&
++	    mode->hdisplay > 3840 && mode->vdisplay >= 2160 &&
++	    drm_mode_vrefresh(mode) >= 50)
++		return MODE_CLOCK_HIGH;
++
  	if (info->max_tmds_clock && clock > (info->max_tmds_clock * 1000))
-@@ -2965,14 +2966,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	vc4_hdmi->disable_wifi_frequencies =
- 		of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
+ 		return MODE_CLOCK_HIGH;
  
--	if (variant->max_pixel_clock == 600000000) {
--		struct vc4_dev *vc4 = to_vc4_dev(drm);
--		unsigned long max_rate = rpi_firmware_clk_get_max_rate(vc4->hvs->core_clk);
--
--		if (max_rate < 550000000)
--			vc4_hdmi->disable_4kp60 = true;
--	}
--
- 	pm_runtime_enable(dev);
+@@ -1522,7 +1529,7 @@ vc4_hdmi_encoder_compute_clock(const struct vc4_hdmi *vc4_hdmi,
+ 	unsigned long long clock;
  
- 	/*
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index c3ed2b07df23..7506943050cf 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -155,14 +155,6 @@ struct vc4_hdmi {
- 	 */
- 	bool disable_wifi_frequencies;
+ 	clock = vc4_hdmi_encoder_compute_mode_clock(mode, bpc, fmt);
+-	if (vc4_hdmi_encoder_clock_valid(vc4_hdmi, clock) != MODE_OK)
++	if (vc4_hdmi_encoder_clock_valid(vc4_hdmi, mode, clock) != MODE_OK)
+ 		return -EINVAL;
  
--	/*
--	 * Even if HDMI0 on the RPi4 can output modes requiring a pixel
--	 * rate higher than 297MHz, it needs some adjustments in the
--	 * config.txt file to be able to do so and thus won't always be
--	 * available.
--	 */
--	bool disable_4kp60;
--
- 	struct cec_adapter *cec_adap;
- 	struct cec_msg cec_rx_msg;
- 	bool cec_tx_ok;
+ 	vc4_state->tmds_char_rate = clock;
+@@ -1685,7 +1692,7 @@ vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+ 	     (mode->hsync_end % 2) || (mode->htotal % 2)))
+ 		return MODE_H_ILLEGAL;
+ 
+-	return vc4_hdmi_encoder_clock_valid(vc4_hdmi, mode->clock * 1000);
++	return vc4_hdmi_encoder_clock_valid(vc4_hdmi, mode, mode->clock * 1000);
+ }
+ 
+ static const struct drm_encoder_helper_funcs vc4_hdmi_encoder_helper_funcs = {
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index fbaa741dda5f..e28a13a75ec2 100644
+index e28a13a75ec2..32f5ab937ace 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -27,6 +27,8 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_vblank.h>
+@@ -698,6 +698,9 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 		if (max_rate >= 550000000)
+ 			hvs->vc5_hdmi_enable_scrambling = true;
  
-+#include <soc/bcm2835/raspberrypi-firmware.h>
++		if (max_rate >= 600000000)
++			hvs->vc5_hdmi_enable_4096by2160 = true;
 +
- #include "vc4_drv.h"
- #include "vc4_regs.h"
+ 		hvs->max_core_rate = max_rate;
  
-@@ -671,12 +673,33 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
- 
- 	if (vc4->is_vc5) {
-+		struct rpi_firmware *firmware;
-+		struct device_node *node;
-+		unsigned long max_rate;
-+
-+		node = rpi_firmware_find_node();
-+		if (!node)
-+			return -EINVAL;
-+
-+		firmware = rpi_firmware_get(node);
-+		of_node_put(node);
-+		if (!firmware)
-+			return -EPROBE_DEFER;
-+
- 		hvs->core_clk = devm_clk_get(&pdev->dev, NULL);
- 		if (IS_ERR(hvs->core_clk)) {
- 			dev_err(&pdev->dev, "Couldn't get core clock\n");
- 			return PTR_ERR(hvs->core_clk);
- 		}
- 
-+		max_rate = rpi_firmware_clk_get_max_rate(firmware,
-+							 RPI_FIRMWARE_CORE_CLK_ID);
-+		rpi_firmware_put(firmware);
-+		if (max_rate >= 550000000)
-+			hvs->vc5_hdmi_enable_scrambling = true;
-+
-+		hvs->max_core_rate = max_rate;
-+
  		ret = clk_prepare_enable(hvs->core_clk);
- 		if (ret) {
- 			dev_err(&pdev->dev, "Couldn't enable the core clock\n");
 
 -- 
 b4 0.11.0-dev-7da52
