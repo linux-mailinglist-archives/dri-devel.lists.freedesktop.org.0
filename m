@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09255FD770
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E764F5FD76C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4111010E742;
-	Thu, 13 Oct 2022 09:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8335410E7A8;
+	Thu, 13 Oct 2022 09:57:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5EF10E71F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:57:14 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 6EE865C015A;
- Thu, 13 Oct 2022 05:57:13 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFBDA10E71F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:57:15 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1CCE35C00A6;
+ Thu, 13 Oct 2022 05:57:15 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 13 Oct 2022 05:57:13 -0400
+ by compute4.internal (MEProxy); Thu, 13 Oct 2022 05:57:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665655033; x=
- 1665741433; bh=c9JIB0N1ry3TbulJgGhW5FL0vfJVlWv5g9q7AUZjWIo=; b=a
- NN4L3WxEDdGU/FywYDQ1MClme1PcOXNzlN9aC5XJvCd2iPBt52WDRnmmea/Bw4tb
- Pjq+CPcIfsGZqQ04GRmTtdkLgKUxSOL2fsxwLqRk69mEE7WB5cSgR1N8ifVZA1dr
- VfeQ4VPHQmRG3y/ep4yOt1wA3d5PwY3phY0jtfSZd9ILFgHwxB7wf4kimQm/Wx84
- nTh0NW8SSrKtGc/vcoK9siOC2HTUkWA0nPWpqS6gtp77toeHOFbPIL8F4AySGQ/U
- n8GhbVf5DsjeAiO9u4BO8K/JiC2ds9e1ZOH/ungBoeg2oZdn3pq6nqJZLydQG/Nr
- rEigCVRTMOB/oJFvuts+g==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665655035; x=
+ 1665741435; bh=YJIorxZ3pr3ObxvJBlO+ZXthuYIK21XnMOr0CgbO85g=; b=B
+ /K/5gJoeHdYAJtm/xI3HB0HpvFmv0vVKfPkgneITXJsMni8HIo5A+w7wXosbENtH
+ WAQJLL+fRTlZ+UhKaRloXgdtAkOu+pgJIj30A+NI+4SZaELN7jwRqx1wEIBN5mfb
+ wBxNzy5L5DwxA0LkJh2Wn5Ff3GwXMQic2L+4xxAlcCKZK1eEYTy+wPGAUEaoQN8G
+ YHwh05xJOWzQimRwDXshAcQ3WP6PmxC0KOqbMBy8sriNhSBWN3OS50vLTNqSioQ7
+ 99LPs5CUyqQnSXn+BEOkSA18C3Rr4n9BxiSV4BzQMdGClT5zX+IQApqJ3ggNzAnx
+ b2UpkEI7xBD2yzqrOMg0Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665655033; x=
- 1665741433; bh=c9JIB0N1ry3TbulJgGhW5FL0vfJVlWv5g9q7AUZjWIo=; b=d
- /0OVpEDQ4TNzQNUgQnRMlEeaIoZztjGK5DkZLhsgRkdUrbHrQa6hwSWFiNeemjS7
- DICz4nAkECI8Xk8P+PxBoi3XLftlyoCXrxSdklqfr1aQEH8j0Xyd2Oj2ZGztQtk5
- wolFOxmuWig42x/+YE5L/1TeuO/zzVpiSq2UKf7ntl4JVIRAEU9cvyRL3jE0Albl
- VZHQU/txbAY3QuKGotCY8gQcy5LIYL18Tc1YKVfyoaa3heNPwtArFJY+IWiiocOi
- XaKkzZGpx0ntWjQ5MM4M17eDgArCnL4eSO/BRFa0/EXJ4Wq2MNA6Au23AN2fVEvC
- Txh61pU6ZsDT6q8/ggr5w==
-X-ME-Sender: <xms:-eBHY2Plv6XMYZO9LP1oIim3BOAHwQU6ZntucSyABvl4M6jxSirBBw>
- <xme:-eBHY0-5BZRZxuWYiNqdFWphxUkvJM0w1WH89-a34oFq1GDA4hoFBJ77jzKBLvTgN
- nMXZZb-YOfO8d7sRpc>
-X-ME-Received: <xmr:-eBHY9Q4IXmx3uM_b5Od6o_LNxWiVSH3CP8mEnfMnGN38lN3ozeiIyyh9TT_>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665655035; x=
+ 1665741435; bh=YJIorxZ3pr3ObxvJBlO+ZXthuYIK21XnMOr0CgbO85g=; b=T
+ 1qUH36QS6wVuprS6GW2gNoDbfQfxHVde1oSUdy9kPWVP5M0it87NVXIYFE/mDCw0
+ u7SuYjhXEk/wLXlEXPO0sDShocrKdX4Gcr5cZsPa/57sLqd+cit5/+iGcvul8RPz
+ AUhAgz385uQkSI2GWYAF/bJ3teIwc1MSVVXIxEeu57nRxPgy06syxMVHUq50tnYN
+ Q6UoTi6vLWIHggkyOdjOlQe3fIsdL5sR8GkhSjPXjYXIJOQ44qjdykWJTespPjnC
+ WxvSAED8E6VyALcjsO+wx4lpjO7EX4QhEFuUfTcm0A3ILqRJklpb24y/6PT45R1t
+ AoUvCLe2udomn6UqLM6MA==
+X-ME-Sender: <xms:--BHY2YeXAkWUktRK4ONkH_PxbpF2NZHHixw9YEXu4EuKpVmk-WrSQ>
+ <xme:--BHY5axhoHd-X-QJGVab0jbZvqrsTeTjjAcA050hlZZKe_4NM0l5CK7V0OXLeN94
+ BVryaSIH3ccgB6m2s0>
+X-ME-Received: <xmr:--BHYw-5juuCuwik49_CffUyLCpGDAcy30XS-K2-4CSnKHV4rZaWmOryK1mE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgvdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
- jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ jeeltdevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-eBHY2sWh-wbTjwwImJnXfNxohWQrUY0XROoL2CgjvcdIXPxjkmNiw>
- <xmx:-eBHY-dxkMR9121oKf4ra-ybZfjMfgHQ-2plRZ4SGMbv1y-a5Qh5fA>
- <xmx:-eBHY62lsEvvnLB6AW-i3h-6_5n5FXZQO9kuQqK5nNGlbPFTmzBw_g>
- <xmx:-eBHY619H8rPo6gtapZ0DGlojQIWCI4K-C5j1oVG5LYMWa7pVIXY6g>
+X-ME-Proxy: <xmx:--BHY4qxv2ZTEIC_5Poa1PphNLrvZZ4Lbi5Mdwl4Gpt5RV0ss1LQKg>
+ <xmx:--BHYxpYnIzTbH54hy6hFLOBEBhSsGRFjguGV5JF4e8J1qGk7W7dkQ>
+ <xmx:--BHY2R7l5rRSnwhmpJSjswqultgK9ooCyDaBnHeuThwifhYIbp-3w>
+ <xmx:--BHYyQvUxd_bqfBklnONLUbfI0tXpfIuToNlF9ciHhBmsEwezB9Lw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 05:57:12 -0400 (EDT)
+ 13 Oct 2022 05:57:14 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 13 Oct 2022 11:56:49 +0200
-Subject: [PATCH 5/7] drm/vc4: dpi: Support BGR666 formats
+Date: Thu, 13 Oct 2022 11:56:50 +0200
+Subject: [PATCH 6/7] drm/vc4: dpi: Change the default DPI format to being
+ 18bpp, not 24.
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221013-rpi-dpi-improvements-v1-5-8a7a96949cb0@cerno.tech>
+Message-Id: <20221013-rpi-dpi-improvements-v1-6-8a7a96949cb0@cerno.tech>
 References: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
 In-Reply-To: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>, Eric Anholt <eric@anholt.net>,
@@ -75,11 +76,11 @@ To: Maxime Ripard <mripard@kernel.org>, Eric Anholt <eric@anholt.net>,
  David Airlie <airlied@linux.ie>, Rob Herring <robh@kernel.org>,
  Emma Anholt <emma@anholt.net>
 X-Mailer: b4 0.11.0-dev-7da52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1228; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=1jlV3cpohJvxfKQ50ZdTSBF7QOjvv8tfuT0cBwwSJJw=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnuD97e+tB6zFene/7a3+cWRQkq6T7c8kj9jwbzsdgwpf2n
- F7Zmd5SyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiW50Z/tnk37Q7ZPRmkYSr+MFADY
- viU1PWSG/iUrT3Zc+yeZErLsDI8Krnr5OYmNiuKdbuU2azRi988s3q28zfZuEmmZwu3lNs2QE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1264; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=Wft1tzL7nxwyTwNtu5OqGs7F+nLIDZNQX56ZSduIte0=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnuD9627pcUfvUmYLe7i/T0yiCHiGsTm4zta7877tj58PNp
+ QTmJjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkkirDf/9Yrx4+zXuFmqJZ6oG7GD
+ lcKzcbvJ30z7K679TKtGWbDzD8r/l+dfb2a5lLkvdJ3nPQ3ury3rV2fzJ7qbGAXuOM6Zv6uQE=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,38 +103,39 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joerg Quinten <aBUGSworstnightmare@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The VC4 DPI output can support multiple BGR666 variants, but they were
-never added to the driver. Let's add the the support for those formats.
+DPI hasn't really been used up until now, so the default has
+been meaningless.
+In theory we should be able to pass the desired format for the
+adjacent bridge chip through, but framework seems to be missing
+for that.
 
-Signed-off-by: Joerg Quinten <aBUGSworstnightmare@gmail.com>
+As the main device to use DPI is the VGA666 or Adafruit Kippah,
+both of which use RGB666, change the default to being RGB666 instead
+of RGB888.
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/vc4/vc4_dpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index 7da3dd1db50e..ecbe4cd87036 100644
+index ecbe4cd87036..fdae02760b6d 100644
 --- a/drivers/gpu/drm/vc4/vc4_dpi.c
 +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -170,10 +170,16 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 				dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR,
- 						       DPI_ORDER);
- 				break;
-+			case MEDIA_BUS_FMT_BGR666_1X24_CPADHI:
-+				dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR, DPI_ORDER);
-+				fallthrough;
- 			case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
- 				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_18BIT_666_RGB_2,
- 						       DPI_FORMAT);
- 				break;
-+			case MEDIA_BUS_FMT_BGR666_1X18:
-+				dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR, DPI_ORDER);
-+				fallthrough;
- 			case MEDIA_BUS_FMT_RGB666_1X18:
- 				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_18BIT_666_RGB_1,
- 						       DPI_FORMAT);
+@@ -150,8 +150,8 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+ 
+-	/* Default to 24bit if no connector or format found. */
+-	dpi_c |= VC4_SET_FIELD(DPI_FORMAT_24BIT_888_RGB, DPI_FORMAT);
++	/* Default to 18bit if no connector or format found. */
++	dpi_c |= VC4_SET_FIELD(DPI_FORMAT_18BIT_666_RGB_1, DPI_FORMAT);
+ 
+ 	if (connector) {
+ 		if (connector->display_info.num_bus_formats) {
 
 -- 
 b4 0.11.0-dev-7da52
