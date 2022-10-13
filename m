@@ -1,54 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3405FD7D5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 12:36:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77FD5FD7F1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 12:51:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A482A10E212;
-	Thu, 13 Oct 2022 10:36:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B304910E7DF;
+	Thu, 13 Oct 2022 10:51:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B0410E212
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 10:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665657394; x=1697193394;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=84cm2nDkKB3FojEUx+eiD5IfKY7NpFQn3U+ONC/nHWs=;
- b=Xo4srt8Sc+4DuEDjqdcjzvRZYIMub112Zp7zlOKfNII7J9kVYMVGNn2X
- 4rkFpuoN+YSC0vX1DrgXU2xvrbchCeYrXDC8iOHtx1RBrhAKCAYAVaZfe
- N1qbVApQXM4fU3JSXVciAlxJpvzx8LQD8onRo8uzxWm5H/iFoe3rMQF/9
- DwNCQB7ZVEym6+h71Gqan/14ho5NCIEhquVVdV8Ezs9XMkKW8dNzRB+lC
- LRdZXV98GJkH4k4fAL6RrSOoi1SJ6/o7qrwYKlH3QompkNB9xvEd/TUzk
- i0qGXaEv3StnvS9mpYnt0ELQ4K3EIor5VhwmF5EcYWu9q0ZkzDE5CCxCA Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="391350427"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="391350427"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 03:36:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="872275679"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="872275679"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga006.fm.intel.com with SMTP; 13 Oct 2022 03:36:30 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 13 Oct 2022 13:36:30 +0300
-Date: Thu, 13 Oct 2022 13:36:30 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/mgag200: Fix PLL setup for G200_SE_A rev >=4
-Message-ID: <Y0fqLofkA7O4IEbQ@intel.com>
-References: <20221013082901.471417-1-jfalempe@redhat.com>
- <db634341-da68-e8a6-1143-445f17262c63@suse.de>
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA62210E7DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 10:51:33 +0000 (UTC)
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 13 Oct 2022 18:51:30 +0800
+Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 29DApS05073240;
+ Thu, 13 Oct 2022 18:51:28 +0800 (GMT-8)
+ (envelope-from allen.chen@ite.com.tw)
+Received: from VirtualBox.internal.ite.com.tw (192.168.70.46) by
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.14; Thu, 13 Oct 2022 18:51:27 +0800
+From: allen <allen.chen@ite.com.tw>
+To: 
+Subject: [PATCH v4 0/2] *** IT6505 driver read dt properties ***
+Date: Thu, 13 Oct 2022 18:51:12 +0800
+Message-ID: <20221013105116.180380-1-allen.chen@ite.com.tw>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <db634341-da68-e8a6-1143-445f17262c63@suse.de>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
+X-Originating-IP: [192.168.70.46]
+X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58)
+X-TM-SNTS-SMTP: 4F4220859199046EF6E099F2753DE83C4FB3EF8C63682397400F4872B8CE3F3C2002:8
+X-MAIL: mse.ite.com.tw 29DApS05073240
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, Jocelyn Falempe <jfalempe@redhat.com>,
- stable@vger.kernel.org, michel@daenzer.net, dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN
+ FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Kenneth Hung <Kenneth.Hung@ite.com.tw>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, Allen Chen <allen.chen@ite.com.tw>,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 13, 2022 at 11:05:19AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 13.10.22 um 10:29 schrieb Jocelyn Falempe:
-> > For G200_SE_A, PLL M setting is wrong, which leads to blank screen,
-> > or "signal out of range" on VGA display.
-> > previous code had "m |= 0x80" which was changed to
-> > m |= ((pixpllcn & BIT(8)) >> 1);
-> > 
-> > Tested on G200_SE_A rev 42
-> > 
-> > This line of code was moved to another file with
-> > commit 85397f6bc4ff ("drm/mgag200: Initialize each model in separate
-> > function") but can be easily backported before this commit.
-> > 
-> > Fixes: 2dd040946ecf ("drm/mgag200: Store values (not bits) in struct mgag200_pll_values")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> > ---
-> >   drivers/gpu/drm/mgag200/mgag200_g200se.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> > index be389ed91cbd..4ec035029b8b 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> > @@ -284,7 +284,7 @@ static void mgag200_g200se_04_pixpllc_atomic_update(struct drm_crtc *crtc,
-> >   	pixpllcp = pixpllc->p - 1;
-> >   	pixpllcs = pixpllc->s;
-> >   
-> > -	xpixpllcm = pixpllcm | ((pixpllcn & BIT(8)) >> 1);
-> > +	xpixpllcm = pixpllcm | BIT(7);
-> 
-> Thanks for figuring this out. G200SE apparently is special compared to 
-> the other models. The old MGA docs only list this bit as <reserved>. 
-> Really makes me wonder why this is different.
+This series let driver can read properties from dt to restrict dp output
+bandwidth.
 
-Could measure eg. the vblank interval with and without that bit set
-and see what effect it has. Assuming the PLL locks without the bit
-of course.
+Changes in v3:
+-Rename property name.
+
+Changes in v4:
+-Use data-lanes and link-frequencies instead of "ite,dp-output-data-lane-count" and "ite,dp-output-max-pixel-clock-mhz".
+
+allen chen (2):
+  dt-bindings: it6505: add properties to restrict output bandwidth
+  drm/bridge: add it6505 driver to read data-lanes and link-frequencies
+    from dt
+
+ .../bindings/display/bridge/ite,it6505.yaml   | 43 +++++++++++++++
+ drivers/gpu/drm/bridge/ite-it6505.c           | 54 +++++++++++++++++--
+ 2 files changed, 94 insertions(+), 3 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.25.1
+
