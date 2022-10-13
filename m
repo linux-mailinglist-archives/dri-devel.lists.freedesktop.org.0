@@ -1,64 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20D35FE4F9
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 00:08:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F050D5FE53B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 00:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB4010E96F;
-	Thu, 13 Oct 2022 22:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6811610E9A2;
+	Thu, 13 Oct 2022 22:28:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE0AF10E970
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 22:07:53 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id iv17so2050493wmb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 15:07:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4om2GeoB3nGtXKn/D43/nYB9P/nCiP/jXLuVwqGjJh8=;
- b=qotD3NVFSmQhXplxYbqPqkjAPRnZXJjM5FyDJIkLyL/NqOD9fNWDSVuNmGOfPoTTSe
- vswK0k7UPe81Zt44Gyv11EU/AQ/WDV/QLgN4rCTQQ2c725Mts7+BmkEgnnlnZj/hCjJh
- l16JJ2V7KBeKmbNRzg+Y8FUgkHpwNQtVcAxUTUBUurK+H2VBnyqvx4XDa7PpMQ5wq/bB
- xITX0mqArzSfNc36QCKfomjW3GUmatOMkyjAkPLLoNNe26TymIDZXGgKGu8aTRBfN/6c
- 9S/+lI7eXSx/JN2FJ5sYPrPpUSCkuQvrqyUikeZUbOJGBzGTcsEvCyg6Z3UxIvXAm9E2
- GAfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4om2GeoB3nGtXKn/D43/nYB9P/nCiP/jXLuVwqGjJh8=;
- b=6zuOiN9sXbUshB+KQ1H8yaXHqKgecb4Tw5fhzu1qcG7odRIIC3S2SeRosYK742j/Zl
- JALV7VSi8kFxwwT+Akzp2lP4dMHUL+ROYDUxKCn+HHx5oZxvig/r6sC6pCAiJ2cBdZnK
- CWREfvYl1+gUgBLQpwWzIx11Oy2FqfSKHAv7HaQQtrTqwwMsOj2FFCjcd5Sf9r4g58/A
- RgsGI7whmKppRZTD2N45LW4QviyycVtOvTHhnStR/1oLiH+weiXAc+PGolo6PdZqxUrN
- 85lQNH7dMu4pRSxzZ9lvwn2adLc7iUuCIzjp4ir45n8oZ5m/4JTB5irOOHH88LVrrRXa
- WK+Q==
-X-Gm-Message-State: ACrzQf2n9ODxlBnkOx3QEpnSDZktECiF5y6zY4G2F85ZBeL3buehsRsM
- OpPaanpXpzTKklHCXx1oNgA=
-X-Google-Smtp-Source: AMsMyM5P8Pugtc1EMoY/scdkibvmUsnt2EGPTvpR9fjvU661yr2QC0CRIzsowya071Vy3/LCiotyNg==
-X-Received: by 2002:a05:600c:3b99:b0:3c6:8b8e:a624 with SMTP id
- n25-20020a05600c3b9900b003c68b8ea624mr1301589wms.113.1665698872009; 
- Thu, 13 Oct 2022 15:07:52 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- c1-20020a5d4141000000b002238ea5750csm624793wrq.72.2022.10.13.15.07.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 15:07:51 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/gma500: Fix spelling mistake "patter" -> "pattern"
-Date: Thu, 13 Oct 2022 23:07:50 +0100
-Message-Id: <20221013220750.127243-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.3
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D564610E9A4;
+ Thu, 13 Oct 2022 22:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665700097; x=1697236097;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=8WE5077IhCrTkwnO/ZmqhJZk6Zp7bNwPPMpdIqUv6sU=;
+ b=RovzhyWtnEzm23lsKOXBXSklZrt6nqhXPwldkLhFGWoX8eLGFWqVxMGV
+ W5dFLNaVZWvwmjjr9iAcsfSa0Vd/UFWJ9Vf41vix4l0353tTiPz0HB35C
+ po1b9L/Dmk3EDI/Vt+EJuGhx72avQCkQSkktIfo81BCEA8os6q29l0d/x
+ Jdcmbpp+TQxTKiJkXrrdcSnVHYOzaQpl7TQxmbF6EuiuQZz3X5bliL8gZ
+ 5Jf+f1PkjPEKhXJICsqLultb83YlixB3xnMxPeBBZYTwfv/dMJ62VfunO
+ KmIjO+8sIkJeJ/renLIa8ljQVYr165SxUmAH2a/mHtaIgE/TvNgFa0buP A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="367239560"
+X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="367239560"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2022 15:28:17 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="605152407"
+X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="605152407"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.216.120])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2022 15:28:17 -0700
+Date: Thu, 13 Oct 2022 15:28:16 -0700
+Message-ID: <87h707z7cv.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH v2] drm/i915/slpc: Use platform limits for min/max
+ frequency
+In-Reply-To: <20221013155524.25886-1-vinay.belgaumkar@intel.com>
+References: <20221013155524.25886-1-vinay.belgaumkar@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,36 +60,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Riana Tauro <riana.tauro@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake in a DRM_DEBUG_KMS message. Fix it.
-Also clean checkpatch warning on the overly long line and remove
-braces as the if statement is just one statement.
+On Thu, 13 Oct 2022 08:55:24 -0700, Vinay Belgaumkar wrote:
+>
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/gma500/cdv_intel_dp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi Vinay,
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index 53b967282d6a..bf39728eb86f 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -1546,9 +1546,9 @@ cdv_intel_dp_start_link_train(struct gma_encoder *encoder)
- 
- 	}
- 
--	if (!clock_recovery) {
--		DRM_DEBUG_KMS("failure in DP patter 1 training, train set %x\n", intel_dp->train_set[0]);
--	}
-+	if (!clock_recovery)
-+		DRM_DEBUG_KMS("failure in DP pattern 1 training, train set %x\n",
-+			      intel_dp->train_set[0]);
- 
- 	intel_dp->DP = DP;
- }
--- 
-2.37.3
+> GuC will set the min/max frequencies to theoretical max on
+> ATS-M. This will break kernel ABI, so limit min/max frequency
+> to RP0(platform max) instead.
 
+Isn't what we are calling "theoretical max" or "RPmax" really just -1U
+(0xFFFFFFFF)? Though I have heard this is not a max value but -1U indicates
+FW default values unmodified by host SW, which would mean frequencies are
+fully controlled by FW (min == max == -1U). But if this were the case I
+don't know why this would be the case only for server, why doesn't FW set
+these for clients too to indicate it is fully in control?
+
+So the question what does -1U actually represent? Is it the RPmax value or
+does -1U represent "FW defaults"?
+
+Also this concept of using -1U as "FW defaults" is present in Level0/OneAPI
+(and likely in firmware) but we seem to have blocked in the i915 ABI.
+
+I understand we may not be able to make such changes at present but this
+provides some context for the review comments below.
+
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> index fdd895f73f9f..11613d373a49 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> @@ -263,6 +263,7 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>
+>	slpc->max_freq_softlimit = 0;
+>	slpc->min_freq_softlimit = 0;
+> +	slpc->min_is_rpmax = false;
+>
+>	slpc->boost_freq = 0;
+>	atomic_set(&slpc->num_waiters, 0);
+> @@ -588,6 +589,31 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
+>	return 0;
+>  }
+>
+> +static bool is_slpc_min_freq_rpmax(struct intel_guc_slpc *slpc)
+> +{
+> +	int slpc_min_freq;
+> +
+> +	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq))
+> +		return false;
+> +
+> +	if (slpc_min_freq > slpc->rp0_freq)
+
+> or >=.
+
+If what we are calling "rpmax" really -1U then why don't we just check for
+-1U here?
+
+	u32 slpc_min_freq;
+
+	if (slpc_min_freq == -1U)
+
+> +		return true;
+> +	else
+> +		return false;
+> +}
+> +
+> +static void update_server_min_softlimit(struct intel_guc_slpc *slpc)
+> +{
+> +	/* For server parts, SLPC min will be at RPMax.
+> +	 * Use min softlimit to clamp it to RP0 instead.
+> +	 */
+> +	if (is_slpc_min_freq_rpmax(slpc) &&
+> +	    !slpc->min_freq_softlimit) {
+> +		slpc->min_is_rpmax = true;
+> +		slpc->min_freq_softlimit = slpc->rp0_freq;
+
+Isn't it safer to use a platform check such as IS_ATSM or IS_XEHPSDV (or
+even #define IS_SERVER()) to set min freq to RP0 rather than this -1U value
+from FW? What if -1U means "FW defaults" and FW starts setting this on
+client products tomorrow?
+
+Also, we need to set gt->defaults.min_freq here.
+
+Thanks.
+--
+Ashutosh
+
+
+> +	}
+> +}
+> +
+>  static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
+>  {
+>	/* Force SLPC to used platform rp0 */
+> @@ -647,6 +673,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>
+>	slpc_get_rp_values(slpc);
+>
+> +	/* Handle the case where min=max=RPmax */
+> +	update_server_min_softlimit(slpc);
+> +
+>	/* Set SLPC max limit to RP0 */
+>	ret = slpc_use_fused_rp0(slpc);
+>	if (unlikely(ret)) {
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+> index 73d208123528..a6ef53b04e04 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+> @@ -19,6 +19,9 @@ struct intel_guc_slpc {
+>	bool supported;
+>	bool selected;
+>
+> +	/* Indicates this is a server part */
+> +	bool min_is_rpmax;
+> +
+>	/* platform frequency limits */
+>	u32 min_freq;
+>	u32 rp0_freq;
+> --
+> 2.35.1
+>
