@@ -1,79 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD59E5FD646
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 10:36:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 149325FD652
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 10:40:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC1310E200;
-	Thu, 13 Oct 2022 08:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE3610E4DD;
+	Thu, 13 Oct 2022 08:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D05B10E200;
- Thu, 13 Oct 2022 08:36:44 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 6EFA258035B;
- Thu, 13 Oct 2022 04:36:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 13 Oct 2022 04:36:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1665650201; x=1665657401; bh=ysquayv/A7
- PcL91ZGvk9c45xdKAQrAqStjB+DbTAf4Y=; b=fGvAjI49FOoCVdB2M5Hcd/j++r
- uN93U9tVW2glfFC3Ec4uivVmTIoUp9RyKrzQj9rqlvHgmCRd7k7w6Zlt1tuABskA
- 4x3SkxmWIavMHV3/kZm+xfhpEHwy8/Bio04nFnSxKdrm0yErAGR6KB8Kh1QknV9g
- /hsVp0Dz5H6wV2W4I17ytz/klpxpmFO8+cH1fM0WhfOsjz0OA8mR5Kb3zEkefAHZ
- lzhcX8ym5wGpXcZ98qntF0EqOua/rZpPGqGBrtWSMJzRnXfGoiQqogs8dGIXN3KZ
- POWt7SZMSJK5HM8Evv5ZvRkqNIQbekuYrO4DwcYMr4in2nAKyq/JfTXedpEg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1665650201; x=1665657401; bh=ysquayv/A7PcL91ZGvk9c45xdKAQ
- rAqStjB+DbTAf4Y=; b=UIna1zpHZ1vH/wEBK0RE1zIRyKk8c7mWVVtYYnm5tgxC
- n4RYdAVYlpupi30CudvozDGzmCYDPpPtmH9D0eWIXLCajpR7omgKafbsYcZH4YLs
- QdsQqYKofIf6uCaX34V6KBjRd/ezHyACFVwO6NzcdD8rb2mW+XJHwJ9Gm0fMxw6+
- 402X5BgJ539CgC0DQsbLocznUiImNqOlCFkL3QQodiJ5PX+FkQapOroNBr3T64p6
- o69aovrHr/bGBmokirOWWOmlqAvvDus+HBfPAtwgFCCVGmYNHEhB35+kdlOCXu/E
- uEAVTNdLUmbnG7m9JflUeeeLe6B3/VHckfUgBS4FBw==
-X-ME-Sender: <xms:GM5HY57zldkiHq5DHxAIqMV4ri47KWkn6Le_F7uS085pkYYDXfyqow>
- <xme:GM5HY27KVj_mt2XtG7EP7IB6svmVpDO7LonsYm2ujyBE-nlqEoCchoGmKL89ClIlJ
- N8O7_mxpduYCJnfNQA>
-X-ME-Received: <xmr:GM5HYwddm-oPwfORmFSjtwNqA0b18uKjC3Ob64gsDEeq1Mj9tg99JPrXa83w4ymyDD0jE72JF_rvEhhly1eyvqDZbAx-FGco9Gb8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgtdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeljeeugfegveetleevkeetffegudevieetieeugeeugeeivddtjeejvdef
- feetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:GM5HYyJSEpM6YUHDJ03U9cB9w9_g4vqlvanymVLGPphkerK5JsVKoA>
- <xmx:GM5HY9JIM4TAqtjnia8joUvmM5SPGvCpFzPqoNzuSEa5ukp3Wbwb4w>
- <xmx:GM5HY7xJwRvkDe2E2lR2wHgOFMQGNv9JMT0AVe08Jz4EeBoP0wBzXg>
- <xmx:Gc5HY3oXqNmr3oRXKiMt81wFysmXGv5MzjjahHsr3YO7T93tVZbvkQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 04:36:39 -0400 (EDT)
-Date: Thu, 13 Oct 2022 10:36:38 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v4 11/30] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20221013083638.kloiaxervnhii7ew@houat>
-References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
- <20220728-rpi-analog-tv-properties-v4-11-60d38873f782@cerno.tech>
- <0aa690b8-988a-878f-4d4f-d391295bc591@tronnes.org>
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025D210E4DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 08:39:47 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id k2so2391097ejr.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 01:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fVDvc0MfivE/+VMjGr9d2m+2mu7+xsyFwsz4JW46614=;
+ b=caVQ2u+IeDYJcspF4WKLd2QWHHNULeGCp5YdOComqAXlCvDFVFlRIU8TrlC8QT6zDl
+ whFfPuSSgikkcu+KcrppC030qChizcaObYpN073JL83ugHKBWVe9Phb4on8h2jGRlkeO
+ 6FrpWwbTB0hkPc02hd1xqZxSNIruLM4FqR0WAuadybgTnBcgpOFizPrckpHUotpfbZIs
+ iY+pj2uifofQWCut5RZvDJ9cxxL1T6OIAEHQpOxLpLMddYS8Gev+JktPY4CJPCX+Ee69
+ renn9VINtCiv/Y0CWlJ21mKNjR8mTP6LDoY4V0bCc0kWtviXmjXoZtL/2MsqZCEKTapW
+ mNzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fVDvc0MfivE/+VMjGr9d2m+2mu7+xsyFwsz4JW46614=;
+ b=C5C7XyfRqFZ2G9InSOUnf29rTDBySWYacioZtL3aGtYDtHBMocTE22MmVsJrTOM6xQ
+ tFOmuVh1pH0LGBGRKTzTNHoMk3R0fPg+xcqFa544pxiPFRpEcDAbo4t0JAvAaeY8J++k
+ ZF9K25D9VJnffkOOJZdLnMvWbKdexl9G/LwZA+Jp8/amOHn/mRcsLGKNBLsiCucImRXM
+ ulKjBC23D9D/lEDSbuic19jFIqZUOx3msNdgSXrACE7nSgtWtVxkADXt8BvR0bHylOYX
+ hAieMoFFZGrcppnTFsSyizHCWprPcPWQEGkmHjiGP3wNyDQu+tGV1rKUuj4Ky7IeCDsr
+ 29SQ==
+X-Gm-Message-State: ACrzQf190gn1n9UkTxYmyAR8hwfsb5IS952OIU4OoFLrDL7zAxVJYo+L
+ z6+xmnxgJdgR2+e0ogCFZH70NpUs/pLGNT3Z4w8EqA==
+X-Google-Smtp-Source: AMsMyM6qIrJmEJ9I5jdCrb2NFHr8iXxMeaFaIkIS20xiKLeLy318jRGT78LBeFOJclQUQ7oHTEnJ9B68JfrhK1DWlXI=
+X-Received: by 2002:a17:907:7ba7:b0:78b:7d9e:9536 with SMTP id
+ ne39-20020a1709077ba700b0078b7d9e9536mr25700977ejc.626.1665650386422; Thu, 13
+ Oct 2022 01:39:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="l3aewuzyqmtjebmf"
-Content-Disposition: inline
-In-Reply-To: <0aa690b8-988a-878f-4d4f-d391295bc591@tronnes.org>
+References: <1665522649-3423-1-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <1665522649-3423-1-git-send-email-quic_abhinavk@quicinc.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 13 Oct 2022 10:39:35 +0200
+Message-ID: <CAG3jFyshznjN8OnFA61OAp1iCydOkAp5EDmu-+44rexDOmx64A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: adv7533: remove dynamic lane switching
+ from adv7533 bridge
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,88 +65,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 11 Oct 2022 at 23:11, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> adv7533 bridge tries to dynamically switch lanes based on the
+> mode by detaching and attaching the mipi dsi device.
+>
+> This approach is incorrect because this method of dynamic switch of
+> detaching and attaching the mipi dsi device also results in removing
+> and adding the component which is not necessary.
+>
+> This approach is also prone to deadlocks. So for example, on the
+> db410c whenever this path is executed with lockdep enabled,
+> this results in a deadlock due to below ordering of locks.
+>
+> -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
+>         lock_acquire+0x6c/0x90
+>         drm_modeset_acquire_init+0xf4/0x150
+>         drmm_mode_config_init+0x220/0x770
+>         msm_drm_bind+0x13c/0x654
+>         try_to_bring_up_aggregate_device+0x164/0x1d0
+>         __component_add+0xa8/0x174
+>         component_add+0x18/0x2c
+>         dsi_dev_attach+0x24/0x30
+>         dsi_host_attach+0x98/0x14c
+>         devm_mipi_dsi_attach+0x38/0xb0
+>         adv7533_attach_dsi+0x8c/0x110
+>         adv7511_probe+0x5a0/0x930
+>         i2c_device_probe+0x30c/0x350
+>         really_probe.part.0+0x9c/0x2b0
+>         __driver_probe_device+0x98/0x144
+>         driver_probe_device+0xac/0x14c
+>         __device_attach_driver+0xbc/0x124
+>         bus_for_each_drv+0x78/0xd0
+>         __device_attach+0xa8/0x1c0
+>         device_initial_probe+0x18/0x24
+>         bus_probe_device+0xa0/0xac
+>         deferred_probe_work_func+0x90/0xd0
+>         process_one_work+0x28c/0x6b0
+>         worker_thread+0x240/0x444
+>         kthread+0x110/0x114
+>         ret_from_fork+0x10/0x20
+>
+> -> #0 (component_mutex){+.+.}-{3:3}:
+>         __lock_acquire+0x1280/0x20ac
+>         lock_acquire.part.0+0xe0/0x230
+>         lock_acquire+0x6c/0x90
+>         __mutex_lock+0x84/0x400
+>         mutex_lock_nested+0x3c/0x70
+>         component_del+0x34/0x170
+>         dsi_dev_detach+0x24/0x30
+>         dsi_host_detach+0x20/0x64
+>         mipi_dsi_detach+0x2c/0x40
+>         adv7533_mode_set+0x64/0x90
+>         adv7511_bridge_mode_set+0x210/0x214
+>         drm_bridge_chain_mode_set+0x5c/0x84
+>         crtc_set_mode+0x18c/0x1dc
+>         drm_atomic_helper_commit_modeset_disables+0x40/0x50
+>         msm_atomic_commit_tail+0x1d0/0x6e0
+>         commit_tail+0xa4/0x180
+>         drm_atomic_helper_commit+0x178/0x3b0
+>         drm_atomic_commit+0xa4/0xe0
+>         drm_client_modeset_commit_atomic+0x228/0x284
+>         drm_client_modeset_commit_locked+0x64/0x1d0
+>         drm_client_modeset_commit+0x34/0x60
+>         drm_fb_helper_lastclose+0x74/0xcc
+>         drm_lastclose+0x3c/0x80
+>         drm_release+0xfc/0x114
+>         __fput+0x70/0x224
+>         ____fput+0x14/0x20
+>         task_work_run+0x88/0x1a0
+>         do_exit+0x350/0xa50
+>         do_group_exit+0x38/0xa4
+>         __wake_up_parent+0x0/0x34
+>         invoke_syscall+0x48/0x114
+>         el0_svc_common.constprop.0+0x60/0x11c
+>         do_el0_svc+0x30/0xc0
+>         el0_svc+0x58/0x100
+>         el0t_64_sync_handler+0x1b0/0x1bc
+>         el0t_64_sync+0x18c/0x190
+>
+> Due to above reasons, remove the dynamic lane switching
+> code from adv7533 bridge chip and filter out the modes
+> which would need different number of lanes as compared
+> to the initialization time using the mode_valid callback.
+>
+> This can be potentially re-introduced by using the pre_enable()
+> callback but this needs to be evaluated first whether such an
+> approach will work so this will be done with a separate change.
+>
+> changes since RFC:
+>         - Fix commit text and add TODO comment
+>
+> changes in v2:
+>         - Fix checkpatch formatting errors
+>
+> Fixes: 62b2f026cd8e ("drm/bridge: adv7533: Change number of DSI lanes dynamically")
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/16
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> Link: https://lore.kernel.org/r/1661797363-7564-1-git-send-email-quic_abhinavk@quicinc.com
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++++++++----
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c     | 25 +++++++++++++------------
+>  3 files changed, 29 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> index a031a0cd1f18..1053d185b24c 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -405,7 +405,8 @@ static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+>
+>  void adv7533_dsi_power_on(struct adv7511 *adv);
+>  void adv7533_dsi_power_off(struct adv7511 *adv);
+> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode);
+> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
+> +                                       const struct drm_display_mode *mode);
+>  int adv7533_patch_registers(struct adv7511 *adv);
+>  int adv7533_patch_cec_registers(struct adv7511 *adv);
+>  int adv7533_attach_dsi(struct adv7511 *adv);
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index 38bf28720f3a..4bc7aac94a16 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -697,7 +697,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
+>  }
+>
+>  static enum drm_mode_status adv7511_mode_valid(struct adv7511 *adv7511,
+> -                             struct drm_display_mode *mode)
+> +                             const struct drm_display_mode *mode)
+>  {
+>         if (mode->clock > 165000)
+>                 return MODE_CLOCK_HIGH;
+> @@ -791,9 +791,6 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+>         regmap_update_bits(adv7511->regmap, 0x17,
+>                 0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
+>
+> -       if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
+> -               adv7533_mode_set(adv7511, adj_mode);
+> -
+>         drm_mode_copy(&adv7511->curr_mode, adj_mode);
+>
+>         /*
+> @@ -913,6 +910,18 @@ static void adv7511_bridge_mode_set(struct drm_bridge *bridge,
+>         adv7511_mode_set(adv, mode, adj_mode);
+>  }
+>
+> +static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
+> +                                                     const struct drm_display_info *info,
+> +               const struct drm_display_mode *mode)
+> +{
+> +       struct adv7511 *adv = bridge_to_adv7511(bridge);
+> +
+> +       if (adv->type == ADV7533 || adv->type == ADV7535)
+> +               return adv7533_mode_valid(adv, mode);
+> +       else
+> +               return adv7511_mode_valid(adv, mode);
+> +}
+> +
+>  static int adv7511_bridge_attach(struct drm_bridge *bridge,
+>                                  enum drm_bridge_attach_flags flags)
+>  {
+> @@ -960,6 +969,7 @@ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
+>         .enable = adv7511_bridge_enable,
+>         .disable = adv7511_bridge_disable,
+>         .mode_set = adv7511_bridge_mode_set,
+> +       .mode_valid = adv7511_bridge_mode_valid,
+>         .attach = adv7511_bridge_attach,
+>         .detect = adv7511_bridge_detect,
+>         .get_edid = adv7511_bridge_get_edid,
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> index ef6270806d1d..258c79d4dab0 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -100,26 +100,27 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
+>         regmap_write(adv->regmap_cec, 0x27, 0x0b);
+>  }
+>
+> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode)
+> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
+> +                                       const struct drm_display_mode *mode)
+>  {
+> +       int lanes;
+>         struct mipi_dsi_device *dsi = adv->dsi;
+> -       int lanes, ret;
+> -
+> -       if (adv->num_dsi_lanes != 4)
+> -               return;
+>
+>         if (mode->clock > 80000)
+>                 lanes = 4;
+>         else
+>                 lanes = 3;
+>
+> -       if (lanes != dsi->lanes) {
+> -               mipi_dsi_detach(dsi);
+> -               dsi->lanes = lanes;
+> -               ret = mipi_dsi_attach(dsi);
+> -               if (ret)
+> -                       dev_err(&dsi->dev, "failed to change host lanes\n");
+> -       }
+> +       /*
+> +        * TODO: add support for dynamic switching of lanes
+> +        * by using the bridge pre_enable() op . Till then filter
+> +        * out the modes which shall need different number of lanes
+> +        * than what was configured in the device tree.
+> +        */
+> +       if (lanes != dsi->lanes)
+> +               return MODE_BAD;
+> +
+> +       return MODE_OK;
+>  }
+>
+>  int adv7533_patch_registers(struct adv7511 *adv)
+> --
+> 2.7.4
+>
 
---l3aewuzyqmtjebmf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Noralf,
-
-On Sat, Oct 01, 2022 at 02:52:06PM +0200, Noralf Tr=F8nnes wrote:
-> Den 29.09.2022 18.31, skrev Maxime Ripard:
-> > Multiple drivers (meson, vc4, sun4i) define analog TV 525-lines and
-> > 625-lines modes in their drivers.
-> >=20
-> > Since those modes are fairly standard, and that we'll need to use them
-> > in more places in the future, it makes sense to move their definition
-> > into the core framework.
-> >=20
-> > However, analog display usually have fairly loose timings requirements,
-> > the only discrete parameters being the total number of lines and pixel
-> > clock frequency. Thus, we created a function that will create a display
-> > mode from the standard, the pixel frequency and the active area.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
-> > ---
-> >=20
-> > Changes in v4:
-> > - Reworded the line length check comment
-> > - Switch to HZ_PER_KHZ in tests
-> > - Use previous timing to fill our mode
-> > - Move the number of lines check earlier
-> > ---
-> >  drivers/gpu/drm/drm_modes.c            | 474 +++++++++++++++++++++++++=
-++++++++
-> >  drivers/gpu/drm/tests/Makefile         |   1 +
-> >  drivers/gpu/drm/tests/drm_modes_test.c | 144 ++++++++++
-> >  include/drm/drm_modes.h                |  17 ++
-> >  4 files changed, 636 insertions(+)
-> >=20
->=20
-> I haven't followed the discussion on this patch, but it seems rather
-> excessive to add over 600 lines of code (including tests) to add 2 fixed
-> modes. And it's very difficult to see from the code what the actual
-> display mode timings really are, which would be useful for other
-> developers down the road wanting to use them.
->=20
-> Why not just hardcode the modes?
-
-Yeah, I have kind of the same feeling tbh, but it was asked back on the
-v1 to ease the transition of old fbdev drivers, since they will need
-such a function:
-https://lore.kernel.org/dri-devel/CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzR=
-YyWDuNm5=3Dg@mail.gmail.com/
-
-Maxime
-
---l3aewuzyqmtjebmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0fOFgAKCRDj7w1vZxhR
-xRPTAPsHbpjwggNPU38hdpfJ1NG62HfnGiMtgUpIeY78VLwdvAD+ID6+idT6/neO
-8RrFdtowwtZdPyNPHMeV6f3x0uD7BgM=
-=iymO
------END PGP SIGNATURE-----
-
---l3aewuzyqmtjebmf--
+Applied to drm-misc-next.
