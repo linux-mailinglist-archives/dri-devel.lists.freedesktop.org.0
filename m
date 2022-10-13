@@ -1,49 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE0B5FD9A6
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 14:56:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C73A35FD9F0
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 15:08:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C73210E21C;
-	Thu, 13 Oct 2022 12:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 386BB10E8A1;
+	Thu, 13 Oct 2022 13:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B27B010E21C;
- Thu, 13 Oct 2022 12:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665665786; x=1697201786;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=q8cQ1DwGd87RaS6pzGDydRuwXbxbSDcDIQbnbnxaZ3c=;
- b=DvrMnk5mDvQ3eu5oU2ZQv5/f8PXfjibdkD+6U0jj6Vb750qMllKskvv8
- The+lDjc0xTpyX0yyP08xD5DCaS1rUM4Y2lWy8lhfpYyMJ3fAoW+ea4wG
- r0K8ScAznq1gi2BU1psDoMlI7Qd3zeXIhmAVb+dPd3N6bfm4hM7LPV6LN
- PbP+oqHEZoLK4pthq5N24psOuQG76dDuxFrr5f56Y3gu7HvtjhUMKq12w
- SwgzZN6jQzs80Qu+x/yQyVfwbaT7oX2GRaU5OSCJEcSjt3zreTVACK/tq
- W6eKXw3tftKbt2Bjt6Sr1ARkMdwk2Jbhk4+vkHYpJ6J5OR+5xGV0fbeUH Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="331574442"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="331574442"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 05:56:26 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="769606984"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="769606984"
-Received: from mpower1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.213.212.156])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 05:56:23 -0700
-Date: Thu, 13 Oct 2022 13:56:21 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <Y0gK9QmCmktLLzqp@tursulin-desk>
+X-Greylist: delayed 564 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Oct 2022 13:07:59 UTC
+Received: from smtp-out-06.comm2000.it (smtp-out-06.comm2000.it [212.97.32.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B0110E225
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 13:07:59 +0000 (UTC)
+Received: from gaggiata.pivistrello.it (93-49-2-63.ip317.fastwebnet.it
+ [93.49.2.63])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: francesco@dolcini.it)
+ by smtp-out-06.comm2000.it (Postfix) with ESMTPSA id 7572E5639DE;
+ Thu, 13 Oct 2022 14:58:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailserver.it;
+ s=mailsrv; t=1665665911;
+ bh=VwMyq6K/Y20d9lPOV/FUqg1ALLGkcp+OHNu++vwyun4=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+ b=QAqrBZjY6/M2FLKYEVmxD4MKm7EQg1D0jqIdhgEI1P8ccnfsqSqXeHM6WVovzq1yP
+ KRtea5CqX4ChN/TgzTzuU9iRtVj8/HQO8teNsnQ1KV9sR8PFAMwH4vpq4Hb2Z3mC1O
+ U5GhOXdkgvgGO6Qk3N8douYN7JKsqXJ3vCLIxogJM8FbRXq5KNYUMBurrcacwUTyRC
+ vqDd6ylWojGksPmsNpmBqEqINd9fei3HTHHo09DvKfOv6kx/f/mDlYOyKh6wGlknVg
+ 5JmGazYqiepBMQLw60hiiDM6DaedyBt1Xi/erFxc0kAwPYtZv9lQVt3jOqqw5XvAf3
+ QxsuuxG1N2a0g==
+Received: by gaggiata.pivistrello.it (Postfix, from userid 1000)
+ id CF3D87F83D; Thu, 13 Oct 2022 14:58:29 +0200 (CEST)
+Date: Thu, 13 Oct 2022 14:58:29 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Max Krummenacher <max.oss.09@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 2/4] dt-bindings: display: add new bus-format property
+ for panel-dpi
+Message-ID: <Y0gLdQleE64FQgn9@gaggiata.pivistrello.it>
+References: <20220628181838.2031-1-max.oss.09@gmail.com>
+ <20220628181838.2031-3-max.oss.09@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220628181838.2031-3-max.oss.09@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,69 +59,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Reply-To: francesco.dolcini@toradex.com
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ max.krummenacher@toradex.com,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hello Max, Marek, Dave et al.
 
-Not sure if there is time for one more pull during the merge window, but
-in case there is here it is. Only one which affects platforms outside
-force_probe and that is the fix for DPT PTE corruption after resume. The
-rest are all DG2 specific.
+On Tue, Jun 28, 2022 at 08:18:36PM +0200, Max Krummenacher wrote:
+> From: Max Krummenacher <max.krummenacher@toradex.com>
+> 
+> The property is used to set the enum bus_format and infer the bpc
+> for a panel defined by 'panel-dpi'.
+> This specifies how the panel is connected to the display interface.
+> 
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> 
 
-Regards,
+<snip>
 
-Tvrtko
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> index dae0676b5c6e..52f5db03b6a8 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> @@ -26,7 +26,28 @@ properties:
+>    height-mm: true
+>    label: true
+>    panel-timing: true
+> -  port: true
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    description:
+> +      Input port node, receives the panel data.
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +
+> +        properties:
+> +          bus-format:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            minimum: 0x1001
+> +            maximum: 0x1fff
+> +            description: |
+> +              Describes how the display panel is connected to the display interface.
+> +              Valid values are defined in <dt-bindings/display/dt-media-bus-format.h>.
+> +              The mapping between the color/significance of the panel lines to the
+> +              parallel data lines are defined in:
+> +              https://www.kernel.org/doc/html/v5.17/userspace-api/media/v4l/subdev-formats.html#packed-rgb-formats
+> +
 
-drm-intel-next-fixes-2022-10-13:
-- Fix revocation of non-persistent contexts (Tvrtko Ursulin)
-- Handle migration for dpt (Matthew Auld)
-- Fix display problems after resume (Thomas Hellström)
-- Allow control over the flags when migrating (Matthew Auld)
-- Consider DG2_RC_CCS_CC when migrating buffers (Matthew Auld)
-The following changes since commit cdf6428dd518435a05739abf7659589de30970f4:
+Last month I had the chance to talk in person about this topic with
+Dave, Marek and Max in Dublin.
 
-  drm/i915: Reject excessive dotclocks early (2022-10-03 17:55:32 +0100)
+My understanding is that this change is addressing a general need, Dave
+confirmed me they have a downstream patch for raspberrypi [1].
 
-are available in the Git repository at:
+From what I could tell the only concern is about the actual encoding of
+this `bus-format` property.
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2022-10-13
+I am personally convinced that a simple enum is the way to go, I think
+that Marek proposal is adding complexity and not flexibility (from my
+understanding Dave is on the same page, just correct me if I
+misunderstood you).
 
-for you to fetch changes up to ea19684afb545605bbcb690c49a91ce2c8e596dd:
+The current proposal is already encoding the exact bit placing as
+described in Documentation/userspace-api/media/v4l/subdev-formats.rst [2],
+this enumeration can be extended to address any future needs
+and I would not invent a new one to define the exact same
+things (and using the same enum was also suggested by Rob).
 
-  drm/i915/display: consider DG2_RC_CCS_CC when migrating buffers (2022-10-11 17:29:05 +0100)
+Marek: you told me that you had some concern about some valid use case
+not covered by this solution, would you mind explaining why that would
+not be covered with an addition on this enumeration?
 
-----------------------------------------------------------------
-- Fix revocation of non-persistent contexts (Tvrtko Ursulin)
-- Handle migration for dpt (Matthew Auld)
-- Fix display problems after resume (Thomas Hellström)
-- Allow control over the flags when migrating (Matthew Auld)
-- Consider DG2_RC_CCS_CC when migrating buffers (Matthew Auld)
+Any other opinion on this topic? How can we move this forward?
 
-----------------------------------------------------------------
-Matthew Auld (3):
-      drm/i915/display: handle migration for dpt
-      drm/i915: allow control over the flags when migrating
-      drm/i915/display: consider DG2_RC_CCS_CC when migrating buffers
+Francesco
 
-Thomas Hellström (1):
-      drm/i915: Fix display problems after resume
+[1] https://github.com/raspberrypi/linux/commit/8e43f1898191b43aa7ed6e6ca3a4cd28709af86d
+[2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/subdev-formats.html
 
-Tvrtko Ursulin (1):
-      drm/i915/guc: Fix revocation of non-persistent contexts
-
- drivers/gpu/drm/i915/display/intel_fb_pin.c       | 62 ++++++++++++++++-------
- drivers/gpu/drm/i915/gem/i915_gem_context.c       |  8 +--
- drivers/gpu/drm/i915/gem/i915_gem_object.c        | 37 +++++++++++++-
- drivers/gpu/drm/i915/gem/i915_gem_object.h        |  4 ++
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h  |  3 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c           |  5 +-
- drivers/gpu/drm/i915/gt/intel_context.c           |  5 +-
- drivers/gpu/drm/i915/gt/intel_context.h           |  3 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c              |  8 ++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 26 +++++-----
- 10 files changed, 113 insertions(+), 48 deletions(-)
