@@ -2,81 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1125FDA55
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 15:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7C45FDA81
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 15:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3489A10E239;
-	Thu, 13 Oct 2022 13:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C864810E8DD;
+	Thu, 13 Oct 2022 13:19:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8225D10E8AC
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 13:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665667137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bnGHmdZi092aIlDjHqyRWgiSoKoQkS2avXHSik3fEks=;
- b=F377+mWXXekVsy3VoA0ZcopeFGqn0Hb1+oiTW5mtTw2A1qM3xYFhCCGq2ki4iosamOT03e
- lMakEr8tfAbks4rXxiO5cZg6NOlN7LOzHXDkAx2Ils62zPew2uppd5XfGE8BHdyzxPPecN
- tCntifYSAtWnlPmDNrgS5zwqQLFCygw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-588-SuJwfri4P4yTMZQPbqT2bw-1; Thu, 13 Oct 2022 09:18:56 -0400
-X-MC-Unique: SuJwfri4P4yTMZQPbqT2bw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c130-20020a1c3588000000b003b56be513e1so1186614wma.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 06:18:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bnGHmdZi092aIlDjHqyRWgiSoKoQkS2avXHSik3fEks=;
- b=r47B8RKy0N4TTXj0N52dcQT7hxMkEY+zxAbYC9jEBsekG/yztmMe6d5V9MleJOZpcx
- TGEIW9aeGafdv7NIhuPbOqapI+vYE5lUiLh0BE8/3BFyl+9xX6CuQa/eVHaju5xs7L+G
- JV/a/mMQy7hc9Cc/8Pej+RjSFzGNMkpe2LPnxJ7fQj4zsXDkxFnKFxLgy44YQt9RoTmG
- uOmloJoYhY4msLjvUe2olPiF5Nd+7NnupjRvF9UJV7dcZhHq51LiuVzKUCpbhQ06u0Ay
- 7IAHuiu/2BIUmMq3RNnkgJoUMMFscHphYLYnqCI0lT+xmA9AIYgiXSN8g4PE96a+mA5V
- yKDg==
-X-Gm-Message-State: ACrzQf2izPMxpyPZPtTg1CzrQLu0nzgGag66L3QRSKblE1BxAyoVbwqX
- 3ubDhC79jXAMcpRI0KvYnnjvmcMCmQwdbn9uu90KToSGyYrvQRwN6/7G8Y11Qo8Kt5L+UobNLaI
- 4R6Y09r2fOa8j5dcB1o2dh4aK00ZkyKMXSs7WI45HRkcVDf5TAvLMoivYlJLWJChV8z4fQZ3mjO
- Jehkr5
-X-Received: by 2002:a5d:584a:0:b0:231:636c:de28 with SMTP id
- i10-20020a5d584a000000b00231636cde28mr8604267wrf.175.1665667135101; 
- Thu, 13 Oct 2022 06:18:55 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4ETZilnbfjxkiMRxvM4/xdwF2l7685fcRguGraexWCdHFAwKL62p52WN9XT5j+cOe+MpW4aw==
-X-Received: by 2002:a5d:584a:0:b0:231:636c:de28 with SMTP id
- i10-20020a5d584a000000b00231636cde28mr8604246wrf.175.1665667134600; 
- Thu, 13 Oct 2022 06:18:54 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:c13d:8f66:ffd1:f7f4?
- ([2a01:e0a:c:37e0:c13d:8f66:ffd1:f7f4])
- by smtp.gmail.com with ESMTPSA id
- f6-20020a7bcd06000000b003b4a699ce8esm4485504wmj.6.2022.10.13.06.18.53
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 06:18:54 -0700 (PDT)
-Message-ID: <b3792f67-e902-4f34-49d1-d35261689008@redhat.com>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9132710E8B4;
+ Thu, 13 Oct 2022 13:19:25 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id EE364580363;
+ Thu, 13 Oct 2022 09:19:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 13 Oct 2022 09:19:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665667164; x=
+ 1665674364; bh=k4mI+P2Uyj6hcgKCV+eHrMM/leiBXfvlbKoa1CrN44E=; b=F
+ tiUZ96YwkM0Dedam2hB7Ys+spk+aqEPjk3ciJax3b8ly83/m0/VtCJzg3sZBzGxR
+ pgASR+AMlDqpWjkIaOmwLqOJqG3CClJLpM+ruWIkmyjg1JRdLwEWMXYTGkTta7a5
+ jI8WdKF7FxOT744h/AzM/GwFEX6H1ro7s2GJbhzlVLMkHa5KaUaEwmxC6y95fGLJ
+ E/QlSZMH7Z0mkyQCHdVOv6QSS3NDkdFFOF/OoJsDPQpKG+UCj2H1ynP4nzbgB7VH
+ P+eRVdwSfkxbUCljhhdq89rM+sX/g1ZzeyYTXmNBuvr+lLq4I8N44m+uHAfafnfG
+ hJknCwyfeN6kBara3hhBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665667164; x=
+ 1665674364; bh=k4mI+P2Uyj6hcgKCV+eHrMM/leiBXfvlbKoa1CrN44E=; b=W
+ muPsotoCbS7SYVp0XvvLS/20g9LNDrTNKrCWn5S3Xz7CpTan4UYw+MiCEEmSFe6K
+ YsXjKrhJNF6hnRS0OMrw2no0CyjXBOmiUSwawt3KcfacIMBH91VaaoEtGrdi6GJp
+ 1fJwoPykL6M4x6asRxgpt/2Ehfs+GONyhqNsSBcHSy5qAgfSj/LrOG/pTl4Dq6rd
+ IbbzCdhFWi/rG3MSaVe7w+vXieq6upFF1Q48/e9NUy/OrNBgL4J2ebviaiH6PFOk
+ IOWF5351f7fqC7Mfr1y1Ss22AbQi/Etoe7KnteGXj/SDoVhQzzKiCRyh+xUqWeSo
+ EKcjFjy/LwHvJjJQxg2qg==
+X-ME-Sender: <xms:XBBIY5coehT_0QSEZjyCECDv3S4lRE0YgTCbdKn658wY3WMTk6GRAA>
+ <xme:XBBIY3MOpR2trYquItaN-MTFrDaBNlw3FUNeMyinnjdjjcx7WPW6FNT2Q5lfZzf_W
+ lAIeg3rCXstis-6obA>
+X-ME-Received: <xmr:XBBIYyjRpu0yqJtyXaZU1gzPBm9XsjkrPvM0T290T1i5h_cQRi81FtmJAH2T4oh1NdUveivzoJDYJyf2EIJbJkP0xXDn0AqL99Cd>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgieehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
+ jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:XBBIYy9qtNW3-0Y5Ly1e0NImShnv7r6-nLrU9txIa5O2R3D-KtVfIg>
+ <xmx:XBBIY1s0z_Zsv53gBeXan2rpZIezI85FUNLkCqrw1waBFB223zR-wA>
+ <xmx:XBBIYxGpDe4BNYaCCY9FC6SEo_xsd8bKMsXtqQC7gOVpmPl2uMdZBw>
+ <xmx:XBBIY25aCTFEeg7FU-EOAOqFHxxAAFfUMqcAG7nDTMtSTPephZCtTQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Oct 2022 09:19:24 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
 Date: Thu, 13 Oct 2022 15:18:53 +0200
+Subject: [PATCH v5 09/22] drm/modes: Switch to named mode descriptors
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] drm/mgag200: Fix PLL setup for G200_SE_A rev >=4
-To: dri-devel@lists.freedesktop.org
-References: <20221013082901.471417-1-jfalempe@redhat.com>
- <db634341-da68-e8a6-1143-445f17262c63@suse.de> <Y0fqLofkA7O4IEbQ@intel.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <Y0fqLofkA7O4IEbQ@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20220728-rpi-analog-tv-properties-v5-9-d841cc64fe4b@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+To: Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
+ Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, 
+ Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+X-Mailer: b4 0.11.0-dev-7da52
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1729; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=59DgDb/G3ltKD7zwB3OQQJ/5jkTCTY8o4hInxsXZAc0=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkeAm7l+1XCP1rOe2Qwz/n0oS+u6/K/+XnefxZySu3qjYY/
+ BuFnO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjARTnlGhhMPbE+LPHjFe9GFfcVhEf
+ /Hko33zz98v/uKT/Xq9aE/ZM4zMvQpPeO5oSjxeotid2Pwz/3iUu9Zox7utnGt3tnWuGnOaR4A
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,58 +103,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Noralf Trønnes <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/10/2022 12:36, Ville Syrjälä wrote:
-> On Thu, Oct 13, 2022 at 11:05:19AM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 13.10.22 um 10:29 schrieb Jocelyn Falempe:
->>> For G200_SE_A, PLL M setting is wrong, which leads to blank screen,
->>> or "signal out of range" on VGA display.
->>> previous code had "m |= 0x80" which was changed to
->>> m |= ((pixpllcn & BIT(8)) >> 1);
->>>
->>> Tested on G200_SE_A rev 42
->>>
->>> This line of code was moved to another file with
->>> commit 85397f6bc4ff ("drm/mgag200: Initialize each model in separate
->>> function") but can be easily backported before this commit.
->>>
->>> Fixes: 2dd040946ecf ("drm/mgag200: Store values (not bits) in struct mgag200_pll_values")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> ---
->>>    drivers/gpu/drm/mgag200/mgag200_g200se.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
->>> index be389ed91cbd..4ec035029b8b 100644
->>> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
->>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
->>> @@ -284,7 +284,7 @@ static void mgag200_g200se_04_pixpllc_atomic_update(struct drm_crtc *crtc,
->>>    	pixpllcp = pixpllc->p - 1;
->>>    	pixpllcs = pixpllc->s;
->>>    
->>> -	xpixpllcm = pixpllcm | ((pixpllcn & BIT(8)) >> 1);
->>> +	xpixpllcm = pixpllcm | BIT(7);
->>
->> Thanks for figuring this out. G200SE apparently is special compared to
->> the other models. The old MGA docs only list this bit as <reserved>.
->> Really makes me wonder why this is different.
-> 
-> Could measure eg. the vblank interval with and without that bit set
-> and see what effect it has. Assuming the PLL locks without the bit
-> of course.
-> 
+The current named mode parsing relies only the mode name, and doesn't allow
+to specify any other parameter.
 
-Thanks for the pointer, but I don't have physical access to the system, 
-so I'm not able to check that.
-I think reverting to the previous setting that used to work is the safer 
-approach here.
+Let's convert that string list to an array of a custom structure that will
+hold the name and some additional parameters in the future.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/drm_modes.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+index 2f020ef2ddf2..7ed3fb839db7 100644
+--- a/drivers/gpu/drm/drm_modes.c
++++ b/drivers/gpu/drm/drm_modes.c
+@@ -2224,9 +2224,13 @@ static int drm_mode_parse_cmdline_options(const char *str,
+ 	return 0;
+ }
+ 
+-static const char * const drm_named_modes_whitelist[] = {
+-	"NTSC",
+-	"PAL",
++struct drm_named_mode {
++	const char *name;
++};
++
++static const struct drm_named_mode drm_named_modes[] = {
++	{ "NTSC", },
++	{ "PAL", },
+ };
+ 
+ static int drm_mode_parse_cmdline_named_mode(const char *name,
+@@ -2262,14 +2266,15 @@ static int drm_mode_parse_cmdline_named_mode(const char *name,
+ 	 * We're sure we're a named mode at that point, iterate over the
+ 	 * list of modes we're aware of.
+ 	 */
+-	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
++	for (i = 0; i < ARRAY_SIZE(drm_named_modes); i++) {
++		const struct drm_named_mode *mode = &drm_named_modes[i];
+ 		int ret;
+ 
+-		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
++		ret = str_has_prefix(name, mode->name);
+ 		if (ret != name_end)
+ 			continue;
+ 
+-		strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
++		strcpy(cmdline_mode->name, mode->name);
+ 		cmdline_mode->specified = true;
+ 
+ 		return 1;
 
 -- 
-
-Jocelyn
-
+b4 0.11.0-dev-7da52
