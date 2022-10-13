@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BB65FD866
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 13:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85865FD868
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 13:30:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53E9810E87F;
-	Thu, 13 Oct 2022 11:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C7C10E881;
+	Thu, 13 Oct 2022 11:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C4B110E838
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA73B10E87F
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 11:29:28 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EFB3D21CBF;
- Thu, 13 Oct 2022 11:29:26 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3B1AA1F74D;
+ Thu, 13 Oct 2022 11:29:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665660566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1665660567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qCnwK8ErzqTQCw/RAj9i1bHUxKw96d8TN6O7cWke2+w=;
- b=Vq/pCBd1HIcbqcyZ/wYZtAtFQj+7CN6iJar3ejrAP7R1M111wKkesd/XJF1aauLdMtMya6
- SMtSFOSIlCbH09YUHoDEmZ3hgiqMgMRdjgB2IG9PwgZjF4IdYD0S+xEmriJ8HZYmBV6dYl
- HvSrrmz2oCxBmtFUbj1V/zOHFuNC9s8=
+ bh=kTu4K+jpaZjY9enrxae3dcUnYeYZ1kEw/mhk1j1zLmY=;
+ b=ObVeGC+bOQM/XWxNNPuQrbfpYfEmsfPvQeK+LqTgM9A4wtQGveYEpFbP1k/gDCNu99nYub
+ ttg3shfEyNEiZHl3rbHXOAIohmQEzJSYj1/lLLxQwodTsiTGMeucYebAD6kt6pz72ufot7
+ JB33DXSu6J930HVANR/iNVIWGuNUbRE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665660566;
+ s=susede2_ed25519; t=1665660567;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qCnwK8ErzqTQCw/RAj9i1bHUxKw96d8TN6O7cWke2+w=;
- b=Y7CXQkIE5/zVsTE+XLCr/BckCWsCSs1dydqccXjLEXPGnLYCIaR8AuC70wtKlcpn3+KR4h
- BRLF3+c6w1xRXjBw==
+ bh=kTu4K+jpaZjY9enrxae3dcUnYeYZ1kEw/mhk1j1zLmY=;
+ b=fYE+tuIUKwN9VRy+0hA35SODWspbP9hyt0oLJygmxelGjXmFLNAOqAIogQLpwBWlerHwcv
+ ZJI2U872D+HWDvBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9A2F113AAA;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E00E913AFF;
  Thu, 13 Oct 2022 11:29:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6BWcJJb2R2NwYAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id EP6tNJb2R2NwYAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 13 Oct 2022 11:29:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
  javierm@redhat.com, ilpo.jarvinen@cs.helsinki.fi
-Subject: [PATCH v2 2/8] drm/ast: Call drm_atomic_helper_check_plane_state()
- unconditionally
-Date: Thu, 13 Oct 2022 13:29:17 +0200
-Message-Id: <20221013112923.769-3-tzimmermann@suse.de>
+Subject: [PATCH v2 3/8] drm/ast: Do not call drm_atomic_add_affected_planes()
+Date: Thu, 13 Oct 2022 13:29:18 +0200
+Message-Id: <20221013112923.769-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013112923.769-1-tzimmermann@suse.de>
 References: <20221013112923.769-1-tzimmermann@suse.de>
@@ -74,95 +73,46 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Always call drm_atomic_helper_check_plane_state() in each plane's
-atomic_check function. At the minimum, it needs to set or clear the
-plane state's 'visible' field. Otherwise the plane-state handling
-is bogus and would keep updating planes that have been disabled.
+There's no need to add planes to the atomic state. Remove the call
+to drm_atomic_add_affected_planes() from ast.
 
-While at it, also warn if the primary plane has been enabled, but is
-not visible. This cannot legally happen as the plane always covers
-the entire screen.
+On full modesets, the DRM helpers already add a CRTC's planes to the
+atomic state; see drm_atomic_helper_check_modeset(). There's no reason
+to call drm_atomic_add_affected_planes() unconditionally in the CRTC's
+atomic_check() in ast. It's also too late, as the atomic_check() of
+the added planes will not be called before the commit.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 Tested-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 35 +++++++++++++++-------------------
- 1 file changed, 15 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index e1e07928906e..e26471ecffb1 100644
+index e26471ecffb1..059e4906507d 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -578,27 +578,28 @@ static const uint32_t ast_primary_plane_formats[] = {
- static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 						 struct drm_atomic_state *state)
- {
-+	struct drm_device *dev = plane->dev;
- 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
- 										 plane);
--	struct drm_crtc_state *crtc_state;
-+	struct drm_crtc_state *crtc_state = NULL;
- 	struct ast_crtc_state *ast_crtc_state;
+@@ -1157,7 +1157,7 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
  	int ret;
  
--	if (!new_plane_state->crtc)
--		return 0;
--
--	crtc_state = drm_atomic_get_new_crtc_state(state,
--						   new_plane_state->crtc);
-+	if (new_plane_state->crtc)
-+		crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
+ 	if (!crtc_state->enable)
+-		goto out;
++		return 0;
  
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
- 						  DRM_PLANE_NO_SCALING,
- 						  DRM_PLANE_NO_SCALING,
- 						  false, true);
--	if (ret)
-+	if (ret) {
- 		return ret;
--
--	if (!new_plane_state->visible)
--		return 0;
-+	} else if (!new_plane_state->visible) {
-+		if (drm_WARN_ON(dev, new_plane_state->crtc)) /* cannot legally happen */
-+			return -EINVAL;
-+		else
-+			return 0;
-+	}
- 
- 	ast_crtc_state = to_ast_crtc_state(crtc_state);
- 
-@@ -805,25 +806,19 @@ static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
- 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
- 										 plane);
- 	struct drm_framebuffer *fb = new_plane_state->fb;
--	struct drm_crtc_state *crtc_state;
-+	struct drm_crtc_state *crtc_state = NULL;
- 	int ret;
- 
--	if (!new_plane_state->crtc)
--		return 0;
--
--	crtc_state = drm_atomic_get_new_crtc_state(state,
--						   new_plane_state->crtc);
-+	if (new_plane_state->crtc)
-+		crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
- 
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
- 						  DRM_PLANE_NO_SCALING,
- 						  DRM_PLANE_NO_SCALING,
- 						  true, true);
--	if (ret)
-+	if (ret || !new_plane_state->visible)
- 		return ret;
- 
--	if (!new_plane_state->visible)
--		return 0;
--
- 	if (fb->width > AST_MAX_HWC_WIDTH || fb->height > AST_MAX_HWC_HEIGHT)
+ 	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
+ 	if (ret)
+@@ -1191,8 +1191,7 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 	if (!succ)
  		return -EINVAL;
  
+-out:
+-	return drm_atomic_add_affected_planes(state, crtc);
++	return 0;
+ }
+ 
+ static void
 -- 
 2.37.3
 
