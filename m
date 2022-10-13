@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2891E5FDD90
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 17:52:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE455FDD9C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 17:53:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E44D10E29C;
-	Thu, 13 Oct 2022 15:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E5010E2A1;
+	Thu, 13 Oct 2022 15:53:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E07510E29B;
- Thu, 13 Oct 2022 15:52:24 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2881710E29D;
+ Thu, 13 Oct 2022 15:53:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665676344; x=1697212344;
+ t=1665676415; x=1697212415;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=HUVBrhgEd1o22OfnnlvDO7MN3MFCs68ewOvy1DJ24/I=;
- b=PVCWv/LLwjGI44K+nZXpT7k6RH/rsqS3mgM6m5Bl/FTskAfMDavIC9F3
- s+f+72utDzdjQ7kQr4/aNnfZhCPZ5iC14qwhJqL9xQRg4mYlvfSzpx8vb
- NqJeJD0dp2wIEZ+OxVJBrVB/JcXRCj2g20WVk8CFumSum0NjSQs4a3oth
- NR7WsL4oloxv1L/2IGQ9qt5Z6StPV3AQLXdYrU81VWkvb+dq9yK5fiFL7
- j8P4QkxdvSCfFuiNC7uajil/n/iJv3EamwQiBMic1RsVU1nDTnCZstI8k
- xNLWiVZg0kjcBZuO9nWXeYa/UKfqMWwjiUba+Zsx4AIviyYmWQ9Mfyt2U g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="285502565"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="285502565"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 08:52:23 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="622209985"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="622209985"
-Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ bh=1FaekfIfmCYS51XaYw2eEPToJK6znIRfinHhGeoGJfM=;
+ b=lW4/DX22V3qhAelNxJ93JE7d3npfcXy2vpS8CCAqUqeX9Z4fpdAPGYCH
+ MNnn7b4nxVC6V+OtKELrS4d9Jk+9PUmwDsDTzlSDJSnC+SPhjzccUmt2b
+ L4tKWX2aRjiQp9r5H8EvIed1qfCymfv1jTK7yESGsbYf8Pud6Di+4pgG8
+ neP8IspYjnuSBeqauBm7vC75cR7BoxDbRIsLkezZC/OVS0fS6JGcLVw9n
+ hTByvurfAeuUckTI01rCIv80RzztJ1HW1uLt4hcuOJrDzFKg/9AAUnFIX
+ GtutlA15f1QgQNJUM8mlSV/E0n6471YBoa344lvYLUiBKDI1A4QdSFjKP w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="303859318"
+X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="303859318"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2022 08:53:20 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="716392596"
+X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="716392596"
+Received: from sudhars1-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.212.216.120])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 08:52:23 -0700
-Date: Thu, 13 Oct 2022 08:52:23 -0700
-Message-ID: <87fsfrsoug.wl-ashutosh.dixit@intel.com>
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2022 08:53:20 -0700
+Date: Thu, 13 Oct 2022 08:53:19 -0700
+Message-ID: <87edvbsosw.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/7] drm/i915/hwmon: Add HWMON current voltage
- support
-In-Reply-To: <YztMZc7wWCDuRhUi@ashyti-mobl2.lan>
-References: <20220927055020.3499420-1-badal.nilawar@intel.com>	<20220927055020.3499420-3-badal.nilawar@intel.com>	<YztMZc7wWCDuRhUi@ashyti-mobl2.lan>
+To: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+Subject: Re: [PATCH 4/7] drm/i915/hwmon: Show device level energy usage
+In-Reply-To: <4062cc45-1b29-eb7b-3858-55f3d6ce17b5@intel.com>
+References: <20220916150054.807590-1-badal.nilawar@intel.com>	<20220916150054.807590-5-badal.nilawar@intel.com>	<4062cc45-1b29-eb7b-3858-55f3d6ce17b5@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -61,51 +60,27 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-hwmon@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Riana Tauro <riana.tauro@intel.com>, dri-devel@lists.freedesktop.org,
- Badal Nilawar <badal.nilawar@intel.com>
+ dri-devel@lists.freedesktop.org, jon.ewins@intel.com,
+ Badal Nilawar <badal.nilawar@intel.com>, riana.tauro@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 03 Oct 2022 13:56:05 -0700, Andi Shyti wrote:
-
-Hi Andi,
-
-Badal is out for a bit so I am posting this version of the patches.
-
+On Wed, 21 Sep 2022 05:02:48 -0700, Gupta, Anshuman wrote:
 >
-> Hi Badal,
->
-> [...]
->
-> >  static void
-> >  hwm_get_preregistration_info(struct drm_i915_private *i915)
-> >  {
-> > +	struct i915_hwmon *hwmon = i915->hwmon;
-> > +
-> > +	if (IS_DG1(i915) || IS_DG2(i915))
->
-> why not GRAPHICS_VER(i915) >= 12 here?
+> > diff --git a/drivers/gpu/drm/i915/intel_mchbar_regs.h b/drivers/gpu/drm/i915/intel_mchbar_regs.h
+> > index b74df11977c6..1014d0b7cc16 100644
+> > --- a/drivers/gpu/drm/i915/intel_mchbar_regs.h
+> > +++ b/drivers/gpu/drm/i915/intel_mchbar_regs.h
+> > @@ -191,7 +191,9 @@
+> >     #define PCU_PACKAGE_POWER_SKU_UNIT
+> > _MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5938)
+> >   #define   PKG_PWR_UNIT				REG_GENMASK(3, 0)
+> > +#define   PKG_ENERGY_UNIT                      REG_GENMASK(12, 8)
+> Please use tab here instead of space to line up with above macros.
 
-Thanks for catching this, because GEN12_RPSTAT1 is indeed available for all
-Gen12+. It was done this way because the voltage bits of GEN12_RPSTAT1 are
-only available for DG1/DG2. Anyway in v9 I have changed this to just:
+Fixed in v9.
 
-	/* Available for all Gen12+/dGfx */
-	hwmon->rg.gt_perf_status = GEN12_RPSTAT1;
-
-That is because hwmon is only availbable for dGfx (there's a check in Patch
-1). Also, because of this change the 'IS_DG1(i915) || IS_DG2(i915)' check
-has been moved to hwm_in_is_visible.
+> With that,
+> Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
 
 Thanks.
---
-Ashutosh
-
-> > +		hwmon->rg.gt_perf_status = GEN12_RPSTAT1;
-> > +	else
-> > +		hwmon->rg.gt_perf_status = INVALID_MMIO_REG;
-> >  }
-> >
-> >  void i915_hwmon_register(struct drm_i915_private *i915)
-> > --
-> > 2.25.1
