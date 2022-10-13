@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6F35FE5A6
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 00:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 704725FE5AC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 00:55:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FAF110E9BE;
-	Thu, 13 Oct 2022 22:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F65C10E9C0;
+	Thu, 13 Oct 2022 22:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A656010E9B8;
- Thu, 13 Oct 2022 22:55:18 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- x1-20020a17090ab00100b001fda21bbc90so6227572pjq.3; 
- Thu, 13 Oct 2022 15:55:18 -0700 (PDT)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C9F10E9B8;
+ Thu, 13 Oct 2022 22:55:21 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id o21so724738ple.5;
+ Thu, 13 Oct 2022 15:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=q3O30/nl6pZCQT2a2Baeof1BC5ax2UChSGPY/GTCY8A=;
- b=SeQLSPqc2/YQ5vhmURpGxCnRKh4YUw5BIN/UHXTmSTFBpDGIN/UqaqBDt6pMvjuhc/
- j2k309PB1WiJaLcgGJw0B2k357k7sU81p9/kKp6HWYR0WsIrciIyoWz6FiWaIjOhYpmC
- zw5NfalFvdad7ehlApMsdc3zw7uDtU0rXa7Rqe0PlHt8vzbW5hGAFR0Jpd3PAtF3BVh2
- 7ZHFQd44XtijZYU5yZmnglgziHtJA6kMwzbYr14Qx8jL0Q+t8liFJDFxfghNAxWG+I8M
- TuyzvlRLcp8Hmr/DK46CYysmJpTARRggYYWF3bfXcO6i7UP5EPMcLY+JtsSmxsFdoUI7
- vqGQ==
+ bh=mZPNZ3VLE0Hgex87FN0OkV1DekcEt1bf70+VW9u0u5I=;
+ b=XR4pOh/xQyh1rFhshT6o+clCP1DO1ClDFqI7cfZDk7kMzC3yec7YYkEYOChszeCWGr
+ wAQvsbjAKyigjj2ez4ReqZ2Y7Cn40BHbeMfpeCluilMs33cFWOUoLnTpltyDzST1Et51
+ pUMeyHwOnpRh5N7/mnLAlFO+8FxRM6LnOld79xUj7kA+o2sYaEom0MTPTc8+FeLiBhm0
+ wwUXnkun4WKBcKd8XzEkxNTepq8zllGyVRnDhHc4uYQJ5EphYdlgjjjgA5xzBAlA+DXg
+ jPd+FKWfFoe6WIoZ95vGLOMs/0a6UxmT8X6bfT6XiJHyF7RT45ALIWGIDgJDoBuNgH72
+ nPug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=q3O30/nl6pZCQT2a2Baeof1BC5ax2UChSGPY/GTCY8A=;
- b=wHEPbagle/zS/bP2DIh5y/t/jhosLlGTc4GDZ1BePnTOcBVReFnXyf3Pm+2AOHOJmk
- wSqYcHD1bUabVriUiCIN1wfGhTtzdrzz6Q/j6SJh2JbJMN9//Br2zvOLvjHmsr8ahlUB
- Fpow8wGiRmqjEaxsLceJkCRNxA/3Oz+j0HgjG9eXEeBZyiVT/6z+FaslYI+Ug5pqxDCu
- w7n8CCvDE289YiS+V9QeevEixuR7QJK4JAujylgaJEd2sncOzHAsZkv/Le7vqSxjP2er
- KUUa5KJx5X7pr0s+udgH5lf7xT5j/sMrO8thqwukSLHIia8/nQb3tfn1ma83mb8JwnwR
- WxJA==
-X-Gm-Message-State: ACrzQf2//6O9rTQh6Eq9akTFSMBJ4JJTbHnFQHXtqjWVLgqbhOEsMizO
- dTxb5Gdt+OHhlKwOHnWwfPdBAIQNyOI=
-X-Google-Smtp-Source: AMsMyM4NeJVCQzzcm8W75BjX0XeEL04t0hlo0bW+dZBuuOehbjB/kLxpHcNbIXA8Wid599NWqdBeZQ==
-X-Received: by 2002:a17:903:40cb:b0:17f:6e08:6eac with SMTP id
- t11-20020a17090340cb00b0017f6e086eacmr1993232pld.80.1665701717785; 
- Thu, 13 Oct 2022 15:55:17 -0700 (PDT)
+ bh=mZPNZ3VLE0Hgex87FN0OkV1DekcEt1bf70+VW9u0u5I=;
+ b=tFKzt0py5sI2ohuv71HKdWqgaUIhYnFi+QC/o3UhzxkEj2byXhVkv+x+H/TFhZLbl7
+ ZxQN0TGYNJ40HTZT2NwCDZSsxK2rtWOQZag1hxbESPpRhcTTJWegd2ymxAygbGRVaoRM
+ oMnR2p4D9Zp0+2vwUA6C+koVJRp4wR2fpbPc/O4656k1avRHuZAHresGNm7OqHgeDAaA
+ XP4gHUF/UhdF6YHbnXUBrw384VFH/5ZGcKXj1Ieh1mZZbHlSVkeN01C/sblojorg+LrC
+ ig6jIRSR6dtrvDBqww+RvaWVVNg8J3z88NHH/obU86K6rlCiDhMw7pB/LS4dx6PxKshb
+ lQdA==
+X-Gm-Message-State: ACrzQf3yxafK2OR4R24e8ieuns5S+pNvdQgWlhrHYgl81XEIy/lo5zM1
+ f6NP0zupwXIjaYsx+TIVmeWwsii20Ns=
+X-Google-Smtp-Source: AMsMyM5SeaxGSOFjUEc1amD9PN0v9n6v+ZxTXU3WfxZU7s4Bd2Hpy5ww3QAawc27sjg9tF94dvu3JA==
+X-Received: by 2002:a17:902:cf03:b0:17e:c7a:678e with SMTP id
+ i3-20020a170902cf0300b0017e0c7a678emr2034151plg.10.1665701720262; 
+ Thu, 13 Oct 2022 15:55:20 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- n123-20020a622781000000b0053b723a74f7sm226564pfn.90.2022.10.13.15.55.17
+ h3-20020aa796c3000000b0055fc0a132aasm221198pfq.92.2022.10.13.15.55.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 15:55:17 -0700 (PDT)
+ Thu, 13 Oct 2022 15:55:19 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/msm/a6xx: Skip snapshotting unused GMU buffers
-Date: Thu, 13 Oct 2022 15:55:14 -0700
-Message-Id: <20221013225520.371226-3-robdclark@gmail.com>
+Subject: [PATCH 3/3] drm/msm/a6xx: Remove state objects from list before
+ freeing
+Date: Thu, 13 Oct 2022 15:55:15 -0700
+Message-Id: <20221013225520.371226-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013225520.371226-1-robdclark@gmail.com>
 References: <20221013225520.371226-1-robdclark@gmail.com>
@@ -83,28 +83,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Some buffers are unused on certain sub-generations of a6xx.  So just
-skip them.
+Technically it worked as it was before, only because it was using the
+_safe version of the iterator.  But it is sloppy practice to leave
+dangling pointers.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index 730355f9e2d4..b0124d0f286c 100644
+index b0124d0f286c..a5c3d1ed255a 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -813,6 +813,9 @@ static struct msm_gpu_state_bo *a6xx_snapshot_gmu_bo(
- {
- 	struct msm_gpu_state_bo *snapshot;
+@@ -1046,8 +1046,10 @@ static void a6xx_gpu_state_destroy(struct kref *kref)
+ 	if (a6xx_state->gmu_debug)
+ 		kvfree(a6xx_state->gmu_debug->data);
  
-+	if (!bo->size)
-+		return NULL;
-+
- 	snapshot = state_kcalloc(a6xx_state, 1, sizeof(*snapshot));
- 	if (!snapshot)
- 		return NULL;
+-	list_for_each_entry_safe(obj, tmp, &a6xx_state->objs, node)
++	list_for_each_entry_safe(obj, tmp, &a6xx_state->objs, node) {
++		list_del(&obj->node);
+ 		kvfree(obj);
++	}
+ 
+ 	adreno_gpu_state_destroy(state);
+ 	kfree(a6xx_state);
 -- 
 2.37.3
 
