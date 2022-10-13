@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFB85FD7F7
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 12:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72EC95FD7F2
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 12:51:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0FF510E7E0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8813310E7BF;
 	Thu, 13 Oct 2022 10:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
  [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6579A10E7DF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2423010E7E0
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 10:51:35 +0000 (UTC)
 Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
  by ironport.ite.com.tw with ESMTP; 13 Oct 2022 18:51:35 +0800
 Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 29DApTjX073258;
- Thu, 13 Oct 2022 18:51:29 +0800 (GMT-8)
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 29DApUoD073259;
+ Thu, 13 Oct 2022 18:51:30 +0800 (GMT-8)
  (envelope-from allen.chen@ite.com.tw)
 Received: from VirtualBox.internal.ite.com.tw (192.168.70.46) by
  CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.14; Thu, 13 Oct 2022 18:51:29 +0800
+ 15.1.2176.14; Thu, 13 Oct 2022 18:51:31 +0800
 From: allen <allen.chen@ite.com.tw>
 To: 
-Subject: [PATCH v4 1/2] dt-bindings: it6505: add properties to restrict output
- bandwidth
-Date: Thu, 13 Oct 2022 18:51:13 +0800
-Message-ID: <20221013105116.180380-2-allen.chen@ite.com.tw>
+Subject: [PATCH v4 2/2] drm/bridge: add it6505 driver to read data-lanes and
+ link-frequencies from dt
+Date: Thu, 13 Oct 2022 18:51:14 +0800
+Message-ID: <20221013105116.180380-3-allen.chen@ite.com.tw>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221013105116.180380-1-allen.chen@ite.com.tw>
 References: <20221013105116.180380-1-allen.chen@ite.com.tw>
@@ -38,8 +38,8 @@ Content-Type: text/plain
 X-Originating-IP: [192.168.70.46]
 X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
  CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: C902D7E551BA36576A4CA1E87E219A4A356FAF4AE9A8A8A4F6E008F209DF59172002:8
-X-MAIL: mse.ite.com.tw 29DApTjX073258
+X-TM-SNTS-SMTP: AE3FFFA69BFB1B88C4AAB73DC9A6A3D38A4C3B34C64DA126DBA1D0564BCB07CB2002:8
+X-MAIL: mse.ite.com.tw 29DApUoD073259
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,18 +52,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- Kenneth Hung <Kenneth.Hung@ite.com.tw>,
+Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
  Allen Chen <allen.chen@ite.com.tw>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
  Neil Armstrong <narmstrong@baylibre.com>,
  open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
  Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
- Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -71,83 +67,109 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: allen chen <allen.chen@ite.com.tw>
 
-Add properties to restrict dp output data-lanes and clock.
+Add driver to read data-lanes and link-frequencies from dt property to
+restrict output bandwidth.
 
-Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+Signed-off-by: Allen chen <allen.chen@ite.com.tw>
+Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 ---
- .../bindings/display/bridge/ite,it6505.yaml   | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ drivers/gpu/drm/bridge/ite-it6505.c | 54 +++++++++++++++++++++++++++--
+ 1 file changed, 51 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-index 833d11b2303a7..f2c3d1d10359e 100644
---- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-@@ -52,10 +52,51 @@ properties:
-     maxItems: 1
-     description: extcon specifier for the Power Delivery
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index a4302492cf8df..653ab38465b98 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -437,6 +437,8 @@ struct it6505 {
+ 	bool powered;
+ 	bool hpd_state;
+ 	u32 afe_setting;
++	u32 max_dpi_pixel_clock;
++	u32 max_lane_count;
+ 	enum hdcp_state hdcp_status;
+ 	struct delayed_work hdcp_work;
+ 	struct work_struct hdcp_wait_ksv_list;
+@@ -1476,7 +1478,8 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
+ 	it6505->lane_count = link->num_lanes;
+ 	DRM_DEV_DEBUG_DRIVER(dev, "Sink support %d lanes training",
+ 			     it6505->lane_count);
+-	it6505->lane_count = min_t(int, it6505->lane_count, MAX_LANE_COUNT);
++	it6505->lane_count = min_t(int, it6505->lane_count,
++				   it6505->max_lane_count);
  
-+  data-lanes:
-+    oneOf:
-+      - minItems: 1
-+        maxItems: 1
-+        uniqueItems: true
-+        items:
-+          enum:
-+            - 0
-+            - 1
-+        description: For one lane operation.
-+
-+      - minItems: 2
-+        maxItems: 2
-+        uniqueItems: true
-+        items:
-+          enum:
-+            - 0
-+            - 1
-+        description: For two lanes operation.
-+
-+      - minItems: 4
-+        maxItems: 4
-+        uniqueItems: true
-+        items:
-+          enum:
-+            - 0
-+            - 1
-+            - 2
-+            - 3
-+        description: For four lanes operation.
-+
-   port:
-     $ref: /schemas/graph.yaml#/properties/port
-     description: A port node pointing to DPI host port node
+ 	it6505->branch_device = drm_dp_is_branch(it6505->dpcd);
+ 	DRM_DEV_DEBUG_DRIVER(dev, "Sink %sbranch device",
+@@ -2912,7 +2915,7 @@ it6505_bridge_mode_valid(struct drm_bridge *bridge,
+ 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+ 		return MODE_NO_INTERLACE;
  
-+    properties:
-+      endpoint:
-+        $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+
-+        properties:
-+          link-frequencies:
-+            minItems: 1
-+            maxItems: 1
-+            description: Allowed max link frequencies in Hz.
-+
- required:
-   - compatible
-   - ovdd-supply
-@@ -84,10 +125,12 @@ examples:
-             pwr18-supply = <&it6505_pp18_reg>;
-             reset-gpios = <&pio 179 1>;
-             extcon = <&usbc_extcon>;
-+            data-lanes = <0 1>;
+-	if (mode->clock > DPI_PIXEL_CLK_MAX)
++	if (mode->clock > it6505->max_dpi_pixel_clock)
+ 		return MODE_CLOCK_HIGH;
  
-             port {
-                 it6505_in: endpoint {
-                     remote-endpoint = <&dpi_out>;
-+                    link-frequencies = /bits/ 64 <150000000>;
-                 };
-             };
-         };
+ 	it6505->video_info.clock = mode->clock;
+@@ -3102,7 +3105,13 @@ static int it6505_init_pdata(struct it6505 *it6505)
+ static void it6505_parse_dt(struct it6505 *it6505)
+ {
+ 	struct device *dev = &it6505->client->dev;
++	struct device_node *np = dev->of_node, *ep = NULL;
++	int len;
++	u64 link_frequencies;
++	u32 data_lanes[4];
+ 	u32 *afe_setting = &it6505->afe_setting;
++	u32 *max_lane_count = &it6505->max_lane_count;
++	u32 *max_dpi_pixel_clock = &it6505->max_dpi_pixel_clock;
+ 
+ 	it6505->lane_swap_disabled =
+ 		device_property_read_bool(dev, "no-laneswap");
+@@ -3118,7 +3127,46 @@ static void it6505_parse_dt(struct it6505 *it6505)
+ 	} else {
+ 		*afe_setting = 0;
+ 	}
+-	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %d", *afe_setting);
++
++	len = of_property_read_variable_u32_array(np, "data-lanes",
++						  data_lanes, 0,
++						  ARRAY_SIZE(data_lanes));
++	*max_lane_count = len;
++
++	if (len < 0 || *max_lane_count == 3 || *max_lane_count > 4) {
++		dev_err(dev, "error data-lanes, use default");
++		*max_lane_count = MAX_LANE_COUNT;
++	}
++
++	ep = of_graph_get_endpoint_by_regs(np, 0, 0);
++
++	if (ep) {
++		len = of_property_read_variable_u64_array(ep,
++							  "link-frequencies",
++							  &link_frequencies, 0,
++							  1);
++		if (len >= 0) {
++			link_frequencies /= 1000;
++			if (link_frequencies > 297000) {
++				dev_err(dev,
++					"max pixel clock error, use default");
++				*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
++			} else {
++				*max_dpi_pixel_clock = link_frequencies;
++			}
++		} else {
++			dev_err(dev, "error link frequencies, use default");
++			*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
++		}
++	} else {
++		dev_err(dev, "error endpoint, use default");
++		*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
++	}
++
++	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %u, max_lane_count: %u",
++			     it6505->afe_setting, it6505->max_lane_count);
++	DRM_DEV_DEBUG_DRIVER(dev, "using max_dpi_pixel_clock: %u kHz",
++			     it6505->max_dpi_pixel_clock);
+ }
+ 
+ static ssize_t receive_timing_debugfs_show(struct file *file, char __user *buf,
 -- 
 2.25.1
 
