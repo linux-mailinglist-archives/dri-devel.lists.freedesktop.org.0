@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC225FDBB8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 15:55:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A905FDCB3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 16:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B4E10E249;
-	Thu, 13 Oct 2022 13:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAD1110E268;
+	Thu, 13 Oct 2022 14:55:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7871C10E249
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 13:55:09 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A41991F38A;
- Thu, 13 Oct 2022 13:55:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665669307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yZGIK0o0NWnb1rvqaWJYoodVC7pQsiw1y30uK4tlkFk=;
- b=LlrPKZtEa2VKt9btjECcHYxjuGrIsNgu4/M5Z4vbgbWb+zwMxaoIS/bOiGcezo+bnPwoqr
- QIx06euY8kjmz0nsAgfdiHIajd9KZ/9kokKGtVOqp778TEmstHB06PILW9ikXiiNescDRK
- ADbsGXxEeoOw0FJLiFra42x25wCotRM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665669307;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yZGIK0o0NWnb1rvqaWJYoodVC7pQsiw1y30uK4tlkFk=;
- b=jgv5uaV29iwJso0RMx1Yu4utI7UZDsFCCD45WL4lZyoEhOtymvXZ6xR2TTi+JZ1ncEz5et
- JwkY9CBxAB6kJXDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5D82813AAA;
- Thu, 13 Oct 2022 13:55:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QIzmFLsYSGNjRQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 13 Oct 2022 13:55:07 +0000
-Message-ID: <03ca96bc-358f-3f02-c53e-5ff3a0d935dc@suse.de>
-Date: Thu, 13 Oct 2022 15:55:06 +0200
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1163610E1D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 14:55:19 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-3321c2a8d4cso19975967b3.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 07:55:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MBIipLVwGqXkiEUZQ0s+UwY/gG3UoitI2iMvUcuVF4A=;
+ b=DPxu1EFsYJmUM6rlny57ruFeEaLOyabjkouRzlDJSiXihniPrPGDCGB6u++m4Rmyl9
+ zO39ED8BUIW8zC96c8hyvkbqWLZ3L+BSD6QkBjXaDDnozaU+0jM2Qo1J+UdeD0WldpEW
+ 7jLH+V5/ZIXp0U2ljbahLokEdNV7KAr0s08Ro=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MBIipLVwGqXkiEUZQ0s+UwY/gG3UoitI2iMvUcuVF4A=;
+ b=E6QBHN9Yr/nWxLPdDrzV7rgrB0jdYO5H/JS1S/wrYYlyKcP8W+FrNTsbUNSRQK8/8s
+ GeInDCN1Z9qOdtMeO2r1ew0C8PltT+uMGJbcmYz/TQ4FvCSUBTcR9wAwYAiWp/KqILll
+ JoZ48fj1L3zmWh44Rr33LRf8ECCld6YlnEWvI6udpIYe4NMiAYPAp2LmfQJHMzKxuzML
+ YMWJjBJn4VIeMiLsmm3JgAwtdDnHy7lwcGEvZyzsMRiCNfBSaqG9cdFOlDEIqMladfi9
+ phpxYScnmNKrMKV7f3ElldNLforbJNkqwzxAZao5PuL6NxjS/UEFu+HT+SPr2X/n+hRp
+ WhlQ==
+X-Gm-Message-State: ACrzQf1KQCUH3LNevKPjijM/4cOJzkXtpDDol1/FrjMT4Z7b6AOF4/7l
+ 8wA5hKeukBEeb7KLjfcnbJJ89jxU7c5z7xD/sjfA6A==
+X-Google-Smtp-Source: AMsMyM45MZhNQj1zqmzswA00CgfLvl+B+vI9SGLc1NFzKu9waJhjgZ6CIjvEkueQQUKTlClnpCRd9Wrrc8KZjl5Hhdk=
+X-Received: by 2002:a81:2544:0:b0:360:c270:15a1 with SMTP id
+ l65-20020a812544000000b00360c27015a1mr329324ywl.67.1665672918017; Thu, 13 Oct
+ 2022 07:55:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2] drm/mgag200: Fix PLL setup for G200_SE_A rev >=4
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
-References: <20221013132810.521945-1-jfalempe@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221013132810.521945-1-jfalempe@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VDKakA3QBOO6PjEGoiRz9Go2"
+References: <20221012191226.1646315-1-greenjustin@chromium.org>
+ <CAPj87rPftXR6v=Z44Y7EKkF2w6Hh_sEueW_m0z1qmi0iH+moHw@mail.gmail.com>
+In-Reply-To: <CAPj87rPftXR6v=Z44Y7EKkF2w6Hh_sEueW_m0z1qmi0iH+moHw@mail.gmail.com>
+From: Justin Green <greenjustin@chromium.org>
+Date: Thu, 13 Oct 2022 10:55:07 -0400
+Message-ID: <CAHC42Rcx7TC9R6zQyd4NWuwgm89ReS6X8bbLKR73CjcdfWjHPw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/mediatek: Add AFBC support to Mediatek DRM driver
+To: Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,83 +63,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, stable@vger.kernel.org
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
+ justin.yeh@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VDKakA3QBOO6PjEGoiRz9Go2
-Content-Type: multipart/mixed; boundary="------------wb2YYErfSI0xD0fDL0mSBFI4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
-Cc: michel@daenzer.net, stable@vger.kernel.org
-Message-ID: <03ca96bc-358f-3f02-c53e-5ff3a0d935dc@suse.de>
-Subject: Re: [PATCH v2] drm/mgag200: Fix PLL setup for G200_SE_A rev >=4
-References: <20221013132810.521945-1-jfalempe@redhat.com>
-In-Reply-To: <20221013132810.521945-1-jfalempe@redhat.com>
+Thanks for the comments everyone! I'll upload a new CL sometime today.
 
---------------wb2YYErfSI0xD0fDL0mSBFI4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-DQoNCkFtIDEzLjEwLjIyIHVtIDE1OjI4IHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0KPiBG
-b3IgRzIwMF9TRV9BLCBQTEwgTSBzZXR0aW5nIGlzIHdyb25nLCB3aGljaCBsZWFkcyB0byBi
-bGFuayBzY3JlZW4sDQo+IG9yICJzaWduYWwgb3V0IG9mIHJhbmdlIiBvbiBWR0EgZGlzcGxh
-eS4NCj4gcHJldmlvdXMgY29kZSBoYWQgIm0gfD0gMHg4MCIgd2hpY2ggd2FzIGNoYW5nZWQg
-dG8NCj4gbSB8PSAoKHBpeHBsbGNuICYgQklUKDgpKSA+PiAxKTsNCj4gDQo+IFRlc3RlZCBv
-biBHMjAwX1NFX0EgcmV2IDQyDQo+IA0KPiBUaGlzIGxpbmUgb2YgY29kZSB3YXMgbW92ZWQg
-dG8gYW5vdGhlciBmaWxlIHdpdGgNCj4gY29tbWl0IDg1Mzk3ZjZiYzRmZiAoImRybS9tZ2Fn
-MjAwOiBJbml0aWFsaXplIGVhY2ggbW9kZWwgaW4gc2VwYXJhdGUNCj4gZnVuY3Rpb24iKSBi
-dXQgY2FuIGJlIGVhc2lseSBiYWNrcG9ydGVkIGJlZm9yZSB0aGlzIGNvbW1pdC4NCj4gDQo+
-IHYyOiAqIHB1dCBCSVQoNykgRmlyc3QgdG8gcmVzcGVjdCBNU0ItdG8tTFNCIChUaG9tYXMp
-DQo+ICAgICAgKiBBZGQgYSBjb21tZW50IHRvIGV4cGxhaW4gdGhhdCB0aGlzIGJpdCBtdXN0
-IGJlIHNldCAoVGhvbWFzKQ0KPiANCj4gRml4ZXM6IDJkZDA0MDk0NmVjZiAoImRybS9tZ2Fn
-MjAwOiBTdG9yZSB2YWx1ZXMgKG5vdCBiaXRzKSBpbiBzdHJ1Y3QgbWdhZzIwMF9wbGxfdmFs
-dWVzIikNCj4gQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcNCj4gU2lnbmVkLW9mZi1ieTog
-Sm9jZWx5biBGYWxlbXBlIDxqZmFsZW1wZUByZWRoYXQuY29tPg0KDQpSZXZpZXdlZC1ieTog
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCj4gLS0tDQo+ICAg
-ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9nMjAwc2UuYyB8IDMgKystDQo+ICAg
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMHNlLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBzZS5jDQo+IGluZGV4IGJl
-Mzg5ZWQ5MWNiZC4uYmQ2ZTU3M2M5YTFhIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBzZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9t
-Z2FnMjAwL21nYWcyMDBfZzIwMHNlLmMNCj4gQEAgLTI4NCw3ICsyODQsOCBAQCBzdGF0aWMg
-dm9pZCBtZ2FnMjAwX2cyMDBzZV8wNF9waXhwbGxjX2F0b21pY191cGRhdGUoc3RydWN0IGRy
-bV9jcnRjICpjcnRjLA0KPiAgIAlwaXhwbGxjcCA9IHBpeHBsbGMtPnAgLSAxOw0KPiAgIAlw
-aXhwbGxjcyA9IHBpeHBsbGMtPnM7DQo+ICAgDQo+IC0JeHBpeHBsbGNtID0gcGl4cGxsY20g
-fCAoKHBpeHBsbGNuICYgQklUKDgpKSA+PiAxKTsNCj4gKwkvLyBGb3IgRzIwMFNFIEEsIEJJ
-VCg3KSBzaG91bGQgYmUgc2V0IHVuY29uZGl0aW9uYWxseS4NCj4gKwl4cGl4cGxsY20gPSBC
-SVQoNykgfCBwaXhwbGxjbTsNCj4gICAJeHBpeHBsbGNuID0gcGl4cGxsY247DQo+ICAgCXhw
-aXhwbGxjcCA9IChwaXhwbGxjcyA8PCAzKSB8IHBpeHBsbGNwOw0KPiAgIA0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
-YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
-vGhyZXI6IEl2byBUb3Rldg0K
-
---------------wb2YYErfSI0xD0fDL0mSBFI4--
-
---------------VDKakA3QBOO6PjEGoiRz9Go2
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNIGLoFAwAAAAAACgkQlh/E3EQov+C7
-7Q//dAb5XZ2CBprqX57y4WErMgsNLN6cQV0tCZF1B+8w86gDjxMIKSMAWDT0g1LjYG/HUmXQwEEI
-TruuHa5MDJZhipwvZwG6A8OrHgGXfq2DPI2jCq+y83OdGAqdLU6d6SJlJjtOYWyqu+GcMY0u7vLY
-WRxA6YlDJUgH621+13zzE3ks4u25Xq7fQH/dul6TdYL2IBzHpN5KIailGMP4YzcVwQNK9HExzqoO
-ZVRky9ImV5tNGt7vi41xytRlp0XKvxSiO/UnP5wT7rN1bBZEfUgGHlKgmXr6keZXs9W4+UtIaNXb
-Jm5MdjMMYSCRTXP4LZBi4n8ivGxOytx4kKkMSRgLTv/7NzPdvVF+86ifAMm+0HcnvizTE/Z/z66X
-kW1ueGcwQxTc9En+E2fUW0qjTPAB+bySd72BgwLMolAZh+llxXdm9p2fcQxSw5SIqZnl24tXVo8R
-H6cn4VA+NrrQk0zApPhDCL9/crGGA70mJSKMm15klLKb8DMi2EP6EnFymYRn7JXOgBG35IGC4Z4e
-wJYYyu57y8GLn0JYpOkvAIWD6JoOXSMZhu2zaxIRNIDWe3guP7guWBJIWQWn0WgGR4rYhXQsin/V
-6TEqjRJVUEpkpOHevo0OOdfI05PS36wgzfpLgiw7GCDMfABOydmovewGR26GXxY16j2BluS/HUnI
-mkE=
-=07AP
------END PGP SIGNATURE-----
-
---------------VDKakA3QBOO6PjEGoiRz9Go2--
+I did want to ask though, I realize I should be using u32/u64 for
+kernel code in general, but the rest of this file seems to be written
+using unsigned int/unsigned long long. In this circumstance, does
+keeping with the style of the original source take precedence over
+general style guidelines, or vice versa?
