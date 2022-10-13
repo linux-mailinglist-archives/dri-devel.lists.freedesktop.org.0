@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF53D5FCF1D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 02:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D764D5FCF21
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 02:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3468610E11E;
-	Thu, 13 Oct 2022 00:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E700A10E2D8;
+	Thu, 13 Oct 2022 00:01:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEA7D10E2D4;
- Thu, 13 Oct 2022 00:01:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5CC710E10C;
+ Thu, 13 Oct 2022 00:01:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665619295; x=1697155295;
+ t=1665619291; x=1697155291;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=8oyV4gUd/Pxd9QPWj0zjyyFFb5WEsFxJw5HZb+RDvrs=;
- b=hHSDzq45R+3csessMua6SNhJ/r0jmL7m53cLU0H6+nL7tNITWR9OQJNT
- o5jDVSANX0qATvQAM+/QChgYr6r7DwSRDEnBIouCj5nGXp6oEzQy3xbds
- 2rk7sd78CcnZ8xUwI+Pt4OnsSKFI3mlaZv9JxXJf4E/FAXpejeyzNen0t
- LdJ0lfW4L6TZ6p4tZI+MJGiAgnEwOsm9ELRssTRf2rDQvQIRhXC9N4RCd
- sBLU0KA7wzWytXJv1Maz5KM6/D3d6wGrdgVrnJ89hZA27ouXJfhXW1zGN
- 88zlLb5yQKJk14YL4X39EcQZQLHP1oudbYiqZw/8jOz5fRtYqVRGHji4P Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="292263376"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="292263376"
+ bh=PBuOkYLWb+5YORBbtZMtLcXo6OGyquB4DlXW/qogCbA=;
+ b=UjGYmJs/myoXywd+UIfwEXqHlgZRk+dMDmqdTGdxJ/AiGbSjk3qFf/PL
+ t0ppNVCk3L56Xd8lPcnHOstSu5bUEkdD3UiQPGacTRJWXmNHuzsa1fuYd
+ 4SmQtx2Wj82PSBNi1MLWCoMojeGssK4ekFHYEjPdwiQysS9mhmrd2iQIt
+ JBe92AU22O74AmLd6DLyyFnzgrhaaynXAj16+s/ZZuorHrxcL5h5pcFyN
+ Ov36DH2tQZFMbEZeEVmWe543+d5e8xezaY9K7tYBGrHAUCr8okaQw8cXc
+ GB1CrqnGVzQstTK3YeHM8SElyXXAynbHhQFhc0AmWyZa9M6RpGtw6Iya4 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="292263357"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="292263357"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2022 17:01:35 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="802031117"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="802031117"
+ 12 Oct 2022 17:01:31 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="802031089"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="802031089"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2022 17:01:35 -0700
+ 12 Oct 2022 17:01:31 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 6/7] drm/i915/guc: define media GT GuC send regs
-Date: Wed, 12 Oct 2022 17:03:31 -0700
-Message-Id: <20221013000332.1738078-7-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v2 1/7] drm/i915/huc: only load HuC on GTs that have VCS
+ engines
+Date: Wed, 12 Oct 2022 17:03:26 -0700
+Message-Id: <20221013000332.1738078-2-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013000332.1738078-1-daniele.ceraolospurio@intel.com>
 References: <20221013000332.1738078-1-daniele.ceraolospurio@intel.com>
@@ -56,79 +57,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Alan Previn <alan.previn.teres.alexis@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The media GT shares the G-unit with the root GT, so a second set of
-communication registers is required for the media GuC.
+On MTL the primary GT doesn't have any media capabilities, so no video
+engines and no HuC. We must therefore skip the HuC fetch and load on
+that specific case. Given that other multi-GT platforms might have HuC
+on the primary GT, we can't just check for that and it is easier to
+instead check for the lack of VCS engines.
+
+Based on code from Aravind Iddamsetty
+
+v2: clarify which engine_mask is used for each GT and why (Tvrtko)
 
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
 Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com> #v1
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.c     | 14 ++++++++++----
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h |  2 ++
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c | 29 ++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_drv.h        |  9 +++++---
+ 2 files changed, 35 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 27b09ba1d295..b3600be61a9a 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -156,7 +156,8 @@ static void gen11_disable_guc_interrupts(struct intel_guc *guc)
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index 4d1cc383b681..ca170ea3426c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -203,12 +203,41 @@ void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, struct bus_type *b
+ 	huc->delayed_load.nb.notifier_call = NULL;
+ }
  
- void intel_guc_init_early(struct intel_guc *guc)
- {
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
-+	struct intel_gt *gt = guc_to_gt(guc);
-+	struct drm_i915_private *i915 = gt->i915;
- 
- 	intel_uc_fw_init_early(&guc->fw, INTEL_UC_FW_TYPE_GUC);
- 	intel_guc_ct_init_early(&guc->ct);
-@@ -168,12 +169,17 @@ void intel_guc_init_early(struct intel_guc *guc)
- 	mutex_init(&guc->send_mutex);
- 	spin_lock_init(&guc->irq_lock);
- 	if (GRAPHICS_VER(i915) >= 11) {
--		guc->notify_reg = GEN11_GUC_HOST_INTERRUPT;
- 		guc->interrupts.reset = gen11_reset_guc_interrupts;
- 		guc->interrupts.enable = gen11_enable_guc_interrupts;
- 		guc->interrupts.disable = gen11_disable_guc_interrupts;
--		guc->send_regs.base =
--			i915_mmio_reg_offset(GEN11_SOFT_SCRATCH(0));
-+		if (gt->type == GT_MEDIA) {
-+			guc->notify_reg = MEDIA_GUC_HOST_INTERRUPT;
-+			guc->send_regs.base = i915_mmio_reg_offset(MEDIA_SOFT_SCRATCH(0));
-+		} else {
-+			guc->notify_reg = GEN11_GUC_HOST_INTERRUPT;
-+			guc->send_regs.base = i915_mmio_reg_offset(GEN11_SOFT_SCRATCH(0));
-+		}
++static bool vcs_supported(struct intel_gt *gt)
++{
++	intel_engine_mask_t mask = gt->info.engine_mask;
 +
- 		guc->send_regs.count = GEN11_SOFT_SCRATCH_COUNT;
++	/*
++	 * We reach here from i915_driver_early_probe for the primary GT before
++	 * its engine mask is set, so we use the device info engine mask for it;
++	 * this means we're not taking VCS fusing into account, but if the
++	 * primary GT supports VCS engines we expect at least one of them to
++	 * remain unfused so we're fine.
++	 * For other GTs we expect the GT-specific mask to be set before we
++	 * call this function.
++	 */
++	GEM_BUG_ON(!gt_is_root(gt) && !gt->info.engine_mask);
++
++	if (gt_is_root(gt))
++		mask = RUNTIME_INFO(gt->i915)->platform_engine_mask;
++	else
++		mask = gt->info.engine_mask;
++
++	return __ENGINE_INSTANCES_MASK(mask, VCS0, I915_MAX_VCS);
++}
++
+ void intel_huc_init_early(struct intel_huc *huc)
+ {
+ 	struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
++	struct intel_gt *gt = huc_to_gt(huc);
  
- 	} else {
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-index a7092f711e9c..9915de32e894 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-@@ -36,6 +36,7 @@
- #define SOFT_SCRATCH_COUNT		16
+ 	intel_uc_fw_init_early(&huc->fw, INTEL_UC_FW_TYPE_HUC);
  
- #define GEN11_SOFT_SCRATCH(n)		_MMIO(0x190240 + (n) * 4)
-+#define MEDIA_SOFT_SCRATCH(n)		_MMIO(0x190310 + (n) * 4)
- #define GEN11_SOFT_SCRATCH_COUNT	4
++	if (!vcs_supported(gt)) {
++		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_NOT_SUPPORTED);
++		return;
++	}
++
+ 	if (GRAPHICS_VER(i915) >= 11) {
+ 		huc->status.reg = GEN11_HUC_KERNEL_LOAD_INFO;
+ 		huc->status.mask = HUC_LOAD_SUCCESSFUL;
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 90ed8e6db2fe..90a347140e90 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -776,12 +776,15 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ #define __HAS_ENGINE(engine_mask, id) ((engine_mask) & BIT(id))
+ #define HAS_ENGINE(gt, id) __HAS_ENGINE((gt)->info.engine_mask, id)
  
- #define UOS_RSA_SCRATCH(i)		_MMIO(0xc200 + (i) * 4)
-@@ -101,6 +102,7 @@
- #define GUC_SEND_INTERRUPT		_MMIO(0xc4c8)
- #define   GUC_SEND_TRIGGER		  (1<<0)
- #define GEN11_GUC_HOST_INTERRUPT	_MMIO(0x1901f0)
-+#define MEDIA_GUC_HOST_INTERRUPT	_MMIO(0x190304)
- 
- #define GEN12_GUC_SEM_INTR_ENABLES	_MMIO(0xc71c)
- #define   GUC_SEM_INTR_ROUTE_TO_GUC	BIT(31)
+-#define ENGINE_INSTANCES_MASK(gt, first, count) ({		\
++#define __ENGINE_INSTANCES_MASK(mask, first, count) ({			\
+ 	unsigned int first__ = (first);					\
+ 	unsigned int count__ = (count);					\
+-	((gt)->info.engine_mask &						\
+-	 GENMASK(first__ + count__ - 1, first__)) >> first__;		\
++	((mask) & GENMASK(first__ + count__ - 1, first__)) >> first__;	\
+ })
++
++#define ENGINE_INSTANCES_MASK(gt, first, count) \
++	__ENGINE_INSTANCES_MASK((gt)->info.engine_mask, first, count)
++
+ #define RCS_MASK(gt) \
+ 	ENGINE_INSTANCES_MASK(gt, RCS0, I915_MAX_RCS)
+ #define BCS_MASK(gt) \
 -- 
 2.37.3
 
