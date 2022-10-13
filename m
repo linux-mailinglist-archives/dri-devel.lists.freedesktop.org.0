@@ -2,77 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A109E5FCEED
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 01:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33C85FCF17
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 02:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F12910E287;
-	Wed, 12 Oct 2022 23:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6202D10E2C3;
+	Thu, 13 Oct 2022 00:01:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A487B10E286;
- Wed, 12 Oct 2022 23:26:28 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29CNJURK010887;
- Wed, 12 Oct 2022 23:26:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=CNPmxgW3pPlP+BkFNJfzz3SBIfQiNzpnFWL/syGAZ3w=;
- b=YYT8oAslM5mllwEzPfjAVavKxoQkuy0RtVdCtZS6GOzj3XH2NOG/Boj3T7pF7udzr5ts
- 7dNz3LZQqGpAZjIW8vEywLrhhlSalgDv+wFiKQjH8s1gKOG/8KrLOVmvDl6K6DJ09oR/
- fVh2VC33jxOy6FkcNd5q/qk16ZQ81zTNagEcO8XhAtluyeGeSVp5Mlmrz/jrpP2pSeKC
- tQVj2tdGtpb0nL6uYQ92/pos6XHgDE2wQQIor5XFTAW0C5pxbgXmRC9STMm+CtnIdPc8
- 8puUrlEd4npN7bKB92uV3WvShVvCzU5bgICbh2eLdouic7GYFuseEFKsMLeTUpEvef6r bA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k5x7g1ptt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Oct 2022 23:26:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29CNQLq8014442
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Oct 2022 23:26:21 GMT
-Received: from [10.38.241.12] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 12 Oct
- 2022 16:26:17 -0700
-Message-ID: <e8d49510-4e1e-2327-2dcc-1274c2a70a2f@quicinc.com>
-Date: Wed, 12 Oct 2022 16:26:15 -0700
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514BE10E10C;
+ Thu, 13 Oct 2022 00:01:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665619290; x=1697155290;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JJKNQgwMR6JwUxLPr2mg4vB2mJHLGaCaQCipoOO5rKw=;
+ b=k1KGPCZt9Q0T/7O3IzbRmv5o0kytg9g/9ymE04MEkwE64PcIKhNRCSQq
+ gdeyABrbOzWy6RhWAB6X922sueFXyGkXmdEh+VJveDV/lwhO6ZRcyxNFs
+ eOIOpq0CFTiQ3myVl1oZdYoQFJSswtb2hhux9z/mOJ2aA5aYzUSUT+i7x
+ PYQhjnc+XiuxHusU25KKv+MykIe2vhgkuxdnDexiW6IWS2ClHIM+gnfSS
+ wSexIvEtFIwpyQkzasrvGiTe2N+xE6XNfr67QrFbnYJrTc/4Wi0EbyakO
+ hBKJ0eMX++5lxonXAQeVsTHpBryfju3MS09/5uSGdvvX8/eXW/dxqc2pz w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="292263350"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="292263350"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2022 17:01:29 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="802031080"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="802031080"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2022 17:01:29 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/7] drm/i915: prepare for uC loading on MTL
+Date: Wed, 12 Oct 2022 17:03:25 -0700
+Message-Id: <20221013000332.1738078-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3 10/10] drm/msm/dsi: Prevent signed BPG offsets from
- bleeding into adjacent bits
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- <phone-devel@vger.kernel.org>
-References: <20221009184824.457416-1-marijn.suijten@somainline.org>
- <20221009185316.462522-3-marijn.suijten@somainline.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221009185316.462522-3-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 0whAIauxe-5GPU5WOKX9nvzxO4GX52Ed
-X-Proofpoint-ORIG-GUID: 0whAIauxe-5GPU5WOKX9nvzxO4GX52Ed
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-12_11,2022-10-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999
- impostorscore=0 malwarescore=0 bulkscore=0 spamscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210120146
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,53 +54,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The introduction of the media GT brings a few changes for GuC/HuC. The
+main difference between the 2 GTs is that only the media one has the
+HuC, while both have the GuC. Also, the fact that both GTs use the same
+G-unit and GGTT means we now have parallel interrupt/communication
+paths. Lastly, WOPCM is divided between the two GTs, with each having
+their own private chunk.
 
+v2: address review comments
 
-On 10/9/2022 11:53 AM, Marijn Suijten wrote:
-> The bpg_offset array contains negative BPG offsets which fill the full 8
-> bits of a char thanks to two's complement: this however results in those
-> bits bleeding into the next field when the value is packed into DSC PPS
-> by the drm_dsc_helper function, which only expects range_bpg_offset to
-> contain 6-bit wide values.  As a consequence random slices appear
-> corrupted on-screen (tested on a Sony Tama Akatsuki device with sdm845).
-> 
-> Use AND operators to limit these two's complement values to 6 bits,
-> similar to the AMD and i915 drivers.
-> 
-> Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 46032c576a59..c5c2d70ac27d 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1804,7 +1804,11 @@ static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc
->   	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
->   		dsc->rc_range_params[i].range_min_qp = min_qp[i];
->   		dsc->rc_range_params[i].range_max_qp = max_qp[i];
-> -		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i];
-> +		/*
-> +		 * Range BPG Offset contains two's-complement signed values that fill
-> +		 * 8 bits, yet the registers and DCS PPS field are only 6 bits wide.
-> +		 */
-> +		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i] & DSC_RANGE_BPG_OFFSET_MASK;
->   	}
->   
->   	dsc->initial_offset = 6144;		/* Not bpp 12 */
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+
+Aravind Iddamsetty (1):
+  drm/i915/mtl: Handle wopcm per-GT and limit calculations.
+
+Daniele Ceraolo Spurio (5):
+  drm/i915/huc: only load HuC on GTs that have VCS engines
+  drm/i915/uc: fetch uc firmwares for each GT
+  drm/i915/uc: use different ggtt pin offsets for uc loads
+  drm/i915/guc: define media GT GuC send regs
+  drm/i915/guc: handle interrupts from media GuC
+
+Stuart Summers (1):
+  drm/i915/guc: Add GuC deprivilege feature to MTL
+
+ drivers/gpu/drm/i915/Makefile               |  5 ++-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c        |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c          |  1 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c      | 21 +++++++--
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  2 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h    |  2 +
+ drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c | 48 +++++++++++++++------
+ drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h |  0
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c      | 43 ++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h      |  5 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h  |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c      | 29 +++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c       | 12 ++++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c    | 44 +++++++++++++++----
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h    | 13 ++++++
+ drivers/gpu/drm/i915/i915_driver.c          |  2 -
+ drivers/gpu/drm/i915/i915_drv.h             | 12 +++---
+ drivers/gpu/drm/i915/i915_gem.c             |  6 ++-
+ drivers/gpu/drm/i915/i915_pci.c             |  1 +
+ 19 files changed, 189 insertions(+), 61 deletions(-)
+ rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c (86%)
+ rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h (100%)
+
+-- 
+2.37.3
+
