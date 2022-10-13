@@ -1,73 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BE95FDA90
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 15:21:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 663445FDAA6
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 15:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9F510E8EB;
-	Thu, 13 Oct 2022 13:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6462210E8E4;
+	Thu, 13 Oct 2022 13:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D84C910E8C4;
- Thu, 13 Oct 2022 13:19:38 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 46349580363;
- Thu, 13 Oct 2022 09:19:38 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0812510E8E3;
+ Thu, 13 Oct 2022 13:19:41 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1B539580364;
+ Thu, 13 Oct 2022 09:19:40 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 13 Oct 2022 09:19:38 -0400
+ by compute3.internal (MEProxy); Thu, 13 Oct 2022 09:19:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665667178; x=
- 1665674378; bh=XWDD19QUDYLh4/ScZssAecOOjJqgRPliowIW5HH3+ls=; b=P
- 11D7nIBmVfKwjW1olQx9n5RxNKpjzTal7jBQ3y0K3Vs3v2pEPdenu17THjbruYnJ
- tZJj6cjPYAm+3XRUWh8XFvqwJdmQX6/nJlxPBuh5NDsEhpiRuTJ5cumUwgaN8qAJ
- 7kvLA49ShCtgwbjNXA7zT/+W97g2f8z1VMqn4k4z7ZMz1g1f8GbWtd8zbhCXOVG2
- 4lc5Bte/QcvR0jRLtSMQMX1hmj1mDjHzeku28lC2nzoMYg5dYs/IhHyT69q9blAB
- fNDJcZ6+O6fqQ+Woe3JkLq60C0C+Ad/R0JvY8eTZ0ACI1h/7tHZd/w6BDn1h8I7M
- aI7/MORTkBKlwOFpuF82w==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665667180; x=
+ 1665674380; bh=lCDt1M49a8CiNtBMBhMoWVAuAeIGOkWRlKm4jNBPQTg=; b=q
+ l9iyxFd5RQAlmEjvfenJGEtflpMzPJSdvFUzppIzEBdbXaW4BvydzsBGVVmEaIJe
+ es7UO97YYDwaqk74MFu36IOIPgH9Pj1p66/9B8i4ZqJMyfmRVmf+RG6dYVx+2s4l
+ W6sObQx/nRGmSsWwHh7owZS1YAT4ciIS5IwSdAjDllA1/Bzot366jnNqYKqbZsuW
+ 1n9XEKoDHHf8l0InfrsxE7N5K88uha0VjV6h4ti06+VRYfsbLIa3KLYhiqI/V8+i
+ khW5xtWlgGRLYYr9fn1S7JDYnic/Y18DoY08ScWTWHWJlILkWqRU4i0V5ka+lyhy
+ yYE7ppD6OC15xNHqMF9JA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665667178; x=
- 1665674378; bh=XWDD19QUDYLh4/ScZssAecOOjJqgRPliowIW5HH3+ls=; b=C
- +RrGNf6z4HUDpL5bARmRfvyb6HIazL/qPIgjgyvZKV/ItVLck5GuOnKDR2GUi7ah
- muxD5+BVFJ/lGshyRW28RnALMv+2rZ3sqHGb1kR1yQsNbp+Is4ZmXrFq42G7MR0v
- uz29rXRTIx0Oyp1tkozDfPT2x9vXQPgulfmgCLg8dujybAWQ6mQ1DYuDf2q6ZhUu
- LMgp83r0E6yAWZL+MAeVrtLWuQz0dHrMxYg0Gq7fWLC7ykuu/gW3mhZRJxb4Pjnm
- zbFzDrcZ9JrOyFxRdXfx2Vo0QIfWAudi9Bj1KTLnQjJ5UgF3LA59YI6S7ZqsFLQw
- gaBAQRJ5mD1hwV9M30Xpw==
-X-ME-Sender: <xms:aRBIY5IQv3YceHht-leJPVDWkYk-EBhAQNDKv6YCZlBgDa5tulFZUQ>
- <xme:aRBIY1JWy2LTBHMlL-y7UyTJ76rmTWsDvwZciX5yYeBMRDCzxiBvAjGx2IzHDvMFR
- QnnKC--rGN2U6Q6i2I>
-X-ME-Received: <xmr:aRBIYxvFGWeP6VDkzT5MAAt7ZecLM_6iM9GroYtSsx9hre5Ajx2mywWbtzkfll0j2KbONERQx4zvxUf6dDn7dywmTuPqMTINYTvd>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665667180; x=
+ 1665674380; bh=lCDt1M49a8CiNtBMBhMoWVAuAeIGOkWRlKm4jNBPQTg=; b=j
+ vFXzc+V7301sAE5bMU29sRo/tx+g4c+XZUkb5KXQ+L71NecqcmvMSAEOWjIEZIcK
+ ahSFEO60Jeo8ZKn2ZNiNsF0RRvs5BDRr47YlBUy8ItKOsm7gBgl9VS8cbwajiI9g
+ NMIkay5dwtD4q9CAZQBJnZgRzzntkOZXfGggag9z+FARK/MFrUELxiQghW9cK0Qs
+ r21Lxvt810rMKgF5tLqBnhJZru36igL0R3y59H8scjk/KoIuYs40Wi5eNNd6RAWr
+ 8ngLZAbmyw/+wP8uw0jUlN010KQoJ/myeE9hN77df94wXVpd+Nl2RCPzD87kRdCE
+ vvd44Rb+WEooh4C2H14Bw==
+X-ME-Sender: <xms:axBIY44uCshs7sJaWTGuT__KInuF8q_uctX_I8J8Do_0BYSnVCXkIA>
+ <xme:axBIY56CB6mO8XRj_nPZ2FzGLKQCdWTW_UCwIqlwWMZ_dJLvnc0FEBBC0fyXNLoB8
+ hYlarnysKSrWuG1WoI>
+X-ME-Received: <xmr:axBIY3fplBx2DMYD2pKJxdn7rgFwi5oGmZgZHwly1K290Y3M-aXRpEQsd2AlQ1SjrayK6GI1fTY3PoSOILPJ50G0SRhBGk2G7msx>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgieehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephfffufgggfgtkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepvdfgveejhfdtteevvefhleeiueeutefgvdegveekgedujeffgeffgfet
- tdellefhnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:aRBIY6aa1nBvY4Elbqw5Bdo1JB1IxJQOia0KJYiaSAh5-fAGVdLccQ>
- <xmx:aRBIYwbBnJttU_565sV6GeLZPY9xRfR1tjcMAyihaAKQn83WdttAcA>
- <xmx:aRBIY-AvmL0n-fwZHYPc2tSBZ3G8pCHoJLSWLMi5i0QbrqmuHlvhcg>
- <xmx:ahBIYxGIkO1yHENmtEKULV6iYMUhNC8xTHm7T4a2tKLqkbboaiTpAw>
+ grthhtvghrnhepveejudekteevveefhffhudefkedtgfettefgieejtdffieffheeuhedt
+ heeikeeunecuffhomhgrihhnpehmrghrghhinhhsrdhtohhpnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:axBIY9K9v6XxAm-WI0NIn0X2N0VAvnGXGdZmK3rEqlyKBbDQFZcOfQ>
+ <xmx:axBIY8JCCi0AczX6b8jstuoJpogRLutbDfdW6g2gtU6j12nlLPrayA>
+ <xmx:axBIY-xUF614XkmqpDpNB5T8fIeTm1xxhU_3yjNqnuDUlU4yV6w4zQ>
+ <xmx:bBBIYy1U2b1naL3mn7abIeoYCHYOFq6qFHEIjycSZ_eWgy5wQIkVzw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 09:19:36 -0400 (EDT)
+ 13 Oct 2022 09:19:39 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 13 Oct 2022 15:19:00 +0200
-Subject: [PATCH v5 16/22] drm/atomic-helper: Add a TV properties reset helper
+Date: Thu, 13 Oct 2022 15:19:01 +0200
+Subject: [PATCH v5 17/22] drm/atomic-helper: Add an analog TV atomic_check
+ implementation
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20220728-rpi-analog-tv-properties-v5-16-d841cc64fe4b@cerno.tech>
+Message-Id: <20220728-rpi-analog-tv-properties-v5-17-d841cc64fe4b@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
 In-Reply-To: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
 To: Karol Herbst <kherbst@redhat.com>,
@@ -84,11 +86,11 @@ To: Karol Herbst <kherbst@redhat.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>
 X-Mailer: b4 0.11.0-dev-7da52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4273; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=qT3wOjvYdSdI/mF48wsTEgKtODgNXnI4hC+PGj+pRVI=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkeAu7TXldcWLshyeh4kN/mgK+Mtm5nTrXvl/U7ZRhi4aPU
- +42to5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABOxtmdkuL1kh9fHnKbT96+8bzrsdN
- DT9VfKT4OgX8+KO5W7fP8z3mBkOLc068A1Yz/X+TFp+p67Pnxb49vLf3+2UuJ/92+X/p//yggA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3959; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=sGOWtwxKEMl09v1mpDrUNJBmLU6YkteMKa52HWyOegk=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkeAu4xP8XDzyqsu9z8JVxucd3lo3uLeJx3LjaTXLZM8dTT
+ JSyKHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZhIlSbDT8bZghHbF8Uutizg7Vy5nO
+ O6JytPf+EJVvFpP3P2Tl5ybC8jw9RNtr9SxU5HhXK6fdIJO97QfuvQb8YHvLWXbmTZ/tppxQkA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,114 +109,97 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_tv_create_properties() function will create a bunch of properties,
-but it's up to each and every driver using that function to properly reset
-the state of these properties leading to inconsistent behaviours.
+The analog TV connector drivers share some atomic_check logic, and the new
+TV standard property have created some boilerplate that can be be shared
+across drivers too.
 
-Let's create a helper that will take care of it.
+Let's create an atomic_check helper for those use cases.
 
 Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c | 75 +++++++++++++++++++++++++++++++
- include/drm/drm_atomic_state_helper.h     |  1 +
- 2 files changed, 76 insertions(+)
+ drivers/gpu/drm/drm_atomic_state_helper.c | 49 +++++++++++++++++++++++++++++++
+ include/drm/drm_atomic_state_helper.h     |  3 ++
+ 2 files changed, 52 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index dfb57217253b..0373c3dc824b 100644
+index 0373c3dc824b..e88c57a4f7be 100644
 --- a/drivers/gpu/drm/drm_atomic_state_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -481,6 +481,81 @@ void drm_atomic_helper_connector_tv_margins_reset(struct drm_connector *connecto
+@@ -556,6 +556,55 @@ void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
  }
- EXPORT_SYMBOL(drm_atomic_helper_connector_tv_margins_reset);
+ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
  
 +/**
-+ * drm_atomic_helper_connector_tv_reset - Resets Analog TV connector properties
-+ * @connector: DRM connector
++ * @drm_atomic_helper_connector_tv_check: Validate an analog TV connector state
++ * @connector: DRM Connector
++ * @state: the DRM State object
 + *
-+ * Resets the analog TV properties attached to a connector
++ * Checks the state object to see if the requested state is valid for an
++ * analog TV connector.
++ *
++ * Returns:
++ * Zero for success, a negative error code on error.
 + */
-+void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
++int drm_atomic_helper_connector_tv_check(struct drm_connector *connector,
++					 struct drm_atomic_state *state)
 +{
-+	struct drm_device *dev = connector->dev;
-+	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
-+	struct drm_connector_state *state = connector->state;
-+	struct drm_property *prop;
-+	uint64_t val;
++	struct drm_connector_state *old_conn_state =
++		drm_atomic_get_old_connector_state(state, connector);
++	struct drm_connector_state *new_conn_state =
++		drm_atomic_get_new_connector_state(state, connector);
++	struct drm_crtc_state *crtc_state;
++	struct drm_crtc *crtc;
 +
-+	prop = dev->mode_config.tv_mode_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.mode = val;
++	crtc = new_conn_state->crtc;
++	if (!crtc)
++		return 0;
 +
-+	if (cmdline->tv_mode)
-+		state->tv.mode = cmdline->tv_mode;
++	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++	if (!crtc_state)
++		return -EINVAL;
 +
-+	prop = dev->mode_config.tv_select_subconnector_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.select_subconnector = val;
++	if (old_conn_state->tv.mode != new_conn_state->tv.mode)
++		crtc_state->mode_changed = true;
 +
-+	prop = dev->mode_config.tv_subconnector_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.subconnector = val;
++	if ((old_conn_state->tv.margins.left != new_conn_state->tv.margins.left) ||
++	    (old_conn_state->tv.margins.right != new_conn_state->tv.margins.right) ||
++	    (old_conn_state->tv.margins.top != new_conn_state->tv.margins.top) ||
++	    (old_conn_state->tv.margins.bottom != new_conn_state->tv.margins.bottom) ||
++	    (old_conn_state->tv.mode != new_conn_state->tv.mode) ||
++	    (old_conn_state->tv.brightness != new_conn_state->tv.brightness) ||
++	    (old_conn_state->tv.contrast != new_conn_state->tv.contrast) ||
++	    (old_conn_state->tv.flicker_reduction != new_conn_state->tv.flicker_reduction) ||
++	    (old_conn_state->tv.overscan != new_conn_state->tv.overscan) ||
++	    (old_conn_state->tv.saturation != new_conn_state->tv.saturation) ||
++	    (old_conn_state->tv.hue != new_conn_state->tv.hue))
++		crtc_state->connectors_changed = true;
 +
-+	prop = dev->mode_config.tv_brightness_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.brightness = val;
-+
-+	prop = dev->mode_config.tv_contrast_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.contrast = val;
-+
-+	prop = dev->mode_config.tv_flicker_reduction_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.flicker_reduction = val;
-+
-+	prop = dev->mode_config.tv_overscan_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.overscan = val;
-+
-+	prop = dev->mode_config.tv_saturation_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.saturation = val;
-+
-+	prop = dev->mode_config.tv_hue_property;
-+	if (prop)
-+		if (!drm_object_property_get_default_value(&connector->base,
-+							   prop, &val))
-+			state->tv.hue = val;
-+
-+	drm_atomic_helper_connector_tv_margins_reset(connector);
++	return 0;
 +}
-+EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
++EXPORT_SYMBOL(drm_atomic_helper_connector_tv_check);
 +
  /**
   * __drm_atomic_helper_connector_duplicate_state - copy atomic connector state
   * @connector: connector object
 diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-index 192766656b88..c8fbce795ee7 100644
+index c8fbce795ee7..b9740edb2658 100644
 --- a/include/drm/drm_atomic_state_helper.h
 +++ b/include/drm/drm_atomic_state_helper.h
-@@ -70,6 +70,7 @@ void __drm_atomic_helper_connector_state_reset(struct drm_connector_state *conn_
- void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
+@@ -26,6 +26,7 @@
+ 
+ #include <linux/types.h>
+ 
++struct drm_atomic_state;
+ struct drm_bridge;
+ struct drm_bridge_state;
+ struct drm_crtc;
+@@ -71,6 +72,8 @@ void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
  					 struct drm_connector_state *conn_state);
  void drm_atomic_helper_connector_reset(struct drm_connector *connector);
-+void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
+ void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
++int drm_atomic_helper_connector_tv_check(struct drm_connector *connector,
++					 struct drm_atomic_state *state);
  void drm_atomic_helper_connector_tv_margins_reset(struct drm_connector *connector);
  void
  __drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector,
