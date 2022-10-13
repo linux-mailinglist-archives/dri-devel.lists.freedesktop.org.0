@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DFA5FD6BB
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:13:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDEA5FD6B9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB1810E55F;
-	Thu, 13 Oct 2022 09:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3746810E64F;
+	Thu, 13 Oct 2022 09:13:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAFA910E552
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:13:14 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 480685C00D5;
- Thu, 13 Oct 2022 05:13:14 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0D9510E55F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:13:16 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1BE895C010E;
+ Thu, 13 Oct 2022 05:13:16 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 13 Oct 2022 05:13:14 -0400
+ by compute5.internal (MEProxy); Thu, 13 Oct 2022 05:13:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665652394; x=
- 1665738794; bh=bShaN/7NERGul8hcL4IyWVx5LIqH+sRwvrBsPYVMzg8=; b=E
- AiosCw/vKKYwxEjD5hfuO1Hg5/6A1SmEpDMxSHTiKxgcFrJJu+4GZzRGDtJBMQ1K
- OY9N6D414TUzQ/FLW/Nc3OjmqmdY7ezuTlSE9X4WclH4grJxR6DfzcE0fUVSYMq1
- EPY5OHkAYL6NqOA6q0rdhtkV8gqBQpUCfHX9Dn25gM1qDoPXdSdBQtcdvbwFYAwf
- s1Nxu6PWscII1xtCQirriwo/XPqg3Yg+afBYqXi/FK4pp+zKIUv9XteBZHn0a3AI
- jGw+VQUJnMxQUUOwWCcHc5YvewsUI97STuNfVrJo55amFfWBTplhkRRV5Qv3YKwT
- dR98nPINGTQHb3ttl6how==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665652396; x=
+ 1665738796; bh=ML+ODx52p7Zj2uoXLzDPtbac1cZv+/aiKbj3DuchnPg=; b=Z
+ ztm9CmuT4VAB2juZKzyeSFGG0KmTGkeilo+yzIa/RX04+1ExkNDcceHwrUeyNLXu
+ SdWtvJX7aLLK4UNNx9F1G1LRM1KqzEoyiKH0HGR5qk0G0xshUja5+6xSiTXF6mBV
+ lHsd8qw3DBLDUHzeEskY8WtuKRubrlj/6gE2LkMYA7scjNcYENBupDXJUdJ9mJJu
+ KO82lWdbMAEJKqWwPFlM1Hozom5N7yEdriGlK8Ug0dlMfNU+4NhY5Sw8xyouK9Lm
+ 7xhCZTV7s2t4x/bc6HRs4+sFdBqx0pFaFyz8VCX7b6bPeHYNK87e1h3WXfeU7EC6
+ sk1FiWS1xVUP3t+yaUp7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665652394; x=
- 1665738794; bh=bShaN/7NERGul8hcL4IyWVx5LIqH+sRwvrBsPYVMzg8=; b=j
- YMV69Ay0N0U2JJzwInr3WafU2oixNPkiJdfF2YPp/XY5XO3CMMrFWH0Ocp5mLFka
- yxAkg03BnqsamL2DEIOhoq7QC4X/lJJndfSO4+sDqkMPZbOz2qvwIx39Vl75FGHh
- /bTcfXlgLgqTmQMaCbquTojPOOlnH983tz3wZCnjCBHgsx6ZSdq3yS9ncN0wizw/
- KnP+hqT9AzpNcw8UgcW2FzXu+IwKEDmNRSgRK9nwLw7FJN/aCjeu//yMGPGaJAq5
- tHP3XJX5jO5sLY1pkyB5ndEQUiKOxKg7ffKflBA+sYidLcY/bwZxxS2ZBTGn/UI/
- bZkYEmlvWEho9DSGisJkQ==
-X-ME-Sender: <xms:qdZHY1ZwODZ42-7JlsljxWtiH7_hxCRF6IMjB8x_LwqDpO2tBThhJQ>
- <xme:qdZHY8Y0MzaPWdolsRLZyL0_0xcAuVYgglvPABNOwhIcodmDS9QjjXD883oO46XOl
- 7McYBL-J40aoqD0oAA>
-X-ME-Received: <xmr:qdZHY3-0H2dTqK872rIOOb85Ge066IYe2WHH1Ue9q3TrZc_AQshbB-m-3b7yOcZjyqwmsQWR_Q4QrAZf5Hy9l8rshMLEjbil9UoZ>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665652396; x=
+ 1665738796; bh=ML+ODx52p7Zj2uoXLzDPtbac1cZv+/aiKbj3DuchnPg=; b=n
+ HtSHUb+wyBBcF54w7Q/rgZo9noa80Q6Wy3vhZzQMn5q9KrDzuYiSV4U/VYPAB7gd
+ 7FpGt0Iu6v9Txu8wQ7PUs2uNOJ9duxR4vyYDYsNgDaaJtNLP7t5DDWF1ZYik5ju6
+ 37K8qzUCY20Rnxk14/wKdeh7mGiwGadenzCG2Ny7Ji1lpyK90nu6JWPvTGAGCiGt
+ yo64YhTK2FszaEQmfsS8HaU2qJrFtOAiUL2MRBncL21iVriQ1SdpBeW7K1AIm4hi
+ 1JAZZfRb53t43Z4u3yuAXighP8b1FYUyyQzgzbmJaftCOtMf1BpmEMki8yI3/k+r
+ S3xvxUqOSf76qlNfp2IYQ==
+X-ME-Sender: <xms:q9ZHYyhjC4W2jM1BGQkink8Da0bc80orz0CivhWX7C0x8O1bTPcnxQ>
+ <xme:q9ZHYzBExUHrWjA17LQXry6qRxxRyYPkbOQF_VtkShzP2VfsppBWj-kzkPKC0877e
+ jLWNvLFrBSsW82fE8E>
+X-ME-Received: <xmr:q9ZHY6GA4a-WcuZalOHAT5CCSELsYd4JORnnzwxlncNQJRIv0kxD6Z2AsKqE8PquR38nrPko2Ip0VmUsvZoWJ4PQcUDeH5pDTBMc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,21 +54,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgudegucetufdoteggod
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
  jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qdZHYzpgoTDdMpdmBg41iiN5fGrK-Cpsaom1f0ehaR9oNZE6ebo0JA>
- <xmx:qdZHYwrZ5e6ydA5LmlVuW4lQlgiayq91Seg7jj9MQPOEK7m8Fc_33w>
- <xmx:qdZHY5QB-3o6-tpsb1TMHC3ez358Sjc_P_bM_0hdhLPeN0QSpFCCLA>
- <xmx:qtZHY-YWM8NPyI_SNL9hKPnZ9rs49u3m2kgzFE_Vo1IQDwxskY54RA>
+X-ME-Proxy: <xmx:q9ZHY7TW4_PnuvztOxpXOYeTjKy5NPAEwiRk572i2Y1WjXrpXujYmQ>
+ <xmx:q9ZHY_zmG808zMiO5kCZHjtNI6UjiuIYuXFjgxMKbXslgCA9u-xAlA>
+ <xmx:q9ZHY55dnl9LFcHZ4eeS6oI3iIPSeLQLyYT4wmFIV-LsKyqINZRtmQ>
+ <xmx:rNZHY8jhwa1_zrFasOcN00GUkZ6l2-eX9OsQnQyVvEnn72eo_MNtsg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 05:13:13 -0400 (EDT)
+ 13 Oct 2022 05:13:15 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 13 Oct 2022 11:13:08 +0200
-Subject: [PATCH v3 1/7] firmware: raspberrypi: Introduce
- rpi_firmware_find_node()
+Date: Thu, 13 Oct 2022 11:13:09 +0200
+Subject: [PATCH v3 2/7] firmware: raspberrypi: Move the clock IDs to the
+ firmware header
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220815-rpi-fix-4k-60-v3-1-fc56729d11fe@cerno.tech>
+Message-Id: <20220815-rpi-fix-4k-60-v3-2-fc56729d11fe@cerno.tech>
 References: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
 In-Reply-To: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
 To: Florian Fainelli <f.fainelli@gmail.com>,
@@ -79,11 +79,11 @@ To: Florian Fainelli <f.fainelli@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, 
  David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.11.0-dev-7da52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2223; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=vWcb/Ejr0pN1Zc4Oe8EeogxMKfphDG9wQuTjtg3Mq60=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnu15ak3nFobW54oXNCbZfu6iq9loUWm5a33orgzM6MvRpc
- PzGko5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABN5cpDhr+y95YVh1vNUBB7H84l7+8
- pyZX0+u21iWPevGJZT/EqGKgx/OFrTv35m8Um/ctvqzp8T19L/9cQkXDx7bMeUJ11OognreAE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2282; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=O/C1GjD9JjcVdok+PjgiTRoaq2K0l0WecgWMoNXNBjc=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnu15b0K5av2VF75NSt4gqL5EWt6vqMOaZyr9vz33GyT5uZ
+ et6zo5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABPhYmJkOC+wr4r35bX1EyYeelvuFv
+ DyUGPewwUFHOI36zNnfb3Xe5+R4Y1a/5b89Y5n9/w8uts69sa/cotjuYu1rgiuP9lyuenwYj4A
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,61 +105,73 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A significant number of RaspberryPi drivers using the firmware don't
-have a phandle to it, so end up scanning the device tree to find a node
-with the firmware compatible.
-
-That code is duplicated everywhere, so let's introduce a helper instead.
+We'll need the clock IDs in more drivers than just the clock driver from
+now on, so let's move them in the firmware header.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/firmware/raspberrypi.c             | 7 +++++++
- include/soc/bcm2835/raspberrypi-firmware.h | 7 +++++++
- 2 files changed, 14 insertions(+)
+ drivers/clk/bcm/clk-raspberrypi.c          | 18 ------------------
+ include/soc/bcm2835/raspberrypi-firmware.h | 18 ++++++++++++++++++
+ 2 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberrypi.c
-index 4b8978b254f9..b916e1e171f8 100644
---- a/drivers/firmware/raspberrypi.c
-+++ b/drivers/firmware/raspberrypi.c
-@@ -311,6 +311,13 @@ static int rpi_firmware_remove(struct platform_device *pdev)
- 	return 0;
- }
+diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
+index 876b37b8683c..1f5e6a1554e6 100644
+--- a/drivers/clk/bcm/clk-raspberrypi.c
++++ b/drivers/clk/bcm/clk-raspberrypi.c
+@@ -18,24 +18,6 @@
  
-+static const struct of_device_id rpi_firmware_of_match[];
-+struct device_node *rpi_firmware_find_node(void)
-+{
-+	return of_find_matching_node(NULL, rpi_firmware_of_match);
-+}
-+EXPORT_SYMBOL_GPL(rpi_firmware_find_node);
-+
- /**
-  * rpi_firmware_get - Get pointer to rpi_firmware structure.
-  * @firmware_node:    Pointer to the firmware Device Tree node.
+ #include <soc/bcm2835/raspberrypi-firmware.h>
+ 
+-enum rpi_firmware_clk_id {
+-	RPI_FIRMWARE_EMMC_CLK_ID = 1,
+-	RPI_FIRMWARE_UART_CLK_ID,
+-	RPI_FIRMWARE_ARM_CLK_ID,
+-	RPI_FIRMWARE_CORE_CLK_ID,
+-	RPI_FIRMWARE_V3D_CLK_ID,
+-	RPI_FIRMWARE_H264_CLK_ID,
+-	RPI_FIRMWARE_ISP_CLK_ID,
+-	RPI_FIRMWARE_SDRAM_CLK_ID,
+-	RPI_FIRMWARE_PIXEL_CLK_ID,
+-	RPI_FIRMWARE_PWM_CLK_ID,
+-	RPI_FIRMWARE_HEVC_CLK_ID,
+-	RPI_FIRMWARE_EMMC2_CLK_ID,
+-	RPI_FIRMWARE_M2MC_CLK_ID,
+-	RPI_FIRMWARE_PIXEL_BVB_CLK_ID,
+-	RPI_FIRMWARE_NUM_CLK_ID,
+-};
+-
+ static char *rpi_firmware_clk_names[] = {
+ 	[RPI_FIRMWARE_EMMC_CLK_ID]	= "emmc",
+ 	[RPI_FIRMWARE_UART_CLK_ID]	= "uart",
 diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
-index 811ea668c4a1..63426082bcb9 100644
+index 63426082bcb9..74c7bcc1ac2a 100644
 --- a/include/soc/bcm2835/raspberrypi-firmware.h
 +++ b/include/soc/bcm2835/raspberrypi-firmware.h
-@@ -142,6 +142,7 @@ int rpi_firmware_property(struct rpi_firmware *fw,
- int rpi_firmware_property_list(struct rpi_firmware *fw,
- 			       void *data, size_t tag_size);
- void rpi_firmware_put(struct rpi_firmware *fw);
-+struct device_node *rpi_firmware_find_node(void);
- struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node);
- struct rpi_firmware *devm_rpi_firmware_get(struct device *dev,
- 					   struct device_node *firmware_node);
-@@ -159,6 +160,12 @@ static inline int rpi_firmware_property_list(struct rpi_firmware *fw,
- }
+@@ -136,6 +136,24 @@ enum rpi_firmware_property_tag {
+ 	RPI_FIRMWARE_GET_DMA_CHANNELS =                       0x00060001,
+ };
  
- static inline void rpi_firmware_put(struct rpi_firmware *fw) { }
++enum rpi_firmware_clk_id {
++	RPI_FIRMWARE_EMMC_CLK_ID = 1,
++	RPI_FIRMWARE_UART_CLK_ID,
++	RPI_FIRMWARE_ARM_CLK_ID,
++	RPI_FIRMWARE_CORE_CLK_ID,
++	RPI_FIRMWARE_V3D_CLK_ID,
++	RPI_FIRMWARE_H264_CLK_ID,
++	RPI_FIRMWARE_ISP_CLK_ID,
++	RPI_FIRMWARE_SDRAM_CLK_ID,
++	RPI_FIRMWARE_PIXEL_CLK_ID,
++	RPI_FIRMWARE_PWM_CLK_ID,
++	RPI_FIRMWARE_HEVC_CLK_ID,
++	RPI_FIRMWARE_EMMC2_CLK_ID,
++	RPI_FIRMWARE_M2MC_CLK_ID,
++	RPI_FIRMWARE_PIXEL_BVB_CLK_ID,
++	RPI_FIRMWARE_NUM_CLK_ID,
++};
 +
-+static inline struct device_node *rpi_firmware_find_node(void)
-+{
-+	return NULL;
-+}
-+
- static inline struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node)
- {
- 	return NULL;
+ #if IS_ENABLED(CONFIG_RASPBERRYPI_FIRMWARE)
+ int rpi_firmware_property(struct rpi_firmware *fw,
+ 			  u32 tag, void *data, size_t len);
 
 -- 
 b4 0.11.0-dev-7da52
