@@ -1,87 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1B65FD772
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:58:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3405FD7D5
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 12:36:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C1210E7B5;
-	Thu, 13 Oct 2022 09:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A482A10E212;
+	Thu, 13 Oct 2022 10:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6868310E71F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:57:17 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id CB8C45C00FC;
- Thu, 13 Oct 2022 05:57:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 13 Oct 2022 05:57:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665655036; x=
- 1665741436; bh=MQ066bDfliOyaWbJBRc3Sb4MdlZldWl5D7wyoX+CGZo=; b=x
- 81AffMZCH+CvgwcgB4t5iYYaUopenUM7qCfoFaHlEyZlWqeObBhKMrzyZtd3pi6h
- /LBHzx4gDs6VRP44xtKrhelGrH35CGlmCWGWXE8yXZnH+aKqMMhX56bQPcHM+jNX
- gE/YFKyOsNMlP9XkvvR68z4yfLu2jdibvkSLv136GOFSq5o8JGtrJ3+8d5Jo4xVu
- k39UsJTrTbr1cgvKbNUMjqw6nZkOJPWzUmYiFDSsZVVT/Owz0Sk/r3tTLhk4Ba9U
- wW3uwmXS1mFOXeiLR77Nj1S5wbPEaRYrAIJBk37mX/qhawgjVmU3JE3djbAuelvP
- WVoX500KXMYxswItFd7XQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665655036; x=
- 1665741436; bh=MQ066bDfliOyaWbJBRc3Sb4MdlZldWl5D7wyoX+CGZo=; b=U
- KrmIqrHP2GXOaMsc5KVl3D/YTRp190ljJV6KkiAwhn77qMs+H5hep7EK2U9sUWWn
- qBS94O2LkLePEGPCFPOLfQEy7TfUwTgOcIAM3CMZ7MEPTCJHcS8IXIpYX8DYr6ZK
- rQ6EhnHMatr30ESN2m+g3FZ4hTgJEncb3y2Rg3KobZZA+Al3pjZpijFvIyPPPSEK
- Oil4L62avqqrBUnoVkUnFlZRdW1brRBVqdAG/TEBRNMgBTquLIplL1DRXMHNhDhk
- vQvE3x5ctjWYUBL8M93ndOeCrfWMdmKN+guxr46njwzbYQrdstfOthkC6IbIe8n+
- Q56JQoRzx2676gD3cebvw==
-X-ME-Sender: <xms:_OBHYxscKkip3OQOCnNUAUX68xxo8SU4qy8g2dDuOcbBcyWAq62kgQ>
- <xme:_OBHY6dVCCqpiKQxPLY1FKiCzw62gIV6cFmsSB55VVv45fzxSsXW1vEKMez4aD2e-
- MiPsM9bRoYHVEMOMWw>
-X-ME-Received: <xmr:_OBHY0za1CGPYzQr7fSQoBfW57p40zHwKmxn7AIw78zKHPewNxbWDrHX6kek>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
- jeeltdevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:_OBHY4OmtA5ux_ZN8NVDkGN3txBeiZ0Gp9wskMSrl2iqhow5PkCZBg>
- <xmx:_OBHYx9cjOfXW4OL_GUw0NshC1ELewkhmes2IQioJF9rmg8DAEQqyg>
- <xmx:_OBHY4WvAQGB-rNhsZ83yKxc5SLs4zSnfq8CuTZPwqV2tNv6omfp2Q>
- <xmx:_OBHY4WtpuuMDMfvbV3qGxI7OmBsFLYA4KGz-JxLpPpfq7hrC7nFSA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 05:57:16 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 13 Oct 2022 11:56:51 +0200
-Subject: [PATCH 7/7] drm/vc4: dpi: Fix format mapping for RGB565
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B0410E212
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 10:36:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665657394; x=1697193394;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=84cm2nDkKB3FojEUx+eiD5IfKY7NpFQn3U+ONC/nHWs=;
+ b=Xo4srt8Sc+4DuEDjqdcjzvRZYIMub112Zp7zlOKfNII7J9kVYMVGNn2X
+ 4rkFpuoN+YSC0vX1DrgXU2xvrbchCeYrXDC8iOHtx1RBrhAKCAYAVaZfe
+ N1qbVApQXM4fU3JSXVciAlxJpvzx8LQD8onRo8uzxWm5H/iFoe3rMQF/9
+ DwNCQB7ZVEym6+h71Gqan/14ho5NCIEhquVVdV8Ezs9XMkKW8dNzRB+lC
+ LRdZXV98GJkH4k4fAL6RrSOoi1SJ6/o7qrwYKlH3QompkNB9xvEd/TUzk
+ i0qGXaEv3StnvS9mpYnt0ELQ4K3EIor5VhwmF5EcYWu9q0ZkzDE5CCxCA Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="391350427"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="391350427"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2022 03:36:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="872275679"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="872275679"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga006.fm.intel.com with SMTP; 13 Oct 2022 03:36:30 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 13 Oct 2022 13:36:30 +0300
+Date: Thu, 13 Oct 2022 13:36:30 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/mgag200: Fix PLL setup for G200_SE_A rev >=4
+Message-ID: <Y0fqLofkA7O4IEbQ@intel.com>
+References: <20221013082901.471417-1-jfalempe@redhat.com>
+ <db634341-da68-e8a6-1143-445f17262c63@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221013-rpi-dpi-improvements-v1-7-8a7a96949cb0@cerno.tech>
-References: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
-In-Reply-To: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
-To: Maxime Ripard <mripard@kernel.org>, Eric Anholt <eric@anholt.net>,
- Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@linux.ie>, Rob Herring <robh@kernel.org>,
- Emma Anholt <emma@anholt.net>
-X-Mailer: b4 0.11.0-dev-7da52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=965; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=Bfa8b+T0qwe2ry6WQDaIcHsRajSivGlVAl/5p4IUcxg=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnuD96e/7H/+CrrHeVva3cZWF1YfCg5aYbU5YxDujWlSrLr
- mKpedZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiXucY/lkV6ZqeCg1OO/Lk4ILN97
- OmLitbkCjYk/yQo1639KGS6yZGhr65R1brnv661ffvY5Untyy//O1fMimxlJW582vQYd9VIiwA
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+In-Reply-To: <db634341-da68-e8a6-1143-445f17262c63@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,39 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Joerg Quinten <aBUGSworstnightmare@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>, Chris Morgan <macromorgan@hotmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: airlied@redhat.com, Jocelyn Falempe <jfalempe@redhat.com>,
+ stable@vger.kernel.org, michel@daenzer.net, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On Thu, Oct 13, 2022 at 11:05:19AM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 13.10.22 um 10:29 schrieb Jocelyn Falempe:
+> > For G200_SE_A, PLL M setting is wrong, which leads to blank screen,
+> > or "signal out of range" on VGA display.
+> > previous code had "m |= 0x80" which was changed to
+> > m |= ((pixpllcn & BIT(8)) >> 1);
+> > 
+> > Tested on G200_SE_A rev 42
+> > 
+> > This line of code was moved to another file with
+> > commit 85397f6bc4ff ("drm/mgag200: Initialize each model in separate
+> > function") but can be easily backported before this commit.
+> > 
+> > Fixes: 2dd040946ecf ("drm/mgag200: Store values (not bits) in struct mgag200_pll_values")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> > ---
+> >   drivers/gpu/drm/mgag200/mgag200_g200se.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> > index be389ed91cbd..4ec035029b8b 100644
+> > --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> > +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> > @@ -284,7 +284,7 @@ static void mgag200_g200se_04_pixpllc_atomic_update(struct drm_crtc *crtc,
+> >   	pixpllcp = pixpllc->p - 1;
+> >   	pixpllcs = pixpllc->s;
+> >   
+> > -	xpixpllcm = pixpllcm | ((pixpllcn & BIT(8)) >> 1);
+> > +	xpixpllcm = pixpllcm | BIT(7);
+> 
+> Thanks for figuring this out. G200SE apparently is special compared to 
+> the other models. The old MGA docs only list this bit as <reserved>. 
+> Really makes me wonder why this is different.
 
-The mapping is incorrect for RGB565_1X16 as it should be
-DPI_FORMAT_18BIT_666_RGB_1 instead of DPI_FORMAT_18BIT_666_RGB_3.
-
-Fixes: 08302c35b59d ("drm/vc4: Add DPI driver")
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_dpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index fdae02760b6d..a7bebfa5d5b0 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -185,7 +185,7 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 						       DPI_FORMAT);
- 				break;
- 			case MEDIA_BUS_FMT_RGB565_1X16:
--				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_3,
-+				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_1,
- 						       DPI_FORMAT);
- 				break;
- 			case MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
+Could measure eg. the vblank interval with and without that bit set
+and see what effect it has. Assuming the PLL locks without the bit
+of course.
 
 -- 
-b4 0.11.0-dev-7da52
+Ville Syrjälä
+Intel
