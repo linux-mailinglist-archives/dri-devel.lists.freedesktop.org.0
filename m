@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A196F5FD6C2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8234A5FD6BE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 11:13:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A425C10E678;
-	Thu, 13 Oct 2022 09:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1334C10E650;
+	Thu, 13 Oct 2022 09:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6798710E55F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:13:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id C860C5C00D5;
- Thu, 13 Oct 2022 05:13:17 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD9310E55F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 09:13:20 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7F4375C00EE;
+ Thu, 13 Oct 2022 05:13:19 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 13 Oct 2022 05:13:17 -0400
+ by compute5.internal (MEProxy); Thu, 13 Oct 2022 05:13:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665652397; x=
- 1665738797; bh=NbLfsfDu1Gtr2c9qmTrYb//pcpOFa59Pn2YWUwdR2PQ=; b=v
- btCpBwB/dRvHJNh0uI58CDkNB68elf0mXaDTcTgRndoUTf0zCIQeMDtwFrxM8um+
- XwJWnEdsiC5nq5CzPoHkfY6TVE8y1h0mPbCrY7V+JuH9vFurD0A2K4nzhVt0+vhX
- waJUsEwzIlRyZVFXyDSTAIcy/3ONewTOagiq8L5ynmvLk3mrTZwlM/eMs7Ah1zSn
- DJxT7L0b2znlVIRcOmwkOHcmIhwKgWOWo3OZgSL61Q4qMb2qdKmLb8IAE3axLnR6
- Q73dP2H2CZsXliafRb+KFYNDx6NQhifboMeKC6Ium3JJ6hltyb8kOIb5wdkSO7KQ
- imrfWCd8dfcMwFEuvFhSg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665652399; x=
+ 1665738799; bh=ZQjFpYF4e0Dy/cWO7rqPvZZq5y+2aveHJD01sKou3PU=; b=y
+ cebru2AvS8YSPHdZivIu35r08q7j5b0spf7C2/oPrjCXnSPNwTe32zs7h8+CSW4N
+ uC4pNldahFzjVWhzMkVvIOg0Zt9rxNMREr3pTZXS6o0X0IoCEOXhOdBQkY4MaVIv
+ nERnRt16WNUhv2+k84DHjxJis9PTxACkchZfTD/ohIFT7uyY6JbR8GDMGA0ctluM
+ jT7O5Jocer5xv1LHdk3qYvTt/KfkjjveiMgl7qAmqiCOkLjQHmHGLjJhL5nDzxwt
+ 97a2SOoAArQplSz8sfdbmaQg7M8TpLZ58tXwCiqbOoZ/akdfwP4MXvOVHTiUiVbg
+ xQ/LaeQKz4R0DcoWcEfHw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665652397; x=
- 1665738797; bh=NbLfsfDu1Gtr2c9qmTrYb//pcpOFa59Pn2YWUwdR2PQ=; b=T
- PWfBqKrIsFE6oum+0YE5rNlNG508+cLK1ooGcDBMdHx7E5NZZmRoYErukFlsi4QP
- 3xgi1gKoZJR0hcplg0V7HkFSwer8XCiQuMVZjvRw1r5sd3cLExrbQgYoZ9K37y4+
- leWarvxWLgtofU0W0xmwzH04Oz+XzjsVgjrASb1R10pVCMwUtsDCoh7IzjYfKpoP
- H+tBLQjw91xozW5dm01eheXGZtvzVdMORMByvGGi75gECCdgwL2WcNFGPAwXv7pF
- 1Tqa0ZXQLRqotmapTogf0Xosi7AA8qjAZkvdrTJTOQ+oLoWcu08IuvcQDFsNBEex
- 4jhJ+o9VfPdbUbG5cjyeA==
-X-ME-Sender: <xms:rdZHYxAI68pXCXXglYqL1L5-UFffOHJzdnMGyz4rc7rPoc2mQNjz3w>
- <xme:rdZHY_jqBia6WuA4jHDtOh7vG8gwPC09ZNyUTci2Ie3h0mN8_swCkn7zMXmjGE0Vk
- mWD5l3MwNAclB69aMM>
-X-ME-Received: <xmr:rdZHY8kzDQyMbn7ZlO1-WlYfIKceM72N1oH3JG0UAhHzvPc6Kw1eUnONWNSzOFm0T1TM4QMmyBmtHcVyLXOqRSm1vKOaMcRjxM0R>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665652399; x=
+ 1665738799; bh=ZQjFpYF4e0Dy/cWO7rqPvZZq5y+2aveHJD01sKou3PU=; b=e
+ CFacKkbVJPckcAjNKWtetOmybTV+4rF97s1DA2qsNrPa4KK3Be7hFQf/qrWjgMoU
+ 04VvoqoBG9hhUgCYjUvPqQj64YHWqfvHR+oUrZrWYRiij0OiEDp8UN58et6muUeu
+ HZ0daqS/a2AFa6CqeLyxl2pr/zqBUt6zX5HV0lEZCOumoKIVVeVqh4kw90qOHF/k
+ yjqUGyrYGsjGY1SJUKqPpXCbLdM5+ejBsYcCmtOvewyxp8FUgEyMBQ2Rt7m70MAt
+ 0JKHp/3SPeByD3bOOB5WQvISdAX+AtcEP0UIeSfmE2kTls3nO94GUQKuh4G5/mIj
+ 4y/1YwwCIc7SN6lO96Pmg==
+X-ME-Sender: <xms:r9ZHY_GdfQVLOeSjfglB0xcYKym97Le9pXvFT4W8bvltmCg_D1qVIg>
+ <xme:r9ZHY8XhhBL6fzm5NKXbDcs0HXE84iSuGSJOxThimBPTXNEpeQ3Zh-eraoffjHXxS
+ KbPO2d1wERiaUn9vJo>
+X-ME-Received: <xmr:r9ZHYxJ3ZzRUhva6njjqn2bdslbMIGrchMGOg-b1ZAnREj8WwTcdaT9U6YcAd5dlYHXrXSYS8upaE1MbbCOFfAytL1M-FKclptpH>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,21 +54,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgudegucetufdoteggod
  grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
  jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:rdZHY7wOVU669t1po8i_ewJg526jIt7kC76mEnvYNwUmriJXHw6K-w>
- <xmx:rdZHY2TyB58atarGWuYKd9qIE4hh4IBlVxSoxwOYygvo4Dwqd7az9w>
- <xmx:rdZHY-aoPoezv_SwZtqctiul1yxCUErSeBMD9WqB78coG4F7jE09iQ>
- <xmx:rdZHY_Arbk4-qYnD-R38IgCxM3FMPKYGY6XKmnR1IfraCndl1_WH_A>
+X-ME-Proxy: <xmx:r9ZHY9FKg-qB3tacvIdaShMlgcbAOQGBpanLi_HCtm2N_bYHAmRTAw>
+ <xmx:r9ZHY1VlDkL4QTZYRvko5ph0Wc9hxup1iLnetMAl2uqJmwg5iyPcKA>
+ <xmx:r9ZHY4MfbrDL0nNocNrzrBfAanjP_UxY2X0S5lvOndnUdLspXVoL8Q>
+ <xmx:r9ZHY5nbg4AuF789wD4qgelnRDcWilivNPn9HVHS1Fevr3hksjuEng>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 05:13:17 -0400 (EDT)
+ 13 Oct 2022 05:13:18 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 13 Oct 2022 11:13:10 +0200
-Subject: [PATCH v3 3/7] firmware: raspberrypi: Provide a helper to query a
- clock max rate
+Date: Thu, 13 Oct 2022 11:13:11 +0200
+Subject: [PATCH v3 4/7] drm/vc4: hdmi: Fix hdmi_enable_4kp60 detection
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220815-rpi-fix-4k-60-v3-3-fc56729d11fe@cerno.tech>
+Message-Id: <20220815-rpi-fix-4k-60-v3-4-fc56729d11fe@cerno.tech>
 References: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
 In-Reply-To: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
 To: Florian Fainelli <f.fainelli@gmail.com>,
@@ -79,11 +78,11 @@ To: Florian Fainelli <f.fainelli@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, 
  David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.11.0-dev-7da52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3367; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=RlOL1ZTsE2adkZajmlAYwbEWoCI8gC05XMJ1fjN2UAo=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnu15ZMmB1f+OGOaJ3DD/NDG62OXJho9PnTrrmnjBaasMqU
- TIxY3FHKwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJ6D1lZFi6+Gf0ygvPX4Wtlln+eY
- Lnx/9bRT19U4piEqt+qqocfsnPyNDg1Ovz5+aUr6K1EVMSn5ezSLVI+Bvv+bH/tlxyVIeSNycA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1913; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=f1lo6Ai83eEY39RwlVf8bpafgmNreYn4rcZrYcxd9Lc=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMnu15bYFYvKHn33JrTu102PFdfPm1y58np6WuKsB8lfp5Zs
+ k59q1VHKwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJmN5kZDg/c66DyqWv93i2ljpEBJ
+ koGRybdOf53ffGiqeOaiwpzvjN8N+7rrvyffARowALc0e3+4uiJwpMuHpuKk+sGueEQBedCWwA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,99 +104,49 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The firmware allows to query for its clocks the operating range of a
-given clock. We'll need this for some drivers (KMS, in particular) to
-infer the state of some configuration options, so let's create a
-function to do so.
+In order to support higher HDMI frequencies, users have to set the
+hdmi_enable_4kp60 parameter in their config.txt file.
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+We were detecting this so far by calling clk_round_rate() on the core
+clock with the frequency we're supposed to run at when one of those
+modes is enabled. Whether or not the parameter was enabled could then be
+inferred by the returned rate since the maximum clock rate reported by
+the firmware was one of the side effect of setting that parameter.
+
+However, the recent clock rework we did changed what clk_round_rate()
+was returning to always return the minimum allowed, and thus this test
+wasn't reliable anymore.
+
+Let's use the new clk_get_max_rate() function to reliably determine the
+maximum rate allowed on that clock and fix the 4k@60Hz output.
+
+Fixes: e9d6cea2af1c ("clk: bcm: rpi: Run some clocks at the minimum rate allowed")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/firmware/raspberrypi.c             | 20 ++++++++++++++++++++
- include/soc/bcm2835/raspberrypi-firmware.h | 26 ++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberrypi.c
-index b916e1e171f8..1353ec2f9b53 100644
---- a/drivers/firmware/raspberrypi.c
-+++ b/drivers/firmware/raspberrypi.c
-@@ -228,6 +228,26 @@ static void rpi_register_clk_driver(struct device *dev)
- 						-1, NULL, 0);
- }
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 1e5f68704d7d..3b75ac6fa0db 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -46,6 +46,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/rational.h>
+ #include <linux/reset.h>
++#include <soc/bcm2835/raspberrypi-clocks.h>
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/hdmi-codec.h>
+ #include <sound/pcm_drm_eld.h>
+@@ -2966,7 +2967,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
  
-+unsigned int rpi_firmware_clk_get_max_rate(struct rpi_firmware *fw, unsigned int id)
-+{
-+	struct rpi_firmware_clk_rate_request msg =
-+		RPI_FIRMWARE_CLK_RATE_REQUEST(id);
-+	int ret;
-+
-+	ret = rpi_firmware_property(fw, RPI_FIRMWARE_GET_MAX_CLOCK_RATE,
-+				    &msg, sizeof(msg));
-+	if (ret)
-+		/*
-+		 * If our firmware doesn't support that operation, or fails, we
-+		 * assume the maximum clock rate is absolute maximum we can
-+		 * store over our type.
-+		 */
-+		 return UINT_MAX;
-+
-+	return le32_to_cpu(msg.rate);
-+}
-+EXPORT_SYMBOL_GPL(rpi_firmware_clk_get_max_rate);
-+
- static void rpi_firmware_delete(struct kref *kref)
- {
- 	struct rpi_firmware *fw = container_of(kref, struct rpi_firmware,
-diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
-index 74c7bcc1ac2a..10248c370229 100644
---- a/include/soc/bcm2835/raspberrypi-firmware.h
-+++ b/include/soc/bcm2835/raspberrypi-firmware.h
-@@ -154,12 +154,32 @@ enum rpi_firmware_clk_id {
- 	RPI_FIRMWARE_NUM_CLK_ID,
- };
+ 	if (variant->max_pixel_clock == 600000000) {
+ 		struct vc4_dev *vc4 = to_vc4_dev(drm);
+-		long max_rate = clk_round_rate(vc4->hvs->core_clk, 550000000);
++		unsigned long max_rate = rpi_firmware_clk_get_max_rate(vc4->hvs->core_clk);
  
-+/**
-+ * struct rpi_firmware_clk_rate_request - Firmware Request for a rate
-+ * @id:	ID of the clock being queried
-+ * @rate: Rate in Hertz. Set by the firmware.
-+ *
-+ * Used by @RPI_FIRMWARE_GET_CLOCK_RATE, @RPI_FIRMWARE_GET_CLOCK_MEASURED,
-+ * @RPI_FIRMWARE_GET_MAX_CLOCK_RATE and @RPI_FIRMWARE_GET_MIN_CLOCK_RATE.
-+ */
-+struct rpi_firmware_clk_rate_request {
-+	__le32 id;
-+	__le32 rate;
-+} __packed;
-+
-+#define RPI_FIRMWARE_CLK_RATE_REQUEST(_id)	\
-+	{					\
-+		.id = _id,			\
-+	}
-+
- #if IS_ENABLED(CONFIG_RASPBERRYPI_FIRMWARE)
- int rpi_firmware_property(struct rpi_firmware *fw,
- 			  u32 tag, void *data, size_t len);
- int rpi_firmware_property_list(struct rpi_firmware *fw,
- 			       void *data, size_t tag_size);
- void rpi_firmware_put(struct rpi_firmware *fw);
-+unsigned int rpi_firmware_clk_get_max_rate(struct rpi_firmware *fw,
-+					   unsigned int id);
- struct device_node *rpi_firmware_find_node(void);
- struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node);
- struct rpi_firmware *devm_rpi_firmware_get(struct device *dev,
-@@ -179,6 +199,12 @@ static inline int rpi_firmware_property_list(struct rpi_firmware *fw,
- 
- static inline void rpi_firmware_put(struct rpi_firmware *fw) { }
- 
-+static inline unsigned int rpi_firmware_clk_get_max_rate(struct rpi_firmware *fw,
-+							 unsigned int id)
-+{
-+	return UINT_MAX;
-+}
-+
- static inline struct device_node *rpi_firmware_find_node(void)
- {
- 	return NULL;
+ 		if (max_rate < 550000000)
+ 			vc4_hdmi->disable_4kp60 = true;
 
 -- 
 b4 0.11.0-dev-7da52
