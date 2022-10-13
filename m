@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBDF5FD80A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 13:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904D95FD80C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Oct 2022 13:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3FD910E7E3;
-	Thu, 13 Oct 2022 11:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B499310E7E9;
+	Thu, 13 Oct 2022 11:04:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF9810E7E3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 11:04:19 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- q10-20020a17090a304a00b0020b1d5f6975so1621719pjl.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 04:04:19 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4BA10E7E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 11:04:23 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id u71so1271584pgd.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 04:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NvbS/I8HlQoCFmjUFv0JtyT8eokdGYfA7wkL/lpFTWg=;
- b=Ay0J5G8NHLTOS6rXjLmiS8l9zTWmvHczbyNjwYRvR1qHrImNmrH1jY3wMiBONvPwm7
- 7d61qgwf98/EqlwVd/mq+mqym9Goz9iqrqsVaezDsWE0Sljlcf7xwaCfGf4hUL/eN6ZW
- uaj9TlPhDqmQaOXG3ZBWqgI3oiS7Fns5x968k=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BptX1vlVcNHP5LWvhu8S2NjiO9ee4jWe/KGbor9Uaxo=;
+ b=IjO7mPYpHNOk7l0IwChYojbxdMe0w7AtfsioruRTxng85gyCJNgkqJnFCxndp4y7CF
+ LmqkG0MoozuBvOalP282o4s4e+MTQ5av6B5oaw8LvDe0Sbi6JKY3IsvlYNw+/irSHaoK
+ /rpzoM8YRjbt815iGMAdUlEYWZVUMlSH94ac8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NvbS/I8HlQoCFmjUFv0JtyT8eokdGYfA7wkL/lpFTWg=;
- b=O84PCWRJOwlHETFztM2hq45bCPcm0yor3VnTJVDKtk1Sa6/uJhWYzll8sUSyZcJbN9
- 52y0sGInNSvd8U45x3gi/RSZvo2HBnUqgF5xXTZiQPx92LLtUOvaxsiDmi+EitTgTNYV
- p2Mg4onUFKIctO7JYPD8Uc/UmPvC321Umcj5WpRbI2cERupzwwxf0xcqwkf+jZFTggRC
- aNsW7HeDtAUGn1SOlcBHmeRJcOiQHK443/AE8Bnk8P/xbKZ+g+qzgQ/aSKGjzErNudXp
- QRUOXQcehe12ojnJ3l0OkA0d0hmDBRkPSbQNov35Q/8CpIOq7A6ELaBReTDh/YPkqiXe
- 6pnw==
-X-Gm-Message-State: ACrzQf2Q0xy9Eg4wBbfqVXmocvqofSXFee+g1+B9PKE8UIGbUTmG+B9d
- vH8JO2j0p9gymp+cRcYsY/IHCA==
-X-Google-Smtp-Source: AMsMyM6lUXvMM5tpyfSOIQtS1+CZpp68m5DYgKdzV5fiouCWtlb7eX/ojNAakZQwNCRsgJS2BE/c2Q==
-X-Received: by 2002:a17:90b:23c5:b0:20b:1cb4:2ca9 with SMTP id
- md5-20020a17090b23c500b0020b1cb42ca9mr10755124pjb.139.1665659058897; 
- Thu, 13 Oct 2022 04:04:18 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BptX1vlVcNHP5LWvhu8S2NjiO9ee4jWe/KGbor9Uaxo=;
+ b=1dXmDUf+rurwr+nqTuuCV0qv6LVKSojhBNshCGRZGH80PPyREkEgDuMjixGIHrd02V
+ rOWCtT/6+H5amaRGRsOVqfjCh2SZSL1wqqA0NaYFJ13jvZlLaWmrvswZwur6NDDT6LC3
+ ZgbRq/0dnoAkezS1VDKdXK1pc+T96ufRaLwpO2hMMPdlF661Ln6Gi0pJMHALQf/SEiDr
+ mrklplCwvoG65YxByseMhIhbeGaUuQ3w/sy/6tEyswL0QJm1CIKZgAjjZNBMYpex2zHg
+ LbSiSN7OU3GWvSqxy2u/gYIAHt2QIHO92Q4gxn4BqfP6UewG6XNtqt7151//xhMBhM6v
+ lAPA==
+X-Gm-Message-State: ACrzQf1IosgMtD57rc/ClkBfwQQc5WlamcuAezVVj1eL00nFtpp+zupS
+ lX072rhKO4gtCrkF2/I7OL0Waw==
+X-Google-Smtp-Source: AMsMyM5vi2Tzg/9fz7+9dffyUUr9Nbvyb5LJ1k3XC6DE7+11qMdHRvhWoVcFLb8QoWkWqqE58Gk15w==
+X-Received: by 2002:a63:2cc2:0:b0:41c:681d:60d2 with SMTP id
+ s185-20020a632cc2000000b0041c681d60d2mr28700706pgs.502.1665659062636; 
+ Thu, 13 Oct 2022 04:04:22 -0700 (PDT)
 Received: from treapking.tpe.corp.google.com
  ([2401:fa00:1:10:4b90:18ed:8d41:7622])
  by smtp.gmail.com with ESMTPSA id
- o11-20020a17090ab88b00b0020af2411721sm2914794pjr.34.2022.10.13.04.04.16
+ o11-20020a17090ab88b00b0020af2411721sm2914794pjr.34.2022.10.13.04.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 04:04:18 -0700 (PDT)
+ Thu, 13 Oct 2022 04:04:22 -0700 (PDT)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
@@ -54,10 +54,13 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 0/3] Clean up it6505 driver and improve synchronization
-Date: Thu, 13 Oct 2022 19:04:07 +0800
-Message-Id: <20221013110411.1674359-1-treapking@chromium.org>
+Subject: [PATCH v2 1/3] drm/bridge: it6505: Initialize AUX channel in
+ it6505_i2c_probe
+Date: Thu, 13 Oct 2022 19:04:08 +0800
+Message-Id: <20221013110411.1674359-2-treapking@chromium.org>
 X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
+In-Reply-To: <20221013110411.1674359-1-treapking@chromium.org>
+References: <20221013110411.1674359-1-treapking@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,23 +82,47 @@ Cc: Allen Chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The main purpose of this series is to improve the synchronizations of
-it6505 driver. The first two patches are required for the third one, but
-they alone can be clean ups to the driver.
+During device boot, the HPD interrupt could be triggered before the DRM
+subsystem registers it6505 as a DRM bridge. In such cases, the driver
+tries to access AUX channel and causes NULL pointer dereference.
+Initializing the AUX channel earlier to prevent such error.
 
-Changes in v2:
-- Remove redundant spaces in it6505_detect
-- Read sink count in it6505_irq_hpd
-- Add the empty line back
+Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
+Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+---
 
-Pin-yen Lin (3):
-  drm/bridge: it6505: Initialize AUX channel in it6505_i2c_probe
-  drm/bridge: it6505: Setup links in it6505_irq_hpd
-  drm/bridge: it6505: Improve synchronization between extcon subsystem
+(no changes since v1)
 
- drivers/gpu/drm/bridge/ite-it6505.c | 106 +++++++++++++---------------
- 1 file changed, 51 insertions(+), 55 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index a4302492cf8d..f7f6c3e20fae 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2871,10 +2871,7 @@ static int it6505_bridge_attach(struct drm_bridge *bridge,
+ 	}
+ 
+ 	/* Register aux channel */
+-	it6505->aux.name = "DP-AUX";
+-	it6505->aux.dev = dev;
+ 	it6505->aux.drm_dev = bridge->dev;
+-	it6505->aux.transfer = it6505_aux_transfer;
+ 
+ 	ret = drm_dp_aux_register(&it6505->aux);
+ 
+@@ -3354,6 +3351,11 @@ static int it6505_i2c_probe(struct i2c_client *client,
+ 	debugfs_init(it6505);
+ 	pm_runtime_enable(dev);
+ 
++	it6505->aux.name = "DP-AUX";
++	it6505->aux.dev = dev;
++	it6505->aux.transfer = it6505_aux_transfer;
++	drm_dp_aux_init(&it6505->aux);
++
+ 	it6505->bridge.funcs = &it6505_bridge_funcs;
+ 	it6505->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+ 	it6505->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
 -- 
 2.38.0.rc1.362.ged0d419d3c-goog
 
