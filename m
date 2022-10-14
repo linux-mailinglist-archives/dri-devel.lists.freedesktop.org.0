@@ -2,60 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141985FEFD9
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 16:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F345FF0B7
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 16:58:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D5B10EAF1;
-	Fri, 14 Oct 2022 14:09:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D664010E9CE;
+	Fri, 14 Oct 2022 14:58:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46FC810E4C9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 14:09:07 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id m15so6968973edb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 07:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0I2KNI4nZ/rnGdP2xkrpO80Fl1QZU2oaR1etLcD9yFM=;
- b=SITLdc7i/PaZJe5PyHZGMEbJpqVUx/Az4uqyuRN2KP1LZkI24ii1HhTzzsDfs8rD4P
- VWs+X77bikOrwp3Wunwypwlaa2aY107B3gA/1dhadL8DRBkrGPn+6BIADSSBhwgl7Hlg
- AYu2+Q4tcS86PlVwg7Fi0YWr5pSe+wk98WVFIGYsnecVWWMeMu9UmUQrDC1Qsyf9P93e
- JBSElEqmfna6UAIMb1Aj14430gfyRts0UkDkBkNQjRIXABKQyMPIsi9bFiXotdT87e3s
- t9k66tlvZjRxblu4B7s6No/S2NMItEg8nZCS2v0xqRPlzpueNAS8BQZApyhKmVkTON7V
- kssQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0I2KNI4nZ/rnGdP2xkrpO80Fl1QZU2oaR1etLcD9yFM=;
- b=RnfZ5wSiO56PO/7IKqnCefrycEpLTPQdQ5e2gi3GOY3hNJB8aNVX79XYxmmk0oqMvj
- cvqOLiTre3+1pakg0yfqP5slhup9+nxvgUxYw1ub19wtW4yFwVm60NiD1topu2i0vICG
- AmtYBLHaweurzTvKNfKzLm5FJGvcO5iVOMdtdIdKHd+gHdhioyn4D5ncRsfkfLemtCt2
- 2qpxpzql3D68Z0fRGymjaSkbu90qAPEBlmsA3cWkybQi3Bb/u6dX0W1IIx8WHWUnyeSj
- /iKEbVKtlmgpl8Jj1u88elZNveFQeNm4wnMZhmK9gEWZHCVE5Mf7l34xQp025u/4yjkb
- Q0YA==
-X-Gm-Message-State: ACrzQf33CeTnqGMg7jCNog6ItBwvN3P6npijrPe+cf0wrlMRR5VEAH71
- US4IpRDFKBqiMkWIU8BMqxQTmZRGeBuHEmfWUqPEHA==
-X-Google-Smtp-Source: AMsMyM5UMZKfQ/zYfqxeGsgPmpkERZbTn3RGjbe2yi2Obn6ebsepBsnKm/jXLUxpk2tMPvNS6vEXjxEDiN96wVkPLGw=
-X-Received: by 2002:a05:6402:22ef:b0:458:bfe5:31a3 with SMTP id
- dn15-20020a05640222ef00b00458bfe531a3mr4403660edb.6.1665756545733; Fri, 14
- Oct 2022 07:09:05 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C306C10E9CE;
+ Fri, 14 Oct 2022 14:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665759515; x=1697295515;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=wIP9+4kBbVg7B//gtmGSc/6d5QDMMURwLNEs7p1u2F0=;
+ b=e5A9L+mNXuQ7I/z5WD4CITEi8ILeSBzpIAtPg90VSjmJwFMCs2PktOVA
+ labJdX44J1L214RK6Z1o19Aa0jmFDm9Y7DPNsbDvhkhtsaxeh2RarRqLq
+ azyejIpMxgFxl2pRfrIc1+pxwVAVXcGKZoZcpknXj6UfSWksMi1cQuHFk
+ wNxmDKqo5TLjPxb6D+C9AIof8V4LdHPlSgx6qiOPSfPsKZYcSpQeasFBx
+ ALmaMARcd253IlhSSLWXbHDBI1i13CO0F0QQNWkxhu7xk/VHNHAO8LbdX
+ s1IcgIbBS+1DGMF54wH5HDBH0WJrFyWNjrsW77pvcweUZLGeZsjseHLEa w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="306471815"
+X-IronPort-AV: E=Sophos;i="5.95,184,1661842800"; d="scan'208";a="306471815"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2022 07:58:28 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="716776257"
+X-IronPort-AV: E=Sophos;i="5.95,184,1661842800"; d="scan'208";a="716776257"
+Received: from salamu-mobl1.ger.corp.intel.com (HELO [10.252.11.69])
+ ([10.252.11.69])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2022 07:58:26 -0700
+Message-ID: <f162c0b8-5b9b-1c43-3a66-bff56fc1046e@intel.com>
+Date: Fri, 14 Oct 2022 15:58:23 +0100
 MIME-Version: 1.0
-References: <20220628181838.2031-1-max.oss.09@gmail.com>
- <20220628181838.2031-3-max.oss.09@gmail.com>
- <Y0gLdQleE64FQgn9@gaggiata.pivistrello.it>
-In-Reply-To: <Y0gLdQleE64FQgn9@gaggiata.pivistrello.it>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 14 Oct 2022 15:08:49 +0100
-Message-ID: <CAPY8ntAszGzcp4XC=XKMHJvzCC9LHHf24pt=nZAUFKcK5=JM_Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] dt-bindings: display: add new bus-format property
- for panel-dpi
-To: francesco.dolcini@toradex.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.1
+Subject: Re: [PATCH] drm/i915: Refactor ttm ghost obj detection
+Content-Language: en-GB
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20221014131427.21102-1-nirmoy.das@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20221014131427.21102-1-nirmoy.das@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,141 +60,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Max Krummenacher <max.oss.09@gmail.com>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- max.krummenacher@toradex.com,
- Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: thomas.hellstrom@linux.intel.com, andi.shyti@linux.intel.com,
+ jonathan.cavitt@intel.com, sudeep.dutt@intel.com,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
+ John.C.Harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Francesco
+On 14/10/2022 14:14, Nirmoy Das wrote:
+> Currently i915_ttm_to_gem() returns NULL for ttm ghost
+> object which makes it unclear when we should add a NULL
+> check for a caller of i915_ttm_to_gem() as ttm ghost
+> objects are expected behaviour for certain cases.
+> 
+> Create a separate function to detect ttm ghost object and
+> use that in places where we expect a ghost obj from ttm.
+> 
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 21 ++++++++++----------
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.h      | 18 ++++++++++++-----
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c |  2 +-
+>   3 files changed, 24 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 6b60b99461e2..0a85651c654d 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -279,7 +279,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+>   	struct i915_ttm_tt *i915_tt;
+>   	int ret;
+>   
+> -	if (!obj)
+> +	if (i915_ttm_is_ghost_object(bo))
+>   		return NULL;
+>   
+>   	i915_tt = kzalloc(sizeof(*i915_tt), GFP_KERNEL);
+> @@ -362,7 +362,7 @@ static bool i915_ttm_eviction_valuable(struct ttm_buffer_object *bo,
+>   {
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>   
+> -	if (!obj)
+> +	if (i915_ttm_is_ghost_object(bo))
+>   		return false;
+>   
+>   	/*
+> @@ -511,7 +511,7 @@ static void i915_ttm_delete_mem_notify(struct ttm_buffer_object *bo)
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>   	intel_wakeref_t wakeref = 0;
+>   
+> -	if (bo->resource && likely(obj)) {
+> +	if (bo->resource && !i915_ttm_is_ghost_object(bo)) {
+>   		/* ttm_bo_release() already has dma_resv_lock */
+>   		if (i915_ttm_cpu_maps_iomem(bo->resource))
+>   			wakeref = intel_runtime_pm_get(&to_i915(obj->base.dev)->runtime_pm);
+> @@ -624,7 +624,7 @@ static void i915_ttm_swap_notify(struct ttm_buffer_object *bo)
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>   	int ret;
+>   
+> -	if (!obj)
+> +	if (i915_ttm_is_ghost_object(bo))
+>   		return;
+>   
+>   	ret = i915_ttm_move_notify(bo);
+> @@ -657,7 +657,7 @@ static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(mem->bo);
+>   	bool unknown_state;
+>   
+> -	if (!obj)
+> +	if (i915_ttm_is_ghost_object(mem->bo))
+>   		return -EINVAL;
+>   
+>   	if (!kref_get_unless_zero(&obj->base.refcount))
+> @@ -690,7 +690,7 @@ static unsigned long i915_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
+>   	unsigned long base;
+>   	unsigned int ofs;
+>   
+> -	GEM_BUG_ON(!obj);
+> +	GEM_BUG_ON(i915_ttm_is_ghost_object(bo));
+>   	GEM_WARN_ON(bo->ttm);
+>   
+>   	base = obj->mm.region->iomap.base - obj->mm.region->region.start;
+> @@ -1035,13 +1035,12 @@ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
+>   	struct vm_area_struct *area = vmf->vma;
+>   	struct ttm_buffer_object *bo = area->vm_private_data;
+>   	struct drm_device *dev = bo->base.dev;
+> -	struct drm_i915_gem_object *obj;
+> +	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>   	intel_wakeref_t wakeref = 0;
+>   	vm_fault_t ret;
+>   	int idx;
+>   
+> -	obj = i915_ttm_to_gem(bo);
+> -	if (!obj)
+> +	if (i915_ttm_is_ghost_object(bo))
+>   		return VM_FAULT_SIGBUS;
 
-On Thu, 13 Oct 2022 at 13:58, Francesco Dolcini <francesco@dolcini.it> wrote:
->
-> Hello Max, Marek, Dave et al.
->
-> On Tue, Jun 28, 2022 at 08:18:36PM +0200, Max Krummenacher wrote:
-> > From: Max Krummenacher <max.krummenacher@toradex.com>
-> >
-> > The property is used to set the enum bus_format and infer the bpc
-> > for a panel defined by 'panel-dpi'.
-> > This specifies how the panel is connected to the display interface.
-> >
-> > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> >
->
-> <snip>
->
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > index dae0676b5c6e..52f5db03b6a8 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > @@ -26,7 +26,28 @@ properties:
-> >    height-mm: true
-> >    label: true
-> >    panel-timing: true
-> > -  port: true
-> > +
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > +    description:
-> > +      Input port node, receives the panel data.
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > +
-> > +        properties:
-> > +          bus-format:
-> > +            $ref: /schemas/types.yaml#/definitions/uint32
-> > +            minimum: 0x1001
-> > +            maximum: 0x1fff
-> > +            description: |
-> > +              Describes how the display panel is connected to the display interface.
-> > +              Valid values are defined in <dt-bindings/display/dt-media-bus-format.h>.
-> > +              The mapping between the color/significance of the panel lines to the
-> > +              parallel data lines are defined in:
-> > +              https://www.kernel.org/doc/html/v5.17/userspace-api/media/v4l/subdev-formats.html#packed-rgb-formats
-> > +
->
-> Last month I had the chance to talk in person about this topic with
-> Dave, Marek and Max in Dublin.
->
-> My understanding is that this change is addressing a general need, Dave
-> confirmed me they have a downstream patch for raspberrypi [1].
->
-> From what I could tell the only concern is about the actual encoding of
-> this `bus-format` property.
->
-> I am personally convinced that a simple enum is the way to go, I think
-> that Marek proposal is adding complexity and not flexibility (from my
-> understanding Dave is on the same page, just correct me if I
-> misunderstood you).
+I think this one can be dropped, maybe in a separate patch?
 
-Yes I agree with you here.
+Otherwise looks good to me,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-This binding is for the panel, and currently the only path to pass the
-panel mode to the DPI transmitter is one or more MEDIA_BUS_FMT_* enums
-in struct drm_display_info *bus_formats.
-
-Looking at Marek's comment over DSI and data-lanes, yes both source
-and sink could advertise a data-lanes property to cover the condition
-where they aren't wired up in a 1:1 fashion. Reality is that most
-drivers don't support reordering the lanes - looking at the bindings,
-only one (msm) documents the use of data-lanes on the host side.
-rcar_mipi_dsi looks at the number of lanes specified only, and then
-checks that the number requested by the device is <= the number
-configured.
-
-As I see it, the comparison here is that this "bus-format" property is
-the equivalent of the data-lanes on the sink, and is the desired
-number of lanes value passed from sink to source (one integer, not a
-mapping).
-If the source can reorder the lanes, then that is a property of the
-source. This binding is for the sink, and so isn't a reasonable
-comparison. It also doesn't have to be called "bus-format" on the
-source, and can take a totally different form.
-I'll admit that I know data-lane configuration more from CSI2, but
-within V4L2 it is the node that can support reordering that should
-have the lanes in a non-incrementing order, and that is normally the
-SoC rather than the sensor. The same would seem to apply here - it's
-the SoC that can remap the signals, not the panel.
-
-It could be argued that for DPI the panel should only advertise the
-panel's bit depth for each channel, not the padding. The panel is
-generic and could handle any wiring/padding options, and it isn't
-necessarily a simple 16/18/24/32 bit bus representation, just a
-collection of N wires.
-Padding and wiring is a function of the DPI transmitter / SoC, or
-potentially an interconnect node between the two.
-
-> The current proposal is already encoding the exact bit placing as
-> described in Documentation/userspace-api/media/v4l/subdev-formats.rst [2],
-> this enumeration can be extended to address any future needs
-> and I would not invent a new one to define the exact same
-> things (and using the same enum was also suggested by Rob).
->
-> Marek: you told me that you had some concern about some valid use case
-> not covered by this solution, would you mind explaining why that would
-> not be covered with an addition on this enumeration?
-
-All the MEDIA_BUS_FMT_* enums are explicitly defined with regard to
-the colour component bit positions. Should someone be in the position
-of needing to implement a YUV or similar DPI display, converting these
-enums into the relevant new structure will be straightforward, so
-backwards compatibility can be achieved easily.
-
-  Dave
-
-> Any other opinion on this topic? How can we move this forward?
->
-> Francesco
->
-> [1] https://github.com/raspberrypi/linux/commit/8e43f1898191b43aa7ed6e6ca3a4cd28709af86d
-> [2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/subdev-formats.html
->
+>   
+>   	/* Sanity check that we allow writing into this object */
+> @@ -1141,7 +1140,7 @@ static void ttm_vm_open(struct vm_area_struct *vma)
+>   	struct drm_i915_gem_object *obj =
+>   		i915_ttm_to_gem(vma->vm_private_data);
+>   
+> -	GEM_BUG_ON(!obj);
+> +	GEM_BUG_ON(i915_ttm_is_ghost_object(vma->vm_private_data));
+>   	i915_gem_object_get(obj);
+>   }
+>   
+> @@ -1150,7 +1149,7 @@ static void ttm_vm_close(struct vm_area_struct *vma)
+>   	struct drm_i915_gem_object *obj =
+>   		i915_ttm_to_gem(vma->vm_private_data);
+>   
+> -	GEM_BUG_ON(!obj);
+> +	GEM_BUG_ON(i915_ttm_is_ghost_object(vma->vm_private_data));
+>   	i915_gem_object_put(obj);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+> index e4842b4296fc..2a94a99ef76b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+> @@ -27,19 +27,27 @@ i915_gem_to_ttm(struct drm_i915_gem_object *obj)
+>    */
+>   void i915_ttm_bo_destroy(struct ttm_buffer_object *bo);
+>   
+> +/**
+> + * i915_ttm_is_ghost_object - Check if the ttm bo is a ghost object.
+> + * @bo: Pointer to the ttm buffer object
+> + *
+> + * Return: True if the ttm bo is not a i915 object but a ghost ttm object,
+> + * False otherwise.
+> + */
+> +static inline bool i915_ttm_is_ghost_object(struct ttm_buffer_object *bo)
+> +{
+> +	return bo->destroy != i915_ttm_bo_destroy;
+> +}
+> +
+>   /**
+>    * i915_ttm_to_gem - Convert a struct ttm_buffer_object to an embedding
+>    * struct drm_i915_gem_object.
+>    *
+> - * Return: Pointer to the embedding struct ttm_buffer_object, or NULL
+> - * if the object was not an i915 ttm object.
+> + * Return: Pointer to the embedding struct ttm_buffer_object.
+>    */
+>   static inline struct drm_i915_gem_object *
+>   i915_ttm_to_gem(struct ttm_buffer_object *bo)
+>   {
+> -	if (bo->destroy != i915_ttm_bo_destroy)
+> -		return NULL;
+> -
+>   	return container_of(bo, struct drm_i915_gem_object, __do_not_access);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> index 9a7e50534b84..f59f812dc6d2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> @@ -560,7 +560,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+>   	bool clear;
+>   	int ret;
+>   
+> -	if (GEM_WARN_ON(!obj)) {
+> +	if (GEM_WARN_ON(i915_ttm_is_ghost_object(bo))) {
+>   		ttm_bo_move_null(bo, dst_mem);
+>   		return 0;
+>   	}
