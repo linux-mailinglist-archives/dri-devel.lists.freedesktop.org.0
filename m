@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9471F5FEADC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 10:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC955FEAE5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 10:48:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D145F10EAB1;
-	Fri, 14 Oct 2022 08:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5266D10EABD;
+	Fri, 14 Oct 2022 08:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E360110EAA3;
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37E9C10EAA1;
  Fri, 14 Oct 2022 08:46:59 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id d26so8996349ejc.8;
+Received: by mail-ej1-x635.google.com with SMTP id k2so9030140ejr.2;
  Fri, 14 Oct 2022 01:46:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rQxy6nbDotJnlK+IooeBXNO752BTs05QG+n3YOkgzec=;
- b=NbnhKK3Adssv96/DD/RkeI9x3XI7LQCXvigqzvTGnxe7S1ykQ837PMn3feOpr8rvVn
- llGy+ZyaLFxzVhB/6hqszHx/1XoYaI5aJuBINt97rPjEhSpZYD55LF14Nl2db67fmSTr
- ifarisbRMnukZSpYGrCAG/AYPsZ98pYG5F00P8ScLHfljriNGh/Swj2XWWhKpFXd9vPN
- IQFs51l2R2KSZjlYrMZsY6NQLz+BK3qF5RT7CEIVLo1it/QzhapF8ww/KGaR1fjma15f
- EUBFit0cCk2WfNGJb6xI9TGjAcwXUs7jU/YptN7hDPS0uH2hxGD3Ga2ntDgP+odJ3IWw
- YCFQ==
+ bh=iBqyX0ZmcWTsM5pad6Ti/0zdOrcVF4A9VjvTgy3v7Ek=;
+ b=eDyRasRS9L6wcWv2izcla5i/voyZrGnLOVKoSJ+amw8g7vVfkY/dYFF840diqy2WXc
+ jLTYRaGUAJs4n+w4lv7hkqhcqsaQ+1G+01jMrw56QmauBlLDhdiF4yPrINgLOvNqW1LT
+ rSmKcOif5DBWRfbA56i4RB4p0nAR1HdUEtSJfn7X9Gxpgd3Sqsjbakz6dR1xHJBsRyRl
+ WQFSLymqegn3OejaxHjFnZBy1n8ZcjOXyfuzbAZb8unZxL4UiBNH5RAgOTqTDGaV7OtZ
+ rAmkDSLWM7Er2ck3v7nN2dJmCcEeLuYvcvIu+L1FPI4/M4aCHurMYH3ArzFoJWxfXzNZ
+ U9Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rQxy6nbDotJnlK+IooeBXNO752BTs05QG+n3YOkgzec=;
- b=MRbvBlcZf4IQwhA7WVJe3On98HBKeI66DGOJQrgijLGu3z+b6J+6hlmyyUA3EGgm1o
- 7waa3tSD/ybGtiZumn1bkuoS5KA1FTzy2pFxC1Bb32+MAjQPTtLoWAjMgXkN6/z6t0Mm
- I4pqpQlvZKwTluu1NvlaWvMd1I7TJa+hlvZq63KWlM5EIr4JwZRkI3RP+7KedDdoWoK1
- dUCKmmt30bkpXCGtDl7FKP6Hcws17mBUa1ZSOTpTA3J0988YLJRqr+NVyfVVGSP/T4FO
- YQPFo6Z7uIy8hsA0XwOSmaKfEO9pAzTXAgYBoYRo4hUchgkIaQp8q4k5jHq+hu8tSEsT
- wBdA==
-X-Gm-Message-State: ACrzQf1xyOtN7SIGXksuOHCQem8Or4Qk7PYTqEDItn7oiO0muVLbNMtp
- qvBCziD6c7AAiOSyrfL/lE0=
-X-Google-Smtp-Source: AMsMyM7cyyb1ihK+Pw4DRcoRpKIZEUJASQcgmn/zqYPupuBQr4KdHf0U19XJ7xrpparYxdkvz7LJJA==
-X-Received: by 2002:a17:907:2da6:b0:78d:3cf1:9132 with SMTP id
- gt38-20020a1709072da600b0078d3cf19132mr2758160ejc.299.1665737217723; 
- Fri, 14 Oct 2022 01:46:57 -0700 (PDT)
+ bh=iBqyX0ZmcWTsM5pad6Ti/0zdOrcVF4A9VjvTgy3v7Ek=;
+ b=IQJPdL+O091yNZWkduCUmN/9evyvBeh7pwYW5r9awmqZj73UiVy6w6FigdKhk8lcpU
+ +OeN2uiAU512iUZ62v1lOrR/xNiOQ+b+luZ98xFqSqjKF3aKZM8lOfYIfNBfRFPwmE9S
+ gAXuzxRqlTJF+kF3O4qReJdJ0Yx/kK+J0+cVt96AeavBw107AbXAwWkNqabi1xB27wSC
+ Sx6tyUwwdzpG96YofqAbVeZtZ+qoJAcFhs/rfe4blZ9vVqMDisJu+AsjonFP1kTZo1+7
+ EDsGUh44q+G3DohiCbS4Q4MicCjTlo3GFMoQ9jGezIyDdpJFIt8F5fVnNQ9rcjUtOqMT
+ ef/w==
+X-Gm-Message-State: ACrzQf0bOyJysTwBthULgtE+KJ2US5t8QE0AWOwDlTmviYJ/eLxqnbSY
+ UMDV7w+bLn50g4v0ZDr+6+Vd4P/7iic=
+X-Google-Smtp-Source: AMsMyM6eF3pGqAm7w/nY8Y/rQTAyfej8KmyUfHJ0wBKSSOC0jmsKj60Bql0MtlL+biTnPfMUy/YEgw==
+X-Received: by 2002:a17:907:6d18:b0:78e:259d:c391 with SMTP id
+ sa24-20020a1709076d1800b0078e259dc391mr1511214ejc.615.1665737218788; 
+ Fri, 14 Oct 2022 01:46:58 -0700 (PDT)
 Received: from able.fritz.box (p5b0eacfe.dip0.t-ipconnect.de. [91.14.172.254])
  by smtp.gmail.com with ESMTPSA id
- r26-20020aa7d59a000000b00457618d3409sm1379124edq.68.2022.10.14.01.46.56
+ r26-20020aa7d59a000000b00457618d3409sm1379124edq.68.2022.10.14.01.46.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Oct 2022 01:46:57 -0700 (PDT)
+ Fri, 14 Oct 2022 01:46:58 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: luben.tuikov@amd.com, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org
-Subject: [PATCH 12/13] drm/scheduler: rework entity flush, kill and fini
-Date: Fri, 14 Oct 2022 10:46:40 +0200
-Message-Id: <20221014084641.128280-13-christian.koenig@amd.com>
+Subject: [PATCH 13/13] drm/scheduler: rename dependency callback into
+ prepare_job
+Date: Fri, 14 Oct 2022 10:46:41 +0200
+Message-Id: <20221014084641.128280-14-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221014084641.128280-1-christian.koenig@amd.com>
 References: <20221014084641.128280-1-christian.koenig@amd.com>
@@ -79,253 +80,89 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This was buggy because when we had to wait for entities which were
-killed as well we would just deadlock.
-
-Instead move all the dependency handling into the callbacks so that
-will all happen asynchronously.
+This now matches much better what this is doing.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 197 +++++++++++------------
- 1 file changed, 92 insertions(+), 105 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  4 ++--
+ drivers/gpu/drm/scheduler/sched_entity.c |  4 ++--
+ include/drm/gpu_scheduler.h              | 13 ++++++-------
+ 3 files changed, 10 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index b8494c3b3b8a..1c4a13693653 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -237,7 +237,7 @@ int amdgpu_job_submit_direct(struct amdgpu_job *job, struct amdgpu_ring *ring,
+ }
+ 
+ static struct dma_fence *
+-amdgpu_job_dependency(struct drm_sched_job *sched_job,
++amdgpu_job_prepare_job(struct drm_sched_job *sched_job,
+ 		      struct drm_sched_entity *s_entity)
+ {
+ 	struct amdgpu_ring *ring = to_amdgpu_ring(s_entity->rq->sched);
+@@ -326,7 +326,7 @@ void amdgpu_job_stop_all_jobs_on_sched(struct drm_gpu_scheduler *sched)
+ }
+ 
+ const struct drm_sched_backend_ops amdgpu_sched_ops = {
+-	.dependency = amdgpu_job_dependency,
++	.prepare_job = amdgpu_job_prepare_job,
+ 	.run_job = amdgpu_job_run,
+ 	.timedout_job = amdgpu_job_timedout,
+ 	.free_job = amdgpu_job_free_cb
 diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 243ff384cde8..54ac37cd5017 100644
+index 54ac37cd5017..cf68cd1559ec 100644
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -139,6 +139,74 @@ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity)
- 	return true;
- }
+@@ -397,8 +397,8 @@ drm_sched_job_dependency(struct drm_sched_job *job,
+ 	if (!xa_empty(&job->dependencies))
+ 		return xa_erase(&job->dependencies, job->last_dependency++);
  
-+static void drm_sched_entity_kill_jobs_irq_work(struct irq_work *wrk)
-+{
-+	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
-+
-+	drm_sched_fence_scheduled(job->s_fence);
-+	drm_sched_fence_finished(job->s_fence);
-+	WARN_ON(job->s_fence->parent);
-+	job->sched->ops->free_job(job);
-+}
-+
-+/* Signal the scheduler finished fence when the entity in question is killed. */
-+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-+					  struct dma_fence_cb *cb)
-+{
-+	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
-+						 finish_cb);
-+	int r;
-+
-+	dma_fence_put(f);
-+
-+	/* Wait for all dependencies to avoid data corruptions */
-+	while (!xa_empty(&job->dependencies)) {
-+		f = xa_erase(&job->dependencies, job->last_dependency++);
-+		r = dma_fence_add_callback(f, &job->finish_cb,
-+					   drm_sched_entity_kill_jobs_cb);
-+		if (!r)
-+			return;
-+
-+		dma_fence_put(f);
-+	}
-+
-+	init_irq_work(&job->work, drm_sched_entity_kill_jobs_irq_work);
-+	irq_work_queue(&job->work);
-+}
-+
-+/* Remove the entity from the scheduler and kill all pending jobs */
-+static void drm_sched_entity_kill(struct drm_sched_entity *entity)
-+{
-+	struct drm_sched_job *job;
-+	struct dma_fence *prev;
-+
-+	if (!entity->rq)
-+		return;
-+
-+	spin_lock(&entity->rq_lock);
-+	entity->stopped = true;
-+	drm_sched_rq_remove_entity(entity->rq, entity);
-+	spin_unlock(&entity->rq_lock);
-+
-+	/* Make sure this entity is not used by the scheduler at the moment */
-+	wait_for_completion(&entity->entity_idle);
-+
-+	prev = dma_fence_get(entity->last_scheduled);
-+	while ((job = to_drm_sched_job(spsc_queue_pop(&entity->job_queue)))) {
-+		struct drm_sched_fence *s_fence = job->s_fence;
-+
-+		dma_fence_set_error(&s_fence->finished, -ESRCH);
-+
-+		dma_fence_get(&s_fence->finished);
-+		if (!prev || dma_fence_add_callback(prev, &job->finish_cb,
-+					   drm_sched_entity_kill_jobs_cb))
-+			drm_sched_entity_kill_jobs_cb(NULL, &job->finish_cb);
-+
-+		prev = &s_fence->finished;
-+	}
-+	dma_fence_put(prev);
-+}
-+
- /**
-  * drm_sched_entity_flush - Flush a context entity
-  *
-@@ -179,91 +247,13 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
- 	/* For killed process disable any more IBs enqueue right now */
- 	last_user = cmpxchg(&entity->last_user, current->group_leader, NULL);
- 	if ((!last_user || last_user == current->group_leader) &&
--	    (current->flags & PF_EXITING) && (current->exit_code == SIGKILL)) {
--		spin_lock(&entity->rq_lock);
--		entity->stopped = true;
--		drm_sched_rq_remove_entity(entity->rq, entity);
--		spin_unlock(&entity->rq_lock);
--	}
-+	    (current->flags & PF_EXITING) && (current->exit_code == SIGKILL))
-+		drm_sched_entity_kill(entity);
- 
- 	return ret;
- }
- EXPORT_SYMBOL(drm_sched_entity_flush);
- 
--static void drm_sched_entity_kill_jobs_irq_work(struct irq_work *wrk)
--{
--	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
--
--	drm_sched_fence_finished(job->s_fence);
--	WARN_ON(job->s_fence->parent);
--	job->sched->ops->free_job(job);
--}
--
--
--/* Signal the scheduler finished fence when the entity in question is killed. */
--static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
--					  struct dma_fence_cb *cb)
--{
--	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
--						 finish_cb);
--
--	dma_fence_put(f);
--	init_irq_work(&job->work, drm_sched_entity_kill_jobs_irq_work);
--	irq_work_queue(&job->work);
--}
--
--static struct dma_fence *
--drm_sched_job_dependency(struct drm_sched_job *job,
--			 struct drm_sched_entity *entity)
--{
--	if (!xa_empty(&job->dependencies))
--		return xa_erase(&job->dependencies, job->last_dependency++);
--
 -	if (job->sched->ops->dependency)
 -		return job->sched->ops->dependency(job, entity);
--
--	return NULL;
--}
--
--static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
--{
--	struct drm_sched_job *job;
--	struct dma_fence *f;
--	int r;
--
--	while ((job = to_drm_sched_job(spsc_queue_pop(&entity->job_queue)))) {
--		struct drm_sched_fence *s_fence = job->s_fence;
--
--		/* Wait for all dependencies to avoid data corruptions */
--		while ((f = drm_sched_job_dependency(job, entity))) {
--			dma_fence_wait(f, false);
--			dma_fence_put(f);
--		}
--
--		drm_sched_fence_scheduled(s_fence);
--		dma_fence_set_error(&s_fence->finished, -ESRCH);
--
--		/*
--		 * When pipe is hanged by older entity, new entity might
--		 * not even have chance to submit it's first job to HW
--		 * and so entity->last_scheduled will remain NULL
--		 */
--		if (!entity->last_scheduled) {
--			drm_sched_entity_kill_jobs_cb(NULL, &job->finish_cb);
--			continue;
--		}
--
--		dma_fence_get(entity->last_scheduled);
--		r = dma_fence_add_callback(entity->last_scheduled,
--					   &job->finish_cb,
--					   drm_sched_entity_kill_jobs_cb);
--		if (r == -ENOENT)
--			drm_sched_entity_kill_jobs_cb(NULL, &job->finish_cb);
--		else if (r)
--			DRM_ERROR("fence add callback failed (%d)\n", r);
--	}
--}
--
- /**
-  * drm_sched_entity_fini - Destroy a context entity
-  *
-@@ -277,33 +267,17 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
-  */
- void drm_sched_entity_fini(struct drm_sched_entity *entity)
- {
--	struct drm_gpu_scheduler *sched = NULL;
--
--	if (entity->rq) {
--		sched = entity->rq->sched;
--		drm_sched_rq_remove_entity(entity->rq, entity);
--	}
--
--	/* Consumption of existing IBs wasn't completed. Forcefully
--	 * remove them here.
-+	/*
-+	 * If consumption of existing IBs wasn't completed. Forcefully remove
-+	 * them here. Also makes sure that the scheduler won't touch this entity
-+	 * any more.
- 	 */
--	if (spsc_queue_count(&entity->job_queue)) {
--		if (sched) {
--			/*
--			 * Wait for thread to idle to make sure it isn't processing
--			 * this entity.
--			 */
--			wait_for_completion(&entity->entity_idle);
--
--		}
--		if (entity->dependency) {
--			dma_fence_remove_callback(entity->dependency,
--						  &entity->cb);
--			dma_fence_put(entity->dependency);
--			entity->dependency = NULL;
--		}
-+	drm_sched_entity_kill(entity);
++	if (job->sched->ops->prepare_job)
++		return job->sched->ops->prepare_job(job, entity);
  
--		drm_sched_entity_kill_jobs(entity);
-+	if (entity->dependency) {
-+		dma_fence_remove_callback(entity->dependency, &entity->cb);
-+		dma_fence_put(entity->dependency);
-+		entity->dependency = NULL;
- 	}
- 
- 	dma_fence_put(entity->last_scheduled);
-@@ -416,6 +390,19 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
- 	return false;
+ 	return NULL;
  }
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index b1698819ad38..163385e15597 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -306,7 +306,7 @@ struct drm_sched_job {
+ 	 */
+ 	union {
+ 		struct dma_fence_cb		finish_cb;
+-		struct irq_work 		work;
++		struct irq_work			work;
+ 	};
  
-+static struct dma_fence *
-+drm_sched_job_dependency(struct drm_sched_job *job,
-+			 struct drm_sched_entity *entity)
-+{
-+	if (!xa_empty(&job->dependencies))
-+		return xa_erase(&job->dependencies, job->last_dependency++);
-+
-+	if (job->sched->ops->dependency)
-+		return job->sched->ops->dependency(job, entity);
-+
-+	return NULL;
-+}
-+
- struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
- {
- 	struct drm_sched_job *sched_job;
+ 	uint64_t			id;
+@@ -347,18 +347,17 @@ enum drm_gpu_sched_stat {
+  */
+ struct drm_sched_backend_ops {
+ 	/**
+-	 * @dependency:
++	 * @prepare_job:
+ 	 *
+ 	 * Called when the scheduler is considering scheduling this job next, to
+ 	 * get another struct dma_fence for this job to block on.  Once it
+ 	 * returns NULL, run_job() may be called.
+ 	 *
+-	 * If a driver exclusively uses drm_sched_job_add_dependency() and
+-	 * drm_sched_job_add_implicit_dependencies() this can be ommitted and
+-	 * left as NULL.
++	 * Can be NULL if no additional preparation to the dependencies are
++	 * necessary. Skipped when jobs are killed instead of run.
+ 	 */
+-	struct dma_fence *(*dependency)(struct drm_sched_job *sched_job,
+-					struct drm_sched_entity *s_entity);
++	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
++					 struct drm_sched_entity *s_entity);
+ 
+ 	/**
+          * @run_job: Called to execute the job once all of the dependencies
 -- 
 2.25.1
 
