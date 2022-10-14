@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A815FE675
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 03:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68125FE714
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 04:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6DBE10E463;
-	Fri, 14 Oct 2022 01:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7274110EA4A;
+	Fri, 14 Oct 2022 02:41:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 767A010E463
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:07:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0082261990
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:07:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5EA4FC4347C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665709630;
- bh=IM/NtTIwobLbLVOPnF2X5NsBDDc+CAqIfpo9HVX1C8M=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=pFYvOvQz966vpUScV7uFUL6s2m5sW71NQJ8Wgjlb0+wXfTmLyMFUXpdPMgni6eFTn
- pb+zPYNWwWhtAA766EtkvDF0N8C0ooatlOezHosQ78kOlzQYhXJHZosET6tIxwNnox
- cVnV5QEupi+ScfKdLJHKVulAKjONFVjGveCyH8ic7l47U0cdbCWG33La/aPEf/uwcd
- rG2/rA+M1dltuY0Nje3xUkZCE5gpnNUGIp4tW+Dzz1Jh/xWNManO4U0M2EoyVsf1OU
- wy7BBcowgwwK61RytgdglkHUQoIoGh1D7LA2M75pY8eKKPNGVikT6B5sEhGkrytA+w
- rgn7Vdtz6HMRQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 41F70C433E7; Fri, 14 Oct 2022 01:07:10 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216583] [AMDGPU] Black screen after resume + Failed to pin
- framebuffer -19
-Date: Fri, 14 Oct 2022 01:07:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: contato-myghi63@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: rep_platform
-Message-ID: <bug-216583-2300-1lmSnn9a7r@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216583-2300@https.bugzilla.kernel.org/>
-References: <bug-216583-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0606710E28C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 02:41:42 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ x31-20020a17090a38a200b0020d2afec803so3571616pjb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Oct 2022 19:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ZJ1ZupV4pNYtfLm2nRk080Y8SXTuWCwx9eOCEUYrnLk=;
+ b=mOTc8KRBadMqtPwLlQpMoDRG7Y/LhVh3ONQQ0+J/2DeJP9z2WBpqzM2zCbruFAwGQ2
+ Cg9NrAsdBApxkVi7G6+/BmIIhGYCILZRVDKJgLmeZAjnkd+DscSYsrIh2d0DhZEicFJ4
+ JC0NBSOAxXyESKVnAJK6Z1UcYpKzjFbwvjdW4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZJ1ZupV4pNYtfLm2nRk080Y8SXTuWCwx9eOCEUYrnLk=;
+ b=aBmjFMf4M2BvQbooqt+3slxwha/Ld3jRHCxFP60AUErTHwRyz0iR26SYJfclMiPT2M
+ k2yVK2L4GWpJAblKeaagKho9+oCGKPUcP5PKzcuITZ5RNFW0Lxc526FjKLapEstVRtPp
+ OJuysoO9NuT5lWht3By2AIAJVbCJvpKNFXRzZYDaPRyKEumAP29wPRbIixdQv0Cl6eFD
+ sBJf3yPIy0OCRyBC1p4A5cXCJmkzSojlJM2U8cydRzNrDbUztT7bxOhmBsUS4FHQEZ7G
+ xzpniOmfTGbEH9BJ4diW5V62U1Kv7HiADIL6Vv7rgGf9+uUhMo0KWUWThAeZBj6cPpqF
+ SiPA==
+X-Gm-Message-State: ACrzQf0O7KzoJZ7ly6Hl+aWNoWB7cHuZvI0FvMFQl2Qod+SknHKSmzGc
+ qDPdJu8aJrbcBZxue7n0SrbYvQ==
+X-Google-Smtp-Source: AMsMyM4+EvyJIPbh8SsjJ5/w//6R6z4mUB4NPnFpN2sJpNlsISjzDqMI4t1DceTMwEIjNQHzGR0rDg==
+X-Received: by 2002:a17:90a:d983:b0:20a:ec04:e028 with SMTP id
+ d3-20020a17090ad98300b0020aec04e028mr14425285pjv.122.1665715301104; 
+ Thu, 13 Oct 2022 19:41:41 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a170902d4c200b001708c4ebbaesm467745plg.309.2022.10.13.19.41.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 19:41:40 -0700 (PDT)
+Date: Thu, 13 Oct 2022 19:41:39 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: Re: [PATCH] drm/radeon: Replace kmap() with kmap_local_page()
+Message-ID: <202210131941.5D2AD4403E@keescook>
+References: <20221013210714.16320-1-fmdefrancesco@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221013210714.16320-1-fmdefrancesco@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,20 +70,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-hwmon@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Ira Weiny <ira.weiny@intel.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, "Venkataramanan,
+ Anirudh" <anirudh.venkataramanan@intel.com>, linux-hardening@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ bpf@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216583
+On Thu, Oct 13, 2022 at 11:07:14PM +0200, Fabio M. De Francesco wrote:
+> The use of kmap() is being deprecated in favor of kmap_local_page().
+> 
+> There are two main problems with kmap(): (1) It comes with an overhead as
+> the mapping space is restricted and protected by a global lock for
+> synchronization and (2) it also requires global TLB invalidation when the
+> kmap’s pool wraps and it might block when the mapping space is fully
+> utilized until a slot becomes available.
+> 
+> With kmap_local_page() the mappings are per thread, CPU local, can take
+> page faults, and can be called from any context (including interrupts).
+> It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
+> the tasks can be preempted and, when they are scheduled to run again, the
+> kernel virtual addresses are restored and still valid.
+> 
+> Therefore, replace kmap() with kmap_local_page() in radeon_ttm_gtt_read().
+> 
+> Cc: "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>
+> Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-Paulo Marcos de Souza Arruda do Nascimento (contato-myghi63@protonmail.com)=
- changed:
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Hardware|All                         |AMD
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Kees Cook
