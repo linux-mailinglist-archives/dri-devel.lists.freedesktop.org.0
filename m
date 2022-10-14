@@ -1,73 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F885FF4E0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 22:51:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 281F15FF50E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 23:10:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E82A10E05E;
-	Fri, 14 Oct 2022 20:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A5C10E0DB;
+	Fri, 14 Oct 2022 21:10:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2AB10E05E
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 20:51:26 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id
- p24-20020a9d6958000000b00661c528849eso2545775oto.9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 13:51:26 -0700 (PDT)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
+ [209.85.167.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBD2C10E0DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 21:10:34 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id j188so6352186oih.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 14:10:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PM/tudBwVBkWLPdLQ9uHSq0aAAT5JTrVUZ4BADk5nQg=;
- b=upG7Qrge/rNzRumET5QuqnYvoUEhiC1wQD7hN6tS6Ra5/60l8nsC3zXtKS48YIS/DT
- uuGo/mATOC3HZW8WSU8o0CtuMH+L839TGw4qgBimsFMWAZQHW408hHrAKCxKUB2VgZRv
- ZovPqlKoRKa3NZ87dpqT1Y++oqW21U9YObUnMgkDDv5DPBt4a4SwiRPhcEJ4DqY56jXN
- ONXfo220XhMrOf4G/2mwOfDDn+iPsPhnAWaCCKrrWCRLp04aoZbnkz/HqCJK1fQdcC+G
- feOKUcEXEOzf1Wfxlkfm1E5x30UdenMYOX05Goe8FN8TLoAAiIfaRGeZMUVf9iSoL6V6
- +JAQ==
-X-Gm-Message-State: ACrzQf2XXl0Zq1Q21g17vg8FABLZOiNg3i4qm6Lh9GPRVLOvOqdpB1kg
- Uisxw/nN5RuStpXCc8jROw==
-X-Google-Smtp-Source: AMsMyM5w4g67vSGZ3pSCI5S2Zc2iST2MyxLD+PeiQ6LuPDE+zA88Aoe8qbpQjyvz+NwDwTMTLkmsOQ==
-X-Received: by 2002:a9d:7745:0:b0:661:a3c9:3cff with SMTP id
- t5-20020a9d7745000000b00661a3c93cffmr3396961otl.176.1665780685215; 
- Fri, 14 Oct 2022 13:51:25 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xM+4m5a2a5cuZ5VhUjxrp5HzYAY1IJVbywUtama6FlI=;
+ b=rOipQtcz0yFxQCS7gHvy/T5Sw/j6SeMOq/xq7p5vVZJWHJ3TnvsTX6fn7KnZgVteJP
+ lXWn7o5A8b2h9zKsT6/19NumMSpzlaV8e7li+v8pE0fEnY+gR03UJXu/6jK1iN31yA0d
+ MUD/mvos7p3g0ZGK8g3WmNl7Hzy/KwwcYICiDx7XttoObVxEgEUkXZob039t5pfncDCZ
+ e1bT7lfHP8Z40uimlgb4QWZsS4nlSmR9Kb/6b7ZUiBZykYXFLgS2YDp6vrZevyf+beg1
+ 8/BWXTh+CYc8APmr0L7EpHLADSZt68ygyV8iHSoewVbRRP5UTcCgvIH8n+NQEMJD+J1u
+ 6SsA==
+X-Gm-Message-State: ACrzQf0D6130Ic1LPvQXwLNHaH2nrdSMGzTYrKDtBhntHrfi7NVR2Fk4
+ ySlQm1e4WE40jqKGStUsvQ==
+X-Google-Smtp-Source: AMsMyM70Akl6mGH6k+1/khm5MR7s9COqT/1+UPtLcqb+A+ugOm6M9TWM9XzVXoggbzWtk1ZXP1Lwpg==
+X-Received: by 2002:a05:6808:1b0d:b0:355:219c:3d28 with SMTP id
+ bx13-20020a0568081b0d00b00355219c3d28mr1571823oib.31.1665781833942; 
+ Fri, 14 Oct 2022 14:10:33 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- f17-20020a4ae611000000b00480b7efd5d9sm580678oot.6.2022.10.14.13.51.23
+ 23-20020aca0f17000000b00354d7c7e42esm1549201oip.30.2022.10.14.14.10.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Oct 2022 13:51:24 -0700 (PDT)
-Received: (nullmailer pid 2822557 invoked by uid 1000);
- Fri, 14 Oct 2022 20:51:24 -0000
+ Fri, 14 Oct 2022 14:10:33 -0700 (PDT)
+Received: (nullmailer pid 2911731 invoked by uid 1000);
+ Fri, 14 Oct 2022 21:10:34 -0000
+Date: Fri, 14 Oct 2022 16:10:34 -0500
 From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Nandhini Srikandan <nandhini.srikandan@intel.com>,
- Rashmi A <rashmi.a@intel.com>, 
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Joakim Zhang <qiangqing.zhang@nxp.com>
-Subject: [PATCH] dt-bindings: Remove "status" from schema examples, again
-Date: Fri, 14 Oct 2022 15:51:04 -0500
-Message-Id: <20221014205104.2822159-1-robh@kernel.org>
-X-Mailer: git-send-email 2.35.1
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display: panel: use spi-peripheral-props.yaml
+Message-ID: <166578183285.2911660.11950210372738963572.robh@kernel.org>
+References: <20221004120907.72767-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221004120907.72767-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,132 +62,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Markuss Broks <markuss.broks@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Dillon Min <dillon.minfei@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no reason to have "status" properties in examples. "okay" is the
-default, and "disabled" turns off some schema checks ('required'
-specifically).
+On Tue, 04 Oct 2022 14:09:07 +0200, Krzysztof Kozlowski wrote:
+> For devices connectable by SPI bus (e.g. already using
+> "spi-max-frequency" property), reference the "spi-peripheral-props.yaml"
+> schema to allow using all SPI device properties, even these which device
+> bindings author did not tried yet.
+> 
+> Change "additionalProperties" to "unevaluatedProperties", so the actual
+> other properties from "spi-peripheral-props.yaml" can be used.  This has
+> additional impact of allowing also other properties from
+> panel-common.yaml to be used.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/display/panel/ilitek,ili9163.yaml    | 3 ++-
+>  .../devicetree/bindings/display/panel/ilitek,ili9341.yaml    | 1 +
+>  .../devicetree/bindings/display/panel/nec,nl8048hl11.yaml    | 3 ++-
+>  .../bindings/display/panel/samsung,lms380kf01.yaml           | 5 ++---
+>  .../bindings/display/panel/samsung,lms397kf04.yaml           | 3 ++-
+>  .../devicetree/bindings/display/panel/samsung,s6d27a1.yaml   | 4 ++--
+>  .../devicetree/bindings/display/panel/tpo,tpg110.yaml        | 1 +
+>  7 files changed, 12 insertions(+), 8 deletions(-)
+> 
 
-A meta-schema check for this is pending, so hopefully the last time to
-fix these.
-
-Fix the indentation in intel,phy-thunderbay-emmc while we're here.
-
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../arm/tegra/nvidia,tegra-ccplex-cluster.yaml    |  1 -
- .../display/tegra/nvidia,tegra124-dpaux.yaml      |  1 -
- .../display/tegra/nvidia,tegra186-display.yaml    |  2 --
- .../bindings/iio/addac/adi,ad74413r.yaml          |  1 -
- .../devicetree/bindings/net/cdns,macb.yaml        |  1 -
- .../devicetree/bindings/net/nxp,dwmac-imx.yaml    |  1 -
- .../bindings/phy/intel,phy-thunderbay-emmc.yaml   | 15 +++++++--------
- 7 files changed, 7 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
-index 711bb4d08c60..869c266e7ebc 100644
---- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
-+++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
-@@ -47,5 +47,4 @@ examples:
-       compatible = "nvidia,tegra234-ccplex-cluster";
-       reg = <0x0e000000 0x5ffff>;
-       nvidia,bpmp = <&bpmp>;
--      status = "okay";
-     };
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-index 9ab123cd2325..5cdbc527a560 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-@@ -128,7 +128,6 @@ examples:
-         resets = <&tegra_car 181>;
-         reset-names = "dpaux";
-         power-domains = <&pd_sor>;
--        status = "disabled";
- 
-         state_dpaux_aux: pinmux-aux {
-             groups = "dpaux-io";
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-index 8c0231345529..ce5c673f940c 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-@@ -138,7 +138,6 @@ examples:
-                  <&bpmp TEGRA186_CLK_NVDISPLAY_DSC>,
-                  <&bpmp TEGRA186_CLK_NVDISPLAYHUB>;
-         clock-names = "disp", "dsc", "hub";
--        status = "disabled";
- 
-         power-domains = <&bpmp TEGRA186_POWER_DOMAIN_DISP>;
- 
-@@ -227,7 +226,6 @@ examples:
-         clocks = <&bpmp TEGRA194_CLK_NVDISPLAY_DISP>,
-                  <&bpmp TEGRA194_CLK_NVDISPLAYHUB>;
-         clock-names = "disp", "hub";
--        status = "disabled";
- 
-         power-domains = <&bpmp TEGRA194_POWER_DOMAIN_DISP>;
- 
-diff --git a/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml b/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
-index 03bb90a7f4f8..d2a9f92c0a6d 100644
---- a/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
-+++ b/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
-@@ -114,7 +114,6 @@ examples:
-       #size-cells = <0>;
- 
-       cs-gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
--      status = "okay";
- 
-       ad74413r@0 {
-         compatible = "adi,ad74413r";
-diff --git a/Documentation/devicetree/bindings/net/cdns,macb.yaml b/Documentation/devicetree/bindings/net/cdns,macb.yaml
-index 318f4efe7f6f..bef5e0f895be 100644
---- a/Documentation/devicetree/bindings/net/cdns,macb.yaml
-+++ b/Documentation/devicetree/bindings/net/cdns,macb.yaml
-@@ -203,7 +203,6 @@ examples:
-                     power-domains = <&zynqmp_firmware PD_ETH_1>;
-                     resets = <&zynqmp_reset ZYNQMP_RESET_GEM1>;
-                     reset-names = "gem1_rst";
--                    status = "okay";
-                     phy-mode = "sgmii";
-                     phys = <&psgtr 1 PHY_TYPE_SGMII 1 1>;
-                     fixed-link {
-diff --git a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
-index 4c155441acbf..0270b0ca166b 100644
---- a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
-+++ b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
-@@ -92,5 +92,4 @@ examples:
-                      <&clk IMX8MP_CLK_ENET_QOS>;
-             clock-names = "stmmaceth", "pclk", "ptp_ref", "tx";
-             phy-mode = "rgmii";
--            status = "disabled";
-     };
-diff --git a/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml b/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
-index 34bdb5c4cae8..b09e5ba5e127 100644
---- a/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
-+++ b/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
-@@ -36,11 +36,10 @@ additionalProperties: false
- 
- examples:
-   - |
--     mmc_phy@80440800 {
--     #phy-cells = <0x0>;
--     compatible = "intel,thunderbay-emmc-phy";
--     status = "okay";
--     reg = <0x80440800 0x100>;
--     clocks = <&emmc>;
--     clock-names = "emmcclk";
--     };
-+    mmc_phy@80440800 {
-+        #phy-cells = <0x0>;
-+        compatible = "intel,thunderbay-emmc-phy";
-+        reg = <0x80440800 0x100>;
-+        clocks = <&emmc>;
-+        clock-names = "emmcclk";
-+    };
--- 
-2.35.1
-
+Applied, thanks!
