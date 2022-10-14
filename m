@@ -1,65 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5085FECDC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 13:05:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AA85FED01
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 13:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBA9610E086;
-	Fri, 14 Oct 2022 11:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D177110EA00;
+	Fri, 14 Oct 2022 11:11:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 897F310E086
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 11:05:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7A2CA61AB9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 11:05:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DCF1EC433C1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 11:05:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665745520;
- bh=nPNNB/DTqiBHVEmXH861JtExso/7xlwFm+QhWdvVq/A=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qvuSIoFwQ8tznvYoX0IJ8zP+Rf9pgnLQ9UQtAvwfliSRU6XdTpFNrSi/NKIZYSj+W
- MlyBxP4oT/9XovfDzLx3hKX/2Yh7U0E8wjd7GLqqMumzymDb7McrbREIXdZOuOV/+c
- sgaF2+J426OWStj55XS+7/MKibmJleGqKAer6AK96Qgy1qEis6BIFSno5+eaefApFr
- TZWVu1H9yXQ1wRJrDWEfU7WLz2TQr+t++7dJKXK1qdEdnWOi4sA7s3P1VGZ8N3akm0
- gNoea1JLGZwy5ZuupLWqGgxU9YDJmVT6RW4EISqOytvG0hntA1AuALln/WUfye1Mlk
- J0bXtcG0rbuZQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id A5E02C433E4; Fri, 14 Oct 2022 11:05:20 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216583] [AMDGPU] Black screen after resume + Failed to pin
- framebuffer -19
-Date: Fri, 14 Oct 2022 11:05:19 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216583-2300-rwAcpwOx0c@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216583-2300@https.bugzilla.kernel.org/>
-References: <bug-216583-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E989510EA00
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 11:11:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6160D1424
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 04:11:26 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id ED4473F792
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 04:11:19 -0700 (PDT)
+Date: Fri, 14 Oct 2022 12:11:13 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next v3 4/7] drm/arm/hdlcd: use drm_dev_unplug()
+Message-ID: <Y0lD0T+JNbyWuutU@e110455-lin.cambridge.arm.com>
+References: <20221001011905.433408-1-dakr@redhat.com>
+ <20221001011905.433408-5-dakr@redhat.com>
+ <Y0bYGjtAHbjeGJHF@e110455-lin.cambridge.arm.com>
+ <4010f21b-4478-d860-c5ba-d6680d35993b@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4010f21b-4478-d860-c5ba-d6680d35993b@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,25 +45,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216583
+On Fri, Oct 14, 2022 at 02:07:09AM +0200, Danilo Krummrich wrote:
+> Hi Liviu,
+> 
+> On 10/12/22 17:07, Liviu Dudau wrote:
+> > Hi Danilo,
+> > 
+> > Appologies again for the delay in reviewing this as I was at XDC last week.
+> 
+> No worries, thanks for following up.
+> 
+> > Looking at the documentation for drm_dev_unplug, you can get a hint about what is going on:
+> > 
+> >   /*
+> >   * [....] There is one
+> >   * shortcoming however, drm_dev_unplug() marks the drm_device as unplugged before
+> >   * drm_atomic_helper_shutdown() is called. This means that if the disable code
+> >   * paths are protected, they will not run on regular driver module unload,
+> >   * possibly leaving the hardware enabled.
+> >   */
+> > 
+> 
+> Yes, that's the issue we have and pretty unfortunate. What we'd want for
+> platform device drivers is to still be able to enter the sections locked
+> with drm_dev_{enter,exit} on driver unbind, which we can't for at the
+> moment.
+> 
+> I discussed this with Daniel Vetter on #dri-devel and for now he suggests to
+> just not lock access to platform device bound resources and respin the
+> patchset removing those parts.
+> 
+> Besides that I'll also work on a solution for drm_dev_unplug() /
+> drm_dev_{enter,exit} to overcome this issue in the future.
+> 
+> > I'm finally getting to a conclusion: I'm still not sure what problem you were trying
+> > to solve when you have started this series and if you have found a scenario where
+> > you've got use after free then I would like to be able to reproduce it on my setup.
+> > Otherwise, I think this whole series introduces a regression on the behaviour of the
+> > driver and I would be inclined to reject it.
+> 
+> The problem is that DRM modeset objects should never be allocated with
+> devm_*, since this can result in use-after free issues on driver unload.
+> They should be freed when the last reference to the object is dropped, which
+> DRM managed APIs take care of. As a consequence, DRM managed objects can
+> potentially out-live platform device bound resources, which then should be
+> protected from access. The first at least we can and should do.
+> 
+> It's not an issue that's unique to hdlcd, it's just a known issue to be
+> addressed by all drivers. There's still the shortcoming concerning
+> protecting platform bound resources as discussed above, but "the drmm parts
+> should be a good idea no matter what" to cite Daniel.
+> 
+> I'll send a v4 without the drm_dev_{enter,exit} parts removed if that's fine
+> for you.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Thanks for the description of the problem!
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+Also bear in mind that hdlcd and malidp use the component framework, which means that
+the unbind is happening through the component_master_del() function.
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please check for dupes here https://gitlab.freedesktop.org/drm/amd/-/issues
+I'm still keen to get a reproducer for the original issue of use-after free on hdlcd
+(or malidp) that I can play with so that I can validate the final fix.
 
-and if there are none, file a new bug report. Thanks
+Best regards,
+Liviu
 
---=20
-You may reply to this email to add a comment.
+> 
+> - Danilo
+> 
+> > 
+> > Best regards,
+> > Liviu
+> 
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
