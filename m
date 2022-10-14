@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BA75FE673
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 03:05:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A815FE675
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 03:07:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB4C10E26D;
-	Fri, 14 Oct 2022 01:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6DBE10E463;
+	Fri, 14 Oct 2022 01:07:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 737BE10E26D
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:05:18 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 767A010E463
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:07:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 429866198A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:05:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A2F5BC433D7
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:05:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0082261990
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:07:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5EA4FC4347C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 01:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665709516;
- bh=6o249YdZ6oGKU3QyQpM29Jn0oFcT+GtWs1SddTum0a0=;
- h=From:To:Subject:Date:From;
- b=hnxsm4UrAjntkfm65yUHWTRpJEa3n9fTvnGsmKqZK4oniRj4OX30bPY9UTP2HZEct
- NnK7BLWeE1s/3RtYvdSvNbwQI519giGygx8peeru32YvQRRI7ZcYV+55KHoQAUF/fp
- a40GeELiyc0Ulo9JN5bn6eu8AdU2TKWueiZ1dhsB4kA3plasXQk7CjPjdsWFikegjh
- ybGr4HaXebN5Ib/P/zIQD3tkUO+U+kwuiZoCEjMltG4DnOuIi96X0tCazfaJJUbfTn
- rGYBt71HX1pCH7SA5Zh8y3eCo7NGd9yl0GG7sH9GsiAfgT7nbTh+V89I14hJGHdnsE
- rRi7Si4NiPnnA==
+ s=k20201202; t=1665709630;
+ bh=IM/NtTIwobLbLVOPnF2X5NsBDDc+CAqIfpo9HVX1C8M=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=pFYvOvQz966vpUScV7uFUL6s2m5sW71NQJ8Wgjlb0+wXfTmLyMFUXpdPMgni6eFTn
+ pb+zPYNWwWhtAA766EtkvDF0N8C0ooatlOezHosQ78kOlzQYhXJHZosET6tIxwNnox
+ cVnV5QEupi+ScfKdLJHKVulAKjONFVjGveCyH8ic7l47U0cdbCWG33La/aPEf/uwcd
+ rG2/rA+M1dltuY0Nje3xUkZCE5gpnNUGIp4tW+Dzz1Jh/xWNManO4U0M2EoyVsf1OU
+ wy7BBcowgwwK61RytgdglkHUQoIoGh1D7LA2M75pY8eKKPNGVikT6B5sEhGkrytA+w
+ rgn7Vdtz6HMRQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 869A8C433E7; Fri, 14 Oct 2022 01:05:16 +0000 (UTC)
+ from userid 48) id 41F70C433E7; Fri, 14 Oct 2022 01:07:10 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216583] New: [AMDGPU] Black screen after resume + Failed to pin
+Subject: [Bug 216583] [AMDGPU] Black screen after resume + Failed to pin
  framebuffer -19
-Date: Fri, 14 Oct 2022 01:05:16 +0000
+Date: Fri, 14 Oct 2022 01:07:10 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -51,10 +50,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-216583-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: rep_platform
+Message-ID: <bug-216583-2300-1lmSnn9a7r@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216583-2300@https.bugzilla.kernel.org/>
+References: <bug-216583-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -77,38 +76,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216583
 
-            Bug ID: 216583
-           Summary: [AMDGPU] Black screen after resume + Failed to pin
-                    framebuffer -19
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.0.1
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: contato-myghi63@protonmail.com
-        Regression: No
+Paulo Marcos de Souza Arruda do Nascimento (contato-myghi63@protonmail.com)=
+ changed:
 
-Created attachment 302996
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D302996&action=3Dedit
-System Log
-
-After upgrading the kernel from 5.19.13 to 6.0.1, my screen goes black after
-resuming the system. Switching the TTY to another one and going back "fixes"
-the issue.
-My GPU: RX 5500XT 8GB (desktop)
-OS: Arch Linux
-
-I also tried using the kernel argument amdgpu.dc=3D0 but this freezes the s=
-creen
-on early boot (radeon and amdgpu modules are stored on initial ramdisk)
-
-On attachment, there's relevant errors from line 1320!
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Hardware|All                         |AMD
 
 --=20
 You may reply to this email to add a comment.
