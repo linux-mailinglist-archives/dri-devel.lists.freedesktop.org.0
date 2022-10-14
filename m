@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD085FF3E5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 20:59:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D940C5FF419
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 21:32:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5376810E03B;
-	Fri, 14 Oct 2022 18:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA53A10E0A0;
+	Fri, 14 Oct 2022 19:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D64A610E03B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 18:58:51 +0000 (UTC)
-Received: from [IPV6:2804:431:c7c2:614d:1e72:1ebe:1da0:adb9] (unknown
- [IPv6:2804:431:c7c2:614d:1e72:1ebe:1da0:adb9])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: dwlsalmeida)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id ADA086602374;
- Fri, 14 Oct 2022 19:58:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1665773930;
- bh=w5tCG0PCgpm5rqkO5qJrYz3YWsrGRktxZ3+TQEPwUak=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UYu4GLSSuy4BnwFuENkS+CvxAS0BiLA5kCbW/jeORGNJ2/KjM1UVpfdHXC8b40lNn
- TjLGqckcUc2dEgEmfMvllEfZAtgLY63//eeJRG99CtJWGa31ngkQBvSU2mAPckLrNX
- B4AoWgTF0gnsliKBrAHIbgdZN6Znt1RIwWCppplk7WaCR4pjGxDjYB3Q7G9daa7OtO
- ayAJUMQAqSaZfVXsR1qsyWa29+tPdbYZz6xGPLFO121z/BZZqC0gK1ALlgidiaXdEq
- FbHL8iqbaN84MeXzeT64Y6Z1k03QnDLG/ROE9kaYf0OOPgEzfIKXTX0J4kEskJvOaF
- k/WUnUxtFqJiw==
-Message-ID: <de4738ec-5362-aa8c-1d4f-a08a4ab3cfc2@collabora.com>
-Date: Fri, 14 Oct 2022 15:58:39 -0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C27F10E0A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 19:31:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4AE1161C00;
+ Fri, 14 Oct 2022 19:31:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A48C8C433C1;
+ Fri, 14 Oct 2022 19:31:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665775901;
+ bh=tUBPE8pgS14Vo1Xv8t8dwBDPEUaw9xIL3GQsyiJxdeQ=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=ESk+l1AjA5D4CHUMEGShawJE/ElnWJ+d9Urkmoq7c5IIp1ACXvyv2lZWZY1SSvFul
+ a9IIAemS/2lFkww8GzfZG7u4MmNHuA4n9GInj9sph7O51vTFYOe28WM1pqJCCsd+Ew
+ jVqHY+OUqyM20XDQemUl6aopAautE6lAz28L8tZjURk4FNGADYCVWpnGdRo2pMI9pc
+ ySTbzEW9vYfcMGiUvCzTBhyz9eMVMoJzc8O5eBO0G1aBxj1ZbCJ7om+FcGCgprEeK/
+ D+fkbDjly7N3sPj+Hk2AXjABjbTCTmZlvP3SojzGspeOL5Eg88L0HUP4QYYVUso5qt
+ /impH1mfV1T6w==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [RFC PATCH v5] media: mediatek: vcodec: support stateless AV1
- decoder
-Content-Language: en-US
-To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20221001012915.8974-1-xiaoyong.lu@mediatek.com>
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20221001012915.8974-1-xiaoyong.lu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220815-rpi-fix-4k-60-v3-2-fc56729d11fe@cerno.tech>
+References: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
+ <20220815-rpi-fix-4k-60-v3-2-fc56729d11fe@cerno.tech>
+Subject: Re: [PATCH v3 2/7] firmware: raspberrypi: Move the clock IDs to the
+ firmware header
+From: Stephen Boyd <sboyd@kernel.org>
+To: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+ Florian Fainelli <f.fainelli@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>
+Date: Fri, 14 Oct 2022 12:31:39 -0700
+User-Agent: alot/0.10
+Message-Id: <20221014193141.A48C8C433C1@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,23 +61,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org,
+ Dom Cobley <popcornmix@gmail.com>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xiaoyong!
+Quoting Maxime Ripard (2022-10-13 02:13:09)
+> We'll need the clock IDs in more drivers than just the clock driver from
+> now on, so let's move them in the firmware header.
+>=20
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
 
-I have tested this and arrived at the same Fluster score:
-
-173/239 - AOM
-11/13 - Chromium 8bit
-
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-Tested-by: Daniel Almeida <daniel.almeida@collabora.com>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
