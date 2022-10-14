@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F71F5FF37C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 20:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD085FF3E5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Oct 2022 20:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D42BA10E052;
-	Fri, 14 Oct 2022 18:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5376810E03B;
+	Fri, 14 Oct 2022 18:58:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DFC810E03A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 18:15:27 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id o64so5862735oib.12
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 11:15:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KM3d9mUdbDj0z6oafXxyZzutznAV5jWXZ9fQzWHF6Bs=;
- b=TsKo2S7GdpxCnrWyTu2QEbbgciSN5woqwIPML3g0E6pmL75LsB288Sf+10bV5E1FMd
- +Cw39hD+tRwMpp7CEfBS80jSkGVcSwaae/dPmihuAxxWq7V7xBbSQfW1nes3ZLh+Mnsr
- 72Y30bhKclxNEcE+iZB8casHWCU81PWTfK/qY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KM3d9mUdbDj0z6oafXxyZzutznAV5jWXZ9fQzWHF6Bs=;
- b=M7fH8uRHqON2+dMlXY5j7x9PMCrOcoa3udVTA2nYF+Zjli1rWTohPYmW/RS2pyctB6
- 5r3RoxD8fCUO5o5WQNVBztPADll4Be8voxA7lyKJ2KOJdLPKKtuhQ4oAtBN7VdwwB9yr
- mqx0X+e4zVon/QZbtRJukyx76D+1+TahpiSLGuAeIxVHyUezTx3La2VvnPU1jFG5CzXf
- cClMxVja3mvQ3Pn4iPpnWxS25P7LxSMKHctIAfbFxGJ4hJB2mIGBLagRCvko0yHbpPD1
- l09T/AKIcBTyyh04h1yigUtz8gDjIhCW5QsbDUEHKYC6aOulIdBsjC/QG+KykdY1EKnj
- +oXw==
-X-Gm-Message-State: ACrzQf2ynaSdGqbQyP0Kmm+qRQJbwlcd1NkwE/WdAJyAUr/6RIGvMAxC
- naLdbasTgCAs3H6SiObFn36wiHHS5Dc+wA==
-X-Google-Smtp-Source: AMsMyM7Bvp+HQ605+C7JPqEoC/buKj20XqwqTXQogipG8W6LW976pTwba28hq/lx0PkbDDkbtRbU6Q==
-X-Received: by 2002:a05:6808:13c6:b0:354:93bd:4cf6 with SMTP id
- d6-20020a05680813c600b0035493bd4cf6mr8009168oiw.124.1665771325939; 
- Fri, 14 Oct 2022 11:15:25 -0700 (PDT)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com.
- [209.85.160.54]) by smtp.gmail.com with ESMTPSA id
- s6-20020a056870ea8600b0010bf07976c9sm1541887oap.41.2022.10.14.11.15.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Oct 2022 11:15:23 -0700 (PDT)
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-131dda37dddso6845055fac.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 11:15:22 -0700 (PDT)
-X-Received: by 2002:a05:6870:c0c9:b0:127:c4df:5b50 with SMTP id
- e9-20020a056870c0c900b00127c4df5b50mr3564382oad.126.1665771322642; Fri, 14
- Oct 2022 11:15:22 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D64A610E03B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Oct 2022 18:58:51 +0000 (UTC)
+Received: from [IPV6:2804:431:c7c2:614d:1e72:1ebe:1da0:adb9] (unknown
+ [IPv6:2804:431:c7c2:614d:1e72:1ebe:1da0:adb9])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: dwlsalmeida)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id ADA086602374;
+ Fri, 14 Oct 2022 19:58:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1665773930;
+ bh=w5tCG0PCgpm5rqkO5qJrYz3YWsrGRktxZ3+TQEPwUak=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=UYu4GLSSuy4BnwFuENkS+CvxAS0BiLA5kCbW/jeORGNJ2/KjM1UVpfdHXC8b40lNn
+ TjLGqckcUc2dEgEmfMvllEfZAtgLY63//eeJRG99CtJWGa31ngkQBvSU2mAPckLrNX
+ B4AoWgTF0gnsliKBrAHIbgdZN6Znt1RIwWCppplk7WaCR4pjGxDjYB3Q7G9daa7OtO
+ ayAJUMQAqSaZfVXsR1qsyWa29+tPdbYZz6xGPLFO121z/BZZqC0gK1ALlgidiaXdEq
+ FbHL8iqbaN84MeXzeT64Y6Z1k03QnDLG/ROE9kaYf0OOPgEzfIKXTX0J4kEskJvOaF
+ k/WUnUxtFqJiw==
+Message-ID: <de4738ec-5362-aa8c-1d4f-a08a4ab3cfc2@collabora.com>
+Date: Fri, 14 Oct 2022 15:58:39 -0300
 MIME-Version: 1.0
-References: <20221014152102.1755050-1-nathan@kernel.org>
-In-Reply-To: <20221014152102.1755050-1-nathan@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 14 Oct 2022 11:15:06 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg8LT6iN7ZFE_6Yfydne9gWYJaJzD1ntSuGhMv8SkKCcw@mail.gmail.com>
-Message-ID: <CAHk-=wg8LT6iN7ZFE_6Yfydne9gWYJaJzD1ntSuGhMv8SkKCcw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix build breakage with CONFIG_DEBUG_FS=n
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [RFC PATCH v5] media: mediatek: vcodec: support stateless AV1
+ decoder
+Content-Language: en-US
+To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20221001012915.8974-1-xiaoyong.lu@mediatek.com>
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20221001012915.8974-1-xiaoyong.lu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,20 +67,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Yunxiang Li <Yunxiang.Li@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 14, 2022 at 8:22 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> After commit 8799c0be89eb ("drm/amd/display: Fix vblank refcount in vrr
-> transition"), a build with CONFIG_DEBUG_FS=n is broken due to a
-> misplaced brace, along the lines of:
+Hi Xiaoyong!
 
-Thanks, applied.
+I have tested this and arrived at the same Fluster score:
 
-              Linus
+173/239 - AOM
+11/13 - Chromium 8bit
+
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Tested-by: Daniel Almeida <daniel.almeida@collabora.com>
