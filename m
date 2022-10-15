@@ -1,87 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BAF5FFAEB
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 17:19:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0785FFB1B
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 17:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4C3210E4E7;
-	Sat, 15 Oct 2022 15:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A74C910E1D4;
+	Sat, 15 Oct 2022 15:51:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D92110E4E7
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 15:19:20 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id h24so5089621qta.7
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 08:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5lnInENwLybwBq+BGW9XxaGeEpI0F9YvSORSJTCPbgo=;
- b=tH2d2Fg2+rkIGI3g30tLYVACKy0d5S84UFuNYvLPX2jB7j1OU1s7hRZuvtaYaThLl+
- DVRX+YUAGvtLKD3k1P+nvbXARq1pZqxR+3jcthoC732WsTyygYmvBpNy0ogD83ytNN0o
- mct2GWnXik+WHSCVd8mXSryojXZ4tKde5eRzbSxYGRCMd7WGBsjihW5p/VfdA6h+QYSo
- 4mvukBY/TajIL/LhoFP9fMi6Dxy7BP/AxIYoRIhBV1JvAf8GJMMLT3OPKk7DEsj8dD5r
- SgnimZMd+cNj6EcFymL/976s/bkyjFlv7uaNDY8zdHzGGO+rwOvEKXUZSXKZRSP79Gu/
- Do2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5lnInENwLybwBq+BGW9XxaGeEpI0F9YvSORSJTCPbgo=;
- b=Z/PzuG2/jDN6ijugD5ihxtCE1sUBwNj3TArXuzDXJBBhI/7wL5PN9s6ovldVXxv3nf
- laHgc/LtUXAHr8Lv25Wctbdoc9HZkyRkN8NASWE5Y031ZWSv74czAa1LDuJbwVbysP8Q
- hetYdR5tytW7l/fLElErdljvhDjhjqj27mAStyqgXqR8wKwqeym46znvcwP8qE7KJFCo
- RA1W35tOuF2hIz18G47nVAjLXCh1UAHI8+3liHKGKot9oRX8b6wMn/VRcgkdrD2/K35t
- A0cOMMxVxtSHzNbtmEyHy5DiSXGk4ShDcgFrk/Phf6n+RMinz46U9rKPnHC4K5j9j8Ar
- ZE1A==
-X-Gm-Message-State: ACrzQf1a/yXcBBxjF04jczqCNqJ2IZd3pIIiiSLn5qg3iH74xXPqyuJI
- UiAnkr2cSsmG//9wTifpjfpC2A==
-X-Google-Smtp-Source: AMsMyM7SK8HhtjT3RcbC18eK6Wx6yTJR3yAlueJ7R3Fy7tkuEa2py8ydKmqXp8AC0za/7RsOMMmaNw==
-X-Received: by 2002:a05:622a:13ce:b0:39c:c82a:4584 with SMTP id
- p14-20020a05622a13ce00b0039cc82a4584mr2279261qtk.150.1665847159474; 
- Sat, 15 Oct 2022 08:19:19 -0700 (PDT)
-Received: from ?IPV6:2601:42:0:3450:9477:c2f0:ddea:ea08?
- ([2601:42:0:3450:9477:c2f0:ddea:ea08])
- by smtp.gmail.com with ESMTPSA id
- fz25-20020a05622a5a9900b00399ad646794sm4165768qtb.41.2022.10.15.08.19.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 Oct 2022 08:19:18 -0700 (PDT)
-Message-ID: <608e194f-3137-ceb7-f9e9-155010ce1afa@linaro.org>
-Date: Sat, 15 Oct 2022 11:19:14 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 030DD10E1D4
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 15:51:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8E2B480;
+ Sat, 15 Oct 2022 17:51:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1665849114;
+ bh=7oMy/aBqrhTf68SvCTY/lmiiYuiwCnZUj4vWaGuVS0Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Op3aDy1LFc2MT79eG/u4Ww6Rdv1Q4iJm7TeAmY4T4iUGtQVTJO8Bqyfe9VgUuRGoo
+ MR951x8E9+ZjJHxVsRSXG4rHCXG+BKtR0CSbCX5PDsSz4AwiJsH4PhaS1vppk6ypPZ
+ GuWcYLQyOpAnS7s+ay3qdv73cCfw3lmrzlwKV468=
+Date: Sat, 15 Oct 2022 18:51:31 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v8 3/3] drm: rcar-du: rzg2l_mipi_dsi: Enhance device
+ lanes check
+Message-ID: <Y0rXA4WAPt/3YZO9@pendragon.ideasonboard.com>
+References: <20220920105501.396999-1-biju.das.jz@bp.renesas.com>
+ <20220920105501.396999-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH] dt-bindings: Remove "status" from schema examples, again
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Nandhini Srikandan <nandhini.srikandan@intel.com>,
- Rashmi A <rashmi.a@intel.com>, Kishon Vijay Abraham I <kishon@ti.com>,
- Vinod Koul <vkoul@kernel.org>, Sumit Gupta <sumitg@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Joakim Zhang <qiangqing.zhang@nxp.com>
-References: <20221014205104.2822159-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221014205104.2822159-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220920105501.396999-4-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,27 +48,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/10/2022 16:51, Rob Herring wrote:
-> There's no reason to have "status" properties in examples. "okay" is the
-> default, and "disabled" turns off some schema checks ('required'
-> specifically).
+Hi Biju,
+
+Thank you for the patch.
+
+On Tue, Sep 20, 2022 at 11:55:01AM +0100, Biju Das wrote:
+> Enhance device lanes check by reading TXSETR register at probe(),
+> and enforced in rzg2l_mipi_dsi_host_attach().
 > 
-> A meta-schema check for this is pending, so hopefully the last time to
-> fix these.
+> As per HW manual, we can read TXSETR register only after
+> DPHY initialization.
 > 
-> Fix the indentation in intel,phy-thunderbay-emmc while we're here.
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> v8:
+>  * New patch.
+> ---
+>  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c | 122 ++++++++++++++++-------
+>  1 file changed, 88 insertions(+), 34 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+> index 8579208db218..aa95b85a2964 100644
+> --- a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+> @@ -171,6 +171,11 @@ static void rzg2l_mipi_dsi_link_write(struct rzg2l_mipi_dsi *dsi, u32 reg, u32 d
+>  	iowrite32(data, dsi->mmio + LINK_REG_OFFSET + reg);
+>  }
+>  
+> +static u32 rzg2l_mipi_dsi_phy_read(struct rzg2l_mipi_dsi *dsi, u32 reg)
+> +{
+> +	return ioread32(dsi->mmio + reg);
+> +}
+> +
+>  static u32 rzg2l_mipi_dsi_link_read(struct rzg2l_mipi_dsi *dsi, u32 reg)
+>  {
+>  	return ioread32(dsi->mmio + LINK_REG_OFFSET + reg);
+> @@ -180,19 +185,11 @@ static u32 rzg2l_mipi_dsi_link_read(struct rzg2l_mipi_dsi *dsi, u32 reg)
+>   * Hardware Setup
+>   */
+>  
+> -static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+> -				  const struct drm_display_mode *mode)
+> +static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> +				    unsigned long hsfreq)
+>  {
+>  	const struct rzg2l_mipi_dsi_timings *dphy_timings;
+> -	unsigned long hsfreq;
+> -	unsigned int i, bpp;
+> -	u32 txsetr;
+> -	u32 clstptsetr;
+> -	u32 lptrnstsetr;
+> -	u32 clkkpt;
+> -	u32 clkbfht;
+> -	u32 clkstpt;
+> -	u32 golpbkt;
+> +	unsigned int i;
+>  	u32 dphyctrl0;
+>  	u32 dphytim0;
+>  	u32 dphytim1;
+> @@ -200,19 +197,6 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	u32 dphytim3;
+>  	int ret;
+>  
+> -	/*
+> -	 * Relationship between hsclk and vclk must follow
+> -	 * vclk * bpp = hsclk * 8 * lanes
+> -	 * where vclk: video clock (Hz)
+> -	 *       bpp: video pixel bit depth
+> -	 *       hsclk: DSI HS Byte clock frequency (Hz)
+> -	 *       lanes: number of data lanes
+> -	 *
+> -	 * hsclk(bit) = hsclk(byte) * 8
+> -	 */
+> -	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> -	hsfreq = (mode->clock * bpp * 8) / (8 * dsi->lanes);
+> -
+>  	/* All DSI global operation timings are set with recommended setting */
+>  	for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i) {
+>  		dphy_timings = &rzg2l_mipi_dsi_global_timings[i];
+> @@ -220,12 +204,6 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  			break;
+>  	}
+>  
+> -	ret = pm_runtime_resume_and_get(dsi->dev);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	clk_set_rate(dsi->vclk, mode->clock * 1000);
+> -
+>  	/* Initializing DPHY before accessing LINK */
+>  	dphyctrl0 = DSIDPHYCTRL0_CAL_EN_HSRX_OFS | DSIDPHYCTRL0_CMN_MASTER_EN |
+>  		    DSIDPHYCTRL0_RE_VDD_DETVCCQLV18 | DSIDPHYCTRL0_EN_BGR;
+> @@ -259,10 +237,62 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  
+>  	ret = reset_control_deassert(dsi->rstc);
+>  	if (ret < 0)
+> -		goto err_pm_put;
+> +		return ret;
+>  
+>  	udelay(1);
+>  
+> +	return 0;
+> +}
+> +
+> +static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
+> +{
+> +	u32 dphyctrl0;
+> +
+> +	dphyctrl0 = rzg2l_mipi_dsi_phy_read(dsi, DSIDPHYCTRL0);
+> +
+> +	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
+> +	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
+> +
+> +	reset_control_assert(dsi->rstc);
+> +}
+> +
+> +static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+> +				  const struct drm_display_mode *mode)
+> +{
+> +	unsigned long hsfreq;
+> +	unsigned int bpp;
+> +	u32 txsetr;
+> +	u32 clstptsetr;
+> +	u32 lptrnstsetr;
+> +	u32 clkkpt;
+> +	u32 clkbfht;
+> +	u32 clkstpt;
+> +	u32 golpbkt;
+> +	int ret;
+> +
+> +	/*
+> +	 * Relationship between hsclk and vclk must follow
+> +	 * vclk * bpp = hsclk * 8 * lanes
+> +	 * where vclk: video clock (Hz)
+> +	 *       bpp: video pixel bit depth
+> +	 *       hsclk: DSI HS Byte clock frequency (Hz)
+> +	 *       lanes: number of data lanes
+> +	 *
+> +	 * hsclk(bit) = hsclk(byte) * 8
+> +	 */
+> +	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> +	hsfreq = (mode->clock * bpp * 8) / (8 * dsi->lanes);
+> +
+> +	ret = pm_runtime_resume_and_get(dsi->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	clk_set_rate(dsi->vclk, mode->clock * 1000);
+> +
+> +	ret = rzg2l_mipi_dsi_dphy_init(dsi, hsfreq);
+> +	if (ret < 0)
+> +		goto err_phy;
+> +
+>  	/* Enable Data lanes and Clock lanes */
+>  	txsetr = TXSETR_DLEN | TXSETR_NUMLANEUSE(dsi->lanes - 1) | TXSETR_CLEN;
+>  	rzg2l_mipi_dsi_link_write(dsi, TXSETR, txsetr);
+> @@ -301,7 +331,8 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  
+>  	return 0;
+>  
+> -err_pm_put:
+> +err_phy:
+> +	rzg2l_mipi_dsi_dphy_exit(dsi);
+>  	pm_runtime_put(dsi->dev);
+>  
+>  	return ret;
+> @@ -309,7 +340,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  
+>  static void rzg2l_mipi_dsi_stop(struct rzg2l_mipi_dsi *dsi)
+>  {
+> -	reset_control_assert(dsi->rstc);
+> +	rzg2l_mipi_dsi_dphy_exit(dsi);
+>  	pm_runtime_put(dsi->dev);
+>  }
+>  
+> @@ -666,7 +697,9 @@ static const struct dev_pm_ops rzg2l_mipi_pm_ops = {
+>  
+>  static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+>  {
+> +	unsigned int num_data_lanes;
+>  	struct rzg2l_mipi_dsi *dsi;
+> +	u32 txsetr;
+>  	int ret;
+>  
+>  	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
+> @@ -681,7 +714,7 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+>  		return dev_err_probe(dsi->dev, ret,
+>  				     "missing or invalid data-lanes property\n");
+>  
+> -	dsi->num_data_lanes = ret;
+> +	num_data_lanes = ret;
+>  
+>  	dsi->mmio = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(dsi->mmio))
+> @@ -710,6 +743,24 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+>  
+>  	pm_runtime_enable(dsi->dev);
+>  
+> +	ret = pm_runtime_resume_and_get(dsi->dev);
+> +	if (ret < 0)
+> +		goto err_pm_disable;
+> +
+> +	/*
+> +	 * TXSETR register can be read only after DPHY init. But during probe
+> +	 * mode->clock and format are not available. So initialize DPHY with
+> +	 * timing parameters for 80Mbps.
+> +	 */
+> +	ret = rzg2l_mipi_dsi_dphy_init(dsi, 80000);
+> +	if (ret < 0)
+> +		goto err_phy;
+> +
+> +	txsetr = rzg2l_mipi_dsi_link_read(dsi, TXSETR);
+> +	dsi->num_data_lanes = min(((txsetr >> 16) & 3) + 1, num_data_lanes);
+> +	rzg2l_mipi_dsi_dphy_exit(dsi);
+> +	pm_runtime_put(dsi->dev);
+> +
+>  	/* Initialize the DRM bridge. */
+>  	dsi->bridge.funcs = &rzg2l_mipi_dsi_bridge_ops;
+>  	dsi->bridge.of_node = dsi->dev->of_node;
+> @@ -723,6 +774,9 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+>  
+>  	return 0;
+>  
+> +err_phy:
+> +	rzg2l_mipi_dsi_dphy_exit(dsi);
+> +	pm_runtime_put(dsi->dev);
+>  err_pm_disable:
+>  	pm_runtime_disable(dsi->dev);
+>  	return ret;
 
+-- 
+Regards,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Laurent Pinchart
