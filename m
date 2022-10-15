@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1EF5FFB41
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 18:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F29B5FFB53
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 18:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5AB10E09E;
-	Sat, 15 Oct 2022 16:37:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D485310E195;
+	Sat, 15 Oct 2022 16:58:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B8510E447
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 16:37:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 24972B80AEA;
- Sat, 15 Oct 2022 16:37:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 708C0C433D7;
- Sat, 15 Oct 2022 16:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665851830;
- bh=uBgXXwi9mq1hGYM24KHB/LA4y7CvSaQDWZCJOLwjDkc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=uf4JvNmFaQHbMmIS9+znxbdCByK1M07kKU9zSTKZHy58+JM8rC3FBdpxZsaRTydK4
- 9JuwYWjy8UuVEv9NKa5d9hvn2EGJKQVDxp5ee9u1nHx0ljL8XOe7xOSYBcBR37y/K9
- cqfzCi05daR4XCL4OzowPjhth5NPC1PlK4naNfSVfhvbZWK6EORBLMPZU2047dL39/
- mSpeCVRVKCFFh1CeVQzxQgDlnh+7wE/Spra9f9UB8/yY4Oorrk8SeiBMuW0aHQVG0F
- vh0snCzLTtEZpZ3FyuMkSlYDhGDR5OIV5XaiaeyUd4dKLGch30ySZ2EMbYL1CrBBFg
- XLFX806V9jXBQ==
-Date: Sat, 15 Oct 2022 17:37:31 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Remove "status" from schema examples, again
-Message-ID: <20221015173731.0a5acc4d@jic23-huawei>
-In-Reply-To: <20221014205104.2822159-1-robh@kernel.org>
-References: <20221014205104.2822159-1-robh@kernel.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5268E10E118;
+ Sat, 15 Oct 2022 16:58:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gRy1MHYPV0WjU4nMQ/DZ5j9qWrakSMjHmkC1JCQLKKk=; b=G9nlUqcHHVoUyqjchI57Tgoe/d
+ m0lGjU3ZwAjc3YFmnUb6DEBU1fUKAWLFOBaxCcQJhLYc02d8hfd7deQYYai/8RdQK8jEt9nxd6oSI
+ d57mdNzMsoRDprp6M2gwI4UKaHZXKKU2b4ZGt2Q5p4kdC6V9xEiC0TKUy0MuPdTGI3nMaMR1fkDRj
+ 0YPw6ta/NXrolu/c5x9cb4ETDRdQY67UfzMdwdetJCo8ou3OqZX6EpjIHn1UioQaztW25/wG92ADt
+ jP05MU+8u9yN1bmPdqx1lgpm0jS8dOMGJanP0dXqafqWGPQGWtQ0ABLTwpdQcaMusFHsoEqyf5A/B
+ qJcVU25A==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:62527
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1ojkUb-0004Ts-Bm; Sat, 15 Oct 2022 18:58:33 +0200
+Message-ID: <61813964-8f3e-87b0-4124-4566a7f9c86e@tronnes.org>
+Date: Sat, 15 Oct 2022 18:58:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v5 07/22] drm/client: Add some tests for
+ drm_connector_pick_cmdline_mode()
+To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-7-d841cc64fe4b@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-7-d841cc64fe4b@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,149 +69,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, Eric Dumazet <edumazet@google.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Joakim Zhang <qiangqing.zhang@nxp.com>, Kishon Vijay Abraham I <kishon@ti.com>,
- Rashmi A <rashmi.a@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Jakub Kicinski <kuba@kernel.org>, Sumit Gupta <sumitg@nvidia.com>,
- Paolo Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Nandhini Srikandan <nandhini.srikandan@intel.com>, netdev@vger.kernel.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Vinod Koul <vkoul@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Oct 2022 15:51:04 -0500
-Rob Herring <robh@kernel.org> wrote:
 
-> There's no reason to have "status" properties in examples. "okay" is the
-> default, and "disabled" turns off some schema checks ('required'
-> specifically).
-> 
-> A meta-schema check for this is pending, so hopefully the last time to
-> fix these.
-> 
-> Fix the indentation in intel,phy-thunderbay-emmc while we're here.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
 
+Den 13.10.2022 15.18, skrev Maxime Ripard:
+> drm_connector_pick_cmdline_mode() is in charge of finding a proper
+> drm_display_mode from the definition we got in the video= command line
+> argument.
+> 
+> Let's add some unit tests to make sure we're not getting any regressions
+> there.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
 > ---
->  .../arm/tegra/nvidia,tegra-ccplex-cluster.yaml    |  1 -
->  .../display/tegra/nvidia,tegra124-dpaux.yaml      |  1 -
->  .../display/tegra/nvidia,tegra186-display.yaml    |  2 --
->  .../bindings/iio/addac/adi,ad74413r.yaml          |  1 -
->  .../devicetree/bindings/net/cdns,macb.yaml        |  1 -
->  .../devicetree/bindings/net/nxp,dwmac-imx.yaml    |  1 -
->  .../bindings/phy/intel,phy-thunderbay-emmc.yaml   | 15 +++++++--------
->  7 files changed, 7 insertions(+), 15 deletions(-)
+> Changes in v5:
+> - Removed useless (for now) count and modes intermediate variables in
+>   get_modes
+> - Switched to kunit assertions in test init, and to KUNIT_ASSERT_NOT_NULL
+>   instead of KUNIT_ASSERT_PTR_NE(..., NULL)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
-> index 711bb4d08c60..869c266e7ebc 100644
-> --- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
-> +++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
-> @@ -47,5 +47,4 @@ examples:
->        compatible = "nvidia,tegra234-ccplex-cluster";
->        reg = <0x0e000000 0x5ffff>;
->        nvidia,bpmp = <&bpmp>;
-> -      status = "okay";
->      };
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-> index 9ab123cd2325..5cdbc527a560 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-> @@ -128,7 +128,6 @@ examples:
->          resets = <&tegra_car 181>;
->          reset-names = "dpaux";
->          power-domains = <&pd_sor>;
-> -        status = "disabled";
->  
->          state_dpaux_aux: pinmux-aux {
->              groups = "dpaux-io";
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-> index 8c0231345529..ce5c673f940c 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-> @@ -138,7 +138,6 @@ examples:
->                   <&bpmp TEGRA186_CLK_NVDISPLAY_DSC>,
->                   <&bpmp TEGRA186_CLK_NVDISPLAYHUB>;
->          clock-names = "disp", "dsc", "hub";
-> -        status = "disabled";
->  
->          power-domains = <&bpmp TEGRA186_POWER_DOMAIN_DISP>;
->  
-> @@ -227,7 +226,6 @@ examples:
->          clocks = <&bpmp TEGRA194_CLK_NVDISPLAY_DISP>,
->                   <&bpmp TEGRA194_CLK_NVDISPLAYHUB>;
->          clock-names = "disp", "hub";
-> -        status = "disabled";
->  
->          power-domains = <&bpmp TEGRA194_POWER_DOMAIN_DISP>;
->  
-> diff --git a/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml b/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
-> index 03bb90a7f4f8..d2a9f92c0a6d 100644
-> --- a/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
-> +++ b/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
-> @@ -114,7 +114,6 @@ examples:
->        #size-cells = <0>;
->  
->        cs-gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
-> -      status = "okay";
->  
->        ad74413r@0 {
->          compatible = "adi,ad74413r";
-> diff --git a/Documentation/devicetree/bindings/net/cdns,macb.yaml b/Documentation/devicetree/bindings/net/cdns,macb.yaml
-> index 318f4efe7f6f..bef5e0f895be 100644
-> --- a/Documentation/devicetree/bindings/net/cdns,macb.yaml
-> +++ b/Documentation/devicetree/bindings/net/cdns,macb.yaml
-> @@ -203,7 +203,6 @@ examples:
->                      power-domains = <&zynqmp_firmware PD_ETH_1>;
->                      resets = <&zynqmp_reset ZYNQMP_RESET_GEM1>;
->                      reset-names = "gem1_rst";
-> -                    status = "okay";
->                      phy-mode = "sgmii";
->                      phys = <&psgtr 1 PHY_TYPE_SGMII 1 1>;
->                      fixed-link {
-> diff --git a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
-> index 4c155441acbf..0270b0ca166b 100644
-> --- a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
-> +++ b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
-> @@ -92,5 +92,4 @@ examples:
->                       <&clk IMX8MP_CLK_ENET_QOS>;
->              clock-names = "stmmaceth", "pclk", "ptp_ref", "tx";
->              phy-mode = "rgmii";
-> -            status = "disabled";
->      };
-> diff --git a/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml b/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
-> index 34bdb5c4cae8..b09e5ba5e127 100644
-> --- a/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
-> +++ b/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
-> @@ -36,11 +36,10 @@ additionalProperties: false
->  
->  examples:
->    - |
-> -     mmc_phy@80440800 {
-> -     #phy-cells = <0x0>;
-> -     compatible = "intel,thunderbay-emmc-phy";
-> -     status = "okay";
-> -     reg = <0x80440800 0x100>;
-> -     clocks = <&emmc>;
-> -     clock-names = "emmcclk";
-> -     };
-> +    mmc_phy@80440800 {
-> +        #phy-cells = <0x0>;
-> +        compatible = "intel,thunderbay-emmc-phy";
-> +        reg = <0x80440800 0x100>;
-> +        clocks = <&emmc>;
-> +        clock-names = "emmcclk";
-> +    };
+> Changes in v4:
+> - Removed MODULE macros
+> ---
+>  drivers/gpu/drm/drm_client_modeset.c            |  4 +
+>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 99 +++++++++++++++++++++++++
+>  2 files changed, 103 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index bbc535cc50dd..d553e793e673 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -1237,3 +1237,7 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_client_modeset_dpms);
+> +
+> +#ifdef CONFIG_DRM_KUNIT_TEST
+> +#include "tests/drm_client_modeset_test.c"
+> +#endif
 
+I can't say I like including the file like this, but exporting the
+static function for testing isn't attractive either and doing it like
+this is shown in the kunit docs, so:
+
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
