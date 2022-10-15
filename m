@@ -1,44 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4815FFBA5
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 20:28:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1C25FFBFD
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 23:23:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8269C10E35B;
-	Sat, 15 Oct 2022 18:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7CC610E57C;
+	Sat, 15 Oct 2022 21:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 622A810E35B
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 18:28:30 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF4FB480;
- Sat, 15 Oct 2022 20:28:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1665858509;
- bh=DG8PAbn5t9CS/s216yD46tH3E1t5E7pFPMUouWzS9lk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WFb6t8g5ctr85iLoXBcLRRGBZg5EQ+jk1m7b/q1URNisFSD8V/LHmUiE9PxST++ZS
- Mxk+hInELQ024/FGGBm+6aov2R949RTZwj+n6YbBklst6gngb/P++Y8hfQBMhm+QjA
- 1H5ZtQQB5bhOCxyHz9X1kAX3dXqiUFuVWXegMRx0=
-Date: Sat, 15 Oct 2022 21:28:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: allen.chen@ite.com.tw
-Subject: Re: [PATCH v4 1/2] dt-bindings: it6505: add properties to restrict
- output bandwidth
-Message-ID: <Y0r7tplRZbtiX+U6@pendragon.ideasonboard.com>
-References: <20221013105116.180380-1-allen.chen@ite.com.tw>
- <20221013105116.180380-2-allen.chen@ite.com.tw>
- <Y0fxCVUtlkB4XHIq@pendragon.ideasonboard.com>
- <20221013192016.GA95717-robh@kernel.org>
- <e24a52c109444452a9027d53a21d6ef0@ite.com.tw>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 326E510E574
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 21:23:06 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id C3BAD81F4E;
+ Sat, 15 Oct 2022 23:23:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1665868983;
+ bh=lPgtUCPpTa/WL34EWEkiQDRyFdwHRUOwPPDz/2rd0vc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=trp4E3fp7WAf8pMqQg+O5akB4FIYqBU8gEEqcZ3BkFhVQUfIRXsiIQ7irodGligEI
+ 1X7OFGZIeomcAID9bx2oX/haCd/dFKKdXiitx8DsKKIagafPKsEZa6MweTimr/97On
+ zotWM9/koL1ysSMTS/5iB0jI3p3u/IuREW/QJFfm+hxYFNRAAEJ+D+lqC3B5WmeGWu
+ 02oq0QC2TtP/4W7orjMZ7g8IDH2pufgnWl54OdF8OG6AV5PYNYzLDCb2SilOe3gb77
+ kvBXIMWPaFvGiV5Bah1qSXZgGrAKnRlcQ6ru7GhUT4gac/qF6QKaBIA/sVEecRGFhS
+ dm2LnlAWuGazg==
+Message-ID: <acc210c6-f3ae-a836-e2fc-5b1872b5bbd7@denx.de>
+Date: Sat, 15 Oct 2022 23:23:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e24a52c109444452a9027d53a21d6ef0@ite.com.tw>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v7 05/10] drm: bridge: samsung-dsim: Add atomic_check
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+References: <20221005151309.7278-1-jagan@amarulasolutions.com>
+ <20221005151309.7278-6-jagan@amarulasolutions.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20221005151309.7278-6-jagan@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,126 +68,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth.Hung@ite.com.tw, krzysztof.kozlowski+dt@linaro.org,
- Jau-Chih.Tseng@ite.com.tw, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org, robert.foss@linaro.org,
- treapking@chromium.org, Hermes.Wu@ite.com.tw, jernej.skrabec@gmail.com,
- andrzej.hajda@intel.com, devicetree@vger.kernel.org, jonas@kwiboo.se
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-On Fri, Oct 14, 2022 at 03:28:31AM +0000, allen.chen@ite.com.tw wrote:
-> On Friday, October 14, 2022 3:20 AM, Rob Herring wrote:
-> > On Thu, Oct 13, 2022 at 02:05:45PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Oct 13, 2022 at 06:51:13PM +0800, allen wrote:
-> > > > From: allen chen <allen.chen@ite.com.tw>
-> > > > 
-> > > > Add properties to restrict dp output data-lanes and clock.
-> > > > 
-> > > > Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> > > > Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> > > > ---
-> > > >  .../bindings/display/bridge/ite,it6505.yaml   | 43 +++++++++++++++++++
-> > > >  1 file changed, 43 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > > > index 833d11b2303a7..f2c3d1d10359e 100644
-> > > > --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > > > @@ -52,10 +52,51 @@ properties:
-> > > >      maxItems: 1
-> > > >      description: extcon specifier for the Power Delivery
-> > > >  
-> > > > +  data-lanes:
-> > > > +    oneOf:
-> > > > +      - minItems: 1
-> > > > +        maxItems: 1
-> > > > +        uniqueItems: true
-> > > > +        items:
-> > > > +          enum:
-> > > > +            - 0
-> > > > +            - 1
-> > > > +        description: For one lane operation.
-> > > > +
-> > > > +      - minItems: 2
-> > > > +        maxItems: 2
-> > > > +        uniqueItems: true
-> > > > +        items:
-> > > > +          enum:
-> > > > +            - 0
-> > > > +            - 1
-> > > > +        description: For two lanes operation.
-> > > > +
-> > > > +      - minItems: 4
-> > > > +        maxItems: 4
-> > > > +        uniqueItems: true
-> > > > +        items:
-> > > > +          enum:
-> > > > +            - 0
-> > > > +            - 1
-> > > > +            - 2
-> > > > +            - 3
-> > > > +        description: For four lanes operation.
-> > > 
-> > > The data lanes should be in the output endpoint. If there's no output 
-> > > port, one should be added.
+On 10/5/22 17:13, Jagan Teki wrote:
+> Look like an explicit fixing up of mode_flags is required for DSIM IP
+> present in i.MX8M Mini/Nano SoCs.
 > 
-> ==> In this dt-binding, our output point is "extcon" so doesn't have output endpoint.
-> I don't know how to add the endpoint.
-> If need to add the endpoint to this dt-binding, what is your recommend about adding the endpoint?
+> At least the LCDIF + DSIM needs active low sync polarities in order
+> to correlate the correct sync flags of the surrounding components in
+> the chain to make sure the whole pipeline can work properly.
+> 
+> On the other hand the i.MX 8M Mini Applications Processor Reference Manual,
+> Rev. 3, 11/2020 says.
+> "13.6.3.5.2 RGB interface
+>   Vsync, Hsync, and VDEN are active high signals."
+> 
+> No clear evidence about whether it can be documentation issues or
+> something, so added a comment FIXME for this and updated the active low
+> sync polarities using SAMSUNG_DSIM_TYPE_IMX8MM hw_type.
 
-You will also need to add a port to the USB-C connector. Then endpoints
-can be added to connect the two.
+[...]
 
-> By the way, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> said
-> we could put "data-lanes" here.
+> +static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *bridge_state,
+> +				     struct drm_crtc_state *crtc_state,
+> +				     struct drm_connector_state *conn_state)
+> +{
+> +	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+> +	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+> +
+> +	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) {
+> +		/**
+> +		 * FIXME:
+> +		 * At least LCDIF + DSIM needs active low sync,
+> +		 * but i.MX 8M Mini Applications Processor Reference Manual,
+> +		 * Rev. 3, 11/2020 says
+> +		 *
+> +		 * 13.6.3.5.2 RGB interface
+> +		 * Vsync, Hsync, and VDEN are active high signals.
+> +		 */
+> +		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> +		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+> +	}
 
-If I read him correctly, Krzysztof said we have a standard property for
-the data lanes (and that's true, we do), but I don't think he implied it
-could be put outside of the endpoint (Krzysztof, please correct me if
-I'm wrong).
+It would be good to explain what exactly is going on here in the 
+comment, the comment says "Vsync, Hsync, and VDEN are active high 
+signals." and the code below does exact opposite and sets NxSYNC flags.
 
-> > > > +
-> > > >    port:
-> > > >      $ref: /schemas/graph.yaml#/properties/port
-> > 
-> > To fix the error, this must be:
-> > 
-> > $ref: /schemas/graph.yaml#/$defs/port-base
-> > unevaluatedProperties: false
-> > 
-> > > >      description: A port node pointing to DPI host port node
-> > > >  
-> > > > +    properties:
-> > > > +      endpoint:
-> > > > +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > > > +
-> > > > +        properties:
-> > > > +          link-frequencies:
-> > > > +            minItems: 1
-> > > > +            maxItems: 1
-> > > > +            description: Allowed max link frequencies in Hz.
-> > > > +
-> > > >  required:
-> > > >    - compatible
-> > > >    - ovdd-supply
-> > > > @@ -84,10 +125,12 @@ examples:
-> > > >              pwr18-supply = <&it6505_pp18_reg>;
-> > > >              reset-gpios = <&pio 179 1>;
-> > > >              extcon = <&usbc_extcon>;
-> > > > +            data-lanes = <0 1>;
-> > > >  
-> > > >              port {
-> > > >                  it6505_in: endpoint {
-> > > >                      remote-endpoint = <&dpi_out>;
-> > > > +                    link-frequencies = /bits/ 64 <150000000>;
-> > > >                  };
-> > > >              };
-> > > >          };
+Yes, the MX8MM/MN does need HS/VS/DE active LOW, it is a quirk of that 
+MXSFB-DSIM glue logic. The MX8MP needs the exact opposite on all three, 
+active HIGH.
 
--- 
-Regards,
-
-Laurent Pinchart
+It would also be good to mention both MX8MM and MX8MN are affected, not 
+only MX8MM.
