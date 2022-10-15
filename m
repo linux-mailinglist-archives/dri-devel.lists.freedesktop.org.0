@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDC45FFB2C
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 18:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1EF5FFB41
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 18:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7B2010E40A;
-	Sat, 15 Oct 2022 16:14:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5AB10E09E;
+	Sat, 15 Oct 2022 16:37:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3915310E40A
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 16:14:05 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4B8510E447
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 16:37:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C569AB80AC2
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 16:14:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7F160C433C1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 16:14:02 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 24972B80AEA;
+ Sat, 15 Oct 2022 16:37:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 708C0C433D7;
+ Sat, 15 Oct 2022 16:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665850442;
- bh=yOr6Hn5P9Hp033K/WRLOAgt9q480HBsY6sZnZCfB11k=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=pVEIF56pbj8kkpaeLvv55lSNAIV4E4jqJ77f8EsvJ2jf39DX+PQWdhdlkMV6BMbiP
- rYHpULhmAKdAc7Ri/8eqK577qC/zjHq4gEtTu1SaTaR9pssyygLoNgcuh4kboEQ+rR
- spusLVZY1GbmqJoPgxL9gV3K2g2eBTPBbz3AOgO7HBnZt7sVLsdlWlA9AKGa6hxrXB
- n9riF+0/BQkpvRzfEqjk7fiQTF/r1rTYMpwSHCDGdP0EDNvqZSXIG08qF9k/jL4x8m
- CPAwcdSfQHbsoPQU9OcX8KIShteRsh/IEm0wu3faRDcXai/vOUuZFv24fdtLbNiL8c
- vy6ZDr5OEuApQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 67E95C433E6; Sat, 15 Oct 2022 16:14:02 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214425] [drm][amdgpu][TTM] Page pool memory never gets freed
-Date: Sat, 15 Oct 2022 16:14:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rafael.ristovski@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214425-2300-r2QxyhUemK@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214425-2300@https.bugzilla.kernel.org/>
-References: <bug-214425-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1665851830;
+ bh=uBgXXwi9mq1hGYM24KHB/LA4y7CvSaQDWZCJOLwjDkc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=uf4JvNmFaQHbMmIS9+znxbdCByK1M07kKU9zSTKZHy58+JM8rC3FBdpxZsaRTydK4
+ 9JuwYWjy8UuVEv9NKa5d9hvn2EGJKQVDxp5ee9u1nHx0ljL8XOe7xOSYBcBR37y/K9
+ cqfzCi05daR4XCL4OzowPjhth5NPC1PlK4naNfSVfhvbZWK6EORBLMPZU2047dL39/
+ mSpeCVRVKCFFh1CeVQzxQgDlnh+7wE/Spra9f9UB8/yY4Oorrk8SeiBMuW0aHQVG0F
+ vh0snCzLTtEZpZ3FyuMkSlYDhGDR5OIV5XaiaeyUd4dKLGch30ySZ2EMbYL1CrBBFg
+ XLFX806V9jXBQ==
+Date: Sat, 15 Oct 2022 17:37:31 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Remove "status" from schema examples, again
+Message-ID: <20221015173731.0a5acc4d@jic23-huawei>
+In-Reply-To: <20221014205104.2822159-1-robh@kernel.org>
+References: <20221014205104.2822159-1-robh@kernel.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,31 +53,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-phy@lists.infradead.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Joakim Zhang <qiangqing.zhang@nxp.com>, Kishon Vijay Abraham I <kishon@ti.com>,
+ Rashmi A <rashmi.a@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Jakub Kicinski <kuba@kernel.org>, Sumit Gupta <sumitg@nvidia.com>,
+ Paolo Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, linux-kernel@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Nandhini Srikandan <nandhini.srikandan@intel.com>, netdev@vger.kernel.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>, Vinod Koul <vkoul@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214425
+On Fri, 14 Oct 2022 15:51:04 -0500
+Rob Herring <robh@kernel.org> wrote:
 
---- Comment #4 from Rafael Ristovski (rafael.ristovski@gmail.com) ---
-For what its worth, the following horrible incantation managed to release 2=
-+GB
-of TTM buffers on one of my machines, after I purposefully ran a VRAM inten=
-sive
-game:
-> for i in {1..1000}; do cat /sys/kernel/debug/ttm/page_pool_shrink; done
+> There's no reason to have "status" properties in examples. "okay" is the
+> default, and "disabled" turns off some schema checks ('required'
+> specifically).
+> 
+> A meta-schema check for this is pending, so hopefully the last time to
+> fix these.
+> 
+> Fix the indentation in intel,phy-thunderbay-emmc while we're here.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
 
-This seems to be the only sysfs mechanism to cause the memory to get releas=
-ed,
-and as of now I am not aware of a... better and mainly "cleaner" alternativ=
-e.
+> ---
+>  .../arm/tegra/nvidia,tegra-ccplex-cluster.yaml    |  1 -
+>  .../display/tegra/nvidia,tegra124-dpaux.yaml      |  1 -
+>  .../display/tegra/nvidia,tegra186-display.yaml    |  2 --
+>  .../bindings/iio/addac/adi,ad74413r.yaml          |  1 -
+>  .../devicetree/bindings/net/cdns,macb.yaml        |  1 -
+>  .../devicetree/bindings/net/nxp,dwmac-imx.yaml    |  1 -
+>  .../bindings/phy/intel,phy-thunderbay-emmc.yaml   | 15 +++++++--------
+>  7 files changed, 7 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
+> index 711bb4d08c60..869c266e7ebc 100644
+> --- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
+> +++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra-ccplex-cluster.yaml
+> @@ -47,5 +47,4 @@ examples:
+>        compatible = "nvidia,tegra234-ccplex-cluster";
+>        reg = <0x0e000000 0x5ffff>;
+>        nvidia,bpmp = <&bpmp>;
+> -      status = "okay";
+>      };
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
+> index 9ab123cd2325..5cdbc527a560 100644
+> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
+> @@ -128,7 +128,6 @@ examples:
+>          resets = <&tegra_car 181>;
+>          reset-names = "dpaux";
+>          power-domains = <&pd_sor>;
+> -        status = "disabled";
+>  
+>          state_dpaux_aux: pinmux-aux {
+>              groups = "dpaux-io";
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
+> index 8c0231345529..ce5c673f940c 100644
+> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
+> @@ -138,7 +138,6 @@ examples:
+>                   <&bpmp TEGRA186_CLK_NVDISPLAY_DSC>,
+>                   <&bpmp TEGRA186_CLK_NVDISPLAYHUB>;
+>          clock-names = "disp", "dsc", "hub";
+> -        status = "disabled";
+>  
+>          power-domains = <&bpmp TEGRA186_POWER_DOMAIN_DISP>;
+>  
+> @@ -227,7 +226,6 @@ examples:
+>          clocks = <&bpmp TEGRA194_CLK_NVDISPLAY_DISP>,
+>                   <&bpmp TEGRA194_CLK_NVDISPLAYHUB>;
+>          clock-names = "disp", "hub";
+> -        status = "disabled";
+>  
+>          power-domains = <&bpmp TEGRA194_POWER_DOMAIN_DISP>;
+>  
+> diff --git a/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml b/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
+> index 03bb90a7f4f8..d2a9f92c0a6d 100644
+> --- a/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
+> +++ b/Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
+> @@ -114,7 +114,6 @@ examples:
+>        #size-cells = <0>;
+>  
+>        cs-gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
+> -      status = "okay";
+>  
+>        ad74413r@0 {
+>          compatible = "adi,ad74413r";
+> diff --git a/Documentation/devicetree/bindings/net/cdns,macb.yaml b/Documentation/devicetree/bindings/net/cdns,macb.yaml
+> index 318f4efe7f6f..bef5e0f895be 100644
+> --- a/Documentation/devicetree/bindings/net/cdns,macb.yaml
+> +++ b/Documentation/devicetree/bindings/net/cdns,macb.yaml
+> @@ -203,7 +203,6 @@ examples:
+>                      power-domains = <&zynqmp_firmware PD_ETH_1>;
+>                      resets = <&zynqmp_reset ZYNQMP_RESET_GEM1>;
+>                      reset-names = "gem1_rst";
+> -                    status = "okay";
+>                      phy-mode = "sgmii";
+>                      phys = <&psgtr 1 PHY_TYPE_SGMII 1 1>;
+>                      fixed-link {
+> diff --git a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
+> index 4c155441acbf..0270b0ca166b 100644
+> --- a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
+> +++ b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
+> @@ -92,5 +92,4 @@ examples:
+>                       <&clk IMX8MP_CLK_ENET_QOS>;
+>              clock-names = "stmmaceth", "pclk", "ptp_ref", "tx";
+>              phy-mode = "rgmii";
+> -            status = "disabled";
+>      };
+> diff --git a/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml b/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
+> index 34bdb5c4cae8..b09e5ba5e127 100644
+> --- a/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
+> +++ b/Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml
+> @@ -36,11 +36,10 @@ additionalProperties: false
+>  
+>  examples:
+>    - |
+> -     mmc_phy@80440800 {
+> -     #phy-cells = <0x0>;
+> -     compatible = "intel,thunderbay-emmc-phy";
+> -     status = "okay";
+> -     reg = <0x80440800 0x100>;
+> -     clocks = <&emmc>;
+> -     clock-names = "emmcclk";
+> -     };
+> +    mmc_phy@80440800 {
+> +        #phy-cells = <0x0>;
+> +        compatible = "intel,thunderbay-emmc-phy";
+> +        reg = <0x80440800 0x100>;
+> +        clocks = <&emmc>;
+> +        clock-names = "emmcclk";
+> +    };
 
-Newer kernel versions seem to feature
-https://www.kernel.org/doc/html/next/admin-guide/mm/shrinker_debugfs.html,
-which might be a better alternative, but I have not tested it yet, and its
-usage is not exactly clear to me.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
