@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2AC5FF849
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 05:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AF65FF84D
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 05:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE6410E351;
-	Sat, 15 Oct 2022 03:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85F6C10E355;
+	Sat, 15 Oct 2022 03:39:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E400C10E34B;
- Sat, 15 Oct 2022 03:34:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2F110E353;
+ Sat, 15 Oct 2022 03:38:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665804893; x=1697340893;
+ t=1665805131; x=1697341131;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=/4uABFflNwpfgUD6/DSSV8rb/bbLgVN9yw+vj8dpmFU=;
- b=hPDJuezoZu1jnLVfHC0ELXmFckFsuQo/htVBbNllEmrC/84bnvkPvXOu
- 5AZz8K2hfPu6XCdTMVZEA5HREAGpjTXm5OegSO9sD41VaG3MATESSjOLn
- jVMvUU+eTKUACoewRSi7ZJUam5riLY0oFMWtCm2CflfcDwjFWOxPmaE7r
- q3MV21cS7ve7PgPBdB1aTApnfLb31uU8LqpgJ0HX2KhnnibwToyC/4eNb
- yUpzUEv9EMtC630sF6qZlZlpfyNbUYIMWMt9B0HXOwoYEpRMO5AQDS07R
- 4z3MguuVJV/ny6UH+iBAPmG4Fxa9cxh7y2zcTjo7BLANlXfnMlZfBz247 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="304253235"
-X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="304253235"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ bh=bZarYYw65EBRnymRGwFXtLcXDdnsO75hWiNqpAsh92I=;
+ b=J+nialX77SuJcrhyzen6n3CiiJvNeryL7luLDXEfFuHfI/ORI7wBUs69
+ /pnXHpv6aQUSI0lroXOiXrM7KuBxpJsSuhG4Ludd6BZqWpn8iiIrgoBzH
+ 5JAj40GGAordl3qyBGChWU3/9qjUQ3c1IOG6LLQ6EDx3ueeNYvT+v4uxP
+ fDkrs44VXVVdvSxgB0XAZt/ovYBY5Uyuzayz/5d69ECNlcZKfyi7Xu4Eg
+ 4/yXw70Fsyb/Hd7UIFw4EO3V3cZf8OiJTvIfL7DINPRdWKl7cCCAyuf/6
+ Oe9oFRLEvZljWi5sB7OutQAcXdZMHl/66yVc/tmYUJKftQYjspVdAkt0W Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="304253547"
+X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="304253547"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2022 20:34:53 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="605576158"
-X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="605576158"
+ 14 Oct 2022 20:38:51 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="872939885"
+X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="872939885"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.12.38])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2022 20:34:52 -0700
-Date: Fri, 14 Oct 2022 20:34:52 -0700
-Message-ID: <87wn91ep43.wl-ashutosh.dixit@intel.com>
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2022 20:38:50 -0700
+Date: Fri, 14 Oct 2022 20:38:49 -0700
+Message-ID: <87v8oleoxi.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/mtl: Modify CAGF functions for
- MTL
-In-Reply-To: <YyidgzOwS5CT+RVN@alfio.lan>
-References: <20220919115906.1264041-1-badal.nilawar@intel.com>	<20220919115906.1264041-2-badal.nilawar@intel.com>	<YyidgzOwS5CT+RVN@alfio.lan>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/mtl: Add C6 residency support for MTL SAMedia
+In-Reply-To: <87h712o4f7.fsf@intel.com>
+References: <20220919115906.1264041-1-badal.nilawar@intel.com>	<20220919115906.1264041-3-badal.nilawar@intel.com>	<87edw7pnoh.fsf@intel.com>	<87v8pid8k2.wl-ashutosh.dixit@intel.com>	<87h712o4f7.fsf@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -60,60 +59,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Badal Nilawar <badal.nilawar@intel.com>, rodrigo.vivi@intel.com
+Cc: andi.shyti@intel.com, tvrtko.ursulin@intel.com, anshuman.gupta@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jon.ewins@intel.com, Badal Nilawar <badal.nilawar@intel.com>,
+ rodrigo.vivi@intel.com, vinay.belgaumkar@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Sep 2022 09:49:07 -0700, Andi Shyti wrote:
+On Tue, 20 Sep 2022 01:06:52 -0700, Jani Nikula wrote:
 >
-> Hi Badal,
-
-Hi Andi,
-
-Badal is out for a bit so I am sending out this version.
-
-> On Mon, Sep 19, 2022 at 05:29:05PM +0530, Badal Nilawar wrote:
-> > Updated the CAGF functions to get actual resolved frequency of
-> > 3D and SAMedia
+> On Mon, 19 Sep 2022, "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
+> > On Mon, 19 Sep 2022 05:13:18 -0700, Jani Nikula wrote:
+> >>
+> >> On Mon, 19 Sep 2022, Badal Nilawar <badal.nilawar@intel.com> wrote:
+> >> > For MTL SAMedia updated relevant functions and places in the code to get
+> >> > Media C6 residency.
+> >> >
+> >> > v2: Fixed review comments (Ashutosh)
+> >> >
+> >> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> >> > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> >> > Cc: Chris Wilson <chris.p.wilson@intel.com>
+> >> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> >> > ---
+> >> >  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 60 +++++++++++++++++++
+> >> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 10 ++++
+> >> >  drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  9 ++-
+> >> >  drivers/gpu/drm/i915/gt/intel_rc6.c           |  5 +-
+> >> >  drivers/gpu/drm/i915/gt/selftest_rc6.c        |  9 ++-
+> >> >  drivers/gpu/drm/i915/i915_pmu.c               |  8 ++-
+> >> >  6 files changed, 97 insertions(+), 4 deletions(-)
+> >> >
+> >> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> >> > index 68310881a793..053167b506a9 100644
+> >> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> >> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> >> > @@ -269,6 +269,64 @@ static int ilk_drpc(struct seq_file *m)
+> >> >	return 0;
+> >> >  }
+> >> >
+> >> > +static int mtl_drpc(struct seq_file *m)
+> >> > +{
+> >> > +	struct intel_gt *gt = m->private;
+> >> > +	struct intel_uncore *uncore = gt->uncore;
+> >> > +	u32 gt_core_status, rcctl1, global_forcewake;
+> >> > +	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
+> >> > +	i915_reg_t reg;
+> >> > +
+> >> > +	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
+> >> > +
+> >> > +	global_forcewake = intel_uncore_read(uncore, FORCEWAKE_GT_GEN9);
+> >> > +
+> >> > +	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
+> >> > +	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
+> >> > +	mtl_powergate_status = intel_uncore_read(uncore,
+> >> > +						 GEN9_PWRGT_DOMAIN_STATUS);
+> >> > +
+> >> > +	seq_printf(m, "RC6 Enabled: %s\n",
+> >> > +		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
+> >> > +	if (gt->type == GT_MEDIA) {
+> >> > +		seq_printf(m, "Media Well Gating Enabled: %s\n",
+> >> > +			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
+> >> > +	} else {
+> >> > +		seq_printf(m, "Render Well Gating Enabled: %s\n",
+> >> > +			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
+> >> > +	}
+> >> > +
+> >> > +	seq_puts(m, "Current RC state: ");
+> >> > +
+> >> > +	switch ((gt_core_status & MTL_CC_MASK) >> MTL_CC_SHIFT) {
+> >> > +	case MTL_CC0:
+> >> > +		seq_puts(m, "on\n");
+> >> > +		break;
+> >> > +	case MTL_CC6:
+> >> > +		seq_puts(m, "RC6\n");
+> >> > +		break;
+> >> > +	default:
+> >> > +		seq_puts(m, "Unknown\n");
+> >> > +		break;
+> >> > +	}
+> >> > +
+> >> > +	if (gt->type == GT_MEDIA)
+> >> > +		seq_printf(m, "Media Power Well: %s\n",
+> >> > +			   (mtl_powergate_status &
+> >> > +			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
+> >> > +	else
+> >> > +		seq_printf(m, "Render Power Well: %s\n",
+> >> > +			   (mtl_powergate_status &
+> >> > +			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
+> >> > +
+> >> > +	reg = (gt->type == GT_MEDIA) ? MTL_MEDIA_MC6 : GEN6_GT_GFX_RC6;
+> >> > +	print_rc6_res(m, "RC6 residency since boot:", reg);
+> >>
+> >> Cc: Tvrtko, Joonas, Rodrigo
+> >>
+> >
+> > Hi Jani,
+> >
+> >> IMO the register is not a good abstraction to build interfaces on. I see
+> >> that this is not where the idea is introduced, but it'll probably get
+> >> you in trouble later on.
+> >
+> > By "this is not where the idea is introduced" are you referring to what we
+> > did here:
+> >
+> > https://patchwork.freedesktop.org/patch/502372/?series=108091&rev=5
+> >
+> > in intel_gt_perf_limit_reasons_reg()?
+> >
+> > Or, should we follow the schema of centralizing the register selection
+> > depending on gt type in a single function here too (since this register
+> > selection is repeated throughout this patch)?
 >
-> can you please use the imperative form? "Update" and not
-> "Updated".
-
-> Besides I don't really understand what you did from the
-> commit, can you please bea  bit more descriptive?
-
-Done in series version v5. Please take a look.
-
-> > Bspec: 66300
-> >
-> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h | 8 ++++++++
-> >  drivers/gpu/drm/i915/gt/intel_rps.c     | 6 +++++-
-> >  2 files changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > index 2275ee47da95..7819d32db956 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > @@ -1510,6 +1510,14 @@
-> >  #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
-> >  #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
-> >
-> > +/*
-> > + * MTL: Workpoint reg to get Core C state and act freq of 3D, SAMedia/
-> > + * 3D - 0x0C60 , SAMedia - 0x380C60
-> > + * Intel uncore handler redirects transactions for SAMedia to MTL_MEDIA_GSI_BASE
-> > + */
+> I'm looking at print_rc6_res(), for example.
 >
-> This comment is not understandable... we don't have limits in
-> space, you can be a bit more explicit :)
+> It takes the register, reads it, and also passes the register around,
+> eventually to intel_rc6_residency_ns(). That does magic on the register
+> offset, so it assumes a certain multi-register layout, and relative from
+> GEN6_GT_GFX_RC6_LOCKED. Then it assumes the register contents are
+> different on different platforms.
+>
+> So why did we pass around the register to begin with? The knowledge
+> about the register offsets and contents are spread around. What if
+> another platform gets added with a different register contents or layout
+> or offsets?
+>
+> Registers are a really low level of abstraction, and IMO usually should
+> not be passed around like this.
 
-Based on Matt R's comment the comment has been deleted (except for the
-first line). There is an explanation at the bottom of gt/intel_gt_regs.h.
+Hi Jani, I've tried to fix this in v5 of this series based on some
+discussion which I believe happened between Badal and Rodrigo:
+
+https://patchwork.freedesktop.org/series/108156/
+
+Please take a look at "drm/i915/gt: Change RC6 residency functions to
+accept register ID's".
 
 Thanks.
 --
