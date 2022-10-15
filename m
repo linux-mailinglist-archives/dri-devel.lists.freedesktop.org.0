@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216875FFC12
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 23:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319005FFC16
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 23:49:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 825B610E591;
-	Sat, 15 Oct 2022 21:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2944810E594;
+	Sat, 15 Oct 2022 21:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA05C10E591
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 21:46:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9D0110E594
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Oct 2022 21:48:53 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id A2E8084D45;
- Sat, 15 Oct 2022 23:46:04 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id ED7C884D45;
+ Sat, 15 Oct 2022 23:48:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1665870369;
- bh=J3069uxITvLrTr5S4G3PQ3QISEKkiFc75za3DopuCZo=;
+ s=phobos-20191101; t=1665870532;
+ bh=efO60EAuF7m+5LLMLcJOL1METMAdjZQ8wq2m3JU0vKQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RvQVC2/rfvfeDB7QDObPa0M1d4ZjTRTj/qOLT4INuzzaX1Dhp8ZZjPY3Yi2GTDNzp
- TElmRcixtQX7DAUsaAS9JJ99fD0HCQu2vp+gAd1XYBd5AS6uJ3hXNruv/cSv9oTlZ2
- CMul7P+CuKrlAwEYpzsovGXcvttUza6hgXdRuL5gbvyCGtzEY+FDWvb3VwRUXzoHeJ
- 1TDmq68bxRK+RZJWn+O6kGw08nmNGIB38/Y0mi2EqkqlPBudUOxp8p4P4/dyz8Hp/Q
- 3Jzx7S/pFtw5TWZE3JuN8wRQKnJD2lb7ieEb1fcoYGfJvoBQ2E0/Ow13F3MDTuti89
- 2nsNNl3RYpSMA==
-Message-ID: <d3012cac-6672-70cf-5cde-c3152cfd5a84@denx.de>
-Date: Sat, 15 Oct 2022 23:46:04 +0200
+ b=oREpGIvumacvfwdguePBsTQ1frq46oe3uDW6qcHDHYfrwaqwNGeky4IvtRXRT53VP
+ i9t1ks2E9s99KFNGBCVHOQxbC+/o6n/Xrv88LfqwAv/5ESmbViVj/qNFmpsCYy83ZM
+ UKKhB+tG3uWRAH6mBTQuyhlBAY70GAaTrvByOGHMoelh83HOM/zFkjXCtVjZzhtxp8
+ v7VtoU/5KqAcgvTXRQW9V5IR1iX0IE1splCTxh0pqoUFCeh7NXUsVoNfEdbN9qzy/J
+ VE2w22APX6rAKrA/2LilLoQCD/UpVTKrLbeonSiN0OjuEZJdD6/ZHCML8hKY8VKwca
+ SnNa02nfdXlAA==
+Message-ID: <45f9065d-7257-1050-2664-5ad55d8c14ae@denx.de>
+Date: Sat, 15 Oct 2022 23:48:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.2
-Subject: Re: [PATCH v7 01/10] drm: bridge: Add Samsung DSIM bridge driver
+Subject: Re: [PATCH v7 02/10] drm: bridge: samsung-dsim: Lookup OF-graph or
+ Child node devices
 Content-Language: en-US
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
@@ -50,9 +51,9 @@ To: Jagan Teki <jagan@amarulasolutions.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 References: <20221005151309.7278-1-jagan@amarulasolutions.com>
- <20221005151309.7278-2-jagan@amarulasolutions.com>
+ <20221005151309.7278-3-jagan@amarulasolutions.com>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20221005151309.7278-2-jagan@amarulasolutions.com>
+In-Reply-To: <20221005151309.7278-3-jagan@amarulasolutions.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
@@ -77,29 +78,59 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/5/22 17:13, Jagan Teki wrote:
-> Samsung MIPI DSIM controller is common DSI IP that can be used in various
-> SoCs like Exynos, i.MX8M Mini/Nano.
+> The child devices in MIPI DSI can be binding with OF-graph
+> and also via child nodes.
 > 
-> In order to access this DSI controller between various platform SoCs,
-> the ideal way to incorporate this in the drm stack is via the drm bridge
-> driver.
+> The OF-graph interface represents the child devices via
+> remote and associated endpoint numbers like
 > 
-> This patch is trying to differentiate platform-specific and bridge driver
-> code by maintaining exynos platform glue code in exynos_drm_dsi.c driver
-> and common bridge driver code in samsung-dsim.c providing that the new
-> platform-specific glue should be supported in the bridge driver, unlike
-> exynos platform drm drivers.
+> dsi {
+>     compatible = "fsl,imx8mm-mipi-dsim";
 > 
-> - Add samsung_dsim_plat_data for keeping platform-specific attributes like
->    host_ops, irq_ops, and hw_type.
+>     ports {
+> 	port@0 {
+> 	     reg = <0>;
 > 
-> - Initialize the plat_data hooks for exynos platform in exynos_drm_dsi.c.
+> 	     dsi_in_lcdif: endpoint@0 {
+> 		  reg = <0>;
+> 		  remote-endpoint = <&lcdif_out_dsi>;
+> 	     };
+> 	};
 > 
-> - samsung_dsim_probe is the common probe call across exynos_drm_dsi.c and
->    samsung-dsim.c.
+> 	port@1 {
+> 	     reg = <1>;
 > 
-> - plat_data hooks like host_ops and irq_ops are invoked during the
->    respective bridge call chains.
+> 	     dsi_out_bridge: endpoint {
+> 		  remote-endpoint = <&bridge_in_dsi>;
+> 	     };
+> 	};
+> };
+> 
+> The child node interface represents the child devices via
+> conventional child nodes on given DSI parent like
+> 
+> dsi {
+>     compatible = "samsung,exynos5433-mipi-dsi";
+> 
+>     ports {
+>          port@0 {
+>               reg = <0>;
+> 
+>               dsi_to_mic: endpoint {
+>                    remote-endpoint = <&mic_to_dsi>;
+>               };
+>          };
+>     };
+> 
+>     panel@0 {
+>          reg = <0>;
+>     };
+> };
+> 
+> As Samsung DSIM bridge is common DSI IP across all Exynos DSI
+> and NXP i.MX8M host controllers, this patch adds support to
+> lookup the child devices whether its bindings on the associated
+> host represent OF-graph or child node interfaces.
 
-Maybe the Subject should say "Split ... driver" or "Move ... driver" , 
-since it is not adding a new driver here ?
+This looks like a good candidate for common/helper code which can be 
+reused by other similar drivers.
