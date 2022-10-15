@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDDF5FF847
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 05:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2AC5FF849
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Oct 2022 05:35:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708D110E344;
-	Sat, 15 Oct 2022 03:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE6410E351;
+	Sat, 15 Oct 2022 03:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE5010E33E;
- Sat, 15 Oct 2022 03:34:04 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E400C10E34B;
+ Sat, 15 Oct 2022 03:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665804844; x=1697340844;
+ t=1665804893; x=1697340893;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=2tTUePbzD/lK+w5R2rQNjJm35T6LFd4Y9ZYUyP3GhW4=;
- b=htl6E6jM/r+wt+BroHDOZ8B/YA44Tncq9I/7lJ3JRNRVapGV9A6KrD7s
- VAkBvF8re1kdFZEfIdU+2BI1i1Co+YDtXvivi/AVMYxqhccflmw8BHRKv
- xzhg4ooUjN2SlyhyAqQx5ZMEYCJUO8TmIw0Gd3QM1zlk/Nj3Y0I0Q4xri
- ySETli04HcNzYU0W8UofUOD5SlbaI+0YM0chHdV63WmSZBVgmICJUpcjX
- OhkTFg6hON18dx87cizIEEEHCrH/fm0u7Rwn6P0NGKpBniBqZ92cKRb67
- uUtYj/iqqG4W06D79W6xMO+wvoxkFuebZnbFRKgBcxJcgqM/J6WMhnrJ1 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="285904192"
-X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="285904192"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2022 20:34:03 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="732532331"
-X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="732532331"
+ bh=/4uABFflNwpfgUD6/DSSV8rb/bbLgVN9yw+vj8dpmFU=;
+ b=hPDJuezoZu1jnLVfHC0ELXmFckFsuQo/htVBbNllEmrC/84bnvkPvXOu
+ 5AZz8K2hfPu6XCdTMVZEA5HREAGpjTXm5OegSO9sD41VaG3MATESSjOLn
+ jVMvUU+eTKUACoewRSi7ZJUam5riLY0oFMWtCm2CflfcDwjFWOxPmaE7r
+ q3MV21cS7ve7PgPBdB1aTApnfLb31uU8LqpgJ0HX2KhnnibwToyC/4eNb
+ yUpzUEv9EMtC630sF6qZlZlpfyNbUYIMWMt9B0HXOwoYEpRMO5AQDS07R
+ 4z3MguuVJV/ny6UH+iBAPmG4Fxa9cxh7y2zcTjo7BLANlXfnMlZfBz247 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="304253235"
+X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="304253235"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2022 20:34:53 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="605576158"
+X-IronPort-AV: E=Sophos;i="5.95,186,1661842800"; d="scan'208";a="605576158"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.12.38])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2022 20:34:02 -0700
-Date: Fri, 14 Oct 2022 20:34:02 -0700
-Message-ID: <87y1thep5h.wl-ashutosh.dixit@intel.com>
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2022 20:34:52 -0700
+Date: Fri, 14 Oct 2022 20:34:52 -0700
+Message-ID: <87wn91ep43.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/mtl: Modify CAGF functions for MTL
-In-Reply-To: <Yyjx7Tgto5rpAM+B@mdroper-desk1.amr.corp.intel.com>
-References: <20220919115906.1264041-1-badal.nilawar@intel.com>	<20220919115906.1264041-2-badal.nilawar@intel.com>	<YyjxVHRRTOZAjQod@mdroper-desk1.amr.corp.intel.com>	<Yyjx7Tgto5rpAM+B@mdroper-desk1.amr.corp.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/mtl: Modify CAGF functions for
+ MTL
+In-Reply-To: <YyidgzOwS5CT+RVN@alfio.lan>
+References: <20220919115906.1264041-1-badal.nilawar@intel.com>	<20220919115906.1264041-2-badal.nilawar@intel.com>	<YyidgzOwS5CT+RVN@alfio.lan>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -59,124 +60,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andi.shyti@intel.com, anshuman.gupta@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jon.ewins@intel.com, Badal Nilawar <badal.nilawar@intel.com>,
- rodrigo.vivi@intel.com, vinay.belgaumkar@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Badal Nilawar <badal.nilawar@intel.com>, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Sep 2022 15:49:17 -0700, Matt Roper wrote:
+On Mon, 19 Sep 2022 09:49:07 -0700, Andi Shyti wrote:
 >
-> On Mon, Sep 19, 2022 at 03:46:47PM -0700, Matt Roper wrote:
-> > On Mon, Sep 19, 2022 at 05:29:05PM +0530, Badal Nilawar wrote:
-> > > Updated the CAGF functions to get actual resolved frequency of
-> > > 3D and SAMedia
-> > >
-> > > Bspec: 66300
-> > >
-> > > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> > > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> > > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/intel_gt_regs.h | 8 ++++++++
-> > >  drivers/gpu/drm/i915/gt/intel_rps.c     | 6 +++++-
-> > >  2 files changed, 13 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > > index 2275ee47da95..7819d32db956 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > > @@ -1510,6 +1510,14 @@
-> > >  #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
-> > >  #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
-> > >
-> > > +/*
-> > > + * MTL: Workpoint reg to get Core C state and act freq of 3D, SAMedia/
-> > > + * 3D - 0x0C60 , SAMedia - 0x380C60
-> > > + * Intel uncore handler redirects transactions for SAMedia to MTL_MEDIA_GSI_BASE
-> > > + */
+> Hi Badal,
+
+Hi Andi,
+
+Badal is out for a bit so I am sending out this version.
+
+> On Mon, Sep 19, 2022 at 05:29:05PM +0530, Badal Nilawar wrote:
+> > Updated the CAGF functions to get actual resolved frequency of
+> > 3D and SAMedia
 >
-> Also, this comment is unnecessary.  This is already how all GT registers
-> work so there's no reason to state this again on one one random
-> register.
+> can you please use the imperative form? "Update" and not
+> "Updated".
+
+> Besides I don't really understand what you did from the
+> commit, can you please bea  bit more descriptive?
+
+Done in series version v5. Please take a look.
+
+> > Bspec: 66300
+> >
+> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h | 8 ++++++++
+> >  drivers/gpu/drm/i915/gt/intel_rps.c     | 6 +++++-
+> >  2 files changed, 13 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > index 2275ee47da95..7819d32db956 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > @@ -1510,6 +1510,14 @@
+> >  #define VLV_RENDER_C0_COUNT			_MMIO(0x138118)
+> >  #define VLV_MEDIA_C0_COUNT			_MMIO(0x13811c)
+> >
+> > +/*
+> > + * MTL: Workpoint reg to get Core C state and act freq of 3D, SAMedia/
+> > + * 3D - 0x0C60 , SAMedia - 0x380C60
+> > + * Intel uncore handler redirects transactions for SAMedia to MTL_MEDIA_GSI_BASE
+> > + */
 >
-> > > +#define MTL_MIRROR_TARGET_WP1          _MMIO(0x0C60)
-> > > +#define   MTL_CAGF_MASK                REG_GENMASK(8, 0)
-> > > +
-> >
-> > This register is at the wrong place in the file (and is misformatted).
-> >  - Keep it sorted with respect to the other registers in the file.
-> >  - Write it as "0xc60" for consistency with all the other registers
-> >    (i.e., lower-case hex, no unnecessary 0 prefix).
-> >  - The whitespace between the name and the REG_GENMASK should be tabs,
-> >    not spaces, ensuring it's lined up with the other definitions.
-> >
-> > i915_reg.h turned into a huge mess over time because it wasn't
-> > consistently organized or formatted so nobody knew what to do when
-> > adding new registers.  We're trying to do a better job of following
-> > consistent rules with the new register headers so that we don't wind up
-> > with the same confusion again.
+> This comment is not understandable... we don't have limits in
+> space, you can be a bit more explicit :)
 
-Fixed in series version v5 (Patch version v2). Same for the comments below
-too.
-
-> >
-> > >  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
-> > >  #define   GEN11_CSME				(31)
-> > >  #define   GEN11_GUNIT				(28)
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-> > > index 17b40b625e31..c2349949ebae 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_rps.c
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-> > > @@ -2075,6 +2075,8 @@ u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
-> > >
-> > >	if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
-> > >		cagf = (rpstat >> 8) & 0xff;
-> > > +	else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-> > > +		cagf = rpstat & MTL_CAGF_MASK;
-> >
-> > Generally we try to put the newer platform at the top of if/else
-> > ladders.  So this new MTL code should come before the VLV/CHV branch.
-
-Done.
-
-> >
-> > >	else if (GRAPHICS_VER(i915) >= 9)
-> > >		cagf = (rpstat & GEN9_CAGF_MASK) >> GEN9_CAGF_SHIFT;
-> > >	else if (IS_HASWELL(i915) || IS_BROADWELL(i915))
-> > > @@ -2098,7 +2100,9 @@ static u32 read_cagf(struct intel_rps *rps)
-> > >		vlv_punit_get(i915);
-> > >		freq = vlv_punit_read(i915, PUNIT_REG_GPU_FREQ_STS);
-> > >		vlv_punit_put(i915);
-> > > -	} else if (GRAPHICS_VER(i915) >= 6) {
-> > > +	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-> > > +		freq = intel_uncore_read(rps_to_gt(rps)->uncore, MTL_MIRROR_TARGET_WP1);
-> >
-> > Same here.
-
-Done.
+Based on Matt R's comment the comment has been deleted (except for the
+first line). There is an explanation at the bottom of gt/intel_gt_regs.h.
 
 Thanks.
 --
 Ashutosh
-
-> > > +	else if (GRAPHICS_VER(i915) >= 6) {
-> > >		freq = intel_uncore_read(uncore, GEN6_RPSTAT1);
-> > >	} else {
-> > >		freq = intel_uncore_read(uncore, MEMSTAT_ILK);
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > --
-> > Matt Roper
-> > Graphics Software Engineer
-> > VTT-OSGC Platform Enablement
-> > Intel Corporation
->
-> --
-> Matt Roper
-> Graphics Software Engineer
-> VTT-OSGC Platform Enablement
-> Intel Corporation
