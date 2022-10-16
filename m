@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF776002B3
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 20:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3445A6002B5
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 20:10:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6000810E6EE;
-	Sun, 16 Oct 2022 18:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 615B110E659;
+	Sun, 16 Oct 2022 18:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E5F10E0D0;
- Sun, 16 Oct 2022 18:09:49 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- c7-20020a05600c0ac700b003c6cad86f38so10788376wmr.2; 
- Sun, 16 Oct 2022 11:09:49 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B79FB10E659;
+ Sun, 16 Oct 2022 18:09:52 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id j7so15171887wrr.3;
+ Sun, 16 Oct 2022 11:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sy/r1oKj6pjC6tDTxJAus+AvI8wYjcvPrvVlllaZosE=;
- b=jhVs03HebeLgK4gCknqUY7zv32A2/tNizCdKRVC+Q6gLrPJmkHF6T9sARRl7aB23ra
- O2u9fU1whvzvVevdGJpVJTYAtNQOcDGdC3z5DY/K6CYxWWPXGKscf/pjyAAJkRE7b/vv
- GsTtSKxCBPcDfFc+elHGDSGL9vf/LS+MOqJLie2gptXM9g45FnH2PrErpKYdC5tSasI4
- 9QHfevd/9k42Lm8ENnU+sq+wnFs7TlF6Zvp9XjHlRURgVDJDgvGCh9sfStyA/9m8rAI/
- RjO5gmt8MoTRO4c1I5o24kM88Wd8OAyo5WFs8qt4WIVVS4VQyq8Sgn89xzmgJunZgrqd
- sUAw==
+ bh=EI+p8PoHxDYC4LpvdrLHwtfP0NQYizXCNc6bGLJV3BM=;
+ b=NnVxmZIwq0HoVdrIgrUbyS3p5zXE9BJbo8ZujVGSl8FDW8639FUEKRhADnwIlkJwUX
+ Oc3+DKXK/svsnSR6l7GdTr7r7EwS6XvYmWNsLVwOCCOr+gx8PZhjjVY0cB5M0fDaOghA
+ EI+nVpYZnvjctxeG7SNe3OJAL/JZ6fhHx3Y765y3s1qKGB9ccx2uCNS3Gn+wLkUhIkeS
+ LigflbUgzTi3TwuMG7iMxTWODP0Fv8rZThmFyq3/kuY5LV1b6zo7yXUwvlaJp7oYt7ar
+ X21qEp4n8U2s1t7lkTYLeRRQnklGmm58Lq2/S4tyA710drxhV/SwGb8h9/pqGf6E7q73
+ Dm1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sy/r1oKj6pjC6tDTxJAus+AvI8wYjcvPrvVlllaZosE=;
- b=fcTLcU8+pstxgw7GcWxv0wEHhNkcT0BspkTmxG9GN8ViOjxb441aWz8OXvX+YSlUxR
- zt+M9mpLflDT+ncMlmjONqFmXyu9x6I1+rKVNoQ92EJGgDr6wrgtqGdZnEFOcecFdWP1
- fv8xToNYb7y9wrxEETYjjiq1gXtMxvPYHF2YWxslSa/TmIGIEG/GGGCUD5zIFhymt5Bk
- ls7W+vbI3g4lMsoLOj1j6uDEMmFxiebwfu9Z8R5uHIDXZvB+pDmrZWNWZ62WwWPT92Mx
- AMEbzuidhujQkU9jqGmBrjAE4K1+tLUSUCsuZMmi8VFLtZiDJeDLb/B6lYmge6TVLI/f
- s3bw==
-X-Gm-Message-State: ACrzQf0Chh5c2afciWMKaFY2nxQeGvgSXBeRNFBh+7T6tP3i25GJWIgd
- sfXSILtgP9IR2srGeRNjLDc=
-X-Google-Smtp-Source: AMsMyM429gVcrmq2vVmbF0aisu9csZqLaMboh6B4truVw62DWDKu+Ln262TAG0cL+qGqSPwRs+/Zcg==
-X-Received: by 2002:a05:600c:5490:b0:3c6:d8f2:6e1a with SMTP id
- iv16-20020a05600c549000b003c6d8f26e1amr4989604wmb.90.1665943788240; 
- Sun, 16 Oct 2022 11:09:48 -0700 (PDT)
+ bh=EI+p8PoHxDYC4LpvdrLHwtfP0NQYizXCNc6bGLJV3BM=;
+ b=6tyeg7Ac3cfrRbRuHmjbG2rJtMM0RWxp2iTlpcxa2+nDMzVBPZI0XhVj9qMrAQOpBn
+ hf/UK9pE6fYxRP85wV2UUAlEKuv+ZPCrB9shbD1NyaneU/rHxsnwwD2ZCvTfire1n8vj
+ Q71pmzrIolRmMQ02z5S3SfioS2bS8c1KufvvJ3gTJJwAeG05N85YnTKbk6JU58xZnPUO
+ qKiyAZrN/1fZTCiw8hKAVGtY6+bA0As1eNZdhg9tW98wdfQ19fkPpXTKwbVPGBAweZuL
+ TBER7bHFVx5uKBGVCzAGNTbH1DUInS3qN3WTBaK4ZuTe40TVarb2fcGh682LmxM4NiK3
+ RzQw==
+X-Gm-Message-State: ACrzQf2v3Sl2vd/cexaA5k4ShQbdQnumueVDTm3b1j2KAKA9Gx3owKmc
+ TRtW2qC3cGa7OSj5MmeSvPc=
+X-Google-Smtp-Source: AMsMyM4TFFYwfNI0jMueu6o2fvMAP77lkBkuySciaa99usWeed6HF2eiiDFXIWDZcKzwv6BDLn54xw==
+X-Received: by 2002:a05:6000:178c:b0:231:ce45:7e00 with SMTP id
+ e12-20020a056000178c00b00231ce457e00mr4224821wrg.598.1665943790733; 
+ Sun, 16 Oct 2022 11:09:50 -0700 (PDT)
 Received: from localhost.localdomain
  (host-95-250-231-122.retail.telecomitalia.it. [95.250.231.122])
  by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c444900b003c6f8d30e40sm156225wmn.31.2022.10.16.11.09.45
+ v9-20020a05600c444900b003c6f8d30e40sm156225wmn.31.2022.10.16.11.09.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Oct 2022 11:09:47 -0700 (PDT)
+ Sun, 16 Oct 2022 11:09:50 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -69,9 +68,9 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org
-Subject: [RESEND PATCH 1/3] drm/i915: Replace kmap() with kmap_local_page()
-Date: Sun, 16 Oct 2022 20:09:36 +0200
-Message-Id: <20221016180938.17403-2-fmdefrancesco@gmail.com>
+Subject: [RESEND PATCH 2/3] drm/i915/gt: Replace kmap() with kmap_local_page()
+Date: Sun, 16 Oct 2022 20:09:37 +0200
+Message-Id: <20221016180938.17403-3-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221016180938.17403-1-fmdefrancesco@gmail.com>
 References: <20221016180938.17403-1-fmdefrancesco@gmail.com>
@@ -110,56 +109,85 @@ It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
 the tasks can be preempted and, when they are scheduled to run again, the
 kernel virtual addresses are restored and are still valid.
 
-Since its use in i915_gem.c is safe everywhere, it should be preferred.
+Since its use in i915/gt is safe everywhere, it should be preferred.
 
-Therefore, replace kmap() with kmap_local_page() in i915_gem.c
+Therefore, replace kmap() with kmap_local_page() in i915/gt. Instead of
+open-coding local mappings + memcpy() + local unmappings, use
+the memcpy_{from,to}_page() helpers where these are better suited.
 
 Cc: "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>
 Suggested-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/gpu/drm/i915/i915_gem.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c |  4 ++--
+ drivers/gpu/drm/i915/gt/shmem_utils.c        | 11 ++++-------
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 702e5b89be22..43effce60e1b 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -212,14 +212,14 @@ shmem_pread(struct page *page, int offset, int len, char __user *user_data,
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+index 6ebda3d65086..21d8ce40b897 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+@@ -747,7 +747,7 @@ static void swizzle_page(struct page *page)
  	char *vaddr;
- 	int ret;
+ 	int i;
  
 -	vaddr = kmap(page);
 +	vaddr = kmap_local_page(page);
  
- 	if (needs_clflush)
- 		drm_clflush_virt_range(vaddr + offset, len);
- 
- 	ret = __copy_to_user(user_data, vaddr + offset, len);
- 
--	kunmap(page);
-+	kunmap_local(vaddr);
- 
- 	return ret ? -EFAULT : 0;
- }
-@@ -634,7 +634,7 @@ shmem_pwrite(struct page *page, int offset, int len, char __user *user_data,
- 	char *vaddr;
- 	int ret;
- 
--	vaddr = kmap(page);
-+	vaddr = kmap_local_page(page);
- 
- 	if (needs_clflush_before)
- 		drm_clflush_virt_range(vaddr + offset, len);
-@@ -643,7 +643,7 @@ shmem_pwrite(struct page *page, int offset, int len, char __user *user_data,
- 	if (!ret && needs_clflush_after)
- 		drm_clflush_virt_range(vaddr + offset, len);
+ 	for (i = 0; i < PAGE_SIZE; i += 128) {
+ 		memcpy(temp, &vaddr[i], 64);
+@@ -755,7 +755,7 @@ static void swizzle_page(struct page *page)
+ 		memcpy(&vaddr[i + 64], temp, 64);
+ 	}
  
 -	kunmap(page);
 +	kunmap_local(vaddr);
- 
- 	return ret ? -EFAULT : 0;
  }
+ 
+ /**
+diff --git a/drivers/gpu/drm/i915/gt/shmem_utils.c b/drivers/gpu/drm/i915/gt/shmem_utils.c
+index 402f085f3a02..48edbb8a33e5 100644
+--- a/drivers/gpu/drm/i915/gt/shmem_utils.c
++++ b/drivers/gpu/drm/i915/gt/shmem_utils.c
+@@ -98,22 +98,19 @@ static int __shmem_rw(struct file *file, loff_t off,
+ 		unsigned int this =
+ 			min_t(size_t, PAGE_SIZE - offset_in_page(off), len);
+ 		struct page *page;
+-		void *vaddr;
+ 
+ 		page = shmem_read_mapping_page_gfp(file->f_mapping, pfn,
+ 						   GFP_KERNEL);
+ 		if (IS_ERR(page))
+ 			return PTR_ERR(page);
+ 
+-		vaddr = kmap(page);
+ 		if (write) {
+-			memcpy(vaddr + offset_in_page(off), ptr, this);
++			memcpy_to_page(page, offset_in_page(off), ptr, this);
+ 			set_page_dirty(page);
+ 		} else {
+-			memcpy(ptr, vaddr + offset_in_page(off), this);
++			memcpy_from_page(ptr, page, offset_in_page(off), this);
+ 		}
+ 		mark_page_accessed(page);
+-		kunmap(page);
+ 		put_page(page);
+ 
+ 		len -= this;
+@@ -140,11 +137,11 @@ int shmem_read_to_iosys_map(struct file *file, loff_t off,
+ 		if (IS_ERR(page))
+ 			return PTR_ERR(page);
+ 
+-		vaddr = kmap(page);
++		vaddr = kmap_local_page(page);
+ 		iosys_map_memcpy_to(map, map_off, vaddr + offset_in_page(off),
+ 				    this);
+ 		mark_page_accessed(page);
+-		kunmap(page);
++		kunmap_local(vaddr);
+ 		put_page(page);
+ 
+ 		len -= this;
 -- 
 2.37.1
 
