@@ -2,79 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E1B6002B8
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 20:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735D06002C4
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 20:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E28A10E840;
-	Sun, 16 Oct 2022 18:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A050510E0D0;
+	Sun, 16 Oct 2022 18:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64B910E659;
- Sun, 16 Oct 2022 18:09:54 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id a3so15242483wrt.0;
- Sun, 16 Oct 2022 11:09:54 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7452810E0D0;
+ Sun, 16 Oct 2022 18:12:53 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id c20so11564290ljj.7;
+ Sun, 16 Oct 2022 11:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vKbxvFs7idvHnkpYGCCi9EPfdsQNoN5vylEOpYCziO4=;
- b=HNMiFYEP8MVS/aXSpnXOvDvpVc4U0b1DeNUL4mTpjwjXRlCdqzIVEWJfRjuaPWVmEF
- Ny2iLROeymv7JJNx40kvpa4FBTAG6fvUjggzyZDfjYwVjVNwBX4tTk/vs+1NiQMELEix
- UIydb9a85ZKjmX1QssDmIsXamzsWB6Zy3Ta0EmC6QCjWCZsX6R7Nb+hnSadGyxbdgeO4
- kdW3J++u3bcT4ChnwBYZ5qt/wSejvQXew907KeM4TrNae3qeW4GWFW/7BtkA/ZApC3Dj
- /Lcb2B2XsO43dg7Qlm2KM/9Hii3JBTQymbvH8T848CT+xL0bKCkpB2SnK8AkOb+Mp7/9
- mBdQ==
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vSRr/j+Evb9BMA2XLUvE7/B7qNHF/qpJdEql+dXYhK8=;
+ b=O1fhxdAF8qvfIwtjK6Ez9gV/11wN0p8lVgVvIuYj5OBpkQsM8+0lXbCMJ7ZJgOpumi
+ MDo0Ubxh4pse9UXyLDEhsl2RoO9/isoYMONvYusDoJRRBa99G77p/UNnKpHETdvqVGrE
+ efOT0lVGsrY8bHvbZ6QzyZ1EEpFJRJrDgSO5R7fsSgYJxbdBtPa7HkWmqJ/zhluEoYmC
+ R3NfKAEfIAphn8jXiTl0bHVS+bAqm/Lrab/+AaBV5mokSC9WSfepT0V8+Ae1dFUNwWcI
+ tUCVNq9MNJqRGP9fcjj4Ebk7j6QSDbfmLbg7TejANpbnQ3V10kWjLfk/LjfrkRtD2a+i
+ iM4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vKbxvFs7idvHnkpYGCCi9EPfdsQNoN5vylEOpYCziO4=;
- b=FSzkwqnLOtep84pV1qV6AziAH1FzXD0+4VJOuTYiBswllGKSito4lQwa9pEzJonHM9
- J0rORwRepBYZcvSNnGWZLlxKeTxEWZHgbkHs80OV3GdVmenfnJYC528vZ1eSY4hEFjA7
- tvDO1z/z+i8syDTbI5aWp5NNL1zcmE3DTtmPDr2oV9gK33chIbWswcuy0If68WL/ei8w
- 0P8XSXzn4eUwzv8m+MGmW4yQiQ4YZUexIVnab+aU1LLiY2hYChN/KLL1Da5DWSj6Bnsp
- rR9qA9kHL/5OJi6iZqPhH+4+OMhCSWunH+Qo8AtHxVe7baFSyz43bZu9GB85SCSBdnOb
- 5vog==
-X-Gm-Message-State: ACrzQf0rlXZIle4K77AwUUtDLXgnqe04ti43GspWLs1AXPcUPPNC8D+0
- J0+qf7+maBV576x4ojfeKuQ=
-X-Google-Smtp-Source: AMsMyM6C/pQ2WxnAnmHbpPN0fARrxQ6Y51yOCm5J2+/TfyPhm4No1WMJ+9QRzvwOuruJvgrdwH2raw==
-X-Received: by 2002:a05:6000:178a:b0:22e:d215:4099 with SMTP id
- e10-20020a056000178a00b0022ed2154099mr4281979wrg.79.1665943793302; 
- Sun, 16 Oct 2022 11:09:53 -0700 (PDT)
-Received: from localhost.localdomain
- (host-95-250-231-122.retail.telecomitalia.it. [95.250.231.122])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c444900b003c6f8d30e40sm156225wmn.31.2022.10.16.11.09.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Oct 2022 11:09:52 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org
-Subject: [RESEND PATCH 3/3] drm/i915/gem: Replace kmap() with kmap_local_page()
-Date: Sun, 16 Oct 2022 20:09:38 +0200
-Message-Id: <20221016180938.17403-4-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221016180938.17403-1-fmdefrancesco@gmail.com>
-References: <20221016180938.17403-1-fmdefrancesco@gmail.com>
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vSRr/j+Evb9BMA2XLUvE7/B7qNHF/qpJdEql+dXYhK8=;
+ b=lUm2cn3hR2m3RI1bk0/payZSixUw5fJ0nujI3zY5BSW8m50R3EuVz0vbE3hbVSJmGq
+ +U/B7pM6mHnjA9hnV/mR6z8QjyhC8MPy4g8c0wuLK/Krj0+6zbJnyYzSHEUjG+ETGrza
+ DyuM+MVdujmKs38GZdelBsZcgW6s0A+9zcQhLaMCL7hF6V8AlHd4yvjSIRN3M7bLSdse
+ 2Jve8h4OglIGTGf5BCjSujhep2EcPBDpoM6Q2gUUI4f9y7fUIVgtdwJ1PX0SHCIeNSlg
+ nKnsakgyp1BvddjVUy307rOLr+d1XGKQK1WVAl2TPrIVjzhT/9ZoRwg2m/sW6LuqJHFP
+ TNHQ==
+X-Gm-Message-State: ACrzQf3mhi6oRt1wF2pRMV8OlP+zoVfpgL/C8VNRSVxPXAdJ7d/NhEv6
+ AsEi0bNMXNeiwYsSDnSsQTY=
+X-Google-Smtp-Source: AMsMyM6G7or2Zfll1bkzGF3XgYT5NLQwy7/HNt8cKpX2f0lKVqjZvpCuHpkEEnOFiBR1UkEUl448zw==
+X-Received: by 2002:a2e:54a:0:b0:26e:1ab:c507 with SMTP id
+ 71-20020a2e054a000000b0026e01abc507mr2807766ljf.215.1665943971567; 
+ Sun, 16 Oct 2022 11:12:51 -0700 (PDT)
+Received: from ?IPV6:2a02:a31a:a240:1700:64bb:87df:aad7:a9f0?
+ ([2a02:a31a:a240:1700:64bb:87df:aad7:a9f0])
+ by smtp.googlemail.com with ESMTPSA id
+ 5-20020ac25f05000000b00492e3a8366esm1144735lfq.9.2022.10.16.11.12.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 Oct 2022 11:12:50 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <270c4a51-0a03-f048-46da-ab37900f8b91@gmail.com>
+Date: Sun, 16 Oct 2022 20:12:48 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.3
+Subject: Re: [PATCH v5 19/22] drm/vc4: vec: Check for VEC output constraints
+Content-Language: pl
+To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-19-d841cc64fe4b@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-19-d841cc64fe4b@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,103 +90,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ira Weiny <ira.weiny@intel.com>, "Venkataramanan,
- Anirudh" <anirudh.venkataramanan@intel.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Reply-To: kfyatek+publicgit@gmail.com
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kmap() is being deprecated in favor of kmap_local_page().
+Hi Maxime,
 
-There are two main problems with kmap(): (1) It comes with an overhead as
-mapping space is restricted and protected by a global lock for
-synchronization and (2) it also requires global TLB invalidation when the
-kmap’s pool wraps and it might block when the mapping space is fully
-utilized until a slot becomes available.
-
-With kmap_local_page() the mappings are per thread, CPU local, can take
-page faults, and can be called from any context (including interrupts).
-It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
-the tasks can be preempted and, when they are scheduled to run again, the
-kernel virtual addresses are restored and are still valid.
-
-Since its use in i915/gem is safe everywhere, it should be preferred.
-
-Therefore, replace kmap() with kmap_local_page() in i915/gem. Instead of
-open-coding local map + memcpy + local unmap, use memcpy_to_page() in a
-suited call site.
-
-Cc: "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>
-Suggested-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c          | 6 ++----
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 8 ++++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 4eed3dd90ba8..2bc6ab9964ff 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -640,16 +640,14 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *dev_priv,
- 	do {
- 		unsigned int len = min_t(typeof(size), size, PAGE_SIZE);
- 		struct page *page;
--		void *pgdata, *vaddr;
-+		void *pgdata;
- 
- 		err = aops->write_begin(file, file->f_mapping, offset, len,
- 					&page, &pgdata);
- 		if (err < 0)
- 			goto fail;
- 
--		vaddr = kmap(page);
--		memcpy(vaddr, data, len);
--		kunmap(page);
-+		memcpy_to_page(page, 0, data, len);
- 
- 		err = aops->write_end(file, file->f_mapping, offset, len, len,
- 				      page, pgdata);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 3ced9948a331..bb25b50b5688 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -153,7 +153,7 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
- 	intel_gt_flush_ggtt_writes(to_gt(i915));
- 
- 	p = i915_gem_object_get_page(obj, offset >> PAGE_SHIFT);
--	cpu = kmap(p) + offset_in_page(offset);
-+	cpu = kmap_local_page(p) + offset_in_page(offset);
- 	drm_clflush_virt_range(cpu, sizeof(*cpu));
- 	if (*cpu != (u32)page) {
- 		pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%llu + %u [0x%llx]) of 0x%x, found 0x%x\n",
-@@ -171,7 +171,7 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
- 	}
- 	*cpu = 0;
- 	drm_clflush_virt_range(cpu, sizeof(*cpu));
--	kunmap(p);
-+	kunmap_local(cpu);
- 
- out:
- 	i915_gem_object_lock(obj, NULL);
-@@ -249,7 +249,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
- 		intel_gt_flush_ggtt_writes(to_gt(i915));
- 
- 		p = i915_gem_object_get_page(obj, offset >> PAGE_SHIFT);
--		cpu = kmap(p) + offset_in_page(offset);
-+		cpu = kmap_local_page(p) + offset_in_page(offset);
- 		drm_clflush_virt_range(cpu, sizeof(*cpu));
- 		if (*cpu != (u32)page) {
- 			pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%llu + %u [0x%llx]) of 0x%x, found 0x%x\n",
-@@ -267,7 +267,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
- 		}
- 		*cpu = 0;
- 		drm_clflush_virt_range(cpu, sizeof(*cpu));
--		kunmap(p);
-+		kunmap_local(cpu);
- 		if (err)
- 			return err;
- 
--- 
-2.37.1
+W dniu 13.10.2022 o 15:19, Maxime Ripard pisze:
+> From: Mateusz Kwiatkowski > > The VEC can accept pretty much any relatively reasonable mode, but still > has a bunch of constraints to meet. > > Let's create an atomic_check() implementation that will make sure we > don't end up accepting a non-functional mode. > > Acked-by: Noralf Trønnes > Signed-off-by: Mateusz Kwiatkowski > Signed-off-by: Maxime Ripard > --- > drivers/gpu/drm/vc4/vc4_vec.c | 48 +++++++++++++++++++++++++++++++++++++++++++ > 1 file changed, 48 insertions(+) > > diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c > index 90e375a8a8f9..1fcb7baf874e 100644 > --- a/drivers/gpu/drm/vc4/vc4_vec.c > +++ b/drivers/gpu/drm/vc4/vc4_vec.c > @@ -453,6 +453,7 @@ static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder, > struct drm_crtc_state *crtc_state, > struct drm_connector_state *conn_state) > { > + const struct drm_display_mode *mode = &crtc_state->adjusted_mode; > const struct vc4_vec_tv_mode *vec_mode; > > vec_mode =
+&vc4_vec_tv_modes[conn_state->tv.legacy_mode]; > @@ -461,6 +462,53 @@ static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder, > !drm_mode_equal(vec_mode->mode, &crtc_state->adjusted_mode)) > return -EINVAL; > > + if (mode->crtc_hdisplay % 4) > + return -EINVAL; > + > + if (!(mode->crtc_hsync_end - mode->crtc_hsync_start)) > + return -EINVAL; > + > + switch (mode->vtotal) { > + case 525: > + if (mode->crtc_vtotal > 262) > + return -EINVAL; > + > + if (mode->crtc_vdisplay < 1 || mode->crtc_vdisplay > 253) > + return -EINVAL; > + > + if (!(mode->crtc_vsync_start - mode->crtc_vdisplay)) > + return -EINVAL; > + > + if ((mode->crtc_vsync_end - mode->crtc_vsync_start) != 3) > + return -EINVAL; > + > + if ((mode->crtc_vtotal - mode->crtc_vsync_end) < 4) > + return -EINVAL; > + > + break; > + > + case 625: > + if (mode->crtc_vtotal > 312) > + return -EINVAL; > + > + if (mode->crtc_vdisplay < 1 || mode->crtc_vdisplay > 305) > + return -EINVAL; > + > + if
+(!(mode->crtc_vsync_start - mode->crtc_vdisplay)) > + return -EINVAL; > + > + if ((mode->crtc_vsync_end - mode->crtc_vsync_start) != 3) > + return -EINVAL; > + > + if ((mode->crtc_vtotal - mode->crtc_vsync_end) < 2) > + return -EINVAL; > + > + break; > + > + default: > + return -EINVAL; > + } > + > return 0; > } In my original version of this function (https://github.com/raspberrypi/linux/pull/4406/files) the switch is over reference_mode->vtotal, not mode->vtotal. This was intended to explicitly allow a different value of mode->vtotal, to support non-standard modes, such as "fake" 525 lines with SECAM encoding, or the progressive modes. You're switching over mode->vtotal, which makes specifying those impossible. I don't think we should limit the users like that. We're removing reference_mode in patch 20/22, so adding a switch over reference_mode->vtotal is probably not a good idea -- in that case I'd switch over mode->htotal instead: 858 for "NTSC" and 864 for "PAL". This
+may seem a bit weird, but any other value of htotal causes the VEC to output garbage anyway. Best regards, Mateusz Kwiatkowski
 
