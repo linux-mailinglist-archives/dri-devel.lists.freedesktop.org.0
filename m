@@ -2,84 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9965C600286
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 19:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B96B6002AF
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 20:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA79310E8D0;
-	Sun, 16 Oct 2022 17:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13F010E657;
+	Sun, 16 Oct 2022 18:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C5D10E837;
- Sun, 16 Oct 2022 17:51:54 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id m23so11539899lji.2;
- Sun, 16 Oct 2022 10:51:54 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF8E010E0D0;
+ Sun, 16 Oct 2022 18:09:47 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id r13so15126247wrj.11;
+ Sun, 16 Oct 2022 11:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FSvBiCYAFX6lPPhtdeLD4dtO79D7my2I84dZLy/XCHA=;
- b=ay7zBp6erCUcdx6FCqT2TK/HFdYqQN5L/xbUe1GlX5+3Crva5NM/VI5goKhyYCSDr/
- C3a2cTjgiv2cwV9Jf5grm1XNi83lynnESdVLS/CAJWiYr4Kx+nAA8S7JVhdymP9samaF
- FxNpKzY+0hk83mw8X6eEOgPij9413yyZzcoRk1QpY0HS+li7n0fwtJe5SYxhABuK/CSB
- 5IchUWAz7SI+rV2710qacP4Zc4axHL432f76uZ0OERw0Zls5PqGWfywzmDCIO8Wod2Cm
- KMzbrnuvXRvglZ1oOjabABd/gR6IRbHjcHXuE5WxxNzxwMZ5ymInbJi7k2FNnw63GuOC
- 2jAg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lKX8sLbXqFEyfL/b3ZjUwDYXx8N7tsBaTEOHjLLDLgg=;
+ b=T0ksjtS64SgZg+ynjnhdZrQdSg4bAyz710FjraW3gjDq2p8ORsc6wHFhCa/aePZurJ
+ ytDBmb7rVC0T/RvAZclMcIDWL0AZp4gWSml78Zg26uo7JFkTQncC92Ks9Axb/Boshpkt
+ l8PMYuyCVxq4vpOSf/Uj09dbbfLKN94En1stpAWCvNLSJ7zRKP2uge/793nvWvw3N2aP
+ IuZPiWof0s6JKlg3QUW7yw0yYQt4Zi4/LW9sbZLXgnSFTyK2ohwpq6V9gFFPCRnm5dso
+ J0JURalvtRI5PamaE1DttY2ToJ50QaJs0Lo+lN6QQtByYr/wpjf5b0uTP5U7mP+fFwxR
+ h1UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FSvBiCYAFX6lPPhtdeLD4dtO79D7my2I84dZLy/XCHA=;
- b=Pbw7u5qMc4p4Qe4KWM5DUZ1LxhKd+ZTnlbCRD7aoLTHg63W3m86jKOCI1Uy9Dg5V9z
- 9ng8ByaH1UmxbUKJhWVRTIMsXASDrrb3QkVRbuBolqUlx6+KHqXCCqG3dWj0M5WC/Ajv
- /42X0JJdGnjkXMd8zaT25ItokceCJLV6VRYfxZckvVG4797c2v1ZYunIsEkXYJ5z+ZPY
- dnMu+O271/Q4uCb8yWUEKLDZnCWFvdTiPo6AflaAsttwH+X9dmT25HpJQ5MdBwIsdqXw
- 5nCnju621wPDCYF++VHyEk18LuXR9Fp1ej3P6jyXUX0T3IynWqtTn2C8JejOrRufNltg
- yBlA==
-X-Gm-Message-State: ACrzQf3VU1xLkZmPaZhwoUk9Nw1EG3Sdmv/vObAjmvO5dv0WqWtx55Pl
- ypkgfUcz8lNXpfqrxT+AnEY=
-X-Google-Smtp-Source: AMsMyM5LYmnlAPf1vl21rN/RrRZ7Perh4kso+zSaAUOKAYAg23YrPXCFUqcYyrDs9LnLqQm4wTNUeA==
-X-Received: by 2002:a2e:a7cc:0:b0:26f:cb7a:f375 with SMTP id
- x12-20020a2ea7cc000000b0026fcb7af375mr2869772ljp.392.1665942712788; 
- Sun, 16 Oct 2022 10:51:52 -0700 (PDT)
-Received: from ?IPV6:2a02:a31a:a240:1700:64bb:87df:aad7:a9f0?
- ([2a02:a31a:a240:1700:64bb:87df:aad7:a9f0])
- by smtp.googlemail.com with ESMTPSA id
- i4-20020a2ea364000000b0026dfedff58csm1205644ljn.99.2022.10.16.10.51.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Oct 2022 10:51:52 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <fdeadf0d-8f38-8edf-ae92-e2d9c5aa90b4@gmail.com>
-Date: Sun, 16 Oct 2022 19:51:50 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.3
-Subject: Re: [PATCH v5 13/22] drm/modes: Introduce the tv_mode property as a
- command-line option
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lKX8sLbXqFEyfL/b3ZjUwDYXx8N7tsBaTEOHjLLDLgg=;
+ b=iQzb+Ct3zHy/REFjbWQHmOG+5i0gWxmyhYUcQd7Sc4TzOC84g6J5iuyyWb3JpDUobm
+ 1xIVH/7qNFwUx3ZgvhhxdytQpdWJ2Q6PBXgLcSF1Hp6Vq68/R+SQCZQ+TWzOymtLyJdO
+ oZUV6r0tXQCgx8aXz5klUHwu2LeaOoqYwjVOsCvBHZ5FYWTXGfq7C1vAtZRvh/PKGAao
+ PwY8YaiiDD2/RIe/91ZjMiP0D2l3Ya8kTlTuoXkRinOoRHCKRZ57srT1ovS0doWtKK6d
+ +7VQgDDOJCdSXLcz/10EbcLjy0zApsg/q8rhHTGju3+gLlYmRHabST40toSecfMVirds
+ eh+Q==
+X-Gm-Message-State: ACrzQf274KTCneSPAKlvO7q96sU2Dgfb0sidzZ4prZxRnGwCaTrAWc1V
+ iBuYnPrNIGdoA+nu21W8UZk=
+X-Google-Smtp-Source: AMsMyM5OBZbpCpK+rtWXQ5hh89eacxaqxDOXFM4ZEp/IMVaftu5b7+IXgZMPp0kzBWoOY7N/Fo2ArQ==
+X-Received: by 2002:adf:e2c8:0:b0:230:ba81:cf0c with SMTP id
+ d8-20020adfe2c8000000b00230ba81cf0cmr4520684wrj.357.1665943785730; 
+ Sun, 16 Oct 2022 11:09:45 -0700 (PDT)
+Received: from localhost.localdomain
+ (host-95-250-231-122.retail.telecomitalia.it. [95.250.231.122])
+ by smtp.gmail.com with ESMTPSA id
+ v9-20020a05600c444900b003c6f8d30e40sm156225wmn.31.2022.10.16.11.09.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Oct 2022 11:09:44 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-13-d841cc64fe4b@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v5-13-d841cc64fe4b@cerno.tech>
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org
+Subject: [RESEND PATCH 0/3] drm/i915: Replace kmap() with kmap_local_page()
+Date: Sun, 16 Oct 2022 20:09:35 +0200
+Message-Id: <20221016180938.17403-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.38.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,47 +86,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kfyatek+publicgit@gmail.com
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
- Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Ira Weiny <ira.weiny@intel.com>, "Venkataramanan,
+ Anirudh" <anirudh.venkataramanan@intel.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime, Noralf & everyone,
+kmap() is being deprecated in favor of kmap_local_page().
 
-I'd like to address Noralf here in particular, and refer to these discussions
-from the past:
+There are two main problems with kmap(): (1) It comes with an overhead as
+mapping space is restricted and protected by a global lock for
+synchronization and (2) it also requires global TLB invalidation when the
+kmap’s pool wraps and it might block when the mapping space is fully
+utilized until a slot becomes available.
 
-- https://lore.kernel.org/linux-arm-kernel/2f607c7d-6da1-c8df-1c02-8dd344a92343@gmail.com/
-- https://lore.kernel.org/linux-arm-kernel/9e76a508-f469-a54d-ecd7-b5868ca99af4@tronnes.org/
+With kmap_local_page() the mappings are per thread, CPU local, can take
+page faults, and can be called from any context (including interrupts).
+It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
+the tasks can be preempted and, when they are scheduled to run again, the
+kernel virtual addresses are restored and still valid.
 
-> @@ -2230,20 +2256,22 @@ struct drm_named_mode {
->  	unsigned int xres;
->  	unsigned int yres;
->  	unsigned int flags;
-> +	unsigned int tv_mode;
->  };
+Since its use in drm/i915 is safe everywhere, it should be preferred.
 
-I saw that you (Noralf) opposed my suggestion about the DRM_MODE_TV_MODE_NONE
-enum value in enum drm drm_connector_tv_mode. I get your argumentation, and I'm
-not gonna argue, but I still don't like the fact that struct drm_named_mode now
-includes a field that is only relevant for analog TV modes, has no "none" value,
-and yet the type is supposed to be generic enough to be usable for other types
-of outputs as well.
+Therefore, replace kmap() with kmap_local_page() in drm/i915.
 
-It's true that it can just be ignored (as Maxime mentioned in his response to
-my e-mail linked above), and now the value of 0 corresponds to
-DRM_MODE_TV_MODE_NTSC, which is a rather sane default, but it still feels messy
-to me.
+These changes should be tested in an 32 bits system, booting a kernel
+with HIGHMEM enabled. Unfortunately I have no i915 based hardware,
+therefore any help with testing would be greatly appreciated.
 
-I'm not gonna force my opinion here, but I wanted to bring your attention to
-this issue, maybe you have some other solution in mind for this problem. Or if
-you don't see that as a problem at all, that's fine, too.
+I'm resending this little series because I suspect that it has been
+lost, since it was submitted on Aug 11, 2022. In the meantime I'm
+adding one more recipient (Anirudh) who is helping, along with others, Ira
+and me with these conversions / removals of kmap() and kmap_atomic() 
 
-Best regards,
-Mateusz Kwiatkowski
+Cc: "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>
+Suggested-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+Fabio M. De Francesco (3):
+  drm/i915: Replace kmap() with kmap_local_page()
+  drm/i915/gt: Replace kmap() with kmap_local_page()
+  drm/i915/gem: Replace kmap() with kmap_local_page()
+
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |  6 ++----
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  8 ++++----
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |  4 ++--
+ drivers/gpu/drm/i915/gt/shmem_utils.c              | 11 ++++-------
+ drivers/gpu/drm/i915/i915_gem.c                    |  8 ++++----
+ 5 files changed, 16 insertions(+), 21 deletions(-)
+
+-- 
+2.37.1
 
