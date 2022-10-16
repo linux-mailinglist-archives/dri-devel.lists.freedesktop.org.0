@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017196002F8
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 20:56:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8101C6002F9
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Oct 2022 21:02:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9EC10E854;
-	Sun, 16 Oct 2022 18:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82BAA10E85E;
+	Sun, 16 Oct 2022 19:02:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E437810E853;
- Sun, 16 Oct 2022 18:56:26 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id d6so14464259lfs.10;
- Sun, 16 Oct 2022 11:56:26 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8585010E85E;
+ Sun, 16 Oct 2022 19:02:21 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id d6so14476357lfs.10;
+ Sun, 16 Oct 2022 12:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:reply-to:subject:user-agent:mime-version:date:message-id:from
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9R5DRkDar97t7RGa7ZkHbwXUyJ5tEv/b58zZkFRpKIU=;
- b=UqSCa35znTFAW2XjpbRvdh7DaqZHpIJN6v4AXacEElZvxQlvD6nM1NZ8Ag4JRpl3yk
- tQA8VjWsFBR1wJX/Ss+CPqCol92EEvV5Raj+pM0cSuC99zTk0doGl7wmBnhKuxgF1Ygk
- fg/0fyZAwvrTzcQj7VkncMJ+fonMoDA4arz05pgdToty0rBiXkoKPedTqvwmaoXAbTg+
- v3woOrrTfXBCGMASf2KyRUme4mDbwgrtVNogi54B0uEQTGHlblMTfWTbB8IpJkPkXm6d
- e3JS1uHEJHUVESdK67TNOFvIWA7dgP90CYwGzpBFC03lpCGGnnp4EI/sbS04iqDtsz+L
- ezsw==
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2tT8kCb/WVUuH+lBmBzSowO1khzyce9k0uFdBJXQAY0=;
+ b=Wn022JhbSiAKl2X8PK/0dLLvnA2KYx59VyBDcpMKkslDxq1gmTavUweTw7TSpfsy29
+ ZQNm5d5Kud9NAMBx2DWE4ATZlqZ+7v4VQY6jnBU0w/Jly+Ji2YJygQ2d2aE5SvnPOuBc
+ LUaIek3ag9tos1DYUCuOXC4mBkjA654+4/vseW2aGFGg4V9Q4tOwIoveXTgC6nBCvoix
+ WqKvIjohOpkxN+5vEWW2J/wJ5Bt6x6aSYTqCGGxEtIxf30EL8n0PHVh8GQ0KmrQyXays
+ jsKB/0dkT524iaTd2N3LvRFONyV2QpPt9l6M6dD70TbInNsqcmnQjjZX7ML1lQcEx5+N
+ Xt9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:reply-to:subject:user-agent:mime-version:date:message-id:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9R5DRkDar97t7RGa7ZkHbwXUyJ5tEv/b58zZkFRpKIU=;
- b=6E80ZwsjpspaV7aQxvTFnTLQl4BfKQhSxkgdL1aKUhCq3RTkAJC/PY4PLTNSoFX/9F
- 2ky12Y2fYnpavxxvp/7+bi64ApPv9DCdiSMtVlOtZYAd9e3u81GT7R0oBFVs3qrCX/1A
- IvVY11FwkDIx5VYOT0ZHT+xBnMeSOIjUpgx/Tk08cZV6A20bvbzudd9MqeC7DCTzeiFk
- Bk7Gyx9pprivsUBhfJCo81x7GhG+Zsx70FDUrhMOcK5wvhJ7slrUPBFYt2SaWtv4qHBa
- jDzxPqDiEzRbsW/3P79Cb+7AZB9kvFbs0FKCB8V1f9kRJFNoDk9DJp8C54qjjPLCoblS
- Ojdg==
-X-Gm-Message-State: ACrzQf1oHbrAR4pAUUr98XDMYEANleVMFuMo+HnqM8CqvW1d+i4ZewM8
- AqUXbPjDkdVhkhkh3Jv7uU0=
-X-Google-Smtp-Source: AMsMyM5uYxB/6xJ5gGhOv3WAH6+V6GDD4KbrqZFfIThsPvWDKXTV721fShUokapp2H2agrxIAik1vw==
-X-Received: by 2002:ac2:46da:0:b0:4a2:2963:71b0 with SMTP id
- p26-20020ac246da000000b004a2296371b0mr2564386lfo.600.1665946584951; 
- Sun, 16 Oct 2022 11:56:24 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2tT8kCb/WVUuH+lBmBzSowO1khzyce9k0uFdBJXQAY0=;
+ b=vuj1Ph3OF1xJz/9Ig5Ri8KbzmjIeIQAFmamhJCzRK8ZBjAuFRLHeYf8tk6IQIPL+fF
+ 0iOMyy4LoMFjMPUn4Kg1U6tN0Q4kgndWIQh0wK0FK8JPvnArqi9MWkFx2Dt/SBI8gZxI
+ f+dQF61/cVtNs2pXqj1Uhg5E65A3VSQgqPfwBSS5kL7OBE+4N3S/kCscrg/2YFzhtTUh
+ SY1ZsR9FKGpFyl701MiqFp+kg9Hc0xBsKPMbA2z/ulXiq/PH9EpEZ89yLIEv3xC+CY1R
+ BIb18NuOmZPqvs4PAA0dNAk7aLq45WdKBo8aMWxy1voMgOvM5YY8Dv1o3/VeilpmIE/w
+ chgQ==
+X-Gm-Message-State: ACrzQf2QsrbLFobLDBCYIqccPavt9EaXsIOvbrko3ychuVZkZhTyO+Qy
+ UxJLC0wW7r2Gnpg+JWYBjks=
+X-Google-Smtp-Source: AMsMyM7y2QYkuboXP2v70rAENTc5DitWTlWhre5mOH5uFbdJJu3TsghZ/Z8+nuj9UYyZBokwz7Tq+Q==
+X-Received: by 2002:a05:6512:32ab:b0:4a2:2e49:94c with SMTP id
+ q11-20020a05651232ab00b004a22e49094cmr2839114lfe.351.1665946939657; 
+ Sun, 16 Oct 2022 12:02:19 -0700 (PDT)
 Received: from ?IPV6:2a02:a31a:a240:1700:64bb:87df:aad7:a9f0?
  ([2a02:a31a:a240:1700:64bb:87df:aad7:a9f0])
  by smtp.googlemail.com with ESMTPSA id
- p24-20020a2ea4d8000000b0026de7400f3bsm1237043ljm.5.2022.10.16.11.56.22
+ p10-20020a2eb7ca000000b0026dc57ee439sm1235527ljo.71.2022.10.16.12.02.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Oct 2022 11:56:24 -0700 (PDT)
+ Sun, 16 Oct 2022 12:02:18 -0700 (PDT)
 From: Mateusz Kwiatkowski <kfyatek@gmail.com>
 X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <0f2beec2-ae8e-5579-f0b6-a73d9dae1af4@gmail.com>
-Date: Sun, 16 Oct 2022 20:56:22 +0200
+Message-ID: <e0867d71-37c7-777f-0df2-0cd74909caaf@gmail.com>
+Date: Sun, 16 Oct 2022 21:02:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.3
-Subject: Re: [PATCH v5 20/22] drm/vc4: vec: Convert to the new TV mode property
+Subject: Re: [PATCH v5 21/22] drm/vc4: vec: Add support for more analog TV
+ standards
+Content-Language: pl
 To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
@@ -72,12 +75,10 @@ To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-20-d841cc64fe4b@cerno.tech>
- <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
-Content-Language: pl
-In-Reply-To: <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
+ <20220728-rpi-analog-tv-properties-v5-21-d841cc64fe4b@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-21-d841cc64fe4b@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,43 +105,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Maxime,
 
-Urgh. I cannot send e-mails apparently today, as I removed the second half of
-the previous message. Here goes:
+W dniu 13.10.2022 o 15:19, Maxime Ripard pisze:
+> From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+>
+> Add support for the following composite output modes (all of them are
+> somewhat more obscure than the previously defined ones):
+>
+> - NTSC_443 - NTSC-style signal with the chroma subcarrier shifted to
+>   4.43361875 MHz (the PAL subcarrier frequency). Never used for
+>   broadcasting, but sometimes used as a hack to play NTSC content in PAL
+>   regions (e.g. on VCRs).
+> - PAL_N - PAL with alternative chroma subcarrier frequency,
+>   3.58205625 MHz. Used as a broadcast standard in Argentina, Paraguay
+>   and Uruguay to fit 576i50 with colour in 6 MHz channel raster.
+> - PAL60 - 480i60 signal with PAL-style color at normal European PAL
+>   frequency. Another non-standard, non-broadcast mode, used in similar
+>   contexts as NTSC_443. Some displays support one but not the other.
 
-> @@ -454,13 +563,6 @@ static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder,
->  					struct drm_connector_state *conn_state)
->  {
->  	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+The current version actually does not support PAL-60. Proper PAL-60 output from
+VEC requires configuring it differently than for regular PAL. We have unified
+the PAL and PAL-60 modes for the "TV mode" property, but the code here has not
+been adjusted appropriately.
 
-You could add here something like:
+I'll try to submit an additional patch that fixes this shortly.
 
-+	const struct vc4_vec_tv_mode *tv_mode =
-+		vc4_vec_tv_mode_lookup(conn_state->tv.mode);
-+
-+	if (!tv_mode)
-+		return -EINVAL;
-
-This should explicitly make it impossible to enter the equivalent condition in
-vc4_vec_encoder_enable() that causes the problem mentioned in the previous
-e-mail.
-
-This is probably basically impossible already, but I triggered that when testing
-a follow-up change I'd like to post shortly.
-
-> -	const struct vc4_vec_tv_mode *vec_mode;
-> -
-> -	vec_mode = &vc4_vec_tv_modes[conn_state->tv.legacy_mode];
-> -
-> -	if (conn_state->crtc &&
-> -	    !drm_mode_equal(vec_mode->mode, &crtc_state->adjusted_mode))
-> -		return -EINVAL;
-
-If you're removing the reference mode, then I think you should at least add
-checks that the crtc_clock is set to 13.5 MHz (it's otherwise ignored) and that
-crtc_htotal is either 858 or 864 (using a switch over reference_mode->htotal as
-I proposed in my comment to patch 19/22 would double as such check), as all
-other values causes VEC to output garbage.
+> - SECAM - French frequency-modulated analog color standard; also have
+>   been broadcast in Eastern Europe and various parts of Africa and Asia.
+>   Uses the same 576i50 timings as PAL.
+>
+> Also added some comments explaining color subcarrier frequency
+> registers.
+>
+> Acked-by: Noralf Trønnes <noralf@tronnes.org>
+> Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+(snip)
 
 Best regards,
 Mateusz Kwiatkowski
-
