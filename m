@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150F9600CD0
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 12:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEA7600D8A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 13:15:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED3B10ECDD;
-	Mon, 17 Oct 2022 10:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 186B910ED48;
+	Mon, 17 Oct 2022 11:15:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3EE8B10E3DC
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 10:46:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1E5861042;
- Mon, 17 Oct 2022 03:46:20 -0700 (PDT)
-Received: from e122027.arm.com (unknown [10.57.1.201])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A8A503F67D;
- Mon, 17 Oct 2022 03:46:12 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Subject: [PATCH v2 2/2] drm/panfrost: replace endian-specific types with
- native ones
-Date: Mon, 17 Oct 2022 11:46:02 +0100
-Message-Id: <20221017104602.142992-3-steven.price@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221017104602.142992-1-steven.price@arm.com>
-References: <20221017104602.142992-1-steven.price@arm.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A69CE10ED3A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 11:15:13 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 29E4220407;
+ Mon, 17 Oct 2022 11:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666005312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=6Nb1TZTtU5oADQNyt2GoTdqjmh5j834IvAQJMY3C79A=;
+ b=xlYCVQIL74kHzLPnmrfuhQKuVnDxu+vnT9uOj864c0N5cuUi2GI9mB4olY0IqK2FO2DsjX
+ OiaGRyimpSGbCjo8iQtaCBEcdQF1oHczYDUNpJg6PPVshfkRveAKQaca4Wpb/P+uABveEs
+ m6k0grpLTmwN5uluyvb9RS428sK7dow=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666005312;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=6Nb1TZTtU5oADQNyt2GoTdqjmh5j834IvAQJMY3C79A=;
+ b=qs1ISMhxzNsAawsPlwC4Vjn1uwZsQIuvMjvlRYs5ciGgEf35vmSACq2Pbf6V7apVjGCe9/
+ oX0EIBV7K3d7AbDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D16D513ABE;
+ Mon, 17 Oct 2022 11:15:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id TbYlMj85TWOgBwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 17 Oct 2022 11:15:11 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, javierm@redhat.com, hdegoede@redhat.com,
+ noralf@tronnes.org, david@lechnology.com, airlied@redhat.com,
+ sean@poorly.run
+Subject: [PATCH 0/5] drm: Add new plane helpers to begin/end FB access
+Date: Mon, 17 Oct 2022 13:15:05 +0200
+Message-Id: <20221017111510.20818-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,186 +64,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-__le32 and __le64 types aren't portable and are not available on
-FreeBSD (which uses the same uAPI).
+This patchset adds the callbacks begin_fb_access and end_fb_access
+to struct drm_plane_helper_funcs. They provide hooks to acquire and
+release resources that are only held during the commit. It adds
+related simple-KMS helpers and converts a number of drivers.
 
-Instead of attempting to always output little endian, just use native
-endianness in the dumps. Tools can detect the endianness in use by
-looking at the 'magic' field, but equally we don't expect big-endian to
-be used with Mali (there are no known implementations out there).
+A number of drivers call drm_gem_fb_begin_cpu_access() in the plane's
+atomic_update. While the call can fail, it's too late to handle the
+error correctly within the atomic update. A correct place would be in
+prepare_fb, where the atomic commit can still be aborted upon errors.
 
-Bug: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7252
-Fixes: 730c2bf4ad39 ("drm/panfrost: Add support for devcoredump")
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_dump.c | 36 ++++++++++++------------
- include/uapi/drm/panfrost_drm.h          | 36 +++++++++++++-----------
- 2 files changed, 38 insertions(+), 34 deletions(-)
+But the corresponding drm_gem_fb_end_cpu_access() needs to be called
+at the end of the commit, so that the BO resource is available again
+for other drivers. Hence, calling drm_Gem_fb_end_cpu_access() cannot
+be located in the plane's cleanup_pl, which is only called after the
+next page flip. (With an unbounded waiting time in between.)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-index 89056a1aac7d..6bd0634e2d58 100644
---- a/drivers/gpu/drm/panfrost/panfrost_dump.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-@@ -63,13 +63,13 @@ static void panfrost_core_dump_header(struct panfrost_dump_iterator *iter,
- {
- 	struct panfrost_dump_object_header *hdr = iter->hdr;
- 
--	hdr->magic = cpu_to_le32(PANFROSTDUMP_MAGIC);
--	hdr->type = cpu_to_le32(type);
--	hdr->file_offset = cpu_to_le32(iter->data - iter->start);
--	hdr->file_size = cpu_to_le32(data_end - iter->data);
-+	hdr->magic = PANFROSTDUMP_MAGIC;
-+	hdr->type = type;
-+	hdr->file_offset = iter->data - iter->start;
-+	hdr->file_size = data_end - iter->data;
- 
- 	iter->hdr++;
--	iter->data += le32_to_cpu(hdr->file_size);
-+	iter->data += hdr->file_size;
- }
- 
- static void
-@@ -93,8 +93,8 @@ panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
- 
- 		reg = panfrost_dump_registers[i] + js_as_offset;
- 
--		dumpreg->reg = cpu_to_le32(reg);
--		dumpreg->value = cpu_to_le32(gpu_read(pfdev, reg));
-+		dumpreg->reg = reg;
-+		dumpreg->value = gpu_read(pfdev, reg);
- 	}
- 
- 	panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, dumpreg);
-@@ -106,7 +106,7 @@ void panfrost_core_dump(struct panfrost_job *job)
- 	struct panfrost_dump_iterator iter;
- 	struct drm_gem_object *dbo;
- 	unsigned int n_obj, n_bomap_pages;
--	__le64 *bomap, *bomap_start;
-+	u64 *bomap, *bomap_start;
- 	size_t file_size;
- 	u32 as_nr;
- 	int slot;
-@@ -177,11 +177,11 @@ void panfrost_core_dump(struct panfrost_job *job)
- 	 * For now, we write the job identifier in the register dump header,
- 	 * so that we can decode the entire dump later with pandecode
- 	 */
--	iter.hdr->reghdr.jc = cpu_to_le64(job->jc);
--	iter.hdr->reghdr.major = cpu_to_le32(PANFROSTDUMP_MAJOR);
--	iter.hdr->reghdr.minor = cpu_to_le32(PANFROSTDUMP_MINOR);
--	iter.hdr->reghdr.gpu_id = cpu_to_le32(pfdev->features.id);
--	iter.hdr->reghdr.nbos = cpu_to_le64(job->bo_count);
-+	iter.hdr->reghdr.jc = job->jc;
-+	iter.hdr->reghdr.major = PANFROSTDUMP_MAJOR;
-+	iter.hdr->reghdr.minor = PANFROSTDUMP_MINOR;
-+	iter.hdr->reghdr.gpu_id = pfdev->features.id;
-+	iter.hdr->reghdr.nbos = job->bo_count;
- 
- 	panfrost_core_dump_registers(&iter, pfdev, as_nr, slot);
- 
-@@ -218,27 +218,27 @@ void panfrost_core_dump(struct panfrost_job *job)
- 
- 		WARN_ON(!mapping->active);
- 
--		iter.hdr->bomap.data[0] = cpu_to_le32((bomap - bomap_start));
-+		iter.hdr->bomap.data[0] = bomap - bomap_start;
- 
- 		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
- 			struct page *page = sg_page_iter_page(&page_iter);
- 
- 			if (!IS_ERR(page)) {
--				*bomap++ = cpu_to_le64(page_to_phys(page));
-+				*bomap++ = page_to_phys(page);
- 			} else {
- 				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
--				*bomap++ = ~cpu_to_le64(0);
-+				*bomap++ = 0;
- 			}
- 		}
- 
--		iter.hdr->bomap.iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
-+		iter.hdr->bomap.iova = mapping->mmnode.start << PAGE_SHIFT;
- 
- 		vaddr = map.vaddr;
- 		memcpy(iter.data, vaddr, bo->base.base.size);
- 
- 		drm_gem_shmem_vunmap(&bo->base, &map);
- 
--		iter.hdr->bomap.valid = cpu_to_le32(1);
-+		iter.hdr->bomap.valid = 1;
- 
- dump_header:	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BO, iter.data +
- 					  bo->base.base.size);
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index bd77254be121..6f93c915cc88 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -235,25 +235,29 @@ struct drm_panfrost_madvise {
- #define PANFROSTDUMP_BUF_BO (PANFROSTDUMP_BUF_BOMAP + 1)
- #define PANFROSTDUMP_BUF_TRAILER (PANFROSTDUMP_BUF_BO + 1)
- 
-+/*
-+ * This structure is the native endianness of the dumping machine, tools can
-+ * detect the endianness by looking at the value in 'magic'.
-+ */
- struct panfrost_dump_object_header {
--	__le32 magic;
--	__le32 type;
--	__le32 file_size;
--	__le32 file_offset;
-+	__u32 magic;
-+	__u32 type;
-+	__u32 file_size;
-+	__u32 file_offset;
- 
- 	union {
- 		struct {
--			__le64 jc;
--			__le32 gpu_id;
--			__le32 major;
--			__le32 minor;
--			__le64 nbos;
-+			__u64 jc;
-+			__u32 gpu_id;
-+			__u32 major;
-+			__u32 minor;
-+			__u64 nbos;
- 		} reghdr;
- 
--		struct {
--			__le32 valid;
--			__le64 iova;
--			__le32 data[2];
-+		struct pan_bomap_hdr {
-+			__u32 valid;
-+			__u64 iova;
-+			__u32 data[2];
- 		} bomap;
- 
- 		/*
-@@ -261,14 +265,14 @@ struct panfrost_dump_object_header {
- 		 * with new fields and also keep it 512-byte aligned
- 		 */
- 
--		__le32 sizer[496];
-+		__u32 sizer[496];
- 	};
- };
- 
- /* Registers object, an array of these */
- struct panfrost_dump_registers {
--	__le32 reg;
--	__le32 value;
-+	__u32 reg;
-+	__u32 value;
- };
- 
- #if defined(__cplusplus)
+Therefore introduce the begin_fb_access and end_fb_access callbacks in
+struct drm_plane_helper_funcs. The atomic helpers call begin_fb_access
+when preparing the planes for the commit and end_fb_access when
+cleaning up afterwards. The argument to end_fb_access is the new plane
+state, so that acquired resources are not held after the end of the
+commit.
+
+With this in place, move drm_gem_fb_{begin,end}_cpu_access() behind
+the new callbacks for shadow-plane helpers and 2 other drivers. For
+the shadow-plane helpers, also move the automatic vmap/vunmap behind
+the new callbacks. The shadow-plane mapping is only required during
+the atomic commit.
+
+Tested with combinations of radeon, udl and simpledrm under X11, Weston
+and Wayland-Gnome.
+
+Thomas Zimmermann (5):
+  drm/atomic-helper: Add {begin,end}_fb_access to plane helpers
+  drm/gem: Implement shadow-plane {begin,end}_fb_access with vmap
+  drm/gem: Handle drm_gem_{begin,end}_cpu_access() in shadow-plane
+    helpers
+  drm/repaper: Implement {begin,end}_fb_access helpers
+  drm/st7586: Implement {begin,end}_fb_access helpers
+
+ drivers/gpu/drm/drm_atomic_helper.c      | 34 ++++++++++-
+ drivers/gpu/drm/drm_gem_atomic_helper.c  | 78 +++++++++++++-----------
+ drivers/gpu/drm/drm_simple_kms_helper.c  | 26 ++++++++
+ drivers/gpu/drm/solomon/ssd130x.c        | 10 +--
+ drivers/gpu/drm/tiny/gm12u320.c          | 10 +--
+ drivers/gpu/drm/tiny/ofdrm.c             |  8 +--
+ drivers/gpu/drm/tiny/repaper.c           | 30 +++++++--
+ drivers/gpu/drm/tiny/simpledrm.c         | 10 +--
+ drivers/gpu/drm/tiny/st7586.c            | 44 ++++++++-----
+ drivers/gpu/drm/udl/udl_modeset.c        | 11 +---
+ include/drm/drm_gem_atomic_helper.h      | 20 +++---
+ include/drm/drm_modeset_helper_vtables.h | 27 ++++++++
+ include/drm/drm_simple_kms_helper.h      | 20 ++++++
+ 13 files changed, 217 insertions(+), 111 deletions(-)
+
+
+base-commit: 8c797a984264f04708d2099e83c85978a0fede89
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
 -- 
-2.34.1
+2.38.0
 
