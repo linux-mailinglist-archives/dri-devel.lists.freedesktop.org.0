@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14B2602478
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 08:36:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DC6602485
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 08:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97CCB10EE84;
-	Tue, 18 Oct 2022 06:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3C710EE9C;
+	Tue, 18 Oct 2022 06:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752DD10E3E7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 11:59:58 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mrb7T71GfzpW32;
- Mon, 17 Oct 2022 19:56:37 +0800 (CST)
-Received: from kwepemm600005.china.huawei.com (7.193.23.191) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 17 Oct 2022 19:59:34 +0800
-Received: from [10.67.103.158] (10.67.103.158) by
- kwepemm600005.china.huawei.com (7.193.23.191) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 17 Oct 2022 19:59:31 +0800
-Subject: Re: [PATCH v6 0/7] treewide cleanup of random integer usage
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, <linux-kernel@vger.kernel.org>,
- <patches@lists.linux.dev>
-References: <20221010230613.1076905-1-Jason@zx2c4.com>
-From: liulongfang <liulongfang@huawei.com>
-Message-ID: <8dad6a2c-9ef6-086e-0fb0-cd9115d4faca@huawei.com>
-Date: Mon, 17 Oct 2022 19:59:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E284010E3ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 12:04:49 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id u15so11846605oie.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 05:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=92eFSiRgtqq3z5EJ8KsBZ5qnISbuSueBoNETN1Cx1TA=;
+ b=fgqhE3ZUdXWnC6eM1lNwjXig8oOhKp3MVcCZtIjrn6qBcCKJwAdvo3M7/iELoKQ75Q
+ wcGOh5TI2SysmzYZHvYK7jFNSNRsLC+ghzvB1xNDbXB4KL+IuLkKMxvkyRDLjAryPZPw
+ uP+6d14Zc7N3UduAzwE88+S21jmVIDXV2AM+s+fa2qYwPaVl2Tsabgxu68/EH0dLgFKh
+ S+KYFdYUkTbLUOpgf1P1MkgDE9ohZt+PQ1dnXC2X6kkqhmDwC5CR12Z5PSp7ZFv9VZzn
+ vG9zMjGc2nEOVKzYRjg3a58ftU6brAF7oy3W3gjI3Woi5ORevMN3I5fOM7VcZM4chsST
+ 2WJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=92eFSiRgtqq3z5EJ8KsBZ5qnISbuSueBoNETN1Cx1TA=;
+ b=1pJZXOEWqwUaOqVKVaxWpNOC6IziyrCRAzL3G0O1bDcdS+uajyhDSoeChJromImgCl
+ UvGd0VOCwL7cBF5cZLomvzplLaWgueoCAHZ68TyTHGcl7sMLAqjDA/9eLc4gtp+N89gz
+ eGzFxNSlQ/lYwLXUwYTn8buiyj1ICQLzOvfjkd7Dd19iVSVQ1HAt9XSCNCM34pWvESuq
+ NUOQNMX6IA3/l6trtrl9V9ssJ95bns4MuAT76eRZXznZWrydlRBtFHfE6YSAGAnXOVml
+ HrMXfwA0xSwvCyFM090H2fH43JTzanEhYSVoKbMF/WXakvKDC7dmwY9CV8X/9TJKBQDz
+ 6A2w==
+X-Gm-Message-State: ACrzQf1lUVr7yx/8Xlfbfi44991DzVkP3s0esvlqF0/2Gpm3TAE7/J9/
+ cUbGW/UeK5j2THTPvYT5Dcw=
+X-Google-Smtp-Source: AMsMyM41jg79l77hpZPJFygjLg4+EFIdd+ccp3V91wKu43b1JYHdvyeocYzX/UgKFkPXaOXT8M9lYw==
+X-Received: by 2002:aca:30c4:0:b0:355:24e0:8583 with SMTP id
+ w187-20020aca30c4000000b0035524e08583mr4567774oiw.42.1666008289194; 
+ Mon, 17 Oct 2022 05:04:49 -0700 (PDT)
+Received: from geday ([2804:7f2:8002:5105:b46b:dcd9:d624:ab27])
+ by smtp.gmail.com with ESMTPSA id
+ f17-20020a4ae611000000b00480b7efd5d9sm3292198oot.6.2022.10.17.05.04.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Oct 2022 05:04:48 -0700 (PDT)
+Date: Mon, 17 Oct 2022 09:04:52 -0300
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Subject: [RESEND PATCH v2] drm/bridge: dw-hdmi-i2s: set insert_pcuv bit if
+ hardware supports it
+Message-ID: <Y01E5MvrnmVhnekO@geday>
 MIME-Version: 1.0
-In-Reply-To: <20221010230613.1076905-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.103.158]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600005.china.huawei.com (7.193.23.191)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Mailman-Approved-At: Tue, 18 Oct 2022 06:35:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,413 +69,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
- x86@kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, Catalin
- Marinas <catalin.marinas@arm.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- kernel-janitors@vger.kernel.org, KP Singh <kpsingh@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
- "H . Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
- WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael
- Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>,
- Russell King <linux@armlinux.org.uk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jozsef Kadlecsik <kadlec@netfilter.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "James E . J . Bottomley" <jejb@linux.ibm.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>, linux-media@vger.kernel.org,
- Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Yury Norov <yury.norov@gmail.com>, Heiko Carstens <hca@linux.ibm.com>,
- linux-um@lists.infradead.org, linux-block@vger.kernel.org,
- Richard Weinberger <richard@nod.at>, Borislav Petkov <bp@alien8.de>,
- linux-nvme@lists.infradead.org, loongarch@lists.linux.dev,
- Dave Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- linux-mmc@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Theodore Ts'o <tytso@mit.edu>, linux-parisc@vger.kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Florian Westphal <fw@strlen.de>, linux-mips@vger.kernel.org,
- =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>,
- linux-crypto@vger.kernel.org, Jan Kara <jack@suse.com>,
- Thomas Graf <tgraf@suug.ch>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S . Miller" <davem@davemloft.net>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ ALSA-devel <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022/10/11 7:06, Jason A. Donenfeld Wrote:
-> Changes v5->v6:
-> - Added a few missing conversions that weren't in my older tree, so now
->   this should be ready to go, as well as a couple nits people had from
->   v5. Barring something large and unforeseen, this is the "final
->   version", as this is ready to ship. Thanks to everyone who reviewed
->   this.
-> 
-> Hi folks,
-> 
-> This is a five part treewide cleanup of random integer handling. The
-> rules for random integers are:
-> 
-> - If you want a secure or an insecure random u64, use get_random_u64().
-> - If you want a secure or an insecure random u32, use get_random_u32().
->   * The old function prandom_u32() has been deprecated for a while now
->     and is just a wrapper around get_random_u32(). Same for
->     get_random_int().
-> - If you want a secure or an insecure random u16, use get_random_u16().
-> - If you want a secure or an insecure random u8, use get_random_u8().
-> - If you want secure or insecure random bytes, use get_random_bytes().
->   * The old function prandom_bytes() has been deprecated for a while now
->     and has long been a wrapper around get_random_bytes().
-> - If you want a non-uniform random u32, u16, or u8 bounded by a certain
->   open interval maximum, use prandom_u32_max().
->   * I say "non-uniform", because it doesn't do any rejection sampling or
->     divisions. Hence, it stays within the prandom_* namespace.
-> 
-> These rules ought to be applied uniformly, so that we can clean up the
-> deprecated functions, and earn the benefits of using the modern
-> functions. In particular, in addition to the boring substitutions, this
-> patchset accomplishes a few nice effects:
-> 
-> - By using prandom_u32_max() with an upper-bound that the compiler can
->   prove at compile-time is ≤65536 or ≤256, internally get_random_u16()
->   or get_random_u8() is used, which wastes fewer batched random bytes,
->   and hence has higher throughput.
-> 
-> - By using prandom_u32_max() instead of %, when the upper-bound is not a
->   constant, division is still avoided, because prandom_u32_max() uses
->   a faster multiplication-based trick instead.
-> 
-> - By using get_random_u16() or get_random_u8() in cases where the return
->   value is intended to indeed be a u16 or a u8, we waste fewer batched
->   random bytes, and hence have higher throughput.
-> 
-> So, based on those rules and benefits from following them, this patchset
-> breaks down into the following five steps:
-> 
-> 1) Replace `prandom_u32() % max` and variants thereof with
->    prandom_u32_max(max).
-> 
->    * Part 1 is done with Coccinelle. Part 2 is done by hand.
-> 
-> 2) Replace `(type)get_random_u32()` and variants thereof with
->    get_random_u16() or get_random_u8(). I took the pains to actually
->    look and see what every lvalue type was across the entire tree.
-> 
->    * Part 1 is done with Coccinelle. Part 2 is done by hand.
-> 
-> 3) Replace remaining deprecated uses of prandom_u32() and
->    get_random_int() with get_random_u32(). 
-> 
->    * A boring search and replace operation.
-> 
-> 4) Replace remaining deprecated uses of prandom_bytes() with
->    get_random_bytes().
-> 
->    * A boring search and replace operation.
-> 
-> 5) Remove the deprecated and now-unused prandom_u32() and
->    prandom_bytes() inline wrapper functions.
-> 
->    * Just deleting code and updating comments.
-> 
-> I'll be sending this toward the end of the 6.1 merge window via the
-> random.git tree.
-> 
-> Please take a look! The number of lines touched is quite small, so this
-> should be reviewable, and as much as is possible has been pushed into
-> Coccinelle scripts.
-> 
-> Thanks,
-> Jason
-> 
-> Cc: Andreas Noever <andreas.noever@gmail.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-> Cc: Daniel Borkmann <daniel@iogearbox.net>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: David S. Miller <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Florian Westphal <fw@strlen.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-> Cc: H. Peter Anvin <hpa@zytor.com>
-> Cc: Heiko Carstens <hca@linux.ibm.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: Hugh Dickins <hughd@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: James E.J. Bottomley <jejb@linux.ibm.com>
-> Cc: Jan Kara <jack@suse.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Johannes Berg <johannes@sipsolutions.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
-> Cc: KP Singh <kpsingh@kernel.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Pablo Neira Ayuso <pablo@netfilter.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Theodore Ts'o <tytso@mit.edu>
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Thomas Graf <tgraf@suug.ch>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: Vignesh Raghavendra <vigneshr@ti.com>
-> Cc: WANG Xuerui <kernel@xen0n.name>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Yury Norov <yury.norov@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: kasan-dev@googlegroups.com
-> Cc: kernel-janitors@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-block@vger.kernel.org
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-nvme@lists.infradead.org
-> Cc: linux-parisc@vger.kernel.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: linux-um@lists.infradead.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: loongarch@lists.linux.dev
-> Cc: netdev@vger.kernel.org
-> Cc: sparclinux@vger.kernel.org
-> Cc: x86@kernel.org
-> 
-> Jason A. Donenfeld (7):
->   treewide: use prandom_u32_max() when possible, part 1
->   treewide: use prandom_u32_max() when possible, part 2
->   treewide: use get_random_{u8,u16}() when possible, part 1
->   treewide: use get_random_{u8,u16}() when possible, part 2
->   treewide: use get_random_u32() when possible
->   treewide: use get_random_bytes() when possible
->   prandom: remove unused functions
-> 
->  Documentation/networking/filter.rst           |  2 +-
->  arch/arm/kernel/process.c                     |  2 +-
->  arch/arm/kernel/signal.c                      |  2 +-
->  arch/arm64/kernel/process.c                   |  2 +-
->  arch/arm64/kernel/syscall.c                   |  2 +-
->  arch/loongarch/kernel/process.c               |  2 +-
->  arch/loongarch/kernel/vdso.c                  |  2 +-
->  arch/mips/kernel/process.c                    |  2 +-
->  arch/mips/kernel/vdso.c                       |  2 +-
->  arch/parisc/kernel/process.c                  |  2 +-
->  arch/parisc/kernel/sys_parisc.c               |  4 +-
->  arch/parisc/kernel/vdso.c                     |  2 +-
->  arch/powerpc/crypto/crc-vpmsum_test.c         |  2 +-
->  arch/powerpc/kernel/process.c                 |  2 +-
->  arch/s390/kernel/process.c                    |  4 +-
->  arch/s390/kernel/vdso.c                       |  2 +-
->  arch/s390/mm/mmap.c                           |  2 +-
->  arch/sparc/vdso/vma.c                         |  2 +-
->  arch/um/kernel/process.c                      |  2 +-
->  arch/x86/entry/vdso/vma.c                     |  2 +-
->  arch/x86/kernel/cpu/amd.c                     |  2 +-
->  arch/x86/kernel/module.c                      |  2 +-
->  arch/x86/kernel/process.c                     |  2 +-
->  arch/x86/mm/pat/cpa-test.c                    |  4 +-
->  block/blk-crypto-fallback.c                   |  2 +-
->  crypto/async_tx/raid6test.c                   |  2 +-
->  crypto/testmgr.c                              | 94 +++++++++----------
->  drivers/block/drbd/drbd_receiver.c            |  4 +-
->  drivers/char/random.c                         | 11 +--
->  drivers/dma/dmatest.c                         |  2 +-
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
->  drivers/gpu/drm/i915/i915_gem_gtt.c           |  6 +-
->  .../gpu/drm/i915/selftests/i915_selftest.c    |  2 +-
->  drivers/gpu/drm/tests/drm_buddy_test.c        |  2 +-
->  drivers/gpu/drm/tests/drm_mm_test.c           |  2 +-
->  drivers/infiniband/core/cma.c                 |  2 +-
->  drivers/infiniband/hw/cxgb4/cm.c              |  4 +-
->  drivers/infiniband/hw/cxgb4/id_table.c        |  4 +-
->  drivers/infiniband/hw/hfi1/tid_rdma.c         |  2 +-
->  drivers/infiniband/hw/hns/hns_roce_ah.c       |  5 +-
->  drivers/infiniband/hw/mlx4/mad.c              |  2 +-
->  drivers/infiniband/ulp/ipoib/ipoib_cm.c       |  2 +-
->  drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  3 +-
->  drivers/md/bcache/request.c                   |  2 +-
->  drivers/md/raid5-cache.c                      |  2 +-
->  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  2 +-
->  .../media/test-drivers/vivid/vivid-radio-rx.c |  4 +-
->  .../test-drivers/vivid/vivid-touch-cap.c      |  6 +-
->  drivers/misc/habanalabs/gaudi2/gaudi2.c       |  2 +-
->  drivers/mmc/core/core.c                       |  4 +-
->  drivers/mmc/host/dw_mmc.c                     |  2 +-
->  drivers/mtd/nand/raw/nandsim.c                |  8 +-
->  drivers/mtd/tests/mtd_nandecctest.c           | 12 +--
->  drivers/mtd/tests/speedtest.c                 |  2 +-
->  drivers/mtd/tests/stresstest.c                | 19 +---
->  drivers/mtd/ubi/debug.c                       |  2 +-
->  drivers/mtd/ubi/debug.h                       |  6 +-
->  drivers/net/bonding/bond_main.c               |  2 +-
->  drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  2 +-
->  drivers/net/ethernet/broadcom/cnic.c          |  5 +-
->  .../chelsio/inline_crypto/chtls/chtls_cm.c    |  4 +-
->  .../chelsio/inline_crypto/chtls/chtls_io.c    |  4 +-
->  drivers/net/ethernet/rocker/rocker_main.c     |  8 +-
->  drivers/net/hamradio/baycom_epp.c             |  2 +-
->  drivers/net/hamradio/hdlcdrv.c                |  2 +-
->  drivers/net/hamradio/yam.c                    |  2 +-
->  drivers/net/phy/at803x.c                      |  2 +-
->  drivers/net/wireguard/selftest/allowedips.c   | 16 ++--
->  .../broadcom/brcm80211/brcmfmac/p2p.c         |  2 +-
->  .../broadcom/brcm80211/brcmfmac/pno.c         |  2 +-
->  .../net/wireless/intel/iwlwifi/mvm/mac-ctxt.c |  2 +-
->  .../net/wireless/marvell/mwifiex/cfg80211.c   |  4 +-
->  .../wireless/microchip/wilc1000/cfg80211.c    |  2 +-
->  .../net/wireless/quantenna/qtnfmac/cfg80211.c |  2 +-
->  drivers/net/wireless/st/cw1200/wsm.c          |  2 +-
->  drivers/net/wireless/ti/wlcore/main.c         |  2 +-
->  drivers/nvme/common/auth.c                    |  2 +-
->  drivers/scsi/cxgbi/cxgb4i/cxgb4i.c            |  4 +-
->  drivers/scsi/fcoe/fcoe_ctlr.c                 |  4 +-
->  drivers/scsi/lpfc/lpfc_hbadisc.c              |  6 +-
->  drivers/scsi/qedi/qedi_main.c                 |  2 +-
->  drivers/target/iscsi/cxgbit/cxgbit_cm.c       |  2 +-
->  drivers/thunderbolt/xdomain.c                 |  2 +-
->  drivers/video/fbdev/uvesafb.c                 |  2 +-
->  fs/ceph/inode.c                               |  2 +-
->  fs/ceph/mdsmap.c                              |  2 +-
->  fs/exfat/inode.c                              |  2 +-
->  fs/ext2/ialloc.c                              |  3 +-
->  fs/ext4/ialloc.c                              |  7 +-
->  fs/ext4/ioctl.c                               |  4 +-
->  fs/ext4/mmp.c                                 |  2 +-
->  fs/ext4/super.c                               |  7 +-
->  fs/f2fs/gc.c                                  |  2 +-
->  fs/f2fs/namei.c                               |  2 +-
->  fs/f2fs/segment.c                             |  8 +-
->  fs/fat/inode.c                                |  2 +-
->  fs/nfsd/nfs4state.c                           |  4 +-
->  fs/ntfs3/fslog.c                              |  6 +-
->  fs/ubifs/debug.c                              | 10 +-
->  fs/ubifs/journal.c                            |  2 +-
->  fs/ubifs/lpt_commit.c                         | 14 +--
->  fs/ubifs/tnc_commit.c                         |  2 +-
->  fs/xfs/libxfs/xfs_alloc.c                     |  2 +-
->  fs/xfs/libxfs/xfs_ialloc.c                    |  4 +-
->  fs/xfs/xfs_error.c                            |  2 +-
->  fs/xfs/xfs_icache.c                           |  2 +-
->  fs/xfs/xfs_log.c                              |  2 +-
->  include/linux/nodemask.h                      |  2 +-
->  include/linux/prandom.h                       | 12 ---
->  include/linux/random.h                        |  5 -
->  include/net/netfilter/nf_queue.h              |  2 +-
->  include/net/red.h                             |  2 +-
->  include/net/sock.h                            |  2 +-
->  kernel/bpf/bloom_filter.c                     |  2 +-
->  kernel/bpf/core.c                             |  6 +-
->  kernel/bpf/hashtab.c                          |  2 +-
->  kernel/bpf/verifier.c                         |  2 +-
->  kernel/kcsan/selftest.c                       |  4 +-
->  kernel/locking/test-ww_mutex.c                |  4 +-
->  kernel/time/clocksource.c                     |  2 +-
->  lib/cmdline_kunit.c                           |  4 +-
->  lib/fault-inject.c                            |  2 +-
->  lib/find_bit_benchmark.c                      |  4 +-
->  lib/kobject.c                                 |  2 +-
->  lib/random32.c                                |  4 +-
->  lib/reed_solomon/test_rslib.c                 | 12 +--
->  lib/sbitmap.c                                 |  4 +-
->  lib/test-string_helpers.c                     |  2 +-
->  lib/test_fprobe.c                             |  2 +-
->  lib/test_hexdump.c                            | 10 +-
->  lib/test_kasan.c                              |  6 +-
->  lib/test_kprobes.c                            |  2 +-
->  lib/test_list_sort.c                          |  2 +-
->  lib/test_min_heap.c                           |  6 +-
->  lib/test_objagg.c                             |  2 +-
->  lib/test_rhashtable.c                         |  6 +-
->  lib/test_vmalloc.c                            | 19 +---
->  lib/uuid.c                                    |  2 +-
->  mm/migrate.c                                  |  2 +-
->  mm/shmem.c                                    |  2 +-
->  mm/slab.c                                     |  2 +-
->  mm/slub.c                                     |  2 +-
->  net/802/garp.c                                |  2 +-
->  net/802/mrp.c                                 |  2 +-
->  net/ceph/mon_client.c                         |  2 +-
->  net/ceph/osd_client.c                         |  2 +-
->  net/core/neighbour.c                          |  2 +-
->  net/core/pktgen.c                             | 47 +++++-----
->  net/core/stream.c                             |  2 +-
->  net/dccp/ipv4.c                               |  4 +-
->  net/ipv4/datagram.c                           |  2 +-
->  net/ipv4/igmp.c                               |  6 +-
->  net/ipv4/inet_connection_sock.c               |  2 +-
->  net/ipv4/inet_hashtables.c                    |  2 +-
->  net/ipv4/ip_output.c                          |  2 +-
->  net/ipv4/route.c                              |  4 +-
->  net/ipv4/tcp_cdg.c                            |  2 +-
->  net/ipv4/tcp_ipv4.c                           |  4 +-
->  net/ipv4/udp.c                                |  2 +-
->  net/ipv6/addrconf.c                           |  8 +-
->  net/ipv6/ip6_flowlabel.c                      |  2 +-
->  net/ipv6/mcast.c                              | 10 +-
->  net/ipv6/output_core.c                        |  2 +-
->  net/mac80211/rc80211_minstrel_ht.c            |  2 +-
->  net/mac80211/scan.c                           |  2 +-
->  net/netfilter/ipvs/ip_vs_conn.c               |  2 +-
->  net/netfilter/ipvs/ip_vs_twos.c               |  4 +-
->  net/netfilter/nf_nat_core.c                   |  4 +-
->  net/netfilter/xt_statistic.c                  |  2 +-
->  net/openvswitch/actions.c                     |  2 +-
->  net/packet/af_packet.c                        |  2 +-
->  net/rds/bind.c                                |  2 +-
->  net/sched/act_gact.c                          |  2 +-
->  net/sched/act_sample.c                        |  2 +-
->  net/sched/sch_cake.c                          |  8 +-
->  net/sched/sch_netem.c                         | 22 ++---
->  net/sched/sch_pie.c                           |  2 +-
->  net/sched/sch_sfb.c                           |  2 +-
->  net/sctp/socket.c                             |  4 +-
->  net/sunrpc/auth_gss/gss_krb5_wrap.c           |  4 +-
->  net/sunrpc/cache.c                            |  2 +-
->  net/sunrpc/xprt.c                             |  2 +-
->  net/sunrpc/xprtsock.c                         |  2 +-
->  net/tipc/socket.c                             |  2 +-
->  net/unix/af_unix.c                            |  2 +-
->  net/xfrm/xfrm_state.c                         |  2 +-
->  186 files changed, 379 insertions(+), 422 deletions(-)
-> 
-
-Hi, Jason:
-
-There is a lot of code using "prandom_u32 % 4" in crypto's kernel self-test file testmgr.c,
-can you modify it together?
+Hi Mark, resending this as it failed to apply in my last submission. Added
+Neil Armstrong to Cc: as hopefully he will be able to better review this.
 
 Thanks,
-Longfang.
+Geraldo Nascimento
 
+---
 
+Starting with version 2.10a of Synopsys DesignWare HDMI controller the
+insert_pcuv bit was introduced. On RK3399pro SoM (Radxa Rock Pi N10),
+for example, if we neglect to set this bit and proceed to enable hdmi_sound
+and i2s2 on the device tree there will be extreme clipping of sound
+output, to the point that music sounds like white noise. Problem
+could also manifest as just mild cracking depending of HDMI audio
+implementation of sink. Setting insert_pcuv bit (bit 2 of
+aud_conf2 Audio Sample register) fixes this.
+
+Signed-off-by: Geraldo Nascimento <geraldogabriel@gmail.com>
+
+---
+
+v1->v2: SoC->SoM on description, better commenting, minor style changes,
+	conditional application of fix for L-PCM only
+
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio-20221017.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio-20221017.c
+@@ -42,6 +42,7 @@ static int dw_hdmi_i2s_hw_params(struct device *dev, void *data,
+ 	struct dw_hdmi *hdmi = audio->hdmi;
+ 	u8 conf0 = 0;
+ 	u8 conf1 = 0;
++	u8 conf2 = 0;
+ 	u8 inputclkfs = 0;
+ 
+ 	/* it cares I2S only */
+@@ -101,6 +102,28 @@ static int dw_hdmi_i2s_hw_params(struct device *dev, void *data,
+ 		return -EINVAL;
+ 	}
+ 
++	/*
++	 * dw-hdmi introduced insert_pcuv bit in
++	 * version 2.10a.
++	 *
++	 * This single bit (bit 2 of HDMI_AUD_CONF2)
++	 * when set to 1 will enable the insertion of the PCUV
++	 * (Parity, Channel Status, User bit and Validity)
++	 * bits on the incoming audio stream.
++	 * 
++	 * Support is limited to Linear PCM audio. If
++	 * neglected, the lack of valid PCUV bits
++	 * on L-PCM streams will cause anything from
++	 * mild cracking to full blown extreme
++	 * clipping depending on the HDMI audio
++	 * implementation of the sink.
++	 *
++	 */
++
++	if (hdmi_read(audio, HDMI_DESIGN_ID) >= 0x21 &&
++			!(hparms->iec.status[0] & IEC958_AES0_NONAUDIO))
++		conf2 = HDMI_AUD_CONF2_INSERT_PCUV;
++
+ 	dw_hdmi_set_sample_rate(hdmi, hparms->sample_rate);
+ 	dw_hdmi_set_channel_status(hdmi, hparms->iec.status);
+ 	dw_hdmi_set_channel_count(hdmi, hparms->channels);
+@@ -109,6 +120,7 @@ static int dw_hdmi_i2s_hw_params(struct device *dev, void *data,
+ 	hdmi_write(audio, inputclkfs, HDMI_AUD_INPUTCLKFS);
+ 	hdmi_write(audio, conf0, HDMI_AUD_CONF0);
+ 	hdmi_write(audio, conf1, HDMI_AUD_CONF1);
++	hdmi_write(audio, conf2, HDMI_AUD_CONF2);
+ 
+ 	return 0;
+ }
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-20221017.h
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-20221017.h
+@@ -931,6 +931,11 @@ enum {
+ 	HDMI_AUD_CONF1_WIDTH_16 = 0x10,
+ 	HDMI_AUD_CONF1_WIDTH_24 = 0x18,
+ 
++/* AUD_CONF2 field values */
++	HDMI_AUD_CONF2_HBR = 0x01,
++	HDMI_AUD_CONF2_NLPCM = 0x02,
++	HDMI_AUD_CONF2_INSERT_PCUV = 0x04,
++
+ /* AUD_CTS3 field values */
+ 	HDMI_AUD_CTS3_N_SHIFT_OFFSET = 5,
+ 	HDMI_AUD_CTS3_N_SHIFT_MASK = 0xe0,
