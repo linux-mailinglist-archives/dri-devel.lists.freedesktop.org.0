@@ -1,78 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41C0601533
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 19:26:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E98601541
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 19:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D477910EDCD;
-	Mon, 17 Oct 2022 17:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9944710EDBF;
+	Mon, 17 Oct 2022 17:26:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BC8410EDCD;
- Mon, 17 Oct 2022 17:25:36 +0000 (UTC)
-Received: from dimapc.. (109-252-119-114.nat.spd-mgts.ru [109.252.119.114])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B86BE6602398;
- Mon, 17 Oct 2022 18:25:31 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1666027535;
- bh=LM8pyDnEAHvGCBO40COCQKj+eYv59T5WxHH0XEhWAPY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RrsMn2jZzh78/FlU7g/l7zbMgNSgljQnsY0x9j4ExW6/C5fWb4wQVm01SV2+oFQVu
- KpY5O0Yo8lQkpTHg9IiWi7tcyju0D4NndypX8sD8YCxRC4TUyfBYtV0t66IOiFkxJT
- 0D1l+NstBYOiidbyq7r//GZmtttaNuM8gqIsWFvn0JZN4+b+Zw+PE4ItodZK8HVCjn
- nG13scnkt7OQ3Ei4xYnNq+0eD6S14dwsaYNjlGv3/7HEgl6S0EWsMy1Wq6OucSxs3Y
- 8zS0lTvTMy01Xq8FqP4gvg9GxFR1luOirzPEGr6Ui2md3yYPCGXnjn20/fz4OYT7a+
- danuNuiGCWgYQ==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robdclark@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
- Qiang Yu <yuq825@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Tomi Valkeinen <tomba@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Ruhl Michael J <michael.j.ruhl@intel.com>
-Subject: [PATCH v7 21/21] dma-buf: Remove obsoleted internal lock
-Date: Mon, 17 Oct 2022 20:22:29 +0300
-Message-Id: <20221017172229.42269-22-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
-References: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2F0C10EDCD
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 17:26:36 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id fy4so26506894ejc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 10:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3NBiv3SPCH7/CkNwTixJben03xMbF+oIfMj6pGQk/gg=;
+ b=jqHnGDESxBjTsf+Ch+SFxuDfGAvum/LPswoQ599JSljkR7pw9yh8K2kUGMxQnlvX0s
+ Y/I+MmsH/89GHhFmozDkdfX5uIzH7stjvHbbdIWAOLYZIyPZxaKpuU86xOW4zm8AY4OF
+ yyvHvHFKYJCZ3xNQIIhR4VZxzhjSS3ekJgOUoSA3jVtb4Myr9nUEmfG0A/bHiK/znZmV
+ mpe4mQWEOqlpptkHqgP/vX+M9fnWfotmtx1909Hyc9n4uPFhOQ4pLVDjie2+bG3Q5HpO
+ ytL5xhQE7C75T+zFbzTp7J/QSrv/exqpDZQhr8Vq0QXI+Rxkn2Da7S/ZVyyBWvT/KQln
+ WoTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3NBiv3SPCH7/CkNwTixJben03xMbF+oIfMj6pGQk/gg=;
+ b=foWJqX43VY+qq4XEUSguC0/aI+9NEy8vLpNHk9QYucgOLQOXDjr45vFAbdBgJPfM97
+ aNOe3d3RhXTkZvWnTfl1IlAnFvzAdTo1Yrg1uPUP4fMn/vldyNe9KkdM/mNPMX1401yJ
+ fbJZZjxFKxcPcXAGNT/3c5RoMvawQDPh5QBxyLTefineol+zKBuOYj4mBs1QG6XAlZOz
+ +G+FWeGvmLUkXBVbVdI84uNgKY7OdmumgaUkU1NCiendokkC7r46m3qq8Tc249rRaIu8
+ /58NA1A74Piw6Y0OjAdqheBIncQxOhrGcozCFe0BHyhrSaJ5IOEv0MYR1yKzpbzigeEo
+ x4eA==
+X-Gm-Message-State: ACrzQf0Hd88UfrlNtjTEBVJt8cV7yKDiPshrY59mkuBkk9hhH0YK9aLS
+ NxbanRCAgzXsgm3cPy7eszbpnRVk2AnJipFJMpT+Eg==
+X-Google-Smtp-Source: AMsMyM7d+XDkGlnblLLh/HG6ol6NP9K5rplL7xXCeugXNCvA9cKSBAnnZdOUfFDgp/XWdQPkZOevlvMaJ+6hVXb8yuY=
+X-Received: by 2002:a17:907:94c7:b0:78e:1c4f:51f9 with SMTP id
+ dn7-20020a17090794c700b0078e1c4f51f9mr9839550ejc.200.1666027593725; Mon, 17
+ Oct 2022 10:26:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech>
+ <20221013-rpi-dpi-improvements-v1-5-8a7a96949cb0@cerno.tech>
+ <Y0rtVpMROELzbApj@pendragon.ideasonboard.com>
+ <Y0ruTEuq1flo7/dt@pendragon.ideasonboard.com>
+In-Reply-To: <Y0ruTEuq1flo7/dt@pendragon.ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 17 Oct 2022 18:26:18 +0100
+Message-ID: <CAPY8ntAW56-17QmwVsOmtnvEbnq_OmgmM_naVGhLepR9T3BDyA@mail.gmail.com>
+Subject: Re: [PATCH 5/7] drm/vc4: dpi: Support BGR666 formats
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,116 +68,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- linux-media@vger.kernel.org
+Cc: Chris Morgan <macromorgan@hotmail.com>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Eric Anholt <eric@anholt.net>,
+ Joerg Quinten <aBUGSworstnightmare@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The internal dma-buf lock isn't needed anymore because the updated
-locking specification claims that dma-buf reservation must be locked
-by importers, and thus, the internal data is already protected by the
-reservation lock. Remove the obsoleted internal lock.
+Hi Laurent
 
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-Acked-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/dma-buf/dma-buf.c | 14 ++++----------
- include/linux/dma-buf.h   |  9 ---------
- 2 files changed, 4 insertions(+), 19 deletions(-)
+Thanks for the review.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index f1d968e5bac4..7663c4e784b6 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -657,7 +657,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	dmabuf->file = file;
- 
--	mutex_init(&dmabuf->lock);
- 	INIT_LIST_HEAD(&dmabuf->attachments);
- 
- 	mutex_lock(&db_list.lock);
-@@ -1503,7 +1502,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
- int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
- {
- 	struct iosys_map ptr;
--	int ret = 0;
-+	int ret;
- 
- 	iosys_map_clear(map);
- 
-@@ -1515,28 +1514,25 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	if (!dmabuf->ops->vmap)
- 		return -EINVAL;
- 
--	mutex_lock(&dmabuf->lock);
- 	if (dmabuf->vmapping_counter) {
- 		dmabuf->vmapping_counter++;
- 		BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
- 		*map = dmabuf->vmap_ptr;
--		goto out_unlock;
-+		return 0;
- 	}
- 
- 	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
- 
- 	ret = dmabuf->ops->vmap(dmabuf, &ptr);
- 	if (WARN_ON_ONCE(ret))
--		goto out_unlock;
-+		return ret;
- 
- 	dmabuf->vmap_ptr = ptr;
- 	dmabuf->vmapping_counter = 1;
- 
- 	*map = dmabuf->vmap_ptr;
- 
--out_unlock:
--	mutex_unlock(&dmabuf->lock);
--	return ret;
-+	return 0;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vmap, DMA_BUF);
- 
-@@ -1583,13 +1579,11 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	BUG_ON(dmabuf->vmapping_counter == 0);
- 	BUG_ON(!iosys_map_is_equal(&dmabuf->vmap_ptr, map));
- 
--	mutex_lock(&dmabuf->lock);
- 	if (--dmabuf->vmapping_counter == 0) {
- 		if (dmabuf->ops->vunmap)
- 			dmabuf->ops->vunmap(dmabuf, map);
- 		iosys_map_clear(&dmabuf->vmap_ptr);
- 	}
--	mutex_unlock(&dmabuf->lock);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap, DMA_BUF);
- 
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index f11b5bbc2f37..6fa8d4e29719 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -326,15 +326,6 @@ struct dma_buf {
- 	/** @ops: dma_buf_ops associated with this buffer object. */
- 	const struct dma_buf_ops *ops;
- 
--	/**
--	 * @lock:
--	 *
--	 * Used internally to serialize list manipulation, attach/detach and
--	 * vmap/unmap. Note that in many cases this is superseeded by
--	 * dma_resv_lock() on @resv.
--	 */
--	struct mutex lock;
--
- 	/**
- 	 * @vmapping_counter:
- 	 *
--- 
-2.37.3
+On Sat, 15 Oct 2022 at 18:31, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Sat, Oct 15, 2022 at 08:26:48PM +0300, Laurent Pinchart wrote:
+> > Hi Maxime and Joerg,
+> >
+> > Thank you for the patch.
+> >
+> > On Thu, Oct 13, 2022 at 11:56:49AM +0200, Maxime Ripard wrote:
+> > > From: Joerg Quinten <aBUGSworstnightmare@gmail.com>
+> > >
+> > > The VC4 DPI output can support multiple BGR666 variants, but they were
+> > > never added to the driver. Let's add the the support for those formats.
+> > >
+> > > Signed-off-by: Joerg Quinten <aBUGSworstnightmare@gmail.com>
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > > ---
+> > >  drivers/gpu/drm/vc4/vc4_dpi.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
+> > > index 7da3dd1db50e..ecbe4cd87036 100644
+> > > --- a/drivers/gpu/drm/vc4/vc4_dpi.c
+> > > +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
+> > > @@ -170,10 +170,16 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+> > >                             dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR,
+> > >                                                    DPI_ORDER);
+> > >                             break;
+> > > +                   case MEDIA_BUS_FMT_BGR666_1X24_CPADHI:
+> > > +                           dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR, DPI_ORDER);
+> > > +                           fallthrough;
+>
+> Upon closer inspection of the code, I think you also need
+>
+> -                       dpi_c &= ~DPI_FORMAT_MASK;
+> +                       dpi_c &= ~(DPI_ORDER_MASK | DPI_FORMAT_MASK);
+>
+> a few lines above.
 
+Hmm, curious as there appears to be a difference between our vendor
+tree and mainline in the contents of a patch with almost the same
+commit text.
+
+https://github.com/torvalds/linux/commit/7a70b0b97889a89f397913c971cadfc6db9b310a
+vs https://github.com/raspberrypi/linux/commit/9d9dc236a9ee9021363b8601b6188e7be86d1971
+
+Our tree leaves dpi_c effectively clear, and selects the default at
+the end. Mainline sets the default first.
+
+
+Even so, dpi_c gets initialised with
+dpi_c = DPI_ENABLE;
+dpi_c |= VC4_SET_FIELD(DPI_FORMAT_24BIT_888_RGB, DPI_FORMAT);
+dpi_c &= ~DPI_FORMAT_MASK;
+so at this point in the switch, the DPI_ORDER bits haven't changed
+from the default of 0.
+
+  Dave
+
+> > >                     case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
+> > >                             dpi_c |= VC4_SET_FIELD(DPI_FORMAT_18BIT_666_RGB_2,
+> > >                                                    DPI_FORMAT);
+> > >                             break;
+> > > +                   case MEDIA_BUS_FMT_BGR666_1X18:
+> > > +                           dpi_c |= VC4_SET_FIELD(DPI_ORDER_BGR, DPI_ORDER);
+> > > +                           fallthrough;
+> > >                     case MEDIA_BUS_FMT_RGB666_1X18:
+> > >                             dpi_c |= VC4_SET_FIELD(DPI_FORMAT_18BIT_666_RGB_1,
+> > >                                                    DPI_FORMAT);
+> > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
