@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A9E60248D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 08:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1B260247E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 08:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C8C10EE89;
-	Tue, 18 Oct 2022 06:37:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2081510EE99;
+	Tue, 18 Oct 2022 06:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8481510ED10;
- Mon, 17 Oct 2022 09:33:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1E310ED14;
+ Mon, 17 Oct 2022 09:33:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665999180; x=1697535180;
+ t=1665999184; x=1697535184;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JEcLb6X6ZbdiyJg/wD23ZbxE1Ia5HJhKof7dQaZ62+0=;
- b=lT5vhBu0RWIm+b3ZiSz3PqoK3NAJ9LbXO07/zGGeOyfITp6qXxlVMqHT
- tfjx7pqEZTLLq4oZpwVvuR5vmQbH2UwL1ETqCACeuZY2/QIqYBtzFEMc1
- Ac0TIbMbd9580A8rq4O1LP7dOkaOGSq0Hlh8dY4wxTCG/Q632TyxbNWBq
- rgx0tOfr/BMK9KjxX8CSZyn258clRIB37iaJzjORXNDsgoKzYPI60jX3r
- cu44bFr5sE81JMgi8VUu7S3ULEPzP6Qpi2QFqwgGWO1SjhsdY91bqZrF6
- Lxu6QfKmuaNtvtJehdmLrhIGldBeZ2i/YFxDt+d55spof+UaINeqXbTKb g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="286142711"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; d="scan'208";a="286142711"
+ bh=7DWIlBvRBPlI7C3mshKcaEtH4mYWv0nITpy5+EZ8lew=;
+ b=AFAu9yFKR+W+9Ub/PyHTDF3LQvZxFE451L5OmLOUmEIaRlsXl5IOb1T0
+ e+aLuZ/InWvpWHAaRqbwwkDJXoIzPICHdfYs+Qw0zI6yhiBXVX3aTq4F+
+ kNqvWzkqtxxuesIjr2VGzPDjJrFaLEUnZ2RgkcCrDxiPahz5cNUSpEDoP
+ ZReu8PubTpojKbW4wI5C9BdDVsa37BPmXAPgverJo41z0lnLZSw0PRmc9
+ B36sIo2Rj92vpm/D/fxxBAcU9F13Dwq0RrZRoBgEkzxMivQNcM+ufvlJT
+ oJXiGIxLwAcFlTxkulnxUt34afzqI36YriKvlcROs8oDnk30kPfW0TSsc w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="286142730"
+X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; d="scan'208";a="286142730"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2022 02:33:00 -0700
+ 17 Oct 2022 02:33:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="717431340"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; d="scan'208";a="717431340"
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="717431351"
+X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; d="scan'208";a="717431351"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.132])
- by FMSMGA003.fm.intel.com with ESMTP; 17 Oct 2022 02:32:56 -0700
+ by FMSMGA003.fm.intel.com with ESMTP; 17 Oct 2022 02:33:00 -0700
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -48,10 +48,9 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] drm/i915: Use kmap_local_page() in
- gem/i915_gem_execbuffer.c
-Date: Mon, 17 Oct 2022 17:37:25 +0800
-Message-Id: <20221017093726.2070674-10-zhao1.liu@linux.intel.com>
+Subject: [PATCH v3] x86/hyperv: Replace kmap() with kmap_local_page()
+Date: Mon, 17 Oct 2022 17:37:26 +0800
+Message-Id: <20221017093726.2070674-11-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221017093726.2070674-1-zhao1.liu@linux.intel.com>
 References: <20221017093726.2070674-1-zhao1.liu@linux.intel.com>
@@ -78,86 +77,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-The use of kmap_atomic() is being deprecated in favor of
-kmap_local_page()[1].
+kmap() is being deprecated in favor of kmap_local_page()[1].
 
-The main difference between atomic and local mappings is that local
-mappings doesn't disable page faults or preemption.
+There are two main problems with kmap(): (1) It comes with an overhead as mapping space is restricted and protected by a global lock for synchronization and (2) it also requires global TLB invalidation when the kmap's pool wraps and it might block when the mapping space is fully utilized until a slot becomes available.
 
-In i915_gem_execbuffer.c, eb->reloc_cache.vaddr is mapped by
-kmap_atomic() in eb_relocate_entry(), and is unmapped by
-kunmap_atomic() in reloc_cache_reset().
+With kmap_local_page() the mappings are per thread, CPU local, can take page faults, and can be called from any context (including interrupts).
+It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore, the tasks can be preempted and, when they are scheduled to run again, the kernel virtual addresses are restored and are still valid.
 
-And this mapping/unmapping occurs in two places: one is in
-eb_relocate_vma(), and another is in eb_relocate_vma_slow().
+Since its use in hyperv/hv_init.c is safe, it should be preferred.
 
-The function eb_relocate_vma() or eb_relocate_vma_slow() doesn't
-need to disable pagefaults and preemption during the above mapping/
-unmapping.
-
-So it can simply use kmap_local_page() / kunmap_local() that can
-instead do the mapping / unmapping regardless of the context.
-
-Convert the calls of kmap_atomic() / kunmap_atomic() to
-kmap_local_page() / kunmap_local().
+Therefore, replace kmap() with kmap_local_page() in hyperv/hv_init.c.
 
 [1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
 
 Suggested-by: Ira Weiny <ira.weiny@intel.com>
+Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 845023c14eb3..8263d4e6620a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1110,7 +1110,7 @@ static void reloc_cache_unmap(struct reloc_cache *cache)
- 
- 	vaddr = unmask_page(cache->vaddr);
- 	if (cache->vaddr & KMAP)
--		kunmap_atomic(vaddr);
-+		kunmap_local(vaddr);
- 	else
- 		io_mapping_unmap_atomic((void __iomem *)vaddr);
- }
-@@ -1126,7 +1126,7 @@ static void reloc_cache_remap(struct reloc_cache *cache,
- 	if (cache->vaddr & KMAP) {
- 		struct page *page = i915_gem_object_get_page(obj, cache->page);
- 
--		vaddr = kmap_atomic(page);
-+		vaddr = kmap_local_page(page);
- 		cache->vaddr = unmask_flags(cache->vaddr) |
- 			(unsigned long)vaddr;
- 	} else {
-@@ -1156,7 +1156,7 @@ static void reloc_cache_reset(struct reloc_cache *cache, struct i915_execbuffer
- 		if (cache->vaddr & CLFLUSH_AFTER)
- 			mb();
- 
--		kunmap_atomic(vaddr);
-+		kunmap_local(vaddr);
- 		i915_gem_object_finish_access(obj);
- 	} else {
- 		struct i915_ggtt *ggtt = cache_to_ggtt(cache);
-@@ -1188,7 +1188,7 @@ static void *reloc_kmap(struct drm_i915_gem_object *obj,
- 	struct page *page;
- 
- 	if (cache->vaddr) {
--		kunmap_atomic(unmask_page(cache->vaddr));
-+		kunmap_local(unmask_page(cache->vaddr));
- 	} else {
- 		unsigned int flushes;
- 		int err;
-@@ -1210,7 +1210,7 @@ static void *reloc_kmap(struct drm_i915_gem_object *obj,
- 	if (!obj->mm.dirty)
- 		set_page_dirty(page);
- 
--	vaddr = kmap_atomic(page);
-+	vaddr = kmap_local_page(page);
- 	cache->vaddr = unmask_flags(cache->vaddr) | (unsigned long)vaddr;
- 	cache->page = pageno;
- 
--- 
+---
+Suggested by credits.
+        Ira: Referred to his task documentation and review comments.
+        Fabio: Stole some of his boiler plate commit message.
+
+---
+Changelog:
+v2:
+- Fix wrong incoming parameters in kunmap_local();
+- Add Fabio as suggester since I quoted his commit message.
+
+---
+ arch/x86/hyperv/hv_init.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 3de6d8b53367..72fe46eb183f 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -459,13 +459,13 @@ void __init hyperv_init(void)
+                wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+
+                pg = vmalloc_to_page(hv_hypercall_pg);
+-               dst = kmap(pg);
++               dst = kmap_local_page(pg);
+                src = memremap(hypercall_msr.guest_physical_address << PAGE_SHIFT, PAGE_SIZE,
+                                MEMREMAP_WB);
+                BUG_ON(!(src && dst));
+                memcpy(dst, src, HV_HYP_PAGE_SIZE);
+                memunmap(src);
+-               kunmap(pg);
++               kunmap_local(dst);
+        } else {
+                hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
+                wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+--
 2.34.1
 
