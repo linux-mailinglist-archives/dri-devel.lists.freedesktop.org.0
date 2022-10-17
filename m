@@ -1,91 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E63960133B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 18:14:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B08D60136E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 18:29:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 437E110E346;
-	Mon, 17 Oct 2022 16:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D1410E348;
+	Mon, 17 Oct 2022 16:28:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2088.outbound.protection.outlook.com [40.107.102.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FB3910E32D;
- Mon, 17 Oct 2022 16:14:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XldIan6s6PAEbl9gskW7cX0cTpJi5bFpOYB6nBStPoaUbSK8vSO+kE43AuPreDWBmbuaOAQgQg60s0sb1YSSaHEoMB/jH3R5p/+T69hzhwSuj4JCjVBhKWkhD56PD3NLQXeyt+yX89l2Lt2wOZv4RFKT2CYydftcY9k6eIMP4Em/pylnJO8UcVkWuZNtMOX6N/jT0qk3hHJnW0TJMBNHTj106iKA2qhiN3JfRDv7HKnaneCeuE8PDrS0QydfNVATZWnFAG8yO04Z6ukydP6oPZkDfM2DEDku2eMu+AHxnIeURDsnXrc2NjzRCYWS1X+IOwNSXTXzHyr/3SOfz3KbxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ujfJIlq22G84VPkWfwNQ3i8i1u19Q82jUaBuh+exsCs=;
- b=UvjkfwoyG/+vrrfXROOW2mCJkXTZhkuVuDTQ+D5FERwpBEHdMpRhJD80GTcjWpYBso8AJZV8Zd43smqTLOAkrrYUxlxeA0DDZuMcDNrqFrtSAwFupd0eZ5HLPKB15PyqAM5kcrdFyn799Mlr77PLglR+Bn6zsX2OtGAurzbzxow++F2CzWyJ3nFd4QYmgInXAmHrwtkpD3uH1I3Sh0gd4zTKb+5FkgNh4t+YMzoGRWU436gLMJ4hyHCX1Dk2fbN6w9d19hQsROKFq4eleu27YgbziA3mq/1qjOzjVafhvvoKzbbMk7mQIaVDvFqI0V5ipv2+e0+ggbHAfEi0bpco3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ujfJIlq22G84VPkWfwNQ3i8i1u19Q82jUaBuh+exsCs=;
- b=Ly85MXmdurpEmEcODq0BbmO7gQ2/AAeSlGtDkCu9SZ0V4NxXVdHcM0QJMiJyne+5fJZsTkVxHR1j6eJw89qyq5SwTo0IiW3hr5QYSMmuMoGtaqV1ddbTmxNsqdcTo0t5PUH3kGaxYRIvbbxKsx+XHuQ8gz87Ils/JMW8huPqzBY=
-Received: from DM6PR03CA0034.namprd03.prod.outlook.com (2603:10b6:5:40::47) by
- MW4PR12MB6779.namprd12.prod.outlook.com (2603:10b6:303:20f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Mon, 17 Oct
- 2022 16:14:13 +0000
-Received: from DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:40:cafe::c7) by DM6PR03CA0034.outlook.office365.com
- (2603:10b6:5:40::47) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.31 via Frontend
- Transport; Mon, 17 Oct 2022 16:14:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT030.mail.protection.outlook.com (10.13.172.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5723.20 via Frontend Transport; Mon, 17 Oct 2022 16:14:13 +0000
-Received: from hamza-pc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 17 Oct
- 2022 11:14:10 -0500
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v3] drm/amd/display: add an ASSERT() to irq service functions
-Date: Mon, 17 Oct 2022 12:13:22 -0400
-Message-ID: <20221017161322.95808-1-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.38.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7208110E348;
+ Mon, 17 Oct 2022 16:28:49 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29HG3KeI031996;
+ Mon, 17 Oct 2022 16:28:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=60xV+pokAo84lrILwTyJMaGkHQPqhN9mPzhriNTOuRo=;
+ b=Ltl8MfRphzyhnzjz8OLffELjgbv0n1dmHXriQvY4uiSIkgOyxWkJNtGhNNH7A2MCK0FP
+ azgOR4voJfPe2RuT/919xJ62RCl5vdhPuSSLWUQLaeczN3R4JOQWrF58zhRQG56sUMhj
+ j13MzJhdn4/969SnbqfjSz/o8svS47Ibv2PrJ5rHUgCpMFlkJKxcrSTPRg5a+ulZkEDI
+ MMdUmUCV/XCproKOBDas+ZMx+pKZAKVUs/X0Qo+bpmRTsnQb/Ja4RlbwBK9AdMzyK5BB
+ IvA6mZBuhZHAEiNGN59AE+WDcDLlGNiioFaVnvC8761+lh3VWudPUcdUbjCU7aBwUgDz wQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k7m6ucebu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Oct 2022 16:28:30 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29HGSTEN010552
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Oct 2022 16:28:29 GMT
+Received: from [10.111.167.160] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 17 Oct
+ 2022 09:28:25 -0700
+Message-ID: <7557b80c-d4fb-efe1-7440-edb934f63487@quicinc.com>
+Date: Mon, 17 Oct 2022 09:28:15 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT030:EE_|MW4PR12MB6779:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43cffad2-b170-449c-09e3-08dab05aa1ab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sqo4uldCXgFs1oi2wYAa5fscYiVrQ3wyR1tbvwYtq6EHYT2ScSJKUrUphIsf086HxYIkqm/olqHb0mjdxGmCUtkXV4NGeG6h+ar6P465wcAcYqmM6oOZKXJXgJqPZwjuVP+B/D4UR8g+AXEah2Nyhwxopa3vAd6TLDubeFNlliN6G4PS2UjeW+PUYadyZMyTGjYrmeCBuJlDcvhg67ot3ao43zxu2Gfrl7PPBR4DYaIA12Va7elRGyABcuQa03ALCL1mLaZlZ//GL9fFyulcvSe3QYKm3uAKmz09/WsCIf926jPu6yi/hhrl+sqwnautyHeCGXuwFwifidUJNjBbmjCCOnpWSWdpqs1WX2Rq2u/dvASRIJuOPD6+6YNos8L1qUgdNRsZtoc24aARQlCRV8XhvnfjNXXWu1bYtNdHp4jE2XYx2JZmN8DMBzY42mrLWST5cw8Cx6L22YppYaajSnGudScYxELm5V1XAlBo3e8uEr/RkwpiSRhgeZM8furtRfkAZ0kS4bdyFA2hIX5wZkLthcWjs5XG6MTOj/9PRPEzZvROplwzzy+9tyQHu7YsG109UFSoyIl14ui1R6jQ88SNb675k968cVwDAKaVC3fHdu9yulEN+wexN5B5PRu8+cixVaH5y+rbyyvn7AkkiXB7A/A0kstSOAYWYf2S6qqNESQ3U6DKGSpbR4liTz2m4bnsp2g0aKmUbRsDZwYeWuYye/heaWT6+HNM5GY8GMIVpG5K2EpzDKrRUTkD/3/AFZ5Y43+KqgjqKtYpko5bOClwULSBlAjH4oglJ88TleV3wv4Jyr44TsDj70rAuGmzhf8jD4gG5H2ueODvfzNe4A==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(136003)(376002)(346002)(396003)(451199015)(46966006)(40470700004)(36840700001)(70586007)(70206006)(316002)(54906003)(478600001)(6916009)(8676002)(6666004)(4326008)(8936002)(2906002)(356005)(41300700001)(5660300002)(336012)(7696005)(1076003)(40460700003)(186003)(16526019)(26005)(36756003)(83380400001)(47076005)(81166007)(44832011)(82740400003)(36860700001)(2616005)(82310400005)(86362001)(40480700001)(426003)(36900700001)(16060500005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 16:14:13.1451 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43cffad2-b170-449c-09e3-08dab05aa1ab
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6779
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v3 06/10] drm/msm/dsi: Migrate to
+ drm_dsc_compute_rc_parameters()
+Content-Language: en-US
+To: Caleb Connolly <caleb@connolly.tech>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20221009184824.457416-1-marijn.suijten@somainline.org>
+ <20221009185058.460688-1-marijn.suijten@somainline.org>
+ <5c178d7e-5022-f5e5-791d-d3800114b42b@quicinc.com>
+ <20221013093646.c65mbjc6oekd7gha@SoMainline.org>
+ <32af4444-9c88-eb0f-eda7-24fa0418aff6@quicinc.com>
+ <20221017085944.2r24uqg73irmziqm@SoMainline.org>
+ <0642a664-3eed-21b7-a417-c6c607908f51@connolly.tech>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <0642a664-3eed-21b7-a417-c6c607908f51@connolly.tech>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: w1IDz3mtBX6oAYMkDaydVeqIsDUdLPjM
+X-Proofpoint-GUID: w1IDz3mtBX6oAYMkDaydVeqIsDUdLPjM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-17_13,2022-10-17_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ suspectscore=0 clxscore=1011 adultscore=0 impostorscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210170095
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,75 +90,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Leo Li <sunpeng.li@amd.com>,
- linux-kernel@vger.kernel.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>, Rodrigo
- Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
- dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- David Airlie <airlied@linux.ie>, Alex Hung <alex.hung@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: Sean Paul <sean@poorly.run>, Newbyte <newbie13xd@gmail.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Vinod Koul <vkoul@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, if we encounter unimplemented functions, it is difficult to
-tell what caused them just by looking at dmesg and that is compounded by
-the fact that it is often hard to reproduce said issues, for instance we
-have had reports of this condition being triggered when removing a
-secondary display that is setup in mirror mode and is connected using
-usb-c. So, to have access to more detailed debugging information, add an
-ASSERT() to dal_irq_service_ack() and dal_irq_service_set() that only
-triggers when we encounter an unimplemented function.
 
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
----
-v2: detail specific instance that I'm interested in and use ASSERT()
-    instead of WARN().
 
-v3: move ASSERT()s inside the new if blocks.
----
- .../gpu/drm/amd/display/dc/irq/irq_service.c    | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+On 10/17/2022 6:37 AM, Caleb Connolly wrote:
+> 
+> 
+> On 17/10/2022 09:59, Marijn Suijten wrote:
+>> On 2022-10-13 09:02:44, Abhinav Kumar wrote:
+>>> On 10/13/2022 2:36 AM, Marijn Suijten wrote:
+>>>> On 2022-10-12 16:03:06, Abhinav Kumar wrote:
+>>>>> [..]
+>>>>> But I would like to hold back this change till Vinod clarifies because
+>>>>> Vinod had mentioned that with drm_dsc_compute_rc_parameters() he was
+>>>>> seeing a mismatch in the computation of two values.
+>>>>>
+>>>>> slice_bpg_offset and the final_offset.
+>>>>
+>>>> Unsurprisingly so because final_offset, and slice_bpg_offset through
+>>>> initial_offset depend directly on bits_per_pixel.  The main takeaway of
+>>>> this series is that Vinod was interpreting this field as integer instead
+>>>> of containing 4 fractional bits.  If he updates his the panel driver [1]
+>>>> to set bits_per_pixel = 8 << 4 instead of just 8 to account for this,
+>>>> the values should check out once again.
+>>>>
+>>>> [1]: https://git.linaro.org/people/vinod.koul/kernel.git/commit/?h=topic/pixel3_5.18-rc1&id=1d7d98ad564f1ec69e7525e07418918d90f247a1
+>>>>
+>>>> Once Vinod (or someone else in the posession of a Pixel 3) confirms
+>>>> this, I can respin this series and more explicitly explain why the FIXME
+>>>> was put in place, instead of being resolved outright?
+>>>>
+>>>> - Marijn
+>>>
+>>> Makes perfect sense to me.
+>>>
+>>> Will just wait for Vinod's tested-by.
+>>
+>> Unfortunately Vinod doesn't have access to this device anymore, but
+>> Caleb recently sent the support series including display driver for
+>> Pixel 3 and is picking up the testing.  User "Newbyte" from #linux-msm
+>> promised to test on the LG G7 to have even more input samples.
+> 
+> Hi,
+> 
+> I'm hoping to pick the Pixel 3 stuff back up at some point, but right now there
+> seem to be quite a few issues outside of DSC which make testing it a bit of a pain.
+> 
+> I gave Marijn's series [1] a go but wasn't able to get anything usable out of the
+> panel, however I doubt this is a DSC issue as I've always needed some hacks to
+> get the panel working - I've never had any success with it without skipping both
+> the initial panel reset and sending the PPS payload.
+> 
+> I think if Marijn has managed to initialise a panel properly then the lack of
+> Pixel 3 for validation shouldn't be a blocker to merge these fixes.
+> 
+> [1]:
+> https://lore.kernel.org/linux-arm-msm/20221009184824.457416-1-marijn.suijten@somainline.org/
+> 
+>>
+>> - Marijn
 
-diff --git a/drivers/gpu/drm/amd/display/dc/irq/irq_service.c b/drivers/gpu/drm/amd/display/dc/irq/irq_service.c
-index 7bad39bba86b..d100edaedbbb 100644
---- a/drivers/gpu/drm/amd/display/dc/irq/irq_service.c
-+++ b/drivers/gpu/drm/amd/display/dc/irq/irq_service.c
-@@ -112,8 +112,15 @@ bool dal_irq_service_set(
- 
- 	dal_irq_service_ack(irq_service, source);
- 
--	if (info->funcs && info->funcs->set)
-+	if (info->funcs && info->funcs->set) {
-+		if (info->funcs->set == dal_irq_service_dummy_set) {
-+			DC_LOG_WARNING("%s: src: %d, st: %d\n", __func__,
-+				       source, enable);
-+			ASSERT(0);
-+		}
-+
- 		return info->funcs->set(irq_service, info, enable);
-+	}
- 
- 	dal_irq_service_set_generic(irq_service, info, enable);
- 
-@@ -146,8 +153,14 @@ bool dal_irq_service_ack(
- 		return false;
- 	}
- 
--	if (info->funcs && info->funcs->ack)
-+	if (info->funcs && info->funcs->ack) {
-+		if (info->funcs->ack == dal_irq_service_dummy_ack) {
-+			DC_LOG_WARNING("%s: src: %d\n", __func__, source);
-+			ASSERT(0);
-+		}
-+
- 		return info->funcs->ack(irq_service, info);
-+	}
- 
- 	dal_irq_service_ack_generic(irq_service, info);
- 
--- 
-2.38.0
+Alright, the onus is then on Vinod/ users of pixel3 to report/debug 
+whatever issues arise out of this computation.
 
+Patch itself LGTM, hence
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+> 
+> --
+> Kind Regards,
+> Caleb
+> 
