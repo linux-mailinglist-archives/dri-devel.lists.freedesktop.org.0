@@ -1,79 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF1F6016EC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:08:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EB760172B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:16:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1604189D39;
-	Mon, 17 Oct 2022 19:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 563A110E03F;
+	Mon, 17 Oct 2022 19:16:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D3089D39
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 19:08:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666033692;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ilwCj0pj+SOs8iCCQ1o/T1oYMlaK8E4LhEeUqd7n7xM=;
- b=TkyDh4SOulAo8fIC1o2ll3u1oYlByEnhR9Cs3o2JZPnpUihrMBdGXgSWHK/IqYgNcVrbZe
- G8pfXUlqGvFqhg6gmkEGI8lLQ5RxxcsnI9D9wIp3dNvbZSRejm8ZA5pU8lSYOOuO5r8ZuF
- 9WO2fonS/RltqV3rI1e26jHvd/d/fF0=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-520-s5fPsSMQP3qi3hF5Sd6BIQ-1; Mon, 17 Oct 2022 15:08:04 -0400
-X-MC-Unique: s5fPsSMQP3qi3hF5Sd6BIQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- q20-20020ad44354000000b004afb5a0d33cso7326532qvs.12
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 12:08:04 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F7D310E03F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 19:16:06 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ c7-20020a05600c0ac700b003c6cad86f38so13434712wmr.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 12:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rsSRW+G2rxl1qTZ7eXeAY8au2TKGPXJ9C9uJXfGontk=;
+ b=f58qD0Y01+sBzs963EIbITJY88tl2KpclgURVg6w1N/urjJY33b/Oke7Rt+Zw9sZmZ
+ 1ePeHXmYHS5g/HvxDh3xrgvXl6ASCAkQClaYXnrH+zkpa5LpX7Uy0PEFKF6G9Hvh+bOR
+ TmF2Ny01azJchxKXlbCMA30u89Bf0J4P8Oi6awyklYBgissIA3VueOwscksAl9Y6foEd
+ M3HoYUt0tDLZ0GCkLB03yyHm8AHIRM4zoGTOF8GvaEMLgps2+xjGbm4ZpmZ5/pKnwCMN
+ 4bXZqCT5wJOZifO6OukbnvggvsSFpzwuS/eT7gYFGUBg1jFMrtULhPGlwIcN1nLVGDaA
+ xSCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ilwCj0pj+SOs8iCCQ1o/T1oYMlaK8E4LhEeUqd7n7xM=;
- b=esCjtXiUElT5AzYMt+9saDouBv9Xu8wYCD03rY/ypCir7Q1tb6aRsG3t3VzZmHji8y
- 7MjnC8RQuPLH4GmZAJ68xvd+HQe+NfP3my7+RqiZqYnvDssT/jcoqbbeq0uHKDPMLpee
- hC8ZKe2HoMN0ubi+4IhvkNBCavO7iWHO95fTM7XRGf7XyV7r3/wUKdoBJkPnzRBSywal
- liGUamxKAcgmeZdY72XCJ0IY09aLWstDQAl9fUvmY97jNnBfhiMsmfSy4L6G5h3hi5iG
- VIsyLbR4vFhwm5XpYVyCA9PCjU0VdFjamcq/apmFDPqgHCfWwK84cB4QZhUogZf3Fw1E
- NmQA==
-X-Gm-Message-State: ACrzQf2b8BXkWQ+E2++P6TUs5PG7ue8VdgGe2q5okK1hQp18KBYlhIui
- r/prvKEddDSpUEt3DoKkifsbeCJdcok4Zol/RfYHsqJ1dlKrUDtadoK5albO05lKILUMGOKK5Ia
- adJQBnJ4y5HwqMaD0dFI+XzO984di
-X-Received: by 2002:a05:622a:302:b0:39c:dc1f:db98 with SMTP id
- q2-20020a05622a030200b0039cdc1fdb98mr10226139qtw.467.1666033683379; 
- Mon, 17 Oct 2022 12:08:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM76UvvScj47R2ZY2DxcytExeFmf9uLvqJju8KYn5YNtfF734a6NCoaPe+3Xtd00B4VrB5TRVQ==
-X-Received: by 2002:a05:622a:302:b0:39c:dc1f:db98 with SMTP id
- q2-20020a05622a030200b0039cdc1fdb98mr10226114qtw.467.1666033683148; 
- Mon, 17 Oct 2022 12:08:03 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c68:4300::feb? ([2600:4040:5c68:4300::feb])
+ bh=rsSRW+G2rxl1qTZ7eXeAY8au2TKGPXJ9C9uJXfGontk=;
+ b=fkYMooxxa/5Pm9Llzn61+jCAbohG6Q8P2rKomb9h+GVIOs+HKb/Ziyc8X3zBROcZZg
+ 7Ctts53WElp1OvgoLcux2VsF3ftvn0EsMyMApJOZFq2foBQOJYOoh5NFCFI0tkdE7AaX
+ jsGl5DzkXcjPzwSz9jlqowMeios93UyjnXl/o8mNwzqvHlX6EVliBJIyff2CBjgNyZBf
+ H7kC9u0n3vzgM5+XpWeOutUzcRfBZxv6GlCH+Be5hzf90LFzpWHxJtos0KfMuzpM8by1
+ Zz8NR9TJM3hZXnnsjpDTCR09Gk82Rk1b7UM4ztaERJnhzCoXlXbEZpxn9lNIwyyxMPIw
+ nGBg==
+X-Gm-Message-State: ACrzQf0gFjS4j2ZFrP/xF1MifWveLtKVpgscFIi3z9hEhs+qqm5MXlyU
+ xlGJC8waRd94JKCWYyLJJCfhvEl5EfU=
+X-Google-Smtp-Source: AMsMyM50ofQo1mrK+27tOaJQEscKROZJs4JZN2aX9HQe33XcbJRJyVdg/gk9ywf+TgT6EZs33L70bg==
+X-Received: by 2002:a05:600c:490f:b0:3c6:2c21:97f6 with SMTP id
+ f15-20020a05600c490f00b003c62c2197f6mr20028931wmp.177.1666034164909; 
+ Mon, 17 Oct 2022 12:16:04 -0700 (PDT)
+Received: from [192.168.2.4] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- de38-20020a05620a372600b006ce30a5f892sm439488qkb.102.2022.10.17.12.08.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:08:02 -0700 (PDT)
-Message-ID: <dd44a67411f0fc9065001696f231132ad85d9597.camel@redhat.com>
-Subject: Re: [PATCH 2/2] drm/connector: send hotplug uevent on connector
- cleanup
-From: Lyude Paul <lyude@redhat.com>
-To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
-Date: Mon, 17 Oct 2022 15:08:01 -0400
-In-Reply-To: <20221017153150.60675-2-contact@emersion.fr>
-References: <20221017153150.60675-1-contact@emersion.fr>
- <20221017153150.60675-2-contact@emersion.fr>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ o36-20020a05600c512400b003c6edc05159sm9177519wms.1.2022.10.17.12.16.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Oct 2022 12:16:04 -0700 (PDT)
+Message-ID: <8d884b80-ea5d-6c91-fef0-a093affb3247@gmail.com>
+Date: Mon, 17 Oct 2022 21:16:03 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [BUG] [PATCH] drm/rockchip: use generic fbdev setup
+Content-Language: en-US
+To: John Keeping <john@metanate.com>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20211029115014.264084-1-john@metanate.com>
+ <d814394b-86c3-beb1-ddd4-04c65004f138@gmail.com> <Y00o3M7SKAB/w9sW@donbot>
+ <2220890.jZfb76A358@phil> <c4bf7723-b3b8-0955-5ba3-e4d05bdc835a@gmail.com>
+ <Y02mRUuecw2C1i+h@donbot>
+From: Johan Jonker <jbx6244@gmail.com>
+In-Reply-To: <Y02mRUuecw2C1i+h@donbot>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,64 +78,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jonas =?ISO-8859-1?Q?=C5dahl?= <jadahl@redhat.com>, stable@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LGTM! Thank you for the help with this:
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-On Mon, 2022-10-17 at 15:32 +0000, Simon Ser wrote:
-> A typical DP-MST unplug removes a KMS connector. However care must
-> be taken to properly synchronize with user-space. The expected
-> sequence of events is the following:
+On 10/17/22 21:00, John Keeping wrote:
+> On Mon, Oct 17, 2022 at 08:30:23PM +0200, Johan Jonker wrote:
+>>
+>>
+>> On 10/17/22 13:29, Heiko Stuebner wrote:
+>>> Am Montag, 17. Oktober 2022, 12:05:16 CEST schrieb John Keeping:
+>>>> Hi Johan,
+>>>>
+>>>> On Mon, Oct 17, 2022 at 10:11:32AM +0200, Johan Jonker wrote:
+>>>>> Your patch contribution causes a kernel panic on MK808 with Rockchip rk3066a SoC.
+>>>>> Would you like to contribute to fix this issue?
+>>>>> The assumtion that drm_fbdev_generic_setup() does what rockchip_drm_fbdev_init did is not true!
+>>>>> A revert makes it work again.
+>>>>
+>>
+>>>> It looks like there are 3 different ways to end up with -ENOMEM here,
+>>>> can you track down whether you're hitting one of the cases in
+>>>> rockchip_gem_prime_vmap() or if it's the iosys_map_is_null case in
+>>>> drm_gem_vmap()?
+>>
+>> It looks like it comes from rockchip_gem_prime_vmap() second return (2).
+>>
+>>
+>> 	if (rk_obj->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) {
+>>
+>> ////////////////
+>>
+>> 		printk("FBDEV rockchip_gem_prime_vmap 2");
+>>
+>> ////////////////
+>> 		return -ENOMEM;
+>> 	}
 > 
-> 1. The kernel notices that the DP-MST port is gone.
-> 2. The kernel marks the connector as disconnected, then sends a
->    uevent to make user-space re-scan the connector list.
-> 3. User-space notices the connector goes from connected to disconnected,
->    disables it.
-> 4. Kernel handles the the IOCTL disabling the connector. On success,
->    the very last reference to the struct drm_connector is dropped and
->    drm_connector_cleanup() is called.
-> 5. The connector is removed from the list, and a uevent is sent to tell
->    user-space that the connector disappeared.
+> Ah-ha, Heiko was right that this is because the no-iommu path is broken
+> as a result of switching to the generic fbdev code.
 > 
-> The very last step was missing. As a result, user-space thought the
-> connector still existed and could try to disable it again. Since the
-> kernel no longer knows about the connector, that would end up with
-> EINVAL and confused user-space.
+> This patch should fix it, but I wonder if Thomas has any ideas about a
+> better way to handle this since it feels a bit hacky to special-case the
+> fb_helper inside the GEM code:
+
+The penguin is back on screen. Thanks!
+
 > 
-> Fix this by sending a hotplug uevent from drm_connector_cleanup().
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: stable@vger.kernel.org
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Jonas Ådahl <jadahl@redhat.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index e3142c8142b3..90dad87e9ad0 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -582,6 +582,9 @@ void drm_connector_cleanup(struct drm_connector *connector)
->  	mutex_destroy(&connector->mutex);
+> -- >8 --
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> index 614e97aaac80..da8a69953706 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> @@ -364,9 +364,12 @@ rockchip_gem_create_with_handle(struct drm_file *file_priv,
+>  {
+>  	struct rockchip_gem_object *rk_obj;
+>  	struct drm_gem_object *obj;
+> +	bool is_framebuffer;
+>  	int ret;
 >  
->  	memset(connector, 0, sizeof(*connector));
+> -	rk_obj = rockchip_gem_create_object(drm, size, false);
+> +	is_framebuffer = drm->fb_helper && file_priv == drm->fb_helper->client.file;
 > +
-> +	if (dev->registered)
-> +		drm_sysfs_hotplug_event(dev);
->  }
->  EXPORT_SYMBOL(drm_connector_cleanup);
->  
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+> +	rk_obj = rockchip_gem_create_object(drm, size, is_framebuffer);
+>  	if (IS_ERR(rk_obj))
+>  		return ERR_CAST(rk_obj);
+> -- 8< -- 
