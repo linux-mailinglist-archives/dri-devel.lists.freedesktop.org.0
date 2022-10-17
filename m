@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEA7600D8A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 13:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3AB600D83
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 13:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 186B910ED48;
-	Mon, 17 Oct 2022 11:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5633E10ED3A;
+	Mon, 17 Oct 2022 11:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69CE10ED3A
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 11:15:13 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31AFD10ED42
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 11:15:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 29E4220407;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 643DA2040C;
  Mon, 17 Oct 2022 11:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1666005312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=6Nb1TZTtU5oADQNyt2GoTdqjmh5j834IvAQJMY3C79A=;
- b=xlYCVQIL74kHzLPnmrfuhQKuVnDxu+vnT9uOj864c0N5cuUi2GI9mB4olY0IqK2FO2DsjX
- OiaGRyimpSGbCjo8iQtaCBEcdQF1oHczYDUNpJg6PPVshfkRveAKQaca4Wpb/P+uABveEs
- m6k0grpLTmwN5uluyvb9RS428sK7dow=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NQO79uzOpO1PtP+q7ccVtl4BBLJ95ycDQaRvcMVoz3g=;
+ b=ymIvmZMcSTXNfxMcsWsbe/oyuJ7kcztdYW1iABKoxOhjxPJU5vqMd8+OpmaRRukP6ancZE
+ xG81CMnBWVa3urdritRg79Icq4HPbIqvSt1k1VY1sLDlFola1joG4uK6VimSV6LsSiF0Jm
+ MY4NXb+CsSYeMo+xYTgVEXu/Vv1lmd0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1666005312;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=6Nb1TZTtU5oADQNyt2GoTdqjmh5j834IvAQJMY3C79A=;
- b=qs1ISMhxzNsAawsPlwC4Vjn1uwZsQIuvMjvlRYs5ciGgEf35vmSACq2Pbf6V7apVjGCe9/
- oX0EIBV7K3d7AbDw==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NQO79uzOpO1PtP+q7ccVtl4BBLJ95ycDQaRvcMVoz3g=;
+ b=L4xZc2Y2rptji1zmmAsTxzTvm5kkvP7tlT11FSElAIfhF5iLdtiGXk1jxf/8JLZ+FOMiur
+ BA2oWy5iXD8RoNDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D16D513ABE;
- Mon, 17 Oct 2022 11:15:11 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 22C8E13ACD;
+ Mon, 17 Oct 2022 11:15:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id TbYlMj85TWOgBwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Oct 2022 11:15:11 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MPuQB0A5TWOgBwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 17 Oct 2022 11:15:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, javierm@redhat.com, hdegoede@redhat.com,
  noralf@tronnes.org, david@lechnology.com, airlied@redhat.com,
  sean@poorly.run
-Subject: [PATCH 0/5] drm: Add new plane helpers to begin/end FB access
-Date: Mon, 17 Oct 2022 13:15:05 +0200
-Message-Id: <20221017111510.20818-1-tzimmermann@suse.de>
+Subject: [PATCH 1/5] drm/atomic-helper: Add {begin,
+ end}_fb_access to plane helpers
+Date: Mon, 17 Oct 2022 13:15:06 +0200
+Message-Id: <20221017111510.20818-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
+In-Reply-To: <20221017111510.20818-1-tzimmermann@suse.de>
+References: <20221017111510.20818-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,66 +75,247 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset adds the callbacks begin_fb_access and end_fb_access
-to struct drm_plane_helper_funcs. They provide hooks to acquire and
-release resources that are only held during the commit. It adds
-related simple-KMS helpers and converts a number of drivers.
+Add {begin,end}_fb_access helpers to run at the beginning and end of
+an atomic commit. The begin_fb_access helper aquires resources that
+are necessary to perform the atomic commit. It it similar to prepare_fb,
+except that the resources are to be released at the end of the commit.
+Resources acquired by prepare_fb are held until after the next pageflip.
 
-A number of drivers call drm_gem_fb_begin_cpu_access() in the plane's
-atomic_update. While the call can fail, it's too late to handle the
-error correctly within the atomic update. A correct place would be in
-prepare_fb, where the atomic commit can still be aborted upon errors.
+The end_fb_access helper performs the corresponding resource cleanup.
+Atomic helpers call it with the new plane state. This is differnt from
+cleanup_fb, which releases resources of the old plane state.
 
-But the corresponding drm_gem_fb_end_cpu_access() needs to be called
-at the end of the commit, so that the BO resource is available again
-for other drivers. Hence, calling drm_Gem_fb_end_cpu_access() cannot
-be located in the plane's cleanup_pl, which is only called after the
-next page flip. (With an unbounded waiting time in between.)
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_atomic_helper.c      | 34 +++++++++++++++++++++---
+ drivers/gpu/drm/drm_gem_atomic_helper.c  | 19 +++++++------
+ drivers/gpu/drm/drm_simple_kms_helper.c  | 26 ++++++++++++++++++
+ include/drm/drm_modeset_helper_vtables.h | 27 +++++++++++++++++++
+ include/drm/drm_simple_kms_helper.h      | 20 ++++++++++++++
+ 5 files changed, 113 insertions(+), 13 deletions(-)
 
-Therefore introduce the begin_fb_access and end_fb_access callbacks in
-struct drm_plane_helper_funcs. The atomic helpers call begin_fb_access
-when preparing the planes for the commit and end_fb_access when
-cleaning up afterwards. The argument to end_fb_access is the new plane
-state, so that acquired resources are not held after the end of the
-commit.
-
-With this in place, move drm_gem_fb_{begin,end}_cpu_access() behind
-the new callbacks for shadow-plane helpers and 2 other drivers. For
-the shadow-plane helpers, also move the automatic vmap/vunmap behind
-the new callbacks. The shadow-plane mapping is only required during
-the atomic commit.
-
-Tested with combinations of radeon, udl and simpledrm under X11, Weston
-and Wayland-Gnome.
-
-Thomas Zimmermann (5):
-  drm/atomic-helper: Add {begin,end}_fb_access to plane helpers
-  drm/gem: Implement shadow-plane {begin,end}_fb_access with vmap
-  drm/gem: Handle drm_gem_{begin,end}_cpu_access() in shadow-plane
-    helpers
-  drm/repaper: Implement {begin,end}_fb_access helpers
-  drm/st7586: Implement {begin,end}_fb_access helpers
-
- drivers/gpu/drm/drm_atomic_helper.c      | 34 ++++++++++-
- drivers/gpu/drm/drm_gem_atomic_helper.c  | 78 +++++++++++++-----------
- drivers/gpu/drm/drm_simple_kms_helper.c  | 26 ++++++++
- drivers/gpu/drm/solomon/ssd130x.c        | 10 +--
- drivers/gpu/drm/tiny/gm12u320.c          | 10 +--
- drivers/gpu/drm/tiny/ofdrm.c             |  8 +--
- drivers/gpu/drm/tiny/repaper.c           | 30 +++++++--
- drivers/gpu/drm/tiny/simpledrm.c         | 10 +--
- drivers/gpu/drm/tiny/st7586.c            | 44 ++++++++-----
- drivers/gpu/drm/udl/udl_modeset.c        | 11 +---
- include/drm/drm_gem_atomic_helper.h      | 20 +++---
- include/drm/drm_modeset_helper_vtables.h | 27 ++++++++
- include/drm/drm_simple_kms_helper.h      | 20 ++++++
- 13 files changed, 217 insertions(+), 111 deletions(-)
-
-
-base-commit: 8c797a984264f04708d2099e83c85978a0fede89
-prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 1a586b3c454b4..d579fd8f7cb83 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -2536,7 +2536,7 @@ int drm_atomic_helper_prepare_planes(struct drm_device *dev,
+ 		if (funcs->prepare_fb) {
+ 			ret = funcs->prepare_fb(plane, new_plane_state);
+ 			if (ret)
+-				goto fail;
++				goto fail_prepare_fb;
+ 		} else {
+ 			WARN_ON_ONCE(funcs->cleanup_fb);
+ 
+@@ -2545,13 +2545,34 @@ int drm_atomic_helper_prepare_planes(struct drm_device *dev,
+ 
+ 			ret = drm_gem_plane_helper_prepare_fb(plane, new_plane_state);
+ 			if (ret)
+-				goto fail;
++				goto fail_prepare_fb;
++		}
++	}
++
++	for_each_new_plane_in_state(state, plane, new_plane_state, i) {
++		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
++
++		if (funcs->begin_fb_access) {
++			ret = funcs->begin_fb_access(plane, new_plane_state);
++			if (ret)
++				goto fail_begin_fb_access;
+ 		}
+ 	}
+ 
+ 	return 0;
+ 
+-fail:
++fail_begin_fb_access:
++	for_each_new_plane_in_state(state, plane, new_plane_state, j) {
++		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
++
++		if (j >= i)
++			continue;
++
++		if (funcs->end_fb_access)
++			funcs->end_fb_access(plane, new_plane_state);
++	}
++	i = j; /* set i to upper limit to cleanup all planes */
++fail_prepare_fb:
+ 	for_each_new_plane_in_state(state, plane, new_plane_state, j) {
+ 		const struct drm_plane_helper_funcs *funcs;
+ 
+@@ -2827,6 +2848,13 @@ void drm_atomic_helper_cleanup_planes(struct drm_device *dev,
+ 	struct drm_plane_state *old_plane_state, *new_plane_state;
+ 	int i;
+ 
++	for_each_oldnew_plane_in_state(old_state, plane, old_plane_state, new_plane_state, i) {
++		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
++
++		if (funcs->end_fb_access)
++			funcs->end_fb_access(plane, new_plane_state);
++	}
++
+ 	for_each_oldnew_plane_in_state(old_state, plane, old_plane_state, new_plane_state, i) {
+ 		const struct drm_plane_helper_funcs *funcs;
+ 		struct drm_plane_state *plane_state;
+diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+index b6a0110eb64af..1de0a08afd86e 100644
+--- a/drivers/gpu/drm/drm_gem_atomic_helper.c
++++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+@@ -414,16 +414,14 @@ void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *
+ EXPORT_SYMBOL(drm_gem_cleanup_shadow_fb);
+ 
+ /**
+- * drm_gem_simple_kms_prepare_shadow_fb - prepares shadow framebuffers
++ * drm_gem_simple_kms_begin_shadow_fb_access - prepares shadow framebuffers for CPU access
+  * @pipe: the simple display pipe
+  * @plane_state: the plane state of type struct drm_shadow_plane_state
+  *
+- * This function implements struct drm_simple_display_funcs.prepare_fb. It
+- * maps all buffer objects of the plane's framebuffer into kernel address
+- * space and stores them in struct drm_shadow_plane_state.map. The
+- * framebuffer will be synchronized as part of the atomic commit.
++ * This function implements struct drm_simple_display_funcs.begin_fb_access.
+  *
+- * See drm_gem_simple_kms_cleanup_shadow_fb() for cleanup.
++ * See drm_gem_begin_shadow_fb_access() for details and
++ * drm_gem_simple_kms_cleanup_shadow_fb() for cleanup.
+  *
+  * Returns:
+  * 0 on success, or a negative errno code otherwise.
+@@ -436,14 +434,15 @@ int drm_gem_simple_kms_prepare_shadow_fb(struct drm_simple_display_pipe *pipe,
+ EXPORT_SYMBOL(drm_gem_simple_kms_prepare_shadow_fb);
+ 
+ /**
+- * drm_gem_simple_kms_cleanup_shadow_fb - releases shadow framebuffers
++ * drm_gem_simple_kms_end_shadow_fb_access - releases shadow framebuffers from CPU access
+  * @pipe: the simple display pipe
+  * @plane_state: the plane state of type struct drm_shadow_plane_state
+  *
+- * This function implements struct drm_simple_display_funcs.cleanup_fb.
+- * This function unmaps all buffer objects of the plane's framebuffer.
++ * This function implements struct drm_simple_display_funcs.end_fb_access.
++ * It undoes all effects of drm_gem_simple_kms_begin_shadow_fb_access() in
++ * reverse order.
+  *
+- * See drm_gem_simple_kms_prepare_shadow_fb().
++ * See drm_gem_simple_kms_begin_shadow_fb_access().
+  */
+ void drm_gem_simple_kms_cleanup_shadow_fb(struct drm_simple_display_pipe *pipe,
+ 					  struct drm_plane_state *plane_state)
+diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+index 31233c6ae3c42..3ef420ec4534a 100644
+--- a/drivers/gpu/drm/drm_simple_kms_helper.c
++++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+@@ -285,6 +285,30 @@ static void drm_simple_kms_plane_cleanup_fb(struct drm_plane *plane,
+ 	pipe->funcs->cleanup_fb(pipe, state);
+ }
+ 
++static int drm_simple_kms_plane_begin_fb_access(struct drm_plane *plane,
++						struct drm_plane_state *new_plane_state)
++{
++	struct drm_simple_display_pipe *pipe;
++
++	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
++	if (!pipe->funcs || !pipe->funcs->begin_fb_access)
++		return 0;
++
++	return pipe->funcs->begin_fb_access(pipe, new_plane_state);
++}
++
++static void drm_simple_kms_plane_end_fb_access(struct drm_plane *plane,
++					       struct drm_plane_state *new_plane_state)
++{
++	struct drm_simple_display_pipe *pipe;
++
++	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
++	if (!pipe->funcs || !pipe->funcs->end_fb_access)
++		return;
++
++	pipe->funcs->end_fb_access(pipe, new_plane_state);
++}
++
+ static bool drm_simple_kms_format_mod_supported(struct drm_plane *plane,
+ 						uint32_t format,
+ 						uint64_t modifier)
+@@ -295,6 +319,8 @@ static bool drm_simple_kms_format_mod_supported(struct drm_plane *plane,
+ static const struct drm_plane_helper_funcs drm_simple_kms_plane_helper_funcs = {
+ 	.prepare_fb = drm_simple_kms_plane_prepare_fb,
+ 	.cleanup_fb = drm_simple_kms_plane_cleanup_fb,
++	.begin_fb_access = drm_simple_kms_plane_begin_fb_access,
++	.end_fb_access = drm_simple_kms_plane_end_fb_access,
+ 	.atomic_check = drm_simple_kms_plane_atomic_check,
+ 	.atomic_update = drm_simple_kms_plane_atomic_update,
+ };
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index fafa70ac1337f..62bdb80b3180c 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -1211,6 +1211,33 @@ struct drm_plane_helper_funcs {
+ 	void (*cleanup_fb)(struct drm_plane *plane,
+ 			   struct drm_plane_state *old_state);
+ 
++	/**
++	 * @begin_fb_access:
++	 *
++	 * This hook prepares the plane for access during an atomic commit,
++	 * which includes synchronizing with other access or mapping the
++	 * memory into kernel address space. In contrast to @prepare_fb,
++	 * resources acquired in @begin_fb_access, are released at the end of
++	 * the atomic commit in @end_fb_access. For example, a GEM buffer's
++	 * pin operation belongs into @prepare_fb to keep the buffer pinned
++	 * after the commit. But a vmap operation belongs into @begin_fb_access,
++	 * so that the mapping is removed at the end of the commit.
++	 *
++	 * The callback is used by the atomic modeset helpers, but it is optional.
++	 *
++	 * Returns:
++	 * 0 on success, or a negative errno code otherwise.
++	 */
++	int (*begin_fb_access)(struct drm_plane *plane, struct drm_plane_state *new_plane_state);
++
++	/**
++	 * @end_fb_access:
++	 *
++	 * This hook cleans up resources allocated by @begin_fb_access. It it called
++	 * at the end of a commit for the new plane state.
++	 */
++	void (*end_fb_access)(struct drm_plane *plane, struct drm_plane_state *new_plane_state);
++
+ 	/**
+ 	 * @atomic_check:
+ 	 *
+diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
+index 0b3647e614dd3..2298fe3af4cd7 100644
+--- a/include/drm/drm_simple_kms_helper.h
++++ b/include/drm/drm_simple_kms_helper.h
+@@ -135,6 +135,26 @@ struct drm_simple_display_pipe_funcs {
+ 	void (*cleanup_fb)(struct drm_simple_display_pipe *pipe,
+ 			   struct drm_plane_state *plane_state);
+ 
++	/**
++	 * @begin_fb_access:
++	 *
++	 * Optional, called by &drm_plane_helper_funcs.begin_fb_access. Please read
++	 * the documentation for the &drm_plane_helper_funcs.begin_fb_access hook for
++	 * more details.
++	 */
++	int (*begin_fb_access)(struct drm_simple_display_pipe *pipe,
++			       struct drm_plane_state *new_plane_state);
++
++	/**
++	 * @end_fb_access:
++	 *
++	 * Optional, called by &drm_plane_helper_funcs.end_fb_access. Please read
++	 * the documentation for the &drm_plane_helper_funcs.end_fb_access hook for
++	 * more details.
++	 */
++	void (*end_fb_access)(struct drm_simple_display_pipe *pipe,
++			      struct drm_plane_state *plane_state);
++
+ 	/**
+ 	 * @enable_vblank:
+ 	 *
 -- 
 2.38.0
 
