@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824B60180B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C38B601813
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:55:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A47610E6C8;
-	Mon, 17 Oct 2022 19:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB08610E720;
+	Mon, 17 Oct 2022 19:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3BD610E6C8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 19:52:56 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1okWAQ-0005ME-Jt; Mon, 17 Oct 2022 21:52:54 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1okWAO-0028W1-Te; Mon, 17 Oct 2022 21:52:52 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1okWAO-008dZK-6I; Mon, 17 Oct 2022 21:52:52 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH] fbdev: da8xx-fb: Fix error handling in .remove()
-Date: Mon, 17 Oct 2022 21:52:50 +0200
-Message-Id: <20221017195250.1425468-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.37.2
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8085810E71D
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 19:54:52 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 358DC33BD8C;
+ Mon, 17 Oct 2022 20:54:50 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1666036490; bh=I5BOucy/iAxY7w5updYjhk2KWg/vl19imI9ClqtNyj4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IpL+kr7KSTnSj4fJX9oNQzhVHNVNSUL2mBzOHIOAHCEgngzEz7F9sIRu+cxVGAo8s
+ ZXYZWGvPeby2D6XhkpiudcI5N4Upl/VJ2ILq20ed/io+FKtc7JtY9Kc7CW3U5m2C1j
+ QCRNU8i4/FeAAN8EAgzRQopl+ShtIuaHbwAC4wXdvhjnZRU3kwfAg3ealRk6uKiT5w
+ B1dtBWVt12gpHN80RGu/1fSAVVb0XvJVx83H2h7m25IJ6Y09k87Jpr8NE+YghW3aRE
+ FZMx2jQR3B818aLYAJUNCgK9lLPFPfx+XChv/7foPAXy8xIaMwrx4elfi44L8R9PaC
+ syiQWMEldIuig==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/16] vmwgfx: fb, cursors and hashtable refactor
+Date: Mon, 17 Oct 2022 15:54:24 -0400
+Message-Id: <20221017195440.311862-1-zack@kde.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1144;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=211NpPft75bVP6ZTs9mho2EPhLj/8WbMQSxQydBDikc=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjTbKPlBUZa8W6oRW42Ti+Zdd3PLBRrwixBCIeO3Ea
- 2UwYPliJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY02yjwAKCRDB/BR4rcrsCflxB/
- 907K56Omk0YSNyvTc//006BdH39B7oSe2d0NdwpcsyknoqVuONm1hRtoMO1hCaZNlHXWfPBmyhvvTT
- iPYDJDF+fP3p19lHb++d1UBiFUmmLW7q30krAviTZZ2Ki3IXI+BICOtAHKfBGqqV4roNnVA0tKFLMe
- FJJYX4o5sugIjEYgORwqgJGZwmcnWXq1RGdzJ1FLJxf47Pdohn5Gzga4hp1F4p2NKFcXf3hm/FTnNR
- FXFQuZcphhXWeF7pn9Aqdf+rTZgbWGPjUS6CbtA7AzN459oJNZyVXN/zu6STZZWFmRy80z6jj5znsL
- 3VYom50UgkMgbfGSGBLnifaZVyZz/t
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +45,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Cai Huoqing <cai.huoqing@linux.dev>,
- kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even in the presence of problems (here: regulator_disable() might fail),
-it's important to unregister all resources acquired during .probe() and
-disable the device (i.e. DMA activity) because even if .remove() returns
-an error code, the device is removed and the .remove() callback is never
-called again later to catch up.
+From: Zack Rusin <zackr@vmware.com>
 
-This is a preparation for making platform remove callbacks return void.
+This is a bit larger series than usual but these are all connected in
+various ways. The most important changes around everything is centered
+include:
+- finally getting rid of vmwgfx_hashtab and porting the driver to 
+  linux/hashtable
+- cleaning up the cursor mob handling, which fixes a bunch of cursor
+  issues on kde configs
+- removing vmwgfx fb code and porting it to drm fb helpers
+- removing vmwgfx faked vblank handling
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/video/fbdev/da8xx-fb.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The rest is largely support code to make the transition easier (with some
+igt fixes to get more of it running for regression testing). The result
+is removal of over 1000loc with no loss in functionality.
 
-diff --git a/drivers/video/fbdev/da8xx-fb.c b/drivers/video/fbdev/da8xx-fb.c
-index ae76a2111c77..11922b009ed7 100644
---- a/drivers/video/fbdev/da8xx-fb.c
-+++ b/drivers/video/fbdev/da8xx-fb.c
-@@ -1076,7 +1076,8 @@ static int fb_remove(struct platform_device *dev)
- 	if (par->lcd_supply) {
- 		ret = regulator_disable(par->lcd_supply);
- 		if (ret)
--			return ret;
-+			dev_warn(&dev->dev, "Failed to disable regulator (%pe)\n",
-+				 ERR_PTR(ret));
- 	}
- 
- 	lcd_disable_raster(DA8XX_FRAME_WAIT);
+Maaz Mombasawala (5):
+  drm/vmwgfx: Refactor resource manager's hashtable to use
+    linux/hashtable implementation.
+  drm/vmwgfx: Remove ttm object hashtable
+  drm/vmwgfx: Refactor resource validation hashtable to use
+    linux/hashtable implementation.
+  drm/vmwgfx: Refactor ttm reference object hashtable to use
+    linux/hashtable.
+  drm/vmwgfx : Remove vmwgfx_hashtab
 
-base-commit: 4fe89d07dcc2804c8b562f6c7896a45643d34b2f
+Martin Krastev (1):
+  drm/vmwgfx: Fix frame-size warning in vmw_mksstat_add_ioctl
+
+Michael Banack (4):
+  drm/vmwgfx: Clean up cursor mobs
+  drm/vmwgfx: Start diffing new mob cursors against old ones
+  drm/vmwgfx: Support cursor surfaces with mob cursor
+  drm/vmwgfx: Diff cursors when using cmds
+
+Zack Rusin (6):
+  drm/vmwgfx: Write the driver id registers
+  drm/vmwgfx: Do not allow invalid bpp's for dumb buffers
+  drm/vmwgfx: Port the framebuffer code to drm fb helpers
+  drm/vmwgfx: Remove explicit and broken vblank handling
+  drm/vmwgfx: Add a mksstat counter for cotable resizes
+  drm/vmwgfx: Optimize initial sizes of cotables
+
+ Documentation/gpu/todo.rst                 |  11 -
+ drivers/gpu/drm/vmwgfx/Kconfig             |   7 -
+ drivers/gpu/drm/vmwgfx/Makefile            |   4 +-
+ drivers/gpu/drm/vmwgfx/ttm_object.c        | 123 ++-
+ drivers/gpu/drm/vmwgfx/ttm_object.h        |  20 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         |  16 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c |  62 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c    |  29 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        | 129 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  49 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    |  14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c         | 831 ---------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c    | 199 -----
+ drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h    |  83 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 622 +++++++--------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  31 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |   8 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h    |   2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c        |  53 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  27 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       |  26 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c |  55 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.h |  26 +-
+ 23 files changed, 632 insertions(+), 1795 deletions(-)
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h
+
 -- 
-2.37.2
+2.34.1
 
