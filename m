@@ -1,57 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2603A601610
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 20:16:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B798E601646
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 20:28:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258CA10E9B7;
-	Mon, 17 Oct 2022 18:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB5E89F31;
+	Mon, 17 Oct 2022 18:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDCE610EDEA
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 18:16:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 69542B819A0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 18:16:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA7EC433D7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 18:16:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666030570;
- bh=bC+/cya3KMQ7ZR+S6dM4jCfaG/o95my92WsHxec/tmM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Im0QvOQkcDh9n/LSlegRTaIMhk5lyz2BSvjq5rvEsDq0IG7qKGQN20KDnI3i79h38
- MUrrpL5+lJJ8X2RG8JTGEvkUdp02CHhQ20z8AXwx9CxWx35ninpuctfnlCGT/X4FFJ
- Jk+XYZB1BjGW5r9eIgE50k86kgGBb1WxUQb4YkaSLOw3qyQMhKQh+1HTlz2dZppMJu
- NCsJ6Y062GuIMf+C6o6uYfzWTOTrQqi6XEwlXcyBB8CdNFoOIhBAecUpt4lyNM24Eq
- mTWxjf8Rousv0+85TXufRq2Ngwx+sK+xxPDUYaowtpQmfhLsYH5qw7EaNr2v+ChHFh
- /cax+mCkLrGmg==
-Received: by mail-vs1-f54.google.com with SMTP id 3so12347379vsh.5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 11:16:09 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2KfnC0bse2r7Q8Z4Y0iROIECq3SFID+PCbGCcwFsKMrsgu9Aoe
- RnF7FaeMamEKzT6HU8W/XvL9+ojEadOsh9GdpA==
-X-Google-Smtp-Source: AMsMyM7chLsN+79vZUm6IwwIyOYTUmu0e5xkXf8cjzjCxvNdC3kO2CvscxuAQOwHWh/CFI3aR3PwKfF6K+NsaTmlV0c=
-X-Received: by 2002:a67:e19a:0:b0:3a7:6b54:cc63 with SMTP id
- e26-20020a67e19a000000b003a76b54cc63mr5305559vsl.26.1666030568947; Mon, 17
- Oct 2022 11:16:08 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C580910E1CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 18:28:29 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <afa@pengutronix.de>)
+ id 1okUqZ-0003ke-2z; Mon, 17 Oct 2022 20:28:19 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <afa@pengutronix.de>)
+ id 1okUqV-0027zM-Pr; Mon, 17 Oct 2022 20:28:15 +0200
+Received: from afa by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <afa@pengutronix.de>)
+ id 1okUqU-008Jaa-JN; Mon, 17 Oct 2022 20:28:14 +0200
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Archit Taneja <architt@codeaurora.org>
+Subject: [PATCH] drm: bridge: adv7511: use dev_err_probe in probe function
+Date: Mon, 17 Oct 2022 20:28:09 +0200
+Message-Id: <20221017182810.1981638-1-a.fatoum@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20221007124946.406808-1-thierry.reding@gmail.com>
- <20221007124946.406808-5-thierry.reding@gmail.com>
- <dd869713-6eb2-fadd-fdef-6ca155198a8c@suse.de>
- <Y01sunkDsQQQhXuC@orome>
-In-Reply-To: <Y01sunkDsQQQhXuC@orome>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 17 Oct 2022 13:15:59 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKzSife8_ob3P=KVVcQ_ny=ppMF5LsjLxvYz95roy-y2A@mail.gmail.com>
-Message-ID: <CAL_JsqKzSife8_ob3P=KVVcQ_ny=ppMF5LsjLxvYz95roy-y2A@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] drm/simpledrm: Add support for system memory
- framebuffers
-To: Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: afa@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,66 +55,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>, kernel@pengutronix.de,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 17, 2022 at 9:54 AM Thierry Reding <thierry.reding@gmail.com> wrote:
->
-> On Mon, Oct 10, 2022 at 10:12:34AM +0200, Thomas Zimmermann wrote:
-> > Hi
-> >
-> > Am 07.10.22 um 14:49 schrieb Thierry Reding:
-> > > From: Thierry Reding <treding@nvidia.com>
-> > >
-> > > Simple framebuffers can be set up in system memory, which cannot be
-> > > requested and/or I/O remapped using the I/O resource helpers. Add a
-> > > separate code path that obtains system memory framebuffers from the
-> > > reserved memory region referenced in the memory-region property.
-> > >
-> > > v2: make screen base a struct iosys_map to avoid sparse warnings
+adv7511 probe may need to be attempted multiple times before no
+-EPROBE_DEFER is returned. Currently, every such probe results in
+an error message:
 
-[...]
+[    4.534229] adv7511 1-003d: failed to find dsi host
+[    4.580288] adv7511 1-003d: failed to find dsi host
 
-> > > +static int simple_framebuffer_init(struct reserved_mem *rmem)
-> > > +{
-> > > +   pr_info("framebuffer memory at %pa, size %lu bytes\n", &rmem->base,
-> > > +           (unsigned long)rmem->size);
-> > > +
-> > > +   rmem->ops = &simple_framebuffer_ops;
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +RESERVEDMEM_OF_DECLARE(simple_framebuffer, "framebuffer", simple_framebuffer_init);
-> >
-> > What's the prupose of these code at all?  I looked through the kernel, but
-> > there aren't many other examples of it.
->
-> This is a fairly standard construct to deal with early memory
-> reservations. What happens is roughly this: during early kernel boot,
-> the reserved-memory core code will iterate over all children of the top-
-> level reserved-memory node and see if they have a compatible string that
-> matches one of the entries in the table created by these
-> RESERVEDMEM_OF_DECLARE entries. It will then call the init function for
-> a matched entry and register a struct reserved_mem for these. The init
-> function in this case just dumps an informational message to the boot
-> log to provide some information about the framebuffer region that was
-> reserved (which can be used for example for troubleshooting purposes)
-> and sets the device init/release operations (which will be called when a
-> device is associated with the reserved memory region, i.e. when the
-> of_reserved_mem_device_init_by_idx() function is called).
->
-> The reason why there aren't many examples of this is because these are
-> special memory regions that (at least upstream) kernels seldom support.
-> Perhaps the most common use-cases are the shared DMA pools (such as
-> CMA).
+This is misleading, as there is no error and probe deferral is normal
+behavior. Fix this by using dev_err_probe that will suppress
+-EPROBE_DEFER errors. While at it, we touch all dev_err in the probe
+path. This makes the code more concise and included the error code
+everywhere to aid user in debugging.
 
-Also, not all regions need to be handled 'early' before slab allocator
-or drivers are probed. Do you need early handling here? I can't see
-why other than if fbcon is up early.
+Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 ++----
+ drivers/gpu/drm/bridge/adv7511/adv7533.c     | 18 ++++++------------
+ 2 files changed, 8 insertions(+), 16 deletions(-)
 
-Rob
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 1c37779b434a..4148b6d6f151 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1229,10 +1229,8 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+ 		return ret;
+ 
+ 	ret = adv7511_init_regulators(adv7511);
+-	if (ret) {
+-		dev_err(dev, "failed to init regulators\n");
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to init regulators\n");
+ 
+ 	/*
+ 	 * The power down GPIO is optional. If present, toggle it from active to
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+index ef6270806d1d..b32b796c25fb 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+@@ -148,16 +148,12 @@ int adv7533_attach_dsi(struct adv7511 *adv)
+ 						 };
+ 
+ 	host = of_find_mipi_dsi_host_by_node(adv->host_node);
+-	if (!host) {
+-		dev_err(dev, "failed to find dsi host\n");
+-		return -EPROBE_DEFER;
+-	}
++	if (!host)
++		return dev_err_probe(dev, -EPROBE_DEFER, "failed to find dsi host\n");
+ 
+ 	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+-	if (IS_ERR(dsi)) {
+-		dev_err(dev, "failed to create dsi device\n");
+-		return PTR_ERR(dsi);
+-	}
++	if (IS_ERR(dsi))
++		return dev_err_probe(dev, PTR_ERR(dsi), "failed to create dsi device\n");
+ 
+ 	adv->dsi = dsi;
+ 
+@@ -167,10 +163,8 @@ int adv7533_attach_dsi(struct adv7511 *adv)
+ 			  MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_VIDEO_HSE;
+ 
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "failed to attach dsi to host\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to attach dsi to host\n");
+ 
+ 	return 0;
+ }
+-- 
+2.30.2
+
