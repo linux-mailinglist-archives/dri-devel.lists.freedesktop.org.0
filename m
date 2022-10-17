@@ -1,45 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880B5601C0B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 00:06:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB94601C91
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 00:44:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A267310EB3C;
-	Mon, 17 Oct 2022 22:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45BE110E27C;
+	Mon, 17 Oct 2022 22:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A6B10EB3C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 22:05:49 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MrrfH4Jy9z4xGm;
- Tue, 18 Oct 2022 09:05:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1666044344;
- bh=EPhBXfS+bFT0iossjSTvhCbbZ9sAlv5VbZmlGq7HH/g=;
- h=Date:From:To:Cc:Subject:From;
- b=BKmqcFdarvAn9alD/3LlGWl4uOfgj23jEJcwWNU8Y0oPdWVwspPgCC9NffDevm9LJ
- k6ebiHR8Gse0INnL5tSpQUj/MbYxR/Eg7MMIJaobB6jt2zwxuu5yzUuviuA43cUZWr
- QQr8wNOr6bDbsMXF4Exmhzmfp8aDuK3K0N4loFJtRYECLRzOs/mKPbQ33WaIe0HPnN
- i6VbTv+WST4CO0wKHKERm0z6I3AWAomCUSuBK+I13OOaH3ovUFl7T8gcUITjOgIRUJ
- dcEo11ZjXfOza/FaHInY3Ac8srWY10lSUvKw2hbvTO2zDscBHHNnVSgOI1rQruTGxh
- B3W3nGnx1LF/w==
-Date: Tue, 18 Oct 2022 09:05:41 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
-Message-ID: <20221018090541.74bff3e2@canb.auug.org.au>
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74AC010E240;
+ Mon, 17 Oct 2022 22:44:03 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id 204so12390056pfx.10;
+ Mon, 17 Oct 2022 15:44:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D8T9R90NQr0Cus17IiTSAkyfNN/tN1vR67SiHbRuEPI=;
+ b=U2N8UnthPtqfKpR8N9pAjr8gPmCblQJD92zioxeGUg0fl8+yjDCMjfD6zMOO/0v3VZ
+ v4e9j8lUGszk1F0sxLkQ1OLHVl692mVKtG+ONjc5J+2LAGvNad8zGpHHoG3QbbBjEEQw
+ w6YGf71fhPQdZJ7aZy20CV0WoLdzeROnm/DDfxK04pOIJo83y76ALsWC4HXBeDsIPvmR
+ sfktx0UYQbYqFXpVHqqW2GNVE95VDn73P2ptaFUqJfoZKiEfCk8Nrps91kIv7yV5gxYL
+ v0SheJdFEL+/OB0gq+pqO8tCN/vkB3IdkSuiWIA2RC3KGLXyeaXaUgWXtqWhPHTX/h1o
+ stjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D8T9R90NQr0Cus17IiTSAkyfNN/tN1vR67SiHbRuEPI=;
+ b=T4JNU1TwGG7aGLhxr2Dv2cAnt/NqzOxU2sw04wkKzCZhlErX7tqdI8KF7mkPw5ry2L
+ CjXXbHlkcs45IMI3BcQ78DFp9Em3FQW86SZrSFM3avu3aXe/4qJyhZaCBKnqGTcwCnJn
+ ugfCD+0D9TRUxZ5M1HTaRPtmpoFr1cPBFA5pqEQ3XvLbG5oeuOCwFYeYt4hiV+SxqHAE
+ Rh2sn15F5/iVreeFS7aNKadgdtGM6GPLhAfGoc3H2rYp39dVHPWY+f23+8P/oTP717TI
+ zTicBx9RQkBj1oEKjM5sqGGJBwUMjcePA5WC7yqE8Suyferke82CWJvsUBlEtDs6TPCh
+ JM8A==
+X-Gm-Message-State: ACrzQf1taqQoEv9glZ8gJDeqp6sz/jvN86idH4NBpM3Md8K6dA7A7vWx
+ u3oINrdLxr1PFY0RT+m2wliDpm1ik5WARafrT20=
+X-Google-Smtp-Source: AMsMyM79IeYRrUMTY0HLvtqCc2++5ANt+Zj8uvyOpxR0fR1UjDNuT8HK9/IMJyA2Zo8fWIUbzS5QGag+bo/+rF4c3Cw=
+X-Received: by 2002:a63:fd4f:0:b0:45f:d7ef:9f94 with SMTP id
+ m15-20020a63fd4f000000b0045fd7ef9f94mr35647pgj.137.1666046642898; Mon, 17 Oct
+ 2022 15:44:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/fz0I3tpa+572v0s.XfWnKH8";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <CABXGCsNVp=R5zC9B3PXWJ5nddtt3gkRzDsAsRKvhXq7exGjSAg@mail.gmail.com>
+ <f3bc34e1-0eaf-84ef-486e-b7759e60b792@amd.com>
+ <CABXGCsOD+tDdFcM37NP_1nS9eLym7qC=jUQy3iqYkc1m2iQgxw@mail.gmail.com>
+ <0d5f66d8-9852-b6a9-0e27-9eb9e736d698@amd.com>
+ <CABXGCsPi68Lyvg+6UjTK2aJm6PVBs83YJuP6x68mcrzAQgpuZg@mail.gmail.com>
+ <eef04fc4-741d-606c-c2c6-f054e4e3fffd@amd.com>
+ <CABXGCsNNwEjo_dvWJL7GLULBPy+RmwsC9ObpowR_M1nQ3fKt3g@mail.gmail.com>
+ <4d0cbb79-4955-a3ed-4aa2-7f6cdaa00481@gmail.com>
+ <CABXGCsP19VFRgTx5yGn68iCK3NxPxi_b9MTq=AmHtFPv9xR5sA@mail.gmail.com>
+ <675a2d33-b286-d1d0-e4e7-05d6516026c0@gmail.com>
+ <CABXGCsOqrB5zPFCeLw-VQjePikwDq4EKFQGc9hbOb5f7tGLDgg@mail.gmail.com>
+ <8e54ec49-09da-f345-35cd-430712f5a6ad@gmail.com>
+In-Reply-To: <8e54ec49-09da-f345-35cd-430712f5a6ad@gmail.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Tue, 18 Oct 2022 03:43:51 +0500
+Message-ID: <CABXGCsPXcG4BUDr8AtmtWHZh7kTw6pFsSedhxiEcuej5S0oJ7Q@mail.gmail.com>
+Subject: Re: [Bug][5.18-rc0] Between commits ed4643521e6a and 34af78c4e616,
+ appears warning "WARNING: CPU: 31 PID: 51848 at
+ drivers/dma-buf/dma-fence-array.c:191
+ dma_fence_array_create+0x101/0x120" and some games stopped working.
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,89 +81,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/fz0I3tpa+572v0s.XfWnKH8
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, May 11, 2022 at 5:01 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+>
+> We have implemented a workaround, but still don't know the exact root cau=
+se.
+>
+> If anybody wants to look into this it would be rather helpful to be able
+> to reproduce the issue.
+>
+> Regards,
+> Christian.
 
-Hi all,
+I see that issue was returned after this commit
+dd80d9c8eecac8c516da5b240d01a35660ba6cb6 is the first bad commit
+commit dd80d9c8eecac8c516da5b240d01a35660ba6cb6
+Author: Christian K=C3=B6nig <christian.koenig@amd.com>
+Date:   Thu Jul 14 10:23:38 2022 +0200
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+    drm/amdgpu: revert "partial revert "remove ctx->lock" v2"
 
-  drivers/gpu/drm/i915/i915_driver.c
+    This reverts commit 94f4c4965e5513ba624488f4b601d6b385635aec.
 
-between commit:
+    We found that the bo_list is missing a protection for its list entries.
+    Since that is fixed now this workaround can be removed again.
 
-  1c66a12ab431 ("drm/i915: Handle each GT on init/release and suspend/resum=
-e")
+    Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+    Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 
-from Linus' tree and commit:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c  | 21 ++++++---------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c |  2 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h |  1 -
+ 3 files changed, 6 insertions(+), 18 deletions(-)
 
-  3703060d17b0 ("drm/i915/display: remove drm_device aliases")
+The games Forza Horizon 4 and Cyberpunk 2077 again hangs at start.
 
-from the drm-intel tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
 
 --=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/i915_driver.c
-index c459eb362c47,e7b2ebc6b88d..000000000000
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@@ -337,10 -324,11 +337,11 @@@ static int i915_driver_early_probe(stru
-  	if (i915_inject_probe_failure(dev_priv))
-  		return -ENODEV;
- =20
-- 	intel_device_info_subplatform_init(dev_priv);
-+ 	intel_device_info_runtime_init_early(dev_priv);
-+=20
-  	intel_step_init(dev_priv);
- =20
- -	intel_uncore_mmio_debug_init_early(&dev_priv->mmio_debug);
- +	intel_uncore_mmio_debug_init_early(dev_priv);
- =20
-  	spin_lock_init(&dev_priv->irq_lock);
-  	spin_lock_init(&dev_priv->gpu_error.lock);
-@@@ -738,10 -716,6 +739,9 @@@ static void i915_driver_hw_remove(struc
-   */
-  static void i915_driver_register(struct drm_i915_private *dev_priv)
-  {
-- 	struct drm_device *dev =3D &dev_priv->drm;
- +	struct intel_gt *gt;
- +	unsigned int i;
- +
-  	i915_gem_driver_register(dev_priv);
-  	i915_pmu_register(dev_priv);
- =20
-
---Sig_/fz0I3tpa+572v0s.XfWnKH8
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmNN0bUACgkQAVBC80lX
-0GwZswf9Ex70u3pOOY+Xt1dR5Q1NHc7MvwRTTfQB0LBv0FeHcWUYzyYGeX0GDZx9
-Dy3Tzg20hypsU31r0I/Vtgb0k1Op3ejTuyhtqunilsvP6nEYlfWGlTmQNfUtVKHi
-I8mgsje/YJY1AlNwWRE5vOSJYkwABuWRHjs1ooESN5gcoDRVreL2cU3dVz3oGgij
-f2gGjG/JstVJHUZ52RTz5RIJl3w+BG8NX1Yv/pRWYRDGE6yEGSUIgRWryUogEnZh
-QGeVPFswVnd1g2UDh0lc7h80SuxaCZDr/ZbAtH7zvfuu1eFk9wYRuerphunHBou5
-oWhkP+R4nScB03Jv/h+n6qn6+dLHMA==
-=5X0x
------END PGP SIGNATURE-----
-
---Sig_/fz0I3tpa+572v0s.XfWnKH8--
+Best Regards,
+Mike Gavrilov.
