@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007B86007F1
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 09:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B006B600819
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 09:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA70810E12B;
-	Mon, 17 Oct 2022 07:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 613A510E38D;
+	Mon, 17 Oct 2022 07:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7BF110E12B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 07:43:29 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-131dda37dddso12460087fac.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 00:43:29 -0700 (PDT)
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98F5F10E38D
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 07:51:34 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-132fb4fd495so12381469fac.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 00:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ATIms5kSTeUsYq3a6qs11i+14w2DWzAnEfeQbKlhXNk=;
- b=o8/ijuKiI+M1K0ijv8Sha8wXlREe8jjsWPdKkjL9hXNVWw/85rnuUq7HwKkVFkyPfD
- 9L+4j0PC3hCYuScHLDzYGjBQ5SmXUudwerY80y5nviCg+iLjcLwxY9LkdYTup6bCyqck
- DWqFXs+Al5B4g4Idf1fYg/W6XwOuNM8WFmhsg=
+ bh=XWLP7i62jFW6oRSoyvp2q+yVGfR5Lxj+voPavApZkTk=;
+ b=AFDgqcKxcIKQr1YaXq+rVne8uvFcTZI4m6WkMq5trqjHT0ECPcb1TxC+I1giYXDg/a
+ jadAvelIFRvCneIpXKITT8qpJEROC7Twif9oLRa6hFBOaiLMLjk547h/D0RO9SdugCBF
+ OLdJzS6YbluYIU+FknEhCrL4q1RqAty97TcNM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ATIms5kSTeUsYq3a6qs11i+14w2DWzAnEfeQbKlhXNk=;
- b=waI47B24R+yi28N3TuUUO9krQHuZR1lX71884rxqv5ftAcoo7HP7wp2uocbtLoXjES
- PetWhbzMN1sBFHZcStR2rFSkJmsVTO6PJVVPDWfmrZ66b1Mty2L/2b2cxAvxFIyHqeZW
- ZiVwyYfIn9YwWaNvqDG4jDzu4MJMaW/iQ9JynYPKGFF31ewPwfO2Nrm2NY5Ytx+AR7M1
- esLi8swu1n9xfW2O+P5nQFk6KHsrZC1Yq//c0soKWsBsdw/LU7JiWApINBm+Fxik3WPX
- sMa0hv1Mu/dx01gOs9qt4GZMvrNJA9K0WL66StsEHEKR3UKQKeuybkQ2fcEn3lYPCnuL
- fJdg==
-X-Gm-Message-State: ACrzQf0BYu+U/E/IlPSxPw69o5fVmCehBX5MAgi2knBcjBWC1guDw9up
- WAKq7ZCxgRiu3C7mW9UJ6Llgqj0NbAreG9F7mkT/sQ==
-X-Google-Smtp-Source: AMsMyM7g02EeiDnhBL3r7CZltNPjxIRCJahMTfVKO6Vls9khNac8f62uFegFqqR3ndIn/92rvrJhd+h2mC8jDJJ37HI=
+ bh=XWLP7i62jFW6oRSoyvp2q+yVGfR5Lxj+voPavApZkTk=;
+ b=LMN2GaXakzr+U1nYfh2yEkfzkYozaD4QQ1abMaJwfPjWA98t03bC/1iRAaq84W9TXS
+ 0tkgAIUJr4qCraco6NEy1X8kUY00VcAi1NJa/LtHHMjb3kIoTnuvem3PMVryi+E7iFeI
+ ljDbTgPjux094i5jqADuYnv3BUFljrGLAuXjV1MRGVeV/kjd4PKzKUYI2rBnwoh+9dMx
+ 9kWLm2ZQOqQsiqYuWC3qXYhEYMlvPPR0HQo5BEs/Hdx9pQwBX+caAk3xkY3oTAr43Mqb
+ OMq9lr971B5H6ae7XZUpAzWC+gVQIFbOWCLLU9n76F/9Eigv8NAXF0iPd+xUFuC+4idd
+ m03w==
+X-Gm-Message-State: ACrzQf031eDiikGc6PPXIyxw7kZ/V9AGIf7HYAb6UInLeMqGWEPNMnZp
+ FPr9Hh42bls50N2qXnS/GbzzpjqiYgRRtoJS3p/B7g==
+X-Google-Smtp-Source: AMsMyM5SoibjyxUNWPddsJQiXBCo6gUiccPmwYk5IFGbnZUgk9qascBl19j/lpgoHfB0B+L4U97W0P8BydAkhiuaRog=
 X-Received: by 2002:a05:6870:8999:b0:133:15f9:82fd with SMTP id
- f25-20020a056870899900b0013315f982fdmr4939223oaq.276.1665992608900; Mon, 17
- Oct 2022 00:43:28 -0700 (PDT)
+ f25-20020a056870899900b0013315f982fdmr4951557oaq.276.1665993093812; Mon, 17
+ Oct 2022 00:51:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221005151309.7278-1-jagan@amarulasolutions.com>
- <20221005151309.7278-2-jagan@amarulasolutions.com>
- <d3012cac-6672-70cf-5cde-c3152cfd5a84@denx.de>
- <CAMty3ZAw-iXKcYgWuPCT_RwksKHVSipxL6tXb6WNLEeB7YvYmA@mail.gmail.com>
- <bad48f67-5fe6-d69c-51b0-bac3fa9d2719@denx.de>
-In-Reply-To: <bad48f67-5fe6-d69c-51b0-bac3fa9d2719@denx.de>
+ <20221005151309.7278-6-jagan@amarulasolutions.com>
+ <acc210c6-f3ae-a836-e2fc-5b1872b5bbd7@denx.de>
+ <CAMty3ZAtuOKWJH6Qo-LiyCWEZW6g1JqRkRxctWiJcUpXaGMbLg@mail.gmail.com>
+ <80ace77a-49c6-9b22-5c59-d0afa9b32153@denx.de>
+In-Reply-To: <80ace77a-49c6-9b22-5c59-d0afa9b32153@denx.de>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 17 Oct 2022 13:13:17 +0530
-Message-ID: <CAMty3ZBLQu8YijrSVdt84-J9hoOx8qcRSaGF-FvZVsJEWVaXjQ@mail.gmail.com>
-Subject: Re: [PATCH v7 01/10] drm: bridge: Add Samsung DSIM bridge driver
+Date: Mon, 17 Oct 2022 13:21:22 +0530
+Message-ID: <CAMty3ZDpez9Ls2gzGcAuM92UO2d2tkNe5FuLGuw0=GTSS-0oeQ@mail.gmail.com>
+Subject: Re: [PATCH v7 05/10] drm: bridge: samsung-dsim: Add atomic_check
 To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,58 +84,88 @@ Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 17, 2022 at 12:49 PM Marek Vasut <marex@denx.de> wrote:
+On Mon, Oct 17, 2022 at 12:53 PM Marek Vasut <marex@denx.de> wrote:
 >
-> On 10/17/22 04:49, Jagan Teki wrote:
-> > On Sun, Oct 16, 2022 at 3:16 AM Marek Vasut <marex@denx.de> wrote:
+> On 10/17/22 05:54, Jagan Teki wrote:
+> > On Sun, Oct 16, 2022 at 2:53 AM Marek Vasut <marex@denx.de> wrote:
 > >>
 > >> On 10/5/22 17:13, Jagan Teki wrote:
-> >>> Samsung MIPI DSIM controller is common DSI IP that can be used in various
-> >>> SoCs like Exynos, i.MX8M Mini/Nano.
+> >>> Look like an explicit fixing up of mode_flags is required for DSIM IP
+> >>> present in i.MX8M Mini/Nano SoCs.
 > >>>
-> >>> In order to access this DSI controller between various platform SoCs,
-> >>> the ideal way to incorporate this in the drm stack is via the drm bridge
-> >>> driver.
+> >>> At least the LCDIF + DSIM needs active low sync polarities in order
+> >>> to correlate the correct sync flags of the surrounding components in
+> >>> the chain to make sure the whole pipeline can work properly.
 > >>>
-> >>> This patch is trying to differentiate platform-specific and bridge driver
-> >>> code by maintaining exynos platform glue code in exynos_drm_dsi.c driver
-> >>> and common bridge driver code in samsung-dsim.c providing that the new
-> >>> platform-specific glue should be supported in the bridge driver, unlike
-> >>> exynos platform drm drivers.
+> >>> On the other hand the i.MX 8M Mini Applications Processor Reference Manual,
+> >>> Rev. 3, 11/2020 says.
+> >>> "13.6.3.5.2 RGB interface
+> >>>    Vsync, Hsync, and VDEN are active high signals."
 > >>>
-> >>> - Add samsung_dsim_plat_data for keeping platform-specific attributes like
-> >>>     host_ops, irq_ops, and hw_type.
-> >>>
-> >>> - Initialize the plat_data hooks for exynos platform in exynos_drm_dsi.c.
-> >>>
-> >>> - samsung_dsim_probe is the common probe call across exynos_drm_dsi.c and
-> >>>     samsung-dsim.c.
-> >>>
-> >>> - plat_data hooks like host_ops and irq_ops are invoked during the
-> >>>     respective bridge call chains.
+> >>> No clear evidence about whether it can be documentation issues or
+> >>> something, so added a comment FIXME for this and updated the active low
+> >>> sync polarities using SAMSUNG_DSIM_TYPE_IMX8MM hw_type.
 > >>
-> >> Maybe the Subject should say "Split ... driver" or "Move ... driver" ,
-> >> since it is not adding a new driver here ?
+> >> [...]
+> >>
+> >>> +static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
+> >>> +                                  struct drm_bridge_state *bridge_state,
+> >>> +                                  struct drm_crtc_state *crtc_state,
+> >>> +                                  struct drm_connector_state *conn_state)
+> >>> +{
+> >>> +     struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+> >>> +     struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+> >>> +
+> >>> +     if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) {
+> >>> +             /**
+> >>> +              * FIXME:
+> >>> +              * At least LCDIF + DSIM needs active low sync,
+> >>> +              * but i.MX 8M Mini Applications Processor Reference Manual,
+> >>> +              * Rev. 3, 11/2020 says
+> >>> +              *
+> >>> +              * 13.6.3.5.2 RGB interface
+> >>> +              * Vsync, Hsync, and VDEN are active high signals.
+> >>> +              */
+> >>> +             adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> >>> +             adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+> >>> +     }
+> >>
+> >> It would be good to explain what exactly is going on here in the
+> >> comment, the comment says "Vsync, Hsync, and VDEN are active high
+> >> signals." and the code below does exact opposite and sets NxSYNC flags.
+> >>
+> >> Yes, the MX8MM/MN does need HS/VS/DE active LOW, it is a quirk of that
+> >> MXSFB-DSIM glue logic. The MX8MP needs the exact opposite on all three,
+> >> active HIGH.
 > >
-> > Though it is not added a completely new driver, it is adding more
-> > infrastructure platform code to be compatible with both Exynos and
-> > i.MX8M. This is the prime reason for adding that commit head and
-> > explaining the same in the commit body.
+> > This is what exactly is mentioned in the comments.
+> >
+> > 2nd line mentioned the active low of signals.
+> >>> +              * At least LCDIF + DSIM needs active low sync,
+> >
+> > from 3rd line onwards it mentioned what reference manual is referring
+> >
+> > Not quite understand what is misleading here.
 >
-> Diffstat looks like this:
+> This part:
+> "
+> +  * Vsync, Hsync, and VDEN are active high signals.
+> +  */
+> +  adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> "
 >
->   drivers/gpu/drm/bridge/samsung-dsim.c   | 1703 ++++++++++++++++++++++
->   drivers/gpu/drm/exynos/Kconfig          |    1 +
->   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 1766 ++---------------------
->   include/drm/bridge/samsung-dsim.h       |  113 ++
->   7 files changed, 1952 insertions(+), 1653 deletions(-)
+> Comment claims the signals are active high by quoting datasheet, and
+> then sets the exact opposite on next line of code.
+
+The comment stated what is done first and then gave the datasheet
+reference. look this sequence seems confusing, I will recheck and
+update the best possible comment.
+
 >
-> Looks to me like most of the code is just moved from existing driver in
-> this patch.
+> Have a look at this patch, I updated the comment there for MX8MP too:
+> [PATCH] drm: bridge: samsung-dsim: Add i.MX8M Plus support
 
-Yeah, as I explained (from commit) it is moved, updated, and written
-the plat code. How about this head?
+I will check.
 
-"drm: bridge: Add Samsung DSIM bridge (Split from exynos_drm_dsi)"
-
+Thanks,
 Jagan.
