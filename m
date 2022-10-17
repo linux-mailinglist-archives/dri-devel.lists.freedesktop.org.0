@@ -1,59 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B742601738
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:19:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF436017C2
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB7710E1D3;
-	Mon, 17 Oct 2022 19:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3116410E071;
+	Mon, 17 Oct 2022 19:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91FC610E1D3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 19:19:39 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id h13so11989430pfr.7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 12:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gAApYXxRSlYHmUzAYpnouM31FqnGx/GLsXZXGjgii3c=;
- b=hU2Jw/WwCvDgac3p1KYfwXyW0I9wrOGHxfyUunyVwVUvMY+H6RNCXmhgMvqZQjL4fK
- u0Jvq3KPFU4uTC0j2s6K0s32cw9UHBjVn+MzbYL2ltlE3bgVfU4yq8uksIH+JHeJ1nwG
- dY72nDk62FiVziHRoZ9Gk45hfBkenTjm/UW9I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gAApYXxRSlYHmUzAYpnouM31FqnGx/GLsXZXGjgii3c=;
- b=s7ayeZBjPhjbc+HzkUVQ+PTkSE5omKc/sqbI2QTFySg5fNWy9fezAAvUU0enN4PrOq
- IOre6R9R8b8xXEcL2Y9J+hBH/ESNLgDgL/pfyjf+pYoiwKqRcsCwVu5ERu2UAm/eero/
- s9LmtppwNCcbx5nb7Qrc8jgHyAPqb+ohKokxtRorObjgfjx427IKxV8xmcDQmVgV6LdH
- OerzYLPxYcSfUGgY9LSfA6uWkSOXzSttpCs+TnvpxHDDrrAcl9sYBEtDJqPMpRDu+t9k
- 8WS4HItfIbtmH1cGBHNPhWsbBpGWwVqvOfGzsqC/ed7Xw7W/nChDAWCmTh4KBMRIubPb
- gpqA==
-X-Gm-Message-State: ACrzQf3dWuF3dBOXZ/5KcwRFfLV4TnNB7l8SxaTn/y34vkl0UsoLzU7B
- aDKhDUHefMm16J75VXfAJ/ILDVS+38hoZg==
-X-Google-Smtp-Source: AMsMyM4fFNt5FqXCKAqgfh46u9c+xfxYoLcVEQ/ABcHPcPS/0RHkfVQcB6lFFlZuIhQYjhu6w/itAg==
-X-Received: by 2002:a65:5a0b:0:b0:46b:158e:ad7c with SMTP id
- y11-20020a655a0b000000b0046b158ead7cmr12196753pgs.272.1666034378945; 
- Mon, 17 Oct 2022 12:19:38 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:9d:2:5562:6ef6:c80b:1268])
- by smtp.gmail.com with ESMTPSA id
- y2-20020a170902864200b001754cfb5e21sm6980225plt.96.2022.10.17.12.19.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:19:38 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: ps8640: Add back the 50 ms mystery delay after HPD
-Date: Mon, 17 Oct 2022 12:18:51 -0700
-Message-Id: <20221017121813.1.I59700c745fbc31559a5d5c8e2a960279c751dbd5@changeid>
-X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
-MIME-Version: 1.0
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2080.outbound.protection.outlook.com [40.107.96.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1C510E071;
+ Mon, 17 Oct 2022 19:35:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OtWZRTLfqOtFtaFalJ3TycMoQKRdJia4NMiyb+WKmC5JtnPyaJ0+7rEgVY3beZvfjwAriczCGVjY6HmB9QaFy7Gly5ks+nwG6C8pTIdVzzXBfDq/rbePdFIli90FDpzPU5PVmY2G6EtXvuSnkdjUHFIk7oZqymqRvXjoUk0jOZWxwUBQLvUmoKehu33ZoQ/T2aCx69xNvsffLLdhMPB5s9WA8Sba7X8+RgRrV8dvZL1jvL2kLkjzWHnWvKsQ1U+i0gHr1ZowBH/NjnQK5sp3G+N+BTtqh6mgBoc0vX6gvmDyJjJAhTlINf2Ezjbd9TdUREXep31/63eoJKGEljp2zA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9UkJLzFbT0/hjaCx3wPwyJhhd9J9H8WxFfkSdIDDS2o=;
+ b=h7GmnsSvKcbeMswlEyP6wxHjZsjxa0VpQpQEFgXNd1OL227s8tHKJYF07T7ukFN4r/O/cuZhucwAcKdmlQyYzebv5ioW0vR15iOv3TXkFrIbJ5wFR+gKKJ+FPyQa1xjo7iMvHQMXQaasisnnbiFc5fTXmvobvr6qKpMaklojBaLaejgJFrXgyfBU2xn+8PBKwkHLFpAPVVTAvn+Zjr6JENkmG1IxvMEtUjcAkczjgkFld8Zwsu+lO6BQhpczPbUVKGz1Nb4O6OhOLcsGqtC5h4R1dywfG0lA0im/kpxQ6uyIFEzR3AoYk4oJPXllwPXXeTfIEXsmxlawRF9u6Q5kow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9UkJLzFbT0/hjaCx3wPwyJhhd9J9H8WxFfkSdIDDS2o=;
+ b=nJTE1CGlpXvNHeVJkwxU00wAe126I13qVQxAC/LXfxjrFVz1rjpQQGrcKA08VAr9APhVeU2yUS+j91T8fRyN73w1Ct/AhFIqWhwhtG2ZvLybYOfa5Jw06VALqI9gVCOwkypL7x7zCLWruQnkVMQ356PV8EJXM4S135Ujtfk4U5w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by DM4PR12MB5198.namprd12.prod.outlook.com (2603:10b6:5:395::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Mon, 17 Oct
+ 2022 19:35:28 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::f9a4:8620:8238:20e8]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::f9a4:8620:8238:20e8%6]) with mapi id 15.20.5723.033; Mon, 17 Oct 2022
+ 19:35:28 +0000
+Message-ID: <a1d36d76-396a-0bf0-26b7-c009fbae5dd0@amd.com>
+Date: Mon, 17 Oct 2022 15:35:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] drm/amdkfd: use vma_lookup() instead of find_vma()
+To: Deming Wang <wangdeming@inspur.com>, airlied@gmail.com, daniel@ffwll.ch,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
+References: <20221007024818.4921-1-wangdeming@inspur.com>
+Content-Language: en-US
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <20221007024818.4921-1-wangdeming@inspur.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH2PR18CA0052.namprd18.prod.outlook.com
+ (2603:10b6:610:55::32) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|DM4PR12MB5198:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7775a3a0-72b4-4e4c-bc5a-08dab076be98
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xkkHAw76KceK/+3UXKxic3VadHgYMppj2EiDOSpXT72Swn8iwY2M8sSkM2Ky/006XcqGHng3+xQrzaHTdfMTBYaHhxMReuql63oPxB0ZRUxFSoeyTfGupcUcdaWd5QJQ1eGQU89RQQhy8FLhwGMPiLGRZGdgti6inU6Ds7o8Xr/MKXob5mju33r5JtuwgJTI5Hb1T0G9ZXAsawZFSlrugjGMJqA4UmLsHT4NjLDRqM+RUb5coy/4sgeOdOmukdbYCJkjid8TQZSpBdtNeuG0KXQxaiA6BgmLTSamcO4DawhB0ghXcXrZYsz31sJwL+PiUrbR2aTXqcLsyXF9ULgHiwQG1/Kll4o2rz+7DOp9Qu1xT/4DAu8gVL4DjtFqqcm1TOtaxFOyDrqGyAxBOPO/AFnhArJd2u/oPblYfG0tYlis8YjIXAL99oOnKtzVK1Joy6MPls8YFcvIFxYce546I6W1uuvqSboQ8YqrLy7d1o9tFTTE3vh8ACztIkmWfTqRIgI6JpIug94zOS0R2wtGUsgD0nZnz78E/Tgvy7dcV6ejXH+p/g9My/PF+gBqlryerwT9kKVGgaFB+EXxt9yRL8CCtWI5RzwgUihmQ8NLYpxSSw6jrRNRgFCyt2WwnT9RBDdOLN9hfzPR20Rj7iUsHbiNRx7ixqtrfiFusSOA4ddaTl3eweTPUkZC9kue+y9K6VFq6m+a2C75fe0HDPMfZuPVMNKR7pNCvE8i27a+9wnEJG9mIfI4Iohp8H0tkHmtYQkkAkM2Ol7Elmb1g7vZv39LcOrqMoLoGZncPRek1C8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(136003)(366004)(376002)(39860400002)(346002)(451199015)(6486002)(316002)(31686004)(6636002)(8676002)(4326008)(66946007)(6666004)(66556008)(66476007)(36916002)(478600001)(44832011)(5660300002)(186003)(2616005)(41300700001)(2906002)(53546011)(6512007)(6506007)(26005)(8936002)(36756003)(83380400001)(31696002)(86362001)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mzk5QUh0WWVQTmpqV291T1Rjbmx3VjN4QmRKTStVandyMWVLSDc3OEZlVHZM?=
+ =?utf-8?B?QkpoUlB2SE12Ly9ReEw5c3RVYXIxempBelduK21ZTlFUQjVXZmVieHlPTlpw?=
+ =?utf-8?B?M1ZKVk13dElzREp4a0UzVnFRWGxTdjFGbTJ3dGdTV25obzVxeUF3ZklYNldI?=
+ =?utf-8?B?OURmbHU4Mk83VEZObTRwTk44K2hFczVFS1V5cHQyTWt4aWJzV2VSMzJtLy92?=
+ =?utf-8?B?UmFNWXNKeE9pNnErYStRY1M5NFY3V3dNZCt3Q2c2UkI0Z3NyOGVjRzBOQUMw?=
+ =?utf-8?B?dkNHWk96M2k2VVpoY1lIVlJmcWhsQzl3d1dRKzhjcnRNQ1ZyU1M5aEh4RkRB?=
+ =?utf-8?B?WFRNZWJwQm40QVBNNkg2aWpKV3VObkI2bzgxbkZEUG9KZkVVVTNhZDlJUWN4?=
+ =?utf-8?B?dU9WRjFwT2xOWTZPcjhlZkRXSEJqcDg0YlhyQ05jUFcvVmFndkdTQkN4bmYv?=
+ =?utf-8?B?T0VoTzhnTjFXNUhpbTJIRk1ZQ2orSVAxME8vdWlmODBmbjJZOCtuRzh0SGFN?=
+ =?utf-8?B?bkN4SFJHeVJoM0dzeXE0ZGJzcG1xTGo2eis1b2hjVkI2ZEF6eXlnOHZIMjlS?=
+ =?utf-8?B?ZGdyaVVybEJYUUtBUXMzdkx4MlUrbHJzajNlV0NzV3MwY0puaTEzQnBBQnY1?=
+ =?utf-8?B?SEZ6TExSTlVHclhTQ2h1ZzdncVFYQlE2SE5YR1J4b1N2ZUxGSlFienlHNWdM?=
+ =?utf-8?B?WHJLeFNwdzBrZXVmWWp0NDhsbFVjSlBqQ2FLY3BDNlgzTG9MUWF1bjVPUnVK?=
+ =?utf-8?B?SDBhNTJScGJKdEhSVHprS3lsa2xuLzNObk9OZGY2ZlNEeThSQjlLNU5NNUdh?=
+ =?utf-8?B?NlJ4ZzVmT2lTa3FhU0U5cVBMelZ3LzdoclpVbnkyWlFrdnhabGlndzZtU3J6?=
+ =?utf-8?B?UG1PUmhZWk5WbHFhcE1pRTlXOXF6SzVGd3phcitmbEJ0YTJJRjR1LzZVa0g3?=
+ =?utf-8?B?RCtyNnpDWUF2eU9jbCt1MkV4aEhkOEM5QVVPZmZSUU16ai8rRi9ESFc1SE4w?=
+ =?utf-8?B?b0JCOGo0N0QyWkZNNjMwWFhxQlQzbkVOeVhaQlRmOVRTQmkvTUtlVlV0SDRL?=
+ =?utf-8?B?d3BMb3lWUnZUY2E3V1JyOXl4RG9vT05IcmlFaHRRZ3NXanFwQ2wxR3pMYTdH?=
+ =?utf-8?B?bXFpSUEyeXlka1ovN3ZYS3IxdUhnUG9uc0w1MzRnVDRPVW50RitGa2FMQlVC?=
+ =?utf-8?B?MVliZlJPZ0x1NTdMT2JUQ3ZyUXY1RWZTaU5JbEtZSDlrNFh4empvcTRJc1M3?=
+ =?utf-8?B?eGt4d09hUHQ0aUEweWNtc011S0ZRWXBoZ05wTUNua1RwMGUzNWxnQWJPZ3Fq?=
+ =?utf-8?B?YkhGc2kvTkVUV0pyNXhNdExMa25vMVB4NVJ2cEJPZ1pScEFMQTJzc0RHZVVO?=
+ =?utf-8?B?dXFWMU5rY1VsbTE5S0ZNeGVEY1Q3L05aU0hEaHNGaG1vbzNMR1pIRHJzdzgw?=
+ =?utf-8?B?Ulh0S3huTkQ0Sk1QdGNKWGsyd3VrampLWDlOQ2VvUHk0Z3plTk5Xb1djQVhC?=
+ =?utf-8?B?dE13VFp0QzFCdGFZNUFxOTFPUlhlZHBQNHFOSjJRUkcveks3NUxuNDQzZGVt?=
+ =?utf-8?B?cFgydjVLZDhGMkJBd0tmS05oT2lUZkVaTVJWZUNkbUJnRmFvc3ZmSXEyQW0w?=
+ =?utf-8?B?SzdNUDIrRkl1cy9PYkhFTzExMnZSdDVSdVV3RzNrcCtESUdYZUxlaU9kSmRV?=
+ =?utf-8?B?TXhVV0Z3V2craVRiQSt6WEYrcEFmUEQxV3JnM2l5dTNqRGlhMVY4Z0wzTHhU?=
+ =?utf-8?B?aG9kNExTVFhhWmpnRWJpYjBKaFhFakIwZS92d25FMEFFVkp2VVRseU5YN0lX?=
+ =?utf-8?B?dC9SU3MxQjUxbDJaajRLZUpHMnJ2YngvNE5lWWVvVUxCUDFWSnpUeE93N09Y?=
+ =?utf-8?B?L0RYOVczS09CbUV3d3VTSXFxTGVsTzMxalArcXAxZkc3ZkphaEcxTHdIMFhV?=
+ =?utf-8?B?eW5rNzdQTVNuMyt0Z3RKOXViUTJ6TVpSM29yR01wM216cFZlOWZhMFFLYzZk?=
+ =?utf-8?B?MHF0ODV3OFNLZmM4blYwcFhjc1k3Sk5DRjlUY2JOM2xrTVJkckdpVmhlL0ZZ?=
+ =?utf-8?B?QlFyT216S0E4bHhOYk44LzFNcVJXWDhYUGtZSXlHTkpNMUVtQXZPVGg5dloz?=
+ =?utf-8?Q?5qQ+FYLbDXQu9fFilPqsDnndJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7775a3a0-72b4-4e4c-bc5a-08dab076be98
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 19:35:27.9469 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3aC9M98NxzZeGJH6k1uuuVCILqzIzPM7RynoQegIQ1i6vx5hNJ8SuK5PcuB8YGYQ/2RFvTDUtm0xbXY0fOTVtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5198
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,121 +126,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Chen <philipchen@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Rock Chiu <rock.chiu@paradetech.corp-partner.google.com>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Jason Yen <jason.yen@paradetech.corp-partner.google.com>,
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Back in commit 826cff3f7ebb ("drm/bridge: parade-ps8640: Enable
-runtime power management") we removed a mysterious 50 ms delay because
-"Parade's support [couldn't] explain what the delay [was] for".
 
-While I'm always a fan of removing mysterious delays, I suspect that
-we need this mysterious delay to avoid some problems.
+On 2022-10-06 22:48, Deming Wang wrote:
+> Using vma_lookup() verifies the start address is contained in the found
+> vma.  This results in easier to read the code.
 
-Specifically, what I found recently is that on sc7180-trogdor-homestar
-sometimes the AUX backlight wasn't initializing properly. Some
-debugging showed that the drm_dp_dpcd_read() function that the AUX
-backlight driver was calling was returning bogus data about 1% of the
-time when I booted up. This confused
-drm_panel_dp_aux_backlight(). From continued debugging:
-- If I retried the read then the read worked just fine.
-- If I added a loop to perform the same read that
-  drm_panel_dp_aux_backlight() was doing 30 times at bootup I could
-  see that some percentage of the time the first read would give bogus
-  data but all 29 additional reads would always be fine.
-- If I added a large delay _after_ powering on the panel but before
-  powering on PS8640 I could still reproduce the problem.
-- If I added a delay after PS8640 powered on then I couldn't reproduce
-  the problem.
-- I couldn't reproduce the problem on a board with the same panel but
-  the ti-sn65dsi86 bridge chip.
+Thank you for the patches. This and your other patch look good to me. 
+However, you missed one use of find_vma in svm_range_is_valid. Is that 
+an oversight or is there a reason why we need to use find_vma there?
 
-To me, the above indicated that there was a problem with PS8640 and
-not the panel.
+If you're going to respin it, you may also squash the two patches into one.
 
-I don't really have any insight into what's going on in the MCU, but
-my best guess is that when the MCU itself sees the HPD go high that it
-does some AUX transfers itself and this is confusing things.
+Thanks,
+   Felix
 
-Let's go back and add back in the mysterious 50 ms delay. We only want
-to do this the first time we see HPD go high after booting the MCU,
-not every time we double-check HPD.
 
-With this, the backlight initializes reliably on homestar.
-
-Fixes: 826cff3f7ebb ("drm/bridge: parade-ps8640: Enable runtime power management")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-
- drivers/gpu/drm/bridge/parade-ps8640.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 5be6562c2a19..6a614e54b383 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -105,6 +105,7 @@ struct ps8640 {
- 	struct gpio_desc *gpio_powerdown;
- 	struct device_link *link;
- 	bool pre_enabled;
-+	bool need_post_hpd_delay;
- };
- 
- static const struct regmap_config ps8640_regmap_config[] = {
-@@ -173,14 +174,31 @@ static int _ps8640_wait_hpd_asserted(struct ps8640 *ps_bridge, unsigned long wai
- {
- 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
- 	int status;
-+	int ret;
- 
- 	/*
- 	 * Apparently something about the firmware in the chip signals that
- 	 * HPD goes high by reporting GPIO9 as high (even though HPD isn't
- 	 * actually connected to GPIO9).
- 	 */
--	return regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
--					status & PS_GPIO9, wait_us / 10, wait_us);
-+	ret = regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
-+				       status & PS_GPIO9, wait_us / 10, wait_us);
-+
-+	/*
-+	 * The first time we see HPD go high after a reset we delay an extra
-+	 * 50 ms. The best guess is that the MCU is doing "stuff" during this
-+	 * time (maybe talking to the panel) and we don't want to interrupt it.
-+	 *
-+	 * No locking is done around "need_post_hpd_delay". If we're here we
-+	 * know we're holding a PM Runtime reference and the only other place
-+	 * that touches this is PM Runtime resume.
-+	 */
-+	if (!ret && ps_bridge->need_post_hpd_delay) {
-+		ps_bridge->need_post_hpd_delay = false;
-+		msleep(50);
-+	}
-+
-+	return ret;
- }
- 
- static int ps8640_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us)
-@@ -388,6 +406,9 @@ static int __maybe_unused ps8640_resume(struct device *dev)
- 	msleep(50);
- 	gpiod_set_value(ps_bridge->gpio_reset, 0);
- 
-+	/* We just reset things, so we need a delay after the first HPD */
-+	ps_bridge->need_post_hpd_delay = true;
-+
- 	/*
- 	 * Mystery 200 ms delay for the "MCU to be ready". It's unclear if
- 	 * this is truly necessary since the MCU will already signal that
--- 
-2.38.0.413.g74048e4d9e-goog
-
+>
+> Signed-off-by: Deming Wang <wangdeming@inspur.com>
+> ---
+>   drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> index 64fdf63093a0..cabcc2ca3c23 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> @@ -1586,8 +1586,8 @@ static int svm_range_validate_and_map(struct mm_struct *mm,
+>   		unsigned long npages;
+>   		bool readonly;
+>   
+> -		vma = find_vma(mm, addr);
+> -		if (!vma || addr < vma->vm_start) {
+> +		vma = vma_lookup(mm, addr);
+> +		if (!vma) {
+>   			r = -EFAULT;
+>   			goto unreserve_out;
+>   		}
+> @@ -2542,8 +2542,8 @@ svm_range_get_range_boundaries(struct kfd_process *p, int64_t addr,
+>   	struct interval_tree_node *node;
+>   	unsigned long start_limit, end_limit;
+>   
+> -	vma = find_vma(p->mm, addr << PAGE_SHIFT);
+> -	if (!vma || (addr << PAGE_SHIFT) < vma->vm_start) {
+> +	vma = vma_lookup(p->mm, addr << PAGE_SHIFT);
+> +	if (!vma) {
+>   		pr_debug("VMA does not exist in address [0x%llx]\n", addr);
+>   		return -EFAULT;
+>   	}
+> @@ -2871,8 +2871,8 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
+>   	/* __do_munmap removed VMA, return success as we are handling stale
+>   	 * retry fault.
+>   	 */
+> -	vma = find_vma(mm, addr << PAGE_SHIFT);
+> -	if (!vma || (addr << PAGE_SHIFT) < vma->vm_start) {
+> +	vma = vma_lookup(mm, addr << PAGE_SHIFT);
+> +	if (!vma) {
+>   		pr_debug("address 0x%llx VMA is removed\n", addr);
+>   		r = 0;
+>   		goto out_unlock_range;
