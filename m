@@ -1,18 +1,18 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5A0600C86
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 12:36:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D45600CC5
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 12:45:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D382610ED32;
-	Mon, 17 Oct 2022 10:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D4DE10E210;
+	Mon, 17 Oct 2022 10:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no
  [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0B010ED32;
- Mon, 17 Oct 2022 10:36:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C953010E210;
+ Mon, 17 Oct 2022 10:44:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  ; s=ds202112;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -20,24 +20,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=RkOJF9SpLP2Tuwb8m8kmcMI162AWfyYlgbz9az1Vuyg=; b=mM2e036ArpX5LtuzgXKAvMNDlk
- 6DGgU3LshBPTEFSa9tI8jWUWySY6YQ0jBs2fq4agCSx4PN9IPb2W8fkb25USXDMqRzIta/Vv5QA2c
- ad90/Bd2qXUSYG3e2ZDyZQJ7PB8UnHTRk6pztxuHJ9s86hPBG38K7H/quevtVAoaTQAQAa8DuEGpz
- ytpFmtrJ/egdGt2gFRvxsCbKH4oHhqJzZRc8qY/Rlw813hJ1lijHYZSbPQQ5G0RNU697g8dxuzeG/
- EHfRGHiXRF2Rie2/f0VFBpFbXvsiW51BGhv0uN4Jw9jfdy4AA5N3VCNMBO4T/O5EqKm43FOz+olKp
- qFHzmoeQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:61475
+ bh=qeYGbN2RwRCxQ6AMeNN4NET15UVb7PUi0OEIs+b6DkY=; b=jaCLyiJIXlOFybxMXHamoKAPkX
+ RHSfiMXeX4fvs7LiQKE8Q5e/06tx2cQwr8jIMeCYwO8NUrWL3TOpqtA2uuBb8mjxfcD0MAqHQqqkI
+ Oj0+Yj+NMSh0lSKW99AmftyTYxvcUU2ptJHFipdq3DamjRcFZtnVbWv5KRKncuGL/Krgp/IS887/G
+ r8Dq6EE2ZunlWE/VAXv2ZEK9A6NSKX4L0v5limK7McDeDp08wbRQGG4IrtApe/df2nrJCJF4LNJ78
+ 0Mj+gtIYfPtsmTPGfDKoclxCyXLbsoHiRVtCqON1ffVLz7nhdhmuCaWLHwoRJejNa4R42VHxxPD9I
+ rhlfsfCA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:62495
  helo=[192.168.10.61])
  by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1okNTl-0005Wj-Mh; Mon, 17 Oct 2022 12:36:17 +0200
-Message-ID: <87702f79-36f4-278e-ef98-279543d71318@tronnes.org>
-Date: Mon, 17 Oct 2022 12:36:14 +0200
+ id 1okNc1-0003mn-9T; Mon, 17 Oct 2022 12:44:49 +0200
+Message-ID: <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
+Date: Mon, 17 Oct 2022 12:44:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v5 16/22] drm/atomic-helper: Add a TV properties reset
- helper
+Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
+ mode by its name
 To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
@@ -52,11 +52,11 @@ To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-16-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v5-16-d841cc64fe4b@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,122 +84,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Den 13.10.2022 15.19, skrev Maxime Ripard:
-> The drm_tv_create_properties() function will create a bunch of properties,
-> but it's up to each and every driver using that function to properly reset
-> the state of these properties leading to inconsistent behaviours.
+Den 13.10.2022 15.18, skrev Maxime Ripard:
+> As part of the command line parsing rework coming in the next patches,
+> we'll need to lookup drm_connector_tv_mode values by their name, already
+> defined in drm_tv_mode_enum_list.
 > 
-> Let's create a helper that will take care of it.
+> In order to avoid any code duplication, let's do a function that will
+> perform a lookup of a TV mode name and return its value.
 > 
-> Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/gpu/drm/drm_atomic_state_helper.c | 75 +++++++++++++++++++++++++++++++
->  include/drm/drm_atomic_state_helper.h     |  1 +
->  2 files changed, 76 insertions(+)
+>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
+>  include/drm/drm_connector.h     |  2 ++
+>  2 files changed, 26 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index dfb57217253b..0373c3dc824b 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -481,6 +481,81 @@ void drm_atomic_helper_connector_tv_margins_reset(struct drm_connector *connecto
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_tv_margins_reset);
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 820f4c730b38..30611c616435 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+>  };
+>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
 >  
 > +/**
-> + * drm_atomic_helper_connector_tv_reset - Resets Analog TV connector properties
-> + * @connector: DRM connector
+> + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
+> + * @name: TV Mode name we want to convert
+> + * @len: Length of @name
 > + *
-> + * Resets the analog TV properties attached to a connector
+> + * Translates @name into an enum drm_connector_tv_mode.
+> + *
+> + * Returns: the enum value on success, a negative errno otherwise.
 > + */
-> +void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
-> +	struct drm_connector_state *state = connector->state;
-> +	struct drm_property *prop;
-> +	uint64_t val;
-> +
-> +	prop = dev->mode_config.tv_mode_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.mode = val;
-> +
-> +	if (cmdline->tv_mode)
-> +		state->tv.mode = cmdline->tv_mode;
+> +int drm_get_tv_mode_from_name(const char *name, size_t len)
 
-This can't set ntsc now that the none value is gone.
-But we need a tv_mode_specified flag as mentioned in the other patch.
+Do we really need to pass in length here?
+item->name has to always be NUL terminated otherwise things would break
+elsewhere, so it shouldn't be necessary AFAICS.
 
 Noralf.
 
+> +{
+> +	unsigned int i;
 > +
-> +	prop = dev->mode_config.tv_select_subconnector_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.select_subconnector = val;
+> +	for (i = 0; i < ARRAY_SIZE(drm_tv_mode_enum_list); i++) {
+> +		const struct drm_prop_enum_list *item = &drm_tv_mode_enum_list[i];
 > +
-> +	prop = dev->mode_config.tv_subconnector_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.subconnector = val;
+> +		if (strlen(item->name) == len && !strncmp(item->name, name, len))
+> +			return item->type;
+> +	}
 > +
-> +	prop = dev->mode_config.tv_brightness_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.brightness = val;
-> +
-> +	prop = dev->mode_config.tv_contrast_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.contrast = val;
-> +
-> +	prop = dev->mode_config.tv_flicker_reduction_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.flicker_reduction = val;
-> +
-> +	prop = dev->mode_config.tv_overscan_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.overscan = val;
-> +
-> +	prop = dev->mode_config.tv_saturation_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.saturation = val;
-> +
-> +	prop = dev->mode_config.tv_hue_property;
-> +	if (prop)
-> +		if (!drm_object_property_get_default_value(&connector->base,
-> +							   prop, &val))
-> +			state->tv.hue = val;
-> +
-> +	drm_atomic_helper_connector_tv_margins_reset(connector);
+> +	return -EINVAL;
 > +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
+> +EXPORT_SYMBOL(drm_get_tv_mode_from_name);
 > +
->  /**
->   * __drm_atomic_helper_connector_duplicate_state - copy atomic connector state
->   * @connector: connector object
-> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-> index 192766656b88..c8fbce795ee7 100644
-> --- a/include/drm/drm_atomic_state_helper.h
-> +++ b/include/drm/drm_atomic_state_helper.h
-> @@ -70,6 +70,7 @@ void __drm_atomic_helper_connector_state_reset(struct drm_connector_state *conn_
->  void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
->  					 struct drm_connector_state *conn_state);
->  void drm_atomic_helper_connector_reset(struct drm_connector *connector);
-> +void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
->  void drm_atomic_helper_connector_tv_margins_reset(struct drm_connector *connector);
->  void
->  __drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector,
+>  static const struct drm_prop_enum_list drm_tv_select_enum_list[] = {
+>  	{ DRM_MODE_SUBCONNECTOR_Automatic, "Automatic" }, /* DVI-I and TV-out */
+>  	{ DRM_MODE_SUBCONNECTOR_Composite, "Composite" }, /* TV-out */
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index a501db7d2222..a33f24a76738 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1864,6 +1864,8 @@ const char *drm_get_dp_subconnector_name(int val);
+>  const char *drm_get_content_protection_name(int val);
+>  const char *drm_get_hdcp_content_type_name(int val);
+>  
+> +int drm_get_tv_mode_from_name(const char *name, size_t len);
+> +
+>  int drm_mode_create_dvi_i_properties(struct drm_device *dev);
+>  void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
+>  
 > 
