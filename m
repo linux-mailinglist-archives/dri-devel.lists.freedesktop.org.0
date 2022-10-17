@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD70601508
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 19:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A076601509
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 19:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A27110EDD5;
-	Mon, 17 Oct 2022 17:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21BA10EDD3;
+	Mon, 17 Oct 2022 17:25:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1C2910EDB7;
- Mon, 17 Oct 2022 17:24:52 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4947F10EDCA;
+ Mon, 17 Oct 2022 17:24:56 +0000 (UTC)
 Received: from dimapc.. (109-252-119-114.nat.spd-mgts.ru [109.252.119.114])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D90EA660238A;
- Mon, 17 Oct 2022 18:24:47 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D726B660239E;
+ Mon, 17 Oct 2022 18:24:51 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1666027491;
- bh=/fmhFqKRdyFDSOgw768lCF7vkLc6zTfOgN/CMggxBBU=;
+ s=mail; t=1666027495;
+ bh=l5BRfbWC5T1dh+H9OotQXa1bcseJO6ASdNvasBha29E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VIrv1adCfYeYjyl/ZPvIa+2eitMJaYnVt+F8bcEXKl3KPIGgzE6UfTMJIPZP9TLui
- 8K7QkYfa/uENzMzSrPEukPION9g/2LQilBX3TipN3kH2BDK0qPuPM92xMLJld5nKPK
- yicLWuPrB/tjot0Wdy+luQ43FEBA5SQjcmsefOM28FwSkUMcRnBw6VH+aE3usBpoJw
- oyri+ALarLBcxPD1ONJF1boMRpHAfx7xZqtkSFFajZfwAYM3ga3PCS2SmrOevLP0TX
- RxwY/B3B18geKRsUVs+z5N+iiML1QLMTJNO1DeoUFQBc+u5iujq5S/35O8vXCPXavh
- xX0nFwsLWuSGg==
+ b=CzNTMdEJOxDp4A5gv6FT1KtuAOVV8BgYjE2NA8gfwscQqftPsjogL5wLD89DBA7zq
+ VtwsrO4hMZxqe3XNiPrBu1Lbsivm9/u7eexNdpa+xDPN/wwu/BcPTcpZ+CBeaORruQ
+ EgEE64VS3e9BoYyozavmdPH8LtnNtQbwm5AvhCXgegcqR1dfHSpYpbTTHYWP83AjVs
+ QQnEy/BwQrA+vougTJi4lwWpcb9+6APM9upNMnPC8AvKJlbk106r81S6TqdlgKprU0
+ b7Fhz6tD9iDeQRyiT7+dO3AUXAoFvu/tG516gGubRlSd0junB52vlPM3M7+qtzDnH1
+ 1zoXv6KogANJw==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -65,10 +64,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Ruhl Michael J <michael.j.ruhl@intel.com>
-Subject: [PATCH v7 10/21] RDMA/umem: Prepare to dynamic dma-buf locking
+Subject: [PATCH v7 11/21] misc: fastrpc: Prepare to dynamic dma-buf locking
  specification
-Date: Mon, 17 Oct 2022 20:22:18 +0300
-Message-Id: <20221017172229.42269-11-dmitry.osipenko@collabora.com>
+Date: Mon, 17 Oct 2022 20:22:19 +0300
+Message-Id: <20221017172229.42269-12-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
 References: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
@@ -96,42 +95,40 @@ Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare InfiniBand drivers to the common dynamic dma-buf locking
-convention by starting to use the unlocked versions of dma-buf API
-functions.
+Prepare fastrpc to the common dynamic dma-buf locking convention by
+starting to use the unlocked versions of dma-buf API functions.
 
-Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 Acked-by: Christian König <christian.koenig@amd.com>
+Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/infiniband/core/umem_dmabuf.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/misc/fastrpc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
-index 04c04e6d24c3..43b26bc12288 100644
---- a/drivers/infiniband/core/umem_dmabuf.c
-+++ b/drivers/infiniband/core/umem_dmabuf.c
-@@ -26,7 +26,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
- 	if (umem_dmabuf->sgt)
- 		goto wait_fence;
- 
--	sgt = dma_buf_map_attachment(umem_dmabuf->attach, DMA_BIDIRECTIONAL);
-+	sgt = dma_buf_map_attachment_unlocked(umem_dmabuf->attach,
-+					      DMA_BIDIRECTIONAL);
- 	if (IS_ERR(sgt))
- 		return PTR_ERR(sgt);
- 
-@@ -102,8 +103,8 @@ void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf)
- 		umem_dmabuf->last_sg_trim = 0;
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index 93ebd174d848..6fcfb2e9f7a7 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -310,8 +310,8 @@ static void fastrpc_free_map(struct kref *ref)
+ 				return;
+ 			}
+ 		}
+-		dma_buf_unmap_attachment(map->attach, map->table,
+-					 DMA_BIDIRECTIONAL);
++		dma_buf_unmap_attachment_unlocked(map->attach, map->table,
++						  DMA_BIDIRECTIONAL);
+ 		dma_buf_detach(map->buf, map->attach);
+ 		dma_buf_put(map->buf);
+ 	}
+@@ -726,7 +726,7 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
+ 		goto attach_err;
  	}
  
--	dma_buf_unmap_attachment(umem_dmabuf->attach, umem_dmabuf->sgt,
--				 DMA_BIDIRECTIONAL);
-+	dma_buf_unmap_attachment_unlocked(umem_dmabuf->attach, umem_dmabuf->sgt,
-+					  DMA_BIDIRECTIONAL);
- 
- 	umem_dmabuf->sgt = NULL;
- }
+-	map->table = dma_buf_map_attachment(map->attach, DMA_BIDIRECTIONAL);
++	map->table = dma_buf_map_attachment_unlocked(map->attach, DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(map->table)) {
+ 		err = PTR_ERR(map->table);
+ 		goto map_err;
 -- 
 2.37.3
 
