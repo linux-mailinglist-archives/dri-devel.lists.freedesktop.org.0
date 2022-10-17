@@ -1,18 +1,18 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68140600C36
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 12:21:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A21E6600C73
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 12:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF1CC10ED20;
-	Mon, 17 Oct 2022 10:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4B010ED30;
+	Mon, 17 Oct 2022 10:31:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no
  [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF3110E6DC;
- Mon, 17 Oct 2022 10:21:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDB310ED30;
+ Mon, 17 Oct 2022 10:31:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  ; s=ds202112;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -20,24 +20,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Y4j7gBOaq+2LeHWeErehnoB7+9tH84EPBKVdDAWDliE=; b=AoVlrX2Ik0FBhZTaqHAgAgXDq3
- sKgykY/zMoWZvYv/wwlTjx33qQU6S8eKEpaorbc+ZIhkKjRpUwTgiBYGb6GkwlSu4Wf+spNboAz/N
- 1Q9Dn9Hw7vEb7gaGtICHUG1djD+wwVRu5sx2XYOn1bKxdAxEnkXah3X9mi1EmN69vpTES5V5h/np9
- deEPLmHaxO1ek7B34SPfN4PmegGOTgOOPdlNFiiADkTT593XYyHN1rj/FmfJbUK8F0ZanLdzV6zOe
- s46j/eFnXBiSwk6jlRYsduk/ylik9IZzGhZFnxWyZzcYnLDDP9Vk2J6ri4eobHTZgRvvlWgLKtxwV
- 7DsvpzmQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:59672
+ bh=4stdZmnnjzcJfTIv6rX9y4Ktpwm0v2vziI9Ogexmn4M=; b=JTuh8gNnaSkR+5LHWdYqs3GbB1
+ ZHTKRsHYL2Hwd506N3u16pSrtZpDVzxuSO7U0YcYZMN/CHexTltSaNhqyFAtGAJCPUV4V0b8nZ3J0
+ MGXR+vIMKn64zMJYCMljgm7u5lRp0nf7NBcZ7zr7aV2s+jSrsEZgQCKC0dPn+Yw66geVhRH6bVeZc
+ Gzdem6BNhYGvtZbsJI4bfYo5I/grPpluNd1h9zuwTo/xoj/QGbegYU3yW4i4KSEBhxB/sXpqu4h6p
+ 9gJSysyAKSm1TQM1nSWpbf0JEhuGpMy0U86hC40/GYjpCPhyMJLKilWX9SIAKnUzU7Om4NhJmBb0J
+ K0jnVmWA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:60899
  helo=[192.168.10.61])
  by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1okNFL-0001vj-HG; Mon, 17 Oct 2022 12:21:23 +0200
-Message-ID: <769d2f6e-7fe6-30da-06d8-3c2e9fb9df34@tronnes.org>
-Date: Mon, 17 Oct 2022 12:21:14 +0200
+ id 1okNPD-0001a2-7h; Mon, 17 Oct 2022 12:31:35 +0200
+Message-ID: <81936381-ae37-8c84-4681-9eff19f653b5@tronnes.org>
+Date: Mon, 17 Oct 2022 12:31:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v5 13/22] drm/modes: Introduce the tv_mode property as a
- command-line option
+Subject: Re: [PATCH v5 20/22] drm/vc4: vec: Convert to the new TV mode property
 To: kfyatek+publicgit@gmail.com, Maxime Ripard <maxime@cerno.tech>,
  Karol Herbst <kherbst@redhat.com>, Jani Nikula
  <jani.nikula@linux.intel.com>,
@@ -53,10 +52,10 @@ To: kfyatek+publicgit@gmail.com, Maxime Ripard <maxime@cerno.tech>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-13-d841cc64fe4b@cerno.tech>
- <fdeadf0d-8f38-8edf-ae92-e2d9c5aa90b4@gmail.com>
+ <20220728-rpi-analog-tv-properties-v5-20-d841cc64fe4b@cerno.tech>
+ <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <fdeadf0d-8f38-8edf-ae92-e2d9c5aa90b4@gmail.com>
+In-Reply-To: <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,42 +83,79 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Den 16.10.2022 19.51, skrev Mateusz Kwiatkowski:
-> Hi Maxime, Noralf & everyone,
+Den 16.10.2022 20.52, skrev Mateusz Kwiatkowski:
+> Hi Maxime,
 > 
-> I'd like to address Noralf here in particular, and refer to these discussions
-> from the past:
+>>  static int vc4_vec_connector_get_modes(struct drm_connector *connector)
+>>  {
+>> -	struct drm_connector_state *state = connector->state;
+>>  	struct drm_display_mode *mode;
+>>  
+>> -	mode = drm_mode_duplicate(connector->dev,
+>> -				  vc4_vec_tv_modes[state->tv.legacy_mode].mode);
+>> +	mode = drm_mode_analog_ntsc_480i(connector->dev);
+>>  	if (!mode) {
+>>  		DRM_ERROR("Failed to create a new display mode\n");
+>>  		return -ENOMEM;
+>>  	}
+>>  
+>> +	mode->type |= DRM_MODE_TYPE_PREFERRED;
+>>  	drm_mode_probed_add(connector, mode);
+>>  
+>> -	return 1;
+>> +	mode = drm_mode_analog_pal_576i(connector->dev);
+>> +	if (!mode) {
+>> +		DRM_ERROR("Failed to create a new display mode\n");
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	drm_mode_probed_add(connector, mode);
+>> +
+>> +	return 2;
+>> +}
 > 
-> - https://lore.kernel.org/linux-arm-kernel/2f607c7d-6da1-c8df-1c02-8dd344a92343@gmail.com/
-> - https://lore.kernel.org/linux-arm-kernel/9e76a508-f469-a54d-ecd7-b5868ca99af4@tronnes.org/
+> Referencing those previous discussions:
+> - https://lore.kernel.org/dri-devel/0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org/
+> - https://lore.kernel.org/dri-devel/c8f8015a-75da-afa8-ca7f-b2b134cacd16@gmail.com/
 > 
->> @@ -2230,20 +2256,22 @@ struct drm_named_mode {
->>  	unsigned int xres;
->>  	unsigned int yres;
->>  	unsigned int flags;
->> +	unsigned int tv_mode;
->>  };
+> Unconditionally setting the 480i mode as DRM_MODE_TYPE_PREFERRED causes Xorg
+> (at least on current Raspberry Pi OS) to display garbage when
+> video=Composite1:PAL is specified on the command line, so I'm afraid this won't
+> do.
 > 
-> I saw that you (Noralf) opposed my suggestion about the DRM_MODE_TV_MODE_NONE
-> enum value in enum drm drm_connector_tv_mode. I get your argumentation, and I'm
-> not gonna argue, but I still don't like the fact that struct drm_named_mode now
-> includes a field that is only relevant for analog TV modes, has no "none" value,
-> and yet the type is supposed to be generic enough to be usable for other types
-> of outputs as well.
+> As I see it, there are three viable solutions for this issue:
 > 
-> It's true that it can just be ignored (as Maxime mentioned in his response to
-> my e-mail linked above), and now the value of 0 corresponds to
-> DRM_MODE_TV_MODE_NTSC, which is a rather sane default, but it still feels messy
-> to me.
+> a) Somehow query the video= command line option from this function, and set
+>    DRM_MODE_TYPE_PREFERRED appropriately. This would break the abstraction
+>    provided by global DRM code, but should work fine.
 > 
-> I'm not gonna force my opinion here, but I wanted to bring your attention to
-> this issue, maybe you have some other solution in mind for this problem. Or if
-> you don't see that as a problem at all, that's fine, too.
+> b) Modify drm_helper_probe_add_cmdline_mode() so that it sets
+>    DRM_MODE_TYPE_PREFERRED in addition to DRM_MODE_TYPE_USERDEF. This seems
+>    pretty robust, but affects the entire DRM subsystem, which may break
+>    userspace in different ways.
+> 
+>    - Maybe this could be mitigated by adding some additional conditions, e.g.
+>      setting the PREFERRED flag only if no modes are already flagged as such
+>      and/or only if the cmdline mode is a named one (~= analog TV mode)
+> 
+> c) Forcing userspace (Xorg / Raspberry Pi OS) to get fixed and honor the USERDEF
+>    flag.
+> 
+> Either way, hardcoding 480i as PREFERRED does not seem right.
 > 
 
-I hadn't looked at this patch in detail before, but you're right this,
-together with drm_atomic_helper_connector_tv_reset(), will overwrite
-tv.mode unconditionally regardless of tv_mode being present in video= or
-not. We need a tv_mode_specified flag like we have for bpp and refresh.
+My solution for this is to look at tv.mode to know which mode to mark as
+preferred. Maxime didn't like this since it changes things behind
+userspace's back. I don't see how that can cause any problems for userspace.
+
+If userspace uses atomic and sets tv_mode, it has to know which mode to
+use before hand, so it doesn't look at the preferreded flag.
+
+If it uses legacy and sets tv_mode, it can end up with a stale preferred
+flag, but no worse than not having the flag or that ntsc is always
+preferred.
+
+If it doesn't change tv_mode, there's no problem, the preferred flag
+doesn't change.
 
 Noralf.
