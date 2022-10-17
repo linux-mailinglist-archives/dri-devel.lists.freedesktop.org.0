@@ -1,118 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2016F600FDF
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 15:06:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 073D0601059
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 15:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93A5C10E461;
-	Mon, 17 Oct 2022 13:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E7310E4E8;
+	Mon, 17 Oct 2022 13:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABA6510E441;
- Mon, 17 Oct 2022 13:06:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S4Jr2Qi8ggEbcSS+p3z/a8e5BXPDUbR/2o6TeQsHBs50j9AKNeqbXxB71Cw5GgbV5LyL5zhhugqjPfHABSL/Z0CYrs7/Cutuo4G5ju1uIqOu5cpNIIAfLYgD4S0sXUAdz6RSCZ12U4KOJlfTd4qih6bPT+LA7X4ePV3DNYip0T6iL4qCLks8GwnS0RMS83vWlXyfaONK+f/f35Di38I29+M4NTVg8493GQo+c+lt84IF5pJDo+Oog7Z9MkhmMsZECYZP3br08rlIp7nfIEg0vdAuEn3NeZ3nd2okBLlcBmGWM3ZXNN8ncf0DxB8qN+cPRLziFKnOam1ptUK6YjkfjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6WQvRS5tMawQoAmXjk5s8z76judWUZaq970XQP+P9e0=;
- b=Sgl1FwUFtYvePHqv+D7UMyK7sc4GuPLqfSptwph8i2nQj83gkDYCKquPYy/I2Tj6+dVDtc3OI0jY6dfyvdOPQE8/uJp3Nbz/c6mUkBQvnpIierli975hGMS9R7SqYCYKVkaQEnWGCLPMFfbh5IW0RcAYwP/Nth0WT28ifU67xrMJt1B3xmxt6Ph0ChCbGMZ4qyvYWEx0Tu/XB6tOs/o14zvZuh5M7LAyKzTVxM5WKHgxb7isGg61slEMDQa+YLXCTLPJzjVJWOvupeLgc4dodIzBqW4oj7ctX0aWw23xXDHIgDIJgwv0SUCbBmzbDidBt+BfaXPyCFD5RtER/g8BKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6WQvRS5tMawQoAmXjk5s8z76judWUZaq970XQP+P9e0=;
- b=nnNoTC6MZ8jStQkaalMpyhwdlcSN8jnyLP14YM8Npvq+oJPF+Rj7MaEt4lEZI6u0jzsqDEse5SICPaj8MPcNZUMwiwPft73p/xIlhT6EfCUQVNscD1RFFysa889Z185Hhlz53WSE/OClXDBKxbaizfsd4JjL0FV4Rhldhe6ffdQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
- by CH0PR12MB5204.namprd12.prod.outlook.com (2603:10b6:610:bb::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Mon, 17 Oct
- 2022 13:06:01 +0000
-Received: from MN2PR12MB2941.namprd12.prod.outlook.com
- ([fe80::588f:c941:4f62:9d89]) by MN2PR12MB2941.namprd12.prod.outlook.com
- ([fe80::588f:c941:4f62:9d89%3]) with mapi id 15.20.5723.026; Mon, 17 Oct 2022
- 13:06:00 +0000
-Message-ID: <ec75ba21-97e0-9479-8d87-46cc8032d44c@amd.com>
-Date: Mon, 17 Oct 2022 09:06:38 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] drm/amd/display: add a WARN() to irq service functions
-Content-Language: en-US
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-References: <20221014153129.68674-1-hamza.mahfooz@amd.com>
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-In-Reply-To: <20221014153129.68674-1-hamza.mahfooz@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR07CA0036.namprd07.prod.outlook.com
- (2603:10b6:610:20::49) To MN2PR12MB2941.namprd12.prod.outlook.com
- (2603:10b6:208:a9::12)
+Received: from mail-4321.protonmail.ch (mail-4321.protonmail.ch [185.70.43.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA8C10E459
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 13:37:26 +0000 (UTC)
+Date: Mon, 17 Oct 2022 13:37:11 +0000
+Authentication-Results: mail-4321.protonmail.ch;
+ dkim=pass (1024-bit key) header.d=connolly.tech header.i=@connolly.tech
+ header.b="FP9YI0Lp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+ s=protonmail; t=1666013838; x=1666273038;
+ bh=O8U0/rSJcp6Znld+LgNmARLp2ZlKY3y+428lcdHw/Ck=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=FP9YI0LpS3NtMj7aU54Mch6ZnaBxrpwwrUPWiZeYoMw0G3T3yqCAT/tciY5CEYWi7
+ rYyKgglMC+Jhl0jZMYKR6qHzuoUuah1oeWr7SZ+x39iKu8jJPoV5diyyp+FCOa4pQN
+ TKuVBN2XwYw1mVYNNGfa5hDUCz9MQcLtLOx8yApg=
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+From: Caleb Connolly <caleb@connolly.tech>
+Subject: Re: [Freedreno] [PATCH v3 06/10] drm/msm/dsi: Migrate to
+ drm_dsc_compute_rc_parameters()
+Message-ID: <0642a664-3eed-21b7-a417-c6c607908f51@connolly.tech>
+In-Reply-To: <20221017085944.2r24uqg73irmziqm@SoMainline.org>
+References: <20221009184824.457416-1-marijn.suijten@somainline.org>
+ <20221009185058.460688-1-marijn.suijten@somainline.org>
+ <5c178d7e-5022-f5e5-791d-d3800114b42b@quicinc.com>
+ <20221013093646.c65mbjc6oekd7gha@SoMainline.org>
+ <32af4444-9c88-eb0f-eda7-24fa0418aff6@quicinc.com>
+ <20221017085944.2r24uqg73irmziqm@SoMainline.org>
+Feedback-ID: 10753939:user:proton
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB2941:EE_|CH0PR12MB5204:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbcc47e8-f251-4aa0-b97a-08dab0405649
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fNXQmkjSB47WGHRQ80tbsLNiB340goyCvkl29KCzDVX9hQfyFCrFTGQ2A+P9CxAMZnqGLY229CBE6eogb+cdADegQuDUe9G6/6cgeAFVIGWdjDNuwWCBrX0NWQHMfnRCeRE4cBloppy6QKSuQgz9QfhPGZWLvuv+lY5BAFBITwyvhR6IKsvyuDxW78bRCrcSmEfO+sq9VSc8+L5byhid6TXt+ezCG9eq0A7LU4oirKIFGJ9EkYrto0tgLmCF8ltC7nDfx+WZLli/FuPva5g3kdkvoDn9LdqKRdXxjI4BiG1Asdefc8ZdhPkarf5oPGyqpuJO3SkE3t9K79jBjpxBFCGIFaMpU5PX8gMF2Xn3HSAva15dPHfR7xak6fFwZkdOEBQt0tGsb2iVRyhC4/gbdQh8VIRyezN1eXqNx2zwBIQXh+fkKMZbAlvCKx0ldHliBJnQXkYX6WkC68J0a7YARCGy5UhxRFaDhl2jus5e7QAPk40wg/mpVVQPE06pj3S0AkAGvSnNiKA8v9RGnqv4umnQgATPN6l9ZankbG2EWro/Kx8wzYHoOqlq7RPv0r0W579q3tX0yBplUHa4aifCVggOSNAN6sL522dJx5b4PJ84g7DaW0INmYgyCY4gxRYF+jqn7MC2NQ25pG01IXFIGGDBkVfJGMwP85K+TeenrebL5gdGBG2aLu4rta9Jr4S61ez4M3jenmjPORrjvVkzuQSzbLpKswYjMnEVVCds7QgP0u4h1La9yccKCaOwyFpQ8PIy88LhjP7fvzcpu3HDS3VWtq8zdsH++hSz6voQ1VQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(396003)(39860400002)(366004)(376002)(136003)(451199015)(31686004)(6506007)(2906002)(36756003)(6862004)(8936002)(5660300002)(31696002)(86362001)(53546011)(6666004)(6512007)(186003)(41300700001)(2616005)(478600001)(4326008)(8676002)(6486002)(66946007)(83380400001)(66476007)(66556008)(38100700002)(6636002)(37006003)(54906003)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHBMZzRmVHRiaE5SNlE0YUhrdWRrSFNEcUxzbVk5bVdSRHNEbWpOYUd3Y0Ra?=
- =?utf-8?B?cnZKMTZDM2dTSE14VEhLcUV0czNSSndqako5WXY4SEdBZEZPZDQ4azdwcWJO?=
- =?utf-8?B?UjlGUGZWSGRIenY3aUtGcnJtK2tqb1I0NjhQenFFY3RmZUcvV1g2YXBpZmFY?=
- =?utf-8?B?MkZ3STFMQ2xuRHlzdzJCS2dvMU4ybFVrQXVkV090Ris2VWRVYUN1UzRUWU04?=
- =?utf-8?B?VHdqSitjK1BUM0xNUVpDQ2NmZThMK2NZM0E3emxuQ3l3M1laWGFnOEthZy9v?=
- =?utf-8?B?S2ptU0g1aFl6U3NzbDJDb2tjNFdlY1FpSnJJK2NNTWJRa0RmaDd1SzVWZ3NO?=
- =?utf-8?B?aVIrWUN3bHhlV2szd3FYMG53QVMvOG1YVFhrRU95NmMwSkpjbTZZWjcvUlNP?=
- =?utf-8?B?WXcxUTNNeHgwcVh3cWZLSGYxK2UzMmR1MVRLR2pEVnBPU3VsME5NWTR2dEs5?=
- =?utf-8?B?S0RZQ3Z0NGc5ajdHR0Ywd2gzeW45L2xreXJ4Rk9CaWx1TG5maXJyVG5NRDEr?=
- =?utf-8?B?QUROcEtrVWRGdXR0eUhWYU5IclF5NlloMldON0pXWS9KekNvLzBhU0pUa082?=
- =?utf-8?B?SW1VcjRqWnZBMTR0TDZidFM5MGFBTlFrSTRpd1FidVpTdDZxRytFNFpVK25R?=
- =?utf-8?B?ZGVPWEdqM083b1lPZFVFVXV6d2VteVZBamtxVEZqaHFITHc1aHphcnAvaElM?=
- =?utf-8?B?OHVBYnpyM0JzdWpKRFVWbmZQTmU1N3NCc2ZDdU1xQ01aTUEwa1FnYmUzZHR0?=
- =?utf-8?B?eWVsR21nd2c0M1dnd0xXbG9IVExGYWI0SHFyWU1vSEl3Ym5iNEt6TzBPc3BH?=
- =?utf-8?B?VFpoSGRyMWxScHRKQW5LT2J5VXVTU2VuTXh1Wm1laC9ENGtCZkcxMWVoL2FX?=
- =?utf-8?B?QzJOaE8xUGNVRWQyOVJQZlV4NE9VMWtnaS83T2JPeG5IdVpJQ2FOSXpta2dv?=
- =?utf-8?B?a0gxYUFJTGxjODZ3dXh2bndHWW94MnNkYlJVQjZSd3pJZE5NNmxuRTJ1dCtn?=
- =?utf-8?B?N1N4WVZDR3FWR3hpeGExaVNlSC9LNFYvSk4xd0RFSVhUeWFVd0JIN2NSc3Zk?=
- =?utf-8?B?NTZkM3JxSGcyLzMrcVVkeXpFZ1dFWXd2REY4QSt5RnRjUFZoMlltS2V5OVMw?=
- =?utf-8?B?R2phNXFDOTVRcUlPRGFSenU4bXJVNUlCdEs1WTRSYWVxdFB4QVJRaWZha3NG?=
- =?utf-8?B?algvRWU4UTNNME42c2JGVjZtSmR0SHRzOGxob2ZqS2lyTmlBN2R0VldDdngv?=
- =?utf-8?B?SE9maXRFU2N5b2lZaEdNaUdxbWtMYVNLWDdnZGx0NGhYTkRyaEpyT21aY2Z3?=
- =?utf-8?B?QnpIYkpoYmJLNitoTmlqdEN2dG5wNUpHSDhqTVdFdkJkKzQxemVxWE1sNzU4?=
- =?utf-8?B?Wlo2V0pVaUIxcDA4K0U4d2J4MXZwaFFGeXhxaDZ2VXF6K0Z3ejlTL012YkRI?=
- =?utf-8?B?YldmUHErR0VNbjJod1J1VktOYWhobiszMU9ha2hjRjJ0S29KbGY0SEYxRm9R?=
- =?utf-8?B?ajBRZmx5NWk0a3FMN3FzSWs4Q0xsUUJFeXN3YVFwWXR6S1JVV25HQzNXazhE?=
- =?utf-8?B?T0pvOU84bUpHRWt0emxPRnpUN3c2cnkvcXdudE1hcHQ4T2lmVUtCQ3dzYys1?=
- =?utf-8?B?V1NVcGlIUVU1Ny82enZoUG9mZS9yU05tdE9FbjFTa1VCdmMvZHJnLzMxVlhF?=
- =?utf-8?B?Q0psVk5Yd044YnM1YWw5QW1rQVdrVm40T3F1NWVBTUwzWFV1cStqTytsQmRW?=
- =?utf-8?B?VU9nYy9QcHJDVUVDeVVseHFMMVRFZnErNi9OTjdwNEM0Qm5FU05nR1pnSzRi?=
- =?utf-8?B?MVM1UCswckw5OE1LV25ldG1BdGxqU25jSVNtdGZCaXZIeDh4MjF5VFFNcW5T?=
- =?utf-8?B?akpkaGgrUnYzRUYzaExmeFRBOEVxR1V0ancvUE5xN2ZaT01YVlBhZ0JRNzYw?=
- =?utf-8?B?SW9hNktKR3hYNkp5L0NTakxVRFhvQlNjeGIrNjVCdU43WGx2a29nUzFzTkk0?=
- =?utf-8?B?ZUhTRjkyaGdNWkFHUjdqSEJJZnJQUXlIaGxtL0FOMGtibWt0aG5kSVZXT21k?=
- =?utf-8?B?VzlwQnB4d2ZPRUc2MVUweDJ5ajRFUkdtcnVoZEU3S0QyZmFNYUtzVk1TVXBq?=
- =?utf-8?B?ZmxSaFB6bGxuVGRHWEw1TUtva2lTTjZ0Tm9xU25ZZEkxQ1VTcmNEaDE2Q3VI?=
- =?utf-8?B?c1E9PQ==?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbcc47e8-f251-4aa0-b97a-08dab0405649
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 13:06:00.8257 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T80/RfXVh6C9z0UaooJVDjqxWWQd8kGlf5RPk7lNGYGYpl3/WmQdXuVpjlLHGKla62+uXFyzkl60iLpHVLv+Mw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5204
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,73 +54,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- David Airlie <airlied@linux.ie>, Alex Hung <alex.hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Sean Paul <sean@poorly.run>, Newbyte <newbie13xd@gmail.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Vinod Koul <vkoul@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hamza,
 
-On 10/14/22 11:31, Hamza Mahfooz wrote:
-> Currently, if we encounter unimplemented functions, it is difficult to
-> tell what caused them just by looking at dmesg and that is compounded by
-> the fact that it is often hard to reproduce said issues. So, to have
-> access to more detailed debugging information, add a WARN() to
-> dal_irq_service_ack() and dal_irq_service_set() that only triggers when
-> we encounter an unimplemented function.
 
-Do you know the specific issue that triggered this unimplemented 
-function? It might be useful to describe the situation in the commit 
-message where you see this problem.
+On 17/10/2022 09:59, Marijn Suijten wrote:
+> On 2022-10-13 09:02:44, Abhinav Kumar wrote:
+>> On 10/13/2022 2:36 AM, Marijn Suijten wrote:
+>>> On 2022-10-12 16:03:06, Abhinav Kumar wrote:
+>>>> [..]
+>>>> But I would like to hold back this change till Vinod clarifies because
+>>>> Vinod had mentioned that with drm_dsc_compute_rc_parameters() he was
+>>>> seeing a mismatch in the computation of two values.
+>>>>
+>>>> slice_bpg_offset and the final_offset.
+>>>
+>>> Unsurprisingly so because final_offset, and slice_bpg_offset through
+>>> initial_offset depend directly on bits_per_pixel.  The main takeaway of
+>>> this series is that Vinod was interpreting this field as integer instea=
+d
+>>> of containing 4 fractional bits.  If he updates his the panel driver [1=
+]
+>>> to set bits_per_pixel =3D 8 << 4 instead of just 8 to account for this,
+>>> the values should check out once again.
+>>>
+>>> [1]: https://git.linaro.org/people/vinod.koul/kernel.git/commit/?h=3Dto=
+pic/pixel3_5.18-rc1&id=3D1d7d98ad564f1ec69e7525e07418918d90f247a1
+>>>
+>>> Once Vinod (or someone else in the posession of a Pixel 3) confirms
+>>> this, I can respin this series and more explicitly explain why the FIXM=
+E
+>>> was put in place, instead of being resolved outright?
+>>>
+>>> - Marijn
+>>
+>> Makes perfect sense to me.
+>>
+>> Will just wait for Vinod's tested-by.
+>
+> Unfortunately Vinod doesn't have access to this device anymore, but
+> Caleb recently sent the support series including display driver for
+> Pixel 3 and is picking up the testing.  User "Newbyte" from #linux-msm
+> promised to test on the LG G7 to have even more input samples.
 
-> 
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> ---
->   drivers/gpu/drm/amd/display/dc/irq/irq_service.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/irq/irq_service.c b/drivers/gpu/drm/amd/display/dc/irq/irq_service.c
-> index 7bad39bba86b..b895bdd8dc55 100644
-> --- a/drivers/gpu/drm/amd/display/dc/irq/irq_service.c
-> +++ b/drivers/gpu/drm/amd/display/dc/irq/irq_service.c
-> @@ -112,8 +112,11 @@ bool dal_irq_service_set(
->   
->   	dal_irq_service_ack(irq_service, source);
->   
-> -	if (info->funcs && info->funcs->set)
-> +	if (info->funcs && info->funcs->set) {
-> +		WARN(info->funcs->set == dal_irq_service_dummy_set,
-> +		     "%s: src: %d, st: %d\n", __func__, source, enable);
->   		return info->funcs->set(irq_service, info, enable);
+Hi,
 
-Do you know if we may hit this condition multiple times?
+I'm hoping to pick the Pixel 3 stuff back up at some point, but right now t=
+here
+seem to be quite a few issues outside of DSC which make testing it a bit of=
+ a pain.
 
-> +	}
->   
->   	dal_irq_service_set_generic(irq_service, info, enable);
->   
-> @@ -146,8 +149,11 @@ bool dal_irq_service_ack(
->   		return false;
->   	}
->   
-> -	if (info->funcs && info->funcs->ack)
-> +	if (info->funcs && info->funcs->ack) {
-> +		WARN(info->funcs->ack == dal_irq_service_dummy_ack,
-> +		     "%s: src: %d\n", __func__, source);
->   		return info->funcs->ack(irq_service, info);
-> +	}
->   
->   	dal_irq_service_ack_generic(irq_service, info);
->   
+I gave Marijn's series [1] a go but wasn't able to get anything usable out =
+of the
+panel, however I doubt this is a DSC issue as I've always needed some hacks=
+ to
+get the panel working - I've never had any success with it without skipping=
+ both
+the initial panel reset and sending the PPS payload.
 
-Just for curiosity, did you run some IGT tests?
+I think if Marijn has managed to initialise a panel properly then the lack =
+of
+Pixel 3 for validation shouldn't be a blocker to merge these fixes.
 
-Thanks
-Siqueira
+[1]:
+https://lore.kernel.org/linux-arm-msm/20221009184824.457416-1-marijn.suijte=
+n@somainline.org/
+
+>
+> - Marijn
+
+--
+Kind Regards,
+Caleb
 
