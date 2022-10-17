@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE526012C6
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 17:32:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 823F76012C8
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 17:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F92610E44D;
-	Mon, 17 Oct 2022 15:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9B8610ED96;
+	Mon, 17 Oct 2022 15:32:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B07A510E44D
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 15:32:02 +0000 (UTC)
-Date: Mon, 17 Oct 2022 15:31:57 +0000
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C758A10ED96
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 15:32:14 +0000 (UTC)
+Date: Mon, 17 Oct 2022 15:32:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1666020720; x=1666279920;
- bh=bUJdkEV0AJZwcglqX6ugH3X0OXQISRQwEFpN+WUzGVw=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID;
- b=jPuonxeBy2lrLO10O0cJFeuq807yXprw7f4VlvVqYc4AeeN7jHFJLbtZwpChbBwaD
- UCHwb+KLpXMt4Blt/FsCtpMiMmwWIrWHDjiZHXYsNtlH57TZ2yzTnrFbtnOaWa0wDe
- DLMLIY6U1w2nrQnNy0DhIRUzQJxpruLzHcRTzx1uG/z2iFk33U5+2YXsKHjtsHlsF1
- sMB5AF+haiYXq0r6uDEURZLlVABIyZo9KXBKt5Sx2TIaaiYUfkRT/ud/3FlxZe3a5Q
- RB7DUr3hatcai7FMDdW3trzBogRXTgbeIqhkirNiel3NAEHM3tHzxVqJImwiVYVWdW
- 487OpV04ptKSA==
+ s=protonmail3; t=1666020732; x=1666279932;
+ bh=IKMEh+TcgfoRlr9HJfKGhPSu4b8tesTclKkh0S1exQY=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=XWeCzDaGJEO3QxbkmlTVdiuImyt82NQtjmkKO9KUZKr5gQjfyJSFvSJmVZESd8GOb
+ XihvZ6IWWPrb1XHJZtDnK4fGZqO01/x0k4biBR6HbZuKPW5KqKUMk2Px+J5IGFbmJH
+ oriw9gNudRBogbStisETZV3GvO7h4YyJJzcSC7b87Ng7UivxwaTciU4WhRv9rAOkRU
+ ISnDCK7VvNEQiDvdTYBUU6or7V9ty4LNZyktGKUScXhautXSNFjYcyiNJnuJLi6ZF7
+ aDYKI54bvmcBBvD7gl26ZS8zRRxMPqClXMIDqeedklPjKYipX7S1weVjGCe4Qq2fSw
+ VvJ11fgwW38CA==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH 1/2] Revert "drm: hide unregistered connectors from
- GETCONNECTOR IOCTL"
-Message-ID: <20221017153150.60675-1-contact@emersion.fr>
+Subject: [PATCH 2/2] drm/connector: send hotplug uevent on connector cleanup
+Message-ID: <20221017153150.60675-2-contact@emersion.fr>
+In-Reply-To: <20221017153150.60675-1-contact@emersion.fr>
+References: <20221017153150.60675-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -46,38 +48,57 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?utf-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>
+ =?utf-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 981f09295687f856d5345e19c7084aca481c1395.
+A typical DP-MST unplug removes a KMS connector. However care must
+be taken to properly synchronize with user-space. The expected
+sequence of events is the following:
 
-It turns out this breaks Mutter.
+1. The kernel notices that the DP-MST port is gone.
+2. The kernel marks the connector as disconnected, then sends a
+   uevent to make user-space re-scan the connector list.
+3. User-space notices the connector goes from connected to disconnected,
+   disables it.
+4. Kernel handles the the IOCTL disabling the connector. On success,
+   the very last reference to the struct drm_connector is dropped and
+   drm_connector_cleanup() is called.
+5. The connector is removed from the list, and a uevent is sent to tell
+   user-space that the connector disappeared.
+
+The very last step was missing. As a result, user-space thought the
+connector still existed and could try to disable it again. Since the
+kernel no longer knows about the connector, that would end up with
+EINVAL and confused user-space.
+
+Fix this by sending a hotplug uevent from drm_connector_cleanup().
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: stable@vger.kernel.org
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Lyude Paul <lyude@redhat.com>
 Cc: Jonas =C3=85dahl <jadahl@redhat.com>
 ---
- drivers/gpu/drm/drm_mode_config.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/drm_connector.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_c=
-onfig.c
-index 939d621c9ad4..688c8afe0bf1 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -151,9 +151,6 @@ int drm_mode_getresources(struct drm_device *dev, void =
-*data,
- =09count =3D 0;
- =09connector_id =3D u64_to_user_ptr(card_res->connector_id_ptr);
- =09drm_for_each_connector_iter(connector, &conn_iter) {
--=09=09if (connector->registration_state !=3D DRM_CONNECTOR_REGISTERED)
--=09=09=09continue;
--
- =09=09/* only expose writeback connectors if userspace understands them */
- =09=09if (!file_priv->writeback_connectors &&
- =09=09    (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK))
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
+r.c
+index e3142c8142b3..90dad87e9ad0 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -582,6 +582,9 @@ void drm_connector_cleanup(struct drm_connector *connec=
+tor)
+ =09mutex_destroy(&connector->mutex);
+=20
+ =09memset(connector, 0, sizeof(*connector));
++
++=09if (dev->registered)
++=09=09drm_sysfs_hotplug_event(dev);
+ }
+ EXPORT_SYMBOL(drm_connector_cleanup);
+=20
 --=20
 2.38.0
 
