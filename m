@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8389601814
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE215601819
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 21:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0F210E9DF;
-	Mon, 17 Oct 2022 19:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4A2110EC21;
+	Mon, 17 Oct 2022 19:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D34C10E720
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A394B10E734
  for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 19:54:53 +0000 (UTC)
 Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 1536033EF91;
+ by letterbox.kde.org (Postfix) with ESMTPSA id C692633EFA0;
  Mon, 17 Oct 2022 20:54:51 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666036491; bh=g3BPQ/Zm/BiUjXwoosvFmdBlDgWaZpLDWZ89UTjtmzA=;
+ t=1666036492; bh=uaKHv1POeaC/frQoloocoC7d6lsVmEIsjtLGJsYfV34=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LFodSYt2RNhw7sPQymI86jIj+5CuwVR6VpPmj5qIOwBOEdp3bdJicwczkR1kCNQDR
- gMplbD8RUyfjn+Xclkk2wQtl6yIrdZ1DFchpufAegayDqoyDu7h13HGVxKHYv98/cV
- Ek5cHfxB6EOnpuTQ0INYKpAO7AlD+hoSYWDCpXW459OhlxOCc/TX4xAEu6n1/ZTGZk
- i4n+0KeYn/Xa7iHOZxIY2FU7vS0/3834EPRt0iVghNEaVssGJrq36+uxq1W09IBcGV
- ihvNvXJqXkfDoJJuymI9Lp4w3iN2NjmiA1hT+cZv7qK5ZxK06PQ2tgYxWfdEHnU0fl
- MdHZg3O0YSLGQ==
+ b=C7gGTOtJFXHq8OegLaS4xxNV4ABeFyvU727NHNCL76oLqDhN+55XRjQbdnfMRlSrZ
+ xsSUaXTA6EUAhH70ae6CxK1CyoqiWoBZaTSXNbB4GbOuEpSyTXSaY/E+ZBgbflbphG
+ eruTi4b0vL3FPKjFel5j+VfgBmNCGnvQ6F5d0DwDENORddviTWKJRK8Pn8pguRjtng
+ PCY1N5X7PNP3Hd/OuCag0CTL4F3prG2dbjNAjhGCILXH6y8/eG1li7XxZB+ndgsTwg
+ oo0uESsO3gjDpnsJLfKLacB5+kxQMjq0nORlI9AyCA9w/O6VPyNMwxXkHBH7jomaKF
+ xdMHg33AHgNvg==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/16] drm/vmwgfx: Write the driver id registers
-Date: Mon, 17 Oct 2022 15:54:25 -0400
-Message-Id: <20221017195440.311862-2-zack@kde.org>
+Subject: [PATCH 02/16] drm/vmwgfx: Fix frame-size warning in
+ vmw_mksstat_add_ioctl
+Date: Mon, 17 Oct 2022 15:54:26 -0400
+Message-Id: <20221017195440.311862-3-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221017195440.311862-1-zack@kde.org>
 References: <20221017195440.311862-1-zack@kde.org>
@@ -52,95 +53,103 @@ Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+From: Martin Krastev <krastevm@vmware.com>
 
-Driver id registers are a new mechanism in the svga device to hint to the
-device which driver is running. This should not change device behavior
-in any way, but might be convenient to work-around specific bugs
-in guest drivers.
+Function vmw_mksstat_add_ioctl allocates three big arrays on stack.
+That triggers frame-size [-Wframe-larger-than=] warning. Refactor
+that function to use kmalloc_array instead.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Signed-off-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 43 +++++++++++++++++++++++------
- 1 file changed, 34 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 39 ++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index d7bd5eb1d3ac..45028e25d490 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -25,10 +25,13 @@
-  *
-  **************************************************************************/
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+index 089046fa21be..a6cea35eaa01 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+@@ -1023,10 +1023,11 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+ 	long nr_pinned_stat;
+ 	long nr_pinned_info;
+ 	long nr_pinned_strs;
+-	struct page *pages_stat[ARRAY_SIZE(pdesc->statPPNs)];
+-	struct page *pages_info[ARRAY_SIZE(pdesc->infoPPNs)];
+-	struct page *pages_strs[ARRAY_SIZE(pdesc->strsPPNs)];
++	struct page **pages_stat = NULL;
++	struct page **pages_info = NULL;
++	struct page **pages_strs = NULL;
+ 	size_t i, slot;
++	int ret_err = -ENOMEM;
  
--#include <linux/dma-mapping.h>
--#include <linux/module.h>
--#include <linux/pci.h>
--#include <linux/cc_platform.h>
+ 	arg->id = -1;
+ 
+@@ -1054,13 +1055,23 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+ 
+ 	BUG_ON(dev_priv->mksstat_user_pages[slot]);
+ 
++	/* Allocate statically-sized temp arrays for pages -- too big to keep in frame */
++	pages_stat = (struct page **)kmalloc_array(
++		ARRAY_SIZE(pdesc->statPPNs) +
++		ARRAY_SIZE(pdesc->infoPPNs) +
++		ARRAY_SIZE(pdesc->strsPPNs), sizeof(*pages_stat), GFP_KERNEL);
 +
-+#include "vmwgfx_drv.h"
++	if (!pages_stat)
++		goto err_nomem;
 +
-+#include "vmwgfx_devcaps.h"
-+#include "vmwgfx_mksstat.h"
-+#include "vmwgfx_binding.h"
-+#include "ttm_object.h"
++	pages_info = pages_stat + ARRAY_SIZE(pdesc->statPPNs);
++	pages_strs = pages_info + ARRAY_SIZE(pdesc->infoPPNs);
++
+ 	/* Allocate a page for the instance descriptor */
+ 	page = alloc_page(GFP_KERNEL | __GFP_ZERO);
  
- #include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
-@@ -41,11 +44,11 @@
- #include <drm/ttm/ttm_placement.h>
- #include <generated/utsrelease.h>
+-	if (!page) {
+-		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
+-		return -ENOMEM;
+-	}
++	if (!page)
++		goto err_nomem;
  
--#include "ttm_object.h"
--#include "vmwgfx_binding.h"
--#include "vmwgfx_devcaps.h"
--#include "vmwgfx_drv.h"
--#include "vmwgfx_mksstat.h"
-+#include <linux/cc_platform.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+#include <linux/version.h>
+ 	/* Set up the instance descriptor */
+ 	pdesc = page_address(page);
+@@ -1075,9 +1086,8 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+ 		ARRAY_SIZE(pdesc->description) - 1);
  
- #define VMWGFX_DRIVER_DESC "Linux drm driver for VMware graphics devices"
+ 	if (desc_len < 0) {
+-		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
+-		__free_page(page);
+-		return -EFAULT;
++		ret_err = -EFAULT;
++		goto err_nomem;
+ 	}
  
-@@ -806,6 +809,27 @@ static int vmw_detect_version(struct vmw_private *dev)
+ 	reset_ppn_array(pdesc->statPPNs, ARRAY_SIZE(pdesc->statPPNs));
+@@ -1118,6 +1128,7 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+ 
+ 	DRM_DEV_INFO(dev->dev, "pid=%d arg.description='%.*s' id=%zu\n", current->pid, (int)desc_len, pdesc->description, slot);
+ 
++	kfree(pages_stat);
  	return 0;
+ 
+ err_pin_strs:
+@@ -1132,9 +1143,13 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+ 	if (nr_pinned_stat > 0)
+ 		unpin_user_pages(pages_stat, nr_pinned_stat);
+ 
++err_nomem:
+ 	atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
+-	__free_page(page);
+-	return -ENOMEM;
++	if (page)
++		__free_page(page);
++	kfree(pages_stat);
++
++	return ret_err;
  }
  
-+static void vmw_write_driver_id(struct vmw_private *dev)
-+{
-+	if ((dev->capabilities2 & SVGA_CAP2_DX2) != 0) {
-+		vmw_write(dev,  SVGA_REG_GUEST_DRIVER_ID,
-+			  SVGA_REG_GUEST_DRIVER_ID_LINUX);
-+
-+		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION1,
-+			  LINUX_VERSION_MAJOR << 24 |
-+			  LINUX_VERSION_PATCHLEVEL << 16 |
-+			  LINUX_VERSION_SUBLEVEL);
-+		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION2,
-+			  VMWGFX_DRIVER_MAJOR << 24 |
-+			  VMWGFX_DRIVER_MINOR << 16 |
-+			  VMWGFX_DRIVER_PATCHLEVEL);
-+		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION3, 0);
-+
-+		vmw_write(dev, SVGA_REG_GUEST_DRIVER_ID,
-+			  SVGA_REG_GUEST_DRIVER_ID_SUBMIT);
-+	}
-+}
-+
- static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- {
- 	int ret;
-@@ -1091,6 +1115,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	vmw_host_printf("vmwgfx: Module Version: %d.%d.%d (kernel: %s)",
- 			VMWGFX_DRIVER_MAJOR, VMWGFX_DRIVER_MINOR,
- 			VMWGFX_DRIVER_PATCHLEVEL, UTS_RELEASE);
-+	vmw_write_driver_id(dev_priv);
- 
- 	if (dev_priv->enable_fb) {
- 		vmw_fifo_resource_inc(dev_priv);
+ /**
 -- 
 2.34.1
 
