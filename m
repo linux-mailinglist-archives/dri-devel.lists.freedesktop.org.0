@@ -2,58 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 405FD60128E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 17:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CB56012B4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Oct 2022 17:26:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2FF10E517;
-	Mon, 17 Oct 2022 15:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93AF410ED93;
+	Mon, 17 Oct 2022 15:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFEB310E517;
- Mon, 17 Oct 2022 15:14:36 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-136b5dd6655so13614653fac.3; 
- Mon, 17 Oct 2022 08:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=C0k/V94Hup9eBfg7SuZ2cCUb+ul85Fg6mc4OEJdv/0o=;
- b=IEovFP95JMex4zXL1DQ0svc0+EUKLExxkV+mGn9ZeW8ZmD+uPQk3KCWXdbi6usPiQQ
- hJwGqTiC0WcrQpvRXgjpclgnewXMVIWQC9bfvtBE0PDRO7d5LODnBzg+KwjT29k5T/zA
- H3r1ZtTOh0iNS9fKJJ+VBpDOsuFTFPfa1lwh4TnCoXFR1JdCRQ6q6fAr44drW9gYwaQW
- Gjr9QGr/M2/fJJjfzl+Jn9SECz7IxlODUjQKiuajPnSrDJ1BUJv0bu51QElJzP1Zjaok
- Jgd+8lx0onVelr7PUXSRnVy1cbGdOZT8S/giqPPaIHa6AN114Kum2v80fKztL5tqbVFM
- 1UMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=C0k/V94Hup9eBfg7SuZ2cCUb+ul85Fg6mc4OEJdv/0o=;
- b=AYaKC/zVZA6EyTqbwXSIRMB1Cb7KuSpJG92YwhhV0qu0zCnpgzDCZJqm3yC5OTJsW8
- EZfLcSFU5pwYXNMgH5GvDcnmkomO9LqYxGDDmkyQ5FiZmLArkTrvGnloKu4mM48mYNJI
- t7y55/+Ow+5NA/D+EWYzbUgExi06gwAZttKLPNY2abUKhQ4kcda2AwJhVuUuo0DVoRoi
- JCFjHR7BRheJ19ae4yfrzjJGCDn7jkIou773UCVCTRX7oeG10D2maJZLpE6yUFJEYHfN
- PWRjtlHV7FMu/SIZuw4z0S6hNNATIQMqCTTpM5sxjMeW1NqdPqstD3x4fzP+/nwN9Vi0
- AB4A==
-X-Gm-Message-State: ACrzQf1/02gl/d784SVQTKe0CkPZ/HV3K+hWcA/72x/JrZQyaiyE4vIV
- Pcd26jTN0eIQYg/0xFxAYdRpsF8yMUUC1nB/Efg=
-X-Google-Smtp-Source: AMsMyM4pTI888ntuHyVZaruicFUJcVFq9AyzsZI2hRj+fKOygSc1PA8aUQ27gw/7RbbP5lHotTjyLcWG9kyjTxWFX6k=
-X-Received: by 2002:a05:6870:a7a4:b0:136:7c39:979e with SMTP id
- x36-20020a056870a7a400b001367c39979emr6111763oao.96.1666019675897; Mon, 17
- Oct 2022 08:14:35 -0700 (PDT)
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 798E610E546
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Oct 2022 15:26:03 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:bdc5:2f22:6678:ef3])
+ by andre.telenet-ops.be with bizsmtp
+ id Z3Rx2800j0MC6vi013RxB9; Mon, 17 Oct 2022 17:26:00 +0200
+Received: from geert (helo=localhost)
+ by ramsan.of.borg with local-esmtp (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1okS00-0002Vj-S9; Mon, 17 Oct 2022 17:25:52 +0200
+Date: Mon, 17 Oct 2022 17:25:52 +0200 (CEST)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+X-X-Sender: geert@ramsan.of.borg
+To: linux-kernel@vger.kernel.org
+Subject: Re: Build regressions/improvements in v6.1-rc1
+In-Reply-To: <20221017145157.1866351-1-geert@linux-m68k.org>
+Message-ID: <alpine.DEB.2.22.394.2210171653540.9136@ramsan.of.borg>
+References: <20221017145157.1866351-1-geert@linux-m68k.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-References: <20221017090352.117843-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20221017090352.117843-1-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 17 Oct 2022 11:14:24 -0400
-Message-ID: <CADnq5_PFgg=JhCzii=798zXmfjtatCWhWbYuMhDBctkmW6cY8g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Remove the unused function
- amdgpu_ucode_print_imu_hdr()
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +43,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: D Scott Phillips <scott@os.amperecomputing.com>, linux-rdma@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ kvm-riscv@lists.infradead.org, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, "Maciej W. Rozycki" <macro@orcam.me.uk>,
+ linux-arm-kernel@lists.infradead.org, Andrew Jones <ajones@ventanamicro.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 17, 2022 at 5:04 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+On Mon, 17 Oct 2022, Geert Uytterhoeven wrote:
+> Below is the list of build error/warning regressions/improvements in
+> v6.1-rc1[1] compared to v6.0[2].
 >
-> The function amdgpu_ucode_print_imu_hdr() is defined in the amdgpu_ucode.c
-> file, but not called elsewhere, so delete this unused function.
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c:129:6: warning: no previous prototype for function 'amdgpu_ucode_print_imu_hdr'.
->
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2416
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Summarized:
+>  - build errors: +25/-13
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/9abf2313adc1ca1b6180c508c25f22f9395cc780/ (all 149 configs)
+> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/4fe89d07dcc2804c8b562f6c7896a45643d34b2f/ (135 out of 149 configs)
+>
+>
+> *** ERRORS ***
+>
+> 25 error regressions:
+>  + /kisskb/src/arch/arm64/include/asm/cputype.h: error: initializer element is not constant:  => 44:2
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 13 -------------
->  1 file changed, 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-> index dd0bc649a57d..148cc2d475c5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-> @@ -126,19 +126,6 @@ void amdgpu_ucode_print_gfx_hdr(const struct common_firmware_header *hdr)
->         }
->  }
->
-> -void amdgpu_ucode_print_imu_hdr(const struct common_firmware_header *hdr)
-> -{
-> -       uint16_t version_major = le16_to_cpu(hdr->header_version_major);
-> -       uint16_t version_minor = le16_to_cpu(hdr->header_version_minor);
-> -
-> -       DRM_DEBUG("IMU\n");
-> -       amdgpu_ucode_print_common_hdr(hdr);
-> -
-> -       if (version_major != 1) {
-> -               DRM_ERROR("Unknown GFX ucode version: %u.%u\n", version_major, version_minor);
-> -       }
-> -}
-> -
->  void amdgpu_ucode_print_rlc_hdr(const struct common_firmware_header *hdr)
->  {
->         uint16_t version_major = le16_to_cpu(hdr->header_version_major);
-> --
-> 2.20.1.7.g153144c
->
+arm64-gcc5/arm64-allmodconfig (arch/arm64/kernel/proton-pack.c:872)
+
+>  + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called object is not a function or function pointer:  => 94:18
+>  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: control reaches end of non-void function [-Werror=return-type]:  => 1934:1
+>  + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'X86_VENDOR_AMD' undeclared (first use in this function):  => 149:37
+>  + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'struct cpuinfo_um' has no member named 'x86_vendor':  => 149:22
+>  + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: control reaches end of non-void function [-Werror=return-type]:  => 150:1
+>  + /kisskb/src/drivers/infiniband/sw/rdmavt/qp.c: error: 'struct cpuinfo_um' has no member named 'x86_cache_size':  => 88:22
+>  + /kisskb/src/drivers/infiniband/sw/rdmavt/qp.c: error: control reaches end of non-void function [-Werror=return-type]:  => 89:1
+>  + /kisskb/src/drivers/infiniband/sw/rdmavt/qp.c: error: implicit declaration of function '__copy_user_nocache' [-Werror=implicit-function-declaration]:  => 100:2
+
+um-x86_64/um-all{mod,yes}config
+
+>  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: error: array subscript is above array bounds [-Werror=array-bounds]:  => 531:55
+
+arm64-gcc5/arm64-allmodconfig
+mipsel-gcc5/mips-allmodconfig
+powerpc-gcc5/powerpc-all{mod,yes}config
+powerpc-gcc5/ppc32_allmodconfig
+powerpc-gcc5/ppc64_book3e_allmodconfig
+powerpc-gcc5/ppc64le_allmodconfig
+sparc64-gcc5/sparc64-allmodconfig
+
+>  + error: modpost: "ebus_dma_enable" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+>  + error: modpost: "ebus_dma_irq_enable" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+>  + error: modpost: "ebus_dma_prepare" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+>  + error: modpost: "ebus_dma_register" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+>  + error: modpost: "ebus_dma_request" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+>  + error: modpost: "ebus_dma_residue" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+>  + error: modpost: "ebus_dma_unregister" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+>  + error: modpost: "ns87303_lock" [drivers/parport/parport_pc.ko] undefined!:  => N/A
+
+sparc64-gcc5/sparc-allmodconfig
+
+>  + error: modpost: "riscv_cbom_block_size" [arch/riscv/kvm/kvm.ko] undefined!:  => N/A
+
+riscv-gcc11/riscv-defconfig
+riscv-gcc11/rv32_defconfig
+
+>  + {standard input}: Error: branch to a symbol in another ISA mode: 1339 => 2616, 2621
+
+mips-gcc11/micro32r2_defconfig
+mips-gcc11/micro32r2el_defconfig
+
+>  + {standard input}: Error: displacement to undefined symbol .L377 overflows 12-bit field:  => 2286
+>  + {standard input}: Error: displacement to undefined symbol .L378 overflows 8-bit field :  => 2302
+>  + {standard input}: Error: displacement to undefined symbol .L382 overflows 8-bit field :  => 2213
+>  + {standard input}: Error: pcrel too far:  => 2247, 2261, 2232, 2231, 2262, 2216, 2204, 2248, 2274, 2293, 2217, 2206, 2221, 2229, 2209, 2249, 2259, 2215
+>  + {standard input}: Error: unknown pseudo-op: `.l':  => 2305
+
+sh4-gcc11/sh-all{mod,yes}config (ICE in drivers/net/pcs/pcs-xpcs.o)
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
