@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EA1603266
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 20:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DF160326C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 20:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEEC010EFD9;
-	Tue, 18 Oct 2022 18:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17FE110EFD7;
+	Tue, 18 Oct 2022 18:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
- [IPv6:2607:f8b0:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA4510EFD7
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 18:26:27 +0000 (UTC)
-Received: by mail-il1-x12c.google.com with SMTP id h18so7915797ilh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 11:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RTmzq7eoqYW6NBc3Vsko4U0xjZphvkiO+FIl89OP+4g=;
- b=KAEU2iVH6lvM1Vadrgtxn8/Ndza1LhSV1UA/xU5Cb4JE6wwmI7gzeJFoYih/YCwK5S
- 786yGxRpOOesWqPk0wkYuMgol6ThR+tJLe+h4KqiG0Q91wemNG0ssmKeUN+Df26cnL9d
- rrlQcBy4e7Yl0rwWEeLx54JAAS8j92neXQVB4=
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A20A10EFDC
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 18:27:20 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id 8so9239053qka.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 11:27:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5KDGYKucLfiMgHID9r3bn/04iPGOCosjXcb6ueV7Xpw=;
+ b=GmIiIZiTf8Ow+31uIoZB6zGc8her8/I4yCWQR96ktu3UWsUKy9IwqqS2tEnQET4Mx/
+ Bsaob+n9GcUH0AR+8eD8pjh9eYHzcRLkSuRZacHXyno4lf0JT+pjb6lNVTY85oI0OirY
+ MBkFlAVKcIhANbaKuZwFuCcvlN3ruHvY82nXzKgAxw/YIqFGgKDXvSeOvdKld+t+XZzi
+ 6v0eKBTHoaPxREoHGPiX584sczISS4NOdO34uL2JX2KExE+uUPCxKdhzLzE102Ya7EmU
+ e2VLg4+wRHCG4VyDaMh6F+GZx4eDRFKfSmBHuruAMsDSOXnyNWowNys1+dUto47Pq7Az
+ vyxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RTmzq7eoqYW6NBc3Vsko4U0xjZphvkiO+FIl89OP+4g=;
- b=gp6oYLDrw1T3XsJi/BrcN8tYIP2f/P0E5XQI1gyGothTEBrV+7mEzSRO255gUsxmnJ
- t8rq4UJwx6MijqzZOOOFIwxrBI7KQECT4FzKN/euPjcpecl+Y7135N88U1RwkZimlGJB
- wa46ZeGdMIUzubmPhDcAPH43hBcvVUPUM3R6ZVdrTRxdkD0poDtU60D4BlYhl50Qje2X
- 3XpFlfnHDRvGsurG4uEGF4rFUGvba2h/v8t3UrmmR9smjh6eQr3iRpz6zV2qji7SCWrx
- OnFLEx2F55RhoM59wHQ6Kb+kUwbArBnmSsrQq0Wqt6ORvYQvMdz6mi2LTYbKJUIXAfFb
- /oXQ==
-X-Gm-Message-State: ACrzQf2Yx7wbG4di9AGjUhPJFRb6r9D9in3fX65cdUdEppwyn/Iqmhfi
- RoCRQTWcF01IPOxkZf7iXsjArGxAwKuYpA==
-X-Google-Smtp-Source: AMsMyM7zda4t/dqkG6Gf/kPf4y/g1xvD+VSM8RYORdCwJwKznuUJb3TECqLo0tcVH+I5GpXNxVOsQA==
-X-Received: by 2002:a05:6e02:156a:b0:2fc:4266:f56 with SMTP id
- k10-20020a056e02156a00b002fc42660f56mr2654017ilu.140.1666117585457; 
- Tue, 18 Oct 2022 11:26:25 -0700 (PDT)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
- [209.85.166.45]) by smtp.gmail.com with ESMTPSA id
- t9-20020a92c0c9000000b002f9b3aab4b9sm1182424ilf.83.2022.10.18.11.26.21
- for <dri-devel@lists.freedesktop.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5KDGYKucLfiMgHID9r3bn/04iPGOCosjXcb6ueV7Xpw=;
+ b=eoCUvkXKU1dlzEEOecEhp+IuVVYVVoCIu1t4L7f4/cdW+Nh45hU2InIY/0hXl30CnY
+ UGOJ0k3iWdu7qdYp4Hpv4Nn6BbpAkDX+DSHG2ruUNsE297aLnaxU2DWg35VCNvQ1dtO5
+ MuzpWFytBeZ4J+7EC9jK1MFGX6jUb+Y/KcrNevMn8PeGdUKYkoh4z2aFAn0NDHzAV+/r
+ 9ngVk+dddf3WtAGn14SZ/lUfJEiG5GWXRJhzC2qsZehzQkqaMXFnatzQGlue1tttIYrd
+ IQFvCptUgBOQJ2s3C+QSm9FrCtRYt7XdAMTICwGNvf2SBnaaSUWrZL4FfCoP1GEQ7RA6
+ N1Ag==
+X-Gm-Message-State: ACrzQf2MGbYzQg2LB6L3iDlDTGE3frywXs63hVOuB/NCc2fTtPfddhgG
+ vwA7NqV9M1StBCVldPC8XcONqA==
+X-Google-Smtp-Source: AMsMyM64KB+tM8SKsGF/O5RMvYWwj38h0gZY0qEDibEpmHsA7e/OJVZBq4mqzrRsiH4miUBf7F2hGw==
+X-Received: by 2002:a05:620a:22cc:b0:6ee:3e43:ac40 with SMTP id
+ o12-20020a05620a22cc00b006ee3e43ac40mr2874489qki.454.1666117639454; 
+ Tue, 18 Oct 2022 11:27:19 -0700 (PDT)
+Received: from [192.168.10.124] (pool-72-83-177-149.washdc.east.verizon.net.
+ [72.83.177.149]) by smtp.gmail.com with ESMTPSA id
+ i15-20020a05620a404f00b006ee91ab3538sm3194991qko.36.2022.10.18.11.27.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 11:26:21 -0700 (PDT)
-Received: by mail-io1-f45.google.com with SMTP id y80so12481209iof.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 11:26:21 -0700 (PDT)
-X-Received: by 2002:a05:6602:125d:b0:6bc:61ec:29c0 with SMTP id
- o29-20020a056602125d00b006bc61ec29c0mr2464726iou.81.1666117580728; Tue, 18
- Oct 2022 11:26:20 -0700 (PDT)
+ Tue, 18 Oct 2022 11:27:18 -0700 (PDT)
+Message-ID: <94c1acb4-f914-8b69-eebb-cf5e812ca453@linaro.org>
+Date: Tue, 18 Oct 2022 14:27:16 -0400
 MIME-Version: 1.0
-References: <20221012042030.573466-1-hsinyi@chromium.org>
- <CAJMQK-i1GFP_5NsH7MLYS17xacrYZf1u6bjVYBkW-qHMbuh2_w@mail.gmail.com>
-In-Reply-To: <CAJMQK-i1GFP_5NsH7MLYS17xacrYZf1u6bjVYBkW-qHMbuh2_w@mail.gmail.com>
-From: Sean Paul <seanpaul@chromium.org>
-Date: Tue, 18 Oct 2022 14:25:41 -0400
-X-Gmail-Original-Message-ID: <CAOw6vbLPUkwoaSHyWARZnkcsacf9rsmB6M=97z1-98kgM7BNEQ@mail.gmail.com>
-Message-ID: <CAOw6vbLPUkwoaSHyWARZnkcsacf9rsmB6M=97z1-98kgM7BNEQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm_bridge: register content protect property
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 1/2] dt-bindings: add binding for tft displays based on
+ ilitek,ili9488
+Content-Language: en-US
+To: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+References: <20221018164532.1705215-1-tommaso.merciai@amarulasolutions.com>
+ <20221018164532.1705215-2-tommaso.merciai@amarulasolutions.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221018164532.1705215-2-tommaso.merciai@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,84 +76,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, michael@amarulasolutions.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linuxfancy@googlegroups.com,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ kamlesh.gurudasani@gmail.com, linux-amarula@amarulasolutions.com,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 17, 2022 at 9:49 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> On Wed, Oct 12, 2022 at 12:20 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> >
-> > Some bridges are able to update HDCP status from userspace request if
-> > they support HDCP.
-> >
-> > HDCP property is the same as other connector properties that need to be
-> > created after the connecter is initialized and before the connector is
-> > registered.
-> >
-> anx7625 is a user for this.
+On 18/10/2022 12:45, Tommaso Merciai wrote:
+> This binding is for the tft displays based on ilitek,ili9488.
+> waveshare,waveshare,pico-rt-lcd-35 (waveshare pico-restouch-lcd-3.5)
+> 
+> Signed-off-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> ---
+>  .../bindings/display/ilitek,ili9488.yaml      | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9488.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ilitek,ili9488.yaml b/Documentation/devicetree/bindings/display/ilitek,ili9488.yaml
+> new file mode 100644
+> index 0000000000000..879ecc42c350c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/ilitek,ili9488.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/ilitek,ili9488.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Ilitek ILI9488 display panels device tree bindings
 
-I feel like we should not unconditionally attach this property for
-bridges, this should be done in the driver which supports it IMO.
+Drop "device tree bindings"
 
-Sean
+> +
+> +maintainers:
+> +  - Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+> +  - Michael Trimarchi <michael@amarulasolutions.com>
+> +  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> +
+> +description:
+> +  This binding is for display panels using an Ilitek ILI9488 controller in SPI
 
->
->
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > ---
-> > v2: Fix compile error when config is not set.
-> > ---
-> >  drivers/gpu/drm/drm_bridge_connector.c | 3 +++
-> >  include/drm/display/drm_hdcp_helper.h  | 8 ++++++++
-> >  2 files changed, 11 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-> > index 1c7d936523df5..a3b9ef8dc3f0b 100644
-> > --- a/drivers/gpu/drm/drm_bridge_connector.c
-> > +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> > @@ -7,6 +7,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/slab.h>
-> >
-> > +#include <drm/display/drm_hdcp_helper.h>
-> >  #include <drm/drm_atomic_state_helper.h>
-> >  #include <drm/drm_bridge.h>
-> >  #include <drm/drm_bridge_connector.h>
-> > @@ -398,6 +399,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >         if (panel_bridge)
-> >                 drm_panel_bridge_set_orientation(connector, panel_bridge);
-> >
-> > +       drm_connector_attach_content_protection_property(connector, true);
-> > +
-> >         return connector;
-> >  }
-> >  EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
-> > diff --git a/include/drm/display/drm_hdcp_helper.h b/include/drm/display/drm_hdcp_helper.h
-> > index 8aaf87bf27351..c65d9f06a2532 100644
-> > --- a/include/drm/display/drm_hdcp_helper.h
-> > +++ b/include/drm/display/drm_hdcp_helper.h
-> > @@ -15,8 +15,16 @@ struct drm_device;
-> >  struct drm_connector;
-> >
-> >  int drm_hdcp_check_ksvs_revoked(struct drm_device *dev, u8 *ksvs, u32 ksv_count);
-> > +#if defined(CONFIG_DRM_DISPLAY_HDCP_HELPER)
-> >  int drm_connector_attach_content_protection_property(struct drm_connector *connector,
-> >                                                      bool hdcp_content_type);
-> > +#else
-> > +static inline int drm_connector_attach_content_protection_property(struct drm_connector *connector,
-> > +                                                                  bool hdcp_content_type)
-> > +{
-> > +       return 0;
-> > +}
-> > +#endif
-> >  void drm_hdcp_update_content_protection(struct drm_connector *connector, u64 val);
-> >
-> >  #endif
-> > --
-> > 2.38.0.rc1.362.ged0d419d3c-goog
-> >
+Drop "This binding is for" and instead describe hardware.
+
+> +  mode.
+> +
+> +allOf:
+> +  - $ref: panel/panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          # Waveshare 3.5" 320x480 Color TFT LCD
+> +          - "waveshare,pico-rt-lcd-35"
+> +      - const: ilitek,ili9488
+> +
+> +  spi-max-frequency:
+> +    maximum: 20000000
+> +
+> +  dc-gpios:
+> +    maxItems: 1
+> +    description: Display data/command selection (D/CX)
+> +
+> +  backlight: true
+> +  reg: true
+> +  reset-gpios: true
+> +  rotation: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - dc-gpios
+> +  - reset-gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    backlight: backlight {
+> +            compatible = "gpio-backlight";
+> +            gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
+
+Drop it, no need for this example.
+
+
+> +    };
+> +    spi {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+
+Use 4 spaces for example indentation.
+
+> +
+> +
+
+No need for two blank lines.
+
+> +            display@0{
+> +                    compatible = "waveshare,pico-rt-lcd-35", "ilitek,ili9488";
+> +                    reg = <0>;
+> +                    spi-max-frequency = <20000000>;
+> +                    dc-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+> +                    reset-gpios = <&gpio0 25 GPIO_ACTIVE_HIGH>;
+> +                    backlight = <&backlight>;
+> +            };
+> +    };
+> +
+> +...
+
+Best regards,
+Krzysztof
+
