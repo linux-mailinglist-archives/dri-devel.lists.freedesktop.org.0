@@ -2,32 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E7E60264D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 10:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA28A602670
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 10:07:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F36E110EEE1;
-	Tue, 18 Oct 2022 08:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B92110EEDA;
+	Tue, 18 Oct 2022 08:07:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-42.freemail.mail.aliyun.com
- (out30-42.freemail.mail.aliyun.com [115.124.30.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F6310ECE9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 08:00:41 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0VSTywLl_1666080030; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VSTywLl_1666080030) by smtp.aliyun-inc.com;
- Tue, 18 Oct 2022 16:00:37 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: anitha.chrisanthus@intel.com
-Subject: [PATCH] drm/kmb: Remove some unused functions
-Date: Tue, 18 Oct 2022 15:59:44 +0800
-Message-Id: <20221018075944.108207-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C47FB10EEDA;
+ Tue, 18 Oct 2022 08:07:10 +0000 (UTC)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Ms5tm2Tp7z1P71D;
+ Tue, 18 Oct 2022 16:02:24 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 18 Oct 2022 16:06:36 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 18 Oct
+ 2022 16:06:35 +0800
+From: Yang Yingliang <yangyingliang@huawei.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/amdgpu/discovery: fix possible memory leak
+Date: Tue, 18 Oct 2022 16:05:57 +0800
+Message-ID: <20221018080557.765786-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,65 +48,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>, edmund.j.dea@intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, luben.tuikov@amd.com, yangyingliang@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Functions set_test_mode_src_osc_freq_target_low_bits() and
-set_test_mode_src_osc_freq_target_hi_bits() are defined in the kmb_dsi.c
-file, but not called elsewhere, so remove these unused functions.
+If kset_register() fails, the refcount of device is not 0, the name allocated
+in dev_set_name() is leaked. Fix this by calling kset_put(), so that it will
+be freed in callback function kobject_cleanup().
 
-drivers/gpu/drm/kmb/kmb_dsi.c:822:2: warning: unused function 'set_test_mode_src_osc_freq_target_low_bits'.
-drivers/gpu/drm/kmb/kmb_dsi.c:834:2: warning: unused function 'set_test_mode_src_osc_freq_target_hi_bits'.
-
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2426
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Fixes: a6c40b178092 ("drm/amdgpu: Show IP discovery in sysfs")
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/gpu/drm/kmb/kmb_dsi.c | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index cf7cf0b07541..ed99b14375aa 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -818,34 +818,6 @@ static void test_mode_send(struct kmb_dsi *kmb_dsi, u32 dphy_no,
- 	}
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+index 3993e6134914..638edcf70227 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+@@ -863,7 +863,7 @@ static int amdgpu_discovery_sysfs_ips(struct amdgpu_device *adev,
+ 				res = kset_register(&ip_hw_id->hw_id_kset);
+ 				if (res) {
+ 					DRM_ERROR("Couldn't register ip_hw_id kset");
+-					kfree(ip_hw_id);
++					kset_put(&ip_hw_id->hw_id_kset);
+ 					return res;
+ 				}
+ 				if (hw_id_names[ii]) {
+@@ -954,7 +954,7 @@ static int amdgpu_discovery_sysfs_recurse(struct amdgpu_device *adev)
+ 		res = kset_register(&ip_die_entry->ip_kset);
+ 		if (res) {
+ 			DRM_ERROR("Couldn't register ip_die_entry kset");
+-			kfree(ip_die_entry);
++			kset_put(&ip_die_entry->ip_kset);
+ 			return res;
+ 		}
  
--static inline void
--	set_test_mode_src_osc_freq_target_low_bits(struct kmb_dsi *kmb_dsi,
--						   u32 dphy_no,
--						   u32 freq)
--{
--	/* Typical rise/fall time=166, refer Table 1207 databook,
--	 * sr_osc_freq_target[7:0]
--	 */
--	test_mode_send(kmb_dsi, dphy_no, TEST_CODE_SLEW_RATE_DDL_CYCLES,
--		       (freq & 0x7f));
--}
--
--static inline void
--	set_test_mode_src_osc_freq_target_hi_bits(struct kmb_dsi *kmb_dsi,
--						  u32 dphy_no,
--						  u32 freq)
--{
--	u32 data;
--
--	/* Flag this as high nibble */
--	data = ((freq >> 6) & 0x1f) | (1 << 7);
--
--	/* Typical rise/fall time=166, refer Table 1207 databook,
--	 * sr_osc_freq_target[11:7]
--	 */
--	test_mode_send(kmb_dsi, dphy_no, TEST_CODE_SLEW_RATE_DDL_CYCLES, data);
--}
--
- static void mipi_tx_get_vco_params(struct vco_params *vco)
- {
- 	int i;
+@@ -989,6 +989,7 @@ static int amdgpu_discovery_sysfs_init(struct amdgpu_device *adev)
+ 	res = kset_register(&adev->ip_top->die_kset);
+ 	if (res) {
+ 		DRM_ERROR("Couldn't register die_kset");
++		kset_put(&adev->ip_top->die_kset);
+ 		goto Err;
+ 	}
+ 
 -- 
-2.20.1.7.g153144c
+2.25.1
 
