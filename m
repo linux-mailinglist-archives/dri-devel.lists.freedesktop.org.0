@@ -1,51 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B82602BC0
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 14:29:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6451F602BC8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 14:30:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 161B910EF35;
-	Tue, 18 Oct 2022 12:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B855810EF32;
+	Tue, 18 Oct 2022 12:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2064C10EF32;
- Tue, 18 Oct 2022 12:29:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/VMmtMu4pQhq3eb3CmoCzX4wgnyZcOj95TFTQ8SYeac=; b=MhYLd2PQ4CLURN4fZx7LJYFGlc
- f18Cit2mCb9dZGn9UkBRC9+Bpla51HhjDEFdmmsNcWBdcx4T35meDGoP7CUSvF6Sm7KtX83nXemCn
- YwYtxOULoeeyEizMFkBf/5rhLSKDbUDMK7IA7wvIVA0aG7n22ta2bUN0KBfJTBV0TgglUrVfBitA2
- Gf2sK5RaxJeCX3jdyh4SJVCK4Dpb+O+TBijpKiF/prYMnUgGAAfsKfgwniZdEzwxQKmyzq0LlVTK7
- U55+ylYLtbACenlyou3/I9wCoNsJN0EelI5asWYVDExI7TrrWU2+5ay53rXTuwdsbiimGX9p48MZ/
- 3aomOqhw==;
-Received: from [2a01:799:95a:cb00:cc2f:df30:b81e:38c0] (port=62480)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1okliU-00015y-Is; Tue, 18 Oct 2022 14:29:06 +0200
-Message-ID: <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
-Date: Tue, 18 Oct 2022 14:29:00 +0200
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA53E10EF36;
+ Tue, 18 Oct 2022 12:30:24 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id bb5so9471224qtb.11;
+ Tue, 18 Oct 2022 05:30:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LA5Rw3StwiOqL+QwzJgo3njgEZhTbHuX12wcOa2B5Os=;
+ b=vSP6iNVYSYd2aVZ/ob0iR+eul0CC8Px4iQ/gaQOZ0bhycA2tgOyl/M1givlLaRlehO
+ Zk4qFg6xHY2CYORcRN0qIS2bS4w2JJllTTOJD1upvSZB/foodMOfFkuoz07iguH5aKyx
+ IhGPez0Xt9J+GErnFFjFAkrBAl738iPaA2ATybBSqZrczGfbSIHVcEnnsLcSaAl8iMXi
+ bjFkfNTln3+comy3GFnM9ITY2r7pVJf5NPgaGq29Oxtt5evLPKE7E/mQrMq//BJ7pzCw
+ 0AAZC7MMyzDpWSfk3Vn3+oG/vq3elRHH3ZnlxrZvIvYG5GgDXHvTYvEQJmYB0TJB4++v
+ dl3A==
+X-Gm-Message-State: ACrzQf1/UUThqceq/8cbDNIBZo2JR5kgK3HAcCh0dEf3L+82F36Wk7uA
+ 4n23cOKwFUsbxJ5eh/kBupW48bI0CaHqEA==
+X-Google-Smtp-Source: AMsMyM7Wd3Xr9m5hQ04W69XBa+VegRFwIYXJyAeowqZxtIg/g6zXxDbp3bkTVP633XWMUq+n33L2zw==
+X-Received: by 2002:ac8:7fcc:0:b0:39c:f1b4:b3c4 with SMTP id
+ b12-20020ac87fcc000000b0039cf1b4b3c4mr1802692qtk.551.1666096223526; 
+ Tue, 18 Oct 2022 05:30:23 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
+ [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
+ h22-20020a05620a245600b006b953a7929csm2338453qkn.73.2022.10.18.05.30.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Oct 2022 05:30:23 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-35ceeae764dso135625857b3.4; 
+ Tue, 18 Oct 2022 05:30:22 -0700 (PDT)
+X-Received: by 2002:a81:98d:0:b0:357:2422:13b4 with SMTP id
+ 135-20020a81098d000000b00357242213b4mr2107285ywj.316.1666096222450; Tue, 18
+ Oct 2022 05:30:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
- mode by its name
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
- <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
- <20221018093353.pt4vset6o2ldxrbs@houat>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221018093353.pt4vset6o2ldxrbs@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221017145157.1866351-1-geert@linux-m68k.org>
+ <alpine.DEB.2.22.394.2210171653540.9136@ramsan.of.borg>
+ <alpine.DEB.2.21.2210181126040.50489@angie.orcam.me.uk>
+In-Reply-To: <alpine.DEB.2.21.2210181126040.50489@angie.orcam.me.uk>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 18 Oct 2022 14:30:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVbo0wMaVVhe4f4tC9-TW2+DsOVAB77TtLdnsG=us8Q2A@mail.gmail.com>
+Message-ID: <CAMuHMdVbo0wMaVVhe4f4tC9-TW2+DsOVAB77TtLdnsG=us8Q2A@mail.gmail.com>
+Subject: Re: Build regressions/improvements in v6.1-rc1
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,73 +68,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: D Scott Phillips <scott@os.amperecomputing.com>, linux-rdma@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, kvm-riscv@lists.infradead.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Andrew Jones <ajones@ventanamicro.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maciej,
 
+On Tue, Oct 18, 2022 at 12:39 PM Maciej W. Rozycki <macro@orcam.me.uk> wrote:
+> On Mon, 17 Oct 2022, Geert Uytterhoeven wrote:
+> > .> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/9abf2313adc1ca1b6180c508c25f22f9395cc780/ (all 149 configs)
 
-Den 18.10.2022 11.33, skrev Maxime Ripard:
-> On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Trønnes wrote:
->> Den 13.10.2022 15.18, skrev Maxime Ripard:
->>> As part of the command line parsing rework coming in the next patches,
->>> we'll need to lookup drm_connector_tv_mode values by their name, already
->>> defined in drm_tv_mode_enum_list.
->>>
->>> In order to avoid any code duplication, let's do a function that will
->>> perform a lookup of a TV mode name and return its value.
->>>
->>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>> ---
->>>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
->>>  include/drm/drm_connector.h     |  2 ++
->>>  2 files changed, 26 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->>> index 820f4c730b38..30611c616435 100644
->>> --- a/drivers/gpu/drm/drm_connector.c
->>> +++ b/drivers/gpu/drm/drm_connector.c
->>> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
->>>  };
->>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
->>>  
->>> +/**
->>> + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
->>> + * @name: TV Mode name we want to convert
->>> + * @len: Length of @name
->>> + *
->>> + * Translates @name into an enum drm_connector_tv_mode.
->>> + *
->>> + * Returns: the enum value on success, a negative errno otherwise.
->>> + */
->>> +int drm_get_tv_mode_from_name(const char *name, size_t len)
->>
->> Do we really need to pass in length here? item->name has to always be
->> NUL terminated otherwise things would break elsewhere, so it shouldn't
->> be necessary AFAICS.
-> 
-> The only user so far is the command-line parsing code, and we might very
-> well have an option after the tv_mode, something like
-> 720x480i,tv_mode=NTSC,rotate=180
-> 
-> In this case, we won't get a NULL-terminated name.
-> 
+> > >  + {standard input}: Error: branch to a symbol in another ISA mode: 1339 =>
+> > > 2616, 2621
+> >
+> > mips-gcc11/micro32r2_defconfig
+> > mips-gcc11/micro32r2el_defconfig
+>
+>  Where can these configs be obtained from?
 
-My point is that item->name will always be NUL terminated so strcmp()
-will never look past that.
+By following the links in the URL above you removed while replying? ;-)
 
-Noralf.
+http://kisskb.ellerman.id.au/kisskb/buildresult/14818296/
+http://kisskb.ellerman.id.au/kisskb/buildresult/14818298/
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
