@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C85B60280E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 11:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8A460280F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 11:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 515C210EF04;
-	Tue, 18 Oct 2022 09:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A659910EF02;
+	Tue, 18 Oct 2022 09:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC7DE10EF00
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 09:13:58 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id ot12so30728308ejb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 02:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3Idjyf+fiBtwH7k36sAjmH9HqP1/Ck02WOzId2Gki5U=;
- b=dmDv93UCxu/zTzmKbg6KJGK8I8wyJrLiGWjJfzouWhLf2y5TaD1I4tIIU8Wv0GFBUS
- d2WEkONnQbZ8MfnKqfCcL4bFcHp0xOfUjD2Yy/PhoUjVhlsAgVzPrjRVOqvsi2qHDbL5
- 0Q68L5iq2FHlyuqkfM/6wBtEsgsCw8uLcYU9CFS0Wnp/KcP/LDr75eY5yqsnghtbyJAe
- oEo1h9r79cyhqJdL7XcuI5NbknMsEpw/htETShHYFZ71DywA80yflY6W8MYwhzIuPgH+
- QiSXBr+DGZ7OlUpInuOpkV/r2UGc/A9Yx5kUA9y/a3xz28e6KHk4q5oPKL6oBM86Q+gH
- XubQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3Idjyf+fiBtwH7k36sAjmH9HqP1/Ck02WOzId2Gki5U=;
- b=Z/Aln27JKKcmA33OFxeyEFggadQU+Nt34R9hsSCKKCjvYVA/G2pQt+EiNgCz86aARz
- 8dlga2p+iZMiLWqTDrl9LTAPsyfPxajzBmtdpLBnEL7DCq6E22YMEtWV0JF5Dhz7iNkq
- B7y75Vycd0a7UvO7Ji6ClLuMHe4cvYL0OKbrI6NYIETY+NRkCVX/76f+4164R0DGEnOH
- 1xcQ4Q7tupYaE40ig1t3JO1fOgLhuyWhmw364ECOjFFslfHh4nNNTNRzL2gDu7d2ogZ8
- H+WeIhwLhMJmiNOcRH9dyIcaiL8NYA0TGCrk98zuEhWqbNvUgAMBDufWQAx+NtV+abeN
- b7ng==
-X-Gm-Message-State: ACrzQf39fJQ+fBRPNVExD9pJSR2myDXONFljU0w4uzjbTzTupv10h8uZ
- 5spcq8WP5dPcq3Am5IhzA9hh7Nvvza/vJ63t7Kffsg==
-X-Google-Smtp-Source: AMsMyM6cMJ+m/fAi4hyXn/T9OQXrxe/WfQZ2jVs3r9AR8zihQXLDktuOPfOQQJ14bNuv8EbTZEOUgCMaNEUfHMKeFOM=
-X-Received: by 2002:a17:907:a06b:b0:78d:d25f:b726 with SMTP id
- ia11-20020a170907a06b00b0078dd25fb726mr1573710ejc.203.1666084437317; Tue, 18
- Oct 2022 02:13:57 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3A8C10EF0A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 09:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666084453; x=1697620453;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=nPF03j1UyZvJZGjSetdfkcO4uPrZOd7XtoSXRFpdfqI=;
+ b=mYLJk8xfNdRDhHbET5Tx7dTaikSyOhJSezK+8Fgv/T7FCtvIkUChG5Np
+ ooV2/4TgGaHRSR19ZG/0isEchtDd7dfndSZR1aCV39gRXWDVy/+DWnOEk
+ WtcBGVkX9bO9A7/UofcJqkYXIomdt+hilzuyMqjME12gJ3WOWJ7qKOl5n
+ zTwl0Kk7jnK3ZZOgs+eKROapl2dMurpYIHp0jJ2RurzWhMxTiMv4pkSaK
+ MsNBX82Tp0hgkzO3EXR0O1ii/6aBLv+klslN3lxv+q9LCDC4CKLYW9ElR
+ PUmGWzku5ZN6N/dspHTajLYke1czUGFkZU/MJRSEUB5bJktq8bJ0aIafA g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="392353041"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="392353041"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2022 02:14:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="771116292"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="771116292"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by fmsmga001.fm.intel.com with SMTP; 18 Oct 2022 02:14:10 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 18 Oct 2022 12:14:09 +0300
+Date: Tue, 18 Oct 2022 12:14:09 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 1/2] Revert "drm: hide unregistered connectors from
+ GETCONNECTOR IOCTL"
+Message-ID: <Y05uYUPoYB25JVpX@intel.com>
+References: <20221017153150.60675-1-contact@emersion.fr>
 MIME-Version: 1.0
-References: <20221012221159.88397-1-marex@denx.de>
- <CACRpkdZd_fNYv2sFRJX7nacz1dAp-dAxEzDfTMRKAy4nB6Jbvw@mail.gmail.com>
- <30a171e3-1b82-34a5-e018-349349e246c6@denx.de>
-In-Reply-To: <30a171e3-1b82-34a5-e018-349349e246c6@denx.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 18 Oct 2022 11:13:45 +0200
-Message-ID: <CACRpkdZhe4ie+X+i20q1NmvXCv3XM=4pcnU=W-93n2ik+ZcdMA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel/panel-sitronix-st7701: Fix RTNI calculation
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221017153150.60675-1-contact@emersion.fr>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,47 +61,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 18, 2022 at 11:03 AM Marek Vasut <marex@denx.de> wrote:
-> On 10/18/22 10:53, Linus Walleij wrote:
-> > On Thu, Oct 13, 2022 at 12:12 AM Marek Vasut <marex@denx.de> wrote:
-> >
-> >> The RTNI field is multiplied by 16 and incremented by 512 before being
-> >> used as the minimum number of pixel clock per horizontal line, hence
-> >> it is necessary to subtract those 512 bytes from htotal and then divid=
-e
-> >> the result by 16 before writing the value into the RTNI field. Fix the
-> >> calculation.
-> >>
-> >> Fixes: de2b4917843c ("drm/panel/panel-sitronix-st7701: Infer horizonta=
-l pixel count from TFT mode")
-> >> Signed-off-by: Marek Vasut <marex@denx.de>
-> >> ---
-> >> Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
-> >> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> >> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Cc: Linus Walleij <linus.walleij@linaro.org>
-> >> Cc: Sam Ravnborg <sam@ravnborg.org>
-> >> Cc: Thierry Reding <thierry.reding@gmail.com>
-> >> ---
-> >> V2: Clamp the htotal to range 512...1008, so RTNI always fits the bitf=
-ield
-> >
-> > I tried to apply this to drm-misc-fixes but the branch has not yet
-> > been moved forward to v6.1-rc1.
->
-> Can I maybe get RB until then ?
+On Mon, Oct 17, 2022 at 03:31:57PM +0000, Simon Ser wrote:
+> This reverts commit 981f09295687f856d5345e19c7084aca481c1395.
+> 
+> It turns out this breaks Mutter.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+A bit more detail would be a good to help future archaeologists.
 
-I've been told to go and poke the DRM git people at IRC to rebase
-the fixes branch.
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Jonas Ådahl <jadahl@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_mode_config.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index 939d621c9ad4..688c8afe0bf1 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -151,9 +151,6 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
+>  	count = 0;
+>  	connector_id = u64_to_user_ptr(card_res->connector_id_ptr);
+>  	drm_for_each_connector_iter(connector, &conn_iter) {
+> -		if (connector->registration_state != DRM_CONNECTOR_REGISTERED)
+> -			continue;
+> -
+>  		/* only expose writeback connectors if userspace understands them */
+>  		if (!file_priv->writeback_connectors &&
+>  		    (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK))
+> -- 
+> 2.38.0
+> 
 
-Yours,
-Linus Walleij
+-- 
+Ville Syrjälä
+Intel
