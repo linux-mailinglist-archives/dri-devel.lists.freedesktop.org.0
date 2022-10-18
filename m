@@ -2,83 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA90602637
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8DF602642
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A211E10E547;
-	Tue, 18 Oct 2022 07:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6B7010EECE;
+	Tue, 18 Oct 2022 07:57:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11F0D10E547
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 07:54:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666079644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2F+GJ1yS9I/3gQmwXrWo3ysZ03ASLb2Zkeo7BUrp7yI=;
- b=bVROH39l5JhV2GYE38FUOEi+oZdJAFWdxI+6x9K12VbwN+19ENy8uS3g6Sx/ix+nPDj7KT
- HlKzE4D71DYRb7RtHqxTvz2wvOrhCYPgaNI9SaNVxR2p9FFZ9EJT/GNfhyKKPnk4sEmJOi
- 8kX7q6S5wp9umby+5qM+kmdMFRSe7hc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-638-LNRpFR4-M7OZQDsrwTuCww-1; Tue, 18 Oct 2022 03:54:02 -0400
-X-MC-Unique: LNRpFR4-M7OZQDsrwTuCww-1
-Received: by mail-wr1-f70.google.com with SMTP id
- p7-20020adfba87000000b0022cc6f805b1so4337571wrg.21
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 00:54:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2F+GJ1yS9I/3gQmwXrWo3ysZ03ASLb2Zkeo7BUrp7yI=;
- b=xlBfvyUpsHsss23Q91WA2BEJzpPJrcTPDGVIxBqrQPEG3VaU7exAjy/Xu1GD3GJeUD
- VK1wn3lOJs9yK3o/WolTQH/NC86Usc4ZQnwnSqwI2T+EDJG8F48fqpzYrLzVeiXooSGD
- /YaH624yfeu5JeeI/M9KoajpT6w5vcUTjUAWa9bcdtWqgq2u9EF+r4nMayEAEoDTgIdk
- 8oGxxUUjH2u8HmY9diXnp4Ghe1fovhpIK60Vwx9Od6WtAsDuWoef4QUxYZ45i7URt2fa
- b+SBMRIw2zdPyukgB24ub2hh8x3xSYLK7Xl7wic1XGDm55uMPDAZ+mk5TfJql+o5Litj
- I4UQ==
-X-Gm-Message-State: ACrzQf0VHb1TvcbphsBpyz3c+300rjh28XL6H6fmGTfshx401dJ1X//U
- RNF1cToBUX/L5HBOqY8l6BmkCE+I/CsZZBFwW55/ShnSL5HUkjPCiue7PkYWT8ZzhW7wHzjhaXM
- g/bu8W5Da3cE4+1ZF6T/1yitrXJrg
-X-Received: by 2002:a05:6000:1786:b0:22e:41c0:cb0e with SMTP id
- e6-20020a056000178600b0022e41c0cb0emr974670wrg.93.1666079641576; 
- Tue, 18 Oct 2022 00:54:01 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4zbEN1VWW5iyDyFlTL54Vj/S6lme9Dhmd2db+wdC7mCyjq8sDbKAtOPQjqQ/X/o6d2/KTT9g==
-X-Received: by 2002:a05:6000:1786:b0:22e:41c0:cb0e with SMTP id
- e6-20020a056000178600b0022e41c0cb0emr974652wrg.93.1666079641211; 
- Tue, 18 Oct 2022 00:54:01 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c0a0a00b003a2f2bb72d5sm25026573wmp.45.2022.10.18.00.53.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 00:54:00 -0700 (PDT)
-Message-ID: <7f576eb4-f8a6-53e0-17e9-285ecf03418c@redhat.com>
-Date: Tue, 18 Oct 2022 09:53:59 +0200
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C98010EECC;
+ Tue, 18 Oct 2022 07:57:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 5DF992B06870;
+ Tue, 18 Oct 2022 03:57:45 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 18 Oct 2022 03:57:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1666079864; x=1666087064; bh=Lr4o8rmETJ
+ 5sK3ZkYq2gWw8lpC8hs57X7H/NqOJONxM=; b=vKvmy+HSRwwwE00QKORpSvA4Lo
+ m6nq/1xr77nqOg39vFG00W1kaby+7ESVzfOveWTLMqST4HTnbXooc+IMpod42IOx
+ fJGm1AGhRONMZeYRUC8qVcFjrltuSWFUnuGhjO6pk4D0ntIUYw9uBjp0BAxSC5cH
+ j7gEMmUjV9UbEP2TMyPcbOnWjCNafa3T6/ay+St+jZUyEU+tW3z4r9bK5ApRYCPV
+ QJnrQN1luLF7DkKijPPR5+TkCvGldFUPzrT/Dc6GaVBT7HOsrbRUiRo/ro4PYsXD
+ hDtsNGB2GJotlu9Xr1uA6mSZ2koJikNZqtk5tyJhhYAX3t1uAYPjRUKabxxg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1666079864; x=1666087064; bh=Lr4o8rmETJ5sK3ZkYq2gWw8lpC8h
+ s57X7H/NqOJONxM=; b=Rd+9e5DFtINlfMc2YYOI0+MKnMYwDD9655rlznh2dgSm
+ SA/RTKgRXAJmxCQyG0mNyg/ehPPGbUW9PvYKwpqeDuWKUWoIaTLXh5LrXn0SgoYZ
+ nGrre6A31fsxquFB7rgEOMQFal70yeQbUFPx1zrABdUaw49LrYPGQMIHXIHdJMPb
+ PLWO1Hq2Cv278LKTd1EFIGyFuMHWpAwX5ZWc+iS2kmiBgMt3rT+GIoYDhM9fI3IQ
+ USNm+HuOZpZUu9mz7gY8B18uk+KB/PWrMtGuIpIR4hXlLigHF+MR+BXYRGHC2HtT
+ ZCPnv4OZLoSFh1TZ89Y/Pl3jCloaTiIG6MfTfd+OjQ==
+X-ME-Sender: <xms:eFxOY4tYe0N7n4oHBdbnTVOOhVkDCJDseBVReSvbhu05j2V5icTOfw>
+ <xme:eFxOY1exK__txeJ3ucTKAAh3PMZF4YNvd7eUb7kHi2WWoq68m7rCgMVW2UqMRL37C
+ hUb0Qd7Z_qfvsOH6To>
+X-ME-Received: <xmr:eFxOYzwEg8yoSZul-Huszm9lfzk3ZZVvktA7asEbvofMnzHsftMzVNAX5A3A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeltddguddvkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfeg
+ udffffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:eFxOY7Mhyv3PdEfoHEQDxG63PHDCvZ09uKXpAsXyARpEVsdwgVroog>
+ <xmx:eFxOY4_vnjB7joccgkbFlUNnW32Xt0KLsvyB1Xj2t-83rXS-wAhcxQ>
+ <xmx:eFxOYzUWodm9Qv1bDIg0-xDVme1dTkQXB7oWBBEcP7NL8kZszvOcuQ>
+ <xmx:eFxOY2exmKJm-vn-OQTvnUQLosa1VgJBjnpovYIhjfkaRc-W6Behj_5TCgY>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 18 Oct 2022 03:57:43 -0400 (EDT)
+Date: Tue, 18 Oct 2022 09:57:42 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v5 08/22] drm/modes: Move named modes parsing to a
+ separate function
+Message-ID: <20221018075742.7g3sfay3o7wk54kv@houat>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-8-d841cc64fe4b@cerno.tech>
+ <729f849a-0287-a2fb-125f-892b4dd6053f@tronnes.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: not ok 1 - single_pixel_source_buffer: The buggy address belongs
- to the physical page
-To: Naresh Kamboju <naresh.kamboju@linaro.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?=
- <jose.exposito89@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
- Isabella Basso <isabbasso@riseup.net>
-References: <CA+G9fYsuc9G+RO81E=vHMqxYStsmLURLdOB0NF26kJ1=K8pRZA@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CA+G9fYsuc9G+RO81E=vHMqxYStsmLURLdOB0NF26kJ1=K8pRZA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ah23qdqgdrx2vnp2"
+Content-Disposition: inline
+In-Reply-To: <729f849a-0287-a2fb-125f-892b4dd6053f@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,171 +85,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[adding a few folks to Cc list that might help with this issue]
 
-Hello Naresh,
+--ah23qdqgdrx2vnp2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks a lot for your report.
+On Sun, Oct 16, 2022 at 06:11:21PM +0200, Noralf Tr=F8nnes wrote:
+> Den 13.10.2022 15.18, skrev Maxime Ripard:
+> > The current construction of the named mode parsing doesn't allow to ext=
+end
+> > it easily. Let's move it to a separate function so we can add more
+> > parameters and modes.
+> >=20
+> > In order for the tests to still pass, some extra checks are needed, so
+> > it's not a 1:1 move.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+>=20
+> I was hoping that someone else would step up and review these parser
+> patches since the parser code is rather difficult to read, for me at
+> least. I have studied it now, so I'll give it a try.
+>=20
+> > ---
+> > Changes in v4:
+> > - Fold down all the named mode patches that were split into a single
+> >   patch again to maintain bisectability
+> > ---
+> >  drivers/gpu/drm/drm_modes.c | 73 +++++++++++++++++++++++++++++++++++++=
++-------
+> >  1 file changed, 62 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> > index c0dceff51cac..2f020ef2ddf2 100644
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -2229,6 +2229,55 @@ static const char * const drm_named_modes_whitel=
+ist[] =3D {
+> >  	"PAL",
+> >  };
+> > =20
+> > +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> > +					     unsigned int name_end,
+> > +					     struct drm_cmdline_mode *cmdline_mode)
+> > +{
+> > +	unsigned int i;
+> > +
+> > +	if (!name_end)
+> > +		return 0;
+>=20
+> name_end can't be zero since the argument is checked before calling this
+> function.
 
-On 10/18/22 08:40, Naresh Kamboju wrote:
-> Following kunit tests started failing on Linux mainline.
->  - drm_format_helper_test — FAIL
->  - drm_test_fb_xrgb8888_to_xrgb2101010 — FAIL
->  - single_pixel_source_buffer — FAIL
-> 
-> Good: v6.0-3015-g2bca25eaeba6
-> Bad: v6.0-5118-g833477fce7a1
->
+I'd really like to keep it in though. At least, we know by looking at
+this small function that we're going to be safe all the time, no matter
+what the caller does.
 
-Could you please let me know how you are running this? I tried to reproduce it
-on v6.1-rc1 with the following command but all tests passed:
+And if the caller wants to check it as well, fine, it's only a simple
+comparison ran once or twice at boot, it's not like it's in a hot-path.
 
-./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/tests/.kunitconfig --arch=x86_64
-[09:41:53] Configuring KUnit Kernel ...                                                                                
-[09:41:53] Building KUnit Kernel ...                                                                                   
-Populating config with:                                                                                                
-$ make ARCH=x86_64 O=.kunit olddefconfig                                                                               
-Building with:                                                                                                         
-$ make ARCH=x86_64 O=.kunit --jobs=8                                                                                   
-[09:45:51] Starting KUnit Kernel (1/1)...                                                                              
-[09:45:51] ============================================================                                                
-Running tests with:                                                                                                    
-$ qemu-system-x86_64 -nodefaults -m 1024 -kernel .kunit/arch/x86/boot/bzImage -append 'kunit.enable=1 console=ttyS0 kunit_shutdown=reboot' -no-reboot -nographic -serial stdio
-...
-[09:47:40] Testing complete. Ran 195 tests: passed: 195                                                                
-[09:47:40] Elapsed time: 347.817s total, 0.003s configuring, 238.009s building, 109.771s running
- 
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> 
-> [   50.320990]         # Subtest: drm_test_fb_xrgb8888_to_xrgb2101010
-> [   50.322059] ==================================================================
-> [   50.326436] BUG: KASAN: slab-out-of-bounds in
-> drm_test_fb_xrgb8888_to_xrgb2101010+0x2dd/0x520
-> [   50.329249] Read of size 4 at addr ffff888104d7a5cc by task
-> kunit_try_catch/619
-> [   50.331596]
-> [   50.332135] CPU: 1 PID: 619 Comm: kunit_try_catch Tainted: G    B
->          N 6.0.0 #1
-> [   50.333876] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
-> BIOS 1.12.0-1 04/01/2014
-> [   50.335138] Call Trace:
-> [   50.335531]  <TASK>
-> [   50.335879]  dump_stack_lvl+0x49/0x62
-> [   50.336462]  print_report.cold+0x5e/0x5d9
-> [   50.337069]  ? _raw_spin_unlock_irqrestore+0x33/0x60
-> [   50.337820]  ? update_kunit_status+0xee/0x160
-> [   50.338494]  ? drm_test_fb_xrgb8888_to_xrgb2101010+0x2dd/0x520
-> [   50.339354]  kasan_report+0xaa/0x130
-> [   50.339905]  ? drm_fb_xrgb8888_to_xrgb2101010+0xa0/0xd0
-> [   50.340680]  ? drm_test_fb_xrgb8888_to_xrgb2101010+0x2dd/0x520
-> [   50.341576]  __asan_load4+0x80/0xa0
-> [   50.342112]  drm_test_fb_xrgb8888_to_xrgb2101010+0x2dd/0x520
-> [   50.342958]  ? drm_test_fb_xrgb8888_to_gray8+0x470/0x470
-> [   50.343778]  ? update_load_avg+0x80/0xb80
-> [   50.344407]  ? update_cfs_group+0x22/0x160
-> [   50.345036]  ? load_balance+0x14d0/0x14d0
-> [   50.345652]  ? dequeue_entity+0x1f2/0x6a0
-> [   50.346263]  ? rcu_qs+0x1c/0x120
-> [   50.346773]  ? finish_task_switch.isra.0+0xe0/0x410
-> [   50.347532]  ? __kasan_check_write+0x14/0x20
-> [   50.348192]  ? _raw_spin_lock_irqsave+0x9e/0x100
-> [   50.348891]  ? _raw_spin_unlock_irqrestore+0x28/0x60
-> [   50.349625]  ? trace_preempt_on+0x2a/0xf0
-> [   50.350242]  ? __kthread_parkme+0x4f/0xd0
-> [   50.350857]  kunit_try_run_case+0x91/0xd0
-> [   50.351479]  ? kunit_catch_run_case+0x80/0x80
-> [   50.352151]  ? kunit_try_catch_throw+0x40/0x40
-> [   50.352897]  kunit_generic_run_threadfn_adapter+0x2f/0x50
-> [   50.353890]  kthread+0x179/0x1b0
-> [   50.354410]  ? kthread_complete_and_exit+0x30/0x30
-> [   50.355126]  ret_from_fork+0x22/0x30
-> [   50.355708]  </TASK>
-> [   50.356047]
-> [   50.356284] Allocated by task 619:
-> [   50.356817]  kasan_save_stack+0x26/0x50
-> [   50.357410]  __kasan_kmalloc+0xae/0xe0
-> [   50.357980]  __kmalloc+0x1cf/0x390
-> [   50.358501]  kunit_kmalloc_array_init+0x4b/0x80
-> [   50.359189]  __kunit_add_resource+0x67/0x100
-> [   50.359859]  kunit_kmalloc_array+0xf8/0x170
-> [   50.360490]  drm_test_fb_xrgb8888_to_xrgb2101010+0x19f/0x520
-> [   50.361341]  kunit_try_run_case+0x91/0xd0
-> [   50.361948]  kunit_generic_run_threadfn_adapter+0x2f/0x50
-> [   50.362747]  kthread+0x179/0x1b0
-> [   50.363230]  ret_from_fork+0x22/0x30
-> [   50.363779]
-> [   50.364015] The buggy address belongs to the object at ffff888104d7a5c8
-> [   50.364015]  which belongs to the cache kmalloc-8 of size 8
-> [   50.365824] The buggy address is located 4 bytes inside of
-> [   50.365824]  8-byte region [ffff888104d7a5c8, ffff888104d7a5d0)
-> [   50.367485]
-> [   50.367736] The buggy address belongs to the physical page:
-> [   50.368579] page:000000003c09c153 refcount:1 mapcount:0
-> mapping:0000000000000000 index:0x0 pfn:0x104d7a
-> [   50.369991] flags: 0x200000000000200(slab|node=0|zone=2)
-> [   50.370804] raw: 0200000000000200 0000000000000000 dead000000000122
-> ffff888100042280
-> [   50.371933] raw: 0000000000000000 0000000080660066 00000001ffffffff
-> 0000000000000000
-> [   50.373021] page dumped because: kasan: bad access detected
-> [   50.373958]
-> [   50.374202] Memory state around the buggy address:
-> [   50.374935]  ffff888104d7a480: fc fb fc fc fc fc fb fc fc fc fc fb
-> fc fc fc fc
-> [   50.376019]  ffff888104d7a500: fb fc fc fc fc fb fc fc fc fc fb fc
-> fc fc fc fb
-> [   50.377098] >ffff888104d7a580: fc fc fc fc fa fc fc fc fc 04 fc fc
-> fc fc fa fc
-> [   50.378174]                                               ^
-> [   50.379025]  ffff888104d7a600: fc fc fc fa fc fc fc fc fa fc fc fc
-> fc fa fc fc
-> [   50.380123]  ffff888104d7a680: fc fc 00 fc fc fc fc fa fc fc fc fc
-> fa fc fc fc
-> [   50.381191] ==================================================================
-> [   50.382461]         not ok 1 - single_pixel_source_buffer
-> [   50.382909]         ok 2 - single_pixel_clip_rectangle
-> [   50.384319]         ok 3 - well_known_colors
-> [   50.385393]         ok 4 - destination_pitch
-> [   50.386029]     # drm_test_fb_xrgb8888_to_xrgb2101010: pass:3
-> fail:1 skip:0 total:4
-> [   50.386657]     not ok 5 - drm_test_fb_xrgb8888_to_xrgb2101010
-> [   50.387762] # drm_format_helper_test: pass:4 fail:1 skip:0 total:5
-> [   50.388598] # Totals: pass:19 fail:1 skip:0 total:20
-> [   50.389467] not ok 33 - drm_format_helper_test
-> 
-> Test log link,
-> https://lkft.validation.linaro.org/scheduler/job/5633513#L7056
-> https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.0-5118-g833477fce7a1/testrun/12273332/suite/kunit/tests/
-> 
-> Test results comparison:
-> https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.1-rc1/testrun/12468488/suite/kunit/test/drm_format_helper_test/history/?page=2
-> 
-> For your reference:
-> https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.0-3015-g2bca25eaeba6/testrun/12237941/suite/kunit/tests/
-> 
-> metadata:
->   git_ref: master
->   git_repo: https://gitlab.com/Linaro/lkft/mirrors/torvalds/linux-mainline
->   git_sha: 833477fce7a14d43ae4c07f8ddc32fa5119471a2
->   git_describe: v6.0-5118-g833477fce7a1
->   kernel_version: 6.0.0
->   kernel-config: https://builds.tuxbuild.com/2FjJ6bdUwO43y6QWMJyjklBN9Ji/config
->   build-url: https://gitlab.com/Linaro/lkft/mirrors/torvalds/linux-mainline/-/pipelines/659360852
->   artifact-location: https://builds.tuxbuild.com/2FjJ6bdUwO43y6QWMJyjklBN9Ji
->   toolchain: gcc-11
-> 
-> --
-> Linaro LKFT
-> https://lkft.linaro.org
-> 
+I've addressed your other comments, thanks!
+Maxime
 
--- 
-Best regards,
+--ah23qdqgdrx2vnp2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY05cdgAKCRDj7w1vZxhR
+xQM1AP9H4JgsnRShCq6qLr9+GCsm7Uj/MW6Tqyv5ymF9akVodwD+MJH0PS0yUl6U
+Krhepy+KRRj3eEBJ5bua3Ps8acgwCw8=
+=otSH
+-----END PGP SIGNATURE-----
+
+--ah23qdqgdrx2vnp2--
