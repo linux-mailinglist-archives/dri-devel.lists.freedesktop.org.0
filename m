@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F07602551
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07D960255C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36FE710E192;
-	Tue, 18 Oct 2022 07:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5444910EEA6;
+	Tue, 18 Oct 2022 07:17:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 134B010E1E8;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70DD410E633;
  Tue, 18 Oct 2022 07:16:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1666077398; x=1697613398;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=s2SytYlZ4XW8IHH4S3RWx/PSLW3YXP5X/WijwHLKFdA=;
- b=Q4ofaIvW4rM+0YxsqTkL8y8JOq4S8Hx36FWnQIctzD6pDH/geIXrHAte
- jfytTbOBn+ns5H9p2CK6kL2xwBPO/+hy0ikmFCknm2VniP3a9nyTanH+T
- caqBCQVWpkvy53Mc92hRPyN7BO0E78iKiS8xJXY7eJ3N+o0XzLSMInSPY
- hE3tjakG/r1BlE8N2R5VjUoVQnwfDVwKQjREslZLDd0r6p3eYjFsva3J7
- 0PejktvZS4PT+e56LCVhhfPx6kbQpsWhdI2d0TUd40jKL06i1PjTqgRyf
- K8ubEQc4+9QKskORdLx6v27HFOCHOaBzZICu1MqiPAzuKlKJQ2PrtKjsw Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370221311"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="370221311"
+ bh=2wRy8M6IR49u3b/Q322bVaD0wFxFsFiPobbKt9sA9Lk=;
+ b=bwoBJvDWlqj+Yiijwh1vo/bwXcmdUjNV+hjdd0BF/fOJnrJl4lJQSIQZ
+ S8/aUEXkpZZWwcR5lgzt0/g+GHwaLcOJY9AdWEeSjAuKG+bhflRkUujYN
+ 1DK/OKJxoY6w30NJdqw84zoGUGNUg311AILHv+BMnI0IKds0tvSHdomV2
+ jx9ny2P1+FA/XjUJE+YZizMhCxsRHW4zlc5s9iGa2sd+5EqeGiqHTN26d
+ 4kziUoZVBd+SEKirQjkA2bmgXIDANytPiVvc+q8eZfqyHHopKfP502iW1
+ zZ25e9NYdMFMF3RVme9hjvQ4001nsblqHbf1SCOnDPjuHXHVPOecVe3rd w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370221314"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="370221314"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Oct 2022 00:16:37 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="661783454"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="661783454"
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="661783461"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="661783461"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Oct 2022 00:16:37 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 02/17] drm/i915/vm_bind: Add
- __i915_sw_fence_await_reservation()
-Date: Tue, 18 Oct 2022 00:16:15 -0700
-Message-Id: <20221018071630.3831-3-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v4 03/17] drm/i915/vm_bind: Expose
+ i915_gem_object_max_page_size()
+Date: Tue, 18 Oct 2022 00:16:16 -0700
+Message-Id: <20221018071630.3831-4-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
 References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
@@ -65,118 +65,74 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add function __i915_sw_fence_await_reservation() for
-asynchronous wait on a dma-resv object with specified
-dma_resv_usage. This is required for async vma unbind
-with vm_bind.
+Expose i915_gem_object_max_page_size() function non-static
+which will be used by the vm_bind feature.
 
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/i915_sw_fence.c | 28 +++++++++++++++++++++-------
- drivers/gpu/drm/i915/i915_sw_fence.h | 23 +++++++++++++++++------
- 2 files changed, 38 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_create.c | 18 +++++++++++++-----
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
+ 2 files changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-index cc2a8821d22a..ae06d35db056 100644
---- a/drivers/gpu/drm/i915/i915_sw_fence.c
-+++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-@@ -7,7 +7,6 @@
- #include <linux/slab.h>
- #include <linux/dma-fence.h>
- #include <linux/irq_work.h>
--#include <linux/dma-resv.h>
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index 33673fe7ee0a..5c6e396ab74d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -15,10 +15,18 @@
+ #include "i915_trace.h"
+ #include "i915_user_extensions.h"
  
- #include "i915_sw_fence.h"
- #include "i915_selftest.h"
-@@ -569,11 +568,26 @@ int __i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
- 	return ret;
+-static u32 object_max_page_size(struct intel_memory_region **placements,
+-				unsigned int n_placements)
++/**
++ * i915_gem_object_max_page_size() - max of min_page_size of the regions
++ * @placements:  list of regions
++ * @n_placements: number of the placements
++ *
++ * Returns the largest of min_page_size of the @placements,
++ * or I915_GTT_PAGE_SIZE_4K if @n_placements is 0.
++ */
++u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
++				  unsigned int n_placements)
+ {
+-	u32 max_page_size = 0;
++	u32 max_page_size = I915_GTT_PAGE_SIZE_4K;
+ 	int i;
+ 
+ 	for (i = 0; i < n_placements; i++) {
+@@ -28,7 +36,6 @@ static u32 object_max_page_size(struct intel_memory_region **placements,
+ 		max_page_size = max_t(u32, max_page_size, mr->min_page_size);
+ 	}
+ 
+-	GEM_BUG_ON(!max_page_size);
+ 	return max_page_size;
  }
  
--int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
--				    struct dma_resv *resv,
--				    bool write,
--				    unsigned long timeout,
--				    gfp_t gfp)
-+/**
-+ * __i915_sw_fence_await_reservation() - Setup a fence to wait on a dma-resv
-+ * object with specified usage.
-+ * @fence: the fence that needs to wait
-+ * @resv: dma-resv object
-+ * @usage: dma_resv_usage (See enum dma_resv_usage)
-+ * @timeout: how long to wait in jiffies
-+ * @gfp: allocation mode
-+ *
-+ * Setup the @fence to asynchronously wait on dma-resv object @resv for
-+ * @usage to complete before signaling.
-+ *
-+ * Returns 0 if there is nothing to wait on, -ve error code upon error
-+ * and >0 upon successfully setting up the wait.
-+ */
-+int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
-+				      struct dma_resv *resv,
-+				      enum dma_resv_usage usage,
-+				      unsigned long timeout,
-+				      gfp_t gfp)
- {
- 	struct dma_resv_iter cursor;
- 	struct dma_fence *f;
-@@ -582,7 +596,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
- 	debug_fence_assert(fence);
- 	might_sleep_if(gfpflags_allow_blocking(gfp));
+@@ -99,7 +106,8 @@ __i915_gem_object_create_user_ext(struct drm_i915_private *i915, u64 size,
  
--	dma_resv_iter_begin(&cursor, resv, dma_resv_usage_rw(write));
-+	dma_resv_iter_begin(&cursor, resv, usage);
- 	dma_resv_for_each_fence_unlocked(&cursor, f) {
- 		pending = i915_sw_fence_await_dma_fence(fence, f, timeout,
- 							gfp);
-diff --git a/drivers/gpu/drm/i915/i915_sw_fence.h b/drivers/gpu/drm/i915/i915_sw_fence.h
-index f752bfc7c6e1..9c4859dc4c0d 100644
---- a/drivers/gpu/drm/i915/i915_sw_fence.h
-+++ b/drivers/gpu/drm/i915/i915_sw_fence.h
-@@ -10,13 +10,13 @@
- #define _I915_SW_FENCE_H_
+ 	i915_gem_flush_free_objects(i915);
  
- #include <linux/dma-fence.h>
-+#include <linux/dma-resv.h>
- #include <linux/gfp.h>
- #include <linux/kref.h>
- #include <linux/notifier.h> /* for NOTIFY_DONE */
- #include <linux/wait.h>
+-	size = round_up(size, object_max_page_size(placements, n_placements));
++	size = round_up(size, i915_gem_object_max_page_size(placements,
++							    n_placements));
+ 	if (size == 0)
+ 		return ERR_PTR(-EINVAL);
  
- struct completion;
--struct dma_resv;
- struct i915_sw_fence;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 6b9ecff42bb5..db3dd0e285c5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -47,6 +47,8 @@ static inline bool i915_gem_object_size_2big(u64 size)
+ }
  
- enum i915_sw_fence_notify {
-@@ -89,11 +89,22 @@ int i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
- 				  unsigned long timeout,
- 				  gfp_t gfp);
+ void i915_gem_init__objects(struct drm_i915_private *i915);
++u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
++				  unsigned int n_placements);
  
--int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
--				    struct dma_resv *resv,
--				    bool write,
--				    unsigned long timeout,
--				    gfp_t gfp);
-+int __i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
-+				      struct dma_resv *resv,
-+				      enum dma_resv_usage usage,
-+				      unsigned long timeout,
-+				      gfp_t gfp);
-+
-+static inline int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
-+						  struct dma_resv *resv,
-+						  bool write,
-+						  unsigned long timeout,
-+						  gfp_t gfp)
-+{
-+	return __i915_sw_fence_await_reservation(fence, resv,
-+						 dma_resv_usage_rw(write),
-+						 timeout, gfp);
-+}
- 
- bool i915_sw_fence_await(struct i915_sw_fence *fence);
- void i915_sw_fence_complete(struct i915_sw_fence *fence);
+ void i915_objects_module_exit(void);
+ int i915_objects_module_init(void);
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
