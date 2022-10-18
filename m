@@ -1,120 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F08B602F3B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 17:11:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0186602F45
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 17:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10E3E10E90C;
-	Tue, 18 Oct 2022 15:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D15E210E90A;
+	Tue, 18 Oct 2022 15:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2063.outbound.protection.outlook.com [40.107.102.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B765C10E904;
- Tue, 18 Oct 2022 15:11:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fKtw0mtzcGfNeXBP+jsgNNHT6R4X5GOeVBC81wly9B2Pnv5FRQyOUHkN92cGoXnIXxiWaQgFtPjiwy++vrAqUkAcwwaCrwixU+EAWJqD2R8dohS4T0Rl+m78iXunnS1JyG+O6FJDIMAVyBM0iS3rykv9a119wekxg3TInPJGNPhcJt9wFSSnFl73EzqLSG6diM71ffdc10r4UEYD9pbqCfQBFKzc5vWhC7DXDCKa74PL/c8V7QoVIGQuInTnPM1yKGB5GKeQZi8l/gMQvsM6Nd3Dy6KAnnM90IHJSvTzNyy/xKa3YLcCZGGLgm9MPenedyzduh8jYZ48VA+miXt1Qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZMw1GqcmCdKpWi4LDN019v59G7Q39xJNikMRuvEfXBE=;
- b=l1GAoc8fBCLXI8HPvGn/yxN+PXSrLjnTeLTivWXBy4Z5WiDGdre6eCUTnmis3qXmWoe5aX6jCHfv/pKHhgF0HCBKUkUirB27zltMHH6L/uNfQrjlaQbqDptb+pBAVyskHFIVy03I47qnbj2k/aw240M4JBa5/haGz7Eq1JUHc7CH9g/EmkZjVbQkyPI4bfNV1yWElV7XZ8DDQB/otc8BYPEgCz3HB6O6F7PSZy9b7wjIBJBtV17ag4MNYnW30PoK3I6UWFjlHFxWZH8STiQRklzV6RrXWOr5yyjnp0vWTL3YvnfxJ0GoBNWBgN2NfDPqgNd/lvZBG1/Y8oqgAPP4VA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZMw1GqcmCdKpWi4LDN019v59G7Q39xJNikMRuvEfXBE=;
- b=FHLzPJw6NDAueqxEHeUcNX8wAAAXiVm7+EJIXhtK2+/fJws3sLgYZ+uFBZAEwrY6YY/HDgs593D8wRHUnAusIlEpzSs7qvIyX/WUSBi+ZTUmqF9g+WgzuMZmVUa79jMQ9vgoGTqwwYywAowKDDCJMUUn1N4TkA7H9r1d4ajo2j8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB7631.namprd12.prod.outlook.com (2603:10b6:8:11e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Tue, 18 Oct
- 2022 15:11:10 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::805b:58b6:1f27:d644]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::805b:58b6:1f27:d644%6]) with mapi id 15.20.5723.033; Tue, 18 Oct 2022
- 15:11:10 +0000
-Message-ID: <c8585fab-6e8d-de4b-eb2a-e8bff6e3fde8@amd.com>
-Date: Tue, 18 Oct 2022 17:11:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] drm/sched: add DRM_SCHED_FENCE_DONT_PIPELINE flag
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- luben.tuikov@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <Alexander.Deucher@amd.com>
-References: <20221014081553.114899-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221014081553.114899-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P194CA0057.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:209:84::34) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2184710E268
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 15:13:59 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id sc25so32955337ejc.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 08:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hNhLngTIuDz1fSYbv22Q+H67fNTF0+BxYrf0gp74wcE=;
+ b=SJ+IAl+5OCTWqEqNS36XDi+g263hCCGcnv4o+XbHlDJ0gApDWpYXAX3H9pg10kSFbs
+ 1c+0+FMqM1YzZxp/KuVkkOBnXCmtICYgDnkTG2MvOK0a7StFrLopq47qfs4qOevwCYEo
+ XJIutrgBVM4p17Zch+5QVppdx/uVViK45dBPOnYGMDKTmQyQ0mg82PSrobNxHdba/bvl
+ cGYeQtzraRd0YOAuZwX5cZoPta0Ld9wAsTsMVx2YhGalaPbF/BbT8069N/KTz0mGAZ9V
+ EYqQiw2UMUIJ7Rp5Az+5XcoH4e9/tDnpLy7JnkCMUY912y8s7ETc+Q+1mNzCX/f7SEx1
+ w6qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hNhLngTIuDz1fSYbv22Q+H67fNTF0+BxYrf0gp74wcE=;
+ b=KZ6WNJi8+iASevdt5t5Xt+hGcNgcJ/rf8JUGLWzbu1/MKt5pEf486LOmFrGk8FAvNi
+ 2qClIwPFJ3yPs2qk4Rbnb07Da9HEA7B4+1kcuDOlO79FVZ5RtF9FbHAMv/q2Mkf0U4JJ
+ hI2lhOh1OpQFZ84YzIDnJhPbKzrBOOdu36toViZRVqLdC6tv0lYXbOtS3XEz0z84Wepj
+ Y/bwvyoO5xBIfqHN2DoM4NwC6VgOwTutk5952C2sP1OwmhdxL2thse/anXC7y6f140Jb
+ c09TG8BPjyaRdjBwthMlj4LJ59THJHXn/QhE0iZrtVaecCTCvhOoU2BA/0KrB0gpsqky
+ RoHw==
+X-Gm-Message-State: ACrzQf2zRTKcgcWX1EO0y5SLKFaYsuy+NMNJosBPF5Y5vvc/ds1hzOol
+ 73K/yOPGryCey0BVeBGXI4A=
+X-Google-Smtp-Source: AMsMyM49rLo/J1OXRnregHqWmX5zETPBTJALo8rB9x3LRt9TqKEOvT1Vo3wcC0KotJWcvAsjr0kH5A==
+X-Received: by 2002:a17:907:7638:b0:78d:9e03:86a8 with SMTP id
+ jy24-20020a170907763800b0078d9e0386a8mr2859624ejc.6.1666106037381; 
+ Tue, 18 Oct 2022 08:13:57 -0700 (PDT)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ ey4-20020a0564022a0400b00459148fbb3csm9069904edb.86.2022.10.18.08.13.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Oct 2022 08:13:56 -0700 (PDT)
+Date: Tue, 18 Oct 2022 17:13:54 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 4/7] drm/simpledrm: Add support for system memory
+ framebuffers
+Message-ID: <Y07CsnyOAwU/pv7y@orome>
+References: <20221007124946.406808-1-thierry.reding@gmail.com>
+ <20221007124946.406808-5-thierry.reding@gmail.com>
+ <dd869713-6eb2-fadd-fdef-6ca155198a8c@suse.de>
+ <Y01sunkDsQQQhXuC@orome>
+ <ea6c20a6-f171-4618-1763-45d4efa907c9@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB7631:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92641e65-e760-4d9c-b5ed-08dab11afd6f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WDL6qLamtlA0coicwhiISeLuE0mWnDfoBHArnIUAI0R3RKQIfUJktCiMLki2VGviiot/eE0HekTm9iGoVS52+Aodbh9b+6bYseatKtl+dRKPSX3zJa/SBYzbBeR32N6Zu0vp9UEFCNu9+LMBvy9i72HNN2wYvOdngGbYYS2VVSXAE/EDwqxONR9ZpYCy+miHN45/Dp+AyHr8AsC3iTI074mQbgg/4n8HGaWr1JZ3Nc2l6aCLgKW5uDyCRCqX5I2e5oCBJPDkGuiwb5xR+Y/EBG5ytKAdpZbo0CxL8ToEnVpS7LYk+X47uE2KPrxTaOMf4i9YkWGhwabVDmBpQOf2r6wg4wQmI6I8kz5YbRIj0ePazLYEuPJPZNbHjB3O4TrbxfvrZkZ5WiqkWadMr0C75RspXguzYp/WcW/kSOFwP1eOWWkDFeeJaablodHG1os8lL0MuZbmiyr4fPGneasTiZdcKmC8kn2c97E/yNbjRA8+5DYYww9/L25lMyVbqzJ8hTkuQMCJHVz1Ki521Wr9T6pKTMrlXzKFhSM+sbkvmFcLOGOHGVClDwYfDtpDsHluzr26pe+RP5nvu7errUBQvbFK8sbO3b+TSaeOld8TLbPNZsTBT1Ez8DTUvOCIBy2rzzkSjOM4pLP95JfWTPIkSupC/ADkbvoEc+I5Ox0R7COO1X3asOvAspa1fTUfI9qnY6gMVDXkAAUt7e4eEwLGGaIci/ocvHZ7SOZ/ivxq/I+EBggZBRRmQJTF3pVVP1TxmntcldeIlZJwWCHEbzXM7V14ZKsnorPjxa3dk/ZkJ9E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(39860400002)(396003)(346002)(376002)(366004)(451199015)(110136005)(31686004)(5660300002)(8936002)(6666004)(66556008)(6486002)(478600001)(6506007)(66476007)(186003)(8676002)(2616005)(2906002)(41300700001)(66946007)(6512007)(86362001)(66574015)(83380400001)(36756003)(31696002)(38100700002)(6636002)(316002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZTdIT2M3bXRZT054UGJ3R2RVZnR5Zm1VdVpDMVJPU3dadVhSWGtjTWw2Y3lX?=
- =?utf-8?B?elI3Rkwzb294TnZpdlFOczRIK0psSml2Z0RZT3d2bE9BMzdBTytQNEl1cS8r?=
- =?utf-8?B?KzJKSldZTjJmelAxTjRSQ0NyaFNnQ1E1RFVuaDc0QmxQZUJlWjVPbzhIbGlj?=
- =?utf-8?B?YTNDb1dKRkp5bCs2SVJDVmdLRE5LVVRIVG0yUG5LeTNjZVBVTkNoODZWWE9y?=
- =?utf-8?B?L05XTWVkbjN6ODhyQ1E1TkFJN3NMb1Z6NFNoQnZRMERvN2JsbzN6UXN0WE9I?=
- =?utf-8?B?Mjh0UzV2VUVSbEF6K29sSE5HSVFtMXRpNG44eCtVc3g2Qmtud3pxSEFaN1Fk?=
- =?utf-8?B?MmdKcnVrc3lrODNkTjZoUDdpT3pRQWtaT2Rvd3NRUVV2d0g0UlA0MWh1NEJE?=
- =?utf-8?B?cGpZUWl3WmFkcGtHWDU2ZXZ1M2hVRm0zejh3ZFRLVCt3OVBxaEJFNmdGREQ3?=
- =?utf-8?B?RTVULzVLbm5Gc2ZocDdmbWhMcHBhMWNuYytkMjB0TTA5dC9SK210VWF4a2VV?=
- =?utf-8?B?RjJmcXFJbGFVSllrNThjNXIrZE5oWi9Ba1JSZzFRYUNnTlI1SUpxbGhZSTlR?=
- =?utf-8?B?bm5qekxXTklpelZpOEVCOHl1d2NYMGcvMk8waVJ0VW1EOW5rQUdIemZkZ3Nw?=
- =?utf-8?B?dmtwVElXSHNMcHlURnhDb05YRlFOYWlNMDMyTktMbnBJZXcrbU00dUo1OFNW?=
- =?utf-8?B?Smh3MzlJbERicHU4RG9maS80ZVRhejh0eUdJRjRxOUY4N09NQVF1L0ZzOFVY?=
- =?utf-8?B?MDRlVDltUm05OTIvZElPRmd3WHl2N01hZ2dtcmN2dkZYUGloTXM1RW5HRmJX?=
- =?utf-8?B?c1pBZjdvaGhwUHhCK1A3cWhna3crTHhlZVpSTWN6U015b1BCSmQ0c2plZW9Q?=
- =?utf-8?B?NFhpc0h1YldHdXRxRnFZL3ZPa1Z5YXI4SVlONG05c0JRRWpaVmtwLzJjTlJR?=
- =?utf-8?B?T3FtUGdwVnQwSFhuNWk1cm4zUUFXUWZJYkF4aFNQUGdvMEl2bTgrMEo3NHl6?=
- =?utf-8?B?OUNaQStxYUNmelFqbGg0Y2N0aGZZd3dxZVpJN1RTeTRObzJBMFptMlpyRDZC?=
- =?utf-8?B?aGdJM2F3cEtZQ01pUkZzQVd2QXNWT3d2Zlg4UFlQTjRCOXZSK3hNc1RlK0hJ?=
- =?utf-8?B?Q2xLZDU1dEZhSmJQUE1pZCtuQVBzZ1J2Mzlpb0Z6L0tmczhBNG9IRHlWa05v?=
- =?utf-8?B?T1J6MiswSkM0cTN4Y05BTUg5ZWUySjRJZEFiWGU3aHRCT0ZzaG1CanZOYVNK?=
- =?utf-8?B?alVBaW9lcDRrOVhZM1ljN3k4eEd2aUkvWGt2dkRMMlRDNUhBZ0p0dGFXSUJL?=
- =?utf-8?B?VU1PcDVucnVMbFA0b012WWMvYm9zQUZMOWVlTlBQU2VrWklCV1dXMlBqZytS?=
- =?utf-8?B?M0FISjZCTlVvaEZaWlB4eEJVOHlBaGdTdUJyN2hpU1hXVmk3ZWpVNnVUZm0x?=
- =?utf-8?B?ZjRSRjdmM2g1MEg1OWROb1hWM2J4RzBpVFhjZkZPZU9heDlxVGc0TEdrSWwv?=
- =?utf-8?B?SWdXMkpjMU8wQUtLK2VtRGJNOUx2Y05FYUF0Ykc1bFBEaWx0MndibjdUc2Jz?=
- =?utf-8?B?WW5FUndjWTNJZnRROHQyU1VseFFzaHViT2dUNmo3dmdmdmpETnFKVU5uRThG?=
- =?utf-8?B?Yk9kK0tSYlcwbXZXbzNjMTNYS3dVbG51QnF5cnh5bmg2WTBRYk9jRjRrYU15?=
- =?utf-8?B?c0x4eU54c21lU2pZcVNQOHJqQk1BTmJXdnhTN3dlNWRpbDB4KzZRWVlqVmlT?=
- =?utf-8?B?OWt4dUVHVVhVWC9DcjF0L2dEd1VLTkZSay95UXI3QkV6SGR5NWMvWVpGMEdZ?=
- =?utf-8?B?czN3bTZPMk4rbjlWUUpMYUVLUlNLSGxPMkxoUFZyTC8zSmROV2NteVh4RXQw?=
- =?utf-8?B?cHVXdUF4L05MQW81MDkvY3lqby9LcDFnUDdsNVNEOFEzdW1vR1RsNXQwTmVh?=
- =?utf-8?B?bVJ3UlhVYmJhRlpHWlZXN0FvbzN2dXFWaDJaNkZlT0FUNTJoVndMWTl1T3NQ?=
- =?utf-8?B?ekppT1JnYUZmaXZWZFpESzNnLzhUY2ZGMWI5Y3NtWWZ1T0lTcFZjU0VvZ0xK?=
- =?utf-8?B?UHVzMjlwTkJ1MUxCcjNEeFQrNVUybTNEVlZzLzhYcHIwd1dSMFVHRmV0TUY0?=
- =?utf-8?B?SllrR3BhODU5cFZCOFlSR3JmZXZjV3pQZFBXYTFnVGM5U3JaRW1Hc1IwYWUw?=
- =?utf-8?Q?hbtC2DRFbTM0TYJkxSQvJnRgR0+GCT04pfEaIPgCCwSc?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92641e65-e760-4d9c-b5ed-08dab11afd6f
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2022 15:11:10.8069 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qxsy9AD/n6XHpM6iiQTYHcBqE0zM7RPQM58nugreEnPKNQ50THskIJXbzQ1Zxzvc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7631
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+4WO9rRGtMXr/sgr"
+Content-Disposition: inline
+In-Reply-To: <ea6c20a6-f171-4618-1763-45d4efa907c9@suse.de>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,60 +79,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gentle ping to others to get this reviewed.
 
-Alex, this is fixing the TLB flush errors and I think we need to get it 
-into -fixes ASAP.
+--+4WO9rRGtMXr/sgr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Christian.
+On Tue, Oct 18, 2022 at 01:58:53PM +0200, Thomas Zimmermann wrote:
+> Hi Thierry
+>=20
+> Am 17.10.22 um 16:54 schrieb Thierry Reding:
+> > On Mon, Oct 10, 2022 at 10:12:34AM +0200, Thomas Zimmermann wrote:
+> [...]
+> > >=20
+> > > That whole 'Memory Manangement' block is will be unmaintainable. Befo=
+re I go
+> > > into a detailed review, please see my questions about the reservedmem=
+ code
+> > > at the end of the patch.
+> >=20
+> > It looks reasonably maintainable to me. Given that we only have __iomem
+> > and non-__iomem cases, this is about the extent of the complexity that
+> > could ever be added.
+>=20
+> I think we should split the detection and usage, as the driver does with
+> other properties. It would fit better into the driver's overall design. I=
+'ll
+> send out another email with a review to illustrate what I have in mind.
 
-Am 14.10.22 um 10:15 schrieb Christian König:
-> Setting this flag on a scheduler fence prevents pipelining of jobs
-> depending on this fence. In other words we always insert a full CPU
-> round trip before dependen jobs are pushed to the pipeline.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> CC: stable@vger.kernel.org # 5.19+
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
->   include/drm/gpu_scheduler.h              | 9 +++++++++
->   2 files changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 191c56064f19..43d337d8b153 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -385,7 +385,8 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->   	}
->   
->   	s_fence = to_drm_sched_fence(fence);
-> -	if (s_fence && s_fence->sched == sched) {
-> +	if (s_fence && s_fence->sched == sched &&
-> +	    !test_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &fence->flags)) {
->   
->   		/*
->   		 * Fence is from the same scheduler, only need to wait for
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 0fca8f38bee4..f01d14b231ed 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -32,6 +32,15 @@
->   
->   #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
->   
-> +/**
-> + * DRM_SCHED_FENCE_DONT_PIPELINE - Prefent dependency pipelining
-> + *
-> + * Setting this flag on a scheduler fence prevents pipelining of jobs depending
-> + * on this fence. In other words we always insert a full CPU round trip before
-> + * dependen jobs are pushed to the hw queue.
-> + */
-> +#define DRM_SCHED_FENCE_DONT_PIPELINE	DMA_FENCE_FLAG_USER_BITS
-> +
->   struct drm_gem_object;
->   
->   struct drm_gpu_scheduler;
+Okay, great.
 
+> > > >    /*
+> > > >     * Modesetting
+> > > >     */
+> > > > @@ -491,15 +594,15 @@ static void simpledrm_primary_plane_helper_at=
+omic_update(struct drm_plane *plane
+> > > >    	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plan=
+e_state);
+> > > >    	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> > > > -		struct iosys_map dst =3D IOSYS_MAP_INIT_VADDR(sdev->screen_base);
+> > > >    		struct drm_rect dst_clip =3D plane_state->dst;
+> > > >    		if (!drm_rect_intersect(&dst_clip, &damage))
+> > > >    			continue;
+> > > > -		iosys_map_incr(&dst, drm_fb_clip_offset(sdev->pitch, sdev->forma=
+t, &dst_clip));
+> > > > -		drm_fb_blit(&dst, &sdev->pitch, sdev->format->format, shadow_pla=
+ne_state->data, fb,
+> > > > -			    &damage);
+> > > > +		iosys_map_incr(&sdev->screen_base, drm_fb_clip_offset(sdev->pitc=
+h, sdev->format,
+> > > > +								      &dst_clip));
+> > >=20
+> > > You'll modify screen_base and it'll eventually blow up. You have to k=
+eep
+> > > initializing the dst variable within the loop.
+> > >=20
+> > > > +		drm_fb_blit(&sdev->screen_base, &sdev->pitch, sdev->format->form=
+at,
+> > > > +			    shadow_plane_state->data, fb, &damage);
+> > > >    	}
+> > > >    	drm_dev_exit(idx);
+> > > > @@ -518,7 +621,7 @@ static void simpledrm_primary_plane_helper_atom=
+ic_disable(struct drm_plane *plan
+> > > >    		return;
+> > > >    	/* Clear screen to black if disabled */
+> > > > -	memset_io(sdev->screen_base, 0, sdev->pitch * sdev->mode.vdisplay=
+);
+> > > > +	iosys_map_memset(&sdev->screen_base, 0, 0, sdev->pitch * sdev->mo=
+de.vdisplay);
+> > > >    	drm_dev_exit(idx);
+> > > >    }
+> > > > @@ -635,8 +738,6 @@ static struct simpledrm_device *simpledrm_devic=
+e_create(struct drm_driver *drv,
+> > > >    	struct drm_device *dev;
+> > > >    	int width, height, stride;
+> > > >    	const struct drm_format_info *format;
+> > > > -	struct resource *res, *mem;
+> > > > -	void __iomem *screen_base;
+> > > >    	struct drm_plane *primary_plane;
+> > > >    	struct drm_crtc *crtc;
+> > > >    	struct drm_encoder *encoder;
+> > > > @@ -706,35 +807,9 @@ static struct simpledrm_device *simpledrm_devi=
+ce_create(struct drm_driver *drv,
+> > > >    	drm_dbg(dev, "framebuffer format=3D%p4cc, size=3D%dx%d, stride=
+=3D%d byte\n",
+> > > >    		&format->format, width, height, stride);
+> > > > -	/*
+> > > > -	 * Memory management
+> > > > -	 */
+> > > > -
+> > > > -	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > > > -	if (!res)
+> > > > -		return ERR_PTR(-EINVAL);
+> > > > -
+> > > > -	ret =3D devm_aperture_acquire_from_firmware(dev, res->start, reso=
+urce_size(res));
+> > > > -	if (ret) {
+> > > > -		drm_err(dev, "could not acquire memory range %pr: error %d\n", r=
+es, ret);
+> > > > +	ret =3D simpledrm_device_init_mm(sdev);
+> > > > +	if (ret)
+> > > >    		return ERR_PTR(ret);
+> > > > -	}
+> > > > -
+> > > > -	mem =3D devm_request_mem_region(&pdev->dev, res->start, resource_=
+size(res), drv->name);
+> > > > -	if (!mem) {
+> > > > -		/*
+> > > > -		 * We cannot make this fatal. Sometimes this comes from magic
+> > > > -		 * spaces our resource handlers simply don't know about. Use
+> > > > -		 * the I/O-memory resource as-is and try to map that instead.
+> > > > -		 */
+> > > > -		drm_warn(dev, "could not acquire memory region %pr\n", res);
+> > > > -		mem =3D res;
+> > > > -	}
+> > > > -
+> > > > -	screen_base =3D devm_ioremap_wc(&pdev->dev, mem->start, resource_=
+size(mem));
+> > > > -	if (!screen_base)
+> > > > -		return ERR_PTR(-ENOMEM);
+> > > > -	sdev->screen_base =3D screen_base;
+> > > >    	/*
+> > > >    	 * Modesetting
+> > > > @@ -878,5 +953,35 @@ static struct platform_driver simpledrm_platfo=
+rm_driver =3D {
+> > > >    module_platform_driver(simpledrm_platform_driver);
+> > > > +static int simple_framebuffer_device_init(struct reserved_mem *rme=
+m, struct device *dev)
+> > > > +{
+> > > > +	struct simpledrm_device *sdev =3D dev_get_drvdata(dev);
+> > > > +
+> > > > +	sdev->sysmem_start =3D rmem->base;
+> > > > +	sdev->sysmem_size =3D rmem->size;
+> > >=20
+> > >  From what I understand, you use the sysmem_ variables in the same co=
+de that
+> > > allocates the simpledrm_device, which creates a chicken-egg problem. =
+When
+> > > does this code run?
+> >=20
+> > This will run as a result of the of_reserved_mem_device_init_by_idx()
+> > call earlier. It might be possible to push more code from the sysmem
+> > initialization code path above into this function. That may also make
+> > the somewhat clunky sysmem_start/size fields unnecessary.
+> >=20
+> > Alternatively, we may be able to skip the whole RESERVEDMEM_OF_DECLARE
+> > bits here and directly resolve the memory-region property and read its
+> > "reg" property. However it seemed more appropriate to use the existing
+> > infrastructure for this, even if it's rather minimal.
+>=20
+> I agree. It would still be nicer if there was a version of
+> of_reserved_mem_device_init_by_idx that returns the instance of reserved_=
+mem
+> instead of setting it in the device structure behind our back.
+
+There's of_reserved_mem_lookup() which does that, or at least something
+close to that. Ultimately, as Rob mentioned, we may not need any of this
+infrastructure and can just directly parse the node from the driver.
+This should allow us to avoid any of this infrastructure (i.e. the extra
+indirection) and encapsulate the handling of this better.
+
+I have a couple of ideas, but I'll wait for your feedback to work that
+in as well.
+
+Thierry
+
+--+4WO9rRGtMXr/sgr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNOwrAACgkQ3SOs138+
+s6GjBBAAwMOwYJOhKQB73ERCKCA5rnQjsnTexose3tnO8d1wi+1hsDpRZx8uuXYs
+H/6wum0kONVmCZd7D6gVTgAcXbNdyWNsgtghlrVMDkgHVvVfa7ler5gylBtWwqlX
+Tjt53HUcSXCBqISKcyhQd+IOoL1Qfwb9sCJdxAdJF1Qga0F8oXu24+4Kj0vH5RMe
+ATL+eXl9kvCdzhQMuAQEYDudvoJrDuxJ3QJJhaS2WAnjBQN6Ukb1iLubl4vleaFH
+6Hf3wUAiF0+kMDTAi874Gb6rjF4NvHWIO7/m0uOMlrefJyQ04IPuYebcbXYA+upF
+ET3vQILn79XWSH5Vx1NEihZ6mVWg6JcVx4Wnf9qlkQSoyNf1lxnQrq5qc33F05Ho
+rNa3MycoOADcRMhalpHtfZF7fWhy8h0YNUM2FsCKUiaGWzvfdsxGXp5qycho9kNm
+98QX/xVWd/HHGEHPNjnz73dEd+acb2vDzgxXUJ2yWxjlQ4w1KjPLqf01HYv8I/qI
+kqIrhoGcs41keS8PSW/4PWW4Vax6BZt2X7SeRyxk21D4dlijftMfcNY5YR2Rs/PM
+QFcndH/LumO2D+rYLLDMItlQ7V3T3s6WNuky6hmTuXpWU9cfxwAyxc1UI+SZX5T3
+TgSzPvEFJl2gmTkjfGyUVxVPVtTxxg8uo7aMYfZchq0fctrVB6E=
+=D93o
+-----END PGP SIGNATURE-----
+
+--+4WO9rRGtMXr/sgr--
