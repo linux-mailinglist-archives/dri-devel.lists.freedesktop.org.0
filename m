@@ -2,39 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22CA6030C0
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 18:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302F76030CE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 18:31:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EADE10E284;
-	Tue, 18 Oct 2022 16:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49BF110E273;
+	Tue, 18 Oct 2022 16:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A448010E284
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 16:28:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F9A18B9;
- Tue, 18 Oct 2022 18:28:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1666110527;
- bh=R0kyn0DnZnGa0W8k7n/vni0vZrzFFqRkECpgir6XKCg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HYFMwo9nhNVBnobbPATPldIpRddvX4Q3+/JD9BAbGwDX/9cjf9D5qPhbXgveXfR/E
- A6idGT5PWfdXMWKhJ8q4Ij9IvZXrWM+pStUpPshHnYE80Ju55afY1nuljh6JkKMMHo
- LjgR0mPjM5VfEyRqcefS67zCdCWkoEqnTIMMhW6E=
-Date: Tue, 18 Oct 2022 19:28:23 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Zack Rusin <zackr@vmware.com>
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-westcentralusazon11010011.outbound.protection.outlook.com
+ [40.93.198.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 739EA10E273
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 16:31:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y8bfuNLeaKe9mKJJgF8ItgRKO11Tx3Bs8SJcGOdttGjXQR7fSpcEuLzi8BeaZTwh9hXcfwrK5TWPVTEaepZ2NLdn51piHto0SX3Gco84aIq1ck/BPPjf/f3giLkH/95dtZ/ISk9XfFhz7f3sx5o1H1MTXgBufBn/UEo/pTG21uqOymLDQiNi2tbCPYFKA6KcpO4MNmC5Wg0ba8rcP2puVp+YiTnoVc8cNk4JgQdnxLCU8DrQvTsmItOxa/1BOp8FlFeaARxrtEhijU3glmBk+cZoFhddWVWCdIB6IdmMI6DfZU7gdAARZbDm1UZGejbFGDduz641SXHj/8FSmUR3NQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F7qdct5/B5O0IOeULngQjkWsgijC0jldN5ENfOnshNg=;
+ b=HIxyb/OltPjKU2NJ/uy0DhvnBWuEhHqC1rQJsLbsWfE+VVCJ9gXGivnPpGHXdMMAAX05UhDB3yLL01UycU6/u3c+R8eUduTWZpnh2Bb62tOfvcBCRuhmKhd8xs8j4+Rm8VdqpU6voo04O7414J9lXMduA4ii6ZRKd5i++Rl7GoBfWekZwwgVlftXqUBLZAS4akPalY01585DhvDE3N4UbJa+MjXmkBJTJHbBX9B5Tm9m2gjdp8HIMJUODH7i74MIy1AGblG9LXLrSDbocEedUMxrRI9SnowtQLdmP12odxBvqk/aYi0oNKqbb4IPXqBH+pfVnubg5XK+mjeiHccjrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F7qdct5/B5O0IOeULngQjkWsgijC0jldN5ENfOnshNg=;
+ b=ug9aVPknG+CgsQa9vmFwe/N0qUQEOQ6OyMdQP+31ZYN0yVe6lGkri9KOlzEUzJqlkb+a2JyJQKmsy8lDgAjPKqesN5LKRrU2tztADVj2+MLBSOV8I0gpeNCJZeZFo9vizgaFH5BBulNOVpsHiD6tEvRwx11Wcaoz1EcEEX/nx9k=
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
+ by BY3PR05MB7939.namprd05.prod.outlook.com (2603:10b6:a03:363::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.10; Tue, 18 Oct
+ 2022 16:31:20 +0000
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::d893:b27e:529:35ae]) by CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::d893:b27e:529:35ae%7]) with mapi id 15.20.5746.017; Tue, 18 Oct 2022
+ 16:31:20 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
 Subject: Re: [PATCH v2] drm: Remove drm_mode_config::fb_base
-Message-ID: <Y07UJ0ogxrGnHE9j@pendragon.ideasonboard.com>
+Thread-Topic: [PATCH v2] drm: Remove drm_mode_config::fb_base
+Thread-Index: AQHY4wxmh2BkI5MMlEC1jn8uzVOF+q4UVy+AgAAA0oA=
+Date: Tue, 18 Oct 2022 16:31:20 +0000
+Message-ID: <6c8ba4444e990046f013bf0bcb72fc8451a1a00c.camel@vmware.com>
 References: <20221018131754.351957-1-zack@kde.org>
  <20221018161201.365897-1-zack@kde.org>
+ <Y07UJ0ogxrGnHE9j@pendragon.ideasonboard.com>
+In-Reply-To: <Y07UJ0ogxrGnHE9j@pendragon.ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY4PR05MB3047:EE_|BY3PR05MB7939:EE_
+x-ms-office365-filtering-correlation-id: c54a0814-105a-4567-9051-08dab126302c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Q3VmbVCIOa7M42rQ79g5faFOJT52myPPrUNytHKNHS9wC3vuI0798YtYqDXxsAAi32yRt3GIrbIH4xt8URVRD/gi0o2RNHfi4kn2sRERO7W/WDOPdtSbatqjBj4U6ZL9mijF7P4FZl4o3ORmvThW9ElDVFP1IKHUZ60FqnzSxBTjjjNL8BklOhqa3sEQ5a0m2kQpbotKHQ/nBP5ykvj/gBcpsZbHBpZzQoSHOWV49pDbhv6TUQsUBdyau1r+ICQsRgZiYcnwvMW3hjP4qO5sGaeDwFbtPpJIYgLMnqKsiB3jOzPGCqko8aX5GOIFBbSCeuRMqSNC861FmbPIx2wu9YU+duZmQFWdam7SN7l1XysYUbETwcN9BCfjQvg/vjtA4xltFyoYxYM/ghMzz0wQN5YBtCHXFBvH7dZ3jkYe56zzfKPvxuOEjy5d9ajuo5bE523VDZVG8Li88fOjMANchs/KU54Spd2p4L91x0m49gk0L1zjY6yjBOikniXw/q+GOdeCuIWtWWyFzH29OkR221Nzi/Wm83xE14hyZoSIh5zycLqp4ilrdCnrecPEqxnp9DBVNp1SfwMJ0i8t4R36gTVGZqadi1R9WJI1fPaM9Qoaj4qKi35VPdkrGNDywM+otacIybvJlocIIeJ4S43wSPMCowpZSGCt2DI30hxEzEGOXxWZIECJz6jGKjYw2R7yGxfHVlRiKcNcUwmkiCD4B6/ChD4LL2ahdSIrRagPLCGkVjl8Q6IFUGnvK/JM0nkYqvQXzT/P9eYKO35FcNs0n4xbDUupkZ+zu+aVxp/Wfq51R16KBWrb34W6dZRDi6nd
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(39860400002)(136003)(376002)(346002)(366004)(451199015)(8676002)(66446008)(316002)(54906003)(4326008)(6512007)(7406005)(7416002)(64756008)(71200400001)(66946007)(86362001)(478600001)(91956017)(76116006)(4744005)(6916009)(41300700001)(6486002)(38070700005)(66556008)(36756003)(5660300002)(66476007)(6506007)(38100700002)(2616005)(122000001)(186003)(8936002)(26005)(2906002)(4001150100001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MTFmR2NJMWxjS3RqZlgycjhJTW1ZcW56TVVYUjRNVlQxV0JXd0VxTURlWVRD?=
+ =?utf-8?B?WFAwR0JaT3l0U1RaYWhKS0ZScnZCVUR4VDk4WXpWd0c1azBFaTZ3QU5HMGwx?=
+ =?utf-8?B?THB3ZUx0UGlTeGcxSzlsUlc0cjE5TDJRQnhPeUZkenFlSnptVTVobDJ6UG5p?=
+ =?utf-8?B?Ri9oVTE3VVJCYVo5UUg1Z0EvcitJNjBEYUpWYS9IOWszYUF1ZUNsMnFlYTEz?=
+ =?utf-8?B?QkdNM0dDRDlpOWh1bWJqZzJmNGtIbGdoSHZCMkduZEJDYzh1Q3dWSDFXN2s1?=
+ =?utf-8?B?dnhxKzRodnRiQ0NWaUlCa1ZLZXUzR2Fyck1ETThRYStXeCtPSyszdkVLQmh6?=
+ =?utf-8?B?SWNrKysrV3JjVFlPNExSS0UzaldPS2pndC9GQ1B1SXdpTC9oL1prTTc4QmZY?=
+ =?utf-8?B?c3BQWUNiZm84aDkvMng4SnlwWkxaRTExQWpJbFpiMjM1MzhocG1qMDBkK3ov?=
+ =?utf-8?B?d1R1UjJiS1BFM3lxa3A1NWo0KzdWaktKVXpwVHlrdlJCdTY1WnJHbTkrY05x?=
+ =?utf-8?B?Wk5jaWdvSG8zSTNCS0pqT0xBZVNSZWhDN29PNUxqeG9kU0ZjUWljcEdmRzI4?=
+ =?utf-8?B?d3ZuR0JrMC83REk4MHlkeXBsWG9yV1R1S1lRMWRSZWZLcEI2Rk1kMUQ4Mjls?=
+ =?utf-8?B?T1BsTGNldzZUS1ltMGpJQVBGUEw1aURnZ1dRM1hHV2hWa2ZGRVUrNTBHcmly?=
+ =?utf-8?B?c2dOR1dtUHFpQUJkOTlxWnE4USsvai9PUXZuRDBuODVtUStGWEQ1YTMrY25H?=
+ =?utf-8?B?T2lmYTRaRGJRMGxjUE9valZ2aG5kM3NpNmJ4M1dtM1dTZXMxdi8rdTIxaTFs?=
+ =?utf-8?B?NXhOL3dnVUVVcXJQYVJ4aDZCRlEyWjdTcUI2Snh4U2VZWE40SDlEcVZZNnhU?=
+ =?utf-8?B?Ti93Ny9Xd0l5NExVSEhsams4cGh3Q1J4aEQ4aWZRSlZSc1FiTGNyNG05RXB2?=
+ =?utf-8?B?d3dYTHZIWC9ONGQ4Yjd0R1NVekNQb1gyTVpHYThxbDhGYWVQNHBsVnZSRnph?=
+ =?utf-8?B?NnhwMCtZZWV0VTYvVEFPYmdTVTBFWHVHaFJkUmdvTHU5ZXJMVVN5SThKeGNq?=
+ =?utf-8?B?MndPTUc1bSs1ODVzbTQ2S3JZbE8wb3RaQ21kTXFVc2Q3Ti9nZXl3bUhha1U3?=
+ =?utf-8?B?QWo1R0xFMXluMmp4dWdwa0RRTXdCUmVIclFCeGJKNjZaMXFTY3ZSZVBhMmRz?=
+ =?utf-8?B?L21MY0VTQnBPYWRQZjhRT3I4c3VsYXR4UWNYOGUyVVFTRkE0aFRKUDdhOHY4?=
+ =?utf-8?B?RnNVb1VDVXlWTlZoaVpoYlVrSGk2S0ZQQWdCSmJkWU9GWFo5dWdpSERMS0JW?=
+ =?utf-8?B?UStucFhRTlA2V3FMeFRtd1BMZW9IVm9jZDBVZXRzemJIOWVwWGNUR0w0Tmli?=
+ =?utf-8?B?RmNRTTVHMDVLd0dLaWtKblpFNXZaUkI3OGpraFQ5ditrUkJKQ292UXFkM3VR?=
+ =?utf-8?B?bVlkZWRIeFQyR0hZSnB3RFFmY2J4WUE0RHJybENHQzZtdXZuWmRnQ2k5eTNQ?=
+ =?utf-8?B?ZW1YeENnT2FYSDFyaXN1My9FR0dmYzdta2twU3dnWGZwM2Z2S1RVSnZlZVRX?=
+ =?utf-8?B?OHdOSFdBUnRhYUVrWkpMTzU1N24xRThhc0hGOGdsOXVmZW4vWDc1elJhbXFD?=
+ =?utf-8?B?dVhERlRxdWdBZkp5SmMxbm1YVWZJVFFaUDFXZ3hWRGJ1ZHlEYUxyc3lBRG45?=
+ =?utf-8?B?SlRSZU1HSkg5ZGFhWW5FU1ZMak5hTTZoK216czF2cFpMUVRQR3J5QUUxKyt3?=
+ =?utf-8?B?U282K29ycXdDK0dTcWpib1N6VXRUd2dMS3krMmpOdjRTRlFnS3ZXbW1vcTUz?=
+ =?utf-8?B?M3FOQ0pqNU1iRzgwRTIwQ0JpelFzMjg5NTBxbllaWUZiRVh0aTh1azIwTUhP?=
+ =?utf-8?B?VXp0L2RhYXFjb0NyL25IZGNsdndZcnN2aThYdkhGM2dnWWJsVEdhckJrUWk5?=
+ =?utf-8?B?RS9BdWE5b09veU1QRCtjVkkzSlUvM1YwYmsrVUFuSHdyU0ZxY2ZpNVJyQjNN?=
+ =?utf-8?B?aStlMURsN3Ntenc0ajNOSmFlUThXTlZ1aWdCME80anFwREx6bFVTSWdYZlYw?=
+ =?utf-8?B?ekhIWVd5RWdHUkwyNjdxWC82TVBvajJFTG10Vys2Vzd4TVFZMk0xMk1Rc0k4?=
+ =?utf-8?Q?xrrazIi34g6Yd8fGhprawD3B0?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <28D17F991B97B842A241209F3D2735EB@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221018161201.365897-1-zack@kde.org>
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c54a0814-105a-4567-9051-08dab126302c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2022 16:31:20.1290 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HYj+ETTW+NnLSe/dVhNIdzwXKZuOalb5Hmx8eUgiO4xBYhSEyXV9sqxzZ1PyiS4SqRpEFCh8SXuwBM+SSvTS2Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR05MB7939
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,437 +130,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, Xinliang Liu <xinliang.liu@linaro.org>,
- Lijo Lazar <lijo.lazar@amd.com>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Flora Cui <flora.cui@amd.com>,
- Tomohito Esaki <etom@igel.co.jp>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Guchun Chen <guchun.chen@amd.com>, Bernard Zhao <bernard@vivo.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
- Dave Airlie <airlied@redhat.com>, Leo Li <sunpeng.li@amd.com>,
- Chen Feng <puck.chen@hisilicon.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Leslie Shi <Yuliang.Shi@amd.com>, Evan Quan <evan.quan@amd.com>,
- Sean Paul <sean@poorly.run>, Tomi Valkeinen <tomba@kernel.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Roman Li <roman.li@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: "kherbst@redhat.com" <kherbst@redhat.com>,
+ "xinliang.liu@linaro.org" <xinliang.liu@linaro.org>,
+ "lijo.lazar@amd.com" <lijo.lazar@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "javierm@redhat.com" <javierm@redhat.com>,
+ "mairacanal@riseup.net" <mairacanal@riseup.net>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "flora.cui@amd.com" <flora.cui@amd.com>, "etom@igel.co.jp" <etom@igel.co.jp>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "guchun.chen@amd.com" <guchun.chen@amd.com>,
+ "bernard@vivo.com" <bernard@vivo.com>,
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
+ "Jerry.Zuo@amd.com" <Jerry.Zuo@amd.com>,
+ "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+ "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>,
+ "aurabindo.pillai@amd.com" <aurabindo.pillai@amd.com>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "Yuliang.Shi@amd.com" <Yuliang.Shi@amd.com>,
+ "evan.quan@amd.com" <evan.quan@amd.com>, "sean@poorly.run" <sean@poorly.run>,
+ "tomba@kernel.org" <tomba@kernel.org>,
+ "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
+ "roman.li@amd.com" <roman.li@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "tiantao6@hisilicon.com" <tiantao6@hisilicon.com>,
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zack,
-
-Thank you for the patch.
-
-On Tue, Oct 18, 2022 at 12:11:51PM -0400, Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
-> 
-> v2: Thomas and Laurent noticed that in radeon_fb.c I forgot to set the
-> info->apertures->ranges[0].base and Laurent noticed a neat little cleanup
-> in the hisilicon driver as a result of the drm_mode_config::fb_base
-> removal.
-> 
-> The fb_base in struct drm_mode_config has been unused for a long time.
-> Some drivers set it and some don't leading to a very confusing state
-> where the variable can't be relied upon, because there's no indication
-> as to which driver sets it and which doesn't.
-> 
-> The only usage of fb_base is internal to two drivers so instead of trying
-> to force it into all the drivers to get it into a coherent state
-> completely remove it.
-> 
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c         |  2 --
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c           |  2 --
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c           |  2 --
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c            |  1 -
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c            |  2 --
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    |  2 --
->  drivers/gpu/drm/ast/ast_mode.c                   |  1 -
->  drivers/gpu/drm/gma500/framebuffer.c             |  6 +++---
->  drivers/gpu/drm/gma500/psb_drv.h                 |  1 +
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 16 +++-------------
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  3 ---
->  drivers/gpu/drm/mgag200/mgag200_mode.c           |  1 -
->  drivers/gpu/drm/msm/msm_fbdev.c                  |  2 --
->  drivers/gpu/drm/nouveau/nouveau_display.c        |  1 -
->  drivers/gpu/drm/nouveau/nv04_fbcon.c             |  6 ++++--
->  drivers/gpu/drm/omapdrm/omap_fbdev.c             |  2 --
->  drivers/gpu/drm/qxl/qxl_display.c                |  2 --
->  drivers/gpu/drm/radeon/radeon_display.c          |  2 --
->  drivers/gpu/drm/radeon/radeon_fb.c               |  2 +-
->  drivers/gpu/drm/tegra/fb.c                       |  1 -
->  drivers/gpu/drm/tiny/bochs.c                     |  1 -
->  include/drm/drm_mode_config.h                    |  2 --
->  22 files changed, 12 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> index f4b5301ea2a0..09dec2561adf 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> @@ -498,8 +498,6 @@ static int amdgpu_vkms_sw_init(void *handle)
->  	adev_to_drm(adev)->mode_config.preferred_depth = 24;
->  	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
->  
-> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
-> -
->  	r = amdgpu_display_modeset_create_props(adev);
->  	if (r)
->  		return r;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> index 288fce7dc0ed..05051d5d2ec3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> @@ -2800,8 +2800,6 @@ static int dce_v10_0_sw_init(void *handle)
->  
->  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
->  
-> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
-> -
->  	r = amdgpu_display_modeset_create_props(adev);
->  	if (r)
->  		return r;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> index cbe5250b31cb..c928bc9eb202 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> @@ -2918,8 +2918,6 @@ static int dce_v11_0_sw_init(void *handle)
->  
->  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
->  
-> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
-> -
->  	r = amdgpu_display_modeset_create_props(adev);
->  	if (r)
->  		return r;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> index b1c44fab074f..62315fd5a05f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> @@ -2675,7 +2675,6 @@ static int dce_v6_0_sw_init(void *handle)
->  	adev_to_drm(adev)->mode_config.preferred_depth = 24;
->  	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
->  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
-> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
->  
->  	r = amdgpu_display_modeset_create_props(adev);
->  	if (r)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> index a22b45c92792..87d5e4c21cb3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> @@ -2701,8 +2701,6 @@ static int dce_v8_0_sw_init(void *handle)
->  
->  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
->  
-> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
-> -
->  	r = amdgpu_display_modeset_create_props(adev);
->  	if (r)
->  		return r;
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index c053cb79cd06..0db2a88cd4d7 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3816,8 +3816,6 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
->  	/* indicates support for immediate flip */
->  	adev_to_drm(adev)->mode_config.async_page_flip = true;
->  
-> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
-> -
->  	state = kzalloc(sizeof(*state), GFP_KERNEL);
->  	if (!state)
->  		return -ENOMEM;
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 4355754d69b5..1a01208d53d9 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -1778,7 +1778,6 @@ int ast_mode_config_init(struct ast_private *ast)
->  	dev->mode_config.min_width = 0;
->  	dev->mode_config.min_height = 0;
->  	dev->mode_config.preferred_depth = 24;
-> -	dev->mode_config.fb_base = pci_resource_start(pdev, 0);
->  
->  	if (ast->chip == AST2100 ||
->  	    ast->chip == AST2200 ||
-> diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-> index aa3ecf771fd3..5f502a0048ab 100644
-> --- a/drivers/gpu/drm/gma500/framebuffer.c
-> +++ b/drivers/gpu/drm/gma500/framebuffer.c
-> @@ -286,7 +286,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
->  
->  	info->fbops = &psbfb_unaccel_ops;
->  
-> -	info->fix.smem_start = dev->mode_config.fb_base;
-> +	info->fix.smem_start = dev_priv->fb_base;
->  	info->fix.smem_len = size;
->  	info->fix.ywrapstep = 0;
->  	info->fix.ypanstep = 0;
-> @@ -296,7 +296,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
->  	info->screen_size = size;
->  
->  	if (dev_priv->gtt.stolen_size) {
-> -		info->apertures->ranges[0].base = dev->mode_config.fb_base;
-> +		info->apertures->ranges[0].base = dev_priv->fb_base;
->  		info->apertures->ranges[0].size = dev_priv->gtt.stolen_size;
->  	}
->  
-> @@ -527,7 +527,7 @@ void psb_modeset_init(struct drm_device *dev)
->  
->  	/* set memory base */
->  	/* Oaktrail and Poulsbo should use BAR 2*/
-> -	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev->mode_config.fb_base));
-> +	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev_priv->fb_base));
->  
->  	/* num pipes is 2 for PSB but 1 for Mrst */
->  	for (i = 0; i < dev_priv->num_pipe; i++)
-> diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-> index ae544b69fc47..a5df6d2f2cab 100644
-> --- a/drivers/gpu/drm/gma500/psb_drv.h
-> +++ b/drivers/gpu/drm/gma500/psb_drv.h
-> @@ -523,6 +523,7 @@ struct drm_psb_private {
->  	uint32_t blc_adj2;
->  
->  	struct drm_fb_helper *fb_helper;
-> +	resource_size_t fb_base;
->  
->  	bool dsr_enable;
->  	u32 dsr_fb_update;
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index fe4269c5aa0a..e9ef33d7eadf 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -105,7 +105,6 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
->  	dev->mode_config.max_width = 1920;
->  	dev->mode_config.max_height = 1200;
->  
-> -	dev->mode_config.fb_base = priv->fb_base;
->  	dev->mode_config.preferred_depth = 32;
->  	dev->mode_config.prefer_shadow = 1;
->  
-> @@ -212,7 +211,7 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
->  {
->  	struct drm_device *dev = &priv->dev;
->  	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> -	resource_size_t addr, size, ioaddr, iosize;
-> +	resource_size_t ioaddr, iosize;
->  
->  	ioaddr = pci_resource_start(pdev, 1);
->  	iosize = pci_resource_len(pdev, 1);
-> @@ -222,16 +221,6 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
->  		return -ENOMEM;
->  	}
->  
-> -	addr = pci_resource_start(pdev, 0);
-> -	size = pci_resource_len(pdev, 0);
-> -	priv->fb_map = devm_ioremap(dev->dev, addr, size);
-> -	if (!priv->fb_map) {
-> -		drm_err(dev, "Cannot map framebuffer\n");
-> -		return -ENOMEM;
-> -	}
-> -	priv->fb_base = addr;
-> -	priv->fb_size = size;
-> -
->  	return 0;
->  }
->  
-> @@ -271,7 +260,8 @@ static int hibmc_load(struct drm_device *dev)
->  	if (ret)
->  		goto err;
->  
-> -	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0), priv->fb_size);
-> +	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
-> +				    pci_resource_len(pdev, 1));
-
-This should be pci_resource_len(pdev, 0). Apart from that,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  	if (ret) {
->  		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
->  		goto err;
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> index 7d263f4d7078..4a0cd22c10e2 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> @@ -32,9 +32,6 @@ struct hibmc_connector {
->  struct hibmc_drm_private {
->  	/* hw */
->  	void __iomem   *mmio;
-> -	void __iomem   *fb_map;
-> -	resource_size_t  fb_base;
-> -	resource_size_t  fb_size;
->  
->  	/* drm */
->  	struct drm_device dev;
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 758629da95d9..0a5aaf78172a 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -824,7 +824,6 @@ int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vram_avail
->  	dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
->  	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
->  	dev->mode_config.preferred_depth = 24;
-> -	dev->mode_config.fb_base = mdev->vram_res->start;
->  	dev->mode_config.funcs = &mgag200_mode_config_funcs;
->  	dev->mode_config.helper_private = &mgag200_mode_config_helper_funcs;
->  
-> diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-> index 46168eccfac4..b373e3000320 100644
-> --- a/drivers/gpu/drm/msm/msm_fbdev.c
-> +++ b/drivers/gpu/drm/msm/msm_fbdev.c
-> @@ -109,8 +109,6 @@ static int msm_fbdev_create(struct drm_fb_helper *helper,
->  
->  	drm_fb_helper_fill_info(fbi, helper, sizes);
->  
-> -	dev->mode_config.fb_base = paddr;
-> -
->  	fbi->screen_base = msm_gem_get_vaddr(bo);
->  	if (IS_ERR(fbi->screen_base)) {
->  		ret = PTR_ERR(fbi->screen_base);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-> index a2f5df568ca5..928fdfa8e8e5 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-> @@ -672,7 +672,6 @@ nouveau_display_create(struct drm_device *dev)
->  	drm_mode_create_dvi_i_properties(dev);
->  
->  	dev->mode_config.funcs = &nouveau_mode_config_funcs;
-> -	dev->mode_config.fb_base = device->func->resource_addr(device, 1);
->  
->  	dev->mode_config.min_width = 0;
->  	dev->mode_config.min_height = 0;
-> diff --git a/drivers/gpu/drm/nouveau/nv04_fbcon.c b/drivers/gpu/drm/nouveau/nv04_fbcon.c
-> index 92f3fb6765ab..c30b8dacd86b 100644
-> --- a/drivers/gpu/drm/nouveau/nv04_fbcon.c
-> +++ b/drivers/gpu/drm/nouveau/nv04_fbcon.c
-> @@ -137,6 +137,8 @@ nv04_fbcon_accel_init(struct fb_info *info)
->  	struct nouveau_channel *chan = drm->channel;
->  	struct nvif_device *device = &drm->client.device;
->  	struct nvif_push *push = chan->chan.push;
-> +	struct nvkm_device *nvkm_device = nvxx_device(&drm->client.device);
-> +	resource_size_t fb_base = nvkm_device->func->resource_addr(nvkm_device, 1);
->  	int surface_fmt, pattern_fmt, rect_fmt;
->  	int ret;
->  
-> @@ -210,8 +212,8 @@ nv04_fbcon_accel_init(struct fb_info *info)
->  			       0x0188, chan->vram.handle);
->  	PUSH_NVSQ(push, NV042, 0x0300, surface_fmt,
->  			       0x0304, info->fix.line_length | (info->fix.line_length << 16),
-> -			       0x0308, info->fix.smem_start - dev->mode_config.fb_base,
-> -			       0x030c, info->fix.smem_start - dev->mode_config.fb_base);
-> +			       0x0308, info->fix.smem_start - fb_base,
-> +			       0x030c, info->fix.smem_start - fb_base);
->  
->  	PUSH_NVSQ(push, NV043, 0x0000, nfbdev->rop.handle);
->  	PUSH_NVSQ(push, NV043, 0x0300, 0x55);
-> diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> index 40706c5aad7b..ed67dd25794c 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> @@ -177,8 +177,6 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
->  
->  	drm_fb_helper_fill_info(fbi, helper, sizes);
->  
-> -	dev->mode_config.fb_base = dma_addr;
-> -
->  	fbi->screen_buffer = omap_gem_vaddr(fbdev->bo);
->  	fbi->screen_size = fbdev->bo->size;
->  	fbi->fix.smem_start = dma_addr;
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-> index a152a7c6db21..6492a70e3c39 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -1261,8 +1261,6 @@ int qxl_modeset_init(struct qxl_device *qdev)
->  	qdev->ddev.mode_config.max_width = 8192;
->  	qdev->ddev.mode_config.max_height = 8192;
->  
-> -	qdev->ddev.mode_config.fb_base = qdev->vram_base;
-> -
->  	drm_mode_create_suggested_offset_properties(&qdev->ddev);
->  	qxl_mode_create_hotplug_mode_update_property(qdev);
->  
-> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-> index ca5598ae8bfc..9bed1a6cb163 100644
-> --- a/drivers/gpu/drm/radeon/radeon_display.c
-> +++ b/drivers/gpu/drm/radeon/radeon_display.c
-> @@ -1604,8 +1604,6 @@ int radeon_modeset_init(struct radeon_device *rdev)
->  
->  	rdev->ddev->mode_config.fb_modifiers_not_supported = true;
->  
-> -	rdev->ddev->mode_config.fb_base = rdev->mc.aper_base;
-> -
->  	ret = radeon_modeset_create_props(rdev);
->  	if (ret) {
->  		return ret;
-> diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
-> index 6ccea51d4072..cc6754d88b81 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fb.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fb.c
-> @@ -276,7 +276,7 @@ static int radeonfb_create(struct drm_fb_helper *helper,
->  	drm_fb_helper_fill_info(info, &rfbdev->helper, sizes);
->  
->  	/* setup aperture base/size for vesafb takeover */
-> -	info->apertures->ranges[0].base = rdev->ddev->mode_config.fb_base;
-> +	info->apertures->ranges[0].base = rdev->mc.aper_base;
->  	info->apertures->ranges[0].size = rdev->mc.aper_size;
->  
->  	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
-> diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
-> index 9291209154a7..bce71c0ccc9e 100644
-> --- a/drivers/gpu/drm/tegra/fb.c
-> +++ b/drivers/gpu/drm/tegra/fb.c
-> @@ -280,7 +280,6 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
->  		}
->  	}
->  
-> -	drm->mode_config.fb_base = (resource_size_t)bo->iova;
->  	info->screen_base = (void __iomem *)bo->vaddr + offset;
->  	info->screen_size = size;
->  	info->fix.smem_start = (unsigned long)(bo->iova + offset);
-> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-> index a51262289aef..04682f831544 100644
-> --- a/drivers/gpu/drm/tiny/bochs.c
-> +++ b/drivers/gpu/drm/tiny/bochs.c
-> @@ -543,7 +543,6 @@ static int bochs_kms_init(struct bochs_device *bochs)
->  	bochs->dev->mode_config.max_width = 8192;
->  	bochs->dev->mode_config.max_height = 8192;
->  
-> -	bochs->dev->mode_config.fb_base = bochs->fb_base;
->  	bochs->dev->mode_config.preferred_depth = 24;
->  	bochs->dev->mode_config.prefer_shadow = 0;
->  	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 6b5e01295348..5362702fffe1 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -345,7 +345,6 @@ struct drm_mode_config_funcs {
->   * @max_width: maximum fb pixel width on this device
->   * @max_height: maximum fb pixel height on this device
->   * @funcs: core driver provided mode setting functions
-> - * @fb_base: base address of the framebuffer
->   * @poll_enabled: track polling support for this device
->   * @poll_running: track polling status for this device
->   * @delayed_event: track delayed poll uevent deliver for this device
-> @@ -542,7 +541,6 @@ struct drm_mode_config {
->  	int min_width, min_height;
->  	int max_width, max_height;
->  	const struct drm_mode_config_funcs *funcs;
-> -	resource_size_t fb_base;
->  
->  	/* output poll support */
->  	bool poll_enabled;
-
--- 
-Regards,
-
-Laurent Pinchart
+T24gVHVlLCAyMDIyLTEwLTE4IGF0IDE5OjI4ICswMzAwLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3Rl
+Ogo+ID4gQEAgLTI3MSw3ICsyNjAsOCBAQCBzdGF0aWMgaW50IGhpYm1jX2xvYWQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldikKPiA+IMKgwqDCoMKgwqDCoCBpZiAocmV0KQo+ID4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBnb3RvIGVycjsKPiA+IAo+ID4gLcKgwqDCoMKgIHJldCA9IGRybW1f
+dnJhbV9oZWxwZXJfaW5pdChkZXYsIHBjaV9yZXNvdXJjZV9zdGFydChwZGV2LCAwKSwgcHJpdi0K
+PiA+ID5mYl9zaXplKTsKPiA+ICvCoMKgwqDCoCByZXQgPSBkcm1tX3ZyYW1faGVscGVyX2luaXQo
+ZGV2LCBwY2lfcmVzb3VyY2Vfc3RhcnQocGRldiwgMCksCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwY2lfcmVzb3Vy
+Y2VfbGVuKHBkZXYsIDEpKTsKPiAKPiBUaGlzIHNob3VsZCBiZSBwY2lfcmVzb3VyY2VfbGVuKHBk
+ZXYsIDApLiBBcGFydCBmcm9tIHRoYXQsCgpFaCwgeWVzLCBvZiBjb3Vyc2UuIFRoYW5rcyEKCj4g
+UmV2aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJv
+YXJkLmNvbT4KCgp6Cg==
