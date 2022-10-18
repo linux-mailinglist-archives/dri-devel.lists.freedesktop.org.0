@@ -2,73 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5826034F1
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 23:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAD66034F7
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 23:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A2210F01A;
-	Tue, 18 Oct 2022 21:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F13D10F018;
+	Tue, 18 Oct 2022 21:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE8E410EEAE;
- Tue, 18 Oct 2022 21:28:42 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id r22so19710819ljn.10;
- Tue, 18 Oct 2022 14:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:references:cc:to:content-language:subject:reply-to
- :user-agent:mime-version:date:message-id:from:from:to:cc:subject
- :date:message-id:reply-to;
- bh=4OU8Zwxg156QdzrONF2oQZQLMwyWiR7HNUxgsUc5WfY=;
- b=EOCCw7tePlnV5vQkCJgao9cWevGoLw5Y5Yp5XafKbiY9sn90/ZGdm2Sjh0O4jDQA/4
- h4Hm189YWdCI59Iy4omABXFHgXA+YkFXlwQyHiawVQorr7m9q4E21r2/KgbJsYwbYhEA
- Dbxw9T7RySoY//Qzq2p3gwaZRVE3PaJEVUiqCc7zAtxy89FlwRqUoR7ohzbwp2aIB+Gp
- vYA/wfPqfQXjzaXwVzGtnohIj2dEstFg7f0QcjDCYX5s/tMHv3LqwD/gPjjzGTt/gzkz
- Ja76YK1fhMaIbPyUrAcxSKOtrAh6SZXlMsgWzCsaEeyE2XH9nkJ2aeUpwqyaeUwQAou9
- fA0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:references:cc:to:content-language:subject:reply-to
- :user-agent:mime-version:date:message-id:from:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4OU8Zwxg156QdzrONF2oQZQLMwyWiR7HNUxgsUc5WfY=;
- b=F6cLqu4Z8jGmVfPzmsPcqNMPiM4NVzeI8fj7bSkSC68D4cls9HPLJ9A9WU2dKgHZqh
- hw+ws8ivhtt6Kj8vKFGnoJR9YhtrEsr5U2Bxwb8XY8WhHmsSqyGPkiALVv1qWQsXsbsX
- BKhTB2aco7QNPqj73LkJauhLKrW4E9vGN29OharOpHwdTOCzwZfd/pZTR6Yni+FA1rNI
- OjZHclzV5EZX/RwaSFwrqRHNRFlXdvVuxzfNwblH9cm4a+gUbCnDGtTNAGpDN77yjm1H
- SkPlcTRLPr8cB4/M7u3nDcykQ/LJlymPgSx+DWGYE8ACvrRDQ+zQn6dg0nSt8eqFP0yN
- 5p5g==
-X-Gm-Message-State: ACrzQf08avTYSne+pUncYr1uXYM1BaoHkHNkqGpOnYHkhWi3L48isgB9
- 3wRJfPa6ZjNXlCmv19SHUDI=
-X-Google-Smtp-Source: AMsMyM6I10XqpMs813GH0q+zs3c5zhpTvkYzCNQjak6KuMq7xMVwM5QeZwoh6ZuDreSMA43MfYe7wQ==
-X-Received: by 2002:a2e:8717:0:b0:26f:c379:677 with SMTP id
- m23-20020a2e8717000000b0026fc3790677mr1702265lji.445.1666128520627; 
- Tue, 18 Oct 2022 14:28:40 -0700 (PDT)
-Received: from ?IPV6:2a02:a31a:a240:1700:ade4:dc4:81f3:286b?
- ([2a02:a31a:a240:1700:ade4:dc4:81f3:286b])
- by smtp.googlemail.com with ESMTPSA id
- g3-20020a056512118300b004a27d2ea029sm2007903lfr.172.2022.10.18.14.28.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 14:28:39 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------omM0clkR5bRAZrwq1o3dB3sR"
-Message-ID: <da2b4cb4-5d12-3161-64e3-e87a8cc63e81@gmail.com>
-Date: Tue, 18 Oct 2022 23:28:35 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A021F10E956;
+ Tue, 18 Oct 2022 21:29:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666128573; x=1697664573;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=byxAF7yMBTTsGmWqpzhQG8m6PNArFslYWBnw5glY8kI=;
+ b=nOVqqw2jM0OdlixHaQW3b6uwGkRRRwHw/zwDPGjeSgc/DCK/6lQGwAva
+ g3nDv0wZcpPUsXlfU6O7fbRDN/Q8I4fuwwpJy2i1vOShpTSOO/d613TBD
+ L1PbXyIIcdpcYJrse5p4WGklap3TiZWr51Z2m8QvQHlD/8FLdbFfx5S2q
+ DXsaWUOm/VfzIYTuhowKP64A7deUV7ZmyXZmuBa8a+o4v8n2PNSRwm58W
+ 7B1rJQrWNPhFt7/DS/n1iNjvYt0oO3gDiCSnY4NEOzGHZhvRF7O3MQg2d
+ theBSO48PXZS8UEhuqp6SyQMzKgoUyXbc4LPZxeFClt1yWiatdO7xgqPQ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="307349500"
+X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; d="scan'208";a="307349500"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2022 14:29:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="733860330"
+X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; d="scan'208";a="733860330"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga002.fm.intel.com with ESMTP; 18 Oct 2022 14:29:26 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 18 Oct 2022 14:29:25 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 18 Oct 2022 14:29:25 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 18 Oct 2022 14:29:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bxt3eglvrtXma6ahWawUpSvXpEkMjZLlZyGFUv+JN3nlbGMLUEJTM80XbT7rxLIkUqCvrP8yDoxAOreRZzWXdzYVNZd3Y5Mrs7+ELberw1alYMU47BzgC6pX5BYoc19U1fVxUN4Kyzpp0GlpH2tNf1iY6rA6BFzlu5tOo2yxSd7fpDlyqTWyxwP2qtU72cYaeIsf+RzBl57Ii3kLUVoVveFCN/gj80syQMPiU9yWDddlD+1gJ6idQowV7DB3uskAr1jtiO0tm57EEtJAUUrIZzmn8YvW61/n63Ahu3ZwMLm00raeCPJnlJGijQx3H8kEEdI86pffJ8ipjDDqzPOzXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=byxAF7yMBTTsGmWqpzhQG8m6PNArFslYWBnw5glY8kI=;
+ b=nO6DL5167Dg7qSMarIJoUBFo678oZaGaFBVBcMt8lA9BSHUlehh03+dA7I2a7kd3a6jOUS7UhEfsFTSHpFD18heM7s8w4f10aHkpPKx1dgYuvzTVUKUMD0Lc1fkKtctAlBolgCL0uukfaJbL/8xE0bAWQEjF+MLWDRn2wOLi3W/vIrlGeCFF7yuHv1liNk7W9tIM6SdGj0H8t/9Gm9NfgPYtsPTwzVnW2rTMsFBcwLvtgFl0ZY8pNHy0+Uc0folLyfPJHVhWVaAduN4Tz9YXV1/WtqsEGefZuXju0uHq3Bn9OAZgt9e0FQ2HQn1p9fPikC+z5M5eEEyF4M7PjrarWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB6278.namprd11.prod.outlook.com (2603:10b6:208:3c2::8)
+ by SJ0PR11MB4879.namprd11.prod.outlook.com (2603:10b6:a03:2da::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.31; Tue, 18 Oct
+ 2022 21:29:22 +0000
+Received: from MN0PR11MB6278.namprd11.prod.outlook.com
+ ([fe80::9565:8fb8:2340:6430]) by MN0PR11MB6278.namprd11.prod.outlook.com
+ ([fe80::9565:8fb8:2340:6430%5]) with mapi id 15.20.5723.033; Tue, 18 Oct 2022
+ 21:29:22 +0000
+From: "Chegondi, Harish" <harish.chegondi@intel.com>
+To: "Roper, Matthew D" <matthew.d.roper@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/i915/pvc: Update forcewake domain for CCS register
+ ranges
+Thread-Topic: [PATCH] drm/i915/pvc: Update forcewake domain for CCS register
+ ranges
+Thread-Index: AQHY4CT54h4dXt0NW0CYnLBTScWs264UsRYA
+Date: Tue, 18 Oct 2022 21:29:22 +0000
+Message-ID: <fbd6db944c2ac9be808d5b262576828ac0ea06b5.camel@intel.com>
+References: <20221014233004.1053678-1-matthew.d.roper@intel.com>
+In-Reply-To: <20221014233004.1053678-1-matthew.d.roper@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB6278:EE_|SJ0PR11MB4879:EE_
+x-ms-office365-filtering-correlation-id: c186065d-0ce9-40cb-33e1-08dab14fd308
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fS3k3kGGrX9hgVfBTC6Ck+Mt9SgQlVE+jVKaNo+ed5AAvpor8cH3yxef6NsniC1P/ejPFOW8k/yBafJk4gal0xMlEAI5q8wxkBdq+5YMKgHSavdNQqS0kdwvAFwhA0H+tihU09+bB8nthDLubdFK87dWKiplwEW8fNEAHMs7wZQh/J4rxlDCtACpVd8NgbWYi5eQdDvxKLhYmg9P9jo2D/mj6ExqNZnpBmeAz+TTGbK9H3fL94nbb0g5LeXHCQOsu3DKSe9GMNxyIQR+CwbZO7dTiE8HEcoeTQlMWyM2Nb90cCtn0RdXgVb/13xm5ggXI/5GiHoIHTrMc7LgwnRc7K3IpRCHwwIH/c/4ZRtj8c1MrFB2PbxBpF8544MuYNSehndDSkNDn6bc/yGa8xJQ5tvZCE5BZMWkbWswzzGV5LC4TmEcQd4HRm5j0frAkcmKLsV/Ia455diGjI6eSwiYfxoi6zV1sZc0AjctCtgxPIt+Wed1+WUPCSl0oXDbYOSluWVSYO6/r8xWumuqLOnrT8vgggaH5BH3IWafga4QA1VE+2aYs2ZPylrDCe6hwZwQqD2auGPweA7Is4YClbOUmv6GQZ4LroawR+Y7lRA+C6IvrWzaPGm1J8541mr0d2MJXmNN6uqTsCGAEQ/IScGPO44+jMwntFjjumsX5F26FHkll7TfZ6QiFNN6vkKnmfYfkxEOV4LDe1f1tPZ7znGaFVAE1uOCr0FQHeZWwuNREnNXUllqZ7su7MYpol5w8ff2u2fz2brsnBDE+nj32MXHyQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6278.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(366004)(136003)(376002)(396003)(39860400002)(451199015)(86362001)(36756003)(38070700005)(38100700002)(122000001)(82960400001)(2906002)(4001150100001)(83380400001)(5660300002)(8936002)(15650500001)(6512007)(186003)(2616005)(6506007)(26005)(6486002)(316002)(478600001)(110136005)(71200400001)(4326008)(91956017)(76116006)(66446008)(64756008)(8676002)(66946007)(66556008)(66476007)(41300700001)(450100002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a3lHbmR4L3EyODdwa1c1N3lXVlJMZGFjY2xpTFRLOUxtTkszUTNnemNyTTJD?=
+ =?utf-8?B?TER1a3Z0bHdmS1ExSFZ4RlhvZEprbm91TFBTVmtIQlZJb2YzcUlqSEdXb1RR?=
+ =?utf-8?B?QTVmTkREZnBPdm5KemUzSGg3MGg4NGRXeFg2VUR6RGRyV3N3bEE4KzRmcldh?=
+ =?utf-8?B?dTVvdWt5R0ZsWUs1TFE3VFkvL1pMOFhIdmRLR01XZ1BEbi9XQXVmVEhYNDJx?=
+ =?utf-8?B?OFJvKzRSUUVwL1M3Nk8yd0hiL0t3T2NqNTZaTHhQU21ibCs4N3Bod0c4MzAy?=
+ =?utf-8?B?NUlnTEhFNjE4eHpCVkhRcXdNU2w4eWJTTFVRU3g1T1NoWVROL0FVNFVRRDBr?=
+ =?utf-8?B?MC95Y3ZRajkrOEY3YVZwU2diSWNBN3V6UmY0ckpRNGpMZ0dXSWltbmhsMGts?=
+ =?utf-8?B?YmxMS0FtV09tbWlCelo2bjBrbGVqWnFFdXUwbWlKSEZnTDhkNEhEaG5RQ2cv?=
+ =?utf-8?B?R002WWtYY1cxaUVNNjBPY3d6aTBIV2VraTNLdXZoOWRuV281WUJFVEFLOXJr?=
+ =?utf-8?B?U0VFOGZWdnFUVndEdVhCTVV5dk5CRFJucHNkUFhVSHhQMVRPL3h5MEN4T0FP?=
+ =?utf-8?B?TlVERlJWTE5GTzBwa1h1OG5ZcGUvdkpJUXV5c2VwQ1VuVzJZa3BtT0ZVU3Bt?=
+ =?utf-8?B?OU1yN1F0QThoMjBTenpUZEdmVmp5WWs0R05pd1F5VlJ1a2F0VVVjOFlxK25n?=
+ =?utf-8?B?aVhyUUliYTR4cTh2SERFM2dtSVNZZDZiNDJzNXNKeFlRU2Z2WmFmN2o1VlBM?=
+ =?utf-8?B?N2RmWXVTYjJzOWJlWERXd2o2MkhVUkRqRVRLb0VKcklSMEFuc2ViVjZEQ2Rk?=
+ =?utf-8?B?TWxLNEFYRUY2UWl6Sk52ZzNnQ2x5TGN6MW5wQ1BDRTRCN2pvdUdOMGxwa2lF?=
+ =?utf-8?B?d0NrRHRaVGo5ZjhwT2dweXN4ZVJ5QXpZV1V1WW9COStGc3VIbDZqWEN2ZUto?=
+ =?utf-8?B?a1A2NWE4eEhjNUhQZXdqNlFySWFJVUtidFNzKzFXRDlaTTFBK1BRZ0dFbzVa?=
+ =?utf-8?B?bURBZGR0bk5qY0VFMWlYR2VzK1EyZi9Id2hrMVV3bWxic09MN0V1bGFjQk5H?=
+ =?utf-8?B?WCt0OGN6aFdYZ28wbUNxSDk0M3FLODZlRHd0c0p4UndpVzBhbVdlaStJeEkr?=
+ =?utf-8?B?U1dER3dsRnVES0lVcFdhZXU2OWExMzcybG1uM1FrQ3E3MEo1STE5NHorTkx4?=
+ =?utf-8?B?MnZYUG9rWDBBZmtkb3N4am9abGg0RnA0cGtxcHRXZkFTbFM2MEZ2bnVRZVpx?=
+ =?utf-8?B?TlN1VzdaZjh5N0FKZG1oMXIzZEJLMmpFcGZkZDFFaFRjOEI3Wi92S0tYQnFY?=
+ =?utf-8?B?VjZqcHdOSUhLaHAxcUY3aE9RSmhkaDZCMjVhSit5ejc5a2gzRG43djJGZ1l4?=
+ =?utf-8?B?L0lueFRDQzgrTlk4bXAwZFlDbTVRcjVuNzJlNFZRMzdRQ3dkQUJVcXhYc0w3?=
+ =?utf-8?B?dFBwUExtampPMTFOVHNnQjV3akhaZlJEL1ZrdTVmR3ZJT2pMM2JWcHczTXhJ?=
+ =?utf-8?B?bk5DdUVmOHhUTXIzb3ZsR3ZMTnNqaHI2RC9PN2RVTXlPUk1HV3MvUHA4Q01m?=
+ =?utf-8?B?RFJvSm90WjdvNVo4bUVvb21pUmlVYTB2QzRrZFhiU1F2NThzdUxpZFh5K0hs?=
+ =?utf-8?B?cGhoWUU5c2NuS05ta0s4YjhyT1NWeDdQcVVxQTBISU8wYUpMcUZhamp6aTIw?=
+ =?utf-8?B?SXV2S3lYdW15dXZoRDJlQXZFOHQ4NzlWaGZRenR5UzlndVozY3RxY0dBTnlw?=
+ =?utf-8?B?clFaZGdHRFJmdDhORUpTdVRrTGM1NTZMNEU0bHFoQVY5NXhpVXJmZ1gzRnRP?=
+ =?utf-8?B?V3d0UmVWMzh4RS9kR21Md2JGaVNwM2lrbThrbU52Nm5WNzFIMVNrbkRpVnI0?=
+ =?utf-8?B?eDJxMFNGclkyOWQ2NHVIdzgyMzdtWjlUOC9XbDIzTGZ1dEIwdlNYTUdha0Zw?=
+ =?utf-8?B?SmpsZW03OWxEYXVTSnY1b1NnWCs5d2RMRElCTUlBdFZwaXhLVzJsRmpLa2FB?=
+ =?utf-8?B?anFDWWNTcmFEUW9lRlVSaXBaQWJ6cUVjTTAzc3VjVCtHbFA1Z0JnMnk5eXB2?=
+ =?utf-8?B?QXZVNGMwZ2JZaEQ0cFpOeDVqTHhUbVovblY0bzhjOGpVeGs5TXY3ZW1PWTFH?=
+ =?utf-8?B?WVFsaWxrTzdYN25ndWVhMmFWNFpMa21mcit6c0Q0dWdZSHk1YVM2TjlhUkRL?=
+ =?utf-8?Q?SpOYAlf8S/PoKAN5gDz+C8M=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6B8BFE77F963DB4FA7703ADA36DCBBF6@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.3
-Subject: Re: [PATCH v5 20/22] drm/vc4: vec: Convert to the new TV mode property
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-20-d841cc64fe4b@cerno.tech>
- <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
- <81936381-ae37-8c84-4681-9eff19f653b5@tronnes.org>
- <20221018100033.d2sf7xagyycx5d4p@houat>
-In-Reply-To: <20221018100033.d2sf7xagyycx5d4p@houat>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6278.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c186065d-0ce9-40cb-33e1-08dab14fd308
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2022 21:29:22.7253 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: k9didmOq+wpKbrtuX2nKpwUJe5QRSbKoH+H262GXsYs9rVk9Zdm0RZFEzZgMeuLeY/6exM0h9kKocytimwQcbhN/N8zVpykPno+8iNleTlI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4879
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,299 +159,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kfyatek+publicgit@gmail.com
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------omM0clkR5bRAZrwq1o3dB3sR
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Hi Maxime,
-
-W dniu 18.10.2022 o 12:00, Maxime Ripard pisze:
-> On Mon, Oct 17, 2022 at 12:31:31PM +0200, Noralf Trønnes wrote:
->> Den 16.10.2022 20.52, skrev Mateusz Kwiatkowski:
->>>>  static int vc4_vec_connector_get_modes(struct drm_connector *connector)
->>>>  {
->>>> -	struct drm_connector_state *state = connector->state;
->>>>  	struct drm_display_mode *mode;
->>>>  
->>>> -	mode = drm_mode_duplicate(connector->dev,
->>>> -				  vc4_vec_tv_modes[state->tv.legacy_mode].mode);
->>>> +	mode = drm_mode_analog_ntsc_480i(connector->dev);
->>>>  	if (!mode) {
->>>>  		DRM_ERROR("Failed to create a new display mode\n");
->>>>  		return -ENOMEM;
->>>>  	}
->>>>  
->>>> +	mode->type |= DRM_MODE_TYPE_PREFERRED;
->>>>  	drm_mode_probed_add(connector, mode);
->>>>  
->>>> -	return 1;
->>>> +	mode = drm_mode_analog_pal_576i(connector->dev);
->>>> +	if (!mode) {
->>>> +		DRM_ERROR("Failed to create a new display mode\n");
->>>> +		return -ENOMEM;
->>>> +	}
->>>> +
->>>> +	drm_mode_probed_add(connector, mode);
->>>> +
->>>> +	return 2;
->>>> +}
->>>
->>> Referencing those previous discussions:
->>> - https://lore.kernel.org/dri-devel/0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org/
->>> - https://lore.kernel.org/dri-devel/c8f8015a-75da-afa8-ca7f-b2b134cacd16@gmail.com/
->>>
->>> Unconditionally setting the 480i mode as DRM_MODE_TYPE_PREFERRED causes Xorg
->>> (at least on current Raspberry Pi OS) to display garbage when
->>> video=Composite1:PAL is specified on the command line, so I'm afraid this won't
->>> do.
->>>
->>> As I see it, there are three viable solutions for this issue:
->>>
->>> a) Somehow query the video= command line option from this function, and set
->>>    DRM_MODE_TYPE_PREFERRED appropriately. This would break the abstraction
->>>    provided by global DRM code, but should work fine.
->>>
->>> b) Modify drm_helper_probe_add_cmdline_mode() so that it sets
->>>    DRM_MODE_TYPE_PREFERRED in addition to DRM_MODE_TYPE_USERDEF. This seems
->>>    pretty robust, but affects the entire DRM subsystem, which may break
->>>    userspace in different ways.
->>>
->>>    - Maybe this could be mitigated by adding some additional conditions, e.g.
->>>      setting the PREFERRED flag only if no modes are already flagged as such
->>>      and/or only if the cmdline mode is a named one (~= analog TV mode)
->>>
->>> c) Forcing userspace (Xorg / Raspberry Pi OS) to get fixed and honor the USERDEF
->>>    flag.
->>>
->>> Either way, hardcoding 480i as PREFERRED does not seem right.
->>>
->>
->> My solution for this is to look at tv.mode to know which mode to mark as
->> preferred. Maxime didn't like this since it changes things behind
->> userspace's back. I don't see how that can cause any problems for userspace.
->>
->> If userspace uses atomic and sets tv_mode, it has to know which mode to
->> use before hand, so it doesn't look at the preferreded flag.
->>
->> If it uses legacy and sets tv_mode, it can end up with a stale preferred
->> flag, but no worse than not having the flag or that ntsc is always
->> preferred.
->>
->> If it doesn't change tv_mode, there's no problem, the preferred flag
->> doesn't change.
->
-> I don't like it because I just see no way to make this reliable. When we
-> set tv_mode, we're not only going to change the preferred flag, but also
-> the order of the modes to make the preferred mode first.
->
-> Since we just changed the mode lists, we also want to send a hotplug
-> event to userspace so that it gets notified of it. It will pick up the
-> new preferred mode, great.
->
-> But what if it doesn't? There's no requirement for userspace to handle
-> hotplug events, and Kodi won't for example. So we just changed the TV
-> mode but not the actual mode, and that's it. It's just as broken for
-> Kodi as it is for X11 right now.
->
-> If we can't get a bullet-proof solution, then I'm not convinced it's
-> worth addressing. Especially since it's already the current state, and
-> it doesn't seem to bother a lot of people.
-
-I wouldn't rely on the "doesn't seem to bother a lot of people" bit too much.
-Here's why:
-
-- Analog TV output is a relatively obscure feature in this day and age in the
-  first place.
-
-- Out of the people interested in using it with VC4/VEC, many are actually using
-  the downstream kernel from https://github.com/raspberrypi/linux instead of the
-  upstream kernel, and/or firmware mode-switching instead of proper KMS.
-
-  - The downstream kernel only reports modes that match the TV mode set at boot
-    either via vc4.tv_norm=, or implied by the resolution set via video=; note
-    that video= is also set appropriately at boot by Pi firmware, based on the
-    value of sdtv_mode set in config.txt. See also the
-    vc4_vec_connector_get_modes() and vc4_vec_get_default_mode() functions in
-    https://github.com/raspberrypi/linux/blob/dbd073e4028580a09b6ee507e0c137441cb52650/drivers/gpu/drm/vc4/vc4_vec.c
-
-  - When firmware mode-switching is used, it sets the appropriate TV mode and
-    resolution based on the sdtv_mode set in config.txt.
-
-So, all in all, the number of people who would use 1. analog TV out with VC4,
-2. the upstream kernel, 3. full KMS (and thus the vc4_vec.c code) is rather
-small, so the fact that you're not hearing too many complaints doesn't mean that
-the current behavior is OK. If anybody ran into problems and was bothered by
-that, they likely migrated to the downstream kernel and/or firmware
-mode-switching.
-
-That being said, I completely forgot that there's a cmdline_mode field in
-struct drm_connector, even though I actually added code that examines it inside
-vc4_vec_connector_get_modes() that's in the downstream kernel. So... what do
-you think about just examining connector->cmdline_mode.tv_mode there? It seems
-to solve all the problems.
-
-Best regards,
-Mateusz Kwiatkowski
-
---------------omM0clkR5bRAZrwq1o3dB3sR
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>Hi Maxime,
-
-W dniu 18.10.2022 o 12:00, Maxime Ripard pisze:
-&gt; On Mon, Oct 17, 2022 at 12:31:31PM +0200, Noralf Trønnes wrote:
-&gt;&gt; Den 16.10.2022 20.52, skrev Mateusz Kwiatkowski:
-&gt;&gt;&gt;&gt;  static int vc4_vec_connector_get_modes(struct drm_connector *connector)
-&gt;&gt;&gt;&gt;  {
-&gt;&gt;&gt;&gt; -	struct drm_connector_state *state = connector-&gt;state;
-&gt;&gt;&gt;&gt;  	struct drm_display_mode *mode;
-&gt;&gt;&gt;&gt;  
-&gt;&gt;&gt;&gt; -	mode = drm_mode_duplicate(connector-&gt;dev,
-&gt;&gt;&gt;&gt; -				  vc4_vec_tv_modes[state-&gt;tv.legacy_mode].mode);
-&gt;&gt;&gt;&gt; +	mode = drm_mode_analog_ntsc_480i(connector-&gt;dev);
-&gt;&gt;&gt;&gt;  	if (!mode) {
-&gt;&gt;&gt;&gt;  		DRM_ERROR("Failed to create a new display mode\n");
-&gt;&gt;&gt;&gt;  		return -ENOMEM;
-&gt;&gt;&gt;&gt;  	}
-&gt;&gt;&gt;&gt;  
-&gt;&gt;&gt;&gt; +	mode-&gt;type |= DRM_MODE_TYPE_PREFERRED;
-&gt;&gt;&gt;&gt;  	drm_mode_probed_add(connector, mode);
-&gt;&gt;&gt;&gt;  
-&gt;&gt;&gt;&gt; -	return 1;
-&gt;&gt;&gt;&gt; +	mode = drm_mode_analog_pal_576i(connector-&gt;dev);
-&gt;&gt;&gt;&gt; +	if (!mode) {
-&gt;&gt;&gt;&gt; +		DRM_ERROR("Failed to create a new display mode\n");
-&gt;&gt;&gt;&gt; +		return -ENOMEM;
-&gt;&gt;&gt;&gt; +	}
-&gt;&gt;&gt;&gt; +
-&gt;&gt;&gt;&gt; +	drm_mode_probed_add(connector, mode);
-&gt;&gt;&gt;&gt; +
-&gt;&gt;&gt;&gt; +	return 2;
-&gt;&gt;&gt;&gt; +}
-&gt;&gt;&gt;
-&gt;&gt;&gt; Referencing those previous discussions:
-&gt;&gt;&gt; - <a class="moz-txt-link-freetext" href="https://lore.kernel.org/dri-devel/0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org/">https://lore.kernel.org/dri-devel/0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org/</a>
-&gt;&gt;&gt; - <a class="moz-txt-link-freetext" href="https://lore.kernel.org/dri-devel/c8f8015a-75da-afa8-ca7f-b2b134cacd16@gmail.com/">https://lore.kernel.org/dri-devel/c8f8015a-75da-afa8-ca7f-b2b134cacd16@gmail.com/</a>
-&gt;&gt;&gt;
-&gt;&gt;&gt; Unconditionally setting the 480i mode as DRM_MODE_TYPE_PREFERRED causes Xorg
-&gt;&gt;&gt; (at least on current Raspberry Pi OS) to display garbage when
-&gt;&gt;&gt; video=Composite1:PAL is specified on the command line, so I'm afraid this won't
-&gt;&gt;&gt; do.
-&gt;&gt;&gt;
-&gt;&gt;&gt; As I see it, there are three viable solutions for this issue:
-&gt;&gt;&gt;
-&gt;&gt;&gt; a) Somehow query the video= command line option from this function, and set
-&gt;&gt;&gt;    DRM_MODE_TYPE_PREFERRED appropriately. This would break the abstraction
-&gt;&gt;&gt;    provided by global DRM code, but should work fine.
-&gt;&gt;&gt;
-&gt;&gt;&gt; b) Modify drm_helper_probe_add_cmdline_mode() so that it sets
-&gt;&gt;&gt;    DRM_MODE_TYPE_PREFERRED in addition to DRM_MODE_TYPE_USERDEF. This seems
-&gt;&gt;&gt;    pretty robust, but affects the entire DRM subsystem, which may break
-&gt;&gt;&gt;    userspace in different ways.
-&gt;&gt;&gt;
-&gt;&gt;&gt;    - Maybe this could be mitigated by adding some additional conditions, e.g.
-&gt;&gt;&gt;      setting the PREFERRED flag only if no modes are already flagged as such
-&gt;&gt;&gt;      and/or only if the cmdline mode is a named one (~= analog TV mode)
-&gt;&gt;&gt;
-&gt;&gt;&gt; c) Forcing userspace (Xorg / Raspberry Pi OS) to get fixed and honor the USERDEF
-&gt;&gt;&gt;    flag.
-&gt;&gt;&gt;
-&gt;&gt;&gt; Either way, hardcoding 480i as PREFERRED does not seem right.
-&gt;&gt;&gt;
-&gt;&gt;
-&gt;&gt; My solution for this is to look at tv.mode to know which mode to mark as
-&gt;&gt; preferred. Maxime didn't like this since it changes things behind
-&gt;&gt; userspace's back. I don't see how that can cause any problems for userspace.
-&gt;&gt;
-&gt;&gt; If userspace uses atomic and sets tv_mode, it has to know which mode to
-&gt;&gt; use before hand, so it doesn't look at the preferreded flag.
-&gt;&gt;
-&gt;&gt; If it uses legacy and sets tv_mode, it can end up with a stale preferred
-&gt;&gt; flag, but no worse than not having the flag or that ntsc is always
-&gt;&gt; preferred.
-&gt;&gt;
-&gt;&gt; If it doesn't change tv_mode, there's no problem, the preferred flag
-&gt;&gt; doesn't change.
-&gt;
-&gt; I don't like it because I just see no way to make this reliable. When we
-&gt; set tv_mode, we're not only going to change the preferred flag, but also
-&gt; the order of the modes to make the preferred mode first.
-&gt;
-&gt; Since we just changed the mode lists, we also want to send a hotplug
-&gt; event to userspace so that it gets notified of it. It will pick up the
-&gt; new preferred mode, great.
-&gt;
-&gt; But what if it doesn't? There's no requirement for userspace to handle
-&gt; hotplug events, and Kodi won't for example. So we just changed the TV
-&gt; mode but not the actual mode, and that's it. It's just as broken for
-&gt; Kodi as it is for X11 right now.
-&gt;
-&gt; If we can't get a bullet-proof solution, then I'm not convinced it's
-&gt; worth addressing. Especially since it's already the current state, and
-&gt; it doesn't seem to bother a lot of people.
-
-I wouldn't rely on the "doesn't seem to bother a lot of people" bit too much.
-Here's why:
-
-- Analog TV output is a relatively obscure feature in this day and age in the
-  first place.
-
-- Out of the people interested in using it with VC4/VEC, many are actually using
-  the downstream kernel from <a class="moz-txt-link-freetext" href="https://github.com/raspberrypi/linux">https://github.com/raspberrypi/linux</a> instead of the
-  upstream kernel, and/or firmware mode-switching instead of proper KMS.
-
-  - The downstream kernel only reports modes that match the TV mode set at boot
-    either via vc4.tv_norm=, or implied by the resolution set via video=; note
-    that video= is also set appropriately at boot by Pi firmware, based on the
-    value of sdtv_mode set in config.txt. See also the
-    vc4_vec_connector_get_modes() and vc4_vec_get_default_mode() functions in
-    <a class="moz-txt-link-freetext" href="https://github.com/raspberrypi/linux/blob/dbd073e4028580a09b6ee507e0c137441cb52650/drivers/gpu/drm/vc4/vc4_vec.c">https://github.com/raspberrypi/linux/blob/dbd073e4028580a09b6ee507e0c137441cb52650/drivers/gpu/drm/vc4/vc4_vec.c</a>
-
-  - When firmware mode-switching is used, it sets the appropriate TV mode and
-    resolution based on the sdtv_mode set in config.txt.
-
-So, all in all, the number of people who would use 1. analog TV out with VC4,
-2. the upstream kernel, 3. full KMS (and thus the vc4_vec.c code) is rather
-small, so the fact that you're not hearing too many complaints doesn't mean that
-the current behavior is OK. If anybody ran into problems and was bothered by
-that, they likely migrated to the downstream kernel and/or firmware
-mode-switching.
-
-That being said, I completely forgot that there's a cmdline_mode field in
-struct drm_connector, even though I actually added code that examines it inside
-vc4_vec_connector_get_modes() that's in the downstream kernel. So... what do
-you think about just examining connector-&gt;cmdline_mode.tv_mode there? It seems
-to solve all the problems.
-
-Best regards,
-Mateusz Kwiatkowski
-</pre>
-  </body>
-</html>
-
---------------omM0clkR5bRAZrwq1o3dB3sR--
+T24gRnJpLCAyMDIyLTEwLTE0IGF0IDE2OjMwIC0wNzAwLCBNYXR0IFJvcGVyIHdyb3RlOgo+IFRo
+ZSBic3BlYyB3YXMganVzdCB1cGRhdGVkIHdpdGggYSBjb3JyZWN0aW9uIHRvIHRoZSBmb3JjZXdh
+a2UgZG9tYWluCj4gcmVxdWlyZWQgd2hlbiBhY2Nlc3NpbmcgcmVnaXN0ZXJzIGluIHRoZSBDQ1Mg
+ZW5naW5lIHJhbmdlcyAoMHgxYTAwMCAtCj4gMHgxZmZmZiBhbmQgMHgyNjAwMCAtIDB4MjdmZmYp
+IG9uIFBWQzsgdGhlc2UgcmFuZ2VzIHJlcXVpcmUgYSB3YWtlIG9uCj4gdGhlIFJFTkRFUiBkb21h
+aW4sIG5vdCB0aGUgR1QgZG9tYWluLgo+IAo+IEJzcGVjOiA2NzYwOQo+IFNpZ25lZC1vZmYtYnk6
+IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+CgpSZXZpZXdlZC1ieTogSGFy
+aXNoIENoZWdvbmRpIDxoYXJpc2guY2hlZ29uZGlAaW50ZWwuY29tPgoKPiDCoGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2ludGVsX3VuY29yZS5jIHwgMjIgKysrKysrKysrKysrLS0tLS0tLS0tLQo+IMKg
+MSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+IAo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF91bmNvcmUuYwo+IGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvaW50ZWxfdW5jb3JlLmMKPiBpbmRleCBjMDU4Y2RjNmQ4YTAuLjJhM2Uy
+ODY5ZmU3MSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF91bmNvcmUu
+Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3VuY29yZS5jCj4gQEAgLTE2ODIs
+MjUgKzE2ODIsMjcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBpbnRlbF9mb3JjZXdha2VfcmFuZ2UK
+PiBfX3B2Y19md19yYW5nZXNbXSA9IHsKPiDCoMKgwqDCoMKgwqDCoMKgR0VOX0ZXX1JBTkdFKDB4
+MTIwMDAsIDB4MTJmZmYsIDApLCAvKgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+MHgxMjAwMCAtIDB4MTI3ZmY6IGFsd2F5cyBvbgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgMHgxMjgwMCAtIDB4MTJmZmY6IHJlc2VydmVkICovCj4gLcKgwqDCoMKgwqDCoMKgR0VO
+X0ZXX1JBTkdFKDB4MTMwMDAsIDB4MjNmZmYsIEZPUkNFV0FLRV9HVCksIC8qCj4gK8KgwqDCoMKg
+wqDCoMKgR0VOX0ZXX1JBTkdFKDB4MTMwMDAsIDB4MTlmZmYsIEZPUkNFV0FLRV9HVCksIC8qCj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDEzMDAwIC0gMHgxMzVmZjogZ3QKPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDB4MTM2MDAgLSAweDE0N2ZmOiByZXNlcnZl
+ZAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMHgxNDgwMCAtIDB4MTUzZmY6IGd0
+Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDB4MTU0MDAgLSAweDE5ZmZmOiByZXNl
+cnZlZAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDFhMDAwIC0gMHgxZmZmZjog
+Z3QKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMHgyMDAwMCAtIDB4MjFmZmY6IHJl
+c2VydmVkCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDB4MjIwMDAgLSAweDIzZmZm
+OiBndCAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDE1NDAwIC0gMHgxOWZm
+ZjogcmVzZXJ2ZWQgKi8KPiArwqDCoMKgwqDCoMKgwqBHRU5fRldfUkFOR0UoMHgxYTAwMCwgMHgy
+MWZmZiwgRk9SQ0VXQUtFX1JFTkRFUiksIC8qCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoDB4MWEwMDAgLSAweDFmZmZmOiByZW5kZXIKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgMHgyMDAwMCAtIDB4MjFmZmY6IHJlc2VydmVkICovCj4gK8KgwqDCoMKgwqDCoMKgR0VO
+X0ZXX1JBTkdFKDB4MjIwMDAsIDB4MjNmZmYsIEZPUkNFV0FLRV9HVCksCj4gwqDCoMKgwqDCoMKg
+wqDCoEdFTl9GV19SQU5HRSgweDI0MDAwLCAweDI0MTdmLCAwKSwgLyoKPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoDI0MDAwIC0gMHgyNDA3ZjogYWx3YXlzIG9uCj4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAyNDA4MCAtIDB4MjQxN2Y6IHJlc2VydmVkICovCj4gLcKg
+wqDCoMKgwqDCoMKgR0VOX0ZXX1JBTkdFKDB4MjQxODAsIDB4M2ZmZmYsIEZPUkNFV0FLRV9HVCks
+IC8qCj4gK8KgwqDCoMKgwqDCoMKgR0VOX0ZXX1JBTkdFKDB4MjQxODAsIDB4MjVmZmYsIEZPUkNF
+V0FLRV9HVCksIC8qCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDI0MTgwIC0g
+MHgyNDFmZjogZ3QKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDB4MjQyMDAgLSAw
+eDI1MWZmOiByZXNlcnZlZAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMHgyNTIw
+MCAtIDB4MjUyZmY6IGd0Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDB4MjUzMDAg
+LSAweDI1ZmZmOiByZXNlcnZlZAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDI2
+MDAwIC0gMHgyN2ZmZjogZ3QKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMHgyODAw
+MCAtIDB4MmZmZmY6IHJlc2VydmVkCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDB4
+MzAwMDAgLSAweDNmZmZmOiBndCAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAw
+eDI1MzAwIC0gMHgyNWZmZjogcmVzZXJ2ZWQgKi8KPiArwqDCoMKgwqDCoMKgwqBHRU5fRldfUkFO
+R0UoMHgyNjAwMCwgMHgyZmZmZiwgRk9SQ0VXQUtFX1JFTkRFUiksIC8qCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoDB4MjYwMDAgLSAweDI3ZmZmOiByZW5kZXIKPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgMHgyODAwMCAtIDB4MmZmZmY6IHJlc2VydmVkICovCj4gK8Kg
+wqDCoMKgwqDCoMKgR0VOX0ZXX1JBTkdFKDB4MzAwMDAsIDB4M2ZmZmYsIEZPUkNFV0FLRV9HVCks
+Cj4gwqDCoMKgwqDCoMKgwqDCoEdFTl9GV19SQU5HRSgweDQwMDAwLCAweDFiZmZmZiwgMCksCj4g
+wqDCoMKgwqDCoMKgwqDCoEdFTl9GV19SQU5HRSgweDFjMDAwMCwgMHgxYzNmZmYsIEZPUkNFV0FL
+RV9NRURJQV9WREJPWDApLCAvKgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMHgx
+YzAwMDAgLSAweDFjMmJmZjogVkQwCgo=
