@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007F360256F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:19:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 427BE602572
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8E6210EED0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA10910EECF;
 	Tue, 18 Oct 2022 07:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0CA10EB91;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC39F10EEA2;
  Tue, 18 Oct 2022 07:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1666077409; x=1697613409;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BNQo5eJK0iUoaVPE6tYzQSgTKh8a4qGy5fjNeLPBRDM=;
- b=WDaUfDN9SgGTtV84Tl184y4K6HmNLljeSbe/YdZA/3kgghKqP1mTEZ43
- BUvCWW8Ox5b66nxqiHnFx/mcf4bZZ1GDgE4ptSVCtlmgC1JpBkl1eWvad
- Ul4XWs3+48uqmJZ4bAJPcA7cGi/J86Op/4ctIynTfRXQOAMPMRGDLvbQD
- vn+N5AaRtrR9t2K/ZEVFzDqS4D2oURPvqHLVMGZw3w4xBka69yL7uBk6m
- hxUPFM3w6SwDXFcTmLs8zuebx3wzACZP5IppOOqCkuE1S8ZI+Ex2W6ZXt
- XrttK+Wxyw314BU61aRTUdW787fPS3CG3bRFxDi7Kbgjqd888ILdYoxbX A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370221352"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="370221352"
+ bh=9U0LC5w5imfBEHsQjUDHcAy0ZtTzyhDyzVNleLXedPY=;
+ b=bqLKb02Zh8gxwmkhOf2n9UmclUFOj4pLhlvWV8ZlochbNF3DUSi8nJt9
+ rEgVN2llpDCxdY4He5lQasREJP2Sx8yHx7+D2EEwrLx7HYkOH1scd7O8r
+ OvZtOz3U+NMGaniAyKwEOSVCHct0LfvQUYNgMX1njq7lzsjfxFPDAxWgZ
+ HotunkMpzqhmDFp3mQXTJm5Km9dh4v1tg1AiK9/wLHbg2ESp/OSgdTzLr
+ qK3eQ5OH2qkNlhkEEjkqQN1rrVkjUeqPkKOpCN23nbRbLr81svi0Smpdg
+ hXfHl3NDhdSKuV0fsFTqbKfbDgXYp91Yf/5ssxMMyAzxGmO5OfNWmQcyr g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370221357"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="370221357"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2022 00:16:40 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="661783500"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="661783500"
+ 18 Oct 2022 00:16:41 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="661783506"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="661783506"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Oct 2022 00:16:40 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 13/17] drm/i915/vm_bind: Update
- i915_vma_verify_bind_complete()
-Date: Tue, 18 Oct 2022 00:16:26 -0700
-Message-Id: <20221018071630.3831-14-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v4 14/17] drm/i915/vm_bind: Expose i915_request_await_bind()
+Date: Tue, 18 Oct 2022 00:16:27 -0700
+Message-Id: <20221018071630.3831-15-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
 References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
@@ -65,67 +64,57 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ensure i915_vma_verify_bind_complete() handles case where bind
-is not initiated. Also make it non static, add documentation
-and move it out of CONFIG_DRM_I915_DEBUG_GEM.
+Rename __i915_request_await_bind() as i915_request_await_bind()
+and make it non-static as it will be used in execbuf3 ioctl path.
 
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/i915_vma.c | 16 +++++++++++-----
- drivers/gpu/drm/i915/i915_vma.h |  1 +
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/i915_vma.c | 8 +-------
+ drivers/gpu/drm/i915/i915_vma.h | 6 ++++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index eaa13e9ba966..4975fc662c86 100644
+index 4975fc662c86..ab89e907f2eb 100644
 --- a/drivers/gpu/drm/i915/i915_vma.c
 +++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -439,12 +439,21 @@ int i915_vma_sync(struct i915_vma *vma)
- 	return i915_vm_sync(vma->vm);
+@@ -1884,18 +1884,12 @@ void i915_vma_revoke_mmap(struct i915_vma *vma)
+ 		list_del(&vma->obj->userfault_link);
  }
  
--#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
--static int i915_vma_verify_bind_complete(struct i915_vma *vma)
-+/**
-+ * i915_vma_verify_bind_complete() - Check for the bind completion of the vma
-+ * @vma: vma to check for bind completion
-+ *
-+ * Returns: 0 if the vma bind is completed. Error code otherwise.
-+ */
-+int i915_vma_verify_bind_complete(struct i915_vma *vma)
+-static int
+-__i915_request_await_bind(struct i915_request *rq, struct i915_vma *vma)
+-{
+-	return __i915_request_await_exclusive(rq, &vma->active);
+-}
+-
+ static int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
  {
- 	struct dma_fence *fence = i915_active_fence_get(&vma->active.excl);
  	int err;
  
-+	/* Ensure vma bind is initiated */
-+	if (!i915_vma_is_bound(vma, I915_VMA_BIND_MASK))
-+		return -EINVAL;
-+
- 	if (!fence)
- 		return 0;
+ 	/* Wait for the vma to be bound before we start! */
+-	err = __i915_request_await_bind(rq, vma);
++	err = i915_request_await_bind(rq, vma);
+ 	if (err)
+ 		return err;
  
-@@ -457,9 +466,6 @@ static int i915_vma_verify_bind_complete(struct i915_vma *vma)
- 
- 	return err;
- }
--#else
--#define i915_vma_verify_bind_complete(_vma) 0
--#endif
- 
- I915_SELFTEST_EXPORT void
- i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
 diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 1cadbf8fdedf..04770f8ba815 100644
+index 04770f8ba815..19e57e12b956 100644
 --- a/drivers/gpu/drm/i915/i915_vma.h
 +++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -440,6 +440,7 @@ void i915_vma_make_purgeable(struct i915_vma *vma);
+@@ -54,6 +54,12 @@ void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+ /* do not reserve memory to prevent deadlocks */
+ #define __EXEC_OBJECT_NO_RESERVE BIT(31)
  
- int i915_vma_wait_for_bind(struct i915_vma *vma);
- int i915_vma_sync(struct i915_vma *vma);
-+int i915_vma_verify_bind_complete(struct i915_vma *vma);
- 
- /**
-  * i915_vma_get_current_resource - Get the current resource of the vma
++static inline int
++i915_request_await_bind(struct i915_request *rq, struct i915_vma *vma)
++{
++	return __i915_request_await_exclusive(rq, &vma->active);
++}
++
+ int __must_check _i915_vma_move_to_active(struct i915_vma *vma,
+ 					  struct i915_request *rq,
+ 					  struct dma_fence *fence,
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
