@@ -1,97 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC750603171
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 19:17:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B319B60319E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 19:31:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA12110EFAF;
-	Tue, 18 Oct 2022 17:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91CC010EFA9;
+	Tue, 18 Oct 2022 17:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2040.outbound.protection.outlook.com [40.107.100.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 925E110EFA3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 17:17:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VlhRQ0NimhVcHcv+a4rxKNRpvZqR6dqd2YTMDo+a0NN3KdNjufoSifrebcykEKUD11OwJPBtW8BUgCGDZV98II5U4eS+vFoySF6RePSmaWmnN6P1RiY4MUEVJ7Wn70gZaE459vzXbx5aPKAruBzBEM77AjqRLg6jd7fzvuWpxXt2FzXKlU75V80udxex5axvUzq0iFrUw0Xy/VPJh3jr9bOoERfdcR8bLUudyavBGfQmuH03tXf5+p85PkxU8k8bM1N1+X73ms0seniX30ZAzm+vKj2JsQKd7OngrnYgSz/67b+TgDU5JjpZwdJ/Zvc5cfBfxemKNSfWsNnyF6mF3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UQuOej4xx8hZg2PS/umZ1UgoBkvh+3xVyLfm/jwKjbk=;
- b=oBbivN0Tvf/pd2poNjTRJ9fdBOZp9a13GSvrU4kqHBbzqklg//SVnAgsiEjgoXI0aAFb/CwmlY6RjDrAC5Lg1ObzzBZaop615cuM77pM+acUCnyeuRhwIVICbq5TgrNw8HdN7+n177gf8OdkJbFP7fZvwUjmt4iOUkUw50KKmohjpiFiPDdr5xFwljFFzHWEiaF+NQPdY97xF68WwgLK74VNzGsWUHCTX2Er923MyS+dnhIbOEJQkUDpwT2TRCI25+O5Tlz6mw2eiszrSQ8lu4akEf45BD1eBfzB9jeOTFbLSyiQKBEa/PCcTv0psLt1z3muCoHI1Fa7WUftoWXIlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UQuOej4xx8hZg2PS/umZ1UgoBkvh+3xVyLfm/jwKjbk=;
- b=ieTA1+eY1Mfy/CJyiHG80OII5UEdwcMnvV5CIO80QRm6t1a5vXQo827U0BEAF6CNdk7HcHHBTgySHh4etame1DnqG6/Ty5ZgzK3M0aQC/lkgkGWR4PVL8KhVxBRbXnvvGPMpUCYFTnbS0bJCMqt/ddJ589z+uxrtb7etBBS/CM0=
-Received: from BN9PR03CA0103.namprd03.prod.outlook.com (2603:10b6:408:fd::18)
- by MN2PR12MB4319.namprd12.prod.outlook.com (2603:10b6:208:1dc::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30; Tue, 18 Oct
- 2022 17:17:29 +0000
-Received: from BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fd:cafe::7c) by BN9PR03CA0103.outlook.office365.com
- (2603:10b6:408:fd::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.31 via Frontend
- Transport; Tue, 18 Oct 2022 17:17:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT008.mail.protection.outlook.com (10.13.177.95) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5746.16 via Frontend Transport; Tue, 18 Oct 2022 17:17:29 +0000
-Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 18 Oct
- 2022 12:17:24 -0500
-From: Arvind Yadav <Arvind.Yadav@amd.com>
-To: <Christian.Koenig@amd.com>, <andrey.grodzovsky@amd.com>,
- <shashank.sharma@amd.com>, <amaranath.somalapuram@amd.com>,
- <Arunpravin.PaneerSelvam@amd.com>, <sumit.semwal@linaro.org>,
- <gustavo@padovan.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
- <steven.price@arm.com>
-Subject: [PATCH v4] drm/sched: Fix kernel NULL pointer dereference error
-Date: Tue, 18 Oct 2022 22:46:52 +0530
-Message-ID: <20221018171652.589004-1-Arvind.Yadav@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA2010EFA9;
+ Tue, 18 Oct 2022 17:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666114265; x=1697650265;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Ln9TmfpDVvTb/eizml59QSiyCqTCb3dr6w2rcStwb+o=;
+ b=XiPbHUQK+/xZCrPb4aUSAlGZZDc/TfRBEfzvPEOMVVXyDXqyFyXgfTjZ
+ K1fuNmrg75HL+Gz45bR0L+VDl0zWWMtZ0bNoIzQ/z+rR9VlX1vMcJHLbY
+ eFtTGR3ssbbKPU8ev5MZbVGIIIpcNHIAR9RVIt1kXOY2rhrJDLTImpyLZ
+ F8GRU0FbBoes8qFGMC6jv5Dsi0UsNSsi8eVTeyJn9lKMbykVJSXUaSbj2
+ SQDbf5KBrDIDI1eoT3W0eUleIJbsdMHqaHt7If64BxjjAvIZ3ghhRgy+E
+ swYl1+Dn077YhLKkEVEApocOE2DmQGo2IeX2vPqEVEMs7Y8w5sjxKsx8W w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="368206585"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="368206585"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2022 10:31:03 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="803855597"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="803855597"
+Received: from kmaslows-mobl.ger.corp.intel.com (HELO [10.252.26.162])
+ ([10.252.26.162])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2022 10:31:00 -0700
+Message-ID: <5bc04ae0-7d25-1734-eefc-253be0c8e79c@intel.com>
+Date: Tue, 18 Oct 2022 18:30:58 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.1
+Subject: Re: [PATCH v4 12/17] drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3
+ ioctl
+Content-Language: en-GB
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
+ <20221018071630.3831-13-niranjana.vishwanathapura@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20221018071630.3831-13-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT008:EE_|MN2PR12MB4319:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8eaf065-bc8c-426b-34ce-08dab12ca2d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FZIcV0+6Q7Yik5gioKypPwamu29bgnpe/wL1k8b40I5VdSRDb0EmEp2Dw4hh3zhF8oYtylrVj3RUwgj4z7l3N1G0cFopdIedWpylcQ+pzkOr1wKoVovaHWWorH6FZLOOfCHCnl8El1udSucSAhJd73N9MW+xMg//FXHn9BM47oSQFizYBIC5BUGzfzm8u6vxF62tQTFqioU1lP3U2BwNV/gkZuQlFB2iks3Je1+oI0nTi7Lah2ryqAt9PdCliXl4/Ryhcm4z9ynqbrqe4GFfvZnmiJOytCZBChRrDKY/9I38F1SBdRFwWCLn0xlW1W3VdCqMkSN33gqLYdT2DxAr3MKF/M6/Pmbz+5JUE4N0LvA3Dglalqk+1GGklNXtN2Snx6gJ5vWGDSFX48oCe4ONhaIeahJJP0g1hwk6/d14SFoinxBYyBYzOPKohsc5S0oTmmhRsxpmFToGYS/0Kn6Q8YRN6Ou9vNde+cQjeRiShnG38dUJ0Y+U5Dc9BcENBy/f61rFp2J0NIm7TSVicOhPxuS2FXeaKIOCTzXfNakIkzGktkfPIYSNZUtO7T2TS86+MA51+uoSPYmZpnVZw2AHhzvCDGNlAvtX/MbLw75+35eSJGemQ4jHRb159dLdAcWQliAMgo6U3DFCmXqtXqAvVZN14dRilqWUCuYATF+UBKWCTXF5eSOaOq3lCzdwJuCPCsCi0p6SUaBbxXGoJbJpPDW7AT72x7KGMXis9ctYv0TWSkDsWUniLtUau6R51F4DaFxvGJD7e5WqGYDzY92eyTQ15C9IkEJ5qR5OPbIYaxFJI5GhF0hxYXkiw7p8GO8mY/4ZXZ3r7XUjNrgttbh8HfXYsLMqxiLKz5m7PZK+ZUk=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(376002)(39860400002)(136003)(346002)(451199015)(36840700001)(40470700004)(46966006)(86362001)(82310400005)(81166007)(47076005)(36860700001)(82740400003)(336012)(186003)(426003)(83380400001)(16526019)(1076003)(8676002)(70206006)(70586007)(2616005)(26005)(7696005)(6666004)(356005)(110136005)(478600001)(316002)(921005)(40480700001)(4326008)(36756003)(2906002)(8936002)(5660300002)(40460700003)(41300700001)(2101003)(83996005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2022 17:17:29.4698 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8eaf065-bc8c-426b-34ce-08dab12ca2d9
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4319
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,305 +63,770 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arvind Yadav <Arvind.Yadav@amd.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
--This is purely a timing issue. Here, sometimes Job free
-is happening before the job is done.
-To fix this issue moving 'dma_fence_cb' callback from
-job(struct drm_sched_job) to scheduler fence (struct drm_sched_fence).
+On 18/10/2022 08:16, Niranjana Vishwanathapura wrote:
+> Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
+> works in vm_bind mode. The vm_bind mode only works with
+> this new execbuf3 ioctl.
+> 
+> The new execbuf3 ioctl will not have any list of objects to validate
+> bind as all required objects binding would have been requested by the
+> userspace before submitting the execbuf3.
+> 
+> Legacy features like relocations etc are not supported by execbuf3.
+> 
+> v2: Add more input validity checks.
+> v3: batch_address is a VA (not an array) if num_batches=1,
+>      minor cleanup
+> v4: replace vm->vm_bind_mode check with i915_gem_vm_is_vm_bind_mode()
+> 
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/Makefile                 |   1 +
+>   .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 580 ++++++++++++++++++
+>   drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
+>   drivers/gpu/drm/i915/i915_driver.c            |   1 +
+>   include/uapi/drm/i915_drm.h                   |  61 ++
+>   5 files changed, 645 insertions(+)
+>   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+> 
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 8d76bb888dc3..6a801684d569 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -150,6 +150,7 @@ gem-y += \
+>   	gem/i915_gem_domain.o \
+>   	gem/i915_gem_execbuffer_common.o \
+>   	gem/i915_gem_execbuffer.o \
+> +	gem/i915_gem_execbuffer3.o \
+>   	gem/i915_gem_internal.o \
+>   	gem/i915_gem_object.o \
+>   	gem/i915_gem_lmem.o \
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+> new file mode 100644
+> index 000000000000..a9b4cc44bf66
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+> @@ -0,0 +1,580 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2022 Intel Corporation
+> + */
+> +
+> +#include <linux/dma-resv.h>
+> +#include <linux/uaccess.h>
+> +
+> +#include <drm/drm_syncobj.h>
+> +
+> +#include "gt/intel_context.h"
+> +#include "gt/intel_gpu_commands.h"
+> +#include "gt/intel_gt.h"
+> +
+> +#include "i915_drv.h"
+> +#include "i915_gem_context.h"
+> +#include "i915_gem_execbuffer_common.h"
+> +#include "i915_gem_ioctls.h"
+> +#include "i915_gem_vm_bind.h"
+> +#include "i915_trace.h"
+> +
+> +#define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
+> +#define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
+> +
+> +/* Catch emission of unexpected errors for CI! */
+> +#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
+> +#undef EINVAL
+> +#define EINVAL ({ \
+> +	DRM_DEBUG_DRIVER("EINVAL at %s:%d\n", __func__, __LINE__); \
+> +	22; \
+> +})
+> +#endif
+> +
+> +/**
+> + * DOC: User command execution with execbuf3 ioctl
+> + *
+> + * A VM in VM_BIND mode will not support older execbuf mode of binding.
+> + * The execbuf ioctl handling in VM_BIND mode differs significantly from the
+> + * older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
+> + * Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. (See
+> + * struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept any
+> + * execlist. Hence, no support for implicit sync.
+> + *
+> + * The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND mode only
+> + * works with execbuf3 ioctl for submission.
+> + *
+> + * The execbuf3 ioctl directly specifies the batch addresses instead of as
+> + * object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
+> + * support many of the older features like in/out/submit fences, fence array,
+> + * default gem context etc. (See struct drm_i915_gem_execbuffer3).
+> + *
+> + * In VM_BIND mode, VA allocation is completely managed by the user instead of
+> + * the i915 driver. Hence all VA assignment, eviction are not applicable in
+> + * VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
+> + * be using the i915_vma active reference tracking. It will instead check the
+> + * dma-resv object's fence list for that.
+> + *
+> + * So, a lot of code supporting execbuf2 ioctl, like relocations, VA evictions,
+> + * vma lookup table, implicit sync, vma active reference tracking etc., are not
+> + * applicable for execbuf3 ioctl.
+> + */
+> +
+> +/**
+> + * struct i915_execbuffer - execbuf struct for execbuf3
+> + * @i915: reference to the i915 instance we run on
+> + * @file: drm file reference
+> + * args: execbuf3 ioctl structure
+> + * @gt: reference to the gt instance ioctl submitted for
+> + * @context: logical state for the request
+> + * @gem_context: callers context
+> + * @requests: requests to be build
+> + * @composite_fence: used for excl fence in dma_resv objects when > 1 BB submitted
+> + * @ww: i915_gem_ww_ctx instance
+> + * @num_batches: number of batches submitted
+> + * @batch_addresses: addresses corresponds to the submitted batches
+> + * @batches: references to the i915_vmas corresponding to the batches
+> + */
+> +struct i915_execbuffer {
+> +	struct drm_i915_private *i915;
+> +	struct drm_file *file;
+> +	struct drm_i915_gem_execbuffer3 *args;
+> +
+> +	struct intel_gt *gt;
+> +	struct intel_context *context;
+> +	struct i915_gem_context *gem_context;
+> +
+> +	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
+> +	struct dma_fence *composite_fence;
+> +
+> +	struct i915_gem_ww_ctx ww;
+> +
+> +	unsigned int num_batches;
+> +	u64 batch_addresses[MAX_ENGINE_INSTANCE + 1];
+> +	struct i915_vma *batches[MAX_ENGINE_INSTANCE + 1];
+> +
+> +	struct eb_fence *fences;
+> +	u64 num_fences;
+> +};
+> +
+> +static void eb_unpin_engine(struct i915_execbuffer *eb);
+> +
+> +static int eb_select_context(struct i915_execbuffer *eb)
+> +{
+> +	struct i915_gem_context *ctx;
+> +
+> +	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->ctx_id);
+> +	if (IS_ERR(ctx))
+> +		return PTR_ERR(ctx);
+> +
+> +	if (!i915_gem_vm_is_vm_bind_mode(ctx->vm)) {
+> +		i915_gem_context_put(ctx);
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	eb->gem_context = ctx;
+> +	return 0;
+> +}
+> +
+> +static struct i915_vma *
+> +eb_find_vma(struct i915_address_space *vm, u64 addr)
+> +{
+> +	u64 va;
+> +
+> +	lockdep_assert_held(&vm->vm_bind_lock);
+> +
+> +	va = gen8_noncanonical_addr(addr & PIN_OFFSET_MASK);
+> +	return i915_gem_vm_bind_lookup_vma(vm, va);
+> +}
+> +
+> +static int eb_lookup_vma_all(struct i915_execbuffer *eb)
+> +{
+> +	unsigned int i, current_batch = 0;
+> +	struct i915_vma *vma;
+> +
+> +	for (i = 0; i < eb->num_batches; i++) {
+> +		vma = eb_find_vma(eb->context->vm, eb->batch_addresses[i]);
+> +		if (!vma)
+> +			return -EINVAL;
+> +
+> +		eb->batches[current_batch] = vma;
+> +		++current_batch;
 
--Added drm_sched_fence_set_parent() and drm_sched_fence_clear_parent()
-functions to move fence handling into sched_fence.c and this just cleanup.
+current_batch == i ?
 
-BUG: kernel NULL pointer dereference, address: 0000000000000088
- #PF: supervisor read access in kernel mode
- #PF: error_code(0x0000) - not-present page
- PGD 0 P4D 0
- Oops: 0000 [#1] PREEMPT SMP NOPTI
- CPU: 2 PID: 0 Comm: swapper/2 Not tainted 6.0.0-rc2-custom #1
- Hardware name: AMD Dibbler/Dibbler, BIOS RDB1107CC 09/26/2018
- RIP: 0010:drm_sched_job_done.isra.0+0x11/0x140 [gpu_sched]
- Code: 8b fe ff ff be 03 00 00 00 e8 7b da b7 e3 e9 d4 fe ff ff 66 0f 1f 44 00 00 0f 1f 44 00 00 55 48 89 e5 41 55 41 54 49 89 fc 53 <48> 8b 9f 88 00 00 00 f0 ff 8b f0 00 00 00 48 8b 83 80 01 00 00 f0
- RSP: 0018:ffffb1b1801d4d38 EFLAGS: 00010087
- RAX: ffffffffc0aa48b0 RBX: ffffb1b1801d4d70 RCX: 0000000000000018
- RDX: 000036c70afb7c1d RSI: ffff8a45ca413c60 RDI: 0000000000000000
- RBP: ffffb1b1801d4d50 R08: 00000000000000b5 R09: 0000000000000000
- R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
- R13: ffffb1b1801d4d70 R14: ffff8a45c4160000 R15: ffff8a45c416a708
- FS:  0000000000000000(0000) GS:ffff8a48a0a80000(0000) knlGS:0000000000000000
- CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- CR2: 0000000000000088 CR3: 000000014ad50000 CR4: 00000000003506e0
- Call Trace:
-  <IRQ>
-  drm_sched_job_done_cb+0x12/0x20 [gpu_sched]
-  dma_fence_signal_timestamp_locked+0x7e/0x110
-  dma_fence_signal+0x31/0x60
-  amdgpu_fence_process+0xc4/0x140 [amdgpu]
-  gfx_v9_0_eop_irq+0x9d/0xd0 [amdgpu]
-  amdgpu_irq_dispatch+0xb7/0x210 [amdgpu]
-  amdgpu_ih_process+0x86/0x100 [amdgpu]
-  amdgpu_irq_handler+0x24/0x60 [amdgpu]
-  __handle_irq_event_percpu+0x4b/0x190
-  handle_irq_event_percpu+0x15/0x50
-  handle_irq_event+0x39/0x60
-  handle_edge_irq+0xaf/0x210
-  __common_interrupt+0x6e/0x110
-  common_interrupt+0xc1/0xe0
-  </IRQ>
-  <TASK>
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void eb_release_vma_all(struct i915_execbuffer *eb)
+> +{
+> +	eb_unpin_engine(eb);
+> +}
+> +
+> +/*
+> + * Using two helper loops for the order of which requests / batches are created
+> + * and added the to backend. Requests are created in order from the parent to
+> + * the last child. Requests are added in the reverse order, from the last child
+> + * to parent. This is done for locking reasons as the timeline lock is acquired
+> + * during request creation and released when the request is added to the
+> + * backend. To make lockdep happy (see intel_context_timeline_lock) this must be
+> + * the ordering.
+> + */
+> +#define for_each_batch_create_order(_eb) \
+> +	for (unsigned int i = 0; i < (_eb)->num_batches; ++i)
+> +
+> +static int eb_move_to_gpu(struct i915_execbuffer *eb)
+> +{
+> +	/* Unconditionally flush any chipset caches (for streaming writes). */
+> +	intel_gt_chipset_flush(eb->gt);
+> +
+> +	return 0;
+> +}
+> +
+> +static int eb_request_submit(struct i915_execbuffer *eb,
+> +			     struct i915_request *rq,
+> +			     struct i915_vma *batch,
+> +			     u64 batch_len)
+> +{
+> +	struct intel_engine_cs *engine = rq->context->engine;
+> +	int err;
+> +
+> +	if (intel_context_nopreempt(rq->context))
+> +		__set_bit(I915_FENCE_FLAG_NOPREEMPT, &rq->fence.flags);
+> +
+> +	/*
+> +	 * After we completed waiting for other engines (using HW semaphores)
+> +	 * then we can signal that this request/batch is ready to run. This
+> +	 * allows us to determine if the batch is still waiting on the GPU
+> +	 * or actually running by checking the breadcrumb.
+> +	 */
+> +	if (engine->emit_init_breadcrumb) {
+> +		err = engine->emit_init_breadcrumb(rq);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return engine->emit_bb_start(rq, batch->node.start, batch_len, 0);
+> +}
+> +
+> +static int eb_submit(struct i915_execbuffer *eb)
+> +{
+> +	int err;
+> +
+> +	err = eb_move_to_gpu(eb);
+> +
+> +	for_each_batch_create_order(eb) {
+> +		if (!eb->requests[i])
+> +			break;
+> +
+> +		trace_i915_request_queue(eb->requests[i], 0);
+> +		if (!err)
+> +			err = eb_request_submit(eb, eb->requests[i],
+> +						eb->batches[i],
+> +						eb->batches[i]->size);
+> +	}
+> +
+> +	return err;
+> +}
+> +
+> +static int eb_pin_engine(struct i915_execbuffer *eb, bool throttle)
+> +{
+> +	int err;
+> +
+> +	GEM_BUG_ON(eb->args->flags & __EXEC3_ENGINE_PINNED);
+> +
+> +	err = i915_eb_pin_engine(eb->context, &eb->ww, throttle,
+> +				 eb->file->filp->f_flags & O_NONBLOCK);
+> +	if (err)
+> +		return err;
+> +
+> +	eb->args->flags |= __EXEC3_ENGINE_PINNED;
+> +	return 0;
+> +}
+> +
+> +static void eb_unpin_engine(struct i915_execbuffer *eb)
+> +{
+> +	if (!(eb->args->flags & __EXEC3_ENGINE_PINNED))
+> +		return;
+> +
+> +	eb->args->flags &= ~__EXEC3_ENGINE_PINNED;
+> +
+> +	i915_eb_unpin_engine(eb->context);
+> +}
+> +
+> +static int eb_select_engine(struct i915_execbuffer *eb)
+> +{
+> +	struct intel_context *ce;
+> +	unsigned int idx;
+> +	int err;
+> +
+> +	if (!i915_gem_context_user_engines(eb->gem_context))
+> +		return -EINVAL;
+> +
+> +	idx = eb->args->engine_idx;
+> +	ce = i915_gem_context_get_engine(eb->gem_context, idx);
+> +	if (IS_ERR(ce))
+> +		return PTR_ERR(ce);
+> +
+> +	eb->num_batches = ce->parallel.number_children + 1;
+> +
+> +	err = i915_eb_select_engine(ce);
+> +	if (err)
+> +		goto err;
+> +
+> +	eb->context = ce;
+> +	eb->gt = ce->engine->gt;
+> +
+> +	/*
+> +	 * Make sure engine pool stays alive even if we call intel_context_put
+> +	 * during ww handling. The pool is destroyed when last pm reference
+> +	 * is dropped, which breaks our -EDEADLK handling.
+> +	 */
+> +	return 0;
+> +
+> +err:
+> +	intel_context_put(ce);
+> +	return err;
+> +}
+> +
+> +static void eb_put_engine(struct i915_execbuffer *eb)
+> +{
+> +	i915_eb_put_engine(eb->context);
+> +}
+> +
+> +static int add_timeline_fence_array(struct i915_execbuffer *eb)
+> +{
+> +	struct drm_i915_gem_timeline_fence __user *user_fences;
+> +	struct eb_fence *f;
+> +	u64 nfences;
+> +
+> +	nfences = eb->args->fence_count;
+> +	if (!nfences)
+> +		return 0;
+> +
+> +	/* Check multiplication overflow for access_ok() and kvmalloc_array() */
+> +	BUILD_BUG_ON(sizeof(size_t) > sizeof(unsigned long));
+> +	if (nfences > min_t(unsigned long,
+> +			    ULONG_MAX / sizeof(*user_fences),
+> +			    SIZE_MAX / sizeof(*f)) - eb->num_fences)
+> +		return -EINVAL;
+> +
+> +	user_fences = u64_to_user_ptr(eb->args->timeline_fences);
+> +	if (!access_ok(user_fences, nfences * sizeof(*user_fences)))
+> +		return -EFAULT;
+> +
+> +	f = krealloc(eb->fences,
+> +		     (eb->num_fences + nfences) * sizeof(*f),
+> +		     __GFP_NOWARN | GFP_KERNEL);
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	eb->fences = f;
+> +	f += eb->num_fences;
 
-Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
----
+I guess this was mostly copy-pasta from eb2 which can in thoery run the 
+same TIMELINE_FENCES extension several times, but that looks like it's 
+not needed here, since this is not an actual extension with eb3 (Looking 
+at the krealloc() stuff etc).
 
-Changes in v2: Moving 'dma_fence_cb' callback from
-job(struct drm_sched_job) to scheduler fence(struct drm_sched_fence)
-instead of adding NULL check for s_fence.
+> +
+> +	BUILD_BUG_ON(~(ARCH_KMALLOC_MINALIGN - 1) &
+> +		     ~__I915_TIMELINE_FENCE_UNKNOWN_FLAGS);
+> +
+> +	while (nfences--) {
+> +		struct drm_i915_gem_timeline_fence user_fence;
+> +		bool wait, signal;
+> +		int ret;
+> +
+> +		if (__copy_from_user(&user_fence,
+> +				     user_fences++,
+> +				     sizeof(user_fence)))
+> +			return -EFAULT;
+> +
+> +		if (user_fence.flags & __I915_TIMELINE_FENCE_UNKNOWN_FLAGS)
+> +			return -EINVAL;
+> +
+> +		wait = user_fence.flags & I915_EXEC_FENCE_WAIT;
+> +		signal = user_fence.flags & I915_EXEC_FENCE_SIGNAL;
 
-Changes in v3: Added drm_sched_fence_set_parent() function(and others *_parent_cb)
-in sched_fence.c. Moved parent fence intilization and callback
-installation into this (this just cleanup).
+I915_TIMELINE_FENCE_WAIT
+I915_TIMELINE_FENCE_SIGNAL
 
-Changes in v4 : Add drm_sched_fence_clear_parent() function in sched_fence.c.
-and done the changes as per review comments. 
----
- drivers/gpu/drm/scheduler/sched_fence.c | 64 +++++++++++++++++++++++++
- drivers/gpu/drm/scheduler/sched_main.c  | 53 ++++----------------
- include/drm/gpu_scheduler.h             | 10 +++-
- 3 files changed, 81 insertions(+), 46 deletions(-)
+?
 
-diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-index 7fd869520ef2..68343614f9ed 100644
---- a/drivers/gpu/drm/scheduler/sched_fence.c
-+++ b/drivers/gpu/drm/scheduler/sched_fence.c
-@@ -78,6 +78,70 @@ static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
- 		kmem_cache_free(sched_fence_slab, fence);
- }
- 
-+/**
-+ * drm_sched_fence_parent_cb - the callback for a done job
-+ * @f: fence
-+ * @cb: fence callbacks
-+ */
-+static void drm_sched_fence_parent_cb(struct dma_fence *f, struct dma_fence_cb *cb)
-+{
-+	struct drm_sched_fence *s_fence = container_of(cb, struct drm_sched_fence,
-+						       cb);
-+	struct drm_gpu_scheduler *sched = s_fence->sched;
-+
-+	atomic_dec(&sched->hw_rq_count);
-+	atomic_dec(sched->score);
-+
-+	dma_fence_get(&s_fence->finished);
-+	drm_sched_fence_finished(s_fence);
-+	dma_fence_put(&s_fence->finished);
-+	wake_up_interruptible(&sched->wake_up_worker);
-+}
-+
-+/**
-+ * drm_sched_fence_clear_parent -  Remove callbacks from pending list
-+ * @s_fence: pointer to the fence
-+ *
-+ * Remove callbacks from pending list and clear the parent fence.
-+ */
-+bool drm_sched_fence_clear_parent(struct drm_sched_fence *s_fence)
-+{
-+	if (s_fence->parent &&
-+	    dma_fence_remove_callback(s_fence->parent, &s_fence->cb)) {
-+		dma_fence_put(s_fence->parent);
-+		s_fence->parent = NULL;
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+/**
-+ * drm_sched_fence_set_parent - set the parent fence and add the callback
-+ * @s_fence: pointer to the fence
-+ * fence: pointer to the hw fence
-+ *
-+ * Set the parent fence and install the callback for a done job.
-+ */
-+void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-+			       struct dma_fence *fence)
-+{
-+	int r;
-+
-+	if (s_fence->parent &&
-+	    dma_fence_remove_callback(s_fence->parent, &s_fence->cb))
-+		dma_fence_put(s_fence->parent);
-+
-+	/* We keep the reference of the parent fence here. */
-+	swap(s_fence->parent, fence);
-+	dma_fence_put(fence);
-+
-+	r = dma_fence_add_callback(s_fence->parent, &s_fence->cb,
-+				      drm_sched_fence_parent_cb);
-+	if (r == -ENOENT)
-+		drm_sched_fence_parent_cb(NULL, &s_fence->cb);
-+}
-+
- /**
-  * drm_sched_fence_free - free up an uninitialized fence
-  *
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 4cc59bae38dd..30597d9a949f 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -253,13 +253,12 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
- 
- /**
-  * drm_sched_job_done - complete a job
-- * @s_job: pointer to the job which is done
-+ * @s_fence: pointer to the fence of a done job
-  *
-  * Finish the job's fence and wake up the worker thread.
-  */
--static void drm_sched_job_done(struct drm_sched_job *s_job)
-+static void drm_sched_job_done(struct drm_sched_fence *s_fence)
- {
--	struct drm_sched_fence *s_fence = s_job->s_fence;
- 	struct drm_gpu_scheduler *sched = s_fence->sched;
- 
- 	atomic_dec(&sched->hw_rq_count);
-@@ -273,18 +272,6 @@ static void drm_sched_job_done(struct drm_sched_job *s_job)
- 	wake_up_interruptible(&sched->wake_up_worker);
- }
- 
--/**
-- * drm_sched_job_done_cb - the callback for a done job
-- * @f: fence
-- * @cb: fence callbacks
-- */
--static void drm_sched_job_done_cb(struct dma_fence *f, struct dma_fence_cb *cb)
--{
--	struct drm_sched_job *s_job = container_of(cb, struct drm_sched_job, cb);
--
--	drm_sched_job_done(s_job);
--}
--
- /**
-  * drm_sched_dependency_optimized - test if the dependency can be optimized
-  *
-@@ -504,11 +491,7 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
- 	 */
- 	list_for_each_entry_safe_reverse(s_job, tmp, &sched->pending_list,
- 					 list) {
--		if (s_job->s_fence->parent &&
--		    dma_fence_remove_callback(s_job->s_fence->parent,
--					      &s_job->cb)) {
--			dma_fence_put(s_job->s_fence->parent);
--			s_job->s_fence->parent = NULL;
-+		if (drm_sched_fence_clear_parent(s_job->s_fence)) {
- 			atomic_dec(&sched->hw_rq_count);
- 		} else {
- 			/*
-@@ -560,7 +543,6 @@ EXPORT_SYMBOL(drm_sched_stop);
- void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- {
- 	struct drm_sched_job *s_job, *tmp;
--	int r;
- 
- 	/*
- 	 * Locking the list is not required here as the sched thread is parked
-@@ -575,16 +557,10 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- 		if (!full_recovery)
- 			continue;
- 
--		if (fence) {
--			r = dma_fence_add_callback(fence, &s_job->cb,
--						   drm_sched_job_done_cb);
--			if (r == -ENOENT)
--				drm_sched_job_done(s_job);
--			else if (r)
--				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
--					  r);
--		} else
--			drm_sched_job_done(s_job);
-+		if (fence)
-+			drm_sched_fence_set_parent(s_job->s_fence, fence);
-+		else
-+			drm_sched_job_done(s_job->s_fence);
- 	}
- 
- 	if (full_recovery) {
-@@ -1008,7 +984,6 @@ static bool drm_sched_blocked(struct drm_gpu_scheduler *sched)
- static int drm_sched_main(void *param)
- {
- 	struct drm_gpu_scheduler *sched = (struct drm_gpu_scheduler *)param;
--	int r;
- 
- 	sched_set_fifo_low(current);
- 
-@@ -1049,22 +1024,12 @@ static int drm_sched_main(void *param)
- 		drm_sched_fence_scheduled(s_fence);
- 
- 		if (!IS_ERR_OR_NULL(fence)) {
--			s_fence->parent = dma_fence_get(fence);
--			/* Drop for original kref_init of the fence */
--			dma_fence_put(fence);
--
--			r = dma_fence_add_callback(fence, &sched_job->cb,
--						   drm_sched_job_done_cb);
--			if (r == -ENOENT)
--				drm_sched_job_done(sched_job);
--			else if (r)
--				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
--					  r);
-+			drm_sched_fence_set_parent(s_fence, fence);
- 		} else {
- 			if (IS_ERR(fence))
- 				dma_fence_set_error(&s_fence->finished, PTR_ERR(fence));
- 
--			drm_sched_job_done(sched_job);
-+			drm_sched_job_done(s_fence);
- 		}
- 
- 		wake_up(&sched->job_scheduled);
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 1f7d9dd1a444..5066729c15ce 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -281,6 +281,10 @@ struct drm_sched_fence {
-          * @owner: job owner for debugging
-          */
- 	void				*owner;
-+	/**
-+	 * @cb: callback
-+	 */
-+	struct dma_fence_cb cb;
- };
- 
- struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
-@@ -300,7 +304,6 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
-  *         be scheduled further.
-  * @s_priority: the priority of the job.
-  * @entity: the entity to which this job belongs.
-- * @cb: the callback for the parent fence in s_fence.
-  *
-  * A job is created by the driver using drm_sched_job_init(), and
-  * should call drm_sched_entity_push_job() once it wants the scheduler
-@@ -325,7 +328,6 @@ struct drm_sched_job {
- 	atomic_t			karma;
- 	enum drm_sched_priority		s_priority;
- 	struct drm_sched_entity         *entity;
--	struct dma_fence_cb		cb;
- 	/**
- 	 * @dependencies:
- 	 *
-@@ -559,6 +561,10 @@ void drm_sched_fence_free(struct drm_sched_fence *fence);
- void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
- void drm_sched_fence_finished(struct drm_sched_fence *fence);
- 
-+bool drm_sched_fence_clear_parent(struct drm_sched_fence *s_fence);
-+void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-+			       struct dma_fence *fence);
-+
- unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched);
- void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
- 		                unsigned long remaining);
--- 
-2.25.1
+> +		ret = i915_eb_add_timeline_fence(eb->file, user_fence.handle,
+> +						 user_fence.value, f, wait,
+> +						 signal);
+> +		if (ret < 0)
+> +			return ret;
+> +		else if (!ret)
+> +			continue;
+> +
+> +		f++;
+> +		eb->num_fences++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int parse_timeline_fences(struct i915_execbuffer *eb)
+> +{
+> +	return add_timeline_fence_array(eb);
+> +}
+> +
+> +static int parse_batch_addresses(struct i915_execbuffer *eb)
+> +{
+> +	struct drm_i915_gem_execbuffer3 *args = eb->args;
+> +
+> +	if (eb->num_batches == 1) {
+> +		eb->batch_addresses[0] = args->batch_address;
+> +	} else {
+> +		u64 __user *batch_addr = u64_to_user_ptr(args->batch_address);
+> +
+> +		if (copy_from_user(eb->batch_addresses, batch_addr,
+> +				   sizeof(batch_addr[0]) * eb->num_batches))
+> +			return -EFAULT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int eb_composite_fence_create(struct i915_execbuffer *eb)
+> +{
+> +	struct dma_fence *fence;
+> +
+> +	fence = i915_eb_composite_fence_create(eb->requests, eb->num_batches,
+> +					       eb->context);
+> +	if (IS_ERR(fence))
+> +		return PTR_ERR(fence);
+> +
+> +	eb->composite_fence = fence;
+> +
+> +	return 0;
+> +}
+> +
+> +static int eb_fences_add(struct i915_execbuffer *eb, struct i915_request *rq)
+> +{
+> +	int err;
+> +
+> +	if (unlikely(eb->gem_context->syncobj)) {
+> +		struct dma_fence *fence;
+> +
+> +		fence = drm_syncobj_fence_get(eb->gem_context->syncobj);
+> +		err = i915_request_await_dma_fence(rq, fence);
+> +		dma_fence_put(fence);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	if (eb->fences) {
+> +		err = i915_eb_await_fence_array(eb->fences, eb->num_fences, rq);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	if (intel_context_is_parallel(eb->context)) {
+> +		err = eb_composite_fence_create(eb);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int eb_requests_create(struct i915_execbuffer *eb)
+> +{
+> +	int err;
+> +
+> +	for_each_batch_create_order(eb) {
+> +		/* Allocate a request for this batch buffer nice and early. */
+> +		eb->requests[i] =
+> +			i915_request_create(i915_eb_find_context(eb->context,
+> +								 i));
+> +		if (IS_ERR(eb->requests[i])) {
+> +			err = PTR_ERR(eb->requests[i]);
+> +			eb->requests[i] = NULL;
+> +			return err;
+> +		}
+> +
+> +		/*
+> +		 * Only the first request added (committed to backend) has to
+> +		 * take the in fences into account as all subsequent requests
+> +		 * will have fences inserted inbetween them.
+> +		 */
+> +		if (i + 1 == eb->num_batches) {
+> +			err = eb_fences_add(eb, eb->requests[i]);
+> +			if (err)
+> +				return err;
+> +		}
+> +
+> +		if (eb->batches[i])
+> +			eb->requests[i]->batch_res =
+> +				i915_vma_resource_get(eb->batches[i]->resource);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +i915_gem_do_execbuffer(struct drm_device *dev,
+> +		       struct drm_file *file,
+> +		       struct drm_i915_gem_execbuffer3 *args)
+> +{
+> +	struct drm_i915_private *i915 = to_i915(dev);
+> +	struct i915_execbuffer eb;
+> +	bool throttle = true;
+> +	int err;
+> +
+> +	BUILD_BUG_ON(__EXEC3_INTERNAL_FLAGS & ~__I915_EXEC3_UNKNOWN_FLAGS);
+> +
+> +	eb.i915 = i915;
+> +	eb.file = file;
+> +	eb.args = args;
+> +
+> +	eb.fences = NULL;
+> +	eb.num_fences = 0;
+> +
+> +	memset(eb.requests, 0, sizeof(struct i915_request *) *
+> +	       ARRAY_SIZE(eb.requests));
+> +	eb.composite_fence = NULL;
+> +
+> +	err = parse_timeline_fences(&eb);
+> +	if (err)
+> +		return err;
+> +
+> +	err = eb_select_context(&eb);
+> +	if (unlikely(err))
+> +		goto err_fences;
+> +
+> +	err = eb_select_engine(&eb);
+> +	if (unlikely(err))
+> +		goto err_context;
+> +
+> +	err = parse_batch_addresses(&eb);
+> +	if (unlikely(err))
+> +		goto err_engine;
+> +
+> +	mutex_lock(&eb.context->vm->vm_bind_lock);
+> +
+> +	err = eb_lookup_vma_all(&eb);
+> +	if (err) {
+> +		eb_release_vma_all(&eb);
+> +		goto err_vm_bind_lock;
+> +	}
+> +
+> +	i915_gem_ww_ctx_init(&eb.ww, true);
+> +
+> +retry_validate:
+> +	err = eb_pin_engine(&eb, throttle);
+> +	if (err)
+> +		goto err_validate;
+> +
+> +	/* only throttle once, even if we didn't need to throttle */
+> +	throttle = false;
+> +
+> +err_validate:
+> +	if (err == -EDEADLK) {
+> +		eb_release_vma_all(&eb);
+> +		err = i915_gem_ww_ctx_backoff(&eb.ww);
+> +		if (!err)
+> +			goto retry_validate;
+> +	}
+> +	if (err)
+> +		goto err_vma;
+> +
+> +	ww_acquire_done(&eb.ww.ctx);
+> +
+> +	err = eb_requests_create(&eb);
+> +	if (err) {
+> +		if (eb.requests[0])
+> +			goto err_request;
+> +		else
+> +			goto err_vma;
+> +	}
+> +
+> +	err = eb_submit(&eb);
+> +
+> +err_request:
+> +	i915_eb_requests_get(eb.requests, eb.num_batches);
+> +	err = i915_eb_requests_add(eb.requests, eb.num_batches, eb.context,
+> +				   eb.gem_context->sched, err);
+> +
+> +	if (eb.fences)
+> +		i915_eb_signal_fence_array(eb.fences, eb.num_fences,
+> +					   eb.composite_fence ?
+> +					   eb.composite_fence :
+> +					   &eb.requests[0]->fence);
+> +
+> +	if (unlikely(eb.gem_context->syncobj)) {
+> +		drm_syncobj_replace_fence(eb.gem_context->syncobj,
+> +					  eb.composite_fence ?
+> +					  eb.composite_fence :
+> +					  &eb.requests[0]->fence);
+> +	}
+> +
+> +	if (eb.composite_fence)
+> +		dma_fence_put(eb.composite_fence);
+> +
+> +	i915_eb_requests_put(eb.requests, eb.num_batches);
+> +
+> +err_vma:
+> +	eb_release_vma_all(&eb);
+> +	WARN_ON(err == -EDEADLK);
+> +	i915_gem_ww_ctx_fini(&eb.ww);
+> +err_vm_bind_lock:
+> +	mutex_unlock(&eb.context->vm->vm_bind_lock);
+> +err_engine:
+> +	eb_put_engine(&eb);
+> +err_context:
+> +	i915_gem_context_put(eb.gem_context);
+> +err_fences:
+> +	i915_eb_put_fence_array(eb.fences, eb.num_fences);
+> +	return err;
+> +}
+> +
+> +int
+> +i915_gem_execbuffer3_ioctl(struct drm_device *dev, void *data,
+> +			   struct drm_file *file)
+> +{
+> +	struct drm_i915_gem_execbuffer3 *args = data;
+> +	int err;
+> +
+> +	/* Reserved fields must be 0 */
+> +	if (args->rsvd || args->extensions)
+> +		return -EINVAL;
+> +
+> +	if (args->flags & __I915_EXEC3_UNKNOWN_FLAGS)
+> +		return -EINVAL;
+> +
+> +	err = i915_gem_do_execbuffer(dev, file, args);
+> +
+> +	args->flags &= ~__I915_EXEC3_UNKNOWN_FLAGS;
+> +	return err;
+> +}
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+> index 28d6526e32ab..b7a1e9725a84 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+> @@ -18,6 +18,8 @@ int i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   			      struct drm_file *file);
+>   int i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+>   			       struct drm_file *file);
+> +int i915_gem_execbuffer3_ioctl(struct drm_device *dev, void *data,
+> +			       struct drm_file *file);
+>   int i915_gem_get_aperture_ioctl(struct drm_device *dev, void *data,
+>   				struct drm_file *file);
+>   int i915_gem_get_caching_ioctl(struct drm_device *dev, void *data,
+> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> index f44a864e0b53..49ebafb5c6d2 100644
+> --- a/drivers/gpu/drm/i915/i915_driver.c
+> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> @@ -1853,6 +1853,7 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
+>   	DRM_IOCTL_DEF_DRV(I915_GEM_INIT, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>   	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER, drm_invalid_op, DRM_AUTH),
+>   	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER2_WR, i915_gem_execbuffer2_ioctl, DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER3, i915_gem_execbuffer3_ioctl, DRM_RENDER_ALLOW),
+>   	DRM_IOCTL_DEF_DRV(I915_GEM_PIN, i915_gem_reject_pin_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
+>   	DRM_IOCTL_DEF_DRV(I915_GEM_UNPIN, i915_gem_reject_pin_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
+>   	DRM_IOCTL_DEF_DRV(I915_GEM_BUSY, i915_gem_busy_ioctl, DRM_RENDER_ALLOW),
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 87f5c2a470f5..fe7ee8f19c83 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -472,6 +472,7 @@ typedef struct _drm_i915_sarea {
+>   #define DRM_I915_GEM_CREATE_EXT		0x3c
+>   #define DRM_I915_GEM_VM_BIND		0x3d
+>   #define DRM_I915_GEM_VM_UNBIND		0x3e
+> +#define DRM_I915_GEM_EXECBUFFER3	0x3f
+>   /* Must be kept compact -- no holes */
+>   
+>   #define DRM_IOCTL_I915_INIT		DRM_IOW( DRM_COMMAND_BASE + DRM_I915_INIT, drm_i915_init_t)
+> @@ -538,6 +539,7 @@ typedef struct _drm_i915_sarea {
+>   #define DRM_IOCTL_I915_GEM_VM_DESTROY	DRM_IOW (DRM_COMMAND_BASE + DRM_I915_GEM_VM_DESTROY, struct drm_i915_gem_vm_control)
+>   #define DRM_IOCTL_I915_GEM_VM_BIND	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
+>   #define DRM_IOCTL_I915_GEM_VM_UNBIND	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_unbind)
+> +#define DRM_IOCTL_I915_GEM_EXECBUFFER3	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
+>   
+>   /* Allow drivers to submit batchbuffers directly to hardware, relying
+>    * on the security mechanisms provided by hardware.
+> @@ -1562,6 +1564,65 @@ struct drm_i915_gem_timeline_fence {
+>   	__u64 value;
+>   };
+>   
+> +/**
+> + * struct drm_i915_gem_execbuffer3 - Structure for DRM_I915_GEM_EXECBUFFER3
+> + * ioctl.
+> + *
+> + * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and VM_BIND mode
+> + * only works with this ioctl for submission.
+> + * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
+> + */
+> +struct drm_i915_gem_execbuffer3 {
+> +	/**
+> +	 * @ctx_id: Context id
+> +	 *
+> +	 * Only contexts with user engine map are allowed.
+> +	 */
+> +	__u32 ctx_id;
+> +
+> +	/**
+> +	 * @engine_idx: Engine index
+> +	 *
+> +	 * An index in the user engine map of the context specified by @ctx_id.
+> +	 */
+> +	__u32 engine_idx;
+> +
+> +	/**
+> +	 * @batch_address: Batch gpu virtual address/es.
+> +	 *
+> +	 * For normal submission, it is the gpu virtual address of the batch
+> +	 * buffer. For parallel submission, it is a pointer to an array of
+> +	 * batch buffer gpu virtual addresses with array size equal to the
+> +	 * number of (parallel) engines involved in that submission (See
+> +	 * struct i915_context_engines_parallel_submit).
+> +	 */
+> +	__u64 batch_address;
+> +
+> +	/** @flags: Currently reserved, MBZ */
+> +	__u64 flags;
+> +#define __I915_EXEC3_UNKNOWN_FLAGS (~0)
 
+(~0ull)
+
+?
+
+I'll probably circle back around again, but for now all looks pretty 
+reasonable,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+> +
+> +	/** @fence_count: Number of fences in @timeline_fences array. */
+> +	__u64 fence_count;
+> +
+> +	/**
+> +	 * @timeline_fences: Pointer to an array of timeline fences.
+> +	 *
+> +	 * Timeline fences are of format struct drm_i915_gem_timeline_fence.
+> +	 */
+> +	__u64 timeline_fences;
+> +
+> +	/** @rsvd: Reserved, MBZ */
+> +	__u64 rsvd;
+> +
+> +	/**
+> +	 * @extensions: Zero-terminated chain of extensions.
+> +	 *
+> +	 * For future extensions. See struct i915_user_extension.
+> +	 */
+> +	__u64 extensions;
+> +};
+> +
+>   struct drm_i915_gem_pin {
+>   	/** Handle of the buffer to be pinned. */
+>   	__u32 handle;
