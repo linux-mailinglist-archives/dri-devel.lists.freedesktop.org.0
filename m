@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B660E6032E2
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 20:55:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE84C603300
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 21:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C8C10E932;
-	Tue, 18 Oct 2022 18:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B515110E332;
+	Tue, 18 Oct 2022 19:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813CB10E931;
- Tue, 18 Oct 2022 18:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666119327; x=1697655327;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XVxWHKTYmsupKtUcsjYarv06JNnvlIQ9eNR/iGviVxo=;
- b=DRauzhXahrY0dHWjWKKn/pFGfuJp6bhGEx3x2D+VZ+tVenRXXVBAypkC
- 6XXqHDPE4U7o8P8unuyan1MOwUHN5jvXwAocU/Rdf1A/TuZZu7J8blGdU
- rici3NZ40aUTQwAfLlk7cqivJwfd4cQGcqGO/E9KdhU4p8gxTiUo5RJEB
- 73IWNnCk5jGussJhEmA9LSB5QeifePwGdzjoO6UxfCNuEWESbknvMfSLa
- Rtm95ozoDDP98v4T2Z1wsf3iDrVJmKfvF5w96hguulyad802azKWiDOOa
- lPmZR3iI9p3SeAAFf1AQsrcuYGk4J2pzoBoPViGv89JYawWG33AF6kPKt w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="307312534"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="307312534"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2022 11:44:01 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="623755779"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="623755779"
-Received: from yangli4-mobl2.amr.corp.intel.com (HELO mdnavare-mobl9)
- ([10.209.119.139])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2022 11:44:00 -0700
-Date: Tue, 18 Oct 2022 11:43:55 -0700
-From: "Navare, Manasi" <manasi.d.navare@intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH] drm/edid: Parse VRR cap fields from HFVSDB block
-Message-ID: <Y07z64J/vSdZBfNI@mdnavare-mobl9>
-References: <20221018053148.1798008-1-ankit.k.nautiyal@intel.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAB4310E332
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 19:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zofAadwxpAzXJPXxR/P8kjncD8CkuriQ0fwZK+76TSo=; b=fYtrHdjPb6AiOt5LNaIpuNumq6
+ dpbAaEwZCfuh7Y8p5GQRQgHCc4JbqffsVncPI4gOVMHPUU6hlNHv5mfNbs3XCTg9OMkj+WNO3T3eE
+ s3fFyTUKoTUJ8R6sif/siyqPwhsmw4yDu13KUUUDJ64nVP8TXwtKGxCYAZB4/y72AsgtBVvVm2wCw
+ O4stYVsR4V4yzmNsibZTRBOoL4cRl1XvZz7EzC7asDV/KdDcUQshMI/PsnCiUzMkqE2FpYW9zVvEZ
+ GShMXaP82ZvicT2sUuK3f4wQoQa5XZjjOdg3DwrIbeI8BgKmjYcwn8Zx/hpbDMTgSJDpzNABmdNg9
+ am3x8kkw==;
+Received: from [2a01:799:95a:cb00:cc2f:df30:b81e:38c0] (port=63305)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1okrvA-0008E6-BC; Tue, 18 Oct 2022 21:06:36 +0200
+Message-ID: <544c35c3-d87f-30e7-5f6b-a64ab7f894ec@tronnes.org>
+Date: Tue, 18 Oct 2022 21:06:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221018053148.1798008-1-ankit.k.nautiyal@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 0/2] drm/tiny: add support tft display based on
+ ilitek,ili9488
+To: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+References: <20221018164532.1705215-1-tommaso.merciai@amarulasolutions.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20221018164532.1705215-1-tommaso.merciai@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,136 +55,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- bhanuprakash.modem@intel.com
+Cc: michael@amarulasolutions.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, linuxfancy@googlegroups.com,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>, kamlesh.gurudasani@gmail.com,
+ linux-amarula@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 18, 2022 at 11:01:48AM +0530, Ankit Nautiyal wrote:
-> This patch parses HFVSDB fields for VRR capabilities of an
-> HDMI2.1 sink and stores the VRR caps in a new structure in
-> drm_hdmi_info.
+
+
+Den 18.10.2022 18.45, skrev Tommaso Merciai:
+> Hi All,
+> This series  support for ilitek,ili9488 based displays like
+> Waveshare-ResTouch-LCD-3.5 display. Tested on Waveshare-ResTouch-LCD-3.5
+> connected to px30-evb via SPI.
+
+There's a generic MIPI DBI SPI driver now that should work with all
+these panels: drivers/gpu/drm/tiny/panel-mipi-dbi.c
+
+More info: https://github.com/notro/panel-mipi-dbi/wiki
+
+Noralf.
+
+> This series is based on work done by Kamlesh Gurudasani in 2020:
 > 
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-
-Makes sense to add this VRR info to drm_hdmi_info struct and not combine
-with DP VRR info struct in display info since hdmi info has other HDMI
-cap info stored here.
-
-Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
-
-Manasi
-
-> ---
->  drivers/gpu/drm/drm_edid.c  | 26 ++++++++++++++++++++++++--
->  include/drm/drm_connector.h | 27 +++++++++++++++++++++++++++
->  2 files changed, 51 insertions(+), 2 deletions(-)
+>  - "drm/tiny: add support for tft displays based on ilitek, ili9488"
 > 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 47465b9765f1..bb1f7d899580 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -5823,6 +5823,21 @@ static void drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,
->  	hdmi->y420_dc_modes = dc_mask;
->  }
->  
-> +static void drm_parse_vrr_info(struct drm_hdmi_vrr_cap *hdmi_vrr,
-> +			       const u8 *hf_scds)
-> +{
-> +	if (hf_scds[8] & DRM_EDID_CNMVRR)
-> +		hdmi_vrr->cnm_vrr = true;
-> +	if (hf_scds[8] & DRM_EDID_CINEMA_VRR)
-> +		hdmi_vrr->cinema_vrr = true;
-> +	if (hf_scds[8] & DRM_EDID_MDELTA)
-> +		hdmi_vrr->m_delta = true;
-> +
-> +	hdmi_vrr->vrr_min = hf_scds[9] & DRM_EDID_VRR_MIN_MASK;
-> +	hdmi_vrr->vrr_max = (hf_scds[9] & DRM_EDID_VRR_MAX_UPPER_MASK) << 2;
-> +	hdmi_vrr->vrr_max |= hf_scds[10] & DRM_EDID_VRR_MAX_LOWER_MASK;
-> +}
-> +
->  static void drm_parse_dsc_info(struct drm_hdmi_dsc_cap *hdmi_dsc,
->  			       const u8 *hf_scds)
->  {
-> @@ -5901,9 +5916,11 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
->  	struct drm_display_info *display = &connector->display_info;
->  	struct drm_hdmi_info *hdmi = &display->hdmi;
->  	struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
-> +	struct drm_hdmi_vrr_cap *hdmi_vrr = &hdmi->vrr_cap;
->  	int max_tmds_clock = 0;
->  	u8 max_frl_rate = 0;
->  	bool dsc_support = false;
-> +	bool vrr_support = false;
->  
->  	display->has_hdmi_infoframe = true;
->  
-> @@ -5949,14 +5966,19 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
->  
->  	drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
->  
-> +	if (cea_db_payload_len(hf_scds) >= 8 && hf_scds[8]) {
-> +		drm_parse_vrr_info(hdmi_vrr, hf_scds);
-> +		vrr_support = true;
-> +	}
-> +
->  	if (cea_db_payload_len(hf_scds) >= 11 && hf_scds[11]) {
->  		drm_parse_dsc_info(hdmi_dsc, hf_scds);
->  		dsc_support = true;
->  	}
->  
->  	drm_dbg_kms(connector->dev,
-> -		    "HF-VSDB: max TMDS clock: %d KHz, HDMI 2.1 support: %s, DSC 1.2 support: %s\n",
-> -		    max_tmds_clock, str_yes_no(max_frl_rate), str_yes_no(dsc_support));
-> +		    "HF-VSDB: max TMDS clock: %d KHz, HDMI 2.1 support: %s, VRR support: %s, DSC 1.2 support: %s\n",
-> +		    max_tmds_clock, str_yes_no(max_frl_rate), str_yes_no(vrr_support), str_yes_no(dsc_support));
->  }
->  
->  static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index b1b2df48d42c..ec6ef71ab5cd 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -219,6 +219,30 @@ struct drm_hdmi_dsc_cap {
->  	u8 total_chunk_kbytes;
->  };
->  
-> +
-> +/**
-> + * struct drm_hdmi_vrr_cap - VRR capabilities of HDMI sink
-> + * Describes the VRR support provided by HDMI 2.1 sink.
-> + * The information is fetched fom additional HFVSDB blocks defined
-> + * for HDMI 2.1.
-> + */
-> +struct drm_hdmi_vrr_cap {
-> +	/** @cnm_vrr: sink supports negative Mvrr values*/
-> +	bool cnm_vrr;
-> +
-> +	/** @cinema_vrr: sink supports fractional and integer media rates < VRRmin*/
-> +	bool cinema_vrr;
-> +
-> +	/** @m_delta: sink can anticipate and compensate for frame-to-frame variation in Mvrr */
-> +	bool m_delta;
-> +
-> +	/** @vrr_min: VRRmin - lowest framerate in Hz that sink can support in VRR */
-> +	u8 vrr_min;
-> +
-> +	/** @vrr_max: VRRmax - highest framerate in Hz that sink can support in VRR */
-> +	u16 vrr_max;
-> +};
-> +
->  /**
->   * struct drm_hdmi_info - runtime information about the connected HDMI sink
->   *
-> @@ -259,6 +283,9 @@ struct drm_hdmi_info {
->  
->  	/** @dsc_cap: DSC capabilities of the sink */
->  	struct drm_hdmi_dsc_cap dsc_cap;
-> +
-> +	/** @vrr_cap: VRR capabilities of the sink */
-> +	struct drm_hdmi_vrr_cap vrr_cap;
->  };
->  
->  /**
-> -- 
-> 2.25.1
+> (Thanks Kamlesh for your starting point)
+> 
+> Tests are done using the following tools coming from Yocto fs:
+> 
+>  - modetest -M "ili9488" -s 31:320x480@RG16 -v
+>  - fb-test
+>  - fb-rect
+> 
+> References:
+>  - https://patchwork.kernel.org/project/dri-devel/patch/00719f68aca488a6476b0dda634617606b592823.1592055494.git.kamlesh.gurudasani@gmail.com/
+>  - https://www.hpinfotech.ro/ILI9488.pdf
+>  - https://www.waveshare.com/wiki/Pico-ResTouch-LCD-3.5
+> 
+> Regards,
+> Tommaso
+> 
+> Tommaso Merciai (2):
+>   dt-bindings: add binding for tft displays based on ilitek,ili9488
+>   drm/tiny: add support for tft displays based on ilitek,ili9488
+> 
+>  .../bindings/display/ilitek,ili9488.yaml      |  72 +++
+>  drivers/gpu/drm/tiny/Kconfig                  |  13 +
+>  drivers/gpu/drm/tiny/Makefile                 |   1 +
+>  drivers/gpu/drm/tiny/ili9488.c                | 440 ++++++++++++++++++
+>  4 files changed, 526 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9488.yaml
+>  create mode 100644 drivers/gpu/drm/tiny/ili9488.c
 > 
