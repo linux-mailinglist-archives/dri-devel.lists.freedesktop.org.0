@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD08660299A
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 12:47:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C066029D9
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 13:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3700410E0CB;
-	Tue, 18 Oct 2022 10:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B7510E69A;
+	Tue, 18 Oct 2022 11:06:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 682E310E0CB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 10:46:57 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id a13so19880179edj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 03:46:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3j3M/lz5qKcy4O2cA0PXIjVvWRcebK1YS0t2E2ZHQI8=;
- b=QcLRzTaL8Uq8n1qWmbchdjMXkIpeVLbnkFZGrHCwtuk/sfV/QjDOD6OnRgKTGDgSWw
- pPRnk2dZOZFirQkmViI9HrJwVFrycme3NpsIRjY+mJ8b0QvtEHX/3zDiNZd9QvqVE6z3
- MiX3TQAClob5Zwq0Si3p7afVpVanyLmcoViRyXv+cxJuhKNaEx/nnFr3RdPle9y+uW2k
- W0q7PPmsf4f2POTNZj11eMmL49SIeGFPp+7cTUOvEuz6DnNxSUS+QHzmPAAE/W6EYDaL
- hSOe4Ji6Y8xIlSkEm3m+uWKs7zXJPw6Nint5EwzSzLRY6GLG0PRwKZClo1mKI87X+ArS
- bWoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3j3M/lz5qKcy4O2cA0PXIjVvWRcebK1YS0t2E2ZHQI8=;
- b=TKUZhq0m4YgoErYSW4mJpdgtiJ0DRRxHcpZ2Td2aC+ef6FPnhJHSfh9R/7javIT3vd
- x353HBtxwiSu2voMB21/ceUm5yEafiq8ybR7Z7MzWWF7+I3S5wqAGZKqHoSTzFjCIuFd
- wRjmRyuDtZwsWaC7179kLGzqnQrZA/8Q9JBbW9gScdaPRhNvonGUpc0t2Dh+BjHVPc3H
- Mz8G7CJ8IPscIW8LXP8lVTJW13J//vw7sJoW8mfOxrEMUaFsaMdnR4sNhiIUhvDlQyir
- G0Th4cD5zWzZdfHIRQHwzlgRzj8OKo89MBls4nAbeBvMrKRopLClqoe4YLh8gI7/X3/l
- S+Qw==
-X-Gm-Message-State: ACrzQf3NbXOfy5G25RrV0UN+v3xZWiA4MxIR310tcWFhv+LMQKdc2WIk
- o5ColDfQoQc/LKFemgtPt0sD51n839A=
-X-Google-Smtp-Source: AMsMyM6njbmUZixipehzHmt3TZ6nV54TCeLyJPOOe8JL01Az5mF9LWX4XqEDq1hWN+QrS/XIxiEqWA==
-X-Received: by 2002:a05:6402:4303:b0:45c:cd3d:f5 with SMTP id
- m3-20020a056402430300b0045ccd3d00f5mr2001704edc.188.1666090015727; 
- Tue, 18 Oct 2022 03:46:55 -0700 (PDT)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- e11-20020a056402104b00b00459f4974128sm8739778edu.50.2022.10.18.03.46.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 03:46:54 -0700 (PDT)
-Date: Tue, 18 Oct 2022 12:46:52 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 4/7] drm/simpledrm: Add support for system memory
- framebuffers
-Message-ID: <Y06EHB8D1ip3PVyb@orome>
-References: <20221007124946.406808-1-thierry.reding@gmail.com>
- <20221007124946.406808-5-thierry.reding@gmail.com>
- <dd869713-6eb2-fadd-fdef-6ca155198a8c@suse.de>
- <Y01sunkDsQQQhXuC@orome>
- <CAL_JsqKzSife8_ob3P=KVVcQ_ny=ppMF5LsjLxvYz95roy-y2A@mail.gmail.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41B8510E69A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 11:06:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666091205; x=1697627205;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=UwAX34Op19tFRg7S0n6wgOC8pOT0c3ngVDWJiuz+AHw=;
+ b=OVmAc7RqUvfx8TkIsqi8/OBXLdHHMtjK56dSG+eLbaD9gLI8GYHquhwN
+ GkMaor1KRcsbtiXRQsCfUReZktTB4skY3b9qc503R/Hg/MtUD/e84EcXu
+ S1gvUgC5jfPlzvGB7Is0WS/PNlzgqsfhv5eOv34wXG9YfwDkf2YRy8h1B
+ NgsiBt1b3Mfx5KUKjL1f2UWB/gjNAnv0511daUhA6edH2pxiL0RyeNX/M
+ WloqKAAZEJ7HtzxrQt0tL5cmvHf0r/fgy67Hr+2J4HeVVXQ71p7q+fwPR
+ 8M6X8dtMUPjyHb/q2n66MNtfOKr3k6mCeP3tq5pZOHBJhoRX+PThgEwuK g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="332614074"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="332614074"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2022 04:06:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="659742110"
+X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="659742110"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga008.jf.intel.com with SMTP; 18 Oct 2022 04:06:41 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 18 Oct 2022 14:06:40 +0300
+Date: Tue, 18 Oct 2022 14:06:40 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>
+Subject: Re: [PATCH 1/2] Revert "drm: hide unregistered connectors from
+ GETCONNECTOR IOCTL"
+Message-ID: <Y06IwB5jxyvgwe9c@intel.com>
+References: <20221017153150.60675-1-contact@emersion.fr>
+ <Y05uYUPoYB25JVpX@intel.com> <Y05xdzMB51BnEw9U@redhat.com>
+ <Y0543Y/iiZC6Bdw1@intel.com> <Y05671TEjdLcQyXj@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0puBMFs9lsK95MlP"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAL_JsqKzSife8_ob3P=KVVcQ_ny=ppMF5LsjLxvYz95roy-y2A@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y05671TEjdLcQyXj@redhat.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,109 +63,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Oct 18, 2022 at 12:07:43PM +0200, Jonas Ådahl wrote:
+> On Tue, Oct 18, 2022 at 12:58:53PM +0300, Ville Syrjälä wrote:
+> > On Tue, Oct 18, 2022 at 11:27:19AM +0200, Jonas Ådahl wrote:
+> > > On Tue, Oct 18, 2022 at 12:14:09PM +0300, Ville Syrjälä wrote:
+> > > > On Mon, Oct 17, 2022 at 03:31:57PM +0000, Simon Ser wrote:
+> > > > > This reverts commit 981f09295687f856d5345e19c7084aca481c1395.
+> > > > > 
+> > > > > It turns out this breaks Mutter.
+> > > > 
+> > > > A bit more detail would be a good to help future archaeologists.
+> > > 
+> > > Perhaps a better explanation is
+> > > 
+> > > It turns out this causes logically active but disconnected MST display
+> > > port connectors to disappear from the drmModeGetResources() list,
+> > 
+> > That was the whole point was it not? So I'd drop the
+> > "it turns out" part.
+> > 
+> > > meaning userspace is made to believe the connector is already disabled.
+> > 
+> > That wording to me implies its a generic issue affecting all
+> > userspace when so far it looks like only mutter is affected.
+> 
+> Maybe other userspace was? I only found out by testing drm-next, and
+> only tried using mutter when bisecting.
+> 
+> > So apparently mutter (for some reason) assumes that the
+> > connector has somehow magically been disabled by someone
+> > else if it disappears from the list of resources?
+> 
+> Mutter makes the assumption that connectors it can interact with are the
+> ones that drmModeGetResources() return
 
---0puBMFs9lsK95MlP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I agree that on the face of it that assumption does seem
+perfectly reasonable.
 
-On Mon, Oct 17, 2022 at 01:15:59PM -0500, Rob Herring wrote:
-> On Mon, Oct 17, 2022 at 9:54 AM Thierry Reding <thierry.reding@gmail.com>=
- wrote:
-> >
-> > On Mon, Oct 10, 2022 at 10:12:34AM +0200, Thomas Zimmermann wrote:
-> > > Hi
-> > >
-> > > Am 07.10.22 um 14:49 schrieb Thierry Reding:
-> > > > From: Thierry Reding <treding@nvidia.com>
-> > > >
-> > > > Simple framebuffers can be set up in system memory, which cannot be
-> > > > requested and/or I/O remapped using the I/O resource helpers. Add a
-> > > > separate code path that obtains system memory framebuffers from the
-> > > > reserved memory region referenced in the memory-region property.
-> > > >
-> > > > v2: make screen base a struct iosys_map to avoid sparse warnings
->=20
-> [...]
->=20
-> > > > +static int simple_framebuffer_init(struct reserved_mem *rmem)
-> > > > +{
-> > > > +   pr_info("framebuffer memory at %pa, size %lu bytes\n", &rmem->b=
-ase,
-> > > > +           (unsigned long)rmem->size);
-> > > > +
-> > > > +   rmem->ops =3D &simple_framebuffer_ops;
-> > > > +
-> > > > +   return 0;
-> > > > +}
-> > > > +RESERVEDMEM_OF_DECLARE(simple_framebuffer, "framebuffer", simple_f=
-ramebuffer_init);
-> > >
-> > > What's the prupose of these code at all?  I looked through the kernel=
-, but
-> > > there aren't many other examples of it.
-> >
-> > This is a fairly standard construct to deal with early memory
-> > reservations. What happens is roughly this: during early kernel boot,
-> > the reserved-memory core code will iterate over all children of the top-
-> > level reserved-memory node and see if they have a compatible string that
-> > matches one of the entries in the table created by these
-> > RESERVEDMEM_OF_DECLARE entries. It will then call the init function for
-> > a matched entry and register a struct reserved_mem for these. The init
-> > function in this case just dumps an informational message to the boot
-> > log to provide some information about the framebuffer region that was
-> > reserved (which can be used for example for troubleshooting purposes)
-> > and sets the device init/release operations (which will be called when a
-> > device is associated with the reserved memory region, i.e. when the
-> > of_reserved_mem_device_init_by_idx() function is called).
-> >
-> > The reason why there aren't many examples of this is because these are
-> > special memory regions that (at least upstream) kernels seldom support.
-> > Perhaps the most common use-cases are the shared DMA pools (such as
-> > CMA).
->=20
-> Also, not all regions need to be handled 'early' before slab allocator
-> or drivers are probed. Do you need early handling here? I can't see
-> why other than if fbcon is up early.
+> - nothing magic about that.
 
-No, I don't think this needs early handling. Obviously we want this to
-be available as soon as possible, but since the framebuffer driver is
-built on top of DRM and that all becomes available fairly late, I don't
-think this could ever run *that* early.
+Well it's expecting a bit magic from the kernel if it decides
+that it doesn't need to disable what it already enabled.
+But I guess it's more of a case that the code just never
+expected this specific situation to happen, and thus the
+results are what they are.
 
-So are you saying that in general if we don't need early handling we
-should avoid RESERVEDMEM_OF_DECLARE and instead manually resolve the
-memory regions and inspect them? In other words, RESERVEDMEM_OF_DECLARE
-should only ever be used when this early handling is needed?
+I suppose the only concern with the change is what happens
+when you replug something back in before the old stuff has
+disappeared and you now have two connectors for the same
+thing on the list. IIRC the ddxen at least try to reuse
+the same xrandr output for the connector when the path
+prop matches. I suspect it might work by accident due
+to the new connector appearing (hopefully) later in the
+list than the old connector. But would probably need to
+test this to make sure.
 
-Thierry
-
---0puBMFs9lsK95MlP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNOhBwACgkQ3SOs138+
-s6GMixAAosptozjyV0LN3+Kp4L51xHZfeK0y399j2b2MNorrcoEyr0Ptv/VlWgdp
-BD72CEq7CX+8QFn16zTZyMtnytAxl4Gr0Rhci+WadHS+FxMX2C8/0UeBJfs8jOhS
-56rdz1momIif7MPtcgW1nQSIQFC+3UVOgI21F1CHYXUDHoPmnSvpMYjzVgVZkloT
-7l6gRVGGrE5wfrb7pby8SNay2400ZIaS3IXfXGL34U8rQDA8Upc3IJh0cY+Fw8Tg
-RPPRiQHQdbTgMyi1jgYlyXpGAlYy3ywuDrX1sqo0fKooh5SqLoGqidQTsHAEBUPf
-DfdUFzpyDxB+SvtVf+b8lx+FC/mnVqg07lH9cKmfhzjqGgo5SElSZjeqjQgxYXdc
-VeQySrqJGwzNaj4qQp57O+2LtgncXzTstUSECJ87dvwTRUw+yMygDMRfh25qpmTM
-9rn5dO3URjJ0Nzvnulj1Xn5XHA9DpHltc7g4pKiWueYPuxPr2DMdLFF/QT2+sbdy
-HoNLcZeECKbk8J9caeIeuDi3pVScE6uaJ4jvq0UrkQMfBRNEaBKlMlrmVz8wlqMd
-i43iJYrUrAUiWvXpGCWnwflP1MI6wKLbwIrMaNmzBpTOM526+yR1al/rK8ccp8wb
-xGCKg+0FWKl3o1eVDkcrW8QWzZdWR3pPG621KgYy/b56JDMzLOU=
-=Cnem
------END PGP SIGNATURE-----
-
---0puBMFs9lsK95MlP--
+-- 
+Ville Syrjälä
+Intel
