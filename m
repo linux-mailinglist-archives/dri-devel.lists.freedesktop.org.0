@@ -1,55 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B319B60319E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 19:31:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C55B6032A2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 20:38:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91CC010EFA9;
-	Tue, 18 Oct 2022 17:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD8010E313;
+	Tue, 18 Oct 2022 18:37:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA2010EFA9;
- Tue, 18 Oct 2022 17:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666114265; x=1697650265;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Ln9TmfpDVvTb/eizml59QSiyCqTCb3dr6w2rcStwb+o=;
- b=XiPbHUQK+/xZCrPb4aUSAlGZZDc/TfRBEfzvPEOMVVXyDXqyFyXgfTjZ
- K1fuNmrg75HL+Gz45bR0L+VDl0zWWMtZ0bNoIzQ/z+rR9VlX1vMcJHLbY
- eFtTGR3ssbbKPU8ev5MZbVGIIIpcNHIAR9RVIt1kXOY2rhrJDLTImpyLZ
- F8GRU0FbBoes8qFGMC6jv5Dsi0UsNSsi8eVTeyJn9lKMbykVJSXUaSbj2
- SQDbf5KBrDIDI1eoT3W0eUleIJbsdMHqaHt7If64BxjjAvIZ3ghhRgy+E
- swYl1+Dn077YhLKkEVEApocOE2DmQGo2IeX2vPqEVEMs7Y8w5sjxKsx8W w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="368206585"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="368206585"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2022 10:31:03 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="803855597"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="803855597"
-Received: from kmaslows-mobl.ger.corp.intel.com (HELO [10.252.26.162])
- ([10.252.26.162])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2022 10:31:00 -0700
-Message-ID: <5bc04ae0-7d25-1734-eefc-253be0c8e79c@intel.com>
-Date: Tue, 18 Oct 2022 18:30:58 +0100
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A303910E28F
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 18:37:53 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 36DAA33E74E;
+ Tue, 18 Oct 2022 19:37:46 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1666118271; bh=p4xsiPk1jzU/DW6+878untcp5VX5CrH3QzvYb0Rb6bA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TMfcMN0n+LSL97OvTjjQzDWDFCSlnWfMVzYj9DFlAmGjXYcXQjax86/y1Euo5jc/A
+ N2rMv4V3yGdDVYHpDf7MMv7st3HjES+OC9uvRmS4+If4amNGB/UPVjjzU8m3Ia3TZ+
+ MepMQOhQoIh5Q4dQzKtHbnuEBF2mDMFHdBbe7zIFf5p9ySTXGAyr0I2IB4JHCUXRaZ
+ xcDK2XVxLyl0eCb256wqYtjm+G7dEs0m66CzN42XtLo3OIWyYch/Tnt2C6tl3Yx+4r
+ L91sHK4k/8AKchwGTkaziLBpWX82Fny4XOjcARq/LbszQRf61Qxh8DYo0pLZFeXuNL
+ O3Eapfwv+881w==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm: Remove drm_mode_config::fb_base
+Date: Tue, 18 Oct 2022 12:49:19 -0400
+Message-Id: <20221018164929.368012-1-zack@kde.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221018161201.365897-1-zack@kde.org>
+References: <20221018161201.365897-1-zack@kde.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.1
-Subject: Re: [PATCH v4 12/17] drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3
- ioctl
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
- <20221018071630.3831-13-niranjana.vishwanathapura@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20221018071630.3831-13-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,770 +47,423 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
- daniel.vetter@intel.com, christian.koenig@amd.com
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: Karol Herbst <kherbst@redhat.com>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Lijo Lazar <lijo.lazar@amd.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ Flora Cui <flora.cui@amd.com>, Tomohito Esaki <etom@igel.co.jp>,
+ Guchun Chen <guchun.chen@amd.com>, Bernard Zhao <bernard@vivo.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>, Leo Li <sunpeng.li@amd.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Leslie Shi <Yuliang.Shi@amd.com>,
+ Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
+ Tomi Valkeinen <tomba@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Roman Li <roman.li@amd.com>, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tian Tao <tiantao6@hisilicon.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/10/2022 08:16, Niranjana Vishwanathapura wrote:
-> Implement new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only
-> works in vm_bind mode. The vm_bind mode only works with
-> this new execbuf3 ioctl.
-> 
-> The new execbuf3 ioctl will not have any list of objects to validate
-> bind as all required objects binding would have been requested by the
-> userspace before submitting the execbuf3.
-> 
-> Legacy features like relocations etc are not supported by execbuf3.
-> 
-> v2: Add more input validity checks.
-> v3: batch_address is a VA (not an array) if num_batches=1,
->      minor cleanup
-> v4: replace vm->vm_bind_mode check with i915_gem_vm_is_vm_bind_mode()
-> 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/Makefile                 |   1 +
->   .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 580 ++++++++++++++++++
->   drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
->   drivers/gpu/drm/i915/i915_driver.c            |   1 +
->   include/uapi/drm/i915_drm.h                   |  61 ++
->   5 files changed, 645 insertions(+)
->   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 8d76bb888dc3..6a801684d569 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -150,6 +150,7 @@ gem-y += \
->   	gem/i915_gem_domain.o \
->   	gem/i915_gem_execbuffer_common.o \
->   	gem/i915_gem_execbuffer.o \
-> +	gem/i915_gem_execbuffer3.o \
->   	gem/i915_gem_internal.o \
->   	gem/i915_gem_object.o \
->   	gem/i915_gem_lmem.o \
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-> new file mode 100644
-> index 000000000000..a9b4cc44bf66
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-> @@ -0,0 +1,580 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +
-> +#include <linux/dma-resv.h>
-> +#include <linux/uaccess.h>
-> +
-> +#include <drm/drm_syncobj.h>
-> +
-> +#include "gt/intel_context.h"
-> +#include "gt/intel_gpu_commands.h"
-> +#include "gt/intel_gt.h"
-> +
-> +#include "i915_drv.h"
-> +#include "i915_gem_context.h"
-> +#include "i915_gem_execbuffer_common.h"
-> +#include "i915_gem_ioctls.h"
-> +#include "i915_gem_vm_bind.h"
-> +#include "i915_trace.h"
-> +
-> +#define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
-> +#define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
-> +
-> +/* Catch emission of unexpected errors for CI! */
-> +#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
-> +#undef EINVAL
-> +#define EINVAL ({ \
-> +	DRM_DEBUG_DRIVER("EINVAL at %s:%d\n", __func__, __LINE__); \
-> +	22; \
-> +})
-> +#endif
-> +
-> +/**
-> + * DOC: User command execution with execbuf3 ioctl
-> + *
-> + * A VM in VM_BIND mode will not support older execbuf mode of binding.
-> + * The execbuf ioctl handling in VM_BIND mode differs significantly from the
-> + * older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
-> + * Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. (See
-> + * struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept any
-> + * execlist. Hence, no support for implicit sync.
-> + *
-> + * The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND mode only
-> + * works with execbuf3 ioctl for submission.
-> + *
-> + * The execbuf3 ioctl directly specifies the batch addresses instead of as
-> + * object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
-> + * support many of the older features like in/out/submit fences, fence array,
-> + * default gem context etc. (See struct drm_i915_gem_execbuffer3).
-> + *
-> + * In VM_BIND mode, VA allocation is completely managed by the user instead of
-> + * the i915 driver. Hence all VA assignment, eviction are not applicable in
-> + * VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
-> + * be using the i915_vma active reference tracking. It will instead check the
-> + * dma-resv object's fence list for that.
-> + *
-> + * So, a lot of code supporting execbuf2 ioctl, like relocations, VA evictions,
-> + * vma lookup table, implicit sync, vma active reference tracking etc., are not
-> + * applicable for execbuf3 ioctl.
-> + */
-> +
-> +/**
-> + * struct i915_execbuffer - execbuf struct for execbuf3
-> + * @i915: reference to the i915 instance we run on
-> + * @file: drm file reference
-> + * args: execbuf3 ioctl structure
-> + * @gt: reference to the gt instance ioctl submitted for
-> + * @context: logical state for the request
-> + * @gem_context: callers context
-> + * @requests: requests to be build
-> + * @composite_fence: used for excl fence in dma_resv objects when > 1 BB submitted
-> + * @ww: i915_gem_ww_ctx instance
-> + * @num_batches: number of batches submitted
-> + * @batch_addresses: addresses corresponds to the submitted batches
-> + * @batches: references to the i915_vmas corresponding to the batches
-> + */
-> +struct i915_execbuffer {
-> +	struct drm_i915_private *i915;
-> +	struct drm_file *file;
-> +	struct drm_i915_gem_execbuffer3 *args;
-> +
-> +	struct intel_gt *gt;
-> +	struct intel_context *context;
-> +	struct i915_gem_context *gem_context;
-> +
-> +	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
-> +	struct dma_fence *composite_fence;
-> +
-> +	struct i915_gem_ww_ctx ww;
-> +
-> +	unsigned int num_batches;
-> +	u64 batch_addresses[MAX_ENGINE_INSTANCE + 1];
-> +	struct i915_vma *batches[MAX_ENGINE_INSTANCE + 1];
-> +
-> +	struct eb_fence *fences;
-> +	u64 num_fences;
-> +};
-> +
-> +static void eb_unpin_engine(struct i915_execbuffer *eb);
-> +
-> +static int eb_select_context(struct i915_execbuffer *eb)
-> +{
-> +	struct i915_gem_context *ctx;
-> +
-> +	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->ctx_id);
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
-> +
-> +	if (!i915_gem_vm_is_vm_bind_mode(ctx->vm)) {
-> +		i915_gem_context_put(ctx);
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	eb->gem_context = ctx;
-> +	return 0;
-> +}
-> +
-> +static struct i915_vma *
-> +eb_find_vma(struct i915_address_space *vm, u64 addr)
-> +{
-> +	u64 va;
-> +
-> +	lockdep_assert_held(&vm->vm_bind_lock);
-> +
-> +	va = gen8_noncanonical_addr(addr & PIN_OFFSET_MASK);
-> +	return i915_gem_vm_bind_lookup_vma(vm, va);
-> +}
-> +
-> +static int eb_lookup_vma_all(struct i915_execbuffer *eb)
-> +{
-> +	unsigned int i, current_batch = 0;
-> +	struct i915_vma *vma;
-> +
-> +	for (i = 0; i < eb->num_batches; i++) {
-> +		vma = eb_find_vma(eb->context->vm, eb->batch_addresses[i]);
-> +		if (!vma)
-> +			return -EINVAL;
-> +
-> +		eb->batches[current_batch] = vma;
-> +		++current_batch;
+From: Zack Rusin <zackr@vmware.com>
 
-current_batch == i ?
+v3: Fix a silly pci_resource_len mistake spotted by Laurent
 
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void eb_release_vma_all(struct i915_execbuffer *eb)
-> +{
-> +	eb_unpin_engine(eb);
-> +}
-> +
-> +/*
-> + * Using two helper loops for the order of which requests / batches are created
-> + * and added the to backend. Requests are created in order from the parent to
-> + * the last child. Requests are added in the reverse order, from the last child
-> + * to parent. This is done for locking reasons as the timeline lock is acquired
-> + * during request creation and released when the request is added to the
-> + * backend. To make lockdep happy (see intel_context_timeline_lock) this must be
-> + * the ordering.
-> + */
-> +#define for_each_batch_create_order(_eb) \
-> +	for (unsigned int i = 0; i < (_eb)->num_batches; ++i)
-> +
-> +static int eb_move_to_gpu(struct i915_execbuffer *eb)
-> +{
-> +	/* Unconditionally flush any chipset caches (for streaming writes). */
-> +	intel_gt_chipset_flush(eb->gt);
-> +
-> +	return 0;
-> +}
-> +
-> +static int eb_request_submit(struct i915_execbuffer *eb,
-> +			     struct i915_request *rq,
-> +			     struct i915_vma *batch,
-> +			     u64 batch_len)
-> +{
-> +	struct intel_engine_cs *engine = rq->context->engine;
-> +	int err;
-> +
-> +	if (intel_context_nopreempt(rq->context))
-> +		__set_bit(I915_FENCE_FLAG_NOPREEMPT, &rq->fence.flags);
-> +
-> +	/*
-> +	 * After we completed waiting for other engines (using HW semaphores)
-> +	 * then we can signal that this request/batch is ready to run. This
-> +	 * allows us to determine if the batch is still waiting on the GPU
-> +	 * or actually running by checking the breadcrumb.
-> +	 */
-> +	if (engine->emit_init_breadcrumb) {
-> +		err = engine->emit_init_breadcrumb(rq);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	return engine->emit_bb_start(rq, batch->node.start, batch_len, 0);
-> +}
-> +
-> +static int eb_submit(struct i915_execbuffer *eb)
-> +{
-> +	int err;
-> +
-> +	err = eb_move_to_gpu(eb);
-> +
-> +	for_each_batch_create_order(eb) {
-> +		if (!eb->requests[i])
-> +			break;
-> +
-> +		trace_i915_request_queue(eb->requests[i], 0);
-> +		if (!err)
-> +			err = eb_request_submit(eb, eb->requests[i],
-> +						eb->batches[i],
-> +						eb->batches[i]->size);
-> +	}
-> +
-> +	return err;
-> +}
-> +
-> +static int eb_pin_engine(struct i915_execbuffer *eb, bool throttle)
-> +{
-> +	int err;
-> +
-> +	GEM_BUG_ON(eb->args->flags & __EXEC3_ENGINE_PINNED);
-> +
-> +	err = i915_eb_pin_engine(eb->context, &eb->ww, throttle,
-> +				 eb->file->filp->f_flags & O_NONBLOCK);
-> +	if (err)
-> +		return err;
-> +
-> +	eb->args->flags |= __EXEC3_ENGINE_PINNED;
-> +	return 0;
-> +}
-> +
-> +static void eb_unpin_engine(struct i915_execbuffer *eb)
-> +{
-> +	if (!(eb->args->flags & __EXEC3_ENGINE_PINNED))
-> +		return;
-> +
-> +	eb->args->flags &= ~__EXEC3_ENGINE_PINNED;
-> +
-> +	i915_eb_unpin_engine(eb->context);
-> +}
-> +
-> +static int eb_select_engine(struct i915_execbuffer *eb)
-> +{
-> +	struct intel_context *ce;
-> +	unsigned int idx;
-> +	int err;
-> +
-> +	if (!i915_gem_context_user_engines(eb->gem_context))
-> +		return -EINVAL;
-> +
-> +	idx = eb->args->engine_idx;
-> +	ce = i915_gem_context_get_engine(eb->gem_context, idx);
-> +	if (IS_ERR(ce))
-> +		return PTR_ERR(ce);
-> +
-> +	eb->num_batches = ce->parallel.number_children + 1;
-> +
-> +	err = i915_eb_select_engine(ce);
-> +	if (err)
-> +		goto err;
-> +
-> +	eb->context = ce;
-> +	eb->gt = ce->engine->gt;
-> +
-> +	/*
-> +	 * Make sure engine pool stays alive even if we call intel_context_put
-> +	 * during ww handling. The pool is destroyed when last pm reference
-> +	 * is dropped, which breaks our -EDEADLK handling.
-> +	 */
-> +	return 0;
-> +
-> +err:
-> +	intel_context_put(ce);
-> +	return err;
-> +}
-> +
-> +static void eb_put_engine(struct i915_execbuffer *eb)
-> +{
-> +	i915_eb_put_engine(eb->context);
-> +}
-> +
-> +static int add_timeline_fence_array(struct i915_execbuffer *eb)
-> +{
-> +	struct drm_i915_gem_timeline_fence __user *user_fences;
-> +	struct eb_fence *f;
-> +	u64 nfences;
-> +
-> +	nfences = eb->args->fence_count;
-> +	if (!nfences)
-> +		return 0;
-> +
-> +	/* Check multiplication overflow for access_ok() and kvmalloc_array() */
-> +	BUILD_BUG_ON(sizeof(size_t) > sizeof(unsigned long));
-> +	if (nfences > min_t(unsigned long,
-> +			    ULONG_MAX / sizeof(*user_fences),
-> +			    SIZE_MAX / sizeof(*f)) - eb->num_fences)
-> +		return -EINVAL;
-> +
-> +	user_fences = u64_to_user_ptr(eb->args->timeline_fences);
-> +	if (!access_ok(user_fences, nfences * sizeof(*user_fences)))
-> +		return -EFAULT;
-> +
-> +	f = krealloc(eb->fences,
-> +		     (eb->num_fences + nfences) * sizeof(*f),
-> +		     __GFP_NOWARN | GFP_KERNEL);
-> +	if (!f)
-> +		return -ENOMEM;
-> +
-> +	eb->fences = f;
-> +	f += eb->num_fences;
+The fb_base in struct drm_mode_config has been unused for a long time.
+Some drivers set it and some don't leading to a very confusing state
+where the variable can't be relied upon, because there's no indication
+as to which driver sets it and which doesn't.
 
-I guess this was mostly copy-pasta from eb2 which can in thoery run the 
-same TIMELINE_FENCES extension several times, but that looks like it's 
-not needed here, since this is not an actual extension with eb3 (Looking 
-at the krealloc() stuff etc).
+The only usage of fb_base is internal to two drivers so instead of trying
+to force it into all the drivers to get it into a coherent state
+completely remove it.
 
-> +
-> +	BUILD_BUG_ON(~(ARCH_KMALLOC_MINALIGN - 1) &
-> +		     ~__I915_TIMELINE_FENCE_UNKNOWN_FLAGS);
-> +
-> +	while (nfences--) {
-> +		struct drm_i915_gem_timeline_fence user_fence;
-> +		bool wait, signal;
-> +		int ret;
-> +
-> +		if (__copy_from_user(&user_fence,
-> +				     user_fences++,
-> +				     sizeof(user_fence)))
-> +			return -EFAULT;
-> +
-> +		if (user_fence.flags & __I915_TIMELINE_FENCE_UNKNOWN_FLAGS)
-> +			return -EINVAL;
-> +
-> +		wait = user_fence.flags & I915_EXEC_FENCE_WAIT;
-> +		signal = user_fence.flags & I915_EXEC_FENCE_SIGNAL;
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c         |  2 --
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c           |  2 --
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c           |  2 --
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c            |  1 -
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c            |  2 --
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    |  2 --
+ drivers/gpu/drm/ast/ast_mode.c                   |  1 -
+ drivers/gpu/drm/gma500/framebuffer.c             |  6 +++---
+ drivers/gpu/drm/gma500/psb_drv.h                 |  1 +
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 16 +++-------------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  3 ---
+ drivers/gpu/drm/mgag200/mgag200_mode.c           |  1 -
+ drivers/gpu/drm/msm/msm_fbdev.c                  |  2 --
+ drivers/gpu/drm/nouveau/nouveau_display.c        |  1 -
+ drivers/gpu/drm/nouveau/nv04_fbcon.c             |  6 ++++--
+ drivers/gpu/drm/omapdrm/omap_fbdev.c             |  2 --
+ drivers/gpu/drm/qxl/qxl_display.c                |  2 --
+ drivers/gpu/drm/radeon/radeon_display.c          |  2 --
+ drivers/gpu/drm/radeon/radeon_fb.c               |  2 +-
+ drivers/gpu/drm/tegra/fb.c                       |  1 -
+ drivers/gpu/drm/tiny/bochs.c                     |  1 -
+ include/drm/drm_mode_config.h                    |  2 --
+ 22 files changed, 12 insertions(+), 48 deletions(-)
 
-I915_TIMELINE_FENCE_WAIT
-I915_TIMELINE_FENCE_SIGNAL
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+index f4b5301ea2a0..09dec2561adf 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+@@ -498,8 +498,6 @@ static int amdgpu_vkms_sw_init(void *handle)
+ 	adev_to_drm(adev)->mode_config.preferred_depth = 24;
+ 	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
+ 
+-	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+-
+ 	r = amdgpu_display_modeset_create_props(adev);
+ 	if (r)
+ 		return r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index 288fce7dc0ed..05051d5d2ec3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -2800,8 +2800,6 @@ static int dce_v10_0_sw_init(void *handle)
+ 
+ 	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+ 
+-	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+-
+ 	r = amdgpu_display_modeset_create_props(adev);
+ 	if (r)
+ 		return r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index cbe5250b31cb..c928bc9eb202 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -2918,8 +2918,6 @@ static int dce_v11_0_sw_init(void *handle)
+ 
+ 	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+ 
+-	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+-
+ 	r = amdgpu_display_modeset_create_props(adev);
+ 	if (r)
+ 		return r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index b1c44fab074f..62315fd5a05f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -2675,7 +2675,6 @@ static int dce_v6_0_sw_init(void *handle)
+ 	adev_to_drm(adev)->mode_config.preferred_depth = 24;
+ 	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
+ 	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+-	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+ 
+ 	r = amdgpu_display_modeset_create_props(adev);
+ 	if (r)
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index a22b45c92792..87d5e4c21cb3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -2701,8 +2701,6 @@ static int dce_v8_0_sw_init(void *handle)
+ 
+ 	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+ 
+-	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+-
+ 	r = amdgpu_display_modeset_create_props(adev);
+ 	if (r)
+ 		return r;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index c053cb79cd06..0db2a88cd4d7 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3816,8 +3816,6 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
+ 	/* indicates support for immediate flip */
+ 	adev_to_drm(adev)->mode_config.async_page_flip = true;
+ 
+-	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+-
+ 	state = kzalloc(sizeof(*state), GFP_KERNEL);
+ 	if (!state)
+ 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 4355754d69b5..1a01208d53d9 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1778,7 +1778,6 @@ int ast_mode_config_init(struct ast_private *ast)
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
+ 	dev->mode_config.preferred_depth = 24;
+-	dev->mode_config.fb_base = pci_resource_start(pdev, 0);
+ 
+ 	if (ast->chip == AST2100 ||
+ 	    ast->chip == AST2200 ||
+diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+index aa3ecf771fd3..5f502a0048ab 100644
+--- a/drivers/gpu/drm/gma500/framebuffer.c
++++ b/drivers/gpu/drm/gma500/framebuffer.c
+@@ -286,7 +286,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+ 
+ 	info->fbops = &psbfb_unaccel_ops;
+ 
+-	info->fix.smem_start = dev->mode_config.fb_base;
++	info->fix.smem_start = dev_priv->fb_base;
+ 	info->fix.smem_len = size;
+ 	info->fix.ywrapstep = 0;
+ 	info->fix.ypanstep = 0;
+@@ -296,7 +296,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+ 	info->screen_size = size;
+ 
+ 	if (dev_priv->gtt.stolen_size) {
+-		info->apertures->ranges[0].base = dev->mode_config.fb_base;
++		info->apertures->ranges[0].base = dev_priv->fb_base;
+ 		info->apertures->ranges[0].size = dev_priv->gtt.stolen_size;
+ 	}
+ 
+@@ -527,7 +527,7 @@ void psb_modeset_init(struct drm_device *dev)
+ 
+ 	/* set memory base */
+ 	/* Oaktrail and Poulsbo should use BAR 2*/
+-	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev->mode_config.fb_base));
++	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev_priv->fb_base));
+ 
+ 	/* num pipes is 2 for PSB but 1 for Mrst */
+ 	for (i = 0; i < dev_priv->num_pipe; i++)
+diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+index ae544b69fc47..a5df6d2f2cab 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.h
++++ b/drivers/gpu/drm/gma500/psb_drv.h
+@@ -523,6 +523,7 @@ struct drm_psb_private {
+ 	uint32_t blc_adj2;
+ 
+ 	struct drm_fb_helper *fb_helper;
++	resource_size_t fb_base;
+ 
+ 	bool dsr_enable;
+ 	u32 dsr_fb_update;
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index fe4269c5aa0a..5a2e1cac06b2 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -105,7 +105,6 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+ 	dev->mode_config.max_width = 1920;
+ 	dev->mode_config.max_height = 1200;
+ 
+-	dev->mode_config.fb_base = priv->fb_base;
+ 	dev->mode_config.preferred_depth = 32;
+ 	dev->mode_config.prefer_shadow = 1;
+ 
+@@ -212,7 +211,7 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
+ {
+ 	struct drm_device *dev = &priv->dev;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	resource_size_t addr, size, ioaddr, iosize;
++	resource_size_t ioaddr, iosize;
+ 
+ 	ioaddr = pci_resource_start(pdev, 1);
+ 	iosize = pci_resource_len(pdev, 1);
+@@ -222,16 +221,6 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
+ 		return -ENOMEM;
+ 	}
+ 
+-	addr = pci_resource_start(pdev, 0);
+-	size = pci_resource_len(pdev, 0);
+-	priv->fb_map = devm_ioremap(dev->dev, addr, size);
+-	if (!priv->fb_map) {
+-		drm_err(dev, "Cannot map framebuffer\n");
+-		return -ENOMEM;
+-	}
+-	priv->fb_base = addr;
+-	priv->fb_size = size;
+-
+ 	return 0;
+ }
+ 
+@@ -271,7 +260,8 @@ static int hibmc_load(struct drm_device *dev)
+ 	if (ret)
+ 		goto err;
+ 
+-	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0), priv->fb_size);
++	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
++				    pci_resource_len(pdev, 0));
+ 	if (ret) {
+ 		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+ 		goto err;
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+index 7d263f4d7078..4a0cd22c10e2 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+@@ -32,9 +32,6 @@ struct hibmc_connector {
+ struct hibmc_drm_private {
+ 	/* hw */
+ 	void __iomem   *mmio;
+-	void __iomem   *fb_map;
+-	resource_size_t  fb_base;
+-	resource_size_t  fb_size;
+ 
+ 	/* drm */
+ 	struct drm_device dev;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 758629da95d9..0a5aaf78172a 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -824,7 +824,6 @@ int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vram_avail
+ 	dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
+ 	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
+ 	dev->mode_config.preferred_depth = 24;
+-	dev->mode_config.fb_base = mdev->vram_res->start;
+ 	dev->mode_config.funcs = &mgag200_mode_config_funcs;
+ 	dev->mode_config.helper_private = &mgag200_mode_config_helper_funcs;
+ 
+diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
+index 46168eccfac4..b373e3000320 100644
+--- a/drivers/gpu/drm/msm/msm_fbdev.c
++++ b/drivers/gpu/drm/msm/msm_fbdev.c
+@@ -109,8 +109,6 @@ static int msm_fbdev_create(struct drm_fb_helper *helper,
+ 
+ 	drm_fb_helper_fill_info(fbi, helper, sizes);
+ 
+-	dev->mode_config.fb_base = paddr;
+-
+ 	fbi->screen_base = msm_gem_get_vaddr(bo);
+ 	if (IS_ERR(fbi->screen_base)) {
+ 		ret = PTR_ERR(fbi->screen_base);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index a2f5df568ca5..928fdfa8e8e5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -672,7 +672,6 @@ nouveau_display_create(struct drm_device *dev)
+ 	drm_mode_create_dvi_i_properties(dev);
+ 
+ 	dev->mode_config.funcs = &nouveau_mode_config_funcs;
+-	dev->mode_config.fb_base = device->func->resource_addr(device, 1);
+ 
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
+diff --git a/drivers/gpu/drm/nouveau/nv04_fbcon.c b/drivers/gpu/drm/nouveau/nv04_fbcon.c
+index 92f3fb6765ab..c30b8dacd86b 100644
+--- a/drivers/gpu/drm/nouveau/nv04_fbcon.c
++++ b/drivers/gpu/drm/nouveau/nv04_fbcon.c
+@@ -137,6 +137,8 @@ nv04_fbcon_accel_init(struct fb_info *info)
+ 	struct nouveau_channel *chan = drm->channel;
+ 	struct nvif_device *device = &drm->client.device;
+ 	struct nvif_push *push = chan->chan.push;
++	struct nvkm_device *nvkm_device = nvxx_device(&drm->client.device);
++	resource_size_t fb_base = nvkm_device->func->resource_addr(nvkm_device, 1);
+ 	int surface_fmt, pattern_fmt, rect_fmt;
+ 	int ret;
+ 
+@@ -210,8 +212,8 @@ nv04_fbcon_accel_init(struct fb_info *info)
+ 			       0x0188, chan->vram.handle);
+ 	PUSH_NVSQ(push, NV042, 0x0300, surface_fmt,
+ 			       0x0304, info->fix.line_length | (info->fix.line_length << 16),
+-			       0x0308, info->fix.smem_start - dev->mode_config.fb_base,
+-			       0x030c, info->fix.smem_start - dev->mode_config.fb_base);
++			       0x0308, info->fix.smem_start - fb_base,
++			       0x030c, info->fix.smem_start - fb_base);
+ 
+ 	PUSH_NVSQ(push, NV043, 0x0000, nfbdev->rop.handle);
+ 	PUSH_NVSQ(push, NV043, 0x0300, 0x55);
+diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+index 40706c5aad7b..ed67dd25794c 100644
+--- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
++++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+@@ -177,8 +177,6 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+ 
+ 	drm_fb_helper_fill_info(fbi, helper, sizes);
+ 
+-	dev->mode_config.fb_base = dma_addr;
+-
+ 	fbi->screen_buffer = omap_gem_vaddr(fbdev->bo);
+ 	fbi->screen_size = fbdev->bo->size;
+ 	fbi->fix.smem_start = dma_addr;
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index a152a7c6db21..6492a70e3c39 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -1261,8 +1261,6 @@ int qxl_modeset_init(struct qxl_device *qdev)
+ 	qdev->ddev.mode_config.max_width = 8192;
+ 	qdev->ddev.mode_config.max_height = 8192;
+ 
+-	qdev->ddev.mode_config.fb_base = qdev->vram_base;
+-
+ 	drm_mode_create_suggested_offset_properties(&qdev->ddev);
+ 	qxl_mode_create_hotplug_mode_update_property(qdev);
+ 
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index ca5598ae8bfc..9bed1a6cb163 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -1604,8 +1604,6 @@ int radeon_modeset_init(struct radeon_device *rdev)
+ 
+ 	rdev->ddev->mode_config.fb_modifiers_not_supported = true;
+ 
+-	rdev->ddev->mode_config.fb_base = rdev->mc.aper_base;
+-
+ 	ret = radeon_modeset_create_props(rdev);
+ 	if (ret) {
+ 		return ret;
+diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
+index 6ccea51d4072..cc6754d88b81 100644
+--- a/drivers/gpu/drm/radeon/radeon_fb.c
++++ b/drivers/gpu/drm/radeon/radeon_fb.c
+@@ -276,7 +276,7 @@ static int radeonfb_create(struct drm_fb_helper *helper,
+ 	drm_fb_helper_fill_info(info, &rfbdev->helper, sizes);
+ 
+ 	/* setup aperture base/size for vesafb takeover */
+-	info->apertures->ranges[0].base = rdev->ddev->mode_config.fb_base;
++	info->apertures->ranges[0].base = rdev->mc.aper_base;
+ 	info->apertures->ranges[0].size = rdev->mc.aper_size;
+ 
+ 	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
+diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
+index 9291209154a7..bce71c0ccc9e 100644
+--- a/drivers/gpu/drm/tegra/fb.c
++++ b/drivers/gpu/drm/tegra/fb.c
+@@ -280,7 +280,6 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 		}
+ 	}
+ 
+-	drm->mode_config.fb_base = (resource_size_t)bo->iova;
+ 	info->screen_base = (void __iomem *)bo->vaddr + offset;
+ 	info->screen_size = size;
+ 	info->fix.smem_start = (unsigned long)(bo->iova + offset);
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index a51262289aef..04682f831544 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -543,7 +543,6 @@ static int bochs_kms_init(struct bochs_device *bochs)
+ 	bochs->dev->mode_config.max_width = 8192;
+ 	bochs->dev->mode_config.max_height = 8192;
+ 
+-	bochs->dev->mode_config.fb_base = bochs->fb_base;
+ 	bochs->dev->mode_config.preferred_depth = 24;
+ 	bochs->dev->mode_config.prefer_shadow = 0;
+ 	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 6b5e01295348..5362702fffe1 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -345,7 +345,6 @@ struct drm_mode_config_funcs {
+  * @max_width: maximum fb pixel width on this device
+  * @max_height: maximum fb pixel height on this device
+  * @funcs: core driver provided mode setting functions
+- * @fb_base: base address of the framebuffer
+  * @poll_enabled: track polling support for this device
+  * @poll_running: track polling status for this device
+  * @delayed_event: track delayed poll uevent deliver for this device
+@@ -542,7 +541,6 @@ struct drm_mode_config {
+ 	int min_width, min_height;
+ 	int max_width, max_height;
+ 	const struct drm_mode_config_funcs *funcs;
+-	resource_size_t fb_base;
+ 
+ 	/* output poll support */
+ 	bool poll_enabled;
+-- 
+2.34.1
 
-?
-
-> +		ret = i915_eb_add_timeline_fence(eb->file, user_fence.handle,
-> +						 user_fence.value, f, wait,
-> +						 signal);
-> +		if (ret < 0)
-> +			return ret;
-> +		else if (!ret)
-> +			continue;
-> +
-> +		f++;
-> +		eb->num_fences++;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int parse_timeline_fences(struct i915_execbuffer *eb)
-> +{
-> +	return add_timeline_fence_array(eb);
-> +}
-> +
-> +static int parse_batch_addresses(struct i915_execbuffer *eb)
-> +{
-> +	struct drm_i915_gem_execbuffer3 *args = eb->args;
-> +
-> +	if (eb->num_batches == 1) {
-> +		eb->batch_addresses[0] = args->batch_address;
-> +	} else {
-> +		u64 __user *batch_addr = u64_to_user_ptr(args->batch_address);
-> +
-> +		if (copy_from_user(eb->batch_addresses, batch_addr,
-> +				   sizeof(batch_addr[0]) * eb->num_batches))
-> +			return -EFAULT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int eb_composite_fence_create(struct i915_execbuffer *eb)
-> +{
-> +	struct dma_fence *fence;
-> +
-> +	fence = i915_eb_composite_fence_create(eb->requests, eb->num_batches,
-> +					       eb->context);
-> +	if (IS_ERR(fence))
-> +		return PTR_ERR(fence);
-> +
-> +	eb->composite_fence = fence;
-> +
-> +	return 0;
-> +}
-> +
-> +static int eb_fences_add(struct i915_execbuffer *eb, struct i915_request *rq)
-> +{
-> +	int err;
-> +
-> +	if (unlikely(eb->gem_context->syncobj)) {
-> +		struct dma_fence *fence;
-> +
-> +		fence = drm_syncobj_fence_get(eb->gem_context->syncobj);
-> +		err = i915_request_await_dma_fence(rq, fence);
-> +		dma_fence_put(fence);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	if (eb->fences) {
-> +		err = i915_eb_await_fence_array(eb->fences, eb->num_fences, rq);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	if (intel_context_is_parallel(eb->context)) {
-> +		err = eb_composite_fence_create(eb);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int eb_requests_create(struct i915_execbuffer *eb)
-> +{
-> +	int err;
-> +
-> +	for_each_batch_create_order(eb) {
-> +		/* Allocate a request for this batch buffer nice and early. */
-> +		eb->requests[i] =
-> +			i915_request_create(i915_eb_find_context(eb->context,
-> +								 i));
-> +		if (IS_ERR(eb->requests[i])) {
-> +			err = PTR_ERR(eb->requests[i]);
-> +			eb->requests[i] = NULL;
-> +			return err;
-> +		}
-> +
-> +		/*
-> +		 * Only the first request added (committed to backend) has to
-> +		 * take the in fences into account as all subsequent requests
-> +		 * will have fences inserted inbetween them.
-> +		 */
-> +		if (i + 1 == eb->num_batches) {
-> +			err = eb_fences_add(eb, eb->requests[i]);
-> +			if (err)
-> +				return err;
-> +		}
-> +
-> +		if (eb->batches[i])
-> +			eb->requests[i]->batch_res =
-> +				i915_vma_resource_get(eb->batches[i]->resource);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int
-> +i915_gem_do_execbuffer(struct drm_device *dev,
-> +		       struct drm_file *file,
-> +		       struct drm_i915_gem_execbuffer3 *args)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(dev);
-> +	struct i915_execbuffer eb;
-> +	bool throttle = true;
-> +	int err;
-> +
-> +	BUILD_BUG_ON(__EXEC3_INTERNAL_FLAGS & ~__I915_EXEC3_UNKNOWN_FLAGS);
-> +
-> +	eb.i915 = i915;
-> +	eb.file = file;
-> +	eb.args = args;
-> +
-> +	eb.fences = NULL;
-> +	eb.num_fences = 0;
-> +
-> +	memset(eb.requests, 0, sizeof(struct i915_request *) *
-> +	       ARRAY_SIZE(eb.requests));
-> +	eb.composite_fence = NULL;
-> +
-> +	err = parse_timeline_fences(&eb);
-> +	if (err)
-> +		return err;
-> +
-> +	err = eb_select_context(&eb);
-> +	if (unlikely(err))
-> +		goto err_fences;
-> +
-> +	err = eb_select_engine(&eb);
-> +	if (unlikely(err))
-> +		goto err_context;
-> +
-> +	err = parse_batch_addresses(&eb);
-> +	if (unlikely(err))
-> +		goto err_engine;
-> +
-> +	mutex_lock(&eb.context->vm->vm_bind_lock);
-> +
-> +	err = eb_lookup_vma_all(&eb);
-> +	if (err) {
-> +		eb_release_vma_all(&eb);
-> +		goto err_vm_bind_lock;
-> +	}
-> +
-> +	i915_gem_ww_ctx_init(&eb.ww, true);
-> +
-> +retry_validate:
-> +	err = eb_pin_engine(&eb, throttle);
-> +	if (err)
-> +		goto err_validate;
-> +
-> +	/* only throttle once, even if we didn't need to throttle */
-> +	throttle = false;
-> +
-> +err_validate:
-> +	if (err == -EDEADLK) {
-> +		eb_release_vma_all(&eb);
-> +		err = i915_gem_ww_ctx_backoff(&eb.ww);
-> +		if (!err)
-> +			goto retry_validate;
-> +	}
-> +	if (err)
-> +		goto err_vma;
-> +
-> +	ww_acquire_done(&eb.ww.ctx);
-> +
-> +	err = eb_requests_create(&eb);
-> +	if (err) {
-> +		if (eb.requests[0])
-> +			goto err_request;
-> +		else
-> +			goto err_vma;
-> +	}
-> +
-> +	err = eb_submit(&eb);
-> +
-> +err_request:
-> +	i915_eb_requests_get(eb.requests, eb.num_batches);
-> +	err = i915_eb_requests_add(eb.requests, eb.num_batches, eb.context,
-> +				   eb.gem_context->sched, err);
-> +
-> +	if (eb.fences)
-> +		i915_eb_signal_fence_array(eb.fences, eb.num_fences,
-> +					   eb.composite_fence ?
-> +					   eb.composite_fence :
-> +					   &eb.requests[0]->fence);
-> +
-> +	if (unlikely(eb.gem_context->syncobj)) {
-> +		drm_syncobj_replace_fence(eb.gem_context->syncobj,
-> +					  eb.composite_fence ?
-> +					  eb.composite_fence :
-> +					  &eb.requests[0]->fence);
-> +	}
-> +
-> +	if (eb.composite_fence)
-> +		dma_fence_put(eb.composite_fence);
-> +
-> +	i915_eb_requests_put(eb.requests, eb.num_batches);
-> +
-> +err_vma:
-> +	eb_release_vma_all(&eb);
-> +	WARN_ON(err == -EDEADLK);
-> +	i915_gem_ww_ctx_fini(&eb.ww);
-> +err_vm_bind_lock:
-> +	mutex_unlock(&eb.context->vm->vm_bind_lock);
-> +err_engine:
-> +	eb_put_engine(&eb);
-> +err_context:
-> +	i915_gem_context_put(eb.gem_context);
-> +err_fences:
-> +	i915_eb_put_fence_array(eb.fences, eb.num_fences);
-> +	return err;
-> +}
-> +
-> +int
-> +i915_gem_execbuffer3_ioctl(struct drm_device *dev, void *data,
-> +			   struct drm_file *file)
-> +{
-> +	struct drm_i915_gem_execbuffer3 *args = data;
-> +	int err;
-> +
-> +	/* Reserved fields must be 0 */
-> +	if (args->rsvd || args->extensions)
-> +		return -EINVAL;
-> +
-> +	if (args->flags & __I915_EXEC3_UNKNOWN_FLAGS)
-> +		return -EINVAL;
-> +
-> +	err = i915_gem_do_execbuffer(dev, file, args);
-> +
-> +	args->flags &= ~__I915_EXEC3_UNKNOWN_FLAGS;
-> +	return err;
-> +}
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
-> index 28d6526e32ab..b7a1e9725a84 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
-> @@ -18,6 +18,8 @@ int i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
->   			      struct drm_file *file);
->   int i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
->   			       struct drm_file *file);
-> +int i915_gem_execbuffer3_ioctl(struct drm_device *dev, void *data,
-> +			       struct drm_file *file);
->   int i915_gem_get_aperture_ioctl(struct drm_device *dev, void *data,
->   				struct drm_file *file);
->   int i915_gem_get_caching_ioctl(struct drm_device *dev, void *data,
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index f44a864e0b53..49ebafb5c6d2 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -1853,6 +1853,7 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
->   	DRM_IOCTL_DEF_DRV(I915_GEM_INIT, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
->   	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER, drm_invalid_op, DRM_AUTH),
->   	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER2_WR, i915_gem_execbuffer2_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER3, i915_gem_execbuffer3_ioctl, DRM_RENDER_ALLOW),
->   	DRM_IOCTL_DEF_DRV(I915_GEM_PIN, i915_gem_reject_pin_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
->   	DRM_IOCTL_DEF_DRV(I915_GEM_UNPIN, i915_gem_reject_pin_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
->   	DRM_IOCTL_DEF_DRV(I915_GEM_BUSY, i915_gem_busy_ioctl, DRM_RENDER_ALLOW),
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 87f5c2a470f5..fe7ee8f19c83 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -472,6 +472,7 @@ typedef struct _drm_i915_sarea {
->   #define DRM_I915_GEM_CREATE_EXT		0x3c
->   #define DRM_I915_GEM_VM_BIND		0x3d
->   #define DRM_I915_GEM_VM_UNBIND		0x3e
-> +#define DRM_I915_GEM_EXECBUFFER3	0x3f
->   /* Must be kept compact -- no holes */
->   
->   #define DRM_IOCTL_I915_INIT		DRM_IOW( DRM_COMMAND_BASE + DRM_I915_INIT, drm_i915_init_t)
-> @@ -538,6 +539,7 @@ typedef struct _drm_i915_sarea {
->   #define DRM_IOCTL_I915_GEM_VM_DESTROY	DRM_IOW (DRM_COMMAND_BASE + DRM_I915_GEM_VM_DESTROY, struct drm_i915_gem_vm_control)
->   #define DRM_IOCTL_I915_GEM_VM_BIND	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
->   #define DRM_IOCTL_I915_GEM_VM_UNBIND	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_unbind)
-> +#define DRM_IOCTL_I915_GEM_EXECBUFFER3	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
->   
->   /* Allow drivers to submit batchbuffers directly to hardware, relying
->    * on the security mechanisms provided by hardware.
-> @@ -1562,6 +1564,65 @@ struct drm_i915_gem_timeline_fence {
->   	__u64 value;
->   };
->   
-> +/**
-> + * struct drm_i915_gem_execbuffer3 - Structure for DRM_I915_GEM_EXECBUFFER3
-> + * ioctl.
-> + *
-> + * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and VM_BIND mode
-> + * only works with this ioctl for submission.
-> + * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
-> + */
-> +struct drm_i915_gem_execbuffer3 {
-> +	/**
-> +	 * @ctx_id: Context id
-> +	 *
-> +	 * Only contexts with user engine map are allowed.
-> +	 */
-> +	__u32 ctx_id;
-> +
-> +	/**
-> +	 * @engine_idx: Engine index
-> +	 *
-> +	 * An index in the user engine map of the context specified by @ctx_id.
-> +	 */
-> +	__u32 engine_idx;
-> +
-> +	/**
-> +	 * @batch_address: Batch gpu virtual address/es.
-> +	 *
-> +	 * For normal submission, it is the gpu virtual address of the batch
-> +	 * buffer. For parallel submission, it is a pointer to an array of
-> +	 * batch buffer gpu virtual addresses with array size equal to the
-> +	 * number of (parallel) engines involved in that submission (See
-> +	 * struct i915_context_engines_parallel_submit).
-> +	 */
-> +	__u64 batch_address;
-> +
-> +	/** @flags: Currently reserved, MBZ */
-> +	__u64 flags;
-> +#define __I915_EXEC3_UNKNOWN_FLAGS (~0)
-
-(~0ull)
-
-?
-
-I'll probably circle back around again, but for now all looks pretty 
-reasonable,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-> +
-> +	/** @fence_count: Number of fences in @timeline_fences array. */
-> +	__u64 fence_count;
-> +
-> +	/**
-> +	 * @timeline_fences: Pointer to an array of timeline fences.
-> +	 *
-> +	 * Timeline fences are of format struct drm_i915_gem_timeline_fence.
-> +	 */
-> +	__u64 timeline_fences;
-> +
-> +	/** @rsvd: Reserved, MBZ */
-> +	__u64 rsvd;
-> +
-> +	/**
-> +	 * @extensions: Zero-terminated chain of extensions.
-> +	 *
-> +	 * For future extensions. See struct i915_user_extension.
-> +	 */
-> +	__u64 extensions;
-> +};
-> +
->   struct drm_i915_gem_pin {
->   	/** Handle of the buffer to be pinned. */
->   	__u32 handle;
