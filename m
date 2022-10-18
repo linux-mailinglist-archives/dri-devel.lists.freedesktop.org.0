@@ -1,55 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0A3602840
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 11:25:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89765602852
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 11:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F72410E102;
-	Tue, 18 Oct 2022 09:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA32B10E4D9;
+	Tue, 18 Oct 2022 09:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D077D10E102
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 09:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666085098; x=1697621098;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=UMCO5mJkxdgXG8Vg18aqKASsvHeMgG5yqkmJ96uzOXg=;
- b=l5SorvrEMSVPQEkHbidCeLQkxoJsRSKKV2rf3F3IF2b8Hyji3FYPEsqv
- sA7AbdZeypjvn1SeNcoDZOS/Evztp8SmVPBfywVBSRXZqR+pJhH4JLwGn
- ugMy0tpNYJQ8Dvj5JPIO7/KdYuLCAXgT553AQzKFSMgFOK2eBVBtg42Ih
- OF12srV2qtRwg/Pf4L99oudETV4pOF0SZpBz0rsfxFlVB20Yd8CjDwYQF
- 75eEr+om2koqz2b95k3jvAR8jA6s/16GxwT/gsMheAnCbMWcuAVx0QH7m
- mUik5zpmYiQ8ua1UdthdAYmOiwDoqsX4cRANWGOVBsZIQYFIBY+Ix+UUU Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="306033084"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="306033084"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2022 02:24:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="771119489"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="771119489"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga001.fm.intel.com with SMTP; 18 Oct 2022 02:24:54 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 18 Oct 2022 12:24:53 +0300
-Date: Tue, 18 Oct 2022 12:24:53 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Simon Ser <contact@emersion.fr>
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 076F910E1FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 09:26:47 +0000 (UTC)
+Date: Tue, 18 Oct 2022 09:26:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1666085205; x=1666344405;
+ bh=lkgJpWb4BaP1gv7AzAPzQPSfRTAjw60rN7V6Xsc2zOY=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=JxJ0JbIU/XDTDzCBQ1z/bshkld/8VLeDOh03KydWqzJHV77rAWfPMKsgYkSXw7h0n
+ 41k8RYXmK7iFlX4mkjYC2KZokoZN/WGDAxs4zNZvSNarjWKoutmnEqkeMmRyaPkvz6
+ d6kOFAW54+LCvwRLeoOhcaeZRbpk9BwSIJX9jW8n09fMtqJ42N3NEhvUBRsfVfByr1
+ aaWN9H/pH5zje7/aA2ToaCIuY89p+LTcW74AU6DxO5bUyEtKp4kcFgdpZolTqu+np4
+ 9f165iQf8Dhen4f+4Qa/wt9hs5RngjMCJ5waT6IY4pIXDYj/qJunlyTNe4j+NtC3R3
+ uWzkEbrq2IkCg==
+To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+From: Simon Ser <contact@emersion.fr>
 Subject: Re: [PATCH 2/2] drm/connector: send hotplug uevent on connector
  cleanup
-Message-ID: <Y05w5U0CAbrdA10S@intel.com>
+Message-ID: <ItXxb260gmsCB1yhoUXl8D1d8T7-EXkKsK9w_Qcyb2VsBCH7zAPzPfbYVWGqCJxne3pH3lpKdRLoIuOZzhfCtE9I8UByM0Y17_qVopplReg=@emersion.fr>
+In-Reply-To: <Y05w5U0CAbrdA10S@intel.com>
 References: <20221017153150.60675-1-contact@emersion.fr>
- <20221017153150.60675-2-contact@emersion.fr>
+ <20221017153150.60675-2-contact@emersion.fr> <Y05w5U0CAbrdA10S@intel.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221017153150.60675-2-contact@emersion.fr>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,65 +50,38 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>, stable@vger.kernel.org,
+ =?utf-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>, stable@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 17, 2022 at 03:32:01PM +0000, Simon Ser wrote:
-> A typical DP-MST unplug removes a KMS connector. However care must
-> be taken to properly synchronize with user-space. The expected
-> sequence of events is the following:
-> 
-> 1. The kernel notices that the DP-MST port is gone.
-> 2. The kernel marks the connector as disconnected, then sends a
->    uevent to make user-space re-scan the connector list.
-> 3. User-space notices the connector goes from connected to disconnected,
->    disables it.
-> 4. Kernel handles the the IOCTL disabling the connector. On success,
->    the very last reference to the struct drm_connector is dropped and
->    drm_connector_cleanup() is called.
-> 5. The connector is removed from the list, and a uevent is sent to tell
->    user-space that the connector disappeared.
-> 
-> The very last step was missing. As a result, user-space thought the
-> connector still existed and could try to disable it again. Since the
-> kernel no longer knows about the connector, that would end up with
-> EINVAL and confused user-space.
+On Tuesday, October 18th, 2022 at 11:24, Ville Syrj=C3=A4l=C3=A4 <ville.syr=
+jala@linux.intel.com> wrote:
 
-So is the uevent sent by the mst delayed destroy work
-useless now, or what is going on there?
+> On Mon, Oct 17, 2022 at 03:32:01PM +0000, Simon Ser wrote:
+>=20
+> > A typical DP-MST unplug removes a KMS connector. However care must
+> > be taken to properly synchronize with user-space. The expected
+> > sequence of events is the following:
+> >=20
+> > 1. The kernel notices that the DP-MST port is gone.
+> > 2. The kernel marks the connector as disconnected, then sends a
+> > uevent to make user-space re-scan the connector list.
+> > 3. User-space notices the connector goes from connected to disconnected=
+,
+> > disables it.
+> > 4. Kernel handles the the IOCTL disabling the connector. On success,
+> > the very last reference to the struct drm_connector is dropped and
+> > drm_connector_cleanup() is called.
+> > 5. The connector is removed from the list, and a uevent is sent to tell
+> > user-space that the connector disappeared.
+> >=20
+> > The very last step was missing. As a result, user-space thought the
+> > connector still existed and could try to disable it again. Since the
+> > kernel no longer knows about the connector, that would end up with
+> > EINVAL and confused user-space.
+>=20
+> So is the uevent sent by the mst delayed destroy work
+> useless now, or what is going on there?
 
-> 
-> Fix this by sending a hotplug uevent from drm_connector_cleanup().
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: stable@vger.kernel.org
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Jonas Ådahl <jadahl@redhat.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index e3142c8142b3..90dad87e9ad0 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -582,6 +582,9 @@ void drm_connector_cleanup(struct drm_connector *connector)
->  	mutex_destroy(&connector->mutex);
->  
->  	memset(connector, 0, sizeof(*connector));
-> +
-> +	if (dev->registered)
-> +		drm_sysfs_hotplug_event(dev);
->  }
->  EXPORT_SYMBOL(drm_connector_cleanup);
->  
-> -- 
-> 2.38.0
-> 
-
--- 
-Ville Syrjälä
-Intel
+No, that one is still useful, step (2) above.
