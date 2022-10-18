@@ -1,47 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A330160259C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:22:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78DF6025C3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Oct 2022 09:32:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102D510EEB0;
-	Tue, 18 Oct 2022 07:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5BD510EEAD;
+	Tue, 18 Oct 2022 07:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAF3F10EEB1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 07:22:37 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1okgvr-0006SP-2v; Tue, 18 Oct 2022 09:22:35 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1okgvp-002ESx-St; Tue, 18 Oct 2022 09:22:33 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1okgvo-008kKv-VO; Tue, 18 Oct 2022 09:22:32 +0200
-Date: Tue, 18 Oct 2022 09:22:32 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH] fbdev: da8xx-fb: Fix error handling in .remove()
-Message-ID: <20221018072232.uodlzz3tzcugl2bo@pengutronix.de>
-References: <20221017195250.1425468-1-u.kleine-koenig@pengutronix.de>
- <7469c557-388a-4917-9810-90b1f341292d@gmx.de>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303DE10EEAD
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Oct 2022 07:32:07 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 757C6580155;
+ Tue, 18 Oct 2022 03:32:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 18 Oct 2022 03:32:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1666078324; x=
+ 1666085524; bh=x8Kpf7Ca60+0626HPD6lKqagYPSPMGNpcqJHOsdVPg4=; b=c
+ qk9JAMkhFYmJG+cxMVtlFC29ZG0OibbkpFqL8SZr4bKMbcs67y+kWVzwFJaxtngM
+ lT72P28/DfFs69Srr9tJ02RUQS4XuaAP3kFB6kDCYWEI9bGIQ2Aw11EXoFVM31YJ
+ swbwgfAI4nnwImpycgFBT0/Tf7iJ/5pwU5dzxFKF3sUOCiJ6EdqmkqH8HeS3+et/
+ 0/d9pOI8v1he405a00A5/dUCF4HP0rQFLrI8bj7daewvXohydhZzpixy1IW/H+ev
+ ZffparVVjMse56F5unfod4bqNCdbGFIsc2GxM+T1m8Zkyrd3G6ADqPfYBq1kPe5G
+ GtVRTXe2DnITFTQxeHH5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666078324; x=
+ 1666085524; bh=x8Kpf7Ca60+0626HPD6lKqagYPSPMGNpcqJHOsdVPg4=; b=d
+ +yWVvqdRVhyutCeiw5LO0/K/MTbO/8W+XVxp/G+SDseiiq7JlVhJiyCUMSZMLLxR
+ hCkvWqW7tLBSZvUbTUvk+xBJyUKz68bgAdSmgHSiFEWOufQuiTnvzunCdaxcYann
+ 5s6xSI9vUWeSO+1LC+uU63Ke35foc6dzOtMWDwGrBLK6lHId140UOz/e35uOeaxD
+ EUDJfVJ7GECZQLMWdJ8cicQZjK0IsjHedu9QHuq8rna2B6LvqoYXTnxLNHxhUA4R
+ jCTdceXycqdWFVkmr7j0zkRBNRTA3yDKwEenjrjEL0wSzf2PqX7ZVMlK6H5GrTDB
+ zea7VndIybeSO2R/YEJ/A==
+X-ME-Sender: <xms:c1ZOYx8gN6HMeSVgdKA6HlwKsdr3HeLers72Hu5Ejs1f2P1AVNvQVA>
+ <xme:c1ZOY1uj3vGcWeketnDs2VH4131C7teDKwip9Wls_VOZjiDwUkQTjF6sSeMOEA-Hg
+ 9LzevIJsk49Q1y2PuM>
+X-ME-Received: <xmr:c1ZOY_Cn03uydnBNw5bXHh65QI8_MN3Dw7GtZHfANNaBlxSEmq4vEGTBQPkv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeltddguddvfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
+ gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+ frrghtthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeu
+ teefteefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:c1ZOY1eNIxhB8puT_IYpNRUAXnuZBvz_0ObXFVLgNBPgzMZLK1J1iQ>
+ <xmx:c1ZOY2MclzKYD2xBuaI0Wme__36uzx_8Ai2htL-zwps_1JpMm0-IIQ>
+ <xmx:c1ZOY3mkAtRL6Wlks6k9uHB0KajRoIb2LdzNRngldBZO6Ri6Qkfbfg>
+ <xmx:dFZOY-btamRaYp76W5Tjs6VR7RhBXTY4GoudmTotwJpoHZxGg1uDFg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 18 Oct 2022 03:32:02 -0400 (EDT)
+Date: Tue, 18 Oct 2022 09:32:01 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH v3 1/7] firmware: raspberrypi: Introduce
+ rpi_firmware_find_node()
+Message-ID: <20221018073201.hcptjdalvn47n25t@houat>
+References: <20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech>
+ <20220815-rpi-fix-4k-60-v3-1-fc56729d11fe@cerno.tech>
+ <890f6ab1-f6aa-76c8-01e8-f7233143d7ec@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wvwcnhrbkl5tpywx"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7469c557-388a-4917-9810-90b1f341292d@gmx.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <890f6ab1-f6aa-76c8-01e8-f7233143d7ec@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,84 +87,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
- dri-devel@lists.freedesktop.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Cai Huoqing <cai.huoqing@linux.dev>, kernel@pengutronix.de
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, Emma Anholt <emma@anholt.net>,
+ Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>,
+ Ray Jui <rjui@broadcom.com>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Florian
 
---wvwcnhrbkl5tpywx
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 18, 2022 at 08:08:49AM +0200, Helge Deller wrote:
-> On 10/17/22 21:52, Uwe Kleine-K=F6nig wrote:
-> > Even in the presence of problems (here: regulator_disable() might fail),
-> > it's important to unregister all resources acquired during .probe() and
-> > disable the device (i.e. DMA activity) because even if .remove() returns
-> > an error code, the device is removed and the .remove() callback is never
-> > called again later to catch up.
+On Fri, Oct 14, 2022 at 12:43:38PM -0700, Florian Fainelli wrote:
+> On 10/13/22 02:13, Maxime Ripard wrote:
+> > A significant number of RaspberryPi drivers using the firmware don't
+> > have a phandle to it, so end up scanning the device tree to find a node
+> > with the firmware compatible.
 > >=20
-> > This is a preparation for making platform remove callbacks return void.
+> > That code is duplicated everywhere, so let's introduce a helper instead.
 > >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> applied.
-
-Great. If you want a Fixes: line, that's:
-
-Fixes: 611097d5daea ("fbdev: da8xx: add support for a regulator")
-
-(expanded Cc: a bit with the people involved there.)
-
-Best regards
-Uwe
-
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > > ---
-> >   drivers/video/fbdev/da8xx-fb.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >   drivers/firmware/raspberrypi.c             | 7 +++++++
+> >   include/soc/bcm2835/raspberrypi-firmware.h | 7 +++++++
+> >   2 files changed, 14 insertions(+)
 > >=20
-> > diff --git a/drivers/video/fbdev/da8xx-fb.c b/drivers/video/fbdev/da8xx=
--fb.c
-> > index ae76a2111c77..11922b009ed7 100644
-> > --- a/drivers/video/fbdev/da8xx-fb.c
-> > +++ b/drivers/video/fbdev/da8xx-fb.c
-> > @@ -1076,7 +1076,8 @@ static int fb_remove(struct platform_device *dev)
-> >   	if (par->lcd_supply) {
-> >   		ret =3D regulator_disable(par->lcd_supply);
-> >   		if (ret)
-> > -			return ret;
-> > +			dev_warn(&dev->dev, "Failed to disable regulator (%pe)\n",
-> > +				 ERR_PTR(ret));
-> >   	}
-> >=20
-> >   	lcd_disable_raster(DA8XX_FRAME_WAIT);
-> >=20
-> > base-commit: 4fe89d07dcc2804c8b562f6c7896a45643d34b2f
+> > diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberr=
+ypi.c
+> > index 4b8978b254f9..b916e1e171f8 100644
+> > --- a/drivers/firmware/raspberrypi.c
+> > +++ b/drivers/firmware/raspberrypi.c
+> > @@ -311,6 +311,13 @@ static int rpi_firmware_remove(struct platform_dev=
+ice *pdev)
+> >   	return 0;
+> >   }
+> > +static const struct of_device_id rpi_firmware_of_match[];
 >=20
->=20
->=20
+> This shadows the same variable that is used later for matching the firmwa=
+re
+> driver and probe it as a platform_driver, what am I missing here?
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+I'm not shadowing the variable, but it's a forward-declaration.
 
---wvwcnhrbkl5tpywx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmNOVDYACgkQwfwUeK3K
-7Anw8Qf7Bp3WWPZoWZ3eqaIlidOS99XbrVGpK7/YocK8uv4ayqpeqyD2cDpU7hKD
-L7RAj6VJYPJ1QkkGkJYADpQvN3rrko6nkJnXjuIBKoXz53wQ8XBl9v4YxZSU1YPa
-BDFJs/3PZmXnwnGg/z8nOMULLOTVAJTf+3CuZJy4hUf26SROoWmjk1iogmUpnw9T
-UcmLZKSMg3jpbrqcNDpVn88X5JJ3nsV4znqcCU8ylFqyh/FXA1ZQzDKybnYAYeuJ
-UNj63Hh5QdkyDZFkmwh5R5emAbpiy7Y1tYD/JqXmKZHi8E/Ul4vrscjDF67sjx6m
-Zulbf2F9Ob6NTOcuHal0/8IleXxatQ==
-=f4lH
------END PGP SIGNATURE-----
-
---wvwcnhrbkl5tpywx--
+Maxime
