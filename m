@@ -1,84 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D26605201
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 23:32:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B130F60520C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 23:35:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15A6610E0BC;
-	Wed, 19 Oct 2022 21:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C974610E0E7;
+	Wed, 19 Oct 2022 21:35:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C93410E0DB
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 21:32:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666215135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iRo8z7I39TZ2xgzmOs0IkUPyEriKByUvdIr0+xvZt3Y=;
- b=TnzEz5O7TBF/cuQchHjTG+IkTf/ga3y20rJ0WhJ5oZthmYA6JiDwjruCKHsVO7/U32NVY9
- lPLkyQ+A923zsY0jdXSK+uyxMiV5pznmIaB98EoMiVih+pQszXZ9Ch/bovHuTuaTas5/eh
- IhQgsCtYVBnTRkmR6pLMQ5iWk4GOprs=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-6gpdAzOHM-Wq5DZqD8HYrQ-1; Wed, 19 Oct 2022 17:32:14 -0400
-X-MC-Unique: 6gpdAzOHM-Wq5DZqD8HYrQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- s14-20020a05622a1a8e00b00397eacd9c1aso13906230qtc.21
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 14:32:14 -0700 (PDT)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 492A110E0E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 21:35:07 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id g27so27159197edf.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 14:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yiqpubSSRjqi+xo3Zt6mRBDg4WQe+McsHWUueSRR8rc=;
+ b=ZVPAHbECm9m1eYbMBBh9dm9FZ/PRwITiBRs6KLA8kM4fWSiN6WK8hRCLJA3OYDEkrm
+ ajNYPk9TcK/15qfelg34GMb1JG5u6n68n4/ipxOk0IqHwLoTULy3Wxv/iqWvsR0oBjjn
+ 9ynUYvg6TuCuclTLiQ3uctoTFs6UQkUCRuz4qMOV0dMPouTfTaYNqDq+Jywr4gFmAg8x
+ dfFIODgyW5KcsvbZyrGeFA9B5ZgfmmxKwD4UQXIZL0owjwst7MYYXyPsbjGMVo8k61DI
+ P1ZBdj9Zn38YNki9eyU0x1HVKadKQdTzYQYQtAyyPzIJlQJmxBpnHRk5qChQ8D1jwO0z
+ aQVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iRo8z7I39TZ2xgzmOs0IkUPyEriKByUvdIr0+xvZt3Y=;
- b=JOLz+5RkeX4nj//OLVJ8NoKSW7H8fr12G+/C9GlkHuni1JgMO8op0WIvizGoqmrpZI
- gLqLMqa7re6QsQqU9MLeM2jjRBHvKXNYqFpzYdPNBk07OpvuENaHtnyWwsaQXarY5iS0
- EewoFo0Apph07Vl/YsNx0JUyV8VWvbkuEcwwlUvD7eCgLXSi/5sYynBjjEC9xC9g9BCL
- Abatc+nMRC1grD73A7HDv/23TkWAf4eymuLqmRPom406M6k3j5e06Zgmkbc2OKFNBwiN
- 4RukqO60c0vVpAGwb5g5tt8cpt0PE59MB3wFo3hF58xG03SKm6Y7ESL1NxMcT0CEcg7d
- CZ+A==
-X-Gm-Message-State: ACrzQf1NcGmr8TWuchV5FrQF2ENLNA/mm+IhzQwp2bpvELvBCfXUoIGH
- fMrhxqhy4+ke9oBBytHZZYPdXTmkmDopRmWM1U4xlep0Sjh/Q0AtTV1OWhOjff45/jVegtv+PSN
- Hn50RQ0CwW0K1vhnO0wRiZEhVH4rQ
-X-Received: by 2002:ac8:7e84:0:b0:35b:a902:57c3 with SMTP id
- w4-20020ac87e84000000b0035ba90257c3mr8244616qtj.37.1666215133689; 
- Wed, 19 Oct 2022 14:32:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6n9BznDrKP2dQk6tJ1JIOGufLUsAqZJjny42w86LkBTeAVBcYMkps5A9DvXTIjQgO1LQYTSA==
-X-Received: by 2002:ac8:7e84:0:b0:35b:a902:57c3 with SMTP id
- w4-20020ac87e84000000b0035ba90257c3mr8244601qtj.37.1666215133472; 
- Wed, 19 Oct 2022 14:32:13 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c68:4300:fdba:af4a:bbcd:7e28?
- ([2600:4040:5c68:4300:fdba:af4a:bbcd:7e28])
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=yiqpubSSRjqi+xo3Zt6mRBDg4WQe+McsHWUueSRR8rc=;
+ b=go7hoEKODiJFxTvzR4K4Yk8n78lpbwagjjiyz09Hmvv+Q8c1YyCmPiYgOXwP3lVfDQ
+ ZJHB96EBNwo021ptsnKP7mIlw/H0gMlyFXsiYEesRrNOomyMqkJmKErd2JG1wMfVwEQp
+ c0BOaRFWdsNHaoxeKbgp9XOG3s3NwbvNRagawspwVcaxqyKGa73/r/3pLH7yCcuxCP2E
+ uqTxVK/tK3MwGV904ES242vg3f/GWsyq9jwFpEZ7vdF6lYAuhINYHbRyshBKavmqXAz+
+ mh/njPgHYT9+Lq0gKknHXEwyo1MJDSz3h1AV2wNc1zLOc2qL8QTJZstkXkuaCNr65rOi
+ Z59A==
+X-Gm-Message-State: ACrzQf0/JNYaO51yrEAjEw2fhC5kPVoI+LhTJ2AIpVzJoM6BWJGz6CMT
+ tn6gGgf4UzdOJlG1fd9eMbQ=
+X-Google-Smtp-Source: AMsMyM5p5Q+y3GHvQ1uQlf0tVyPoWXJvSJ0/bWAEhhHlK32H8om8vlPlJ0nMYGLQnHUtl0k07WGQmQ==
+X-Received: by 2002:a05:6402:360d:b0:459:5f40:5b0a with SMTP id
+ el13-20020a056402360d00b004595f405b0amr9017951edb.168.1666215305362; 
+ Wed, 19 Oct 2022 14:35:05 -0700 (PDT)
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- d4-20020ac81184000000b00359961365f1sm4675476qtj.68.2022.10.19.14.32.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 14:32:12 -0700 (PDT)
-Message-ID: <41ffe32931a21961a3f368b30bd4335faa5ac6a4.camel@redhat.com>
-Subject: Re: [PATCH] drm/amdgpu/dm/mst: Fix incorrect usage of
- drm_dp_add_payload_part2()
-From: Lyude Paul <lyude@redhat.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Date: Wed, 19 Oct 2022 17:32:11 -0400
-In-Reply-To: <CO6PR12MB548939841653ABD0EAA95DCAFC299@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20221004202429.124422-1-lyude@redhat.com>
- <d3b272e1-3b5d-c843-e8ac-57dc5e3a7ced@amd.com>
- <128762cfb6524d17e6ee7308aa7e859dd350fa63.camel@redhat.com>
- <CO6PR12MB548939841653ABD0EAA95DCAFC299@CO6PR12MB5489.namprd12.prod.outlook.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ bs15-20020a170906d1cf00b0077958ddaec6sm9232118ejb.186.2022.10.19.14.35.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Oct 2022 14:35:04 -0700 (PDT)
+Message-ID: <ebe91504-c5df-99e4-635f-832218584051@gmail.com>
+Date: Wed, 19 Oct 2022 23:35:03 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+From: Johan Jonker <jbx6244@gmail.com>
+Subject: [PATCH v1] drm: rockchip: remove rockchip_drm_framebuffer_init()
+ function
+To: john@metanate.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,132 +73,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Chen, Ian" <Ian.Chen@amd.com>, "Li, Sun peng \(Leo\)" <Sunpeng.Li@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
- Jani Nikula <jani.nikula@intel.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>,
- Claudio Suarez <cssk@net-c.es>, "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, Colin Ian King <colin.i.king@gmail.com>
+Cc: hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gotcha, I'll take another look at this tomorrow
+The function rockchip_drm_framebuffer_init() was in use
+in the rockchip_drm_fbdev.c file, but that is now replaced
+by a generic fbdev setup. Reduce the image size by
+removing the rockchip_drm_framebuffer_init() and sub function
+rockchip_fb_alloc() and cleanup the rockchip_drm_fb.h header file.
 
-On Mon, 2022-10-17 at 03:09 +0000, Lin, Wayne wrote:
-> [Public]
-> 
-> 
-> 
-> > -----Original Message-----
-> > From: Lyude Paul <lyude@redhat.com>
-> > Sent: Thursday, October 6, 2022 3:37 AM
-> > To: Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>; dri-
-> > devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
-> > Cc: Wentland, Harry <Harry.Wentland@amd.com>; Li, Sun peng (Leo)
-> > <Sunpeng.Li@amd.com>; Deucher, Alexander
-> > <Alexander.Deucher@amd.com>; Koenig, Christian
-> > <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
-> > Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Zuo, Jerry
-> > <Jerry.Zuo@amd.com>; Lin, Wayne <Wayne.Lin@amd.com>; Chen, Ian
-> > <Ian.Chen@amd.com>; Mikita Lipski <mikita.lipski@amd.com>; Mahfooz,
-> > Hamza <Hamza.Mahfooz@amd.com>; Claudio Suarez <cssk@net-c.es>; Colin
-> > Ian King <colin.i.king@gmail.com>; Jani Nikula <jani.nikula@intel.com>; open
-> > list <linux-kernel@vger.kernel.org>
-> > Subject: Re: [PATCH] drm/amdgpu/dm/mst: Fix incorrect usage of
-> > drm_dp_add_payload_part2()
-> > 
-> > On Tue, 2022-10-04 at 16:46 -0400, Rodrigo Siqueira Jordao wrote:
-> > > 
-> > > On 2022-10-04 16:24, Lyude Paul wrote:
-> > > > Yikes, it appears somehow I totally made a mistake here. We're
-> > > > currently checking to see if drm_dp_add_payload_part2() returns a
-> > > > non-zero value to indicate success. That's totally wrong though, as
-> > > > this function only returns a zero value on success - not the other way
-> > around.
-> > > > 
-> > > > So, fix that.
-> > > > 
-> > > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > > Issue:
-> > > > 
-> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgi
-> > > > tlab.freedesktop.org%2Fdrm%2Famd%2F-
-> > %2Fissues%2F2171&amp;data=05%7C0
-> > > > 
-> > 1%7Cwayne.lin%40amd.com%7Ccd5a63120e064f4bb6aa08daa7090baf%7C3d
-> > d8961
-> > > > 
-> > fe4884e608e11a82d994e183d%7C0%7C0%7C638005954559719396%7CUnkno
-> > wn%7CT
-> > > > 
-> > WFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC
-> > JXV
-> > > > 
-> > CI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=nMIGnUKS6EDrdKJ0rR%2BAh
-> > FRa4ST0%2
-> > > > BYr9bILmXv40yv0%3D&amp;reserved=0
-> > > > Fixes: 4d07b0bc4034 ("drm/display/dp_mst: Move all payload info into
-> > > > the atomic state")
-> > > > ---
-> > > >   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2
-> > +-
-> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git
-> > > > a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > > > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > > > index b8077fcd4651..00598def5b39 100644
-> > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > > > +++
-> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > > > @@ -297,7 +297,7 @@ bool
-> > dm_helpers_dp_mst_send_payload_allocation(
-> > > >   		clr_flag = MST_ALLOCATE_NEW_PAYLOAD;
-> > > >   	}
-> > > > 
-> > > > -	if (enable && drm_dp_add_payload_part2(mst_mgr, mst_state-
-> > > base.state, payload)) {
-> > > > +	if (enable && drm_dp_add_payload_part2(mst_mgr,
-> > > > +mst_state->base.state, payload) == 0) {
-> 
-> Hi Lyude,
-> 
-> This line changes the original logic a bit. The 'if' case was trying to catch failure 
-> while sending ALLOCATE_PAYLOAD. If the msg fails, set the set_flag to false.
-> If succeed, set the set_flag to true and clear the clr_flag. 
-> 
-> Sorry if the code wording misleading. Thanks!
-> 
-> > > >   		amdgpu_dm_set_mst_status(&aconnector->mst_status,
-> > > >   			set_flag, false);
-> > > >   	} else {
-> > > 
-> > > Hi Lyude,
-> > > 
-> > > Maybe I'm missing something, but I can't find the
-> > > drm_dp_add_payload_part2() function on amd-staging-drm-next. Which
-> > > repo are you using?
-> > 
-> > If it's not on amd-staging-drm-next then it likely hasn't gotten backported to
-> > amd's branch yet and is in drm-misc-next
-> > 
-> > > 
-> > > Thanks
-> > > Siqueira
-> > > 
-> > 
-> > --
-> > Cheers,
-> >  Lyude Paul (she/her)
-> >  Software Engineer at Red Hat
-> --
-> Regards,
-> Wayne Lin
-> 
+Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 43 ----------------------
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.h |  6 ---
+ 2 files changed, 49 deletions(-)
 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+index 092bf863110b..409eaa1bf092 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+@@ -25,35 +25,6 @@ static const struct drm_framebuffer_funcs rockchip_drm_fb_funcs = {
+ 	.dirty	       = drm_atomic_helper_dirtyfb,
+ };
+ 
+-static struct drm_framebuffer *
+-rockchip_fb_alloc(struct drm_device *dev, const struct drm_mode_fb_cmd2 *mode_cmd,
+-		  struct drm_gem_object **obj, unsigned int num_planes)
+-{
+-	struct drm_framebuffer *fb;
+-	int ret;
+-	int i;
+-
+-	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
+-	if (!fb)
+-		return ERR_PTR(-ENOMEM);
+-
+-	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
+-
+-	for (i = 0; i < num_planes; i++)
+-		fb->obj[i] = obj[i];
+-
+-	ret = drm_framebuffer_init(dev, fb, &rockchip_drm_fb_funcs);
+-	if (ret) {
+-		DRM_DEV_ERROR(dev->dev,
+-			      "Failed to initialize framebuffer: %d\n",
+-			      ret);
+-		kfree(fb);
+-		return ERR_PTR(ret);
+-	}
+-
+-	return fb;
+-}
+-
+ static const struct drm_mode_config_helper_funcs rockchip_mode_config_helpers = {
+ 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+ };
+@@ -106,20 +77,6 @@ static const struct drm_mode_config_funcs rockchip_drm_mode_config_funcs = {
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
+-struct drm_framebuffer *
+-rockchip_drm_framebuffer_init(struct drm_device *dev,
+-			      const struct drm_mode_fb_cmd2 *mode_cmd,
+-			      struct drm_gem_object *obj)
+-{
+-	struct drm_framebuffer *fb;
+-
+-	fb = rockchip_fb_alloc(dev, mode_cmd, &obj, 1);
+-	if (IS_ERR(fb))
+-		return ERR_CAST(fb);
+-
+-	return fb;
+-}
+-
+ void rockchip_drm_mode_config_init(struct drm_device *dev)
+ {
+ 	dev->mode_config.min_width = 0;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h b/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
+index 1a696521096d..bae4e079dfb1 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
+@@ -7,11 +7,5 @@
+ #ifndef _ROCKCHIP_DRM_FB_H
+ #define _ROCKCHIP_DRM_FB_H
+ 
+-struct drm_framebuffer *
+-rockchip_drm_framebuffer_init(struct drm_device *dev,
+-			      const struct drm_mode_fb_cmd2 *mode_cmd,
+-			      struct drm_gem_object *obj);
+-void rockchip_drm_framebuffer_fini(struct drm_framebuffer *fb);
+-
+ void rockchip_drm_mode_config_init(struct drm_device *dev);
+ #endif /* _ROCKCHIP_DRM_FB_H */
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+2.20.1
 
