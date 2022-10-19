@@ -2,127 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890B86040D2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 12:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1745F6040EF
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 12:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F90F10EC36;
-	Wed, 19 Oct 2022 10:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03FE10EACA;
+	Wed, 19 Oct 2022 10:30:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Wed, 19 Oct 2022 10:23:05 UTC
-Received: from de-smtp-delivery-113.mimecast.com
- (de-smtp-delivery-113.mimecast.com [194.104.111.113])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0335F10EC36
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 10:23:04 +0000 (UTC)
-Received: from CHE01-ZR0-obe.outbound.protection.outlook.com
- (mail-zr0che01lp2107.outbound.protection.outlook.com [104.47.22.107]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- de-mta-9-PAEDYsIyNQ-66ctQJJjozA-1; Wed, 19 Oct 2022 12:16:33 +0200
-X-MC-Unique: PAEDYsIyNQ-66ctQJJjozA-1
-Received: from ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:3b::9) by
- GVAP278MB0038.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:22::15) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5723.33; Wed, 19 Oct 2022 10:16:30 +0000
-Received: from ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM
- ([fe80::3c38:efa9:5eff:4caa]) by ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM
- ([fe80::3c38:efa9:5eff:4caa%4]) with mapi id 15.20.5723.033; Wed, 19 Oct 2022
- 10:16:30 +0000
-From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-To: "chen.fang@nxp.com" <chen.fang@nxp.com>, "jagan@amarulasolutions.com"
- <jagan@amarulasolutions.com>, "jy0922.shim@samsung.com"
- <jy0922.shim@samsung.com>, "michael@amarulasolutions.com"
- <michael@amarulasolutions.com>, "inki.dae@samsung.com"
- <inki.dae@samsung.com>, "Laurent.pinchart@ideasonboard.com"
- <Laurent.pinchart@ideasonboard.com>, "kyungmin.park@samsung.com"
- <kyungmin.park@samsung.com>, "marex@denx.de" <marex@denx.de>,
- "tharvey@gateworks.com" <tharvey@gateworks.com>, "andrzej.hajda@intel.com"
- <andrzej.hajda@intel.com>, "aford173@gmail.com" <aford173@gmail.com>,
- "sw0312.kim@samsung.com" <sw0312.kim@samsung.com>, "m.szyprowski@samsung.com"
- <m.szyprowski@samsung.com>, "tommaso.merciai@amarulasolutions.com"
- <tommaso.merciai@amarulasolutions.com>, "robert.foss@linaro.org"
- <robert.foss@linaro.org>, "frieder.schrempf@kontron.de"
- <frieder.schrempf@kontron.de>, "narmstrong@linaro.org"
- <narmstrong@linaro.org>
-Subject: Re: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
-Thread-Topic: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
-Thread-Index: AQHY46PbgP4YpYU1WEyvIt0HgelbwQ==
-Date: Wed, 19 Oct 2022 10:16:30 +0000
-Message-ID: <943a11cbe5637c706813744aeee658b66b3a1be3.camel@toradex.com>
-References: <20221005151309.7278-1-jagan@amarulasolutions.com>
-In-Reply-To: <20221005151309.7278-1-jagan@amarulasolutions.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ZR0P278MB0683:EE_|GVAP278MB0038:EE_
-x-ms-office365-filtering-correlation-id: cae3cec9-ea4d-4e08-9959-08dab1bafda1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0
-x-microsoft-antispam-message-info: Bdq2cnyZDwYs6Da9dRcUn8mjl4ELd4j16o8pNl67VWzY8VzjppjgGb0bkQ8dDyl3tlEAKDJOHsVU5+//MXnT897Zp6AEMWF2k/ikvh2uOeGvuqJ+v9mOHxgCTa9DZ0hD76sCei2+vxZZT2i2/TuOeBLZbFfV73948InJejP2fgTx66JCmCYpd1xIe6MKZGRHQ7OPzVLTSOVDwfFC0XbMSBIAXwO8dS/Qlaoh9Ti/MCxXzI3pW1VeWaWp41AR80vQNHF6YhZq3a5L12OBe957+CnQr77NJfvPthdLJQ6Ji9tj4fdfyUp08AgtQ0TzNggplLe758XlUBiSN95Dm2sgCpiBbOed2Z0Yj2Zbn03Mzi8hEW4DAbQkBu9+MhdG5PqvoXwSltj3yrInjDEJ50XaIlLZFDmLJsdGP45+Uf/9h0D/I6picTCNzM43ySvXBqBivy/hJm6VrJ0r5HwHWEgy+JRVKHOXikUE2ziCLzb8Ukjalliki93zszTYmO97F1LE39ECwx5JSgFPy9sPaxrRW5jpTyYwC3V88x/EsnfsblghQAfb5BXc5yxR++QcJpZNv3kZOFxX8QZUDk6G1nmhaGDde5x5GOTQZ6y7lW9E8d3MJsw2l/PGzLpXu4d8Ab5vJPhcEWJQRc+IIfVbrlBNbrgqne0LDm3TwL39UVvJX/OlpF2GacEw8F8xgJ9DlqjZlnfd21s5m9SibNXeUnW+NY0uCswRvJHERphqPJlnLuACxEP8/chNnW9Ifw0HH250bPweJAI29um4x5UtPBGBx/isPjbjDHXnAIZFoi93jAP1Ax7SlgIyODjoQ1AkZM44
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(346002)(39850400004)(376002)(396003)(366004)(451199015)(66476007)(76116006)(4326008)(64756008)(8676002)(41300700001)(66446008)(66946007)(71200400001)(316002)(2616005)(110136005)(54906003)(966005)(66556008)(36756003)(921005)(38100700002)(38070700005)(122000001)(186003)(6512007)(478600001)(6486002)(86362001)(83380400001)(6506007)(8936002)(44832011)(5660300002)(7416002)(2906002);
- DIR:OUT; SFP:1102
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UGdQbXRqVFZkRytvMjRZT01aamRmL3A1N05kMUZ3Rlhabkg4Z3JCVGd4NkpT?=
- =?utf-8?B?Qk0rU3JUOExnLyt3b2VyalliVUgwSjh5OC9Vc2RNd1BGUzRiVTN0RFAyWWUy?=
- =?utf-8?B?K3RybythaHpzVE9uaEFqRzU0Qyt6cUxjMkl6MUxzaDdKcFErdlRXNnpDQmR0?=
- =?utf-8?B?UVNHeXZqTnJDUTl5Q2pUbUNwcUY1VTRjenN2emlIS2FjSGRweTh0YTREbGJz?=
- =?utf-8?B?SDlzUHhQMmZZak5SODZTb3dCV3ErZGFyVXFjS1RUUzZjQm9OTDMvZWpyOGFG?=
- =?utf-8?B?UWU5Y3N2Ykh0L3VURnpFTytydmNCRTZOR2VBWVd1Y2ZHbFBXQXRXRkFIVFBr?=
- =?utf-8?B?VHlCSnMrbWdRbmdQb1FHU1hpYVA0azhybnlSQzRrNjFyYWFaQll5SFF4QmFX?=
- =?utf-8?B?alVyNk91anVCSC9CbCtnYUVYdExHek1EZ3FhUnBPTUxHS0w3S3c3bEZ3VUE1?=
- =?utf-8?B?TS94cllJN0o5N1dBSlNPVzFvb2RJaFZmMkxYa3hQU0t1T0tJWHhhbjBHdkhZ?=
- =?utf-8?B?aGVUZFg0ZURjTW5BYjZCejJ3UkNXN0xqNVAvNitrMXhoUkhJQm14eFY0WGdT?=
- =?utf-8?B?R2g1NDdqNzNjM1RYMnA0dlNHZU5XOGhSdVJLOTRtRCtKNE9ENDdCTjBFUXVU?=
- =?utf-8?B?OEV3NnNFVUJSQTJnSnlhck81ajVidFQyRkxGL2Z0ME14azlVVDVkOHhrSXRC?=
- =?utf-8?B?a3hKdmtJNHg1UlNhNmZ3WjRGMmhVRldvNnFlUnNoR3dKS0xXaEg5RUM0cXky?=
- =?utf-8?B?bEdSQ25VR3M3UDNHT3YzNlphbnVIem5RcDViQ3RWdThOUHkzcG9OdkFTaDI1?=
- =?utf-8?B?anB0YmFJa25kMFZ2R1VPY2x2U2lOUExlcUxaT1kyV1N4VENqeFRsNzd5dHZP?=
- =?utf-8?B?VlZ0OHVpOHVKaHoxeUhLcENJRHFxSUc5d2thTSt2VmNGK2dHakxoa2h3WUha?=
- =?utf-8?B?akQvQ0JZd3Z6Q3RGTGxPeURNTGZXUDhlV3NBdUR4S2plWENWZGdVL3hqMERv?=
- =?utf-8?B?V1JadmZTcWxHWldWT2ZXMzFOcDNRTit6UE1mdERscTlpbmZmRGRia00yR0l4?=
- =?utf-8?B?RHFTeURkK0dDLzFtZlNjMmNyMVFUR3RQTVJzTFZPeHlTSjM4dUZqNVdFNEhm?=
- =?utf-8?B?RklyQ0FTM3prbjhlQ1JpTEJXNENUMi9Cei8yVll4QzRzWG9zcVZHb2lhZUNn?=
- =?utf-8?B?TjE2V3d3VmlhTGJXakR1RE5FUjV6cDRDYmhNQ0NhRXYwMWkxdk1YNzBKRVlK?=
- =?utf-8?B?MFo2ZjZ5dFlXckx3UTR4dkpKTm1GL2dyQTJiUXA0ZDdiRHBJWFpSUlUrT0NM?=
- =?utf-8?B?dU5JZjVELzlqbDV6c2ExSWZOMjFDRU1NZnJ5Z0RFQjNEVk9IY0ZVcjI0Z292?=
- =?utf-8?B?ZFFFeWpINkhveDJPNFBZVVlMcndGTEM1c3hRaDZZS1JTeTQ3NGU1L0ZtZ2lS?=
- =?utf-8?B?amNlQng0WU1QVzgrRXgrOTJwRWZtc25scWp5R1ZNY2RkZy9BcXU5VldZSlJR?=
- =?utf-8?B?Y0lPd3FaUjV0UE1DMEVJUnNxSy9XeVRsUkdIc09jaVRZSFE2NXVNMFB4VkZI?=
- =?utf-8?B?ckZlSTkya2pYNDFaL3ZFakFvZ3EzaEo5em9EYitYbjlGV2x2V3VsU0NndTNq?=
- =?utf-8?B?aG9BRlJzRFY1bVMwRGt2SUFKN3loYjNGa29UeGJhaUR5ekpQeGdoaEhCSXJY?=
- =?utf-8?B?SDdzVkcxSE5uVHJ3SURDUWMwalBzL2V0UWxNZUdvTDAyR1Z5V1AvUHZFemJK?=
- =?utf-8?B?N05pazJ4ajdhTWN5eDB3Z1VobFo1N0U2b0lMc0NTUkZLUGsxMlZUbHVRRHAy?=
- =?utf-8?B?bzJJaVJ6eVBFalRyRE90L1F2RzNNM01mbzVrZElZUTJuYmZnK1FBaHAwRkJq?=
- =?utf-8?B?UGk4bUxFaWhZdzl5YTZDdmVOZXRuTVRhbVZWczM1MmdJVlg0dmZRL2xGQUZX?=
- =?utf-8?B?cGNuWG55UkRjcFA0aTVMVENCVndqMFc3b2R2TGNRTGlxYjJaUWFEZHhxNnBE?=
- =?utf-8?B?c3VLbWUza2k0WlErMUJ0UGFEaUZBcmpUR3QzSHRTU3ZWU1FDTXlrcVB6aVJQ?=
- =?utf-8?B?R3ZqSU83VUZMSEtyMDh1R2RsSUVZZlBQa0ltdjJTbDN4LzdPMkFyYTV2NlMr?=
- =?utf-8?B?OHpBa1M3dmpQZ0tWcENUNm0vcWpwWXJUSEtzeTROVUVMUDlQMHlRa2ZtZk5V?=
- =?utf-8?B?aWtRcGV6QW14RTZMU3Avdmh1Q2hZaWl4N2NwVkR6N2ZQa1hldXg1VmNsUG5K?=
- =?utf-8?Q?fk6QD41HNYA4lvz16GdcOAc4R1LRjtluVQxkPmS/cU=3D?=
+X-Greylist: delayed 504 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Oct 2022 10:29:58 UTC
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7186D10E0C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 10:29:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id AFAF93F3F2;
+ Wed, 19 Oct 2022 12:21:32 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -5.06
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.06 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.961,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: pio-pvt-msa3.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id zJpU7LJKtvy4; Wed, 19 Oct 2022 12:21:31 +0200 (CEST)
+Received: by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 0CD2B3F3B6;
+ Wed, 19 Oct 2022 12:21:30 +0200 (CEST)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 482CA360352;
+ Wed, 19 Oct 2022 12:21:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1666174890; bh=VYeVSz10ttaKvzVGr+YcxmuaBsdH9vvcMpakFNMkef4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=pq/nMU8DIVTbfnSrj3CXCeNd+U4ezTyyGzv0eSgksyCQqTYTUyjUWFdF0kcnke5Iu
+ ZPIihzPnixDGxj/aP7G+cD9ZIdJvyaRjoDcMYXfL5JxJcJY5lpCCBNAfC5g0SROUL1
+ 1Y62ogsMomURVTGMNBiK45VhhOtIbxHGVylDusIU=
+Message-ID: <968d3fa5-aa51-d388-7ec1-7c2e6dfb0911@shipmail.org>
+Date: Wed, 19 Oct 2022 12:21:29 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: cae3cec9-ea4d-4e08-9959-08dab1bafda1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2022 10:16:30.2981 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FkJcPXssvf+c8DDXSB5U8HeWCoFzcJR+MPL0sU4G19J/JuLI/ezaVRTijkEpe/DV/44MVP3nWAXe0XhPRU+TosizlHzC9aXFmHajmnGA2Ho=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVAP278MB0038
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: toradex.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 05/16] drm/vmwgfx: Refactor resource validation hashtable
+ to use linux/hashtable implementation.
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20221017195440.311862-1-zack@kde.org>
+ <20221017195440.311862-6-zack@kde.org>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-ID: <40A2DC3A0723CD47949A11949E9F95D5@CHEP278.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20221017195440.311862-6-zack@kde.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,73 +69,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- "matteo.lisi@engicam.com" <matteo.lisi@engicam.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "linux-amarula@amarulasolutions.com" <linux-amarula@amarulasolutions.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmFnYW4NCg0KT24gV2VkLCAyMDIyLTEwLTA1IGF0IDIwOjQyICswNTMwLCBKYWdhbiBUZWtp
-IHdyb3RlOg0KPiBUaGlzIHNlcmllcyBzdXBwb3J0cyBjb21tb24gYnJpZGdlIHN1cHBvcnQgZm9y
-IFNhbXN1bmcgTUlQSSBEU0lNDQo+IHdoaWNoIGlzIHVzZWQgaW4gRXh5bm9zIGFuZCBpLk1YOE1N
-IFNvQydzLg0KPiANCj4gVGhlIGZpbmFsIGJyaWRnZSBzdXBwb3J0cyBib3RoIHRoZSBFeHlub3Mg
-YW5kIGkuTVg4TU0gRFNJIGRldmljZXMuDQo+IA0KPiBDaGFuZ2VzIGZvciB2NzoNCj4gKiBmaXgg
-dGhlIGRybSBicmlkZ2UgYXR0YWNoIGNoYWluIGZvciBleHlub3MgZHJtIGRzaSBkcml2ZXINCj4g
-KiBmaXggdGhlIGh3X3R5cGUgY2hlY2tpbmcgbG9naWMNCj4gDQo+IENoYW5nZXMgZm9yIHY2Og0K
-PiAqIGhhbmRsZSBwcmV2aW91cyBicmlkZ2UgZm9yIGV4eW5vcyBkc2kgd2hpbGUgYXR0YWNoaW5n
-IGJyaWRnZSANCj4gDQo+IENoYW5nZXMgZm9yIHY1Og0KPiAqIGJyaWRnZSBjaGFuZ2VzIHRvIHN1
-cHBvcnQgbXVsdGktYXJjaA0KPiAqIHVwZGF0ZWQgYW5kIGNsZWFyIGNvbW1pdCBtZXNzYWdlcw0K
-PiAqIGFkZCBod190eXBlIHZpYSBwbGF0IGRhdGENCj4gKiByZW1vdmVkIHVubmVlZGVkIHF1aXJr
-DQo+ICogcmViYXNlZCBvbiBsaW51eC1uZXh0DQo+IA0KPiBDaGFuZ2VzIGZvciB2NDoNCj4gKiBp
-bmNsdWRlIElua2kgRGFlIGluIE1BSU5UQUlORVJTDQo+ICogcmVtb3ZlIGRzaV9kcml2ZXIgcHJv
-YmUgaW4gZXh5bm9zX2RybV9kcnYgdG8gc3VwcG9ydCBtdWx0aS1hcmNoIGJ1aWxkDQo+ICogdXBk
-YXRlIGluaXQgaGFuZGxpbmcgdG8gZW5zdXJlIGhvc3QgaW5pdCBkb25lIG9uIGZpcnN0IGNtZCB0
-cmFuc2Zlcg0KPiANCj4gQ2hhbmdlcyBmb3IgdjM6DQo+ICogZml4IHRoZSBtdWx0LWFyY2ggYnVp
-bGQNCj4gKiBmaXggZHNpIGhvc3QgaW5pdA0KPiAqIHVwZGF0ZWQgY29tbWl0IG1lc3NhZ2VzDQo+
-IA0KPiBDaGFuZ2VzIGZvciB2MjoNCj4gKiBmaXggYnJpZGdlIGhhbmRsaW5nDQo+ICogZml4IGRz
-aSBob3N0IGluaXQNCj4gKiBjb3JyZWN0IHRoZSBjb21taXQgbWVzc2FnZXMNCj4gDQo+IFBhdGNo
-IDAwMDE6wqDCoMKgwqDCoFNhbXN1bmcgRFNJTSBicmlkZ2UNCj4gDQo+IFBhdGNoIDAwMDI6wqDC
-oMKgwqDCoFBIWSBvcHRpb25hbA0KPiANCj4gUGF0Y2ggMDAwMzrCoMKgwqDCoMKgT0YtZ3JhcGgg
-b3IgQ2hpbGQgbm9kZSBsb29rdXANCj4gDQo+IFBhdGNoIDAwMDQ6wqDCoMKgwqDCoERTSSBob3N0
-IGluaXRpYWxpemF0aW9uIA0KPiANCj4gUGF0Y2ggMDAwNTrCoMKgwqDCoMKgYXRvbWljIGNoZWNr
-DQo+IA0KPiBQYXRjaCAwMDA2OsKgwqDCoMKgwqBQTVNfUCBvZmZzZXQgdmlhIHBsYXQgZGF0YQ0K
-PiANCj4gUGF0Y2ggMDAwNzrCoMKgwqDCoMKgYXRvbWljX2dldF9pbnB1dF9idXNfZm10cw0KPiAN
-Cj4gUGF0Y2ggMDAwODrCoMKgwqDCoMKgaW5wdXRfYnVzX2ZsYWdzDQo+IA0KPiBQYXRjaCAwMDA5
-OsKgwqDCoMKgwqBkb2N1bWVudCBmc2wsaW14OG1tLW1pcGktZHNpbQ0KPiANCj4gUGF0Y2ggMDAx
-MDrCoMKgwqDCoMKgYWRkIGkuTVg4TU0gRFNJTSBzdXBwb3J0DQo+IA0KPiBUZXN0ZWQgaW4gRW5n
-aWNhbSBpLkNvcmUgTVg4TSBNaW5pIFNvTS4NCg0KVGhhbmtzIGZvciB0aGlzIHdvcmshDQoNClRo
-aXMgYWxzbyB3b3JrcyBncmVhdCBvbiBWZXJkaW4gaU1YOE0gTWluaSB0b2dldGhlciB3aXRoIHRo
-ZSBTTjY1RFNJODQtYmFzZWQgVmVyZGluIERTSSB0byBMVkRTIEFkYXB0ZXIuDQoNClRlc3RlZC1i
-eTogTWFyY2VsIFppc3dpbGVyIDxtYXJjZWwuemlzd2lsZXJAdG9yYWRleC5jb20+DQoNCj4gUmVw
-bzoNCj4gaHR0cHM6Ly9naXRsYWIuY29tL29wZW5lZGV2L2tlcm5lbC8tL2NvbW1pdHMvaW14OG1t
-LWRzaS12Nw0KPiANCj4gQW55IGlucHV0cz8NCj4gSmFnYW4uDQo+IA0KPiBKYWdhbiBUZWtpICgx
-MCk6DQo+IMKgIGRybTogYnJpZGdlOiBBZGQgU2Ftc3VuZyBEU0lNIGJyaWRnZSBkcml2ZXINCj4g
-wqAgZHJtOiBicmlkZ2U6IHNhbXN1bmctZHNpbTogTG9va3VwIE9GLWdyYXBoIG9yIENoaWxkIG5v
-ZGUgZGV2aWNlcw0KPiDCoCBkcm06IGJyaWRnZTogc2Ftc3VuZy1kc2ltOiBNYXJrIFBIWSBhcyBv
-cHRpb25hbA0KPiDCoCBkcm06IGJyaWRnZTogc2Ftc3VuZy1kc2ltOiBIYW5kbGUgcHJvcGVyIERT
-SSBob3N0IGluaXRpYWxpemF0aW9uDQo+IMKgIGRybTogYnJpZGdlOiBzYW1zdW5nLWRzaW06IEFk
-ZCBhdG9taWNfY2hlY2sNCj4gwqAgZHJtOiBicmlkZ2U6IHNhbXN1bmctZHNpbTogQWRkIHBsYXRm
-b3JtIFBMTF9QIChQTVNfUCkgb2Zmc2V0DQo+IMKgIGRybTogYnJpZGdlOiBzYW1zdW5nLWRzaW06
-IEFkZCBhdG9taWNfZ2V0X2lucHV0X2J1c19mbXRzDQo+IMKgIGRybTogYnJpZGdlOiBzYW1zdW5n
-LWRzaW06IEFkZCBpbnB1dF9idXNfZmxhZ3MNCj4gwqAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IGV4
-eW5vczogZHNpbTogQWRkIE5YUCBpLk1YOE1NIHN1cHBvcnQNCj4gwqAgZHJtOiBicmlkZ2U6IHNh
-bXN1bmctZHNpbTogQWRkIGkuTVg4TU0gc3VwcG9ydA0KPiANCj4gwqAuLi4vYmluZGluZ3MvZGlz
-cGxheS9leHlub3MvZXh5bm9zX2RzaW0udHh0wqDCoCB8wqDCoMKgIDEgKw0KPiDCoE1BSU5UQUlO
-RVJTwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfMKgwqDCoCA5ICsNCj4gwqBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tj
-b25maWfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMTIgKw0KPiDCoGRyaXZl
-cnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZpbGXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
-oMKgwqAgMSArDQo+IMKgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zYW1zdW5nLWRzaW0uY8KgwqDC
-oMKgwqDCoMKgwqAgfCAxODU2ICsrKysrKysrKysrKysrKysrDQo+IMKgZHJpdmVycy9ncHUvZHJt
-L2V4eW5vcy9LY29uZmlnwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMSAr
-DQo+IMKgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2RzaS5jwqDCoMKgwqDCoMKg
-IHwgMTc2NiArLS0tLS0tLS0tLS0tLS0tDQo+IMKgaW5jbHVkZS9kcm0vYnJpZGdlL3NhbXN1bmct
-ZHNpbS5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxMTUgKw0KPiDCoDggZmlsZXMgY2hh
-bmdlZCwgMjEwOCBpbnNlcnRpb25zKCspLCAxNjUzIGRlbGV0aW9ucygtKQ0KPiDCoGNyZWF0ZSBt
-b2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3NhbXN1bmctZHNpbS5jDQo+IMKgY3Jl
-YXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHJtL2JyaWRnZS9zYW1zdW5nLWRzaW0uaA0KDQpDaGVl
-cnMNCg0KTWFyY2VsDQo=
+
+On 10/17/22 21:54, Zack Rusin wrote:
+> From: Maaz Mombasawala <mombasawalam@vmware.com>
+>
+> Vmwgfx's hashtab implementation needs to be replaced with linux/hashtable
+> to reduce maintenence burden.
+> As part of this effort, refactor the res_ht hashtable used for resource
+> validation during execbuf execution to use linux/hashtable implementation.
+> This also refactors vmw_validation_context to use vmw_sw_context as the
+> container for the hashtable, whereas before it used a vmwgfx_open_hash
+> directly. This makes vmw_validation_context less generic, but there is
+> no functional change since res_ht is the only instance where validation
+> context used a hashtable in vmwgfx driver.
+
+Why is a pointer to the vmw_sw_context added to the validation context, 
+rather than a pointer to the new hash table type itself? Seems like an 
+unnecessary indirection which adds a dependency on the sw context to the 
+validation context?
+
+> Signed-off-by: Maaz Mombasawala <mombasawalam@vmware.com>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> ---
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        | 24 ++++++++--
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  5 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    | 14 ++----
+>   drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 55 +++++++++++-----------
+>   drivers/gpu/drm/vmwgfx/vmwgfx_validation.h | 26 +++-------
+>   5 files changed, 58 insertions(+), 66 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index 13b90273eb77..8d77e79bd904 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -830,6 +830,22 @@ static void vmw_write_driver_id(struct vmw_private *dev)
+>   	}
+>   }
+>   
+> +static void vmw_sw_context_init(struct vmw_private *dev_priv)
+> +{
+> +	struct vmw_sw_context *sw_context = &dev_priv->ctx;
+> +
+> +	hash_init(sw_context->res_ht);
+> +}
+> +
+> +static void vmw_sw_context_fini(struct vmw_private *dev_priv)
+> +{
+> +	struct vmw_sw_context *sw_context = &dev_priv->ctx;
+> +
+> +	vfree(sw_context->cmd_bounce);
+> +	if (sw_context->staged_bindings)
+> +		vmw_binding_state_free(sw_context->staged_bindings);
+> +}
+> +
+>   static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+>   {
+>   	int ret;
+> @@ -839,6 +855,8 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+>   
+>   	dev_priv->drm.dev_private = dev_priv;
+>   
+> +	vmw_sw_context_init(dev_priv);
+> +
+>   	mutex_init(&dev_priv->cmdbuf_mutex);
+>   	mutex_init(&dev_priv->binding_mutex);
+>   	spin_lock_init(&dev_priv->resource_lock);
+> @@ -1168,9 +1186,7 @@ static void vmw_driver_unload(struct drm_device *dev)
+>   
+>   	unregister_pm_notifier(&dev_priv->pm_nb);
+>   
+> -	if (dev_priv->ctx.res_ht_initialized)
+> -		vmwgfx_ht_remove(&dev_priv->ctx.res_ht);
+> -	vfree(dev_priv->ctx.cmd_bounce);
+> +	vmw_sw_context_fini(dev_priv);
+>   	if (dev_priv->enable_fb) {
+>   		vmw_fb_off(dev_priv);
+>   		vmw_fb_close(dev_priv);
+> @@ -1198,8 +1214,6 @@ static void vmw_driver_unload(struct drm_device *dev)
+>   		vmw_irq_uninstall(&dev_priv->drm);
+>   
+>   	ttm_object_device_release(&dev_priv->tdev);
+> -	if (dev_priv->ctx.staged_bindings)
+> -		vmw_binding_state_free(dev_priv->ctx.staged_bindings);
+>   
+>   	for (i = vmw_res_context; i < vmw_res_max; ++i)
+>   		idr_destroy(&dev_priv->res_idr[i]);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index 09e2d738aa87..d87aeedb78d0 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -30,6 +30,7 @@
+>   
+>   #include <linux/suspend.h>
+>   #include <linux/sync_file.h>
+> +#include <linux/hashtable.h>
+>   
+>   #include <drm/drm_auth.h>
+>   #include <drm/drm_device.h>
+> @@ -93,6 +94,7 @@
+>   #define VMW_RES_STREAM ttm_driver_type2
+>   #define VMW_RES_FENCE ttm_driver_type3
+>   #define VMW_RES_SHADER ttm_driver_type4
+> +#define VMW_RES_HT_ORDER 12
+>   
+>   #define MKSSTAT_CAPACITY_LOG2 5U
+>   #define MKSSTAT_CAPACITY (1U << MKSSTAT_CAPACITY_LOG2)
+> @@ -425,8 +427,7 @@ struct vmw_ctx_validation_info;
+>    * @ctx: The validation context
+>    */
+>   struct vmw_sw_context{
+> -	struct vmwgfx_open_hash res_ht;
+> -	bool res_ht_initialized;
+> +	DECLARE_HASHTABLE(res_ht, VMW_RES_HT_ORDER);
+>   	bool kernel;
+>   	struct vmw_fpriv *fp;
+>   	struct drm_file *filp;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> index f085dbd4736d..c943ab801ca7 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -1,7 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /**************************************************************************
+>    *
+> - * Copyright 2009 - 2015 VMware, Inc., Palo Alto, CA., USA
+> + * Copyright 2009 - 2022 VMware, Inc., Palo Alto, CA., USA
+>    *
+>    * Permission is hereby granted, free of charge, to any person obtaining a
+>    * copy of this software and associated documentation files (the
+> @@ -25,6 +25,7 @@
+>    *
+>    **************************************************************************/
+>   #include <linux/sync_file.h>
+> +#include <linux/hashtable.h>
+>   
+>   #include "vmwgfx_drv.h"
+>   #include "vmwgfx_reg.h"
+> @@ -34,7 +35,6 @@
+>   #include "vmwgfx_binding.h"
+>   #include "vmwgfx_mksstat.h"
+>   
+> -#define VMW_RES_HT_ORDER 12
+>   
+>   /*
+>    * Helper macro to get dx_ctx_node if available otherwise print an error
+> @@ -4101,7 +4101,7 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+>   	int ret;
+>   	int32_t out_fence_fd = -1;
+>   	struct sync_file *sync_file = NULL;
+> -	DECLARE_VAL_CONTEXT(val_ctx, &sw_context->res_ht, 1);
+> +	DECLARE_VAL_CONTEXT(val_ctx, sw_context, 1);
+>   
+>   	if (flags & DRM_VMW_EXECBUF_FLAG_EXPORT_FENCE_FD) {
+>   		out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
+> @@ -4164,14 +4164,6 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+>   	if (sw_context->staged_bindings)
+>   		vmw_binding_state_reset(sw_context->staged_bindings);
+>   
+> -	if (!sw_context->res_ht_initialized) {
+> -		ret = vmwgfx_ht_create(&sw_context->res_ht, VMW_RES_HT_ORDER);
+> -		if (unlikely(ret != 0))
+> -			goto out_unlock;
+> -
+> -		sw_context->res_ht_initialized = true;
+> -	}
+> -
+>   	INIT_LIST_HEAD(&sw_context->staged_cmd_res);
+>   	sw_context->ctx = &val_ctx;
+>   	ret = vmw_execbuf_tie_context(dev_priv, sw_context, dx_context_handle);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> index f46891012be3..f5c4a40fb16d 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> @@ -1,7 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /**************************************************************************
+>    *
+> - * Copyright © 2018 VMware, Inc., Palo Alto, CA., USA
+> + * Copyright © 2018 - 2022 VMware, Inc., Palo Alto, CA., USA
+>    * All Rights Reserved.
+>    *
+>    * Permission is hereby granted, free of charge, to any person obtaining a
+> @@ -180,11 +180,16 @@ vmw_validation_find_bo_dup(struct vmw_validation_context *ctx,
+>   	if (!ctx->merge_dups)
+>   		return NULL;
+>   
+> -	if (ctx->ht) {
+> +	if (ctx->sw_context) {
+>   		struct vmwgfx_hash_item *hash;
+> +		unsigned long key = (unsigned long) vbo;
+>   
+> -		if (!vmwgfx_ht_find_item(ctx->ht, (unsigned long) vbo, &hash))
+> -			bo_node = container_of(hash, typeof(*bo_node), hash);
+> +		hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash, head, key) {
+
+This open-coded loop seems to be used throughout the conversion, and 
+also in other patches. Perhaps a small helper in place?
+
+Otherwise LGTM.
+
+Thanks,
+
+Thomas
+
 
