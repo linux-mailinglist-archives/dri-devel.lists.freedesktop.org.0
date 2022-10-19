@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2436660541F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 01:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B65605420
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 01:42:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A51DE10E1C2;
-	Wed, 19 Oct 2022 23:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5591E10E196;
+	Wed, 19 Oct 2022 23:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A260410E196;
- Wed, 19 Oct 2022 23:41:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F14FF10E170;
+ Wed, 19 Oct 2022 23:42:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666222900; x=1697758900;
+ t=1666222953; x=1697758953;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=a5K2RrkC6aI3RkW2vGkDkxh4EyJEWqzVKCaLXCAvXcc=;
- b=DTgXxjfrKasZ6dZiX3bfI/Ll+30m0+m+yKxgr8j4Kk+++KWGBTq6bZfh
- kftMrX15/aLjTH1l77VSI74N9ZHhGKMAPdV2pqwIRxVzuGwbCphkn99j7
- HuJ8/HoDbuJRk8uC1ypzkfsLPKM7K8CaKBeSrHUJCc9HmWhH1FZEZZ11c
- Uks8DnaDuSF8NMYUHz336CvLmEmqG7ZvsyS6X/ChItay0d4P/rT3gq+uv
- dmGsL4V6n+uID6lYXo/b6yBFTeD3vP5jIZCUJCI7TcNFmN3xyEjwq9GiP
- 1zXbs07WjuWdV1AZFI6lQfX+/MuCBXX2cRWKqvdhmR4SzBJICe7/4OlgA A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="307658426"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="307658426"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ bh=m2LhorODYDEYn+lI7JgeKqTUFzhOcVOcHZbElf03kgo=;
+ b=IP/ICfYtxVVSPlotnCJDvqa2kirgQfntXtRQ67NG7W7/oBKrtwc15BXX
+ oeIcUjjIJVmR37cLh877+MEp2fNZurj8JbRpuDL5HH7/UwI/u+j1wpyKG
+ M6kv2h60KEe/loV5ASEZwUZTD0wmb8XvQgcpIeXLriHMWoT3YIuiMRO4M
+ VBLtQ9WIDSdyEJnJv6LvCVOmw0H0dzVdpaDrQw4v4bjFw/iGrCZkT08hG
+ dRjIkLeFfpMulzz8TPMfsGfj0yRMjfQGB8Ij9NvBUsx28/KGy13TX2afM
+ TLLmbYhS3BVxGp6/kvz7wbLz+EkVIgnZvImWsitVTbveva5qmgKxlGjCB g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="307658538"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="307658538"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 16:41:39 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="580580018"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="580580018"
+ 19 Oct 2022 16:42:19 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="692638221"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="692638221"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.69.147])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 16:41:39 -0700
-Date: Wed, 19 Oct 2022 16:41:25 -0700
-Message-ID: <87v8ofidp6.wl-ashutosh.dixit@intel.com>
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 16:42:18 -0700
+Date: Wed, 19 Oct 2022 16:42:03 -0700
+Message-ID: <87tu3zido4.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 3/3] drm/i915/mtl: C6 residency and C state type for MTL
- SAMedia
-In-Reply-To: <87bkqajjke.wl-ashutosh.dixit@intel.com>
-References: <20221015032618.2458429-1-ashutosh.dixit@intel.com>	<20221015032618.2458429-4-ashutosh.dixit@intel.com>	<87bkqajjke.wl-ashutosh.dixit@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 1/4] drm/i915: Use GEN12_RPSTAT register for GT freq
+In-Reply-To: <Y1AScuZGIHeBHmsE@intel.com>
+References: <20221019052043.3193842-1-ashutosh.dixit@intel.com>	<20221019052043.3193842-2-ashutosh.dixit@intel.com>	<Y1AScuZGIHeBHmsE@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -60,54 +59,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
+ Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Oct 2022 13:12:33 -0700, Dixit, Ashutosh wrote:
+On Wed, 19 Oct 2022 08:06:26 -0700, Rodrigo Vivi wrote:
 >
-> On Fri, 14 Oct 2022 20:26:18 -0700, Ashutosh Dixit wrote:
-> >
-> > From: Badal Nilawar <badal.nilawar@intel.com>
->
-> Hi Badal,
->
-> One question below.
->
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-> > index 1fb053cbf52db..3a9bb4387248e 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-> > @@ -256,6 +256,61 @@ static int ilk_drpc(struct seq_file *m)
-> >	return 0;
-> >  }
-> >
-> > +static int mtl_drpc(struct seq_file *m)
-> > +{
->
-> Here we have:
->
-> > +	global_forcewake = intel_uncore_read(uncore, FORCEWAKE_GT_GEN9);
-> and
-> > +	seq_printf(m, "Global Forcewake Requests: 0x%x\n", global_forcewake);
->
-> In gen6_drpc we have:
->
->	mt_fwake_req = intel_uncore_read_fw(uncore, FORCEWAKE_MT);
-> and
->	seq_printf(m, "Multi-threaded Forcewake Request: 0x%x\n", mt_fwake_req);
->
-> Also:
->	#define FORCEWAKE_MT		_MMIO(0xa188)
->	#define FORCEWAKE_GT_GEN9	_MMIO(0xa188)
->
-> So they are both the same register. So what is the reason for this
-> difference, which one should we use?
->
-> Also let's have the prints in the same order as gen6_drpc (move fw request
-> before rc6 residency).
 
-This has been made identical to gen6_drpc in series v8.
+Hi Rodrigo,
+
+> On Tue, Oct 18, 2022 at 10:20:40PM -0700, Ashutosh Dixit wrote:
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > index 36d95b79022c0..a7a0129d0e3fc 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > @@ -1543,6 +1543,8 @@
+> >
+> >  #define GEN12_RPSTAT1				_MMIO(0x1381b4)
+> >  #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
+> > +#define   GEN12_CAGF_SHIFT			11
+>
+> we don't need to define the shift if we use the REG_FIELD_GET
+
+Yes I was also suggesting this but then went ahead with the mask/shift
+based code to match previous style in the function.
+
+In any case based on your suggestions I have added a new patch is series
+version v8 which converts all previous branches in intel_rps_get_cagf to
+REG_FIELD_GET so that the new code can also consistently use REG_FIELD_GET.
+
+>
+> > +#define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
+>
+> ah, cool, this is already right and in place
+> (ignore my comment about this in the other patch)
+
+> >  u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
+> >  {
+> >	struct drm_i915_private *i915 = rps_to_i915(rps);
+> >	u32 cagf;
+> >
+> > -	if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+> > +	if (GRAPHICS_VER(i915) >= 12)
+> > +		cagf = (rpstat & GEN12_CAGF_MASK) >> GEN12_CAGF_SHIFT;
+>
+>		cagf = REG_FIELD_GET(GEN12_CAGF_MASK, rpstat);
+>
+> > +	else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+> >		cagf = (rpstat >> 8) & 0xff;
+> >	else if (GRAPHICS_VER(i915) >= 9)
+> >		cagf = (rpstat & GEN9_CAGF_MASK) >> GEN9_CAGF_SHIFT;
 
 Thanks.
 --
