@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83064605107
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 22:08:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E7660510C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 22:10:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1E710E00A;
-	Wed, 19 Oct 2022 20:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5637710E085;
+	Wed, 19 Oct 2022 20:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA6010E00A;
- Wed, 19 Oct 2022 20:08:38 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38CA110E18B;
+ Wed, 19 Oct 2022 20:10:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666210118; x=1697746118;
+ t=1666210216; x=1697746216;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=w6nLBcsJEQTOmryILkIehlRCPUI0QAyrJP36MzD6J6E=;
- b=nXTJ+MmUrdeoG+8s7QvUOm7MLLe00s74hYnYz2VU/yuSumMIxf9U34uo
- /ruOq5JTbuQcSWtjDFFA2cpEMKX2bMEjG4U81x1iQ5G30DOx65oR95Bn1
- ZKfM/Xu39SAVuTwljFyNgBKItL07z7zr0X2PbBS/KWJ4ffo2WBgnRndwP
- cf/6kqwwKosheqJfmRBDrNivZziOcj7i3cXkfQsBGuHnWzM1zRvVBdIE+
- a+E1tFaG5otD3tysxsmMhcajS8By3Xo0kZc6egftvL7dQ/q6QVXip7VQb
- /h6BRJhGTN7jNcmBFfZuQdQbXKfyviUt33S0KVHvpK2+8BAmxjTMCvZz5 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="289831384"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="289831384"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 13:08:38 -0700
+ bh=VCm4tXQv2JWGoEn+MlSasxigMhbXYJehBJ8zdANV9+g=;
+ b=drHki5K4bsuW2K1NYqifDeVRD3TIevgpS96nMIeuujOhHKWzAwxsFpCy
+ +GmZJh6l2q1vTd392cGP0xc3I6emiDHzo4CY9BAgbB6UK4fjbEljr2MXZ
+ nCfrCcgYl40ZtNo5rBMblTC3Q3VGl2sjx/3cqDMqS0r34BPZyBh7giiX0
+ 176QOJ4XTkN2iYthNQmKA5RMPg4Y5agaUpNvFr+1PkO9bascJA4VH228K
+ /HVMGqj/e+F6rpd0liNBMsMCYVMSzMA3isx7b8uCaz9wSFkwmLj32CWZH
+ h5DuEjxu7tF97ohRFa1nGCAlEjbjK1gq+46R3DqcrtV9b+ukq7yD870rG Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="306509449"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="306509449"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 13:10:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="804468669"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="804468669"
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="629420980"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="629420980"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga005.jf.intel.com with SMTP; 19 Oct 2022 13:08:35 -0700
+ by orsmga002.jf.intel.com with SMTP; 19 Oct 2022 13:10:11 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 19 Oct 2022 23:08:34 +0300
-Date: Wed, 19 Oct 2022 23:08:34 +0300
+ Wed, 19 Oct 2022 23:10:11 +0300
+Date: Wed, 19 Oct 2022 23:10:11 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 13/15] drm/edid: move edid load declarations to internal
- header
-Message-ID: <Y1BZQtGAvW41mO1f@intel.com>
+Subject: Re: [PATCH 14/15] drm/edid/firmware: convert to drm device specific
+ logging
+Message-ID: <Y1BZo4lGvE4esMfm@intel.com>
 References: <cover.1665496046.git.jani.nikula@intel.com>
- <bac72a569dfe1bb604f4b3089fefbb2c71af47b6.1665496046.git.jani.nikula@intel.com>
+ <2305a76e064f6ffc0794406472a5ebd0630e5702.1665496046.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bac72a569dfe1bb604f4b3089fefbb2c71af47b6.1665496046.git.jani.nikula@intel.com>
+In-Reply-To: <2305a76e064f6ffc0794406472a5ebd0630e5702.1665496046.git.jani.nikula@intel.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,78 +66,44 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 11, 2022 at 04:49:47PM +0300, Jani Nikula wrote:
-> The EDID loader is internal to drm, not for drivers.
+On Tue, Oct 11, 2022 at 04:49:48PM +0300, Jani Nikula wrote:
+> Conform to device specific logging.
 > 
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
 > ---
->  drivers/gpu/drm/drm_crtc_internal.h | 11 +++++++++++
->  drivers/gpu/drm/drm_edid_load.c     |  5 +++--
->  include/drm/drm_edid.h              |  7 -------
->  3 files changed, 14 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/drm_edid_load.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-> index fb8a68d90940..501a10edd0e1 100644
-> --- a/drivers/gpu/drm/drm_crtc_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_internal.h
-> @@ -290,3 +290,14 @@ void drm_mode_fixup_1366x768(struct drm_display_mode *mode);
->  int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m);
->  int drm_edid_override_set(struct drm_connector *connector, const void *edid, size_t size);
->  int drm_edid_override_reset(struct drm_connector *connector);
-> +
-> +/* drm_edid_load.c */
-> +#ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
-> +const struct drm_edid *drm_edid_load_firmware(struct drm_connector *connector);
-> +#else
-> +static inline const struct drm_edid *
-> +drm_edid_load_firmware(struct drm_connector *connector)
-> +{
-> +	return ERR_PTR(-ENOENT);
-> +}
-> +#endif
 > diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
-> index 248f0685c33e..882caaa6e663 100644
+> index 882caaa6e663..dd472c66cb3c 100644
 > --- a/drivers/gpu/drm/drm_edid_load.c
 > +++ b/drivers/gpu/drm/drm_edid_load.c
-> @@ -11,12 +11,13 @@
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
+> @@ -177,16 +177,18 @@ static const struct drm_edid *edid_load(struct drm_connector *connector, const c
 >  
-> -#include <drm/drm_crtc.h>
-> -#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_connector.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_print.h>
+>  		pdev = platform_device_register_simple(connector->name, -1, NULL, 0);
+>  		if (IS_ERR(pdev)) {
+> -			DRM_ERROR("Failed to register EDID firmware platform device "
+> -				  "for connector \"%s\"\n", connector->name);
+> +			drm_err(connector->dev,
+> +				"Failed to register EDID firmware platform device for connector \"%s\"\n",
+> +				connector->name);
+
+Can go for the full [CONNECTOR:...] thing?
+
+>  			return ERR_CAST(pdev);
+>  		}
 >  
-> +#include "drm_crtc_internal.h"
-> +
->  static char edid_firmware[PATH_MAX];
->  module_param_string(edid_firmware, edid_firmware, sizeof(edid_firmware), 0644);
->  MODULE_PARM_DESC(edid_firmware, "Do not probe monitor, use specified EDID blob "
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 8138613f4e4e..372963600f1d 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -388,15 +388,8 @@ int drm_av_sync_delay(struct drm_connector *connector,
->  		      const struct drm_display_mode *mode);
+>  		err = request_firmware(&fw, name, &pdev->dev);
+>  		platform_device_unregister(pdev);
+>  		if (err) {
+> -			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+> -				  name, err);
+> +			drm_err(connector->dev,
+> +				"Requesting EDID firmware \"%s\" failed (err=%d)\n",
+> +				name, err);
+>  			return ERR_PTR(err);
+>  		}
 >  
->  #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
-> -const struct drm_edid *drm_edid_load_firmware(struct drm_connector *connector);
->  int __drm_set_edid_firmware_path(const char *path);
->  int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
-> -#else
-> -static inline const struct drm_edid *
-> -drm_edid_load_firmware(struct drm_connector *connector)
-> -{
-> -	return ERR_PTR(-ENOENT);
-> -}
->  #endif
->  
->  bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2);
 > -- 
 > 2.34.1
 
