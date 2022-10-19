@@ -2,119 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF45360491A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 16:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB31E604929
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 16:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3029C10EAE6;
-	Wed, 19 Oct 2022 14:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E58B10EAE7;
+	Wed, 19 Oct 2022 14:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26E6610EAE5;
- Wed, 19 Oct 2022 14:21:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G6PAAvmbtYJbqQaxOZGZXKM+mAhsTb1A3rPVM58UVhW4qxbA392EYwYJ3XRyr5yoA0AAIdTkupkAJZ2xFevImr2djJAXofjO/uETJBM7AL7E/n1GVKn2Ar0j1ryb8lW/OgB5qRvQibXoVYBx0EFDuy/99LzYDZUMqr+NAejs2askzJqCeb0U9tPjVGeINxgkxnDMZl5bC2l09XmK/DAaLS2MnRnlGQiQ5bUmSHpTOgE5/cXCebIO6Y0Ue/RO13uxx0J7IC4mQV+xpw6KfcGU09VcM4xQV1n3FLVJ09Po3WY9hSO6tzm7nOWWMJJgJdDUnc5qA0lEvtCIaTUVravsaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dq+OHzDKgYd9oOc/R+QGhDBg6tfe8dcWkrJdUUd/CB8=;
- b=bUxbOU6FxbhI3xAOqtJHxV7k24XMwoz+wsPILjUyHLQwDs7pjWH2vKf818M7xduq4AT2Lcyd4/p7xfn2En+p+XI97Zz+T988yCqPRuhxsU3UHuYdkxy4xXGycD/KcTCo9AOh+DwX561k7+rWWa+xwv2dmAkd+gpwav08aWvwVEStD9CLKWPDbEpQ5KKYLcjXOkhMrFkPTIseOFYtezQrjsCOj6w6fRfrkY0SRW+QJiAFviA78Ux5xwcD/kZgTNuurpp/qulgSsHXrF8pCrpuNgUeq2dpLWK3SU3PnFGnSbolY2X/y+JrWHlM6FYWZEhU4jgGGDlGiQ1y0QD7aUNx8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dq+OHzDKgYd9oOc/R+QGhDBg6tfe8dcWkrJdUUd/CB8=;
- b=MY/PyxXxCwJiBqST7blk2KPDNea6u7gGrKZMOi28OzL9YjHtHPHAEttD/9rLazJeUAB6Wc3wH/lc874nCCuUuS6FnpnmHuSQVY5ZLQMSEbBv4Fv8V6z4+LYsUj+/ADLdUx2YVuUKoF4FD66T0Nx4HgetY6H5I9t3eKucx/O9SFE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by SJ0PR12MB5454.namprd12.prod.outlook.com (2603:10b6:a03:304::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Wed, 19 Oct
- 2022 14:21:16 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::f9a4:8620:8238:20e8]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::f9a4:8620:8238:20e8%6]) with mapi id 15.20.5723.034; Wed, 19 Oct 2022
- 14:21:16 +0000
-Message-ID: <4e6cc4e5-3654-8234-603f-0913cbe31f74@amd.com>
-Date: Wed, 19 Oct 2022 10:21:13 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C64F310E257;
+ Wed, 19 Oct 2022 14:25:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666189507; x=1697725507;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=rZMBgKirVHaj9QQ1nagJ7zvqFoaLYh08FiIk18wPVfw=;
+ b=PS67403WNFoi+RCuB8OdcNwmMPN8Dt7cuIQO905+RT/taZKbaX3wVqRL
+ URYPhT0C/yxE3Mfb47piPI3ZbIl2a4R2Gqo57p2x303kCaoEe4jVHnJaV
+ kJPUkiK4gh9Y6vfQjX8SJ65jmE9NxP4bP+p6Bg6S/vdO/i5d4eOw6JomT
+ QuL8wX6o35obtosHkfUn179NfBS3/NHz/F4z4ZT+b4PILorHcV1EoVRKG
+ /CV7CXqcgr3ElAjJK6EopSqCSB5w2nNRJs6LRLGcgIzF+PfgY1/lgy0Ik
+ gbY5VSC1p5jszz15yEWbWHor+IuL2qM3iV1ydCeEv8vhoFjJym1YHLsF/ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="392724801"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="392724801"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 07:25:00 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="580361696"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="580361696"
+Received: from abyrne1-mobl1.ger.corp.intel.com (HELO [10.252.27.172])
+ ([10.252.27.172])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 07:24:56 -0700
+Message-ID: <0ca85326-9107-7525-16de-94506d933bfb@intel.com>
+Date: Wed, 19 Oct 2022 15:24:54 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIXSBkcm0vYW1ka2ZkOiB1c2Ugdm1hX2xv?=
- =?UTF-8?Q?okup=28=29_instead_of_find=5fvma=28=29?=
-Content-Language: en-US
-To: =?UTF-8?B?dG9tb3Jyb3cgV2FuZyAo546L5b635piOKQ==?= <wangdeming@inspur.com>
-References: <20221007024818.4921-1-wangdeming@inspur.com>
- <a1d36d76-396a-0bf0-26b7-c009fbae5dd0@amd.com>
- <2dc397050eed4d11ade7b9020fe2e298@inspur.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <2dc397050eed4d11ade7b9020fe2e298@inspur.com>
+ Firefox/102.0 Thunderbird/102.3.1
+Subject: Re: [PATCH v4 09/17] drm/i915/vm_bind: Add out fence support
+Content-Language: en-GB
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
+ <20221018071630.3831-10-niranjana.vishwanathapura@intel.com>
+ <998cab0e-e199-e7d7-b372-880b9f7d2672@intel.com>
+ <Y09kRaE/6wQuMVPz@nvishwa1-DESK>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <Y09kRaE/6wQuMVPz@nvishwa1-DESK>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0267.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:68::27) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SJ0PR12MB5454:EE_
-X-MS-Office365-Filtering-Correlation-Id: 09c414b7-22bb-4ea7-d91f-08dab1dd2edf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iOnzIt6NX0rfOA39HCMgvsK6+mKJUY0kADl0IhbHiGkQNfYtg+CfR8QlDl66hgxbxm4XpGp2+rOdwvXY2jyUG2FpDlRt6YRALH6DR6horf43GytPSVx+k5UniF02o2d8nsKLsWpvr/tvPHkweM+fHJHFDzd5IVk0inTwlqhqQqA9XbLzToIU4UK8vkRXQ6uEr8j2QSkQdzXlTaNPnv5owEo1d/6gZQWo/A2e/ynFW54vuUT4P7g2ozCYbvg7NxdsC5IGBPNRlqWgBqFm8he1zPUDaZQIuV6U/HP9LqA3Cil8l3j3im9UJYkkrE6NIpld3V2djgMzr2NL3yelFKLUpnStPr1or5Uime+em4LQNhlnUXX/7uTzwh5wCb9U4P8SIfk5N7/PybSnGUtFNomyPcsRafTbTKmbXBFWcwtOZn7q7QpupCKoYSBH5DxXsjKg2112lj01wcdTGH1JSzpLGe13ISFmzotOSTieFarI/jm9+hyHUDGKrkVsKy87LWT4l4XH5wzA7Q7s+kjIrdTRF6nTqUhUQLtXXsfL5iUCQd/lCWTYCtBoIFcDLgnKiA0gyZDnx+I1DKdRgy81Mc8DQnuF1WiVLguKDj9owiKkvr5MjjHcnVnACH9qUb6pmNI9c5aK+lDaPM5jCavvihs5vpI0Uf3qkDVyqX8POaHaMjo2alKGJiJ80YgsC5BvJnXS4Jw9zCA7HliOyc9CaFkZ2PM25PZJrSfn5ZRReTRpO+359mA7Bjh4DZ3TD6m9HoMrOm+7nOsaeajGJ5wR7NuLUKAGtv8cvZNYLHlEZztBiyo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(366004)(39860400002)(396003)(376002)(346002)(451199015)(4326008)(5660300002)(4001150100001)(8936002)(2906002)(66946007)(44832011)(66476007)(66556008)(54906003)(6916009)(41300700001)(316002)(83380400001)(38100700002)(6666004)(6506007)(53546011)(478600001)(31696002)(86362001)(6486002)(26005)(186003)(6512007)(2616005)(31686004)(36756003)(224303003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlI0NWhqcUdPMVBja2Jjc3p6SVF5dUFjRkJIWGxWMHZib0hQUHkyTlAycExJ?=
- =?utf-8?B?NVJNdGNhSlo2ZGh0UldKRC81dGUwTTZQa28wU3JLMGdhMmlUVXRtc1FIVEtE?=
- =?utf-8?B?UTZNRU8vRHN0T2FPeStXOCtMYjdGSHlDTXhMc2E1aGtuc3FJSERLT1MvZEp6?=
- =?utf-8?B?SWJhTW9XZGJmZTlLNzhUaDFnZ3EvaEtYV2lvNDhzeG9rRTRnR0Q0dmwxdjRW?=
- =?utf-8?B?bzFDSjUyM0ZwZ3ZqSUtoSHFheDF0dDBBQkN4NkJnWUlXbSttY0ozMlFRQ1Fj?=
- =?utf-8?B?UzFIMjdjWCs4YlcyUXJwWjNBRE5Md3gvMG5OVVMzODdaRHVUZjlnUmJhN3JV?=
- =?utf-8?B?cXZzV29aUnNEdWV1ZWlnOTR6T1NsNndURkxqKy9IOWI1andqZ1YvT2pUYURu?=
- =?utf-8?B?M2Rha2JFNllKY2E5WWh4ZHE2cXN1b255TEdTRVNhY0ZMVFJGUElvVUgxRGNx?=
- =?utf-8?B?UHFTUG1iZjhXYVErVlFWYUdyaHI2d092ZkdVbmVhKy9uai9teFZjektJeHVa?=
- =?utf-8?B?bEwyeWhJZmYxMDV3UTRMQXVFTlhJUzN0Rm1jODJiT1hRczYwWjdha0lHSzBC?=
- =?utf-8?B?L1JNOW93RWJCOGxmSDA1aWtMMHllcDk2T2MzNVFmZ0pwWEFzcnNwZmVId2x5?=
- =?utf-8?B?MkF2RVVPUHVKT1FvZXBDQ2tITmhGdC84WUVHRDhQL3ZFRjJyOUl6UTRtd2hC?=
- =?utf-8?B?WmNpRXhFR2grK3pvTXJJUDlRME1TT0ozWS8vbEVVT1pwUllUWldxR3ZCMjZD?=
- =?utf-8?B?aTloTzdZVVNIZHc0SkhLOXZHeGxCRDNSQVRyZHdpYUNNZGhHZTR6U0ZQUzQ5?=
- =?utf-8?B?cFZVUkVsZExHeFo5dVlRQVBWQlRxb0dwYUNYZXJSOVBCNXUyYTVuWldIUmRE?=
- =?utf-8?B?cmZ5MmQvbzc2NUhVVDU3UExZK2NOWThuNkpsL1hDQnRibzF2c2dEMEw3YnJp?=
- =?utf-8?B?YmZpMXA0cGl0UDA5K3YyNGtobDQrb1NaaUJCL2h5RDNkOWZHeGdrNFRkWlZP?=
- =?utf-8?B?NGpvUjZvckR4dnZEai96dFp3cXdOWU1lNjBMd2hBT1p6N0JYRjBZai9PZm5s?=
- =?utf-8?B?SC9Oc3FGeUpxVExQYXhValluTmZxTnZtZkJ0T2UvZ2UrOXM1Z2dCWEdxYnVa?=
- =?utf-8?B?ZWZjOHdLTTlVOHNWb1liV0pqeHkvUC81Vy9iR0UvVHc4dWFWeVhQUElXV3Vm?=
- =?utf-8?B?ZzJCN1B2Rnl3cWZkZ1ZqZy9WR2ZOcTI0RUJxL1UyMWhRK2EvZW0zSFdNenI5?=
- =?utf-8?B?dS9iZDdvUVh0Q1MwSE9GdGZwTFRiVEhBWmhXeGNoMmVLTy9CcUpvZEZuVDIw?=
- =?utf-8?B?K0duTEd6RjNyZk9zOUNIbHZ6dkFHVVJzZ3Q0eFNKMDhFdUZ5TnZDZms4dFdi?=
- =?utf-8?B?dUZMb1p5aWc1V2RGYXVtajROa1BiTVdDWDAwTm5leXgwT0hhaDI5aU8wNmF4?=
- =?utf-8?B?OXYxK25VNTNGSDBWckZRdm5SbW1mcmtiQ2UxdmR3aUQzczdVWEhoeFA2RzNG?=
- =?utf-8?B?R2p0TkJaSFBSVXdXTWd3Wmc4WWd0aEgrQVVGck11dTRVVC9tYnowRkpVMDFp?=
- =?utf-8?B?a0pnWjZFcFBJNkV3SmRjQ29vWlFqZERERTNqY2d4ZDlsaTZnSlR1c3NCUEJR?=
- =?utf-8?B?RU8vT09VZlZQVDZieG1WUEZBd082QTlYU0pTdHlpaG9uREcramJsRm12M0Yr?=
- =?utf-8?B?cS9YWnY2SS9CUFVhdXRPdWllNHF6OWhIb0pHMVdMVGhWajZxSkZJYzgyaWhB?=
- =?utf-8?B?S0o1ZDJJZXNBU0N3d09tVUVJemhoajNvYkJ3NXUvWSt1ajhuN0ZpdUUwSWE2?=
- =?utf-8?B?aStLMXYweXFGb0Z4OWswZ1ZvNTYrSEZuK21vTnlXVGZ6T0IxU0UvWXZBeXdU?=
- =?utf-8?B?ell5YXRMeEVFOUpTYldWOWJ6b1Q2d1p3b1NNSDVMOFRMSEFuQmtKNThkUFVL?=
- =?utf-8?B?UFc5aHl2NURuMWdVY3RHV1FzWEt0TUZxcU81NExuZTg3M2NUdy9CbTFzd1FC?=
- =?utf-8?B?THZJTFVneXRybWtNTWxtOFBvUDM3VFl2Zk9peXFwZHZlelFSOUwrdjNJMFlD?=
- =?utf-8?B?Si96WnpPTXRZbFZMWUNNWHp6UHJPNERlUVc3QlpwcGxmeXRWVmF2NitWM2VW?=
- =?utf-8?Q?a00CJXbQrwCQh5t3wv7IRKr4T?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09c414b7-22bb-4ea7-d91f-08dab1dd2edf
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2022 14:21:16.0063 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t4JiHycKBC953zwrsABLHmpErFSZhUf93t+yc9dKnZUmW56BKJngbJwnsWvUEAMq0+HKJC4CGTqhlCmzG6aVMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5454
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,107 +63,310 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Am 2022-10-17 um 20:47 schrieb tomorrow Wang (王德明):
-> Hi,
-> The function vma_lookup show below.  Vma valid check is included in it. Or, What other questions do you have?
-
-My question is, why did you leave the find_vma call in 
-svm_range_is_valid unchanged? I don't see a technical reason, but maybe 
-I'm missing something. If there is a reason, please explain. If there is 
-no reason, please fix that place as well for consistency.
-
-Thanks,
-   Felix
-
-
->
-> static inline
-> struct vm_area_struct *vma_lookup(struct mm_struct *mm, unsigned long addr)
->   {
->           struct vm_area_struct *vma = find_vma(mm, addr);
->
->           if (vma && addr < vma->vm_start)
->                   vma = NULL;
->
->           return vma;
->   }
->
->
->> from: Felix Kuehling <felix.kuehling@amd.com>
->> time: 2022年10月18日 3:35
->> to: tomorrow Wang (王德明) <wangdeming@inspur.com>;
->> airlied@gmail.com; daniel@ffwll.ch; alexander.deucher@amd.com;
->> christian.koenig@amd.com; Xinhui.Pan@amd.com
->> linux-kernel@vger.kernel.org
->> sub: Re: [PATCH] drm/amdkfd: use vma_lookup() instead of find_vma()
->>
->>
->> On 2022-10-06 22:48, Deming Wang wrote:
->>> Using vma_lookup() verifies the start address is contained in the
->>> found vma.  This results in easier to read the code.
->> Thank you for the patches. This and your other patch look good to me.
->> However, you missed one use of find_vma in svm_range_is_valid. Is that an
->> oversight or is there a reason why we need to use find_vma there?
->>
->> If you're going to respin it, you may also squash the two patches into one.
->>
->> Thanks,
->>     Felix
->>
->>
->>> Signed-off-by: Deming Wang <wangdeming@inspur.com>
+On 19/10/2022 03:43, Niranjana Vishwanathapura wrote:
+> On Tue, Oct 18, 2022 at 04:28:07PM +0100, Matthew Auld wrote:
+>> On 18/10/2022 08:16, Niranjana Vishwanathapura wrote:
+>>> Add support for handling out fence for vm_bind call.
+>>>
+>>> v2: Reset vma->vm_bind_fence.syncobj to NULL at the end
+>>>     of vm_bind call.
+>>> v3: Remove vm_unbind out fence uapi which is not supported yet.
+>>>
+>>> Signed-off-by: Niranjana Vishwanathapura 
+>>> <niranjana.vishwanathapura@intel.com>
+>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 >>> ---
->>>    drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 12 ++++++------
->>>    1 file changed, 6 insertions(+), 6 deletions(-)
+>>>  drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  4 +
+>>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    | 82 +++++++++++++++++++
+>>>  drivers/gpu/drm/i915/i915_vma.c               |  7 +-
+>>>  drivers/gpu/drm/i915/i915_vma_types.h         |  7 ++
+>>>  include/uapi/drm/i915_drm.h                   | 49 ++++++++++-
+>>>  5 files changed, 146 insertions(+), 3 deletions(-)
 >>>
->>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> index 64fdf63093a0..cabcc2ca3c23 100644
->>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> @@ -1586,8 +1586,8 @@ static int svm_range_validate_and_map(struct
->> mm_struct *mm,
->>>    		unsigned long npages;
->>>    		bool readonly;
->>>
->>> -		vma = find_vma(mm, addr);
->>> -		if (!vma || addr < vma->vm_start) {
->>> +		vma = vma_lookup(mm, addr);
->>> +		if (!vma) {
->>>    			r = -EFAULT;
->>>    			goto unreserve_out;
->>>    		}
->>> @@ -2542,8 +2542,8 @@ svm_range_get_range_boundaries(struct
->> kfd_process *p, int64_t addr,
->>>    	struct interval_tree_node *node;
->>>    	unsigned long start_limit, end_limit;
->>>
->>> -	vma = find_vma(p->mm, addr << PAGE_SHIFT);
->>> -	if (!vma || (addr << PAGE_SHIFT) < vma->vm_start) {
->>> +	vma = vma_lookup(p->mm, addr << PAGE_SHIFT);
->>> +	if (!vma) {
->>>    		pr_debug("VMA does not exist in address [0x%llx]\n", addr);
->>>    		return -EFAULT;
->>>    	}
->>> @@ -2871,8 +2871,8 @@ svm_range_restore_pages(struct amdgpu_device
->> *adev, unsigned int pasid,
->>>    	/* __do_munmap removed VMA, return success as we are handling stale
->>>    	 * retry fault.
->>>    	 */
->>> -	vma = find_vma(mm, addr << PAGE_SHIFT);
->>> -	if (!vma || (addr << PAGE_SHIFT) < vma->vm_start) {
->>> +	vma = vma_lookup(mm, addr << PAGE_SHIFT);
->>> +	if (!vma) {
->>>    		pr_debug("address 0x%llx VMA is removed\n", addr);
->>>    		r = 0;
->>>    		goto out_unlock_range;
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>>> index 36262a6357b5..b70e900e35ab 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>>> @@ -8,6 +8,7 @@
+>>>  #include <linux/types.h>
+>>> +struct dma_fence;
+>>>  struct drm_device;
+>>>  struct drm_file;
+>>>  struct i915_address_space;
+>>> @@ -23,4 +24,7 @@ int i915_gem_vm_unbind_ioctl(struct drm_device 
+>>> *dev, void *data,
+>>>  void i915_gem_vm_unbind_all(struct i915_address_space *vm);
+>>> +void i915_vm_bind_signal_fence(struct i915_vma *vma,
+>>> +                   struct dma_fence * const fence);
+>>> +
+>>>  #endif /* __I915_GEM_VM_BIND_H */
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>> index 3ea3cb3ed97e..63889ba00183 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>> @@ -7,6 +7,8 @@
+>>>  #include <linux/interval_tree_generic.h>
+>>> +#include <drm/drm_syncobj.h>
+>>> +
+>>>  #include "gem/i915_gem_context.h"
+>>>  #include "gem/i915_gem_vm_bind.h"
+>>> @@ -100,6 +102,76 @@ static void i915_gem_vm_bind_remove(struct 
+>>> i915_vma *vma, bool release_obj)
+>>>          i915_gem_object_put(vma->obj);
+>>>  }
+>>> +static int i915_vm_bind_add_fence(struct drm_file *file, struct 
+>>> i915_vma *vma,
+>>> +                  u32 handle, u64 point)
+>>> +{
+>>> +    struct drm_syncobj *syncobj;
+>>> +
+>>> +    syncobj = drm_syncobj_find(file, handle);
+>>> +    if (!syncobj) {
+>>> +        DRM_DEBUG("Invalid syncobj handle provided\n");
+>>> +        return -ENOENT;
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * For timeline syncobjs we need to preallocate chains for
+>>> +     * later signaling.
+>>> +     */
+>>> +    if (point) {
+>>> +        vma->vm_bind_fence.chain_fence = dma_fence_chain_alloc();
+>>> +        if (!vma->vm_bind_fence.chain_fence) {
+>>> +            drm_syncobj_put(syncobj);
+>>> +            return -ENOMEM;
+>>> +        }
+>>> +    } else {
+>>> +        vma->vm_bind_fence.chain_fence = NULL;
+>>> +    }
+>>> +    vma->vm_bind_fence.syncobj = syncobj;
+>>> +    vma->vm_bind_fence.value = point;
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static void i915_vm_bind_put_fence(struct i915_vma *vma)
+>>> +{
+>>> +    if (!vma->vm_bind_fence.syncobj)
+>>> +        return;
+>>> +
+>>> +    drm_syncobj_put(vma->vm_bind_fence.syncobj);
+>>> +    dma_fence_chain_free(vma->vm_bind_fence.chain_fence);
+>>> +    vma->vm_bind_fence.syncobj = NULL;
+>>> +}
+>>> +
+>>> +/**
+>>> + * i915_vm_bind_signal_fence() - Add fence to vm_bind syncobj
+>>> + * @vma: vma mapping requiring signaling
+>>> + * @fence: fence to be added
+>>> + *
+>>> + * Associate specified @fence with the @vma's syncobj to be
+>>> + * signaled after the @fence work completes.
+>>> + */
+>>> +void i915_vm_bind_signal_fence(struct i915_vma *vma,
+>>> +                   struct dma_fence * const fence)
+>>> +{
+>>> +    struct drm_syncobj *syncobj = vma->vm_bind_fence.syncobj;
+>>> +
+>>> +    if (!syncobj)
+>>> +        return;
+>>> +
+>>> +    if (vma->vm_bind_fence.chain_fence) {
+>>> +        drm_syncobj_add_point(syncobj,
+>>> +                      vma->vm_bind_fence.chain_fence,
+>>> +                      fence, vma->vm_bind_fence.value);
+>>> +        /*
+>>> +         * The chain's ownership is transferred to the
+>>> +         * timeline.
+>>> +         */
+>>> +        vma->vm_bind_fence.chain_fence = NULL;
+>>> +    } else {
+>>> +        drm_syncobj_replace_fence(syncobj, fence);
+>>> +    }
+>>> +}
+>>> +
+>>>  static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
+>>>                    struct drm_i915_gem_vm_unbind *va)
+>>>  {
+>>> @@ -237,6 +309,13 @@ static int i915_gem_vm_bind_obj(struct 
+>>> i915_address_space *vm,
+>>>          goto unlock_vm;
+>>>      }
+>>> +    if (va->fence.flags & I915_TIMELINE_FENCE_SIGNAL) {
+>>> +        ret = i915_vm_bind_add_fence(file, vma, va->fence.handle,
+>>> +                         va->fence.value);
+>>> +        if (ret)
+>>> +            goto put_vma;
+>>> +    }
+>>> +
+>>>      pin_flags = va->start | PIN_OFFSET_FIXED | PIN_USER | PIN_VALIDATE;
+>>>      for_i915_gem_ww(&ww, ret, true) {
+>>> @@ -258,6 +337,9 @@ static int i915_gem_vm_bind_obj(struct 
+>>> i915_address_space *vm,
+>>>          i915_gem_object_get(vma->obj);
+>>>      }
+>>> +    if (va->fence.flags & I915_TIMELINE_FENCE_SIGNAL)
+>>> +        i915_vm_bind_put_fence(vma);
+>>> +put_vma:
+>>>      if (ret)
+>>>          i915_vma_destroy(vma);
+>>>  unlock_vm:
+>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
+>>> b/drivers/gpu/drm/i915/i915_vma.c
+>>> index 04abdb92c2b2..eaa13e9ba966 100644
+>>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>>> @@ -29,6 +29,7 @@
+>>>  #include "display/intel_frontbuffer.h"
+>>>  #include "gem/i915_gem_lmem.h"
+>>>  #include "gem/i915_gem_tiling.h"
+>>> +#include "gem/i915_gem_vm_bind.h"
+>>>  #include "gt/intel_engine.h"
+>>>  #include "gt/intel_engine_heartbeat.h"
+>>>  #include "gt/intel_gt.h"
+>>> @@ -1567,8 +1568,12 @@ int i915_vma_pin_ww(struct i915_vma *vma, 
+>>> struct i915_gem_ww_ctx *ww,
+>>>  err_vma_res:
+>>>      i915_vma_resource_free(vma_res);
+>>>  err_fence:
+>>> -    if (work)
+>>> +    if (work) {
+>>> +        if (i915_vma_is_persistent(vma))
+>>> +            i915_vm_bind_signal_fence(vma, &work->base.dma);
+>>> +
+>>>          dma_fence_work_commit_imm(&work->base);
+>>> +    }
+>>>  err_rpm:
+>>>      if (wakeref)
+>>>          intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
+>>> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h 
+>>> b/drivers/gpu/drm/i915/i915_vma_types.h
+>>> index d32c72e8d242..2c740500ac1b 100644
+>>> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+>>> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+>>> @@ -308,6 +308,13 @@ struct i915_vma {
+>>>      /* @vm_rebind_link: link to vm_rebind_list and protected by 
+>>> vm_rebind_lock */
+>>>      struct list_head vm_rebind_link; /* Link in vm_rebind_list */
+>>> +    /** Timeline fence for vm_bind completion notification */
+>>> +    struct {
+>>> +        struct dma_fence_chain *chain_fence;
+>>> +        struct drm_syncobj *syncobj;
+>>> +        u64 value;
+>>> +    } vm_bind_fence;
+>>> +
+>>>      /** Interval tree structures for persistent vma */
+>>>      /** @rb: node for the interval tree of vm for persistent vmas */
+>>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>>> index 4383ed85f10a..87f5c2a470f5 100644
+>>> --- a/include/uapi/drm/i915_drm.h
+>>> +++ b/include/uapi/drm/i915_drm.h
+>>> @@ -1527,6 +1527,41 @@ struct drm_i915_gem_execbuffer2 {
+>>>  #define i915_execbuffer2_get_context_id(eb2) \
+>>>      ((eb2).rsvd1 & I915_EXEC_CONTEXT_ID_MASK)
+>>> +/**
+>>> + * struct drm_i915_gem_timeline_fence - An input or output timeline 
+>>> fence.
+>>> + *
+>>> + * The operation will wait for input fence to signal.
+>>> + *
+>>> + * The returned output fence will be signaled after the completion 
+>>> of the
+>>> + * operation.
+>>> + */
+>>> +struct drm_i915_gem_timeline_fence {
+>>> +    /** @handle: User's handle for a drm_syncobj to wait on or 
+>>> signal. */
+>>> +    __u32 handle;
+>>> +
+>>> +    /**
+>>> +     * @flags: Supported flags are:
+>>> +     *
+>>> +     * I915_TIMELINE_FENCE_WAIT:
+>>> +     * Wait for the input fence before the operation.
+>>> +     *
+>>> +     * I915_TIMELINE_FENCE_SIGNAL:
+>>> +     * Return operation completion fence as output.
+>>> +     */
+>>> +    __u32 flags;
+>>> +#define I915_TIMELINE_FENCE_WAIT            (1 << 0)
+>>> +#define I915_TIMELINE_FENCE_SIGNAL          (1 << 1)
+>>
+>> So this is the out-fence for bind completion, which then gets fed into 
+>> execbuf? Is the idea here to always get an out fence, and feed that 
+>> into execbuf to correctly order the bind(s) vs submit? i.e that's left 
+>> to userspace. IIRC we now do await_bind() in execbuf3 which I guess 
+>> forces the synchronisation, so just wondering if we need that, or 
+>> what's the story here with the out-fence for vm_bind?
+>>
+> 
+> Yah, vm_bind and execbuf3 are independent paths and user has to
+> resolve any dependencies.
+> I will be adding support for synchronous bind if vm_bind out fence is
+> not requested (more below).
+> Execbuf3 path will only await_bind() for those mappings which it
+> started the binding for (the evicted/invalidated mappings which it
+> scooped up). It won't await_bind() for mappings bound through vm_bind
+> ioctl call.
+
+Ah, got it. Thanks.
+
+> 
+>>> +#define __I915_TIMELINE_FENCE_UNKNOWN_FLAGS 
+>>> (-(I915_TIMELINE_FENCE_SIGNAL << 1))
+>>> +
+>>> +    /**
+>>> +     * @value: A point in the timeline.
+>>> +     * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
+>>> +     * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
+>>> +     * binary one.
+>>> +     */
+>>> +    __u64 value;
+>>> +};
+>>> +
+>>>  struct drm_i915_gem_pin {
+>>>      /** Handle of the buffer to be pinned. */
+>>>      __u32 handle;
+>>> @@ -3826,8 +3861,18 @@ struct drm_i915_gem_vm_bind {
+>>>       */
+>>>      __u64 flags;
+>>> -    /** @rsvd: Reserved, MBZ */
+>>> -    __u64 rsvd[2];
+>>> +    /**
+>>> +     * @fence: Timeline fence for bind completion signaling.
+>>> +     *
+>>> +     * Timeline fence is of format struct drm_i915_gem_timeline_fence.
+>>> +     *
+>>> +     * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
+>>> +     * is invalid, and an error will be returned.
+>>
+>> Where we do reject that? Maybe I'm blind...
+>>
+> 
+> No you are not :)...will add the check in vm_bind call.
+> 
+>>> +     *
+>>> +     * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
+>>> +     * is not requested and binding is completed synchronously.
+>>
+>> "completed synchronously", where do we do that currently?
+>>
+> 
+> Hmm...looks like are are not. Will add the wait call in vm_bind path.
+> 
+> Niranjana
+> 
+>>> +     */
+>>> +    struct drm_i915_gem_timeline_fence fence;
+>>>      /**
+>>>       * @extensions: Zero-terminated chain of extensions.
