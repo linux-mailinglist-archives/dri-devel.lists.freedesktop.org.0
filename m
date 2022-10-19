@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6B6604B5B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 17:28:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C78604B63
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 17:28:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A078E10F278;
-	Wed, 19 Oct 2022 15:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7289F10EAED;
+	Wed, 19 Oct 2022 15:28:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9FE10F278;
- Wed, 19 Oct 2022 15:28:25 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2057.outbound.protection.outlook.com [40.107.212.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A740510EAED;
+ Wed, 19 Oct 2022 15:28:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BBfpMRimrYYyGO2jvw31jLb3nuDUz9T8sqX7ZBTnlWSWlAx+3rW78ysG7az6L6Ca/gJGWdHTnCW2ZqtrwreyogUrHYYEWXiVuSYtbOxgS1U92YEGsbYnyzy5QvGMplJxs7eThgGIB7ZidjPCUXFbRaIsPhaMOdZQ3fyooLF8hsRQ4OFDLOv3zK6e4MCMlqvufDEefQgom03RUN4scS+ipdpxg/z01jKLpifYpgjk8uisAfyfrrQAHZi2dy7vio6nytnsVQugMlJ+ahZw8sfYuVhFLuHvcYeU+nlSJIpws9zpsuMcPX00OOcxaCRqv0BGXcOGevsJzkyQt7nNSx8UsA==
+ b=nV08Zx03+Yt7lKM1B1pj9kh6sj+27lviYmIkGIdfaWfuqYEujvIE/brrbS474ltTOtdQlcUOSp07IJ/UECFrKygBuMgnv7ezyyoghsWQr63ZYb4V4dg4ObKDSzAcjFTCasaPQM4NTFxyPTe+zuD1Aj/7XhzfGD8+X+J9/vQlunL8c7g4fXOQ2wpwb3IMW6p1UUygXEGAl0rdSuBYym4IYdrdUDuoXI9Ve4wBP3pHmmGndsrKeAxGp9V0UKTFl+gxt504tNzDJ6P4fPu1wiaNF34CNTqyRzikYwUJWLYxpx5E+fa13r4cZl2DW87yg2cM96moNzBy0CPRJHJEEiFNaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7mLgxSdMRC/oOsrVgU/r6OiUgX67D+x8v3cjge2PGvY=;
- b=Ovbs1fx+MsT/2AGd4a1D72sOy5oAJPsZgxdfGGX+Xqay0XmznylDG2Wk/TAtZ4/BM0s0QqBipPaQxqFKc6sfFkf0IlW9Ab3K6dcmQke2/AsPPss264sc7hxWFvcOmIF4xp6Sewwhczw9FwvpTPST47I1ci3x+XR+CwLbuI+vgukGyZjIExXeMMM2+jH5yU9t3HDKT+FUAnGlxLWgRErhz6DBKpkZKhfMi0shWYbhHmB4W8mWMQtxgzk20KeCc0RSei56+PEjqZJaF/sBQjQyZXuBQb96SyliKE/hlzZT+V36abVJTXmvErqd/uVW9r0hvRMkvtM6uPkRLxbCJHAPgA==
+ bh=6xVXkaHPEyPG35RS7y+3GJr7a1+kxSEoE3DrxQRFy+U=;
+ b=ZJyYtco0hlYA7BRG39GKHEMsgnnmhpMWfjQSgBdsZbTVFfiSu9W6s1yx8/I5qgW9O3k+1NSCiFrvdRvU3j+46dL3UAlwbFpSMt+MgDhc3YODgO9GcdYVkca0VjkxN9CG1bHWhGhtaFDEbKnfVzGJ7esXpmycXiDBck1P+ahhu1C1uGikc5+RLquI6kHH6j6Rsz+7PsFPUvfiBLbmSFvHSI7aJn91DQ2+vonDp+ZkcFvvX0Xhe9yrqseeuNpaJEmgJ6b2T8ijvII9RNJVz6TL1hrdX0hbqGXZFA326cZi9euIEDHZ0jSNTddd3bgcyNX+Y5DpsRySU/Iij/62jVSlZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7mLgxSdMRC/oOsrVgU/r6OiUgX67D+x8v3cjge2PGvY=;
- b=26CmjupIxILlHWffmsJzJm6GxrKICSTP9oklfYH37zumQEwm415UKs6sRKwT6uLS/KmnAhjR4jSfJKru4BM4VAeVcCC2KPd/mW9m2HJQUhAf2UwDym1aR3W1vgB7M6quUOjF/HEaUueC/y1NR9XyCHXpQtK5xiGm1tp9oDtbV5M=
-Received: from DM6PR04CA0026.namprd04.prod.outlook.com (2603:10b6:5:334::31)
- by MW4PR12MB5602.namprd12.prod.outlook.com (2603:10b6:303:169::20) with
+ bh=6xVXkaHPEyPG35RS7y+3GJr7a1+kxSEoE3DrxQRFy+U=;
+ b=XEWuEuBirtuNJ3GUrQ9mK+py/1IHgT1XW6lLi9KLwmKgBxPnDlsfzovxYMr5NvG3sXcS1i0jwZB1Qkw76pqCrnHlMEreEBM15hpvRlbgF9uqVgC3PGBOUbpTEJ9TmaDkS8kibUGWogd/x56eTCGNFA/0hlFU+nZE7/WFsCdmMZw=
+Received: from DM6PR07CA0098.namprd07.prod.outlook.com (2603:10b6:5:337::31)
+ by BL1PR12MB5972.namprd12.prod.outlook.com (2603:10b6:208:39b::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Wed, 19 Oct
- 2022 15:28:23 +0000
-Received: from DM6NAM11FT081.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:334:cafe::57) by DM6PR04CA0026.outlook.office365.com
- (2603:10b6:5:334::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Wed, 19 Oct
+ 2022 15:28:28 +0000
+Received: from DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:337:cafe::b9) by DM6PR07CA0098.outlook.office365.com
+ (2603:10b6:5:337::31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34 via Frontend
- Transport; Wed, 19 Oct 2022 15:28:22 +0000
+ Transport; Wed, 19 Oct 2022 15:28:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,48 +45,51 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT081.mail.protection.outlook.com (10.13.172.136) with Microsoft SMTP
+ DM6NAM11FT101.mail.protection.outlook.com (10.13.172.208) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5746.16 via Frontend Transport; Wed, 19 Oct 2022 15:28:22 +0000
+ 15.20.5746.16 via Frontend Transport; Wed, 19 Oct 2022 15:28:28 +0000
 Received: from amar-X570-AORUS-ELITE.amd.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 19 Oct 2022 10:28:18 -0500
+ 15.1.2375.31; Wed, 19 Oct 2022 10:28:25 -0500
 From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
  <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH 1/6] drm/ttm: rework on ttm_resource to use size_t type
-Date: Wed, 19 Oct 2022 20:57:31 +0530
-Message-ID: <20221019152736.654451-1-Amaranath.Somalapuram@amd.com>
+Subject: [PATCH 2/6] =?UTF-8?q?drm/amd:=20fix=E2=80=99s=20on=20ttm=5Fresou?=
+ =?UTF-8?q?rce=20rework=20to=20use=20size=5Ft=20type?=
+Date: Wed, 19 Oct 2022 20:57:32 +0530
+Message-ID: <20221019152736.654451-2-Amaranath.Somalapuram@amd.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20221019152736.654451-1-Amaranath.Somalapuram@amd.com>
+References: <20221019152736.654451-1-Amaranath.Somalapuram@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT081:EE_|MW4PR12MB5602:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4040917f-4672-4115-be2e-08dab1e68f16
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT101:EE_|BL1PR12MB5972:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a22fe4b-74e1-4740-93c6-08dab1e69280
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SPpnTVUFiO6fL8V99C0hjDcMV0jKdpLuLuDw6bwt2GuM7rLP/jmjGmhynlNZMTAkVMwtpg0bDw6ieRg26cCCqfFD7KqYwMIaRAFba3AXLRPerQUIwjthO3FDDPNoKy9Uab7xBQc8VzQ+pjZ3oV1plG+oLnXN4XbgCSF8rbaCnI5czNd4xauv8ljFkK7hHBgdBkAhvJgkklK2I0cAReu7xFTDcYz3oiszr3jrP3+2Ftmuyaw7xlt9sz1HzbDqLk8Czg/WizzbM1joktRyc2wdrxP2oB/8V9j3Vbt5F6z27jZAJdtP2Bck31kr+/anmYfC8F0aU0Xq/R2GtCPEW3qhzwts9v3nDzHKO95NuKmE4fkUjmj7bxc5A/KuRSfZreKH8nL8kLm3DAKY4njwF9gOb4zUjOwyJw61GxSdr2sglrdxUr9Ja6eexwPxhHZai4Q4RHELf3mTqkZ/CIKd6WOGsPxXAxSjDnf5MR8HmYuF5TEKEXfj+7kPZtHoU7nToY6H4VQrWlxWJCniJyP1pRPuvgsRU3WEgQ8j64y8Tx7AdrCBpToepuHsMrReRQDgXwgagWouTrQCfxdzYL0GqQ8ii7zHBHnoe8ksnKKRCcQjkmugP+8aiO1p9IT+uWxp0CJ1J8uWGSc3cFtk1oXpvcwVtOJGkiRH0H2Clh7AooYgo0QvEPNYutfZMKQxIT5PpcgFL7N/cKpVpqyHih1uDSgoUHa7GJxoLF/EpORN4etOKQv44CBZLKlHt2Y6MTKYkLxUBWGJvvR0jt049QsRXLkyV2RbcBbEbVq56x6GnUpstviwMbUSCZPOMXhhdA8gShuv
+X-Microsoft-Antispam-Message-Info: Sqhqdgpze++26H76kT6WjNsqnqB6ew3+1ZTa1s5tHuPrwrkL9hudMh/0Auzh6FOl1bwbWurQKqntngJfdR+EHzmawPp5BfvOJfVNU6TnJ2+XnSjExxEfZTh8RBfsioM7d53GKW8fMnLEGS0lKF5kcF+pn6KbYeKk6vSu3MYmSavTeaGj2qECCzGbqZzJHWO4Z6jVt1AkYh0iKHG0YKIPkACqDE2MHdzEPB9bz1UlPnMVRGg2ASx3gVMiWVI7VnqumI1/vFiS9zBw0X4cPtb8zgXDjp/p/n8jBaYWri7YohrCC693xkqFgX3UiVpIUiC+nZlkzQH/vUeg3hB1zFh6o6Ukf3IVsbm/WTxCi4wEiBGgoCohv/lbnpTpFF3M8YS5Ye3PoA2cI2CXGWDpZ82yNxzJoiE9rWgoYuaFHF2SehdtkQ+yTKJw2dl0Y/rERFtIVFqGQiL08hS4Kd5/AWOC132wDWK63zgN6y4nfjBcHogxVA8gtixvsTLzQ/Pzr+Xoy3Qcm3CgTw1FkzolwnH1vjL8A5tvq+Z5OvLwr1hm/pN+bwlcjSwTOwm8AQsTQTIrUsRw7WYVtXElAeoVLz4M6gwU8qA4PqgYyKBhz/Sjsdg1SJu0Zk1IyTv+ldPdTdhLHvOJKZpeKzkR62LlwQpd72jrAIw0P0xCvjxfGwGEKtEFgmcZ+iF/hKcYF1dd4g9NmNPcZ2m/A92DnnPDS1VcEvIJWRBftXNPcNKwJ8HkrW5UdVwhVZxyJh6Ctp9LnkIeY2ec6NrH9vJ/bhbVw53S0NY7R1qumnWSAFUphG8wkw8=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(396003)(346002)(136003)(376002)(451199015)(40470700004)(36840700001)(46966006)(5660300002)(81166007)(2906002)(8936002)(356005)(40480700001)(82740400003)(41300700001)(40460700003)(4326008)(36860700001)(36756003)(8676002)(70206006)(70586007)(83380400001)(110136005)(316002)(47076005)(54906003)(86362001)(2616005)(426003)(336012)(1076003)(16526019)(186003)(450100002)(26005)(82310400005)(478600001)(7696005)(6666004)(36900700001);
+ SFS:(13230022)(4636009)(39860400002)(346002)(376002)(136003)(396003)(451199015)(40470700004)(46966006)(36840700001)(8936002)(26005)(82740400003)(81166007)(356005)(86362001)(316002)(70206006)(36860700001)(54906003)(70586007)(4326008)(450100002)(110136005)(5660300002)(2906002)(41300700001)(40460700003)(426003)(47076005)(2616005)(16526019)(1076003)(82310400005)(186003)(83380400001)(478600001)(6666004)(7696005)(336012)(40480700001)(36756003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2022 15:28:22.6792 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4040917f-4672-4115-be2e-08dab1e68f16
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2022 15:28:28.3903 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a22fe4b-74e1-4740-93c6-08dab1e69280
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT081.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5602
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5972
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,146 +108,151 @@ Cc: alexander.deucher@amd.com, Somalapuram
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change ttm_resource structure from num_pages to size_t size in bytes.
+Fix the ttm_resource from num_pages to size_t size.
 
 Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c            | 4 ++--
- drivers/gpu/drm/ttm/ttm_bo_util.c       | 6 +++---
- drivers/gpu/drm/ttm/ttm_bo_vm.c         | 4 ++--
- drivers/gpu/drm/ttm/ttm_range_manager.c | 2 +-
- drivers/gpu/drm/ttm/ttm_resource.c      | 8 ++++----
- include/drm/ttm/ttm_resource.h          | 2 +-
- 6 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c    | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c     | 3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h      | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c        | 6 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c   | 8 ++++----
+ 6 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 7c8e8be774f1..394ccb13eaed 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -51,8 +51,8 @@ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
- 	struct ttm_resource_manager *man;
- 	int i, mem_type;
- 
--	drm_printf(&p, "No space for %p (%lu pages, %zuK, %zuM)\n",
--		   bo, bo->resource->num_pages, bo->base.size >> 10,
-+	drm_printf(&p, "No space for %p (%lu size, %zuK, %zuM)\n",
-+		   bo, bo->resource->size, bo->base.size >> 10,
- 		   bo->base.size >> 20);
- 	for (i = 0; i < placement->num_placement; i++) {
- 		mem_type = placement->placement[i].mem_type;
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index fa04e62202c1..da5493f789df 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -173,7 +173,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 
- 	clear = src_iter->ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm));
- 	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC)))
--		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
-+		ttm_move_memcpy(clear, PFN_UP(dst_mem->size), dst_iter, src_iter);
- 
- 	if (!src_iter->ops->maps_tt)
- 		ttm_kmap_iter_linear_io_fini(&_src_iter.io, bdev, src_mem);
-@@ -357,9 +357,9 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
- 
- 	map->virtual = NULL;
- 	map->bo = bo;
--	if (num_pages > bo->resource->num_pages)
-+	if (num_pages > PFN_UP(bo->resource->size))
- 		return -EINVAL;
--	if ((start_page + num_pages) > bo->resource->num_pages)
-+	if ((start_page + num_pages) > PFN_UP(bo->resource->size))
- 		return -EINVAL;
- 
- 	ret = ttm_mem_io_reserve(bo->bdev, bo->resource);
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 38119311284d..876e7d07273c 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -217,7 +217,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
- 	page_last = vma_pages(vma) + vma->vm_pgoff -
- 		drm_vma_node_start(&bo->base.vma_node);
- 
--	if (unlikely(page_offset >= bo->resource->num_pages))
-+	if (unlikely(page_offset >= PFN_UP(bo->resource->size)))
- 		return VM_FAULT_SIGBUS;
- 
- 	prot = ttm_io_prot(bo, bo->resource, prot);
-@@ -412,7 +412,7 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
- 		 << PAGE_SHIFT);
- 	int ret;
- 
--	if (len < 1 || (offset + len) >> PAGE_SHIFT > bo->resource->num_pages)
-+	if (len < 1 || (offset + len) > bo->resource->size)
- 		return -EIO;
- 
- 	ret = ttm_bo_reserve(bo, true, false, NULL);
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index f7c16c46cfbc..0a8bc0b7f380 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -83,7 +83,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
- 
- 	spin_lock(&rman->lock);
- 	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
--					  node->base.num_pages,
-+					  PFN_UP(node->base.size),
- 					  bo->page_alignment, 0,
- 					  place->fpfn, lpfn, mode);
- 	spin_unlock(&rman->lock);
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index a729c32a1e48..f9cce0727d40 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -177,7 +177,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
- 	struct ttm_resource_manager *man;
- 
- 	res->start = 0;
--	res->num_pages = PFN_UP(bo->base.size);
-+	res->size = bo->base.size;
- 	res->mem_type = place->mem_type;
- 	res->placement = place->flags;
- 	res->bus.addr = NULL;
-@@ -192,7 +192,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
- 		list_add_tail(&res->lru, &bo->bdev->pinned);
- 	else
- 		list_add_tail(&res->lru, &man->lru[bo->priority]);
--	man->usage += res->num_pages << PAGE_SHIFT;
-+	man->usage += res->size;
- 	spin_unlock(&bo->bdev->lru_lock);
- }
- EXPORT_SYMBOL(ttm_resource_init);
-@@ -214,7 +214,7 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
- 
- 	spin_lock(&bdev->lru_lock);
- 	list_del_init(&res->lru);
--	man->usage -= res->num_pages << PAGE_SHIFT;
-+	man->usage -= res->size;
- 	spin_unlock(&bdev->lru_lock);
- }
- EXPORT_SYMBOL(ttm_resource_fini);
-@@ -665,7 +665,7 @@ ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io *iter_io,
- 		iosys_map_set_vaddr(&iter_io->dmap, mem->bus.addr);
- 		iter_io->needs_unmap = false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 1f3302aebeff..44367f03316f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -144,7 +144,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+ 		node->base.start = node->mm_nodes[0].start;
  	} else {
--		size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
-+		size_t bus_size = (size_t)mem->size;
+ 		node->mm_nodes[0].start = 0;
+-		node->mm_nodes[0].size = node->base.num_pages;
++		node->mm_nodes[0].size = PFN_UP(node->base.size);
+ 		node->base.start = AMDGPU_BO_INVALID_OFFSET;
+ 	}
  
- 		iter_io->needs_unmap = true;
- 		memset(&iter_io->dmap, 0, sizeof(iter_io->dmap));
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index 5afc6d664fde..f93c9e52b063 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -208,7 +208,7 @@ struct ttm_bus_placement {
-  */
- struct ttm_resource {
- 	unsigned long start;
--	unsigned long num_pages;
-+	size_t size;
- 	uint32_t mem_type;
- 	uint32_t placement;
- 	struct ttm_bus_placement bus;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 2e8f6cd7a729..e51f80bb1d07 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -542,6 +542,7 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+ 		/* GWS and OA don't need any alignment. */
+ 		page_align = bp->byte_align;
+ 		size <<= PAGE_SHIFT;
++
+ 	} else if (bp->domain & AMDGPU_GEM_DOMAIN_GDS) {
+ 		/* Both size and alignment must be a multiple of 4. */
+ 		page_align = ALIGN(bp->byte_align, 4);
+@@ -776,7 +777,7 @@ int amdgpu_bo_kmap(struct amdgpu_bo *bo, void **ptr)
+ 		return 0;
+ 	}
+ 
+-	r = ttm_bo_kmap(&bo->tbo, 0, bo->tbo.resource->num_pages, &bo->kmap);
++	r = ttm_bo_kmap(&bo->tbo, 0, PFN_UP(bo->tbo.resource->size), &bo->kmap);
+ 	if (r)
+ 		return r;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
+index 6546552e596c..5c4f93ee0c57 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
+@@ -62,7 +62,7 @@ static inline void amdgpu_res_first(struct ttm_resource *res,
+ 	if (!res)
+ 		goto fallback;
+ 
+-	BUG_ON(start + size > res->num_pages << PAGE_SHIFT);
++	BUG_ON(start + size > res->size);
+ 
+ 	cur->mem_type = res->mem_type;
+ 
+@@ -110,7 +110,7 @@ static inline void amdgpu_res_first(struct ttm_resource *res,
+ 	cur->size = size;
+ 	cur->remaining = size;
+ 	cur->node = NULL;
+-	WARN_ON(res && start + size > res->num_pages << PAGE_SHIFT);
++	WARN_ON(res && start + size > res->size);
+ 	return;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+index 5e6ddc7e101c..677ad2016976 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+@@ -127,7 +127,7 @@ TRACE_EVENT(amdgpu_bo_create,
+ 
+ 	    TP_fast_assign(
+ 			   __entry->bo = bo;
+-			   __entry->pages = bo->tbo.resource->num_pages;
++			   __entry->pages = PFN_UP(bo->tbo.resource->size);
+ 			   __entry->type = bo->tbo.resource->mem_type;
+ 			   __entry->prefer = bo->preferred_domains;
+ 			   __entry->allow = bo->allowed_domains;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index dc262d2c2925..36066965346f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -381,7 +381,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+ 	dst.offset = 0;
+ 
+ 	r = amdgpu_ttm_copy_mem_to_mem(adev, &src, &dst,
+-				       new_mem->num_pages << PAGE_SHIFT,
++				       new_mem->size,
+ 				       amdgpu_bo_encrypted(abo),
+ 				       bo->base.resv, &fence);
+ 	if (r)
+@@ -424,7 +424,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+ static bool amdgpu_mem_visible(struct amdgpu_device *adev,
+ 			       struct ttm_resource *mem)
+ {
+-	u64 mem_size = (u64)mem->num_pages << PAGE_SHIFT;
++	u64 mem_size = (u64)mem->size;
+ 	struct amdgpu_res_cursor cursor;
+ 	u64 end;
+ 
+@@ -568,7 +568,7 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_device *bdev,
+ 				     struct ttm_resource *mem)
+ {
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+-	size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
++	size_t bus_size = (size_t)mem->size;
+ 
+ 	switch (mem->mem_type) {
+ 	case TTM_PL_SYSTEM:
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 73a517bcf5c1..18c1a173d187 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -439,7 +439,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
+ 		/* Allocate blocks in desired range */
+ 		vres->flags |= DRM_BUDDY_RANGE_ALLOCATION;
+ 
+-	remaining_size = (u64)vres->base.num_pages << PAGE_SHIFT;
++	remaining_size = (u64)vres->base.size;
+ 
+ 	mutex_lock(&mgr->lock);
+ 	while (remaining_size) {
+@@ -498,7 +498,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
+ 		LIST_HEAD(temp);
+ 
+ 		trim_list = &vres->blocks;
+-		original_size = (u64)vres->base.num_pages << PAGE_SHIFT;
++		original_size = (u64)vres->base.size;
+ 
+ 		/*
+ 		 * If size value is rounded up to min_block_size, trim the last
+@@ -533,8 +533,8 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
+ 			amdgpu_vram_mgr_block_size(block);
+ 		start >>= PAGE_SHIFT;
+ 
+-		if (start > vres->base.num_pages)
+-			start -= vres->base.num_pages;
++		if (start > PFN_UP(vres->base.size))
++			start -= PFN_UP(vres->base.size);
+ 		else
+ 			start = 0;
+ 		vres->base.start = max(vres->base.start, start);
 -- 
 2.32.0
 
