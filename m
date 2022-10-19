@@ -1,72 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24E7604DD0
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 18:53:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43366604E50
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 19:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7FA10EAC2;
-	Wed, 19 Oct 2022 16:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFDA10EB31;
+	Wed, 19 Oct 2022 17:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A23910E7BD;
- Wed, 19 Oct 2022 16:53:10 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id j7so30133739wrr.3;
- Wed, 19 Oct 2022 09:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5DFiDHx5wZGd/yzujkohJJ41a468Rylww7APwMMpKn4=;
- b=bzPrbgNYfXwdkhopwLn8ymzPsBrlZ30EX3+az2D3Lc5d4yg6S/fRbsBmbLMaA6NAts
- iVpDZ0V/kPaRRjy9L1A8APZ6yIR2savHbZsboNyym6zGPJwqbrvhU79EG0Ud5fTm54MA
- 3cphkOsqMi3XjypXvRPtlKiM4C2mBvXLuGgMWUZqrzl9C/k93X8ZRbaZIDLfHozEADFR
- DPqnnioH3nPttow+j9bw1eZoY+vH/5FT2NDDumFMEqQvI9P9+3/X3CuhWMOJGAoDPJ3r
- zsrq8Ne5kOxK/JC83FEKjUwSLTvnVV77zzOkQhOlT0iszh27d3nWDYPyyWE3oxLLQyZ/
- i9Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5DFiDHx5wZGd/yzujkohJJ41a468Rylww7APwMMpKn4=;
- b=DuhuHkhlu/lEzYIS6j7g6GxqhBD+XHTFYo8v6s5DrXmhZFDuvnpnhVA3aQhN/zGz6i
- dUwrqyPOxWfeQQqqCvd/JKtU8oON/GfCzKNi9VHkRDET8Pg82CuT+Rk0IWgORrEnNa9e
- lPoeH6JSZYe29ebvxuv10C3Uw7sWO6DjUuVMaSnN6r+blYWoogiX217juXjwCTxsKVjd
- 5gXXAZOM0Ny2jF/Ye4HKgfD3PnUvTEwcbbLEnt3vrgLF8WOOQLLgBHKsQ+FawLnApri8
- ZID8FZigwUH47m94XmYqfNpvjrxj5I37EN+9BGUYqzb34TkHH6IqhfwaoAxbB+9KgV9m
- uwrA==
-X-Gm-Message-State: ACrzQf0DLA/imvCoy3oxjNiGH5vDoolnbGhEE7X2X5KNn5qazC3u5E4Y
- 8qIro5kIOA9squBTsykRUBUk8cFKC6c=
-X-Google-Smtp-Source: AMsMyM4RIfA1QI4OC4Ia4N+eUpNxPu9nQ66XldpkOoEqi3iFNIE6g1LBWU4SXrLT9q5GVd3/2iZsHg==
-X-Received: by 2002:a05:6000:1549:b0:22e:519e:f39d with SMTP id
- 9-20020a056000154900b0022e519ef39dmr5842291wry.703.1666198388729; 
- Wed, 19 Oct 2022 09:53:08 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:f4ab:6c74:114:840d?
- ([2a02:908:1256:79a0:f4ab:6c74:114:840d])
- by smtp.gmail.com with ESMTPSA id
- c11-20020a05600c0a4b00b003c0d504a92csm480928wmq.22.2022.10.19.09.53.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 09:53:08 -0700 (PDT)
-Message-ID: <9fbd22af-e21b-a3bb-634c-53b4ca22297d@gmail.com>
-Date: Wed, 19 Oct 2022 18:53:07 +0200
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B891B10EB39
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 17:14:54 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29JHEPUt113785;
+ Wed, 19 Oct 2022 12:14:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1666199665;
+ bh=6Yk4ZgWU7L/RHOKUFCxLZUy3p8/nm2inHJmRmMRVoC8=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=vF6pJI+afFZ5TlfIqj3eJKDQ7QkQfYU8+MckbmeKpKyJMUjEoWVdYGNGyFvlWRKjl
+ 87vsXNEEBSMkd5rZyAywHvuU1LY0b46KFNuVWs7qqdfXDvb6VK/ji7AGaR702q28Mw
+ FwQioz4T0Ix1wWv9vCiRlEGFCFPgQvjhcvXdgDm0=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29JHEPVV003107
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 19 Oct 2022 12:14:25 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Wed, 19
+ Oct 2022 12:14:24 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
+ Frontend Transport; Wed, 19 Oct 2022 12:14:24 -0500
+Received: from [10.250.234.73] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29JHEJRe017688;
+ Wed, 19 Oct 2022 12:14:20 -0500
+Message-ID: <837bcf1d-e59f-5990-29e2-2b64d3dfaaa1@ti.com>
+Date: Wed, 19 Oct 2022 22:44:19 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: =?UTF-8?Q?Re=3a_=5bPATCH_5/6=5d_drm/radeon=3a_fix=e2=80=99s_on_ttm?=
- =?UTF-8?Q?=5fresource_rework_to_use_size=5ft_type?=
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [RFC PATCH v5 5/6] drm/tidss: Add IO CTRL and Power support for
+ OLDI TX in am625
 Content-Language: en-US
-To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
-References: <20221019152736.654451-1-Amaranath.Somalapuram@amd.com>
- <20221019152736.654451-5-Amaranath.Somalapuram@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20221019152736.654451-5-Amaranath.Somalapuram@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, Rob Herring <robh+dt@kernel.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>
+References: <20220928175223.15225-1-a-bhatia1@ti.com>
+ <20220928175223.15225-6-a-bhatia1@ti.com>
+ <708ae70e-dc1b-1079-8442-06cbea228e99@ideasonboard.com>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <708ae70e-dc1b-1079-8442-06cbea228e99@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,110 +69,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, shashank.sharma@amd.com,
- christian.koenig@amd.com, arunpravin.paneerselvam@amd.com
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Rahul T R <r-ravikumar@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomi
+
+On 12-Oct-22 17:59, Tomi Valkeinen wrote:
+> On 28/09/2022 20:52, Aradhya Bhatia wrote:
+>> The ctrl mmr module of the AM625 is different from the AM65X SoC. Thus
+>> the ctrl mmr registers that supported the OLDI TX power have become
+>> different in AM625 SoC.
+>>
+>> Add IO CTRL support and control the OLDI TX power for AM625.
+>>
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> ---
+>>   drivers/gpu/drm/tidss/tidss_dispc.c      | 55 ++++++++++++++++++------
+>>   drivers/gpu/drm/tidss/tidss_dispc_regs.h |  6 +++
+>>   2 files changed, 49 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c 
+>> b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> index 88008ad39b55..68444e0cd8d7 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> @@ -921,21 +921,52 @@ int dispc_vp_bus_check(struct dispc_device 
+>> *dispc, u32 hw_videoport,
+>>   static void dispc_oldi_tx_power(struct dispc_device *dispc, bool power)
+>>   {
+>> -    u32 val = power ? 0 : OLDI_PWRDN_TX;
+>> +    u32 val;
+>>       if (WARN_ON(!dispc->oldi_io_ctrl))
+>>           return;
+>> -    regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT0_IO_CTRL,
+>> -               OLDI_PWRDN_TX, val);
+>> -    regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT1_IO_CTRL,
+>> -               OLDI_PWRDN_TX, val);
+>> -    regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT2_IO_CTRL,
+>> -               OLDI_PWRDN_TX, val);
+>> -    regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT3_IO_CTRL,
+>> -               OLDI_PWRDN_TX, val);
+>> -    regmap_update_bits(dispc->oldi_io_ctrl, OLDI_CLK_IO_CTRL,
+>> -               OLDI_PWRDN_TX, val);
+>> +    if (dispc->feat->subrev == DISPC_AM65X) {
+>> +        val = power ? 0 : OLDI_PWRDN_TX;
+>> +
+>> +        regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT0_IO_CTRL,
+>> +                   OLDI_PWRDN_TX, val);
+>> +        regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT1_IO_CTRL,
+>> +                   OLDI_PWRDN_TX, val);
+>> +        regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT2_IO_CTRL,
+>> +                   OLDI_PWRDN_TX, val);
+>> +        regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT3_IO_CTRL,
+>> +                   OLDI_PWRDN_TX, val);
+>> +        regmap_update_bits(dispc->oldi_io_ctrl, OLDI_CLK_IO_CTRL,
+>> +                   OLDI_PWRDN_TX, val);
+>> +
+>> +    } else if (dispc->feat->subrev == DISPC_AM625) {
+>> +        if (power) {
+>> +            switch (dispc->oldi_mode) {
+>> +            case OLDI_SINGLE_LINK_SINGLE_MODE:
+>> +                /* Power down OLDI TX 1 */
+>> +                val = OLDI1_PWRDN_TX;
+>> +                break;
+>> +
+>> +            case OLDI_SINGLE_LINK_CLONE_MODE:
+>> +            case OLDI_DUAL_LINK_MODE:
+>> +                /* No Power down */
+>> +                val = 0;
+>> +                break;
+>> +
+>> +            default:
+>> +                /* Power down both the OLDI TXes */
+>> +                val = OLDI0_PWRDN_TX | OLDI1_PWRDN_TX;
+>> +                break;
+>> +            }
+>> +        } else {
+>> +            /* Power down both the OLDI TXes */
+>> +            val = OLDI0_PWRDN_TX | OLDI1_PWRDN_TX;
+>> +        }
+> 
+> Ugh, I hate power-down bits. So you "enable" it to disable it =). What's 
+> the default value or the register here? Or will this always be called? 
+> I.e. if we only use DPI, do we power down the OLDIs somewhere (or does 
+> it matter)?
+> 
+
+The power bits are defaulted to keep the OLDI TXes powered off, and they
+have to be turned ON.
+
+This function is also called to power off the OLDI TXes, from
+dispc_vp_unprepare. And that happens with "power" variable as false. So
+the else condition above is indeed required.
+
+You are right about the other scenario though. If DPI is only used, the
+mode will be set to OLDI_MODE_OFF and in that case, the dispc_vp_prepare
+function will NOT be called for the OLDI VP thereby rendering the
+"default" clause of the switch statement, for powering down the OLDIs,
+essentially useless. I just put it there because of convention.
+
+>> +
+>> +        regmap_update_bits(dispc->oldi_io_ctrl, OLDI_PD_CTRL,
+>> +                   OLDI0_PWRDN_TX | OLDI1_PWRDN_TX, val);
+>> +    }
+>>   }
+>>   static void dispc_set_num_datalines(struct dispc_device *dispc,
+>> @@ -2831,7 +2862,7 @@ int dispc_init(struct tidss_device *tidss)
+>>           dispc->vp_data[i].gamma_table = gamma_table;
+>>       }
+>> -    if (feat->subrev == DISPC_AM65X) {
+>> +    if (feat->subrev == DISPC_AM65X || feat->subrev == DISPC_AM625) {
+>>           r = dispc_init_am65x_oldi_io_ctrl(dev, dispc);
+>>           if (r)
+>>               return r;
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h 
+>> b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+>> index 13feedfe5d6d..510bee70b3b8 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+>> @@ -238,6 +238,12 @@ enum dispc_common_regs {
+>>   #define OLDI_DAT3_IO_CTRL            0x0C
+>>   #define OLDI_CLK_IO_CTRL            0x10
+>> +/* Only for AM625 OLDI TX */
+>> +#define OLDI_PD_CTRL                0x100
+>> +#define OLDI_LB_CTRL                0x104
+>> +
+>>   #define OLDI_PWRDN_TX                BIT(8)
+>> +#define OLDI0_PWRDN_TX                BIT(0)
+>> +#define OLDI1_PWRDN_TX                BIT(1)
+> 
+> Maybe these (the new and old ones) should be platform-prefixed. And 
+> organized so that the register and its bits are together.
+Okay, will do.
 
 
-Am 19.10.22 um 17:27 schrieb Somalapuram Amaranath:
-> Fix the ttm_resource from num_pages to size_t size.
->
-> Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_cs.c     | 4 ++--
->   drivers/gpu/drm/radeon/radeon_object.c | 4 ++--
->   drivers/gpu/drm/radeon/radeon_trace.h  | 2 +-
->   drivers/gpu/drm/radeon/radeon_ttm.c    | 4 ++--
->   4 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-> index 446f7bae54c4..4c930f0cf132 100644
-> --- a/drivers/gpu/drm/radeon/radeon_cs.c
-> +++ b/drivers/gpu/drm/radeon/radeon_cs.c
-> @@ -400,8 +400,8 @@ static int cmp_size_smaller_first(void *priv, const struct list_head *a,
->   	struct radeon_bo_list *lb = list_entry(b, struct radeon_bo_list, tv.head);
->   
->   	/* Sort A before B if A is smaller. */
-> -	return (int)la->robj->tbo.resource->num_pages -
-> -		(int)lb->robj->tbo.resource->num_pages;
-> +	return (int)PFN_UP(la->robj->tbo.resource->size) -
-> +		(int)PFN_UP(lb->robj->tbo.resource->size);
-
-I think you can drop the conversion and PFN_UP. What we need here is a 
-compare result. Something like this:
-
-if (la->robj->tbo.resource->size > lb->robj->tbo.resource->size)
-     return 1;
-if (la->robj->tbo.resource->size < lb->robj->tbo.resource->size)
-     return -1;
-return 0;
-
-And I think it makes more sense to use tbo.base.size here as well 
-instead of the resource size.
-
-Regards,
-Christian.
-
->   }
->   
->   /**
-> diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-> index 00c33b24d5d3..710d04fcbea6 100644
-> --- a/drivers/gpu/drm/radeon/radeon_object.c
-> +++ b/drivers/gpu/drm/radeon/radeon_object.c
-> @@ -232,7 +232,7 @@ int radeon_bo_kmap(struct radeon_bo *bo, void **ptr)
->   		}
->   		return 0;
->   	}
-> -	r = ttm_bo_kmap(&bo->tbo, 0, bo->tbo.resource->num_pages, &bo->kmap);
-> +	r = ttm_bo_kmap(&bo->tbo, 0, PFN_UP(bo->tbo.resource->size), &bo->kmap);
->   	if (r) {
->   		return r;
->   	}
-> @@ -737,7 +737,7 @@ vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
->   	if (bo->resource->mem_type != TTM_PL_VRAM)
->   		return 0;
->   
-> -	size = bo->resource->num_pages << PAGE_SHIFT;
-> +	size = bo->resource->size;
->   	offset = bo->resource->start << PAGE_SHIFT;
->   	if ((offset + size) <= rdev->mc.visible_vram_size)
->   		return 0;
-> diff --git a/drivers/gpu/drm/radeon/radeon_trace.h b/drivers/gpu/drm/radeon/radeon_trace.h
-> index c9fed5f2b870..22676617e1a5 100644
-> --- a/drivers/gpu/drm/radeon/radeon_trace.h
-> +++ b/drivers/gpu/drm/radeon/radeon_trace.h
-> @@ -22,7 +22,7 @@ TRACE_EVENT(radeon_bo_create,
->   
->   	    TP_fast_assign(
->   			   __entry->bo = bo;
-> -			   __entry->pages = bo->tbo.resource->num_pages;
-> +			   __entry->pages = PFN_UP(bo->tbo.resource->size);
->   			   ),
->   	    TP_printk("bo=%p, pages=%u", __entry->bo, __entry->pages)
->   );
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index d33fec488713..fff48306c05f 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -181,7 +181,7 @@ static int radeon_move_blit(struct ttm_buffer_object *bo,
->   
->   	BUILD_BUG_ON((PAGE_SIZE % RADEON_GPU_PAGE_SIZE) != 0);
->   
-> -	num_pages = new_mem->num_pages * (PAGE_SIZE / RADEON_GPU_PAGE_SIZE);
-> +	num_pages = PFN_UP(new_mem->size) * (PAGE_SIZE / RADEON_GPU_PAGE_SIZE);
->   	fence = radeon_copy(rdev, old_start, new_start, num_pages, bo->base.resv);
->   	if (IS_ERR(fence))
->   		return PTR_ERR(fence);
-> @@ -268,7 +268,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
->   static int radeon_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
->   {
->   	struct radeon_device *rdev = radeon_get_rdev(bdev);
-> -	size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
-> +	size_t bus_size = (size_t)mem->size;
->   
->   	switch (mem->mem_type) {
->   	case TTM_PL_SYSTEM:
-
+Regards
+Aradhya
