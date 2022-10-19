@@ -1,44 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 812A1603D12
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 10:57:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CEB603C8A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 10:48:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C884F10F1A9;
-	Wed, 19 Oct 2022 08:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F3910F1A0;
+	Wed, 19 Oct 2022 08:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7A210F1A9
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 08:56:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7BFF66187C;
- Wed, 19 Oct 2022 08:56:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C63C7C433C1;
- Wed, 19 Oct 2022 08:56:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1666169808;
- bh=nm6Fk68lTXLToM7w7rO0akGlkXWx4flW07EYl2/lIzY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1IL9dqqiM9wCKopoehh9+4J8UF0ofA0Eg1wwR08q/TOLxzIKwjhqBbS5zPoxBXPZU
- qazA73ea6TW0aXyl+qRVofoKEiadnDeO19o7oU9RxyGGsFALignDTYwEoxt11EeAwZ
- lgJEL7mJaYUuU7RQVRcG7OnWHcY2tjHxRx/3A+Lg=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 6.0 374/862] drm: fix drm_mipi_dbi build errors
-Date: Wed, 19 Oct 2022 10:27:41 +0200
-Message-Id: <20221019083306.505648663@linuxfoundation.org>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221019083249.951566199@linuxfoundation.org>
-References: <20221019083249.951566199@linuxfoundation.org>
-User-Agent: quilt/0.67
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7747A10F19E;
+ Wed, 19 Oct 2022 08:48:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 6B4202B066A9;
+ Wed, 19 Oct 2022 04:48:32 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 19 Oct 2022 04:48:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1666169312; x=1666176512; bh=Ym8zZTCcZM
+ zDkoxIUNvTcvnh7J9PJfm+nGlRN8I2SxQ=; b=KdU04RhNsUNkm2Ekd02vnAdG07
+ tgQJvehh/pQMoaC2BYJaJhqOndgA0RVVs60zjvklb5ud//6MAh+5cEf/3N1ZCTms
+ w70cg+INzGALjJjKpj8Q3N+eWAHkdxAQDwTKePnpNWVwDc9fMrq2Kwyept6NgNYi
+ LMZAzdvRAsr4EC4UEIDxxUC5def1KJzPo8LDRRdC7nGkysExG0s+2vMVd94rdjtH
+ ntzi+f0ogMuhMJ4bAsaTiTa74vGZPiIV7enMqt8VvAcX0l+wAUJ7xbHW7ehELAVW
+ FpD/Rqyi+keHr5MKIkKcP/8rZ6tFlnadvyjTwX2lPxpemWdw7UUCBYHt3G0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1666169312; x=1666176512; bh=Ym8zZTCcZMzDkoxIUNvTcvnh7J9P
+ Jfm+nGlRN8I2SxQ=; b=oMiOuzOTzEKTCBLSUX9G9jAuJ0oL9iSUbS0lBpkLluDO
+ G25DWW7P+vlVfWITSXdNkEtBSEnhkOpnaNoUFtpi/zZz+xIotzCh3TVrqT2FpXZM
+ n5Mlbj7qJFM14/mzcVR/8aZkVO60RRhZLIs2fmkaWe+bzxZjacEtcl2trlxT/91Z
+ yOF5QuG9hZ485rh/IixlOViOF7eiTRwA93qRKMoxLPlb8VXxt62uFGKrLwBpjsT5
+ DtDW96WCgcE4pUVgCFaUgFBMc8jNMlCIjPSovYoNKQp61X71CpvNnTljSfWYeCoX
+ 1xiPn5gsYzNLl0twj72w+AvbFkPh7ZLwTxhd6mvBIA==
+X-ME-Sender: <xms:37lPY10L48qsNQf8cigEXMCh63T-4Qrauz6OrSAwbMkDgJsotu0oQw>
+ <xme:37lPY8GAk8Yrn9nhkbcJ0fuH5dvV7lMQxS0XIfF6IqxWqHAAY5NNXE0k22YiesOOe
+ 3Qw5-oLoV6fr1TbBSA>
+X-ME-Received: <xmr:37lPY16Qxxm2kamca44NGJWysw8YaFUYrXRunOl1iLmbqx0K7sdSzvIEEbKO>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelgedgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+ ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:37lPYy1YOCVMKTWiKtOyaLSIl6-tuTDy6T01UTzY8sXuJv2DDezlig>
+ <xmx:37lPY4G99QMwBes8dy5IOJq0uoHoxPvnEURw3tdELseUPQQDOIv5iQ>
+ <xmx:37lPYz8ytonyL8GI2KznAKP92qjUaGiEBsAUYid98vJDAQ4KrXlPdw>
+ <xmx:4LlPYzmGtI1pqyp6Nsfm5F54pl7efHZUWVsLW-ZfN3r7vgZ88GeH6cYD9uc>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Oct 2022 04:48:30 -0400 (EDT)
+Date: Wed, 19 Oct 2022 10:48:28 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
+ mode by its name
+Message-ID: <20221019084828.muy46td63bkyewxk@houat>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
+ <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
+ <20221018093353.pt4vset6o2ldxrbs@houat>
+ <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="g2rjpzd2ixg3ehrv"
+Content-Disposition: inline
+In-Reply-To: <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,72 +87,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, kernel test robot <lkp@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, stable@vger.kernel.org,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Dillon Min <dillon.minfei@gmail.com>
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit eb7de496451bd969e203f02f66585131228ba4ae ]
+--g2rjpzd2ixg3ehrv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drm_mipi_dbi needs lots of DRM_KMS_HELPER support, so select
-that Kconfig symbol like it is done is most other uses, and
-the way that it was before MIPS_DBI was moved from tinydrm
-to its core location.
+On Tue, Oct 18, 2022 at 02:29:00PM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 18.10.2022 11.33, skrev Maxime Ripard:
+> > On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Tr=F8nnes wrote:
+> >> Den 13.10.2022 15.18, skrev Maxime Ripard:
+> >>> As part of the command line parsing rework coming in the next patches,
+> >>> we'll need to lookup drm_connector_tv_mode values by their name, alre=
+ady
+> >>> defined in drm_tv_mode_enum_list.
+> >>>
+> >>> In order to avoid any code duplication, let's do a function that will
+> >>> perform a lookup of a TV mode name and return its value.
+> >>>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>> ---
+> >>>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
+> >>>  include/drm/drm_connector.h     |  2 ++
+> >>>  2 files changed, 26 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_co=
+nnector.c
+> >>> index 820f4c730b38..30611c616435 100644
+> >>> --- a/drivers/gpu/drm/drm_connector.c
+> >>> +++ b/drivers/gpu/drm/drm_connector.c
+> >>> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_mo=
+de_enum_list[] =3D {
+> >>>  };
+> >>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> >>> =20
+> >>> +/**
+> >>> + * drm_get_tv_mode_from_name - Translates a TV mode name into its en=
+um value
+> >>> + * @name: TV Mode name we want to convert
+> >>> + * @len: Length of @name
+> >>> + *
+> >>> + * Translates @name into an enum drm_connector_tv_mode.
+> >>> + *
+> >>> + * Returns: the enum value on success, a negative errno otherwise.
+> >>> + */
+> >>> +int drm_get_tv_mode_from_name(const char *name, size_t len)
+> >>
+> >> Do we really need to pass in length here? item->name has to always be
+> >> NUL terminated otherwise things would break elsewhere, so it shouldn't
+> >> be necessary AFAICS.
+> >=20
+> > The only user so far is the command-line parsing code, and we might very
+> > well have an option after the tv_mode, something like
+> > 720x480i,tv_mode=3DNTSC,rotate=3D180
+> >=20
+> > In this case, we won't get a NULL-terminated name.
+>
+> My point is that item->name will always be NUL terminated so strcmp()
+> will never look past that.
 
-Fixes these build errors:
+Right, but we don't have the guarantee that strlen(item->name) <
+strlen(name), and we could thus just access after the end of our name
 
-ld: drivers/gpu/drm/drm_mipi_dbi.o: in function `mipi_dbi_buf_copy':
-drivers/gpu/drm/drm_mipi_dbi.c:205: undefined reference to `drm_gem_fb_get_obj'
-ld: drivers/gpu/drm/drm_mipi_dbi.c:211: undefined reference to `drm_gem_fb_begin_cpu_access'
-ld: drivers/gpu/drm/drm_mipi_dbi.c:215: undefined reference to `drm_gem_fb_vmap'
-ld: drivers/gpu/drm/drm_mipi_dbi.c:222: undefined reference to `drm_fb_swab'
-ld: drivers/gpu/drm/drm_mipi_dbi.c:224: undefined reference to `drm_fb_memcpy'
-ld: drivers/gpu/drm/drm_mipi_dbi.c:227: undefined reference to `drm_fb_xrgb8888_to_rgb565'
-ld: drivers/gpu/drm/drm_mipi_dbi.c:235: undefined reference to `drm_gem_fb_vunmap'
-ld: drivers/gpu/drm/drm_mipi_dbi.c:237: undefined reference to `drm_gem_fb_end_cpu_access'
-ld: drivers/gpu/drm/drm_mipi_dbi.o: in function `mipi_dbi_dev_init_with_formats':
-ld: drivers/gpu/drm/drm_mipi_dbi.o:/X64/../drivers/gpu/drm/drm_mipi_dbi.c:469: undefined reference to `drm_gem_fb_create_with_dirty'
+Maxime
 
-Fixes: 174102f4de23 ("drm/tinydrm: Move mipi-dbi")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Dillon Min <dillon.minfei@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Noralf Trønnes <noralf@tronnes.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220823004243.11596-1-rdunlap@infradead.org
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+--g2rjpzd2ixg3ehrv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 6c2256e8474b..679ad054ea4b 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -31,6 +31,7 @@ menuconfig DRM
- config DRM_MIPI_DBI
- 	tristate
- 	depends on DRM
-+	select DRM_KMS_HELPER
- 
- config DRM_MIPI_DSI
- 	bool
--- 
-2.35.1
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0+53AAKCRDj7w1vZxhR
+xUn4AQD1YdJVV8PGLA4yBe9MrG2aLgZBCDneKyxSLZYf8GnuFgD9Ge0Zu9QrzbOB
+RiI/MSBbWywUR77Xoz/dlZ4jRTTDKAc=
+=L35j
+-----END PGP SIGNATURE-----
 
-
+--g2rjpzd2ixg3ehrv--
