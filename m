@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C7C60496A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 16:38:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F7E604968
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 16:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD8110EAF6;
-	Wed, 19 Oct 2022 14:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 880CB10F23F;
+	Wed, 19 Oct 2022 14:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B8910F24B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 14:38:02 +0000 (UTC)
-Date: Wed, 19 Oct 2022 14:37:44 +0000
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 224B710F247
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 14:37:59 +0000 (UTC)
+Date: Wed, 19 Oct 2022 14:37:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1666190279; x=1666449479;
- bh=yWsT5OIuzTT+/9FW9RcipjSK+rK1bGFZrVkXMxvvif0=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID;
- b=FLB20bWiFpURDw1n1mhDU/d8P8/LpKOnViGpCc13kOnwWD8mrSFGetc127lGFYqGs
- dO2E1NBxZugKEcpWTEK+ooKvMfqFjYF/7KbFXds+QW7iEFMtYaiWSYT7xGV2rE/eE4
- +Q86SB0GTsHyUS1GJ0BDysbiNVr+JIZVmOIhvavn5Frc35fAOuIhy5Vr3Vb3pHxRWc
- 2tMRD19bUuwPg23RkKcPpOpy7xAooj+wkv9ckOKpykwKWV+DC4oCGC/3k/d6MhGCGQ
- qZX+BGQGdi+G3Rlr/YR5FA3zzMlH6BgPaNM3baOz2JozqBlcT/QgKNUuS/gNK/il7k
- yQl6aIeCkYaOg==
+ s=protonmail3; t=1666190276; x=1666449476;
+ bh=xnh5lw5bGYBpJgz3G8t0R9Z8/B0eZuEXm2vVqAyKBZw=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=b3/Ht/qjdHMnrbon1V52Sv1G5OsOz+q0670afdpYw+Pvzsc8tplxGI/UEGd9J90/J
+ pUvzrlwB/ok3cdf28ADJ/J/l7oL5h3ZFl6cpQ61udVMiOcrpr3WovWTo1TsMF3pE9l
+ IqF+p070tovn32M/KjU4gSYdSdVQViHhN/cZaw2NWrPpnk+v8fGP9iviCoWmb+DQeV
+ YiwlooOyFI2+xeHmXx97YQdrJJQ4NlcheOlFaqpgyyP1TVcC3A5YrtXK29RqAnG7or
+ 0lc4q+DhzyZa0m2D2wD2qJi4qOs6c58K07XOf9I3o3wggHiozomKXWK4Bt1C+pHyhF
+ zjoW4qVpa261g==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH 1/7] drm/atomic: log
- drm_atomic_replace_property_blob_from_id() errors
-Message-ID: <20221019143736.267324-1-contact@emersion.fr>
+Subject: [PATCH 2/7] drm/atomic: drop extra bracket from log messages
+Message-ID: <20221019143736.267324-2-contact@emersion.fr>
+In-Reply-To: <20221019143736.267324-1-contact@emersion.fr>
+References: <20221019143736.267324-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -53,44 +55,44 @@ Signed-off-by: Simon Ser <contact@emersion.fr>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_uapi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic=
 _uapi.c
-index c06d0639d552..e659fdae477d 100644
+index e659fdae477d..826cb2212b26 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -374,16 +374,25 @@ drm_atomic_replace_property_blob_from_id(struct drm_d=
-evice *dev,
-=20
- =09if (blob_id !=3D 0) {
- =09=09new_blob =3D drm_property_lookup_blob(dev, blob_id);
--=09=09if (new_blob =3D=3D NULL)
-+=09=09if (new_blob =3D=3D NULL) {
-+=09=09=09drm_dbg_atomic(dev,
-+=09=09=09=09       "cannot find blob ID %llu\n", blob_id);
- =09=09=09return -EINVAL;
-+=09=09}
-=20
- =09=09if (expected_size > 0 &&
- =09=09    new_blob->length !=3D expected_size) {
-+=09=09=09drm_dbg_atomic(dev,
-+=09=09=09=09       "[BLOB:%d] length %zu different from expected %zu\n",
-+=09=09=09=09       new_blob->base.id, new_blob->length, expected_size);
- =09=09=09drm_property_blob_put(new_blob);
- =09=09=09return -EINVAL;
- =09=09}
- =09=09if (expected_elem_size > 0 &&
- =09=09    new_blob->length % expected_elem_size !=3D 0) {
-+=09=09=09drm_dbg_atomic(dev,
-+=09=09=09=09       "[BLOB:%d] length %zu not divisible by element size %zu=
-\n",
-+=09=09=09=09       new_blob->base.id, new_blob->length, expected_elem_size=
-);
- =09=09=09drm_property_blob_put(new_blob);
- =09=09=09return -EINVAL;
- =09=09}
+@@ -463,7 +463,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc=
+ *crtc,
+ =09=09return crtc->funcs->atomic_set_property(crtc, state, property, val);
+ =09} else {
+ =09=09drm_dbg_atomic(crtc->dev,
+-=09=09=09       "[CRTC:%d:%s] unknown property [PROP:%d:%s]]\n",
++=09=09=09       "[CRTC:%d:%s] unknown property [PROP:%d:%s]\n",
+ =09=09=09       crtc->base.id, crtc->name,
+ =09=09=09       property->base.id, property->name);
+ =09=09return -EINVAL;
+@@ -586,7 +586,7 @@ static int drm_atomic_plane_set_property(struct drm_pla=
+ne *plane,
+ =09=09=09=09property, val);
+ =09} else {
+ =09=09drm_dbg_atomic(plane->dev,
+-=09=09=09       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
++=09=09=09       "[PLANE:%d:%s] unknown property [PROP:%d:%s]\n",
+ =09=09=09       plane->base.id, plane->name,
+ =09=09=09       property->base.id, property->name);
+ =09=09return -EINVAL;
+@@ -781,7 +781,7 @@ static int drm_atomic_connector_set_property(struct drm=
+_connector *connector,
+ =09=09=09=09state, property, val);
+ =09} else {
+ =09=09drm_dbg_atomic(connector->dev,
+-=09=09=09       "[CONNECTOR:%d:%s] unknown property [PROP:%d:%s]]\n",
++=09=09=09       "[CONNECTOR:%d:%s] unknown property [PROP:%d:%s]\n",
+ =09=09=09       connector->base.id, connector->name,
+ =09=09=09       property->base.id, property->name);
+ =09=09return -EINVAL;
 --=20
 2.38.0
 
