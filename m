@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCEB604E9E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 19:29:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E98604F13
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 19:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC6510E197;
-	Wed, 19 Oct 2022 17:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A088010E3A4;
+	Wed, 19 Oct 2022 17:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CAD410E197
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 17:29:29 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id t4so13345018wmj.5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 10:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SjI4Z5co0jP+dS3DaFSz22T5OkUEoxSjseAK5lz7j2I=;
- b=qEGEnfPvhrallYxSGId63ucJ5syeGHO24jd/sGBVIAk6xnp+BnJOvWTmTCX7cPCAxU
- o0L4YvNOiNrB2/+bmgnUN/KgJUcNgtxplL+1DDLsCFz/HhExm6XZW3PI49Gs68WQDafj
- wMosHixYsk5oEoE3wqikKipk5XDHBE1MtZs/hp8TDaNCq5wt0mQBLNMOgtcMb12x3HVs
- Pi0IQ/ykdGBKI91ntCHbdYvrSZBl7qWF8lnz1xvULeo9lvFMpj+OYalKZnYLjIDb536h
- SXnpDppeR2BivNvRfI3D+NlRBpkWmMRvQLqafn/5N9sdnnJ6+srWH92eX1Oa/xHJ+g59
- YFfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SjI4Z5co0jP+dS3DaFSz22T5OkUEoxSjseAK5lz7j2I=;
- b=RYuAMG5cM5d6I3vHoJzyJ45ZzdwbS+ynznXjyuS8Oo1UABo6t0MxSUY8YZk5a+fRZ8
- 4n06UTCN2BaGD3LneOuahIGoIVjJyyOmEytOZKBWNdJgK1nQ6Ti5GTFKlOqTRKgr0BhH
- qn+1eKDMJ4bB5skDYzQJpsxO2BppFtw/9SyfZMXR9K27FLA7P9fLnPhmfecLFrVTVYWc
- oOk8oV1GAopsgKPayc43iPgoaKcoMhvNKnu+Hu0HEtqXHvSR3OtMxbZ6emKkK1jDF6Qb
- tZiWfo2yH+kpKYNhKRDH4POZo9yzy3YERKsSI8HBaHgviecOz5jfVexu0EIKUGLiUIMC
- GzTQ==
-X-Gm-Message-State: ACrzQf2IjF1ZTH9YvBNcTkubuHg+G4GE6WvasZQsTMZDhTQHRjFFZ4Xb
- Fl5c0n/jpfmM6nh/nUCMExg=
-X-Google-Smtp-Source: AMsMyM7ZQa2DiMhpN26ZGtW7L/xi7tJf2RX90DMZQvdqVwq0bPLH7ZNTlZ150wdhkXoNgXWjcPoMjA==
-X-Received: by 2002:a7b:cbc4:0:b0:3b4:fd67:d70d with SMTP id
- n4-20020a7bcbc4000000b003b4fd67d70dmr27546343wmi.98.1666200568163; 
- Wed, 19 Oct 2022 10:29:28 -0700 (PDT)
-Received: from elementary ([94.73.35.102]) by smtp.gmail.com with ESMTPSA id
- m1-20020a1c2601000000b003c452678025sm603453wmm.4.2022.10.19.10.29.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 10:29:27 -0700 (PDT)
-Date: Wed, 19 Oct 2022 19:29:19 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: David Gow <davidgow@google.com>
-Subject: Re: [PATCH] drm: tests: Fix a buffer overflow in format_helper_test
-Message-ID: <20221019172919.GA5336@elementary>
-References: <20221019073239.3779180-1-davidgow@google.com>
+X-Greylist: delayed 457 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Oct 2022 17:42:23 UTC
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADB710E36A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 17:42:23 +0000 (UTC)
+Received: from darkstar.musicnaut.iki.fi (85-76-8-144-nat.elisa-mobile.fi
+ [85.76.8.144])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: aaro.koskinen)
+ by meesny.iki.fi (Postfix) with ESMTPSA id 6C68C205A6;
+ Wed, 19 Oct 2022 20:34:39 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+ t=1666200880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gIG98sURNpqYREMByDWj4WJbfZaVepdUxI0t705Dn24=;
+ b=woiIGA7CBhVDCbqWL3ENjdTY8ljs/hXL9GUXVqyjFDRzgEwnu3SVbMH5801mKj1q+zd+UP
+ N8rZe/AK3Sfp7582bAFaZBDbbHjgUGyyATnri0WDt2Xc+egBIbWWIKEjYKFdAGUncOPmQE
+ +nOwqfjDcO4y1VYws8vGoHQ+SA/A2to=
+Date: Wed, 19 Oct 2022 20:34:37 +0300
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 14/17] ARM: omap1: remove dead code
+Message-ID: <20221019173437.GB41568@darkstar.musicnaut.iki.fi>
+References: <20221019144119.3848027-1-arnd@kernel.org>
+ <20221019150410.3851944-1-arnd@kernel.org>
+ <20221019150410.3851944-14-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221019073239.3779180-1-davidgow@google.com>
+In-Reply-To: <20221019150410.3851944-14-arnd@kernel.org>
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=aaro.koskinen smtp.mailfrom=aaro.koskinen@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1666200880; a=rsa-sha256; cv=none;
+ b=I/pBm0aTzCNCuLzHN+MVr6kleAVil0QyuIhK/c2YWJJr+BvybOpZ58a/l4FP0KbR0/NBPv
+ Ic8ehOpxamVv3kgysU1E9+j1nDAFiOiDoVrwmi6Rqr2BPo59v4GrJMCmgerqovuv5t8+8K
+ qwvvucjEMGPxjNOYrMLoyFq1Ebao1EM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+ s=meesny; t=1666200880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gIG98sURNpqYREMByDWj4WJbfZaVepdUxI0t705Dn24=;
+ b=Whocu0i/zmCyeCVGAmHY1hls48Sp7JYvAxZLb/yypsH236nuxpWrTHSMBrzQpgp30xSXZQ
+ fzjgRMTOc1KsGUITFPPPcjB4pzIqxl+ByucCf1NgsAuFJf+AA2aYX9LBBE/skOPLtfnFi7
+ iwPCUqDnzXGIFdpaXoN0ArUtBtc2QAY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,70 +70,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Naresh Kamboju <naresh.kamboju@linaro.org>,
+Cc: Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
+ Arnd Bergmann <arnd@arndb.de>, Kevin Hilman <khilman@kernel.org>,
+ Tony Lindgren <tony@atomide.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-usb@vger.kernel.org, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- javierm@redhat.com, =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Linux Kernel Functional Testing <lkft@linaro.org>, kunit-dev@googlegroups.com
+ linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org, Bin Liu <b-liu@ti.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 19, 2022 at 03:32:40PM +0800, David Gow wrote:
-> The xrgb2101010 format conversion test (unlike for other formats) does
-> an endianness conversion on the results. However, it always converts
-> TEST_BUF_SIZE 32-bit integers, which results in reading from (and
-> writing to) more memory than in present in the result buffer. Instead,
-> use the buffer size, divided by sizeof(u32).
-> 
-> The issue could be reproduced with KASAN:
-> ./tools/testing/kunit/kunit.py run --kunitconfig drivers/gpu/drm/tests \
-> 	--kconfig_add CONFIG_KASAN=y --kconfig_add CONFIG_KASAN_VMALLOC=y \
-> 	--kconfig_add CONFIG_KASAN_KUNIT_TEST=y \
-> 	drm_format_helper_test.*xrgb2101010
-> 
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Fixes: 453114319699 ("drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_xrgb2101010()")
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
-> 
-> This is a fix for the issue reported here:
-> https://lore.kernel.org/dri-devel/CA+G9fYsuc9G+RO81E=vHMqxYStsmLURLdOB0NF26kJ1=K8pRZA@mail.gmail.com/
-> 
-> Note that it may conflict with the KUNIT_EXPECT_MEMEQ() series here:
-> https://lore.kernel.org/linux-kselftest/20221018190541.189780-1-mairacanal@riseup.net/
-> 
-> Cheers,
-> -- David
-> 
-> ---
->  drivers/gpu/drm/tests/drm_format_helper_test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index 8d86c250c2ec..2191e57f2297 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -438,7 +438,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
->  	iosys_map_set_vaddr(&src, xrgb8888);
->  
->  	drm_fb_xrgb8888_to_xrgb2101010(&dst, &result->dst_pitch, &src, &fb, &params->clip);
-> -	buf = le32buf_to_cpu(test, buf, TEST_BUF_SIZE);
-> +	buf = le32buf_to_cpu(test, buf, dst_size / sizeof(u32));
->  	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
->  }
+Hi,
 
-Thanks a lot for fixing this bug David, I just tested it and
-worked as expected.
+On Wed, Oct 19, 2022 at 05:03:36PM +0200, Arnd Bergmann wrote:
+>  drivers/usb/phy/phy-isp1301-omap.c | 91 +-----------------------------
 
-Do you think that we should update the other calls to
-le32buf_to_cpu() to follow a similar approach?
+This driver and config option ISP1301_OMAP can be deleted altogether as
+there are no users after H2/H3 boards are gone.
 
-Regardless of a possible follow up patch:
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-
-Jose
-
->  
-> -- 
-> 2.38.0.413.g74048e4d9e-goog
-> 
+A.
