@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EFD603AF3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 09:52:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C6D603CEA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 10:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA9310F177;
-	Wed, 19 Oct 2022 07:51:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4AE10F1A6;
+	Wed, 19 Oct 2022 08:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 477C910F177;
- Wed, 19 Oct 2022 07:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666165911; x=1697701911;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=rWWHs2ECIi/neTcncyTpTkBknndbE497jczea1OBW0g=;
- b=MghysOjDEsTuw3kbIHmXUQJRA6GvoJprxluP6xZqPh/jglXkQ4oBOFAr
- /AlYdRlfjWXRqSFbD2NNtgtkL4aK2IW6Rtvl1IW1M924AfYwPWtpuEsm8
- vBHfZJ/L/f4oX8wzRcght6aN49dc6s+7bBwDqf22jyxGypPQQ4pdtwY4V
- s8erTx+hbc2zK9WtrpJ2tu8pdleUS2EadPFEVTh+Hv/dbS4CNkfrcA41k
- 9trNsJH3VuA7UE4MlWgmsQV8QR9rmkUfZutWmYy7L4maYs01tZvAKL4lv
- I0qCWgzYoou6CDVkBwCMf+7NLhsBq9NAzQyxrSfXnMr0Tj93jtmk6FptN w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="286053745"
-X-IronPort-AV: E=Sophos;i="5.95,195,1661842800"; d="scan'208";a="286053745"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 00:51:50 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="629129343"
-X-IronPort-AV: E=Sophos;i="5.95,195,1661842800"; d="scan'208";a="629129343"
-Received: from mosermix-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.50.2])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 00:51:48 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 3/4] drm/i915/gt: Use RC6 residency types as arguments
- to residency functions
-In-Reply-To: <20221019052043.3193842-4-ashutosh.dixit@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221019052043.3193842-1-ashutosh.dixit@intel.com>
- <20221019052043.3193842-4-ashutosh.dixit@intel.com>
-Date: Wed, 19 Oct 2022 10:51:45 +0300
-Message-ID: <87fsfki73i.fsf@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09CC610F1A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 08:54:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1E83BB82398;
+ Wed, 19 Oct 2022 08:53:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 681ADC433C1;
+ Wed, 19 Oct 2022 08:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1666169637;
+ bh=0n3wCM2FLB57ac0bicBovbICBhHb3K3wk0u9suBfZPM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=asJX0QaTJV8qDwBShXtiIXXHST2Qybn+sceGuRkw6+BW9Ed6TMkB6Bemzm2WfmJ/u
+ G1c2WwoHEUg/WUpDrK2fkWWT92B+zagQucJAkc9sJEeeNJao1WQL2qk/IJc/E6lwmY
+ A3UQv3oyYv3nugP2SEBSCQl8dlcrIULq37teh2fQ=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 6.0 352/862] video/aperture: Disable and unregister sysfb
+ devices via aperture helpers
+Date: Wed, 19 Oct 2022 10:27:19 +0200
+Message-Id: <20221019083305.595661084@linuxfoundation.org>
+X-Mailer: git-send-email 2.38.0
+In-Reply-To: <20221019083249.951566199@linuxfoundation.org>
+References: <20221019083249.951566199@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,62 +52,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>,
- Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Oct 2022, Ashutosh Dixit <ashutosh.dixit@intel.com> wrote:
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.h b/drivers/gpu/drm/i915/gt/intel_rc6.h
-> index b6fea71afc223..3105bc72c096b 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rc6.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.h
-> @@ -6,7 +6,7 @@
->  #ifndef INTEL_RC6_H
->  #define INTEL_RC6_H
->  
-> -#include "i915_reg_defs.h"
-> +#include "intel_rc6_types.h"
->  
->  struct intel_engine_cs;
->  struct intel_rc6;
-> @@ -21,7 +21,9 @@ void intel_rc6_sanitize(struct intel_rc6 *rc6);
->  void intel_rc6_enable(struct intel_rc6 *rc6);
->  void intel_rc6_disable(struct intel_rc6 *rc6);
->  
-> -u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, i915_reg_t reg);
-> -u64 intel_rc6_residency_us(struct intel_rc6 *rc6, i915_reg_t reg);
-> +u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, enum intel_rc6_res_type id);
-> +u64 intel_rc6_residency_us(struct intel_rc6 *rc6, enum intel_rc6_res_type id);
-> +void intel_rc6_print_residency(struct seq_file *m, const char *title,
-> +			       enum intel_rc6_res_type id);
->  
->  #endif /* INTEL_RC6_H */
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-Please apply this on top to avoid includes from includes.
+[ Upstream commit 5e01376124309b4dbd30d413f43c0d9c2f60edea ]
 
+Call sysfb_disable() before removing conflicting devices in aperture
+helpers. Fixes sysfb state if fbdev has been disabled.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.h b/drivers/gpu/drm/i915/gt/intel_rc6.h
-index 3105bc72c096..456fa668a276 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.h
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.h
-@@ -6,10 +6,11 @@
- #ifndef INTEL_RC6_H
- #define INTEL_RC6_H
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Fixes: fb84efa28a48 ("drm/aperture: Run fbdev removal before internal helpers")
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Changcheng Deng <deng.changcheng@zte.com.cn>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20220718072322.8927-8-tzimmermann@suse.de
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/aperture.c         | 14 ++++++++++++++
+ drivers/video/fbdev/core/fbmem.c | 12 ------------
+ 2 files changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 538f2d40acda..d245826a9324 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -8,6 +8,7 @@
+ #include <linux/pci.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/sysfb.h>
+ #include <linux/types.h>
+ #include <linux/vgaarb.h>
  
--#include "intel_rc6_types.h"
-+#include <linux/types.h>
+@@ -286,7 +287,20 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
+ #if IS_REACHABLE(CONFIG_FB)
+ 	struct apertures_struct *a;
+ 	int ret;
++#endif
++
++	/*
++	 * If a driver asked to unregister a platform device registered by
++	 * sysfb, then can be assumed that this is a driver for a display
++	 * that is set up by the system firmware and has a generic driver.
++	 *
++	 * Drivers for devices that don't have a generic driver will never
++	 * ask for this, so let's assume that a real driver for the display
++	 * was already probed and prevent sysfb to register devices later.
++	 */
++	sysfb_disable();
  
--struct intel_engine_cs;
-+enum intel_rc6_res_type;
- struct intel_rc6;
-+struct seq_file;
++#if IS_REACHABLE(CONFIG_FB)
+ 	a = alloc_apertures(1);
+ 	if (!a)
+ 		return -ENOMEM;
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 02b0cf2cfafe..bda4d304feb6 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -19,7 +19,6 @@
+ #include <linux/kernel.h>
+ #include <linux/major.h>
+ #include <linux/slab.h>
+-#include <linux/sysfb.h>
+ #include <linux/mm.h>
+ #include <linux/mman.h>
+ #include <linux/vt.h>
+@@ -1777,17 +1776,6 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
+ 		do_free = true;
+ 	}
  
- void intel_rc6_init(struct intel_rc6 *rc6);
- void intel_rc6_fini(struct intel_rc6 *rc6);
-
-
-
+-	/*
+-	 * If a driver asked to unregister a platform device registered by
+-	 * sysfb, then can be assumed that this is a driver for a display
+-	 * that is set up by the system firmware and has a generic driver.
+-	 *
+-	 * Drivers for devices that don't have a generic driver will never
+-	 * ask for this, so let's assume that a real driver for the display
+-	 * was already probed and prevent sysfb to register devices later.
+-	 */
+-	sysfb_disable();
+-
+ 	mutex_lock(&registration_lock);
+ 	do_remove_conflicting_framebuffers(a, name, primary);
+ 	mutex_unlock(&registration_lock);
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.35.1
+
+
+
