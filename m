@@ -2,92 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DD7604D40
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 18:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A113604D79
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 18:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDADB10F28E;
-	Wed, 19 Oct 2022 16:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 998C010E90E;
+	Wed, 19 Oct 2022 16:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CE210EB11;
- Wed, 19 Oct 2022 16:21:48 +0000 (UTC)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29JGEjn4003743;
- Wed, 19 Oct 2022 16:21:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=NxeAEX6y7SEdgIY5fGdtAxQAESsULBNpbrmzIFhGni4=;
- b=raS8UXTfU3i8rP/ZLiFhb7q++YTB+Gm2+tmp6hHoZlVHBPGK1nrTt5neTmwlD0fmUqlY
- 2jRD8hQ5OOkfisWALJH9oSwvuzRSXfe2H5bVcoiNcIRDO+VCQd2RciNl1ZiXiM4FTzWd
- entyua2VtlgIlRZiEKgsshAA35aZV1On+j5819/qcxaYuprxgz8Bxazhksqv+gajzUwm
- +cKUmA1djBBer7w0cJW2FOj6KObdNR5iLBWqtqe6WelGd2ZIePljOsBLDNg55q1rWweE
- mhso5s8tEVw2edvK0SY0XVoDW9QM8qJ/Ul1HJ/0AvNpLM3ur/KQ01NvdPnLknAbkJAgr 0g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kamk8r7fx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 16:21:45 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29JGGwRe015342;
- Wed, 19 Oct 2022 16:21:44 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kamk8r7e4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 16:21:44 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29JGLXIK030162;
- Wed, 19 Oct 2022 16:21:42 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma05fra.de.ibm.com with ESMTP id 3k7mg8wkby-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 16:21:41 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29JGLcMo25559420
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Oct 2022 16:21:38 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 96315AE051;
- Wed, 19 Oct 2022 16:21:38 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E154AE045;
- Wed, 19 Oct 2022 16:21:38 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 19 Oct 2022 16:21:38 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id DE8E0E1697; Wed, 19 Oct 2022 18:21:37 +0200 (CEST)
-From: Eric Farman <farman@linux.ibm.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>
-Subject: [PATCH v1 7/7] vfio: Remove vfio_free_device
-Date: Wed, 19 Oct 2022 18:21:35 +0200
-Message-Id: <20221019162135.798901-8-farman@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221019162135.798901-1-farman@linux.ibm.com>
-References: <20221019162135.798901-1-farman@linux.ibm.com>
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-centralusazon11013009.outbound.protection.outlook.com [52.101.64.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4528F10E90E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 16:32:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UeMP2UdF9Rc/sh4l3FP5xghvV6HLqjsYVU7KPc6B4DtZHU+T8pvOLdxGr1RllQFz4fmWjOWVEC+XH5/kXW9wyJ+z34yHCh2aigvMIC1rfUHrU2l+jvhXPMJjzhWOzIUIHCioASGntA9QgFS/PqDxC5sFlzoPWAfqi/ouMpXZnoOIrRWh6SaYIlyRjroIs2+6idqRiqvrDi0wJJl87l1bGr4nZf4edOmShbaWhky//RNuOWclbAT/7nDrKD170SD04bMXuwI3/kb3GW3QC4WQ4tx14dlbyABHmXbkZpRvxr5q1NAGlinWKqCRkEkBwlE40vkoAQNrgute2gPecYCrUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xz183M7+esU27ms3/n28H9unnCqgr+PGsItwimXmUH4=;
+ b=KdM1N5NwuyFxo126BnBDBR+HbT0845P4UNYAcY/1wkuy40merLoNNkrFW6KVJF65b6zn88rHW8BF7D6SdYWEEVvEkHIStZ2d26fgrI9SWhtjODu0TI8jH8uxL+eeBnlNxHbWxUnmlm3yN/zV+332xQoR0L2lS8nrMqvnzW2cIJ/Ohw17MFbJR98ZTY5McoGGWvinWGKd8VigMewSlbkMW+JGt6F13uakM75mVF2334TkKvxfdPTo2+CL/XsO2SBFaZQxVLh8IIdyPzhU8PnETJ8Pgkjtt2006fCavDRfbwpmbin5evS6izzaU7sjhl2/4j270hz3OMDOrHsUahXVZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xz183M7+esU27ms3/n28H9unnCqgr+PGsItwimXmUH4=;
+ b=OvjqcjTmyzMSpg944Muycu9ROilF2Lv6Y/Aw9jtP02FefucBAcA/CBGLQqLhnOeYKQR+rlUag0bFwsmCuXUG/wznbdTv6fKSz+FnYggNUrx/W7tBbuAvrLqWPAui2xVGPRnk8NrkrEzl/rdMv+UB4UktkOAQALrf53BjADdFJkE=
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
+ by BYAPR05MB4822.namprd05.prod.outlook.com (2603:10b6:a03:50::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.20; Wed, 19 Oct
+ 2022 16:32:41 +0000
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::d893:b27e:529:35ae]) by CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::d893:b27e:529:35ae%7]) with mapi id 15.20.5746.017; Wed, 19 Oct 2022
+ 16:32:41 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "thomas_os@shipmail.org" <thomas_os@shipmail.org>
+Subject: Re: [PATCH 05/16] drm/vmwgfx: Refactor resource validation hashtable
+ to use linux/hashtable implementation.
+Thread-Topic: [PATCH 05/16] drm/vmwgfx: Refactor resource validation hashtable
+ to use linux/hashtable implementation.
+Thread-Index: AQHY4mJWzAsU1TAPKUSNg5oUCn2LvK4VhFWAgABntQA=
+Date: Wed, 19 Oct 2022 16:32:40 +0000
+Message-ID: <3e4aab9f149159e3c860374f2d6fb33e1ec28c7c.camel@vmware.com>
+References: <20221017195440.311862-1-zack@kde.org>
+ <20221017195440.311862-6-zack@kde.org>
+ <968d3fa5-aa51-d388-7ec1-7c2e6dfb0911@shipmail.org>
+In-Reply-To: <968d3fa5-aa51-d388-7ec1-7c2e6dfb0911@shipmail.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY4PR05MB3047:EE_|BYAPR05MB4822:EE_
+x-ms-office365-filtering-correlation-id: 6db7c03b-6ed9-49bd-25ae-08dab1ef8ad9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rXGP5ft1uEpCdhXgrBFzjhAbv9AgZSKNBZtPpzXshxtUomxwONaLbLg8o0lm5so40kVsAhnaXohvd+tzQN4yhzRsfHpji24m46J4jHDPEF7DI6Rohs48tjJF9ysDcbQVd3ob096u2gZqv4CIMXVfaDTh/zD/sNqofO/mDusU1OlE1Rypxs5OuxMv8gwLQJ2T06dQEnHxVwLB+pLun00mvX8crTY2Gx8P+ZvG5eCYu4ZsDyrI+W5erE1NT28Lu3YYx3zjltYOyN0QUcTHrjgXdVhPS6QQj7zcmfqW/t6yk1VR7kOUfSdqjipj5DA0DzQgMyvCbbd94tbKClzIOA/zU9gFz8HPglEqMprAWIoE05yDBFClRwF/b3jl6MjdhLTQtLxJANlntScLaNTzlCfsrXwlmeA3R/GWNnaYN5ynz+h1a6bC9lqwqykiCq6UaEQmd7v9l9LMz0SQ0c6t3sjnQbnN9GWDzByE3nqlTQwiRma5Xn390bxkGWcrprZ7A0VEDmyKWiFyjkQqiqlTPnMZAIAOy+UeiKQhSt0bHLnWR/pSrAEQwVHqEwStlyPWwe3i6GBZBRdFiEF5+5noKrt0S00Z85iLfVIoc3nOHJUAVHoVzBoScbZveOa1LCqpeLIrB5cqwCUUQR+8udQRLeO2EgZOwAtLnNbgGOr4UXNVxC/d4GOBR/vUMYJSV/J4jlX7GKRThJ1PvYTLAxEwhnAX595hwIcTofEqyKziT83MD160aWtsmJ625+zxG5JBijBrkFOn64GMFLKVstTUptdkRMot6xN39IbyegyPSKkUMRZNAJPObAw2qCvtuZUEb+OD
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(136003)(396003)(376002)(366004)(346002)(451199015)(478600001)(71200400001)(83380400001)(86362001)(6486002)(76116006)(107886003)(66946007)(36756003)(91956017)(66476007)(66556008)(53546011)(66446008)(8676002)(6506007)(316002)(41300700001)(26005)(6512007)(8936002)(110136005)(4326008)(54906003)(5660300002)(2616005)(4001150100001)(2906002)(186003)(64756008)(122000001)(38070700005)(38100700002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dmFtK1d6WndPOEoxTEhoZVBmUUZpOSszWFRQVHdHT2RLa0ROMzlkeDZ2c0JS?=
+ =?utf-8?B?RUMvRkVIMjh4K3Bob3ZFNzVwRGpQaE1jMUdSVFRublk2ZWkzZHB2akhacDBq?=
+ =?utf-8?B?WHFDQy8xS0JualJ5YnZQUG5QN3lVNU1LbEEyOXkwSG00czNHRUpkdHBuU0lI?=
+ =?utf-8?B?TG5kU2JwV1Q3V1cwZ1M1Z0dUYm94QlBzV2haVUNBcEtXcGxTK0pFUUI1WGg2?=
+ =?utf-8?B?dHJjK3d2NXZDZXFBNEkxR0ZSbHNxUlhwWDlVUVdUU1Npb2hkckVKNWhub2JB?=
+ =?utf-8?B?RkFoc2pRT1liU1RDemxrODQ4M0Q2ckwzeVVRRUlGejlzdlVYd2hoN2xoS0pC?=
+ =?utf-8?B?V3JndkhBTHdrMXBUVkVJeUh2ZWhwVEh5YXk0bU02WTUrUjNvYkxOaHhkMDlL?=
+ =?utf-8?B?NWQ1VFoyUFNGb00zWkVmaU5jRHdSN1lGMEF6UE5HVlVxVWFncUFnT3lIb0ha?=
+ =?utf-8?B?d3N5QUFZaExnb3dLSmlHMjVLek54MmdVTnlVN1EvanhPaTErN3o5bm9EbHgz?=
+ =?utf-8?B?aDhUK3lrSk5QdVhpcnJzRXJnY3hmdVlnTVFPYXhpOWUvU2s3K0JyNWV1TVZN?=
+ =?utf-8?B?WTdONUtWS1pyMHZGc1BjYVlEWTMwbXZROGZpWkppQjRZN1k1eWlyWEJpeEds?=
+ =?utf-8?B?amo5SEdrQlQvd3JNdmZNcUpsOEt2cUk5ckoxUVlrMEY0Z1E1SDN3ZDdWT0o3?=
+ =?utf-8?B?bUNFWGxhZThjbkwzSjhUS2g1TnBTd0dsdWNIQ3QxSnpIN3Irc1duUTBoSjZj?=
+ =?utf-8?B?b0dINHZ2eTZaODN0QllwWFRDQVEwNnZSMHhrK0txVFo5WjJ5NlVtWlZpUmdD?=
+ =?utf-8?B?MkxNMktaTWpYVlJyNVNNUEZ6U3FrQTF5bHRmeWNmcXY4Z1J6OS90T0JlT1Z0?=
+ =?utf-8?B?QUNwRUpnejZqOHJTMjd0R1JzV3IvZnNzUGRXYU1HRzBONjUreUpjMGZWMFRH?=
+ =?utf-8?B?Q3RlTjd3ZGRyTWVjV0s1dVdUQ1ZJeGFlTm1NYUVOWCtmc0RvaGlYMjZXQVVh?=
+ =?utf-8?B?Zjg1bjJNeC82MEROTjcxNlVaWTI2V08vWDhIbVdNWi9PUEw0U0JYRnBVTWZJ?=
+ =?utf-8?B?ZFVlbG5tZkZoZWN5ck82SVhrNmNvNTBmWUtHTTdaNXBoaVRlR0paVVJpbUha?=
+ =?utf-8?B?S0w0TkEyUnMzcXN0ZjkyanZIRTBPbmdZSjI5UU44OGQ3cjVjR09ZczMwaUJy?=
+ =?utf-8?B?VytTdmpQM2RZR3hYbFhVT2ExaW5DcjdWaWlhSDBzSVY2ZDlMQXFXdkZ5WVhJ?=
+ =?utf-8?B?VE5SMTQveHdJTnFpd09RR3YwVkx4emtYbmJBRm5lY0dhVUloaCtLRi9PRTdx?=
+ =?utf-8?B?Ym8vR3lPY2pTUWZGMHBiUlB6ZVRONVpjWnlJblljYnF1NEVKZHc2bXpsajFF?=
+ =?utf-8?B?YWZxMFVkK0o5Qk9PSWtybHh5RURycU9yTU1Sa09YY0xnRnJLeERxQkRsYUc1?=
+ =?utf-8?B?Uk1YVDNtQUNuUkpRSzVseGFsalZCcjhsRmlGaTlBSDBhTE02R3BFTVNqOUEz?=
+ =?utf-8?B?ZVZLbFluVW91ekM1VS83em1YbjBuenVRMUlGdXdyaDZybWdUWWdCMXlGc2dC?=
+ =?utf-8?B?Qy96NXhYMGM5TmtYaWVGYnRkallkUzdKUkMyYXFNTVhweGMxMmxGU1lTUEUx?=
+ =?utf-8?B?V3FPSGw1TEN3b3hiN0d3N05maHNTRFgrcld3azc2MGRaRWdSdDlldDdrVWhS?=
+ =?utf-8?B?Z2YzNThFU2tGTFc2RGF2YWpJLy9LcENRT2dBNTFMUy8zR2FmZms5NURLZ2E3?=
+ =?utf-8?B?QlhGSEp5TnYvWC9wVmFDMWRTQzdZQ3RxUC9ReE5rK3hFTUlrVGFjSmlYeGZG?=
+ =?utf-8?B?SS9HVXZBTnFOOEt0aEFvanJibVBReGUrU2Vud09jYmp1WWJUNzlLT012M3VH?=
+ =?utf-8?B?OTBiLzE0NjdSZ3I1aStuQ0tUVktzYXBKVEtaUHRCclU1S1JNN3hrWWdKRFd6?=
+ =?utf-8?B?bzRMRTNJMUxTL1QzRDU5V0I5OFAwUm9FTUR1SUNTdWg4UlFWaHYyK05YUWgx?=
+ =?utf-8?B?RnBjQXFucXp4OXc2bUpXV1dQTytuVzV5U25DODZVLysxanV5aStZTEQ4NjZs?=
+ =?utf-8?B?UFFWMXozZXJGQ2ZRSWpLR0xnOUsrbi9zVzZ3SkxJNUFxdTN3TlpzTHo4VGtV?=
+ =?utf-8?Q?zo0Gi3IKP/cgWsX95Crk4cpLP?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6CD812303D5F144484823E061C4F9B61@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: zAbFvfe4Nj2K_GkYhz3CBCZArm828SqA
-X-Proofpoint-ORIG-GUID: uE-_Uc8slceGo_-vDCYUb_iBOHwfhWRP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-19_09,2022-10-19_04,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210190091
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6db7c03b-6ed9-49bd-25ae-08dab1ef8ad9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2022 16:32:41.0508 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Y1Sqvn5R/Uh9BCujDcB6CZpOzIWt+4B/pv2ZK4btZ2AcfBwePefXvmOHe/NwO3dP2+2rK79NwyxIQ4cajIjCOA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR05MB4822
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,232 +132,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Eric Auger <eric.auger@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
+Cc: Martin Krastev <krastevm@vmware.com>, Michael Banack <banackm@vmware.com>,
+ Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the "mess" sorted out, we should be able to inline the
-vfio_free_device call introduced by commit cb9ff3f3b84c
-("vfio: Add helpers for unifying vfio_device life cycle")
-and remove them from driver release callbacks.
-
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
----
- drivers/gpu/drm/i915/gvt/kvmgt.c      |  1 -
- drivers/s390/cio/vfio_ccw_ops.c       |  2 --
- drivers/s390/crypto/vfio_ap_ops.c     |  6 ------
- drivers/vfio/fsl-mc/vfio_fsl_mc.c     |  1 -
- drivers/vfio/pci/vfio_pci_core.c      |  1 -
- drivers/vfio/platform/vfio_amba.c     |  1 -
- drivers/vfio/platform/vfio_platform.c |  1 -
- drivers/vfio/vfio_main.c              | 22 ++++------------------
- include/linux/vfio.h                  |  1 -
- samples/vfio-mdev/mbochs.c            |  1 -
- samples/vfio-mdev/mdpy.c              |  1 -
- samples/vfio-mdev/mtty.c              |  1 -
- 12 files changed, 4 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index 7a45e5360caf..eee6805e67de 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -1461,7 +1461,6 @@ static void intel_vgpu_release_dev(struct vfio_device *vfio_dev)
- 	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
- 
- 	intel_gvt_destroy_vgpu(vgpu);
--	vfio_free_device(vfio_dev);
- }
- 
- static const struct vfio_device_ops intel_vgpu_dev_ops = {
-diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
-index 9619dc35080f..cfb2e5c8e717 100644
---- a/drivers/s390/cio/vfio_ccw_ops.c
-+++ b/drivers/s390/cio/vfio_ccw_ops.c
-@@ -144,8 +144,6 @@ static void vfio_ccw_mdev_release_dev(struct vfio_device *vdev)
- 	kmem_cache_free(vfio_ccw_io_region, private->io_region);
- 	kfree(private->cp.guest_cp);
- 	mutex_destroy(&private->io_mutex);
--
--	vfio_free_device(vdev);
- }
- 
- static void vfio_ccw_mdev_remove(struct mdev_device *mdev)
-diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
-index 0b4cc8c597ae..f108c0f14712 100644
---- a/drivers/s390/crypto/vfio_ap_ops.c
-+++ b/drivers/s390/crypto/vfio_ap_ops.c
-@@ -765,11 +765,6 @@ static void vfio_ap_mdev_unlink_fr_queues(struct ap_matrix_mdev *matrix_mdev)
- 	}
- }
- 
--static void vfio_ap_mdev_release_dev(struct vfio_device *vdev)
--{
--	vfio_free_device(vdev);
--}
--
- static void vfio_ap_mdev_remove(struct mdev_device *mdev)
- {
- 	struct ap_matrix_mdev *matrix_mdev = dev_get_drvdata(&mdev->dev);
-@@ -1784,7 +1779,6 @@ static const struct attribute_group vfio_queue_attr_group = {
- 
- static const struct vfio_device_ops vfio_ap_matrix_dev_ops = {
- 	.init = vfio_ap_mdev_init_dev,
--	.release = vfio_ap_mdev_release_dev,
- 	.open_device = vfio_ap_mdev_open_device,
- 	.close_device = vfio_ap_mdev_close_device,
- 	.ioctl = vfio_ap_mdev_ioctl,
-diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc.c b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-index b16874e913e4..7b8889f55007 100644
---- a/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-+++ b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-@@ -568,7 +568,6 @@ static void vfio_fsl_mc_release_dev(struct vfio_device *core_vdev)
- 
- 	vfio_fsl_uninit_device(vdev);
- 	mutex_destroy(&vdev->igate);
--	vfio_free_device(core_vdev);
- }
- 
- static int vfio_fsl_mc_remove(struct fsl_mc_device *mc_dev)
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index badc9d828cac..9be2d5be5d95 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -2109,7 +2109,6 @@ void vfio_pci_core_release_dev(struct vfio_device *core_vdev)
- 	mutex_destroy(&vdev->vma_lock);
- 	kfree(vdev->region);
- 	kfree(vdev->pm_save);
--	vfio_free_device(core_vdev);
- }
- EXPORT_SYMBOL_GPL(vfio_pci_core_release_dev);
- 
-diff --git a/drivers/vfio/platform/vfio_amba.c b/drivers/vfio/platform/vfio_amba.c
-index eaea63e5294c..18faf2678b99 100644
---- a/drivers/vfio/platform/vfio_amba.c
-+++ b/drivers/vfio/platform/vfio_amba.c
-@@ -95,7 +95,6 @@ static void vfio_amba_release_dev(struct vfio_device *core_vdev)
- 
- 	vfio_platform_release_common(vdev);
- 	kfree(vdev->name);
--	vfio_free_device(core_vdev);
- }
- 
- static void vfio_amba_remove(struct amba_device *adev)
-diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
-index 82cedcebfd90..9910451dc341 100644
---- a/drivers/vfio/platform/vfio_platform.c
-+++ b/drivers/vfio/platform/vfio_platform.c
-@@ -83,7 +83,6 @@ static void vfio_platform_release_dev(struct vfio_device *core_vdev)
- 		container_of(core_vdev, struct vfio_platform_device, vdev);
- 
- 	vfio_platform_release_common(vdev);
--	vfio_free_device(core_vdev);
- }
- 
- static int vfio_platform_remove(struct platform_device *pdev)
-diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-index 28f36c6d9d3f..8a1d83cbb05a 100644
---- a/drivers/vfio/vfio_main.c
-+++ b/drivers/vfio/vfio_main.c
-@@ -339,13 +339,10 @@ static void vfio_device_release(struct device *dev)
- 	vfio_release_device_set(device);
- 	ida_free(&vfio.device_ida, device->index);
- 
--	/*
--	 * kvfree() cannot be done here due to a life cycle mess in
--	 * vfio-ccw. Before the ccw part is fixed all drivers are
--	 * required to support @release and call vfio_free_device()
--	 * from there.
--	 */
--	device->ops->release(device);
-+	if (device->ops->release)
-+		device->ops->release(device);
-+
-+	kvfree(device);
- }
- 
- /*
-@@ -421,17 +418,6 @@ int vfio_init_device(struct vfio_device *device, struct device *dev,
- 	return ret;
- }
- 
--/*
-- * The helper called by driver @release callback to free the device
-- * structure. Drivers which don't have private data to clean can
-- * simply use this helper as its @release.
-- */
--void vfio_free_device(struct vfio_device *device)
--{
--	kvfree(device);
--}
--EXPORT_SYMBOL_GPL(vfio_free_device);
--
- static struct vfio_group *vfio_noiommu_group_alloc(struct device *dev,
- 		enum vfio_group_type type)
- {
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index e7cebeb875dd..47d33d5af467 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -178,7 +178,6 @@ struct vfio_device *_vfio_alloc_device(size_t size, struct device *dev,
- 
- int vfio_init_device(struct vfio_device *device, struct device *dev,
- 		     const struct vfio_device_ops *ops);
--void vfio_free_device(struct vfio_device *device);
- static inline void vfio_put_device(struct vfio_device *device)
- {
- 	put_device(&device->device);
-diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
-index 117a8d799f71..8b5a3a778a25 100644
---- a/samples/vfio-mdev/mbochs.c
-+++ b/samples/vfio-mdev/mbochs.c
-@@ -594,7 +594,6 @@ static void mbochs_release_dev(struct vfio_device *vdev)
- 	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
- 	kfree(mdev_state->pages);
- 	kfree(mdev_state->vconfig);
--	vfio_free_device(vdev);
- }
- 
- static void mbochs_remove(struct mdev_device *mdev)
-diff --git a/samples/vfio-mdev/mdpy.c b/samples/vfio-mdev/mdpy.c
-index 946e8cfde6fd..721fb06c6413 100644
---- a/samples/vfio-mdev/mdpy.c
-+++ b/samples/vfio-mdev/mdpy.c
-@@ -283,7 +283,6 @@ static void mdpy_release_dev(struct vfio_device *vdev)
- 
- 	vfree(mdev_state->memblk);
- 	kfree(mdev_state->vconfig);
--	vfio_free_device(vdev);
- }
- 
- static void mdpy_remove(struct mdev_device *mdev)
-diff --git a/samples/vfio-mdev/mtty.c b/samples/vfio-mdev/mtty.c
-index e72085fc1376..3c2a421b9b69 100644
---- a/samples/vfio-mdev/mtty.c
-+++ b/samples/vfio-mdev/mtty.c
-@@ -784,7 +784,6 @@ static void mtty_release_dev(struct vfio_device *vdev)
- 
- 	atomic_add(mdev_state->nr_ports, &mdev_avail_ports);
- 	kfree(mdev_state->vconfig);
--	vfio_free_device(vdev);
- }
- 
- static void mtty_remove(struct mdev_device *mdev)
--- 
-2.34.1
-
+T24gV2VkLCAyMDIyLTEwLTE5IGF0IDEyOjIxICswMjAwLCBUaG9tYXMgSGVsbHN0csO2bSAoSW50
+ZWwpIHdyb3RlOg0KPiDimqAgRXh0ZXJuYWwgRW1haWwNCj4gDQo+IE9uIDEwLzE3LzIyIDIxOjU0
+LCBaYWNrIFJ1c2luIHdyb3RlOg0KPiA+IEZyb206IE1hYXogTW9tYmFzYXdhbGEgPG1vbWJhc2F3
+YWxhbUB2bXdhcmUuY29tPg0KPiA+IA0KPiA+IFZtd2dmeCdzIGhhc2h0YWIgaW1wbGVtZW50YXRp
+b24gbmVlZHMgdG8gYmUgcmVwbGFjZWQgd2l0aCBsaW51eC9oYXNodGFibGUNCj4gPiB0byByZWR1
+Y2UgbWFpbnRlbmVuY2UgYnVyZGVuLg0KPiA+IEFzIHBhcnQgb2YgdGhpcyBlZmZvcnQsIHJlZmFj
+dG9yIHRoZSByZXNfaHQgaGFzaHRhYmxlIHVzZWQgZm9yIHJlc291cmNlDQo+ID4gdmFsaWRhdGlv
+biBkdXJpbmcgZXhlY2J1ZiBleGVjdXRpb24gdG8gdXNlIGxpbnV4L2hhc2h0YWJsZSBpbXBsZW1l
+bnRhdGlvbi4NCj4gPiBUaGlzIGFsc28gcmVmYWN0b3JzIHZtd192YWxpZGF0aW9uX2NvbnRleHQg
+dG8gdXNlIHZtd19zd19jb250ZXh0IGFzIHRoZQ0KPiA+IGNvbnRhaW5lciBmb3IgdGhlIGhhc2h0
+YWJsZSwgd2hlcmVhcyBiZWZvcmUgaXQgdXNlZCBhIHZtd2dmeF9vcGVuX2hhc2gNCj4gPiBkaXJl
+Y3RseS4gVGhpcyBtYWtlcyB2bXdfdmFsaWRhdGlvbl9jb250ZXh0IGxlc3MgZ2VuZXJpYywgYnV0
+IHRoZXJlIGlzDQo+ID4gbm8gZnVuY3Rpb25hbCBjaGFuZ2Ugc2luY2UgcmVzX2h0IGlzIHRoZSBv
+bmx5IGluc3RhbmNlIHdoZXJlIHZhbGlkYXRpb24NCj4gPiBjb250ZXh0IHVzZWQgYSBoYXNodGFi
+bGUgaW4gdm13Z2Z4IGRyaXZlci4NCj4gDQo+IFdoeSBpcyBhIHBvaW50ZXIgdG8gdGhlIHZtd19z
+d19jb250ZXh0IGFkZGVkIHRvIHRoZSB2YWxpZGF0aW9uIGNvbnRleHQsDQo+IHJhdGhlciB0aGFu
+IGEgcG9pbnRlciB0byB0aGUgbmV3IGhhc2ggdGFibGUgdHlwZSBpdHNlbGY/IFNlZW1zIGxpa2Ug
+YW4NCj4gdW5uZWNlc3NhcnkgaW5kaXJlY3Rpb24gd2hpY2ggYWRkcyBhIGRlcGVuZGVuY3kgb24g
+dGhlIHN3IGNvbnRleHQgdG8gdGhlDQo+IHZhbGlkYXRpb24gY29udGV4dD8NCg0KSGksIFRob21h
+cy4gVGhhbmtzIGZvciB0YWtpbmcgYSBsb29rIGF0IHRoaXMhIFRoYXQncyBiZWNhdXNlIHRoZSBl
+bnRpcmUgcHVibGljDQppbnRlcmZhY2Ugb2YgaGFzaHRhYmxlIGRlcGVuZHMgb24gaXQgYmVpbmcg
+YSBzdHJ1Y3Qgb24gd2hpY2ggc2l6ZW9mIHdvcmtzIHJhdGhlcg0KdGhhbiBhIHBvaW50ZXIsIGku
+ZS4gYWxtb3N0IHRoZSBlbnRpcmUgaW50ZXJmYWNlIG9mIGhhc3RoYmFsZS5oIGlzIGRlZmluZWQg
+YW5kIHRoZXkNCmFsbCByZXF1aXJlIHRoYXQgSEFTSF9TSVpFKGhhc2h0YWJsZSkgd2hpY2ggaXMg
+ZGVmaW5lZCBhcw0KI2RlZmluZSBIQVNIX1NJWkUoaGFzaHRhYmxlKSAoQVJSQVlfU0laRShoYXNo
+dGFibGUpKQ0Kd29ya3Mgb24gdGhlIGhhc2h0YWJsZS7CoFNvIHRoZSBpbnRlcmZhY2Ugb2YgaGFz
+aHRhYmxlLmggY2FuJ3Qgb3BlcmF0ZSBvbiBwb2ludGVycywNCmJ1dCByYXRoZXIgbmVlZHMgdGhl
+IGZ1bGwgc3RydWN0Lg0KDQpTbyB0aGUgb25seSB0d28gb3B0aW9ucyBhcmUgZWl0aGVyIHJld3Jp
+dGluZyB0aGUgZnVuY3Rpb25zIGZyb20gbGludXgvaGFzaHRhYmxlLmggdG8NCnRha2UgZXhwbGlj
+aXQgSEFTSF9TSVpFKGhhc2h0YWJsZSkgb3IgbWFrZSBzdXJlIHRoYXQgaW4gdGhlIGZ1bmN0aW9u
+cyB3aGVyZSB5b3Ugd2lsbA0KdXNlIGhhc2h0YWJsZS5oIHlvdSBwYXNzIHRoZSBwYXJlbnQgc3Ry
+dWN0IHNvIHRoYXQgc2l6ZW9mIG9uIHRoZSBoYXNodGFibGUgd29ya3MNCmNvcnJlY3RseS4gSSd2
+ZSBzZWVuIGJvdGggYXBwcm9hY2hlcyBpbiB0aGUga2VybmVsLCBidXQgaW4gdGhpcyBjYXNlIHdl
+IHRob3VnaHQgdGhlDQpsYXR0ZXIgbWFkZSBtb3JlIHNlbnNlLg0KDQoNCj4gPiArICAgICBpZiAo
+Y3R4LT5zd19jb250ZXh0KSB7DQo+ID4gICAgICAgICAgICAgICBzdHJ1Y3Qgdm13Z2Z4X2hhc2hf
+aXRlbSAqaGFzaDsNCj4gPiArICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcga2V5ID0gKHVuc2ln
+bmVkIGxvbmcpIHZibzsNCj4gPiANCj4gPiAtICAgICAgICAgICAgIGlmICghdm13Z2Z4X2h0X2Zp
+bmRfaXRlbShjdHgtPmh0LCAodW5zaWduZWQgbG9uZykgdmJvLCAmaGFzaCkpDQo+ID4gLSAgICAg
+ICAgICAgICAgICAgICAgIGJvX25vZGUgPSBjb250YWluZXJfb2YoaGFzaCwgdHlwZW9mKCpib19u
+b2RlKSwgaGFzaCk7DQo+ID4gKyAgICAgICAgICAgICBoYXNoX2Zvcl9lYWNoX3Bvc3NpYmxlX3Jj
+dShjdHgtPnN3X2NvbnRleHQtPnJlc19odCwgaGFzaCwgaGVhZCwga2V5KSB7DQo+IA0KPiBUaGlz
+IG9wZW4tY29kZWQgbG9vcCBzZWVtcyB0byBiZSB1c2VkIHRocm91Z2hvdXQgdGhlIGNvbnZlcnNp
+b24sIGFuZA0KPiBhbHNvIGluIG90aGVyIHBhdGNoZXMuIFBlcmhhcHMgYSBzbWFsbCBoZWxwZXIg
+aW4gcGxhY2U/DQoNClllcywgdGhhdCdzIGEgZ29vZCBpZGVhLiBXZSdsbCBzZWUgaWYgd2UgY2Fu
+IGFic3RyYWN0IHRoYXQuIFRoZSB0cmlja3kgYml0IG9mDQphYnN0cmFjdGluZyBjb2RlIHRoYXQn
+cyB1c2luZyBoYXNoXyogZnVuY3Rpb25zIGlzIHRoYXQsIGFzIG1lbnRpb25lZCBhYm92ZSwgdGhl
+c2UNCmFyZSBhbGwgbWFjcm9zIHRoYXQgZGVwZW5kIG9uIGhhc2h0YWJsZSBub3QgYmVpbmcgYSBw
+b2ludGVyLCBzbyBpZiB5b3UgY2FuJ3QgZml0DQp5b3VyIGhlbHBlciBpbiBhbm90aGVyIGRlZmlu
+ZSB0aGVuIHlvdSBoYXZlIHRoZSBzYW1lIGNob2ljZSBhcyBhYm92ZSAoaS5lLiByZXdyaXRlDQp3
+aGF0ZXZlciBoYXNoXyogZnVuY3Rpb24geW91IHdlcmUgdXNpbmcgdG8gYWxsb3cgZm9yIGV4cGxp
+Y2l0IGhhc2ggc2l6ZSwgb3IgbWFrZQ0KeW91ciBoZWxwZXIgdGFrZSB0aGUgcGFyZW50IG9mIHRo
+ZSBoYXNoIGFzIGFyZ3VtZW50KS4NCg0KDQo+IE90aGVyd2lzZSBMR1RNLg0KDQpUaGFua3MhIA0K
+DQp6DQo=
