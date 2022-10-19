@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B65605420
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 01:42:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B70605425
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 01:43:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5591E10E196;
-	Wed, 19 Oct 2022 23:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB00110EC03;
+	Wed, 19 Oct 2022 23:43:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F14FF10E170;
- Wed, 19 Oct 2022 23:42:32 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D85C410E8D2;
+ Wed, 19 Oct 2022 23:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666222953; x=1697758953;
+ t=1666222997; x=1697758997;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=m2LhorODYDEYn+lI7JgeKqTUFzhOcVOcHZbElf03kgo=;
- b=IP/ICfYtxVVSPlotnCJDvqa2kirgQfntXtRQ67NG7W7/oBKrtwc15BXX
- oeIcUjjIJVmR37cLh877+MEp2fNZurj8JbRpuDL5HH7/UwI/u+j1wpyKG
- M6kv2h60KEe/loV5ASEZwUZTD0wmb8XvQgcpIeXLriHMWoT3YIuiMRO4M
- VBLtQ9WIDSdyEJnJv6LvCVOmw0H0dzVdpaDrQw4v4bjFw/iGrCZkT08hG
- dRjIkLeFfpMulzz8TPMfsGfj0yRMjfQGB8Ij9NvBUsx28/KGy13TX2afM
- TLLmbYhS3BVxGp6/kvz7wbLz+EkVIgnZvImWsitVTbveva5qmgKxlGjCB g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="307658538"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="307658538"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 16:42:19 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="692638221"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="692638221"
+ bh=WsGDV6HZsVC/ZfBD66qJonoqyKnGtVIzH6dzcACyOgQ=;
+ b=J1eWxBPZXxW8hErn+wxcQLqCawACIpVyzUNzsfcBwxLuDiGux9Cq50c3
+ 9yMNJymxw263UaSR6hZNETjQovEtcpI7SSO25O4XlD6Csg4XQElVKMG3a
+ LS3bWwwCVTsd6dTOCDBlulUNZi7mEM4AbweyqVTRC+GRcNK+gbPhwtC3g
+ Z7y0ewHWVvlgdoDLsD0L8F+DkdQmPOXk4lFJxZdKES114EXtvqXm7/WMX
+ efofcoBRexOD/KWmNA+ToT11fpUwb/pyOkdUDiz6ajDmhr738JZZQ6Sgy
+ HL7RJZ/x0o7GTmVyhX3qwHReU+85YWsNk0T404GkuUpuWsV1vzfLjF9Cd w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="305294911"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="305294911"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 16:43:17 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="874673029"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="874673029"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.69.147])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 16:42:18 -0700
-Date: Wed, 19 Oct 2022 16:42:03 -0700
-Message-ID: <87tu3zido4.wl-ashutosh.dixit@intel.com>
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 16:43:16 -0700
+Date: Wed, 19 Oct 2022 16:43:01 -0700
+Message-ID: <87sfjjidmi.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
 To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 1/4] drm/i915: Use GEN12_RPSTAT register for GT freq
-In-Reply-To: <Y1AScuZGIHeBHmsE@intel.com>
-References: <20221019052043.3193842-1-ashutosh.dixit@intel.com>	<20221019052043.3193842-2-ashutosh.dixit@intel.com>	<Y1AScuZGIHeBHmsE@intel.com>
+Subject: Re: [PATCH 2/4] drm/i915/mtl: Modify CAGF functions for MTL
+In-Reply-To: <Y1AQhT4n4lYUUh9z@intel.com>
+References: <20221019052043.3193842-1-ashutosh.dixit@intel.com>	<20221019052043.3193842-3-ashutosh.dixit@intel.com>	<Y1AQhT4n4lYUUh9z@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -64,52 +64,66 @@ Cc: Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Oct 2022 08:06:26 -0700, Rodrigo Vivi wrote:
+On Wed, 19 Oct 2022 07:58:13 -0700, Rodrigo Vivi wrote:
 >
-
-Hi Rodrigo,
-
-> On Tue, Oct 18, 2022 at 10:20:40PM -0700, Ashutosh Dixit wrote:
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > index 36d95b79022c0..a7a0129d0e3fc 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > @@ -1543,6 +1543,8 @@
-> >
-> >  #define GEN12_RPSTAT1				_MMIO(0x1381b4)
-> >  #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
-> > +#define   GEN12_CAGF_SHIFT			11
->
-> we don't need to define the shift if we use the REG_FIELD_GET
-
-Yes I was also suggesting this but then went ahead with the mask/shift
-based code to match previous style in the function.
-
-In any case based on your suggestions I have added a new patch is series
-version v8 which converts all previous branches in intel_rps_get_cagf to
-REG_FIELD_GET so that the new code can also consistently use REG_FIELD_GET.
-
->
-> > +#define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
->
-> ah, cool, this is already right and in place
-> (ignore my comment about this in the other patch)
-
-> >  u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
-> >  {
+> On Tue, Oct 18, 2022 at 10:20:41PM -0700, Ashutosh Dixit wrote:
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> > index df21258976d86..5a743ae4dd11e 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> > @@ -2093,7 +2093,9 @@ u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
 > >	struct drm_i915_private *i915 = rps_to_i915(rps);
 > >	u32 cagf;
 > >
-> > -	if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
-> > +	if (GRAPHICS_VER(i915) >= 12)
-> > +		cagf = (rpstat & GEN12_CAGF_MASK) >> GEN12_CAGF_SHIFT;
+> > -	if (GRAPHICS_VER(i915) >= 12)
+> > +	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
+> > +		cagf = rpstat & MTL_CAGF_MASK;
 >
->		cagf = REG_FIELD_GET(GEN12_CAGF_MASK, rpstat);
+> I believe we should advocate more the use of the REG_FIELD_GET
 >
-> > +	else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+>   cagf = REG_FIELD_GET(MTL_CAGF_MASK, rpstat);
+>
+> > +	else if (GRAPHICS_VER(i915) >= 12)
+> >		cagf = (rpstat & GEN12_CAGF_MASK) >> GEN12_CAGF_SHIFT;
+>
+> cagf = REG_FIELD_GET(GEN12_CAGF_MASK, rpstat);
+> // witht the proper REG_GENAMSK usage on the gen12_cagf_mask...
+>
+> >	else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
 > >		cagf = (rpstat >> 8) & 0xff;
-> >	else if (GRAPHICS_VER(i915) >= 9)
-> >		cagf = (rpstat & GEN9_CAGF_MASK) >> GEN9_CAGF_SHIFT;
+>
+>  #define RPE_MASK REG_GENMASK(15, 8)
+>          cagf = REG_FIELD_GET(RPE_MASK, rpstat)
+
+All these are now converted to REG_FIELD_GET in series version v8.
+
+> > @@ -2116,7 +2118,13 @@ static u32 read_cagf(struct intel_rps *rps)
+> >	struct intel_uncore *uncore = rps_to_uncore(rps);
+>                             ^
+>
+> >	u32 freq;
+> >
+> > -	if (GRAPHICS_VER(i915) >= 12) {
+> > +	/*
+> > +	 * For Gen12+ reading freq from HW does not need a forcewake and
+> > +	 * registers will return 0 freq when GT is in RC6
+> > +	 */
+> > +	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70)) {
+> > +		freq = intel_uncore_read(rps_to_gt(rps)->uncore, MTL_MIRROR_TARGET_WP1);
+>
+> here we should use directly the local uncore already declared above with
+> the same helper...  and consistent with the following elses...
+
+Fixed.
+
+>
+> > +	} else if (GRAPHICS_VER(i915) >= 12) {
+> >		freq = intel_uncore_read(uncore, GEN12_RPSTAT1);
+> >	} else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915)) {
+> >		vlv_punit_get(i915);
+> > --
+> > 2.38.0
+> >
 
 Thanks.
 --
