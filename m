@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EBD604969
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 16:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09240604971
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 16:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B17110F244;
-	Wed, 19 Oct 2022 14:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5632010EAFA;
+	Wed, 19 Oct 2022 14:38:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C008210F259
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 14:38:04 +0000 (UTC)
-Date: Wed, 19 Oct 2022 14:37:57 +0000
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEBDE10F246
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 14:38:15 +0000 (UTC)
+Date: Wed, 19 Oct 2022 14:38:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1666190283; x=1666449483;
- bh=PDxabIOW9zboILGrHVwtaZSKqlTEi/EeacCbHYBWwm0=;
+ s=protonmail3; t=1666190294; x=1666449494;
+ bh=AJ/NhkKI17Ftil+Sy94WvvfneYSB2CFlvcaabqi8NjY=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID;
- b=EVqglfItFfSyWz9tFM17Xvidg8Tv49Cq12CnXH1MAcgTMgjkrNUe32uA1hMzWIzr8
- nH55kLLYE57DkJv/6BSw8MQ8Ctcuw+fBD6RYv0O24qMugzQwGiWClYRYJz4lT5qWL1
- KjLjf78HWCh2CUu4yC+bZVIHSPE8CKSZ3IWM0fH5YCzhROpkjU67eB1D2uX1tVCeEO
- 3wRMMmZb4BhwU0cXYeL1CZJiYMYJOTrk+LlaR1w/559WilyOioNaWd6YckukJDM8LD
- jJLmA+5xhhPggxQ4iqTanmBUR0lY/AGAu9KK4qktJGSZdLLz6sJIc0pbDhYUUGxnAl
- aT39t8c68s8RQ==
+ b=fAqjS9KF+nV2DKrSKTp03jcytUjhsoRbeqy4UK3QGxzKlzg7wH4tJJ49u8BbnYiu7
+ VzQwovnTyj244NxclseYSjMrLX+SigvVQYkZRq1llKb3e151vdpeHzmdEjo2hpmY7b
+ 59CF6AVZsrh0Mc5DELSgdprESa/dfnrAALFQp9+TgE9hcyTCABlEE77dBOYTe0rKw8
+ A2iyLi/KmEnjfLvwgwsFrL//NY4du1IW4YDT6J6u+r/fIULs9Vb0PecG6EURLqI5/b
+ dV4WGtO+gOZB+/QPTpr0V5VMYYZYuv5QIgxwhbLqU5yZ31SZXzQy9jUdIgLciv3FXm
+ hc2AjrbKVsgHw==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH 3/7] drm/atomic: log when getting/setting unknown properties
-Message-ID: <20221019143736.267324-3-contact@emersion.fr>
+Subject: [PATCH 4/7] drm/atomic: log when CRTC_ID prop value is invalid
+Message-ID: <20221019143736.267324-4-contact@emersion.fr>
 In-Reply-To: <20221019143736.267324-1-contact@emersion.fr>
 References: <20221019143736.267324-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
@@ -55,72 +55,44 @@ Signed-off-by: Simon Ser <contact@emersion.fr>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_uapi.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic=
 _uapi.c
-index 826cb2212b26..39f3f491c148 100644
+index 39f3f491c148..5aa2ecd1af3d 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -498,8 +498,13 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
- =09=09*val =3D state->scaling_filter;
- =09else if (crtc->funcs->atomic_get_property)
- =09=09return crtc->funcs->atomic_get_property(crtc, state, property, val);
--=09else
-+=09else {
-+=09=09drm_dbg_atomic(dev,
-+=09=09=09       "[CRTC:%d:%s] unknown property [PROP:%d:%s]\n",
-+=09=09=09       crtc->base.id, crtc->name,
-+=09=09=09       property->base.id, property->name);
- =09=09return -EINVAL;
-+=09}
+@@ -539,8 +539,12 @@ static int drm_atomic_plane_set_property(struct drm_pl=
+ane *plane,
+ =09} else if (property =3D=3D config->prop_crtc_id) {
+ =09=09struct drm_crtc *crtc =3D drm_crtc_find(dev, file_priv, val);
 =20
- =09return 0;
- }
-@@ -645,6 +650,10 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
- =09} else if (plane->funcs->atomic_get_property) {
- =09=09return plane->funcs->atomic_get_property(plane, state, property, val=
-);
- =09} else {
-+=09=09drm_dbg_atomic(dev,
-+=09=09=09       "[PLANE:%d:%s] unknown property [PROP:%d:%s]\n",
-+=09=09=09       plane->base.id, plane->name,
-+=09=09=09       property->base.id, property->name);
- =09=09return -EINVAL;
- =09}
+-=09=09if (val && !crtc)
++=09=09if (val && !crtc) {
++=09=09=09drm_dbg_atomic(dev,
++=09=09=09=09       "[PROP:%d:%s] cannot find CRTC with ID %llu\n",
++=09=09=09=09       property->base.id, property->name, val);
+ =09=09=09return -EACCES;
++=09=09}
+ =09=09return drm_atomic_set_crtc_for_plane(state, crtc);
+ =09} else if (property =3D=3D config->prop_crtc_x) {
+ =09=09state->crtc_x =3D U642I64(val);
+@@ -695,8 +699,12 @@ static int drm_atomic_connector_set_property(struct dr=
+m_connector *connector,
+ =09if (property =3D=3D config->prop_crtc_id) {
+ =09=09struct drm_crtc *crtc =3D drm_crtc_find(dev, file_priv, val);
 =20
-@@ -861,6 +870,10 @@ drm_atomic_connector_get_property(struct drm_connector=
- *connector,
- =09=09return connector->funcs->atomic_get_property(connector,
- =09=09=09=09state, property, val);
- =09} else {
-+=09=09drm_dbg_atomic(dev,
-+=09=09=09       "[CONNECTOR:%d:%s] unknown property [PROP:%d:%s]\n",
-+=09=09=09       connector->base.id, connector->name,
-+=09=09=09       property->base.id, property->name);
- =09=09return -EINVAL;
- =09}
-=20
-@@ -899,6 +912,7 @@ int drm_atomic_get_property(struct drm_mode_object *obj=
-,
- =09=09break;
- =09}
- =09default:
-+=09=09drm_dbg_atomic(dev, "[OBJECT:%d] has no properties\n", obj->id);
- =09=09ret =3D -EINVAL;
- =09=09break;
- =09}
-@@ -1035,6 +1049,7 @@ int drm_atomic_set_property(struct drm_atomic_state *=
-state,
- =09=09break;
- =09}
- =09default:
-+=09=09drm_dbg_atomic(prop->dev, "[OBJECT:%d] has no properties\n", obj->id=
-);
- =09=09ret =3D -EINVAL;
- =09=09break;
- =09}
+-=09=09if (val && !crtc)
++=09=09if (val && !crtc) {
++=09=09=09drm_dbg_atomic(dev,
++=09=09=09=09       "[PROP:%d:%s] cannot find CRTC with ID %llu\n",
++=09=09=09=09       property->base.id, property->name, val);
+ =09=09=09return -EACCES;
++=09=09}
+ =09=09return drm_atomic_set_crtc_for_connector(state, crtc);
+ =09} else if (property =3D=3D config->dpms_property) {
+ =09=09/* setting DPMS property requires special handling, which
 --=20
 2.38.0
 
