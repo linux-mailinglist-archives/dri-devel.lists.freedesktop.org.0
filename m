@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D656050F7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 22:04:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AA6605103
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 22:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1B6610E035;
-	Wed, 19 Oct 2022 20:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037EE10E07A;
+	Wed, 19 Oct 2022 20:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0100A10E18B;
- Wed, 19 Oct 2022 20:04:22 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93DC10E00A;
+ Wed, 19 Oct 2022 20:07:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666209863; x=1697745863;
+ t=1666210060; x=1697746060;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=XbX8zen/dwVhMyMWOeMEHWSEnWgZu1plEqAtXalgCFU=;
- b=QK/Q41gMS1nYPPF4+gWqDUvoyLDgAAJRka9HfL4W9iPaf+jg/J8g0e2Y
- 5KMadhUBWZH909oqx97fDQGSGt3IFARauI/OfDdYHz/cSsC2O8oiWOHkz
- eR5+p6+TyzBbi/g53YQUNaWmT8jVxMjPRFq7nzI7uTotVk7D4X3YNyWZp
- M/wHRC6qCJrA1vBOYWZNmLVdNQdNhMOTLdtUnCdjN30zwYRRSW2nMJaS4
- WDgi3Gr2xe05AQUt9EdoJkorKKhqpeB7vOec4FAmvadb81WNsp/UTicTq
- PZkGBY/tu4cTCsfCh3waKMMILR7/BQWHERzJ9RPK3t4nUKnkB2Lxks2SQ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="392820407"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="392820407"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 13:04:08 -0700
+ bh=nKzsJm4pqQVlZfNpCa5TDJAV/i7ukl/c1Mi8LLg7k3g=;
+ b=LNEY8ySj0lMuLhwNqcsQtCesvinb1IemqZBSo6XqvTd0E5dtzsGbfVCA
+ 27nKCAUlA7m1D4kn2JZhy0HAMlKiiZxj1U/69E5HXbEFgzca9ZBsdj/DD
+ oHH7LtAUdalFEC/uDZxbPKMLr4B3PjqCeaoXJieXsDthh43H9GM26xmnO
+ 6vXyhpDZnb2wYWN95GKt2fNuBdoKZ63NZ8ijH0UjWPtxoM+acjDKl21zN
+ ruK9wYLWeHtqZj2CiqN1GDgGWaexiCcELxCp/ubEeB0/os72EfsxI/9dT
+ cQRsDJY6Rp482j9XCechi1pFtUniXuGwu9wQqy1Jc3A8Lx8e9Yhp/hZjp w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="305253271"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="305253271"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 13:07:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="624288702"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="624288702"
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="754742153"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="754742153"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga007.jf.intel.com with SMTP; 19 Oct 2022 13:04:05 -0700
+ by orsmga004.jf.intel.com with SMTP; 19 Oct 2022 13:07:37 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 19 Oct 2022 23:04:04 +0300
-Date: Wed, 19 Oct 2022 23:04:04 +0300
+ Wed, 19 Oct 2022 23:07:36 +0300
+Date: Wed, 19 Oct 2022 23:07:36 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 06/15] drm/edid: rename drm_add_override_edid_modes() to
- drm_edid_override_connector_update()
-Message-ID: <Y1BYNJQaWqghOi8r@intel.com>
+Subject: Re: [PATCH 09/15] drm/edid: detach debugfs EDID override from EDID
+ property update
+Message-ID: <Y1BZCPI8Fz353Aw9@intel.com>
 References: <cover.1665496046.git.jani.nikula@intel.com>
- <768e11394c1689f19da20eb55ac2c883d5613428.1665496046.git.jani.nikula@intel.com>
+ <b68842462d58ca3c550049a95687f0ead81d615c.1665496046.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <768e11394c1689f19da20eb55ac2c883d5613428.1665496046.git.jani.nikula@intel.com>
+In-Reply-To: <b68842462d58ca3c550049a95687f0ead81d615c.1665496046.git.jani.nikula@intel.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,83 +66,167 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 11, 2022 at 04:49:40PM +0300, Jani Nikula wrote:
-> Follow the naming of both EDID override functions as well as
-> drm_edid_connector_update(). This also matches better what the function
-> does; a combination of EDID property update and add modes. Indeed it
-> should later be converted to call drm_edid_connector_update().
-
-All the function names around that stuff still make my head spin,
-but hopefully it'll clear up eventually when all the cruft has
-disappeared.
-
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
+On Tue, Oct 11, 2022 at 04:49:43PM +0300, Jani Nikula wrote:
+> Having the EDID override debugfs directly update the EDID property is
+> problematic. The update is partial only. The driver has no way of
+> knowing it's been updated. Mode list is not updated. It's an
+> inconsistent state.
+> 
+> Detach debugfs EDID override from the property update completely. Only
+> set and reset a separate override EDID copy from debugfs, and have it
+> take effect only at detect (via EDID read). The copy is at
+> connector->edid_override.
+> 
+> This also brings override EDID closer to firmware EDID in behaviour.
+> 
+> Add validation of the override EDID which we completely lacked.
+> 
+> Note that IGT already forces a detect whenever tests update the override
+> EDID.
 > 
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->  drivers/gpu/drm/drm_edid.c         | 6 +++---
->  drivers/gpu/drm/drm_probe_helper.c | 2 +-
->  include/drm/drm_edid.h             | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/drm_edid.c  | 56 ++++++++++++-------------------------
+>  include/drm/drm_connector.h | 11 +++++---
+>  2 files changed, 25 insertions(+), 42 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 1ada36e0d826..8baa46dc2537 100644
+> index c3cf942186b7..0f2898badd51 100644
 > --- a/drivers/gpu/drm/drm_edid.c
 > +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -2227,7 +2227,7 @@ int drm_edid_override_reset(struct drm_connector *connector)
+> @@ -2207,8 +2207,8 @@ static struct edid *drm_get_override_edid(struct drm_connector *connector,
+>  {
+>  	struct edid *override = NULL;
+>  
+> -	if (connector->override_edid)
+> -		override = drm_edid_duplicate(connector->edid_blob_ptr->data);
+> +	if (connector->edid_override)
+> +		override = drm_edid_duplicate(connector->edid_override->edid);
+>  
+>  	if (!override)
+>  		override = drm_load_edid_firmware(connector);
+> @@ -2223,10 +2223,10 @@ static struct edid *drm_get_override_edid(struct drm_connector *connector,
+>  /* For debugfs edid_override implementation */
+>  int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m)
+>  {
+> -	struct drm_property_blob *edid = connector->edid_blob_ptr;
+> +	const struct drm_edid *drm_edid = connector->edid_override;
+>  
+> -	if (connector->override_edid && edid)
+> -		seq_write(m, edid->data, edid->length);
+> +	if (drm_edid)
+> +		seq_write(m, drm_edid->edid, drm_edid->size);
+>  
+>  	return 0;
+>  }
+> @@ -2235,32 +2235,33 @@ int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m)
+>  int drm_edid_override_set(struct drm_connector *connector, const void *edid,
+>  			  size_t size)
+>  {
+> -	int ret;
+> +	drm_edid_free(connector->edid_override);
+>  
+> -	if (size < EDID_LENGTH || edid_size(edid) > size)
+> +	connector->edid_override = drm_edid_alloc(edid, size);
+> +	if (!drm_edid_valid(connector->edid_override)) {
+> +		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override invalid\n",
+> +			    connector->base.id, connector->name);
+> +		drm_edid_free(connector->edid_override);
+> +		connector->edid_override = NULL;
+>  		return -EINVAL;
+
+Hmm. Should we perhaps invest in some locking around these parts?
+
+> -
+> -	connector->override_edid = false;
+> +	}
+>  
+>  	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override set\n",
+>  		    connector->base.id, connector->name);
+>  
+> -	ret = drm_connector_update_edid_property(connector, edid);
+> -	if (!ret)
+> -		connector->override_edid = true;
+> -
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  /* For debugfs edid_override implementation */
+>  int drm_edid_override_reset(struct drm_connector *connector)
+>  {
+> -	connector->override_edid = false;
+> -
+>  	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override reset\n",
+>  		    connector->base.id, connector->name);
+>  
+> -	return drm_connector_update_edid_property(connector, NULL);
+> +	drm_edid_free(connector->edid_override);
+> +	connector->edid_override = NULL;
+> +
+> +	return 0;
 >  }
 >  
 >  /**
-> - * drm_add_override_edid_modes - add modes from override/firmware EDID
-> + * drm_edid_override_connector_update - add modes from override/firmware EDID
->   * @connector: connector we're probing
->   *
->   * Add modes from the override/firmware EDID, if available. Only to be used from
-> @@ -2237,7 +2237,7 @@ int drm_edid_override_reset(struct drm_connector *connector)
->   *
->   * Return: The number of modes added or 0 if we couldn't find any.
->   */
-> -int drm_add_override_edid_modes(struct drm_connector *connector)
-> +int drm_edid_override_connector_update(struct drm_connector *connector)
+> @@ -6634,23 +6635,6 @@ int drm_edid_connector_update(struct drm_connector *connector,
 >  {
->  	struct edid *override;
->  	int num_modes = 0;
-> @@ -2254,7 +2254,7 @@ int drm_add_override_edid_modes(struct drm_connector *connector)
+>  	int count;
 >  
->  	return num_modes;
->  }
-> -EXPORT_SYMBOL(drm_add_override_edid_modes);
-> +EXPORT_SYMBOL(drm_edid_override_connector_update);
+> -	/*
+> -	 * FIXME: Reconcile the differences in override_edid handling between
+> -	 * this and drm_connector_update_edid_property().
+> -	 *
+> -	 * If override_edid is set, and the EDID passed in here originates from
+> -	 * drm_edid_read() and friends, it will be the override EDID, and there
+> -	 * are no issues. drm_connector_update_edid_property() ignoring requests
+> -	 * to set the EDID dates back to a time when override EDID was not
+> -	 * handled at the low level EDID read.
+> -	 *
+> -	 * The only way the EDID passed in here can be different from the
+> -	 * override EDID is when a driver passes in an EDID that does *not*
+> -	 * originate from drm_edid_read() and friends, or passes in a stale
+> -	 * cached version. This, in turn, is a question of when an override EDID
+> -	 * set via debugfs should take effect.
+> -	 */
+> -
+>  	count = _drm_edid_connector_update(connector, drm_edid);
 >  
->  typedef int read_block_fn(void *context, u8 *buf, unsigned int block, size_t len);
->  
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 69b0b2b9cc1c..2fc21df709bc 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -367,7 +367,7 @@ static int drm_helper_probe_get_modes(struct drm_connector *connector)
->  	 * override/firmware EDID.
+>  	_drm_update_tile_info(connector, drm_edid);
+> @@ -6665,10 +6649,6 @@ EXPORT_SYMBOL(drm_edid_connector_update);
+>  static int _drm_connector_update_edid_property(struct drm_connector *connector,
+>  					       const struct drm_edid *drm_edid)
+>  {
+> -	/* ignore requests to set edid when overridden */
+> -	if (connector->override_edid)
+> -		return 0;
+> -
+>  	/*
+>  	 * Set the display info, using edid if available, otherwise resetting
+>  	 * the values to defaults. This duplicates the work done in
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index b1b2df48d42c..09a7d7f23e4a 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1550,12 +1550,15 @@ struct drm_connector {
+>  	struct drm_cmdline_mode cmdline_mode;
+>  	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
+>  	enum drm_connector_force force;
+> +
+>  	/**
+> -	 * @override_edid: has the EDID been overwritten through debugfs for
+> -	 * testing? Do not modify outside of drm_edid_override_set() and
+> -	 * drm_edid_override_reset().
+> +	 * @edid_override: Override EDID set via debugfs.
+> +	 *
+> +	 * Do not modify or access outside of the drm_edid_override_* family of
+> +	 * functions.
 >  	 */
->  	if (count == 0 && connector->status == connector_status_connected)
-> -		count = drm_add_override_edid_modes(connector);
-> +		count = drm_edid_override_connector_update(connector);
+> -	bool override_edid;
+> +	const struct drm_edid *edid_override;
+> +
+>  	/** @epoch_counter: used to detect any other changes in connector, besides status */
+>  	u64 epoch_counter;
 >  
->  	return count;
->  }
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 429735b91f63..05380681a4fb 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -577,7 +577,7 @@ struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
->  				     struct i2c_adapter *adapter);
->  struct edid *drm_edid_duplicate(const struct edid *edid);
->  int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid);
-> -int drm_add_override_edid_modes(struct drm_connector *connector);
-> +int drm_edid_override_connector_update(struct drm_connector *connector);
->  
->  u8 drm_match_cea_mode(const struct drm_display_mode *to_match);
->  bool drm_detect_hdmi_monitor(const struct edid *edid);
 > -- 
 > 2.34.1
 
