@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880D060541D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 01:41:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2436660541F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 01:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC1710E8F5;
-	Wed, 19 Oct 2022 23:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A51DE10E1C2;
+	Wed, 19 Oct 2022 23:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C1110E170;
- Wed, 19 Oct 2022 23:41:07 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A260410E196;
+ Wed, 19 Oct 2022 23:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666222867; x=1697758867;
+ t=1666222900; x=1697758900;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=0nTXPRUfKJ1yfC+94li1b10lkZ7ZEfCVohCFDHsiNYA=;
- b=Z9xl9ea0DKL+LN6HsAFc2W7/dkhe/3LtOuDhLLQ19LMGaZcAPKzc33Hx
- 43yZ1oWpNySID6CWtf9LssQcfkjEIUMdyWllymzKNL8ofVstbGScgDNmc
- tN7tVq1nD/CovaxVagx4ZXG0Kb7CD+a2+FVUIxxNzM9jUq/2fm+9fAKu6
- MLyQYj0a2k6eKFZ1Cv0nYF4xa7DBkEQCR/L9/WPxdGbHcmJBPkHAYCizh
- 6NL4hkL2fLlGSRzwSTpKQlaV4I0b0TzQjdg+nAUQ8rZ9bBSso9r6RYRN5
- GpG6ZJRXypoJvdPhF3RUl4CzTLxz0qh+5mGUrLzpm3zkZHE61e3MBxO2F Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="308240422"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="308240422"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 16:41:06 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="662709999"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="662709999"
+ bh=a5K2RrkC6aI3RkW2vGkDkxh4EyJEWqzVKCaLXCAvXcc=;
+ b=DTgXxjfrKasZ6dZiX3bfI/Ll+30m0+m+yKxgr8j4Kk+++KWGBTq6bZfh
+ kftMrX15/aLjTH1l77VSI74N9ZHhGKMAPdV2pqwIRxVzuGwbCphkn99j7
+ HuJ8/HoDbuJRk8uC1ypzkfsLPKM7K8CaKBeSrHUJCc9HmWhH1FZEZZ11c
+ Uks8DnaDuSF8NMYUHz336CvLmEmqG7ZvsyS6X/ChItay0d4P/rT3gq+uv
+ dmGsL4V6n+uID6lYXo/b6yBFTeD3vP5jIZCUJCI7TcNFmN3xyEjwq9GiP
+ 1zXbs07WjuWdV1AZFI6lQfX+/MuCBXX2cRWKqvdhmR4SzBJICe7/4OlgA A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="307658426"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="307658426"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 16:41:39 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="580580018"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="580580018"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.69.147])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2022 16:41:06 -0700
-Date: Wed, 19 Oct 2022 16:40:51 -0700
-Message-ID: <87wn8vidq4.wl-ashutosh.dixit@intel.com>
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 16:41:39 -0700
+Date: Wed, 19 Oct 2022 16:41:25 -0700
+Message-ID: <87v8ofidp6.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 3/4] drm/i915/gt: Use RC6 residency types as arguments to
- residency functions
-In-Reply-To: <87fsfki73i.fsf@intel.com>
-References: <20221019052043.3193842-1-ashutosh.dixit@intel.com>	<20221019052043.3193842-4-ashutosh.dixit@intel.com>	<87fsfki73i.fsf@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 3/3] drm/i915/mtl: C6 residency and C state type for MTL
+ SAMedia
+In-Reply-To: <87bkqajjke.wl-ashutosh.dixit@intel.com>
+References: <20221015032618.2458429-1-ashutosh.dixit@intel.com>	<20221015032618.2458429-4-ashutosh.dixit@intel.com>	<87bkqajjke.wl-ashutosh.dixit@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -60,63 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
- Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Oct 2022 00:51:45 -0700, Jani Nikula wrote:
+On Mon, 17 Oct 2022 13:12:33 -0700, Dixit, Ashutosh wrote:
 >
-> On Tue, 18 Oct 2022, Ashutosh Dixit <ashutosh.dixit@intel.com> wrote:
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.h b/drivers/gpu/drm/i915/gt/intel_rc6.h
-> > index b6fea71afc223..3105bc72c096b 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_rc6.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_rc6.h
-> > @@ -6,7 +6,7 @@
-> >  #ifndef INTEL_RC6_H
-> >  #define INTEL_RC6_H
+> On Fri, 14 Oct 2022 20:26:18 -0700, Ashutosh Dixit wrote:
 > >
-> > -#include "i915_reg_defs.h"
-> > +#include "intel_rc6_types.h"
+> > From: Badal Nilawar <badal.nilawar@intel.com>
+>
+> Hi Badal,
+>
+> One question below.
+>
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> > index 1fb053cbf52db..3a9bb4387248e 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> > @@ -256,6 +256,61 @@ static int ilk_drpc(struct seq_file *m)
+> >	return 0;
+> >  }
 > >
-> >  struct intel_engine_cs;
-> >  struct intel_rc6;
-> > @@ -21,7 +21,9 @@ void intel_rc6_sanitize(struct intel_rc6 *rc6);
-> >  void intel_rc6_enable(struct intel_rc6 *rc6);
-> >  void intel_rc6_disable(struct intel_rc6 *rc6);
-> >
-> > -u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, i915_reg_t reg);
-> > -u64 intel_rc6_residency_us(struct intel_rc6 *rc6, i915_reg_t reg);
-> > +u64 intel_rc6_residency_ns(struct intel_rc6 *rc6, enum intel_rc6_res_type id);
-> > +u64 intel_rc6_residency_us(struct intel_rc6 *rc6, enum intel_rc6_res_type id);
-> > +void intel_rc6_print_residency(struct seq_file *m, const char *title,
-> > +			       enum intel_rc6_res_type id);
-> >
-> >  #endif /* INTEL_RC6_H */
+> > +static int mtl_drpc(struct seq_file *m)
+> > +{
 >
-> Please apply this on top to avoid includes from includes.
+> Here we have:
 >
+> > +	global_forcewake = intel_uncore_read(uncore, FORCEWAKE_GT_GEN9);
+> and
+> > +	seq_printf(m, "Global Forcewake Requests: 0x%x\n", global_forcewake);
 >
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.h b/drivers/gpu/drm/i915/gt/intel_rc6.h
-> index 3105bc72c096..456fa668a276 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rc6.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.h
-> @@ -6,10 +6,11 @@
->  #ifndef INTEL_RC6_H
->  #define INTEL_RC6_H
+> In gen6_drpc we have:
 >
-> -#include "intel_rc6_types.h"
-> +#include <linux/types.h>
+>	mt_fwake_req = intel_uncore_read_fw(uncore, FORCEWAKE_MT);
+> and
+>	seq_printf(m, "Multi-threaded Forcewake Request: 0x%x\n", mt_fwake_req);
 >
-> -struct intel_engine_cs;
-> +enum intel_rc6_res_type;
->  struct intel_rc6;
-> +struct seq_file;
+> Also:
+>	#define FORCEWAKE_MT		_MMIO(0xa188)
+>	#define FORCEWAKE_GT_GEN9	_MMIO(0xa188)
 >
->  void intel_rc6_init(struct intel_rc6 *rc6);
->  void intel_rc6_fini(struct intel_rc6 *rc6);
+> So they are both the same register. So what is the reason for this
+> difference, which one should we use?
+>
+> Also let's have the prints in the same order as gen6_drpc (move fw request
+> before rc6 residency).
 
-Thanks, done in series version v8.
+This has been made identical to gen6_drpc in series v8.
 
+Thanks.
+--
 Ashutosh
