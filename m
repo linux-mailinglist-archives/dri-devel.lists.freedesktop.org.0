@@ -1,63 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB86D604DA0
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 18:40:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED95604DA6
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Oct 2022 18:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F4610E55F;
-	Wed, 19 Oct 2022 16:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17B3910EB11;
+	Wed, 19 Oct 2022 16:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEEE10E55F
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 16:40:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 06CA63F333;
- Wed, 19 Oct 2022 18:40:26 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -5.06
-X-Spam-Level: 
-X-Spam-Status: No, score=-5.06 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.961,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: pio-pvt-msa3.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cMW9B3ypcCCt; Wed, 19 Oct 2022 18:40:24 +0200 (CEST)
-Received: by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 1338C3F325;
- Wed, 19 Oct 2022 18:40:23 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 289EE3602C5;
- Wed, 19 Oct 2022 18:40:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1666197623; bh=0Vw5Dho/l3G4bQtINth6VrjbuQeM6ddK9UoxIpvsKsk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cy1vk/qnIOOOy+8sbMU/Z8Xi7GvRcqpTQekdpl0k8L2c3pt6NqcCVE9uGUnK+rMgQ
- 5kMOAELqExxA94SiX//qPy9+d4VIkQHvDcWEjSwBbsAI+DL3U5K0EMfgixWEDWtckH
- sMTLQNPSmuqgpn/OjAR09gbXtA1eUDbZQ1avr9bA=
-Message-ID: <bb98e4a5-66f4-a870-d477-8f42ade27fa9@shipmail.org>
-Date: Wed, 19 Oct 2022 18:40:21 +0200
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0F9110E9AC;
+ Wed, 19 Oct 2022 16:42:20 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id v1so815762wrt.11;
+ Wed, 19 Oct 2022 09:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3/Bs6kqrgFABQQtvnbn0RONHCOV7yYxUierShgwEzj0=;
+ b=csninIMN7NpCVdWPdIHu+FWpPJfw99JQQFHm4/LkHBGyBsuuv/HRwVbjzBr0hqUXW1
+ VOMnsqHyflUsWkuJqruYMyUw1ECEX3RD8YrfqUSYDS7lKzmCncZXMefbM4Ohz1ja0e8s
+ zYPa5/5+PQ9eINqUWyxHLD9yiFOPsY9nH6Rj/wRwFNgMr4G3pxlcK9oO6JqSk9aMj5HF
+ dOxe7qXNzD9heP8ZRoIF0KUS9ohf3W9mGfgiQb1XqcFh9s7hJiGVgFHimZU5COaDYV8n
+ AG0BsJVTWwCnMiuyeJG+6RH4fwIF/UiE8efkzOzlSQlJA1/1l+EemgHtP/+buD66n0wp
+ k8/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3/Bs6kqrgFABQQtvnbn0RONHCOV7yYxUierShgwEzj0=;
+ b=2LgOzAfCmPn/Ilq7/klpWp/u9AQSRPZxkEx/4ZenWEAT4D/XKScjMKtmwTiX2HNn/l
+ pZsCm8fvUm4xteAMt8ROw83zvx4i9PC1+ko/Jzi8frxqnAbfLSMpYOVNfRkB4QbXmDnG
+ uD+wtJxpnqM9gC6Phkbu6gx/kSSSsgEBU1mugXcmgz+LOFXhicAIyI68OshKs6Kq+5pQ
+ /jsp0Rf43H68saYQxX/8m9a1jxyWNMX3zubsyQBoiO7tpmkS1ViiZuB0cmvJ4yFjD5pp
+ 4Hw/RgH/8Gil/9a7602mDNl7/w/FaxIUdQC8isz0HHTVel4kknX8CEVJ+vlO4a6jdxBV
+ vn1g==
+X-Gm-Message-State: ACrzQf1o5YpTdusjq6EY5ga94jViwwUqtlhLdhDZySBOnAUNpJBlq4kH
+ DrwURtgcg9SCXg07gxD3SdY=
+X-Google-Smtp-Source: AMsMyM6FbFe+xgSmtLC0J5g/aLs0PRG5EusmnYk0UBNnzoZXi4WDqQLggbZr7JTO39AzloodIES8ng==
+X-Received: by 2002:a05:6000:15ce:b0:230:a14d:997b with SMTP id
+ y14-20020a05600015ce00b00230a14d997bmr5950739wry.370.1666197739107; 
+ Wed, 19 Oct 2022 09:42:19 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:f4ab:6c74:114:840d?
+ ([2a02:908:1256:79a0:f4ab:6c74:114:840d])
+ by smtp.gmail.com with ESMTPSA id
+ m17-20020a7bca51000000b003c6237e867esm511899wml.0.2022.10.19.09.42.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Oct 2022 09:42:18 -0700 (PDT)
+Message-ID: <be2d7a93-5062-0582-0e6b-e4a3a73fb6d8@gmail.com>
+Date: Wed, 19 Oct 2022 18:42:17 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 05/16] drm/vmwgfx: Refactor resource validation hashtable
- to use linux/hashtable implementation.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/6] drm/ttm: rework on ttm_resource to use size_t type
 Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20221017195440.311862-1-zack@kde.org>
- <20221017195440.311862-6-zack@kde.org>
- <968d3fa5-aa51-d388-7ec1-7c2e6dfb0911@shipmail.org>
- <3e4aab9f149159e3c860374f2d6fb33e1ec28c7c.camel@vmware.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <3e4aab9f149159e3c860374f2d6fb33e1ec28c7c.camel@vmware.com>
+To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20221019152736.654451-1-Amaranath.Somalapuram@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20221019152736.654451-1-Amaranath.Somalapuram@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +77,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>, Michael Banack <banackm@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>
+Cc: alexander.deucher@amd.com, shashank.sharma@amd.com,
+ christian.koenig@amd.com, arunpravin.paneerselvam@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Zack,
+Am 19.10.22 um 17:27 schrieb Somalapuram Amaranath:
+> Change ttm_resource structure from num_pages to size_t size in bytes.
 
-On 10/19/22 18:32, Zack Rusin wrote:
-> On Wed, 2022-10-19 at 12:21 +0200, Thomas Hellström (Intel) wrote:
->> ⚠ External Email
->>
->> On 10/17/22 21:54, Zack Rusin wrote:
->>> From: Maaz Mombasawala <mombasawalam@vmware.com>
->>>
->>> Vmwgfx's hashtab implementation needs to be replaced with linux/hashtable
->>> to reduce maintenence burden.
->>> As part of this effort, refactor the res_ht hashtable used for resource
->>> validation during execbuf execution to use linux/hashtable implementation.
->>> This also refactors vmw_validation_context to use vmw_sw_context as the
->>> container for the hashtable, whereas before it used a vmwgfx_open_hash
->>> directly. This makes vmw_validation_context less generic, but there is
->>> no functional change since res_ht is the only instance where validation
->>> context used a hashtable in vmwgfx driver.
->> Why is a pointer to the vmw_sw_context added to the validation context,
->> rather than a pointer to the new hash table type itself? Seems like an
->> unnecessary indirection which adds a dependency on the sw context to the
->> validation context?
-> Hi, Thomas. Thanks for taking a look at this! That's because the entire public
-> interface of hashtable depends on it being a struct on which sizeof works rather
-> than a pointer, i.e. almost the entire interface of hasthbale.h is defined and they
-> all require that HASH_SIZE(hashtable) which is defined as
-> #define HASH_SIZE(hashtable) (ARRAY_SIZE(hashtable))
-> works on the hashtable. So the interface of hashtable.h can't operate on pointers,
-> but rather needs the full struct.
+When you remove the num_pages field (instead of adding the size 
+additionally) you need to change all drivers in one patch.
+
+Otherwise the build would break in between patches and that's not 
+something we can do.
+
 >
-> So the only two options are either rewriting the functions from linux/hashtable.h to
-> take explicit HASH_SIZE(hashtable) or make sure that in the functions where you will
-> use hashtable.h you pass the parent struct so that sizeof on the hashtable works
-> correctly. I've seen both approaches in the kernel, but in this case we thought the
-> latter made more sense.
+> Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c            | 4 ++--
+>   drivers/gpu/drm/ttm/ttm_bo_util.c       | 6 +++---
+>   drivers/gpu/drm/ttm/ttm_bo_vm.c         | 4 ++--
+>   drivers/gpu/drm/ttm/ttm_range_manager.c | 2 +-
+>   drivers/gpu/drm/ttm/ttm_resource.c      | 8 ++++----
+>   include/drm/ttm/ttm_resource.h          | 2 +-
+>   6 files changed, 13 insertions(+), 13 deletions(-)
 >
-Ah, Ok, yes, tricky one. Lots of options, none of them perfect.
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 7c8e8be774f1..394ccb13eaed 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -51,8 +51,8 @@ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
+>   	struct ttm_resource_manager *man;
+>   	int i, mem_type;
+>   
+> -	drm_printf(&p, "No space for %p (%lu pages, %zuK, %zuM)\n",
+> -		   bo, bo->resource->num_pages, bo->base.size >> 10,
+> +	drm_printf(&p, "No space for %p (%lu size, %zuK, %zuM)\n",
+> +		   bo, bo->resource->size, bo->base.size >> 10,
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Please just remove printing the resource size completely here.
 
+>   		   bo->base.size >> 20);
+>   	for (i = 0; i < placement->num_placement; i++) {
+>   		mem_type = placement->placement[i].mem_type;
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index fa04e62202c1..da5493f789df 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -173,7 +173,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>   
+>   	clear = src_iter->ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm));
+>   	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC)))
+> -		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
+> +		ttm_move_memcpy(clear, PFN_UP(dst_mem->size), dst_iter, src_iter);
+
+Please use ttm->num_pages here (IIRC).
+
+>   
+>   	if (!src_iter->ops->maps_tt)
+>   		ttm_kmap_iter_linear_io_fini(&_src_iter.io, bdev, src_mem);
+> @@ -357,9 +357,9 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
+>   
+>   	map->virtual = NULL;
+>   	map->bo = bo;
+> -	if (num_pages > bo->resource->num_pages)
+> +	if (num_pages > PFN_UP(bo->resource->size))
+>   		return -EINVAL;
+> -	if ((start_page + num_pages) > bo->resource->num_pages)
+> +	if ((start_page + num_pages) > PFN_UP(bo->resource->size))
+>   		return -EINVAL;
+>   
+>   	ret = ttm_mem_io_reserve(bo->bdev, bo->resource);
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index 38119311284d..876e7d07273c 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -217,7 +217,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+>   	page_last = vma_pages(vma) + vma->vm_pgoff -
+>   		drm_vma_node_start(&bo->base.vma_node);
+>   
+> -	if (unlikely(page_offset >= bo->resource->num_pages))
+> +	if (unlikely(page_offset >= PFN_UP(bo->resource->size)))
+
+Please use bo->base.size here. The resource size can actually be larger 
+than the BO size, but the extra space shouldn't be CPU map-able.
+
+>   		return VM_FAULT_SIGBUS;
+>   
+>   	prot = ttm_io_prot(bo, bo->resource, prot);
+> @@ -412,7 +412,7 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+>   		 << PAGE_SHIFT);
+>   	int ret;
+>   
+> -	if (len < 1 || (offset + len) >> PAGE_SHIFT > bo->resource->num_pages)
+> +	if (len < 1 || (offset + len) > bo->resource->size)
+
+Same here, please use bo->base.size.
+
+>   		return -EIO;
+>   
+>   	ret = ttm_bo_reserve(bo, true, false, NULL);
+> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+> index f7c16c46cfbc..0a8bc0b7f380 100644
+> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+> @@ -83,7 +83,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+>   
+>   	spin_lock(&rman->lock);
+>   	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
+> -					  node->base.num_pages,
+> +					  PFN_UP(node->base.size),
+>   					  bo->page_alignment, 0,
+>   					  place->fpfn, lpfn, mode);
+>   	spin_unlock(&rman->lock);
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index a729c32a1e48..f9cce0727d40 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -177,7 +177,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>   	struct ttm_resource_manager *man;
+>   
+>   	res->start = 0;
+> -	res->num_pages = PFN_UP(bo->base.size);
+> +	res->size = bo->base.size;
+>   	res->mem_type = place->mem_type;
+>   	res->placement = place->flags;
+>   	res->bus.addr = NULL;
+> @@ -192,7 +192,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>   		list_add_tail(&res->lru, &bo->bdev->pinned);
+>   	else
+>   		list_add_tail(&res->lru, &man->lru[bo->priority]);
+> -	man->usage += res->num_pages << PAGE_SHIFT;
+> +	man->usage += res->size;
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   }
+>   EXPORT_SYMBOL(ttm_resource_init);
+> @@ -214,7 +214,7 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
+>   
+>   	spin_lock(&bdev->lru_lock);
+>   	list_del_init(&res->lru);
+> -	man->usage -= res->num_pages << PAGE_SHIFT;
+> +	man->usage -= res->size;
+>   	spin_unlock(&bdev->lru_lock);
+>   }
+>   EXPORT_SYMBOL(ttm_resource_fini);
+> @@ -665,7 +665,7 @@ ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io *iter_io,
+>   		iosys_map_set_vaddr(&iter_io->dmap, mem->bus.addr);
+>   		iter_io->needs_unmap = false;
+>   	} else {
+> -		size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
+> +		size_t bus_size = (size_t)mem->size;
+
+I think we can remove the local variable now, or is that used in some 
+kind of loop?
+
+Thanks,
+Christian.
+
+>   
+>   		iter_io->needs_unmap = true;
+>   		memset(&iter_io->dmap, 0, sizeof(iter_io->dmap));
+> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> index 5afc6d664fde..f93c9e52b063 100644
+> --- a/include/drm/ttm/ttm_resource.h
+> +++ b/include/drm/ttm/ttm_resource.h
+> @@ -208,7 +208,7 @@ struct ttm_bus_placement {
+>    */
+>   struct ttm_resource {
+>   	unsigned long start;
+> -	unsigned long num_pages;
+> +	size_t size;
+>   	uint32_t mem_type;
+>   	uint32_t placement;
+>   	struct ttm_bus_placement bus;
 
