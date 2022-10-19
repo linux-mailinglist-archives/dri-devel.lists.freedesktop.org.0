@@ -1,36 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CCA60584E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 09:21:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89188605855
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 09:22:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1DB10E38F;
-	Thu, 20 Oct 2022 07:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA7310E3B6;
+	Thu, 20 Oct 2022 07:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 450 seconds by postgrey-1.36 at gabe;
- Wed, 19 Oct 2022 21:21:04 UTC
 Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr
  [80.12.242.26])
- by gabe.freedesktop.org (Postfix) with ESMTP id 903F810E74E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 21:21:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 85A2810E74E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Oct 2022 21:21:22 +0000 (UTC)
 Received: from sopl295.home ([109.220.248.156]) by smtp.orange.fr with ESMTPA
- id lGNMo1N0Kg7y2lGNMocFLS; Wed, 19 Oct 2022 23:13:31 +0200
+ id lGNoo1NB2g7y2lGNpocFOd; Wed, 19 Oct 2022 23:13:51 +0200
 X-ME-Helo: sopl295.home
 X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Wed, 19 Oct 2022 23:13:31 +0200
+X-ME-Date: Wed, 19 Oct 2022 23:13:51 +0200
 X-ME-IP: 109.220.248.156
 From: Robert Jarzmik <jarzmik.robert@orange.fr>
 To: Arnd Bergmann <arnd@kernel.org>
 Subject: Re: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
-References: <20221019161831.3864786-1-arnd@kernel.org>
-X-URL: http://belgarath.falguerolles.org/
-Date: Wed, 19 Oct 2022 23:13:20 +0200
 In-Reply-To: <20221019161831.3864786-1-arnd@kernel.org> (Arnd Bergmann's
  message of "Wed, 19 Oct 2022 18:17:53 +0200")
-Message-ID: <m2sfjjh5zj.fsf@sopl295.home>
+References: <20221019161831.3864786-1-arnd@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
+X-URL: http://belgarath.falguerolles.org/
+Date: Wed, 19 Oct 2022 23:13:48 +0200
+Message-ID: <m2r0z3h5yr.fsf@sopl295.home>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Mailman-Approved-At: Thu, 20 Oct 2022 07:21:18 +0000
