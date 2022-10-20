@@ -1,37 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CDF605C0C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 12:17:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1C7605C3B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 12:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB7A10E04A;
-	Thu, 20 Oct 2022 10:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A35B710E421;
+	Thu, 20 Oct 2022 10:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8FB3B10E04A
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 10:17:12 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E650ED1;
- Thu, 20 Oct 2022 03:17:17 -0700 (PDT)
-Received: from [10.1.33.24] (e122027.cambridge.arm.com [10.1.33.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02FE33F792;
- Thu, 20 Oct 2022 03:17:09 -0700 (PDT)
-Message-ID: <d26a03e4-801e-11b3-93df-566f6f0887a9@arm.com>
-Date: Thu, 20 Oct 2022 11:17:08 +0100
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F4A510E1A1;
+ Thu, 20 Oct 2022 10:24:38 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ bg9-20020a05600c3c8900b003bf249616b0so1839712wmb.3; 
+ Thu, 20 Oct 2022 03:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=338ew+i7lhPhhsRwFXebT4YiHgbE5e7sWqj7Y/pRaLI=;
+ b=pb8WX3HWaEJ0WTcDPURYIIYexJdp7jutkc+9DRribLrBrMheWwvoPTL69Kp3TgYLQU
+ /q5buwPNLNvXPYtgmbvDTRPU3Cf9rN8af39laD6hNylMLhOlUWZcdjcuSnzgCp6h22Od
+ /UuAQx1kzlARdQpq1xCwWoxDsm6WpgvcDhpEBGnxXMx7fyn+WxlJMB4yb5j7IGFpA5IY
+ JowuZeey7HLVUqI08CfxheelbkMeehuJYR+H4MMaYbpc9lOToq3WbPhuta/kpStUn9rM
+ Vs9FHcrWbF1cOoeU5N3b7QVUDeUPRpfB22qrSTrmwu6xTG2wpQ1sJ9Hb+8npd6UyRrVT
+ hFlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=338ew+i7lhPhhsRwFXebT4YiHgbE5e7sWqj7Y/pRaLI=;
+ b=aqhRxitrBf0Hs30dko7Ohfq4km3psY1XatozheiFXk5IsqXZ9VsrdTR6GnQeydux/8
+ rW9TXs93teXvncI/oV57QUKPlkqN9IhZgYLG3vGRfaWzPbEKWfHDKSkQP4zgYxCEOFtl
+ RbLpuANLQVWzR92T3yd2SNN1fvpS82gWhGFpniIweud7EeqPtbgZ9ggmGqEM+HUC8/8H
+ fjKB75edNxtAv9O2LwvMDGfvD1yhDUloSwrpkEyf/B8dfkkU1KieCaz2uln0v9QY4Cq2
+ nh3cnlnIb4P2pArZNxZ7sIDJMQ0LKWJZ8yoeUGtiLW31Djyon4jXxQbBxFLDAww8qy6q
+ /O3A==
+X-Gm-Message-State: ACrzQf2S18CXT6orlO/94sV7Ol/OKp2dKDFVnprL4z+gclqWEZSR+5S1
+ o0Bm+NOoZBlNGYL2gBx6pq0=
+X-Google-Smtp-Source: AMsMyM5WmolYkONk0FMYkPzqo4dahEZcXdn77VTv+ezaYrMPOagr//Hcwc+NtW4Wt6SJLMDRMTxFKw==
+X-Received: by 2002:a05:600c:5486:b0:3b4:7e47:e19 with SMTP id
+ iv6-20020a05600c548600b003b47e470e19mr8729825wmb.12.1666261476483; 
+ Thu, 20 Oct 2022 03:24:36 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ n14-20020a5d67ce000000b0022da3977ec5sm16088946wrw.113.2022.10.20.03.24.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 03:24:36 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: fix incorrect function name in comment block
+Date: Thu, 20 Oct 2022 11:24:35 +0100
+Message-Id: <20221020102435.1527436-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 0/2] drm/panfrost: Fix UAPI for C++/BSD compatibility
-To: Alyssa Rosenzweig <alyssa@collabora.com>
-References: <20221017104602.142992-1-steven.price@arm.com>
- <Y014Vh1hGahjqUlB@maud>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <Y014Vh1hGahjqUlB@maud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,54 +77,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Adri??n Larumbe <adrian.larumbe@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/10/2022 16:44, Alyssa Rosenzweig wrote:
-> Series is
-> 
-> 	Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> 
-> Thank you for this, please push to the appropriate trees so we can fix
-> the Mesa build.
+The function name in the comment block for intel_vgpu_emulate_cfg_write is
+incorrect. Fix it.
 
-Thanks! I've pushed the patches to drm-misc-fixes.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/i915/gvt/cfg_space.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Steve
-
-> On Mon, Oct 17, 2022 at 11:46:00AM +0100, Steven Price wrote:
->> The Panfrost DRM interface to user space is uesd in Mesa for targets
->> other than C/Linux. Specifically the header file needs to compile in C++
->> code and for FreeBSD which shares the same UABI.
->>
->> The first patch fixes the C++ compilation issue by removing the
->> (unnecessary) type name from internal structs which is invalid in C++.
->>
->> The second patch technically changes the UABI by changing the header
->> values in the dump format to be native endian rather than fixed
->> little-endian. Since (a) there are no known big-endian Mali systems, and
->> (b) this has only appeared in -rc1, this shouldn't break user space.
->> Tools can use the 'magic' field to identify the endianness of the dump
->> if they want to support big-endian.
->>
->> This is effectively a 'v2' of Adri??n's series here [1].
->>
->> [1] https://lore.kernel.org/r/20220920211545.1017355-1-adrian.larumbe%40collabora.com
->>
->> Steven Price (2):
->>   drm/panfrost: Remove type name from internal structs
->>   drm/panfrost: replace endian-specific types with native ones
->>
->>  drivers/gpu/drm/panfrost/panfrost_dump.c | 36 ++++++++++++------------
->>  include/uapi/drm/panfrost_drm.h          | 36 +++++++++++++-----------
->>  2 files changed, 38 insertions(+), 34 deletions(-)
->>
->> -- 
->> 2.34.1
->>
+diff --git a/drivers/gpu/drm/i915/gvt/cfg_space.c b/drivers/gpu/drm/i915/gvt/cfg_space.c
+index eef3bba8a41b..bff63babacd5 100644
+--- a/drivers/gpu/drm/i915/gvt/cfg_space.c
++++ b/drivers/gpu/drm/i915/gvt/cfg_space.c
+@@ -244,7 +244,7 @@ static void emulate_pci_bar_write(struct intel_vgpu *vgpu, unsigned int offset,
+ }
+ 
+ /**
+- * intel_vgpu_emulate_cfg_read - emulate vGPU configuration space write
++ * intel_vgpu_emulate_cfg_write - emulate vGPU configuration space write
+  * @vgpu: target vgpu
+  * @offset: offset
+  * @p_data: write data ptr
+-- 
+2.37.3
 
