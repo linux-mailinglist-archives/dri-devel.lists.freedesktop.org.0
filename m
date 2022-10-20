@@ -1,45 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D8160679D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 20:00:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E53C3606802
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 20:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F6010E151;
-	Thu, 20 Oct 2022 18:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A37C310E1EA;
+	Thu, 20 Oct 2022 18:13:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC8FF10E151
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 18:00:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6B52B61B4B;
- Thu, 20 Oct 2022 18:00:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB06BC433D6;
- Thu, 20 Oct 2022 18:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1666288836;
- bh=D5JDtraM5oIqlp1dCkevIC+UUF5W0hIt1BS/GoCJUhw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hBxVwrpRUwXLcGlGrs4pHE6jkQaNzQZgQLZEb91y8x+DqmP86tLnf26MnJrWgEPrc
- 9P4kLjae8qwgiAmiDKbk+aRYQelbJRAGmn2jKEeTyuC7ub21Q+5SYzdexhaTCmg8sv
- XK+HYIokFikQ1+WQ1wTO1fGzlm8qVz77h+dz4A/w=
-Date: Thu, 20 Oct 2022 20:00:32 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Subject: Re: [PATCH v4 01/10] gna: add PCI driver module
-Message-ID: <Y1GMwP1OUlhwAp03@kroah.com>
-References: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
- <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
- <Y1FcCDhWiQG2p3wW@kroah.com>
- <f3e777c5-c61c-4820-83dd-9bc33932e9c8@linux.intel.com>
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F22E10E1EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 18:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Message-Id:Date:
+ Subject:Cc:To:From:Content-Type:Reply-To:Content-ID:Content-Description:
+ In-Reply-To:References; bh=KdHqm/l66j6BWqUls9UaxFTsEolEqNPGfBkODMbr/GA=; b=Sv
+ nNrY/A/9z+07NdZbX/h5lHzCRWSVw2LllsAYQ7NTYjUEyc6dQokA+2UwXMOf84QjssYBe+LdN5WrA
+ 1E+Qmxio2VQqwJbL6k3j0z5pAGMF8+oor9uvvWUOtvTugP5eIw3rnfbF3q7bWi9mZi2GZYiq4vYi7
+ pB9wCXsQUK6EmSNKSoQ45FzhFrJ48fiDlduzZrWGZEuD9j0vleJfN/QQKTzZYMrFoeVxUD10V2eT/
+ l9y3MuLU6ywQ9oLAEhSzPI7F9LIa/lP6xzDGDjlI7xVer+E4jPwkB/R6ImWStlIbwYEwdKwdLqukk
+ wovhcKowstPQZZxPyNveoPXXvjH+JfRA==;
+Received: from [81.174.171.191] (helo=donbot.metanate.com)
+ by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.95) (envelope-from <john@metanate.com>) id 1ola2F-0002sk-Tt;
+ Thu, 20 Oct 2022 19:12:53 +0100
+From: John Keeping <john@metanate.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/rockchip: fix fbdev on non-IOMMU devices
+Date: Thu, 20 Oct 2022 19:12:47 +0100
+Message-Id: <20221020181248.2497065-1-john@metanate.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3e777c5-c61c-4820-83dd-9bc33932e9c8@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Authenticated: YES
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,37 +46,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Dragan Cvetic <dragan.cvetic@xilinx.com>,
- linux-doc@vger.kernel.org, Tomasz Jankowski <tomasz1.jankowski@intel.com>,
- Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Derek Kiernan <derek.kiernan@xilinx.com>,
- Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Cc: Sandy Huang <hjc@rock-chips.com>, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 20, 2022 at 06:11:49PM +0200, Maciej Kwapulinski wrote:
-> 
-> On 10/20/2022 4:32 PM, Greg Kroah-Hartman wrote:
-> > On Thu, Oct 20, 2022 at 03:35:16PM +0200, Kwapulinski, Maciej wrote:
-> >> Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wiadomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiekolwiek przegladanie lub rozpowszechnianie jest zabronione.
-> >> This e-mail and any attachments may contain confidential material for the sole use of the intended recipient(s). If you are not the intended recipient, please contact the sender and delete all copies; any review or distribution by others is strictly prohibited.
-> > This ensures that we can not do anything with these patches.
-> >
-> > Now deleted.
-> >
-> > greg k-h
-> 
-> 
-> indeed,
-> 
-> sorry about that. When I'm done with smtp server footer I'll send 'PATCH v5' unless you have other suggestion for best practice in this case.
+When switching to the generic fbdev infrastructure, it was missed that
+framebuffers were created with the alloc_kmap parameter to
+rockchip_gem_create_object() set to true.  The generic infrastructure
+calls this via the .dumb_create() driver operation and thus creates a
+buffer without an associated kmap.
 
-I am not even allowed to look at any of this at the moment with that
-footer.  Actually I wasn't even supposed to tell you this, I should have
-been forced to just delete it and move on to contributions that don't
-have legal entraptments in them :(
+alloc_kmap only makes a difference on devices without an IOMMU, but when
+it is missing rockchip_gem_prime_vmap() fails and the framebuffer cannot
+be used.
 
-greg k-h
+Detect the case where a buffer is being allocated for the framebuffer
+and ensure a kernel mapping is created in this case.
+
+Fixes: 24af7c34b290 ("drm/rockchip: use generic fbdev setup")
+Reported-by: Johan Jonker <jbx6244@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: John Keeping <john@metanate.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+index 614e97aaac80..da8a69953706 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+@@ -364,9 +364,12 @@ rockchip_gem_create_with_handle(struct drm_file *file_priv,
+ {
+ 	struct rockchip_gem_object *rk_obj;
+ 	struct drm_gem_object *obj;
++	bool is_framebuffer;
+ 	int ret;
+ 
+-	rk_obj = rockchip_gem_create_object(drm, size, false);
++	is_framebuffer = drm->fb_helper && file_priv == drm->fb_helper->client.file;
++
++	rk_obj = rockchip_gem_create_object(drm, size, is_framebuffer);
+ 	if (IS_ERR(rk_obj))
+ 		return ERR_CAST(rk_obj);
+ 
+-- 
+2.38.1
+
