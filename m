@@ -1,32 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104936062E5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 16:24:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3B0606302
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 16:28:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4AE10E169;
-	Thu, 20 Oct 2022 14:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB6BA10F2C5;
+	Thu, 20 Oct 2022 14:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D350A10F2C5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 14:23:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8ADCFD6E;
- Thu, 20 Oct 2022 07:23:52 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6A8213F67D;
- Thu, 20 Oct 2022 07:23:45 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: thierry.reding@gmail.com
-Subject: [PATCH v2] gpu: host1x: Avoid trying to use GART on Tegra20
-Date: Thu, 20 Oct 2022 15:23:40 +0100
-Message-Id: <39c44dce203112a8dfe279e8e2c4ad164e3cf5e5.1666275461.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.36.1.dirty
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB03E10F2C5;
+ Thu, 20 Oct 2022 14:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666276065; x=1697812065;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QHy3Ko5XMie94gcwVnlxc1NXfyePOUN4SZHHzdRm/2c=;
+ b=fW/FqGS9k1q7Q5s/NGApRTqkbNHPuP0MG5DyQ2x/PXC3WdPDS9ziz1Tc
+ qjmqNswX2sCKwDIH04AtOL76vYHbHJ6SeBh2quxAjnTFpWu9Y4x7f6UOE
+ UAfZhzi1jW3Lssael2bP8xUQPtaWpe0KCGmCsIRi25HuxhbChtVsLRTYy
+ uKbRS9RTRZvOPKXcCGuWosyKToY+GQDOrwsDB7ph5s/Q9ALgRbfk06rim
+ HE40ZTBjVPg34X2pvphYabQolYktWVDPmGa8W8/yzV/trJjvSLaOtBbFR
+ Jx8V6aVnZ3W2/X7HLdexi4o+3T3R8J774ilQHK57MjY6/sgS4IkjakVYR g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="368768088"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="368768088"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 07:27:43 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="958963503"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="958963503"
+Received: from brockhau-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.43.208])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 07:27:40 -0700
+Date: Thu, 20 Oct 2022 16:27:38 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Subject: Re: [PATCH v4 16/17] drm/i915/vm_bind: userptr dma-resv changes
+Message-ID: <Y1Fa2k/Xk4s5V1ip@ashyti-mobl2.lan>
+References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
+ <20221018071630.3831-17-niranjana.vishwanathapura@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221018071630.3831-17-niranjana.vishwanathapura@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,61 +58,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, iommu@lists.linux.dev,
- Dmitry Osipenko <digetx@gmail.com>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
+ lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit c7e3ca515e78 ("iommu/tegra: gart: Do not register with
-bus") quite some time ago, the GART driver has effectively disabled
-itself to avoid issues with the GPU driver expecting it to work in ways
-that it doesn't. As of commit 57365a04c921 ("iommu: Move bus setup to
-IOMMU device registration") that bodge no longer works, but really the
-GPU driver should be responsible for its own behaviour anyway. Make the
-workaround explicit.
+Hi Niranjana,
 
-Reported-by: Jon Hunter <jonathanh@nvidia.com>
-Suggested-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
+[...]
 
-v2: Cover DRM instance too, move into *_wants_iommu() for consistency
+> @@ -307,6 +307,8 @@ struct i915_vma {
+>  	struct list_head non_priv_vm_bind_link;
+>  	/* @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
+>  	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
+> +	/*@userptr_invalidated_link: link to the vm->userptr_invalidated_list */
 
- drivers/gpu/drm/tegra/drm.c | 4 ++++
- drivers/gpu/host1x/dev.c    | 4 ++++
- 2 files changed, 8 insertions(+)
+nit: add a space here
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 6748ec1e0005..a1f909dac89a 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1093,6 +1093,10 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
- 	struct host1x *host1x = dev_get_drvdata(dev->dev.parent);
- 	struct iommu_domain *domain;
- 
-+	/* Our IOMMU usage policy doesn't currently play well with GART */
-+	if (of_machine_is_compatible("nvidia,tegra20"))
-+		return false;
-+
- 	/*
- 	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
- 	 * likely to be allocated beyond the 32-bit boundary if sufficient
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 0cd3f97e7e49..f60ea24db0ec 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -292,6 +292,10 @@ static void host1x_setup_virtualization_tables(struct host1x *host)
- 
- static bool host1x_wants_iommu(struct host1x *host1x)
- {
-+	/* Our IOMMU usage policy doesn't currently play well with GART */
-+	if (of_machine_is_compatible("nvidia,tegra20"))
-+		return false;
-+
- 	/*
- 	 * If we support addressing a maximum of 32 bits of physical memory
- 	 * and if the host1x firewall is enabled, there's no need to enable
--- 
-2.36.1.dirty
-
+Andi
