@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E91D6068CA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 21:22:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8136068EA
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 21:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA05510F126;
-	Thu, 20 Oct 2022 19:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB75110E678;
+	Thu, 20 Oct 2022 19:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F46810F067
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 19:22:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E065761CFE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 19:22:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DF26C4347C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 19:22:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666293756;
- bh=qwIIPUGoEJhRhYxAywM+t3XDWWDP0owXiY6pqZ+7Ykg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=DrfA91UeDfZw7TT8hLHXGe9zcQ1tkK8uPLhy+GxW+zdwpx4AwBNwj/G+hioxJgTYY
- sgcYtHx12omPN0XCAENqhmNRCKCdXo8GsHRAIfmEx2fwJ9mu6yt5xNpnts4VzCJCiH
- nn3J9mYgg5X1g5eW61PQaDhZZntV6hGQS2qqOl0xghP9+kJ06AGDXjoQHZnWyDnr1k
- OkLmFcPrIjwbXacQSqgriUt07brMKOdI/YgZDwkufrwjADrTEYCgQMVilLS1Po9e7k
- 8zqrNb1EiWUnrzw6HcsDebH/E/yuJ9du81qRO0mJJrN70QPWu7m6cOIfL8rh+t0Q7a
- 2lxysW5vWYGjQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3DF14C433E9; Thu, 20 Oct 2022 19:22:36 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Thu, 20 Oct 2022 19:22:35 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216119-2300-DwNUkqnbHc@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D72810E471
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 19:32:00 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id c20so765886ljj.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 12:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3FLf2jGC6agDdYJZ5+vrm0x/EXG2lDA+AUkXWt5l31g=;
+ b=y3EJkcit7qMxi0ZUqMGyQ5B8T+E5Oc1h6eVpWTrnAV1LyDSWdoquwKXUAR/rgrcRUc
+ +SSjPYqzf+zZqdE+1Vd77V39xZ2pu8OpiYK1DHGQTBH401edZFlM1v70YVBfFj7w0tjJ
+ wt5Tg9/A+9YOLEJP/TVl+Ki9pyfGz+a4nRw8VGX7pLu0VGG0jWZktaUyxmty7++hjgxo
+ aiH83ytM2oJmZLJZrDLma0pkktA0eFkQmLF/NJq1SBHvWRRj6oLX/MXPutaWdo/QOPj+
+ pY+I50NQS6fcFZreuNPgulVTM64HgH6+L17z3bwSvo+O6LnskfDq65vo/SsXQCQXeH6F
+ feBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3FLf2jGC6agDdYJZ5+vrm0x/EXG2lDA+AUkXWt5l31g=;
+ b=Jbfsvt1t7UBMylEnki4KjvTDQvF+CBfVyPvSE9r8WEc3cZo9YD8bd3rEzUrvz88Q0M
+ 6PL+30iNI9Xr7h9uLXxsMh3zBOovEqLE0Jh6yyPkZ1XxZN6/+FlvTeGacUDv3eYIES2l
+ m14aerNLUvjtj4jIQFspt5GqiGH65xdQ+zDVummwEbyf5OC0USPBkYJAlYKhNir/5abE
+ OjEDSbtb5dBu0srf3XvL70cKTrL7q9ELpM+MhQ88xnrnyeUktGRuirvyHsiQJxLg13Xh
+ IQjl9uNcw5RBA7tPTI4uhweQT7nQSYDs0ZPHTSoFbB5ICaUS9kKzJW+JOqcX9VjKL/ik
+ CnTg==
+X-Gm-Message-State: ACrzQf18enQ0C3oBufFFxNnpftR3oBmOYK+MVP4Cu3/VtdUzumAPih7q
+ WKS0UxGq5QKGkvJRAUEH59OIlQ==
+X-Google-Smtp-Source: AMsMyM6t3LA7a7zZSUSBM/G1xeBu4xoo9Q22Su/3RoL/L+68pvp6cD2qKCooKmyhCpVP9iNPsxmTEw==
+X-Received: by 2002:a2e:809a:0:b0:26f:c1a0:2557 with SMTP id
+ i26-20020a2e809a000000b0026fc1a02557mr5139227ljg.54.1666294318354; 
+ Thu, 20 Oct 2022 12:31:58 -0700 (PDT)
+Received: from eriador.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ d7-20020ac25ec7000000b004a2c3fd32edsm2830652lfq.144.2022.10.20.12.31.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 12:31:57 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 0/2] drm/msm: clean up iommu interface a bit
+Date: Thu, 20 Oct 2022 22:31:55 +0300
+Message-Id: <20221020193157.2147112-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,20 +69,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+This series started as an attempt to rework the drivers usage of IOMMU
+domains. While the idea ended up to be wrong, these two provide a
+sensibly looking cleanup.
 
---- Comment #44 from Alex Deucher (alexdeucher@gmail.com) ---
-Created attachment 303064
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303064&action=3Dedit
-another fix
+Dmitry Baryshkov (2):
+  drm/msm: remove duplicated code from a6xx_create_address_space
+  drm/msm: move domain allocation into msm_iommu_new()
 
-You'll probably want this patch too.
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c    |  7 +++---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c    | 31 +++---------------------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c  | 24 +++++++++---------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h  |  2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 19 ++++++++-------
+ drivers/gpu/drm/msm/msm_drv.c            | 18 ++++++--------
+ drivers/gpu/drm/msm/msm_iommu.c          | 25 ++++++++++++++++---
+ drivers/gpu/drm/msm/msm_mmu.h            |  4 ++-
+ 8 files changed, 63 insertions(+), 67 deletions(-)
 
---=20
-You may reply to this email to add a comment.
+-- 
+2.35.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
