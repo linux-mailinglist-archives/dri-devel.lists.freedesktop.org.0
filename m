@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04266061CF
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 15:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1156061EA
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 15:39:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B12710E099;
-	Thu, 20 Oct 2022 13:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC38510E4A2;
+	Thu, 20 Oct 2022 13:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C1010F202
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 13:38:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0DFB10E4A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 13:38:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666273101; x=1697809101;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=nNa39/5lml3fae1V2WjoeWQNtiHsTMRGBjRzq9rF1cc=;
- b=h0xuOOxAjY4GKdi+dnCNRpMA4R3w3h0mnBD0slNGz9LxVlSFMht6o6Zg
- AvzKwdXyIVap725nbz9tEfc8L0naczE66J21vAhDBxTpIUqKK1s8w+rtW
- oLmivv0nUIphiDCev+dtX9qETFIrKGLW7+lPS5o4p1qRfEO8ZikBejcxa
- wZ0jNyxx6cUnSWCfEsIuNuuO31XQClYUqDEtpX28GO9z9U7yTPYuvmR7R
- qYlQEj4PHLf9U2Go9UCV7usJJLq3kUNUdIELJhPjnDLZmlkOjYC4ZKj+V
- W8yWxmU+zZkrjif6fGlMRjBn4FCatHjM19aIIp4X0B3ydz8QuiplHzm3M g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="307805918"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="307805918"
+ t=1666273105; x=1697809105;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ae8opvwORvQx+4D/scP60zLUHXTDz/ssPEobkwXjLvo=;
+ b=K0qUoYb7xk94SLq2H44Ye+62ibSFN93G3BYM46+ATgzd9HtSqA6nUlk/
+ M5SOrW5WFvoFB6HvUfDOWXCjflOeWDX/LsedF0j9viXpjHURkdkQRaQba
+ 8ZLWUGRt3ilAHkZXlUcpCzZK5zDdwChr3XXnJYGWtO1n4QjQsw48Fd7nY
+ l9gYcwSWcwrnQK66Cf8Y2axIib2ET8kXM3ovUfswX+WuquPH99gacNots
+ X8nfHwCI6/dq5jgZu+GP7mg3e0YQUi4cO/LNtuvtgvEISdsM/32jxpcw5
+ QHd4Klq1aZ1tLlraMTBrDynSpfrU1L9PmYHQGQvVyAFiEuzRDzjIczQfq A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="307805932"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="307805932"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 06:38:20 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="719064408"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="719064408"
+ 20 Oct 2022 06:38:24 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="719064452"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="719064452"
 Received: from gna-nuc-dev34.igk.intel.com ([10.102.80.34])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 06:38:17 -0700
+ 20 Oct 2022 06:38:20 -0700
 From: "Kwapulinski, Maciej" <maciej.kwapulinski@intel.com>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -45,13 +45,15 @@ To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Dragan Cvetic <dragan.cvetic@xilinx.com>,
  Andy Shevchenko <andy.shevchenko@gmail.com>,
  Linus Walleij <linus.walleij@linaro.org>, Olof Johansson <olof@lixom.net>
-Subject: [PATCH v4 00/10] Driver of Intel(R) Gaussian & Neural Accelerator
-Date: Thu, 20 Oct 2022 15:35:15 +0200
-Message-Id: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
+Subject: [PATCH v4 01/10] gna: add PCI driver module
+Date: Thu, 20 Oct 2022 15:35:16 +0200
+Message-Id: <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
+References: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,145 +66,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+ Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
+ Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-
-Dear kernel maintainers,
-
-This submission is a kernel driver to support Intel(R) Gaussian & Neural
-Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
-available on multiple Intel platforms. AI developers and users can offload
-continuous inference workloads to an Intel(R) GNA device in order to free
-processor resources and save power. Noise reduction and speech recognition
-are the examples of the workloads Intel(R) GNA deals with while its usage
-is not limited to the two.
-
-For a list of processors equipped with Intel(R) GNA device, please refer to
-this link:
-https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_plugins_GNA.html
-
-We think contributing this driver to the upstream kernel project is the
-best way for developers and users to get the latest Intel(R) GNA support in
-a Linux kernel, through the mainline to any Linux distributions installed
-on their systems. Upstreaming also enables contribution from developers
-around the world to the driver once it is merged.
-
-The driver works with Intel(R) libraries in user space. The Intel(R) driver
-exposes a few IOCTL interfaces for use by libraries in user space. The
-libraries are open sourced and are available at:
-https://github.com/intel/gna
-
----
-
-Changelogs:
-
- v1->v2:
- - driver's new layout:
-   - driver name: gna -> intel_gna
-   - module name: gna -> intel_gna
-   - device file name: /dev/gnaN -> /dev/intel_gnaN
-   - driver's source directory: drivers/misc/gna/ -> drivers/misc/intel/gna/
-   - UAPI: include/uapi/misc/gna.h -> include/uapi/misc/intel/gna.h
-   - DOC: Documentation/misc-devices/gna.rst ->
-       Documentation/misc-devices/intel/gna.rst
- - 'MISC' device framework used
- - fixes throughout GNA device's PCI management
- - header files' includes and forward declarations cleanup
- - ISR made static
- - unused comments cleanup
- - "_priv_" segment removed from function names
- - tested: v5.11-rc3 -> v5.11
- - number of other/minor fixes
-
- v2->v3:
- - PCI glue driver part split.
- - GNA probe fail path made fully implicit.
- - 'recovery_timeout' module parameter present under 'CONFIG_DEBUG_INTEL_GNA' flag only.
- - build for X86_32 enabled.
- - module initialization through 'module_pci_driver()'.
- - gna_priv->file_list cleanup.
- - 'gna_' prefix removed from source files' names.
- - power management handling added.
- - number of other/minor fixes
- - tests performed on kernel v5.12
-
- v3->v4:
- - GNA driver adapted to DRM framework (+userspace GNA library adapted to use the driver)
-   - drm_managed (drmm) feature is used for objects lifetime management
-   - GNA memory objects use ~drm_gem_shmem_object~ objects as a base
- - patches reorganized to meet symbols' usage with their declarations/definitions
- - 'recovery_timeout' module parameter removed
- - number of other/minor fixes from v3 review
- - tests performed on kernel v6.0
-
-Maciej Kwapulinski (4):
-  gna: add PCI driver module
-  gna: add GNA DRM device
-  gna: add GNA_GEM_NEW and GNA_GEM_FREE ioctls
-  gna: add power management
-
-Tomasz Jankowski (6):
-  gna: read hardware info
-  gna: initialize MMU
-  gna: add GNA_GET_PARAMETER ioctl
-  gna: add GNA_COMPUTE ioctl
-  gna: add GNA_WAIT ioctl
-  gna: add open and close operations on GNA device
-
- Documentation/gpu/drivers.rst     |   1 +
- Documentation/gpu/gna.rst         |  64 +++++
- MAINTAINERS                       |   7 +
- drivers/gpu/drm/Kconfig           |   2 +
- drivers/gpu/drm/Makefile          |   1 +
- drivers/gpu/drm/gna/Kbuild        |   5 +
- drivers/gpu/drm/gna/Kconfig       |  15 +
- drivers/gpu/drm/gna/gna_device.c  | 317 +++++++++++++++++++++
- drivers/gpu/drm/gna/gna_device.h  | 114 ++++++++
- drivers/gpu/drm/gna/gna_gem.h     |  22 ++
- drivers/gpu/drm/gna/gna_hw.c      | 110 ++++++++
- drivers/gpu/drm/gna/gna_hw.h      | 107 ++++++++
- drivers/gpu/drm/gna/gna_ioctl.c   | 208 ++++++++++++++
- drivers/gpu/drm/gna/gna_mem.c     | 249 +++++++++++++++++
- drivers/gpu/drm/gna/gna_mem.h     |  58 ++++
- drivers/gpu/drm/gna/gna_pci.c     | 148 ++++++++++
- drivers/gpu/drm/gna/gna_pci.h     |  12 +
- drivers/gpu/drm/gna/gna_request.c | 441 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/gna/gna_request.h |  64 +++++
- drivers/gpu/drm/gna/gna_score.c   | 222 +++++++++++++++
- drivers/gpu/drm/gna/gna_score.h   |  11 +
- include/uapi/drm/gna_drm.h        | 169 ++++++++++++
- 22 files changed, 2347 insertions(+)
- create mode 100644 Documentation/gpu/gna.rst
- create mode 100644 drivers/gpu/drm/gna/Kbuild
- create mode 100644 drivers/gpu/drm/gna/Kconfig
- create mode 100644 drivers/gpu/drm/gna/gna_device.c
- create mode 100644 drivers/gpu/drm/gna/gna_device.h
- create mode 100644 drivers/gpu/drm/gna/gna_gem.h
- create mode 100644 drivers/gpu/drm/gna/gna_hw.c
- create mode 100644 drivers/gpu/drm/gna/gna_hw.h
- create mode 100644 drivers/gpu/drm/gna/gna_ioctl.c
- create mode 100644 drivers/gpu/drm/gna/gna_mem.c
- create mode 100644 drivers/gpu/drm/gna/gna_mem.h
- create mode 100644 drivers/gpu/drm/gna/gna_pci.c
- create mode 100644 drivers/gpu/drm/gna/gna_pci.h
- create mode 100644 drivers/gpu/drm/gna/gna_request.c
- create mode 100644 drivers/gpu/drm/gna/gna_request.h
- create mode 100644 drivers/gpu/drm/gna/gna_score.c
- create mode 100644 drivers/gpu/drm/gna/gna_score.h
- create mode 100644 include/uapi/drm/gna_drm.h
-
--- 
-2.25.1
-
----------------------------------------------------------------------
-Intel Technology Poland sp. z o.o.
-ul. Slowackiego 173 | 80-298 Gdansk | Sad Rejonowy Gdansk Polnoc | VII Wydzial Gospodarczy Krajowego Rejestru Sadowego - KRS 101882 | NIP 957-07-52-316 | Kapital zakladowy 200.000 PLN.
-Spolka oswiadcza, ze posiada status duzego przedsiebiorcy w rozumieniu ustawy z dnia 8 marca 2013 r. o przeciwdzialaniu nadmiernym opoznieniom w transakcjach handlowych.
-
-Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wiadomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiekolwiek przegladanie lub rozpowszechnianie jest zabronione.
-This e-mail and any attachments may contain confidential material for the sole use of the intended recipient(s). If you are not the intended recipient, please contact the sender and delete all copies; any review or distribution by others is strictly prohibited.
+RnJvbTogTWFjaWVqIEt3YXB1bGluc2tpIDxtYWNpZWoua3dhcHVsaW5za2lAbGludXguaW50ZWwu
+Y29tPgoKQWRkIGEgbmV3IFBDSSBkcml2ZXIgZm9yIEludGVsKFIpIEdhdXNzaWFuICYgTmV1cmFs
+IEFjY2VsZXJhdG9yCndpdGggYmFzaWMgc3VwcG9ydCBsaWtlIG1vZHVsZSBsb2FkaW5nIGFuZCB1
+bmxvYWRpbmcuIFRoZSBmdWxsCmZ1bmN0aW9uIG9mIHRoZSBkcml2ZXIgd2lsbCBiZSBhZGRlZCBi
+eSBmdXJ0aGVyIGNoYW5nZXMuCgpTaWduZWQtb2ZmLWJ5OiBNYWNpZWogS3dhcHVsaW5za2kgPG1h
+Y2llai5rd2FwdWxpbnNraUBsaW51eC5pbnRlbC5jb20+ClRlc3RlZC1ieTogTWlrb2xhaiBHcnp5
+Ym93c2tpIDxtaWtvbGFqeC5ncnp5Ym93c2tpQGludGVsLmNvbT4KQ28tZGV2ZWxvcGVkLWJ5OiBU
+b21hc3ogSmFua293c2tpIDx0b21hc3oxLmphbmtvd3NraUBpbnRlbC5jb20+ClNpZ25lZC1vZmYt
+Ynk6IFRvbWFzeiBKYW5rb3dza2kgPHRvbWFzejEuamFua293c2tpQGludGVsLmNvbT4KQ28tZGV2
+ZWxvcGVkLWJ5OiBKaWFueHVuIFpoYW5nIDxqaWFueHVuLnpoYW5nQGxpbnV4LmludGVsLmNvbT4K
+U2lnbmVkLW9mZi1ieTogSmlhbnh1biBaaGFuZyA8amlhbnh1bi56aGFuZ0BsaW51eC5pbnRlbC5j
+b20+Ci0tLQogRG9jdW1lbnRhdGlvbi9ncHUvZHJpdmVycy5yc3QgICAgfCAgMSArCiBEb2N1bWVu
+dGF0aW9uL2dwdS9nbmEucnN0ICAgICAgICB8IDY0ICsrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrCiBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICB8ICA2ICsrKwogZHJpdmVy
+cy9ncHUvZHJtL0tjb25maWcgICAgICAgICAgfCAgMiArCiBkcml2ZXJzL2dwdS9kcm0vTWFrZWZp
+bGUgICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9nbmEvS2J1aWxkICAgICAgIHwgIDUg
+KysrCiBkcml2ZXJzL2dwdS9kcm0vZ25hL0tjb25maWcgICAgICB8IDEyICsrKysrKwogZHJpdmVy
+cy9ncHUvZHJtL2duYS9nbmFfZGV2aWNlLmMgfCAgOCArKysrCiBkcml2ZXJzL2dwdS9kcm0vZ25h
+L2duYV9kZXZpY2UuaCB8ICA5ICsrKysrCiBkcml2ZXJzL2dwdS9kcm0vZ25hL2duYV9wY2kuYyAg
+ICB8IDMyICsrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9nbmEvZ25hX3BjaS5oICAg
+IHwgMTIgKysrKysrCiAxMSBmaWxlcyBjaGFuZ2VkLCAxNTIgaW5zZXJ0aW9ucygrKQogY3JlYXRl
+IG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZ3B1L2duYS5yc3QKIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBkcml2ZXJzL2dwdS9kcm0vZ25hL0tidWlsZAogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
+Z3B1L2RybS9nbmEvS2NvbmZpZwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9n
+bmEvZ25hX2RldmljZS5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2duYS9n
+bmFfZGV2aWNlLmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ25hL2duYV9w
+Y2kuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9nbmEvZ25hX3BjaS5oCgpk
+aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUvZHJpdmVycy5yc3QgYi9Eb2N1bWVudGF0aW9u
+L2dwdS9kcml2ZXJzLnJzdAppbmRleCAzYTUyZjQ4MjE1YTMuLjcyMzhkZGM1NzZhMiAxMDA2NDQK
+LS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvZHJpdmVycy5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9n
+cHUvZHJpdmVycy5yc3QKQEAgLTUsNiArNSw3IEBAIEdQVSBEcml2ZXIgRG9jdW1lbnRhdGlvbgog
+Li4gdG9jdHJlZTo6CiAKICAgIGFtZGdwdS9pbmRleAorICAgZ25hCiAgICBpOTE1CiAgICBtY2Rl
+CiAgICBtZXNvbgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUvZ25hLnJzdCBiL0RvY3Vt
+ZW50YXRpb24vZ3B1L2duYS5yc3QKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAw
+MDAwLi43ZjNiN2NlN2U4ZjcKLS0tIC9kZXYvbnVsbAorKysgYi9Eb2N1bWVudGF0aW9uL2dwdS9n
+bmEucnN0CkBAIC0wLDAgKzEsNjQgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
+Mi4wLW9ubHkKKworPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT0KK0ludGVsKFIpIEdhdXNzaWFuICYgTmV1cmFsIEFjY2VsZXJhdG9yIChJbnRlbChS
+KSBHTkEpCis9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQorCitBY3JvbnltcworLS0tLS0tLS0KK0dOQQktIEdhdXNzaWFuICYgTmV1cmFsIEFjY2Vs
+ZXJhdG9yCitHTU0JLSBHYXVzc2lhbiBNaXhlciBNb2RlbAorQ05OCS0gQ29udm9sdXRpb25hbCBO
+ZXVyYWwgTmV0d29yaworUk5OCS0gUmVjdXJyZW50IE5ldXJhbCBOZXR3b3JrcworRE5OCS0gRGVl
+cCBOZXVyYWwgTmV0d29ya3MKKworSW50cm9kdWN0aW9uCistLS0tLS0tLS0tLS0KK1RoZSBJbnRl
+bChSKSBHTkEgaXMgYW4gaW50ZXJuYWwgUENJIGZpeGVkIGRldmljZSBhdmFpbGFibGUgb24gc2V2
+ZXJhbCBJbnRlbCBwbGF0Zm9ybXMvU29Dcy4KK0ZlYXR1cmUgc2V0IGRlcGVuZHMgb24gdGhlIElu
+dGVsIGNoaXBzZXQgU0tVLgorCitJbnRlbChSKSBHTkEgcHJvdmlkZXMgaGFyZHdhcmUgYWNjZWxl
+cmF0ZWQgY29tcHV0YXRpb24gZm9yIEdNTXMgYW5kIE5ldXJhbCBOZXR3b3Jrcy4KK0l0IHN1cHBv
+cnRzIHNldmVyYWwgbGF5ZXIgdHlwZXM6IGFmZmluZSwgcmVjdXJyZW50LCBhbmQgY29udm9sdXRp
+b25hbCBhbW9uZyBvdGhlcnMuCitIYXJkd2FyZSBhbHNvIHByb3ZpZGVzIGhlbHBlciBsYXllciB0
+eXBlcyBmb3IgY29weWluZyBhbmQgdHJhbnNwb3NpbmcgbWF0cmljZXMuCisKK0xpbnV4IERyaXZl
+cgorLS0tLS0tLS0tLS0tCitUaGUgZHJpdmVyIGFsc28gcmVnaXN0ZXJzIGEgRFJNJ3MgcmVuZGVy
+IGRldmljZSB0byBleHBvc2UgZmlsZSBvcGVyYXRpb25zIHZpYSBkZXYgbm9kZS4KKworVGhlIGRy
+aXZlciBwcm9iZXMvcmVtb3ZlcyBhIFBDSSBkZXZpY2UsIGltcGxlbWVudHMgZmlsZSBvcGVyYXRp
+b25zLCBoYW5kbGVzIHJ1bnRpbWUKK3Bvd2VyIG1hbmFnZW1lbnQsIGFuZCBpbnRlcmFjdHMgd2l0
+aCBoYXJkd2FyZSB0aHJvdWdoIE1NSU8gcmVnaXN0ZXJzLgorCitNdWx0aXBsZSBwcm9jZXNzZXMg
+Y2FuIGluZGVwZW5kZW50bHkgZmlsZSBtYW55IHJlcXVlc3RzIHRvIHRoZSBkcml2ZXIuIFRoZXNl
+IHJlcXVlc3RzIGFyZQorcHJvY2Vzc2VkIGluIGEgRklGTyBtYW5uZXIuIFRoZSBoYXJkd2FyZSBj
+YW4gcHJvY2VzcyBvbmUgcmVxdWVzdCBhdCBhIHRpbWUgYnkgdXNpbmcgYSBGSUZPCitxdWV1ZS4K
+KworSU9DVEwKKy0tLS0tCitJbnRlbChSKSBHTkEgZHJpdmVyIGNvbnRyb2xzIHRoZSBkZXZpY2Ug
+dGhyb3VnaCBJT0NUTCBpbnRlcmZhY2VzLgorRm9sbG93aW5nIElPQ1RMIGNvbW1hbmRzIC0gaGFu
+ZGxlZCBieSBEUk0gZnJhbWV3b3JrIC0gYXJlIHN1cHBvcnRlZDoKKworR05BX0dFVF9QQVJBTUVU
+RVIgZ2V0cyBkcml2ZXIgYW5kIGRldmljZSBjYXBhYmlsaXRpZXMuCisKK0dOQV9HRU1fTkVXIGFj
+cXVpcmVzIG5ldyA0S0IgcGFnZSBhbGlnbmVkIG1lbW9yeSByZWdpb24gcmVhZHkgZm9yIERNQSBv
+cGVyYXRpb25zLgorCitHTkFfR0VNX0ZSRUUgZnJlZXMgbWVtb3J5IHJlZ2lvbiBiYWNrIHRvIHN5
+c3RlbS4KKworR05BX0NPTVBVVEUgc3VibWl0cyBhIHJlcXVlc3QgdG8gdGhlIGRldmljZSBxdWV1
+ZS4KKyAgICAgICAgICAgIE1lbW9yeSByZWdpb25zIGFjcXVpcmVkIGJ5IEdOQV9HRU1fTkVXIGFy
+ZSBwYXJ0IG9mIHJlcXVlc3QuCisKK0dOQV9XQUlUIGJsb2NrcyBhbmQgd2FpdHMgb24gdGhlIHN1
+Ym1pdHRlZCByZXF1ZXN0LgorCitHTkEgTU1VCistLS0tLS0tCitHTkHigJlzIE1NVSBpcyBiZWlu
+ZyBjb25maWd1cmVkIGJhc2VkIG9uIHNwZWNpZmljIHJlcXVlc3QgbWVtb3J5IHVzYWdlLiBBcyB0
+aGUgTU1VIGNhbgorYWRkcmVzcyB1cCB0byAyNTZNQiBhIHNpbmdsZSBzY29yaW5nIHJlcXVlc3Qg
+aXMgbGltaXRlZCB0byB0aGlzIGFtb3VudCBvZiBtZW1vcnkgYmVpbmcKK3VzZWQuCisKK0dOQSBM
+aWJyYXJ5IGNhbiBhbGxvY2F0ZSBhbnkgbnVtYmVyIG9mIG1lbW9yeSByZWdpb25zIGZvciBHTkEg
+dXNhZ2UuIEl0cyBudW1iZXIgYW5kIHRvdGFsCitjYXBhY2l0eSBhcmUgbGltaXRlZCBieSB0aGUg
+T1Nz4oCZIHJlc291cmNlcy4gRHVlIHRvIEdOQSBNTVUgcmVzdHJpY3Rpb25zLCBldmVuIHdoZW4g
+dXNpbmcKK211bHRpcGxlIG1lbW9yeSByZWdpb25zLCB0aGUgc3VtIG9mIGFsbCB0aGUgbWVtb3J5
+IHJlZ2lvbnMgdXNlZCB3aXRoaW4gYSBzaW5nbGUgaW5mZXJlbmNlCityZXF1ZXN0IG11c3QgYmUg
+bm8gbGFyZ2VyIHRoYW4gMjU2TUIuCisKK0F0IGxlYXN0IGEgc2luZ2xlIEdOQSBtZW1vcnkgcmVn
+aW9uIGlzIG5lZWRlZCB0byBiZSBhbGxvY2F0ZWQgKGFuZCBjYW4gYmUgc2hhcmVkIGJ5CittdWx0
+aXBsZSBtb2RlbHMpLiBBdCB0aGUgb3RoZXIgZXh0cmVtZSwgZWFjaCBHTkEgdGVuc29yIChlLmcu
+LAord2VpZ2h0cy9iaWFzZXMvaW5wdXRzL291dHB1dHMpIGNvdWxkIHVzZSBpdHMgb3duLCBzZXBh
+cmF0ZSBHTkEgbWVtb3J5IHJlZ2lvbi4KZGlmZiAtLWdpdCBhL01BSU5UQUlORVJTIGIvTUFJTlRB
+SU5FUlMKaW5kZXggNzJiOTY1NGY3NjRjLi5kNWI5NjZjMDAxNTUgMTAwNjQ0Ci0tLSBhL01BSU5U
+QUlORVJTCisrKyBiL01BSU5UQUlORVJTCkBAIC0xMDE3NCw2ICsxMDE3NCwxMiBAQCBTOglNYWlu
+dGFpbmVkCiBGOglEb2N1bWVudGF0aW9uL2ZiL2ludGVsZmIucnN0CiBGOglkcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2ludGVsZmIvCiAKK0lOVEVMIEdOQSBQQ0kgRFJJVkVSCitNOglNYWNpZWogS3dhcHVs
+aW5za2kgPG1hY2llai5rd2FwdWxpbnNraUBsaW51eC5pbnRlbC5jb20+CitTOglNYWludGFpbmVk
+CitGOglEb2N1bWVudGF0aW9uL2dwdS9nbmEucnN0CitGOglkcml2ZXJzL2dwdS9kcm0vZ25hLyoK
+KwogSU5URUwgR1BJTyBEUklWRVJTCiBNOglBbmR5IFNoZXZjaGVua28gPGFuZHlAa2VybmVsLm9y
+Zz4KIEw6CWxpbnV4LWdwaW9Admdlci5rZXJuZWwub3JnCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9LY29uZmlnCmluZGV4IDZjMjI1NmU4NDc0
+Yi4uM2Y1NzIwYjlkYjFmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZworKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZwpAQCAtNDAzLDYgKzQwMyw4IEBAIHNvdXJjZSAiZHJp
+dmVycy9ncHUvZHJtL3NvbG9tb24vS2NvbmZpZyIKIAogc291cmNlICJkcml2ZXJzL2dwdS9kcm0v
+c3ByZC9LY29uZmlnIgogCitzb3VyY2UgImRyaXZlcnMvZ3B1L2RybS9nbmEvS2NvbmZpZyIKKwog
+Y29uZmlnIERSTV9IWVBFUlYKIAl0cmlzdGF0ZSAiRFJNIFN1cHBvcnQgZm9yIEh5cGVyLVYgc3lu
+dGhldGljIHZpZGVvIGRldmljZSIKIAlkZXBlbmRzIG9uIERSTSAmJiBQQ0kgJiYgTU1VICYmIEhZ
+UEVSVgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlIGIvZHJpdmVycy9ncHUv
+ZHJtL01ha2VmaWxlCmluZGV4IGU3YWYzNThlNmRkYS4uZTA4ODI2N2YzNDlkIDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxl
+CkBAIC0xNDcsMyArMTQ3LDQgQEAgb2JqLXkJCQkrPSBndWQvCiBvYmotJChDT05GSUdfRFJNX0hZ
+UEVSVikgKz0gaHlwZXJ2Lwogb2JqLXkJCQkrPSBzb2xvbW9uLwogb2JqLSQoQ09ORklHX0RSTV9T
+UFJEKSArPSBzcHJkLworb2JqLSQoQ09ORklHX0RSTV9HTkEpICs9IGduYS8KZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9nbmEvS2J1aWxkIGIvZHJpdmVycy9ncHUvZHJtL2duYS9LYnVpbGQK
+bmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi4wMGU4ZDZhMmM0OWMKLS0t
+IC9kZXYvbnVsbAorKysgYi9kcml2ZXJzL2dwdS9kcm0vZ25hL0tidWlsZApAQCAtMCwwICsxLDUg
+QEAKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seQorCitnbmEteSA6PSBn
+bmFfZGV2aWNlLm8gZ25hX3BjaS5vCisKK29iai0kKENPTkZJR19EUk1fR05BKSArPSBnbmEubwpk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2duYS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJt
+L2duYS9LY29uZmlnCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uYzY2
+ZGU5ODdkMGE3Ci0tLSAvZGV2L251bGwKKysrIGIvZHJpdmVycy9ncHUvZHJtL2duYS9LY29uZmln
+CkBAIC0wLDAgKzEsMTIgQEAKKyMKKyMgSW50ZWwoUikgR2F1c3NpYW4gJiBOZXVyYWwgQWNjZWxl
+cmF0b3IgKEludGVsKFIpIEdOQSkKKyMKKworY29uZmlnIERSTV9HTkEKKwl0cmlzdGF0ZSAiSW50
+ZWwoUikgR2F1c3NpYW4gJiBOZXVyYWwgQWNjZWxlcmF0b3IgKEludGVsKFIpIEdOQSkiCisJZGVw
+ZW5kcyBvbiBYODYgJiYgUENJCisgIGhlbHAKKwkgIFRoaXMgb3B0aW9uIGVuYWJsZXMgdGhlIElu
+dGVsKFIpIEdhdXNzaWFuICYgTmV1cmFsIEFjY2VsZXJhdG9yCisJICAoSW50ZWwoUikgR05BKSBk
+cml2ZXI6IGduYQorCSAgSW5mb3JtYXRpb24gYWJvdXQgZnVuY3Rpb25hbGl0eSBpcyBpbgorCSAg
+RG9jdW1lbnRhdGlvbi9ncHUvZ25hLnJzdApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2du
+YS9nbmFfZGV2aWNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vZ25hL2duYV9kZXZpY2UuYwpuZXcgZmls
+ZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLjk2MGI0MzQxYzE4ZQotLS0gL2Rldi9u
+dWxsCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9nbmEvZ25hX2RldmljZS5jCkBAIC0wLDAgKzEsOCBA
+QAorLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seQorLy8gQ29weXJpZ2h0
+KGMpIDIwMTctMjAyMiBJbnRlbCBDb3Jwb3JhdGlvbgorCisjaW5jbHVkZSA8bGludXgvbW9kdWxl
+Lmg+CisKK01PRFVMRV9BVVRIT1IoIkludGVsIENvcnBvcmF0aW9uIik7CitNT0RVTEVfREVTQ1JJ
+UFRJT04oIkludGVsKFIpIEdhdXNzaWFuICYgTmV1cmFsIEFjY2VsZXJhdG9yIChJbnRlbChSKSBH
+TkEpIERyaXZlciIpOworTU9EVUxFX0xJQ0VOU0UoIkdQTCIpOwpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2duYS9nbmFfZGV2aWNlLmggYi9kcml2ZXJzL2dwdS9kcm0vZ25hL2duYV9kZXZp
+Y2UuaApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLjRjYzkyZjI3NzY1
+YQotLS0gL2Rldi9udWxsCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9nbmEvZ25hX2RldmljZS5oCkBA
+IC0wLDAgKzEsOSBAQAorLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seSAq
+LworLyogQ29weXJpZ2h0KGMpIDIwMTctMjAyMiBJbnRlbCBDb3Jwb3JhdGlvbiAqLworCisjaWZu
+ZGVmIF9fR05BX0RFVklDRV9IX18KKyNkZWZpbmUgX19HTkFfREVWSUNFX0hfXworCisjZGVmaW5l
+IERSSVZFUl9OQU1FCQkiZ25hIgorCisjZW5kaWYgLyogX19HTkFfREVWSUNFX0hfXyAqLwpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2duYS9nbmFfcGNpLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+Z25hL2duYV9wY2kuYwpuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLjZi
+ZDAwYzY2ZjNhNwotLS0gL2Rldi9udWxsCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9nbmEvZ25hX3Bj
+aS5jCkBAIC0wLDAgKzEsMzIgQEAKKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4w
+LW9ubHkKKy8vIENvcHlyaWdodChjKSAyMDE3LTIwMjIgSW50ZWwgQ29ycG9yYXRpb24KKworI2lu
+Y2x1ZGUgPGxpbnV4L21vZHVsZS5oPgorI2luY2x1ZGUgPGxpbnV4L3BjaS5oPgorCisjaW5jbHVk
+ZSAiZ25hX2RldmljZS5oIgorI2luY2x1ZGUgImduYV9wY2kuaCIKKworaW50IGduYV9wY2lfcHJv
+YmUoc3RydWN0IHBjaV9kZXYgKnBjaWRldiwgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgKnBj
+aV9pZCkKK3sKKwlpbnQgZXJyOworCisJZXJyID0gcGNpbV9lbmFibGVfZGV2aWNlKHBjaWRldik7
+CisJaWYgKGVycikKKwkJcmV0dXJuIGVycjsKKworCWVyciA9IHBjaW1faW9tYXBfcmVnaW9ucyhw
+Y2lkZXYsIEJJVCgwKSwgcGNpX25hbWUocGNpZGV2KSk7CisJaWYgKGVycikKKwkJcmV0dXJuIGVy
+cjsKKworCXBjaV9zZXRfbWFzdGVyKHBjaWRldik7CisKKwlyZXR1cm4gMDsKK30KKworc3RhdGlj
+IHN0cnVjdCBwY2lfZHJpdmVyIGduYV9wY2lfZHJpdmVyID0geworCS5uYW1lID0gRFJJVkVSX05B
+TUUsCisJLnByb2JlID0gZ25hX3BjaV9wcm9iZSwKK307CisKK21vZHVsZV9wY2lfZHJpdmVyKGdu
+YV9wY2lfZHJpdmVyKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbmEvZ25hX3BjaS5o
+IGIvZHJpdmVycy9ncHUvZHJtL2duYS9nbmFfcGNpLmgKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5k
+ZXggMDAwMDAwMDAwMDAwLi5iNjUxZmEyZTZlYTEKLS0tIC9kZXYvbnVsbAorKysgYi9kcml2ZXJz
+L2dwdS9kcm0vZ25hL2duYV9wY2kuaApAQCAtMCwwICsxLDEyIEBACisvKiBTUERYLUxpY2Vuc2Ut
+SWRlbnRpZmllcjogR1BMLTIuMC1vbmx5ICovCisvKiBDb3B5cmlnaHQoYykgMjAxNy0yMDIyIElu
+dGVsIENvcnBvcmF0aW9uICovCisKKyNpZm5kZWYgX19HTkFfUENJX0hfXworI2RlZmluZSBfX0dO
+QV9QQ0lfSF9fCisKK3N0cnVjdCBwY2lfZGV2aWNlX2lkOworc3RydWN0IHBjaV9kZXY7CisKK2lu
+dCBnbmFfcGNpX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpkZXYsIGNvbnN0IHN0cnVjdCBwY2lfZGV2
+aWNlX2lkICppZCk7CisKKyNlbmRpZiAvKiBfX0dOQV9QQ0lfSF9fICovCi0tIAoyLjI1LjEKCi0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLQpJbnRlbCBUZWNobm9sb2d5IFBvbGFuZCBzcC4geiBvLm8uCnVsLiBTbG93YWNr
+aWVnbyAxNzMgfCA4MC0yOTggR2RhbnNrIHwgU2FkIFJlam9ub3d5IEdkYW5zayBQb2xub2MgfCBW
+SUkgV3lkemlhbCBHb3Nwb2RhcmN6eSBLcmFqb3dlZ28gUmVqZXN0cnUgU2Fkb3dlZ28gLSBLUlMg
+MTAxODgyIHwgTklQIDk1Ny0wNy01Mi0zMTYgfCBLYXBpdGFsIHpha2xhZG93eSAyMDAuMDAwIFBM
+Ti4KU3BvbGthIG9zd2lhZGN6YSwgemUgcG9zaWFkYSBzdGF0dXMgZHV6ZWdvIHByemVkc2llYmlv
+cmN5IHcgcm96dW1pZW5pdSB1c3Rhd3kgeiBkbmlhIDggbWFyY2EgMjAxMyByLiBvIHByemVjaXdk
+emlhbGFuaXUgbmFkbWllcm55bSBvcG96bmllbmlvbSB3IHRyYW5zYWtjamFjaCBoYW5kbG93eWNo
+LgoKVGEgd2lhZG9tb3NjIHdyYXogeiB6YWxhY3puaWthbWkgamVzdCBwcnplem5hY3pvbmEgZGxh
+IG9rcmVzbG9uZWdvIGFkcmVzYXRhIGkgbW96ZSB6YXdpZXJhYyBpbmZvcm1hY2plIHBvdWZuZS4g
+VyByYXppZSBwcnp5cGFka293ZWdvIG90cnp5bWFuaWEgdGVqIHdpYWRvbW9zY2ksIHByb3NpbXkg
+byBwb3dpYWRvbWllbmllIG5hZGF3Y3kgb3JheiB0cndhbGUgamVqIHVzdW5pZWNpZTsgamFraWVr
+b2x3aWVrIHByemVnbGFkYW5pZSBsdWIgcm96cG93c3plY2huaWFuaWUgamVzdCB6YWJyb25pb25l
+LgpUaGlzIGUtbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIG1heSBjb250YWluIGNvbmZpZGVudGlh
+bCBtYXRlcmlhbCBmb3IgdGhlIHNvbGUgdXNlIG9mIHRoZSBpbnRlbmRlZCByZWNpcGllbnQocyku
+IElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIHBsZWFzZSBjb250YWN0IHRo
+ZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzOyBhbnkgcmV2aWV3IG9yIGRpc3RyaWJ1dGlv
+biBieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4K
 
