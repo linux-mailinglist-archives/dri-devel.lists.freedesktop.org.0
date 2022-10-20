@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF8A605ABD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FA6605AC6
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:14:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 414D810E550;
-	Thu, 20 Oct 2022 09:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 155C410E5BE;
+	Thu, 20 Oct 2022 09:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEB7B10E55D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 09:13:23 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 2CE182B05D99;
- Thu, 20 Oct 2022 05:13:19 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F71710E550
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 09:13:27 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 563692B05E55;
+ Thu, 20 Oct 2022 05:13:24 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 20 Oct 2022 05:13:21 -0400
+ by compute2.internal (MEProxy); Thu, 20 Oct 2022 05:13:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1666257198; x=1666264398; bh=mv2l83sdMQ
- mtXju3veEb4whzGm3TG5FEEnnJETaLmU0=; b=BxEVtRx6zZlm/4oz1s4/rXCq5V
- UTXhSIg+tVvrQ04rq2/U+z8TMdLIIzn6IdPd+JkYezGQJnvdt9tXwWbaDjPIfNG6
- svZnaickH0ICblusxnNzaDzJcymxV7YK6kntoPLwrym9eJaK3JByUV6nf1aN7W/c
- xFDRUfjYqGefWoFuULeuBq+5s3c47f9J60I+tIFYFE8WPxva3v3jwQnB50za5Fcd
- 82zhVK4ciHu6icvtNyJioGX6T99myPCM/M+GnMrOzKRWhuAOeKI+14ZMaknj9f1p
- Eol1vyUplgUic9ou2Mm2paYB0Ci8KBUGuuYKIwHKc7QVQX1QAI3jAiiuUNqg==
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1666257203; x=
+ 1666264403; bh=JJ4wZVpV4l1NnGgL9LoWV0Rx11A6i0MrMPUMotPda6c=; b=g
+ fMOzwMSTlwra2s9rB29kjauPvAJp4krsG7f4Z+qTRZYAlJOL1v0+/DKmfJ8fMPut
+ UVaZbZZfA796b82qeVQJiwdiRPiWKXGwC/1lpMZDS0zW8AP2IATIXIvEoI2EGhe2
+ ZW25lCB8VhpKLiXlDoa+1GzTSPHGG4kDybNQHxKGPwshhtwv8m1Z8Nht7QbQVS2X
+ 4XvQHTUQDzcdpWZiPay7LBCAWokTRDhU3fXQKJiFGBHE7a3qoTxZOWKKJwE9ZeaL
+ +HrHjDY0h4tIaMTb0BkwYhJbjznf55s5Zg5Z9FtH3Qom7IMdXYBst8wO/hBwGkbl
+ HDkgBCLju53ufdj7wz3Kg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1666257198; x=1666264398; bh=mv2l83sdMQmtX
- ju3veEb4whzGm3TG5FEEnnJETaLmU0=; b=QEEg+PXFOEd85QjJFC/Va3yUAWSMC
- 6S2teTxbPm6TnUqKuJ1dOVe4p8mHEyd70BY5EHE5mTaDesxC1HEqe+NLHnm2uqRh
- BTkXxclxCtakA9pIRJLZgA1ihzMTIjrUKl3pwa7OTQI3axE6D27c9fT/oO2xyzzQ
- NpdrsBgnDG9ksSZ3Yvie+GeQqPSdIe9Mm3QVOXAQV0Jq8HlppmhxhMElE3Lfz3bg
- fCf9MlJ4e7E59gPFlTX7Tzh7qiuVgSBJLRWFgjkz2CSZPnyX9NdKreyEtXbNnKPb
- k3I/sXciyhuwjXyj3nRUa7zBmGzNzue5F11OSSdzCMvQQ9kl7QsINYviw==
-X-ME-Sender: <xms:LhFRYxcQZkPA_8AaJgOD4xpIWJilbk_MTwhWwQmKjUdaUAh57jVWpA>
- <xme:LhFRY_OfE3Q8z_9MsPJ_DTY7l32Ubi0lYqFxpmOffTW3YJ6BEhfPTYBsqZos7m5Fl
- _mCQ5jkDsjH92fZTs4>
-X-ME-Received: <xmr:LhFRY6jEczM4sSrBObhNEKexSd_4WHlkTY-LqNTzwOZcbX7RXO6kA13d07oaRjbdHAqzsxC5bBCQ3Znwze60V6a2vdq-fjAYUKs2C75RUI0eKQ>
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666257203; x=
+ 1666264403; bh=JJ4wZVpV4l1NnGgL9LoWV0Rx11A6i0MrMPUMotPda6c=; b=D
+ o10H7tx3Hb+FalSdHa4qS0q10g1DEuOgkeNuoNE0ZGpmp7YS1GNUSXnw/JBFODEN
+ BDDuUNDqFBWbBe+2qBV3Bzyx3F/DMFvfjNuOKe3T6E6BN4G1UaBy1MVdIt32qnAx
+ TR3gVZRrmIRx+cR7/hp6TWP+cDVmZPKRi6UtUgTFcH6PLEGmdm/b+QO7WnLSAaB8
+ hJHjt+h6cS0+a1YX5afCOm66sFqbQ6iK3K6VOe+Irt6SDFh1M++AQFSZy5watBDT
+ j1HaOhGGWFMDjvNielC3iLHvBwOiI3X7vP2BZbncvUjrN4gJhQEYIkxdeTErv171
+ 8zN+MgUtTI5HWDEb1UtYA==
+X-ME-Sender: <xms:MxFRY5tvUaLvIRfRCecqvRU4LBEeEybNitWQfiIBCQiRE8_mDhtuWw>
+ <xme:MxFRYyfjy9uGRqVYvQn16cE7iq_1zN1WvEZtjByhOoE9gN7RvLFo_1vv-zcOwSDjD
+ 90tbl7Ez3FP2IAS5NU>
+X-ME-Received: <xmr:MxFRY8wZOfWVCk_LBl0y1eGO9mVVfdbyDS-28RKpCIwB712GMbu1tG9XdLSiqJA1dOF9kyR3cGH266CD5AKO-kIODpX0oX185byISWdYT-SbLA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedguddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffugggtgfffkffvvefosehtkeertdertdejnecuhfhrohhmpehmrgigihhm
- vgestggvrhhnohdrthgvtghhnecuggftrfgrthhtvghrnhepledtieefgfffteeuheeufe
- fgvddtgfejgeeuteeitdetleeifeettdevhfelgfehnecuffhomhgrihhnpehkvghrnhgv
- lhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:LhFRY68XvSqpHk11cCJPMmRqD8ozWu5Zp0jcIO8XBF5x6WXd8QFr4g>
- <xmx:LhFRY9sTYukmqTb7j4C-xSJiOkpAKg0RLlkBgEpsVE4Spbgluoc_xg>
- <xmx:LhFRY5HSYzWRTTQKXgnFunkziG7iPsssXtjhVZhjLb53wo3hrdQ0Cg>
- <xmx:LhFRY0MGu7ij_6PcDK_w_0j6wGuqQ32S9Q7GDtXKzKjLrYUqLelH7VPbw08>
+ cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpehmrgig
+ ihhmvgestggvrhhnohdrthgvtghhnecuggftrfgrthhtvghrnhepfeduhfegveehhfeftd
+ euveeuleduuddttedutddvvdegkeehleevhfetkeetiefhnecuvehluhhsthgvrhfuihii
+ vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvg
+ gthh
+X-ME-Proxy: <xmx:MxFRYwOwcKvvEHQIJRGeiTIuNe5n7UQOxjKv2XsI5xTyDRiOKMX0cQ>
+ <xmx:MxFRY59nJVbP4ObVI_A1gRgDlPDuHM0omYHHCVRcTii4BvybQ3-ZgA>
+ <xmx:MxFRYwWVgDIg0UTLbclZbbEz-SEXLsym9iGI1hRAv7Q07va6TfFnZA>
+ <xmx:MxFRY4cAISRU919nIp0-lXfVNp4vBucO8rdF7hjcIy2KiXn7-7j2dFrYyDU>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Oct 2022 05:13:18 -0400 (EDT)
+ 20 Oct 2022 05:13:23 -0400 (EDT)
 From: maxime@cerno.tech
-Subject: [PATCH v4 0/7] drm/vc4: Fix the core clock behaviour
+Date: Thu, 20 Oct 2022 11:12:09 +0200
+Subject: [PATCH v4 1/7] firmware: raspberrypi: Introduce
+ rpi_firmware_find_node()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-b4-tracking: H4sIAOgQUWMC/32OQQ6CMBBFr2K6dkg7hRZceQ/jAspUGpNiWtJoCHd3cOdCV5P/k/f+rCJTCpTF6b
- CKRCXkMEcO9fEg3NTHG0EYOQuUiLJVDaRHAB+eUN/BSFAWrTaNrLEbBTNDnwmG1Ec37VQxldzrKeRl
- Tq/PSkE+l1/CgiChazVaM7TaGzw7SnGuFmLjlVVF/8U14941xvJDSnn6wrdtewMpF4xY8QAAAA==
-Date: Thu, 20 Oct 2022 11:12:08 +0200
-Message-Id: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
+Message-Id: <20220815-rpi-fix-4k-60-v4-1-a1b40526df3e@cerno.tech>
+References: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
+In-Reply-To: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
 To: Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
  Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
@@ -77,11 +79,11 @@ To: Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
  Scott Branden <sbranden@broadcom.com>
 X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3056; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=JajlL/w8KB/aQRhFW6egN7UoNaJPWKWmvTwp05GGwV8=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmBAi/zDu5mcGPaPFNp0ZPjVt/m17Nv7rmydWZL5G1Z79nn
- Q9pXdZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAil40Y/oe8dH+w5f0Jjdm5cx/rNW
- 51N7Zdvt+7du6UWRNMpBZYuIYw/NP94p4743//uYPBD3XfLp195lDsosclH3IChQXY7Aq5YngA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2789; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=ZSj0VJea8u0i5Q2vnxlThNbrs4wjN9dVZ0f3te/Rd5I=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmBAq+MFpf7CN4Re2fZKMV1zP6CXfbXmi+TzN69f/fj5y8J
+ 9aO/O0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjARozqGn4wM6e9rtf213r9Z5iGVIf
+ p/sq7Fhge+Cxap88xLmtn1wpzhf6T/7i3ehmcf+TGt1OkU2VyWFLXaIF6Q54y0W/KXRXNaGAE=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,78 +105,79 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+A significant number of RaspberryPi drivers using the firmware don't
+have a phandle to it, so end up scanning the device tree to find a node
+with the firmware compatible.
 
-Those patches used to be part of a larger clock fixes series:
-https://lore.kernel.org/linux-clk/20220715160014.2623107-1-maxime@cerno.tech/
+That code is duplicated everywhere, so let's introduce a helper instead.
 
-However, that series doesn't seem to be getting anywhere, so I've split out
-these patches that fix a regression that has been there since 5.18 and that
-prevents the 4k output from working on the RaspberryPi4.
-
-Hopefully, we will be able to merge those patches through the DRM tree to avoid
-any further disruption.
-
-Let me know what you think,
-Maxime
-
-To: Florian Fainelli <f.fainelli@gmail.com>
-To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-To: Ray Jui <rjui@broadcom.com>
-To: Scott Branden <sbranden@broadcom.com>
-To: Michael Turquette <mturquette@baylibre.com>
-To: Stephen Boyd <sboyd@kernel.org>
-To: Emma Anholt <emma@anholt.net>
-To: Maxime Ripard <mripard@kernel.org>
-To: David Airlie <airlied@linux.ie>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: linux-rpi-kernel@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-clk@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
 ---
-Changes in v4:
-- Move the rpi_firmware_of_match to avoid confusion
-- Link to v3: https://lore.kernel.org/r/20220815-rpi-fix-4k-60-v3-0-fc56729d11fe@cerno.tech
+ drivers/firmware/raspberrypi.c             | 18 ++++++++++++------
+ include/soc/bcm2835/raspberrypi-firmware.h |  7 +++++++
+ 2 files changed, 19 insertions(+), 6 deletions(-)
 
-Changes in v3:
-- Return UINT_MAX when the firmware call fails in the _get_max_rate function
-- Link to v2: https://lore.kernel.org/r/20220815-rpi-fix-4k-60-v2-0-983276b83f62@cerno.tech
+diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberrypi.c
+index 4b8978b254f9..932a8bef22fb 100644
+--- a/drivers/firmware/raspberrypi.c
++++ b/drivers/firmware/raspberrypi.c
+@@ -311,6 +311,18 @@ static int rpi_firmware_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct of_device_id rpi_firmware_of_match[] = {
++	{ .compatible = "raspberrypi,bcm2835-firmware", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, rpi_firmware_of_match);
++
++struct device_node *rpi_firmware_find_node(void)
++{
++	return of_find_matching_node(NULL, rpi_firmware_of_match);
++}
++EXPORT_SYMBOL_GPL(rpi_firmware_find_node);
++
+ /**
+  * rpi_firmware_get - Get pointer to rpi_firmware structure.
+  * @firmware_node:    Pointer to the firmware Device Tree node.
+@@ -366,12 +378,6 @@ struct rpi_firmware *devm_rpi_firmware_get(struct device *dev,
+ }
+ EXPORT_SYMBOL_GPL(devm_rpi_firmware_get);
+ 
+-static const struct of_device_id rpi_firmware_of_match[] = {
+-	{ .compatible = "raspberrypi,bcm2835-firmware", },
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, rpi_firmware_of_match);
+-
+ static struct platform_driver rpi_firmware_driver = {
+ 	.driver = {
+ 		.name = "raspberrypi-firmware",
+diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
+index 811ea668c4a1..63426082bcb9 100644
+--- a/include/soc/bcm2835/raspberrypi-firmware.h
++++ b/include/soc/bcm2835/raspberrypi-firmware.h
+@@ -142,6 +142,7 @@ int rpi_firmware_property(struct rpi_firmware *fw,
+ int rpi_firmware_property_list(struct rpi_firmware *fw,
+ 			       void *data, size_t tag_size);
+ void rpi_firmware_put(struct rpi_firmware *fw);
++struct device_node *rpi_firmware_find_node(void);
+ struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node);
+ struct rpi_firmware *devm_rpi_firmware_get(struct device *dev,
+ 					   struct device_node *firmware_node);
+@@ -159,6 +160,12 @@ static inline int rpi_firmware_property_list(struct rpi_firmware *fw,
+ }
+ 
+ static inline void rpi_firmware_put(struct rpi_firmware *fw) { }
++
++static inline struct device_node *rpi_firmware_find_node(void)
++{
++	return NULL;
++}
++
+ static inline struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node)
+ {
+ 	return NULL;
 
-Changes in v2:
-- Dropped the clock patches, made an ad-hoc function in the firmware driver
-- Link to v1: https://lore.kernel.org/r/20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech
-
----
-Dom Cobley (1):
-      drm/vc4: hdmi: Add more checks for 4k resolutions
-
-Maxime Ripard (6):
-      firmware: raspberrypi: Introduce rpi_firmware_find_node()
-      firmware: raspberrypi: Move the clock IDs to the firmware header
-      firmware: raspberrypi: Provide a helper to query a clock max rate
-      drm/vc4: hdmi: Fix hdmi_enable_4kp60 detection
-      drm/vc4: hdmi: Rework hdmi_enable_4kp60 detection code
-      drm/vc4: Make sure we don't end up with a core clock too high
-
- drivers/clk/bcm/clk-raspberrypi.c          | 19 -----------
- drivers/firmware/raspberrypi.c             | 38 ++++++++++++++++++----
- drivers/gpu/drm/vc4/vc4_drv.h              | 16 +++++++++
- drivers/gpu/drm/vc4/vc4_hdmi.c             | 25 +++++++-------
- drivers/gpu/drm/vc4/vc4_hdmi.h             |  8 -----
- drivers/gpu/drm/vc4/vc4_hvs.c              | 26 +++++++++++++++
- drivers/gpu/drm/vc4/vc4_kms.c              | 13 +++++---
- include/soc/bcm2835/raspberrypi-firmware.h | 52 ++++++++++++++++++++++++++++++
- 8 files changed, 147 insertions(+), 50 deletions(-)
----
-base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
-change-id: 20220815-rpi-fix-4k-60-17273650429d
-
-Best regards,
 -- 
-Maxime Ripard <maxime@cerno.tech>
+b4 0.10.1
