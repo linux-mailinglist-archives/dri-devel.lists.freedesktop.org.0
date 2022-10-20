@@ -1,120 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02C9605F59
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 13:52:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE84605F85
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 13:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1696610E922;
-	Thu, 20 Oct 2022 11:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF55F10E45B;
+	Thu, 20 Oct 2022 11:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2048.outbound.protection.outlook.com [40.107.244.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5494910E45C;
- Thu, 20 Oct 2022 11:51:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eZGgRa3kdGSuCZRm+Hv4TjScY2SIvPHeWTGnviJGzfM7wLx+OVUHPdlhHOXQ1DuZrIMk9wSurTH+m5Jk5y9by2wfpSLowaS9ADSG0IlqTrGrZqf9gkwBqJ5IeAWknwaNaEVxArsqbiZAwhwipP/e1hdfbXMhR2+Ha3crfw5f1zP7wiWX23tx9AfSfg64vgM7IKtfOgyBgkLfhwu1btCayvtujR/pZ/tR0Mu/0n+F2u3UaBTu999vcMA8iQ2NBvuMm4eiRmRMvnMrHFl1koz3dMel9Jye6zhZquUMubYH//BaA9iEgntTdMvezAu1V3a3AlNx3e5ze15RxGQhQGudAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BkjpM06ND/1tPS8vCFaUA1j7bWQXJk3S6+Ma6y4+cfY=;
- b=l8qbIUvirfxoM99SNeSfKNWvMb3dFtEv1yFv9HfbKP/Kb/MjjJAwfGOgu80xJ0NZF4XOXMrvUv/bi9H+ObYYX/N6ASiTlDCDhsG0DHQsOOGBKZ7FV4TNK12ykqA0gM4G8GLgqh41RN1pddJV/0s/Tq5CtykrPl/iRMJ3BZ+VXO06K5DbCIL2ImHFJiblER6bcwScDIHvSBWvZhFCCLCm7tmefa+1QKmhr5G5/X39vjIBoxZOnEG800ukSD3WDZNg5tX7pOvD6nc9bSGA0Kohtlj34nROReglIFe8eMVJdiIz4A2Wrj6t5uCaa4tdJxWXFmP4CEyiUPHrfKFGvRcZyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BkjpM06ND/1tPS8vCFaUA1j7bWQXJk3S6+Ma6y4+cfY=;
- b=dsyeXoJNcHCjbzP4ZNAVYLXgu0pe8A+opYJYBFnk84JO9MhqSCoYaye+ObyrUo5CQTs87GSP0PNtSul5zL+fMn9m80yN9Mxs51/cR8XcXWLhiAc+tZwEOi1ysx62cUnD0AtYywf/MQYRwvuRQuJ9Nz9gX0iMj99ArryPoQtcey8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW4PR12MB6898.namprd12.prod.outlook.com (2603:10b6:303:207::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Thu, 20 Oct
- 2022 11:51:34 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::805b:58b6:1f27:d644]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::805b:58b6:1f27:d644%6]) with mapi id 15.20.5723.034; Thu, 20 Oct 2022
- 11:51:31 +0000
-Message-ID: <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
-Date: Thu, 20 Oct 2022 13:48:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 01/21] drm/amdgpu: Don't set struct drm_driver.lastclose
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-References: <20221020103755.24058-1-tzimmermann@suse.de>
- <20221020103755.24058-2-tzimmermann@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221020103755.24058-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR1001CA0013.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:2::26) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45C6D10E0BB;
+ Thu, 20 Oct 2022 11:58:57 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id A6D412B066E1;
+ Thu, 20 Oct 2022 07:58:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 20 Oct 2022 07:58:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1666267132; x=1666274332; bh=ZpTpDn39WC
+ JGSChIdFbiWkCndVEfRKpNniONagZhJUQ=; b=F0GcQVNz5Su7yyTQiCx7B4FkAM
+ 7LS/qSCmR75xLiKg9b3P/5rF8nHEjMbvkHrCrn9Wq10wbTJSsBY7VGwePlcfRaPV
+ e+6RMUW508vKRtqmaP8d0omH3UzvdB2K2M/JJqi0Ej6EYckHrxmxiJzanhJrweZN
+ H+aklhcIfeNJRuut6GE2w+vokq4dwIwzut9335Tqq13vjXMQGgNdQekp0X5rwyRo
+ shiNv7iPnoQTu1ZSM4W4ZQy9SIpK1u4jgRQIwtIRhNhDycKem8AoE+kYL857qFwD
+ YcvqMhwirH54GQtOdgZ/IDOsSUt4zoWrWdDNGeIplNqy5L127RuSsYh9w1/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1666267132; x=1666274332; bh=ZpTpDn39WCJGSChIdFbiWkCndVEf
+ RKpNniONagZhJUQ=; b=af6vWiN47RMgelCZd+0kbw643vgGF3xWdDa3f7WnCEsY
+ X0H8oreXkV9/CrnwfZ0Td7KAWy/w3AqSzJYriwAm58b7J/QPGJ4Y876ErwPstzrW
+ J0hpVU1BjFYUKTpf5i+2XZnELTDOU3yhRA+fbjfdYRYHypMDnr9YqL3NJGnR3LeC
+ EbmWW3Mh5o1HDSKbXO/ntup/lWdErqkIuBP4EAWz8CeOcPP5YHtqZOduMfLUXZcN
+ Dnvv8n24pO8oxQlsssXpraPFQcny1r8RcemUdrVOkyR0v2u6WAb5b/j8Z26Wb1Eh
+ 2+LVIFEszIZ0UJodIj+8M54PBQ+izBvDwZUmKNvI8w==
+X-ME-Sender: <xms:-zdRY93Evv092xHu00TfA9m-EN_ghbQ33bMP1CQXIC_p5NLHZUzrtw>
+ <xme:-zdRY0F8ytjgQe7uAy0FLktiWns6hniu1VjSbLB37BysuIYluDnYIf4WHeUgKheIo
+ U5AlWASgpRC6bb2J8g>
+X-ME-Received: <xmr:-zdRY96lJRueA-Xcgv6C0Y_joEMXkJXQIUlzDquvcZGm4iKpCNS7UtitSvratnepl-XJMeh_lCatvBfliStjNRtVMgl-YqnoMGnGO_Jz28HTDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedggeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephfffvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepmhgrgihi
+ mhgvsegtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpeekgeelvdeujeelveehtd
+ ffhedtudeuleetuddugfefgedtuefggeduffdtvdelheenucffohhmrghinhepkhgvrhhn
+ vghlrdhorhhgpdhgihhthhhusgdrtghomhdpthigthdrshhonecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:-zdRY61_mBOzjXV-e8bCn6IREbeWXlBc2YOIrkDjg_TjURkb_Dx54A>
+ <xmx:-zdRYwGPY1CTGB1XFiObgK0lx61WIL6z-AH_M7zVoKSfDoL0lURNgA>
+ <xmx:-zdRY79lseAUX7AQUG3yElIz9UTdRLn1O3m28SL1rR25NpOTcSxrcw>
+ <xmx:_DdRY7m_pSxW0GjBYzLpTTDYTYIrbiMa_cvivkk0M_2SCd7tvadtz460KUQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Oct 2022 07:58:50 -0400 (EDT)
+From: maxime@cerno.tech
+Date: Thu, 20 Oct 2022 13:58:49 +0200
+To: kfyatek+publicgit@gmail.com
+Subject: Re: [PATCH v5 20/22] drm/vc4: vec: Convert to the new TV mode property
+Message-ID: <20221020115849.pvefnyn4wxibycwt@houat>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-20-d841cc64fe4b@cerno.tech>
+ <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
+ <81936381-ae37-8c84-4681-9eff19f653b5@tronnes.org>
+ <20221018100033.d2sf7xagyycx5d4p@houat>
+ <da2b4cb4-5d12-3161-64e3-e87a8cc63e81@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW4PR12MB6898:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34bb9327-0e2d-47ac-fb3c-08dab2916e16
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: djglQBEcOzQigVniLbe7Uf01Ze6y6L18CCWR2e3mm2E9AzSJ1dwV+R9sPDPXx1A0eWzcwN9YUwpJcH5t5lDYt8a2S3OOz4ouFnAvkOiZmwqnMV9iuwXW25FJ9kjsfDbwGJkT7TgyjGnN44KeQQjy4ZrJeyk/f0GIiIHR9a9IjFOhNx/Z1RfFqa0I/bhvNXRgm2zjwB7e01lEEn80TTf1cKy8g8hCCFE2XpfDIpG+0VwA3xQbDrCnNvu5FvJgW8iY6Vi4W5OSKweYsYGNp4n6gr6A0nKoez9CLbTESEbneiGYKRkE7a4biikyvj8Os0QTiSYK8AS5LUYhj7chpPGfZLuIYwy9CuJQTbs84z/GXy+7/1SzfhsrNnpgo0895gXIwmQt0rDnk7/jcw/6z8MsUC6Wohh4Tw1h7nvtCD+VKTbRR4Q2N3uRzI3fNHsn20o0DadkRUci7fmPE519U9990lvL3F7E/UmaWxTYjJffWnyuqRRK1+ble/q7/zQn37U3/ntUtHzCoJPUFWVQCNni+b+cNvUTis5Ko9VhihiorGXCPuberCeKqVHTN6dALg8D3TMOxJjAXyAxnFC9NmEb+9cpJ+n8JXn0MG+hlQYb5G9KtPOE73WJ/iLT3UkJehD07nkhzgdEx/e/DQegQMNTt52NXTPFUJRXTDl4Nswuq2u0jWPyF9pPEoLfSdAz1J2VKUnnvQTxlrYPx8i0GVW6DfSVsJX1ai9iEyELVV/jTK86xzG+FMW1Pqn5bj5xMFNxd8FRB78bF/t4oQZan14UkaO5EKNcXz1LE+k5omCyxfI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(39860400002)(136003)(346002)(396003)(376002)(451199015)(6512007)(26005)(6666004)(478600001)(83380400001)(186003)(7416002)(6506007)(5660300002)(2616005)(66556008)(316002)(41300700001)(4326008)(66946007)(6486002)(8936002)(66476007)(8676002)(31696002)(86362001)(36756003)(38100700002)(2906002)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGR3cjIySk43T2JMVlU0NnRNVWdGcUFnNElKV3FWSlVncC8waUlFRlBPamls?=
- =?utf-8?B?ckxnR1V4Y2JUYWhsZGFNemdrSXBYOUhlNldFZTZ1Q3NDOWtCelpQVkRwQkE5?=
- =?utf-8?B?NDRTc2N3T3VydE1ma2pyaEdrcFZmZW1iVTlsY2ZYMXZuQ0FBYkF6aUFhZ3VI?=
- =?utf-8?B?OE9JbFFXeDhVSTdsblY3cWdUUUh4TmorTFpPRm11eVFwYzgwU2J3UGpTUjdz?=
- =?utf-8?B?TFdVSndhVDQxRVdxbVcrczA4YnpHWHZROHVncnJVckkyZHc4Q0tqM2V4VlBo?=
- =?utf-8?B?Yk5WSFcxQVdEUzhXRm1TUHgyUnhZcnArZG5XQ2gyNFZYSzFlN3lBdmRUUEpk?=
- =?utf-8?B?SkdmR29HNnNHWk9iWW0xUjZaWlltL1hmZE9NaVRKU2NSeUNkSkU3dGozbHFV?=
- =?utf-8?B?alR4d3QrZnROOG5QU1p2dHNvbkozdWUvdjB5QThwZitmTi9lZEVnRm1Ra2hC?=
- =?utf-8?B?anZETzJnUDRwQUtjSWMrQ3lFWjhjcTRzOHlPcVhndUF1OTBrYWt3V0JrYTBo?=
- =?utf-8?B?d0ErU0xnWlpmbWJKcm94VEg2YVlmRnB0OFIvMkgxTEpvd05sbVhKRGkzL3JO?=
- =?utf-8?B?Q1BEUWpsSVdXUnBTVkhYYjVmcllDdGhudjFjYkJ1OHFnTnE0MFprUzFGaFJt?=
- =?utf-8?B?YTRWUUVCQ0NQczRjRjFjblRBTDdFZ3RoaXo1Yy9LS09MTGJIR1NLd0FmUTNS?=
- =?utf-8?B?aFdXTXgyU0dTTVcrcGQ4NVhhUHNqZnNmWUUzbWlPdW00Y3ZyWUF1eE5sc1Nq?=
- =?utf-8?B?ek50Q0pveXpxNmRIRWkwS3dhb3lmZFhJcHk0YnJPMU1DTXRMS05WWXlFdHpz?=
- =?utf-8?B?RlZXRDA5c0x0Skt4SkEwZmUxWFZoZ205WUJsc2NVbXkvZFA0bDNQQmNvRFh6?=
- =?utf-8?B?dmhwNzBFVDlXZ0puQ0I5Mi9Wb1V2QStybzVXSkJPUjErZ0hLbG02L2hnZDVx?=
- =?utf-8?B?Tmt1TzVtbW5mM21Pb0hRSTl4Z2hUdEhBMzRTQTYzY1FNeGV3TWxtZXZzYTJN?=
- =?utf-8?B?cnFEQkdUMWE1bGM2QzVPK3JoQWZLejNnc2pGYjhaZm5YQ2lrelhGei94djNo?=
- =?utf-8?B?SkxCRDIzSUw1S21ZdXAzUW8zK25JTWd0OU1IbXZoZEg5QlFPWFhUZHpraDZn?=
- =?utf-8?B?Q1ZNUG0vNm9jeEVSTTVKUTVQYzlvNDFnMklrK3ljZy9PcDA2cXhCSW14Z3Fl?=
- =?utf-8?B?aE80WGxDb1o4NTBmV28wVXhzRGJRV0hoQk1pUnUzQ2U0VlFTZk9ZMlBaajBu?=
- =?utf-8?B?T0wrV3U4VE16cW50VWE5M2YzdVJYRnFTMVllR0htK0RjTE1qNlR2TDhJa2N4?=
- =?utf-8?B?aExYaGx1RDROOFRWdlAwWEFjYzIvM1VDNkRVWElESjZ2WUV6QVNjVW1nL2Uv?=
- =?utf-8?B?SWhuVDExdzJKbnZPUkh0RHdlMnJGdFp3eUt4eitOckxyZXIwUEhEb0I0alBE?=
- =?utf-8?B?TFQ3OUUwb21tWFVSZ2pFUDVMMkUxSlFEY0hoUkhJcXJIRTM4ZXJMRWRlVm5V?=
- =?utf-8?B?d3FjTExlWm1lWHlpQjNpUW1Mc3p0SkRXK1l0QnFDRTZxZ2xpcXNQNjVvb1Q4?=
- =?utf-8?B?SWtvTDhuU3pFcHZoQVVvUGp6d1RXOXZoT3pEbFBIcDZtYXNWaWNMMWMySStt?=
- =?utf-8?B?NkhmRXU4ZFk4Mm5XWkJKZ2UvWmI4ZTMyVmQ3NTZYbFFzRnVjazllbm1wWFRz?=
- =?utf-8?B?TVRSempBYzlXNThpcVBXQWY3QTYvSVVwMEw5dXRoUGIwd2lJSm9YMStnYTQr?=
- =?utf-8?B?UUZYNnM2YzdlQ095d1ozZUk2ZXZqTXlsTERQZVN1aXp4QURrZEhQYnlCYUZl?=
- =?utf-8?B?cjVNZWZ6N3hjbGF2ZXFxUFBOay8vWndOTXFIZFZVWUZUM3prQWNMM1Z5NFFN?=
- =?utf-8?B?M09uczcvS3R6dVZzVEdzbGpMNWxvTWdMbTRVVUUwZFVUL3lGQU90V0kyRU52?=
- =?utf-8?B?L2U5OUVzclpiYk05OHVFL29YSC9COTgvZzV2cDRFTnczOXFkUEQrRVdINmV4?=
- =?utf-8?B?NUw1T3RjODJlVEE5Q2k2VUNaYXJWSEF6THFMK1VHQzMwTEZicy8vaXZFYTNB?=
- =?utf-8?B?RWRJc3pGMjRzM3BiOURCZVQ2c3NwN0o1OTdxYVplS3pmakdpaUk1TXc1bUZs?=
- =?utf-8?Q?81xaw8csJVBvRA3mTABTFHhlz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34bb9327-0e2d-47ac-fb3c-08dab2916e16
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2022 11:51:31.6004 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5OeVYNFFTSt7GCUp4ykoNFJm7pu1DjoecANWmf//HoEVyDQ3WU2UDqJkXgyXYuB7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6898
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="kngtkif3uvhg4p7e"
+Content-Disposition: inline
+In-Reply-To: <da2b4cb4-5d12-3161-64e3-e87a8cc63e81@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,74 +88,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- spice-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org
+ Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.10.22 um 12:37 schrieb Thomas Zimmermann:
-> Don't set struct drm_driver.lastclose. It's used to restore the
-> fbdev console. But as amdgpu uses generic fbdev emulation, the
-> console is being restored by the DRM client helpers already. See
-> the call to drm_client_dev_restore() in drm_lastclose().
 
-???
+--kngtkif3uvhg4p7e
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The commit message doesn't match what the patch is doing. You are 
-removing output_poll_changed instead of lastclose here.
+Hi,
 
-Did something got mixed up?
-
-Cheers,
-Christian.
-
+On Tue, Oct 18, 2022 at 11:28:35PM +0200, Mateusz Kwiatkowski wrote:
+> W dniu 18.10.2022 o 12:00, Maxime Ripard pisze:
+> > On Mon, Oct 17, 2022 at 12:31:31PM +0200, Noralf Tr=F8nnes wrote:
+> >> Den 16.10.2022 20.52, skrev Mateusz Kwiatkowski:
+> >>>>  static int vc4_vec_connector_get_modes(struct drm_connector *connec=
+tor)
+> >>>>  {
+> >>>> -	struct drm_connector_state *state =3D connector->state;
+> >>>>  	struct drm_display_mode *mode;
+> >>>> =20
+> >>>> -	mode =3D drm_mode_duplicate(connector->dev,
+> >>>> -				  vc4_vec_tv_modes[state->tv.legacy_mode].mode);
+> >>>> +	mode =3D drm_mode_analog_ntsc_480i(connector->dev);
+> >>>>  	if (!mode) {
+> >>>>  		DRM_ERROR("Failed to create a new display mode\n");
+> >>>>  		return -ENOMEM;
+> >>>>  	}
+> >>>> =20
+> >>>> +	mode->type |=3D DRM_MODE_TYPE_PREFERRED;
+> >>>>  	drm_mode_probed_add(connector, mode);
+> >>>> =20
+> >>>> -	return 1;
+> >>>> +	mode =3D drm_mode_analog_pal_576i(connector->dev);
+> >>>> +	if (!mode) {
+> >>>> +		DRM_ERROR("Failed to create a new display mode\n");
+> >>>> +		return -ENOMEM;
+> >>>> +	}
+> >>>> +
+> >>>> +	drm_mode_probed_add(connector, mode);
+> >>>> +
+> >>>> +	return 2;
+> >>>> +}
+> >>>
+> >>> Referencing those previous discussions:
+> >>> - https://lore.kernel.org/dri-devel/0255f7c6-0484-6456-350d-cf24f3fee=
+5d6@tronnes.org/
+> >>> - https://lore.kernel.org/dri-devel/c8f8015a-75da-afa8-ca7f-b2b134cac=
+d16@gmail.com/
+> >>>
+> >>> Unconditionally setting the 480i mode as DRM_MODE_TYPE_PREFERRED caus=
+es Xorg
+> >>> (at least on current Raspberry Pi OS) to display garbage when
+> >>> video=3DComposite1:PAL is specified on the command line, so I'm afrai=
+d this won't
+> >>> do.
+> >>>
+> >>> As I see it, there are three viable solutions for this issue:
+> >>>
+> >>> a) Somehow query the video=3D command line option from this function,=
+ and set
+> >>>    DRM_MODE_TYPE_PREFERRED appropriately. This would break the abstra=
+ction
+> >>>    provided by global DRM code, but should work fine.
+> >>>
+> >>> b) Modify drm_helper_probe_add_cmdline_mode() so that it sets
+> >>>    DRM_MODE_TYPE_PREFERRED in addition to DRM_MODE_TYPE_USERDEF. This=
+ seems
+> >>>    pretty robust, but affects the entire DRM subsystem, which may bre=
+ak
+> >>>    userspace in different ways.
+> >>>
+> >>>    - Maybe this could be mitigated by adding some additional conditio=
+ns, e.g.
+> >>>      setting the PREFERRED flag only if no modes are already flagged =
+as such
+> >>>      and/or only if the cmdline mode is a named one (~=3D analog TV m=
+ode)
+> >>>
+> >>> c) Forcing userspace (Xorg / Raspberry Pi OS) to get fixed and honor =
+the USERDEF
+> >>>    flag.
+> >>>
+> >>> Either way, hardcoding 480i as PREFERRED does not seem right.
+> >>>
+> >>
+> >> My solution for this is to look at tv.mode to know which mode to mark =
+as
+> >> preferred. Maxime didn't like this since it changes things behind
+> >> userspace's back. I don't see how that can cause any problems for user=
+space.
+> >>
+> >> If userspace uses atomic and sets tv_mode, it has to know which mode to
+> >> use before hand, so it doesn't look at the preferreded flag.
+> >>
+> >> If it uses legacy and sets tv_mode, it can end up with a stale preferr=
+ed
+> >> flag, but no worse than not having the flag or that ntsc is always
+> >> preferred.
+> >>
+> >> If it doesn't change tv_mode, there's no problem, the preferred flag
+> >> doesn't change.
+> >
+> > I don't like it because I just see no way to make this reliable. When we
+> > set tv_mode, we're not only going to change the preferred flag, but also
+> > the order of the modes to make the preferred mode first.
+> >
+> > Since we just changed the mode lists, we also want to send a hotplug
+> > event to userspace so that it gets notified of it. It will pick up the
+> > new preferred mode, great.
+> >
+> > But what if it doesn't? There's no requirement for userspace to handle
+> > hotplug events, and Kodi won't for example. So we just changed the TV
+> > mode but not the actual mode, and that's it. It's just as broken for
+> > Kodi as it is for X11 right now.
+> >
+> > If we can't get a bullet-proof solution, then I'm not convinced it's
+> > worth addressing. Especially since it's already the current state, and
+> > it doesn't seem to bother a lot of people.
+>=20
+> I wouldn't rely on the "doesn't seem to bother a lot of people" bit too m=
+uch.
+> Here's why:
+>=20
+> - Analog TV output is a relatively obscure feature in this day and age in=
+ the
+>   first place.
+>=20
+> - Out of the people interested in using it with VC4/VEC, many are actuall=
+y using
+>   the downstream kernel from https://github.com/raspberrypi/linux instead=
+ of the
+>   upstream kernel, and/or firmware mode-switching instead of proper KMS.
+>=20
+>   - The downstream kernel only reports modes that match the TV mode set a=
+t boot
+>     either via vc4.tv_norm=3D, or implied by the resolution set via video=
+=3D; note
+>     that video=3D is also set appropriately at boot by Pi firmware, based=
+ on the
+>     value of sdtv_mode set in config.txt. See also the
+>     vc4_vec_connector_get_modes() and vc4_vec_get_default_mode() function=
+s in
+>     https://github.com/raspberrypi/linux/blob/dbd073e4028580a09b6ee507e0c=
+137441cb52650/drivers/gpu/drm/vc4/vc4_vec.c
+>=20
+>   - When firmware mode-switching is used, it sets the appropriate TV mode=
+ and
+>     resolution based on the sdtv_mode set in config.txt.
+>=20
+> So, all in all, the number of people who would use 1. analog TV out with =
+VC4,
+> 2. the upstream kernel, 3. full KMS (and thus the vc4_vec.c code) is rath=
+er
+> small, so the fact that you're not hearing too many complaints doesn't me=
+an that
+> the current behavior is OK. If anybody ran into problems and was bothered=
+ by
+> that, they likely migrated to the downstream kernel and/or firmware
+> mode-switching.
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 1 -
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 --
->   2 files changed, 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index 23998f727c7f9..fb7186c5ade2a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -1224,7 +1224,6 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
->   
->   const struct drm_mode_config_funcs amdgpu_mode_funcs = {
->   	.fb_create = amdgpu_display_user_framebuffer_create,
-> -	.output_poll_changed = drm_fb_helper_output_poll_changed,
->   };
->   
->   static const struct drm_prop_enum_list amdgpu_underscan_enum_list[] =
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index f6a9e8fdd87d6..e9a28a5363b9a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -82,7 +82,6 @@
->   #include <drm/drm_atomic_uapi.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_blend.h>
-> -#include <drm/drm_fb_helper.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_edid.h>
->   #include <drm/drm_vblank.h>
-> @@ -2810,7 +2809,6 @@ const struct amdgpu_ip_block_version dm_ip_block =
->   static const struct drm_mode_config_funcs amdgpu_dm_mode_funcs = {
->   	.fb_create = amdgpu_display_user_framebuffer_create,
->   	.get_format_info = amd_get_format_info,
-> -	.output_poll_changed = drm_fb_helper_output_poll_changed,
->   	.atomic_check = amdgpu_dm_atomic_check,
->   	.atomic_commit = drm_atomic_helper_commit,
->   };
+> That being said, I completely forgot that there's a cmdline_mode field in
+> struct drm_connector, even though I actually added code that examines it =
+inside
+> vc4_vec_connector_get_modes() that's in the downstream kernel. So... what=
+ do
+> you think about just examining connector->cmdline_mode.tv_mode there? It =
+seems
+> to solve all the problems.
 
+It's a very good idea, I'll work on it, thanks :)
+
+Maxime
+
+--kngtkif3uvhg4p7e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1E3+AAKCRDj7w1vZxhR
+xafkAQDgQNtnP50CK4yhNqKMZFtxmkX10yJT33hGLDCT6TE8PgD/QcWMJEWdc9aV
+1ov3fdoP/cA1BHg/dvO2qgLkB1+TlQ8=
+=LeLr
+-----END PGP SIGNATURE-----
+
+--kngtkif3uvhg4p7e--
