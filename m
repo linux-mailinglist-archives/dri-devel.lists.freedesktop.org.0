@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADEA606571
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 18:11:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF35D606577
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 18:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0F6710E1D4;
-	Thu, 20 Oct 2022 16:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B71C510E4F5;
+	Thu, 20 Oct 2022 16:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA6810E1D4;
- Thu, 20 Oct 2022 16:10:53 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 467BB10E1FD;
+ Thu, 20 Oct 2022 16:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666282253; x=1697818253;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=NafoE/aekxLZKz2izBbnKlFckKIiW7xKTfoNppLuaXE=;
- b=EycXPcFyljfSIC9ctZE5CuudME26ZpqX6LPaTQW75L9UaHI7xLocVpFY
- iWpVrHlvg4lRb9PrO6DK5DfFKGxyD6WfSF7vLFK5wZgENGMdIr1GFJjm7
- 9Kft96e7azGbr9eHuBa2L0xclgp5vDpPToiWwb4qPX6KDm0LDkJg7iZor
- UVoZVF+XDBuv1G6qnI4twEWpqY1PBNpgPqFddF7SOmzrTmgEbQfx03Xv9
- 9yRF0+miuTBzVBqlW6gD7dg6vv67enDQxBdcNPsq3JgXN2lswOPjCCG0j
- zDcmbLTkH6cbSp039Gfl+wcmKNtZcA5jHDXU5+LYNBNNdg08vPyM8ezDi g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="306750636"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="306750636"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 09:07:28 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="629906091"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="629906091"
-Received: from xhallade-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.45.249])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 09:07:25 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: Random submitter change in Freedesktop Patchwork
-In-Reply-To: <878rlaqyc7.wl-ashutosh.dixit@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <878rlaqyc7.wl-ashutosh.dixit@intel.com>
-Date: Thu, 20 Oct 2022 19:07:22 +0300
-Message-ID: <871qr2h41x.fsf@intel.com>
+ t=1666282336; x=1697818336;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=e+g8eWaHmm8lmomVC++HUnHoR1ppSUnPPO8atDjLPoA=;
+ b=P0jtHU62Yac3uvM9j3JiLwGTF76fEhHqAJfiTmghE5rWK6nzJe2R5JBb
+ Mzy00V5LrVqyfdIzwLk8VmVEw92je+yZxmT11AQTr6WzSWrQZpbMBGxb4
+ sQZrOumuL5YyIdsxhDcTpzx9wvaMzrr4ZxPe25/ODjLD22cAO4DXRfiqk
+ pAS9RjhSh9Sncq+mho3nL8YvLx3nq1T3Q9MYL/bY3OEa0S3m5vtJ9BVwj
+ T8xNTvViumrWSV848bp3BgohyAXNRgLYHShoYaa/HOcZpXWHOA/XB3Eis
+ kD5Dgaex5uWHI9XsnSSVYVX1TiUaENLWwzToGhE0IlFPM9rIXcFIYW5Rh Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="287158488"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="287158488"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 09:09:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="719147223"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="719147223"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by FMSMGA003.fm.intel.com with SMTP; 20 Oct 2022 09:09:31 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 20 Oct 2022 19:09:30 +0300
+Date: Thu, 20 Oct 2022 19:09:30 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v7 0/9] dyndbg: drm.debug adaptation
+Message-ID: <Y1Fyuh12g/gt3Izn@intel.com>
+References: <20220912052852.1123868-1-jim.cromie@gmail.com>
+ <Yy7/6oTBW2lqVSK1@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yy7/6oTBW2lqVSK1@kroah.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,57 +61,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomi.p.sarvela@intel.com, Petri Latvala <petri.latvala@intel.com>,
- Badal Nilawar <badal.nilawar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, jbaron@akamai.com, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, joe@perches.com,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Oct 2022, "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
-> The freedesktop Patchwork seems to have a "feature" where in some cases the
-> submitter for a series changes randomly to a person who did not actually
-> submit a version of the series.
->
-> Not sure but this changed submitter seems to be a maintainer:
->
-> ------------------------------------------------
-> https://patchwork.freedesktop.org/series/108156/
->
-> Original submission by badal.nilawar@intel.com and subsequent submissions
-> by me (ashutosh.dixit@intel.com) but current submitter is
-> jani.nikula@linux.intel.com.
->
-> For the above series I believe the submitter changed at v7 where perhaps a
-> rebuild or a retest was scheduled (not sure if Jani did it and that changed
-> something) but the build failed at v7. Also note root msg-id's for v6 and
-> v7 are the same.
-> ------------------------------------------------
-> https://patchwork.freedesktop.org/series/108091/
->
-> Original submission by me (ashutosh.dixit@intel.com) but current submitter
-> is rodrigo.vivi@intel.com.
->
-> Similarly here submitter seems to have changed at v3 where again the build
-> failed. Also note root msg-id's for v2 and v3 are the same.
-> ------------------------------------------------
->
-> The problem this change of submitter causes is that if the actual original
-> submitter wants to schedule a retest they cannot do it using the retest
-> button.
+On Sat, Sep 24, 2022 at 03:02:34PM +0200, Greg KH wrote:
+> On Sun, Sep 11, 2022 at 11:28:43PM -0600, Jim Cromie wrote:
+> > hi Greg, Dan, Jason, DRM-folk,
+> > 
+> > heres follow-up to V6:
+> >   rebased on driver-core/driver-core-next for -v6 applied bits (thanks)
+> >   rework drm_debug_enabled{_raw,_instrumented,} per Dan.
+> > 
+> > It excludes:
+> >   nouveau parts (immature)
+> >   tracefs parts (I missed --to=Steve on v6)
+> >   split _ddebug_site and de-duplicate experiment (way unready)
+> > 
+> > IOW, its the remaining commits of V6 on which Dan gave his Reviewed-by.
+> > 
+> > If these are good to apply, I'll rebase and repost the rest separately.
+> 
+> All now queued up, thanks.
 
-I presume it's caused by me responding with a review comment that
-patchwork interpreted as a new patch in the series [1], and changed the
-series submitter too.
-
-Sorry about that. It's a known issue that I sometimes forget to work
-around when replying with diffs.
-
-
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/87fsfki73i.fsf@intel.com
-
+This stuff broke i915 debugs. When I first load i915 no debug prints are
+produced. If I then go fiddle around in /sys/module/drm/parameters/debug
+the debug prints start to suddenly work.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Ville Syrjälä
+Intel
