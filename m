@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BD560560A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:43:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A79605605
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64AE810E314;
-	Thu, 20 Oct 2022 03:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0C3A10E2F5;
+	Thu, 20 Oct 2022 03:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C30B10E2DE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 03:41:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 447B210E2EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 03:41:42 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id C974133EF8B;
- Thu, 20 Oct 2022 04:41:39 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 88AC633EF41;
+ Thu, 20 Oct 2022 04:41:40 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666237300; bh=tkHHTMd3CYpKx1IzqCAGWe3ri4vRKu6RgiaBhb/0Z1c=;
+ t=1666237301; bh=tjhc0HFfYeKZp+w7KXK4laYltbAkSUsgW+crwdTueW8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DQQIU3sSbkd62vV+wPlG1zzZQCA2oQidzMJ3FXxOXW5S3a+tpH5tJ3RoNdMt9TvaO
- PNRVzfjFVQxrFN/Rr4Jl9EwLiVHX3m6joNzapF6Rv4kBn/jcZljvqM5LimEroAIcJD
- +zb48HG89vsPJQK6uy4Leko86kZ7g3/HZ1l1ujbbXgTN7fjO7Y0hCD8iLWYNFHoXjp
- kgUInPMQVybua4l4gDp+OF3fYzBuXjPcaNEy+QeiLcaLG4iBFk7yZWcxxvseTJerUd
- r5TriY3q1+2wFDYgSHWZNGAkxh/b21lnea+mzPNeRtvZdromZnx9cKPm7qdefBTfJw
- xDG3Vq3WH+TCQ==
+ b=ZjnQGgPzGQwUHXOhAm2dGkP7F1sfAqHfZ4+r8Yue7cOAdqBy12bleH39aB/ba+FJC
+ BjWQxor7vkHFuEiPk28M3Fcko0QZpk/M5wX7a7PnW5x3nH+JSqplJErvdquab5qK6f
+ 4NUY1NG0dOTWu7nNMpKApO3os5Nnd0aHIKJAxKcPtUvRrpBqci9xLSr7dcrMEzl//N
+ jWen2b9ZxD+JNexxr625ZgSVi4w85QKZZiAyobkLy4JYucxK8EXaE0hAQfE6qsspy/
+ 0eDRBEBnLNa49z/gi1Nq1lP0hxg6lcur2LKouYTbTY2+81DeFo4qt7Jrmmr0DsUc0H
+ nyt2zHPg8iO5g==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 04/16] drm/vmwgfx: Remove ttm object hashtable
-Date: Wed, 19 Oct 2022 23:41:19 -0400
-Message-Id: <20221020034131.491973-5-zack@kde.org>
+Subject: [PATCH v2 05/16] drm/vmwgfx: Refactor resource validation hashtable
+ to use linux/hashtable implementation.
+Date: Wed, 19 Oct 2022 23:41:20 -0400
+Message-Id: <20221020034131.491973-6-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020034131.491973-1-zack@kde.org>
 References: <20221020034131.491973-1-zack@kde.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,158 +50,376 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
+Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maaz Mombasawala <mombasawalam@vmware.com>
 
-The object_hash hashtable for ttm objects is not being used.
-Remove it and perform refactoring in ttm_object init function.
+Vmwgfx's hashtab implementation needs to be replaced with linux/hashtable
+to reduce maintenence burden.
+As part of this effort, refactor the res_ht hashtable used for resource
+validation during execbuf execution to use linux/hashtable implementation.
+This also refactors vmw_validation_context to use vmw_sw_context as the
+container for the hashtable, whereas before it used a vmwgfx_open_hash
+directly. This makes vmw_validation_context less generic, but there is
+no functional change since res_ht is the only instance where validation
+context used a hashtable in vmwgfx driver.
 
 Signed-off-by: Maaz Mombasawala <mombasawalam@vmware.com>
-Reviewed-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/ttm_object.c | 24 ++++++------------------
- drivers/gpu/drm/vmwgfx/ttm_object.h |  6 ++----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c |  2 +-
- 3 files changed, 9 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        | 24 ++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    | 14 ++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 55 +++++++++++-----------
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.h | 26 +++-------
+ 5 files changed, 58 insertions(+), 66 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
-index 26a55fef1ab5..9546b121bc22 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_object.c
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 13b90273eb77..8d77e79bd904 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -830,6 +830,22 @@ static void vmw_write_driver_id(struct vmw_private *dev)
+ 	}
+ }
+ 
++static void vmw_sw_context_init(struct vmw_private *dev_priv)
++{
++	struct vmw_sw_context *sw_context = &dev_priv->ctx;
++
++	hash_init(sw_context->res_ht);
++}
++
++static void vmw_sw_context_fini(struct vmw_private *dev_priv)
++{
++	struct vmw_sw_context *sw_context = &dev_priv->ctx;
++
++	vfree(sw_context->cmd_bounce);
++	if (sw_context->staged_bindings)
++		vmw_binding_state_free(sw_context->staged_bindings);
++}
++
+ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ {
+ 	int ret;
+@@ -839,6 +855,8 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 
+ 	dev_priv->drm.dev_private = dev_priv;
+ 
++	vmw_sw_context_init(dev_priv);
++
+ 	mutex_init(&dev_priv->cmdbuf_mutex);
+ 	mutex_init(&dev_priv->binding_mutex);
+ 	spin_lock_init(&dev_priv->resource_lock);
+@@ -1168,9 +1186,7 @@ static void vmw_driver_unload(struct drm_device *dev)
+ 
+ 	unregister_pm_notifier(&dev_priv->pm_nb);
+ 
+-	if (dev_priv->ctx.res_ht_initialized)
+-		vmwgfx_ht_remove(&dev_priv->ctx.res_ht);
+-	vfree(dev_priv->ctx.cmd_bounce);
++	vmw_sw_context_fini(dev_priv);
+ 	if (dev_priv->enable_fb) {
+ 		vmw_fb_off(dev_priv);
+ 		vmw_fb_close(dev_priv);
+@@ -1198,8 +1214,6 @@ static void vmw_driver_unload(struct drm_device *dev)
+ 		vmw_irq_uninstall(&dev_priv->drm);
+ 
+ 	ttm_object_device_release(&dev_priv->tdev);
+-	if (dev_priv->ctx.staged_bindings)
+-		vmw_binding_state_free(dev_priv->ctx.staged_bindings);
+ 
+ 	for (i = vmw_res_context; i < vmw_res_max; ++i)
+ 		idr_destroy(&dev_priv->res_idr[i]);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 09e2d738aa87..d87aeedb78d0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -30,6 +30,7 @@
+ 
+ #include <linux/suspend.h>
+ #include <linux/sync_file.h>
++#include <linux/hashtable.h>
+ 
+ #include <drm/drm_auth.h>
+ #include <drm/drm_device.h>
+@@ -93,6 +94,7 @@
+ #define VMW_RES_STREAM ttm_driver_type2
+ #define VMW_RES_FENCE ttm_driver_type3
+ #define VMW_RES_SHADER ttm_driver_type4
++#define VMW_RES_HT_ORDER 12
+ 
+ #define MKSSTAT_CAPACITY_LOG2 5U
+ #define MKSSTAT_CAPACITY (1U << MKSSTAT_CAPACITY_LOG2)
+@@ -425,8 +427,7 @@ struct vmw_ctx_validation_info;
+  * @ctx: The validation context
+  */
+ struct vmw_sw_context{
+-	struct vmwgfx_open_hash res_ht;
+-	bool res_ht_initialized;
++	DECLARE_HASHTABLE(res_ht, VMW_RES_HT_ORDER);
+ 	bool kernel;
+ 	struct vmw_fpriv *fp;
+ 	struct drm_file *filp;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index f085dbd4736d..c943ab801ca7 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2009 - 2015 VMware, Inc., Palo Alto, CA., USA
++ * Copyright 2009 - 2022 VMware, Inc., Palo Alto, CA., USA
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -25,6 +25,7 @@
+  *
+  **************************************************************************/
+ #include <linux/sync_file.h>
++#include <linux/hashtable.h>
+ 
+ #include "vmwgfx_drv.h"
+ #include "vmwgfx_reg.h"
+@@ -34,7 +35,6 @@
+ #include "vmwgfx_binding.h"
+ #include "vmwgfx_mksstat.h"
+ 
+-#define VMW_RES_HT_ORDER 12
+ 
+ /*
+  * Helper macro to get dx_ctx_node if available otherwise print an error
+@@ -4101,7 +4101,7 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+ 	int ret;
+ 	int32_t out_fence_fd = -1;
+ 	struct sync_file *sync_file = NULL;
+-	DECLARE_VAL_CONTEXT(val_ctx, &sw_context->res_ht, 1);
++	DECLARE_VAL_CONTEXT(val_ctx, sw_context, 1);
+ 
+ 	if (flags & DRM_VMW_EXECBUF_FLAG_EXPORT_FENCE_FD) {
+ 		out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
+@@ -4164,14 +4164,6 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+ 	if (sw_context->staged_bindings)
+ 		vmw_binding_state_reset(sw_context->staged_bindings);
+ 
+-	if (!sw_context->res_ht_initialized) {
+-		ret = vmwgfx_ht_create(&sw_context->res_ht, VMW_RES_HT_ORDER);
+-		if (unlikely(ret != 0))
+-			goto out_unlock;
+-
+-		sw_context->res_ht_initialized = true;
+-	}
+-
+ 	INIT_LIST_HEAD(&sw_context->staged_cmd_res);
+ 	sw_context->ctx = &val_ctx;
+ 	ret = vmw_execbuf_tie_context(dev_priv, sw_context, dx_context_handle);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+index f46891012be3..f5c4a40fb16d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright © 2018 VMware, Inc., Palo Alto, CA., USA
++ * Copyright © 2018 - 2022 VMware, Inc., Palo Alto, CA., USA
+  * All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+@@ -180,11 +180,16 @@ vmw_validation_find_bo_dup(struct vmw_validation_context *ctx,
+ 	if (!ctx->merge_dups)
+ 		return NULL;
+ 
+-	if (ctx->ht) {
++	if (ctx->sw_context) {
+ 		struct vmwgfx_hash_item *hash;
++		unsigned long key = (unsigned long) vbo;
+ 
+-		if (!vmwgfx_ht_find_item(ctx->ht, (unsigned long) vbo, &hash))
+-			bo_node = container_of(hash, typeof(*bo_node), hash);
++		hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash, head, key) {
++			if (hash->key == key) {
++				bo_node = container_of(hash, typeof(*bo_node), hash);
++				break;
++			}
++		}
+ 	} else {
+ 		struct  vmw_validation_bo_node *entry;
+ 
+@@ -217,11 +222,16 @@ vmw_validation_find_res_dup(struct vmw_validation_context *ctx,
+ 	if (!ctx->merge_dups)
+ 		return NULL;
+ 
+-	if (ctx->ht) {
++	if (ctx->sw_context) {
+ 		struct vmwgfx_hash_item *hash;
++		unsigned long key = (unsigned long) res;
+ 
+-		if (!vmwgfx_ht_find_item(ctx->ht, (unsigned long) res, &hash))
+-			res_node = container_of(hash, typeof(*res_node), hash);
++		hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash, head, key) {
++			if (hash->key == key) {
++				res_node = container_of(hash, typeof(*res_node), hash);
++				break;
++			}
++		}
+ 	} else {
+ 		struct  vmw_validation_res_node *entry;
+ 
+@@ -269,20 +279,15 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
+ 		}
+ 	} else {
+ 		struct ttm_validate_buffer *val_buf;
+-		int ret;
+ 
+ 		bo_node = vmw_validation_mem_alloc(ctx, sizeof(*bo_node));
+ 		if (!bo_node)
+ 			return -ENOMEM;
+ 
+-		if (ctx->ht) {
++		if (ctx->sw_context) {
+ 			bo_node->hash.key = (unsigned long) vbo;
+-			ret = vmwgfx_ht_insert_item(ctx->ht, &bo_node->hash);
+-			if (ret) {
+-				DRM_ERROR("Failed to initialize a buffer "
+-					  "validation entry.\n");
+-				return ret;
+-			}
++			hash_add_rcu(ctx->sw_context->res_ht, &bo_node->hash.head,
++				bo_node->hash.key);
+ 		}
+ 		val_buf = &bo_node->base;
+ 		val_buf->bo = ttm_bo_get_unless_zero(&vbo->base);
+@@ -316,7 +321,6 @@ int vmw_validation_add_resource(struct vmw_validation_context *ctx,
+ 				bool *first_usage)
+ {
+ 	struct vmw_validation_res_node *node;
+-	int ret;
+ 
+ 	node = vmw_validation_find_res_dup(ctx, res);
+ 	if (node) {
+@@ -330,14 +334,9 @@ int vmw_validation_add_resource(struct vmw_validation_context *ctx,
+ 		return -ENOMEM;
+ 	}
+ 
+-	if (ctx->ht) {
++	if (ctx->sw_context) {
+ 		node->hash.key = (unsigned long) res;
+-		ret = vmwgfx_ht_insert_item(ctx->ht, &node->hash);
+-		if (ret) {
+-			DRM_ERROR("Failed to initialize a resource validation "
+-				  "entry.\n");
+-			return ret;
+-		}
++		hash_add_rcu(ctx->sw_context->res_ht, &node->hash.head, node->hash.key);
+ 	}
+ 	node->res = vmw_resource_reference_unless_doomed(res);
+ 	if (!node->res)
+@@ -681,19 +680,19 @@ void vmw_validation_drop_ht(struct vmw_validation_context *ctx)
+ 	struct vmw_validation_bo_node *entry;
+ 	struct vmw_validation_res_node *val;
+ 
+-	if (!ctx->ht)
++	if (!ctx->sw_context)
+ 		return;
+ 
+ 	list_for_each_entry(entry, &ctx->bo_list, base.head)
+-		(void) vmwgfx_ht_remove_item(ctx->ht, &entry->hash);
++		hash_del_rcu(&entry->hash.head);
+ 
+ 	list_for_each_entry(val, &ctx->resource_list, head)
+-		(void) vmwgfx_ht_remove_item(ctx->ht, &val->hash);
++		hash_del_rcu(&val->hash.head);
+ 
+ 	list_for_each_entry(val, &ctx->resource_ctx_list, head)
+-		(void) vmwgfx_ht_remove_item(ctx->ht, &val->hash);
++		hash_del_rcu(&entry->hash.head);
+ 
+-	ctx->ht = NULL;
++	ctx->sw_context = NULL;
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+index f21df053882b..ab9ec226f433 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
 @@ -1,7 +1,7 @@
  /* SPDX-License-Identifier: GPL-2.0 OR MIT */
  /**************************************************************************
   *
-- * Copyright (c) 2009-2013 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright (c) 2009-2022 VMware, Inc., Palo Alto, CA., USA
+- * Copyright © 2018 VMware, Inc., Palo Alto, CA., USA
++ * Copyright © 2018 - 2022 VMware, Inc., Palo Alto, CA., USA
   * All Rights Reserved.
   *
   * Permission is hereby granted, free of charge, to any person obtaining a
-@@ -44,13 +44,14 @@
+@@ -29,12 +29,11 @@
+ #define _VMWGFX_VALIDATION_H_
  
- #define pr_fmt(fmt) "[TTM] " fmt
- 
-+#include "ttm_object.h"
-+#include "vmwgfx_drv.h"
-+
  #include <linux/list.h>
- #include <linux/spinlock.h>
- #include <linux/slab.h>
- #include <linux/atomic.h>
- #include <linux/module.h>
--#include "ttm_object.h"
--#include "vmwgfx_drv.h"
++#include <linux/hashtable.h>
+ #include <linux/ww_mutex.h>
  
- MODULE_IMPORT_NS(DMA_BUF);
+ #include <drm/ttm/ttm_execbuf_util.h>
  
-@@ -81,9 +82,7 @@ struct ttm_object_file {
- /*
-  * struct ttm_object_device
-  *
-- * @object_lock: lock that protects the object_hash hash table.
-- *
-- * @object_hash: hash table for fast lookup of object global names.
-+ * @object_lock: lock that protects idr.
-  *
-  * @object_count: Per device object count.
-  *
-@@ -92,7 +91,6 @@ struct ttm_object_file {
- 
- struct ttm_object_device {
- 	spinlock_t object_lock;
--	struct vmwgfx_open_hash object_hash;
- 	atomic_t object_count;
- 	struct dma_buf_ops ops;
- 	void (*dmabuf_release)(struct dma_buf *dma_buf);
-@@ -449,20 +447,15 @@ struct ttm_object_file *ttm_object_file_init(struct ttm_object_device *tdev,
- }
- 
- struct ttm_object_device *
--ttm_object_device_init(unsigned int hash_order,
--		       const struct dma_buf_ops *ops)
-+ttm_object_device_init(const struct dma_buf_ops *ops)
- {
- 	struct ttm_object_device *tdev = kmalloc(sizeof(*tdev), GFP_KERNEL);
--	int ret;
- 
- 	if (unlikely(tdev == NULL))
- 		return NULL;
- 
- 	spin_lock_init(&tdev->object_lock);
- 	atomic_set(&tdev->object_count, 0);
--	ret = vmwgfx_ht_create(&tdev->object_hash, hash_order);
--	if (ret != 0)
--		goto out_no_object_hash;
- 
- 	/*
- 	 * Our base is at VMWGFX_NUM_MOB + 1 because we want to create
-@@ -477,10 +470,6 @@ ttm_object_device_init(unsigned int hash_order,
- 	tdev->dmabuf_release = tdev->ops.release;
- 	tdev->ops.release = ttm_prime_dmabuf_release;
- 	return tdev;
+-#include "vmwgfx_hashtab.h"
 -
--out_no_object_hash:
--	kfree(tdev);
--	return NULL;
- }
- 
- void ttm_object_device_release(struct ttm_object_device **p_tdev)
-@@ -491,7 +480,6 @@ void ttm_object_device_release(struct ttm_object_device **p_tdev)
- 
- 	WARN_ON_ONCE(!idr_is_empty(&tdev->idr));
- 	idr_destroy(&tdev->idr);
--	vmwgfx_ht_remove(&tdev->object_hash);
- 
- 	kfree(tdev);
- }
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.h b/drivers/gpu/drm/vmwgfx/ttm_object.h
-index 1a2fa0f83f5f..6870f951b677 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_object.h
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
-@@ -1,6 +1,6 @@
- /**************************************************************************
-  *
-- * Copyright (c) 2006-2009 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright (c) 2006-2022 VMware, Inc., Palo Alto, CA., USA
-  * All Rights Reserved.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-@@ -262,7 +262,6 @@ extern void ttm_object_file_release(struct ttm_object_file **p_tfile);
- /**
-  * ttm_object device init - initialize a struct ttm_object_device
-  *
-- * @hash_order: Order of hash table used to hash the base objects.
-  * @ops: DMA buf ops for prime objects of this device.
-  *
-  * This function is typically called on device initialization to prepare
-@@ -270,8 +269,7 @@ extern void ttm_object_file_release(struct ttm_object_file **p_tfile);
+ #define VMW_RES_DIRTY_NONE 0
+ #define VMW_RES_DIRTY_SET BIT(0)
+ #define VMW_RES_DIRTY_CLEAR BIT(1)
+@@ -59,7 +58,7 @@
+  * @total_mem: Amount of reserved memory.
   */
- 
- extern struct ttm_object_device *
--ttm_object_device_init(unsigned int hash_order,
--		       const struct dma_buf_ops *ops);
-+ttm_object_device_init(const struct dma_buf_ops *ops);
- 
+ struct vmw_validation_context {
+-	struct vmwgfx_open_hash *ht;
++	struct vmw_sw_context *sw_context;
+ 	struct list_head resource_list;
+ 	struct list_head resource_ctx_list;
+ 	struct list_head bo_list;
+@@ -82,16 +81,16 @@ struct vmw_fence_obj;
  /**
-  * ttm_object_device_release - release data held by a ttm_object_device
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 45028e25d490..13b90273eb77 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -994,7 +994,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 		goto out_err0;
- 	}
+  * DECLARE_VAL_CONTEXT - Declare a validation context with initialization
+  * @_name: The name of the variable
+- * @_ht: The hash table used to find dups or NULL if none
++ * @_sw_context: Contains the hash table used to find dups or NULL if none
+  * @_merge_dups: Whether to merge duplicate buffer object- or resource
+  * entries. If set to true, ideally a hash table pointer should be supplied
+  * as well unless the number of resources and buffer objects per validation
+  * is known to be very small
+  */
+ #endif
+-#define DECLARE_VAL_CONTEXT(_name, _ht, _merge_dups)			\
++#define DECLARE_VAL_CONTEXT(_name, _sw_context, _merge_dups)		\
+ 	struct vmw_validation_context _name =				\
+-	{ .ht = _ht,							\
++	{ .sw_context = _sw_context,					\
+ 	  .resource_list = LIST_HEAD_INIT((_name).resource_list),	\
+ 	  .resource_ctx_list = LIST_HEAD_INIT((_name).resource_ctx_list), \
+ 	  .bo_list = LIST_HEAD_INIT((_name).bo_list),			\
+@@ -114,19 +113,6 @@ vmw_validation_has_bos(struct vmw_validation_context *ctx)
+ 	return !list_empty(&ctx->bo_list);
+ }
  
--	dev_priv->tdev = ttm_object_device_init(12, &vmw_prime_dmabuf_ops);
-+	dev_priv->tdev = ttm_object_device_init(&vmw_prime_dmabuf_ops);
- 
- 	if (unlikely(dev_priv->tdev == NULL)) {
- 		drm_err(&dev_priv->drm,
+-/**
+- * vmw_validation_set_ht - Register a hash table for duplicate finding
+- * @ctx: The validation context
+- * @ht: Pointer to a hash table to use for duplicate finding
+- * This function is intended to be used if the hash table wasn't
+- * available at validation context declaration time
+- */
+-static inline void vmw_validation_set_ht(struct vmw_validation_context *ctx,
+-					 struct vmwgfx_open_hash *ht)
+-{
+-	ctx->ht = ht;
+-}
+-
+ /**
+  * vmw_validation_bo_reserve - Reserve buffer objects registered with a
+  * validation context
 -- 
 2.34.1
 
