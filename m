@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA46606890
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 21:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21917606893
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 21:02:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A9E10E156;
-	Thu, 20 Oct 2022 19:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C48810E4DD;
+	Thu, 20 Oct 2022 19:02:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF25410E156
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 19:01:20 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id g16so243310qtu.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 12:01:20 -0700 (PDT)
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAFB710ED22
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 19:02:37 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id f22so240694qto.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 12:02:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XGP70LIojmiBdpWyY18Ji96dZrMFDXretdATsr1AZcY=;
- b=NWO+rqeS7dhX43MQjgRg4fiqteF99/HlBWBg3L01vDu7MG2Wud+a9nJfABHAExLr5M
- Hi9OMw0I7yWgUjemerWxh3IJnv4YzM5rga/BpU34Z4j1pbGB5q/fm7tKbXMCC/5GRNvS
- /hfQXQHqUWejoJafdDdM1iiDuclnsLSzyVnlecv89XpB6G32GQElASu7fAS0xN2GZ9vd
- fWqm3l8uHCbHc+qpGMMQgSRF+Gfk6JU921o8QtJqcSmSOhFP8w6P6+BmTNsA3GNNYvNH
- 3/uzYShpyckbXN+cu68ddhWMcPsglpQNkNeazR7qiSuKQ/HigTMyayLFyyXb5tSeF0/4
- hFjg==
+ bh=MFeXXJ6sQN07sTc4bebyU3JZBZRL/EnosXd0tePVziU=;
+ b=S+ykdCtQJzepC6nF6XQ9cWi9wozt6rHNW8TF745ZRDRMGmrCLxN6mNJ257A4cDROqm
+ vIN/BvtQoMRHA5S5izciwsVOaYJGaOqhhHjuIa76O+wy1vUajyldp0BLTtyRuEQvAFjq
+ Lphr9W8gywol8GahXC/v4krENPSshlJQANyMIX5MGgbxSD07Fii8kfFTB8vvoJm5OmLF
+ nDA03H8McLFeK6f1T7Z8Xf3k7/YH1333cDeLlvqllaTS0/ZicDv3mjdSXz0JCV3S0yYV
+ x44kDiXhkAjplA7zc0gBthSE7gM3YP+UDYzPOAiqTIYjM6hKOg6feaiQRMS3I6MmdkLJ
+ fnkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=XGP70LIojmiBdpWyY18Ji96dZrMFDXretdATsr1AZcY=;
- b=e7YjppktRRRVc2WZLz/IZKfZCu2T9h+3voB6CaKVjQisT3QalR10rlBMVtiwKDw5cv
- 4fWKkMzg3u1m7Z4e/YcvUFHeqOweDqBpTuvp9frecqGC6536UkpHGxvsiDUBabN3p9FW
- POj3mDCxEZnRyvwyfeHQfFNqX04/folNmeQtJtLmsNVQipjQ+ZXuq2nlxYDx2iewBGjJ
- 35V/5YUFCNNIvfKm2ruMhW1VlnSrMIpkSpthZ9CPM48DDcBZoirqHLH0ME+NmvfFVXtd
- aDjfWddqzYVuBbyKGM7DBTQQGbfwhJRi61gGY69WVhA07gZR1iiVsLgG9ZIHQLJh3CP8
- ZyzA==
-X-Gm-Message-State: ACrzQf2aUTw3/+u2qdkTtIb8ZsXgcXADWAQN1/lKq7DC98zrOI3v8rfI
- PdBhYvZ44ma/4jQwkfsK2iveB59CxbUX872p64E=
-X-Google-Smtp-Source: AMsMyM7pRtQAcuQfcpM2PgAMubFXqpQhRb1r00K3+Mci5PPhA6uivzscz5DWGeA61iiWIXSmgIpmYLLGLp27ixXFZWQ=
-X-Received: by 2002:ac8:7c46:0:b0:39c:fa92:a27a with SMTP id
- o6-20020ac87c46000000b0039cfa92a27amr10208723qtv.61.1666292479731; Thu, 20
- Oct 2022 12:01:19 -0700 (PDT)
+ bh=MFeXXJ6sQN07sTc4bebyU3JZBZRL/EnosXd0tePVziU=;
+ b=Dn2idH06TsilruNX3KMnHQOnZHnK44CUPUpDcdFI2uRekaXQ+sGIQK9exggsaGB2m6
+ 5jpUaPDWnbZfG1F5e6hvitE1DQyQ8jgs8q33h6WrGE4IghxSIMEoC42XoOfJwhUtxXO+
+ 9twcLC4u9r11NHZG+9M8+XGa6LCv06EwakqAx2HKL15j2NYLKcwwYoU8FzxdP137R3pa
+ r91QRHXw9oXipRHzLHRMGzj30WctIrLehXFDMJbNOub6zGNMywld8e9Qqo1mVe56T9jc
+ yQHQF2FuhVEWIgtnf6FM/lN9ngSa4f/3+fWCdnMhHjztky/1upX4f7jXH5L3o3/YBIvi
+ AC3w==
+X-Gm-Message-State: ACrzQf3E0OWYiYNA2AQk1hwEm3kEKrH/VX7y99aMwe96otbQSBssaHB/
+ kwC1VJnl6AwOH2ANatCAjX70OKvtfusRDPfo868+hjnOmTo=
+X-Google-Smtp-Source: AMsMyM6y+AJHCvbv0IPJE0/Hh7sdQmuBvukUOwm985kFRDmvZONoLPfVA6+KkteJ3sbJ70oQ4Yrxq/7n/IUkfy7Nsbo=
+X-Received: by 2002:a05:620a:2552:b0:6ca:bf8f:4d27 with SMTP id
+ s18-20020a05620a255200b006cabf8f4d27mr10453489qko.383.1666292546472; Thu, 20
+ Oct 2022 12:02:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
  <20221020175334.1820519-5-maciej.kwapulinski@linux.intel.com>
-In-Reply-To: <20221020175334.1820519-5-maciej.kwapulinski@linux.intel.com>
+ <CAHp75VeFDYjmoJzbC5z8Kf=xYxsVASxjwGBB3OPvBMMPsQDjtw@mail.gmail.com>
+In-Reply-To: <CAHp75VeFDYjmoJzbC5z8Kf=xYxsVASxjwGBB3OPvBMMPsQDjtw@mail.gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 20 Oct 2022 22:00:43 +0300
-Message-ID: <CAHp75VeFDYjmoJzbC5z8Kf=xYxsVASxjwGBB3OPvBMMPsQDjtw@mail.gmail.com>
+Date: Thu, 20 Oct 2022 22:01:50 +0300
+Message-ID: <CAHp75VcWnZSxgyA0dYGGbwyMYOv1-Zyy_f63_z2yT3ZS8W+MEg@mail.gmail.com>
 Subject: Re: [PATCH v5 04/10] gna: initialize MMU
 To: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,95 +77,18 @@ Cc: Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 20, 2022 at 8:57 PM Maciej Kwapulinski
-<maciej.kwapulinski@linux.intel.com> wrote:
+On Thu, Oct 20, 2022 at 10:00 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Thu, Oct 20, 2022 at 8:57 PM Maciej Kwapulinski
+> <maciej.kwapulinski@linux.intel.com> wrote:
+
+...
+
+> > +       desc_size = round_up(gna_priv->info.desc_info.desc_size, PAGE_SIZE);
 >
-> From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
->
-> Setup MMU in the driver with a new memory component.
+> PFN_UP() ?
 
-...
-
-> +#define GNA_FEATURES                                           \
-> +       .max_hw_mem = 256 * 1024 * 1024,                        \
-
-SZ_256M ?
-
-> +               .num_pagetables = 64,                           \
-> +               .num_page_entries = PAGE_SIZE / sizeof(u32),    \
-> +               /* desc_info all in bytes */                    \
-> +               .desc_info = {                                  \
-> +               .rsvd_size = 256,                               \
-> +               .cfg_size = 256,                                \
-> +               .desc_size = 784,                               \
-> +               .mmu_info = {                                   \
-> +                       .vamax_size = 4,                        \
-> +                       .rsvd_size = 12,                        \
-> +                       .pd_size = 4 * 64,                      \
-> +               },                                              \
-
-> +       }
-
-Broken indentation?
-
-...
-
-> +#define GNA_DEV_HWID_CNL       0x5A11
-> +#define GNA_DEV_HWID_EHL       0x4511
-> +#define GNA_DEV_HWID_GLK       0x3190
-> +#define GNA_DEV_HWID_ICL       0x8A11
-> +#define GNA_DEV_HWID_JSL       0x4E11
-> +#define GNA_DEV_HWID_TGL       0x9A11
-> +#define GNA_DEV_HWID_RKL       0x4C11
-> +#define GNA_DEV_HWID_ADL       0x464F
-> +#define GNA_DEV_HWID_RPL       0xA74F
-> +#define GNA_DEV_HWID_MTL       0x7E4C
-
-Keep them sorted?
-
-...
-
-> +       for (i = 0; i < mmu->num_pagetables; i++) {
-> +               pagetable_dma = mmu->pagetables_dma[i];
-> +               pgdirn[i] = pagetable_dma >> PAGE_SHIFT;
-
-PFN_DOWN()
-
-> +       }
-
-...
-
-> +       desc_size = round_up(gna_priv->info.desc_info.desc_size, PAGE_SIZE);
-
-PFN_UP() ?
-
-...
-
-> +       mmu->pagetables = drmm_kmalloc_array(&gna_priv->drm, mmu->num_pagetables, sizeof(*mmu->pagetables), GFP_KERNEL);
-
-> +
-
-Redundant blank line.
-
-> +       if (!mmu->pagetables)
-> +               return -ENOMEM;
-
-...
-
-> +static const struct gna_dev_info cnl_dev_info = {
-> +       .hwid = GNA_DEV_HWID_CNL,
-> +       GNA_GEN1_FEATURES
-
-Leave a comma at the end. Same for all similar declarations.
-
-> +};
-
-...
-
-> +#define INTEL_GNA_DEVICE(hwid, info)                           \
-> +       { PCI_VDEVICE(INTEL, hwid), (kernel_ulong_t)(info) }
-
-Drop this and use PCI_DEVICE_DATA() instead.
+Or PFN_ALIGN() ?
 
 -- 
 With Best Regards,
