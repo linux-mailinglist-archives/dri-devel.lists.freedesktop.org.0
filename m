@@ -2,144 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052786066B5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 19:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786C5606707
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 19:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7768B10E51B;
-	Thu, 20 Oct 2022 17:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D04910EA44;
+	Thu, 20 Oct 2022 17:29:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C65510E40A;
- Thu, 20 Oct 2022 17:07:15 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF6F510E0E4;
+ Thu, 20 Oct 2022 17:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666285635; x=1697821635;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=x/DiBIfG5RmVJ7d4ao0Zm5J4ef7IwX8Ht+EK5p7y0RU=;
- b=Snm4o4UACf1ONFY+/lF+fFTvXwScssim7MrgfNbz3k9JybpRSNQc5WQr
- R+g0W9b8MwWpBUB1vqiBtEuvr92/IhGiHuSQa7wx7ENllJxZIKUEK/xwx
- 5kroCUNhOo+Rg2t5jsHEVOQIJ7G5ujwLcC4//YGoNpX2dmptSDn14PS8T
- wSdZ5bw6i2l7LEV/FPPWHxIcjzQyimTxLPaBuzt+N7kGHFy+wjLmVf4Fv
- h8Np8BIWSG5yeo5csOg7W9N6rpsGi2EdYIRb0Kh3gN2tnE89CV6fMJ7y9
- ormt4hYbCgowfzTvoItfgk3eVrpHRPXs0+ggwFhNVBG0SUhXInM7qBma5 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="308456973"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="308456973"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 10:06:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="624810957"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="624810957"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga007.jf.intel.com with ESMTP; 20 Oct 2022 10:06:53 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 20 Oct 2022 10:06:52 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 20 Oct 2022 10:06:52 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 20 Oct 2022 10:06:52 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 20 Oct 2022 10:06:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RvM27rNu9LctPiaN7IVHeXp2z6Vpdx8b58MpLrY7QtbzPkwxXiQRQJv2xg20Pw4Bwjy394MioOq10Uhqywt8RVNm+SGUrzpX2q9SOm6jcu6w9o6sFsGC4C+Zt2+rtbaWvrqozRwPFndlFCXjrUJNcDLT2Ebl9zOIfVpPsRhr+hZLnAhJBqFUbL9VOUwr6iMLIwEYHhnEseLi93Xt/0K+lvwI/brLGp1VarYFFTDm2hf2zL/zqG94/ePIrRLXsi9BrMdpxAaJr+Q/Esihn3n7MCPW57z/rxjbXcxEGRBDgv6dEWIaaO2QSF4Qi1r5lJph9IvtkEd5hGj78NXvc1I2Jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o4vMcrO2uooL2zzfkLXV88LxhbAkm8hJdMm+ZeizbTY=;
- b=PpoSOsF3CdFXYfJUuV7m0YX/pUZsUk/qqhLA7A/26nmi2zoFFP5D3dOd286hXctom541R87t6kzbB7HyRWf/Eqxf1qCO2ifRdE9pVnW3MA4si29nOidfhGtskO/GEKJX37lFyDXG2Tk125vLjsDRWpfMjZ1WI1r1z1McHNVLiJO3ACUg8ArbReV3EYMpwdwpz1NqGxn/PoZZFb3PPh05/0vY6Y6rdbd51XQEaDDYhyo2wEt+EDepvFcYZyvKh0/tKA4/MszQdjiw8uNmxFR9YMQ1pixxn0iNjOC2rZ+LzAuFFLITJjXQJap/GwUm9IaBcR+UX9lM8yNpGkokNnrtjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB6952.namprd11.prod.outlook.com (2603:10b6:510:224::13)
- by IA1PR11MB6291.namprd11.prod.outlook.com (2603:10b6:208:3e5::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30; Thu, 20 Oct
- 2022 17:06:47 +0000
-Received: from PH8PR11MB6952.namprd11.prod.outlook.com
- ([fe80::91e7:70e7:97c5:a23d]) by PH8PR11MB6952.namprd11.prod.outlook.com
- ([fe80::91e7:70e7:97c5:a23d%3]) with mapi id 15.20.5723.033; Thu, 20 Oct 2022
- 17:06:47 +0000
-Date: Thu, 20 Oct 2022 10:06:38 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v4 15/17] drm/i915/vm_bind: Handle persistent vmas in
- execbuf3
-Message-ID: <Y1GAHnhXrIRD2iYD@nvishwa1-DESK>
-References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
- <20221018071630.3831-16-niranjana.vishwanathapura@intel.com>
- <da4141d6-33be-79b9-8c3b-fa8239e95fc7@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <da4141d6-33be-79b9-8c3b-fa8239e95fc7@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0173.namprd05.prod.outlook.com
- (2603:10b6:a03:339::28) To PH8PR11MB6952.namprd11.prod.outlook.com
- (2603:10b6:510:224::13)
+ t=1666286948; x=1697822948;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+TDDcw1ZrTYNXx0UyHndkfoL+7oODeuZrYvlN/TqRWw=;
+ b=SL9hedI6EU7WMW53a4qjJ+MtlN7y9FCc/WuHYEdm7kEeoJmXryXXN9KG
+ lVADr7PuwtJ0QDHx7Agx3H4A0fHWJQrPO2Ln+zKJAv2L60BEVTqGVWosf
+ pRxziF+hZrjW4EtMJHXgdovplfmkfn4wZluu4ASXJjrROHpL0idNaGUfo
+ aGMKydjdyZc1Lc/8sO2Iqt5yrJJE5kxU9BkIrTsZeVdUPVCrJiA9He2Xr
+ XtmUxtAK036zXWzxbl20ZD37ud6s0zP2ilQOTuec/JnMsrViS2IzmcAj1
+ GexknU6HUn88uaxnNm4+ELQD+/vDdROQYJBSLUBFTZmT6ycaQZi4MIQTy A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="286502374"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="286502374"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 10:29:08 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="632388209"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="632388209"
+Received: from aasthash-mobl.ger.corp.intel.com (HELO [10.213.232.117])
+ ([10.213.232.117])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 10:29:06 -0700
+Message-ID: <86e3f93e-c97b-a9f6-b90a-a975f38cfbba@linux.intel.com>
+Date: Thu, 20 Oct 2022 18:29:05 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB6952:EE_|IA1PR11MB6291:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9da26204-4793-4491-4f68-08dab2bd78e6
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U0t+MNpBMwH3/Mzij6LDnkv3nvxahDDmg9PwAyJJc3jb9v0BTeZKlxIAZ0yTKCFNNtQfPkiwxcieEICWAcFAD5zJWafJM6NRG72+NfXtxtgQ0aFtrh15EjHTuwfxuwh4APPyGYnS82Mgde7LjaFyAZeCwjFO846dfDpRU0tCuaEzrhATcua1j9bknpI6RV76wkq/wvgmrIm2pCfVP9dDJy49uxGpkstbmb8XqXDF5pgRMEMGQw9ydBr9oxGfpt+PLJCjUNDi5L6SOlEFCIHQ74y4kAPT8pJcx35NASeMiLoEXt2n+3EAOl/6j7I9dVVe8BZwSvHwujzl44zTdyeSErSKiShAQNtrPoLLRznyOJc+1Pjo5gisui3Uh6DkdvZbOO0oe1xe6KcrYjMqUcTTjvSkLGPGiDs78aoJXPtq2ypmc39a2M3//RCAlLUgpsVEZGd9Arf57ZC0ndjq64eLlKFs79HR4bbKOAFm7HDUrS+AUpYWX7oEt2bcOcZwrJpcCVti9rPwvJGPnGoipp6KMX23WfGEITUPTODlJJ9DaEBQPgL4ECM1qyb757dlSkPREFOQtdLvDRUpniGHY8C3UjHWcpLJlGR/AjpdTo15VsAh+uP3i3jK+DBoCR7Fec5oHkxN5ahwE2OFkHJIzqkyqVG2g/x9cCp/ULQuYLs2guLoTvFHYGnTCG3UqP6JcpDfnSjPAPp7i3xs8/STR1cMQA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR11MB6952.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(136003)(366004)(396003)(346002)(376002)(39860400002)(451199015)(86362001)(478600001)(33716001)(6486002)(186003)(44832011)(8936002)(6512007)(26005)(6506007)(6862004)(9686003)(316002)(6636002)(6666004)(66946007)(38100700002)(83380400001)(66556008)(82960400001)(4326008)(2906002)(41300700001)(66476007)(5660300002)(8676002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?8/0ZGoqc3Sduj5s4MdEO47KzS7jHWdie6jF11yqrMNKHwB01/lbdM5mlUU?=
- =?iso-8859-1?Q?QVQys23oZZJAWk2XhTSLSdCeiZuXXs8Fl4zfBm4qiYtd0GrHsCd4sxvCbp?=
- =?iso-8859-1?Q?0OnBM/2qRYbbohO0kaCmW9G7KMKA3noYpF8LkPBgaIubemW7OgBo4FArTl?=
- =?iso-8859-1?Q?A3goShuYOffSrcESh53Q0KaNE6S0n5EeV2qoTirJhReJ1Vk8ie//KS59ZB?=
- =?iso-8859-1?Q?pNcORLnma1CMzN9DcXrY2CtP3CcRfrGU/9IpnakcxrrLzIf41c9hst32JZ?=
- =?iso-8859-1?Q?W4Xy+VntXykxt8lqzU4Bxbb0TBkIGUcamhbPziPm9ZI/A19FJYP9shFebf?=
- =?iso-8859-1?Q?RYcOl5t4D/c/mv/Kva+gV1FYcefFVUV8AhVLbHld0sh+iE3p5JNGtVdwng?=
- =?iso-8859-1?Q?aQfEdUMFVY+olaGEj6SR29huL2YuOSuu4Kn8BgjX0GmNVRSqh1/162hzid?=
- =?iso-8859-1?Q?XiX0MI+vSjFJGSJ9WC06tmtepGWHkLabMvp4ssuhmVlW7MxuM3T5kGeZIA?=
- =?iso-8859-1?Q?ZoVxdpz9zTCqZRDozrktKrYkrvIeBn79wKNSjJ/JiNt7dRi20S9Hj8pkJw?=
- =?iso-8859-1?Q?z2drgb+4+GgqC4AopPpI3Rg2TmR1R0ocB7TWKC1f7J2vzZgJ7f2hd3TJXN?=
- =?iso-8859-1?Q?tw0eV8xzXd3rGjKxMcfZc8+hcV+2jBLHzEb4U8hTrInbshQ5xdmSpj8ZTZ?=
- =?iso-8859-1?Q?W73R7yd4ga27sW4elED6/owk+mtneWx3h0g3+Xh0OdwOVLxOZyfIICtguR?=
- =?iso-8859-1?Q?0xC8QLBz6IDnEie3k5S1fh61WbKPCO7H+/MqoKK3vn28p1PRJX7jEOOz/m?=
- =?iso-8859-1?Q?aG1CFBKD/e33UHsrL/5aPDN5pfaAGNRpzs3CDWrpl6Qta4lwIR5M6VQA+C?=
- =?iso-8859-1?Q?e6OCb3SQWSG3FqrgzwzJYRFz0Ur13xJsNup1oWIQGa1F05fKobjFSr6Tjj?=
- =?iso-8859-1?Q?qqGqbXLRzvj3qbFGoA6vsVbOOz34RmormQ2Qf2pgtaDMQJUx7VOiaX74Tm?=
- =?iso-8859-1?Q?9CJjy5yHJnqvut50gPoidz+OQGTYC7vqiLWU7nvqV4xzuIKFO3QQNBjFA0?=
- =?iso-8859-1?Q?CuPUPDO6QwtmzruJFrd2laBz+GtNPv1QJUh8nzImJmXJek9k4kf7EsGsJm?=
- =?iso-8859-1?Q?Rmg2PQ+G/SEbGwyTgZQv1oukgSSg0kCwGe5pvkFrLLwl2HIv6bhzOnQeRn?=
- =?iso-8859-1?Q?LyoIn3eIPj+ngURhDiMGS3GAYRlaZhLsRUY89UU8h1fuZ6xbZVBDYjdKso?=
- =?iso-8859-1?Q?Ua3svHrGuOK9aJUgE93/wZAE6B9hwBYuhNJb9kOi5DK2cGt7OS/EtbjJZB?=
- =?iso-8859-1?Q?Lxv7obOFgWVT//nB/yNcKHs5d3zHdaxpAitUK9h1t/SBhwFDvg1QYztPwM?=
- =?iso-8859-1?Q?IEXGOtOM8Dziz06YHsryEspBPbq/CZK33XKPuc78xVjWTGKPMH7k28yz1r?=
- =?iso-8859-1?Q?+RpN3NMhq5d6GBwEebhISJYgc1FmyS69HC9NHj2PJwL8rVbvBcVmlczpsC?=
- =?iso-8859-1?Q?D0uJqkNF/uda9oDv/WTztFl/mRg5oBLS+aI8b2I2nuycbtCh8HmeUMReF3?=
- =?iso-8859-1?Q?qR5wQo5Dd89vmuIK3VCe6/VOpLaKJD9GjKE0qBijWQ+hVsDfZ5QQOFRRFa?=
- =?iso-8859-1?Q?HCrLiOixn1ZiJpzaRnjHfRVO+qduPSdPto3XcKtFMh6VwaKkclbO6JiBH5?=
- =?iso-8859-1?Q?ZiaoxC3cgV2iAOOVYcM=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9da26204-4793-4491-4f68-08dab2bd78e6
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6952.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2022 17:06:47.4518 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: owcFJzSzMhvhdWLtOeiA+EyAGD0zjjzRBR6Maj9r3akRGLlX3NBrAr2H9TtMfP+COyDjMpftV6WjlYCx/QJ2xekx5bicxDEYsUewmxJ6sURYZO1vZeWtVo00g4STl4lJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6291
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH] drm/i915/selftests: Stop using kthread_stop()
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20221020130841.3845791-1-tvrtko.ursulin@linux.intel.com>
+ <Y1FYy8gj38GDYzCu@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Y1FYy8gj38GDYzCu@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,311 +62,536 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 20, 2022 at 05:39:46PM +0100, Matthew Auld wrote:
->On 18/10/2022 08:16, Niranjana Vishwanathapura wrote:
->>Handle persistent (VM_BIND) mappings during the request submission
->>in the execbuf3 path.
->>
->>v2: Ensure requests wait for bindings to complete.
->>v3: Remove short term pinning with PIN_VALIDATE flag.
->>     Individualize fences before adding to dma_resv obj.
->>
->>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>---
->>  .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 208 +++++++++++++++++-
->>  1 file changed, 207 insertions(+), 1 deletion(-)
->>
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>index a9b4cc44bf66..8120e4c6b7da 100644
->>--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
->>@@ -3,6 +3,7 @@
->>   * Copyright � 2022 Intel Corporation
->>   */
->>+#include <linux/dma-fence-array.h>
->>  #include <linux/dma-resv.h>
->>  #include <linux/uaccess.h>
->>@@ -19,6 +20,7 @@
->>  #include "i915_gem_vm_bind.h"
->>  #include "i915_trace.h"
->>+#define __EXEC3_HAS_PIN			BIT_ULL(33)
->>  #define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
->>  #define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
->>@@ -42,7 +44,9 @@
->>   * execlist. Hence, no support for implicit sync.
->>   *
->>   * The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND mode only
->>- * works with execbuf3 ioctl for submission.
->>+ * works with execbuf3 ioctl for submission. All BOs mapped on that VM (through
->>+ * VM_BIND call) at the time of execbuf3 call are deemed required for that
->>+ * submission.
->>   *
->>   * The execbuf3 ioctl directly specifies the batch addresses instead of as
->>   * object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
->>@@ -58,6 +62,13 @@
->>   * So, a lot of code supporting execbuf2 ioctl, like relocations, VA evictions,
->>   * vma lookup table, implicit sync, vma active reference tracking etc., are not
->>   * applicable for execbuf3 ioctl.
->>+ *
->>+ * During each execbuf submission, request fence is added to all VM_BIND mapped
->>+ * objects with DMA_RESV_USAGE_BOOKKEEP. The DMA_RESV_USAGE_BOOKKEEP usage will
->>+ * prevent over sync (See enum dma_resv_usage). Note that DRM_I915_GEM_WAIT and
->>+ * DRM_I915_GEM_BUSY ioctls do not check for DMA_RESV_USAGE_BOOKKEEP usage and
->>+ * hence should not be used for end of batch check. Instead, the execbuf3
->>+ * timeline out fence should be used for end of batch check.
->>   */
->>  /**
->>@@ -127,6 +138,23 @@ eb_find_vma(struct i915_address_space *vm, u64 addr)
->>  	return i915_gem_vm_bind_lookup_vma(vm, va);
->>  }
->>+static void eb_scoop_unbound_vma_all(struct i915_address_space *vm)
->>+{
->>+	struct i915_vma *vma, *vn;
->>+
->>+	/**
->>+	 * Move all unbound vmas back into vm_bind_list so that they are
->>+	 * revalidated.
->>+	 */
->>+	spin_lock(&vm->vm_rebind_lock);
->>+	list_for_each_entry_safe(vma, vn, &vm->vm_rebind_list, vm_rebind_link) {
->>+		list_del_init(&vma->vm_rebind_link);
->>+		if (!list_empty(&vma->vm_bind_link))
->>+			list_move_tail(&vma->vm_bind_link, &vm->vm_bind_list);
->>+	}
->>+	spin_unlock(&vm->vm_rebind_lock);
->>+}
->>+
->>  static int eb_lookup_vma_all(struct i915_execbuffer *eb)
->>  {
->>  	unsigned int i, current_batch = 0;
->>@@ -141,14 +169,108 @@ static int eb_lookup_vma_all(struct i915_execbuffer *eb)
->>  		++current_batch;
->>  	}
->>+	eb_scoop_unbound_vma_all(eb->context->vm);
->>+
->>+	return 0;
->>+}
->>+
->>+static int eb_lock_vma_all(struct i915_execbuffer *eb)
->>+{
->>+	struct i915_address_space *vm = eb->context->vm;
->>+	struct i915_vma *vma;
->>+	int err;
->>+
->>+	err = i915_gem_object_lock(eb->context->vm->root_obj, &eb->ww);
->>+	if (err)
->>+		return err;
->>+
->>+	list_for_each_entry(vma, &vm->non_priv_vm_bind_list,
->>+			    non_priv_vm_bind_link) {
->>+		err = i915_gem_object_lock(vma->obj, &eb->ww);
->>+		if (err)
->>+			return err;
->>+	}
->>+
->>  	return 0;
->>  }
->>+static void eb_release_persistent_vma_all(struct i915_execbuffer *eb)
->>+{
->>+	struct i915_address_space *vm = eb->context->vm;
->>+	struct i915_vma *vma, *vn;
->>+
->>+	lockdep_assert_held(&vm->vm_bind_lock);
->>+
->>+	if (!(eb->args->flags & __EXEC3_HAS_PIN))
->>+		return;
->>+
->>+	assert_object_held(vm->root_obj);
->>+
->>+	list_for_each_entry_safe(vma, vn, &vm->vm_bind_list, vm_bind_link)
->>+		if (i915_vma_verify_bind_complete(vma))
->>+			list_move_tail(&vma->vm_bind_link, &vm->vm_bound_list);
->>+
->>+	eb->args->flags &= ~__EXEC3_HAS_PIN;
->>+}
->>+
->>  static void eb_release_vma_all(struct i915_execbuffer *eb)
->>  {
->>+	eb_release_persistent_vma_all(eb);
->>  	eb_unpin_engine(eb);
->>  }
->>+static int eb_reserve_fence_for_persistent_vma_all(struct i915_execbuffer *eb)
->>+{
->>+	struct i915_address_space *vm = eb->context->vm;
->>+	u64 num_fences = 1;
->>+	struct i915_vma *vma;
->>+	int ret;
->>+
->>+	/* Reserve enough slots to accommodate composite fences */
->>+	if (intel_context_is_parallel(eb->context))
->>+		num_fences = eb->num_batches;
->>+
->>+	ret = dma_resv_reserve_fences(vm->root_obj->base.resv, num_fences);
->>+	if (ret)
->>+		return ret;
->>+
->>+	list_for_each_entry(vma, &vm->non_priv_vm_bind_list,
->>+			    non_priv_vm_bind_link) {
->>+		ret = dma_resv_reserve_fences(vma->obj->base.resv, num_fences);
->>+		if (ret)
->>+			return ret;
->>+	}
->>+
->>+	return 0;
->>+}
->>+
->>+static int eb_validate_persistent_vma_all(struct i915_execbuffer *eb)
->>+{
->>+	struct i915_address_space *vm = eb->context->vm;
->>+	struct i915_vma *vma;
->>+	int ret = 0;
->>+
->>+	lockdep_assert_held(&vm->vm_bind_lock);
->>+	assert_object_held(vm->root_obj);
->>+
->>+	ret = eb_reserve_fence_for_persistent_vma_all(eb);
->>+	if (ret)
->>+		return ret;
->>+
->>+	list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link) {
->>+		u64 pin_flags = vma->start | PIN_OFFSET_FIXED |
->>+				PIN_USER | PIN_VALIDATE;
->
->Should we also add NOEVICT here and in vm_bind? Or is eviction somehow 
->still desired in vm_bind world?
 
-Yah, we only check above if there is mapping at vma->start, but not
-the whole range. Will add NOEVICT here and in execbuffer3.c
+On 20/10/2022 15:18, Ville Syrj채l채 wrote:
+> On Thu, Oct 20, 2022 at 02:08:41PM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Since a7c01fa93aeb ("signal: break out of wait loops on kthread_stop()")
+>> kthread_stop() started asserting a pending signal which wreaks havoc with
+>> a few of our selftests. Mainly because they are not fully expecting to
+>> handle signals, but also cutting the intended test runtimes short due
+>> signal_pending() now returning true (via __igt_timeout), which therefore
+>> breaks both the patterns of:
+>>
+>>    kthread_run()
+>>    ..sleep for igt_timeout_ms to allow test to exercise stuff..
+>>    kthread_stop()
+>>
+>> And check for errors recorded in the thread.
+>>
+>> And also:
+>>
+>>      Main thread  |   Test thread
+>>    ---------------+------------------------------
+>>    kthread_run()  |
+>>    kthread_stop() |  do stuff until __igt_timeout
+>> 		 |  -- exits early due signal --
+>>
+>> Where this kthread_stop() was assume would have a "join" semantics, which
+>> it would have had if not the new signal assertion issue.
+>>
+>> To recap, threads are now likely to catch a previously impossible
+>> ERESTARTSYS or EINTR, marking the test as failed, or have a pointlessly
+>> short run time.
+>>
+>> To work around this start using kthread_work(er) API which provides
+>> an explicit way of waiting for threads to exit. And for cases where
+>> parent controls the test duration we add explicit signaling which threads
+>> will now use instead of relying on kthread_should_stop().
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Ville Syrj채l채 <ville.syrjala@linux.intel.com>
+>> ---
+>>   .../drm/i915/gem/selftests/i915_gem_context.c | 118 ++++----
+>>   drivers/gpu/drm/i915/gt/selftest_execlists.c  |  48 ++--
+>>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  51 ++--
+>>   drivers/gpu/drm/i915/selftests/i915_request.c | 252 +++++++++++-------
+>>   4 files changed, 281 insertions(+), 188 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>> index c6ad67b90e8a..d8864444432b 100644
+>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>> @@ -179,97 +179,108 @@ static int live_nop_switch(void *arg)
+>>   }
+>>   
+>>   struct parallel_switch {
+>> -	struct task_struct *tsk;
+>> +	struct kthread_worker *worker;
+>> +	struct kthread_work work;
+>>   	struct intel_context *ce[2];
+>> +	int result;
+>>   };
+>>   
+>> -static int __live_parallel_switch1(void *data)
+>> +static void __live_parallel_switch1(struct kthread_work *work)
+>>   {
+>> -	struct parallel_switch *arg = data;
+>> +	struct parallel_switch *arg =
+>> +		container_of(work, typeof(*arg), work);
+>>   	IGT_TIMEOUT(end_time);
+>>   	unsigned long count;
+>>   
+>>   	count = 0;
+>> +	arg->result = 0;
+>>   	do {
+>>   		struct i915_request *rq = NULL;
+>> -		int err, n;
+>> +		int n;
+>>   
+>> -		err = 0;
+>> -		for (n = 0; !err && n < ARRAY_SIZE(arg->ce); n++) {
+>> +		for (n = 0; !arg->result && n < ARRAY_SIZE(arg->ce); n++) {
+>>   			struct i915_request *prev = rq;
+>>   
+>>   			rq = i915_request_create(arg->ce[n]);
+>>   			if (IS_ERR(rq)) {
+>>   				i915_request_put(prev);
+>> -				return PTR_ERR(rq);
+>> +				arg->result = PTR_ERR(rq);
+>> +				break;
+>>   			}
+>>   
+>>   			i915_request_get(rq);
+>>   			if (prev) {
+>> -				err = i915_request_await_dma_fence(rq, &prev->fence);
+>> +				arg->result =
+>> +					i915_request_await_dma_fence(rq,
+>> +								     &prev->fence);
+>>   				i915_request_put(prev);
+>>   			}
+>>   
+>>   			i915_request_add(rq);
+>>   		}
+>> +
+>> +		if (IS_ERR_OR_NULL(rq))
+>> +			break;
+>> +
+>>   		if (i915_request_wait(rq, 0, HZ) < 0)
+>> -			err = -ETIME;
+>> +			arg->result = -ETIME;
+>> +
+>>   		i915_request_put(rq);
+>> -		if (err)
+>> -			return err;
+>>   
+>>   		count++;
+>> -	} while (!__igt_timeout(end_time, NULL));
+>> +	} while (!arg->result && !__igt_timeout(end_time, NULL));
+>>   
+>> -	pr_info("%s: %lu switches (sync)\n", arg->ce[0]->engine->name, count);
+>> -	return 0;
+>> +	pr_info("%s: %lu switches (sync) <%d>\n",
+>> +		arg->ce[0]->engine->name, count, arg->result);
+>>   }
+>>   
+>> -static int __live_parallel_switchN(void *data)
+>> +static void __live_parallel_switchN(struct kthread_work *work)
+>>   {
+>> -	struct parallel_switch *arg = data;
+>> +	struct parallel_switch *arg =
+>> +		container_of(work, typeof(*arg), work);
+>>   	struct i915_request *rq = NULL;
+>>   	IGT_TIMEOUT(end_time);
+>>   	unsigned long count;
+>>   	int n;
+>>   
+>>   	count = 0;
+>> +	arg->result = 0;
+>>   	do {
+>> -		for (n = 0; n < ARRAY_SIZE(arg->ce); n++) {
+>> +		for (n = 0; !arg->result && n < ARRAY_SIZE(arg->ce); n++) {
+>>   			struct i915_request *prev = rq;
+>> -			int err = 0;
+>>   
+>>   			rq = i915_request_create(arg->ce[n]);
+>>   			if (IS_ERR(rq)) {
+>>   				i915_request_put(prev);
+>> -				return PTR_ERR(rq);
+>> +				arg->result = PTR_ERR(rq);
+>> +				break;
+>>   			}
+>>   
+>>   			i915_request_get(rq);
+>>   			if (prev) {
+>> -				err = i915_request_await_dma_fence(rq, &prev->fence);
+>> +				arg->result =
+>> +					i915_request_await_dma_fence(rq,
+>> +								     &prev->fence);
+>>   				i915_request_put(prev);
+>>   			}
+>>   
+>>   			i915_request_add(rq);
+>> -			if (err) {
+>> -				i915_request_put(rq);
+>> -				return err;
+>> -			}
+>>   		}
+>>   
+>>   		count++;
+>> -	} while (!__igt_timeout(end_time, NULL));
+>> -	i915_request_put(rq);
+>> +	} while (!arg->result && !__igt_timeout(end_time, NULL));
+>>   
+>> -	pr_info("%s: %lu switches (many)\n", arg->ce[0]->engine->name, count);
+>> -	return 0;
+>> +	if (!IS_ERR_OR_NULL(rq))
+>> +		i915_request_put(rq);
+>> +
+>> +	pr_info("%s: %lu switches (many) <%d>\n",
+>> +		arg->ce[0]->engine->name, count, arg->result);
+>>   }
+>>   
+>>   static int live_parallel_switch(void *arg)
+>>   {
+>>   	struct drm_i915_private *i915 = arg;
+>> -	static int (* const func[])(void *arg) = {
+>> +	static void (* const func[])(struct kthread_work *) = {
+>>   		__live_parallel_switch1,
+>>   		__live_parallel_switchN,
+>>   		NULL,
+>> @@ -277,7 +288,7 @@ static int live_parallel_switch(void *arg)
+>>   	struct parallel_switch *data = NULL;
+>>   	struct i915_gem_engines *engines;
+>>   	struct i915_gem_engines_iter it;
+>> -	int (* const *fn)(void *arg);
+>> +	void (* const *fn)(struct kthread_work *);
+>>   	struct i915_gem_context *ctx;
+>>   	struct intel_context *ce;
+>>   	struct file *file;
+>> @@ -348,9 +359,22 @@ static int live_parallel_switch(void *arg)
+>>   		}
+>>   	}
+>>   
+>> +	for (n = 0; n < count; n++) {
+>> +		struct kthread_worker *worker;
+>> +
+>> +		if (!data[n].ce[0])
+>> +			continue;
+>> +
+>> +		worker = kthread_create_worker(0, "igt/parallel:%s",
+>> +					       data[n].ce[0]->engine->name);
+>> +		if (IS_ERR(worker))
+>> +			goto out;
+>> +
+>> +		data[n].worker = worker;
+>> +	}
+>> +
+>>   	for (fn = func; !err && *fn; fn++) {
+>>   		struct igt_live_test t;
+>> -		int n;
+>>   
+>>   		err = igt_live_test_begin(&t, i915, __func__, "");
+>>   		if (err)
+>> @@ -360,30 +384,17 @@ static int live_parallel_switch(void *arg)
+>>   			if (!data[n].ce[0])
+>>   				continue;
+>>   
+>> -			data[n].tsk = kthread_run(*fn, &data[n],
+>> -						  "igt/parallel:%s",
+>> -						  data[n].ce[0]->engine->name);
+>> -			if (IS_ERR(data[n].tsk)) {
+>> -				err = PTR_ERR(data[n].tsk);
+>> -				break;
+>> -			}
+>> -			get_task_struct(data[n].tsk);
+>> +			data[n].result = 0;
+>> +			kthread_init_work(&data[n].work, *fn);
+>> +			kthread_queue_work(data[n].worker, &data[n].work);
+>>   		}
+>>   
+>> -		yield(); /* start all threads before we kthread_stop() */
+>> -
+>>   		for (n = 0; n < count; n++) {
+>> -			int status;
+>> -
+>> -			if (IS_ERR_OR_NULL(data[n].tsk))
+>> -				continue;
+>> -
+>> -			status = kthread_stop(data[n].tsk);
+>> -			if (status && !err)
+>> -				err = status;
+>> -
+>> -			put_task_struct(data[n].tsk);
+>> -			data[n].tsk = NULL;
+>> +			if (data[n].ce[0]) {
+>> +				kthread_flush_work(&data[n].work);
+>> +				if (data[n].result && !err)
+>> +					err = data[n].result;
+>> +			}
+>>   		}
+>>   
+>>   		if (igt_live_test_end(&t))
+>> @@ -399,6 +410,9 @@ static int live_parallel_switch(void *arg)
+>>   			intel_context_unpin(data[n].ce[m]);
+>>   			intel_context_put(data[n].ce[m]);
+>>   		}
+>> +
+>> +		if (data[n].worker)
+>> +			kthread_destroy_worker(data[n].worker);
+>>   	}
+>>   	kfree(data);
+>>   out_file:
+>> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>> index 56b7d5b5fea0..2c7c053a8808 100644
+>> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>> @@ -3473,12 +3473,14 @@ static int random_priority(struct rnd_state *rnd)
+>>   
+>>   struct preempt_smoke {
+>>   	struct intel_gt *gt;
+>> +	struct kthread_work work;
+>>   	struct i915_gem_context **contexts;
+>>   	struct intel_engine_cs *engine;
+>>   	struct drm_i915_gem_object *batch;
+>>   	unsigned int ncontext;
+>>   	struct rnd_state prng;
+>>   	unsigned long count;
+>> +	int result;
+>>   };
+>>   
+>>   static struct i915_gem_context *smoke_context(struct preempt_smoke *smoke)
+>> @@ -3538,34 +3540,31 @@ static int smoke_submit(struct preempt_smoke *smoke,
+>>   	return err;
+>>   }
+>>   
+>> -static int smoke_crescendo_thread(void *arg)
+>> +static void smoke_crescendo_work(struct kthread_work *work)
+>>   {
+>> -	struct preempt_smoke *smoke = arg;
+>> +	struct preempt_smoke *smoke = container_of(work, typeof(*smoke), work);
+>>   	IGT_TIMEOUT(end_time);
+>>   	unsigned long count;
+>>   
+>>   	count = 0;
+>>   	do {
+>>   		struct i915_gem_context *ctx = smoke_context(smoke);
+>> -		int err;
+>>   
+>> -		err = smoke_submit(smoke,
+>> -				   ctx, count % I915_PRIORITY_MAX,
+>> -				   smoke->batch);
+>> -		if (err)
+>> -			return err;
+>> +		smoke->result = smoke_submit(smoke, ctx,
+>> +					     count % I915_PRIORITY_MAX,
+>> +					     smoke->batch);
+>>   
+>>   		count++;
+>> -	} while (count < smoke->ncontext && !__igt_timeout(end_time, NULL));
+>> +	} while (!smoke->result && count < smoke->ncontext &&
+>> +		 !__igt_timeout(end_time, NULL));
+>>   
+>>   	smoke->count = count;
+>> -	return 0;
+>>   }
+>>   
+>>   static int smoke_crescendo(struct preempt_smoke *smoke, unsigned int flags)
+>>   #define BATCH BIT(0)
+>>   {
+>> -	struct task_struct *tsk[I915_NUM_ENGINES] = {};
+>> +	struct kthread_worker *worker[I915_NUM_ENGINES] = {};
+>>   	struct preempt_smoke *arg;
+>>   	struct intel_engine_cs *engine;
+>>   	enum intel_engine_id id;
+>> @@ -3576,6 +3575,8 @@ static int smoke_crescendo(struct preempt_smoke *smoke, unsigned int flags)
+>>   	if (!arg)
+>>   		return -ENOMEM;
+>>   
+>> +	memset(arg, 0, I915_NUM_ENGINES * sizeof(*arg));
+> 
+> kcalloc()?
 
-Niranjana
+Yeah, answer below.
 
->
->>+
->>+		ret = i915_vma_pin_ww(vma, &eb->ww, 0, 0, pin_flags);
->>+		if (ret)
->>+			break;
->>+
->>+		eb->args->flags |= __EXEC3_HAS_PIN;
->>+	}
->>+
->>+	return ret;
->>+}
->>+
->>  /*
->>   * Using two helper loops for the order of which requests / batches are created
->>   * and added the to backend. Requests are created in order from the parent to
->>@@ -160,13 +282,80 @@ static void eb_release_vma_all(struct i915_execbuffer *eb)
->>   */
->>  #define for_each_batch_create_order(_eb) \
->>  	for (unsigned int i = 0; i < (_eb)->num_batches; ++i)
->>+#define for_each_batch_add_order(_eb) \
->>+	for (int i = (_eb)->num_batches - 1; i >= 0; --i)
->>+
->>+static void __eb_persistent_add_shared_fence(struct drm_i915_gem_object *obj,
->>+					     struct dma_fence *fence)
->>+{
->>+	struct dma_fence *curr;
->>+	int idx;
->>+
->>+	dma_fence_array_for_each(curr, idx, fence)
->>+		dma_resv_add_fence(obj->base.resv, curr,
->>+				   DMA_RESV_USAGE_BOOKKEEP);
->>+
->>+	obj->write_domain = 0;
->>+	obj->read_domains |= I915_GEM_GPU_DOMAINS;
->>+	obj->mm.dirty = true;
->>+}
->>+
->>+static void eb_persistent_add_shared_fence(struct i915_execbuffer *eb)
->>+{
->>+	struct i915_address_space *vm = eb->context->vm;
->>+	struct dma_fence *fence;
->>+	struct i915_vma *vma;
->>+
->>+	fence = eb->composite_fence ? eb->composite_fence :
->>+		&eb->requests[0]->fence;
->>+
->>+	__eb_persistent_add_shared_fence(vm->root_obj, fence);
->>+	list_for_each_entry(vma, &vm->non_priv_vm_bind_list,
->>+			    non_priv_vm_bind_link)
->>+		__eb_persistent_add_shared_fence(vma->obj, fence);
->>+}
->>+
->>+static void eb_move_all_persistent_vma_to_active(struct i915_execbuffer *eb)
->>+{
->>+	/* Add fence to BOs dma-resv fence list */
->>+	eb_persistent_add_shared_fence(eb);
->>+}
->>  static int eb_move_to_gpu(struct i915_execbuffer *eb)
->>  {
->>+	struct i915_address_space *vm = eb->context->vm;
->>+	struct i915_vma *vma;
->>+	int err = 0;
->>+
->>+	lockdep_assert_held(&vm->vm_bind_lock);
->>+	assert_object_held(vm->root_obj);
->>+
->>+	eb_move_all_persistent_vma_to_active(eb);
->>+
->>+	list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link) {
->>+		for_each_batch_add_order(eb) {
->>+			if (!eb->requests[i])
->>+				continue;
->>+
->>+			err = i915_request_await_bind(eb->requests[i], vma);
->>+			if (err)
->>+				goto err_skip;
->>+		}
->>+	}
->>+
->>  	/* Unconditionally flush any chipset caches (for streaming writes). */
->>  	intel_gt_chipset_flush(eb->gt);
->>  	return 0;
->>+
->>+err_skip:
->>+	for_each_batch_create_order(eb) {
->>+		if (!eb->requests[i])
->>+			break;
->>+
->>+		i915_request_set_error_once(eb->requests[i], err);
->>+	}
->>+	return err;
->>  }
->>  static int eb_request_submit(struct i915_execbuffer *eb,
->>@@ -483,6 +672,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->>  	mutex_lock(&eb.context->vm->vm_bind_lock);
->>+lookup_vmas:
->>  	err = eb_lookup_vma_all(&eb);
->>  	if (err) {
->>  		eb_release_vma_all(&eb);
->>@@ -499,6 +689,22 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->>  	/* only throttle once, even if we didn't need to throttle */
->>  	throttle = false;
->>+	err = eb_lock_vma_all(&eb);
->>+	if (err)
->>+		goto err_validate;
->>+
->>+	/**
->>+	 * No object unbinds possible once the objects are locked. So,
->>+	 * check for any unbinds here, which needs to be scooped up.
->>+	 */
->>+	if (!list_empty(&eb.context->vm->vm_rebind_list)) {
->>+		eb_release_vma_all(&eb);
->>+		i915_gem_ww_ctx_fini(&eb.ww);
->>+		goto lookup_vmas;
->>+	}
->>+
->>+	err = eb_validate_persistent_vma_all(&eb);
->>+
->>  err_validate:
->>  	if (err == -EDEADLK) {
->>  		eb_release_vma_all(&eb);
+> 
+>> +
+>>   	for_each_engine(engine, smoke->gt, id) {
+>>   		arg[id] = *smoke;
+>>   		arg[id].engine = engine;
+>> @@ -3583,31 +3584,28 @@ static int smoke_crescendo(struct preempt_smoke *smoke, unsigned int flags)
+>>   			arg[id].batch = NULL;
+>>   		arg[id].count = 0;
+>>   
+>> -		tsk[id] = kthread_run(smoke_crescendo_thread, arg,
+>> -				      "igt/smoke:%d", id);
+>> -		if (IS_ERR(tsk[id])) {
+>> -			err = PTR_ERR(tsk[id]);
+>> +		worker[id] = kthread_create_worker(0, "igt/smoke:%d", id);
+>> +		if (IS_ERR(worker[id])) {
+>> +			err = PTR_ERR(worker[id]);
+>>   			break;
+>>   		}
+>> -		get_task_struct(tsk[id]);
+>> -	}
+>>   
+>> -	yield(); /* start all threads before we kthread_stop() */
+>> +		kthread_init_work(&arg[id].work, smoke_crescendo_work);
+>> +		kthread_queue_work(worker[id], &arg[id].work);
+>> +	}
+>>   
+>>   	count = 0;
+>>   	for_each_engine(engine, smoke->gt, id) {
+>> -		int status;
+>> -
+>> -		if (IS_ERR_OR_NULL(tsk[id]))
+>> +		if (IS_ERR_OR_NULL(worker[id]))
+>>   			continue;
+>>   
+>> -		status = kthread_stop(tsk[id]);
+>> -		if (status && !err)
+>> -			err = status;
+>> +		kthread_flush_work(&arg[id].work);
+>> +		if (arg[id].result && !err)
+>> +			err = arg[id].result;
+>>   
+>>   		count += arg[id].count;
+>>   
+>> -		put_task_struct(tsk[id]);
+>> +		kthread_destroy_worker(worker[id]);
+>>   	}
+>>   
+>>   	pr_info("Submitted %lu crescendo:%x requests across %d engines and %d contexts\n",
+>> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>> index 7f3bb1d34dfb..71263058a7b0 100644
+>> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>> @@ -866,10 +866,13 @@ static int igt_reset_active_engine(void *arg)
+>>   }
+>>   
+>>   struct active_engine {
+>> -	struct task_struct *task;
+>> +	struct kthread_worker *worker;
+>> +	struct kthread_work work;
+>>   	struct intel_engine_cs *engine;
+>>   	unsigned long resets;
+>>   	unsigned int flags;
+>> +	bool stop;
+>> +	int result;
+>>   };
+>>   
+>>   #define TEST_ACTIVE	BIT(0)
+>> @@ -900,10 +903,10 @@ static int active_request_put(struct i915_request *rq)
+>>   	return err;
+>>   }
+>>   
+>> -static int active_engine(void *data)
+>> +static void active_engine(struct kthread_work *work)
+>>   {
+>>   	I915_RND_STATE(prng);
+>> -	struct active_engine *arg = data;
+>> +	struct active_engine *arg = container_of(work, typeof(*arg), work);
+>>   	struct intel_engine_cs *engine = arg->engine;
+>>   	struct i915_request *rq[8] = {};
+>>   	struct intel_context *ce[ARRAY_SIZE(rq)];
+>> @@ -913,16 +916,17 @@ static int active_engine(void *data)
+>>   	for (count = 0; count < ARRAY_SIZE(ce); count++) {
+>>   		ce[count] = intel_context_create(engine);
+>>   		if (IS_ERR(ce[count])) {
+>> -			err = PTR_ERR(ce[count]);
+>> -			pr_err("[%s] Create context #%ld failed: %d!\n", engine->name, count, err);
+>> +			arg->result = PTR_ERR(ce[count]);
+>> +			pr_err("[%s] Create context #%ld failed: %d!\n",
+>> +			       engine->name, count, arg->result);
+>>   			while (--count)
+>>   				intel_context_put(ce[count]);
+>> -			return err;
+>> +			return;
+>>   		}
+>>   	}
+>>   
+>>   	count = 0;
+>> -	while (!kthread_should_stop()) {
+>> +	while (!READ_ONCE(arg->stop)) {
+>>   		unsigned int idx = count++ & (ARRAY_SIZE(rq) - 1);
+>>   		struct i915_request *old = rq[idx];
+>>   		struct i915_request *new;
+>> @@ -967,7 +971,7 @@ static int active_engine(void *data)
+>>   		intel_context_put(ce[count]);
+>>   	}
+>>   
+>> -	return err;
+>> +	arg->result = err;
+>>   }
+>>   
+>>   static int __igt_reset_engines(struct intel_gt *gt,
+>> @@ -1022,7 +1026,7 @@ static int __igt_reset_engines(struct intel_gt *gt,
+>>   
+>>   		memset(threads, 0, sizeof(*threads) * I915_NUM_ENGINES);
+>>   		for_each_engine(other, gt, tmp) {
+>> -			struct task_struct *tsk;
+>> +			struct kthread_worker *worker;
+>>   
+>>   			threads[tmp].resets =
+>>   				i915_reset_engine_count(global, other);
+>> @@ -1036,19 +1040,21 @@ static int __igt_reset_engines(struct intel_gt *gt,
+>>   			threads[tmp].engine = other;
+>>   			threads[tmp].flags = flags;
+>>   
+>> -			tsk = kthread_run(active_engine, &threads[tmp],
+>> -					  "igt/%s", other->name);
+>> -			if (IS_ERR(tsk)) {
+>> -				err = PTR_ERR(tsk);
+>> -				pr_err("[%s] Thread spawn failed: %d!\n", engine->name, err);
+>> +			worker = kthread_create_worker(0, "igt/%s",
+>> +						       other->name);
+>> +			if (IS_ERR(worker)) {
+>> +				err = PTR_ERR(worker);
+>> +				pr_err("[%s] Worker create failed: %d!\n",
+>> +				       engine->name, err);
+>>   				goto unwind;
+>>   			}
+>>   
+>> -			threads[tmp].task = tsk;
+>> -			get_task_struct(tsk);
+>> -		}
+>> +			threads[tmp].worker = worker;
+>>   
+>> -		yield(); /* start all threads before we begin */
+>> +			kthread_init_work(&threads[tmp].work, active_engine);
+>> +			kthread_queue_work(threads[tmp].worker,
+>> +					   &threads[tmp].work);
+>> +		}
+>>   
+>>   		st_engine_heartbeat_disable_no_pm(engine);
+>>   		GEM_BUG_ON(test_and_set_bit(I915_RESET_ENGINE + id,
+>> @@ -1197,17 +1203,20 @@ static int __igt_reset_engines(struct intel_gt *gt,
+>>   		for_each_engine(other, gt, tmp) {
+>>   			int ret;
+>>   
+>> -			if (!threads[tmp].task)
+>> +			if (!threads[tmp].worker)
+>>   				continue;
+>>   
+>> -			ret = kthread_stop(threads[tmp].task);
+>> +			WRITE_ONCE(threads[tmp].stop, true);
+>> +			kthread_flush_work(&threads[tmp].work);
+> 
+> Could perhaps optimize things a bit flagging all the threads
+> to stop before doing any flush_work()s. And maybe also do all
+> the init stuff before queuing any works. But dunno if that's
+> worth the hassle.
+
+Init stage probably isn't worth complicating, but stopping would be 
+nicer indeed to happen more in sync across threads. Mostly for cases 
+where some sort of metrics per thread is output, and where stop points 
+are relatively spread out.
+
+I will leave it all for a follow up though. If this version happens to 
+get a green CI light I will just merge it as is to restore CI coverage 
+and unblock things.
+
+> Looks reasonable enough to me.
+> Reviewed-by: Ville Syrj채l채 <ville.syrjala@linux.intel.com>
+
+Thanks!
+
+Regards,
+
+Tvrtko
