@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8464B60612C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 15:12:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D7F606135
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 15:13:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8375710EF19;
-	Thu, 20 Oct 2022 13:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B3010EF65;
+	Thu, 20 Oct 2022 13:13:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C4110ECBB;
- Thu, 20 Oct 2022 13:11:50 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- r8-20020a056830120800b00661a0a236efso11362872otp.4; 
- Thu, 20 Oct 2022 06:11:50 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7C9510EF5E;
+ Thu, 20 Oct 2022 13:12:48 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ z11-20020a05683020cb00b00661a95cf920so11363071otq.5; 
+ Thu, 20 Oct 2022 06:12:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=u0+uDTLiSxgXk5TNHxXL03uQzfakDOtS8Qg9Ra2ST6U=;
- b=bIHISWEu+A1kb4nsc5ajKrDMtLpPAo/s4FYHDz95KD8eeK1s4R8ES/qAXqx05A8Xwh
- PhGN3980e9ybQtn8YsabSGIkUnaePSfiMS09+WT4rxBGMtjDH29j0mKT3/aIie156yN9
- Wc3htvRPUI97m3x5HhiSZrJA4Ch2aBqUY/BVO27eKUWSTqkyxiMKvbn/JjXHCPaFxtWc
- Hv3ntlc8EKRbb2Yn8ULdtpdlHU9ZmF08DOSZbBr02QH+k42U6cfu9G3cyZk/p1qbIWD8
- 1272n1itRVgwXnayL1g9XPJw0L+Prv0GaoCcZRR5vjLssAyeDQrgmBbtlp7TNvGNmhJX
- 9seA==
+ bh=DsXsFIYvDAodNYz1Nmy2Vi1Se+P9Lqr7f28wYKZlDiY=;
+ b=lSihJaVhGaXXm3ksHFi4XF5VCkViNanV/8bL/Bs++PXHQEbGsfv+rELLlTNr8aRmbg
+ HaP8NWHwNzxVyhPma74QoZk5yy23QJ95JrRropTyptHwUXs3Qot7RmYT53oegQwFDnJU
+ Uh9Tjquo7WlN0mbi41L00eftSPkGf1UGo1aBZHgdZfsXoe0QV1ZbW5JxPPgzh7H+BmNO
+ 6AIUC7ZidonTB/mFxlYQ+AR2BW8jW7hvHXWmwzV6dIPCyml1lxT56kvAWJqYTaFyMTQo
+ p5IfARYl/dHeFOIgdFdc2R8wRVbWKX6aPQ4ybbxiyQHuASoAO2EnrwWE6SklqtZAGjBA
+ vtAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=u0+uDTLiSxgXk5TNHxXL03uQzfakDOtS8Qg9Ra2ST6U=;
- b=l1xdoxtenNX/k7IIgEN8oRoFNnXMwOdvfs7D1eNkAlMXqP/FMcZjZoxlOtRwsAnDqK
- 3kycnwhuHjdrlXn3bh2BHkqxOG023nUqtyB4tOeI+gsy+2fXj9V19EvGglUe+hvPStZQ
- Qauxu+i36iHK31wkprr6ZNJ4JNqko+TGhfH8PGOCG7nR7BCLfp1Ok0L3QpQPAhNexZ8N
- cls99ibanIDhCz3rC8rUcHoW/5xq+Tx5s3+VMM0MSq099cAnqqiuAxdB8mFWNRIFSo6j
- iJbvWD2WqrE+10NcCYisnQ7Nci6Wgm1rz9apPILvp0u/K6JmnjqEQjBVVn9t8NQRTthT
- jq6A==
-X-Gm-Message-State: ACrzQf1u362trLUWZMCYHxEhtu13UprEQ1ailsuJWEuhG2P3D9fzLAVf
- whzCyr4cgsqt7U7D4Kqkuwu9XdE8p1a9BMe4nc0=
-X-Google-Smtp-Source: AMsMyM6842vpHVdqDrFoBPGHYpKmR0VIvXOGeO6/O+xzMcfkIdqXt3vuft4DKch3kwVV7F4YQ6X47YLJQXnAzVLuCHU=
+ bh=DsXsFIYvDAodNYz1Nmy2Vi1Se+P9Lqr7f28wYKZlDiY=;
+ b=brPlA+DU/fmN4NqF7k4Y+giZ3hUXaedRkETVswE/tQTFqaGA6nX2RwYNc0jGzrtvbH
+ hxUalYYqgt0vvT3KZ1eUgavOLS2E5VTxp4YEl9TVj9AL2ghH8bwgj+UJQwzTXHSmLiPT
+ KcHrvwoYP+Y0sN/tMH5zq7t7Oo1vYjpLFUY+j+SC/znwO9LHFTefWLFsHFaq4eDrCQjW
+ uEKnkt9t5BQKZu+Rcsm8VCfNK1m/PajXjoheYy0edUooo4dZ2MmoXBi3gT9FY3Xktj+N
+ j+k6pJ4gSD4sPLJQuF0h4uviphqOa1M45qp55/idguqnNSNdMgtzsljdJn6QtQyJz3zY
+ EoyQ==
+X-Gm-Message-State: ACrzQf2Kg/kMrUdpqHyBRDFHLZwWSMrnHsXpziLd21aMN2PdZVY5L202
+ 9kGDXBAkWfxeF/6lwb/9ko1LByYIzgQBMEKY8bQ=
+X-Google-Smtp-Source: AMsMyM5nap6y4lQsKGO8rHdv7F2gC+h5H59qOgQ0THliBfMad+ldikYvgxoOHtjNJHBe1CJMu6wOnF1QRZo4bEWF6Mc=
 X-Received: by 2002:a9d:6645:0:b0:661:b778:41b8 with SMTP id
- q5-20020a9d6645000000b00661b77841b8mr6967997otm.233.1666271510132; Thu, 20
- Oct 2022 06:11:50 -0700 (PDT)
+ q5-20020a9d6645000000b00661b77841b8mr6970619otm.233.1666271568082; Thu, 20
+ Oct 2022 06:12:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221019063115.3757510-1-ruanjinjie@huawei.com>
- <faaae681-65b7-0cc5-d413-b8995978d2c5@amd.com>
-In-Reply-To: <faaae681-65b7-0cc5-d413-b8995978d2c5@amd.com>
+References: <20221019062347.3756071-1-ruanjinjie@huawei.com>
+ <8eb93fb6-a1c4-5ef4-f549-8649bb36e59a@amd.com>
+In-Reply-To: <8eb93fb6-a1c4-5ef4-f549-8649bb36e59a@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 20 Oct 2022 09:11:38 -0400
-Message-ID: <CADnq5_MX4irT51Th6OaQNONohxO85wyf5g5YLX73jOxTyJVetw@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: make dcn32_mmhubbub_funcs static
+Date: Thu, 20 Oct 2022 09:12:36 -0400
+Message-ID: <CADnq5_Phr_g-LZtqc2sojEqxyoqWLuo7RhFHHyC2wQsEVRBEiQ@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: make dcn32_mpc_funcs static
 To: Harry Wentland <harry.wentland@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,12 +66,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jiapeng.chong@linux.alibaba.com, sunpeng.li@amd.com,
+Cc: jiapeng.chong@linux.alibaba.com, hanyihao@vivo.com, sunpeng.li@amd.com,
  ruanjinjie <ruanjinjie@huawei.com>, Xinhui.Pan@amd.com,
  Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- isabbasso@riseup.net, christian.koenig@amd.com
+ dri-devel@lists.freedesktop.org, Martin.Leung@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -79,18 +79,15 @@ Applied.  Thanks!
 
 Alex
 
-On Wed, Oct 19, 2022 at 9:27 AM Harry Wentland <harry.wentland@amd.com> wrote:
+On Wed, Oct 19, 2022 at 9:28 AM Harry Wentland <harry.wentland@amd.com> wrote:
 >
->
->
-> On 2022-10-19 02:31, ruanjinjie wrote:
+> On 2022-10-19 02:23, ruanjinjie wrote:
 > > The symbol is not used outside of the file, so mark it static.
 > >
 > > Fixes the following warning:
 > >
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_mmhubbub.c:214:28:
-> > warning: symbol 'dcn32_mmhubbub_funcs' was
-> > not declared. Should it be static?
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_mpc.c:985:24: warning:
+> > symbol 'dcn32_mpc_funcs' was not declared. Should it be static?
 > >
 > > Signed-off-by: ruanjinjie <ruanjinjie@huawei.com>
 >
@@ -99,20 +96,20 @@ On Wed, Oct 19, 2022 at 9:27 AM Harry Wentland <harry.wentland@amd.com> wrote:
 > Harry
 >
 > > ---
-> >  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mmhubbub.c | 2 +-
+> >  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c | 2 +-
 > >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mmhubbub.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mmhubbub.c
-> > index 41b0baf8e183..c3b089ba511a 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mmhubbub.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mmhubbub.c
-> > @@ -211,7 +211,7 @@ static void mmhubbub32_config_mcif_arb(struct mcif_wb *mcif_wb,
-> >       REG_UPDATE(MCIF_WB_ARBITRATION_CONTROL, MCIF_WB_CLIENT_ARBITRATION_SLICE,  params->arbitration_slice);
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
+> > index 4edd0655965b..206a5ddbaf6d 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
+> > @@ -982,7 +982,7 @@ static bool mpc32_program_3dlut(
+> >       return true;
 > >  }
 > >
-> > -const struct mcif_wb_funcs dcn32_mmhubbub_funcs = {
-> > +static const struct mcif_wb_funcs dcn32_mmhubbub_funcs = {
-> >       .warmup_mcif            = mmhubbub32_warmup_mcif,
-> >       .enable_mcif            = mmhubbub2_enable_mcif,
-> >       .disable_mcif           = mmhubbub2_disable_mcif,
+> > -const struct mpc_funcs dcn32_mpc_funcs = {
+> > +static const struct mpc_funcs dcn32_mpc_funcs = {
+> >       .read_mpcc_state = mpc1_read_mpcc_state,
+> >       .insert_plane = mpc1_insert_plane,
+> >       .remove_mpcc = mpc1_remove_mpcc,
 >
