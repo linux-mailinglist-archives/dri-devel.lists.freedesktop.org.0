@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A79B605604
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0D9605606
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE4710E2F8;
-	Thu, 20 Oct 2022 03:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98AA110E2FA;
+	Thu, 20 Oct 2022 03:42:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6DD10E2DE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 03:41:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C0010E26D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 03:41:44 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 3781533EF65;
+ by letterbox.kde.org (Postfix) with ESMTPSA id EC9A333EF84;
  Thu, 20 Oct 2022 04:41:42 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666237302; bh=w5DSh+l+MX5OkR82RX6AgpzGsirwUGjFtHQgpujshyU=;
+ t=1666237303; bh=sRiWKPf+1md0y9WonOAV+ZcdWSt4BLf5yrUqbqgwv44=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HWkKo8l8k2L6v+8HlIJ4VFVKevYzJEMcsCjuDvKCL1KKaWZ9NgmbpoCOa7L93HzZB
- YaIDhuPQlvLmt/yRE9Nw4SZPu2A1jNOnCKBIuA8XMUioMLkqnbE/IZBc/pNL64qxIr
- HqmOCyd9fprn6wV28X/tAjlbmUQRAMj6wj8wjzKGw0cKNxJrk2ysRMt9AzYXb9o1wL
- bdN8JsDG3PsgW+X+9v+iBM+4I7jaZn4CGJCqq3AFz7fQ15mwdjWyC2Ua7mVsV6NSG8
- xCZMWR0jjf5czU9ewTi5Jj4qgKz6b6uqmM2kA9Px5Z+7CpL11emUykyehCBy4yqCv4
- V0nUcyUw/cXjg==
+ b=SS80Ofn19K8a3xQdvJ09PD/toQyC0Mkcb+eOSCnPcx5rifwGF+mwlloidDjlx2VGU
+ yPdN2gzzfW3YTCzgvjia59s4cXpMIfFuGeVlsAWEv62IuQqw3C/fEGsCj8FfSVsX5K
+ MY007Ymg0X5wlX+Ur5UWbR9idsQts01biCPBbrXBZ+uNobwYaX/3Y1tbdgZo9N0gTP
+ 4deCSqRv6hJsdTawtV0Nee3BRMor/b+80ep7MVGOp5W75vK7yf2JIMxNPM8PLgQnDT
+ BQjnNvnYqN2761I8FUHIgG/9f+QiaGat6foaR2jk7MievJGpID0NqMhhhlCzrnYUoh
+ 7TmfUWIjisa/A==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 07/16] drm/vmwgfx: Start diffing new mob cursors against
- old ones
-Date: Wed, 19 Oct 2022 23:41:22 -0400
-Message-Id: <20221020034131.491973-8-zack@kde.org>
+Subject: [PATCH v2 08/16] drm/vmwgfx: Support cursor surfaces with mob cursor
+Date: Wed, 19 Oct 2022 23:41:23 -0400
+Message-Id: <20221020034131.491973-9-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020034131.491973-1-zack@kde.org>
 References: <20221020034131.491973-1-zack@kde.org>
@@ -55,201 +54,278 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michael Banack <banackm@vmware.com>
 
-Avoid making the SVGA device do extra work if the new cursor image
-matches the old one.
+Add support for cursor surfaces when using mob cursors.
 
 Signed-off-by: Michael Banack <banackm@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 95 ++++++++++++++++++++++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h | 12 ++--
- 2 files changed, 81 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 78 ++++++++++++++++++-----------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  1 +
+ 2 files changed, 50 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 07d55d610e4c..464d7c8cd1d6 100644
+index 464d7c8cd1d6..6c41c5b5a913 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -52,11 +52,9 @@ void vmw_du_cleanup(struct vmw_display_unit *du)
-  * Display Unit Cursor functions
-  */
+@@ -85,7 +85,7 @@ static void vmw_send_define_cursor_cmd(struct vmw_private *dev_priv,
+ 	   other fallible KMS-atomic resources at prepare_fb */
+ 	cmd = VMW_CMD_RESERVE(dev_priv, cmd_size);
  
--static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
--				  struct vmw_plane_state *vps,
--				  u32 *image, u32 width, u32 height,
--				  u32 hotspotX, u32 hotspotY);
- static int vmw_du_cursor_plane_unmap_cm(struct vmw_plane_state *vps);
-+static void vmw_cursor_write_mobid(struct vmw_private *dev_priv,
-+				   struct vmw_plane_state *vps);
+-	if (unlikely(cmd == NULL))
++	if (unlikely(!cmd))
+ 		return;
  
- struct vmw_svga_fifo_cmd_define_cursor {
- 	u32 cmd;
-@@ -120,9 +118,7 @@ static void vmw_cursor_update_image(struct vmw_private *dev_priv,
+ 	memset(cmd, 0, sizeof(*cmd));
+@@ -117,7 +117,7 @@ static void vmw_cursor_update_image(struct vmw_private *dev_priv,
+ 				    u32 *image, u32 width, u32 height,
  				    u32 hotspotX, u32 hotspotY)
  {
- 	if (vps->cursor.bo != NULL)
--		vmw_cursor_update_mob(dev_priv, vps, image,
--				      width, height,
--				      hotspotX, hotspotY);
-+		vmw_cursor_write_mobid(dev_priv, vps);
+-	if (vps->cursor.bo != NULL)
++	if (vps->cursor.bo)
+ 		vmw_cursor_write_mobid(dev_priv, vps);
  	else
  		vmw_send_define_cursor_cmd(dev_priv, image, width, height,
- 					   hotspotX, hotspotY);
-@@ -167,6 +163,21 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
- 	alpha_header->height = height;
+@@ -197,7 +197,7 @@ static bool vmw_du_cursor_plane_mob_has_changed(struct vmw_plane_state *old_vps,
+ 	u32 size;
  
- 	memcpy(header + 1, image, image_size);
-+}
-+
-+
-+/**
-+ * vmw_cursor_write_mobid - Update cursor via CursorMob mechanism
-+ *
-+ * Called from inside vmw_du_cursor_plane_atomic_update to actually
-+ * make the cursor-image live.
-+ *
-+ * @dev_priv: device to work with
-+ * @vps: DRM plane_state
-+ */
-+static void vmw_cursor_write_mobid(struct vmw_private *dev_priv,
-+				   struct vmw_plane_state *vps)
-+{
- 	vmw_write(dev_priv, SVGA_REG_CURSOR_MOBID,
- 		  vps->cursor.bo->resource->start);
- }
-@@ -176,6 +187,39 @@ static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
- 	return w * h * sizeof(u32) + sizeof(SVGAGBCursorHeader);
- }
+ 	// If either of them aren't using CursorMobs, assume changed.
+-	if (old_vps->cursor.bo == NULL || new_vps->cursor.bo == NULL)
++	if (!old_vps->cursor.bo || !new_vps->cursor.bo)
+ 		return true;
  
-+
-+static bool vmw_du_cursor_plane_mob_has_changed(struct vmw_plane_state *old_vps,
-+						struct vmw_plane_state *new_vps)
-+{
-+	void *old_mob;
-+	void *new_mob;
-+	bool dummy;
-+	u32 size;
-+
-+	// If either of them aren't using CursorMobs, assume changed.
-+	if (old_vps->cursor.bo == NULL || new_vps->cursor.bo == NULL)
-+		return true;
-+
-+	// If either of them failed to map, assume changed.
-+	if (!old_vps->cursor.mapped || !new_vps->cursor.mapped)
-+		return true;
-+
-+	if (old_vps->base.crtc_w != new_vps->base.crtc_w ||
-+	    old_vps->base.crtc_h != new_vps->base.crtc_h)
-+	    return true;
-+
-+	size = vmw_du_cursor_mob_size(new_vps->base.crtc_w,
-+				      new_vps->base.crtc_h);
-+
-+	old_mob = ttm_kmap_obj_virtual(&old_vps->cursor.map, &dummy);
-+	new_mob = ttm_kmap_obj_virtual(&new_vps->cursor.map, &dummy);
-+
-+	if (memcmp(old_mob, new_mob, size) != 0)
-+		return true;
-+
-+	return false;
-+}
-+
+ 	// If either of them failed to map, assume changed.
+@@ -222,7 +222,7 @@ static bool vmw_du_cursor_plane_mob_has_changed(struct vmw_plane_state *old_vps,
+ 
  static void vmw_du_destroy_cursor_mob(struct ttm_buffer_object **bo)
  {
- 	if (*bo == NULL)
-@@ -716,9 +760,10 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
- 	struct vmw_private *dev_priv = vmw_priv(crtc->dev);
- 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
- 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
-+	struct vmw_plane_state *old_vps = vmw_plane_state_to_vps(old_state);
- 	s32 hotspot_x, hotspot_y;
--	void *virtual;
- 	bool dummy;
-+	void *image;
+-	if (*bo == NULL)
++	if (!(*bo))
+ 		return;
  
- 	hotspot_x = du->hotspot_x;
- 	hotspot_y = du->hotspot_y;
-@@ -738,23 +783,32 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	ttm_bo_unpin(*bo);
+@@ -236,14 +236,14 @@ static void vmw_du_put_cursor_mob(struct vmw_cursor_plane *vcp,
+ {
+ 	u32 i;
  
- 	if (vps->surf != NULL) {
+-	if (vps->cursor.bo == NULL)
++	if (!vps->cursor.bo)
+ 		return;
+ 
+ 	vmw_du_cursor_plane_unmap_cm(vps);
+ 
+ 	/* Look for a free slot to return this mob to the cache. */
+ 	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++) {
+-		if (vcp->cursor_mobs[i] == NULL) {
++		if (!vcp->cursor_mobs[i]) {
+ 			vcp->cursor_mobs[i] = vps->cursor.bo;
+ 			vps->cursor.bo = NULL;
+ 			return;
+@@ -285,7 +285,7 @@ static int vmw_du_get_cursor_mob(struct vmw_cursor_plane *vcp,
+ 	    vps->base.crtc_h > cursor_max_dim)
+ 		return -EINVAL;
+ 
+-	if (vps->cursor.bo != NULL) {
++	if (vps->cursor.bo) {
+ 		if (vps->cursor.bo->base.size >= size)
+ 			return 0;
+ 		vmw_du_put_cursor_mob(vcp, vps);
+@@ -293,7 +293,7 @@ static int vmw_du_get_cursor_mob(struct vmw_cursor_plane *vcp,
+ 
+ 	/* Look for an unused mob in the cache. */
+ 	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++) {
+-		if (vcp->cursor_mobs[i] != NULL &&
++		if (vcp->cursor_mobs[i] &&
+ 		    vcp->cursor_mobs[i]->base.size >= size) {
+ 			vps->cursor.bo = vcp->cursor_mobs[i];
+ 			vcp->cursor_mobs[i] = NULL;
+@@ -371,7 +371,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
+ 
+ 	cmd = container_of(header, struct vmw_dma_cmd, header);
+ 
+-	/* No snooper installed */
++	/* No snooper installed, nothing to copy */
+ 	if (!srf->snooper.image)
+ 		return;
+ 
+@@ -471,7 +471,8 @@ void vmw_kms_cursor_post_execbuf(struct vmw_private *dev_priv)
+ 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+ 		du = vmw_crtc_to_du(crtc);
+ 		if (!du->cursor_surface ||
+-		    du->cursor_age == du->cursor_surface->snooper.age)
++		    du->cursor_age == du->cursor_surface->snooper.age ||
++		    !du->cursor_surface->snooper.image)
+ 			continue;
+ 
  		du->cursor_age = du->cursor_surface->snooper.age;
-+		image = vps->surf->snooper.image;
-+	} else
-+		image = ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
+@@ -567,7 +568,7 @@ vmw_du_cursor_plane_map_cm(struct vmw_plane_state *vps)
+ 	u32 size = vmw_du_cursor_mob_size(vps->base.crtc_w, vps->base.crtc_h);
+ 	struct ttm_buffer_object *bo = vps->cursor.bo;
  
--		vmw_cursor_update_image(dev_priv, vps,
--					vps->surf->snooper.image,
-+	if (vps->cursor.bo != NULL)
-+		vmw_cursor_update_mob(dev_priv, vps, image,
-+				      new_state->crtc_w,
-+				      new_state->crtc_h,
-+				      hotspot_x, hotspot_y);
+-	if (bo == NULL)
++	if (!bo)
+ 		return -EINVAL;
+ 
+ 	if (bo->base.size < size)
+@@ -619,7 +620,7 @@ vmw_du_cursor_plane_unmap_cm(struct vmw_plane_state *vps)
+ 	if (!vps->cursor.mapped)
+ 		return 0;
+ 
+-	if (bo == NULL)
++	if (!bo)
+ 		return 0;
+ 
+ 	ret = ttm_bo_reserve(bo, true, false, NULL);
+@@ -651,7 +652,12 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+ 	bool dummy;
+ 
+-	if (vps->bo != NULL && ttm_kmap_obj_virtual(&vps->bo->map, &dummy) != NULL) {
++	if (vps->surf_mapped) {
++		vmw_bo_unmap(vps->surf->res.backup);
++		vps->surf_mapped = false;
++	}
 +
-+	if (!vmw_du_cursor_plane_mob_has_changed(old_vps, vps)) {
-+		/*
-+		 * If it hasn't changed, avoid making the device do extra
-+		 * work by keeping the old mob active.
-+		 */
-+		struct vmw_cursor_plane_state tmp = old_vps->cursor;
-+		old_vps->cursor = vps->cursor;
-+		vps->cursor = tmp;
-+	} else if (image != NULL)
-+		vmw_cursor_update_image(dev_priv, vps, image,
++	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &dummy)) {
+ 		const int ret = ttm_bo_reserve(&vps->bo->base, true, false, NULL);
+ 
+ 		if (likely(ret == 0)) {
+@@ -666,12 +672,12 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+ 
+ 	vmw_du_plane_unpin_surf(vps, false);
+ 
+-	if (vps->surf != NULL) {
++	if (vps->surf) {
+ 		vmw_surface_unreference(&vps->surf);
+ 		vps->surf = NULL;
+ 	}
+ 
+-	if (vps->bo != NULL) {
++	if (vps->bo) {
+ 		vmw_bo_unreference(&vps->bo);
+ 		vps->bo = NULL;
+ 	}
+@@ -715,7 +721,7 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 		}
+ 	}
+ 
+-	if (vps->surf == NULL && vps->bo != NULL) {
++	if (!vps->surf && vps->bo) {
+ 		const u32 size = new_state->crtc_w * new_state->crtc_h * sizeof(u32);
+ 
+ 		/*
+@@ -737,9 +743,18 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 
+ 		if (unlikely(ret != 0))
+ 			return -ENOMEM;
++	} else if (vps->surf && !vps->bo && vps->surf->res.backup) {
++
++		ret = ttm_bo_reserve(&vps->surf->res.backup->base, true, false,
++				     NULL);
++		if (unlikely(ret != 0))
++			return -ENOMEM;
++		vmw_bo_map_and_cache(vps->surf->res.backup);
++		ttm_bo_unreserve(&vps->surf->res.backup->base);
++		vps->surf_mapped = true;
+ 	}
+ 
+-	if (vps->surf != NULL || vps->bo != NULL) {
++	if (vps->surf || vps->bo) {
+ 		vmw_du_get_cursor_mob(vcp, vps);
+ 		vmw_du_cursor_plane_map_cm(vps);
+ 	}
+@@ -776,18 +791,20 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	du->cursor_surface = vps->surf;
+ 	du->cursor_bo = vps->bo;
+ 
+-	if (vps->surf == NULL && vps->bo == NULL) {
++	if (!vps->surf && !vps->bo) {
+ 		vmw_cursor_update_position(dev_priv, false, 0, 0);
+ 		return;
+ 	}
+ 
+-	if (vps->surf != NULL) {
++	if (vps->surf) {
+ 		du->cursor_age = du->cursor_surface->snooper.age;
+ 		image = vps->surf->snooper.image;
++		if (vps->surf_mapped)
++			image = vmw_bo_map_and_cache(vps->surf->res.backup);
+ 	} else
+ 		image = ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
+ 
+-	if (vps->cursor.bo != NULL)
++	if (vps->cursor.bo)
+ 		vmw_cursor_update_mob(dev_priv, vps, image,
+ 				      new_state->crtc_w,
+ 				      new_state->crtc_h,
+@@ -801,13 +818,13 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 		struct vmw_cursor_plane_state tmp = old_vps->cursor;
+ 		old_vps->cursor = vps->cursor;
+ 		vps->cursor = tmp;
+-	} else if (image != NULL)
++	} else if (image)
+ 		vmw_cursor_update_image(dev_priv, vps, image,
  					new_state->crtc_w,
  					new_state->crtc_h,
  					hotspot_x, hotspot_y);
--	} else {
  
--		virtual = ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
--		if (virtual) {
--			vmw_cursor_update_image(dev_priv, vps, virtual,
--						new_state->crtc_w,
--						new_state->crtc_h,
--						hotspot_x, hotspot_y);
--			atomic_dec(&vps->bo->base_mapped_count);
--		}
--	}
-+	if (image != NULL && vps->bo != NULL)
-+		atomic_dec(&vps->bo->base_mapped_count);
+-	if (image != NULL && vps->bo != NULL)
++	if (image && vps->bo)
+ 		atomic_dec(&vps->bo->base_mapped_count);
  
  	du->cursor_x = new_state->crtc_x + du->set_gui_x;
- 	du->cursor_y = new_state->crtc_y + du->set_gui_y;
-@@ -1074,7 +1128,6 @@ vmw_du_plane_destroy_state(struct drm_plane *plane,
- {
- 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(state);
+@@ -907,12 +924,16 @@ int vmw_du_cursor_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!vmw_framebuffer_to_vfb(fb)->bo)
++	if (!vmw_framebuffer_to_vfb(fb)->bo) {
+ 		surface = vmw_framebuffer_to_vfbs(fb)->surface;
+ 
+-	if (surface && !surface->snooper.image) {
+-		DRM_ERROR("surface not suitable for cursor\n");
+-		return -EINVAL;
++		WARN_ON(!surface);
++
++		if (!surface ||
++		    (!surface->snooper.image && !surface->res.backup)) {
++			DRM_ERROR("surface not suitable for cursor\n");
++			return -EINVAL;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -1075,10 +1096,10 @@ vmw_du_plane_duplicate_state(struct drm_plane *plane)
+ 	memset(&vps->cursor, 0, sizeof(vps->cursor));
+ 
+ 	/* Each ref counted resource needs to be acquired again */
+-	if (vps->surf != NULL)
++	if (vps->surf)
+ 		(void) vmw_surface_reference(vps->surf);
+ 
+-	if (vps->bo != NULL)
++	if (vps->bo)
+ 		(void) vmw_bo_reference(vps->bo);
+ 
+ 	state = &vps->base;
+@@ -2223,7 +2244,6 @@ int vmw_kms_cursor_bypass_ioctl(struct drm_device *dev, void *data,
+ 	struct drm_crtc *crtc;
+ 	int ret = 0;
  
 -
- 	/* Should have been freed by cleanup_fb */
- 	if (vps->surf)
- 		vmw_surface_unreference(&vps->surf);
+ 	mutex_lock(&dev->mode_config.mutex);
+ 	if (arg->flags & DRM_VMW_CURSOR_BYPASS_ALL) {
+ 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index a9bcc91f978b..fb4c9f9e3493 100644
+index fb4c9f9e3493..c5e4665a956c 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -272,6 +272,12 @@ struct vmw_crtc_state {
- 	struct drm_crtc_state base;
- };
- 
-+struct vmw_cursor_plane_state {
-+	struct ttm_buffer_object *bo;
-+	struct ttm_bo_kmap_obj map;
-+	bool mapped;
-+};
-+
- /**
-  * Derived class for plane state object
-  *
-@@ -295,11 +301,7 @@ struct vmw_plane_state {
+@@ -301,6 +301,7 @@ struct vmw_plane_state {
  	/* For CPU Blit */
  	unsigned int cpp;
  
--	struct {
--		struct ttm_buffer_object *bo;
--		struct ttm_bo_kmap_obj map;
--		bool mapped;
--	} cursor;
-+	struct vmw_cursor_plane_state cursor;
++	bool surf_mapped;
+ 	struct vmw_cursor_plane_state cursor;
  };
- 
  
 -- 
 2.34.1
