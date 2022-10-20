@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D944F605A2D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 10:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D333605A32
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 10:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52E0B10E498;
-	Thu, 20 Oct 2022 08:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC16610E4F1;
+	Thu, 20 Oct 2022 08:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B929810E498
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 08:50:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E03A210E498
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 08:50:55 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 3A701320085B;
- Thu, 20 Oct 2022 04:50:49 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 6FA2A3200583;
+ Thu, 20 Oct 2022 04:50:53 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 20 Oct 2022 04:50:51 -0400
+ by compute3.internal (MEProxy); Thu, 20 Oct 2022 04:50:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1666255848; x=1666342248; bh=w5WjrHX1p4
- oGXE8GiUzEI3SU/oVM7aMllFffCWen/+c=; b=JMKDRfWeMk7d/aEyjQ2ZgPHU8N
- 3eANlS05qRpu954BxJ7JW7lsVCeH7CfH7AxjBf8ilrFYDZlK1dNFihyI6rzzS9FI
- 1pVDVQqXahp/l/mNqcY8roSHPY39Xi6gxr5ZqQzq9we8l8lnAtJcTtq2WJ7JpTCs
- wR6S2tpRRYd8DreuSZTQC3Mf4eS0W8GUbn8R2KnFh0RRXJdFCnYtDLY5arfB8ReX
- fJRnVKtWn8z55O/eGZV6h7YGw7ghm4NiqWJXO65GB2dR9wnvPoDDGoa30ijAqkg5
- iSOobzB9gNTTHgcxqrJ1t56WCTFHpc6LD0ze9WQSoUCu8HaMwbDXnfry7zuA==
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1666255853; x=
+ 1666342253; bh=w9fLnwph45TF4TFvLOs558TwHHV6wwwwUgEx8H1VCC8=; b=M
+ pjF6/f3TeD8o2nODqxzZRhrXDnT98v2FhlCtNWJUwyA+M6IOme8yKZ+eeqKDENJZ
+ ogGiCtVAWf4E5NoyIJk/3zC3A+PoZicr63s6GGd38VUJQrlxzvnpeIhcNNzXW7vt
+ PMeuwUJcaOre+b3MhCl4cJs6w5X5S+6+fcbr+D34gU4w13fNGwB+DQhwIWrGYcfP
+ ttq4huy5c/FDaEKypkbETS1Jws2B5EDi6aSVfGBvWcGVIjupT0+ELX92EAn8pomS
+ Jf8mfBq1P+Xn5LxjRh/N70rCBcn/+eGiBZO0oZ/51zR6XtmNjI0S18oeqeWB3RO6
+ q0Iwtm3h23iyIb4N50dgg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1666255848; x=1666342248; bh=w5WjrHX1p4oGX
- E8GiUzEI3SU/oVM7aMllFffCWen/+c=; b=ssB3BbU8rKENSAOB4fD1BSSG90DMh
- DzwYygAU2W9SDgNGV0slTmRwFzfttSaVyx07PYTemC23fUpEgTxyj8AsE5X57QI1
- OD2FqPKVZZ04HTx1e9qHL55l65Fts1Ta3rDA9D/gcri5XWt4xaMSTlD1AVDUCVww
- N3KRcaYrxSmKzpHLm0IxssZPAvBsJqgKYswpyE2qWJOM6PSu+FhGUvnChU6sRR8w
- igRdAy/4oN23K/oYVWUCIRsPY8774xnj4GPmUFnwhd8+SJ7p+9aq5Hslcg+ekxOq
- yPltO/BFz7UyPDXiLZNe5dq9TQ3w/ffADuHtRi/QJXodm1OHnp/eV934A==
-X-ME-Sender: <xms:6AtRYx47H3pXV5Ighqz1ISFiAN2M1tVePySyVpAePnpZMeAU7K7e7A>
- <xme:6AtRY-47B9rFehLU9R5NijBGW8hU8Gprv-72wjfe183GTIwQphXwliqppBVK4PJ3n
- 4_WnQPgXGb_blAUS5o>
-X-ME-Received: <xmr:6AtRY4ewtO9wO3hPRwTiJPInPaXrmavUCaK5WclUFtJ6L38-W2OTbZSItlHhpwu7ltTNnDOjxd0DAR_nS6jjTcfeXuq0QWc4CNuP>
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666255853; x=
+ 1666342253; bh=w9fLnwph45TF4TFvLOs558TwHHV6wwwwUgEx8H1VCC8=; b=S
+ s19u63NKZrJJKcEAJCnMbZxjt4UWfQS2PARGNTwHmtuDasfXLO0okYGw7Pv51Edv
+ juvbn9U6nAf5jSGmgMUfLUixdwl+LWJOWOUb8G9Dnw/tiTRx2zyf2bJspQPb0EY9
+ USRWlZZ8lNQuEZwYBKKaN0vgHfUKUGOS81riFR4w4+uE0XLf7B+eFTMd66pN0yKv
+ w+Dvh6Qbxfb3/TjqAkxYzIxyrTQDWwtOdr7YafKdJCma9rg+Gcm3g+CK3c62wAQY
+ mybMESLuhAKRr5a1GPs6QBFcDB5TkX5Kf+Qeco8LTgtDGJ67W0h2GV7/SRNnqzg8
+ 1NdD2ID5nKB4EPmEO16fQ==
+X-ME-Sender: <xms:7AtRY52qrz15uODR2X8PU82FPaIYWYrtOHjotb5_o_KgoM7uliIwmw>
+ <xme:7AtRYwHPxs3WRAMNcxKda1Dpjy60_gvokS4JWQgupP7nf_8X44evzXMW367K_7g6A
+ hcyMkARCxuA7QN1Xe0>
+X-ME-Received: <xmr:7AtRY55h7eUflDrrfHpXUJZQNWz3Z14fKD5rMEc-yvazDWQ7zWcL9VfkDzUg112l7JylOckVjmM4-wYp9maKEQnE8aNlzG1ew8lN>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedgtdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepufggtgfghfffkffvvefosehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleeuveetteffvdevlefgffelgeduueefleevfedvudegheekfeekheejieek
- gedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:6AtRY6Lf33nVyVDS5fNQheIy0hYHsOvJmjrnMzYpUGArO0z10jTPew>
- <xmx:6AtRY1KI2ejs99O6TSiQd7MDowQGMaVb2qTxBPG_iCfLnJhkDVQQew>
- <xmx:6AtRYzxTl92O0FttY4-XPC7aizhEpzSdBrIeroYOtb9Xl7RNNmc0qA>
- <xmx:6AtRYy5iuSIXwpEHto840GtfNDQ82q1iKoYAPLrolaUj5jtcT9o3Mg>
+ cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepudduudfhveejteefgedvffdvvedvjedugedukeejhedtlefhffevtefh
+ jeeltdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:7AtRY23wUXLqXcV32GE2ARf0S9YRPV8jLW4LCdJXw3CnAPpb2hB24w>
+ <xmx:7AtRY8EQpbHlU7ItlJXHVTZxyjZEbf_7J_HLRPc3jljKBdurGXwNjg>
+ <xmx:7AtRY38kKEEUy08Xt6_Y-fbi8ubTVMJi-PuQ-2PQk-BcLukhrvGA0A>
+ <xmx:7QtRY8Vqa7uhoLZhSurFWC7brcely2HEVQXDQz2P3QYYvYLFnbqNPA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Oct 2022 04:50:47 -0400 (EDT)
-Subject: [PATCH v2 0/7] drm/vc4: dpi: Various improvements
+ 20 Oct 2022 04:50:52 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Thu, 20 Oct 2022 10:30:45 +0200
+Subject: [PATCH v2 1/7] media: uapi: add MEDIA_BUS_FMT_RGB565_1X24_CPADHI
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-b4-tracking: H4sIADQHUWMC/4WNzQrCMBCEX6Xk7Ep+rDU9+R7iIU0Xu9AmZVMDUvruLr6Ah2GYgflmVwWZsKi+2R
- VjpUI5SbCnRsUppBcCjZKV1dYabRzwSjCKaFk5V1wwbQWiG7u2bZ2JziuZDqEgDBxSnGSc3vMs5URl
- y/z5XVUj9vhDrQY03EIX/NVffBz0PSKnfN5QsM/jOL5vI7ZZvgAAAA==
-From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 20 Oct 2022 10:30:44 +0200
-Message-Id: <20221013-rpi-dpi-improvements-v2-0-7691903fb9c8@cerno.tech>
+Message-Id: <20221013-rpi-dpi-improvements-v2-1-7691903fb9c8@cerno.tech>
+References: <20221013-rpi-dpi-improvements-v2-0-7691903fb9c8@cerno.tech>
+In-Reply-To: <20221013-rpi-dpi-improvements-v2-0-7691903fb9c8@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  Rob Herring <robh@kernel.org>, 
  Daniel Vetter <daniel@ffwll.ch>, Eric Anholt <eric@anholt.net>,
  David Airlie <airlied@linux.ie>
 X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1789; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=WBeFEiPbgMgKukc/SpChNRlkueJiLmWc/Mq8YeDR5TM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmB7BbTzN7r8agc9XXzn/31z56zE+sZ5bQXe91z/ji5efPb
- PD/+jlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEyk4QQjw/ZZ79rvzsp+OSFA2eDYjG
- xz12+77ijU+QZnqd1te9Ix4SjDX2le48IMxRu37Hi1/F6dnMubFV32ap+qfPFG7pMbmDtsOAE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2439; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=W7JgRSJCAGYWl+FNKphNaQremlGGiWyzZAhBKVcV0Jk=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmB7Ba93xoXzudPsFxdsuhN/zau5ZZO8esmrfi7Nr71SLDi
+ 8YRnHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZgIzwpGhvON39YayAU/9jq8ap/Bpc
+ ups35Pu/Fy7knfu7b7dr5tCHRjZDjlqZli/XvXK59dHtr+5vemTJpqvJmrJjHk/gd3h947s7gB
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,56 +102,86 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Those patches have been in the downstream RaspberryPi tree for a while and help
-to support more DPI displays.
+Add the MEDIA_BUS_FMT_RGB565_1X24_CPADHI format used by the Geekworm
+MZP280 panel for the Raspberry Pi.
 
-Let me know what you think,
-Maxime
-
-To: Emma Anholt <emma@anholt.net>
-To: Maxime Ripard <mripard@kernel.org>
-To: David Airlie <airlied@linux.ie>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Eric Anholt <eric@anholt.net>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Chris Morgan <macromorgan@hotmail.com>
-Cc: Joerg Quinten <aBUGSworstnightmare@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
 ---
-Changes in v2:
-- Documentation for the media bus formats
-- Reword the commit log of patch 5
-- Link to v1: https://lore.kernel.org/r/20221013-rpi-dpi-improvements-v1-0-8a7a96949cb0@cerno.tech
+ .../userspace-api/media/v4l/subdev-formats.rst     | 37 ++++++++++++++++++++++
+ include/uapi/linux/media-bus-format.h              |  3 +-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
 
----
-Chris Morgan (2):
-      media: uapi: add MEDIA_BUS_FMT_RGB565_1X24_CPADHI
-      drm/vc4: dpi: Support RGB565 format
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index d21d532eee15..1e61c02aa788 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -986,6 +986,43 @@ The following tables list existing packed RGB formats.
+       - g\ :sub:`2`
+       - g\ :sub:`1`
+       - g\ :sub:`0`
++    * .. _MEDIA-BUS-FMT-RGB565-1X24_CPADHI:
++
++      - MEDIA_BUS_FMT_RGB565_1X24_CPADHI
++      - 0x1022
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      - 0
++      - 0
++      - 0
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
+     * .. _MEDIA-BUS-FMT-RGB666-1X24_CPADHI:
+ 
+       - MEDIA_BUS_FMT_RGB666_1X24_CPADHI
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index ec3323dbb927..b0a945eb7040 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -34,13 +34,14 @@
+ 
+ #define MEDIA_BUS_FMT_FIXED			0x0001
+ 
+-/* RGB - next is	0x1022 */
++/* RGB - next is	0x1023 */
+ #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+ #define MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE	0x1003
+ #define MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE	0x1004
+ #define MEDIA_BUS_FMT_RGB565_1X16		0x1017
++#define MEDIA_BUS_FMT_RGB565_1X24_CPADHI	0x1022
+ #define MEDIA_BUS_FMT_BGR565_2X8_BE		0x1005
+ #define MEDIA_BUS_FMT_BGR565_2X8_LE		0x1006
+ #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
 
-Dave Stevenson (2):
-      drm/vc4: dpi: Change the default DPI format to being 18bpp, not 24.
-      drm/vc4: dpi: Fix format mapping for RGB565
-
-Joerg Quinten (3):
-      media: uapi: add MEDIA_BUS_FMT_BGR666_1X18
-      media: uapi: add MEDIA_BUS_FMT_BGR666_1X24_CPADHI
-      drm/vc4: dpi: Support BGR666 formats
-
- .../userspace-api/media/v4l/subdev-formats.rst     | 111 +++++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_dpi.c                      |  16 ++-
- include/uapi/linux/media-bus-format.h              |   5 +-
- 3 files changed, 128 insertions(+), 4 deletions(-)
----
-base-commit: 7c99616e3fe7f35fe25bf6f5797267da29b4751e
-change-id: 20221013-rpi-dpi-improvements-c3d755531c39
-
-Best regards,
 -- 
-Maxime Ripard <maxime@cerno.tech>
+b4 0.10.1
