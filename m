@@ -2,90 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312D0605AD3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3DE605ADC
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBDBC10E58F;
-	Thu, 20 Oct 2022 09:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F19710E617;
+	Thu, 20 Oct 2022 09:16:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B37E10E6AF
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 09:13:57 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 79B232B05EAC;
- Thu, 20 Oct 2022 05:13:54 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 20 Oct 2022 05:13:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1666257234; x=
- 1666264434; bh=EPn6Wfs+JyRJl7VVy3VWwMDnWsSEZMbQ20L5afT6Uro=; b=P
- B0iVxRD2Q5SphJ0nuvPcrHGeKBv8m1bkKBBeOrqjp/TBqwJe4E9Ru6oXgbRr7qYA
- 5oDvTUG/u1AC9dKEJszNF8LVCXE4BAOmM8+WT0vxMvgBDfdNadYH1YxT5++txaNj
- JTrdP3YgyuGktgg9OLRymOlOYtIsbAdLfPqAcTPb6SD/VmLseSYoKdTAfIRbAWLx
- qPC/QCM33DCiy2HzxZSA6Uc2ALjwXnSiThZ0Oef2FePkIfoN9IKDyG496zyns4gO
- XxABKXyvEHhX//QbdqQmsZE3dvSpxWgw+yKLmmQj+oM8kVD0Uy5ty4669wY8vxo1
- A9rbVz5SJngutITkUtmNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666257234; x=
- 1666264434; bh=EPn6Wfs+JyRJl7VVy3VWwMDnWsSEZMbQ20L5afT6Uro=; b=e
- FGHW5z8Vn1QsWGwLK/ijfTW8IxqvAFLoDeoEDEdxhqlkxoAU7M/EfMZROK1+2oyQ
- Q/zlCBW8IsiVgkXDkxKlBcoRvV46BvBHLU9Dg2ytZ2NcdhN5IA895Oyp3n+Z3h3p
- DnZLRMIMO7cfQml3ffNXr5keqtzCuSzVS7UYFFHEO8WWBo51mHzR+avDA+YH7a0A
- CYxd5BZS2aqaKbBeYLJYt7AqPkETCOSRupSVg7I1SvT/993yv90CvMtnyJEpQhAh
- n3Qm3fyLwJYARiGkkExKTY5swHkWCLV4a1ny17XWOur2j6NKl9DUrYS1pVVIx+Og
- LZEonVrRdxat6UsKs1sIw==
-X-ME-Sender: <xms:URFRYzcAdDGAbH6gkbvSR8LIiCmmjQ0n8YNBw5jBrmG5yhgOhyhITQ>
- <xme:URFRY5OdP3N7xjSC89fhiqm3Tjsk2R1nBa5YEzWJyzY4mjVZcDjBJXXt9OXmrqsok
- KQeLVLzY8bTbTcEwtE>
-X-ME-Received: <xmr:URFRY8iBjO7iY6kRNXUFgZE_PUS7Ie2jTvIHWfXGlXokQWGom_c9iK30cshe4XHhO1lEQ9CJsrkUR-cc4UPq0bR_UrnxXgUz0dhcu7NZLkEU9Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedguddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpehmrgig
- ihhmvgestggvrhhnohdrthgvtghhnecuggftrfgrthhtvghrnhepfeduhfegveehhfeftd
- euveeuleduuddttedutddvvdegkeehleevhfetkeetiefhnecuvehluhhsthgvrhfuihii
- vgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvg
- gthh
-X-ME-Proxy: <xmx:URFRY09esCeMSuzz2CJuo10RJyrbldsrJNb_S-LBQcKKaOulIOKknw>
- <xmx:URFRY_vl6gmfKC1tx6cysrgBJfTwY6h9kPl4joRwAi7fqvX-pCQ6UQ>
- <xmx:URFRYzEK7nFwIcDXo-BHQz_A23Y9PTAqxQ_12rsM5k3zlVNS7jNlXg>
- <xmx:UhFRY2OM1QTUxkIicBXon0kLzW8qksCSV5KVm-ZubEvSd3aoXu92k5_QeBI>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Oct 2022 05:13:53 -0400 (EDT)
-From: maxime@cerno.tech
-Date: Thu, 20 Oct 2022 11:12:15 +0200
-Subject: [PATCH v4 7/7] drm/vc4: Make sure we don't end up with a core clock
- too high
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD8B10E617;
+ Thu, 20 Oct 2022 09:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666257372; x=1697793372;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ifEooFtq9t430GKJrRsIYA+SdZVDk/uO6e2XoYUEky0=;
+ b=H671+1dE6p5bZIVB1YVn2YvBh84BKzH5UTccPnlvbr2wyxgFlOOHf7Sz
+ jLccJMbjiIUEapXudvWQWR3XORAgkMO1tPprrYwwW/qOqfhQJ13c0Uymc
+ 1kXsWS10HvV6xwwdfyZQ6bmHP6uiq9e3c2hdMyYrHstgh1HiC6pKe9NwR
+ SvhHV2obhx3i11aqBXIAeYwstmoxYA0rdsbxUaSpV1578z8WI5lWkXpPe
+ HPyHCqsZlcT3VkwOQPVjqegqlB/gYWJD5SgMfn1Mm3PINUECkEbNvAwuE
+ aI0uhU9wlMZO53uYXRr57avI5crp1Xm7Ae3Xpm9/bh8HGDQkRqvqgFgJo w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="287057678"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="287057678"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 02:16:11 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="698543188"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="698543188"
+Received: from tcarvalx-mobl.ger.corp.intel.com (HELO [10.252.12.144])
+ ([10.252.12.144])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 02:16:08 -0700
+Message-ID: <f4c92d7f-8ac8-72df-85bb-a1b00f29cf92@intel.com>
+Date: Thu, 20 Oct 2022 10:16:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.1
+Subject: Re: [PATCH v4 13/17] drm/i915/vm_bind: Update
+ i915_vma_verify_bind_complete()
+Content-Language: en-GB
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
+ <20221018071630.3831-14-niranjana.vishwanathapura@intel.com>
+ <33e7d512-c78d-dfff-0bcd-0cdf94af384a@intel.com>
+ <Y1BB5vMCMCKgi2Ar@nvishwa1-DESK>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <Y1BB5vMCMCKgi2Ar@nvishwa1-DESK>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220815-rpi-fix-4k-60-v4-7-a1b40526df3e@cerno.tech>
-References: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
-In-Reply-To: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
-To: Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Ray Jui <rjui@broadcom.com>, 
- Florian Fainelli <f.fainelli@gmail.com>, David Airlie <airlied@linux.ie>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>
-X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1986; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=OlYeB2ublZKB2gNRKUkiz3SMrxpUPQXZoje1Yvw0WSE=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmBAq/qV2faRt7fczp8z6UQuZtzf4jXBz964lzz06byjv1x
- 21v1HaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIYjZGhl3uutFlDz7OSnbdcPhFWn
- thz711W3eJTDqZs+31u9LDHi8Z/nBoN8VOXfPiVuDiqdMUQz1zxawvtrBF9F7d1Wk0mfnJd1YA
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,63 +64,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Dom Cobley <popcornmix@gmail.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following the clock rate range improvements to the clock framework,
-trying to set a disjoint range on a clock will now result in an error.
+On 19/10/2022 19:28, Niranjana Vishwanathapura wrote:
+> On Wed, Oct 19, 2022 at 05:07:31PM +0100, Matthew Auld wrote:
+>> On 18/10/2022 08:16, Niranjana Vishwanathapura wrote:
+>>> Ensure i915_vma_verify_bind_complete() handles case where bind
+>>> is not initiated. Also make it non static, add documentation
+>>> and move it out of CONFIG_DRM_I915_DEBUG_GEM.
+>>>
+>>> Signed-off-by: Niranjana Vishwanathapura 
+>>> <niranjana.vishwanathapura@intel.com>
+>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>> ---
+>>>  drivers/gpu/drm/i915/i915_vma.c | 16 +++++++++++-----
+>>>  drivers/gpu/drm/i915/i915_vma.h |  1 +
+>>>  2 files changed, 12 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
+>>> b/drivers/gpu/drm/i915/i915_vma.c
+>>> index eaa13e9ba966..4975fc662c86 100644
+>>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>>> @@ -439,12 +439,21 @@ int i915_vma_sync(struct i915_vma *vma)
+>>>      return i915_vm_sync(vma->vm);
+>>>  }
+>>> -#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
+>>> -static int i915_vma_verify_bind_complete(struct i915_vma *vma)
+>>> +/**
+>>> + * i915_vma_verify_bind_complete() - Check for the bind completion 
+>>> of the vma
+>>> + * @vma: vma to check for bind completion
+>>
+>> Maybe mention the locking since this is now more than just DEBUG_GEM 
+>> stuff. I assume we need the object lock or otherwise some guarantee 
+>> that the vma is pinned?
+>>
+>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>>
+> 
+> I think they are not needed. The fence reference is obtained under rcu
+> lock anyhow (will add this to documentation). Only thing required is
+> that vma is not released, but that caller must ensure for all i915_vma
+> apis anyhow.
 
-Thus, we can't set a minimum rate higher than the maximum reported by
-the firmware, or clk_set_min_rate() will fail.
+I was thinking more about how this potentially behaves with concurrent 
+bind/unbind, and what it might return in such cases. I'm assuming most 
+normal users will want to have an active pin and/or be holding the 
+object lock when calling this.
 
-Thus we need to clamp the rate we are about to ask for to the maximum
-rate possible on that clock.
+> 
+> Thanks,
+> Niranjana
+> 
+>>> + *
+>>> + * Returns: 0 if the vma bind is completed. Error code otherwise.
+>>> + */
+>>> +int i915_vma_verify_bind_complete(struct i915_vma *vma)
+>>>  {
+>>>      struct dma_fence *fence = i915_active_fence_get(&vma->active.excl);
+>>>      int err;
+>>> +    /* Ensure vma bind is initiated */
+>>> +    if (!i915_vma_is_bound(vma, I915_VMA_BIND_MASK))
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_kms.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Just realised that this leaks the fence. I guess we have yet to hit this 
+in testing.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 4419e810103d..5c97642ed66a 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -396,8 +396,8 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	if (vc4->is_vc5) {
- 		unsigned long state_rate = max(old_hvs_state->core_clock_rate,
- 					       new_hvs_state->core_clock_rate);
--		unsigned long core_rate = max_t(unsigned long,
--						500000000, state_rate);
-+		unsigned long core_rate = clamp_t(unsigned long, state_rate,
-+						  500000000, hvs->max_core_rate);
- 
- 		drm_dbg(dev, "Raising the core clock at %lu Hz\n", core_rate);
- 
-@@ -431,14 +431,17 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	drm_atomic_helper_cleanup_planes(dev, state);
- 
- 	if (vc4->is_vc5) {
--		drm_dbg(dev, "Running the core clock at %lu Hz\n",
--			new_hvs_state->core_clock_rate);
-+		unsigned long core_rate = min_t(unsigned long,
-+						hvs->max_core_rate,
-+						new_hvs_state->core_clock_rate);
-+
-+		drm_dbg(dev, "Running the core clock at %lu Hz\n", core_rate);
- 
- 		/*
- 		 * Request a clock rate based on the current HVS
- 		 * requirements.
- 		 */
--		WARN_ON(clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate));
-+		WARN_ON(clk_set_min_rate(hvs->core_clk, core_rate));
- 
- 		drm_dbg(dev, "Core clock actual rate: %lu Hz\n",
- 			clk_get_rate(hvs->core_clk));
-
--- 
-b4 0.10.1
+>>> +        return -EINVAL;
+>>> +
+>>>      if (!fence)
+>>>          return 0;
+>>> @@ -457,9 +466,6 @@ static int i915_vma_verify_bind_complete(struct 
+>>> i915_vma *vma)
+>>>      return err;
+>>>  }
+>>> -#else
+>>> -#define i915_vma_verify_bind_complete(_vma) 0
+>>> -#endif
+>>>  I915_SELFTEST_EXPORT void
+>>>  i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
+>>> diff --git a/drivers/gpu/drm/i915/i915_vma.h 
+>>> b/drivers/gpu/drm/i915/i915_vma.h
+>>> index 1cadbf8fdedf..04770f8ba815 100644
+>>> --- a/drivers/gpu/drm/i915/i915_vma.h
+>>> +++ b/drivers/gpu/drm/i915/i915_vma.h
+>>> @@ -440,6 +440,7 @@ void i915_vma_make_purgeable(struct i915_vma *vma);
+>>>  int i915_vma_wait_for_bind(struct i915_vma *vma);
+>>>  int i915_vma_sync(struct i915_vma *vma);
+>>> +int i915_vma_verify_bind_complete(struct i915_vma *vma);
+>>>  /**
+>>>   * i915_vma_get_current_resource - Get the current resource of the vma
