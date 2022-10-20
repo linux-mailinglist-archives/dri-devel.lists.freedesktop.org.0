@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B72605609
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:43:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48005605600
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3141110E31F;
-	Thu, 20 Oct 2022 03:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 505BF10E2DE;
+	Thu, 20 Oct 2022 03:42:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A11610E2EF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD78110E26D
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 03:41:40 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 51E8933EF65;
- Thu, 20 Oct 2022 04:41:38 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 1487B33EF84;
+ Thu, 20 Oct 2022 04:41:39 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666237298; bh=uaKHv1POeaC/frQoloocoC7d6lsVmEIsjtLGJsYfV34=;
+ t=1666237299; bh=JvNQFdxhh6ZME9oA9Ow+NmC92SCTJVGtJjc25oOvfU8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O20Y0OVk/RE6pbNTKxtF1bbEE9zaQVOCGCzndEjA/PyYJqaY09U2+v0X+akAQbvmE
- hye633qkN8m5W7X3CCmUTEFiD71NHaNo55RsA11BEh4n2kYf7itm7tdHw6goHq0nrL
- OiUboUIs5aWhQ5TlV72xyOrIRQXE5bpZMTgOwhLSKuol0vpjNKBxwraGT8ndRR2mBI
- ACk+ZZcIfOND435jm0a1mHn3VwBcdpaoBLtef5jorWCLvQ7FSDovSKc/hfMZjBUmgZ
- CYfBEFxYX7NfzOZ8cmPBfmkbREvra0PICMp28s0qIVdFwwxMXdPMI4LcimCmJXTQDq
- hs0qVqpA8KFXw==
+ b=NhoqnQ9TPEpFELc3ckLJWW01yWVjz6WflyTfnQtZg3HbyJqfdsqKq3YKblXBwM0Bc
+ BZjZ2zUReT1qy3nQVkRqRVCny/2e7sbiDqEzEmha6ZWhB4+TRkAM+hY9wTYIED+7d+
+ 5pQDR0gBVjkUg0v0xlF7deoxfk4x1iZXcY+WoaKy3DNUxYxYiuuFWCy6MBiQrBs7Sq
+ 46yvyfyfkJqqHnIKy+RD1s3ue1vHyJJ0xlqL5J8Vyreby1AH0mCT7MDeMPruwhYMWO
+ C/DMiEO9V90XnWUze3+ZAEVLiNQy0ArJ3WOQyRFqig18rKbggZ6Z1HN0eb8S51AzC6
+ s/RNHe/xkUgBQ==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 02/16] drm/vmwgfx: Fix frame-size warning in
- vmw_mksstat_add_ioctl
-Date: Wed, 19 Oct 2022 23:41:17 -0400
-Message-Id: <20221020034131.491973-3-zack@kde.org>
+Subject: [PATCH v2 03/16] drm/vmwgfx: Refactor resource manager's hashtable to
+ use linux/hashtable implementation.
+Date: Wed, 19 Oct 2022 23:41:18 -0400
+Message-Id: <20221020034131.491973-4-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020034131.491973-1-zack@kde.org>
 References: <20221020034131.491973-1-zack@kde.org>
@@ -53,103 +53,195 @@ Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+From: Maaz Mombasawala <mombasawalam@vmware.com>
 
-Function vmw_mksstat_add_ioctl allocates three big arrays on stack.
-That triggers frame-size [-Wframe-larger-than=] warning. Refactor
-that function to use kmalloc_array instead.
+Vmwgfx's hashtab implementation needs to be replaced with linux/hashtable
+to reduce maintenance burden.
+Refactor cmdbuf resource manager to use linux/hashtable.h implementation
+as part of this effort.
 
-Signed-off-by: Martin Krastev <krastevm@vmware.com>
+Signed-off-by: Maaz Mombasawala <mombasawalam@vmware.com>
 Reviewed-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 39 ++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 62 +++++++++-------------
+ 1 file changed, 26 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-index 089046fa21be..a6cea35eaa01 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-@@ -1023,10 +1023,11 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
- 	long nr_pinned_stat;
- 	long nr_pinned_info;
- 	long nr_pinned_strs;
--	struct page *pages_stat[ARRAY_SIZE(pdesc->statPPNs)];
--	struct page *pages_info[ARRAY_SIZE(pdesc->infoPPNs)];
--	struct page *pages_strs[ARRAY_SIZE(pdesc->strsPPNs)];
-+	struct page **pages_stat = NULL;
-+	struct page **pages_info = NULL;
-+	struct page **pages_strs = NULL;
- 	size_t i, slot;
-+	int ret_err = -ENOMEM;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+index 82ef58ccdd42..142aef686fcd 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2014-2015 VMware, Inc., Palo Alto, CA., USA
++ * Copyright 2014-2022 VMware, Inc., Palo Alto, CA., USA
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -28,6 +28,8 @@
+ #include "vmwgfx_drv.h"
+ #include "vmwgfx_resource_priv.h"
  
- 	arg->id = -1;
- 
-@@ -1054,13 +1055,23 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
- 
- 	BUG_ON(dev_priv->mksstat_user_pages[slot]);
- 
-+	/* Allocate statically-sized temp arrays for pages -- too big to keep in frame */
-+	pages_stat = (struct page **)kmalloc_array(
-+		ARRAY_SIZE(pdesc->statPPNs) +
-+		ARRAY_SIZE(pdesc->infoPPNs) +
-+		ARRAY_SIZE(pdesc->strsPPNs), sizeof(*pages_stat), GFP_KERNEL);
++#include <linux/hashtable.h>
 +
-+	if (!pages_stat)
-+		goto err_nomem;
-+
-+	pages_info = pages_stat + ARRAY_SIZE(pdesc->statPPNs);
-+	pages_strs = pages_info + ARRAY_SIZE(pdesc->infoPPNs);
-+
- 	/* Allocate a page for the instance descriptor */
- 	page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+ #define VMW_CMDBUF_RES_MAN_HT_ORDER 12
  
--	if (!page) {
--		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
--		return -ENOMEM;
--	}
-+	if (!page)
-+		goto err_nomem;
+ /**
+@@ -59,7 +61,7 @@ struct vmw_cmdbuf_res {
+  * @resources and @list are protected by the cmdbuf mutex for now.
+  */
+ struct vmw_cmdbuf_res_manager {
+-	struct vmwgfx_open_hash resources;
++	DECLARE_HASHTABLE(resources, VMW_CMDBUF_RES_MAN_HT_ORDER);
+ 	struct list_head list;
+ 	struct vmw_private *dev_priv;
+ };
+@@ -82,14 +84,13 @@ vmw_cmdbuf_res_lookup(struct vmw_cmdbuf_res_manager *man,
+ 		      u32 user_key)
+ {
+ 	struct vmwgfx_hash_item *hash;
+-	int ret;
+ 	unsigned long key = user_key | (res_type << 24);
  
- 	/* Set up the instance descriptor */
- 	pdesc = page_address(page);
-@@ -1075,9 +1086,8 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
- 		ARRAY_SIZE(pdesc->description) - 1);
- 
- 	if (desc_len < 0) {
--		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
--		__free_page(page);
--		return -EFAULT;
-+		ret_err = -EFAULT;
-+		goto err_nomem;
- 	}
- 
- 	reset_ppn_array(pdesc->statPPNs, ARRAY_SIZE(pdesc->statPPNs));
-@@ -1118,6 +1128,7 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
- 
- 	DRM_DEV_INFO(dev->dev, "pid=%d arg.description='%.*s' id=%zu\n", current->pid, (int)desc_len, pdesc->description, slot);
- 
-+	kfree(pages_stat);
- 	return 0;
- 
- err_pin_strs:
-@@ -1132,9 +1143,13 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
- 	if (nr_pinned_stat > 0)
- 		unpin_user_pages(pages_stat, nr_pinned_stat);
- 
-+err_nomem:
- 	atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
--	__free_page(page);
--	return -ENOMEM;
-+	if (page)
-+		__free_page(page);
-+	kfree(pages_stat);
-+
-+	return ret_err;
+-	ret = vmwgfx_ht_find_item(&man->resources, key, &hash);
+-	if (unlikely(ret != 0))
+-		return ERR_PTR(ret);
+-
+-	return drm_hash_entry(hash, struct vmw_cmdbuf_res, hash)->res;
++	hash_for_each_possible_rcu(man->resources, hash, head, key) {
++		if (hash->key == key)
++			return drm_hash_entry(hash, struct vmw_cmdbuf_res, hash)->res;
++	}
++	return ERR_PTR(-EINVAL);
  }
  
  /**
+@@ -105,7 +106,7 @@ static void vmw_cmdbuf_res_free(struct vmw_cmdbuf_res_manager *man,
+ 				struct vmw_cmdbuf_res *entry)
+ {
+ 	list_del(&entry->head);
+-	WARN_ON(vmwgfx_ht_remove_item(&man->resources, &entry->hash));
++	hash_del_rcu(&entry->hash.head);
+ 	vmw_resource_unreference(&entry->res);
+ 	kfree(entry);
+ }
+@@ -159,7 +160,6 @@ void vmw_cmdbuf_res_commit(struct list_head *list)
+ void vmw_cmdbuf_res_revert(struct list_head *list)
+ {
+ 	struct vmw_cmdbuf_res *entry, *next;
+-	int ret;
+ 
+ 	list_for_each_entry_safe(entry, next, list, head) {
+ 		switch (entry->state) {
+@@ -167,8 +167,8 @@ void vmw_cmdbuf_res_revert(struct list_head *list)
+ 			vmw_cmdbuf_res_free(entry->man, entry);
+ 			break;
+ 		case VMW_CMDBUF_RES_DEL:
+-			ret = vmwgfx_ht_insert_item(&entry->man->resources, &entry->hash);
+-			BUG_ON(ret);
++			hash_add_rcu(entry->man->resources, &entry->hash.head,
++						entry->hash.key);
+ 			list_move_tail(&entry->head, &entry->man->list);
+ 			entry->state = VMW_CMDBUF_RES_COMMITTED;
+ 			break;
+@@ -199,26 +199,20 @@ int vmw_cmdbuf_res_add(struct vmw_cmdbuf_res_manager *man,
+ 		       struct list_head *list)
+ {
+ 	struct vmw_cmdbuf_res *cres;
+-	int ret;
+ 
+ 	cres = kzalloc(sizeof(*cres), GFP_KERNEL);
+ 	if (unlikely(!cres))
+ 		return -ENOMEM;
+ 
+ 	cres->hash.key = user_key | (res_type << 24);
+-	ret = vmwgfx_ht_insert_item(&man->resources, &cres->hash);
+-	if (unlikely(ret != 0)) {
+-		kfree(cres);
+-		goto out_invalid_key;
+-	}
++	hash_add_rcu(man->resources, &cres->hash.head, cres->hash.key);
+ 
+ 	cres->state = VMW_CMDBUF_RES_ADD;
+ 	cres->res = vmw_resource_reference(res);
+ 	cres->man = man;
+ 	list_add_tail(&cres->head, list);
+ 
+-out_invalid_key:
+-	return ret;
++	return 0;
+ }
+ 
+ /**
+@@ -243,24 +237,26 @@ int vmw_cmdbuf_res_remove(struct vmw_cmdbuf_res_manager *man,
+ 			  struct list_head *list,
+ 			  struct vmw_resource **res_p)
+ {
+-	struct vmw_cmdbuf_res *entry;
++	struct vmw_cmdbuf_res *entry = NULL;
+ 	struct vmwgfx_hash_item *hash;
+-	int ret;
++	unsigned long key = user_key | (res_type << 24);
+ 
+-	ret = vmwgfx_ht_find_item(&man->resources, user_key | (res_type << 24),
+-			       &hash);
+-	if (likely(ret != 0))
++	hash_for_each_possible_rcu(man->resources, hash, head, key) {
++		if (hash->key == key) {
++			entry = drm_hash_entry(hash, struct vmw_cmdbuf_res, hash);
++			break;
++		}
++	}
++	if (unlikely(!entry))
+ 		return -EINVAL;
+ 
+-	entry = drm_hash_entry(hash, struct vmw_cmdbuf_res, hash);
+-
+ 	switch (entry->state) {
+ 	case VMW_CMDBUF_RES_ADD:
+ 		vmw_cmdbuf_res_free(man, entry);
+ 		*res_p = NULL;
+ 		break;
+ 	case VMW_CMDBUF_RES_COMMITTED:
+-		(void) vmwgfx_ht_remove_item(&man->resources, &entry->hash);
++		hash_del_rcu(&entry->hash.head);
+ 		list_del(&entry->head);
+ 		entry->state = VMW_CMDBUF_RES_DEL;
+ 		list_add_tail(&entry->head, list);
+@@ -287,7 +283,6 @@ struct vmw_cmdbuf_res_manager *
+ vmw_cmdbuf_res_man_create(struct vmw_private *dev_priv)
+ {
+ 	struct vmw_cmdbuf_res_manager *man;
+-	int ret;
+ 
+ 	man = kzalloc(sizeof(*man), GFP_KERNEL);
+ 	if (!man)
+@@ -295,12 +290,8 @@ vmw_cmdbuf_res_man_create(struct vmw_private *dev_priv)
+ 
+ 	man->dev_priv = dev_priv;
+ 	INIT_LIST_HEAD(&man->list);
+-	ret = vmwgfx_ht_create(&man->resources, VMW_CMDBUF_RES_MAN_HT_ORDER);
+-	if (ret == 0)
+-		return man;
+-
+-	kfree(man);
+-	return ERR_PTR(ret);
++	hash_init(man->resources);
++	return man;
+ }
+ 
+ /**
+@@ -320,7 +311,6 @@ void vmw_cmdbuf_res_man_destroy(struct vmw_cmdbuf_res_manager *man)
+ 	list_for_each_entry_safe(entry, next, &man->list, head)
+ 		vmw_cmdbuf_res_free(man, entry);
+ 
+-	vmwgfx_ht_remove(&man->resources);
+ 	kfree(man);
+ }
+ 
 -- 
 2.34.1
 
