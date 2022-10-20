@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786C5606707
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 19:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D8160679D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 20:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D04910EA44;
-	Thu, 20 Oct 2022 17:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F6010E151;
+	Thu, 20 Oct 2022 18:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6F510E0E4;
- Thu, 20 Oct 2022 17:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666286948; x=1697822948;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+TDDcw1ZrTYNXx0UyHndkfoL+7oODeuZrYvlN/TqRWw=;
- b=SL9hedI6EU7WMW53a4qjJ+MtlN7y9FCc/WuHYEdm7kEeoJmXryXXN9KG
- lVADr7PuwtJ0QDHx7Agx3H4A0fHWJQrPO2Ln+zKJAv2L60BEVTqGVWosf
- pRxziF+hZrjW4EtMJHXgdovplfmkfn4wZluu4ASXJjrROHpL0idNaGUfo
- aGMKydjdyZc1Lc/8sO2Iqt5yrJJE5kxU9BkIrTsZeVdUPVCrJiA9He2Xr
- XtmUxtAK036zXWzxbl20ZD37ud6s0zP2ilQOTuec/JnMsrViS2IzmcAj1
- GexknU6HUn88uaxnNm4+ELQD+/vDdROQYJBSLUBFTZmT6ycaQZi4MIQTy A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="286502374"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="286502374"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 10:29:08 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="632388209"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="632388209"
-Received: from aasthash-mobl.ger.corp.intel.com (HELO [10.213.232.117])
- ([10.213.232.117])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 10:29:06 -0700
-Message-ID: <86e3f93e-c97b-a9f6-b90a-a975f38cfbba@linux.intel.com>
-Date: Thu, 20 Oct 2022 18:29:05 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8FF10E151
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 18:00:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6B52B61B4B;
+ Thu, 20 Oct 2022 18:00:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB06BC433D6;
+ Thu, 20 Oct 2022 18:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1666288836;
+ bh=D5JDtraM5oIqlp1dCkevIC+UUF5W0hIt1BS/GoCJUhw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hBxVwrpRUwXLcGlGrs4pHE6jkQaNzQZgQLZEb91y8x+DqmP86tLnf26MnJrWgEPrc
+ 9P4kLjae8qwgiAmiDKbk+aRYQelbJRAGmn2jKEeTyuC7ub21Q+5SYzdexhaTCmg8sv
+ XK+HYIokFikQ1+WQ1wTO1fGzlm8qVz77h+dz4A/w=
+Date: Thu, 20 Oct 2022 20:00:32 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Subject: Re: [PATCH v4 01/10] gna: add PCI driver module
+Message-ID: <Y1GMwP1OUlhwAp03@kroah.com>
+References: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
+ <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
+ <Y1FcCDhWiQG2p3wW@kroah.com>
+ <f3e777c5-c61c-4820-83dd-9bc33932e9c8@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH] drm/i915/selftests: Stop using kthread_stop()
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20221020130841.3845791-1-tvrtko.ursulin@linux.intel.com>
- <Y1FYy8gj38GDYzCu@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Y1FYy8gj38GDYzCu@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f3e777c5-c61c-4820-83dd-9bc33932e9c8@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,536 +52,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Dragan Cvetic <dragan.cvetic@xilinx.com>,
+ linux-doc@vger.kernel.org, Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+ Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Derek Kiernan <derek.kiernan@xilinx.com>,
+ Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 20/10/2022 15:18, Ville Syrjälä wrote:
-> On Thu, Oct 20, 2022 at 02:08:41PM +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Since a7c01fa93aeb ("signal: break out of wait loops on kthread_stop()")
->> kthread_stop() started asserting a pending signal which wreaks havoc with
->> a few of our selftests. Mainly because they are not fully expecting to
->> handle signals, but also cutting the intended test runtimes short due
->> signal_pending() now returning true (via __igt_timeout), which therefore
->> breaks both the patterns of:
->>
->>    kthread_run()
->>    ..sleep for igt_timeout_ms to allow test to exercise stuff..
->>    kthread_stop()
->>
->> And check for errors recorded in the thread.
->>
->> And also:
->>
->>      Main thread  |   Test thread
->>    ---------------+------------------------------
->>    kthread_run()  |
->>    kthread_stop() |  do stuff until __igt_timeout
->> 		 |  -- exits early due signal --
->>
->> Where this kthread_stop() was assume would have a "join" semantics, which
->> it would have had if not the new signal assertion issue.
->>
->> To recap, threads are now likely to catch a previously impossible
->> ERESTARTSYS or EINTR, marking the test as failed, or have a pointlessly
->> short run time.
->>
->> To work around this start using kthread_work(er) API which provides
->> an explicit way of waiting for threads to exit. And for cases where
->> parent controls the test duration we add explicit signaling which threads
->> will now use instead of relying on kthread_should_stop().
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->> ---
->>   .../drm/i915/gem/selftests/i915_gem_context.c | 118 ++++----
->>   drivers/gpu/drm/i915/gt/selftest_execlists.c  |  48 ++--
->>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  51 ++--
->>   drivers/gpu/drm/i915/selftests/i915_request.c | 252 +++++++++++-------
->>   4 files changed, 281 insertions(+), 188 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> index c6ad67b90e8a..d8864444432b 100644
->> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> @@ -179,97 +179,108 @@ static int live_nop_switch(void *arg)
->>   }
->>   
->>   struct parallel_switch {
->> -	struct task_struct *tsk;
->> +	struct kthread_worker *worker;
->> +	struct kthread_work work;
->>   	struct intel_context *ce[2];
->> +	int result;
->>   };
->>   
->> -static int __live_parallel_switch1(void *data)
->> +static void __live_parallel_switch1(struct kthread_work *work)
->>   {
->> -	struct parallel_switch *arg = data;
->> +	struct parallel_switch *arg =
->> +		container_of(work, typeof(*arg), work);
->>   	IGT_TIMEOUT(end_time);
->>   	unsigned long count;
->>   
->>   	count = 0;
->> +	arg->result = 0;
->>   	do {
->>   		struct i915_request *rq = NULL;
->> -		int err, n;
->> +		int n;
->>   
->> -		err = 0;
->> -		for (n = 0; !err && n < ARRAY_SIZE(arg->ce); n++) {
->> +		for (n = 0; !arg->result && n < ARRAY_SIZE(arg->ce); n++) {
->>   			struct i915_request *prev = rq;
->>   
->>   			rq = i915_request_create(arg->ce[n]);
->>   			if (IS_ERR(rq)) {
->>   				i915_request_put(prev);
->> -				return PTR_ERR(rq);
->> +				arg->result = PTR_ERR(rq);
->> +				break;
->>   			}
->>   
->>   			i915_request_get(rq);
->>   			if (prev) {
->> -				err = i915_request_await_dma_fence(rq, &prev->fence);
->> +				arg->result =
->> +					i915_request_await_dma_fence(rq,
->> +								     &prev->fence);
->>   				i915_request_put(prev);
->>   			}
->>   
->>   			i915_request_add(rq);
->>   		}
->> +
->> +		if (IS_ERR_OR_NULL(rq))
->> +			break;
->> +
->>   		if (i915_request_wait(rq, 0, HZ) < 0)
->> -			err = -ETIME;
->> +			arg->result = -ETIME;
->> +
->>   		i915_request_put(rq);
->> -		if (err)
->> -			return err;
->>   
->>   		count++;
->> -	} while (!__igt_timeout(end_time, NULL));
->> +	} while (!arg->result && !__igt_timeout(end_time, NULL));
->>   
->> -	pr_info("%s: %lu switches (sync)\n", arg->ce[0]->engine->name, count);
->> -	return 0;
->> +	pr_info("%s: %lu switches (sync) <%d>\n",
->> +		arg->ce[0]->engine->name, count, arg->result);
->>   }
->>   
->> -static int __live_parallel_switchN(void *data)
->> +static void __live_parallel_switchN(struct kthread_work *work)
->>   {
->> -	struct parallel_switch *arg = data;
->> +	struct parallel_switch *arg =
->> +		container_of(work, typeof(*arg), work);
->>   	struct i915_request *rq = NULL;
->>   	IGT_TIMEOUT(end_time);
->>   	unsigned long count;
->>   	int n;
->>   
->>   	count = 0;
->> +	arg->result = 0;
->>   	do {
->> -		for (n = 0; n < ARRAY_SIZE(arg->ce); n++) {
->> +		for (n = 0; !arg->result && n < ARRAY_SIZE(arg->ce); n++) {
->>   			struct i915_request *prev = rq;
->> -			int err = 0;
->>   
->>   			rq = i915_request_create(arg->ce[n]);
->>   			if (IS_ERR(rq)) {
->>   				i915_request_put(prev);
->> -				return PTR_ERR(rq);
->> +				arg->result = PTR_ERR(rq);
->> +				break;
->>   			}
->>   
->>   			i915_request_get(rq);
->>   			if (prev) {
->> -				err = i915_request_await_dma_fence(rq, &prev->fence);
->> +				arg->result =
->> +					i915_request_await_dma_fence(rq,
->> +								     &prev->fence);
->>   				i915_request_put(prev);
->>   			}
->>   
->>   			i915_request_add(rq);
->> -			if (err) {
->> -				i915_request_put(rq);
->> -				return err;
->> -			}
->>   		}
->>   
->>   		count++;
->> -	} while (!__igt_timeout(end_time, NULL));
->> -	i915_request_put(rq);
->> +	} while (!arg->result && !__igt_timeout(end_time, NULL));
->>   
->> -	pr_info("%s: %lu switches (many)\n", arg->ce[0]->engine->name, count);
->> -	return 0;
->> +	if (!IS_ERR_OR_NULL(rq))
->> +		i915_request_put(rq);
->> +
->> +	pr_info("%s: %lu switches (many) <%d>\n",
->> +		arg->ce[0]->engine->name, count, arg->result);
->>   }
->>   
->>   static int live_parallel_switch(void *arg)
->>   {
->>   	struct drm_i915_private *i915 = arg;
->> -	static int (* const func[])(void *arg) = {
->> +	static void (* const func[])(struct kthread_work *) = {
->>   		__live_parallel_switch1,
->>   		__live_parallel_switchN,
->>   		NULL,
->> @@ -277,7 +288,7 @@ static int live_parallel_switch(void *arg)
->>   	struct parallel_switch *data = NULL;
->>   	struct i915_gem_engines *engines;
->>   	struct i915_gem_engines_iter it;
->> -	int (* const *fn)(void *arg);
->> +	void (* const *fn)(struct kthread_work *);
->>   	struct i915_gem_context *ctx;
->>   	struct intel_context *ce;
->>   	struct file *file;
->> @@ -348,9 +359,22 @@ static int live_parallel_switch(void *arg)
->>   		}
->>   	}
->>   
->> +	for (n = 0; n < count; n++) {
->> +		struct kthread_worker *worker;
->> +
->> +		if (!data[n].ce[0])
->> +			continue;
->> +
->> +		worker = kthread_create_worker(0, "igt/parallel:%s",
->> +					       data[n].ce[0]->engine->name);
->> +		if (IS_ERR(worker))
->> +			goto out;
->> +
->> +		data[n].worker = worker;
->> +	}
->> +
->>   	for (fn = func; !err && *fn; fn++) {
->>   		struct igt_live_test t;
->> -		int n;
->>   
->>   		err = igt_live_test_begin(&t, i915, __func__, "");
->>   		if (err)
->> @@ -360,30 +384,17 @@ static int live_parallel_switch(void *arg)
->>   			if (!data[n].ce[0])
->>   				continue;
->>   
->> -			data[n].tsk = kthread_run(*fn, &data[n],
->> -						  "igt/parallel:%s",
->> -						  data[n].ce[0]->engine->name);
->> -			if (IS_ERR(data[n].tsk)) {
->> -				err = PTR_ERR(data[n].tsk);
->> -				break;
->> -			}
->> -			get_task_struct(data[n].tsk);
->> +			data[n].result = 0;
->> +			kthread_init_work(&data[n].work, *fn);
->> +			kthread_queue_work(data[n].worker, &data[n].work);
->>   		}
->>   
->> -		yield(); /* start all threads before we kthread_stop() */
->> -
->>   		for (n = 0; n < count; n++) {
->> -			int status;
->> -
->> -			if (IS_ERR_OR_NULL(data[n].tsk))
->> -				continue;
->> -
->> -			status = kthread_stop(data[n].tsk);
->> -			if (status && !err)
->> -				err = status;
->> -
->> -			put_task_struct(data[n].tsk);
->> -			data[n].tsk = NULL;
->> +			if (data[n].ce[0]) {
->> +				kthread_flush_work(&data[n].work);
->> +				if (data[n].result && !err)
->> +					err = data[n].result;
->> +			}
->>   		}
->>   
->>   		if (igt_live_test_end(&t))
->> @@ -399,6 +410,9 @@ static int live_parallel_switch(void *arg)
->>   			intel_context_unpin(data[n].ce[m]);
->>   			intel_context_put(data[n].ce[m]);
->>   		}
->> +
->> +		if (data[n].worker)
->> +			kthread_destroy_worker(data[n].worker);
->>   	}
->>   	kfree(data);
->>   out_file:
->> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
->> index 56b7d5b5fea0..2c7c053a8808 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
->> @@ -3473,12 +3473,14 @@ static int random_priority(struct rnd_state *rnd)
->>   
->>   struct preempt_smoke {
->>   	struct intel_gt *gt;
->> +	struct kthread_work work;
->>   	struct i915_gem_context **contexts;
->>   	struct intel_engine_cs *engine;
->>   	struct drm_i915_gem_object *batch;
->>   	unsigned int ncontext;
->>   	struct rnd_state prng;
->>   	unsigned long count;
->> +	int result;
->>   };
->>   
->>   static struct i915_gem_context *smoke_context(struct preempt_smoke *smoke)
->> @@ -3538,34 +3540,31 @@ static int smoke_submit(struct preempt_smoke *smoke,
->>   	return err;
->>   }
->>   
->> -static int smoke_crescendo_thread(void *arg)
->> +static void smoke_crescendo_work(struct kthread_work *work)
->>   {
->> -	struct preempt_smoke *smoke = arg;
->> +	struct preempt_smoke *smoke = container_of(work, typeof(*smoke), work);
->>   	IGT_TIMEOUT(end_time);
->>   	unsigned long count;
->>   
->>   	count = 0;
->>   	do {
->>   		struct i915_gem_context *ctx = smoke_context(smoke);
->> -		int err;
->>   
->> -		err = smoke_submit(smoke,
->> -				   ctx, count % I915_PRIORITY_MAX,
->> -				   smoke->batch);
->> -		if (err)
->> -			return err;
->> +		smoke->result = smoke_submit(smoke, ctx,
->> +					     count % I915_PRIORITY_MAX,
->> +					     smoke->batch);
->>   
->>   		count++;
->> -	} while (count < smoke->ncontext && !__igt_timeout(end_time, NULL));
->> +	} while (!smoke->result && count < smoke->ncontext &&
->> +		 !__igt_timeout(end_time, NULL));
->>   
->>   	smoke->count = count;
->> -	return 0;
->>   }
->>   
->>   static int smoke_crescendo(struct preempt_smoke *smoke, unsigned int flags)
->>   #define BATCH BIT(0)
->>   {
->> -	struct task_struct *tsk[I915_NUM_ENGINES] = {};
->> +	struct kthread_worker *worker[I915_NUM_ENGINES] = {};
->>   	struct preempt_smoke *arg;
->>   	struct intel_engine_cs *engine;
->>   	enum intel_engine_id id;
->> @@ -3576,6 +3575,8 @@ static int smoke_crescendo(struct preempt_smoke *smoke, unsigned int flags)
->>   	if (!arg)
->>   		return -ENOMEM;
->>   
->> +	memset(arg, 0, I915_NUM_ENGINES * sizeof(*arg));
+On Thu, Oct 20, 2022 at 06:11:49PM +0200, Maciej Kwapulinski wrote:
 > 
-> kcalloc()?
-
-Yeah, answer below.
-
+> On 10/20/2022 4:32 PM, Greg Kroah-Hartman wrote:
+> > On Thu, Oct 20, 2022 at 03:35:16PM +0200, Kwapulinski, Maciej wrote:
+> >> Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wiadomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiekolwiek przegladanie lub rozpowszechnianie jest zabronione.
+> >> This e-mail and any attachments may contain confidential material for the sole use of the intended recipient(s). If you are not the intended recipient, please contact the sender and delete all copies; any review or distribution by others is strictly prohibited.
+> > This ensures that we can not do anything with these patches.
+> >
+> > Now deleted.
+> >
+> > greg k-h
 > 
->> +
->>   	for_each_engine(engine, smoke->gt, id) {
->>   		arg[id] = *smoke;
->>   		arg[id].engine = engine;
->> @@ -3583,31 +3584,28 @@ static int smoke_crescendo(struct preempt_smoke *smoke, unsigned int flags)
->>   			arg[id].batch = NULL;
->>   		arg[id].count = 0;
->>   
->> -		tsk[id] = kthread_run(smoke_crescendo_thread, arg,
->> -				      "igt/smoke:%d", id);
->> -		if (IS_ERR(tsk[id])) {
->> -			err = PTR_ERR(tsk[id]);
->> +		worker[id] = kthread_create_worker(0, "igt/smoke:%d", id);
->> +		if (IS_ERR(worker[id])) {
->> +			err = PTR_ERR(worker[id]);
->>   			break;
->>   		}
->> -		get_task_struct(tsk[id]);
->> -	}
->>   
->> -	yield(); /* start all threads before we kthread_stop() */
->> +		kthread_init_work(&arg[id].work, smoke_crescendo_work);
->> +		kthread_queue_work(worker[id], &arg[id].work);
->> +	}
->>   
->>   	count = 0;
->>   	for_each_engine(engine, smoke->gt, id) {
->> -		int status;
->> -
->> -		if (IS_ERR_OR_NULL(tsk[id]))
->> +		if (IS_ERR_OR_NULL(worker[id]))
->>   			continue;
->>   
->> -		status = kthread_stop(tsk[id]);
->> -		if (status && !err)
->> -			err = status;
->> +		kthread_flush_work(&arg[id].work);
->> +		if (arg[id].result && !err)
->> +			err = arg[id].result;
->>   
->>   		count += arg[id].count;
->>   
->> -		put_task_struct(tsk[id]);
->> +		kthread_destroy_worker(worker[id]);
->>   	}
->>   
->>   	pr_info("Submitted %lu crescendo:%x requests across %d engines and %d contexts\n",
->> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->> index 7f3bb1d34dfb..71263058a7b0 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->> @@ -866,10 +866,13 @@ static int igt_reset_active_engine(void *arg)
->>   }
->>   
->>   struct active_engine {
->> -	struct task_struct *task;
->> +	struct kthread_worker *worker;
->> +	struct kthread_work work;
->>   	struct intel_engine_cs *engine;
->>   	unsigned long resets;
->>   	unsigned int flags;
->> +	bool stop;
->> +	int result;
->>   };
->>   
->>   #define TEST_ACTIVE	BIT(0)
->> @@ -900,10 +903,10 @@ static int active_request_put(struct i915_request *rq)
->>   	return err;
->>   }
->>   
->> -static int active_engine(void *data)
->> +static void active_engine(struct kthread_work *work)
->>   {
->>   	I915_RND_STATE(prng);
->> -	struct active_engine *arg = data;
->> +	struct active_engine *arg = container_of(work, typeof(*arg), work);
->>   	struct intel_engine_cs *engine = arg->engine;
->>   	struct i915_request *rq[8] = {};
->>   	struct intel_context *ce[ARRAY_SIZE(rq)];
->> @@ -913,16 +916,17 @@ static int active_engine(void *data)
->>   	for (count = 0; count < ARRAY_SIZE(ce); count++) {
->>   		ce[count] = intel_context_create(engine);
->>   		if (IS_ERR(ce[count])) {
->> -			err = PTR_ERR(ce[count]);
->> -			pr_err("[%s] Create context #%ld failed: %d!\n", engine->name, count, err);
->> +			arg->result = PTR_ERR(ce[count]);
->> +			pr_err("[%s] Create context #%ld failed: %d!\n",
->> +			       engine->name, count, arg->result);
->>   			while (--count)
->>   				intel_context_put(ce[count]);
->> -			return err;
->> +			return;
->>   		}
->>   	}
->>   
->>   	count = 0;
->> -	while (!kthread_should_stop()) {
->> +	while (!READ_ONCE(arg->stop)) {
->>   		unsigned int idx = count++ & (ARRAY_SIZE(rq) - 1);
->>   		struct i915_request *old = rq[idx];
->>   		struct i915_request *new;
->> @@ -967,7 +971,7 @@ static int active_engine(void *data)
->>   		intel_context_put(ce[count]);
->>   	}
->>   
->> -	return err;
->> +	arg->result = err;
->>   }
->>   
->>   static int __igt_reset_engines(struct intel_gt *gt,
->> @@ -1022,7 +1026,7 @@ static int __igt_reset_engines(struct intel_gt *gt,
->>   
->>   		memset(threads, 0, sizeof(*threads) * I915_NUM_ENGINES);
->>   		for_each_engine(other, gt, tmp) {
->> -			struct task_struct *tsk;
->> +			struct kthread_worker *worker;
->>   
->>   			threads[tmp].resets =
->>   				i915_reset_engine_count(global, other);
->> @@ -1036,19 +1040,21 @@ static int __igt_reset_engines(struct intel_gt *gt,
->>   			threads[tmp].engine = other;
->>   			threads[tmp].flags = flags;
->>   
->> -			tsk = kthread_run(active_engine, &threads[tmp],
->> -					  "igt/%s", other->name);
->> -			if (IS_ERR(tsk)) {
->> -				err = PTR_ERR(tsk);
->> -				pr_err("[%s] Thread spawn failed: %d!\n", engine->name, err);
->> +			worker = kthread_create_worker(0, "igt/%s",
->> +						       other->name);
->> +			if (IS_ERR(worker)) {
->> +				err = PTR_ERR(worker);
->> +				pr_err("[%s] Worker create failed: %d!\n",
->> +				       engine->name, err);
->>   				goto unwind;
->>   			}
->>   
->> -			threads[tmp].task = tsk;
->> -			get_task_struct(tsk);
->> -		}
->> +			threads[tmp].worker = worker;
->>   
->> -		yield(); /* start all threads before we begin */
->> +			kthread_init_work(&threads[tmp].work, active_engine);
->> +			kthread_queue_work(threads[tmp].worker,
->> +					   &threads[tmp].work);
->> +		}
->>   
->>   		st_engine_heartbeat_disable_no_pm(engine);
->>   		GEM_BUG_ON(test_and_set_bit(I915_RESET_ENGINE + id,
->> @@ -1197,17 +1203,20 @@ static int __igt_reset_engines(struct intel_gt *gt,
->>   		for_each_engine(other, gt, tmp) {
->>   			int ret;
->>   
->> -			if (!threads[tmp].task)
->> +			if (!threads[tmp].worker)
->>   				continue;
->>   
->> -			ret = kthread_stop(threads[tmp].task);
->> +			WRITE_ONCE(threads[tmp].stop, true);
->> +			kthread_flush_work(&threads[tmp].work);
 > 
-> Could perhaps optimize things a bit flagging all the threads
-> to stop before doing any flush_work()s. And maybe also do all
-> the init stuff before queuing any works. But dunno if that's
-> worth the hassle.
+> indeed,
+> 
+> sorry about that. When I'm done with smtp server footer I'll send 'PATCH v5' unless you have other suggestion for best practice in this case.
 
-Init stage probably isn't worth complicating, but stopping would be 
-nicer indeed to happen more in sync across threads. Mostly for cases 
-where some sort of metrics per thread is output, and where stop points 
-are relatively spread out.
+I am not even allowed to look at any of this at the moment with that
+footer.  Actually I wasn't even supposed to tell you this, I should have
+been forced to just delete it and move on to contributions that don't
+have legal entraptments in them :(
 
-I will leave it all for a follow up though. If this version happens to 
-get a green CI light I will just merge it as is to restore CI coverage 
-and unblock things.
-
-> Looks reasonable enough to me.
-> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-Thanks!
-
-Regards,
-
-Tvrtko
+greg k-h
