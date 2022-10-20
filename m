@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C266055FD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:41:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBBA60560E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 05:43:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D70210E2F1;
-	Thu, 20 Oct 2022 03:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F38310E3E4;
+	Thu, 20 Oct 2022 03:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C21410E26D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D5110E2DE
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 03:41:39 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id C377333EF41;
- Thu, 20 Oct 2022 04:41:36 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 8EF4833EF60;
+ Thu, 20 Oct 2022 04:41:37 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666237297; bh=mJuSCIgEkE+lNoeSy3DTr0ygs9H52JFziwqHR2KRKaI=;
- h=From:To:Cc:Subject:Date:From;
- b=M8PAKNYjIMd7qAovIpZhyZMCx36IcbPxXzgcJydyvwW+d+jDVxov19t6DgP05UNNp
- 0Lz6x1UWPXDIuHH2PVvyikiCo5ByR2mn7SJPb4BNmfD57lBBohvmDKQ0cWSr/hk9mf
- AOydfiOa8Yqg0AyPA6MNxPBy0b7gXalSrj7TerTcNAhHWlhv/HwiOK66LI+Qwpzg74
- jqpGv9JLS6ERmNqZSoPSnGwxqKdPv1X3muc3RHrVhmUpweChSwcF6kHBjyAYasnEr4
- +dmuc650bIzlkGs2X97NJ4odm6DJBlcy3/7/YDRNgkqSwdjfgMwptlcykJqZsWrGPo
- vUa+WR2EutBAA==
+ t=1666237298; bh=g3BPQ/Zm/BiUjXwoosvFmdBlDgWaZpLDWZ89UTjtmzA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=jRdBntyUL2mlaGhVrDD5xEHpbJSO93TGBgOz4dYzEjMzqRTMnFIXqEn4brQNeA56+
+ 4VOOBZClNLhx95vCVcxCKjRWsef/vQC3YtQaPIc+Zws9TMF4DszxsnGF1J39tT69Qz
+ vVT65bweUO77MY4OJ2hZZdTxhMtH5ECGSWHflbSkN8bF1/B5wEERa0r2nWDRRTSWCK
+ LjgOPaW8qrryLJE2cs3JHaOvnm4aw2/LnRGGPQUkoytyBUPUPOxYvi+OBSgvVGvjnR
+ d0PGOFdp3qiDwbTWmovL1SgKxUHenJxZlL/YqUEnezfKbJKvbwGgyhbS1v/S46CF/E
+ NkZl9znxYw5oA==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 00/16] drm/vmwgfx: fb, cursors and hashtable refactor
-Date: Wed, 19 Oct 2022 23:41:15 -0400
-Message-Id: <20221020034131.491973-1-zack@kde.org>
+Subject: [PATCH v2 01/16] drm/vmwgfx: Write the driver id registers
+Date: Wed, 19 Oct 2022 23:41:16 -0400
+Message-Id: <20221020034131.491973-2-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221020034131.491973-1-zack@kde.org>
+References: <20221020034131.491973-1-zack@kde.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,77 +54,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-v2: Fix LKP and sparse reported issues
+Driver id registers are a new mechanism in the svga device to hint to the
+device which driver is running. This should not change device behavior
+in any way, but might be convenient to work-around specific bugs
+in guest drivers.
 
-This is a bit larger series than usual but these are all connected in
-various ways. The most important changes around everything is centered
-include:
-- finally getting rid of vmwgfx_hashtab and porting the driver to 
-  linux/hashtable
-- cleaning up the cursor mob handling, which fixes a bunch of cursor
-  issues on kde configs
-- removing vmwgfx fb code and porting it to drm fb helpers
-- removing vmwgfx faked vblank handling
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 43 +++++++++++++++++++++++------
+ 1 file changed, 34 insertions(+), 9 deletions(-)
 
-The rest is largely support code to make the transition easier (with some
-igt fixes to get more of it running for regression testing). The result
-is removal of over 1000loc with no loss in functionality.
-
-Maaz Mombasawala (5):
-  drm/vmwgfx: Refactor resource manager's hashtable to use
-    linux/hashtable implementation.
-  drm/vmwgfx: Remove ttm object hashtable
-  drm/vmwgfx: Refactor resource validation hashtable to use
-    linux/hashtable implementation.
-  drm/vmwgfx: Refactor ttm reference object hashtable to use
-    linux/hashtable.
-  drm/vmwgfx : Remove vmwgfx_hashtab
-
-Martin Krastev (1):
-  drm/vmwgfx: Fix frame-size warning in vmw_mksstat_add_ioctl
-
-Michael Banack (4):
-  drm/vmwgfx: Clean up cursor mobs
-  drm/vmwgfx: Start diffing new mob cursors against old ones
-  drm/vmwgfx: Support cursor surfaces with mob cursor
-  drm/vmwgfx: Diff cursors when using cmds
-
-Zack Rusin (6):
-  drm/vmwgfx: Write the driver id registers
-  drm/vmwgfx: Do not allow invalid bpp's for dumb buffers
-  drm/vmwgfx: Port the framebuffer code to drm fb helpers
-  drm/vmwgfx: Remove explicit and broken vblank handling
-  drm/vmwgfx: Add a mksstat counter for cotable resizes
-  drm/vmwgfx: Optimize initial sizes of cotables
-
- Documentation/gpu/todo.rst                 |  11 -
- drivers/gpu/drm/vmwgfx/Kconfig             |   7 -
- drivers/gpu/drm/vmwgfx/Makefile            |   4 +-
- drivers/gpu/drm/vmwgfx/ttm_object.c        | 123 ++-
- drivers/gpu/drm/vmwgfx/ttm_object.h        |  20 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         |  16 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c |  62 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c    |  29 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        | 129 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  49 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    |  14 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fb.c         | 831 ---------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c    | 199 -----
- drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h    |  83 --
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 639 ++++++++--------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h        |  31 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |   8 -
- drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h    |   2 +
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c        |  55 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  31 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       |  26 -
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c |  55 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.h |  26 +-
- 23 files changed, 650 insertions(+), 1800 deletions(-)
- delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
- delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c
- delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h
-
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index d7bd5eb1d3ac..45028e25d490 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -25,10 +25,13 @@
+  *
+  **************************************************************************/
+ 
+-#include <linux/dma-mapping.h>
+-#include <linux/module.h>
+-#include <linux/pci.h>
+-#include <linux/cc_platform.h>
++
++#include "vmwgfx_drv.h"
++
++#include "vmwgfx_devcaps.h"
++#include "vmwgfx_mksstat.h"
++#include "vmwgfx_binding.h"
++#include "ttm_object.h"
+ 
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_drv.h>
+@@ -41,11 +44,11 @@
+ #include <drm/ttm/ttm_placement.h>
+ #include <generated/utsrelease.h>
+ 
+-#include "ttm_object.h"
+-#include "vmwgfx_binding.h"
+-#include "vmwgfx_devcaps.h"
+-#include "vmwgfx_drv.h"
+-#include "vmwgfx_mksstat.h"
++#include <linux/cc_platform.h>
++#include <linux/dma-mapping.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/version.h>
+ 
+ #define VMWGFX_DRIVER_DESC "Linux drm driver for VMware graphics devices"
+ 
+@@ -806,6 +809,27 @@ static int vmw_detect_version(struct vmw_private *dev)
+ 	return 0;
+ }
+ 
++static void vmw_write_driver_id(struct vmw_private *dev)
++{
++	if ((dev->capabilities2 & SVGA_CAP2_DX2) != 0) {
++		vmw_write(dev,  SVGA_REG_GUEST_DRIVER_ID,
++			  SVGA_REG_GUEST_DRIVER_ID_LINUX);
++
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION1,
++			  LINUX_VERSION_MAJOR << 24 |
++			  LINUX_VERSION_PATCHLEVEL << 16 |
++			  LINUX_VERSION_SUBLEVEL);
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION2,
++			  VMWGFX_DRIVER_MAJOR << 24 |
++			  VMWGFX_DRIVER_MINOR << 16 |
++			  VMWGFX_DRIVER_PATCHLEVEL);
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION3, 0);
++
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_ID,
++			  SVGA_REG_GUEST_DRIVER_ID_SUBMIT);
++	}
++}
++
+ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ {
+ 	int ret;
+@@ -1091,6 +1115,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	vmw_host_printf("vmwgfx: Module Version: %d.%d.%d (kernel: %s)",
+ 			VMWGFX_DRIVER_MAJOR, VMWGFX_DRIVER_MINOR,
+ 			VMWGFX_DRIVER_PATCHLEVEL, UTS_RELEASE);
++	vmw_write_driver_id(dev_priv);
+ 
+ 	if (dev_priv->enable_fb) {
+ 		vmw_fifo_resource_inc(dev_priv);
 -- 
 2.34.1
 
