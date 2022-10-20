@@ -1,51 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3CA60699A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 22:39:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A963260699E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 22:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF18310E098;
-	Thu, 20 Oct 2022 20:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C08FE10E00C;
+	Thu, 20 Oct 2022 20:41:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A84610E00C;
- Thu, 20 Oct 2022 20:38:45 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-119-114.nat.spd-mgts.ru
- [109.252.119.114])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 47E6C6602482;
- Thu, 20 Oct 2022 21:38:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1666298323;
- bh=on5U5mSSUdY61ZEE1HvHm9RWLXfuhfOf2W/w8U1zpT8=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=lnUWUR/IF5sDyslFl7wGYu++460fUMXi+U0BB7h4jLDB2CHrilMFZfSfDZcW8KvSa
- SWHYmyxNe1F32+LEmky72LNvZCs4mosIg0GfU5vGSgqkPo6p6a4/s+qarm6kTi7/6A
- FmNkZ6NcoZ/Q9LXMk0qfaBFVC1GvtgQQENC9SI8BrdMSY3lNtJ2khKJZzy72Y6CpHU
- aCsCj4WGQ6od1MJWhL8IYDD9M/wbsO79mW68mre2Tob3z0ja+9hvRr8DpVmvzLonBg
- U2vjbSLS3WHlMD/aX2Is/orYRCg8ZQGNim7MP4rLECa+dRI1Eo4BYaNYGS4LhRgGRU
- TXCl5A9pDemqg==
-Message-ID: <890f70db-68b0-8456-ca3c-c5496ef90517@collabora.com>
-Date: Thu, 20 Oct 2022 23:38:40 +0300
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC1F310E00C;
+ Thu, 20 Oct 2022 20:40:55 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id v1so1223182wrt.11;
+ Thu, 20 Oct 2022 13:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mkrkmZwXDzkYF9cZqoYViFYu0UrGpVfkJcqp1qpBeoo=;
+ b=a9K8k/CwhSprlmF43UJ2k22M5MSHa7rKHiWH4Nt0pNXlYmi08nQKOCCjpW8uFBbhCl
+ 33Pu1CdDye7E9TGgScGq9PX5KlgahSIe7UgScicfUYAry7ygOtF2IkBEtoV35y43G65O
+ Ocr5Mt2qxuO51FrQCTiuLomFFim23vL6yi6PKyZXjHEoJzQ3PtOiKIksRSX92UEEyy/1
+ XHS4mEKAr5WIM9bu82LpZgHIXc8AXMK6BaYHB2cxfT7GVolwmgTxyu+vBaO3Nw53x5tP
+ 32+mluIb/8nif83ugri58TyUimXNs3Ikg1veOmPAcZD+fpZNtK1RZpMPxqtuzX4TCdOp
+ jFBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mkrkmZwXDzkYF9cZqoYViFYu0UrGpVfkJcqp1qpBeoo=;
+ b=1JLL+VFgGNwvXG5HtFtxLYYd79ZZchEqw5xGsL+srp/lLWOAZvimu+OYMkSSN+y/14
+ DGqBEe1DAuDYRyfWjkzKc+9tVw4o8tfpcJiP6RPNbsG2ocQ52O4sbXnIUAtMpf8cbYFL
+ r3IdJW/7S2O21G72aGcv11Vt1LYsZkesN9rc/yIziX093hjwyCEcipYWNvurfUn2lgPs
+ +wlSwff9OvSPIqiKVhuNWzSbhQvCJXNxCogA5BSnfj8wyo7jfppoDiH1T9ytcAHgKs2I
+ HcbJrAxq2cu00ZjZtYBKBiEreDPre1PVfZlKfxebJatPVCPJ5TrEdDr+M28nNVU1v5Gv
+ 2AwQ==
+X-Gm-Message-State: ACrzQf1spDc4W7ZTtfLKUu6VfXLXplbCDHjw05wYurPQvdch+07mObgN
+ zWfftmeWVZ7hbkdgjN/Yvy0=
+X-Google-Smtp-Source: AMsMyM67tNgAY4J1fpflkAr7KqOx6xMhtrINneS5zul20iJtySnTsSrOlOeIKXA1UNfFZBk2cGHnsA==
+X-Received: by 2002:adf:f983:0:b0:22e:3c8:27ae with SMTP id
+ f3-20020adff983000000b0022e03c827aemr10265898wrr.16.1666298453757; 
+ Thu, 20 Oct 2022 13:40:53 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ j28-20020a5d6e5c000000b0022cd27bc8c1sm21014463wrz.9.2022.10.20.13.40.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 13:40:53 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ virtualization@lists.linux-foundation.org,
+ spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/qxl: remove variable num_relocs
+Date: Thu, 20 Oct 2022 21:40:52 +0100
+Message-Id: <20221020204052.42151-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [drm/gem] 79e2cf2e7a:
- WARNING:at_drivers/gpu/drm/drm_gem.c:#drm_gem_vunmap
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <202210201109.c762970e-yujie.liu@intel.com>
- <72534bd1-a941-b627-4efd-34c8d87127d3@collabora.com>
-Content-Language: en-US
-In-Reply-To: <72534bd1-a941-b627-4efd-34c8d87127d3@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,72 +72,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, lima@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, lkp@lists.01.org,
- spice-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/20/22 06:38, Dmitry Osipenko wrote:
-> On 10/20/22 06:23, kernel test robot wrote:
->> Greeting,
->>
->> FYI, we noticed WARNING:at_drivers/gpu/drm/drm_gem.c:#drm_gem_vunmap due to commit (built with clang-14):
->>
->> commit: 79e2cf2e7a193473dfb0da3b9b869682b43dc60f ("drm/gem: Take reservation lock for vmap/vunmap operations")
->> git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->>
->> in testcase: boot
->>
->> on test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
->>
->> caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
->>
->>
->> [    5.483437][    T1] ------------[ cut here ]------------
->> [    5.484265][    T1] WARNING: CPU: 1 PID: 1 at drivers/gpu/drm/drm_gem.c:1191 drm_gem_vunmap+0x50/0xa0
->> [    5.485640][    T1] Modules linked in:
->> [    5.486298][    T1] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 6.0.0-rc2-00895-g79e2cf2e7a19 #1 d064e7e3c98977ac595341fa8e33617722110e67
->> [    5.488083][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.0-debian-1.16.0-4 04/01/2014
->> [    5.489590][    T1] EIP: drm_gem_vunmap+0x50/0xa0
->> [    5.490359][    T1] Code: ff ff e8 f3 29 97 00 85 c0 0f 94 c3 eb 02 31 db 0f b6 fb b8 90 74 8e c3 89 fa 31 c9 6a 00 e8 77 ca 7b ff 83 c4 04 84 db 74 02 <0f> 0b b8 a8 74 8e c3 89 fa 31 c9 6a 00 e8 5e ca 7b ff 83 c4 04 83
->> [    5.493049][    T1] EAX: c38e74a0 EBX: ffffff01 ECX: 00000000 EDX: 00000001
->> [    5.494179][    T1] ESI: c6d8b870 EDI: 00000001 EBP: c46d7d34 ESP: c46d7d24
->> [    5.495296][    T1] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010202
->> [    5.496530][    T1] CR0: 80050033 CR2: 00000000 CR3: 03aa0000 CR4: 000406d0
->> [    5.497647][    T1] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
->> [    5.498759][    T1] DR6: fffe0ff0 DR7: 00000400
->> [    5.499486][    T1] Call Trace:
->> [    5.500104][    T1]  drm_client_buffer_delete+0x1d/0x90
->> [    5.500877][    T1]  drm_client_framebuffer_delete+0x37/0x60
->> [    5.501805][    T1]  drm_fbdev_cleanup+0x80/0x90
->> [    5.502653][    T1]  drm_fbdev_client_hotplug+0x1b6/0x210
->> [    5.503585][    T1]  drm_fbdev_generic_setup+0x143/0x1a0
->> [    5.504571][    T1]  vkms_init+0x23f/0x244
->> [    5.505338][    T1]  ? vgem_init+0x133/0x133
->> [    5.506130][    T1]  do_one_initcall+0x10e/0x210
->> [    5.506976][    T1]  ? vgem_init+0x133/0x133
->> [    5.507775][    T1]  do_initcall_level+0x80/0x92
->> [    5.508630][    T1]  do_initcalls+0x41/0x6f
->> [    5.509386][    T1]  do_basic_setup+0x17/0x19
->> [    5.510106][    T1]  kernel_init_freeable+0xb4/0xe5
->> [    5.510970][    T1]  ? rest_init+0x180/0x180
->> [    5.511745][    T1]  kernel_init+0x17/0x180
->> [    5.512522][    T1]  ret_from_fork+0x19/0x24
->> [    5.513333][    T1] irq event stamp: 118087
->> [    5.514101][    T1] hardirqs last  enabled at (118097): [<c1107774>] __up_console_sem+0x64/0xb0
->> [    5.515620][    T1] hardirqs last disabled at (118110): [<c110775b>] __up_console_sem+0x4b/0xb0
->> [    5.517061][    T1] softirqs last  enabled at (117834): [<c236bd86>] __do_softirq+0x2c6/0x329
->> [    5.518391][    T1] softirqs last disabled at (117825): [<c102bb62>] do_softirq_own_stack+0x22/0x30
->> [    5.519760][    T1] ---[ end trace 0000000000000000 ]---
-> 
-> That's a good catch, I missed to touch drm_client.c. At a quick glance
-> will be fine to switch it to the unlocked drm_gem_vun/map functions.
+The variable num_relocs is being incremented but it
+is never referenced, it is redundant and can be removed.
 
-Actually, I only missed to switch the drm_client_buffer_delete() to the
-unlocked vunmap. The rest of drm_client.c is okay. I'll prepare the fix.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/qxl/qxl_ioctl.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
+index 30f58b21372a..3422206d59d4 100644
+--- a/drivers/gpu/drm/qxl/qxl_ioctl.c
++++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
+@@ -146,7 +146,7 @@ static int qxl_process_single_command(struct qxl_device *qdev,
+ 	struct qxl_release *release;
+ 	struct qxl_bo *cmd_bo;
+ 	void *fb_cmd;
+-	int i, ret, num_relocs;
++	int i, ret;
+ 	int unwritten;
+ 
+ 	switch (cmd->type) {
+@@ -201,7 +201,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
+ 	}
+ 
+ 	/* fill out reloc info structs */
+-	num_relocs = 0;
+ 	for (i = 0; i < cmd->relocs_num; ++i) {
+ 		struct drm_qxl_reloc reloc;
+ 		struct drm_qxl_reloc __user *u = u64_to_user_ptr(cmd->relocs);
+@@ -231,7 +230,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
+ 			reloc_info[i].dst_bo = cmd_bo;
+ 			reloc_info[i].dst_offset = reloc.dst_offset + release->release_offset;
+ 		}
+-		num_relocs++;
+ 
+ 		/* reserve and validate the reloc dst bo */
+ 		if (reloc.reloc_type == QXL_RELOC_TYPE_BO || reloc.src_handle) {
 -- 
-Best regards,
-Dmitry
+2.37.3
 
