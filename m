@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A963260699E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 22:41:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401F66069C4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 22:44:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C08FE10E00C;
-	Thu, 20 Oct 2022 20:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95F7710E101;
+	Thu, 20 Oct 2022 20:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC1F310E00C;
- Thu, 20 Oct 2022 20:40:55 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id v1so1223182wrt.11;
- Thu, 20 Oct 2022 13:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mkrkmZwXDzkYF9cZqoYViFYu0UrGpVfkJcqp1qpBeoo=;
- b=a9K8k/CwhSprlmF43UJ2k22M5MSHa7rKHiWH4Nt0pNXlYmi08nQKOCCjpW8uFBbhCl
- 33Pu1CdDye7E9TGgScGq9PX5KlgahSIe7UgScicfUYAry7ygOtF2IkBEtoV35y43G65O
- Ocr5Mt2qxuO51FrQCTiuLomFFim23vL6yi6PKyZXjHEoJzQ3PtOiKIksRSX92UEEyy/1
- XHS4mEKAr5WIM9bu82LpZgHIXc8AXMK6BaYHB2cxfT7GVolwmgTxyu+vBaO3Nw53x5tP
- 32+mluIb/8nif83ugri58TyUimXNs3Ikg1veOmPAcZD+fpZNtK1RZpMPxqtuzX4TCdOp
- jFBQ==
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65D1310E09E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 20:44:34 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so4668412pji.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 13:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Jt+o5q+QQoG9zWgdQIQu84BSf/PCB0HahbcchF6vEyQ=;
+ b=iodtlyC4Tzbs+Tedw1WKE18bKa2hCfn4qkXClkwH8Y/ceFzaLoFVx0fa+/HT6mLmav
+ a2iVpol+98HJY0mLb8H0f+wqlXf/WYpl4CDZvf7M3Q8xINe++0cDFfSeSjtBeLLBLn7V
+ Wd6Z/ZTjrlhAREa9q8IUgsfjztpa/qyPH16zIaIQjJUWxE9z4WvpOG3S2H8BzwYMqiI8
+ LX7c+tHvngdMGevYydENkNmIEkK4wEM9rOHsmW2qQsvPsWUoY/aEQanNm3J+teWP4wH0
+ KkOyfP+D3uPlp5bLlGAcpOzbQ+zL1EkI2A0wMnP/PtwDiBF4WOpy1iPukj/YRWeAHucI
+ dMCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mkrkmZwXDzkYF9cZqoYViFYu0UrGpVfkJcqp1qpBeoo=;
- b=1JLL+VFgGNwvXG5HtFtxLYYd79ZZchEqw5xGsL+srp/lLWOAZvimu+OYMkSSN+y/14
- DGqBEe1DAuDYRyfWjkzKc+9tVw4o8tfpcJiP6RPNbsG2ocQ52O4sbXnIUAtMpf8cbYFL
- r3IdJW/7S2O21G72aGcv11Vt1LYsZkesN9rc/yIziX093hjwyCEcipYWNvurfUn2lgPs
- +wlSwff9OvSPIqiKVhuNWzSbhQvCJXNxCogA5BSnfj8wyo7jfppoDiH1T9ytcAHgKs2I
- HcbJrAxq2cu00ZjZtYBKBiEreDPre1PVfZlKfxebJatPVCPJ5TrEdDr+M28nNVU1v5Gv
- 2AwQ==
-X-Gm-Message-State: ACrzQf1spDc4W7ZTtfLKUu6VfXLXplbCDHjw05wYurPQvdch+07mObgN
- zWfftmeWVZ7hbkdgjN/Yvy0=
-X-Google-Smtp-Source: AMsMyM67tNgAY4J1fpflkAr7KqOx6xMhtrINneS5zul20iJtySnTsSrOlOeIKXA1UNfFZBk2cGHnsA==
-X-Received: by 2002:adf:f983:0:b0:22e:3c8:27ae with SMTP id
- f3-20020adff983000000b0022e03c827aemr10265898wrr.16.1666298453757; 
- Thu, 20 Oct 2022 13:40:53 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- j28-20020a5d6e5c000000b0022cd27bc8c1sm21014463wrz.9.2022.10.20.13.40.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 13:40:53 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/qxl: remove variable num_relocs
-Date: Thu, 20 Oct 2022 21:40:52 +0100
-Message-Id: <20221020204052.42151-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.3
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Jt+o5q+QQoG9zWgdQIQu84BSf/PCB0HahbcchF6vEyQ=;
+ b=GWrOkOWzAyjC9hEB7yKlX7xqiqC7iG+TQsHFavOVXEsw9i21ZfMDcXGvJKFN/L9nBn
+ pQKy8vlJXO+05MFwkc81YfEP9ZNlYsKXXJw7bSm03NL/mlrDYqWR6LUXPqZ1+ofAOkUz
+ Ufmw15DSkenyRj8kFyi8mBJIQjJFX0j6Op3WcHYUmC4UX0d5hSTfd6c/3uGYhJR7CZoJ
+ BefkgOAROQqYQY4fXXda4VSCa/9/0KNSHa1ltx4DsFcnchz8xMDfBz/7YVtYq146Zk0w
+ Z071ipihdA2tqPfgg47wsfoc0h3aCOa3f1Mm0IDr0gZ4mMmVoEBCO3EQM7EIvd4KKeCd
+ t9zw==
+X-Gm-Message-State: ACrzQf1Ils6inqfQeSwu53RKJ3WCcwX4owfusDi1BidMcZ03hQ2Pkoks
+ 8eAKey9rLdOuypednn4jkhfpqW3PU0rw8th6EQXIyQ==
+X-Google-Smtp-Source: AMsMyM6ppTKjTDigK5dw4q/N3KihTqTlrbjXYszynZsqMSqdHDIdEyaNp9/eCVrdZCvLPeSBzPZekzyFNkFEC6h7KSw=
+X-Received: by 2002:a17:90b:224d:b0:20d:8828:3051 with SMTP id
+ hk13-20020a17090b224d00b0020d88283051mr17613903pjb.89.1666298673916; Thu, 20
+ Oct 2022 13:44:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Thu, 20 Oct 2022 13:44:22 -0700
+Message-ID: <CAJ+vNU3zyrAOVWmgPJpRLzMm1V05b9rEMeb6=4AutmZC_rJN8A@mail.gmail.com>
+Subject: IMX6 etnaviv issue
+To: The etnaviv authors <etnaviv@lists.freedesktop.org>, 
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The variable num_relocs is being incremented but it
-is never referenced, it is redundant and can be removed.
+Greetings,
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/qxl/qxl_ioctl.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I use a standard Ubuntu 20.04 focal rootfs with a mainline kernel on
+an IMX6Q based board and have had no issues using things like gnome
+desktop, glxgears, glmark2 however recently I updated the rootfs to
+Ubuntu 22.04 jammy using the same mainline kernel and now I see some
+issues. I've replicated the issue with several kernel versions
+including 5.4, 5.10, 5.15 and 6.0 so I would say this is not a kernel
+regression but something related to the graphics stack being used
+which I'm not very familiar with.
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
-index 30f58b21372a..3422206d59d4 100644
---- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-+++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-@@ -146,7 +146,7 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	struct qxl_release *release;
- 	struct qxl_bo *cmd_bo;
- 	void *fb_cmd;
--	int i, ret, num_relocs;
-+	int i, ret;
- 	int unwritten;
- 
- 	switch (cmd->type) {
-@@ -201,7 +201,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	}
- 
- 	/* fill out reloc info structs */
--	num_relocs = 0;
- 	for (i = 0; i < cmd->relocs_num; ++i) {
- 		struct drm_qxl_reloc reloc;
- 		struct drm_qxl_reloc __user *u = u64_to_user_ptr(cmd->relocs);
-@@ -231,7 +230,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 			reloc_info[i].dst_bo = cmd_bo;
- 			reloc_info[i].dst_offset = reloc.dst_offset + release->release_offset;
- 		}
--		num_relocs++;
- 
- 		/* reserve and validate the reloc dst bo */
- 		if (reloc.reloc_type == QXL_RELOC_TYPE_BO || reloc.src_handle) {
--- 
-2.37.3
+The issues I see can be described as:
+- mouse cursor is incorrect (looks like a hatched square)
+- glxgears shows some sort of sync/jitter issue and has a fairly low framerate
+- glmark2 shows a some sync issues then after a few seconds results in
+a GPU hang
 
+My ubuntu focal image that appears to work fine has the following:
+gnome 3.36.5-0
+xserver-xorg 1:7.7+19
+xserver-xorg-core 2:1.20.13-1
+xwayland 2:1.20.13-1
+glmark2 2021.02
+mesa-utils 8.4.0-1
+GL_VENDOR: Mesa/X.org
+GL_RENDERER: llvmpipe (LLVM 12.0.0, 128 bits)
+GL_VERSION: 3.1 Mesa 21.2.6
+
+My ubuntu jammy image that has the issues has the following:
+gnome-41.7-0
+xserver-xorg 1:7.7+23
+xserver-xorg-core 2:21.1.3-2
+xwayland 2:22.1.1-1
+glmark2 2021.02-0
+mesa-utils 8.4.0-1
+GL_VENDOR: etnaviv
+GL_RENDERER: Vivantte GC2000 rev 5108
+GL_VERSION: 2.1 Mesa 22.0.5
+
+Does anyone have any ideas on what might be going on here? I apologize
+for my lack of knowledge regarding the software layers on top of the
+etnaviv kernel driver being used here.
+
+Best Regards,
+
+Tim
