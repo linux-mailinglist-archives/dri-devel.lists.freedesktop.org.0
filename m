@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D5F6070F2
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 09:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3953A6070ED
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 09:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1997D10E5E3;
-	Fri, 21 Oct 2022 07:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5BC810E5D6;
+	Fri, 21 Oct 2022 07:22:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81CF10E031
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 17:57:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54EB110E031
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 17:57:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666288628; x=1697824628;
+ t=1666288633; x=1697824633;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2p5P2TxMf6hZYcQO6rj0OBHSOpKvGfUczPBtTIg/J1k=;
- b=CB2PBtgn5ObDsBakOLPn3bzjt/VQMLLWREjszcyOfO9kT38ZBF0QW8Ny
- SZXMtLO00AQ8/i6QV8XICBQc4mSOfsr2MUgIzAoXlrY3R/X/cuTz9+YpM
- Z+nAfDkTsjyE0xis1kA6LshhQ8tnq20Nz+eG2glYOFXRLcV5H33wroERt
- 24C/YhcUV8Miu6mrEivzb4658G5LKh7Ouw7mtPpWMhA6CN+hK7VHMJWKm
- CEdfjyywbh2dfD8UZtQjK7tftUvVlHV43BO/pHyuGpzUs0stXRLMzicaE
- 6G3XBEHox0uLsnGz+s9VAAp4xz71vCGL4jKCEABuIj04pkvZyL5Q5Pe1D w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="305528498"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="305528498"
+ bh=8YfEEm+GMUs76QMVN1GO8XUlQ3blycuQYlNJnbxkN2o=;
+ b=hmAJuhqo6GfKaSKMRGzLm7GcrWV5kpKD82hwT84EJM5FxPz5tM7qM7z1
+ sUL4iQK75nMv8Fwv/axhwrfh618KgoZjFx/KQi89Jn0TQ8HlzL4wiwTcj
+ H/3eMmbBr6VBWJtGMNK4cqJ0t/L+Mcp1SjVMjQXxyuOofyHs7lAzc/186
+ PWfRLDGiD9qMTDJh+aiWd5NE1dLe3nPI6fcMyYr/bYzRAI+IufX41/6Ui
+ yU9LG4UxZP16SrocLjSozr/OqVEqEG5qdBosFgIKGEoPvNe26M+S11r6v
+ dwL/3L0o1tEn5HPCOb9fM2lH8uy5lP+WiP8SB6uxV9Dvmr6TsQFdT/8zd Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="305528515"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="305528515"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 10:57:07 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="772516762"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="772516762"
+ 20 Oct 2022 10:57:12 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="772516806"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="772516806"
 Received: from gna-nuc-dev34.igk.intel.com ([10.102.80.34])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 10:57:03 -0700
+ 20 Oct 2022 10:57:07 -0700
 From: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 To: Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -45,14 +45,13 @@ To: Daniel Vetter <daniel@ffwll.ch>,
  Dragan Cvetic <dragan.cvetic@xilinx.com>,
  Andy Shevchenko <andy.shevchenko@gmail.com>,
  Linus Walleij <linus.walleij@linaro.org>, Olof Johansson <olof@lixom.net>
-Subject: [PATCH v5 01/10] gna: add PCI driver module
-Date: Thu, 20 Oct 2022 19:53:25 +0200
-Message-Id: <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
+Subject: [PATCH v5 02/10] gna: add GNA DRM device
+Date: Thu, 20 Oct 2022 19:53:26 +0200
+Message-Id: <20221020175334.1820519-3-maciej.kwapulinski@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
 References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 21 Oct 2022 07:22:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,280 +66,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+Cc: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
  Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
- Jianxun Zhang <jianxun.zhang@linux.intel.com>
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new PCI driver for Intel(R) Gaussian & Neural Accelerator
-with basic support like module loading and unloading. The full
-function of the driver will be added by further changes.
-
 Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Tested-by: Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>
-Co-developed-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
-Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
-Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 ---
- Documentation/gpu/drivers.rst    |  1 +
- Documentation/gpu/gna.rst        | 64 ++++++++++++++++++++++++++++++++
- MAINTAINERS                      |  6 +++
- drivers/gpu/drm/Kconfig          |  2 +
- drivers/gpu/drm/Makefile         |  1 +
- drivers/gpu/drm/gna/Kbuild       |  5 +++
- drivers/gpu/drm/gna/Kconfig      | 12 ++++++
- drivers/gpu/drm/gna/gna_device.c |  8 ++++
- drivers/gpu/drm/gna/gna_device.h |  9 +++++
- drivers/gpu/drm/gna/gna_pci.c    | 32 ++++++++++++++++
- drivers/gpu/drm/gna/gna_pci.h    | 12 ++++++
- 11 files changed, 152 insertions(+)
- create mode 100644 Documentation/gpu/gna.rst
- create mode 100644 drivers/gpu/drm/gna/Kbuild
- create mode 100644 drivers/gpu/drm/gna/Kconfig
- create mode 100644 drivers/gpu/drm/gna/gna_device.c
- create mode 100644 drivers/gpu/drm/gna/gna_device.h
- create mode 100644 drivers/gpu/drm/gna/gna_pci.c
- create mode 100644 drivers/gpu/drm/gna/gna_pci.h
+ drivers/gpu/drm/gna/Kconfig      |  1 +
+ drivers/gpu/drm/gna/gna_device.c | 65 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/gna/gna_device.h | 21 +++++++++++
+ drivers/gpu/drm/gna/gna_hw.h     | 17 +++++++++
+ drivers/gpu/drm/gna/gna_pci.c    | 11 ++++++
+ 5 files changed, 115 insertions(+)
+ create mode 100644 drivers/gpu/drm/gna/gna_hw.h
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 3a52f48215a3..7238ddc576a2 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -5,6 +5,7 @@ GPU Driver Documentation
- .. toctree::
- 
-    amdgpu/index
-+   gna
-    i915
-    mcde
-    meson
-diff --git a/Documentation/gpu/gna.rst b/Documentation/gpu/gna.rst
-new file mode 100644
-index 000000000000..7f3b7ce7e8f7
---- /dev/null
-+++ b/Documentation/gpu/gna.rst
-@@ -0,0 +1,64 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=====================================================
-+Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)
-+=====================================================
-+
-+Acronyms
-+--------
-+GNA	- Gaussian & Neural Accelerator
-+GMM	- Gaussian Mixer Model
-+CNN	- Convolutional Neural Network
-+RNN	- Recurrent Neural Networks
-+DNN	- Deep Neural Networks
-+
-+Introduction
-+------------
-+The Intel(R) GNA is an internal PCI fixed device available on several Intel platforms/SoCs.
-+Feature set depends on the Intel chipset SKU.
-+
-+Intel(R) GNA provides hardware accelerated computation for GMMs and Neural Networks.
-+It supports several layer types: affine, recurrent, and convolutional among others.
-+Hardware also provides helper layer types for copying and transposing matrices.
-+
-+Linux Driver
-+------------
-+The driver also registers a DRM's render device to expose file operations via dev node.
-+
-+The driver probes/removes a PCI device, implements file operations, handles runtime
-+power management, and interacts with hardware through MMIO registers.
-+
-+Multiple processes can independently file many requests to the driver. These requests are
-+processed in a FIFO manner. The hardware can process one request at a time by using a FIFO
-+queue.
-+
-+IOCTL
-+-----
-+Intel(R) GNA driver controls the device through IOCTL interfaces.
-+Following IOCTL commands - handled by DRM framework - are supported:
-+
-+GNA_GET_PARAMETER gets driver and device capabilities.
-+
-+GNA_GEM_NEW acquires new 4KB page aligned memory region ready for DMA operations.
-+
-+GNA_GEM_FREE frees memory region back to system.
-+
-+GNA_COMPUTE submits a request to the device queue.
-+            Memory regions acquired by GNA_GEM_NEW are part of request.
-+
-+GNA_WAIT blocks and waits on the submitted request.
-+
-+GNA MMU
-+-------
-+GNA’s MMU is being configured based on specific request memory usage. As the MMU can
-+address up to 256MB a single scoring request is limited to this amount of memory being
-+used.
-+
-+GNA Library can allocate any number of memory regions for GNA usage. Its number and total
-+capacity are limited by the OSs’ resources. Due to GNA MMU restrictions, even when using
-+multiple memory regions, the sum of all the memory regions used within a single inference
-+request must be no larger than 256MB.
-+
-+At least a single GNA memory region is needed to be allocated (and can be shared by
-+multiple models). At the other extreme, each GNA tensor (e.g.,
-+weights/biases/inputs/outputs) could use its own, separate GNA memory region.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 72b9654f764c..d5b966c00155 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10174,6 +10174,12 @@ S:	Maintained
- F:	Documentation/fb/intelfb.rst
- F:	drivers/video/fbdev/intelfb/
- 
-+INTEL GNA PCI DRIVER
-+M:	Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-+S:	Maintained
-+F:	Documentation/gpu/gna.rst
-+F:	drivers/gpu/drm/gna/*
-+
- INTEL GPIO DRIVERS
- M:	Andy Shevchenko <andy@kernel.org>
- L:	linux-gpio@vger.kernel.org
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 6c2256e8474b..3f5720b9db1f 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -403,6 +403,8 @@ source "drivers/gpu/drm/solomon/Kconfig"
- 
- source "drivers/gpu/drm/sprd/Kconfig"
- 
-+source "drivers/gpu/drm/gna/Kconfig"
-+
- config DRM_HYPERV
- 	tristate "DRM Support for Hyper-V synthetic video device"
- 	depends on DRM && PCI && MMU && HYPERV
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index e7af358e6dda..e088267f349d 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -147,3 +147,4 @@ obj-y			+= gud/
- obj-$(CONFIG_DRM_HYPERV) += hyperv/
- obj-y			+= solomon/
- obj-$(CONFIG_DRM_SPRD) += sprd/
-+obj-$(CONFIG_DRM_GNA) += gna/
-diff --git a/drivers/gpu/drm/gna/Kbuild b/drivers/gpu/drm/gna/Kbuild
-new file mode 100644
-index 000000000000..00e8d6a2c49c
---- /dev/null
-+++ b/drivers/gpu/drm/gna/Kbuild
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+gna-y := gna_device.o gna_pci.o
-+
-+obj-$(CONFIG_DRM_GNA) += gna.o
 diff --git a/drivers/gpu/drm/gna/Kconfig b/drivers/gpu/drm/gna/Kconfig
-new file mode 100644
-index 000000000000..467f518db7fa
---- /dev/null
+index 467f518db7fa..820dc8424045 100644
+--- a/drivers/gpu/drm/gna/Kconfig
 +++ b/drivers/gpu/drm/gna/Kconfig
-@@ -0,0 +1,12 @@
-+#
-+# Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)
-+#
-+
-+config DRM_GNA
-+	tristate "Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)"
-+	depends on X86 && PCI
-+	help
-+	  This option enables the Intel(R) Gaussian & Neural Accelerator
-+	  (Intel(R) GNA) driver: gna
-+	  Information about functionality is in
-+	  Documentation/gpu/gna.rst
+@@ -5,6 +5,7 @@
+ config DRM_GNA
+ 	tristate "Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)"
+ 	depends on X86 && PCI
++	depends on DRM
+ 	help
+ 	  This option enables the Intel(R) Gaussian & Neural Accelerator
+ 	  (Intel(R) GNA) driver: gna
 diff --git a/drivers/gpu/drm/gna/gna_device.c b/drivers/gpu/drm/gna/gna_device.c
-new file mode 100644
-index 000000000000..960b4341c18e
---- /dev/null
+index 960b4341c18e..b8620b7da205 100644
+--- a/drivers/gpu/drm/gna/gna_device.c
 +++ b/drivers/gpu/drm/gna/gna_device.c
-@@ -0,0 +1,8 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright(c) 2017-2022 Intel Corporation
+@@ -1,8 +1,73 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ // Copyright(c) 2017-2022 Intel Corporation
+ 
++#include <drm/drm_drv.h>
++#include <drm/drm_file.h>
++#include <drm/drm_managed.h>
 +
-+#include <linux/module.h>
-+
-+MODULE_AUTHOR("Intel Corporation");
-+MODULE_DESCRIPTION("Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA) Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/gna/gna_device.h b/drivers/gpu/drm/gna/gna_device.h
-new file mode 100644
-index 000000000000..4cc92f27765a
---- /dev/null
-+++ b/drivers/gpu/drm/gna/gna_device.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright(c) 2017-2022 Intel Corporation */
-+
-+#ifndef __GNA_DEVICE_H__
-+#define __GNA_DEVICE_H__
-+
-+#define DRIVER_NAME		"gna"
-+
-+#endif /* __GNA_DEVICE_H__ */
-diff --git a/drivers/gpu/drm/gna/gna_pci.c b/drivers/gpu/drm/gna/gna_pci.c
-new file mode 100644
-index 000000000000..6bd00c66f3a7
---- /dev/null
-+++ b/drivers/gpu/drm/gna/gna_pci.c
-@@ -0,0 +1,32 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright(c) 2017-2022 Intel Corporation
-+
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+
++#include <linux/device.h>
++#include <linux/dma-mapping.h>
+ #include <linux/module.h>
+ 
 +#include "gna_device.h"
-+#include "gna_pci.h"
 +
-+int gna_pci_probe(struct pci_dev *pcidev, const struct pci_device_id *pci_id)
++static void gna_drm_dev_fini(struct drm_device *dev, void *ptr)
++{
++	drm_dev_unregister(dev);
++}
++
++static int gna_drm_dev_init(struct drm_device *dev)
 +{
 +	int err;
 +
-+	err = pcim_enable_device(pcidev);
++	err = drm_dev_register(dev, 0);
 +	if (err)
 +		return err;
 +
-+	err = pcim_iomap_regions(pcidev, BIT(0), pci_name(pcidev));
++	return drmm_add_action_or_reset(dev, gna_drm_dev_fini, NULL);
++}
++
++static const struct drm_driver gna_drm_driver = {
++	.driver_features = DRIVER_RENDER,
++
++	.name = DRIVER_NAME,
++	.desc = DRIVER_DESC,
++	.date = DRIVER_DATE,
++	.major = DRIVER_MAJOR,
++	.minor = DRIVER_MINOR,
++	.patchlevel = DRIVER_PATCHLEVEL,
++};
++
++int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem *iobase)
++{
++	struct gna_device *gna_priv;
++	struct drm_device *drm_dev;
++	int err;
++
++	gna_priv = devm_drm_dev_alloc(parent, &gna_drm_driver, struct gna_device, drm);
++	if (IS_ERR(gna_priv))
++		return PTR_ERR(gna_priv);
++
++	drm_dev = &gna_priv->drm;
++	gna_priv->iobase = iobase;
++	gna_priv->info = *dev_info;
++
++	if (!(sizeof(dma_addr_t) > 4) ||
++		dma_set_mask(parent, DMA_BIT_MASK(64))) {
++		err = dma_set_mask(parent, DMA_BIT_MASK(32));
++		if (err)
++			return err;
++	}
++
++	dev_set_drvdata(parent, drm_dev);
++
++	err = gna_drm_dev_init(drm_dev);
 +	if (err)
 +		return err;
-+
-+	pci_set_master(pcidev);
 +
 +	return 0;
 +}
 +
-+static struct pci_driver gna_pci_driver = {
-+	.name = DRIVER_NAME,
-+	.probe = gna_pci_probe,
-+};
+ MODULE_AUTHOR("Intel Corporation");
+ MODULE_DESCRIPTION("Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA) Driver");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/gna/gna_device.h b/drivers/gpu/drm/gna/gna_device.h
+index 4cc92f27765a..d269f7da5c5e 100644
+--- a/drivers/gpu/drm/gna/gna_device.h
++++ b/drivers/gpu/drm/gna/gna_device.h
+@@ -4,6 +4,27 @@
+ #ifndef __GNA_DEVICE_H__
+ #define __GNA_DEVICE_H__
+ 
++#include <drm/drm_device.h>
 +
-+module_pci_driver(gna_pci_driver);
-diff --git a/drivers/gpu/drm/gna/gna_pci.h b/drivers/gpu/drm/gna/gna_pci.h
++#include "gna_hw.h"
++
+ #define DRIVER_NAME		"gna"
++#define DRIVER_DESC		"Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)"
++#define DRIVER_DATE		"20211201"
++
++#define DRIVER_MAJOR		1
++#define DRIVER_MINOR		0
++#define DRIVER_PATCHLEVEL	0
++
++struct device;
++
++struct gna_device {
++	struct drm_device drm;
++
++	/* device related resources */
++	void __iomem *iobase;
++	struct gna_dev_info info;
++};
+ 
++int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem *iobase);
+ #endif /* __GNA_DEVICE_H__ */
+diff --git a/drivers/gpu/drm/gna/gna_hw.h b/drivers/gpu/drm/gna/gna_hw.h
 new file mode 100644
-index 000000000000..b651fa2e6ea1
+index 000000000000..3ca801096fd1
 --- /dev/null
-+++ b/drivers/gpu/drm/gna/gna_pci.h
-@@ -0,0 +1,12 @@
++++ b/drivers/gpu/drm/gna/gna_hw.h
+@@ -0,0 +1,17 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/* Copyright(c) 2017-2022 Intel Corporation */
 +
-+#ifndef __GNA_PCI_H__
-+#define __GNA_PCI_H__
++#ifndef __GNA_HW_H__
++#define __GNA_HW_H__
 +
-+struct pci_device_id;
-+struct pci_dev;
++#include <linux/mm_types.h>
 +
-+int gna_pci_probe(struct pci_dev *dev, const struct pci_device_id *id);
++struct gna_dev_info {
++	u32 hwid;
++	u32 num_pagetables;
++	u32 num_page_entries;
++	u32 max_layer_count;
++	u64 max_hw_mem;
++};
 +
-+#endif /* __GNA_PCI_H__ */
++#endif // __GNA_HW_H__
+diff --git a/drivers/gpu/drm/gna/gna_pci.c b/drivers/gpu/drm/gna/gna_pci.c
+index 6bd00c66f3a7..14f8b34e5f5c 100644
+--- a/drivers/gpu/drm/gna/gna_pci.c
++++ b/drivers/gpu/drm/gna/gna_pci.c
+@@ -5,10 +5,13 @@
+ #include <linux/pci.h>
+ 
+ #include "gna_device.h"
++#include "gna_hw.h"
+ #include "gna_pci.h"
+ 
+ int gna_pci_probe(struct pci_dev *pcidev, const struct pci_device_id *pci_id)
+ {
++	struct gna_dev_info *dev_info;
++	void __iomem *iobase;
+ 	int err;
+ 
+ 	err = pcim_enable_device(pcidev);
+@@ -19,8 +22,16 @@ int gna_pci_probe(struct pci_dev *pcidev, const struct pci_device_id *pci_id)
+ 	if (err)
+ 		return err;
+ 
++	iobase = pcim_iomap_table(pcidev)[0];
++
+ 	pci_set_master(pcidev);
+ 
++	dev_info = (struct gna_dev_info *)pci_id->driver_data;
++
++	err = gna_probe(&pcidev->dev, dev_info, iobase);
++	if (err)
++		return err;
++
+ 	return 0;
+ }
+ 
 -- 
 2.25.1
 
