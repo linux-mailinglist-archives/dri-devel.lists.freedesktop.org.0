@@ -1,79 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9813C605942
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 10:03:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5928260596C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 10:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D564410E3D3;
-	Thu, 20 Oct 2022 08:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B9810E133;
+	Thu, 20 Oct 2022 08:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD6A10E3D3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 08:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666252997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=waCjQCfwppA2aPm9Bjke6nadkkOrugb8P9JFyMBn6xs=;
- b=eslB2WOn1EelPP1QkN4npZWD869lEatMAVNmL1xok31t7G5BjwSHyWoPavIE55sp1xyYu7
- MN0U/B7gYnjseOHm1t+8EcyKcJvqKy+gGfLblBccmoeO2wIFsqQuMjJOT3wLfd4BvyfaWK
- Zeo+RkdtLy5xDFj6K/yShMHqC8PtYLY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-299-O1pOZ16BM6yJuRPBSg-1ZA-1; Thu, 20 Oct 2022 04:03:16 -0400
-X-MC-Unique: O1pOZ16BM6yJuRPBSg-1ZA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v4-20020adfa1c4000000b002345526fbc6so1028834wrv.8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 01:03:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=waCjQCfwppA2aPm9Bjke6nadkkOrugb8P9JFyMBn6xs=;
- b=xPNa0Pp9Cw9FpCqgawz9AMzF5ik9e3nxD2oj0AfeDy3yxJdhw0Ho4Dmw6FnF5ACcyc
- yuJLS4AswXOwqTsoEqLh2BaUGp1h5Js3aw35IQtO5sjr8o70VVjcES5YVQv/3R8sDGMa
- D8XQXH6sjWKzFWoTD9u0KHCXCcarBpxnW+Nm1xLtXPmPTqRrITVt7uEsjbkb8yJlPylS
- V+SkEYtBGxHKClBxaZNAWquMfFQ3b7XGNqW/1vuiYFvRXhEfqHrnZeyITv+mNIVAR8b9
- mVJHh9kb0MLkPC/lYUesA468Y4T+JJGioRumy1hx2M5FvbJ57UVkSrW2JiN+jFeJrNXr
- VvLg==
-X-Gm-Message-State: ACrzQf1JOhh4npFKJwOVElcswd11UCzU/0T0AiPBFnPftFEM3QaaJzq3
- ZSR858YBzzIgO2yOwpKlfg7BmE+/RmFiFKYyy9FwoEw3aVto1qj9qNgazgGqqjt7LQk+NrHvjlg
- 9I6b1XIgPo4TZWGNhD5bYvU3ZGbvN
-X-Received: by 2002:a05:6000:381:b0:232:2e1:48e9 with SMTP id
- u1-20020a056000038100b0023202e148e9mr7312415wrf.166.1666252995608; 
- Thu, 20 Oct 2022 01:03:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7ulwDJYH7rDLTb3QU26mPIMsuJ5xkAL8KfoFx5HmES2IzbZ5noKDyuYPrthkmLGZhy0jL98A==
-X-Received: by 2002:a05:6000:381:b0:232:2e1:48e9 with SMTP id
- u1-20020a056000038100b0023202e148e9mr7312386wrf.166.1666252995383; 
- Thu, 20 Oct 2022 01:03:15 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k2-20020a5d6e82000000b0022ccae2fa62sm15714340wrz.22.2022.10.20.01.03.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 01:03:15 -0700 (PDT)
-Message-ID: <5639218e-bcc8-55b0-ea30-7bf2b26c92b9@redhat.com>
-Date: Thu, 20 Oct 2022 10:03:13 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F28510E133;
+ Thu, 20 Oct 2022 08:14:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666253654; x=1697789654;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=Ix58jGT2vYUfZafbCP6HbWf23IGlxsmWU9msKHvx8wo=;
+ b=eRGnzL6xF0V/jlh4uB4dSTEZTU0b1ljWwf5WXhxI0+MBSizz2DLugPZM
+ BV0ti5O6wlEmWQxZ23BK/X+nFXjxqxmwj/r+abOs/XdaHCHRzACupPbxz
+ twoVSYqny89RjpBua8aifkfkVdBieSJFreKNqNJt7TAAe8llzPlyVQEg6
+ x0yrs+CCGbRoOrOF2ml2FoZWstfi3+Mx36jjEcc3ZsKKTKoIH+AR8jmcn
+ oO6Sc9fzyWXI0Q/Ak8fz91PMVQ/Nenq6tUZOENNwIyJcBkqEoXhs6Cffy
+ wPZbTU23DIdgOikmH//xbcmGq42tHXifZfWan4wDcICFEd9TpRVvGn7yR w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="333211474"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="333211474"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 01:14:13 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="734683084"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="734683084"
+Received: from aasthash-mobl.ger.corp.intel.com (HELO [10.213.232.117])
+ ([10.213.232.117])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2022 01:14:12 -0700
+Message-ID: <08b6fab7-7479-65bd-a0be-16be16fa250f@linux.intel.com>
+Date: Thu, 20 Oct 2022 09:14:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] drm: tests: Fix a buffer overflow in format_helper_test
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- David Gow <davidgow@google.com>
-References: <20221019073239.3779180-1-davidgow@google.com>
- <20221019172919.GA5336@elementary>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221019172919.GA5336@elementary>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/102.3.2
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/slpc: Optmize waitboost for SLPC
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20221018221546.17852-1-vinay.belgaumkar@intel.com>
+ <c46f4714-7c12-c331-ec4f-ab52a7c499cf@linux.intel.com>
+ <4fa5bd14-f891-3909-68c5-3b6b43ca27d1@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <4fa5bd14-f891-3909-68c5-3b6b43ca27d1@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,50 +64,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Linux Kernel Functional Testing <lkft@linaro.org>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/19/22 19:29, José Expósito wrote:
 
-[...]
-
->>  drivers/gpu/drm/tests/drm_format_helper_test.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
->> index 8d86c250c2ec..2191e57f2297 100644
->> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
->> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
->> @@ -438,7 +438,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
->>  	iosys_map_set_vaddr(&src, xrgb8888);
->>  
->>  	drm_fb_xrgb8888_to_xrgb2101010(&dst, &result->dst_pitch, &src, &fb, &params->clip);
->> -	buf = le32buf_to_cpu(test, buf, TEST_BUF_SIZE);
->> +	buf = le32buf_to_cpu(test, buf, dst_size / sizeof(u32));
->>  	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
->>  }
+On 19/10/2022 22:12, Belgaumkar, Vinay wrote:
 > 
-> Thanks a lot for fixing this bug David, I just tested it and
-> worked as expected.
->
+> On 10/19/2022 12:40 AM, Tvrtko Ursulin wrote:
+>>
+>> On 18/10/2022 23:15, Vinay Belgaumkar wrote:
+>>> Waitboost (when SLPC is enabled) results in a H2G message. This can 
+>>> result
+>>> in thousands of messages during a stress test and fill up an already 
+>>> full
+>>> CTB. There is no need to request for RP0 if GuC is already requesting 
+>>> the
+>>> same.
+>>>
+>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/intel_rps.c | 9 ++++++++-
+>>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_rps.c
+>>> index fc23c562d9b2..a20ae4fceac8 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+>>> @@ -1005,13 +1005,20 @@ void intel_rps_dec_waiters(struct intel_rps 
+>>> *rps)
+>>>   void intel_rps_boost(struct i915_request *rq)
+>>>   {
+>>>       struct intel_guc_slpc *slpc;
+>>> +    struct intel_rps *rps = &READ_ONCE(rq->engine)->gt->rps;
+>>>         if (i915_request_signaled(rq) || i915_request_has_waitboost(rq))
+>>>           return;
+>>>   +    /* If GuC is already requesting RP0, skip */
+>>> +    if (rps_uses_slpc(rps)) {
+>>> +        slpc = rps_to_slpc(rps);
+>>> +        if (intel_rps_get_requested_frequency(rps) == slpc->rp0_freq)
+> One correction here is this should be slpc->boost_freq.
+>>> +            return;
+>>> +    }
+>>> +
+>>
+>> Feels a little bit like a layering violation. Wait boost reference 
+>> counts and request markings will changed based on asynchronous state - 
+>> a mmio read.
+>>
+>> Also, a little below we have this:
+>>
+>> """
+>>     /* Serializes with i915_request_retire() */
+>>     if (!test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags)) {
+>>         struct intel_rps *rps = &READ_ONCE(rq->engine)->gt->rps;
+>>
+>>         if (rps_uses_slpc(rps)) {
+>>             slpc = rps_to_slpc(rps);
+>>
+>>             /* Return if old value is non zero */
+>>             if (!atomic_fetch_inc(&slpc->num_waiters))
+>>
+>> ***>>>> Wouldn't it skip doing anything here already? <<<<***
+> It will skip only if boost is already happening. This patch is trying to 
+> prevent even that first one if possible.
 
-I've pushed this to drm-misc (drm-misc-fixes) now. Thanks!
- 
-> Do you think that we should update the other calls to
-> le32buf_to_cpu() to follow a similar approach?
->
+Do you mean that the first boost request comes outside the driver control?
 
-Feel free to post follow-up patches if you think that other changes are needed.
+>>
+>>                 schedule_work(&slpc->boost_work);
+>>
+>>             return;
+>>         }
+>>
+>>         if (atomic_fetch_inc(&rps->num_waiters))
+>>             return;
+>> """
+>>
+>> But I wonder if this is not a layering violation already. Looks like 
+>> one for me at the moment. And as it happens there is an ongoing debug 
+>> of clvk slowness where I was a bit puzzled by the lack of "boost 
+>> fence" in trace_printk logs - but now I see how that happens. Does not 
+>> feel right to me that we lose that tracing with SLPC.
+> Agreed. Will add the trace to the SLPC case as well.  However, the 
+> question is what does that trace indicate? Even in the host case, we log 
+> the trace, but may skip the actual boost as the req is already matching 
+> boost freq. IMO, we should log the trace only when we actually decide to 
+> boost.
 
--- 
-Best regards,
+Good question - let me come back to this later when the current 
+emergencies subside. Feel free to remind me if I forget.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+>> So in general - why the correct approach wouldn't be to solve this in 
+>> the worker - which perhaps should fork to slpc specific branch and do 
+>> the consolidations/skips based on mmio reads in there?
+> 
+> sure, I can move the mmio read to the SLPC worker thread.
 
+Thanks, yes I think that will even be better since mmio read will only 
+happen if the higher level thinks that it should boost. So the hierarchy 
+of "duties" would be slightly improved. Driver tracking -> SLPC tracking 
+-> HW status.
+
+I'll come back to the latest version of the patch later today or tomorrow.
+
+Regards,
+
+Tvrtko
+> Thanks,
+> 
+> Vinay.
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>       /* Serializes with i915_request_retire() */
+>>>       if (!test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags)) {
+>>> -        struct intel_rps *rps = &READ_ONCE(rq->engine)->gt->rps;
+>>>             if (rps_uses_slpc(rps)) {
+>>>               slpc = rps_to_slpc(rps);
