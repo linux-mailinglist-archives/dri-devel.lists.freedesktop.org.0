@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCCD6065CD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 18:30:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E2C6065DF
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 18:33:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA7010E23C;
-	Thu, 20 Oct 2022 16:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D153010E52D;
+	Thu, 20 Oct 2022 16:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85DD610E23C;
- Thu, 20 Oct 2022 16:30:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666283403; x=1697819403;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=FD31vWHBiaYmAKg1AGgIvj8lx8FNa/gdNajWLxCav18=;
- b=EC1XyRMOUroFWG0t/PnVIxEovFIkGYC42HqiU0/hgud+qGvKNho+A6mD
- OBvqJjoNaf73GovXU7Rfb2SI0bMOdSMnMBOk1G3ohAO+un9FPJPnftjmH
- W2I04pcNn/WLV2pOcLjj3SC68Ae+/JEnIM9iBhzx1wnyx1RUwLla/hlUv
- VgUaX14GiRIQ6xGQbaIUjfqS4iG7i9CQ4kcgMfhLFXlem6VdoI1ron7QX
- m6wPwCKVG6bxc0mMT+PEpe+mpgUO6xIdvxRkXzKzaxD80bh7Wtm2foXDE
- UghNq3Wa+Sow6WxIgWyhEcQD8IYTgf0J8BGzXK0yvFPXg42LulPT1IqF+ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="287165937"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="287165937"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 09:29:50 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="581006383"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; d="scan'208";a="581006383"
-Received: from tcarvalx-mobl.ger.corp.intel.com (HELO [10.252.12.144])
- ([10.252.12.144])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 09:29:47 -0700
-Message-ID: <d43ebcd0-724e-af24-1e4f-199b82414f38@intel.com>
-Date: Thu, 20 Oct 2022 17:29:45 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC4E10E5A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 16:33:17 +0000 (UTC)
+Received: from notapiano (unknown
+ [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: nfraprado)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 5C056660252A;
+ Thu, 20 Oct 2022 17:33:14 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1666283595;
+ bh=Q6u2GbH3PGV2qnNkRIJ/Fn4pm+KSrq6IxNUNSYEyuFY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HrvyrFKm+YQPD31b/I/zrMo5s4g3vbGwhHZXD9Ufc/Pg/y7i650rPbKDnJIG1VUp8
+ M2Tyxtgn+uKnhvC0Mu+s5VmAoBE27ikd2mXu3diJWF0yTaaAbSdlwZZ1qRdrZ197tR
+ NA7dlUGIyrWt9IWpPHc1F4nLKZ1WXBzFlC3jdJBoNPlg8ba7auPTaHQoWejaI2X0N1
+ UiHUX1QcJgYwceHrOw8ORtuKug1p/T92+mF0AlvbzQ8kP6RLAVT47bEeer5nqQeBfY
+ FSmlosRyu4VUA8L52cHjyMdpGk0PYNjHZ3fMSuaAPGTP0bND2dOA3OyRa0Z9aS3omy
+ 0lWp6oiNXPRqg==
+Date: Thu, 20 Oct 2022 12:33:10 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: xinlei.lee@mediatek.com
+Subject: Re: [PATCH v12,1/3] soc: mediatek: Add all settings to
+ mtk_mmsys_ddp_dpi_fmt_config func
+Message-ID: <20221020163310.tpkjvr7pe5vhwylh@notapiano>
+References: <1666147936-27368-1-git-send-email-xinlei.lee@mediatek.com>
+ <1666147936-27368-2-git-send-email-xinlei.lee@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.1
-Subject: Re: [PATCH v4 16/17] drm/i915/vm_bind: userptr dma-resv changes
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
- <20221018071630.3831-17-niranjana.vishwanathapura@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20221018071630.3831-17-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1666147936-27368-2-git-send-email-xinlei.lee@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,275 +56,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
- daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, rex-bc.chen@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/10/2022 08:16, Niranjana Vishwanathapura wrote:
-> For persistent (vm_bind) vmas of userptr BOs, handle the user
-> page pinning by using the i915_gem_object_userptr_submit_init()
-> /done() functions
+Hi,
+
+On Wed, Oct 19, 2022 at 10:52:14AM +0800, xinlei.lee@mediatek.com wrote:
+> From: Xinlei Lee <xinlei.lee@mediatek.com>
 > 
-> v2: Do not double add vma to vm->userptr_invalidated_list
+> The difference between MT8186 and other ICs is that when modifying the
+> output format, we need to modify the mmsys_base+0x400 register to take
+> effect.
+> So when setting the dpi output format, we need to call mmsys_func to set
+
+mmsys_func isn't something that exists in the code. Instead mention the actual
+function name: mtk_mmsys_ddp_dpi_fmt_config.
+
+> it to MT8186 synchronously.
+
+
+Here, before saying that the commit adds all the settings for dpi, you could
+have mentioned that the previous commit lacked those, to make it clearer:
+
+Commit a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi output for MT8186")
+lacked some of the possible output formats and also had a wrong bitmask.
+
+
+> Adding mmsys all the settings that need to be modified with dpi are for
+> mt8186.
+
+This sentence I would change to the following one:
+
+Add the missing output formats and fix the bitmask.
+
+
+Finally, you're also making the function more HW-agnostic (although in my
+opinion this could've been a future separate commit), so it's worth mentioning
+it here:
+
+While at it, also update mtk_mmsys_ddp_dpi_fmt_config() to use generic formats,
+so that it is slightly easier to extend for other platforms.
+
 > 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Fixes: a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi
+> output for MT8186")
+
+The fixes tag should be kept in a single line, without wrapping.
+
+> 
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > ---
->   .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 80 +++++++++++++++++++
->   drivers/gpu/drm/i915/gem/i915_gem_userptr.c   | 19 +++++
->   .../drm/i915/gem/i915_gem_vm_bind_object.c    | 15 ++++
->   drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 +
->   drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +
->   drivers/gpu/drm/i915/i915_vma_types.h         |  2 +
->   6 files changed, 122 insertions(+)
+>  drivers/soc/mediatek/mt8186-mmsys.h    |  8 +++++---
+>  drivers/soc/mediatek/mtk-mmsys.c       | 27 ++++++++++++++++++++------
+>  include/linux/soc/mediatek/mtk-mmsys.h |  7 +++++++
+>  3 files changed, 33 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-> index 8120e4c6b7da..3f1157dd7fc2 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-> @@ -20,6 +20,7 @@
->   #include "i915_gem_vm_bind.h"
->   #include "i915_trace.h"
->   
-> +#define __EXEC3_USERPTR_USED		BIT_ULL(34)
->   #define __EXEC3_HAS_PIN			BIT_ULL(33)
->   #define __EXEC3_ENGINE_PINNED		BIT_ULL(32)
->   #define __EXEC3_INTERNAL_FLAGS		(~0ull << 32)
-> @@ -142,6 +143,21 @@ static void eb_scoop_unbound_vma_all(struct i915_address_space *vm)
->   {
->   	struct i915_vma *vma, *vn;
->   
-> +#ifdef CONFIG_MMU_NOTIFIER
-> +	/**
+> diff --git a/drivers/soc/mediatek/mt8186-mmsys.h b/drivers/soc/mediatek/mt8186-mmsys.h
+> index 09b1ccbc0093..035aec1eb616 100644
+> --- a/drivers/soc/mediatek/mt8186-mmsys.h
+> +++ b/drivers/soc/mediatek/mt8186-mmsys.h
+> @@ -5,9 +5,11 @@
+>  
+>  /* Values for DPI configuration in MMSYS address space */
+>  #define MT8186_MMSYS_DPI_OUTPUT_FORMAT		0x400
+> -#define DPI_FORMAT_MASK					0x1
+> -#define DPI_RGB888_DDR_CON				BIT(0)
+> -#define DPI_RGB565_SDR_CON				BIT(1)
+> +#define DPI_FORMAT_MASK					GENMASK(1, 0)
+> +#define DPI_RGB888_SDR_CON				0
+> +#define DPI_RGB888_DDR_CON				1
+> +#define DPI_RGB565_SDR_CON				2
+> +#define DPI_RGB565_DDR_CON				3
 
-Not proper kernel-doc AFAIK.
+These defines should all have a MT8186_ prefix. This will avoid confusions now
+that mtk_mmsys_ddp_dpi_fmt_config() is being made more platform-agnostic.
 
-> +	 * Move all invalidated userptr vmas back into vm_bind_list so that
-> +	 * they are looked up and revalidated.
-> +	 */
-> +	spin_lock(&vm->userptr_invalidated_lock);
-> +	list_for_each_entry_safe(vma, vn, &vm->userptr_invalidated_list,
-> +				 userptr_invalidated_link) {
-> +		list_del_init(&vma->userptr_invalidated_link);
-> +		if (!list_empty(&vma->vm_bind_link))
-> +			list_move_tail(&vma->vm_bind_link, &vm->vm_bind_list);
+>  
+>  #define MT8186_MMSYS_OVL_CON			0xF04
+>  #define MT8186_MMSYS_OVL0_CON_MASK			0x3
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+> index d2c7a87aab87..205f6de45851 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -238,12 +238,27 @@ static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask,
+>  
+>  void mtk_mmsys_ddp_dpi_fmt_config(struct device *dev, u32 val)
+>  {
+> -	if (val)
+> -		mtk_mmsys_update_bits(dev_get_drvdata(dev), MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> -				      DPI_RGB888_DDR_CON, DPI_FORMAT_MASK);
+> -	else
+> -		mtk_mmsys_update_bits(dev_get_drvdata(dev), MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> -				      DPI_RGB565_SDR_CON, DPI_FORMAT_MASK);
+> +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> +
+> +	switch (val) {
+> +	case MTK_DPI_RGB888_SDR_CON:
+> +		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> +				      DPI_FORMAT_MASK, DPI_RGB888_SDR_CON);
+> +		break;
+> +	case MTK_DPI_RGB565_SDR_CON:
+> +		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> +				      DPI_FORMAT_MASK, DPI_RGB565_SDR_CON);
+> +		break;
+> +	case MTK_DPI_RGB565_DDR_CON:
+> +		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> +				      DPI_FORMAT_MASK, DPI_RGB565_DDR_CON);
+> +		break;
+> +	case MTK_DPI_RGB888_DDR_CON:
+> +	default:
+> +		mtk_mmsys_update_bits(mmsys, MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> +				      DPI_FORMAT_MASK, DPI_RGB888_DDR_CON);
+> +		break;
 > +	}
-> +	spin_unlock(&vm->userptr_invalidated_lock);
-> +#endif
-> +
->   	/**
->   	 * Move all unbound vmas back into vm_bind_list so that they are
->   	 * revalidated.
-> @@ -155,10 +171,47 @@ static void eb_scoop_unbound_vma_all(struct i915_address_space *vm)
->   	spin_unlock(&vm->vm_rebind_lock);
->   }
->   
-> +static int eb_lookup_persistent_userptr_vmas(struct i915_execbuffer *eb)
-> +{
-> +	struct i915_address_space *vm = eb->context->vm;
-> +	struct i915_vma *last_vma = NULL;
-> +	struct i915_vma *vma;
-> +	int err;
-> +
-> +	lockdep_assert_held(&vm->vm_bind_lock);
-> +
-> +	list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link) {
-> +		if (!i915_gem_object_is_userptr(vma->obj))
-> +			continue;
-> +
-> +		err = i915_gem_object_userptr_submit_init(vma->obj);
-> +		if (err)
-> +			return err;
-> +
-> +		/**
-> +		 * The above submit_init() call does the object unbind and
-> +		 * hence adds vma into vm_rebind_list. Remove it from that
-> +		 * list as it is already scooped for revalidation.
-> +		 */
 
-Ditto.
+To be honest I don't really see the point of making the function slightly more
+platform-agnostic like this. With a single platform making use of it it's just
+an unneeded extra abstraction, and it could easily be done when a second
+platform starts requiring this as well...
 
-> +		spin_lock(&vm->vm_rebind_lock);
-> +		if (!list_empty(&vma->vm_rebind_link))
-> +			list_del_init(&vma->vm_rebind_link);
-> +		spin_unlock(&vm->vm_rebind_lock);
-> +
-> +		last_vma = vma;
-> +	}
-> +
-> +	if (last_vma)
-> +		eb->args->flags |= __EXEC3_USERPTR_USED;
-> +
-> +	return 0;
-> +}
-> +
->   static int eb_lookup_vma_all(struct i915_execbuffer *eb)
->   {
->   	unsigned int i, current_batch = 0;
->   	struct i915_vma *vma;
-> +	int err = 0;
->   
->   	for (i = 0; i < eb->num_batches; i++) {
->   		vma = eb_find_vma(eb->context->vm, eb->batch_addresses[i]);
-> @@ -171,6 +224,10 @@ static int eb_lookup_vma_all(struct i915_execbuffer *eb)
->   
->   	eb_scoop_unbound_vma_all(eb->context->vm);
->   
-> +	err = eb_lookup_persistent_userptr_vmas(eb);
-> +	if (err)
-> +		return err;
-> +
->   	return 0;
->   }
->   
-> @@ -343,6 +400,29 @@ static int eb_move_to_gpu(struct i915_execbuffer *eb)
->   		}
->   	}
->   
-> +#ifdef CONFIG_MMU_NOTIFIER
-> +	/* Check for further userptr invalidations */
-> +	spin_lock(&vm->userptr_invalidated_lock);
-> +	if (!list_empty(&vm->userptr_invalidated_list))
-> +		err = -EAGAIN;
-> +	spin_unlock(&vm->userptr_invalidated_lock);
+In any case,
 
-After dropping the lock here, the invalidated_list might no longer be 
-empty? Is that not possible, or somehow not a concern?
+Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-> +
-> +	if (!err && (eb->args->flags & __EXEC3_USERPTR_USED)) {
-> +		read_lock(&eb->i915->mm.notifier_lock);
-> +		list_for_each_entry(vma, &vm->vm_bind_list, vm_bind_link) {
-> +			if (!i915_gem_object_is_userptr(vma->obj))
-> +				continue;
-> +
-> +			err = i915_gem_object_userptr_submit_done(vma->obj);
-> +			if (err)
-> +				break;
-> +		}
-> +		read_unlock(&eb->i915->mm.notifier_lock);
-> +	}
-> +#endif
-> +	if (unlikely(err))
-> +		goto err_skip;
-> +
->   	/* Unconditionally flush any chipset caches (for streaming writes). */
->   	intel_gt_chipset_flush(eb->gt);
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> index b7e24476a0fd..3e88fd4d46b6 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> @@ -63,6 +63,7 @@ static bool i915_gem_userptr_invalidate(struct mmu_interval_notifier *mni,
->   {
->   	struct drm_i915_gem_object *obj = container_of(mni, struct drm_i915_gem_object, userptr.notifier);
->   	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> +	struct i915_vma *vma;
->   	long r;
->   
->   	if (!mmu_notifier_range_blockable(range))
-> @@ -85,6 +86,24 @@ static bool i915_gem_userptr_invalidate(struct mmu_interval_notifier *mni,
->   	if (current->flags & PF_EXITING)
->   		return true;
->   
-> +	/**
-> +	 * Add persistent vmas into userptr_invalidated list for relookup
-> +	 * and revalidation.
-> +	 */
+Thanks,
+Nícolas
 
-Ditto.
-
-> +	spin_lock(&obj->vma.lock);
-> +	list_for_each_entry(vma, &obj->vma.list, obj_link) {
-> +		if (!i915_vma_is_persistent(vma))
-> +			continue;
-> +
-> +		spin_lock(&vma->vm->userptr_invalidated_lock);
-> +		if (list_empty(&vma->userptr_invalidated_link) &&
-> +		    !i915_vma_is_purged(vma))
-> +			list_add_tail(&vma->userptr_invalidated_link,
-> +				      &vma->vm->userptr_invalidated_list);
-> +		spin_unlock(&vma->vm->userptr_invalidated_lock);
-> +	}
-> +	spin_unlock(&obj->vma.lock);
-> +
->   	/* we will unbind on next submission, still have userptr pins */
->   	r = dma_resv_wait_timeout(obj->base.resv, DMA_RESV_USAGE_BOOKKEEP, false,
->   				  MAX_SCHEDULE_TIMEOUT);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> index 63889ba00183..19071493355c 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> @@ -299,6 +299,12 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
->   		goto put_obj;
->   	}
->   
-> +	if (i915_gem_object_is_userptr(obj)) {
-> +		ret = i915_gem_object_userptr_submit_init(obj);
-> +		if (ret)
-> +			goto put_obj;
-> +	}
-> +
->   	ret = mutex_lock_interruptible(&vm->vm_bind_lock);
->   	if (ret)
->   		goto put_obj;
-> @@ -327,6 +333,15 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
->   		if (ret)
->   			continue;
->   
-> +#ifdef CONFIG_MMU_NOTIFIER
-> +		if (i915_gem_object_is_userptr(obj)) {
-> +			read_lock(&vm->i915->mm.notifier_lock);
-> +			ret = i915_gem_object_userptr_submit_done(obj);
-> +			read_unlock(&vm->i915->mm.notifier_lock);
-> +			if (ret)
-> +				continue;
-> +		}
-> +#endif
->   		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
->   		i915_vm_bind_it_insert(vma, &vm->va);
->   		if (!obj->priv_root)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index ebf8fc3a4603..50648ab9214a 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -292,6 +292,8 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
->   	INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
->   	INIT_LIST_HEAD(&vm->vm_rebind_list);
->   	spin_lock_init(&vm->vm_rebind_lock);
-> +	spin_lock_init(&vm->userptr_invalidated_lock);
-> +	INIT_LIST_HEAD(&vm->userptr_invalidated_list);
->   }
->   
->   void *__px_vaddr(struct drm_i915_gem_object *p)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index 384d1ee7c68d..1ade95b2a0fa 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -270,6 +270,10 @@ struct i915_address_space {
->   	struct list_head vm_rebind_list;
->   	/* @vm_rebind_lock: protects vm_rebound_list */
->   	spinlock_t vm_rebind_lock;
-> +	/* @userptr_invalidated_list: list of invalidated userptr vmas */
-> +	struct list_head userptr_invalidated_list;
-> +	/* @userptr_invalidated_lock: protects userptr_invalidated_list */
-> +	spinlock_t userptr_invalidated_lock;
->   	/* @va: tree of persistent vmas */
->   	struct rb_root_cached va;
->   	struct list_head non_priv_vm_bind_list;
-> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-> index 2c740500ac1b..8e562e07d4a7 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_types.h
-> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
-> @@ -307,6 +307,8 @@ struct i915_vma {
->   	struct list_head non_priv_vm_bind_link;
->   	/* @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
->   	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
-> +	/*@userptr_invalidated_link: link to the vm->userptr_invalidated_list */
-> +	struct list_head userptr_invalidated_link;
->   
->   	/** Timeline fence for vm_bind completion notification */
->   	struct {
+>  }
+[..]
