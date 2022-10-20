@@ -2,38 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8818F605A89
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B48605B3B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:32:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A44610E48C;
-	Thu, 20 Oct 2022 09:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA29810E628;
+	Thu, 20 Oct 2022 09:32:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECE3910E48C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 09:04:07 +0000 (UTC)
-X-UUID: 7ec869b72c9a4f4c91bae298cf58fc3d-20221020
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9F610E628
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 09:32:01 +0000 (UTC)
+X-UUID: e31d31f0b2414fdeb3a83931cf99b708-20221020
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
  bh=42X3hRvH7Qpi+JuM2QnO/7VSSVmzJ58+7zknq3PnIAA=; 
  b=EsBiBsw/4hjaPbIC5k9kKB4DXE7eJt3ERc7psHMoXIkz7QbSAqheUBon/Sn/v9rrdRiEz1iFkro9rSDG+1cdPZcm0cQCvIcMxZ3awEON7kQtYuBBS6zE0TpNjjoPczbF6xW7+MbYtNewpp6w8xrOTDwhjSS7HBmE17nurAPk06c=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12, REQID:428ebd14-dd02-499c-8df1-4e012df0952b, IP:0,
+X-CID-O-INFO: VERSION:1.1.12, REQID:8b1c0fc4-932a-4e60-9412-ea87d2d44108, IP:0,
  U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:62cd327, CLOUDID:dc5e68a3-73e4-48dd-a911-57b5d5484f14,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Release_Ham,ACTIO
+ N:release,TS:73
+X-CID-INFO: VERSION:1.1.12, REQID:8b1c0fc4-932a-4e60-9412-ea87d2d44108, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_GS981B3D,ACTIO
+ N:quarantine,TS:73
+X-CID-META: VersionHash:62cd327, CLOUDID:97c8e4ee-314c-4293-acb8-ca4299dd021f,
  B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 7ec869b72c9a4f4c91bae298cf58fc3d-20221020
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2059003117; Thu, 20 Oct 2022 17:03:58 +0800
+ ulkID:2210201633588XNG999P,BulkQuantity:27,Recheck:0,SF:38|28|17|19|48|102
+ ,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:40|20,QS:nil,BEC:nil,C
+ OL:0
+X-UUID: e31d31f0b2414fdeb3a83931cf99b708-20221020
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 276370861; Thu, 20 Oct 2022 17:31:56 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3; 
+ Thu, 20 Oct 2022 09:31:45 +0000
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.792.15; Thu, 20 Oct 2022 17:03:57 +0800
 Received: from mszsdhlt06 (10.16.6.206) by mtkmbs11n2.mediatek.inc
