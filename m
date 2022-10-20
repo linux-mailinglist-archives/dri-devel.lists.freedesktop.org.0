@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE8F6068ED
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 21:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5483060694A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 22:01:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52D6110F166;
-	Thu, 20 Oct 2022 19:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5823C10E307;
+	Thu, 20 Oct 2022 20:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCA710E678
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 19:32:03 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id x18so817075ljm.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 12:32:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uJv+X0S/6N6bxxwUtuujGHYZyU4A0wJ/cgiADbsHpFI=;
- b=J303MmB7/8NQZpQeNvTeTEPm98HoP+rzcZMM36tZb2tlV/8IBo87DU6KZ5Ox5XABGx
- +vbK1AQFdaCH/dh0KQ5mfYLuAe8IeH5RP740jwMRwxugCcOKrfV77cgbHMBmxNqeinfZ
- cgUZvGOmwQY0RLGv5c/Frq1sZmSOmRo33oRIvyvmVR5c5Y5aiD4R1GVMo1tE5eJH1xJC
- 4e2LpVx6f1CPLkbRwf43gocQeNTUuJok4FPaElnTYZG2SXlNse9ySTubiEv4z5tlrKyz
- ADiZ65/cChBV1woDoAVNCG+EzpufN9jkUzDOk0+90QW9JR/vut/yVQtx6fpfsZb0n5Xo
- asmw==
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1202E10E307
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 20:01:28 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id d10so548883pfh.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 13:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8QFkj9eVIkbxCy5NQnLk1d8ujRFVsl1WFy880Uu5V7E=;
+ b=WZUDgTN58FA+GtBOYb6eRU53jCH7UOyrFhWuxtC6Tp3ugyacaOvTN9QxqtqonzBcoO
+ YLZewmFcQVINhpOWQfg43DproYrPvKdm+0FwH5YWoSakWub7XqKrvmcURRa8rp3HRj/j
+ bvmJKo6j/1uECgeAdu5t4U6HpzoFtGRM1PgEcZRt9KmDynvKN+FBbeot6+NMTJKU1hsB
+ kQ4RD37sTHiq4iwi0MgB428L8Z1+JChBb5TcPhyWTkvw3U7CIZ6jLhIJdF3v5Evh2Ygj
+ iOz58KzFeVYa9CzLyXfa9k+RT+LnssPa+/UHkrzYeeoTP4rmDdOh+dQOFdvRy74Lef2d
+ Dydg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uJv+X0S/6N6bxxwUtuujGHYZyU4A0wJ/cgiADbsHpFI=;
- b=2nEObydsSToVcEpnRayPHwUtLR/BwHi6pltvVxPoAIOhYL1A+X7hMeAN/Jc40UYfkK
- AP1mZ8HPMvNRKUpgiA/4oAiNYK3yiNgvLZuo3y9zBVkOFvMcNTL36O0EPmRHbcNcltwu
- Uvp47FgH+S4IJ4VdPE13DSzB190o0ckFyF/jnHW5r/jqysipUHcn1FfIPehf/GWxD3No
- eWBsOKLUPT9XqW3rPgZwsYVAhzH21XPnqns9FaEYBpkwJfIXMZxomvN8ncWn74rBl+Xl
- 6nqETE1s+oOD24/YIKscJgp/LXb8RpX6VVcBD3JfzvHrNwUW3G3TRmLf3NuRlPQw6MZY
- kOEw==
-X-Gm-Message-State: ACrzQf3QajMBp6rvNJuVoQgz6lhe+GGvTRxSBanTABREaORpbhvFaI2g
- eAxgms4WKrZMnfOlPWE5xelFAg==
-X-Google-Smtp-Source: AMsMyM7rq9N9PVsC9Yhb95ideK9VV50FEm6ujVmQ/EWESMTvr8OP2iMYRJ+TdAbtYE2UCf0awtisgw==
-X-Received: by 2002:a2e:2c14:0:b0:26f:ad18:55bf with SMTP id
- s20-20020a2e2c14000000b0026fad1855bfmr5513560ljs.42.1666294319682; 
- Thu, 20 Oct 2022 12:31:59 -0700 (PDT)
-Received: from eriador.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- d7-20020ac25ec7000000b004a2c3fd32edsm2830652lfq.144.2022.10.20.12.31.59
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8QFkj9eVIkbxCy5NQnLk1d8ujRFVsl1WFy880Uu5V7E=;
+ b=1Rhh4kEVJA00Qu+9ogDOysXKhsQ6cgY8ylinamUsVgrkZky5XH8H6KVQXMIMKPcGlq
+ uFX4AobnXOvM6ZsMH1KOOtcUHjV1W3kID9E9osVhYAl2BjZZ3XIoxLNzpWJzEJDCNlYL
+ JCTlNrX4dy3xHXiyg/xDeD4qztK+jWN1CzCcuNI40ebShumYLX681AAsM0AOx6VvWc7I
+ obQCaujSmZ0vGB5ymYZA+xYvpUQZ4ysTLX5uWU71gaZc4MizUmAqkK97NFvrbN3hutie
+ BzpDw7bZ41fvr7871Tt81EBSZwSr+Z51bqGvUNQ5BovGov/9Z7zBOe1lu0pTx1cdfTqd
+ 6TTQ==
+X-Gm-Message-State: ACrzQf0EnkWk0EixyqqdkYnzZwNL2Oey+d+AUKruAIcJJ0muM81UW5x/
+ XjlsbysAiJtZo93kIK0/4CL4Rd0J4ck=
+X-Google-Smtp-Source: AMsMyM5jQbpBV5B3hwnc9fqao2gemLLhACd/mP9bu23pKklolM7clIOtQr/VrArKSgki9KGXNpSnSA==
+X-Received: by 2002:a17:902:d48d:b0:185:115c:b165 with SMTP id
+ c13-20020a170902d48d00b00185115cb165mr15697503plg.86.1666296077277; 
+ Thu, 20 Oct 2022 13:01:17 -0700 (PDT)
+Received: from ubuntu ([175.124.254.119]) by smtp.gmail.com with ESMTPSA id
+ y8-20020a17090a6c8800b0020a9af6bb1asm207950pjj.32.2022.10.20.13.01.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 12:31:59 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 2/2] drm/msm: move domain allocation into msm_iommu_new()
-Date: Thu, 20 Oct 2022 22:31:57 +0300
-Message-Id: <20221020193157.2147112-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221020193157.2147112-1-dmitry.baryshkov@linaro.org>
-References: <20221020193157.2147112-1-dmitry.baryshkov@linaro.org>
+ Thu, 20 Oct 2022 13:01:16 -0700 (PDT)
+Date: Thu, 20 Oct 2022 13:01:13 -0700
+From: Hyunwoo Kim <imv4bel@gmail.com>
+To: steve.glendinning@shawell.net, deller@gmx.de
+Subject: [PATCH] video: fbdev: smscufx: Fixed several use-after-free bugs
+Message-ID: <20221020200113.GA320044@ubuntu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,246 +66,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imv4bel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After the msm_iommu instance is created, the IOMMU domain is completely
-handled inside the msm_iommu code. Move the iommu_domain_alloc() call
-into the msm_iommu_new() to simplify callers code.
+Several types of UAFs can occur when physically removing a USB device.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Adds ufx_ops_destroy() function to .fb_destroy of fb_ops, and
+in this function, there is kref_put() that finally calls ufx_free().
+
+This fix prevents multiple UAFs.
+
+Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
+Link: https://lore.kernel.org/linux-fbdev/20221011153436.GA4446@ubuntu/
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c    |  7 ++++---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c  | 20 +++++++++-----------
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 19 ++++++++++---------
- drivers/gpu/drm/msm/msm_drv.c            | 18 ++++++++----------
- drivers/gpu/drm/msm/msm_iommu.c          | 18 +++++++++++++++---
- drivers/gpu/drm/msm/msm_mmu.h            |  3 ++-
- 6 files changed, 48 insertions(+), 37 deletions(-)
+ drivers/video/fbdev/smscufx.c | 43 +++++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index e033d6a67a20..f9a529a98879 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1216,11 +1216,12 @@ static int a6xx_gmu_memory_probe(struct a6xx_gmu *gmu)
- 	struct iommu_domain *domain;
- 	struct msm_mmu *mmu;
- 
--	domain = iommu_domain_alloc(&platform_bus_type);
--	if (!domain)
-+	mmu = msm_iommu_new(gmu->dev);
-+	if (!mmu)
- 		return -ENODEV;
-+	if (IS_ERR(mmu))
-+		return PTR_ERR(mmu);
- 
--	mmu = msm_iommu_new(gmu->dev, domain);
- 	gmu->aspace = msm_gem_address_space_create(mmu, "gmu", 0x0, 0x80000000);
- 	if (IS_ERR(gmu->aspace)) {
- 		iommu_domain_free(domain);
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index ed26b8dfc789..511ade96045e 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -200,28 +200,26 @@ struct msm_gem_address_space *
- adreno_iommu_create_address_space(struct msm_gpu *gpu,
- 		struct platform_device *pdev)
+diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
+index e65bdc499c23..9f90c02c6533 100644
+--- a/drivers/video/fbdev/smscufx.c
++++ b/drivers/video/fbdev/smscufx.c
+@@ -97,7 +97,6 @@ struct ufx_data {
+ 	struct kref kref;
+ 	int fb_count;
+ 	bool virtualized; /* true when physical usb device not present */
+-	struct delayed_work free_framebuffer_work;
+ 	atomic_t usb_active; /* 0 = update virtual buffer, but no usb traffic */
+ 	atomic_t lost_pixels; /* 1 = a render op failed. Need screen refresh */
+ 	u8 *edid; /* null until we read edid from hw or get from sysfs */
+@@ -1117,15 +1116,18 @@ static void ufx_free(struct kref *kref)
  {
--	struct iommu_domain *iommu;
- 	struct msm_mmu *mmu;
- 	struct msm_gem_address_space *aspace;
-+	struct iommu_domain_geometry *geometry;
- 	u64 start, size;
+ 	struct ufx_data *dev = container_of(kref, struct ufx_data, kref);
  
--	iommu = iommu_domain_alloc(&platform_bus_type);
--	if (!iommu)
--		return NULL;
--
--	mmu = msm_iommu_new(&pdev->dev, iommu);
--	if (IS_ERR(mmu)) {
--		iommu_domain_free(iommu);
-+	mmu = msm_iommu_new(&pdev->dev);
-+	if (IS_ERR_OR_NULL(mmu))
- 		return ERR_CAST(mmu);
--	}
-+
-+	geometry = msm_iommu_get_geometry(mmu);
-+	if (IS_ERR(geometry))
-+		return ERR_CAST(geometry);
- 
- 	/*
- 	 * Use the aperture start or SZ_16M, whichever is greater. This will
- 	 * ensure that we align with the allocated pagetable range while still
- 	 * allowing room in the lower 32 bits for GMEM and whatnot
- 	 */
--	start = max_t(u64, SZ_16M, iommu->geometry.aperture_start);
--	size = iommu->geometry.aperture_end - start + 1;
-+	start = max_t(u64, SZ_16M, geometry->aperture_start);
-+	size = geometry->aperture_end - start + 1;
- 
- 	aspace = msm_gem_address_space_create(mmu, "gpu",
- 		start & GENMASK_ULL(48, 0), size);
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index 964573d26d26..5f7488a539f5 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -387,7 +387,7 @@ static int mdp4_kms_init(struct drm_device *dev)
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct mdp4_kms *mdp4_kms;
- 	struct msm_kms *kms = NULL;
--	struct iommu_domain *iommu;
-+	struct msm_mmu *mmu;
- 	struct msm_gem_address_space *aspace;
- 	int irq, ret;
- 	u32 major, minor;
-@@ -499,10 +499,15 @@ static int mdp4_kms_init(struct drm_device *dev)
- 	mdp4_disable(mdp4_kms);
- 	mdelay(16);
- 
--	iommu = iommu_domain_alloc(pdev->dev.bus);
--	if (iommu) {
--		struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
--
-+	mmu = msm_iommu_new(&pdev->dev);
-+	if (IS_ERR(mmu)) {
-+		ret = PTR_ERR(mmu);
-+		goto fail;
-+	} else if (!mmu) {
-+		DRM_DEV_INFO(dev->dev, "no iommu, fallback to phys "
-+				"contig buffers for scanout\n");
-+		aspace = NULL;
-+	} else {
- 		aspace  = msm_gem_address_space_create(mmu,
- 			"mdp4", 0x1000, 0x100000000 - 0x1000);
- 
-@@ -514,10 +519,6 @@ static int mdp4_kms_init(struct drm_device *dev)
- 		}
- 
- 		kms->aspace = aspace;
--	} else {
--		DRM_DEV_INFO(dev->dev, "no iommu, fallback to phys "
--				"contig buffers for scanout\n");
--		aspace = NULL;
- 	}
- 
- 	ret = modeset_init(mdp4_kms);
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 28034c21f6bc..9d7275304785 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -276,7 +276,6 @@ static int msm_drm_uninit(struct device *dev)
- 
- struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
- {
--	struct iommu_domain *domain;
- 	struct msm_gem_address_space *aspace;
- 	struct msm_mmu *mmu;
- 	struct device *mdp_dev = dev->dev;
-@@ -292,22 +291,21 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
- 	else
- 		iommu_dev = mdss_dev;
- 
--	domain = iommu_domain_alloc(iommu_dev->bus);
--	if (!domain) {
-+	mmu = msm_iommu_new(iommu_dev);
-+	if (IS_ERR(mmu))
-+		return ERR_CAST(mmu);
-+
-+	if (!mmu) {
- 		drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
- 		return NULL;
- 	}
- 
--	mmu = msm_iommu_new(iommu_dev, domain);
--	if (IS_ERR(mmu)) {
--		iommu_domain_free(domain);
--		return ERR_CAST(mmu);
--	}
--
- 	aspace = msm_gem_address_space_create(mmu, "mdp_kms",
- 		0x1000, 0x100000000 - 0x1000);
--	if (IS_ERR(aspace))
-+	if (IS_ERR(aspace)) {
-+		dev_err(mdp_dev, "aspace create, error %pe\n", aspace);
- 		mmu->funcs->destroy(mmu);
-+	}
- 
- 	return aspace;
- }
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 768ab71cc43e..b2e0be4cc985 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -193,6 +193,13 @@ int msm_iommu_set_pgtable_quirks(struct msm_mmu *mmu, unsigned long quirk)
- 	return iommu_set_pgtable_quirks(iommu->domain, quirk);
- }
- 
-+struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu)
-+{
-+	struct msm_iommu *iommu = to_msm_iommu(mmu);
-+
-+	return &iommu->domain->geometry;
+-	/* this function will wait for all in-flight urbs to complete */
+-	if (dev->urbs.count > 0)
+-		ufx_free_urb_list(dev);
++	kfree(dev);
 +}
+ 
+-	pr_debug("freeing ufx_data %p", dev);
++static void ufx_ops_destory(struct fb_info *info)
++{
++	struct ufx_data *dev = info->par;
+ 
+-	kfree(dev);
++	/* release reference taken by kref_init in probe() */
++	kref_put(&dev->kref, ufx_free);
+ }
+ 
 +
- static const struct msm_mmu_funcs pagetable_funcs = {
- 		.map = msm_iommu_pagetable_map,
- 		.unmap = msm_iommu_pagetable_unmap,
-@@ -374,17 +381,21 @@ static const struct msm_mmu_funcs funcs = {
- 		.resume_translation = msm_iommu_resume_translation,
+ static void ufx_release_urb_work(struct work_struct *work)
+ {
+ 	struct urb_node *unode = container_of(work, struct urb_node,
+@@ -1134,15 +1136,11 @@ static void ufx_release_urb_work(struct work_struct *work)
+ 	up(&unode->dev->urbs.limit_sem);
+ }
+ 
+-static void ufx_free_framebuffer_work(struct work_struct *work)
++static void ufx_free_framebuffer(struct ufx_data *dev)
+ {
+-	struct ufx_data *dev = container_of(work, struct ufx_data,
+-					    free_framebuffer_work.work);
+ 	struct fb_info *info = dev->info;
+ 	int node = info->node;
+ 
+-	unregister_framebuffer(info);
+-
+ 	if (info->cmap.len != 0)
+ 		fb_dealloc_cmap(&info->cmap);
+ 	if (info->monspecs.modedb)
+@@ -1169,11 +1167,13 @@ static int ufx_ops_release(struct fb_info *info, int user)
+ {
+ 	struct ufx_data *dev = info->par;
+ 
++	mutex_lock(&disconnect_mutex);
++
+ 	dev->fb_count--;
+ 
+ 	/* We can't free fb_info here - fbmem will touch it when we return */
+ 	if (dev->virtualized && (dev->fb_count == 0))
+-		schedule_delayed_work(&dev->free_framebuffer_work, HZ);
++		ufx_free_framebuffer(dev);
+ 
+ 	if ((dev->fb_count == 0) && (info->fbdefio)) {
+ 		fb_deferred_io_cleanup(info);
+@@ -1186,6 +1186,8 @@ static int ufx_ops_release(struct fb_info *info, int user)
+ 
+ 	kref_put(&dev->kref, ufx_free);
+ 
++	mutex_unlock(&disconnect_mutex);
++
+ 	return 0;
+ }
+ 
+@@ -1292,6 +1294,7 @@ static const struct fb_ops ufx_ops = {
+ 	.fb_blank = ufx_ops_blank,
+ 	.fb_check_var = ufx_ops_check_var,
+ 	.fb_set_par = ufx_ops_set_par,
++	.fb_destroy = ufx_ops_destory,
  };
  
--struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
-+struct msm_mmu *msm_iommu_new(struct device *dev)
- {
-+	struct iommu_domain *domain;
- 	struct msm_iommu *iommu;
- 	int ret;
- 
-+	domain = iommu_domain_alloc(dev->bus);
- 	if (!domain)
--		return ERR_PTR(-ENODEV);
-+		return NULL;
- 
- 	iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
--	if (!iommu)
-+	if (!iommu) {
-+		iommu_domain_free(domain);
- 		return ERR_PTR(-ENOMEM);
-+	}
- 
- 	iommu->domain = domain;
- 	msm_mmu_init(&iommu->base, dev, &funcs, MSM_MMU_IOMMU);
-@@ -393,6 +404,7 @@ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
- 
- 	ret = iommu_attach_device(iommu->domain, dev);
- 	if (ret) {
-+		iommu_domain_free(domain);
- 		kfree(iommu);
- 		return ERR_PTR(ret);
+ /* Assumes &info->lock held by caller
+@@ -1673,9 +1676,6 @@ static int ufx_usb_probe(struct usb_interface *interface,
+ 		goto destroy_modedb;
  	}
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index d968d9f8e19c..02df00ddd463 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -40,7 +40,7 @@ static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
- 	mmu->type = type;
+ 
+-	INIT_DELAYED_WORK(&dev->free_framebuffer_work,
+-			  ufx_free_framebuffer_work);
+-
+ 	retval = ufx_reg_read(dev, 0x3000, &id_rev);
+ 	check_warn_goto_error(retval, "error %d reading 0x3000 register from device", retval);
+ 	dev_dbg(dev->gdev, "ID_REV register value 0x%08x", id_rev);
+@@ -1748,10 +1748,12 @@ static int ufx_usb_probe(struct usb_interface *interface,
+ static void ufx_usb_disconnect(struct usb_interface *interface)
+ {
+ 	struct ufx_data *dev;
++	struct fb_info *info;
+ 
+ 	mutex_lock(&disconnect_mutex);
+ 
+ 	dev = usb_get_intfdata(interface);
++	info = dev->info;
+ 
+ 	pr_debug("USB disconnect starting\n");
+ 
+@@ -1765,12 +1767,15 @@ static void ufx_usb_disconnect(struct usb_interface *interface)
+ 
+ 	/* if clients still have us open, will be freed on last close */
+ 	if (dev->fb_count == 0)
+-		schedule_delayed_work(&dev->free_framebuffer_work, 0);
++		ufx_free_framebuffer(dev);
+ 
+-	/* release reference taken by kref_init in probe() */
+-	kref_put(&dev->kref, ufx_free);
++	/* this function will wait for all in-flight urbs to complete */
++	if (dev->urbs.count > 0)
++		ufx_free_urb_list(dev);
+ 
+-	/* consider ufx_data freed */
++	pr_debug("freeing ufx_data %p", dev);
++
++	unregister_framebuffer(info);
+ 
+ 	mutex_unlock(&disconnect_mutex);
  }
- 
--struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain);
-+struct msm_mmu *msm_iommu_new(struct device *dev);
- struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu);
- 
- static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
-@@ -59,5 +59,6 @@ void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
- int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
- 		int *asid);
- int msm_iommu_set_pgtable_quirks(struct msm_mmu *mmu, unsigned long quirk);
-+struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu);
- 
- #endif /* __MSM_MMU_H__ */
 -- 
-2.35.1
+2.25.1
 
+
+Dear,
+
+
+I have been pointed out that it is possible to bypass the existing UAF fix patch I submitted:
+https://lore.kernel.org/linux-fbdev/20221011153436.GA4446@ubuntu/
+
+I am now submitting a patch to prevent this and several other UAFs.
+
+The patch contents are as follows:
+1. Added "fb_ops.fb_destroy" function
+The root cause of multiple UAFs is that this driver does not implement .fb_destroy of fb_ops.
+
+.fb_destroy is called when fb_info->count goes to zero.
+Changes in fb_info->count usually look like this:
+```
+.probe: 1
+.open : 2
+.release : 1
+.disconnect: 0
+```
+In other words, since .fb_destory is called only after both release and disconnect are called,
+"dev" of this driver must be released in this function so that UAF does not occur.
+
+Even in situations where .disconnect acquires the mutex before .open, no UAF occurs:
+```
+.probe: 1
+.open : 2
+.disconnect: 1
+.open failed. fb_open() : 0
+```
+This is because fb_info->count is decremented by calling put_fb_info() in fb_open()
+function after .open fails.
+
+
+2. Add global mutex to ufx_ops_release()
+Added global mutex because race conditions between .release function ufx_ops_release()
+and .disconnect can occur.
+
+
+3. Remove dev->free_framebuffer_work
+Since the dev->free_framebuffer_work delay work is called without the global mutex applied,
+it can cause numerous race conditions.
+Therefore, the work queue callback ufx_free_framebuffer_work() function has been changed
+to the normal function ufx_free_framebuffer().
+
+
+Regards,
+Hyunwoo Kim.
