@@ -1,81 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE84605F85
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 13:59:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8ED605FA0
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 14:01:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF55F10E45B;
-	Thu, 20 Oct 2022 11:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7D7D10EBEC;
+	Thu, 20 Oct 2022 12:01:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45C6D10E0BB;
- Thu, 20 Oct 2022 11:58:57 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id A6D412B066E1;
- Thu, 20 Oct 2022 07:58:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 20 Oct 2022 07:58:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1666267132; x=1666274332; bh=ZpTpDn39WC
- JGSChIdFbiWkCndVEfRKpNniONagZhJUQ=; b=F0GcQVNz5Su7yyTQiCx7B4FkAM
- 7LS/qSCmR75xLiKg9b3P/5rF8nHEjMbvkHrCrn9Wq10wbTJSsBY7VGwePlcfRaPV
- e+6RMUW508vKRtqmaP8d0omH3UzvdB2K2M/JJqi0Ej6EYckHrxmxiJzanhJrweZN
- H+aklhcIfeNJRuut6GE2w+vokq4dwIwzut9335Tqq13vjXMQGgNdQekp0X5rwyRo
- shiNv7iPnoQTu1ZSM4W4ZQy9SIpK1u4jgRQIwtIRhNhDycKem8AoE+kYL857qFwD
- YcvqMhwirH54GQtOdgZ/IDOsSUt4zoWrWdDNGeIplNqy5L127RuSsYh9w1/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1666267132; x=1666274332; bh=ZpTpDn39WCJGSChIdFbiWkCndVEf
- RKpNniONagZhJUQ=; b=af6vWiN47RMgelCZd+0kbw643vgGF3xWdDa3f7WnCEsY
- X0H8oreXkV9/CrnwfZ0Td7KAWy/w3AqSzJYriwAm58b7J/QPGJ4Y876ErwPstzrW
- J0hpVU1BjFYUKTpf5i+2XZnELTDOU3yhRA+fbjfdYRYHypMDnr9YqL3NJGnR3LeC
- EbmWW3Mh5o1HDSKbXO/ntup/lWdErqkIuBP4EAWz8CeOcPP5YHtqZOduMfLUXZcN
- Dnvv8n24pO8oxQlsssXpraPFQcny1r8RcemUdrVOkyR0v2u6WAb5b/j8Z26Wb1Eh
- 2+LVIFEszIZ0UJodIj+8M54PBQ+izBvDwZUmKNvI8w==
-X-ME-Sender: <xms:-zdRY93Evv092xHu00TfA9m-EN_ghbQ33bMP1CQXIC_p5NLHZUzrtw>
- <xme:-zdRY0F8ytjgQe7uAy0FLktiWns6hniu1VjSbLB37BysuIYluDnYIf4WHeUgKheIo
- U5AlWASgpRC6bb2J8g>
-X-ME-Received: <xmr:-zdRY96lJRueA-Xcgv6C0Y_joEMXkJXQIUlzDquvcZGm4iKpCNS7UtitSvratnepl-XJMeh_lCatvBfliStjNRtVMgl-YqnoMGnGO_Jz28HTDA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedggeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephfffvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepmhgrgihi
- mhgvsegtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpeekgeelvdeujeelveehtd
- ffhedtudeuleetuddugfefgedtuefggeduffdtvdelheenucffohhmrghinhepkhgvrhhn
- vghlrdhorhhgpdhgihhthhhusgdrtghomhdpthigthdrshhonecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
- vggthh
-X-ME-Proxy: <xmx:-zdRY61_mBOzjXV-e8bCn6IREbeWXlBc2YOIrkDjg_TjURkb_Dx54A>
- <xmx:-zdRYwGPY1CTGB1XFiObgK0lx61WIL6z-AH_M7zVoKSfDoL0lURNgA>
- <xmx:-zdRY79lseAUX7AQUG3yElIz9UTdRLn1O3m28SL1rR25NpOTcSxrcw>
- <xmx:_DdRY7m_pSxW0GjBYzLpTTDYTYIrbiMa_cvivkk0M_2SCd7tvadtz460KUQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Oct 2022 07:58:50 -0400 (EDT)
-From: maxime@cerno.tech
-Date: Thu, 20 Oct 2022 13:58:49 +0200
-To: kfyatek+publicgit@gmail.com
-Subject: Re: [PATCH v5 20/22] drm/vc4: vec: Convert to the new TV mode property
-Message-ID: <20221020115849.pvefnyn4wxibycwt@houat>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-20-d841cc64fe4b@cerno.tech>
- <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
- <81936381-ae37-8c84-4681-9eff19f653b5@tronnes.org>
- <20221018100033.d2sf7xagyycx5d4p@houat>
- <da2b4cb4-5d12-3161-64e3-e87a8cc63e81@gmail.com>
+X-Greylist: delayed 4983 seconds by postgrey-1.36 at gabe;
+ Thu, 20 Oct 2022 12:01:01 UTC
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7460D10EA81;
+ Thu, 20 Oct 2022 12:01:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2CEEE20A43;
+ Thu, 20 Oct 2022 12:01:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666267260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xkVVGkBtQDyTBLM0kpfBsn85EfLgvqE9XvpjJpebKS0=;
+ b=jH0AvdmQ5Sn82qm3xMDUFxEtzQ8Afd86NNzn7lSCGUrsJFLaw9SnOVNSzFWgYotcUsDNAg
+ GKaqBJMmMrfij+SPe7P8hnpSwt/PMM4kACWzGqryH9FajEaW0KkQM86idJuP32rsTloZ7/
+ EQO0HWAxraWBomxhUiO5JqjhYu4FO/o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666267260;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xkVVGkBtQDyTBLM0kpfBsn85EfLgvqE9XvpjJpebKS0=;
+ b=vHl/tg1vlnnTCoJtjSfQJbaUEq4mIb+x/G13qkx57QzPLCFuuxyt3aozzSXnhYTqv6SF/Y
+ S/MUxJREit23oWCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E08013494;
+ Thu, 20 Oct 2022 12:00:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id FxuXIXs4UWMgFQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 12:00:59 +0000
+Message-ID: <8f3a7b67-d193-eb47-a5a6-8826e9c82f83@suse.de>
+Date: Thu, 20 Oct 2022 14:00:59 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kngtkif3uvhg4p7e"
-Content-Disposition: inline
-In-Reply-To: <da2b4cb4-5d12-3161-64e3-e87a8cc63e81@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 01/21] drm/amdgpu: Don't set struct drm_driver.lastclose
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+References: <20221020103755.24058-1-tzimmermann@suse.de>
+ <20221020103755.24058-2-tzimmermann@suse.de>
+ <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------WYrb0xK08aT03AsuaxFIILPE"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,203 +75,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+ virtualization@lists.linux-foundation.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------WYrb0xK08aT03AsuaxFIILPE
+Content-Type: multipart/mixed; boundary="------------gwXK6OaLfaQ8iAMdjblSoB42";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ spice-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Message-ID: <8f3a7b67-d193-eb47-a5a6-8826e9c82f83@suse.de>
+Subject: Re: [PATCH 01/21] drm/amdgpu: Don't set struct drm_driver.lastclose
+References: <20221020103755.24058-1-tzimmermann@suse.de>
+ <20221020103755.24058-2-tzimmermann@suse.de>
+ <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
+In-Reply-To: <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
 
---kngtkif3uvhg4p7e
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------gwXK6OaLfaQ8iAMdjblSoB42
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi,
+SGkNCg0KQW0gMjAuMTAuMjIgdW0gMTM6NDggc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
+PiBBbSAyMC4xMC4yMiB1bSAxMjozNyBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4g
+RG9uJ3Qgc2V0IHN0cnVjdCBkcm1fZHJpdmVyLmxhc3RjbG9zZS4gSXQncyB1c2VkIHRvIHJl
+c3RvcmUgdGhlDQo+PiBmYmRldiBjb25zb2xlLiBCdXQgYXMgYW1kZ3B1IHVzZXMgZ2VuZXJp
+YyBmYmRldiBlbXVsYXRpb24sIHRoZQ0KPj4gY29uc29sZSBpcyBiZWluZyByZXN0b3JlZCBi
+eSB0aGUgRFJNIGNsaWVudCBoZWxwZXJzIGFscmVhZHkuIFNlZQ0KPj4gdGhlIGNhbGwgdG8g
+ZHJtX2NsaWVudF9kZXZfcmVzdG9yZSgpIGluIGRybV9sYXN0Y2xvc2UoKS4NCj4gDQo+ID8/
+Pw0KPiANCj4gVGhlIGNvbW1pdCBtZXNzYWdlIGRvZXNuJ3QgbWF0Y2ggd2hhdCB0aGUgcGF0
+Y2ggaXMgZG9pbmcuIFlvdSBhcmUgDQo+IHJlbW92aW5nIG91dHB1dF9wb2xsX2NoYW5nZWQg
+aW5zdGVhZCBvZiBsYXN0Y2xvc2UgaGVyZS4NCj4gDQo+IERpZCBzb21ldGhpbmcgZ290IG1p
+eGVkIHVwPw0KDQpBcmdoaC4gVGhlcmUgYXJlIHBhdGNoZXMgZm9yIGxhc3RjbG9zZSBhbmQg
+b3V0cHV0X3BvbGxfY2hhbmdlZC4gVGhlIA0KcmVhc29uIGZvciByZW1vdmluZyB0aGVtIGlz
+IHRoZSBzYW1lLCBidXQgdGhhbmtzIHRvIGNvcHkgYW5kIHBhc3RlIHRoZSANCm5hbWVzIGFy
+ZSB3cm9uZy4gU28gdGhlIHBhdGNoIGlzIGNvcnJlY3QsIGJ1dCB0aGUgZGVzY3JpcHRpb24g
+aXNuJ3QuIA0KV2lsbCBiZSBmaXhlZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAN
+Cj4gQ2hlZXJzLA0KPiBDaHJpc3RpYW4uDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRo
+b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiDCoCBk
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGlzcGxheS5jwqDCoMKgwqDCoMKg
+IHwgMSAtDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2Ft
+ZGdwdV9kbS5jIHwgMiAtLQ0KPj4gwqAgMiBmaWxlcyBjaGFuZ2VkLCAzIGRlbGV0aW9ucygt
+KQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfZGlzcGxheS5jIA0KPj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
+ZGlzcGxheS5jDQo+PiBpbmRleCAyMzk5OGY3MjdjN2Y5Li5mYjcxODZjNWFkZTJhIDEwMDY0
+NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc3BsYXku
+Yw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc3BsYXku
+Yw0KPj4gQEAgLTEyMjQsNyArMTIyNCw2IEBAIGFtZGdwdV9kaXNwbGF5X3VzZXJfZnJhbWVi
+dWZmZXJfY3JlYXRlKHN0cnVjdCANCj4+IGRybV9kZXZpY2UgKmRldiwNCj4+IMKgIGNvbnN0
+IHN0cnVjdCBkcm1fbW9kZV9jb25maWdfZnVuY3MgYW1kZ3B1X21vZGVfZnVuY3MgPSB7DQo+
+PiDCoMKgwqDCoMKgIC5mYl9jcmVhdGUgPSBhbWRncHVfZGlzcGxheV91c2VyX2ZyYW1lYnVm
+ZmVyX2NyZWF0ZSwNCj4+IC3CoMKgwqAgLm91dHB1dF9wb2xsX2NoYW5nZWQgPSBkcm1fZmJf
+aGVscGVyX291dHB1dF9wb2xsX2NoYW5nZWQsDQo+PiDCoCB9Ow0KPj4gwqAgc3RhdGljIGNv
+bnN0IHN0cnVjdCBkcm1fcHJvcF9lbnVtX2xpc3QgYW1kZ3B1X3VuZGVyc2Nhbl9lbnVtX2xp
+c3RbXSA9DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Ft
+ZGdwdV9kbS9hbWRncHVfZG0uYyANCj4+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
+L2FtZGdwdV9kbS9hbWRncHVfZG0uYw0KPj4gaW5kZXggZjZhOWU4ZmRkODdkNi4uZTlhMjhh
+NTM2M2I5YSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9h
+bWRncHVfZG0vYW1kZ3B1X2RtLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
+cGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMNCj4+IEBAIC04Miw3ICs4Miw2IEBADQo+PiDC
+oCAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfdWFwaS5oPg0KPj4gwqAgI2luY2x1ZGUgPGRy
+bS9kcm1fYXRvbWljX2hlbHBlci5oPg0KPj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fYmxlbmQu
+aD4NCj4+IC0jaW5jbHVkZSA8ZHJtL2RybV9mYl9oZWxwZXIuaD4NCj4+IMKgICNpbmNsdWRl
+IDxkcm0vZHJtX2ZvdXJjYy5oPg0KPj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPg0K
+Pj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fdmJsYW5rLmg+DQo+PiBAQCAtMjgxMCw3ICsyODA5
+LDYgQEAgY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9ibG9ja192ZXJzaW9uIGRtX2lwX2Jsb2Nr
+ID0NCj4+IMKgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnX2Z1bmNzIGFt
+ZGdwdV9kbV9tb2RlX2Z1bmNzID0gew0KPj4gwqDCoMKgwqDCoCAuZmJfY3JlYXRlID0gYW1k
+Z3B1X2Rpc3BsYXlfdXNlcl9mcmFtZWJ1ZmZlcl9jcmVhdGUsDQo+PiDCoMKgwqDCoMKgIC5n
+ZXRfZm9ybWF0X2luZm8gPSBhbWRfZ2V0X2Zvcm1hdF9pbmZvLA0KPj4gLcKgwqDCoCAub3V0
+cHV0X3BvbGxfY2hhbmdlZCA9IGRybV9mYl9oZWxwZXJfb3V0cHV0X3BvbGxfY2hhbmdlZCwN
+Cj4+IMKgwqDCoMKgwqAgLmF0b21pY19jaGVjayA9IGFtZGdwdV9kbV9hdG9taWNfY2hlY2ss
+DQo+PiDCoMKgwqDCoMKgIC5hdG9taWNfY29tbWl0ID0gZHJtX2F0b21pY19oZWxwZXJfY29t
+bWl0LA0KPj4gwqAgfTsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNz
+IERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
+SA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5
+LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-On Tue, Oct 18, 2022 at 11:28:35PM +0200, Mateusz Kwiatkowski wrote:
-> W dniu 18.10.2022 o 12:00, Maxime Ripard pisze:
-> > On Mon, Oct 17, 2022 at 12:31:31PM +0200, Noralf Tr=F8nnes wrote:
-> >> Den 16.10.2022 20.52, skrev Mateusz Kwiatkowski:
-> >>>>  static int vc4_vec_connector_get_modes(struct drm_connector *connec=
-tor)
-> >>>>  {
-> >>>> -	struct drm_connector_state *state =3D connector->state;
-> >>>>  	struct drm_display_mode *mode;
-> >>>> =20
-> >>>> -	mode =3D drm_mode_duplicate(connector->dev,
-> >>>> -				  vc4_vec_tv_modes[state->tv.legacy_mode].mode);
-> >>>> +	mode =3D drm_mode_analog_ntsc_480i(connector->dev);
-> >>>>  	if (!mode) {
-> >>>>  		DRM_ERROR("Failed to create a new display mode\n");
-> >>>>  		return -ENOMEM;
-> >>>>  	}
-> >>>> =20
-> >>>> +	mode->type |=3D DRM_MODE_TYPE_PREFERRED;
-> >>>>  	drm_mode_probed_add(connector, mode);
-> >>>> =20
-> >>>> -	return 1;
-> >>>> +	mode =3D drm_mode_analog_pal_576i(connector->dev);
-> >>>> +	if (!mode) {
-> >>>> +		DRM_ERROR("Failed to create a new display mode\n");
-> >>>> +		return -ENOMEM;
-> >>>> +	}
-> >>>> +
-> >>>> +	drm_mode_probed_add(connector, mode);
-> >>>> +
-> >>>> +	return 2;
-> >>>> +}
-> >>>
-> >>> Referencing those previous discussions:
-> >>> - https://lore.kernel.org/dri-devel/0255f7c6-0484-6456-350d-cf24f3fee=
-5d6@tronnes.org/
-> >>> - https://lore.kernel.org/dri-devel/c8f8015a-75da-afa8-ca7f-b2b134cac=
-d16@gmail.com/
-> >>>
-> >>> Unconditionally setting the 480i mode as DRM_MODE_TYPE_PREFERRED caus=
-es Xorg
-> >>> (at least on current Raspberry Pi OS) to display garbage when
-> >>> video=3DComposite1:PAL is specified on the command line, so I'm afrai=
-d this won't
-> >>> do.
-> >>>
-> >>> As I see it, there are three viable solutions for this issue:
-> >>>
-> >>> a) Somehow query the video=3D command line option from this function,=
- and set
-> >>>    DRM_MODE_TYPE_PREFERRED appropriately. This would break the abstra=
-ction
-> >>>    provided by global DRM code, but should work fine.
-> >>>
-> >>> b) Modify drm_helper_probe_add_cmdline_mode() so that it sets
-> >>>    DRM_MODE_TYPE_PREFERRED in addition to DRM_MODE_TYPE_USERDEF. This=
- seems
-> >>>    pretty robust, but affects the entire DRM subsystem, which may bre=
-ak
-> >>>    userspace in different ways.
-> >>>
-> >>>    - Maybe this could be mitigated by adding some additional conditio=
-ns, e.g.
-> >>>      setting the PREFERRED flag only if no modes are already flagged =
-as such
-> >>>      and/or only if the cmdline mode is a named one (~=3D analog TV m=
-ode)
-> >>>
-> >>> c) Forcing userspace (Xorg / Raspberry Pi OS) to get fixed and honor =
-the USERDEF
-> >>>    flag.
-> >>>
-> >>> Either way, hardcoding 480i as PREFERRED does not seem right.
-> >>>
-> >>
-> >> My solution for this is to look at tv.mode to know which mode to mark =
-as
-> >> preferred. Maxime didn't like this since it changes things behind
-> >> userspace's back. I don't see how that can cause any problems for user=
-space.
-> >>
-> >> If userspace uses atomic and sets tv_mode, it has to know which mode to
-> >> use before hand, so it doesn't look at the preferreded flag.
-> >>
-> >> If it uses legacy and sets tv_mode, it can end up with a stale preferr=
-ed
-> >> flag, but no worse than not having the flag or that ntsc is always
-> >> preferred.
-> >>
-> >> If it doesn't change tv_mode, there's no problem, the preferred flag
-> >> doesn't change.
-> >
-> > I don't like it because I just see no way to make this reliable. When we
-> > set tv_mode, we're not only going to change the preferred flag, but also
-> > the order of the modes to make the preferred mode first.
-> >
-> > Since we just changed the mode lists, we also want to send a hotplug
-> > event to userspace so that it gets notified of it. It will pick up the
-> > new preferred mode, great.
-> >
-> > But what if it doesn't? There's no requirement for userspace to handle
-> > hotplug events, and Kodi won't for example. So we just changed the TV
-> > mode but not the actual mode, and that's it. It's just as broken for
-> > Kodi as it is for X11 right now.
-> >
-> > If we can't get a bullet-proof solution, then I'm not convinced it's
-> > worth addressing. Especially since it's already the current state, and
-> > it doesn't seem to bother a lot of people.
->=20
-> I wouldn't rely on the "doesn't seem to bother a lot of people" bit too m=
-uch.
-> Here's why:
->=20
-> - Analog TV output is a relatively obscure feature in this day and age in=
- the
->   first place.
->=20
-> - Out of the people interested in using it with VC4/VEC, many are actuall=
-y using
->   the downstream kernel from https://github.com/raspberrypi/linux instead=
- of the
->   upstream kernel, and/or firmware mode-switching instead of proper KMS.
->=20
->   - The downstream kernel only reports modes that match the TV mode set a=
-t boot
->     either via vc4.tv_norm=3D, or implied by the resolution set via video=
-=3D; note
->     that video=3D is also set appropriately at boot by Pi firmware, based=
- on the
->     value of sdtv_mode set in config.txt. See also the
->     vc4_vec_connector_get_modes() and vc4_vec_get_default_mode() function=
-s in
->     https://github.com/raspberrypi/linux/blob/dbd073e4028580a09b6ee507e0c=
-137441cb52650/drivers/gpu/drm/vc4/vc4_vec.c
->=20
->   - When firmware mode-switching is used, it sets the appropriate TV mode=
- and
->     resolution based on the sdtv_mode set in config.txt.
->=20
-> So, all in all, the number of people who would use 1. analog TV out with =
-VC4,
-> 2. the upstream kernel, 3. full KMS (and thus the vc4_vec.c code) is rath=
-er
-> small, so the fact that you're not hearing too many complaints doesn't me=
-an that
-> the current behavior is OK. If anybody ran into problems and was bothered=
- by
-> that, they likely migrated to the downstream kernel and/or firmware
-> mode-switching.
->
-> That being said, I completely forgot that there's a cmdline_mode field in
-> struct drm_connector, even though I actually added code that examines it =
-inside
-> vc4_vec_connector_get_modes() that's in the downstream kernel. So... what=
- do
-> you think about just examining connector->cmdline_mode.tv_mode there? It =
-seems
-> to solve all the problems.
+--------------gwXK6OaLfaQ8iAMdjblSoB42--
 
-It's a very good idea, I'll work on it, thanks :)
-
-Maxime
-
---kngtkif3uvhg4p7e
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------WYrb0xK08aT03AsuaxFIILPE
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1E3+AAKCRDj7w1vZxhR
-xafkAQDgQNtnP50CK4yhNqKMZFtxmkX10yJT33hGLDCT6TE8PgD/QcWMJEWdc9aV
-1ov3fdoP/cA1BHg/dvO2qgLkB1+TlQ8=
-=LeLr
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNROHsFAwAAAAAACgkQlh/E3EQov+Af
+qg/8DLfmRUYvAEkOGUdb+UPWlqwaao88s9cPeIA3h2HV6bYLuN3tcbcDWHFeQuAGVFYRgYLVboNR
+UtD8lzBIfELkuzD83B+VRxYJBSUdOWNVr5cmES8vFHFcFPQKMLAl/NCnOZOkXBa2xbSyfsJ9t/t4
+yXi4FqFTtRT4SWIfAHVY2cduEA/oRkqwmhB1nu+Nv+dWdMxKlWT5W5cc9D/tV7PNyU0D43q/xC3U
+UPqtz6yMg2u6UXyQ4smF0HltdBU+CjGDnCKVwKfW1JHy3eo2ONTt3ORu7QnXAGImozT2vrN3G3rF
+9FxNTpfh6Hv15QQMOPJqlCicq4nVRIXFHA2Za5jvGWa4m+bLzS4OH7KB+KqeWUEtX+QKl3eqgC56
+HBs9QpM0tp9VLVX4ws1GcGoJ48BWHSSNQv2suBrtz7yhdrquiPhXM4+XqWo/MZAxS1jnki7QdBhj
+PgYr3LQM68v3qRoLkKoAvqpkMDCUeAP7Sql6H1EmSBYcKupo8RvWEi0xTIoeHWA3WMXS+Lst+3uT
+gOVa/gN0OgRYykGJ6NRHykDPW2fBb50tDngSNH9Mh6zxabnKGwbgzG6q6w+SZy4uEceuLu9yfkv7
+bc/vqXu6UkH5/6ofgivW2hkPpkiyjQj5u9L55R67jqYOZCZfVsG2nGCNPoWHmDSbMdO1Fgmx46g4
+koE=
+=eccN
 -----END PGP SIGNATURE-----
 
---kngtkif3uvhg4p7e--
+--------------WYrb0xK08aT03AsuaxFIILPE--
