@@ -2,46 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A575605ED3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 13:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED821605ED9
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 13:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1103F10E786;
-	Thu, 20 Oct 2022 11:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0623A10E7D5;
+	Thu, 20 Oct 2022 11:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8A210E786
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 11:28:54 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4MtQN606xZzDqMv;
- Thu, 20 Oct 2022 11:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1666265334; bh=k1LPE9D1nj0CzeSHsc3glH2H4Si5PecNfcpfc9KUiRk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CjejYREcg8QZqgxaXHJ8mwb/h450aYB2drpqM9DTAaGBv14rnfMAP56yt0ueboMHX
- wMTrLlWhw5oXK2OAVN9nF+5E/cWQNMb0tqwrPOA3qtWRliU+lTzqdIAVtUvUmMxav2
- Zo7RLbyytpyGw8Rnp3ZoMB7rWudUAS8Naoqz18SQ=
-X-Riseup-User-ID: F235604A1491970F6031B63B4D3BBCB84A7183CD1B9D14CCF811783DAAEC40CD
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4MtQN24qx2z21Fy;
- Thu, 20 Oct 2022 11:28:50 +0000 (UTC)
-Message-ID: <0725f40d-b4db-d7cf-0bb7-6b0111352fb9@riseup.net>
-Date: Thu, 20 Oct 2022 08:28:47 -0300
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC43110E82B;
+ Thu, 20 Oct 2022 11:29:11 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 56D682B066CD;
+ Thu, 20 Oct 2022 07:29:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 20 Oct 2022 07:29:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1666265343; x=1666272543; bh=mdSqh/jM6E
+ 5ZN6DIJNykgL+eED2DQJpEotJl8P+3p8Y=; b=Ox8ZAEZApN4HynE8SjcUtqfjEm
+ sEhezjAJ4BVRlsnxOh2ipZmbBmtVKZurVTzyr0oD304ytmxqGLBFeczJf3uK/fDM
+ xyN4ZY3YGzL31LcxGhm8QpF0YzIhDDzc38m5GzYH/ajRe03bbeMFX/vr9EJJd1Sk
+ /zYPtXkDjE+8ChQbta/PpM2V/ijnr/JFriFPfhwK/MFkdlBfKDEedpQhjwNZnywj
+ j9i3JbTiuO0ND2mX1396ajlhExAVGjeiMCnf5d7W/vyQAQsZUVjtL1csp+uK6ETP
+ OKcJglEKV6DdrJvfbey01a+PJtOE1Hw6nlNHgA0+DHOhinXcjUvfyFAty7IQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1666265343; x=1666272543; bh=mdSqh/jM6E5ZN6DIJNykgL+eED2D
+ QJpEotJl8P+3p8Y=; b=AcVfWBS4hegsRfUao6g1lIQfrzDSeor9U4oFalJ+Bs6Z
+ XDVLvLPGVUoottaXUBBjxWIzSeTdl7UqP8csZ3phUGOXG/HJ8ThvkgAGlHfq8TQW
+ SidUsKVJYLL4Kk3iPYcvXm252fznSGAOSD+HYm13zCbAk3AGp7abpVMYF/xfuChG
+ Z4XdVDSgEga6H0R+Gx0SjpB2NeOzSqkl8nk5R0v0x060A3SHTNGTZ04Vvruwar7C
+ 0hvMZ/VyPkZhPFcSO5IsdKpLyXgume7hIv8DJLLjxFf/1rF55AwZ/CxVZPPKWC7q
+ vW17SLe+k0JpyfH1Opu042gyv3CJK7Gy43cU+MzKqQ==
+X-ME-Sender: <xms:_jBRYyBH_FfmuOpsaIRsHTlIvMK4HRjs_x4a-pw75k9tnUv7MEfK4A>
+ <xme:_jBRY8gkx7cPDfxs2mX8RFUxtD2B_nFNjUqs6reqWbcpQbv9r3PFy2iN_jAO3pd_2
+ 5BZ-HzjQ3JsHtyG0Qg>
+X-ME-Received: <xmr:_jBRY1mxlnrNMrpL_jc1lfhapovyapPyKzEe8p2zwveRgHVS99rg8KaRO1P8Fvxs9cHRP-Sg9-BrjDr_cLMLMCxBU06pj-VDvFXgBQsOHHz8xQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedggeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephfffvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepmhgrgihi
+ mhgvsegtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpeeijeeifffgfedvieeihf
+ duffdvleelffejkedufedvffelkeefieektdfhteelhfenucevlhhushhtvghrufhiiigv
+ pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtg
+ hh
+X-ME-Proxy: <xmx:_jBRYwzlboYrZF7MlEpdOmoREm59h5d5HCmf6lGxFPt5vWvcmSI58w>
+ <xmx:_jBRY3QSVKpltD_y6fDj4po4FJeTpDUvCSxdcktRHOs2Z0F_Bub-Fw>
+ <xmx:_jBRY7avNirHWNwHP6X9OuzLrT0InOwaqjrYE8Sw1t5Vcs0EW_dPlQ>
+ <xmx:_zBRY_y8SoJT5iMsvyZdgUVB3i4bjFpnwBAu8sEjFylJeo6DG4hmWS-3hRY>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Oct 2022 07:29:02 -0400 (EDT)
+From: maxime@cerno.tech
+Date: Thu, 20 Oct 2022 13:29:00 +0200
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
+ mode by its name
+Message-ID: <20221020112900.dps2zyn4ftefgi3x@houat>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
+ <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
+ <20221018093353.pt4vset6o2ldxrbs@houat>
+ <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
+ <20221019084828.muy46td63bkyewxk@houat>
+ <694facef-00bc-6b59-7c44-d68c7ca0c40f@tronnes.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 1/2] drm/plane_helper: Print actual/expected values on
- failure
-Content-Language: en-US
-To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20221020082135.779872-1-michal.winiarski@intel.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20221020082135.779872-1-michal.winiarski@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="u7iy4fry6poy23d7"
+Content-Disposition: inline
+In-Reply-To: <694facef-00bc-6b59-7c44-d68c7ca0c40f@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,212 +89,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
- Sam Ravnborg <sam@ravnborg.org>, Javier Martinez Canillas <javierm@redhat.com>,
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michał,
 
-On 10/20/22 05:21, Michał Winiarski wrote:
-> Currently the values are printed with debug log level.
-> Adjust the log level and link the output with the test by using kunit_err.
-> 
-> Example output:
-> foo: dst: 20x20+10+10, expected: 10x10+0+0
-> foo: EXPECTATION FAILED at drivers/gpu/drm/tests/drm_plane_helper_test.c:85
-> 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+--u7iy4fry6poy23d7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for rebasing the series! I've pushed this to drm-misc-next now.
+Hi Noralf,
 
-Best Regards,
-- Maíra Canal
+On Wed, Oct 19, 2022 at 12:43:19PM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 19.10.2022 10.48, skrev Maxime Ripard:
+> > On Tue, Oct 18, 2022 at 02:29:00PM +0200, Noralf Tr=F8nnes wrote:
+> >>
+> >>
+> >> Den 18.10.2022 11.33, skrev Maxime Ripard:
+> >>> On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Tr=F8nnes wrote:
+> >>>> Den 13.10.2022 15.18, skrev Maxime Ripard:
+> >>>>> As part of the command line parsing rework coming in the next patch=
+es,
+> >>>>> we'll need to lookup drm_connector_tv_mode values by their name, al=
+ready
+> >>>>> defined in drm_tv_mode_enum_list.
+> >>>>>
+> >>>>> In order to avoid any code duplication, let's do a function that wi=
+ll
+> >>>>> perform a lookup of a TV mode name and return its value.
+> >>>>>
+> >>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>>> ---
+> >>>>>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
+> >>>>>  include/drm/drm_connector.h     |  2 ++
+> >>>>>  2 files changed, 26 insertions(+)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_=
+connector.c
+> >>>>> index 820f4c730b38..30611c616435 100644
+> >>>>> --- a/drivers/gpu/drm/drm_connector.c
+> >>>>> +++ b/drivers/gpu/drm/drm_connector.c
+> >>>>> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_=
+mode_enum_list[] =3D {
+> >>>>>  };
+> >>>>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> >>>>> =20
+> >>>>> +/**
+> >>>>> + * drm_get_tv_mode_from_name - Translates a TV mode name into its =
+enum value
+> >>>>> + * @name: TV Mode name we want to convert
+> >>>>> + * @len: Length of @name
+> >>>>> + *
+> >>>>> + * Translates @name into an enum drm_connector_tv_mode.
+> >>>>> + *
+> >>>>> + * Returns: the enum value on success, a negative errno otherwise.
+> >>>>> + */
+> >>>>> +int drm_get_tv_mode_from_name(const char *name, size_t len)
+> >>>>
+> >>>> Do we really need to pass in length here? item->name has to always be
+> >>>> NUL terminated otherwise things would break elsewhere, so it shouldn=
+'t
+> >>>> be necessary AFAICS.
+> >>>
+> >>> The only user so far is the command-line parsing code, and we might v=
+ery
+> >>> well have an option after the tv_mode, something like
+> >>> 720x480i,tv_mode=3DNTSC,rotate=3D180
+> >>>
+> >>> In this case, we won't get a NULL-terminated name.
+> >>
+> >> My point is that item->name will always be NUL terminated so strcmp()
+> >> will never look past that.
+> >=20
+> > Right, but we don't have the guarantee that strlen(item->name) <
+> > strlen(name), and we could thus just access after the end of our name
+> >=20
+>=20
+> Ok, using the length limiting str funtions is the safe thing to do, so
+> len needs to stay. But I don't get the 'strlen(item->name) =3D=3D len'
+> check. strncmp() will stop when it reaches a NUL in either string so no
+> need for the length check?
 
-> ---
->  drivers/gpu/drm/tests/drm_plane_helper_test.c | 78 +++++++++++--------
->  1 file changed, 44 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_plane_helper_test.c b/drivers/gpu/drm/tests/drm_plane_helper_test.c
-> index ec71af791f1f..4963f0c960d8 100644
-> --- a/drivers/gpu/drm/tests/drm_plane_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_plane_helper_test.c
-> @@ -10,6 +10,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_modes.h>
-> +#include <drm/drm_rect.h>
->  
->  static void set_src(struct drm_plane_state *plane_state,
->  		    unsigned int src_x, unsigned int src_y,
-> @@ -21,26 +22,32 @@ static void set_src(struct drm_plane_state *plane_state,
->  	plane_state->src_h = src_h;
->  }
->  
-> -static bool check_src_eq(struct drm_plane_state *plane_state,
-> +static bool check_src_eq(struct kunit *test, struct drm_plane_state *plane_state,
->  			 unsigned int src_x, unsigned int src_y,
->  			 unsigned int src_w, unsigned int src_h)
->  {
-> +	struct drm_rect expected = DRM_RECT_INIT(src_x, src_y, src_w, src_h);
-> +
->  	if (plane_state->src.x1 < 0) {
-> -		pr_err("src x coordinate %x should never be below 0.\n", plane_state->src.x1);
-> -		drm_rect_debug_print("src: ", &plane_state->src, true);
-> +		kunit_err(test,
-> +			  "src x coordinate %x should never be below 0, src: " DRM_RECT_FP_FMT,
-> +			  plane_state->src.x1, DRM_RECT_FP_ARG(&plane_state->src));
->  		return false;
->  	}
->  	if (plane_state->src.y1 < 0) {
-> -		pr_err("src y coordinate %x should never be below 0.\n", plane_state->src.y1);
-> -		drm_rect_debug_print("src: ", &plane_state->src, true);
-> +		kunit_err(test,
-> +			  "src y coordinate %x should never be below 0, src: " DRM_RECT_FP_FMT,
-> +			  plane_state->src.y1, DRM_RECT_FP_ARG(&plane_state->src));
->  		return false;
->  	}
->  
-> -	if (plane_state->src.x1 != src_x ||
-> -	    plane_state->src.y1 != src_y ||
-> -	    drm_rect_width(&plane_state->src) != src_w ||
-> -	    drm_rect_height(&plane_state->src) != src_h) {
-> -		drm_rect_debug_print("src: ", &plane_state->src, true);
-> +	if (plane_state->src.x1 != expected.x1 ||
-> +	    plane_state->src.y1 != expected.y1 ||
-> +	    drm_rect_width(&plane_state->src) != drm_rect_width(&expected) ||
-> +	    drm_rect_height(&plane_state->src) != drm_rect_height(&expected)) {
-> +		kunit_err(test, "src: " DRM_RECT_FP_FMT ", expected: " DRM_RECT_FP_FMT,
-> +			  DRM_RECT_FP_ARG(&plane_state->src), DRM_RECT_FP_ARG(&expected));
-> +
->  		return false;
->  	}
->  
-> @@ -57,15 +64,18 @@ static void set_crtc(struct drm_plane_state *plane_state,
->  	plane_state->crtc_h = crtc_h;
->  }
->  
-> -static bool check_crtc_eq(struct drm_plane_state *plane_state,
-> +static bool check_crtc_eq(struct kunit *test, struct drm_plane_state *plane_state,
->  			  int crtc_x, int crtc_y,
->  			  unsigned int crtc_w, unsigned int crtc_h)
->  {
-> -	if (plane_state->dst.x1 != crtc_x ||
-> -	    plane_state->dst.y1 != crtc_y ||
-> -	    drm_rect_width(&plane_state->dst) != crtc_w ||
-> -	    drm_rect_height(&plane_state->dst) != crtc_h) {
-> -		drm_rect_debug_print("dst: ", &plane_state->dst, false);
-> +	struct drm_rect expected = DRM_RECT_INIT(crtc_x, crtc_y, crtc_w, crtc_h);
-> +
-> +	if (plane_state->dst.x1 != expected.x1 ||
-> +	    plane_state->dst.y1 != expected.y1 ||
-> +	    drm_rect_width(&plane_state->dst) != drm_rect_width(&expected) ||
-> +	    drm_rect_height(&plane_state->dst) != drm_rect_height(&expected)) {
-> +		kunit_err(test, "dst: " DRM_RECT_FMT ", expected: " DRM_RECT_FMT,
-> +			  DRM_RECT_ARG(&plane_state->dst), DRM_RECT_ARG(&expected));
->  
->  		return false;
->  	}
-> @@ -109,8 +119,8 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  false, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple clipping check should pass\n");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 1024 << 16, 768 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1024 << 16, 768 << 16));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
->  
->  	/* Rotated clipping + reflection, no scaling. */
->  	plane_state.rotation = DRM_MODE_ROTATE_90 | DRM_MODE_REFLECT_X;
-> @@ -120,8 +130,8 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  false, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Rotated clipping check should pass\n");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 768 << 16, 1024 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 768 << 16, 1024 << 16));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
->  	plane_state.rotation = DRM_MODE_ROTATE_0;
->  
->  	/* Check whether positioning works correctly. */
-> @@ -140,8 +150,8 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  true, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Simple positioning should work\n");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 1023 << 16, 767 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1023, 767));
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 1023 << 16, 767 << 16));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1023, 767));
->  
->  	/* Simple scaling tests. */
->  	set_src(&plane_state, 0, 0, 512 << 16, 384 << 16);
-> @@ -157,8 +167,8 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  false, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Upscaling exactly 2x should work\n");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 512 << 16, 384 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 512 << 16, 384 << 16));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
->  
->  	set_src(&plane_state, 0, 0, 2048 << 16, 1536 << 16);
->  	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
-> @@ -170,8 +180,8 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  0x20000, false, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed with exact scaling limit\n");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2048 << 16, 1536 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2048 << 16, 1536 << 16));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
->  
->  	/* Testing rounding errors. */
->  	set_src(&plane_state, 0, 0, 0x40001, 0x40001);
-> @@ -182,8 +192,8 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  true, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2 << 16, 2 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 1022, 766, 2, 2));
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
->  
->  	set_src(&plane_state, 0x20001, 0x20001, 0x4040001, 0x3040001);
->  	set_crtc(&plane_state, -2, -2, 1028, 772);
-> @@ -193,9 +203,9 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  false, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0x40002, 0x40002,
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x40002, 0x40002,
->  					     1024 << 16, 768 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
->  
->  	set_src(&plane_state, 0, 0, 0x3ffff, 0x3ffff);
->  	set_crtc(&plane_state, 1022, 766, 4, 4);
-> @@ -206,8 +216,8 @@ static void drm_test_check_plane_state(struct kunit *test)
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
->  	/* Should not be rounded to 0x20001, which would be upscaling. */
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0, 0, 2 << 16, 2 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 1022, 766, 2, 2));
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0, 0, 2 << 16, 2 << 16));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 1022, 766, 2, 2));
->  
->  	set_src(&plane_state, 0x1ffff, 0x1ffff, 0x403ffff, 0x303ffff);
->  	set_crtc(&plane_state, -2, -2, 1028, 772);
-> @@ -217,9 +227,9 @@ static void drm_test_check_plane_state(struct kunit *test)
->  						  false, false);
->  	KUNIT_EXPECT_FALSE_MSG(test, ret, 0, "Should succeed by clipping to exact multiple");
->  	KUNIT_EXPECT_TRUE(test, plane_state.visible);
-> -	KUNIT_EXPECT_TRUE(test, check_src_eq(&plane_state, 0x3fffe, 0x3fffe,
-> +	KUNIT_EXPECT_TRUE(test, check_src_eq(test, &plane_state, 0x3fffe, 0x3fffe,
->  					     1024 << 16, 768 << 16));
-> -	KUNIT_EXPECT_TRUE(test, check_crtc_eq(&plane_state, 0, 0, 1024, 768));
-> +	KUNIT_EXPECT_TRUE(test, check_crtc_eq(test, &plane_state, 0, 0, 1024, 768));
->  }
->  
->  static struct kunit_case drm_plane_helper_test[] = {
+Yeah, but if the cmdline is truncated, we'll pass a shorter len than
+strlen(item->name), and it will consider the string as equal.
+
+For example strncmp("NTS", "NTSC", strlen("NTS"))) =3D=3D 0, while it obvio=
+usly
+isn't for us.
+
+> Anyways:
+>=20
+> Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+
+Thanks!
+Maxime
+
+--u7iy4fry6poy23d7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1Ew/AAKCRDj7w1vZxhR
+xRcOAQD4kMUrFpaggVUGDdw8lFZHCgfZHGc0linsJEA++8ypNAD/Z2SqzMPMeFZX
+12rXh06m+wXI2OX4uZ0EETbo3eIKRww=
+=pf41
+-----END PGP SIGNATURE-----
+
+--u7iy4fry6poy23d7--
