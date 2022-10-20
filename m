@@ -2,56 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD9A605B12
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B422A605B29
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 11:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C84310E509;
-	Thu, 20 Oct 2022 09:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CBC310E5F7;
+	Thu, 20 Oct 2022 09:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A4D10E509;
- Thu, 20 Oct 2022 09:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666257916; x=1697793916;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=YtbstwztZn175mOQf8JVm1NZbgkpB72bmnUHfJwpMTs=;
- b=knHDOXXQCnFn/jh5P/vtoKNyxrQch7nhNNpyAiGxDdvy7OtIKI4/Y51g
- OuCj13i63fwSyyLND1/p4d/lmWym9z8out7vxWS6v45S9vVVsrhmZaA8F
- 5VN4RtL1r/0l+wF6Y24kih3fpnZsm5epm3nl16HYB2z26d/huOsvNHDWb
- goBIKiPFD00FQxe1WZRJ4FaCHaiwBEhuuiFQYq6hbSut8adSeJFHjd0F0
- xqJF3QZb8hH6xSVU0KBk503qXBiCy0jSkoh92hdof562jI8ahYj1Q335C
- OjI8nxEv8azZgFFDKHtT75rGliMIIqrAEkhxZ7ip5JcJdUhv0APN+Yylu A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="286379071"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="286379071"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 02:25:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="692872651"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="692872651"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga008.fm.intel.com with SMTP; 20 Oct 2022 02:25:06 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 20 Oct 2022 12:25:06 +0300
-Date: Thu, 20 Oct 2022 12:25:06 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 01/15] drm/i915/hdmi: do dual mode detect
- only if connected
-Message-ID: <Y1ET8qxKaOYN54LM@intel.com>
-References: <cover.1665496046.git.jani.nikula@intel.com>
- <20fb913a93c60fd24fc51b441ccea7bc75e82dd1.1665496046.git.jani.nikula@intel.com>
- <Y0hb0VOaYZk5TptS@intel.com> <Y0hmBn6NrUrBexyY@intel.com>
- <Y1BOx7oVQHPgoVzE@intel.com> <87edv2hnz1.fsf@intel.com>
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB2F10E540
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 09:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
+ Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description; bh=IqJ+PXWSgAwEtUKSxNWOIpPEVROLORYHEj928+nb8F0=; b=mA+cP
+ 1Th1gRoOUnc4A4HI5zcTh4Qmq14q9vYCyFAGndWmeeQF9c9tbs283dNbMo0vOcljn/PaCnsvgCavd
+ Vb8bmLkUYczh77aCyJg6rCfkx8Q9wRveH3TF1HvI901VLgXuPlqw+AUF0TzoAegl9NXlDhSjckzJ4
+ 5ttxSjMy7IP0T5Yev8vyLDqli4wYJjnEx7SgOCAfC4mjZOjCKK5ArFSKM0+rSkl/TJs8ISnQTB2L9
+ /vE6Wjr4vroB/s0cEnBGdBnPG/SH+C1XP071rXyKgfA9Kxedl0CvfVp0r4N8drQEwpPEeMTRqlZ+8
+ uv0pOaaQ80h5yWNhw75uke7Yy7t+A==;
+Received: from [81.174.171.191] (helo=donbot)
+ by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.95) (envelope-from <john@metanate.com>) id 1olRt2-0007uq-8e;
+ Thu, 20 Oct 2022 10:30:49 +0100
+Date: Thu, 20 Oct 2022 10:30:48 +0100
+From: John Keeping <john@metanate.com>
+To: Johan Jonker <jbx6244@gmail.com>
+Subject: Re: [PATCH v1] drm: rockchip: remove rockchip_drm_framebuffer_init()
+ function
+Message-ID: <Y1EVSNa6bkh5JCLV@donbot>
+References: <ebe91504-c5df-99e4-635f-832218584051@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87edv2hnz1.fsf@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <ebe91504-c5df-99e4-635f-832218584051@gmail.com>
+X-Authenticated: YES
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +49,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 20, 2022 at 11:57:06AM +0300, Jani Nikula wrote:
-> On Wed, 19 Oct 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > On Thu, Oct 13, 2022 at 10:24:54PM +0300, Ville Syrjälä wrote:
-> >> On Thu, Oct 13, 2022 at 09:41:21PM +0300, Ville Syrjälä wrote:
-> >> > On Tue, Oct 11, 2022 at 04:49:35PM +0300, Jani Nikula wrote:
-> >> > > -	intel_hdmi_dp_dual_mode_detect(connector, edid != NULL);
-> >> > > -
-> >> > > -	intel_display_power_put(dev_priv, POWER_DOMAIN_GMBUS, wakeref);
-> >> > > -
-> >> > >  	to_intel_connector(connector)->detect_edid = edid;
-> >> > >  	if (edid && edid->input & DRM_EDID_INPUT_DIGITAL) {
-> >> > 
-> >> > We didn't have this digital input thing before. What happens with
-> >> > HDMI->VGA dongles for example?
-> >> > 
-> >> > Hmm. This whole thing might already be broken on those. I suspect
-> >> > I've only used my HDMI->VGA dongle on LSPCON machines, so never
-> >> > noticed this. Need to go plug that thing into a native HDMI port...
-> >> 
-> >> Except I must have left it elsewhere since I can't find it here.
-> >> So can't test right now unfortunately.
-> >> 
-> >> I first thought this digital check thing might be due to
-> >> the DVI-I shenanigans in intel_crt_detect_ddc(), but that
-> >> was added for am unspecified gen2 machine in commit f5afcd3dd0dc
-> >> ("drm/i915/crt: Check for a analog monitor in case of DVI-I")
-> >> so not even relevant here. And I don't think I've ever seen
-> >> a g4x+ machine with an actual DVI-I port.
-> >
-> > Good news everyone, I found such a board: Intel DG43GT.
-> > Well, I didn't physically find one but I found the manual
-> > online. And some coreboot repo even had the vbt handily
-> > available. And yes, it does show the same DDC pins being
-> > used for the DVI-D port and CRT port. So I guess given
-> > that these digital checks do make some sense.
+On Wed, Oct 19, 2022 at 11:35:03PM +0200, Johan Jonker wrote:
+> The function rockchip_drm_framebuffer_init() was in use
+> in the rockchip_drm_fbdev.c file, but that is now replaced
+> by a generic fbdev setup. Reduce the image size by
+> removing the rockchip_drm_framebuffer_init() and sub function
+> rockchip_fb_alloc() and cleanup the rockchip_drm_fb.h header file.
 > 
-> So what's the conclusion wrt the patch at hand?
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 
-Seems fine as is for the moment. We'll know more once I locate
-my dongle again.
+Reviewed-by: John Keeping <john@metanate.com>
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
--- 
-Ville Syrjälä
-Intel
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 43 ----------------------
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.h |  6 ---
+>  2 files changed, 49 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> index 092bf863110b..409eaa1bf092 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> @@ -25,35 +25,6 @@ static const struct drm_framebuffer_funcs rockchip_drm_fb_funcs = {
+>  	.dirty	       = drm_atomic_helper_dirtyfb,
+>  };
+>  
+> -static struct drm_framebuffer *
+> -rockchip_fb_alloc(struct drm_device *dev, const struct drm_mode_fb_cmd2 *mode_cmd,
+> -		  struct drm_gem_object **obj, unsigned int num_planes)
+> -{
+> -	struct drm_framebuffer *fb;
+> -	int ret;
+> -	int i;
+> -
+> -	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
+> -	if (!fb)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
+> -
+> -	for (i = 0; i < num_planes; i++)
+> -		fb->obj[i] = obj[i];
+> -
+> -	ret = drm_framebuffer_init(dev, fb, &rockchip_drm_fb_funcs);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(dev->dev,
+> -			      "Failed to initialize framebuffer: %d\n",
+> -			      ret);
+> -		kfree(fb);
+> -		return ERR_PTR(ret);
+> -	}
+> -
+> -	return fb;
+> -}
+> -
+>  static const struct drm_mode_config_helper_funcs rockchip_mode_config_helpers = {
+>  	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+>  };
+> @@ -106,20 +77,6 @@ static const struct drm_mode_config_funcs rockchip_drm_mode_config_funcs = {
+>  	.atomic_commit = drm_atomic_helper_commit,
+>  };
+>  
+> -struct drm_framebuffer *
+> -rockchip_drm_framebuffer_init(struct drm_device *dev,
+> -			      const struct drm_mode_fb_cmd2 *mode_cmd,
+> -			      struct drm_gem_object *obj)
+> -{
+> -	struct drm_framebuffer *fb;
+> -
+> -	fb = rockchip_fb_alloc(dev, mode_cmd, &obj, 1);
+> -	if (IS_ERR(fb))
+> -		return ERR_CAST(fb);
+> -
+> -	return fb;
+> -}
+> -
+>  void rockchip_drm_mode_config_init(struct drm_device *dev)
+>  {
+>  	dev->mode_config.min_width = 0;
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h b/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
+> index 1a696521096d..bae4e079dfb1 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
+> @@ -7,11 +7,5 @@
+>  #ifndef _ROCKCHIP_DRM_FB_H
+>  #define _ROCKCHIP_DRM_FB_H
+>  
+> -struct drm_framebuffer *
+> -rockchip_drm_framebuffer_init(struct drm_device *dev,
+> -			      const struct drm_mode_fb_cmd2 *mode_cmd,
+> -			      struct drm_gem_object *obj);
+> -void rockchip_drm_framebuffer_fini(struct drm_framebuffer *fb);
+> -
+>  void rockchip_drm_mode_config_init(struct drm_device *dev);
+>  #endif /* _ROCKCHIP_DRM_FB_H */
+> -- 
+> 2.20.1
+> 
