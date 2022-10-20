@@ -1,51 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3B0606302
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 16:28:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395F360631F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Oct 2022 16:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB6BA10F2C5;
-	Thu, 20 Oct 2022 14:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E645E10F2A3;
+	Thu, 20 Oct 2022 14:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB03E10F2C5;
- Thu, 20 Oct 2022 14:27:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666276065; x=1697812065;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=QHy3Ko5XMie94gcwVnlxc1NXfyePOUN4SZHHzdRm/2c=;
- b=fW/FqGS9k1q7Q5s/NGApRTqkbNHPuP0MG5DyQ2x/PXC3WdPDS9ziz1Tc
- qjmqNswX2sCKwDIH04AtOL76vYHbHJ6SeBh2quxAjnTFpWu9Y4x7f6UOE
- UAfZhzi1jW3Lssael2bP8xUQPtaWpe0KCGmCsIRi25HuxhbChtVsLRTYy
- uKbRS9RTRZvOPKXcCGuWosyKToY+GQDOrwsDB7ph5s/Q9ALgRbfk06rim
- HE40ZTBjVPg34X2pvphYabQolYktWVDPmGa8W8/yzV/trJjvSLaOtBbFR
- Jx8V6aVnZ3W2/X7HLdexi4o+3T3R8J774ilQHK57MjY6/sgS4IkjakVYR g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="368768088"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="368768088"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 07:27:43 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="958963503"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; d="scan'208";a="958963503"
-Received: from brockhau-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.43.208])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2022 07:27:40 -0700
-Date: Thu, 20 Oct 2022 16:27:38 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Subject: Re: [PATCH v4 16/17] drm/i915/vm_bind: userptr dma-resv changes
-Message-ID: <Y1Fa2k/Xk4s5V1ip@ashyti-mobl2.lan>
-References: <20221018071630.3831-1-niranjana.vishwanathapura@intel.com>
- <20221018071630.3831-17-niranjana.vishwanathapura@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 852B010F2A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 14:32:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8825661BB6;
+ Thu, 20 Oct 2022 14:32:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72901C433C1;
+ Thu, 20 Oct 2022 14:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1666276362;
+ bh=l8mRlTyl0UO/IhFQDUDiO4/SvJneie6Cel0aRrpGM6s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dGI4ZnofU2dmARIN0zCaYY8XtQv9NQ6+q9NIVGIdRY8IJ6BUDR64kRjVxRsOQbqEZ
+ E6GBImv39BbsEWc54f1r/94GgHVdWl94F3OxKIf61hTfmd5ln5A7vYGfROatRSpjTZ
+ tXBp2Fqj/K+vzXbkYGDuWuksr1hm4aYrY2zEnYbI=
+Date: Thu, 20 Oct 2022 16:32:40 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Kwapulinski, Maciej" <maciej.kwapulinski@intel.com>
+Subject: Re: [PATCH v4 01/10] gna: add PCI driver module
+Message-ID: <Y1FcCDhWiQG2p3wW@kroah.com>
+References: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
+ <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221018071630.3831-17-niranjana.vishwanathapura@intel.com>
+In-Reply-To: <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,24 +50,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
- lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Dragan Cvetic <dragan.cvetic@xilinx.com>,
+ linux-doc@vger.kernel.org, Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Derek Kiernan <derek.kiernan@xilinx.com>,
+ Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Niranjana,
+On Thu, Oct 20, 2022 at 03:35:16PM +0200, Kwapulinski, Maciej wrote:
+> Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wiadomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiekolwiek przegladanie lub rozpowszechnianie jest zabronione.
+> This e-mail and any attachments may contain confidential material for the sole use of the intended recipient(s). If you are not the intended recipient, please contact the sender and delete all copies; any review or distribution by others is strictly prohibited.
 
-[...]
+This ensures that we can not do anything with these patches.
 
-> @@ -307,6 +307,8 @@ struct i915_vma {
->  	struct list_head non_priv_vm_bind_link;
->  	/* @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
->  	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
-> +	/*@userptr_invalidated_link: link to the vm->userptr_invalidated_list */
+Now deleted.
 
-nit: add a space here
+greg k-h
 
-Andi
