@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA5E60782A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 15:18:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A87960782F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 15:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91C5F10E1D5;
-	Fri, 21 Oct 2022 13:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C64F10E394;
+	Fri, 21 Oct 2022 13:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B55710E1D5
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:18:31 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id be13so5058504lfb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 06:18:31 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAAF010E394
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:18:50 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id h8so3608276lja.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 06:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qI3A82j8OlKFN8/s3EGSbVRexJ10lYyCFaVb3RuN9Is=;
- b=EddB7/l5OXNdqlNUaGLu6aYnT5u8eGmGUOD2LYBqpyC6BKfPYZSYjogyqbQOlfXZZy
- LHTBXr9JUt6OuGdzhxu2SG3s5TacFmpQaIT2wnAsCqshT3K20Nz1wmhTvB9GJS4sniFw
- MxRcFTStp17cAXYvqFLjHmGbs8xL3sMUNhmIvnhfkDhZFVzcM5glxRRHXkgtIBJ6oAh8
- UBDaGKp5DR2lqAnNbXK8Pcvnj2UP9k+BXMrycOGj30rNUmyjnz4tESR3q16OAi/4KVe4
- B12c7lBrRPym7hKeHuI0FRXMOqSt7vyf2OGG5bbr0//KRXUEPOrAH9V2OeDs+00yCoX+
- lJIg==
+ bh=pRkhXHMl4TQ/DqaAGRL8GCynFjjb+3hTJyL1LA0fGPI=;
+ b=WgobnPDdXrxxYqHttfwgpj1q5gAY72WGanvgflFsMOySjkHmZ4ZH4p7AB0RtJyA3KR
+ LAQJzEZ7NujWLO07huI2EltfmcuGTsWpKfAxegLQF6ITGT5ldA3qdzhI3F4kFUq4yVGw
+ zaIz7sxHn5cE8lamSLUKUO0ZVDZZNZAIVmGSTwuP4f8oGB8ATSsPMkGX2VDO/4i5MZNi
+ bPGdh+ZVAvIhLxkO1TLvj50dkUl/1NOl0SeeLJjHwicmqljgCcVMVsjgf6Lg53kjC09m
+ dNUk9rCAkhIQhKjM82dlPBTIwqx7IB9jFo3fTAy7E717X6RDH/DQOgQqpIuQ5070bUD0
+ Z6gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qI3A82j8OlKFN8/s3EGSbVRexJ10lYyCFaVb3RuN9Is=;
- b=tleSDWAnspRpuZ5lEMpfH1Ia0mnuwTliy46GeE9O9I90phAEG9pnhEAVBRYF/qwifv
- XxDWNAUxerQp4EtqCfPACe5nRgLWARRxltCY9KTASrCp8NXkfiqgRbT+5oerOOnagNRi
- hY4qfP3BEfTikIhGYj9RVqrtj9B7qQgKW2wGu+PufEooWsq/Mi06aTmD36pXEKNla+yU
- Iq+i9vOBFfoqs9bgHCl+lbZICnVOqnT4JvhYdLkuM8Ruk/paIocJ0pdmyafzZFvoGvJv
- 7gY8kNJXQMPRdbGhuRTOxdZgLk8/Qzqvtz0FFHKpNvPh9+i+KYn+eZi7vI6KjHfBV1uU
- wLAA==
-X-Gm-Message-State: ACrzQf0kyQ21gn93C3JSg/vMETHd0rq6Y3p9AcniAzrPRiTqwhYZOMr8
- 78VFi3Wigwa/94V/Zv8VYxY=
-X-Google-Smtp-Source: AMsMyM6YSuN5NBVb/th5/FcRZVreCEibK29TtTjbtKUF0vDw9NIOEje3N82DjgRRlHan4QPs87ovyg==
-X-Received: by 2002:a05:6512:681:b0:489:d509:e076 with SMTP id
- t1-20020a056512068100b00489d509e076mr7399577lfe.618.1666358309446; 
- Fri, 21 Oct 2022 06:18:29 -0700 (PDT)
+ bh=pRkhXHMl4TQ/DqaAGRL8GCynFjjb+3hTJyL1LA0fGPI=;
+ b=iGQG/aAKfbHKq5E81jDSODXRyXmlb0Py43MvMKY6lS4Lj+0h7l7znxg9noKckMvCDP
+ EEFkI76naNgGxt+Xj/VSGPyBiq38yz+gkFfvoVMn5/wjdCV7mTu23h+E8eJSzG0n7yLM
+ XJvOWNI8UODIoi3d4ieRCrfqB3YqVt58ozTe37cJMcdevbuaHD/1cAJcAKtkCDagREoy
+ yOW+cjHKOYCRV+NUkhUj0mOyeaj9uJNXnzrs0QVLqC2SH/WOJUoilmh5XxBRC0d9lCSH
+ +X6Egoutj5whggAklFid2CvBhZECrUr29FWsqD6ZZ2IuGJBLlEdDZJONTWjvJHfglegO
+ pOoA==
+X-Gm-Message-State: ACrzQf0DHZDD0oinE7uZPaPS921hVcNEGxn3S9ACAG/BfFbTIxKENvqs
+ 8DcPd6CtAafNh77acHsBxRg=
+X-Google-Smtp-Source: AMsMyM5ZI9LOvAWowEwE1BQiARts/ZjcHuWX/l3x5n+ReleYNXhDm3X/s5vQQklCiZ0l7SohVfPGEA==
+X-Received: by 2002:a2e:a7d0:0:b0:26f:d241:483b with SMTP id
+ x16-20020a2ea7d0000000b0026fd241483bmr6279663ljp.426.1666358328736; 
+ Fri, 21 Oct 2022 06:18:48 -0700 (PDT)
 Received: from dc75zzyyyyyyyyyyyyyby-3.rev.dnainternet.fi
  (dc75zzyyyyyyyyyyyyyby-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::2])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a2e9e85000000b0026dfdcbccdasm3400209ljk.14.2022.10.21.06.18.27
+ 9-20020ac25f49000000b0049944ab6895sm3150402lfz.260.2022.10.21.06.18.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 06:18:28 -0700 (PDT)
-Date: Fri, 21 Oct 2022 16:18:23 +0300
+ Fri, 21 Oct 2022 06:18:47 -0700 (PDT)
+Date: Fri, 21 Oct 2022 16:18:43 +0300
 From: Matti Vaittinen <mazziesaccount@gmail.com>
 To: Matti Vaittinen <mazziesaccount@gmail.com>,
  Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Subject: [PATCH v4 2/4] gpu: drm: sii902x: Use devm_regulator_bulk_get_enable()
-Message-ID: <1ed8351c2cb4911fcda21b97f7a7b089e955c301.1666357434.git.mazziesaccount@gmail.com>
+Subject: [PATCH v4 3/4] hwmon: lm90: simplify using devm_regulator_get_enable()
+Message-ID: <a1fa4364cbb775de25478117dd22dda0742089e3.1666357434.git.mazziesaccount@gmail.com>
 References: <cover.1666357434.git.mazziesaccount@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mjr/nbyrnmvxde/A"
+ protocol="application/pgp-signature"; boundary="M3g96xv3Iy/Ir190"
 Content-Disposition: inline
 In-Reply-To: <cover.1666357434.git.mazziesaccount@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,89 +89,68 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---mjr/nbyrnmvxde/A
+--M3g96xv3Iy/Ir190
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Simplify using devm_regulator_bulk_get_enable()
+Drop open-coded pattern: 'devm_regulator_get(), regulator_enable(),
+add_action_or_reset(regulator_disable)' and use the
+devm_regulator_get_enable().
 
 Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
 ---
-v3 =3D> v4:
-- split to own patch.
-- return directly the value returned by the dev_err_probe()
-
-Please note - this is only compile-tested due to the lack of HW. Careful
-review and testing is _highly_ appreciated
+RFCv1 =3D> v2:
+- No changes
 ---
- drivers/gpu/drm/bridge/sii902x.c | 26 ++++----------------------
- 1 file changed, 4 insertions(+), 22 deletions(-)
+ drivers/hwmon/lm90.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii9=
-02x.c
-index 878fb7d3732b..f6e8b401069b 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -171,7 +171,6 @@ struct sii902x {
- 	struct drm_connector connector;
- 	struct gpio_desc *reset_gpio;
- 	struct i2c_mux_core *i2cmux;
--	struct regulator_bulk_data supplies[2];
- 	bool sink_is_hdmi;
- 	/*
- 	 * Mutex protects audio and video functions from interfering
-@@ -1072,6 +1071,7 @@ static int sii902x_probe(struct i2c_client *client,
+diff --git a/drivers/hwmon/lm90.c b/drivers/hwmon/lm90.c
+index db595f7d01f8..a3f95ba00dbf 100644
+--- a/drivers/hwmon/lm90.c
++++ b/drivers/hwmon/lm90.c
+@@ -2663,11 +2663,6 @@ static void lm90_remove_pec(void *dev)
+ 	device_remove_file(dev, &dev_attr_pec);
+ }
+=20
+-static void lm90_regulator_disable(void *regulator)
+-{
+-	regulator_disable(regulator);
+-}
+-
+ static int lm90_probe_channel_from_dt(struct i2c_client *client,
+ 				      struct device_node *child,
+ 				      struct lm90_data *data)
+@@ -2749,24 +2744,13 @@ static int lm90_probe(struct i2c_client *client)
  	struct device *dev =3D &client->dev;
- 	struct device_node *endpoint;
- 	struct sii902x *sii902x;
-+	static const char * const supplies[] =3D {"iovcc", "cvcc12"};
- 	int ret;
+ 	struct i2c_adapter *adapter =3D client->adapter;
+ 	struct hwmon_channel_info *info;
+-	struct regulator *regulator;
+ 	struct device *hwmon_dev;
+ 	struct lm90_data *data;
+ 	int err;
 =20
- 	ret =3D i2c_check_functionality(client->adapter,
-@@ -1122,27 +1122,11 @@ static int sii902x_probe(struct i2c_client *client,
-=20
- 	mutex_init(&sii902x->mutex);
-=20
--	sii902x->supplies[0].supply =3D "iovcc";
--	sii902x->supplies[1].supply =3D "cvcc12";
--	ret =3D devm_regulator_bulk_get(dev, ARRAY_SIZE(sii902x->supplies),
--				      sii902x->supplies);
-+	ret =3D devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(supplies), supplie=
-s);
- 	if (ret < 0)
--		return ret;
+-	regulator =3D devm_regulator_get(dev, "vcc");
+-	if (IS_ERR(regulator))
+-		return PTR_ERR(regulator);
 -
--	ret =3D regulator_bulk_enable(ARRAY_SIZE(sii902x->supplies),
--				    sii902x->supplies);
--	if (ret < 0) {
--		dev_err_probe(dev, ret, "Failed to enable supplies");
--		return ret;
--	}
-+		return dev_err_probe(dev, ret, "Failed to enable supplies");
-=20
--	ret =3D sii902x_init(sii902x);
--	if (ret < 0) {
--		regulator_bulk_disable(ARRAY_SIZE(sii902x->supplies),
--				       sii902x->supplies);
+-	err =3D regulator_enable(regulator);
+-	if (err < 0) {
+-		dev_err(dev, "Failed to enable regulator: %d\n", err);
+-		return err;
 -	}
 -
--	return ret;
-+	return sii902x_init(sii902x);
- }
+-	err =3D devm_add_action_or_reset(dev, lm90_regulator_disable, regulator);
++	err =3D devm_regulator_get_enable(dev, "vcc");
+ 	if (err)
+-		return err;
++		return dev_err_probe(dev, err, "Failed to enable regulator\n");
 =20
- static void sii902x_remove(struct i2c_client *client)
-@@ -1152,8 +1136,6 @@ static void sii902x_remove(struct i2c_client *client)
-=20
- 	i2c_mux_del_adapters(sii902x->i2cmux);
- 	drm_bridge_remove(&sii902x->bridge);
--	regulator_bulk_disable(ARRAY_SIZE(sii902x->supplies),
--			       sii902x->supplies);
- }
-=20
- static const struct of_device_id sii902x_dt_ids[] =3D {
+ 	data =3D devm_kzalloc(dev, sizeof(struct lm90_data), GFP_KERNEL);
+ 	if (!data)
 --=20
 2.37.3
 
@@ -188,19 +167,19 @@ Simon says - in Latin please.
 ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
 Thanks to Simon Glass for the translation =3D]=20
 
---mjr/nbyrnmvxde/A
+--M3g96xv3Iy/Ir190
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmNSnB8ACgkQeFA3/03a
-ocUDfggAwKt9Ya9r0X3AXcX1fUi7GC5MIGKAUxnLcID+Q8yzcf5iCxnP+rmB6lgw
-Oyx0mq9GsUyWpR/AaB17Rtw8A28oYmynvou5eQXYTPqKJMGFfIT7VRN7b2BwUmAt
-s72ErgCEK9Q5wIxmSQrE7Tmp6WriowO1/HZ2hWRNeUfZSAt9QVihx3+BHjCseHHN
-TXqJM33sry0k87UqeCGazD1ehyECP3NMXIRs7MRNg6sKyfaMw9ymX9V0bopopTt+
-cvprEtfNJdQz64zxem1udfQaB1n6xgy09akBsVJrDx8K5mcTLJMG5fmBzAQrsd43
-4UVu/8SxAtiOs2G686etDqbpBZEG9Q==
-=hFfm
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmNSnDMACgkQeFA3/03a
+ocWlJQf/f4PSr4V2vI2p2GUquvO7G7G/Ap8fvDhLsezltYKOvhysBmxyc5W6uOE7
+A7UDzafqeVb2ZRqrHDe3b348v/vZ2nUN37wDIQVQiLFYeVUWJtYQY0AIt3MAYSgh
+/6pYUFjsOhPk4zgrplh2O07iDM7V0h09ovKA/aQ4KtsOgKoi+zmhD7ka4YhwSoaf
+4MEQG4S4pGi5/tJlHG87zH7/+LESzo1g3s2GH5bZOolQQGfahwA+hP7ztnQ/4E0R
+WnPt+SydxPSAGI0A6ImdFCAemC8LkfsmDOfPbV7aVQonl/Pm+PYxKEC0auspopMv
+EARJfxX8SY6Civ722e+t7twiVR0REg==
+=bf9B
 -----END PGP SIGNATURE-----
 
---mjr/nbyrnmvxde/A--
+--M3g96xv3Iy/Ir190--
