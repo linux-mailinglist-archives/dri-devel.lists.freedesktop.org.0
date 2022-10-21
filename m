@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB5F606E66
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 05:45:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 257C8606E70
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 05:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEF610E495;
-	Fri, 21 Oct 2022 03:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601A510E573;
+	Fri, 21 Oct 2022 03:45:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C61A10E260
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB91910E2C4
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 03:44:14 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 7CF1433EEF5;
- Fri, 21 Oct 2022 04:44:12 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 374DB33EED9;
+ Fri, 21 Oct 2022 04:44:13 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666323853; bh=VMLOr6PjeShVuqsyKmUc+qWcvkM2Y12weJW5JTKdaQc=;
+ t=1666323853; bh=7IpdcOCS1CRP3vgr5/W1k3ows5BLR0ZFDpwpgZQSAZc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=imuzgmp9EbuYqGhNeEz8U8Iafp8uhZQuhN6ER4s1xGkF94TrsvBqHv3bxgVt+6Yqx
- E1ZGSrjSjKNrIr2oz/X512VsOOB4hj3CTOmGl1DM4cYB1VLkNiV+8a3MmPjarLkLW+
- R5uQ/7pCC+x4x7vCKdo09Lvg7vfnhSBcCcDCmKmr/MnjAi/DEmzpB4IMlEvsLdSnMO
- llltl+2AirDymb64SowHTDkiEZHNdK0KgtU7vtJO18O45el+aaVjzq6yl/IS66gZNt
- rTEKOPY0UdzbGeSzjMXICRpGOYIP3xBAKDAmGp917/9FuZMZifkhxqHRApt/bm7s04
- QI7i4pJLR3GQg==
+ b=li8WY5eyfS+u+/UXxArI6R7Xrx9pxptLRt5JYrbuBiTfiuX88ME45+eikYrwhi3cT
+ VlNdGS636iI3tep3wHaihrCxbZ6RS97lvj6GnS5apVx4P4BuiD1Q95FQa5fSb7TaZy
+ vDUfiIvdZeqtD5Y/FNi8k8+ben30xh4GS97vMA0pf68+aV/Xe09PXllSsiUd2SKGXZ
+ 9Cti1kAs8f8RpPEwIlQGjAnZEdrZoW8M2Iml4AvfN2NKzBULTLHtNG06SNlBMr4RUk
+ yGGNYNSCfEIQYiHEk6XbfzeTVBkfr5HYBMqHARr9A92CzTNlkJNoebMLMfS3xQNk8y
+ vmX9mOxg8ce4w==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 09/17] drm/vmwgfx: Diff cursors when using cmds
-Date: Thu, 20 Oct 2022 23:43:52 -0400
-Message-Id: <20221021034400.542909-10-zack@kde.org>
+Subject: [PATCH v3 10/17] drm/vmwgfx: Refactor ttm reference object hashtable
+ to use linux/hashtable.
+Date: Thu, 20 Oct 2022 23:43:53 -0400
+Message-Id: <20221021034400.542909-11-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021034400.542909-1-zack@kde.org>
 References: <20221021034400.542909-1-zack@kde.org>
@@ -52,225 +53,316 @@ Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Banack <banackm@vmware.com>
+From: Maaz Mombasawala <mombasawalam@vmware.com>
 
-Extend the cursor diffing support to support the command-path.
+This is part of an effort to move from the vmwgfx_open_hash hashtable to
+linux/hashtable implementation.
+Refactor the ref_hash hashtable, used for fast lookup of reference objects
+associated with a ttm file.
+This also exposed a problem related to inconsistently using 32-bit and
+64-bit keys with this hashtable. The hash function used changes depending
+on the size of the type, and results are not consistent across numbers,
+for example, hash_32(329) = 329, but hash_long(329) = 328. This would
+cause the lookup to fail for objects already in the hashtable, since keys
+of different sizes were being passed during adding and lookup. This was
+not an issue before because vmwgfx_open_hash always used hash_long.
+Fix this by always using 64-bit keys for this hashtable, which means that
+hash_long is always used.
 
-Signed-off-by: Michael Banack <banackm@vmware.com>
+Signed-off-by: Maaz Mombasawala <mombasawalam@vmware.com>
+Reviewed-by: Zack Rusin <zackr@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 120 ++++++++++++++--------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |   2 +
- 2 files changed, 62 insertions(+), 60 deletions(-)
+ drivers/gpu/drm/vmwgfx/ttm_object.c | 91 ++++++++++++++++-------------
+ drivers/gpu/drm/vmwgfx/ttm_object.h | 12 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c |  2 +-
+ 3 files changed, 56 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 6c41c5b5a913..ff79668ad334 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -53,8 +53,10 @@ void vmw_du_cleanup(struct vmw_display_unit *du)
-  */
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
+index 9546b121bc22..c07b81fbc495 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_object.c
++++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
+@@ -52,9 +52,12 @@
+ #include <linux/slab.h>
+ #include <linux/atomic.h>
+ #include <linux/module.h>
++#include <linux/hashtable.h>
  
- static int vmw_du_cursor_plane_unmap_cm(struct vmw_plane_state *vps);
--static void vmw_cursor_write_mobid(struct vmw_private *dev_priv,
--				   struct vmw_plane_state *vps);
-+static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
-+				  struct vmw_plane_state *vps,
-+				  u32 *image, u32 width, u32 height,
-+				  u32 hotspotX, u32 hotspotY);
+ MODULE_IMPORT_NS(DMA_BUF);
  
- struct vmw_svga_fifo_cmd_define_cursor {
- 	u32 cmd;
-@@ -118,7 +120,10 @@ static void vmw_cursor_update_image(struct vmw_private *dev_priv,
- 				    u32 hotspotX, u32 hotspotY)
- {
- 	if (vps->cursor.bo)
--		vmw_cursor_write_mobid(dev_priv, vps);
-+		vmw_cursor_update_mob(dev_priv, vps, image,
-+				      vps->base.crtc_w, vps->base.crtc_h,
-+				      hotspotX, hotspotY);
++#define VMW_TTM_OBJECT_REF_HT_ORDER 10
 +
- 	else
- 		vmw_send_define_cursor_cmd(dev_priv, image, width, height,
- 					   hotspotX, hotspotY);
-@@ -163,61 +168,58 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
- 	alpha_header->height = height;
- 
- 	memcpy(header + 1, image, image_size);
--}
--
--
--/**
-- * vmw_cursor_write_mobid - Update cursor via CursorMob mechanism
-- *
-- * Called from inside vmw_du_cursor_plane_atomic_update to actually
-- * make the cursor-image live.
-- *
-- * @dev_priv: device to work with
-- * @vps: DRM plane_state
-- */
--static void vmw_cursor_write_mobid(struct vmw_private *dev_priv,
--				   struct vmw_plane_state *vps)
--{
- 	vmw_write(dev_priv, SVGA_REG_CURSOR_MOBID,
- 		  vps->cursor.bo->resource->start);
- }
- 
-+
- static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
- {
- 	return w * h * sizeof(u32) + sizeof(SVGAGBCursorHeader);
- }
- 
--
--static bool vmw_du_cursor_plane_mob_has_changed(struct vmw_plane_state *old_vps,
--						struct vmw_plane_state *new_vps)
-+/**
-+ * vmw_du_cursor_plane_acquire_image -- Acquire the image data
-+ * @vps: cursor plane state
-+ */
-+static u32 *vmw_du_cursor_plane_acquire_image(struct vmw_plane_state *vps)
- {
--	void *old_mob;
--	void *new_mob;
- 	bool dummy;
--	u32 size;
--
--	// If either of them aren't using CursorMobs, assume changed.
--	if (!old_vps->cursor.bo || !new_vps->cursor.bo)
--		return true;
-+	if (vps->surf) {
-+		if (vps->surf_mapped)
-+			return vmw_bo_map_and_cache(vps->surf->res.backup);
-+		return vps->surf->snooper.image;
-+	} else if (vps->bo)
-+		return ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
-+	return NULL;
-+}
- 
--	// If either of them failed to map, assume changed.
--	if (!old_vps->cursor.mapped || !new_vps->cursor.mapped)
--		return true;
-+static bool vmw_du_cursor_plane_has_changed(struct vmw_plane_state *old_vps,
-+					    struct vmw_plane_state *new_vps)
-+{
-+	void *old_image;
-+	void *new_image;
-+	u32 size;
-+	bool changed;
- 
- 	if (old_vps->base.crtc_w != new_vps->base.crtc_w ||
- 	    old_vps->base.crtc_h != new_vps->base.crtc_h)
- 	    return true;
- 
--	size = vmw_du_cursor_mob_size(new_vps->base.crtc_w,
--				      new_vps->base.crtc_h);
-+	if (old_vps->cursor.hotspot_x != new_vps->cursor.hotspot_x ||
-+	    old_vps->cursor.hotspot_y != new_vps->cursor.hotspot_y)
-+	    return true;
- 
--	old_mob = ttm_kmap_obj_virtual(&old_vps->cursor.map, &dummy);
--	new_mob = ttm_kmap_obj_virtual(&new_vps->cursor.map, &dummy);
-+	size = new_vps->base.crtc_w * new_vps->base.crtc_h * sizeof(u32);
- 
--	if (memcmp(old_mob, new_mob, size) != 0)
--		return true;
-+	old_image = vmw_du_cursor_plane_acquire_image(old_vps);
-+	new_image = vmw_du_cursor_plane_acquire_image(new_vps);
- 
--	return false;
-+	changed = false;
-+	if (old_image && new_image)
-+		changed = memcmp(old_image, new_image, size) != 0;
-+
-+	return changed;
- }
- 
- static void vmw_du_destroy_cursor_mob(struct ttm_buffer_object **bo)
-@@ -745,6 +747,7 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
- 			return -ENOMEM;
- 	} else if (vps->surf && !vps->bo && vps->surf->res.backup) {
- 
-+		WARN_ON(vps->surf->snooper.image);
- 		ret = ttm_bo_reserve(&vps->surf->res.backup->base, true, false,
- 				     NULL);
- 		if (unlikely(ret != 0))
-@@ -778,7 +781,6 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
- 	struct vmw_plane_state *old_vps = vmw_plane_state_to_vps(old_state);
- 	s32 hotspot_x, hotspot_y;
- 	bool dummy;
--	void *image;
- 
- 	hotspot_x = du->hotspot_x;
- 	hotspot_y = du->hotspot_y;
-@@ -796,36 +798,34 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
- 		return;
- 	}
- 
-+	vps->cursor.hotspot_x = hotspot_x;
-+	vps->cursor.hotspot_y = hotspot_y;
-+
- 	if (vps->surf) {
- 		du->cursor_age = du->cursor_surface->snooper.age;
--		image = vps->surf->snooper.image;
--		if (vps->surf_mapped)
--			image = vmw_bo_map_and_cache(vps->surf->res.backup);
--	} else
--		image = ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
--
--	if (vps->cursor.bo)
--		vmw_cursor_update_mob(dev_priv, vps, image,
--				      new_state->crtc_w,
--				      new_state->crtc_h,
--				      hotspot_x, hotspot_y);
-+	}
- 
--	if (!vmw_du_cursor_plane_mob_has_changed(old_vps, vps)) {
-+	if (!vmw_du_cursor_plane_has_changed(old_vps, vps)) {
- 		/*
- 		 * If it hasn't changed, avoid making the device do extra
--		 * work by keeping the old mob active.
-+		 * work by keeping the old cursor active.
- 		 */
- 		struct vmw_cursor_plane_state tmp = old_vps->cursor;
- 		old_vps->cursor = vps->cursor;
- 		vps->cursor = tmp;
--	} else if (image)
--		vmw_cursor_update_image(dev_priv, vps, image,
--					new_state->crtc_w,
--					new_state->crtc_h,
--					hotspot_x, hotspot_y);
--
--	if (image && vps->bo)
--		atomic_dec(&vps->bo->base_mapped_count);
-+	} else {
-+		void *image = vmw_du_cursor_plane_acquire_image(vps);
-+		if (image)
-+			vmw_cursor_update_image(dev_priv, vps, image,
-+						new_state->crtc_w,
-+						new_state->crtc_h,
-+						hotspot_x, hotspot_y);
-+	}
-+
-+	if (vps->bo) {
-+		if (ttm_kmap_obj_virtual(&vps->bo->map, &dummy))
-+			atomic_dec(&vps->bo->base_mapped_count);
-+	}
- 
- 	du->cursor_x = new_state->crtc_x + du->set_gui_x;
- 	du->cursor_y = new_state->crtc_y + du->set_gui_y;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index c5e4665a956c..13a265ffd9f8 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -276,6 +276,8 @@ struct vmw_cursor_plane_state {
- 	struct ttm_buffer_object *bo;
- 	struct ttm_bo_kmap_obj map;
- 	bool mapped;
-+	s32 hotspot_x;
-+	s32 hotspot_y;
+ /**
+  * struct ttm_object_file
+  *
+@@ -75,7 +78,7 @@ struct ttm_object_file {
+ 	struct ttm_object_device *tdev;
+ 	spinlock_t lock;
+ 	struct list_head ref_list;
+-	struct vmwgfx_open_hash ref_hash;
++	DECLARE_HASHTABLE(ref_hash, VMW_TTM_OBJECT_REF_HT_ORDER);
+ 	struct kref refcount;
  };
  
+@@ -136,6 +139,36 @@ ttm_object_file_ref(struct ttm_object_file *tfile)
+ 	return tfile;
+ }
+ 
++static int ttm_tfile_find_ref_rcu(struct ttm_object_file *tfile,
++				  uint64_t key,
++				  struct vmwgfx_hash_item **p_hash)
++{
++	struct vmwgfx_hash_item *hash;
++
++	hash_for_each_possible_rcu(tfile->ref_hash, hash, head, key) {
++		if (hash->key == key) {
++			*p_hash = hash;
++			return 0;
++		}
++	}
++	return -EINVAL;
++}
++
++static int ttm_tfile_find_ref(struct ttm_object_file *tfile,
++			      uint64_t key,
++			      struct vmwgfx_hash_item **p_hash)
++{
++	struct vmwgfx_hash_item *hash;
++
++	hash_for_each_possible(tfile->ref_hash, hash, head, key) {
++		if (hash->key == key) {
++			*p_hash = hash;
++			return 0;
++		}
++	}
++	return -EINVAL;
++}
++
+ static void ttm_object_file_destroy(struct kref *kref)
+ {
+ 	struct ttm_object_file *tfile =
+@@ -238,14 +271,13 @@ void ttm_base_object_unref(struct ttm_base_object **p_base)
+  * Return: A pointer to the object if successful or NULL otherwise.
+  */
+ struct ttm_base_object *
+-ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint32_t key)
++ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint64_t key)
+ {
+ 	struct vmwgfx_hash_item *hash;
+-	struct vmwgfx_open_hash *ht = &tfile->ref_hash;
+ 	int ret;
+ 
+ 	rcu_read_lock();
+-	ret = vmwgfx_ht_find_item_rcu(ht, key, &hash);
++	ret = ttm_tfile_find_ref_rcu(tfile, key, &hash);
+ 	if (ret) {
+ 		rcu_read_unlock();
+ 		return NULL;
+@@ -257,15 +289,14 @@ ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint32_t key)
+ EXPORT_SYMBOL(ttm_base_object_noref_lookup);
+ 
+ struct ttm_base_object *ttm_base_object_lookup(struct ttm_object_file *tfile,
+-					       uint32_t key)
++					       uint64_t key)
+ {
+ 	struct ttm_base_object *base = NULL;
+ 	struct vmwgfx_hash_item *hash;
+-	struct vmwgfx_open_hash *ht = &tfile->ref_hash;
+ 	int ret;
+ 
+ 	rcu_read_lock();
+-	ret = vmwgfx_ht_find_item_rcu(ht, key, &hash);
++	ret = ttm_tfile_find_ref_rcu(tfile, key, &hash);
+ 
+ 	if (likely(ret == 0)) {
+ 		base = drm_hash_entry(hash, struct ttm_ref_object, hash)->obj;
+@@ -278,7 +309,7 @@ struct ttm_base_object *ttm_base_object_lookup(struct ttm_object_file *tfile,
+ }
+ 
+ struct ttm_base_object *
+-ttm_base_object_lookup_for_ref(struct ttm_object_device *tdev, uint32_t key)
++ttm_base_object_lookup_for_ref(struct ttm_object_device *tdev, uint64_t key)
+ {
+ 	struct ttm_base_object *base;
+ 
+@@ -297,7 +328,6 @@ int ttm_ref_object_add(struct ttm_object_file *tfile,
+ 		       bool *existed,
+ 		       bool require_existed)
+ {
+-	struct vmwgfx_open_hash *ht = &tfile->ref_hash;
+ 	struct ttm_ref_object *ref;
+ 	struct vmwgfx_hash_item *hash;
+ 	int ret = -EINVAL;
+@@ -310,7 +340,7 @@ int ttm_ref_object_add(struct ttm_object_file *tfile,
+ 
+ 	while (ret == -EINVAL) {
+ 		rcu_read_lock();
+-		ret = vmwgfx_ht_find_item_rcu(ht, base->handle, &hash);
++		ret = ttm_tfile_find_ref_rcu(tfile, base->handle, &hash);
+ 
+ 		if (ret == 0) {
+ 			ref = drm_hash_entry(hash, struct ttm_ref_object, hash);
+@@ -335,21 +365,14 @@ int ttm_ref_object_add(struct ttm_object_file *tfile,
+ 		kref_init(&ref->kref);
+ 
+ 		spin_lock(&tfile->lock);
+-		ret = vmwgfx_ht_insert_item_rcu(ht, &ref->hash);
+-
+-		if (likely(ret == 0)) {
+-			list_add_tail(&ref->head, &tfile->ref_list);
+-			kref_get(&base->refcount);
+-			spin_unlock(&tfile->lock);
+-			if (existed != NULL)
+-				*existed = false;
+-			break;
+-		}
++		hash_add_rcu(tfile->ref_hash, &ref->hash.head, ref->hash.key);
++		ret = 0;
+ 
++		list_add_tail(&ref->head, &tfile->ref_list);
++		kref_get(&base->refcount);
+ 		spin_unlock(&tfile->lock);
+-		BUG_ON(ret != -EINVAL);
+-
+-		kfree(ref);
++		if (existed != NULL)
++			*existed = false;
+ 	}
+ 
+ 	return ret;
+@@ -361,10 +384,8 @@ ttm_ref_object_release(struct kref *kref)
+ 	struct ttm_ref_object *ref =
+ 	    container_of(kref, struct ttm_ref_object, kref);
+ 	struct ttm_object_file *tfile = ref->tfile;
+-	struct vmwgfx_open_hash *ht;
+ 
+-	ht = &tfile->ref_hash;
+-	(void)vmwgfx_ht_remove_item_rcu(ht, &ref->hash);
++	hash_del_rcu(&ref->hash.head);
+ 	list_del(&ref->head);
+ 	spin_unlock(&tfile->lock);
+ 
+@@ -376,13 +397,12 @@ ttm_ref_object_release(struct kref *kref)
+ int ttm_ref_object_base_unref(struct ttm_object_file *tfile,
+ 			      unsigned long key)
+ {
+-	struct vmwgfx_open_hash *ht = &tfile->ref_hash;
+ 	struct ttm_ref_object *ref;
+ 	struct vmwgfx_hash_item *hash;
+ 	int ret;
+ 
+ 	spin_lock(&tfile->lock);
+-	ret = vmwgfx_ht_find_item(ht, key, &hash);
++	ret = ttm_tfile_find_ref(tfile, key, &hash);
+ 	if (unlikely(ret != 0)) {
+ 		spin_unlock(&tfile->lock);
+ 		return -EINVAL;
+@@ -414,16 +434,13 @@ void ttm_object_file_release(struct ttm_object_file **p_tfile)
+ 	}
+ 
+ 	spin_unlock(&tfile->lock);
+-	vmwgfx_ht_remove(&tfile->ref_hash);
+ 
+ 	ttm_object_file_unref(&tfile);
+ }
+ 
+-struct ttm_object_file *ttm_object_file_init(struct ttm_object_device *tdev,
+-					     unsigned int hash_order)
++struct ttm_object_file *ttm_object_file_init(struct ttm_object_device *tdev)
+ {
+ 	struct ttm_object_file *tfile = kmalloc(sizeof(*tfile), GFP_KERNEL);
+-	int ret;
+ 
+ 	if (unlikely(tfile == NULL))
+ 		return NULL;
+@@ -433,17 +450,9 @@ struct ttm_object_file *ttm_object_file_init(struct ttm_object_device *tdev,
+ 	kref_init(&tfile->refcount);
+ 	INIT_LIST_HEAD(&tfile->ref_list);
+ 
+-	ret = vmwgfx_ht_create(&tfile->ref_hash, hash_order);
+-	if (ret)
+-		goto out_err;
++	hash_init(tfile->ref_hash);
+ 
+ 	return tfile;
+-out_err:
+-	vmwgfx_ht_remove(&tfile->ref_hash);
+-
+-	kfree(tfile);
+-
+-	return NULL;
+ }
+ 
+ struct ttm_object_device *
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.h b/drivers/gpu/drm/vmwgfx/ttm_object.h
+index 6870f951b677..67f30d589e27 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_object.h
++++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
+@@ -104,7 +104,7 @@ struct ttm_base_object {
+ 	struct ttm_object_file *tfile;
+ 	struct kref refcount;
+ 	void (*refcount_release) (struct ttm_base_object **base);
+-	u32 handle;
++	u64 handle;
+ 	enum ttm_object_type object_type;
+ 	u32 shareable;
+ };
+@@ -164,7 +164,7 @@ extern int ttm_base_object_init(struct ttm_object_file *tfile,
+  */
+ 
+ extern struct ttm_base_object *ttm_base_object_lookup(struct ttm_object_file
+-						      *tfile, uint32_t key);
++						      *tfile, uint64_t key);
+ 
  /**
+  * ttm_base_object_lookup_for_ref
+@@ -178,7 +178,7 @@ extern struct ttm_base_object *ttm_base_object_lookup(struct ttm_object_file
+  */
+ 
+ extern struct ttm_base_object *
+-ttm_base_object_lookup_for_ref(struct ttm_object_device *tdev, uint32_t key);
++ttm_base_object_lookup_for_ref(struct ttm_object_device *tdev, uint64_t key);
+ 
+ /**
+  * ttm_base_object_unref
+@@ -237,14 +237,12 @@ extern int ttm_ref_object_base_unref(struct ttm_object_file *tfile,
+  * ttm_object_file_init - initialize a struct ttm_object file
+  *
+  * @tdev: A struct ttm_object device this file is initialized on.
+- * @hash_order: Order of the hash table used to hold the reference objects.
+  *
+  * This is typically called by the file_ops::open function.
+  */
+ 
+ extern struct ttm_object_file *ttm_object_file_init(struct ttm_object_device
+-						    *tdev,
+-						    unsigned int hash_order);
++						    *tdev);
+ 
+ /**
+  * ttm_object_file_release - release data held by a ttm_object_file
+@@ -312,7 +310,7 @@ extern int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
+ 	kfree_rcu(__obj, __prime.base.rhead)
+ 
+ struct ttm_base_object *
+-ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint32_t key);
++ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint64_t key);
+ 
+ /**
+  * ttm_base_object_noref_release - release a base object pointer looked up
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 8d77e79bd904..b909a3ce9af3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -1242,7 +1242,7 @@ static int vmw_driver_open(struct drm_device *dev, struct drm_file *file_priv)
+ 	if (unlikely(!vmw_fp))
+ 		return ret;
+ 
+-	vmw_fp->tfile = ttm_object_file_init(dev_priv->tdev, 10);
++	vmw_fp->tfile = ttm_object_file_init(dev_priv->tdev);
+ 	if (unlikely(vmw_fp->tfile == NULL))
+ 		goto out_no_tfile;
+ 
 -- 
 2.34.1
 
