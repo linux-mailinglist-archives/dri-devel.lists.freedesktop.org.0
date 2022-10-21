@@ -1,78 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62ED607FD2
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 22:37:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C626B608068
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 22:57:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48BBB10E05A;
-	Fri, 21 Oct 2022 20:36:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF0B10E5B4;
+	Fri, 21 Oct 2022 20:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 872C610E05A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 20:36:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4095610E5B4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 20:57:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666384610;
+ s=mimecast20190719; t=1666385832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aqAqKAh6I1KyeNqWWP2koyyNUM9vv0HJ5VR/LSGSMS4=;
- b=c+ADcBcx1ML2AayaFO1/2PetXw/DuTUpULfdHE+U5PA+vnpWQeMCo4MlY3DSHY8BI1F9tJ
- vkilVqg6BaNB38YSB3Kv/qY8lM6ywhpBo4wJlhGpJaOggnfpmHiOgRU2TAkaRxkjBZbwrb
- /wKi/65YZ/yWNl2LLturDPPvMIxQJME=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tmQbt4y82e3rOLwzd8K68ABvAbK8PLPsQjNqcyHpq0Y=;
+ b=C8bGo7RpJmAlsPZeIIO0mdmBxO6sdIWhiPoD5ZDwZQ8ZHzKIpLn7yWo77Fhqe2ClfxHqxw
+ VaSIKJE8juEof+1pIFyQrj7iPknROvApMh86w8ThaE6NTBLgKBOSwVK9g/VL6Aer4hKndr
+ PgKWLOcQfAlt073IPIKrm+gsOvrd45g=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-530-2gSCkemFMLuu2eLxT5k3eA-1; Fri, 21 Oct 2022 16:36:49 -0400
-X-MC-Unique: 2gSCkemFMLuu2eLxT5k3eA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- br5-20020a05622a1e0500b00394c40fee51so3251013qtb.17
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:36:49 -0700 (PDT)
+ us-mta-534-B9GLf8zmP-eL25nt8AAxBw-1; Fri, 21 Oct 2022 16:57:11 -0400
+X-MC-Unique: B9GLf8zmP-eL25nt8AAxBw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ cy11-20020a05621418cb00b004b17b3cf429so2976332qvb.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:57:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:user-agent:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aqAqKAh6I1KyeNqWWP2koyyNUM9vv0HJ5VR/LSGSMS4=;
- b=ouifoVBVGm8E3BRPdWPQmIHVYZPJncY8wLL0deXqQkiKHPmMdVkm+XMoCx09i6EXPc
- rklxYSwnxzd7/n+OxfGFbgSwahnS+NvAk/CDPZkUL78rLto4U64JvKDNyyj8uFYCu4Tk
- 1VpcldODOziyMQmElL7aV9cVMlW0Kfls+Vin6QWk0W5NAvfHb8Y7mGXCSywNnzrtaNN3
- OlzI55GEUy6AgW5i/8UHGx/bAJvsx877kmoDNCqWZZupk+vFSuUUWeRxu4Dsr43sbmGR
- vjRD9coMJbhGIEz4aryxG4wJ+Xm0jDj1g6SqyguqqTGoTWsk09X4wNti0L5whdYNzR7b
- wtQA==
-X-Gm-Message-State: ACrzQf2m5uC5gxEhHh6WwxAC2Iz8cXuRuGcbCYpX80FtabP4jQaP8e5+
- 0ZDKd/TFiL+jJsbSVlJk30JLCE0pYC8WKZziwWWpaVjcAJ9nH9tTmgCYBH1mDSRSBL/WY7wQpTP
- WEo8rwfp0OKk8LBPdiO3TW6tvpX9D
-X-Received: by 2002:a05:622a:2cf:b0:39c:e120:4acc with SMTP id
- a15-20020a05622a02cf00b0039ce1204accmr18226897qtx.152.1666384604451; 
- Fri, 21 Oct 2022 13:36:44 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6nipF0yPVnMOQHq7U13rnncYDEovv4sHPIv5Jcq6OveVQANSBHeW3+F8ZiUhDWzH6LW+uB9g==
-X-Received: by 2002:a05:622a:2cf:b0:39c:e120:4acc with SMTP id
- a15-20020a05622a02cf00b0039ce1204accmr18226868qtx.152.1666384604194; 
- Fri, 21 Oct 2022 13:36:44 -0700 (PDT)
+ bh=tmQbt4y82e3rOLwzd8K68ABvAbK8PLPsQjNqcyHpq0Y=;
+ b=X9hUaHpWUpZWBijUgByI6INvRmaw51atTVVdq3UC5Mh3VXUH3OUQzLuKj1FlyzdpeM
+ OJMSfOdrcCujSkGJE6uIxydmy/s6LnoYUVTRwR2bd2erCSPYE+p4fDJu+lt2p8PGuNj4
+ y5xJSSr42aKCDYqktRvVR4mHZmALV/wHnymmyDwEGxdSqM6Fcb1qxwjROAbE1uiVL9wk
+ 2amAc24p56kz4r9uZkAlFLkZlZxGa88PtHYOp0kwf/0kCR3Wv5YZ6UKaJKX31E5HM8Jv
+ nQWKW/GzTDjCJQVqPsLX+JAX5pHSfOVi8Lo+QaMftFk6GUD6A4HPOUfumRU0SGPBKEde
+ SaTg==
+X-Gm-Message-State: ACrzQf0lOHkDk4UwzZd4U4DD2/tKorNiqTHakpgPzTr3xA4o8Vmfct3r
+ Nm7DXZhx7VTy0y56efwSjln/eWjGm2HrAztrYUE4Lgw9e7HhJBybJUs9KYKYhdqUF3gA7iejOw4
+ qp3adTILr3rSiHRv00JUv/TE0FIXo
+X-Received: by 2002:a05:622a:150:b0:39c:ba53:1bb5 with SMTP id
+ v16-20020a05622a015000b0039cba531bb5mr18468719qtw.499.1666385825815; 
+ Fri, 21 Oct 2022 13:57:05 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6MY5XwTpQBBFYiAVKDRstqdkI32w0Ok9uacI+ICmSxulrnlaxmAW+i0iByuPsYL5hmSk2gXg==
+X-Received: by 2002:a05:622a:150:b0:39c:ba53:1bb5 with SMTP id
+ v16-20020a05622a015000b0039cba531bb5mr18468680qtw.499.1666385825457; 
+ Fri, 21 Oct 2022 13:57:05 -0700 (PDT)
 Received: from ?IPv6:2600:4040:5c68:4300::feb? ([2600:4040:5c68:4300::feb])
  by smtp.gmail.com with ESMTPSA id
- u12-20020a05620a454c00b006ce2c3c48ebsm10416460qkp.77.2022.10.21.13.36.41
+ z21-20020ac84555000000b00398df095cf5sm8494137qtn.34.2022.10.21.13.57.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 13:36:42 -0700 (PDT)
-Message-ID: <4ca7ad426a3c7b020ad1369125dba7030bb94a9e.camel@redhat.com>
-Subject: Re: [PATCH] mm/memremap: Introduce pgmap_request_folio() using
- pgmap offsets
+ Fri, 21 Oct 2022 13:57:04 -0700 (PDT)
+Message-ID: <1137cdd420dae0d5303a03a3ae7cf79368db3269.camel@redhat.com>
+Subject: Re: [PATCH v4] drm: Remove drm_mode_config::fb_base
 From: Lyude Paul <lyude@redhat.com>
-To: Dan Williams <dan.j.williams@intel.com>, akpm@linux-foundation.org
-Date: Fri, 21 Oct 2022 16:36:41 -0400
-In-Reply-To: <166630293549.1017198.3833687373550679565.stgit@dwillia2-xfh.jf.intel.com>
-References: <166630293549.1017198.3833687373550679565.stgit@dwillia2-xfh.jf.intel.com>
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+Date: Fri, 21 Oct 2022 16:57:02 -0400
+In-Reply-To: <20221019024401.394617-1-zack@kde.org>
+References: <20221019024401.394617-1-zack@kde.org>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,16 +84,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, nvdimm@lists.linux.dev, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Jan Kara <jack@suse.cz>,
- Jason Gunthorpe <jgg@nvidia.com>, Karol Herbst <kherbst@redhat.com>,
- David Airlie <airlied@linux.ie>, "Darrick
- J. Wong" <djwong@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Alistair Popple <apopple@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
+Cc: Karol Herbst <kherbst@redhat.com>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Lijo Lazar <lijo.lazar@amd.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ =?ISO-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Isabella Basso <isabbasso@riseup.net>,
+ Flora Cui <flora.cui@amd.com>, Tomohito Esaki <etom@igel.co.jp>,
+ Guchun Chen <guchun.chen@amd.com>, Bernard Zhao <bernard@vivo.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Leo Li <sunpeng.li@amd.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Leslie Shi <Yuliang.Shi@amd.com>,
+ Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
+ Tomi Valkeinen <tomba@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Roman Li <roman.li@amd.com>, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tian Tao <tiantao6@hisilicon.com>,
  Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-mm@kvack.org, =?ISO-8859-1?Q?J=E9r=F4me?= Glisse <jglisse@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
- Alex Deucher <alexander.deucher@amd.com>, Christoph Hellwig <hch@lst.de>
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -102,431 +115,405 @@ For the nouveau bits:
 
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-On Thu, 2022-10-20 at 14:56 -0700, Dan Williams wrote:
-> A 'struct dev_pagemap' (pgmap) represents a collection of ZONE_DEVICE
-> pages. The pgmap is a reference counted object that serves a similar
-> role as a 'struct request_queue'. Live references are obtained for each
-> in flight request / page, and once a page's reference count drops to
-> zero the associated pin of the pgmap is dropped as well. While a page is
-> idle nothing should be accessing it because that is effectively a
-> use-after-free situation. Unfortunately, all current ZONE_DEVICE
-> implementations deploy a layering violation to manage requests to
-> activate pages owned by a pgmap. Specifically, they take steps like walk
-> the pfns that were previously assigned at memremap_pages() time and use
-> pfn_to_page() to recall metadata like page->pgmap, or make use of other
-> data like page->zone_device_data.
+On Tue, 2022-10-18 at 22:43 -0400, Zack Rusin wrote:
+> From: Zack Rusin <zackr@vmware.com>
 > 
-> The first step towards correcting that situation is to provide a
-> API to get access to a pgmap page that does not require the caller to
-> know the pfn, nor access any fields of an idle page. Ideally this API
-> would be able to support dynamic page creation instead of the current
-> status quo of pre-allocating and initializing pages.
+> v4: Fix issue spotted by the kernel test robot
 > 
-> On a prompt from Jason, introduce pgmap_request_folio() that operates on
-> an offset into a pgmap. It replaces the shortlived
-> pgmap_request_folios() that was continuing the layering violation of
-> assuming pages are available to be consulted before asking the pgmap to
-> make them available.
+> The fb_base in struct drm_mode_config has been unused for a long time.
+> Some drivers set it and some don't leading to a very confusing state
+> where the variable can't be relied upon, because there's no indication
+> as to which driver sets it and which doesn't.
 > 
-> For now this only converts the callers to lookup the pgmap and generate
-> the pgmap offset, but it does not do the deeper cleanup of teaching
-> those call sites to generate those arguments without walking the page
-> metadata. For next steps it appears the DEVICE_PRIVATE implementations
-> could plumb the pgmap into the necessary callsites and switch to using
-> gen_pool_alloc() to track which offsets of a pgmap are allocated. For
-> DAX, dax_direct_access() could switch from returning pfns to returning
-> the associated @pgmap and @pgmap_offset. Those changes are saved for
-> follow-on work.
+> The only usage of fb_base is internal to two drivers so instead of trying
+> to force it into all the drivers to get it into a coherent state
+> completely remove it.
 > 
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: "Darrick J. Wong" <djwong@kernel.org>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: "Jérôme Glisse" <jglisse@redhat.com>
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
 > ---
-> This builds on the dax reference counting reworks in mm-unstable.
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c         |  2 --
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c           |  2 --
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c           |  2 --
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c            |  1 -
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c            |  2 --
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    |  2 --
+>  drivers/gpu/drm/ast/ast_mode.c                   |  2 --
+>  drivers/gpu/drm/gma500/framebuffer.c             |  6 +++---
+>  drivers/gpu/drm/gma500/psb_drv.h                 |  1 +
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 16 +++-------------
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  3 ---
+>  drivers/gpu/drm/mgag200/mgag200_mode.c           |  1 -
+>  drivers/gpu/drm/msm/msm_fbdev.c                  |  2 --
+>  drivers/gpu/drm/nouveau/nouveau_display.c        |  1 -
+>  drivers/gpu/drm/nouveau/nv04_fbcon.c             |  6 ++++--
+>  drivers/gpu/drm/omapdrm/omap_fbdev.c             |  2 --
+>  drivers/gpu/drm/qxl/qxl_display.c                |  2 --
+>  drivers/gpu/drm/radeon/radeon_display.c          |  2 --
+>  drivers/gpu/drm/radeon/radeon_fb.c               |  2 +-
+>  drivers/gpu/drm/tegra/fb.c                       |  1 -
+>  drivers/gpu/drm/tiny/bochs.c                     |  1 -
+>  include/drm/drm_mode_config.h                    |  2 --
+>  22 files changed, 12 insertions(+), 49 deletions(-)
 > 
->  arch/powerpc/kvm/book3s_hv_uvmem.c       |   11 ++--
->  drivers/dax/mapping.c                    |   10 +++
->  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |   14 +++--
->  drivers/gpu/drm/nouveau/nouveau_dmem.c   |   13 +++-
->  include/linux/memremap.h                 |   35 ++++++++---
->  lib/test_hmm.c                           |    9 +++
->  mm/memremap.c                            |   92 ++++++++++++------------------
->  7 files changed, 106 insertions(+), 78 deletions(-)
-> 
-> diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> index 884ec112ad43..2ea59396f608 100644
-> --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
-> +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> @@ -689,12 +689,14 @@ unsigned long kvmppc_h_svm_init_abort(struct kvm *kvm)
->   */
->  static struct page *kvmppc_uvmem_get_page(unsigned long gpa, struct kvm *kvm)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+> index f4b5301ea2a0..09dec2561adf 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+> @@ -498,8 +498,6 @@ static int amdgpu_vkms_sw_init(void *handle)
+>  	adev_to_drm(adev)->mode_config.preferred_depth = 24;
+>  	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
+>  
+> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+> -
+>  	r = amdgpu_display_modeset_create_props(adev);
+>  	if (r)
+>  		return r;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> index 288fce7dc0ed..05051d5d2ec3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> @@ -2800,8 +2800,6 @@ static int dce_v10_0_sw_init(void *handle)
+>  
+>  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+>  
+> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+> -
+>  	r = amdgpu_display_modeset_create_props(adev);
+>  	if (r)
+>  		return r;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> index cbe5250b31cb..c928bc9eb202 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> @@ -2918,8 +2918,6 @@ static int dce_v11_0_sw_init(void *handle)
+>  
+>  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+>  
+> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+> -
+>  	r = amdgpu_display_modeset_create_props(adev);
+>  	if (r)
+>  		return r;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> index b1c44fab074f..62315fd5a05f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> @@ -2675,7 +2675,6 @@ static int dce_v6_0_sw_init(void *handle)
+>  	adev_to_drm(adev)->mode_config.preferred_depth = 24;
+>  	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
+>  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+>  
+>  	r = amdgpu_display_modeset_create_props(adev);
+>  	if (r)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+> index a22b45c92792..87d5e4c21cb3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+> @@ -2701,8 +2701,6 @@ static int dce_v8_0_sw_init(void *handle)
+>  
+>  	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
+>  
+> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+> -
+>  	r = amdgpu_display_modeset_create_props(adev);
+>  	if (r)
+>  		return r;
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index c053cb79cd06..0db2a88cd4d7 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -3816,8 +3816,6 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
+>  	/* indicates support for immediate flip */
+>  	adev_to_drm(adev)->mode_config.async_page_flip = true;
+>  
+> -	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
+> -
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+>  	if (!state)
+>  		return -ENOMEM;
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 4355754d69b5..c7443317c747 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -1767,7 +1767,6 @@ static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+>  int ast_mode_config_init(struct ast_private *ast)
 >  {
-> -	struct page *dpage = NULL;
-> +	struct dev_pagemap *pgmap = &kvmppc_uvmem_pgmap;
->  	unsigned long bit, uvmem_pfn;
->  	struct kvmppc_uvmem_page_pvt *pvt;
->  	unsigned long pfn_last, pfn_first;
-> +	struct folio *folio;
-> +	struct page *dpage;
->  
-> -	pfn_first = kvmppc_uvmem_pgmap.range.start >> PAGE_SHIFT;
-> +	pfn_first = pgmap->range.start >> PAGE_SHIFT;
->  	pfn_last = pfn_first +
->  		   (range_len(&kvmppc_uvmem_pgmap.range) >> PAGE_SHIFT);
->  
-> @@ -716,9 +718,10 @@ static struct page *kvmppc_uvmem_get_page(unsigned long gpa, struct kvm *kvm)
->  	pvt->gpa = gpa;
->  	pvt->kvm = kvm;
->  
-> -	dpage = pfn_to_page(uvmem_pfn);
-> +	folio = pgmap_request_folio(pgmap,
-> +				    pfn_to_pgmap_offset(pgmap, uvmem_pfn), 0);
-> +	dpage = &folio->page;
->  	dpage->zone_device_data = pvt;
-> -	pgmap_request_folios(dpage->pgmap, page_folio(dpage), 1);
->  	lock_page(dpage);
->  	return dpage;
->  out_clear:
-> diff --git a/drivers/dax/mapping.c b/drivers/dax/mapping.c
-> index ca06f2515644..b885c75e2dfb 100644
-> --- a/drivers/dax/mapping.c
-> +++ b/drivers/dax/mapping.c
-> @@ -376,8 +376,14 @@ static vm_fault_t dax_associate_entry(void *entry,
->  		if (flags & DAX_COW) {
->  			dax_mapping_set_cow(folio);
->  		} else {
-> +			struct dev_pagemap *pgmap = folio_pgmap(folio);
-> +			unsigned long pfn = page_to_pfn(&folio->page);
-> +
->  			WARN_ON_ONCE(folio->mapping);
-> -			if (!pgmap_request_folios(folio_pgmap(folio), folio, 1))
-> +			if (folio !=
-> +			    pgmap_request_folio(pgmap,
-> +						pfn_to_pgmap_offset(pgmap, pfn),
-> +						folio_order(folio)))
->  				return VM_FAULT_SIGBUS;
->  			folio->mapping = mapping;
->  			folio->index = index + i;
-> @@ -691,7 +697,7 @@ static struct page *dax_zap_pages(struct xa_state *xas, void *entry)
->  
->  	dax_for_each_folio(entry, folio, i) {
->  		if (zap)
-> -			pgmap_release_folios(folio, 1);
-> +			folio_put(folio);
->  		if (!ret && !dax_folio_idle(folio))
->  			ret = folio_page(folio, 0);
->  	}
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> index 8cf97060122b..1cecee358a9e 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> @@ -215,15 +215,17 @@ svm_migrate_addr_to_pfn(struct amdgpu_device *adev, unsigned long addr)
->  	return (addr + adev->kfd.dev->pgmap.range.start) >> PAGE_SHIFT;
->  }
->  
-> -static void
-> -svm_migrate_get_vram_page(struct svm_range *prange, unsigned long pfn)
-> +static void svm_migrate_get_vram_page(struct dev_pagemap *pgmap,
-> +				      struct svm_range *prange,
-> +				      unsigned long pfn)
->  {
-> +	struct folio *folio;
->  	struct page *page;
->  
-> -	page = pfn_to_page(pfn);
-> +	folio = pgmap_request_folio(pgmap, pfn_to_pgmap_offset(pgmap, pfn), 0);
-> +	page = &folio->page;
->  	svm_range_bo_ref(prange->svm_bo);
->  	page->zone_device_data = prange->svm_bo;
-> -	pgmap_request_folios(page->pgmap, page_folio(page), 1);
->  	lock_page(page);
->  }
->  
-> @@ -298,6 +300,7 @@ svm_migrate_copy_to_vram(struct amdgpu_device *adev, struct svm_range *prange,
->  			 struct migrate_vma *migrate, struct dma_fence **mfence,
->  			 dma_addr_t *scratch)
->  {
-> +	struct kfd_dev *kfddev = adev->kfd.dev;
->  	uint64_t npages = migrate->npages;
->  	struct device *dev = adev->dev;
->  	struct amdgpu_res_cursor cursor;
-> @@ -327,7 +330,8 @@ svm_migrate_copy_to_vram(struct amdgpu_device *adev, struct svm_range *prange,
->  		if (spage && !is_zone_device_page(spage)) {
->  			dst[i] = cursor.start + (j << PAGE_SHIFT);
->  			migrate->dst[i] = svm_migrate_addr_to_pfn(adev, dst[i]);
-> -			svm_migrate_get_vram_page(prange, migrate->dst[i]);
-> +			svm_migrate_get_vram_page(&kfddev->pgmap, prange,
-> +						  migrate->dst[i]);
->  			migrate->dst[i] = migrate_pfn(migrate->dst[i]);
->  			src[i] = dma_map_page(dev, spage, 0, PAGE_SIZE,
->  					      DMA_TO_DEVICE);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> index 1482533c7ca0..24208a1d7441 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> @@ -307,6 +307,9 @@ static struct page *
->  nouveau_dmem_page_alloc_locked(struct nouveau_drm *drm)
->  {
->  	struct nouveau_dmem_chunk *chunk;
-> +	struct dev_pagemap *pgmap;
-> +	struct folio *folio;
-> +	unsigned long pfn;
->  	struct page *page = NULL;
+>  	struct drm_device *dev = &ast->base;
+> -	struct pci_dev *pdev = to_pci_dev(dev->dev);
 >  	int ret;
 >  
-> @@ -316,17 +319,21 @@ nouveau_dmem_page_alloc_locked(struct nouveau_drm *drm)
->  		drm->dmem->free_pages = page->zone_device_data;
->  		chunk = nouveau_page_to_chunk(page);
->  		chunk->callocated++;
-> +		pfn = page_to_pfn(page);
->  		spin_unlock(&drm->dmem->lock);
->  	} else {
->  		spin_unlock(&drm->dmem->lock);
->  		ret = nouveau_dmem_chunk_alloc(drm, &page);
->  		if (ret)
->  			return NULL;
-> +		chunk = nouveau_page_to_chunk(page);
-> +		pfn = page_to_pfn(page);
+>  	ret = drmm_mode_config_init(dev);
+> @@ -1778,7 +1777,6 @@ int ast_mode_config_init(struct ast_private *ast)
+>  	dev->mode_config.min_width = 0;
+>  	dev->mode_config.min_height = 0;
+>  	dev->mode_config.preferred_depth = 24;
+> -	dev->mode_config.fb_base = pci_resource_start(pdev, 0);
+>  
+>  	if (ast->chip == AST2100 ||
+>  	    ast->chip == AST2200 ||
+> diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+> index aa3ecf771fd3..5f502a0048ab 100644
+> --- a/drivers/gpu/drm/gma500/framebuffer.c
+> +++ b/drivers/gpu/drm/gma500/framebuffer.c
+> @@ -286,7 +286,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+>  
+>  	info->fbops = &psbfb_unaccel_ops;
+>  
+> -	info->fix.smem_start = dev->mode_config.fb_base;
+> +	info->fix.smem_start = dev_priv->fb_base;
+>  	info->fix.smem_len = size;
+>  	info->fix.ywrapstep = 0;
+>  	info->fix.ypanstep = 0;
+> @@ -296,7 +296,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+>  	info->screen_size = size;
+>  
+>  	if (dev_priv->gtt.stolen_size) {
+> -		info->apertures->ranges[0].base = dev->mode_config.fb_base;
+> +		info->apertures->ranges[0].base = dev_priv->fb_base;
+>  		info->apertures->ranges[0].size = dev_priv->gtt.stolen_size;
 >  	}
 >  
-> -	pgmap_request_folios(page->pgmap, page_folio(page), 1);
-> -	lock_page(page);
-> -	return page;
-> +	pgmap = &chunk->pagemap;
-> +	folio = pgmap_request_folio(pgmap, pfn_to_pgmap_offset(pgmap, pfn), 0);
-> +	lock_page(&folio->page);
-> +	return &folio->page;
->  }
+> @@ -527,7 +527,7 @@ void psb_modeset_init(struct drm_device *dev)
 >  
->  static void
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index ddb196ae0696..f11f827883bb 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -139,6 +139,28 @@ struct dev_pagemap {
->  	};
->  };
+>  	/* set memory base */
+>  	/* Oaktrail and Poulsbo should use BAR 2*/
+> -	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev->mode_config.fb_base));
+> +	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev_priv->fb_base));
 >  
-> +/*
-> + * Do not use this in new code, this is a transitional helper on the
-> + * path to convert all ZONE_DEVICE users to operate in terms of pgmap
-> + * offsets rather than pfn and pfn_to_page() to put ZONE_DEVICE pages
-> + * into use.
-> + */
-> +static inline pgoff_t pfn_to_pgmap_offset(struct dev_pagemap *pgmap, unsigned long pfn)
-> +{
-> +	u64 phys = PFN_PHYS(pfn), sum = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < pgmap->nr_range; i++) {
-> +		struct range *range = &pgmap->ranges[i];
-> +
-> +		if (phys >= range->start && phys <= range->end)
-> +			return PHYS_PFN(phys - range->start + sum);
-> +		sum += range_len(range);
-> +	}
-> +
-> +	return -1;
-> +}
-> +
->  static inline bool pgmap_has_memory_failure(struct dev_pagemap *pgmap)
+>  	/* num pipes is 2 for PSB but 1 for Mrst */
+>  	for (i = 0; i < dev_priv->num_pipe; i++)
+> diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+> index ae544b69fc47..a5df6d2f2cab 100644
+> --- a/drivers/gpu/drm/gma500/psb_drv.h
+> +++ b/drivers/gpu/drm/gma500/psb_drv.h
+> @@ -523,6 +523,7 @@ struct drm_psb_private {
+>  	uint32_t blc_adj2;
+>  
+>  	struct drm_fb_helper *fb_helper;
+> +	resource_size_t fb_base;
+>  
+>  	bool dsr_enable;
+>  	u32 dsr_fb_update;
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index fe4269c5aa0a..5a2e1cac06b2 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -105,7 +105,6 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+>  	dev->mode_config.max_width = 1920;
+>  	dev->mode_config.max_height = 1200;
+>  
+> -	dev->mode_config.fb_base = priv->fb_base;
+>  	dev->mode_config.preferred_depth = 32;
+>  	dev->mode_config.prefer_shadow = 1;
+>  
+> @@ -212,7 +211,7 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
 >  {
->  	return pgmap->ops && pgmap->ops->memory_failure;
-> @@ -193,9 +215,8 @@ void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
->  void devm_memunmap_pages(struct device *dev, struct dev_pagemap *pgmap);
->  struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
->  				    struct dev_pagemap *pgmap);
-> -bool pgmap_request_folios(struct dev_pagemap *pgmap, struct folio *folio,
-> -			  int nr_folios);
-> -void pgmap_release_folios(struct folio *folio, int nr_folios);
-> +struct folio *pgmap_request_folio(struct dev_pagemap *pgmap,
-> +				  pgoff_t pgmap_offset, int order);
->  bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
+>  	struct drm_device *dev = &priv->dev;
+>  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> -	resource_size_t addr, size, ioaddr, iosize;
+> +	resource_size_t ioaddr, iosize;
 >  
->  unsigned long vmem_altmap_offset(struct vmem_altmap *altmap);
-> @@ -231,16 +252,12 @@ static inline struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
->  	return NULL;
->  }
->  
-> -static inline bool pgmap_request_folios(struct dev_pagemap *pgmap,
-> -					struct folio *folio, int nr_folios)
-> +static inline struct folio *pgmap_request_folio(struct dev_pagemap *pgmap,
-> +						pgoff_t pgmap_offset, int order)
->  {
->  	return false;
->  }
->  
-> -static inline void pgmap_release_folios(struct folio *folio, int nr_folios)
-> -{
-> -}
-> -
->  static inline bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn)
->  {
->  	return false;
-> diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-> index e4f7219ae3bb..1f7e00ae62d5 100644
-> --- a/lib/test_hmm.c
-> +++ b/lib/test_hmm.c
-> @@ -605,8 +605,11 @@ static int dmirror_allocate_chunk(struct dmirror_device *mdevice,
->  
->  static struct page *dmirror_devmem_alloc_page(struct dmirror_device *mdevice)
->  {
-> +	struct dev_pagemap *pgmap;
->  	struct page *dpage = NULL;
->  	struct page *rpage = NULL;
-> +	struct folio *folio;
-> +	unsigned long pfn;
->  
->  	/*
->  	 * For ZONE_DEVICE private type, this is a fake device so we allocate
-> @@ -632,7 +635,11 @@ static struct page *dmirror_devmem_alloc_page(struct dmirror_device *mdevice)
->  			goto error;
+>  	ioaddr = pci_resource_start(pdev, 1);
+>  	iosize = pci_resource_len(pdev, 1);
+> @@ -222,16 +221,6 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
+>  		return -ENOMEM;
 >  	}
 >  
-> -	pgmap_request_folios(dpage->pgmap, page_folio(dpage), 1);
-> +	/* FIXME: Rework allocator to be pgmap offset based */
-> +	pgmap = dpage->pgmap;
-> +	pfn = page_to_pfn(dpage);
-> +	folio = pgmap_request_folio(pgmap, pfn_to_pgmap_offset(pgmap, pfn), 0);
-> +	WARN_ON_ONCE(dpage != &folio->page);
->  	lock_page(dpage);
->  	dpage->zone_device_data = rpage;
->  	return dpage;
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index 02b796749b72..09b20a337db9 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -492,76 +492,60 @@ void free_zone_device_page(struct page *page)
->  	put_dev_pagemap(page->pgmap);
->  }
->  
-> -static __maybe_unused bool folio_span_valid(struct dev_pagemap *pgmap,
-> -					    struct folio *folio,
-> -					    int nr_folios)
-> +static unsigned long pgmap_offset_to_pfn(struct dev_pagemap *pgmap,
-> +					 pgoff_t pgmap_offset)
->  {
-> -	unsigned long pfn_start, pfn_end;
-> -
-> -	pfn_start = page_to_pfn(folio_page(folio, 0));
-> -	pfn_end = pfn_start + (1 << folio_order(folio)) * nr_folios - 1;
-> +	u64 sum = 0, offset = PFN_PHYS(pgmap_offset);
-> +	int i;
->  
-> -	if (pgmap != xa_load(&pgmap_array, pfn_start))
-> -		return false;
-> +	for (i = 0; i < pgmap->nr_range; i++) {
-> +		struct range *range = &pgmap->ranges[i];
->  
-> -	if (pfn_end > pfn_start && pgmap != xa_load(&pgmap_array, pfn_end))
-> -		return false;
-> +		if (offset >= sum && offset < (sum + range_len(range)))
-> +			return PHYS_PFN(range->start + offset - sum);
-> +		sum += range_len(range);
-> +	}
->  
-> -	return true;
-> +	return -1;
->  }
->  
->  /**
-> - * pgmap_request_folios - activate an contiguous span of folios in @pgmap
-> - * @pgmap: host page map for the folio array
-> - * @folio: start of the folio list, all subsequent folios have same folio_size()
-> + * pgmap_request_folio - activate a folio of a given order in @pgmap
-> + * @pgmap: host page map of the folio to activate
-> + * @pgmap_offset: page-offset into the pgmap to request
-> + * @order: expected folio_order() of the folio
->   *
->   * Caller is responsible for @pgmap remaining live for the duration of
-> - * this call. Caller is also responsible for not racing requests for the
-> - * same folios.
-> + * this call. The order (size) of the folios in the pgmap are assumed
-> + * stable before this call.
->   */
-> -bool pgmap_request_folios(struct dev_pagemap *pgmap, struct folio *folio,
-> -			  int nr_folios)
-> +struct folio *pgmap_request_folio(struct dev_pagemap *pgmap,
-> +				  pgoff_t pgmap_offset, int order)
->  {
-> -	struct folio *iter;
-> -	int i;
-> +	unsigned long pfn = pgmap_offset_to_pfn(pgmap, pgmap_offset);
-> +	struct page *page = pfn_to_page(pfn);
-> +	struct folio *folio;
-> +	int v;
->  
-> -	/*
-> -	 * All of the WARNs below are for catching bugs in future
-> -	 * development that changes the assumptions of:
-> -	 * 1/ uniform folios in @pgmap
-> -	 * 2/ @pgmap death does not race this routine.
-> -	 */
-> -	VM_WARN_ON_ONCE(!folio_span_valid(pgmap, folio, nr_folios));
-> +	if (WARN_ON_ONCE(page->pgmap != pgmap))
-> +		return NULL;
->  
->  	if (WARN_ON_ONCE(percpu_ref_is_dying(&pgmap->ref)))
-> -		return false;
-> +		return NULL;
->  
-> -	for (iter = folio_next(folio), i = 1; i < nr_folios;
-> -	     iter = folio_next(folio), i++)
-> -		if (WARN_ON_ONCE(folio_order(iter) != folio_order(folio)))
-> -			return false;
-> +	folio = page_folio(page);
-> +	if (WARN_ON_ONCE(folio_order(folio) != order))
-> +		return NULL;
->  
-> -	for (iter = folio, i = 0; i < nr_folios; iter = folio_next(iter), i++) {
-> -		folio_ref_inc(iter);
-> -		if (folio_ref_count(iter) == 1)
-> -			percpu_ref_tryget(&pgmap->ref);
+> -	addr = pci_resource_start(pdev, 0);
+> -	size = pci_resource_len(pdev, 0);
+> -	priv->fb_map = devm_ioremap(dev->dev, addr, size);
+> -	if (!priv->fb_map) {
+> -		drm_err(dev, "Cannot map framebuffer\n");
+> -		return -ENOMEM;
 > -	}
+> -	priv->fb_base = addr;
+> -	priv->fb_size = size;
 > -
-> -	return true;
-> -}
-> -EXPORT_SYMBOL_GPL(pgmap_request_folios);
-> +	v = folio_ref_inc_return(folio);
-> +	if (v > 1)
-> +		return folio;
->  
-> -/*
-> - * A symmetric helper to undo the page references acquired by
-> - * pgmap_request_folios(), but the caller can also just arrange
-> - * folio_put() on all the folios it acquired previously for the same
-> - * effect.
-> - */
-> -void pgmap_release_folios(struct folio *folio, int nr_folios)
-> -{
-> -	struct folio *iter;
-> -	int i;
-> +	if (WARN_ON_ONCE(!percpu_ref_tryget(&pgmap->ref))) {
-> +		folio_put(folio);
-> +		return NULL;
-> +	}
->  
-> -	for (iter = folio, i = 0; i < nr_folios; iter = folio_next(folio), i++)
-> -		folio_put(iter);
-> +	return folio;
+>  	return 0;
 >  }
-> +EXPORT_SYMBOL_GPL(pgmap_request_folio);
-> 
+>  
+> @@ -271,7 +260,8 @@ static int hibmc_load(struct drm_device *dev)
+>  	if (ret)
+>  		goto err;
+>  
+> -	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0), priv->fb_size);
+> +	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
+> +				    pci_resource_len(pdev, 0));
+>  	if (ret) {
+>  		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+>  		goto err;
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> index 7d263f4d7078..4a0cd22c10e2 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> @@ -32,9 +32,6 @@ struct hibmc_connector {
+>  struct hibmc_drm_private {
+>  	/* hw */
+>  	void __iomem   *mmio;
+> -	void __iomem   *fb_map;
+> -	resource_size_t  fb_base;
+> -	resource_size_t  fb_size;
+>  
+>  	/* drm */
+>  	struct drm_device dev;
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index 758629da95d9..0a5aaf78172a 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -824,7 +824,6 @@ int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vram_avail
+>  	dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
+>  	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
+>  	dev->mode_config.preferred_depth = 24;
+> -	dev->mode_config.fb_base = mdev->vram_res->start;
+>  	dev->mode_config.funcs = &mgag200_mode_config_funcs;
+>  	dev->mode_config.helper_private = &mgag200_mode_config_helper_funcs;
+>  
+> diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
+> index 46168eccfac4..b373e3000320 100644
+> --- a/drivers/gpu/drm/msm/msm_fbdev.c
+> +++ b/drivers/gpu/drm/msm/msm_fbdev.c
+> @@ -109,8 +109,6 @@ static int msm_fbdev_create(struct drm_fb_helper *helper,
+>  
+>  	drm_fb_helper_fill_info(fbi, helper, sizes);
+>  
+> -	dev->mode_config.fb_base = paddr;
+> -
+>  	fbi->screen_base = msm_gem_get_vaddr(bo);
+>  	if (IS_ERR(fbi->screen_base)) {
+>  		ret = PTR_ERR(fbi->screen_base);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+> index a2f5df568ca5..928fdfa8e8e5 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+> @@ -672,7 +672,6 @@ nouveau_display_create(struct drm_device *dev)
+>  	drm_mode_create_dvi_i_properties(dev);
+>  
+>  	dev->mode_config.funcs = &nouveau_mode_config_funcs;
+> -	dev->mode_config.fb_base = device->func->resource_addr(device, 1);
+>  
+>  	dev->mode_config.min_width = 0;
+>  	dev->mode_config.min_height = 0;
+> diff --git a/drivers/gpu/drm/nouveau/nv04_fbcon.c b/drivers/gpu/drm/nouveau/nv04_fbcon.c
+> index 92f3fb6765ab..c30b8dacd86b 100644
+> --- a/drivers/gpu/drm/nouveau/nv04_fbcon.c
+> +++ b/drivers/gpu/drm/nouveau/nv04_fbcon.c
+> @@ -137,6 +137,8 @@ nv04_fbcon_accel_init(struct fb_info *info)
+>  	struct nouveau_channel *chan = drm->channel;
+>  	struct nvif_device *device = &drm->client.device;
+>  	struct nvif_push *push = chan->chan.push;
+> +	struct nvkm_device *nvkm_device = nvxx_device(&drm->client.device);
+> +	resource_size_t fb_base = nvkm_device->func->resource_addr(nvkm_device, 1);
+>  	int surface_fmt, pattern_fmt, rect_fmt;
+>  	int ret;
+>  
+> @@ -210,8 +212,8 @@ nv04_fbcon_accel_init(struct fb_info *info)
+>  			       0x0188, chan->vram.handle);
+>  	PUSH_NVSQ(push, NV042, 0x0300, surface_fmt,
+>  			       0x0304, info->fix.line_length | (info->fix.line_length << 16),
+> -			       0x0308, info->fix.smem_start - dev->mode_config.fb_base,
+> -			       0x030c, info->fix.smem_start - dev->mode_config.fb_base);
+> +			       0x0308, info->fix.smem_start - fb_base,
+> +			       0x030c, info->fix.smem_start - fb_base);
+>  
+>  	PUSH_NVSQ(push, NV043, 0x0000, nfbdev->rop.handle);
+>  	PUSH_NVSQ(push, NV043, 0x0300, 0x55);
+> diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+> index 40706c5aad7b..ed67dd25794c 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+> @@ -177,8 +177,6 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+>  
+>  	drm_fb_helper_fill_info(fbi, helper, sizes);
+>  
+> -	dev->mode_config.fb_base = dma_addr;
+> -
+>  	fbi->screen_buffer = omap_gem_vaddr(fbdev->bo);
+>  	fbi->screen_size = fbdev->bo->size;
+>  	fbi->fix.smem_start = dma_addr;
+> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+> index a152a7c6db21..6492a70e3c39 100644
+> --- a/drivers/gpu/drm/qxl/qxl_display.c
+> +++ b/drivers/gpu/drm/qxl/qxl_display.c
+> @@ -1261,8 +1261,6 @@ int qxl_modeset_init(struct qxl_device *qdev)
+>  	qdev->ddev.mode_config.max_width = 8192;
+>  	qdev->ddev.mode_config.max_height = 8192;
+>  
+> -	qdev->ddev.mode_config.fb_base = qdev->vram_base;
+> -
+>  	drm_mode_create_suggested_offset_properties(&qdev->ddev);
+>  	qxl_mode_create_hotplug_mode_update_property(qdev);
+>  
+> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+> index ca5598ae8bfc..9bed1a6cb163 100644
+> --- a/drivers/gpu/drm/radeon/radeon_display.c
+> +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> @@ -1604,8 +1604,6 @@ int radeon_modeset_init(struct radeon_device *rdev)
+>  
+>  	rdev->ddev->mode_config.fb_modifiers_not_supported = true;
+>  
+> -	rdev->ddev->mode_config.fb_base = rdev->mc.aper_base;
+> -
+>  	ret = radeon_modeset_create_props(rdev);
+>  	if (ret) {
+>  		return ret;
+> diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
+> index 6ccea51d4072..cc6754d88b81 100644
+> --- a/drivers/gpu/drm/radeon/radeon_fb.c
+> +++ b/drivers/gpu/drm/radeon/radeon_fb.c
+> @@ -276,7 +276,7 @@ static int radeonfb_create(struct drm_fb_helper *helper,
+>  	drm_fb_helper_fill_info(info, &rfbdev->helper, sizes);
+>  
+>  	/* setup aperture base/size for vesafb takeover */
+> -	info->apertures->ranges[0].base = rdev->ddev->mode_config.fb_base;
+> +	info->apertures->ranges[0].base = rdev->mc.aper_base;
+>  	info->apertures->ranges[0].size = rdev->mc.aper_size;
+>  
+>  	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
+> diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
+> index 9291209154a7..bce71c0ccc9e 100644
+> --- a/drivers/gpu/drm/tegra/fb.c
+> +++ b/drivers/gpu/drm/tegra/fb.c
+> @@ -280,7 +280,6 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+>  		}
+>  	}
+>  
+> -	drm->mode_config.fb_base = (resource_size_t)bo->iova;
+>  	info->screen_base = (void __iomem *)bo->vaddr + offset;
+>  	info->screen_size = size;
+>  	info->fix.smem_start = (unsigned long)(bo->iova + offset);
+> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+> index a51262289aef..04682f831544 100644
+> --- a/drivers/gpu/drm/tiny/bochs.c
+> +++ b/drivers/gpu/drm/tiny/bochs.c
+> @@ -543,7 +543,6 @@ static int bochs_kms_init(struct bochs_device *bochs)
+>  	bochs->dev->mode_config.max_width = 8192;
+>  	bochs->dev->mode_config.max_height = 8192;
+>  
+> -	bochs->dev->mode_config.fb_base = bochs->fb_base;
+>  	bochs->dev->mode_config.preferred_depth = 24;
+>  	bochs->dev->mode_config.prefer_shadow = 0;
+>  	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 6b5e01295348..5362702fffe1 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -345,7 +345,6 @@ struct drm_mode_config_funcs {
+>   * @max_width: maximum fb pixel width on this device
+>   * @max_height: maximum fb pixel height on this device
+>   * @funcs: core driver provided mode setting functions
+> - * @fb_base: base address of the framebuffer
+>   * @poll_enabled: track polling support for this device
+>   * @poll_running: track polling status for this device
+>   * @delayed_event: track delayed poll uevent deliver for this device
+> @@ -542,7 +541,6 @@ struct drm_mode_config {
+>  	int min_width, min_height;
+>  	int max_width, max_height;
+>  	const struct drm_mode_config_funcs *funcs;
+> -	resource_size_t fb_base;
+>  
+>  	/* output poll support */
+>  	bool poll_enabled;
 
 -- 
 Cheers,
