@@ -2,148 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BC3607446
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 11:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282F860769F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 13:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 773B810E656;
-	Fri, 21 Oct 2022 09:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64F1410E044;
+	Fri, 21 Oct 2022 11:59:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7499710E656;
- Fri, 21 Oct 2022 09:39:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666345188; x=1697881188;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=4zHZEaMkt2TeEwQR/2YfaoWZFKAVDVksp0MfNoMB4tc=;
- b=kG8vYKVuQMUx7bqIHP2xZlGBCkb1ADZtJqaC2H9rrrVwUJ4vJJ3TqhdA
- z6qgq/WfjZJRUAlTRolyrDqamZ/q6dpk5polptBQCzXG/kOPxOJHNBABq
- SBDqMgtZOj3xv6JXr5na2oIajsJVHtE+ANWf+iv6EkHdzxMNmzuQ/gMKo
- jaGn5K1atZiEsVjJHm53pP7lRZYYCvK3wgOzlNxeSyYu2BKk8gR+ZpdsC
- c4uPZIsP0LCV6ezhNn7sLo5rMx+4QOkhvvJvaW4rxkZH8/VRpfNZ2vNGG
- DVjWTsu0yR5vsVV6ccGgOS1umCO4fvKunvBIqvHHHh8jQcDySD1kOirNR g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="294358436"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; d="scan'208";a="294358436"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2022 02:39:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="661514411"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; d="scan'208";a="661514411"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga008.jf.intel.com with ESMTP; 21 Oct 2022 02:39:47 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 02:39:47 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 02:39:46 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 21 Oct 2022 02:39:46 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.107)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 587FE10E044
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 11:59:07 +0000 (UTC)
+X-UUID: 9af27a17997b4497849decca31f83c97-20221021
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=AuKJv5zVRpNvyNosn7gMSN75X/int55vqM+uQfxNkxE=; 
+ b=QEne0TaRdolTmVW+SQQ2EC0LeQTHiLbKKuj872vnnTgv1z76bZC7kxjblXyHg53sNeIc05fbXhhY4unqWYPzMWybb9nvZJscalfzM2AWSlIO6Dx1yOdQC484Od9FjR9RoJbUFwzk6Sm0k7N+wpUFRh2vfzCyWE6hIfnR49ZkuFQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12, REQID:d19f590a-83d9-4e15-b6b7-a9ba698d9879, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:62cd327, CLOUDID:66a1b26c-89d3-4bfa-baad-dc632a24bca3,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 9af27a17997b4497849decca31f83c97-20221021
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 2017664211; Fri, 21 Oct 2022 19:58:58 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 21 Oct 2022 02:39:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fFhJgTqXLDX4QiA/rZMf8+XYHrB61K/cY8dI6Tbs/yDVsy17fSdPBicLgU93KApx+0QsiMS40E2G3lQtOfw5wrinYE9Ud/Ey7Gop8sgo/rfi7Z8gviZN5/G01sphbPmpxMyOAzoYNFYOdghSR3uAjK2g9T0J9+qtq1on6BBbT4xgNVY2WlCa6MPa5NPnpu+kJIjKas7iBWeLryWiBLMMp4Cgif94czeWbRDpg2iH+cG1O/T3LKQPWqy6o9dtsXW/u8ZI5hmiMee5XlHLLXvlVPdVjQUN5OyZSqniqr5RGGKQ1SQQzSvnJKe5EpSh1yTtjJZiJxnE+BOJ2w95cvRFjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4zHZEaMkt2TeEwQR/2YfaoWZFKAVDVksp0MfNoMB4tc=;
- b=LYQSL+QABn0X5HQRtLosd1UHoiNE9Xc14vsvGV1TAdSkX4JPq/0B6+Dhp8b1O5nbzg8Ha8HmHT2atSm2O4VX/7dU+wYg+ZRGpGnocJtq6ck72CY3RN2q1AWN/9uKe7ePQxFgOnK28i+4sPuogII7GLLm87W9osjKr924bXmxrP0SVu2zcI/DrSfKEgXoK+ZduFxa8U9OrUvXG4SCJqpuyOFuMD5gNs2SvmX8YhCyRFQlGVZZGkXKIh9PbnLj2zYpGTtefaoyMdtrSF/HNgqbQzPiriPyuZ3tEPncB3unvPHMdRIeMFRVWsXYOBiakISoINzAMr5Dl1aZANW6HW7pog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5655.namprd11.prod.outlook.com (2603:10b6:8:28::10) by
- SN7PR11MB6774.namprd11.prod.outlook.com (2603:10b6:806:265::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Fri, 21 Oct
- 2022 09:39:43 +0000
-Received: from DM8PR11MB5655.namprd11.prod.outlook.com
- ([fe80::c4ac:5f10:7fa3:2aa]) by DM8PR11MB5655.namprd11.prod.outlook.com
- ([fe80::c4ac:5f10:7fa3:2aa%7]) with mapi id 15.20.5723.034; Fri, 21 Oct 2022
- 09:39:43 +0000
-From: "Saarinen, Jani" <jani.saarinen@intel.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, "Jani
- Nikula" <jani.nikula@linux.intel.com>, "Latvala, Petri"
- <petri.latvala@intel.com>
-Subject: RE: [Intel-gfx] Random submitter change in Freedesktop Patchwork
-Thread-Topic: [Intel-gfx] Random submitter change in Freedesktop Patchwork
-Thread-Index: AQHY5J11Ng0frZwKgEK5n2FPbWc/764XctcAgAADywCAASIbIA==
-Date: Fri, 21 Oct 2022 09:39:43 +0000
-Message-ID: <DM8PR11MB5655678556E4B116E76B9116E02D9@DM8PR11MB5655.namprd11.prod.outlook.com>
-References: <878rlaqyc7.wl-ashutosh.dixit@intel.com>
- <871qr2h41x.fsf@intel.com> <Y1F1aEIbdktSYpPG@intel.com>
-In-Reply-To: <Y1F1aEIbdktSYpPG@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-Mentions: petri.latvala@intel.com
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.500.17
-dlp-reaction: no-action
-dlp-product: dlpe-windows
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5655:EE_|SN7PR11MB6774:EE_
-x-ms-office365-filtering-correlation-id: 6e520f14-3f94-4bad-3304-08dab3482ee6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1hgOUYWqlf+DRfNZd1kfUR+bRRkLDKSpF/dDxVvX79F+2zEj/PkgMDx3UBzV35SR5DU3VYyPk8Wy7cvCcyAgYR+kmDzRL4e6OYxkt/Pyb8sR0nXw8j7EQunzn5SO8Awk/5D8JkjnU1TRd7Z88ehZegOjCfXBHfwsYZ+vCO/FNarmrbRFwtS/w2Y5keeETzfb2FG4h/kF3BOzIEqJpeDcmeo4rhw3dNFH7Xfn1Ra2ZvJDiRgz5Aia7UdsgbSyGmqNP64lnZK2ptomh4DtlkJtjNH1zo233vx1zKkTB8YaulYkkcDspNJQoXkEn+25zURSv8ii/GOz9TdlivXTIe314TiIJUlCgg9Qrgl8X/OKydI+iywNHD9qysPd7sJLV3LllQH/gpoXRGYP/u3k8KYscr/eI/01E85PmKPBY4pUetPZVrGeweLyTUsq516rUQKs6YFKRmr1JFxP+JNyO2yhWQoAaBtWyScNIMEYpLSlqJzstAKSU4+FWT26mEKeEGMiIHJdmERBFe6thP2z/75QHLXt2/Sfs51IxG+djXs2x7I7Y60tlKQ8GlV+x3e+ZTqFqztRNlC4/Oywc6zWeSzTAozRCIrXC7L3kR1gjVNo+mDSPze7qBXB325meCCg323+Ay/4jddkmNy9tr/9je1k7xVHRz63nwvz/DfhKSf/KhYdXu1jXTBBWcAb6iBoX6fxgDA7ORgrDQfOAiZXW6zZjA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5655.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(39860400002)(396003)(366004)(346002)(376002)(451199015)(2906002)(186003)(7696005)(6506007)(5660300002)(26005)(9686003)(52536014)(8936002)(41300700001)(33656002)(38070700005)(82960400001)(55016003)(86362001)(83380400001)(122000001)(38100700002)(110136005)(478600001)(54906003)(6636002)(316002)(71200400001)(966005)(4326008)(66476007)(66946007)(66446008)(66556008)(8676002)(64756008)(76116006);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?kfDCVDoXup/UA9J1nkyD4PxdKyIBTSdCrtpdiiqELUir7tL3vSXcfW3HF3?=
- =?iso-8859-1?Q?8VS/MiH2ZSj7Ltk7e2t3AScYzDBwQMnztbFRLk1sbDf0yeNAAwBve/+dPb?=
- =?iso-8859-1?Q?SUliSuCMWi1Cord2zu0IgY8zfsvTfkFfxDYYj1OE3LwcGxk/EY39E9b3I9?=
- =?iso-8859-1?Q?ReJNd1trSVKixTIt5/uCKAD9YHfEQ+TzVVK0VPIuK4qWpZQvsxLxOfLPH9?=
- =?iso-8859-1?Q?ns06jpI+ZhZbFMpczqaf/LC/TxXZNg0df7RXyZ7MSU/dE02xMDoAHOaYCu?=
- =?iso-8859-1?Q?8u6ZgdbgaLh8roIdQZZ27kWltTQYIdnPElbbqLAZkV/hbN2U5uLWXyRKFg?=
- =?iso-8859-1?Q?vjQB+DAnLFHfmhZO1GXxmooz5V7d576qAZ0iKUbfBJ7NN6Ssgae3XUseA0?=
- =?iso-8859-1?Q?JivJYl/MAsPbtC6hlxgs6EGUkA3E1UtfDsZMmec/B/fbhHHr42XcZMVbbs?=
- =?iso-8859-1?Q?8A5lpqQDC9f81Yb5OcY+dokIllSnlH7VLTjVN1c7DtyOweWuzh+64QmfU0?=
- =?iso-8859-1?Q?XQCTU9Tq6IeRjZ8XsDhWOeRNwQlI1S3Bog+4y28OqBMBFTuuw9SR2X/2jt?=
- =?iso-8859-1?Q?qgXsedpeE5nd6+biAE0enwka1qq0v0YLe3+0WIE3269Hk6O6gAi2xLGma1?=
- =?iso-8859-1?Q?ln5IECaT2hhw3XgdpaZ/25dc01fJExwDE1RxXsNwRdGgGsRiKp/A/te646?=
- =?iso-8859-1?Q?rbKEGcq/GGgGP5jKo1F4W7skr4Cn9VwB5eS97TtBUrgTx/2cbOtJFt6alk?=
- =?iso-8859-1?Q?3SaJ38Qe6FfF3ABsEDBc6aVZPHNluQk7BEvKo/TxUygK0CprA4b4AJhCbb?=
- =?iso-8859-1?Q?IxSbeu0UysyaUm2dv7/JiFPlFuqhx4K/QOz+5mDoHIhCUeH5plXPLOhSpk?=
- =?iso-8859-1?Q?U91WbYJChmrlse3F1UePQBawlXARlIKdBt29J8hV5Ya71z5IKheI9T9QEA?=
- =?iso-8859-1?Q?7LdVcL/1gjIwlsXq6aDOxLTwpfiRMXCnaW32P30Oi4ELmDs3idsSjshP+7?=
- =?iso-8859-1?Q?m6gUSt7EZ0Gd+KCPrzorxBL1m6eQ2YJt8WwL26Jc2CsZs1+3bJL5XGy60H?=
- =?iso-8859-1?Q?QFgLHhwz4oiGa2YbrbV9uWzoVveInb2CQxEPJKbIIHChc9wDykH43mAvzX?=
- =?iso-8859-1?Q?odaclHOK2yVqIRQRmeyUALnq9lRdz+uoFx90rHfxhME2apajcrCatH43vb?=
- =?iso-8859-1?Q?OJz9HqoSzjN3+exxl4wFuUO9k0pM6SLTaJm+cP+otsldVySbhVYU8K35Yw?=
- =?iso-8859-1?Q?ws4t8Kcq4IPJAG8gVHAfDT3pkNfWixEwsk6Yy1akjeo2jUAmzSzBtrALrI?=
- =?iso-8859-1?Q?/mjHgzK0N9I7RYkZ62vgjgbr0/QYo7hzd9FOq6MMOHoR0o6UKK/n73MGHa?=
- =?iso-8859-1?Q?V0DmDt1cbbljqsMEGhLhNJh0hpGAKDwy7crcVj2+nu6ahbMdpDRG9858za?=
- =?iso-8859-1?Q?wL+JrT52KQ7sGD4MEq3W2i2IbmYrdHs3bXsYFAahFfixAtgLO8E1kuYaAB?=
- =?iso-8859-1?Q?Pqg+XFBvCouobmWI98wJrRu4WjktqHQTmHhfWbrvvajGswY5kNWS5WuTKK?=
- =?iso-8859-1?Q?6u0x2lytEFHyr8h30bGBcshQ+1L92EUv2oLO/XBKV8uNWeYeU5bOVvx8LY?=
- =?iso-8859-1?Q?JkQDNE3KUKQy4SJ+s1JBbQjedql1uNlFia?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ 15.2.792.15; Fri, 21 Oct 2022 19:58:56 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 21 Oct 2022 19:58:55 +0800
+Message-ID: <28c0e6890daeb6bf17779243b23f60fa138b2fd2.camel@mediatek.com>
+Subject: Re: [PATCH v12,1/3] soc: mediatek: Add all settings to
+ mtk_mmsys_ddp_dpi_fmt_config func
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
+Date: Fri, 21 Oct 2022 19:59:02 +0800
+In-Reply-To: <20221020163310.tpkjvr7pe5vhwylh@notapiano>
+References: <1666147936-27368-1-git-send-email-xinlei.lee@mediatek.com>
+ <1666147936-27368-2-git-send-email-xinlei.lee@mediatek.com>
+ <20221020163310.tpkjvr7pe5vhwylh@notapiano>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5655.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e520f14-3f94-4bad-3304-08dab3482ee6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2022 09:39:43.2045 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MR/ceQnV5S9jC6qQ2z04N5QOfTUdh31AfnSgAmwbjSxNxgysItNyxdNd6aCRBbzwbVdPqkMOgsyvEIhFjoX5Ng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6774
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,72 +66,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Sarvela, Tomi P" <tomi.p.sarvela@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi, 
- Rodrigo" <rodrigo.vivi@intel.com>
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, rex-bc.chen@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=20
-> -----Original Message-----
-> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Vi=
-lle Syrj=E4l=E4
-> Sent: torstai 20. lokakuuta 2022 19.21
-> To: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Sarvela, Tomi P <tomi.p.sarvela@intel.com>; intel-gfx@lists.freedeskt=
-op.org;
-> dri-devel@lists.freedesktop.org; Vivi, Rodrigo <rodrigo.vivi@intel.com>
-> Subject: Re: [Intel-gfx] Random submitter change in Freedesktop Patchwork
->=20
-> On Thu, Oct 20, 2022 at 07:07:22PM +0300, Jani Nikula wrote:
-> > On Thu, 20 Oct 2022, "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote=
-:
-> > > The freedesktop Patchwork seems to have a "feature" where in some
-> > > cases the submitter for a series changes randomly to a person who
-> > > did not actually submit a version of the series.
-> > >
-> > > Not sure but this changed submitter seems to be a maintainer:
-> > >
-> > > ------------------------------------------------
-> > > https://patchwork.freedesktop.org/series/108156/
-> > >
-> > > Original submission by badal.nilawar@intel.com and subsequent
-> > > submissions by me (ashutosh.dixit@intel.com) but current submitter
-> > > is jani.nikula@linux.intel.com.
-> > >
-> > > For the above series I believe the submitter changed at v7 where
-> > > perhaps a rebuild or a retest was scheduled (not sure if Jani did it
-> > > and that changed
-> > > something) but the build failed at v7. Also note root msg-id's for
-> > > v6 and
-> > > v7 are the same.
-> > > ------------------------------------------------
-> > > https://patchwork.freedesktop.org/series/108091/
-> > >
-> > > Original submission by me (ashutosh.dixit@intel.com) but current
-> > > submitter is rodrigo.vivi@intel.com.
-> > >
-> > > Similarly here submitter seems to have changed at v3 where again the
-> > > build failed. Also note root msg-id's for v2 and v3 are the same.
-> > > ------------------------------------------------
-> > >
-> > > The problem this change of submitter causes is that if the actual
-> > > original submitter wants to schedule a retest they cannot do it
-> > > using the retest button.
-> >
-> > I presume it's caused by me responding with a review comment that
-> > patchwork interpreted as a new patch in the series [1], and changed
-> > the series submitter too.
-> >
-> > Sorry about that. It's a known issue that I sometimes forget to work
-> > around when replying with diffs.
-Yes, known issue. +@Latvala, Petri too.=20
+On Thu, 2022-10-20 at 12:33 -0400, Nícolas F. R. A. Prado wrote:
+> Hi,
+> 
+> On Wed, Oct 19, 2022 at 10:52:14AM +0800, xinlei.lee@mediatek.com
+> wrote:
+> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > 
+> > The difference between MT8186 and other ICs is that when modifying
+> > the
+> > output format, we need to modify the mmsys_base+0x400 register to
+> > take
+> > effect.
+> > So when setting the dpi output format, we need to call mmsys_func
+> > to set
+> 
+> mmsys_func isn't something that exists in the code. Instead mention
+> the actual
+> function name: mtk_mmsys_ddp_dpi_fmt_config.
+> 
+> > it to MT8186 synchronously.
+> 
+> 
+> Here, before saying that the commit adds all the settings for dpi,
+> you could
+> have mentioned that the previous commit lacked those, to make it
+> clearer:
+> 
+> Commit a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi
+> output for MT8186")
+> lacked some of the possible output formats and also had a wrong
+> bitmask.
+> 
+> 
+> > Adding mmsys all the settings that need to be modified with dpi are
+> > for
+> > mt8186.
+> 
+> This sentence I would change to the following one:
+> 
+> Add the missing output formats and fix the bitmask.
+> 
+> 
+> Finally, you're also making the function more HW-agnostic (although
+> in my
+> opinion this could've been a future separate commit), so it's worth
+> mentioning
+> it here:
+> 
+> While at it, also update mtk_mmsys_ddp_dpi_fmt_config() to use
+> generic formats,
+> so that it is slightly easier to extend for other platforms.
+> 
+> > 
+> > Fixes: a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi
+> > output for MT8186")
+> 
+> The fixes tag should be kept in a single line, without wrapping.
+> 
+> > 
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> > ---
+> >  drivers/soc/mediatek/mt8186-mmsys.h    |  8 +++++---
+> >  drivers/soc/mediatek/mtk-mmsys.c       | 27 ++++++++++++++++++++
+> > ------
+> >  include/linux/soc/mediatek/mtk-mmsys.h |  7 +++++++
+> >  3 files changed, 33 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/soc/mediatek/mt8186-mmsys.h
+> > b/drivers/soc/mediatek/mt8186-mmsys.h
+> > index 09b1ccbc0093..035aec1eb616 100644
+> > --- a/drivers/soc/mediatek/mt8186-mmsys.h
+> > +++ b/drivers/soc/mediatek/mt8186-mmsys.h
+> > @@ -5,9 +5,11 @@
+> >  
+> >  /* Values for DPI configuration in MMSYS address space */
+> >  #define MT8186_MMSYS_DPI_OUTPUT_FORMAT		0x400
+> > -#define DPI_FORMAT_MASK					0x1
+> > -#define DPI_RGB888_DDR_CON				BIT(0)
+> > -#define DPI_RGB565_SDR_CON				BIT(1)
+> > +#define DPI_FORMAT_MASK					GENMASK
+> > (1, 0)
+> > +#define DPI_RGB888_SDR_CON				0
+> > +#define DPI_RGB888_DDR_CON				1
+> > +#define DPI_RGB565_SDR_CON				2
+> > +#define DPI_RGB565_DDR_CON				3
+> 
+> These defines should all have a MT8186_ prefix. This will avoid
+> confusions now
+> that mtk_mmsys_ddp_dpi_fmt_config() is being made more platform-
+> agnostic.
+> 
+> >  
+> >  #define MT8186_MMSYS_OVL_CON			0xF04
+> >  #define MT8186_MMSYS_OVL0_CON_MASK			0x3
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> > b/drivers/soc/mediatek/mtk-mmsys.c
+> > index d2c7a87aab87..205f6de45851 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -238,12 +238,27 @@ static void mtk_mmsys_update_bits(struct
+> > mtk_mmsys *mmsys, u32 offset, u32 mask,
+> >  
+> >  void mtk_mmsys_ddp_dpi_fmt_config(struct device *dev, u32 val)
+> >  {
+> > -	if (val)
+> > -		mtk_mmsys_update_bits(dev_get_drvdata(dev),
+> > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > -				      DPI_RGB888_DDR_CON,
+> > DPI_FORMAT_MASK);
+> > -	else
+> > -		mtk_mmsys_update_bits(dev_get_drvdata(dev),
+> > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > -				      DPI_RGB565_SDR_CON,
+> > DPI_FORMAT_MASK);
+> > +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> > +
+> > +	switch (val) {
+> > +	case MTK_DPI_RGB888_SDR_CON:
+> > +		mtk_mmsys_update_bits(mmsys,
+> > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > +				      DPI_FORMAT_MASK,
+> > DPI_RGB888_SDR_CON);
+> > +		break;
+> > +	case MTK_DPI_RGB565_SDR_CON:
+> > +		mtk_mmsys_update_bits(mmsys,
+> > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > +				      DPI_FORMAT_MASK,
+> > DPI_RGB565_SDR_CON);
+> > +		break;
+> > +	case MTK_DPI_RGB565_DDR_CON:
+> > +		mtk_mmsys_update_bits(mmsys,
+> > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > +				      DPI_FORMAT_MASK,
+> > DPI_RGB565_DDR_CON);
+> > +		break;
+> > +	case MTK_DPI_RGB888_DDR_CON:
+> > +	default:
+> > +		mtk_mmsys_update_bits(mmsys,
+> > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > +				      DPI_FORMAT_MASK,
+> > DPI_RGB888_DDR_CON);
+> > +		break;
+> > +	}
+> 
+> To be honest I don't really see the point of making the function
+> slightly more
+> platform-agnostic like this. With a single platform making use of it
+> it's just
+> an unneeded extra abstraction, and it could easily be done when a
+> second
+> platform starts requiring this as well...
+> 
+> In any case,
+> 
+> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+> Thanks,
+> Nícolas
+> 
+> >  }
+> 
+> [..]
 
->=20
-> I just permenently stuck a 'my_hdr X-Patchwork-Hint: comment'
-> into my .muttrc to avoid that.
->=20
-> --
-> Ville Syrj=E4l=E4
-> Intel
+Hi Nícolas:
+
+Thanks for your detailed reply and correction.
+Before sending out the next edition, I have two questions I would like 
+to confirm with you in response to your responses:
+1.While at it, also update mtk_mmsys_ddp_dpi_fmt_config() to use 
+generic formats, so that it is slightly easier to extend for other 
+platforms.
+=> This is to make this mtk_mmsys_ddp_dpi_fmt_config() func more 
+general? 
+This function may only be used by MT8186, because only MT8186
+has 
+corresponding modifications on HW, and enables the registers reserved 
+in mmsys for dpi use to control the output format. Because this 
+register is not defined for other ic, I added control to this function 
+call in mtk_dpi.c. If you think there are other ways to make it look 
+more generic, where should I correct it?
+
+2. These definitions should all have a MT8186_ prefix. This will avoid 
+confusion as mtk_mmsys_ddp_dpi_fmt_config() becomes more platform 
+independent.
+
+Honestly, I don't really see the point of making the feature platform-
+agnostic like this. Using it on a single platform is just an extra 
+abstraction that isn't needed, when a second platform starts needing 
+it too, it can be done easily...
+
+=> My understanding here is that prefixing variables with labels is 
+more conducive to making functions generic, and can be reused if there 
+is such a situation in the future. I understand the importance of 
+keeping the function platform agnostic, but as mentioned, it may only 
+be used by the MT8186 if there are special cases where other ICs may 
+rely on mtk_mmsys_update_bits to create new functions.
+
+The above content is only my understanding. If you have any questions 
+or suggestions, we will communicate again.
+
+Looking forward to your reply.
+
+Best Regards!
+xinlei
+
