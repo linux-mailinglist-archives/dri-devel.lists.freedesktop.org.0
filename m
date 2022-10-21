@@ -1,60 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866A9607143
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 09:38:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A868A60714D
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 09:42:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0331F10E60D;
-	Fri, 21 Oct 2022 07:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE8E610E61B;
+	Fri, 21 Oct 2022 07:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
- [IPv6:2607:f8b0:4864:20::929])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6039610E60D
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:38:12 +0000 (UTC)
-Received: by mail-ua1-x929.google.com with SMTP id j6so1982270uaa.10
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 00:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ejE4SMnZ/x2wEn474NQUx1TDuK/H+8eIuJI9akwy/Ec=;
- b=AmNDqFrDuEuFmiQ8cQHgdERUEIXL3m8Ov7cQy6azkw71cQew/r+UOwpe8ndkFTt3fX
- 5Qk+eXHlK70r4QUrn/RtgET84VMWUA8Csqecu0wLoePkU1DaDQ1SdEBr8K5U9ii11mcf
- y5yzf4woBvnWupBBaFYIsJN97LSYz5OzbD7pe3Qu3eTGvuhZPr8+q91uqvvzy7tdockE
- RZWamq0WSTbcHnwJ/eSAb1/LbDfT56MbkiFz/Wt/QLEZQGCXj5wvt6keTfE0yADuaUQP
- FfhgTVm19Dx9Bv50DxAqw4lkl38S4GudWYWuBtgXa8HBSL830uWPQtJt3lD4DsqI7RRT
- L+5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ejE4SMnZ/x2wEn474NQUx1TDuK/H+8eIuJI9akwy/Ec=;
- b=Vi2Plp1U/PhL3Dg1Nb6Epa0Ut+BffIEXhHvKIEAWtUnkq3k/7gpEkXJEdVKPfKBZrF
- L0VJiISIj21ecu9pfkpTHPR6KjmxdvHiLP0bEqzlpsdCBl7A14IWKMNUt7pKRrSmCWCh
- d01BXkLtKkTKs1E2EiMQugoWC6X44JHMqwTn+N6Yh8580xkcvQMBZaCP0BySAI9Tk0PS
- 7p734mI465VZxutQ1vV8GXCYTuwxRJxX1STQGJMQNTXtGcX84fgzIFbNM02MyMmtRPDI
- UpFxPlknLeM+ckAlbN9Zl/4X611Pz0m0+MWqPr8XB9ODVGlS9uO7pcgfd4tYDqFgylEO
- xtFw==
-X-Gm-Message-State: ACrzQf265ZSA36rnSXaWbHHMhuf9JcLCXoqBK6rNz10ckqcgsm3n9+MN
- wGrWhGpZzrWcpiKhnRnsCjk9PTRNKAodVX+1Y10HPw==
-X-Google-Smtp-Source: AMsMyM7HHuen4PWY3jxXVJtXYjBTCoZ9T+nYLlemsYegq6drh05omW1aEcJ7CpmnLgg8cK73IWyaoQSAderLj2KUw0U=
-X-Received: by 2002:ab0:39c1:0:b0:3ef:dcae:f17 with SMTP id
- g1-20020ab039c1000000b003efdcae0f17mr8269175uaw.26.1666337891404; Fri, 21 Oct
- 2022 00:38:11 -0700 (PDT)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2045.outbound.protection.outlook.com [40.107.100.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E99D10E61B
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:42:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EoVpR2Lg3v80VIyBBc0ji2WlFtRVeyuPqRGSwiGKqmsf/VxBNljnv+JSlIRyxV5rbh4y5NXOgrE6NJeqUtWJx8uG/ZdICieMmzIwUK8ki1vO/YbK8+UwCXe7bgE1PJ94L8V8G9tOHlhVn0lrqb4JCkkH7e7FJDoAbLrxpY8mi+8OVXvPdFiwB/i8QNgPeqP3hmCLjcGz12Tc9Zpl83NUBe3B6pRX5YnJnc+ZOz2qBlttQ1/3RWCU4DJGn0fYmhxN90VyFay+CWu1ujCxnfmjR1+wyFMpWWEmry16Gdex32PeSWTKR2TUSzwYXI4mQkKzMEDdcZn9hn/ucr90Fbqz9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P0WZ2JXBWreUV+pHrsIVHF7IGTBQQfDqyVTZk8KzSfc=;
+ b=gU21xgQ8yskOCpJOAnrOnDaARZx4ZBqfDEmcpni+rukMTh+rFTuUfP8boXxqBEP/j3L5epJpta/kyUk8LIXmXC26ZXWOksbBglQUtrztte6A2HGM88JWXfOllYSb6teVHq2pKPQK2JvUbLIaJUPzXmcm7L5AOz3rn1Dfa/nvXfj3lTHiw5U0V4cqSVREAopXPh4A2Knxwm2AY+QZ36qQqfkn0RB9KAY9+/iUP5q2/BCxPMqh2jM4Sot9UgcUzlmuLI8YWdiiz+Ux8+zrDEyqM8CPvKy83beUgy/auOpnICM2kt9mZrcd/ZKLnkHeHjONc1V7kfwh+QK1+RjkIzShGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P0WZ2JXBWreUV+pHrsIVHF7IGTBQQfDqyVTZk8KzSfc=;
+ b=DBg6MFsBH0ALhcxJx4iafN1WuOMiVrvwJEXzSqvKGM4Vh+zqsRFZkK97wRbQLXXyQJQqXgk/JIPqEeL302lfovAOzbr09uBL7vyY8rkXnztDPJMgYA7yj/PIwDWMSg+SPHfCEPQ0IO3VfEkFanmpl14Q++emAe4H3nJPspcNSOb39tiQkAMAreyC6Nc3rgVHrvt3gcNAALAKeE4NuPMI7lQFmEZW+3mRCMBJenym4y3ABi4jUImYBP0xLsx76J2JTk+pSw7NyF+NGcn4L4Kxs8Ylbt57SGZQ+SNRv+dn5HZR6pHRo1VPggwJppw3Rk65S+rvMoVBPEWFHd/SQl+F7Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
+ BY5PR12MB4887.namprd12.prod.outlook.com (2603:10b6:a03:1c6::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Fri, 21 Oct
+ 2022 07:42:02 +0000
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::c0e5:f111:3e59:7c66]) by CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::c0e5:f111:3e59:7c66%5]) with mapi id 15.20.5723.033; Fri, 21 Oct 2022
+ 07:42:02 +0000
+Message-ID: <a494905d-129d-afe9-1b06-5b35e67aad6b@nvidia.com>
+Date: Fri, 21 Oct 2022 08:41:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] gpu: host1x: Avoid trying to use GART on Tegra20
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, thierry.reding@gmail.com
+References: <39c44dce203112a8dfe279e8e2c4ad164e3cf5e5.1666275461.git.robin.murphy@arm.com>
+From: Jon Hunter <jonathanh@nvidia.com>
+In-Reply-To: <39c44dce203112a8dfe279e8e2c4ad164e3cf5e5.1666275461.git.robin.murphy@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P265CA0199.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9e::19) To CO6PR12MB5444.namprd12.prod.outlook.com
+ (2603:10b6:5:35e::8)
 MIME-Version: 1.0
-References: <20221019073239.3779180-1-davidgow@google.com>
- <20221019172919.GA5336@elementary>
- <5639218e-bcc8-55b0-ea30-7bf2b26c92b9@redhat.com>
-In-Reply-To: <5639218e-bcc8-55b0-ea30-7bf2b26c92b9@redhat.com>
-From: David Gow <davidgow@google.com>
-Date: Fri, 21 Oct 2022 15:37:59 +0800
-Message-ID: <CABVgOSkbqRtUTmL83HU6Nf0kp9KmrL6ZpRL2F3VDtSDEQq1DCA@mail.gmail.com>
-Subject: Re: [PATCH] drm: tests: Fix a buffer overflow in format_helper_test
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="0000000000001c4ec305eb8686d4"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|BY5PR12MB4887:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85db7fdc-9291-42db-773d-08dab337be34
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S5wCeXQ9Js9U5wqBjXbUm/S7P6H065MoMTyZZItjVRIWpnwVfiF0GryGSnOsiU8dX6xPxt8ZOemHGosyYPGaiG9I91MygHKIfIr/9burC8O3RgoxEW2yQWOOiEW7LwlnGcqQpN29vEGFuXlZ+7J82blp2bm2bQh10VXeZIaOHZxe4u6hNm4zEe0QK8l4JWqqZzaIlDtXIWWizibsSYbXGoJ4Lzt8cUv6kOWI6tufBeEoYCJAZ5/QNqNsEJiYxooX12937Hs/0luGdrUnq6NOicBeAb4BhDoX8YnuLLNiFsLvQAyRj2z2+GuOk7naw9TTAADBk1x/5DDp5798Gt78UIikVZqQdbPADB6Oab4axVu7QhiTwOzqU/XpdEeqKse3C2VMXFgR2zDqlXKYPp73m0wRobxWJIXKbsMjfHvWOHQpZrvDq/doDijYMzcEC46AySRenf1CxjOE4iGiT5Y1FUCJWo0hflKi6zd+IPfjxodr9WetcQp80psSCrGd14hy4CbItwfRlc6FypXLleX/JurqCUSoigwJFIKhPQBmgIftD/f1Idy3YsRPZmc9waUOr4j5mHnQFxCkFHPVRTl3AVJmoX17IgDfkx0Ki58EaD7BvQUaxJsUDdeZ5CGUIxzp+vbYxowu8WEqgtmNzXTKkEHMWAH+srRLggZa2NdyUuHMP+wR4hOaLYBUwOHrPWxwBcfZnbmWuw5sJfWYX+XvTgtXrp+rs/3x6IwXn2l7+RPY8eKeEh/pFsc7KsJd3m1gsaT4gK6+y11GEI5MGKGylKf++2k6fjLGhU2dewCsMejZb2em98nBTNXSkVQMDgom2r8IIF4sveTigVDVD1DsIFKBs6vWy1fu9gciqYvHqnE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5444.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(136003)(366004)(396003)(39860400002)(451199015)(8676002)(186003)(2616005)(2906002)(31686004)(38100700002)(478600001)(6486002)(4326008)(6666004)(53546011)(66476007)(83380400001)(31696002)(66946007)(86362001)(36756003)(41300700001)(66556008)(6506007)(8936002)(5660300002)(6512007)(316002)(32563001)(45980500001)(43740500002)(357404004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SE9wdWtiL1ZWZE9iSDdESE1oa09zY0JvUzhhMzcyQVlrNnYvYnNVRUM1Tmg4?=
+ =?utf-8?B?T2hSdXVzNXhDOXRwbGhPNHVmcFVyVi9jajkvb0hMRTBkY243SGFzS2VxcHpE?=
+ =?utf-8?B?VmJBM3F4dGYrczdGVkhoTUJOdUJhMEtPbVhkVDJXaW5lUTl3d0V5azh2cVdV?=
+ =?utf-8?B?WERWRTNIY3NqaDlPOGdJYmgxWlpxcE1UZWVnbmkwdFAvbThhQnZXdFh3b0FC?=
+ =?utf-8?B?cUI1MGMvYzZQVlN3dHIvcnA3VHVzcWJkQWh5b2VDb3RpWXpjaVJTM1Jhdm02?=
+ =?utf-8?B?eVMvVVZ5RUE2RGl0djRXVnlPMGZCOUJSZi83b29LS3FCSjBxNUVVRWNQUEQ5?=
+ =?utf-8?B?OHV6TS9McWJyN2lYeksrdGlMaHJHanhRTHgrcjJMczdNYzVyOGtTUlRFRFp5?=
+ =?utf-8?B?UDdad3NiV3p6dzg0YTVydmRscXV4bGpGbmlvOHllTkROc0Uvb000OW9TTVBY?=
+ =?utf-8?B?ektuOGkxcm9mcFJ4eUFPWWl0N3hsL2xwcG11UHErbCtjdGVTaEMvSlUzVzRR?=
+ =?utf-8?B?V3ZFazRJQ1IyUDh2N3N3d1BSemNGSHl6T1hWM1lSUlREL0RMN0h1Mit2YUc1?=
+ =?utf-8?B?MjdNNFRrOUZyeHFQSWNwWkNzR3dNeFhueHFOQjNDUHYvd0NwZDhBUGtIeks3?=
+ =?utf-8?B?U2g3dzBxakgyMUNaeklwQUFGMjlPNmlmZ2RBSWIwWHF4WmQ5YWFkd0xvSCtl?=
+ =?utf-8?B?SzR3OGQ1eUhkUjNkQ1BEU0FaWTUxeXd6RWE3U1dmcVpibXJoUGdLQ3pRSlpj?=
+ =?utf-8?B?WHVmTjN5b090M3E5djFnYVZuQk5WcmM5eDg2eHY5VFZHZjZKbXBkZ01MRVZp?=
+ =?utf-8?B?N2ppaVc5RFBQTmQybUI2ZW0rNm1rQjBUSENCdVMwUjBGTkc5UE5maDhKdzJE?=
+ =?utf-8?B?RndyMm9Vb0xLQ3g0VEhISnNMWW90MEpKeDhYYXcza0JPMTZkR0owbHdJSWda?=
+ =?utf-8?B?TC9jcjE1M0twVVRLVGFQaGxYa1pGMVdjN2dRcVlkM0szNTY2ZnJDd0t1Q3Fo?=
+ =?utf-8?B?M1dNRUtzK3AzUUx4Ym5taVRQN3F1UmFudytieVlrREdNODlUWUt5dW5GZUR5?=
+ =?utf-8?B?UmRuTmVSTGpmWjNLUHpiUWtNZVEvOXZVVnF0WnlkRHBwVUhIQjJPZ0thMEJa?=
+ =?utf-8?B?OWRDakFhN2F3d0J3R0E0WktCa0hjbGlpUDRnb1owODJ3TWh6Z3A1YzFNS2lY?=
+ =?utf-8?B?TCthbDU1ck9ucFhRTUFYZVY2NXBVRXhXU05tVlhLSTJEL1Ira2Fjd3FpSTl1?=
+ =?utf-8?B?RFg3VFVzYnVXeW50OHFSVlVHNTRQMDI2N2E1ZDBGTUlDdGtxY3pVdlZTcEM4?=
+ =?utf-8?B?cENXM09RdDIwek5mb04xeGxkU2pqU3hDem1UU3BzSUJUMTQrbTQrVzFGTkN3?=
+ =?utf-8?B?WXVVNmRVZXdXc1VpS0g0R0pzVGdHWGxFRW1UMkM1bGdIVGRGTGtrZDNjdnJj?=
+ =?utf-8?B?cS9QbFp6MGoya3dOeTV1Rjd3SzRhK2NGOE9SZGlYNjR5bGYxY1Z0RWtSN21S?=
+ =?utf-8?B?cVlDTmkyZmdJUmd2Q0E1cTkzNnVDWDN1VGFGeVhtSUdpUm96QlBlMHd4VXVV?=
+ =?utf-8?B?UUJta2F2RFl0ckRjeE54MHFqdkZtRzNTTjVrSFVEYzJKNmVtaU9jQ0xkeHVS?=
+ =?utf-8?B?akNjbjFJallnaXY0WXBjNHkzd1NkY0VQN1NvbGNyN0RZdDlJTU5ac1o1NnRl?=
+ =?utf-8?B?OThycFRITzdlZWxLY2pOZktWczJqZUlpR2FNMUVKYVdRRG5BV0I3TFhzTURa?=
+ =?utf-8?B?Zk4yZjhOSHhpbUMyUlRHZmZZSGRuV3didnVGZzVSc0JlWHhsd2R1blBCUkdK?=
+ =?utf-8?B?bFVjMVJNbXFueFEzT1FxNHZ6emxNNFlDc3VPejZSNHpxU2pXK2kzSjBzVzZw?=
+ =?utf-8?B?TlEreGdTM0xkOFVsSGFITmZyVGd0QjI1NXlIdEl4U0VhMkZvdFJzRDJNR0dP?=
+ =?utf-8?B?UzFscUhSYWhuKy9ZQktMaEJhc0lTeERGbGh5WG9SOUk4cVhVSDVEVXBjRDBh?=
+ =?utf-8?B?aFkrTllNc0RibE5HUlFwK1dsQ3RuMDhPdmxJN2VSVnZlcE1DL3ZJL2MwdnRL?=
+ =?utf-8?B?V1JjaFp5SDA4TDd1YnhtaXA1bUlRV3BkMTVFYUlYdWlsc1BrRklqWjJ4Um1Q?=
+ =?utf-8?B?T1hxMk11Znorb0Foa3BUZUk4RzNydzhnRGVnNXlxN0ErMzR3L0hsVjhBQ1JC?=
+ =?utf-8?B?QnFYVjBrRHhQd3d3NDB2MUN1K014S1I5L1hVZ0NseDJmaW0zTUFVcnZ3cDJZ?=
+ =?utf-8?B?bHZhbkw5OExTN2ltbEE4bUc2NWpRPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85db7fdc-9291-42db-773d-08dab337be34
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 07:42:02.4996 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sKBKsR8QC9nQLkVcHtjePZquVzeLz1gbICMcCoKbGtkA5XmGhOo5q2fxX6lYIkxXGfbOrSLy76GhBrHannYgCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4887
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,146 +127,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- Linux Kernel Functional Testing <lkft@linaro.org>, kunit-dev@googlegroups.com
+Cc: linux-tegra@vger.kernel.org, iommu@lists.linux.dev,
+ Dmitry Osipenko <digetx@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000001c4ec305eb8686d4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 20, 2022 at 4:03 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> On 10/19/22 19:29, Jos=C3=A9 Exp=C3=B3sito wrote:
->
-> [...]
->
-> >>  drivers/gpu/drm/tests/drm_format_helper_test.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/=
-gpu/drm/tests/drm_format_helper_test.c
-> >> index 8d86c250c2ec..2191e57f2297 100644
-> >> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> >> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> >> @@ -438,7 +438,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(st=
-ruct kunit *test)
-> >>      iosys_map_set_vaddr(&src, xrgb8888);
-> >>
-> >>      drm_fb_xrgb8888_to_xrgb2101010(&dst, &result->dst_pitch, &src, &f=
-b, &params->clip);
-> >> -    buf =3D le32buf_to_cpu(test, buf, TEST_BUF_SIZE);
-> >> +    buf =3D le32buf_to_cpu(test, buf, dst_size / sizeof(u32));
-> >>      KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0)=
-;
-> >>  }
-> >
-> > Thanks a lot for fixing this bug David, I just tested it and
-> > worked as expected.
-> >
->
-> I've pushed this to drm-misc (drm-misc-fixes) now. Thanks!
->
+On 20/10/2022 15:23, Robin Murphy wrote:
+> Since commit c7e3ca515e78 ("iommu/tegra: gart: Do not register with
+> bus") quite some time ago, the GART driver has effectively disabled
+> itself to avoid issues with the GPU driver expecting it to work in ways
+> that it doesn't. As of commit 57365a04c921 ("iommu: Move bus setup to
+> IOMMU device registration") that bodge no longer works, but really the
+> GPU driver should be responsible for its own behaviour anyway. Make the
+> workaround explicit.
+> 
+> Reported-by: Jon Hunter <jonathanh@nvidia.com>
+> Suggested-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+> 
+> v2: Cover DRM instance too, move into *_wants_iommu() for consistency
+> 
+>   drivers/gpu/drm/tegra/drm.c | 4 ++++
+>   drivers/gpu/host1x/dev.c    | 4 ++++
+>   2 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index 6748ec1e0005..a1f909dac89a 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -1093,6 +1093,10 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
+>   	struct host1x *host1x = dev_get_drvdata(dev->dev.parent);
+>   	struct iommu_domain *domain;
+>   
+> +	/* Our IOMMU usage policy doesn't currently play well with GART */
+> +	if (of_machine_is_compatible("nvidia,tegra20"))
+> +		return false;
+> +
+>   	/*
+>   	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
+>   	 * likely to be allocated beyond the 32-bit boundary if sufficient
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index 0cd3f97e7e49..f60ea24db0ec 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -292,6 +292,10 @@ static void host1x_setup_virtualization_tables(struct host1x *host)
+>   
+>   static bool host1x_wants_iommu(struct host1x *host1x)
+>   {
+> +	/* Our IOMMU usage policy doesn't currently play well with GART */
+> +	if (of_machine_is_compatible("nvidia,tegra20"))
+> +		return false;
+> +
+>   	/*
+>   	 * If we support addressing a maximum of 32 bits of physical memory
+>   	 * and if the host1x firewall is enabled, there's no need to enable
 
-Thanks very much!
 
-> > Do you think that we should update the other calls to
-> > le32buf_to_cpu() to follow a similar approach?
-> >
->
-> Feel free to post follow-up patches if you think that other changes are n=
-eeded.
->
+Thanks! Works for me.
 
-I _think_ this should be the only actually necessary change. Maybe
-there's some cleanup of the way TEST_BUF_SIZE is used, or the sparse
-annotations for endianness, but I'd need to look into exactly what the
-various drm_format definitions are in more detail to know for sure.
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-Cheers,
--- David
+Cheers
+Jon
 
---0000000000001c4ec305eb8686d4
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC2
-ebUzVmIQ//JkjEGV+eb2jr2zMFLB8jGNyKXTXDg25jAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjEwMjEwNzM4MTFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAfPvz0hgtrZtFJm1gDccm
-LeVuLS63Jc1txkKOYwcdeXxMpY51wNEeT2e1ipiJ+L/mbkTbtXuuQKUK3Zpsb0StcTYXJ0RNe7t4
-1mbSTLqP55onei5a0YYCuKT8PhTkCyzOWCDpDIOZetvyZoqPTEmSRL2jJ+E1s0bJjM1/HmCnrocG
-JsA+Xe3wfd7kFbhGOBwuUWxrm5qqo3aJjZzkEEAVWW+5tkffFhP7b5KNs3zsnE+l0aiq7dCV4yM1
-Q/0EKbLo5LE2zgi30SFAVQwJTnheL0Cznz77VWJfK5dGoUtuKT7PNtriPXbKlVZj8l3TCdAzyTnV
-OGYAUWOVnqxl0NkHCA==
---0000000000001c4ec305eb8686d4--
+-- 
+nvpublic
