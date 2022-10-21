@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F256079AB
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 16:34:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BC66079AE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 16:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF8710E315;
-	Fri, 21 Oct 2022 14:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E1A10E328;
+	Fri, 21 Oct 2022 14:35:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
  [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E53AB10E315
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 14:34:36 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id m16so6585232edc.4
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:34:36 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 951F110E328
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 14:35:37 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id w8so4300943edc.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:35:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lD0xgbVkvhygXmPzL7EMrxyMcD+kjNgjJAnULQCkoIg=;
- b=lTprzbMUXUupoaSFA6UAyc6cElH1N3JEnI4k13G0pTpJEu3Ej0mzoFZlr4CF1+Ud8m
- LB7R/XAZOjZJogN8NRAuhbD5TEmx0KAlank7AwEpw7IoWJZ7WZ/lwKt5eK0cQYJxk7pj
- AO004nZp+ikIUmXX3fN47RsgS16YuKigjcD1k=
+ bh=cD7mqBkh5qwfVTvi95wXIFTJK3itHGA52frEt6EKQdE=;
+ b=TAUhFVPuOmb+DlZVZ8ohiV0s+oEoLMyPa0PBQM4UUppI4TJRvnNHUVrR++1mnpHJsO
+ bxWyvsLaaSNBlXMQdsBm7Enjc9CYJW1rEURQda/VxZicmXxez6isIJfK+2QmTS8CrFM0
+ OMSl9f5xvWS8YBhDjRhBIcxoXNQckGAR+epT4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=lD0xgbVkvhygXmPzL7EMrxyMcD+kjNgjJAnULQCkoIg=;
- b=Ah4nu2aJOSkcN2TjUwOP3MKV5RXGo7QyLNjZtOsQg00PVPTH5cVFRuOGPWuU/BgmLi
- yy93mWxfwD1aa81d77jmSdRNig+tsaYEiRZaJg8KIeRqdQM4gOes34zjxQeSL3l+iesO
- zMP9G1nfExnpg+rbF7a7UYA3RUU8i5/veZXMJo0v4iNved5J5Xzei/zzDXYpJecPY1SO
- lnjIX4ORa5oO9kCE+YnKx926queqZNWJNv7ktKbgjl/7FuYGoLf3S+NoCHxfQh5QBvPv
- 3Dl+x5k4KVamFdSX37911wE23VcNfIc7WZB8l1IWe9Gth5ItkuAaHZB6Z6yX26Mswnii
- i2VA==
-X-Gm-Message-State: ACrzQf0SBJcRZ+ti0ha4xkEXmsewDuBoPQ6kMUOj7xCy3a4gLVc0u/ig
- 79Lq3XRlRZoj/UnDrMmPEO1a4X441qa+oO3Q
-X-Google-Smtp-Source: AMsMyM78TiJ5bQgfCo1nRA10FwOOD1BwQAy6kE6IFKC0UoZN9ey3r9IqKcVB5NuZslauvogo4/k41g==
-X-Received: by 2002:a17:907:b01:b0:78d:ce3d:905d with SMTP id
- h1-20020a1709070b0100b0078dce3d905dmr15603857ejl.45.1666362874896; 
- Fri, 21 Oct 2022 07:34:34 -0700 (PDT)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com.
- [209.85.221.45]) by smtp.gmail.com with ESMTPSA id
- a13-20020a50ff0d000000b00451319a43dasm13742384edu.2.2022.10.21.07.34.33
+ bh=cD7mqBkh5qwfVTvi95wXIFTJK3itHGA52frEt6EKQdE=;
+ b=pZK5n1SH9B1tpkIPLX6saX+Z6Txh7B/5PLDEB/wqgEHPM8bFje1mQrX1Qj/kk2AxxX
+ 8zyQadW4Kavq/H2U9HV5YthcRLBle2FJB+1VNWRqxqgzqr4YWc7GwTJ3lvu5BzfTCxWN
+ Q0UxnkRQhprC8meehC3kaBH/z469C91mPnVdfmExhu3i0w+QtbiRB9UFwVclyclxT5J7
+ hen/GmQ7tBnrqyHYBOMuKEpqfPdWHXp0F4Z+dEUUJNJihYc6tcQ5P6L14BBdHSsxyQu0
+ Pd/4DVLYgWmaSvqZx7xYYUejGbvbu5T1FG2ZCYL4nrV+I1zzHZYGQOrmLzJZ1/4Cba+6
+ 1Feg==
+X-Gm-Message-State: ACrzQf3u46/Cr9aOyqmmbg8gcAZFLjHisnLQRZVhToZguAC2nM6eoGZ8
+ ke7u/YJN+DMILjerD3daUSXTzJ2HFbXRo7zn
+X-Google-Smtp-Source: AMsMyM6y24EoSa4DRjzrZWuFeygee4Oowd6JWqZS30VgQjynPCsWaIFwqlHDS9ED3zaQBZ/ovoRAaQ==
+X-Received: by 2002:aa7:df16:0:b0:45b:f51f:ab73 with SMTP id
+ c22-20020aa7df16000000b0045bf51fab73mr17675046edy.366.1666362935658; 
+ Fri, 21 Oct 2022 07:35:35 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
+ [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
+ u9-20020a1709061da900b0078e0973d1f5sm10769152ejh.0.2022.10.21.07.35.34
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 07:34:34 -0700 (PDT)
-Received: by mail-wr1-f45.google.com with SMTP id bv10so5160740wrb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:34:33 -0700 (PDT)
-X-Received: by 2002:a5d:6488:0:b0:22b:3b0b:5e72 with SMTP id
- o8-20020a5d6488000000b0022b3b0b5e72mr12861240wri.138.1666362873435; Fri, 21
- Oct 2022 07:34:33 -0700 (PDT)
+ Fri, 21 Oct 2022 07:35:34 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id l32so2313986wms.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:35:34 -0700 (PDT)
+X-Received: by 2002:a05:600c:4b19:b0:3c6:cc7c:763c with SMTP id
+ i25-20020a05600c4b1900b003c6cc7c763cmr13608198wmp.57.1666362934256; Fri, 21
+ Oct 2022 07:35:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221021025801.2898500-1-sean.hong@quanta.corp-partner.google.com>
-In-Reply-To: <20221021025801.2898500-1-sean.hong@quanta.corp-partner.google.com>
+References: <20221021031024.2899082-1-sean.hong@quanta.corp-partner.google.com>
+In-Reply-To: <20221021031024.2899082-1-sean.hong@quanta.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 21 Oct 2022 07:34:21 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WUXFO8sM_y-keP+Qvy7qVPrxguTnD1YyL5rmgpK3dVPg@mail.gmail.com>
-Message-ID: <CAD=FV=WUXFO8sM_y-keP+Qvy7qVPrxguTnD1YyL5rmgpK3dVPg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add INX N116BGE-EA2 (HW: C2)
+Date: Fri, 21 Oct 2022 07:35:22 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=X-71=PsBHf51thsBN=G=2NhxK-_UA2yxpEiX=FrB1fsg@mail.gmail.com>
+Message-ID: <CAD=FV=X-71=PsBHf51thsBN=G=2NhxK-_UA2yxpEiX=FrB1fsg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add INX N116BGE-EA2 (HW: C4)
 To: Sean Hong <sean.hong@quanta.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,10 +80,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Oct 20, 2022 at 7:58 PM Sean Hong
+On Thu, Oct 20, 2022 at 8:10 PM Sean Hong
 <sean.hong@quanta.corp-partner.google.com> wrote:
 >
-> Add support for the INX - N116BGE-EA2 (HW: C2) panel.
+> Add support for the INX - N116BGE-EA2 (HW: C4) panel.
 >
 > Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
 > ---
@@ -92,7 +92,12 @@ On Thu, Oct 20, 2022 at 7:58 PM Sean Hong
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
+NOTE: please send patches in a 2-part series in the future so I don't
+have to resolve the merge conflicts when applying.
+
 For these simple table entries, I don't see any reason to delay before
 landing, so pushed to drm-misc-next.
 
-4ab5953f0af7 drm/panel-edp: Add INX N116BGE-EA2 (HW: C2)
+3facae064964 drm/panel-edp: Add INX N116BGE-EA2 (HW: C4)
+
+-Doug
