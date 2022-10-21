@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC96E607D67
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 19:21:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598DD607D6E
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 19:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B43310E58B;
-	Fri, 21 Oct 2022 17:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E934210E596;
+	Fri, 21 Oct 2022 17:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF1010E58B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 17:21:35 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id g10so3915274oif.10
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 10:21:35 -0700 (PDT)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269CB10E596
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 17:22:54 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1364357a691so4353587fac.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 10:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=A6BqgqIxQ+q3oABy/KVS7FxTx0acwuSVWX67BzMj1gk=;
- b=f0nVmiNw0x2GGqQ57S0MHq3NjFd8sUe5YLfcPOwspvxvypgP+cCpLhpNjPq6N6+CXP
- +Q0C/RoViUG+lyDIum7B7rwHu9/lqryapUDDBwzENKf051uyNXPT1Eu9fIgFQ1VFbqZf
- 6XkDVmSa9qwO0qiTxQaAgB+yJfoRh3noPTlNLizvy6WRHLxedoEXqVuTmx9ic2Ccaegy
- HI0Xci1CnQUW7bVAVDIttvYeUfCyCf1jH5un9YxdPJlISULB2whXDSj9SPZRlE5Yolgh
- tBAxGNaVZir22XaGDM8po83dHjz7yWQrhde0v7cPOVIvfPX54xGmHI+f6cYmRTkphONF
- KyXg==
+ :reply-to; bh=zlHj7n3i5o3yXLa4ETHRTpxvwrBu3YafH8lL3TZQo7c=;
+ b=mfKFX0fSUZxTyWGet7HLjN5KSNIIKvyVtQYoZsLLgdG68Yakqkgp2WJCOVzeO5GHCh
+ yANi9hjw5ikEB67N8ZxxJKlfSvDFlB1pwODfttxygGfSi0EpBEzaL4U+q9EnKkXB8zM4
+ Kpy3knTJtufMaIDXCnTxfQ5ityhf0XE//ULX0EfgX5moVheH0+IlYH7rFaVYlw7h1IZC
+ f3hvRzN3Is7mdZ6SjqQK+HqlYEc7b/vJJi/DHEaOZ5SLMYgzInSE2cZqQCd6vFovU8W+
+ GC/OSC40v6iY2wHSha8o+Px7g7bYjOTCm+V4YkcfWMW6rmsOzqVXzjwkL/eK9USq23tn
+ RQKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=A6BqgqIxQ+q3oABy/KVS7FxTx0acwuSVWX67BzMj1gk=;
- b=KfAOOttxQTpYhrRqIaSrR4PvNOcpK7nKuvzgM71kYdZCC2vg2igMidUAkSdi8sIxtc
- cEfnblkpXt3Y7LrmiXoF9eR/iSCJCeSpBX7lCUaDX/5FRmQwELoNCa+ER7YMMA+Fkwsr
- onOUMMfayB7mtaRACgwyc6Ob9Wbhr9S+y4m0eCSPO0FK9WnPbrgxguEes6cUJz1QfYZI
- 8EweZHYdXNN46WyXj2L0TRJHXQEZXdk5w/V7JlvCCRxYGYPiNz2BxLdZEA8n10NC66zx
- ZqUaiSYl3XKL5TmxDG5asBGOPwtnGvK/8jUmkubsUuAiSS/6xIyfnsM1UhXPSJkdQ8d2
- MiaA==
-X-Gm-Message-State: ACrzQf2xHsRI+bdY9l8Ro9lBFHMg7fMAydXgLPhLOUeqkNn2My7Z28SQ
- nLz4CO4+7dsV01ukLom2pRk=
-X-Google-Smtp-Source: AMsMyM6MoqvyIyxliKOCqZiFkvP91AsjRQGjeNSwYlnxadYUwlrS7DJ88HFJP0uITquBRGXm8Nv8tQ==
-X-Received: by 2002:a05:6808:1994:b0:354:d97e:d4aa with SMTP id
- bj20-20020a056808199400b00354d97ed4aamr23292247oib.148.1666372894339; 
- Fri, 21 Oct 2022 10:21:34 -0700 (PDT)
+ bh=zlHj7n3i5o3yXLa4ETHRTpxvwrBu3YafH8lL3TZQo7c=;
+ b=k7cgyT/EpHivaf1VhbSlpe2+BEJfTIcsRD4h2hSsvltdFZpsSlQMp7H82vyjRTcRVE
+ ne3Y9bFzitYlOIB1hij1QfBrJFvxwtYEMuCe8BErEMzQl+ZH55+kro7GZsYGI4Dkx7r8
+ 2HlWeZDlMbxL05kAz+j9T6vL1Cn5a0DYImoe098AcdkKZ+ulFpeKznZGESW7TcsbXINv
+ nCFXeYvLBvSf87AN6hbWdAl9dfmlTxgK8dHJU3BqEL/q8qFCjUHYmP+oJG9Y6JSwPPrQ
+ ROdJSVhYXHxaBMm+hAR0MiAPJ8bVpAfUtRsATKtxkDwjCUcatDqm26wiTBtyrwiyzmtf
+ 0e2Q==
+X-Gm-Message-State: ACrzQf0kPmlVHTdQfHGbAEafSebaq1fiHjnzRpabP18N7ede23G/2A+o
+ Szbu5HaeSMJ40p6j/gj8s08=
+X-Google-Smtp-Source: AMsMyM6Gt5PNxUQH7m5Kz7f+QJp+blLH3aodobQDZ0VnhqQZBBrggpcw5I5WICKa7m1ONsnecjhzHg==
+X-Received: by 2002:a05:6870:2427:b0:13b:1f89:ab27 with SMTP id
+ n39-20020a056870242700b0013b1f89ab27mr3799543oap.20.1666372973425; 
+ Fri, 21 Oct 2022 10:22:53 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- e2-20020a05680809a200b00350a8b0637asm1305671oig.47.2022.10.21.10.21.33
+ em40-20020a0568705ba800b001226d2100f2sm10482749oab.33.2022.10.21.10.22.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 10:21:33 -0700 (PDT)
-Date: Fri, 21 Oct 2022 10:21:32 -0700
+ Fri, 21 Oct 2022 10:22:52 -0700 (PDT)
+Date: Fri, 21 Oct 2022 10:22:51 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH v4 3/4] hwmon: lm90: simplify using
+Subject: Re: [PATCH v4 4/4] hwmon: adm1177: simplify using
  devm_regulator_get_enable()
-Message-ID: <20221021172132.GA1890681@roeck-us.net>
+Message-ID: <20221021172251.GA1891003@roeck-us.net>
 References: <cover.1666357434.git.mazziesaccount@gmail.com>
- <a1fa4364cbb775de25478117dd22dda0742089e3.1666357434.git.mazziesaccount@gmail.com>
+ <7773541795f280db31dd981ffc21df8a630b794a.1666357434.git.mazziesaccount@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a1fa4364cbb775de25478117dd22dda0742089e3.1666357434.git.mazziesaccount@gmail.com>
+In-Reply-To: <7773541795f280db31dd981ffc21df8a630b794a.1666357434.git.mazziesaccount@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,10 +89,12 @@ Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 21, 2022 at 04:18:43PM +0300, Matti Vaittinen wrote:
+On Fri, Oct 21, 2022 at 04:19:04PM +0300, Matti Vaittinen wrote:
 > Drop open-coded pattern: 'devm_regulator_get(), regulator_enable(),
 > add_action_or_reset(regulator_disable)' and use the
-> devm_regulator_get_enable().
+> devm_regulator_get_enable() and drop the pointer to the regulator.
+> This simplifies code and makes it less tempting to add manual control
+> for the regulator which is also controlled by devm.
 > 
 > Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
 > Acked-by: Guenter Roeck <linux@roeck-us.net>
