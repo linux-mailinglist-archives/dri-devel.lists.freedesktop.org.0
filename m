@@ -1,124 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6CE606CE9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 03:12:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 513E2606CEC
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 03:16:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA60610E4D2;
-	Fri, 21 Oct 2022 01:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77A110E4E6;
+	Fri, 21 Oct 2022 01:15:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from na01-obe.outbound.protection.outlook.com
- (mail-eastusazlp170110004.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c100::4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07FFF10E42A;
- Fri, 21 Oct 2022 01:11:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jskh8nc7aJ6d+Y1fm0yfdBp8OBPvMafxVPzsOf6+9z5SeFWxnbY4mk+6Q37DFw0U8fW5qKDn0VbbSLew40H7fQ/ovPGwTvxItJPcUaaWlMUfw+o/5/XB1x3Ft2rAcpA2EyeswormnA3edKMqHaG0m7TsbBDMpbF5dic0RnorBX6rlwmetXHmJ1UrfCrV2czwCuLRGT4ySAR2uOePMhqgh5d08jiqwlJoD9DkgP21lPrHBKSOW2qK0fPd8iOfUJf2Fb/3vB54GjQej8zmJRU3iTFL28FSaM9DMjvN6OiaU9+vOEmGXX2FsjRzfeMQe/J4fZ6Xfr1fRoNZ+M2abfTjwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=81P7vsT8Xwl3FLMKqdQZdB9l89VcyMvVKv/Q50583FA=;
- b=etp40x5rFmhKeGPK5tbY5VPcOqtHdOAhcvKQN5nuIgGt0traCSMdgHeFIE7g/jqM5ssPeYgpxfzai40usEQ8Go8C5gfcH50rJkN6oEGaCzTQlXbNpenpzjf/KZVUs6NobVPOcIenpKaPpXuYdUOeCsy/mEq1Eo0EW6bvDk6Xro2/8y2VyyXXGj0rqnnTJ1PNmDJEm+nEoL6QkZ0pRIlDq7BxMgsjZK6sxmnXoGOKW9dgHV/cqZOnNrnNlhz0ODaHL1J0D9dInqFlcNhPKt1l78QNsgb3uzAkecP0W7jyCENyfUlNhUl/Zrh0n6SzTmmBUwzzEFwogw/UrG4KSw+8NA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=81P7vsT8Xwl3FLMKqdQZdB9l89VcyMvVKv/Q50583FA=;
- b=dh0iRO7KunsZM3AR3gcPa5xVbgoR3r/odvJwWCpfA8On/xfeU23xoAg60QNVsfJLm3DsRpnS/TTwEMjRVK6SsUhdlF7jY/w3zkh87iL+jAxtWPN9Qmdav3h1GK1L71SfJP1/VMkLuMjwcn8SDmQJGdf4IfT3ij5xmVjuXhPQT+c=
-Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
- by BYAPR05MB6294.namprd05.prod.outlook.com (2603:10b6:a03:cf::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.10; Fri, 21 Oct
- 2022 01:11:25 +0000
-Received: from CY4PR05MB3047.namprd05.prod.outlook.com
- ([fe80::d893:b27e:529:35ae]) by CY4PR05MB3047.namprd05.prod.outlook.com
- ([fe80::d893:b27e:529:35ae%7]) with mapi id 15.20.5746.017; Fri, 21 Oct 2022
- 01:11:25 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Thread-Topic: linux-next: build failure after merge of the drm-misc tree
-Thread-Index: AQHY5OBxrA8oizfR2kqEvPpC/wzSg64YClIA
-Date: Fri, 21 Oct 2022 01:11:24 +0000
-Message-ID: <766bcc80a2b5d395a4606d27f0032d52fea22dc7.camel@vmware.com>
-References: <20221021110234.51f9ab66@canb.auug.org.au>
-In-Reply-To: <20221021110234.51f9ab66@canb.auug.org.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY4PR05MB3047:EE_|BYAPR05MB6294:EE_
-x-ms-office365-filtering-correlation-id: 623eeca2-533f-4582-69fe-08dab3012c97
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XVv/p9jgerQpzKq4UkeLknFieEkPzBTrYqtF1nXDixw80Bbsk5cMvRNapV7iBjjrt24vLfkXG7IRrGulSesuihrAe2OBy0TJ+Ar5fvfKDkMJrCL9oujf74075HbqeB5dJWM/k43u/4D5amkmfHDfPXsAfqBNF6P/uJRWPAbk4Sp1E5m2Uoxu2gL0iuS/Rp+kgbdDMZ/JkdfBit8S0EyLrfCyfwzr8bMDYE4/ohLJ8S2YALvkIS9brQBOq6nT2sBolcLvOuMpSRNVAYBr2DHXx8Q3iiyHo4D+lk3yrpq9zK+QvDznKXSsR92R/oIsOq+QfZLghcwt3sJwZAwlhu3SGYeHFDXSkNuqH8doLho2FFXPxnxSm+O6pU9anhpWEm6uTleaaS2eJBXHhZ414ZbMkhQH6+rUYtqmwbpsXLmc5zXKBOVCoRbDTXv+cQlBTWY3wz7Fp2Nk7luGFquxNFe178isMvO3HxJoI4UmNhvp/brLubXy/y+KwoxVto3Aw4rzVwIGcot391mihtMF0/JgiAI0VnFFhioNzAqntPW0Xggps8sys9AEeu5+QxOEWu8rpxofcCf4zCJDi6zoDSgj5aCLmu0NiO32jzVHP1fG8a3izBCb6bltSsuu8t48BgxeUl9iJ7k4sKMowacbeHQrkvoO+/zAeY54IKlX9APBMPenwDOFv9OFpiTheTBsCxS9GxGSLTAMJOs2nfGmTVsD0a3ZJqxoIUeGR9V6xmkzqNe2BxMH8vd1zpDm0dKdUj4oLi+INZTGu4Y/CtcgG5Dj0g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(396003)(136003)(366004)(39860400002)(376002)(451199015)(4001150100001)(66946007)(110136005)(316002)(36756003)(38070700005)(86362001)(38100700002)(2616005)(26005)(91956017)(66556008)(8676002)(4326008)(186003)(6506007)(122000001)(54906003)(478600001)(6486002)(5660300002)(4744005)(8936002)(6512007)(66476007)(71200400001)(64756008)(83380400001)(2906002)(76116006)(41300700001)(66446008);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cTFpcmNjQU1jSnpHN3k2cDRRMlFTMm9HTzJkSTkrQlY2d2VqVS9EWHN2a2pL?=
- =?utf-8?B?VzdFWjlnWkR3dXVXWXZ3RjU2dE5VYk51U2M1RjVZcnlkSGcwMEZVYVhKWS9C?=
- =?utf-8?B?OGpSMm5tRHF6WGNrSEhoM1k2K2pQTEZ1dzJ0VklHNDJuMEhBOFl3VllPeHZ4?=
- =?utf-8?B?V2ZIWVQ3U2hqS3NPTHl0NFQrUDg5ZXk4ZFZ3REVsYUEvTHlDbFhwTUU5bDlI?=
- =?utf-8?B?K3FzejFqTU5kZlFDK2FubDF6L2QrT2o0b1Fhb0F2SmRESG51cXk1blZ6aitD?=
- =?utf-8?B?MEZWeFRMdkcwWWNJMDZFTlpieXN2enVzYU91dDI2YUE3cktodFE0RHVrSG1Q?=
- =?utf-8?B?VE5OSUoxOExFeWJCc1czTWNRVm4wYm5ZYlpOd01NR1RlNCtUcVBJTm9lQVAw?=
- =?utf-8?B?dEJsMS9keVNmTm9BeitTRWRZcWFUQ2tma3RiK2hhRFduVWhVSzl5TG1EUFla?=
- =?utf-8?B?S1hNQ3pPMEdmdER6Q1ZuUEZQZkVtMFJhTXhPeHhDc0dTUW9LVE96dFJuQUVO?=
- =?utf-8?B?K1NlcW1Ua1RrM0NEQTlJZnpSaUVLWTJiZFZmbU90QTBXN1hFQW5EN0plL25D?=
- =?utf-8?B?QlVOZHI5MGZkblZTUDlxbXJLVE85TVZTSVRUWjVRMVBIMUhIeTFaVk1aS2ZG?=
- =?utf-8?B?WUMxbnE2dCtsVEEyZGtIblJmSXVVU3liT3RaQk8zNEh4T0ordWFKb01qKzhJ?=
- =?utf-8?B?M2RXc0M1MTJjOWltZS9rT3dPOTFFRVFsTG94MmZUbVNFU3BEbFduYTFzWlRG?=
- =?utf-8?B?RjFCVlhobkJmNDBncmtvWWp4S2lybThqNkI4NWxFMmRrZ1BpckJDOTVGWFVW?=
- =?utf-8?B?TlVoVnUyRWNySEVBeTRJSEV3ZDNqaFhENGdmYWVDRUd6a2w0d0kxK3cwSmJz?=
- =?utf-8?B?VkFld3B6L0pnWG1UZjZZcWxhbERCSXNEa09oNzFaT0NvWlVoQlJpNmR3RzVZ?=
- =?utf-8?B?Y1ZRM3JKQkVZejl2UGFuaEJhb2VrL0JzTFFEc0ZFQ0NGRG44WElSVVFrbXVL?=
- =?utf-8?B?bS9VTmVDak1KdzFCZllveW0rQnhvZjNNWjh1aTNaWXRid2F1eExXWXRZSlVE?=
- =?utf-8?B?bTcrVllKMGYrMWJzSS93cFpvUFRRaGJQUU0zYjFUaVNxK2xCeG1GdTVpV2Uw?=
- =?utf-8?B?VWwyempEeWgvU2VhL08zV2Z0YkhWYXlHbXRPT0tWd3hZKzhQdCtlRGpucVNz?=
- =?utf-8?B?UkZGWmNnQ2hzUmFpcVBxNDhCYmlyTEtzbHFQeFFkaXordlVqMzN6UEJ6VWll?=
- =?utf-8?B?RFc0cVB1cHcyVFE2ZVE1RmU3TGtiZ1hpaFNBWDdNREFkUnRCSG1ncnFseDBn?=
- =?utf-8?B?eU13ayt2RlpZdUp6Q2lCdHVwc3hqVmRNTVRRL0ZNbjlJZ25PMDBnRDUrNzhu?=
- =?utf-8?B?a0NHQXEzeGU2amlHbDlwV1pqNmp5NnNNek1VeTA2YUhHZ2RPYXowTVJhZk9w?=
- =?utf-8?B?L3RCTGpNTzdBV0hGdUx0eXJoU1M1WmNsalhoWHg1TTJOanJPakVmbC85aTc1?=
- =?utf-8?B?eGc1WVJSczNuTjZiTitTOUlweXFXYXRIZGk0TGU4SmpXR3ptZi9hRlNRNlBK?=
- =?utf-8?B?K0xMVllXMU9SY1pGSEtHdVJkL3JOeCsyVE5XTy9HK1ZUV3IyQzFXeHNTVnpZ?=
- =?utf-8?B?MmhNUU9hZ2hjZ3Iwd25sbmkycXZCMmZrZjJpNEhRUXRUbFZnMmpHcmZUUDlv?=
- =?utf-8?B?cDQzcnFyZ2E4d2dZcG9LMGdTQXJkWTd6UXRvNUdMOUV6T2Q4M1psODFRemNu?=
- =?utf-8?B?ZUs5dmZIaU1qcmZxQi9RQi9WQ1laemZtTjRvaG5RUDg0RHk5a3czeTV3UTRj?=
- =?utf-8?B?TjVZMU1Qd25sNHI0ZTJkTnZOT1NSSTVsMVBFeHRmUHVFWjdYZThqWTBGaHJX?=
- =?utf-8?B?MFRxS0U2OWJJdEJNU1g5ajJoVGV3NzVtSnNSVkptUmp2UEhNTytkWkx3dW82?=
- =?utf-8?B?S2I4VUxKL2V0dFVDazhLeldGNS9lTWczWERtYSs5eXZXQk9oVFJzdEI4TDdW?=
- =?utf-8?B?TWhMVm5IR3ZoU1JiLzlsWllwOVp4c3JYT2syc3JyVnBLVVJUaHVBWG1rRUlu?=
- =?utf-8?B?V0dMb2RhRkcwb2FGY3NxaDlvbStvbGlDYmVxaExSUXRlSU9yYldJY0luR3dT?=
- =?utf-8?Q?zCwR+8kPH2BVlJIgk+zT76LmV?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6091B9487545804390A025956804F42B@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3E410E4E6
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 01:15:50 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so5190007pji.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Oct 2022 18:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TYc5dlRmOKX3pKCJnT+MFL8RVo/8Ttmq2r93sp4OQsE=;
+ b=H4nujdR2StaT8z4NSqPqeAGsi1b6673+PXh6vfeb6bElyNwNNy5g52mhzYcq36RpL9
+ 9GKKanOQHIcIIp8+6Nj7Xu6BY20xS4yNgOBuZCIWjIvRKM9fAsQFLXv3c7X7c6iLfYxf
+ GdPkcv9YyThGeuigxQUNaS2YbBPGhy8TpMgxbSQA6zNLTwGPGxGKdGCsnNS3STKoU9TN
+ NhiUx7Aula+FJLPWE+64oMDteE13Pn6jYY/f1QQG4xKNP5omfh4TGBTb/SHWvMqhmXZU
+ VnlH0/8pQ53mBy3kVW6v2Elsw/1axLw48TICQP8DBID25lmqRGuSOvXyiVrgYvMDhRfm
+ pDww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TYc5dlRmOKX3pKCJnT+MFL8RVo/8Ttmq2r93sp4OQsE=;
+ b=kvk/IlM3oDa1wF4y35R8YeY7xleeHwhDBV0ApGKLtDhyHSX7XUw5mONWOLnrVbWDyE
+ bnt/GfSvzRXfcsABCIHkhQCjY/5kvFo5n4rC5jYgwza7CCTgIKjT9ehA2a4kSD/SCFXb
+ E6jek88IqVvoEKkAITlLWuPyJ2NLzMwOQZOHTpFoQ+8730uGbwRFN8RewZKX74Z1klpy
+ HvGZLbGcSkh8CxtqeMN6ojji/Uk7DTRGY6qrsvqh4tpqE7Has6f811s4gxcDYv66E0RL
+ rTiO4QejO1kf6wJ/hMjGWlkntzpVutkdzexMsneoF0iGyAiaENVMFQ+NTSm7nnARu5b4
+ 5yOg==
+X-Gm-Message-State: ACrzQf3O6wvmDRcYrzh1TASyC4onr1xngvdmzJCo+EioTT1y5q+MCTAm
+ tgXlmeiugfzN808WwHRUdDo=
+X-Google-Smtp-Source: AMsMyM5Kvgj6SsrhrnGcanCbSG7FEtgALjP0nlO1UN4j4ONw2zIIgC3xgaEqTX7M5eipjsxwPwOFPQ==
+X-Received: by 2002:a17:90a:2bcb:b0:20a:ea55:32ef with SMTP id
+ n11-20020a17090a2bcb00b0020aea5532efmr54828720pje.59.1666314949631; 
+ Thu, 20 Oct 2022 18:15:49 -0700 (PDT)
+Received: from ubuntu ([175.124.254.119]) by smtp.gmail.com with ESMTPSA id
+ m10-20020a1709026bca00b00181a0e61ce4sm13409281plt.6.2022.10.20.18.15.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 18:15:49 -0700 (PDT)
+Date: Thu, 20 Oct 2022 18:15:44 -0700
+From: Hyunwoo Kim <imv4bel@gmail.com>
+To: steve.glendinning@shawell.net, deller@gmx.de
+Subject: [PATCH v2] video: fbdev: smscufx: Fixed several use-after-free bugs
+Message-ID: <20221021011544.GA339803@ubuntu>
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 623eeca2-533f-4582-69fe-08dab3012c97
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2022 01:11:25.0650 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gBiEV1X/wEXyrLczEdRmM481f5r2e1JGEtmgEZ7H5J58tvDcYwm/0UA/HNjSB/ikR9k4uxrYWCU01e+ts+lLgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR05MB6294
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,23 +67,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imv4bel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDIyLTEwLTIxIGF0IDExOjAyICsxMTAwLCBTdGVwaGVuIFJvdGh3ZWxsIHdyb3Rl
-Og0KPiBIaSBhbGwsDQo+IA0KPiBBZnRlciBtZXJnaW5nIHRoZSBkcm0tbWlzYyB0cmVlLCB0b2Rh
-eSdzIGxpbnV4LW5leHQgYnVpbGQgKHg4Nl82NA0KPiBhbGxtb2Rjb25maWcpIGZhaWxlZCBsaWtl
-IHRoaXM6DQo+IA0KPiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuYzog
-SW4gZnVuY3Rpb24gJ25vdXZlYXVfZGlzcGxheV9jcmVhdGUnOg0KPiBkcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuYzo2NjI6Mjk6IGVycm9yOiB1bnVzZWQgdmFyaWFibGUg
-J2RldmljZScgWy1XZXJyb3I9dW51c2VkLXZhcmlhYmxlXQ0KPiAgIDY2MiB8ICAgICAgICAgc3Ry
-dWN0IG52a21fZGV2aWNlICpkZXZpY2UgPSBudnh4X2RldmljZSgmZHJtLT5jbGllbnQuZGV2aWNl
-KTsNCj4gICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+DQo+IGNjMTog
-YWxsIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzDQo+IA0KPiBJbnRyb2R1Y2VkIGJ5
-IGNvbW1pdA0KPiANCj4gICA3Yzk5NjE2ZTNmZTcgKCJkcm06IFJlbW92ZSBkcm1fbW9kZV9jb25m
-aWc6OmZiX2Jhc2UiKQ0KPiANCj4gSSBoYXZlIHVzZWQgdGhlIGRybS1taXNjIHRyZWUgZnJvbSBu
-ZXh0LTIwMjIxMDIwIGZvciB0b2RheS4NCj4gDQoNCkhpLCBTdGVwaGVuLg0KDQpJJ3ZlIGp1c3Qg
-c2VudCBvdXQgYSB0cml2aWFsIGZpeCBmb3IgdGhpcy4gSSdtIG5vdCBzdXJlIGhvdyB0aGUgYm90
-cyBhbmQgSSBtaXNzZWQNCml0LiBUaGFua3MgZm9yIGxldHRpbmcgbWUga25vdyENCg0Keg0K
+Several types of UAFs can occur when physically removing a USB device.
+
+Adds ufx_ops_destroy() function to .fb_destroy of fb_ops, and
+in this function, there is kref_put() that finally calls ufx_free().
+
+This fix prevents multiple UAFs.
+
+Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
+Link: https://lore.kernel.org/linux-fbdev/20221011153436.GA4446@ubuntu/
+---
+v2:
+The v1 patch fixed several UAFs, but "info" was not kfree()d after the device 
+was removed by calling the framebuffer_release() function from 
+ufx_free_framebuffer().
+This is because fb_info->count was not 0 at the time the 
+framebuffer_release() function was called.
+
+Moved the framebuffer_release() function to the ufx_ops_destory() function. 
+The ufx_ops_destory() function is a .fb_destory ops that is called 
+after fb_info->count goes to zero.
+---
+ drivers/video/fbdev/smscufx.c | 55 +++++++++++++++++++----------------
+ 1 file changed, 30 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
+index e65bdc499c23..9343b7a4ac89 100644
+--- a/drivers/video/fbdev/smscufx.c
++++ b/drivers/video/fbdev/smscufx.c
+@@ -97,7 +97,6 @@ struct ufx_data {
+ 	struct kref kref;
+ 	int fb_count;
+ 	bool virtualized; /* true when physical usb device not present */
+-	struct delayed_work free_framebuffer_work;
+ 	atomic_t usb_active; /* 0 = update virtual buffer, but no usb traffic */
+ 	atomic_t lost_pixels; /* 1 = a render op failed. Need screen refresh */
+ 	u8 *edid; /* null until we read edid from hw or get from sysfs */
+@@ -1117,15 +1116,24 @@ static void ufx_free(struct kref *kref)
+ {
+ 	struct ufx_data *dev = container_of(kref, struct ufx_data, kref);
+ 
+-	/* this function will wait for all in-flight urbs to complete */
+-	if (dev->urbs.count > 0)
+-		ufx_free_urb_list(dev);
++	kfree(dev);
++}
+ 
+-	pr_debug("freeing ufx_data %p", dev);
++static void ufx_ops_destory(struct fb_info *info)
++{
++	struct ufx_data *dev = info->par;
++	int node = info->node;
+ 
+-	kfree(dev);
++	/* Assume info structure is freed after this point */
++	framebuffer_release(info);
++
++	pr_debug("fb_info for /dev/fb%d has been freed", node);
++
++	/* release reference taken by kref_init in probe() */
++	kref_put(&dev->kref, ufx_free);
+ }
+ 
++
+ static void ufx_release_urb_work(struct work_struct *work)
+ {
+ 	struct urb_node *unode = container_of(work, struct urb_node,
+@@ -1134,14 +1142,9 @@ static void ufx_release_urb_work(struct work_struct *work)
+ 	up(&unode->dev->urbs.limit_sem);
+ }
+ 
+-static void ufx_free_framebuffer_work(struct work_struct *work)
++static void ufx_free_framebuffer(struct ufx_data *dev)
+ {
+-	struct ufx_data *dev = container_of(work, struct ufx_data,
+-					    free_framebuffer_work.work);
+ 	struct fb_info *info = dev->info;
+-	int node = info->node;
+-
+-	unregister_framebuffer(info);
+ 
+ 	if (info->cmap.len != 0)
+ 		fb_dealloc_cmap(&info->cmap);
+@@ -1153,11 +1156,6 @@ static void ufx_free_framebuffer_work(struct work_struct *work)
+ 
+ 	dev->info = NULL;
+ 
+-	/* Assume info structure is freed after this point */
+-	framebuffer_release(info);
+-
+-	pr_debug("fb_info for /dev/fb%d has been freed", node);
+-
+ 	/* ref taken in probe() as part of registering framebfufer */
+ 	kref_put(&dev->kref, ufx_free);
+ }
+@@ -1169,11 +1167,13 @@ static int ufx_ops_release(struct fb_info *info, int user)
+ {
+ 	struct ufx_data *dev = info->par;
+ 
++	mutex_lock(&disconnect_mutex);
++
+ 	dev->fb_count--;
+ 
+ 	/* We can't free fb_info here - fbmem will touch it when we return */
+ 	if (dev->virtualized && (dev->fb_count == 0))
+-		schedule_delayed_work(&dev->free_framebuffer_work, HZ);
++		ufx_free_framebuffer(dev);
+ 
+ 	if ((dev->fb_count == 0) && (info->fbdefio)) {
+ 		fb_deferred_io_cleanup(info);
+@@ -1186,6 +1186,8 @@ static int ufx_ops_release(struct fb_info *info, int user)
+ 
+ 	kref_put(&dev->kref, ufx_free);
+ 
++	mutex_unlock(&disconnect_mutex);
++
+ 	return 0;
+ }
+ 
+@@ -1292,6 +1294,7 @@ static const struct fb_ops ufx_ops = {
+ 	.fb_blank = ufx_ops_blank,
+ 	.fb_check_var = ufx_ops_check_var,
+ 	.fb_set_par = ufx_ops_set_par,
++	.fb_destroy = ufx_ops_destory,
+ };
+ 
+ /* Assumes &info->lock held by caller
+@@ -1673,9 +1676,6 @@ static int ufx_usb_probe(struct usb_interface *interface,
+ 		goto destroy_modedb;
+ 	}
+ 
+-	INIT_DELAYED_WORK(&dev->free_framebuffer_work,
+-			  ufx_free_framebuffer_work);
+-
+ 	retval = ufx_reg_read(dev, 0x3000, &id_rev);
+ 	check_warn_goto_error(retval, "error %d reading 0x3000 register from device", retval);
+ 	dev_dbg(dev->gdev, "ID_REV register value 0x%08x", id_rev);
+@@ -1748,10 +1748,12 @@ static int ufx_usb_probe(struct usb_interface *interface,
+ static void ufx_usb_disconnect(struct usb_interface *interface)
+ {
+ 	struct ufx_data *dev;
++	struct fb_info *info;
+ 
+ 	mutex_lock(&disconnect_mutex);
+ 
+ 	dev = usb_get_intfdata(interface);
++	info = dev->info;
+ 
+ 	pr_debug("USB disconnect starting\n");
+ 
+@@ -1765,12 +1767,15 @@ static void ufx_usb_disconnect(struct usb_interface *interface)
+ 
+ 	/* if clients still have us open, will be freed on last close */
+ 	if (dev->fb_count == 0)
+-		schedule_delayed_work(&dev->free_framebuffer_work, 0);
++		ufx_free_framebuffer(dev);
+ 
+-	/* release reference taken by kref_init in probe() */
+-	kref_put(&dev->kref, ufx_free);
++	/* this function will wait for all in-flight urbs to complete */
++	if (dev->urbs.count > 0)
++		ufx_free_urb_list(dev);
+ 
+-	/* consider ufx_data freed */
++	pr_debug("freeing ufx_data %p", dev);
++
++	unregister_framebuffer(info);
+ 
+ 	mutex_unlock(&disconnect_mutex);
+ }
+-- 
+2.25.1
+
