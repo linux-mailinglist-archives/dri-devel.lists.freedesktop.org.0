@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D246076C1
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 14:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81806076F8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 14:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A2510E002;
-	Fri, 21 Oct 2022 12:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A927010E187;
+	Fri, 21 Oct 2022 12:36:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449AC8989C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 12:18:25 +0000 (UTC)
-X-UUID: 86cdf9ba460b43a1a67e46e80e6dd068-20221021
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=FStDW140eCPO9COx9UbUWpdicSyZ8YvIB4IHtRNVQQw=; 
- b=kMqATH2PnVPcblctNQgvwWtTlh++IHhLHHRtfwtKO6XON5fF4vCpH3gvVkkkBFw5sJ10EkeKiQ5VMeRUBri7XNlyj6FJzsUxzHqHZRwI9nqI0fzwmVVVon1dzstsBf9Vp/PBZRih/GsGPD8QTxUf3pFpzEvA077e8uaaKkoLJbQ=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12, REQID:713257c8-776f-4edf-a7f6-da81ebc2da1f, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Release_Ham,ACTIO
- N:release,TS:73
-X-CID-INFO: VERSION:1.1.12, REQID:713257c8-776f-4edf-a7f6-da81ebc2da1f, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:28,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:73
-X-CID-META: VersionHash:62cd327, CLOUDID:c0f0b26c-89d3-4bfa-baad-dc632a24bca3,
- B
- ulkID:2210210040350PEJ5T85,BulkQuantity:7,Recheck:0,SF:28|17|19|48|102,TC:
- nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:40|20,QS:nil,BEC:nil,COL:0
-X-UUID: 86cdf9ba460b43a1a67e46e80e6dd068-20221021
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1467051895; Fri, 21 Oct 2022 20:18:20 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 21 Oct 2022 20:18:19 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 21 Oct 2022 20:18:18 +0800
-Message-ID: <2e1899236144774d4a1c0224532b11ef7e1f9862.camel@mediatek.com>
-Subject: Re: [PATCH v12,2/3] drm: mediatek: Set dpi format in mmsys
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
-Date: Fri, 21 Oct 2022 20:18:25 +0800
-In-Reply-To: <20221020164022.vtnumo3fob2sh54w@notapiano>
-References: <1666147936-27368-1-git-send-email-xinlei.lee@mediatek.com>
- <1666147936-27368-3-git-send-email-xinlei.lee@mediatek.com>
- <20221020164022.vtnumo3fob2sh54w@notapiano>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49EEE10E0FE;
+ Fri, 21 Oct 2022 12:36:22 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id h12so2379291pjk.0;
+ Fri, 21 Oct 2022 05:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5y/vcAMtKCVTrh+E/N/2LlgUlrNzauVl3aZ392iU3cU=;
+ b=Qbx4MGJiXE25WxekTP+L8fcKpnb7ojaiGvhvo3d6vwji70BKe+eSk5Xy4ztsbEqltX
+ JgFv9eOcepuc/9kqg+OMrrzN6GJi6fOMBVHc15DbxP0Ki+5+imQFlNiR7MChQJT+DHLq
+ g3VdB2hDAqIMIx1Nv/hPxNvbWZw2mcwkEpX3uaK7kh7Tqa2RytcaKWIQMKaKaj2iRm7e
+ lXKGNqWJE2FLTPXTTXenj/Rfhln9ZkivTorvGAgo9/H0GxqNBp/ydevjIwjnbCnYQ7K4
+ MhyUXQTtBIrtlv4Mp994DvJ2wwsN+9/K1dtuunw2YDWB70q8sYUq4gHpAOgRUoGcRgju
+ famA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5y/vcAMtKCVTrh+E/N/2LlgUlrNzauVl3aZ392iU3cU=;
+ b=pfBpOGlZ2sVDMC5JI6VRgJR7qPPqqQy4fZxL2z08LonsvEXTHS+UusaArZnQIbbdV3
+ 7hyLPIWCiMHj+pl+v3P8azH8Oq+zfN3mnbykJYGEtc0y4WyNXjFkYLQwh8aN2MCZspok
+ sejy9KJmbSh81pRYem1VU9KccTrZHuEhvs2gk0n/ddNe15qiLKiNDyfOXBPECLpeO4nH
+ o1nUIMBqPYY6ldsYHar24zyXV+uv6enFK/71MoWmIqQ/cvhhzoqfwZKnDMdHZL2AA4bW
+ JDo6lvSmhbBBeeRtK+Tg1ddt5U7sYleDawa8yEkaNq7MvWDJcawgqCcFTkAGwfY+T9Al
+ yTRA==
+X-Gm-Message-State: ACrzQf3pytx+LM5hb136EanpA+tOsYx8sMjzYOU/32D4TeMnW5z3a9WY
+ qkkC+8w7KUFEGSzPp5LkKRbMc1t01V1Hqd2jmvFEQJPNZWjf4mHt
+X-Google-Smtp-Source: AMsMyM4PFfgcQnS/E9WHft1H10vtbxT+IX20E8TXQbHHzIHseDMNJJbDOkWxD3q+UVA89SBbO1sNpalqZc/gmECW2m8=
+X-Received: by 2002:a17:902:8549:b0:178:6399:3e0f with SMTP id
+ d9-20020a170902854900b0017863993e0fmr19363524plo.35.1666355781420; Fri, 21
+ Oct 2022 05:36:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MTK: N
+References: <CABXGCsOeQ7VYm98jRVaYp6KaNsFVsAnSb33ZT8JvZxcTcEGW0w@mail.gmail.com>
+ <a67598e8-c826-2740-03bb-33d37c8c8e4b@amd.com>
+In-Reply-To: <a67598e8-c826-2740-03bb-33d37c8c8e4b@amd.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Fri, 21 Oct 2022 17:36:09 +0500
+Message-ID: <CABXGCsNvFvJz4=N=JKYSGVcd=dKfQ3Nv_zOssMb0Z6oK79xZ7g@mail.gmail.com>
+Subject: Re: [6.1][regression] after commit
+ dd80d9c8eecac8c516da5b240d01a35660ba6cb6
+ some games (Cyberpunk 2077, Forza Horizon 4/5) hang at start
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,79 +69,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- airlied@linux.ie, jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, rex-bc.chen@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-10-20 at 12:40 -0400, Nícolas F. R. A. Prado wrote:
-> On Wed, Oct 19, 2022 at 10:52:15AM +0800, xinlei.lee@mediatek.com
-> wrote:
-> [..]
-> > @@ -134,6 +137,7 @@ struct mtk_dpi_yc_limit {
-> >   * @yuv422_en_bit: Enable bit of yuv422.
-> >   * @csc_enable_bit: Enable bit of CSC.
-> >   * @pixels_per_iter: Quantity of transferred pixels per iteration.
-> > + * @edge_cfg_in_mmsys: If the edge configuration for DPI's output
-> > needs to be set in MMSYS.
-> 
-> As Angelo suggested previously, this could be written slightly
-> shorter as 
-> 
->   * @edge_cfg_in_mmsys: Edge configuration for DPI output has to be
-> set in MMSYS.
-> 
-> >   */
-> 
-> [..]
-> > @@ -448,8 +453,12 @@ static void mtk_dpi_dual_edge(struct mtk_dpi
-> > *dpi)
-> >  		mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING,
-> >  			     dpi->output_fmt ==
-> > MEDIA_BUS_FMT_RGB888_2X12_LE ?
-> >  			     EDGE_SEL : 0, EDGE_SEL);
-> > +		if (dpi->conf->edge_cfg_in_mmsys)
-> > +			mtk_mmsys_ddp_dpi_fmt_config(dpi->mmsys_dev,
-> > MTK_DPI_RGB888_DDR_CON);
-> >  	} else {
-> >  		mtk_dpi_mask(dpi, DPI_DDR_SETTING, DDR_EN | DDR_4PHASE,
-> > 0);
-> > +		if (dpi->conf->edge_cfg_in_mmsys)
-> > +			mtk_mmsys_ddp_dpi_fmt_config(dpi->mmsys_dev,
-> > MTK_DPI_RGB888_SDR_CON);
-> 
-> I know this isn't one of the formats supported by MT8186, but since
-> we're using
-> platform-agnostic formats now... This else branch in theory could
-> also run for a
-> format like MEDIA_BUS_FMT_YUYV8_1X16. Would it make sense to set
-> MTK_DPI_RGB888_SDR_CON in that case?
-> 
-> Thanks,
-> Nícolas
-> 
-> >  	}
-> 
-> [..]
+On Fri, Oct 21, 2022 at 1:33 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Hi,
+>
+> yes Bas already reported this issue, but I couldn't reproduce it. Need
+> to come up with a patch to narrow this down further.
+>
+> Can I send you something to test?
 
-Hi Nícolas:
+I would appreciate to test any patches and ideas.
 
-Thanks for your review!
- 
-You are right, I understand you think this MTK_DPI_RGB888_SDR_CON 
-format seems useless as it will not be set, I confirmed with the 
-designer how the setting in mmsys affects the output format of the 
-MT8186, this mmsys setting will not be used by other ICs.
-
-As mentioned earlier, the mmsys setting will make the MT8186dpi have 
-four output formats, even though the MT8186 dpi may not use them all.
-
-So what needs to change here?
-
-Best Regards!
-xinlei
-
+--=20
+Best Regards,
+Mike Gavrilov.
