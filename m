@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D745B607BDE
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 18:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B56607BE0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 18:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2B110E218;
-	Fri, 21 Oct 2022 16:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97DB110E41E;
+	Fri, 21 Oct 2022 16:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DADC410E3FD;
- Fri, 21 Oct 2022 16:12:22 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8289210E405;
+ Fri, 21 Oct 2022 16:12:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666368742; x=1697904742;
+ t=1666368774; x=1697904774;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=J+HhgjuRZks6hIe4qc4rhUNm5NxmnHUeZ595QiShoOE=;
- b=IBh6hN34v6967EsJH6u1lsQXEupreYGl+QZTusdiHynp4ATva/pM9+hq
- ONq7+v9Ya036mIEBTOhoFhahhEa80TK95ilrvfBsVib3i3DuM90qRhcLC
- eBXJf6K8FDQWrm4RhhcPMhYT7fWLgmNv4tt7Ik1LSPmqB2GzNksx2EeOD
- jnjelnevz+Hn6yub+pPk9EkEPGBsLyA99d75JlD229v8OfdI4sR2tAo2t
- vCcymZPEbxrLwguCqJ+X8k/dh+du6FHuM1ZSzv9MJHLW16ohjXn5bHONa
- pRiwV+b0K6ZfkBgUCO1oAa6cbt6OVfmBvNWDGatok6M0U2NaYgSoanIdo Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="290346904"
-X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="290346904"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2022 09:12:21 -0700
+ bh=7MF+p0N70lDi8D4nrkz13eQUKL4lUewu1uUzJhApUnM=;
+ b=mZTHkMoQrGmRVt6Oz8bPAt5YHZtISrwcwmDIX4VEOpyblKoB7wooh02q
+ 5iJeHTxpoeXe0lIqHJUbd2pL5BeHDcXlxUPcO/mgj3TRMPNcE6F9Mp3XD
+ XuEMszOdf1442b7wnhLvqAXOVyhYOms+AqydcxCbnGG9Utu7bWMEDuBEK
+ cKakjLGMoYngvAZ93Cn6GJpDRPzn8d70nDfKh3dQWwYzKI/xcEuGolBbP
+ cqZuvMkbWcVBQ3yE1fu1DsT5m7EM7xJInFgbqKINyBd/cCaZe8hQL2mNh
+ 1rdAwjXumepBlcD+7f/ZzHiiwahkI+uDSBRQTHpoG4ew979t3k86VRnKn A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="308725634"
+X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="308725634"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2022 09:12:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="773105349"
-X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="773105349"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga001.fm.intel.com with ESMTP; 21 Oct 2022 09:12:21 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="581648161"
+X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="581648161"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga003.jf.intel.com with ESMTP; 21 Oct 2022 09:12:53 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 09:12:21 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ 15.1.2375.31; Fri, 21 Oct 2022 09:12:53 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 09:12:21 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 21 Oct 2022 09:12:21 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.170)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Fri, 21 Oct 2022 09:12:53 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 21 Oct 2022 09:12:20 -0700
+ 15.1.2375.31; Fri, 21 Oct 2022 09:12:52 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QuZIa6AnprVHaczWQHeshyZR1NbkOiEER4HYJ8xBdhMJVLjMHgB2qo5rUqiy7hRKK3IxOht5SrDQsoS0rxTJr6ZWTZxlioWCDofPIUYU/VaPdexM/dVyNn96JYa86NdHRDqsabsU16GX+TwnWLzLjh9NSjFiRE8uBClzn7LdXLIsVNbu2CQE/JqQoYAymJn9BsMKGSRyX1zB8ZjmBYIl7LvpOm6R2W1easAKX2ZwYpgdz3/nomcSoQAlIfF0NYwarcAQMrtYIY4DP+4NB72k2Cs2iE/p7UjLScJHeYj2LGovVsW60Ilz7yKEtuU+3HHwPzoX0PrEZlMdHcHcGDCS1Q==
+ b=CEiM99QhTG5HeNuGRk7TTAKaAV5TaLSReY3QqmxHhjfMExUzFk4ItRlV9a1EEaNzJr10TYMmPpoF9f8qC9zbNazv1oLlvN/2P+ibnguURx7QN/p/s0Hi7MCopJW+YZs2Rbq2ZFmnTN5qhnKzK8A7MhWyHRLtRKbdjk0vBE54SDXV7Wnjqyx8ZX5OcAnaL4JMli2uvuuLpyGbUBh2vFd0LpTarlcMrrgEAGsE+y/yMxZ5QvJKiXDdNj8DptBVLRMQeUzLJQ+mdXCVz79j6u8zLcF6MCeqBbchsovcDJ1dQMkabPaAG6Y91lRL8RuNPP9LNIalsuTqmHo04Zgc7f6+ZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MIx3qlH1BpTXUAS+uI2blhPaMqykM6rRwlb78sO/gcc=;
- b=j1V9w4w13+03nTjlrE+DvzbT31qWtMwAKf5Vhk7IIm3jWLaCWCVz/EL5eQbmAfM6BYCQnb9X4bo+6yHtaZ37EiMqYRGftIfnOnFAl3i+gIOhzbvbJ3YQ0MpZojQVALy9oQeBGvFmN6x8yiwvuyS750EgMCC23PPDygTtkt4BPr7hCGI+pVCtPyVEj48zMJO37URGWoxvKg5AMM2l5pG2BA2ytIkDRhRoeDzOxWgt6u0Lrc/Fgr5h1YmpyICYadg6ddJUT6znw6Hk0NV0eJGOmX1Hm+Hq0aYxFeqA4epYz/sYl6FDh965dbDDUvtBzDYcvnygFnoJ9XKPJVSEwmCyJg==
+ bh=lssKMrOXf0fBp3LRbxTn42vb2s0R/w2ZV9ZA/gph1Y8=;
+ b=LVhUo0FreMAw4QBYVT7Vpb6jfZ+Y1U6n3sa886jE2ZoD7OC6ag+EFFY1e6gT/WLrAJXXQqlstaOlq3o19dX/9hGDSpuAv1A4lu05clyqPho5lUyYs+mPl9rn21jsCE+rRQ5yVP4vtKfQ61MeNqeRfDNiwAmuzExh5+9bCWsLV+yRqLM257EIfz50f3zPrffqSTwAlZ9YokB4K0cXjG18S835DY8Zd2tdRSEEADb/iUZvKh4lJTiuuBSrLrhu1+Fi1FL5CYm2qW2FT8d8yBMItWRKy3c3hKMNNTAf/tPs9T2oqjwRJ6ROmFa0IpvjHzlQ80tQst7GwDEwPnJFxOJvHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -66,74 +62,75 @@ Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
  by BL1PR11MB5254.namprd11.prod.outlook.com (2603:10b6:208:313::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Fri, 21 Oct
- 2022 16:12:19 +0000
+ 2022 16:12:51 +0000
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::7ea6:6f6c:f2dc:cec7]) by MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::7ea6:6f6c:f2dc:cec7%4]) with mapi id 15.20.5723.032; Fri, 21 Oct 2022
- 16:12:19 +0000
-Date: Fri, 21 Oct 2022 12:12:15 -0400
+ 16:12:51 +0000
+Date: Fri, 21 Oct 2022 12:12:48 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/5] drm/i915: Use GEN12_RPSTAT register for
- GT freq
-Message-ID: <Y1LE3/048DxtE6pr@intel.com>
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/5] drm/i915/mtl: Modify CAGF functions for
+ MTL
+Message-ID: <Y1LFAAWIcxzlhkAP@intel.com>
 References: <20221019233721.3270601-1-ashutosh.dixit@intel.com>
- <20221019233721.3270601-3-ashutosh.dixit@intel.com>
+ <20221019233721.3270601-4-ashutosh.dixit@intel.com>
+ <87zgdpp3lw.wl-ashutosh.dixit@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20221019233721.3270601-3-ashutosh.dixit@intel.com>
-X-ClientProxiedBy: SJ0PR13CA0215.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::10) To MN0PR11MB6059.namprd11.prod.outlook.com
+In-Reply-To: <87zgdpp3lw.wl-ashutosh.dixit@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0175.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::30) To MN0PR11MB6059.namprd11.prod.outlook.com
  (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BL1PR11MB5254:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0a5b3ee-1a5a-44ef-b202-08dab37f0766
+X-MS-Office365-Filtering-Correlation-Id: 21d7c7c1-4f54-438c-6f43-08dab37f1a83
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: b82tE2uonnlzSVY1cW0H1Raah96IpW3DZpl1rtVNqxSS4duu84kE02R9v9mmVhtvom8ffPwV7LuHS+0ZOvyd0pqtZ9Rv7WEq+W56hB3pmEXFFqxg0O3D5UFfMbDIIeg4zr6K24EQ0GSP/iBknpLJD9T2xVhvsbak71X3Q34+0+FCdX5oauv3WPwPPxGvrWp2PHvn3MBB9y6vFzbQN4E2023EuNhuMxLUjgX1C4ZaVAHLLGb+DmpErIRuXUzP2WJiQsaA/pOwhsoYMSqRnxX1o57IcOq1VOVLD2gXT4K+1VfRNOk4yDbsmH3DqOPfKsUZ7wfVgk9mfNCZs9Lbyh2SzI+Gr1+sZJJ6Knyg/8SvPr1unIjku1rafrhGl5IMNvhfvPFeh1oU0epgSPWnnquNHVjjv3eqzwPL42T1hYYYXDmJdUh6s8Su8hQNbH6Vtia1kat9GJ1FOD2EZJoHvl5hXEf8s7mNx+svkekvmwmBBkVxkfHVQTpkOkmLp/ciFphGqE/HCZRESRCjkTl2Wu7HDYovVNEz7WbdJY9gOA3ZRChwtWshE01JfoB/P6sJdSeJ6QjihX6J/SQsqzwSOTAw7yy48L39fsHtYrF0kGLjzjM5GykV1gh1VXNsshVe0eFJpB6C7lN4h1H39rlfyTI1ViWlEMV4EzJQHdF7BSvy4rTeWo3AgVKwxWJgjhdeSwhip+3D5m7xEaE42U2tTnviHQ==
+X-Microsoft-Antispam-Message-Info: Twk4I1CkIDn+T1MNJ/YE1Lir1FwnZuh1bQk1CbQLZfkjRIY74uJJAC192JzD+i327BTFxV2MivVnZpqEbkDcV1hzAFvVgYX+rww+oEFfDMtT0q9I4vGZ1bFdpfSTeUYhseByuaAihV2Sw9DRU9+mQT5cXrs/aKkqe+u2lPbcm4ZcXRE8WcHcPpuF8yEfIQHLbpAWbKS+CrMMrXlSbTFPTpabubp5e9lIAJRoaXgGxHS0kQ/Nd2hLO5FlFQxWEJIxtG/1jO4i7WjpFhHX4C1+aWXE75hHrc2Wndm6bRLduEz2s3Mt3HaEzXTkuKmR9NrqdbzeqzLqe4GibwfI4nRZOykimzVQkXxdw2MdeUuZ9VHE3dICTYbThnXyVCPraxMmkAwR+7fVtkmp8asm7ARbNHeIox8jXZFKPYp3ur5cAWeV3G72JjfoBXzN0lPj/ggXfo7mTysT6MvxBl7zgoyApoLRs/uHhXSPMdgqdUZGxr7YaTfYhdA6L6yxV0kn8E0pWJxmCkZQIx2rgHStncdklGLz9UBgVbYWo8FBVVEBcTyuu64098mpCglQ/jkp3hwRrScwDgDwO2B1WbI4VTWE+S9iBky9abvcqTGkJnu3O5ARC7XpyG+mFh10i93CPWIFss8Trmmv1F84GlvGu4Oy8qfHKKcKqJzG17Ye4fn8tfm9mgStWRcmh5x26Sm5Wz7XmWnkQOvxcorU69zfJ2moWw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(366004)(346002)(39860400002)(376002)(396003)(136003)(451199015)(36756003)(6486002)(83380400001)(478600001)(6666004)(86362001)(38100700002)(82960400001)(6636002)(37006003)(6506007)(2906002)(44832011)(2616005)(6512007)(8936002)(8676002)(41300700001)(66476007)(316002)(5660300002)(6862004)(186003)(4326008)(450100002)(26005)(66556008)(66946007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4CW8QDlyAyNjcCOdCukKJ5OZmyiDguHsgBzzFyZeK8V2h0P+ITVS72WVykqo?=
- =?us-ascii?Q?MAEvbTv+gJWtUMbmncxtvAvxU9BQrFDB0DrgmLpaALfxE2UIwGX+DfPguskV?=
- =?us-ascii?Q?qs4PpJZCa95fJx4RXGJibW+n81iqq7WdvlTbLrjGj7FnPkHd3XW5cby73ZDs?=
- =?us-ascii?Q?19dTuazdvqmQziV4qAtCHskhL99oisbIkXSZPpyBGNDSdxkw00ektQqTVsi1?=
- =?us-ascii?Q?7KW33QlOgpNVMzfVAyPWAQYLHIKgOsBxX+15puxzrZOk4VkWd8xFR362tIZF?=
- =?us-ascii?Q?5S1fVkb5jIe0Ut7EgCKq1m4QNN+hDhobw7IxqrpUS8GqM7x5THqCO9m+I2Jx?=
- =?us-ascii?Q?qjSpwo0wCAByD8DVlY3y1Djh7KETqAtEz07koP2UGOsxpALFZXbee6KAsrim?=
- =?us-ascii?Q?vosh4WGhG2r4sN/3zWygoQM/EbyqgdUAf8zYL7lc3Z00TnOWWWfdlVS0Bw63?=
- =?us-ascii?Q?f+EaKA0LxVw0X61bbKP2feaA2TtDZNfQiZJtMVW5+yZZCtJu55fWO2RW5zyH?=
- =?us-ascii?Q?ue/R19ok233sDy8oBjm2vvnLfiTT+CIxx0uBe+lIaRMh3VMQB96KPsKlK6af?=
- =?us-ascii?Q?qANE25g/N2tPca1ptaGrFthMfjNBomBiy871dphSNQKNpf1rsH7GtCGBFbpX?=
- =?us-ascii?Q?Qgg2yF7VhrfWsLn7LdjMlmT+6hzJ34SBMzE3nLi2Y9r069Q1laPluVgF95gH?=
- =?us-ascii?Q?TuEmDtMjEhhjszURb/FV1Zqxjz6XI9sZ13GJbLclAkH8upJTnrumWXIDmmwB?=
- =?us-ascii?Q?U2eUAZAJ0BsnRDvBIk9kCkspJIizBoayNyZuwU8x1LT8I3MmLNmC7jDW4ufx?=
- =?us-ascii?Q?JcOrBnMBZbGQEEDpE+KqOSlMU7JOLmr//UDCe6flk1gHdWtK7R1LeZCQauec?=
- =?us-ascii?Q?63o/vVxa5FcRMbhyOujO7KDktPt0foG6MW6BXVlvwV9ZvQSCOGXOvHCc5UZ5?=
- =?us-ascii?Q?peaeC/jd3GPSZ7PEIv4wgdEQJc4hc9X52PjEz6pZ8alGssiM4QC0mqKZUN6I?=
- =?us-ascii?Q?k33IfiqaTJz/NbEEEvhHKRG14WjTVuMMZGi6dq3+E07CqhQap5/GL3E9It6f?=
- =?us-ascii?Q?Jg6w+s9YqPGn5H7ZQ+I2exwgt5cuEJRs6reboo6/RsA2/3HG2Fky5s38ljiD?=
- =?us-ascii?Q?lS/YQ1Nr3JOhI5DWhy+sQer9pS/HV/GnDmU/dCEQYz3E+yCqprCEqe6Qjo8G?=
- =?us-ascii?Q?n8uujspRKi+9bjHT6iz7PxMyRAUckAIRdj4KdQ4pkSBbWVyKoByrwebgrQUM?=
- =?us-ascii?Q?rObL5APCqzrxvkgJ1OCmt3j9a2noiDLYpfZnNjiDWAr7G/C+M18XnKmu0jA8?=
- =?us-ascii?Q?GtEHrQT60WVREnqTFvTdY1qFXQPwlbkyuozYw10ALCzB7aSDjVXwjSdEk9Ds?=
- =?us-ascii?Q?4wcw4DfI/UmbjbjlL3PX/DEEqz+aedX+Q+HMNy/bhWSpKu3sLSSiMEwEJMQN?=
- =?us-ascii?Q?TJMr+o8LxlSmmn7AzwDC0TFcGXLxYajznoZ+BTmxnGUUQkZoRH2IiJZPWP9z?=
- =?us-ascii?Q?T4+n2DTD/uT+iUDZq7uoTBOtYcb4YJEATa95IW/hgyr7/fWg8U1ljBjRsGBV?=
- =?us-ascii?Q?Pytod65ysTBtjwQPBq33IRgIWcdOB9bYt28iU8xKIj7l95+E3N0D0+vmbQGo?=
- =?us-ascii?Q?dA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0a5b3ee-1a5a-44ef-b202-08dab37f0766
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?feTDZjAFnIHehxSwT2WEpfqcPR5ZjxsbJiZi8b1Mzoh3EJYPJTZocnF+8jqa?=
+ =?us-ascii?Q?QFST/FFz5wqimwJ2eql/T/ViN81D4BDYY+neajpS2oP22CMm5I3pC80RSRa7?=
+ =?us-ascii?Q?QI4qO7N3F3T/XWnEQ/gbn8IfkGHjjSfrJ3irQIxKVTsMPXKO2kUsyZbnAJmg?=
+ =?us-ascii?Q?OnhpXSQMHuuAqgpYyi43Q7p+OQ+bKEPUGtMTo7u5AtR7DXFl5oejM9vjra2R?=
+ =?us-ascii?Q?4HvXR/OpFM1cQxtn/DIIhszgrA8vH9oSzGDRXSHLNNr92HQLLFSpVioh2nqX?=
+ =?us-ascii?Q?heQLvVdHHUI0H0QPHjQUtB78PfcBh1R94pxMDOvakb8ui0tfcqrHF1QXi1a+?=
+ =?us-ascii?Q?7NlmUWQjWvI430kgjUbEqZnmdmaRlMh9az8i3uJvYq5isl3nnZFt13Ase+am?=
+ =?us-ascii?Q?OOmjePLnXatrGbHC0luDq46eaN24jsA+gWG1gPIzclGo5KSwqwqqBcBioAkG?=
+ =?us-ascii?Q?AJidHvxHlmsdZDxqG6zloCAthJHK7tlWqJBsz3RasHB+xrO9OujpZziynIR8?=
+ =?us-ascii?Q?vX+8vQD8tnPsXPZC8UmZvckytHBm3MJcn8HlymFkx7R+yQ6KD1+yCF9zaulS?=
+ =?us-ascii?Q?Z60eLyrU7oEtxshaSC6slhgldm58V3o5246g+YOdCU229HGsBkMThR4BSTyj?=
+ =?us-ascii?Q?zSOGF3cGrugx4067Shva6M3kUw3xg5RTOPBRHQS2zK5nEqOKJ8EmIQBQXnMy?=
+ =?us-ascii?Q?7WBKfzeoLuym1cpNGQW1G6FDw5ppzrvNCMGoM0v9aRjIn0/gj6sH8EDsTdUE?=
+ =?us-ascii?Q?izflpa86C80HaSvED/9x3eucSkd1MydOoq6tX4L6Y5ix9Xmbu1g3pCxFaDIz?=
+ =?us-ascii?Q?/MDWyvgwi78f7/m2XLHdXB5Cjrln4yjPuBZryRTRkEryWehfWgEddx4MnfGi?=
+ =?us-ascii?Q?AA0BOY+uvHnMFAtAETzHYVT+q5WNa6gXCv2Oj57aaqBIRw5/0PK5ZyKu+Fu9?=
+ =?us-ascii?Q?jH5OjK3E2Gbeos7C3pRzZZJOqfcp64/V/zrMw5NEViXbPBJy94UxfVkgs0D/?=
+ =?us-ascii?Q?cdqwKEgZ8YZ3kBHWO64Oz7DfNiviP4GLVdYfgylGAE53ojeSdvezl+1IGsjc?=
+ =?us-ascii?Q?Klgs+mQCncFTtHOHzF0A4Ytkh9aEUiJEGBG0paPpywds3efOiFEqGYYTWKWY?=
+ =?us-ascii?Q?8BKQ2D7TYdFATYYJpmgmgGbP5NdtLylAoAbsx5uabbhvkqonEHgA0ucwwlcN?=
+ =?us-ascii?Q?928fH9Y9YrLwFMAkgdZd4gy1hRhA9JHvy7tLSeY8YplXJ5826fHVWex4wOrb?=
+ =?us-ascii?Q?7IojZksws6iZ30nN3Iq1WTRQFBgD7Emr+4IgMRw/sfQDt7PFVneFlqzMbpoI?=
+ =?us-ascii?Q?fOr3vDnklPKAL6JFIyYwJPcA+5whuHxzVm1vzX+LyGlG+/7JBUJ81Fa4MZ/k?=
+ =?us-ascii?Q?48lEmuGfKqwcMYkMTXEcUguu0p79vevz4ERXy5vyWN0PfX2/tBriI3RIlO4P?=
+ =?us-ascii?Q?EfFzyDwaOokfsVYuN+HQ4BOFE2N44JoU4+6Aj2hf8QsV0Ck9a3J6XCDxarJp?=
+ =?us-ascii?Q?eUDEJkO7n0au8UsCFr0wrynTJom07Y0dFqO2JJ+aLTZB/SJaTF5YOraMnhJl?=
+ =?us-ascii?Q?L9j3mr80XXzI+n+SjvtF5x0JcLXb035aA1moDFBUzBkVqVsvV6BXFZroMb9g?=
+ =?us-ascii?Q?7g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21d7c7c1-4f54-438c-6f43-08dab37f1a83
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 16:12:19.4923 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 16:12:51.5104 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UWwY3f3QkxwEdZ75g9UZCcbd8Tzqhb3bKPCOa8Hg1Q82/4PaAOBhMOCqd3BpUlc+M0vr9kI4wpM8Ng1biQkuxg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: e1I0Uuv9E2XNfScyYxUx067povfEcAs0XQxB5ojO4elMCdkcY58CTmHxCoSn6HM6WsyuwxErXMHEkuwvbKABvA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5254
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -152,153 +149,80 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 19, 2022 at 04:37:18PM -0700, Ashutosh Dixit wrote:
-> From: Don Hiatt <don.hiatt@intel.com>
+On Fri, Oct 21, 2022 at 09:02:03AM -0700, Dixit, Ashutosh wrote:
+> On Wed, 19 Oct 2022 16:37:19 -0700, Ashutosh Dixit wrote:
+> >
+> > From: Badal Nilawar <badal.nilawar@intel.com>
+> >
+> > Update CAGF functions for MTL to get actual resolved frequency of 3D and
+> > SAMedia.
+> >
+> > v2: Update MTL_MIRROR_TARGET_WP1 position/formatting (MattR)
+> >     Move MTL branches in cagf functions to top (MattR)
+> >     Fix commit message (Andi)
+> > v3: Added comment about registers not needing forcewake for Gen12+ and
+> >     returning 0 freq in RC6
+> > v4: Use REG_FIELD_GET and uncore (Rodrigo)
+> >
+> > Bspec: 66300
 > 
-> On GEN12+ use GEN12_RPSTAT register to get actual resolved GT
-> freq. GEN12_RPSTAT does not require a forcewake and will return 0 freq if
-> GT is in RC6.
-> 
-> v2:
->   - Fixed review comments(Ashutosh)
->   - Added function intel_rps_read_rpstat_fw to read RPSTAT without
->     forcewake, required especially for GEN6_RPSTAT1 (Ashutosh, Tvrtko)
-> v3:
->   - Updated commit title and message for more clarity (Ashutosh)
->   - Replaced intel_rps_read_rpstat with direct read to GEN12_RPSTAT1 in
->     read_cagf (Ashutosh)
-> v4: Remove GEN12_CAGF_SHIFT and use REG_FIELD_GET (Rodrigo)
-> 
-> Cc: Don Hiatt <donhiatt@gmail.com>
-> Cc: Andi Shyti <andi.shyti@intel.com>
-> Signed-off-by: Don Hiatt <don.hiatt@intel.com>
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt_regs.h |  1 +
->  drivers/gpu/drm/i915/gt/intel_rps.c     | 32 +++++++++++++++++++++----
->  drivers/gpu/drm/i915/gt/intel_rps.h     |  2 ++
->  drivers/gpu/drm/i915/i915_pmu.c         |  3 +--
->  4 files changed, 32 insertions(+), 6 deletions(-)
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index 35c039573294c..f8c4f758ac0b1 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -1539,6 +1539,7 @@
->  
->  #define GEN12_RPSTAT1				_MMIO(0x1381b4)
->  #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
-> +#define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
->  
->  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
->  #define   GEN11_CSME				(31)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-> index 5bd6671554a6e..da6b969f554b6 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-> @@ -2068,12 +2068,34 @@ void intel_rps_sanitize(struct intel_rps *rps)
->  		rps_disable_interrupts(rps);
->  }
->  
-> +u32 intel_rps_read_rpstat_fw(struct intel_rps *rps)
-> +{
-> +	struct drm_i915_private *i915 = rps_to_i915(rps);
-> +	i915_reg_t rpstat;
-> +
-> +	rpstat = (GRAPHICS_VER(i915) >= 12) ? GEN12_RPSTAT1 : GEN6_RPSTAT1;
-> +
-> +	return intel_uncore_read_fw(rps_to_gt(rps)->uncore, rpstat);
-> +}
-> +
-> +u32 intel_rps_read_rpstat(struct intel_rps *rps)
-> +{
-> +	struct drm_i915_private *i915 = rps_to_i915(rps);
-> +	i915_reg_t rpstat;
-> +
-> +	rpstat = (GRAPHICS_VER(i915) >= 12) ? GEN12_RPSTAT1 : GEN6_RPSTAT1;
-> +
-> +	return intel_uncore_read(rps_to_gt(rps)->uncore, rpstat);
-> +}
-> +
->  u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
->  {
->  	struct drm_i915_private *i915 = rps_to_i915(rps);
->  	u32 cagf;
->  
-> -	if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
-> +	if (GRAPHICS_VER(i915) >= 12)
-> +		cagf = REG_FIELD_GET(GEN12_CAGF_MASK, rpstat);
-> +	else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
->  		cagf = REG_FIELD_GET(RPE_MASK, rpstat);
->  	else if (GRAPHICS_VER(i915) >= 9)
->  		cagf = REG_FIELD_GET(GEN9_CAGF_MASK, rpstat);
-> @@ -2093,7 +2115,9 @@ static u32 read_cagf(struct intel_rps *rps)
->  	struct intel_uncore *uncore = rps_to_uncore(rps);
->  	u32 freq;
->  
-> -	if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915)) {
-> +	if (GRAPHICS_VER(i915) >= 12) {
-> +		freq = intel_uncore_read(uncore, GEN12_RPSTAT1);
-> +	} else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915)) {
->  		vlv_punit_get(i915);
->  		freq = vlv_punit_read(i915, PUNIT_REG_GPU_FREQ_STS);
->  		vlv_punit_put(i915);
-> @@ -2259,7 +2283,7 @@ static void rps_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
->  	rpinclimit = intel_uncore_read(uncore, GEN6_RP_UP_THRESHOLD);
->  	rpdeclimit = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
->  
-> -	rpstat = intel_uncore_read(uncore, GEN6_RPSTAT1);
-> +	rpstat = intel_rps_read_rpstat(rps);
->  	rpcurupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
->  	rpcurup = intel_uncore_read(uncore, GEN6_RP_CUR_UP) & GEN6_CURBSYTAVG_MASK;
->  	rpprevup = intel_uncore_read(uncore, GEN6_RP_PREV_UP) & GEN6_CURBSYTAVG_MASK;
-> @@ -2394,7 +2418,7 @@ static void slpc_frequency_dump(struct intel_rps *rps, struct drm_printer *p)
->  	drm_printf(p, "PM MASK=0x%08x\n", pm_mask);
->  	drm_printf(p, "pm_intrmsk_mbz: 0x%08x\n",
->  		   rps->pm_intrmsk_mbz);
-> -	drm_printf(p, "RPSTAT1: 0x%08x\n", intel_uncore_read(uncore, GEN6_RPSTAT1));
-> +	drm_printf(p, "RPSTAT1: 0x%08x\n", intel_rps_read_rpstat(rps));
->  	drm_printf(p, "RPNSWREQ: %dMHz\n", intel_rps_get_requested_frequency(rps));
->  	drm_printf(p, "Lowest (RPN) frequency: %dMHz\n",
->  		   intel_gpu_freq(rps, caps.min_freq));
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
-> index 110300dfd4383..9e1cad9ba0e9c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rps.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_rps.h
-> @@ -48,6 +48,8 @@ u32 intel_rps_get_rp1_frequency(struct intel_rps *rps);
->  u32 intel_rps_get_rpn_frequency(struct intel_rps *rps);
->  u32 intel_rps_read_punit_req(struct intel_rps *rps);
->  u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps);
-> +u32 intel_rps_read_rpstat(struct intel_rps *rps);
-> +u32 intel_rps_read_rpstat_fw(struct intel_rps *rps);
->  void gen6_rps_get_freq_caps(struct intel_rps *rps, struct intel_rps_freq_caps *caps);
->  void intel_rps_raise_unslice(struct intel_rps *rps);
->  void intel_rps_lower_unslice(struct intel_rps *rps);
-> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-> index 958b37123bf12..67140a87182f8 100644
-> --- a/drivers/gpu/drm/i915/i915_pmu.c
-> +++ b/drivers/gpu/drm/i915/i915_pmu.c
-> @@ -371,7 +371,6 @@ static void
->  frequency_sample(struct intel_gt *gt, unsigned int period_ns)
->  {
->  	struct drm_i915_private *i915 = gt->i915;
-> -	struct intel_uncore *uncore = gt->uncore;
->  	struct i915_pmu *pmu = &i915->pmu;
->  	struct intel_rps *rps = &gt->rps;
->  
-> @@ -394,7 +393,7 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
->  		 * case we assume the system is running at the intended
->  		 * frequency. Fortunately, the read should rarely fail!
->  		 */
-> -		val = intel_uncore_read_fw(uncore, GEN6_RPSTAT1);
-> +		val = intel_rps_read_rpstat_fw(rps);
->  		if (val)
->  			val = intel_rps_get_cagf(rps, val);
->  		else
-> -- 
-> 2.38.0
-> 
+> >
+> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h |  4 ++++
+> >  drivers/gpu/drm/i915/gt/intel_rps.c     | 12 ++++++++++--
+> >  2 files changed, 14 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > index f8c4f758ac0b1..d8dbd0ac3b064 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > @@ -21,6 +21,10 @@
+> >   */
+> >  #define PERF_REG(offset)			_MMIO(offset)
+> >
+> > +/* MTL workpoint reg to get core C state and actual freq of 3D, SAMedia */
+> > +#define MTL_MIRROR_TARGET_WP1			_MMIO(0xc60)
+> > +#define   MTL_CAGF_MASK				REG_GENMASK(8, 0)
+> > +
+> >  /* RPM unit config (Gen8+) */
+> >  #define RPM_CONFIG0				_MMIO(0xd00)
+> >  #define   GEN9_RPM_CONFIG0_CRYSTAL_CLOCK_FREQ_SHIFT	3
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> > index da6b969f554b6..63cc7c538401e 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> > @@ -2093,7 +2093,9 @@ u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
+> >	struct drm_i915_private *i915 = rps_to_i915(rps);
+> >	u32 cagf;
+> >
+> > -	if (GRAPHICS_VER(i915) >= 12)
+> > +	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
+> > +		cagf = REG_FIELD_GET(MTL_CAGF_MASK, rpstat);
+> > +	else if (GRAPHICS_VER(i915) >= 12)
+> >		cagf = REG_FIELD_GET(GEN12_CAGF_MASK, rpstat);
+> >	else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+> >		cagf = REG_FIELD_GET(RPE_MASK, rpstat);
+> > @@ -2115,7 +2117,13 @@ static u32 read_cagf(struct intel_rps *rps)
+> >	struct intel_uncore *uncore = rps_to_uncore(rps);
+> >	u32 freq;
+> >
+> > -	if (GRAPHICS_VER(i915) >= 12) {
+> > +	/*
+> > +	 * For Gen12+ reading freq from HW does not need a forcewake and
+> > +	 * registers will return 0 freq when GT is in RC6
+> > +	 */
+> > +	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70)) {
+> > +		freq = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
+> > +	} else if (GRAPHICS_VER(i915) >= 12) {
+> >		freq = intel_uncore_read(uncore, GEN12_RPSTAT1);
+> >	} else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915)) {
+> >		vlv_punit_get(i915);
+> > --
+> > 2.38.0
+> >
