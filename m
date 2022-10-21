@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AD4606E64
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 05:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4F2606E75
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 05:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0AF210E2C4;
-	Fri, 21 Oct 2022 03:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1BF10E579;
+	Fri, 21 Oct 2022 03:45:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1109310E484
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C39A210E2C4
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 03:44:17 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 5EBD633EEF3;
- Fri, 21 Oct 2022 04:44:15 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 2C90B33EEF5;
+ Fri, 21 Oct 2022 04:44:16 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666323856; bh=YhYmIgz2IfIA/F9+7uZtEgRLaJtNjlB0b62bBg+++1s=;
+ t=1666323856; bh=6zJA2+RgPECRr8tcgxWP+PDTv3LcC4gJ9H1tSV5HVvo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=flXwU1E1prXLtTTNUPDk9e7tDOGYv1GFYuL/PRxwzR+3EEbuXO/2eCzQSbk3x4jsQ
- LlRBjaA1P3DzVdyhElXI19fRnl8bbaEIAwYXQ9c8kDk9Jq5qnP2lmGbwTmhw3YztqR
- 4dBHWTWSit0v1otyJkh6TIhxAt0HuCzTGRmIPXAh1o4Jo5C4uL7p56RYFMVgVbh7k5
- +L6Lg8io6vj3ApP7ZvMnqTqrb5ZOO0sm3turdPN5m2NCMIbA1zqS74Ru1TomlEOInD
- F99KVgIWWERUatfEWrrI/NsQuhXO4BkLDhtY/tEp0xG0PkdeBccHZ70Rz/boErIANt
- aS2ZzH9tNQnpA==
+ b=Qd6MoVT54NR26mUTHzMrVfb77uy9RIelbN85avdrbgMyxpu7QEreZqdWzxpVLtdYI
+ 9tzO27SHQotwCba+su9xVnVKWZXVKJMOgn9F0KTKvJdenVzn83Pdlh1cj2cK9NZvHN
+ K9MzlGLDavVWw5qHcdubQtSSOTGgdPHw8lFLo/+1SWK5ACykXd2jVapnsWu5mj1kW/
+ XvRcuA7DCvTLk/86DsKNfEIKtvGxqLzcSyn1GTZrGNqoBwRiUblXVgEXF/SmCGTtIV
+ GNi6BMNdmoGJf0ZjJ+1q3BNdhSAF0Th5ZgwTXidqoIAF9Y6oRAxAQYFtTqiXedzsVa
+ liqCV0Rb0ryeQ==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 13/17] drm/vmwgfx: Port the framebuffer code to drm fb
- helpers
-Date: Thu, 20 Oct 2022 23:43:56 -0400
-Message-Id: <20221021034400.542909-14-zack@kde.org>
+Subject: [PATCH v3 14/17] drm/vmwgfx: Remove explicit and broken vblank
+ handling
+Date: Thu, 20 Oct 2022 23:43:57 -0400
+Message-Id: <20221021034400.542909-15-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021034400.542909-1-zack@kde.org>
 References: <20221021034400.542909-1-zack@kde.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,1292 +49,281 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>,
- banackm@vmware.com, mombasawalam@vmware.com
+Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-Instead of using vmwgfx specific framebuffer implementation use the drm
-fb helpers. There's no change in functionality, the only difference
-is a reduction in the amount of code inside the vmwgfx module.
+The explicit vblank handling was never finished. The driver never had
+the full implementation of vblank and what was there is emulated
+by DRM when the driver doesn't pretend to be implementing it itself.
 
-drm fb helpers do not deal correctly with changes in crtc preferred mode
-at runtime, but the old fb code wasn't dealing with it either.
-Same situation applies to high-res fb consoles - the old code was
-limited to 1176x885 because it was checking for legacy/deprecated
-memory limites, the drm fb helpers are limited to the initial resolution
-set on fb due to first problem (drm fb helpers being unable to handle
-hotplug crtc preferred mode changes).
-
-This also removes the kernel config for disabling fb support which hasn't
-been used or supported in a very long time.
+Let DRM handle the vblank emulation and stop pretending the driver is
+doing anything special with vblank. In the future it would make sense
+to implement helpers for full vblank handling because vkms and
+amdgpu_vkms already have that code. Exporting it to common helpers and
+having all three drivers share it would make sense (that would be largely
+just to allow more of igt to run).
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Michael Banack <banackm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/Kconfig      |   7 -
- drivers/gpu/drm/vmwgfx/Makefile     |   2 -
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c |  58 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |  35 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fb.c  | 831 ----------------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c |  79 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |   7 -
- 7 files changed, 28 insertions(+), 991 deletions(-)
- delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  |  3 ---
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 34 ----------------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c  |  8 -------
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c | 31 +------------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 26 ---------------------
+ 5 files changed, 1 insertion(+), 101 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kconfig
-index a4fabe208d9f..faddae3d6ac2 100644
---- a/drivers/gpu/drm/vmwgfx/Kconfig
-+++ b/drivers/gpu/drm/vmwgfx/Kconfig
-@@ -16,13 +16,6 @@ config DRM_VMWGFX
- 	  virtual hardware.
- 	  The compiled module will be called "vmwgfx.ko".
- 
--config DRM_VMWGFX_FBCON
--	depends on DRM_VMWGFX && DRM_FBDEV_EMULATION
--	bool "Enable framebuffer console under vmwgfx by default"
--	help
--	   Choose this option if you are shipping a new vmwgfx
--	   userspace driver that supports using the kernel driver.
--
- config DRM_VMWGFX_MKSSTATS
- 	bool "Enable mksGuestStats instrumentation of vmwgfx by default"
- 	depends on DRM_VMWGFX
-diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
-index 68e350f410ad..2a644f035597 100644
---- a/drivers/gpu/drm/vmwgfx/Makefile
-+++ b/drivers/gpu/drm/vmwgfx/Makefile
-@@ -12,6 +12,4 @@ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
- 	    vmwgfx_devcaps.o ttm_object.o vmwgfx_system_manager.o \
- 	    vmwgfx_gem.o
- 
--vmwgfx-$(CONFIG_DRM_FBDEV_EMULATION) += vmwgfx_fb.o
--
- obj-$(CONFIG_DRM_VMWGFX) := vmwgfx.o
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index b909a3ce9af3..63496773f714 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -35,6 +35,7 @@
- 
- #include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_ttm_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_module.h>
-@@ -52,9 +53,6 @@
- 
- #define VMWGFX_DRIVER_DESC "Linux drm driver for VMware graphics devices"
- 
--#define VMW_MIN_INITIAL_WIDTH 800
--#define VMW_MIN_INITIAL_HEIGHT 600
--
- /*
-  * Fully encoded drm commands. Might move to vmw_drm.h
-  */
-@@ -265,7 +263,6 @@ static const struct pci_device_id vmw_pci_id_list[] = {
- };
- MODULE_DEVICE_TABLE(pci, vmw_pci_id_list);
- 
--static int enable_fbdev = IS_ENABLED(CONFIG_DRM_VMWGFX_FBCON);
- static int vmw_restrict_iommu;
- static int vmw_force_coherent;
- static int vmw_restrict_dma_mask;
-@@ -275,8 +272,6 @@ static int vmw_probe(struct pci_dev *, const struct pci_device_id *);
- static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
- 			      void *ptr);
- 
--MODULE_PARM_DESC(enable_fbdev, "Enable vmwgfx fbdev");
--module_param_named(enable_fbdev, enable_fbdev, int, 0600);
- MODULE_PARM_DESC(restrict_iommu, "Try to limit IOMMU usage for TTM pages");
- module_param_named(restrict_iommu, vmw_restrict_iommu, int, 0600);
- MODULE_PARM_DESC(force_coherent, "Force coherent TTM pages");
-@@ -626,8 +621,8 @@ static void vmw_get_initial_size(struct vmw_private *dev_priv)
- 	width = vmw_read(dev_priv, SVGA_REG_WIDTH);
- 	height = vmw_read(dev_priv, SVGA_REG_HEIGHT);
- 
--	width = max_t(uint32_t, width, VMW_MIN_INITIAL_WIDTH);
--	height = max_t(uint32_t, height, VMW_MIN_INITIAL_HEIGHT);
-+	width = max_t(uint32_t, width, VMWGFX_MIN_INITIAL_WIDTH);
-+	height = max_t(uint32_t, height, VMWGFX_MIN_INITIAL_HEIGHT);
- 
- 	if (width > dev_priv->fb_max_width ||
- 	    height > dev_priv->fb_max_height) {
-@@ -636,8 +631,8 @@ static void vmw_get_initial_size(struct vmw_private *dev_priv)
- 		 * This is a host error and shouldn't occur.
- 		 */
- 
--		width = VMW_MIN_INITIAL_WIDTH;
--		height = VMW_MIN_INITIAL_HEIGHT;
-+		width  = VMWGFX_MIN_INITIAL_WIDTH;
-+		height = VMWGFX_MIN_INITIAL_HEIGHT;
- 	}
- 
- 	dev_priv->initial_width = width;
-@@ -886,9 +881,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 
- 	dev_priv->assume_16bpp = !!vmw_assume_16bpp;
- 
--	dev_priv->enable_fb = enable_fbdev;
--
--
- 	dev_priv->capabilities = vmw_read(dev_priv, SVGA_REG_CAPABILITIES);
- 	vmw_print_bitmap(&dev_priv->drm, "Capabilities",
- 			 dev_priv->capabilities,
-@@ -1135,12 +1127,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 			VMWGFX_DRIVER_PATCHLEVEL, UTS_RELEASE);
- 	vmw_write_driver_id(dev_priv);
- 
--	if (dev_priv->enable_fb) {
--		vmw_fifo_resource_inc(dev_priv);
--		vmw_svga_enable(dev_priv);
--		vmw_fb_init(dev_priv);
--	}
--
- 	dev_priv->pm_nb.notifier_call = vmwgfx_pm_notifier;
- 	register_pm_notifier(&dev_priv->pm_nb);
- 
-@@ -1187,12 +1173,9 @@ static void vmw_driver_unload(struct drm_device *dev)
- 	unregister_pm_notifier(&dev_priv->pm_nb);
- 
- 	vmw_sw_context_fini(dev_priv);
--	if (dev_priv->enable_fb) {
--		vmw_fb_off(dev_priv);
--		vmw_fb_close(dev_priv);
--		vmw_fifo_resource_dec(dev_priv);
--		vmw_svga_disable(dev_priv);
--	}
-+	vmw_fifo_resource_dec(dev_priv);
-+
-+	vmw_svga_disable(dev_priv);
- 
- 	vmw_kms_close(dev_priv);
- 	vmw_overlay_close(dev_priv);
-@@ -1330,8 +1313,6 @@ static void vmw_master_drop(struct drm_device *dev,
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 
- 	vmw_kms_legacy_hotspot_clear(dev_priv);
--	if (!dev_priv->enable_fb)
--		vmw_svga_disable(dev_priv);
- }
- 
- /**
-@@ -1524,25 +1505,19 @@ static int vmw_pm_freeze(struct device *kdev)
- 		DRM_ERROR("Failed to freeze modesetting.\n");
- 		return ret;
- 	}
--	if (dev_priv->enable_fb)
--		vmw_fb_off(dev_priv);
- 
- 	vmw_execbuf_release_pinned_bo(dev_priv);
- 	vmw_resource_evict_all(dev_priv);
- 	vmw_release_device_early(dev_priv);
- 	while (ttm_device_swapout(&dev_priv->bdev, &ctx, GFP_KERNEL) > 0);
--	if (dev_priv->enable_fb)
--		vmw_fifo_resource_dec(dev_priv);
-+	vmw_fifo_resource_dec(dev_priv);
- 	if (atomic_read(&dev_priv->num_fifo_resources) != 0) {
- 		DRM_ERROR("Can't hibernate while 3D resources are active.\n");
--		if (dev_priv->enable_fb)
--			vmw_fifo_resource_inc(dev_priv);
-+		vmw_fifo_resource_inc(dev_priv);
- 		WARN_ON(vmw_request_device_late(dev_priv));
- 		dev_priv->suspend_locked = false;
- 		if (dev_priv->suspend_state)
- 			vmw_kms_resume(dev);
--		if (dev_priv->enable_fb)
--			vmw_fb_on(dev_priv);
- 		return -EBUSY;
- 	}
- 
-@@ -1562,24 +1537,19 @@ static int vmw_pm_restore(struct device *kdev)
- 
- 	vmw_detect_version(dev_priv);
- 
--	if (dev_priv->enable_fb)
--		vmw_fifo_resource_inc(dev_priv);
-+	vmw_fifo_resource_inc(dev_priv);
- 
- 	ret = vmw_request_device(dev_priv);
- 	if (ret)
- 		return ret;
- 
--	if (dev_priv->enable_fb)
--		__vmw_svga_enable(dev_priv);
-+	__vmw_svga_enable(dev_priv);
- 
- 	vmw_fence_fifo_up(dev_priv->fman);
- 	dev_priv->suspend_locked = false;
- 	if (dev_priv->suspend_state)
- 		vmw_kms_resume(&dev_priv->drm);
- 
--	if (dev_priv->enable_fb)
--		vmw_fb_on(dev_priv);
--
- 	return 0;
- }
- 
-@@ -1670,6 +1640,10 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		goto out_unload;
- 
-+	vmw_fifo_resource_inc(vmw);
-+	vmw_svga_enable(vmw);
-+	drm_fbdev_generic_setup(&vmw->drm,  0);
-+
- 	vmw_debugfs_gem_init(vmw);
- 	vmw_debugfs_resource_managers_init(vmw);
- 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 7c45c3de0dcf..ad470e54d586 100644
+index ad470e54d586..4eb7339dd121 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -62,6 +62,9 @@
- #define VMWGFX_MAX_DISPLAYS 16
- #define VMWGFX_CMD_BOUNCE_INIT_SIZE 32768
- 
-+#define VMWGFX_MIN_INITIAL_WIDTH 1280
-+#define VMWGFX_MIN_INITIAL_HEIGHT 800
-+
- #define VMWGFX_PCI_ID_SVGA2              0x0405
- #define VMWGFX_PCI_ID_SVGA3              0x0406
- 
-@@ -551,7 +554,6 @@ struct vmw_private {
- 	 * Framebuffer info.
- 	 */
- 
--	void *fb_info;
- 	enum vmw_display_unit_type active_display_unit;
- 	struct vmw_legacy_display *ldu_priv;
- 	struct vmw_overlay *overlay_priv;
-@@ -610,8 +612,6 @@ struct vmw_private {
- 	struct mutex cmdbuf_mutex;
- 	struct mutex binding_mutex;
- 
--	bool enable_fb;
--
- 	/**
- 	 * PM management.
- 	 */
-@@ -1189,35 +1189,6 @@ extern void vmw_generic_waiter_add(struct vmw_private *dev_priv, u32 flag,
- extern void vmw_generic_waiter_remove(struct vmw_private *dev_priv,
- 				      u32 flag, int *waiter_count);
- 
--
--/**
-- * Kernel framebuffer - vmwgfx_fb.c
-- */
--
--#ifdef CONFIG_DRM_FBDEV_EMULATION
--int vmw_fb_init(struct vmw_private *vmw_priv);
--int vmw_fb_close(struct vmw_private *dev_priv);
--int vmw_fb_off(struct vmw_private *vmw_priv);
--int vmw_fb_on(struct vmw_private *vmw_priv);
--#else
--static inline int vmw_fb_init(struct vmw_private *vmw_priv)
--{
--	return 0;
--}
--static inline int vmw_fb_close(struct vmw_private *dev_priv)
--{
--	return 0;
--}
--static inline int vmw_fb_off(struct vmw_private *vmw_priv)
--{
--	return 0;
--}
--static inline int vmw_fb_on(struct vmw_private *vmw_priv)
--{
--	return 0;
--}
--#endif
--
- /**
-  * Kernel modesetting - vmwgfx_kms.c
-  */
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-deleted file mode 100644
-index 5b85b477e4c6..000000000000
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-+++ /dev/null
-@@ -1,831 +0,0 @@
--/**************************************************************************
-- *
-- * Copyright © 2007 David Airlie
-- * Copyright © 2009-2015 VMware, Inc., Palo Alto, CA., USA
-- * All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the
-- * "Software"), to deal in the Software without restriction, including
-- * without limitation the rights to use, copy, modify, merge, publish,
-- * distribute, sub license, and/or sell copies of the Software, and to
-- * permit persons to whom the Software is furnished to do so, subject to
-- * the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-- * USE OR OTHER DEALINGS IN THE SOFTWARE.
-- *
-- **************************************************************************/
--
--#include <linux/fb.h>
--#include <linux/pci.h>
--
--#include <drm/drm_fourcc.h>
--#include <drm/ttm/ttm_placement.h>
--
--#include "vmwgfx_drv.h"
--#include "vmwgfx_kms.h"
--
--#define VMW_DIRTY_DELAY (HZ / 30)
--
--struct vmw_fb_par {
--	struct vmw_private *vmw_priv;
--
--	void *vmalloc;
--
--	struct mutex bo_mutex;
--	struct vmw_buffer_object *vmw_bo;
--	unsigned bo_size;
--	struct drm_framebuffer *set_fb;
--	struct drm_display_mode *set_mode;
--	u32 fb_x;
--	u32 fb_y;
--	bool bo_iowrite;
--
--	u32 pseudo_palette[17];
--
--	unsigned max_width;
--	unsigned max_height;
--
--	struct {
--		spinlock_t lock;
--		bool active;
--		unsigned x1;
--		unsigned y1;
--		unsigned x2;
--		unsigned y2;
--	} dirty;
--
--	struct drm_crtc *crtc;
--	struct drm_connector *con;
--	struct delayed_work local_work;
--};
--
--static int vmw_fb_setcolreg(unsigned regno, unsigned red, unsigned green,
--			    unsigned blue, unsigned transp,
--			    struct fb_info *info)
--{
--	struct vmw_fb_par *par = info->par;
--	u32 *pal = par->pseudo_palette;
--
--	if (regno > 15) {
--		DRM_ERROR("Bad regno %u.\n", regno);
--		return 1;
--	}
--
--	switch (par->set_fb->format->depth) {
--	case 24:
--	case 32:
--		pal[regno] = ((red & 0xff00) << 8) |
--			      (green & 0xff00) |
--			     ((blue  & 0xff00) >> 8);
--		break;
--	default:
--		DRM_ERROR("Bad depth %u, bpp %u.\n",
--			  par->set_fb->format->depth,
--			  par->set_fb->format->cpp[0] * 8);
--		return 1;
--	}
--
--	return 0;
--}
--
--static int vmw_fb_check_var(struct fb_var_screeninfo *var,
--			    struct fb_info *info)
--{
--	int depth = var->bits_per_pixel;
--	struct vmw_fb_par *par = info->par;
--	struct vmw_private *vmw_priv = par->vmw_priv;
--
--	switch (var->bits_per_pixel) {
--	case 32:
--		depth = (var->transp.length > 0) ? 32 : 24;
--		break;
--	default:
--		DRM_ERROR("Bad bpp %u.\n", var->bits_per_pixel);
--		return -EINVAL;
--	}
--
--	switch (depth) {
--	case 24:
--		var->red.offset = 16;
--		var->green.offset = 8;
--		var->blue.offset = 0;
--		var->red.length = 8;
--		var->green.length = 8;
--		var->blue.length = 8;
--		var->transp.length = 0;
--		var->transp.offset = 0;
--		break;
--	case 32:
--		var->red.offset = 16;
--		var->green.offset = 8;
--		var->blue.offset = 0;
--		var->red.length = 8;
--		var->green.length = 8;
--		var->blue.length = 8;
--		var->transp.length = 8;
--		var->transp.offset = 24;
--		break;
--	default:
--		DRM_ERROR("Bad depth %u.\n", depth);
--		return -EINVAL;
--	}
--
--	if ((var->xoffset + var->xres) > par->max_width ||
--	    (var->yoffset + var->yres) > par->max_height) {
--		DRM_ERROR("Requested geom can not fit in framebuffer\n");
--		return -EINVAL;
--	}
--
--	if (!vmw_kms_validate_mode_vram(vmw_priv,
--					var->xres * var->bits_per_pixel/8,
--					var->yoffset + var->yres)) {
--		DRM_ERROR("Requested geom can not fit in framebuffer\n");
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static int vmw_fb_blank(int blank, struct fb_info *info)
--{
--	return 0;
--}
--
--/**
-- * vmw_fb_dirty_flush - flush dirty regions to the kms framebuffer
-- *
-- * @work: The struct work_struct associated with this task.
-- *
-- * This function flushes the dirty regions of the vmalloc framebuffer to the
-- * kms framebuffer, and if the kms framebuffer is visible, also updated the
-- * corresponding displays. Note that this function runs even if the kms
-- * framebuffer is not bound to a crtc and thus not visible, but it's turned
-- * off during hibernation using the par->dirty.active bool.
-- */
--static void vmw_fb_dirty_flush(struct work_struct *work)
--{
--	struct vmw_fb_par *par = container_of(work, struct vmw_fb_par,
--					      local_work.work);
--	struct vmw_private *vmw_priv = par->vmw_priv;
--	struct fb_info *info = vmw_priv->fb_info;
--	unsigned long irq_flags;
--	s32 dst_x1, dst_x2, dst_y1, dst_y2, w = 0, h = 0;
--	u32 cpp, max_x, max_y;
--	struct drm_clip_rect clip;
--	struct drm_framebuffer *cur_fb;
--	u8 *src_ptr, *dst_ptr;
--	struct vmw_buffer_object *vbo = par->vmw_bo;
--	void *virtual;
--
--	if (!READ_ONCE(par->dirty.active))
--		return;
--
--	mutex_lock(&par->bo_mutex);
--	cur_fb = par->set_fb;
--	if (!cur_fb)
--		goto out_unlock;
--
--	(void) ttm_bo_reserve(&vbo->base, false, false, NULL);
--	virtual = vmw_bo_map_and_cache(vbo);
--	if (!virtual)
--		goto out_unreserve;
--
--	spin_lock_irqsave(&par->dirty.lock, irq_flags);
--	if (!par->dirty.active) {
--		spin_unlock_irqrestore(&par->dirty.lock, irq_flags);
--		goto out_unreserve;
--	}
--
--	/*
--	 * Handle panning when copying from vmalloc to framebuffer.
--	 * Clip dirty area to framebuffer.
--	 */
--	cpp = cur_fb->format->cpp[0];
--	max_x = par->fb_x + cur_fb->width;
--	max_y = par->fb_y + cur_fb->height;
--
--	dst_x1 = par->dirty.x1 - par->fb_x;
--	dst_y1 = par->dirty.y1 - par->fb_y;
--	dst_x1 = max_t(s32, dst_x1, 0);
--	dst_y1 = max_t(s32, dst_y1, 0);
--
--	dst_x2 = par->dirty.x2 - par->fb_x;
--	dst_y2 = par->dirty.y2 - par->fb_y;
--	dst_x2 = min_t(s32, dst_x2, max_x);
--	dst_y2 = min_t(s32, dst_y2, max_y);
--	w = dst_x2 - dst_x1;
--	h = dst_y2 - dst_y1;
--	w = max_t(s32, 0, w);
--	h = max_t(s32, 0, h);
--
--	par->dirty.x1 = par->dirty.x2 = 0;
--	par->dirty.y1 = par->dirty.y2 = 0;
--	spin_unlock_irqrestore(&par->dirty.lock, irq_flags);
--
--	if (w && h) {
--		dst_ptr = (u8 *)virtual  +
--			(dst_y1 * par->set_fb->pitches[0] + dst_x1 * cpp);
--		src_ptr = (u8 *)par->vmalloc +
--			((dst_y1 + par->fb_y) * info->fix.line_length +
--			 (dst_x1 + par->fb_x) * cpp);
--
--		while (h-- > 0) {
--			memcpy(dst_ptr, src_ptr, w*cpp);
--			dst_ptr += par->set_fb->pitches[0];
--			src_ptr += info->fix.line_length;
--		}
--
--		clip.x1 = dst_x1;
--		clip.x2 = dst_x2;
--		clip.y1 = dst_y1;
--		clip.y2 = dst_y2;
--	}
--
--out_unreserve:
--	ttm_bo_unreserve(&vbo->base);
--	if (w && h) {
--		WARN_ON_ONCE(par->set_fb->funcs->dirty(cur_fb, NULL, 0, 0,
--						       &clip, 1));
--		vmw_cmd_flush(vmw_priv, false);
--	}
--out_unlock:
--	mutex_unlock(&par->bo_mutex);
--}
--
--static void vmw_fb_dirty_mark(struct vmw_fb_par *par,
--			      unsigned x1, unsigned y1,
--			      unsigned width, unsigned height)
--{
--	unsigned long flags;
--	unsigned x2 = x1 + width;
--	unsigned y2 = y1 + height;
--
--	spin_lock_irqsave(&par->dirty.lock, flags);
--	if (par->dirty.x1 == par->dirty.x2) {
--		par->dirty.x1 = x1;
--		par->dirty.y1 = y1;
--		par->dirty.x2 = x2;
--		par->dirty.y2 = y2;
--		/* if we are active start the dirty work
--		 * we share the work with the defio system */
--		if (par->dirty.active)
--			schedule_delayed_work(&par->local_work,
--					      VMW_DIRTY_DELAY);
--	} else {
--		if (x1 < par->dirty.x1)
--			par->dirty.x1 = x1;
--		if (y1 < par->dirty.y1)
--			par->dirty.y1 = y1;
--		if (x2 > par->dirty.x2)
--			par->dirty.x2 = x2;
--		if (y2 > par->dirty.y2)
--			par->dirty.y2 = y2;
--	}
--	spin_unlock_irqrestore(&par->dirty.lock, flags);
--}
--
--static int vmw_fb_pan_display(struct fb_var_screeninfo *var,
--			      struct fb_info *info)
--{
--	struct vmw_fb_par *par = info->par;
--
--	if ((var->xoffset + var->xres) > var->xres_virtual ||
--	    (var->yoffset + var->yres) > var->yres_virtual) {
--		DRM_ERROR("Requested panning can not fit in framebuffer\n");
--		return -EINVAL;
--	}
--
--	mutex_lock(&par->bo_mutex);
--	par->fb_x = var->xoffset;
--	par->fb_y = var->yoffset;
--	if (par->set_fb)
--		vmw_fb_dirty_mark(par, par->fb_x, par->fb_y, par->set_fb->width,
--				  par->set_fb->height);
--	mutex_unlock(&par->bo_mutex);
--
--	return 0;
--}
--
--static void vmw_deferred_io(struct fb_info *info, struct list_head *pagereflist)
--{
--	struct vmw_fb_par *par = info->par;
--	unsigned long start, end, min, max;
--	unsigned long flags;
--	struct fb_deferred_io_pageref *pageref;
--	int y1, y2;
--
--	min = ULONG_MAX;
--	max = 0;
--	list_for_each_entry(pageref, pagereflist, list) {
--		start = pageref->offset;
--		end = start + PAGE_SIZE - 1;
--		min = min(min, start);
--		max = max(max, end);
--	}
--
--	if (min < max) {
--		y1 = min / info->fix.line_length;
--		y2 = (max / info->fix.line_length) + 1;
--
--		spin_lock_irqsave(&par->dirty.lock, flags);
--		par->dirty.x1 = 0;
--		par->dirty.y1 = y1;
--		par->dirty.x2 = info->var.xres;
--		par->dirty.y2 = y2;
--		spin_unlock_irqrestore(&par->dirty.lock, flags);
--
--		/*
--		 * Since we've already waited on this work once, try to
--		 * execute asap.
--		 */
--		cancel_delayed_work(&par->local_work);
--		schedule_delayed_work(&par->local_work, 0);
--	}
--};
--
--static struct fb_deferred_io vmw_defio = {
--	.delay		= VMW_DIRTY_DELAY,
--	.deferred_io	= vmw_deferred_io,
--};
--
--/*
-- * Draw code
-- */
--
--static void vmw_fb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
--{
--	cfb_fillrect(info, rect);
--	vmw_fb_dirty_mark(info->par, rect->dx, rect->dy,
--			  rect->width, rect->height);
--}
--
--static void vmw_fb_copyarea(struct fb_info *info, const struct fb_copyarea *region)
--{
--	cfb_copyarea(info, region);
--	vmw_fb_dirty_mark(info->par, region->dx, region->dy,
--			  region->width, region->height);
--}
--
--static void vmw_fb_imageblit(struct fb_info *info, const struct fb_image *image)
--{
--	cfb_imageblit(info, image);
--	vmw_fb_dirty_mark(info->par, image->dx, image->dy,
--			  image->width, image->height);
--}
--
--/*
-- * Bring up code
-- */
--
--static int vmw_fb_create_bo(struct vmw_private *vmw_priv,
--			    size_t size, struct vmw_buffer_object **out)
--{
--	struct vmw_buffer_object *vmw_bo;
--	int ret;
--
--	ret = vmw_bo_create(vmw_priv, size,
--			      &vmw_sys_placement,
--			      false, false,
--			      &vmw_bo_bo_free, &vmw_bo);
--	if (unlikely(ret != 0))
--		return ret;
--
--	*out = vmw_bo;
--
--	return ret;
--}
--
--static int vmw_fb_compute_depth(struct fb_var_screeninfo *var,
--				int *depth)
--{
--	switch (var->bits_per_pixel) {
--	case 32:
--		*depth = (var->transp.length > 0) ? 32 : 24;
--		break;
--	default:
--		DRM_ERROR("Bad bpp %u.\n", var->bits_per_pixel);
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static int vmwgfx_set_config_internal(struct drm_mode_set *set)
--{
--	struct drm_crtc *crtc = set->crtc;
--	struct drm_modeset_acquire_ctx ctx;
--	int ret;
--
--	drm_modeset_acquire_init(&ctx, 0);
--
--restart:
--	ret = crtc->funcs->set_config(set, &ctx);
--
--	if (ret == -EDEADLK) {
--		drm_modeset_backoff(&ctx);
--		goto restart;
--	}
--
--	drm_modeset_drop_locks(&ctx);
--	drm_modeset_acquire_fini(&ctx);
--
--	return ret;
--}
--
--static int vmw_fb_kms_detach(struct vmw_fb_par *par,
--			     bool detach_bo,
--			     bool unref_bo)
--{
--	struct drm_framebuffer *cur_fb = par->set_fb;
--	int ret;
--
--	/* Detach the KMS framebuffer from crtcs */
--	if (par->set_mode) {
--		struct drm_mode_set set;
--
--		set.crtc = par->crtc;
--		set.x = 0;
--		set.y = 0;
--		set.mode = NULL;
--		set.fb = NULL;
--		set.num_connectors = 0;
--		set.connectors = &par->con;
--		ret = vmwgfx_set_config_internal(&set);
--		if (ret) {
--			DRM_ERROR("Could not unset a mode.\n");
--			return ret;
--		}
--		drm_mode_destroy(&par->vmw_priv->drm, par->set_mode);
--		par->set_mode = NULL;
--	}
--
--	if (cur_fb) {
--		drm_framebuffer_put(cur_fb);
--		par->set_fb = NULL;
--	}
--
--	if (par->vmw_bo && detach_bo && unref_bo)
--		vmw_bo_unreference(&par->vmw_bo);
--
--	return 0;
--}
--
--static int vmw_fb_kms_framebuffer(struct fb_info *info)
--{
--	struct drm_mode_fb_cmd2 mode_cmd = {0};
--	struct vmw_fb_par *par = info->par;
--	struct fb_var_screeninfo *var = &info->var;
--	struct drm_framebuffer *cur_fb;
--	struct vmw_framebuffer *vfb;
--	int ret = 0, depth;
--	size_t new_bo_size;
--
--	ret = vmw_fb_compute_depth(var, &depth);
--	if (ret)
--		return ret;
--
--	mode_cmd.width = var->xres;
--	mode_cmd.height = var->yres;
--	mode_cmd.pitches[0] = ((var->bits_per_pixel + 7) / 8) * mode_cmd.width;
--	mode_cmd.pixel_format =
--		drm_mode_legacy_fb_format(var->bits_per_pixel, depth);
--
--	cur_fb = par->set_fb;
--	if (cur_fb && cur_fb->width == mode_cmd.width &&
--	    cur_fb->height == mode_cmd.height &&
--	    cur_fb->format->format == mode_cmd.pixel_format &&
--	    cur_fb->pitches[0] == mode_cmd.pitches[0])
--		return 0;
--
--	/* Need new buffer object ? */
--	new_bo_size = (size_t) mode_cmd.pitches[0] * (size_t) mode_cmd.height;
--	ret = vmw_fb_kms_detach(par,
--				par->bo_size < new_bo_size ||
--				par->bo_size > 2*new_bo_size,
--				true);
--	if (ret)
--		return ret;
--
--	if (!par->vmw_bo) {
--		ret = vmw_fb_create_bo(par->vmw_priv, new_bo_size,
--				       &par->vmw_bo);
--		if (ret) {
--			DRM_ERROR("Failed creating a buffer object for "
--				  "fbdev.\n");
--			return ret;
--		}
--		par->bo_size = new_bo_size;
--	}
--
--	vfb = vmw_kms_new_framebuffer(par->vmw_priv, par->vmw_bo, NULL,
--				      true, &mode_cmd);
--	if (IS_ERR(vfb))
--		return PTR_ERR(vfb);
--
--	par->set_fb = &vfb->base;
--
--	return 0;
--}
--
--static int vmw_fb_set_par(struct fb_info *info)
--{
--	struct vmw_fb_par *par = info->par;
--	struct vmw_private *vmw_priv = par->vmw_priv;
--	struct drm_mode_set set;
--	struct fb_var_screeninfo *var = &info->var;
--	struct drm_display_mode new_mode = { DRM_MODE("fb_mode",
--		DRM_MODE_TYPE_DRIVER,
--		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
--		DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC)
--	};
--	struct drm_display_mode *mode;
--	int ret;
--
--	mode = drm_mode_duplicate(&vmw_priv->drm, &new_mode);
--	if (!mode) {
--		DRM_ERROR("Could not create new fb mode.\n");
--		return -ENOMEM;
--	}
--
--	mode->hdisplay = var->xres;
--	mode->vdisplay = var->yres;
--	vmw_guess_mode_timing(mode);
--
--	if (!vmw_kms_validate_mode_vram(vmw_priv,
--					mode->hdisplay *
--					DIV_ROUND_UP(var->bits_per_pixel, 8),
--					mode->vdisplay)) {
--		drm_mode_destroy(&vmw_priv->drm, mode);
--		return -EINVAL;
--	}
--
--	mutex_lock(&par->bo_mutex);
--	ret = vmw_fb_kms_framebuffer(info);
--	if (ret)
--		goto out_unlock;
--
--	par->fb_x = var->xoffset;
--	par->fb_y = var->yoffset;
--
--	set.crtc = par->crtc;
--	set.x = 0;
--	set.y = 0;
--	set.mode = mode;
--	set.fb = par->set_fb;
--	set.num_connectors = 1;
--	set.connectors = &par->con;
--
--	ret = vmwgfx_set_config_internal(&set);
--	if (ret)
--		goto out_unlock;
--
--	vmw_fb_dirty_mark(par, par->fb_x, par->fb_y,
--			  par->set_fb->width, par->set_fb->height);
--
--	/* If there already was stuff dirty we wont
--	 * schedule a new work, so lets do it now */
--
--	schedule_delayed_work(&par->local_work, 0);
--
--out_unlock:
--	if (par->set_mode)
--		drm_mode_destroy(&vmw_priv->drm, par->set_mode);
--	par->set_mode = mode;
--
--	mutex_unlock(&par->bo_mutex);
--
--	return ret;
--}
--
--
--static const struct fb_ops vmw_fb_ops = {
--	.owner = THIS_MODULE,
--	.fb_check_var = vmw_fb_check_var,
--	.fb_set_par = vmw_fb_set_par,
--	.fb_setcolreg = vmw_fb_setcolreg,
--	.fb_fillrect = vmw_fb_fillrect,
--	.fb_copyarea = vmw_fb_copyarea,
--	.fb_imageblit = vmw_fb_imageblit,
--	.fb_pan_display = vmw_fb_pan_display,
--	.fb_blank = vmw_fb_blank,
--	.fb_mmap = fb_deferred_io_mmap,
--};
--
--int vmw_fb_init(struct vmw_private *vmw_priv)
--{
--	struct device *device = vmw_priv->drm.dev;
--	struct vmw_fb_par *par;
--	struct fb_info *info;
--	unsigned fb_width, fb_height;
--	unsigned int fb_bpp, fb_pitch, fb_size;
--	struct drm_display_mode *init_mode;
--	int ret;
--
--	fb_bpp = 32;
--
--	/* XXX As shouldn't these be as well. */
--	fb_width = min(vmw_priv->fb_max_width, (unsigned)2048);
--	fb_height = min(vmw_priv->fb_max_height, (unsigned)2048);
--
--	fb_pitch = fb_width * fb_bpp / 8;
--	fb_size = fb_pitch * fb_height;
--
--	info = framebuffer_alloc(sizeof(*par), device);
--	if (!info)
--		return -ENOMEM;
--
--	/*
--	 * Par
--	 */
--	vmw_priv->fb_info = info;
--	par = info->par;
--	memset(par, 0, sizeof(*par));
--	INIT_DELAYED_WORK(&par->local_work, &vmw_fb_dirty_flush);
--	par->vmw_priv = vmw_priv;
--	par->vmalloc = NULL;
--	par->max_width = fb_width;
--	par->max_height = fb_height;
--
--	ret = vmw_kms_fbdev_init_data(vmw_priv, 0, par->max_width,
--				      par->max_height, &par->con,
--				      &par->crtc, &init_mode);
--	if (ret)
--		goto err_kms;
--
--	info->var.xres = init_mode->hdisplay;
--	info->var.yres = init_mode->vdisplay;
--
--	/*
--	 * Create buffers and alloc memory
--	 */
--	par->vmalloc = vzalloc(fb_size);
--	if (unlikely(par->vmalloc == NULL)) {
--		ret = -ENOMEM;
--		goto err_free;
--	}
--
--	/*
--	 * Fixed and var
--	 */
--	strcpy(info->fix.id, "svgadrmfb");
--	info->fix.type = FB_TYPE_PACKED_PIXELS;
--	info->fix.visual = FB_VISUAL_TRUECOLOR;
--	info->fix.type_aux = 0;
--	info->fix.xpanstep = 1; /* doing it in hw */
--	info->fix.ypanstep = 1; /* doing it in hw */
--	info->fix.ywrapstep = 0;
--	info->fix.accel = FB_ACCEL_NONE;
--	info->fix.line_length = fb_pitch;
--
--	info->fix.smem_start = 0;
--	info->fix.smem_len = fb_size;
--
--	info->pseudo_palette = par->pseudo_palette;
--	info->screen_base = (char __iomem *)par->vmalloc;
--	info->screen_size = fb_size;
--
--	info->fbops = &vmw_fb_ops;
--
--	/* 24 depth per default */
--	info->var.red.offset = 16;
--	info->var.green.offset = 8;
--	info->var.blue.offset = 0;
--	info->var.red.length = 8;
--	info->var.green.length = 8;
--	info->var.blue.length = 8;
--	info->var.transp.offset = 0;
--	info->var.transp.length = 0;
--
--	info->var.xres_virtual = fb_width;
--	info->var.yres_virtual = fb_height;
--	info->var.bits_per_pixel = fb_bpp;
--	info->var.xoffset = 0;
--	info->var.yoffset = 0;
--	info->var.activate = FB_ACTIVATE_NOW;
--	info->var.height = -1;
--	info->var.width = -1;
--
--	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
--	info->apertures = alloc_apertures(1);
--	if (!info->apertures) {
--		ret = -ENOMEM;
--		goto err_aper;
--	}
--	info->apertures->ranges[0].base = vmw_priv->vram_start;
--	info->apertures->ranges[0].size = vmw_priv->vram_size;
--
--	/*
--	 * Dirty & Deferred IO
--	 */
--	par->dirty.x1 = par->dirty.x2 = 0;
--	par->dirty.y1 = par->dirty.y2 = 0;
--	par->dirty.active = true;
--	spin_lock_init(&par->dirty.lock);
--	mutex_init(&par->bo_mutex);
--	info->fbdefio = &vmw_defio;
--	fb_deferred_io_init(info);
--
--	ret = register_framebuffer(info);
--	if (unlikely(ret != 0))
--		goto err_defio;
--
--	vmw_fb_set_par(info);
--
--	return 0;
--
--err_defio:
--	fb_deferred_io_cleanup(info);
--err_aper:
--err_free:
--	vfree(par->vmalloc);
--err_kms:
--	framebuffer_release(info);
--	vmw_priv->fb_info = NULL;
--
--	return ret;
--}
--
--int vmw_fb_close(struct vmw_private *vmw_priv)
--{
--	struct fb_info *info;
--	struct vmw_fb_par *par;
--
--	if (!vmw_priv->fb_info)
--		return 0;
--
--	info = vmw_priv->fb_info;
--	par = info->par;
--
--	/* ??? order */
--	fb_deferred_io_cleanup(info);
--	cancel_delayed_work_sync(&par->local_work);
--	unregister_framebuffer(info);
--
--	mutex_lock(&par->bo_mutex);
--	(void) vmw_fb_kms_detach(par, true, true);
--	mutex_unlock(&par->bo_mutex);
--
--	vfree(par->vmalloc);
--	framebuffer_release(info);
--
--	return 0;
--}
--
--int vmw_fb_off(struct vmw_private *vmw_priv)
--{
--	struct fb_info *info;
--	struct vmw_fb_par *par;
--	unsigned long flags;
--
--	if (!vmw_priv->fb_info)
--		return -EINVAL;
--
--	info = vmw_priv->fb_info;
--	par = info->par;
--
--	spin_lock_irqsave(&par->dirty.lock, flags);
--	par->dirty.active = false;
--	spin_unlock_irqrestore(&par->dirty.lock, flags);
--
--	flush_delayed_work(&info->deferred_work);
--	flush_delayed_work(&par->local_work);
--
--	return 0;
--}
--
--int vmw_fb_on(struct vmw_private *vmw_priv)
--{
--	struct fb_info *info;
--	struct vmw_fb_par *par;
--	unsigned long flags;
--
--	if (!vmw_priv->fb_info)
--		return -EINVAL;
--
--	info = vmw_priv->fb_info;
--	par = info->par;
--
--	spin_lock_irqsave(&par->dirty.lock, flags);
--	par->dirty.active = true;
--	spin_unlock_irqrestore(&par->dirty.lock, flags);
--
--	/*
--	 * Need to reschedule a dirty update, because otherwise that's
--	 * only done in dirty_mark() if the previous coalesced
--	 * dirty region was empty.
--	 */
--	schedule_delayed_work(&par->local_work, 0);
--
--	return 0;
--}
+@@ -1208,9 +1208,6 @@ int vmw_kms_write_svga(struct vmw_private *vmw_priv,
+ bool vmw_kms_validate_mode_vram(struct vmw_private *dev_priv,
+ 				uint32_t pitch,
+ 				uint32_t height);
+-u32 vmw_get_vblank_counter(struct drm_crtc *crtc);
+-int vmw_enable_vblank(struct drm_crtc *crtc);
+-void vmw_disable_vblank(struct drm_crtc *crtc);
+ int vmw_kms_present(struct vmw_private *dev_priv,
+ 		    struct drm_file *file_priv,
+ 		    struct vmw_framebuffer *vfb,
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index ff79668ad334..36e7dc3736fe 100644
+index 36e7dc3736fe..0342efdf9063 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -2203,6 +2203,8 @@ int vmw_kms_init(struct vmw_private *dev_priv)
- 	dev->mode_config.min_height = 1;
- 	dev->mode_config.max_width = dev_priv->texture_max_width;
- 	dev->mode_config.max_height = dev_priv->texture_max_height;
-+	dev->mode_config.preferred_depth = dev_priv->assume_16bpp ? 16 : 32;
-+	dev->mode_config.prefer_shadow_fbdev = !dev_priv->has_mob;
+@@ -31,7 +31,6 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_rect.h>
+ #include <drm/drm_sysfs.h>
+-#include <drm/drm_vblank.h>
  
- 	drm_mode_create_suggested_offset_properties(dev);
- 	vmw_kms_create_hotplug_mode_update_property(dev_priv);
-@@ -2372,8 +2374,8 @@ static int vmw_du_update_layout(struct vmw_private *dev_priv,
- 			du->gui_x = rects[du->unit].x1;
- 			du->gui_y = rects[du->unit].y1;
- 		} else {
--			du->pref_width = 800;
--			du->pref_height = 600;
-+			du->pref_width  = VMWGFX_MIN_INITIAL_WIDTH;
-+			du->pref_height = VMWGFX_MIN_INITIAL_HEIGHT;
- 			du->pref_active = false;
- 			du->gui_x = 0;
- 			du->gui_y = 0;
-@@ -2400,13 +2402,13 @@ static int vmw_du_update_layout(struct vmw_private *dev_priv,
- 		}
- 		con->status = vmw_du_connector_detect(con, true);
- 	}
+ #include "vmwgfx_kms.h"
+ 
+@@ -981,15 +980,6 @@ void vmw_du_crtc_atomic_begin(struct drm_crtc *crtc,
+ void vmw_du_crtc_atomic_flush(struct drm_crtc *crtc,
+ 			      struct drm_atomic_state *state)
+ {
+-	struct drm_pending_vblank_event *event = crtc->state->event;
 -
--	drm_sysfs_hotplug_event(dev);
- out_fini:
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 	mutex_unlock(&dev->mode_config.mutex);
- 
-+	drm_sysfs_hotplug_event(dev);
-+
- 	return 0;
+-	if (event) {
+-		crtc->state->event = NULL;
+-
+-		spin_lock_irq(&crtc->dev->event_lock);
+-		drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
+-	}
  }
  
-@@ -2686,10 +2688,9 @@ int vmw_kms_update_layout_ioctl(struct drm_device *dev, void *data,
- 	int ret, i;
  
- 	if (!arg->num_outputs) {
--		struct drm_rect def_rect = {0, 0, 800, 600};
--		VMW_DEBUG_KMS("Default layout x1 = %d y1 = %d x2 = %d y2 = %d\n",
--			      def_rect.x1, def_rect.y1,
--			      def_rect.x2, def_rect.y2);
-+		struct drm_rect def_rect = {0, 0,
-+					    VMWGFX_MIN_INITIAL_WIDTH,
-+					    VMWGFX_MIN_INITIAL_HEIGHT};
- 		vmw_du_update_layout(dev_priv, 1, &def_rect);
- 		return 0;
- 	}
-@@ -2984,68 +2985,6 @@ int vmw_kms_update_proxy(struct vmw_resource *res,
- 	return 0;
+@@ -2307,30 +2297,6 @@ bool vmw_kms_validate_mode_vram(struct vmw_private *dev_priv,
+ 		 dev_priv->max_primary_mem : dev_priv->vram_size);
  }
  
--int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
--			    unsigned unit,
--			    u32 max_width,
--			    u32 max_height,
--			    struct drm_connector **p_con,
--			    struct drm_crtc **p_crtc,
--			    struct drm_display_mode **p_mode)
+-
+-/*
+- * Function called by DRM code called with vbl_lock held.
+- */
+-u32 vmw_get_vblank_counter(struct drm_crtc *crtc)
 -{
--	struct drm_connector *con;
--	struct vmw_display_unit *du;
--	struct drm_display_mode *mode;
--	int i = 0;
--	int ret = 0;
+-	return 0;
+-}
 -
--	mutex_lock(&dev_priv->drm.mode_config.mutex);
--	list_for_each_entry(con, &dev_priv->drm.mode_config.connector_list,
--			    head) {
--		if (i == unit)
--			break;
+-/*
+- * Function called by DRM code called with vbl_lock held.
+- */
+-int vmw_enable_vblank(struct drm_crtc *crtc)
+-{
+-	return -EINVAL;
+-}
 -
--		++i;
--	}
--
--	if (&con->head == &dev_priv->drm.mode_config.connector_list) {
--		DRM_ERROR("Could not find initial display unit.\n");
--		ret = -EINVAL;
--		goto out_unlock;
--	}
--
--	if (list_empty(&con->modes))
--		(void) vmw_du_connector_fill_modes(con, max_width, max_height);
--
--	if (list_empty(&con->modes)) {
--		DRM_ERROR("Could not find initial display mode.\n");
--		ret = -EINVAL;
--		goto out_unlock;
--	}
--
--	du = vmw_connector_to_du(con);
--	*p_con = con;
--	*p_crtc = &du->crtc;
--
--	list_for_each_entry(mode, &con->modes, head) {
--		if (mode->type & DRM_MODE_TYPE_PREFERRED)
--			break;
--	}
--
--	if (&mode->head == &con->modes) {
--		WARN_ONCE(true, "Could not find initial preferred mode.\n");
--		*p_mode = list_first_entry(&con->modes,
--					   struct drm_display_mode,
--					   head);
--	} else {
--		*p_mode = mode;
--	}
--
-- out_unlock:
--	mutex_unlock(&dev_priv->drm.mode_config.mutex);
--
--	return ret;
+-/*
+- * Function called by DRM code called with vbl_lock held.
+- */
+-void vmw_disable_vblank(struct drm_crtc *crtc)
+-{
 -}
 -
  /**
-  * vmw_kms_create_implicit_placement_property - Set up the implicit placement
-  * property.
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 13a265ffd9f8..4d6e7b555db7 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -462,13 +462,6 @@ vmw_kms_new_framebuffer(struct vmw_private *dev_priv,
- 			struct vmw_surface *surface,
- 			bool only_2d,
- 			const struct drm_mode_fb_cmd2 *mode_cmd);
--int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
--			    unsigned unit,
--			    u32 max_width,
--			    u32 max_height,
--			    struct drm_connector **p_con,
--			    struct drm_crtc **p_crtc,
--			    struct drm_display_mode **p_mode);
- void vmw_guess_mode_timing(struct drm_display_mode *mode);
- void vmw_kms_update_implicit_fb(struct vmw_private *dev_priv);
- void vmw_kms_create_implicit_placement_property(struct vmw_private *dev_priv);
+  * vmw_du_update_layout - Update the display unit with topology from resolution
+  * plugin and generate DRM uevent
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+index b8761f16dd78..a56e5d0ca3c6 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+@@ -28,7 +28,6 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_fourcc.h>
+-#include <drm/drm_vblank.h>
+ 
+ #include "vmwgfx_kms.h"
+ 
+@@ -235,9 +234,6 @@ static const struct drm_crtc_funcs vmw_legacy_crtc_funcs = {
+ 	.atomic_duplicate_state = vmw_du_crtc_duplicate_state,
+ 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
+ 	.set_config = drm_atomic_helper_set_config,
+-	.get_vblank_counter = vmw_get_vblank_counter,
+-	.enable_vblank = vmw_enable_vblank,
+-	.disable_vblank = vmw_disable_vblank,
+ };
+ 
+ 
+@@ -507,10 +503,6 @@ int vmw_kms_ldu_init_display(struct vmw_private *dev_priv)
+ 	dev_priv->ldu_priv->last_num_active = 0;
+ 	dev_priv->ldu_priv->fb = NULL;
+ 
+-	ret = drm_vblank_init(dev, num_display_units);
+-	if (ret != 0)
+-		goto err_free;
+-
+ 	vmw_kms_create_implicit_placement_property(dev_priv);
+ 
+ 	for (i = 0; i < num_display_units; ++i) {
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index ecd3c2fc978b..8db61c541a80 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -29,7 +29,6 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_fourcc.h>
+-#include <drm/drm_vblank.h>
+ 
+ #include "vmwgfx_kms.h"
+ 
+@@ -320,9 +319,6 @@ static const struct drm_crtc_funcs vmw_screen_object_crtc_funcs = {
+ 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+-	.get_vblank_counter = vmw_get_vblank_counter,
+-	.enable_vblank = vmw_enable_vblank,
+-	.disable_vblank = vmw_disable_vblank,
+ };
+ 
+ /*
+@@ -730,7 +726,6 @@ vmw_sou_primary_plane_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
+ 	struct drm_crtc *crtc = new_state->crtc;
+-	struct drm_pending_vblank_event *event = NULL;
+ 	struct vmw_fence_obj *fence = NULL;
+ 	int ret;
+ 
+@@ -754,24 +749,6 @@ vmw_sou_primary_plane_atomic_update(struct drm_plane *plane,
+ 		return;
+ 	}
+ 
+-	/* For error case vblank event is send from vmw_du_crtc_atomic_flush */
+-	event = crtc->state->event;
+-	if (event && fence) {
+-		struct drm_file *file_priv = event->base.file_priv;
+-
+-		ret = vmw_event_fence_action_queue(file_priv,
+-						   fence,
+-						   &event->base,
+-						   &event->event.vbl.tv_sec,
+-						   &event->event.vbl.tv_usec,
+-						   true);
+-
+-		if (unlikely(ret != 0))
+-			DRM_ERROR("Failed to queue event on fence.\n");
+-		else
+-			crtc->state->event = NULL;
+-	}
+-
+ 	if (fence)
+ 		vmw_fence_obj_unreference(&fence);
+ }
+@@ -947,18 +924,12 @@ static int vmw_sou_init(struct vmw_private *dev_priv, unsigned unit)
+ int vmw_kms_sou_init_display(struct vmw_private *dev_priv)
+ {
+ 	struct drm_device *dev = &dev_priv->drm;
+-	int i, ret;
++	int i;
+ 
+ 	if (!(dev_priv->capabilities & SVGA_CAP_SCREEN_OBJECT_2)) {
+ 		return -ENOSYS;
+ 	}
+ 
+-	ret = -ENOMEM;
+-
+-	ret = drm_vblank_init(dev, VMWGFX_NUM_DISPLAY_UNITS);
+-	if (unlikely(ret != 0))
+-		return ret;
+-
+ 	for (i = 0; i < VMWGFX_NUM_DISPLAY_UNITS; ++i)
+ 		vmw_sou_init(dev_priv, i);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 8650c3aea8f0..0090abe89254 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -29,7 +29,6 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_fourcc.h>
+-#include <drm/drm_vblank.h>
+ 
+ #include "vmwgfx_kms.h"
+ #include "vmw_surface_cache.h"
+@@ -925,9 +924,6 @@ static const struct drm_crtc_funcs vmw_stdu_crtc_funcs = {
+ 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+-	.get_vblank_counter = vmw_get_vblank_counter,
+-	.enable_vblank = vmw_enable_vblank,
+-	.disable_vblank = vmw_disable_vblank,
+ };
+ 
+ 
+@@ -1591,7 +1587,6 @@ vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
+ 	struct drm_crtc *crtc = new_state->crtc;
+ 	struct vmw_screen_target_display_unit *stdu;
+-	struct drm_pending_vblank_event *event;
+ 	struct vmw_fence_obj *fence = NULL;
+ 	struct vmw_private *dev_priv;
+ 	int ret;
+@@ -1640,23 +1635,6 @@ vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
+ 		return;
+ 	}
+ 
+-	/* In case of error, vblank event is send in vmw_du_crtc_atomic_flush */
+-	event = crtc->state->event;
+-	if (event && fence) {
+-		struct drm_file *file_priv = event->base.file_priv;
+-
+-		ret = vmw_event_fence_action_queue(file_priv,
+-						   fence,
+-						   &event->base,
+-						   &event->event.vbl.tv_sec,
+-						   &event->event.vbl.tv_usec,
+-						   true);
+-		if (ret)
+-			DRM_ERROR("Failed to queue event on fence.\n");
+-		else
+-			crtc->state->event = NULL;
+-	}
+-
+ 	if (fence)
+ 		vmw_fence_obj_unreference(&fence);
+ }
+@@ -1883,10 +1861,6 @@ int vmw_kms_stdu_init_display(struct vmw_private *dev_priv)
+ 	if (!(dev_priv->capabilities & SVGA_CAP_GBOBJECTS))
+ 		return -ENOSYS;
+ 
+-	ret = drm_vblank_init(dev, VMWGFX_NUM_DISPLAY_UNITS);
+-	if (unlikely(ret != 0))
+-		return ret;
+-
+ 	dev_priv->active_display_unit = vmw_du_screen_target;
+ 
+ 	for (i = 0; i < VMWGFX_NUM_DISPLAY_UNITS; ++i) {
 -- 
 2.34.1
 
