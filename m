@@ -1,81 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9AC607F63
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 22:00:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FB8607F81
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 22:07:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC5410E66E;
-	Fri, 21 Oct 2022 20:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4F2210E2F7;
+	Fri, 21 Oct 2022 20:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA96410E32F
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 20:00:32 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 7A87C5C0129;
- Fri, 21 Oct 2022 16:00:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 21 Oct 2022 16:00:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1666382430; x=
- 1666468830; bh=lDfUawaCaaGEJXI7s4Dhkg4jAVxly276wGHiHUdHbkQ=; b=a
- u8F3413GnMcEWNYoH87dJwhThTHjMklSMYfGpmVGoIxSUsy0jSYEt9EmQZG7oSIO
- vA8OsZ55ypLfSlGrDZBN2/LAIhCw9JKqi2BjoE/vRUS1dW1cwoPlqYIHB7N3C+F5
- nQ34WiSak2OCUvuFpy2k4NT0AH3sPe/eVdot4tIOQDUQd7xBtg5hXoYCvMkVXpDb
- 1bOKe6KLipKW16ugpxEiLEvYp+OUeD9UaKBfHRebJbyoBQU9j9KZtCk/1rwls/y7
- PIW3Tpp7ogImWB+mXkP6IXVH3aZ4uzpPd2D1dsFGbQSs86jsFhWSIWop+R7D/e4w
- EcwiAsVj5KHq/fiRhecaA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666382430; x=
- 1666468830; bh=lDfUawaCaaGEJXI7s4Dhkg4jAVxly276wGHiHUdHbkQ=; b=K
- xCMbNSUjDa/f1NSh83iU45haF3OMj+ijeixYhqdpQ0RPP6hQXR4rI63r9/zG+prV
- vlgjbRVs4QVvg8IDDHHwXzRS5UYpMI/UeFOqWQmhdqDOoDm2fxjfRFW2mEtSw5Ii
- 2sSx3pAPHekUv7wpp31Y+RXX9CBX99mP45hlhXi6JJVBjmXSSFP86z+jIYRZb/HR
- SylLbgYaM3vOXkq/m+OoZSbgMue73k8z7pyFQHVFEfdomrUzMpwVWRr9Qp08+PJY
- XKZM8L2CfQVl/lhOw6HDIYZbQ2Mz+n6oTGkviPPxjovCoMYVsIsDergSxyWnKBbt
- lJ6PcmVIvy47vPNSu3j3A==
-X-ME-Sender: <xms:XvpSY-AiZBWDA0ThSvY8NSrwdBMAqXX4GLFlOKt4aQ6bt7XIm_9paQ>
- <xme:XvpSY4g1bsFkzwwDv3JUdifXwSg7VuoMO3v-E1Dq0iqkpTaWOIwWDpkhKsc9k428z
- IojiWKyOKbiO_kBB9Y>
-X-ME-Received: <xmr:XvpSYxlTxaAKVFKpSoKeNfjamTnH06rHjEMTmYqBqGQ_-dpvfepXrITSEr9hTw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelkedgudegudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepfdgm
- fdforggriicuofhomhgsrghsrgifrghlrgculdggofifrghrvgdmfdcuoehmrggriihmse
- hfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepteffhfegvddvgfeutdet
- heffjeelhffgudefudeujedvveehveeuhfethfdtjeffnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrrgiimhesfhgrshhtmhgrihhlrdgt
- ohhm
-X-ME-Proxy: <xmx:XvpSY8xDnEpYtQSlRjP7AjQty9GN532Rx3pAGGAy_R5Lx4HNICFPmw>
- <xmx:XvpSYzTqxc1gAdM85qhVqIod6QNk41ao8GcCJ-38OJl0OlBRJTaeYw>
- <xmx:XvpSY3YMhu5U1c9__e_Mv0hsbQVAS7wzrn2M_hgH1gdezTh_pvhxAg>
- <xmx:XvpSY9dKu_1lVF-ohfA11IwrODHVPELRNfBl7aYm2BvnrDydWapN8Q>
-Feedback-ID: i1b1946fb:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Oct 2022 16:00:29 -0400 (EDT)
-Message-ID: <290dad79-0b72-1124-74ff-c71e632bfa63@fastmail.com>
-Date: Fri, 21 Oct 2022 13:00:26 -0700
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4679610E2F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 20:07:31 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so7631479pjq.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:07:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vh4YIgtLxUw6WgoDzxlF5MErsV4sylhzFrfQBBr3GjE=;
+ b=in9tvOX8bP32FVB9PxADmtd00bHTP0G4N3hxe3LC3/czC3+AWMUbkfNVT5VKN6rpMn
+ /FRxKs2wOQFDbegwIP+zAXvI1//2TkDnk8DmFTbVZOInjumlV9KGNaPX4xjgQ0/ocm8P
+ h8TDMtEEctwPCFhtwjSSryElS7YDqI2e3aV+U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Vh4YIgtLxUw6WgoDzxlF5MErsV4sylhzFrfQBBr3GjE=;
+ b=ovFX8hK8aG2HSOTlhv3Q7rxqDRc03xvYxUgGtnGq7T0mS+Z1VKHUpSeBcgkh2F7DXx
+ PG2AuI2iWowxqe3cF+mUsPj8Q/knC+AfQPGfd5fESvUh3e/PWRosGKy5WW7i11XksEVc
+ /A5RHfuUdm9v4bAyPpuHEWV8a98bs1/Z3GiQwIvmWPh00igi5AB1NWGH0XiZgTVepzTf
+ sdBdFpg0W4q5ofJsDloSeUyQi2kftuA2ELib1cUNYZqa6aaClNovFleS1/pROZzBxu2/
+ Po4xbaYm7P3LcULSbNY/Y2caXQ90eg7YdpLhuiDeSd1zoJPEVKRdZVgXJ2Jsl5+zh62Q
+ gx7Q==
+X-Gm-Message-State: ACrzQf1pa2vIv68mQe+QCUZxuVA1LQQKSzgUSlAf/rpMNrEKkOZ7sFBw
+ d8Yk1kdGjxvSsmyiYdYKbgykLsG78h84EH4r
+X-Google-Smtp-Source: AMsMyM57zE472B2sgzDvVJYufYcmqXY3A2Omv5vWUX4NlKuHUPlbj7J/SwqISYDA6oDu0wnOsPRy2Q==
+X-Received: by 2002:a17:902:e1cd:b0:184:aa71:217d with SMTP id
+ t13-20020a170902e1cd00b00184aa71217dmr20515106pla.77.1666382851068; 
+ Fri, 21 Oct 2022 13:07:31 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:9d:2:361c:b732:581f:2329])
+ by smtp.gmail.com with ESMTPSA id
+ c1-20020a170902d48100b0017a032d7ae4sm10209137plg.104.2022.10.21.13.07.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 13:07:30 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/edid: Dump the EDID when drm_edid_get_panel_id() has an
+ error
+Date: Fri, 21 Oct 2022 13:07:07 -0700
+Message-Id: <20221021130637.1.I8c2de0954a4e54e0c59a72938268e2ead91daa98@changeid>
+X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v3 17/17] drm/vmwgfx: Fix a sparse warning in kernel docs
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20221021034400.542909-1-zack@kde.org>
- <20221021034400.542909-18-zack@kde.org>
-From: "\"Maaz Mombasawala (VMware)" <maazm@fastmail.com>
-In-Reply-To: <20221021034400.542909-18-zack@kde.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,42 +68,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/20/22 20:44, Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
-> 
-> Fixes a warning about extra docs about a function argument that has been
-> removed a while back:
-> drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c:3888: warning: Excess function
-> parameter 'sync_file' description in 'vmw_execbuf_copy_fence_user'
-> 
-> Fixes: a0f90c881570 ("drm/vmwgfx: Fix stale file descriptors on failed usercopy")
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> index c943ab801ca7..f16fc489d725 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> @@ -3869,7 +3869,6 @@ int vmw_execbuf_fence_commands(struct drm_file *file_priv,
->   * @fence: Pointer to the fenc object.
->   * @fence_handle: User-space fence handle.
->   * @out_fence_fd: exported file descriptor for the fence.  -1 if not used
-> - * @sync_file:  Only used to clean up in case of an error in this function.
->   *
->   * This function copies fence information to user-space. If copying fails, the
->   * user-space struct drm_vmw_fence_rep::error member is hopefully left
+If we fail to get a valid panel ID in drm_edid_get_panel_id() we'd
+like to see the EDID that was read so we have a chance of
+understanding what's wrong. There's already a function for that, so
+let's call it in the error case.
 
+NOTE: edid_block_read() has a retry loop in it, so actually we'll only
+print the block read back from the final attempt. This still seems
+better than nothing.
+
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+ drivers/gpu/drm/drm_edid.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 47465b9765f1..d63e26ec88b1 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -2721,6 +2721,8 @@ u32 drm_edid_get_panel_id(struct i2c_adapter *adapter)
+ 
+ 	if (edid_block_status_valid(status, edid_block_tag(base_block)))
+ 		panel_id = edid_extract_panel_id(base_block);
++	else
++		edid_block_dump(KERN_NOTICE, base_block, 0);
+ 
+ 	kfree(base_block);
+ 
 -- 
-
-Looks good.
-
-Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
-
-Maaz Mombasawala (VMware) <maazm@fastmail.com>
+2.38.0.135.g90850a2211-goog
 
