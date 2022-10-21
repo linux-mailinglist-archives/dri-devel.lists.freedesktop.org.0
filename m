@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27255606E77
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 05:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC535606E65
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 05:45:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8335010E57E;
-	Fri, 21 Oct 2022 03:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D247C10E484;
+	Fri, 21 Oct 2022 03:44:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 340BC10E2E4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A9910E484
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 03:44:19 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 9773D33EF33;
- Fri, 21 Oct 2022 04:44:17 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 5040133EF72;
+ Fri, 21 Oct 2022 04:44:18 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666323858; bh=Jt6+ZyDKPnFduIdOjEuolGhFpHQwAijaE/zigCU9kZM=;
+ t=1666323858; bh=lJCjN5vytbexPYOzf0SFFJGORBvs5DoICRUo98YlCOw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Gt7fnPbHxzxDQL2fVTCZAx4V0GIp/RPtCQxiN6NukpQ9LiS74CC0P5DIMpG5HIZR7
- ZoxFyMuvlwiTEtv1Uu9DjGgr3RYZtgQhCKqAhkgbmrxdvc3FHT5rDZq1TFR4Le/MDW
- VUgfKdiPbSeJMuchZBalzz7YIJDq52/f/8o8v3sOlc1b20mI2TJ7kLilB2hTWPaQeW
- FL6iAGNBTT8IKDTtAXqiTmSDKZ0t7AnL3CV1JyuDZCfv+nwHgq6IPxcQhW9NEqt3ZX
- L6CQE4vDE9Ebc7ILZUtbxf5HsGS1lkbL0f/Vpy12NbIBpox+dLgLm3VC7bYXwOehMN
- cCWbrttpeTNWQ==
+ b=dHru3kceXukp9DLMCJSCtxGWYe2z5dkhXNDIT7+nqrCeEvjgYI78dUHZLxOrkRYw3
+ lZikNYLaB8HNENCPS6CseW5RdRYSUJ0dnLe1E2lqUoYLFxMXe6/SLmH10+HpuoMfOP
+ U2VcRkRGNHmd7sjYA/XRa07oNLYQx9Hh1f8YlNLIPXD7MXMrh7ViEOvZEe8T+W1aEm
+ aXgZYNc4KtjQqug1Gun5bu8nYHbrVuH+I4u6frJa1nXB/sYRkbEiuXfzrzZk2IBmSi
+ sEtI+DcS3r5gQmVjrk6xbNYdGWjvbbhrQbHysK3oq4aRiJ0AORBcNJ2Iw7eIzHw6PO
+ aSsVZBE5XERcQ==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 16/17] drm/vmwgfx: Optimize initial sizes of cotables
-Date: Thu, 20 Oct 2022 23:43:59 -0400
-Message-Id: <20221021034400.542909-17-zack@kde.org>
+Subject: [PATCH v3 17/17] drm/vmwgfx: Fix a sparse warning in kernel docs
+Date: Thu, 20 Oct 2022 23:44:00 -0400
+Message-Id: <20221021034400.542909-18-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021034400.542909-1-zack@kde.org>
 References: <20221021034400.542909-1-zack@kde.org>
@@ -54,66 +54,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-It's important to get the initial size of cotables right because
-otherwise every app needs to start with a synchronous cotable resize.
+Fixes a warning about extra docs about a function argument that has been
+removed a while back:
+drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c:3888: warning: Excess function
+parameter 'sync_file' description in 'vmw_execbuf_copy_fence_user'
 
-This has an measurable impact on system wide performance but is not
-relevant for long running single full screen apps for which the cotable
-resizes will happen early in the lifecycle and will continue running
-just fine.
-
-To eliminate the initial cotable resizes match the initial sizes to what
-the userspace expects. The actual result of the patch is simply setting
-the initial size of two of the cotables to a size that will align them
-to two pages instead of one.
-
-For a piglit run, before:
-name               |  total |  per frame | per sec
-vmw_cotable_resize |   1405 |       0.12 |    1.58
-vmw_execbuf_ioctl  | 290805 |      25.43 |  326.05
-
-After:
-name               |  total |  per frame | per sec
-vmw_cotable_resize |      4 |       0.00 |    0.00
-vmw_execbuf_ioctl  | 281673 |      25.10 |  274.68
-
+Fixes: a0f90c881570 ("drm/vmwgfx: Fix stale file descriptors on failed usercopy")
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Michael Banack <banackm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-index a4c30f950d7c..0422b6b89cc1 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-@@ -73,12 +73,24 @@ struct vmw_cotable_info {
- 			    bool);
- };
- 
-+
-+/*
-+ * Getting the initial size right is difficult because it all depends
-+ * on what the userspace is doing. The sizes will be aligned up to
-+ * a PAGE_SIZE so we just want to make sure that for majority of apps
-+ * the initial number of entries doesn't require an immediate resize.
-+ * For all cotables except SVGACOTableDXElementLayoutEntry and
-+ * SVGACOTableDXBlendStateEntry the initial number of entries fits
-+ * within the PAGE_SIZE. For SVGACOTableDXElementLayoutEntry and
-+ * SVGACOTableDXBlendStateEntry we want to reserve two pages,
-+ * because that's what all apps will require initially.
-+ */
- static const struct vmw_cotable_info co_info[] = {
- 	{1, sizeof(SVGACOTableDXRTViewEntry), &vmw_view_cotable_list_destroy},
- 	{1, sizeof(SVGACOTableDXDSViewEntry), &vmw_view_cotable_list_destroy},
- 	{1, sizeof(SVGACOTableDXSRViewEntry), &vmw_view_cotable_list_destroy},
--	{1, sizeof(SVGACOTableDXElementLayoutEntry), NULL},
--	{1, sizeof(SVGACOTableDXBlendStateEntry), NULL},
-+	{PAGE_SIZE/sizeof(SVGACOTableDXElementLayoutEntry) + 1, sizeof(SVGACOTableDXElementLayoutEntry), NULL},
-+	{PAGE_SIZE/sizeof(SVGACOTableDXBlendStateEntry) + 1, sizeof(SVGACOTableDXBlendStateEntry), NULL},
- 	{1, sizeof(SVGACOTableDXDepthStencilEntry), NULL},
- 	{1, sizeof(SVGACOTableDXRasterizerStateEntry), NULL},
- 	{1, sizeof(SVGACOTableDXSamplerEntry), NULL},
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index c943ab801ca7..f16fc489d725 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -3869,7 +3869,6 @@ int vmw_execbuf_fence_commands(struct drm_file *file_priv,
+  * @fence: Pointer to the fenc object.
+  * @fence_handle: User-space fence handle.
+  * @out_fence_fd: exported file descriptor for the fence.  -1 if not used
+- * @sync_file:  Only used to clean up in case of an error in this function.
+  *
+  * This function copies fence information to user-space. If copying fails, the
+  * user-space struct drm_vmw_fence_rep::error member is hopefully left
 -- 
 2.34.1
 
