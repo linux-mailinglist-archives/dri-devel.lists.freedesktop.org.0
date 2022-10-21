@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EAD6077DF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 15:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D94607802
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 15:13:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2497010E285;
-	Fri, 21 Oct 2022 13:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A80110E2CD;
+	Fri, 21 Oct 2022 13:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91A6010E2CD
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:09:17 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 57E9F5C0148;
- Fri, 21 Oct 2022 09:09:13 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BABF710E2CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:13:44 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2BEC75C0161;
+ Fri, 21 Oct 2022 09:13:44 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 21 Oct 2022 09:09:13 -0400
+ by compute5.internal (MEProxy); Fri, 21 Oct 2022 09:13:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm3; t=1666357753; x=1666444153; bh=6sSf5C+8ZLvEdt3bf9TTGjXPC
- q4RHmvxYMfr3/viAaU=; b=k7x8FUgtj7Z2FRGSpiKTv7u72SumyipP/f7uPb5fp
- t2HPvvMq+QKTX26YQlKPkwTJJIU1onJaGRBO9DmQ3Hte3rU8cxjVtSeV0Kl4tM/+
- lqgjVnuxtwVymLWomdWU4MqRkMhmasglpc6bha8QYWOAbCDOpro8Mg6roT+p52I8
- s/Gxaddy4gzo8j8alkEmB5LZTTnaE+RTp6+PN5zhjc0yVsFUUoG6yUZ4dBaLZ9ke
- Ap83/8pFT/wFA3mue5OznKsHn+O/JRRm2QZkM1C34BNqoxn7kNjWEiN8vPR41Fok
- YcV2YOBAL0nyMg/Dj33CB7Rhb/qdDLmyVSFP6Wolj0hyw==
+ s=fm3; t=1666358024; x=1666444424; bh=mrfwCBNHTTEAu+oUbqSggHqv4
+ QrmbeoPxLdu+nX11Go=; b=bRfF5LKpXu/FrfjT5/lml5aqgqxbJjd0ZF/hCZKJT
+ yRntmmGoBIEgUNOOZr0fP7rJAxjGfqIUDobyiuCRlVolzZLhtgIobqtSPIDEqteq
+ 9LR7VC1MK6j+a0QuuJg+1bwIx9/RbxzcYhEjwaLwtiFJCg5A5x7Lm2f1Ri2UI4af
+ 4TppmeYoE7zpgFClDyFHQ4hiAFgmyLTxpr5twKjSxHFhAvwrHhqqVOY686QRj8i/
+ R2zKJfgVH/M7BVhTyxoYMkPZvgHgKOEw48RXglo6Btt3fOuCxmnkOwPU+o0Do+53
+ kxTACtJq28YEXUWCQ3izB60GmBYhZp9rqW0ItF2Az7Pjw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:message-id
  :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1666357753; x=1666444153; bh=6sSf5C+8ZLvEdt3bf9TTGjXPCq4RHmvxYMf
- r3/viAaU=; b=EDhENWF2EIxgpZCwvXtvy8ZczWvHyHmCJ28Z0x/8ajpnIqJK5zn
- pMPoY5/AmIlukZAQis8635MjGHbFKZAO0QhCrsICA4UQ898sHH4SfIpdlljns8jN
- 53onBZZfHEMeZGXGlKEGXbFxtOHfin4MA74rM3VEiabSUfu6bYL/5aD5QRFXYp6U
- 9ryvKGqnwxLoZkvGRS9/BFRjxJzcjRCPZCgO0HpG9Lp69OAR4P8Ts2PzwjUnrRKn
- Eb+tPW5TVxfIgu5UfytWtk44ILNNfvLdZg5uBS500pUsF42IBbxHEhyZ0FkS2QxM
- GPd8EdJwRIgBqeY/ZRoL69EHi1JX53MfgaA==
-X-ME-Sender: <xms:-JlSYzYx8tbzf9Ijd2RTjtxt5jhRI7GdpQB6JfNqrwlx9Aj37khkGQ>
- <xme:-JlSYyaUE5eBwzXQQvhg0ks3uKb0zvqEg-fv6DDRZJzdAcRKIdxCSMHJsMWViurof
- JpZ5uudlm5n5l4iX1Y>
-X-ME-Received: <xmr:-JlSY1-Q2GgFbKDO_NYySRy4_FzCpLNH0HISwjxidyf1oX2JcO0B_kHhqTvdpz9HioVTJW4yCnyGtA9gzHk48n2PTPuh-XL43W6Nm4HxF0L2sg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelkedgheelucetufdoteggodetrfdotf
+ 1666358024; x=1666444424; bh=mrfwCBNHTTEAu+oUbqSggHqv4QrmbeoPxLd
+ u+nX11Go=; b=BcL/UDB5XKvBqITuyAS0YnrGKAFL6oI7xs3jVofzmg1/L1+NQsH
+ QSuA9YTDIrZTcdMzk6V7vpbPEgl2ji2TCmO0CpBY6toAre7eeZub680qu1SZFzk3
+ Pt11JBl1zDSP9oyKCxSL4zyf7Nxb5qSa5chNDU+asxubWDIp1/agLzr4s7FtOvIz
+ +JxY46N3RGG2oQaLq2THfYy8pfD307asrwQLsl/arOqiHBIwNHktmVoth/lty4Vy
+ ZIVPdhncL4/wFwl20psNRIut3+vh34C0OhAiKOndLxgpU2r+gskGg/GHusFBD8Rq
+ H5X2kLpeby3y0L7Ynve2fwtrE5LStNXqb0Q==
+X-ME-Sender: <xms:B5tSY36vfKDgUHDHg-4d9p3Qkc-3S85IhxcIgc6tb4rXZbgn9-q-pg>
+ <xme:B5tSY84I4K6b1u13NYLRx4pvgVpar1pWm776061r9pspPclgWAe0Jl7aNsnbcWfvW
+ _GB46Ci4k6fpH-WWOw>
+X-ME-Received: <xmr:B5tSY-crlXYkI8qkbf5huMscbDZezRzOIVRxzq62RTvFCiW6YmR-bWDPh1J64ZWLOs-bnfPvytyXhqt5LOEV0eBIp_u3oPoCmHhl8Nc35chkzg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelkedgiedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepmhgrgihimhgv
@@ -52,20 +52,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelkedgheelucetufdoteggod
  ejhfegudeugfdvtdeghedvvdeggfehteehfeejueenucffohhmrghinheprhgvughhrght
  rdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-JlSY5o-YvQNtsJ6htrxQqTlaSkD3LG0H0fXS6VZAG03Xx3yWX4e-g>
- <xmx:-JlSY-rHTtAOjzmxuEUusVAIaXxT5CwAbivffzFrbEvckZZaTlxKUQ>
- <xmx:-JlSY_T2xTGJXGw11refhvg1A64HITmsvofajK0Hr2Fh9t7-R69m-A>
- <xmx:-ZlSY0ieBT8DsV809V9FrBsMcisDUTYyYskYijUH6Wr5416wlZzY8w>
+X-ME-Proxy: <xmx:B5tSY4KnzJK793hF6IJWePcY30YYCj9J5DI2LrbMpdx9eTsngTvVQA>
+ <xmx:B5tSY7LivcPPJcB74zYEqCglPtJwoq6YWha-74mh6Zm-5gj9hg32kg>
+ <xmx:B5tSYxwOhMrqUHy7sIQQtjIvLfueGFg5EiWiM2OKwE2ly80NvAeikA>
+ <xmx:CJtSY9gAcOyxmO99H3nqYj4AARY8YZO358BRy5Wfc1CSwKnAUv57XA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Oct 2022 09:09:12 -0400 (EDT)
+ 21 Oct 2022 09:13:43 -0400 (EDT)
 From: maxime@cerno.tech
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH] drm/vc4: hdmi: Fix HSM clock too low on Pi4
-Date: Fri, 21 Oct 2022 15:09:08 +0200
-Message-Id: <20221021130908.2202086-1-maxime@cerno.tech>
+Subject: [PATCH v2] drm/vc4: hdmi: Fix HSM clock too low on Pi4
+Date: Fri, 21 Oct 2022 15:13:39 +0200
+Message-Id: <20221021131339.2203291-1-maxime@cerno.tech>
 X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -81,7 +81,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -163,13 +164,17 @@ Link: https://bugzilla.redhat.com/show_bug.cgi?id=2136234
 Fixes: ae71ab585c81 ("drm/vc4: hdmi: Enforce the minimum rate at runtime_resume")
 Reported-by: Peter Robinson <pbrobinson@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 19 ++++++++++++++++---
- drivers/gpu/drm/vc4/vc4_hdmi.h |  5 +++++
- 2 files changed, 21 insertions(+), 3 deletions(-)
+Changes in v2:
+- Forgot one more clock to convert to the new one
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 21 +++++++++++++++++----
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  1 +
+ 2 files changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index eb3aaaca2b80..715f0fe3d8e0 100644
+index eb3aaaca2b80..3519b0c23d3b 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
 @@ -2732,9 +2732,16 @@ static int vc4_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
@@ -225,22 +230,27 @@ index eb3aaaca2b80..715f0fe3d8e0 100644
  	if (ret)
  		return ret;
  
+@@ -2914,7 +2927,7 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
+ 	 * case, it will lead to a silent CPU stall. Let's make sure we
+ 	 * prevent such a case.
+ 	 */
+-	rate = clk_get_rate(vc4_hdmi->hsm_clock);
++	rate = clk_get_rate(vc4_hdmi->hsm_rpm_clock);
+ 	if (!rate) {
+ 		ret = -EINVAL;
+ 		goto err_disable_clk;
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 1520387b317f..c0fd0423c84d 100644
+index 1520387b317f..fbc0a55f18e1 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -174,6 +174,11 @@ struct vc4_hdmi {
+@@ -171,6 +171,7 @@ struct vc4_hdmi {
+ 	struct clk *cec_clock;
+ 	struct clk *pixel_clock;
+ 	struct clk *hsm_clock;
++	struct clk *hsm_rpm_clock;
  	struct clk *audio_clock;
  	struct clk *pixel_bvb_clock;
  
-+	/*
-+	 * TODO: Comment
-+	 */
-+	struct clk *hsm_rpm_clock;
-+
- 	struct reset_control *reset;
- 
- 	struct debugfs_regset32 hdmi_regset;
 -- 
 2.37.3
 
