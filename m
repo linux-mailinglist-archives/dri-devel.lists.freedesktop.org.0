@@ -1,68 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEE26078D3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 15:46:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F256079AB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 16:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA5B10E2D5;
-	Fri, 21 Oct 2022 13:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF8710E315;
+	Fri, 21 Oct 2022 14:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0963410E2D5
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:46:12 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id bk15so4848557wrb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 06:46:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HTW1ak8VzXpCI08r4eBk6oGot7zwzXVhKo5pydkpeYg=;
- b=p1qqqicfd4r4KTGeXyghw0nEbDqVKLwzb+v2Q89PWDLhSZYh5+ZNmQsn9Gk0/gTjLL
- yrLxbqEqhTRSVKYjODNy5fih1v9iBQs45CWaiIe6vGx1uaURFTdo6N+stQCSllMtnTni
- +7YOlQ3gPs6dDl9KVwizvRzMWe6lV/aZKCwqGqRVFwCKzUioalpoN+zqttWFZOyv2y14
- gOEyziwXYrCkKDH1iCVow+VORlgju91uLXUSAAC2cLiRheYfAcYwjrLqoYC+v0GbrGSx
- hFKBNBKEIoaMt1FXYSCdj8LKUl5eQxWGzMJrkkOFRHsQL8G5EYACYRvM7REYhO9hxiqG
- 8L/Q==
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E53AB10E315
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 14:34:36 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id m16so6585232edc.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:34:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lD0xgbVkvhygXmPzL7EMrxyMcD+kjNgjJAnULQCkoIg=;
+ b=lTprzbMUXUupoaSFA6UAyc6cElH1N3JEnI4k13G0pTpJEu3Ej0mzoFZlr4CF1+Ud8m
+ LB7R/XAZOjZJogN8NRAuhbD5TEmx0KAlank7AwEpw7IoWJZ7WZ/lwKt5eK0cQYJxk7pj
+ AO004nZp+ikIUmXX3fN47RsgS16YuKigjcD1k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HTW1ak8VzXpCI08r4eBk6oGot7zwzXVhKo5pydkpeYg=;
- b=uHLXet83x2kNnFr4Hiu3ExhNxG8YjkAitjeKaAgdfihDL3uJLT+fXr9caWN5JgUDnK
- n3dDQDWn31XNFuTfnKaHIAsG2k0yxNUMzjC51ds1FV4J4cm9DStJJv7NHdf1+L94CX1S
- lEUga8ETy7cZ7W/w+wMIAHGZ/22iosZmiXcQkMarFMyOgEi4282yyeR3hWgsV1hZN9Uy
- Cic18PXOkZY8Sm/dJqvLq4gGpRu4AEwx1y0ZPUBQsA0vXSb5w9unsOuOOXA833ih75kZ
- rcvbiKeRQuCq7NqtOuTrwz/rvk9N5ys51XpQebOy24OhZGKVAz1t9Y64J/H2Vvx+5Bwz
- sZMQ==
-X-Gm-Message-State: ACrzQf2Z3UUKZsKxMAaGj6Bd53ZSJdeaBjl3/pmYFXNreRRF5+NxOxV/
- G2BxGDvPIrVy7F6GMhyJ6DA=
-X-Google-Smtp-Source: AMsMyM5EJnFWhH5Op3x2LjXVu/A/2KGcxz3mtqjBA6sl524eV9v2p83Y2K5kU504CX5uXWoyFR0NGQ==
-X-Received: by 2002:a05:6000:713:b0:232:bd2e:8620 with SMTP id
- bs19-20020a056000071300b00232bd2e8620mr12587712wrb.139.1666359970448; 
- Fri, 21 Oct 2022 06:46:10 -0700 (PDT)
-Received: from [192.168.2.181] (46-10-149-153.ip.btc-net.bg. [46.10.149.153])
- by smtp.gmail.com with ESMTPSA id
- c192-20020a1c35c9000000b003c6fb525b4csm2580252wma.38.2022.10.21.06.46.09
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lD0xgbVkvhygXmPzL7EMrxyMcD+kjNgjJAnULQCkoIg=;
+ b=Ah4nu2aJOSkcN2TjUwOP3MKV5RXGo7QyLNjZtOsQg00PVPTH5cVFRuOGPWuU/BgmLi
+ yy93mWxfwD1aa81d77jmSdRNig+tsaYEiRZaJg8KIeRqdQM4gOes34zjxQeSL3l+iesO
+ zMP9G1nfExnpg+rbF7a7UYA3RUU8i5/veZXMJo0v4iNved5J5Xzei/zzDXYpJecPY1SO
+ lnjIX4ORa5oO9kCE+YnKx926queqZNWJNv7ktKbgjl/7FuYGoLf3S+NoCHxfQh5QBvPv
+ 3Dl+x5k4KVamFdSX37911wE23VcNfIc7WZB8l1IWe9Gth5ItkuAaHZB6Z6yX26Mswnii
+ i2VA==
+X-Gm-Message-State: ACrzQf0SBJcRZ+ti0ha4xkEXmsewDuBoPQ6kMUOj7xCy3a4gLVc0u/ig
+ 79Lq3XRlRZoj/UnDrMmPEO1a4X441qa+oO3Q
+X-Google-Smtp-Source: AMsMyM78TiJ5bQgfCo1nRA10FwOOD1BwQAy6kE6IFKC0UoZN9ey3r9IqKcVB5NuZslauvogo4/k41g==
+X-Received: by 2002:a17:907:b01:b0:78d:ce3d:905d with SMTP id
+ h1-20020a1709070b0100b0078dce3d905dmr15603857ejl.45.1666362874896; 
+ Fri, 21 Oct 2022 07:34:34 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com.
+ [209.85.221.45]) by smtp.gmail.com with ESMTPSA id
+ a13-20020a50ff0d000000b00451319a43dasm13742384edu.2.2022.10.21.07.34.33
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 06:46:10 -0700 (PDT)
-Message-ID: <82bdc429-f4c8-5a41-cd6f-53bae1609ca9@gmail.com>
-Date: Fri, 21 Oct 2022 16:46:08 +0300
+ Fri, 21 Oct 2022 07:34:34 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id bv10so5160740wrb.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 07:34:33 -0700 (PDT)
+X-Received: by 2002:a5d:6488:0:b0:22b:3b0b:5e72 with SMTP id
+ o8-20020a5d6488000000b0022b3b0b5e72mr12861240wri.138.1666362873435; Fri, 21
+ Oct 2022 07:34:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 17/17] drm/vmwgfx: Fix a sparse warning in kernel docs
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20221021034400.542909-1-zack@kde.org>
- <20221021034400.542909-18-zack@kde.org>
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <20221021034400.542909-18-zack@kde.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20221021025801.2898500-1-sean.hong@quanta.corp-partner.google.com>
+In-Reply-To: <20221021025801.2898500-1-sean.hong@quanta.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 21 Oct 2022 07:34:21 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WUXFO8sM_y-keP+Qvy7qVPrxguTnD1YyL5rmgpK3dVPg@mail.gmail.com>
+Message-ID: <CAD=FV=WUXFO8sM_y-keP+Qvy7qVPrxguTnD1YyL5rmgpK3dVPg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add INX N116BGE-EA2 (HW: C2)
+To: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +73,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
+Cc: sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+Hi,
 
-
-On 21.10.22 г. 6:44 ч., Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
+On Thu, Oct 20, 2022 at 7:58 PM Sean Hong
+<sean.hong@quanta.corp-partner.google.com> wrote:
 >
-> Fixes a warning about extra docs about a function argument that has been
-> removed a while back:
-> drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c:3888: warning: Excess function
-> parameter 'sync_file' description in 'vmw_execbuf_copy_fence_user'
+> Add support for the INX - N116BGE-EA2 (HW: C2) panel.
 >
-> Fixes: a0f90c881570 ("drm/vmwgfx: Fix stale file descriptors on failed usercopy")
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
 > ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> index c943ab801ca7..f16fc489d725 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> @@ -3869,7 +3869,6 @@ int vmw_execbuf_fence_commands(struct drm_file *file_priv,
->    * @fence: Pointer to the fenc object.
->    * @fence_handle: User-space fence handle.
->    * @out_fence_fd: exported file descriptor for the fence.  -1 if not used
-> - * @sync_file:  Only used to clean up in case of an error in this function.
->    *
->    * This function copies fence information to user-space. If copying fails, the
->    * user-space struct drm_vmw_fence_rep::error member is hopefully left
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Phantom arg doc goodbye!
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
+For these simple table entries, I don't see any reason to delay before
+landing, so pushed to drm-misc-next.
 
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-
-
-Regards,
-Martin
-
+4ab5953f0af7 drm/panel-edp: Add INX N116BGE-EA2 (HW: C2)
