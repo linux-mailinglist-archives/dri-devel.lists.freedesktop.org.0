@@ -2,120 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC904607E4B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 20:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFBC607E5F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 20:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D6C10E632;
-	Fri, 21 Oct 2022 18:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2903410E5E2;
+	Fri, 21 Oct 2022 18:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9CB210E608
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 18:32:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IT8VGto4YwT4gpf1PpxSXLBEniBq8dMZ5IsIO2q7QxKUsIEwbGPu69atimezs+DU94YJJwxbNmu9CeN8rkRyileJSwYuJao98B9IDChYA1P4i91JuGs5EWFs3PPmpfFe+jFImO4v373hw6BJdLECNvhQ51aIEDvlmH8CL1gZnps3A5CQSgila1HIkIgUd3Efsi8/x/PVN4Wl3f0DgOhaSYj580amvBG8zEAPdzYtjmO/jO9+uxs0uRRIMBL8BcF4myUFLwMz0U40tscNB71MuZJgTP03BzRVsHD7vij8isdBU+jUIP9arT0X5qNd1bbrXqLyv6GkNQmZbksJUwkwFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7gF3KZUVGhdVUkFStA13lEbV89DjTOMMfsEystW+MxQ=;
- b=KflEWaH3+CqCORBpTFRPHSF48VpxjyVdPDV03QI5VrTM7oMdM7GkIyFbY6KJnXVUzXpx6o6C2rBChZuZSFb3zr6OGh4GtYdcjkP5EJw4eahBjBC9bpjcpzQfuvfwFmHuaktonj7rD/S2PvzrAAuyMIr8pUK0Ri6YtSGAVxvgKRsTaJCnqKEDbyWzUF5SyryxzDFQUUJYb+kL7eVp/M/aiooVDuHLVvLg9EcSd3XBqemsDhl+xt30lPgSm92TU3OhdYyr96y/7KR2ZDEPJbqBYNI2ItBOK4f0wJJi7piezT9KYxsEyZTW3lum10630u6Ix6XhpOIRB7k8ImKQFVC5WQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7gF3KZUVGhdVUkFStA13lEbV89DjTOMMfsEystW+MxQ=;
- b=MpAPxsQD3jOoflqoIjFblvJ94oWAd/9j2DkfjGvjRzHgGAHShUTk/8oFIPxJGpefjwpdeVuT+lLmiMY+mIH02PTxi9hDk4ADxgbkcpJAhk388Q5St2RYgHJHnPRuy8EeG1zCBRX1wXQJo9jY96xnvAh3kExr6Roqy9Axupse5Uo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by PH8PR12MB6889.namprd12.prod.outlook.com (2603:10b6:510:1c9::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Fri, 21 Oct
- 2022 18:32:03 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::7e91:f457:9ec5:33be]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::7e91:f457:9ec5:33be%6]) with mapi id 15.20.5746.021; Fri, 21 Oct 2022
- 18:32:03 +0000
-Message-ID: <0d2efd01-956c-3e61-6bd0-81e449fad4f9@amd.com>
-Date: Fri, 21 Oct 2022 14:31:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] mm/memremap: Introduce pgmap_request_folio() using pgmap
- offsets
-To: Dan Williams <dan.j.williams@intel.com>, akpm@linux-foundation.org
-References: <166630293549.1017198.3833687373550679565.stgit@dwillia2-xfh.jf.intel.com>
- <cbc23eba-990f-688e-d22b-0c0d103172cb@amd.com>
- <6351d7105fe92_4da329467@dwillia2-xfh.jf.intel.com.notmuch>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <6351d7105fe92_4da329467@dwillia2-xfh.jf.intel.com.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR11CA0022.namprd11.prod.outlook.com
- (2603:10b6:610:54::32) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|PH8PR12MB6889:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a1698ce-a699-46e5-14ad-08dab3928bfe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PxY4JjPBKoIxdTbeTfhOwv73iXmfibo7PVbVStDTcN9elEsdfJBl0asysFiZ9UUfUIMgbjqkOO3rLCo6IPvVTV8kNF8GvibN09+8QyrSw/pCkFgZzyWgo6HtugODWTtQ29Wo+hIVn7+Pf+ghZhaS7c4p7hRU3nAbr/Ri8RFB88CekNVedP8VXNMhKudX4JaqjEg4YD9hTiQDfGet3QTq8hamkz9J3kcH34Dyos2AscfszhIyy/nT/AO4s4cCkGOKz2wjyn3GMC4zXTisgk5weBKQHlQFbnI3KcnqP6GFJFeeu/Wot/Qf3KREc/aMOSJuxlsvpanJjhBxv9dbiaGGgpaeSVq3Cd4s0Vw9czE/AFgpijKGV0dAUf6Cs9gK3aJcx0UMKgJGG+8d2NuZ9Xmvk/IlNCjTnwVByWqb6JJw6fiVCZfvPK+8U36wUAx+6oz4XqwuQcMD6Oi6BrCtiy8d5kst7X5mT3gOfmy8LZwysHMYnfn62VTrJUgKP0LfysPVfxDRvdaUfKYoFpup19jxbqewjmBLsLqjyaq/HAdFVQI/uY2ux2du2CuScnYidxT5R2dhnkyNKZl2jTM3E4YbIISGhwQ9nNADgeLx7wzDjF6pmXlxyFTAEpuwqa0rirWyw9es2cbHBoQamXIyDMjqAQ/hOBF89Pj8FTcnemLhBk8VJDlLkwtVxk+x7B3c5fJikWAvr3LwHgxCadJDD/Kmykws34jRYh7RnODRenQcET6vdkV4WsN4GiTe887DnuzHjpO5o2eCyur+Eas9R3RsPy7UmVuFPa6EzrYVpufMh6A=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(346002)(39860400002)(136003)(366004)(396003)(451199015)(66476007)(7416002)(5660300002)(44832011)(31686004)(66556008)(66899015)(54906003)(316002)(66946007)(8676002)(4326008)(36916002)(6512007)(478600001)(26005)(6486002)(41300700001)(186003)(8936002)(2906002)(4001150100001)(2616005)(53546011)(6506007)(83380400001)(36756003)(38100700002)(6666004)(86362001)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tkpkdi9TNFlJK3VaRUptY056QjJ2N0hEQnBMM1VaS1JGekkzcDJ2S3hZWDdy?=
- =?utf-8?B?cStGbmk5OGtyVWc4NkVkaHNIVVBvN1FsSis3djN4TWFpWEY4MDdPVGRhZmFv?=
- =?utf-8?B?VGtHejg1TFNLM0xlWDRnRmU5TncwczQwNWRKMFJwc0J2UGZ6b2hDZVpHT2NE?=
- =?utf-8?B?b1d6N3lyODErMld3NU9Fd0ZSRkJoMWtWQmZzMWc1OERnS1huU1NRa05qY1hk?=
- =?utf-8?B?bzRQaFI4Q2JJald6UC9tZzUwa1krTlRnRkdwY09NR0NMM2RYcVhqbWdXdmIz?=
- =?utf-8?B?NXFRdUZJWFA0VDlaN3FHNTNJenJleFZsSzNVYkQwYkdsRStSd0JCYkVUTEVO?=
- =?utf-8?B?dUtUTllaYks0R2M5bzZxWjVGUTdCSmx0WC9peTlnY2hrbzdTWC9sMXdicDFT?=
- =?utf-8?B?YW43UjVwTk53elpoZ1B2TFVnK3p2NGs5VUpSd0JKamcvdnR4SFMrUmZMekly?=
- =?utf-8?B?L29kVjBSWVFETVhTN1c2Slk2bEE0YWVOanpkczQ3MmFIdmpQZ1B0T3NFVGhU?=
- =?utf-8?B?c0JYNHF2YzgzVmFoamM3eWRhaENHNWJWOTRtMUl2Rnh4VkxMODdDNDBlYkJW?=
- =?utf-8?B?OUI1MW42ZUxRaGg0R3pXV2tFMm1jOWpNOXgzU3d2VWZLeFVURUszSFFFSGRU?=
- =?utf-8?B?bUxhZXFqdnJpcFZOVXRLVDlvUmpNQVBxT2o3UmJBbHlLL2hNVENpOExVazIy?=
- =?utf-8?B?U1VKZERBS0dOdW00c3JQNEtvT3JSbTJBUTBYaFQ1VVFJeElRcnlzc1JUai8w?=
- =?utf-8?B?YXA1dlE2enN1dnp2QzVLL0J5S1dFOVlraUZNYUFOd09IT21vUXFCL1hzcGZK?=
- =?utf-8?B?RitCdXZhUWRDdVRVQ0xqR0N4d2I3VE53MkdEamJHVGw1SzVTbmRYU3dsWm1D?=
- =?utf-8?B?UU5wbC8zeGUxZnhIVmowdmpZZytqeFBBd3dUUnFrQTdIUDhqNEVKQnQyaXJ6?=
- =?utf-8?B?S0NGaW5PQlJubk0yNWZUc0V3REZBV1RuelJ1NlhlVlcrRHdRbTQyeXprSkdG?=
- =?utf-8?B?Nit6OXN6NFhIZW15Mi9QYnJjTHp4VmFIYThnYVJudm9kL20rUE5hOG56Q3Fu?=
- =?utf-8?B?RjNFRk1XeVpqd1EwZWZUZEQyZWcrSnRWVUgxc0M1SmxWbCtZeUVBdG50TllN?=
- =?utf-8?B?T0VxYUV5STRmUTY1dVY2K1owaFd6NWlFaG0zcGxySnJFMTNocWphK0JuQ0NX?=
- =?utf-8?B?NGJzTlBxSlc3UTl2M2xTMmE1c1FZUnlLZGFFd0VJbVZralEvVlZBZ2xiaXox?=
- =?utf-8?B?Y3lVMUdlaE1iMG9oL0FDeGZpZGt4Z0NXeHFZdmdvelNwb0drMFZ2Q056ZTI3?=
- =?utf-8?B?c3Fwc1JpL1lpSFc0Nm5uYnNJZ1BOYk45WkxZVVhWZmNoMjRlcytrcVk1NXd3?=
- =?utf-8?B?a2VsZmJkT3pSNkt4YnZoWGZ6SGVyZm1pSWh3c3NHL0tTMEdYMU5BUkovUE02?=
- =?utf-8?B?Z0RCN2dRVDdIZzRKYi9OaGEvdFZrRXlEK3REdjNncWEwTGtuVytOU1JUcVZi?=
- =?utf-8?B?cGVEZVIyTDUxVnFwUWtBY09aYUh6b3k5U2IrZDFzZWkwZjJ6a2tqMnZVK0R3?=
- =?utf-8?B?Z2NuUWpQQ2ljRUE0QXJKM1MzeFROK015ckRXanFoc2ZhNVViU1dicTI0SW05?=
- =?utf-8?B?OElXdVRBUENTNWd2UW9WN05MVEtnUWFPS0RzTktGYkRXK3hwYlZ4NS8wZ1NY?=
- =?utf-8?B?dWIvMGFaZVFONzYvSksrK2ZaQWFsR2YyUmkwZjVIWUNHb2dRVVNqd29tVWtj?=
- =?utf-8?B?bW4rcEZpODFWUWdQby96RDMyZVk3S0tocm8rT3VrTTFYSEJ2TUNLMnNmcGYz?=
- =?utf-8?B?cUlUcEVWTHV6RGZjZmsrU3huMmN2RmlqeUF4TWo0WkdtUncydGxxa3dlRTRM?=
- =?utf-8?B?UHArQ3NDZFplUWJsZnJyL3ZDN1NWTmV1SGQ5T0lJRmNtQXNMaVEyUWdVYS9U?=
- =?utf-8?B?d3loQk01NGYrcU1HalJOUmZBZEFwTWZCWW41L2t0bjZjMjNEdTFrcEVCUEZp?=
- =?utf-8?B?ZUVXWUhWalAwNU5QRnZJUkR4aFVlQjRrRnRiY2dQSE5kTGxuaXFwYWY0ZjFF?=
- =?utf-8?B?WFVTRHZQOENHVWsvUUtITm83ZEFya3ZtSU03QWM0Z2g3eDFxaWU0RmNtbmpD?=
- =?utf-8?Q?bApgX8+naIwPehhZm89ch5FxQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a1698ce-a699-46e5-14ad-08dab3928bfe
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 18:32:03.1313 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WOFijDiH/tTdfdMa/s1cUF4X7SuNUk1N+z8JxNKSlWYiojbyTEKVz+uAshAvrsyzbSeSxKzhj+/awl9CeUpYmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6889
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B662510E324;
+ Fri, 21 Oct 2022 18:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666377686; x=1697913686;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=adxpXhwDayaq/ZAkuTsm3qStreKzecjAAOjbaBl/1mU=;
+ b=WkFVZUeiUJ2+Ktnd7t1FSw3Z4IMbmRSXlRctcdb/gMmK6mWWHEvbbVDI
+ DwrtJiNG2xRDyAujnGhFVSs7YyMe0E3AOl0+9sWCBiuzS0FZlkBUw4eFe
+ RKGlfeVnleNyj0Hhf3vZFjdWcJfqPwsZ1O2sYoGt91NaauQw7M8p96CP5
+ kZOfjOC07vIs2w8A52JdbBYpSOZSo4jjFuXNMft0Fd+FVpLEN+rH6muJD
+ 7yI6kLbphyZRxk3tCG66fiRQXyswE7oY1EXB6s0vInzXVW/R4LwS+N5cT
+ vextFGm40LOjQBadsycDITqvMbYfLfuaYfkZ3I404sruAVbMeROVeZlZ5 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="304691628"
+X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="304691628"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2022 11:41:20 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="625451487"
+X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="625451487"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.255.230.194])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2022 11:41:19 -0700
+Date: Fri, 21 Oct 2022 11:40:36 -0700
+Message-ID: <87y1t9ow9n.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/slpc: Optmize waitboost for SLPC
+In-Reply-To: <2287a44e-80df-ef3c-1d4e-5ee80a62e381@intel.com>
+References: <20221020002944.4228-1-vinay.belgaumkar@intel.com>
+ <874jvyqr9o.wl-ashutosh.dixit@intel.com>
+ <bbe2b4c5-04be-bdc3-3911-d1544516eac1@intel.com>
+ <871qr2qd7y.wl-ashutosh.dixit@intel.com>
+ <2287a44e-80df-ef3c-1d4e-5ee80a62e381@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,94 +63,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@nvidia.com>,
- Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- "Darrick J. Wong" <djwong@kernel.org>, dri-devel@lists.freedesktop.org,
- Alistair Popple <apopple@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-mm@kvack.org, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
- Alex Deucher <alexander.deucher@amd.com>, Christoph Hellwig <hch@lst.de>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 2022-10-20 19:17, Dan Williams wrote:
-> Felix Kuehling wrote:
->> Am 2022-10-20 um 17:56 schrieb Dan Williams:
->>> A 'struct dev_pagemap' (pgmap) represents a collection of ZONE_DEVICE
->>> pages. The pgmap is a reference counted object that serves a similar
->>> role as a 'struct request_queue'. Live references are obtained for each
->>> in flight request / page, and once a page's reference count drops to
->>> zero the associated pin of the pgmap is dropped as well. While a page is
->>> idle nothing should be accessing it because that is effectively a
->>> use-after-free situation. Unfortunately, all current ZONE_DEVICE
->>> implementations deploy a layering violation to manage requests to
->>> activate pages owned by a pgmap. Specifically, they take steps like walk
->>> the pfns that were previously assigned at memremap_pages() time and use
->>> pfn_to_page() to recall metadata like page->pgmap, or make use of other
->>> data like page->zone_device_data.
->>>
->>> The first step towards correcting that situation is to provide a
->>> API to get access to a pgmap page that does not require the caller to
->>> know the pfn, nor access any fields of an idle page. Ideally this API
->>> would be able to support dynamic page creation instead of the current
->>> status quo of pre-allocating and initializing pages.
->> If I understand it correctly, the current code works because the struct
->> pages are pre-allocated. Is the end-goal here to make the struct page
->> allocation for ZONE_DEVICE pages dynamic.
-> Some DEVICE_PRIVATE users have already open-coded their own coarse
-> grained dynamic ZONE_DEVICE pages by waiting to allocate chunks on
-> demand.
+On Fri, 21 Oct 2022 11:24:42 -0700, Belgaumkar, Vinay wrote:
 >
-> The users that would benefit from a general dynamic ZONE_DEVICE facility
-> are cases like VMs backed by device-dax instances. Unless the VM calls
-> for bare metal services there is no need to map pages for the device-dax
-> instance in the hypervisor.
 >
-> So, the end goal here is to just add some sanity to ZONE_DEVICE page
-> reference counting to allow for requiring an arbitration for page access
-> rather than just pfn_to_page() and assuming the page is already there.
-> Dynamic ZONE_DEVICE becomes something that is possible once that sanity
-> is in place.
+> On 10/20/2022 4:36 PM, Dixit, Ashutosh wrote:
+> > On Thu, 20 Oct 2022 13:16:00 -0700, Belgaumkar, Vinay wrote:
+> >> On 10/20/2022 11:33 AM, Dixit, Ashutosh wrote:
+> >>> On Wed, 19 Oct 2022 17:29:44 -0700, Vinay Belgaumkar wrote:
+> >>> Hi Vinay,
+> >>>
+> >>>> Waitboost (when SLPC is enabled) results in a H2G message. This can result
+> >>>> in thousands of messages during a stress test and fill up an already full
+> >>>> CTB. There is no need to request for RP0 if GuC is already requesting the
+> >>>> same.
+> >>> But how are we sure that the freq will remain at RP0 in the future (when
+> >>> the waiting request or any requests which are ahead execute)?
+> >>>
+> >>> In the current waitboost implementation, set_param is sent to GuC ahead of
+> >>> the waiting request to ensure that the freq would be max when this waiting
+> >>> request executed on the GPU and the freq is kept at max till this request
+> >>> retires (considering just one waiting request). How can we ensure this if
+> >>> we don't send the waitboost set_param to GuC?
+> >> There is no way to guarantee the frequency will remain at RP0 till the
+> >> request retires. As a theoretical example, lets say the request boosted
+> >> freq to RP0, but a user changed min freq using sysfs immediately after.
+> > That would be a bug. If waitboost is in progress and in the middle user
+> > changed min freq, I would expect the freq to revert to the new min only
+> > after the waitboost phase was over.
 >
->>> On a prompt from Jason, introduce pgmap_request_folio() that operates on
->>> an offset into a pgmap.
->> This looks like it would make it fairly easy to request larger (higher
->> order) folios for physically contiguous device memory allocations in the
->> future.
->>
->>
->>>    It replaces the shortlived
->>> pgmap_request_folios() that was continuing the layering violation of
->>> assuming pages are available to be consulted before asking the pgmap to
->>> make them available.
->>>
->>> For now this only converts the callers to lookup the pgmap and generate
->>> the pgmap offset, but it does not do the deeper cleanup of teaching
->>> those call sites to generate those arguments without walking the page
->>> metadata. For next steps it appears the DEVICE_PRIVATE implementations
->>> could plumb the pgmap into the necessary callsites and switch to using
->>> gen_pool_alloc() to track which offsets of a pgmap are allocated.
->> Wouldn't that duplicate whatever device memory allocator we already have
->> in our driver? Couldn't I just take the memory allocation from our TTM
->> allocator and make necessary pgmap_request_folio calls to allocate the
->> corresponding pages from the pgmap?
-> I think you could, as long as the output from that allocator is a
-> pgmap_offset rather than a pfn.
+> The problem here is that GuC is unaware of this "boosting"
+> phenomenon. Setting the min_freq_softlimit as well to boost when we send a
+> boost request might help with this issue.
 >
->> Or does the pgmap allocation need a finer granularity than the device
->> memory allocation?
-> I would say the pgmap *allocation* happens at memremap_pages() time.
-> pgmap_request_folio() is a request to put a pgmap page into service.
+> >
+> > In any case, I am not referring to this case. Since FW controls the freq
+> > there is nothing preventing FW to change the freq unless we raise min to
+> > max which is what waitboost does.
+> Ok, so maybe the solution here is to check if min_softlimit is already at
+> boost freq, as it tracks the min freq changes. That should take care of
+> server parts automatically as well.
+
+Correct, yes that would be the right way to do it.
+
+Thanks.
+--
+Ashutosh
+
+> >> Waitboost is done by a pending request to "hurry" the current requests. If
+> >> GT is already at boost frequency, that purpose is served.
+> > FW can bring the freq down later before the waiting request is scheduled.
+> >> Also, host algorithm already has this optimization as well.
+> > Host turbo is different from SLPC. Host turbo controls the freq algorithm
+> > so it knows freq will not come down till it itself brings the freq
+> > down. Unlike SLPC where FW is controling the freq. Therefore host turbo
+> > doesn't ever need to do a MMIO read but only needs to refer to its own
+> > state (rps->cur_freq etc.).
+> True. Host algorithm has a periodic timer where it updates frequency. Here,
+> it checks num_waiters and sets client_boost every time that is non-zero.
+> >>> I had assumed we'll do this optimization for server parts where min is
+> >>> already RP0 in which case we can completely disable waitboost. But this
+> >>> patch is something else.
 >
-> So, yes, I think you can bring your own allocator for what offsets are
-> in/out of service in pgmap space.
-
-Thank you for the explanation. The patch is
-
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-
-
-
+> Hopefully the softlimit changes above will help with client and server.
+>
+> Thanks,
+>
+> Vinay.
+>
+> > Thanks.
+> > --
+> > Ashutosh
+> >
+> >>>> v2: Add the tracing back, and check requested freq
+> >>>> in the worker thread (Tvrtko)
+> >>>> v3: Check requested freq in dec_waiters as well
+> >>>>
+> >>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> >>>> ---
+> >>>>    drivers/gpu/drm/i915/gt/intel_rps.c         |  3 +++
+> >>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 14 +++++++++++---
+> >>>>    2 files changed, 14 insertions(+), 3 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> >>>> index fc23c562d9b2..18b75cf08d1b 100644
+> >>>> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> >>>> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> >>>> @@ -1016,6 +1016,9 @@ void intel_rps_boost(struct i915_request *rq)
+> >>>>		if (rps_uses_slpc(rps)) {
+> >>>>			slpc = rps_to_slpc(rps);
+> >>>>
+> >>>> +			GT_TRACE(rps_to_gt(rps), "boost fence:%llx:%llx\n",
+> >>>> +				 rq->fence.context, rq->fence.seqno);
+> >>>> +
+> >>>>			/* Return if old value is non zero */
+> >>>>			if (!atomic_fetch_inc(&slpc->num_waiters))
+> >>>>				schedule_work(&slpc->boost_work);
+> >>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> >>>> index b7cdeec44bd3..9dbdbab1515a 100644
+> >>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> >>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> >>>> @@ -227,14 +227,19 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
+> >>>>    static void slpc_boost_work(struct work_struct *work)
+> >>>>    {
+> >>>>	struct intel_guc_slpc *slpc = container_of(work, typeof(*slpc), boost_work);
+> >>>> +	struct intel_rps *rps = &slpc_to_gt(slpc)->rps;
+> >>>>	int err;
+> >>>>
+> >>>>	/*
+> >>>>	 * Raise min freq to boost. It's possible that
+> >>>>	 * this is greater than current max. But it will
+> >>>>	 * certainly be limited by RP0. An error setting
+> >>>> -	 * the min param is not fatal.
+> >>>> +	 * the min param is not fatal. No need to boost
+> >>>> +	 * if we are already requesting it.
+> >>>>	 */
+> >>>> +	if (intel_rps_get_requested_frequency(rps) == slpc->boost_freq)
+> >>>> +		return;
+> >>>> +
+> >>>>	mutex_lock(&slpc->lock);
+> >>>>	if (atomic_read(&slpc->num_waiters)) {
+> >>>>		err = slpc_force_min_freq(slpc, slpc->boost_freq);
+> >>>> @@ -728,6 +733,7 @@ int intel_guc_slpc_set_boost_freq(struct intel_guc_slpc *slpc, u32 val)
+> >>>>
+> >>>>    void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc)
+> >>>>    {
+> >>>> +	struct intel_rps *rps = &slpc_to_gt(slpc)->rps;
+> >>>>	/*
+> >>>>	 * Return min back to the softlimit.
+> >>>>	 * This is called during request retire,
+> >>>> @@ -735,8 +741,10 @@ void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc)
+> >>>>	 * set_param fails.
+> >>>>	 */
+> >>>>	mutex_lock(&slpc->lock);
+> >>>> -	if (atomic_dec_and_test(&slpc->num_waiters))
+> >>>> -		slpc_force_min_freq(slpc, slpc->min_freq_softlimit);
+> >>>> +	if (atomic_dec_and_test(&slpc->num_waiters)) {
+> >>>> +		if (intel_rps_get_requested_frequency(rps) != slpc->min_freq_softlimit)
+> >>>> +			slpc_force_min_freq(slpc, slpc->min_freq_softlimit);
+> >>>> +	}
+> >>>>	mutex_unlock(&slpc->lock);
+> >>>>    }
+> >>>>
+> >>>> --
+> >>>> 2.35.1
+> >>>>
