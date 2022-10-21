@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DC56071BB
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 10:09:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 547F86071BF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 10:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0D8410E212;
-	Fri, 21 Oct 2022 08:08:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37F5B10E634;
+	Fri, 21 Oct 2022 08:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E92B10E642;
- Fri, 21 Oct 2022 08:08:42 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id 78so1869104pgb.13;
- Fri, 21 Oct 2022 01:08:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SlNzBRr71KbRRC/meb2KSsTKDW9Z4AtXjBafpUgGsnU=;
- b=pLUuShaFX3eXC1Bi1qWcW7A8CwWV/I1ia+XiRTC3oqzAGjoF9QVh8CQeRo5T5ghzyA
- QuySVqGJ7JAWas1fV8rS31ryj3HzD4Qp4lix+s+kH6EuwBu+pW9fvijz1JEn8WJNJ0w+
- VEV5vwbIVg9/EQcj2C6KDUR7KSoA/ZxI+I0WQSCh/7ePjxJsVH6w1Tqhkv64JdR9fY/H
- S/cR/cdJ0FBdD9HfkzWQqBFy4emk6yAsnp6HXG2vPRFwvt9WyvwEPR+gzHtNqa+kGE4D
- zkJBIIWDADx2BKjynn2n1AXXzlrKwEENyWXgfjwrWapu3i3BCrQQ+Qnm09BjtuSKLgye
- 6HkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SlNzBRr71KbRRC/meb2KSsTKDW9Z4AtXjBafpUgGsnU=;
- b=yNx2lYlTaW7/LLisAUqTsKJ1gImOkd0ncYzc1qyRAqytP7hh2cOWZ5l1zuxdRHxT8w
- 49C0KRDr0K6VQ+HJGrDC2u7pCR7GgNnojcNQttA6/Qrc9tPt4JtQ0sOPtPqgy9Z39pyl
- q7YXyp/11FrHTufzULeSq/duHqR4Vm5h9MR5Sv2dsSZdHAUhc7Zk2Zh7MnwAJBcEaZHu
- MFUahmgGaRXuBrXqi6DsegVlE+vhb39cFxDFjucJl58q06Z85MUHlc9JehXal3/FYqI7
- uiwUiKujcSdLnO+9K9XfJGq222ifQ9ELubxM4SajPGFrwV7PxB87nfnU363Rpak2pJrR
- /z9w==
-X-Gm-Message-State: ACrzQf37LLBk4sJ73yvaaCGyttRLCU6ccZsGnHB9KqG44NhF/ylg3xfz
- 3XV1fmMrt4aLqa3YzdsN3bK+g55lxRKzCPWVRUXaLvVPqGapS+nu
-X-Google-Smtp-Source: AMsMyM4z2OLcswJOs1OtWJ7zGV2n+kHV7vYtr68GqJ/4HdN7VOfP2L76EOdRDAFi2Ppn2/nrarkM0IBvLa7eFY2htV8=
-X-Received: by 2002:a05:6a00:13a1:b0:563:4c5:c3dd with SMTP id
- t33-20020a056a0013a100b0056304c5c3ddmr18385526pfg.5.1666339721865; Fri, 21
- Oct 2022 01:08:41 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 656AA10E642;
+ Fri, 21 Oct 2022 08:08:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666339733; x=1697875733;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JyRWXVDn+8/BGNtlmEE+hWv7LpBwmn6F3Q1xve4Qnq8=;
+ b=nadFu4rGxuNPLtFu8IR0zKZtCJUYTO1keH+3L+kDuhlVBMX4CZ5EO7ik
+ t/lx80Ie4T9MEPDnGSSuk4MUJ1+6K7oWCyLP9ojgMsFr3zIvXv7i2zjZF
+ LHGhHzheTZATqb4tLWqa2rXsYhC/fNiRDVEEMJC7gPQ5qYxy1LKNnhsqw
+ S8U7fVqD/q9XSg2MKWMu13Dv7o45cNcF37mRcvX6VT9UGA2uPgT4HS8oI
+ J0un8fmXf1HwFd48hQQ1RQEMWQ74hLGcguyO36ud62vmwE+/sz0PZ5u9v
+ eeFSw0F9SHFk5FScIQptSvKemWQNevvTgJ4mUHQBXSTly24vB0lssh9+Y g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="306936989"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; d="scan'208";a="306936989"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2022 01:08:52 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="735409198"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; d="scan'208";a="735409198"
+Received: from emoriart-mobl.ger.corp.intel.com (HELO [10.213.218.183])
+ ([10.213.218.183])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2022 01:08:49 -0700
+Message-ID: <09c77519-7cc1-db8f-40c5-5dd6884b84bc@linux.intel.com>
+Date: Fri, 21 Oct 2022 09:08:47 +0100
 MIME-Version: 1.0
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Fri, 21 Oct 2022 13:08:30 +0500
-Message-ID: <CABXGCsOeQ7VYm98jRVaYp6KaNsFVsAnSb33ZT8JvZxcTcEGW0w@mail.gmail.com>
-Subject: [6.1][regression] after commit
- dd80d9c8eecac8c516da5b240d01a35660ba6cb6
- some games (Cyberpunk 2077, Forza Horizon 4/5) hang at start
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Deucher, Alexander" <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH] drm/i915: stop abusing swiotlb_max_segment
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+References: <20221020110308.1582518-1-hch@lst.de>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20221020110308.1582518-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,160 +62,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, marmarek@invisiblethingslab.com,
+ dri-devel@lists.freedesktop.org, oleksandr_tyshchenko@epam.com,
+ iommu@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-I found that some games (Cyberpunk 2077, Forza Horizon 4/5) hang at
-start after commit dd80d9c8eecac8c516da5b240d01a35660ba6cb6.
 
-dd80d9c8eecac8c516da5b240d01a35660ba6cb6 is the first bad commit
-commit dd80d9c8eecac8c516da5b240d01a35660ba6cb6
-Author: Christian K=C3=B6nig <christian.koenig@amd.com>
-Date:   Thu Jul 14 10:23:38 2022 +0200
+On 20/10/2022 12:03, Christoph Hellwig wrote:
+> From: Robert Beckett <bob.beckett@collabora.com>
+> 
+> swiotlb_max_segment used to return either the maximum size that swiotlb
+> could bounce, or for Xen PV PAGE_SIZE even if swiotlb could bounce buffer
+> larger mappings.  This made i915 on Xen PV work as it bypasses the
+> coherency aspect of the DMA API and can't cope with bounce buffering
+> and this avoided bounce buffering for the Xen/PV case.
+> 
+> So instead of adding this hack back, check for Xen/PV directly in i915
+> for the Xen case and otherwise use the proper DMA API helper to query
+> the maximum mapping size.
+> 
+> Replace swiotlb_max_segment() calls with dma_max_mapping_size().
+> In i915_gem_object_get_pages_internal() no longer consider max_segment
+> only if CONFIG_SWIOTLB is enabled. There can be other (iommu related)
+> causes of specific max segment sizes.
+> 
+> Fixes: a2daa27c0c61 ("swiotlb: simplify swiotlb_max_segment")
+> Reported-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> [hch: added the Xen hack, rewrote the changelog]
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_internal.c | 19 +++--------
+>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c    |  2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  4 +--
+>   drivers/gpu/drm/i915/gem/i915_gem_userptr.c  |  2 +-
+>   drivers/gpu/drm/i915/i915_scatterlist.h      | 34 ++++++++++++--------
+>   5 files changed, 29 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> index c698f95af15fe..629acb403a2c9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> @@ -6,7 +6,6 @@
+>   
+>   #include <linux/scatterlist.h>
+>   #include <linux/slab.h>
+> -#include <linux/swiotlb.h>
+>   
+>   #include "i915_drv.h"
+>   #include "i915_gem.h"
+> @@ -38,22 +37,12 @@ static int i915_gem_object_get_pages_internal(struct drm_i915_gem_object *obj)
+>   	struct scatterlist *sg;
+>   	unsigned int sg_page_sizes;
+>   	unsigned int npages;
+> -	int max_order;
+> +	int max_order = MAX_ORDER;
+> +	unsigned int max_segment;
+>   	gfp_t gfp;
+>   
+> -	max_order = MAX_ORDER;
+> -#ifdef CONFIG_SWIOTLB
+> -	if (is_swiotlb_active(obj->base.dev->dev)) {
+> -		unsigned int max_segment;
+> -
+> -		max_segment = swiotlb_max_segment();
+> -		if (max_segment) {
+> -			max_segment = max_t(unsigned int, max_segment,
+> -					    PAGE_SIZE) >> PAGE_SHIFT;
+> -			max_order = min(max_order, ilog2(max_segment));
+> -		}
+> -	}
+> -#endif
+> +	max_segment = i915_sg_segment_size(i915->drm.dev) >> PAGE_SHIFT;
+> +	max_order = min(max_order, get_order(max_segment));
+>   
+>   	gfp = GFP_KERNEL | __GFP_HIGHMEM | __GFP_RECLAIMABLE;
+>   	if (IS_I965GM(i915) || IS_I965G(i915)) {
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> index f42ca1179f373..11125c32dd35d 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> @@ -194,7 +194,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+>   	struct intel_memory_region *mem = obj->mm.region;
+>   	struct address_space *mapping = obj->base.filp->f_mapping;
+>   	const unsigned long page_count = obj->base.size / PAGE_SIZE;
+> -	unsigned int max_segment = i915_sg_segment_size();
+> +	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+>   	struct sg_table *st;
+>   	struct sgt_iter sgt_iter;
+>   	struct page *page;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 4f861782c3e85..a4aa9500fa179 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -189,7 +189,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
+>   	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
+>   	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
+>   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+> -	const unsigned int max_segment = i915_sg_segment_size();
+> +	const unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+>   	const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
+>   	struct file *filp = i915_tt->filp;
+>   	struct sgt_iter sgt_iter;
+> @@ -538,7 +538,7 @@ static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt *ttm)
+>   	ret = sg_alloc_table_from_pages_segment(st,
+>   			ttm->pages, ttm->num_pages,
+>   			0, (unsigned long)ttm->num_pages << PAGE_SHIFT,
+> -			i915_sg_segment_size(), GFP_KERNEL);
+> +			i915_sg_segment_size(i915_tt->dev), GFP_KERNEL);
+>   	if (ret) {
+>   		st->sgl = NULL;
+>   		return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> index d4398948f0162..f34e01a7fefb9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> @@ -129,7 +129,7 @@ static void i915_gem_object_userptr_drop_ref(struct drm_i915_gem_object *obj)
+>   static int i915_gem_userptr_get_pages(struct drm_i915_gem_object *obj)
+>   {
+>   	const unsigned long num_pages = obj->base.size >> PAGE_SHIFT;
+> -	unsigned int max_segment = i915_sg_segment_size();
+> +	unsigned int max_segment = i915_sg_segment_size(obj->base.dev->dev);
+>   	struct sg_table *st;
+>   	unsigned int sg_page_sizes;
+>   	struct page **pvec;
+> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
+> index 9ddb3e743a3e5..b0a1db44f8950 100644
+> --- a/drivers/gpu/drm/i915/i915_scatterlist.h
+> +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+> @@ -9,7 +9,8 @@
+>   
+>   #include <linux/pfn.h>
+>   #include <linux/scatterlist.h>
+> -#include <linux/swiotlb.h>
+> +#include <linux/dma-mapping.h>
+> +#include <xen/xen.h>
+>   
+>   #include "i915_gem.h"
+>   
+> @@ -127,19 +128,26 @@ static inline unsigned int i915_sg_dma_sizes(struct scatterlist *sg)
+>   	return page_sizes;
+>   }
+>   
+> -static inline unsigned int i915_sg_segment_size(void)
+> +static inline unsigned int i915_sg_segment_size(struct device *dev)
+>   {
+> -	unsigned int size = swiotlb_max_segment();
+> -
+> -	if (size == 0)
+> -		size = UINT_MAX;
+> -
+> -	size = rounddown(size, PAGE_SIZE);
+> -	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
+> -	if (size < PAGE_SIZE)
+> -		size = PAGE_SIZE;
+> -
+> -	return size;
+> +	size_t max = min_t(size_t, UINT_MAX, dma_max_mapping_size(dev));
+> +
+> +	/*
+> +	 * For Xen PV guests pages aren't contiguous in DMA (machine) address
+> +	 * space.  The DMA API takes care of that both in dma_alloc_* (by
+> +	 * calling into the hypervisor to make the pages contiguous) and in
+> +	 * dma_map_* (by bounce buffering).  But i915 abuses ignores the
+> +	 * coherency aspects of the DMA API and thus can't cope with bounce
+> +	 * buffering actually happening, so add a hack here to force small
+> +	 * allocations and mappings when running in PV mode on Xen.
+> +	 *
+> +	 * Note this will still break if bounce buffering is required for other
+> +	 * reasons, like confidential computing hypervisors or PCIe root ports
+> +	 * with addressing limitations.
+> +	 */
 
-    drm/amdgpu: revert "partial revert "remove ctx->lock" v2"
+As a side note, I think this is something Thomas was pointing out in the 
+previous round.
 
-    This reverts commit 94f4c4965e5513ba624488f4b601d6b385635aec.
+> +	if (xen_pv_domain())
+> +		max = PAGE_SIZE;
 
-    We found that the bo_list is missing a protection for its list entries.
-    Since that is fixed now this workaround can be removed again.
+I wonder if it would be cleaner to just fork XEN vs rest in a single 
+conditional, since all the other computations are pointless in the 
+native case. I mean like:
 
-    Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-    Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+if (xen)
+   return PAGE_SIZE
+else
+   max = min_t(..dma_max_mapping_size..
+   return round_down..
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c  | 21 ++++++---------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c |  2 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h |  1 -
- 3 files changed, 6 insertions(+), 18 deletions(-)
+I do see the XEN branch will compile out anyway on !CONFIG_XEN so it 
+only really matters there - up to you.
 
+Most importantly for me, this time round CI did not report any strange 
+failures which were previously interfering with this patch. So it could 
+really be it was bugs in the Intel IOMMU driver which were causing the 
+problems back then, as Bob has been suspecting.
 
-And when it happening in kernel log appears a such backtrace:
-[  231.331210] ------------[ cut here ]------------
-[  231.331262] WARNING: CPU: 11 PID: 6555 at
-drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:675
-amdgpu_ttm_tt_get_user_pages+0x14c/0x190 [amdgpu]
-[  231.331424] Modules linked in: uinput rfcomm snd_seq_dummy
-snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
-nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
-nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
-qrtr bnep intel_rapl_msr intel_rapl_common snd_sof_amd_renoir
-snd_sof_amd_acp snd_sof_pci snd_hda_codec_realtek snd_sof
-snd_hda_codec_generic snd_hda_codec_hdmi snd_sof_utils mt7921e
-snd_hda_intel sunrpc snd_intel_dspcfg mt7921_common binfmt_misc
-snd_intel_sdw_acpi snd_hda_codec mt76_connac_lib edac_mce_amd btusb
-snd_soc_core mt76 snd_hda_core btrtl snd_hwdep snd_compress kvm_amd
-ac97_bus snd_seq btbcm snd_pcm_dmaengine btintel snd_rpl_pci_acp6x
-mac80211 btmtk snd_pci_acp6x kvm snd_seq_device snd_pcm snd_pci_acp5x
-libarc4 irqbypass bluetooth snd_rn_pci_acp3x snd_timer pcspkr
-asus_nb_wmi rapl joydev wmi_bmof snd_acp_config cfg80211 snd_soc_acpi
-vfat snd
-[  231.331490]  snd_pci_acp3x i2c_piix4 soundcore fat k10temp amd_pmc
-asus_wireless zram amdgpu drm_ttm_helper ttm hid_asus asus_wmi
-iommu_v2 crct10dif_pclmul crc32_pclmul gpu_sched crc32c_intel
-ledtrig_audio sparse_keymap polyval_clmulni platform_profile drm_buddy
-polyval_generic hid_multitouch drm_display_helper rfkill nvme
-ucsi_acpi ghash_clmulni_intel nvme_core video typec_ucsi serio_raw ccp
-sha512_ssse3 sp5100_tco r8169 cec nvme_common typec wmi i2c_hid_acpi
-i2c_hid ip6_tables ip_tables fuse
-[  231.331532] CPU: 11 PID: 6555 Comm: GameThread Tainted: G        W
-  L    -------  ---
-6.1.0-0.rc1.20221019gitaae703b02f92.17.fc38.x86_64 #1
-[  231.331534] Hardware name: ASUSTeK COMPUTER INC. ROG Strix
-G513QY_G513QY/G513QY, BIOS G513QY.318 03/29/2022
-[  231.331537] RIP: 0010:amdgpu_ttm_tt_get_user_pages+0x14c/0x190 [amdgpu]
-[  231.331654] Code: a8 d0 e9 32 ff ff ff 4c 89 e9 89 ea 48 c7 c6 40
-82 f3 c0 48 c7 c7 10 60 14 c1 e8 2f a0 f4 d0 eb 8e 66 90 bd f2 ff ff
-ff eb 8d <0f> 0b eb f5 bd fd ff ff ff eb 82 bd f2 ff ff ff e9 62 ff ff
-ff 48
-[  231.331656] RSP: 0018:ffffaad4c705bae8 EFLAGS: 00010286
-[  231.331659] RAX: ffff8e9cbdbe3200 RBX: ffff8e997e3f2440 RCX: 00000000000=
-00000
-[  231.331661] RDX: 0000000000000000 RSI: ffff8e9cbdbe3200 RDI: ffff8e9c312=
-08000
-[  231.331663] RBP: 0000000000000001 R08: 0000000000000dc0 R09: 00000000fff=
-fffff
-[  231.331665] R10: 0000000000000001 R11: 0000000000000000 R12: ffffaad4c70=
-5bb90
-[  231.331666] R13: 0000000076510000 R14: ffff8e9c89f334e0 R15: ffff8e991fd=
-a8000
-[  231.331668] FS:  000000007c2af6c0(0000) GS:ffff8ea7d8e00000(0000)
-knlGS:000000007b2c0000
-[  231.331671] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  231.331673] CR2: 00007ff65ffd8000 CR3: 00000004f90f0000 CR4: 00000000007=
-50ee0
-[  231.331674] PKRU: 55555554
-[  231.331676] Call Trace:
-[  231.331678]  <TASK>
-[  231.331682]  amdgpu_cs_ioctl+0x87e/0x1fc0 [amdgpu]
-[  231.331824]  ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
-[  231.331981]  drm_ioctl_kernel+0xac/0x160
-[  231.331990]  drm_ioctl+0x1e7/0x450
-[  231.331994]  ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
-[  231.332118]  amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
-[  231.332233]  __x64_sys_ioctl+0x90/0xd0
-[  231.332238]  do_syscall_64+0x5b/0x80
-[  231.332243]  ? asm_exc_page_fault+0x22/0x30
-[  231.332247]  ? lockdep_hardirqs_on+0x7d/0x100
-[  231.332250]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-[  231.332253] RIP: 0033:0x7ff677c5704f
-[  231.332256] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24
-10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00
-00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28
-00 00
-[  231.332258] RSP: 002b:000000007c2ad470 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[  231.332261] RAX: ffffffffffffffda RBX: 000000007c2ad718 RCX: 00007ff677c=
-5704f
-[  231.332263] RDX: 000000007c2ad540 RSI: 00000000c0186444 RDI: 00000000000=
-000a7
-[  231.332265] RBP: 000000007c2ad540 R08: 00007ff590048590 R09: 000000007c2=
-ad510
-[  231.332266] R10: 000000007e864ec0 R11: 0000000000000246 R12: 00000000c01=
-86444
-[  231.332268] R13: 00000000000000a7 R14: 000000007c2ad6f0 R15: 00000000000=
-00005
-[  231.332277]  </TASK>
-[  231.332279] irq event stamp: 18035
-[  231.332281] hardirqs last  enabled at (18043): [<ffffffff9118e8de>]
-__up_console_sem+0x5e/0x70
-[  231.332284] hardirqs last disabled at (18050): [<ffffffff9118e8c3>]
-__up_console_sem+0x43/0x70
-[  231.332287] softirqs last  enabled at (17864): [<ffffffff911012ed>]
-__irq_exit_rcu+0xed/0x160
-[  231.332289] softirqs last disabled at (17857): [<ffffffff911012ed>]
-__irq_exit_rcu+0xed/0x160
-[  231.332291] ---[ end trace 0000000000000000 ]---
-[  231.332299] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to
-process the buffer list -14!
+Therefore I am happy to merge this as is. I'll just queue up one more 
+test run just in case. I'll let you know when done, and assuming the 
+best - thank you both for the cleanup!
 
-[  231.332423] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-[  231.332424] WARNING: lock held when returning to user space!
-[  231.332425] 6.1.0-0.rc1.20221019gitaae703b02f92.17.fc38.x86_64 #1
-Tainted: G        W    L    -------  ---
-[  231.332426] ------------------------------------------------
-[  231.332427] GameThread/6555 is leaving the kernel with locks still held!
-[  231.332428] 1 lock held by GameThread/6555:
-[  231.332429]  #0: ffff8e9cfbac64a8
-(&list->bo_list_mutex){+.+.}-{3:3}, at: amdgpu_cs_ioctl+0x786/0x1fc0
-[amdgpu]
-[  389.428155] amdgpu 0000:03:00.0: amdgpu: free PSP TMR buffer
+Regards,
 
-Christian, any ideas?
-Thanks.
+Tvrtko
 
-Full kernel log: https://pastebin.com/6SEaDay8
-My hardware:
-GPU: 6900XT, 6800M
-CPU: 3950X, 5900HX
-
---=20
-Best Regards,
-Mike Gavrilov.
+> +	return round_down(max, PAGE_SIZE);
+>   }
+>   
+>   bool i915_sg_trim(struct sg_table *orig_st);
