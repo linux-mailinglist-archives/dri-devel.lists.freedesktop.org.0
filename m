@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE26608094
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 23:11:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D176080AD
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 23:19:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C82A10E679;
-	Fri, 21 Oct 2022 21:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 006AF10E2A3;
+	Fri, 21 Oct 2022 21:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1D6F10E679
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 21:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666386700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tb5G8Q5vATxNip+KIvKKwBUveWJ2RwJYjzfJBGeAXxg=;
- b=I7U7ChXVZ5rQGHjDO0PTeQfX4wqvxq0eHNhwnqBT8PnH372y8VaRGjFINcwewpWt94YMd8
- /bToy9OEswhcurqTlPwHbitUQnVuY75WaN1bq7PebnirUBwKpc5oLJFazOWR3yu2bcW9uY
- Tip90L81kRtk7xHXZdXCUbuRSDsXIQs=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-132-o5tY5xDtPZORkxa0LhcpZg-1; Fri, 21 Oct 2022 17:11:40 -0400
-X-MC-Unique: o5tY5xDtPZORkxa0LhcpZg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bm16-20020a05620a199000b006ee95743ad2so4439872qkb.14
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 14:11:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Tb5G8Q5vATxNip+KIvKKwBUveWJ2RwJYjzfJBGeAXxg=;
- b=EXMg9XWaoIHMWhnHnagRwQOBzRbiuoP5ofeajdN9NwYdLMjpiEgkSMsz7vd1SQwUGt
- seAmYGmY4+iKniSk89IM6uauxKTq4ryhDhMM4Z2XcYh3sIZzoDe8c+uHB2JIwZFQ4pL4
- l7iW15g9WQSj9QUial7CmrkV0wDQIL5CzuYa7HS4oy1deD0Szt0g8VFoUK9WDGEOXMBF
- qfLVRd6Qxjo3eZ2Ee0fEJnotlum1aqAkAe1nic7g4t4AgM4Snzk+fYnRdELOSHLeDf6G
- 5iQ9h4erg62niF0bi0hRqx6S9Q4zFJgtp2YVKc2v7KqA3Wf1nqQjuTgq6UzqMHumhA+X
- qJbA==
-X-Gm-Message-State: ACrzQf3euACzJ4N/wc6LucdWaxJDWpnS0tbOg9rUiQkQBWTu/AMFsmBh
- 1KNPZ5kZ7gXieQRLbGD74YsGgK/zOeImXmNTXCtymYLincb7ualWXGfHFNFA3Xi7MRQZObW7eTu
- q7ofM/t3t58ZEbVlOxHgOxO/45Chm
-X-Received: by 2002:a05:6214:2483:b0:4bb:59ec:c5a7 with SMTP id
- gi3-20020a056214248300b004bb59ecc5a7mr3071184qvb.94.1666386699533; 
- Fri, 21 Oct 2022 14:11:39 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7KgayDfa/OfgLiBOflAoe1rYw1XFXkm1/ap8s3joDTxP0ofbKbGObX5+tK8zXV+pqU3S2xcQ==
-X-Received: by 2002:a05:6214:2483:b0:4bb:59ec:c5a7 with SMTP id
- gi3-20020a056214248300b004bb59ecc5a7mr3071157qvb.94.1666386699307; 
- Fri, 21 Oct 2022 14:11:39 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c68:4300::feb? ([2600:4040:5c68:4300::feb])
- by smtp.gmail.com with ESMTPSA id
- fw10-20020a05622a4a8a00b0039cba52974fsm8491618qtb.94.2022.10.21.14.11.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 14:11:38 -0700 (PDT)
-Message-ID: <54135445ebea45857a95ac86db1c22804996af8c.camel@redhat.com>
-Subject: Re: [PATCH -next] nouveau/dmem: Remove duplicated include in
- nouveau_dmem.c
-From: Lyude Paul <lyude@redhat.com>
-To: Yang Li <yang.lee@linux.alibaba.com>, bskeggs@redhat.com
-Date: Fri, 21 Oct 2022 17:11:37 -0400
-In-Reply-To: <20221017000723.113744-1-yang.lee@linux.alibaba.com>
-References: <20221017000723.113744-1-yang.lee@linux.alibaba.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB0310E25D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 21:18:52 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29LIiS0M031107;
+ Fri, 21 Oct 2022 21:18:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=iSfB6CFrLnDJogdTTq89EiJJa3m0+y1c9gv1TDJFjvg=;
+ b=JHDyZb31TRFwJzdoXbQXrP1FzKU9SGL3XasmDj1LWEohW/gxyx8D9GhpTMN6zp/a+BS4
+ qiUnClpQR2mGie5UHapHJPnRu6OgapmswPbm5WFYVXAqV9hRLwDqL+qEO+4LLMXuP1RT
+ l0lrJp3wlW64mkZF0stWOCe8A6lMxNPxpeOUnJ04j1j+2L+ujeTf7QxwI9zBxHoA0HD6
+ yL4/pcytlnd0RsweU1HnV9w7LXoqg/jh1xcLqqESWa4ZJITfvN2RgCN1jteMWjgsYjt9
+ HpFXb2Kv3TuHZ1PqI8sNpCnFDVscPvriW8VBYg15Jh0YqNQoe0iar0J3QpmTw9/zBN2j bA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kb2c653y8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Oct 2022 21:18:22 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29LLIKKt012378
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Oct 2022 21:18:20 GMT
+Received: from [10.111.175.17] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 21 Oct
+ 2022 14:18:18 -0700
+Message-ID: <e6bc800b-2d3b-aac9-c1cb-7c08d618fc8e@quicinc.com>
+Date: Fri, 21 Oct 2022 14:18:16 -0700
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/edid: Dump the EDID when drm_edid_get_panel_id() has
+ an error
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, <dri-devel@lists.freedesktop.org>
+References: <20221021130637.1.I8c2de0954a4e54e0c59a72938268e2ead91daa98@changeid>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20221021130637.1.I8c2de0954a4e54e0c59a72938268e2ead91daa98@changeid>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: sHNLh55rX_DR4gs-fYbux6RV15qG-tpi
+X-Proofpoint-ORIG-GUID: sHNLh55rX_DR4gs-fYbux6RV15qG-tpi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-21_04,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ clxscore=1011 impostorscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 priorityscore=1501 mlxlogscore=729
+ phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210210124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,42 +83,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+Hi Doug
 
-Will push in just a moment to drm-misc-next, thanks!
-
-On Mon, 2022-10-17 at 08:07 +0800, Yang Li wrote:
-> ./drivers/gpu/drm/nouveau/nouveau_dmem.c: nvif/if000c.h is included more
-> than once.
+On 10/21/2022 1:07 PM, Douglas Anderson wrote:
+> If we fail to get a valid panel ID in drm_edid_get_panel_id() we'd
+> like to see the EDID that was read so we have a chance of
+> understanding what's wrong. There's already a function for that, so
+> let's call it in the error case.
 > 
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2404
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> NOTE: edid_block_read() has a retry loop in it, so actually we'll only
+> print the block read back from the final attempt. This still seems
+> better than nothing.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+
+Instead of checkinf for edid_block_status_valid() on the base_block, do 
+you want to use drm_edid_block_valid() instead?
+
+That way you get the edid_block_dump() for free if it was invalid.
+
 > ---
->  drivers/gpu/drm/nouveau/nouveau_dmem.c | 1 -
->  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> index 5fe209107246..e2c500aac273 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> @@ -33,7 +33,6 @@
->  #include <nvif/if000c.h>
->  #include <nvif/if500b.h>
->  #include <nvif/if900b.h>
-> -#include <nvif/if000c.h>
->  
->  #include <nvhw/class/cla0b5.h>
->  
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+>   drivers/gpu/drm/drm_edid.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 47465b9765f1..d63e26ec88b1 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2721,6 +2721,8 @@ u32 drm_edid_get_panel_id(struct i2c_adapter *adapter)
+>   
+>   	if (edid_block_status_valid(status, edid_block_tag(base_block)))
+>   		panel_id = edid_extract_panel_id(base_block);
+> +	else
+> +		edid_block_dump(KERN_NOTICE, base_block, 0);
+>   
+>   	kfree(base_block);
+>   
