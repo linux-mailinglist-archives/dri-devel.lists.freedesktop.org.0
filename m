@@ -1,72 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1E8607855
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 15:24:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEE26078D3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Oct 2022 15:46:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8822110E664;
-	Fri, 21 Oct 2022 13:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA5B10E2D5;
+	Fri, 21 Oct 2022 13:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D109310E679
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:24:49 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id bv10so4852103wrb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 06:24:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Ihwjot/dYV8gpdncYn3dxDmC63eFQdqeYLHCPOfEipg=;
- b=tm6RE9W9SJfdGyaDYoyiP6dvRI1bG01hT9T7vOUAR/6SCfAUIf/dniBAdoXacXYEO0
- 11+qXcvgk+8fXBxhGzAIz/Ztv2drf1js03K1OQyqi0cDxE29rgQEia7t8Rc9/dMnIkH+
- 8dizoYr25a77m9AqcCAkUJM+8SvOqmnt5hb9tWxS5GykyBx0Wy5M4fu2Zlmflyalycbi
- RQ38cnfSgbNZn3Dmm2/VG0QUC21UpuoU5n0bu1e8yq16VxFFMN5QWyB3P2v8UIxbtGqw
- svOBAC0rS06KAPBfApjJnSJZNnfnQVLOAFtN99nJSvIXm+nRUvSpdragj8RRAdPyocil
- c65Q==
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0963410E2D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 13:46:12 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id bk15so4848557wrb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Oct 2022 06:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HTW1ak8VzXpCI08r4eBk6oGot7zwzXVhKo5pydkpeYg=;
+ b=p1qqqicfd4r4KTGeXyghw0nEbDqVKLwzb+v2Q89PWDLhSZYh5+ZNmQsn9Gk0/gTjLL
+ yrLxbqEqhTRSVKYjODNy5fih1v9iBQs45CWaiIe6vGx1uaURFTdo6N+stQCSllMtnTni
+ +7YOlQ3gPs6dDl9KVwizvRzMWe6lV/aZKCwqGqRVFwCKzUioalpoN+zqttWFZOyv2y14
+ gOEyziwXYrCkKDH1iCVow+VORlgju91uLXUSAAC2cLiRheYfAcYwjrLqoYC+v0GbrGSx
+ hFKBNBKEIoaMt1FXYSCdj8LKUl5eQxWGzMJrkkOFRHsQL8G5EYACYRvM7REYhO9hxiqG
+ 8L/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ihwjot/dYV8gpdncYn3dxDmC63eFQdqeYLHCPOfEipg=;
- b=0eQaXjiw+JXnQYC9XxCJpF6Sn+yteqFRQMh2ZTTTNRHfZ73bjf4lk1jqXWqIih4zeO
- AxynR07TW8hUcPtzn0f9Nk1zeStCNcN8mr/a2fF64BnEU4LkSkoNliwd1jly805Wws3N
- kfP/GQ95FzjGRTO277HqVua3q9c6Lhxj5YuNfNDiX+carqMLcGLsL+EgLIg4rQ/yB6uF
- sCEphlxPQMUmTskSKV0CbirfzsFJeSWTC0ADHdYInWxXlrRwOF6Qza08llSCK442cHf0
- Re7NiGbuRfYejLsnPieo7ak2PaQ3pBSoqqr1tETcZyjDtpv76OcB15cGNT+4Hk6GmpfX
- uBdA==
-X-Gm-Message-State: ACrzQf0bK/Qg2sBmM44oujX1YZhUaA2uvkYQV0wXREODIDJpWq4nP8eX
- bgQQh0V2n+DO+ApPjLGG+etNpQ==
-X-Google-Smtp-Source: AMsMyM5LAMpg+wQ8yeHpWlL27GjaAM7iPFACl30NQbSdsxzQ4u5vm8tvdXI3CordRzKGlvVAJRB2Bg==
-X-Received: by 2002:adf:e189:0:b0:22e:cbf4:1148 with SMTP id
- az9-20020adfe189000000b0022ecbf41148mr12173858wrb.47.1666358688360; 
- Fri, 21 Oct 2022 06:24:48 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:8104:adb4:5d77:2050?
- ([2a01:e0a:982:cbb0:8104:adb4:5d77:2050])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HTW1ak8VzXpCI08r4eBk6oGot7zwzXVhKo5pydkpeYg=;
+ b=uHLXet83x2kNnFr4Hiu3ExhNxG8YjkAitjeKaAgdfihDL3uJLT+fXr9caWN5JgUDnK
+ n3dDQDWn31XNFuTfnKaHIAsG2k0yxNUMzjC51ds1FV4J4cm9DStJJv7NHdf1+L94CX1S
+ lEUga8ETy7cZ7W/w+wMIAHGZ/22iosZmiXcQkMarFMyOgEi4282yyeR3hWgsV1hZN9Uy
+ Cic18PXOkZY8Sm/dJqvLq4gGpRu4AEwx1y0ZPUBQsA0vXSb5w9unsOuOOXA833ih75kZ
+ rcvbiKeRQuCq7NqtOuTrwz/rvk9N5ys51XpQebOy24OhZGKVAz1t9Y64J/H2Vvx+5Bwz
+ sZMQ==
+X-Gm-Message-State: ACrzQf2Z3UUKZsKxMAaGj6Bd53ZSJdeaBjl3/pmYFXNreRRF5+NxOxV/
+ G2BxGDvPIrVy7F6GMhyJ6DA=
+X-Google-Smtp-Source: AMsMyM5EJnFWhH5Op3x2LjXVu/A/2KGcxz3mtqjBA6sl524eV9v2p83Y2K5kU504CX5uXWoyFR0NGQ==
+X-Received: by 2002:a05:6000:713:b0:232:bd2e:8620 with SMTP id
+ bs19-20020a056000071300b00232bd2e8620mr12587712wrb.139.1666359970448; 
+ Fri, 21 Oct 2022 06:46:10 -0700 (PDT)
+Received: from [192.168.2.181] (46-10-149-153.ip.btc-net.bg. [46.10.149.153])
  by smtp.gmail.com with ESMTPSA id
- z23-20020a1cf417000000b003c6b874a0dfsm3132370wma.14.2022.10.21.06.24.47
+ c192-20020a1c35c9000000b003c6fb525b4csm2580252wma.38.2022.10.21.06.46.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 06:24:48 -0700 (PDT)
-Message-ID: <21631637-6313-550e-dfd1-94b0c318a9ec@linaro.org>
-Date: Fri, 21 Oct 2022 15:24:47 +0200
+ Fri, 21 Oct 2022 06:46:10 -0700 (PDT)
+Message-ID: <82bdc429-f4c8-5a41-cd6f-53bae1609ca9@gmail.com>
+Date: Fri, 21 Oct 2022 16:46:08 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 1/4] gpu: drm: meson: Use devm_regulator_*get_enable*()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 17/17] drm/vmwgfx: Fix a sparse warning in kernel docs
 Content-Language: en-US
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1666357434.git.mazziesaccount@gmail.com>
- <c14058c4b7018556a78455ffef484a7ebe4d8ea2.1666357434.git.mazziesaccount@gmail.com>
-Organization: Linaro Developer Services
-In-Reply-To: <c14058c4b7018556a78455ffef484a7ebe4d8ea2.1666357434.git.mazziesaccount@gmail.com>
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20221021034400.542909-1-zack@kde.org>
+ <20221021034400.542909-18-zack@kde.org>
+From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
+In-Reply-To: <20221021034400.542909-18-zack@kde.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,89 +75,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- linux-amlogic@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2022 15:18, Matti Vaittinen wrote:
-> Simplify using the devm_regulator_get_enable_optional(). Also drop the
-> seemingly unused struct member 'hdmi_supply'.
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> 
-> ---
-> v3 => v4:
-> - split meson part to own patch
-> 
-> RFCv1 => v2:
-> - Change also sii902x to use devm_regulator_bulk_get_enable()
-> 
-> Please note - this is only compile-tested due to the lack of HW. Careful
-> review and testing is _highly_ appreciated.
-> ---
->   drivers/gpu/drm/meson/meson_dw_hdmi.c | 23 +++--------------------
->   1 file changed, 3 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 5cd2b2ebbbd3..7642f740272b 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -140,7 +140,6 @@ struct meson_dw_hdmi {
->   	struct reset_control *hdmitx_apb;
->   	struct reset_control *hdmitx_ctrl;
->   	struct reset_control *hdmitx_phy;
-> -	struct regulator *hdmi_supply;
->   	u32 irq_stat;
->   	struct dw_hdmi *hdmi;
->   	struct drm_bridge *bridge;
-> @@ -665,11 +664,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *meson_dw_hdmi)
->   
->   }
->   
-> -static void meson_disable_regulator(void *data)
-> -{
-> -	regulator_disable(data);
-> -}
-> -
->   static void meson_disable_clk(void *data)
->   {
->   	clk_disable_unprepare(data);
-> @@ -723,20 +717,9 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
->   	meson_dw_hdmi->data = match;
->   	dw_plat_data = &meson_dw_hdmi->dw_plat_data;
->   
-> -	meson_dw_hdmi->hdmi_supply = devm_regulator_get_optional(dev, "hdmi");
-> -	if (IS_ERR(meson_dw_hdmi->hdmi_supply)) {
-> -		if (PTR_ERR(meson_dw_hdmi->hdmi_supply) == -EPROBE_DEFER)
-> -			return -EPROBE_DEFER;
-> -		meson_dw_hdmi->hdmi_supply = NULL;
-> -	} else {
-> -		ret = regulator_enable(meson_dw_hdmi->hdmi_supply);
-> -		if (ret)
-> -			return ret;
-> -		ret = devm_add_action_or_reset(dev, meson_disable_regulator,
-> -					       meson_dw_hdmi->hdmi_supply);
-> -		if (ret)
-> -			return ret;
-> -	}
-> +	ret = devm_regulator_get_enable_optional(dev, "hdmi");
-> +	if (ret != -ENODEV)
-> +		return ret;
->   
->   	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
->   						"hdmitx_apb");
+From: Martin Krastev <krastevm@vmware.com>
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+On 21.10.22 г. 6:44 ч., Zack Rusin wrote:
+> From: Zack Rusin <zackr@vmware.com>
+>
+> Fixes a warning about extra docs about a function argument that has been
+> removed a while back:
+> drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c:3888: warning: Excess function
+> parameter 'sync_file' description in 'vmw_execbuf_copy_fence_user'
+>
+> Fixes: a0f90c881570 ("drm/vmwgfx: Fix stale file descriptors on failed usercopy")
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> ---
+>   drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> index c943ab801ca7..f16fc489d725 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -3869,7 +3869,6 @@ int vmw_execbuf_fence_commands(struct drm_file *file_priv,
+>    * @fence: Pointer to the fenc object.
+>    * @fence_handle: User-space fence handle.
+>    * @out_fence_fd: exported file descriptor for the fence.  -1 if not used
+> - * @sync_file:  Only used to clean up in case of an error in this function.
+>    *
+>    * This function copies fence information to user-space. If copying fails, the
+>    * user-space struct drm_vmw_fence_rep::error member is hopefully left
+
+Phantom arg doc goodbye!
+
+
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+
+
+Regards,
+Martin
 
