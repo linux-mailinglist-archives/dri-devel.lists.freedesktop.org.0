@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFD2608B11
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 11:27:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71166608B2D
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 11:59:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8808C10E396;
-	Sat, 22 Oct 2022 09:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9216F10E207;
+	Sat, 22 Oct 2022 09:59:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA9E010E396
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 09:26:57 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id bp15so8992015lfb.13
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 02:26:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1kfDym2w0EElbmcx/BQsQ1yL8gt2nPkuv3T3pwbFJXM=;
- b=AmJhrDspddvLWhmS4pMWph+wgnz0kCDTGG9e6m9KejeBzZnmCn8RbMwMdUY8Om0zSY
- esqdVjSeZYTlyqF40HTOQ0uPpUCUbTLkVU7U6TKI/CTzkTwaEBoLVWz/x7QyvxiScijF
- SJavKFtjZvdmgNtsbnuDH4yppWfSZ6yg9w21TrK72j2o7GgW7eNrGgvGZAjqVTwNdkQX
- 4lSNPJafEEq6liwUhw8vzVGrKULPlITvKT1ZdTZgAtiI64aJh3qn1mITHNU4uSMNP2Yz
- RODCSzYRcKtG9JhlHxFHgvuKqtoi9Rf73cajMk2MROpQl5MZu+iUt6JzFZvXHoK4ntnh
- JmZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1kfDym2w0EElbmcx/BQsQ1yL8gt2nPkuv3T3pwbFJXM=;
- b=sX2IkGSKHQBSgEOowRLEiQJdSEqhW0PXm+h/3B6w8yrzTgJmhAYKqp579l/pU2SxkK
- 8G4tXhKZDUE8Zy1wX5Ey9r+Dr0zMyZR0cEja/Wwm+LpmcOi+z2mwdWwHQZFLc+jz2o4X
- k2LDppPfceCrC9D3IrGAUr0chkC4s+JOSwnpWxSu7UFa+ZNxYnutt+dHb4X6NSbRIOam
- Cgi4DCVlW73WD7jW0njWwtpDaGQq1lA9gMeds007ACCh4hPudxup6EhMEKW7U//lwHLS
- 2IcJPjjZcO7DNvpPqFlhSR48tkNXpdg+KvfkxGhhU3BWyXrZMXHm58aeWu/lcwRMFPpj
- oDsw==
-X-Gm-Message-State: ACrzQf2NA5I2iXPoNfEeoFGAEmH/NeIxhXGhiC3m6Mg3XRcwOd/ivLyL
- caLwCS7TPlN6DhYEjr5vZNPHAg==
-X-Google-Smtp-Source: AMsMyM7dYOLwfD3xuUFQ4hZaTYV/X1nIweNJwQA3r2rbLyyBTwJl35wFPsRQKl3boAFc3N3EcBShoQ==
-X-Received: by 2002:ac2:50cf:0:b0:4a2:a581:6411 with SMTP id
- h15-20020ac250cf000000b004a2a5816411mr7718493lfm.124.1666430815240; 
- Sat, 22 Oct 2022 02:26:55 -0700 (PDT)
-Received: from [10.27.10.248] ([195.165.23.90])
- by smtp.gmail.com with ESMTPSA id
- o4-20020ac25e24000000b0049fe6f36880sm3498101lfg.51.2022.10.22.02.26.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Oct 2022 02:26:54 -0700 (PDT)
-Message-ID: <80f060fc-142f-7876-0eb9-cbd2b3e46789@linaro.org>
-Date: Sat, 22 Oct 2022 12:26:53 +0300
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C87E410E207
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 09:59:39 +0000 (UTC)
+X-UUID: af1b8d3cee45410c9eb4e3a4edeb4a0c-20221022
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=dM4knmEbXoLi8Z8yhKlsNzUq6m5aHXU9IxgQE5YBYsI=; 
+ b=tUMYCKd9MtUWGWC3wnXC4Ikdc6lUQjLeGv13Aq8Yb7Ov0sW5+8hhvy/XlcePFOTg4c0AxgMdg1M6+rI4DvTc21vKENRrmJO0NvbAaSnNee4w+p92tRp3eoMIQHAC4uu+rghAGy3Bo6ngU7ZCjd13Wl9p5+hDkyBf9J3opUVSzSE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12, REQID:b701eaf6-af06-4ee6-88db-5f2d8eb36ed4, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:62cd327, CLOUDID:ce2054e4-e572-4957-be22-d8f73f3158f9,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: af1b8d3cee45410c9eb4e3a4edeb4a0c-20221022
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1789908679; Sat, 22 Oct 2022 17:59:32 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Sat, 22 Oct 2022 17:59:30 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Sat, 22 Oct 2022 17:59:30 +0800
+Message-ID: <a9e4a225a1f713d9d0909c3e77a997f358829feb.camel@mediatek.com>
+Subject: Re: [PATCH v12,1/3] soc: mediatek: Add all settings to
+ mtk_mmsys_ddp_dpi_fmt_config func
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
+Date: Sat, 22 Oct 2022 17:59:37 +0800
+In-Reply-To: <20221021151423.6lube6aqtqahwpwf@notapiano>
+References: <1666147936-27368-1-git-send-email-xinlei.lee@mediatek.com>
+ <1666147936-27368-2-git-send-email-xinlei.lee@mediatek.com>
+ <20221020163310.tpkjvr7pe5vhwylh@notapiano>
+ <28c0e6890daeb6bf17779243b23f60fa138b2fd2.camel@mediatek.com>
+ <20221021151423.6lube6aqtqahwpwf@notapiano>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v2] drm/msm/mdp5: stop overriding drvdata
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20221021192641.2423237-1-dmitry.baryshkov@linaro.org>
- <778ae711-50a4-ae37-db18-8faa26f4c0ae@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <778ae711-50a4-ae37-db18-8faa26f4c0ae@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,166 +68,332 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, rex-bc.chen@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/10/2022 00:58, Abhinav Kumar wrote:
-> Hi Dmitry
+On Fri, 2022-10-21 at 11:14 -0400, Nícolas F. R. A. Prado wrote:
+> On Fri, Oct 21, 2022 at 07:59:02PM +0800, xinlei.lee wrote:
+> > On Thu, 2022-10-20 at 12:33 -0400, Nícolas F. R. A. Prado wrote:
+> > > Hi,
+> > > 
+> > > On Wed, Oct 19, 2022 at 10:52:14AM +0800, xinlei.lee@mediatek.com
+> > > wrote:
+> > > > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > > > 
+> > > > The difference between MT8186 and other ICs is that when
+> > > > modifying
+> > > > the
+> > > > output format, we need to modify the mmsys_base+0x400 register
+> > > > to
+> > > > take
+> > > > effect.
+> > > > So when setting the dpi output format, we need to call
+> > > > mmsys_func
+> > > > to set
+> > > 
+> > > mmsys_func isn't something that exists in the code. Instead
+> > > mention
+> > > the actual
+> > > function name: mtk_mmsys_ddp_dpi_fmt_config.
+> > > 
+> > > > it to MT8186 synchronously.
+> > > 
+> > > 
+> > > Here, before saying that the commit adds all the settings for
+> > > dpi,
+> > > you could
+> > > have mentioned that the previous commit lacked those, to make it
+> > > clearer:
+> > > 
+> > > Commit a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to
+> > > dpi
+> > > output for MT8186")
+> > > lacked some of the possible output formats and also had a wrong
+> > > bitmask.
+> > > 
+> > > 
+> > > > Adding mmsys all the settings that need to be modified with dpi
+> > > > are
+> > > > for
+> > > > mt8186.
+> > > 
+> > > This sentence I would change to the following one:
+> > > 
+> > > Add the missing output formats and fix the bitmask.
+> > > 
+> > > 
+> > > Finally, you're also making the function more HW-agnostic
+> > > (although
+> > > in my
+> > > opinion this could've been a future separate commit), so it's
+> > > worth
+> > > mentioning
+> > > it here:
+> > > 
+> > > While at it, also update mtk_mmsys_ddp_dpi_fmt_config() to use
+> > > generic formats,
+> > > so that it is slightly easier to extend for other platforms.
+> > > 
+> > > > 
+> > > > Fixes: a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to
+> > > > dpi
+> > > > output for MT8186")
+> > > 
+> > > The fixes tag should be kept in a single line, without wrapping.
+> > > 
+> > > > 
+> > > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > > > Reviewed-by: AngeloGioacchino Del Regno <
+> > > > angelogioacchino.delregno@collabora.com>
+> > > > Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> > > > ---
+> > > >  drivers/soc/mediatek/mt8186-mmsys.h    |  8 +++++---
+> > > >  drivers/soc/mediatek/mtk-mmsys.c       | 27
+> > > > ++++++++++++++++++++
+> > > > ------
+> > > >  include/linux/soc/mediatek/mtk-mmsys.h |  7 +++++++
+> > > >  3 files changed, 33 insertions(+), 9 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/soc/mediatek/mt8186-mmsys.h
+> > > > b/drivers/soc/mediatek/mt8186-mmsys.h
+> > > > index 09b1ccbc0093..035aec1eb616 100644
+> > > > --- a/drivers/soc/mediatek/mt8186-mmsys.h
+> > > > +++ b/drivers/soc/mediatek/mt8186-mmsys.h
+> > > > @@ -5,9 +5,11 @@
+> > > >  
+> > > >  /* Values for DPI configuration in MMSYS address space */
+> > > >  #define MT8186_MMSYS_DPI_OUTPUT_FORMAT		0x400
+> > > > -#define DPI_FORMAT_MASK					
+> > > > 0x1
+> > > > -#define DPI_RGB888_DDR_CON				BIT(0)
+> > > > -#define DPI_RGB565_SDR_CON				BIT(1)
+> > > > +#define DPI_FORMAT_MASK					
+> > > > GENMASK
+> > > > (1, 0)
+> > > > +#define DPI_RGB888_SDR_CON				0
+> > > > +#define DPI_RGB888_DDR_CON				1
+> > > > +#define DPI_RGB565_SDR_CON				2
+> > > > +#define DPI_RGB565_DDR_CON				3
+> > > 
+> > > These defines should all have a MT8186_ prefix. This will avoid
+> > > confusions now
+> > > that mtk_mmsys_ddp_dpi_fmt_config() is being made more platform-
+> > > agnostic.
+> > > 
+> > > >  
+> > > >  #define MT8186_MMSYS_OVL_CON			0xF04
+> > > >  #define MT8186_MMSYS_OVL0_CON_MASK			0x3
+> > > > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> > > > b/drivers/soc/mediatek/mtk-mmsys.c
+> > > > index d2c7a87aab87..205f6de45851 100644
+> > > > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > > > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > > > @@ -238,12 +238,27 @@ static void mtk_mmsys_update_bits(struct
+> > > > mtk_mmsys *mmsys, u32 offset, u32 mask,
+> > > >  
+> > > >  void mtk_mmsys_ddp_dpi_fmt_config(struct device *dev, u32 val)
+> > > >  {
+> > > > -	if (val)
+> > > > -		mtk_mmsys_update_bits(dev_get_drvdata(dev),
+> > > > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > > > -				      DPI_RGB888_DDR_CON,
+> > > > DPI_FORMAT_MASK);
+> > > > -	else
+> > > > -		mtk_mmsys_update_bits(dev_get_drvdata(dev),
+> > > > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > > > -				      DPI_RGB565_SDR_CON,
+> > > > DPI_FORMAT_MASK);
+> > > > +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> > > > +
+> > > > +	switch (val) {
+> > > > +	case MTK_DPI_RGB888_SDR_CON:
+> > > > +		mtk_mmsys_update_bits(mmsys,
+> > > > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > > > +				      DPI_FORMAT_MASK,
+> > > > DPI_RGB888_SDR_CON);
+> > > > +		break;
+> > > > +	case MTK_DPI_RGB565_SDR_CON:
+> > > > +		mtk_mmsys_update_bits(mmsys,
+> > > > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > > > +				      DPI_FORMAT_MASK,
+> > > > DPI_RGB565_SDR_CON);
+> > > > +		break;
+> > > > +	case MTK_DPI_RGB565_DDR_CON:
+> > > > +		mtk_mmsys_update_bits(mmsys,
+> > > > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > > > +				      DPI_FORMAT_MASK,
+> > > > DPI_RGB565_DDR_CON);
+> > > > +		break;
+> > > > +	case MTK_DPI_RGB888_DDR_CON:
+> > > > +	default:
+> > > > +		mtk_mmsys_update_bits(mmsys,
+> > > > MT8186_MMSYS_DPI_OUTPUT_FORMAT,
+> > > > +				      DPI_FORMAT_MASK,
+> > > > DPI_RGB888_DDR_CON);
+> > > > +		break;
+> > > > +	}
+> > > 
+> > > To be honest I don't really see the point of making the function
+> > > slightly more
+> > > platform-agnostic like this. With a single platform making use of
+> > > it
+> > > it's just
+> > > an unneeded extra abstraction, and it could easily be done when a
+> > > second
+> > > platform starts requiring this as well...
+> > > 
+> > > In any case,
+> > > 
+> > > Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > > 
+> > > Thanks,
+> > > Nícolas
+> > > 
+> > > >  }
+> > > 
+> > > [..]
+> > 
+> > Hi Nícolas:
+> > 
+> > Thanks for your detailed reply and correction.
+> > Before sending out the next edition, I have two questions I would
+> > like 
+> > to confirm with you in response to your responses:
+> > 1.While at it, also update mtk_mmsys_ddp_dpi_fmt_config() to use 
+> > generic formats, so that it is slightly easier to extend for other 
+> > platforms.
+> > => This is to make this mtk_mmsys_ddp_dpi_fmt_config() func more 
+> > general? 
+> > This function may only be used by MT8186, because only MT8186
+> > has 
+> > corresponding modifications on HW, and enables the registers
+> > reserved 
+> > in mmsys for dpi use to control the output format. Because this 
+> > register is not defined for other ic, I added control to this
+> > function 
+> > call in mtk_dpi.c. If you think there are other ways to make it
+> > look 
+> > more generic, where should I correct it?
 > 
-> A couple of comments below.
+> You already made the mtk_mmsys_ddp_dpi_fmt_config() more generic by
+> making it's
+> format parameter decoupled from its register representation on
+> MT8186, that is,
+> MTK_DPI_RGB888_SDR_CON instead of DPI_RGB888_SDR_CON.
 > 
-> On 10/21/2022 12:26 PM, Dmitry Baryshkov wrote:
->> The rest of the code expects that master's device drvdata is the
->> struct msm_drm_private instance. Do not override the mdp5's drvdata.
->>
->> Fixes: 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master components")
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->> Abhinav, Rob, please pick this for -fixes.
->>
->> This is an updated version of [1]. Fixed the read_mdp_hw_revision()
->> function. PM runtime isn't available at the moment, as priv->kms is not
->> set.
+> I wasn't asking for any code modification on that comment, I was
+> suggesting you
+> add this sentence in the commit message, so it reflects the changes
+> you're
+> already doing.
 > 
-> Can you split them into two changes?
-
-I can, but this would look a bit artificial.
-
-Before the patch [1] there is no need to fix read_hw_revision, as 
-pm_runtime_resume works correctly. And after [1] read_hw_revision can 
-fail because pm_runtime_resume() wouldn't work before priv->kms being set
-
+> To be extra clear, I was suggesting you update the commit message to
+> the
+> following:
 > 
-> Any reason fixing the read_mdp_hw_revision() needs to be in this?
->>
->> [1] https://patchwork.freedesktop.org/patch/490326/?series=105392&rev=1
->>
->> ---
->>   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 37 ++++++++++++++----------
->>   1 file changed, 22 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c 
->> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->> index b0d21838a134..506c64940972 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->> @@ -203,7 +203,7 @@ static int mdp5_set_split_display(struct msm_kms 
->> *kms,
->>                                 slave_encoder);
->>   }
->> -static void mdp5_destroy(struct platform_device *pdev);
->> +static void mdp5_destroy(struct mdp5_kms *mdp5_kms);
->>   static void mdp5_kms_destroy(struct msm_kms *kms)
->>   {
->> @@ -223,7 +223,7 @@ static void mdp5_kms_destroy(struct msm_kms *kms)
->>       }
->>       mdp_kms_destroy(&mdp5_kms->base);
->> -    mdp5_destroy(mdp5_kms->pdev);
->> +    mdp5_destroy(mdp5_kms);
->>   }
->>   #ifdef CONFIG_DEBUG_FS
->> @@ -519,9 +519,15 @@ static void read_mdp_hw_revision(struct mdp5_kms 
->> *mdp5_kms,
->>       struct device *dev = &mdp5_kms->pdev->dev;
->>       u32 version;
->> -    pm_runtime_get_sync(dev);
->> +    /* Manually enable the MDP5, as pm runtime isn't usable yet */
->> +    if (mdp5_enable(mdp5_kms)) {
+>   The difference between MT8186 and other ICs is that when modifying
+> the output
+>   format, we need to modify the mmsys_base+0x400 register to take
+> effect. So when
+>   setting the dpi output format, we need to call
+> mtk_mmsys_ddp_dpi_fmt_config to
+>   set it to MT8186 synchronously.
+>   
+>   Commit a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi
+> output for
+>   MT8186") lacked some of the possible output formats and also had a
+> wrong
+>   bitmask.
+>   
+>   Add the missing output formats and fix the bitmask.
+>   
+>   While at it, also update mtk_mmsys_ddp_dpi_fmt_config() to use
+> generic formats,
+>   so that it is slightly easier to extend for other platforms.
+>   
+>   Fixes: a071e52f75d1 ("soc: mediatek: Add mmsys func to adapt to dpi
+> output for MT8186")
 > 
-> mdp5_enable() always seems to return 0 so do we need this if block?
-
-No.
-
+> > 
+> > 2. These definitions should all have a MT8186_ prefix. This will
+> > avoid 
+> > confusion as mtk_mmsys_ddp_dpi_fmt_config() becomes more platform 
+> > independent.
+> > 
+> > Honestly, I don't really see the point of making the feature
+> > platform-
+> > agnostic like this. Using it on a single platform is just an extra 
+> > abstraction that isn't needed, when a second platform starts
+> > needing 
+> > it too, it can be done easily...
+> > 
+> > => My understanding here is that prefixing variables with labels
+> > is 
+> > more conducive to making functions generic, and can be reused if
+> > there 
+> > is such a situation in the future. I understand the importance of 
+> > keeping the function platform agnostic, but as mentioned, it may
+> > only 
+> > be used by the MT8186 if there are special cases where other ICs
+> > may 
+> > rely on mtk_mmsys_update_bits to create new functions.
 > 
->> +        *major = 0;
->> +        *minor = 0;
->> +        return;
->> +    }
->> +
->>       version = mdp5_read(mdp5_kms, REG_MDP5_HW_VERSION);
->> -    pm_runtime_put_sync(dev);
->> +    mdp5_disable(mdp5_kms);
->>       *major = FIELD(version, MDP5_HW_VERSION_MAJOR);
->>       *minor = FIELD(version, MDP5_HW_VERSION_MINOR);
->> @@ -559,6 +565,8 @@ static int mdp5_kms_init(struct drm_device *dev)
->>       int irq, i, ret;
->>       ret = mdp5_init(to_platform_device(dev->dev), dev);
->> +    if (ret)
->> +        return ret;
->>       /* priv->kms would have been populated by the MDP5 driver */
->>       kms = priv->kms;
->> @@ -632,9 +640,8 @@ static int mdp5_kms_init(struct drm_device *dev)
->>       return ret;
->>   }
->> -static void mdp5_destroy(struct platform_device *pdev)
->> +static void mdp5_destroy(struct mdp5_kms *mdp5_kms)
->>   {
->> -    struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
->>       int i;
->>       if (mdp5_kms->ctlm)
->> @@ -648,7 +655,7 @@ static void mdp5_destroy(struct platform_device 
->> *pdev)
->>           kfree(mdp5_kms->intfs[i]);
->>       if (mdp5_kms->rpm_enabled)
->> -        pm_runtime_disable(&pdev->dev);
->> +        pm_runtime_disable(&mdp5_kms->pdev->dev);
->>       drm_atomic_private_obj_fini(&mdp5_kms->glob_state);
->>       drm_modeset_lock_fini(&mdp5_kms->glob_state_lock);
->> @@ -797,8 +804,6 @@ static int mdp5_init(struct platform_device *pdev, 
->> struct drm_device *dev)
->>           goto fail;
->>       }
->> -    platform_set_drvdata(pdev, mdp5_kms);
->> -
->>       spin_lock_init(&mdp5_kms->resource_lock);
->>       mdp5_kms->dev = dev;
->> @@ -839,9 +844,6 @@ static int mdp5_init(struct platform_device *pdev, 
->> struct drm_device *dev)
->>        */
->>       clk_set_rate(mdp5_kms->core_clk, 200000000);
->> -    pm_runtime_enable(&pdev->dev);
->> -    mdp5_kms->rpm_enabled = true;
->> -
->>       read_mdp_hw_revision(mdp5_kms, &major, &minor);
->>       mdp5_kms->cfg = mdp5_cfg_init(mdp5_kms, major, minor);
->> @@ -893,10 +895,13 @@ static int mdp5_init(struct platform_device 
->> *pdev, struct drm_device *dev)
->>       /* set uninit-ed kms */
->>       priv->kms = &mdp5_kms->base.base;
->> +    pm_runtime_enable(&pdev->dev);
->> +    mdp5_kms->rpm_enabled = true;
->> +
->>       return 0;
->>   fail:
->>       if (mdp5_kms)
->> -        mdp5_destroy(pdev);
->> +        mdp5_destroy(mdp5_kms);
->>       return ret;
->>   }
->> @@ -953,7 +958,8 @@ static int mdp5_dev_remove(struct platform_device 
->> *pdev)
->>   static __maybe_unused int mdp5_runtime_suspend(struct device *dev)
->>   {
->>       struct platform_device *pdev = to_platform_device(dev);
->> -    struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
->> +    struct msm_drm_private *priv = platform_get_drvdata(pdev);
->> +    struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
->>       DBG("");
->> @@ -963,7 +969,8 @@ static __maybe_unused int 
->> mdp5_runtime_suspend(struct device *dev)
->>   static __maybe_unused int mdp5_runtime_resume(struct device *dev)
->>   {
->>       struct platform_device *pdev = to_platform_device(dev);
->> -    struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
->> +    struct msm_drm_private *priv = platform_get_drvdata(pdev);
->> +    struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
->>       DBG("");
+> What I'm saying is that, even though you've made the function receive
+> a generic
+> format as a parameter, like MTK_DPI_RGB888_SDR_CON, at this point in
+> time
+> MT8186 is the only SoC that has a register in mmsys for it, so the
+> values
+> 
+> DPI_FORMAT_MASK
+> DPI_RGB888_SDR_CON
+> DPI_RGB888_DDR_CON
+> DPI_RGB565_SDR_CON
+> DPI_RGB565_DDR_CON
+> 
+> are really all MT8186-specific, at least at this point. Leaving them
+> without the
+> MT8186_ can give the false impression that they're already used
+> elsewhere. Also
+> it's really easy to mistake them for the generic ones (like
+> MTK_DPI_RGB888_SDR_CON). MT8186_MMSYS_DPI_OUTPUT_FORMAT already has
+> the MT8186_
+> prefix, so I'm really just saying that the other ones should have as
+> well.
+> 
+> If/when the same address, mask or values for this register start
+> being used on a
+> different SoC, then you can remove the prefix and move it to the mtk-
+> mmsys.h
+> generic header.
+> 
+> But for now adding the prefixes will avoid confusion and make it
+> clear this is
+> MT8186 specific.
+> 
+> Thanks,
+> Nícolas
 
--- 
-With best wishes
-Dmitry
+Hi Nícolas:
+
+Thanks for the detailed explanation and correction, I understand that 
+these values in the mt8186-mmsys.h file should be given:
+DPI_FORMAT_MASK
+DPI_RGB888_SDR_CON
+DPI_RGB888_DDR_CON
+DPI_RGB565_SDR_CON
+DPI_RGB565_DDR_CON
+
+Add the prefix of MT8186_ to avoid confusion, it does look generic in 
+the mtk_mmsys_update_bits() function.
+
+Thanks again for your suggestion, I will revise it in the next edition.
+
+Best Regards!
+xinlei
 
