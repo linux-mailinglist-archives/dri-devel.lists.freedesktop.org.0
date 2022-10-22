@@ -2,148 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF21F60832E
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 03:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E81608330
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 03:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F02410E6A5;
-	Sat, 22 Oct 2022 01:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D561510E6A0;
+	Sat, 22 Oct 2022 01:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D4B10E6A0;
- Sat, 22 Oct 2022 01:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666402742; x=1697938742;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=bktCH4FECIL7rAXUwaUWJIf4JD12rNqJIa/uhv0PQM8=;
- b=GCLi3CLXCWD/N3Ztp3+8eAjqXCTVtTonWmx+z2f9CJwfa0w2/FzhbYSA
- cCkE+OcCnj0fp7zq7PzevjYgCDAn6VeXPLgRzL9h+0TP7n/OO9YnbbbKP
- U3I4fNdrSqVkhfScAYeeZ4LBO1ECktAtZHppv/iuYi4+I2R/UPFpO9wQV
- peVCrho55bsC1N9hz1P4HRLxWAuO0/idUWdFtU+6g21TCZRLD7nyCGCqs
- u4T/T81eg2rGFiQBuuTsTmDAqwnypy0/AT//Cjh82XayUENczfCVWo7FF
- RRrJM3HV6g7vH5wUaAs711sgbXCHD1qjYFhffQjcAlUovFE24xeCEtx8k A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="287543854"
-X-IronPort-AV: E=Sophos;i="5.95,203,1661842800"; d="scan'208";a="287543854"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2022 18:39:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="735782890"
-X-IronPort-AV: E=Sophos;i="5.95,203,1661842800"; d="scan'208";a="735782890"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2022 18:39:01 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 18:39:01 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 21 Oct 2022 18:39:01 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 21 Oct 2022 18:39:01 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8619A10E6A0
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 01:43:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SltwmC21D5LVVOrKTQaKXz5IgpjwMSRgU1349X3L7Zm6TST/C36OK4Gl8htKA8wtO8xGgPMrC7MrBbvjTXN+QyIfC4iUeNZHASExRpSRc6IIrAmnGUhW8yz8VdFj4xdf68EfxINonS7Wolspi6OYxpXILbbZmYNq1kQsK3M3cIxyD+APi6WajbvCCHm6eR4l7pvD6zwLGNgzP6EKd6a99b6+TRLgLPWaGNVnbb2LtShveWXjneywotPiFc5FYEcmOO7imhOHvwSpYxOD2PZrOF6Q7SJMnYmXJ72hNtkvAiyQuwb6t5PNLOlXpB6jenowJQTbYlLdKzm22G5c7p4QNw==
+ b=WBbAHVBGdsRQTEQ0FL435BWFZJMK+pfqj8XeKmIQ3GYfzf18zfo9DKYxg1QVYZkGO1aoEXNCwdDw10PILb+2GPAhHw6ZppulzCEMTW/ouYEq03sduqrZP9L6QHp8cltDZQURC8mMepFlP1Vd+xacKLV9lF1vUB6B/7VAzm2E/7Wg0+8iDx7BDpIKjWpXSRY/d8wJn5JGUlt+nUvUqJhAAYZHyc83K7NA5LZ4hVZU6+Szj/TO5DXgg0f/hAxAro5Nlm40TgfCVp9qSTw+yojVT/S4QWyddvH5O7mBDvRBkQjWN8ReD0a259ClrO61yQ7x6teWvz8why1sIBmr4pX5fg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ytxwhQcjgHN27Bl9a3tlfrJillEJO/q/KAs93iv8e1U=;
- b=fGC/w9nYDuKhnEm/l8n+6tHoOJ1f3zO6kzFpVwqcprkttBSmblJFufSmx/ZY7b9aXXOXFJ8CYHFqwFa/Q4V6be8Y9H35d2YL+4k719oRzTgx2AGSzrcthNgiSSydl8Aq7aA9WB6bo3NGPw4z8MokuV9ejZCYH22qWJKJDp2h8RVmGxkR8OeVENJXlaoOFnP5GHsgNnl6tFDXzTZ5/9NQuoLDc3pVJc7o28pNKWDy4cmKuwfv7wwJBtuJpBKnZktp+NN6G2EDhZC/WyfKzn5uK2QhLvJJ4qLOuQsR/GajJn0jGQD/Sne44dhs7PYHBZ5xRJ2c+eBcduPE7I4+Ku2k9g==
+ bh=OgAOKeEqzuMGmMMzyyM8xghNuhc6I5f14ZNSfSLuJlU=;
+ b=ffA8IjJVVz8lm3vYiPM5boT5Isk/PF50A1T/IYXY8lgzUcQIXM6UEDdPP+EyfH9jsGI9fB3vR5UrRDdzPiKTByCY+P7hdWJpSaku7+tTGv4yMNFQUGrbGLJ7TqD7cV4enaL8Grh5jdqMttFHe1q9KkIrKta0hCV5OrGkuHWmIZ7/6ynpqMXV23VCv4EUT9lG/18klE+qgj5eXaLejg5zP+Qq0j5FeVrMNKWMlseayO+xI1CijX0uPyPp473Ozdp4WNfXEP/+P2+E6NAntJSTY/MfR85IIl9iwuFGbWOwdQB2wkwwNv+kGcVknBuZwJKB5zC4u4uTYw2qxltmuyVVkA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OgAOKeEqzuMGmMMzyyM8xghNuhc6I5f14ZNSfSLuJlU=;
+ b=US+VRUP50MathL472DwC7zixymhbCXHHqv/MR3ZAKNloQoylyByTcUODc24xErUW2w/Gu1lfnJBInwx6b5cCJy4DAKHD0qEl8W1DTHDesqjDLzFy188hmwANBHmYE4DIv6vy/nurusHxMXLuVFmQEkPitnat/waVFotbawZn2io=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com (2603:10b6:a03:1c1::23)
- by CH0PR11MB5315.namprd11.prod.outlook.com (2603:10b6:610:be::7) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ SN7PR12MB6958.namprd12.prod.outlook.com (2603:10b6:806:262::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Sat, 22 Oct
- 2022 01:38:59 +0000
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::725e:5836:c99d:a1a6]) by BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::725e:5836:c99d:a1a6%5]) with mapi id 15.20.5723.033; Sat, 22 Oct 2022
- 01:38:59 +0000
-Message-ID: <30cc2c72-38f6-7d30-91f0-709b55b472fd@intel.com>
-Date: Fri, 21 Oct 2022 18:38:57 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/slpc: Use platform limits for
- min/max frequency
-Content-Language: en-US
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-References: <20221018183031.33704-1-vinay.belgaumkar@intel.com>
- <8735biqf22.wl-ashutosh.dixit@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-In-Reply-To: <8735biqf22.wl-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0063.prod.exchangelabs.com (2603:10b6:a03:94::40)
- To BY5PR11MB4274.namprd11.prod.outlook.com
- (2603:10b6:a03:1c1::23)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Sat, 22 Oct
+ 2022 01:43:37 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5723.035; Sat, 22 Oct 2022
+ 01:43:37 +0000
+Message-ID: <9e7f64dd-399a-7aec-57a1-d1eac3210d3d@amd.com>
+Date: Fri, 21 Oct 2022 21:43:30 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [RFC PATCH] drm/scheduler: Set the FIFO schedulig policy as the
+ default
+To: Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+References: <20221022010945.95560-1-luben.tuikov@amd.com>
+Content-Language: en-CA
+From: Luben Tuikov <luben.tuikov@amd.com>
+In-Reply-To: <20221022010945.95560-1-luben.tuikov@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT1PR01CA0093.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::32) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4274:EE_|CH0PR11MB5315:EE_
-X-MS-Office365-Filtering-Correlation-Id: a94f6be7-54d5-4d5c-f6c9-08dab3ce30fb
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|SN7PR12MB6958:EE_
+X-MS-Office365-Filtering-Correlation-Id: cbac0e36-b370-4f76-4c83-08dab3ced6ba
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rMDSeCftGOB8bopeVnzcxrJtMZT0ZF+bVkEqMITR1QwbFEGO0KpEwGsDhl1eysxVix1VOTYYoSHPHqjd2kG0/DnufripAX4pHTGV4J43GMDV6dUnhPtQQitfNMRUcT1SsK38xAIpr8khwU4zwobdILL+Dqu2XotuLLfS+QMqllIyKPd95TLLatb5e6RbPOmTPYDMfjwqGOVYPEdJNDLbNhkfyOx2b9jXQaJ0QxUDo0GM9tGa7YFYpPnobazauiCq+MbRYHIAvBzA17y1seOz+jPP62K3ro9sAjIWt6VISFGTW3IZTtRsqNyZlZZCB0IOHy7YJ708FHfMY0RcBgVu5oT0oVDpJsN4yBNVndEh3w/L9wioBAj2eHULCrN3LtN+aNmQbOQ7u57FX45jD406RW2VxyylzUsUXmyEQuQeiSt1PGrZAGuBl71aazoINgVSMBDFLgzYnbFsPDN46amLXs7N4sRgQah/5GGHX31ekUrXYkXqVwyn5WMELYdNIo4DVfh/Jl3VVhWoIC+Fknjr39i7YB4UkVxlalVQOCtUcPQyIgOiLhua9t7c6Bo4Vmg2rLPtHVF7cglfAFA4Go0ly6gqOq23yfYFRnXApsX1W0Z0XSvjOSsErlyHwjLkz3dGy0hyfoobQutVAiSoO11WHN1IMC5ihJrAndbYiEu1XwvuAXAKAW/VoZalSZNRd/lAZ7e8OokOjLBFxWIibMxjgmrVE4d10mPixjJsKHLNY2r0plAaHkWBmQg3ZRUYDvIpfEZAAoINP+O5dzyagtJbCnOH4rZI0XsRQhB/l7cremw=
+X-Microsoft-Antispam-Message-Info: qAFlS8cockz+fvSw5yQf6ZRgV3Etq0TJm68ywwnKbShAT8jnXrcXW/bMq0uqArsXoBH2sLs9Ijn8ZnA+w4ycXW5GdA/EyeC0lvUKKnyy/66Ko370bGQjzowl0eqtArOt9CTiWUBoDksxCGs79mRIv8D9tWnBh6NQ3DK5MEKq4TMb/2Yzo3beSVrENaRvOnNe0fD8WN93BmNuDNBd93+jstKCJHD+QcsK61mB9KwWEl+7Ig2nAdkWQ87gNa6iEzy2+/gOyK9YDKcCaRkSdhae2Joox8juRirsniXLO05GAlJfcXFUGL4DkxKJ6XgbTbQ4oeJfOOCvHCmPpvQSGcBbBTUacOBGD3TwiMoLJdgi6DsNP+lcOkxEJf1l1F4KoLz9Mw0USLcrrj5IfaL4F4WHA/Iirb3+6E2w/4WBbOvJpIXTj+5ZO3W1VaDAO/Mrfh+Xvbxzsyg98fhoJZR+9BdRCT94A8Z7vF6Q5Akb5IpTIGYl4RpQg4rXuzIdD/LP4xHNQ91Jrj0WU+1C5DL4BrNRaROUaNVdropsi7UVy2WxDVUaY6l/fVuh7wszpYTzO3zKg3VvyPcRiLzQBL6Da+JvNtIbPkZKQePPDTiwe/CEqSR7z/a5vZ6Uad8SbsK2H+VVuioVY3s3CxXy4enjRywe2UxgZJCUkAvnWI62iqSpHpQe+5VkqCYtHOxi1d5WUIp3mgOFZQfg6iQreCda5KvngkO3NNsJ0HDd4BcZduQklikz1mSCWQNSC5nsA1L5Y1VoLOYV85p2vBXgQZe0O5Z+liLjNONBxZlJH1iNziqcYYw=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4274.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(396003)(136003)(39860400002)(376002)(366004)(451199015)(478600001)(6486002)(31686004)(37006003)(6636002)(316002)(450100002)(107886003)(6512007)(66476007)(6506007)(66556008)(4326008)(8676002)(5660300002)(66946007)(36756003)(53546011)(8936002)(41300700001)(26005)(6862004)(2906002)(31696002)(83380400001)(38100700002)(2616005)(186003)(82960400001)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(39860400002)(396003)(346002)(136003)(376002)(451199015)(31686004)(8676002)(6916009)(41300700001)(86362001)(4326008)(5660300002)(66946007)(66476007)(66556008)(6666004)(36756003)(31696002)(478600001)(2906002)(4001150100001)(44832011)(8936002)(6486002)(6506007)(83380400001)(66574015)(6512007)(54906003)(316002)(186003)(38100700002)(2616005)(53546011)(26005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzZ4Y2FLNk9IR0s5QVp2aEI1dS9UNGJQTkNOK3I1WHJBd3B5WEFscnEzVlM2?=
- =?utf-8?B?bHB4cjFZS2F2dlFrTmp3QVMvVTIyenNLeDFvY0NWbzNBSGthcVU0c1psSlpW?=
- =?utf-8?B?MVJxUkptdFBueFZ5TmxocUtvVXBldGhSbmYyd09MUkxTcEdnTTc1MjJ0YXAv?=
- =?utf-8?B?Wjhyck1yTmhuTjZEMkRsbnNCOWsxZnRNOWc4TkQ1dEh4UG10V2hWL0w0Q3Nj?=
- =?utf-8?B?aE5GU0w2MTFMWTlnZUNENVRHd2FqQ3VXYytFR0o2ZHVrcUNsZlZndEwzUWxu?=
- =?utf-8?B?UktndWFUSEdzdXlQRGNxTkhkU0Q4WU8vVTBJcFcyZ0RHMDNJTTQxUXRYekdE?=
- =?utf-8?B?SVVML3JraThFTlpaVWRlMXdTM1B1b2k4TE1FK1ZVM2VZaEMrUWJvMnZsNHJi?=
- =?utf-8?B?Sldsa0dWZkZLV0hZdVhsVm5VQ1JBVEU5c0xaM1JHM3JtU2hrOE9XaGF5THUx?=
- =?utf-8?B?emNTRWRxejJwZVdFUlFZWWVrSEFkTEdVTlZhM0hSalA0RFhiWXcxWEhUbFZL?=
- =?utf-8?B?QXlaOTVHRlFsbzNsd1B1WUU1dWIyVjcxNU1rUnBlMjdnSFFPQ3pleDExMWlM?=
- =?utf-8?B?YUpjK0hZZHlsV2t3Y3BaVGhnbkdNYitqcU5sZi9BWkVYVXZ0RmdaTzhkdEpH?=
- =?utf-8?B?OWdXc0dhZlhlRVZqZnd1NHpodHdLZUcyRExpMXI1cy9oR2YyVmZLTDkvL09x?=
- =?utf-8?B?cStLejFydTN5Mi83SW5jRnQ4TjhBQzMrM3AzRjZCd3VpMHdyNzBWVGhNOEts?=
- =?utf-8?B?QXdiSjBqcTVub3ViV05veWZBYU56ZjY4RzhON0hwRmw4NXBqaGEyRVJGTE5F?=
- =?utf-8?B?cXJoTmZTMkQwaG1jZ1Q5YkQyWDRyQjlrTEd1R0dZN2NGcE1CQjR5N1VqS3Ja?=
- =?utf-8?B?NGhLOEFGRmpiV2NSdnhuQTVaZVJML2dUeVo1U3lnb1hUendkbm4vZXFwdzFR?=
- =?utf-8?B?L1FEUGN5UFZSbVVtZ3ZCNlp2SG50TkxPTUI4M1c1eFI1U3FGUlNaWlZkZGUv?=
- =?utf-8?B?UDNhNm9XeWd2VGpGN29hck56d0V4a3BjMHhod2laMlIvZTd0eHNGTWFhdG50?=
- =?utf-8?B?S1JVV0w5L0FtOWpPNXI1NXlCcGpUZGFUYlIyczF4YzBpZ0ZIUDR5V01mZ3Vy?=
- =?utf-8?B?R0Y4OWNBU3U4QURwa25HN2loS3MrUmV0d2swUFdlSHpXVW44cG9FczZ6MC9C?=
- =?utf-8?B?NnNvTjJTcHNNUXcraXdMV09JWklrWUIyMlViUDNmc2tPbVV3MitkeTdtaFh2?=
- =?utf-8?B?blE3K1g2SGJpdFFEdk1VaVRIKzYrYjZOTTBJa2hXT3BUQVEwUXQ2bmJwWGcw?=
- =?utf-8?B?TjBYUk1iTzF4cUV5aXo5Y1IxS0dpU2tGZyswWFJ5R2NzQ2FoTEtHb2hrTTRC?=
- =?utf-8?B?QUE1OEdPOTQyd3RHQ2hJM1pETlV5c2RXYkFqMHJ4TFBYaytZK3RsUHNrQUIv?=
- =?utf-8?B?SmRvc0cydzZlL2pCeEk1cTMwcndkOGJyZENqTGFaUmdjVm4wUEdzd2tWZG05?=
- =?utf-8?B?SmNROTRodGhJMkRPWjhERlptd1NUKzR2L2RvVWNUSGtlU1NGTTBQWHd4dlVR?=
- =?utf-8?B?dzNMRU1FYkJRMUFXSDBhLzdhcUZyR3pqRWFMSklwTzRBTlF0RXZvaUp0TDdN?=
- =?utf-8?B?VUcrOWJrbE9CcW9BWEFTR0hVMVQ1bEpsYnhwZXNOQUdhbUk4WisxZ1hJNFJX?=
- =?utf-8?B?TzdLWkhGWmhaRjFqU1N3ZmZiQjdqbUNKZWxFUTRKY090OTNFSC8zQTAyam1i?=
- =?utf-8?B?c0tBbFQ5VFk3eWpSdmdpU3VSdS9WNEFWNm1DMy80bWlWemFwc3dkSk5WeUFp?=
- =?utf-8?B?WVVXYVlNOTNqQUlsZXlCNERnbVhCYk1wcnQ5S1ZFcmlhbGZIY1laRG80MW90?=
- =?utf-8?B?QWpla0Zhbmh1ZWVsOTNIT25EWW1VTUQxK3BOTWZ3bDNHWDdZVE9FREJHVjQy?=
- =?utf-8?B?dS9wU291L1hEMXpYVWlWNzNEb2tlS2JUQWswU3RwQ3ZzOGJiQ1FKRnR0eDMv?=
- =?utf-8?B?c01mNzVVZmdKcE9GSjdjVnpRYnlTWWNXNnV2ZHRVaDl6SG1lK0xkTEZxa1p1?=
- =?utf-8?B?VmNsV2s4N0x5SGxweWlRUlF2K0s0UzR4cDhiamRZUjQ3aFRUbk5MZ3VISkdh?=
- =?utf-8?B?ZUpvMUZuZEFYVFpsaDJtSmlpUXQ0R3ZmN09rckhIdnNFNVhwK3NoK0o1cm5G?=
- =?utf-8?B?S2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a94f6be7-54d5-4d5c-f6c9-08dab3ce30fb
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4274.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TytTYUtPQVFzUGI0VWx1Y2ZoVmRUQU9MdEVnaFhHV3pOTzRSTUFnOVV5em9a?=
+ =?utf-8?B?SEJ0Zy9LcXdXV3c2eXQwckNWQnc5Rk1vVGRPYnQ0VXMrZDllVjZpTy9SWnFP?=
+ =?utf-8?B?VzdzS0kvRDloY2ZDT1FONFFyNjVISU5hK2o4UDZXb0k3RDVUaEIrZVYvSElV?=
+ =?utf-8?B?RGlnMWx4bHVJSU5jWThmakoxMWhpRDJNamdSNllVTlMreHlYUFhSUHdyMzNO?=
+ =?utf-8?B?Uk5hd1NZY25haWdCM2h1enZFbWNFR3g1S0tmTU10WjliajJ5a2lkQWtJY0VF?=
+ =?utf-8?B?eGVMV1l2SUhBMHJieTV3clhtcWx3MDNIcEVwRmRPNk42d2FLYVlrTXJsemJ2?=
+ =?utf-8?B?NVVRc1ZrdVRsRDJOYjQ4cHlWQU1scWl5dHRtWU03Wmh6YmVUZFEyMG1lOGRD?=
+ =?utf-8?B?b1FHR1laVk95WFJjd3hsbGIzMnA2dEMxdmNYaDU0YWRwMlR1Q0RDNFdKU2Vi?=
+ =?utf-8?B?Nng5bVJSSzVyWUxJeHNCanlOS01ia2hEY09vNzc2c3J6ZmFnU3NmVWhrUm1D?=
+ =?utf-8?B?N0JJTWJhWDVwRCtqWmxHbHFtcDB5bWdqL2xGSXlPV1NVNVd3TWc4WU1kREtm?=
+ =?utf-8?B?MnJKTXRtKzFMeHl3bGhOYVlWS0JZNVVVeGlTT1RqZzN3cGxTVHNuMGo1TGRw?=
+ =?utf-8?B?b3NIaDlTaEJTNEQ2cWVKVnZNSXJwRFBJWlJjcThEemNYM2xLRXR2cS90VFVE?=
+ =?utf-8?B?bVYyeUlVdjJQSmhqdjJ1UDRmcnNIKzdLRmNrT3ZvUEwyRlVia0VyeUZZOTRN?=
+ =?utf-8?B?aCswQkdLVkxCakRWb0lOMlFmNk5nYzVuVFBtTGdPdTEwcEF5QzVQRFRRa1d2?=
+ =?utf-8?B?MUd3VmdDY3hNTUhhNWVqQ0dZTlZ6MGFZMEJoTlJIQytoL01GaUt3dlJVbEFU?=
+ =?utf-8?B?VWVaTzV2QTJ0MkJFT1FETUdzYS9BeGVUU25iMWdQTVpOTGhrQzh0akw5T3Bv?=
+ =?utf-8?B?WFFJekJvMkg2ckFmUkV0b0VqQllmay93ZTV5RVpDUmlvbFUxZ3dEVXBEb09v?=
+ =?utf-8?B?VGhZTWxac2V2RFdENTFLeS9WQ2prTjBNOVkxNnVtOWw3dVFMdDFzU2ZIZ0V4?=
+ =?utf-8?B?a2Z1aDBadWFDQUs2b2tsSnA5d2Z5cE5oc084a241eVM3dG83bS9SY2Fja1BY?=
+ =?utf-8?B?QmtIYmtiVjltVUFzNGcrai93ck4rWnFoY014Y3pFb2lnUHJWTFJQeVVpaC9p?=
+ =?utf-8?B?MksxN3Y0SnliOG0vTmhHcldLSjdWdksrcG9LZHIxNk9VYXJCRFphSEdBc21G?=
+ =?utf-8?B?NElPRnRoWEh0eEhoSTh3SVNOWForUjhIcHRya0VDS0dJUlpPNVpzTDk0eldN?=
+ =?utf-8?B?WUU4eUk0VG9CMy9iQXlXZmI1Z2hWTVU1azNJRXNCT2JhOTVkQWkyK3hKV2FX?=
+ =?utf-8?B?c21SUEJTSjk0aXltdkhZRERyR21neWt5a2VrZklFZUk5WUYxeG9rZXYvcFBI?=
+ =?utf-8?B?Ly9NdXNMa3pVdU1EQkJ0RGZ6V2wzeFMzMm9OVmhsOVBWREdyM3RYS1JyOFRq?=
+ =?utf-8?B?QXJxanI5UGllTGVFdEV1aGo2MHZOb3JLOWlYT0VCQVRyVVo3eU4wZndQWUUr?=
+ =?utf-8?B?dGs0dGRMZ1Y2UEJHemh0L3dZQWl4d3JpQ0cxcWM0U3U2UVlLNHJoWlJwbTMy?=
+ =?utf-8?B?RE5aZlZveTlRb0xIc29ucUFrYytMVk9sNEkyWDhNS3dxSmEvcFJTa0QweVAx?=
+ =?utf-8?B?MFdWUDdxbklHQk5oMnMwdGNRamVJQktNNmpMa3Z4aVArYlp4RGRZRE1KMUhP?=
+ =?utf-8?B?NHZZOFE5TUMzZnFSYkh6YnRPa0g3R1FqNFlKSmJVaGs3aXFrMjBsbWhVR0da?=
+ =?utf-8?B?ODE5WXdRTFJhcklnNEhzV3JjWG5yWW4zUjVON3hLTUF1dG9DYjZNVFpkdVZL?=
+ =?utf-8?B?NjJ5NEZaRDBSTVhRVHhvN0ppTFVEZHNzNm5LaWQwdFFURGszZ2FNcVdnTmtG?=
+ =?utf-8?B?OVJyaUxjb3NESnVVKzBLRU5TalBzRmc5NWlSQXdLRHVIWlBhc3pjNEJHVGZY?=
+ =?utf-8?B?dzA1MDVhZk9aYmRRc0dpQm5QZ2MzYzBIQjVWZlliSG5sOFlNaTFHaXVCelM1?=
+ =?utf-8?B?ZTQ3bzN0QjlPeFR6TGJ0Z0lUWnlnbVFWY09WbFYyL0NIWkduNkR0bWhic2hD?=
+ =?utf-8?Q?44Jg3A1K9tj5xbk6OH/2ORJq7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbac0e36-b370-4f76-4c83-08dab3ced6ba
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2022 01:38:59.4519 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2022 01:43:37.4608 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YGxwN5u0fSemJU0JjVAl0njQiDkTDLliklnu0EAATWUIrZXWmoIc/gJHeJDnNkewU64wE7iLR897RwUSoPxFrRtStT2OQr1/+rkDd3Y8QFE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5315
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: rVUMQMe7NBGqPIpu+JWmiWSJVsHfRRER/rsoOMgEr33uOZnBtfh21v9jKw/7aMuK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6958
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,143 +126,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Please comment on the v1 of this patch, which I sent right after.
 
-On 10/20/2022 3:57 PM, Dixit, Ashutosh wrote:
-> On Tue, 18 Oct 2022 11:30:31 -0700, Vinay Belgaumkar wrote:
-> Hi Vinay,
->
->> diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
->> index 4c6e9257e593..e42bc215e54d 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
->> @@ -234,6 +234,7 @@ static int run_test(struct intel_gt *gt, int test_type)
->> 	enum intel_engine_id id;
->> 	struct igt_spinner spin;
->> 	u32 slpc_min_freq, slpc_max_freq;
->> +	u32 saved_min_freq;
->> 	int err = 0;
->>
->> 	if (!intel_uc_uses_guc_slpc(&gt->uc))
->> @@ -252,20 +253,35 @@ static int run_test(struct intel_gt *gt, int test_type)
->> 		return -EIO;
->> 	}
->>
->> -	/*
->> -	 * FIXME: With efficient frequency enabled, GuC can request
->> -	 * frequencies higher than the SLPC max. While this is fixed
->> -	 * in GuC, we level set these tests with RPn as min.
->> -	 */
->> -	err = slpc_set_min_freq(slpc, slpc->min_freq);
->> -	if (err)
->> -		return err;
->> +	if (slpc_min_freq == slpc_max_freq) {
->> +		/* Server parts will have min/max clamped to RP0 */
->> +		if (slpc->min_is_rpmax) {
->> +			err = slpc_set_min_freq(slpc, slpc->min_freq);
->> +			if (err) {
->> +				pr_err("Unable to update min freq on server part");
->> +				return err;
->> +			}
->>
->> -	if (slpc->min_freq == slpc->rp0_freq) {
->> -		pr_err("Min/Max are fused to the same value\n");
->> -		return -EINVAL;
->> +		} else {
->> +			pr_err("Min/Max are fused to the same value\n");
->> +			return -EINVAL;
-> Sorry but I am not following this else case here. Why are we saying min/max
-> are fused to the same value? In this case we can't do
-> "slpc_set_min_freq(slpc, slpc->min_freq)" ? That is, we can't change SLPC
-> min freq?
-This would be an error case due to a faulty part. We may come across a 
-part where min/max is fused to the same value.
->
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> index fdd895f73f9f..b7cdeec44bd3 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> @@ -263,6 +263,7 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->>
->> 	slpc->max_freq_softlimit = 0;
->> 	slpc->min_freq_softlimit = 0;
->> +	slpc->min_is_rpmax = false;
->>
->> 	slpc->boost_freq = 0;
->> 	atomic_set(&slpc->num_waiters, 0);
->> @@ -588,6 +589,32 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
->> 	return 0;
->>   }
->>
->> +static bool is_slpc_min_freq_rpmax(struct intel_guc_slpc *slpc)
->> +{
->> +	int slpc_min_freq;
->> +
->> +	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq))
->> +		return false;
-> I am wondering what happens if the above fails on server? Should we return
-> true or false on server and what are the consequences of returning false on
-> server?
->
-> Any case I think we should at least put a drm_err or something here just in
-> case this ever fails so we'll know something weird happened.
+Regards,
+Luben
 
-Makes sense.
+On 2022-10-21 21:09, Luben Tuikov wrote:
+> The currently default Round-Robin GPU scheduling can result in starvation
+> of entities which have a large number of jobs, over entities which have
+> a very small number of jobs (single digit).
+> 
+> This can be illustrated in the following diagram, where jobs are
+> alphabetized to show their chronological order of arrival, where job A is
+> the oldest, B is the second oldest, and so on, to J, the most recent job to
+> arrive.
+> 
+>     ---> entities
+> j | H-F-----A--E--I--
+> o | --G-----B-----J--
+> b | --------C--------
+> s\/ --------D--------
+> 
+> WLOG, asuming all jobs are "ready", then a R-R scheduling will execute them
+> in the following order (a slice off of the top of the entities' list),
+> 
+> H, F, A, E, I, G, B, J, C, D.
+> 
+> However, to mitigate job starvation, we'd rather execute C and D before E,
+> and so on, given, of course, that they're all ready to be executed.
+> 
+> So, if all jobs are ready at this instant, the order of execution for this
+> and the next 9 instances of picking the next job to execute, should really
+> be,
+> 
+> A, B, C, D, E, F, G, H, I, J,
+> 
+> which is their chronological order. The only reason for this order to be
+> broken, is if an older job is not yet ready, but a younger job is ready, at
+> an instant of picking a new job to execute. For instance if job C wasn't
+> ready at time 2, but job D was ready, then we'd pick job D, like this:
+> 
+> 0 +1 +2  ...
+> A, B, D, ...
+> 
+> And from then on, C would be preferred before all other jobs, if it is ready
+> at the time when a new job for execution is picked. So, if C became ready
+> two steps later, the execution order would look like this:
+> 
+> ......0 +1 +2  ...
+> A, B, D, E, C, F, G, H, I, J
+> 
+> This is what the FIFO GPU scheduling algorithm achieves. It uses a
+> Red-Black tree to keep jobs sorted in chronological order, where picking
+> the oldest job is O(1) (we use the "cached" structure), and balancing the
+> tree is O(log n). IOW, it picks the *oldest ready* job to execute now.
+> 
+> The implemntation is already in the kernel, and this commit only changes
+> the default GPU scheduling algorithm to use.
+> 
+> This was tested and achieves about 1% faster performance over the Round
+> Robin algorithm.
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 2fab218d708279..d0ff9e11cb69fa 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -62,13 +62,13 @@
+>  #define to_drm_sched_job(sched_job)		\
+>  		container_of((sched_job), struct drm_sched_job, queue_node)
+>  
+> -int drm_sched_policy = DRM_SCHED_POLICY_RR;
+> +int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
+>  
+>  /**
+>   * DOC: sched_policy (int)
+>   * Used to override default entities scheduling policy in a run queue.
+>   */
+> -MODULE_PARM_DESC(sched_policy, "Specify schedule policy for entities on a runqueue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin (default), " __stringify(DRM_SCHED_POLICY_FIFO) " = use FIFO.");
+> +MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
+>  module_param_named(sched_policy, drm_sched_policy, int, 0444);
+>  
+>  static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
+> 
+> base-commit: 16d2a3f2ad1d2b95bf9122c910c63b0efe74179d
 
-Thanks,
-
-Vinay.
-
->
->> +
->> +	if (slpc_min_freq == SLPC_MAX_FREQ_MHZ)
->> +		return true;
->> +	else
->> +		return false;
->> +}
->> +
->> +static void update_server_min_softlimit(struct intel_guc_slpc *slpc)
->> +{
->> +	/* For server parts, SLPC min will be at RPMax.
->> +	 * Use min softlimit to clamp it to RP0 instead.
->> +	 */
->> +	if (is_slpc_min_freq_rpmax(slpc) &&
->> +	    !slpc->min_freq_softlimit) {
->> +		slpc->min_is_rpmax = true;
->> +		slpc->min_freq_softlimit = slpc->rp0_freq;
->> +		(slpc_to_gt(slpc))->defaults.min_freq = slpc->min_freq_softlimit;
->> +	}
->> +}
->> +
->>   static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
->>   {
->> 	/* Force SLPC to used platform rp0 */
->> @@ -647,6 +674,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->>
->> 	slpc_get_rp_values(slpc);
->>
->> +	/* Handle the case where min=max=RPmax */
->> +	update_server_min_softlimit(slpc);
->> +
->> 	/* Set SLPC max limit to RP0 */
->> 	ret = slpc_use_fused_rp0(slpc);
->> 	if (unlikely(ret)) {
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> index 82a98f78f96c..11975a31c9d0 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> @@ -9,6 +9,8 @@
->>   #include "intel_guc_submission.h"
->>   #include "intel_guc_slpc_types.h"
->>
->> +#define SLPC_MAX_FREQ_MHZ 4250
-> This seems to be really a value (255 converted to freq) so seems ok to
-> intepret in MHz.
->
-> Thanks.
-> --
-> Ashutosh
