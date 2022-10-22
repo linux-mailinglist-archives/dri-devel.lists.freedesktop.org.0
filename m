@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2373B608FD4
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 23:47:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D427608FD8
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 23:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE8810E00E;
-	Sat, 22 Oct 2022 21:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE2C10E032;
+	Sat, 22 Oct 2022 21:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 986DD10E00E
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 21:46:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBDB010E027
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 21:46:39 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D7C3D6068B;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 534CC60B2A;
+ Sat, 22 Oct 2022 21:46:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C717EC43470;
  Sat, 22 Oct 2022 21:46:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D02C433D7;
- Sat, 22 Oct 2022 21:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666475192;
- bh=OMqxGbhs6IW6+TTHrfUolLyZ69ETq76ct24yDkL2rOo=;
- h=From:To:Cc:Subject:Date:From;
- b=MDamo/zrdlDpG6RPEK82w1JhW4mRCSqbP6ra3YGavNICs3uUXGccAnU/u7gGSEzzJ
- VqhNfRBNeRituLobc2g9e/rXcal70oiRPddpebg9cAx3W/aPcpIBoKK7IPf3ZtvPf1
- Fj7qrXIeIO9Gtt1V/a6nC/wDHcRQE3EEjQbuxl56xsY/pkH4nFK8wBhBs+1jb+032k
- rnU2NOVFJQWSN9NGdAImiysyWjadGbaY38aK7AnM/ZdCzVAv8VZlSfs2fdvA95fIXE
- bovjvDAwqXPb99tPeDYX4cFS/R2ZpuhiQ+P+ULkm7/qprKR9SXYAaRVBK88mjVhE6T
- +pNfJc8hIm1zA==
+ s=k20201202; t=1666475198;
+ bh=TdjCoZ4FJ+aLY/5yyYbGnM3YqwZ2I6wju2Ck5ByPiJg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=k3jw+Cpr368TcCfXa/pufj2ilReVLWCc5TiGVbKmjg1H1mcarij7qaognVkhfK7vb
+ n04AYuwGT2QgCVU6YKmgraxLWr6yNXYBRUOAT5yGTZWzcpQT5DRmxN/YVgyxiRdJn6
+ EXy2dUEFqXZBIA3tVsfqv11iVD3P/snbTfBqqQQ7Amy+cT7Sh/dgv514azaLuG0Vvr
+ FL/6Lf00FFYQ0aHp6GR6JoisQyLKDUbI/mAivE9qlNgsnO1dmJk7MDZjXudAcQJdBS
+ U7YmJtj+7IQbeWjGEx1tVZu3bMyanaQHbs/ITHLOiBt1V0+3L1Xxp/UAztS/IUBiDb
+ BCeO8JNaJ5IdQ==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Arnd Bergmann <arnd@arndb.de>,
@@ -36,10 +36,12 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
  Alex Deucher <alexander.deucher@amd.com>
-Subject: [RFC PATCH 0/3] new subsystem for compute accelerator devices
-Date: Sun, 23 Oct 2022 00:46:19 +0300
-Message-Id: <20221022214622.18042-1-ogabbay@kernel.org>
+Subject: [RFC PATCH 1/3] drivers/accel: add new kconfig and update MAINTAINERS
+Date: Sun, 23 Oct 2022 00:46:20 +0300
+Message-Id: <20221022214622.18042-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221022214622.18042-1-ogabbay@kernel.org>
+References: <20221022214622.18042-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,78 +67,84 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the last couple of months we had a discussion [1] about creating a new
-subsystem for compute accelerator devices in the kernel.
+Add a new Kconfig for the accel subsystem. The Kconfig currently
+contains only the basic CONFIG_ACCEL option that will be used to
+decide whether to compile the accel registration code as part of the
+drm core functionality.
 
-After an analysis that was done by DRM maintainers and myself, and following
-a BOF session at the Linux Plumbers conference a few weeks ago [2], we
-decided to create a new subsystem that will use the DRM subsystem's code and
-functionality. i.e. the accel core code will be part of the DRM subsystem.
+I have taken the liberty to appropriate the dri-devel mailing list and
+the dri-devel IRC channel for the accel subsystem.
 
-This will allow us to leverage the extensive DRM code-base and
-collaborate with DRM developers that have experience with this type of
-devices. In addition, new features that will be added for the accelerator
-drivers can be of use to GPU drivers as well (e.g. RAS).
-
-As agreed in the BOF session, the accelerator devices will be exposed to
-user-space with a new, dedicated device char files and a dedicated major
-number (261), to clearly separate them from graphic cards and the graphic
-user-space s/w stack. Furthermore, the drivers will be located in a separate
-place in the kernel tree (drivers/accel/).
-
-This series of patches is the first step in this direction as it adds the
-necessary infrastructure for accelerator devices to DRM. The new devices will
-be exposed with the following convention:
-
-device char files - /dev/accel/accel*
-sysfs             - /sys/class/accel/accel*/
-debugfs           - /sys/kernel/debug/accel/accel*/
-
-I tried to reuse the existing DRM code as much as possible, while keeping it
-readable and maintainable.
-
-One thing that is missing from this series is defining a namespace for the
-new accel subsystem, while I'll add in the next iteration of this patch-set,
-after I will receive feedback from the community.
-
-As for drivers, once this series will be accepted (after adding the namespace),
-I will start working on migrating the habanalabs driver to the new accel
-subsystem. I have talked about it with Dave and we agreed that it will be
-a good start to simply move the driver as-is with minimal changes, and then
-start working on the driver's individual features that will be either added
-to the accel core code (with or without changes), or will be removed and
-instead the driver will use existing DRM code.
-
-In addition, I know of at least 3 or 4 drivers that were submitted for review
-and are good candidates to be included in this new subsystem, instead of being
-a drm render node driver or a misc driver.
-
-[1] https://lkml.org/lkml/2022/7/31/83
-[2] https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
-
-Thanks,
-Oded
-
-Oded Gabbay (3):
-  drivers/accel: add new kconfig and update MAINTAINERS
-  drm: define new accel major and register it
-  drm: add dedicated minor for accelerator devices
-
- Documentation/admin-guide/devices.txt |   5 +
- MAINTAINERS                           |   8 +
- drivers/Kconfig                       |   2 +
- drivers/accel/Kconfig                 |  24 +++
- drivers/gpu/drm/drm_drv.c             | 214 +++++++++++++++++++++-----
- drivers/gpu/drm/drm_file.c            |  69 ++++++---
- drivers/gpu/drm/drm_internal.h        |   5 +-
- drivers/gpu/drm/drm_sysfs.c           |  81 +++++++++-
- include/drm/drm_device.h              |   3 +
- include/drm/drm_drv.h                 |   8 +
- include/drm/drm_file.h                |  21 ++-
- include/drm/drm_ioctl.h               |   1 +
- 12 files changed, 374 insertions(+), 67 deletions(-)
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ MAINTAINERS           |  8 ++++++++
+ drivers/Kconfig       |  2 ++
+ drivers/accel/Kconfig | 24 ++++++++++++++++++++++++
+ 3 files changed, 34 insertions(+)
  create mode 100644 drivers/accel/Kconfig
 
---
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cf0f18502372..790d472801d5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6820,6 +6820,14 @@ F:	include/drm/drm*
+ F:	include/linux/vga*
+ F:	include/uapi/drm/drm*
+ 
++DRM COMPUTE ACCELERATORS DRIVERS AND FRAMEWORK
++M:	Oded Gabbay <ogabbay@kernel.org>
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++C:	irc://irc.oftc.net/dri-devel
++T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git
++F:	drivers/accel/
++
+ DRM DRIVERS FOR ALLWINNER A10
+ M:	Maxime Ripard <mripard@kernel.org>
+ M:	Chen-Yu Tsai <wens@csie.org>
+diff --git a/drivers/Kconfig b/drivers/Kconfig
+index 19ee995bd0ae..968bd0a6fd78 100644
+--- a/drivers/Kconfig
++++ b/drivers/Kconfig
+@@ -99,6 +99,8 @@ source "drivers/media/Kconfig"
+ 
+ source "drivers/video/Kconfig"
+ 
++source "drivers/accel/Kconfig"
++
+ source "sound/Kconfig"
+ 
+ source "drivers/hid/Kconfig"
+diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+new file mode 100644
+index 000000000000..282ea24f90c5
+--- /dev/null
++++ b/drivers/accel/Kconfig
+@@ -0,0 +1,24 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Compute Acceleration device configuration
++#
++# This framework provides support for compute acceleration devices, such
++# as, but not limited to, Machine-Learning and Deep-Learning acceleration
++# devices
++#
++menuconfig ACCEL
++	tristate "Compute Acceleration Framework"
++	depends on DRM
++	help
++	  Framework for device drivers of compute acceleration devices, such
++	  as, but not limited to, Machine-Learning and Deep-Learning
++	  acceleration devices.
++	  If you say Y here, you need to select the module that's right for
++	  your acceleration device from the list below.
++	  This framework is integrated with the DRM subsystem as compute
++	  accelerators and GPUs share a lot in common and can use almost the
++	  same infrastructure code.
++	  Having said that, acceleration devices will have a different
++	  major number than GPUs, and will be exposed to user-space using
++	  different device files, called accel/accel* (in /dev, sysfs
++	  and debugfs)
+-- 
 2.34.1
 
