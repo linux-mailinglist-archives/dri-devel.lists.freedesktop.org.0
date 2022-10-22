@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A59D608417
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 06:03:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 981AA608424
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 06:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE25D10E6BD;
-	Sat, 22 Oct 2022 04:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F2E10E6D1;
+	Sat, 22 Oct 2022 04:04:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64B3B10E6BD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA65110E6C0
  for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 04:02:53 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 209DE33EEF3;
+ by letterbox.kde.org (Postfix) with ESMTPSA id CDFEB320A12;
  Sat, 22 Oct 2022 05:02:51 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666411371; bh=ZKldMEqztvYCjxdFIpqAZu4Ka0xYK1q1aOlTg6XeFTQ=;
+ t=1666411372; bh=Jt6+ZyDKPnFduIdOjEuolGhFpHQwAijaE/zigCU9kZM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ab0GYnAiGgIueUdseIYp8fIXEC4rNkF3AZ23+dkK23RPbzHrK+2k8/Tcgy1gw9dZ9
- YDSTOVjFO7Goc7/gNQ/JjCSxVrbMwlpGeTep0vNOtMxADjLCyNNka4tIbm7g8lRZLr
- I0DAuaYwsX6G+xPOJzLlJBqfYi1LjB47O6vfKtaSInweOnDoB3dyZOhQGNVDpWchT2
- afGQCcqX3PyDVNVzvgwC2ZznDkg2Y76L9xzgcph5lqRlrtgnSzwrbaxmgz9HJeAhrN
- NG2l4aKrAsXAzlDVUFTlLk2WZkmOfoNbjm/y3d/KJGKJBpPX8AEGMWth51KPBWdltU
- pp/Z0LzJpJVVw==
+ b=S+bIB7zctFEA9xp4pwj97akRcU3Lh3l+DxEEMf9J2ZOVxfShRJaW5iifB//Svq8pT
+ 2995fOHEJMCOubtYEZLcrKV2tAriIAVW/EkdAnutK3317G5i8rUw/SF7lB9fBaz073
+ bb8H+EpSjI6Hj7Q01GmiypDkNhST1VU4tSr29KvK5bc8em5wMHdtBHhiZNa18Xn2nf
+ 39NQQ2cnJ0JANFztltJc9OdTOrOrsDHuChulf4nVgKFPUv8bV9BjnJf/0MYD00gHXm
+ uFNsm/NIK+f+SHO8WtcWN/1qQdW5w2s0lRxYjsNGL6yBOhxzKeIJybh2K97InXolf9
+ wtJvEuc0cyDag==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 15/17] drm/vmwgfx: Add a mksstat counter for cotable resizes
-Date: Sat, 22 Oct 2022 00:02:34 -0400
-Message-Id: <20221022040236.616490-16-zack@kde.org>
+Subject: [PATCH v4 16/17] drm/vmwgfx: Optimize initial sizes of cotables
+Date: Sat, 22 Oct 2022 00:02:35 -0400
+Message-Id: <20221022040236.616490-17-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221022040236.616490-1-zack@kde.org>
 References: <20221022040236.616490-1-zack@kde.org>
@@ -54,139 +54,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-There's been a lot of cotable resizes on startup which we can track
-by adding a mks stat to measure both the invocation count and
-time spent doing cotable resizes.
+It's important to get the initial size of cotables right because
+otherwise every app needs to start with a synchronous cotable resize.
 
-This is only used if kernel is configured with CONFIG_DRM_VMWGFX_MKSSTATS
-The stats are collected on the host size inside the vmware-stats.log
-file.
+This has an measurable impact on system wide performance but is not
+relevant for long running single full screen apps for which the cotable
+resizes will happen early in the lifecycle and will continue running
+just fine.
+
+To eliminate the initial cotable resizes match the initial sizes to what
+the userspace expects. The actual result of the patch is simply setting
+the initial size of two of the cotables to a size that will align them
+to two pages instead of one.
+
+For a piglit run, before:
+name               |  total |  per frame | per sec
+vmw_cotable_resize |   1405 |       0.12 |    1.58
+vmw_execbuf_ioctl  | 290805 |      25.43 |  326.05
+
+After:
+name               |  total |  per frame | per sec
+vmw_cotable_resize |      4 |       0.00 |    0.00
+vmw_execbuf_ioctl  | 281673 |      25.10 |  274.68
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Michael Banack <banackm@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c | 13 +++++++++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h |  2 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c     | 16 +++++++++-------
- 3 files changed, 22 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-index 79b30dc9d825..a4c30f950d7c 100644
+index a4c30f950d7c..0422b6b89cc1 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-@@ -33,6 +33,7 @@
- #include <drm/ttm/ttm_placement.h>
- 
- #include "vmwgfx_drv.h"
-+#include "vmwgfx_mksstat.h"
- #include "vmwgfx_resource_priv.h"
- #include "vmwgfx_so.h"
- 
-@@ -395,9 +396,12 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
- 	int ret;
- 	size_t i;
- 
-+	MKS_STAT_TIME_DECL(MKSSTAT_KERN_COTABLE_RESIZE);
-+	MKS_STAT_TIME_PUSH(MKSSTAT_KERN_COTABLE_RESIZE);
-+
- 	ret = vmw_cotable_readback(res);
- 	if (ret)
--		return ret;
-+		goto out_done;
- 
- 	cur_size_read_back = vcotbl->size_read_back;
- 	vcotbl->size_read_back = old_size_read_back;
-@@ -411,7 +415,7 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
- 			    true, true, vmw_bo_bo_free, &buf);
- 	if (ret) {
- 		DRM_ERROR("Failed initializing new cotable MOB.\n");
--		return ret;
-+		goto out_done;
- 	}
- 
- 	bo = &buf->base;
-@@ -485,6 +489,8 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
- 	/* Release the pin acquired in vmw_bo_init */
- 	ttm_bo_unpin(bo);
- 
-+	MKS_STAT_TIME_POP(MKSSTAT_KERN_COTABLE_RESIZE);
-+
- 	return 0;
- 
- out_map_new:
-@@ -494,6 +500,9 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
- 	ttm_bo_unreserve(bo);
- 	vmw_bo_unreference(&buf);
- 
-+out_done:
-+	MKS_STAT_TIME_POP(MKSSTAT_KERN_COTABLE_RESIZE);
-+
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h b/drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
-index 0509f55f07b4..ede74c7fdbbf 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
-@@ -29,6 +29,7 @@
- #define _VMWGFX_MKSSTAT_H_
- 
- #include <asm/page.h>
-+#include <linux/kconfig.h>
- 
- /* Reservation marker for mksstat pid's */
- #define MKSSTAT_PID_RESERVED -1
-@@ -41,6 +42,7 @@
- 
- typedef enum {
- 	MKSSTAT_KERN_EXECBUF, /* vmw_execbuf_ioctl */
-+	MKSSTAT_KERN_COTABLE_RESIZE,
- 
- 	MKSSTAT_KERN_COUNT /* Reserved entry; always last */
- } mksstat_kern_stats_t;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-index 50d8b9bcd72a..06d9e106e3c5 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-@@ -85,7 +85,14 @@ struct rpc_channel {
- 	u32 cookie_low;
+@@ -73,12 +73,24 @@ struct vmw_cotable_info {
+ 			    bool);
  };
  
--
-+#if IS_ENABLED(CONFIG_DRM_VMWGFX_MKSSTATS)
-+/* Kernel mksGuestStats counter names and desciptions; same order as enum mksstat_kern_stats_t */
-+static const char* const mksstat_kern_name_desc[MKSSTAT_KERN_COUNT][2] =
-+{
-+	{ "vmw_execbuf_ioctl", "vmw_execbuf_ioctl" },
-+	{ "vmw_cotable_resize", "vmw_cotable_resize" },
-+};
-+#endif
- 
- /**
-  * vmw_open_channel
-@@ -695,12 +702,6 @@ static inline void hypervisor_ppn_remove(PPN64 pfn)
- /* Header to the text description of mksGuestStat instance descriptor */
- #define MKSSTAT_KERNEL_DESCRIPTION "vmwgfx"
- 
--/* Kernel mksGuestStats counter names and desciptions; same order as enum mksstat_kern_stats_t */
--static const char* const mksstat_kern_name_desc[MKSSTAT_KERN_COUNT][2] =
--{
--	{ "vmw_execbuf_ioctl", "vmw_execbuf_ioctl" },
--};
--
- /**
-  * mksstat_init_record: Initializes an MKSGuestStatCounter-based record
-  * for the respective mksGuestStat index.
-@@ -786,6 +787,7 @@ static int mksstat_init_kern_id(struct page **ppage)
- 	/* Set up all kernel-internal counters and corresponding structures */
- 	pstrs_acc = pstrs;
- 	pstrs_acc = mksstat_init_record_time(MKSSTAT_KERN_EXECBUF, pstat, pinfo, pstrs_acc);
-+	pstrs_acc = mksstat_init_record_time(MKSSTAT_KERN_COTABLE_RESIZE, pstat, pinfo, pstrs_acc);
- 
- 	/* Add new counters above, in their order of appearance in mksstat_kern_stats_t */
- 
++
++/*
++ * Getting the initial size right is difficult because it all depends
++ * on what the userspace is doing. The sizes will be aligned up to
++ * a PAGE_SIZE so we just want to make sure that for majority of apps
++ * the initial number of entries doesn't require an immediate resize.
++ * For all cotables except SVGACOTableDXElementLayoutEntry and
++ * SVGACOTableDXBlendStateEntry the initial number of entries fits
++ * within the PAGE_SIZE. For SVGACOTableDXElementLayoutEntry and
++ * SVGACOTableDXBlendStateEntry we want to reserve two pages,
++ * because that's what all apps will require initially.
++ */
+ static const struct vmw_cotable_info co_info[] = {
+ 	{1, sizeof(SVGACOTableDXRTViewEntry), &vmw_view_cotable_list_destroy},
+ 	{1, sizeof(SVGACOTableDXDSViewEntry), &vmw_view_cotable_list_destroy},
+ 	{1, sizeof(SVGACOTableDXSRViewEntry), &vmw_view_cotable_list_destroy},
+-	{1, sizeof(SVGACOTableDXElementLayoutEntry), NULL},
+-	{1, sizeof(SVGACOTableDXBlendStateEntry), NULL},
++	{PAGE_SIZE/sizeof(SVGACOTableDXElementLayoutEntry) + 1, sizeof(SVGACOTableDXElementLayoutEntry), NULL},
++	{PAGE_SIZE/sizeof(SVGACOTableDXBlendStateEntry) + 1, sizeof(SVGACOTableDXBlendStateEntry), NULL},
+ 	{1, sizeof(SVGACOTableDXDepthStencilEntry), NULL},
+ 	{1, sizeof(SVGACOTableDXRasterizerStateEntry), NULL},
+ 	{1, sizeof(SVGACOTableDXSamplerEntry), NULL},
 -- 
 2.34.1
 
