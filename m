@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7B2608412
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 06:03:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1C0608422
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Oct 2022 06:04:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1111F10E6B4;
-	Sat, 22 Oct 2022 04:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7160010E6DB;
+	Sat, 22 Oct 2022 04:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD3510E2CC
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 04:02:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AFCE10E6B2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Oct 2022 04:02:46 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 7427D33EF39;
- Sat, 22 Oct 2022 05:02:43 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 68769320A04;
+ Sat, 22 Oct 2022 05:02:44 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1666411364; bh=tjhc0HFfYeKZp+w7KXK4laYltbAkSUsgW+crwdTueW8=;
+ t=1666411365; bh=Ha2BdgSO5d5K8gBELIcvpu8F7AV87JR3RVRMcmcxqVE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H6adiP+Z4OgbvOqF7RzVTpIRrX+QWfmXuqUw9oSg+bREhHccqTyJaZ3Bq5c0MUT+b
- pGwxuJftrhBPhuM4zdjpzpCYZma4zS1u+sKeD2X3PIRmC3bGp9RzojucT1xebgFxT4
- ztr0gUyvC/fMZwoQL4vaCFjc/e17X2YAQ5M/1A2SG1GJ0pHU1GofpzBfGsjH6HCnAC
- +U0Nvn3w5LkBduuJO/1yTuM6QaiaFSkinYf8bOPHQ4CI5azi0fy+weFqtjN+xhugrB
- B7NSoiMNZk+5Rfyv/5iNOaIGATMZrtjxXTmYpZrEJviKWffI57RMZOttSWqzWttZQz
- UGvvgulrAddaw==
+ b=CymHFrek6f0GHRi4AdkQRHhTIh35JQorE+AhlbMWyDC5wadR8iV/y3NTCSiz6ZR8P
+ C4q6rGLsNkByy4XX58wm9qx6riaZrhE44kbGK1RRlDwYE9hbF8cUHpEhOr2zaRgbN5
+ j/mFzo/bvol2OUTbOHPKbsQh2RcrJgiB1CVgtVLzNEiy6TdSqKiirufrJztuF7v9J3
+ nu+wkVruQFmwXdQ/u89CjC9d9XTXGQWC/WLmZwj8AcCOYNzRbErY736Zqr2QC1lOxY
+ YEht9VNWz4bVJYQ3r83DjSGToXapONz2uVlh34G3nuoFZFTPjOb9fhQGH8ov3k5pPJ
+ jdNqEi/LYntbQ==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 05/17] drm/vmwgfx: Refactor resource validation hashtable
- to use linux/hashtable implementation.
-Date: Sat, 22 Oct 2022 00:02:24 -0400
-Message-Id: <20221022040236.616490-6-zack@kde.org>
+Subject: [PATCH v4 06/17] drm/vmwgfx: Clean up cursor mobs
+Date: Sat, 22 Oct 2022 00:02:25 -0400
+Message-Id: <20221022040236.616490-7-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221022040236.616490-1-zack@kde.org>
 References: <20221022040236.616490-1-zack@kde.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,376 +48,702 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maaz Mombasawala <mombasawalam@vmware.com>
+From: Michael Banack <banackm@vmware.com>
 
-Vmwgfx's hashtab implementation needs to be replaced with linux/hashtable
-to reduce maintenence burden.
-As part of this effort, refactor the res_ht hashtable used for resource
-validation during execbuf execution to use linux/hashtable implementation.
-This also refactors vmw_validation_context to use vmw_sw_context as the
-container for the hashtable, whereas before it used a vmwgfx_open_hash
-directly. This makes vmw_validation_context less generic, but there is
-no functional change since res_ht is the only instance where validation
-context used a hashtable in vmwgfx driver.
+Clean up the cursor mob path by moving ownership of the mobs into the
+plane_state, and just leaving a cache of unused mobs in the plane
+itself.
 
-Signed-off-by: Maaz Mombasawala <mombasawalam@vmware.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Michael Banack <banackm@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        | 24 ++++++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  5 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    | 14 ++----
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 55 +++++++++++-----------
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.h | 26 +++-------
- 5 files changed, 58 insertions(+), 66 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 441 ++++++++++++++++------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  19 +-
+ 2 files changed, 267 insertions(+), 193 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 13b90273eb77..8d77e79bd904 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -830,6 +830,22 @@ static void vmw_write_driver_id(struct vmw_private *dev)
- 	}
- }
- 
-+static void vmw_sw_context_init(struct vmw_private *dev_priv)
-+{
-+	struct vmw_sw_context *sw_context = &dev_priv->ctx;
-+
-+	hash_init(sw_context->res_ht);
-+}
-+
-+static void vmw_sw_context_fini(struct vmw_private *dev_priv)
-+{
-+	struct vmw_sw_context *sw_context = &dev_priv->ctx;
-+
-+	vfree(sw_context->cmd_bounce);
-+	if (sw_context->staged_bindings)
-+		vmw_binding_state_free(sw_context->staged_bindings);
-+}
-+
- static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- {
- 	int ret;
-@@ -839,6 +855,8 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 
- 	dev_priv->drm.dev_private = dev_priv;
- 
-+	vmw_sw_context_init(dev_priv);
-+
- 	mutex_init(&dev_priv->cmdbuf_mutex);
- 	mutex_init(&dev_priv->binding_mutex);
- 	spin_lock_init(&dev_priv->resource_lock);
-@@ -1168,9 +1186,7 @@ static void vmw_driver_unload(struct drm_device *dev)
- 
- 	unregister_pm_notifier(&dev_priv->pm_nb);
- 
--	if (dev_priv->ctx.res_ht_initialized)
--		vmwgfx_ht_remove(&dev_priv->ctx.res_ht);
--	vfree(dev_priv->ctx.cmd_bounce);
-+	vmw_sw_context_fini(dev_priv);
- 	if (dev_priv->enable_fb) {
- 		vmw_fb_off(dev_priv);
- 		vmw_fb_close(dev_priv);
-@@ -1198,8 +1214,6 @@ static void vmw_driver_unload(struct drm_device *dev)
- 		vmw_irq_uninstall(&dev_priv->drm);
- 
- 	ttm_object_device_release(&dev_priv->tdev);
--	if (dev_priv->ctx.staged_bindings)
--		vmw_binding_state_free(dev_priv->ctx.staged_bindings);
- 
- 	for (i = vmw_res_context; i < vmw_res_max; ++i)
- 		idr_destroy(&dev_priv->res_idr[i]);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 09e2d738aa87..d87aeedb78d0 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -30,6 +30,7 @@
- 
- #include <linux/suspend.h>
- #include <linux/sync_file.h>
-+#include <linux/hashtable.h>
- 
- #include <drm/drm_auth.h>
- #include <drm/drm_device.h>
-@@ -93,6 +94,7 @@
- #define VMW_RES_STREAM ttm_driver_type2
- #define VMW_RES_FENCE ttm_driver_type3
- #define VMW_RES_SHADER ttm_driver_type4
-+#define VMW_RES_HT_ORDER 12
- 
- #define MKSSTAT_CAPACITY_LOG2 5U
- #define MKSSTAT_CAPACITY (1U << MKSSTAT_CAPACITY_LOG2)
-@@ -425,8 +427,7 @@ struct vmw_ctx_validation_info;
-  * @ctx: The validation context
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 214829c32ed8..07d55d610e4c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -53,33 +53,33 @@ void vmw_du_cleanup(struct vmw_display_unit *du)
   */
- struct vmw_sw_context{
--	struct vmwgfx_open_hash res_ht;
--	bool res_ht_initialized;
-+	DECLARE_HASHTABLE(res_ht, VMW_RES_HT_ORDER);
- 	bool kernel;
- 	struct vmw_fpriv *fp;
- 	struct drm_file *filp;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index f085dbd4736d..c943ab801ca7 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 OR MIT
- /**************************************************************************
-  *
-- * Copyright 2009 - 2015 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright 2009 - 2022 VMware, Inc., Palo Alto, CA., USA
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-  * copy of this software and associated documentation files (the
-@@ -25,6 +25,7 @@
-  *
-  **************************************************************************/
- #include <linux/sync_file.h>
-+#include <linux/hashtable.h>
  
- #include "vmwgfx_drv.h"
- #include "vmwgfx_reg.h"
-@@ -34,7 +35,6 @@
- #include "vmwgfx_binding.h"
- #include "vmwgfx_mksstat.h"
+ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
+-				  struct ttm_buffer_object *bo,
+-				  struct ttm_bo_kmap_obj *map,
++				  struct vmw_plane_state *vps,
+ 				  u32 *image, u32 width, u32 height,
+ 				  u32 hotspotX, u32 hotspotY);
++static int vmw_du_cursor_plane_unmap_cm(struct vmw_plane_state *vps);
  
--#define VMW_RES_HT_ORDER 12
+ struct vmw_svga_fifo_cmd_define_cursor {
+ 	u32 cmd;
+ 	SVGAFifoCmdDefineAlphaCursor cursor;
+ };
  
- /*
-  * Helper macro to get dx_ctx_node if available otherwise print an error
-@@ -4101,7 +4101,7 @@ int vmw_execbuf_process(struct drm_file *file_priv,
- 	int ret;
- 	int32_t out_fence_fd = -1;
- 	struct sync_file *sync_file = NULL;
--	DECLARE_VAL_CONTEXT(val_ctx, &sw_context->res_ht, 1);
-+	DECLARE_VAL_CONTEXT(val_ctx, sw_context, 1);
+-static void vmw_cursor_update_image(struct vmw_private *dev_priv,
+-				    struct ttm_buffer_object *cm_bo,
+-				    struct ttm_bo_kmap_obj *cm_map,
+-				    u32 *image, u32 width, u32 height,
+-				    u32 hotspotX, u32 hotspotY)
++/**
++ * vmw_send_define_cursor_cmd - queue a define cursor command
++ * @dev_priv: the private driver struct
++ * @image: buffer which holds the cursor image
++ * @width: width of the mouse cursor image
++ * @height: height of the mouse cursor image
++ * @hotspotX: the horizontal position of mouse hotspot
++ * @hotspotY: the vertical position of mouse hotspot
++ */
++static void vmw_send_define_cursor_cmd(struct vmw_private *dev_priv,
++				       u32 *image, u32 width, u32 height,
++				       u32 hotspotX, u32 hotspotY)
+ {
+ 	struct vmw_svga_fifo_cmd_define_cursor *cmd;
+ 	const u32 image_size = width * height * sizeof(*image);
+ 	const u32 cmd_size = sizeof(*cmd) + image_size;
  
- 	if (flags & DRM_VMW_EXECBUF_FLAG_EXPORT_FENCE_FD) {
- 		out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
-@@ -4164,14 +4164,6 @@ int vmw_execbuf_process(struct drm_file *file_priv,
- 	if (sw_context->staged_bindings)
- 		vmw_binding_state_reset(sw_context->staged_bindings);
- 
--	if (!sw_context->res_ht_initialized) {
--		ret = vmwgfx_ht_create(&sw_context->res_ht, VMW_RES_HT_ORDER);
--		if (unlikely(ret != 0))
--			goto out_unlock;
--
--		sw_context->res_ht_initialized = true;
+-	if (cm_bo != NULL) {
+-		vmw_cursor_update_mob(dev_priv, cm_bo, cm_map, image,
+-				      width, height,
+-				      hotspotX, hotspotY);
+-		return;
 -	}
 -
- 	INIT_LIST_HEAD(&sw_context->staged_cmd_res);
- 	sw_context->ctx = &val_ctx;
- 	ret = vmw_execbuf_tie_context(dev_priv, sw_context, dx_context_handle);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-index f46891012be3..f5c4a40fb16d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 OR MIT
- /**************************************************************************
+ 	/* Try to reserve fifocmd space and swallow any failures;
+ 	   such reservations cannot be left unconsumed for long
+ 	   under the risk of clogging other fifocmd users, so
+@@ -104,12 +104,39 @@ static void vmw_cursor_update_image(struct vmw_private *dev_priv,
+ 	vmw_cmd_commit_flush(dev_priv, cmd_size);
+ }
+ 
++/**
++ * vmw_cursor_update_image - update the cursor image on the provided plane
++ * @dev_priv: the private driver struct
++ * @vps: the plane state of the cursor plane
++ * @image: buffer which holds the cursor image
++ * @width: width of the mouse cursor image
++ * @height: height of the mouse cursor image
++ * @hotspotX: the horizontal position of mouse hotspot
++ * @hotspotY: the vertical position of mouse hotspot
++ */
++static void vmw_cursor_update_image(struct vmw_private *dev_priv,
++				    struct vmw_plane_state *vps,
++				    u32 *image, u32 width, u32 height,
++				    u32 hotspotX, u32 hotspotY)
++{
++	if (vps->cursor.bo != NULL)
++		vmw_cursor_update_mob(dev_priv, vps, image,
++				      width, height,
++				      hotspotX, hotspotY);
++	else
++		vmw_send_define_cursor_cmd(dev_priv, image, width, height,
++					   hotspotX, hotspotY);
++}
++
++
+ /**
+  * vmw_cursor_update_mob - Update cursor vis CursorMob mechanism
   *
-- * Copyright © 2018 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright © 2018 - 2022 VMware, Inc., Palo Alto, CA., USA
-  * All Rights Reserved.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-@@ -180,11 +180,16 @@ vmw_validation_find_bo_dup(struct vmw_validation_context *ctx,
- 	if (!ctx->merge_dups)
- 		return NULL;
- 
--	if (ctx->ht) {
-+	if (ctx->sw_context) {
- 		struct vmwgfx_hash_item *hash;
-+		unsigned long key = (unsigned long) vbo;
- 
--		if (!vmwgfx_ht_find_item(ctx->ht, (unsigned long) vbo, &hash))
--			bo_node = container_of(hash, typeof(*bo_node), hash);
-+		hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash, head, key) {
-+			if (hash->key == key) {
-+				bo_node = container_of(hash, typeof(*bo_node), hash);
-+				break;
-+			}
-+		}
- 	} else {
- 		struct  vmw_validation_bo_node *entry;
- 
-@@ -217,11 +222,16 @@ vmw_validation_find_res_dup(struct vmw_validation_context *ctx,
- 	if (!ctx->merge_dups)
- 		return NULL;
- 
--	if (ctx->ht) {
-+	if (ctx->sw_context) {
- 		struct vmwgfx_hash_item *hash;
-+		unsigned long key = (unsigned long) res;
- 
--		if (!vmwgfx_ht_find_item(ctx->ht, (unsigned long) res, &hash))
--			res_node = container_of(hash, typeof(*res_node), hash);
-+		hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash, head, key) {
-+			if (hash->key == key) {
-+				res_node = container_of(hash, typeof(*res_node), hash);
-+				break;
-+			}
-+		}
- 	} else {
- 		struct  vmw_validation_res_node *entry;
- 
-@@ -269,20 +279,15 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
- 		}
- 	} else {
- 		struct ttm_validate_buffer *val_buf;
--		int ret;
- 
- 		bo_node = vmw_validation_mem_alloc(ctx, sizeof(*bo_node));
- 		if (!bo_node)
- 			return -ENOMEM;
- 
--		if (ctx->ht) {
-+		if (ctx->sw_context) {
- 			bo_node->hash.key = (unsigned long) vbo;
--			ret = vmwgfx_ht_insert_item(ctx->ht, &bo_node->hash);
--			if (ret) {
--				DRM_ERROR("Failed to initialize a buffer "
--					  "validation entry.\n");
--				return ret;
--			}
-+			hash_add_rcu(ctx->sw_context->res_ht, &bo_node->hash.head,
-+				bo_node->hash.key);
- 		}
- 		val_buf = &bo_node->base;
- 		val_buf->bo = ttm_bo_get_unless_zero(&vbo->base);
-@@ -316,7 +321,6 @@ int vmw_validation_add_resource(struct vmw_validation_context *ctx,
- 				bool *first_usage)
++ * Called from inside vmw_du_cursor_plane_atomic_update to actually
++ * make the cursor-image live.
++ *
+  * @dev_priv: device to work with
+- * @bo: BO for the MOB
+- * @map: kmap obj for the BO
++ * @vps: the plane state of the cursor plane
+  * @image: cursor source data to fill the MOB with
+  * @width: source data width
+  * @height: source data height
+@@ -117,8 +144,7 @@ static void vmw_cursor_update_image(struct vmw_private *dev_priv,
+  * @hotspotY: cursor hotspot Y
+  */
+ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
+-				  struct ttm_buffer_object *bo,
+-				  struct ttm_bo_kmap_obj *map,
++				  struct vmw_plane_state *vps,
+ 				  u32 *image, u32 width, u32 height,
+ 				  u32 hotspotX, u32 hotspotY)
  {
- 	struct vmw_validation_res_node *node;
--	int ret;
+@@ -127,11 +153,11 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
+ 	const u32 image_size = width * height * sizeof(*image);
+ 	bool dummy;
  
- 	node = vmw_validation_find_res_dup(ctx, res);
- 	if (node) {
-@@ -330,14 +334,9 @@ int vmw_validation_add_resource(struct vmw_validation_context *ctx,
- 		return -ENOMEM;
- 	}
- 
--	if (ctx->ht) {
-+	if (ctx->sw_context) {
- 		node->hash.key = (unsigned long) res;
--		ret = vmwgfx_ht_insert_item(ctx->ht, &node->hash);
--		if (ret) {
--			DRM_ERROR("Failed to initialize a resource validation "
--				  "entry.\n");
--			return ret;
--		}
-+		hash_add_rcu(ctx->sw_context->res_ht, &node->hash.head, node->hash.key);
- 	}
- 	node->res = vmw_resource_reference_unless_doomed(res);
- 	if (!node->res)
-@@ -681,19 +680,19 @@ void vmw_validation_drop_ht(struct vmw_validation_context *ctx)
- 	struct vmw_validation_bo_node *entry;
- 	struct vmw_validation_res_node *val;
- 
--	if (!ctx->ht)
-+	if (!ctx->sw_context)
- 		return;
- 
- 	list_for_each_entry(entry, &ctx->bo_list, base.head)
--		(void) vmwgfx_ht_remove_item(ctx->ht, &entry->hash);
-+		hash_del_rcu(&entry->hash.head);
- 
- 	list_for_each_entry(val, &ctx->resource_list, head)
--		(void) vmwgfx_ht_remove_item(ctx->ht, &val->hash);
-+		hash_del_rcu(&val->hash.head);
- 
- 	list_for_each_entry(val, &ctx->resource_ctx_list, head)
--		(void) vmwgfx_ht_remove_item(ctx->ht, &val->hash);
-+		hash_del_rcu(&entry->hash.head);
- 
--	ctx->ht = NULL;
-+	ctx->sw_context = NULL;
- }
- 
- /**
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-index f21df053882b..ab9ec226f433 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 OR MIT */
- /**************************************************************************
-  *
-- * Copyright © 2018 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright © 2018 - 2022 VMware, Inc., Palo Alto, CA., USA
-  * All Rights Reserved.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-@@ -29,12 +29,11 @@
- #define _VMWGFX_VALIDATION_H_
- 
- #include <linux/list.h>
-+#include <linux/hashtable.h>
- #include <linux/ww_mutex.h>
- 
- #include <drm/ttm/ttm_execbuf_util.h>
- 
--#include "vmwgfx_hashtab.h"
+-	BUG_ON(!image);
 -
- #define VMW_RES_DIRTY_NONE 0
- #define VMW_RES_DIRTY_SET BIT(0)
- #define VMW_RES_DIRTY_CLEAR BIT(1)
-@@ -59,7 +58,7 @@
-  * @total_mem: Amount of reserved memory.
-  */
- struct vmw_validation_context {
--	struct vmwgfx_open_hash *ht;
-+	struct vmw_sw_context *sw_context;
- 	struct list_head resource_list;
- 	struct list_head resource_ctx_list;
- 	struct list_head bo_list;
-@@ -82,16 +81,16 @@ struct vmw_fence_obj;
- /**
-  * DECLARE_VAL_CONTEXT - Declare a validation context with initialization
-  * @_name: The name of the variable
-- * @_ht: The hash table used to find dups or NULL if none
-+ * @_sw_context: Contains the hash table used to find dups or NULL if none
-  * @_merge_dups: Whether to merge duplicate buffer object- or resource
-  * entries. If set to true, ideally a hash table pointer should be supplied
-  * as well unless the number of resources and buffer objects per validation
-  * is known to be very small
-  */
- #endif
--#define DECLARE_VAL_CONTEXT(_name, _ht, _merge_dups)			\
-+#define DECLARE_VAL_CONTEXT(_name, _sw_context, _merge_dups)		\
- 	struct vmw_validation_context _name =				\
--	{ .ht = _ht,							\
-+	{ .sw_context = _sw_context,					\
- 	  .resource_list = LIST_HEAD_INIT((_name).resource_list),	\
- 	  .resource_ctx_list = LIST_HEAD_INIT((_name).resource_ctx_list), \
- 	  .bo_list = LIST_HEAD_INIT((_name).bo_list),			\
-@@ -114,19 +113,6 @@ vmw_validation_has_bos(struct vmw_validation_context *ctx)
- 	return !list_empty(&ctx->bo_list);
+-	header = (SVGAGBCursorHeader *)ttm_kmap_obj_virtual(map, &dummy);
++	header = ttm_kmap_obj_virtual(&vps->cursor.map, &dummy);
+ 	alpha_header = &header->header.alphaHeader;
+ 
++	memset(header, 0, sizeof(*header));
++
+ 	header->type = SVGA_ALPHA_CURSOR;
+ 	header->sizeInBytes = image_size;
+ 
+@@ -141,102 +167,116 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
+ 	alpha_header->height = height;
+ 
+ 	memcpy(header + 1, image, image_size);
++	vmw_write(dev_priv, SVGA_REG_CURSOR_MOBID,
++		  vps->cursor.bo->resource->start);
++}
+ 
+-	vmw_write(dev_priv, SVGA_REG_CURSOR_MOBID, bo->resource->start);
++static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
++{
++	return w * h * sizeof(u32) + sizeof(SVGAGBCursorHeader);
  }
  
--/**
-- * vmw_validation_set_ht - Register a hash table for duplicate finding
-- * @ctx: The validation context
-- * @ht: Pointer to a hash table to use for duplicate finding
-- * This function is intended to be used if the hash table wasn't
-- * available at validation context declaration time
-- */
--static inline void vmw_validation_set_ht(struct vmw_validation_context *ctx,
--					 struct vmwgfx_open_hash *ht)
+-void vmw_du_destroy_cursor_mob_array(struct vmw_cursor_plane *vcp)
++static void vmw_du_destroy_cursor_mob(struct ttm_buffer_object **bo)
+ {
+-	size_t i;
++	if (*bo == NULL)
++		return;
+ 
+-	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mob); i++) {
+-		if (vcp->cursor_mob[i] != NULL) {
+-			ttm_bo_unpin(vcp->cursor_mob[i]);
+-			ttm_bo_put(vcp->cursor_mob[i]);
+-			kfree(vcp->cursor_mob[i]);
+-			vcp->cursor_mob[i] = NULL;
+-		}
+-	}
++	ttm_bo_unpin(*bo);
++	ttm_bo_put(*bo);
++	kfree(*bo);
++	*bo = NULL;
+ }
+ 
+-#define CURSOR_MOB_SIZE(dimension) \
+-	((dimension) * (dimension) * sizeof(u32) + sizeof(SVGAGBCursorHeader))
+-
+-int vmw_du_create_cursor_mob_array(struct vmw_cursor_plane *cursor)
++static void vmw_du_put_cursor_mob(struct vmw_cursor_plane *vcp,
++				  struct vmw_plane_state *vps)
+ {
+-	struct vmw_private *dev_priv = cursor->base.dev->dev_private;
+-	uint32_t cursor_max_dim, mob_max_size;
+-	int ret = 0;
+-	size_t i;
+-
+-	if (!dev_priv->has_mob || (dev_priv->capabilities2 & SVGA_CAP2_CURSOR_MOB) == 0)
+-		return -ENOSYS;
++	u32 i;
+ 
+-	mob_max_size = vmw_read(dev_priv, SVGA_REG_MOB_MAX_SIZE);
+-	cursor_max_dim = vmw_read(dev_priv, SVGA_REG_CURSOR_MAX_DIMENSION);
++	if (vps->cursor.bo == NULL)
++		return;
+ 
+-	if (CURSOR_MOB_SIZE(cursor_max_dim) > mob_max_size)
+-		cursor_max_dim = 64; /* Mandatorily-supported cursor dimension */
++	vmw_du_cursor_plane_unmap_cm(vps);
+ 
+-	for (i = 0; i < ARRAY_SIZE(cursor->cursor_mob); i++) {
+-		struct ttm_buffer_object **const bo = &cursor->cursor_mob[i];
++	/* Look for a free slot to return this mob to the cache. */
++	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++) {
++		if (vcp->cursor_mobs[i] == NULL) {
++			vcp->cursor_mobs[i] = vps->cursor.bo;
++			vps->cursor.bo = NULL;
++			return;
++		}
++	}
+ 
+-		ret = vmw_bo_create_kernel(dev_priv,
+-			CURSOR_MOB_SIZE(cursor_max_dim),
+-			&vmw_mob_placement, bo);
++	/* Cache is full: See if this mob is bigger than an existing mob. */
++	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++) {
++		if (vcp->cursor_mobs[i]->base.size <
++		    vps->cursor.bo->base.size) {
++			vmw_du_destroy_cursor_mob(&vcp->cursor_mobs[i]);
++			vcp->cursor_mobs[i] = vps->cursor.bo;
++			vps->cursor.bo = NULL;
++			return;
++		}
++	}
+ 
+-		if (ret != 0)
+-			goto teardown;
++	/* Destroy it if it's not worth caching. */
++	vmw_du_destroy_cursor_mob(&vps->cursor.bo);
++}
+ 
+-		if ((*bo)->resource->mem_type != VMW_PL_MOB) {
+-			DRM_ERROR("Obtained buffer object is not a MOB.\n");
+-			ret = -ENOSYS;
+-			goto teardown;
+-		}
++static int vmw_du_get_cursor_mob(struct vmw_cursor_plane *vcp,
++				 struct vmw_plane_state *vps)
++{
++	struct vmw_private *dev_priv = vcp->base.dev->dev_private;
++	u32 size = vmw_du_cursor_mob_size(vps->base.crtc_w, vps->base.crtc_h);
++	u32 i;
++	u32 cursor_max_dim, mob_max_size;
++	int ret;
+ 
+-		/* Fence the mob creation so we are guarateed to have the mob */
+-		ret = ttm_bo_reserve(*bo, false, false, NULL);
++	if (!dev_priv->has_mob ||
++	    (dev_priv->capabilities2 & SVGA_CAP2_CURSOR_MOB) == 0)
++		return -EINVAL;
+ 
+-		if (ret != 0)
+-			goto teardown;
++	mob_max_size = vmw_read(dev_priv, SVGA_REG_MOB_MAX_SIZE);
++	cursor_max_dim = vmw_read(dev_priv, SVGA_REG_CURSOR_MAX_DIMENSION);
+ 
+-		vmw_bo_fence_single(*bo, NULL);
++	if (size > mob_max_size || vps->base.crtc_w > cursor_max_dim ||
++	    vps->base.crtc_h > cursor_max_dim)
++		return -EINVAL;
+ 
+-		ttm_bo_unreserve(*bo);
++	if (vps->cursor.bo != NULL) {
++		if (vps->cursor.bo->base.size >= size)
++			return 0;
++		vmw_du_put_cursor_mob(vcp, vps);
++	}
+ 
+-		drm_info(&dev_priv->drm, "Using CursorMob mobid %lu, max dimension %u\n",
+-			 (*bo)->resource->start, cursor_max_dim);
++	/* Look for an unused mob in the cache. */
++	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++) {
++		if (vcp->cursor_mobs[i] != NULL &&
++		    vcp->cursor_mobs[i]->base.size >= size) {
++			vps->cursor.bo = vcp->cursor_mobs[i];
++			vcp->cursor_mobs[i] = NULL;
++			return 0;
++		}
+ 	}
++	/* Create a new mob if we can't find an existing one. */
++	ret = vmw_bo_create_kernel(dev_priv, size, &vmw_mob_placement,
++				   &vps->cursor.bo);
++
++	if (ret != 0)
++		return ret;
++
++	/* Fence the mob creation so we are guarateed to have the mob */
++	ret = ttm_bo_reserve(vps->cursor.bo, false, false, NULL);
++	if (ret != 0)
++		goto teardown;
+ 
++	vmw_bo_fence_single(vps->cursor.bo, NULL);
++	ttm_bo_unreserve(vps->cursor.bo);
+ 	return 0;
+ 
+ teardown:
+-	vmw_du_destroy_cursor_mob_array(cursor);
+-
++	vmw_du_destroy_cursor_mob(&vps->cursor.bo);
+ 	return ret;
+ }
+ 
+-#undef CURSOR_MOB_SIZE
+-
+-static void vmw_cursor_update_bo(struct vmw_private *dev_priv,
+-				 struct ttm_buffer_object *cm_bo,
+-				 struct ttm_bo_kmap_obj *cm_map,
+-				 struct vmw_buffer_object *bo,
+-				 u32 width, u32 height,
+-				 u32 hotspotX, u32 hotspotY)
 -{
--	ctx->ht = ht;
+-	void *virtual;
+-	bool dummy;
+-
+-	virtual = ttm_kmap_obj_virtual(&bo->map, &dummy);
+-	if (virtual) {
+-		vmw_cursor_update_image(dev_priv, cm_bo, cm_map, virtual,
+-					width, height,
+-					hotspotX, hotspotY);
+-		atomic_dec(&bo->base_mapped_count);
+-	}
 -}
 -
+ 
+ static void vmw_cursor_update_position(struct vmw_private *dev_priv,
+ 				       bool show, int x, int y)
+@@ -391,11 +431,11 @@ void vmw_kms_cursor_post_execbuf(struct vmw_private *dev_priv)
+ 			continue;
+ 
+ 		du->cursor_age = du->cursor_surface->snooper.age;
+-		vmw_cursor_update_image(dev_priv, NULL, NULL,
+-					du->cursor_surface->snooper.image,
+-					64, 64,
+-					du->hotspot_x + du->core_hotspot_x,
+-					du->hotspot_y + du->core_hotspot_y);
++		vmw_send_define_cursor_cmd(dev_priv,
++					   du->cursor_surface->snooper.image,
++					   64, 64,
++					   du->hotspot_x + du->core_hotspot_x,
++					   du->hotspot_y + du->core_hotspot_y);
+ 	}
+ 
+ 	mutex_unlock(&dev->mode_config.mutex);
+@@ -404,8 +444,14 @@ void vmw_kms_cursor_post_execbuf(struct vmw_private *dev_priv)
+ 
+ void vmw_du_cursor_plane_destroy(struct drm_plane *plane)
+ {
++	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
++	u32 i;
++
+ 	vmw_cursor_update_position(plane->dev->dev_private, false, 0, 0);
+-	vmw_du_destroy_cursor_mob_array(vmw_plane_to_vcp(plane));
++
++	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++)
++		vmw_du_destroy_cursor_mob(&vcp->cursor_mobs[i]);
++
+ 	drm_plane_cleanup(plane);
+ }
+ 
+@@ -462,6 +508,87 @@ vmw_du_plane_cleanup_fb(struct drm_plane *plane,
+ }
+ 
+ 
++/**
++ * vmw_du_cursor_plane_map_cm - Maps the cursor mobs.
++ *
++ * @vps: plane_state
++ *
++ * Returns 0 on success
++ */
++
++static int
++vmw_du_cursor_plane_map_cm(struct vmw_plane_state *vps)
++{
++	int ret;
++	u32 size = vmw_du_cursor_mob_size(vps->base.crtc_w, vps->base.crtc_h);
++	struct ttm_buffer_object *bo = vps->cursor.bo;
++
++	if (bo == NULL)
++		return -EINVAL;
++
++	if (bo->base.size < size)
++		return -EINVAL;
++
++	if (vps->cursor.mapped)
++		return 0;
++
++	ret = ttm_bo_reserve(bo, false, false, NULL);
++
++	if (unlikely(ret != 0))
++		return -ENOMEM;
++
++	ret = ttm_bo_kmap(bo, 0, PFN_UP(size), &vps->cursor.map);
++
++	/*
++	 * We just want to try to get mob bind to finish
++	 * so that the first write to SVGA_REG_CURSOR_MOBID
++	 * is done with a buffer that the device has already
++	 * seen
++	 */
++	(void) ttm_bo_wait(bo, false, false);
++
++	ttm_bo_unreserve(bo);
++
++	if (unlikely(ret != 0))
++		return -ENOMEM;
++
++	vps->cursor.mapped = true;
++
++	return 0;
++}
++
++
++/**
++ * vmw_du_cursor_plane_unmap_cm - Unmaps the cursor mobs.
++ *
++ * @vps: state of the cursor plane
++ *
++ * Returns 0 on success
++ */
++
++static int
++vmw_du_cursor_plane_unmap_cm(struct vmw_plane_state *vps)
++{
++	int ret = 0;
++	struct ttm_buffer_object *bo = vps->cursor.bo;
++
++	if (!vps->cursor.mapped)
++		return 0;
++
++	if (bo == NULL)
++		return 0;
++
++	ret = ttm_bo_reserve(bo, true, false, NULL);
++	if (likely(ret == 0)) {
++		ttm_bo_kunmap(&vps->cursor.map);
++		ttm_bo_unreserve(bo);
++		vps->cursor.mapped = false;
++	}
++
++	return ret;
++}
++
++
  /**
-  * vmw_validation_bo_reserve - Reserve buffer objects registered with a
-  * validation context
+  * vmw_du_cursor_plane_cleanup_fb - Unpins the plane surface
+  *
+@@ -476,6 +603,7 @@ void
+ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+ 			       struct drm_plane_state *old_state)
+ {
++	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+ 	bool dummy;
+ 
+@@ -489,28 +617,23 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+ 		}
+ 	}
+ 
+-	if (vps->cm_bo != NULL && ttm_kmap_obj_virtual(&vps->cm_map, &dummy) != NULL) {
+-		const int ret = ttm_bo_reserve(vps->cm_bo, true, false, NULL);
+-
+-		if (likely(ret == 0)) {
+-			ttm_bo_kunmap(&vps->cm_map);
+-			ttm_bo_unreserve(vps->cm_bo);
+-		}
+-	}
++	vmw_du_cursor_plane_unmap_cm(vps);
++	vmw_du_put_cursor_mob(vcp, vps);
+ 
+ 	vmw_du_plane_unpin_surf(vps, false);
+ 
+-	if (vps->surf) {
++	if (vps->surf != NULL) {
+ 		vmw_surface_unreference(&vps->surf);
+ 		vps->surf = NULL;
+ 	}
+ 
+-	if (vps->bo) {
++	if (vps->bo != NULL) {
+ 		vmw_bo_unreference(&vps->bo);
+ 		vps->bo = NULL;
+ 	}
+ }
+ 
++
+ /**
+  * vmw_du_cursor_plane_prepare_fb - Readies the cursor by referencing it
+  *
+@@ -526,8 +649,6 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 	struct drm_framebuffer *fb = new_state->fb;
+ 	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
+-	struct ttm_buffer_object *cm_bo = NULL;
+-	bool dummy;
+ 	int ret = 0;
+ 
+ 	if (vps->surf) {
+@@ -550,13 +671,14 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 		}
+ 	}
+ 
+-	vps->cm_bo = NULL;
+-
+ 	if (vps->surf == NULL && vps->bo != NULL) {
+ 		const u32 size = new_state->crtc_w * new_state->crtc_h * sizeof(u32);
+ 
+-		/* Not using vmw_bo_map_and_cache() helper here as we need to reserve
+-		   the ttm_buffer_object first which wmw_bo_map_and_cache() omits. */
++		/*
++		 * Not using vmw_bo_map_and_cache() helper here as we need to
++		 * reserve the ttm_buffer_object first which
++		 * vmw_bo_map_and_cache() omits.
++		 */
+ 		ret = ttm_bo_reserve(&vps->bo->base, true, false, NULL);
+ 
+ 		if (unlikely(ret != 0))
+@@ -573,67 +695,12 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 			return -ENOMEM;
+ 	}
+ 
+-	if (vps->surf || vps->bo) {
+-		unsigned cursor_mob_idx = vps->cursor_mob_idx;
+-
+-		/* Lazily set up cursor MOBs just once -- no reattempts. */
+-		if (cursor_mob_idx == 0 && vcp->cursor_mob[0] == NULL)
+-			if (vmw_du_create_cursor_mob_array(vcp) != 0)
+-				vps->cursor_mob_idx = cursor_mob_idx = -1U;
+-
+-		if (cursor_mob_idx < ARRAY_SIZE(vcp->cursor_mob)) {
+-			const u32 size = sizeof(SVGAGBCursorHeader) +
+-				new_state->crtc_w * new_state->crtc_h * sizeof(u32);
+-
+-			cm_bo = vcp->cursor_mob[cursor_mob_idx];
+-
+-			if (cm_bo->resource->num_pages * PAGE_SIZE < size) {
+-				ret = -EINVAL;
+-				goto error_bo_unmap;
+-			}
+-
+-			ret = ttm_bo_reserve(cm_bo, false, false, NULL);
+-
+-			if (unlikely(ret != 0)) {
+-				ret = -ENOMEM;
+-				goto error_bo_unmap;
+-			}
+-
+-			ret = ttm_bo_kmap(cm_bo, 0, PFN_UP(size), &vps->cm_map);
+-
+-			/*
+-			 * We just want to try to get mob bind to finish
+-			 * so that the first write to SVGA_REG_CURSOR_MOBID
+-			 * is done with a buffer that the device has already
+-			 * seen
+-			 */
+-			(void) ttm_bo_wait(cm_bo, false, false);
+-
+-			ttm_bo_unreserve(cm_bo);
+-
+-			if (unlikely(ret != 0)) {
+-				ret = -ENOMEM;
+-				goto error_bo_unmap;
+-			}
+-
+-			vps->cursor_mob_idx = cursor_mob_idx ^ 1;
+-			vps->cm_bo = cm_bo;
+-		}
++	if (vps->surf != NULL || vps->bo != NULL) {
++		vmw_du_get_cursor_mob(vcp, vps);
++		vmw_du_cursor_plane_map_cm(vps);
+ 	}
+ 
+ 	return 0;
+-
+-error_bo_unmap:
+-	if (vps->bo != NULL && ttm_kmap_obj_virtual(&vps->bo->map, &dummy) != NULL) {
+-		const int ret = ttm_bo_reserve(&vps->bo->base, true, false, NULL);
+-		if (likely(ret == 0)) {
+-			atomic_dec(&vps->bo->base_mapped_count);
+-			ttm_bo_kunmap(&vps->bo->map);
+-			ttm_bo_unreserve(&vps->bo->base);
+-		}
+-	}
+-
+-	return ret;
+ }
+ 
+ 
+@@ -650,6 +717,8 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
+ 	s32 hotspot_x, hotspot_y;
++	void *virtual;
++	bool dummy;
+ 
+ 	hotspot_x = du->hotspot_x;
+ 	hotspot_y = du->hotspot_y;
+@@ -662,23 +731,29 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	du->cursor_surface = vps->surf;
+ 	du->cursor_bo = vps->bo;
+ 
+-	if (vps->surf) {
++	if (vps->surf == NULL && vps->bo == NULL) {
++		vmw_cursor_update_position(dev_priv, false, 0, 0);
++		return;
++	}
++
++	if (vps->surf != NULL) {
+ 		du->cursor_age = du->cursor_surface->snooper.age;
+ 
+-		vmw_cursor_update_image(dev_priv, vps->cm_bo, &vps->cm_map,
++		vmw_cursor_update_image(dev_priv, vps,
+ 					vps->surf->snooper.image,
+ 					new_state->crtc_w,
+ 					new_state->crtc_h,
+ 					hotspot_x, hotspot_y);
+-	} else if (vps->bo) {
+-		vmw_cursor_update_bo(dev_priv, vps->cm_bo, &vps->cm_map,
+-				     vps->bo,
+-				     new_state->crtc_w,
+-				     new_state->crtc_h,
+-				     hotspot_x, hotspot_y);
+ 	} else {
+-		vmw_cursor_update_position(dev_priv, false, 0, 0);
+-		return;
++
++		virtual = ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
++		if (virtual) {
++			vmw_cursor_update_image(dev_priv, vps, virtual,
++						new_state->crtc_w,
++						new_state->crtc_h,
++						hotspot_x, hotspot_y);
++			atomic_dec(&vps->bo->base_mapped_count);
++		}
+ 	}
+ 
+ 	du->cursor_x = new_state->crtc_x + du->set_gui_x;
+@@ -943,11 +1018,13 @@ vmw_du_plane_duplicate_state(struct drm_plane *plane)
+ 	vps->pinned = 0;
+ 	vps->cpp = 0;
+ 
++	memset(&vps->cursor, 0, sizeof(vps->cursor));
++
+ 	/* Each ref counted resource needs to be acquired again */
+-	if (vps->surf)
++	if (vps->surf != NULL)
+ 		(void) vmw_surface_reference(vps->surf);
+ 
+-	if (vps->bo)
++	if (vps->bo != NULL)
+ 		(void) vmw_bo_reference(vps->bo);
+ 
+ 	state = &vps->base;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+index 85f86faa3243..a9bcc91f978b 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -295,13 +295,11 @@ struct vmw_plane_state {
+ 	/* For CPU Blit */
+ 	unsigned int cpp;
+ 
+-	/* CursorMob flipping index; -1 if cursor mobs not used */
+-	unsigned int cursor_mob_idx;
+-	/* Currently-active CursorMob */
+-	struct ttm_buffer_object *cm_bo;
+-	/* CursorMob kmap_obj; expected valid at cursor_plane_atomic_update
+-	   IFF currently-active CursorMob above is valid */
+-	struct ttm_bo_kmap_obj cm_map;
++	struct {
++		struct ttm_buffer_object *bo;
++		struct ttm_bo_kmap_obj map;
++		bool mapped;
++	} cursor;
+ };
+ 
+ 
+@@ -338,11 +336,12 @@ struct vmw_connector_state {
+  * Derived class for cursor plane object
+  *
+  * @base DRM plane object
+- * @cursor_mob array of two MOBs for CursorMob flipping
++ * @cursor.cursor_mobs Cursor mobs available for re-use
+  */
+ struct vmw_cursor_plane {
+ 	struct drm_plane base;
+-	struct ttm_buffer_object *cursor_mob[2];
++
++	struct ttm_buffer_object *cursor_mobs[3];
+ };
+ 
+ /**
+@@ -472,8 +471,6 @@ void vmw_kms_create_implicit_placement_property(struct vmw_private *dev_priv);
+ /* Universal Plane Helpers */
+ void vmw_du_primary_plane_destroy(struct drm_plane *plane);
+ void vmw_du_cursor_plane_destroy(struct drm_plane *plane);
+-int vmw_du_create_cursor_mob_array(struct vmw_cursor_plane *vcp);
+-void vmw_du_destroy_cursor_mob_array(struct vmw_cursor_plane *vcp);
+ 
+ /* Atomic Helpers */
+ int vmw_du_primary_plane_atomic_check(struct drm_plane *plane,
 -- 
 2.34.1
 
