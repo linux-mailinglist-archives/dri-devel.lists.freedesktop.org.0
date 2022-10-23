@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7366091BF
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Oct 2022 10:04:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF6E60923C
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Oct 2022 12:06:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8FD10E0AA;
-	Sun, 23 Oct 2022 08:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C6610E056;
+	Sun, 23 Oct 2022 10:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6865110E0AA
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Oct 2022 08:04:26 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1omVy0-0000aE-UN; Sun, 23 Oct 2022 10:04:20 +0200
-Message-ID: <bbf7afe7-6ed2-6708-d302-4ba657444c45@leemhuis.info>
-Date: Sun, 23 Oct 2022 10:04:20 +0200
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B009810E029;
+ Sun, 23 Oct 2022 02:06:38 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id bs14so8612459ljb.9;
+ Sat, 22 Oct 2022 19:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mVJxenU00nxcYEszNNgSvmlpH8bCaSqTF+LhHb5NT2U=;
+ b=Q8yxpPl0m8T1ED2IZdzu2h5WGXP0kzNAdX1PwAt2aJnt2EerZ7p/u9klH3CbL+84CT
+ bpMS27g5jMxEnz6j+RU1AqnOYnHrMFjdK/oW8IVJSsa+K6SlPJVS6SRg8rxhTTxx7h3P
+ e1RcLFrxcQH/5kuLSThKiQ0/m/LDbddJC60ZTGtFHAfAGJxTIZPO2XRaqj6lZ7FpX7z7
+ Di8FfmdYg1HAGIcSijaMX++DjwiSlD1czpa7Uwuwk9Ngns7lEdtZZCJ2w5tItj4Rs/Lk
+ 4715RmcILlST17EEU4gqga15mWeR3tRgqgKBf1ltNmKYsIrK3mZ88mFyoZy29i3Y1T8c
+ DL2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mVJxenU00nxcYEszNNgSvmlpH8bCaSqTF+LhHb5NT2U=;
+ b=q5RpezgVxVj0ECnW32IQcFqjewDLQlR+sMGU9BeeAmhlb8KW+FE4zKAwT5cPLsTD4K
+ 3y5eEpYarFAexrbWvNW8SfliGjPJ0CQq0gFEmWDI4GI9p5svrGSB2wcmDQqLkYsxqNyR
+ fYoO0TRTdT2qam1B/l9e6YKSZJRv1phiUkWYZDmtGJ1NBvvzPOQX+ZIdG+ci77pEqDPT
+ cOhUNkbwDfRP6wz2CMgtBy8Va2E0OJYKK7tT/JEWXbkwUdw2NYPf1v+u8Mjkn2DE9kZ+
+ q1jX6vE3brlpyJR8gUQWjHm2TV/gpdf8QK408IR7I/HfMF1j9vAN8FmfipnI1dtSOPXx
+ Qncg==
+X-Gm-Message-State: ACrzQf31JkOq3se6yCwpB2PS7hvXn6Gb46iUsmZxLmorFuJMKgsLcEC8
+ a2q7XzcFhOXQnoeJbhx9O0oK38qvdcKzbupDwy8=
+X-Google-Smtp-Source: AMsMyM4JyiLU86ajhHWHIWAW7baDACgJqHmb8WANPatDGLCWU8OJVcrE2ShCIYHHqH0oUqquFaMHNQ57WlzPvl5kLPI=
+X-Received: by 2002:a05:651c:101:b0:250:896d:f870 with SMTP id
+ a1-20020a05651c010100b00250896df870mr10038615ljb.235.1666490796666; Sat, 22
+ Oct 2022 19:06:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Content-Language: en-US, de-DE
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Subject: [Regression] CPU stalls and eventually causes a complete system
- freeze with 6.0.3 due to "video/aperture: Disable and unregister sysfb
- devices via aperture helpers"
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1666512266;
- 50958bb0; 
-X-HE-SMSGID: 1omVy0-0000aE-UN
+References: <CAJ+vNU3zyrAOVWmgPJpRLzMm1V05b9rEMeb6=4AutmZC_rJN8A@mail.gmail.com>
+In-Reply-To: <CAJ+vNU3zyrAOVWmgPJpRLzMm1V05b9rEMeb6=4AutmZC_rJN8A@mail.gmail.com>
+From: Chris Healy <cphealy@gmail.com>
+Date: Sat, 22 Oct 2022 19:06:25 -0700
+Message-ID: <CAFXsbZoizMA8CK=_2uYrwKcZ8Uhwoze6Nod8FD2MPhxs9cOi=A@mail.gmail.com>
+Subject: Re: IMX6 etnaviv issue
+To: Tim Harvey <tharvey@gateworks.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Sun, 23 Oct 2022 10:05:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,222 +65,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- Andreas <andreas.thalhammer@linux.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, this is your Linux kernel regression tracker speaking.
+I can't speak to why you are experiencing issues when using the GPU,
+but in the examples you gave, the example that is working is using a
+SW based GL implementation instead of the real GPU.  This can be
+determined by looking at the GL_RENDERER string to see if it mentions
+a Vivante GPU or something else (like LLVMPIPE).  It's quite likely
+that if you were using the real GPU with etnaviv in Mesa with the
+older config you would also experience similar issues.  As such, we
+shouldn't consider this a regression between the two Ubuntu versions.
 
-I noticed a regression report in bugzilla.kernel.org. As many (most?)
-kernel developer don't keep an eye on it, I decided to forward it by
-mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216616  :
+One thing you may want to try doing is run with Mesa 22.2.1 and TOT to
+see if either of these address any of the issues you are experiencing.
 
->  Andreas 2022-10-22 14:25:32 UTC
-> 
-> Created attachment 303074 [details]
-> dmesg
-> 
-> 6.0.2 works.
-> 
-> On 6.0.3 the system is very sluggish with graphic glitches all over the place in KDE Plasma Desktop X11 (no graphic glitches when using Wayland, but also sluggish). SDDM works fine.
-> 
-> Hardware: Lenovo Legion 5 Pro 16ACH6H: AMD Ryzen 7 5800H "Cezanne", hybrid graphics AMD "Green Sardine" (Vega 8 GCN 5.1, AMDGPU) and Nvidia GeForce RTX 3070 Mobile (GA104M, not working with nouveau, I'm not using the proprietary nvidia driver).
-> 
-> [reply] [−] Comment 1 Andreas 2022-10-22 14:27:15 UTC
-> 
-> Created attachment 303075 [details]
-> my kernel .config for 6.0.3
-> 
-> Only was CONFIG_HID_TOPRE added in 6.0.3, otherwise it is identical as my .config for 6.0.2.
-> 
-> [reply] [−] Comment 2 Andreas 2022-10-22 14:51:23 UTC
-> 
-> In /var/log/Xorg.0.log the only obvious difference is the last line:
-> ---- snap
-> randr: falling back to unsynchronized pixmap sharing
-> ---- snap
-> The line is present when I boot with 6.0.3, but isn't when I boot 6.0.2.
-> 
-> (Obviously this is when I login to KDE with X11, not with Wayland, from SDDM.)
-> 
-> [reply] [−] Comment 3 Andreas 2022-10-22 22:10:19 UTC
-> 
-> I did a git bisect on stable kernels 5.0.3 as bad and 5.0.2 as good, this is the result:
-> 
-> cfecfc98a78d97a49807531b5b224459bda877de is the first bad commit
-> commit cfecfc98a78d97a49807531b5b224459bda877de (HEAD, refs/bisect/bad)
-> Author: Thomas Zimmermann <tzimmermann@suse.de>
-> Date:   Mon Jul 18 09:23:18 2022 +0200
-> 
->     video/aperture: Disable and unregister sysfb devices via aperture helpers
->     
->     [ Upstream commit 5e01376124309b4dbd30d413f43c0d9c2f60edea ]
->     
->     Call sysfb_disable() before removing conflicting devices in aperture
->     helpers. Fixes sysfb state if fbdev has been disabled.
->     
->     Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->     Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->     Fixes: fb84efa28a48 ("drm/aperture: Run fbdev removal before internal helpers")
-> 
-> [reply] [−] Comment 4 Andreas 2022-10-22 22:11:51 UTC
-> 
-> Link to the suspect patch:
-> 
-> https://patchwork.freedesktop.org/patch/msgid/20220718072322.8927-8-tzimmermann@suse.de
-> (or https://patchwork.freedesktop.org/patch/494608/)
-> 
-> [reply] [−] Comment 5 Andreas 2022-10-22 22:38:14 UTC
-> 
-> Okay, so I reverted v2-07-11-video-aperture-Disable-and-unregister-sysfb-devices-via-aperture-helpers.patch on stable 5.0.3 and the fault is gone.
-> 
-> I always logged out immediately, which worked (even though everything is very very sluggish). Also, when I killed the X session within a couple of seconds (15 or so), no error was shown (I used "systemctl stop sddm" from another virtual console).
-> 
-> Noteworthy: I once compiled a kernel from within the Plasma Desktop, while it was sluggish. The kernel compiled alright. When it was finished I moved the mouse to reboot, at which point it completely froze and I had to hard-reset the system.
-> 
-> While still running, after > 15 seconds, the fault looked like this (dmesg):
-> ---- snap ----
-> rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 13-.... } 7 jiffies s: 165 root: 0x2000/.
-> rcu: blocking rcu_node structures (internal RCU debug):
-> Task dump for CPU 13:
-> task:X               state:R  running task     stack:    0 pid: 4242 ppid:  4228 flags:0x00000008
-> Call Trace:
->  <TASK>
->  ? commit_tail+0xd7/0x130
->  ? drm_atomic_helper_commit+0x126/0x150
->  ? drm_atomic_commit+0xa4/0xe0
->  ? drm_plane_get_damage_clips.cold+0x1c/0x1c
->  ? drm_atomic_helper_dirtyfb+0x19e/0x280
->  ? drm_mode_dirtyfb_ioctl+0x10f/0x1e0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? drm_ioctl_kernel+0xc4/0x150
->  ? drm_ioctl+0x246/0x3f0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? __x64_sys_ioctl+0x91/0xd0
->  ? do_syscall_64+0x60/0xd0
->  ? entry_SYSCALL_64_after_hwframe+0x4b/0xb5
->  </TASK>
-> rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 13-.... } 29 jiffies s: 165 root: 0x2000/.
-> rcu: blocking rcu_node structures (internal RCU debug):
-> Task dump for CPU 13:
-> task:X               state:R  running task     stack:    0 pid: 4242 ppid:  4228 flags:0x00000008
-> Call Trace:
->  <TASK>
->  ? commit_tail+0xd7/0x130
->  ? drm_atomic_helper_commit+0x126/0x150
->  ? drm_atomic_commit+0xa4/0xe0
->  ? drm_plane_get_damage_clips.cold+0x1c/0x1c
->  ? drm_atomic_helper_dirtyfb+0x19e/0x280
->  ? drm_mode_dirtyfb_ioctl+0x10f/0x1e0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? drm_ioctl_kernel+0xc4/0x150
->  ? drm_ioctl+0x246/0x3f0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? __x64_sys_ioctl+0x91/0xd0
->  ? do_syscall_64+0x60/0xd0
->  ? entry_SYSCALL_64_after_hwframe+0x4b/0xb5
->  </TASK>
-> rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 13-.... } 8 jiffies s: 169 root: 0x2000/.
-> rcu: blocking rcu_node structures (internal RCU debug):
-> Task dump for CPU 13:
-> task:X               state:R  running task     stack:    0 pid: 4242 ppid:  4228 flags:0x0000400e
-> Call Trace:
->  <TASK>
->  ? memcpy_toio+0x76/0xc0
->  ? drm_fb_memcpy_toio+0x76/0xb0
->  ? drm_fb_blit_toio+0x75/0x2b0
->  ? simpledrm_simple_display_pipe_update+0x132/0x150
->  ? drm_atomic_helper_commit_planes+0xb6/0x230
->  ? drm_atomic_helper_commit_tail+0x44/0x80
->  ? commit_tail+0xd7/0x130
->  ? drm_atomic_helper_commit+0x126/0x150
->  ? drm_atomic_commit+0xa4/0xe0
->  ? drm_plane_get_damage_clips.cold+0x1c/0x1c
->  ? drm_atomic_helper_dirtyfb+0x19e/0x280
->  ? drm_mode_dirtyfb_ioctl+0x10f/0x1e0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? drm_ioctl_kernel+0xc4/0x150
->  ? drm_ioctl+0x246/0x3f0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? __x64_sys_ioctl+0x91/0xd0
->  ? do_syscall_64+0x60/0xd0
->  ? entry_SYSCALL_64_after_hwframe+0x4b/0xb5
->  </TASK>
-> rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 13-.... } 30 jiffies s: 169 root: 0x2000/.
-> rcu: blocking rcu_node structures (internal RCU debug):
-> Task dump for CPU 13:
-> task:X               state:R  running task     stack:    0 pid: 4242 ppid:  4228 flags:0x0000400e
-> Call Trace:
->  <TASK>
->  ? memcpy_toio+0x76/0xc0
->  ? memcpy_toio+0x1b/0xc0
->  ? drm_fb_memcpy_toio+0x76/0xb0
->  ? drm_fb_blit_toio+0x75/0x2b0
->  ? simpledrm_simple_display_pipe_update+0x132/0x150
->  ? drm_atomic_helper_commit_planes+0xb6/0x230
->  ? drm_atomic_helper_commit_tail+0x44/0x80
->  ? commit_tail+0xd7/0x130
->  ? drm_atomic_helper_commit+0x126/0x150
->  ? drm_atomic_commit+0xa4/0xe0
->  ? drm_plane_get_damage_clips.cold+0x1c/0x1c
->  ? drm_atomic_helper_dirtyfb+0x19e/0x280
->  ? drm_mode_dirtyfb_ioctl+0x10f/0x1e0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? drm_ioctl_kernel+0xc4/0x150
->  ? drm_ioctl+0x246/0x3f0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? __x64_sys_ioctl+0x91/0xd0
->  ? do_syscall_64+0x60/0xd0
->  ? entry_SYSCALL_64_after_hwframe+0x4b/0xb5
->  </TASK>
-> rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 13-.... } 52 jiffies s: 169 root: 0x2000/.
-> rcu: blocking rcu_node structures (internal RCU debug):
-> Task dump for CPU 13:
-> task:X               state:R  running task     stack:    0 pid: 4242 ppid:  4228 flags:0x0000400e
-> Call Trace:
->  <TASK>
->  ? memcpy_toio+0x76/0xc0
->  ? memcpy_toio+0x1b/0xc0
->  ? drm_fb_memcpy_toio+0x76/0xb0
->  ? drm_fb_blit_toio+0x75/0x2b0
->  ? simpledrm_simple_display_pipe_update+0x132/0x150
->  ? drm_atomic_helper_commit_planes+0xb6/0x230
->  ? drm_atomic_helper_commit_tail+0x44/0x80
->  ? commit_tail+0xd7/0x130
->  ? drm_atomic_helper_commit+0x126/0x150
->  ? drm_atomic_commit+0xa4/0xe0
->  ? drm_plane_get_damage_clips.cold+0x1c/0x1c
->  ? drm_atomic_helper_dirtyfb+0x19e/0x280
->  ? drm_mode_dirtyfb_ioctl+0x10f/0x1e0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? drm_ioctl_kernel+0xc4/0x150
->  ? drm_ioctl+0x246/0x3f0
->  ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
->  ? __x64_sys_ioctl+0x91/0xd0
->  ? do_syscall_64+0x60/0xd0
->  ? entry_SYSCALL_64_after_hwframe+0x4b/0xb5
->  </TASK>
-> traps: avahi-ml[4447] general protection fault ip:7fdde6a37bc1 sp:7fdde07fc920 error:0 in module-zeroconf-publish.so[7fdde6a37000+3000]
-> 
-
-See the ticket for more details.
-
-BTW, let me use this mail to also add the report to the list of tracked
-regressions to ensure it's doesn't fall through the cracks:
-
-#regzbot introduced: cfecfc98a78d9
-https://bugzilla.kernel.org/show_bug.cgi?id=216616
-#regzbot ignore-activity
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I deal with a lot of
-reports and sometimes miss something important when writing mails like
-this. If that's the case here, don't hesitate to tell me in a public
-reply, it's in everyone's interest to set the public record straight.
+On Thu, Oct 20, 2022 at 1:44 PM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> Greetings,
+>
+> I use a standard Ubuntu 20.04 focal rootfs with a mainline kernel on
+> an IMX6Q based board and have had no issues using things like gnome
+> desktop, glxgears, glmark2 however recently I updated the rootfs to
+> Ubuntu 22.04 jammy using the same mainline kernel and now I see some
+> issues. I've replicated the issue with several kernel versions
+> including 5.4, 5.10, 5.15 and 6.0 so I would say this is not a kernel
+> regression but something related to the graphics stack being used
+> which I'm not very familiar with.
+>
+> The issues I see can be described as:
+> - mouse cursor is incorrect (looks like a hatched square)
+> - glxgears shows some sort of sync/jitter issue and has a fairly low framerate
+> - glmark2 shows a some sync issues then after a few seconds results in
+> a GPU hang
+>
+> My ubuntu focal image that appears to work fine has the following:
+> gnome 3.36.5-0
+> xserver-xorg 1:7.7+19
+> xserver-xorg-core 2:1.20.13-1
+> xwayland 2:1.20.13-1
+> glmark2 2021.02
+> mesa-utils 8.4.0-1
+> GL_VENDOR: Mesa/X.org
+> GL_RENDERER: llvmpipe (LLVM 12.0.0, 128 bits)
+> GL_VERSION: 3.1 Mesa 21.2.6
+>
+> My ubuntu jammy image that has the issues has the following:
+> gnome-41.7-0
+> xserver-xorg 1:7.7+23
+> xserver-xorg-core 2:21.1.3-2
+> xwayland 2:22.1.1-1
+> glmark2 2021.02-0
+> mesa-utils 8.4.0-1
+> GL_VENDOR: etnaviv
+> GL_RENDERER: Vivantte GC2000 rev 5108
+> GL_VERSION: 2.1 Mesa 22.0.5
+>
+> Does anyone have any ideas on what might be going on here? I apologize
+> for my lack of knowledge regarding the software layers on top of the
+> etnaviv kernel driver being used here.
+>
+> Best Regards,
+>
+> Tim
