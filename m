@@ -1,32 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06C76094AE
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Oct 2022 18:18:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8573E6094ED
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Oct 2022 19:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5729710E02B;
-	Sun, 23 Oct 2022 16:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDBE310E095;
+	Sun, 23 Oct 2022 17:01:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 587 seconds by postgrey-1.36 at gabe;
- Sun, 23 Oct 2022 16:17:48 UTC
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C7810E02B
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Oct 2022 16:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
- t=1666541278; bh=Xqe11Ibqu1NMh5rur/Ihh+EKSfXa12WMvQt557WAbbY=;
- h=From:To:Cc:Subject:Date:From;
- b=C7R1LepSst+u0rs2BWjVoU/OgTNul4lRGyCMQgdXH/iuYd1xPpgj29NwV5AT2T95A
- dDivamyUv51VfefpUpwDdaxiIax1TAPHjawjkw1u42EItsmM0RkZua5xlASwThYL0f
- 7KSk+LpLgTkW3HY7EBBPHufiphKpFKK+cv/wSD1c=
-From: Ondrej Jirman <megi@xff.cz>
-To: linux-rockchip@lists.infradead.org
-Subject: [PATCH] drm/rockchip: dsi: Fix VOP selection on SoCs that support it
-Date: Sun, 23 Oct 2022 18:07:47 +0200
-Message-Id: <20221023160747.607943-1-megi@xff.cz>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6FD910E095
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Oct 2022 17:01:32 +0000 (UTC)
+Received: from [192.168.2.31] (unknown [109.252.112.196])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 86D4E660231A;
+ Sun, 23 Oct 2022 18:01:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1666544491;
+ bh=URpcSAxzMg+PmcxqDirkleelgbYhO55RtdH6ohbFw+s=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=XlLbKkWzUPvGqpVarrySAieV23UFR8He3rsXS9QgI81CqocdJ+1wO8gR/IeG4i2dp
+ 3KIROkehklYkKlN0eNPt7nNHE5FyxLaYmc9yZkEHl7pRZ0WgboqWD2FwP29PqfT2gE
+ UhJSisSuIY1Yz62JEyMABjjj5TWf5a92aBpmvEpYvBh+SQwrEfOzyipCfsot5P/BfE
+ ZXNS9Nt0k1F0ik6ryXNMS8UfTUPI8ZEKI98caFb/+pQdsOrE30i9GOzSsgTQbho/Vi
+ NMjB2EOj4LP3EzF/rFkyu5lrR5hHa6gXLEghyZfXd5/f8v4QkoZZ7w0yBV9RRWMH/9
+ SJGyajd8uZ9Qg==
+Message-ID: <e0c951b1-7e6e-272f-6fc6-bbe4a4b13ee7@collabora.com>
+Date: Sun, 23 Oct 2022 20:01:27 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v1] drm: Switch drm_client_buffer_delete() to unlocked
+ drm_gem_vunmap
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20221020213335.309092-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20221020213335.309092-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,53 +56,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>,
- "open list:DRM DRIVERS FOR ROCKCHIP" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Ondrej Jirman <megi@xff.cz>,
- Chris Morgan <macromorgan@hotmail.com>,
- "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-lcdsel_grf_reg is defined as u32, so "< 0" comaprison is always false,
-which breaks VOP selection on eg. RK3399. Compare against 0.
+Hello,
 
-Fixes: f3aaa6125b6f ("drm/rockchip: dsi: add rk3568 support")
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
----
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On 10/21/22 00:33, Dmitry Osipenko wrote:
+> The drm_client_buffer_delete() wasn't switched to unlocked GEM vunmapping
+> by accident when rest of drm_client code transitioned to the unlocked
+> variants of the vmapping functions. Make drm_client_buffer_delete() use
+> the unlocked variant. This fixes lockdep warning splat about missing
+> reservation lock when framebuffer is released.
+> 
+> Reported-by: kernel test robot <yujie.liu@intel.com>
+> Link: https://lore.kernel.org/dri-devel/890f70db-68b0-8456-ca3c-c5496ef90517@collabora.com/T/
+> Fixes: 79e2cf2e7a19 ("drm/gem: Take reservation lock for vmap/vunmap operations")
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_client.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+> index fbcb1e995384..38e1be991caa 100644
+> --- a/drivers/gpu/drm/drm_client.c
+> +++ b/drivers/gpu/drm/drm_client.c
+> @@ -235,7 +235,7 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+>  {
+>  	struct drm_device *dev = buffer->client->dev;
+>  
+> -	drm_gem_vunmap(buffer->gem, &buffer->map);
+> +	drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
+>  
+>  	if (buffer->gem)
+>  		drm_gem_object_put(buffer->gem);
 
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index 7d50a4f463d9..2982a4e9a6ed 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -760,7 +760,7 @@ static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi)
- static void dw_mipi_dsi_rockchip_set_lcdsel(struct dw_mipi_dsi_rockchip *dsi,
- 					    int mux)
- {
--	if (dsi->cdata->lcdsel_grf_reg < 0)
-+	if (dsi->cdata->lcdsel_grf_reg)
- 		regmap_write(dsi->grf_regmap, dsi->cdata->lcdsel_grf_reg,
- 			mux ? dsi->cdata->lcdsel_lit : dsi->cdata->lcdsel_big);
- }
-@@ -1643,7 +1643,6 @@ static const struct rockchip_dw_dsi_chip_data rk3399_chip_data[] = {
- static const struct rockchip_dw_dsi_chip_data rk3568_chip_data[] = {
- 	{
- 		.reg = 0xfe060000,
--		.lcdsel_grf_reg = -1,
- 		.lanecfg1_grf_reg = RK3568_GRF_VO_CON2,
- 		.lanecfg1 = HIWORD_UPDATE(0, RK3568_DSI0_SKEWCALHS |
- 					  RK3568_DSI0_FORCETXSTOPMODE |
-@@ -1653,7 +1652,6 @@ static const struct rockchip_dw_dsi_chip_data rk3568_chip_data[] = {
- 	},
- 	{
- 		.reg = 0xfe070000,
--		.lcdsel_grf_reg = -1,
- 		.lanecfg1_grf_reg = RK3568_GRF_VO_CON3,
- 		.lanecfg1 = HIWORD_UPDATE(0, RK3568_DSI1_SKEWCALHS |
- 					  RK3568_DSI1_FORCETXSTOPMODE |
+Christian, could you please give yours r-b? The dim insists that the
+patch should have r-b or it won't let me push to misc-next. Thanks in
+advance!
+
 -- 
-2.38.1
+Best regards,
+Dmitry
 
