@@ -1,81 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99F860AEB0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:13:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCD960AEBB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:14:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FE310E828;
-	Mon, 24 Oct 2022 15:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8819810E837;
+	Mon, 24 Oct 2022 15:13:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5667310E832
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:12:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666624373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LLng6C1VOPaKmGfnDAR23yy9IW4xWqG/nhRblDLerDI=;
- b=F8k1yULwl2Vm3D8G75ZBZKmz3A03w2I4dWsRWJ6iAzdV2dr6KDn+hZuFvL9AAK6Ia+oHNy
- Nv45Gb9e/sWysc1fiZR1NXu6vcBcaUZB6jdjSHUm2Wiz8Wvmi+PtuoN0WkY5VAO/UwhAZ+
- x4CqEVeuCUOWzgpE9vuMIXWYkbVSEWQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-88-D8XVTrEjORqZbyNkrNoy3g-1; Mon, 24 Oct 2022 11:12:51 -0400
-X-MC-Unique: D8XVTrEjORqZbyNkrNoy3g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- z15-20020a05640240cf00b00461b253c220so3845273edb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:12:51 -0700 (PDT)
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
+ [IPv6:2607:f8b0:4864:20::e33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6077610E834;
+ Mon, 24 Oct 2022 15:13:52 +0000 (UTC)
+Received: by mail-vs1-xe33.google.com with SMTP id 1so8162534vsx.1;
+ Mon, 24 Oct 2022 08:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=J1gk2ep4Ye/CjOaUbmreqC0qY89txiP3E/LghUXF5LA=;
+ b=akGSaltVfsVhRbxG28WOW2X8gO+wU+EznxNMhIIAuSXlPw266pmcqTSPvphoFig+GK
+ 6AkDGxqzK1FJuKj+gGU8trve6h7F9gHybwYtN75fdc3LfBH7MtfTgz8qxq8CwCYlUKal
+ qB0wtDVINyoNPBAV7ld9nZCkIhvnRXn7C3L1qTuA5XRKM2DxzDG/oeeQnzEj+6QNCTQd
+ vNLfsqXPGOM4aOHEVG5gnpMP0+cf59pB02DgvrSrhyyfGzlSYzh7CVf3kW35Vm5Ogkv1
+ SK6c+++qFxQAwPO234SxMhd1pNZ7S9ZL1CmXsT/zlHHQCq6UIhy7FTARmx1QlC57pCeM
+ 0thg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LLng6C1VOPaKmGfnDAR23yy9IW4xWqG/nhRblDLerDI=;
- b=D2hlh4+7RODPCbejZhBUDqcdADf74/Sj7FWAyq1r7tyyr0VDeTN3xfwFyGAi1T6fv8
- cC9cJspSsgFiQbWh0G7RkVlB9pxAK61Fr3ksJ9jTo3uvVzfMUL5V4ILATc8aEsQg2zr/
- np/l99H1aahyr5vCXAeDVZBj2Y7CSGNLvuPx4c+niI1XuR4Nfm0IqcxBKf3rWbuGlUzg
- TmG6EONniUehYpT3njWN5JQLLMC3YCs1J4JgaK8Yhgi+yH+CRHI7vuzWK8v3tqzERaDH
- 1D4wKpemp0vbz9elAMD584V75IK3eTZe+56I6cvy98i4+dr7mzc6igC3Vi938KC43A02
- T7UQ==
-X-Gm-Message-State: ACrzQf3emL3K6nKaiDgR8+/Ad7RCVwnvn/SepNSEEaKWmzc0KBIoyi5l
- emx50aWdDCFrA3s9CQIp3aXTL7iT5dddxxzVJ/Nqf/cGk5L4CyZG7WbhnODY9tk29QNyNTtKNRi
- +njgZhpaCsDLfZeFcf4APWuYy2uRg
-X-Received: by 2002:a17:907:7f05:b0:78d:e869:f2fe with SMTP id
- qf5-20020a1709077f0500b0078de869f2femr26654469ejc.684.1666624370484; 
- Mon, 24 Oct 2022 08:12:50 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7NiY3mR8h0t9Fxj1mnG4UwQWad5Y2Z3MQDaJ6ei5w9igvvCLQDaVpdTc6JMLVHtE1y5iJqvQ==
-X-Received: by 2002:a17:907:7f05:b0:78d:e869:f2fe with SMTP id
- qf5-20020a1709077f0500b0078de869f2femr26654446ejc.684.1666624370217; 
- Mon, 24 Oct 2022 08:12:50 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- 12-20020a170906318c00b00770812e2394sm15742436ejy.160.2022.10.24.08.12.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 08:12:49 -0700 (PDT)
-Message-ID: <db61f939-a4a2-05ec-e09c-03a95c81e922@redhat.com>
-Date: Mon, 24 Oct 2022 17:12:48 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J1gk2ep4Ye/CjOaUbmreqC0qY89txiP3E/LghUXF5LA=;
+ b=fJ/Jz6S7+CEtlES0WS/q4Suze/yKKU0OvM4iqP1TFfDwdoHKSyG5kKJm4bJhsOIEXu
+ vDYFSni26fdZBM6z+THz9RJ3cPw67hjfAdxjwOcC407hiw8PYBbeyRcfgQ/uuy/90MCJ
+ sLVyE8X7dIrPyICXq+I9+m5khq/R5qP6bB+wq/cC59DTMqKqHIkbGuNfnXuf73mGiW8g
+ giuFbfL7s6QQEpgLT0rg8r0kV2vX/MER89TpqtJkZKorCzjTNFMr3wnz+IYX2T5QMGqj
+ LxaZW0VCLAY3nyrdSDfIFTCeidaqLlkGRdUd6xvkiL81A6dPH+t/uwjzKXziyAFDFWi2
+ jT2A==
+X-Gm-Message-State: ACrzQf0ntNlhkbmuV1wLlN1NNtTG9jU8REj3f7eZd1nCaPEOi5FAX/Sd
+ uCBppjxHvArkE+vdToNCK/rXHjinNRCLFTtmpx3YqVEz
+X-Google-Smtp-Source: AMsMyM4fNurfiqwrnpgoMx2P1f9YHXMbFRfipOkR+eGaYvPpVD3TyOfVsYBQuM/D/H05sOmqp3j6d2uvYxO3EKWY1CI=
+X-Received: by 2002:a67:b046:0:b0:3a7:965c:65f1 with SMTP id
+ q6-20020a67b046000000b003a7965c65f1mr15621937vsh.40.1666624420991; Mon, 24
+ Oct 2022 08:13:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2] ACPI: video: Fix missing native backlight on
- Chromebooks
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20221024141210.67784-1-dmitry.osipenko@collabora.com>
- <dda4b024-69d2-1d1d-da23-e922e5b6128a@redhat.com>
- <CAJZ5v0irmk3aAK9t3UYcus+SXDL+AaT88LPXfyJU2PrXbkgfMg@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAJZ5v0irmk3aAK9t3UYcus+SXDL+AaT88LPXfyJU2PrXbkgfMg@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221022060155.52548-1-wangjianli@cdjrlc.com>
+In-Reply-To: <20221022060155.52548-1-wangjianli@cdjrlc.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 24 Oct 2022 11:13:29 -0400
+Message-ID: <CADnq5_OjwUOMa6RAfqT6B50wHQARtdL7uARcDzc+iMCthSsLgA@mail.gmail.com>
+Subject: Re: [PATCH] amd/amdgpu: fix repeated words in comments
+To: wangjianli <wangjianli@cdjrlc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,102 +64,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
- Sean Paul <seanpaul@chromium.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, kernel@collabora.com,
- Len Brown <lenb@kernel.org>
+Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sat, Oct 22, 2022 at 2:02 AM wangjianli <wangjianli@cdjrlc.com> wrote:
+>
+> Delete the redundant word 'the'.
+>
+> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 
-On 10/24/22 16:45, Rafael J. Wysocki wrote:
-> On Mon, Oct 24, 2022 at 4:32 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 10/24/22 16:12, Dmitry Osipenko wrote:
->>> Chromebooks don't have backlight in ACPI table, they suppose to use
->>> native backlight in this case. Check presence of the CrOS embedded
->>> controller ACPI device and prefer the native backlight if EC found.
->>>
->>> Suggested-by: Hans de Goede <hdegoede@redhat.com>
->>> Fixes: 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native() helper")
->>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>> ---
->>>
->>> Changelog:
->>>
->>> v2: - Added explanatory comment to the code and added check for the
->>>       native backlight presence, like was requested by Hans de Goede.
->>
->> Thanks this version looks good to me:
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->>
->> Rafael, can you pick this up and send it in a fixes pull-req
->> for 6.1 to Linus? Or shall I pick this one up and include it
->> in my next pull-req?
-> 
-> It would be better if you could pick this up IMV, so please free to add
-> 
-> Acled-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Applied.  Thanks!
 
-Ok, I've merged this now and I'll send out fixes pull-req with this
-to Linus before coming Friday.
+Alex
 
-Dmitry, Thank you for your patch, I've applied this patch to my
-fixes branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=fixes
-
-Regards,
-
-Hans
-
-
-
-
-> 
-> to it.
-> 
-> Thanks!
-> 
->>>
->>>  drivers/acpi/video_detect.c | 12 ++++++++++++
->>>  1 file changed, 12 insertions(+)
->>>
->>> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
->>> index 0d9064a9804c..9cd8797d12bb 100644
->>> --- a/drivers/acpi/video_detect.c
->>> +++ b/drivers/acpi/video_detect.c
->>> @@ -668,6 +668,11 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->>>       { },
->>>  };
->>>
->>> +static bool google_cros_ec_present(void)
->>> +{
->>> +     return acpi_dev_found("GOOG0004");
->>> +}
->>> +
->>>  /*
->>>   * Determine which type of backlight interface to use on this system,
->>>   * First check cmdline, then dmi quirks, then do autodetect.
->>> @@ -730,6 +735,13 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
->>>                       return acpi_backlight_video;
->>>       }
->>>
->>> +     /*
->>> +      * Chromebooks that don't have backlight handle in ACPI table
->>> +      * are supposed to use native backlight if it's available.
->>> +      */
->>> +     if (google_cros_ec_present() && native_available)
->>> +             return acpi_backlight_native;
->>> +
->>>       /* No ACPI video (old hw), use vendor specific fw methods. */
->>>       return acpi_backlight_vendor;
->>>  }
->>
-> 
-
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index e9155dc1c30c..3de990bbbf2f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -1565,7 +1565,7 @@ static int amdgpu_device_check_arguments(struct amdgpu_device *adev)
+>   * @pdev: pci dev pointer
+>   * @state: vga_switcheroo state
+>   *
+> - * Callback for the switcheroo driver.  Suspends or resumes the
+> + * Callback for the switcheroo driver.  Suspends or resumes
+>   * the asics before or after it is powered up using ACPI methods.
+>   */
+>  static void amdgpu_switcheroo_set_state(struct pci_dev *pdev,
+> --
+> 2.36.1
+>
