@@ -1,58 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091A860B4FD
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 20:11:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F99460B53D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 20:17:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8413010E704;
-	Mon, 24 Oct 2022 18:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE0F10E01F;
+	Mon, 24 Oct 2022 18:17:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6450810E6D3;
- Mon, 24 Oct 2022 18:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666635083; x=1698171083;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=5z5J6hyo+xzhPJHRSqQ2l3yOfGRRo8+TjXETgVVrD8A=;
- b=FVYR0n9zOXJnS/P/R0ocvn+vdcyRzuQ2zPhFwbEQiqnOADKe1u5j2JbB
- oYmfXOZ1pMdthwNAj3hU+lzEku1wJtl0Vfz8936vdqyuH4fvxI5HuJ1oa
- cHmCVRNESbMijTnbstkiNfISqdPzFZgN9zqiNCGAhRpksTBg4siH5Qvw2
- voD/JM+ySWa1Q8IzwkfAqdR783neBSLpljQ0xaGKCwm/u8LQXtS5fPMjU
- aR3MkmKisShWTpNJRPZraZpMgmD+B3iqrpLWBYUzdt3upeMoaG9WeRmBK
- JCS7sJdNoMUuCYKKDIZun829SJNkb0Fe7LyCCNYJF6LzV/JldhpQei70b Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="371707016"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="371707016"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 11:11:22 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609286400"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="609286400"
-Received: from emontau-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.52.221])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 11:11:11 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>, Hans de Goede
- <hdegoede@redhat.com>
-Subject: Re: [PATCH 00/22] Fallback to native backlight
-In-Reply-To: <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
- <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
- <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
- <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
- <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
- <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
- <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
- <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
-Date: Mon, 24 Oct 2022 21:11:08 +0300
-Message-ID: <87o7u1drcz.fsf@intel.com>
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B476E10E01F;
+ Mon, 24 Oct 2022 18:16:58 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id ud5so3409309ejc.4;
+ Mon, 24 Oct 2022 11:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=+JrNSRhjhtNV1zUqz7edpRKlS25HhVnyp4v0GBc4I2k=;
+ b=ErkAFu7vQ+RBqYgeFehxt5BmnnafaJRcp/J6XrZBMltuDAwsk+ZPyYCSeKnRyGz/Sp
+ dDOMvbSyY3mE7N7MjIuEcBXWAht8+kD32rReIf9SODzLlyspABIHJAu7a+NkjgmtaAyc
+ tBJSGSxQCMNS/ACztDbo8nICwOhDh1RDaE8xNgzRq+6XmDyogdZnl4ZTOKaVXxzgJbIy
+ VaxUpWY0P3T7Eu/TWltRThvrPiJPyeRJgky4HmOjKTw7+pUBhG7zPN/NlEpJEG1iqBq/
+ vsp+c1OLhjriwmA0dLuwhqIHDFrTf4xW3JGeWyCd0K+eL9w2pTETY9aWjl7iO0ZMXRd4
+ NGMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+JrNSRhjhtNV1zUqz7edpRKlS25HhVnyp4v0GBc4I2k=;
+ b=XHschV6J1ApuC/3a4hxiH4k07AHThGgscsWfpwoHOCOQZxrZTNHhtThIVgTNI1lmj5
+ 9NvLZcumvlz+YYWtuSnEcV0AxTyqj2268549hETvdCWAhiCz8+L/6x4ZJpIbYs8ywqJG
+ Re9+aIX+ZlAocAjr6DgFWahvJH+ZYKUIusf5v6oWrByXZZLs1LLFC77Nx+Jk58t0RL4M
+ sg/qA5Pv9CbOm19AcDjHhVVNUsXAl3uvNttT0SbYMfNhwxffNbW/+MCruzTQ/US4n0Em
+ 06sQT8UmhvfRZVW4uAmxJIsapFKm8ALj7U8g5isRmBcTd/U/zMz9YJkXLpu/UMM86po7
+ bnFg==
+X-Gm-Message-State: ACrzQf2n2pNIGSxZMJdcLh/r4MmHCEISttOdfHZMDQsibKq1o7qoXjYK
+ YRYmWCXhiBX78jx1sSsVuvw=
+X-Google-Smtp-Source: AMsMyM6gpc2iC1XRiikzm5JVRf4wy/DI9YhN4byrr6CdQ7etiOjJdXHw+g4OSdOk6ZDruTsK4AzV2w==
+X-Received: by 2002:a17:907:2d09:b0:78d:4240:a45e with SMTP id
+ gs9-20020a1709072d0900b0078d4240a45emr29214915ejc.350.1666635416970; 
+ Mon, 24 Oct 2022 11:16:56 -0700 (PDT)
+Received: from [0.0.0.0] ([134.134.137.84])
+ by smtp.googlemail.com with ESMTPSA id
+ t23-20020a170906179700b00782cd82db09sm212396eje.106.2022.10.24.11.16.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 11:16:56 -0700 (PDT)
+Message-ID: <3de34172-f489-5a12-ca86-9552493394af@gmail.com>
+Date: Mon, 24 Oct 2022 21:16:45 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [igt-dev] Must-Pass Test Suite for KMS drivers
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Rob Clark <robdclark@gmail.com>
+References: <20221024124323.tfyxcadyd4nz56jz@houat>
+ <CAF6AEGuokyL+_ZsWeeMeyCcyErapka0ALZQ60bdWKvja3gcN9Q@mail.gmail.com>
+ <Y1a2Eb1rwMyk35v+@intel.com>
+From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+In-Reply-To: <Y1a2Eb1rwMyk35v+@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,41 +78,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Azael Avalos <coproscefalo@gmail.com>, Mattia Dongili <malattia@linux.it>,
- Daniel Dadap <ddadap@nvidia.com>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jonathan Woithe <jwoithe@just42.net>, Jonathan Corbet <corbet@lwn.net>, "Lee,
- Chun-Yi" <jlee@suse.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Robert Moore <robert.moore@intel.com>,
- linux-acpi@vger.kernel.org, Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
- Len Brown <lenb@kernel.org>, Matthew Garrett <mjg59@srcf.ucam.org>,
- Kenneth Chan <kenneth.t.chan@gmail.com>,
- Corentin Chary <corentin.chary@gmail.com>, intel-gfx@lists.freedesktop.org,
- acpi4asus-user@lists.sourceforge.net, Mark Gross <markgross@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, platform-driver-x86@vger.kernel.org,
- devel@acpica.org, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- ibm-acpi-devel@lists.sourceforge.net, Jingoo Han <jingoohan1@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+Reply-To: juhapekka.heikkila@gmail.com
+Cc: Petri Latvala <petri.latvala@intel.com>,
+ Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
+ Martin Roukala <martin.roukala@mupuf.org>, dri-devel@lists.freedesktop.org,
+ igt-dev@lists.freedesktop.org, maxime@cerno.tech,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> That aside, the first patch in this series can be applied without the 
-> later patches so you may have a look at it. It's fine if you don't merge 
-> it though since it does not fix really a pragmatic bug as its message says.
+On 24.10.2022 18.58, Ville Syrjälä wrote:
+> On Mon, Oct 24, 2022 at 08:48:15AM -0700, Rob Clark wrote:
+>> On Mon, Oct 24, 2022 at 5:43 AM <maxime@cerno.tech> wrote:
+>>>
+>>> Hi,
+>>>
+>>> I've discussing the idea for the past year to add an IGT test suite that
+>>> all well-behaved KMS drivers must pass.
+>>>
+>>> The main idea behind it comes from v4l2-compliance and cec-compliance,
+>>> that are being used to validate that the drivers are sane.
+>>>
+>>> We should probably start building up the test list, and eventually
+>>> mandate that all tests pass for all the new KMS drivers we would merge
+>>> in the kernel, and be run by KCi or similar.
+>>
+>> Let's get https://patchwork.freedesktop.org/patch/502641/ merged
+>> first, that already gives us a mechanism similar to what we use in
+>> mesa to track pass/fail/flake
+>>
+>> Beyond that, I think some of the igt tests need to get more stable
+>> before we could consider a "mustpass" list.  The kms_lease tests seem
+>> to fail on msm due to bad assumptions in the test about which CRTCs
+>> primary planes can attach to.  The legacy-cursor crc tests seem a bit
+>> racy (there was a patch posted for that, not sure if it landed yet),
+>> etc.
+> 
+> I think the safest set to start with would be pure uapi validation
+> stuff. Anything that interactics with real world hardware is a much
+> tougher cookie.
+> 
 
-I think it's problematic because it needlessly ties i915 backlight
-operation to existence of backlight devices that may not be related to
-Intel GPU at all. The direction should be multiple supported backlight
-devices, across GPUs and connectors, but only one per display.
+I agree with Ville
 
-BR,
-Jani.
+As is with different pixel formats on different kms crc tests there are 
+specialities just to make crcs happy hence I think crc tests will need 
+to be carefully chosen for this type test set.
 
+And as for those legacy cursor tests to be included people first need 
+consensus across drivers how those tests are supposed to work and then 
+strip out platform specific quirks from those tests.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+/Juha-Pekka
+
+>>
+>> The best thing to do is actually start running CI and tracking xfails
+>> and flakes ;-)
+>>
+>> BR,
+>> -R
+>>
+>>> I did a first pass to create a draft of such a test-suite, which would
+>>> contain:
+>>>
+>>> igt@core_auth@basic-auth
+>>> igt@core_auth@getclient-master-drop
+>>> igt@core_auth@getclient-simple
+>>> igt@core_auth@many-magics
+>>> igt@core_getclient
+>>> igt@core_getstats
+>>> igt@core_getversion
+>>> igt@core_hotunplug@hotrebind-lateclose
+>>> igt@core_hotunplug@hotunbind-rebind
+>>> igt@core_hotunplug@unbind-rebind
+>>> igt@core_setmaster
+>>> igt@core_setmaster_vs_auth
+>>> igt@device_reset@unbind-reset-rebind
+>>> igt@drm_read
+>>> igt@dumb_buffer
+>>> igt@fbdev
+>>> igt@feature_discovery@display
+>>> igt@kms_3d
+>>> igt@kms_addfb_basic
+>>> igt@kms_async_flips
+>>> igt@kms_color
+>>> igt@kms_concurrent
+>>> igt@kms_cursor_crc
+>>> igt@kms_cursor_edge_walk
+>>> igt@kms_cursor_legacy@basic-busy-flip-before-cursor
+>>> igt@kms_cursor_legacy@basic-flip-after-cursor
+>>> igt@kms_cursor_legacy@basic-flip-after-cursor
+>>> igt@kms_display_modes
+>>> igt@kms_dither
+>>> igt@kms_dp_aux_dev
+>>> igt@kms_flip@basic-flip-vs-dpms
+>>> igt@kms_flip@basic-flip-vs-modeset
+>>> igt@kms_flip@basic-flip-vs-wf_vblank
+>>> igt@kms_flip@basic-plain-flip
+>>> igt@kms_flip_event_leak@basic
+>>> igt@kms_force_connector_basic@force-connector-state
+>>> igt@kms_force_connector_basic@force-edid
+>>> igt@kms_force_connector_basic@force-load-detect
+>>> igt@kms_force_connector_basic@prune-stale-modes
+>>> igt@kms_getfb
+>>> igt@kms_hdmi_inject
+>>> igt@kms_hdr
+>>> igt@kms_invalid_mode
+>>> igt@kms_lease
+>>> igt@kms_panel_fitting
+>>> igt@kms_pipe_crc_basic
+>>> igt@kms_plane_alpha_blend
+>>> igt@kms_plane
+>>> igt@kms_plane_cursor
+>>> igt@kms_plane_lowres
+>>> igt@kms_plane_multiple
+>>> igt@kms_plane_scaling
+>>> igt@kms_prop_blob
+>>> igt@kms_properties
+>>> igt@kms_rmfb
+>>> igt@kms_scaling_modes
+>>> igt@kms_sequence
+>>> igt@kms_setmode
+>>> igt@kms_sysfs_edid_timing
+>>> igt@kms_tv_load_detect
+>>> igt@kms_universal_plane
+>>> igt@kms_vblank
+>>> igt@kms_vrr
+>>> igt@kms_writeback
+>>>
+>>> Most of them are skipped on vc4 right now, but I could see that some of
+>>> them fail already (kms_rmfb, core_hotunplug), so it proves to be useful
+>>> already.
+>>>
+>>> What do you think? Is there some more tests needed, or did I include
+>>> some tests that shouldn't have been there?
+>>>
+>>> Thanks!
+>>> Maxime
+> 
+
