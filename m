@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F0160AF33
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:39:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E633F60AF36
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:39:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5923D10E87E;
-	Mon, 24 Oct 2022 15:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48A5C10E87B;
+	Mon, 24 Oct 2022 15:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B23DC10E87E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:39:29 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id s24so2786532ljs.11
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:39:29 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9873410E22A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:39:30 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id bx35so7302315ljb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4iRQ1ZLI8K+KKo3Mi3lCacL/2gYfLmhjW+eZ+G5VxR0=;
- b=DK03fHAgU4BsXGUew2FzyG3+wVE1aU4jA6ElvQnlho0LEO32GQFcBY4dd/LkCacBJ2
- jPIwbDMb2KnH0lLk1oaf7f2CmWkfUlIO1bnPfDHSgSmzMrI8sNmCR7B37cRbVo3Xb0qW
- Dk4xPSNWnfO6MqLUqU0BwiV5QT7qiki/jvUIMYxU33HgObQCtr5I/qWByuNiyiQf7wyv
- y0jFQqxx37K5dKOOaXLzRfVS5Uk5IOWF7L/jw3uXSTx5iFH2VfQzEKNAZHjY9kmLDE4E
- LaHw9E2HVZl2VkJ5z3LuMkaH3FxatPfoF70MaFt456vIuB3oCBztawgsnK/cu0BcbnSj
- EE8w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=I3be5trhw3wsDg3ozZhQ1oc92P/aiH8PmAIGusb2quw=;
+ b=YSyy0MzpgrvBvNqYkcjjjMujeQNgz2w0aplR2UtgE45kTtD5Tpn5OHIRnV3nLiNAUc
+ lvYZRcE54vsOSTS3gXSM4HFBQ3my8Guc1axsWht9KNuaKWxiCl0w7Mr9UezQr3CI/Ew4
+ jOVO0asv1ZiPCgBR1lciM3e8wOAKipPUnpl/lcMmLzCnHJdfpdCk5gvpKC1jlH47f8HB
+ q8QT3t3Mavn3gmwYJ9gzH+y1Pz6HjtyKcEnFvmMTPFpUizIBIJnHA8w/9+PTjrhI6Gik
+ /k9NMsgvBFfFq+4AX1caF8UNru0qPubzJPzqIdV5Kk1mnBRAttYgpz8FmoLxUxFs8vjS
+ g5WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4iRQ1ZLI8K+KKo3Mi3lCacL/2gYfLmhjW+eZ+G5VxR0=;
- b=KIT6peXKAfanwI6cOQWN7LaDPqNtfUuRi5p/rGtjXmmJuaJQU/2EHlWhqXZ6mPHgEH
- NcrzQirEbDI3oMU/+aR/I6Jh4vFds1dokpK5/MMIuxS8sDji2CWqRwKCrmNTvcHPAkxm
- 3MzTXEtpX8fpCDCdndt4PgpCeUA6CxDoZ8cRnYSYvGEYxLaWKWkfBJS5HCWa3EroeCdr
- b/CJd6CFIliKHHl6npRuHYlYWBsfSGa9ASVqBza8KfY3Sv6mycasDJjYG9kMq+IWh+rJ
- +XWvi7eMhzBHZRSQuz6yfcSTQNo1PYuerxynz6AjfUO90pxUVGHomjzmSdZziZpNzjQm
- tojA==
-X-Gm-Message-State: ACrzQf2JBszewD+dcFbMlwd6m76QQSULJWPE2amdYAgiExUms5q88DDk
- gvzl7EO9hfwgwM6nLaJgXW/VQg==
-X-Google-Smtp-Source: AMsMyM6aZgyFcF24FEeW+Du1bHiLYldBNuRLnhbLGjWtlua2WDhhdBQOeIt39dXfHwX+IO0gs5LU4w==
-X-Received: by 2002:a05:651c:169a:b0:277:2ee:5e77 with SMTP id
- bd26-20020a05651c169a00b0027702ee5e77mr4629293ljb.455.1666625968011; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=I3be5trhw3wsDg3ozZhQ1oc92P/aiH8PmAIGusb2quw=;
+ b=BkuACDRofeXIk8ItSFd6eTY8HmdCTmKrNjOgXh6uF0sKwwjOUNAu9L9pJL6PvQ57r2
+ arWkYayUM9FoLY8sgkD7IEhPZTRCZP4tgJSGClerhfbySGIBUaYYKvp9eNQfmwwTCzwC
+ 9snwBnyNHL4rAcBugX8rUU0nUcB/wVz9m53W6Td95D9qQF2RrgOZvw/0jbnaFdFarRsU
+ FtkCWyr1BPcPOJOnKOFJRiLSK4dLOoqWGnPeKW/cAu2lokiGU/+xfREyauKErZDkKaBK
+ G+nhBkP5He8WsRFaju29ax6AQ7FVyomuGCzorLkM9HoVBObBedDNuqpDbPTwMmaM5Lxk
+ i0qA==
+X-Gm-Message-State: ACrzQf0Z4agBYBWCF+hQv5NDAZOnK6LIF/QVGUkbfj+fC+ML4oa2w/x0
+ X0WTYuZwtBd6QnCbLT56998qdw==
+X-Google-Smtp-Source: AMsMyM6oJ0SFF+Zwbo4Q7rqEzTwB8GtqAaRQSOc0HeMjfEBGYSBo6Ghd+iIxJhdZF4gHbWg69CLGnw==
+X-Received: by 2002:a2e:9a81:0:b0:26c:5b63:7a83 with SMTP id
+ p1-20020a2e9a81000000b0026c5b637a83mr13313560lji.291.1666625968692; 
  Mon, 24 Oct 2022 08:39:28 -0700 (PDT)
 Received: from eriador.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- f23-20020a19ae17000000b00497b198987bsm452181lfc.26.2022.10.24.08.39.27
+ f23-20020a19ae17000000b00497b198987bsm452181lfc.26.2022.10.24.08.39.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 08:39:27 -0700 (PDT)
+ Mon, 24 Oct 2022 08:39:28 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -62,11 +63,13 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Tomi Valkeinen <tomba@kernel.org>
-Subject: [PATCH v2 0/7] drm/bridge_connector: perform HPD enablement
- automatically
-Date: Mon, 24 Oct 2022 18:39:19 +0300
-Message-Id: <20221024153926.3222225-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 1/7] drm/poll-helper: merge drm_kms_helper_poll_disable()
+ and _fini()
+Date: Mon, 24 Oct 2022 18:39:20 +0300
+Message-Id: <20221024153926.3222225-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221024153926.3222225-1-dmitry.baryshkov@linaro.org>
+References: <20221024153926.3222225-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,43 +89,60 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
-DRM driver do a proper work of calling
-drm_bridge_connector_en/disable_hpd() in right places. Rather than
-teaching each and every driver how to properly handle
-drm_bridge_connector's HPD, make that automatic.
+Merge drm_kms_helper_poll_disable() and drm_kms_helper_poll_fini() code
+into a common helper function.
 
-Add two additional drm_connector helper funcs: enable_hpd() and
-disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
-is the time where the drm_bridge_connector's functions are called by the
-drivers too).
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/drm_probe_helper.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-Changes since v1:
- - Rebased on top of v6.1-rc1
- - Removed the drm_bridge_connector_enable_hpd() from
-   drm_bridge_connector_init()
- - Removed extra underscore prefix from
-   drm_bridge_connector_en/disable_hpd() helpers
-
-Dmitry Baryshkov (7):
-  drm/poll-helper: merge drm_kms_helper_poll_disable() and _fini()
-  drm/probe-helper: enable and disable HPD on connectors
-  drm/bridge_connector: rely on drm_kms_helper_poll_* for HPD enablement
-  drm/imx/dcss: stop using drm_bridge_connector_en/disable_hpd()
-  drm/msm/hdmi: stop using drm_bridge_connector_en/disable_hpd()
-  drm/omap: stop using drm_bridge_connector_en/disable_hpd()
-  drm/bridge_connector: drop drm_bridge_connector_en/disable_hpd()
-
- drivers/gpu/drm/drm_bridge_connector.c   | 27 +++-------------
- drivers/gpu/drm/drm_probe_helper.c       | 40 ++++++++++++++++++-----
- drivers/gpu/drm/imx/dcss/dcss-dev.c      |  4 ---
- drivers/gpu/drm/imx/dcss/dcss-kms.c      |  2 --
- drivers/gpu/drm/msm/hdmi/hdmi.c          |  2 --
- drivers/gpu/drm/omapdrm/omap_drv.c       | 41 ------------------------
- include/drm/drm_bridge_connector.h       |  2 --
- include/drm/drm_modeset_helper_vtables.h | 22 +++++++++++++
- 8 files changed, 59 insertions(+), 81 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 69b0b2b9cc1c..f97fda3b1d34 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -803,6 +803,17 @@ bool drm_kms_helper_is_poll_worker(void)
+ }
+ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
+ 
++static void drm_kms_helper_poll_disable_fini(struct drm_device *dev, bool fini)
++{
++	if (!dev->mode_config.poll_enabled)
++		return;
++
++	if (fini)
++		dev->mode_config.poll_enabled = false;
++
++	cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
++}
++
+ /**
+  * drm_kms_helper_poll_disable - disable output polling
+  * @dev: drm_device
+@@ -819,9 +830,7 @@ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
+  */
+ void drm_kms_helper_poll_disable(struct drm_device *dev)
+ {
+-	if (!dev->mode_config.poll_enabled)
+-		return;
+-	cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
++	drm_kms_helper_poll_disable_fini(dev, false);
+ }
+ EXPORT_SYMBOL(drm_kms_helper_poll_disable);
+ 
+@@ -859,11 +868,7 @@ EXPORT_SYMBOL(drm_kms_helper_poll_init);
+  */
+ void drm_kms_helper_poll_fini(struct drm_device *dev)
+ {
+-	if (!dev->mode_config.poll_enabled)
+-		return;
+-
+-	dev->mode_config.poll_enabled = false;
+-	cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
++	drm_kms_helper_poll_disable_fini(dev, true);
+ }
+ EXPORT_SYMBOL(drm_kms_helper_poll_fini);
+ 
 -- 
 2.35.1
 
