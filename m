@@ -1,118 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95013609B23
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:17:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBD9609B30
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E512510E28F;
-	Mon, 24 Oct 2022 07:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEB210E290;
+	Mon, 24 Oct 2022 07:20:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87A8610E28F;
- Mon, 24 Oct 2022 07:17:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zc+gUC8QPJHHTKOoDNttRsPFkWy32wJY1P0rVmlUYZN7WEFXehi8XrzrsTLW7h2qClNZ/bG6iC0VaXYYi3+51OBrdoHNGPG3yRHtqxsau2lr1SdNcZDOBRAQiHZy8HVotqOmQeZGOEGBMwsZ35JX2Z+0n4r3br59+nY1n28+Ug9Lj8OioXs6cR8Fw+RWodxvTL2P7HOgQ8wP2SsdDt8w8lyBm7dQNKq3R50uOCR3JVrDZI/OULzjcMNf48R+oLoDrRHtUb7iN6V06lZydmTiEI2+k2+mn2nXUS/E+26Q7oco0ddvPU3T8/B33n89mgaLkjT5AUYxFUtduVkRo3gPfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V+d9rgsmThmOvMfjTGEowicfrLtVcnuHyicer6XnB6E=;
- b=C/mCQ2ZgPlV4++TLgjdYBM4o4aj50NosKfqPWpXCnmzwsz2N+ORSlJYtN1dYTbZ+p3elw4PyL7IvcpHvSNY9P4KD02tWiWT+NuPZMljrlpl0xzKeBs1bqkgbfeZuVFXsn7yeuj2a8VGo8F6ue/qMf0sYt/mMWWpWcp+S8Dhd4pp/3WJHlkmkBMD2BWkEefUcZFG8cRAJxhGJ3rw80vCYy2qZz/AdgQ0A6Q8BkbSTiqsiMW70dZ01iCzKNVtRb5CXodUoeWvAnFSUjvvTnmM/Bx2VCONvtHOm6Fhj7uV4V5HmkQS6h1IlBtKIto72mbAWsoJP/KBZ+JqOueq/zM73OQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V+d9rgsmThmOvMfjTGEowicfrLtVcnuHyicer6XnB6E=;
- b=j+LSp2OI+8yL5kwE5qhBeGwP+FbgLpdcRQ9oCY2zQ7k4MI7ZzdT5//lICfmp8DwAtgAw9fd1VRJJ6DBvGQ6w+4/DKdJKDPNuN1HecYPxvCmWSqTpJiFkIuzwdLf6v1duccorIvXLfxnAA0k6y3mad+2sDgyhvVA0IAF5jd1mlsc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- CY5PR12MB6179.namprd12.prod.outlook.com (2603:10b6:930:24::22) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5746.21; Mon, 24 Oct 2022 07:17:46 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
- 07:17:45 +0000
-Message-ID: <eb403eac-7f8f-30a9-c60c-152ef33e8f1f@amd.com>
-Date: Mon, 24 Oct 2022 03:17:41 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 1/2] drm/sched: add DRM_SCHED_FENCE_DONT_PIPELINE flag
-Content-Language: en-CA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20221014081553.114899-1-christian.koenig@amd.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-In-Reply-To: <20221014081553.114899-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0066.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:84::17) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 551CB10E290
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:20:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 31AAE6101E
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:20:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB68C43147
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666596020;
+ bh=Ty9NkDJERk08rww6GWq0fv6JMZmjA9hkVm/1UTl6Gew=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=soqKKgIavXRhZ62v8koldR2f0U/tPr0CABp32vpxSlg6ct7kFsnJAPq3QCgK1kqvB
+ MfxxSqO5E/C2Iy8fnf1d5VLTjSgELqca6fy+mfKH12YIK7VoHtBJ06LErJ6GmYxo0p
+ LqHByjU05gCnWf+JyfowGoVSU6sO+87IZ1k+MPAD7PB3vb1mg8NETVZm2zDSpUb5pQ
+ 17X3kKHscLx83fm1GtQqq7f/Q89OzWSvllIjNb9THemBlK2bFCpwh+Sti4E0klVi1s
+ J38ZYW54812l4J39xsMgVrtJfNlk2s8+b2aTQcupKA6l4rAVsshi9YbFEP/hwmOpqS
+ 1I0xgORQrgwtQ==
+Received: by mail-ed1-f43.google.com with SMTP id a5so14737203edb.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 00:20:20 -0700 (PDT)
+X-Gm-Message-State: ACrzQf26M/BoZP4l1FH35IaOAX1bP1SeTGqt/NKwpdGa2GH0VQ+02VK0
+ IUMDhHTJMxLwXgd3+f2yEE1ClxredJu4VGJ2qGs=
+X-Google-Smtp-Source: AMsMyM4TqziqZFrPulpnYOMDfvg5oeGxMZ+ThBB4Hrbl8U9QezIK7K/8pKnOjFAowp0Rgwci0DgtpbzSguFKiCXw6sM=
+X-Received: by 2002:a17:907:3205:b0:770:8554:c4ee with SMTP id
+ xg5-20020a170907320500b007708554c4eemr26613904ejb.39.1666596018653; Mon, 24
+ Oct 2022 00:20:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|CY5PR12MB6179:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13b48fb3-0183-44a8-89d8-08dab58fd940
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ax0qTH3A/XAvpo26Q56BxZQX8nz42WTQ0/hJNSJf/EL8X4kcFuLmzbGsRHB1N6rXlsEqubg2wnb94D3WCpaW2C4y0HY58P9p9ICQ6BGtA/FAYRKo4lVZjWBG4cGF9eD/9Ss15HWrS0I0izDwCSpYdzHFr3FJsNfF+iXsl2IQzjSWuveNW5FqAsFVmC5Px/XFpQDzVjsOfDA+LUdI5arRrVuSQHHUlcEJzsmTmN0HWZO61qv6eeAIWDAh1x8nc/YRvxkOMHqnEKJXgM89FRe5Zc1UAvIerpWS3hTYCaG4fU0bYgeiRyVrIJrpqWjthUzonjpMFSQ/vV6asmKReLsttUCMgRe1W1pjGXZ7G0tAKRHwlCNd+9Llot7bJrvPXy4dhTzwJj9Ai3XfBk6y22bvOjlc1Hy45q/XkGdEXasrhv5KDrqlld2xuaSmL9r3SQS2dF+XyQVBsDrG2FX9RA9yYwAK6WgRetvVu/q6u+KXVQrwv/2myVegHpfgeJQZs19dIT6bTUeaSS99TjRmXz9KCxKFjkw3GUqKoSghYLKmbGruAv1ICpElADMU0BAkS5jB/4mU5y3Qb+eewk4CDwDBXAmOKlCGBIcMyLf1W9EI23oP4Cj6pKmALbfQeKnbMI/lxB3KuqxlHxnh1QVeY7pU/fh6qN2qC+Q4gKqYecuaa0pj5mUonCapeukHAaeAFxXSzZz5j/f3ccEoxgGczhvjVVV1ux4lmJKpyUcB5Eff4wkBZybgr+V4/eNbPfbLFtfd1RfHWnMJic/WEQhC0l93JYgbbvDzAraJr/dXAV9jnbA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(451199015)(2616005)(6506007)(31686004)(186003)(83380400001)(26005)(53546011)(6512007)(6666004)(8676002)(41300700001)(31696002)(4326008)(86362001)(5660300002)(478600001)(6486002)(66574015)(316002)(4001150100001)(2906002)(36756003)(44832011)(66556008)(66946007)(66476007)(8936002)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NC94Q3VsaHc1WGdBRHdSODc5aWhJQTZVR1Vuay9XTEoyUXkyUEs1SEhCaDhi?=
- =?utf-8?B?ZW1hTVpGMmY1ZmQrQ2R0NVdSbCtDbHZGMkRHZ2Z1UlBWak1rY1Zoa09ZYUhz?=
- =?utf-8?B?MWV5REtIRWhIOEtveGhCM3VicjlubmEyRnVqWGJLYTZ5RDNySXJlcU50UWZt?=
- =?utf-8?B?OHlUOS9KWkxjTXJjTDM5cDhUY3RpaVpYb2RxOGRRbEJFc0ticko5bFZ5QmZU?=
- =?utf-8?B?dzMwYy9hUTJjZldja0pwNjVpeWpXdkN2YTVQdkZleUxvdkgvR3lHNGZUb2FD?=
- =?utf-8?B?UTFBSXB5OTdMOUhtaHBwbzFyQ2NJSGV2bUV1WTFvcDR4WFppbDBmcGgrUC84?=
- =?utf-8?B?MTVDbEhSRlpjRFg1b1ZZWDBKR0ZORHBKVFh0VDlyOGlBeXk4SFU0OTYveE5W?=
- =?utf-8?B?ZGdwZUhUdmdjczRDbnBFeENwTmxZS1M5bGFYSXk2czJpQ1VLd253QWIzWXJz?=
- =?utf-8?B?d0NFSnhxR2QxZXlTYUliZm9Bc2R6MXFYS0Y0U3hJbG1Cd0xUQmZPL3N1emlR?=
- =?utf-8?B?c054dDQ3L2RNNFdkcEQ2aGhOVnBCNDc1WDFIYzJXZ0FkR21sdVU5d3krM3dy?=
- =?utf-8?B?bkk0TG1Uek5YR1ZXVTdJUk5vcVh2cVV5d0ZOelM1RytaNzNvN051OXFjWjhw?=
- =?utf-8?B?MkFZbW1abldJZm52YjBOMjdZNi93K3I0MFVZSjFmR1BZMFZXOGxEYVRHRThW?=
- =?utf-8?B?QUVZS2V1eEZqb21TVDYvcTRhWm05WGMwTEttdTJYZCtXK0VBYlI1clFQZHpn?=
- =?utf-8?B?algvd252RVN3RUNUYTRDWU1SWm00VmM3emE4L0J5ZFJmTnQzWTlJQ2lDVzEw?=
- =?utf-8?B?SzdrQWlaWkltSmdSNzZPeVdjekVZY0NWT0E1WnBkMzFWbmk0TVNHWndxVGVJ?=
- =?utf-8?B?bHNZN0FwM3RIcWtVc1VjbElydzRMbWpBS2RHRmNySmVIbEVUM05MeUYwdlFz?=
- =?utf-8?B?RmFxWVBYVjNwM204RXptQm56UjZGT2JrbkYycTZCbGE5cTFvV3VsL3VHMHU1?=
- =?utf-8?B?OFNXU1RXUGlNTnhJMHdJdVBYQ1UwcDFQaDQ1bGlnME83VGp5K0VBVm5mY3ph?=
- =?utf-8?B?emNKeGprVGZta0pMQUpUaHo5cFJUVGJKK0ViOGduQUhhUXQ2cHg4eTI1K1Z1?=
- =?utf-8?B?UnlPT2FvYnZaMGxkM1JVWVlzOVNMS1BiUUFZWmFvUks1TVBFaFFjSGdVVHQ0?=
- =?utf-8?B?di83dkI3REQyVmE5Vk12YjlIR0ZZTEw1dkUydEFKcmM5c0VDOHlsYzVOcklS?=
- =?utf-8?B?bGV5NDc3Vm5uOTZLWjBEZGZQaE9DcEtmWGxnbFVDN1BPejlCYUFEWWo0S3Ny?=
- =?utf-8?B?ZmNRV2g3aXFOWEU3L3V5dmZ4MHFWN0tsV1drU2lKc2FHMXRIUyszOXV0U3Jk?=
- =?utf-8?B?amZsQ3V2VkVnNnJuMDRWb2VSSkRnckhRU2R5c2pqVEhZRHM3a3VWRW5SeXNF?=
- =?utf-8?B?QlQ1NE5JQVQ5UzlZS3NrVHluaDZ0elpkcURwc01xS0tOMGFlNXl0cUpETGdv?=
- =?utf-8?B?Q3V0Nmo5SngycmVWbXZpS0lSSzhPMDNhY0ZYUGlRdXVRZ3YzeFo1a2E2QWlE?=
- =?utf-8?B?RnlhcVhQeFdwaWFISm9ZSGdqRmtNRzVwS2RTUk1RK2lNVExtYU5HbWZMeGp3?=
- =?utf-8?B?aEVGUDhxa1kxLzF4Tmo2NG5qMEpIOVNrWHF2a01qM21YcnZMOEJuSG9Vdzdv?=
- =?utf-8?B?bk5pdUZtTG11MWxjcXptQUpJcVZDWG5wdDRzYk9xNU93MGdHaGh3TmFGbDJW?=
- =?utf-8?B?QjZRWmRlS3AxQithUXVxNHNQZEpmR2pVbHliU3M5SElEcFZjbjlZYm1CRSt5?=
- =?utf-8?B?QmNKemh4WThmZkQ4TkJ2a2RiNUMwZGlKeUtFZmFhZjNlWFZXZ1cxcUlPRjIy?=
- =?utf-8?B?Rld2OGV3WGR3a1Vxd0ZzZWxPVzVFeWNGT1BySEh5MDFDR2ZrdmM5UWE3UWpo?=
- =?utf-8?B?NzE1RkxiRWVLaEdUR0crd2RRSHB2bjdjZ2xhNit5UTZWaDlHdWRISDJnQWZX?=
- =?utf-8?B?Q1FVa3BTeVhJcncvTzY5amkxUXRUOGNSakxpL1dPTHlKMmY1Tkpyd21Henpj?=
- =?utf-8?B?VFA3TURYcitGRmZzOEttbXBrazB0SWY3dSt3MkJ2L2N2aFgyT21IdlVBWU9q?=
- =?utf-8?Q?2O1W0oEuZXJ0tHzQ7XEyIwuEn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13b48fb3-0183-44a8-89d8-08dab58fd940
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 07:17:45.7588 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dqn5eE3HF3DVuZWP7shZXFeh0ZLbySd8kVHqo3U96a+zpjEBh19WQEleJJJnO0aq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6179
+References: <20221022214622.18042-1-ogabbay@kernel.org>
+ <20221022214622.18042-2-ogabbay@kernel.org>
+ <Y1U2Sy3hHmYfveaD@kroah.com>
+In-Reply-To: <Y1U2Sy3hHmYfveaD@kroah.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Mon, 24 Oct 2022 10:19:52 +0300
+X-Gmail-Original-Message-ID: <CAFCwf11RLTsd2bfc3SoKVKDthVPJ9tbiYjsKPnkTfjFp5djeSg@mail.gmail.com>
+Message-ID: <CAFCwf11RLTsd2bfc3SoKVKDthVPJ9tbiYjsKPnkTfjFp5djeSg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] drivers/accel: add new kconfig and update
+ MAINTAINERS
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,71 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- stable@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Jagan Teki <jagan@amarulasolutions.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-14 04:15, Christian König wrote:
-> Setting this flag on a scheduler fence prevents pipelining of jobs
-> depending on this fence. In other words we always insert a full CPU
-> round trip before dependen jobs are pushed to the pipeline.
-
-"dependent"
-
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> CC: stable@vger.kernel.org # 5.19+
-> ---
->  drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
->  include/drm/gpu_scheduler.h              | 9 +++++++++
->  2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 191c56064f19..43d337d8b153 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -385,7 +385,8 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->  	}
->  
->  	s_fence = to_drm_sched_fence(fence);
-> -	if (s_fence && s_fence->sched == sched) {
-> +	if (s_fence && s_fence->sched == sched &&
-> +	    !test_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &fence->flags)) {
->  
->  		/*
->  		 * Fence is from the same scheduler, only need to wait for
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 0fca8f38bee4..f01d14b231ed 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -32,6 +32,15 @@
->  
->  #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
->  
-> +/**
-> + * DRM_SCHED_FENCE_DONT_PIPELINE - Prefent dependency pipelining
-
-"Prevent"
-
-> + *
-> + * Setting this flag on a scheduler fence prevents pipelining of jobs depending
-> + * on this fence. In other words we always insert a full CPU round trip before
-> + * dependen jobs are pushed to the hw queue.
-
-"dependent"
-
-> + */
-> +#define DRM_SCHED_FENCE_DONT_PIPELINE	DMA_FENCE_FLAG_USER_BITS
-> +
->  struct drm_gem_object;
->  
->  struct drm_gpu_scheduler;
-
-With those corrections,
-
-Acked-by: Luben Tuikov <luben.tuikov@amd.com>
-
-Regards,
-Luben
-
+On Sun, Oct 23, 2022 at 3:40 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Oct 23, 2022 at 12:46:20AM +0300, Oded Gabbay wrote:
+> > Add a new Kconfig for the accel subsystem. The Kconfig currently
+> > contains only the basic CONFIG_ACCEL option that will be used to
+> > decide whether to compile the accel registration code as part of the
+> > drm core functionality.
+> >
+> > I have taken the liberty to appropriate the dri-devel mailing list and
+> > the dri-devel IRC channel for the accel subsystem.
+> >
+> > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+> > ---
+> >  MAINTAINERS           |  8 ++++++++
+> >  drivers/Kconfig       |  2 ++
+> >  drivers/accel/Kconfig | 24 ++++++++++++++++++++++++
+>
+> YOu never use drivers/accel/ again in this patch series, was that
+> intentional?
+Yes, because I didn't plan for accel to have any core code at this stage.
+But according to your other comments, this will probably change
+(unless someone thinks otherwise).
+Oded
+>
+> thanks,
+>
+> greg k-h
