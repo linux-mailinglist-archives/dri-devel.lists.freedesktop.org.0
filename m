@@ -2,66 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20A660A924
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 15:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB6C60AA16
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 15:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F44610E621;
-	Mon, 24 Oct 2022 13:15:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE1910E689;
+	Mon, 24 Oct 2022 13:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 074CF10E621
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 13:15:57 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id a5so18037626edb.11
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 06:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I99K5okNHj9DY0iCHvns9gSnT1ZJFo2RdmiNrPZQRxA=;
- b=fjjh+VqoY24xpSkbD5FlM++9ADwleBq4rStVCyBkKmVwwg0D0cYLIhxcnvP2FcRAdC
- 0sIuuL2nJhgoVovJUCNfaytjlctNZlK/GIVzGFea302vmyab9pDPieiWbp5Ln3+wiOYm
- tbGsTZqRofcMRwQcYkc66ILWMcfo2dZUGEC5ROxLE0edhkSOCOkWFa2Hg7wG12D+RdRv
- Kmdsb21rKPICe4ULCWF8/ejahaYsgOb6HbngN+eOFQ2i5Cr2wQLUkjf5tAlc3xdNH3Q8
- XvKeX3IVBsq8I+lldDB/ultMdooUmwjKJwsK91QRXhLC9UhJSY5T7fRNGPkzmz4CscKh
- cAdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I99K5okNHj9DY0iCHvns9gSnT1ZJFo2RdmiNrPZQRxA=;
- b=o2phD+zyRnEZMwlhC7CANiOKOK1Dxh/shfE6/35GsPPnMRQn0wXk5KdfBCXc5O3GQW
- DmIeB5g3aPxWEGQ8bRRKYPl5Anb+0Gt7KrNxUpDG/KqnhEAPuBXSiK2t1hL65lzsE9bW
- moRLnJ0YeNYMXTE4iGR0/VqIGqx7t1WJOLNnb53buctyN3hkt0IGKeaIcIQToUH6hPxs
- tUUKu6gCnnvH2L/AVkOB67MNOMAxa8eyB1SNkH3Prhm23L1TwPAAnIKqIAt1/Qy1Z0wr
- I18XdOZl9HX9+39dApYa2PJt2fpTHocK1ICLncBGKEwdJUBU/+neeEu593DnNs74frUn
- CrnA==
-X-Gm-Message-State: ACrzQf1tpq4Flw3AYC4vFL5SXgatunAE3LKLox3bv07sUPheb67V7dbd
- Tr78BPeCWIvekEfz9hi5x/M=
-X-Google-Smtp-Source: AMsMyM6LUWBeG60cTX4ICueYfZGzsbWQNLdvNJls+Qeur6c0tl8Do2q96H3YkgnFwA95/bShFJ58Uw==
-X-Received: by 2002:aa7:ce09:0:b0:461:5406:20e4 with SMTP id
- d9-20020aa7ce09000000b00461540620e4mr15004323edv.5.1666617355456; 
- Mon, 24 Oct 2022 06:15:55 -0700 (PDT)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- y16-20020a056402359000b004589da5e5cesm18755197edc.41.2022.10.24.06.15.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 06:15:54 -0700 (PDT)
-Date: Mon, 24 Oct 2022 15:15:52 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH v3 0/8] Support for NVDEC on Tegra234
-Message-ID: <Y1aQCG3IxL+SNTv+@orome>
-References: <20220920081203.3237744-1-cyndis@kapsi.fi>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KWZej2K6xFmsTmcs"
-Content-Disposition: inline
-In-Reply-To: <20220920081203.3237744-1-cyndis@kapsi.fi>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Greylist: delayed 711 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Oct 2022 13:31:05 UTC
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9450A10E689
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 13:31:05 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 011D42B066F0;
+ Mon, 24 Oct 2022 09:19:09 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute3.internal (MEProxy); Mon, 24 Oct 2022 09:19:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1666617549; x=1666624749; bh=dNk4I7ELz1
+ Q72dRob/8j+4seSTYFKAZT/RUPASjRJ5c=; b=q+NqZuUcR73y8BnZPPG5dx1Zsk
+ 6km9xLqa6tEkJrornmVIrbgVsoTaG0EQRj//U3P/qs5FFUR0kQj3xsDpIMDiHNAP
+ KHymuWr00P67rJl6tNZNMaSvfwBvDXs8mjOeO+DtIb91LFvy9u7IqPZlLBHzDqVY
+ OqQ+UV/5sGJOiUEzmGUI9NOmwTaSDzu4RgOGbpc9QTg1ReluTq9aBn60FamJs6vN
+ DKIJe0X1BrhoAYInvyHnNd5GZdOejs+w4Suvb5ImKHNqRwAYBvpipR0/HvaVLckd
+ CHTLMlrLH5H5bEpdNq1ZJ2ZVvg8gjN0DzzHIiqNjzW420ViiiKKJHNZdB8zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1666617549; x=1666624749; bh=dNk4I7ELz1Q72dRob/8j+4seSTYF
+ KAZT/RUPASjRJ5c=; b=uYEImk9/JaoBLZkHmS4JMUN51UUW3Adz4NZ33zTXfhfn
+ X2zc+bMCIXUEr4nNHo354GqKRASijikTpJx4FFU+epgcfr8J1IPlgZPNpNiYVB9M
+ w8ihE4tr46Zh/a1sL2xOLJxavoW+rkvJ5mUtViAoLX1JGrLBO17yVcJcaCCL+4DZ
+ U79zEm+ybsbN3XMbJe7XZH2qegoAJbChw5mNkbbe1D33ukaTT9FYQuJEpTpQ+3Cm
+ dcgc9DJADBfxr4sonBlprzuNuFtddjyQxgp5OFhdXtZwXkncp0R9eBa1XvUUpv5H
+ Fai3j/IlJ8ZfnHiUrjBdKzUP8vcWG93GWsi2JgpEew==
+X-ME-Sender: <xms:zZBWY4d6hZdrWDWBmQnXOunjtmGBLNtVOGtYlcpUAkqGnIq3nQ_ULg>
+ <xme:zZBWY6ORVL4inZtEZ347UGYnYKlOyas-DedRgWZhgJSTlHghoiUBMTH5Vdl7j2SlB
+ orGRM2A45E3sznwkiE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgheelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+ teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:zZBWY5jMfpgYOekZ5Xiy1zZWPWGF2N1SaGbKcsqvIIsAoksVTelYew>
+ <xmx:zZBWY98Y0Yr03VdtjC58Vfn64oQoe8znN7FH4bLecym0d8-7ie150w>
+ <xmx:zZBWY0u1N4N4cR6ZhhO6MwuQK8N3p7TbkgEiIMvu0C2hnaFTg0G-QA>
+ <xmx:zZBWY2px7fOBs4XObZs9jNKaCaM5g4TthCLLA4wr0bUEo7pzc_VBCiqJhiU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 3DDB5B60086; Mon, 24 Oct 2022 09:19:09 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
+Mime-Version: 1.0
+Message-Id: <e5aa233d-526b-45ab-9acb-ab792b8686bc@app.fastmail.com>
+In-Reply-To: <20221024130035.GA1645003-robh@kernel.org>
+References: <20221021202254.4142411-1-arnd@kernel.org>
+ <20221024130035.GA1645003-robh@kernel.org>
+Date: Mon, 24 Oct 2022 15:18:41 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Rob Herring" <robh@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,116 +84,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sameer Pujar <spujar@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Ashish Mhetre <amhetre@nvidia.com>
+Cc: linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
+ dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Ben Dooks <ben-linux@fluff.org>, Simtec Linux Team <linux@simtec.co.uk>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
+ "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dmaengine@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Oct 24, 2022, at 15:00, Rob Herring wrote:
+> On Fri, Oct 21, 2022 at 10:22:28PM +0200, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> The s3c24xx platform was marked as deprecated a while ago,
+>> and for the s3c64xx platform, we marked all except one legacy
+>> board file as unused.
+>> 
+>> This series removes all of those, leaving only s3c64xx support
+>> for DT based boots as well as the cragg6410 board file.
+>> 
+>> About half of the s3c specific drivers were only used on
+>> the now removed machines, so these drivers can be retired
+>> as well. I can either merge the driver removal patches through
+>> the soc tree along with the board file patches, or subsystem
+>> maintainers can pick them up into their own trees, whichever
+>> they prefer.
+>
+> [...]
+>
+>>  Documentation/arm/index.rst                   |    1 -
+>>  Documentation/arm/samsung-s3c24xx/cpufreq.rst |   77 -
+>>  .../arm/samsung-s3c24xx/eb2410itx.rst         |   59 -
+>>  Documentation/arm/samsung-s3c24xx/gpio.rst    |  172 --
+>>  Documentation/arm/samsung-s3c24xx/h1940.rst   |   41 -
+>>  Documentation/arm/samsung-s3c24xx/index.rst   |   20 -
+>>  Documentation/arm/samsung-s3c24xx/nand.rst    |   30 -
+>>  .../arm/samsung-s3c24xx/overview.rst          |  311 ---
+>>  Documentation/arm/samsung-s3c24xx/s3c2412.rst |  121 -
+>>  Documentation/arm/samsung-s3c24xx/s3c2413.rst |   22 -
+>>  .../arm/samsung-s3c24xx/smdk2440.rst          |   57 -
+>>  Documentation/arm/samsung-s3c24xx/suspend.rst |  137 --
+>>  .../arm/samsung-s3c24xx/usb-host.rst          |   91 -
+>>  Documentation/arm/samsung/overview.rst        |   13 -
+>
+> What about?:
+>
+> Documentation/devicetree/bindings/clock/samsung,s3c2410-clock.txt
+> Documentation/devicetree/bindings/interrupt-controller/samsung,s3c24xx-irq.txt
+> Documentation/devicetree/bindings/mmc/samsung,s3cmci.txt
 
---KWZej2K6xFmsTmcs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Good catch!
 
-On Tue, Sep 20, 2022 at 11:11:55AM +0300, Mikko Perttunen wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
->=20
-> v3:
-> * Updated patch 3 based on comments
->=20
-> v2:
-> * Updated patches 1,3 based on comments
-> * Added Acked-by to patch 2
->=20
-> Original message:
->=20
-> Hi all,
->=20
-> this series adds support for the HW video decoder, NVDEC,
-> on Tegra234 (Orin). The main change is a switch from Falcon
-> to RISC-V for the internal microcontroller, which brings along
-> a change in how the engine is booted. Otherwise it is backwards
-> compatible with earlier versions.
->=20
-> In previous iterations, firmware was simply loaded from disk and
-> written into engine internal memory. Now, the engine has a
-> bootrom that loads the firmware from a carveout where it has been
-> loaded by the system bootloader; however, we still need to tell it
-> where that carveout is loaded and some offsets into it. For that,
-> the first patch adds a new memory controller API to query the
-> carveout address. The offsets are read from device tree -- the
-> expectation is that at flashing time (when the firmware is also
-> flashed), the flasher also delivers a device tree overlay with
-> values corresponding to the flashed firmware.
->=20
-> The currently available Linux for Tegra release doesn't yet
-> include this device tree overlay flashing, and the firmware version
-> it contains is incompatible with this series. The plan is to fix
-> that for the next Linux for Tegra release, but if necessary, we
-> can postpone merging of this series to once those changes are
-> available.
->=20
-> Thanks!
-> Mikko
->=20
-> Mikko Perttunen (8):
->   memory: tegra: Add API for retrieving carveout bounds
->   dt-bindings: Add headers for NVDEC on Tegra234
->   dt-bindings: Add bindings for Tegra234 NVDEC
->   arm64: tegra: Add NVDEC on Tegra234
->   gpu: host1x: Add stream ID register data for NVDEC on Tegra234
->   drm/tegra: nvdec: Support multiple clocks
->   drm/tegra: Add code for booting RISC-V based engines
->   drm/tegra: Add Tegra234 support to NVDEC driver
->=20
->  .../gpu/host1x/nvidia,tegra234-nvdec.yaml     | 156 ++++++++++++++++
->  arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  27 +++
->  drivers/gpu/drm/tegra/Makefile                |   3 +-
->  drivers/gpu/drm/tegra/drm.c                   |   1 +
->  drivers/gpu/drm/tegra/nvdec.c                 | 171 +++++++++++++++---
->  drivers/gpu/drm/tegra/riscv.c                 | 106 +++++++++++
->  drivers/gpu/drm/tegra/riscv.h                 |  30 +++
->  drivers/gpu/host1x/dev.c                      |  12 ++
->  drivers/memory/tegra/mc.c                     |  25 +++
->  drivers/memory/tegra/tegra234.c               |   5 +
->  include/dt-bindings/clock/tegra234-clock.h    |   4 +
->  include/dt-bindings/memory/tegra234-mc.h      |   3 +
->  .../dt-bindings/power/tegra234-powergate.h    |   1 +
->  include/dt-bindings/reset/tegra234-reset.h    |   1 +
->  include/soc/tegra/mc.h                        |  11 ++
->  15 files changed, 530 insertions(+), 26 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,t=
-egra234-nvdec.yaml
->  create mode 100644 drivers/gpu/drm/tegra/riscv.c
->  create mode 100644 drivers/gpu/drm/tegra/riscv.h
+I've removed these three now and and will add the removal to
+the same patch, also the related
+samsung,s3c2412-clock.txt and samsung,s3c2443-clock.txt
+files.
 
-Applied, thanks.
+> Documentation/devicetree/bindings/mtd/samsung-s3c2410.txt
 
-Thierry
+samsung,s3c2412-nand is apparently still used on s3c6400,
+and the driver is selectable on that platform, so I think
+that should remain in there until we remove s3c64xx in 2024,
+even if it is not referenced by the dts files in the kernel.
 
---KWZej2K6xFmsTmcs
-Content-Type: application/pgp-signature; name="signature.asc"
+> Documentation/devicetree/bindings/usb/s3c2410-usb.txt
 
------BEGIN PGP SIGNATURE-----
+Similarly, the driver is used on the crag6410 board
+(without DT), and probably just works with the DT based
+boards if one adds a node to s3c64xx.dtsi.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNWkAgACgkQ3SOs138+
-s6H1Ug/8CBt81YrUCMB0wW9UNf0O1bOW7hIhb1tgxsr2RMVYK3NwPeZ2ohL75GUw
-SQXTWEbbail1dIL/f1pV+GWn91fY9L9RblJ8s5YUe9j5kEsoxh4Ein1HB53vrahz
-ibKVTqNGxLQBXqtSUfARQ4HpLUnlWmL8ali2+bnOl18HmUqWIPvUCRq90Hyq1Ryt
-TKR4lMzVjoBn0ewUyD1bMkVwT8i+cux7my/HVUnkJtoVKptByyY+Gzi9wgo+isw2
-u8L/uk7xruuWQUl7pWYLK/NyaNA4mddZzav4Yrt5tdV385OP2S8L6pRsdpuHA5Mq
-TI3DItWcQWAGLQQJazBwigOPn5Ib1xBUgCjVmkjbfmE3bdWKO+4OVGxg+Xrw59v1
-lGBkgg1V0UdKS+3hQbm9UGRK2ukNgvLIhuuoLs5KIL5Cx/5U+gpheb4L/Th2ixRZ
-yBeUDQ4EAxd0DraYp7hWwDbab62B0wE/kbcxgPWO0TaIdWqNHYSbZ46YJz/3OlYB
-NBG3qPRS4gh8buxqQkDM6oOjBs99a/xfRM9dgKrFhP7WKParzC/rn+HFQUD5yohz
-+k2E3e16iiU3gqLvUndfhMBDUoIdWK+BI28gY3pK97fx6J4yUDMXfKKA52x/f+6C
-PBaVTY8ROfzhPEj4yQoGNqzjMZarclKrVQQtGj8tuUEG3lsWpE0=
-=vucY
------END PGP SIGNATURE-----
+I've also checked if any of the other removed drivers
+matches of_device_id[] strings to see if there are more
+bindings to kill off, but I don't see any that have
+now become obsolete. It did point me to pxa2xx_ac97_dt_ids,
+which Robert already complained about, this apparently
+is still used with dts files outside of mainline.
 
---KWZej2K6xFmsTmcs--
+      Arnd
