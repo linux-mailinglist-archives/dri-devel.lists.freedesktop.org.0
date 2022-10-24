@@ -1,84 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15FE60AE65
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 16:59:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AA460AE7B
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3734B89E47;
-	Mon, 24 Oct 2022 14:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BE110E80B;
+	Mon, 24 Oct 2022 15:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF6389E47
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 14:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666623568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iFzj8nzx4mTmz0Y3cxobVCxkf6lqhopWzXipdhBzytA=;
- b=dYhsH/l/l8+cgL2gvn44dalWRv3QC1hPkk0/cNHZidmOMBeI+9xguNOpYM0GtHRVniF9vj
- ila2HjGO0+WqFP1IWZC121WTBC8jp2hb6xHSWK1sssqmMZ0D21IImZjBNdXGm+/X6PeO+B
- d+iv6EvjPpJARpQLJ686ca3WIZ861vs=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-547-SFjSbGWyOlqWINSI5SjECg-1; Mon, 24 Oct 2022 10:59:26 -0400
-X-MC-Unique: SFjSbGWyOlqWINSI5SjECg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- sc11-20020a1709078a0b00b0078d95df8a2eso1142882ejc.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:59:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iFzj8nzx4mTmz0Y3cxobVCxkf6lqhopWzXipdhBzytA=;
- b=hwqzgf5Kn1H9Gf1zKIzzDOKppyQjgErlW9mqPlws4sIXkivcD6jo5k1VzoLd59U/Cc
- 35BtkrdI0qqtkOaSOJihaKeOf4LvdVQiKjMoLgtha1+/nyOqSpGhEGAOTx6fP6ViXiMQ
- c9gBPP3jBGHRrHMluOlP04NYb3hgRrhIZpQA1mNRGCWgHPtGq2fBSsx86AWIT7SQvYUD
- /aO6V00FwaiNFvHpsmpcUW7eGIMRpfX9KMYL3extI4QJPySTSwRAO0Am7iWgMIL1Lc3I
- 9hG5TX1v50av1ZbTcnHJcU5pIA07MeYRvme5zhEs+0B5xcLMkzODj+IlxobSVsSzifWK
- JZvg==
-X-Gm-Message-State: ACrzQf18sHCAA2Z7fATRTtR9W+CkXqEiZU6Ld2S9dcBEgv03lHXFhL/D
- ZRR+5bellA3cyiLCGDzYK6H6tGELylaXACqzemeObU9bwihUSJw/xi9ahcZzX1lMXntEIvt3al3
- DirFFQYIQVWuav2gJYnYycZ09R8vu
-X-Received: by 2002:a17:907:7f0b:b0:78d:c16e:e5fc with SMTP id
- qf11-20020a1709077f0b00b0078dc16ee5fcmr28530517ejc.713.1666623565728; 
- Mon, 24 Oct 2022 07:59:25 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM69bJEQQwKngd5TdTH6bub92gbhuYs2zsoHIkPxYVrqbL3E1umD+fdI6rLXDyn6eS9NZQ41YA==
-X-Received: by 2002:a17:907:7f0b:b0:78d:c16e:e5fc with SMTP id
- qf11-20020a1709077f0b00b0078dc16ee5fcmr28530490ejc.713.1666623565451; 
- Mon, 24 Oct 2022 07:59:25 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- n16-20020a170906379000b007a6c25819f1sm2043335ejc.145.2022.10.24.07.59.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 07:59:24 -0700 (PDT)
-Message-ID: <a75c2439-415c-a132-754c-7676029f792b@redhat.com>
-Date: Mon, 24 Oct 2022 16:59:23 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1459910E80B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:02:24 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OExpHJ009824;
+ Mon, 24 Oct 2022 15:01:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=PlcXHkBrxmN97ovQQxSCas24croEt3LEwoazrgeWeDY=;
+ b=mz4iM78+ickj1bi8NugmqIbWqGZ3WyVTQNs7cY3NNvcyCuXpAG6FRx1GiJkoAgwZCBtM
+ +fxO+lhUFJJpzpuX7100CmHcpn0ROp1NAREgRUP0KuwlzLVZdtxqcbRkdqztPdNDZysT
+ gBw1s2c6g9J5O+s/lDQnt6NtvGbuz8A/mhklALp8su0w6iIkNlhApgOxXWr/2gMzmdpV
+ I/h8a6MBlVUHDoUB5JNXeiMt60Be3c9h4pTuqsZ8Z0M+sMUpHNeAQeONUrvtGmDoocBt
+ AAHz/VyQ7W9k2n4il/8Rhm4Va+KHY4S7tD++hLMWBv2Oj/remP3gCZL5jHm3hcWde+6o +g== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kc7utbth1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Oct 2022 15:01:37 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29OF1aox006308
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Oct 2022 15:01:36 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 24 Oct
+ 2022 08:01:34 -0700
+Message-ID: <99e661b4-938f-c26a-07e9-0dcf03e9b27a@quicinc.com>
+Date: Mon, 24 Oct 2022 09:01:34 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2] ACPI: video: Fix missing native backlight on
- Chromebooks
-To: Akihiko Odaki <akihiko.odaki@daynix.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Sean Paul <seanpaul@chromium.org>
-References: <20221024141210.67784-1-dmitry.osipenko@collabora.com>
- <37ec64ac-9e08-dd41-4b20-8701bf9413fb@daynix.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <37ec64ac-9e08-dd41-4b20-8701bf9413fb@daynix.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [RFC PATCH 1/3] drivers/accel: add new kconfig and update
+ MAINTAINERS
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Oded Gabbay <ogabbay@kernel.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+References: <20221022214622.18042-1-ogabbay@kernel.org>
+ <20221022214622.18042-2-ogabbay@kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20221022214622.18042-2-ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: noR2Z3tU4-_4Xl8UI7eVfw6pbH_LOgvH
+X-Proofpoint-GUID: noR2Z3tU4-_4Xl8UI7eVfw6pbH_LOgvH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-24_04,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 clxscore=1011
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210240091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,75 +89,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, kernel@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Christoph Hellwig <hch@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Kevin Hilman <khilman@baylibre.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 10/24/22 16:52, Akihiko Odaki wrote:
-> On 2022/10/24 23:12, Dmitry Osipenko wrote:
->> Chromebooks don't have backlight in ACPI table, they suppose to use
->> native backlight in this case. Check presence of the CrOS embedded
->> controller ACPI device and prefer the native backlight if EC found.
->>
->> Suggested-by: Hans de Goede <hdegoede@redhat.com>
->> Fixes: 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native() helper")
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>
->> Changelog:
->>
->> v2: - Added explanatory comment to the code and added check for the
->>        native backlight presence, like was requested by Hans de Goede.
->>
->>   drivers/acpi/video_detect.c | 12 ++++++++++++
->>   1 file changed, 12 insertions(+)
->>
->> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
->> index 0d9064a9804c..9cd8797d12bb 100644
->> --- a/drivers/acpi/video_detect.c
->> +++ b/drivers/acpi/video_detect.c
->> @@ -668,6 +668,11 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->>       { },
->>   };
->>   +static bool google_cros_ec_present(void)
->> +{
->> +    return acpi_dev_found("GOOG0004");
->> +}
->> +
->>   /*
->>    * Determine which type of backlight interface to use on this system,
->>    * First check cmdline, then dmi quirks, then do autodetect.
->> @@ -730,6 +735,13 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
->>               return acpi_backlight_video;
->>       }
->>   +    /*
->> +     * Chromebooks that don't have backlight handle in ACPI table
->> +     * are supposed to use native backlight if it's available.
->> +     */
->> +    if (google_cros_ec_present() && native_available)
->> +        return acpi_backlight_native;
->> +
->>       /* No ACPI video (old hw), use vendor specific fw methods. */
->>       return acpi_backlight_vendor;
->>   }
+On 10/22/2022 3:46 PM, Oded Gabbay wrote:
+> Add a new Kconfig for the accel subsystem. The Kconfig currently
+> contains only the basic CONFIG_ACCEL option that will be used to
+> decide whether to compile the accel registration code as part of the
+> drm core functionality.
 > 
-> Hi,
+> I have taken the liberty to appropriate the dri-devel mailing list and
+> the dri-devel IRC channel for the accel subsystem.
 > 
-> The native_available check does not prevent duplicate registration if vendor backlight registers first. It was enough for the combination of ACPI video and native because ACPI video delays its registration, but it is not the case for vendor/native combination.
+> Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+> ---
+>   MAINTAINERS           |  8 ++++++++
+>   drivers/Kconfig       |  2 ++
+>   drivers/accel/Kconfig | 24 ++++++++++++++++++++++++
+>   3 files changed, 34 insertions(+)
+>   create mode 100644 drivers/accel/Kconfig
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cf0f18502372..790d472801d5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6820,6 +6820,14 @@ F:	include/drm/drm*
+>   F:	include/linux/vga*
+>   F:	include/uapi/drm/drm*
+>   
+> +DRM COMPUTE ACCELERATORS DRIVERS AND FRAMEWORK
+> +M:	Oded Gabbay <ogabbay@kernel.org>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +C:	irc://irc.oftc.net/dri-devel
+> +T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git
+> +F:	drivers/accel/
 
-There are no drivers providing acpi_backlight_vendor functionality on chromebooks.
-
-All the drivers providing acpi_backlight_vendor functionality use vendor (Dell, Acer, Asus, etc.)
-specific firmware (smbios, EC bitbanging or ACPI) backlight control method which are not available
-on CoreBoot based ChromeBooks.
-
-Also notice that the theoretical problem of a vendor driver loading first was already present
-before the backlight refactor which landed in 6.1 and this has never been an issue.
-
-Regards,
-
-Hans
-
+I'm willing to assist with reviews, etc.  While I appreciate your 
+efforts to drive this, you shouldn't be taking on everything going 
+forward. Feel free to add me (or don't) to this entry as you see fit.
