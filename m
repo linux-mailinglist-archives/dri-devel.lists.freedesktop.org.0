@@ -1,68 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA8660C456
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEE560C453
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC1E010E117;
-	Tue, 25 Oct 2022 06:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D120310E181;
+	Tue, 25 Oct 2022 06:54:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D82D610E3F2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:56:21 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id 192so1599098pfx.5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:56:21 -0700 (PDT)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1526310E581
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 12:59:08 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ r61-20020a17090a43c300b00212f4e9cccdso3819509pjg.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 05:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5+lNDU/7OVWZdRTzaQ0NNoHLmGlotseKeYdhpqFhZHk=;
- b=ELM7yD3oiyJMNZjuq6+6Ex/rHcrMTY9mQ5tNeBwzHLydPg0gZHlF7XsvW1qorqNXit
- +1clr9lF9YGe2kf2wSGlmcErC4WdUV2mJclhDusQXllPYQIVafBWeC2hY7DTDFJEA/gy
- DHTUn82tj8FzO+vABFXg6YciJQBhFtT4OT6DVBod8WTp9mMJhhSI6vwxWE2MV7uVC1M9
- CWg6mZN5LUXqiYcB5E6m33jGN8tYNt1DVe63+GyxUqJbAScwDkeBxMOxAxBg8Z/D9LBC
- /rqOoSynJrCwt1BDkHRnNol0Ycqz9wssry5CJatx+rOA9oWm9IQ5GyMCZ7LZm+IMtk07
- j8eQ==
+ bh=28zOvqn50UFYzNB/6vHw47dYkT02h2KnQEQyZWxDP9Y=;
+ b=EGzAboy0Gtbz2lIDoW0Z1Fci+YCLgZaSjrmq3rRBEOoCBPQCawpHOcNb3ZkJMreaEE
+ 99X4lZGd4yDEok0r3gbicEk9397C1XZwWdeuCN0WL/tCrM9G+98qv9HOZ6geUgcBP9Rb
+ QBMzddctUl6qF4nrYtBiwfGv3Tj5NdqPNibvXolDxsaiUmaoMnQFD9JDI0I/UULWN8Ze
+ wXrMSD03muUbnB3oOy26HzltNiCGlolBiYBZ+Dk2q7qViHCni+Kp2b26W4TbP6Xr6k2T
+ hkv/jANzgb7Ez4mvFWzw2DHZiSa9hJ1ZFzRu+aNctywM1yG3a75jMOXCqTkz42XT0Vjg
+ BHgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5+lNDU/7OVWZdRTzaQ0NNoHLmGlotseKeYdhpqFhZHk=;
- b=CGH7OF8zVzeWwepYEgGMXGI9SDmZqrKV4TgUQTtqB8ZtiElyYl6i/Eith7Jslm7AVj
- 9313ACUFVojwo4WpOUxGJlMuPc8Cs7A9g9xt66u8g7bNaDF0B9JH/oCdUZYuvZdBE9Eg
- 4GjxJjhAjlgOcg22UBmtHN3U3OsWznPwFDbI/ILWbKrM4QuKdBf4PQJzWk+Lr9jJLDD+
- gxWKiyltn1xWaQKyjuI/Pyuu2HsazdqIRPLomEVR/LwJ41RsXfRFlaBoejdK3qP88/7X
- pJpGpsZHeqP9dckA6s3Js8NqyfVKq8bGuPwflNSqVeouoFf3a0tLczpd4uhyKDSGhFdk
- 4Aew==
-X-Gm-Message-State: ACrzQf3Gr6FKmUMsYh2VpGVpbnt1SttC+T3TEKzhNM8cFSYX+aZBnYCC
- zx4yOabVCUWWrpfLJh5IvCekgQ==
-X-Google-Smtp-Source: AMsMyM52yf+fvqYPvZeS1DKLnZf/VX+KNJmRf5dcZ02xlrYFrlYIJNW33UZRrKUu0oE/cElVDg23zg==
-X-Received: by 2002:aa7:8011:0:b0:567:70cc:5b78 with SMTP id
- j17-20020aa78011000000b0056770cc5b78mr29115949pfi.29.1666612581441; 
- Mon, 24 Oct 2022 04:56:21 -0700 (PDT)
+ bh=28zOvqn50UFYzNB/6vHw47dYkT02h2KnQEQyZWxDP9Y=;
+ b=Pr4ZdfiF9sV31SQCPj/Jy46Li+BmxaGZRwOxBOk7zMnEJTzizT0mMfFvyrLcU/7FMZ
+ KNRH0DEbwvP9yod7U78DkyxnBe+cDdaCnlWzmSHKtLYQ8ASFy94bz7Bdhk+F8W/PfS83
+ VLSyEgOWGXxBBi/Kme4v6Sy+Nz6DkTHO6aPLW7h/FkpQatOgifCiO8BwX3QavPzrAHIi
+ CJQx0VQ7nvLf0CKlvxlbfNpCNup4IH6LGENW64Kdj3G6Dkx4/a0yJgpTTJi4KRcXNvFY
+ 91BjcEZrzzDJYRWu93N0SZXR5i1O9V5veAhRWMY1t7sUIre51FAkZzHgtqDHhNR14QMn
+ 3ewA==
+X-Gm-Message-State: ACrzQf0psHD/Ua5MwRT6hT3gnEbVX749IDEOoYxTagt0BWHcViWZfUwG
+ b5x7QXz7j7mWNAmV2bt2fBPuxg==
+X-Google-Smtp-Source: AMsMyM7X72p+nwHV6lanIkw3EzM/qgimIuB3CXjUOZ2DB2ivlZlxjFHsgNOfHpx+msH5kQ91ERbFbg==
+X-Received: by 2002:a17:902:f710:b0:184:7a4c:fdc1 with SMTP id
+ h16-20020a170902f71000b001847a4cfdc1mr33208997plo.27.1666616347601; 
+ Mon, 24 Oct 2022 05:59:07 -0700 (PDT)
 Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
  ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- on16-20020a17090b1d1000b0020b21019086sm18524378pjb.3.2022.10.24.04.56.13
+ t4-20020a655544000000b00464858cf6b0sm17358949pgr.54.2022.10.24.05.58.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 04:56:20 -0700 (PDT)
-Message-ID: <18478739-625b-0c16-cd5a-e05c5372a74a@daynix.com>
-Date: Mon, 24 Oct 2022 20:56:11 +0900
+ Mon, 24 Oct 2022 05:59:06 -0700 (PDT)
+Message-ID: <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
+Date: Mon, 24 Oct 2022 21:58:57 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
 Subject: Re: [PATCH 00/22] Fallback to native backlight
-To: Jani Nikula <jani.nikula@linux.intel.com>
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
- <87tu3te92n.fsf@intel.com>
 Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <87tu3te92n.fsf@intel.com>
+In-Reply-To: <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 25 Oct 2022 06:54:02 +0000
@@ -91,9 +92,8 @@ Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
  Kenneth Chan <kenneth.t.chan@gmail.com>,
  Corentin Chary <corentin.chary@gmail.com>, intel-gfx@lists.freedesktop.org,
  acpi4asus-user@lists.sourceforge.net, Mark Gross <markgross@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- platform-driver-x86@vger.kernel.org, devel@acpica.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, platform-driver-x86@vger.kernel.org,
+ devel@acpica.org, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  ibm-acpi-devel@lists.sourceforge.net, Jingoo Han <jingoohan1@gmail.com>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -101,8 +101,10 @@ Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022/10/24 20:48, Jani Nikula wrote:
-> On Mon, 24 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+On 2022/10/24 20:53, Hans de Goede wrote:
+> Hi Akihiko,
+> 
+> On 10/24/22 13:34, Akihiko Odaki wrote:
 >> Commit 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native()
 >> helper") and following commits made native backlight unavailable if
 >> CONFIG_ACPI_VIDEO is set and the backlight feature of ACPI video is
@@ -110,18 +112,101 @@ On 2022/10/24 20:48, Jani Nikula wrote:
 >> C13 Yoga Chromebook. Allow to fall back to native backlight in such
 >> cases.
 > 
-> Where's the bug report with relevant logs, kconfigs, etc?
+> I appreciate your work on this, but what this in essence does is
+> it allows 2 backlight drivers (vendor + native) to get registered
+> for the same panel again. While the whole goal of the backlight refactor
+> series landing in 6.1 was to make it so that there always is only
+> *1* backlight device registered instead of (possibly) registering
+> multiple and letting userspace figure it out. It is also important
+> to only always have 1 backlight device per panel for further
+> upcoming changes.
+> 
+> So nack for this solution, sorry.
+> 
+> I am aware that this breaks backlight control on some Chromebooks,
+> this was already reported and I wrote a long reply explaining why
+> things are done the way they are done now and also suggesting
+> 2 possible (much simpler) fixes, see:
+> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
+> 
+> Unfortunately the reported has not followed-up on this and
+> I don't have the hardware to test this myself.
+> 
+> Can you please try implementing 1 of the fixes suggested there
+> and then submit that upstream ?
+> 
+> Regards,
+> 
+> Hans
+> 
 
-I haven't filed one. Should I? Please tell me where to report and what 
-information you would need (to bugzilla.kernel.org with things mentioned 
-in Documentation/admin-guide/reporting-issues.rst?)
+Hi Hans,
+
+Thanks for reviewing and letting me know the prior attempt.
+
+In this case, there is only a native backlight device and no vendor 
+backlight device so the duplication of backlight devices does not 
+happen. I think it is better to handle such a case without quirks.
+
+I understand it is still questionable to cover the case by allowing 
+duplication when both of a vendor backlight device and native one. To 
+explain my understanding and reasoning for *not* trying to apply the 
+de-duplication rule to the vendor/native combination, let me first 
+describe that the de-duplication which happens in 
+acpi_video_get_backlight_type() is a heuristics and limited.
+
+As the background of acpi_video_get_backlight_type(), there is an 
+assumption that it should be common that both of the firmware, 
+implementing ACPI, and the kernel have code to drive backlight. In the 
+case, the more reliable one should be picked instead of using both, and 
+that is what the statements in `if (video_caps & ACPI_VIDEO_BACKLIGHT)` 
+does.
+
+However, the method has two limitations:
+1. It does not cover the case where two backlight devices with the same 
+type exist.
+2. The underlying assumption does not apply to vendor/native combination.
+
+Regarding the second limitation, I don't even understand the difference 
+between vendor and native. My guess is that a vendor backlight device 
+uses vendor-specific ACPI interface, and a native one directly uses 
+hardware registers. If my guess is correct, the difference between 
+vendor and native does not imply that both of them are likely to exist 
+at the same time. As the conclusion, there is no more motivation to try 
+to de-duplicate the vendor/native combination than to try to 
+de-duplicate combination of devices with a single type.
+
+Of course, it is better if we could also avoid registering two devices 
+with one type for one physical device. Possibly we can do so by 
+providing a parameter to indicate that it is for the same "internal" 
+backlight to devm_backlight_device_register(), and let the function 
+check for the duplication. However, this rule may be too restrict, or 
+may have problems I missed.
+
+Based on the discussion above, we can deduce three possibilities:
+a. There is no reason to distinguish vendor and native in this case, and 
+we can stick to my current proposal.
+b. There is a valid reason to distinguish vendor and native, and we can 
+adopt the same strategy that already adopted for ACPI video/vendor 
+combination.
+c. We can implement de-duplication in devm_backlight_device_register().
+d. The other possible options are not worth, and we can just implement 
+quirks specific to Chromebook/coreboot.
+
+In case b, it should be noted that vendor and native backlight device do 
+not require ACPI video, and CONFIG_ACPI_VIDEO may not be enabled. In the 
+case, the de-duplication needs to be implemented in backlight class device.
 
 Regards,
 Akihiko Odaki
 
 > 
-> BR,
-> Jani.
+> 
+> 
+> 
+> 
+> 
+> 
 > 
 >>
 >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
@@ -177,4 +262,5 @@ Akihiko Odaki
 >>   include/acpi/video.h                          | 21 ++++----
 >>   include/linux/backlight.h                     |  1 +
 >>   25 files changed, 85 insertions(+), 66 deletions(-)
+>>
 > 
