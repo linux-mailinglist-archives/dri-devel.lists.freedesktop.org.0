@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE6160C324
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 07:11:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3239660C44C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38F6410E0F5;
-	Tue, 25 Oct 2022 05:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE5F10E173;
+	Tue, 25 Oct 2022 06:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0887610E0F5
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 05:10:55 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id e4so6923822pfl.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 22:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=N7HV+2O7fdwVJwRzKmZ0rsq+s0/h80leow5C99ZjbCk=;
- b=hkb8xybnSV2gWZ/UtkvEPpfkO9Qxb6o8Q2XSPI5eJ9LUXXPMNBhL4F2b0G9DVHZVZO
- awtvkuVsFDXqLILkIAFxE3RVv3E5XRZR0JaeROlmKN5+6X1Lt/Jm29PdHcUMo+fQ6A3P
- jwMXSR7no7u/SZfrAu29FdTM5sRnz1Q1ZRaf29kNy5Becp/1KFnILui60x9ufO9cBrmj
- 7mVPiaL3PHg+3wGdQcf0Cu6CN+RqNkLRAHOkLqXiYCxac13fnnz0Zoxn8YlDIsKEXoIZ
- rqWK4XDtIKRHfxG1P87J2+Lsqt57ZUTiIHk/lqLONELr8aJxcdQ95U1NWbsUDOYCmZAb
- 1oYA==
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA7F910E246;
+ Mon, 24 Oct 2022 11:34:07 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-13ae8117023so11466936fac.9; 
+ Mon, 24 Oct 2022 04:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M5UZCFr57jSJwSGj5ycrkruVZLCd8UXEKFZXMqgDVks=;
+ b=Psp+OumkznpHgLnHiwYw1sf7aYrjPL/PaHFRiGICufnccSw4s/W0nDvOmlyKc62du7
+ YXWX5R/gNmEIxXhnywOAB37LcLDhGS0vTvsnSRcHiBXpqLg6p61frKpXRT65cqPqMViU
+ KiYrs77nldrzFFyh8s0gPXh7e7AMOGyabsPE3NasIY8F14cVLczp60Ttfveo5WBxxpZw
+ 1oKr3NDgOfVJx8M/N+meVaUihFfwhMXZLT0/sS8MxDyTH/3bZjNPlyO74DIDk8TGjvdT
+ CpbJQwEVgdW911yK/ZqlHW3zujwxb3GEL/73kSEd4d2OJAxnXuOOkvoqRIK67s2WSWvZ
+ Ya0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=N7HV+2O7fdwVJwRzKmZ0rsq+s0/h80leow5C99ZjbCk=;
- b=78XafnLcYlUx31xnBaZa+qa44yZ2Rx4tWEWV1+DZCSDtXHPXhrIDhYE0TVWAfAT2HD
- cjZomwE3Y70OMBTrfrq1z2patdORM7/DJIOWEYF2vn7kO0+cEAG5f6oAPv+rt9aB3Ujd
- oIRrRGB7oKD2gllHmVti+DVB4prGtl/tq/UUPcu8u/Afg5vwfW+TVT7uSMA5UDLWLza0
- skKv+bOlWIfb4xtt1Ark7cfP61wfm3g/jHhPmNXk/pK9RUh2RBXXTnhNgW8wcSOWmhsZ
- vUPUcqKAF+iKCLJpUBe0B+PcNZCq/qjWot/FbwUik0LRZMMqQNaU6M1rU9go1lEVmDVV
- CkvA==
-X-Gm-Message-State: ACrzQf31uzVNVv1qlz7jPF0BABMgk4lbF6Tte/Tvy+5PbbyF1Yqt08dJ
- dkyuf2R7QCUTbFnvY2ZvmJM/Dw==
-X-Google-Smtp-Source: AMsMyM4dqBh79PBmEq4bNi3bKpyxWmF8pKyrddK0RgHHrwPwJ9UaGdcmUV9KpdRicCKxD5dzSxxkQw==
-X-Received: by 2002:a63:db42:0:b0:45c:9c73:d72e with SMTP id
- x2-20020a63db42000000b0045c9c73d72emr30514395pgi.181.1666674654641; 
- Mon, 24 Oct 2022 22:10:54 -0700 (PDT)
-Received: from localhost ([122.172.87.26]) by smtp.gmail.com with ESMTPSA id
- v6-20020a17090a00c600b001ef8ab65052sm667404pjd.11.2022.10.24.22.10.53
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M5UZCFr57jSJwSGj5ycrkruVZLCd8UXEKFZXMqgDVks=;
+ b=UkkSlka3DDuyYG5xdBkzS2W0l4sub8KmJv6Iy78HzL8T0Acqr3Nyhd15MI0T3GKAUI
+ Whe3s/PtOL/lGmaBGlR3Fbs37HSS3eIP9Z0QJMnN85r0LTksRCftGOPHwyI+wE/6RsNS
+ XuyBvNOTFYpH+WD7CZ6olw6msIQsKy2ZHwrfYQQydXEpH4IFHOqfB2iMzWntYjXTjkf8
+ c/p6dQu8VdmqtBhGl+zVYeqwbjGMkcxBpX+P1/kjJ8tQb79rtIvNUhHI0S2By97/8pbk
+ K9iXpTui6casY3W6T1gif2uBb+JtoWXhiqoTm43UlFbvbfF5oQ5yJHlV7Jkk/gdKr6nB
+ B44A==
+X-Gm-Message-State: ACrzQf0fQgJo1OZHopTIpPr3GfJjikwXSZ47w4lXvSSmxrREPzRzRxRY
+ wdUMbd8qVcs2a7FQQqXgi6qNNOJC9y0L/A==
+X-Google-Smtp-Source: AMsMyM4HCOsEjlNPhwJeL0z0TQZEZazmrwv7DoO6SLiYtb/47ToNb4OWYAXijKmn6cFMZUl/a+Pq4g==
+X-Received: by 2002:a05:6870:5804:b0:12a:f192:27de with SMTP id
+ r4-20020a056870580400b0012af19227demr20359146oap.224.1666611246967; 
+ Mon, 24 Oct 2022 04:34:06 -0700 (PDT)
+Received: from smeagol.fibertel.com.ar ([201.235.4.68])
+ by smtp.gmail.com with ESMTPSA id
+ a12-20020a056870618c00b0013b92b3ac64sm1996787oah.3.2022.10.24.04.34.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 22:10:54 -0700 (PDT)
-Date: Tue, 25 Oct 2022 10:40:52 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 02/11] ARM: sa1100: remove unused board files
-Message-ID: <20221025051052.qn2ruyjdkawwwida@vireshk-i7>
-References: <20221021155000.4108406-1-arnd@kernel.org>
- <20221021155000.4108406-3-arnd@kernel.org>
+ Mon, 24 Oct 2022 04:34:06 -0700 (PDT)
+From: =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>
+To: bas@basnieuwenhuizen.nl
+Subject: [PATCH v2] drm/amd/display: Revert logic for plane modifiers
+Date: Mon, 24 Oct 2022 08:33:59 -0300
+Message-Id: <20221024113359.5575-1-samsagax@gmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <CAP+8YyFUoFhh1+CEKrs48JV5CiorSSfe6qg90TyUrDoBtzcPhA@mail.gmail.com>
+References: <CAP+8YyFUoFhh1+CEKrs48JV5CiorSSfe6qg90TyUrDoBtzcPhA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221021155000.4108406-3-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 25 Oct 2022 06:54:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +74,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Eletzhofer <stefan.eletzhofer@eletztrick.de>,
- linux-fbdev@vger.kernel.org, linux-usb@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Dominik Brodowski <linux@dominikbrodowski.net>, linux-kernel@vger.kernel.org,
- Lubomir Rintel <lkundrak@v3.sk>, Peter Chubb <peter.chubb@unsw.edu.au>,
- Alan Stern <stern@rowland.harvard.edu>, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, rodrigo.siqueira@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ stable@vger.kernel.org, christian.koenig@amd.com, samsagax@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21-10-22, 17:49, Arnd Bergmann wrote:
-> diff --git a/drivers/cpufreq/sa1110-cpufreq.c b/drivers/cpufreq/sa1110-cpufreq.c
-> index 1a83c8678a63..bb7f591a8b05 100644
-> --- a/drivers/cpufreq/sa1110-cpufreq.c
-> +++ b/drivers/cpufreq/sa1110-cpufreq.c
-> @@ -344,14 +344,8 @@ static int __init sa1110_clk_init(void)
->  	if (!name[0]) {
->  		if (machine_is_assabet())
->  			name = "TC59SM716-CL3";
-> -		if (machine_is_pt_system3())
-> -			name = "K4S641632D";
-> -		if (machine_is_h3100())
-> -			name = "KM416S4030CT";
->  		if (machine_is_jornada720() || machine_is_h3600())
->  			name = "K4S281632B-1H";
-> -		if (machine_is_nanoengine())
-> -			name = "MT48LC8M16A2TG-75";
->  	}
->  
->  	sdram = sa1110_find_sdram(name);
+This file was split in commit 5d945cbcd4b16a29d6470a80dfb19738f9a4319f
+("drm/amd/display: Create a file dedicated to planes") and the logic in
+dm_plane_format_mod_supported() function got changed by a switch logic.
+That change broke drm_plane modifiers setting on series 5000 APUs
+(tested on OXP mini AMD 5800U and HP Dev One 5850U PRO)
+leading to Gamescope not working as reported on GitHub[1]
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+To reproduce the issue, enter a TTY and run:
 
--- 
-viresh
+$ gamescope -- vkcube
+
+With said commit applied it will abort. This one restores the old logic,
+fixing the issue that affects Gamescope.
+
+[1](https://github.com/Plagman/gamescope/issues/624)
+
+Cc: <stable@vger.kernel.org> # 6.0.x
+Signed-off-by: Joaquín Ignacio Aramendía <samsagax@gmail.com>
+Reviewed-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+---
+Removed asic_id and excess newlines. Resend with correct Cc line.
+---
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 50 +++----------------
+ 1 file changed, 7 insertions(+), 43 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index dfd3be49eac8..e6854f7270a6 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1369,7 +1369,7 @@ static bool dm_plane_format_mod_supported(struct drm_plane *plane,
+ {
+ 	struct amdgpu_device *adev = drm_to_adev(plane->dev);
+ 	const struct drm_format_info *info = drm_format_info(format);
+-	struct hw_asic_id asic_id = adev->dm.dc->ctx->asic_id;
++	int i;
+
+ 	enum dm_micro_swizzle microtile = modifier_gfx9_swizzle_mode(modifier) & 3;
+
+@@ -1386,49 +1386,13 @@ static bool dm_plane_format_mod_supported(struct drm_plane *plane,
+ 		return true;
+ 	}
+
+-	/* check if swizzle mode is supported by this version of DCN */
+-	switch (asic_id.chip_family) {
+-	case FAMILY_SI:
+-	case FAMILY_CI:
+-	case FAMILY_KV:
+-	case FAMILY_CZ:
+-	case FAMILY_VI:
+-		/* asics before AI does not have modifier support */
+-		return false;
+-	case FAMILY_AI:
+-	case FAMILY_RV:
+-	case FAMILY_NV:
+-	case FAMILY_VGH:
+-	case FAMILY_YELLOW_CARP:
+-	case AMDGPU_FAMILY_GC_10_3_6:
+-	case AMDGPU_FAMILY_GC_10_3_7:
+-		switch (AMD_FMT_MOD_GET(TILE, modifier)) {
+-		case AMD_FMT_MOD_TILE_GFX9_64K_R_X:
+-		case AMD_FMT_MOD_TILE_GFX9_64K_D_X:
+-		case AMD_FMT_MOD_TILE_GFX9_64K_S_X:
+-		case AMD_FMT_MOD_TILE_GFX9_64K_D:
+-			return true;
+-		default:
+-			return false;
+-		}
+-		break;
+-	case AMDGPU_FAMILY_GC_11_0_0:
+-	case AMDGPU_FAMILY_GC_11_0_1:
+-		switch (AMD_FMT_MOD_GET(TILE, modifier)) {
+-		case AMD_FMT_MOD_TILE_GFX11_256K_R_X:
+-		case AMD_FMT_MOD_TILE_GFX9_64K_R_X:
+-		case AMD_FMT_MOD_TILE_GFX9_64K_D_X:
+-		case AMD_FMT_MOD_TILE_GFX9_64K_S_X:
+-		case AMD_FMT_MOD_TILE_GFX9_64K_D:
+-			return true;
+-		default:
+-			return false;
+-		}
+-		break;
+-	default:
+-		ASSERT(0); /* Unknown asic */
+-		break;
++	/* Check that the modifier is on the list of the plane's supported modifiers. */
++	for (i = 0; i < plane->modifier_count; i++) {
++		if (modifier == plane->modifiers[i])
++			break;
+ 	}
++	if (i == plane->modifier_count)
++		return false;
+
+ 	/*
+ 	 * For D swizzle the canonical modifier depends on the bpp, so check
+--
+2.38.1
+
