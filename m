@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECED560B472
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 19:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD24360B498
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 19:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDFE510E197;
-	Mon, 24 Oct 2022 17:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46A3110E6B7;
+	Mon, 24 Oct 2022 17:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D7310E197
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 17:44:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id ACAACB81142
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 17:44:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB79C43144
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 17:44:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666633473;
- bh=rxyQTUdSdUwZ2Oz9EnvVUz0qxX4MCHVHqwvbb6aL05U=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=XfD0Iled2Tv4HZSuYwD9foAloyb2TNg/Wn8YFbjnQyzyNjNGK4qgw18aR/dV1k8zK
- hnvWg/J0PfbETsLprF3n9YPNN8SX16hG9BWWXTT2FQzlXkER1PkcBFZ1sPgNl0pJDn
- L8oPBFgU0oWtCGVLVOH3ySI/pt7NMmCMzCXHBGvwmZLO9vewnQ0TyX3GISvJ55gxqi
- fpLGZiAepxFqN2s98o7TQqU5WYPxcS1tKiFGEZhKb0Lma1YDWKiq9i2ZEuqjpVHgVv
- vcQvP8t0BWm0kJsolFSa+0/xsvn37gUrhuiETsUDHBumMzXk4IFil4qRmWww+uDqh4
- uuE5BwvzyrToQ==
-Received: by mail-ej1-f50.google.com with SMTP id sc25so6690566ejc.12
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 10:44:33 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3ekFlaLr6NGSUAv4vdaB4NM4vBs9jhyxthnCTiSQ7C6S5grIso
- 7FczmtoNdRR0gyCmQapep3NUEdG6sqUpkKhMryk=
-X-Google-Smtp-Source: AMsMyM6YYGgMMfIaWx4gP49hE7OH9LShLe6ZHYGkdMvLBIHBgpNCJGtSdAXwQBJtL7tPFso9ubAP3e4OWGP9JlHn+LU=
-X-Received: by 2002:a17:906:8a52:b0:78d:b6db:149d with SMTP id
- gx18-20020a1709068a5200b0078db6db149dmr28562056ejc.733.1666633471396; Mon, 24
- Oct 2022 10:44:31 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43E8C10E65D;
+ Mon, 24 Oct 2022 17:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666634004; x=1698170004;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=+9IffsENXZLLQ1PuCmG2BckTIHrQ9YE6AHK4XSADV2k=;
+ b=eJBRA6yeQrEbiUHPxX/3GcNUalcWh08xnDTAwetGTKEsRoOFNSQVhSFk
+ EON8bb767n8fGxtvcHO1/TAe038oSQGB7mO/nwrwhd4POMNMWBmq1JZlD
+ nozUTb2KKUvSM/FIcTcyxfHf9ydd4EYRHyNcU68a1twFO1LxlJVmaC5cp
+ jLmvZWVeen3R5QT/6kZtHVgkayk+zBTBaNQiIAehRwfe7/0SqD5ZHighK
+ TZig+0FFHULrrCMRJiSebt634WyXnYVqqTHHkqABhTJqASWym//BglzNf
+ xjE10EpyAQ19RKH4rKADFOctQz5M6BVgiuunTWKXC5emXJGJMUuTSg5lu w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="334075621"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="334075621"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 10:53:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="806388795"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="806388795"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga005.jf.intel.com with SMTP; 24 Oct 2022 10:53:21 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 24 Oct 2022 20:53:20 +0300
+Date: Mon, 24 Oct 2022 20:53:20 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 09/16] drm/edid: detach debugfs EDID override from
+ EDID property update
+Message-ID: <Y1bREOOlS/ODLioH@intel.com>
+References: <cover.1666614699.git.jani.nikula@intel.com>
+ <4c875f8e06c4499f498fcf876e1233cbb155ec8a.1666614699.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <20221022214622.18042-1-ogabbay@kernel.org>
- <20221022214622.18042-4-ogabbay@kernel.org>
- <bf8df463-3413-3027-0f4b-3977e6860404@quicinc.com>
-In-Reply-To: <bf8df463-3413-3027-0f4b-3977e6860404@quicinc.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Mon, 24 Oct 2022 20:43:58 +0300
-X-Gmail-Original-Message-ID: <CAFCwf12R1CWz8GdJ0sNsVL+_5b+G5Wqf5qwZ8ixtoXLOr2-obg@mail.gmail.com>
-Message-ID: <CAFCwf12R1CWz8GdJ0sNsVL+_5b+G5Wqf5qwZ8ixtoXLOr2-obg@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] drm: add dedicated minor for accelerator devices
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4c875f8e06c4499f498fcf876e1233cbb155ec8a.1666614699.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,96 +62,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jiho Chu <jiho.chu@samsung.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christoph Hellwig <hch@infradead.org>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 24, 2022 at 6:21 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
->
-> On 10/22/2022 3:46 PM, Oded Gabbay wrote:
-> > The accelerator devices are exposed to user-space using a dedicated
-> > major. In addition, they are represented in /dev with new, dedicated
-> > device char names: /dev/accel/accel*. This is done to make sure any
-> > user-space software that tries to open a graphic card won't open
-> > the accelerator device by mistake.
-> >
-> > The above implies that the minor numbering should be separated from
-> > the rest of the drm devices. However, to avoid code duplication, we
-> > want the drm_minor structure to be able to represent the accelerator
-> > device.
-> >
-> > To achieve this, we add a new drm_minor* to drm_device that represents
-> > the accelerator device. This pointer is initialized for drivers that
-> > declare they handle compute accelerator, using a new driver feature
-> > flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
-> > driver feature is mutually exclusive with DRIVER_RENDER. Devices that
-> > want to expose both graphics and compute device char files should be
-> > handled by two drivers that are connected using the auxiliary bus
-> > framework.
-> >
-> > In addition, we define a different idr to handle the accelerators
-> > minors. This is done to make the minor's index be identical to the
-> > device index in /dev/. In most places, this is hidden inside the drm
-> > core functions except when calling drm_minor_acquire(), where I had to
-> > add an extra parameter to specify the idr to use (because the
-> > accelerators minors index and the drm primary minor index both begin
-> > at 0).
-> >
-> > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-> > ---
-> >   drivers/gpu/drm/drm_drv.c      | 171 +++++++++++++++++++++++++--------
-> >   drivers/gpu/drm/drm_file.c     |  69 +++++++++----
-> >   drivers/gpu/drm/drm_internal.h |   2 +-
-> >   drivers/gpu/drm/drm_sysfs.c    |  29 ++++--
-> >   include/drm/drm_device.h       |   3 +
-> >   include/drm/drm_drv.h          |   8 ++
-> >   include/drm/drm_file.h         |  21 +++-
-> >   7 files changed, 235 insertions(+), 68 deletions(-)
->
-> Can we please add something to Documentation?  I know this leverages DRM
-> a lot, but I believe that a new subsystem should not be introduced
-> without documentation.  A lot of the info in the commit message is very
-> good, but should not be buried in the git log.
->
-> Besides, imagine this has been in mainline for N years, and someone
-> completely new to the kernel wants to write an accel driver.  They
-> should be able to get started with something from Documentation that
-> at-least gives that person some insight into what to grep the code for.
-Agreed. The only reason I haven't done it at this stage was because I
-wanted to get an initial reaction to the code itself, see if the
-direction is accepted.
-I didn't want to write documentation and then completely re-write it.
-So I will do it for the next patch-set, once I collect everyone's
-feedback and I see there is a majority agreement.
->
-> >
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index b58ffb1433d6..c13701a8d4be 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -56,6 +56,9 @@ MODULE_LICENSE("GPL and additional rights");
-> >   static DEFINE_SPINLOCK(drm_minor_lock);
-> >   static struct idr drm_minors_idr;
-> >
-> > +static DEFINE_SPINLOCK(accel_minor_lock);
-> > +static struct idr accel_minors_idr;
->
-> IDR is deprecated.  XArray is the preferred mechanism.
-> Yes, there already is IDR here, but I believe we should not be adding
-> new uses.  Maybe at some point, the current IDR will be converted.  Also
-> with XArray, I think you don't need the spinlock since XArray has
-> internal locking already.
-ok, I wasn't aware. I don't have any problem replacing the idr to xarray.
+On Mon, Oct 24, 2022 at 03:33:37PM +0300, Jani Nikula wrote:
+> Having the EDID override debugfs directly update the EDID property is
+> problematic. The update is partial only. The driver has no way of
+> knowing it's been updated. Mode list is not updated. It's an
+> inconsistent state.
+> 
+> Detach debugfs EDID override from the property update completely. Only
+> set and reset a separate override EDID copy from debugfs, and have it
+> take effect only at detect (via EDID read). The copy is at
+> connector->edid_override, protected by connector->edid_override_mutex.
+> 
+> This also brings override EDID closer to firmware EDID in behaviour.
+> 
+> Add validation of the override EDID which we completely lacked.
+> 
+> Note that IGT already forces a detect whenever tests update the override
+> EDID.
+> 
+> v2: Add locking (Ville)
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c |  1 +
+>  drivers/gpu/drm/drm_edid.c      | 73 ++++++++++++++++-----------------
+>  include/drm/drm_connector.h     | 16 ++++++--
+>  3 files changed, 49 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 61c29ce74b03..f25674c0d41e 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -274,6 +274,7 @@ static int __drm_connector_init(struct drm_device *dev,
+>  	INIT_LIST_HEAD(&connector->probed_modes);
+>  	INIT_LIST_HEAD(&connector->modes);
+>  	mutex_init(&connector->mutex);
+> +	mutex_init(&connector->edid_override_mutex);
+>  	connector->edid_blob_ptr = NULL;
+>  	connector->epoch_counter = 0;
+>  	connector->tile_blob_ptr = NULL;
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index c3cf942186b7..b8d07e4d6215 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2207,8 +2207,12 @@ static struct edid *drm_get_override_edid(struct drm_connector *connector,
+>  {
+>  	struct edid *override = NULL;
+>  
+> -	if (connector->override_edid)
+> -		override = drm_edid_duplicate(connector->edid_blob_ptr->data);
+> +	mutex_lock(&connector->edid_override_mutex);
+> +
+> +	if (connector->edid_override)
+> +		override = drm_edid_duplicate(connector->edid_override->edid);
+> +
+> +	mutex_unlock(&connector->edid_override_mutex);
 
-Thanks,
-Oded
+I was first thinking we'd use connection_mutex or something for this,
+but given no one should anymore access this thing directly a dedicated
+mutex seems like a fine choice. At least it's clear what it protects.
+
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+>  
+>  	if (!override)
+>  		override = drm_load_edid_firmware(connector);
+> @@ -2223,10 +2227,15 @@ static struct edid *drm_get_override_edid(struct drm_connector *connector,
+>  /* For debugfs edid_override implementation */
+>  int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m)
+>  {
+> -	struct drm_property_blob *edid = connector->edid_blob_ptr;
+> +	const struct drm_edid *drm_edid;
+>  
+> -	if (connector->override_edid && edid)
+> -		seq_write(m, edid->data, edid->length);
+> +	mutex_lock(&connector->edid_override_mutex);
+> +
+> +	drm_edid = connector->edid_override;
+> +	if (drm_edid)
+> +		seq_write(m, drm_edid->edid, drm_edid->size);
+> +
+> +	mutex_unlock(&connector->edid_override_mutex);
+>  
+>  	return 0;
+>  }
+> @@ -2235,32 +2244,43 @@ int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m)
+>  int drm_edid_override_set(struct drm_connector *connector, const void *edid,
+>  			  size_t size)
+>  {
+> -	int ret;
+> +	const struct drm_edid *drm_edid;
+>  
+> -	if (size < EDID_LENGTH || edid_size(edid) > size)
+> +	drm_edid = drm_edid_alloc(edid, size);
+> +	if (!drm_edid_valid(drm_edid)) {
+> +		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override invalid\n",
+> +			    connector->base.id, connector->name);
+> +		drm_edid_free(drm_edid);
+>  		return -EINVAL;
+> -
+> -	connector->override_edid = false;
+> +	}
+>  
+>  	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override set\n",
+>  		    connector->base.id, connector->name);
+>  
+> -	ret = drm_connector_update_edid_property(connector, edid);
+> -	if (!ret)
+> -		connector->override_edid = true;
+> +	mutex_lock(&connector->edid_override_mutex);
+>  
+> -	return ret;
+> +	drm_edid_free(connector->edid_override);
+> +	connector->edid_override = drm_edid;
+> +
+> +	mutex_unlock(&connector->edid_override_mutex);
+> +
+> +	return 0;
+>  }
+>  
+>  /* For debugfs edid_override implementation */
+>  int drm_edid_override_reset(struct drm_connector *connector)
+>  {
+> -	connector->override_edid = false;
+> -
+>  	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override reset\n",
+>  		    connector->base.id, connector->name);
+>  
+> -	return drm_connector_update_edid_property(connector, NULL);
+> +	mutex_lock(&connector->edid_override_mutex);
+> +
+> +	drm_edid_free(connector->edid_override);
+> +	connector->edid_override = NULL;
+> +
+> +	mutex_unlock(&connector->edid_override_mutex);
+> +
+> +	return 0;
+>  }
+>  
+>  /**
+> @@ -6634,23 +6654,6 @@ int drm_edid_connector_update(struct drm_connector *connector,
+>  {
+>  	int count;
+>  
+> -	/*
+> -	 * FIXME: Reconcile the differences in override_edid handling between
+> -	 * this and drm_connector_update_edid_property().
+> -	 *
+> -	 * If override_edid is set, and the EDID passed in here originates from
+> -	 * drm_edid_read() and friends, it will be the override EDID, and there
+> -	 * are no issues. drm_connector_update_edid_property() ignoring requests
+> -	 * to set the EDID dates back to a time when override EDID was not
+> -	 * handled at the low level EDID read.
+> -	 *
+> -	 * The only way the EDID passed in here can be different from the
+> -	 * override EDID is when a driver passes in an EDID that does *not*
+> -	 * originate from drm_edid_read() and friends, or passes in a stale
+> -	 * cached version. This, in turn, is a question of when an override EDID
+> -	 * set via debugfs should take effect.
+> -	 */
+> -
+>  	count = _drm_edid_connector_update(connector, drm_edid);
+>  
+>  	_drm_update_tile_info(connector, drm_edid);
+> @@ -6665,10 +6668,6 @@ EXPORT_SYMBOL(drm_edid_connector_update);
+>  static int _drm_connector_update_edid_property(struct drm_connector *connector,
+>  					       const struct drm_edid *drm_edid)
+>  {
+> -	/* ignore requests to set edid when overridden */
+> -	if (connector->override_edid)
+> -		return 0;
+> -
+>  	/*
+>  	 * Set the display info, using edid if available, otherwise resetting
+>  	 * the values to defaults. This duplicates the work done in
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index b1b2df48d42c..e641a4725f99 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1550,12 +1550,20 @@ struct drm_connector {
+>  	struct drm_cmdline_mode cmdline_mode;
+>  	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
+>  	enum drm_connector_force force;
+> +
+> +	/**
+> +	 * @edid_override: Override EDID set via debugfs.
+> +	 *
+> +	 * Do not modify or access outside of the drm_edid_override_* family of
+> +	 * functions.
+> +	 */
+> +	const struct drm_edid *edid_override;
+> +
+>  	/**
+> -	 * @override_edid: has the EDID been overwritten through debugfs for
+> -	 * testing? Do not modify outside of drm_edid_override_set() and
+> -	 * drm_edid_override_reset().
+> +	 * @edid_override_mutex: Protect access to edid_override.
+>  	 */
+> -	bool override_edid;
+> +	struct mutex edid_override_mutex;
+> +
+>  	/** @epoch_counter: used to detect any other changes in connector, besides status */
+>  	u64 epoch_counter;
+>  
+> -- 
+> 2.34.1
+
+-- 
+Ville Syrjälä
+Intel
