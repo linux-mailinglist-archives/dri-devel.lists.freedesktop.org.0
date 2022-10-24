@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762D660C43C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C23D260C454
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1931310E13D;
-	Tue, 25 Oct 2022 06:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382FC10E194;
+	Tue, 25 Oct 2022 06:54:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1C910E388
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:35:50 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id q71so8441892pgq.8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:35:50 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD9B10E388
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:35:58 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so12706772pji.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nh284RfbKTKjVZ53xc/BjYmJT2KbUvj6smXua/Y15lg=;
- b=wKxhR+PYREmRgVKkasTw0GfLrz2v/WYReVJQ30eu6x7i4eVQgdnhuAzGFkfXj43osX
- iAXkQ9aOTTvoovjS5IAKs+vGwyfg/3OtbGuKU/dCjSKPeCgfec8HUoDEQ74hMGKLlidw
- xopGpztVbn+H0pgQsRhyf7RQzg47xJ12vGdWkiLpV1wmLs/HSBYTp0CLCI3VpboZfYoK
- OVdGvVz64lio5FjIFDglJN+RSxy4l6GjXQ4rIatNLGAan07rIxYhnoljN8p8kyn4jRRy
- crr47iBoKn1Bk8Y506uKaUb06iRU9mYdDjzttWDNXRDmwZYfgtsJrKYIzOgRriRarrJF
- 6iww==
+ bh=XqmnVvhO9UyNXVHf0JsSwhtfQtP7FaZ6t+IS8pLhYe4=;
+ b=s196kKLMLpzulXUS4BLxdjP3PZud7xTpKqpKruF8CPkUOnlKaR/90Xeg2YiBo1lxHt
+ 0phPGBaGv8xL/2sJqtVjolNPplrc2gMArMrd38Fp4QY7w8IhO1gtyxxMyGg93VGpm0MM
+ j/H+7JqUU0uyU9EbCNWGW0hSXVYMoeFxaVahwQmC5a0ogDrEldzdfFhw1y5wfPbeoDyv
+ hhwAFpQRAr0P5gUGNLn3NAYvFzK96KUpTxDG6A6mcGTvTgwIFrZjd1qq4rg87X1gcrgv
+ qVb+qSNOeTlneVvekKPumnA2sWUZNn6pea2DrTamA/nt4dzQ8wvTNCAad1chJdFMPTZm
+ 71eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nh284RfbKTKjVZ53xc/BjYmJT2KbUvj6smXua/Y15lg=;
- b=tu2/54fPDqpyVNn790jZw62CVVs68+6Z5qTOeKkHPqoVhtXjDU1a1BYkP+NOhjlgTH
- eA+oE2Na36lpMTXlsEzOwkH1N5EUh0O4nWOfyJlxy+umulpXGLDTleYZrqJk0v2pKE4v
- 0RynuRaYgG+hjmOsmTPGSok6uqMA8Un836tTmuP9FwISuaGsPd7qwz3uSAaFtQBhyYv5
- QWkatrS+htbtXB5WW2NQJfRIAA6wk9Ym2fKeDIVfrEV8m3fqSpDWdoZ7SPvCKVCNjgF8
- WIsItZR3ft3vsii4K5LYzaiswfL8kUOjG5J/QB+8wvwwBvpHZ6aB4CmcNfbjHhV2wZco
- KPOQ==
-X-Gm-Message-State: ACrzQf2zxFU/Q0Snhy1r0oKpe2E2ZUykC0PyQiG30Wzs7SNrKfnkLgRj
- N+lN2UUb1/HyHyskA6QBnYfpIA==
-X-Google-Smtp-Source: AMsMyM5qFqNKIQCrH6nqN3yVGbGf1IzcRlrs4UvsvzXwRIAC8cYkTRMstnrFzu4g/FRXgW5McIN7zw==
-X-Received: by 2002:a05:6a00:114c:b0:528:2c7a:6302 with SMTP id
- b12-20020a056a00114c00b005282c7a6302mr33351690pfm.37.1666611349588; 
- Mon, 24 Oct 2022 04:35:49 -0700 (PDT)
+ bh=XqmnVvhO9UyNXVHf0JsSwhtfQtP7FaZ6t+IS8pLhYe4=;
+ b=GDxSPUk0kk6fNERlXJxIL7vG9G4VoA6TAfqe1UwBBcCXEmcRG7Bo9ym3i8KRGZn665
+ XpqXKCl/ggDbOI2JExq5kilk1bUrvTrnUIg2VnJVelNUFND8CCA80IsboV+dUiynhpZ4
+ OqRz8taAjD486cr00Yn6CDfO9VwiPTaqJBRmoq5K0EFOAABEG3cB1JoAo8Zgc1SSxxvi
+ D4kSO2sozIz60YoELG0wLt3+hHltlLIs9yEnv4qFK450x15tr42U75akSpS3dz9lk0b1
+ a5QpNaT211yaCeyT84KJ7dUlgxCEFPW3zB+t8wMN9kw4HTJXyZtL4+TEDpPXArJYl10l
+ D4kw==
+X-Gm-Message-State: ACrzQf0nnCZjw/A9ieAsFnLvUi8q+aY8FjEUgF+2BAQdw8GR65YJ5sbp
+ bykD1WTue10BU7utRov7ez2UQw==
+X-Google-Smtp-Source: AMsMyM4bQCnNONbcQRCLJnNp3+V9paAm7JCDcLdkyq7fRJSwz3Z4S1McoGfU9dqTYLitGtEw6cnCGg==
+X-Received: by 2002:a17:903:2014:b0:186:8937:28a6 with SMTP id
+ s20-20020a170903201400b00186893728a6mr11907681pla.39.1666611357909; 
+ Mon, 24 Oct 2022 04:35:57 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.35.41
+ b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.35.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 04:35:49 -0700 (PDT)
+ Mon, 24 Oct 2022 04:35:57 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Subject: [PATCH 01/22] drm/i915/opregion: Improve backlight request condition
-Date: Mon, 24 Oct 2022 20:34:52 +0900
-Message-Id: <20221024113513.5205-2-akihiko.odaki@daynix.com>
+Subject: [PATCH 02/22] ACPI: video: Introduce acpi_video_get_backlight_types()
+Date: Mon, 24 Oct 2022 20:34:53 +0900
+Message-Id: <20221024113513.5205-3-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -97,95 +98,84 @@ Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-asle_set_backlight() needs to accept backlight request only if the
-firmware controls the backlight. It used the following expression for
-this purpose:
-acpi_video_get_backlight_type() == acpi_backlight_native
-
-This expression works well in practice, but has two semantic problems.
-One is that it actually determines if a backlight device which directly
-modifies hardware registers ("native backlight") exists. It is possible
-that a device which does not have backlight at all incorrectly triggers
-asle_set_backlight(), and the expression does not cover such a case.
-
-Another problem is that acpi_video_get_backlight_type() always return
-acpi_backlight_vendor in reality if CONFIG_ACPI_VIDEO is unset. It
-means even its ability to determine the existence of native backlight is
-somewhat limited.
-
-This change introduces a new function backlight_device_non_raw_exists(),
-which returns if the firmware is controlling the backlight, and is
-always available if backlight support is enabled.
+This deprecates acpi_video_get_backlight_type().
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/gpu/drm/i915/display/intel_opregion.c |  3 ++-
- drivers/video/backlight/backlight.c           | 18 ++++++++++++++++++
- include/linux/backlight.h                     |  1 +
- 3 files changed, 21 insertions(+), 1 deletion(-)
+ drivers/acpi/acpi_video.c   |  2 +-
+ drivers/acpi/video_detect.c |  6 +++---
+ include/acpi/video.h        | 12 ++++++++++++
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index caa07ef34f21..82ea02ab94c2 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -26,6 +26,7 @@
+diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
+index 32953646caeb..63e41aac71bd 100644
+--- a/drivers/acpi/acpi_video.c
++++ b/drivers/acpi/acpi_video.c
+@@ -1823,7 +1823,7 @@ static int acpi_video_bus_register_backlight(struct acpi_video_bus *video)
+ 	if (video->backlight_registered)
+ 		return 0;
+ 
+-	if (acpi_video_get_backlight_type() != acpi_backlight_video)
++	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VIDEO))
+ 		return 0;
+ 
+ 	mutex_lock(&video->device_list_lock);
+diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+index 0d9064a9804c..9cb12e4f06f7 100644
+--- a/drivers/acpi/video_detect.c
++++ b/drivers/acpi/video_detect.c
+@@ -17,13 +17,13 @@
+  * Otherwise vendor specific drivers like thinkpad_acpi, asus-laptop,
+  * sony_acpi,... can take care about backlight brightness.
+  *
+- * Backlight drivers can use acpi_video_get_backlight_type() to determine which
++ * Backlight drivers can use acpi_video_get_backlight_types() to determine which
+  * driver should handle the backlight. RAW/GPU-driver backlight drivers must
+  * use the acpi_video_backlight_use_native() helper for this.
+  *
+  * If CONFIG_ACPI_VIDEO is neither set as "compiled in" (y) nor as a module (m)
+- * this file will not be compiled and acpi_video_get_backlight_type() will
+- * always return acpi_backlight_vendor.
++ * this file will not be compiled and acpi_video_get_backlight_types() will
++ * always return ACPI_BACKLIGHT_VENDOR.
   */
  
- #include <linux/acpi.h>
-+#include <linux/backlight.h>
- #include <linux/dmi.h>
- #include <linux/firmware.h>
- #include <acpi/video.h>
-@@ -467,7 +468,7 @@ static u32 asle_set_backlight(struct drm_i915_private *dev_priv, u32 bclp)
+ #include <linux/export.h>
+diff --git a/include/acpi/video.h b/include/acpi/video.h
+index a275c35e5249..a565ba27fae0 100644
+--- a/include/acpi/video.h
++++ b/include/acpi/video.h
+@@ -2,6 +2,7 @@
+ #ifndef __ACPI_VIDEO_H
+ #define __ACPI_VIDEO_H
  
- 	drm_dbg(&dev_priv->drm, "bclp = 0x%08x\n", bclp);
++#include <linux/bits.h> /* for BIT */
+ #include <linux/errno.h> /* for ENODEV */
+ #include <linux/types.h> /* for bool */
  
--	if (acpi_video_get_backlight_type() == acpi_backlight_native) {
-+	if (!backlight_device_non_raw_exists()) {
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "opregion backlight request ignored\n");
- 		return 0;
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index b788ff3d0f45..4f0ce463e250 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -516,6 +516,24 @@ struct backlight_device *backlight_device_get_by_name(const char *name)
+@@ -52,6 +53,12 @@ enum acpi_backlight_type {
+ 	acpi_backlight_apple_gmux,
+ };
+ 
++#define ACPI_BACKLIGHT_VIDEO BIT(acpi_backlight_video)
++#define ACPI_BACKLIGHT_VENDOR BIT(acpi_backlight_vendor)
++#define ACPI_BACKLIGHT_NATIVE BIT(acpi_backlight_native)
++#define ACPI_BACKLIGHT_NVIDIA_WMI_EC BIT(acpi_backlight_nvidia_wmi_ec)
++#define ACPI_BACKLIGHT_APPLE_GMUX BIT(acpi_backlight_apple_gmux)
++
+ #if IS_ENABLED(CONFIG_ACPI_VIDEO)
+ extern int acpi_video_register(void);
+ extern void acpi_video_unregister(void);
+@@ -97,4 +104,9 @@ static inline int acpi_video_get_levels(struct acpi_device *device,
  }
- EXPORT_SYMBOL(backlight_device_get_by_name);
+ #endif
  
-+bool backlight_device_non_raw_exists(void)
++static inline int acpi_video_get_backlight_types(void)
 +{
-+	bool found = false;
-+	struct backlight_device *bd;
-+
-+	mutex_lock(&backlight_dev_list_mutex);
-+	list_for_each_entry(bd, &backlight_dev_list, entry) {
-+		if (bd->props.type != BACKLIGHT_RAW) {
-+			found = true;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&backlight_dev_list_mutex);
-+
-+	return found;
++	return BIT(acpi_video_get_backlight_type());
 +}
-+EXPORT_SYMBOL(backlight_device_non_raw_exists);
 +
- /* deprecated - use devm_backlight_device_unregister() */
- void backlight_device_unregister(struct backlight_device *bd)
- {
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 614653e07e3a..364ef6f99a9e 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -444,6 +444,7 @@ int backlight_register_notifier(struct notifier_block *nb);
- int backlight_unregister_notifier(struct notifier_block *nb);
- struct backlight_device *backlight_device_get_by_name(const char *name);
- struct backlight_device *backlight_device_get_by_type(enum backlight_type type);
-+bool backlight_device_non_raw_exists(void);
- int backlight_device_set_brightness(struct backlight_device *bd,
- 				    unsigned long brightness);
- 
+ #endif
 -- 
 2.37.3
 
