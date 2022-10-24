@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C35660C449
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A75260C429
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7569F10E153;
-	Tue, 25 Oct 2022 06:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 621A910E11B;
+	Tue, 25 Oct 2022 06:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA2010E388
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:36:15 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id p6so8195181plr.7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:36:15 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F5610E399
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:36:23 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id f193so8496205pgc.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mHmQPHH9zZ+33MZuRep7mHnwYbLIC54t+fSNOg5Y268=;
- b=RqE7F5MvPhA2qPYcGDMg2WC36c/ya8S0CaGTkCLFCoNSy0LYw2pEJBOB/IKoaCEWaV
- b6+79fB4tTanoZBjY7Fo2X/0NYabUzhBlMuelQGTz957EVppUy7uLHG6QaZSla3B9yXQ
- 6OXhn032XHxg5QRkvk/FCqxh1nFf72KOtez39VVtVU2ZobrTkzAarpAdLc1MHIUicZ7x
- 9IrA8KyX2n1Wc8SGkUaFWVryKzby7j8MCVQOn4hgQjEY8G1/JwHmHTRLpbfS7RTYinzr
- NNc6x9W1fERMFC/C80tkaVI7MUT/2fXwRFpEdbUrqzdctaRtNeCvR6lKd2fKNhihIYhG
- 3RWw==
+ bh=FzYckbVTu84cFuvQYLHBAleZORC/YQBRLh0kCNSwM7o=;
+ b=iBmB5k8OKAjf/Xfxgs/hagECXPJWV1vTEOyWaHgXEXGGuvWdPS3TIcFuqN2vljOt/3
+ nNxtvkj18I0SllZUWw1t8qqvPmaaAP/Ih4C/z6eW1oEg/YHBwNE/UBrQc6mXtkTAyvYj
+ FRBgnjpPaQlPvG+Y3I8gbe9DDVTlZH0hAaXfoiGfSlX3bhk3XTqmJy1s3Zn6Jxm7ASHo
+ 5qpBijR2lRjm+mURr8kmnNH7SvMPVVmMWVtI9kd+jgDbk3k+yebqsm9WcqXOGkuW8EHo
+ ONz+AiYuv6fxJZh8VBFUV+IvV75FH4hihqZWU8KhCWTYY3SL2W8//2gxAwO5cZ7vPvF7
+ RcQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mHmQPHH9zZ+33MZuRep7mHnwYbLIC54t+fSNOg5Y268=;
- b=EeUvnoapd3h7fsG9CqAcP/ZdYI9jdA0xIiVJbb1HlaSxaIxi7PqO5SxoMt58DvE/mo
- njmj8Mv9yU4oonT0+2rB7lAeybI56myQxWjpQmScX/wop6g0bfUs1qnYYXdjf+6Fe72S
- lM2fJXwMwgfDqDTgidgwQnbS4BV40sqK0sCsRRxgzG4Hw28cYR4wgyaT/psX5Ay78EmI
- etomlvEd6Ijwv+lTKhPeGhZBoxJgSsV3D8OzJrOCQInNkhMVsYWPZcbf6CRQSrBTUSF7
- Je1vbk2ek91O0TmvinUtfKTbiOzRY9HcOzV/4s1HmzXEQpRHZjmQmOQmSg3Mhwd4xamZ
- SXSg==
-X-Gm-Message-State: ACrzQf2IaKiQyJEsalPHe8b2jZgQw+VAisOkuK9lgTKWFSAtCjmL0cEK
- rURTf8vAQPqvXfdHpe6x8fvqGw==
-X-Google-Smtp-Source: AMsMyM6IswFjqEAoVVX0inb+Y9m4C23pNohtdcPX0MoJFcRCefFyK5dlJjEhoQdRFZzuZeVMFsM+Yw==
-X-Received: by 2002:a17:902:7c8c:b0:17f:7565:4a2d with SMTP id
- y12-20020a1709027c8c00b0017f75654a2dmr33857671pll.65.1666611374702; 
- Mon, 24 Oct 2022 04:36:14 -0700 (PDT)
+ bh=FzYckbVTu84cFuvQYLHBAleZORC/YQBRLh0kCNSwM7o=;
+ b=vkTMPFk1eYxvSDtF5hkiI7XA9u0mtoEpT6axXF6n/mzJsOU45YBh+04gW5X8PAMo0R
+ QAFz0cbolGShHKdZPGpwEi3e9oe9WVxDDlXbNpvvoPW9Ta4RFtRVAuJiTqwgBOQn2X3K
+ SaglDdhg+GLi2SXm+XQeHl0Fn/mBD/hN4EGJax7/9N1/uJKY9u7cISa6hzjLEfwHnMkk
+ B2Qla4JLCH/HJinDhe6Sm1GoUQGC+q7+JGHMl9K/CdBw7X5mVP05ITqSeiCwAZvzR5zY
+ 15o0C/t8uhJDHrRiTRJv5Zo4xjFGkGmj2FKuvDF3v01mtfcbyskGa+mS/RPrdRVkx8gD
+ m29g==
+X-Gm-Message-State: ACrzQf1ODW9xh54fmK0CGEhfOAtbZ6zQXr5inX7gzHclxClAegX8KP4f
+ kWMDsXDK1I3BhgFnrGpkDZL/gQ==
+X-Google-Smtp-Source: AMsMyM7eq4O5TcwFPN0I0cjYrONCrFe9kecGGggyXcsgPXfbT+UNin9IKo2yeDqy+SAw/EfdKKa+7Q==
+X-Received: by 2002:a63:2a86:0:b0:46a:eaba:f1f3 with SMTP id
+ q128-20020a632a86000000b0046aeabaf1f3mr27591150pgq.79.1666611383075; 
+ Mon, 24 Oct 2022 04:36:23 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.36.06
+ b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.36.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 04:36:14 -0700 (PDT)
+ Mon, 24 Oct 2022 04:36:22 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Subject: [PATCH 04/22] platform/x86: acer-wmi: Use
+Subject: [PATCH 05/22] platform/x86: asus-laptop: Use
  acpi_video_get_backlight_types()
-Date: Mon, 24 Oct 2022 20:34:55 +0900
-Message-Id: <20221024113513.5205-5-akihiko.odaki@daynix.com>
+Date: Mon, 24 Oct 2022 20:34:56 +0900
+Message-Id: <20221024113513.5205-6-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -102,22 +102,22 @@ acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/platform/x86/acer-wmi.c | 2 +-
+ drivers/platform/x86/asus-laptop.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index 18224f9a5bc0..10d0819e48ff 100644
---- a/drivers/platform/x86/acer-wmi.c
-+++ b/drivers/platform/x86/acer-wmi.c
-@@ -2421,7 +2421,7 @@ static int __init acer_wmi_init(void)
+diff --git a/drivers/platform/x86/asus-laptop.c b/drivers/platform/x86/asus-laptop.c
+index 47b2f8bb6fb5..fb7f9e8ca6c4 100644
+--- a/drivers/platform/x86/asus-laptop.c
++++ b/drivers/platform/x86/asus-laptop.c
+@@ -1854,7 +1854,7 @@ static int asus_acpi_add(struct acpi_device *device)
+ 	if (result)
+ 		goto fail_platform;
  
- 	set_quirks();
- 
--	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
-+	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
- 		interface->capability &= ~ACER_CAP_BRIGHTNESS;
- 
- 	if (wmi_has_guid(WMID_GUID3))
+-	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
++	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		result = asus_backlight_init(asus);
+ 		if (result)
+ 			goto fail_backlight;
 -- 
 2.37.3
 
