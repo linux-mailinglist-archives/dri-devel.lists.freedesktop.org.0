@@ -1,76 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510C960C44F
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472C160C43D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 259BF10E170;
-	Tue, 25 Oct 2022 06:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E6610E12A;
+	Tue, 25 Oct 2022 06:54:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E370E10E822
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:08:00 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id h14so8321177pjv.4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2V4dbYtLJOdrMkKDGWD6KitwsjwW003TmDHahg6j47c=;
- b=ST/EXpXnGMVhqPz5639aoNMs/MJCJzl8dYjBtKZ3GcsF9hRU11tFH8h+hAVwsuz7Ya
- ou3g2rW+Plt9PF+abw04hYxFyJSm9TK3Zc5f0f5VVZO5g8/1EqtsdnIw40CUpYiKDPyc
- l1nM/cpbycbAYsrdPD8mjm3HQb1Jjx51O7y7NbyI+fwUdrsdHeybDUy91e+NsIa25apE
- kIA2H2uRZuRl/NG+Em85SNDo7WgqTEz31CBkJFxFXVC0joUug26g3b4ejfutAY4sXqzL
- Tnm9LZFmrc7FvMcHA93IL6vnTjpxZOjIIzqrZ/swDntvQeFcv7Ywd2Tvsz2itKp7iCTq
- YX4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2V4dbYtLJOdrMkKDGWD6KitwsjwW003TmDHahg6j47c=;
- b=xHLCQo6xsBm/nk/DpJ7yHPG6vZ4c+h7j4tHu6BHZFAklGAqwXdFDk9BatzZeySAISN
- lrdaPM2Fg+AA5zraLMVMtjr3aETliatLPjI/DDaXQXUcn0j76M08O+pOVu9kG3EX+d9g
- bq745BB2y+/8biuVYdT7uXA10Oo17r+EHWbttJzuHrNS0xH1/h89fGlbWdjgNqcihcOL
- Clf3oRuE3lOm61l7SUJbUEai1T202dqXdLuhDlXHletIEmzhVTL/UsyGLPXwLAsw29YA
- ZvDT48aktIOjnE8yia4MQKKc5uMg/Vko32Y1x3SOoQgJofD7CM41kVZ5mRgAvJI0pOoi
- WvmA==
-X-Gm-Message-State: ACrzQf0MW4g3ZoGQdxpWCKJJAaYHdbWSnmY/Gp+TkrdV6SKk31k7qH8X
- DPrLiS+OmT73IRIRf10e6WW7sw==
-X-Google-Smtp-Source: AMsMyM69Ej5bscL4lukV/JMHX/W7kwNTTtbhzo5sbn6Z9pio8hw4ynMWZVObyRThBWw+9SwsG1ORmA==
-X-Received: by 2002:a17:90b:3e81:b0:20d:bbe5:f332 with SMTP id
- rj1-20020a17090b3e8100b0020dbbe5f332mr63515067pjb.112.1666624080464; 
- Mon, 24 Oct 2022 08:08:00 -0700 (PDT)
-Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
- ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- j10-20020a170902da8a00b0017f64ab80e5sm19732220plx.179.2022.10.24.08.07.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 08:07:59 -0700 (PDT)
-Message-ID: <3fe42888-30a1-9a94-1b78-b04d1ee4410a@daynix.com>
-Date: Tue, 25 Oct 2022 00:07:56 +0900
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4B4410E3C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 16:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1666628700;
+ bh=yEBLDeFnz8EfQ7kKMHjmF2KmCVxvaeuLLjYTy9QKjDc=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:Reply-To:
+ In-Reply-To;
+ b=GzRcxznNwqrcOv1GNlBRuXlNdyOPl8Z6NeJ521fR3EU0t5e9xX4iGoz0lCtlpEDrt
+ 2ZyAQBdruU/O6vSADOB4il9s1r/rUG4w3PZJnauDqXT1FPKGEgZChLF3HHjI6ZG4H0
+ QQv3LxeuMauv3+07gpws4F9rWjm/9s8z3n10oEdw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.0.179] ([91.141.38.147]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mxm3Q-1p0ewS1MR4-00zDVO; Mon, 24
+ Oct 2022 18:19:18 +0200
+Message-ID: <70e16994-6f5b-d648-0848-2eb7e3ad641a@gmx.net>
+Date: Mon, 24 Oct 2022 18:19:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v2] ACPI: video: Fix missing native backlight on
- Chromebooks
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Sean Paul <seanpaul@chromium.org>
-References: <20221024141210.67784-1-dmitry.osipenko@collabora.com>
- <37ec64ac-9e08-dd41-4b20-8701bf9413fb@daynix.com>
- <a75c2439-415c-a132-754c-7676029f792b@redhat.com>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <a75c2439-415c-a132-754c-7676029f792b@redhat.com>
+ Thunderbird/102.4.0
+Subject: Re: [Regression] CPU stalls and eventually causes a complete system
+ freeze with 6.0.3 due to "video/aperture: Disable and unregister sysfb
+ devices via aperture helpers"
+Content-Language: de-AT
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Thorsten Leemhuis <regressions@leemhuis.info>
+References: <bbf7afe7-6ed2-6708-d302-4ba657444c45@leemhuis.info>
+ <668a8ffd-ffc7-e1cc-28b4-1caca1bcc3d6@suse.de>
+ <958fd763-01b6-0167-ba6b-97cbd3bddcb6@leemhuis.info>
+ <Y1Z2sq9RyEnIdixD@kroah.com> <51651c2e-3706-37d7-01e7-5d473a412850@suse.de>
+From: Andreas Thalhammer <andreas.thalhammer-linux@gmx.net>
+In-Reply-To: <51651c2e-3706-37d7-01e7-5d473a412850@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:BRwFxW5WQgw3ZgRuOhBNRWSsccGlAcy6n5B66EBbfseS4rkhTw9
+ 21baYB1HQqsrnCm5pD1/B3L35HuQ7y0Meqr/WKqoSjv3x2drjnaEkRVUH8fUfn3DqM29ni2
+ eDtumUnpqv9Z7vnmJIxA2OIYarh++Vj4UX1KDnqgoOrKjillriC2UnHvJYkSHO/20WT6p2s
+ zWW62wOnnO11Ja8wWiPvQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2cTq1MUtiSY=:GXOn98qrNnHL8B7CLHnlWx
+ l+cKMfIst7Ew484SdQ+yzP6bgYAMMPjNfbc2VyQDdDWvoCwpif3MTf4X5p0Jv2RL7lDo+1tiM
+ 9xHz0ZFw1Fqk+HQakrEEWLFFDl0xCZVReh7Se7FWVJk1AiCAMB/Epo45aQTzq7cv2nFa6SQo8
+ imI2H/6oTJcciptqn92tSNs8R+72+VNNTEbCR02cEVvCfYerUAYY1Go48sPB6+NljXqkRL/YR
+ oMFO4t8g30E8JLH71vM+WhQvnZgBLVmYYVKIB9gnGKEjSD6azRWDYVWh28lr/0yMxL3a5lTNW
+ dDbBgK0lWhLWkD1pwbLvNCh5yaBvSWUkDQZ2VYcxopLLTALHgCEsTx5UmxXWvojP3s54hZ0vG
+ 1T2eRKZ9WfcffUnXTDg8NORP7Raf/z1/VC8nP/7jjMXaiPadcJPeYeObyFfmyLHB6+unT7oHF
+ WDXfG0aov7HeFbOaU/n/q61nLot3lyOLOWiOQ66LyJTbw+QxLSEUvY8gr45a+l3h2E9RpCDRA
+ 4dOSibgS0RIyoBijhaiZP6er0wig6/4BHdIoGGfhitaXx9Dro3ou4nkToadf7vWNDEtMf6umE
+ kOApY0yJhkkZ9OujlyxDCeLxgblbda2676iVIjAXTKGkvCta4DPNplKz5GJ4r8hqVerE9u//z
+ C6Lex89cMqAQ4A8+y3PsyMr7A50z6RS9Gql4bgTnFzLHDXZeIEBmPyyut0UqNVE5RNJz47xw1
+ L1JsGmyPOHp/pLWWYKvUtoOXrxQYE2msaFDQiYlnJUI7g4iu5GcxKDda+OJlmOhE3tWDob+Ao
+ r9o62+8XDI4Qq5kw/20w77FSNRJrDc3hyT0paYOv2TEd8zBCi/cZSUUg+jxTlwCx3KeLVsm2s
+ fWGqPNdOebhLGhM1kbTagyny8suMI6Kbn/xIvFzWAbCDyhKgkLUr5RVhaT27Ie9+FoP7F3NRA
+ 06h+0SHWJUYD5TroTnqCSGYnT54kGskRrv/rR64JI2dzFZA7ZNM+jLHa5CupkKNfvb90v/4bV
+ oxaCfLjQSAaDAMjH7Iy5NdKf3kMvpoqkthIgsEHiUPsWpo3RmDb+PB6ndc7LjdBmHsoQbq4jj
+ I2wEmLwd0QpNQ3IrOK1lC2G0A+iF97VruU9dD0kd+SdNWrjJJbQEUwudt6srBPWb9/lvGw339
+ JnPUkViBoh0gkQ9tPEqafJB+3Oi/QuNaIT46XywAgdIw5ie1ZOQ/buGI+9hmVpEMyvPdI0L39
+ En2by+sAVTdSprgC3zrKOKxxIupTBu6ey97ADtQ/00AqsCQF8o/2dy13l4wHtdQpDj8NVBKhF
+ 4EioluXuApxYJMBa76Dc47fpH5Stf2xwr11cvEM3PbP4J0Wf42dO8UCftyIkI4nNQWVUnzwkL
+ UyJO4tT3ybIgunyAkCmE3jUeip9N0fqYNFKdu0qZ8ySX46nyu3W75lDFc617lMo4OORjbDKuM
+ j+5PC5MTc32zxsTJx2fn4siB/eu3LHnRc/0xb4GoQCw6HK3p65OAjpoV6ugtOy/e6kaJY9IuA
+ ei0PlBLkfHiUbdNygtEWKvn2/3UKPHFS8EC/UDgn64BF5aI01muA9h16Z1wHIsFmlpQ==
 X-Mailman-Approved-At: Tue, 25 Oct 2022 06:54:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,94 +85,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, kernel@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Reply-To: andreas.thalhammer@linux.com
+Cc: Sasha Levin <sashal@kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2022/10/24 23:59, Hans de Goede wrote:
-> Hi,
-> 
-> On 10/24/22 16:52, Akihiko Odaki wrote:
->> On 2022/10/24 23:12, Dmitry Osipenko wrote:
->>> Chromebooks don't have backlight in ACPI table, they suppose to use
->>> native backlight in this case. Check presence of the CrOS embedded
->>> controller ACPI device and prefer the native backlight if EC found.
+Am 24.10.22 um 13:31 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 24.10.22 um 13:27 schrieb Greg KH:
+>> On Mon, Oct 24, 2022 at 12:41:43PM +0200, Thorsten Leemhuis wrote:
+>>> Hi! Thx for the reply.
 >>>
->>> Suggested-by: Hans de Goede <hdegoede@redhat.com>
->>> Fixes: 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native() helper")
->>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>> ---
+>>> On 24.10.22 12:26, Thomas Zimmermann wrote:
+>>>> Am 23.10.22 um 10:04 schrieb Thorsten Leemhuis:
+>>>>>
+>>>>> I noticed a regression report in bugzilla.kernel.org. As many (most?=
+)
+>>>>> kernel developer don't keep an eye on it, I decided to forward it by
+>>>>> mail. Quoting from
+>>>>> https://bugzilla.kernel.org/show_bug.cgi?id=3D216616=C2=A0 :
+>>>>>
+>>>>>> =C2=A0=C2=A0 Andreas 2022-10-22 14:25:32 UTC
+>>>>>>
+>>>>>> Created attachment 303074 [details]
+>>>>>> dmesg
+>>>>
+>>>> I've looked at the kernel log and found that simpledrm has been loade=
+d
+>>>> *after* amdgpu, which should never happen. The problematic patch has
+>>>> been taken from a long list of refactoring work on this code. No wond=
+er
+>>>> that it doesn't work as expected.
+>>>>
+>>>> Please cherry-pick commit 9d69ef183815 ("fbdev/core: Remove
+>>>> remove_conflicting_pci_framebuffers()") into the 6.0 stable branch an=
+d
+>>>> report on the results. It should fix the problem.
 >>>
->>> Changelog:
->>>
->>> v2: - Added explanatory comment to the code and added check for the
->>>         native backlight presence, like was requested by Hans de Goede.
->>>
->>>    drivers/acpi/video_detect.c | 12 ++++++++++++
->>>    1 file changed, 12 insertions(+)
->>>
->>> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
->>> index 0d9064a9804c..9cd8797d12bb 100644
->>> --- a/drivers/acpi/video_detect.c
->>> +++ b/drivers/acpi/video_detect.c
->>> @@ -668,6 +668,11 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->>>        { },
->>>    };
->>>    +static bool google_cros_ec_present(void)
->>> +{
->>> +    return acpi_dev_found("GOOG0004");
->>> +}
->>> +
->>>    /*
->>>     * Determine which type of backlight interface to use on this system,
->>>     * First check cmdline, then dmi quirks, then do autodetect.
->>> @@ -730,6 +735,13 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
->>>                return acpi_backlight_video;
->>>        }
->>>    +    /*
->>> +     * Chromebooks that don't have backlight handle in ACPI table
->>> +     * are supposed to use native backlight if it's available.
->>> +     */
->>> +    if (google_cros_ec_present() && native_available)
->>> +        return acpi_backlight_native;
->>> +
->>>        /* No ACPI video (old hw), use vendor specific fw methods. */
->>>        return acpi_backlight_vendor;
->>>    }
+>>> Greg, is that enough for you to pick this up? Or do you want Andreas t=
+o
+>>> test first if it really fixes the reported problem?
 >>
->> Hi,
+>> This should be good enough.=C2=A0 If this does NOT fix the issue, pleas=
+e let
+>> me know.
+>
+> Thanks a lot. I think I can provided a dedicated fix if the proposed
+> commit doesn't work.
+>
+> Best regards
+> Thomas
+>
 >>
->> The native_available check does not prevent duplicate registration if vendor backlight registers first. It was enough for the combination of ACPI video and native because ACPI video delays its registration, but it is not the case for vendor/native combination.
-> 
-> There are no drivers providing acpi_backlight_vendor functionality on chromebooks.
-> 
-> All the drivers providing acpi_backlight_vendor functionality use vendor (Dell, Acer, Asus, etc.)
-> specific firmware (smbios, EC bitbanging or ACPI) backlight control method which are not available
-> on CoreBoot based ChromeBooks.
+>> thanks,
+>>
+>> greg k-h
+>
 
-Hi,
+Thanks... In short: the additional patch did NOT fix the problem.
 
-Isn't the "native_available" check is for the case when 
-acpi_backlight_vendor functionality gets implemented on Chromebooks? If 
-it is, you don't want it to get broken when it actually happens. If you 
-can ignore the case, native_available check is simply unnecessary.
+I don't use git and I don't know how to /cherry-pick commit/
+9d69ef183815, but I found the patch here:
+https://patchwork.freedesktop.org/patch/494609/
 
-> 
-> Also notice that the theoretical problem of a vendor driver loading first was already present
-> before the backlight refactor which landed in 6.1 and this has never been an issue.
+I hope that's the right one. I reintegrated
+v2-07-11-video-aperture-Disable-and-unregister-sysfb-devices-via-aperture-=
+helpers.patch
+and also applied
+v2-04-11-fbdev-core-Remove-remove_conflicting_pci_framebuffers.patch,
+did a "make mrproper" and thereafter compiled a clean new 6.0.3 kernel
+(same .config).
 
-The situation is even a bit better than it was before the refactor since 
-duplication happened even when vendor driver loads later if I understand 
-it correctly.
+Now the system doesn't even boot to a console. The first boot got me to
+a rcu_shed stall on CPUs/tasks, same as above, but this time with:
+Workqueue: btrfs-cache btrfs_work_helper
 
-Regards,
-Akihiko Odaki
+I booted a second time with the same kernel, and it got stuck after
+mounting the root btrfs filesystem (what looked like a total freeze, but
+when it didn't show a rcu_stall message after ~2 min I got impatient and
+wanted to see if I had just busted my root filesystem...)
 
-> 
-> Regards,
-> 
-> Hans
-> 
+I booted 6.0.2 and everything is fine. (I'm very glad! I definitely
+should update my backup right away!)
+
+I will try 6.1-rc1 next, bear with...
+
