@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E88460C41C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:54:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4AD60C442
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1800210E025;
-	Tue, 25 Oct 2022 06:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B925910E142;
+	Tue, 25 Oct 2022 06:54:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 186A410E3D5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:37:56 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id d10so8723941pfh.6
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:37:56 -0700 (PDT)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14F1F10E3DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:38:15 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-13ba86b5ac0so2880290fac.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=s3OBF2k1WWtiu/9/W0b3fBEExfrwFAb3nrGZKspwFWo=;
- b=ytZxwj2KO7mqmejMHz4K1suZIYKgKIzkLd7EE+hEIaFueculEZeXax0rPFi0rtL4lr
- 7+UX9MXWjbBbOQgBjauyeX2QMEOfr0yZCF6Yw3NwAEtLYr/AzMr4Ggz7FIpB/9yGq8Ci
- CeNajiFIEw4FF3iTA4CXFtGn9bA7DoprnQKeIA0r/AGyzUh0lUH+M9A0yNAdx4uOwaCJ
- 5pnLw55cfyxjSf2H2FfT7iT6gF3REqCaachB0bZ+Y5p8FvjdHYs2Vj4mZ7V1Pkvhp4jO
- 2xvAEzb4JSHAaQiHka7I4JxM52qtVtkqOhQWV7jRFiYQ4mE4otcRDd17QUh9/ZoY/MYV
- r1bg==
+ bh=aZbgIVSQ8XgPbVH9Q8Dsp65eLaVcafrOLYAAqQNA3Ms=;
+ b=svkp4e3b3SUT9ftxU+ZLPImVGkrLdjZmAyL4NTDy8zBkyhJo1e5stHvrAz9NnYp+CP
+ AJCGi7A9ny35dbEocVhIsAphKsiD9jZ63/JsrAZueG69IuE95V0TJ6aCnZ+DlNNn13Lm
+ 831reFgJM1LtLUpK9rtNkyvUYZDd26w6QRWfhKIvwmBIQcQJmYTS+V4i6U7+Z4Lpc4d3
+ s0vv4ZqyrCx4Ys2lKyq0BeBUhRZCS490rmEtluTEKpS152uos0ylqsE7d3kzUq0kQqND
+ becInYrHn+JiAKLdk4p+qnOcD5r2SuDSv8VLrjEkovHL0yMYiNLipQex+iGsarVfust+
+ Uvsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=s3OBF2k1WWtiu/9/W0b3fBEExfrwFAb3nrGZKspwFWo=;
- b=t1yQqtFsAJT/vJwcfYCREgwTw2k2/Gv+n+DrK7JzJZpadp5UEe9Jt+JoX9tTTDJPwp
- MPf2M1Yc7wi6eD4uXWftGptkwfCPhSx3d+8J611nAwNff45tr/nXUt/wwKYv4yYj7aQx
- B0FCk7aLBQJVQbyfrIeL6Q2vry2gOnud/jCgLNBtp3BDNhgP+xy21kg7HU2mjQDITNmD
- hPfQlX2b0xlEzRBDvsF0gix1hpYXJm1q+3+8KK+om/CC2xQNi2ip4uWC01hKVnoOMVqE
- rRO72tCWFbnWZb2MH9Key5dlgoSQp/2jgobPc8awz/n8BeEJ943GWGtTTA/bnAxvS4B9
- 4Jag==
-X-Gm-Message-State: ACrzQf1fRfxAEVtaNeguu5rtfiYi8QyAj//N6NVt5jfdrb2H7uZVNSAr
- XqV9ee8X9lodY7vDahVq9CaSkA==
-X-Google-Smtp-Source: AMsMyM7gLd2Xh0sfa+tFaHscQUkpHnvkLJ1d0xqmrVl3HqwBIbYxynI67Kp0nGZCTrOWZta1N0QtUA==
-X-Received: by 2002:a05:6a00:2288:b0:56b:fe9d:b4b7 with SMTP id
- f8-20020a056a00228800b0056bfe9db4b7mr1191782pfe.79.1666611475639; 
- Mon, 24 Oct 2022 04:37:55 -0700 (PDT)
+ bh=aZbgIVSQ8XgPbVH9Q8Dsp65eLaVcafrOLYAAqQNA3Ms=;
+ b=21EPFnozjhTQFZJQOgMZ4Eq8aPLolRluDwabdcJKLtCVQblcHF9OHg2HPyGdGkv+qv
+ 1IJmEX3SdxQIlsDV5ndjCdHgIfu2WD9Qlv3rQkUllyNbBn7P7ssa2uDOjaqoi5POV4+1
+ piVnB9hMfreCl4FHWjbAArPG+Kfa67pKah49AX1jWSeE9epGpGrxh3vKNj7LwSxaA3um
+ /WCxsU8XOiboonlSPbJ195vkCDbzDjKIDTb7lAOGc0gIXWFLOOMS72DgEO8mTybrL63I
+ CKXyq4AelaPDlzfnHkzgtPHTYElVT1YDAAwHBb+0MS/UUUIXVpQA4Xsq2lG3Ugq2Fno+
+ Fk1Q==
+X-Gm-Message-State: ACrzQf1SjBjHj9Yt4SSAinP1Cn0/fBKx6wMlPhaVMyu3AKzpdQgaQd0e
+ Pv6oVKcQ7ZOOywTdEFvPJdF9G2BD1EFJtliV
+X-Google-Smtp-Source: AMsMyM4RUBGzO3rLlIoesY9MV9xSVNvjZ7XRsAYwgRf2MzR+vsTZOlvX93IbLwXDaavbHv/ooxaUtA==
+X-Received: by 2002:a17:90a:6405:b0:203:6eaa:4999 with SMTP id
+ g5-20020a17090a640500b002036eaa4999mr73460182pjj.8.1666611484014; 
+ Mon, 24 Oct 2022 04:38:04 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.47
+ b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 04:37:55 -0700 (PDT)
+ Mon, 24 Oct 2022 04:38:03 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Subject: [PATCH 16/22] platform/x86: sony-laptop: Use
+Subject: [PATCH 17/22] platform/x86: thinkpad_acpi: Use
  acpi_video_get_backlight_types()
-Date: Mon, 24 Oct 2022 20:35:07 +0900
-Message-Id: <20221024113513.5205-17-akihiko.odaki@daynix.com>
+Date: Mon, 24 Oct 2022 20:35:08 +0900
+Message-Id: <20221024113513.5205-18-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -102,22 +103,31 @@ acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/platform/x86/sony-laptop.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/x86/thinkpad_acpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
-index 765fcaba4d12..987942719ba6 100644
---- a/drivers/platform/x86/sony-laptop.c
-+++ b/drivers/platform/x86/sony-laptop.c
-@@ -3201,7 +3201,7 @@ static int sony_nc_add(struct acpi_device *device)
- 			sony_nc_function_setup(device, sony_pf_device);
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 6a823b850a77..d756d2ce54d1 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -3547,7 +3547,7 @@ static int __init hotkey_init(struct ibm_init_struct *iibm)
+ 	/* Do not issue duplicate brightness change events to
+ 	 * userspace. tpacpi_detect_brightness_capabilities() must have
+ 	 * been called before this point  */
+-	if (acpi_video_get_backlight_type() != acpi_backlight_vendor) {
++	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		pr_info("This ThinkPad has standard ACPI backlight brightness control, supported by the ACPI video driver\n");
+ 		pr_notice("Disabling thinkpad-acpi brightness events by default...\n");
+ 
+@@ -6983,7 +6983,7 @@ static int __init brightness_init(struct ibm_init_struct *iibm)
+ 		return -ENODEV;
  	}
  
--	if (acpi_video_get_backlight_type() == acpi_backlight_vendor)
-+	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
- 		sony_nc_backlight_setup();
- 
- 	/* create sony_pf sysfs attributes related to the SNC device */
+-	if (acpi_video_get_backlight_type() != acpi_backlight_vendor) {
++	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		if (brightness_enable > 1) {
+ 			pr_info("Standard ACPI backlight interface available, not loading native one\n");
+ 			return -ENODEV;
 -- 
 2.37.3
 
