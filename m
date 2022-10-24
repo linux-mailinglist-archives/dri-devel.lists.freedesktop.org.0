@@ -2,76 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE09609B52
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3EC8609B55
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:31:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6148310E2A6;
-	Mon, 24 Oct 2022 07:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED9410E2AC;
+	Mon, 24 Oct 2022 07:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C0710E2A6
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:31:09 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 7075332002F9;
- Mon, 24 Oct 2022 03:31:06 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7615110E2A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:31:12 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id B175D32007F0;
+ Mon, 24 Oct 2022 03:31:10 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 24 Oct 2022 03:31:07 -0400
+ by compute5.internal (MEProxy); Mon, 24 Oct 2022 03:31:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1666596666; x=
- 1666683066; bh=Jjbu9JpIyS5CWKze1H/WOBDw+6BrnxDllrzE32pyM2A=; b=V
- 8buIz1jixNkr35PMRGseRhW44dRYrPEwOxEYO9BX2M4O9X8EBWP80wZUAPdzIhTS
- 6Z3ODm20WXMWoVDbbat6zBwSjdwOLag4fCoeoqUOwHrVvmTOvlhmftovFpDwWa+A
- p1ci8MsyqQWs56tfrQ9xIIha5co9nOr1kVqjf0dXBdBN5x+Xu2a8d9g7tOo07FYP
- U1gZfm7MosCZW2BNe6bYdeIF0rbH81NsOIfL7ihwlZDGr+hO3wt9DGtCDPv8h2BX
- yzy9GfT6wfXHoWrdMGd6rXu8vxwT5qsS50pChylVtk0EiAtnwZX3jHJQnXP4as92
- 5Gppmo9kBmr2n53teijcA==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1666596670; x=
+ 1666683070; bh=OwF0mv2AJHzrKoKJS1vLjaS10D0Sn6RA5rvBvSUlk3E=; b=z
+ DcEKTXs086tYnYJ+RvH38kQMLSdHewwI1epb7MxHj/11/ws3pXLbbyyBBK4Pvfvl
+ oRneo/u9irBMzzyUlC+CEDve7I6yg4gOvc9hWDSAYKL8RaC+/XYPXwZm5kzvY1GM
+ w+4Cuxq/7owMQlJwWWvoeOXr0YvBkSocHki34jyM2ZlXTfAOzMy0G9XvBvkYjJOy
+ CJId0gX+AklxtQIlyIvFKZ5JL72aM3jVB2qVgMZN7uj/r9ZAL20qQtItpi2D8OyI
+ VYH8btBD19XMz2h4Au98M8Vb54wTbZQpAtgWzBrVvqmpOyH3twLPxHlP/T7DJLD5
+ RvNBM99/CUbEdNn/MlowA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666596666; x=
- 1666683066; bh=Jjbu9JpIyS5CWKze1H/WOBDw+6BrnxDllrzE32pyM2A=; b=e
- xqIxGFS54BYZ0dII9pSZBFttWOx9RNcCB63ydbcRqXmKBv2TM6zy0bbyAnhH1CUO
- g3cSFmuAWmCQ0Q0iBDKvWA+6xdZp15Rv5aSf5jVL/BEVRYKxNtH/n17dPaQ1rL/0
- 9frOxLW8vGAUqbKRX4eTl5ggIOGXF8xty+9B6kvTC4+pi5dA8svuZslfQrgcUV43
- d6od4y5GdaHsJCTeYdjqJIWCxkBNOX7PcA4IXNQHzOEsDXOzTjfXiAOa2bzFsIV9
- zzgsbs4RRO9EsFKWOnfYa+F70U4kk3U127wFzYxoZUFv1oFMl06q8uudBhdpFjdl
- VcE6Y1q3tOc1DeS9g3fjA==
-X-ME-Sender: <xms:OT9WY7p9AJwVQEmqn5ZXnIPgt-smgsXb5avN3HyEEYeyIyIu_if8WA>
- <xme:OT9WY1rAmFitzlJIvgew2I13Lacg-JkZ0IqEsB5nUc_7cI1wvJo9jP6AC7XYFIspV
- Bxw-9zc38VI4JlZLEw>
-X-ME-Received: <xmr:OT9WY4MaM0xUrkmVVKz43JUcFssysOEz7n5RSPxhNAFuATdcQMtf7STAfur48bK4fel-6w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtfedguddvfecutefuodetggdotefrod
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666596670; x=
+ 1666683070; bh=OwF0mv2AJHzrKoKJS1vLjaS10D0Sn6RA5rvBvSUlk3E=; b=s
+ 8gN7zioIGP7+tpwRouZU0TcgC1h2PWBHdNswUaXYJF6VuNeUZYAe//UPWabPrD92
+ fuKHGsjLvDUgBe2MqNtt0C44dPHoUyvBCrSO1cdUaG72WvDw8M8ULOE/wD7h2ynx
+ t0K4gqQ5u/0Rg3sH/cF9gdpahGD7HWxwZ+4vhmyNxzyirVRTxwyUyQhjEGn9UDvi
+ 8DL1phJ1w+gOX/f96deKP675lWgUPhhHeR+h2phxMeWvWbugjAkR1rXuIMYv3dFN
+ TCdX8y3pTIZojaRgtObpQxGu5fOFV6w010+Nv47TJeTJAjnKhPxrnNkJZ+9sNcwn
+ SsKSEIWZBUADQ4fGSedXA==
+X-ME-Sender: <xms:PT9WY6aR24B5IH8-NJRLnV2SLDrrl9xCbCBW-He9guHi0ervp7YMIA>
+ <xme:PT9WY9ZDVqODl1qz0QXtWipM8D9NdqRvFo_GR8Jd3b1-m15gkRDw3nAMFa2cIP0t1
+ 7nUgiYxdK71RXpnnEQ>
+X-ME-Received: <xmr:PT9WY09-VSELldVgnbrmUhusqJz5X-WyN7Jgn6ClJLALCsSwPPFDufDByKViCXN81iBvxQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtfedguddvvdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepmhgr
- gihimhgvsegtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpeetfeehfefgueejud
- fhueegffelteeuuedvhfelhfefjeetjefhtdfftdfgvdejleenucevlhhushhtvghrufhi
- iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrth
- gvtghh
-X-ME-Proxy: <xmx:OT9WY-5nO6tFm5SivglfFrYHBt0iUdGKW9Sf0SKgBPf4PbnkacQ_pg>
- <xmx:OT9WY67YVrfPNNn-QH2hxcmL4ZV5qVkOS-8ebT7z0ZchPKNb22TTnw>
- <xmx:OT9WY2gy9TuqChiVkvAWP3QL0Aq3Sa3kvL5KUD7sVz_6jvgkrA1_ZA>
- <xmx:Oj9WY5TBSuMD22MflRmdFav_7arvBkIZ8u8G3268iypECFgAQjEj-g>
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvegjfhfukfffgggtgffose
+ htkeertdertdejnecuhfhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghhnecuggft
+ rfgrthhtvghrnhepteefheefgfeujeduhfeugeffleetueeuvdfhlefhfeejteejhfdtff
+ dtgfdvjeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:PT9WY8otmThm3F_QGhx_4FFUZCnNGONKjuaORlyRZKvwS7FHncSUDQ>
+ <xmx:PT9WY1q_11ZCMEZhWi2oEx3fWesbAIMC4d0hT2cjRngGmVEFemSAtA>
+ <xmx:PT9WY6TxpcOBLU_tDxFfKzCnXnNbq17i5fwMU4ne9wNHaMuY21YDbw>
+ <xmx:Pj9WYwAaiH-pTf-mFXxuri60ZwIqcWc-mWlGK4Mm4z8hJ0puJsotMg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Oct 2022 03:31:05 -0400 (EDT)
+ 24 Oct 2022 03:31:08 -0400 (EDT)
 From: maxime@cerno.tech
-To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Colin Ian King <colin.i.king@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>
-In-Reply-To: <20221021084035.65367-1-colin.i.king@gmail.com>
-References: <20221021084035.65367-1-colin.i.king@gmail.com>
-Subject: Re: (subset) [PATCH] drm/vc4: Fix spelling mistake "mmaping" ->
- "mmapping"
-Message-Id: <166659662709.12501.1270368575435453931.b4-ty@cerno.tech>
-Date: Mon, 24 Oct 2022 09:30:27 +0200
+To: airlied@linux.ie, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ wangjianli <wangjianli@cdjrlc.com>, daniel@ffwll.ch, mripard@kernel.org
+In-Reply-To: <20221022060701.58280-1-wangjianli@cdjrlc.com>
+References: <20221022060701.58280-1-wangjianli@cdjrlc.com>
+Subject: Re: (subset) [PATCH] gpu/drm: fix repeated words in comments
+Message-Id: <166659663443.12501.5477862749061418647.b4-ty@cerno.tech>
+Date: Mon, 24 Oct 2022 09:30:34 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -88,12 +84,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Oct 2022 09:40:35 +0100, Colin Ian King wrote:
-> There are a couple of spelling mistakes in DRM_DEBUG messages. Fix them.
+On Sat, 22 Oct 2022 14:07:01 +0800, wangjianli wrote:
+> Delete the redundant word 'the'.
 > 
 > 
 
