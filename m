@@ -1,78 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B0360AE97
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:09:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D94160AE9F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:10:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F16DC10E257;
-	Mon, 24 Oct 2022 15:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFC010E82C;
+	Mon, 24 Oct 2022 15:10:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3BA10E257
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:09:46 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OF0fcr031720;
- Mon, 24 Oct 2022 15:09:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=pqq6g8ciTR5QW5YOUa+7JCIfpE1AbJcmclYuS620PKk=;
- b=DB1IYbwWR8Bjur2BBEqkToNs4cXx5yvr7qmatPZIHdmIRdzyUnWKlyJ842lbXC91jjmO
- OvmneaDGc8hdHt05YXjohtUEsjmSPt71W0smFUTuFNwzM03mdSr/HD8iYwFP5c8w/qF6
- 4XIy0JUHpnjLxFk25oXuI3pI7QeBmsjGHrVa8+MCsLX2RH88QdUjw3Fpl87c63aMxnwa
- T3L/xqzq4s19q6FxvYpS1DLwAJJ2V8u2POZyxM5DjE50QbyEWqZI8e/8eRoI/LS+6NJL
- Qj4iM/uEoCK5c45wXchcNmztb/OIaCxPBf76Mz3VEoC1pEZq76+kNqRQQyQ9YGGRiIK3 QA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kc67pmhq4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Oct 2022 15:08:56 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29OF8tY4002803
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Oct 2022 15:08:55 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 24 Oct
- 2022 08:08:54 -0700
-Message-ID: <8b0dca0f-8444-92d7-38c9-06bc7503d874@quicinc.com>
-Date: Mon, 24 Oct 2022 09:08:53 -0600
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
+ [IPv6:2607:f8b0:4864:20::e31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED9310E82C
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:10:40 +0000 (UTC)
+Received: by mail-vs1-xe31.google.com with SMTP id h4so8161994vsr.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3u6vBok7fkMUG4gQWkOOT25X5n6LqbLhBS964rQOfgo=;
+ b=Kz+/GLpa/rMZEKMRFCEZyGkW+wQIX+WLtvg3AqAFKkv7GxVd9S5MEc9DNnBkxkki6d
+ APip50piSLHmTJSariD3lrJhc1qzkkNwNkXfF6wjhyBxIhu9E2ICsEOoXQu5Bfc0PqPu
+ M0xJ/K4Zbe6P5QWU15D3awM4jBuK+Uv5EL8n93jX5bqnOgql9u8HYWupBuhjQrZjLug+
+ uz9cApNtOQ38jVejrBNX+nYdYdf12xnZrlPNUrfAHx6SbeN9iTmyDJumfinVFz54vXXS
+ t3YjyHKmsIsC6kZjxCR+kZDB2gCG6R1AHuHDN7+BJW032blVD8B58y2NzU2JOraDV3aU
+ 5mbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3u6vBok7fkMUG4gQWkOOT25X5n6LqbLhBS964rQOfgo=;
+ b=QTxNTa7CHkklN4y6gLbwk1HVs64FWAEtz4AXBz+i2+g+8Bd5QZdPN7ctV1526VyUwS
+ 2/BNvU9iZQYFyuo/fOYH7416FKu0Ta9RoMHCZjQWrbAmyTUtTJHOT9bjAoQ3agTU71PK
+ fTNjkBiKAr/6tLvlzsfQYF07FlvQnUUBExxPgwNJ161UNy2FnqR0dXojV219P1k6oNiN
+ Sb47bx4Vh/+Z2pLzwATE7ycLZ0PV++R6vmnH0dTkpcDnGKj/hglMyOZIauwdFHvLb0j/
+ +3mjdrU80vOT5nJEH3enN2Dv1jOakpRY1NZGHKPgPbaJHLqDuepRnQho90Yvd0Z1jO0R
+ udhg==
+X-Gm-Message-State: ACrzQf02CmWrq3UGKG0xNwk8wk8eRjPjvmEFYgEwzSWwXUeDNs0oZGKO
+ K3np+L3CvwnVuX5r64dBvGKQN+86IxLC4k2TTx0=
+X-Google-Smtp-Source: AMsMyM5zu8pxT5x+9L6CqBXSAp02gnlW9du+lUi7pOpMdclbUdyibdNIstYatHC6YgUrUSsa0RtL7BLxxriz1VEb260=
+X-Received: by 2002:a05:6102:224d:b0:3a7:68fc:9163 with SMTP id
+ e13-20020a056102224d00b003a768fc9163mr17650095vsb.74.1666624238228; Mon, 24
+ Oct 2022 08:10:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH 2/3] drm: define new accel major and register it
-Content-Language: en-US
-To: Dave Airlie <airlied@gmail.com>, Oded Gabbay <ogabbay@kernel.org>
 References: <20221022214622.18042-1-ogabbay@kernel.org>
- <20221022214622.18042-3-ogabbay@kernel.org> <Y1U2K+fAnGbYug/+@kroah.com>
- <CAFCwf11PxtcRZegVBxYfJQFpYO0AipobJXWWp4ch+7mMKRLuKg@mail.gmail.com>
- <CAPM=9txP8N2kzeDHEbSbiO-oAy5cemJ_Ag4WqeCNzdx6b3quBA@mail.gmail.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <CAPM=9txP8N2kzeDHEbSbiO-oAy5cemJ_Ag4WqeCNzdx6b3quBA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: wYnH4maOaRyiYeLY0MmKIxjF-hAHq86o
-X-Proofpoint-ORIG-GUID: wYnH4maOaRyiYeLY0MmKIxjF-hAHq86o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-24_04,2022-10-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- adultscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2210240093
+ <CADnq5_PwNwsSUeyhXDkoy-y1JXFrTj99AgVV02oHX0a29QUXpQ@mail.gmail.com>
+ <CAFCwf11CPvW8uqbDs8-qyMVMbPhw1tPF9ddfjee1MvKthRQb+g@mail.gmail.com>
+In-Reply-To: <CAFCwf11CPvW8uqbDs8-qyMVMbPhw1tPF9ddfjee1MvKthRQb+g@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 24 Oct 2022 11:10:25 -0400
+Message-ID: <CADnq5_PsM1xPzZgj_2sVBQQnDerzOEestLh_PmTQxpddD5Dsvg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] new subsystem for compute accelerator devices
+To: Oded Gabbay <ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,13 +67,13 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jiho Chu <jiho.chu@samsung.com>, Arnd Bergmann <arnd@arndb.de>,
+ Jiho Chu <jiho.chu@samsung.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Alex Deucher <alexander.deucher@amd.com>,
  Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
  Kevin Hilman <khilman@baylibre.com>,
  Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
@@ -100,92 +81,119 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/24/2022 1:52 AM, Dave Airlie wrote:
-> On Mon, 24 Oct 2022 at 17:23, Oded Gabbay <ogabbay@kernel.org> wrote:
->>
->> On Sun, Oct 23, 2022 at 3:40 PM Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org> wrote:
->>>
->>> On Sun, Oct 23, 2022 at 12:46:21AM +0300, Oded Gabbay wrote:
->>>> The accelerator devices will be exposed to the user space with a new,
->>>> dedicated major number - 261.
->>>>
->>>> The drm core registers the new major number as a char device and create
->>>> corresponding sysfs and debugfs root entries, same as for the drm major.
->>>>
->>>> In case CONFIG_ACCEL is not selected, this code is not compiled in.
->>>>
->>>> Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
->>>> ---
->>>>   Documentation/admin-guide/devices.txt |  5 +++
->>>>   drivers/gpu/drm/drm_drv.c             | 45 +++++++++++++++++++++++
->>>>   drivers/gpu/drm/drm_internal.h        |  3 ++
->>>>   drivers/gpu/drm/drm_sysfs.c           | 52 +++++++++++++++++++++++++++
->>>>   include/drm/drm_ioctl.h               |  1 +
->>>>   5 files changed, 106 insertions(+)
->>>>
->>>> diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
->>>> index 9764d6edb189..06c525e01ea5 100644
->>>> --- a/Documentation/admin-guide/devices.txt
->>>> +++ b/Documentation/admin-guide/devices.txt
->>>> @@ -3080,6 +3080,11 @@
->>>>                  ...
->>>>                  255 = /dev/osd255     256th OSD Device
->>>>
->>>> + 261 char    Compute Acceleration Devices
->>>> +               0 = /dev/accel/accel0 First acceleration device
->>>> +               1 = /dev/accel/accel1 Second acceleration device
->>>> +                 ...
->>>> +
->>>>    384-511 char        RESERVED FOR DYNAMIC ASSIGNMENT
->>>>                Character devices that request a dynamic allocation of major
->>>>                number will take numbers starting from 511 and downward,
->>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>>> index 8214a0b1ab7f..b58ffb1433d6 100644
->>>> --- a/drivers/gpu/drm/drm_drv.c
->>>> +++ b/drivers/gpu/drm/drm_drv.c
->>>> @@ -67,6 +67,10 @@ static bool drm_core_init_complete;
->>>>
->>>>   static struct dentry *drm_debugfs_root;
->>>>
->>>> +#ifdef CONFIG_ACCEL
->>>> +static struct dentry *accel_debugfs_root;
->>>> +#endif
->>>> +
->>>>   DEFINE_STATIC_SRCU(drm_unplug_srcu);
->>>>
->>>>   /*
->>>> @@ -1031,9 +1035,19 @@ static const struct file_operations drm_stub_fops = {
->>>>        .llseek = noop_llseek,
->>>>   };
->>>>
->>>> +static void accel_core_exit(void)
->>>> +{
->>>> +#ifdef CONFIG_ACCEL
->>>> +     unregister_chrdev(ACCEL_MAJOR, "accel");
->>>> +     debugfs_remove(accel_debugfs_root);
->>>> +     accel_sysfs_destroy();
->>>> +#endif
->>>> +}
->>>
->>> Why is all of this in drm_drv.c?
->>>
->>> Why not put it in drm/accel/accel.c or something like that?  Then put
->>> the proper stuff into a .h file and then you have no #ifdef in the .c
->>> files.
->> I thought about that, adding an accel.c in drivers/accel/ and putting
->> this code there.
->> Eventually I thought that for two functions it's not worth it, but I
->> guess that in addition to the reason you gave, one can argue that
->> there will probably be more code in that file anyway, so why not open
->> it now.
->> I'll change this if no one else thinks otherwise.
-> 
-> Seems like a good idea to start doing it now, might make things easier
-> to keep separated.
+On Mon, Oct 24, 2022 at 10:41 AM Oded Gabbay <ogabbay@kernel.org> wrote:
+>
+> On Mon, Oct 24, 2022 at 4:55 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > On Sat, Oct 22, 2022 at 5:46 PM Oded Gabbay <ogabbay@kernel.org> wrote:
+> > >
+> > > In the last couple of months we had a discussion [1] about creating a new
+> > > subsystem for compute accelerator devices in the kernel.
+> > >
+> > > After an analysis that was done by DRM maintainers and myself, and following
+> > > a BOF session at the Linux Plumbers conference a few weeks ago [2], we
+> > > decided to create a new subsystem that will use the DRM subsystem's code and
+> > > functionality. i.e. the accel core code will be part of the DRM subsystem.
+> > >
+> > > This will allow us to leverage the extensive DRM code-base and
+> > > collaborate with DRM developers that have experience with this type of
+> > > devices. In addition, new features that will be added for the accelerator
+> > > drivers can be of use to GPU drivers as well (e.g. RAS).
+> > >
+> > > As agreed in the BOF session, the accelerator devices will be exposed to
+> > > user-space with a new, dedicated device char files and a dedicated major
+> > > number (261), to clearly separate them from graphic cards and the graphic
+> > > user-space s/w stack. Furthermore, the drivers will be located in a separate
+> > > place in the kernel tree (drivers/accel/).
+> > >
+> > > This series of patches is the first step in this direction as it adds the
+> > > necessary infrastructure for accelerator devices to DRM. The new devices will
+> > > be exposed with the following convention:
+> > >
+> > > device char files - /dev/accel/accel*
+> > > sysfs             - /sys/class/accel/accel*/
+> > > debugfs           - /sys/kernel/debug/accel/accel*/
+> > >
+> > > I tried to reuse the existing DRM code as much as possible, while keeping it
+> > > readable and maintainable.
+> >
+> > Wouldn't something like this:
+> > https://patchwork.freedesktop.org/series/109575/
+> > Be simpler and provide better backwards compatibility for existing
+> > non-gfx devices in the drm subsystem as well as newer devices?
+>
+> As Greg said, see the summary. The consensus in the LPC session was
+> that we need to clearly separate accel devices from existing gpu
+> devices (whether they use primary and/or render nodes). That is the
+> main guideline according to which I wrote the patches. I don't think I
+> want to change this decision.
+>
+> Also, there was never any intention to provide backward compatibility
+> for existing non-gfx devices. Why would we want that ? We are mainly
+> talking about drivers that are currently trying to get upstream, and
+> the habana driver.
 
-I agree.  I was a bit confused going through this patch, and envisioning 
-how an accel driver would use the interface.  I think an 
-accel_internal.h would be clearer.
+If someone already has a non-gfx device which uses the drm subsystem,
+should they be converted to the new accel stuff?  What about new
+devices that utilize the same driver?  SHould they use accel or
+continue to use drm?  For the sake of the rest of the stack drm would
+make more sense, but if accel grows a bunch of stuff that all accel
+drivers should be using what do we do?  Also using render nodes also
+makes the devices compatible with all of the existing user space tools
+that use the existing drm device nodes like libdrm, etc.  I'm failing
+to see what advantage accel brings other than requiring userspace to
+support two very similar device nodes.
 
--Jeff
+Alex
+
+>
+> Oded
+> >
+> > Alex
+> >
+> > >
+> > > One thing that is missing from this series is defining a namespace for the
+> > > new accel subsystem, while I'll add in the next iteration of this patch-set,
+> > > after I will receive feedback from the community.
+> > >
+> > > As for drivers, once this series will be accepted (after adding the namespace),
+> > > I will start working on migrating the habanalabs driver to the new accel
+> > > subsystem. I have talked about it with Dave and we agreed that it will be
+> > > a good start to simply move the driver as-is with minimal changes, and then
+> > > start working on the driver's individual features that will be either added
+> > > to the accel core code (with or without changes), or will be removed and
+> > > instead the driver will use existing DRM code.
+> > >
+> > > In addition, I know of at least 3 or 4 drivers that were submitted for review
+> > > and are good candidates to be included in this new subsystem, instead of being
+> > > a drm render node driver or a misc driver.
+> > >
+> > > [1] https://lkml.org/lkml/2022/7/31/83
+> > > [2] https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
+> > >
+> > > Thanks,
+> > > Oded
+> > >
+> > > Oded Gabbay (3):
+> > >   drivers/accel: add new kconfig and update MAINTAINERS
+> > >   drm: define new accel major and register it
+> > >   drm: add dedicated minor for accelerator devices
+> > >
+> > >  Documentation/admin-guide/devices.txt |   5 +
+> > >  MAINTAINERS                           |   8 +
+> > >  drivers/Kconfig                       |   2 +
+> > >  drivers/accel/Kconfig                 |  24 +++
+> > >  drivers/gpu/drm/drm_drv.c             | 214 +++++++++++++++++++++-----
+> > >  drivers/gpu/drm/drm_file.c            |  69 ++++++---
+> > >  drivers/gpu/drm/drm_internal.h        |   5 +-
+> > >  drivers/gpu/drm/drm_sysfs.c           |  81 +++++++++-
+> > >  include/drm/drm_device.h              |   3 +
+> > >  include/drm/drm_drv.h                 |   8 +
+> > >  include/drm/drm_file.h                |  21 ++-
+> > >  include/drm/drm_ioctl.h               |   1 +
+> > >  12 files changed, 374 insertions(+), 67 deletions(-)
+> > >  create mode 100644 drivers/accel/Kconfig
+> > >
+> > > --
+> > > 2.34.1
+> > >
