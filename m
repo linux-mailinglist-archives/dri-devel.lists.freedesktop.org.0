@@ -1,56 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A205C60A7EA
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 15:00:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E1960A907
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 15:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A3C10E58D;
-	Mon, 24 Oct 2022 13:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A38EE10E615;
+	Mon, 24 Oct 2022 13:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
- [209.85.160.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7B0710E58D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 13:00:35 +0000 (UTC)
-Received: by mail-oa1-f49.google.com with SMTP id
- 586e51a60fabf-1324e7a1284so11706874fac.10
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 06:00:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p+x9joGdXdBFLPPxN1p6d7/jrm+b1E7zu0ZikUl9XbM=;
- b=GRQRo6BNeFAO+h7zACBPpWX3/S59Pd5g/IYU71UiAfvwCkFcx0VXacgzuuKtXMvhVH
- pnN2LNmlq1rSYfzfdWhzuZ+O6IuAKE2FzQpzdeRd3LHaATCdT7T15Nfh4MK6UI2j9grW
- 6HGZqdvm8dQwM6cxWpb04SyY2RvxP9ERBPK8t9aga5Dtrw+pB+JV8BeGYML+rleq2aHf
- 46JxUQ8NTZWMxfCYnqfW1Nw/xvc8Nw8cNjFjkKr4OxMXHdfr7/XFejeYpy6IXlu7+nRW
- QXRzrvQuRLUHueq6nqWmGJ6qTMg2Cor3w591EY3HhlW+unEWYvG9xHzuN68uvH0yn9Yy
- t3Tw==
-X-Gm-Message-State: ACrzQf3It/aWqN7twSZ0tfooPcr3b6Cjks3lOx5tYWGC9rvbdSHdal5y
- ShnFAHBm8QOUTKU4l3llBQ==
-X-Google-Smtp-Source: AMsMyM4RB1x55W7tWXLqKMCfn9+yNGKoyP28eeDXqoWuK46CSg7FurAIxSSG6961lNUtLuCZU2W88g==
-X-Received: by 2002:a05:6870:e9a8:b0:133:223f:49a1 with SMTP id
- r40-20020a056870e9a800b00133223f49a1mr38235091oao.114.1666616434841; 
- Mon, 24 Oct 2022 06:00:34 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- g20-20020a056870c15400b0012796e8033dsm2716705oad.57.2022.10.24.06.00.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 06:00:34 -0700 (PDT)
-Received: (nullmailer pid 1652638 invoked by uid 1000);
- Mon, 24 Oct 2022 13:00:35 -0000
-Date: Mon, 24 Oct 2022 08:00:35 -0500
-From: Rob Herring <robh@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
-Message-ID: <20221024130035.GA1645003-robh@kernel.org>
-References: <20221021202254.4142411-1-arnd@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB6DD10E615;
+ Mon, 24 Oct 2022 13:14:55 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 62642612F3;
+ Mon, 24 Oct 2022 13:14:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F11F4C433C1;
+ Mon, 24 Oct 2022 13:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666617295;
+ bh=3nE0pujKjkKrAG3Zlhw1YeJuPRfB3mFezLZb6lzLCGA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LMm2+6OBEsQawTDmuHx79XkDRpx8g9QS54i0VAgQtCk02UkomS95/vMkOooCKFRX3
+ xxQEe24yv/tDtsQYrTGmzauMv0Jh6zHqana1EL/TBHlmO6GXulViaDuIlAEYGkafKP
+ kqE4fIBr817hQoEx/xF9wYtGawey5ywjjoX7MjRMntvcbUYm0BK0RPqRrLUuuXw2Nk
+ nhWxKTcWwM9VEt4aM7KgAIT39FftcsQukjfpyyfLMkVVk5XzPzt3H5NCVm2IIV71GR
+ WEwDHsAVQ/xfBG0zYbWT3h7jEZyT/78B/fc3OPRLq/euFmv9sbHup10WXUReRUbepL
+ 1J6fTEisi4WTg==
+Received: by pali.im (Postfix)
+ id 060EE82F; Mon, 24 Oct 2022 15:14:51 +0200 (CEST)
+Date: Mon, 24 Oct 2022 15:14:51 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: Re: [PATCH 00/22] Fallback to native backlight
+Message-ID: <20221024131451.lvkesdg3kvyvbi7n@pali>
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
+ <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221021202254.4142411-1-arnd@kernel.org>
+In-Reply-To: <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +56,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
- Ben Dooks <ben-linux@fluff.org>, Simtec Linux Team <linux@simtec.co.uk>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dmaengine@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Azael Avalos <coproscefalo@gmail.com>, Mattia Dongili <malattia@linux.it>,
+ Daniel Dadap <ddadap@nvidia.com>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jonathan Woithe <jwoithe@just42.net>, Jonathan Corbet <corbet@lwn.net>, "Lee,
+ Chun-Yi" <jlee@suse.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Robert Moore <robert.moore@intel.com>,
+ linux-acpi@vger.kernel.org, Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+ Len Brown <lenb@kernel.org>, Matthew Garrett <mjg59@srcf.ucam.org>,
+ Kenneth Chan <kenneth.t.chan@gmail.com>,
+ Corentin Chary <corentin.chary@gmail.com>, intel-gfx@lists.freedesktop.org,
+ acpi4asus-user@lists.sourceforge.net, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ platform-driver-x86@vger.kernel.org, devel@acpica.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ ibm-acpi-devel@lists.sourceforge.net, Jingoo Han <jingoohan1@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 21, 2022 at 10:22:28PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The s3c24xx platform was marked as deprecated a while ago,
-> and for the s3c64xx platform, we marked all except one legacy
-> board file as unused.
-> 
-> This series removes all of those, leaving only s3c64xx support
-> for DT based boots as well as the cragg6410 board file.
-> 
-> About half of the s3c specific drivers were only used on
-> the now removed machines, so these drivers can be retired
-> as well. I can either merge the driver removal patches through
-> the soc tree along with the board file patches, or subsystem
-> maintainers can pick them up into their own trees, whichever
-> they prefer.
+On Monday 24 October 2022 21:58:57 Akihiko Odaki wrote:
+> Regarding the second limitation, I don't even understand the difference
+> between vendor and native. My guess is that a vendor backlight device uses
+> vendor-specific ACPI interface, and a native one directly uses hardware
+> registers. If my guess is correct, the difference between vendor and native
+> does not imply that both of them are likely to exist at the same time. As
+> the conclusion, there is no more motivation to try to de-duplicate the
+> vendor/native combination than to try to de-duplicate combination of devices
+> with a single type.
 
-[...]
-
->  Documentation/arm/index.rst                   |    1 -
->  Documentation/arm/samsung-s3c24xx/cpufreq.rst |   77 -
->  .../arm/samsung-s3c24xx/eb2410itx.rst         |   59 -
->  Documentation/arm/samsung-s3c24xx/gpio.rst    |  172 --
->  Documentation/arm/samsung-s3c24xx/h1940.rst   |   41 -
->  Documentation/arm/samsung-s3c24xx/index.rst   |   20 -
->  Documentation/arm/samsung-s3c24xx/nand.rst    |   30 -
->  .../arm/samsung-s3c24xx/overview.rst          |  311 ---
->  Documentation/arm/samsung-s3c24xx/s3c2412.rst |  121 -
->  Documentation/arm/samsung-s3c24xx/s3c2413.rst |   22 -
->  .../arm/samsung-s3c24xx/smdk2440.rst          |   57 -
->  Documentation/arm/samsung-s3c24xx/suspend.rst |  137 --
->  .../arm/samsung-s3c24xx/usb-host.rst          |   91 -
->  Documentation/arm/samsung/overview.rst        |   13 -
-
-What about?:
-
-Documentation/devicetree/bindings/clock/samsung,s3c2410-clock.txt
-Documentation/devicetree/bindings/interrupt-controller/samsung,s3c24xx-irq.txt
-Documentation/devicetree/bindings/mmc/samsung,s3cmci.txt
-Documentation/devicetree/bindings/mtd/samsung-s3c2410.txt
-Documentation/devicetree/bindings/usb/s3c2410-usb.txt
-
-Rob
+Hello! I just want to point one thing. On some Dell laptops there are
+3 different ways (= 3 different APIs) how to control display backlight.
+There is ACPI driver (uses ACPI), GPU/DRM driver (i915.ko; uses directly
+HW) and platform vendor driver (dell-laptop.ko; uses vendor BIOS or
+firmware API). Just every driver has different pre-calculated scaling
+values. So sometimes user wants to choose different driver just because
+it allows to set backlight level with "better" granularity. Registering
+all 3 device drivers is bad as user does not want to see 3 display
+panels and forcing registration of specific one without runtime option
+is also bad (some of those drivers do not have to be suitable or has
+worse granularity as other).
