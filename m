@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD31C60A1D4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 13:34:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A3B60A2E3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 13:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D7110E38A;
-	Mon, 24 Oct 2022 11:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A832510E388;
+	Mon, 24 Oct 2022 11:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 875C310E38A;
- Mon, 24 Oct 2022 11:34:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id E7984CE1316;
- Mon, 24 Oct 2022 11:34:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 319D0C433C1;
- Mon, 24 Oct 2022 11:34:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666611247;
- bh=XONUYrrBTIpNDIVeQuanVcQ94OVXm/q30QmP4QTO20M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sAQ8DdUTn4cA4kXBumIiWfgCwZj8r++TXQs31zZ9q2+/MniKi1/s9M+kJykih7j0A
- BqF0YmiSmJB6PuGkssIdCnKPxV5B/gTla9yErlk0SoVDIeZlZQE2J2YU9dSlM1hJHU
- OhMBypH7gjMmdD0xcPXyT/X59MRJRufxXiKMCu2eWqm0hu353yVHeJHmuQVFsYUMIW
- LH/cB0bDDcRc1pGLgxQpuYhs7ZMW6yCvvMxuOGnZP//S+Owfjx+QZDbNLtwPQi5nMz
- o80e4z2fIZgkn5jOIm7wQSEvg6P22nA9KGNllj2gEjIPXKTfraSyfbII3HaJaBSk8T
- 7+l0vbOwjVBYA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1omviI-0006Ky-GC; Mon, 24 Oct 2022 13:33:50 +0200
-Date: Mon, 24 Oct 2022 13:33:50 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 00/10] drm/msm: probe deferral fixes
-Message-ID: <Y1Z4HrEcLDhe6gQr@hovoldconsulting.com>
-References: <20220913085320.8577-1-johan+linaro@kernel.org>
- <YymCll02tRIMb+9Z@hovoldconsulting.com>
- <Y1I77HYeOkx1fz1E@hovoldconsulting.com>
- <139426b9-0e5b-e4c3-27c6-584ab48517c2@quicinc.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4768D10E388;
+ Mon, 24 Oct 2022 11:48:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666612127; x=1698148127;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=t3cjsGp+mGZTfId3Uz83F67WuGQ8r3GpeajQ9Pj0MTw=;
+ b=lQzhuwqLzLMuR5AakR7looY8bd44B6YaoF5OxpGymmL+04RdTKr946Sr
+ 5P5/QKGy2aLERlrGR7RwU51L/Q4SAyCU2YiPIgjH8HvCo8uFUjBU96j5o
+ o58NdESU1rzJKJBHO1EWJnSuY0Xt7p4FjEbw2WNq7Rh6xM7nkW0Vt8eLM
+ v1Sno+gpcswipMQBOWyhFZ51X2lPNt7BLNeZYpUjFW2estyyz/V6CvAGG
+ fx8QNed/CWH9g7w5hhqQ4RUY926tYYEz4XMf50e2AYCDyxmrqbsoyzFHp
+ d+kKkWd3xe7GsCF0Az5ZXSnhjyNCg1mKqg8FU9Oactph+yFvrKhyijRSl g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="287793400"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="287793400"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 04:48:46 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="631231987"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="631231987"
+Received: from emontau-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.52.221])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 04:48:35 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: Re: [PATCH 00/22] Fallback to native backlight
+In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+Date: Mon, 24 Oct 2022 14:48:32 +0300
+Message-ID: <87tu3te92n.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <139426b9-0e5b-e4c3-27c6-584ab48517c2@quicinc.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,76 +57,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
- Steev Klimaszewski <steev@kali.org>
+Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Azael Avalos <coproscefalo@gmail.com>, Mattia Dongili <malattia@linux.it>,
+ Daniel Dadap <ddadap@nvidia.com>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jonathan Woithe <jwoithe@just42.net>, Jonathan Corbet <corbet@lwn.net>, "Lee,
+ Chun-Yi" <jlee@suse.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Robert Moore <robert.moore@intel.com>,
+ linux-acpi@vger.kernel.org, Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+ Len Brown <lenb@kernel.org>, Matthew Garrett <mjg59@srcf.ucam.org>,
+ Kenneth Chan <kenneth.t.chan@gmail.com>,
+ Corentin Chary <corentin.chary@gmail.com>, intel-gfx@lists.freedesktop.org,
+ acpi4asus-user@lists.sourceforge.net, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ platform-driver-x86@vger.kernel.org, devel@acpica.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ ibm-acpi-devel@lists.sourceforge.net, Jingoo Han <jingoohan1@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 21, 2022 at 09:05:52AM -0700, Abhinav Kumar wrote:
-> Hi Johan
-> 
-> On 10/20/2022 11:27 PM, Johan Hovold wrote:
-> > On Tue, Sep 20, 2022 at 11:06:30AM +0200, Johan Hovold wrote:
-> >> On Tue, Sep 13, 2022 at 10:53:10AM +0200, Johan Hovold wrote:
-> >>> The MSM DRM driver is currently broken in multiple ways with respect to
-> >>> probe deferral. Not only does the driver currently fail to probe again
-> >>> after a late deferral, but due to a related use-after-free bug this also
-> >>> triggers NULL-pointer dereferences.
-> >>>
-> >>> These bugs are not new but have become critical with the release of
-> >>> 5.19 where probe is deferred in case the aux-bus EP panel driver has not
-> >>> yet been loaded.
-> >>>
-> >>> The underlying problem is lifetime issues due to careless use of
-> >>> device-managed resources.
-> >>
-> >> Any chance of getting this merged for 6.1?
-> > 
-> > Is anyone picking these up as fixes for 6.1-rc as we discussed?
-> > 
-> > Johan
-> 
-> All of these except the last two ( as discussed ) have landed in the 
-> -fixes tree
-> 
-> https://gitlab.freedesktop.org/drm/msm/-/commit/6808abdb33bf90330e70a687d29f038507e06ebb
+On Mon, 24 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> Commit 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native()
+> helper") and following commits made native backlight unavailable if
+> CONFIG_ACPI_VIDEO is set and the backlight feature of ACPI video is
+> unavailable, which broke the backlight functionality on Lenovo ThinkPad
+> C13 Yoga Chromebook. Allow to fall back to native backlight in such
+> cases.
 
-Ah, perfect, thanks.
+Where's the bug report with relevant logs, kconfigs, etc?
 
-When do you expect to send these on so that they end up in linux-next
-and eventually Linus's tree?
+BR,
+Jani.
 
-Note that it looks like something happened with the commit messages when
-you applied these. Specifically, the Fixes tags appears to now have a
-line break in them and there's also some random whitespace before your
-SoB:
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>
+> Akihiko Odaki (22):
+>   drm/i915/opregion: Improve backlight request condition
+>   ACPI: video: Introduce acpi_video_get_backlight_types()
+>   LoongArch: Use acpi_video_get_backlight_types()
+>   platform/x86: acer-wmi: Use acpi_video_get_backlight_types()
+>   platform/x86: asus-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: asus-wmi: Use acpi_video_get_backlight_types()
+>   platform/x86: compal-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: eeepc-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: fujitsu-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: ideapad-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: msi-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
+>   platform/x86: nvidia-wmi-ec-backlight: Use
+>     acpi_video_get_backlight_types()
+>   platform/x86: panasonic-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: samsung-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: sony-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: thinkpad_acpi: Use acpi_video_get_backlight_types()
+>   platform/x86: toshiba_acpi: Use acpi_video_get_backlight_types()
+>   platform/x86: dell-laptop: Use acpi_video_get_backlight_types()
+>   platform/x86: intel_oaktrail: Use acpi_video_get_backlight_types()
+>   ACPI: video: Remove acpi_video_get_backlight_type()
+>   ACPI: video: Fallback to native backlight
+>
+>  Documentation/gpu/todo.rst                    |  8 +--
+>  drivers/acpi/acpi_video.c                     |  2 +-
+>  drivers/acpi/video_detect.c                   | 54 ++++++++++---------
+>  drivers/gpu/drm/i915/display/intel_opregion.c |  3 +-
+>  drivers/platform/loongarch/loongson-laptop.c  |  4 +-
+>  drivers/platform/x86/acer-wmi.c               |  2 +-
+>  drivers/platform/x86/asus-laptop.c            |  2 +-
+>  drivers/platform/x86/asus-wmi.c               |  4 +-
+>  drivers/platform/x86/compal-laptop.c          |  2 +-
+>  drivers/platform/x86/dell/dell-laptop.c       |  2 +-
+>  drivers/platform/x86/eeepc-laptop.c           |  2 +-
+>  drivers/platform/x86/fujitsu-laptop.c         |  4 +-
+>  drivers/platform/x86/ideapad-laptop.c         |  2 +-
+>  drivers/platform/x86/intel/oaktrail.c         |  2 +-
+>  drivers/platform/x86/msi-laptop.c             |  2 +-
+>  drivers/platform/x86/msi-wmi.c                |  2 +-
+>  .../platform/x86/nvidia-wmi-ec-backlight.c    |  2 +-
+>  drivers/platform/x86/panasonic-laptop.c       |  2 +-
+>  drivers/platform/x86/samsung-laptop.c         |  2 +-
+>  drivers/platform/x86/sony-laptop.c            |  2 +-
+>  drivers/platform/x86/thinkpad_acpi.c          |  4 +-
+>  drivers/platform/x86/toshiba_acpi.c           |  2 +-
+>  drivers/video/backlight/backlight.c           | 18 +++++++
+>  include/acpi/video.h                          | 21 ++++----
+>  include/linux/backlight.h                     |  1 +
+>  25 files changed, 85 insertions(+), 66 deletions(-)
 
-	Fixes: c3bf8e21
-	
-	 ("drm/msm/dp: Add eDP support via aux_bus")
-	Cc: stable@vger.kernel.org      # 5.19
-	Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-	Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-	Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-	Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-	Patchwork: https://patchwork.freedesktop.org/patch/502667/
-	Link: https://lore.kernel.org/r/20220913085320.8577-8-johan+linaro@kernel.org
-	
-	
-	Signed-off-by: Abhinav Kumar's avatarAbhinav Kumar <quic_abhinavk@quicinc.com>
-
-It's possible just the gitlab UI that's messed up, but perhaps you can
-double check before they hit linux-next, which should complain about
-this otherwise.
-
-Johan
+-- 
+Jani Nikula, Intel Open Source Graphics Center
