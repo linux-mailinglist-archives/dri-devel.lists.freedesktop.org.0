@@ -2,119 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0618F609F3D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 12:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF4B609F68
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 12:55:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3C410E340;
-	Mon, 24 Oct 2022 10:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1FAD10E387;
+	Mon, 24 Oct 2022 10:55:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 202A110E348
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 10:42:34 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15EBC10E348;
+ Mon, 24 Oct 2022 10:55:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E4VWa7o0uwg2p2jUrtAcHOR8E06/cTIgPhbGpWdJ5Q+22hRAMVY61zlxpUHGNYUFgLiWrXV7jATKvxTix0Dz++qrl7uafX0sh9abVABCBG64TPaOgBucCidxKO23LxJHEYzflqzmjrxScmJTV4nS+9UlGYFWI5TsoSragykU9Nunoc1nfHT0CDlKw5C0lWIsLOEnUBhXYls/Mf8DFgfRJpid+7+WXw3XMOCcH33K9WNrdcaHZEebUsrIUB33C2HWrDX3y13UfJQ+Gwte2tmggJIAUylZekvfv7gov7n4TsD/FkCm7SPwd12CxdQgRKUxL/8D773geaAcB3w4O5+mDQ==
+ b=ZJZIUsAj+qEiNQ9GPy7mVUYNDeZVL7qtCpRUQ3nMRUZaXWom4OMP+JxTpnT1rc2lWayogNLpIl5GHuhqiET/0n7IZvYQ8xC3Bt27k7Ys6nPG67WSH/NT2qUAj9/Cc9lNzxFg6YiX74sZopaAh6UkPkkQ+bbwgzko5w+En1StjFsC8uLIH07dcUrWXLsuTL/BPAOxtdpA1NVH8D25tGEaOgwkRMva7A/FkMawBQrqAW2wy73DLiYRyrVI7vQEXEBMhfUkaPpWe0x4lEh18Bq4AcZ8GR+OR0L+qegkvB3gTJPgfFQ/bb0UXQtEK9D3mE9j3gvQs1YET2Fg0zB5AFlQEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y6AeeIx/8PMwIgB0JVP+672PFr3xIoEnt4b1wqxEphI=;
- b=laes5sUAIu5GyUkM5lvgYu5u2SHjE0PS/4NipBx7yacGEhyOghLMxinBhT8js2kgSVrITEllH8aEdelEBzGaUsORwKOmY1H8FBVnUXVbYTn9Y9w0ANHb0T/oCKOVR4yR/sMZe/WupO7NQOuQGnhgO5dTWi9SgBGjfZ+XVVUx5B0pIJcCPKp7Nbskl9dCAqQBuNTCb48XG0Tfgi760TpPQRMBiukrXxY9yH1TaFeVxOHzKyianZth6zwEdvz8Z8Xi72gdVdGUxuk00+BYJc/RqdQdCFl/uR367pDy5RdU9FkKPUVKIiHbJw1DyfcDPaEig3dEeAiagKmz8fxUkZ/OyA==
+ bh=qfxqy81RdVYTACh5+qsBTXuNhMvgQhLmsxwYFneLMg4=;
+ b=iVcdaFuHBWY2E+kaFpkBBG/ebtyysO+H+zE1V1HN2OpHHq5HCunLp+ON1SZ4Ug/p3D+x5PuQ3VQqfLh0TJ3/RElYCJsXZC/mbcKh90JuTAXO1qsxFizT4EEOxc1rlZvKRfzSDkJm1Q8ay2plLhNTB27A7SmgVfv9iQeWwAfsm68y5n50sMSj2fRnRnHaZAYDn40dOqqyXNvkgUPwpKot1WeSKdxJhqz4nwnADdg99JnR8qAWeMsh6Ez/DAQ8HM10QKfJe76VVBMRGrlQqFF0abemubJShO6oWjtGw1q8tg8cTjTFULek67mnZuXtfIulO5ltq4KrF6TwwyXO82be3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y6AeeIx/8PMwIgB0JVP+672PFr3xIoEnt4b1wqxEphI=;
- b=Csh9jXOtcLLlQdApbLsaVmGQMu/ZQZ6zY+8OSiei6NP0cKyi1ip47puDrNFtcYMXTPEarj7BqBAHeVVXtB/b++zmOJPa5hEvG/mjOAbH879zxMTlaaN9z+1pxRr6mzoa1rgMZ4CsixHEyIUYXeYSbrx5W6pnpNv3xet6WCcGnHQ=
+ bh=qfxqy81RdVYTACh5+qsBTXuNhMvgQhLmsxwYFneLMg4=;
+ b=k3CJ8DuqqhIcVlxPzVxyy28FHSGSZlhtynQVybnmhkw/dHbuw4x3N8PPQHPj8YU3klVm9PZ6vx3EQoGAq1Rjyh4xKwLS3uyCtolg5vuzRhNr5nK40DlysGK0mW+NzeH4GVnmB4i0ivrkalYqA/CQg73zhXo3kMM3Tda1zPdndc4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SA0PR12MB4381.namprd12.prod.outlook.com (2603:10b6:806:70::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26; Mon, 24 Oct
- 2022 10:42:32 +0000
+ by CY8PR12MB7564.namprd12.prod.outlook.com (2603:10b6:930:97::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.27; Mon, 24 Oct
+ 2022 10:55:02 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::a350:f29a:f287:7279]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::a350:f29a:f287:7279%4]) with mapi id 15.20.5746.023; Mon, 24 Oct 2022
- 10:42:32 +0000
-Message-ID: <cc300dfb-93dd-9bdf-540a-07a3891d863e@amd.com>
-Date: Mon, 24 Oct 2022 12:42:26 +0200
+ 10:55:02 +0000
+Message-ID: <6c8b1e80-4584-6a57-815c-abddf702d87f@amd.com>
+Date: Mon, 24 Oct 2022 12:54:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [RFC PATCH] drm/scheduler: Set the FIFO schedulig policy as the
- default
+Subject: Re: [PATCH 05/13] drm/amdgpu: drop amdgpu_sync from amdgpu_vmid_grab
 Content-Language: en-US
 To: Luben Tuikov <luben.tuikov@amd.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-References: <20221022010945.95560-1-luben.tuikov@amd.com>
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20221014084641.128280-1-christian.koenig@amd.com>
+ <20221014084641.128280-6-christian.koenig@amd.com>
+ <808ed8b2-ac3f-0476-df64-1a8d1749de0f@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221022010945.95560-1-luben.tuikov@amd.com>
+In-Reply-To: <808ed8b2-ac3f-0476-df64-1a8d1749de0f@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0743.eurprd06.prod.outlook.com
- (2603:10a6:20b:487::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM6PR10CA0107.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:8c::48) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4381:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5ed0f90-b65a-4d0d-bf73-08dab5ac7475
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY8PR12MB7564:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ca1f542-f031-4cd9-c5d3-08dab5ae3376
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FV8FG4jMxq5Ilhc9Cos/8ClA5HSlYG3v7QoMg+GrVxypkDHPyMLXQMTJveBsaJUKHKa6N/t1l3z2ndPP2jOyYhLMLHwMNz4OehS7mWykduyDSZ351ULvgo6FRnUYjB/gP3/tR+POy7VUCOjGmC420CH7UpNKa3SaknkUTnRzD3Pl/LJJhZqki7AX+yr6tjvaikPkmk37VoWGBwVCFqy4eogOW/3ubKUAhbGsrXYhZ3Y2Y9OgAo99Ad8Ern8WDj/6+B72fRknMk4YdybmPxf8VNy1KwCxDJlSsTypACC8bnJ54cOu/lA3udHkzdKOBYvvXIlTgORnhhuTokrVpjKhJ4xt/ZiLVHpXf2rhYTzUfok5+Vra2LtN0r+4kiiUxwpsgH6FTgrvE0IysZs7Zsk/cQEOfo3g0mAjoGUvXzLHl4c6dGcnN+jNQg0FOPq7nHiE8NX+4Xh+9WgX+KMNPK4ubbuTH27TiSSLSzNhR1SoER3pKmZtsKVptPYI2k7dTGjuS+jlvZpiUw9d/kLkbrxPyl80Tkzu4jxDZnBuAGu9FFOrK3RXtpaCsSzBb0L4khZBeJAMxFt0ZFxiF7KxmRoW3UuLfHbyJezZhEvXd+/jVMTU68T0/U13QckWgHJCWelqkMO/jKqatCiGuRVvUdtlKLwNDR9NhdX+5ibB6EktEczv8jTVrCkALalLFYR9LpGO5HsO6gD8zIimRJacMXxq3om63Qx9d1uqkmsP9/uYqqddtZx11QT2reh0N4uJgAlyBu8SQExwAnnEmXzvCYZzeB/9uueBDIOM8v+QBWiu6NA=
+X-Microsoft-Antispam-Message-Info: cvixzLt4zql5bmO1pG6aB0WQifWbiCWQw5MNJmntskF0VBrqCKcvZZ92EFg7wJaoYlE1ASZv24D3ZsNvFMig/zhVhrtJ7Ixnk1Qkdtw16AUdSdsENSBAPKB7U+qMNcMF8dpGAa56FAWcozSzT87BrIoWMt71SCjLBhRMf+fNa1inpQ5YPoLd9a6bb3RqTAbugyNwKY+L0s3iqZ/PGlOmuYhvZ85p2sXo/xo2exBWFddjjQ/RG81O7V9fudcr7NYkkoRxVBzGB+OBiWzbY4RN4XWHWrtIODBXGivHlvCjrveo+X1PzQOEIH3hf+xeISW7I5D0dcEST9TekIIm2y6dEBr13CcXiuZE4RPNm4nSZKD9T79qIlAF4AQpoEMuz+iv67Z5wGSA4ipPMETQ/BZeigyL8GF8cC+qnzxzfGUGSl1FJvU7oKC+l3TeCJb25lhR4M1cnlBLJmhDejSbKc8kxsjIIXtuqcE7Comv/INiPyTuNDtkUffdQ/iABz4wNcxIx1Y3js18x2Fr6wXyLMT9uuZyoEb7NCSFj24m6+swB8Lwh5lm0/LFMeFt+s+PWwM/GVIR5tPQ9ArfnkPa3IHeWqibTOuJ62Jgb8Dl2USdGtRvyTh+0Oocb19mPkWh4GViLRQf+OB3mhDoeWfJ4EGIi+lgUUHNgztD1ZgllO37qA4os0yCmdcuPFbilP0d1aY1kDo2ZCZ6zaRGxWWI/EPblrnzVtW+NeIwHFBGwjjLk7NSLC1CfYvnfY1PPu0XnuGruNnOmpjDxgC07+fTFT4p3Cgsxhv0oTu+ZHX3V0Je0NI=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(376002)(396003)(346002)(39860400002)(136003)(451199015)(31686004)(6512007)(316002)(26005)(110136005)(36756003)(66476007)(4326008)(8676002)(66556008)(86362001)(31696002)(66946007)(41300700001)(8936002)(5660300002)(2906002)(6666004)(478600001)(6486002)(6506007)(83380400001)(66574015)(38100700002)(2616005)(186003)(43740500002)(45980500001);
+ SFS:(13230022)(4636009)(366004)(396003)(136003)(346002)(376002)(39860400002)(451199015)(31696002)(86362001)(36756003)(31686004)(38100700002)(478600001)(4744005)(2906002)(4001150100001)(6666004)(6506007)(6512007)(26005)(2616005)(186003)(53546011)(6486002)(316002)(110136005)(66946007)(66556008)(8676002)(66476007)(8936002)(41300700001)(5660300002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ajBkVXBUem5Ma0VYaUEvN0FkOU5SRnhieVIzY0xRWEFvbXpTU05Ob0xVdFlI?=
- =?utf-8?B?SG5vMEJreUZyaEYyV2ZNTTRyK0lEV1Vkb2VCVWtpUWFxWFNBMFk4azRGSFF6?=
- =?utf-8?B?dGwzSkdncjNxUnNSTXVMamxtdHlMZ2hxWVN6NUpGcUd3ZFAxYzBzTFJ6MDFF?=
- =?utf-8?B?K3NXa2hqa0s0QnFQejJWRHFOREN4STZ3NDZPTDFNbVlXdlYxWWZCZGhralJv?=
- =?utf-8?B?ZDUxZmp1UDh1V2RsM2x0Umc0RVNCOG42R3VjSzV2NU14MXBVSStDY0plNThr?=
- =?utf-8?B?ejlsekx6enc4Z2lpaTdsL3BwTi9zYmtHeER2eWVPRk5uajdCeFVqQTFhRTdE?=
- =?utf-8?B?TEJobHloa0hINFFDZU1lRTdPMllhWlo5WUlMNlB0WTNmS2NGaVU2SGhoM1pO?=
- =?utf-8?B?N3Z1MER2cTJLU1VaQzdDK1lCbjlZU2xPVnN2bVJkbEtJZ3ZvUHl4ODlyYVB3?=
- =?utf-8?B?TFoyZVZHWWtaSkJ4THIxT2hJRDhvenduKzNVZDFLaUVDckFsOGxnK3J1Vlhr?=
- =?utf-8?B?TmNKWnN4YktQRGJKbWNQcjM3b0hWbVJWazdJWGo3NTRZUDJlUzlyTXE1djNw?=
- =?utf-8?B?YjBPQVRxcmQxWXZBNWRmOTZ4dUplQVdPVXlrZU9DUmtrbUhGc28vS04vUmhx?=
- =?utf-8?B?VHZIZXZGU0NSU3pCUEMyWTNaSDJqOHltMDZ0LzJHa0xzL3l4M2JRamNqTzdU?=
- =?utf-8?B?ZVBLVjI1TlI0bUd1VGMyTThGbHp2NzFzajBwYjF5Z3dTaWN2bldBZW1PNmIr?=
- =?utf-8?B?R1RNR3F1cXAvbXVrVG5GdGlnc2tKWjJOMmUvMVd4cEo5ZHRocWMvWjhsQUlX?=
- =?utf-8?B?VU9pQW5BMEROK1R4SVZRdk8vR1RTZXlWL0tDUmtNUVZ5VmdVbDA2OU1QOVBv?=
- =?utf-8?B?WVVlYWJmRFh5U0puSXBkTGNFZUdVVzNSQ0NTQmdlNFp2ZDBTVTJ1YTdHTTdM?=
- =?utf-8?B?R3pCUHlXbHdsYWdscnJhU0hQQW9KSDNSczU3YzgwNGttOW5RVm1abTF4NXNR?=
- =?utf-8?B?d29IT2JBRDBiMDZOUTZnRXI5VkpvQnlWSzlORjJIbngvYnJSVThXM2lOdng1?=
- =?utf-8?B?TStHeUZmbkxNN0RyRjNKZTlpZEtkem03MkFpWWlEYzQrdUg4c2YxYXVsQnJh?=
- =?utf-8?B?TWtBVkxuQ0oxUVV5WTJTdWhHQ2NTQ2tzNkh4MlJ2UU9Sd1M1ZFpHUUFwSnE4?=
- =?utf-8?B?VVJJdTVrTVh6Q2F3ZDlucWJYUU5vSWM5VGVHby96U2xJK2JRYUdBb0JrMGtz?=
- =?utf-8?B?VVlrUzB6dXV3cy9TbXJBUHRIUzJKSmVBd3VOVzFERVNwcGNoOU1pZmx0bktz?=
- =?utf-8?B?N0ZQSXlSZldST0w0clJ0UjJnWS9uZGhwQVV5dDVIL2pRdTJSU3dtVjFnY3RG?=
- =?utf-8?B?ZURtQm5MdFB1RWwzdTZ2cm9Fd3NVdmU3Z2RzdzVlUnkrUGo4WWY4dGg2cGhP?=
- =?utf-8?B?T3FnbS9TL0pHNGhvZDA0RkczczRneWlWZGNISXNVVlB0WFBJZVN1NGl0TWFM?=
- =?utf-8?B?WURjT0RlQ1Y2Z2VpSmNYMWFNTngzeDFtTnBSNEFQNXRDSjRmQzZkclRjcmxJ?=
- =?utf-8?B?WmptaFBFVzFUMDZEZm1Pa0xrNkdYamtqRE4xTDNWMmVUczh2MFNmU2VLY0R5?=
- =?utf-8?B?VlU3QzR3cjRXSjA4SDJGOUprWVpvNzlFZlZKbU52bTRYbThKSjJ6dGpkV3lQ?=
- =?utf-8?B?Z0llQnZENjNhZzlCZkdnQlQweWhEeG1kZDRJdVVhMFRmRG1SUDYvVldNTGVq?=
- =?utf-8?B?eGtzQ1E4TDJWdmNUWGdrNE5nQ3d4T205Mzc4QURuYXNGelVaU1FaU2NVSHhI?=
- =?utf-8?B?a0dleGlQUVFRYThtN3d6ekdYZ1BzMkd0UXlPeGt1c3VyRnR1TVJVNFVCYXBF?=
- =?utf-8?B?REhXL2dKRXVSZnFteGNVeEhwcVZXekdVN1VKY1NSd0RBcDc1NkkrUFNOaXls?=
- =?utf-8?B?SkRKN2lDZzhhVk5ZTC9jT2VsTG9MeDd4ZkVqd3phcG5YNDI4TENGVC9RbWd3?=
- =?utf-8?B?VUwxUzJZQktOejdXbWVhQkJjWmp2UVUzbWdNQm9MUjJlcW5Pc2VMblJCK2xt?=
- =?utf-8?B?eW9YUmhqS0NPVUp5WDF4d0FXWlE5dlV0emx5NSt3R0hRdmFPU09PeUxTanJI?=
- =?utf-8?Q?6L76s5/RWnlc2s0/w35KYsm0o?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1NYTEw4MXltL25rYnJ0WXNabFRTQjYxNXFLOHluR05IKzhmUktiRm5xR3cz?=
+ =?utf-8?B?VGZFaUhzS0grT2dFYXdpM0VOc0tyNEVGM3VwZWFYNTJyRGxtNmZTbzI3bGp6?=
+ =?utf-8?B?QmJKamdlWmpqY0FNSHhPWGlDeDZENWZ1QldUZUc3UnZCOHUxNDY5Y0Y0Rzkr?=
+ =?utf-8?B?K3FLQlFrUEFHTEVPeXJkM2ZzTEpnOWJCNStlMFNlUTBnNEJyWUd0V0RZMEEy?=
+ =?utf-8?B?UHRQdFJBRmQ1cUJ2VUw5S012Q0J5MGhOeTdlcTVObjFyRlM5R1pvRldya3FS?=
+ =?utf-8?B?R0U5OGxDd0QxaEhjeGVBdzA4K1RRWjNERXZqcUg5K0dLUnRTVHUvRW42N0pv?=
+ =?utf-8?B?aHA3WktjT3BWbmpwampZbDc1V0hheHdVd1BBZnVXd2w0NmF1VHBzSDYvY3Fz?=
+ =?utf-8?B?ZC9FNmZzU25HWGJPWk04TGpER2dEcXlndjJmNVpMUHZKeDF6NlVlOURLNVRw?=
+ =?utf-8?B?MXNPS2xjcERQSmt6ZjljVEltV3o5Q0NTdVV0ZkVNMk81U1hoQ3JPNDZjOWE3?=
+ =?utf-8?B?N0lmV0hHYnJhRVNNNG1YckFnSW9OVStpckRiZjhVMWlaVXJDSlRxRnloeHVo?=
+ =?utf-8?B?K1h6ZGtKMEFXRVNKVWdKWHZ3ZWdRTTA2ZWFJMUhxZFNkUzNRQys3SncwNXE2?=
+ =?utf-8?B?cXJKSWZxRjBOclc0djBOaGJLcGtZTDJlUkRDL1VsM2tMYjRUbE9xVzE2Nyt6?=
+ =?utf-8?B?bGl6eHdBSjNzeE85NkttUXN1d1NkREtsYjFBUG1GZWxKMkYvd000b2EvblRV?=
+ =?utf-8?B?NDE1STZQaUw3ZFNuZVA5L3U3T1kydFJNellnWkZyUFhsaU9zejl2V1ExMUhy?=
+ =?utf-8?B?cDZ5dVFaUjNQUTYvYUJudTZpeW5MbHlaYkxSV3JCaTVyeFBtdUlxZGJkMjM5?=
+ =?utf-8?B?cGVxTjRDLzJXeGN4dldJL1JQYnI1elNTVkpsOS93OFVHWkxrUlo0NEgxTWMz?=
+ =?utf-8?B?M1ptV1ppTk50ZGRYZlIzWFYyZ2FDUDFOV1lRZk84SEFyN1F6UmhVTkpDb0RY?=
+ =?utf-8?B?dTFINFN2Tk1pN05lRVZ6R1htb0t6SjRmYWIzZCtGQzRrWHRNenZqUWNJKzdB?=
+ =?utf-8?B?cko5QzhrY0RmK3o3cXdxb21SWUZSalMzQkR6ODVUMDlBSkhwZ2lmeXdOQk9u?=
+ =?utf-8?B?V1duSFpGV2l2Tk1maHlpQ0o3Q2ZFYXAyWmU1d2FxNkNrQlA2WjRRei8xZ3VB?=
+ =?utf-8?B?dUtXOXpUa2dacnpKWU9BeXhTdGNHWHhpZ1lXbldtNG9Ic2Z6NWgyWlVHMnNT?=
+ =?utf-8?B?cDdiYW9FaDM2MEF2MDdRYUZpNWgwNzQrTTVFOVpiNEJCZERGWGNSRy93OVky?=
+ =?utf-8?B?N2tCT0pWa1FiVFlTUjdnSjJPMlJVdHk5U3RLZnM3Slhkd29pdzNvK0NaVnNq?=
+ =?utf-8?B?NHZSWmw0c2dWVWZRT0pXVXFEL29jVTVCMERXakJwU3VPc3E2WGxCNjYwTDZO?=
+ =?utf-8?B?TXVrK0FFdnNCK0xFNGdOUWdJZCtiR1lDM0ZQTlVKTnFoUU1PMlVSY1dUZUEz?=
+ =?utf-8?B?ZElQekUwSFZxQ3N1dEFQdk5DSGNGOGl5Ry9yYmowTDVMZ3o2OWZzR0dmdHRU?=
+ =?utf-8?B?QWFOZXlNNDJTcUJPNTk1YnF5b2dGV2dTbERqT1NNaTRjdlBIVS81d1g4Vis0?=
+ =?utf-8?B?UUZOY2JlOForKzE5SHNjRDlVazY4eXljQXY2cjA2clBnTHA1dW5XREpEdlVq?=
+ =?utf-8?B?YlQyaTZIYTYxd1pPaU1vaDUvN2k5QTRXSzVaVFR3djRxbXpXWHVHVnNTaXd4?=
+ =?utf-8?B?dE42bUpWMktpWUJ4Qmc5L0U5RnNlZ1hyMkpNZnNIWXd5YXJxS1hoOHZXSld4?=
+ =?utf-8?B?c1NsMmdMT3REdG9OamFaQjFEcU9aUURDZGp5RHJ3UTB6em9rdWt5UDUvM3hk?=
+ =?utf-8?B?cHEzakNramdpaDkxSlZVa2kzbC9tdHFhS0Y3UUdGT1JJaHc0azM0c1JTTE83?=
+ =?utf-8?B?Tm9GbXpvTGlMUkVMUkgxb1BaeVFmOW02SUdzS1dGdGg5a2J6NGEyNXJjQnh3?=
+ =?utf-8?B?eFZvdHM0NDJnSG8zR0MrdlJDbmJod0lUaGtvVHdlWExFdlgyY0o4U25rZW1p?=
+ =?utf-8?B?eVlEVndUYzJtZVZEZnBRd1FXbWJ0Tm1LUDRIRnAweG0rbXNjdTl3U24ydEhs?=
+ =?utf-8?Q?GA7S9liNJJF+7Xe2ziN/iundT?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5ed0f90-b65a-4d0d-bf73-08dab5ac7475
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ca1f542-f031-4cd9-c5d3-08dab5ae3376
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 10:42:32.1253 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 10:55:02.1048 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GXGPTRufcIkjkbGli2x9SYWT/sMx6quS0jn3vUp1xJZX7JrHQ+cfwqOi+PNLHiyC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4381
+X-MS-Exchange-CrossTenant-UserPrincipalName: L1vvZjU9EoVNQPzdJUkH4dAOgsTbfiBFfAWZJw5QjxF6fbmBx1MdJM/IcyZlJlvk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7564
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,97 +128,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.10.22 um 03:09 schrieb Luben Tuikov:
-> The currently default Round-Robin GPU scheduling can result in starvation
-> of entities which have a large number of jobs, over entities which have
-> a very small number of jobs (single digit).
+Am 23.10.22 um 03:25 schrieb Luben Tuikov:
+> On 2022-10-14 04:46, Christian König wrote:
+>> [SNIP]
+>> @@ -254,12 +254,10 @@ static struct dma_fence *amdgpu_job_dependency(struct drm_sched_job *sched_job,
+>>   			DRM_ERROR("Error adding fence (%d)\n", r);
+>>   	}
+>>   
+>> -	while (fence == NULL && vm && !job->vmid) {
+>> -		r = amdgpu_vmid_grab(vm, ring, &job->sync, job);
+>> +	while (fence == NULL && job->vm && !job->vmid) {
+> In preliminary application of the patch series, checkpatch.pl complains about comparison to NULL,
+> and wants !fence, instead:
 >
-> This can be illustrated in the following diagram, where jobs are
-> alphabetized to show their chronological order of arrival, where job A is
-> the oldest, B is the second oldest, and so on, to J, the most recent job to
-> arrive.
+> 	while (!fence && job->vm && !job->vmid) {
 >
->      ---> entities
-> j | H-F-----A--E--I--
-> o | --G-----B-----J--
-> b | --------C--------
-> s\/ --------D--------
->
-> WLOG, asuming all jobs are "ready", then a R-R scheduling will execute them
-> in the following order (a slice off of the top of the entities' list),
->
-> H, F, A, E, I, G, B, J, C, D.
->
-> However, to mitigate job starvation, we'd rather execute C and D before E,
-> and so on, given, of course, that they're all ready to be executed.
->
-> So, if all jobs are ready at this instant, the order of execution for this
-> and the next 9 instances of picking the next job to execute, should really
-> be,
->
-> A, B, C, D, E, F, G, H, I, J,
->
-> which is their chronological order. The only reason for this order to be
-> broken, is if an older job is not yet ready, but a younger job is ready, at
-> an instant of picking a new job to execute. For instance if job C wasn't
-> ready at time 2, but job D was ready, then we'd pick job D, like this:
->
-> 0 +1 +2  ...
-> A, B, D, ...
->
-> And from then on, C would be preferred before all other jobs, if it is ready
-> at the time when a new job for execution is picked. So, if C became ready
-> two steps later, the execution order would look like this:
->
-> ......0 +1 +2  ...
-> A, B, D, E, C, F, G, H, I, J
->
-> This is what the FIFO GPU scheduling algorithm achieves. It uses a
-> Red-Black tree to keep jobs sorted in chronological order, where picking
-> the oldest job is O(1) (we use the "cached" structure), and balancing the
-> tree is O(log n). IOW, it picks the *oldest ready* job to execute now.
->
-> The implemntation is already in the kernel, and this commit only changes
-> the default GPU scheduling algorithm to use.
->
-> This was tested and achieves about 1% faster performance over the Round
-> Robin algorithm.
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Alex Deucher <Alexander.Deucher@amd.com>
-> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
-> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+> I can see that it had been like this before... and I know it's out of the scope of this series,
+> but we should fix this at some point in time.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Thanks for pointing that out. I try to fix it whenever I encounter 
+something like this, but sometimes just forget to double check.
 
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks,
+Christian.
+
 >
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 2fab218d708279..d0ff9e11cb69fa 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -62,13 +62,13 @@
->   #define to_drm_sched_job(sched_job)		\
->   		container_of((sched_job), struct drm_sched_job, queue_node)
->   
-> -int drm_sched_policy = DRM_SCHED_POLICY_RR;
-> +int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
->   
->   /**
->    * DOC: sched_policy (int)
->    * Used to override default entities scheduling policy in a run queue.
->    */
-> -MODULE_PARM_DESC(sched_policy, "Specify schedule policy for entities on a runqueue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin (default), " __stringify(DRM_SCHED_POLICY_FIFO) " = use FIFO.");
-> +MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
->   module_param_named(sched_policy, drm_sched_policy, int, 0444);
->   
->   static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
+> Regards,
+> Luben
 >
-> base-commit: 16d2a3f2ad1d2b95bf9122c910c63b0efe74179d
 
