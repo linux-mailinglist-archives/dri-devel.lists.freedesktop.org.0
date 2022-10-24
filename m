@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6707360C444
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DA860C448
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E424E10E162;
-	Tue, 25 Oct 2022 06:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39C510E179;
+	Tue, 25 Oct 2022 06:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6396A10E3D5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:38:21 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- t10-20020a17090a4e4a00b0020af4bcae10so8835037pjl.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:38:21 -0700 (PDT)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A07310E3A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:38:29 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id c2so2078plz.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UAzZQL5seIJutOYUjJgcTz5SIcJNiVaULVY/vxMxJ7M=;
- b=bWAkfym/IuAYQQDsk1OCfdE9w9yWPE3crZCufatlU3uyFhSD2FLPPyi4EZX0XKPNNN
- TsT1Mn93d8yM/JN1r6KstPaSr0v2lhHNLAttfYUvsrYDknwH7khxwfUrEhoUBDF6QNvT
- 2AoTMSr1l1S7qOR5wF4oY1dCDKpWYBJ8RPjoWCYtuPhEghyQHHePilHd/NADV54vZIGq
- 6rdvlz9HJM3z9wu+pJUiXEGORc6v7pwvQYHXmPP9HS48eXejuQAX3z/RDPWeO6o44bSX
- c9msf1NsRp6QE7dLwlbW0UvYtPhluL4+JoPCees4u24dLHSpN6Uh4AbxJOiXkAJfcDlq
- GsGQ==
+ bh=3flgEAolZn9kn5oClvgduggco3LU3Kao58cYVj8GoE4=;
+ b=LFNGam9y4Mzo/GmaRHBG21OM1uk0hOommk74KXR9Ca3TMfQryGTVdhVU5ltrLDq2eZ
+ 02Sufh/O0mf9igu5dzzr9xfFTvUVJnusR47enfl8COOjleX5fwL6eAZaOwUFpStJHUJi
+ hCLqEFuFEiStB87OEfhilZId7gmp5XPzc8feF2PYyJiV+KGbmtv9V+IgrRH+2aqz3DHV
+ M+0XmnIQ2XPB2CwxIkAbGWu2tAx/w1WMTphoADzrca9LYFwO0Tc5zvTS7ycemczGbZdY
+ uWICIlA0YHCEjqWRpSdtI+n8c9TyFLANwWLT4ZFSjfGAycLhmE5YxuD4ntG1ulSCg1AF
+ sMBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UAzZQL5seIJutOYUjJgcTz5SIcJNiVaULVY/vxMxJ7M=;
- b=ob1qMXf+NEo9QyjHP0RYvLVSRY1mgvJcbtY2Jx/vQu3X7FnLSFCuTbWdx9dLBeqSXt
- iyfh4fSqJoesGnAkemQdi5iqs9z7N8yGbuGC/W29Rl10nr/+6QbYrK2Msvz8J8+/VttF
- e/IbsQS1Wz0P+Vm7e3yg4YQj33p5kzaaKWZo7kcfYIA22NXSqA+InDxDMdW6ZgriZ/as
- C5oI2ioV0uw+pQ5ZmRgZbkL4rEaX5gp73V9tt9gQRJ1gtMbYqieZuRSVFn5K3GgNdHzo
- Cur4zmqT4wojXVrqFL/v09dhZSVZDhM6LIr7nevHjk51MjY6t4FrW/Fk/tjRMxz0denk
- uNFg==
-X-Gm-Message-State: ACrzQf0dqy2zAG9l6I/pfaCm4xy84fm7FnOXF8jzu3HGzAtAabco7mhZ
- YCN+yjaD0DMAAFL/mjkKHWPaog==
-X-Google-Smtp-Source: AMsMyM518/+LX9D2Z710rX+ZGWrNfx22tav+R9okHqn5RhyI0izm5Jqv1jyaCGbAfBxBtougO+lAKQ==
-X-Received: by 2002:a17:90b:4b8f:b0:213:95f:9515 with SMTP id
- lr15-20020a17090b4b8f00b00213095f9515mr6350162pjb.82.1666611500759; 
- Mon, 24 Oct 2022 04:38:20 -0700 (PDT)
+ bh=3flgEAolZn9kn5oClvgduggco3LU3Kao58cYVj8GoE4=;
+ b=dSaa0t9v9tB+O/OmgQcHBZKSyoYxc+/7DD5cBzAWLQzR94X84s6q4kup4j5x4JhCKI
+ ryPETxNW7RAUqoYxHf1hj7t9wSiIKunH9wCZEzfS8eYmSorFx/s7KCT8v7bJJ3dwc9ZO
+ KROgGNF57HZHtsb2G7arxFyE3vAGqLwq2SwlT56SKgO3riBbgg2qSkpDw0SSLd07r9Q/
+ gsIHQq/QIshbCKMzncYR/JZeGpR2TzBHElYUOgRv5uPEkTrvq76ksxFF3LAWYjXMHdIf
+ Qcjocrf8vdFgR66mciPVvk336AFIAnX5Zvqt/dq8duwrgDEaGYGKFcyY8CknYLj9/p6Y
+ KOXw==
+X-Gm-Message-State: ACrzQf3/Ehxjh25KYv0Vb3lA7t1bSg60KjtkWySyvvZ/3lXmdjcFkCEO
+ sUzSDbunPrOKdueFwfmw2lemhA==
+X-Google-Smtp-Source: AMsMyM5su6ApWtiy+J/kwO/a0HneChUBGcY0XEPNt6nciHQoDPKXFdF+gj0Vs4qmtnJ6gx8k4rNCKg==
+X-Received: by 2002:a17:902:ec8a:b0:185:5462:261a with SMTP id
+ x10-20020a170902ec8a00b001855462261amr32981480plg.160.1666611509068; 
+ Mon, 24 Oct 2022 04:38:29 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.38.12
+ b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.38.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 04:38:20 -0700 (PDT)
+ Mon, 24 Oct 2022 04:38:28 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Subject: [PATCH 19/22] platform/x86: dell-laptop: Use
+Subject: [PATCH 20/22] platform/x86: intel_oaktrail: Use
  acpi_video_get_backlight_types()
-Date: Mon, 24 Oct 2022 20:35:10 +0900
-Message-Id: <20221024113513.5205-20-akihiko.odaki@daynix.com>
+Date: Mon, 24 Oct 2022 20:35:11 +0900
+Message-Id: <20221024113513.5205-21-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -103,22 +102,22 @@ acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/platform/x86/dell/dell-laptop.c | 2 +-
+ drivers/platform/x86/intel/oaktrail.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/dell/dell-laptop.c b/drivers/platform/x86/dell/dell-laptop.c
-index e92c3ad06d69..9cfffbe2bd95 100644
---- a/drivers/platform/x86/dell/dell-laptop.c
-+++ b/drivers/platform/x86/dell/dell-laptop.c
-@@ -2230,7 +2230,7 @@ static int __init dell_init(void)
- 		micmute_led_registered = true;
+diff --git a/drivers/platform/x86/intel/oaktrail.c b/drivers/platform/x86/intel/oaktrail.c
+index 7c5c623630c1..f44a51dad16a 100644
+--- a/drivers/platform/x86/intel/oaktrail.c
++++ b/drivers/platform/x86/intel/oaktrail.c
+@@ -330,7 +330,7 @@ static int __init oaktrail_init(void)
+ 		goto err_device_add;
  	}
  
--	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
-+	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
- 		return 0;
- 
- 	token = dell_smbios_find_token(BRIGHTNESS_TOKEN);
+-	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
++	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		ret = oaktrail_backlight_init();
+ 		if (ret)
+ 			goto err_backlight;
 -- 
 2.37.3
 
