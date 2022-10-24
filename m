@@ -1,123 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6731C609B31
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:20:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B88DC609B3C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:23:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29FAC10E29A;
-	Mon, 24 Oct 2022 07:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB10C10E2A1;
+	Mon, 24 Oct 2022 07:23:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2086.outbound.protection.outlook.com [40.107.92.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EFE310E290;
- Mon, 24 Oct 2022 07:20:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F+Fpt/Gex+BxHwSQKVFf66SujgM1DaLnG7njAyIHpOrl86j96QLkyHF3V/UIhfKloSzemabuLevpOoOXP8vC7F+BkhQkbpMFWsMztGUAxhE0oKPkl2ZAtNFDYbUje8UM1vtLxATl8B7sjOebfa/jzdp3zrRSFrslfh5newEnoCbjRUj3ykVG8FL0gi/Q/qYf54R25Y7eLev8y3c24FhsW4TV88OHFp0FhE4+KC58re0fWq8oou1cYzBw/bKdE4IlbvStnj5zbaWk4O34w/InyjPNagSWtZ8xojoYjdCmSq4aGPGD8HZz9nosVAkE96Y7h/ibVRxGiI2u1L74/pnXJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6pdL2xv74N8xtyZIGzqpc36SjiQMcRClcb01XHJBT+k=;
- b=TZm+BsZlWDNhILJolfCUsKXAXVlcj8QqVQhgkc0nFz94PUrppJUhukzMJwNTaJZ9b0+6Bz6/YW/iJwiW1UNwDzveAsM4TEvNFR68yFL6/dTZk3vBQ3mZkzZN/BaGXL6EPmNvsJbxkrS5uPsCHbCxZJt0yq51pzPs9RasyNL6V8fzCQduMoL94hU1UC8d81GljnmWs+9vBuEjEhpfCIFGow4uTzCdvLL4JL15aTQEAsGyYMeJ6uN7iaGOl2FAoxfJIgEz7Wuf/7ernSyup8fout40di9rTOt95hvDV5OzFJWxst7lSp9CvfH+wxaZ8JYHmj8vHTAqmLGeorrHxblwiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6pdL2xv74N8xtyZIGzqpc36SjiQMcRClcb01XHJBT+k=;
- b=4deKENYT2gA36fuCHazhGF4Ooqqf6Qk/vlmrqpFunUDM5+mj7MNynUrcayiVnASw17GalaPti5Mr/zRtxc493xHQGQF+mvBnR4yhBkVzJEvYId3ZMCz2q6f1rtrJzE65oslV452MKcmG9nUFICAint/OfJdiAZBV39ono/DdvY4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- CY5PR12MB6179.namprd12.prod.outlook.com (2603:10b6:930:24::22) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5746.21; Mon, 24 Oct 2022 07:20:27 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
- 07:20:26 +0000
-Message-ID: <1976c670-d9b4-1071-a703-59dbdc7374ff@amd.com>
-Date: Mon, 24 Oct 2022 03:20:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 2/2] drm/amdgpu: use DRM_SCHED_FENCE_DONT_PIPELINE for VM
- updates
-Content-Language: en-CA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20221014081553.114899-1-christian.koenig@amd.com>
- <20221014081553.114899-2-christian.koenig@amd.com>
- <fd55eef9-1ce1-3f4c-d6ff-a5a230828b8e@amd.com>
- <7d482756-b5a0-328c-9e9c-ef0e31c4225a@amd.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-In-Reply-To: <7d482756-b5a0-328c-9e9c-ef0e31c4225a@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0059.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:82::6) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C43510E2A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:23:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9F023B80ED4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:23:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 542D2C433B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666596218;
+ bh=+tGECJw0KWuji/MrGRLX10JD3/o6ij3Z0NBM4iKiq+I=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=NpuE3gaAeXsUvwGw4jso1bFBffavqwZ81byZqVDENFhV6+SBomHw4x6ZMp/3Faew3
+ 9yXQ0rRSJaTdIpUlCTc2xNdoqsCbDBzzBE8XMk4We+UBB60KGiSYVT1ZNKmGM9ev49
+ MxpQZG/Gd5HQNUSzQfLuGNmBdBy+vah/r+IaJbCnOdTa7bWrlU1hb2Emz7hG1YYigX
+ goaol77VLNeQ/xlTrlzRyApamzQH1sYNl8+sLzvpMPfDFpt5gVe+WPbQOafQLwiHfy
+ g7BjTt8bwBHXcqx7s8woq+9PddSYB3ou/NChnzOhF2xr3BTvQANvkr2AK5/pfAPEZk
+ 8Gq43QF7mcBoA==
+Received: by mail-ed1-f44.google.com with SMTP id x2so575051edd.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 00:23:38 -0700 (PDT)
+X-Gm-Message-State: ACrzQf23hqCjhew08yco8A1y01UduIFWtFxu4OfWIPjbgtMukPXLaP4F
+ bOcppawuGX79jJlRsoZgwA/uzGcTnV0p0ftAwkE=
+X-Google-Smtp-Source: AMsMyM6DGYlSCvCdIa2Qv3nNMB+zrgeJbC4qks//K4OI933BXcTDRbe+Fc8B1FKqMjlvT6oj4QYACx3SPlbcSlXM3Iw=
+X-Received: by 2002:a17:906:8a52:b0:78d:b6db:149d with SMTP id
+ gx18-20020a1709068a5200b0078db6db149dmr26144824ejc.733.1666596216553; Mon, 24
+ Oct 2022 00:23:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|CY5PR12MB6179:EE_
-X-MS-Office365-Filtering-Correlation-Id: 070d4e34-cc50-45e9-1e75-08dab5903946
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ql+geGH4l4wI2bgOgTKM0yYGK9gXRnQHGrvSrdCIvV240SMOZ/BNNKykt70TPUPOW5UAIvQriksTJED2PjEZQwiUcpyUNsiRWjPabrGLNhNjHdCLxlZniUIJLNT5H6ozg7Uo6fEiSouP4UUGWXDGnXA8gZhhcTSLCvi4TQi89r9uTgEJGVb01vOOX7TyGBQbWgGU2AkKqgw+4Ikg5ZZ/Ns4L4GRlKOQqdYJQXhxgjQo8Fbqyg8UXLIjaZ+wfFGJwYFUmoSxyppyfWxz9SK+Qb4mTQ01C+aWnp5HLRFIYB9qJA+sTonwSU16TJXnsCePHAia9FA1YBKiPqw5t893RAiOwQYCqrLpq/xpJYabqhdLUC/rfirBbemrPMIJ5wTOWD5ehxr1+m0jsBot4Y5+so5WaJhEUJMWFbj7HjjrhEsyEEWW8M2Mv5kIxW9AhsRQpSzUOjf5Wks3Xvt/3+h/qaqJrDJHoBTTB0vTDTOqGLaOtJc9H+G58BTvedudS2PsTkdSL6Pp2EVWdtTrIIkGGOgUp264Q8gdOchha0sa51j2o/IlbKyxEzMpMhni4LlqKuh58xOz/LbO3l2/h8epuVwq2HahUt0WBKCF7BpjzOORjzgml+/ujp/QpfCr5aUPjH/xys/KxS20Bqwi+fybI2gsbKt8wSTQFDLeP4oPfOKtRWWzj+0ShrjAilnP4+5FutDBJ51DffbJNtHmFWO1WtG3Xzw3PmWaSZqRy2UzigM5P6Kr4JPTIGQTDn2Dzk4szAdwFA/m0RMFv2GM+zpKfdwVfESOxDLYCc+rux/WqOAI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(451199015)(2616005)(6506007)(31686004)(186003)(83380400001)(26005)(53546011)(6512007)(6666004)(8676002)(41300700001)(31696002)(4326008)(86362001)(5660300002)(478600001)(6486002)(66574015)(316002)(4001150100001)(2906002)(36756003)(44832011)(66556008)(66946007)(110136005)(66476007)(8936002)(15650500001)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UW9ra09MOS9ZM3drcTVMUTBpdUJKbnpCTGYwQTZpS2xTQVpOOXVIQVlra2F1?=
- =?utf-8?B?ekpodCtMaHdBNXZMOWk5S25BRUdsL1FXa2k2cDYzUm1Kc1R5MDRPUU1OU1Bo?=
- =?utf-8?B?SFE5U1RjeFJpSmtDckszRkluY2Z1QnRtK2FsUmlSZUk3amFkTktDQVpPS1Fq?=
- =?utf-8?B?VUcyQ2owL0t2OG5qbTVtMWk1TWIvQjBkQWp5UmZuNmVSOWpYQzNES0VGdzJo?=
- =?utf-8?B?ZDNjN0JUa1ErLzNYblBmbWhmSjhuZFpNYm5WTTJwcjBNNGdqSmkvdmJPNStI?=
- =?utf-8?B?OGVnczh6eU95SW16UUlqWEYzdStnQjVtcjdETGJPcFVVUnVVdXc0bld2UnI1?=
- =?utf-8?B?SFRxMDJiVzAvWG4rTy9RTFVNRjY0TFpieGFZY2pRNTdqRjdUS3htM1l3em0r?=
- =?utf-8?B?bVJCMkpvalNqYm1yelJXOEdCdjBqZ1NnYkV2R2xKbTEzdW5YejRUelM5SDlt?=
- =?utf-8?B?V1dzN1F2Vld0WXMzMXEyM1Z4RmJSaGhRTE1pak9mNHJETFlUWjAyaE9oZEJV?=
- =?utf-8?B?UUpxZWJCTUMyY0xuR0dmbDRPeHlxL1lOR1ExTzBnVVBDaE5OUzROVzZtUkVQ?=
- =?utf-8?B?RHV4MkR2OHVLV3h4anFLWUNoempic3Y2K2FFTnRhRDhTSFNkeVhWVDd4VjNh?=
- =?utf-8?B?eFdhamdoRXlDaGRBNDdTVkFYUkRqV3ZkWE5HZkE3czU5RUVWNjg1U3htMUlL?=
- =?utf-8?B?NkQ0QXEyelpsUncwSkhPN2E4QW5COHVpZHdmdU1zM0ZYR1YveURuUnNRMmRq?=
- =?utf-8?B?Q2VjYm1vV3lsNDFDd2hYTXRMZU1KbzBCSHVhSGRGb1BsZlgwUUxnU25mNXNV?=
- =?utf-8?B?NktNaHJHclNha1JWRkpaZEF3NCtLcXZBbnAxVWRab3FuVW9iT2xCRENSNUZz?=
- =?utf-8?B?cDRRMnhLMy9vNU1NckFkSzdMc21sekJWcHVoNXhPaFE1MzNHV01OK2RLUElD?=
- =?utf-8?B?aW5SUVpDRGtjR2hxYXQrYmZHZnZhS3p5cmZUaTNhSUlmT0h2eVlBMEpkTzRm?=
- =?utf-8?B?cDY5eEZ1MjM1bWYwcnM0NUUwUy85MUQwOUVuOXROdUx5WURvbW4zOUIrRGFV?=
- =?utf-8?B?R3RXSElZT204OTVPbFNNQ253UHlKQ29PWExXcXZJWW96cnJtc1BNVzR6UVBm?=
- =?utf-8?B?a0I1Ym5JUkJmQTN3Qmw3Z29vUXVuSDdtalBGelRQeUtsSFo2SWJJaTkvVGNE?=
- =?utf-8?B?R3hZM1hEUkQ1VU9LYThrTkgxZnBORlJrVmNOSktiM1RvcENQZmJXeVYrV0hK?=
- =?utf-8?B?M2JPbFRudWw1aENVMU9hclMzTVExM09TaC9VNUhVQkI3aWtJSnJ3SHd1aHd3?=
- =?utf-8?B?MFNYa1IwaVdQRlcvU0hYTXA4WFI0SXU5SXFhNHhpOURCUzd5UjNJdlV2VVVw?=
- =?utf-8?B?NC91c2hiN3hkSHhlZ3B1RWNEQ2JWblhoUksrVlNxQlFyc002SUFIMEw2aEhB?=
- =?utf-8?B?dERrMGlsRTRxTmFiaE9zZlJPZ2RVTXhLM00vVmE3dHRMcmhMUU5FNWlTa09s?=
- =?utf-8?B?RzNFOWNrVDJ6NVdwU1I4bTNwaGdkVkdEdEdwSEZtWUh2R2dIcVI2dHZTZDNn?=
- =?utf-8?B?eTVPMG41WnpFaWJyenhCWWo5OFNGLzNNaUFSc1RlSHFTdlA5cnRkOHZDWmpW?=
- =?utf-8?B?YzJwTEc2MFRyeDdCV3dLTStlZ05WOHdxazVFVTJRWGNSZml1OXBKWnBjR1RS?=
- =?utf-8?B?amtmbFhqeEJrOHdQZlAwMVJLVnNxd1BsRmJqQVJZOWRiQi8vOUxNcnVHcTNR?=
- =?utf-8?B?LzkzcDlSVVVHTGdrNWxueXViVVkvY1FyWFovL3IvOTlhRlB5MkdpNjU3bkZq?=
- =?utf-8?B?ckFOaHduSDcrdTV1Vy83WE1IMmcyemxBZ2xDK2dNVEljOEViWVJ6V3ZJbHRX?=
- =?utf-8?B?VmdqKzlrRFdlbGQ5UENRMGsvMmsrNFRQVmd2T2I3R1NiSHd3RFpKSVloOENR?=
- =?utf-8?B?bmJQQ3dRdWpLRnNsaVpZOXVxd21IYVVNZ1ZzQXNIVUdHRWJFRGY5d2RGRkVh?=
- =?utf-8?B?bGdxckh1TGpzVUNSUlpiQzcrTGxjWVI4TUgrS3dTZGR6cTA5UkRKaFdGVk1o?=
- =?utf-8?B?R2ZiQXBqL3pjVWd1OVhOSkJJRlRUM200b2Nwbndra0kxSEhJNWRKYjh2Qmhw?=
- =?utf-8?Q?pf9KaHV506MVk+hOiyX1gq/Z7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 070d4e34-cc50-45e9-1e75-08dab5903946
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 07:20:26.8567 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dQlNfBLXzVf/GhHeDlBBtudsgB6KqAxpH8Q4dLTP8CS1Z/RzDnyhmv3l61wLm18E
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6179
+References: <20221022214622.18042-1-ogabbay@kernel.org>
+ <20221022214622.18042-3-ogabbay@kernel.org>
+ <Y1U2K+fAnGbYug/+@kroah.com>
+In-Reply-To: <Y1U2K+fAnGbYug/+@kroah.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Mon, 24 Oct 2022 10:23:10 +0300
+X-Gmail-Original-Message-ID: <CAFCwf11PxtcRZegVBxYfJQFpYO0AipobJXWWp4ch+7mMKRLuKg@mail.gmail.com>
+Message-ID: <CAFCwf11PxtcRZegVBxYfJQFpYO0AipobJXWWp4ch+7mMKRLuKg@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] drm: define new accel major and register it
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,48 +62,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Jagan Teki <jagan@amarulasolutions.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-17 02:27, Christian König wrote:
-> Am 17.10.22 um 07:29 schrieb Luben Tuikov:
->> Hi Christian,
->>
->> On 2022-10-14 04:15, Christian König wrote:
->>> Make sure that we always have a CPU round trip to let the submission
->>> code correctly decide if a TLB flush is necessary or not.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> CC: stable@vger.kernel.org # 5.19+
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 9 ++++++++-
->>>   1 file changed, 8 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
->>> index 2b0669c464f6..69e105fa41f6 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
->>> @@ -116,8 +116,15 @@ static int amdgpu_vm_sdma_commit(struct amdgpu_vm_update_params *p,
->>>   				   DMA_RESV_USAGE_BOOKKEEP);
->>>   	}
->>>   
->>> -	if (fence && !p->immediate)
->>> +	if (fence && !p->immediate) {
->>> +		/*
->>> +		 * Most hw generations now have a separate queue for page table
->>> +		 * updates, but when the queue is shared with userspace we need
->>> +		 * the extra CPU round trip to correctly flush the TLB.
->>> +		 */
->>> +		set_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &f->flags);
->>>   		swap(*fence, f);
->>> +	}
->> Do you ever turn that bit off?
-> 
-> No, I just rely on the fact that the flags are zero initialized.
+On Sun, Oct 23, 2022 at 3:40 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Oct 23, 2022 at 12:46:21AM +0300, Oded Gabbay wrote:
+> > The accelerator devices will be exposed to the user space with a new,
+> > dedicated major number - 261.
+> >
+> > The drm core registers the new major number as a char device and create
+> > corresponding sysfs and debugfs root entries, same as for the drm major.
+> >
+> > In case CONFIG_ACCEL is not selected, this code is not compiled in.
+> >
+> > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+> > ---
+> >  Documentation/admin-guide/devices.txt |  5 +++
+> >  drivers/gpu/drm/drm_drv.c             | 45 +++++++++++++++++++++++
+> >  drivers/gpu/drm/drm_internal.h        |  3 ++
+> >  drivers/gpu/drm/drm_sysfs.c           | 52 +++++++++++++++++++++++++++
+> >  include/drm/drm_ioctl.h               |  1 +
+> >  5 files changed, 106 insertions(+)
+> >
+> > diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+> > index 9764d6edb189..06c525e01ea5 100644
+> > --- a/Documentation/admin-guide/devices.txt
+> > +++ b/Documentation/admin-guide/devices.txt
+> > @@ -3080,6 +3080,11 @@
+> >                 ...
+> >                 255 = /dev/osd255     256th OSD Device
+> >
+> > + 261 char    Compute Acceleration Devices
+> > +               0 = /dev/accel/accel0 First acceleration device
+> > +               1 = /dev/accel/accel1 Second acceleration device
+> > +                 ...
+> > +
+> >   384-511 char        RESERVED FOR DYNAMIC ASSIGNMENT
+> >               Character devices that request a dynamic allocation of major
+> >               number will take numbers starting from 511 and downward,
+> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > index 8214a0b1ab7f..b58ffb1433d6 100644
+> > --- a/drivers/gpu/drm/drm_drv.c
+> > +++ b/drivers/gpu/drm/drm_drv.c
+> > @@ -67,6 +67,10 @@ static bool drm_core_init_complete;
+> >
+> >  static struct dentry *drm_debugfs_root;
+> >
+> > +#ifdef CONFIG_ACCEL
+> > +static struct dentry *accel_debugfs_root;
+> > +#endif
+> > +
+> >  DEFINE_STATIC_SRCU(drm_unplug_srcu);
+> >
+> >  /*
+> > @@ -1031,9 +1035,19 @@ static const struct file_operations drm_stub_fops = {
+> >       .llseek = noop_llseek,
+> >  };
+> >
+> > +static void accel_core_exit(void)
+> > +{
+> > +#ifdef CONFIG_ACCEL
+> > +     unregister_chrdev(ACCEL_MAJOR, "accel");
+> > +     debugfs_remove(accel_debugfs_root);
+> > +     accel_sysfs_destroy();
+> > +#endif
+> > +}
+>
+> Why is all of this in drm_drv.c?
+>
+> Why not put it in drm/accel/accel.c or something like that?  Then put
+> the proper stuff into a .h file and then you have no #ifdef in the .c
+> files.
+I thought about that, adding an accel.c in drivers/accel/ and putting
+this code there.
+Eventually I thought that for two functions it's not worth it, but I
+guess that in addition to the reason you gave, one can argue that
+there will probably be more code in that file anyway, so why not open
+it now.
+I'll change this if no one else thinks otherwise.
+Oded
 
-Acked-by: Luben Tuikov <luben.tuikov@amd.com>
-
-Regards,
-Luben
-
+>
+> Keeping #ifdef out of C files is key, please do not do things like you
+> have here.  Especially as it ends up with this kind of mess:
+>
+> > +static int __init accel_core_init(void)
+> > +{
+> > +#ifdef CONFIG_ACCEL
+> > +     int ret;
+> > +
+> > +     ret = accel_sysfs_init();
+> > +     if (ret < 0) {
+> > +             DRM_ERROR("Cannot create ACCEL class: %d\n", ret);
+> > +             goto error;
+> > +     }
+> > +
+> > +     accel_debugfs_root = debugfs_create_dir("accel", NULL);
+> > +
+> > +     ret = register_chrdev(ACCEL_MAJOR, "accel", &drm_stub_fops);
+> > +     if (ret < 0)
+> > +             goto error;
+> > +
+> > +error:
+> > +     /* Any cleanup will be done in drm_core_exit() that will call
+> > +      * to accel_core_exit()
+> > +      */
+> > +     return ret;
+> > +#else
+> > +     return 0;
+> > +#endif
+> > +}
+>
+>
+> That's just a mess.
+>
+> thanks,
+>
+> greg k-h
