@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB1360B216
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 18:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 610AC60B22C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 18:43:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82CD910E4A9;
-	Mon, 24 Oct 2022 16:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81FCF10E4FD;
+	Mon, 24 Oct 2022 16:42:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785CF10E486
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 16:42:37 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id r14so17728006lfm.2
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1375F10E459
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 16:42:38 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id r14so17728066lfm.2
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 09:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GV5dxA1+GZPu4gSUFYFoCs29DjvJayc5KvtKoh12SMc=;
- b=dMGof3PEpPYVtBTMuAv6mpSFfBK65IlSile6EqzZD5O9dk2/kT+BagMI6554sfzZam
- ddGNkg+ZQwK++KFbl3zvh0EspTG09BAGIK+NP85oh7RmUkvbjevQKTLHMia8RN+hn5C3
- xUrR03Rx2kOgwor/OR3DX+zpVO4atSO5pxgqbXWUV8jlASKcEculEHvL4GSXJYx+CTIu
- cj6Au3R9pa15WbdF8cPSgYw5WUqDmsXg4MQuV24+YFnsZdoOv52yDu0z34K8nIRt5FN+
- S0ZXmJpdFoFRl04GeHxpbKblnqdCW2U+fh5Gx0K5uTsP/LTANRPMfEp278TT0Y1J3E0O
- SIjw==
+ bh=KVy70RbAb5ett3TY8nrG1+ECCokt9+y3K1O7eGbehtg=;
+ b=Bm/NPraBpygNrI4An5HdGkJ7s5B+Swiljipln1w/uvCrjBUodJGSQTP8iTxeGJgyi/
+ PNJGRL/PzsCHrLpx1YE99MvHiBew4fatfq25genOBDOMwDj7AdeuN3yLRF3LFEpeAQhM
+ 5Yd/InwZAeM9qx/kjL7zC4mqi/+tAHehwltVUTpQLv2fAsB5uU77zegQNRViF19bMYmD
+ DsMlVjoGv0PQykQoI9nWfpswg7ogb16pxtWJXftbuCkc2vlx4hPm29OmmAXD+Awubhv6
+ GR3XpiIsvj9sDzPK6E3IFH9tXTuCPBWQBux+WWZv4dW3A+WQ5ucjHmAwG1DD2gAQjrcc
+ zAaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GV5dxA1+GZPu4gSUFYFoCs29DjvJayc5KvtKoh12SMc=;
- b=mvQD4pXeVFse9h5RPUQ6yhL1Wo5EuSATnJv0Rj0Isr/dZ5xI9OF9yTcc8JOWvA3fqF
- 1p14eaZa7bQf5eU2DGB2JsgufAiiI0mTEWuI/xQXbxbcwfDKJOx73CaAzkXWtvoiwfqW
- LYpycyU8svl0LDcB7q3I8+un98w9WP4Q+QzlModp5hQnM+t6Vl7Vydm5hE3VbmK/iMUe
- bnMdoPXXI2RdDfx+kljA23xShIM3wRvR5vzfGD/nJ52NtCSAD7O2DCcoKI0X+kYq62zQ
- 6T5TUSVY1Sp3R/ouZLBi4kdylkecaG0ndOvGcwVtOo6IzhGRW9vRuM3oQH585E8xcGn5
- UfJg==
-X-Gm-Message-State: ACrzQf0KSdCcS1vR8Yvdfq1cRX4eKkw/WXiLTvwTFGXmZVrjDswP6bkH
- xlQ2AM6s5w/XycRmSg0N8iJogQ==
-X-Google-Smtp-Source: AMsMyM6EAD2PBE0A4kQipVJt4c0sK70nF/IsABwaaGdixBoLpjUkwlZmcVvL5Su/3euxMwDKbjhndg==
-X-Received: by 2002:ac2:55b6:0:b0:4a4:6ec2:2a0e with SMTP id
- y22-20020ac255b6000000b004a46ec22a0emr13710913lfg.161.1666629755692; 
- Mon, 24 Oct 2022 09:42:35 -0700 (PDT)
+ bh=KVy70RbAb5ett3TY8nrG1+ECCokt9+y3K1O7eGbehtg=;
+ b=Qi+FvHpTGs8bXtxoU3bzT9GtXQR5pa5FEJG/iDdLBd3ABmpRMs7RGxj5U6C6RTxbHc
+ /CvsP2DV4tJJVomSbl2/s04BxyMN/eRwGAiembQBQIfiF3NrYUVMEdr5PX/ImSMfL89Q
+ 41TsHdBZn0P1MqIxwZzy+9hvCADRhzdW3HSO4jaUvqtmCcqAGI2gY4qc2o6pG+yfxfjQ
+ YDKXW0ueS5sedBtaiSdOgHTkpabz1Gf/dL/N1ZvDerLeiqNU9KZexDA+Lcp4kcZvd7Bs
+ 9Jtp7dvbkJEQQwliaBERvw7PO2b/7cO6OoNggd0NQNfzb5Xo1ZDDB6035/fs/euSUZN2
+ YGYQ==
+X-Gm-Message-State: ACrzQf0yIfJRNewaYLVYOGSx+Z9fKczIZhhjccVBP3PFDXCQPbxEAQ06
+ EegSgVnYEEBJHB/BP8eFDsAJmQ==
+X-Google-Smtp-Source: AMsMyM4f4Z5ARepEyv8QoGVoon7B0mkd5YsJs9/WMBKMxxhVCX0hsZEssIi1UXF8NEmBgTVAxyDL7Q==
+X-Received: by 2002:a05:6512:1092:b0:4a2:6a45:1f0d with SMTP id
+ j18-20020a056512109200b004a26a451f0dmr13017295lfg.483.1666629756369; 
+ Mon, 24 Oct 2022 09:42:36 -0700 (PDT)
 Received: from eriador.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- k14-20020ac2456e000000b004948378080csm4593978lfm.290.2022.10.24.09.42.34
+ k14-20020ac2456e000000b004948378080csm4593978lfm.290.2022.10.24.09.42.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 09:42:35 -0700 (PDT)
+ Mon, 24 Oct 2022 09:42:36 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -56,10 +56,10 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v9 11/12] dt-bindings: display/msm: add missing device nodes
- to mdss-* schemas
-Date: Mon, 24 Oct 2022 19:42:24 +0300
-Message-Id: <20221024164225.3236654-12-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v9 12/12] dt-bindings: display/msm: add support for the
+ display on SM8250
+Date: Mon, 24 Oct 2022 19:42:25 +0300
+Message-Id: <20221024164225.3236654-13-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221024164225.3236654-1-dmitry.baryshkov@linaro.org>
 References: <20221024164225.3236654-1-dmitry.baryshkov@linaro.org>
@@ -83,311 +83,193 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing device nodes (DSI, PHYs, DP/eDP) to the existing MDSS
-schemas.
+Add DPU and MDSS schemas to describe MDSS and DPU blocks on the Qualcomm
+SM8250 platform.
 
 Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../display/msm/qcom,msm8998-mdss.yaml        | 153 +++++++++
- .../display/msm/qcom,qcm2290-mdss.yaml        |  81 +++++
- .../display/msm/qcom,sc7180-mdss.yaml         | 179 +++++++++++
- .../display/msm/qcom,sc7280-mdss.yaml         | 292 ++++++++++++++++++
- .../display/msm/qcom,sdm845-mdss.yaml         | 153 +++++++++
- 5 files changed, 858 insertions(+)
+ .../bindings/display/msm/mdss-common.yaml     |   4 +-
+ .../bindings/display/msm/qcom,sm8250-dpu.yaml |  92 +++++
+ .../display/msm/qcom,sm8250-mdss.yaml         | 330 ++++++++++++++++++
+ 3 files changed, 424 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-index 192a832ef808..cf52ff77a41a 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-@@ -43,11 +43,24 @@ patternProperties:
-       compatible:
-         const: qcom,msm8998-dpu
+diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+index 2a476bd0215e..27d7242657b2 100644
+--- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
++++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+@@ -27,11 +27,11 @@ properties:
  
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,mdss-dsi-ctrl
-+
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,dsi-phy-10nm-8998
-+
- unevaluatedProperties: false
+   clocks:
+     minItems: 2
+-    maxItems: 3
++    maxItems: 4
  
- examples:
-   - |
-     #include <dt-bindings/clock/qcom,mmcc-msm8998.h>
-+    #include <dt-bindings/clock/qcom,rpmcc.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/power/qcom-rpmpd.h>
+   clock-names:
+     minItems: 2
+-    maxItems: 3
++    maxItems: 4
  
-@@ -111,5 +124,145 @@ examples:
-                 };
-             };
-         };
+   interrupts:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+new file mode 100644
+index 000000000000..9ff8a265c85f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+@@ -0,0 +1,92 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/qcom,sm8250-dpu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+        dsi@c994000 {
-+            compatible = "qcom,mdss-dsi-ctrl";
-+            reg = <0x0c994000 0x400>;
-+            reg-names = "dsi_ctrl";
++title: Qualcomm SM8250 Display DPU
 +
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
++maintainers:
++  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 +
-+            clocks = <&mmcc MDSS_BYTE0_CLK>,
-+                     <&mmcc MDSS_BYTE0_INTF_CLK>,
-+                     <&mmcc MDSS_PCLK0_CLK>,
-+                     <&mmcc MDSS_ESC0_CLK>,
-+                     <&mmcc MDSS_AHB_CLK>,
-+                     <&mmcc MDSS_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+            assigned-clocks = <&mmcc BYTE0_CLK_SRC>, <&mmcc PCLK0_CLK_SRC>;
-+            assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
++$ref: /schemas/display/msm/dpu-common.yaml#
 +
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmpd MSM8998_VDDCX>;
++properties:
++  compatible:
++    const: qcom,sm8250-dpu
 +
-+            phys = <&dsi0_phy>;
-+            phy-names = "dsi";
++  reg:
++    items:
++      - description: Address offset and size for mdp register set
++      - description: Address offset and size for vbif register set
 +
++  reg-names:
++    items:
++      - const: mdp
++      - const: vbif
++
++  clocks:
++    items:
++      - description: Display ahb clock
++      - description: Display hf axi clock
++      - description: Display core clock
++      - description: Display vsync clock
++
++  clock-names:
++    items:
++      - const: iface
++      - const: bus
++      - const: core
++      - const: vsync
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,dispcc-sm8250.h>
++    #include <dt-bindings/clock/qcom,gcc-sm8250.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interconnect/qcom,sm8250.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++
++    display-controller@ae01000 {
++        compatible = "qcom,sm8250-dpu";
++        reg = <0x0ae01000 0x8f000>,
++              <0x0aeb0000 0x2008>;
++        reg-names = "mdp", "vbif";
++
++        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                 <&gcc GCC_DISP_HF_AXI_CLK>,
++                 <&dispcc DISP_CC_MDSS_MDP_CLK>,
++                 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++        clock-names = "iface", "bus", "core", "vsync";
++
++        assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++        assigned-clock-rates = <19200000>;
++
++        operating-points-v2 = <&mdp_opp_table>;
++        power-domains = <&rpmhpd SM8250_MMCX>;
++
++        interrupt-parent = <&mdss>;
++        interrupts = <0>;
++
++        ports {
 +            #address-cells = <1>;
 +            #size-cells = <0>;
 +
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
++            port@0 {
++                reg = <0>;
++                endpoint {
++                    remote-endpoint = <&dsi0_in>;
 +                };
++            };
 +
-+                port@1 {
-+                    reg = <1>;
-+                    dsi0_out: endpoint {
-+                    };
++            port@1 {
++                reg = <1>;
++                endpoint {
++                    remote-endpoint = <&dsi1_in>;
 +                };
 +            };
 +        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
+new file mode 100644
+index 000000000000..0d3be5386b3f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
+@@ -0,0 +1,330 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/qcom,sm8250-mdss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+        dsi0_phy: phy@c994400 {
-+            compatible = "qcom,dsi-phy-10nm-8998";
-+            reg = <0x0c994400 0x200>,
-+                  <0x0c994600 0x280>,
-+                  <0x0c994a00 0x1e0>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
++title: Qualcomm SM8250 Display MDSS
 +
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
++maintainers:
++  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 +
-+            clocks = <&mmcc MDSS_AHB_CLK>,
-+                     <&rpmcc RPM_SMD_XO_CLK_SRC>;
-+            clock-names = "iface", "ref";
++description:
++  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
++  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
++  bindings of MDSS are mentioned for SM8250 target.
 +
-+            vdds-supply = <&pm8998_l1>;
-+        };
++$ref: /schemas/display/msm/mdss-common.yaml#
 +
-+        dsi@c996000 {
-+            compatible = "qcom,mdss-dsi-ctrl";
-+            reg = <0x0c996000 0x400>;
-+            reg-names = "dsi_ctrl";
++properties:
++  compatible:
++    items:
++      - const: qcom,sm8250-mdss
 +
-+            interrupt-parent = <&mdss>;
-+            interrupts = <5>;
++  clocks:
++    items:
++      - description: Display AHB clock from gcc
++      - description: Display hf axi clock
++      - description: Display sf axi clock
++      - description: Display core clock
 +
-+            clocks = <&mmcc MDSS_BYTE1_CLK>,
-+                     <&mmcc MDSS_BYTE1_INTF_CLK>,
-+                     <&mmcc MDSS_PCLK1_CLK>,
-+                     <&mmcc MDSS_ESC1_CLK>,
-+                     <&mmcc MDSS_AHB_CLK>,
-+                     <&mmcc MDSS_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+            assigned-clocks = <&mmcc BYTE1_CLK_SRC>, <&mmcc PCLK1_CLK_SRC>;
-+            assigned-clock-parents = <&dsi1_phy 0>, <&dsi1_phy 1>;
++  clock-names:
++    items:
++      - const: iface
++      - const: bus
++      - const: nrt_bus
++      - const: core
 +
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmpd MSM8998_VDDCX>;
++  iommus:
++    maxItems: 1
 +
-+            phys = <&dsi1_phy>;
-+            phy-names = "dsi";
++  interconnects:
++    maxItems: 2
 +
-+            #address-cells = <1>;
-+            #size-cells = <0>;
++  interconnect-names:
++    maxItems: 2
 +
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi1_in: endpoint {
-+                        remote-endpoint = <&dpu_intf2_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dsi1_out: endpoint {
-+                    };
-+                };
-+            };
-+        };
-+
-+        dsi1_phy: phy@c996400 {
-+            compatible = "qcom,dsi-phy-10nm-8998";
-+            reg = <0x0c996400 0x200>,
-+                  <0x0c996600 0x280>,
-+                  <0x0c996a00 0x10e>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&mmcc MDSS_AHB_CLK>,
-+                     <&rpmcc RPM_SMD_XO_CLK_SRC>;
-+            clock-names = "iface", "ref";
-+
-+            vdds-supply = <&pm8998_l1>;
-+        };
-     };
- ...
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-index 419989d6279e..d6f043a4b08d 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-@@ -49,12 +49,25 @@ patternProperties:
-       compatible:
-         const: qcom,qcm2290-dpu
- 
-+  "^dsi@[0-9a-f]+$":
++patternProperties:
++  "^display-controller@[0-9a-f]+$":
 +    type: object
 +    properties:
 +      compatible:
-+        const: qcom,dsi-ctrl-6g-qcm2290
-+
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,dsi-phy-14nm-2290
-+
- unevaluatedProperties: false
- 
- examples:
-   - |
-     #include <dt-bindings/clock/qcom,dispcc-qcm2290.h>
-     #include <dt-bindings/clock/qcom,gcc-qcm2290.h>
-+    #include <dt-bindings/clock/qcom,rpmcc.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/interconnect/qcom,qcm2290.h>
-     #include <dt-bindings/power/qcom-rpmpd.h>
-@@ -113,5 +126,73 @@ examples:
-                 };
-             };
-         };
-+
-+        dsi@5e94000 {
-+            compatible = "qcom,dsi-ctrl-6g-qcm2290";
-+            reg = <0x05e94000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&gcc GCC_DISP_HF_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>, <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+            assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
-+
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmpd QCM2290_VDDCX>;
-+
-+            phys = <&dsi0_phy>;
-+            phy-names = "dsi";
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dsi0_out: endpoint {
-+                    };
-+                };
-+            };
-+        };
-+
-+        dsi0_phy: phy@5e94400 {
-+            compatible = "qcom,dsi-phy-14nm-2290";
-+            reg = <0x05e94400 0x100>,
-+                  <0x05e94500 0x300>,
-+                  <0x05e94800 0x188>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>, <&rpmcc RPM_SMD_XO_CLK_SRC>;
-+            clock-names = "iface", "ref";
-+            vcca-supply = <&vreg_dsi_phy>;
-+        };
-     };
- ...
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-index 103cfd60c61b..13e396d61a51 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-@@ -49,12 +49,31 @@ patternProperties:
-       compatible:
-         const: qcom,sc7180-dpu
- 
-+  "^displayport-controller@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sc7180-dp
++        const: qcom,sm8250-dpu
 +
 +  "^dsi@[0-9a-f]+$":
 +    type: object
@@ -399,22 +281,110 @@ index 103cfd60c61b..13e396d61a51 100644
 +    type: object
 +    properties:
 +      compatible:
-+        const: qcom,dsi-phy-10nm
++        const: qcom,dsi-phy-7nm
 +
- unevaluatedProperties: false
- 
- examples:
-   - |
-     #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
-     #include <dt-bindings/clock/qcom,gcc-sc7180.h>
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,dispcc-sm8250.h>
++    #include <dt-bindings/clock/qcom,gcc-sm8250.h>
 +    #include <dt-bindings/clock/qcom,rpmh.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/interconnect/qcom,sdm845.h>
-     #include <dt-bindings/power/qcom-rpmpd.h>
-@@ -121,5 +140,165 @@ examples:
-                 };
-             };
-         };
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interconnect/qcom,sm8250.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++
++    display-subsystem@ae00000 {
++        compatible = "qcom,sm8250-mdss";
++        reg = <0x0ae00000 0x1000>;
++        reg-names = "mdss";
++
++        interconnects = <&mmss_noc MASTER_MDP_PORT0 &mc_virt SLAVE_EBI_CH0>,
++                        <&mmss_noc MASTER_MDP_PORT1 &mc_virt SLAVE_EBI_CH0>;
++        interconnect-names = "mdp0-mem", "mdp1-mem";
++
++        power-domains = <&dispcc MDSS_GDSC>;
++
++        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                 <&gcc GCC_DISP_HF_AXI_CLK>,
++                 <&gcc GCC_DISP_SF_AXI_CLK>,
++                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
++        clock-names = "iface", "bus", "nrt_bus", "core";
++
++        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-controller;
++        #interrupt-cells = <1>;
++
++        iommus = <&apps_smmu 0x820 0x402>;
++
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        display-controller@ae01000 {
++            compatible = "qcom,sm8250-dpu";
++            reg = <0x0ae01000 0x8f000>,
++                  <0x0aeb0000 0x2008>;
++            reg-names = "mdp", "vbif";
++
++            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                     <&gcc GCC_DISP_HF_AXI_CLK>,
++                     <&dispcc DISP_CC_MDSS_MDP_CLK>,
++                     <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++            clock-names = "iface", "bus", "core", "vsync";
++
++            assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++            assigned-clock-rates = <19200000>;
++
++            operating-points-v2 = <&mdp_opp_table>;
++            power-domains = <&rpmhpd SM8250_MMCX>;
++
++            interrupt-parent = <&mdss>;
++            interrupts = <0>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    dpu_intf1_out: endpoint {
++                        remote-endpoint = <&dsi0_in>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    dpu_intf2_out: endpoint {
++                        remote-endpoint = <&dsi1_in>;
++                    };
++                };
++            };
++
++            mdp_opp_table: opp-table {
++                compatible = "operating-points-v2";
++
++                opp-200000000 {
++                    opp-hz = /bits/ 64 <200000000>;
++                    required-opps = <&rpmhpd_opp_low_svs>;
++                };
++
++                opp-300000000 {
++                    opp-hz = /bits/ 64 <300000000>;
++                    required-opps = <&rpmhpd_opp_svs>;
++                };
++
++                opp-345000000 {
++                    opp-hz = /bits/ 64 <345000000>;
++                    required-opps = <&rpmhpd_opp_svs_l1>;
++                };
++
++                opp-460000000 {
++                    opp-hz = /bits/ 64 <460000000>;
++                    required-opps = <&rpmhpd_opp_nom>;
++                };
++            };
++        };
 +
 +        dsi@ae94000 {
 +            compatible = "qcom,mdss-dsi-ctrl";
@@ -437,13 +407,14 @@ index 103cfd60c61b..13e396d61a51 100644
 +                          "iface",
 +                          "bus";
 +
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>, <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+            assigned-clock-parents = <&dsi_phy 0>, <&dsi_phy 1>;
++            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
++                              <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
++            assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
 +
 +            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmhpd SC7180_CX>;
++            power-domains = <&rpmhpd SM8250_MMCX>;
 +
-+            phys = <&dsi_phy>;
++            phys = <&dsi0_phy>;
 +            phy-names = "dsi";
 +
 +            #address-cells = <1>;
@@ -483,508 +454,15 @@ index 103cfd60c61b..13e396d61a51 100644
 +                opp-358000000 {
 +                    opp-hz = /bits/ 64 <358000000>;
 +                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+            };
-+        };
-+
-+        dsi_phy: phy@ae94400 {
-+            compatible = "qcom,dsi-phy-10nm";
-+            reg = <0x0ae94400 0x200>,
-+                  <0x0ae94600 0x280>,
-+                  <0x0ae94a00 0x1e0>;
-+            reg-names = "dsi_phy",
-+                    "dsi_phy_lane",
-+                    "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                 <&rpmhcc RPMH_CXO_CLK>;
-+            clock-names = "iface", "ref";
-+            vdds-supply = <&vreg_dsi_phy>;
-+        };
-+
-+        displayport-controller@ae90000 {
-+            compatible = "qcom,sc7180-dp";
-+
-+            reg = <0xae90000 0x200>,
-+                  <0xae90200 0x200>,
-+                  <0xae90400 0xc00>,
-+                  <0xae91000 0x400>,
-+                  <0xae91400 0x400>;
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <12>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+            clock-names = "core_iface", "core_aux", "ctrl_link",
-+                          "ctrl_link_iface", "stream_pixel";
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+            assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
-+            phys = <&dp_phy>;
-+            phy-names = "dp";
-+
-+            operating-points-v2 = <&dp_opp_table>;
-+            power-domains = <&rpmhpd SC7180_CX>;
-+
-+            #sound-dai-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                port@0 {
-+                    reg = <0>;
-+                    dp_in: endpoint {
-+                        remote-endpoint = <&dpu_intf0_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dp_out: endpoint { };
-+                };
-+            };
-+
-+            dp_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-160000000 {
-+                    opp-hz = /bits/ 64 <160000000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-+                };
-+
-+                opp-270000000 {
-+                    opp-hz = /bits/ 64 <270000000>;
-+                    required-opps = <&rpmhpd_opp_svs>;
-+                };
-+
-+                opp-540000000 {
-+                    opp-hz = /bits/ 64 <540000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+
-+                opp-810000000 {
-+                    opp-hz = /bits/ 64 <810000000>;
-+                    required-opps = <&rpmhpd_opp_nom>;
-+                };
-+            };
-+        };
-     };
- ...
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-index d4ac2d5d13fb..a3de1744ba11 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-@@ -48,12 +48,39 @@ patternProperties:
-       compatible:
-         const: qcom,sc7280-dpu
- 
-+  "^displayport-controller@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sc7280-dp
-+
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,mdss-dsi-ctrl
-+
-+  "^edp@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sc7280-edp
-+
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        enum:
-+          - qcom,sc7280-dsi-phy-7nm
-+          - qcom,sc7280-edp-phy
-+
- unevaluatedProperties: false
- 
- examples:
-   - |
-     #include <dt-bindings/clock/qcom,dispcc-sc7280.h>
-     #include <dt-bindings/clock/qcom,gcc-sc7280.h>
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/interconnect/qcom,sc7280.h>
-     #include <dt-bindings/power/qcom-rpmpd.h>
-@@ -124,6 +151,271 @@ examples:
-                         remote-endpoint = <&edp_in>;
-                     };
-                 };
-+
-+                port@2 {
-+                    reg = <2>;
-+                    dpu_intf0_out: endpoint {
-+                        remote-endpoint = <&dp_in>;
-+                    };
-+                };
-+            };
-+        };
-+
-+        dsi@ae94000 {
-+            compatible = "qcom,mdss-dsi-ctrl";
-+            reg = <0x0ae94000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&gcc GCC_DISP_HF_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+            assigned-clock-parents = <&mdss_dsi_phy 0>, <&mdss_dsi_phy 1>;
-+
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmhpd SC7280_CX>;
-+
-+            phys = <&mdss_dsi_phy>;
-+            phy-names = "dsi";
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dsi0_out: endpoint {
-+                    };
-+                };
-+            };
-+
-+            dsi_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-187500000 {
-+                    opp-hz = /bits/ 64 <187500000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-+                };
-+
-+                opp-300000000 {
-+                    opp-hz = /bits/ 64 <300000000>;
-+                    required-opps = <&rpmhpd_opp_svs>;
-+                };
-+
-+                opp-358000000 {
-+                    opp-hz = /bits/ 64 <358000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+            };
-+        };
-+
-+        mdss_dsi_phy: phy@ae94400 {
-+            compatible = "qcom,sc7280-dsi-phy-7nm";
-+            reg = <0x0ae94400 0x200>,
-+                  <0x0ae94600 0x280>,
-+                  <0x0ae94900 0x280>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&rpmhcc RPMH_CXO_CLK>;
-+            clock-names = "iface", "ref";
-+
-+            vdds-supply = <&vreg_dsi_supply>;
-+        };
-+
-+        edp@aea0000 {
-+            compatible = "qcom,sc7280-edp";
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&edp_hot_plug_det>;
-+
-+            reg = <0xaea0000 0x200>,
-+                  <0xaea0200 0x200>,
-+                  <0xaea0400 0xc00>,
-+                  <0xaea1000 0x400>;
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <14>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&dispcc DISP_CC_MDSS_EDP_AUX_CLK>,
-+                     <&dispcc DISP_CC_MDSS_EDP_LINK_CLK>,
-+                     <&dispcc DISP_CC_MDSS_EDP_LINK_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK>;
-+            clock-names = "core_iface",
-+                          "core_aux",
-+                          "ctrl_link",
-+                          "ctrl_link_iface",
-+                          "stream_pixel";
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_EDP_LINK_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK_SRC>;
-+            assigned-clock-parents = <&mdss_edp_phy 0>, <&mdss_edp_phy 1>;
-+
-+            phys = <&mdss_edp_phy>;
-+            phy-names = "dp";
-+
-+            operating-points-v2 = <&edp_opp_table>;
-+            power-domains = <&rpmhpd SC7280_CX>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    edp_in: endpoint {
-+                        remote-endpoint = <&dpu_intf5_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    mdss_edp_out: endpoint { };
-+                };
-+            };
-+
-+            edp_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-160000000 {
-+                    opp-hz = /bits/ 64 <160000000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-+                };
-+
-+                opp-270000000 {
-+                    opp-hz = /bits/ 64 <270000000>;
-+                    required-opps = <&rpmhpd_opp_svs>;
-+                };
-+
-+                opp-540000000 {
-+                    opp-hz = /bits/ 64 <540000000>;
-+                    required-opps = <&rpmhpd_opp_nom>;
-+                };
-+
-+                opp-810000000 {
-+                    opp-hz = /bits/ 64 <810000000>;
-+                    required-opps = <&rpmhpd_opp_nom>;
-+                };
-+            };
-+        };
-+
-+        mdss_edp_phy: phy@aec2a00 {
-+            compatible = "qcom,sc7280-edp-phy";
-+
-+            reg = <0xaec2a00 0x19c>,
-+                  <0xaec2200 0xa0>,
-+                  <0xaec2600 0xa0>,
-+                  <0xaec2000 0x1c0>;
-+
-+            clocks = <&rpmhcc RPMH_CXO_CLK>,
-+                     <&gcc GCC_EDP_CLKREF_EN>;
-+            clock-names = "aux",
-+                          "cfg_ahb";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+        };
-+
-+        displayport-controller@ae90000 {
-+            compatible = "qcom,sc7280-dp";
-+
-+            reg = <0xae90000 0x200>,
-+                  <0xae90200 0x200>,
-+                  <0xae90400 0xc00>,
-+                  <0xae91000 0x400>,
-+                  <0xae91400 0x400>;
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <12>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+            clock-names = "core_iface",
-+                          "core_aux",
-+                          "ctrl_link",
-+                          "ctrl_link_iface",
-+                          "stream_pixel";
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+            assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
-+            phys = <&dp_phy>;
-+            phy-names = "dp";
-+
-+            operating-points-v2 = <&dp_opp_table>;
-+            power-domains = <&rpmhpd SC7280_CX>;
-+
-+            #sound-dai-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dp_in: endpoint {
-+                        remote-endpoint = <&dpu_intf0_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dp_out: endpoint { };
-+                };
-+            };
-+
-+            dp_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-160000000 {
-+                    opp-hz = /bits/ 64 <160000000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-+                };
-+
-+                opp-270000000 {
-+                    opp-hz = /bits/ 64 <270000000>;
-+                    required-opps = <&rpmhpd_opp_svs>;
-+                };
-+
-+                opp-540000000 {
-+                    opp-hz = /bits/ 64 <540000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+
-+                opp-810000000 {
-+                    opp-hz = /bits/ 64 <810000000>;
-+                    required-opps = <&rpmhpd_opp_nom>;
-+                };
-             };
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-index 47fe66f4da54..31ca6f99fc22 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-@@ -47,12 +47,25 @@ patternProperties:
-       compatible:
-         const: qcom,sdm845-dpu
- 
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,mdss-dsi-ctrl
-+
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,dsi-phy-10nm
-+
- unevaluatedProperties: false
- 
- examples:
-   - |
-     #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
-     #include <dt-bindings/clock/qcom,gcc-sdm845.h>
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/power/qcom-rpmpd.h>
- 
-@@ -113,5 +126,145 @@ examples:
-                 };
-             };
-         };
-+
-+        dsi@ae94000 {
-+            compatible = "qcom,mdss-dsi-ctrl";
-+            reg = <0x0ae94000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+            assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
-+
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmhpd SDM845_CX>;
-+
-+            phys = <&dsi0_phy>;
-+            phy-names = "dsi";
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dsi0_out: endpoint {
-+                    };
 +                };
 +            };
 +        };
 +
 +        dsi0_phy: phy@ae94400 {
-+            compatible = "qcom,dsi-phy-10nm";
++            compatible = "qcom,dsi-phy-7nm";
 +            reg = <0x0ae94400 0x200>,
 +                  <0x0ae94600 0x280>,
-+                  <0x0ae94a00 0x1e0>;
++                  <0x0ae94900 0x260>;
 +            reg-names = "dsi_phy",
 +                        "dsi_phy_lane",
 +                        "dsi_pll";
@@ -1011,19 +489,20 @@ index 47fe66f4da54..31ca6f99fc22 100644
 +                     <&dispcc DISP_CC_MDSS_PCLK1_CLK>,
 +                     <&dispcc DISP_CC_MDSS_ESC1_CLK>,
 +                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AXI_CLK>;
++                     <&gcc GCC_DISP_HF_AXI_CLK>;
 +            clock-names = "byte",
 +                          "byte_intf",
 +                          "pixel",
 +                          "core",
 +                          "iface",
 +                          "bus";
++
 +            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>,
 +                              <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
 +            assigned-clock-parents = <&dsi1_phy 0>, <&dsi1_phy 1>;
 +
 +            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmhpd SDM845_CX>;
++            power-domains = <&rpmhpd SM8250_MMCX>;
 +
 +            phys = <&dsi1_phy>;
 +            phy-names = "dsi";
@@ -1051,10 +530,10 @@ index 47fe66f4da54..31ca6f99fc22 100644
 +        };
 +
 +        dsi1_phy: phy@ae96400 {
-+            compatible = "qcom,dsi-phy-10nm";
++            compatible = "qcom,dsi-phy-7nm";
 +            reg = <0x0ae96400 0x200>,
 +                  <0x0ae96600 0x280>,
-+                  <0x0ae96a00 0x10e>;
++                  <0x0ae96900 0x260>;
 +            reg-names = "dsi_phy",
 +                        "dsi_phy_lane",
 +                        "dsi_pll";
@@ -1067,8 +546,8 @@ index 47fe66f4da54..31ca6f99fc22 100644
 +            clock-names = "iface", "ref";
 +            vdds-supply = <&vreg_dsi_phy>;
 +        };
-     };
- ...
++    };
++...
 -- 
 2.35.1
 
