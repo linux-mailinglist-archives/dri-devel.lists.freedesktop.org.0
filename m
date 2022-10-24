@@ -2,59 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E20160BD79
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 00:34:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480F560BDF5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 00:55:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C36C10E080;
-	Mon, 24 Oct 2022 22:34:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74D0B10E05E;
+	Mon, 24 Oct 2022 22:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 104F310E080;
- Mon, 24 Oct 2022 22:34:07 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-13ae8117023so13535102fac.9; 
- Mon, 24 Oct 2022 15:34:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=WEZlKPYChGQr1+VGAAt6W/HLpia5/ZeW0QQ5/N5bwR0=;
- b=dW6LySjisQk//shmQcl7lUzXTj1nVF9WlPTS7i6LkISArKQSeQKwK18PPNx2JEsCfV
- +0yr+7G+kJTwA1c8lqdkn4biKDpZWTsH1+8WQw4HrV71awfl0H+O070JALvJGK0v2xh2
- dCOii3AQ2ysH6VDzv5WUnka79Lz1loNtqyUj+J2wms+7sNnFHH+mZBibFQM2+hSzWgpa
- /ACraTdetdXfCX69CNC908LLgqrfob60Ont5WC197a0DL06uO2xU8sHdqYnbs6BVs4Ci
- +puZO9qBYGB3JwSHjLMWyrjX52p3H7U5Z88ICz0d5HEeHWpPLTT6qvgCWcV3yiKn882z
- 5M3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WEZlKPYChGQr1+VGAAt6W/HLpia5/ZeW0QQ5/N5bwR0=;
- b=4tzk6ZvG5zdOSdDfdbmtWGXTVspTCq6hYbky+NUgCvJ74p8d3f9Er0+6XKNISoD5/A
- GP9+VWVFQCwDqA1xtUNOM4mnaU+yVckSBjy0W75omz4g1wh18sku00kMWqviRsRCvlma
- UDt8iDc7zzP/kwo7Cwi0eiki/pmPDD507kI/QYp3yOEPObeV2mhAZGOxknR39WH0FxiY
- 8wOSoZK1U+bF1KymVDKyS56O9UHBbV3tSjCu+xgv4dJXJeVmwCG+OZFeIuv5VVXK2lb8
- ch9iIXX86m8kVbd9Dr+MYyrA+YrJ9UokAdAvcd+YowJHDlXKZfkdUt8td2KBCRJ2cikl
- g3RA==
-X-Gm-Message-State: ACrzQf3efFMPnp+sLR5znBTt47WjQNASfcHIeZ6YYUSdSaTewA/xWmC6
- wWfqA6rTxI+8U501g7ffNnQVZVIAIDQPI9bo/NE=
-X-Google-Smtp-Source: AMsMyM5S3puKmXs+dNgDJ9sW/bgFwo+QT8mbJCuoqMrSpTojL+qxBiFfkuQW2TTs9sYvjk5HkEJjbAHOIqpfjY9AVG4=
-X-Received: by 2002:a05:6871:6a4:b0:13b:a056:f97f with SMTP id
- l36-20020a05687106a400b0013ba056f97fmr5103622oao.38.1666650846113; Mon, 24
- Oct 2022 15:34:06 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E16210E05E;
+ Mon, 24 Oct 2022 22:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666652125; x=1698188125;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1A3eKDsU3LhgqsTueV17cTFF9fwFU5tkguGLGKLnlKQ=;
+ b=AdzQc4x1hBa5mCtMOcX3MkHLKLrvgLKY5xK1MjzES9SAba7soq9GqUw1
+ nSEV3JPzm9LYMqzP48EPuW8GhJBD3zS2byafI3ZLlMU2e6uh1R8BcRyfp
+ N4AEeh6d7QGQ4FyYGv9+P0KW2rGlg/Dbhy5MRLOoggGsY2Mor+VzEMHq3
+ jUWCXv8VKWZXaqmBC6l3S65GDptpETDIgVMXZzFcniGcox7co+9ga6MNn
+ kHsxWCkWXit965JjRggfUvURi6J6OMyGuNrKcJpYrz/KLI9SdjC65O4On
+ O4d63+WqQpZYRM8PVDTP1+nF7UBGltMBHf2WRAbGcknViOH61wmSR8hS4 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="307532215"
+X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="307532215"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 15:55:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609362912"
+X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="609362912"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by orsmga006.jf.intel.com with ESMTP; 24 Oct 2022 15:55:23 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v4] drm/i915/slpc: Use platform limits for min/max frequency
+Date: Mon, 24 Oct 2022 15:54:53 -0700
+Message-Id: <20221024225453.4856-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 24 Oct 2022 15:34:15 -0700
-Message-ID: <CAF6AEGveadezhqm=Sra7Jq4A3tFAp_eBmKKOoHLnapN03pVoLw@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2022-10-24 for v6.1-rc3
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,84 +55,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Riana Tauro <riana.tauro@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+GuC will set the min/max frequencies to theoretical max on
+ATS-M. This will break kernel ABI, so limit min/max frequency
+to RP0(platform max) instead.
 
-A few fixes for the v6.1 cycle.  Summary below.
+Also modify the SLPC selftest to update the min frequency
+when we have a server part so that we can iterate between
+platform min and max.
 
-The following changes since commit e8b595f7b058c7909e410f3e0736d95e8f909d01:
+v2: Check softlimits instead of platform limits (Riana)
+v3: More review comments (Ashutosh)
+v4: No need to use saved_min_freq and other comments (Ashutosh)
 
-  drm/msm/hdmi: make hdmi_phy_8996 OF clk provider (2022-09-18 09:38:07 -0700)
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7030
 
-are available in the Git repository at:
+Acked-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Riana Tauro <riana.tauro@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_slpc.c       | 20 +++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 37 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  2 +
+ .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  3 ++
+ 4 files changed, 53 insertions(+), 9 deletions(-)
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2022-10-24
+diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+index 4c6e9257e593..82ec95a299f6 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
++++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+@@ -239,6 +239,11 @@ static int run_test(struct intel_gt *gt, int test_type)
+ 	if (!intel_uc_uses_guc_slpc(&gt->uc))
+ 		return 0;
+ 
++	if (slpc->min_freq == slpc->rp0_freq) {
++		pr_err("Min/Max are fused to the same value\n");
++		return -EINVAL;
++	}
++
+ 	if (igt_spinner_init(&spin, gt))
+ 		return -ENOMEM;
+ 
+@@ -253,17 +258,14 @@ static int run_test(struct intel_gt *gt, int test_type)
+ 	}
+ 
+ 	/*
+-	 * FIXME: With efficient frequency enabled, GuC can request
+-	 * frequencies higher than the SLPC max. While this is fixed
+-	 * in GuC, we level set these tests with RPn as min.
++	 * Set min frequency to RPn so that we can test the whole
++	 * range of RPn-RP0. This also turns off efficient freq
++	 * usage and makes results more predictable.
+ 	 */
+ 	err = slpc_set_min_freq(slpc, slpc->min_freq);
+-	if (err)
++	if (err) {
++		pr_err("Unable to update min freq!");
+ 		return err;
+-
+-	if (slpc->min_freq == slpc->rp0_freq) {
+-		pr_err("Min/Max are fused to the same value\n");
+-		return -EINVAL;
+ 	}
+ 
+ 	intel_gt_pm_wait_for_idle(gt);
+@@ -330,7 +332,7 @@ static int run_test(struct intel_gt *gt, int test_type)
+ 				engine->name, max_act_freq);
+ 
+ 			/* Actual frequency should rise above min */
+-			if (max_act_freq <= slpc_min_freq) {
++			if (max_act_freq <= slpc->min_freq) {
+ 				pr_err("Actual freq did not rise above min\n");
+ 				pr_err("Perf Limit Reasons: 0x%x\n",
+ 				       intel_uncore_read(gt->uncore, GT0_PERF_LIMIT_REASONS));
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+index fdd895f73f9f..c7e568af1e9c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+@@ -263,6 +263,7 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+ 
+ 	slpc->max_freq_softlimit = 0;
+ 	slpc->min_freq_softlimit = 0;
++	slpc->min_is_rpmax = false;
+ 
+ 	slpc->boost_freq = 0;
+ 	atomic_set(&slpc->num_waiters, 0);
+@@ -588,6 +589,39 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
+ 	return 0;
+ }
+ 
++static bool is_slpc_min_freq_rpmax(struct intel_guc_slpc *slpc)
++{
++	struct drm_i915_private *i915 = slpc_to_i915(slpc);
++	int slpc_min_freq;
++	int ret;
++
++	ret = intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq);
++	if (ret) {
++		drm_err(&i915->drm,
++			"Failed to get min freq: (%d)\n",
++			ret);
++		return false;
++	}
++
++	if (slpc_min_freq == SLPC_MAX_FREQ_MHZ)
++		return true;
++	else
++		return false;
++}
++
++static void update_server_min_softlimit(struct intel_guc_slpc *slpc)
++{
++	/* For server parts, SLPC min will be at RPMax.
++	 * Use min softlimit to clamp it to RP0 instead.
++	 */
++	if (!slpc->min_freq_softlimit &&
++	    is_slpc_min_freq_rpmax(slpc)) {
++		slpc->min_is_rpmax = true;
++		slpc->min_freq_softlimit = slpc->rp0_freq;
++		(slpc_to_gt(slpc))->defaults.min_freq = slpc->min_freq_softlimit;
++	}
++}
++
+ static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
+ {
+ 	/* Force SLPC to used platform rp0 */
+@@ -647,6 +681,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+ 
+ 	slpc_get_rp_values(slpc);
+ 
++	/* Handle the case where min=max=RPmax */
++	update_server_min_softlimit(slpc);
++
+ 	/* Set SLPC max limit to RP0 */
+ 	ret = slpc_use_fused_rp0(slpc);
+ 	if (unlikely(ret)) {
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+index 82a98f78f96c..11975a31c9d0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+@@ -9,6 +9,8 @@
+ #include "intel_guc_submission.h"
+ #include "intel_guc_slpc_types.h"
+ 
++#define SLPC_MAX_FREQ_MHZ 4250
++
+ struct intel_gt;
+ struct drm_printer;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+index 73d208123528..a6ef53b04e04 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+@@ -19,6 +19,9 @@ struct intel_guc_slpc {
+ 	bool supported;
+ 	bool selected;
+ 
++	/* Indicates this is a server part */
++	bool min_is_rpmax;
++
+ 	/* platform frequency limits */
+ 	u32 min_freq;
+ 	u32 rp0_freq;
+-- 
+2.35.1
 
-for you to fetch changes up to e0e86f25fd469ca76c1b50091372aed1ff99ca1a:
-
-  drm/msm: Kconfig: Fix spelling mistake "throught" -> "through"
-(2022-10-14 09:33:12 -0700)
-
-----------------------------------------------------------------
-msm-fixes for v6.1
-
-- Fix shrinker deadlock
-- Fix crash during suspend after unbind
-- Fix IRQ lifetime issues
-- Fix potential memory corruption with too many bridges
-- Fix memory corruption on GPU state capture
-
-----------------------------------------------------------------
-Aashish Sharma (1):
-      drm/msm: Remove redundant check for 'submit'
-
-Akhil P Oommen (2):
-      drm/msm/a6xx: Replace kcalloc() with kvzalloc()
-      drm/msm/gpu: Fix crash during system suspend after unbind
-
-Colin Ian King (1):
-      drm/msm: Kconfig: Fix spelling mistake "throught" -> "through"
-
-Johan Hovold (8):
-      drm/msm: fix use-after-free on probe deferral
-      drm/msm/dp: fix memory corruption with too many bridges
-      drm/msm/dsi: fix memory corruption with too many bridges
-      drm/msm/hdmi: fix memory corruption with too many bridges
-      drm/msm/dp: fix IRQ lifetime
-      drm/msm/dp: fix aux-bus EP lifetime
-      drm/msm/dp: fix bridge lifetime
-      drm/msm/hdmi: fix IRQ lifetime
-
-Kuogee Hsieh (2):
-      drm/msm/dp: add atomic_check to bridge ops
-      drm/msm/dp: cleared DP_DOWNSPREAD_CTRL register before start link training
-
-Nathan Huckleberry (1):
-      drm/msm: Fix return type of mdp4_lvds_connector_mode_valid
-
-Rob Clark (4):
-      drm/msm/gem: Unpin objects slightly later
-      drm/msm/a6xx: Fix kvzalloc vs state_kcalloc usage
-      drm/msm/a6xx: Skip snapshotting unused GMU buffers
-      drm/msm/a6xx: Remove state objects from list before freeing
-
- drivers/gpu/drm/msm/Kconfig                        |  2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        | 14 +++++++--
- drivers/gpu/drm/msm/adreno/adreno_device.c         | 10 ++++++-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  7 ++++-
- .../gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c    |  5 ++--
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 13 ++++-----
- drivers/gpu/drm/msm/dp/dp_display.c                | 23 +++++++++++++--
- drivers/gpu/drm/msm/dp/dp_drm.c                    | 34 ++++++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_parser.c                 |  6 ++--
- drivers/gpu/drm/msm/dp/dp_parser.h                 |  5 ++--
- drivers/gpu/drm/msm/dsi/dsi.c                      |  6 ++++
- drivers/gpu/drm/msm/hdmi/hdmi.c                    |  7 ++++-
- drivers/gpu/drm/msm/msm_drv.c                      |  1 +
- drivers/gpu/drm/msm/msm_gem_submit.c               |  9 +++---
- drivers/gpu/drm/msm/msm_gpu.c                      |  2 ++
- drivers/gpu/drm/msm/msm_gpu.h                      |  4 +++
- drivers/gpu/drm/msm/msm_ringbuffer.c               |  3 +-
- 17 files changed, 120 insertions(+), 31 deletions(-)
