@@ -2,140 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C5760B88D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 21:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8C060B91E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 22:04:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2274610E78D;
-	Mon, 24 Oct 2022 19:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2C0910E068;
+	Mon, 24 Oct 2022 20:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 344E710E787;
- Mon, 24 Oct 2022 19:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666641044; x=1698177044;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=ry7QxIab6r6maYx3wgQ1yO5AWpXIjDjX22jzHEtSg6Y=;
- b=d3qThHLhTqESWXZfKWYQ07W1KitkDfVLdRli2XiqiH4T+IFwM5M0PJxy
- Enc8D/I8goPCJ1cOWfrpMSotFzRvIUl8RzPPQmu9z+3zBqdnPysy+pkwZ
- aHT2ItdLmvUft69QfwAff6jrrpFR1N97PqvwwVMmSdBvRVx2RtdjXa0et
- lnmXQ4qms098jDQgsDpeXmd+OBLgAQeklGnUhX3Wdy8tt/tfjt71v55pt
- Yr4MncPNdcfCagmPd5xzGTyV/eap8u8LUzNBv1dnPYp1vr5bUWy76Snsb
- g/U6Hmje+GHzEvRNywxktAoItROqVfL5tz4nQ4ZAWlu8xDrezJvCfcn8o w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="393823453"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="393823453"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 12:50:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="582523229"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="582523229"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga003.jf.intel.com with ESMTP; 24 Oct 2022 12:50:43 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 24 Oct 2022 12:50:42 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 24 Oct 2022 12:50:42 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 24 Oct 2022 12:50:42 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 24 Oct 2022 12:50:42 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2057.outbound.protection.outlook.com [40.107.94.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49C3B10E068
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 20:03:53 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iMozpx+9B6xZfG8Tk8UwZ5zgcxTFtxLS73ZShrxZ1Paysjf7A11bCCJH1QSB81QRYk6VkuDclCOG+aR0mGkM6RHbnAzyf7s0pAskZsEeiCpNXbq7dExv1hqHj6SXnOROHHRbFzqSvxkIq7bQeeWw4SWlUHG/S1m5uGdG3rXWqDPhjkNYHJzzdtzGjJn7tk/o3OZZJ8wGO+h/n2wJKZyfEalY3c9TccaDzo5MOTG/oN3iQcEepmrYjQmsvb5KOCyM9wOZCvODRYxgGTa7f7DimkF79LNRtLk0rWXTClx6naNsvihr0GxXgqSSRrxpGgaO6z4932qhBp2ZjdweDuSZ8Q==
+ b=K1rfWaiQCEyh3qDlpkauenZF/kM3JtinOhJioog6IUrDoDerFAtpye7j3fj9I4nx06tf3Qv8B5lSldUfFcsa71FH8ngz3rsvpvZEqf3wYUuct9pT7euuKUOUtF4yENETuUX9J4tgHZXIgbzidTuwMPiS594kQGN3jOOSRsKGHTQAhdVjN6KccIEUI4xKKFfMIJWZHmu0RGtzPm2uzp+xVY2T8m7DxWPIcGAfx70E7FgiE3DuBk/9Mdh3op1aXPcNVau569M4MpqNlDKf//7ieJb9sgP++kGb8DJBWPpIdCylA4xWjd4o7aTb/A/wR5ElOvdnDRgwDmTmFG0vSlCWXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cNg945xbr6+AnfI8e1x+hQ1DypqiFnp3XL5Wg0l2WuA=;
- b=oCydb06kxgm5t6mkM8HPuKzjkzo8RzosZZAX1FrkBud91bVzqM9vc//3uJJRAo+C0NKqtNrD0Nq8o6cTI/ojUAre/PnB8ZBV8YrSwPcdHvbCJT2FC6gGQ1ZgPKDFy7KFqJw+IHMbLmwus5CAdSJdHfISa3btcQfDbfmVwI6uBMetZ1lZYqUOUMQpLgBfN0qdSOsyz0ZaCVsUTgOVJt0XK0cagC2hYQKCVYKJdIwurzj+/GNNpLlEVARR5IQI/oyiX2IWdiapYH4Isde24lowAH5ssrxS2mzwlCRCWLv2qf3AHZYKN3na/Kgc+DhzbWHnrMXawZpcghQuuESSoBXmiQ==
+ bh=fzezkIs0ZeTr3pzPyda8joNw4wPjFPH/47uRD8AIsCI=;
+ b=jiBG8vrAmAYGxIhs88hMLVlVGhLvC7aTLC2j4ZMmiBNHOZipUACPz4lYQzedm2mHggJTNB7Bhw/MKkhCZu+uiYWapCFQh/NyGjS8yujRNHvWfldYTpjYkl32/lBeXQ+UN3cqaIBpEfVCAbWwKjL/BnvAFbYYkydUmjbBULSvxNNoX4n85yyPkDW06mJ4owmYQHotH95NpgajK2hvx+nG1gMtVNW1wfYsdLuU0rKS7RoUxaw6GAqO82MJZBeitOtl+jsOeTvyXMILZrhZabrScZ23tqXstrXb/xYprpTIKys9UChez1Ac8a7UFGTL8Ow5pTJ76jJYqgg1mDYRU5qGSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fzezkIs0ZeTr3pzPyda8joNw4wPjFPH/47uRD8AIsCI=;
+ b=G46UFAL/BPX7X7LMSjiG6G6oXOivZNtWOw4QWIF/4UCjFkb3xEUa5DpbTD0/fHhf7D7XisKyXWGtO4J5UZ0Cc2iKsuGtGq+je8++3v9PnGVadj2F8DwYGqaS52d2r+l4IfBfVyH1LBHnz/Ot5RCxrvzQatyD+66EozyIMl3mdlY=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by DM6PR11MB4530.namprd11.prod.outlook.com (2603:10b6:5:2a4::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Mon, 24 Oct
- 2022 19:50:40 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::29e1:56c3:823b:45d]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::29e1:56c3:823b:45d%4]) with mapi id 15.20.5746.023; Mon, 24 Oct 2022
- 19:50:40 +0000
-Date: Mon, 24 Oct 2022 15:50:36 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Subject: Re: [PATCH 5/5] drm/i915/mtl: C6 residency and C state type for MTL
- SAMedia
-Message-ID: <Y1bsjGJeLmHdZeFU@intel.com>
-References: <20221024191313.3840311-1-ashutosh.dixit@intel.com>
- <20221024191313.3840311-6-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221024191313.3840311-6-ashutosh.dixit@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0053.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::28) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ CH2PR12MB4940.namprd12.prod.outlook.com (2603:10b6:610:65::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5746.27; Mon, 24 Oct 2022 20:03:51 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
+ 20:03:51 +0000
+Message-ID: <b869a105-94b9-037a-6a84-f0876e952693@amd.com>
+Date: Mon, 24 Oct 2022 16:03:48 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [RFC PATCH] drm/scheduler: Set the FIFO schedulig policy as the
+ default
+Content-Language: en-CA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+References: <20221022010945.95560-1-luben.tuikov@amd.com>
+ <cc300dfb-93dd-9bdf-540a-07a3891d863e@amd.com>
+ <66d383ed-dbb1-ce8b-5eaa-2600982aa6e6@amd.com>
+ <09b24703-91e9-502a-4136-d7db193f69c3@amd.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+In-Reply-To: <09b24703-91e9-502a-4136-d7db193f69c3@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT3PR01CA0145.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:83::14) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM6PR11MB4530:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1461cb99-0248-4b76-552f-08dab5f90774
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|CH2PR12MB4940:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7420ddab-eec8-4b15-85fa-08dab5fadec5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cMzt/ccugJUMKsU6iXbmdzV2JXapHaGbUT15saME9k9BnOzBCrsCszBNmOf3Zqa6OWyg6UaKBEa436+1zGh1l/PJhTiOR7PYye6D2AVgFWJTKTyUNxUm1YZ2Ga5oGlDCPgnLyOdb0wELMiro/RDzstU5xBxSwEo25ZmzvroYJ1FNsbpQjqU9EdGuHYef3+j68A/Z+I1rr4Ih+JpJnE6dPRNwtCXWqDgbwOEzSEsPbQNLL1gMyPjScvJzGXoO5ZcS6d/rF3wbASDjAgQERTh2B52uf1bU+7doiTT7n/x5PlI1iUF2ytE3FOSpkvLgfpUcfAFV4vchD/yqZ7q1VBuGNtAsP4BjcWH59v0ZtPddLSnwxv/QJ33HO8HUpqjrSSbmQ/+uEkyQyzzHi+Dtxfq+qOUF2fu9xtbJenEh5xB8ieth20txtCvU4Gs7CDO5HzDOrEaC27F9UwMQgvjlszSiHFVN8MB2kb0mQZ9mmcjd824c+w7GGFMDF3Qmns28QaQNz/RqO6ehcn8Wz2xDF3T8P9JOncMXMFIf9SS3kPORyGHFqjgNzsBNHJcYr3I4Rplza5Tv/5kKcQ7oAqJT60vdur+yiFYbP/X5N5qniBIcX+bHdKRYKbPJAL35V1HLYmzv6rLiy7faBh2Dc06WLPjYWMRSNj9vfuOdvmk7dwR2W8WK7pL8aEYq6HZRV8ZdiQcpUfoq8DAtSm89WGz3LN2e2g==
+X-Microsoft-Antispam-Message-Info: Ro6eE9jhAtC2Qzh2UMJmBCp/5ye3L/q7iKmu+cZXcsAfYbNv3nDsgeTupxGLQ1btYRBACozsx9PryrGIpphHbOO/vqiglMvLaN5Dguqmv67Xam4sf63msrvfKFyzlvUgjtvYMdriVkO2+9WSkplSFAbjs7csCwO9eeiubFWVnCpoCP3nkEnEPM27lLCWGClL7UxV/dzzJv2bPQKNvmKAaYnwjbeXLm51sv8gSH4bhIcCfhmFLVux8+OCBarGedvYezwMfytwu/o/x2vWLb9/YtD+Lj4i6jQs6rgYM9RW+XLGfHkLST/bgd+zmYJi7SABK/LdTn9ibJ2Au98/dvN1xtu1rxNtIXQVdw5C6nzHBosZWCVD/nk7OX6/iRaVuwMiRUmaAbgh/bg2a+ug2h62C7iIWdjBO868d5N5/tQQFbYdJYssYGG+ovUjynUZMXHXukHTH7Z4fcNqVZ2NhMzzpJrcyanUhOmzpYx864VCKeumd0Q8RyKkmbFNGINu44QhbxCRsuJXegkz+6IvYsVUZGOP63bWvrNlXXs7e4B9x33c8ZGUD56YqqXldQAsb98wYO9TmfYQghzvcaEZYBrdCRmWrouvdIY7q1fFyHKjgy40tLWu8e2BK4xNeBk6XRXNXYeQSbBxumAY+CZjQ+b82AuR0GcJ3RPW4Pgu71g0dde+LCpX1kbCKfxPc3Qz1eu4QNZjDAJs6T+qcivSIi0XsrgzI4z5mCPPumlGjZQ1z6mrzszrmyUbHK2ge4/H7lRHuRY77mB2H0GluY/uyuD2FEvXflJLHWZeDYMztQzeiME=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(396003)(136003)(366004)(346002)(39860400002)(451199015)(4326008)(66946007)(26005)(66476007)(8936002)(66556008)(2616005)(86362001)(478600001)(6486002)(6862004)(186003)(450100002)(6666004)(2906002)(5660300002)(83380400001)(36756003)(6512007)(107886003)(6506007)(6636002)(37006003)(44832011)(41300700001)(8676002)(54906003)(316002)(82960400001)(38100700002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(39860400002)(346002)(136003)(366004)(396003)(451199015)(4001150100001)(36756003)(44832011)(2906002)(5660300002)(8936002)(8676002)(4326008)(110136005)(66556008)(41300700001)(66946007)(31696002)(86362001)(66476007)(316002)(6506007)(26005)(6512007)(53546011)(83380400001)(66574015)(2616005)(186003)(38100700002)(6666004)(6486002)(478600001)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q6Zh+Dw8Uv+/Izf8rH/xKFAqnbqEt9AKct6NvQzyJoA3LDQPh30fPqxAgL+B?=
- =?us-ascii?Q?B8swr1w+iTRi/WEiRWrI2dWOTXmDVHN7aEgQRDe94WUoo3hJwenn123qxOrA?=
- =?us-ascii?Q?uDRS1KPD+/B2+noo+ESY3Ni6kANJEkeUmMPcM32QL5LZesjZ6qvCG4Gz1cbL?=
- =?us-ascii?Q?1qizHEVKr1uRVoxqcTYFI+gU7NxmaM0eaNid9NzrsmDldIJfKBlJioFYBroz?=
- =?us-ascii?Q?NF3DSVHwZO9WebHXn9d/3wHTsE4wNFSfqioRlpdgdmyH60ZnYUJfoPLLgqQ0?=
- =?us-ascii?Q?WglDBEj+bnBThPy0Brr2+8i0oT9dYUmHEHaDhhY6a2Cg88snGI+JPGEYbKXV?=
- =?us-ascii?Q?SlYK7f3pn7R/Ri4Qw/jnbwAAbd4VJDU07u9jvE771YB0mWmAOn3A3Or2+YKB?=
- =?us-ascii?Q?MsEaf2BiNAFBsPY4OjbG4+NT5CmlH2wFwp4QqhOghRaEWfVYmQ4QnkkStLLE?=
- =?us-ascii?Q?q98llUl6aHMvgXu3zr7DsTpnUwDd647PTpEoGM21qzPdm2ekXwr7qcLCfcrz?=
- =?us-ascii?Q?u7DjkmNk/LFzxMkaAT6SjyxTo8ENyNMLl6PaOXoEDZKwCA7FAqcq7OAZVqck?=
- =?us-ascii?Q?pb7MgRh5pi31aG8DDZTd1EpJ+pwNWiuyUTmCgCrxoYLN666Hco5wYQUbhrgM?=
- =?us-ascii?Q?3+oQLwgFqu+nn66bo+/30/mVMGlFsXVezuPhZ0s5LY1jcKH5sYTvgN/YFIEs?=
- =?us-ascii?Q?Sm4DLsT42uncVNBVqDwhikabEnywARiN4e/LFV6F8eddwagvgRB0wspKqIM1?=
- =?us-ascii?Q?EGnKnMwnG9zbiQftrt4zFnHeJ5Ymv5KRk63K9KDkfyYK3lSwr11fMJvONlaX?=
- =?us-ascii?Q?elGz086eEHppsMD2lLW6T1CBpsWLGRGDMsjAEcaRIfr0xXqXDJoL3VKx23Ew?=
- =?us-ascii?Q?3yyqm8SYWPRRBLBrg7qlwnPI1GxiwlUZotgPbD+v3gvIer0bFGQ7hA/oJQHj?=
- =?us-ascii?Q?jQe/jhyJCexOdgU4wF3qjjQYGAIgCmDa31EBSMxcXusSW7qmDTeE2hqTS0zi?=
- =?us-ascii?Q?N9pPMw+drCmB1eGMOkKw7Sv9NSDaGan5k8ZO7RHcmTn/wHTTqc+Cz6znCIwc?=
- =?us-ascii?Q?h76IIPuMHytjRceLHdj+lUfbu0NPEr9jx2VdsB9xQp2cRP9qcJ+LqkH0pdXR?=
- =?us-ascii?Q?FeTtnxY5ZFaeSJ/lbv3juKVsFH9oHqKhDkGP/eXzVjEYXmCI5u30RuIKJ7v0?=
- =?us-ascii?Q?/AVgxEBRIW3vuqU5naeUwkzx0urWnXZeDdwtrvcdBpKMWpoND/iieIhZ3NtV?=
- =?us-ascii?Q?36E523Uqz2N/bEXoRkvn5Tz41pt6kvYvzLyXUUaXBdzTwshx8gcL/cFTVB5T?=
- =?us-ascii?Q?o8Eojeu4Z//C8WS7rj1u18SQaiGjJCfmBaXy/627rfkpZN2yXl/B4Uhlb9Vs?=
- =?us-ascii?Q?EIIpScgXH/0KA2ImTUn5eJx2g90B5Izy3Wq2mvikXuFHBB75SvvWjYgu4o+L?=
- =?us-ascii?Q?LJniXxfXztpbRrMaXxL3YMwgwbmf4nj9s4flskSIAJoIxyuvyy5N4rp0wJG2?=
- =?us-ascii?Q?yifLQhrrCLEd3gdfJtlcFkvDjaOVB7ylJlTQ6SjPlFG5wRBqM2lZYv445Yv4?=
- =?us-ascii?Q?pmv9RPnabXDjdaPbJRg2jkqDwLLGmOQXQTEUy/zBHgQ8KnCi7qyuMKJPfZSC?=
- =?us-ascii?Q?DA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1461cb99-0248-4b76-552f-08dab5f90774
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ME1GdnA1bDFDaEl6bFJ3VnRadml4KzlUdThQZnZnWjdic2pGNzR1SCtMbVFI?=
+ =?utf-8?B?VFRVbTJwWVhUeFVuQXdCdGI5V2lzeU0ybXVJQUNZaVRpbnlXTW1vNFpOSUdN?=
+ =?utf-8?B?eDAvZEFsVkxTMysreFlXTk9oazdkZERLRUZMY0kyWlI1TGtRZUdnczlLZGlH?=
+ =?utf-8?B?YUJ2TThhNWExZnFvYmlGMC82VWhxSzl3QWFrVzRSNFp1MDVmRGxHUXR6aW1j?=
+ =?utf-8?B?Q2E3STZRRG8yem9WSGRTT09hRlVFVkowbE85WXRpRWVuVW0xMlhHYmRZc1Ey?=
+ =?utf-8?B?Z1pVWVduWS9RVU4wamw3YjNTK2xjNDB6bmVxUVkzNFFkWEhmTWhldWJxU1Bu?=
+ =?utf-8?B?c1llMFU3OXk0NWh4VEhJRmhBQncyVTB6OUQvb2dncFBvUGk5dXdFMDl6RzF4?=
+ =?utf-8?B?UUFRK1c1L1VmdXBwTWh5bUFDUmtUbm9FQWRTMVBvLzRtbUlnQi9hV3pHM3k0?=
+ =?utf-8?B?RkJyTWpMT3B0RHNXWksxemdsQkk5NEFMUW9HT0liaUhVNnFPVlBuK1pFZlNt?=
+ =?utf-8?B?VHcrTGM1Nys4bGNCcUdVa2k0QUl3YVRzb2RBdmh5OU1DUTd6MXVzU0lZMzBC?=
+ =?utf-8?B?Rko4aVRydldId2tUZGNUTFlvQ1lZUGptM0djamViMkh3aE9PSjdYdEpIZ0Fw?=
+ =?utf-8?B?UyswWW5MTTNrdmQ5NlM5Q1hTQ1RpM3V6TXVudU1BQnFOcXNjZkdCQUNPNW5h?=
+ =?utf-8?B?Y01ObVlNdVpuTTJzNHgxY0FyZ3VIOGs2N1l5RENkRVN5M3UyZDRpbVc5dXFG?=
+ =?utf-8?B?T1NKVERrVGJ0Y3p1bEtVcW42Tk1wblhNZ081SVpOcysyNlhkNmFLUGl5NVdp?=
+ =?utf-8?B?WE12S0dXMFduK01JMG5IbHYxbyttblJzLzA3WTIxTmthNzJjblhXSHlFM2pM?=
+ =?utf-8?B?Tll5Z2dTekJHR2ZHZ2hrZmh4ZWV6MXN6Qmphd1I3UGxXaFVGbXVJOWlwaktJ?=
+ =?utf-8?B?Sk9SQTV3SEpjMnNZRmoyd0grcE1rQ2RiQ3AyN0pENFM0cTV4TFQycGZlZUZn?=
+ =?utf-8?B?MzNBUlRoUGxrdnJTRjE3WTUwdVRvWWNLRTcxeEIrWVVpYVQ0SVBrN1lQRGMw?=
+ =?utf-8?B?MG55aEgvaitYWWZrSHFqQzRYcXM2VC8rR3VmTjZ3QlZLY29LcXQxbC9lYms1?=
+ =?utf-8?B?eDZ0azg1TkxSblVuczEwbDd5VU5JRmwvd0Eza0V3Y1JzTFVQK29CQitaNTF0?=
+ =?utf-8?B?bnNtVk8xUmhGTysvdzdENXNJakEyT3Z2NE10a29qdkF6cnh6ZEYraFgvV1Nv?=
+ =?utf-8?B?cjVRYXBRRjJBN2NEcUV2V0hkQm1zbDRKR0JHTFg3ZDc3VFZIeG9YWEExOTQ5?=
+ =?utf-8?B?eEF1U29UNXJrOEY2Z05KdUttNHA5M0dIQXd5Wm5NV1J0djZzeEIvRmNLdDZS?=
+ =?utf-8?B?a0NtY1luaHNCTjc1YW1UN0hGZXNHWkhSdldaeHB4Q3pMT29yNE8xSm5WWnpH?=
+ =?utf-8?B?cVc1NTBFbzlIUHdzQmFZeXJmakVTOGdKNDdVSzNFdlNYOEx2bUM3L2d3b0dm?=
+ =?utf-8?B?ZEtNQTIrQ2hvTDZodm92T244Y3JVYzJTRlg5STJtSXR3cm1halkyaFNScG1K?=
+ =?utf-8?B?OWJML24wM21EbGFIbDIyT3U1dk05eWZQalN6NDdja2Uwbm1PeGpISU55Y290?=
+ =?utf-8?B?alA5dkJldkt3OGFpVFdsb0prU29ydkk3ejlLekZEZFR3VURjWVFHb0tkbFUz?=
+ =?utf-8?B?dVRlRGFSdnVJVzFCS09kT3VKOGlpclF2S3M5OWNBbHE5Z0RtZ1ovTnA4eEx3?=
+ =?utf-8?B?ZjVEOXRNd0NOTjFYOUU0bzcyNHhuOFBXazNpTzhWZnBnTE9vbWZSZ2czaUVW?=
+ =?utf-8?B?QlJLVmRTb0pjNFNxSnFCcTAyVGl4NWtqaGR4Um1rZHNJV0FJam5SVjJsdlo0?=
+ =?utf-8?B?eDJpd0VaZ3dyOGpFV1l6RS9vTElVSVRCRWxTb1JRekd1R1pzdnBuenN4UEh0?=
+ =?utf-8?B?cDMrZjJGNDE1UGZsSWw0Q1Y0NGdxdmpnYjFzQ01aMWx3dGtlR2E3cGFpTDls?=
+ =?utf-8?B?RVRycFIyLzlCbXgxYlZOTnBBSUs5QmFMaW5aL0NReFFjSjdwalRpenB5NVBq?=
+ =?utf-8?B?Ryt5R0t3NjU2cFN3aStHeisxd2lwbFkvOENLbzBpTytEc090RjR0cnNPOURD?=
+ =?utf-8?Q?0dQEw9qo02TqqRZ6ebn1xWL0b?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7420ddab-eec8-4b15-85fa-08dab5fadec5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 19:50:40.4926 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 20:03:51.1847 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: szQ+vKr/x/NOTVr/VlfFBFBc3axHk3eyGZ5cL+voSf/JfaFqq8rXQahqhE2EFh9IHGiaHndpLl2lLWSQ7Wn8BA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4530
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: aQOrPWYnxg6K4Qyzx1NWNPgJE6OoiuEphmCNi9a2dCzw9V6tRpJVYdbqBVVs+NRl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4940
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,168 +130,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
- Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <Alexander.Deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 24, 2022 at 12:13:13PM -0700, Ashutosh Dixit wrote:
-> From: Badal Nilawar <badal.nilawar@intel.com>
-> 
-> Add support for C6 residency and C state type for MTL SAMedia. Also add
-> mtl_drpc.
-> 
-> v2: Fixed review comments (Ashutosh)
-> v3: Sort registers and fix whitespace errors in intel_gt_regs.h (Matt R)
->     Remove MTL_CC_SHIFT (Ashutosh)
->     Adapt to RC6 residency register code refactor (Jani N)
-> v4: Move MTL branch to top in drpc_show
-> v5: Use FORCEWAKE_MT identical to gen6_drpc (Ashutosh)
-> v6: Add MISSING_CASE for gt_core_status switch statement (Rodrigo)
->     Change state name for MTL_CC0 to C0 (from "on") (Rodrigo)
-> 
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 59 ++++++++++++++++++-
->  drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  5 ++
->  drivers/gpu/drm/i915/gt/intel_rc6.c           | 17 ++++--
->  3 files changed, 76 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-> index 5d6b346831393..522049f053e8a 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-> @@ -256,6 +256,61 @@ static int ilk_drpc(struct seq_file *m)
->  	return 0;
->  }
->  
-> +static int mtl_drpc(struct seq_file *m)
-> +{
-> +	struct intel_gt *gt = m->private;
-> +	struct intel_uncore *uncore = gt->uncore;
-> +	u32 gt_core_status, rcctl1, mt_fwake_req;
-> +	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
-> +
-> +	mt_fwake_req = intel_uncore_read_fw(uncore, FORCEWAKE_MT);
-> +	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
-> +
-> +	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
-> +	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
-> +	mtl_powergate_status = intel_uncore_read(uncore,
-> +						 GEN9_PWRGT_DOMAIN_STATUS);
-> +
-> +	seq_printf(m, "RC6 Enabled: %s\n",
-> +		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
-> +	if (gt->type == GT_MEDIA) {
-> +		seq_printf(m, "Media Well Gating Enabled: %s\n",
-> +			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
-> +	} else {
-> +		seq_printf(m, "Render Well Gating Enabled: %s\n",
-> +			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
-> +	}
-> +
-> +	seq_puts(m, "Current RC state: ");
-> +	switch (REG_FIELD_GET(MTL_CC_MASK, gt_core_status)) {
-> +	case MTL_CC0:
-> +		seq_puts(m, "C0\n");
+Yeah, it was just spelling typos. I'll add your RB to it and repost.
+I cannot push to drm-misc-next, but hope someone will pick it up.
 
-RC0, then
+Regards,
+Luben
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
-
-> +		break;
-> +	case MTL_CC6:
-> +		seq_puts(m, "RC6\n");
-> +		break;
-> +	default:
-> +		MISSING_CASE(REG_FIELD_GET(MTL_CC_MASK, gt_core_status));
-> +		seq_puts(m, "Unknown\n");
-> +		break;
-> +	}
-> +
-> +	seq_printf(m, "Multi-threaded Forcewake Request: 0x%x\n", mt_fwake_req);
-> +	if (gt->type == GT_MEDIA)
-> +		seq_printf(m, "Media Power Well: %s\n",
-> +			   (mtl_powergate_status &
-> +			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
-> +	else
-> +		seq_printf(m, "Render Power Well: %s\n",
-> +			   (mtl_powergate_status &
-> +			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
-> +
-> +	/* Works for both render and media gt's */
-> +	intel_rc6_print_residency(m, "RC6 residency since boot:", INTEL_RC6_RES_RC6);
-> +
-> +	return fw_domains_show(m, NULL);
-> +}
-> +
->  static int drpc_show(struct seq_file *m, void *unused)
->  {
->  	struct intel_gt *gt = m->private;
-> @@ -264,7 +319,9 @@ static int drpc_show(struct seq_file *m, void *unused)
->  	int err = -ENODEV;
->  
->  	with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
-> -		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
-> +		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-> +			err = mtl_drpc(m);
-> +		else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
->  			err = vlv_drpc(m);
->  		else if (GRAPHICS_VER(i915) >= 6)
->  			err = gen6_drpc(m);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index d8dbd0ac3b064..a0ddaf243593c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -24,6 +24,9 @@
->  /* MTL workpoint reg to get core C state and actual freq of 3D, SAMedia */
->  #define MTL_MIRROR_TARGET_WP1			_MMIO(0xc60)
->  #define   MTL_CAGF_MASK				REG_GENMASK(8, 0)
-> +#define   MTL_CC0				0x0
-> +#define   MTL_CC6				0x3
-> +#define   MTL_CC_MASK				REG_GENMASK(12, 9)
->  
->  /* RPM unit config (Gen8+) */
->  #define RPM_CONFIG0				_MMIO(0xd00)
-> @@ -1512,6 +1515,8 @@
->  #define FORCEWAKE_MEDIA_VLV			_MMIO(0x1300b8)
->  #define FORCEWAKE_ACK_MEDIA_VLV			_MMIO(0x1300bc)
->  
-> +#define MTL_MEDIA_MC6				_MMIO(0x138048)
-> +
->  #define GEN6_GT_THREAD_STATUS_REG		_MMIO(0x13805c)
->  #define   GEN6_GT_THREAD_STATUS_CORE_MASK	0x7
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-> index 6db4e60d5fba5..2ee4051e4d961 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-> @@ -553,10 +553,19 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
->  
->  static void rc6_res_reg_init(struct intel_rc6 *rc6)
->  {
-> -	rc6->res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
-> -	rc6->res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
-> -	rc6->res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
-> -	rc6->res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
-> +	memset(rc6->res_reg, INVALID_MMIO_REG.reg, sizeof(rc6->res_reg));
-> +
-> +	switch (rc6_to_gt(rc6)->type) {
-> +	case GT_MEDIA:
-> +		rc6->res_reg[INTEL_RC6_RES_RC6] = MTL_MEDIA_MC6;
-> +		break;
-> +	default:
-> +		rc6->res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
-> +		rc6->res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
-> +		rc6->res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
-> +		rc6->res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
-> +		break;
-> +	}
->  }
->  
->  void intel_rc6_init(struct intel_rc6 *rc6)
-> -- 
-> 2.38.0
+On 2022-10-24 14:42, Christian König wrote:
+> I've seen that one, but couldn't figure out what was actually changed 
+> between the two.
 > 
+> If you just fixed a typo feel free to add my R-B to this one as well.
+> 
+> Christian.
+> 
+> Am 24.10.22 um 19:25 schrieb Luben Tuikov:
+>> Hi Christian,
+>>
+>> Can you add an R-B to V1 of this patch, as the v1 is what I'd like pushed.
+>> I sent it right after this one.
+>>
+>> Regards,
+>> Luben
+>>
+>> On 2022-10-24 06:42, Christian König wrote:
+>>> Am 22.10.22 um 03:09 schrieb Luben Tuikov:
+>>>> The currently default Round-Robin GPU scheduling can result in starvation
+>>>> of entities which have a large number of jobs, over entities which have
+>>>> a very small number of jobs (single digit).
+>>>>
+>>>> This can be illustrated in the following diagram, where jobs are
+>>>> alphabetized to show their chronological order of arrival, where job A is
+>>>> the oldest, B is the second oldest, and so on, to J, the most recent job to
+>>>> arrive.
+>>>>
+>>>>       ---> entities
+>>>> j | H-F-----A--E--I--
+>>>> o | --G-----B-----J--
+>>>> b | --------C--------
+>>>> s\/ --------D--------
+>>>>
+>>>> WLOG, asuming all jobs are "ready", then a R-R scheduling will execute them
+>>>> in the following order (a slice off of the top of the entities' list),
+>>>>
+>>>> H, F, A, E, I, G, B, J, C, D.
+>>>>
+>>>> However, to mitigate job starvation, we'd rather execute C and D before E,
+>>>> and so on, given, of course, that they're all ready to be executed.
+>>>>
+>>>> So, if all jobs are ready at this instant, the order of execution for this
+>>>> and the next 9 instances of picking the next job to execute, should really
+>>>> be,
+>>>>
+>>>> A, B, C, D, E, F, G, H, I, J,
+>>>>
+>>>> which is their chronological order. The only reason for this order to be
+>>>> broken, is if an older job is not yet ready, but a younger job is ready, at
+>>>> an instant of picking a new job to execute. For instance if job C wasn't
+>>>> ready at time 2, but job D was ready, then we'd pick job D, like this:
+>>>>
+>>>> 0 +1 +2  ...
+>>>> A, B, D, ...
+>>>>
+>>>> And from then on, C would be preferred before all other jobs, if it is ready
+>>>> at the time when a new job for execution is picked. So, if C became ready
+>>>> two steps later, the execution order would look like this:
+>>>>
+>>>> ......0 +1 +2  ...
+>>>> A, B, D, E, C, F, G, H, I, J
+>>>>
+>>>> This is what the FIFO GPU scheduling algorithm achieves. It uses a
+>>>> Red-Black tree to keep jobs sorted in chronological order, where picking
+>>>> the oldest job is O(1) (we use the "cached" structure), and balancing the
+>>>> tree is O(log n). IOW, it picks the *oldest ready* job to execute now.
+>>>>
+>>>> The implemntation is already in the kernel, and this commit only changes
+>>>> the default GPU scheduling algorithm to use.
+>>>>
+>>>> This was tested and achieves about 1% faster performance over the Round
+>>>> Robin algorithm.
+>>>>
+>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+>>>> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
+>>>> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>
+>>>> ---
+>>>>    drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
+>>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> index 2fab218d708279..d0ff9e11cb69fa 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> @@ -62,13 +62,13 @@
+>>>>    #define to_drm_sched_job(sched_job)		\
+>>>>    		container_of((sched_job), struct drm_sched_job, queue_node)
+>>>>    
+>>>> -int drm_sched_policy = DRM_SCHED_POLICY_RR;
+>>>> +int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
+>>>>    
+>>>>    /**
+>>>>     * DOC: sched_policy (int)
+>>>>     * Used to override default entities scheduling policy in a run queue.
+>>>>     */
+>>>> -MODULE_PARM_DESC(sched_policy, "Specify schedule policy for entities on a runqueue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin (default), " __stringify(DRM_SCHED_POLICY_FIFO) " = use FIFO.");
+>>>> +MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
+>>>>    module_param_named(sched_policy, drm_sched_policy, int, 0444);
+>>>>    
+>>>>    static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
+>>>>
+>>>> base-commit: 16d2a3f2ad1d2b95bf9122c910c63b0efe74179d
+> 
+
