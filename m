@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F99460B53D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 20:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381CD60B5B1
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 20:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE0F10E01F;
-	Mon, 24 Oct 2022 18:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18A6C10E09B;
+	Mon, 24 Oct 2022 18:37:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B476E10E01F;
- Mon, 24 Oct 2022 18:16:58 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id ud5so3409309ejc.4;
- Mon, 24 Oct 2022 11:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=+JrNSRhjhtNV1zUqz7edpRKlS25HhVnyp4v0GBc4I2k=;
- b=ErkAFu7vQ+RBqYgeFehxt5BmnnafaJRcp/J6XrZBMltuDAwsk+ZPyYCSeKnRyGz/Sp
- dDOMvbSyY3mE7N7MjIuEcBXWAht8+kD32rReIf9SODzLlyspABIHJAu7a+NkjgmtaAyc
- tBJSGSxQCMNS/ACztDbo8nICwOhDh1RDaE8xNgzRq+6XmDyogdZnl4ZTOKaVXxzgJbIy
- VaxUpWY0P3T7Eu/TWltRThvrPiJPyeRJgky4HmOjKTw7+pUBhG7zPN/NlEpJEG1iqBq/
- vsp+c1OLhjriwmA0dLuwhqIHDFrTf4xW3JGeWyCd0K+eL9w2pTETY9aWjl7iO0ZMXRd4
- NGMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+JrNSRhjhtNV1zUqz7edpRKlS25HhVnyp4v0GBc4I2k=;
- b=XHschV6J1ApuC/3a4hxiH4k07AHThGgscsWfpwoHOCOQZxrZTNHhtThIVgTNI1lmj5
- 9NvLZcumvlz+YYWtuSnEcV0AxTyqj2268549hETvdCWAhiCz8+L/6x4ZJpIbYs8ywqJG
- Re9+aIX+ZlAocAjr6DgFWahvJH+ZYKUIusf5v6oWrByXZZLs1LLFC77Nx+Jk58t0RL4M
- sg/qA5Pv9CbOm19AcDjHhVVNUsXAl3uvNttT0SbYMfNhwxffNbW/+MCruzTQ/US4n0Em
- 06sQT8UmhvfRZVW4uAmxJIsapFKm8ALj7U8g5isRmBcTd/U/zMz9YJkXLpu/UMM86po7
- bnFg==
-X-Gm-Message-State: ACrzQf2n2pNIGSxZMJdcLh/r4MmHCEISttOdfHZMDQsibKq1o7qoXjYK
- YRYmWCXhiBX78jx1sSsVuvw=
-X-Google-Smtp-Source: AMsMyM6gpc2iC1XRiikzm5JVRf4wy/DI9YhN4byrr6CdQ7etiOjJdXHw+g4OSdOk6ZDruTsK4AzV2w==
-X-Received: by 2002:a17:907:2d09:b0:78d:4240:a45e with SMTP id
- gs9-20020a1709072d0900b0078d4240a45emr29214915ejc.350.1666635416970; 
- Mon, 24 Oct 2022 11:16:56 -0700 (PDT)
-Received: from [0.0.0.0] ([134.134.137.84])
- by smtp.googlemail.com with ESMTPSA id
- t23-20020a170906179700b00782cd82db09sm212396eje.106.2022.10.24.11.16.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 11:16:56 -0700 (PDT)
-Message-ID: <3de34172-f489-5a12-ca86-9552493394af@gmail.com>
-Date: Mon, 24 Oct 2022 21:16:45 +0300
+X-Greylist: delayed 458 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Oct 2022 18:37:12 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9696310E09B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 18:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1666636630;
+ bh=icVbzJtZ9pqflJ14jNdNOlB/DYImZ+gyK6fC/SDHPeo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=PrHiPhfAPKrLmyFhw1fuVlMIKLVIyMl6kOh1r2X/j76dnaxp5xuvxbXQ43DxdxFJx
+ eJA9z/7/bwx+otUeFpRNOu3NuODfGe+NyKMwXG2lk0V9JqXgSHnRq8YKMoLJIsiz1n
+ Ipj7CCM1Q0pevLdzVci00uUVPro1EGvmvmYQ7wsw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.136.30]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIdiZ-1oqd7434DN-00EaCt; Mon, 24
+ Oct 2022 20:29:27 +0200
+Message-ID: <ec8edb92-a21b-6291-4275-d7cba97d7ad7@gmx.de>
+Date: Mon, 24 Oct 2022 20:29:26 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [igt-dev] Must-Pass Test Suite for KMS drivers
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] video: fbdev: sis: use explicitly signed char
 Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>
-References: <20221024124323.tfyxcadyd4nz56jz@houat>
- <CAF6AEGuokyL+_ZsWeeMeyCcyErapka0ALZQ60bdWKvja3gcN9Q@mail.gmail.com>
- <Y1a2Eb1rwMyk35v+@intel.com>
-From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-In-Reply-To: <Y1a2Eb1rwMyk35v+@intel.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org
+References: <20221024162901.535972-1-Jason@zx2c4.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20221024162901.535972-1-Jason@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fgln+OSb5Fs7l921QypIIY6GvbB8Dpo8NbcH6CX//FlDdIZKoPn
+ HTH8weoBRqVlYnQaJOUuVnLRopE3hTyC0rQ7NFop1qJoWADAuwh/gwd/DNyU80Z/nBkvvlj
+ xLpYb1wKKdGZeA8sSZnuNeBXV4k3vo2v4nRR1R3a5fNPt5ryrwPOPk8q//T+CrXTBvb8tGY
+ ylAA2rLff9VDqREvNVy4Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BlVCzPTrI4s=:R08X7aCwdWQ65WvdZ07hqv
+ ev095YtJMSk1W0IOSrWa+5fkybucrXmdCC6fyzIOrcwh5/YoeOTDl1y6mUH1lzL2G2Un4lUps
+ KI5N2Xqzzd78cdgWYb68L3ukDOv8n4I0SS01Jqg8WXt9pGhvsL58yVVxAVZQ4915ztXlwMhtP
+ ArO+wDxu4exNiM2IrMf1I9wHRS1+SiRE7mCqdNwQOMUHFFsHDsuBvMjfMWh1kmBPjBjTeHS9E
+ AUiOaWGQYpJz7OV7UyWGmM7eu8bj9erLjn9bJjoiLhCIXb39bXE1MuI0szdaSe5zHd40bv1Oe
+ pfY4nS2LBNToacF5SE9vCE7oxxKCD12nYTaR6Hjsix0rmwbUEFOTcGHmX/fA1Z10/Iqxu0E0V
+ Vcq3ODhFPwGpNnlYTb2AbFVGqxqpcJDVaWib4LcOVYRceko8MNIA9Aii6LrYRWMyMmZPsDdtD
+ MQArlytKOWrX1GgbOX6YZQv3dVL2uY8vteRph4PQcBjp+qonv6dutGjw41/Ln34B+p6LTqYWm
+ b1XsxLE+wBcyGzC2RAWXRG0wDHBhtKeupp+5VBVGSKk3zv77UOJTqpCmtDk9a/QWk6LbpFoFy
+ hhQ5GPcki9S8HDqctrFcDS/XIM2+FtAOF/Ktv2lNiQkEWFtjDjJjPXi0vkLcEYIMWh1OvPpF3
+ vxTTsl+2+nn6ihJDCNn4Cyl88auZM1ucRrXhMQPlvQFhk8V3oREBYvaYwGTcChi5dKvW/Ish7
+ gnhl5eTxnJcRIFgWOy69CIuAXz8P0UkmjQDFf0Jil0HIzly6i6qaVHouKfoVFbD6oaNu+D29Z
+ QhfOiOB3OzlGb7SPsTlz/cXpMZ6Lb5sJK0dMFYX7jS5WGfazEZHbJVSANt9E7rk6aaduWVtg+
+ fCewpnqorK9RWbSz7DALlwi13h4FVhXv2bT4axz7SV0D7Q93zh23H1fkMy/JRW4MrU1Jrr7vk
+ RXcqrt+Ol1tBHxr+QgKcFUGe2v8TZsV0ZjvVOFdoLBg3mZWN/ITLYByAE1MpFDmL10wKnGYrz
+ hzv8vgeUu2fpOrIYyI+ApTKTDL3di8hxGzqg/62nogvhRCCD0l3bFf27AgZZUOeN/N6rRPXHE
+ NW3LQ5/Q3ptAe3FmXMmRTjZjFaWw9vmlHKr2rjgAvD0RdRWO4TLXoHzEfEWFzc67gwFwIfXMQ
+ qLOOlX5B11iGT2euep7xpklf4FI+oeJaYL0EiAaj0oHQTPJJD73huUTu8egxqAl8R3N8g5pc/
+ J1yz7Jbhe7eJLHpi31OMVVAbET7224OD+YiAGSsltiZgZjUA3RgFWVrBLGQsAcZq1GevzXyzc
+ F7cpOz6N148SsqAV/NobMCK9atOZ0c0xvloUJ9lJDHngU9xvv98BOqkTyisyGB+1h+i1fLZ+E
+ QcUKAn9rVMqpzwbvEeruwtMXUMXSSSpyFZly7Hv/NbcTgo/qta2rn/4bGnVfQGVYRpDZw8PxH
+ L2PiM8XFAOzCz6ZypJXiRGNK+fPfDZDCbmoxWf15e0lJtpA9HamQEKA6SlropzZ7yFdZUtyfX
+ OK1FCvZuZ7mzBjR+sUzpGCw8TaKwiJkVz6TtiW47/vYKP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,144 +78,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: juhapekka.heikkila@gmail.com
-Cc: Petri Latvala <petri.latvala@intel.com>,
- Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
- Martin Roukala <martin.roukala@mupuf.org>, dri-devel@lists.freedesktop.org,
- igt-dev@lists.freedesktop.org, maxime@cerno.tech,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Winischhofer <thomas@winischhofer.net>,
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24.10.2022 18.58, Ville Syrjälä wrote:
-> On Mon, Oct 24, 2022 at 08:48:15AM -0700, Rob Clark wrote:
->> On Mon, Oct 24, 2022 at 5:43 AM <maxime@cerno.tech> wrote:
->>>
->>> Hi,
->>>
->>> I've discussing the idea for the past year to add an IGT test suite that
->>> all well-behaved KMS drivers must pass.
->>>
->>> The main idea behind it comes from v4l2-compliance and cec-compliance,
->>> that are being used to validate that the drivers are sane.
->>>
->>> We should probably start building up the test list, and eventually
->>> mandate that all tests pass for all the new KMS drivers we would merge
->>> in the kernel, and be run by KCi or similar.
->>
->> Let's get https://patchwork.freedesktop.org/patch/502641/ merged
->> first, that already gives us a mechanism similar to what we use in
->> mesa to track pass/fail/flake
->>
->> Beyond that, I think some of the igt tests need to get more stable
->> before we could consider a "mustpass" list.  The kms_lease tests seem
->> to fail on msm due to bad assumptions in the test about which CRTCs
->> primary planes can attach to.  The legacy-cursor crc tests seem a bit
->> racy (there was a patch posted for that, not sure if it landed yet),
->> etc.
-> 
-> I think the safest set to start with would be pure uapi validation
-> stuff. Anything that interactics with real world hardware is a much
-> tougher cookie.
-> 
+On 10/24/22 18:29, Jason A. Donenfeld wrote:
+> With char becoming unsigned by default, and with `char` alone being
+> ambiguous and based on architecture, signed chars need to be marked
+> explicitly as such. This fixes warnings like:
+>
+> drivers/video/fbdev/sis/init301.c:3549 SiS_GetCRT2Data301() warn: 'SiS_P=
+r->SiS_EModeIDTable[ModeIdIndex]->ROMMODEIDX661' is unsigned
+>
+> Cc: Thomas Winischhofer <thomas@winischhofer.net>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-I agree with Ville
+Applied to linux-fbdev git tree.
 
-As is with different pixel formats on different kms crc tests there are 
-specialities just to make crcs happy hence I think crc tests will need 
-to be carefully chosen for this type test set.
+Thanks,
+Helge
 
-And as for those legacy cursor tests to be included people first need 
-consensus across drivers how those tests are supposed to work and then 
-strip out platform specific quirks from those tests.
 
-/Juha-Pekka
-
->>
->> The best thing to do is actually start running CI and tracking xfails
->> and flakes ;-)
->>
->> BR,
->> -R
->>
->>> I did a first pass to create a draft of such a test-suite, which would
->>> contain:
->>>
->>> igt@core_auth@basic-auth
->>> igt@core_auth@getclient-master-drop
->>> igt@core_auth@getclient-simple
->>> igt@core_auth@many-magics
->>> igt@core_getclient
->>> igt@core_getstats
->>> igt@core_getversion
->>> igt@core_hotunplug@hotrebind-lateclose
->>> igt@core_hotunplug@hotunbind-rebind
->>> igt@core_hotunplug@unbind-rebind
->>> igt@core_setmaster
->>> igt@core_setmaster_vs_auth
->>> igt@device_reset@unbind-reset-rebind
->>> igt@drm_read
->>> igt@dumb_buffer
->>> igt@fbdev
->>> igt@feature_discovery@display
->>> igt@kms_3d
->>> igt@kms_addfb_basic
->>> igt@kms_async_flips
->>> igt@kms_color
->>> igt@kms_concurrent
->>> igt@kms_cursor_crc
->>> igt@kms_cursor_edge_walk
->>> igt@kms_cursor_legacy@basic-busy-flip-before-cursor
->>> igt@kms_cursor_legacy@basic-flip-after-cursor
->>> igt@kms_cursor_legacy@basic-flip-after-cursor
->>> igt@kms_display_modes
->>> igt@kms_dither
->>> igt@kms_dp_aux_dev
->>> igt@kms_flip@basic-flip-vs-dpms
->>> igt@kms_flip@basic-flip-vs-modeset
->>> igt@kms_flip@basic-flip-vs-wf_vblank
->>> igt@kms_flip@basic-plain-flip
->>> igt@kms_flip_event_leak@basic
->>> igt@kms_force_connector_basic@force-connector-state
->>> igt@kms_force_connector_basic@force-edid
->>> igt@kms_force_connector_basic@force-load-detect
->>> igt@kms_force_connector_basic@prune-stale-modes
->>> igt@kms_getfb
->>> igt@kms_hdmi_inject
->>> igt@kms_hdr
->>> igt@kms_invalid_mode
->>> igt@kms_lease
->>> igt@kms_panel_fitting
->>> igt@kms_pipe_crc_basic
->>> igt@kms_plane_alpha_blend
->>> igt@kms_plane
->>> igt@kms_plane_cursor
->>> igt@kms_plane_lowres
->>> igt@kms_plane_multiple
->>> igt@kms_plane_scaling
->>> igt@kms_prop_blob
->>> igt@kms_properties
->>> igt@kms_rmfb
->>> igt@kms_scaling_modes
->>> igt@kms_sequence
->>> igt@kms_setmode
->>> igt@kms_sysfs_edid_timing
->>> igt@kms_tv_load_detect
->>> igt@kms_universal_plane
->>> igt@kms_vblank
->>> igt@kms_vrr
->>> igt@kms_writeback
->>>
->>> Most of them are skipped on vc4 right now, but I could see that some of
->>> them fail already (kms_rmfb, core_hotunplug), so it proves to be useful
->>> already.
->>>
->>> What do you think? Is there some more tests needed, or did I include
->>> some tests that shouldn't have been there?
->>>
->>> Thanks!
->>> Maxime
-> 
+> ---
+>   drivers/usb/misc/sisusbvga/sisusb_struct.h | 2 +-
+>   drivers/video/fbdev/sis/vstruct.h          | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/usb/misc/sisusbvga/sisusb_struct.h b/drivers/usb/mi=
+sc/sisusbvga/sisusb_struct.h
+> index 3df64d2a9d43..a86032a26d36 100644
+> --- a/drivers/usb/misc/sisusbvga/sisusb_struct.h
+> +++ b/drivers/usb/misc/sisusbvga/sisusb_struct.h
+> @@ -91,7 +91,7 @@ struct SiS_Ext {
+>   	unsigned char VB_ExtTVYFilterIndex;
+>   	unsigned char VB_ExtTVYFilterIndexROM661;
+>   	unsigned char REFindex;
+> -	char ROMMODEIDX661;
+> +	signed char ROMMODEIDX661;
+>   };
+>
+>   struct SiS_Ext2 {
+> diff --git a/drivers/video/fbdev/sis/vstruct.h b/drivers/video/fbdev/sis=
+/vstruct.h
+> index ea94d214dcff..d7a14e63ba5a 100644
+> --- a/drivers/video/fbdev/sis/vstruct.h
+> +++ b/drivers/video/fbdev/sis/vstruct.h
+> @@ -148,7 +148,7 @@ struct SiS_Ext {
+>   	unsigned char  VB_ExtTVYFilterIndex;
+>   	unsigned char  VB_ExtTVYFilterIndexROM661;
+>   	unsigned char  REFindex;
+> -	char           ROMMODEIDX661;
+> +	signed char    ROMMODEIDX661;
+>   };
+>
+>   struct SiS_Ext2 {
 
