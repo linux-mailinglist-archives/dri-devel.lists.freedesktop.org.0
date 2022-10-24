@@ -2,48 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D74660BD53
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 00:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E20160BD79
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 00:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A89010E06C;
-	Mon, 24 Oct 2022 22:24:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C36C10E080;
+	Mon, 24 Oct 2022 22:34:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0F4310E0AE;
- Mon, 24 Oct 2022 22:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666650256; x=1698186256;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=iTC9bdF2DcYCY35t0SbX5g2wZya5NbilhvRMLCijzUM=;
- b=GYCi6DgdcB0FuFXgVxgo7dSWlXTKKJbfOtL1CcYwXKtY7pgRB+3DZdP7
- wXKhUnrJKEhoWyamTzIhLWz0VONU/xyNHc9r/hsWcWWrEs0TBwwo8Kjy2
- S3iamuNtvSJS3Nb1yE2iOZI6mglYhLFxz1BqZIWW41nXwSkUnmdpSNfSd
- CuoXxirHZLM57r3aasnv2sVtVyM6ajnkR0+9GHrX08xeMwcOCYjW7ap14
- R5nkJO/eWKbh7lsB/djYpsz8s1/9PCCKr9fTq/osuQAMxd2Ys/6jNAkUc
- Qgwivcq3L7xZ9ZmJ2ylsosBRAFl1MYEX3/ChKzcy50l0IrMxMUlmA2x5A w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="371751662"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="371751662"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 15:24:15 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="626216786"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="626216786"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 15:24:15 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/mtl: Handle wopcm per-GT and limit calculations.
-Date: Mon, 24 Oct 2022 15:26:42 -0700
-Message-Id: <20221024222642.2377564-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221022001008.2340224-6-daniele.ceraolospurio@intel.com>
-References: <20221022001008.2340224-6-daniele.ceraolospurio@intel.com>
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 104F310E080;
+ Mon, 24 Oct 2022 22:34:07 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-13ae8117023so13535102fac.9; 
+ Mon, 24 Oct 2022 15:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=WEZlKPYChGQr1+VGAAt6W/HLpia5/ZeW0QQ5/N5bwR0=;
+ b=dW6LySjisQk//shmQcl7lUzXTj1nVF9WlPTS7i6LkISArKQSeQKwK18PPNx2JEsCfV
+ +0yr+7G+kJTwA1c8lqdkn4biKDpZWTsH1+8WQw4HrV71awfl0H+O070JALvJGK0v2xh2
+ dCOii3AQ2ysH6VDzv5WUnka79Lz1loNtqyUj+J2wms+7sNnFHH+mZBibFQM2+hSzWgpa
+ /ACraTdetdXfCX69CNC908LLgqrfob60Ont5WC197a0DL06uO2xU8sHdqYnbs6BVs4Ci
+ +puZO9qBYGB3JwSHjLMWyrjX52p3H7U5Z88ICz0d5HEeHWpPLTT6qvgCWcV3yiKn882z
+ 5M3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WEZlKPYChGQr1+VGAAt6W/HLpia5/ZeW0QQ5/N5bwR0=;
+ b=4tzk6ZvG5zdOSdDfdbmtWGXTVspTCq6hYbky+NUgCvJ74p8d3f9Er0+6XKNISoD5/A
+ GP9+VWVFQCwDqA1xtUNOM4mnaU+yVckSBjy0W75omz4g1wh18sku00kMWqviRsRCvlma
+ UDt8iDc7zzP/kwo7Cwi0eiki/pmPDD507kI/QYp3yOEPObeV2mhAZGOxknR39WH0FxiY
+ 8wOSoZK1U+bF1KymVDKyS56O9UHBbV3tSjCu+xgv4dJXJeVmwCG+OZFeIuv5VVXK2lb8
+ ch9iIXX86m8kVbd9Dr+MYyrA+YrJ9UokAdAvcd+YowJHDlXKZfkdUt8td2KBCRJ2cikl
+ g3RA==
+X-Gm-Message-State: ACrzQf3efFMPnp+sLR5znBTt47WjQNASfcHIeZ6YYUSdSaTewA/xWmC6
+ wWfqA6rTxI+8U501g7ffNnQVZVIAIDQPI9bo/NE=
+X-Google-Smtp-Source: AMsMyM5S3puKmXs+dNgDJ9sW/bgFwo+QT8mbJCuoqMrSpTojL+qxBiFfkuQW2TTs9sYvjk5HkEJjbAHOIqpfjY9AVG4=
+X-Received: by 2002:a05:6871:6a4:b0:13b:a056:f97f with SMTP id
+ l36-20020a05687106a400b0013ba056f97fmr5103622oao.38.1666650846113; Mon, 24
+ Oct 2022 15:34:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 24 Oct 2022 15:34:15 -0700
+Message-ID: <CAF6AEGveadezhqm=Sra7Jq4A3tFAp_eBmKKOoHLnapN03pVoLw@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2022-10-24 for v6.1-rc3
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,367 +67,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
- dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Hi Dave,
 
-With MTL standalone media architecture the wopcm layout has changed,
-with separate partitioning in WOPCM for the root GT GuC and the media
-GT GuC. The size of WOPCM is 4MB with the lower 2MB reserved for the
-media GT and the upper 2MB for the root GT.
+A few fixes for the v6.1 cycle.  Summary below.
 
-Given that MTL has GuC deprivilege, the WOPCM registers are pre-locked
-by the bios. Therefore, we can skip all the math for the partitioning
-and just limit ourselves to sanity-checking the values.
+The following changes since commit e8b595f7b058c7909e410f3e0736d95e8f909d01:
 
-v2: fix makefile file ordering (Jani)
-v3: drop XELPM_SAMEDIA_WOPCM_SIZE, check huc instead of VDBOX (John)
-v4: further clarify commit message, remove blank line (John)
+  drm/msm/hdmi: make hdmi_phy_8996 OF clk provider (2022-09-18 09:38:07 -0700)
 
-Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: John Harrison <john.c.harrison@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
----
- Documentation/gpu/i915.rst                  |  2 +-
- drivers/gpu/drm/i915/Makefile               |  5 ++-
- drivers/gpu/drm/i915/gt/intel_ggtt.c        |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt.c          |  1 +
- drivers/gpu/drm/i915/gt/intel_gt_types.h    |  2 +
- drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c | 43 ++++++++++++++-------
- drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h |  0
- drivers/gpu/drm/i915/gt/uc/intel_uc.c       |  4 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c    | 14 ++++---
- drivers/gpu/drm/i915/i915_driver.c          |  2 -
- drivers/gpu/drm/i915/i915_drv.h             |  3 --
- drivers/gpu/drm/i915/i915_gem.c             |  5 ++-
- 12 files changed, 51 insertions(+), 32 deletions(-)
- rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c (87%)
- rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h (100%)
+are available in the Git repository at:
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 4e59db1cfb00..60ea21734902 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -494,7 +494,7 @@ WOPCM
- WOPCM Layout
- ~~~~~~~~~~~~
- 
--.. kernel-doc:: drivers/gpu/drm/i915/intel_wopcm.c
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_wopcm.c
-    :doc: WOPCM Layout
- 
- GuC
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 2535593ab379..cf3a96b3cd58 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -127,9 +127,11 @@ gt-y += \
- 	gt/intel_sseu.o \
- 	gt/intel_sseu_debugfs.o \
- 	gt/intel_timeline.o \
-+	gt/intel_wopcm.o \
- 	gt/intel_workarounds.o \
- 	gt/shmem_utils.o \
- 	gt/sysfs_engines.o
-+
- # x86 intel-gtt module support
- gt-$(CONFIG_X86) += gt/intel_ggtt_gmch.o
- # autogenerated null render state
-@@ -183,8 +185,7 @@ i915-y += \
- 	  i915_trace_points.o \
- 	  i915_ttm_buddy_manager.o \
- 	  i915_vma.o \
--	  i915_vma_resource.o \
--	  intel_wopcm.o
-+	  i915_vma_resource.o
- 
- # general-purpose microcontroller (GuC) support
- i915-y += gt/uc/intel_uc.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 6b58c95ad6a0..9263f10ecd28 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -560,7 +560,7 @@ static int init_ggtt(struct i915_ggtt *ggtt)
- 	 * why.
- 	 */
- 	ggtt->pin_bias = max_t(u32, I915_GTT_PAGE_SIZE,
--			       intel_wopcm_guc_size(&ggtt->vm.i915->wopcm));
-+			       intel_wopcm_guc_size(&ggtt->vm.gt->wopcm));
- 
- 	ret = intel_vgt_balloon(ggtt);
- 	if (ret)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 27dbb9e4bd6c..8c751314df3d 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -56,6 +56,7 @@ void intel_gt_common_init_early(struct intel_gt *gt)
- 	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
- 	intel_gt_pm_init_early(gt);
- 
-+	intel_wopcm_init_early(&gt->wopcm);
- 	intel_uc_init_early(&gt->uc);
- 	intel_rps_init_early(&gt->rps);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-index 64aa2ba624fc..2d18fd9ab11f 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-@@ -30,6 +30,7 @@
- #include "intel_migrate_types.h"
- #include "intel_wakeref.h"
- #include "pxp/intel_pxp_types.h"
-+#include "intel_wopcm.h"
- 
- struct drm_i915_private;
- struct i915_ggtt;
-@@ -100,6 +101,7 @@ struct intel_gt {
- 
- 	struct intel_uc uc;
- 	struct intel_gsc gsc;
-+	struct intel_wopcm wopcm;
- 
- 	struct {
- 		/* Serialize global tlb invalidations */
-diff --git a/drivers/gpu/drm/i915/intel_wopcm.c b/drivers/gpu/drm/i915/gt/intel_wopcm.c
-similarity index 87%
-rename from drivers/gpu/drm/i915/intel_wopcm.c
-rename to drivers/gpu/drm/i915/gt/intel_wopcm.c
-index 322fb9eeb880..7ebbcc191c2d 100644
---- a/drivers/gpu/drm/i915/intel_wopcm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_wopcm.c
-@@ -64,9 +64,9 @@
- #define GEN9_GUC_FW_RESERVED	SZ_128K
- #define GEN9_GUC_WOPCM_OFFSET	(GUC_WOPCM_RESERVED + GEN9_GUC_FW_RESERVED)
- 
--static inline struct drm_i915_private *wopcm_to_i915(struct intel_wopcm *wopcm)
-+static inline struct intel_gt *wopcm_to_gt(struct intel_wopcm *wopcm)
- {
--	return container_of(wopcm, struct drm_i915_private, wopcm);
-+	return container_of(wopcm, struct intel_gt, wopcm);
- }
- 
- /**
-@@ -77,7 +77,8 @@ static inline struct drm_i915_private *wopcm_to_i915(struct intel_wopcm *wopcm)
-  */
- void intel_wopcm_init_early(struct intel_wopcm *wopcm)
- {
--	struct drm_i915_private *i915 = wopcm_to_i915(wopcm);
-+	struct intel_gt *gt = wopcm_to_gt(wopcm);
-+	struct drm_i915_private *i915 = gt->i915;
- 
- 	if (!HAS_GT_UC(i915))
- 		return;
-@@ -157,10 +158,11 @@ static bool check_hw_restrictions(struct drm_i915_private *i915,
- 	return true;
- }
- 
--static bool __check_layout(struct drm_i915_private *i915, u32 wopcm_size,
-+static bool __check_layout(struct intel_gt *gt, u32 wopcm_size,
- 			   u32 guc_wopcm_base, u32 guc_wopcm_size,
- 			   u32 guc_fw_size, u32 huc_fw_size)
- {
-+	struct drm_i915_private *i915 = gt->i915;
- 	const u32 ctx_rsvd = context_reserved_size(i915);
- 	u32 size;
- 
-@@ -181,12 +183,14 @@ static bool __check_layout(struct drm_i915_private *i915, u32 wopcm_size,
- 		return false;
- 	}
- 
--	size = huc_fw_size + WOPCM_RESERVED_SIZE;
--	if (unlikely(guc_wopcm_base < size)) {
--		drm_err(&i915->drm, "WOPCM: no space for %s: %uK < %uK\n",
--			intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
--			guc_wopcm_base / SZ_1K, size / SZ_1K);
--		return false;
-+	if (intel_uc_supports_huc(&gt->uc)) {
-+		size = huc_fw_size + WOPCM_RESERVED_SIZE;
-+		if (unlikely(guc_wopcm_base < size)) {
-+			drm_err(&i915->drm, "WOPCM: no space for %s: %uK < %uK\n",
-+				intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
-+				guc_wopcm_base / SZ_1K, size / SZ_1K);
-+			return false;
-+		}
- 	}
- 
- 	return check_hw_restrictions(i915, guc_wopcm_base, guc_wopcm_size,
-@@ -228,8 +232,8 @@ static bool __wopcm_regs_writable(struct intel_uncore *uncore)
-  */
- void intel_wopcm_init(struct intel_wopcm *wopcm)
- {
--	struct drm_i915_private *i915 = wopcm_to_i915(wopcm);
--	struct intel_gt *gt = to_gt(i915);
-+	struct intel_gt *gt = wopcm_to_gt(wopcm);
-+	struct drm_i915_private *i915 = gt->i915;
- 	u32 guc_fw_size = intel_uc_fw_get_upload_size(&gt->uc.guc.fw);
- 	u32 huc_fw_size = intel_uc_fw_get_upload_size(&gt->uc.huc.fw);
- 	u32 ctx_rsvd = context_reserved_size(i915);
-@@ -274,6 +278,19 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
- 		goto check;
- 	}
- 
-+	/*
-+	 * On platforms with a media GT, the WOPCM is partitioned between the
-+	 * two GTs, so we would have to take that into account when doing the
-+	 * math below. There is also a new section reserved for the GSC context
-+	 * that would have to be factored in. However, all platforms with a
-+	 * media GT also have GuC depriv enabled, so the WOPCM regs are
-+	 * pre-locked and therefore we don't have to do the math ourselves.
-+	 */
-+	if (unlikely(i915->media_gt)) {
-+		drm_err(&i915->drm, "Unlocked WOPCM regs with media GT\n");
-+		return;
-+	}
-+
- 	/*
- 	 * Aligned value of guc_wopcm_base will determine available WOPCM space
- 	 * for HuC firmware and mandatory reserved area.
-@@ -295,7 +312,7 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
- 		guc_wopcm_base / SZ_1K, guc_wopcm_size / SZ_1K);
- 
- check:
--	if (__check_layout(i915, wopcm_size, guc_wopcm_base, guc_wopcm_size,
-+	if (__check_layout(gt, wopcm_size, guc_wopcm_base, guc_wopcm_size,
- 			   guc_fw_size, huc_fw_size)) {
- 		wopcm->guc.base = guc_wopcm_base;
- 		wopcm->guc.size = guc_wopcm_size;
-diff --git a/drivers/gpu/drm/i915/intel_wopcm.h b/drivers/gpu/drm/i915/gt/intel_wopcm.h
-similarity index 100%
-rename from drivers/gpu/drm/i915/intel_wopcm.h
-rename to drivers/gpu/drm/i915/gt/intel_wopcm.h
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index dbd048b77e19..4cd8a787f9e5 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -357,8 +357,8 @@ static int uc_init_wopcm(struct intel_uc *uc)
- {
- 	struct intel_gt *gt = uc_to_gt(uc);
- 	struct intel_uncore *uncore = gt->uncore;
--	u32 base = intel_wopcm_guc_base(&gt->i915->wopcm);
--	u32 size = intel_wopcm_guc_size(&gt->i915->wopcm);
-+	u32 base = intel_wopcm_guc_base(&gt->wopcm);
-+	u32 size = intel_wopcm_guc_size(&gt->wopcm);
- 	u32 huc_agent = intel_uc_uses_huc(uc) ? HUC_LOADING_AGENT_GUC : 0;
- 	u32 mask;
- 	int err;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 81e06d71c1a8..0c80ba51a4bd 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -478,10 +478,11 @@ static int check_gsc_manifest(const struct firmware *fw,
- 	return 0;
- }
- 
--static int check_ccs_header(struct drm_i915_private *i915,
-+static int check_ccs_header(struct intel_gt *gt,
- 			    const struct firmware *fw,
- 			    struct intel_uc_fw *uc_fw)
- {
-+	struct drm_i915_private *i915 = gt->i915;
- 	struct uc_css_header *css;
- 	size_t size;
- 
-@@ -523,10 +524,10 @@ static int check_ccs_header(struct drm_i915_private *i915,
- 
- 	/* Sanity check whether this fw is not larger than whole WOPCM memory */
- 	size = __intel_uc_fw_get_upload_size(uc_fw);
--	if (unlikely(size >= i915->wopcm.size)) {
-+	if (unlikely(size >= gt->wopcm.size)) {
- 		drm_warn(&i915->drm, "%s firmware %s: invalid size: %zu > %zu\n",
- 			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			 size, (size_t)i915->wopcm.size);
-+			 size, (size_t)gt->wopcm.size);
- 		return -E2BIG;
- 	}
- 
-@@ -554,7 +555,8 @@ static int check_ccs_header(struct drm_i915_private *i915,
-  */
- int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- {
--	struct drm_i915_private *i915 = __uc_fw_to_gt(uc_fw)->i915;
-+	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
-+	struct drm_i915_private *i915 = gt->i915;
- 	struct intel_uc_fw_file file_ideal;
- 	struct device *dev = i915->drm.dev;
- 	struct drm_i915_gem_object *obj;
-@@ -562,7 +564,7 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	bool old_ver = false;
- 	int err;
- 
--	GEM_BUG_ON(!i915->wopcm.size);
-+	GEM_BUG_ON(!gt->wopcm.size);
- 	GEM_BUG_ON(!intel_uc_fw_is_enabled(uc_fw));
- 
- 	err = i915_inject_probe_error(i915, -ENXIO);
-@@ -615,7 +617,7 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	if (uc_fw->loaded_via_gsc)
- 		err = check_gsc_manifest(fw, uc_fw);
- 	else
--		err = check_ccs_header(i915, fw, uc_fw);
-+		err = check_ccs_header(gt, fw, uc_fw);
- 	if (err)
- 		goto fail;
- 
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index ffff49868dc5..ba4b71aedc40 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -371,8 +371,6 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
- 	if (ret)
- 		goto err_ttm;
- 
--	intel_wopcm_init_early(&dev_priv->wopcm);
--
- 	ret = intel_root_gt_init_early(dev_priv);
- 	if (ret < 0)
- 		goto err_rootgt;
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 9453fdd4205f..66aa2cd9aefe 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -62,7 +62,6 @@
- #include "intel_runtime_pm.h"
- #include "intel_step.h"
- #include "intel_uncore.h"
--#include "intel_wopcm.h"
- 
- struct drm_i915_clock_gating_funcs;
- struct drm_i915_gem_object;
-@@ -235,8 +234,6 @@ struct drm_i915_private {
- 
- 	struct intel_gvt *gvt;
- 
--	struct intel_wopcm wopcm;
--
- 	struct pci_dev *bridge_dev;
- 
- 	struct rb_root uabi_engines;
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 9093d2be9e1c..7a9ce81600a0 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -1140,9 +1140,10 @@ int i915_gem_init(struct drm_i915_private *dev_priv)
- 	if (ret)
- 		return ret;
- 
--	for_each_gt(gt, dev_priv, i)
-+	for_each_gt(gt, dev_priv, i) {
- 		intel_uc_fetch_firmwares(&gt->uc);
--	intel_wopcm_init(&dev_priv->wopcm);
-+		intel_wopcm_init(&gt->wopcm);
-+	}
- 
- 	ret = i915_init_ggtt(dev_priv);
- 	if (ret) {
--- 
-2.37.3
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2022-10-24
 
+for you to fetch changes up to e0e86f25fd469ca76c1b50091372aed1ff99ca1a:
+
+  drm/msm: Kconfig: Fix spelling mistake "throught" -> "through"
+(2022-10-14 09:33:12 -0700)
+
+----------------------------------------------------------------
+msm-fixes for v6.1
+
+- Fix shrinker deadlock
+- Fix crash during suspend after unbind
+- Fix IRQ lifetime issues
+- Fix potential memory corruption with too many bridges
+- Fix memory corruption on GPU state capture
+
+----------------------------------------------------------------
+Aashish Sharma (1):
+      drm/msm: Remove redundant check for 'submit'
+
+Akhil P Oommen (2):
+      drm/msm/a6xx: Replace kcalloc() with kvzalloc()
+      drm/msm/gpu: Fix crash during system suspend after unbind
+
+Colin Ian King (1):
+      drm/msm: Kconfig: Fix spelling mistake "throught" -> "through"
+
+Johan Hovold (8):
+      drm/msm: fix use-after-free on probe deferral
+      drm/msm/dp: fix memory corruption with too many bridges
+      drm/msm/dsi: fix memory corruption with too many bridges
+      drm/msm/hdmi: fix memory corruption with too many bridges
+      drm/msm/dp: fix IRQ lifetime
+      drm/msm/dp: fix aux-bus EP lifetime
+      drm/msm/dp: fix bridge lifetime
+      drm/msm/hdmi: fix IRQ lifetime
+
+Kuogee Hsieh (2):
+      drm/msm/dp: add atomic_check to bridge ops
+      drm/msm/dp: cleared DP_DOWNSPREAD_CTRL register before start link training
+
+Nathan Huckleberry (1):
+      drm/msm: Fix return type of mdp4_lvds_connector_mode_valid
+
+Rob Clark (4):
+      drm/msm/gem: Unpin objects slightly later
+      drm/msm/a6xx: Fix kvzalloc vs state_kcalloc usage
+      drm/msm/a6xx: Skip snapshotting unused GMU buffers
+      drm/msm/a6xx: Remove state objects from list before freeing
+
+ drivers/gpu/drm/msm/Kconfig                        |  2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        | 14 +++++++--
+ drivers/gpu/drm/msm/adreno/adreno_device.c         | 10 ++++++-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  7 ++++-
+ .../gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c    |  5 ++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 13 ++++-----
+ drivers/gpu/drm/msm/dp/dp_display.c                | 23 +++++++++++++--
+ drivers/gpu/drm/msm/dp/dp_drm.c                    | 34 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_parser.c                 |  6 ++--
+ drivers/gpu/drm/msm/dp/dp_parser.h                 |  5 ++--
+ drivers/gpu/drm/msm/dsi/dsi.c                      |  6 ++++
+ drivers/gpu/drm/msm/hdmi/hdmi.c                    |  7 ++++-
+ drivers/gpu/drm/msm/msm_drv.c                      |  1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c               |  9 +++---
+ drivers/gpu/drm/msm/msm_gpu.c                      |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.h                      |  4 +++
+ drivers/gpu/drm/msm/msm_ringbuffer.c               |  3 +-
+ 17 files changed, 120 insertions(+), 31 deletions(-)
