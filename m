@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB5E609BE6
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE46609C10
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 10:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A027610E2C3;
-	Mon, 24 Oct 2022 07:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C1010E2CB;
+	Mon, 24 Oct 2022 08:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22CDB10E2C3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:56:28 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id x2so833995edd.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 00:56:28 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB8F10E325
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:07:35 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id a5so15116697edb.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 01:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SwWQb8oemB4+jz+zwrXGcKHoP4NnD8EJpRvthEA+8Xk=;
- b=mgc9eBnmWDCw/KI1b91Hzr+SXtXXihZ/IZ9Xf8LZFla/f4O2nMMhiJcxnD5FHTUO28
- ddZDYlhmLoY3rz9RezoehbyUY5h3vvGLTYJWNpSdV15+LS0vYKA9CHdUbQCHLFAffqwy
- Sx/Tn2r5KJ/Xen6DU4SyJiS3ToqUcyttByQZ8Q5MToumbr/lWg3mKJOnMWa/T1BLKei2
- G5aw8oQ8sYmsEDkHbRMOG/QzUhxM1tH1H6HRVyvCb18c7wY2csgSfgenX/JsVdGScI48
- M8omtLWbBOmopwbnZ9IUqsSFuWgKPiv8x+IoEZsv6KeGkFGDbbSatsjmvTlA82lpOLvk
- cobw==
+ bh=bJyKcXirmoJHw04J67wvkLB1zRITu1b/Yf9TAcTCa00=;
+ b=q/C+ZzlNYEf+623922EqBJSjLs5+oESif0J1/ZbzPMo6jck0mxCmuwOqLatGixRbf5
+ CHplhHPSRJIVV+6sfQIpO5P7wlPhPkoGNxcLWLeVK1o8XZd5hWd9YGgvex3vu9WKchvO
+ 9pqE1s/mtvo6oAqD54hHtip7WTic/4jSzPqlu6gidAsYxon5ge+nYg9mfyfgMcdymzLr
+ TqMUdDEsrK47YujQ5QeuPsHVfyaeNMC6ygKRvlL3uOIzXt2xkSezcIgzEn24T4wt7aY3
+ HnjDKwJVXzPuPgfACQoc4h1GeFxNrduCCkR13ruSbhtbuzU9O1LrUUfA8JNWch6UUZMD
+ QGDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=SwWQb8oemB4+jz+zwrXGcKHoP4NnD8EJpRvthEA+8Xk=;
- b=hRxl6n1N4sEuntk34nse+AbGd9pjZnKUb9iKOZ1Pjd9hQIWk3K8bu1L14E5XFHKMi5
- UVRJDDEanBPBBc8FW2cNbKiFx3XWkb9tiHrIo+mAEp5jOZ581IezaMH8zov/fGEYDGDg
- NcCO41M0svq+IODZ3pchtwygQKoQNwoRX+71uAQ5D5DZZQDzHFRe+KPFzChDZUJmvLhQ
- 6UC/Ld86MzZ+T3tTrW6UknIwm4SZMu6wbFli0sOH1c1yjB8z9FxB37WSqQNTUNz3mT59
- HVTIYfdmjRJ19imm66kUNzcZRR/EdYvEmJ3AQujh5YqJbGeqj02Lg01Ujovz6x7ldlgA
- tY1Q==
-X-Gm-Message-State: ACrzQf1tUayTeIF7zuYjrQK1IiQO26YbWvAT0BUKlYOeq28+p193Veh3
- QfUqJbqIPLB/flR1C6BvYKyorDP6+6S99n1o55vbJY5tcE0=
-X-Google-Smtp-Source: AMsMyM6iTIpIj01086FgzlaMlYcgrK55GCiS7dDyxU3CMtDClj3564oTprjeQT+ELvW3jRF4OVfa+S60/W69KvNmfAg=
+ bh=bJyKcXirmoJHw04J67wvkLB1zRITu1b/Yf9TAcTCa00=;
+ b=qsYXcqD3GsZv0gq1053NsCwkwrFHnol6yZDjRicmTIN6Hy4ns8Vc5a+g2HXiZE1yoH
+ zMs3zHZrR3KsPGKlWS40h4YDHKeflZTr2qeHlabr7/ytNc0fxktVFwNJzR/IaiHRbbru
+ iRcACouSWv9pXzcmFdvAC3eSzFwq288TFlng8mHwqbSmiPaKfo6F20JxI1adrp1/cHLX
+ AAzq+xh0dREkGvvEDVSoA7HnWQS7bLLJ2sYxU0+zKdyN+cOZK43t1rhX2aLhkHA60RgV
+ fEVssdN1LTIRdKRFyOB+1QbhhGhfissxVjbQASy+n96dUSSP9ZwfUuyjOyF5nX1gQzwr
+ hVbw==
+X-Gm-Message-State: ACrzQf1rkGtlmzqEJiY6iZDYk/JLpq+7PGXRt/Nl/Jtfs4RMfa9Az4nN
+ I8Q+nDYpsuWoFgU6b4TWuHcVwmjzoeGyefKjwOk4HA==
+X-Google-Smtp-Source: AMsMyM5FOZfIhyX3k0OFsulBbrJ2OmOnll7BloxuDQAQqp73e/PkTjOKcE9T8rfsh7ftAaDYyMdjZUqrVX1Z58X4RFU=
 X-Received: by 2002:a05:6402:2402:b0:45c:a1ce:94d8 with SMTP id
- t2-20020a056402240200b0045ca1ce94d8mr28776441eda.50.1666598186547; Mon, 24
- Oct 2022 00:56:26 -0700 (PDT)
+ t2-20020a056402240200b0045ca1ce94d8mr28808767eda.50.1666598854484; Mon, 24
+ Oct 2022 01:07:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221013110411.1674359-1-treapking@chromium.org>
- <20221013110411.1674359-3-treapking@chromium.org>
-In-Reply-To: <20221013110411.1674359-3-treapking@chromium.org>
+ <20221013110411.1674359-4-treapking@chromium.org>
+In-Reply-To: <20221013110411.1674359-4-treapking@chromium.org>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 24 Oct 2022 09:56:15 +0200
-Message-ID: <CAG3jFyskXfbX=rTye9ygT36kKmqJRr0rO1eQrKSr1V7hOHxDcA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] drm/bridge: it6505: Setup links in it6505_irq_hpd
+Date: Mon, 24 Oct 2022 10:07:23 +0200
+Message-ID: <CAG3jFytZ9cqNZLXfegtW=AO=3NAKiVCmSpAwmf1H4u60xo50CQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/bridge: it6505: Improve synchronization
+ between extcon subsystem
 To: Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,156 +76,107 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 13 Oct 2022 at 13:04, Pin-yen Lin <treapking@chromium.org> wrote:
 >
-> Move the DPCD read and link setup steps to HPD IRQ handler to remove
-> an unnecessary dependency between .detect callback and the HPD IRQ
-> handler before registering it6505 as a DRM bridge. This is safe because
-> there is always a .detect call after each HPD IRQ handler triggered by
-> the drm_helper_hpd_irq_event call.
+> Originally, the it6505 relies on a short sleep in the IRQ handler and a
+> long sleep to make sure it6505->lane_swap and it6505->lane_count is
+> configured in it6505_extcon_work and it6505_detect, respectively.
+>
+> Use completion and additional DPCD read to remove the unnecessary waits,
+> and use a different lock for it6505_extcon_work and the threaded IRQ
+> handler because they no longer need to run exclusively.
+>
+> The wait time of the completion is usually less than 10ms in local
+> experiments, but leave it larger here just in case.
 >
 > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 > ---
 >
 > Changes in v2:
-> - Remove redundant spaces in it6505_detect
-> - Read sink count in it6505_irq_hpd
+> - Add the empty line back
 >
->  drivers/gpu/drm/bridge/ite-it6505.c | 80 +++++++++++++----------------
->  1 file changed, 35 insertions(+), 45 deletions(-)
+>  drivers/gpu/drm/bridge/ite-it6505.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index f7f6c3e20fae..4b6061272599 100644
+> index 4b6061272599..0de44c651c60 100644
 > --- a/drivers/gpu/drm/bridge/ite-it6505.c
 > +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -725,28 +725,6 @@ static void it6505_calc_video_info(struct it6505 *it6505)
->                              DRM_MODE_ARG(&it6505->video_info));
->  }
->
-> -static int it6505_drm_dp_link_probe(struct drm_dp_aux *aux,
-> -                                   struct it6505_drm_dp_link *link)
-> -{
-> -       u8 values[3];
-> -       int err;
-> -
-> -       memset(link, 0, sizeof(*link));
-> -
-> -       err = drm_dp_dpcd_read(aux, DP_DPCD_REV, values, sizeof(values));
-> -       if (err < 0)
-> -               return err;
-> -
-> -       link->revision = values[0];
-> -       link->rate = drm_dp_bw_code_to_link_rate(values[1]);
-> -       link->num_lanes = values[2] & DP_MAX_LANE_COUNT_MASK;
-> -
-> -       if (values[2] & DP_ENHANCED_FRAME_CAP)
-> -               link->capabilities = DP_ENHANCED_FRAME_CAP;
-> -
-> -       return 0;
-> -}
-> -
->  static int it6505_drm_dp_link_set_power(struct drm_dp_aux *aux,
->                                         struct it6505_drm_dp_link *link,
->                                         u8 mode)
-> @@ -1456,11 +1434,19 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
->         int bcaps;
->
->         if (it6505->dpcd[0] == 0) {
-> -               it6505_aux_on(it6505);
-> -               it6505_get_dpcd(it6505, DP_DPCD_REV, it6505->dpcd,
-> -                               ARRAY_SIZE(it6505->dpcd));
-> +               dev_err(dev, "DPCD is not initialized");
-> +               return;
->         }
->
-> +       memset(link, 0, sizeof(*link));
-> +
-> +       link->revision = it6505->dpcd[0];
-> +       link->rate = drm_dp_bw_code_to_link_rate(it6505->dpcd[1]);
-> +       link->num_lanes = it6505->dpcd[2] & DP_MAX_LANE_COUNT_MASK;
-> +
-> +       if (it6505->dpcd[2] & DP_ENHANCED_FRAME_CAP)
-> +               link->capabilities = DP_ENHANCED_FRAME_CAP;
-> +
->         DRM_DEV_DEBUG_DRIVER(dev, "DPCD Rev.: %d.%d",
->                              link->revision >> 4, link->revision & 0x0F);
->
-> @@ -2323,19 +2309,32 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
->  static void it6505_irq_hpd(struct it6505 *it6505)
->  {
->         struct device *dev = &it6505->client->dev;
-> +       int dp_sink_count;
->
->         it6505->hpd_state = it6505_get_sink_hpd_status(it6505);
->         DRM_DEV_DEBUG_DRIVER(dev, "hpd change interrupt, change to %s",
+> @@ -412,6 +412,7 @@ struct it6505 {
+>          * Mutex protects extcon and interrupt functions from interfering
+>          * each other.
+>          */
+> +       struct mutex irq_lock;
+>         struct mutex extcon_lock;
+>         struct mutex mode_lock; /* used to bridge_detect */
+>         struct mutex aux_lock; /* used to aux data transfers */
+> @@ -440,7 +441,7 @@ struct it6505 {
+>         enum hdcp_state hdcp_status;
+>         struct delayed_work hdcp_work;
+>         struct work_struct hdcp_wait_ksv_list;
+> -       struct completion wait_edid_complete;
+> +       struct completion extcon_completion;
+>         u8 auto_train_retry;
+>         bool hdcp_desired;
+>         bool is_repeater;
+> @@ -2316,8 +2317,8 @@ static void it6505_irq_hpd(struct it6505 *it6505)
 >                              it6505->hpd_state ? "high" : "low");
 >
-> -       if (it6505->bridge.dev)
-> -               drm_helper_hpd_irq_event(it6505->bridge.dev);
-> -       DRM_DEV_DEBUG_DRIVER(dev, "it6505->sink_count: %d",
-> -                            it6505->sink_count);
-> -
 >         if (it6505->hpd_state) {
->                 wait_for_completion_timeout(&it6505->wait_edid_complete,
->                                             msecs_to_jiffies(6000));
-> +               it6505_aux_on(it6505);
-> +               if (it6505->dpcd[0] == 0) {
-> +                       it6505_get_dpcd(it6505, DP_DPCD_REV, it6505->dpcd,
-> +                                       ARRAY_SIZE(it6505->dpcd));
-> +                       it6505_variable_config(it6505);
-> +                       it6505_parse_link_capabilities(it6505);
-> +               }
-> +               it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-> +
-> +               it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> +                                            DP_SET_POWER_D0);
-> +               dp_sink_count = it6505_dpcd_read(it6505, DP_SINK_COUNT);
-> +               it6505->sink_count = DP_GET_SINK_COUNT(dp_sink_count);
-> +
-> +               DRM_DEV_DEBUG_DRIVER(dev, "it6505->sink_count: %d",
-> +                                    it6505->sink_count);
-> +
->                 it6505_lane_termination_on(it6505);
->                 it6505_lane_power_on(it6505);
+> -               wait_for_completion_timeout(&it6505->wait_edid_complete,
+> -                                           msecs_to_jiffies(6000));
+> +               wait_for_completion_timeout(&it6505->extcon_completion,
+> +                                           msecs_to_jiffies(1000));
+>                 it6505_aux_on(it6505);
+>                 if (it6505->dpcd[0] == 0) {
+>                         it6505_get_dpcd(it6505, DP_DPCD_REV, it6505->dpcd,
+> @@ -2493,8 +2494,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
+>         };
+>         int int_status[3], i;
 >
-> @@ -2363,6 +2362,9 @@ static void it6505_irq_hpd(struct it6505 *it6505)
->                 it6505_lane_off(it6505);
->                 it6505_link_reset_step_train(it6505);
+> -       msleep(100);
+> -       mutex_lock(&it6505->extcon_lock);
+> +       mutex_lock(&it6505->irq_lock);
+>
+>         if (it6505->enable_drv_hold || !it6505->powered)
+>                 goto unlock;
+> @@ -2524,7 +2524,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
 >         }
-> +
-> +       if (it6505->bridge.dev)
-> +               drm_helper_hpd_irq_event(it6505->bridge.dev);
+>
+>  unlock:
+> -       mutex_unlock(&it6505->extcon_lock);
+> +       mutex_unlock(&it6505->irq_lock);
+>
+>         return IRQ_HANDLED;
 >  }
+> @@ -2701,9 +2701,12 @@ static void it6505_extcon_work(struct work_struct *work)
+>                  */
+>                 if (ret)
+>                         it6505_poweron(it6505);
+> +
+> +               complete_all(&it6505->extcon_completion);
+>         } else {
+>                 DRM_DEV_DEBUG_DRIVER(dev, "start to power off");
+>                 pm_runtime_put_sync(dev);
+> +               reinit_completion(&it6505->extcon_completion);
 >
->  static void it6505_irq_hpd_irq(struct it6505 *it6505)
-> @@ -2625,26 +2627,14 @@ static enum drm_connector_status it6505_detect(struct it6505 *it6505)
->                 goto unlock;
+>                 drm_helper_hpd_irq_event(it6505->bridge.dev);
+>                 memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
+> @@ -3274,6 +3277,7 @@ static int it6505_i2c_probe(struct i2c_client *client,
+>         if (!it6505)
+>                 return -ENOMEM;
 >
->         if (it6505->enable_drv_hold) {
-> -               status = it6505_get_sink_hpd_status(it6505) ?
-> -                                       connector_status_connected :
-> -                                       connector_status_disconnected;
-> +               status = it6505->hpd_state ? connector_status_connected :
-> +                                            connector_status_disconnected;
->                 goto unlock;
->         }
->
-> -       if (it6505_get_sink_hpd_status(it6505)) {
-> -               it6505_aux_on(it6505);
-> -               it6505_drm_dp_link_probe(&it6505->aux, &it6505->link);
-> +       if (it6505->hpd_state) {
->                 it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
->                                              DP_SET_POWER_D0);
-> -               it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-> -
-> -               if (it6505->dpcd[0] == 0) {
-> -                       it6505_get_dpcd(it6505, DP_DPCD_REV, it6505->dpcd,
-> -                                       ARRAY_SIZE(it6505->dpcd));
-> -                       it6505_variable_config(it6505);
-> -                       it6505_parse_link_capabilities(it6505);
-> -               }
-> -
->                 dp_sink_count = it6505_dpcd_read(it6505, DP_SINK_COUNT);
->                 it6505->sink_count = DP_GET_SINK_COUNT(dp_sink_count);
->                 DRM_DEV_DEBUG_DRIVER(dev, "it6505->sink_count:%d branch:%d",
+> +       mutex_init(&it6505->irq_lock);
+>         mutex_init(&it6505->extcon_lock);
+>         mutex_init(&it6505->mode_lock);
+>         mutex_init(&it6505->aux_lock);
+> @@ -3329,7 +3333,7 @@ static int it6505_i2c_probe(struct i2c_client *client,
+>         INIT_WORK(&it6505->link_works, it6505_link_training_work);
+>         INIT_WORK(&it6505->hdcp_wait_ksv_list, it6505_hdcp_wait_ksv_list);
+>         INIT_DELAYED_WORK(&it6505->hdcp_work, it6505_hdcp_work);
+> -       init_completion(&it6505->wait_edid_complete);
+> +       init_completion(&it6505->extcon_completion);
+>         memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
+>         it6505->powered = false;
+>         it6505->enable_drv_hold = DEFAULT_DRV_HOLD;
 > --
 > 2.38.0.rc1.362.ged0d419d3c-goog
 >
