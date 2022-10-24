@@ -2,47 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2581A60B39A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 19:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B665260B3A9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 19:13:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3F910E470;
-	Mon, 24 Oct 2022 17:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5396910E03C;
+	Mon, 24 Oct 2022 17:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8FDC10E470;
- Mon, 24 Oct 2022 17:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666631500; x=1698167500;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=AdqBzxwJJzTj8gqrrzrBRfhiuEO4hV7/0OScqLSKirc=;
- b=Rjn9pEQVXEU3VMTZCe+hb+YE2EuQKhejtJUL5ySAyWzojHwTbWUbbT2X
- n8WhNy6GE95MT2LxLSi+0/Eaja6Jo5nvzhowyTSwC7P3dc1JyEtrPldhB
- jgPbpWNXcQoajyvFWti2YUpfoJu3fFzTvhRRdjPml0+KNsu9zUzhJLnJ8
- HmLCj7NBK4DxAX0pAWiRsfLvL/Z4+hkjhH6+kuuFEvfu6v70JUKlQQ7IS
- wAiFXqHBctcy76u9vFxJK0QwThWi+Mit2Sz9lOSZycgbUOzIL+ohJb9Yc
- 4BsBZy9+GSkU4Ys2lnNCkOkyslnKkzKZ2OUfBGJLubDBSVmCb1icDHsZN g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="305087722"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="305087722"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 10:11:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609269436"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="609269436"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga006.jf.intel.com with ESMTP; 24 Oct 2022 10:11:37 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5] drm/i915/slpc: Optmize waitboost for SLPC
-Date: Mon, 24 Oct 2022 10:11:08 -0700
-Message-Id: <20221024171108.14373-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE0210E03C;
+ Mon, 24 Oct 2022 17:13:48 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-13b103a3e5dso12619636fac.2; 
+ Mon, 24 Oct 2022 10:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xxzTjIKoWHzpXZkE15ZuSeCbJ7LXx6Uum8mVewcZBOg=;
+ b=QAaRuGQ0VAKcMbmNeXi3Y+/OCrDNO4s8VSnES3ODLjDqJ1JAUFaCG3GiIn5a/T2eQm
+ N7kqAThx3S2sj1FmZY1Rm3YK1l9g1ES2kCzYXI6zD3ruz/URkeFnqyHJL9pUA/fiLJgM
+ fWOAwU9bpjNOgRX6Ziz+0SsSvTpZcbZX25WAbb2dk8Q8megbzYTnQSgUTp1T5Nu6ElJ1
+ 1NPRMVZEfOCNtT5n8ZT9Hd9rlkDwZWiaR2iE5Tau3ik4rXankzq5eWcU7vuOSUmb2lqV
+ hzIiVE2V+BrJnM4Tj4QbywtIOnQk31q+Njl6uxbr86pGLQvZzfoIqw1k0jbwPRWzbPIe
+ Mxnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xxzTjIKoWHzpXZkE15ZuSeCbJ7LXx6Uum8mVewcZBOg=;
+ b=faNi91f169CQYB4qHJ4pcIBQXxugwIajEiH+gEaFd6iHgxz6Zip7AuTbroqIhtH/Qy
+ c0GbHgxcp9GDosM2e4gh89BV2h+G6ehXsZQjXdK6V5mQimehq+t4Q9nRzPv6RzUe8Sww
+ /WtvklhZ1yXCve0CSJ5TukuomfUhJVQ5uD4xdz9ZE+In+u3zDH2/uWU0/sML0zOAzSlc
+ SHB0bilZaVbtWMtX7ry4wO4xyWmXL/Ycy8YU6isx0wbeTJKCeoQv+RVOEzGPoAQWcfaF
+ KnT738kRisfLJgdSxpI0pF42YZJl5kdLLY1vYOIBmszibpZMVk3RuEz4wkqR0evUELM+
+ Kh9g==
+X-Gm-Message-State: ACrzQf0PLrwguC+gUlxjJQO1TRZNxAXt18hzpmUdf9KF7s70wgBBHr4N
+ AL48+baUzVefFyfTM51UwCi2f8DHRSJ0GaHe6Pk=
+X-Google-Smtp-Source: AMsMyM7GsGsatWsLnXjmC7Huhqtn92xonppGcoyhsKjpgrd1gtKinzghr4K/o04hp5qNLGmswJyf0DHSLoZsyG2VbDk=
+X-Received: by 2002:a05:6870:a7a4:b0:136:7c39:979e with SMTP id
+ x36-20020a056870a7a400b001367c39979emr21199731oao.96.1666631627779; Mon, 24
+ Oct 2022 10:13:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAP+8YyFUoFhh1+CEKrs48JV5CiorSSfe6qg90TyUrDoBtzcPhA@mail.gmail.com>
+ <20221024113359.5575-1-samsagax@gmail.com>
+In-Reply-To: <20221024113359.5575-1-samsagax@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 24 Oct 2022 13:13:36 -0400
+Message-ID: <CADnq5_NKOn1BuTfrmyJNwwE_Owy-EAf0khXJ-AbT+5QiR6NuvA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/display: Revert logic for plane modifiers
+To: =?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,50 +68,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, rodrigo.siqueira@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ stable@vger.kernel.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Waitboost (when SLPC is enabled) results in a H2G message. This can result
-in thousands of messages during a stress test and fill up an already full
-CTB. There is no need to request for boost if min softlimit is equal or
-greater than it.
+Applied.  Thanks!
 
-v2: Add the tracing back, and check requested freq
-in the worker thread (Tvrtko)
-v3: Check requested freq in dec_waiters as well
-v4: Only check min_softlimit against boost_freq. Limit this
-optimization for server parts for now.
-v5: min_softlimit can be greater than boost (Ashutosh)
+Alex
 
-Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_rps.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index fc23c562d9b2..2ece7a559cde 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -1016,9 +1016,15 @@ void intel_rps_boost(struct i915_request *rq)
- 		if (rps_uses_slpc(rps)) {
- 			slpc = rps_to_slpc(rps);
- 
-+			if (slpc->min_freq_softlimit >= slpc->boost_freq)
-+				return;
-+
- 			/* Return if old value is non zero */
--			if (!atomic_fetch_inc(&slpc->num_waiters))
-+			if (!atomic_fetch_inc(&slpc->num_waiters)) {
-+				GT_TRACE(rps_to_gt(rps), "boost fence:%llx:%llx\n",
-+					 rq->fence.context, rq->fence.seqno);
- 				schedule_work(&slpc->boost_work);
-+			}
- 
- 			return;
- 		}
--- 
-2.35.1
-
+On Mon, Oct 24, 2022 at 9:17 AM Joaqu=C3=ADn Ignacio Aramend=C3=ADa
+<samsagax@gmail.com> wrote:
+>
+> This file was split in commit 5d945cbcd4b16a29d6470a80dfb19738f9a4319f
+> ("drm/amd/display: Create a file dedicated to planes") and the logic in
+> dm_plane_format_mod_supported() function got changed by a switch logic.
+> That change broke drm_plane modifiers setting on series 5000 APUs
+> (tested on OXP mini AMD 5800U and HP Dev One 5850U PRO)
+> leading to Gamescope not working as reported on GitHub[1]
+>
+> To reproduce the issue, enter a TTY and run:
+>
+> $ gamescope -- vkcube
+>
+> With said commit applied it will abort. This one restores the old logic,
+> fixing the issue that affects Gamescope.
+>
+> [1](https://github.com/Plagman/gamescope/issues/624)
+>
+> Cc: <stable@vger.kernel.org> # 6.0.x
+> Signed-off-by: Joaqu=C3=ADn Ignacio Aramend=C3=ADa <samsagax@gmail.com>
+> Reviewed-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> ---
+> Removed asic_id and excess newlines. Resend with correct Cc line.
+> ---
+>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 50 +++----------------
+>  1 file changed, 7 insertions(+), 43 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
+ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index dfd3be49eac8..e6854f7270a6 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -1369,7 +1369,7 @@ static bool dm_plane_format_mod_supported(struct dr=
+m_plane *plane,
+>  {
+>         struct amdgpu_device *adev =3D drm_to_adev(plane->dev);
+>         const struct drm_format_info *info =3D drm_format_info(format);
+> -       struct hw_asic_id asic_id =3D adev->dm.dc->ctx->asic_id;
+> +       int i;
+>
+>         enum dm_micro_swizzle microtile =3D modifier_gfx9_swizzle_mode(mo=
+difier) & 3;
+>
+> @@ -1386,49 +1386,13 @@ static bool dm_plane_format_mod_supported(struct =
+drm_plane *plane,
+>                 return true;
+>         }
+>
+> -       /* check if swizzle mode is supported by this version of DCN */
+> -       switch (asic_id.chip_family) {
+> -       case FAMILY_SI:
+> -       case FAMILY_CI:
+> -       case FAMILY_KV:
+> -       case FAMILY_CZ:
+> -       case FAMILY_VI:
+> -               /* asics before AI does not have modifier support */
+> -               return false;
+> -       case FAMILY_AI:
+> -       case FAMILY_RV:
+> -       case FAMILY_NV:
+> -       case FAMILY_VGH:
+> -       case FAMILY_YELLOW_CARP:
+> -       case AMDGPU_FAMILY_GC_10_3_6:
+> -       case AMDGPU_FAMILY_GC_10_3_7:
+> -               switch (AMD_FMT_MOD_GET(TILE, modifier)) {
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_R_X:
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_D_X:
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_S_X:
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_D:
+> -                       return true;
+> -               default:
+> -                       return false;
+> -               }
+> -               break;
+> -       case AMDGPU_FAMILY_GC_11_0_0:
+> -       case AMDGPU_FAMILY_GC_11_0_1:
+> -               switch (AMD_FMT_MOD_GET(TILE, modifier)) {
+> -               case AMD_FMT_MOD_TILE_GFX11_256K_R_X:
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_R_X:
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_D_X:
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_S_X:
+> -               case AMD_FMT_MOD_TILE_GFX9_64K_D:
+> -                       return true;
+> -               default:
+> -                       return false;
+> -               }
+> -               break;
+> -       default:
+> -               ASSERT(0); /* Unknown asic */
+> -               break;
+> +       /* Check that the modifier is on the list of the plane's supporte=
+d modifiers. */
+> +       for (i =3D 0; i < plane->modifier_count; i++) {
+> +               if (modifier =3D=3D plane->modifiers[i])
+> +                       break;
+>         }
+> +       if (i =3D=3D plane->modifier_count)
+> +               return false;
+>
+>         /*
+>          * For D swizzle the canonical modifier depends on the bpp, so ch=
+eck
+> --
+> 2.38.1
+>
