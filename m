@@ -1,49 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB8B609B1E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:17:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95013609B23
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92C1810E28C;
-	Mon, 24 Oct 2022 07:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E512510E28F;
+	Mon, 24 Oct 2022 07:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7408D10E28F
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:17:09 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C732C471;
- Mon, 24 Oct 2022 09:17:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1666595827;
- bh=QwTYtoRw5d9J+veUMMU+4XlqVDLalV4JB81eofUWsp0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QGLQ9R7SriYFA4S9PrWE0ybUuLE6ZDje4xl7zfklDBGGgCrvRCAnQK7ObpN9YAxmi
- Sr4H97t+lReZHCCwQTtsMWuOa6yeOcMhG1O08MojOOh4rQ2LmQgjzz5ErXJjr21Lqu
- qqWt7MIWuvUNf1Hh6U8sZSqPoKo+VunqTJDWHkJ8=
-Message-ID: <61e67300-3ed4-827f-34c6-9317fef69673@ideasonboard.com>
-Date: Mon, 24 Oct 2022 10:17:03 +0300
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87A8610E28F;
+ Mon, 24 Oct 2022 07:17:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zc+gUC8QPJHHTKOoDNttRsPFkWy32wJY1P0rVmlUYZN7WEFXehi8XrzrsTLW7h2qClNZ/bG6iC0VaXYYi3+51OBrdoHNGPG3yRHtqxsau2lr1SdNcZDOBRAQiHZy8HVotqOmQeZGOEGBMwsZ35JX2Z+0n4r3br59+nY1n28+Ug9Lj8OioXs6cR8Fw+RWodxvTL2P7HOgQ8wP2SsdDt8w8lyBm7dQNKq3R50uOCR3JVrDZI/OULzjcMNf48R+oLoDrRHtUb7iN6V06lZydmTiEI2+k2+mn2nXUS/E+26Q7oco0ddvPU3T8/B33n89mgaLkjT5AUYxFUtduVkRo3gPfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V+d9rgsmThmOvMfjTGEowicfrLtVcnuHyicer6XnB6E=;
+ b=C/mCQ2ZgPlV4++TLgjdYBM4o4aj50NosKfqPWpXCnmzwsz2N+ORSlJYtN1dYTbZ+p3elw4PyL7IvcpHvSNY9P4KD02tWiWT+NuPZMljrlpl0xzKeBs1bqkgbfeZuVFXsn7yeuj2a8VGo8F6ue/qMf0sYt/mMWWpWcp+S8Dhd4pp/3WJHlkmkBMD2BWkEefUcZFG8cRAJxhGJ3rw80vCYy2qZz/AdgQ0A6Q8BkbSTiqsiMW70dZ01iCzKNVtRb5CXodUoeWvAnFSUjvvTnmM/Bx2VCONvtHOm6Fhj7uV4V5HmkQS6h1IlBtKIto72mbAWsoJP/KBZ+JqOueq/zM73OQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V+d9rgsmThmOvMfjTGEowicfrLtVcnuHyicer6XnB6E=;
+ b=j+LSp2OI+8yL5kwE5qhBeGwP+FbgLpdcRQ9oCY2zQ7k4MI7ZzdT5//lICfmp8DwAtgAw9fd1VRJJ6DBvGQ6w+4/DKdJKDPNuN1HecYPxvCmWSqTpJiFkIuzwdLf6v1duccorIvXLfxnAA0k6y3mad+2sDgyhvVA0IAF5jd1mlsc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ CY5PR12MB6179.namprd12.prod.outlook.com (2603:10b6:930:24::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5746.21; Mon, 24 Oct 2022 07:17:46 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
+ 07:17:45 +0000
+Message-ID: <eb403eac-7f8f-30a9-c60c-152ef33e8f1f@amd.com>
+Date: Mon, 24 Oct 2022 03:17:41 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [RFC PATCH v5 4/6] drm/tidss: Add support to configure OLDI mode
- for am625-dss.
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220928175223.15225-1-a-bhatia1@ti.com>
- <20220928175223.15225-5-a-bhatia1@ti.com>
- <88220e6f-1bcc-7746-4281-e74f9e832e97@ideasonboard.com>
- <d6f8b40b-3e2d-e777-28c9-ff67065e2c8b@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <d6f8b40b-3e2d-e777-28c9-ff67065e2c8b@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 1/2] drm/sched: add DRM_SCHED_FENCE_DONT_PIPELINE flag
+Content-Language: en-CA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20221014081553.114899-1-christian.koenig@amd.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+In-Reply-To: <20221014081553.114899-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT3PR01CA0066.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::17) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|CY5PR12MB6179:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13b48fb3-0183-44a8-89d8-08dab58fd940
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ax0qTH3A/XAvpo26Q56BxZQX8nz42WTQ0/hJNSJf/EL8X4kcFuLmzbGsRHB1N6rXlsEqubg2wnb94D3WCpaW2C4y0HY58P9p9ICQ6BGtA/FAYRKo4lVZjWBG4cGF9eD/9Ss15HWrS0I0izDwCSpYdzHFr3FJsNfF+iXsl2IQzjSWuveNW5FqAsFVmC5Px/XFpQDzVjsOfDA+LUdI5arRrVuSQHHUlcEJzsmTmN0HWZO61qv6eeAIWDAh1x8nc/YRvxkOMHqnEKJXgM89FRe5Zc1UAvIerpWS3hTYCaG4fU0bYgeiRyVrIJrpqWjthUzonjpMFSQ/vV6asmKReLsttUCMgRe1W1pjGXZ7G0tAKRHwlCNd+9Llot7bJrvPXy4dhTzwJj9Ai3XfBk6y22bvOjlc1Hy45q/XkGdEXasrhv5KDrqlld2xuaSmL9r3SQS2dF+XyQVBsDrG2FX9RA9yYwAK6WgRetvVu/q6u+KXVQrwv/2myVegHpfgeJQZs19dIT6bTUeaSS99TjRmXz9KCxKFjkw3GUqKoSghYLKmbGruAv1ICpElADMU0BAkS5jB/4mU5y3Qb+eewk4CDwDBXAmOKlCGBIcMyLf1W9EI23oP4Cj6pKmALbfQeKnbMI/lxB3KuqxlHxnh1QVeY7pU/fh6qN2qC+Q4gKqYecuaa0pj5mUonCapeukHAaeAFxXSzZz5j/f3ccEoxgGczhvjVVV1ux4lmJKpyUcB5Eff4wkBZybgr+V4/eNbPfbLFtfd1RfHWnMJic/WEQhC0l93JYgbbvDzAraJr/dXAV9jnbA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(451199015)(2616005)(6506007)(31686004)(186003)(83380400001)(26005)(53546011)(6512007)(6666004)(8676002)(41300700001)(31696002)(4326008)(86362001)(5660300002)(478600001)(6486002)(66574015)(316002)(4001150100001)(2906002)(36756003)(44832011)(66556008)(66946007)(66476007)(8936002)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NC94Q3VsaHc1WGdBRHdSODc5aWhJQTZVR1Vuay9XTEoyUXkyUEs1SEhCaDhi?=
+ =?utf-8?B?ZW1hTVpGMmY1ZmQrQ2R0NVdSbCtDbHZGMkRHZ2Z1UlBWak1rY1Zoa09ZYUhz?=
+ =?utf-8?B?MWV5REtIRWhIOEtveGhCM3VicjlubmEyRnVqWGJLYTZ5RDNySXJlcU50UWZt?=
+ =?utf-8?B?OHlUOS9KWkxjTXJjTDM5cDhUY3RpaVpYb2RxOGRRbEJFc0ticko5bFZ5QmZU?=
+ =?utf-8?B?dzMwYy9hUTJjZldja0pwNjVpeWpXdkN2YTVQdkZleUxvdkgvR3lHNGZUb2FD?=
+ =?utf-8?B?UTFBSXB5OTdMOUhtaHBwbzFyQ2NJSGV2bUV1WTFvcDR4WFppbDBmcGgrUC84?=
+ =?utf-8?B?MTVDbEhSRlpjRFg1b1ZZWDBKR0ZORHBKVFh0VDlyOGlBeXk4SFU0OTYveE5W?=
+ =?utf-8?B?ZGdwZUhUdmdjczRDbnBFeENwTmxZS1M5bGFYSXk2czJpQ1VLd253QWIzWXJz?=
+ =?utf-8?B?d0NFSnhxR2QxZXlTYUliZm9Bc2R6MXFYS0Y0U3hJbG1Cd0xUQmZPL3N1emlR?=
+ =?utf-8?B?c054dDQ3L2RNNFdkcEQ2aGhOVnBCNDc1WDFIYzJXZ0FkR21sdVU5d3krM3dy?=
+ =?utf-8?B?bkk0TG1Uek5YR1ZXVTdJUk5vcVh2cVV5d0ZOelM1RytaNzNvN051OXFjWjhw?=
+ =?utf-8?B?MkFZbW1abldJZm52YjBOMjdZNi93K3I0MFVZSjFmR1BZMFZXOGxEYVRHRThW?=
+ =?utf-8?B?QUVZS2V1eEZqb21TVDYvcTRhWm05WGMwTEttdTJYZCtXK0VBYlI1clFQZHpn?=
+ =?utf-8?B?algvd252RVN3RUNUYTRDWU1SWm00VmM3emE4L0J5ZFJmTnQzWTlJQ2lDVzEw?=
+ =?utf-8?B?SzdrQWlaWkltSmdSNzZPeVdjekVZY0NWT0E1WnBkMzFWbmk0TVNHWndxVGVJ?=
+ =?utf-8?B?bHNZN0FwM3RIcWtVc1VjbElydzRMbWpBS2RHRmNySmVIbEVUM05MeUYwdlFz?=
+ =?utf-8?B?RmFxWVBYVjNwM204RXptQm56UjZGT2JrbkYycTZCbGE5cTFvV3VsL3VHMHU1?=
+ =?utf-8?B?OFNXU1RXUGlNTnhJMHdJdVBYQ1UwcDFQaDQ1bGlnME83VGp5K0VBVm5mY3ph?=
+ =?utf-8?B?emNKeGprVGZta0pMQUpUaHo5cFJUVGJKK0ViOGduQUhhUXQ2cHg4eTI1K1Z1?=
+ =?utf-8?B?UnlPT2FvYnZaMGxkM1JVWVlzOVNMS1BiUUFZWmFvUks1TVBFaFFjSGdVVHQ0?=
+ =?utf-8?B?di83dkI3REQyVmE5Vk12YjlIR0ZZTEw1dkUydEFKcmM5c0VDOHlsYzVOcklS?=
+ =?utf-8?B?bGV5NDc3Vm5uOTZLWjBEZGZQaE9DcEtmWGxnbFVDN1BPejlCYUFEWWo0S3Ny?=
+ =?utf-8?B?ZmNRV2g3aXFOWEU3L3V5dmZ4MHFWN0tsV1drU2lKc2FHMXRIUyszOXV0U3Jk?=
+ =?utf-8?B?amZsQ3V2VkVnNnJuMDRWb2VSSkRnckhRU2R5c2pqVEhZRHM3a3VWRW5SeXNF?=
+ =?utf-8?B?QlQ1NE5JQVQ5UzlZS3NrVHluaDZ0elpkcURwc01xS0tOMGFlNXl0cUpETGdv?=
+ =?utf-8?B?Q3V0Nmo5SngycmVWbXZpS0lSSzhPMDNhY0ZYUGlRdXVRZ3YzeFo1a2E2QWlE?=
+ =?utf-8?B?RnlhcVhQeFdwaWFISm9ZSGdqRmtNRzVwS2RTUk1RK2lNVExtYU5HbWZMeGp3?=
+ =?utf-8?B?aEVGUDhxa1kxLzF4Tmo2NG5qMEpIOVNrWHF2a01qM21YcnZMOEJuSG9Vdzdv?=
+ =?utf-8?B?bk5pdUZtTG11MWxjcXptQUpJcVZDWG5wdDRzYk9xNU93MGdHaGh3TmFGbDJW?=
+ =?utf-8?B?QjZRWmRlS3AxQithUXVxNHNQZEpmR2pVbHliU3M5SElEcFZjbjlZYm1CRSt5?=
+ =?utf-8?B?QmNKemh4WThmZkQ4TkJ2a2RiNUMwZGlKeUtFZmFhZjNlWFZXZ1cxcUlPRjIy?=
+ =?utf-8?B?Rld2OGV3WGR3a1Vxd0ZzZWxPVzVFeWNGT1BySEh5MDFDR2ZrdmM5UWE3UWpo?=
+ =?utf-8?B?NzE1RkxiRWVLaEdUR0crd2RRSHB2bjdjZ2xhNit5UTZWaDlHdWRISDJnQWZX?=
+ =?utf-8?B?Q1FVa3BTeVhJcncvTzY5amkxUXRUOGNSakxpL1dPTHlKMmY1Tkpyd21Henpj?=
+ =?utf-8?B?VFA3TURYcitGRmZzOEttbXBrazB0SWY3dSt3MkJ2L2N2aFgyT21IdlVBWU9q?=
+ =?utf-8?Q?2O1W0oEuZXJ0tHzQ7XEyIwuEn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13b48fb3-0183-44a8-89d8-08dab58fd940
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 07:17:45.7588 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dqn5eE3HF3DVuZWP7shZXFeh0ZLbySd8kVHqo3U96a+zpjEBh19WQEleJJJnO0aq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6179
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,408 +125,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Rahul T R <r-ravikumar@ti.com>
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/10/2022 10:00, Aradhya Bhatia wrote:
-> Hi Tomi
-> 
-> Thank you for the comprehensive feedback across all the patches. I am
-> working on them.
-> 
-> I do have some concerns which I have talked about, below.
-> 
-> On 12-Oct-22 17:53, Tomi Valkeinen wrote:
->> On 28/09/2022 20:52, Aradhya Bhatia wrote:
->>> The newer version of DSS (AM625-DSS) has 2 OLDI TXes at its disposal.
->>> These can be configured to support the following modes:
->>>
->>> 1. OLDI_SINGLE_LINK_SINGLE_MODE
->>> Single Output over OLDI 0.
->>> +------+        +---------+      +-------+
->>> |      |        |         |      |       |
->>> | CRTC +------->+ ENCODER +----->| PANEL |
->>> |      |        |         |      |       |
->>> +------+        +---------+      +-------+
->>
->> Can you have single link on OLDI 1 (OLDI 0 off)? I don't know if that 
->> make sense on this platform, but if the pins for OLDI 0 and 1 are 
->> different, there might be a reason on some cases for that.
-> 
-> HW does not support a case where single link is enabled over OLDI 1 with
-> OLDI 0 off, even though the pins are different.
-> 
-> One could still put 2 panel nodes in DT to set OLDI in a Clone Mode and
-> simply not use OLDI 0 pins, but I dont think that is a valid case that
-> should be supported.
-> 
->>
->>> 2. OLDI_SINGLE_LINK_CLONE_MODE
->>> Duplicate Output over OLDI 0 and 1.
->>> +------+        +---------+      +-------+
->>> |      |        |         |      |       |
->>> | CRTC +---+--->| ENCODER +----->| PANEL |
->>> |      |   |    |         |      |       |
->>> +------+   |    +---------+      +-------+
->>>        |
->>
->> I think you've got a tab in the line above, but otherwise use spaces.
->>
->>>             |    +---------+      +-------+
->>>             |    |         |      |       |
->>>             +--->| ENCODER +----->| PANEL |
->>>                  |         |      |       |
->>>                  +---------+      +-------+
->>>
->>> 3. OLDI_DUAL_LINK_MODE
->>> Combined Output over OLDI 0 and 1.
->>> +------+        +---------+      +-------+
->>> |      |        |         +----->|       |
->>> | CRTC +------->+ ENCODER |      | PANEL |
->>> |      |        |         +----->|       |
->>> +------+        +---------+      +-------+
->>>
->>> Following the above pathways for different modes, 2 encoder/panel-bridge
->>> pipes get created for clone mode, and 1 pipe in cases of single link and
->>> dual link mode.
->>>
->>> Add support for confgure the OLDI modes using of and lvds DRM helper
->>
->> "configuring"
->>
->>> functions.
->>>
->>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>> ---
->>>   drivers/gpu/drm/tidss/tidss_dispc.c |  11 +++
->>>   drivers/gpu/drm/tidss/tidss_dispc.h |   8 ++
->>>   drivers/gpu/drm/tidss/tidss_drv.h   |   3 +
->>>   drivers/gpu/drm/tidss/tidss_kms.c   | 146 +++++++++++++++++++++++-----
->>>   4 files changed, 145 insertions(+), 23 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c 
->>> b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> index 34f0da4bb3e3..88008ad39b55 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> @@ -354,6 +354,8 @@ struct dispc_device {
->>>       bool is_enabled;
->>> +    enum dispc_oldi_modes oldi_mode;
->>> +
->>>       struct dss_vp_data vp_data[TIDSS_MAX_PORTS];
->>>       u32 *fourccs;
->>> @@ -1958,6 +1960,15 @@ const u32 *dispc_plane_formats(struct 
->>> dispc_device *dispc, unsigned int *len)
->>>       return dispc->fourccs;
->>>   }
->>> +int dispc_configure_oldi_mode(struct dispc_device *dispc,
->>> +                  enum dispc_oldi_modes oldi_mode)
->>> +{
->>> +    WARN_ON(!dispc);
->>> +
->>> +    dispc->oldi_mode = oldi_mode;
->>> +    return 0;
->>> +}
->>
->> I think "configure" means more than just storing the value. Maybe 
->> dispc_set_oldi_mode(). And an empty line above the return.
->>
->>> +
->>>   static s32 pixinc(int pixels, u8 ps)
->>>   {
->>>       if (pixels == 1)
->>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h 
->>> b/drivers/gpu/drm/tidss/tidss_dispc.h
->>> index b66418e583ee..45cce1054832 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
->>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
->>> @@ -64,6 +64,13 @@ enum dispc_dss_subrevision {
->>>       DISPC_AM625,
->>>   };
->>> +enum dispc_oldi_modes {
->>> +    OLDI_MODE_OFF,                /* OLDI turned off / tied off in 
->>> IP. */
->>> +    OLDI_SINGLE_LINK_SINGLE_MODE,        /* Single Output over OLDI 
->>> 0. */
->>> +    OLDI_SINGLE_LINK_CLONE_MODE,        /* Duplicate Output over 
->>> OLDI 0 and 1. */
->>> +    OLDI_DUAL_LINK_MODE,            /* Combined Output over OLDI 0 
->>> and 1. */
->>> +};
->>> +
->>>   struct dispc_features {
->>>       int min_pclk_khz;
->>>       int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
->>> @@ -131,6 +138,7 @@ int dispc_plane_setup(struct dispc_device *dispc, 
->>> u32 hw_plane,
->>>                 u32 hw_videoport);
->>>   int dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, 
->>> bool enable);
->>>   const u32 *dispc_plane_formats(struct dispc_device *dispc, unsigned 
->>> int *len);
->>> +int dispc_configure_oldi_mode(struct dispc_device *dispc, enum 
->>> dispc_oldi_modes oldi_mode);
->>>   int dispc_init(struct tidss_device *tidss);
->>>   void dispc_remove(struct tidss_device *tidss);
->>> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h 
->>> b/drivers/gpu/drm/tidss/tidss_drv.h
->>> index d7f27b0b0315..2252ba0222ca 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_drv.h
->>> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
->>> @@ -12,6 +12,9 @@
->>>   #define TIDSS_MAX_PORTS 4
->>>   #define TIDSS_MAX_PLANES 4
->>> +/* For AM625-DSS with 2 OLDI TXes */
->>> +#define TIDSS_MAX_BRIDGE_PER_PIPE    2
->>
->> "BRIDGES"?
->>
->>> +
->>>   typedef u32 dispc_irq_t;
->>>   struct tidss_device {
->>> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c 
->>> b/drivers/gpu/drm/tidss/tidss_kms.c
->>> index 666e527a0acf..73afe390f36d 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_kms.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
->>> @@ -107,32 +107,84 @@ static const struct drm_mode_config_funcs 
->>> mode_config_funcs = {
->>>       .atomic_commit = drm_atomic_helper_commit,
->>>   };
->>> +static int tidss_get_oldi_mode(struct tidss_device *tidss)
->>
->> Return enum dispc_oldi_modes, not int.
->>
->>> +{
->>> +    int pixel_order;
->>> +    struct device_node *dss_ports, *oldi0_port, *oldi1_port;
->>> +
->>> +    dss_ports = of_get_next_child(tidss->dev->of_node, NULL);
->>
->> Hmm you get the next child and hope that it's the ports node?
->>
->> In any case, I think you can call of_graph_get_port_by_id() with the 
->> tidss->dev->of_node and it'll do the right thing.
-> I think this will only work if the child of dss node is just "ports",
-> but we've been using "dss_ports" as the child.
-> 
-> However, you are right. I shouldn't expect the first child to be
-> dss_ports. I will use the "of_get_child_by_name" helper to get the
-> dss_ports node.
+On 2022-10-14 04:15, Christian König wrote:
+> Setting this flag on a scheduler fence prevents pipelining of jobs
+> depending on this fence. In other words we always insert a full CPU
+> round trip before dependen jobs are pushed to the pipeline.
 
-I don't think you need to. of_graph_get_port_by_id() should work fine 
-with the dss node.
+"dependent"
 
->>> +    oldi0_port = of_graph_get_port_by_id(dss_ports, 0);
->>> +    oldi1_port = of_graph_get_port_by_id(dss_ports, 2);
->>
->> I think you need to of_put these at some point.
->>
->>> +    if (!(oldi0_port && oldi1_port))
->>> +        return OLDI_SINGLE_LINK_SINGLE_MODE;
->>
->> This one matches also for !oldi0 && oldi1. If oldi1 cannot be used in 
->> single-link mode, the above should take it into account.
 > 
-> Right. I will print a warning if somebody's trying to use (!oldi0 &&
-> oldi1) but since its a single link requirement, I will still set the
-> OLDI for single link single mode.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> CC: stable@vger.kernel.org # 5.19+
+> ---
+>  drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
+>  include/drm/gpu_scheduler.h              | 9 +++++++++
+>  2 files changed, 11 insertions(+), 1 deletion(-)
 > 
->>
->>> +
->>> +    /*
->>> +     * OLDI Ports found for both the OLDI TXes. The DSS is to be 
->>> configured
->>> +     * in either Dual Link or Clone Mode.
->>> +     */
->>> +    pixel_order = drm_of_lvds_get_dual_link_pixel_order(oldi0_port,
->>> +                                oldi1_port);
->>> +    switch (pixel_order) {
->>> +    case -EINVAL:
->>> +        /*
->>> +         * The dual link properties were not found in at least one of
->>> +         * the sink nodes. Since 2 OLDI ports are present in the DT, it
->>> +         * can be safely assumed that the required configuration is
->>> +         * Clone Mode.
->>> +         */
->>> +        return OLDI_SINGLE_LINK_CLONE_MODE;
->>> +
->>> +    case DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS:
->>> +    case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
->>> +        /*
->>> +         * Note that the OLDI TX 0 transmits the odd set of pixels 
->>> while
->>> +         * the OLDI TX 1 transmits the even set. This is a fixed
->>> +         * configuration in the IP and an cannot be change vis SW. 
->>> These
->>> +         * properties have been used to merely identify if a Dual Link
->>> +         * configuration is required. Swapping this property in the 
->>> panel
->>> +         * port DT nodes will not make any difference.
->>> +         */
->>
->> But if they are in the wrong order, shouldn't we fail or at least give 
->> a warning?
->>  >> +        return OLDI_DUAL_LINK_MODE;
->>> +
->>> +    default:
->>> +        return OLDI_MODE_OFF;
->>> +    }
->>> +}
->>> +
->>>   static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->>>   {
->>>       struct device *dev = tidss->dev;
->>>       unsigned int fourccs_len;
->>>       const u32 *fourccs = dispc_plane_formats(tidss->dispc, 
->>> &fourccs_len);
->>> -    unsigned int i;
->>> +    unsigned int i, j;
->>>       struct pipe {
->>>           u32 hw_videoport;
->>> -        struct drm_bridge *bridge;
->>> +        struct drm_bridge *bridge[TIDSS_MAX_BRIDGE_PER_PIPE];
->>>           u32 enc_type;
->>> +        u32 num_bridges;
->>>       };
->>>       const struct dispc_features *feat = tidss->feat;
->>> -    u32 max_vps = feat->num_vps;
->>> +    u32 max_ports = feat->num_max_ports;
->>>       u32 max_planes = feat->num_planes;
->>>       struct pipe pipes[TIDSS_MAX_PORTS];
->>>       u32 num_pipes = 0;
->>> +    u32 pipe_number = 0;
->>>       u32 crtc_mask;
->>> +    u32 num_oldi = 0;
->>> +    u32 oldi0_port = 0;
->>> +    u32 hw_vp = 0;
->>> +    enum dispc_oldi_modes oldi_mode;
->>>       /* first find all the connected panels & bridges */
->>> -    for (i = 0; i < max_vps; i++) {
->>> +    for (i = 0; i < max_ports; i++) {
->>>           struct drm_panel *panel;
->>>           struct drm_bridge *bridge;
->>> +        bool bridge_req = true;
->>>           u32 enc_type = DRM_MODE_ENCODER_NONE;
->>>           int ret;
->>> @@ -146,6 +198,11 @@ static int tidss_dispc_modeset_init(struct 
->>> tidss_device *tidss)
->>>               return ret;
->>>           }
->>> +        /* default number of bridges required for a panel/bridge*/
->>> +        pipe_number = num_pipes;
->>> +        pipes[pipe_number].num_bridges = 1;
->>> +        hw_vp = i;
->>> +
->>>           if (panel) {
->>>               u32 conn_type;
->>> @@ -155,7 +212,43 @@ static int tidss_dispc_modeset_init(struct 
->>> tidss_device *tidss)
->>>               case DISPC_VP_OLDI:
->>>                   enc_type = DRM_MODE_ENCODER_LVDS;
->>>                   conn_type = DRM_MODE_CONNECTOR_LVDS;
->>> +
->>> +                /*
->>> +                 * A single DSS controller cannot support 2
->>> +                 * independent displays. If 2nd node is detected,
->>> +                 * it is for Dual Link Mode or Clone Mode.
->>> +                 *
->>> +                 * A new pipe instance is not required.
->>> +                 */
->>> +                if (++num_oldi == 2) {
->>> +                    pipe_number = oldi0_port;
->>> +                    hw_vp = i;
->>> +
->>> +                    /* 2nd OLDI DT node detected. Get its mode */
->>> +                    oldi_mode = tidss_get_oldi_mode(tidss);
->>> +                    bridge_req = false;
->>> +
->>> +                    /*
->>> +                     * A separate panel bridge will only be
->>> +                     * required if 2 panels are connected for
->>> +                     * the OLDI Clone Mode.
->>> +                     */
->>> +                    if (oldi_mode == OLDI_SINGLE_LINK_CLONE_MODE) {
->>> +                        bridge_req = true;
->>> +                        (pipes[pipe_number].num_bridges)++;
->>> +                    }
->>> +                } else {
->>> +                    /*
->>> +                     * First OLDI DT node detected. Save it
->>> +                     * in case there is another node for Dual
->>> +                     * Link Mode or Clone Mode.
->>> +                     */
->>> +                    oldi0_port = i;
->>> +                    oldi_mode = OLDI_SINGLE_LINK_SINGLE_MODE;
->>> +                }
->>> +                dispc_configure_oldi_mode(tidss->dispc, oldi_mode);
->>>                   break;
->>> +
->>>               case DISPC_VP_DPI:
->>>                   enc_type = DRM_MODE_ENCODER_DPI;
->>>                   conn_type = DRM_MODE_CONNECTOR_DPI;
->>> @@ -173,19 +266,23 @@ static int tidss_dispc_modeset_init(struct 
->>> tidss_device *tidss)
->>>                   return -EINVAL;
->>>               }
->>> -            bridge = devm_drm_panel_bridge_add(dev, panel);
->>> -            if (IS_ERR(bridge)) {
->>> -                dev_err(dev,
->>> -                    "failed to set up panel bridge for port %d\n",
->>> -                    i);
->>> -                return PTR_ERR(bridge);
->>> +            if (bridge_req) {
->>> +                bridge = devm_drm_panel_bridge_add(dev, panel);
->>> +                if (IS_ERR(bridge)) {
->>> +                    dev_err(dev,
->>> +                        "failed to set up panel bridge for port %d\n",
->>> +                        i);
->>> +                    return PTR_ERR(bridge);
->>> +                }
->>>               }
->>>           }
->>> -        pipes[num_pipes].hw_videoport = i;
->>> -        pipes[num_pipes].bridge = bridge;
->>> -        pipes[num_pipes].enc_type = enc_type;
->>> -        num_pipes++;
->>> +        if (bridge_req) {
->>> +            pipes[pipe_number].hw_videoport = hw_vp;
->>> +            pipes[pipe_number].bridge[pipes[pipe_number].num_bridges 
->>> - 1] = bridge;
->>> +            pipes[pipe_number].enc_type = enc_type;
->>> +            num_pipes++;
->>> +        }
->>
->> I need to look at this with better time. But I started to wonder, 
->> would it be clearer to first figure out the oldi setup before the 
->> loop, rather than figuring it out inside the loop. I'm not sure if it 
->> would help much, though.
->>
-> I had not thought about taking this approach, but it might actually be
-> better.
-> 
-> These patches, at the moment, do not support a case where a clone mode
-> or dual link mode is used on a bridge instead of a panel. My edits
-> inside the loop are panel dependent. If we do have oldi setup
-> information prior to the beginning of the loop, the panel dependency can
-> be removed and some commond code can be written to support an additional
-> encoder - bridge connection should it be required.
-> 
-> Let me know what you think!
-> 
-> If this apparch is better indeed, I will make these changes before
-> sending out the next revision.
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 191c56064f19..43d337d8b153 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -385,7 +385,8 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>  	}
+>  
+>  	s_fence = to_drm_sched_fence(fence);
+> -	if (s_fence && s_fence->sched == sched) {
+> +	if (s_fence && s_fence->sched == sched &&
+> +	    !test_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &fence->flags)) {
+>  
+>  		/*
+>  		 * Fence is from the same scheduler, only need to wait for
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 0fca8f38bee4..f01d14b231ed 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -32,6 +32,15 @@
+>  
+>  #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>  
+> +/**
+> + * DRM_SCHED_FENCE_DONT_PIPELINE - Prefent dependency pipelining
 
-I'll say if it's better when I see the code =). But generally speaking, 
-I think it's often better to first figure out what is needed and only 
-after that do the actual work. Especially in probe-time code where it's 
-not a big deal if you iterate over the ports multiple times, instead of 
-doing all in a single loop.
+"Prevent"
 
-  Tomi
+> + *
+> + * Setting this flag on a scheduler fence prevents pipelining of jobs depending
+> + * on this fence. In other words we always insert a full CPU round trip before
+> + * dependen jobs are pushed to the hw queue.
+
+"dependent"
+
+> + */
+> +#define DRM_SCHED_FENCE_DONT_PIPELINE	DMA_FENCE_FLAG_USER_BITS
+> +
+>  struct drm_gem_object;
+>  
+>  struct drm_gpu_scheduler;
+
+With those corrections,
+
+Acked-by: Luben Tuikov <luben.tuikov@amd.com>
+
+Regards,
+Luben
 
