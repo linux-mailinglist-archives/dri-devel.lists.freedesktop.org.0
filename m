@@ -2,50 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D37860BA02
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 22:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D718060BA30
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 22:29:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01F8210E7BC;
-	Mon, 24 Oct 2022 20:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F46310E0A0;
+	Mon, 24 Oct 2022 20:28:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED9A10E06B;
- Mon, 24 Oct 2022 20:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666643067; x=1698179067;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=jTTjh/PkGoTbWOiZigNZxblYKRNXblPZqSWDBUBkyXw=;
- b=LUNeSQKjKkQ4o19Y8X1pTd04EGpyRn72PIMP0bQo6xIkkVWwr3Dw4r+E
- m6DrwEbhg8u6BlqLsww/QnIW50EPK7AMS6wyp11fyv1ryOv3wyMwX3ZMW
- vrLVPhqR3qYtJwv8KWySxFD5eadFICQbznC4+GAErWa34XFRtEfB9k/hb
- W5hFJGs/GHSP3hrz4ZIvRU16u83sTz0mZa2fNhwLSLkihb1E5AyFS31KT
- N03Wh4x37ZusoAPt8vqrZCnKXtzWGGGF3SJ5FO/bOXhyqQjXHGMuFuR81
- aNBWlm/IUAlitT/sTbePOcVsq7q+X/cnCgFbW95ANuaktErLjenNWmBJQ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="309202004"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="309202004"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 13:24:26 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="806426170"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; d="scan'208";a="806426170"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
- ([10.165.21.138])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 13:24:26 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/i915/mtl: C6 residency and C state type for MTL
- SAMedia
-Date: Mon, 24 Oct 2022 13:24:22 -0700
-Message-Id: <20221024202422.3924298-6-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221024202422.3924298-1-ashutosh.dixit@intel.com>
-References: <20221024202422.3924298-1-ashutosh.dixit@intel.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DAB610E00A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 20:28:41 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id x2so6139332edd.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 13:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FXgFJbS2a63KBWIYrk1JkOqFCuXa2BXSDEikjukgc/I=;
+ b=a23igI6xFUkOVmrwWcYqJt/zrTqVWiDSUSusTeW1jwopdesRRdT8n6XfnDDeDLn/AL
+ Bs14Yi6j6xJlpkkbsvxdFjZGU0B4I9nGF5b+LNvwUuLMAz038OKN1V+NN/1Bn3TcRIXX
+ z03BE1QBny7+Oz1nv/l/M4Iyn0MKVmnZQlFHA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FXgFJbS2a63KBWIYrk1JkOqFCuXa2BXSDEikjukgc/I=;
+ b=TNdtVC6AGKBUcwIoGfq7NqVJFBxGK49Gj2VyU4wqvMMH3cwS3DrvNwJYheOG4R8iog
+ 0naUOidppjhtke8H85Ks7jhMYG53nQGw+vZ7MMPHlUR36vKOlCbEYLtFOUF2bjGmKzVG
+ OdenoFiVve9K0NKRdmjYdvfkjEiyWueNChuJbYYQ0849IOc9NVIPXu0svan0qpnFEjvs
+ /3M8RsFBXdy8itsNeUy8AM/pEnvFu+NCjnpRGFf0CKZC0iDJxB1ze9S/KL+dB4uvFjw9
+ +fX1i5V+3aIStg4cms5DJb/4UDkjLz0G+98DjCrnQZF9cmGqGn1GjQJDCKG91hjgu0hH
+ szSw==
+X-Gm-Message-State: ACrzQf1n8/CBKMLuAGh2AhPyoeet1qb0rbBQX9b+whUcPFECo2wAexj5
+ CRfutsDIabJ1Zb/uUhH5wVees8LK8K2+LIBj
+X-Google-Smtp-Source: AMsMyM5y6VWbDHVG7FuOG3hiqOnAxw/wG3J5Gi7CYPsZAxpo+Johd1DJN5FXYu3fXkJ7j3YX0qgUSw==
+X-Received: by 2002:aa7:cb09:0:b0:461:e6b6:4bad with SMTP id
+ s9-20020aa7cb09000000b00461e6b64badmr3801708edt.27.1666643319385; 
+ Mon, 24 Oct 2022 13:28:39 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ ky21-20020a170907779500b0079de6b05c99sm327721ejc.138.2022.10.24.13.28.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 13:28:37 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id l32so7189820wms.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 13:28:37 -0700 (PDT)
+X-Received: by 2002:a05:600c:5493:b0:3c9:c18:87d5 with SMTP id
+ iv19-20020a05600c549300b003c90c1887d5mr9525360wmb.188.1666643316677; Mon, 24
+ Oct 2022 13:28:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221021130637.1.I8c2de0954a4e54e0c59a72938268e2ead91daa98@changeid>
+ <e6bc800b-2d3b-aac9-c1cb-7c08d618fc8e@quicinc.com>
+In-Reply-To: <e6bc800b-2d3b-aac9-c1cb-7c08d618fc8e@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 24 Oct 2022 13:28:24 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V4m5HNavewSTkrh64_BzLAkivR2mRkTQdaxA8k9JKQbA@mail.gmail.com>
+Message-ID: <CAD=FV=V4m5HNavewSTkrh64_BzLAkivR2mRkTQdaxA8k9JKQbA@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: Dump the EDID when drm_edid_get_panel_id() has
+ an error
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,163 +75,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Badal Nilawar <badal.nilawar@intel.com>
+Hi,
 
-Add support for C6 residency and C state type for MTL SAMedia. Also add
-mtl_drpc.
+On Fri, Oct 21, 2022 at 2:18 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> Hi Doug
+>
+> On 10/21/2022 1:07 PM, Douglas Anderson wrote:
+> > If we fail to get a valid panel ID in drm_edid_get_panel_id() we'd
+> > like to see the EDID that was read so we have a chance of
+> > understanding what's wrong. There's already a function for that, so
+> > let's call it in the error case.
+> >
+> > NOTE: edid_block_read() has a retry loop in it, so actually we'll only
+> > print the block read back from the final attempt. This still seems
+> > better than nothing.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>
+> Instead of checkinf for edid_block_status_valid() on the base_block, do
+> you want to use drm_edid_block_valid() instead?
+>
+> That way you get the edid_block_dump() for free if it was invalid.
 
-v2: Fixed review comments (Ashutosh)
-v3: Sort registers and fix whitespace errors in intel_gt_regs.h (Matt R)
-    Remove MTL_CC_SHIFT (Ashutosh)
-    Adapt to RC6 residency register code refactor (Jani N)
-v4: Move MTL branch to top in drpc_show
-v5: Use FORCEWAKE_MT identical to gen6_drpc (Ashutosh)
-v6: Add MISSING_CASE for gt_core_status switch statement (Rodrigo)
-    Change state name for MTL_CC0 to C0 (from "on") (Rodrigo)
-v7: Change state name for MTL_CC0 to RC0 (Rodrigo)
+I can... ...but it feels a bit awkward and maybe not quite how the
+functions were intended to work together?
 
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 59 ++++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  5 ++
- drivers/gpu/drm/i915/gt/intel_rc6.c           | 17 ++++--
- 3 files changed, 76 insertions(+), 5 deletions(-)
+One thing I notice is that if I call drm_edid_block_valid() I'm doing
+a bunch of duplicate work that already happened in edid_block_read(),
+which already calls edid_block_check() and handles fixing headers. I
+guess also if I call drm_edid_block_valid() then I should ignore the
+"status" return value of edid_block_read() because we don't need to
+pass it anywhere (because the work is re-done in
+drm_edid_block_valid()).
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-index 5d6b346831393..83df4cd5e06cb 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-@@ -256,6 +256,61 @@ static int ilk_drpc(struct seq_file *m)
- 	return 0;
- }
- 
-+static int mtl_drpc(struct seq_file *m)
-+{
-+	struct intel_gt *gt = m->private;
-+	struct intel_uncore *uncore = gt->uncore;
-+	u32 gt_core_status, rcctl1, mt_fwake_req;
-+	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
-+
-+	mt_fwake_req = intel_uncore_read_fw(uncore, FORCEWAKE_MT);
-+	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
-+
-+	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
-+	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
-+	mtl_powergate_status = intel_uncore_read(uncore,
-+						 GEN9_PWRGT_DOMAIN_STATUS);
-+
-+	seq_printf(m, "RC6 Enabled: %s\n",
-+		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
-+	if (gt->type == GT_MEDIA) {
-+		seq_printf(m, "Media Well Gating Enabled: %s\n",
-+			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
-+	} else {
-+		seq_printf(m, "Render Well Gating Enabled: %s\n",
-+			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
-+	}
-+
-+	seq_puts(m, "Current RC state: ");
-+	switch (REG_FIELD_GET(MTL_CC_MASK, gt_core_status)) {
-+	case MTL_CC0:
-+		seq_puts(m, "RC0\n");
-+		break;
-+	case MTL_CC6:
-+		seq_puts(m, "RC6\n");
-+		break;
-+	default:
-+		MISSING_CASE(REG_FIELD_GET(MTL_CC_MASK, gt_core_status));
-+		seq_puts(m, "Unknown\n");
-+		break;
-+	}
-+
-+	seq_printf(m, "Multi-threaded Forcewake Request: 0x%x\n", mt_fwake_req);
-+	if (gt->type == GT_MEDIA)
-+		seq_printf(m, "Media Power Well: %s\n",
-+			   (mtl_powergate_status &
-+			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
-+	else
-+		seq_printf(m, "Render Power Well: %s\n",
-+			   (mtl_powergate_status &
-+			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
-+
-+	/* Works for both render and media gt's */
-+	intel_rc6_print_residency(m, "RC6 residency since boot:", INTEL_RC6_RES_RC6);
-+
-+	return fw_domains_show(m, NULL);
-+}
-+
- static int drpc_show(struct seq_file *m, void *unused)
- {
- 	struct intel_gt *gt = m->private;
-@@ -264,7 +319,9 @@ static int drpc_show(struct seq_file *m, void *unused)
- 	int err = -ENODEV;
- 
- 	with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
--		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
-+		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-+			err = mtl_drpc(m);
-+		else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
- 			err = vlv_drpc(m);
- 		else if (GRAPHICS_VER(i915) >= 6)
- 			err = gen6_drpc(m);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index d8dbd0ac3b064..a0ddaf243593c 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -24,6 +24,9 @@
- /* MTL workpoint reg to get core C state and actual freq of 3D, SAMedia */
- #define MTL_MIRROR_TARGET_WP1			_MMIO(0xc60)
- #define   MTL_CAGF_MASK				REG_GENMASK(8, 0)
-+#define   MTL_CC0				0x0
-+#define   MTL_CC6				0x3
-+#define   MTL_CC_MASK				REG_GENMASK(12, 9)
- 
- /* RPM unit config (Gen8+) */
- #define RPM_CONFIG0				_MMIO(0xd00)
-@@ -1512,6 +1515,8 @@
- #define FORCEWAKE_MEDIA_VLV			_MMIO(0x1300b8)
- #define FORCEWAKE_ACK_MEDIA_VLV			_MMIO(0x1300bc)
- 
-+#define MTL_MEDIA_MC6				_MMIO(0x138048)
-+
- #define GEN6_GT_THREAD_STATUS_REG		_MMIO(0x13805c)
- #define   GEN6_GT_THREAD_STATUS_CORE_MASK	0x7
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 6db4e60d5fba5..2ee4051e4d961 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -553,10 +553,19 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
- 
- static void rc6_res_reg_init(struct intel_rc6 *rc6)
- {
--	rc6->res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
--	rc6->res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
--	rc6->res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
--	rc6->res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
-+	memset(rc6->res_reg, INVALID_MMIO_REG.reg, sizeof(rc6->res_reg));
-+
-+	switch (rc6_to_gt(rc6)->type) {
-+	case GT_MEDIA:
-+		rc6->res_reg[INTEL_RC6_RES_RC6] = MTL_MEDIA_MC6;
-+		break;
-+	default:
-+		rc6->res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
-+		rc6->res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
-+		rc6->res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
-+		rc6->res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
-+		break;
-+	}
- }
- 
- void intel_rc6_init(struct intel_rc6 *rc6)
--- 
-2.38.0
+So I guess I'm happy to do a v2 like that if everyone likes it better,
+but to me it feels a little weird.
 
+-Doug
