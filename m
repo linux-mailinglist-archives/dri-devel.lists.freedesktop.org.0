@@ -2,66 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF76609B5A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:33:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7165609BD2
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 09:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE9C10E2B1;
-	Mon, 24 Oct 2022 07:33:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE2710E2BA;
+	Mon, 24 Oct 2022 07:52:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D3EE10E2B1;
- Mon, 24 Oct 2022 07:32:59 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3A1E41F85D;
- Mon, 24 Oct 2022 07:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666596778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UNbUBSCX4rk2H5cwr4FfXQXC9SGGZVu1vcelLwGJsE0=;
- b=iurxrLgRkf+trXrOpuexDspZ/gH9dse8AKszLDNfnd8PIRYliRUSMV/Tbax62HfXc32Qu7
- Jm2/ToWOKC/gdVyiDUH0i45klmRSN0QABSxJM74mPHB6WrL9PwsNkoXyDGrBEiZ5IH5aes
- 55GP5/09R72uqng5sYiDsKjgu77FPU4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666596778;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UNbUBSCX4rk2H5cwr4FfXQXC9SGGZVu1vcelLwGJsE0=;
- b=v08iQFEvrrbncYy5/y4OxGmw5KKYlnJ9Xpu03DTAQLtm4KvMYuccQrag7PeJNgk2htCuYO
- X8OULeOssEhMfLAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2058413A79;
- Mon, 24 Oct 2022 07:32:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 98X5Bqo/VmMgMgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 07:32:58 +0000
-Message-ID: <e494d819-f960-f2bd-913e-83ee820ac399@suse.de>
-Date: Mon, 24 Oct 2022 09:32:57 +0200
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D84510E2BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 07:52:23 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id s3so5178334qtn.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 00:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2lDl36LG/JcyTlKxVA4dxBVzUz95+CXwb//i8WZcYZk=;
+ b=an9OHIHO1pIh6zUhlv2uTUuLMIXGVi7zo7qgZo0I7/wyon3dVsOg3cLhHPbHEr0R46
+ qah0WMeSKAj59w2EL9cOxjZVvOPbe+ObGvpfKVpFT59eDH8WAo44yqh8tQJWMPTC03j5
+ lhppRWbs0jErQGif/c0xZ8fuP11Nn2em0HZTPzJWJp0U5Xv1frOATnG42/Hb+vcFX838
+ ikxjHJzeztxWTBd6iZ5Yg1kU6OuXhXm5kjSud7oqk/zTCkcat9llXHxeEbAtjPI9ULYD
+ PAhUOAVJ3G1EwFvoRTV2AhcKzzFInSPqKAdEFAYRmXvp9RuC6g61oDSip9irZhkoHVz2
+ hYGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2lDl36LG/JcyTlKxVA4dxBVzUz95+CXwb//i8WZcYZk=;
+ b=H5ajlWE2Fer0I/enUnrWfTZZeNCobbNIgRyqO3l4Ih2pDD7LLpasWEZ6MQkpveXijx
+ vopaHzF9Y4Nzn73nuMUlfTjJlzGUE5tOHcGNmjRnaUT9E0HE+FLzYfMw9WlMcycOETLK
+ gjYYzocWtQf0DDRRATC/6TgvA8z98ERy5I/1SS8K1zH1z1Pu6HiNOoL6d3vX9F2g3uH0
+ 60RgYQzWwfriJuVeKuQvFrmTU43jwEQNq26upuO+qpvR6YpocKS/jzKSxk6uTf06pBco
+ jSCxYQZawxCvRro7M38zi8w3dr30jlBjKyhiGkKu1eJVcxGnYLyHh6xZZHqjsdgTFSRA
+ BRBA==
+X-Gm-Message-State: ACrzQf2xyDMZ2RwiK+BfuTCkFtwuG1NDQikYDtfNzFpxqjnC85PBmjP7
+ ePi0u3Q753CkAyxOGcZ8R+AlZGamZJ+M1SJl41w=
+X-Google-Smtp-Source: AMsMyM5Df+AsSzaUUX3TXS9vMO/D4cMyQYQ/2fH+UUetYbRRWoGPOO1KSyBSmnfzb+yi7VlDg4saudpO1R7/pAh1jyk=
+X-Received: by 2002:ac8:5b81:0:b0:39c:b735:6b8b with SMTP id
+ a1-20020ac85b81000000b0039cb7356b8bmr26122809qta.416.1666597941957; Mon, 24
+ Oct 2022 00:52:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] drm/amdgpu: don't call drm_fb_helper_lastclose in
- lastclose()
-To: "Quan, Evan" <Evan.Quan@amd.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20221020143603.563929-1-alexander.deucher@amd.com>
- <DM6PR12MB26194FC4A9B18912448DA8CEE42E9@DM6PR12MB2619.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <DM6PR12MB26194FC4A9B18912448DA8CEE42E9@DM6PR12MB2619.namprd12.prod.outlook.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------sT6EtzUC0gcP6otwZxFnKkDK"
+References: <20221022214622.18042-1-ogabbay@kernel.org>
+ <20221022214622.18042-3-ogabbay@kernel.org>
+ <Y1U2K+fAnGbYug/+@kroah.com>
+ <CAFCwf11PxtcRZegVBxYfJQFpYO0AipobJXWWp4ch+7mMKRLuKg@mail.gmail.com>
+In-Reply-To: <CAFCwf11PxtcRZegVBxYfJQFpYO0AipobJXWWp4ch+7mMKRLuKg@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 24 Oct 2022 17:52:10 +1000
+Message-ID: <CAPM=9txP8N2kzeDHEbSbiO-oAy5cemJ_Ag4WqeCNzdx6b3quBA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] drm: define new accel major and register it
+To: Oded Gabbay <ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,96 +67,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------sT6EtzUC0gcP6otwZxFnKkDK
-Content-Type: multipart/mixed; boundary="------------04DFWe79XCZNx3x3Udd5bTu0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "Quan, Evan" <Evan.Quan@amd.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Message-ID: <e494d819-f960-f2bd-913e-83ee820ac399@suse.de>
-Subject: Re: [PATCH] drm/amdgpu: don't call drm_fb_helper_lastclose in
- lastclose()
-References: <20221020143603.563929-1-alexander.deucher@amd.com>
- <DM6PR12MB26194FC4A9B18912448DA8CEE42E9@DM6PR12MB2619.namprd12.prod.outlook.com>
-In-Reply-To: <DM6PR12MB26194FC4A9B18912448DA8CEE42E9@DM6PR12MB2619.namprd12.prod.outlook.com>
+On Mon, 24 Oct 2022 at 17:23, Oded Gabbay <ogabbay@kernel.org> wrote:
+>
+> On Sun, Oct 23, 2022 at 3:40 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sun, Oct 23, 2022 at 12:46:21AM +0300, Oded Gabbay wrote:
+> > > The accelerator devices will be exposed to the user space with a new,
+> > > dedicated major number - 261.
+> > >
+> > > The drm core registers the new major number as a char device and create
+> > > corresponding sysfs and debugfs root entries, same as for the drm major.
+> > >
+> > > In case CONFIG_ACCEL is not selected, this code is not compiled in.
+> > >
+> > > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+> > > ---
+> > >  Documentation/admin-guide/devices.txt |  5 +++
+> > >  drivers/gpu/drm/drm_drv.c             | 45 +++++++++++++++++++++++
+> > >  drivers/gpu/drm/drm_internal.h        |  3 ++
+> > >  drivers/gpu/drm/drm_sysfs.c           | 52 +++++++++++++++++++++++++++
+> > >  include/drm/drm_ioctl.h               |  1 +
+> > >  5 files changed, 106 insertions(+)
+> > >
+> > > diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+> > > index 9764d6edb189..06c525e01ea5 100644
+> > > --- a/Documentation/admin-guide/devices.txt
+> > > +++ b/Documentation/admin-guide/devices.txt
+> > > @@ -3080,6 +3080,11 @@
+> > >                 ...
+> > >                 255 = /dev/osd255     256th OSD Device
+> > >
+> > > + 261 char    Compute Acceleration Devices
+> > > +               0 = /dev/accel/accel0 First acceleration device
+> > > +               1 = /dev/accel/accel1 Second acceleration device
+> > > +                 ...
+> > > +
+> > >   384-511 char        RESERVED FOR DYNAMIC ASSIGNMENT
+> > >               Character devices that request a dynamic allocation of major
+> > >               number will take numbers starting from 511 and downward,
+> > > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > > index 8214a0b1ab7f..b58ffb1433d6 100644
+> > > --- a/drivers/gpu/drm/drm_drv.c
+> > > +++ b/drivers/gpu/drm/drm_drv.c
+> > > @@ -67,6 +67,10 @@ static bool drm_core_init_complete;
+> > >
+> > >  static struct dentry *drm_debugfs_root;
+> > >
+> > > +#ifdef CONFIG_ACCEL
+> > > +static struct dentry *accel_debugfs_root;
+> > > +#endif
+> > > +
+> > >  DEFINE_STATIC_SRCU(drm_unplug_srcu);
+> > >
+> > >  /*
+> > > @@ -1031,9 +1035,19 @@ static const struct file_operations drm_stub_fops = {
+> > >       .llseek = noop_llseek,
+> > >  };
+> > >
+> > > +static void accel_core_exit(void)
+> > > +{
+> > > +#ifdef CONFIG_ACCEL
+> > > +     unregister_chrdev(ACCEL_MAJOR, "accel");
+> > > +     debugfs_remove(accel_debugfs_root);
+> > > +     accel_sysfs_destroy();
+> > > +#endif
+> > > +}
+> >
+> > Why is all of this in drm_drv.c?
+> >
+> > Why not put it in drm/accel/accel.c or something like that?  Then put
+> > the proper stuff into a .h file and then you have no #ifdef in the .c
+> > files.
+> I thought about that, adding an accel.c in drivers/accel/ and putting
+> this code there.
+> Eventually I thought that for two functions it's not worth it, but I
+> guess that in addition to the reason you gave, one can argue that
+> there will probably be more code in that file anyway, so why not open
+> it now.
+> I'll change this if no one else thinks otherwise.
 
---------------04DFWe79XCZNx3x3Udd5bTu0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Seems like a good idea to start doing it now, might make things easier
+to keep separated.
 
-SGkNCg0KQW0gMjQuMTAuMjIgdW0gMDg6MjAgc2NocmllYiBRdWFuLCBFdmFuOg0KPiBbQU1E
-IE9mZmljaWFsIFVzZSBPbmx5IC0gR2VuZXJhbF0NCj4gDQo+IFJldmlld2VkLWJ5OiBFdmFu
-IFF1YW4gPGV2YW4ucXVhbkBhbWQuY29tPg0KPiANCj4+IC0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQo+PiBGcm9tOiBhbWQtZ2Z4IDxhbWQtZ2Z4LWJvdW5jZXNAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnPiBPbiBCZWhhbGYgT2YgQWxleA0KPj4gRGV1Y2hlcg0KPj4gU2VudDogVGh1
-cnNkYXksIE9jdG9iZXIgMjAsIDIwMjIgMTA6MzYgUE0NCj4+IFRvOiBhbWQtZ2Z4QGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPj4g
-Q2M6IERldWNoZXIsIEFsZXhhbmRlciA8QWxleGFuZGVyLkRldWNoZXJAYW1kLmNvbT47IFRo
-b21hcw0KPj4gWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IFN1YmplY3Q6
-IFtQQVRDSF0gZHJtL2FtZGdwdTogZG9uJ3QgY2FsbCBkcm1fZmJfaGVscGVyX2xhc3RjbG9z
-ZSBpbg0KPj4gbGFzdGNsb3NlKCkNCj4+DQo+PiBJdCdzIHVzZWQgdG8gcmVzdG9yZSB0aGUg
-ZmJkZXYgY29uc29sZSwgYnV0IGFzIGFtZGdwdSB1c2VzDQo+PiBnZW5lcmljIGZiZGV2IGVt
-dWxhdGlvbiwgdGhlIGNvbnNvbGUgaXMgYmVpbmcgcmVzdG9yZWQgYnkgdGhlDQo+PiBEUk0g
-Y2xpZW50IGhlbHBlcnMgYWxyZWFkeS4gU2VlIHRoZSBjYWxsIHRvIGRybV9jbGllbnRfZGV2
-X3Jlc3RvcmUoKQ0KPj4gaW4gZHJtX2xhc3RjbG9zZSgpLg0KPj4NCj4+IEZpeGVzOiAwODc0
-NTFmMzcyYmY3NiAoImRybS9hbWRncHU6IHVzZSBnZW5lcmljIGZiIGhlbHBlcnMgaW5zdGVh
-ZCBvZg0KPj4gc2V0dGluZyB1cCBBTUQgb3duJ3MuIikNCj4+IENjOiBUaG9tYXMgWmltbWVy
-bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IFNpZ25lZC1vZmYtYnk6IEFsZXggRGV1
-Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJz
-L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLmMgfCAxIC0NCj4+ICAgMSBmaWxlIGNo
-YW5nZWQsIDEgZGVsZXRpb24oLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5jDQo+PiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9rbXMuYw0KPj4gaW5kZXggZmUyM2UwOWVlYzk4Li40NzRiOWY0MGY3
-OTIgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-a21zLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMu
-Yw0KPj4gQEAgLTExMDYsNyArMTEwNiw2IEBAIGludCBhbWRncHVfaW5mb19pb2N0bChzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2LA0KPj4gdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxlICpm
-aWxwKQ0KPj4gICAgKi8NCj4+ICAgdm9pZCBhbWRncHVfZHJpdmVyX2xhc3RjbG9zZV9rbXMo
-c3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4+ICAgew0KPj4gLQlkcm1fZmJfaGVscGVyX2xh
-c3RjbG9zZShkZXYpOw0KPj4gICAJdmdhX3N3aXRjaGVyb29fcHJvY2Vzc19kZWxheWVkX3N3
-aXRjaCgpOw0KPj4gICB9DQoNCldpdGhvdXQgdGhlIGNhbGwgdG8gZHJtX2ZiX2hlbHBlcl9s
-YXN0Y2xvc2UoKSwgdGhlIGNvbnNvbGUgZW11bGF0aW9uIA0Kd2lsbCBiZSByZXN0b3JlZCBi
-eSBkcm1fY2xpZW50X2Rldl9yZXN0b3JlKCkgZnJvbSBkcm1fbGFzdGNsb3NlKCkuIFsxXSAN
-Ckl0IG1lYW5zIHRoYXQgaXQncyBub3cgY2hhbmdpbmcgb3JkZXIgd2l0aCB0aGUgY2FsbCB0
-byANCnZnYV9zd2l0Y2hlcm9vX3Byb2Nlc3NfZGVsYXlfc3dpdGNoKCkuIENhbiB0aGlzIGJl
-Y29tZSBhIHByb2JsZW0/DQoNCkkgbG9va2VkIGF0IHRoZSBvdGhlciBjYWxsZXJzIG9mIHRo
-YXQgZnVuY3Rpb24uIE1vc3QgcmVzdG9yZSB0aGUgY29uc29sZSANCmJlZm9yZSBkb2luZyB0
-aGUgc3dpdGNoZXJvby4gTm91dmVhdSBkb2Vzbid0IHNlZW0gdG8gY2FyZSBhYm91dCB0aGUg
-DQpjb25zb2xlIGF0IGFsbC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0
-cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuMC4zL3NvdXJjZS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2ZpbGUuYyNMNDY3DQoNCj4+DQo+PiAtLQ0KPj4gMi4zNy4zDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
-cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
-ZsO8aHJlcjogSXZvIFRvdGV2DQo=
-
---------------04DFWe79XCZNx3x3Udd5bTu0--
-
---------------sT6EtzUC0gcP6otwZxFnKkDK
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNWP6kFAwAAAAAACgkQlh/E3EQov+Bq
-9g/6Ajk7FJLBgRAw2CLfrPtSkR0WoUPCJPXLi9Apxt5iURurX+tx96wr2yprV/QEUa7x9ND74JuH
-bEv9y5uZ874lkAkHAX36vtgCxxuiJaLiTHFDVy0wzP960UeJGh5rOM/ATk+1HoGFS5Cj/uEWVOUk
-Tm4qMy1oBRvLxbVUU3jbeGo4Kn/vGvO4x0DWIpkTd41cv4ClQdfCvrd/DwRaC4rk8pjEVirGsiy5
-U6BeUQKQxsY2Rbqk/qHC7K4IYeewfHICfuH0m6vbLtW2d9cpfvmdvgjicRKp23HaYkmJVzpFZW9y
-RnQRpD6L1nMc37qnKcXTH3JmArRvoAhfrVdf3GZ8x5ShF/gIB4izQpITGyP6rSoVCIBbpeLTZsR/
-5YwpaqGQHDFvGx4eoA2FlBt1vECwb2a3bDgsgHroIrtoYRGeGcQfwi6euD31PcxGGmqu/uu2gQMH
-QRCDkZ6sSdWoXmdE6AwEtjXaJ/1DTMFIRUtrLSBPnb1k/0aAeyNhg4dqI8g8jFswzU7AF0fNHQiJ
-r9hI+1ZJ53yVCYK7b3v1S3FVQJ0Rix5OO4PuCphv1ogwcKVwmW1gAL01EDmLSa4RVWw3z7HfBjRS
-+sTle8KYt0tET2PqTN3LBl7igKtxzrfXMAsyTngGamUC5xkQ5mMu4n76vHEgtAZLdKlfN8lUY7wY
-7/g=
-=IrX6
------END PGP SIGNATURE-----
-
---------------sT6EtzUC0gcP6otwZxFnKkDK--
+Dave.
