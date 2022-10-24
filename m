@@ -2,60 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FC6609727
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 01:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB346097F4
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 03:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B837E10E1FB;
-	Sun, 23 Oct 2022 23:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F0EC10E21E;
+	Mon, 24 Oct 2022 01:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6112710E1FB
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Oct 2022 23:06:11 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id f205so9355153yba.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Oct 2022 16:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hmccmewlc12IL3G8EIPRSlShqf9VN8OLmAiyROgb794=;
- b=gE/GFjPwGsZwOqKaA4pqmxoS+Hn4dn39Nk2+u+onuxZ4DbVwZza7ru5x0v0Qnx6z8Q
- cvxvJHYkJpMoXDS02B6wOSV+YhcbMa9qa4igpCUTXX3KIbF1embj2Jo3ag5Pv5/v6YZw
- isXXmIo1mpOtKW11tb9UJSMisWqm/vPUojCb1KiDlgzZY+lc/YwxWY8faOxeWDKP6YQX
- VCVsG+ebEn/SwiuuulAiGHW0GzBrSnpa0TEhMzKGfD1qPixEyrbQ9bPaTf0mBFflD9Qf
- p0PPpjqNFSftJVCL+BJZE1FIGSWoqyYWg2EMN2Poybz7Ct/QfaGKPTWta0WHDnn+T1pB
- T9jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hmccmewlc12IL3G8EIPRSlShqf9VN8OLmAiyROgb794=;
- b=ru8gj/cicWIi3iTnptGsOPV2lxFDgkgh9fL2Xzjt5j3VHmOIvaVg2Mq2IIA2pJCX41
- ga0zcWB/YtRjMziArOV62LNPe7VMzbPuKXYnSGna8PlJygGGkUr7KBuXq5bchXTheQhF
- opcngnF+7H+eddvitBEsYThGevIdcQYLzDuH2pTMhLiCo+1XbzHdwha46IQmlUcJxOrN
- yTcaRnvLeNgVkkOxj2EB32QCjWBzgLDRXfB2HGPdgDQ1xjg51s20uVbYyMBBxejD1hrh
- r5Vh5/bJ44tFoySPjc1MybbYnTeAjnLQ/uoNTA+EtN6gxWsZQadhhmh6pIlMa/TSkBjt
- I3Eg==
-X-Gm-Message-State: ACrzQf0lR/b8tSK6NqrZlrrIe7TShW1Vv8KN8DS+3vQBt5i++pRw1nof
- IoFLjmzkjaOh09ufLcW+apQefNbnwmcHYQDtQt5JiA==
-X-Google-Smtp-Source: AMsMyM7XSPrbKTSnEVpxOc3xsh+M+aAWFj5JLw0oAkgGzZsAI/Zm5hOlj4oAEbT9TZRbBkv6YrUdJIv01NXMsVpe4i4=
-X-Received: by 2002:a05:6902:1545:b0:6ca:a18a:ea69 with SMTP id
- r5-20020a056902154500b006caa18aea69mr7150287ybu.225.1666566370923; Sun, 23
- Oct 2022 16:06:10 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2051.outbound.protection.outlook.com [40.107.243.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC1710E21B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 01:48:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oKsYK8a/wnxRWyynpHSAfwSNIL1nEit5bxSxDi6jTFvzeCNPC2eo2rHq+3jlsXi5ysMkenET2LTCs/bTmYsU6zZjJCsfFNlqd7G0xPQPxNbSbwAwMKLLaziEzWxNL+cu+xK7cMtf4IUYV8tVCaAI/BKIByD1TWqTZWlp6FbX+1ycocUMKXERujbFExgWS5bw6KR2Iysdftq2bKi123bn7LGO59qBlsoAma/bZbbmAqQJDhE7E1zsgXPmamvwRPmb9sSPjpCjDXnbEW3VeoCdJ2GmCui9ng1wuNJAY05ti0/9MC6DtiCqSBsHPghPQdEQSyQfCMFynyf+Q4LlvdMZUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fsytFnsh7ofQTM+YuaLrSYjsEyzizBws5GSeHRuzYgc=;
+ b=Plkgb7JA9I4fo3o8bCvkQgzmX8ObhNmViTm/mgubpQGhFonVhAdachKDriVdbGt0CGxRsWkgZu41sMXySwQ9YhqsCR1iE9dfOLGMkd+VyEoCQ+Y+UwBkp8DCnlCEdmZaCQWefg4QuqnHbOqUOoWOdPuK4M5lABLSqns/lJcD4kKzpA/aAgqjKBa8OK1LLoo1Uv2RElc+e4dctxoQnjExd1KeM8cYzfWGPHt1bfE8Cvv/WWy1tanSnkAcoT6w0mVGr8/iHMdxteDmvOKjr6nTW60tcFbJdp7z4OntDPFq+hVCn/cfCk2DzkvaC18kxE0lcckz2Fi7Vl9QmHfpXPKHDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fsytFnsh7ofQTM+YuaLrSYjsEyzizBws5GSeHRuzYgc=;
+ b=Bs5sogEXU/OlRNxnEQyzYwZeLUB9V8sSWwg+VNwmuOjVOiaTyZbnzu/sO3Ev+VNqD1D0ZoBxWXMNPeorZopTaMkdNnIWEGMkaN30uc3ixa2V1G+khHu+skyB2DDhFfBq9ENJvCeNt073UHDikDdZkNbciFegJ7El+Ibg4ZMTelB622vPte7CNni3Jwwl4f12tqGEHX/sGxP5SR9hvbjCskCFtevAZtCk+EmtAlO7tNFyCK6A4Uo79SIlvWPPeZJizHxWmjWZnq5WAuMiDolu7ms4i/rMVqp+vlwUe6nwzoeKduuqGKrzQP9UqqrGbiiVLgY9zxWkRNxvxFoEYbXZjA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ by CY5PR12MB6057.namprd12.prod.outlook.com (2603:10b6:930:2e::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.36; Mon, 24 Oct
+ 2022 01:48:00 +0000
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::6ed5:b1a6:b935:a4d8]) by BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::6ed5:b1a6:b935:a4d8%7]) with mapi id 15.20.5723.034; Mon, 24 Oct 2022
+ 01:48:00 +0000
+References: <166630293549.1017198.3833687373550679565.stgit@dwillia2-xfh.jf.intel.com>
+ <cbc23eba-990f-688e-d22b-0c0d103172cb@amd.com>
+ <6351d7105fe92_4da329467@dwillia2-xfh.jf.intel.com.notmuch>
+ <0d2efd01-956c-3e61-6bd0-81e449fad4f9@amd.com>
+User-agent: mu4e 1.8.10; emacs 28.2
+From: Alistair Popple <apopple@nvidia.com>
+To: Felix Kuehling <felix.kuehling@amd.com>
+Subject: Re: [PATCH] mm/memremap: Introduce pgmap_request_folio() using
+ pgmap offsets
+Date: Mon, 24 Oct 2022 12:44:34 +1100
+In-reply-to: <0d2efd01-956c-3e61-6bd0-81e449fad4f9@amd.com>
+Message-ID: <87tu3uq9fa.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: SYXPR01CA0100.ausprd01.prod.outlook.com
+ (2603:10c6:0:2e::33) To BYAPR12MB3176.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::26)
 MIME-Version: 1.0
-References: <ea5d60cd-8d0b-7018-425e-b91e5750a830@amd.com>
- <20221020205317.96136-1-samsagax@gmail.com>
-In-Reply-To: <20221020205317.96136-1-samsagax@gmail.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Mon, 24 Oct 2022 01:05:52 +0200
-Message-ID: <CAP+8YyFUoFhh1+CEKrs48JV5CiorSSfe6qg90TyUrDoBtzcPhA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Revert logic for plane modifiers
-To: =?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:EE_|CY5PR12MB6057:EE_
+X-MS-Office365-Filtering-Correlation-Id: b5b578c5-d880-4886-e376-08dab561c841
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IHRoHIc20J9M9xhfz6kMvcYOVoH5c0SvMJVnQ9U2Dw3H6ZMg4bTPhmjowrNYOUPOPX9ttqZ3wS47gs5GwDh1RanYx3gcwzHmQ43T2XPDsHabGeuhjOcLzdw2lVg8OTxRSoE4rQ1gZQ5p5NTGCHnTD9TxQUsWd1l7cIFd5Z4GrOC8bDyc11NaMWjnagUvXh9oH6uRFSm8h9ULWTCd0r0hHX8EP3QI2wxJQDTICVicf6k+HuYkWbn6w5rcsHijzdARdXqpNQjwbG+gc14koN4vIx8xMJ4JvLE3a0X4hUKoxgQ+BPlc/SsiwnvO3A2hNVkEdm4EcBEjUv9xubQCGKtDV2pcS9IzTUeOiMyycqJD3znjicwoOGB9U39y87laW7oKK3Ft3DrNarTLrXBi/H+vdeP+IbfZA/x4QRZKLfhElcS7+cjPMv/wWHUFpKsynrSPsElqU2qGPbAsdy2dLe2TodbPJEqOEat/QHvA7lexBI/OBUsHTGpVcjcj19C0+gOXQRzu4Cx+02oiggwk2lsmq+pC8FF90Yga5WPs2bkLBUaXgJ/t4gikxmTGcjfhGfet0GEbY/np0UtUMRvauXp4j5ZFJqL63QI+wGD6x69rDuuPJrYv613DEe3VyZz4TSOUz874DJ2DumaJJSLxPwd4YtVUmw0XSdGuTFOx3CvjI7B4Zo7qJHNaHBvrouLz8N59G2UMFzDzup4FMIvXomblqg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(346002)(376002)(39860400002)(366004)(396003)(451199015)(36756003)(4326008)(38100700002)(6486002)(41300700001)(66476007)(66556008)(86362001)(83380400001)(2616005)(186003)(53546011)(478600001)(2906002)(6666004)(4001150100001)(316002)(7416002)(6916009)(6512007)(5660300002)(66946007)(6506007)(8676002)(54906003)(26005)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wUcV9rK1g3gZRHfhhSH6sJxlfPsxf+bxy8OUC8JOQHoFuvGQc3OxRaofOfB6?=
+ =?us-ascii?Q?678ifFIDeMvyasQm5jshgadm77A0FqdBKmlzH8EyARJEFUEgizwzaT6MuhzT?=
+ =?us-ascii?Q?U/aG98ebSXfX5yfPZ19II8KJHO95LWdUkHQaCjeAMJBDAoMX+bPKWr///yxM?=
+ =?us-ascii?Q?9mY+h0B9DyRkxsHI0iBLSLqo3+N4A3tIU/nvOtYyt2E4t/5h/Fi8sogbirlC?=
+ =?us-ascii?Q?VZWt7NU/3Bj0lGZK7h3risnMRti24aGAeyu8aBIJ70bJ7h6DwpQZnWZKlsNQ?=
+ =?us-ascii?Q?w8SjBOzths9dAyoutem1mw/p2st7KzvpFxkJ9NiOcLbzB8J9f5I23CiujysK?=
+ =?us-ascii?Q?vgbkTFULTk4+9M8qYg75Aj2F2tVwj6X+ztfPgCkW3z2SWP0HSHxngdJEwaOc?=
+ =?us-ascii?Q?mu/6czAgl+GAxZAmXWGPW93+pyqhS9hNPJpdcrSdRAdchuFnToOIvOzVmFuU?=
+ =?us-ascii?Q?jaH/bmDymzF/t9iLqhiGbnDZb05+rAC0VZB5oSlDtcJej0YsorNuvTtxfuwT?=
+ =?us-ascii?Q?oGSDuc1eQImoj2yj+xEqKfZexnCfClo4Szq0iOwvS2aSAnda3TDNeicsC2Ah?=
+ =?us-ascii?Q?kSNnDVdRTYGaWNQ8bwFFBwSY5F6T39IDqMbH9Yb1/7HGlKw/tiBol/pYduZO?=
+ =?us-ascii?Q?UuabO1LXON0RAvC5CJu+0UQEu2UUailhhm9FodfBttHnFrKZob/kd/OxNexy?=
+ =?us-ascii?Q?Z32ZWcKEGstepjv5Z3WB7Qz8Ol2vow2vuVlbLbfmndlSxwlzt8jnxGooyUib?=
+ =?us-ascii?Q?1OqQEvNZwSQnp1mRAOb0WV0nKcWbGtYEfoijF2OdgD7MsU12L4sTsJxoNitR?=
+ =?us-ascii?Q?ztKBZ5/FeoscWi1O9ltmJBMeKoW/BGC8yheGHKh80B6KfAq8ed6Ue4SJiHxk?=
+ =?us-ascii?Q?pGX3P5nWcstR6E2CZLbLeT53k2l/2K7jqWfazt8Vu/haP0jp7zkp5ukEOsBX?=
+ =?us-ascii?Q?6UdAZbludzzI//P+LMkBgHIZyNHXFEPkcJK+nlgeWfjy1/b4I6ISZPe0mUz/?=
+ =?us-ascii?Q?pW+mYb0ckZ3kdzyrmM3MwyhBixi/rBanISJn/l2AdMfbmrkva2Hff/CmIp7d?=
+ =?us-ascii?Q?XaA3kfK7/CHm7Ta/qSTYTcxLhgu7XNZALnsE7kymGjwsxIufkDdhDWSaptoh?=
+ =?us-ascii?Q?iGFdciHC86Oi+4dr4XZe9NkOEZSpN4hFJzxzvmML8aJc1TZfxvZFC/iOYBKw?=
+ =?us-ascii?Q?RHju7wnRlNOsKZtB/d9N3wKaBPQ3U6zeIvdI7z2sLWQvE+0FWc+YP9zWFoFZ?=
+ =?us-ascii?Q?GgJHiJpb21+Bm/k1tnXMOHqCbvMRkc9gNFAxfE4S77OH4ypFslI66q405n3X?=
+ =?us-ascii?Q?pGGvD3si+PIaHO0iIWpqTa7M5yjZ77O/GRlbzmKrITojoAXw9yo7DadfuFIO?=
+ =?us-ascii?Q?5bPLqYg5dmSw4ncPTdM3qbeBw5kgwki2d9BAYLgVYhUKP1J6aosdUBTJhEFL?=
+ =?us-ascii?Q?lc7Cap+EpjClIsLTaVsqLdnvwv0Io4Q0nMVPefwHvvpfJu6Lvghj/RB1e/vw?=
+ =?us-ascii?Q?aq+r3Dn5VW4nZXnG3s4BNhm18AhN6vMWfzyYfHXCaNiFKP5XzE/diXmG8GRg?=
+ =?us-ascii?Q?7WlgtbJY9gfLQzq5mwjnN3T5y0WMBh5i0zdjw7HY?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5b578c5-d880-4886-e376-08dab561c841
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 01:48:00.4750 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: My0vc+obwHjeNT9U9oDqMXKpwZLN9BmMS6OnQHxJRaWFdmRTN8q0Uc7LgkVHUgeiO/aSnPEbl0yoFNJ4MFy30w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6057
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,129 +117,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, rodrigo.siqueira@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: nvdimm@lists.linux.dev, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@nvidia.com>, Karol Herbst <kherbst@redhat.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, "Darrick J.
+ Wong" <djwong@kernel.org>, dri-devel@lists.freedesktop.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Matthew Wilcox <willy@infradead.org>,
+ Christoph Hellwig <hch@lst.de>, linux-mm@kvack.org,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Dan Williams <dan.j.williams@intel.com>, akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please also add a
 
-Cc: <stable@vger.kernel.org> # 6.0.x
+Felix Kuehling <felix.kuehling@amd.com> writes:
 
-to ensure it gets backported.
+> On 2022-10-20 19:17, Dan Williams wrote:
+>> Felix Kuehling wrote:
+>>> Am 2022-10-20 um 17:56 schrieb Dan Williams:
+>>>>
+>>>> For now this only converts the callers to lookup the pgmap and generate
+>>>> the pgmap offset, but it does not do the deeper cleanup of teaching
+>>>> those call sites to generate those arguments without walking the page
+>>>> metadata. For next steps it appears the DEVICE_PRIVATE implementations
+>>>> could plumb the pgmap into the necessary callsites and switch to using
+>>>> gen_pool_alloc() to track which offsets of a pgmap are allocated.
 
-On Fri, Oct 21, 2022 at 9:24 AM Joaqu=C3=ADn Ignacio Aramend=C3=ADa
-<samsagax@gmail.com> wrote:
->
-> This file was split in commit 5d945cbcd4b16a29d6470a80dfb19738f9a4319f
-> ("drm/amd/display: Create a file dedicated to planes") and the logic in
-> dm_plane_format_mod_supported() function got changed by a switch logic.
-> That change broke drm_plane modifiers setting on series 5000 APUs
-> (tested on OXP mini AMD 5800U and HP Dev One 5850U PRO)
-> leading to Gamescope not working as reported on GitHub[1]
->
-> To reproduce the issue, enter a TTY and run:
->
-> $ gamescope -- vkcube
->
-> With said commit applied it will abort. This one restores the old logic,
-> fixing the issue that affects Gamescope.
->
-> [1](https://github.com/Plagman/gamescope/issues/624)
->
-> Signed-off-by: Joaqu=C3=ADn Ignacio Aramend=C3=ADa <samsagax@gmail.com>
-> ---
->  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 51 +++----------------
->  1 file changed, 8 insertions(+), 43 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
-ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index dfd3be49eac8..1d47d2d69781 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -1369,7 +1369,8 @@ static bool dm_plane_format_mod_supported(struct dr=
-m_plane *plane,
->  {
->         struct amdgpu_device *adev =3D drm_to_adev(plane->dev);
->         const struct drm_format_info *info =3D drm_format_info(format);
-> -       struct hw_asic_id asic_id =3D adev->dm.dc->ctx->asic_id;
-> +
+That's an interesting idea. I might take a look at converting hmm-tests
+to do this (and probably by extension Nouveau as the allocator is
+basically the same).
 
-Can remove this newline.
+Feel free to also add:
 
-With that removed, this patch is
+Reviewed-by: Alistair Popple <apopple@nvidia.com>
 
-Reviewed-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+For the memremap/nouveau/hmm-test parts.
 
-Thanks,
-Bas
-
-> +       int i;
+>>> Wouldn't that duplicate whatever device memory allocator we already have
+>>> in our driver? Couldn't I just take the memory allocation from our TTM
+>>> allocator and make necessary pgmap_request_folio calls to allocate the
+>>> corresponding pages from the pgmap?
+>> I think you could, as long as the output from that allocator is a
+>> pgmap_offset rather than a pfn.
+>>
+>>> Or does the pgmap allocation need a finer granularity than the device
+>>> memory allocation?
+>> I would say the pgmap *allocation* happens at memremap_pages() time.
+>> pgmap_request_folio() is a request to put a pgmap page into service.
+>>
+>> So, yes, I think you can bring your own allocator for what offsets are
+>> in/out of service in pgmap space.
 >
->         enum dm_micro_swizzle microtile =3D modifier_gfx9_swizzle_mode(mo=
-difier) & 3;
+> Thank you for the explanation. The patch is
 >
-> @@ -1386,49 +1387,13 @@ static bool dm_plane_format_mod_supported(struct =
-drm_plane *plane,
->                 return true;
->         }
->
-> -       /* check if swizzle mode is supported by this version of DCN */
-> -       switch (asic_id.chip_family) {
-> -       case FAMILY_SI:
-> -       case FAMILY_CI:
-> -       case FAMILY_KV:
-> -       case FAMILY_CZ:
-> -       case FAMILY_VI:
-> -               /* asics before AI does not have modifier support */
-> -               return false;
-> -       case FAMILY_AI:
-> -       case FAMILY_RV:
-> -       case FAMILY_NV:
-> -       case FAMILY_VGH:
-> -       case FAMILY_YELLOW_CARP:
-> -       case AMDGPU_FAMILY_GC_10_3_6:
-> -       case AMDGPU_FAMILY_GC_10_3_7:
-> -               switch (AMD_FMT_MOD_GET(TILE, modifier)) {
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_R_X:
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_D_X:
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_S_X:
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_D:
-> -                       return true;
-> -               default:
-> -                       return false;
-> -               }
-> -               break;
-> -       case AMDGPU_FAMILY_GC_11_0_0:
-> -       case AMDGPU_FAMILY_GC_11_0_1:
-> -               switch (AMD_FMT_MOD_GET(TILE, modifier)) {
-> -               case AMD_FMT_MOD_TILE_GFX11_256K_R_X:
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_R_X:
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_D_X:
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_S_X:
-> -               case AMD_FMT_MOD_TILE_GFX9_64K_D:
-> -                       return true;
-> -               default:
-> -                       return false;
-> -               }
-> -               break;
-> -       default:
-> -               ASSERT(0); /* Unknown asic */
-> -               break;
-> +       /* Check that the modifier is on the list of the plane's supporte=
-d modifiers. */
-> +       for (i =3D 0; i < plane->modifier_count; i++) {
-> +               if (modifier =3D=3D plane->modifiers[i])
-> +                       break;
->         }
-> +       if (i =3D=3D plane->modifier_count)
-> +               return false;
->
->         /*
->          * For D swizzle the canonical modifier depends on the bpp, so ch=
-eck
-> --
-> 2.38.1
->
+> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
