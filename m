@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23D260C454
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8A160C446
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:55:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382FC10E194;
-	Tue, 25 Oct 2022 06:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91ECA10E14A;
+	Tue, 25 Oct 2022 06:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD9B10E388
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:35:58 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- u8-20020a17090a5e4800b002106dcdd4a0so12706772pji.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:35:58 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A873A10E399
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:36:06 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id c24so8188112pls.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XqmnVvhO9UyNXVHf0JsSwhtfQtP7FaZ6t+IS8pLhYe4=;
- b=s196kKLMLpzulXUS4BLxdjP3PZud7xTpKqpKruF8CPkUOnlKaR/90Xeg2YiBo1lxHt
- 0phPGBaGv8xL/2sJqtVjolNPplrc2gMArMrd38Fp4QY7w8IhO1gtyxxMyGg93VGpm0MM
- j/H+7JqUU0uyU9EbCNWGW0hSXVYMoeFxaVahwQmC5a0ogDrEldzdfFhw1y5wfPbeoDyv
- hhwAFpQRAr0P5gUGNLn3NAYvFzK96KUpTxDG6A6mcGTvTgwIFrZjd1qq4rg87X1gcrgv
- qVb+qSNOeTlneVvekKPumnA2sWUZNn6pea2DrTamA/nt4dzQ8wvTNCAad1chJdFMPTZm
- 71eQ==
+ bh=jd6ACh5yshC3v+wpibDWDf3qgLlWAznCMtTQxn1zcTM=;
+ b=BWB1bsRo1D1/5aG2HUlQshwnot5GiQEKVcgQhO+OxWk4Yv6RJGjGc0+BnbVcAU1ilB
+ NhLxiTmmJgpEWvIeGzC5nj6mZ2YWuafNwN+o0OYaPM29MksvUZTfQAH1/K+UrZCFM6bR
+ i7w9/In5jUCFaBvu+D1VTFv7mFYSrjvbVqaokCOIPR/VUAMFVxjnDdpJCpz7bMR/BSkg
+ Jq+u8O9YrnPI/nP0nolD9ycK218e8OEhDyBgyhXa6WYV51n2uaBY0GhjjlonI341V0zm
+ ZR6a6kMTVC2I54CmN/XhCqU+xMvNbG8LWMhVeF721NMtiIvmVm8HCmwl7f0mofuKqBvv
+ T6qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XqmnVvhO9UyNXVHf0JsSwhtfQtP7FaZ6t+IS8pLhYe4=;
- b=GDxSPUk0kk6fNERlXJxIL7vG9G4VoA6TAfqe1UwBBcCXEmcRG7Bo9ym3i8KRGZn665
- XpqXKCl/ggDbOI2JExq5kilk1bUrvTrnUIg2VnJVelNUFND8CCA80IsboV+dUiynhpZ4
- OqRz8taAjD486cr00Yn6CDfO9VwiPTaqJBRmoq5K0EFOAABEG3cB1JoAo8Zgc1SSxxvi
- D4kSO2sozIz60YoELG0wLt3+hHltlLIs9yEnv4qFK450x15tr42U75akSpS3dz9lk0b1
- a5QpNaT211yaCeyT84KJ7dUlgxCEFPW3zB+t8wMN9kw4HTJXyZtL4+TEDpPXArJYl10l
- D4kw==
-X-Gm-Message-State: ACrzQf0nnCZjw/A9ieAsFnLvUi8q+aY8FjEUgF+2BAQdw8GR65YJ5sbp
- bykD1WTue10BU7utRov7ez2UQw==
-X-Google-Smtp-Source: AMsMyM4bQCnNONbcQRCLJnNp3+V9paAm7JCDcLdkyq7fRJSwz3Z4S1McoGfU9dqTYLitGtEw6cnCGg==
-X-Received: by 2002:a17:903:2014:b0:186:8937:28a6 with SMTP id
- s20-20020a170903201400b00186893728a6mr11907681pla.39.1666611357909; 
- Mon, 24 Oct 2022 04:35:57 -0700 (PDT)
+ bh=jd6ACh5yshC3v+wpibDWDf3qgLlWAznCMtTQxn1zcTM=;
+ b=Hi505wwWKbXHGGV56hNQTiHKUnNgmAzi1MvdYs1fd15QZ+vDcgYKzG5wtZESnV3B6U
+ jIK8pDnnUdE3ZoVAcYMDM/m0pYn6d6w9RmUBQfOBNU0kUXiXQ5P46Wfr2AwXYcWC6UNe
+ RQLKW8hTvqtTBSvU2j3Sbt1B+//er003kscJrP0zm/F8hFvptLeJffr6WTqnEA6W86ad
+ NRFiaStqaWkvELyvLp9Mobg6pa61wmE/V7BnSiXgw5iZPJBGIdMe7n3sqIHJl36thBGN
+ cz6v6GrbrxTg7knQOn04UV/Dbr7gaVG4oSEoYdqRdl81BGR8NebW0MjVbyvxbh6turGc
+ 6J5g==
+X-Gm-Message-State: ACrzQf0xgKeUle2zdGwCBcYSBGpNHj0Vz339NzXD/urfoRoIbgTvQVg8
+ M57LJWSf9+mk1epj4V99vsQZX9c7kHIjhhcl
+X-Google-Smtp-Source: AMsMyM73/rjifhWGMHa1zueK60XfZjEW5Vq3d/GPCr3Dh4GubkmNIV3imNkhOdeBYtsFWNdeZJSquQ==
+X-Received: by 2002:a17:902:da90:b0:185:5537:f388 with SMTP id
+ j16-20020a170902da9000b001855537f388mr34408779plx.113.1666611366225; 
+ Mon, 24 Oct 2022 04:36:06 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.35.49
+ b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.35.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 04:35:57 -0700 (PDT)
+ Mon, 24 Oct 2022 04:36:05 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Subject: [PATCH 02/22] ACPI: video: Introduce acpi_video_get_backlight_types()
-Date: Mon, 24 Oct 2022 20:34:53 +0900
-Message-Id: <20221024113513.5205-3-akihiko.odaki@daynix.com>
+Subject: [PATCH 03/22] LoongArch: Use acpi_video_get_backlight_types()
+Date: Mon, 24 Oct 2022 20:34:54 +0900
+Message-Id: <20221024113513.5205-4-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 25 Oct 2022 06:54:01 +0000
+X-Mailman-Approved-At: Tue, 25 Oct 2022 06:54:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,84 +97,29 @@ Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This deprecates acpi_video_get_backlight_type().
+acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/acpi/acpi_video.c   |  2 +-
- drivers/acpi/video_detect.c |  6 +++---
- include/acpi/video.h        | 12 ++++++++++++
- 3 files changed, 16 insertions(+), 4 deletions(-)
+ drivers/platform/loongarch/loongson-laptop.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
-index 32953646caeb..63e41aac71bd 100644
---- a/drivers/acpi/acpi_video.c
-+++ b/drivers/acpi/acpi_video.c
-@@ -1823,7 +1823,7 @@ static int acpi_video_bus_register_backlight(struct acpi_video_bus *video)
- 	if (video->backlight_registered)
- 		return 0;
+diff --git a/drivers/platform/loongarch/loongson-laptop.c b/drivers/platform/loongarch/loongson-laptop.c
+index f0166ad5d2c2..3b54b4cefedb 100644
+--- a/drivers/platform/loongarch/loongson-laptop.c
++++ b/drivers/platform/loongarch/loongson-laptop.c
+@@ -454,9 +454,9 @@ static int __init event_init(struct generic_sub_driver *sub_driver)
  
--	if (acpi_video_get_backlight_type() != acpi_backlight_video)
-+	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VIDEO))
- 		return 0;
- 
- 	mutex_lock(&video->device_list_lock);
-diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-index 0d9064a9804c..9cb12e4f06f7 100644
---- a/drivers/acpi/video_detect.c
-+++ b/drivers/acpi/video_detect.c
-@@ -17,13 +17,13 @@
-  * Otherwise vendor specific drivers like thinkpad_acpi, asus-laptop,
-  * sony_acpi,... can take care about backlight brightness.
-  *
-- * Backlight drivers can use acpi_video_get_backlight_type() to determine which
-+ * Backlight drivers can use acpi_video_get_backlight_types() to determine which
-  * driver should handle the backlight. RAW/GPU-driver backlight drivers must
-  * use the acpi_video_backlight_use_native() helper for this.
-  *
-  * If CONFIG_ACPI_VIDEO is neither set as "compiled in" (y) nor as a module (m)
-- * this file will not be compiled and acpi_video_get_backlight_type() will
-- * always return acpi_backlight_vendor.
-+ * this file will not be compiled and acpi_video_get_backlight_types() will
-+ * always return ACPI_BACKLIGHT_VENDOR.
-  */
- 
- #include <linux/export.h>
-diff --git a/include/acpi/video.h b/include/acpi/video.h
-index a275c35e5249..a565ba27fae0 100644
---- a/include/acpi/video.h
-+++ b/include/acpi/video.h
-@@ -2,6 +2,7 @@
- #ifndef __ACPI_VIDEO_H
- #define __ACPI_VIDEO_H
- 
-+#include <linux/bits.h> /* for BIT */
- #include <linux/errno.h> /* for ENODEV */
- #include <linux/types.h> /* for bool */
- 
-@@ -52,6 +53,12 @@ enum acpi_backlight_type {
- 	acpi_backlight_apple_gmux,
- };
- 
-+#define ACPI_BACKLIGHT_VIDEO BIT(acpi_backlight_video)
-+#define ACPI_BACKLIGHT_VENDOR BIT(acpi_backlight_vendor)
-+#define ACPI_BACKLIGHT_NATIVE BIT(acpi_backlight_native)
-+#define ACPI_BACKLIGHT_NVIDIA_WMI_EC BIT(acpi_backlight_nvidia_wmi_ec)
-+#define ACPI_BACKLIGHT_APPLE_GMUX BIT(acpi_backlight_apple_gmux)
-+
- #if IS_ENABLED(CONFIG_ACPI_VIDEO)
- extern int acpi_video_register(void);
- extern void acpi_video_unregister(void);
-@@ -97,4 +104,9 @@ static inline int acpi_video_get_levels(struct acpi_device *device,
- }
- #endif
- 
-+static inline int acpi_video_get_backlight_types(void)
-+{
-+	return BIT(acpi_video_get_backlight_type());
-+}
-+
- #endif
+ 	/*
+ 	 * This hotkey driver handle backlight event when
+-	 * acpi_video_get_backlight_type() gets acpi_backlight_vendor
++	 * acpi_video_get_backlight_types() gets ACPI_BACKLIGHT_VENDOR
+ 	 */
+-	if (acpi_video_get_backlight_type() == acpi_backlight_vendor)
++	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
+ 		hotkey_backlight_set(true);
+ 	else
+ 		hotkey_backlight_set(false);
 -- 
 2.37.3
 
