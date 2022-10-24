@@ -1,70 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258DF609DD8
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 11:19:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6067609E19
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 11:36:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0669510E2F4;
-	Mon, 24 Oct 2022 09:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 812C410E2D8;
+	Mon, 24 Oct 2022 09:36:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C87D10E2EC;
- Mon, 24 Oct 2022 09:19:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0E19C6112A;
- Mon, 24 Oct 2022 09:19:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BE8C433C1;
- Mon, 24 Oct 2022 09:19:26 +0000 (UTC)
-Message-ID: <76dc6599-3b24-918c-ba08-77c3192c5c04@xs4all.nl>
-Date: Mon, 24 Oct 2022 11:19:25 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v7 13/21] media: videobuf2: Prepare to dynamic dma-buf
- locking specification
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4938910E2D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 09:36:43 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 56DC732007F9;
+ Mon, 24 Oct 2022 05:36:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 24 Oct 2022 05:36:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm3; t=1666604198; x=1666690598; bh=tJAnVECZiyVGGs7MSXOQSHaKE
+ 3Egf/NEHXYWLpNgpb8=; b=Nklllfv0xF24dHTRPYhSnQ9xJqTvjCSlg4FE0Srh2
+ piptaO3aJHfWEvUWiu30j8G6dLXAYd8N1uKo9ciID8ts2CgE7r6a/GrpCtNYaoeb
+ /J0Z1xN+i9E4RF2cjBMCBPCiJhbyecGI1Mj8mWUchTDMl4D7Q/WZ3jZTnk6xi2tD
+ acb29wDbnRG54wW5/eDrOV7c2ZjXk7PyK3E5/vNRM8Hz0MGi3gJMrIGLyEFHrPTu
+ yVLbO0KmDVfsZt+jbq2IJNwanm2izU1AXqx6gvUVnG82k3Ci2ywusURb8MZeh9vl
+ j1p4FSWgIUIgtlJVWvoZkO50T7krZ+gDj073yKnZswzCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1666604198; x=1666690598; bh=tJAnVECZiyVGGs7MSXOQSHaKE3Egf/NEHXY
+ WLpNgpb8=; b=D1wOzAWLsAT4Kh/Jl55nFJXI9Ed6F3x81WaBr/CK5zi91waYuYW
+ 7mn1i29Zx10PzbEIGluEvE1bKVQhU2sR/itdT3SrF/XLf8XMG7XejP3YMpHqLZpX
+ MKLNfo4wUt/E5FihV1oy6q62xY61jUcHrJXCRNWu2t6ryBkubUE3eADi5TjR9zUA
+ 91lw+g6OZ7QlYGj1rFmNr6sj3RgZVkbVczt7SSGSUb8zrSrpBdBj8HpKSwdVPmlR
+ TPdMSGLLyCdRfsGAvAH0MxbDSCiKUiRjPNBoGl37/rREE9FAfMlPIAJD/UGn+sNu
+ V0gL5OcHkNi9Us3s9lk597j2+QhhJHPH/qQ==
+X-ME-Sender: <xms:pVxWY7o4CPXk71Wid2kiBqduLGQmEDPKSNwiXbTWVNkY5ATCnkes4Q>
+ <xme:pVxWY1pf5ZY6yiNUZx873SUb9Zb1wIGyaGsO5IY4xlO-aIw898YhAbTGvTEv3yaPB
+ T4qaL-PImIIaaXZCwc>
+X-ME-Received: <xmr:pVxWY4PNrD1ua_Xj09f8MX618KPINo5lrGqBRLudpqesKeYrDj8n_2QZj0vUhLQ8NTNRbw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepmhgrgihimhgv
+ segtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpefgteffteegvdffheelheekhe
+ ekfeeuledujeeikeelfffgfefhteefvddtheettdenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:plxWY-6e3tZcewKOoieDsToCSH49CjY7LENHil0MqRoLdtJjmChoWw>
+ <xmx:plxWY65DP6OlJFKUndDBIyFDmUFZK_B77Bh3Uq7I9vEWhC9KtEd4Fg>
+ <xmx:plxWY2jBDCJoUJzXcl59LtWQ8huSNxIfqL3BDZm6gCMeyOLS87VRKQ>
+ <xmx:plxWY3zCmqtT32znDL8k7vGIbTYY_TewbE5XzcyQ0EFE5I7uxiAjDA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 24 Oct 2022 05:36:37 -0400 (EDT)
+From: maxime@cerno.tech
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
- <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
- Qiang Yu <yuq825@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Tomi Valkeinen <tomba@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Ruhl Michael J <michael.j.ruhl@intel.com>
-References: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
- <20221017172229.42269-14-dmitry.osipenko@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20221017172229.42269-14-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 1/2] drm/vc4: hdmi: Take our lock to reset the link
+Date: Mon, 24 Oct 2022 11:36:33 +0200
+Message-Id: <20221024093634.118190-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,146 +80,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- linux-media@vger.kernel.org
+Cc: Tim Gover <tim.gover@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+We access some fields protected by our internal mutex in
+vc4_hdmi_reset_link() (saved_adjusted_mode, output_bpc, output_format)
+and are calling functions that need to have that lock taken
+(vc4_hdmi_supports_scrambling()).
 
+However, the current code doesn't lock that mutex. Let's make sure it
+does.
 
-On 10/17/22 19:22, Dmitry Osipenko wrote:
-> Prepare V4L2 memory allocators to the common dynamic dma-buf locking
-> convention by starting to use the unlocked versions of dma-buf API
-> functions.
-> 
-> Acked-by: Tomasz Figa <tfiga@chromium.org>
+Fixes: 6bed2ea3cb38 ("drm/vc4: hdmi: Reset link on hotplug")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 596e311d6e58..9e549fa07467 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -349,27 +349,40 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
+ 	if (!crtc_state->active)
+ 		return 0;
+ 
+-	if (!vc4_hdmi_supports_scrambling(encoder))
++	mutex_lock(&vc4_hdmi->mutex);
++
++	if (!vc4_hdmi_supports_scrambling(encoder)) {
++		mutex_unlock(&vc4_hdmi->mutex);
+ 		return 0;
++	}
+ 
+ 	scrambling_needed = vc4_hdmi_mode_needs_scrambling(&vc4_hdmi->saved_adjusted_mode,
+ 							   vc4_hdmi->output_bpc,
+ 							   vc4_hdmi->output_format);
+-	if (!scrambling_needed)
++	if (!scrambling_needed) {
++		mutex_unlock(&vc4_hdmi->mutex);
+ 		return 0;
++	}
+ 
+ 	if (conn_state->commit &&
+-	    !try_wait_for_completion(&conn_state->commit->hw_done))
++	    !try_wait_for_completion(&conn_state->commit->hw_done)) {
++		mutex_unlock(&vc4_hdmi->mutex);
+ 		return 0;
++	}
+ 
+ 	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+ 		drm_err(drm, "Failed to read TMDS config: %d\n", ret);
++		mutex_unlock(&vc4_hdmi->mutex);
+ 		return 0;
+ 	}
+ 
+-	if (!!(config & SCDC_SCRAMBLING_ENABLE) == scrambling_needed)
++	if (!!(config & SCDC_SCRAMBLING_ENABLE) == scrambling_needed) {
++		mutex_unlock(&vc4_hdmi->mutex);
+ 		return 0;
++	}
++
++	mutex_unlock(&vc4_hdmi->mutex);
+ 
+ 	/*
+ 	 * HDMI 2.0 says that one should not send scrambled data
+-- 
+2.37.3
 
-Thanks!
-
-	Hans
-
-> Acked-by: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 11 ++++++-----
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c     |  8 ++++----
->  drivers/media/common/videobuf2/videobuf2-vmalloc.c    |  6 +++---
->  3 files changed, 13 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index 678b359717c4..79f4d8301fbb 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -101,7 +101,7 @@ static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
->  	if (buf->db_attach) {
->  		struct iosys_map map;
->  
-> -		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
-> +		if (!dma_buf_vmap_unlocked(buf->db_attach->dmabuf, &map))
->  			buf->vaddr = map.vaddr;
->  
->  		return buf->vaddr;
-> @@ -711,7 +711,7 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
->  	}
->  
->  	/* get the associated scatterlist for this buffer */
-> -	sgt = dma_buf_map_attachment(buf->db_attach, buf->dma_dir);
-> +	sgt = dma_buf_map_attachment_unlocked(buf->db_attach, buf->dma_dir);
->  	if (IS_ERR(sgt)) {
->  		pr_err("Error getting dmabuf scatterlist\n");
->  		return -EINVAL;
-> @@ -722,7 +722,8 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
->  	if (contig_size < buf->size) {
->  		pr_err("contiguous chunk is too small %lu/%lu\n",
->  		       contig_size, buf->size);
-> -		dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-> +		dma_buf_unmap_attachment_unlocked(buf->db_attach, sgt,
-> +						  buf->dma_dir);
->  		return -EFAULT;
->  	}
->  
-> @@ -750,10 +751,10 @@ static void vb2_dc_unmap_dmabuf(void *mem_priv)
->  	}
->  
->  	if (buf->vaddr) {
-> -		dma_buf_vunmap(buf->db_attach->dmabuf, &map);
-> +		dma_buf_vunmap_unlocked(buf->db_attach->dmabuf, &map);
->  		buf->vaddr = NULL;
->  	}
-> -	dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-> +	dma_buf_unmap_attachment_unlocked(buf->db_attach, sgt, buf->dma_dir);
->  
->  	buf->dma_addr = 0;
->  	buf->dma_sgt = NULL;
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index fa69158a65b1..36ecdea8d707 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -309,7 +309,7 @@ static void *vb2_dma_sg_vaddr(struct vb2_buffer *vb, void *buf_priv)
->  
->  	if (!buf->vaddr) {
->  		if (buf->db_attach) {
-> -			ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
-> +			ret = dma_buf_vmap_unlocked(buf->db_attach->dmabuf, &map);
->  			buf->vaddr = ret ? NULL : map.vaddr;
->  		} else {
->  			buf->vaddr = vm_map_ram(buf->pages, buf->num_pages, -1);
-> @@ -565,7 +565,7 @@ static int vb2_dma_sg_map_dmabuf(void *mem_priv)
->  	}
->  
->  	/* get the associated scatterlist for this buffer */
-> -	sgt = dma_buf_map_attachment(buf->db_attach, buf->dma_dir);
-> +	sgt = dma_buf_map_attachment_unlocked(buf->db_attach, buf->dma_dir);
->  	if (IS_ERR(sgt)) {
->  		pr_err("Error getting dmabuf scatterlist\n");
->  		return -EINVAL;
-> @@ -594,10 +594,10 @@ static void vb2_dma_sg_unmap_dmabuf(void *mem_priv)
->  	}
->  
->  	if (buf->vaddr) {
-> -		dma_buf_vunmap(buf->db_attach->dmabuf, &map);
-> +		dma_buf_vunmap_unlocked(buf->db_attach->dmabuf, &map);
->  		buf->vaddr = NULL;
->  	}
-> -	dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-> +	dma_buf_unmap_attachment_unlocked(buf->db_attach, sgt, buf->dma_dir);
->  
->  	buf->dma_sgt = NULL;
->  }
-> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> index 948152f1596b..7831bf545874 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> @@ -376,7 +376,7 @@ static int vb2_vmalloc_map_dmabuf(void *mem_priv)
->  	struct iosys_map map;
->  	int ret;
->  
-> -	ret = dma_buf_vmap(buf->dbuf, &map);
-> +	ret = dma_buf_vmap_unlocked(buf->dbuf, &map);
->  	if (ret)
->  		return -EFAULT;
->  	buf->vaddr = map.vaddr;
-> @@ -389,7 +389,7 @@ static void vb2_vmalloc_unmap_dmabuf(void *mem_priv)
->  	struct vb2_vmalloc_buf *buf = mem_priv;
->  	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
->  
-> -	dma_buf_vunmap(buf->dbuf, &map);
-> +	dma_buf_vunmap_unlocked(buf->dbuf, &map);
->  	buf->vaddr = NULL;
->  }
->  
-> @@ -399,7 +399,7 @@ static void vb2_vmalloc_detach_dmabuf(void *mem_priv)
->  	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
->  
->  	if (buf->vaddr)
-> -		dma_buf_vunmap(buf->dbuf, &map);
-> +		dma_buf_vunmap_unlocked(buf->dbuf, &map);
->  
->  	kfree(buf);
->  }
