@@ -2,58 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D94160AE9F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99F860AEB0
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFC010E82C;
-	Mon, 24 Oct 2022 15:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60FE310E828;
+	Mon, 24 Oct 2022 15:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
- [IPv6:2607:f8b0:4864:20::e31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED9310E82C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:10:40 +0000 (UTC)
-Received: by mail-vs1-xe31.google.com with SMTP id h4so8161994vsr.11
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3u6vBok7fkMUG4gQWkOOT25X5n6LqbLhBS964rQOfgo=;
- b=Kz+/GLpa/rMZEKMRFCEZyGkW+wQIX+WLtvg3AqAFKkv7GxVd9S5MEc9DNnBkxkki6d
- APip50piSLHmTJSariD3lrJhc1qzkkNwNkXfF6wjhyBxIhu9E2ICsEOoXQu5Bfc0PqPu
- M0xJ/K4Zbe6P5QWU15D3awM4jBuK+Uv5EL8n93jX5bqnOgql9u8HYWupBuhjQrZjLug+
- uz9cApNtOQ38jVejrBNX+nYdYdf12xnZrlPNUrfAHx6SbeN9iTmyDJumfinVFz54vXXS
- t3YjyHKmsIsC6kZjxCR+kZDB2gCG6R1AHuHDN7+BJW032blVD8B58y2NzU2JOraDV3aU
- 5mbA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5667310E832
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 15:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666624373;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LLng6C1VOPaKmGfnDAR23yy9IW4xWqG/nhRblDLerDI=;
+ b=F8k1yULwl2Vm3D8G75ZBZKmz3A03w2I4dWsRWJ6iAzdV2dr6KDn+hZuFvL9AAK6Ia+oHNy
+ Nv45Gb9e/sWysc1fiZR1NXu6vcBcaUZB6jdjSHUm2Wiz8Wvmi+PtuoN0WkY5VAO/UwhAZ+
+ x4CqEVeuCUOWzgpE9vuMIXWYkbVSEWQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-88-D8XVTrEjORqZbyNkrNoy3g-1; Mon, 24 Oct 2022 11:12:51 -0400
+X-MC-Unique: D8XVTrEjORqZbyNkrNoy3g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ z15-20020a05640240cf00b00461b253c220so3845273edb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:12:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3u6vBok7fkMUG4gQWkOOT25X5n6LqbLhBS964rQOfgo=;
- b=QTxNTa7CHkklN4y6gLbwk1HVs64FWAEtz4AXBz+i2+g+8Bd5QZdPN7ctV1526VyUwS
- 2/BNvU9iZQYFyuo/fOYH7416FKu0Ta9RoMHCZjQWrbAmyTUtTJHOT9bjAoQ3agTU71PK
- fTNjkBiKAr/6tLvlzsfQYF07FlvQnUUBExxPgwNJ161UNy2FnqR0dXojV219P1k6oNiN
- Sb47bx4Vh/+Z2pLzwATE7ycLZ0PV++R6vmnH0dTkpcDnGKj/hglMyOZIauwdFHvLb0j/
- +3mjdrU80vOT5nJEH3enN2Dv1jOakpRY1NZGHKPgPbaJHLqDuepRnQho90Yvd0Z1jO0R
- udhg==
-X-Gm-Message-State: ACrzQf02CmWrq3UGKG0xNwk8wk8eRjPjvmEFYgEwzSWwXUeDNs0oZGKO
- K3np+L3CvwnVuX5r64dBvGKQN+86IxLC4k2TTx0=
-X-Google-Smtp-Source: AMsMyM5zu8pxT5x+9L6CqBXSAp02gnlW9du+lUi7pOpMdclbUdyibdNIstYatHC6YgUrUSsa0RtL7BLxxriz1VEb260=
-X-Received: by 2002:a05:6102:224d:b0:3a7:68fc:9163 with SMTP id
- e13-20020a056102224d00b003a768fc9163mr17650095vsb.74.1666624238228; Mon, 24
- Oct 2022 08:10:38 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LLng6C1VOPaKmGfnDAR23yy9IW4xWqG/nhRblDLerDI=;
+ b=D2hlh4+7RODPCbejZhBUDqcdADf74/Sj7FWAyq1r7tyyr0VDeTN3xfwFyGAi1T6fv8
+ cC9cJspSsgFiQbWh0G7RkVlB9pxAK61Fr3ksJ9jTo3uvVzfMUL5V4ILATc8aEsQg2zr/
+ np/l99H1aahyr5vCXAeDVZBj2Y7CSGNLvuPx4c+niI1XuR4Nfm0IqcxBKf3rWbuGlUzg
+ TmG6EONniUehYpT3njWN5JQLLMC3YCs1J4JgaK8Yhgi+yH+CRHI7vuzWK8v3tqzERaDH
+ 1D4wKpemp0vbz9elAMD584V75IK3eTZe+56I6cvy98i4+dr7mzc6igC3Vi938KC43A02
+ T7UQ==
+X-Gm-Message-State: ACrzQf3emL3K6nKaiDgR8+/Ad7RCVwnvn/SepNSEEaKWmzc0KBIoyi5l
+ emx50aWdDCFrA3s9CQIp3aXTL7iT5dddxxzVJ/Nqf/cGk5L4CyZG7WbhnODY9tk29QNyNTtKNRi
+ +njgZhpaCsDLfZeFcf4APWuYy2uRg
+X-Received: by 2002:a17:907:7f05:b0:78d:e869:f2fe with SMTP id
+ qf5-20020a1709077f0500b0078de869f2femr26654469ejc.684.1666624370484; 
+ Mon, 24 Oct 2022 08:12:50 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7NiY3mR8h0t9Fxj1mnG4UwQWad5Y2Z3MQDaJ6ei5w9igvvCLQDaVpdTc6JMLVHtE1y5iJqvQ==
+X-Received: by 2002:a17:907:7f05:b0:78d:e869:f2fe with SMTP id
+ qf5-20020a1709077f0500b0078de869f2femr26654446ejc.684.1666624370217; 
+ Mon, 24 Oct 2022 08:12:50 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+ by smtp.gmail.com with ESMTPSA id
+ 12-20020a170906318c00b00770812e2394sm15742436ejy.160.2022.10.24.08.12.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 08:12:49 -0700 (PDT)
+Message-ID: <db61f939-a4a2-05ec-e09c-03a95c81e922@redhat.com>
+Date: Mon, 24 Oct 2022 17:12:48 +0200
 MIME-Version: 1.0
-References: <20221022214622.18042-1-ogabbay@kernel.org>
- <CADnq5_PwNwsSUeyhXDkoy-y1JXFrTj99AgVV02oHX0a29QUXpQ@mail.gmail.com>
- <CAFCwf11CPvW8uqbDs8-qyMVMbPhw1tPF9ddfjee1MvKthRQb+g@mail.gmail.com>
-In-Reply-To: <CAFCwf11CPvW8uqbDs8-qyMVMbPhw1tPF9ddfjee1MvKthRQb+g@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Oct 2022 11:10:25 -0400
-Message-ID: <CADnq5_PsM1xPzZgj_2sVBQQnDerzOEestLh_PmTQxpddD5Dsvg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] new subsystem for compute accelerator devices
-To: Oded Gabbay <ogabbay@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2] ACPI: video: Fix missing native backlight on
+ Chromebooks
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20221024141210.67784-1-dmitry.osipenko@collabora.com>
+ <dda4b024-69d2-1d1d-da23-e922e5b6128a@redhat.com>
+ <CAJZ5v0irmk3aAK9t3UYcus+SXDL+AaT88LPXfyJU2PrXbkgfMg@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAJZ5v0irmk3aAK9t3UYcus+SXDL+AaT88LPXfyJU2PrXbkgfMg@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,134 +88,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jiho Chu <jiho.chu@samsung.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Alex Deucher <alexander.deucher@amd.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Kevin Hilman <khilman@baylibre.com>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+ Sean Paul <seanpaul@chromium.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, kernel@collabora.com,
+ Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 24, 2022 at 10:41 AM Oded Gabbay <ogabbay@kernel.org> wrote:
->
-> On Mon, Oct 24, 2022 at 4:55 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > On Sat, Oct 22, 2022 at 5:46 PM Oded Gabbay <ogabbay@kernel.org> wrote:
-> > >
-> > > In the last couple of months we had a discussion [1] about creating a new
-> > > subsystem for compute accelerator devices in the kernel.
-> > >
-> > > After an analysis that was done by DRM maintainers and myself, and following
-> > > a BOF session at the Linux Plumbers conference a few weeks ago [2], we
-> > > decided to create a new subsystem that will use the DRM subsystem's code and
-> > > functionality. i.e. the accel core code will be part of the DRM subsystem.
-> > >
-> > > This will allow us to leverage the extensive DRM code-base and
-> > > collaborate with DRM developers that have experience with this type of
-> > > devices. In addition, new features that will be added for the accelerator
-> > > drivers can be of use to GPU drivers as well (e.g. RAS).
-> > >
-> > > As agreed in the BOF session, the accelerator devices will be exposed to
-> > > user-space with a new, dedicated device char files and a dedicated major
-> > > number (261), to clearly separate them from graphic cards and the graphic
-> > > user-space s/w stack. Furthermore, the drivers will be located in a separate
-> > > place in the kernel tree (drivers/accel/).
-> > >
-> > > This series of patches is the first step in this direction as it adds the
-> > > necessary infrastructure for accelerator devices to DRM. The new devices will
-> > > be exposed with the following convention:
-> > >
-> > > device char files - /dev/accel/accel*
-> > > sysfs             - /sys/class/accel/accel*/
-> > > debugfs           - /sys/kernel/debug/accel/accel*/
-> > >
-> > > I tried to reuse the existing DRM code as much as possible, while keeping it
-> > > readable and maintainable.
-> >
-> > Wouldn't something like this:
-> > https://patchwork.freedesktop.org/series/109575/
-> > Be simpler and provide better backwards compatibility for existing
-> > non-gfx devices in the drm subsystem as well as newer devices?
->
-> As Greg said, see the summary. The consensus in the LPC session was
-> that we need to clearly separate accel devices from existing gpu
-> devices (whether they use primary and/or render nodes). That is the
-> main guideline according to which I wrote the patches. I don't think I
-> want to change this decision.
->
-> Also, there was never any intention to provide backward compatibility
-> for existing non-gfx devices. Why would we want that ? We are mainly
-> talking about drivers that are currently trying to get upstream, and
-> the habana driver.
+Hi,
 
-If someone already has a non-gfx device which uses the drm subsystem,
-should they be converted to the new accel stuff?  What about new
-devices that utilize the same driver?  SHould they use accel or
-continue to use drm?  For the sake of the rest of the stack drm would
-make more sense, but if accel grows a bunch of stuff that all accel
-drivers should be using what do we do?  Also using render nodes also
-makes the devices compatible with all of the existing user space tools
-that use the existing drm device nodes like libdrm, etc.  I'm failing
-to see what advantage accel brings other than requiring userspace to
-support two very similar device nodes.
+On 10/24/22 16:45, Rafael J. Wysocki wrote:
+> On Mon, Oct 24, 2022 at 4:32 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi,
+>>
+>> On 10/24/22 16:12, Dmitry Osipenko wrote:
+>>> Chromebooks don't have backlight in ACPI table, they suppose to use
+>>> native backlight in this case. Check presence of the CrOS embedded
+>>> controller ACPI device and prefer the native backlight if EC found.
+>>>
+>>> Suggested-by: Hans de Goede <hdegoede@redhat.com>
+>>> Fixes: 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native() helper")
+>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>> ---
+>>>
+>>> Changelog:
+>>>
+>>> v2: - Added explanatory comment to the code and added check for the
+>>>       native backlight presence, like was requested by Hans de Goede.
+>>
+>> Thanks this version looks good to me:
+>>
+>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>>
+>> Rafael, can you pick this up and send it in a fixes pull-req
+>> for 6.1 to Linus? Or shall I pick this one up and include it
+>> in my next pull-req?
+> 
+> It would be better if you could pick this up IMV, so please free to add
+> 
+> Acled-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Alex
+Ok, I've merged this now and I'll send out fixes pull-req with this
+to Linus before coming Friday.
 
->
-> Oded
-> >
-> > Alex
-> >
-> > >
-> > > One thing that is missing from this series is defining a namespace for the
-> > > new accel subsystem, while I'll add in the next iteration of this patch-set,
-> > > after I will receive feedback from the community.
-> > >
-> > > As for drivers, once this series will be accepted (after adding the namespace),
-> > > I will start working on migrating the habanalabs driver to the new accel
-> > > subsystem. I have talked about it with Dave and we agreed that it will be
-> > > a good start to simply move the driver as-is with minimal changes, and then
-> > > start working on the driver's individual features that will be either added
-> > > to the accel core code (with or without changes), or will be removed and
-> > > instead the driver will use existing DRM code.
-> > >
-> > > In addition, I know of at least 3 or 4 drivers that were submitted for review
-> > > and are good candidates to be included in this new subsystem, instead of being
-> > > a drm render node driver or a misc driver.
-> > >
-> > > [1] https://lkml.org/lkml/2022/7/31/83
-> > > [2] https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
-> > >
-> > > Thanks,
-> > > Oded
-> > >
-> > > Oded Gabbay (3):
-> > >   drivers/accel: add new kconfig and update MAINTAINERS
-> > >   drm: define new accel major and register it
-> > >   drm: add dedicated minor for accelerator devices
-> > >
-> > >  Documentation/admin-guide/devices.txt |   5 +
-> > >  MAINTAINERS                           |   8 +
-> > >  drivers/Kconfig                       |   2 +
-> > >  drivers/accel/Kconfig                 |  24 +++
-> > >  drivers/gpu/drm/drm_drv.c             | 214 +++++++++++++++++++++-----
-> > >  drivers/gpu/drm/drm_file.c            |  69 ++++++---
-> > >  drivers/gpu/drm/drm_internal.h        |   5 +-
-> > >  drivers/gpu/drm/drm_sysfs.c           |  81 +++++++++-
-> > >  include/drm/drm_device.h              |   3 +
-> > >  include/drm/drm_drv.h                 |   8 +
-> > >  include/drm/drm_file.h                |  21 ++-
-> > >  include/drm/drm_ioctl.h               |   1 +
-> > >  12 files changed, 374 insertions(+), 67 deletions(-)
-> > >  create mode 100644 drivers/accel/Kconfig
-> > >
-> > > --
-> > > 2.34.1
-> > >
+Dmitry, Thank you for your patch, I've applied this patch to my
+fixes branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=fixes
+
+Regards,
+
+Hans
+
+
+
+
+> 
+> to it.
+> 
+> Thanks!
+> 
+>>>
+>>>  drivers/acpi/video_detect.c | 12 ++++++++++++
+>>>  1 file changed, 12 insertions(+)
+>>>
+>>> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+>>> index 0d9064a9804c..9cd8797d12bb 100644
+>>> --- a/drivers/acpi/video_detect.c
+>>> +++ b/drivers/acpi/video_detect.c
+>>> @@ -668,6 +668,11 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+>>>       { },
+>>>  };
+>>>
+>>> +static bool google_cros_ec_present(void)
+>>> +{
+>>> +     return acpi_dev_found("GOOG0004");
+>>> +}
+>>> +
+>>>  /*
+>>>   * Determine which type of backlight interface to use on this system,
+>>>   * First check cmdline, then dmi quirks, then do autodetect.
+>>> @@ -730,6 +735,13 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+>>>                       return acpi_backlight_video;
+>>>       }
+>>>
+>>> +     /*
+>>> +      * Chromebooks that don't have backlight handle in ACPI table
+>>> +      * are supposed to use native backlight if it's available.
+>>> +      */
+>>> +     if (google_cros_ec_present() && native_available)
+>>> +             return acpi_backlight_native;
+>>> +
+>>>       /* No ACPI video (old hw), use vendor specific fw methods. */
+>>>       return acpi_backlight_vendor;
+>>>  }
+>>
+> 
+
