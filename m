@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F8460A65C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 14:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57C560A65F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 14:34:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1B310E4E2;
-	Mon, 24 Oct 2022 12:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B87810E50C;
+	Mon, 24 Oct 2022 12:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEFB10E4D5;
- Mon, 24 Oct 2022 12:34:28 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE3910E4D5;
+ Mon, 24 Oct 2022 12:34:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666614868; x=1698150868;
+ t=1666614872; x=1698150872;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=jFNhNAQS7BoL2wpIwTvAJB4BZ76AYZ7eywRxep+G5Vs=;
- b=WP8HGKYsgxNr3JIEUZI2mYkeZlYUVHwWbhtaDRNWcsXcaRoeFGMoFOyY
- 3Nm9gto2PFxVp5FXbREshOd3+7BJF7i6Ta6CE/DqsM12Bz1oWs6fZumg0
- M/OyL4608OwKpKJVbtR9q9EtKIa6AD43c3xhqZeE8SoC8dgPM7D79CvdY
- 9pebSi11cnIV7fpVU4imVEmAXr7UxkL74DIrhq+zl3VIY/FRIDDFNgRCN
- 4gz+zIaR9b7lLwPuoW/bcQlOR1ocDm7nqm4WnkfVgE9X5hR2ZuEJhjcqA
- VQf98cTGdvCLa7TFlDOYWkd+AwsPPmQi5yktKB9Ev4r6UJbxfII8Fln0a A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="294803392"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="294803392"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 05:34:27 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="633693782"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="633693782"
+ bh=BfHW+ZglCO8izvWZAMGjy4oSodvgkZQC735nZYPm5Mk=;
+ b=Q5caFgD5wzXq7HlQuSvAcP5ERTouURO6yqFi7N64GQpHB3NWmOpyKQC4
+ f+aqaOWv0FbnSf1yKRc0cWr6tSJ6wLH3K+h70V6pXyB3M4qzbQDjonEMQ
+ 1+tOsA70OY3F0K0MUY55mjD5bdIsTdhiRVHRWpI9f/RVT9cixrO42f/qo
+ WiIX9Iid6clazic9w1bQJ58P8LdxbLoXRi6uC5Af5VkSTQp4JuSelWWJf
+ Bykjd0gLw/ZVmg2jtphywn8WQONkpaWpNYxsi/J6hxrB4gJMNZbvaCyiU
+ D8W0Cx3c1JTPR09SbEJvGbxZspqfsl2jIOMP8IgJF+ytd1VTeD9EmToPL g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="309091475"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="309091475"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 05:34:32 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="626055711"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="626055711"
 Received: from emontau-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.252.52.221])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 05:34:25 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 05:34:30 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 08/16] drm/edid: add function for checking drm_edid validity
-Date: Mon, 24 Oct 2022 15:33:36 +0300
-Message-Id: <f96188f64e9f7f3deff348d08296609353b12316.1666614699.git.jani.nikula@intel.com>
+Subject: [PATCH v2 09/16] drm/edid: detach debugfs EDID override from EDID
+ property update
+Date: Mon, 24 Oct 2022 15:33:37 +0300
+Message-Id: <4c875f8e06c4499f498fcf876e1233cbb155ec8a.1666614699.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1666614699.git.jani.nikula@intel.com>
 References: <cover.1666614699.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,69 +63,201 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've lacked a function for immutable validity check on drm_edid. Add
-one.
+Having the EDID override debugfs directly update the EDID property is
+problematic. The update is partial only. The driver has no way of
+knowing it's been updated. Mode list is not updated. It's an
+inconsistent state.
+
+Detach debugfs EDID override from the property update completely. Only
+set and reset a separate override EDID copy from debugfs, and have it
+take effect only at detect (via EDID read). The copy is at
+connector->edid_override, protected by connector->edid_override_mutex.
+
+This also brings override EDID closer to firmware EDID in behaviour.
+
+Add validation of the override EDID which we completely lacked.
+
+Note that IGT already forces a detect whenever tests update the override
+EDID.
+
+v2: Add locking (Ville)
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 30 ++++++++++++++++++++++++++++++
- include/drm/drm_edid.h     |  1 +
- 2 files changed, 31 insertions(+)
+ drivers/gpu/drm/drm_connector.c |  1 +
+ drivers/gpu/drm/drm_edid.c      | 73 ++++++++++++++++-----------------
+ include/drm/drm_connector.h     | 16 ++++++--
+ 3 files changed, 49 insertions(+), 41 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 61c29ce74b03..f25674c0d41e 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -274,6 +274,7 @@ static int __drm_connector_init(struct drm_device *dev,
+ 	INIT_LIST_HEAD(&connector->probed_modes);
+ 	INIT_LIST_HEAD(&connector->modes);
+ 	mutex_init(&connector->mutex);
++	mutex_init(&connector->edid_override_mutex);
+ 	connector->edid_blob_ptr = NULL;
+ 	connector->epoch_counter = 0;
+ 	connector->tile_blob_ptr = NULL;
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 616c1cdc7507..c3cf942186b7 100644
+index c3cf942186b7..b8d07e4d6215 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2040,6 +2040,36 @@ bool drm_edid_is_valid(struct edid *edid)
- }
- EXPORT_SYMBOL(drm_edid_is_valid);
- 
-+/**
-+ * drm_edid_valid - sanity check EDID data
-+ * @drm_edid: EDID data
-+ *
-+ * Sanity check an EDID. Cross check block count against allocated size and
-+ * checksum the blocks.
-+ *
-+ * Return: True if the EDID data is valid, false otherwise.
-+ */
-+bool drm_edid_valid(const struct drm_edid *drm_edid)
-+{
-+	int i;
-+
-+	if (!drm_edid)
-+		return false;
-+
-+	if (edid_size_by_blocks(__drm_edid_block_count(drm_edid)) != drm_edid->size)
-+		return false;
-+
-+	for (i = 0; i < drm_edid_block_count(drm_edid); i++) {
-+		const void *block = drm_edid_block_data(drm_edid, i);
-+
-+		if (!edid_block_valid(block, i == 0))
-+			return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(drm_edid_valid);
-+
- static struct edid *edid_filter_invalid_blocks(struct edid *edid,
- 					       size_t *alloc_size)
+@@ -2207,8 +2207,12 @@ static struct edid *drm_get_override_edid(struct drm_connector *connector,
  {
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 05380681a4fb..a2e25e7e6ee5 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -606,6 +606,7 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
- const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
- const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
- void drm_edid_free(const struct drm_edid *drm_edid);
-+bool drm_edid_valid(const struct drm_edid *drm_edid);
- const struct edid *drm_edid_raw(const struct drm_edid *drm_edid);
- const struct drm_edid *drm_edid_read(struct drm_connector *connector);
- const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connector,
+ 	struct edid *override = NULL;
+ 
+-	if (connector->override_edid)
+-		override = drm_edid_duplicate(connector->edid_blob_ptr->data);
++	mutex_lock(&connector->edid_override_mutex);
++
++	if (connector->edid_override)
++		override = drm_edid_duplicate(connector->edid_override->edid);
++
++	mutex_unlock(&connector->edid_override_mutex);
+ 
+ 	if (!override)
+ 		override = drm_load_edid_firmware(connector);
+@@ -2223,10 +2227,15 @@ static struct edid *drm_get_override_edid(struct drm_connector *connector,
+ /* For debugfs edid_override implementation */
+ int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m)
+ {
+-	struct drm_property_blob *edid = connector->edid_blob_ptr;
++	const struct drm_edid *drm_edid;
+ 
+-	if (connector->override_edid && edid)
+-		seq_write(m, edid->data, edid->length);
++	mutex_lock(&connector->edid_override_mutex);
++
++	drm_edid = connector->edid_override;
++	if (drm_edid)
++		seq_write(m, drm_edid->edid, drm_edid->size);
++
++	mutex_unlock(&connector->edid_override_mutex);
+ 
+ 	return 0;
+ }
+@@ -2235,32 +2244,43 @@ int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m)
+ int drm_edid_override_set(struct drm_connector *connector, const void *edid,
+ 			  size_t size)
+ {
+-	int ret;
++	const struct drm_edid *drm_edid;
+ 
+-	if (size < EDID_LENGTH || edid_size(edid) > size)
++	drm_edid = drm_edid_alloc(edid, size);
++	if (!drm_edid_valid(drm_edid)) {
++		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override invalid\n",
++			    connector->base.id, connector->name);
++		drm_edid_free(drm_edid);
+ 		return -EINVAL;
+-
+-	connector->override_edid = false;
++	}
+ 
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override set\n",
+ 		    connector->base.id, connector->name);
+ 
+-	ret = drm_connector_update_edid_property(connector, edid);
+-	if (!ret)
+-		connector->override_edid = true;
++	mutex_lock(&connector->edid_override_mutex);
+ 
+-	return ret;
++	drm_edid_free(connector->edid_override);
++	connector->edid_override = drm_edid;
++
++	mutex_unlock(&connector->edid_override_mutex);
++
++	return 0;
+ }
+ 
+ /* For debugfs edid_override implementation */
+ int drm_edid_override_reset(struct drm_connector *connector)
+ {
+-	connector->override_edid = false;
+-
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override reset\n",
+ 		    connector->base.id, connector->name);
+ 
+-	return drm_connector_update_edid_property(connector, NULL);
++	mutex_lock(&connector->edid_override_mutex);
++
++	drm_edid_free(connector->edid_override);
++	connector->edid_override = NULL;
++
++	mutex_unlock(&connector->edid_override_mutex);
++
++	return 0;
+ }
+ 
+ /**
+@@ -6634,23 +6654,6 @@ int drm_edid_connector_update(struct drm_connector *connector,
+ {
+ 	int count;
+ 
+-	/*
+-	 * FIXME: Reconcile the differences in override_edid handling between
+-	 * this and drm_connector_update_edid_property().
+-	 *
+-	 * If override_edid is set, and the EDID passed in here originates from
+-	 * drm_edid_read() and friends, it will be the override EDID, and there
+-	 * are no issues. drm_connector_update_edid_property() ignoring requests
+-	 * to set the EDID dates back to a time when override EDID was not
+-	 * handled at the low level EDID read.
+-	 *
+-	 * The only way the EDID passed in here can be different from the
+-	 * override EDID is when a driver passes in an EDID that does *not*
+-	 * originate from drm_edid_read() and friends, or passes in a stale
+-	 * cached version. This, in turn, is a question of when an override EDID
+-	 * set via debugfs should take effect.
+-	 */
+-
+ 	count = _drm_edid_connector_update(connector, drm_edid);
+ 
+ 	_drm_update_tile_info(connector, drm_edid);
+@@ -6665,10 +6668,6 @@ EXPORT_SYMBOL(drm_edid_connector_update);
+ static int _drm_connector_update_edid_property(struct drm_connector *connector,
+ 					       const struct drm_edid *drm_edid)
+ {
+-	/* ignore requests to set edid when overridden */
+-	if (connector->override_edid)
+-		return 0;
+-
+ 	/*
+ 	 * Set the display info, using edid if available, otherwise resetting
+ 	 * the values to defaults. This duplicates the work done in
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index b1b2df48d42c..e641a4725f99 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1550,12 +1550,20 @@ struct drm_connector {
+ 	struct drm_cmdline_mode cmdline_mode;
+ 	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
+ 	enum drm_connector_force force;
++
++	/**
++	 * @edid_override: Override EDID set via debugfs.
++	 *
++	 * Do not modify or access outside of the drm_edid_override_* family of
++	 * functions.
++	 */
++	const struct drm_edid *edid_override;
++
+ 	/**
+-	 * @override_edid: has the EDID been overwritten through debugfs for
+-	 * testing? Do not modify outside of drm_edid_override_set() and
+-	 * drm_edid_override_reset().
++	 * @edid_override_mutex: Protect access to edid_override.
+ 	 */
+-	bool override_edid;
++	struct mutex edid_override_mutex;
++
+ 	/** @epoch_counter: used to detect any other changes in connector, besides status */
+ 	u64 epoch_counter;
+ 
 -- 
 2.34.1
 
