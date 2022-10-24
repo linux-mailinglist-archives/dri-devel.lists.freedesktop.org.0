@@ -2,93 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB11B60B74D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 21:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECCF60B7EB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 21:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B8110E779;
-	Mon, 24 Oct 2022 19:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568E510E77D;
+	Mon, 24 Oct 2022 19:37:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5516410E761;
- Mon, 24 Oct 2022 19:22:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b2nReaG1mCRiKbCZjQgb4YgXzFQlU7/T+Rc0H2wStkOnyKACYpqX8DsKXHYnsscLx49YzCGRNR6NZIXtCpQtwKO0hsVYFXleX248XDizUdnzzuxpzDX4KAb72fFanUlWB+Yrj/LANu72ieJs1aim+jC4TSWyiSIklP7RShvmSNsz11GQ7zlMgEOMXp0jbxIKg2T7MlBR7kalbsDzpemIVN1RO3o35xPGTejuoysR4MIipwL/GVTeutAbNgnuI+mPBCGI9HDDwZBG7hoRbQhtWxojW5r7WGm8Z2TGt37XgvVdLaXjDd6Sk6IvudNMFVvcKnIxG0yfgh6HroW3/Y6aRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/FZIDUtBWWbZ/wPiPscK9ZnHx0FFs3KSQkoOu752NP0=;
- b=HEKcYgU1FlICKplRGmCY6hF87pLKGPAUPc7jBzkrlFsyVCkCJ8uZyRUsRnvqEtX9nOvOzgRG3KskYBTue2DAt2aPEQqkf81dsG9AGkrGMxnH+jNlOYgWtl78eIvnPhWe3r38anglVlrWAjAeZcqodAq3730q0PLufR2U53kL2Vp6dxIUInOa5Y4OBj2H2wEKdJYNP5ErXcIE9mYFV7eya1lTwZfpQeJhUjY0hT1G3cONLdBH6emmzwyyiO6BCQn3z2PoOIRohXqVslQG+4iWEL/YZ27ny/86cGcd7Okkfl47vnvFHnaaOLS66G5fnT6FN5GbQdDsU/hCHn7NKzC+9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/FZIDUtBWWbZ/wPiPscK9ZnHx0FFs3KSQkoOu752NP0=;
- b=mMmO6XxfxfGp5b/UPFZxaxuggkTDabq1DYUe1lNqmUDWZEW9y7oNi/tbyqvX6vgt59OOWRiLfr9wt+1z7E+yJg2LNRQguRB3q/bdqWOi4Re6EjM87EDmOYA7y7D2+p+goeL/bWYszYfwK9N1MfgrqTzSKy3XFCDnKeTv06LI/r8=
-Received: from BN9PR03CA0717.namprd03.prod.outlook.com (2603:10b6:408:ef::32)
- by BY5PR12MB4146.namprd12.prod.outlook.com (2603:10b6:a03:20d::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Mon, 24 Oct
- 2022 19:22:17 +0000
-Received: from BL02EPF0000C406.namprd05.prod.outlook.com
- (2603:10b6:408:ef:cafe::25) by BN9PR03CA0717.outlook.office365.com
- (2603:10b6:408:ef::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26 via Frontend
- Transport; Mon, 24 Oct 2022 19:22:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0000C406.mail.protection.outlook.com (10.167.241.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5723.20 via Frontend Transport; Mon, 24 Oct 2022 19:22:17 +0000
-Received: from hamza-pc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 24 Oct
- 2022 14:22:15 -0500
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] Revert "drm/amd/display: Limit max DSC target bpp for
- specific monitors"
-Date: Mon, 24 Oct 2022 15:22:23 -0400
-Message-ID: <20221024192224.180507-3-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221024192224.180507-1-hamza.mahfooz@amd.com>
-References: <20221024192224.180507-1-hamza.mahfooz@amd.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A23710E05B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 19:37:00 +0000 (UTC)
+Received: from [192.168.2.31] (109-252-112-196.nat.spd-mgts.ru
+ [109.252.112.196])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9D7DF6602820;
+ Mon, 24 Oct 2022 20:36:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1666640218;
+ bh=9YlOiiJFFn/lRLlSj5J0a6w6dJtCCcMej435SmulU3Q=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=CFcmZ8C6BB2A8CM2A0b7Wfltf1yPbbEtg6pjnWc0MwNzZ6ghV0qhGpzg30o4KQG1n
+ Oi3hLsCSWwJWf0Q5Afgij5SRvAwoSLlsxO7pLUTohqkh8xX+ABtO+NOf5TZx38g1M6
+ H4XjZ7Y2YNOG059jANmN9lvo8Sm4OWKy+VQL1jVaFmkDea2ZdEMTwYYA0Lco3SF/fA
+ 1bb9pk0jYP5Q3vUx5xLippRhU271U1TEvV2cy8EVXOOmH2jrZBmtwtEOZ2QqUXkxKS
+ QzUbQhZEA11BinyEh3DNFMXeS5N4Wyrrlhy+gE2+Igo+FKsB2Xt4eqPWbiDktVnJ3B
+ 5BkaVKDy5InxQ==
+Message-ID: <47c5b64e-b765-41be-b58b-cdc83edeca49@collabora.com>
+Date: Mon, 24 Oct 2022 22:36:54 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000C406:EE_|BY5PR12MB4146:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22709067-cc6e-47c9-9188-08dab5f5107d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lOoDvX2nGXwNv9SYB5BSZlI2uz3IMgJi/ZFQR3ZgEH0R8IU44rxVHhqQLAImVL/v2NzK2LjkkrDMgAxlkS8saG53BxQWDCeCjXSyrRsRTs1ACL7OxZMphtPMe+jSi8VKXXDpQboha5b2B1itEzt8/07m+SuQgwf9OPsBFDltbgLmw4SwiIaUzt4Cn6mAywQ1YADChEYsW3UbSyjpARCWTU3YuK7YRLGqHX5NTIMOpLDySWx/lQsCypJHm3uAZSxpXsrty976cZcKAej8Q6+DUS1dNZqjGDlthkWCIO6hHWtN4MzJZAheY2cUBCT4DQHEmVXXIC7Ksgp4CPJaiHe42LDIWMoJf/EH7QmOyXNR7QC6OfJJLbFIKkJBwlm7LWpadxyu5i2Df6F6+TM98CwmXRtUhhGDwd3Xh37OmTBoieevHCvG57pgMHKet7KHiTVASjU50CjokKy9yOJlXD/cqh3uTHJ9rGnMYLZF/I76lpVNTA06KTfj9w2kLrqUo7+/WGiRHK7/7+YcEnDqFnJ2RZSY3JQ5S8TQ65PWSKEKisldz7qH4Bc0aZKROtLZDCD+AvxonYCMR+6q4L9gYdsFwSp8ep+9OlnE9PxO2ZEfGcSrCb2OzF24WgOzeymov4JsyzLuSKwLOFS4xlX4MzbSDdtmTZJEfyUqoxaJ3IoZd1CuoczhocSAhyoNhf9GmrqJ0wZ7YaSpMEwFKBGklXh9JWyl141zuAqhTuUjNymjgNYy6tyTQF8b5bKsM46qg1/uiMQVjIn2xzxyonStAcNDLXt/+eVLR425rmt3NFUkUupoPzu0aHptIfcPluXuMAj3LiKgU94vi2oS/NKYVByZOg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(376002)(39860400002)(136003)(346002)(451199015)(46966006)(36840700001)(40470700004)(6666004)(316002)(36860700001)(54906003)(6916009)(426003)(47076005)(8936002)(40480700001)(40460700003)(2906002)(186003)(16526019)(2616005)(1076003)(70206006)(7416002)(8676002)(7696005)(5660300002)(44832011)(4326008)(26005)(83380400001)(336012)(70586007)(86362001)(41300700001)(478600001)(36756003)(81166007)(82310400005)(356005)(82740400003)(16060500005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 19:22:17.4157 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22709067-cc6e-47c9-9188-08dab5f5107d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000C406.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4146
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v1] drm: Switch drm_client_buffer_delete() to unlocked
+ drm_gem_vunmap
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20221020213335.309092-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <20221020213335.309092-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,84 +60,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ian Chen <ian.chen@amd.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Leo Li <sunpeng.li@amd.com>, hersen wu <hersenxs.wu@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Roman Li <roman.li@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Claudio Suarez <cssk@net-c.es>, Thomas Zimmermann <tzimmermann@suse.de>,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Colin Ian King <colin.king@intel.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 55eea8ef98641f6e1e1c202bd3a49a57c1dd4059.
+On 10/21/22 00:33, Dmitry Osipenko wrote:
+> The drm_client_buffer_delete() wasn't switched to unlocked GEM vunmapping
+> by accident when rest of drm_client code transitioned to the unlocked
+> variants of the vmapping functions. Make drm_client_buffer_delete() use
+> the unlocked variant. This fixes lockdep warning splat about missing
+> reservation lock when framebuffer is released.
+> 
+> Reported-by: kernel test robot <yujie.liu@intel.com>
+> Link: https://lore.kernel.org/dri-devel/890f70db-68b0-8456-ca3c-c5496ef90517@collabora.com/T/
+> Fixes: 79e2cf2e7a19 ("drm/gem: Take reservation lock for vmap/vunmap operations")
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_client.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+> index fbcb1e995384..38e1be991caa 100644
+> --- a/drivers/gpu/drm/drm_client.c
+> +++ b/drivers/gpu/drm/drm_client.c
+> @@ -235,7 +235,7 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+>  {
+>  	struct drm_device *dev = buffer->client->dev;
+>  
+> -	drm_gem_vunmap(buffer->gem, &buffer->map);
+> +	drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
+>  
+>  	if (buffer->gem)
+>  		drm_gem_object_put(buffer->gem);
 
-This quirk is now handled in the DRM core, so we can drop all of
-the internal code that was added to handle it.
+Applied to misc-next
 
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
----
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 35 -------------------
- 1 file changed, 35 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 4956a0118215..a21e2ba77ddb 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -41,39 +41,6 @@
- #include "dm_helpers.h"
- #include "ddc_service_types.h"
- 
--struct monitor_patch_info {
--	unsigned int manufacturer_id;
--	unsigned int product_id;
--	void (*patch_func)(struct dc_edid_caps *edid_caps, unsigned int param);
--	unsigned int patch_param;
--};
--static void set_max_dsc_bpp_limit(struct dc_edid_caps *edid_caps, unsigned int param);
--
--static const struct monitor_patch_info monitor_patch_table[] = {
--{0x6D1E, 0x5BBF, set_max_dsc_bpp_limit, 15},
--{0x6D1E, 0x5B9A, set_max_dsc_bpp_limit, 15},
--};
--
--static void set_max_dsc_bpp_limit(struct dc_edid_caps *edid_caps, unsigned int param)
--{
--	if (edid_caps)
--		edid_caps->panel_patch.max_dsc_target_bpp_limit = param;
--}
--
--static int amdgpu_dm_patch_edid_caps(struct dc_edid_caps *edid_caps)
--{
--	int i, ret = 0;
--
--	for (i = 0; i < ARRAY_SIZE(monitor_patch_table); i++)
--		if ((edid_caps->manufacturer_id == monitor_patch_table[i].manufacturer_id)
--			&&  (edid_caps->product_id == monitor_patch_table[i].product_id)) {
--			monitor_patch_table[i].patch_func(edid_caps, monitor_patch_table[i].patch_param);
--			ret++;
--		}
--
--	return ret;
--}
--
- /* dm_helpers_parse_edid_caps
-  *
-  * Parse edid caps
-@@ -148,8 +115,6 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 	kfree(sads);
- 	kfree(sadb);
- 
--	amdgpu_dm_patch_edid_caps(edid_caps);
--
- 	return result;
- }
- 
 -- 
-2.38.0
+Best regards,
+Dmitry
 
