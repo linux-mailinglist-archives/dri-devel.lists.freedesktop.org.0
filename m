@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F0B60B28A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 18:48:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2581A60B39A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 19:11:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF2C10E37E;
-	Mon, 24 Oct 2022 16:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3F910E470;
+	Mon, 24 Oct 2022 17:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7664810E110;
- Mon, 24 Oct 2022 16:48:48 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-13ae8117023so12501357fac.9; 
- Mon, 24 Oct 2022 09:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fShq1F8MCtr7H1rIrt9dF42VoxsVe4EiV73x1/8GfMQ=;
- b=AZgGfvOK1KD08qsmji2S9sKDHIHWDZ2uTSX7b+y/9ACFeQ8zK64RdgYia5Pe5y2JQX
- 9XAw1dnIsYVKmY0iM5NWcg9m9Po7a88B96Mace45+QsUFKcEvrTdawgtPbqCWibKvDNh
- vNzUAPRrJoQDAmDWv9dUmrgnJTm7Tvj0DFnuoCExRL1Jf7gnPxijXwM3ZgQEEqr/4Rgl
- 422FGAWgTLWbBBTGLNAiJtR782p+uGuuKrLUb3WrRakfv/90TJZjyYzt5d1LYWuZyM/H
- GnG6N6yprSMQR6xncPQw4hgJob/g6LESGPY1uFHM5DcaTuzgRymnhFGlPTWWkhVi9T/O
- u35Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fShq1F8MCtr7H1rIrt9dF42VoxsVe4EiV73x1/8GfMQ=;
- b=aGbdUJmVRHmJdIJfCI/Ck3TF70JdCP/P87ZvWOmZHdRK3/0QyUu8xY0h1C/y+u8oaq
- qVuuhXTSYKKod1aCC2B83W7TXbg965hJg7YG5Y2lDRpVSWUVVEllb++vcPTl6CD7Kc64
- L3WjfNjeK+jQE0uuJrJxbihfQQ0fw2zqgV0/ohcDp+bGDAVVRvkpP0veKQ74Y5wizfHt
- JeNU8YVIcrqcKAF4sEZKLQLpEi2VNQkj1E0MqON94Vb59Hb2usEOO8h5ZW4GzDm82BlE
- siV52oeSWcBOk2dqmAOFn5Uo1SDAcIUHZo3+UrOCN9kG0Qv04D8o5WQATDwYd6gufJ7H
- 89Zw==
-X-Gm-Message-State: ACrzQf2KetdzGytaNl9ZTNNCA4vQkz9xMhcQIvChRdsefpUugf1867L5
- m9c0im/HwPtolMz8A3jLW/MTU5ALaaimIeziKvFUfehO3HE=
-X-Google-Smtp-Source: AMsMyM5elTbqhJRg2/4CxKTddWKEQFpt53OdEb9hNtHVIQShbQDVoJk9cV8eR64KPw+F2Nfuz9CEza+jV42Gnxi0qUw=
-X-Received: by 2002:a05:6870:a116:b0:13a:f9de:6fd0 with SMTP id
- m22-20020a056870a11600b0013af9de6fd0mr13870435oae.46.1666630127719; Mon, 24
- Oct 2022 09:48:47 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8FDC10E470;
+ Mon, 24 Oct 2022 17:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666631500; x=1698167500;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=AdqBzxwJJzTj8gqrrzrBRfhiuEO4hV7/0OScqLSKirc=;
+ b=Rjn9pEQVXEU3VMTZCe+hb+YE2EuQKhejtJUL5ySAyWzojHwTbWUbbT2X
+ n8WhNy6GE95MT2LxLSi+0/Eaja6Jo5nvzhowyTSwC7P3dc1JyEtrPldhB
+ jgPbpWNXcQoajyvFWti2YUpfoJu3fFzTvhRRdjPml0+KNsu9zUzhJLnJ8
+ HmLCj7NBK4DxAX0pAWiRsfLvL/Z4+hkjhH6+kuuFEvfu6v70JUKlQQ7IS
+ wAiFXqHBctcy76u9vFxJK0QwThWi+Mit2Sz9lOSZycgbUOzIL+ohJb9Yc
+ 4BsBZy9+GSkU4Ys2lnNCkOkyslnKkzKZ2OUfBGJLubDBSVmCb1icDHsZN g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="305087722"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="305087722"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 10:11:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609269436"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="609269436"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by orsmga006.jf.intel.com with ESMTP; 24 Oct 2022 10:11:37 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v5] drm/i915/slpc: Optmize waitboost for SLPC
+Date: Mon, 24 Oct 2022 10:11:08 -0700
+Message-Id: <20221024171108.14373-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20221020143603.563929-1-alexander.deucher@amd.com>
- <DM6PR12MB26194FC4A9B18912448DA8CEE42E9@DM6PR12MB2619.namprd12.prod.outlook.com>
- <e494d819-f960-f2bd-913e-83ee820ac399@suse.de>
-In-Reply-To: <e494d819-f960-f2bd-913e-83ee820ac399@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Oct 2022 12:48:36 -0400
-Message-ID: <CADnq5_P7r71zETyJRZ+KVKFS+C56NAZaht5stVE=uZQ6tP6fdg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: don't call drm_fb_helper_lastclose in
- lastclose()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,95 +55,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Quan,
- Evan" <Evan.Quan@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 24, 2022 at 3:33 AM Thomas Zimmermann <tzimmermann@suse.de> wro=
-te:
->
-> Hi
->
-> Am 24.10.22 um 08:20 schrieb Quan, Evan:
-> > [AMD Official Use Only - General]
-> >
-> > Reviewed-by: Evan Quan <evan.quan@amd.com>
-> >
-> >> -----Original Message-----
-> >> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Ale=
-x
-> >> Deucher
-> >> Sent: Thursday, October 20, 2022 10:36 PM
-> >> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> >> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Thomas
-> >> Zimmermann <tzimmermann@suse.de>
-> >> Subject: [PATCH] drm/amdgpu: don't call drm_fb_helper_lastclose in
-> >> lastclose()
-> >>
-> >> It's used to restore the fbdev console, but as amdgpu uses
-> >> generic fbdev emulation, the console is being restored by the
-> >> DRM client helpers already. See the call to drm_client_dev_restore()
-> >> in drm_lastclose().
-> >>
-> >> Fixes: 087451f372bf76 ("drm/amdgpu: use generic fb helpers instead of
-> >> setting up AMD own's.")
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> >> ---
-> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 1 -
-> >>   1 file changed, 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> >> b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> >> index fe23e09eec98..474b9f40f792 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> >> @@ -1106,7 +1106,6 @@ int amdgpu_info_ioctl(struct drm_device *dev,
-> >> void *data, struct drm_file *filp)
-> >>    */
-> >>   void amdgpu_driver_lastclose_kms(struct drm_device *dev)
-> >>   {
-> >> -    drm_fb_helper_lastclose(dev);
-> >>      vga_switcheroo_process_delayed_switch();
-> >>   }
->
-> Without the call to drm_fb_helper_lastclose(), the console emulation
-> will be restored by drm_client_dev_restore() from drm_lastclose(). [1]
-> It means that it's now changing order with the call to
-> vga_switcheroo_process_delay_switch(). Can this become a problem?
->
-> I looked at the other callers of that function. Most restore the console
-> before doing the switcheroo. Nouveau doesn't seem to care about the
-> console at all.
+Waitboost (when SLPC is enabled) results in a H2G message. This can result
+in thousands of messages during a stress test and fill up an already full
+CTB. There is no need to request for boost if min softlimit is equal or
+greater than it.
 
-I don't know off hand.  I suppose if the switch powered down the GPU
-and then we tried to restore it's console state that would be a
-problem, but it looks like vga_switchto_stage2() just powers down the
-GPU without going through suspend so I'm not sure if this actually
-worked correctly?  What are the potential problems with calling
-drm_fb_helper_lastclose twice?
+v2: Add the tracing back, and check requested freq
+in the worker thread (Tvrtko)
+v3: Check requested freq in dec_waiters as well
+v4: Only check min_softlimit against boost_freq. Limit this
+optimization for server parts for now.
+v5: min_softlimit can be greater than boost (Ashutosh)
 
-Alex
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_rps.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
->
-> Best regards
-> Thomas
->
-> [1]
-> https://elixir.bootlin.com/linux/v6.0.3/source/drivers/gpu/drm/drm_file.c=
-#L467
->
-> >>
-> >> --
-> >> 2.37.3
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index fc23c562d9b2..2ece7a559cde 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -1016,9 +1016,15 @@ void intel_rps_boost(struct i915_request *rq)
+ 		if (rps_uses_slpc(rps)) {
+ 			slpc = rps_to_slpc(rps);
+ 
++			if (slpc->min_freq_softlimit >= slpc->boost_freq)
++				return;
++
+ 			/* Return if old value is non zero */
+-			if (!atomic_fetch_inc(&slpc->num_waiters))
++			if (!atomic_fetch_inc(&slpc->num_waiters)) {
++				GT_TRACE(rps_to_gt(rps), "boost fence:%llx:%llx\n",
++					 rq->fence.context, rq->fence.seqno);
+ 				schedule_work(&slpc->boost_work);
++			}
+ 
+ 			return;
+ 		}
+-- 
+2.35.1
+
