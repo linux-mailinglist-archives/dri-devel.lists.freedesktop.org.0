@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C6F60A565
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 14:24:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C21760A46A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 14:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4105D10E3E8;
-	Mon, 24 Oct 2022 12:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9015410E292;
+	Mon, 24 Oct 2022 12:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A8010E3E8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 12:24:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B55D810E292
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 12:10:07 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C4EDBCE13C3;
- Mon, 24 Oct 2022 12:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE03C433C1;
- Mon, 24 Oct 2022 12:24:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A1481612A5;
+ Mon, 24 Oct 2022 12:10:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87ED6C433D7;
+ Mon, 24 Oct 2022 12:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1666614245;
- bh=baId3y2PnKov3b1F4NURKQxj97Z3GYNXAxDixrtp190=;
+ s=korg; t=1666613406;
+ bh=FW2NvzB1JvQFsKGrSBo35+KBXe7fSEbV76DQZwXfYnQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FpXD+ofYTey4GSaqnI9/wEILYSeDS8A1GQTvRnR25ozcY+bIP744jEUNEL12UC7bT
- BwMyRbAbRp3qxwWF0z08okMJvGqy7StUCTg9jsfqywVjm5tY8/bDJfBtFj4PdMG1Zo
- uSmB8m7pHMsrJiQnUT26B3NamdqypvVjUn8I+eA0=
+ b=djZmvVh+OUwK9MZgvhOEqgePV3IJUPxUI7JlKVdWLQ5XmmEgFXdGiH8ulbtpLFmRV
+ XOGrfxYPpg6+yzqiuIfveHmJ2Bobe75jrJgWdMHO6FGoJ5B9gfWYXJ3wIoUw/Qe1Ar
+ YKN/an5ekYgQis4E+PfsN20i+3yMwktWDr0+4CVc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10 154/390] drm: fix drm_mipi_dbi build errors
-Date: Mon, 24 Oct 2022 13:29:11 +0200
-Message-Id: <20221024113029.232783928@linuxfoundation.org>
+Subject: [PATCH 5.4 094/255] drm: fix drm_mipi_dbi build errors
+Date: Mon, 24 Oct 2022 13:30:04 +0200
+Message-Id: <20221024113005.616180416@linuxfoundation.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221024113022.510008560@linuxfoundation.org>
-References: <20221024113022.510008560@linuxfoundation.org>
+In-Reply-To: <20221024113002.471093005@linuxfoundation.org>
+References: <20221024113002.471093005@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -103,10 +104,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index ca868271f4c4..4e9b3a95fa7c 100644
+index 649f17dfcf45..fc6c4f81985e 100644
 --- a/drivers/gpu/drm/Kconfig
 +++ b/drivers/gpu/drm/Kconfig
-@@ -30,6 +30,7 @@ menuconfig DRM
+@@ -27,6 +27,7 @@ menuconfig DRM
  config DRM_MIPI_DBI
  	tristate
  	depends on DRM
