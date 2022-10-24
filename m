@@ -2,120 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DD7609F73
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 12:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3C260A09F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 13:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A661E10E348;
-	Mon, 24 Oct 2022 10:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C5F10E39D;
+	Mon, 24 Oct 2022 11:20:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2075.outbound.protection.outlook.com [40.107.93.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D887B10E348
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 10:56:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mq/MmXK64WvepQcFCe/48fIur2dudWmRW1hV08vkH9P4JFIJHC4qIWESc6yaggQMbVQiEEwRsOMBg9JBn3byppeh69TIhbafoVvjthdnPYU6bH1awzVcsLCoGmduLl8NPnC8kGE+TAnG1k5rB9BNJTp3UUqTRr46Nl+2XOG2VU1imakl+bTHs/RnF18Sh3M+x5DKRTk47UwQfPUT6pEm6Epq6naIKaKpxSsPdUnfLlrUqDvNzPNKJYWqZiPvKkMHjx8atCiQOaYSiB9KwPnsv+r/Jclbw1iKZSiCFdYzrqDCnR253RO+y+AP58MmXHCZs4juXGVK/25O5HXJ7tIWBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A2VmSXO9UaTrjVAsYKn+a85mymSKPFGb4m9/4I6gYpY=;
- b=eFOtlXc3GQDWr7lczATV+cbETNLPyltWCJuaG+A+KYNE2NucgA2zLPE+51ckOP5wEG51yNpCWSJM60DpPhyO9UvLfePoKqNsaVW/DMUPFmEHHL1y++9ZDGYHXI1E5i4xIDH5vPuQpDs1ax1J2CIus7wGL4WaJCL8FHRfwnhCj5ImfzIb7WeHkHdq37zY88a5ZnC8DLvsHvqkkFEQxBjDe8bw/uyQfdcCRNG5KVJtLR/FjIpvl27S71dNSiL+lf60qLNhFb/ZiiutVNcmMxVnwnQbc23nHKRiQOl0z5MI8wSewjizrTmCPDTvnaInCjwMa4AzHxUbMT6uEzXsomNvYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A2VmSXO9UaTrjVAsYKn+a85mymSKPFGb4m9/4I6gYpY=;
- b=ZS281TO5m8rmvxMSbEQQ0YMb1MQbAvl3K2V4lq1q75AFDfYY44Oe1g7TAVDev6GzThMmKU9BabSd8EsiAcT8AILy8ItXiUP7gKRmMOzf4pcFISguPopNZ074NJDP0Q/BA5vwIZKiLV7UPoEO9gfVKLXrkA57rrSm98U2OHJWpos=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN2PR12MB4582.namprd12.prod.outlook.com (2603:10b6:208:26b::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Mon, 24 Oct
- 2022 10:56:31 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a350:f29a:f287:7279]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a350:f29a:f287:7279%4]) with mapi id 15.20.5746.023; Mon, 24 Oct 2022
- 10:56:30 +0000
-Message-ID: <a609cff3-b3db-1f17-832f-99652356e74e@amd.com>
-Date: Mon, 24 Oct 2022 12:56:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1] drm: Switch drm_client_buffer_delete() to unlocked
- drm_gem_vunmap
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20221020213335.309092-1-dmitry.osipenko@collabora.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221020213335.309092-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR10CA0081.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:8c::22) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D8B10E34C;
+ Mon, 24 Oct 2022 11:20:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 973881FD86;
+ Mon, 24 Oct 2022 11:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666610398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hzNk2J1kv0hvXKhIHs7HnwozHE2hDAXgOdFZp8AywGo=;
+ b=HkTG27jc1phmO2sYSspbljuTMragV3RllZDVeL22LJUT+RamYsIuqsaoqDlSHb0l9OA6q6
+ GT0tqNWWqBg+tcq/3TR4T/xB1NJ2r0tlY31pSNOZnxJ/sjEt0/Pg+eWqW99hZIupGc0ZMW
+ XR3pQTAbIh0q7Iv51jt/wuMpfkBc3pw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666610398;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hzNk2J1kv0hvXKhIHs7HnwozHE2hDAXgOdFZp8AywGo=;
+ b=WgrsXz4shLgIugdW3McjjV/i28ZaSykMoNzWHCg2sSAlZ3E3ktA3U8MVWkGJBmn75Oj+fQ
+ sylXkr/Z8upKERDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 03E2813357;
+ Mon, 24 Oct 2022 11:19:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id zybkOt10VmOYMgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:19:57 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Subject: [PATCH v2 00/21] drm/fb-helper: Untangle fbdev emulation and helpers
+Date: Mon, 24 Oct 2022 13:19:32 +0200
+Message-Id: <20221024111953.24307-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN2PR12MB4582:EE_
-X-MS-Office365-Filtering-Correlation-Id: 114a8e3f-b22d-491d-eed9-08dab5ae6867
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TUr8uDzSJ+WlviSGR9lgeEI7qmTVqe/s8VycuUwQ/ESmueRZmAnhpkSU3vuuUN1TQHH2+J3IybMvHCS6QquiWq8T9v8zXVt2W4lNHtftvdsIURaparM93MutmqFl+yI6dXCXO4JPdO1uI888cGKSZQ/KrB27+gkCockYnYNYmMqSBK2aWED5s9Db6SY+DcC9GM+5dDKl94v9E5YfDokw+eiPDSwuEDuIhurSHoWwFZO7fti0VKi+3ei7WLfeHLQBL2YVcdNoD/15D5sfbSKx+Y5AWoC1fkj3rnAd8W8QPivcKTYBIAfYXkhWvvEp8OGL2PtiEKSdg++9OofUN8B0r3EJHYIBhOH4yspiP3ETLo57gSWra8b3ojs7B9g42PuhEkQH9qQvhslg7skLrObNBgRzczOdcmNRXJFn7r9NE8JiX7N40GsB+4f5folklrclLGkWSFuWCgO76oB+YnW+pBPxbCXmiIfOXWz2oimz50cxvgMptPY5UCtx/L9na2v5Sd2+DfJxImLRPSKEEWlc4JVSv5EplMqlO2aDc8iSXUfxtNxJ5mjZwrJ1SSj4HPo/eD1XxMVscaGptYDTMTe3p7MQkx+TBCmZ5DJnKrexTHJr4OPYzBxDqiO5pFxIlygM1RVeTdMQg3UhZIs/oXN5I5kokPLxI+oC+DNM11xhc8rnUU/EOA09FoaHIbrM3gcX3ae4xTTWpDmFSp+BU9yDda0xEmdYpyYMjExvjB1WHNkFHb++NYWJnmu7R67f0cdUXqVsrIKG/zHL++s3oQaThv8NVGb9OlrqqDEvT6jYtf0EMjyrfdZ8kw3DTQoTUfyi7hM8n5bydYXmsdpa1I4L6w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(39860400002)(346002)(376002)(396003)(366004)(451199015)(478600001)(2616005)(6486002)(31686004)(966005)(2906002)(316002)(66556008)(4326008)(66476007)(6512007)(66946007)(6506007)(5660300002)(36756003)(41300700001)(26005)(8936002)(8676002)(6666004)(31696002)(38100700002)(110136005)(186003)(83380400001)(86362001)(66574015)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MHhXRHY2T3JhZno5LzczVVRpTlJveUpRRnlQSmtwakZORnZJNmROTTBFWEVB?=
- =?utf-8?B?akZBODl2RDJyUmlZT0xyNVlIUEYzSzRMZmJjZ09CODk2dEFjbEhNSlFqdDhV?=
- =?utf-8?B?NkI5ZjZrVVIzQzNPUUxxZ0xJcmVXZEowYUNieHVQbDZPK3NEalo1emVjMGlz?=
- =?utf-8?B?U1hHTFlZU0xMV0l3Uk83SlpBdlFqSGtUOTRGdFNBR0VTOERCTzVXK0ZFVUJi?=
- =?utf-8?B?bHdNM1FCZmhhSGFiUm1iY3Nqa25OVk5tbWF0VDRiWldWazFUSkNiUDVjdnJN?=
- =?utf-8?B?STJGR2I0MTJKRkRwRTNkTjZHYWpRc1RHcjVjVWFXaUdkY1BLSFJKcEFWSXN2?=
- =?utf-8?B?Mm8vc1NVUXZhdUoxNmpTdFZTY2RMMmNvWXFoN05IUnVZVzRUVlpOYlR4NTRD?=
- =?utf-8?B?UnAzaFl1VVFweS9rSmtXdWZsMGJobWFKTUd6SGFTZytVTFR3Q3o3cDVWZVBT?=
- =?utf-8?B?emRRdUptZGRIZXBudUZHQzJMdmF1ckpZV2NaMlZpNDNSdEl6aFU2VXdVcHlM?=
- =?utf-8?B?MDhGcDU1ZjM3MUE4TnAzSStQZUE4S2cxb0dqUkk4aEwrSU9EU2loUExXOUZN?=
- =?utf-8?B?dFNjb2swM2x3VGs1UzJHeDhNeUROSW4vS2hROHZWdGJkdTBNblZYV0NONUpv?=
- =?utf-8?B?MEtyT1I4M0J2Z0JqMzNzYVFwNHhNVWpreGdXRnhodzBuWFVuY2NnYzBha05K?=
- =?utf-8?B?SFVObVNpM0k5OS9xZ25vRWZzQXRobElHNWFKbG03QTN3UjNBVHJ3OEJpcUFn?=
- =?utf-8?B?RW04RmlJMmdRTXJlS0VLdHZ1bjdYMjdtU1VzTzhDOE1DcFFYU0tUM084VDhm?=
- =?utf-8?B?NTRBMklVeEI2aEYrK3E0Ri8yTmFWaGJxMGZRb01HSElQRE5EQk1FMEhIKzk5?=
- =?utf-8?B?ZWxOQWRKaXJSUjFsTDZHb2Fna3VkYjhIMk5TcTMrMWRyQ081VFlpbVRqL2gr?=
- =?utf-8?B?YWp0T3VzWTFjMUVxQ3owdWkwTHZnUDJGYlpPeWs3c01KZGNMN2NRb09oWnZz?=
- =?utf-8?B?dFFySFhnTmdUY0FOeXFnMWxrTFh1aHV6S1RmUUNQVWtaeGs2Q3ZSYlRuOUth?=
- =?utf-8?B?anJmc0MvMmZtV1g1eEgzdnQ2bjkyWEpGWlFPemliYjgyUjRxS3htK1ZxRXJG?=
- =?utf-8?B?eVl0QXNleFR5MHBQZXZrZWFlRGd3UUFUYmcrNlJXd2JHb0FMcTNmTlM0RnhV?=
- =?utf-8?B?NEJHeGlrck1mWGpUc24yL1pJRHlwNTlYOXZmQzIvZ1VNVnp0dW9NUFR2SVhj?=
- =?utf-8?B?YWM0UjNPRlUrWGEzdTkxQUMvQisyaEJ6QXFOTmw4blJWSWlsaERsbWpMZXFx?=
- =?utf-8?B?NXozd2VnRzE3djRkUXpEaGlNVDBWMTFEWkw0Mko3REpEcjFUdFJDdUtMOHdL?=
- =?utf-8?B?dWJiOWZDRHJ3S1pVakNwbUJqdCtxQlkwL2xIbE5FblpKWUpXRlNCamJOZUJ1?=
- =?utf-8?B?RmJqSzZIdDVrVzBtWVdUSWUzdTd1SWduUUxtY0xOM0NwZHEzeXNaYjZxMUR2?=
- =?utf-8?B?VUROWExMTjh5clBNemNoZEc5ZE81dHFaeWFpN1d4cHppcGttQjd3WXRHazZO?=
- =?utf-8?B?dnMxTzlvak9DRHEwdmtJVnUxNjVXdmpveFBuMFRBd2NENGZWQThGOFd5OUVN?=
- =?utf-8?B?QjlSVDZzOERXSThMTWxpOUl1dGZLWVI3QTZWSVo1ZmVNUXJKeHVnODgyaCtR?=
- =?utf-8?B?MkZLTjRYWWZtU284RHdQRUN3dlhvQzREckhuVVRCUWs1MWxubDhyclgzMWk0?=
- =?utf-8?B?c2Y1TE42cDd0aW9DbnYvVXI4Qng3R3Z5Yi9JUVBsNElwd01INlUxdktPdE5n?=
- =?utf-8?B?TXlpRjRaSUtUazBFS0VSVGwrK3RVeU1laSswd0J2aFlpT0RlQXhEL1FPWFBZ?=
- =?utf-8?B?WWtWRzJicFRFaE5iVGtraHhqZVVHTjBBYkVlMmF5aEh0dS9XSkNkZ2UrekZX?=
- =?utf-8?B?ait5aFgwNWFlL3E4MUJXS1pIY1prT2haR3pIeWhPSEdyUWxzbGtWeEtvV0J3?=
- =?utf-8?B?R1EwSVdhYjhIVHdUUzU2RFNmTTgzUmpqLzcwKzlVcHE4aW5OVEFQVjVRN2Nv?=
- =?utf-8?B?Q3ZGa2pqbC9MTWpPdVNGYytPa1g5WEYyelV4WXN2Q2lRdmhielF0K3lJTWF5?=
- =?utf-8?Q?guNNiHU10c9k8S5G6lM3wzNal?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 114a8e3f-b22d-491d-eed9-08dab5ae6867
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 10:56:30.8956 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hO5/okaVz0KeqjSXFxosMxhhHm6HhVj7JHDqM7YJKMOEGSg47GyzDGS1ojfxHsHZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4582
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,44 +62,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Separate generic fbdev emulation from the helper code that is shared
+among the various fbdev implementations within DRM. Affects many drivers.
+
+It has become apparent that our fully generic fbdev emulation will
+never produce optimal results for all drivers. In its current form,
+it is also hard to maintain. The goal of this patchset is to improve
+readability and streamline the fbdev helper code within DRM. In the
+long term, we want to get to a point where drivers or memory managers
+can pick and combine the various helpers for optimal fbdev support.
+
+Patches 1 to 8 start by preparing drivers. Setting struct drm_driver's
+lastclose and output_poll_changed is not required by generic fbdev
+emulation.
+
+Two drivers depend on fb helpers implicitly including other Linux header
+files. Fixing this in patches 9 and 10 allows to remove unnecesary include
+statements from the fb-helper header in patch 11.
+
+Do some renaming in patches 12 to 14.
+
+There are currently various implementation of the fbdev I/O helpers
+with varying feature sets. The fb helpers for fbdev I/O should all call
+fb_sync, which is what fbdev's internal implementation does. For DRM,
+damage handling needs to be performed after updating a framebuffer. The
+damage worker is part of the fb helpers, but the actual update logic only
+works with generic fbdev emulation. Separate the two, which also gives
+other drivers an option to set their own damage handling if neccessary.
+The full-featured I/O helpers can be moved under a shared implementation
+and called by all drivers. Patches 15 to 18 resolve these issues.
+
+Patch 19 changes fbdev disablement to work at the level of display
+detection. If disabled, generic fbdev emulation will be initialized,
+but no display will be detected. It can later be enabled by changing
+the parameter in sysfs and plugging in a connector.
+
+Patches 20 and 21 move the generic fbdev emulation into their own source
+and header files and clean up the include statements throughout DRM. Many
+drivers only call drm_fbdev_generic_setup() and can avoid including other
+Linux header files.
+
+Built on x86-64, aarch64, arm, ppc64le. Tested with various combinations
+of bochs, i915, simpledrm.
+
+v2:
+	* fixed commit descriptions (Christian, Sergey)
+
+Thomas Zimmermann (21):
+  drm/komeda: Don't set struct drm_driver.lastclose
+  drm/mcde: Don't set struct drm_driver.lastclose
+  drm/vboxvideo: Don't set struct drm_driver.lastclose
+  drm/amdgpu: Don't set struct drm_driver.output_poll_changed
+  drm/imx/dcss: Don't set struct drm_driver.output_poll_changed
+  drm/ingenic: Don't set struct drm_driver.output_poll_changed
+  drm/logicvc: Don't set struct drm_driver.output_poll_changed
+  drm/rockchip: Don't set struct drm_driver.output_poll_changed
+  drm/panel-ili9341: Include <linux/backlight.h>
+  drm/tve200: Include <linux/of.h>
+  drm/fb-helper: Cleanup include statements in header file
+  drm/fb_helper: Rename field fbdev to info in struct drm_fb_helper
+  drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _info postfix
+  drm/fb-helper: Rename drm_fb_helper_unregister_fbi() to use _info
+    postfix
+  drm/fb-helper: Disconnect damage worker from update logic
+  drm/fb-helper: Call fb_sync in I/O functions
+  drm/fb-helper: Perform all fbdev I/O with the same implementation
+  drm/fb_helper: Minimize damage-helper overhead
+  drm/fb-helper: Always initialize generic fbdev emulation
+  drm/fb-helper: Move generic fbdev emulation into separate source file
+  drm/fb-helper: Remove unnecessary include statements
+
+ drivers/gpu/drm/Makefile                      |    2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |    2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |    1 -
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    2 -
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |    2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   |    2 -
+ drivers/gpu/drm/arm/hdlcd_crtc.c              |    1 -
+ drivers/gpu/drm/arm/hdlcd_drv.c               |    2 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |    2 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         |    6 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |    2 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |    1 +
+ drivers/gpu/drm/ast/ast_drv.h                 |    1 -
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |    2 +-
+ drivers/gpu/drm/bridge/tc358762.c             |    2 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |    1 -
+ drivers/gpu/drm/drm_fb_helper.c               | 1081 ++++++-----------
+ drivers/gpu/drm/drm_fbdev.c                   |  512 ++++++++
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |    1 -
+ drivers/gpu/drm/drm_probe_helper.c            |    1 -
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |    3 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |    6 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |    2 +-
+ drivers/gpu/drm/gma500/framebuffer.c          |    6 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |    2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |    1 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |    1 -
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |    8 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           |    3 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |    2 +-
+ drivers/gpu/drm/imx/imx-ldb.c                 |    2 +-
+ drivers/gpu/drm/imx/imx-tve.c                 |    1 -
+ drivers/gpu/drm/imx/parallel-display.c        |    2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |    3 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                 |    2 +-
+ drivers/gpu/drm/kmb/kmb_plane.c               |    1 -
+ drivers/gpu/drm/logicvc/logicvc_drm.c         |    2 +-
+ drivers/gpu/drm/logicvc/logicvc_mode.c        |    2 -
+ drivers/gpu/drm/mcde/mcde_drv.c               |    3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    2 +-
+ drivers/gpu/drm/meson/meson_drv.c             |    2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |    1 +
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |    1 -
+ drivers/gpu/drm/msm/msm_fbdev.c               |    4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c             |    2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |   27 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          |    6 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |    3 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |    2 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |    1 +
+ drivers/gpu/drm/qxl/qxl_drv.h                 |    1 -
+ drivers/gpu/drm/radeon/radeon_fb.c            |    6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 -
+ drivers/gpu/drm/solomon/ssd130x.c             |    2 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |    2 +-
+ drivers/gpu/drm/stm/drv.c                     |    2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |    2 +-
+ drivers/gpu/drm/tegra/fb.c                    |    8 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |    2 +-
+ drivers/gpu/drm/tidss/tidss_kms.c             |    1 -
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |    2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |    2 +-
+ drivers/gpu/drm/tiny/bochs.c                  |    2 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |    2 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |    2 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9163.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9225.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9341.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9486.c                |    2 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |    2 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |    2 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |    2 +-
+ drivers/gpu/drm/tiny/repaper.c                |    2 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |    2 +-
+ drivers/gpu/drm/tiny/st7586.c                 |    2 +-
+ drivers/gpu/drm/tiny/st7735r.c                |    2 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |    3 +-
+ drivers/gpu/drm/udl/udl_drv.c                 |    2 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |    1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |    4 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c         |    1 -
+ drivers/gpu/drm/vc4/vc4_drv.c                 |    2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |    1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |    1 -
+ drivers/gpu/drm/vkms/vkms_drv.c               |    2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |    3 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |    1 -
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |    2 +-
+ include/drm/drm_fb_helper.h                   |   59 +-
+ include/drm/drm_fbdev.h                       |   15 +
+ 99 files changed, 1019 insertions(+), 883 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_fbdev.c
+ create mode 100644 include/drm/drm_fbdev.h
 
 
-Am 20.10.22 um 23:33 schrieb Dmitry Osipenko:
-> The drm_client_buffer_delete() wasn't switched to unlocked GEM vunmapping
-> by accident when rest of drm_client code transitioned to the unlocked
-> variants of the vmapping functions. Make drm_client_buffer_delete() use
-> the unlocked variant. This fixes lockdep warning splat about missing
-> reservation lock when framebuffer is released.
->
-> Reported-by: kernel test robot <yujie.liu@intel.com>
-> Link: https://lore.kernel.org/dri-devel/890f70db-68b0-8456-ca3c-c5496ef90517@collabora.com/T/
-> Fixes: 79e2cf2e7a19 ("drm/gem: Take reservation lock for vmap/vunmap operations")
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-
-The code was properly added recently between review and pushing. Let's 
-get that upstream ASAP.
-
-Acked-by: Christian König <christian.koenig@amd.com>
-
-> ---
->   drivers/gpu/drm/drm_client.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index fbcb1e995384..38e1be991caa 100644
-> --- a/drivers/gpu/drm/drm_client.c
-> +++ b/drivers/gpu/drm/drm_client.c
-> @@ -235,7 +235,7 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
->   {
->   	struct drm_device *dev = buffer->client->dev;
->   
-> -	drm_gem_vunmap(buffer->gem, &buffer->map);
-> +	drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
->   
->   	if (buffer->gem)
->   		drm_gem_object_put(buffer->gem);
+base-commit: 746559738f1335241ea686566cb654847c20d7a4
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+-- 
+2.38.0
 
