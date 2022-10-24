@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A672860AFD1
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 17:58:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A2760B004
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 18:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B436610E8C6;
-	Mon, 24 Oct 2022 15:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D624510E8B8;
+	Mon, 24 Oct 2022 16:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A637010E8AB;
- Mon, 24 Oct 2022 15:58:22 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8B8C10E8AB;
+ Mon, 24 Oct 2022 16:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666627102; x=1698163102;
+ t=1666627240; x=1698163240;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=a87um/jPYpvuCY1yoODVcl4PujAsM9oGBHFvV8Met0A=;
- b=l9QEhxt7r1BlKTzpOO2tdqg8QVN3exxOqhaEMsPXsNQTXv0q32RtU4uT
- q/A6/Yf+cOpAUZtPSFQLlnHTxeyAteq9WfyC0NbQ4lDf7ApOkUaOrfdE0
- BFVcAjogDhaYkbI9+4G+Eqwt3b3waL8/ogEWn+PeqUa+S3HpBTg4hdA8Y
- Z+Z2W5MpzETB86PhjkzxQAYrn1O0QgjWJSIcpal2rNDacbbKNhBoA7W1f
- r7d+mZChwYktxJB0XJ4402swy5c+D90p0kgGvxzUB/ttQcPeVxyjaG8Og
- 2F/XHE0PsOzPex+TQ559acKIsR3PPOuWte7ipSei+Ff6ui0UT9YvxCDWY A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="287174459"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="287174459"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2022 08:58:16 -0700
+ bh=u5UhLu1/g4v6ehLrmy52Vob9lKHZiWt4amNCzdYDA9c=;
+ b=RHCmXo1vM7s9vEJ4c0hBpKGBSEFtKm6IgOynw0JNG9N+uiGgF+SKbIHB
+ A829iY3nOsdYlkWN/4I/7CUiZSND6R3CDH81JmfNFWf/bxr3MLdGGaGcY
+ fYejVszh41DGFQWq1F3aejcMh/qRVTen/kG9G+kOu5Nj9TCiEvDD2UzXy
+ lRWkKiU4oCw0gIivVVe88zarDey878c/Mi39nIyr8G4u0deNhJ4VY65YK
+ Te9pdVX3tcysEuU7C5SAUlKd+LTRml6NHqJ7en62Hxx4otY5fqrVt8uRd
+ fAuuOcTiaPvk1x4YIjSWPDPKFlYM/Af1zwT2kFIjahILAsEWmBLLXHORb Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="306187689"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="306187689"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 09:00:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="876482767"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="876482767"
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="773870026"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="773870026"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga006.fm.intel.com with SMTP; 24 Oct 2022 08:58:10 -0700
+ by fmsmga001.fm.intel.com with SMTP; 24 Oct 2022 09:00:38 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 24 Oct 2022 18:58:09 +0300
-Date: Mon, 24 Oct 2022 18:58:09 +0300
+ Mon, 24 Oct 2022 19:00:37 +0300
+Date: Mon, 24 Oct 2022 19:00:37 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [igt-dev] Must-Pass Test Suite for KMS drivers
-Message-ID: <Y1a2Eb1rwMyk35v+@intel.com>
-References: <20221024124323.tfyxcadyd4nz56jz@houat>
- <CAF6AEGuokyL+_ZsWeeMeyCcyErapka0ALZQ60bdWKvja3gcN9Q@mail.gmail.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 14/16] drm/edid/firmware: convert to drm device
+ specific logging
+Message-ID: <Y1a2pdOaI/jxZzTc@intel.com>
+References: <cover.1666614699.git.jani.nikula@intel.com>
+ <14f3a1e55729c9157aae93fc45320d05cc4cc7bc.1666614699.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGuokyL+_ZsWeeMeyCcyErapka0ALZQ60bdWKvja3gcN9Q@mail.gmail.com>
+In-Reply-To: <14f3a1e55729c9157aae93fc45320d05cc4cc7bc.1666614699.git.jani.nikula@intel.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,130 +62,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petri Latvala <petri.latvala@intel.com>,
- Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
- Martin Roukala <martin.roukala@mupuf.org>, dri-devel@lists.freedesktop.org,
- igt-dev@lists.freedesktop.org, maxime@cerno.tech,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 24, 2022 at 08:48:15AM -0700, Rob Clark wrote:
-> On Mon, Oct 24, 2022 at 5:43 AM <maxime@cerno.tech> wrote:
-> >
-> > Hi,
-> >
-> > I've discussing the idea for the past year to add an IGT test suite that
-> > all well-behaved KMS drivers must pass.
-> >
-> > The main idea behind it comes from v4l2-compliance and cec-compliance,
-> > that are being used to validate that the drivers are sane.
-> >
-> > We should probably start building up the test list, and eventually
-> > mandate that all tests pass for all the new KMS drivers we would merge
-> > in the kernel, and be run by KCi or similar.
+On Mon, Oct 24, 2022 at 03:33:42PM +0300, Jani Nikula wrote:
+> Conform to device specific logging.
 > 
-> Let's get https://patchwork.freedesktop.org/patch/502641/ merged
-> first, that already gives us a mechanism similar to what we use in
-> mesa to track pass/fail/flake
+> v2: Include [CONNECTOR:%d:%s] (Ville)
 > 
-> Beyond that, I think some of the igt tests need to get more stable
-> before we could consider a "mustpass" list.  The kms_lease tests seem
-> to fail on msm due to bad assumptions in the test about which CRTCs
-> primary planes can attach to.  The legacy-cursor crc tests seem a bit
-> racy (there was a patch posted for that, not sure if it landed yet),
-> etc.
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-I think the safest set to start with would be pure uapi validation
-stuff. Anything that interactics with real world hardware is a much
-tougher cookie.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
+> ---
+>  drivers/gpu/drm/drm_edid_load.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> The best thing to do is actually start running CI and tracking xfails
-> and flakes ;-)
-> 
-> BR,
-> -R
-> 
-> > I did a first pass to create a draft of such a test-suite, which would
-> > contain:
-> >
-> > igt@core_auth@basic-auth
-> > igt@core_auth@getclient-master-drop
-> > igt@core_auth@getclient-simple
-> > igt@core_auth@many-magics
-> > igt@core_getclient
-> > igt@core_getstats
-> > igt@core_getversion
-> > igt@core_hotunplug@hotrebind-lateclose
-> > igt@core_hotunplug@hotunbind-rebind
-> > igt@core_hotunplug@unbind-rebind
-> > igt@core_setmaster
-> > igt@core_setmaster_vs_auth
-> > igt@device_reset@unbind-reset-rebind
-> > igt@drm_read
-> > igt@dumb_buffer
-> > igt@fbdev
-> > igt@feature_discovery@display
-> > igt@kms_3d
-> > igt@kms_addfb_basic
-> > igt@kms_async_flips
-> > igt@kms_color
-> > igt@kms_concurrent
-> > igt@kms_cursor_crc
-> > igt@kms_cursor_edge_walk
-> > igt@kms_cursor_legacy@basic-busy-flip-before-cursor
-> > igt@kms_cursor_legacy@basic-flip-after-cursor
-> > igt@kms_cursor_legacy@basic-flip-after-cursor
-> > igt@kms_display_modes
-> > igt@kms_dither
-> > igt@kms_dp_aux_dev
-> > igt@kms_flip@basic-flip-vs-dpms
-> > igt@kms_flip@basic-flip-vs-modeset
-> > igt@kms_flip@basic-flip-vs-wf_vblank
-> > igt@kms_flip@basic-plain-flip
-> > igt@kms_flip_event_leak@basic
-> > igt@kms_force_connector_basic@force-connector-state
-> > igt@kms_force_connector_basic@force-edid
-> > igt@kms_force_connector_basic@force-load-detect
-> > igt@kms_force_connector_basic@prune-stale-modes
-> > igt@kms_getfb
-> > igt@kms_hdmi_inject
-> > igt@kms_hdr
-> > igt@kms_invalid_mode
-> > igt@kms_lease
-> > igt@kms_panel_fitting
-> > igt@kms_pipe_crc_basic
-> > igt@kms_plane_alpha_blend
-> > igt@kms_plane
-> > igt@kms_plane_cursor
-> > igt@kms_plane_lowres
-> > igt@kms_plane_multiple
-> > igt@kms_plane_scaling
-> > igt@kms_prop_blob
-> > igt@kms_properties
-> > igt@kms_rmfb
-> > igt@kms_scaling_modes
-> > igt@kms_sequence
-> > igt@kms_setmode
-> > igt@kms_sysfs_edid_timing
-> > igt@kms_tv_load_detect
-> > igt@kms_universal_plane
-> > igt@kms_vblank
-> > igt@kms_vrr
-> > igt@kms_writeback
-> >
-> > Most of them are skipped on vc4 right now, but I could see that some of
-> > them fail already (kms_rmfb, core_hotunplug), so it proves to be useful
-> > already.
-> >
-> > What do you think? Is there some more tests needed, or did I include
-> > some tests that shouldn't have been there?
-> >
-> > Thanks!
-> > Maxime
+> diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+> index 882caaa6e663..ef4ab59d6935 100644
+> --- a/drivers/gpu/drm/drm_edid_load.c
+> +++ b/drivers/gpu/drm/drm_edid_load.c
+> @@ -177,16 +177,20 @@ static const struct drm_edid *edid_load(struct drm_connector *connector, const c
+>  
+>  		pdev = platform_device_register_simple(connector->name, -1, NULL, 0);
+>  		if (IS_ERR(pdev)) {
+> -			DRM_ERROR("Failed to register EDID firmware platform device "
+> -				  "for connector \"%s\"\n", connector->name);
+> +			drm_err(connector->dev,
+> +				"[CONNECTOR:%d:%s] Failed to register EDID firmware platform device for connector \"%s\"\n",
+> +				connector->base.id, connector->name,
+> +				connector->name);
+>  			return ERR_CAST(pdev);
+>  		}
+>  
+>  		err = request_firmware(&fw, name, &pdev->dev);
+>  		platform_device_unregister(pdev);
+>  		if (err) {
+> -			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+> -				  name, err);
+> +			drm_err(connector->dev,
+> +				"[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
+> +				connector->base.id, connector->name,
+> +				name, err);
+>  			return ERR_PTR(err);
+>  		}
+>  
+> -- 
+> 2.34.1
 
 -- 
 Ville Syrjälä
