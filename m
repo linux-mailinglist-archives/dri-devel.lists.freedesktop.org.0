@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE46609C10
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 10:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F59609C1D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 10:11:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C1010E2CB;
-	Mon, 24 Oct 2022 08:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4625E10E2D2;
+	Mon, 24 Oct 2022 08:11:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB8F10E325
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:07:35 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id a5so15116697edb.11
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 01:07:35 -0700 (PDT)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F68710E2D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 08:11:07 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id e18so28229204edj.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 01:11:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bJyKcXirmoJHw04J67wvkLB1zRITu1b/Yf9TAcTCa00=;
- b=q/C+ZzlNYEf+623922EqBJSjLs5+oESif0J1/ZbzPMo6jck0mxCmuwOqLatGixRbf5
- CHplhHPSRJIVV+6sfQIpO5P7wlPhPkoGNxcLWLeVK1o8XZd5hWd9YGgvex3vu9WKchvO
- 9pqE1s/mtvo6oAqD54hHtip7WTic/4jSzPqlu6gidAsYxon5ge+nYg9mfyfgMcdymzLr
- TqMUdDEsrK47YujQ5QeuPsHVfyaeNMC6ygKRvlL3uOIzXt2xkSezcIgzEn24T4wt7aY3
- HnjDKwJVXzPuPgfACQoc4h1GeFxNrduCCkR13ruSbhtbuzU9O1LrUUfA8JNWch6UUZMD
- QGDA==
+ bh=F0c713oCt9k4k6/+uY2uM123jIigsSx0BNjtESa37L8=;
+ b=fM18OWIp12aMWehgSQYFRFmpa7L+2WOuR3JJPfsWwM8qbqkMEJASujJMMEo4p0/H5C
+ Ju0vOpraZuqjINV7dUKIKl+o9UPdCzUKzPxVirGwJSXn7srJgyPVYAV93i0tQWv8ohaL
+ 6qGtw3QZkaKJvVPe/26GQPuUFgpK4HZhb4PqGxrT4j2DG7426bTgIeRPPlc/0Lmibxb0
+ VnuU8MlzCM9+Im/VEDOdGvYOzMdK+d63Q/CFvBdzHM4oqBXugTjv8Y4n3KDbNLY2ywoF
+ 3PhFO/Y9RNzxDD8lO0fFscdEnUzQCkpDK4QcrfBn4DawxCE0EApN9ZV6z6w60Yg9vMlV
+ eKiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bJyKcXirmoJHw04J67wvkLB1zRITu1b/Yf9TAcTCa00=;
- b=qsYXcqD3GsZv0gq1053NsCwkwrFHnol6yZDjRicmTIN6Hy4ns8Vc5a+g2HXiZE1yoH
- zMs3zHZrR3KsPGKlWS40h4YDHKeflZTr2qeHlabr7/ytNc0fxktVFwNJzR/IaiHRbbru
- iRcACouSWv9pXzcmFdvAC3eSzFwq288TFlng8mHwqbSmiPaKfo6F20JxI1adrp1/cHLX
- AAzq+xh0dREkGvvEDVSoA7HnWQS7bLLJ2sYxU0+zKdyN+cOZK43t1rhX2aLhkHA60RgV
- fEVssdN1LTIRdKRFyOB+1QbhhGhfissxVjbQASy+n96dUSSP9ZwfUuyjOyF5nX1gQzwr
- hVbw==
-X-Gm-Message-State: ACrzQf1rkGtlmzqEJiY6iZDYk/JLpq+7PGXRt/Nl/Jtfs4RMfa9Az4nN
- I8Q+nDYpsuWoFgU6b4TWuHcVwmjzoeGyefKjwOk4HA==
-X-Google-Smtp-Source: AMsMyM5FOZfIhyX3k0OFsulBbrJ2OmOnll7BloxuDQAQqp73e/PkTjOKcE9T8rfsh7ftAaDYyMdjZUqrVX1Z58X4RFU=
-X-Received: by 2002:a05:6402:2402:b0:45c:a1ce:94d8 with SMTP id
- t2-20020a056402240200b0045ca1ce94d8mr28808767eda.50.1666598854484; Mon, 24
- Oct 2022 01:07:34 -0700 (PDT)
+ bh=F0c713oCt9k4k6/+uY2uM123jIigsSx0BNjtESa37L8=;
+ b=hzpIfpJ+7XpmdtH+y39Cxo1h4IrW6dybiS96AdZloiaKf50FIDy65GsRUqJLIVKAw8
+ k8LcByGNp4Rg5aTf/f+EXAvilcyPFrNhYH3v4JPKbYhcrtycPm+gUjcOm46qsf6mL+/5
+ Jz31P7BXBVqoz8LynHymI46pw8+61eLN+ta+URw3nTYLkVQSdCuSoAseyR9lVoWHUADH
+ ESrwOHJajbhl1q7nP9of3TRG8wpPffTxUQf0L6t16gHbKiEqvPko0Gf9Rka0qtXYGzIp
+ 5Lk7eIRmGBroID8x7W0YZb5aK/ChyBXRPOE88ioV8oFzz+LAjrkPg0V/yaOdEFiD1Z3v
+ 0VhQ==
+X-Gm-Message-State: ACrzQf0tBDTLY3xDoDUEpBELfYOzEUZ+ocqfr1Z5AuV1rBTzXrw9M3G9
+ d9/yblV5p0w3joiCjQ1jxTA8/xyVIUnJcP2uefJSuA==
+X-Google-Smtp-Source: AMsMyM4Do78psp3kB2kgopIMTwbjzFM6ZbxCwerNjX0u3iCmgE06NkkT74Ndn4Y4JMEeUX4twWV0BterbnP1x5GKtQg=
+X-Received: by 2002:a17:906:7193:b0:78d:b87e:6aa5 with SMTP id
+ h19-20020a170906719300b0078db87e6aa5mr26617842ejk.580.1666599065645; Mon, 24
+ Oct 2022 01:11:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221013110411.1674359-1-treapking@chromium.org>
- <20221013110411.1674359-4-treapking@chromium.org>
-In-Reply-To: <20221013110411.1674359-4-treapking@chromium.org>
+In-Reply-To: <20221013110411.1674359-1-treapking@chromium.org>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 24 Oct 2022 10:07:23 +0200
-Message-ID: <CAG3jFytZ9cqNZLXfegtW=AO=3NAKiVCmSpAwmf1H4u60xo50CQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/bridge: it6505: Improve synchronization
- between extcon subsystem
+Date: Mon, 24 Oct 2022 10:10:54 +0200
+Message-ID: <CAG3jFyv_-5rg2youVtKg7WGvvc5PMqaJMCmidMwmXf6Sgucm3g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Clean up it6505 driver and improve synchronization
 To: Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,118 +65,36 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Hermes Wu <hermes.wu@ite.com.tw>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 13 Oct 2022 at 13:04, Pin-yen Lin <treapking@chromium.org> wrote:
 >
-> Originally, the it6505 relies on a short sleep in the IRQ handler and a
-> long sleep to make sure it6505->lane_swap and it6505->lane_count is
-> configured in it6505_extcon_work and it6505_detect, respectively.
->
-> Use completion and additional DPCD read to remove the unnecessary waits,
-> and use a different lock for it6505_extcon_work and the threaded IRQ
-> handler because they no longer need to run exclusively.
->
-> The wait time of the completion is usually less than 10ms in local
-> experiments, but leave it larger here just in case.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> ---
+> The main purpose of this series is to improve the synchronizations of
+> it6505 driver. The first two patches are required for the third one, but
+> they alone can be clean ups to the driver.
 >
 > Changes in v2:
+> - Remove redundant spaces in it6505_detect
+> - Read sink count in it6505_irq_hpd
 > - Add the empty line back
 >
->  drivers/gpu/drm/bridge/ite-it6505.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+> Pin-yen Lin (3):
+>   drm/bridge: it6505: Initialize AUX channel in it6505_i2c_probe
+>   drm/bridge: it6505: Setup links in it6505_irq_hpd
+>   drm/bridge: it6505: Improve synchronization between extcon subsystem
 >
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 4b6061272599..0de44c651c60 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -412,6 +412,7 @@ struct it6505 {
->          * Mutex protects extcon and interrupt functions from interfering
->          * each other.
->          */
-> +       struct mutex irq_lock;
->         struct mutex extcon_lock;
->         struct mutex mode_lock; /* used to bridge_detect */
->         struct mutex aux_lock; /* used to aux data transfers */
-> @@ -440,7 +441,7 @@ struct it6505 {
->         enum hdcp_state hdcp_status;
->         struct delayed_work hdcp_work;
->         struct work_struct hdcp_wait_ksv_list;
-> -       struct completion wait_edid_complete;
-> +       struct completion extcon_completion;
->         u8 auto_train_retry;
->         bool hdcp_desired;
->         bool is_repeater;
-> @@ -2316,8 +2317,8 @@ static void it6505_irq_hpd(struct it6505 *it6505)
->                              it6505->hpd_state ? "high" : "low");
+>  drivers/gpu/drm/bridge/ite-it6505.c | 106 +++++++++++++---------------
+>  1 file changed, 51 insertions(+), 55 deletions(-)
 >
->         if (it6505->hpd_state) {
-> -               wait_for_completion_timeout(&it6505->wait_edid_complete,
-> -                                           msecs_to_jiffies(6000));
-> +               wait_for_completion_timeout(&it6505->extcon_completion,
-> +                                           msecs_to_jiffies(1000));
->                 it6505_aux_on(it6505);
->                 if (it6505->dpcd[0] == 0) {
->                         it6505_get_dpcd(it6505, DP_DPCD_REV, it6505->dpcd,
-> @@ -2493,8 +2494,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
->         };
->         int int_status[3], i;
->
-> -       msleep(100);
-> -       mutex_lock(&it6505->extcon_lock);
-> +       mutex_lock(&it6505->irq_lock);
->
->         if (it6505->enable_drv_hold || !it6505->powered)
->                 goto unlock;
-> @@ -2524,7 +2524,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
->         }
->
->  unlock:
-> -       mutex_unlock(&it6505->extcon_lock);
-> +       mutex_unlock(&it6505->irq_lock);
->
->         return IRQ_HANDLED;
->  }
-> @@ -2701,9 +2701,12 @@ static void it6505_extcon_work(struct work_struct *work)
->                  */
->                 if (ret)
->                         it6505_poweron(it6505);
-> +
-> +               complete_all(&it6505->extcon_completion);
->         } else {
->                 DRM_DEV_DEBUG_DRIVER(dev, "start to power off");
->                 pm_runtime_put_sync(dev);
-> +               reinit_completion(&it6505->extcon_completion);
->
->                 drm_helper_hpd_irq_event(it6505->bridge.dev);
->                 memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
-> @@ -3274,6 +3277,7 @@ static int it6505_i2c_probe(struct i2c_client *client,
->         if (!it6505)
->                 return -ENOMEM;
->
-> +       mutex_init(&it6505->irq_lock);
->         mutex_init(&it6505->extcon_lock);
->         mutex_init(&it6505->mode_lock);
->         mutex_init(&it6505->aux_lock);
-> @@ -3329,7 +3333,7 @@ static int it6505_i2c_probe(struct i2c_client *client,
->         INIT_WORK(&it6505->link_works, it6505_link_training_work);
->         INIT_WORK(&it6505->hdcp_wait_ksv_list, it6505_hdcp_wait_ksv_list);
->         INIT_DELAYED_WORK(&it6505->hdcp_work, it6505_hdcp_work);
-> -       init_completion(&it6505->wait_edid_complete);
-> +       init_completion(&it6505->extcon_completion);
->         memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
->         it6505->powered = false;
->         it6505->enable_drv_hold = DEFAULT_DRV_HOLD;
 > --
 > 2.38.0.rc1.362.ged0d419d3c-goog
 >
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Applied to drm-misc-next.
