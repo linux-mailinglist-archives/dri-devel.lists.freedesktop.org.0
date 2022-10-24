@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B4960C457
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:56:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C669460C437
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 08:54:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA9210E14B;
-	Tue, 25 Oct 2022 06:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B75A610E130;
+	Tue, 25 Oct 2022 06:54:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B81F810E399
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:37:32 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id c24so8190690pls.9
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:37:32 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E57D310E3A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:37:30 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ d59-20020a17090a6f4100b00213202d77e1so1138930pjk.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 04:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XAyFJiVGXrC/KZsleNIpi2nk4bcxYAI8Wjviz1KFor4=;
- b=ZPJNNmG2CfyinfqrhsHlV+g/2spcGsRR6OA3gQWYXOOaD6Gsxx/0ZTZ/2WSEOwyYxr
- EDCpJh40XMtG2OTdgXJL02/X5omijLCV9JB2NHXHkDrLv9wNx5a9fXGjfKUy3F0lhTEe
- hmnXBdrKvxVeJ2M5hNGsU2bRRaZU/yeF/d2yhPBZ/vbo5qMU7Pf/Zeu4xzQd/tILMGUf
- 9wVa7xUimRQsMhs8I2ooWhyIiW91jtGl8d73AU5DZCPbAW2aJV7S8knDGzccvSCFIAGK
- XYYnZNcK+zvSZs4S+oTEJp9GvLNjfNv3+EpEB1BBZw+e91dYFNlfBeXNg4N+ATQRyNH9
- j2NQ==
+ bh=zZ4fJ8ClD76WOV59defp1HNsujn8j/wysmVCUMoMFP0=;
+ b=UR+PH3NVHkn0NXOqzrKguYWXOraM6vc+YMLhwexhonJG8F77DnrNQYz/9Oi32n6IZY
+ hZlL47vjA7//LH91lqAnjQLn97I5Vo+uQOT2Mmd2Dn63q/EMVrrHlQ7z/zyp6JLWsxqs
+ lxvzOwrP2RQb+dCGiNci0WZm/2NZcPqe1IwnSjthC31l/f7IFTIDv5x71IwBvf93+VC0
+ KH/KMjo1itzSNE11bqoR8Syfpkg0shlSYQXBydHoh4+awRZYdMObrO029QbuDisy7sll
+ ElVT/CB4tnxnE4FbCm2I0ONWyIQVGy4aFDiuXCQlrYYt0qq7o8pOl51CC0lnDxCtkS9Y
+ 1uNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XAyFJiVGXrC/KZsleNIpi2nk4bcxYAI8Wjviz1KFor4=;
- b=QjBqNYH87l3H231OFhJ6r/Q5kALRV6cBawqMG+qoy9/NmQXduMKKMNt6sV9/JUQ7/B
- 1Lgt4nkJJ83qlT0TM/Mlim5sgYTJIKyUytMQ3uoX7p5n13YI+q133O4XjlavvRADUsuf
- /CHLu3LnTH4qDecUSnl4P94H9F1mWDaRyIKIAZanKwlFAHYLRPIT12knI8XAa9UYQFQW
- NHAUpvk9PJD1FBas76oYok2qH/GU/Wa6fGa02I8m2GZngyr/cTAt2lDdYnOSUDbdpcm+
- W9L5sKbLWEFq1GDMCAbDDJQv/xO6oxz1OQ9UUyQD/9SseHQVclb5DywfeGs/+atX7U3q
- zL9A==
-X-Gm-Message-State: ACrzQf2592naK2kHZkArm7pbGpd/U4UCtJEs+k64cnthZrpQHuU1MVsB
- OgjUHunMOcLDoRVI4pbXcIFkBo1EZ86mTCn2
-X-Google-Smtp-Source: AMsMyM7j6rudLQ3oDGLiRJvO3ouLKzXkm11wgePZ/bzYxd0/dczcHVPABhvm+nv5ewjBPX37znVsPw==
-X-Received: by 2002:a17:903:1c6:b0:185:47ce:f4f0 with SMTP id
- e6-20020a17090301c600b0018547cef4f0mr33699248plh.132.1666611442110; 
- Mon, 24 Oct 2022 04:37:22 -0700 (PDT)
+ bh=zZ4fJ8ClD76WOV59defp1HNsujn8j/wysmVCUMoMFP0=;
+ b=t39wMy+3BOkswA8qCqh9y4hov77ZvGUmksk9igYNAsk8401ZFSVCAgaJqa3agaNsk0
+ MVo69HJBLxAr+D5c83tl7gzkV137ype2yhoPakswLArhToFyyoylr6bOOU+Mbm4M2OYF
+ xRW6uewrFFLDoNCwWRIrOtVm5XbsjlegEP1c+T98wJyt+eMxTDOOwgJML/2OxN0TuOkE
+ JrD52tGEoNIDy/VnR3GVuCpfFBNWzc+clw1om6+fPKYpn9Ti/qcsieYO7Bhz0t+PpAWs
+ mntFHo8vTZFaeHG3WYfknce7WTUliMZugTDV1G+uELStQlTbE2q6KkcFCE3liuBv8vKB
+ QOeg==
+X-Gm-Message-State: ACrzQf2iDEZ9l1Z4eUafmhoBAIkG8BiRejTChXa2b51I3onRDfYxhy0/
+ fMFl9lG6EKLF+XVgcajvYC31aA==
+X-Google-Smtp-Source: AMsMyM4YfAwJenYaMcKn2Z30J0g5OpRvkV9SVYpt/sZWnDEmVOCLuqCwHN7ebOLB73LDTWz/IU7ezA==
+X-Received: by 2002:a17:90b:2317:b0:213:26a3:246f with SMTP id
+ mt23-20020a17090b231700b0021326a3246fmr1763172pjb.148.1666611450483; 
+ Mon, 24 Oct 2022 04:37:30 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.14
+ b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 04:37:21 -0700 (PDT)
+ Mon, 24 Oct 2022 04:37:29 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Subject: [PATCH 12/22] platform/x86: msi-wmi: Use
+Subject: [PATCH 13/22] platform/x86: nvidia-wmi-ec-backlight: Use
  acpi_video_get_backlight_types()
-Date: Mon, 24 Oct 2022 20:35:03 +0900
-Message-Id: <20221024113513.5205-13-akihiko.odaki@daynix.com>
+Date: Mon, 24 Oct 2022 20:35:04 +0900
+Message-Id: <20221024113513.5205-14-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -102,22 +103,22 @@ acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/platform/x86/msi-wmi.c | 2 +-
+ drivers/platform/x86/nvidia-wmi-ec-backlight.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/msi-wmi.c b/drivers/platform/x86/msi-wmi.c
-index fd318cdfe313..3a74f0135fae 100644
---- a/drivers/platform/x86/msi-wmi.c
-+++ b/drivers/platform/x86/msi-wmi.c
-@@ -309,7 +309,7 @@ static int __init msi_wmi_init(void)
- 	}
+diff --git a/drivers/platform/x86/nvidia-wmi-ec-backlight.c b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
+index baccdf658538..a42e3914c73d 100644
+--- a/drivers/platform/x86/nvidia-wmi-ec-backlight.c
++++ b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
+@@ -91,7 +91,7 @@ static int nvidia_wmi_ec_backlight_probe(struct wmi_device *wdev, const void *ct
+ 	int ret;
  
- 	if (wmi_has_guid(MSIWMI_BIOS_GUID) &&
--	    acpi_video_get_backlight_type() == acpi_backlight_vendor) {
-+	    (acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
- 		err = msi_wmi_backlight_setup();
- 		if (err) {
- 			pr_err("Unable to setup backlight device\n");
+ 	/* drivers/acpi/video_detect.c also checks that SOURCE == EC */
+-	if (acpi_video_get_backlight_type() != acpi_backlight_nvidia_wmi_ec)
++	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_NVIDIA_WMI_EC))
+ 		return -ENODEV;
+ 
+ 	/*
 -- 
 2.37.3
 
