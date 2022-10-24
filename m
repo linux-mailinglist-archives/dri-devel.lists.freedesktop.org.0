@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DF160B4C4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 20:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091A860B4FD
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 20:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D91110E6E6;
-	Mon, 24 Oct 2022 18:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8413010E704;
+	Mon, 24 Oct 2022 18:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6F210E6E6
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 18:03:15 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id l6so5094807pjj.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 11:03:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CPf6G/73Hd0s0zh7PYg5rvhdRmvS3jQjXsc+lqFusyc=;
- b=aK7rr4hTJtbRNOulFuHnHfwCjuuBLuXPDU7X6Pd78YSglIK+xG0EewzkI8thUhuudh
- N86uG3cAkJHU/p+sVY9ShGCrZkcqa5TBtFL6vhefQk9kIsXMWEIc2fYjnrlILBuSeiW3
- F/lIbVIHXQNKAR2rGxUAH2e7vlSRoIC7/KD2KLSYQ/xHsK4xBShSigtomJV2HVbTZhCW
- 1KM7jGPx/dsQl67bfJvZeQeYn0yJFZwMmaZn+UQFW+2ZGIXDnYt0ttwLRK1zJYhlNgtb
- J4rEBgm3LG+4czsUZxxbYUqAtw5B3cW5b/1mkAN2vDDXLZLsHRps154Zo5YHnci47hOW
- QZdw==
-X-Gm-Message-State: ACrzQf3snpA7lSKIBzmED90aAepUUPYIz2ApdI2SAkX6OsZw8IT9rj7T
- mxSbjM9XP8jsdw7RDBwlgy5d8A==
-X-Google-Smtp-Source: AMsMyM4Gm7Aig8YT5fRJeyMGddzfvxxYUrUEmpPq2PCQ/RGA1i1Qlql9jRoJlFidSVPdqq8RCQds4g==
-X-Received: by 2002:a17:90a:fe6:b0:212:bfc3:31f5 with SMTP id
- 93-20020a17090a0fe600b00212bfc331f5mr25482041pjz.215.1666634594766; 
- Mon, 24 Oct 2022 11:03:14 -0700 (PDT)
-Received: from localhost ([75.172.140.17]) by smtp.gmail.com with ESMTPSA id
- mj19-20020a17090b369300b002131a9f8dcbsm1291814pjb.46.2022.10.24.11.03.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 11:03:14 -0700 (PDT)
-From: Kevin Hilman <khilman@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Paul Walmsley <paul@pwsan.com>, Aaro Koskinen <aaro.koskinen@iki.fi>,
- Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>
-Subject: Re: [PATCH 14/17] ARM: omap1: remove dead code
-In-Reply-To: <20221019150410.3851944-14-arnd@kernel.org>
-References: <20221019144119.3848027-1-arnd@kernel.org>
- <20221019150410.3851944-1-arnd@kernel.org>
- <20221019150410.3851944-14-arnd@kernel.org>
-Date: Mon, 24 Oct 2022 11:03:13 -0700
-Message-ID: <7hbkq1hzfi.fsf@baylibre.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6450810E6D3;
+ Mon, 24 Oct 2022 18:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666635083; x=1698171083;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=5z5J6hyo+xzhPJHRSqQ2l3yOfGRRo8+TjXETgVVrD8A=;
+ b=FVYR0n9zOXJnS/P/R0ocvn+vdcyRzuQ2zPhFwbEQiqnOADKe1u5j2JbB
+ oYmfXOZ1pMdthwNAj3hU+lzEku1wJtl0Vfz8936vdqyuH4fvxI5HuJ1oa
+ cHmCVRNESbMijTnbstkiNfISqdPzFZgN9zqiNCGAhRpksTBg4siH5Qvw2
+ voD/JM+ySWa1Q8IzwkfAqdR783neBSLpljQ0xaGKCwm/u8LQXtS5fPMjU
+ aR3MkmKisShWTpNJRPZraZpMgmD+B3iqrpLWBYUzdt3upeMoaG9WeRmBK
+ JCS7sJdNoMUuCYKKDIZun829SJNkb0Fe7LyCCNYJF6LzV/JldhpQei70b Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="371707016"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="371707016"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 11:11:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609286400"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; d="scan'208";a="609286400"
+Received: from emontau-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.52.221])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2022 11:11:11 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>, Hans de Goede
+ <hdegoede@redhat.com>
+Subject: Re: [PATCH 00/22] Fallback to native backlight
+In-Reply-To: <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
+ <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
+ <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
+ <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
+ <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
+ <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
+ <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
+Date: Mon, 24 Oct 2022 21:11:08 +0300
+Message-ID: <87o7u1drcz.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,30 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-fbdev@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-omap@vger.kernel.org,
- Bin Liu <b-liu@ti.com>
+Cc: linux-fbdev@vger.kernel.org, Ike Panhc <ike.pan@canonical.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Azael Avalos <coproscefalo@gmail.com>, Mattia Dongili <malattia@linux.it>,
+ Daniel Dadap <ddadap@nvidia.com>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jonathan Woithe <jwoithe@just42.net>, Jonathan Corbet <corbet@lwn.net>, "Lee,
+ Chun-Yi" <jlee@suse.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Robert Moore <robert.moore@intel.com>,
+ linux-acpi@vger.kernel.org, Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+ Len Brown <lenb@kernel.org>, Matthew Garrett <mjg59@srcf.ucam.org>,
+ Kenneth Chan <kenneth.t.chan@gmail.com>,
+ Corentin Chary <corentin.chary@gmail.com>, intel-gfx@lists.freedesktop.org,
+ acpi4asus-user@lists.sourceforge.net, Mark Gross <markgross@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, platform-driver-x86@vger.kernel.org,
+ devel@acpica.org, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ ibm-acpi-devel@lists.sourceforge.net, Jingoo Han <jingoohan1@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arnd Bergmann <arnd@kernel.org> writes:
+On Tue, 25 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> That aside, the first patch in this series can be applied without the 
+> later patches so you may have a look at it. It's fine if you don't merge 
+> it though since it does not fix really a pragmatic bug as its message says.
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> After the removal of the unused board files, I went through the
-> omap1 code to look for code that no longer has any callers
-> and remove that.
->
-> In particular, support for the omap7xx/omap8xx family is now
-> completely unused, so I'm only leaving omap15xx/omap16xx/omap59xx.
+I think it's problematic because it needlessly ties i915 backlight
+operation to existence of backlight devices that may not be related to
+Intel GPU at all. The direction should be multiple supported backlight
+devices, across GPUs and connectors, but only one per display.
 
-Acked-by: Kevin Hilman <khilman@baylibre.com>
+BR,
+Jani.
 
-with a few tears shed since omap7xx/omap8xx was the first family I
-contributed to upstream. :(
 
-Kevin
+-- 
+Jani Nikula, Intel Open Source Graphics Center
