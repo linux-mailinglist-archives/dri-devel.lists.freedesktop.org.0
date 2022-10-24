@@ -1,58 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B2F60B3C3
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 19:15:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB4D60B405
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Oct 2022 19:25:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F79710E55A;
-	Mon, 24 Oct 2022 17:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6725410E58A;
+	Mon, 24 Oct 2022 17:25:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2826110E4E3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 17:15:37 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-13ba86b5ac0so3990473fac.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 10:15:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=30l5lqOYdv1hu91sboQ4QyKkjdkEWUElruOKi6s7Elk=;
- b=TEA4ySfWtQ68NLvBJbiENMd3Mnd+D1i+Nj7KOtT0D9Nuifc8D73tNPIw3ff1wY2MqB
- R3aak4txhnehP3B72M3nBlpph358xYMOsvwGOV8FU+0E23HLMlaSzXp4G53D5Hm/lVme
- 0oNWKvvBXtW5xPqPLx4feCG1tHta07oOWjldpazIsaYhYYYWWpoytRTNiIxsCQfZ0y0C
- Npf1LNWYbvIJlhpd1lFDdMVEl/2Jpci9g7QU09ppNBjvRJijc8gjfs/gLzH7ZMakufQ9
- kR7mtILhCME7w8iRxhhFs1DemK8M/YpkCKbOj3R5z6+uCIOJG1GmYzuPHNVOtb22cXZc
- BnTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=30l5lqOYdv1hu91sboQ4QyKkjdkEWUElruOKi6s7Elk=;
- b=aMYXyeDPfBNzVfd7gxwZ3sp4RXwxPWXd/qiyRz7udYnOYk5mAwcwYXSf3mivh8O3Ew
- lJ5dvMpa+aICDzGWY0UL+fApd1hNnGkMhqhZ9SMjI/LXl5Vlj0fY2AV6D3vPbx+he/Jj
- BUcYgfr+dzsNfVYqOEZmZS+KPLPzxIPyZUsWylNRNv5ojycVQFtPUtIlBua+d8JQi8M/
- WQyDkuV2B2txoJYYa80OeMNNBAfHSAEaMif5CS5BxfZaGD0uMmRSAHps/rWD0xiS4Wlb
- CnGDWhdRalSYC1mPVwl+uoOAoY2eU9fNv87mswKen5dWftA0+DsTEdkqth1VtUX+FhYz
- Hifg==
-X-Gm-Message-State: ACrzQf28cy8uJrtNSA6yiIiuOK9F1O8NKFNbRQx7JxzIJeKXEDzgAQn7
- Je9yhSAlX4BeamXnLwKhlN8cja/N/pBeIIctWbU=
-X-Google-Smtp-Source: AMsMyM4uHsoal4/RNkZVoeM59YIpXXMatwWYNp/GXgB4jKW4yRe1fPs5cE7+bAOzXZOHUEjb+r74ZNw8F3ekcHATzhc=
-X-Received: by 2002:a05:6870:a7a4:b0:136:7c39:979e with SMTP id
- x36-20020a056870a7a400b001367c39979emr21206012oao.96.1666631736390; Mon, 24
- Oct 2022 10:15:36 -0700 (PDT)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2071.outbound.protection.outlook.com [40.107.237.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E317B10E58A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Oct 2022 17:25:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NgP2iaBp2mDmyKfk7AsWi0TIeckFHRo1SrM8Up8NVTtXiHhSPbG5chKFDYdZ6KhXWAq0BzcUmMW/TCiKq7O8MGPlLk/6bmzFk84YGJffYXxROVM44iZQN+SQT8zBghFzHyeScoZ61RS0E96WysYSG/Jt1GuRUjk5e9qaPi3Lj6HhGZfh4yIgla+DF1UEO/G+7mhBthehSfghYOB5CuUVuwcUcnE/6SNB8zwfhm83RtIg1Kjrh8pBHYt54nuf/mgYnFX2CKI2ZLZ2fnErGiNC80KJZxvqz+dHbXC75k6kQwzRPK9gvKTa1gVjASSV/bnxQu5pKYfERLdhWGLXmz9oXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hSc0P8VyFQEzhtPE40zMfEvZRGNM3UH4Cnr2/5SfVeI=;
+ b=Brx2pXa2Q3xk2vSZxfQexJggj2YdyMZsJt1M5kZaJkP2zZJr0ZtNql89WTkrvDMkzSE22gOd1yKQO9jC4TLg8/8uiBu3TLa+fML5+mqpD/ADhKxQLV2kgSwUWLZEnjj4S5JhEF0dAs96s0VCPEHea45zEdY5W7P4v5ziCx3CtVmrqvshVj75IGHpvlljx4mTsZz/ghLGM6on5oGKDwMJab88GBu8tVVHV3nRNNsqAkKncbaqkBbtpYZBwGpRa3nOq7E2yjWDnGcWkpBaFKqpfQguNyHQTebG0cZwrgmzWzc6mhSO/5z2Fds1FxZl4u4nnjO0GWR3hmMtSo+dZ1zdbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hSc0P8VyFQEzhtPE40zMfEvZRGNM3UH4Cnr2/5SfVeI=;
+ b=BOVjHQkjKRQBELHsciTxgBiqhwdL1tSHhmKjshNQKMfv0HcQUQvIEdw7iYIdgZC2Wl+W3uae+LWwB/tHDKND/P/7azLqrrpboyzKbMQIr2DunbwFjUo/JgUFHyHfWNFCxas7gQofVkoFqJlNjGeXmR/vOdzPJZj6NCt6y4roKYA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ IA1PR12MB7493.namprd12.prod.outlook.com (2603:10b6:208:41b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Mon, 24 Oct
+ 2022 17:25:09 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
+ 17:25:09 +0000
+Message-ID: <66d383ed-dbb1-ce8b-5eaa-2600982aa6e6@amd.com>
+Date: Mon, 24 Oct 2022 13:25:06 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [RFC PATCH] drm/scheduler: Set the FIFO schedulig policy as the
+ default
+Content-Language: en-CA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+References: <20221022010945.95560-1-luben.tuikov@amd.com>
+ <cc300dfb-93dd-9bdf-540a-07a3891d863e@amd.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+In-Reply-To: <cc300dfb-93dd-9bdf-540a-07a3891d863e@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT1PR01CA0100.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::9) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
-References: <20221024154055.21473-1-tiwai@suse.de>
-In-Reply-To: <20221024154055.21473-1-tiwai@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Oct 2022 13:15:24 -0400
-Message-ID: <CADnq5_N-4tWLQmxkCSjwp8wAftJ7zLizoHn=YL+EDbJtLd1O+w@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Add HD-audio component notifier support (v4)
-To: Takashi Iwai <tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|IA1PR12MB7493:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1bf76779-debe-42d1-abd4-08dab5e4b36f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pwYxxtrtXt93hF0WX1W90jVcHEg478VN+FfFegkTz74oM69dXSY8aVtvMdbymiRaqW6UFUkbqPlk3FwIivWM5qmZl/ObDIAEIrYuVyA2oArrpL7KDvDjuXEPTjvhN2/aFj5hz3ygrXEAc+Jadmmcg17EseP7GZd8BzHegVYx3fmJWDJPYVEFbDl42X9ApcvUsB4CbMviXnHirmhdbm/u2a2uYnqMImSiIz4AApbDSi4nV1ZFMqrsn8TgmCSyAo66PuzYRrj6frJayDHl4D7ToZmaAH2U9UBQDzcYeyTTJBkYbaLy/bMRRXIm2pwcWKK5qVYdXpx2VrkxA2g0V5oRSO41eyz4NJi1+A35xhHxR1X6/eOHYGRtOYiNrr3hefIntq96BiNWPalmnLQZusxNKa35dXs8W1xvbGWe4b8x4w6Cdj6/pqg3Aab+YsAbTN0TL+Ki2l9Gd9bOfTP5/k4jdGtsYqLB4pj2xnmvM9aL78nXCWGyhiXPrGz6zkOVhxsVYdkhXlfAVdmlV8cUlFydaXf0zVmGAhr0dJGFQdyOVlxiHx1kvibsAjsdcXxt8GbHOIDmh+d5Iv4b2OHHP9qCVKlDYk+cCuIz2sGhWNqPTUBZv9uJkiai75YbOIJweNuP6gt3lyqEuLgNJgOXl3bLLIMPh4oZtbOPA+DLshusR96ZJe5Vmp4pwTD8mXMcYb/q5Pt6lIDea8arHy/M/lZhf0+igrHev62iDXczU7s51dQcPaV3PLK+e5lOssYYNKcpDvww2EKQ/c7q19BDl50Y5G5fQ7pX5/Rn72TLz1Ug3Mo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(376002)(136003)(366004)(346002)(396003)(451199015)(31686004)(36756003)(4001150100001)(2906002)(5660300002)(4326008)(110136005)(44832011)(66946007)(8676002)(66476007)(41300700001)(8936002)(66556008)(316002)(53546011)(26005)(6512007)(31696002)(83380400001)(2616005)(6506007)(38100700002)(186003)(86362001)(66574015)(6666004)(478600001)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0l0NTY3U0twYjdnQ3o1NnhPRnp6eVNtZE1PVXFHaVhXbXVmbmhKM1pxcmx0?=
+ =?utf-8?B?SjNyNTlRNlV6R0k2Nm9JVG0vbkd6YW45U28zQ3E1ZC9WN3g2TTRkWVJlb2pr?=
+ =?utf-8?B?Z1J5YXlrOThWUVB3U0hUdW0vb2l1cHE0OE1EUjM2VWJFaEpGa1Y5L0N3TEFJ?=
+ =?utf-8?B?Q0d1Z0ZoTUdDbEpGaEhVbmNqdzV3L29FWHRqWXBrTUxlN28vcGRTMk9qSTl2?=
+ =?utf-8?B?TDc0ZEJRTldLNFpneE45dm41ZlhQbmhPdUhCTlQrbmtHeCtLS3ZqTlhxaVZu?=
+ =?utf-8?B?TXg1ZDdlNWkyRENIbUNySXNKMWZNTzlXQjlNNWZqZXBxZ3FhYTZ0alh5NkM0?=
+ =?utf-8?B?T1p6d1Z3WVRxajBEVVYvc1U4YkdNcjQ4OFJnZlBOQUhaVkt6cTdETWwxbFY0?=
+ =?utf-8?B?VEZtdGJGbkFpWkxQK2dmTGlJekxFNjB0R1V4TWNDa2ZsSU1aODVWcTRWbmtL?=
+ =?utf-8?B?RG9uODVaMXNQTkJOR29XU290cmNtd1NCYkZhaS9QWEZrTzlGVXhFNmdGUW1u?=
+ =?utf-8?B?OGsxd0Y4cE9IQitMYjF1ZFBSc21UZWpRa1FJSzBITHhRKzA2Y2FuTXlPVTBu?=
+ =?utf-8?B?RXVIOFFRRWtMakgvRnIwcVBDKytzQldJeTdiMFlvMUxEU29wbWZzNE9WRHBu?=
+ =?utf-8?B?YTRLbXU0Zm5tbmIrWHBCa0o1RXdJbFFzaC9MQkNZOEJuRHdXNmREbjdQS2dh?=
+ =?utf-8?B?TU9qVzl2bmRpdDFEYWRQVTRsaTBsV01GanNhb3RSc0ZtL3EvMEJQMGRUZFZN?=
+ =?utf-8?B?WlB6VFcvbWYrcFBkeHVHdDhEcEFkc1EyWHdPbVRMbmFRMmRyTHg2bGJzQmRN?=
+ =?utf-8?B?WUFvUVJNeGY2NGl2V0N6aEFDZnQyRWl6QTJPaDJRSW9pcmE2T1B2Zmg0eXlG?=
+ =?utf-8?B?MXRHVi9VMlpqY2ZJVFE1Z2c0Slh2b2NLRXVSVWdUcEZ5NVAwL1p6ZmNYRnFy?=
+ =?utf-8?B?Q0tTODNxNnFkdDE2NldDV0xXdjhLcWVlOGJGZWtXeUxjbktaQXlwRHczMmVN?=
+ =?utf-8?B?L0tqYTRBcXBwQitzd29kYWQrOW0zaVZuTUxyalR6U3RMNUl0U1Z3S1NndXd1?=
+ =?utf-8?B?VjIrWllCcUx4RUpDQUxYT1ZsTEJzRjB2WENBd3Vic0Y1MnhXSVpjQmllQldM?=
+ =?utf-8?B?WW1CazBSejZPNjlBV2pia2htV1JmK3JZSXZLbmpIVTlQeW4vVnBTTFBqdjhn?=
+ =?utf-8?B?cVFBSnpCY2xLU01sak9DcUQ0bjlvcThTOGVGWXhzQ1BCRXpJYlJ0cVVJaitR?=
+ =?utf-8?B?TVYvWXlkc0NVTFk0SzZyS1ZJd1BuZVE3aW55bnRIMDhScHJHeHFYQmF3THAr?=
+ =?utf-8?B?QTlOUXl1c2Q2TkZRczB1SDVhZENXRmdzdEE3V2owQ2dOWU9XZmhDWXFjUWJq?=
+ =?utf-8?B?L2tUaml6YUFCZU4yekgzVk5kbFpGeUNEUmdQWUF5YmJhQ3p2M3JvYUJiek5G?=
+ =?utf-8?B?TUxhMXJJZHpsOVZCR1lXODRUejBreHArdFRmUlVwZjRYNkZHWE81cVRZZmly?=
+ =?utf-8?B?QitEOUNtanlEdFh3SkFEWkVXdVdhamFCWnhZVm1CT3grNTkvcGlFNFlSTlNo?=
+ =?utf-8?B?b0lKamRRZmxlYjllTjI4MjEvNEJSdEZKcjI5TmN5aXhWL2ZjNC85SWhycGpv?=
+ =?utf-8?B?Sk9SbE53TGpTVnNPdGdpNjlzZ2Y4M1BDUk1CMm9UVzQrbUplRmZnUmQ5TzUw?=
+ =?utf-8?B?dGZlYk01VnJQS1lPTUxvVzYwN05BRnpXeHR4TTdDeFhmaGhIYW40M3RNSFk0?=
+ =?utf-8?B?QTNlMGVwK0lGU01VZXg5dzNVVmpQM05McTBQRy9RL2MybmhkSjJXWDBPdE85?=
+ =?utf-8?B?Zms3cXljZkdMVExDVnoyR0pTbVR2WlZ2Nk4yaGVETUtYbHFUV0IxVGRIYWh6?=
+ =?utf-8?B?eDlxSlZMbDhndCt4NFJRVzdLenFDTkZBQzMwWXovTEI1TDVoV3BSbUpiSzdn?=
+ =?utf-8?B?WUxUaGFJMXh4N0o4SkZQOXhhOTB0OWZ0VUJNVjV4MUliUnU1VURLeFZCMGlD?=
+ =?utf-8?B?SVVFclFyRkR1WkJRbVJXSUV1ek9MNGRlVkpCVWZzajMwOGhLY1RnckpDeTlT?=
+ =?utf-8?B?cjhXNkZmcytrTktMenlXQUtUNm8zbitsZ1B4N00xMG9ZRTZMOTFKUVFCeEZO?=
+ =?utf-8?Q?j5O3yEy0qm/YoqcBrTRPsZhQU?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bf76779-debe-42d1-abd4-08dab5e4b36f
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 17:25:09.5363 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bj67VZzoo9XeVr4+CSkgbddv3e3ijL9Vp+SwvU0KsNm0IrC/mqwfaeb1hYlusBd1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7493
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,272 +128,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Jim Qu <Jim.Qu@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Christian,
 
-Alex
+Can you add an R-B to V1 of this patch, as the v1 is what I'd like pushed.
+I sent it right after this one.
 
-On Mon, Oct 24, 2022 at 11:41 AM Takashi Iwai <tiwai@suse.de> wrote:
->
-> This patch adds the support for the notification of HD-audio hotplug
-> via the already existing drm_audio_component framework to radeon
-> driver.  This allows us more reliable hotplug notification and ELD
-> transfer without accessing HD-audio bus; it's more efficient, and more
-> importantly, it works without waking up the runtime PM.
->
-> The implementation is rather simplistic: radeon driver provides the
-> get_eld ops for HD-audio, and it notifies the audio hotplug via
-> pin_eld_notify callback upon each radeon_audio_enable() call.
-> The pin->id is referred as the port number passed to the notifier
-> callback, and the corresponding connector is looked through the
-> encoder list in the get_eld callback in turn.
->
-> The bind and unbind callbacks handle the device-link so that it
-> assures the PM call order.
->
-> Also, as a gratis bonus, this patch "fixes" the regression by the
-> recent change in HD-audio to be more strict for the HDMI/DP
-> connection, too.  Since the HD-audio HDMI/DP codec requires both the
-> connection bit and the valid ELD to be provided, it started failing on
-> some RADEON gfx boards where the ELD update performed instably.  As
-> this change switches the communication to a direct way between the
-> audio and the graphics drivers, now the system receives the proper
-> ELD, and the HDMI/DP hotplug starts working again.
->
-> [ v2: fix the logic in radeon_audio_component_get_eld to walk the
->   connector list since that is where the EDID lives and we can
->   derive the encoder from the connector because the encoder has
->   not been assigned at this point (i.e., during monitor probe).
->
->   v3: the component binding is moved outside radeon_audio_init() and
->   _fini(), as those are called from suspend/resume, too.
->   Drop modeset lock calls that caused Oops.
->   Moved Kconfig change so that it can be applied on older kernels.
->
->   v4: revive drm_modeset_lock*() again, add the missing
->   device_link_remove() call at unbinding ]
->
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1569
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  drivers/gpu/drm/Kconfig                |   1 +
->  drivers/gpu/drm/radeon/radeon.h        |   7 ++
->  drivers/gpu/drm/radeon/radeon_audio.c  | 113 +++++++++++++++++++++++++
->  drivers/gpu/drm/radeon/radeon_device.c |   3 +
->  4 files changed, 124 insertions(+)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 34f5a092c99e..fa986075e8fb 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -243,6 +243,7 @@ config DRM_RADEON
->          select DRM_KMS_HELPER
->          select DRM_TTM
->         select DRM_TTM_HELPER
-> +       select SND_HDA_COMPONENT if SND_HDA_CORE
->         select POWER_SUPPLY
->         select HWMON
->         select BACKLIGHT_CLASS_DEVICE
-> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-> index 166c18d62f6d..d82424525f5a 100644
-> --- a/drivers/gpu/drm/radeon/radeon.h
-> +++ b/drivers/gpu/drm/radeon/radeon.h
-> @@ -79,6 +79,7 @@
->  #include <drm/ttm/ttm_execbuf_util.h>
->
->  #include <drm/drm_gem.h>
-> +#include <drm/drm_audio_component.h>
->
->  #include "radeon_family.h"
->  #include "radeon_mode.h"
-> @@ -1796,6 +1797,8 @@ struct r600_audio {
->         struct radeon_audio_funcs *hdmi_funcs;
->         struct radeon_audio_funcs *dp_funcs;
->         struct radeon_audio_basic_funcs *funcs;
-> +       struct drm_audio_component *component;
-> +       bool component_registered;
->  };
->
->  /*
-> @@ -2994,6 +2997,10 @@ void radeon_irq_kms_set_irq_n_enabled(struct radeon_device *rdev,
->                                       bool enable, const char *name,
->                                       unsigned n);
->
-> +/* Audio component binding */
-> +void radeon_audio_component_init(struct radeon_device *rdev);
-> +void radeon_audio_component_fini(struct radeon_device *rdev);
-> +
->  #include "radeon_object.h"
->
->  #endif
-> diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
-> index 7c5e80d03fc9..4ceb90556127 100644
-> --- a/drivers/gpu/drm/radeon/radeon_audio.c
-> +++ b/drivers/gpu/drm/radeon/radeon_audio.c
-> @@ -23,6 +23,7 @@
->   */
->
->  #include <linux/gcd.h>
-> +#include <linux/component.h>
->
->  #include <drm/drm_crtc.h>
->  #include "dce6_afmt.h"
-> @@ -180,6 +181,9 @@ static struct radeon_audio_funcs dce6_dp_funcs = {
->         .dpms = evergreen_dp_enable,
->  };
->
-> +static void radeon_audio_component_notify(struct drm_audio_component *acomp,
-> +                                         int port);
-> +
->  static void radeon_audio_enable(struct radeon_device *rdev,
->                                 struct r600_audio_pin *pin, u8 enable_mask)
->  {
-> @@ -207,6 +211,8 @@ static void radeon_audio_enable(struct radeon_device *rdev,
->
->         if (rdev->audio.funcs->enable)
->                 rdev->audio.funcs->enable(rdev, pin, enable_mask);
-> +
-> +       radeon_audio_component_notify(rdev->audio.component, pin->id);
->  }
->
->  static void radeon_audio_interface_init(struct radeon_device *rdev)
-> @@ -721,3 +727,110 @@ unsigned int radeon_audio_decode_dfs_div(unsigned int div)
->         else
->                 return 0;
->  }
-> +
-> +/*
-> + * Audio component support
-> + */
-> +static void radeon_audio_component_notify(struct drm_audio_component *acomp,
-> +                                         int port)
-> +{
-> +       if (acomp && acomp->audio_ops && acomp->audio_ops->pin_eld_notify)
-> +               acomp->audio_ops->pin_eld_notify(acomp->audio_ops->audio_ptr,
-> +                                                port, -1);
-> +}
-> +
-> +static int radeon_audio_component_get_eld(struct device *kdev, int port,
-> +                                         int pipe, bool *enabled,
-> +                                         unsigned char *buf, int max_bytes)
-> +{
-> +       struct drm_device *dev = dev_get_drvdata(kdev);
-> +       struct drm_encoder *encoder;
-> +       struct radeon_encoder *radeon_encoder;
-> +       struct radeon_encoder_atom_dig *dig;
-> +       struct drm_connector *connector;
-> +       int ret = 0;
-> +
-> +       *enabled = false;
-> +       list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
-> +               const struct drm_connector_helper_funcs *connector_funcs =
-> +                       connector->helper_private;
-> +               encoder = connector_funcs->best_encoder(connector);
-> +
-> +               if (!encoder)
-> +                       continue;
-> +               if (!radeon_encoder_is_digital(encoder))
-> +                       continue;
-> +               radeon_encoder = to_radeon_encoder(encoder);
-> +               dig = radeon_encoder->enc_priv;
-> +               if (!dig->pin || dig->pin->id != port)
-> +                       continue;
-> +               *enabled = true;
-> +               ret = drm_eld_size(connector->eld);
-> +               memcpy(buf, connector->eld, min(max_bytes, ret));
-> +               break;
-> +       }
-> +
-> +       return ret;
-> +}
-> +
-> +static const struct drm_audio_component_ops radeon_audio_component_ops = {
-> +       .get_eld = radeon_audio_component_get_eld,
-> +};
-> +
-> +static int radeon_audio_component_bind(struct device *kdev,
-> +                                      struct device *hda_kdev, void *data)
-> +{
-> +       struct drm_device *dev = dev_get_drvdata(kdev);
-> +       struct radeon_device *rdev = dev->dev_private;
-> +       struct drm_audio_component *acomp = data;
-> +
-> +       if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
-> +               return -ENOMEM;
-> +
-> +       drm_modeset_lock_all(dev);
-> +       acomp->ops = &radeon_audio_component_ops;
-> +       acomp->dev = kdev;
-> +       rdev->audio.component = acomp;
-> +       drm_modeset_unlock_all(dev);
-> +
-> +       return 0;
-> +}
-> +
-> +static void radeon_audio_component_unbind(struct device *kdev,
-> +                                         struct device *hda_kdev, void *data)
-> +{
-> +       struct drm_device *dev = dev_get_drvdata(kdev);
-> +       struct radeon_device *rdev = dev->dev_private;
-> +       struct drm_audio_component *acomp = data;
-> +
-> +       device_link_remove(hda_kdev, kdev);
-> +
-> +       drm_modeset_lock_all(dev);
-> +       rdev->audio.component = NULL;
-> +       acomp->ops = NULL;
-> +       acomp->dev = NULL;
-> +       drm_modeset_unlock_all(dev);
-> +}
-> +
-> +static const struct component_ops radeon_audio_component_bind_ops = {
-> +       .bind   = radeon_audio_component_bind,
-> +       .unbind = radeon_audio_component_unbind,
-> +};
-> +
-> +void radeon_audio_component_init(struct radeon_device *rdev)
-> +{
-> +       if (rdev->audio.component_registered ||
-> +           !radeon_audio || !radeon_audio_chipset_supported(rdev))
-> +               return;
-> +
-> +       if (!component_add(rdev->dev, &radeon_audio_component_bind_ops))
-> +               rdev->audio.component_registered = true;
-> +}
-> +
-> +void radeon_audio_component_fini(struct radeon_device *rdev)
-> +{
-> +       if (rdev->audio.component_registered) {
-> +               component_del(rdev->dev, &radeon_audio_component_bind_ops);
-> +               rdev->audio.component_registered = false;
-> +       }
-> +}
-> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-> index a556b6be1137..17bfbbe906c8 100644
-> --- a/drivers/gpu/drm/radeon/radeon_device.c
-> +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> @@ -1451,6 +1451,8 @@ int radeon_device_init(struct radeon_device *rdev,
->                         goto failed;
->         }
->
-> +       radeon_audio_component_init(rdev);
-> +
->         r = radeon_ib_ring_tests(rdev);
->         if (r)
->                 DRM_ERROR("ib ring test failed (%d).\n", r);
-> @@ -1513,6 +1515,7 @@ void radeon_device_fini(struct radeon_device *rdev)
->         rdev->shutdown = true;
->         /* evict vram memory */
->         radeon_bo_evict_vram(rdev);
-> +       radeon_audio_component_fini(rdev);
->         radeon_fini(rdev);
->         if (!pci_is_thunderbolt_attached(rdev->pdev))
->                 vga_switcheroo_unregister_client(rdev->pdev);
-> --
-> 2.35.3
->
+Regards,
+Luben
+
+On 2022-10-24 06:42, Christian König wrote:
+> Am 22.10.22 um 03:09 schrieb Luben Tuikov:
+>> The currently default Round-Robin GPU scheduling can result in starvation
+>> of entities which have a large number of jobs, over entities which have
+>> a very small number of jobs (single digit).
+>>
+>> This can be illustrated in the following diagram, where jobs are
+>> alphabetized to show their chronological order of arrival, where job A is
+>> the oldest, B is the second oldest, and so on, to J, the most recent job to
+>> arrive.
+>>
+>>      ---> entities
+>> j | H-F-----A--E--I--
+>> o | --G-----B-----J--
+>> b | --------C--------
+>> s\/ --------D--------
+>>
+>> WLOG, asuming all jobs are "ready", then a R-R scheduling will execute them
+>> in the following order (a slice off of the top of the entities' list),
+>>
+>> H, F, A, E, I, G, B, J, C, D.
+>>
+>> However, to mitigate job starvation, we'd rather execute C and D before E,
+>> and so on, given, of course, that they're all ready to be executed.
+>>
+>> So, if all jobs are ready at this instant, the order of execution for this
+>> and the next 9 instances of picking the next job to execute, should really
+>> be,
+>>
+>> A, B, C, D, E, F, G, H, I, J,
+>>
+>> which is their chronological order. The only reason for this order to be
+>> broken, is if an older job is not yet ready, but a younger job is ready, at
+>> an instant of picking a new job to execute. For instance if job C wasn't
+>> ready at time 2, but job D was ready, then we'd pick job D, like this:
+>>
+>> 0 +1 +2  ...
+>> A, B, D, ...
+>>
+>> And from then on, C would be preferred before all other jobs, if it is ready
+>> at the time when a new job for execution is picked. So, if C became ready
+>> two steps later, the execution order would look like this:
+>>
+>> ......0 +1 +2  ...
+>> A, B, D, E, C, F, G, H, I, J
+>>
+>> This is what the FIFO GPU scheduling algorithm achieves. It uses a
+>> Red-Black tree to keep jobs sorted in chronological order, where picking
+>> the oldest job is O(1) (we use the "cached" structure), and balancing the
+>> tree is O(log n). IOW, it picks the *oldest ready* job to execute now.
+>>
+>> The implemntation is already in the kernel, and this commit only changes
+>> the default GPU scheduling algorithm to use.
+>>
+>> This was tested and achieves about 1% faster performance over the Round
+>> Robin algorithm.
+>>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+>> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
+>> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 2fab218d708279..d0ff9e11cb69fa 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -62,13 +62,13 @@
+>>   #define to_drm_sched_job(sched_job)		\
+>>   		container_of((sched_job), struct drm_sched_job, queue_node)
+>>   
+>> -int drm_sched_policy = DRM_SCHED_POLICY_RR;
+>> +int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
+>>   
+>>   /**
+>>    * DOC: sched_policy (int)
+>>    * Used to override default entities scheduling policy in a run queue.
+>>    */
+>> -MODULE_PARM_DESC(sched_policy, "Specify schedule policy for entities on a runqueue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin (default), " __stringify(DRM_SCHED_POLICY_FIFO) " = use FIFO.");
+>> +MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
+>>   module_param_named(sched_policy, drm_sched_policy, int, 0444);
+>>   
+>>   static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
+>>
+>> base-commit: 16d2a3f2ad1d2b95bf9122c910c63b0efe74179d
+> 
+
