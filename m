@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C29C60D5B7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 22:39:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAD460D5C1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 22:40:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03FA10E24B;
-	Tue, 25 Oct 2022 20:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA48010E2FB;
+	Tue, 25 Oct 2022 20:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38CEC10E274
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 20:39:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3731E10E265
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 20:39:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AC16061B95;
- Tue, 25 Oct 2022 20:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD34C433C1;
- Tue, 25 Oct 2022 20:39:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BA70961B98;
+ Tue, 25 Oct 2022 20:39:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F874C433D6;
+ Tue, 25 Oct 2022 20:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666730348;
- bh=8fcKVS7AfBzhVRRFGbvp3IwCPKGe825c+S+gHIvQpD4=;
+ s=k20201202; t=1666730350;
+ bh=LL+baUOB7lW6465yZqZsrPVV98M/NczV4Of/t7DTfVg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dPxd7DCfKp0b1owFL2qCHDzBpXGBIbPB5tEc3UZ6kTQ6RBstcSNpDCZ+VvZiNcikw
- 6mjjA7M5RYjBqpCht5dCOnWAJZM7uH24TQNij5zE1tVoFQ9jeRv4g0q7NZD4L1GBH6
- ONslAoUWPsYiuHp5zIop0jpT1rMlZVP+g8lORze+bAtC2fd0nl+ZQNN8ijimATfk4z
- 3KrzAJbYTPKuotWqtxcr5cuBgknoHC7QSxHZJHybyocEMXGYfYu1eKzVnzKX92m/x4
- 3DhKdiEycjWgxtn8K4lNw62KJIFuc71c1/cH1eCVIHn1EEts59nG0qh/TK3QbbsLgg
- dBHCnIUwTl5qg==
+ b=hOKB+YW0cPiewh7GS3QZKPXq613lrbQWi1B3nMzqMfeEhLc79CcMmWIn3+ANnFhl1
+ I24wya5Zq4J98LnRl8s669mcQ0LUw55+ed9lK7oay/GGxciBzRAfBhBnVzspCUhbzp
+ 4XTuuLd1KyncAWYC1/04s6rBHwk0mq7fL5IhVF4Y3l1C7885iAPum54cNNpc6VTVi9
+ zR4ejQTYLw5r8TLPFmQe0B9eOOTyMW4MhW4/u9ffoZX6WKZy5bPr87GmpeAuMJfTCV
+ HLc8qoJxlCME77dC2hR+eAAqXpFqh9/b9SUABTN9bMxRPyFCXFqGP1/z1IWhlCs854
+ fPb+JSJE6jEuQ==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: David Airlie <airlied@redhat.com>
-Subject: [PATCH v2 5/8] agp/nvidia: Convert to generic power management
-Date: Tue, 25 Oct 2022 15:38:49 -0500
-Message-Id: <20221025203852.681822-6-helgaas@kernel.org>
+Subject: [PATCH v2 6/8] agp/amd64: Update to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Tue, 25 Oct 2022 15:38:50 -0500
+Message-Id: <20221025203852.681822-7-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221025203852.681822-1-helgaas@kernel.org>
 References: <20221025203852.681822-1-helgaas@kernel.org>
@@ -61,106 +62,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Helgaas <bhelgaas@google.com>
 
-Convert agpgart-nvidia from legacy PCI power management to the generic
-power management framework.
+As of 1a3c7bb08826 ("PM: core: Add new *_PM_OPS macros, deprecate old
+ones"), SIMPLE_DEV_PM_OPS() is deprecated in favor of
+DEFINE_SIMPLE_DEV_PM_OPS(), which has the advantage that the PM callbacks
+don't need to be wrapped with #ifdef CONFIG_PM or tagged with
+__maybe_unused.
 
-Previously agpgart-nvidia used legacy PCI power management, and
-agp_nvidia_suspend() and agp_nvidia_resume() were responsible for both
-device-specific things and generic PCI things:
-
-  agp_nvidia_suspend
-    pci_save_state                         <-- generic PCI
-    pci_set_power_state(PCI_D3hot)         <-- generic PCI
-
-  agp_nvidia_resume
-    pci_set_power_state(PCI_D0)            <-- generic PCI
-    pci_restore_state                      <-- generic PCI
-    nvidia_configure                       <-- device-specific
-
-Convert to generic power management where the PCI bus PM methods do the
-generic PCI things, and the driver needs only the device-specific part,
-i.e.,
-
-  suspend_devices_and_enter
-    dpm_suspend_start(PMSG_SUSPEND)
-      pci_pm_suspend                       # PCI bus .suspend() method
-        agp_nvidia_suspend                 <-- not needed at all; removed
-    suspend_enter
-      dpm_suspend_noirq(PMSG_SUSPEND)
-        pci_pm_suspend_noirq               # PCI bus .suspend_noirq() method
-          pci_save_state                   <-- generic PCI
-          pci_prepare_to_sleep             <-- generic PCI
-            pci_set_power_state
-    ...
-    dpm_resume_end(PMSG_RESUME)
-      pci_pm_resume                        # PCI bus .resume() method
-        pci_restore_standard_config
-          pci_set_power_state(PCI_D0)      <-- generic PCI
-          pci_restore_state                <-- generic PCI
-        agp_nvidia_resume                  # driver->pm->resume
-          nvidia_configure                 <-- device-specific
-
-Based on 0aeddbd0cb07 ("via-agp: convert to generic power management") by
-Vaibhav Gupta <vaibhavgupta40@gmail.com>.
+Convert to DEFINE_SIMPLE_DEV_PM_OPS().  No functional change intended.
 
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/char/agp/nvidia-agp.c | 24 ++++--------------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+ drivers/char/agp/amd64-agp.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/char/agp/nvidia-agp.c b/drivers/char/agp/nvidia-agp.c
-index 826dbd06f6bb..dbcbc06cc202 100644
---- a/drivers/char/agp/nvidia-agp.c
-+++ b/drivers/char/agp/nvidia-agp.c
-@@ -404,28 +404,13 @@ static void agp_nvidia_remove(struct pci_dev *pdev)
- 	agp_put_bridge(bridge);
+diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
+index 84a4aa9312cf..ce8651436609 100644
+--- a/drivers/char/agp/amd64-agp.c
++++ b/drivers/char/agp/amd64-agp.c
+@@ -588,9 +588,7 @@ static void agp_amd64_remove(struct pci_dev *pdev)
+ 	agp_bridges_found--;
  }
  
--#ifdef CONFIG_PM
--static int agp_nvidia_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int agp_nvidia_resume(struct device *dev)
+-#define agp_amd64_suspend NULL
+-
+-static int __maybe_unused agp_amd64_resume(struct device *dev)
++static int agp_amd64_resume(struct device *dev)
  {
--	pci_save_state(pdev);
--	pci_set_power_state(pdev, PCI_D3hot);
--
--	return 0;
--}
--
--static int agp_nvidia_resume(struct pci_dev *pdev)
--{
--	/* set power state 0 and restore PCI space */
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--
- 	/* reconfigure AGP hardware again */
- 	nvidia_configure();
+ 	struct pci_dev *pdev = to_pci_dev(dev);
  
- 	return 0;
- }
--#endif
--
- 
- static const struct pci_device_id agp_nvidia_pci_table[] = {
- 	{
-@@ -449,15 +434,14 @@ static const struct pci_device_id agp_nvidia_pci_table[] = {
- 
- MODULE_DEVICE_TABLE(pci, agp_nvidia_pci_table);
- 
-+static DEFINE_SIMPLE_DEV_PM_OPS(agp_nvidia_pm_ops, NULL, agp_nvidia_resume);
-+
- static struct pci_driver agp_nvidia_pci_driver = {
- 	.name		= "agpgart-nvidia",
- 	.id_table	= agp_nvidia_pci_table,
- 	.probe		= agp_nvidia_probe,
- 	.remove		= agp_nvidia_remove,
--#ifdef CONFIG_PM
--	.suspend	= agp_nvidia_suspend,
--	.resume		= agp_nvidia_resume,
--#endif
-+	.driver.pm	= &agp_nvidia_pm_ops,
+@@ -727,7 +725,7 @@ static const struct pci_device_id agp_amd64_pci_promisc_table[] = {
+ 	{ }
  };
  
- static int __init agp_nvidia_init(void)
+-static SIMPLE_DEV_PM_OPS(agp_amd64_pm_ops, agp_amd64_suspend, agp_amd64_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(agp_amd64_pm_ops, NULL, agp_amd64_resume);
+ 
+ static struct pci_driver agp_amd64_pci_driver = {
+ 	.name		= "agpgart-amd64",
 -- 
 2.25.1
 
