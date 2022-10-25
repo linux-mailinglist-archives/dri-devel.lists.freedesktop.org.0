@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFEB60DBBF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 09:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2309D60DBC4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 09:04:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B0BA10E468;
-	Wed, 26 Oct 2022 07:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5508010E46E;
+	Wed, 26 Oct 2022 07:04:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD5A10E169
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 15:16:32 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA8010E413
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 17:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666710993; x=1698246993;
+ t=1666720044; x=1698256044;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=tWQ7+YBE9iaq2+dU7S7Zjh2LGsc+bkuDfsiKq8+p0qk=;
- b=fUB8DFr24KnzmMSnM0GDowV2JEjMiXgQ+HdXEucKZtJZe8Hcquqx0iO5
- B1D5oYhru56sSV3wOl4W5QMSQNu+Mh3D0qg/jGNK5atLgFsxyLUJwx15s
- 72u36RmZjGZhzn197AGzu8wQwJBsV6UGPMH0G4gduNfBCbwvSeqw5Ibrr
- 8CghXVKEHz+3qR44f/SWWjKnKje8ZWhgE/dgX+b2+65YLp9X4wkluGH4E
- hdG096bZ5vt266E99XfEm4s3MK47rjJb4GTO3+4fl/SHlT85Ru6LewL1f
- eTLC5QP2A6Ka+hGPOnaJ1llxSDBmXG9ub7/HU5KkQOu2c1O3bkfieHuqI Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="307699884"
-X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="307699884"
+ bh=0HiRlAQwLkJghhzrAYzK6mmik6hx6RKxbUQIvVnQzYg=;
+ b=D5LPLYh9qA87QWl+H4DH0FhToLrDruimlDC6bhAwISRlE3E0CGTP8KeL
+ 0HL7evzDS8Lh04ArdzqjEbQYZ6CiVJXOdGYpU7PgVm8oe3mB11nhy287C
+ fOEPaoQxgkYuXafUIIIpuApttgUs2JllpeNxWUkeYw74JL7BLmuB+/cp1
+ l9AwZIa9YHn0HaDwlaulQw39aP8CBkLrf4HKkVSjad4V5mEliD7jDn+Sv
+ pu4Kd9rFk5UJE0eKdfbW6q7D0KrvC9eKcn2+WGxjzc3jrkXsvEuolqg1n
+ 41Oo7IAceyT4O7CqiYF/DPKexk33ZS1Z4wGRzSGrMfgoHaEvNdEIY+owf g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="287466465"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="287466465"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2022 08:16:17 -0700
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2022 10:47:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="662840346"
-X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="662840346"
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="662893878"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="662893878"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 25 Oct 2022 08:16:15 -0700
+ by orsmga008.jf.intel.com with ESMTP; 25 Oct 2022 10:47:20 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1onLf4-0006Ng-1C;
- Tue, 25 Oct 2022 15:16:14 +0000
-Date: Tue, 25 Oct 2022 23:15:22 +0800
+ (envelope-from <lkp@intel.com>) id 1onO1H-0006V9-1s;
+ Tue, 25 Oct 2022 17:47:19 +0000
+Date: Wed, 26 Oct 2022 01:46:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [airlied:01.01-gsp-rm 175/180]
- drivers/gpu/drm/nouveau/nvif/outp.c:310:1: warning: the frame size of 2064
- bytes is larger than 2048 bytes
-Message-ID: <202210252335.J4id2D6c-lkp@intel.com>
+Subject: [airlied:01.01-gsp-rm 176/180]
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/r515.c:281:1: warning: no previous
+ prototype for 'r515_fifo_runl_ctor'
+Message-ID: <202210260158.pBFlr1AF-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2DFKNPum6G5u3v3H"
+Content-Type: multipart/mixed; boundary="/RcJ666O3/g4ReN6"
 Content-Disposition: inline
 X-Mailman-Approved-At: Wed, 26 Oct 2022 07:02:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,13 +64,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---2DFKNPum6G5u3v3H
+--/RcJ666O3/g4ReN6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~airlied/linux.git 01.01-gsp-rm
 head:   6be95d5e52818808565790c5ee3fd5569263bd36
-commit: 586e06e70df90697c2b1b500e1030f7538a06164 [175/180] disp
+commit: 9b34aa454a282da29a200ae0a7b6bce5a6d7ac5a [176/180] fifo
 config: sparc-allyesconfig
 compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
@@ -78,7 +78,7 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         git remote add airlied git://people.freedesktop.org/~airlied/linux.git
         git fetch --no-tags airlied 01.01-gsp-rm
-        git checkout 586e06e70df90697c2b1b500e1030f7538a06164
+        git checkout 9b34aa454a282da29a200ae0a7b6bce5a6d7ac5a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/
@@ -88,42 +88,89 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvif/outp.c: In function 'nvif_outp_edid_get':
->> drivers/gpu/drm/nouveau/nvif/outp.c:310:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-     310 | }
-         | ^
+>> drivers/gpu/drm/nouveau/nvkm/engine/fifo/r515.c:281:1: warning: no previous prototype for 'r515_fifo_runl_ctor' [-Wmissing-prototypes]
+     281 | r515_fifo_runl_ctor(struct nvkm_fifo *fifo)
+         | ^~~~~~~~~~~~~~~~~~~
 
 
-vim +310 drivers/gpu/drm/nouveau/nvif/outp.c
+vim +/r515_fifo_runl_ctor +281 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r515.c
 
-   290	
-   291	int
-   292	nvif_outp_edid_get(struct nvif_outp *outp, u8 **pedid)
-   293	{
-   294		struct nvif_outp_edid_get_v0 args;
-   295		int ret;
-   296	
-   297		args.version = 0;
+   279	
+   280	int
+ > 281	r515_fifo_runl_ctor(struct nvkm_fifo *fifo)
+   282	{
+   283		struct nvkm_subdev *subdev = &fifo->engine.subdev;
+   284		struct nvkm_gsp *gsp = subdev->device->gsp;
+   285		struct nvkm_runl *runl;
+   286		int ret;
+   287		NV2080_CTRL_FIFO_GET_DEVICE_INFO_TABLE_PARAMS *ctrl;
+   288	
+   289		//XXX: chid<->userd + per-RL chid
+   290		if ((ret = nvkm_chid_new(&nvkm_chan_event, subdev, 2048, 0, 2048, &fifo->cgid)) ||
+   291		    (ret = nvkm_chid_new(&nvkm_chan_event, subdev, 2048, 0, 2048, &fifo->chid)))
+   292			return ret;
+   293	
+   294		ctrl = nvkm_gsp_rm_ctrl_get(gsp, gsp->client, gsp->subdevice,
+   295					    NV2080_CTRL_CMD_FIFO_GET_DEVICE_INFO_TABLE, sizeof(*ctrl));
+   296		if (WARN_ON(IS_ERR(ctrl)))
+   297			return PTR_ERR(ctrl);
    298	
-   299		ret = nvif_mthd(&outp->object, NVIF_OUTP_V0_EDID_GET, &args, sizeof(args));
-   300		NVIF_ERRON(ret, &outp->object, "[EDID_GET] size:%d", args.size);
-   301		if (ret)
-   302			return ret;
-   303	
-   304		*pedid = kmalloc(args.size, GFP_KERNEL);
-   305		if (WARN_ON(!*pedid))
-   306			return -ENOMEM;
+   299		ctrl = nvkm_gsp_rm_ctrl_push(gsp, ctrl, true, sizeof(*ctrl));
+   300		if (WARN_ON(IS_ERR(ctrl)))
+   301			return PTR_ERR(ctrl);
+   302	
+   303		for (int i = 0; i < ctrl->numEntries; i++) {
+   304			const u32 addr = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_RUNLIST_PRI_BASE];
+   305			const u32 type = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_NV2080];
+   306			const u32 id = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_RUNLIST];
    307	
-   308		memcpy(*pedid, args.data, args.size);
-   309		return args.size;
- > 310	}
-   311	
+   308			runl = nvkm_runl_get(fifo, id, addr);
+   309			if (!runl) {
+   310				runl = nvkm_runl_new(fifo, id, addr, 0 /*XXX: chid<->userd + per-RL chid*/);
+   311				if (WARN_ON(IS_ERR(runl)))
+   312					continue;
+   313			}
+   314	
+   315			switch (type) {
+   316			case 0x01: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_GR, 0); break;
+   317			case 0x09: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 0); break;
+   318			case 0x0a: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 1); break;
+   319			case 0x0b: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 2); break;
+   320			case 0x0c: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 3); break;
+   321			case 0x0d: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 4); break;
+   322			case 0x0e: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 5); break;
+   323			case 0x0f: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 6); break;
+   324			case 0x10: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 7); break;
+   325			case 0x11: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 8); break;
+   326			case 0x12: nvkm_runl_add(runl, type, fifo->func->engn_ce, NVKM_ENGINE_CE, 9); break;
+   327			case 0x13: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVDEC, 0); break;
+   328			case 0x14: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVDEC, 1); break;
+   329			case 0x15: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVDEC, 2); break;
+   330			case 0x16: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVDEC, 3); break;
+   331			case 0x17: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVDEC, 4); break;
+   332			case 0x1b: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVENC, 0); break;
+   333			case 0x1c: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVENC, 1); break;
+   334			case 0x1d: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVENC, 2); break;
+   335			case 0x22: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_SW, 0); break;
+   336			case 0x26: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_SEC2, 0); break;
+   337			case 0x2b: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_NVJPG, 0); break;
+   338			case 0x33: nvkm_runl_add(runl, type, fifo->func->engn   , NVKM_ENGINE_OFA, 0); break;
+   339			default:
+   340				nvkm_warn(&fifo->engine.subdev, "NV2080_ENGINE_TYPE 0x%x\n", type);
+   341				break;
+   342			}
+   343		}
+   344	
+   345		nvkm_gsp_rm_ctrl_done(gsp, ctrl);
+   346		return 0;
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---2DFKNPum6G5u3v3H
+--/RcJ666O3/g4ReN6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -14150,4 +14197,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---2DFKNPum6G5u3v3H--
+--/RcJ666O3/g4ReN6--
