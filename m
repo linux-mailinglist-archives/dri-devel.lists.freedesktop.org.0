@@ -1,141 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9C360CB13
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 13:42:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECB060CB14
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 13:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BB110E31D;
-	Tue, 25 Oct 2022 11:42:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D89110E33C;
+	Tue, 25 Oct 2022 11:42:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A1810E31D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 11:42:03 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29P9joDE032280;
- Tue, 25 Oct 2022 11:42:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2022-7-12;
- bh=3GpSHHcqIpSm8dsdAOgmpWjLm35cy+Mv8SN5vvWg0QI=;
- b=JtJW9MWzTKVmxqkHBNCu7swJMpsWT03awxVHmQ4uF+2SvPk8wPEVEgexWahqmKrcQNGF
- GNzkf0vT9e5Gte0gFsYagPU26vfFgw+OrytrXEQgIZtN90DJ73sunTELsw+c0vRw6CKt
- PHg59zQ0NfKV0RRtTOXQT8zoO7hCWocil1I6jrlMNZT2YntVDPHAG82yKyDLFOBmb8xs
- 8YP16CbtdQojytu/AmqOIft8ivnFL60GrXfkA2fmeKlCtFuSgrsEjIaDvvpse1UQ/xYl
- EvBds1aNnCfzHSXdkSFjjJyoGID8xdktquVM5sr0OyB3aEg4U6154OvvwnN54bXP+DRN 5A== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kc84t300f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Oct 2022 11:42:00 +0000
-Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 29PBE3ln039761; Tue, 25 Oct 2022 11:42:00 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3kc6yajvvt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Oct 2022 11:42:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gyy0+PO5FA/DlevCjF6JYJMiVGch4kuu9s8COtnconbW7qIJwL1ct3OHe8OGoMLmnXTS59h6aMrocjqsQozqKzX28UrtewYyi197DMwGQicrQdEsBRpvX2ilr8aObmMh7yR7XiOapPv+3WSQYZYfjcaAwKKZrgUSz0CmbiAC9RXQCUAbS8StdK+dfAqaGNakMi3n9r/huR3x2yxob1LTvUl5KvwkHVntM0WdaZRupj6Lm1wvaxALUKx/vgXxFDdx7I3VC+cNu2VITRZfx086amUGKi+FFTASEb9E4a08xRxR5jcC/voNboJ7YEJJT6I72Wn/f3rMXSbr2c9zx1uCqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3GpSHHcqIpSm8dsdAOgmpWjLm35cy+Mv8SN5vvWg0QI=;
- b=EPMbVpJQqRNBgeNp4HdIrHG0Gkbj+p5OH2+hRAFBNQHSe3JmWOP8cZs29asY4w6HbZCvbyAXUZXLbzgecTSMD2nvLUaOsrIVm2dziCYB9fyUCvCPwaSTH58FXFWJcwLdsxjaN9mKArw06hnwPyNQS+oQSR92cyFnaB+Ji7fDzpFihgYiCQeZEDWEjunvrHKnPf0DTBSV4XqxXwy6Rau4qqtJFau/d3wlCn7QQCOr2gPMQaYhPQgb+3lAGoirg7Cas5NapFkPLYblP4jizJKm1fDiIhpQrCQAEm0r1jMHpM6+ZMuqT7CpmoGJKZ3YKcchxPUpEDy5x78CTYmIzGzFEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3GpSHHcqIpSm8dsdAOgmpWjLm35cy+Mv8SN5vvWg0QI=;
- b=KlEzcKqlyVq0DsZqoIlLcS/Muex2+k6+htV3UG7whPDow04L+BzavPJzwT7Lb5em7rnFgWrV09cH4nde2iFyEXV536XpqGIM1NDNx1lpOLqvoeS5XqQWOpRilodN9gHbOWqP8v8cc1zDAlGgbqPBoFJiQ0sX2F37PipDfpoUacg=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH7PR10MB6532.namprd10.prod.outlook.com
- (2603:10b6:510:203::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Tue, 25 Oct
- 2022 11:41:58 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::1b8e:540e:10f0:9aec]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::1b8e:540e:10f0:9aec%4]) with mapi id 15.20.5676.031; Tue, 25 Oct 2022
- 11:41:58 +0000
-Date: Tue, 25 Oct 2022 14:41:50 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: dmitry.osipenko@collabora.com
-Subject: [bug report] dma-buf: Move dma_buf_attach() to dynamic locking
- specification
-Message-ID: <Y1fLfsccW3AS/o+/@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: ZR0P278CA0038.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::7) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1615A10E334
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 11:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666698133; x=1698234133;
+ h=message-id:date:mime-version:from:subject:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=OB6wndj2lh5mmlpsJWHt637Dz2iul+STCiB79TZHvuo=;
+ b=VLwjnKBPtZN+ZDUme+spZA1hZw06uO51YF7F92O+T6FfIpq6MrtPRPcc
+ PkclD9m/YEMgpSFadL86sRC7xgZFZSi9TqRvVy4UFHgehVskCZuUBMlXq
+ Zr1/yQan3ZQprdlpxVbGljZDQMJ6yVo6N1wtoQCtQW6x8dVsy1fFWpoKd
+ fQ3rYxKxxtpl0i/w671HF+pewS7kGwJlQ3SXYAfz3aAjYBIzs5nv0Fdjf
+ 1K92p0tzxZ7pviNNhaAZjmYGh4ZpETllzNWcWz66xUZc242pdleBiLCNE
+ 8KZuCUfZptxXCiTxDIlGx7hRNu0xth1Y+Brwa3E4RGk/VFFz6+ybQFoic Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="308745120"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="308745120"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2022 04:42:12 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="664878835"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="664878835"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [172.22.250.37])
+ ([172.22.250.37])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2022 04:42:10 -0700
+Message-ID: <d08ff59d-0a91-02bf-f08e-63b56e63df99@linux.intel.com>
+Date: Tue, 25 Oct 2022 13:42:08 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|PH7PR10MB6532:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e808d31-5205-4208-beeb-08dab67dec6c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jG8LIk8ClS6hFGW4BbOqsUTC7fqYag4qCUo8mnX5ArmhJo+7JJ6IhOmM/JFDL7YmWEUuQmYNb5PVu6LoIb8363F+fRUeidqfrsLNxAGG0OeGzIhAd8fkkggGAxdrZKksc2IcgP/EwJl37dY4gGXe30/P4s/cC4H0ZUxISS2I5DvRF7+2JnyjTo8B24QuCajw4XNjagy6g+pwMmFh9iVpgymYAPhcobEJ1QRJnNSpZseWKDKxwsZiRAvWRX9wvEEoh46AoAkVrlN+itQ/DP0i4yy3d7qLTJ7WBklTwGg4GZAAXciS3S6LT9+PeyA/rbVmbhcTrK3to4P1Q/o7vfBW/tZkeAmOz7GT0yD4vhgT6xiXT3oMu4edK4R+ckRwP9bOgxvXp5w4oFiO6NrsbwNJiOYlX3/q1FayfSt/DwsU8hlP46wGt5JH/BDjYNWcn9vzQ1Ii/XlDljtWyDNpVtTDrxlbW6McjNfa9g9N2ysA5R5ZAalhYWQJTrGHcCiEKrYZHLl++imAYPWj70yskm/r330CrI5q3mRKfBVwhSuojtFmEdt5gT0t9dz3qcedJpNGv/JusUj3buFnCndgu1ggbv8q+uOy3xdmQrv4U6n9f1v12lIUfOmW5/842ejLjOlKBt99iKNknkoRJP3LiseUXgjaMXkQyr8rYzPR0El1rBTsUkMAv4JG2cyKJmBSFZeRhG4hXyqVP+8q8jHe++3KNQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(136003)(39860400002)(366004)(346002)(376002)(396003)(451199015)(66946007)(8676002)(38100700002)(5660300002)(2906002)(44832011)(66476007)(86362001)(66556008)(4326008)(6916009)(8936002)(316002)(41300700001)(9686003)(6512007)(26005)(186003)(33716001)(6666004)(6486002)(83380400001)(478600001)(6506007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?I9aJjkfMvO8UB7iajGfJMNOXmPvrhSRmpxcsVoE+oGx8PrXXyJ6th6Cyy/by?=
- =?us-ascii?Q?h9UuG9oPL8P70Ixd3IZzs+nxvQZbt+AqJsqy2FVlTScjbNpzr6ArK6a7gfru?=
- =?us-ascii?Q?yYvs3iSi9bQFQ7+QIdXR0qXzrER0J6vkjfJ/qkObdMxRBbELyMZwm2rQiCeF?=
- =?us-ascii?Q?k2yFGMHAgjsrHa1NiAHC1NbPIisEJ/3IbSaXRbcQQwJJmRO3TnMJZu1Ls/na?=
- =?us-ascii?Q?yQBDhaaA3jJeYpOyPOacHtUmQD5s2xoSaehp1cQi8H4UGuOt6YwnEJJRUPHY?=
- =?us-ascii?Q?H6yKgRLeeE9PzJz/8hjsFFu7TI4qIDPzypImE/JcWE83805ipZwAYxubeFYG?=
- =?us-ascii?Q?L2HYH2G4hYwGSjVP+NSnWBXNJntMnhbnc2iftK9yHpj5WSlUcAbUUkjaXgi3?=
- =?us-ascii?Q?Xl3ADlh9bCa83IFcrhjugw7tH26zhWJGzfCYVfqd4NGBwGDTX/5AG2PUK4gd?=
- =?us-ascii?Q?T3AE1zMc+iUCYgCVl17mSND4lMb0VH2pGmKxEn0uKJOqM+Rt49UvDnpQ39SN?=
- =?us-ascii?Q?KaddM5FlsdVPVjP1UGtuNtHgppVdFnt3CGIwFusHrLg5NFO0rvTJpc7+ex3t?=
- =?us-ascii?Q?Qc2npDMfwtgJQiA17woPq0x3FA0dAU+9BUT1qxXX8CwP6inzOrnZxY2juaoh?=
- =?us-ascii?Q?f6la4zqBmFzH+GoJfR74PmhYUSH98HSVvaEKz9gwKF08czYXbbLl7gp7xOM1?=
- =?us-ascii?Q?SravQEaPvGTp4X+5skdLV/fWN/NTGnEm0fnPm89NiCJR7sAESoXFVk47qXpj?=
- =?us-ascii?Q?jEj6ZHw0QPgF+3RG5Xhd7yMeTEJ/HdeVXdU0jUstDRHdefKgFIVymt69mkYT?=
- =?us-ascii?Q?q6J5R2Vvh+cxX//wfhJn+pGk5WiK6VYKuJKxKxXWjc7LIHgQ08jtZP3cVxr+?=
- =?us-ascii?Q?KNuACAMhIFmrpsr+fOe9YuTnbgzWIObUFk6L+p80vrDw9sA5Vt/gdhvmFWp/?=
- =?us-ascii?Q?GNw99ExRzNPZLXqsUWX4Um9KZvm20pjgB0NHAr9jpmf4iQnQC8v6a3v8B/ku?=
- =?us-ascii?Q?PVIWkJgsqcqCLGPYxFdhhnHIU0Z3j6YH1VcX9u0NbqXVmKlXj8BPQn/sbFcn?=
- =?us-ascii?Q?42Ga51HgVkb/7nwDJBnULWHv02s3Dz2IemNLki2tkCoXje6Y98QjVoRZ9Kh4?=
- =?us-ascii?Q?SeQrOPy2qHLCiGZ7RDY4D70tEnKzvB8QVt7WKdYbElW1O9wzS3M4fwuUFLdo?=
- =?us-ascii?Q?kQPZqP4+sWRnSAq8a1ax/yNHGBpUlnPigqRQvLCtNBN0FuQMdlpjDB0uMNIB?=
- =?us-ascii?Q?PHONJMt9Q1Xg7xOJ+Oy6JxqsAnZLvbMVIiSczmmZk5rysr0IfIHf1Fm6RZua?=
- =?us-ascii?Q?jVg/MyUtkKlnjb29d1ekNQ7RmHtkPohf5DAGFarpAJ6t+J6QeKe+6xtL9yjy?=
- =?us-ascii?Q?WBLJkI16F6FLQFkGpvhvTEfoKwnDZLC2LRzG2f+gDAik4+J3ezWK9KHhGrOA?=
- =?us-ascii?Q?LLXAqDsZ9kkCPfvsQuOOvs+0m/rr+LD3cWGytl8M2xNNT4EN4WNlhUw8QL8W?=
- =?us-ascii?Q?nZSGSf8jRJ+IlZRo+6tYeXnhNFRS8H6zVa2Bu8udX6SOdknGAQ47Z7hsl3++?=
- =?us-ascii?Q?fYHc+hZwBhxeg4TqC7DpHnRbRobTGhD5p/5XerB4iT0CsgknxlMrBsZqLzqw?=
- =?us-ascii?Q?yw=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e808d31-5205-4208-beeb-08dab67dec6c
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2022 11:41:58.2719 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wIfrovxJfxF+bIWqmympDilhcWwYA9N8eBR4uWPhzutk+hBevzf5othuRv4pAXpP4kQX11Lx5uuZ2Uz1mWRxf6g8/GfCwvDMQwv/+ZfokdU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6532
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-25_05,2022-10-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- suspectscore=0
- mlxlogscore=718 malwarescore=0 spamscore=0 bulkscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210250067
-X-Proofpoint-ORIG-GUID: QBAr7FHPnSTV9R865RPvpvPQ3CcGLROT
-X-Proofpoint-GUID: QBAr7FHPnSTV9R865RPvpvPQ3CcGLROT
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: Re: [PATCH v3 1/7] drm/ivpu: Introduce a new DRM driver for Intel VPU
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20220924151149.323622-1-jacek.lawrynowicz@linux.intel.com>
+ <20220924151149.323622-2-jacek.lawrynowicz@linux.intel.com>
+ <68171df1-1241-cd09-f3bf-12919828b868@quicinc.com>
+Content-Language: en-US
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <68171df1-1241-cd09-f3bf-12919828b868@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,57 +65,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Dmitry Osipenko,
+Hi, thanks for detailed review. My responses inline.
 
-The patch 809d9c72c2f8: "dma-buf: Move dma_buf_attach() to dynamic
-locking specification" from Oct 17, 2022, leads to the following
-Smatch static checker warning:
+On 10/25/2022 1:00 AM, Jeffrey Hugo wrote:
+> On 9/24/2022 9:11 AM, Jacek Lawrynowicz wrote:
+>> VPU stands for Versatile Processing Unit and it's a CPU-integrated
+>> inference accelerator for Computer Vision and Deep Learning
+>> applications.
+>>
+>> The VPU device consist of following componensts:
+>>    - Buttress - provides CPU to VPU integration, interrupt, frequency and
+>>      power management.
+>>    - Memory Management Unit (based on ARM MMU-600) - translates VPU to
+>>      host DMA addresses, isolates user workloads.
+>>    - RISC based microcontroller - executes firmware that provides job
+>>      execution API for the kernel-mode driver
+>>    - Neural Compute Subsystem (NCS) - does the actual work, provides
+>>      Compute and Copy engines.
+>>    - Network on Chip (NoC) - network fabric connecting all the components
+>>
+>> This driver supports VPU IP v2.7 integrated into Intel Meteor Lake
+>> client CPUs (14th generation).
+>>
+>> Module sources are at drivers/gpu/drm/ivpu and module name is
+>> "intel_vpu.ko".
+>>
+>> This patch includes only very besic functionality:
+>>    - module, PCI device and IRQ initialization
+>>    - register definitions and low level register manipulation functions
+>>    - SET/GET_PARAM ioctls
+>>    - power up without firmware
+>>
+>> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> ---
+>>   MAINTAINERS                            |    8 +
+>>   drivers/gpu/drm/Kconfig                |    2 +
+>>   drivers/gpu/drm/Makefile               |    1 +
+>>   drivers/gpu/drm/ivpu/Kconfig           |   12 +
+>>   drivers/gpu/drm/ivpu/Makefile          |    8 +
+>>   drivers/gpu/drm/ivpu/TODO              |    7 +
+>>   drivers/gpu/drm/ivpu/ivpu_drv.c        |  392 +++++++++
+>>   drivers/gpu/drm/ivpu/ivpu_drv.h        |  153 ++++
+>>   drivers/gpu/drm/ivpu/ivpu_hw.h         |  169 ++++
+>>   drivers/gpu/drm/ivpu/ivpu_hw_mtl.c     | 1021 ++++++++++++++++++++++++
+>>   drivers/gpu/drm/ivpu/ivpu_hw_mtl_reg.h |  468 +++++++++++
+>>   drivers/gpu/drm/ivpu/ivpu_hw_reg_io.h  |  115 +++
+>>   include/uapi/drm/ivpu_drm.h            |   95 +++
+>>   13 files changed, 2451 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/ivpu/Kconfig
+>>   create mode 100644 drivers/gpu/drm/ivpu/Makefile
+>>   create mode 100644 drivers/gpu/drm/ivpu/TODO
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_drv.c
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_drv.h
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw.h
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_mtl_reg.h
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_hw_reg_io.h
+>>   create mode 100644 include/uapi/drm/ivpu_drm.h
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 9475aa701a3f..d72ceef107e6 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -7046,6 +7046,14 @@ F:    Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+>>   F:    drivers/gpu/drm/etnaviv/
+>>   F:    include/uapi/drm/etnaviv_drm.h
+>>   +DRM DRIVERS FOR VPU
+>> +M:    Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> +M:    Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>> +S:    Supported
+>> +T:    git git://anongit.freedesktop.org/drm/drm-misc
+>> +F:    drivers/gpu/drm/ivpu/
+>> +F:    include/uapi/drm/ivpu_drm.h
+> 
+> No mail list?
 
-	drivers/dma-buf/dma-buf.c:957 dma_buf_dynamic_attach()
-	error: double unlocked 'dmabuf->resv' (orig line 915)
+OK, I will add a link to dri-devel. 
 
-drivers/dma-buf/dma-buf.c
-   987  /**
-   988   * dma_buf_detach - Remove the given attachment from dmabuf's attachments list
-   989   * @dmabuf:     [in]    buffer to detach from.
-   990   * @attach:     [in]    attachment to be detached; is free'd after this call.
-   991   *
-   992   * Clean up a device attachment obtained by calling dma_buf_attach().
-   993   *
-   994   * Optionally this calls &dma_buf_ops.detach for device-specific detach.
-   995   */
-   996  void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
-   997  {
-   998          if (WARN_ON(!dmabuf || !attach))
-   999                  return;
-  1000  
-  1001          dma_resv_lock(attach->dmabuf->resv, NULL);
+>> +
+>>   DRM DRIVERS FOR XEN
+>>   M:    Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+>>   L:    dri-devel@lists.freedesktop.org
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index 198ba846d34b..0aaac0e5366f 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -364,6 +364,8 @@ source "drivers/gpu/drm/v3d/Kconfig"
+>>     source "drivers/gpu/drm/vc4/Kconfig"
+>>   +source "drivers/gpu/drm/ivpu/Kconfig"
+>> +
+> 
+> Why here of all places?  Just randomly in the middle of the list of sourced Kconfigs?
 
-In the original code used to take this both the "attach->dmabuf->resv"
-and "dmabuf->resv" locks and unlock them both.  But now it takes one
-lock and unlocks the other.  Seems sus.
+I'll move it to the end.
 
-  1002  
-  1003          if (attach->sgt) {
-  1004  
-  1005                  __unmap_dma_buf(attach, attach->sgt, attach->dir);
-  1006  
-  1007                  if (dma_buf_is_dynamic(attach->dmabuf))
-  1008                          dmabuf->ops->unpin(attach);
-  1009          }
-  1010          list_del(&attach->node);
-  1011  
-  1012          dma_resv_unlock(dmabuf->resv);
-  1013  
-  1014          if (dmabuf->ops->detach)
-  1015                  dmabuf->ops->detach(dmabuf, attach);
-  1016  
-  1017          kfree(attach);
-  1018  }
+>>   source "drivers/gpu/drm/etnaviv/Kconfig"
+>>     source "drivers/gpu/drm/hisilicon/Kconfig"
+>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>> index 25d0ba310509..1bfd7415c2d0 100644
+>> --- a/drivers/gpu/drm/Makefile
+>> +++ b/drivers/gpu/drm/Makefile
+>> @@ -94,6 +94,7 @@ obj-$(CONFIG_DRM_KMB_DISPLAY)  += kmb/
+>>   obj-$(CONFIG_DRM_MGAG200) += mgag200/
+>>   obj-$(CONFIG_DRM_V3D)  += v3d/
+>>   obj-$(CONFIG_DRM_VC4)  += vc4/
+>> +obj-$(CONFIG_DRM_IVPU)  += ivpu/
+> 
+> Again, why here?
 
-regards,
-dan carpenter
+I'll move it to the end.
+
+>> diff --git a/drivers/gpu/drm/ivpu/Makefile b/drivers/gpu/drm/ivpu/Makefile
+>> new file mode 100644
+>> index 000000000000..e59dc65abe6a
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ivpu/Makefile
+>> @@ -0,0 +1,8 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +# Copyright © 2022 Intel Corporation
+> 
+> I'm pretty sure (C) is preferred.  Looks like you do this in multiple places.  I'm only going to mention it here.
+
+OK, I'll use (C) everywhere.
+
+>> +int ivpu_dbg_mask;
+>> +module_param_named(dbg_mask, ivpu_dbg_mask, int, 0644);
+>> +MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See IVPU_DBG_* macros.");
+> 
+> Shouldn't this be unnecessary with the DRM_DEBUG levels, or making the things tracepoints?
+
+drm logging doesn't provide the granuality we need.
+We plan to add tracepoints in future patches.
+
+>> +char *ivpu_platform_to_str(u32 platform)
+>> +{
+>> +    switch (platform) {
+>> +    case IVPU_PLATFORM_SILICON:
+>> +        return "IVPU_PLATFORM_SILICON";
+>> +    case IVPU_PLATFORM_SIMICS:
+>> +        return "IVPU_PLATFORM_SIMICS";
+>> +    case IVPU_PLATFORM_FPGA:
+>> +        return "IVPU_PLATFORM_FPGA";
+>> +    default:
+>> +        return "Invalid platform";
+>> +    }
+>> +}
+> 
+> In this entire series, this is only used in this patch, and only in one file.  Seems pointless to define it here, and have it in the header. Why shouldn't this be moved to the file it is used in, and made static?
+
+OK, I'll move it.
+
+>> +static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>> +{
+>> +    struct ivpu_file_priv *file_priv = file->driver_priv;
+>> +    struct ivpu_device *vdev = file_priv->vdev;
+>> +    struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
+>> +    struct drm_ivpu_param *args = data;
+>> +    int ret = 0;
+>> +    switch (args->param) {
+>> +    case DRM_IVPU_PARAM_DEVICE_ID:
+>> +        args->value = pdev->device;
+>> +        break;
+>> +    case DRM_IVPU_PARAM_DEVICE_REVISION:
+>> +        args->value = pdev->revision;
+>> +        break;
+>> +    case DRM_IVPU_PARAM_PLATFORM_TYPE:
+>> +        args->value = vdev->platform;
+>> +        break;
+>> +    case DRM_IVPU_PARAM_CORE_CLOCK_RATE:
+>> +        args->value = ivpu_hw_reg_pll_freq_get(vdev);
+>> +        break;
+>> +    case DRM_IVPU_PARAM_NUM_CONTEXTS:
+>> +        args->value = ivpu_get_context_count(vdev);
+>> +        break;
+>> +    case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
+>> +        args->value = vdev->hw->ranges.user_low.start;
+>> +        break;
+>> +    case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+>> +        args->value = file_priv->priority;
+>> +        break;
+>> +    default:
+>> +        ret = -EINVAL;
+> 
+> This doesn't cause a switch case fallthrough warning?
+
+No, but I will add break for consistency.
+
+>> +static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+>> +{
+>> +    struct ivpu_device *vdev = to_ivpu_device(dev);
+>> +    struct ivpu_file_priv *file_priv;
+>> +
+>> +    file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
+>> +    if (!file_priv)
+>> +        return -ENOMEM;
+>> +
+>> +    file_priv->vdev = vdev;
+>> +    file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
+>> +
+>> +    kref_init(&file_priv->ref);
+> 
+> VFS is going to maintain a refcount on the fd.  This looks like you are duplicating that ref count, which seems pointless.
+> 
+> Later on you use this for jobs, as each job takes a ref, but why would it be valid for jobs to hang around after the fd is closed?
+
+This allows user space to close fd immediately without blocking the process in case the job is still being processed by the HW.
+
+>> +static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
+>> +    DRM_IOCTL_DEF_DRV(IVPU_GET_PARAM, ivpu_get_param_ioctl, DRM_RENDER_ALLOW),
+>> +    DRM_IOCTL_DEF_DRV(IVPU_SET_PARAM, ivpu_set_param_ioctl, DRM_RENDER_ALLOW),
+>> +};
+>> +
+>> +DEFINE_DRM_GEM_FOPS(ivpu_fops);
+>> +
+>> +int ivpu_shutdown(struct ivpu_device *vdev)
+>> +{
+>> +    int ret;
+>> +
+>> +    ivpu_hw_irq_disable(vdev);
+>> +
+>> +    ret = ivpu_hw_power_down(vdev);
+>> +    if (ret)
+>> +        ivpu_warn(vdev, "Failed to power down HW: %d\n", ret);
+>> +
+>> +    return ret;
+>> +}
+> 
+> Feels odd to have this function definition sit between the DEFINE_DRM_GEM_FOPS and the drm_driver
+
+OK, I will move this function up.
+
+>> +static int ivpu_irq_init(struct ivpu_device *vdev)
+>> +{
+>> +    struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
+>> +    int ret;
+>> +
+>> +    ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI | PCI_IRQ_MSIX);
+>> +    if (ret < 0) {
+>> +        ivpu_err(vdev, "Failed to allocate and MSI IRQ: %d\n", ret);
+> 
+> "a MSI"?
+
+Yes, it's a typo. 
+
+>> +static int ivpu_pci_init(struct ivpu_device *vdev)
+>> +{
+>> +    struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
+>> +    struct resource *bar0 = &pdev->resource[0];
+>> +    struct resource *bar4 = &pdev->resource[4];
+>> +    int ret;
+>> +
+>> +    ivpu_dbg(MISC, "Mapping BAR0 (RegV) %pR\n", bar0);
+>> +    vdev->regv = devm_ioremap_resource(vdev->drm.dev, bar0);
+>> +    if (IS_ERR(vdev->regv)) {
+>> +        ivpu_err(vdev, "Failed to map bar 0\n");
+>> +        return -ENOMEM;
+> 
+> You have a particular reason for recasting the error in vdev->regv to ENOMEM?
+
+No, I'll use PTR_ERR.
+
+>> +static struct pci_device_id ivpu_pci_ids[] = {
+>> +    { PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_MTL) },
+> 
+> Why not use include/linux/pci_ids.h for the VID?
+
+Sure, I will use it.
+
+>> +MODULE_AUTHOR("Intel Corporation");
+>> +MODULE_DESCRIPTION(DRIVER_DESC);
+>> +MODULE_LICENSE("GPL and additional rights");
+> 
+> I don't think this is valid.  Pretty sure should just be "GPL".
+
+We have two firmware API headers under MIT. Can we still say "GPL"? Some drivers use "GPL v2", wouldn't this be better as it's more specific?
+
+Regards,
+Jacek
