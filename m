@@ -1,38 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED38F60D5C6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 22:40:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D24D960D6EB
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 00:18:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CD6010E35E;
-	Tue, 25 Oct 2022 20:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF61710E15A;
+	Tue, 25 Oct 2022 22:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cavan.codon.org.uk (irc.codon.org.uk [IPv6:2a00:1098:84:22e::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B3010E35A;
- Tue, 25 Oct 2022 20:40:45 +0000 (UTC)
-Received: by cavan.codon.org.uk (Postfix, from userid 1000)
- id 56B3F4245C; Tue, 25 Oct 2022 21:40:43 +0100 (BST)
-Date: Tue, 25 Oct 2022 21:40:43 +0100
-From: Matthew Garrett <mjg59@srcf.ucam.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
- backlight should be used (v2)
-Message-ID: <20221025204043.GA23306@srcf.ucam.org>
-References: <20220825143726.269890-1-hdegoede@redhat.com>
- <20220825143726.269890-3-hdegoede@redhat.com>
- <f914ceb3-94bd-743c-f8b6-0334086e731a@gmail.com>
- <42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com>
- <20221024203057.GA28675@srcf.ucam.org>
- <8f53b8b6-ead2-22f5-16f7-65b31f7cc05c@redhat.com>
- <20221025193248.GA21457@srcf.ucam.org>
- <144cd47e-42dc-2b84-1a90-ea5e080e08a3@redhat.com>
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66A4610E15A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 22:18:00 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id j6so5450863qvn.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 15:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sBctOic5Jlqwv7dQ/OcbsCcYwMhW7gNKqj7DG4uh3kk=;
+ b=a+L0eQQmLecyw0nknTLcGw/I7RrVyowZfcF3d2y+BIMofaBOYJ4McrsCEwcTEFSYZn
+ NfY/oYnV48cHs+3vHUz4V4HRO6IkWdET4AqUgU5X5zETq4MsZGMdWmxaf5kaAWAIebgA
+ bG1eqDVPEq34MjLvdkr/Z/33gCuG+t+yd/lGVsNphjS8Muzez6O+5RG4geeg8GXQ91Wv
+ 981Ug1LrzbF+aPqzZAHo4+z+csuOF90G6c9/HcojFmO/XCq1MkC8MziiJgdWIWsM3Bc+
+ iMJkp+HJgDHG2WbkPg5NMRv2Fy3+HrfMJJNx2T9GuczkWqDRCHtnbHZyY9wdw8K++6by
+ 664g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sBctOic5Jlqwv7dQ/OcbsCcYwMhW7gNKqj7DG4uh3kk=;
+ b=FW8alyrVBtrIr7Zo7+PUI6JSuYdhm+do44fBW25NwJmCtOn7R0Q2iAk0HVFboVTa2d
+ l48UhyjqaTQ8dpiLnldWokquSslqrS7DQZh4+IvweeQgL1hcjO/CSFI3aei2qHefZSeL
+ ve014AxBPapYvS2BygZ4X1B8VbxR9VeVXawAnzxJDNVfRzhttX+YiYOoHBcgzD/GhlPm
+ ndr022yF122nqmWnUM4jGi7cb74oIlaOZSPpKR7eOFKSNDY5T39IT91EIp9DEhsuG58l
+ PMNkQJ04F4xEFv1/rsle2bB5OoNvV2B4RJ5+yHLos27EGQYVrkrGsgMqYJhjFoJnnjt4
+ uE1g==
+X-Gm-Message-State: ACrzQf0qA5IfXMdS0rKB6NBbfg5vZRzfXKcXU0Yq+rQCVqd6EopoZt8Z
+ B4u3ZtjeZZBNxhktxDsciC+52s6hsU+nrLN1Z9c=
+X-Google-Smtp-Source: AMsMyM7bwRfU/9iNaQbyljheW233pohShNkzDsvX5eCeD0iJDN+6nYrObBDYS85GAmjuVNxoNOwdcyLqfGLtXD+JT/0=
+X-Received: by 2002:a05:6214:e86:b0:4bb:7e1a:9dee with SMTP id
+ hf6-20020a0562140e8600b004bb7e1a9deemr8414735qvb.96.1666736279438; Tue, 25
+ Oct 2022 15:17:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <144cd47e-42dc-2b84-1a90-ea5e080e08a3@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20221025203852.681822-1-helgaas@kernel.org>
+In-Reply-To: <20221025203852.681822-1-helgaas@kernel.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 26 Oct 2022 08:17:47 +1000
+Message-ID: <CAPM=9twkfjHh4SR2aQdB9WTRYEhTdWZG4A-f0n8oB8yw=dZgyw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] agp: Convert to generic power management
+To: Bjorn Helgaas <helgaas@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,41 +64,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pan@freedesktop.org, Karol Herbst <kherbst@redhat.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, amd-gfx@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>, Jani Nikula <jani.nikula@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
+ David Airlie <airlied@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 25, 2022 at 10:25:33PM +0200, Hans de Goede wrote:
+On Wed, 26 Oct 2022 at 06:39, Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> Vaibhav converted several AGP drivers from legacy PCI power management to
+> generic power management [1].  This series converts the rest of them.
 
-> Having the native driver come and then go and be replaced
-> with the vendor driver would also be quite inconvenient
-> for these planned changes.
+Do you want to merge through the PCI tree?
 
-I understand that it would be inconvenient, but you've broken existing 
-working setups.
- 
-> Can you perhaps explain a bit in what way your laptop
-> is weird ?
+Acked-by: Dave Airlie <airlied@redhat.com>
 
-It's a Chinese replacement motherboard for a Thinkpad X201, running my 
-own port of Coreboot. Its DMI strings look like an actual Thinkpad in 
-order to ensure that thinkpad_acpi can bind for hotkey suport, so it's 
-hard to quirk. It'll actually be fixed by your proposed patch to fall 
-back to native rather than vendor, but that patch will break any older 
-machines that offer a vendor interface and don't have the native control 
-hooked up (pretty sure at least the Thinkpad X40 falls into that 
-category).
+Dave.
+>
+> v1 posted at [2].
+>
+> Changes from v1 to v2:
+>   - Convert from SIMPLE_DEV_PM_OPS() (which is deprecated) to
+>     DEFINE_SIMPLE_DEV_PM_OPS() and remove __maybe_unused annotations.
+>
+> [1] https://lore.kernel.org/all/20210112080924.1038907-1-vaibhavgupta40@gmail.com/#t
+> [2] https://lore.kernel.org/all/20220607034340.307318-1-helgaas@kernel.org/
+>
+> Bjorn Helgaas (8):
+>   agp/efficeon: Convert to generic power management
+>   agp/intel: Convert to generic power management
+>   agp/amd-k7: Convert to generic power management
+>   agp/ati: Convert to generic power management
+>   agp/nvidia: Convert to generic power management
+>   agp/amd64: Update to DEFINE_SIMPLE_DEV_PM_OPS()
+>   agp/sis: Update to DEFINE_SIMPLE_DEV_PM_OPS()
+>   agp/via: Update to DEFINE_SIMPLE_DEV_PM_OPS()
+>
+>  drivers/char/agp/amd-k7-agp.c   | 24 ++++--------------------
+>  drivers/char/agp/amd64-agp.c    |  6 ++----
+>  drivers/char/agp/ati-agp.c      | 22 ++++------------------
+>  drivers/char/agp/efficeon-agp.c | 16 ++++------------
+>  drivers/char/agp/intel-agp.c    | 11 +++++------
+>  drivers/char/agp/nvidia-agp.c   | 24 ++++--------------------
+>  drivers/char/agp/sis-agp.c      |  7 ++-----
+>  drivers/char/agp/via-agp.c      |  6 ++----
+>  8 files changed, 27 insertions(+), 89 deletions(-)
+>
+> --
+> 2.25.1
+>
