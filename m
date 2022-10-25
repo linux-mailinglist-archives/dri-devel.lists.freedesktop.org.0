@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF2F60D5B5
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 22:39:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E53460D5C3
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 22:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ECF710E248;
-	Tue, 25 Oct 2022 20:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C15B710E32E;
+	Tue, 25 Oct 2022 20:40:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E25E110E248
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 20:39:05 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80B1A10E41C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 20:39:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 64E3061965;
- Tue, 25 Oct 2022 20:39:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C2C3C433B5;
- Tue, 25 Oct 2022 20:39:04 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EA5FAB81E88;
+ Tue, 25 Oct 2022 20:39:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72DF9C433C1;
+ Tue, 25 Oct 2022 20:39:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666730344;
- bh=bnYxHxTDl/z/W50ryG9bLwzmSvCiz6uSDgFkbYd/EOA=;
+ s=k20201202; t=1666730346;
+ bh=vCVXdFd/vOJXZ5Ft1C9G2B9SS3OtMyZNZFuvq1nhZBU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=quKfNtmqtPTPLTrZWSAl0cLEuhgcf/eTZn6PkksPzNTkKRdt9LLiEKmtPfTHEfH9o
- 0b7yfbmDsdU0GCaUDTH4lMcyUwMh/EyH0E2X38RtiyvIQ9X84gteB04KfLVHlzXheT
- mOboh9mPuZvMcO6kQh9A8c7mvPpYnLV1r3+8OTz+qopU/CPFFbeCBUczRsFa29YRQ1
- h3zgO/hd0veku1Pxl8zzSRHy3UAwl0y5xkICWjD7n7QvTbHirRdKAPXGHMTlXrnYh+
- Gd56kvaSS9CTpc58lccQxt77LbhVxUY6YY4Z6yoylZGawZZOXMx1bGVNwz6zGay2zB
- fHTtavjyJWgew==
+ b=D8wzUcoDPeAJB096khZ8JyEU6r0mOW1CQ/O+2NeKYhPNYW7b8yQvH8TqGLqxkOtw2
+ RHDkkr8PWqIYyp+5rOtSlyeMBPdMtdLTjJdqq4jb2r5FlQLwlWZivRKUuXcahjEV/P
+ FTddle25VtNJDm2ponpgOVIBNE6OixgfF5MNdjk3qb3y7ZBCPjnVny8+ld0ZtRJX6y
+ xhD9mzSCCrnm6qRU6jljCJNSAEn5jCEvEEqhyJnnjjiHwuqf+jdRAjCyG36UENQYZe
+ 9casbCa3wXXas87x9KSs6l8OCIp7aluPD4D5qnHfr9yu+CUoopyMF/bZ0gUVcmBH2h
+ 60NDA9fbqEXnQ==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: David Airlie <airlied@redhat.com>
-Subject: [PATCH v2 3/8] agp/amd-k7: Convert to generic power management
-Date: Tue, 25 Oct 2022 15:38:47 -0500
-Message-Id: <20221025203852.681822-4-helgaas@kernel.org>
+Subject: [PATCH v2 4/8] agp/ati: Convert to generic power management
+Date: Tue, 25 Oct 2022 15:38:48 -0500
+Message-Id: <20221025203852.681822-5-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221025203852.681822-1-helgaas@kernel.org>
 References: <20221025203852.681822-1-helgaas@kernel.org>
@@ -62,31 +62,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Helgaas <bhelgaas@google.com>
 
-Convert agpgart-amdk7 from legacy PCI power management to the generic power
+Convert agpgart-ati from legacy PCI power management to the generic power
 management framework.
 
-Previously agpgart-amdk7 used legacy PCI power management, and
-agp_amdk7_suspend() and agp_amdk7_resume() were responsible for both
+Previously agpgart-ati used legacy PCI power management, and
+agp_ati_suspend() and agp_ati_resume() were responsible for both
 device-specific things and generic PCI things like saving and restoring
 config space and managing power state:
 
-  agp_amdk7_suspend
+  agp_ati_suspend
     pci_save_state                         <-- generic PCI
-    pci_set_power_state                    <-- generic PCI
+    pci_set_power_state(PCI_D3hot)         <-- generic PCI
 
-  agp_amdk7_resume
+  agp_ati_resume
     pci_set_power_state(PCI_D0)            <-- generic PCI
     pci_restore_state                      <-- generic PCI
-    amd_irongate_driver.configure          <-- device-specific
+    ati_configure                          <-- device-specific
 
-Convert to generic power management where the PCI bus PM methods do the
-generic PCI things, and the driver needs only the device-specific part,
-i.e.,
+With generic power management, the PCI bus PM methods do the generic PCI
+things, and the driver needs only the device-specific part, i.e.,
 
   suspend_devices_and_enter
     dpm_suspend_start(PMSG_SUSPEND)
       pci_pm_suspend                       # PCI bus .suspend() method
-        agp_amdk7_suspend                  <-- not needed at all; removed
+        agp_ati_suspend                    <-- not needed at all; removed
     suspend_enter
       dpm_suspend_noirq(PMSG_SUSPEND)
         pci_pm_suspend_noirq               # PCI bus .suspend_noirq() method
@@ -99,68 +98,65 @@ i.e.,
         pci_restore_standard_config
           pci_set_power_state(PCI_D0)      <-- generic PCI
           pci_restore_state                <-- generic PCI
-        agp_amdk7_resume                   # driver->pm->resume
-          amd_irongate_driver.configure    <-- device-specific
+        agp_ati_resume                     # driver->pm->resume
+          ati_configure                    <-- device-specific
 
 Based on 0aeddbd0cb07 ("via-agp: convert to generic power management") by
 Vaibhav Gupta <vaibhavgupta40@gmail.com>.
 
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/char/agp/amd-k7-agp.c | 24 ++++--------------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+ drivers/char/agp/ati-agp.c | 22 ++++------------------
+ 1 file changed, 4 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/char/agp/amd-k7-agp.c b/drivers/char/agp/amd-k7-agp.c
-index 2b2095542816..55397ba765d2 100644
---- a/drivers/char/agp/amd-k7-agp.c
-+++ b/drivers/char/agp/amd-k7-agp.c
-@@ -488,26 +488,11 @@ static void agp_amdk7_remove(struct pci_dev *pdev)
- 	agp_put_bridge(bridge);
+diff --git a/drivers/char/agp/ati-agp.c b/drivers/char/agp/ati-agp.c
+index 6f5530482d83..3c1fce48aabe 100644
+--- a/drivers/char/agp/ati-agp.c
++++ b/drivers/char/agp/ati-agp.c
+@@ -238,23 +238,10 @@ static int ati_configure(void)
  }
  
+ 
 -#ifdef CONFIG_PM
--
--static int agp_amdk7_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int agp_amdk7_resume(struct device *dev)
+-static int agp_ati_suspend(struct pci_dev *dev, pm_message_t state)
++static int agp_ati_resume(struct device *dev)
  {
--	pci_save_state(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+-	pci_save_state(dev);
+-	pci_set_power_state(dev, PCI_D3hot);
 -
 -	return 0;
 -}
 -
--static int agp_amdk7_resume(struct pci_dev *pdev)
+-static int agp_ati_resume(struct pci_dev *dev)
 -{
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
+-	pci_set_power_state(dev, PCI_D0);
+-	pci_restore_state(dev);
 -
- 	return amd_irongate_driver.configure();
+ 	return ati_configure();
  }
- 
--#endif /* CONFIG_PM */
--
- /* must be the same order as name table above */
- static const struct pci_device_id agp_amdk7_pci_table[] = {
- 	{
-@@ -539,15 +524,14 @@ static const struct pci_device_id agp_amdk7_pci_table[] = {
- 
- MODULE_DEVICE_TABLE(pci, agp_amdk7_pci_table);
- 
-+static DEFINE_SIMPLE_DEV_PM_OPS(agp_amdk7_pm_ops, NULL, agp_amdk7_resume);
-+
- static struct pci_driver agp_amdk7_pci_driver = {
- 	.name		= "agpgart-amdk7",
- 	.id_table	= agp_amdk7_pci_table,
- 	.probe		= agp_amdk7_probe,
- 	.remove		= agp_amdk7_remove,
--#ifdef CONFIG_PM
--	.suspend	= agp_amdk7_suspend,
--	.resume		= agp_amdk7_resume,
 -#endif
-+	.driver.pm	= &agp_amdk7_pm_ops,
+ 
+ /*
+  *Since we don't need contiguous memory we just try
+@@ -559,15 +546,14 @@ static const struct pci_device_id agp_ati_pci_table[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, agp_ati_pci_table);
+ 
++static DEFINE_SIMPLE_DEV_PM_OPS(agp_ati_pm_ops, NULL, agp_ati_resume);
++
+ static struct pci_driver agp_ati_pci_driver = {
+ 	.name		= "agpgart-ati",
+ 	.id_table	= agp_ati_pci_table,
+ 	.probe		= agp_ati_probe,
+ 	.remove		= agp_ati_remove,
+-#ifdef CONFIG_PM
+-	.suspend	= agp_ati_suspend,
+-	.resume		= agp_ati_resume,
+-#endif
++	.driver.pm	= &agp_ati_pm_ops,
  };
  
- static int __init agp_amdk7_init(void)
+ static int __init agp_ati_init(void)
 -- 
 2.25.1
 
