@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B4660DBCC
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 09:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFA560DBB5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 09:02:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF3D10E476;
-	Wed, 26 Oct 2022 07:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A5E10E462;
+	Wed, 26 Oct 2022 07:02:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCC3910E339
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 10:23:11 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE82810E347
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 11:54:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666693391; x=1698229391;
+ t=1666698854; x=1698234854;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=ODFM/mIZbqRf8db24p/Y/UQJrDeNx4EAFqQ6Uc02RkA=;
- b=jnPk4HZMrPu66wDv/R42wGXM9l4PtnDWVwdtt9sgVcal5/KOZjaQbQQi
- FE3cEO/N38yrBYVpFsAG1uQ8cg2sY7VNtj0EOT0rqSEOwkKTth3iXd0tU
- n2SFJXZZf/JKm2VPlkTkS4gZvnlI8mGxnQAw9DUa8CTCKdV1XtZFE+gH/
- kM4g6y9c++GVLQ0bgahosDwj3GM63VLuKgIZZxnsbKlxCDsS/g97Iu5rz
- ArZea+cY8eFlD+adt39SX40P0tS5TlaiZPU1BHvqLDf4pwMMVpDF54Pzi
- 6adQw8segOzJhOFnypr49D95HRJCJiIvJA3DvCoLTvlXCX+/+4dI15RF8 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="307634166"
-X-IronPort-AV: E=Sophos;i="5.95,211,1661842800"; d="scan'208";a="307634166"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2022 03:23:10 -0700
+ bh=oa2DLSFvDO3UkZA2o+Xe5PxMKUAocVZA60yZYP5Uoos=;
+ b=emNa3+RAaKLmxAQGsv333T9vt7sKi6k0hXRLLTfMclzPlnhe0UyId5+k
+ c0GkzURTpBF/Z+eFcfttLPK2dHULaxjL+yEddJpWUJFFBbyblu2cZZMs/
+ qfsuK7cJ14CQM/AooZLdEr2+EX2ItgDnMFMiZBbObV3UNfj5S5QqNuwpW
+ XNMDb4YCeA6y5Oz7IpZkQ0Bc2Q7HoWDCir0hjM1qJU+0oYAcKMRvuR5Iq
+ 1bT4NliUkP65xvhNT/3sfXbG//KOaPeItma61KtUile4L/EF/SqIdcHRL
+ QCU4cqDPKGQbcexXYeXXEXQwAo8jrQihr96ETB/6xB1HPxMlwmnmeT+Fn Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="393968697"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="393968697"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2022 04:54:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="662758348"
-X-IronPort-AV: E=Sophos;i="5.95,211,1661842800"; d="scan'208";a="662758348"
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="631603771"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="631603771"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 25 Oct 2022 03:23:07 -0700
+ by orsmga002.jf.intel.com with ESMTP; 25 Oct 2022 04:54:10 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1onH5P-0006AO-0c;
- Tue, 25 Oct 2022 10:23:07 +0000
-Date: Tue, 25 Oct 2022 18:22:33 +0800
+ (envelope-from <lkp@intel.com>) id 1onIVV-0006Ea-2J;
+ Tue, 25 Oct 2022 11:54:09 +0000
+Date: Tue, 25 Oct 2022 19:53:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [airlied:01.01-gsp-rm 122/180]
- drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype
- for 'wpr_generic_header_dump'
-Message-ID: <202210251800.Xq4iG8lu-lkp@intel.com>
+Subject: [airlied:01.01-gsp-rm 173/180]
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:172:1: warning: no previous
+ prototype for 'nvkm_gsp_fwsec_v2'
+Message-ID: <202210251945.QwgX0xEm-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="y24OwbCj5o1R7Zry"
+Content-Type: multipart/mixed; boundary="H9Ieks25tR2H6ZtM"
 Content-Disposition: inline
 X-Mailman-Approved-At: Wed, 26 Oct 2022 07:02:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,19 +59,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org,
- Gourav Samaiya <gsamaiya@nvidia.com>
+Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---y24OwbCj5o1R7Zry
+--H9Ieks25tR2H6ZtM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~airlied/linux.git 01.01-gsp-rm
 head:   6be95d5e52818808565790c5ee3fd5569263bd36
-commit: 1166cf3a6f7c4b35ffe64c6f975efabdeb9cbaaf [122/180] WIPdrm/nouveau/acr/ga102: initial support
+commit: 2428d9aef24a6a497b8740afadbb028c17b5e697 [173/180] drm/nouveau/gsp/tu102-: add support for booting GSP-RM
 config: sparc-allyesconfig
 compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
@@ -79,7 +78,7 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         git remote add airlied git://people.freedesktop.org/~airlied/linux.git
         git fetch --no-tags airlied 01.01-gsp-rm
-        git checkout 1166cf3a6f7c4b35ffe64c6f975efabdeb9cbaaf
+        git checkout 2428d9aef24a6a497b8740afadbb028c17b5e697
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/
@@ -89,39 +88,114 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
-      49 | wpr_generic_header_dump(struct nvkm_subdev *subdev, const struct wpr_generic_header *hdr)
-         | ^~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c: In function 'nvkm_acr_lsfw_load_sig_image_desc_v2':
->> drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
-     221 |                 u32 loc, sig, cnt, *meta;
-         |                     ^~~
---
-   drivers/gpu/drm/nouveau/nvkm/subdev/acr/ga100.c: In function 'ga100_acr_hsfw_ctor':
->> drivers/gpu/drm/nouveau/nvkm/subdev/acr/ga100.c:43:25: warning: implicit conversion from 'enum nvkm_acr_hsf_id' to 'enum nvkm_acr_lsf_id' [-Wenum-conversion]
-      43 |         hsfw->falcon_id = fwif->falcon_id;
-         |                         ^
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:172:1: warning: no previous prototype for 'nvkm_gsp_fwsec_v2' [-Wmissing-prototypes]
+     172 | nvkm_gsp_fwsec_v2(struct nvkm_gsp *gsp, const char *name,
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:222:1: warning: no previous prototype for 'nvkm_gsp_fwsec_v3' [-Wmissing-prototypes]
+     222 | nvkm_gsp_fwsec_v3(struct nvkm_gsp *gsp, const char *name,
+         | ^~~~~~~~~~~~~~~~~
 
 
-vim +/wpr_generic_header_dump +49 drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c
+vim +/nvkm_gsp_fwsec_v2 +172 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
 
-    47	
-    48	void
-  > 49	wpr_generic_header_dump(struct nvkm_subdev *subdev, const struct wpr_generic_header *hdr)
-    50	{
-    51		nvkm_debug(subdev, "wprGenericHeader\n");
-    52		nvkm_debug(subdev, "\tidentifier : %04x\n", hdr->identifier);
-    53		nvkm_debug(subdev, "\tversion    : %04x\n", hdr->version);
-    54		nvkm_debug(subdev, "\tsize       : %08x\n", hdr->size);
-    55	}
-    56	
+   170	
+   171	int
+ > 172	nvkm_gsp_fwsec_v2(struct nvkm_gsp *gsp, const char *name,
+   173			  const struct nvkm_falcon_ucode_desc_v2 *desc, u32 size, u32 init_cmd,
+   174			  struct nvkm_falcon_fw *fw)
+   175	{
+   176		struct nvkm_subdev *subdev = &gsp->subdev;
+   177		const struct firmware *bl;
+   178		const struct nvfw_bin_hdr *hdr;
+   179		const struct nvfw_bl_desc *bld;
+   180		int ret;
+   181	
+   182		/* Build ucode. */
+   183		ret = nvkm_falcon_fw_ctor(gsp->func->fwsec, name, subdev->device, true,
+   184					  (u8 *)desc + size, desc->IMEMLoadSize + desc->DMEMLoadSize,
+   185					  &gsp->falcon, fw);
+   186		if (WARN_ON(ret))
+   187			return ret;
+   188	
+   189		fw->nmem_base_img = 0;
+   190		fw->nmem_base = desc->IMEMPhysBase;
+   191		fw->nmem_size = desc->IMEMLoadSize - desc->IMEMSecSize;
+   192	
+   193		fw->imem_base_img = 0;
+   194		fw->imem_base = desc->IMEMSecBase;
+   195		fw->imem_size = desc->IMEMSecSize;
+   196	
+   197		fw->dmem_base_img = desc->DMEMOffset;
+   198		fw->dmem_base = desc->DMEMPhysBase;
+   199		fw->dmem_size = desc->DMEMLoadSize;
+   200	
+   201		/* Bootloader. */
+   202		ret = nvkm_firmware_get(subdev, "acr/bl", 0, &bl);
+   203		if (ret)
+   204			return ret;
+   205	
+   206		hdr = nvfw_bin_hdr(subdev, bl->data);
+   207		bld = nvfw_bl_desc(subdev, bl->data + hdr->header_offset);
+   208	
+   209		fw->boot_addr = bld->start_tag << 8;
+   210		fw->boot_size = bld->code_size;
+   211		fw->boot = kmemdup(bl->data + hdr->data_offset + bld->code_off, fw->boot_size, GFP_KERNEL);
+   212		if (!fw->boot)
+   213			ret = -ENOMEM;
+   214	
+   215		nvkm_firmware_put(bl);
+   216	
+   217		/* Patch in interface data. */
+   218		return nvkm_gsp_fwsec_patch(gsp, fw, desc->InterfaceOffset, init_cmd);
+   219	}
+   220	
+   221	int
+ > 222	nvkm_gsp_fwsec_v3(struct nvkm_gsp *gsp, const char *name,
+   223			  const struct nvkm_falcon_ucode_desc_v3 *desc, u32 size, u32 init_cmd,
+   224			  struct nvkm_falcon_fw *fw)
+   225	{
+   226		struct nvkm_device *device = gsp->subdev.device;
+   227		struct nvkm_bios *bios = device->bios;
+   228		int ret;
+   229	
+   230		/* Build ucode. */
+   231		ret = nvkm_falcon_fw_ctor(gsp->func->fwsec, name, device, true,
+   232					  (u8 *)desc + size, desc->IMEMLoadSize + desc->DMEMLoadSize,
+   233					  &gsp->falcon, fw);
+   234		if (WARN_ON(ret))
+   235			return ret;
+   236	
+   237		fw->imem_base_img = 0;
+   238		fw->imem_base = desc->IMEMPhysBase;
+   239		fw->imem_size = desc->IMEMLoadSize;
+   240		fw->dmem_base_img = desc->IMEMLoadSize;
+   241		fw->dmem_base = desc->DMEMPhysBase;
+   242		fw->dmem_size = desc->DMEMLoadSize;
+   243		fw->dmem_sign = desc->PKCDataOffset;
+   244		fw->boot_addr = 0;
+   245		fw->fuse_ver = desc->SignatureCount;
+   246		fw->ucode_id = desc->UcodeId;
+   247		fw->engine_id = desc->EngineIdMask;
+   248	
+   249		/* Patch in signature. */
+   250		ret = nvkm_falcon_fw_sign(fw, fw->dmem_base_img + desc->PKCDataOffset, 96 * 4,
+   251					  nvbios_pointer(bios, 0), desc->SignatureCount,
+   252					  (u8 *)desc + 0x2c +
+   253					  (96*4) /*XXX: sig index wrong!!! this gets it to boot */ -
+   254					  (u8 *)nvbios_pointer(bios, 0), 0, 0);
+   255		if (WARN_ON(ret))
+   256			return ret;
+   257	
+   258		/* Patch in interface data. */
+   259		return nvkm_gsp_fwsec_patch(gsp, fw, desc->InterfaceOffset, init_cmd);
+   260	}
+   261	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---y24OwbCj5o1R7Zry
+--H9Ieks25tR2H6ZtM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -14148,4 +14222,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---y24OwbCj5o1R7Zry--
+--H9Ieks25tR2H6ZtM--
