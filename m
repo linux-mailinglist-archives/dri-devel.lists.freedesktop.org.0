@@ -1,63 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8932F60CFF4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 17:07:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E6460D06B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 17:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6D1D10E22D;
-	Tue, 25 Oct 2022 15:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A50C610E22C;
+	Tue, 25 Oct 2022 15:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C1810E169
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 15:07:04 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id z17so5582068qkj.8
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 08:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=21fm5EgPKmeOayQHxWYMU7Nefc1Ipf9I7LMbzYS7TPI=;
- b=Qao3n6VBojqDPD+nyuHaNb8aRuC3dHiWWy2AGSGIeYcnvqBmtYGQkw0ZAnJFMbgl3b
- YXIsxmYnbPg/gkeIi50KEfyRBdnGvB7rOyE6AKwAWbos4tmP+xf33xTqrKYAFctdgjEV
- 5bJSY6/fZwHsi070+kf0Dnmrd9VA6kpKF5vcsJbaF4KkD+ujQ6HfenyTPpf4q34P817v
- Lw/cRjg8xI19gsnwTd7/9PilD6/WIP9eNa1DtNk+gWXZdxuCJP9myXKQJQF5gbDxLWVe
- PS22WiRQZeD4cAN67FUE74f+0buJO7v71DQP6WC4ve5q5Ibyz3V9+9DvZel0/LU50VSx
- rUZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=21fm5EgPKmeOayQHxWYMU7Nefc1Ipf9I7LMbzYS7TPI=;
- b=2pECqM3Oj9DzT5scse+0QayFZ+Ird2RIGIq31hn36ooqqMVnEWDyb92LrICc8U5rwB
- v6LoihAqK88JigO9+hKfr5cLN6zXakzx+atnPEZoWqH7q0JFB8Gxl0FeGjHzaUB7Kz7R
- 64ioDeaqDZ1ZyT4vGInsiDzhbDebjC2Ad81W5kUPNvmGiedoGEpRvLkEYgTN9QEmWGGq
- egGz76trgiCIky/SVsfMxa67y5+BuCWk/e16VrinCmKWft8XnOeFS0SZy8AOUowDeP3o
- vOWnsFuBEMgFxd1V+E/8TB/v3lqgQ3dSoNjb1xye85XRcEh/dZMeqfN5MypV2YnUll7P
- DvYA==
-X-Gm-Message-State: ACrzQf1Fg7p6UHFVbRJO0soiHT5Xw+MFR6ifBX5pHNuYk4Kk/KrFI10F
- VZIJpMgR3SAqSyJwVRcQR1cnicTKJp8hNJPZE3RziQ==
-X-Google-Smtp-Source: AMsMyM5WxUziOboPsxC2N6qlers3FkCq6d6ddxCwWgeTeLHIKEFc0BoQutxorsr/ysGcAgO7sfY3nB5LJLrWXyNsPDs=
-X-Received: by 2002:a05:620a:25c8:b0:6ae:be73:86c6 with SMTP id
- y8-20020a05620a25c800b006aebe7386c6mr25824699qko.531.1666710423705; Tue, 25
- Oct 2022 08:07:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220829093141.45583-1-tomeu.vizoso@collabora.com>
- <20220909141528.5090-1-tomeu.vizoso@collabora.com>
- <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
- <CAKMK7uGkFP1jSNQzv37PvSqvOtt1FnbfbNyYEf99WM=_2AszSw@mail.gmail.com>
-In-Reply-To: <CAKMK7uGkFP1jSNQzv37PvSqvOtt1FnbfbNyYEf99WM=_2AszSw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 25 Oct 2022 16:06:52 +0100
-Message-ID: <CAPj87rPTAhcqSnhzYPdDn93Kh9aGJtN9ZGVAYUP2Ke6w6frH5w@mail.gmail.com>
-Subject: Re: [PATCH v8] drm: Add initial ci/ subdirectory
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1038110E22C;
+ Tue, 25 Oct 2022 15:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666711395; x=1698247395;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=YV1vippgC2ROynVn0Uai4jcMLk3td490b1XjJ9jygMo=;
+ b=GsC5I5y/3WsZfh+YYXkYTiSkZlnkHJyCCOeAIlKnVT+C+pmwntyMC1gQ
+ xTFHwGMfco6fi9edUozlfkkTHXkudEaGNI3qlF63TqfRzugHbjXQNZltv
+ CP4pTVqy2PSIpzTrqzsdgxqjP1EI4NKqr7XAa+Cj5f7mWH4dGe2e6Vzxc
+ D0BYcV4etfW1DKQH5SF9VPDPFl8vriMbg7Ohl8psZn4G9xYr9pu+hvYx6
+ oD+4qxb+U+ZQaWiqKBinbmnIserWTjf9jaE7iVs527K3Yof60ELtCJxeJ
+ 0RC5Kx0SD0y/YdNdoxes+EJu5Y6GFj7w4GsqgpWGAjVccIwuJkSr/H6jX g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="307701823"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="307701823"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2022 08:23:14 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="694993963"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="694993963"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.213.83])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2022 08:23:14 -0700
+Date: Tue, 25 Oct 2022 08:22:42 -0700
+Message-ID: <87lep4orlp.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v4] drm/i915/slpc: Use platform limits for
+ min/max frequency
+In-Reply-To: <20221024225453.4856-1-vinay.belgaumkar@intel.com>
+References: <20221024225453.4856-1-vinay.belgaumkar@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,74 +60,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Carlo Caione <carlo@caione.org>,
- linux-amlogic@lists.infradead.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+On Mon, 24 Oct 2022 15:54:53 -0700, Vinay Belgaumkar wrote:
+>
+> GuC will set the min/max frequencies to theoretical max on
+> ATS-M. This will break kernel ABI, so limit min/max frequency
+> to RP0(platform max) instead.
+>
+> Also modify the SLPC selftest to update the min frequency
+> when we have a server part so that we can iterate between
+> platform min and max.
+>
+> v2: Check softlimits instead of platform limits (Riana)
+> v3: More review comments (Ashutosh)
+> v4: No need to use saved_min_freq and other comments (Ashutosh)
 
-On Tue, 25 Oct 2022 at 08:32, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Fri, 9 Sept 2022 at 19:18, Daniel Stone <daniel@fooishbar.org> wrote:
-> > But equally - and sorry for not jumping on the IRC (?) discussion as I =
-was in the middle of other stuff when it came up - I'm don't think this is =
-the right plan.
-> >
-> > Mesa having all its CI in-tree makes sense, because merges happen rapid=
-ly to a single canonical tree. If the scripts need to be changed for whatev=
-er reason, we can merge something in under an hour and everyone immediately=
- gets it. DRM is quite different though, given the forest of trees we have =
-and the long merge paths between them. I worry that merging the CI scripts =
-in-tree - especially for our initial attempt at it, when we're likely to ne=
-ed to make quite a lot of changes before it settles down to become a stable=
- system that works for everyone - is shooting ourselves in the foot by limi=
-ting our flexibility.
->
-> So the entire "we have multiple trees" is why I want at least the
-> gitlab-ci.yaml in tree, to force people to collaborate more on one
-> thing instead of everyone rolling their own fun and hacking stuff up.
-> And there's still tons of stuff outside in the separate repo, like the
-> lab status so Linus doesn't get a silly history of lab flapping.
->
-> Also wrt "developers don't get the update right away due to
-> backmerge/pull delays", that's why integration trees like drm-tip or
-> linux-next exist. So maybe initially we should make sure the ci
-> patches go in through drm-misc, to maximize how many people see it.
-> And even for mesa it's not fully automatic, you still have the rebase
-> your branch if you picked a bad one for development (but yeah marge
-> does that if the MR is ready). If you're doing kernel development on a
-> linear tree instead of an integration tree, you're doing it very
-> wrong.
->
-> What I think everyone agrees on is that we probably get the split
-> wrong and need to shuffle some files back&forth, and that's something
-> we need to warn Linus about I guess. But somewhere we do need a split
-> between internal and external stuff, and personally I'd like if at
-> least the pure sw testing (build and virtual stuff) could be all in
-> upstream.
->
-> > Given that it's currently very dependent on fd.o infrastructure (publis=
-hed ci-templates, the registry, the specific-tag runners for Collabora/CrOS=
- DUTs, etc), there isn't much of a portability gain in bringing the scripts=
- into the tree either. It's a good goal, but not where we are today.
->
-> I don't think there's huge chances for any non-fdo gitlab anytime
-> soon. Once we get there we might need to figure out how to standardize
-> the hw lab interfacing, and if we have all the sw targets in upstream
-> that should help with shuffling stuff around for a hypothetical LF
-> gitlab CI (or whatever it is).
+OK, much better now overall.
 
-Yep, having talked through things on IRC, I'm happy with where we are;
-let's give it a go and find out.
+> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7030
+>
+> +static void update_server_min_softlimit(struct intel_guc_slpc *slpc)
+> +{
+> +	/* For server parts, SLPC min will be at RPMax.
+> +	 * Use min softlimit to clamp it to RP0 instead.
+> +	 */
+> +	if (!slpc->min_freq_softlimit &&
+> +	    is_slpc_min_freq_rpmax(slpc)) {
+> +		slpc->min_is_rpmax = true;
 
-Acked-by: Daniel Stone <daniels@collabora.com>
+The only remaining issue is slpc->min_is_rpmax is now set but never used so
+it can possibly be removed, or retained for debuggability (I think it's a
+fair reason to retain it). Though I am not sure if we will hit a "variable
+set but never used" error from these clever compilers.
 
-Cheers,
-Daniel
+> +		slpc->min_freq_softlimit = slpc->rp0_freq;
+> +		(slpc_to_gt(slpc))->defaults.min_freq = slpc->min_freq_softlimit;
+> +	}
+> +}
+
+In any case, this is now:
+
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
