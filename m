@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4DB60C9CB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 12:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E07960C9CF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 12:18:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C78E10E31B;
-	Tue, 25 Oct 2022 10:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0732010E038;
+	Tue, 25 Oct 2022 10:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8F6110E318
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 10:17:42 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA3910E31F;
+ Tue, 25 Oct 2022 10:17:50 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 489E62203C;
- Tue, 25 Oct 2022 10:17:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666693061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ApJlR9ZUU7e+/0aJnwD0DxiVTnccSc1E8T9hj/78pJE=;
- b=oExGnmCuIMRuTiMdn/V5CBF0FFthVYSOu51VJjdBuW3cYwfc0OevyDyP0wAWiYD1UIcO1Z
- lS/GP72NU/4tbWUUmHvsDM+xiUCdcCW0cWZSghbBwi+gA9znYFPY3NIGZCCzlGvC1utyh+
- vh0v/KXxQhYAiNTlNIcf4vi0sqOQXFA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666693061;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ApJlR9ZUU7e+/0aJnwD0DxiVTnccSc1E8T9hj/78pJE=;
- b=bbZxs/RkfEIyXecOsmKOEvK35ZqIfQGfHXwvq++IBviZK4vOkL8YTuT7xTBDtVEPntkzDA
- /tHzzGnV2t4UHFCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E97913A64;
- Tue, 25 Oct 2022 10:17:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gA12BsW3V2PkVgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Oct 2022 10:17:41 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, javierm@redhat.com
-Subject: [PATCH v2 2/2] drm/gem: Implement shadow-plane {begin,
- end}_fb_access with vmap
-Date: Tue, 25 Oct 2022 12:17:37 +0200
-Message-Id: <20221025101737.8874-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221025101737.8874-1-tzimmermann@suse.de>
-References: <20221025101737.8874-1-tzimmermann@suse.de>
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9B8C9B81CD1;
+ Tue, 25 Oct 2022 10:17:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AC4FC433C1;
+ Tue, 25 Oct 2022 10:17:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666693067;
+ bh=loBjWPuoKTGF/gO56VzkKo6krQdgRby7JIrG/EzZOSQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=d6ZDNCAcK4F26u54xQf8kDBp/8b3DW5BfO6g1lzeUvpUqST0Kw+Ohe0820AGWKYi+
+ /7Iqw8NZ0p6eQ/pqwMi1Gu67j2R14VHUyxddgBClTRfmn7+eiBCfjsq3GSF79nNNGz
+ 0X7g+J7DfNAmhkRl2i3xi1iShD/jLXV9iOD0Aj/KAyEV5IbzhVMFLMbIuW+YD0HX3T
+ B8i2fs2s6CKT9WlZ6lTFZXa/hnB4DlVRnIIZi1IMECfFVAoF+8Q0qD/kHO/VT7rrxh
+ ahRkwDT3WUrOsLHpVfVQd0i2lzMAzWlJ4qQ4wL0BQod1CCuVzaQiHLp5VsXHdnMHQK
+ 2bogCqmt8gCvw==
+Message-ID: <f36153fe-214c-2904-e155-ab9cee8a2a2c@kernel.org>
+Date: Tue, 25 Oct 2022 12:17:43 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v2 0/8] Fix several device private page reference counting
+ issues
+Content-Language: en-US
+To: Alistair Popple <apopple@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+References: <cover.60659b549d8509ddecafad4f498ee7f03bb23c69.1664366292.git-series.apopple@nvidia.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <cover.60659b549d8509ddecafad4f498ee7f03bb23c69.1664366292.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,185 +57,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the vmap code for shadow-plane helpers from prepare_fb to
-begin_fb_access helpers. Vunmap is now performed at the end of
-the current pageflip, instead of the end of the following pageflip.
+On 9/28/22 14:01, Alistair Popple wrote:
+> This series aims to fix a number of page reference counting issues in
+> drivers dealing with device private ZONE_DEVICE pages. These result in
+> use-after-free type bugs, either from accessing a struct page which no
+> longer exists because it has been removed or accessing fields within the
+> struct page which are no longer valid because the page has been freed.
+> 
+> During normal usage it is unlikely these will cause any problems. However
+> without these fixes it is possible to crash the kernel from userspace.
+> These crashes can be triggered either by unloading the kernel module or
+> unbinding the device from the driver prior to a userspace task exiting. In
+> modules such as Nouveau it is also possible to trigger some of these issues
+> by explicitly closing the device file-descriptor prior to the task exiting
+> and then accessing device private memory.
 
-Reduces the duration of the mapping from while the framebuffer is
-being displayed to just the atomic commit. This is safe as outside
-of the pageflip, nothing should access the mapped buffer memory.
-Unmapping the framebuffer BO memory early allows reduces address-space
-consumption and possibly allows for evicting the memory pages.
+Hi, as this series was noticed to create a CVE [1], do you think a stable
+backport is warranted? I think the "It is possible to launch the attack
+remotely." in [1] is incorrect though, right?
 
-The change is effectively a rename of prepare_fb and cleanup_fb
-implementations, plus updates to the shadow-plane init macro. As
-there's no longer a prepare_fb helper for shadow planes, atomic
-helpers will call drm_gem_plane_helper_prepare_fb() automatically.
+It looks to me that patch 1 would be needed since the CONFIG_DEVICE_PRIVATE
+introduction, while the following few only to kernels with 27674ef6c73f
+(probably not so critical as that includes no LTS)?
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_atomic_helper.c | 47 +++++++++++--------------
- include/drm/drm_gem_atomic_helper.h     | 20 +++++------
- 2 files changed, 31 insertions(+), 36 deletions(-)
+Thanks,
+Vlastimil
 
-diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-index 1de0a08afd86e..e42800718f515 100644
---- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-@@ -360,48 +360,43 @@ void drm_gem_reset_shadow_plane(struct drm_plane *plane)
- EXPORT_SYMBOL(drm_gem_reset_shadow_plane);
- 
- /**
-- * drm_gem_prepare_shadow_fb - prepares shadow framebuffers
-+ * drm_gem_begin_shadow_fb_access - prepares shadow framebuffers for CPU access
-  * @plane: the plane
-  * @plane_state: the plane state of type struct drm_shadow_plane_state
-  *
-- * This function implements struct &drm_plane_helper_funcs.prepare_fb. It
-+ * This function implements struct &drm_plane_helper_funcs.begin_fb_access. It
-  * maps all buffer objects of the plane's framebuffer into kernel address
-- * space and stores them in &struct drm_shadow_plane_state.map. The
-- * framebuffer will be synchronized as part of the atomic commit.
-+ * space and stores them in struct &drm_shadow_plane_state.map. The first data
-+ * bytes are available in struct &drm_shadow_plane_state.data.
-  *
-- * See drm_gem_cleanup_shadow_fb() for cleanup.
-+ * See drm_gem_end_shadow_fb_access() for cleanup.
-  *
-  * Returns:
-  * 0 on success, or a negative errno code otherwise.
-  */
--int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
-+int drm_gem_begin_shadow_fb_access(struct drm_plane *plane, struct drm_plane_state *plane_state)
- {
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
--	int ret;
- 
- 	if (!fb)
- 		return 0;
- 
--	ret = drm_gem_plane_helper_prepare_fb(plane, plane_state);
--	if (ret)
--		return ret;
--
- 	return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
- }
--EXPORT_SYMBOL(drm_gem_prepare_shadow_fb);
-+EXPORT_SYMBOL(drm_gem_begin_shadow_fb_access);
- 
- /**
-- * drm_gem_cleanup_shadow_fb - releases shadow framebuffers
-+ * drm_gem_end_shadow_fb_access - releases shadow framebuffers from CPU access
-  * @plane: the plane
-  * @plane_state: the plane state of type struct drm_shadow_plane_state
-  *
-- * This function implements struct &drm_plane_helper_funcs.cleanup_fb.
-- * This function unmaps all buffer objects of the plane's framebuffer.
-+ * This function implements struct &drm_plane_helper_funcs.end_fb_access. It
-+ * undoes all effects of drm_gem_begin_shadow_fb_access() in reverse order.
-  *
-- * See drm_gem_prepare_shadow_fb() for more information.
-+ * See drm_gem_begin_shadow_fb_access() for more information.
-  */
--void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
-+void drm_gem_end_shadow_fb_access(struct drm_plane *plane, struct drm_plane_state *plane_state)
- {
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
-@@ -411,7 +406,7 @@ void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *
- 
- 	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
- }
--EXPORT_SYMBOL(drm_gem_cleanup_shadow_fb);
-+EXPORT_SYMBOL(drm_gem_end_shadow_fb_access);
- 
- /**
-  * drm_gem_simple_kms_begin_shadow_fb_access - prepares shadow framebuffers for CPU access
-@@ -426,12 +421,12 @@ EXPORT_SYMBOL(drm_gem_cleanup_shadow_fb);
-  * Returns:
-  * 0 on success, or a negative errno code otherwise.
-  */
--int drm_gem_simple_kms_prepare_shadow_fb(struct drm_simple_display_pipe *pipe,
--					 struct drm_plane_state *plane_state)
-+int drm_gem_simple_kms_begin_shadow_fb_access(struct drm_simple_display_pipe *pipe,
-+					      struct drm_plane_state *plane_state)
- {
--	return drm_gem_prepare_shadow_fb(&pipe->plane, plane_state);
-+	return drm_gem_begin_shadow_fb_access(&pipe->plane, plane_state);
- }
--EXPORT_SYMBOL(drm_gem_simple_kms_prepare_shadow_fb);
-+EXPORT_SYMBOL(drm_gem_simple_kms_begin_shadow_fb_access);
- 
- /**
-  * drm_gem_simple_kms_end_shadow_fb_access - releases shadow framebuffers from CPU access
-@@ -444,12 +439,12 @@ EXPORT_SYMBOL(drm_gem_simple_kms_prepare_shadow_fb);
-  *
-  * See drm_gem_simple_kms_begin_shadow_fb_access().
-  */
--void drm_gem_simple_kms_cleanup_shadow_fb(struct drm_simple_display_pipe *pipe,
--					  struct drm_plane_state *plane_state)
-+void drm_gem_simple_kms_end_shadow_fb_access(struct drm_simple_display_pipe *pipe,
-+					     struct drm_plane_state *plane_state)
- {
--	drm_gem_cleanup_shadow_fb(&pipe->plane, plane_state);
-+	drm_gem_end_shadow_fb_access(&pipe->plane, plane_state);
- }
--EXPORT_SYMBOL(drm_gem_simple_kms_cleanup_shadow_fb);
-+EXPORT_SYMBOL(drm_gem_simple_kms_end_shadow_fb_access);
- 
- /**
-  * drm_gem_simple_kms_reset_shadow_plane - resets a shadow-buffered plane
-diff --git a/include/drm/drm_gem_atomic_helper.h b/include/drm/drm_gem_atomic_helper.h
-index 6e3319e9001a7..6970ccb787e23 100644
---- a/include/drm/drm_gem_atomic_helper.h
-+++ b/include/drm/drm_gem_atomic_helper.h
-@@ -103,8 +103,8 @@ void drm_gem_destroy_shadow_plane_state(struct drm_plane *plane,
- 	.atomic_duplicate_state = drm_gem_duplicate_shadow_plane_state, \
- 	.atomic_destroy_state = drm_gem_destroy_shadow_plane_state
- 
--int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state);
--void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state);
-+int drm_gem_begin_shadow_fb_access(struct drm_plane *plane, struct drm_plane_state *plane_state);
-+void drm_gem_end_shadow_fb_access(struct drm_plane *plane, struct drm_plane_state *plane_state);
- 
- /**
-  * DRM_GEM_SHADOW_PLANE_HELPER_FUNCS -
-@@ -115,13 +115,13 @@ void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *
-  * functions.
-  */
- #define DRM_GEM_SHADOW_PLANE_HELPER_FUNCS \
--	.prepare_fb = drm_gem_prepare_shadow_fb, \
--	.cleanup_fb = drm_gem_cleanup_shadow_fb
-+	.begin_fb_access = drm_gem_begin_shadow_fb_access, \
-+	.end_fb_access = drm_gem_end_shadow_fb_access
- 
--int drm_gem_simple_kms_prepare_shadow_fb(struct drm_simple_display_pipe *pipe,
--					 struct drm_plane_state *plane_state);
--void drm_gem_simple_kms_cleanup_shadow_fb(struct drm_simple_display_pipe *pipe,
--					  struct drm_plane_state *plane_state);
-+int drm_gem_simple_kms_begin_shadow_fb_access(struct drm_simple_display_pipe *pipe,
-+					      struct drm_plane_state *plane_state);
-+void drm_gem_simple_kms_end_shadow_fb_access(struct drm_simple_display_pipe *pipe,
-+					     struct drm_plane_state *plane_state);
- void drm_gem_simple_kms_reset_shadow_plane(struct drm_simple_display_pipe *pipe);
- struct drm_plane_state *
- drm_gem_simple_kms_duplicate_shadow_plane_state(struct drm_simple_display_pipe *pipe);
-@@ -137,8 +137,8 @@ void drm_gem_simple_kms_destroy_shadow_plane_state(struct drm_simple_display_pip
-  * functions.
-  */
- #define DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS \
--	.prepare_fb = drm_gem_simple_kms_prepare_shadow_fb, \
--	.cleanup_fb = drm_gem_simple_kms_cleanup_shadow_fb, \
-+	.begin_fb_access = drm_gem_simple_kms_begin_shadow_fb_access, \
-+	.end_fb_access = drm_gem_simple_kms_end_shadow_fb_access, \
- 	.reset_plane = drm_gem_simple_kms_reset_shadow_plane, \
- 	.duplicate_plane_state = drm_gem_simple_kms_duplicate_shadow_plane_state, \
- 	.destroy_plane_state = drm_gem_simple_kms_destroy_shadow_plane_state
--- 
-2.38.0
+[1] https://nvd.nist.gov/vuln/detail/CVE-2022-3523
+
+> This involves some minor changes to both PowerPC and AMD GPU code.
+> Unfortunately I lack hardware to test either of those so any help there
+> would be appreciated. The changes mimic what is done in for both Nouveau
+> and hmm-tests though so I doubt they will cause problems.
+> 
+> To: Andrew Morton <akpm@linux-foundation.org>
+> To: linux-mm@kvack.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> 
+> Alistair Popple (8):
+>   mm/memory.c: Fix race when faulting a device private page
+>   mm: Free device private pages have zero refcount
+>   mm/memremap.c: Take a pgmap reference on page allocation
+>   mm/migrate_device.c: Refactor migrate_vma and migrate_deivce_coherent_page()
+>   mm/migrate_device.c: Add migrate_device_range()
+>   nouveau/dmem: Refactor nouveau_dmem_fault_copy_one()
+>   nouveau/dmem: Evict device private memory during release
+>   hmm-tests: Add test for migrate_device_range()
+> 
+>  arch/powerpc/kvm/book3s_hv_uvmem.c       |  17 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  19 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |   2 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_svm.c     |  11 +-
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c   | 108 +++++++----
+>  include/linux/memremap.h                 |   1 +-
+>  include/linux/migrate.h                  |  15 ++-
+>  lib/test_hmm.c                           | 129 ++++++++++---
+>  lib/test_hmm_uapi.h                      |   1 +-
+>  mm/memory.c                              |  16 +-
+>  mm/memremap.c                            |  30 ++-
+>  mm/migrate.c                             |  34 +--
+>  mm/migrate_device.c                      | 239 +++++++++++++++++-------
+>  mm/page_alloc.c                          |   8 +-
+>  tools/testing/selftests/vm/hmm-tests.c   |  49 +++++-
+>  15 files changed, 516 insertions(+), 163 deletions(-)
+> 
+> base-commit: 088b8aa537c2c767765f1c19b555f21ffe555786
 
