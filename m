@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFA560DBB5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 09:02:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5874660DBBC
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 09:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A5E10E462;
-	Wed, 26 Oct 2022 07:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0B0410E464;
+	Wed, 26 Oct 2022 07:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE82810E347
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 11:54:14 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBE110E3B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 13:35:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666698854; x=1698234854;
+ t=1666704916; x=1698240916;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=oa2DLSFvDO3UkZA2o+Xe5PxMKUAocVZA60yZYP5Uoos=;
- b=emNa3+RAaKLmxAQGsv333T9vt7sKi6k0hXRLLTfMclzPlnhe0UyId5+k
- c0GkzURTpBF/Z+eFcfttLPK2dHULaxjL+yEddJpWUJFFBbyblu2cZZMs/
- qfsuK7cJ14CQM/AooZLdEr2+EX2ItgDnMFMiZBbObV3UNfj5S5QqNuwpW
- XNMDb4YCeA6y5Oz7IpZkQ0Bc2Q7HoWDCir0hjM1qJU+0oYAcKMRvuR5Iq
- 1bT4NliUkP65xvhNT/3sfXbG//KOaPeItma61KtUile4L/EF/SqIdcHRL
- QCU4cqDPKGQbcexXYeXXEXQwAo8jrQihr96ETB/6xB1HPxMlwmnmeT+Fn Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="393968697"
-X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="393968697"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2022 04:54:12 -0700
+ bh=PCdIWEwhQ0+6TNndfOyRSMOht+5CMwOy46UgcQ/II60=;
+ b=A0g0RQ98M1ZdEKCq8lelIN4KvRpbj8FgI9knBLav7bSQIh+3eXwDFqlM
+ +BSw4xpsJYY1BR4EoOIzTzulDpN3KFK/HAG2sKz7otHNKUkUreBiZaEuU
+ ++HVPotqeCLagA1xiUNeejfo4q0zPZE4XPiifQ2a+3l9QArSWvkTcUGks
+ PhmJURrwEK9Agbnmff+3/EkwhT2R+1nFOKhDYfl/U+pM9D+vzHJqxiWpU
+ W5z5HC+x2pmGlLrZXv+onhUutBiCkTQA+EWsqjzwO0zZsEZkwMwNAB0Zq
+ 6OdLmer522cbRSHl0L1/8DHF63yReXnbwfM+rtrgBt1SEpYL7MRG6d/61 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="295076175"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="295076175"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2022 06:35:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="631603771"
-X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="631603771"
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609571527"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; d="scan'208";a="609571527"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 25 Oct 2022 04:54:10 -0700
+ by orsmga006.jf.intel.com with ESMTP; 25 Oct 2022 06:35:12 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1onIVV-0006Ea-2J;
- Tue, 25 Oct 2022 11:54:09 +0000
-Date: Tue, 25 Oct 2022 19:53:23 +0800
+ (envelope-from <lkp@intel.com>) id 1onK5I-0006JA-0Q;
+ Tue, 25 Oct 2022 13:35:12 +0000
+Date: Tue, 25 Oct 2022 21:34:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [airlied:01.01-gsp-rm 173/180]
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:172:1: warning: no previous
- prototype for 'nvkm_gsp_fwsec_v2'
-Message-ID: <202210251945.QwgX0xEm-lkp@intel.com>
+Subject: [airlied:01.01-gsp-rm 174/180]
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:469:1: warning: no previous
+ prototype for 'r515_gsp_rpc_rm_ctrl_done'
+Message-ID: <202210252114.ck1FDSMR-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="H9Ieks25tR2H6ZtM"
+Content-Type: multipart/mixed; boundary="78S/dZwK/VzueKwl"
 Content-Disposition: inline
 X-Mailman-Approved-At: Wed, 26 Oct 2022 07:02:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,13 +64,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---H9Ieks25tR2H6ZtM
+--78S/dZwK/VzueKwl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~airlied/linux.git 01.01-gsp-rm
 head:   6be95d5e52818808565790c5ee3fd5569263bd36
-commit: 2428d9aef24a6a497b8740afadbb028c17b5e697 [173/180] drm/nouveau/gsp/tu102-: add support for booting GSP-RM
+commit: 9fcbca599ef693b7580fc9ce6b930fac7a077b6b [174/180] mmu
 config: sparc-allyesconfig
 compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
@@ -78,7 +78,7 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         git remote add airlied git://people.freedesktop.org/~airlied/linux.git
         git fetch --no-tags airlied 01.01-gsp-rm
-        git checkout 2428d9aef24a6a497b8740afadbb028c17b5e697
+        git checkout 9fcbca599ef693b7580fc9ce6b930fac7a077b6b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/
@@ -88,114 +88,140 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:172:1: warning: no previous prototype for 'nvkm_gsp_fwsec_v2' [-Wmissing-prototypes]
-     172 | nvkm_gsp_fwsec_v2(struct nvkm_gsp *gsp, const char *name,
-         | ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:222:1: warning: no previous prototype for 'nvkm_gsp_fwsec_v3' [-Wmissing-prototypes]
-     222 | nvkm_gsp_fwsec_v3(struct nvkm_gsp *gsp, const char *name,
-         | ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:469:1: warning: no previous prototype for 'r515_gsp_rpc_rm_ctrl_done' [-Wmissing-prototypes]
+     469 | r515_gsp_rpc_rm_ctrl_done(struct nvkm_gsp *gsp, void *repv)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:477:1: warning: no previous prototype for 'r515_gsp_rpc_rm_ctrl_push' [-Wmissing-prototypes]
+     477 | r515_gsp_rpc_rm_ctrl_push(struct nvkm_gsp *gsp, void *argv, bool wait, u32 repc)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:494:1: warning: no previous prototype for 'r515_gsp_rpc_rm_ctrl_get' [-Wmissing-prototypes]
+     494 | r515_gsp_rpc_rm_ctrl_get(struct nvkm_gsp *gsp, u32 client, u32 object, u32 cmd, u32 argc)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:512:1: warning: no previous prototype for 'r515_gsp_rpc_rm_free' [-Wmissing-prototypes]
+     512 | r515_gsp_rpc_rm_free(struct nvkm_gsp *gsp, u32 client, u32 parent, u32 object)
+         | ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:527:1: warning: no previous prototype for 'r515_gsp_rpc_rm_alloc_done' [-Wmissing-prototypes]
+     527 | r515_gsp_rpc_rm_alloc_done(struct nvkm_gsp *gsp, void *repv)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:535:1: warning: no previous prototype for 'r515_gsp_rpc_rm_alloc_push' [-Wmissing-prototypes]
+     535 | r515_gsp_rpc_rm_alloc_push(struct nvkm_gsp *gsp, void *argv, bool wait, u32 repc)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c:552:1: warning: no previous prototype for 'r515_gsp_rpc_rm_alloc_get' [-Wmissing-prototypes]
+     552 | r515_gsp_rpc_rm_alloc_get(struct nvkm_gsp *gsp, u32 client, u32 parent, u32 object,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/nvkm_gsp_fwsec_v2 +172 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
+vim +/r515_gsp_rpc_rm_ctrl_done +469 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r515.c
 
-   170	
-   171	int
- > 172	nvkm_gsp_fwsec_v2(struct nvkm_gsp *gsp, const char *name,
-   173			  const struct nvkm_falcon_ucode_desc_v2 *desc, u32 size, u32 init_cmd,
-   174			  struct nvkm_falcon_fw *fw)
-   175	{
-   176		struct nvkm_subdev *subdev = &gsp->subdev;
-   177		const struct firmware *bl;
-   178		const struct nvfw_bin_hdr *hdr;
-   179		const struct nvfw_bl_desc *bld;
-   180		int ret;
-   181	
-   182		/* Build ucode. */
-   183		ret = nvkm_falcon_fw_ctor(gsp->func->fwsec, name, subdev->device, true,
-   184					  (u8 *)desc + size, desc->IMEMLoadSize + desc->DMEMLoadSize,
-   185					  &gsp->falcon, fw);
-   186		if (WARN_ON(ret))
-   187			return ret;
-   188	
-   189		fw->nmem_base_img = 0;
-   190		fw->nmem_base = desc->IMEMPhysBase;
-   191		fw->nmem_size = desc->IMEMLoadSize - desc->IMEMSecSize;
-   192	
-   193		fw->imem_base_img = 0;
-   194		fw->imem_base = desc->IMEMSecBase;
-   195		fw->imem_size = desc->IMEMSecSize;
-   196	
-   197		fw->dmem_base_img = desc->DMEMOffset;
-   198		fw->dmem_base = desc->DMEMPhysBase;
-   199		fw->dmem_size = desc->DMEMLoadSize;
-   200	
-   201		/* Bootloader. */
-   202		ret = nvkm_firmware_get(subdev, "acr/bl", 0, &bl);
-   203		if (ret)
-   204			return ret;
-   205	
-   206		hdr = nvfw_bin_hdr(subdev, bl->data);
-   207		bld = nvfw_bl_desc(subdev, bl->data + hdr->header_offset);
-   208	
-   209		fw->boot_addr = bld->start_tag << 8;
-   210		fw->boot_size = bld->code_size;
-   211		fw->boot = kmemdup(bl->data + hdr->data_offset + bld->code_off, fw->boot_size, GFP_KERNEL);
-   212		if (!fw->boot)
-   213			ret = -ENOMEM;
-   214	
-   215		nvkm_firmware_put(bl);
-   216	
-   217		/* Patch in interface data. */
-   218		return nvkm_gsp_fwsec_patch(gsp, fw, desc->InterfaceOffset, init_cmd);
-   219	}
-   220	
-   221	int
- > 222	nvkm_gsp_fwsec_v3(struct nvkm_gsp *gsp, const char *name,
-   223			  const struct nvkm_falcon_ucode_desc_v3 *desc, u32 size, u32 init_cmd,
-   224			  struct nvkm_falcon_fw *fw)
-   225	{
-   226		struct nvkm_device *device = gsp->subdev.device;
-   227		struct nvkm_bios *bios = device->bios;
-   228		int ret;
-   229	
-   230		/* Build ucode. */
-   231		ret = nvkm_falcon_fw_ctor(gsp->func->fwsec, name, device, true,
-   232					  (u8 *)desc + size, desc->IMEMLoadSize + desc->DMEMLoadSize,
-   233					  &gsp->falcon, fw);
-   234		if (WARN_ON(ret))
-   235			return ret;
-   236	
-   237		fw->imem_base_img = 0;
-   238		fw->imem_base = desc->IMEMPhysBase;
-   239		fw->imem_size = desc->IMEMLoadSize;
-   240		fw->dmem_base_img = desc->IMEMLoadSize;
-   241		fw->dmem_base = desc->DMEMPhysBase;
-   242		fw->dmem_size = desc->DMEMLoadSize;
-   243		fw->dmem_sign = desc->PKCDataOffset;
-   244		fw->boot_addr = 0;
-   245		fw->fuse_ver = desc->SignatureCount;
-   246		fw->ucode_id = desc->UcodeId;
-   247		fw->engine_id = desc->EngineIdMask;
-   248	
-   249		/* Patch in signature. */
-   250		ret = nvkm_falcon_fw_sign(fw, fw->dmem_base_img + desc->PKCDataOffset, 96 * 4,
-   251					  nvbios_pointer(bios, 0), desc->SignatureCount,
-   252					  (u8 *)desc + 0x2c +
-   253					  (96*4) /*XXX: sig index wrong!!! this gets it to boot */ -
-   254					  (u8 *)nvbios_pointer(bios, 0), 0, 0);
-   255		if (WARN_ON(ret))
-   256			return ret;
-   257	
-   258		/* Patch in interface data. */
-   259		return nvkm_gsp_fwsec_patch(gsp, fw, desc->InterfaceOffset, init_cmd);
-   260	}
-   261	
+   467	
+   468	void
+ > 469	r515_gsp_rpc_rm_ctrl_done(struct nvkm_gsp *gsp, void *repv)
+   470	{
+   471		rpc_gsp_rm_control_v03_00 *rpc = container_of(repv, typeof(*rpc), params);
+   472	
+   473		r515_gsp_rpc_done(gsp, rpc);
+   474	}
+   475	
+   476	void *
+ > 477	r515_gsp_rpc_rm_ctrl_push(struct nvkm_gsp *gsp, void *argv, bool wait, u32 repc)
+   478	{
+   479		rpc_gsp_rm_control_v03_00 *rpc = container_of(argv, typeof(*rpc), params);
+   480	
+   481		rpc = r515_gsp_rpc_push(gsp, rpc, wait, repc);
+   482		if (IS_ERR_OR_NULL(rpc))
+   483			return rpc;
+   484	
+   485		if (rpc->status) {
+   486			nvkm_error(&gsp->subdev, "RM_CTRL: 0x%x\n", rpc->status);
+   487			return ERR_PTR(-EINVAL);
+   488		}
+   489	
+   490		return rpc->params;
+   491	}
+   492	
+   493	void *
+ > 494	r515_gsp_rpc_rm_ctrl_get(struct nvkm_gsp *gsp, u32 client, u32 object, u32 cmd, u32 argc)
+   495	{
+   496		rpc_gsp_rm_control_v03_00 *rpc;
+   497	
+   498		rpc = r515_gsp_rpc_get(gsp, 76, sizeof(*rpc) + argc);
+   499		if (IS_ERR(rpc))
+   500			return rpc;
+   501	
+   502		rpc->hClient    = client;
+   503		rpc->hObject    = object;
+   504		rpc->cmd	= cmd;
+   505		rpc->status     = 0;
+   506		rpc->paramsSize = argc;
+   507		rpc->serialized = 0;
+   508		return rpc->params;
+   509	}
+   510	
+   511	int
+ > 512	r515_gsp_rpc_rm_free(struct nvkm_gsp *gsp, u32 client, u32 parent, u32 object)
+   513	{
+   514		rpc_free_v03_00 *rpc;
+   515	
+   516		rpc = r515_gsp_rpc_get(gsp, 10, sizeof(*rpc));
+   517		if (WARN_ON(IS_ERR_OR_NULL(rpc)))
+   518			return -EIO;
+   519	
+   520		rpc->params.hRoot = client;
+   521		rpc->params.hObjectParent = parent;
+   522		rpc->params.hObjectOld = object;
+   523		return r515_gsp_rpc_wr(gsp, rpc, true);
+   524	}
+   525	
+   526	void
+ > 527	r515_gsp_rpc_rm_alloc_done(struct nvkm_gsp *gsp, void *repv)
+   528	{
+   529		rpc_gsp_rm_alloc_v03_00 *rpc = container_of(repv, typeof(*rpc), params);
+   530	
+   531		r515_gsp_rpc_done(gsp, rpc);
+   532	}
+   533	
+   534	void *
+ > 535	r515_gsp_rpc_rm_alloc_push(struct nvkm_gsp *gsp, void *argv, bool wait, u32 repc)
+   536	{
+   537		rpc_gsp_rm_alloc_v03_00 *rpc = container_of(argv, typeof(*rpc), params);
+   538	
+   539		rpc = r515_gsp_rpc_push(gsp, rpc, wait, sizeof(*rpc) + repc);
+   540		if (IS_ERR_OR_NULL(rpc))
+   541			return rpc;
+   542	
+   543		if (rpc->status) {
+   544			nvkm_error(&gsp->subdev, "RM_ALLOC: 0x%x\n", rpc->status);
+   545			return ERR_PTR(-EINVAL);
+   546		}
+   547	
+   548		return rpc->params;
+   549	}
+   550	
+   551	void *
+ > 552	r515_gsp_rpc_rm_alloc_get(struct nvkm_gsp *gsp, u32 client, u32 parent, u32 object,
+   553				  u32 oclass, u32 argc)
+   554	{
+   555		rpc_gsp_rm_alloc_v03_00 *rpc;
+   556	
+   557		rpc = r515_gsp_rpc_get(gsp, 103, sizeof(*rpc) + argc);
+   558		if (IS_ERR(rpc))
+   559			return rpc;
+   560	
+   561		rpc->hClient = client;
+   562		rpc->hParent = parent;
+   563		rpc->hObject = object;
+   564		rpc->hClass = oclass;
+   565		rpc->status = 0;
+   566		rpc->paramsSize = argc;
+   567		return rpc->params;
+   568	}
+   569	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---H9Ieks25tR2H6ZtM
+--78S/dZwK/VzueKwl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -14222,4 +14248,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---H9Ieks25tR2H6ZtM--
+--78S/dZwK/VzueKwl--
