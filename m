@@ -2,130 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FF260D3FF
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 20:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2275F60D415
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 20:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0CB10E1C1;
-	Tue, 25 Oct 2022 18:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62A4910E441;
+	Tue, 25 Oct 2022 18:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2086.outbound.protection.outlook.com [40.107.243.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B14D910E418;
- Tue, 25 Oct 2022 18:50:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SI563VnCxBg0/eBLQjbiBowglOrdCcYX1+YsjqGQszvIOPEZG74n7w5i1elCmhE56m+OdN3uyZ3Q70yt1kQDxbdvw8OcokNUXZI2d2+QrPI+pj/5880H7pdTQNorvLO+AsI95QdjvLEbeqdaeWcHsb0msw6riPbrOLpp62m0rUupSG7CpjByAVkqwqjGvyCYm3U1lmtnI3TIcqWM6sxU00RBk03p0YmtouAZo7JBar3CnNdPhOZM4PXa9HXEiGoBDnauOf4qm4JOpu3gdjEllZTlU2vc4FUqBXDmHau+V4XQqdWfqRe3ucUQKcDhICV3xh/F28YPpTbNszAiKZBbWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IsHzCTSGkLJrdqQONpFo3naR3vrdgtR806sdhWqt7fs=;
- b=ncq/FZ04La/0k8GIsDuS5whD+wiTvgkwRdtibWIevdeqeyVxyH2EBknD+4EEBNSdgaAOUfgv+pe/kmTMZB9MgQWZGzmlUD2k7Au2UUoMVXUyidpT4QrEHbikolWrB2Jlew9G7+OlkZC+khaHbBAmRHisKjmyopvkDrU95ulKiBwbAAv6Jm/bAAWrLYBK2sT1HYSDvp643RVrLYzT6iOSs0ugNwGBB9GxMl+kZDizhS/5GbvLISKrLa/y6DKUCFFNnv61lvpDEas/WP7u1bzJTFq/4KcGoaNxNud9efH6vuzWQZ0otakVr5XrFnTtAu9aLYymMrGzrffkyehR6MlYGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IsHzCTSGkLJrdqQONpFo3naR3vrdgtR806sdhWqt7fs=;
- b=pTb9mUG4BxvgnXlLEkzn1QnnpWn6ty3sI7Hypce7QgmP1c4bhrFY78HaUx2lcMTwN/bBaYoRHLMH07FneTDy6gbJtTurWH7+3zVq52gz/lz4Dk0wyih1vCTSdlvl+BdsZmHLFdVHUY/EZ66C+5OlNn1yApKL0tD6bQXOYWEeKWHIGeyupbYu5UTKpOnY1h+XY86HhyARFn5izpm6hPwbZ96ulhwCr8wCvvc26AHKJWswytKf2xYB4PzRymKKvCIdO8HPdpNXwARmFD8zSSttpjpS0zKbiS//i32XtzISKdyYfZ4s66qS+12vU7UrSWH30+/gz6nCnCzxON8qipcPwA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SJ1PR12MB6124.namprd12.prod.outlook.com (2603:10b6:a03:459::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Tue, 25 Oct
- 2022 18:50:49 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5746.021; Tue, 25 Oct 2022
- 18:50:49 +0000
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>,
- David Airlie <airlied@gmail.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- Diana Craciun <diana.craciun@oss.nxp.com>, dri-devel@lists.freedesktop.org,
- Eric Auger <eric.auger@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- iommu@lists.linux.dev, Jani Nikula <jani.nikula@linux.intel.com>,
- Jason Herne <jjherne@linux.ibm.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
- kvm@vger.kernel.org, linux-s390@vger.kernel.org,
- Longfang Liu <liulongfang@huawei.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>, Will Deacon <will@kernel.org>,
- Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>
-Subject: [PATCH 10/10] iommufd: Allow iommufd to supply /dev/vfio/vfio
-Date: Tue, 25 Oct 2022 15:50:45 -0300
-Message-Id: <10-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
-In-Reply-To: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
-References: 
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0273.namprd13.prod.outlook.com
- (2603:10b6:208:2bc::8) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 834CE10E203
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 18:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666723866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X4AgKJfraUOsPz3IaqgXDaTFp4AXZH1ZD31CAhgpw7g=;
+ b=S6HAhqxOs/oIwW0SUR4hQr55nXtsLUDZ35yZLQiF4WxzxQPdRsRVfq7DmxszMR0sS2ciTy
+ 4A5mr6DEs2PePX98GaSo+9EoxfObHDiPSqWirL7Fb3oxBYIbJP9ew0Hgp1Pyfis3jV3083
+ WLVA1uEI6eSBUauwXNYjXJkj2x3DEb8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-656-b_rrkCF3NVe6IoC0JjqBJw-1; Tue, 25 Oct 2022 14:51:04 -0400
+X-MC-Unique: b_rrkCF3NVe6IoC0JjqBJw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b13-20020a056402350d00b0045d0fe2004eso12358921edd.18
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 11:51:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=X4AgKJfraUOsPz3IaqgXDaTFp4AXZH1ZD31CAhgpw7g=;
+ b=VdJhqd0WEcIPpZ+a7yPq1FAbd3eKxT4qD8+vLe8Kfpe3I39nOD/fJj0nmNB5HQTiz9
+ WTptKYk9UAd0SCiA+D9VJCnuUkTfaMZw1zF1eqnESmLfynzbKGl+saqcDuVNmtWHbNjH
+ q137wiiudQz0Izb2KjmoY6d/1qu89wfhcd3T2tY6uYlAYadsM+otdxOoYDl32bFgFp+8
+ Bjr0iS3+UerRrrvL1kt1y3dt/HlgdJZjE9+q8uMNbdytJEiJJDRNzTVyuhkqQlDp8+4X
+ kvtI9Px5abGgMOHOfm4LE7iWGI4d+UX/jI/Bezh/oEgKYDuSfi5pUQNiQQMFw+Q14e8s
+ 3kNg==
+X-Gm-Message-State: ACrzQf1upqlz/gntjL/sw2xl7gmx6tw7Z4Ad8qTtmUunSLqCRL9w4ts/
+ +w8f2mqHqaOeELC6UtEHmPtjieb3qtr+hQJ6FcxtNPUgLTpjNnq8GaGaxnA2TZi4S/WfXxkE+zW
+ sD5fvTOLFXClaE9+KsdJGOFeXQ+bZ
+X-Received: by 2002:a17:907:8a24:b0:795:bb7d:643b with SMTP id
+ sc36-20020a1709078a2400b00795bb7d643bmr28237638ejc.115.1666723863798; 
+ Tue, 25 Oct 2022 11:51:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7+1cKY8mWLWZ9ZOJBRjb26mTKGhU8d2NvRoh1pdtCnyY5nFv4Rr2Wf3KkTj2dkWsEMUnUIxA==
+X-Received: by 2002:a17:907:8a24:b0:795:bb7d:643b with SMTP id
+ sc36-20020a1709078a2400b00795bb7d643bmr28237601ejc.115.1666723863548; 
+ Tue, 25 Oct 2022 11:51:03 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a17090668d200b0079e11b8e891sm1802322ejr.125.2022.10.25.11.51.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Oct 2022 11:51:02 -0700 (PDT)
+Message-ID: <8f53b8b6-ead2-22f5-16f7-65b31f7cc05c@redhat.com>
+Date: Tue, 25 Oct 2022 20:50:54 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ1PR12MB6124:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d7ae0f1-b80e-4f2e-6332-08dab6b9d4cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g6B9llJssnaB+2irxfCUbudZ9pipiwmHWi25BHXiGGXmT1B2J7hhhWMnb7zRqIh23Ds7keWSE+102ep6ngy0E4hD0ksa++7/pflFhNPqJVq0zBMNg8dN8RtLzSiQDk+kyDxdk0zBk3Gghu8vq/UP2vFev1AxaD0XOCYoThVBFHZpfPaizTPEtVEmYvY9MuUtbj9rFwyXtbg6GQ2hMsZn4ED0b1qhZdVA3kSWnlOEgsoti4dOFOwcY5LS4Awa9W4mc7riJVvZKahOGs57WyyCSUTWKKpRzWq5xk0vTN6EaUiZRyUrbN3tcKkkQTdfdbBoOvA5tnslSl3kMxTrtKKlLYjEpAsfzgse9qC7Ad3JJekRHF1lSa9vVDH4DRYlh+Mi/GzfNsYabUl3Fvp3xAXNTqB+5BtL4F6G/oPvHDufdntXT5qALaLWvcKfjWUm8RJe1CIo7poV9Jk/MtwO5nCOIr4m9dM6F24kmP3LpAaNkC40qQXWEwhqF0LFUsDL5QyEfp2jxb5OCVThHB0HvqOEj+uuLx6ibF/tTbJ/yq4r2mWhz0bpkdyqgQwvEyJiBat+PpMPvaQt0rSA/upd37ErMWbFm0u/N32AANcJbyciEhhq8WcPzAa5ZK8toUtUbc8CzGH8X14GlO+uaZ+4c0JK1ONub6uYuO0ol1nx5C2+l2Wp1ijeBzdyboE4kJvCjNEzh11ObQ0PuMtp/7nBHlCCHjb7BrIu0zlhd0r+DHGGOMnD04E3sd+vPRyeurSb0U3q
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(376002)(396003)(136003)(39860400002)(346002)(451199015)(6512007)(26005)(921005)(8936002)(2906002)(6506007)(38100700002)(36756003)(7416002)(83380400001)(5660300002)(41300700001)(7406005)(2616005)(478600001)(6486002)(186003)(54906003)(6666004)(316002)(66556008)(66476007)(66946007)(86362001)(8676002)(110136005)(4326008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AJvJ+v4923V5kwMCjFr3hyrN3T55hSggf5+iSd9/KSW+40rqQaWj7aG4qPQc?=
- =?us-ascii?Q?dR6yx158VlbFJRahb8DFbll7KuAWMQfK8aeZoWRbBS7s10zNRyIfyjQXrkn4?=
- =?us-ascii?Q?zOcbGhxytJ6iCBW1ti6hSMf3cEYysT5NtWhpyNXSAI1HWt1fyRye8BfzTPkW?=
- =?us-ascii?Q?z8IK0LwntcED5u7XP95MlHhN2w5Nc4p7foDN4972CO05xWVJYFzzDC4ufA4x?=
- =?us-ascii?Q?EOTLPNYaj/PCVBtwEyCWKxhEYxOCRwAs7wjNKcl55ATnP6ybEnRsIEHotmjB?=
- =?us-ascii?Q?niAXm89ikLGRM07B52vSclwTR+mr2JAZHsMQyj7Bg0vZ3vL6DtYixU8wrbtR?=
- =?us-ascii?Q?S30F0iR0DZb9N7RmHhLNF7Frb76hzv8YnzwrKx/mInQWhjD9mx6AlHuL5my3?=
- =?us-ascii?Q?O8VBrDYH4iauY3oQ+uKL9mnQgXmoeeYUQa5smRbuQBh0m1qezTIzlL6ra1Hb?=
- =?us-ascii?Q?lfSshSQvUa3KwoyMyTVUMZPs26MLxqxDNJJjM13oAVwi2B80oIU7YZTsHmzq?=
- =?us-ascii?Q?y1ZW/Mi8jPiiRziMvFbOJ6UISkptAKzOzcTSIhQ4dAzUXhSl4xMrYwPPrDWI?=
- =?us-ascii?Q?dxC/7zScNyouDvsrpb6PGlvniF/vsw/xryhZ2F6gNfDfY2Kg2bPWgVlIgCgn?=
- =?us-ascii?Q?w0TOGA7MLTQcLpcCmmcpGP84a4fRJN5hAjZaU7uh6Uur/ezCXXRwzXxGYLlF?=
- =?us-ascii?Q?EilkBq7O65jgTnu0cOhCwj0Xau1CskMPAe0Pxcd8WSHUH0vf3Xd/PFEKeoJ5?=
- =?us-ascii?Q?AeElmgmXaBEH1Oe4l+XVi1N9VX542ZfEn9wXEhPmiXjbS3mBnfsEh6wl2/PW?=
- =?us-ascii?Q?hw3qE8aB9vVGSEB5oB0MUVSwRtkKXy1bAS2wASvHJSTZrpqBCao6j0/ZgGao?=
- =?us-ascii?Q?IAle6+HcPaUNlY3EhqDcsmyqRJ23IavdRmy0kB7SH5qZDGUpPCppW2icUXbZ?=
- =?us-ascii?Q?jMYESHhdk/ulcTHwwy62oV+OK6/aCTrq/xYwYjJdWgdhhmPAvgAQMxpriDjz?=
- =?us-ascii?Q?Z+XDUX+pclPfifHKssQAq7JWo1eYM/ASm5Rm8n/Tg4FYLoCjXrD3PO1cjdVb?=
- =?us-ascii?Q?w5HEao3qEZi4+IzFRlikNyZhcmrDn6rHwnaCvHWHmVoh5WGBA222gRtaKsvk?=
- =?us-ascii?Q?WWHYOuQtMbAzc2q13diLnYMfiNiF3NEXNcNJMp2pZUlBlbB9SBqcXkgM2GLX?=
- =?us-ascii?Q?UW8j7/8OYE2LHGVqOCOFdWuy8ZyMlWm5DCM3jVp/MPFPVrIJs0IcJOFlaNlw?=
- =?us-ascii?Q?cvtaw59AFCeiqgQSkDatiA/9e+L96E+FvVj2+BI20rBjAj6Hd58WvlTazD0r?=
- =?us-ascii?Q?027qdJ9TL1X6c7m/mEY5EFQCNpNUezfj29lUrY++U+XH13LqZcHFX3NbQi69?=
- =?us-ascii?Q?1kRvwJEw+Pfxc9hPDWEK/1Ux91vqilg5H0ENUljtdgoqes4aU6MK1XkzbTXq?=
- =?us-ascii?Q?4pW9jb87G2HRoILJ8ue7yGkkqtbzOqfgd9vPWnwVZW2z3rgPuxF353fKTv4Y?=
- =?us-ascii?Q?B5OGZQ4L66hrkAQMbzz9THJEO+383vlVBmelzCEb7cK8UbN47SHJtiQP9hwO?=
- =?us-ascii?Q?t1wtnrcuJ+snReOFrbs=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d7ae0f1-b80e-4f2e-6332-08dab6b9d4cd
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2022 18:50:48.4905 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5qIcnY8mEhwpCc07D6YzRx9UCJkGLyLk7KatZ2bLxJI9TTogTZo1yQkTsDW/xKhA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6124
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
+ backlight should be used (v2)
+To: Matthew Garrett <mjg59@srcf.ucam.org>
+References: <20220825143726.269890-1-hdegoede@redhat.com>
+ <20220825143726.269890-3-hdegoede@redhat.com>
+ <f914ceb3-94bd-743c-f8b6-0334086e731a@gmail.com>
+ <42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com>
+ <20221024203057.GA28675@srcf.ucam.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221024203057.GA28675@srcf.ucam.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,131 +92,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yi Liu <yi.l.liu@intel.com>, Nicolin Chen <nicolinc@nvidia.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Pan@freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, amd-gfx@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>, Jani Nikula <jani.nikula@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the VFIO container is compiled out, give a kconfig option for iommufd
-to provide the miscdev node with the same name and permissions as vfio
-uses.
+Hi,
 
-The compatibility node supports the same ioctls as VFIO and automatically
-enables the VFIO compatible pinned page accounting mode.
+On 10/24/22 22:30, Matthew Garrett wrote:
+> On Tue, Sep 27, 2022 at 01:04:52PM +0200, Hans de Goede wrote:
+> 
+>> So to fix this we need to make acpi_video_get_backlight_type()
+>> return native on the Acer Chromebook Spin 713.
+> 
+> Isn't the issue broader than that? Unless the platform is Windows 8 or 
+> later, we'll *always* (outside of some corner cases) return 
+> acpi_backlight_vendor if there's no ACPI video interface. This is broken 
+> for any platform that implements ACPI but relies on native video 
+> control, which is going to include a range of Coreboot platforms, not 
+> just Chromebooks.
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+That is a valid point, but keep in mind that this is only used on ACPI
+platforms and then only on devices with a builtin LCD panel and then
+only by GPU drivers which actually call acpi_video_get_backlight_type(),
+so e.g. not by all the ARM specific display drivers.
+
+So I believe that Chromebooks quite likely are the only devices with
+this issue.
+
+We could do something like the patch which I have pasted at the end
+of this email, but as its commit message notes there is a real
+good chance this will cause regressions on some laptops.
+
+So if we ever decide to go with something like the patch below,
+I think we should at a minimum wait for the next cycle with that,
+because 6.1 already significantly reworks the ACPI backlight
+detect handling and I don't want to throw this into the mix
+on top of those changes.
+
+> I think for this to work correctly you need to have 
+> the infrastructure be aware of whether or not a vendor interface exists, 
+> which means having to handle cleanup if a vendor-specific module gets 
+> loaded later.
+
+Getting rid of the whole ping-ponging of which backlight drivers
+get loaded during boot was actually one of the goals of the rework
+which landed in 6.1 this actually allowed us to remove some quirks
+because some hw/firmware did not like us changing our mind and
+switching backlight interfaces after first poking another one.
+So we definitely don't want to go back to the ping-pong thing.
+
+Regards,
+
+Hans
+
+
+
+>From 67ee5d7163e33e65dca06887befd0639b0345883 Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Tue, 25 Oct 2022 20:38:56 +0200
+Subject: [PATCH] ACPI: video: Simplify __acpi_video_get_backlight_type()
+
+Simplify __acpi_video_get_backlight_type() removing a nested if which
+makes the flow harder to follow.
+
+Note this will cause a behavior change on devices which do not have
+ACPI video support but do have both a vendor and native backlight
+driver available. This change will cause these devices to switch
+from vendor to native.
+
+This may not be desirable in all cases, this is likely to happen
+on significantly older laptops, where there very well might be
+cases where the native driver does not work because the backlight is
+controlled by the EC.
+
+This removes the need for the special handling of Chromebooks,
+these will now hit the if (native_available) return acpi_backlight_native;
+path.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/iommu/iommufd/Kconfig | 12 ++++++++++++
- drivers/iommu/iommufd/main.c  | 35 ++++++++++++++++++++++++++++++++---
- 2 files changed, 44 insertions(+), 3 deletions(-)
+ drivers/acpi/video_detect.c | 36 +++++++++++-------------------------
+ 1 file changed, 11 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/iommu/iommufd/Kconfig b/drivers/iommu/iommufd/Kconfig
-index f0a2012234fa09..afc83b7575cce6 100644
---- a/drivers/iommu/iommufd/Kconfig
-+++ b/drivers/iommu/iommufd/Kconfig
-@@ -14,6 +14,18 @@ config IOMMUFD
- 	  If you don't know what to do here, say N.
- 
- if IOMMUFD
-+config IOMMUFD_VFIO_CONTAINER
-+	bool "IOMMUFD provides the VFIO container /dev/vfio/vfio"
-+	depends on VFIO && !VFIO_CONTAINER
-+	default VFIO && !VFIO_CONTAINER
-+	help
-+	  IOMMUFD will provide /dev/vfio/vfio instead of VFIO. This relies on
-+	  IOMMUFD providing compatibility emulation to give the same ioctls.
-+	  It provides an option to build a kernel with legacy VFIO components
-+	  removed.
-+
-+	  Unless testing IOMMUFD say N here.
-+
- config IOMMUFD_TEST
- 	bool "IOMMU Userspace API Test support"
- 	depends on RUNTIME_TESTING_MENU
-diff --git a/drivers/iommu/iommufd/main.c b/drivers/iommu/iommufd/main.c
-index 8a31c1a14cdd53..19db81fbf7f08f 100644
---- a/drivers/iommu/iommufd/main.c
-+++ b/drivers/iommu/iommufd/main.c
-@@ -24,6 +24,7 @@
- #include <uapi/linux/iommufd.h>
- #include <linux/iommufd.h>
- 
-+#include "io_pagetable.h"
- #include "iommufd_private.h"
- #include "iommufd_test.h"
- 
-@@ -31,6 +32,7 @@ struct iommufd_object_ops {
- 	void (*destroy)(struct iommufd_object *obj);
- };
- static struct iommufd_object_ops iommufd_object_ops[];
-+static struct miscdevice vfio_misc_dev;
- 
- struct iommufd_object *_iommufd_object_alloc(struct iommufd_ctx *ictx,
- 					     size_t size,
-@@ -167,6 +169,13 @@ static int iommufd_fops_open(struct inode *inode, struct file *filp)
- 	if (!ictx)
- 		return -ENOMEM;
- 
-+	/*
-+	 * For compatibility with VFIO when /dev/vfio/vfio is opened we default
-+	 * to the same rlimit accounting as vfio uses.
-+	 */
-+	if (filp->private_data == &vfio_misc_dev)
-+		ictx->account_mode = IOPT_PAGES_ACCOUNT_MM;
-+
- 	xa_init_flags(&ictx->objects, XA_FLAGS_ALLOC1 | XA_FLAGS_ACCOUNT);
- 	ictx->file = filp;
- 	filp->private_data = ictx;
-@@ -392,26 +401,46 @@ static struct miscdevice iommu_misc_dev = {
- 	.mode = 0660,
+diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+index 9cd8797d12bb..9bd85b159e02 100644
+--- a/drivers/acpi/video_detect.c
++++ b/drivers/acpi/video_detect.c
+@@ -668,11 +668,6 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+ 	{ },
  };
  
-+
-+static struct miscdevice vfio_misc_dev = {
-+	.minor = VFIO_MINOR,
-+	.name = "vfio",
-+	.fops = &iommufd_fops,
-+	.nodename = "vfio/vfio",
-+	.mode = 0666,
-+};
-+
- static int __init iommufd_init(void)
- {
- 	int ret;
+-static bool google_cros_ec_present(void)
+-{
+-	return acpi_dev_found("GOOG0004");
+-}
+-
+ /*
+  * Determine which type of backlight interface to use on this system,
+  * First check cmdline, then dmi quirks, then do autodetect.
+@@ -718,30 +713,21 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+ 	if (apple_gmux_present())
+ 		return acpi_backlight_apple_gmux;
  
- 	ret = misc_register(&iommu_misc_dev);
--	if (ret) {
--		pr_err("Failed to register misc device\n");
-+	if (ret)
- 		return ret;
+-	/* On systems with ACPI video use either native or ACPI video. */
+-	if (video_caps & ACPI_VIDEO_BACKLIGHT) {
+-		/*
+-		 * Windows 8 and newer no longer use the ACPI video interface,
+-		 * so it often does not work. If the ACPI tables are written
+-		 * for win8 and native brightness ctl is available, use that.
+-		 *
+-		 * The native check deliberately is inside the if acpi-video
+-		 * block on older devices without acpi-video support native
+-		 * is usually not the best choice.
+-		 */
+-		if (acpi_osi_is_win8() && native_available)
+-			return acpi_backlight_native;
+-		else
+-			return acpi_backlight_video;
 -	}
+-
+ 	/*
+-	 * Chromebooks that don't have backlight handle in ACPI table
+-	 * are supposed to use native backlight if it's available.
++	 * Pre Windows 8, Windows uses ACPI video, so prefer that over native
++	 * on pre-win8 systems (Windows 8+ no longer uses ACPI video).
+ 	 */
+-	if (google_cros_ec_present() && native_available)
++	if ((video_caps & ACPI_VIDEO_BACKLIGHT) && !acpi_osi_is_win8())
++		return acpi_backlight_video;
++
++	/* Use native backlight control if available */
++	if (native_available)
+ 		return acpi_backlight_native;
  
-+	if (IS_ENABLED(CONFIG_IOMMUFD_VFIO_CONTAINER)) {
-+		ret = misc_register(&vfio_misc_dev);
-+		if (ret)
-+			goto err_misc;
-+	}
- 	return 0;
-+err_misc:
-+	misc_deregister(&iommu_misc_dev);
-+	return ret;
++	/* Use the ACPI video interface if available */
++	if (video_caps & ACPI_VIDEO_BACKLIGHT)
++		return acpi_backlight_video;
++
+ 	/* No ACPI video (old hw), use vendor specific fw methods. */
+ 	return acpi_backlight_vendor;
  }
- 
- static void __exit iommufd_exit(void)
- {
-+	if (IS_ENABLED(CONFIG_IOMMUFD_VFIO_CONTAINER))
-+		misc_deregister(&vfio_misc_dev);
- 	misc_deregister(&iommu_misc_dev);
- }
- 
- module_init(iommufd_init);
- module_exit(iommufd_exit);
- 
-+#if IS_ENABLED(CONFIG_IOMMUFD_VFIO_CONTAINER)
-+MODULE_ALIAS_MISCDEV(VFIO_MINOR);
-+#endif
- MODULE_DESCRIPTION("I/O Address Space Management for passthrough devices");
- MODULE_LICENSE("GPL");
 -- 
-2.38.0
+2.37.3
+
 
