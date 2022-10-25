@@ -1,66 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09C260D52A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 22:04:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A6460D57D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 22:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 722B710E16E;
-	Tue, 25 Oct 2022 20:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7D6410E2C8;
+	Tue, 25 Oct 2022 20:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C116E10E16E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 20:04:02 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id r14so24340642lfm.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 13:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p6sgvA89XRuT9/+Lwc8dFz7W8A20XzGs3i9BHbbAe+k=;
- b=wdyUg2+rxP2jmAEjxdVJHKd9sO3VBCtUT58uvo51Dvclr6q3B3uhtZxuJMzGuVGEqQ
- /1vE3N+1kFMi70sxXUGQwjgAN8IISn8YZQynehhMzB+hRRo+AgysbppVLpmqwmrN2rX8
- xbrpdI5z9mk7sYLgbWinjrdgJk0jnEX/xAVoOAgOoaLASzFWcLBOXuQ5J1FyitJOh3zt
- +LGbWlOcLw9rPkgBcrrkTj6mSKFBX1hFqq+D0JC1Q28w+MjavNzJLXTEvuUThILoJrNV
- Pjb3+FG9IRTrrKma91qi3HD4fY3F+fUAcMSlyT5ZzPvy04INRp2LgrtvthUFt+oAB1hl
- C8Gg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B73F10E2C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 20:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666729539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9XonFPheAhtCegE797S1mcjxSh0z0UskbUv2fBkcMxo=;
+ b=J2Hn3CCWwl8Fq83RL7b8OlO36/fr3PYwXPrrBuUqATy7XLzylyHwx5xQxqBvP8WHXpa4fT
+ nG8kcI6SdTpHRJYujnkkMrBwDwZWuwEgQPrf4aTzXE4BIj73cALxMfSIDbSvCEQLu2o9xk
+ 0xLGhSyraZuNhP6Wj9zkIfQb3ZMIrkE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-218-uJVkmZIzN1WY0UttQh-dLg-1; Tue, 25 Oct 2022 16:25:36 -0400
+X-MC-Unique: uJVkmZIzN1WY0UttQh-dLg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y14-20020a056402440e00b0044301c7ccd9so12547051eda.19
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 13:25:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p6sgvA89XRuT9/+Lwc8dFz7W8A20XzGs3i9BHbbAe+k=;
- b=ZTTHrfCYoFXnNMrbyr62Udvg3FPtSj8HFxREmPZQmDTF4JtkHMgHpQnMYGk3n7gj+e
- mymDfyL8FCAmmVKEXDZ00ONxi7WXnE77vlO1X3wMCoWCYN0fwPVZRKc4nBcKOv8WsSTa
- CtpYhbTPpSbef07VYiuB4mFvlDkjmT9DWgRVVWF3O98dyI2mAtk9WHDhh/ZDyBW1L6Tm
- KjNjhBeZELqBFJpnyGCC5iEQ+4LC/6ZaGgw3H/6cSwrABK9XBbI1z2/fG08501hKNTCh
- JJo/l41tO7mOe3vFALtxoJJ5QjNhwhHKh6Zv8x3TP6VXrtr3+lHwlCI6Y7/E+u2/yPFW
- yVTQ==
-X-Gm-Message-State: ACrzQf06UETGOmSuMdrn5ftmyPJXGCE/Y2bc+e83WVQkBt10VyjsDbTa
- CK8R7ZAEd6hO3srdmyxj7l2vxA==
-X-Google-Smtp-Source: AMsMyM7wvE2afhzHDfYk2EvbvB1DX7/77jyvcb8NS+hFxWvkUzbnB//HM67U0CBlPBxzpRRhw+puGA==
-X-Received: by 2002:ac2:4bc7:0:b0:4a4:6eb6:8da4 with SMTP id
- o7-20020ac24bc7000000b004a46eb68da4mr15097412lfq.84.1666728240768; 
- Tue, 25 Oct 2022 13:04:00 -0700 (PDT)
-Received: from localhost.localdomain ([195.165.23.90])
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9XonFPheAhtCegE797S1mcjxSh0z0UskbUv2fBkcMxo=;
+ b=0D+hyet4wm+1JJ7ET5PJVD0Q+qnH57zMLco69/YKyn4AXPRNkS17FWnp7qEjGcdSJ0
+ ArS4ddXUwPYRLz0FZZGyieC76FkWwayeB/D/zMAn3hFpAv8qjHt+iCUmcURjB02pNmYk
+ jq1IC7Mzn9Z2gVxD3NgSvEcZpmY+s0m7eI8Epj3kh2ZVEMxmJVdcF341aFjOcbhE13I3
+ ayp7JbWTEPHJGGI14VBDIcsoEOemMVoOc3iOMZEZ036i2HOTTcJFNVC94ALHrx8RgIw2
+ DuzULhXLgJYqh2G29QOkjahbT6FmLeDTLh9lYj37uvBkZpNgKK+7xr+R36YQs/yU3RdF
+ 16kw==
+X-Gm-Message-State: ACrzQf0dsULicAaMAmzDO5bMTaynQwjSk9BnxVCk34sNmm/ZCXoRvO2k
+ qi/gHeu0NlOdrd5+7L/+BDs+wE8g2MnDuxStIQQl7dQ4kEBarraizxTAlGBZuENyiUZr3ITojrc
+ 9WVbiQTxqMZ9v4a9/DG+ZrCroBFbc
+X-Received: by 2002:a05:6402:1906:b0:45d:db20:7709 with SMTP id
+ e6-20020a056402190600b0045ddb207709mr36471743edz.406.1666729535560; 
+ Tue, 25 Oct 2022 13:25:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4AvLy3/xx91WJDsytfb8il98Gi/jdDsRHk8yLwQ8ZaFqjnH6cleAwDsF1BomERvdjpliBAIA==
+X-Received: by 2002:a05:6402:1906:b0:45d:db20:7709 with SMTP id
+ e6-20020a056402190600b0045ddb207709mr36471704edz.406.1666729535300; 
+ Tue, 25 Oct 2022 13:25:35 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
  by smtp.gmail.com with ESMTPSA id
- e6-20020a195006000000b00494a1e875a9sm550644lfb.191.2022.10.25.13.03.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 13:04:00 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3 2/2] drm/msm: remove duplicated code from
- a6xx_create_address_space
-Date: Tue, 25 Oct 2022 23:03:57 +0300
-Message-Id: <20221025200357.3637161-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221025200357.3637161-1-dmitry.baryshkov@linaro.org>
-References: <20221025200357.3637161-1-dmitry.baryshkov@linaro.org>
+ 27-20020a508e1b000000b00456c6b4b777sm2150898edw.69.2022.10.25.13.25.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Oct 2022 13:25:34 -0700 (PDT)
+Message-ID: <144cd47e-42dc-2b84-1a90-ea5e080e08a3@redhat.com>
+Date: Tue, 25 Oct 2022 22:25:33 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
+ backlight should be used (v2)
+To: Matthew Garrett <mjg59@srcf.ucam.org>
+References: <20220825143726.269890-1-hdegoede@redhat.com>
+ <20220825143726.269890-3-hdegoede@redhat.com>
+ <f914ceb3-94bd-743c-f8b6-0334086e731a@gmail.com>
+ <42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com>
+ <20221024203057.GA28675@srcf.ucam.org>
+ <8f53b8b6-ead2-22f5-16f7-65b31f7cc05c@redhat.com>
+ <20221025193248.GA21457@srcf.ucam.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221025193248.GA21457@srcf.ucam.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,159 +94,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Pan@freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, amd-gfx@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>, Jani Nikula <jani.nikula@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function a6xx_create_address_space() is mostly a copy of
-adreno_iommu_create_address_space() with added quirk setting. Rework
-these two functions to be a thin wrappers around a common helper.
+Hi Matthew,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c   |  2 +-
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  2 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 29 +------------------------
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 12 ++++++++--
- drivers/gpu/drm/msm/adreno/adreno_gpu.h |  7 +++++-
- 6 files changed, 20 insertions(+), 34 deletions(-)
+On 10/25/22 21:32, Matthew Garrett wrote:
+> On Tue, Oct 25, 2022 at 08:50:54PM +0200, Hans de Goede wrote:
+> 
+>> That is a valid point, but keep in mind that this is only used on ACPI
+>> platforms and then only on devices with a builtin LCD panel and then
+>> only by GPU drivers which actually call acpi_video_get_backlight_type(),
+>> so e.g. not by all the ARM specific display drivers.
+>>
+>> So I believe that Chromebooks quite likely are the only devices with
+>> this issue.
+> 
+> My laptop is, uh, weird, but it falls into this category.
+>  
+>>> I think for this to work correctly you need to have 
+>>> the infrastructure be aware of whether or not a vendor interface exists, 
+>>> which means having to handle cleanup if a vendor-specific module gets 
+>>> loaded later.
+>>
+>> Getting rid of the whole ping-ponging of which backlight drivers
+>> get loaded during boot was actually one of the goals of the rework
+>> which landed in 6.1 this actually allowed us to remove some quirks
+>> because some hw/firmware did not like us changing our mind and
+>> switching backlight interfaces after first poking another one.
+>> So we definitely don't want to go back to the ping-pong thing.
+> 
+> Defaulting to native but then having a vendor driver be able to disable 
+> native drivers seems easiest? It shouldn't be a regression over the 
+> previous state of affairs since both drivers were being loaded already.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-index 2c8b9899625b..948785ed07bb 100644
---- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-@@ -500,7 +500,7 @@ static const struct adreno_gpu_funcs funcs = {
- #endif
- 		.gpu_state_get = a3xx_gpu_state_get,
- 		.gpu_state_put = adreno_gpu_state_put,
--		.create_address_space = adreno_iommu_create_address_space,
-+		.create_address_space = adreno_create_address_space,
- 		.get_rptr = a3xx_get_rptr,
- 	},
- };
-diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-index 7cb8d9849c07..2fb32d5552c4 100644
---- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-@@ -635,7 +635,7 @@ static const struct adreno_gpu_funcs funcs = {
- #endif
- 		.gpu_state_get = a4xx_gpu_state_get,
- 		.gpu_state_put = adreno_gpu_state_put,
--		.create_address_space = adreno_iommu_create_address_space,
-+		.create_address_space = adreno_create_address_space,
- 		.get_rptr = a4xx_get_rptr,
- 	},
- 	.get_timestamp = a4xx_get_timestamp,
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index 3dcec7acb384..3c537c0016fa 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1705,7 +1705,7 @@ static const struct adreno_gpu_funcs funcs = {
- 		.gpu_busy = a5xx_gpu_busy,
- 		.gpu_state_get = a5xx_gpu_state_get,
- 		.gpu_state_put = a5xx_gpu_state_put,
--		.create_address_space = adreno_iommu_create_address_space,
-+		.create_address_space = adreno_create_address_space,
- 		.get_rptr = a5xx_get_rptr,
- 	},
- 	.get_timestamp = a5xx_get_timestamp,
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 7a1b4397b842..2daba2029db1 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1784,38 +1784,11 @@ static void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
- static struct msm_gem_address_space *
- a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
- {
--	struct msm_mmu *mmu;
--	struct msm_gem_address_space *aspace;
--	struct iommu_domain_geometry *geometry;
--	u64 start, size;
--
- 	/*
- 	 * This allows GPU to set the bus attributes required to use system
- 	 * cache on behalf of the iommu page table walker.
- 	 */
--	mmu = msm_iommu_new(&pdev->dev, IO_PGTABLE_QUIRK_ARM_OUTER_WBWA);
--	if (IS_ERR_OR_NULL(mmu))
--		return ERR_CAST(mmu);
--
--	geometry = msm_iommu_get_geometry(mmu);
--	if (IS_ERR(geometry))
--		return ERR_CAST(geometry);
--
--	/*
--	 * Use the aperture start or SZ_16M, whichever is greater. This will
--	 * ensure that we align with the allocated pagetable range while still
--	 * allowing room in the lower 32 bits for GMEM and whatnot
--	 */
--	start = max_t(u64, SZ_16M, geometry->aperture_start);
--	size = geometry->aperture_end - start + 1;
--
--	aspace = msm_gem_address_space_create(mmu, "gpu",
--		start & GENMASK_ULL(48, 0), size);
--
--	if (IS_ERR(aspace) && !IS_ERR(mmu))
--		mmu->funcs->destroy(mmu);
--
--	return aspace;
-+	return adreno_iommu_create_address_space(gpu, pdev, IO_PGTABLE_QUIRK_ARM_OUTER_WBWA);
- }
- 
- static struct msm_gem_address_space *
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 5808911899c7..822a60c5b6b1 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -191,16 +191,24 @@ int adreno_zap_shader_load(struct msm_gpu *gpu, u32 pasid)
- 	return zap_shader_load_mdt(gpu, adreno_gpu->info->zapfw, pasid);
- }
- 
-+struct msm_gem_address_space *
-+adreno_create_address_space(struct msm_gpu *gpu,
-+			    struct platform_device *pdev)
-+{
-+	return adreno_iommu_create_address_space(gpu, pdev, 0);
-+}
-+
- struct msm_gem_address_space *
- adreno_iommu_create_address_space(struct msm_gpu *gpu,
--		struct platform_device *pdev)
-+				  struct platform_device *pdev,
-+				  unsigned long quirks)
- {
- 	struct msm_mmu *mmu;
- 	struct msm_gem_address_space *aspace;
- 	struct iommu_domain_geometry *geometry;
- 	u64 start, size;
- 
--	mmu = msm_iommu_new(&pdev->dev, 0);
-+	mmu = msm_iommu_new(&pdev->dev, quirks);
- 	if (IS_ERR_OR_NULL(mmu))
- 		return ERR_CAST(mmu);
- 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 707273339969..5d4b1c95033f 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -335,8 +335,13 @@ void adreno_show_object(struct drm_printer *p, void **ptr, int len,
-  * attached targets
-  */
- struct msm_gem_address_space *
-+adreno_create_address_space(struct msm_gpu *gpu,
-+			    struct platform_device *pdev);
-+
-+struct msm_gem_address_space *
- adreno_iommu_create_address_space(struct msm_gpu *gpu,
--		struct platform_device *pdev);
-+				  struct platform_device *pdev,
-+				  unsigned long quirks);
- 
- int adreno_read_speedbin(struct device *dev, u32 *speedbin);
- 
--- 
-2.35.1
+Part of the reason for the ACPI backlight detect refactor is
+because of a planned new backlight uAPI where the brightness
+control becomes a property on the drm connector object, for a
+RFC including the rationale behind this planned uAPI change see:
+https://lore.kernel.org/dri-devel/b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com/
+
+These plans require that there is only 1 backlight device
+registered (per panel).
+
+Having the native driver come and then go and be replaced
+with the vendor driver would also be quite inconvenient
+for these planned changes.
+
+As such I would rather find a solution for your "weird"
+laptop so that acpi_video_get_backlight_type() just always
+returns vendor there.
+
+Note that drivers/acpi/video_detect.c already has a DMI
+quirk tables for models where the heuristics from
+acpi_video_get_backlight_type() don't work. In general
+we (mostly me) try to make it so that the heuristics
+work on most models, to avoid needing to add every model
+under the sun to the DMI quirk table, but if your laptop
+is somehow special then adding a DMI quirk for it should
+be fine ?
+
+Can you perhaps explain a bit in what way your laptop
+is weird ?
+
+Note that technically if the native backlight does not work,
+then the GPU driver really should not even try to register
+it. But sometimes the video-bios-tables claim the backlight
+pwm input is attached to the GPU while it is not and things
+have evolved in such a way that the DMI quirks for that
+live in acpi/video_detect.c rather then in the GPU driver.
+
+Regards,
+
+Hans
 
