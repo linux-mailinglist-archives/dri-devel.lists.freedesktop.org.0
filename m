@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160C860C537
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 09:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA13F60C56A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 09:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BAEC10E1A7;
-	Tue, 25 Oct 2022 07:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E0E10E124;
+	Tue, 25 Oct 2022 07:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC9010E1A7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 07:32:37 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id r22so15688186ljn.10
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 00:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+r3Ej5MJ+sN5EgIN4UbB8uiEPUjhfnn1clmg3no9TJA=;
- b=dHEXI2+TslzzCiyCa1KMcE47r1HtIoMwtoBUvkYBvqpP87fm4EUvpXQfRQ6MXO6AuC
- 9xeO4KO3F0T+tFK/WMcBGLd+yq4Fw4c2AXe1ISkqTIDMK654s+kSbgEVGoLARnx3uoJW
- aD0U5w1Q9U2FxNEaud2UGBpkhZQnjHh9Yln5I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+r3Ej5MJ+sN5EgIN4UbB8uiEPUjhfnn1clmg3no9TJA=;
- b=fEPQ5eCKisaMqeZi2x/8owlevvUE7VXjAM8L/Pum1DIpKmxij5Xxe9jSZgPZwQaU4j
- RPD4rftJIfeAMFJEaQoBNEiTfJ+1nN0A+RFw6GYYkAS3aygyvXsLUwV3l1yTBnHsLN+z
- NVxJ57MOExZNLOPlku7Q3nTH87hV3nkQh6dU01COw/n+HMOGTdjypH7f5GbwEOWceoUv
- ke+lQhkOrCPGtP9sfx32DTJqCzMLMGzdZY+nTxtmBshZ0pAkG0nVMfmzu6g33YJwTsfZ
- ptATrCYYYMKn9ZYIZkm9tLnUWJW4HizknkO2V1/5MgoKGChXHbSm+Xn1tIx7wxoPqclY
- HJNA==
-X-Gm-Message-State: ACrzQf3S/SpIy1Ox5V15l5CXH8xIaN8cjQoXbiFcOzgmpRtEOIt4lA1D
- Xnc9K9cXUVAw2HRZ/UefXDnGdGXH/TOMYc0Y0mNeZQ==
-X-Google-Smtp-Source: AMsMyM7I2ND3r5rWOu78x2UxeUO/s4RiLWEaBOmN4MFRAA0t4abyOutiAaFD3Hl5qHMnJY+WWxw8umC0FhsMF7F5Qq0=
-X-Received: by 2002:a2e:b055:0:b0:277:a98:aac0 with SMTP id
- d21-20020a2eb055000000b002770a98aac0mr3617068ljl.480.1666683155618; Tue, 25
- Oct 2022 00:32:35 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5CC10E124
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 07:36:59 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 075A61FD94;
+ Tue, 25 Oct 2022 07:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666683418; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NXIbC7MfPyAwURI7JcmJLHDt3e++5nBr95st0yu/FvY=;
+ b=FsZsTIq680Nn79kFMtP04VWYyR0g7iSpRdNVggtEBAGJozcTl8bJAn35lpk3Dt+eHTlW5G
+ qY6nj3mtw1ofv7ZhS38MB+Q9r/X70eqPCwo/Z5IQTlIbdNL9Vb2s388Ra62+EYmWAVFj2z
+ FoEjl3IX7IR1R9FJiIqlGDcZi7+IEIs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666683418;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NXIbC7MfPyAwURI7JcmJLHDt3e++5nBr95st0yu/FvY=;
+ b=kCtOzcL/+zE0lBs1j4Ubq/3x8D/oeTNF6rwvBr/8CsXpuxzv6FlXqyUfoUWSBOttc2kxPU
+ DnJUe87lgolUO7BQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E8DFD13A64;
+ Tue, 25 Oct 2022 07:36:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id I+FINxmSV2OAAwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 25 Oct 2022 07:36:57 +0000
+Message-ID: <f61043d2-72e8-11e1-4f8c-2e55d9dad076@suse.de>
+Date: Tue, 25 Oct 2022 09:36:57 +0200
 MIME-Version: 1.0
-References: <20220829093141.45583-1-tomeu.vizoso@collabora.com>
- <20220909141528.5090-1-tomeu.vizoso@collabora.com>
- <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
-In-Reply-To: <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 25 Oct 2022 09:32:24 +0200
-Message-ID: <CAKMK7uGkFP1jSNQzv37PvSqvOtt1FnbfbNyYEf99WM=_2AszSw@mail.gmail.com>
-Subject: Re: [PATCH v8] drm: Add initial ci/ subdirectory
-To: Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: ast: resolutions that require single-buffering (due to VRAM
+ limitations) are unavailable
+Content-Language: en-US
+To: Jeremy Rand <jeremyrand@danwin1210.de>, dri-devel@lists.freedesktop.org
+References: <ff36cca2-d4c7-1e1f-9853-9c4af716a889@danwin1210.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <ff36cca2-d4c7-1e1f-9853-9c4af716a889@danwin1210.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------riugWP1X7M2gLClOKoHm2BTe"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,86 +70,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Carlo Caione <carlo@caione.org>,
- linux-amlogic@lists.infradead.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 Sept 2022 at 19:18, Daniel Stone <daniel@fooishbar.org> wrote:
->
-> Hi,
->
-> On Fri, 9 Sept 2022 at 15:15, Tomeu Vizoso <tomeu.vizoso@collabora.com> w=
-rote:
->>
->> Also include a configuration file that points to the out-of-tree CI
->> scripts.
->
->
->  I think this para is outdated given ...
->
->> v8:
->>   - Move all files specific to testing the kernel into the kernel tree
->>     (thus I have dropped the r-bs I had collected so far)
->>   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
->
->
-> But equally - and sorry for not jumping on the IRC (?) discussion as I wa=
-s in the middle of other stuff when it came up - I'm don't think this is th=
-e right plan.
->
-> Mesa having all its CI in-tree makes sense, because merges happen rapidly=
- to a single canonical tree. If the scripts need to be changed for whatever=
- reason, we can merge something in under an hour and everyone immediately g=
-ets it. DRM is quite different though, given the forest of trees we have an=
-d the long merge paths between them. I worry that merging the CI scripts in=
--tree - especially for our initial attempt at it, when we're likely to need=
- to make quite a lot of changes before it settles down to become a stable s=
-ystem that works for everyone - is shooting ourselves in the foot by limiti=
-ng our flexibility.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------riugWP1X7M2gLClOKoHm2BTe
+Content-Type: multipart/mixed; boundary="------------DW6Jj7jb97by94IE6dUV0Kye";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jeremy Rand <jeremyrand@danwin1210.de>, dri-devel@lists.freedesktop.org
+Message-ID: <f61043d2-72e8-11e1-4f8c-2e55d9dad076@suse.de>
+Subject: Re: ast: resolutions that require single-buffering (due to VRAM
+ limitations) are unavailable
+References: <ff36cca2-d4c7-1e1f-9853-9c4af716a889@danwin1210.de>
+In-Reply-To: <ff36cca2-d4c7-1e1f-9853-9c4af716a889@danwin1210.de>
 
-So the entire "we have multiple trees" is why I want at least the
-gitlab-ci.yaml in tree, to force people to collaborate more on one
-thing instead of everyone rolling their own fun and hacking stuff up.
-And there's still tons of stuff outside in the separate repo, like the
-lab status so Linus doesn't get a silly history of lab flapping.
+--------------DW6Jj7jb97by94IE6dUV0Kye
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Also wrt "developers don't get the update right away due to
-backmerge/pull delays", that's why integration trees like drm-tip or
-linux-next exist. So maybe initially we should make sure the ci
-patches go in through drm-misc, to maximize how many people see it.
-And even for mesa it's not fully automatic, you still have the rebase
-your branch if you picked a bad one for development (but yeah marge
-does that if the MR is ready). If you're doing kernel development on a
-linear tree instead of an integration tree, you're doing it very
-wrong.
+SGkNCg0KQW0gMjUuMTAuMjIgdW0gMDk6MTIgc2NocmllYiBKZXJlbXkgUmFuZDoNCj4gSGkg
+ZHJpLWRldmVsLA0KPiANCj4gSSBoYXZlIHR3byBtYWNoaW5lcyB3aXRoIEFTUEVFRCBHUFUn
+cyAoYXN0IExpbnV4IGRyaXZlcikuwqAgT25lIG1hY2hpbmUgDQo+IGlzIHg4Nl82NCwgcnVu
+bmluZyBhbiBBU1JvY2sgUmFjayBUb21teSA5MC1TQzAyUDEtMDBVQk5aIEdQVSAoQVNUMjUx
+MCANCj4gY2hpcHNldCkgd2l0aCBLREUgUGxhc21hIFdheWxhbmQ7IHRoZSBvdGhlciBpcyBw
+cGM2NGxlLCBydW5uaW5nIGFuIA0KPiBpbnRlZ3JhdGVkIEFTVDI1MDAgR1BVIHdpdGggS0RF
+IFBsYXNtYSBYMTEuwqAgQm90aCB0aGUgQVNUMjUxMCBhbmQgDQo+IEFTVDI1MDAgaGF2ZSAx
+NiBNaUIgVlJBTSBhY2NvcmRpbmcgdG8gbHNwY2kuwqAgQm90aCBBU1BFRUQgR1BVJ3MgYXJl
+IA0KPiBhZHZlcnRpc2VkIGFzIHN1cHBvcnRpbmcgdXAgdG8gMTkyMHgxMjAwIHJlc29sdXRp
+b24sIGJ1dCBLREUgb25seSANCj4gZGV0ZWN0cyBhIG1heGltdW0gcmVzb2x1dGlvbiBvZiAx
+OTIweDEwODAuDQo+IA0KPiBTb21lIGFkZGl0aW9uYWwgaW5mb3JtYXRpb24gYWJvdXQgdGhp
+cyBidWcgY2FuIGJlIGZvdW5kIGF0IA0KPiBodHRwczovL2ZvcnVtcy5yYXB0b3Jjcy5jb20v
+aW5kZXgucGhwL3RvcGljLDMxLjAuaHRtbCAuDQo+IA0KPiBJIGJlbGlldmUgdGhpcyBpcyBh
+IExpbnV4IGJ1ZywgYmVjYXVzZSBpdCBpcyBzb2xlbHkgZGVwZW5kZW50IG9uIHRoZSANCj4g
+TGludXggdmVyc2lvbi7CoCBUaGUgZm9sbG93aW5nIExpbnV4IHZlcnNpb25zIGFyZSBjb25m
+aXJtZWQgdG8gaGF2ZSB0aGUgYnVnOg0KPiANCj4gRGViaWFuOg0KPiA1LjYuMC0xIChwcGM2
+NGVsKQ0KPiBGZWRvcmE6DQo+IDUuNi4wLTEuZmMzMy54ODZfNjQNCj4gNS42LjAtMS5mYzMz
+LnBwYzY0bGUNCj4gNS4xNy41LTMwMC5mYzM2Lng4Nl82NA0KPiA1LjE4LjYtMjAwLmZjMzYu
+cHBjNjRsZQ0KPiA2LjEuMC0wLnJjMC4yMDIyMTAwN2dpdDRjODYxMTQxOTRlNi41LmZjMzgu
+cHBjNjRsZQ0KPiANCj4gV2hlcmVhcyB0aGUgZm9sbG93aW5nIExpbnV4IHZlcnNpb25zIGFy
+ZSBjb25maXJtZWQgdG8gd29yayBmaW5lIChtYXggDQo+IHJlc29sdXRpb24gZGV0ZWN0ZWQg
+YnkgS0RFIGlzIDE5MjB4MTIwMCBhcyBpdCBzaG91bGQgYmUsIGFuZCB0aGF0IA0KPiByZXNv
+bHV0aW9uIHdvcmtzIGZpbmUgd2hlbiBzZWxlY3RlZCk6DQo+IA0KPiBEZWJpYW46DQo+IDUu
+NS4wLTIgKHBwYzY0ZWwpDQo+IEZlZG9yYToNCj4gNS41LjE3LTIwMC5mYzMxLng4Nl82NA0K
+PiA1LjUuMTctMjAwLmZjMzEucHBjNjRsZQ0KPiANCj4gSSBiZWxpZXZlIHRoZSBidWcgd2Fz
+IGludHJvZHVjZWQgYnkgTGludXggY29tbWl0IA0KPiA5MjUzZjgzMGM5MTY2YmZhNmNjMDdk
+NWVkNTllMTc0ZTlkNWVjNmNhLCB3aGljaCBhZGRzIGEgVlJBTSBzaXplIGNoZWNrIA0KPiB0
+aGF0IGFzc3VtZXMgZG91YmxlLWJ1ZmZlcmluZy7CoCAxOTIweDEwODAgcmVzb2x1dGlvbiBh
+dCA0IGJ5dGVzIHBlciANCj4gcGl4ZWwgd2l0aCAyIGJ1ZmZlcnMgaXMgMTYuNiBNQiwgd2hp
+bGUgYnVtcGluZyB0aGF0IHRvIDE5MjB4MTIwMCByZXN1bHRzIA0KPiBpbiAxOC40IE1CLsKg
+IFNpbmNlIHRoZSBWUkFNIHNpemUgaXMgMTYgTWlCID09IDE2LjggTUIsIHRoYXQgZXhwbGFp
+bnMgdGhlIA0KPiBpc3N1ZS4NCg0KVGhhbmtzIGZvciByZXBvcnRpbmcuIEl0J3MgYmVlbiBh
+IGtub3duIGlzc3VlIGZvciBhIHdoaWxlLg0KDQpCdXQgaW4gdGhlIG1vc3QgcmVjZW50IGRl
+dmVsIHRyZWUsIHdlIGhhdmUgcmVwbGFjZWQgYXN0IG1lbW9yeSANCm1hbmFnZW1lbnQsIHNv
+IHRoYXQgaXQgY2FuIG5vdyB1c2UgdGhlIGZ1bGwgdnJhbSBzaXplIGZvciBzY2Fub3V0IA0K
+YnVmZmVycy4gU2VlDQoNCiANCmh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2Ry
+bS10aXAvY29tbWl0L2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYz9pZD1mMmZhNWE5
+OWNhODFjZTEwNTY1MzllODNjNzA1ZjNkNmJlYzYyZTMxDQoNClRvIHRlc3QsIGdldCB0aGUg
+bGF0ZXN0IGRybS10aXAgZnJvbQ0KDQogICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9y
+Zy9kcm0vZHJtLXRpcA0KDQphbmQgdHJ5IG9uIHlvdXIgbWFjaGluZS4NCg0KVGhlIHVwZGF0
+ZWQgZHJpdmVyIHNob3VsZCBiZWNvbWUgYXZhaWxhYmxlIGluIExpbnV4IHY2LjMuDQoNCkJl
+c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFN0ZXBzIHRvIHJlcHJvZHVjZToNCj4gDQo+
+ICogQWRkIGEgR1BVIHRoYXQgdXNlcyB0aGUgYXN0IGRyaXZlciwgd2hpY2ggc3VwcG9ydHMg
+MTkyMHgxMjAwIA0KPiByZXNvbHV0aW9uIGFuZCBoYXMgMTYgTWlCIFZSQU0uDQo+ICogQm9v
+dCBpbnRvIEtERS4NCj4gKiBHbyB0byBLREUgU3lzdGVtIFNldHRpbmdzIC0+IERpc3BsYXkg
+YW5kIE1vbml0b3IgLT4gRGlzcGxheSANCj4gQ29uZmlndXJhdGlvbi4NCj4gKiBMb29rIGF0
+IGxpc3Qgb2YgZGV0ZWN0ZWQgcmVzb2x1dGlvbnMuDQo+ICogS0RFIHdpbGwgb25seSBkZXRl
+Y3QgdXAgdG8gMTkyMHgxMDgwIHJlc29sdXRpb24uDQo+IA0KPiBJJ20gYXR0YWNoaW5nIHRo
+ZSBvdXRwdXQgb2YgImpvdXJuYWxjdGwgLS1uby1ob3N0bmFtZSAtayIsIGFsdGhvdWdoIEkn
+bSANCj4gZG91YnRmdWwgdGhhdCBhbnl0aGluZyB1c2VmdWwgaXMgaW4gdGhlIGxvZy4NCj4g
+DQo+IEkgcmVwb3J0ZWQgdGhpcyBidWcgdG8gRmVkb3JhIGF0IA0KPiBodHRwczovL2J1Z3pp
+bGxhLnJlZGhhdC5jb20vc2hvd19idWcuY2dpP2lkPTIxMzY5NTAgLCBhbmQgd2FzIGRpcmVj
+dGVkIA0KPiB0byB0aGlzIG1haWxpbmcgbGlzdC4NCj4gDQo+IEhhcHB5IHRvIHByb3ZpZGUg
+bW9yZSBkZXRhaWxzIG9uIHJlcXVlc3QuwqAgKEknbSBub3Qgc3Vic2NyaWJlZCB0byB0aGlz
+IA0KPiBsaXN0LCBzbyBwbGVhc2UgQ0MgYW55IHJlcGxpZXMgdG8gbWUuKQ0KPiANCj4gQ2hl
+ZXJzLA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxv
+cGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIu
+IDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJn
+KQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-What I think everyone agrees on is that we probably get the split
-wrong and need to shuffle some files back&forth, and that's something
-we need to warn Linus about I guess. But somewhere we do need a split
-between internal and external stuff, and personally I'd like if at
-least the pure sw testing (build and virtual stuff) could be all in
-upstream.
+--------------DW6Jj7jb97by94IE6dUV0Kye--
 
-> Given that it's currently very dependent on fd.o infrastructure (publishe=
-d ci-templates, the registry, the specific-tag runners for Collabora/CrOS D=
-UTs, etc), there isn't much of a portability gain in bringing the scripts i=
-nto the tree either. It's a good goal, but not where we are today.
+--------------riugWP1X7M2gLClOKoHm2BTe
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I don't think there's huge chances for any non-fdo gitlab anytime
-soon. Once we get there we might need to figure out how to standardize
-the hw lab interfacing, and if we have all the sw targets in upstream
-that should help with shuffling stuff around for a hypothetical LF
-gitlab CI (or whatever it is).
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNXkhkFAwAAAAAACgkQlh/E3EQov+C5
+cBAAv/cw/uvphNSVBVpX5MzrLNTT9+4RQFLS7poQb5C1F5P96QXgyNBGjNAhVk0J3HnsuACMyqHI
+NRu4JwBSmlJTOMiOQBXqe/flM0i0C8KvzvGb6xgl/bVAU07GNwVquuf2NwwswNWJTFk5lV0AsQ/p
+i+JwnIlxfxfjpGtfPJVSjhZcJ8zFFQ74Gkd9XTi+9A5ctr1jcktLm9qjpOrgWgBljuTPsSHPesb1
+5r86sSmrrdpJwpVjMSYD9JIgIS7m5rR04wC7LF6lH5ehowpNKhqF3AlALfKh8uhYxPTFDs4D3MLg
+OIhviJfwECT066pT3Sj96F5N2f1pxuF+xz+OaJVmYp2fzwWyV56586TxLQ7l1tKl1vk0NGOVRS/s
+d1WgVeanZEQpm3/jZCiObOmGDmin0wSr858ZCbzrdgm0cnY17Xb9pA0bRTs/JZfm9j0LiQ+kNyk1
+5xfocg4Ldnmn2/ADJiWml9QO5fD7hfaAFmJg4gFWKb6Jc/frHsURopsTGPGR5B/V6cgVYOPatYOl
+2drs5/wRzGo641RmDPY6gjMWnf1YAy7O7qWIOCueCqTCkoEWdR5YtFuOHJkZ/bk+9QyBc6B9E5pF
+WrYlBzaueJO5cs6XLCYBH9j6J5yGzN7k7aE8daPvOyMWzYPtf2chlt1kMCuq/qlwONl1FvBkJ15L
+xO0=
+=rCWd
+-----END PGP SIGNATURE-----
+
+--------------riugWP1X7M2gLClOKoHm2BTe--
