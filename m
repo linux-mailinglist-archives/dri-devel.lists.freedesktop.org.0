@@ -2,38 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADCE60C6CD
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 10:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FF160C7DE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 11:22:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAC8C10E299;
-	Tue, 25 Oct 2022 08:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0722510E2DE;
+	Tue, 25 Oct 2022 09:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F270D10E299
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 08:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1666687544;
- bh=1hlO0xp1QKme+jWFrFuCBHfanOnxZRk+T6OJTnerW7M=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:Reply-To:
- In-Reply-To;
- b=MrOBXxLir3zQckpgfyhwbCJ079uVvtvE0KipvnhHiep1U4kqnRzYboPPht02awymU
- dbEeEL+1oaeR4X0pnjnOPqrPIV+cxwQHN27bvxmat0RIHDEASG0lqT+S7IjD3P6IhM
- K8nXwvYZbmwgymkbpH+xhA4FlnJII6M33MaP7DRw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.179] ([178.165.198.54]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mzhj9-1p07mQ3uT3-00vcqZ; Tue, 25
- Oct 2022 10:45:44 +0200
-Message-ID: <95953ffd-32db-62be-bbba-8d4a88cb1ca6@gmx.net>
-Date: Tue, 25 Oct 2022 10:45:42 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04DA310E2DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 09:21:59 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B90081FDAE;
+ Tue, 25 Oct 2022 09:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666689717; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TirGP9kehklLrxYyK9tTjQojXB/wauusruIKVlXQuuA=;
+ b=f0LP6dUp7Gne0J/p3id+0g9bwbWMEwZ+eY6WPiHu/w/qlJkNjNyn7dGBhWx5g54eVvI+wO
+ +copHCPl5P9HYbgI9l6MnpA9352oj4t111Ss2Y9hO4Qe+VtIyiYbLsFMIj9D+9opdG81SC
+ ndTLzHhJZSPHEp2+n5JLm201hIgxAgg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666689717;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TirGP9kehklLrxYyK9tTjQojXB/wauusruIKVlXQuuA=;
+ b=lNxYIqBkcdYLjTD/X67beZWOhrIE5Y046yCGpsD/8Ndbzw/ykM239on6XUFGJIMG1xJPHB
+ O3Rj8NzVlhclUGBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7C281134CA;
+ Tue, 25 Oct 2022 09:21:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 3YiiHLWqV2N6PQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 25 Oct 2022 09:21:57 +0000
+Message-ID: <2603b160-32cf-d2ae-d218-01e86d3d7ede@suse.de>
+Date: Tue, 25 Oct 2022 11:21:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
+ Thunderbird/102.3.3
 Subject: Re: [Regression] CPU stalls and eventually causes a complete system
  freeze with 6.0.3 due to "video/aperture: Disable and unregister sysfb
  devices via aperture helpers"
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Greg KH <gregkh@linuxfoundation.org>,
+Content-Language: en-US
+To: andreas.thalhammer@linux.com, Greg KH <gregkh@linuxfoundation.org>,
  Thorsten Leemhuis <regressions@leemhuis.info>
 References: <bbf7afe7-6ed2-6708-d302-4ba657444c45@leemhuis.info>
  <668a8ffd-ffc7-e1cc-28b4-1caca1bcc3d6@suse.de>
@@ -41,39 +60,12 @@ References: <bbf7afe7-6ed2-6708-d302-4ba657444c45@leemhuis.info>
  <Y1Z2sq9RyEnIdixD@kroah.com> <51651c2e-3706-37d7-01e7-5d473a412850@suse.de>
  <70e16994-6f5b-d648-0848-2eb7e3ad641a@gmx.net>
  <ef862938-3e1a-5138-2bda-d10e9188f920@suse.de>
-Content-Language: de-AT
-From: Andreas Thalhammer <andreas.thalhammer-linux@gmx.net>
-In-Reply-To: <ef862938-3e1a-5138-2bda-d10e9188f920@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zxAssNYuJ/nRnimIBG+dwZkpAmy6Kw0koPKVrMohPbwCL+PxCuO
- 3vAq2sUNmIgliuJJb9OYSxbjgSQF/f7MvSDE3gIiJvnxEmKbGyCRhvaVUBhRtZFXy72Sown
- 3k6ltKgVD4Ojg8Sj7DRzCKHmhHC7vGAgaBM018VXlMk+08v9Tfjog62BkocadEBANVgCec6
- Zre0WHtTOIXE1xQmaqaNA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jqpKQVu95eU=:Fr6ik1Xo/+cgtdi2+x5Bm2
- RBtiU6svXahvsQYN7VuePRgSIffF4xeM/rf7XXMYPoOa/PVZtDF3vgEbUMrN/aMdfgkqpc7gR
- 2Quw+Ftb47/3TVxb5TbJO7x/21afaTsgzAk986wBNfDXQw1myPFegYb6LwQp5LDMPBtOfjIyg
- 0TKZK3kN8m1EPgUEtC2+1s0fJlBvDsfXHaNJhQSHGUkJCj/Dz1DfMs5KbTpOuExtqG8MR29sm
- eQGA/ch7Y8acug6hedXZAyWYE/bu09Z8VFtlhogz5YMpulNvREQOrNQTa2PMvDH3LWTknpRei
- bHF9lvnbHkh9fqzuWYRHLfSCAvQDj9n3I19GyElET9PtZg4NZ16nZ0Tlo4j5EZljAoy0mFLeN
- jYbYpP50Mc9Fb1yhoyGygobqpewHwBDAsbLmZBI4Gu/UUbhEuQARKk/bGK/nInG35XsBKrj6S
- A/OtgNedEPkk9pnuNb38IjqiZ8rir7NsTZPnDwcTYhMzjrFY3uuQLGcji9gwnNhby/YBoLv1a
- s3Gy5AFsgiTXHCHBxeyUIUMKy+QcJvhF4op4M8g9pB9DRqMzksRA/spb4wloL7A4uxzCZOxSZ
- 6Ck8JTCRM7gUXhYMU3cg4yzVOG0uTw/F6EHQL/oUUK09HvVZgILxnty2fDZL1TtaYZQnC7iQ1
- S7Xk7tAb/94PfVZiLTk/I3jJ13VSRvXXmfpjrNIIEHxeSurKI4xvJ8ohNNfebzWZAqbnPOKMD
- Sq2ph3PZxyziN+k11Y0Ie6NRXx8S4k7CfwlPPc8tmUOz4oP5DT+2V2wklwhDspOQjWICEaLNY
- Xz9xK++/jghqGS/vuiX0xO5yqKPz78yFn+7frGgquw9DYJODOFjBXHH0fsNwyny3U6sCZ+c39
- VmF3lwOCPDMLgKs73xzRbwomiv5PLx0MPZvn78cKU3Vb3QhsFTFSvHPOIg77P/TQNfbf/QwE0
- cnV7Vsw8etesLJVxs7JzINW716K1XgrVQsuJ8cI6ez7PUS01bhCrhXxitPxHe8++I6gqC9VyF
- bpcrOMK7rrj8s1nnkarQm/SpF7DQXHjz+sw7n2QNhzxlIphCE0A64oC0m8oYklWW97eFzfrWQ
- EQC6AyL1eGT2grwL9VPcNPUAOODfi4XPdCCzSNCCyFj/eAPJirPhkpqCu2qPy9wxuTAS9/Zqu
- ERPTeI3YtzK2wRmaQf6xrdnlV7SF/G/59yBFjVJeNyfkGzp9DlAbHUxZB1caVl8pYgRtaPOqt
- uelvdem5aTlbKUGPvCRJgqzYdTJcFKei85pfmdT9zvgV1soijNH0a2NGjashd+4Q/sjo0z71b
- uwQSb0BrcjwMxKNr2mRoJLKX3RRJZiY7QsdonLGKskf6dQxjD9xIcR2DOfH6Q2qaJNo1JVLnN
- lCzjk6lPla7RyU7TeYt6z/FzQHP9YCCgke8kkEbhTGkrPLsoL/3JpPYZBfcARzBvp5OBSVlZ1
- oltpsa9rHBRaa7RyV4HAoZR7ckPylNJT0hwRVgzj1hMrRbkCKnu8hQAbmCpE3Jt9V47OCoLuy
- 86VSNXgrfXTcgrBEY1tBul0XOmjTIKT48HeG85ad9UL17D8XJN/+p9ZGw9WknGlAN7A==
+ <95953ffd-32db-62be-bbba-8d4a88cb1ca6@gmx.net>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <95953ffd-32db-62be-bbba-8d4a88cb1ca6@gmx.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HKfU0llQxpwU3Yxt8SYKX0sp"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,124 +78,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: andreas.thalhammer@linux.com
+Cc: Sasha Levin <sashal@kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HKfU0llQxpwU3Yxt8SYKX0sp
+Content-Type: multipart/mixed; boundary="------------awyygws9fDa3XU0KxfBEniii";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: andreas.thalhammer@linux.com, Greg KH <gregkh@linuxfoundation.org>,
+ Thorsten Leemhuis <regressions@leemhuis.info>
 Cc: Sasha Levin <sashal@kernel.org>,
  "stable@vger.kernel.org" <stable@vger.kernel.org>,
  "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
  ML dri-devel <dri-devel@lists.freedesktop.org>,
  Javier Martinez Canillas <javierm@redhat.com>
-Errors-To: dri-devel-bounces@lists.freedesktop.org
-Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-ID: <2603b160-32cf-d2ae-d218-01e86d3d7ede@suse.de>
+Subject: Re: [Regression] CPU stalls and eventually causes a complete system
+ freeze with 6.0.3 due to "video/aperture: Disable and unregister sysfb
+ devices via aperture helpers"
+References: <bbf7afe7-6ed2-6708-d302-4ba657444c45@leemhuis.info>
+ <668a8ffd-ffc7-e1cc-28b4-1caca1bcc3d6@suse.de>
+ <958fd763-01b6-0167-ba6b-97cbd3bddcb6@leemhuis.info>
+ <Y1Z2sq9RyEnIdixD@kroah.com> <51651c2e-3706-37d7-01e7-5d473a412850@suse.de>
+ <70e16994-6f5b-d648-0848-2eb7e3ad641a@gmx.net>
+ <ef862938-3e1a-5138-2bda-d10e9188f920@suse.de>
+ <95953ffd-32db-62be-bbba-8d4a88cb1ca6@gmx.net>
+In-Reply-To: <95953ffd-32db-62be-bbba-8d4a88cb1ca6@gmx.net>
 
-Am 25.10.22 um 10:16 schrieb Thomas Zimmermann:
-> Hi Andreas
->
-> Am 24.10.22 um 18:19 schrieb Andreas Thalhammer:
->> Am 24.10.22 um 13:31 schrieb Thomas Zimmermann:
->>> Hi
->>>
->>> Am 24.10.22 um 13:27 schrieb Greg KH:
->>>> On Mon, Oct 24, 2022 at 12:41:43PM +0200, Thorsten Leemhuis wrote:
->>>>> Hi! Thx for the reply.
->>>>>
->>>>> On 24.10.22 12:26, Thomas Zimmermann wrote:
->>>>>> Am 23.10.22 um 10:04 schrieb Thorsten Leemhuis:
->>>>>>>
->>>>>>> I noticed a regression report in bugzilla.kernel.org. As many
->>>>>>> (most?)
->>>>>>> kernel developer don't keep an eye on it, I decided to forward it =
-by
->>>>>>> mail. Quoting from
->>>>>>> https://bugzilla.kernel.org/show_bug.cgi?id=3D216616=C2=A0 :
->>>>>>>
->>>>>>>> =C2=A0=C2=A0 Andreas 2022-10-22 14:25:32 UTC
->>>>>>>>
->>>>>>>> Created attachment 303074 [details]
->>>>>>>> dmesg
->>>>>>
->>>>>> I've looked at the kernel log and found that simpledrm has been
->>>>>> loaded
->>>>>> *after* amdgpu, which should never happen. The problematic patch ha=
-s
->>>>>> been taken from a long list of refactoring work on this code. No
->>>>>> wonder
->>>>>> that it doesn't work as expected.
->>>>>>
->>>>>> Please cherry-pick commit 9d69ef183815 ("fbdev/core: Remove
->>>>>> remove_conflicting_pci_framebuffers()") into the 6.0 stable branch
->>>>>> and
->>>>>> report on the results. It should fix the problem.
->>>>>
->>>>> Greg, is that enough for you to pick this up? Or do you want
->>>>> Andreas to
->>>>> test first if it really fixes the reported problem?
->>>>
->>>> This should be good enough.=C2=A0 If this does NOT fix the issue, ple=
-ase let
->>>> me know.
->>>
->>> Thanks a lot. I think I can provided a dedicated fix if the proposed
->>> commit doesn't work.
->>>
->>> Best regards
->>> Thomas
->>>
->>>>
->>>> thanks,
->>>>
->>>> greg k-h
->>>
->>
->> Thanks... In short: the additional patch did NOT fix the problem.
->
-> Yeah, it's also part of a larger changeset. But I wouldn't want to
-> backport all those changes either.
->
-> Attached is a simple patch for linux-stable that adds the necessary fix.
-> If this still doesn't work, we should probably revert the problematic
-> patch.
->
-> Please test the patch and let me know if it works.
+--------------awyygws9fDa3XU0KxfBEniii
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMjUuMTAuMjIgdW0gMTA6NDUgc2NocmllYiBBbmRyZWFzIFRoYWxoYW1tZXI6
+DQpbLi4uXQ0KPj4gWWVhaCwgaXQncyBhbHNvIHBhcnQgb2YgYSBsYXJnZXIgY2hhbmdlc2V0
+LiBCdXQgSSB3b3VsZG4ndCB3YW50IHRvDQo+PiBiYWNrcG9ydCBhbGwgdGhvc2UgY2hhbmdl
+cyBlaXRoZXIuDQo+Pg0KPj4gQXR0YWNoZWQgaXMgYSBzaW1wbGUgcGF0Y2ggZm9yIGxpbnV4
+LXN0YWJsZSB0aGF0IGFkZHMgdGhlIG5lY2Vzc2FyeSBmaXguDQo+PiBJZiB0aGlzIHN0aWxs
+IGRvZXNuJ3Qgd29yaywgd2Ugc2hvdWxkIHByb2JhYmx5IHJldmVydCB0aGUgcHJvYmxlbWF0
+aWMNCj4+IHBhdGNoLg0KPj4NCj4+IFBsZWFzZSB0ZXN0IHRoZSBwYXRjaCBhbmQgbGV0IG1l
+IGtub3cgaWYgaXQgd29ya3MuDQo+IA0KPiANCj4gWWVzLCB0aGlzIGZpeGVkIHRoZSBwcm9i
+bGVtLiBJJ20gcnVubmluZyA2LjAuMyB3aXRoIHlvdXIgcGF0Y2ggbm93LCBhbGwNCj4gZmlu
+ZS4NCg0KVGhhbmtzIGEgbG90IGZvciB0ZXN0aW5nLiBJZiBHcmVnIGRvZXNuJ3QgYWxyZWFk
+eSBwaWNrIHVwIHRoZSBwYXRjaCBmcm9tIA0KdGhpcyBkaXNjdXNzaW9uLCBJJ2xsIHNlbmQg
+aXQgdG8gc3RhYmxlIHNvb25pc2g7IGFkZGluZyB5b3VyIFRlc3RlZC1ieSB0YWcuDQoNCkJl
+c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFRoYW5rcyENCj4gQW5kcmVhcw0KPiANCj4+
+DQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21hcw0KPj4NCj4+Pg0KPj4+IEkgZG9uJ3QgdXNl
+IGdpdCBhbmQgSSBkb24ndCBrbm93IGhvdyB0byAvY2hlcnJ5LXBpY2sgY29tbWl0Lw0KPj4+
+IDlkNjllZjE4MzgxNSwgYnV0IEkgZm91bmQgdGhlIHBhdGNoIGhlcmU6DQo+Pj4gaHR0cHM6
+Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzQ5NDYwOS8NCj4+Pg0KPj4+IEkg
+aG9wZSB0aGF0J3MgdGhlIHJpZ2h0IG9uZS4gSSByZWludGVncmF0ZWQNCj4+PiB2Mi0wNy0x
+MS12aWRlby1hcGVydHVyZS1EaXNhYmxlLWFuZC11bnJlZ2lzdGVyLXN5c2ZiLWRldmljZXMt
+dmlhLWFwZXJ0dXJlLWhlbHBlcnMucGF0Y2gNCj4+PiBhbmQgYWxzbyBhcHBsaWVkDQo+Pj4g
+djItMDQtMTEtZmJkZXYtY29yZS1SZW1vdmUtcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9mcmFt
+ZWJ1ZmZlcnMucGF0Y2gsDQo+Pj4gZGlkIGEgIm1ha2UgbXJwcm9wZXIiIGFuZCB0aGVyZWFm
+dGVyIGNvbXBpbGVkIGEgY2xlYW4gbmV3IDYuMC4zIGtlcm5lbA0KPj4+IChzYW1lIC5jb25m
+aWcpLg0KPj4+DQo+Pj4gTm93IHRoZSBzeXN0ZW0gZG9lc24ndCBldmVuIGJvb3QgdG8gYSBj
+b25zb2xlLiBUaGUgZmlyc3QgYm9vdCBnb3QgbWUgdG8NCj4+PiBhIHJjdV9zaGVkIHN0YWxs
+IG9uIENQVXMvdGFza3MsIHNhbWUgYXMgYWJvdmUsIGJ1dCB0aGlzIHRpbWUgd2l0aDoNCj4+
+PiBXb3JrcXVldWU6IGJ0cmZzLWNhY2hlIGJ0cmZzX3dvcmtfaGVscGVyDQo+Pj4NCj4+PiBJ
+IGJvb3RlZCBhIHNlY29uZCB0aW1lIHdpdGggdGhlIHNhbWUga2VybmVsLCBhbmQgaXQgZ290
+IHN0dWNrIGFmdGVyDQo+Pj4gbW91bnRpbmcgdGhlIHJvb3QgYnRyZnMgZmlsZXN5c3RlbSAo
+d2hhdCBsb29rZWQgbGlrZSBhIHRvdGFsIGZyZWV6ZSwgYnV0DQo+Pj4gd2hlbiBpdCBkaWRu
+J3Qgc2hvdyBhIHJjdV9zdGFsbCBtZXNzYWdlIGFmdGVyIH4yIG1pbiBJIGdvdCBpbXBhdGll
+bnQgYW5kDQo+Pj4gd2FudGVkIHRvIHNlZSBpZiBJIGhhZCBqdXN0IGJ1c3RlZCBteSByb290
+IGZpbGVzeXN0ZW0uLi4pDQo+Pj4NCj4+PiBJIGJvb3RlZCA2LjAuMiBhbmQgZXZlcnl0aGlu
+ZyBpcyBmaW5lLiAoSSdtIHZlcnkgZ2xhZCEgSSBkZWZpbml0ZWx5DQo+Pj4gc2hvdWxkIHVw
+ZGF0ZSBteSBiYWNrdXAgcmlnaHQgYXdheSEpDQo+Pj4NCj4+PiBJIHdpbGwgdHJ5IDYuMS1y
+YzEgbmV4dCwgYmVhciB3aXRoLi4uDQo+Pj4NCj4+DQo+IA0KDQotLSANClRob21hcyBaaW1t
+ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
+aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
+bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
+byBUb3Rldg0K
 
-Yes, this fixed the problem. I'm running 6.0.3 with your patch now, all
-fine.
+--------------awyygws9fDa3XU0KxfBEniii--
 
-Thanks!
-Andreas
+--------------HKfU0llQxpwU3Yxt8SYKX0sp
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
->
-> Best regards
-> Thomas
->
->>
->> I don't use git and I don't know how to /cherry-pick commit/
->> 9d69ef183815, but I found the patch here:
->> https://patchwork.freedesktop.org/patch/494609/
->>
->> I hope that's the right one. I reintegrated
->> v2-07-11-video-aperture-Disable-and-unregister-sysfb-devices-via-apertu=
-re-helpers.patch
->> and also applied
->> v2-04-11-fbdev-core-Remove-remove_conflicting_pci_framebuffers.patch,
->> did a "make mrproper" and thereafter compiled a clean new 6.0.3 kernel
->> (same .config).
->>
->> Now the system doesn't even boot to a console. The first boot got me to
->> a rcu_shed stall on CPUs/tasks, same as above, but this time with:
->> Workqueue: btrfs-cache btrfs_work_helper
->>
->> I booted a second time with the same kernel, and it got stuck after
->> mounting the root btrfs filesystem (what looked like a total freeze, bu=
-t
->> when it didn't show a rcu_stall message after ~2 min I got impatient an=
-d
->> wanted to see if I had just busted my root filesystem...)
->>
->> I booted 6.0.2 and everything is fine. (I'm very glad! I definitely
->> should update my backup right away!)
->>
->> I will try 6.1-rc1 next, bear with...
->>
->
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNXqrUFAwAAAAAACgkQlh/E3EQov+AY
+uA//bN9y2WwRu+QdCgAltnp15GPLaEQJnEuYby+8fUgduAsxT9GG0tupViuz2h9I5EqNNVLpRXD0
+M18P5YiCuCJH/8Kb4rAa812iJPTpjq29LH+s10EdsT9o6OtbOwxV+kNM/qQ7Hto76KNuqJ7SCPUa
+CjyMSkZjPSF8I5V5QXeHG2KZlPeJkjqL8n/eEsvlCj5qAFECA7xrmlejTp4+0Kt8QiUdCoxthIZr
+gbYythW8Ne4KtDUoOUJXuHe2pCCBHlHUFrJzSwI4w3P4QxFH+RW3bN+1vH2Vg6ANLeAoN8ql18fr
+Bl6EgwTgTPzodKzv3saOXGhqCpzFtBumnXEGRp3PC7TpzdWyzorLt4U09sGYuDp4gyYQ2cE+DurV
+NPvc2b4XyxiWRvdkte5FKE+InuznzwPjOoQLcL7SbpCk6SZaTEXO4l3rhTYdxPJqigv1IIXkzLeC
+QJx28iWbs+/APr3+2WP1h6jG0tOZ9WZCrCXL5+AiaGYKW2anI0Vk8GhgJV2Mio3Y9cMLV2dwHAwj
+/d3tvs0fXBoZbClBA20ZP1DgcsW5PP1lOIR48IcgT6XaZ/qhoxxsgvkRyewcHx7Aju6+W9EQdLSW
+MHpY5bQ0UabQWZnjEQasBko7VliqPx+xkeOyqZSydddSPbQUGRIE77pVuXcdhr2n/4uj60xaR0JX
+bUA=
+=6xYf
+-----END PGP SIGNATURE-----
+
+--------------HKfU0llQxpwU3Yxt8SYKX0sp--
