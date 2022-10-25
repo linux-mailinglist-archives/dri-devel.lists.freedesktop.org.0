@@ -2,65 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF64F60C15C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 03:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC5260C19D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Oct 2022 04:22:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3D0210E0C5;
-	Tue, 25 Oct 2022 01:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 344C910E0DB;
+	Tue, 25 Oct 2022 02:22:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 407BF10E0C5
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 01:47:08 +0000 (UTC)
-X-UUID: 0c3706d845d44169b38af17017c713f0-20221025
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=ieQS2Mw52Pi8udyGNEflIMqPTtMIjzLnr/hwmBb+3cw=; 
- b=S9cyxmxQQQqWWF3clzmqkWQywedKVrUIqyVQOgmsUGNClV40NpExftamVpmx7Phiej18Oo65G1YZNmdm7Kk9i1lAZPhYlZt+WJaMEKFbLSnN/bSIg7ejCdtjWyWTWJzWPREhN0ozkz+VNX/hfVX8ypfVdz1zZBg27ptCCkBQP20=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12, REQID:4ae20d06-25a9-4b1e-a19a-2248aff8c791, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:100
-X-CID-INFO: VERSION:1.1.12, REQID:4ae20d06-25a9-4b1e-a19a-2248aff8c791, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:100
-X-CID-META: VersionHash:62cd327, CLOUDID:1f47f86c-89d3-4bfa-baad-dc632a24bca3,
- B
- ulkID:221025094704UJJN74HI,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
- il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 0c3706d845d44169b38af17017c713f0-20221025
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw01.mediatek.com (envelope-from <mingjia.zhang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 616003830; Tue, 25 Oct 2022 09:47:04 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 25 Oct 2022 09:47:02 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via
- Frontend Transport; Tue, 25 Oct 2022 09:47:01 +0800
-From: Mingjia Zhang <mingjia.zhang@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
- Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v5] media: mediatek: vcodec: Add to support VP9 inner racing
- mode
-Date: Tue, 25 Oct 2022 09:46:59 +0800
-Message-ID: <20221025014659.7158-1-mingjia.zhang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406C510E0DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Oct 2022 02:21:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nvh3sTsHLzL3u0UWcmG4GcuVMuYD1jFySJYgpDpOmJkQiOBay4XKK98I8//Dd/wL1GY1NX6Y+Upi/tvyueJ0MiSkQER4w/JWHIgHp66hEBOWfjUS38X77ZJsFnElwW1baPef9mHIl6d/NZXVhCpBdKCiEQC+hFr3sRSc/bRdMJLnsLin8rA9aebUai+hgTcqKMyvsiwQS0UWH7OVKeCWvyqA77QjThOoA2xcVD0AbPGDi8RGKycu4sir1E9R3fvW5G80yWX6VtjcXgUxrjixzBLOkVIexOTBhrzD1y7rqjvZYmj+GoaKehz21anDzGFpgSyR0Odi11BTgs1kMnHbeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cdJDSuFcEnGoaGyIgDVrLIdCxC63oUYIDbSiihFXjr4=;
+ b=od0dr/od7XjbIZKTFSqXKG3jwLR7GC6jYAuIfMsYxmxKJTIxZYJjpuu9nr8CqY5NbQul54uVJLoKN0RxdvBSPhTGy1K3Ywb6qH6rLMcUiuRKLIsAj8FKDNB3qW97nXSX0xJ2sPWMYM9UaT+xF7rQ+hrHCx00yRfAMzFhXornGPblRLxm+bFaNGFclwPHLSVR40iAVx1oW1RB0zCpYNGeFOYpPRSKWmlTzoLSfVf2cmq0CqF3c0gr8RGcX8pWaPB9TGf534pzTSvqLJ3VDUcAPSLkqlefc59A06KLXwlL3k/wHTgiVBiGZUyQvwC8XkiyEv3iStUxtKn+eu63vORiaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cdJDSuFcEnGoaGyIgDVrLIdCxC63oUYIDbSiihFXjr4=;
+ b=n5pPRMdTfQPgiuel1TVagaJjrVp+7MoNLqicWpIYYCLk3SjRSNM9+EU7hSj7vrGE6qLQuN2V2Z2muob57aX6HDH/gbChTYOtOZ4xAo2Cg+Ud3LNT18ijSGias4EG+SLO7amqqxQwrf7JfVZ9620opLaRNtsAEELUQZ+ZwXok5rL+xEfVyvGnUrViRqgCnnZSeXv0828G7Dy2tvcBWgSQ62cY0/3U3mGLrQE/lEp1lraOZ15/LsKeWFjy0q1WQfvyykmO53U9khTdSm6SX2innDblBMmvF29nA9ETnPv26b/tiY4LFG/g5x0KsRpGo3SGRlo07oy4W3fJM8BaX12ppg==
+Received: from MW4PR04CA0158.namprd04.prod.outlook.com (2603:10b6:303:85::13)
+ by CY8PR12MB7364.namprd12.prod.outlook.com (2603:10b6:930:50::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.22; Tue, 25 Oct
+ 2022 02:21:55 +0000
+Received: from CO1NAM11FT023.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:85:cafe::61) by MW4PR04CA0158.outlook.office365.com
+ (2603:10b6:303:85::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28 via Frontend
+ Transport; Tue, 25 Oct 2022 02:21:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CO1NAM11FT023.mail.protection.outlook.com (10.13.175.35) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5746.16 via Frontend Transport; Tue, 25 Oct 2022 02:21:55 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Mon, 24 Oct
+ 2022 19:21:53 -0700
+Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 24 Oct
+ 2022 19:21:52 -0700
+Message-ID: <c22bd93e-8bd2-6865-711a-37aeadbca7f9@nvidia.com>
+Date: Mon, 24 Oct 2022 19:21:52 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [RFC PATCH 0/3] new subsystem for compute accelerator devices
+Content-Language: en-US
+To: Oded Gabbay <ogabbay@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20221022214622.18042-1-ogabbay@kernel.org>
+ <af4c71cb-be60-e354-ca4f-23e834aca6e1@suse.de>
+ <CAFCwf12HDZvsr1TrRFQH9Vi26S-Xf9ULgxtBazme90Sj5AzhQQ@mail.gmail.com>
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <CAFCwf12HDZvsr1TrRFQH9Vi26S-Xf9ULgxtBazme90Sj5AzhQQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT023:EE_|CY8PR12MB7364:EE_
+X-MS-Office365-Filtering-Correlation-Id: c649fd85-7601-4774-bf02-08dab62fafe5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2xJN6ElfaRY9i2nhsQlVNpSPDX2VL56UPb6InT3XG6CV+CSssq+jwa3otjZd8Uc+bmtGVTI5vnSqPQoPIp9qdvRacZH08nNxt4TXo4/EN0qc+vsu5ySPWEFvyqRRPx0C0auoADBfQstcmdOahtnxA35TkL6nU/IiseGjTTqm/HFbH2EvB+OSzW/Vw5tuAG6mVzs4OrWGL/AT4r4ZM9Bv71GUf/3jyQ9/uv+HMZHWm3vM9Ape3MCwltFnsmQx8ljhTRaF83RZp9fNolMzYoEDbSAcaJlaWrMSdc9toHfcuV0WQ9FEPvxyn28VSyDx4NcwJGZrpxrXOLXFdriLVIiofolCfTmGoZ04yR/mXjpikjr7ucLYUIJ01B0Nh+sUrFrxO97vdzgdm+A5qbKHebL8+3R8okk/8VCWvHcS+387+CW8uFiRFpNqPRZ/OWcG5uECJsF0RbgR5qhOkWergnVGMZx285TeGu8ShUE9Fy/z2TiU3fmX1tDDBVjbVpw1qJezvsrcX5GxQWMSgfKAPYJoW8vcY5QmlwUsqiniPoxmeH6D3a0SwoYvU2d+yjHg9fJkp7DItbksg8eqOmAih4yH6dxWxeE7Y17buzWuiH9wXRTFqwjM0Zz3OZ3AG3fO7dzJDv4cAfc3VY9v1YqXmfMhWw4LdmpZ/+28PSnuUfX1NnUeG/vmtEHs8cdbF4A3D+oM5GbA8Q0zCLXvQZ5uQ7tnXlc8aCJW8AlOCzCywaJYwMlO+Ez3ch0g3Dn3HgBoi+m35U9Vw0hCSKfyPzP2/bcfMDZI//EdEhR8ricby2X26C8=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(346002)(136003)(376002)(396003)(451199015)(36840700001)(40470700004)(46966006)(8676002)(110136005)(70206006)(8936002)(82740400003)(26005)(316002)(16576012)(53546011)(86362001)(54906003)(41300700001)(70586007)(40480700001)(7416002)(2616005)(40460700003)(7636003)(36756003)(356005)(478600001)(4326008)(31696002)(83380400001)(82310400005)(47076005)(5660300002)(31686004)(36860700001)(186003)(2906002)(426003)(336012)(16526019)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2022 02:21:55.6196 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c649fd85-7601-4774-bf02-08dab62fafe5
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT023.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7364
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,217 +110,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Jason
+ Gunthorpe <jgg@nvidia.com>, Arnd
+ Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Jiho Chu <jiho.chu@samsung.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable VP9 inner racing mode
-We send lat trans buffer to the core when trigger lat to work, instead of waiting for the lat decode done.
-It can be reduce decoder latency.
+On 10/24/22 05:43, Oded Gabbay wrote:
 
-Signed-off-by: Mingjia Zhang <mingjia.zhang@mediatek.com>
----
-Changes from v3:
+Hi Oded,
 
-- CTS/GTS test pass
-- Fluster result: Ran 275/303 tests successfully
+The patches make sense to me. I'm still just reading through and looking
+for minor issues, but at a high level it seems to match what the LPC
+discussions pointed to.
 
-Changes from v2:
+>> What's your opinion on the long-term prospect of DRM vs accel? I assume
+>> that over time, DRM helpers will move into accel and some DRM drivers
+>> will start depending on accel?
+> I don't think that is what I had in mind.
+> What I had in mind is that accel helpers are only relevant for accel
+> drivers, and any code that might also be relevant for DRM drivers will
+> be placed in DRM core code. e.g. GEM enhancements, RAS netlink
 
-- CTS/GTS test pass
-- Fluster result: Ran 240/303 tests successfully
+Yes. That is how I understood it ("it" being both the LPC discussions,
+and this patchset) as well:
 
-Changes from v1:
+     * accel-only code goes in drivers/accel, thus allowing for
+       smaller, simpler drivers (as compared to full drm) for that case.
 
-- CTS/GTS test pass
----
- .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 85 ++++++++++---------
- 1 file changed, 47 insertions(+), 38 deletions(-)
+     * graphics and display code still goes in drivers/gpu/drm, because
+       it is much too hard to rename or move that directory.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-index 81de876d51267..1b39119c89951 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-@@ -436,6 +436,7 @@ struct vdec_vp9_slice_ref {
-  * @frame_ctx:		4 frame context according to VP9 Spec
-  * @frame_ctx_helper:	4 frame context according to newest kernel spec
-  * @dirty:		state of each frame context
-+ * @local_vsi:		local instance vsi information
-  * @init_vsi:		vsi used for initialized VP9 instance
-  * @vsi:		vsi used for decoding/flush ...
-  * @core_vsi:		vsi used for Core stage
-@@ -482,6 +483,8 @@ struct vdec_vp9_slice_instance {
- 	struct v4l2_vp9_frame_context frame_ctx_helper;
- 	unsigned char dirty[4];
- 
-+	struct vdec_vp9_slice_vsi local_vsi;
-+
- 	/* MicroP vsi */
- 	union {
- 		struct vdec_vp9_slice_init_vsi *init_vsi;
-@@ -1616,16 +1619,10 @@ static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance
- }
- 
- static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
--				     struct vdec_lat_buf *lat_buf,
--				     struct vdec_vp9_slice_pfc *pfc)
-+				     struct vdec_vp9_slice_vsi *vsi)
- {
--	struct vdec_vp9_slice_vsi *vsi;
--
--	vsi = &pfc->vsi;
--	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
--
- 	mtk_vcodec_debug(instance, "Frame %u LAT CRC 0x%08x %lx %lx\n",
--			 pfc->seq, vsi->state.crc[0],
-+			 (instance->seq - 1), vsi->state.crc[0],
- 			 (unsigned long)vsi->trans.dma_addr,
- 			 (unsigned long)vsi->trans.dma_addr_end);
- 
-@@ -2090,6 +2087,13 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 		return ret;
- 	}
- 
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability)) {
-+		vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
-+		memcpy(&instance->local_vsi, vsi, sizeof(*vsi));
-+		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+		vsi = &instance->local_vsi;
-+	}
-+
- 	if (instance->irq) {
- 		ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_RECEIVED,
- 						   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
-@@ -2102,22 +2106,25 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	}
- 
- 	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
--	ret = vdec_vp9_slice_update_lat(instance, lat_buf, pfc);
-+	ret = vdec_vp9_slice_update_lat(instance, vsi);
- 
--	/* LAT trans full, no more UBE or decode timeout */
--	if (ret) {
--		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
--		return ret;
--	}
-+	if (!IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		/* LAT trans full, no more UBE or decode timeout */
-+		if (ret) {
-+			mtk_vcodec_err(instance, "frame[%d] decode error: %d\n",
-+				       ret, (instance->seq - 1));
-+			return ret;
-+		}
- 
--	mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
--			 (unsigned long)pfc->vsi.trans.dma_addr,
--			 (unsigned long)pfc->vsi.trans.dma_addr_end);
- 
--	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
--				       vsi->trans.dma_addr_end +
--				       ctx->msg_queue.wdma_addr.dma_addr);
--	vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+	vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
-+	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end);
-+	if (!IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+
-+	mtk_vcodec_debug(instance, "lat trans end addr(0x%lx), ube start addr(0x%lx)\n",
-+			 (unsigned long)vsi->trans.dma_addr_end,
-+			 (unsigned long)ctx->msg_queue.wdma_addr.dma_addr);
- 
- 	return 0;
- }
-@@ -2139,40 +2146,40 @@ static int vdec_vp9_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- {
- 	struct vdec_vp9_slice_instance *instance;
--	struct vdec_vp9_slice_pfc *pfc;
-+	struct vdec_vp9_slice_pfc *pfc = NULL;
- 	struct mtk_vcodec_ctx *ctx = NULL;
- 	struct vdec_fb *fb = NULL;
- 	int ret = -EINVAL;
- 
- 	if (!lat_buf)
--		goto err;
-+		return -EINVAL;
- 
- 	pfc = lat_buf->private_data;
- 	ctx = lat_buf->ctx;
- 	if (!pfc || !ctx)
--		goto err;
-+		return -EINVAL;
- 
- 	instance = ctx->drv_handle;
- 	if (!instance)
--		goto err;
-+		return -EINVAL;
- 
- 	fb = ctx->dev->vdec_pdata->get_cap_buffer(ctx);
- 	if (!fb) {
- 		ret = -EBUSY;
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 
- 	ret = vdec_vp9_slice_setup_core(instance, fb, lat_buf, pfc);
- 	if (ret) {
- 		mtk_vcodec_err(instance, "vdec_vp9_slice_setup_core\n");
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 	vdec_vp9_slice_vsi_to_remote(&pfc->vsi, instance->core_vsi);
- 
- 	ret = vpu_dec_core(&instance->vpu);
- 	if (ret) {
- 		mtk_vcodec_err(instance, "vpu_dec_core\n");
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 
- 	if (instance->irq) {
-@@ -2190,24 +2197,26 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 	ret = vdec_vp9_slice_update_core(instance, lat_buf, pfc);
- 	if (ret) {
- 		mtk_vcodec_err(instance, "vdec_vp9_slice_update_core\n");
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 
--	pfc->vsi.trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
- 	mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n",
- 			 (unsigned long)pfc->vsi.trans.dma_addr_end);
--	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
--	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
--
--	return 0;
- 
--err:
--	if (ctx && pfc) {
--		/* always update read pointer */
--		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
-+vdec_dec_end:
-+	/* always update read pointer */
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-+					       pfc->vsi.trans.dma_addr);
-+	else
-+		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-+					       pfc->vsi.trans.dma_addr_end);
- 
-+	if (ret) {
- 		if (fb)
- 			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
-+	} else {
-+		ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
- 	}
- 	return ret;
- }
+     * code common to both also goes in drivers/gpu/drm.
+
+Looking ahead a bit more:
+
+For full-featured GPUs that do both Graphics and Compute, I expect
+that a *lot* of the code will end up in drivers/gpu/drm. Because so
+much of setting up for Compute is also really just setting up for
+Graphics--that's how it evolved, after all!
+
+And as things are structured now, it looks like those full featured
+GPU stacks will also need an aux bus (which I only just now learned
+about, but it looks quite helpful here). And also, user space will
+need to open both /dev/dri/* and /dev/accel/* nodes, if it needs
+access to anything live objects that drivers/accel owns.
+
+
+thanks,
 -- 
-2.18.0
-
+John Hubbard
+NVIDIA
