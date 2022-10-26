@@ -2,53 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36D460E0CE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 14:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D227C60E1DA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 15:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B12410E4F4;
-	Wed, 26 Oct 2022 12:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D39A10E52D;
+	Wed, 26 Oct 2022 13:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
- [209.85.160.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F2BF10E4E7;
- Wed, 26 Oct 2022 12:36:03 +0000 (UTC)
-Received: by mail-oa1-f42.google.com with SMTP id
- 586e51a60fabf-13ae8117023so19733725fac.9; 
- Wed, 26 Oct 2022 05:36:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kV4Oxfken2/ulM3nGzbwK4CyKckevFO7gguVOI5Hhm4=;
- b=179N1tlZpWllWr3jomxugsIhy0zTy77Hv81RmUCGHzrkM73iq/7V/1R9o37IdtqFL2
- y5ZBswbfLliCwYvovo5z3l9XHdH3peiv3fVHkaIHEtVrM9EbbdqopjNu7goSyZorxZxt
- /vkLg5PKT3fbdNPkucrzMA8uGTjKvkIDJ0FH1vWKLLp0SHyAVlL8SsmXfC2ehJyibQJJ
- C5RDGBm5TWUx8NElSi5Mj9n3WvEYJCheAIjZf4Yg57dgH76kjbpgF31wU+oqWibv2s8i
- HHegedqnfy/t6LE0tBUfB4GwRodhbae1+q+w+4z4USM/arPFfxiEw2fqDkpbWCW8ZZsM
- X0IA==
-X-Gm-Message-State: ACrzQf2foDuVVTVYN2pURG33UcKR7/6QK+laYFpg4qAOTSk+UT+xrpOd
- sFuOg1gJ81PdZYyZkBERhQ==
-X-Google-Smtp-Source: AMsMyM7avrAhnzOr2x6d70zZ/hy8bXiFehrVQMoacKHi/oBio7h7PU7naRlNqMgIa18WyCNJRmnZHg==
-X-Received: by 2002:a05:6870:8910:b0:131:2f31:dc1c with SMTP id
- i16-20020a056870891000b001312f31dc1cmr2029210oao.290.1666787762448; 
- Wed, 26 Oct 2022 05:36:02 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- d22-20020a4ad356000000b004805e9e9f3dsm2123538oos.1.2022.10.26.05.36.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 05:36:01 -0700 (PDT)
-Received: (nullmailer pid 277720 invoked by uid 1000);
- Wed, 26 Oct 2022 12:36:02 -0000
-From: Rob Herring <robh@kernel.org>
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-In-Reply-To: <20221026032624.30871-2-quic_bjorande@quicinc.com>
-References: <20221026032624.30871-1-quic_bjorande@quicinc.com>
- <20221026032624.30871-2-quic_bjorande@quicinc.com>
-Message-Id: <166678762718.274656.14416161449532771853.robh@kernel.org>
-Subject: Re: [PATCH v3 01/12] dt-bindings: display/msm: Add binding for
- SC8280XP MDSS
-Date: Wed, 26 Oct 2022 07:36:02 -0500
+X-Greylist: delayed 2413 seconds by postgrey-1.36 at gabe;
+ Wed, 26 Oct 2022 13:17:31 UTC
+Received: from tartarus.angband.pl (tartarus.angband.pl [51.83.246.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C28AE10E044
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 13:17:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=angband.pl; 
+ s=tartarus;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=llPUghCPVreD7EpBEqpPyjdhFdd4NaYKksytbZvlSNE=; b=nUoTegT5y0L1eTDjphXggT2rlw
+ Mzl++GtwSxdSLdAqRuVSV9yy1O8PvK2p79ZtOMi1MAGpnb62jw9AwQqMsNGrekc/qhdAdUQXh2nGF
+ rTJy5+SJOSsN9z5FdeytXuWcngXpGTXxCE4Ao0M5UOcWZbcPkVSlAOy5dnUIutq7kP0g=;
+Received: from localhost ([127.0.0.1] helo=valinor.angband.pl)
+ by tartarus.angband.pl with smtp (Exim 4.94.2)
+ (envelope-from <kilobyte@valinor.angband.pl>)
+ id 1onfeM-00AvEN-2T; Wed, 26 Oct 2022 14:36:50 +0200
+Received: (nullmailer pid 42767 invoked by uid 1000);
+ Wed, 26 Oct 2022 12:36:49 -0000
+From: Adam Borowski <kilobyte@angband.pl>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Alexey Brodkin <abrodkin@synopsys.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/arc: disambiguate Synopsys ARC in Kconfig labels
+Date: Wed, 26 Oct 2022 14:36:40 +0200
+Message-Id: <20221026123640.42731-1-kilobyte@angband.pl>
+X-Mailer: git-send-email 2.37.2.609.g9ff673ca1a
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 127.0.0.1
+X-SA-Exim-Mail-From: kilobyte@valinor.angband.pl
+X-SA-Exim-Scanned: No (on tartarus.angband.pl); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,64 +54,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Johan Hovold <johan@kernel.org>,
- linux-kernel@vger.kernel.org
+Cc: Adam Borowski <kilobyte@angband.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Oct 2022 20:26:13 -0700, Bjorn Andersson wrote:
-> From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> 
-> Add binding for the display subsystem and display processing unit in the
-> Qualcomm SC8280XP platform.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
-> 
-> Changes since v2:
-> - Cleaned up description and interconnect definitions
-> - Added opp-table
-> 
->  .../bindings/display/msm/dpu-sc8280xp.yaml    | 287 ++++++++++++++++++
->  1 file changed, 287 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sc8280xp.yaml
-> 
+There's Intel Arc now which is what most folks will be looking for.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Adam Borowski <kilobyte@angband.pl>
+---
+ drivers/gpu/drm/tiny/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/msm/dpu-sc8280xp.example.dts:21:18: fatal error: dt-bindings/clock/qcom,dispcc-sc8280xp.h: No such file or directory
-   21 |         #include <dt-bindings/clock/qcom,dispcc-sc8280xp.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:406: Documentation/devicetree/bindings/display/msm/dpu-sc8280xp.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1492: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 565957264875..51b60c1a2bea 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -1,12 +1,12 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+ config DRM_ARCPGU
+-	tristate "ARC PGU"
++	tristate "Synopsys ARC PGU"
+ 	depends on DRM && OF
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_KMS_HELPER
+ 	help
+-	  Choose this option if you have an ARC PGU controller.
++	  Choose this option if you have a Synopsys ARC PGU controller.
+ 
+ 	  If M is selected the module will be called arcpgu.
+ 
+-- 
+2.37.2.609.g9ff673ca1a
 
