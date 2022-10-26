@@ -2,68 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE1260E4DA
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC41660E4DB
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7FAF10E564;
-	Wed, 26 Oct 2022 15:34:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C62310E556;
+	Wed, 26 Oct 2022 15:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C91610E560
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 15:34:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A898410E563
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 15:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666798480;
+ s=mimecast20190719; t=1666798486;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Bk5/l1P1WJsBzjE+AIX4jodlD6n3+SoO3yq57seOT+g=;
- b=hVnA/+mjo/vIyW7HGezNoSehLLBG2zzZ/RNQJ6DmfS5k+KlxjG1zAKImMJk9Q1z1Yj4IIs
- UX+bHIaUUwvVpjJxQmYM8uEoR7hnN/DwNkZaZ5zVpkN5bPrYkP7vlMxt3W+o1D/rjBcJtc
- V1SuYORzNUcWJdb2KbKN5tzaOVGYuSU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fLaZVg/Gn3THIn1ghLrf5MedEqRFiq/AUqXfvtIcrvk=;
+ b=WDZ/VQ7mAV3BLJUWozQ7m4KqM26e9cGITH2Jr43zY4kS2jfa6lvOWbmudI2TEAwy3BAARB
+ SbkkejtYtl3wPjWxTwvGnFQ/HTFRHXkEGTVKHDY/Z6cdcCThtsW5c3cVLiWBVCcdpXzeMJ
+ WN9Vc3BsaCNfbMwZIlxTiNQxlB/XxJ0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-433-5Ixlec6TOsO50Tth2-tkcQ-1; Wed, 26 Oct 2022 11:34:39 -0400
-X-MC-Unique: 5Ixlec6TOsO50Tth2-tkcQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- gn34-20020a1709070d2200b0079330e196c8so4773252ejc.16
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 08:34:39 -0700 (PDT)
+ us-mta-503-W7eue0f-OFqS54BYogoSzA-1; Wed, 26 Oct 2022 11:34:43 -0400
+X-MC-Unique: W7eue0f-OFqS54BYogoSzA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ c9-20020a05640227c900b0045d4a88c750so14176202ede.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 08:34:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Bk5/l1P1WJsBzjE+AIX4jodlD6n3+SoO3yq57seOT+g=;
- b=8JXlIUV/uxM3jG3aZTR99/gJpoZRFPzVA2o3T3P3MovfKkRTutO8Zf/FFPyUycC95d
- bpVkLJ6ZMAX/18bqINfgWQlXLUMosEBnbzonTpR2MkB6LJ+d/LpJCZ7hmetju9R2zdUT
- H5XVueL7pvdupvTMeJrN7QxaeJO2ciL/7LrRpro2ks7IYZLd3vaYadk9mBLdbEKepJT6
- t4vell2jkEcYWBExzb6svxXvOmGJyGylDGFkCn9wG+1ixoBDu4OKYh6M97vs44oJZBu+
- AxOhVIO4cmYjcFoDl7IOkast6Z/FjiSw8HIbXmAUbctLHrmR0W79bpy/5eyyjYwAlhoF
- Abvg==
-X-Gm-Message-State: ACrzQf1QiQyV/XCyVlAlO754iBccHlgDuv4nrOGb5Tn6KBfzGyU0971T
- Mti5f8+FsiP7oxUNMwc5PZJ0KjN6vEsqukmetr6l/hGyX6+j/GxTLWlR8+z+qEcvRYVrP3uuBz2
- DwE1Gpc9Zvl6jbfFNrVReDIAseAJH
-X-Received: by 2002:a17:906:9bc8:b0:7ad:7e6a:50ac with SMTP id
- de8-20020a1709069bc800b007ad7e6a50acmr3060191ejc.66.1666798478391; 
- Wed, 26 Oct 2022 08:34:38 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7Tqza3Pl4lNkWJ5bPEYyIoT8BN17lubrg5b1xiKYtRizsuI5HD6j3De8gqbHdjxFOW/rFRTA==
-X-Received: by 2002:a17:906:9bc8:b0:7ad:7e6a:50ac with SMTP id
- de8-20020a1709069bc800b007ad7e6a50acmr3060174ejc.66.1666798478229; 
- Wed, 26 Oct 2022 08:34:38 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fLaZVg/Gn3THIn1ghLrf5MedEqRFiq/AUqXfvtIcrvk=;
+ b=rKImN9Gbmj8a9TIJj7ykZqD+SirUQYEjQjNZLIErvRrS3sGq4bTHh6aJHr/sZV3Mq1
+ Nve2aca+F0qbV2dep0Vsb7zGW0sV3qXn7oDWGQubodc7cRw8ri/Zzv50BdJTf1gyHXYF
+ UJM/YYJezZVALr92Ib76uvY8ZTWj2HOgSFKWLBC1wzGnHC2VVF6T7B5li1H7h6G8hURm
+ Oc6M5nGD/apUdkGSdBslmwg9MOjAEkyLDL20G8bNr7MGJBUaQoixih15/TPcPyrOkltE
+ C2PtKc0tVMewQ+jyt4AIKPW83TDs9iC5eUQtgZz5Lp7H59KvHNV4Y2rOYgPNGSHB/UAD
+ 3WeQ==
+X-Gm-Message-State: ACrzQf2KMZCM49Geb/N2DjNxkFa/fn7Ko3fEQ8+Oyf66QaAYN7gPZBk2
+ RXjHl+08prEabGKu4uXOrNqepgVHwLU1/OoxUcLv0IPQc6GLjJH+gwj59SRhNhsWN7hPIorYYq3
+ DIZ0zumjCBpy8lFZZZ74cjKK6rzQp
+X-Received: by 2002:a05:6402:27c6:b0:461:e426:dc8b with SMTP id
+ c6-20020a05640227c600b00461e426dc8bmr12855803ede.403.1666798482015; 
+ Wed, 26 Oct 2022 08:34:42 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7dYi2tzVQq42OFzB50D9ddEtWodBh0BQMxyElzqyZXWM3GFmgLvhs6sr8aj83t2ilqgGbccA==
+X-Received: by 2002:a05:6402:27c6:b0:461:e426:dc8b with SMTP id
+ c6-20020a05640227c600b00461e426dc8bmr12855779ede.403.1666798481834; 
+ Wed, 26 Oct 2022 08:34:41 -0700 (PDT)
 Received: from pollux.. ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- r1-20020a1709061ba100b007a9c3831409sm3125296ejg.137.2022.10.26.08.34.37
+ z17-20020a170906271100b0078a543e9301sm3048896ejc.200.2022.10.26.08.34.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 08:34:37 -0700 (PDT)
+ Wed, 26 Oct 2022 08:34:41 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
  liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH drm-misc-next v4 0/4] drm/arm/hdlcd: use drm managed resources
-Date: Wed, 26 Oct 2022 17:34:27 +0200
-Message-Id: <20221026153431.72033-1-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v4 1/4] drm/arm/hdlcd: use drmm_* to allocate
+ driver structures
+Date: Wed, 26 Oct 2022 17:34:28 +0200
+Message-Id: <20221026153431.72033-2-dakr@redhat.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221026153431.72033-1-dakr@redhat.com>
+References: <20221026153431.72033-1-dakr@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -86,42 +90,69 @@ Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Use drm managed resources to allocate driver structures and get rid of
+the deprecated drm_dev_alloc() call and replace it with
+devm_drm_dev_alloc().
 
-This patch series converts the driver to use drm managed resources to prevent
-potential use-after-free issues on driver unbind/rebind and to get rid of the
-usage of deprecated APIs.
+This also serves as preparation to get rid of drm_device->dev_private
+and to fix use-after-free issues on driver unload.
 
-Changes in v2:
-  - drop patch "drm/arm/hdlcd: crtc: use drmm_crtc_init_with_planes()"
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/arm/hdlcd_drv.c | 12 ++++--------
+ drivers/gpu/drm/arm/hdlcd_drv.h |  1 +
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
-Changes in v3:
-  - Fix alternate return paths in srcu read-side critical sections causing a
-    stall when unregistering the driver.
-  - Fix potential null pointer dereference in hdlcd_crtc_cleanup() introduced
-    dropping the patch in v2.
-  - Add a patch to remove explicit calls to drm_mode_config_cleanup().
-
-Changes in v4:
-  - Remove patches to protect platform device bound resources with
-    drm_dev_{enter,exit}, since this would leave the hardware enabled when
-    regularly unloading the driver e.g. via rmmod.
-    Instead do this in a later series, once we got drm_dev_unplug() in place
-    to deal with a regular driver shutdown.
-
-Danilo Krummrich (4):
-  drm/arm/hdlcd: use drmm_* to allocate driver structures
-  drm/arm/hdlcd: replace drm->dev_private with drm_to_hdlcd_priv()
-  drm/arm/hdlcd: plane: use drm managed resources
-  drm/arm/hdlcd: remove calls to drm_mode_config_cleanup()
-
- drivers/gpu/drm/arm/hdlcd_crtc.c | 24 +++++++------------
- drivers/gpu/drm/arm/hdlcd_drv.c  | 41 ++++++++++++++++----------------
- drivers/gpu/drm/arm/hdlcd_drv.h  |  2 ++
- 3 files changed, 32 insertions(+), 35 deletions(-)
-
-
-base-commit: e1e7bc481d49c3e3ada11029ce0d9b85a0a539d7
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index a032003c340c..463381d11cff 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -247,13 +247,11 @@ static int hdlcd_drm_bind(struct device *dev)
+ 	struct hdlcd_drm_private *hdlcd;
+ 	int ret;
+ 
+-	hdlcd = devm_kzalloc(dev, sizeof(*hdlcd), GFP_KERNEL);
+-	if (!hdlcd)
+-		return -ENOMEM;
++	hdlcd = devm_drm_dev_alloc(dev, &hdlcd_driver, typeof(*hdlcd), base);
++	if (IS_ERR(hdlcd))
++		return PTR_ERR(hdlcd);
+ 
+-	drm = drm_dev_alloc(&hdlcd_driver, dev);
+-	if (IS_ERR(drm))
+-		return PTR_ERR(drm);
++	drm = &hdlcd->base;
+ 
+ 	drm->dev_private = hdlcd;
+ 	dev_set_drvdata(dev, drm);
+@@ -319,7 +317,6 @@ static int hdlcd_drm_bind(struct device *dev)
+ err_free:
+ 	drm_mode_config_cleanup(drm);
+ 	dev_set_drvdata(dev, NULL);
+-	drm_dev_put(drm);
+ 
+ 	return ret;
+ }
+@@ -344,7 +341,6 @@ static void hdlcd_drm_unbind(struct device *dev)
+ 	drm_mode_config_cleanup(drm);
+ 	drm->dev_private = NULL;
+ 	dev_set_drvdata(dev, NULL);
+-	drm_dev_put(drm);
+ }
+ 
+ static const struct component_master_ops hdlcd_master_ops = {
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.h b/drivers/gpu/drm/arm/hdlcd_drv.h
+index 909c39c28487..3892b36767ac 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.h
++++ b/drivers/gpu/drm/arm/hdlcd_drv.h
+@@ -7,6 +7,7 @@
+ #define __HDLCD_DRV_H__
+ 
+ struct hdlcd_drm_private {
++	struct drm_device		base;
+ 	void __iomem			*mmio;
+ 	struct clk			*clk;
+ 	struct drm_crtc			crtc;
 -- 
 2.37.3
 
