@@ -1,49 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E782560DD17
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 10:33:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF1260DD2D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 10:40:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F004110E380;
-	Wed, 26 Oct 2022 08:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CF710E2D6;
+	Wed, 26 Oct 2022 08:40:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 924B210E2D6;
- Wed, 26 Oct 2022 08:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666773218; x=1698309218;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=BrB3HeiAzVea9M2hrNNH71cozc9StsByLs8RCVbM3yk=;
- b=mfuhvl2yhgSix/ivwTeFiy0qnhqp67qO/XN+qRQC1dLobZTIdrH6o2sh
- viunIbIrUPqYiDuRpkPbExWil02RTChy8TtifKFKQDQ6vNhgj45xNyA69
- iI+ecoGFVQ3a2dPJVt49n9Prw5X55d/ERMf8fdi5VRn0NGJ2puo01rH5X
- vGEqjYvlX2bUlMdSeIFpNIFm37esxUzRfj+T49yO/RxUpbPPKcgZ1n4P6
- O50LZBfuCbZ2Ez/SwnK1sP/mIXKb3fac29oAdxXOmCNrGeO5kz653yod/
- OSTZgu9sf5m9baYU7ClkCgeEQPyn7jtALhACnB3d6W77fP/vfGuN/MGPZ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="369960061"
-X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; d="scan'208";a="369960061"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2022 01:33:38 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="583079931"
-X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; d="scan'208";a="583079931"
-Received: from pszulc-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.16])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2022 01:33:36 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 00/16] drm/edid: EDID override refactoring and fixes
-In-Reply-To: <cover.1666614699.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1666614699.git.jani.nikula@intel.com>
-Date: Wed, 26 Oct 2022 11:33:34 +0300
-Message-ID: <87zgdjc7c1.fsf@intel.com>
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A42610E2D6;
+ Wed, 26 Oct 2022 08:40:03 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id q9so19498269ejd.0;
+ Wed, 26 Oct 2022 01:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=pB+C6SdYHI1MJjuO7kRlLZxMto9minOW953/oIWwSMc=;
+ b=JoFBDXVY5isva+nxYxgaq3YVgdfHiUZhYlC0Sjiep3ioAnHAGPsoxDQ65NM95RlThs
+ X5xJVbdcg1RcxL/mzhYAny1E0NIbx5sLIHRniJ7T6f2DNIus1tAnnbqpP3qxbwFC8VWj
+ yV/SUIYv4a33e5AZY5AP4aB8HADC9onKuX9qLlIPFv0pCgKOFjiwBZzIWiyx0bW2gXJ5
+ AoPDqyJCdmRNVSbD1HFcPIy3gqLbDKXOT3pfiIrgfMbLifphg+4ZG81lKg9OtM7JkJ9e
+ agMRYckuS3J3+/0OeRHsRqIEiSsifi3A4+tFTSC2SNPpL6gwZb+EjMA5CIRv0aC98isI
+ Zsrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pB+C6SdYHI1MJjuO7kRlLZxMto9minOW953/oIWwSMc=;
+ b=ZBYUzc8rxJvC+OJC+3op2QmBzYnLHrVuIqedjiYcXKZ91GQ1T6nA8rFSsR7w5rq2pU
+ 3+fOGwQkbWbZMnr6AXKRYEMLt2Pdsx2WijrPMCTsobmBcgtq+U+K9hNLwghxbAIdXnB1
+ 8GDmZKKAeyOP9JjDioi0e3dmOVPmc/gS18XIWCaAOSMaZ9cxqVMLpzt7RzKdjhwgunJk
+ UEsgNuGFEzOrxz+x7hc9wNQiorar6InHlABqj7SRNpYZ/IePhArkjBrfaOcrc59i5mCZ
+ QfRSb8G6jI5hwcWWorPNl4M82jCqTI1LcYfxaU5ECgusbzZ80jYeX2W1q8uuSw1Xqiow
+ p1Tw==
+X-Gm-Message-State: ACrzQf2VCoJ/73+vucPzK7cWwi+DUGw4mOPWmmFy7KdLrl+Da7kREHYA
+ 0i9O/sSrjXpDXEPNU5Pb9DU=
+X-Google-Smtp-Source: AMsMyM7UKMXUWTe8FYSuDI2bfhbwqS/rw2TfsjdvdhlWOZRFfg7UlDYfKYtExpOJzibuYs77q65BLg==
+X-Received: by 2002:a17:907:d03:b0:7a2:d213:de18 with SMTP id
+ gn3-20020a1709070d0300b007a2d213de18mr17639680ejc.124.1666773601908; 
+ Wed, 26 Oct 2022 01:40:01 -0700 (PDT)
+Received: from centennial.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
+ [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
+ su24-20020a17090703d800b0073cf6ec3276sm2600232ejb.207.2022.10.26.01.40.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 01:40:01 -0700 (PDT)
+From: Erico Nunes <nunes.erico@gmail.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>, Qiang Yu <yuq825@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/lima: Fix dev_pm_opp_set_config in case of missing
+ regulator
+Date: Wed, 26 Oct 2022 10:39:50 +0200
+Message-Id: <20221026083950.3712598-1-nunes.erico@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,57 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Oct 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> v2 of drm/edid: EDID override refactoring and fixes
->
-> Address review comments, add patch 15.
+Commit d8c32d3971e4 ("drm/lima: Migrate to dev_pm_opp_set_config()")
+introduced a regression as it may undo the clk_names setting in case
+the optional regulator is missing. This resulted in test and performance
+regressions with lima.
 
-Thanks for the reviews, pushed the series to drm-misc-next.
+Restore the old behavior where clk_names is set separately so it is not
+undone in case of a missing optional regulator.
 
-BR,
-Jani.
+Fixes: d8c32d3971e4 ("drm/lima: Migrate to dev_pm_opp_set_config()")
+Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+---
+ drivers/gpu/drm/lima/lima_devfreq.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-
->
-> BR,
-> Jani.
->
->
-> Jani Nikula (16):
->   drm/i915/hdmi: do dual mode detect only if connected
->   drm/i915/hdmi: stop using connector->override_edid
->   drm/amd/display: stop using connector->override_edid
->   drm/edid: debug log EDID override set/reset
->   drm/edid: abstract debugfs override EDID show better
->   drm/edid: rename drm_add_override_edid_modes() to
->     drm_edid_override_connector_update()
->   drm/edid: split drm_edid block count helper
->   drm/edid: add function for checking drm_edid validity
->   drm/edid: detach debugfs EDID override from EDID property update
->   drm/edid/firmware: drop redundant connector_name variable/parameter
->   drm/edid/firmware: rename drm_load_edid_firmware() to
->     drm_edid_load_firmware()
->   drm/edid: use struct drm_edid for override/firmware EDID
->   drm/edid: move edid load declarations to internal header
->   drm/edid/firmware: convert to drm device specific logging
->   drm/edid: add [CONNECTOR:%d:%s] to debug logging
->   drm/edid: convert to device specific logging
->
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   3 -
->  drivers/gpu/drm/drm_connector.c               |   1 +
->  drivers/gpu/drm/drm_crtc_internal.h           |  15 +-
->  drivers/gpu/drm/drm_debugfs.c                 |   8 +-
->  drivers/gpu/drm/drm_edid.c                    | 346 +++++++++++-------
->  drivers/gpu/drm/drm_edid_load.c               | 109 ++----
->  drivers/gpu/drm/drm_probe_helper.c            |   2 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c     |  20 +-
->  include/drm/drm_connector.h                   |  16 +-
->  include/drm/drm_edid.h                        |  10 +-
->  10 files changed, 283 insertions(+), 247 deletions(-)
-
+diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
+index 011be7ff51e1..9c8654934fea 100644
+--- a/drivers/gpu/drm/lima/lima_devfreq.c
++++ b/drivers/gpu/drm/lima/lima_devfreq.c
+@@ -113,10 +113,12 @@ int lima_devfreq_init(struct lima_device *ldev)
+ 	int ret;
+ 	const char *regulator_names[] = { "mali", NULL };
+ 	const char *clk_names[] = { "core", NULL };
+-	struct dev_pm_opp_config config = {
+-		.regulator_names = regulator_names,
++	struct dev_pm_opp_config config_clk_names = {
+ 		.clk_names = clk_names,
+ 	};
++	struct dev_pm_opp_config config_regulator_names = {
++		.regulator_names = regulator_names,
++	};
+ 
+ 	if (!device_property_present(dev, "operating-points-v2"))
+ 		/* Optional, continue without devfreq */
+@@ -124,7 +126,15 @@ int lima_devfreq_init(struct lima_device *ldev)
+ 
+ 	spin_lock_init(&ldevfreq->lock);
+ 
+-	ret = devm_pm_opp_set_config(dev, &config);
++	/*
++	 * Set clk_names separately so it is not undone in case of
++	 * a missing optional regulator.
++	 */
++	ret = devm_pm_opp_set_config(dev, &config_clk_names);
++	if (ret)
++		return ret;
++
++	ret = devm_pm_opp_set_config(dev, &config_regulator_names);
+ 	if (ret) {
+ 		/* Continue if the optional regulator is missing */
+ 		if (ret != -ENODEV)
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.37.3
+
