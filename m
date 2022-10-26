@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F3060DAB0
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 07:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAC660DAD1
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 07:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93FED10E3EF;
-	Wed, 26 Oct 2022 05:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1C510E41F;
+	Wed, 26 Oct 2022 05:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F18010E3EF
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 05:40:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE3110E41F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 05:58:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DBDB961D04
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 05:40:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 49756C433B5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 05:40:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C0C0761D03
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 05:58:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2FF76C433C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 05:58:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666762830;
- bh=AEp83ZOI6U0D/ZKZ+NiWj3p80x7Hjd43nGaXxf91jcw=;
+ s=k20201202; t=1666763920;
+ bh=hOpyInyqd8Nv/+kA3lgIU6T/1JGgh/9JDNh7ghcukR0=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Z6Mt+ByCzLBgl/JV5ahsfpkwd7RVKO84PstJVrcSM0Q8prtn6tiOfzkEyBOVUkjTY
- KRaVnCoKQ02unhm1Ox0JB8ljG6Uc8r1q4e9j44/H9ZKVcBeMZowiAWsMZx6JPIFq91
- itM0geSONtzHg3jytWPTap8wbbv1Bb4LTcrstflFDca2IFGwBSBLrMWAVzvW655mcb
- JaQS9uTaYqYfhsCSx1F0qtGF2m/+rOWB0LlxSuEv/B+vTeQpGer5+2Y4RLYHsljMew
- oJ1KItZzt8aiBPwWkt44xh3FguVBKau9xgE/fp3yanQ+5ZQ2kWT5s8g8T1ckMyo4Uh
- EgV8gSz+n7VMg==
+ b=aX0IC0i/RoFY+auANDZDd7t+Cb93MDb+sFl3O4SdeCibKXwenb+O6bTdqkY1V4/9K
+ e341a5wgDU+SOnRI6oAymqRl6W/ZIURj7Xg3k8vAiqjdiOm2htUXLMFtLM/avlGZNG
+ ++ZtMlRYCs+/sP0fRkoLkwWZzHyMQUjeYFa4xnwEenyKeRo2Ttu78GwgV4surw+EpZ
+ oaAWpaOmAJYTkKte12RBLCWcRE3Ncl59BSsMMaYGkXgqoR/YlgMu2Jh4iyco/CwAJg
+ xdpiSM1eV6CCR2QNqdn+0LcuyLjQVRBQiydYyrzENwPu/HsiMj1GyP9xfh8QZ4u5DS
+ rOs6z70EFu/xA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3457AC433E6; Wed, 26 Oct 2022 05:40:30 +0000 (UTC)
+ from userid 48) id 18EC9C433E9; Wed, 26 Oct 2022 05:58:40 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216625] [regression] GPU lockup on Radeon R7 Kaveri
-Date: Wed, 26 Oct 2022 05:40:29 +0000
+Date: Wed, 26 Oct 2022 05:58:39 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,7 +50,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216625-2300-0S0wcgrYwL@https.bugzilla.kernel.org/>
+Message-ID: <bug-216625-2300-3whiQSvUqt@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216625-2300@https.bugzilla.kernel.org/>
 References: <bug-216625-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,15 +75,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216625
 
---- Comment #2 from Pierre Ossman (pierre-bugzilla@ossman.eu) ---
-A bisect will be difficult, given that I can't reproduce it. :/
+--- Comment #3 from Pierre Ossman (pierre-bugzilla@ossman.eu) ---
+This is wrong, I checked the wrong lines in dnf's history:
 
-Any clues from the dmesg that could tell how to provoke it? Or some settings
-that could provide more information?
+> Last working system:
+>=20
+>   kernel-5.13.8-100.fc33.x86_64
 
-I can try a few version and see if I'm able to narrow it down somewhat. It's
-difficult to know when to assume it's a good version as in some cases it has
-gone weeks without a lookup...
+The last working kernel is actually 5.17.12-100.fc34.x86_64. So if it's the
+kernel it's likely 5.18 or 5.19 that regressed. I'll give 5.18.1 a spin.
 
 --=20
 You may reply to this email to add a comment.
