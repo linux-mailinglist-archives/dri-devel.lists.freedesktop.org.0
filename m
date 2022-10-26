@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5940F60E4D5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:36:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CEA60E4D1
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3097010E57C;
-	Wed, 26 Oct 2022 15:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7DE10E560;
+	Wed, 26 Oct 2022 15:34:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 983EC10E520;
- Wed, 26 Oct 2022 15:34:13 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 0556F580260;
- Wed, 26 Oct 2022 11:34:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 26 Oct 2022 11:34:13 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C2E10E53D;
+ Wed, 26 Oct 2022 15:34:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id DF04E5803B9;
+ Wed, 26 Oct 2022 11:34:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 26 Oct 2022 11:34:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1666798453; x=
- 1666805653; bh=7oYNZ/WLyFOxEAuVgKzwZ3R8/Ec3wa7tyLYyhZ7n/Ac=; b=w
- vRO1rADZGvVTmMBx0Fxem3BoR/VPK4lSiDbx+8q73q3EqDyGiUuGzyu/vq2De/Ms
- NJ3FeFuUF+692gXg5GO069y3cCm8zgBfTWSznBInil/d09deIBIPE0vPaWOgEurF
- KXIl9tUr2mcKdkSB0U7lIt1GukVkJCQOVAZQetRIwCHeWVArtUfJQJjj6eybbA6g
- J+x3OwvVqjs48/fNY/WBflBr3Ao1FmxCam/3gaGn1G50ZRqyzX+5+Kp1G3OU33Ho
- lALw56Jf0vdWF9YJNplUvYEQ9U2bvtDw4gKzyOZAz4V8Fw3QZtrFfpdE86YBk++s
- vj/sPvqNBhaBOpOOf/0KQ==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1666798454; x=
+ 1666805654; bh=Epsmm0rB+VJ6Ugkp+llJmwrmW0YmRsA6TLnns5YUuHc=; b=K
+ PnK1Nzjr1qU6BeYJZwUQ8rbSktfEsYExuyUF9q6/T6bncghJb+W3Yvf3c3GOg5dg
+ L5kCKi3lMqybkfaajOfPzuxyIcREILHeR5tfzzho/ZdJOb9CbphSfyppJEyT3ppi
+ Ja9p9DAkBPDSMx4bqXjr0ZAeN3W4MnjuLhEwvwKSPxCF8SJpjF83YX0Jzj+Ic57k
+ lGRvAfSzOqMJwPYohd3mdPSrq3sDTb4s+mnjkHWjaa6tq0fcAbRLSXiWFNaHfNvj
+ c3Fkqgzndsg7HbpH/38tOcGmGlyQP8SwgwFEuVkGaicpk6KUshubmuudh5uttpsO
+ q90rzPlghc+Ersx2kvp2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666798453; x=
- 1666805653; bh=7oYNZ/WLyFOxEAuVgKzwZ3R8/Ec3wa7tyLYyhZ7n/Ac=; b=e
- iqJIUi0er26sOMjxeFtrO2OL2UeGkqFie2OQntk5gcb2bQuX8xD/3dwQxfA4Wa94
- H+2iQRhRyEGRWDAOKn8HkCsQ3C+rhN1t0uMKVA0OIB9F2Rt44Uceaak4rx4J4Jno
- SLwujKQIyCpf9qwz/ntIgAANWUjKEwgBsLxsRjvv+IH1D7VsoLw8j+sLVSgxXyYB
- AaZJzidrrkg4dilE2DKdzH2Kz/0Aahk/90UTisxI0B5hGOJpA+zrVDSgZgJJ7gJ8
- wQ085y2QFma4CwIf70H0oTjukGrm+Xs8dQuApQvswiKIkvcDmg7h1PLa1Anu/HJS
- 4tTEJE562Ih85/6LgR/mA==
-X-ME-Sender: <xms:dFNZYwaSc9Zdb1eB2WJScsjqT_XmyJcKncaEZShFc5ef8Aa3iaoQpg>
- <xme:dFNZY7as5D0Wy3_LwZpsdkqU6uYNzxCP0_VEvY1zRBnBZLVCBArmp8Dr_-IgWOwLQ
- PmZvwkIoZSFjFdzFHw>
-X-ME-Received: <xmr:dFNZY69lsdBTx_CMusf0UxrszzcYH3Hca6WL5hfandlH9-4qu5vyZl9aDURzChRnmAQk3Cyu4UDaF_CKwM8vUpowDDSZkKKLGBblc33sAPTnPg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666798454; x=
+ 1666805654; bh=Epsmm0rB+VJ6Ugkp+llJmwrmW0YmRsA6TLnns5YUuHc=; b=o
+ JjrnmjMQizOWqeNqkZDQiWaonxjoJfCaz0qs2GZcbH1OwnusjZw79S5Nwp0bJZN3
+ 4p2bDarFGYlWbFYBXlJ63BAhJBoNko68m82dN5NlWRcYfKB85gKOgk3mX1lSR5Jc
+ q1oBkkv30stwI3c5jLvmsDsmEcE14A5E921detzcDWl8t2W4BPI1BzHVZvVgjGAP
+ 1MuyPPgqpItVJvq1jf3wvYG0bFeW7ddWXV5KqxkLDS8141cRBTCmpwsU0sRnAtV5
+ kXBR+lOs8Ug0oh992k9GkeaVm0uBnEvhaNNVrd/H45cWRO4+x6t5zOKa4SvbsLPO
+ +TE1mblHs5Rzd3UPIuLxA==
+X-ME-Sender: <xms:dlNZY_nJ-cE0DOljkODX6NT_zccZw6dZyuYCCrLYT3fYX1b6u-NZhQ>
+ <xme:dlNZYy3RUmqu_kfW4dDx80q6O3YH8oq1_RIJXlEa3PPPEWYg4oxDpjIsYS67yaH3B
+ izZaVlFKAk3MdVWqEM>
+X-ME-Received: <xmr:dlNZY1rWDYCMamG7W1WKMUwgYq1aivyxggfGiOUPe9qBL2LoHg1FAJ4j2tvTPnhIb4iQOM3StVd_3ELaWeZX4jIVT1d4jyaGfMpZwVKD03p_PQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtddvgdeltdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,20 +54,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtddvgdeltdcutefuodetggdote
  duheelvdegudffgefhudehgeevjefhhefhhefgvdeuvdenucevlhhushhtvghrufhiiigv
  pedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtg
  hh
-X-ME-Proxy: <xmx:dFNZY6rxGgHI0vw3cENKACO9B5hYaHVll1tN-lr0cZ9_HWlSsY5bhQ>
- <xmx:dFNZY7plkx43j5QwMigKfidjTWdL2-5DYEVTO2MD02-cWUJOAQqPHQ>
- <xmx:dFNZY4QIhgbhm_ANYkdpMmV8n3K05d06EWA3ZLrqzP_d2VAWJJD59Q>
- <xmx:dVNZY-WX7A_dOfk96AvMiO0_9FBVFKZHREUSiTBj34oXposgLNAcPQ>
+X-ME-Proxy: <xmx:dlNZY3mMVOBhWZq0PddOmEbRUvzAFMaCRuWzytHtilHs5N4b13bHwQ>
+ <xmx:dlNZY91JBCSlYCnw8m7rZb-zyzNtivkpnppsghlxaVyvE1uIbeZlyQ>
+ <xmx:dlNZY2ud0m6GGjLtsKLxFRt_LRS8J6bSIhJ9KS97fi8Hjo3BCY1V-w>
+ <xmx:dlNZY8DRwaVAn6ljMtNC_wHDC44ElFIgIqYdR3Z_ihJx7eAIoztGhw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 26 Oct 2022 11:34:12 -0400 (EDT)
+ 26 Oct 2022 11:34:14 -0400 (EDT)
 From: maxime@cerno.tech
-Date: Wed, 26 Oct 2022 17:33:39 +0200
-Subject: [PATCH v6 20/23] drm/vc4: vec: Check for VEC output constraints
+Date: Wed, 26 Oct 2022 17:33:40 +0200
+Subject: [PATCH v6 21/23] drm/vc4: vec: Convert to the new TV mode property
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20220728-rpi-analog-tv-properties-v6-20-e7792734108f@cerno.tech>
+Message-Id: <20220728-rpi-analog-tv-properties-v6-21-e7792734108f@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
 In-Reply-To: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
 To: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
@@ -83,11 +83,11 @@ To: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Lyude Paul <lyude@redhat.com>
 X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2459; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=OzLQ7pSaF80hWp8dAqMToRnA49hvkRverKkh4PGYboM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmRwe6BEVNEn6k3bTqS82SGUF7ne5N9ne1VS9gsnvz4d3+J
- lFNwRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACbynZHhf2bjjNsrJl1PTPqaPT35Gd
- f7ktCuMz7iycbrHX9kNdtJn2ZkmDnxYckeYYbuGRFbjrBP6z2SepC9acPG8Jw9R2bLvdXsYAUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9682; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=AR9flBz/c1C04tSsulZ805BZNc3dYG23XLyvNf34ou4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmRwe4N1/Z+iTn1c/bXBW7lixksPT682x7Z6aLy9/S/RtUz
+ 5090dZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAia8IZ/ilYVUouW+759sQ90Zcc15
+ q5JvhVpbFZ5r/cptzee/9f4XJGhm9yboGHq1rvRh866Vd1kOnO+hjV7lw9r05F9VWWMfWRzAA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,93 +106,327 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Now that the core can deal fine with analog TV modes, let's convert the vc4
+VEC driver to leverage those new features.
 
-The VEC can accept pretty much any relatively reasonable mode, but still
-has a bunch of constraints to meet.
-
-Let's create an atomic_check() implementation that will make sure we
-don't end up accepting a non-functional mode.
+We've added some backward compatibility to support the old TV mode property
+and translate it into the new TV norm property. We're also making use of
+the new analog TV atomic_check helper to make sure we trigger a modeset
+whenever the TV mode is updated.
 
 Acked-by: Noralf Trønnes <noralf@tronnes.org>
-Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 ---
-
 Changes in v6:
-- Used htotal instead of vtotal to discriminate PAL against NTSC
+- Use new get_modes helper
+
+Changes in v5:
+- Renamed tv_mode_names into legacy_tv_mode_names
+
+Changes in v4:
+- Removed the count variable in .get_modes
 ---
- drivers/gpu/drm/vc4/vc4_vec.c | 50 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ drivers/gpu/drm/vc4/vc4_vec.c | 185 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 129 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index 90e375a8a8f9..bfa8a58dba30 100644
+index bfa8a58dba30..1dda451c8def 100644
 --- a/drivers/gpu/drm/vc4/vc4_vec.c
 +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -453,6 +453,7 @@ static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder,
- 					struct drm_crtc_state *crtc_state,
- 					struct drm_connector_state *conn_state)
+@@ -172,6 +172,8 @@ struct vc4_vec {
+ 
+ 	struct clk *clock;
+ 
++	struct drm_property *legacy_tv_mode_property;
++
+ 	struct debugfs_regset32 regset;
+ };
+ 
+@@ -184,6 +186,12 @@ encoder_to_vc4_vec(struct drm_encoder *encoder)
+ 	return container_of(encoder, struct vc4_vec, encoder.base);
+ }
+ 
++static inline struct vc4_vec *
++connector_to_vc4_vec(struct drm_connector *connector)
++{
++	return container_of(connector, struct vc4_vec, connector);
++}
++
+ enum vc4_vec_tv_mode_id {
+ 	VC4_VEC_TV_MODE_NTSC,
+ 	VC4_VEC_TV_MODE_NTSC_J,
+@@ -192,7 +200,7 @@ enum vc4_vec_tv_mode_id {
+ };
+ 
+ struct vc4_vec_tv_mode {
+-	const struct drm_display_mode *mode;
++	unsigned int mode;
+ 	u32 config0;
+ 	u32 config1;
+ 	u32 custom_freq;
+@@ -225,43 +233,51 @@ static const struct debugfs_reg32 vec_regs[] = {
+ 	VC4_REG32(VEC_DAC_MISC),
+ };
+ 
+-static const struct drm_display_mode ntsc_mode = {
+-	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
+-		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
+-		 480, 480 + 7, 480 + 7 + 6, 525, 0,
+-		 DRM_MODE_FLAG_INTERLACE)
+-};
+-
+-static const struct drm_display_mode pal_mode = {
+-	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
+-		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
+-		 576, 576 + 4, 576 + 4 + 6, 625, 0,
+-		 DRM_MODE_FLAG_INTERLACE)
+-};
+-
+ static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
+-	[VC4_VEC_TV_MODE_NTSC] = {
+-		.mode = &ntsc_mode,
++	{
++		.mode = DRM_MODE_TV_MODE_NTSC,
+ 		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
+ 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+ 	},
+-	[VC4_VEC_TV_MODE_NTSC_J] = {
+-		.mode = &ntsc_mode,
++	{
++		.mode = DRM_MODE_TV_MODE_NTSC_J,
+ 		.config0 = VEC_CONFIG0_NTSC_STD,
+ 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+ 	},
+-	[VC4_VEC_TV_MODE_PAL] = {
+-		.mode = &pal_mode,
++	{
++		.mode = DRM_MODE_TV_MODE_PAL,
+ 		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
+ 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+ 	},
+-	[VC4_VEC_TV_MODE_PAL_M] = {
+-		.mode = &ntsc_mode,
++	{
++		.mode = DRM_MODE_TV_MODE_PAL_M,
+ 		.config0 = VEC_CONFIG0_PAL_M_STD,
+ 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+ 	},
+ };
+ 
++static inline const struct vc4_vec_tv_mode *
++vc4_vec_tv_mode_lookup(unsigned int mode)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(vc4_vec_tv_modes); i++) {
++		const struct vc4_vec_tv_mode *tv_mode = &vc4_vec_tv_modes[i];
++
++		if (tv_mode->mode == mode)
++			return tv_mode;
++	}
++
++	return NULL;
++}
++
++static const struct drm_prop_enum_list legacy_tv_mode_names[] = {
++	{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
++	{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
++	{ VC4_VEC_TV_MODE_PAL, "PAL", },
++	{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
++};
++
+ static enum drm_connector_status
+ vc4_vec_connector_detect(struct drm_connector *connector, bool force)
  {
-+	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	const struct vc4_vec_tv_mode *vec_mode;
+@@ -274,21 +290,74 @@ static void vc4_vec_connector_reset(struct drm_connector *connector)
+ 	drm_atomic_helper_connector_tv_reset(connector);
+ }
  
- 	vec_mode = &vc4_vec_tv_modes[conn_state->tv.legacy_mode];
-@@ -461,6 +462,55 @@ static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder,
- 	    !drm_mode_equal(vec_mode->mode, &crtc_state->adjusted_mode))
- 		return -EINVAL;
- 
-+	if (mode->crtc_hdisplay % 4)
+-static int vc4_vec_connector_get_modes(struct drm_connector *connector)
++static int
++vc4_vec_connector_set_property(struct drm_connector *connector,
++			       struct drm_connector_state *state,
++			       struct drm_property *property,
++			       uint64_t val)
+ {
+-	struct drm_connector_state *state = connector->state;
+-	struct drm_display_mode *mode;
+-
+-	mode = drm_mode_duplicate(connector->dev,
+-				  vc4_vec_tv_modes[state->tv.legacy_mode].mode);
+-	if (!mode) {
+-		DRM_ERROR("Failed to create a new display mode\n");
+-		return -ENOMEM;
++	struct vc4_vec *vec = connector_to_vc4_vec(connector);
++
++	if (property != vec->legacy_tv_mode_property)
 +		return -EINVAL;
 +
-+	if (!(mode->crtc_hsync_end - mode->crtc_hsync_start))
-+		return -EINVAL;
-+
-+	switch (mode->htotal) {
-+	/* NTSC */
-+	case 858:
-+		if (mode->crtc_vtotal > 262)
-+			return -EINVAL;
-+
-+		if (mode->crtc_vdisplay < 1 || mode->crtc_vdisplay > 253)
-+			return -EINVAL;
-+
-+		if (!(mode->crtc_vsync_start - mode->crtc_vdisplay))
-+			return -EINVAL;
-+
-+		if ((mode->crtc_vsync_end - mode->crtc_vsync_start) != 3)
-+			return -EINVAL;
-+
-+		if ((mode->crtc_vtotal - mode->crtc_vsync_end) < 4)
-+			return -EINVAL;
-+
++	switch (val) {
++	case VC4_VEC_TV_MODE_NTSC:
++		state->tv.mode = DRM_MODE_TV_MODE_NTSC;
 +		break;
 +
-+	/* PAL/SECAM */
-+	case 864:
-+		if (mode->crtc_vtotal > 312)
-+			return -EINVAL;
++	case VC4_VEC_TV_MODE_NTSC_J:
++		state->tv.mode = DRM_MODE_TV_MODE_NTSC_J;
++		break;
 +
-+		if (mode->crtc_vdisplay < 1 || mode->crtc_vdisplay > 305)
-+			return -EINVAL;
++	case VC4_VEC_TV_MODE_PAL:
++		state->tv.mode = DRM_MODE_TV_MODE_PAL;
++		break;
 +
-+		if (!(mode->crtc_vsync_start - mode->crtc_vdisplay))
-+			return -EINVAL;
++	case VC4_VEC_TV_MODE_PAL_M:
++		state->tv.mode = DRM_MODE_TV_MODE_PAL_M;
++		break;
 +
-+		if ((mode->crtc_vsync_end - mode->crtc_vsync_start) != 3)
-+			return -EINVAL;
++	default:
++		return -EINVAL;
+ 	}
+ 
+-	drm_mode_probed_add(connector, mode);
++	return 0;
++}
 +
-+		if ((mode->crtc_vtotal - mode->crtc_vsync_end) < 2)
-+			return -EINVAL;
++static int
++vc4_vec_connector_get_property(struct drm_connector *connector,
++			       const struct drm_connector_state *state,
++			       struct drm_property *property,
++			       uint64_t *val)
++{
++	struct vc4_vec *vec = connector_to_vc4_vec(connector);
 +
++	if (property != vec->legacy_tv_mode_property)
++		return -EINVAL;
++
++	switch (state->tv.mode) {
++	case DRM_MODE_TV_MODE_NTSC:
++		*val = VC4_VEC_TV_MODE_NTSC;
++		break;
++
++	case DRM_MODE_TV_MODE_NTSC_J:
++		*val = VC4_VEC_TV_MODE_NTSC_J;
++		break;
++
++	case DRM_MODE_TV_MODE_PAL:
++		*val = VC4_VEC_TV_MODE_PAL;
++		break;
++
++	case DRM_MODE_TV_MODE_PAL_M:
++		*val = VC4_VEC_TV_MODE_PAL_M;
 +		break;
 +
 +	default:
 +		return -EINVAL;
 +	}
-+
- 	return 0;
+ 
+-	return 1;
++	return 0;
  }
+ 
+ static const struct drm_connector_funcs vc4_vec_connector_funcs = {
+@@ -297,15 +366,19 @@ static const struct drm_connector_funcs vc4_vec_connector_funcs = {
+ 	.reset = vc4_vec_connector_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++	.atomic_get_property = vc4_vec_connector_get_property,
++	.atomic_set_property = vc4_vec_connector_set_property,
+ };
+ 
+ static const struct drm_connector_helper_funcs vc4_vec_connector_helper_funcs = {
+-	.get_modes = vc4_vec_connector_get_modes,
++	.atomic_check = drm_atomic_helper_connector_tv_check,
++	.get_modes = drm_connector_helper_tv_get_modes,
+ };
+ 
+ static int vc4_vec_connector_init(struct drm_device *dev, struct vc4_vec *vec)
+ {
+ 	struct drm_connector *connector = &vec->connector;
++	struct drm_property *prop;
+ 	int ret;
+ 
+ 	connector->interlace_allowed = true;
+@@ -318,8 +391,17 @@ static int vc4_vec_connector_init(struct drm_device *dev, struct vc4_vec *vec)
+ 	drm_connector_helper_add(connector, &vc4_vec_connector_helper_funcs);
+ 
+ 	drm_object_attach_property(&connector->base,
+-				   dev->mode_config.legacy_tv_mode_property,
+-				   VC4_VEC_TV_MODE_NTSC);
++				   dev->mode_config.tv_mode_property,
++				   DRM_MODE_TV_MODE_NTSC);
++
++	prop = drm_property_create_enum(dev, 0, "mode",
++					legacy_tv_mode_names,
++					ARRAY_SIZE(legacy_tv_mode_names));
++	if (!prop)
++		return -ENOMEM;
++	vec->legacy_tv_mode_property = prop;
++
++	drm_object_attach_property(&connector->base, prop, VC4_VEC_TV_MODE_NTSC);
+ 
+ 	drm_connector_attach_encoder(connector, &vec->encoder.base);
+ 
+@@ -366,13 +448,16 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
+ 	struct drm_connector *connector = &vec->connector;
+ 	struct drm_connector_state *conn_state =
+ 		drm_atomic_get_new_connector_state(state, connector);
+-	const struct vc4_vec_tv_mode *tv_mode =
+-		&vc4_vec_tv_modes[conn_state->tv.legacy_mode];
++	const struct vc4_vec_tv_mode *tv_mode;
+ 	int idx, ret;
+ 
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
++	tv_mode = vc4_vec_tv_mode_lookup(conn_state->tv.mode);
++	if (!tv_mode)
++		goto err_dev_exit;
++
+ 	ret = pm_runtime_get_sync(&vec->pdev->dev);
+ 	if (ret < 0) {
+ 		DRM_ERROR("Failed to retain power domain: %d\n", ret);
+@@ -454,13 +539,6 @@ static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder,
+ 					struct drm_connector_state *conn_state)
+ {
+ 	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+-	const struct vc4_vec_tv_mode *vec_mode;
+-
+-	vec_mode = &vc4_vec_tv_modes[conn_state->tv.legacy_mode];
+-
+-	if (conn_state->crtc &&
+-	    !drm_mode_equal(vec_mode->mode, &crtc_state->adjusted_mode))
+-		return -EINVAL;
+ 
+ 	if (mode->crtc_hdisplay % 4)
+ 		return -EINVAL;
+@@ -556,13 +634,6 @@ static const struct of_device_id vc4_vec_dt_match[] = {
+ 	{ /* sentinel */ },
+ };
+ 
+-static const char * const tv_mode_names[] = {
+-	[VC4_VEC_TV_MODE_NTSC] = "NTSC",
+-	[VC4_VEC_TV_MODE_NTSC_J] = "NTSC-J",
+-	[VC4_VEC_TV_MODE_PAL] = "PAL",
+-	[VC4_VEC_TV_MODE_PAL_M] = "PAL-M",
+-};
+-
+ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -570,9 +641,11 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
+ 	struct vc4_vec *vec;
+ 	int ret;
+ 
+-	ret = drm_mode_create_tv_properties_legacy(drm,
+-						   ARRAY_SIZE(tv_mode_names),
+-						   tv_mode_names);
++	ret = drm_mode_create_tv_properties(drm,
++					    BIT(DRM_MODE_TV_MODE_NTSC) |
++					    BIT(DRM_MODE_TV_MODE_NTSC_J) |
++					    BIT(DRM_MODE_TV_MODE_PAL) |
++					    BIT(DRM_MODE_TV_MODE_PAL_M));
+ 	if (ret)
+ 		return ret;
  
 
 -- 
