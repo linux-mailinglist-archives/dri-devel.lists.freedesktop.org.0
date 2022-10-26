@@ -2,52 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C7760E76D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 20:30:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B0460E7DA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 21:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61DE810E6EB;
-	Wed, 26 Oct 2022 18:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4143010E72E;
+	Wed, 26 Oct 2022 19:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74F8210E6F5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 18:29:36 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id
- i14-20020a056e021d0e00b0030028180f5bso5879302ila.5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 11:29:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mbMjITi4oOoj8f0nD7La77apr6x51zwihRrLdJqW5LY=;
- b=m5zQlhgb2eAlS6THacvOtr5iY+P8/R9y2li1k5ylJ5Ch4EG0tmLaoRzS9Eksn0ZQye
- zAsCUUPh2PQjyX6VZ/k8wY9WNAdYnhETZU1avmA1Hh3YBmxgVLiZreIg/vU7iZmUZDPF
- tAV2x+ly2k5Epf5WIaKUFRc6FHUprs8sOgqvaAHEv0R0hdpNbZPDQW4Eu3oHlX9GpqST
- r1DKlwR+GUwDcTWLLAQPrPKvDPPKTjTDcbE1IO+X9gTcDPU6lPkiElk2fccXRcg0gYgT
- BvNED+Z0hBf5fAsyt4tAT8kbLG+7mdJXF4CrB9a0aQFllsHzHlBVAjZ2+duIU96N5okZ
- oLtw==
-X-Gm-Message-State: ACrzQf21fqMzMVL+EccVHzZLjBpjEHdaO8cflEewxVwRFkVwqNCNcCmD
- ZOA+Rj/3Y1Rqzf8x86OZsl7ou8lhPGmMkcasv1vc3cbClYyO
-X-Google-Smtp-Source: AMsMyM7LXY/rUKZdQFAcyEwT7u0LRpIuueS58T6VGZWKlqy6PANZ6N6h1pp/uwuVv2CX/z0EMNi0kVwgsWXHbs62/aCcTKh2v3n+
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14F7310E5E2;
+ Wed, 26 Oct 2022 19:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666810803; x=1698346803;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=2tBfm0OFKmZjlqkcGeRJ3O+1eBRXjcG8qnkDtOwDZ5A=;
+ b=HKS/A0JzfAbYPPjmYENDQmcvjFV0+7LLpdiVFJq+dlLGNMYjhLqFzZhs
+ GRNP8TqFavPepx+CkZKEiiOJICBe7yDhSKG77pKeZ9jlClfcEB9yB8tub
+ kYURgie2B+pW6uDyN1og9dXQRspu47n5WdTNjUYQeq2v7/Mwbj+oHD9XT
+ poZLpWkwp4BZo7wK9nRO/p//N/H85GzIjqqmqP1sdwooSOGxL0ER/dWgO
+ ERgFsYTyLeqHqmGFlrWsSfEv4GznsLvRsUCbawa6bqg5o17H59M8OZO32
+ 9BgP6GUgMpZdMBba6Wdsmt4aaMJWANdDyFKycuF5EIrxp/njB1Xl3iq5I A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="309127348"
+X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; d="scan'208";a="309127348"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2022 12:00:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="737364377"
+X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; d="scan'208";a="737364377"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga002.fm.intel.com with ESMTP; 26 Oct 2022 12:00:02 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 26 Oct 2022 12:00:01 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 26 Oct 2022 12:00:01 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 26 Oct 2022 12:00:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ska6nYSFnK+C9dEsWqBYOp1OSDsUknRPfHQbqBrHj2Rw6s2p5CKKhSYd8vY3SiybZQRfXsxck6kqyRCbUZV+c02Dx1v8N2namTCdZDlHRVld5R7GSDlx6wDLlC4vKTMK+YiDE25nJjjtXTxkjv8bFwhsWgaHdr/3bEXeSff93tduPQU4xoUs1TkCWNaz+ICaAyWh8jQMh/Xix/HTpf3OO1bxS6HSaTpuoiPlen2fTCbTBYw0FfNBdYXVur0YlX4JCRtH1SHgOgr8Br5J7qsszrEsk01JaJn/hDT5cze73n3e9iQsnTa0xXuIJWdX1vnE91Li27n5U/mpQDLdM9csKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gcmTFFyRhf13CsCeCNWLdpnWte9Xgqt+wwXhLi0SyPA=;
+ b=AtrASOQ8/vfMZboD5Tjc9/8QNXDj3Y6GDYRovZqzwiGojnjWib+lvm5LZ8Pran4Fk2Atwu1pF3qJbmfa2N562uhGxJ/vC3Y2EhgYf5iDhP2Ka4By7US2NT4pGwIN/8dRIhJtOlFSYgBgO03Gi9SJxn75NbepqVQsfIqgIpQRHzGBvhDYhEqCMkYCPDyl36wZ9Ioo5p+zjiZnC++m1gEcphT/ZVYEPjEVDanaQtnPQNaIJia5ytEcPlcIdMEN/Ea364JWqYriwKsZosA6bx++bQY3Ru3Vyqv1SFVvnCg41qmCAQQVNCnxc9fq04+gXLPmk9JeJ66fkMry+m+tbc9peA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB6952.namprd11.prod.outlook.com (2603:10b6:510:224::13)
+ by CH0PR11MB5266.namprd11.prod.outlook.com (2603:10b6:610:e1::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Wed, 26 Oct
+ 2022 18:59:58 +0000
+Received: from PH8PR11MB6952.namprd11.prod.outlook.com
+ ([fe80::e083:2e6b:a798:f842]) by PH8PR11MB6952.namprd11.prod.outlook.com
+ ([fe80::e083:2e6b:a798:f842%4]) with mapi id 15.20.5746.021; Wed, 26 Oct 2022
+ 18:59:58 +0000
+Date: Wed, 26 Oct 2022 11:59:49 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH v5 09/19] drm/i915/vm_bind: Add out fence support
+Message-ID: <Y1mDpaWLTEOPxow2@nvishwa1-DESK>
+References: <20221025065905.13325-1-niranjana.vishwanathapura@intel.com>
+ <20221025065905.13325-10-niranjana.vishwanathapura@intel.com>
+ <fa3dfb7a-e69e-6f8d-bcf8-bb5471321f00@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <fa3dfb7a-e69e-6f8d-bcf8-bb5471321f00@intel.com>
+X-ClientProxiedBy: BYAPR07CA0068.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::45) To PH8PR11MB6952.namprd11.prod.outlook.com
+ (2603:10b6:510:224::13)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:2589:b0:363:bc7a:19eb with SMTP id
- s9-20020a056638258900b00363bc7a19ebmr2309280jat.80.1666808975673; Wed, 26 Oct
- 2022 11:29:35 -0700 (PDT)
-Date: Wed, 26 Oct 2022 11:29:35 -0700
-In-Reply-To: <000000000000fad77705e7fd40fb@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e7513905ebf4346f@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in task_work_run (2)
-From: syzbot <syzbot+9228d6098455bb209ec8@syzkaller.appspotmail.com>
-To: asml.silence@gmail.com, axboe@kernel.dk, christian.koenig@amd.com, 
- dri-devel@lists.freedesktop.org, dvyukov@google.com, ebiederm@xmission.com, 
- keescook@chromium.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, luto@kernel.org, 
- netdev@vger.kernel.org, peterz@infradead.org, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com, tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6952:EE_|CH0PR11MB5266:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9fb15d8-0156-4440-1727-08dab7844760
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qHS+CNiV4iLjjMN+XZPfc+Prgfh2XXE6qMyHEJsUvt6GeDop3fPcaPl6x2SRmXoVDqWhY60XOik0yYsWJKQOdjfbndD56d64JIUUNVeO+WaTVzPPNgTa+zOF6V+HW0Za3ilU6dsarKcwnx3vHRyiWRs3gU++qAZczjynolDw8Oj19vlfDnAFK45JEieLVrsZLOo/aKjrHo39O4vBfnigF8MTkft3yISRqDK8g7aSSpqK9Cys7DzFh+m/eiQ/nONItWH+IL90ssWsTtyTzwe8MBUCnKGc2OjNKo3jrGNpeYsBUqA82LpnNfkqoPY6YjsmvGZI3ek21T/M7v7KFH2Ff0LG1qRZ0fe2MtCrVqDJQRd9WsO+SlmzlZFpvY6iNVzgL0FyScxse60tlGPFapB9jtHdeDJ0JeoOBRspiZ6LnVJD9YKeK6Xumvj1LxD9RSzOt2pGs1u0goY/CWyGsUtJPUI3kH61wmLUmkIeqfTlxwiWOv86hHV1wzTzojLbjOK1Jo4BzWBsvl/7phNF0tvQKnMW4Uvoy7oSfq5Uc03kkRiQaQPv/+VFoLsqdGuKERZf3gZPMVy3aM7AHc5wUYKbFLog2Mo7mjAFw0akYJSzaTO9baHZdT7OFI+ZEbFecKlyUBsZ6Dkq201i1/HsvJm07c2WZmb98Tya4xfjyLDuyD7flKez/yMLyYH40ebduRjFfYZSJ93lRt9AU0GmNaduFw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR11MB6952.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(7916004)(396003)(136003)(346002)(39860400002)(376002)(366004)(451199015)(82960400001)(44832011)(86362001)(4326008)(5660300002)(6486002)(8676002)(6512007)(186003)(9686003)(83380400001)(26005)(478600001)(38100700002)(41300700001)(6636002)(2906002)(8936002)(316002)(66476007)(6666004)(33716001)(6506007)(6862004)(66946007)(66556008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oCfvFrxh+cqBYY1XKC6rlTtZXQ49te4JwGhgKxtzSt/eiXI83iK3mhMp89mk?=
+ =?us-ascii?Q?5zuB8F4Y8Ci+5Rm6aCdseY6+wLDDTo0TpsK3S9r0vwr8DAYmQ+jk2t8jS/sS?=
+ =?us-ascii?Q?gGGL3lH0UigOpJNHBTb5P7iKDRPhXXOdBMTqblLbpNXycaK/nYOjJn+Twk5A?=
+ =?us-ascii?Q?Lu5kP83kQA0zzjjuEo3z2NQW51GIC6YO7bU4g4leQRq0PamSIHL6YBk5BRd1?=
+ =?us-ascii?Q?ZM9svePBdmBFfOCdI2ClLM9ovuXQyiVeLGaUIOSfgJaOKpu05tzxPpxmn2ad?=
+ =?us-ascii?Q?UkYeh4TA0K3rxK969fuO891nsv2ZsCO3T08e7toI91juhLeNmm8CGxbQtOBc?=
+ =?us-ascii?Q?jDLY6/gDYBMLXq/iseZMCIe/1sVE+6e6IcOwWeZZZ/WB/e+qc5+Pd26Q0963?=
+ =?us-ascii?Q?pG+KQZqtHi5ay9h/1/M5f0p3Rwag+lBFlrKHrDH481hc7qeGjwn2cRYnXp8d?=
+ =?us-ascii?Q?RTTJypMw+yQYVPT1PzPJExTiSobPYgw06xBNUpRs12/B6/71pqEWcNd8V8yz?=
+ =?us-ascii?Q?HiszaD9LdhyDJU3tGjjeZygnuhAe9QnTVSwpqpFc7gGTWVYKUVUQ+UF9ewwM?=
+ =?us-ascii?Q?+l93jhTaBrn+hbYRwIft9XEDDLzTsC1xGZ1HiWhmAnUs8zKhEHnbGoNPX7Th?=
+ =?us-ascii?Q?u5xraTheZsrfjPV8IK3DpDGv6E/+OnpYTzkPhG9leTWKtW37U1VOIuj0XYyK?=
+ =?us-ascii?Q?9xvDaG0vBdkjf8AjxmkUBRVovqjDF458p0n9evUKcYrA/+Z7zhsqZ595n1qn?=
+ =?us-ascii?Q?QriU1Aw6oFtTNbbIJIwAbosBkTDgsm/60JxiowHaAoVECN3HhEGwWZYttHYI?=
+ =?us-ascii?Q?F4UZ6NTDD/3UPNJtncI2aKI+3i7b/Zeg8CeOJgDy6zOEQGqei/kD1sSkyqHK?=
+ =?us-ascii?Q?Dug8PhYjwjBfag+MJdDoGGpG5PNi1tm1UUR8ivayba+M/6zjleZPDVWuYsos?=
+ =?us-ascii?Q?w6obYwMZmdkC+E2U+JrZjBA6jdPRQNhIkXx44Gf7pGBApT6o7pCNf+8NkSep?=
+ =?us-ascii?Q?+Jp/Wqc5+VHvPo0QxSbe/U48YepnsHoHZWExzZ4S/Cw9EIt+P3IhasVtFumf?=
+ =?us-ascii?Q?mLrRWMu9qSmo2ZG9Sx8fLRy03Q9qcWssWIp0EkqyKppna60fAXUkayuZbXbV?=
+ =?us-ascii?Q?HM7LTDiSsh4tVFD6Oal5hy8m6+1fH0GlrE9MJdOvA4Tx7MSph+khJF/co0uS?=
+ =?us-ascii?Q?hI5Zhfcgyc3ZMTHu4eDU/Ht5Upo0ePEeOtq9MW9XqaPVHddhCmJ0er9R9OIO?=
+ =?us-ascii?Q?3qBu8J93/4HeuXoXAk+SNdCKJa+BAWBWe6Q32/TrS5RIypQloYH9WZ16rYhw?=
+ =?us-ascii?Q?gzn1Fy8QPCYGD8bYM5Ci3M5d9YWMdBYlSSx1cnVyhXoe6E8jg7cygk2xbS7k?=
+ =?us-ascii?Q?2GiDvkZdArgzxyG6298mr8rgOCCJt34qegusTFOipdosAPH+PhMJ94THIafy?=
+ =?us-ascii?Q?qjuFigwL3/Mt6laM8xEs2Y1NLq9jq9e7Mu6tqVono9MyBdzDEflV9sVKOXFC?=
+ =?us-ascii?Q?Rqj7vthFKXEU/Uf9DS+KBFldsA5CU0psAgwi+Q1aSO2vfNVIB2QPI/k4WckN?=
+ =?us-ascii?Q?sqPC5vKEsjgG/Ze6amzoMLS4+AB2VFEqiGYQYG+RnG4OFL0zU/9DJSFMULrO?=
+ =?us-ascii?Q?d7cIB7NCSJQ0s0jvKpO4VLQ=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9fb15d8-0156-4440-1727-08dab7844760
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6952.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 18:59:58.8329 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UWP2E7XCT7AIG7yfH36FsU5jBC7PrVKLiOu1rmn+hD7qJGUlclizGf/KDq2KXYQNG5rxqjAPLXJrPkte8YoFpyfadI/24toTkOvXVcfahrWthzbUp/gDyO3VnGCr8NMq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5266
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,189 +145,304 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has found a reproducer for the following issue on:
+On Wed, Oct 26, 2022 at 06:15:09PM +0100, Matthew Auld wrote:
+>On 25/10/2022 07:58, Niranjana Vishwanathapura wrote:
+>>Add support for handling out fence for vm_bind call.
+>>
+>>v2: Reset vma->vm_bind_fence.syncobj to NULL at the end
+>>     of vm_bind call.
+>>v3: Remove vm_unbind out fence uapi which is not supported yet.
+>>v4: Return error if I915_TIMELINE_FENCE_WAIT fence flag is set.
+>>     Wait for bind to complete iff I915_TIMELINE_FENCE_SIGNAL is
+>>     not specified.
+>>
+>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>---
+>>  drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  4 +
+>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    | 93 +++++++++++++++++++
+>>  drivers/gpu/drm/i915/i915_vma.c               |  7 +-
+>>  drivers/gpu/drm/i915/i915_vma_types.h         |  7 ++
+>>  include/uapi/drm/i915_drm.h                   | 49 +++++++++-
+>>  5 files changed, 157 insertions(+), 3 deletions(-)
+>>
+>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>>index 36262a6357b5..b70e900e35ab 100644
+>>--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+>>@@ -8,6 +8,7 @@
+>>  #include <linux/types.h>
+>>+struct dma_fence;
+>>  struct drm_device;
+>>  struct drm_file;
+>>  struct i915_address_space;
+>>@@ -23,4 +24,7 @@ int i915_gem_vm_unbind_ioctl(struct drm_device *dev, void *data,
+>>  void i915_gem_vm_unbind_all(struct i915_address_space *vm);
+>>+void i915_vm_bind_signal_fence(struct i915_vma *vma,
+>>+			       struct dma_fence * const fence);
+>>+
+>>  #endif /* __I915_GEM_VM_BIND_H */
+>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>index 863bd17c9253..fca6d6eb9ef8 100644
+>>--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>@@ -7,6 +7,8 @@
+>>  #include <linux/interval_tree_generic.h>
+>>+#include <drm/drm_syncobj.h>
+>>+
+>>  #include "gem/i915_gem_context.h"
+>>  #include "gem/i915_gem_vm_bind.h"
+>>@@ -100,6 +102,76 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+>>  		i915_gem_object_put(vma->obj);
+>>  }
+>>+static int i915_vm_bind_add_fence(struct drm_file *file, struct i915_vma *vma,
+>>+				  u32 handle, u64 point)
+>>+{
+>>+	struct drm_syncobj *syncobj;
+>>+
+>>+	syncobj = drm_syncobj_find(file, handle);
+>>+	if (!syncobj) {
+>>+		DRM_DEBUG("Invalid syncobj handle provided\n");
+>
+>AFAIK drm_dbg() is preferred, if possible.
 
-HEAD commit:    88619e77b33d net: stmmac: rk3588: Allow multiple gmac cont..
-git tree:       bpf
-console output: https://syzkaller.appspot.com/x/log.txt?x=1646d6f2880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a66c6c673fb555e8
-dashboard link: https://syzkaller.appspot.com/bug?extid=9228d6098455bb209ec8
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12bc425e880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1126516e880000
+ok, will fix.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/f8435d5c2c21/disk-88619e77.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/551d8a013e81/vmlinux-88619e77.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7d3f5c29064d/bzImage-88619e77.xz
+>
+>>+		return -ENOENT;
+>>+	}
+>>+
+>>+	/*
+>>+	 * For timeline syncobjs we need to preallocate chains for
+>>+	 * later signaling.
+>>+	 */
+>>+	if (point) {
+>>+		vma->vm_bind_fence.chain_fence = dma_fence_chain_alloc();
+>>+		if (!vma->vm_bind_fence.chain_fence) {
+>>+			drm_syncobj_put(syncobj);
+>>+			return -ENOMEM;
+>>+		}
+>>+	} else {
+>>+		vma->vm_bind_fence.chain_fence = NULL;
+>>+	}
+>>+	vma->vm_bind_fence.syncobj = syncobj;
+>>+	vma->vm_bind_fence.value = point;
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static void i915_vm_bind_put_fence(struct i915_vma *vma)
+>>+{
+>>+	if (!vma->vm_bind_fence.syncobj)
+>>+		return;
+>>+
+>>+	drm_syncobj_put(vma->vm_bind_fence.syncobj);
+>>+	dma_fence_chain_free(vma->vm_bind_fence.chain_fence);
+>>+	vma->vm_bind_fence.syncobj = NULL;
+>>+}
+>>+
+>>+/**
+>>+ * i915_vm_bind_signal_fence() - Add fence to vm_bind syncobj
+>>+ * @vma: vma mapping requiring signaling
+>>+ * @fence: fence to be added
+>>+ *
+>>+ * Associate specified @fence with the @vma's syncobj to be
+>>+ * signaled after the @fence work completes.
+>>+ */
+>>+void i915_vm_bind_signal_fence(struct i915_vma *vma,
+>>+			       struct dma_fence * const fence)
+>>+{
+>>+	struct drm_syncobj *syncobj = vma->vm_bind_fence.syncobj;
+>>+
+>>+	if (!syncobj)
+>>+		return;
+>>+
+>>+	if (vma->vm_bind_fence.chain_fence) {
+>>+		drm_syncobj_add_point(syncobj,
+>>+				      vma->vm_bind_fence.chain_fence,
+>>+				      fence, vma->vm_bind_fence.value);
+>>+		/*
+>>+		 * The chain's ownership is transferred to the
+>>+		 * timeline.
+>>+		 */
+>>+		vma->vm_bind_fence.chain_fence = NULL;
+>>+	} else {
+>>+		drm_syncobj_replace_fence(syncobj, fence);
+>>+	}
+>>+}
+>>+
+>>  static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
+>>  				  struct drm_i915_gem_vm_unbind *va)
+>>  {
+>>@@ -205,6 +277,10 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>>  	if (!va->length || !IS_ALIGNED(va->start, I915_GTT_PAGE_SIZE))
+>>  		ret = -EINVAL;
+>>+	/* In fences are not supported */
+>>+	if (va->fence.flags & I915_TIMELINE_FENCE_WAIT)
+>>+		ret = -EINVAL;
+>
+>I guess also:
+>
+>if (flags & __I915_TIMELINE_FENCE_UNKNOWN_FLAGS)
+>
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9228d6098455bb209ec8@syzkaller.appspotmail.com
+ok, will add
 
-==================================================================
-BUG: KASAN: use-after-free in task_work_run+0x1b0/0x270 kernel/task_work.c:178
-Read of size 8 at addr ffff8880752b1c18 by task syz-executor361/3766
+>Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>
 
-CPU: 0 PID: 3766 Comm: syz-executor361 Not tainted 6.1.0-rc2-syzkaller-00073-g88619e77b33d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/11/2022
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description mm/kasan/report.c:284 [inline]
- print_report+0x15e/0x45d mm/kasan/report.c:395
- kasan_report+0xbb/0x1f0 mm/kasan/report.c:495
- task_work_run+0x1b0/0x270 kernel/task_work.c:178
- exit_task_work include/linux/task_work.h:38 [inline]
- do_exit+0xb35/0x2a20 kernel/exit.c:820
- do_group_exit+0xd0/0x2a0 kernel/exit.c:950
- get_signal+0x21a1/0x2430 kernel/signal.c:2858
- arch_do_signal_or_restart+0x82/0x2300 arch/x86/kernel/signal.c:869
- exit_to_user_mode_loop kernel/entry/common.c:168 [inline]
- exit_to_user_mode_prepare+0x15f/0x250 kernel/entry/common.c:203
- __syscall_exit_to_user_mode_work kernel/entry/common.c:285 [inline]
- syscall_exit_to_user_mode+0x19/0x50 kernel/entry/common.c:296
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fb9f674b089
-Code: Unable to access opcode bytes at 0x7fb9f674b05f.
-RSP: 002b:00007fb9f66fb318 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
-RAX: 0000000000000001 RBX: 00007fb9f67da1a8 RCX: 00007fb9f674b089
-RDX: 00000000000f4240 RSI: 0000000000000081 RDI: 00007fb9f67da1ac
-RBP: 00007fb9f67da1a0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000003100000400
-R13: 00007fff658570cf R14: 00007fb9f66fb400 R15: 0000000000022000
- </TASK>
+Thanks,
+Niranjana
 
-Allocated by task 3766:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:45
- kasan_set_track+0x21/0x30 mm/kasan/common.c:52
- __kasan_slab_alloc+0x7e/0x80 mm/kasan/common.c:325
- kasan_slab_alloc include/linux/kasan.h:201 [inline]
- slab_post_alloc_hook mm/slab.h:737 [inline]
- slab_alloc_node mm/slub.c:3398 [inline]
- kmem_cache_alloc_node+0x2fc/0x400 mm/slub.c:3443
- perf_event_alloc.part.0+0x69/0x3bc0 kernel/events/core.c:11625
- perf_event_alloc kernel/events/core.c:12174 [inline]
- __do_sys_perf_event_open+0x4ae/0x32d0 kernel/events/core.c:12272
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-Freed by task 0:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:45
- kasan_set_track+0x21/0x30 mm/kasan/common.c:52
- kasan_save_free_info+0x2a/0x40 mm/kasan/generic.c:511
- ____kasan_slab_free mm/kasan/common.c:236 [inline]
- ____kasan_slab_free+0x160/0x1c0 mm/kasan/common.c:200
- kasan_slab_free include/linux/kasan.h:177 [inline]
- slab_free_hook mm/slub.c:1724 [inline]
- slab_free_freelist_hook+0x8b/0x1c0 mm/slub.c:1750
- slab_free mm/slub.c:3661 [inline]
- kmem_cache_free+0xea/0x5b0 mm/slub.c:3683
- rcu_do_batch kernel/rcu/tree.c:2250 [inline]
- rcu_core+0x81f/0x1980 kernel/rcu/tree.c:2510
- __do_softirq+0x1f7/0xad8 kernel/softirq.c:571
-
-Last potentially related work creation:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:45
- __kasan_record_aux_stack+0xbc/0xd0 mm/kasan/generic.c:481
- call_rcu+0x99/0x820 kernel/rcu/tree.c:2798
- put_event kernel/events/core.c:5095 [inline]
- perf_event_release_kernel+0x6f2/0x940 kernel/events/core.c:5210
- perf_release+0x33/0x40 kernel/events/core.c:5220
- __fput+0x27c/0xa90 fs/file_table.c:320
- task_work_run+0x16b/0x270 kernel/task_work.c:179
- resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:171 [inline]
- exit_to_user_mode_prepare+0x23c/0x250 kernel/entry/common.c:203
- __syscall_exit_to_user_mode_work kernel/entry/common.c:285 [inline]
- syscall_exit_to_user_mode+0x19/0x50 kernel/entry/common.c:296
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-Second to last potentially related work creation:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:45
- __kasan_record_aux_stack+0xbc/0xd0 mm/kasan/generic.c:481
- task_work_add+0x7b/0x2c0 kernel/task_work.c:48
- event_sched_out+0xe35/0x1190 kernel/events/core.c:2294
- __perf_remove_from_context+0x87/0xc40 kernel/events/core.c:2359
- event_function+0x29e/0x3e0 kernel/events/core.c:254
- remote_function kernel/events/core.c:92 [inline]
- remote_function+0x11e/0x1a0 kernel/events/core.c:72
- __flush_smp_call_function_queue+0x205/0x9a0 kernel/smp.c:630
- __sysvec_call_function_single+0xca/0x4d0 arch/x86/kernel/smp.c:248
- sysvec_call_function_single+0x8e/0xc0 arch/x86/kernel/smp.c:243
- asm_sysvec_call_function_single+0x16/0x20 arch/x86/include/asm/idtentry.h:657
-
-The buggy address belongs to the object at ffff8880752b17c0
- which belongs to the cache perf_event of size 1392
-The buggy address is located 1112 bytes inside of
- 1392-byte region [ffff8880752b17c0, ffff8880752b1d30)
-
-The buggy address belongs to the physical page:
-page:ffffea0001d4ac00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x752b0
-head:ffffea0001d4ac00 order:3 compound_mapcount:0 compound_pincount:0
-flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000010200 0000000000000000 dead000000000122 ffff8880118c23c0
-raw: 0000000000000000 0000000080150015 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 3754, tgid 3753 (syz-executor361), ts 58662170660, free_ts 58383135648
- prep_new_page mm/page_alloc.c:2538 [inline]
- get_page_from_freelist+0x10b5/0x2d50 mm/page_alloc.c:4287
- __alloc_pages+0x1c7/0x5a0 mm/page_alloc.c:5554
- alloc_pages+0x1a6/0x270 mm/mempolicy.c:2285
- alloc_slab_page mm/slub.c:1794 [inline]
- allocate_slab+0x213/0x300 mm/slub.c:1939
- new_slab mm/slub.c:1992 [inline]
- ___slab_alloc+0xa91/0x1400 mm/slub.c:3180
- __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3279
- slab_alloc_node mm/slub.c:3364 [inline]
- kmem_cache_alloc_node+0x189/0x400 mm/slub.c:3443
- perf_event_alloc.part.0+0x69/0x3bc0 kernel/events/core.c:11625
- perf_event_alloc kernel/events/core.c:12174 [inline]
- __do_sys_perf_event_open+0x4ae/0x32d0 kernel/events/core.c:12272
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1458 [inline]
- free_pcp_prepare+0x65c/0xd90 mm/page_alloc.c:1508
- free_unref_page_prepare mm/page_alloc.c:3386 [inline]
- free_unref_page+0x19/0x4d0 mm/page_alloc.c:3482
- __unfreeze_partials+0x17c/0x1a0 mm/slub.c:2586
- qlink_free mm/kasan/quarantine.c:168 [inline]
- qlist_free_all+0x6a/0x170 mm/kasan/quarantine.c:187
- kasan_quarantine_reduce+0x180/0x200 mm/kasan/quarantine.c:294
- __kasan_slab_alloc+0x62/0x80 mm/kasan/common.c:302
- kasan_slab_alloc include/linux/kasan.h:201 [inline]
- slab_post_alloc_hook mm/slab.h:737 [inline]
- slab_alloc_node mm/slub.c:3398 [inline]
- slab_alloc mm/slub.c:3406 [inline]
- __kmem_cache_alloc_lru mm/slub.c:3413 [inline]
- kmem_cache_alloc+0x2ac/0x3c0 mm/slub.c:3422
- kmem_cache_zalloc include/linux/slab.h:702 [inline]
- alloc_buffer_head+0x20/0x140 fs/buffer.c:2899
- alloc_page_buffers+0x280/0x790 fs/buffer.c:829
- create_empty_buffers+0x2c/0xf20 fs/buffer.c:1543
- ext4_block_write_begin+0x10a7/0x15f0 fs/ext4/inode.c:1074
- ext4_da_write_begin+0x44c/0xb50 fs/ext4/inode.c:3003
- generic_perform_write+0x252/0x570 mm/filemap.c:3753
- ext4_buffered_write_iter+0x15b/0x460 fs/ext4/file.c:285
- ext4_file_write_iter+0x8b8/0x16e0 fs/ext4/file.c:700
- __kernel_write_iter+0x25e/0x730 fs/read_write.c:517
-
-Memory state around the buggy address:
- ffff8880752b1b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8880752b1b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff8880752b1c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                            ^
- ffff8880752b1c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8880752b1d00: fb fb fb fb fb fb fc fc fc fc fc fc fc fc fc fc
-==================================================================
-
+>>+
+>>  	obj = i915_gem_object_lookup(file, va->handle);
+>>  	if (!obj)
+>>  		return -ENOENT;
+>>@@ -237,6 +313,13 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>>  		goto unlock_vm;
+>>  	}
+>>+	if (va->fence.flags & I915_TIMELINE_FENCE_SIGNAL) {
+>>+		ret = i915_vm_bind_add_fence(file, vma, va->fence.handle,
+>>+					     va->fence.value);
+>>+		if (ret)
+>>+			goto put_vma;
+>>+	}
+>>+
+>>  	pin_flags = va->start | PIN_OFFSET_FIXED | PIN_USER |
+>>  		    PIN_VALIDATE | PIN_NOEVICT;
+>>@@ -249,6 +332,13 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>>  		if (ret)
+>>  			continue;
+>>+		/* If out fence is not requested, wait for bind to complete */
+>>+		if (!(va->fence.flags & I915_TIMELINE_FENCE_SIGNAL)) {
+>>+			ret = i915_vma_wait_for_bind(vma);
+>>+			if (ret)
+>>+				continue;
+>>+		}
+>>+
+>>  		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
+>>  		i915_vm_bind_it_insert(vma, &vm->va);
+>>  		if (!obj->priv_root)
+>>@@ -259,6 +349,9 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>>  		i915_gem_object_get(vma->obj);
+>>  	}
+>>+	if (va->fence.flags & I915_TIMELINE_FENCE_SIGNAL)
+>>+		i915_vm_bind_put_fence(vma);
+>>+put_vma:
+>>  	if (ret)
+>>  		i915_vma_destroy(vma);
+>>  unlock_vm:
+>>diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>>index 04abdb92c2b2..eaa13e9ba966 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma.c
+>>+++ b/drivers/gpu/drm/i915/i915_vma.c
+>>@@ -29,6 +29,7 @@
+>>  #include "display/intel_frontbuffer.h"
+>>  #include "gem/i915_gem_lmem.h"
+>>  #include "gem/i915_gem_tiling.h"
+>>+#include "gem/i915_gem_vm_bind.h"
+>>  #include "gt/intel_engine.h"
+>>  #include "gt/intel_engine_heartbeat.h"
+>>  #include "gt/intel_gt.h"
+>>@@ -1567,8 +1568,12 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>>  err_vma_res:
+>>  	i915_vma_resource_free(vma_res);
+>>  err_fence:
+>>-	if (work)
+>>+	if (work) {
+>>+		if (i915_vma_is_persistent(vma))
+>>+			i915_vm_bind_signal_fence(vma, &work->base.dma);
+>>+
+>>  		dma_fence_work_commit_imm(&work->base);
+>>+	}
+>>  err_rpm:
+>>  	if (wakeref)
+>>  		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
+>>diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+>>index 61d0ec1a4e18..7c8c293ddfcb 100644
+>>--- a/drivers/gpu/drm/i915/i915_vma_types.h
+>>+++ b/drivers/gpu/drm/i915/i915_vma_types.h
+>>@@ -308,6 +308,13 @@ struct i915_vma {
+>>  	/** @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
+>>  	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
+>>+	/** Timeline fence for vm_bind completion notification */
+>>+	struct {
+>>+		struct dma_fence_chain *chain_fence;
+>>+		struct drm_syncobj *syncobj;
+>>+		u64 value;
+>>+	} vm_bind_fence;
+>>+
+>>  	/** Interval tree structures for persistent vma */
+>>  	/** @rb: node for the interval tree of vm for persistent vmas */
+>>diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>>index 4383ed85f10a..87f5c2a470f5 100644
+>>--- a/include/uapi/drm/i915_drm.h
+>>+++ b/include/uapi/drm/i915_drm.h
+>>@@ -1527,6 +1527,41 @@ struct drm_i915_gem_execbuffer2 {
+>>  #define i915_execbuffer2_get_context_id(eb2) \
+>>  	((eb2).rsvd1 & I915_EXEC_CONTEXT_ID_MASK)
+>>+/**
+>>+ * struct drm_i915_gem_timeline_fence - An input or output timeline fence.
+>>+ *
+>>+ * The operation will wait for input fence to signal.
+>>+ *
+>>+ * The returned output fence will be signaled after the completion of the
+>>+ * operation.
+>>+ */
+>>+struct drm_i915_gem_timeline_fence {
+>>+	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
+>>+	__u32 handle;
+>>+
+>>+	/**
+>>+	 * @flags: Supported flags are:
+>>+	 *
+>>+	 * I915_TIMELINE_FENCE_WAIT:
+>>+	 * Wait for the input fence before the operation.
+>>+	 *
+>>+	 * I915_TIMELINE_FENCE_SIGNAL:
+>>+	 * Return operation completion fence as output.
+>>+	 */
+>>+	__u32 flags;
+>>+#define I915_TIMELINE_FENCE_WAIT            (1 << 0)
+>>+#define I915_TIMELINE_FENCE_SIGNAL          (1 << 1)
+>>+#define __I915_TIMELINE_FENCE_UNKNOWN_FLAGS (-(I915_TIMELINE_FENCE_SIGNAL << 1))
+>>+
+>>+	/**
+>>+	 * @value: A point in the timeline.
+>>+	 * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
+>>+	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
+>>+	 * binary one.
+>>+	 */
+>>+	__u64 value;
+>>+};
+>>+
+>>  struct drm_i915_gem_pin {
+>>  	/** Handle of the buffer to be pinned. */
+>>  	__u32 handle;
+>>@@ -3826,8 +3861,18 @@ struct drm_i915_gem_vm_bind {
+>>  	 */
+>>  	__u64 flags;
+>>-	/** @rsvd: Reserved, MBZ */
+>>-	__u64 rsvd[2];
+>>+	/**
+>>+	 * @fence: Timeline fence for bind completion signaling.
+>>+	 *
+>>+	 * Timeline fence is of format struct drm_i915_gem_timeline_fence.
+>>+	 *
+>>+	 * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
+>>+	 * is invalid, and an error will be returned.
+>>+	 *
+>>+	 * If I915_TIMELINE_FENCE_SIGNAL flag is not set, then out fence
+>>+	 * is not requested and binding is completed synchronously.
+>>+	 */
+>>+	struct drm_i915_gem_timeline_fence fence;
+>>  	/**
+>>  	 * @extensions: Zero-terminated chain of extensions.
