@@ -1,78 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EFB60E519
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 18:00:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C098260E523
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 18:00:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9A9010E529;
-	Wed, 26 Oct 2022 16:00:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20CDD10E540;
+	Wed, 26 Oct 2022 16:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDBF10E3A8
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 16:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666800002;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=itig1DysDm1r5HC5ecqxAlDsypjxBSfKhMXt70+uPpQ=;
- b=RLrhsC4JBzPrf5wfFOTgLUloNs8HPfQ7QKxOBTR+nPJT3EOQLKQtudd6yoDxdmg5eDWU3K
- P7ykWQzRsr8ICdNfMIQwDalvTiWmIxr6X5tj1OxxI4SnVY2471P5XExDsfwhTzwpb96ZEb
- Nex1AmKfDrz/q5HQ/+sPprPSazWVG/E=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-354-CJ4H5N-ZM_OmrIS0p6Rxcg-1; Wed, 26 Oct 2022 12:00:00 -0400
-X-MC-Unique: CJ4H5N-ZM_OmrIS0p6Rxcg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w20-20020a05640234d400b0045d0d1afe8eso14354959edc.15
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 09:00:00 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E35710E543
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 16:00:42 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id kt23so16999749ejc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 09:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=D7pujFX6JAod9ljGDwlvTBS8gc5TDmJWID9iRzFD+LA=;
+ b=lqRPd3i3SGWty4WaemDkXEoln5Bd/lVRHryyBuIEwIH1ZD48ndfYurmg6rl3HMGiP9
+ wM7FLPuKllBHlM0x6c/wOkas+wdhpuAC/5A6u/3NKno9DM59vEwOU2vn4Sat9LdpBuWS
+ vIpXGUOHhzfX5kowQsv6tIuA9Sukc/BjdOdJjsxqeSXYw8tbz01Y2hpYZTQwOxYTa2qA
+ Q+wFxN/QRkWetzVuGShMP+yoTSOyFuSEBsynCvBcKh2OOo7M8JKuVnvYcaiH4lrrFp6z
+ ysxgPNAzAyEwxGlCwFSqQABcTdB7HfSnGqvSoIYrBHfGPmwh+W9SdyY3jmYFIFiYnfbY
+ A8iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=itig1DysDm1r5HC5ecqxAlDsypjxBSfKhMXt70+uPpQ=;
- b=pm1zS5OjAQoK6g4zbF3sbVOhb+jxOgscVs73rCovY45J6niFL4kqLgbWdf/Ilf4wKD
- s/NddhFuXObUdGi6/nZcZVQhxKZ+88eA6rczdc9qFPkc65Showh0Rogwm8G9I97RKOza
- mEzQEMRb6FVpICR8DcBK7oiDIsgnXNUjVIamwoLAg1qQKNP3VN3kVkqz1bRI+eJeTc8w
- sbds1JdazOxkR56zeC5zuUqJs1M56PUtAjbrgLbwbdrQ45xpgCjMfbho8M4itj9ydgvx
- kgh726thrB1Oh+WKMqCJq/f7hIyG64AifSY8bjiNGObSSWw23xqEvbqThGi3GXB4tl2j
- fXHA==
-X-Gm-Message-State: ACrzQf2ppTlMHmbJ80d0ZzbB1T30GpF9DNquCDp5IHgdYi2S6VN044Rq
- SH8mUahzlKtDWRY1JR7ctOddtGHq/7YYOpnSmN7lcEDYsDLfVXknzJIsu0K+EMnIElSZqQ8QqSh
- G3SW2vQl1kZTdhgncM1wU0W/jFHZX
-X-Received: by 2002:a17:906:7304:b0:6ff:a76:5b09 with SMTP id
- di4-20020a170906730400b006ff0a765b09mr37544939ejc.193.1666799999556; 
- Wed, 26 Oct 2022 08:59:59 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6RAzeOky+aWicOwm978Au2a0Q8a4f3wMcSfD0JMt2cDzwU3i4EMkYFttEdSS0oSo40LYFJEA==
-X-Received: by 2002:a17:906:7304:b0:6ff:a76:5b09 with SMTP id
- di4-20020a170906730400b006ff0a765b09mr37544925ejc.193.1666799999427; 
- Wed, 26 Oct 2022 08:59:59 -0700 (PDT)
-Received: from pollux.. ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- i17-20020a17090685d100b00773f3ccd989sm3211326ejy.68.2022.10.26.08.59.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 08:59:58 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
- liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH drm-misc-next v3 5/5] drm/arm/malidp: remove calls to
- drm_mode_config_cleanup()
-Date: Wed, 26 Oct 2022 17:59:34 +0200
-Message-Id: <20221026155934.125294-6-dakr@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221026155934.125294-1-dakr@redhat.com>
-References: <20221026155934.125294-1-dakr@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=D7pujFX6JAod9ljGDwlvTBS8gc5TDmJWID9iRzFD+LA=;
+ b=oYnYNmzkR+o5eay0Uwg2P0/WZSI+9UlFRxRkqHMgFXT36c1J4FvhHhDobSh4a8w++H
+ OELYgwQqh1/OBATZcNYnUWMSu6kYQIpTMiIb4Q9w0KUOkWsXTMEXhUEgRG8XPZeNC1PI
+ Q4Sn8v69QGo3GaCAUE+8tGCFH3Y8NtPxyp+uInct+HpFx4x9QOvNHrlMn4PbS/mjFIFB
+ dOY2pUe2oISTmp91I4lQAPR9p8eNfpYHZuqisnaSQFQEMjnwBTXTE+4BHh3dvOFe/FOL
+ oBrYfjkZxWXccYHB71OTYMkh+QaU9tgoYc5cJfi+YTe1NWdauxuvvTrOsTCSHLpWe4hw
+ sG1A==
+X-Gm-Message-State: ACrzQf2DOCX3y9XM7/PTwiudRf32tkJbZk1ZMIxfd+odIDR3F3t8HSGH
+ YFAZFBDRBEZ6hlHMlvRwGIxcsKDFp9TENs+L5Xt/Dw==
+X-Google-Smtp-Source: AMsMyM6n6mnpHhIIZkBGr0O0trH6ERM6piIio0ToyMsC1YpCzaM+89DqP/IUQBv4XDy+VnFh1cxCjPpgf5YzcQonpNg=
+X-Received: by 2002:a17:907:3e11:b0:78d:9918:217f with SMTP id
+ hp17-20020a1709073e1100b0078d9918217fmr37114642ejc.742.1666800040980; Wed, 26
+ Oct 2022 09:00:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
+ <20220815-rpi-fix-4k-60-v4-5-a1b40526df3e@cerno.tech>
+In-Reply-To: <20220815-rpi-fix-4k-60-v4-5-a1b40526df3e@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 26 Oct 2022 17:00:25 +0100
+Message-ID: <CAPY8ntBUJRKOkw4VxWL97zj13+DLtMG6rBgGCrvA+HHaAZ7Zvg@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] drm/vc4: hdmi: Rework hdmi_enable_4kp60 detection
+ code
+To: maxime@cerno.tech
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,82 +67,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Scott Branden <sbranden@broadcom.com>,
+ Emma Anholt <emma@anholt.net>, Stephen Boyd <sboyd@kernel.org>,
+ Ray Jui <rjui@broadcom.com>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ dri-devel@lists.freedesktop.org, Dom Cobley <popcornmix@gmail.com>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_mode_config_init() simply calls drmm_mode_config_init(), hence
-cleanup is automatically handled through registering
-drm_mode_config_cleanup() with drmm_add_action_or_reset().
+Hi Maxime
 
-While at it, get rid of the deprecated drm_mode_config_init() and
-replace it with drmm_mode_config_init() directly.
+On Thu, 20 Oct 2022 at 10:14, <maxime@cerno.tech> wrote:
+>
+> In order to support higher HDMI frequencies, users have to set the
+> hdmi_enable_4kp60 parameter in their config.txt file.
+>
+> This will have the side-effect of raising the maximum of the core clock,
+> tied to the HVS, and managed by the HVS driver.
+>
+> However, we are querying this in the HDMI driver by poking into the HVS
+> structure to get our struct clk handle.
+>
+> Let's make this part of the HVS bind implementation to have all the core
+> clock related setup in the same place.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/vc4_drv.h  | 10 ++++++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 15 ++++-----------
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  8 --------
+>  drivers/gpu/drm/vc4/vc4_hvs.c  | 23 +++++++++++++++++++++++
+>  4 files changed, 37 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 418a8242691f..8b2b1af565f9 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -326,6 +326,8 @@ struct vc4_hvs {
+>
+>         struct clk *core_clk;
+>
+> +       unsigned long max_core_rate;
+> +
+>         /* Memory manager for CRTCs to allocate space in the display
+>          * list.  Units are dwords.
+>          */
+> @@ -337,6 +339,14 @@ struct vc4_hvs {
+>         struct drm_mm_node mitchell_netravali_filter;
+>
+>         struct debugfs_regset32 regset;
+> +
+> +       /*
+> +        * Even if HDMI0 on the RPi4 can output modes requiring a pixel
+> +        * rate higher than 297MHz, it needs some adjustments in the
+> +        * config.txt file to be able to do so and thus won't always be
+> +        * available.
+> +        */
+> +       bool vc5_hdmi_enable_scrambling;
+>  };
+>
+>  struct vc4_plane {
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 87961d4de5aa..afe3daa2173e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -46,7 +46,6 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/rational.h>
+>  #include <linux/reset.h>
+> -#include <soc/bcm2835/raspberrypi-clocks.h>
+>  #include <sound/dmaengine_pcm.h>
+>  #include <sound/hdmi-codec.h>
+>  #include <sound/pcm_drm_eld.h>
+> @@ -460,6 +459,7 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
+>  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+>  {
+>         struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+> +       struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
+>         int ret = 0;
+>         struct edid *edid;
+>
+> @@ -483,7 +483,7 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+>         ret = drm_add_edid_modes(connector, edid);
+>         kfree(edid);
+>
+> -       if (vc4_hdmi->disable_4kp60) {
+> +       if (!vc4->hvs->vc5_hdmi_enable_scrambling) {
+>                 struct drm_device *drm = connector->dev;
+>                 const struct drm_display_mode *mode;
+>
+> @@ -1757,11 +1757,12 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
+>  {
+>         const struct drm_connector *connector = &vc4_hdmi->connector;
+>         const struct drm_display_info *info = &connector->display_info;
+> +       struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
+>
+>         if (clock > vc4_hdmi->variant->max_pixel_clock)
+>                 return MODE_CLOCK_HIGH;
+>
+> -       if (vc4_hdmi->disable_4kp60 && clock > HDMI_14_MAX_TMDS_CLK)
+> +       if (!vc4->hvs->vc5_hdmi_enable_scrambling && clock > HDMI_14_MAX_TMDS_CLK)
+>                 return MODE_CLOCK_HIGH;
+>
+>         if (info->max_tmds_clock && clock > (info->max_tmds_clock * 1000))
+> @@ -3428,14 +3429,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+>         vc4_hdmi->disable_wifi_frequencies =
+>                 of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
+>
+> -       if (variant->max_pixel_clock == 600000000) {
+> -               struct vc4_dev *vc4 = to_vc4_dev(drm);
+> -               unsigned long max_rate = rpi_firmware_clk_get_max_rate(vc4->hvs->core_clk);
+> -
+> -               if (max_rate < 550000000)
+> -                       vc4_hdmi->disable_4kp60 = true;
+> -       }
+> -
+>         ret = devm_pm_runtime_enable(dev);
+>         if (ret)
+>                 return ret;
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index db823efb2563..e3619836ca17 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -156,14 +156,6 @@ struct vc4_hdmi {
+>          */
+>         bool disable_wifi_frequencies;
+>
+> -       /*
+> -        * Even if HDMI0 on the RPi4 can output modes requiring a pixel
+> -        * rate higher than 297MHz, it needs some adjustments in the
+> -        * config.txt file to be able to do so and thus won't always be
+> -        * available.
+> -        */
+> -       bool disable_4kp60;
+> -
+>         struct cec_adapter *cec_adap;
+>         struct cec_msg cec_rx_msg;
+>         bool cec_tx_ok;
+> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+> index 4ac9f5a2d5f9..300ac0b57571 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> @@ -28,6 +28,8 @@
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_vblank.h>
+>
+> +#include <soc/bcm2835/raspberrypi-firmware.h>
+> +
+>  #include "vc4_drv.h"
+>  #include "vc4_regs.h"
+>
+> @@ -791,12 +793,33 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+>         hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
+>
+>         if (vc4->is_vc5) {
+> +               struct rpi_firmware *firmware;
+> +               struct device_node *node;
+> +               unsigned long max_rate;
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/arm/malidp_drv.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+As commented on patch 4, the value returned by
+rpi_firmware_clk_get_max_rate is only an unsigned int.
+I guess in this case it is passed into the clock frame work which
+wants unsigned long, but do we need to keep it as an unsigned long?
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 678c5b0d8014..bebaa5a07e27 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -396,7 +396,9 @@ static int malidp_init(struct drm_device *drm)
- 	struct malidp_drm *malidp = drm_to_malidp(drm);
- 	struct malidp_hw_device *hwdev = malidp->dev;
- 
--	drm_mode_config_init(drm);
-+	ret = drmm_mode_config_init(drm);
-+	if (ret)
-+		goto out;
- 
- 	drm->mode_config.min_width = hwdev->min_line_size;
- 	drm->mode_config.min_height = hwdev->min_line_size;
-@@ -407,24 +409,16 @@ static int malidp_init(struct drm_device *drm)
- 
- 	ret = malidp_crtc_init(drm);
- 	if (ret)
--		goto crtc_fail;
-+		goto out;
- 
- 	ret = malidp_mw_connector_init(drm);
- 	if (ret)
--		goto crtc_fail;
--
--	return 0;
-+		goto out;
- 
--crtc_fail:
--	drm_mode_config_cleanup(drm);
-+out:
- 	return ret;
- }
- 
--static void malidp_fini(struct drm_device *drm)
--{
--	drm_mode_config_cleanup(drm);
--}
--
- static int malidp_irq_init(struct platform_device *pdev)
- {
- 	int irq_de, irq_se, ret = 0;
-@@ -874,7 +868,6 @@ static int malidp_bind(struct device *dev)
- bind_fail:
- 	of_node_put(malidp->crtc.port);
- 	malidp->crtc.port = NULL;
--	malidp_fini(drm);
- query_hw_fail:
- 	pm_runtime_put(dev);
- 	if (pm_runtime_enabled(dev))
-@@ -902,7 +895,6 @@ static void malidp_unbind(struct device *dev)
- 	component_unbind_all(dev, drm);
- 	of_node_put(malidp->crtc.port);
- 	malidp->crtc.port = NULL;
--	malidp_fini(drm);
- 	pm_runtime_put(dev);
- 	if (pm_runtime_enabled(dev))
- 		pm_runtime_disable(dev);
--- 
-2.37.3
+> +
+> +               node = rpi_firmware_find_node();
+> +               if (!node)
+> +                       return -EINVAL;
+> +
+> +               firmware = rpi_firmware_get(node);
+> +               of_node_put(node);
+> +               if (!firmware)
+> +                       return -EPROBE_DEFER;
+> +
+>                 hvs->core_clk = devm_clk_get(&pdev->dev, NULL);
+>                 if (IS_ERR(hvs->core_clk)) {
+>                         dev_err(&pdev->dev, "Couldn't get core clock\n");
+>                         return PTR_ERR(hvs->core_clk);
+>                 }
+>
+> +               max_rate = rpi_firmware_clk_get_max_rate(firmware,
+> +                                                        RPI_FIRMWARE_CORE_CLK_ID);
+> +               rpi_firmware_put(firmware);
+> +               if (max_rate >= 550000000)
+> +                       hvs->vc5_hdmi_enable_scrambling = true;
+> +
+> +               hvs->max_core_rate = max_rate;
 
+I was going to query the reason for storing this value, but it's used
+when we get to patch 7/7.
+I won't quibble about having it as an unused value for 2 patches.
+
+If you're happy in both cases, then I'll send an R-b.
+
+  Dave
+
+>                 ret = clk_prepare_enable(hvs->core_clk);
+>                 if (ret) {
+>                         dev_err(&pdev->dev, "Couldn't enable the core clock\n");
+>
+> --
+> b4 0.10.1
