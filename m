@@ -2,79 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7827F60E558
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 18:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB88E60E57A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 18:31:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E413A10E36E;
-	Wed, 26 Oct 2022 16:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1983895B9;
+	Wed, 26 Oct 2022 16:31:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B2410E36E
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 16:14:03 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 68E30580391;
- Wed, 26 Oct 2022 12:14:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 26 Oct 2022 12:14:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1666800842; x=
- 1666808042; bh=vl4HoCVHol4hKpd3C0NRQB0WtcoXr8XO2mxUe95jG5k=; b=k
- HuPJk+Z+MVjBFThX2bL31VSIB3rNDDJhE/pYNzaKPpPDS9b8Cv+tjApM5le7weJp
- /8rkYXMXQ/CHScPvqf9QYNqV8wKSWDp+5lIuimE3hW9f3MwHl1B1jz3q50qMiVJd
- Z1+YmO2Kq5HybJBW7HQS/5ebgJ7DpEH0gbeNFo9PrC5L82Qj9q3G8M8eTgmcBH3/
- OEZKNU0WDFIzZ/9qDHHTrHLDweUcQ8Q/ekM9KxISyDg7zHy9Aky6mrH9wBa1intS
- f4AgU750rpT1ZBMVLgC2CbkR9SEtdTspePcFYF2yfIhVtyFhcAwCI9Rkdo/NG1Gt
- zRhfzPMYLMi+qtZIUnFTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666800842; x=
- 1666808042; bh=vl4HoCVHol4hKpd3C0NRQB0WtcoXr8XO2mxUe95jG5k=; b=a
- Yz0u0LfjWEAx+IauSzyx6J6Jx0+Ste7fQG986DfcUpa/U0AVvmwmN4OpuEM9b+wl
- SNSGY58UpHxMtbWFd8dP5qHLuSzqFXiuJ/YO5YI7VAlTQzGogF12ouVe6tcwtE/1
- AR2I+24KZm/R8+neC2Nu9oBUq1DdzUzSPZ9WU2iDSpjcQXiZmRnoz7frCR0GlAR/
- yuUQkmXgv72zOoScIgQvnXbjQmrj04hFwnFWTlyCwpcOXB1JOlQxZKOBNtZoo5FS
- eecnSfT51jxlg3umLwiBzGmu+JlLOcP5VNDh8nWm0XxpDZM1944R3Yh1/t6xvAAw
- VYyWSbiioqoBjJEbep9RQ==
-X-ME-Sender: <xms:ylxZY76wbOw6LPoafFdmAi1D4qNUZ7fHylFPIncWIF_bz2hJwLqeHg>
- <xme:ylxZYw4RMEx7JEd3L98fJTC6r16PJHfIojRbjxwB7GXm9XMnvPItRfvbjvIernaol
- zecaHunUfouYQ5H5fY>
-X-ME-Received: <xmr:ylxZYycvEnQHxINgxB2NMsMMxwidJ4oyuuyXFJSMSxDVYv4kvc6u2oI-ckOqINqB7B9EsvUvtaBeTCLd2eWIluC9JwG3amZNzCj3Bd0lsjt5VQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtddvgdelkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhfffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepmhgrgihi
- mhgvsegtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpedvtefggeffuefhkedufe
- ffgffhgfehheetheeghfffkeduhfegffeukeelvdejgfenucevlhhushhtvghrufhiiigv
- pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtg
- hh
-X-ME-Proxy: <xmx:ylxZY8KJ8lDG0xoRDbi2GZFj37IGlLOWVHe-inCtSb7_Z0OgcgSRXw>
- <xmx:ylxZY_K3JNY1kNEblIQpL0844ZBIRCWbbjezaB8yMmX3CccYnYYRSg>
- <xmx:ylxZY1xa5BqHrqU63O33u8FxrLuKqFUaYQW7DvorUOPG47KurxI7Wg>
- <xmx:ylxZY-iNus2sFSmqe0Ag17HMnGIb4egq_-vyrY2myOIPspbfq7h9UQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 26 Oct 2022 12:14:01 -0400 (EDT)
-From: maxime@cerno.tech
-Date: Wed, 26 Oct 2022 18:14:00 +0200
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v4 5/7] drm/vc4: hdmi: Rework hdmi_enable_4kp60 detection
- code
-Message-ID: <20221026161400.ppg6a5ckycpdkhmn@houat>
-References: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
- <20220815-rpi-fix-4k-60-v4-5-a1b40526df3e@cerno.tech>
- <CAPY8ntBUJRKOkw4VxWL97zj13+DLtMG6rBgGCrvA+HHaAZ7Zvg@mail.gmail.com>
+X-Greylist: delayed 676 seconds by postgrey-1.36 at gabe;
+ Wed, 26 Oct 2022 16:31:00 UTC
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB572895B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 16:31:00 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29QGJabm072366;
+ Wed, 26 Oct 2022 11:19:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1666801176;
+ bh=l1vp561FteMlH3jxCuu+0T2ruGtkXDp3ftyq72WmFa0=;
+ h=From:To:CC:Subject:Date;
+ b=yv4SKmgmQvJdt3+cVpMnT7I4XAgBBVB/KBqY7vonS5QqQ8+VpvuvO3XOxyz+Xer9P
+ LOJOT7nmmKBTm/AeA/RKhYvMozjO8d3QX7xPhV0ij3xjBJNsT7yyiZa62pbnXolOo/
+ 5J2Smva13rsDPcNONUkrFKjkx22how20CefP4aL0=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29QGJajI015800
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 26 Oct 2022 11:19:36 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Wed, 26
+ Oct 2022 11:19:35 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
+ Frontend Transport; Wed, 26 Oct 2022 11:19:35 -0500
+Received: from ula0226330.dal.design.ti.com (ileaxei01-snat.itg.ti.com
+ [10.180.69.5])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29QGJZX4021292;
+ Wed, 26 Oct 2022 11:19:35 -0500
+From: Andrew Davis <afd@ti.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Randy Dunlap
+ <rdunlap@infradead.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] drm: Move radeon and amdgpu Kconfig options into their
+ directories
+Date: Wed, 26 Oct 2022 11:19:35 -0500
+Message-ID: <20221026161935.6491-1-afd@ti.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAPY8ntBUJRKOkw4VxWL97zj13+DLtMG6rBgGCrvA+HHaAZ7Zvg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,52 +66,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Scott Branden <sbranden@broadcom.com>,
- Emma Anholt <emma@anholt.net>, Stephen Boyd <sboyd@kernel.org>,
- Ray Jui <rjui@broadcom.com>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Andrew Davis <afd@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Most Kconfig options to enable a driver are in the Kconfig file
+inside the relevant directory, move these two to the same.
 
-On Wed, Oct 26, 2022 at 05:00:25PM +0100, Dave Stevenson wrote:
-> > +
-> > +               node =3D rpi_firmware_find_node();
-> > +               if (!node)
-> > +                       return -EINVAL;
-> > +
-> > +               firmware =3D rpi_firmware_get(node);
-> > +               of_node_put(node);
-> > +               if (!firmware)
-> > +                       return -EPROBE_DEFER;
-> > +
-> >                 hvs->core_clk =3D devm_clk_get(&pdev->dev, NULL);
-> >                 if (IS_ERR(hvs->core_clk)) {
-> >                         dev_err(&pdev->dev, "Couldn't get core clock\n"=
-);
-> >                         return PTR_ERR(hvs->core_clk);
-> >                 }
-> >
-> > +               max_rate =3D rpi_firmware_clk_get_max_rate(firmware,
-> > +                                                        RPI_FIRMWARE_C=
-ORE_CLK_ID);
-> > +               rpi_firmware_put(firmware);
-> > +               if (max_rate >=3D 550000000)
-> > +                       hvs->vc5_hdmi_enable_scrambling =3D true;
-> > +
-> > +               hvs->max_core_rate =3D max_rate;
->=20
-> I was going to query the reason for storing this value, but it's used
-> when we get to patch 7/7.
-> I won't quibble about having it as an unused value for 2 patches.
+Signed-off-by: Andrew Davis <afd@ti.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+---
 
-Yeah, it felt natural to do it in that patch, even though it's indeed
-only useful in a couple of patches.
+Changes from v2:
+ - Rebased on latest
 
-Maxime
+Changes from v1:
+ - Fix whitespace issue pointed out by Randy
+
+ drivers/gpu/drm/Kconfig            | 57 ------------------------------
+ drivers/gpu/drm/amd/amdgpu/Kconfig | 29 +++++++++++++++
+ drivers/gpu/drm/radeon/Kconfig     | 30 ++++++++++++++++
+ 3 files changed, 59 insertions(+), 57 deletions(-)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index fa986075e8fb..9c2d9495cb3c 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -233,65 +233,8 @@ source "drivers/gpu/drm/i2c/Kconfig"
+ 
+ source "drivers/gpu/drm/arm/Kconfig"
+ 
+-config DRM_RADEON
+-	tristate "ATI Radeon"
+-	depends on DRM && PCI && MMU
+-	depends on AGP || !AGP
+-	select FW_LOADER
+-	select DRM_DISPLAY_DP_HELPER
+-	select DRM_DISPLAY_HELPER
+-        select DRM_KMS_HELPER
+-        select DRM_TTM
+-	select DRM_TTM_HELPER
+-	select SND_HDA_COMPONENT if SND_HDA_CORE
+-	select POWER_SUPPLY
+-	select HWMON
+-	select BACKLIGHT_CLASS_DEVICE
+-	select INTERVAL_TREE
+-	# radeon depends on ACPI_VIDEO when ACPI is enabled, for select to work
+-	# ACPI_VIDEO's dependencies must also be selected.
+-	select INPUT if ACPI
+-	select ACPI_VIDEO if ACPI
+-	# On x86 ACPI_VIDEO also needs ACPI_WMI
+-	select X86_PLATFORM_DEVICES if ACPI && X86
+-	select ACPI_WMI if ACPI && X86
+-	help
+-	  Choose this option if you have an ATI Radeon graphics card.  There
+-	  are both PCI and AGP versions.  You don't need to choose this to
+-	  run the Radeon in plain VGA mode.
+-
+-	  If M is selected, the module will be called radeon.
+-
+ source "drivers/gpu/drm/radeon/Kconfig"
+ 
+-config DRM_AMDGPU
+-	tristate "AMD GPU"
+-	depends on DRM && PCI && MMU
+-	select FW_LOADER
+-	select DRM_DISPLAY_DP_HELPER
+-	select DRM_DISPLAY_HDMI_HELPER
+-	select DRM_DISPLAY_HELPER
+-	select DRM_KMS_HELPER
+-	select DRM_SCHED
+-	select DRM_TTM
+-	select DRM_TTM_HELPER
+-	select POWER_SUPPLY
+-	select HWMON
+-	select BACKLIGHT_CLASS_DEVICE
+-	select INTERVAL_TREE
+-	select DRM_BUDDY
+-	# amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select to work
+-	# ACPI_VIDEO's dependencies must also be selected.
+-	select INPUT if ACPI
+-	select ACPI_VIDEO if ACPI
+-	# On x86 ACPI_VIDEO also needs ACPI_WMI
+-	select X86_PLATFORM_DEVICES if ACPI && X86
+-	select ACPI_WMI if ACPI && X86
+-	help
+-	  Choose this option if you have a recent AMD Radeon graphics card.
+-
+-	  If M is selected, the module will be called amdgpu.
+-
+ source "drivers/gpu/drm/amd/amdgpu/Kconfig"
+ 
+ source "drivers/gpu/drm/nouveau/Kconfig"
+diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+index 7777d55275de..5fcd510f1abb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Kconfig
++++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+@@ -1,4 +1,33 @@
+ # SPDX-License-Identifier: MIT
++
++config DRM_AMDGPU
++	tristate "AMD GPU"
++	depends on DRM && PCI && MMU
++	select FW_LOADER
++	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_HDMI_HELPER
++	select DRM_DISPLAY_HELPER
++	select DRM_KMS_HELPER
++	select DRM_SCHED
++	select DRM_TTM
++	select DRM_TTM_HELPER
++	select POWER_SUPPLY
++	select HWMON
++	select BACKLIGHT_CLASS_DEVICE
++	select INTERVAL_TREE
++	select DRM_BUDDY
++	# amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select to work
++	# ACPI_VIDEO's dependencies must also be selected.
++	select INPUT if ACPI
++	select ACPI_VIDEO if ACPI
++	# On x86 ACPI_VIDEO also needs ACPI_WMI
++	select X86_PLATFORM_DEVICES if ACPI && X86
++	select ACPI_WMI if ACPI && X86
++	help
++	  Choose this option if you have a recent AMD Radeon graphics card.
++
++	  If M is selected, the module will be called amdgpu.
++
+ config DRM_AMDGPU_SI
+ 	bool "Enable amdgpu support for SI parts"
+ 	depends on DRM_AMDGPU
+diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
+index 52819e7f1fca..2267c501f724 100644
+--- a/drivers/gpu/drm/radeon/Kconfig
++++ b/drivers/gpu/drm/radeon/Kconfig
+@@ -1,4 +1,34 @@
+ # SPDX-License-Identifier: MIT
++
++config DRM_RADEON
++	tristate "ATI Radeon"
++	depends on DRM && PCI && MMU
++	depends on AGP || !AGP
++	select FW_LOADER
++	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_HELPER
++	select DRM_KMS_HELPER
++	select DRM_TTM
++	select DRM_TTM_HELPER
++	select SND_HDA_COMPONENT if SND_HDA_CORE
++	select POWER_SUPPLY
++	select HWMON
++	select BACKLIGHT_CLASS_DEVICE
++	select INTERVAL_TREE
++	# radeon depends on ACPI_VIDEO when ACPI is enabled, for select to work
++	# ACPI_VIDEO's dependencies must also be selected.
++	select INPUT if ACPI
++	select ACPI_VIDEO if ACPI
++	# On x86 ACPI_VIDEO also needs ACPI_WMI
++	select X86_PLATFORM_DEVICES if ACPI && X86
++	select ACPI_WMI if ACPI && X86
++	help
++	  Choose this option if you have an ATI Radeon graphics card.  There
++	  are both PCI and AGP versions.  You don't need to choose this to
++	  run the Radeon in plain VGA mode.
++
++	  If M is selected, the module will be called radeon.
++
+ config DRM_RADEON_USERPTR
+ 	bool "Always enable userptr support"
+ 	depends on DRM_RADEON
+-- 
+2.37.3
+
