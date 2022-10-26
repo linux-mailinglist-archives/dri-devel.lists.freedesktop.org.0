@@ -1,34 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426FA60E758
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 20:29:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8385760E762
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 20:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D529D10E71F;
-	Wed, 26 Oct 2022 18:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B430510E711;
+	Wed, 26 Oct 2022 18:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3AD510E6ED;
- Wed, 26 Oct 2022 18:28:45 +0000 (UTC)
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7767310E6EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 18:28:47 +0000 (UTC)
 Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C2E2D3F6D3;
- Wed, 26 Oct 2022 20:28:43 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7E8D03F73D;
+ Wed, 26 Oct 2022 20:28:45 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v4 06/10] drm/msm/dsi: Migrate to
- drm_dsc_compute_rc_parameters()
-Date: Wed, 26 Oct 2022 20:28:20 +0200
-Message-Id: <20221026182824.876933-7-marijn.suijten@somainline.org>
+Subject: [PATCH v4 07/10] drm/msm/dsi: Account for DSC's bits_per_pixel having
+ 4 fractional bits
+Date: Wed, 26 Oct 2022 20:28:21 +0200
+Message-Id: <20221026182824.876933-8-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221026182824.876933-1-marijn.suijten@somainline.org>
 References: <20221026182824.876933-1-marijn.suijten@somainline.org>
@@ -46,7 +45,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
+Cc: Marek Vasut <marex@denx.de>, freedreno@lists.freedesktop.org,
  Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
  Vladimir Lypak <vladimir.lypak@gmail.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -58,129 +57,84 @@ Cc: freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the FIXME this code is entirely duplicate with what is already
-provided inside drm_dsc_compute_rc_parameters(), supposedly because that
-function was yielding "incorrect" results while in reality the panel
-driver(s?) used for testing were providing incorrect parameters.
-
-For example, this code from downstream assumed dsc->bits_per_pixel to
-contain an integer value, whereas the upstream drm_dsc_config struct
-stores it with 4 fractional bits.  drm_dsc_compute_rc_parameters()
-already accounts for this feat while the panel driver used for testing
-[1] wasn't, hence making drm_dsc_compute_rc_parameters() seem like it
-was returning an incorrect result.
-Other users of dsc->bits_per_pixel inside dsi_populate_dsc_params() also
-treat it in the same erroneous way, and will be addressed in a separate
-patch.
-In the end, using drm_dsc_compute_rc_parameters() spares both a lot of
-duplicate code and erratic behaviour.
-
-[1]: https://git.linaro.org/people/vinod.koul/kernel.git/commit/?h=topic/pixel3_5.18-rc1&id=1d7d98ad564f1ec69e7525e07418918d90f247a1
+drm_dsc_config's bits_per_pixel field holds a fractional value with 4
+bits, which all panel drivers should adhere to for
+drm_dsc_pps_payload_pack() to generate a valid payload.  All code in the
+DSI driver here seems to assume that this field doesn't contain any
+fractional bits, hence resulting in the wrong values being computed.
+Since none of the calculations leave any room for fractional bits or
+seem to indicate any possible area of support, disallow such values
+altogether.  calculate_rc_params() in intel_vdsc.c performs an identical
+bitshift to get at this integer value.
 
 Fixes: b9080324d6ca ("drm/msm/dsi: add support for dsc data")
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 64 +++---------------------------
- 1 file changed, 6 insertions(+), 58 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index a1c387e9b7f4..0d130bded38d 100644
+index 0d130bded38d..8da27c740c1c 100644
 --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
 +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -21,6 +21,7 @@
+@@ -34,7 +34,7 @@
  
- #include <video/mipi_display.h>
+ #define DSI_RESET_TOGGLE_DELAY_MS 20
  
-+#include <drm/display/drm_dsc_helper.h>
- #include <drm/drm_of.h>
+-static int dsi_populate_dsc_params(struct drm_dsc_config *dsc);
++static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc_config *dsc);
  
- #include "dsi.h"
-@@ -1771,14 +1772,6 @@ static char bpg_offset[DSC_NUM_BUF_RANGES] = {
- 
- static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+ static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
  {
--	int mux_words_size;
--	int groups_per_line, groups_total;
--	int min_rate_buffer_size;
--	int hrd_delay;
--	int pre_num_extra_mux_bits, num_extra_mux_bits;
--	int slice_bits;
--	int data;
--	int final_value, final_scale;
+@@ -909,6 +909,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 	u32 va_end = va_start + mode->vdisplay;
+ 	u32 hdisplay = mode->hdisplay;
+ 	u32 wc;
++	int ret;
+ 
+ 	DBG("");
+ 
+@@ -944,7 +945,9 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 		/* we do the calculations for dsc parameters here so that
+ 		 * panel can use these parameters
+ 		 */
+-		dsi_populate_dsc_params(dsc);
++		ret = dsi_populate_dsc_params(msm_host, dsc);
++		if (ret)
++			return;
+ 
+ 		/* Divide the display by 3 but keep back/font porch and
+ 		 * pulse width same
+@@ -1770,9 +1773,15 @@ static char bpg_offset[DSC_NUM_BUF_RANGES] = {
+ 	2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
+ };
+ 
+-static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
++static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc_config *dsc)
+ {
  	int i;
++	u16 bpp = dsc->bits_per_pixel >> 4;
++
++	if (dsc->bits_per_pixel & 0xf) {
++		DRM_DEV_ERROR(&msm_host->pdev->dev, "DSI does not support fractional bits_per_pixel\n");
++		return -EINVAL;
++	}
  
  	dsc->rc_model_size = 8192;
-@@ -1804,11 +1797,11 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
- 	if (dsc->bits_per_pixel != 8)
+ 	dsc->first_line_bpg_offset = 12;
+@@ -1793,8 +1802,8 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
+ 		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i];
+ 	}
+ 
+-	dsc->initial_offset = 6144; /* Not bpp 12 */
+-	if (dsc->bits_per_pixel != 8)
++	dsc->initial_offset = 6144;		/* Not bpp 12 */
++	if (bpp != 8)
  		dsc->initial_offset = 2048;	/* bpp = 12 */
  
--	mux_words_size = 48;		/* bpc == 8/10 */
--	if (dsc->bits_per_component == 12)
--		mux_words_size = 64;
-+	if (dsc->bits_per_component <= 10)
-+		dsc->mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC;
-+	else
-+		dsc->mux_word_size = DSC_MUX_WORD_SIZE_12_BPC;
- 
--	dsc->mux_word_size = mux_words_size;
- 	dsc->initial_xmit_delay = 512;
- 	dsc->initial_scale_value = 32;
- 	dsc->first_line_bpg_offset = 12;
-@@ -1820,52 +1813,7 @@ static int dsi_populate_dsc_params(struct drm_dsc_config *dsc)
- 	dsc->rc_quant_incr_limit0 = 11;
- 	dsc->rc_quant_incr_limit1 = 11;
- 
--	/* FIXME: need to call drm_dsc_compute_rc_parameters() so that rest of
--	 * params are calculated
--	 */
--	groups_per_line = DIV_ROUND_UP(dsc->slice_width, 3);
--	dsc->slice_chunk_size = DIV_ROUND_UP(dsc->slice_width * dsc->bits_per_pixel, 8);
--
--	/* rbs-min */
--	min_rate_buffer_size =  dsc->rc_model_size - dsc->initial_offset +
--				dsc->initial_xmit_delay * dsc->bits_per_pixel +
--				groups_per_line * dsc->first_line_bpg_offset;
--
--	hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, dsc->bits_per_pixel);
--
--	dsc->initial_dec_delay = hrd_delay - dsc->initial_xmit_delay;
--
--	dsc->initial_scale_value = 8 * dsc->rc_model_size /
--				       (dsc->rc_model_size - dsc->initial_offset);
--
--	slice_bits = 8 * dsc->slice_chunk_size * dsc->slice_height;
--
--	groups_total = groups_per_line * dsc->slice_height;
--
--	data = dsc->first_line_bpg_offset * 2048;
--
--	dsc->nfl_bpg_offset = DIV_ROUND_UP(data, (dsc->slice_height - 1));
--
--	pre_num_extra_mux_bits = 3 * (mux_words_size + (4 * dsc->bits_per_component + 4) - 2);
--
--	num_extra_mux_bits = pre_num_extra_mux_bits - (mux_words_size -
--			     ((slice_bits - pre_num_extra_mux_bits) % mux_words_size));
--
--	data = 2048 * (dsc->rc_model_size - dsc->initial_offset + num_extra_mux_bits);
--	dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
--
--	data = dsc->initial_xmit_delay * dsc->bits_per_pixel;
--	final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
--	dsc->final_offset = final_value;
--
--	final_scale = 8 * dsc->rc_model_size / (dsc->rc_model_size - final_value);
--
--	data = (final_scale - 9) * (dsc->nfl_bpg_offset + dsc->slice_bpg_offset);
--	dsc->scale_increment_interval = (2048 * dsc->final_offset) / data;
--
--	dsc->scale_decrement_interval = groups_per_line / (dsc->initial_scale_value - 8);
--
--	return 0;
-+	return drm_dsc_compute_rc_parameters(dsc);
- }
- 
- static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
+ 	if (dsc->bits_per_component <= 10)
 -- 
 2.38.1
 
