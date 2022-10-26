@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FCF60E4DE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E20060E4DC
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:36:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6666310E2DA;
-	Wed, 26 Oct 2022 15:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AAE610E3BD;
+	Wed, 26 Oct 2022 15:35:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D3610E556
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 15:34:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF81010E567
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 15:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666798491;
+ s=mimecast20190719; t=1666798495;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3W/r9ElK7sh/SFf0M/t1SVrs5dFd+1CxEY7lkRSmLhk=;
- b=DRM6D9bvQ/XQguMygKSFRHa+u6MKl5u/onsCWjNIhl+ZVUZyWanX6OsxV7theh8ODxh2Mu
- WCgq+9NAYN0Kgo4Izf0ypvvlpLgB4VVQASQ3XfWLPxJEjJoCvAFur/A5YxFbMZb9w4KcM9
- ttrwLFAHSJ6PUol4DVqBtndwnKZ7dRo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ejOPhJEJNpELka6gD2XD7ypHfsFu2fomcMBYmFfmxuI=;
+ b=f4GK+j5FtFUck0/6gY3I3rygPKWDsElmuxjT+Mf1b4K/EVUI2B5R4OvIQe3wIuwdfhHkzi
+ yTngzCODCKiigzcKxtiLzHMHdNpZvZVoiM4pMHLcHSVw9xMChmtGzsB2uFAn/87RoreQKK
+ hoWpOduA0PJvqSWbab064/2w6p5iv1k=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-m8q1zUFmNP6Y_GeBwCqzqg-1; Wed, 26 Oct 2022 11:34:50 -0400
-X-MC-Unique: m8q1zUFmNP6Y_GeBwCqzqg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- hr26-20020a1709073f9a00b007a20c586f1eso3738666ejc.20
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 08:34:50 -0700 (PDT)
+ us-mta-533-ccv3Ol0AOxSaC6R2_Ivs_g-1; Wed, 26 Oct 2022 11:34:53 -0400
+X-MC-Unique: ccv3Ol0AOxSaC6R2_Ivs_g-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c9-20020a05640227c900b0045d4a88c750so14176527ede.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 08:34:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3W/r9ElK7sh/SFf0M/t1SVrs5dFd+1CxEY7lkRSmLhk=;
- b=UdaV2Ru4lLc+thYYTjT8uThDPNVEzE+tDqT395L66G7bUkkrxcdDS5xUGxugFNpcV0
- 8DmaoTVNNyMLqOzy1wqyD/ZbonokOCezPVwbTFNKYt6Z3kqpf7c3DyGnxxfd25W0PqMm
- xZ0rkQTjcg4wvyjXw5ODPULRMlLQ0Rnd+aZqDQE4J53vWCg/WS3mcx79BqhjDEtDS2h4
- 6lSSCvaHSsVyeLPEWgkciL6ZY/U5SyJgZzVCJlQGYuYl+NLMh40uPTdX/PEIrG1z3zze
- +UPfTxBctqzpRo3f3CrOeKCPTr3ih6yrSErHoXy3so97HfFdXqBOB0flXblGUayQVi+z
- +FNA==
-X-Gm-Message-State: ACrzQf3R0hT3Jo8HeF17dlA4pNxHjpUAO5X8vdhG7UIg1oAcBME56a4+
- vkS2v/0XcqBQb6J45d8lmZUM5ADWflvd8zUO/9An++58g54+cFEmt9wxf4pIyuEO8lvGp4ffbHq
- JNebwK1N7txEcWT0EDnhrFF4rCEsx
-X-Received: by 2002:a17:906:8a65:b0:7ad:88f8:7ecc with SMTP id
- hy5-20020a1709068a6500b007ad88f87eccmr205487ejc.535.1666798489134; 
- Wed, 26 Oct 2022 08:34:49 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7hZV+nzwBhtCJNCfdWd9aTbL+g+XhULTYvMLCYKRB9T7riygaPgFJlt+DyvtV2u2xPOacYiQ==
-X-Received: by 2002:a17:906:8a65:b0:7ad:88f8:7ecc with SMTP id
- hy5-20020a1709068a6500b007ad88f87eccmr205472ejc.535.1666798489007; 
- Wed, 26 Oct 2022 08:34:49 -0700 (PDT)
+ bh=ejOPhJEJNpELka6gD2XD7ypHfsFu2fomcMBYmFfmxuI=;
+ b=P1FcBxghWQ5eygvLBiMrXk39tFMlQrVpHaXT4UPxchyh5XewoPEvpVbmdhOwnqnSJh
+ RcD4qjWFqEFvEcFpPs9VrqunQeIIBQT95k+BapExuCsCPJritw9F3iETRVXXrdqOxW+N
+ Q7YAVtk5oU7Tv/bF56bUm8sncwe7czqHSPHp9y1F3RilpTvlnr3Osww81Zbcqf6fT50y
+ No2zD3I1LmlDmwBZGjVSc9T55tEV9DjpZZAcJA+nO/yqtyU3Zaq61T2Zt+zvMMu5PqJF
+ Eff9IXjAPj4K1rYnIB00tH0OkFIURNa/EQSFT5D1IG/7UtMctDoIKy0JUrIREHHk2ZUi
+ LTxA==
+X-Gm-Message-State: ACrzQf3GTUC/7LqMEQp3sQGYzD5zY7VAduDk5eVa75fYuhiQOIbR1x+H
+ +akPXwLClZFLrs+54DzAObOKzJgbF+FTHMp5X10jB711MMKwmKJEArJBlyLlxfQqqVfSjgyIvL+
+ Z2xMFkp8MuoP0DJCapZ11tYIExvTX
+X-Received: by 2002:a17:906:2f87:b0:78a:c0d5:d019 with SMTP id
+ w7-20020a1709062f8700b0078ac0d5d019mr37917825eji.158.1666798492571; 
+ Wed, 26 Oct 2022 08:34:52 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5EBkDZr7mSHI/IJXrOR7VYqX6OqCiEF3KuvriT6LLy2miYkg3LlwMcfHJamXcTxJp1LQpWvw==
+X-Received: by 2002:a17:906:2f87:b0:78a:c0d5:d019 with SMTP id
+ w7-20020a1709062f8700b0078ac0d5d019mr37917812eji.158.1666798492434; 
+ Wed, 26 Oct 2022 08:34:52 -0700 (PDT)
 Received: from pollux.. ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- m24-20020a056402051800b00459e3a3f3ddsm3684370edv.79.2022.10.26.08.34.48
+ b12-20020a1709063f8c00b0078d4e39d87esm3114855ejj.225.2022.10.26.08.34.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 08:34:48 -0700 (PDT)
+ Wed, 26 Oct 2022 08:34:52 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
  liviu.dudau@arm.com, brian.starkey@arm.com
-Subject: [PATCH drm-misc-next v4 3/4] drm/arm/hdlcd: plane: use drm managed
- resources
-Date: Wed, 26 Oct 2022 17:34:30 +0200
-Message-Id: <20221026153431.72033-4-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v4 4/4] drm/arm/hdlcd: remove calls to
+ drm_mode_config_cleanup()
+Date: Wed, 26 Oct 2022 17:34:31 +0200
+Message-Id: <20221026153431.72033-5-dakr@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221026153431.72033-1-dakr@redhat.com>
 References: <20221026153431.72033-1-dakr@redhat.com>
@@ -90,54 +90,76 @@ Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm managed resource allocation (drmm_universal_plane_alloc()) in
-order to get rid of the explicit destroy hook in struct drm_plane_funcs.
+drm_mode_config_init() simply calls drmm_mode_config_init(), hence
+cleanup is automatically handled through registering
+drm_mode_config_cleanup() with drmm_add_action_or_reset().
+
+While at it, get rid of the deprecated drm_mode_config_init() and
+replace it with drmm_mode_config_init() directly.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/arm/hdlcd_crtc.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/arm/hdlcd_drv.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-index 2055b1abcec3..1de0f7b23766 100644
---- a/drivers/gpu/drm/arm/hdlcd_crtc.c
-+++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-@@ -290,7 +290,6 @@ static const struct drm_plane_helper_funcs hdlcd_plane_helper_funcs = {
- static const struct drm_plane_funcs hdlcd_plane_funcs = {
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
--	.destroy		= drm_plane_cleanup,
- 	.reset			= drm_atomic_helper_plane_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-@@ -301,21 +300,16 @@ static struct drm_plane *hdlcd_plane_init(struct drm_device *drm)
- 	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
- 	struct drm_plane *plane = NULL;
- 	u32 formats[ARRAY_SIZE(supported_formats)], i;
--	int ret;
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index 120c87934a91..49c977cdae40 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -175,14 +175,21 @@ static const struct drm_mode_config_funcs hdlcd_mode_config_funcs = {
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
+-static void hdlcd_setup_mode_config(struct drm_device *drm)
++static int hdlcd_setup_mode_config(struct drm_device *drm)
+ {
+-	drm_mode_config_init(drm);
++	int ret;
++
++	ret = drmm_mode_config_init(drm);
++	if (ret)
++		return ret;
++
+ 	drm->mode_config.min_width = 0;
+ 	drm->mode_config.min_height = 0;
+ 	drm->mode_config.max_width = HDLCD_MAX_XRES;
+ 	drm->mode_config.max_height = HDLCD_MAX_YRES;
+ 	drm->mode_config.funcs = &hdlcd_mode_config_funcs;
++
++	return 0;
+ }
+ 
+ #ifdef CONFIG_DEBUG_FS
+@@ -255,7 +262,10 @@ static int hdlcd_drm_bind(struct device *dev)
+ 
+ 	dev_set_drvdata(dev, drm);
+ 
+-	hdlcd_setup_mode_config(drm);
++	ret = hdlcd_setup_mode_config(drm);
++	if (ret)
++		goto err_free;
++
+ 	ret = hdlcd_load(drm, 0);
+ 	if (ret)
+ 		goto err_free;
+@@ -314,9 +324,7 @@ static int hdlcd_drm_bind(struct device *dev)
+ 	hdlcd_irq_uninstall(hdlcd);
+ 	of_reserved_mem_device_release(drm->dev);
+ err_free:
+-	drm_mode_config_cleanup(drm);
+ 	dev_set_drvdata(dev, NULL);
 -
--	plane = devm_kzalloc(drm->dev, sizeof(*plane), GFP_KERNEL);
--	if (!plane)
--		return ERR_PTR(-ENOMEM);
+ 	return ret;
+ }
  
- 	for (i = 0; i < ARRAY_SIZE(supported_formats); i++)
- 		formats[i] = supported_formats[i].fourcc;
+@@ -337,7 +345,6 @@ static void hdlcd_drm_unbind(struct device *dev)
+ 	if (pm_runtime_enabled(dev))
+ 		pm_runtime_disable(dev);
+ 	of_reserved_mem_device_release(dev);
+-	drm_mode_config_cleanup(drm);
+ 	dev_set_drvdata(dev, NULL);
+ }
  
--	ret = drm_universal_plane_init(drm, plane, 0xff, &hdlcd_plane_funcs,
--				       formats, ARRAY_SIZE(formats),
--				       NULL,
--				       DRM_PLANE_TYPE_PRIMARY, NULL);
--	if (ret)
--		return ERR_PTR(ret);
-+	plane = drmm_universal_plane_alloc(drm, struct drm_plane, dev, 0xff,
-+					   &hdlcd_plane_funcs,
-+					   formats, ARRAY_SIZE(formats),
-+					   NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (IS_ERR(plane))
-+		return plane;
- 
- 	drm_plane_helper_add(plane, &hdlcd_plane_helper_funcs);
- 	hdlcd->plane = plane;
 -- 
 2.37.3
 
