@@ -1,60 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DC260E4E8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:37:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 646A560E514
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 17:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 395B210E56E;
-	Wed, 26 Oct 2022 15:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4006610E20C;
+	Wed, 26 Oct 2022 15:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEAFC10E573
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 15:36:21 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id f27so11771026eje.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 08:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zdp2ORX7WoL3+/L2v2AZBOSfN5mm7SO9qaZf5T9g988=;
- b=ZL7ULLibpv3kb+fTEC/HD6x1VsSdtBqfXjzW1U/C9cLItf8gtkJMNTylam+gYlZySo
- ozJ3Q4RVRoAjDnhva6InEDjapR6zlDYwwn6xTLU9u8CxZNOi2HDalFUhThk7jOjngjqd
- fyA3tGE3GnzBdF8goC+GMacNeuqhNJv2NwCwLO6TiCQpwJhMqGL3FSz8A2JpNzcqKEvC
- 1Y6XSZVs3c4ceBwi63LjZieDRp39WfMRAXARSU0dFpfbiaScI7HUeu3SVaW1uMWRO5UZ
- dyJB4CPrkrwqW/O2AGMYnAOxLWdhLApMFPb8p349QsSj4yhYkNxE4mI1gFyCUsNf7Ndm
- yUEw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 313ED10E20C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 15:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666799983;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qgreuePZp+4AtHTNoAATRGXVf37qFz6VqTZ1TsIsSCk=;
+ b=QWcc5rm9yCTUf1Ua3eohgJnSDlhFJPbXY9tf34N29kWqQsD7VUomKw3I9szjnrmyQgY8iE
+ hRLBrT1TO3P7bEcvNKu3EFFAybN6ahbzG+X4lSRUQ41q6NesMeOGNLrgq8CV/s1ZtXWXuv
+ Mziwcbg9yCzWbQOVoLUn/96O+Rz/7Yg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-591-KH7EaKPkMROZPPuRv6MOTQ-1; Wed, 26 Oct 2022 11:59:41 -0400
+X-MC-Unique: KH7EaKPkMROZPPuRv6MOTQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ s3-20020a056402520300b0046262a46f88so1465926edd.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 08:59:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zdp2ORX7WoL3+/L2v2AZBOSfN5mm7SO9qaZf5T9g988=;
- b=WGSy3hvatAI6UtzFOABEzn7VHIerQAGKj/DqkNYchEeSdHILcRpFp7waVySnjWIlBi
- Hxp0p4Y6nr7z06Csg6mIVWkIG6k7KLCyQ/BkhwKcRE9V39P02Ms8B0tavmNqkxMYXiWt
- fWVIrP9bRr88taJ+q5Js3bclXBFx4LaX7IVel6UnHRNeyaLtBqF8VuWy7bUArkEuIGhu
- 5m/b3XKd2ZFTge5clUidwVV+f3N2boBCmcgieNxsfiFfQR0Rs719nFROIfYJ1m4h20zY
- K/svP2CmYLQGQI0pecLelWS27QKPODVsrxXaeyAQ4YMXuRx/DRyWOXzVMDoNPg/qhjKk
- WFZA==
-X-Gm-Message-State: ACrzQf1q7QwpRup51HfP2R8USAJ1/SxFiZpUP+Eo72vcFfzgKFACA930
- wDe269mD0OiAAnFiTFZ0ED7tGWukpSvS6MVaqOlshw==
-X-Google-Smtp-Source: AMsMyM7TPvEd60+h0t9kjHq7KzB06CNBHLWAx73bGFnzp+46lHrBkvGIe264MDar29BQGZOBLk/rI+/W6JDtwAdmHfs=
-X-Received: by 2002:a17:907:94c7:b0:78e:1c4f:51f9 with SMTP id
- dn7-20020a17090794c700b0078e1c4f51f9mr39632426ejc.200.1666798580075; Wed, 26
- Oct 2022 08:36:20 -0700 (PDT)
+ bh=qgreuePZp+4AtHTNoAATRGXVf37qFz6VqTZ1TsIsSCk=;
+ b=E2uI/nIq4eBo6UKXV6EIeH0/VIYVwz7gwDs7vybnCZ8PEuvvfkEQHal5ChQ2xvHnF1
+ hRVmYduOlgSbKlWKLzGTQrLnzA/f/jxkJopJSwfhXP1csmXo6HEzY6CIQcet5aNptDzB
+ fHK8kDA50xSU0inoHJRi5gMYTicGKKwS2yk1hlAZb6e2/jnk/vD+yy6Bxa5EaBQFampv
+ DA5Veh+YkJb4xjXB3tsoCaDIt3/rUDBLV3DHL6Cu7LQgKrwVqQPz40DpXk2vEa2lmvLA
+ woslRuCwa1CDp9QDlGd5P+59x/UOrTCKGHlRKk9yu4DjpSIQTnsvJMN3NzROi3RPbsT9
+ cwdw==
+X-Gm-Message-State: ACrzQf1Mvt8VRkmi0fvhzsS7qM5qJ0ws6WzMW7OYcE93fjR8tUgq208A
+ cqVVDDrgUeQ3UUM8P31rzHllxnI7J7vY3JcBPCKlW/AEwwWJIl565/lf3tiy/PB7vnToaMNAiyL
+ osX6G1n7EkPJYhO8nnZ2hSi5KWlzp
+X-Received: by 2002:a17:907:6e18:b0:78d:b374:8989 with SMTP id
+ sd24-20020a1709076e1800b0078db3748989mr37902978ejc.552.1666799980699; 
+ Wed, 26 Oct 2022 08:59:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4nFY1b7F7PXIeIa9vbku1XcB89X6nlx28mnFIdln+HRp8pTaHGtsxr4DiRXOYLY2Ek4SMHlA==
+X-Received: by 2002:a17:907:6e18:b0:78d:b374:8989 with SMTP id
+ sd24-20020a1709076e1800b0078db3748989mr37902957ejc.552.1666799980484; 
+ Wed, 26 Oct 2022 08:59:40 -0700 (PDT)
+Received: from pollux.. ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ m19-20020a1709066d1300b0078d4c72e2cesm3119035ejr.44.2022.10.26.08.59.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 08:59:39 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de, mripard@kernel.org,
+ liviu.dudau@arm.com, brian.starkey@arm.com
+Subject: [PATCH drm-misc-next v3 0/5] drm/arm/malidp: use drm managed resources
+Date: Wed, 26 Oct 2022 17:59:29 +0200
+Message-Id: <20221026155934.125294-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220815-rpi-fix-4k-60-v4-0-a1b40526df3e@cerno.tech>
- <20220815-rpi-fix-4k-60-v4-4-a1b40526df3e@cerno.tech>
- <CAPY8ntAkzWOy0fk4ojtKW9k7asH1zOYygoU8B_=yJjm7Ni7isw@mail.gmail.com>
-In-Reply-To: <CAPY8ntAkzWOy0fk4ojtKW9k7asH1zOYygoU8B_=yJjm7Ni7isw@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 26 Oct 2022 16:36:04 +0100
-Message-ID: <CAPY8ntB1bgHVFMAYP62oGXPUwL4YkGMkxWJaoHLeNW=G1rj+Hw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] drm/vc4: hdmi: Fix hdmi_enable_4kp60 detection
-To: maxime@cerno.tech
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,78 +81,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Scott Branden <sbranden@broadcom.com>,
- Emma Anholt <emma@anholt.net>, Stephen Boyd <sboyd@kernel.org>,
- Ray Jui <rjui@broadcom.com>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- dri-devel@lists.freedesktop.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Oct 2022 at 16:27, Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> On Thu, 20 Oct 2022 at 10:14, <maxime@cerno.tech> wrote:
-> >
-> > In order to support higher HDMI frequencies, users have to set the
-> > hdmi_enable_4kp60 parameter in their config.txt file.
-> >
-> > We were detecting this so far by calling clk_round_rate() on the core
-> > clock with the frequency we're supposed to run at when one of those
-> > modes is enabled. Whether or not the parameter was enabled could then be
-> > inferred by the returned rate since the maximum clock rate reported by
-> > the firmware was one of the side effect of setting that parameter.
-> >
-> > However, the recent clock rework we did changed what clk_round_rate()
-> > was returning to always return the minimum allowed, and thus this test
-> > wasn't reliable anymore.
-> >
-> > Let's use the new clk_get_max_rate() function to reliably determine the
-> > maximum rate allowed on that clock and fix the 4k@60Hz output.
-> >
-> > Fixes: e9d6cea2af1c ("clk: bcm: rpi: Run some clocks at the minimum rate allowed")
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > index 64f9feabf43e..87961d4de5aa 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -46,6 +46,7 @@
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/rational.h>
-> >  #include <linux/reset.h>
-> > +#include <soc/bcm2835/raspberrypi-clocks.h>
-> >  #include <sound/dmaengine_pcm.h>
-> >  #include <sound/hdmi-codec.h>
-> >  #include <sound/pcm_drm_eld.h>
-> > @@ -3429,7 +3430,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
-> >
-> >         if (variant->max_pixel_clock == 600000000) {
-> >                 struct vc4_dev *vc4 = to_vc4_dev(drm);
-> > -               long max_rate = clk_round_rate(vc4->hvs->core_clk, 550000000);
-> > +               unsigned long max_rate = rpi_firmware_clk_get_max_rate(vc4->hvs->core_clk);
+Hi,
 
-Actually minor nit:
-rpi_firmware_clk_get_max_rate returns an unsigned int.
-AFAICT we don't need the range of unsigned long in any subsequent
-code, so I think it could just be unsigned int here.
+This patch series converts the driver to use drm managed resources to prevent
+potential use-after-free issues on driver unbind/rebind and to get rid of the
+usage of deprecated APIs.
 
-clk_round_rate returned a long, and therefore previously it did have to be that.
+Changes in v2:
+  - While protecting critical sections with drm_dev_{enter,exit} I forgot to
+    handle alternate return paths within the read-side critical sections, hence
+    fix them.
+  - Add a patch to remove explicit calls to drm_mode_config_cleanup() and switch
+    to drmm_mode_config_init() explicitly.
 
-  Dave
+Changes in v3:
+  - Remove patches to protect platform device bound resources with
+    drm_dev_{enter,exit}, since this would leave the hardware enabled when
+    regularly unloading the driver e.g. via rmmod.
+    Instead do this in a later series, once we got drm_dev_unplug() in place
+    to deal with a regular driver shutdown.
 
-> >                 if (max_rate < 550000000)
-> >                         vc4_hdmi->disable_4kp60 = true;
-> >
-> > --
-> > b4 0.10.1
+Danilo Krummrich (5):
+  drm/arm/malidp: use drmm_* to allocate driver structures
+  drm/arm/malidp: replace drm->dev_private with drm_to_malidp()
+  drm/arm/malidp: crtc: use drmm_crtc_init_with_planes()
+  drm/arm/malidp: plane: use drm managed resources
+  drm/arm/malidp: remove calls to drm_mode_config_cleanup()
+
+ drivers/gpu/drm/arm/malidp_crtc.c   |  7 ++-
+ drivers/gpu/drm/arm/malidp_drv.c    | 69 +++++++++++------------------
+ drivers/gpu/drm/arm/malidp_drv.h    |  2 +
+ drivers/gpu/drm/arm/malidp_hw.c     | 10 ++---
+ drivers/gpu/drm/arm/malidp_mw.c     |  6 +--
+ drivers/gpu/drm/arm/malidp_planes.c | 32 ++++---------
+ 6 files changed, 48 insertions(+), 78 deletions(-)
+
+
+base-commit: e1e7bc481d49c3e3ada11029ce0d9b85a0a539d7
+-- 
+2.37.3
+
