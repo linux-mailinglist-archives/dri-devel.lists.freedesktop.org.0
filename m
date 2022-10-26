@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89D060DF75
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 13:24:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2E660DF7D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 13:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE3810E4A7;
-	Wed, 26 Oct 2022 11:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7292210E4BA;
+	Wed, 26 Oct 2022 11:26:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBC610E4A7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 11:24:30 +0000 (UTC)
-Received: from [192.168.2.190] (109-252-112-196.nat.spd-mgts.ru
- [109.252.112.196])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C977E6602534;
- Wed, 26 Oct 2022 12:24:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1666783467;
- bh=lCFwG51qgOU7nP/LILNhxiwyDR4ncmY4dkzi9tBswKo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cIAOxZGvT1YJAYDEvRQb19BsPgj6XPI1pd+Dnh8eKuQgEzeCUe8ZUh7n4eNOqL1Yr
- wZN4GwbZ8qP9lYBT8HLwLl+Ti1IZrXh6sNajhyjtFTpymkFAUoQ8TPA9/+3NONB0Nq
- qbC2EqZKTBCdK0qUKmdqNFD0Y+UZBWwm88FB8oXyivVNDy0g+emjGpREdXA7LNEVOZ
- kMNdQ8RxiGmPlrq4jRPCRu99GY0klwgd2PmcoG4r+g4N8uhYOoHuHDE+wAD8PV42Fi
- 3Jn0kaUWkZKh/Db5hEms4Y83L3ZNHhmhiWm0kul+Auc6ZZk2MjFbT4KWmcbcLO94wW
- vW9kEm4v6cqug==
-Message-ID: <514fa15a-b039-2f84-1be8-b881fee72235@collabora.com>
-Date: Wed, 26 Oct 2022 14:24:23 +0300
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B348E10E4BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 11:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666783576; x=1698319576;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=P0DI/UKgLm1/hOCRL+pjhM1qeSyuAP8dFpSgEqZBioY=;
+ b=JQ4J/CcEJk+j7y+IusgkF1UwQhNycrPlfKdEoZ99NL9RVqrW75a3vqMe
+ dR7a9e6rXABHnOXelL/uHgWiePYnJACqpeQ3/8N7kiw9l3aktabGRVqBX
+ AEzkJKPa1/Sv6UUU2Y56etdDRkJYlmEObzkd2uslY+kBVzJwYZEQOs3K8
+ PO6Q54l/xfX9J0Z91shUsp4KXt0hTqXBZpx/M+oZKFKQIJW6MyWe7dD6Z
+ Oac1upiiAEsgZlzD6cFqWeMsO3Qse1Rl9dF+fSfe08jn6EVIvbtPKloF2
+ 1klopZOXnq1A9r2jTqx63DT7zkHuizyE8eqZoMD/8UTlxqZxYDxYm6PSj w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="309014333"
+X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; d="scan'208";a="309014333"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2022 04:26:16 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="961174808"
+X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; d="scan'208";a="961174808"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.140.135])
+ ([10.249.140.135])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2022 04:26:14 -0700
+Message-ID: <9a7d0dc3-67ce-e947-81c0-78c7ae40ded1@linux.intel.com>
+Date: Wed, 26 Oct 2022 13:26:12 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [bug report] drm/gem: Add drm_gem_object_funcs
-To: Dan Carpenter <dan.carpenter@oracle.com>, noralf@tronnes.org
-References: <Y1kFEGxT8MVlf32V@kili>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v3 3/7] drm/ivpu: Add GEM buffer object management
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20220924151149.323622-1-jacek.lawrynowicz@linux.intel.com>
+ <20220924151149.323622-4-jacek.lawrynowicz@linux.intel.com>
+ <c2ca1915-a4e7-d72f-c753-a6a63180f560@suse.de>
 Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <Y1kFEGxT8MVlf32V@kili>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <c2ca1915-a4e7-d72f-c753-a6a63180f560@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,42 +65,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/26/22 12:59, Dan Carpenter wrote:
-> Hello Noralf Trønnes,
-> 
-> The patch b39b5394fabc: "drm/gem: Add drm_gem_object_funcs" from Nov
-> 10, 2018, leads to the following Smatch static checker warning:
-> 
-> 	drivers/gpu/drm/drm_client.c:240 drm_client_buffer_delete()
-> 	warn: variable dereferenced before check 'buffer->gem' (see line 238)
-> 
-> drivers/gpu/drm/drm_client.c
->     234 static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
->     235 {
->     236         struct drm_device *dev = buffer->client->dev;
->     237 
->     238         drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
->                                         ^^^^^^^^^^^
-> Unchecked dereference inside function call.
-> 
->     239 
-> --> 240         if (buffer->gem)
->                     ^^^^^^^^^^^
-> Too late.  I don't honestly, know why this warning is only showing up
-> now four years later.  Perhaps Smatch thought buffer->gem was always
-> non-NULL before but now it's not sure.  I've added Dmitry to the CC list
-> because he seems to has been working in this area recently and might
-> know what's going on.
+Hi,
 
-This is a valid bug. Before my changes drm_gem_vunmap() wasn't touching
-buffer->gem when buffer->map=NULL, now it will. I'll prepare the fix,
-thank you for the report.
+On 10/25/2022 2:41 PM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 24.09.22 um 17:11 schrieb Jacek Lawrynowicz:
+>> Adds four types of GEM-based BOs for the VPU:
+>>    - shmem
+>>    - userptr
+>>    - internal
+>>    - prime
+>>
+>> All types are implemented as struct ivpu_bo, based on
+>> struct drm_gem_object. VPU address is allocated when buffer is created
+>> except for imported prime buffers that allocate it in BO_INFO IOCTL due
+>> to missing file_priv arg in gem_prime_import callback.
+>> Internal buffers are pinned on creation, the rest of buffers types
+>> can be pinned on demand (in SUBMIT IOCTL).
+>> Buffer VPU address, allocated pages and mappings are relased when the
+>> buffer is destroyed.
+>> Eviction mechism is planned for future versions.
+>>
+>> Add three new IOCTLs: BO_CREATE, BO_INFO, BO_USERPTR
+> 
+> I feels like TTM already does all you need. (?) Why not build upon TTM?
 
--- 
-Best regards,
-Dmitry
+Would TTM make sense for a device without dedicated memory?
+It looks like struct drm_gem_shmem_object could be a better fit for us but it doesn't support userptr or internal buffers.
 
+Regards,
+Jacek
