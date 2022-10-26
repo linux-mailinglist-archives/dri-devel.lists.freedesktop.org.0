@@ -2,41 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0035760E1B7
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 15:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E6760E2D4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Oct 2022 16:05:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF49110E002;
-	Wed, 26 Oct 2022 13:13:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D85B10E187;
+	Wed, 26 Oct 2022 14:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2449E10E002
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Oct 2022 13:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description; bh=hVlTEDNXqc/fdmdheJRXcBghemReuWQuEg72Ug1yjCQ=; b=w3hIo
- exZgL3mE1EU8J0QZCFZNzGgmAd71kq7c212s3cOAdKD8+tZiGPsFE6mss3OeQR5/Uskrv1benxejF
- pBbY4CleScuxjuKMp53MaE8jpI4TNnwx0xbL0q0mFS+mLpqbTVBLfkR61L5NRVCubvbp1hZ+JDsb4
- W8DypmVA8cWH+TKpr+g5cs0t79owvqcvK0+ly12gX2X8ZZfBvt5YrUe+J8TJN/60VY1r6N+vcwUh/
- ljCbL/Ks4N+TH8g/yWDp3ZlVtnlgQZLpYK7eP6WK76ijUlRW6M5PmzmI4UZ3icuQ8KSJhQkRTSbZS
- +fBzphM6n/OH5uZhpqNty1IjV2CtQ==;
-Received: from dougal.metanate.com ([192.168.88.1] helo=donbot)
- by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.95) (envelope-from <john@metanate.com>) id 1ongDr-0007Dc-Mv;
- Wed, 26 Oct 2022 14:13:33 +0100
-Date: Wed, 26 Oct 2022 14:13:32 +0100
-From: John Keeping <john@metanate.com>
-To: Aurelien Jarno <aurelien@aurel32.net>
-Subject: Re: [PATCH] drm/rockchip: dw_hdmi: filter regulator -EPROBE_DEFER
- error messages
-Message-ID: <Y1kyfAMbt6yFFlJ6@donbot>
-References: <20220926203752.5430-1-aurelien@aurel32.net>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC9C310E187;
+ Wed, 26 Oct 2022 14:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666793124; x=1698329124;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=81O4hafPKfaQ9TiYygP4iAb9EW/L7Oz9EFjXOj8fRLM=;
+ b=E2VC+ZHjVQQUtTssSN+puQNC+FV/LZl4kipd2tW3lq5tubPxh4xgODUm
+ a8pzqKr8DikcW18ResDXro0INPo/bzJLMKDhR6KsJ2OzLBYZkl4E22uBu
+ EIt+FvygVjfEXL0wihxkNjxe0WnHHAyo1zy9U8mApbR0GykV7/ZVyRzVE
+ SLtJJZE5UNQryppVw8/y54eicoWfaBwBly7JylE9z7pgh7quoubo6/QgG
+ 6x6itrxw3IK7AVbGlX1+RIeldZme2+alHfddkyuxmHEOTnPuWJZHlpvVM
+ DbtajdvWACgNNTAPa4HU9KUCrcKchb1CorCs0qBIc+srMgGT7mT8/MpwD w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="295360604"
+X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; d="scan'208";a="295360604"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2022 07:05:20 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="757308370"
+X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; d="scan'208";a="757308370"
+Received: from tfigx-mobl1.ger.corp.intel.com (HELO [10.252.29.204])
+ ([10.252.29.204])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2022 07:05:16 -0700
+Message-ID: <f09c77ff-f1e8-34d6-97bb-61cece2cfac8@intel.com>
+Date: Wed, 26 Oct 2022 15:05:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220926203752.5430-1-aurelien@aurel32.net>
-X-Authenticated: YES
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.0
+Subject: Re: [PATCH v5 17/19] drm/i915/vm_bind: Limit vm_bind mode to
+ non-recoverable contexts
+Content-Language: en-GB
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20221025065905.13325-1-niranjana.vishwanathapura@intel.com>
+ <20221025065905.13325-18-niranjana.vishwanathapura@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20221025065905.13325-18-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,45 +63,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS FOR ROCKCHIP" <dri-devel@lists.freedesktop.org>,
- Sandy Huang <hjc@rock-chips.com>,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, jason@jlekstrand.net, andi.shyti@linux.intel.com,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 26, 2022 at 10:37:52PM +0200, Aurelien Jarno wrote:
-> When the avdd-0v9 or avdd-1v8 supply are not yet available, EPROBE_DEFER
-> is returned by rockchip_hdmi_parse_dt(). This causes the following error
-> message to be printed multiple times:
+On 25/10/2022 07:59, Niranjana Vishwanathapura wrote:
+> Only support vm_bind mode with non-recoverable contexts.
+> With new vm_bind mode with eb3 submission path, we need not
+> support older recoverable contexts.
 > 
->     dwhdmi-rockchip fe0a0000.hdmi: [drm:dw_hdmi_rockchip_bind [rockchipdrm]] *ERROR* Unable to parse OF data
-> 
-> Fix that by not printing the message when rockchip_hdmi_parse_dt()
-> returns -EPROBE_DEFER.
-> 
-> Fixes: ca80c4eb4b01 ("drm/rockchip: dw_hdmi: add regulator support")
-> Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
-> ---
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index c14f88893868..2f4b8f64cbad 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -565,7 +565,8 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
->  
->  	ret = rockchip_hdmi_parse_dt(hdmi);
->  	if (ret) {
-> -		DRM_DEV_ERROR(hdmi->dev, "Unable to parse OF data\n");
-> +		if (ret != -EPROBE_DEFER)
-> +			DRM_DEV_ERROR(hdmi->dev, "Unable to parse OF data\n");
-
-Can we use dev_err_probe() here?
-
-There's no DRM-specific variant, but that is already widely used across
-the DRM subsystem.
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
