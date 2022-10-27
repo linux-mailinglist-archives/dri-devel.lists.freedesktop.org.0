@@ -2,80 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7F960FBDB
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 17:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A56160FC0A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 17:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7F2310E678;
-	Thu, 27 Oct 2022 15:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A7A10E682;
+	Thu, 27 Oct 2022 15:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C165110E678
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 15:26:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666884364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6AFhkuxbmuNtizR3GjX6137d8pj4FiTRbGMWfbYP3f0=;
- b=QUdZ1UZHCs4e2TsP5g/H7rx4f2rzjSDHY0R/bjzDDrlmnd03ZBvVV+mfhUmj+6dRUeqXM7
- iVFgpvrySEmyni1EhcoyICrFm/0QPBuhqd6kgP+O4OJRnFyBiU3EdWRZaiu1z5grS1a3W9
- KtGt39D9ubQtN6XTtb8FkQiFsZG2cCg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-526-l3TupviGM2GLLo-kcN6pKg-1; Thu, 27 Oct 2022 11:26:03 -0400
-X-MC-Unique: l3TupviGM2GLLo-kcN6pKg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d10-20020adfa34a000000b00236616a168bso527979wrb.18
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 08:26:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6AFhkuxbmuNtizR3GjX6137d8pj4FiTRbGMWfbYP3f0=;
- b=mzpG5st1ahWinrvFJtm20MVkiZOVzBeY+DRybu6Th1M0dUtAMdBTnQZqi/WqV4kNgE
- cNX9+sYd3VId3so4Ol8acAF2IwcMWVCZk+nuSYJEZLhf86LXVcWUuo+6u2kUbJnG4Zc3
- MvaYI9vpQWuDiaJdMX15/V+fPPld+JjinkmM0uIHqswxIsdo3DAEy5OsTJXw8vS2jt4w
- o8ZeEewv7PyNz4q+dGZpBzT+54lZVms9c5FmTDTECVamDiJjRUZI/mrX9iRVp9n50wQe
- LEyuEdmnj+6E5NSqoFuwp5Pzo3ztGqACIUJrQRUj7DUOY52DHpFBTQEZPke+6u0f/PCs
- iaVA==
-X-Gm-Message-State: ACrzQf3FBI5eFA/t41CsbI81E0x1MNn//+RN8mzd/0bZ58j0YhoM7WXm
- Nix1z0Qu8MFwurC3AMLhy/z4RD72yV8RzxDKhVTfb7lXHid9CLBm53O6XQSeIykwNpFmXwQ7azV
- pYTz4/u22q3NN6drP12LLiEPsVlVK
-X-Received: by 2002:adf:e5c3:0:b0:236:5092:7cfc with SMTP id
- a3-20020adfe5c3000000b0023650927cfcmr22970126wrn.285.1666884361972; 
- Thu, 27 Oct 2022 08:26:01 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4cSF/cW0SefLKSM4Tdmprwq06ZOhxO2RN9MUElJceZ16ocrqLlsGNrXc/BTixsXbe54NkzWA==
-X-Received: by 2002:a5d:5a82:0:b0:224:f744:1799 with SMTP id
- bp2-20020a5d5a82000000b00224f7441799mr32210444wrb.582.1666884351138; 
- Thu, 27 Oct 2022 08:25:51 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 6-20020a05600c230600b003cf37c5ddc0sm1764578wmo.22.2022.10.27.08.25.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 08:25:50 -0700 (PDT)
-Message-ID: <bb901a65-d7c3-b75e-c34b-23ec46c960f6@redhat.com>
-Date: Thu, 27 Oct 2022 17:25:49 +0200
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2069.outbound.protection.outlook.com [40.107.223.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2A910E0A2;
+ Thu, 27 Oct 2022 15:33:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XxJ1zB5Bd2mQWwLEeGV67fjESTzJvm+czqldJNMe5wcUxYZpf9S4U5CJIuybVx3UEl0484vgUuBK4j8BtGB2NVmE2pOYSTFootMap37PW/mOcnuHGNn7HvQFznUXzvP+R/MuQxvDraob+K126WCfRYCrslWIic7nUqqeqjyKXw6sTjy3tM6Z/0HwOFw0pAWlqexTwxNYEBqLRQ9nC21bP9Bc5H8mXgJR4BAwukRz6t5lsoo0e10zX3bRLOHTsXp62MjDDtHuo7ti5AxXa1qnygO6W1ia+T8VkfadNIpRXz0j5ULbNWU2e+DHjdXEfcjVtGKeQiN4/OK08+Zy4DRtqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IZIRtf4h0jD29MAGe74Z10/hYwofAckkH6tcItJWpOY=;
+ b=LxFp0FL58EajddQRB04WRZm4RWC9n+XNvkEa1fOaYdAylcJzEVDbVhCs0+dlyzVXwSgZb/JDedpqXki9mCRvJRu7J8EegqKSdwOQnox4o3GznbcyAxZCCtRW/nrigPLm9iutJuZgxzoAHzZNnNbAsI/rzgDBOeNyMkSVIRul/qoszIsFiXF6nWF5PdeW8dRow7ZidQuvdV1PMUvWQrmI1pycbgzbJmN552JTfhi4ziTfP1nM3yICTGczXvizXa7YJDWeTde4bjdNGeGMRUcYvzv15C9hu4vEkrm1Kd+6ftwEpmFpNz0VJg1j1U7NH7gKhzNHA05ALdIoztluB4YHfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IZIRtf4h0jD29MAGe74Z10/hYwofAckkH6tcItJWpOY=;
+ b=JzdZPEJoVmEfks6NEf9J2q+MTokVU94JI/sOLnrudr1/bXCm9NtaNEhFJYaWJOlULy7DIfaZVuFXyujSo871ku/Pq9r0DGP39rhdmyYcdCLr+RwY2ybhCemq8hoKnCmOCAcpTu21W8wG2EauPEOr1u9kmy7CtjHAtg+Tx63Ipew=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
+ by CY5PR12MB6621.namprd12.prod.outlook.com (2603:10b6:930:43::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26; Thu, 27 Oct
+ 2022 15:33:47 +0000
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::588f:c941:4f62:9d89]) by MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::588f:c941:4f62:9d89%3]) with mapi id 15.20.5746.028; Thu, 27 Oct 2022
+ 15:33:46 +0000
+Message-ID: <8a490cf5-6962-75cc-03c0-1d99cfadcc79@amd.com>
+Date: Thu, 27 Oct 2022 11:34:28 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2] drm/vc4: hdmi: Fix HSM clock too low on Pi4
-To: maxime@cerno.tech, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20221021131339.2203291-1-maxime@cerno.tech>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221021131339.2203291-1-maxime@cerno.tech>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/102.3.3
+Subject: Re: [PATCH] drm/amd/display: don't print messages that contain %f in
+ dml
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20221021163412.82029-1-hamza.mahfooz@amd.com>
+ <be10fda2-eeef-ba74-0f6c-8ce01e7e2087@amd.com>
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+In-Reply-To: <be10fda2-eeef-ba74-0f6c-8ce01e7e2087@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0016.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d1::20) To MN2PR12MB2941.namprd12.prod.outlook.com
+ (2603:10b6:208:a9::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB2941:EE_|CY5PR12MB6621:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f036381-5c6d-48c8-53bf-08dab830a377
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GnscEVBu0P3Rm4xfv2UKj5h6ayjtRiOeRntnPl9/QKnRhTKhm0HrDYfHCaK7gPBn+1lhUmGb0f75mURareESr307TnJ/4Q24siK/Mkh8w9i4hNUrO/jSdhOrRKxEOJrotqt3C3xTEed3NUIZJnEC64F5Vyr+18bYeZ+SdivIn87nis8akwCbbrsGSJdaPEs/cszY6f2uTabXKhm+o4cnDs97IY8SEa/xShPzC1y9mDgIm3pSv0KkXWkNlYFi66Yn0PjXoWk7tOt+eNp5sz8Ygx1qWUK3dEio2gTXecTlEbtICrh8EZ4GmiqwrDSQSjVCZEDSavyXXUb+USY13aBkshNTuNY7Q0Id1ikIKIq30B1UaUHcGqQzI4wlWpzWQ+X1IzYHk/+CmB69S1d+lfKZOK5St+h54V1NUkKn9TuoGXd7QbA4aCFifcfhmoW6Ff9rOas5dYlBPDNtHW2R/Jo3KRXpDxMFJiVX1hjNvAgpBr3zT18fxA1Mv8dNq9Kd/sN93yVtUkSuI35YPunmZOMIIMNrnWOYQqDPjCxgzV3mg+ktAzKExuP/AF3GPMMUkcliX3WOOQGMo9fISCh07iHvH07whqVLNKFuCuvDBidXJrqV1DhnKkv+Xb9xhpOB3X7Dg9krNsPz22HZSm+6Dnkn3oT0V1w20rKqQ7jPQx0MIrV01VePGWMyh/9mtxqo1lkHrlp2hrbXgWn9IHHfnPfNnK+tzOPAnFSvLu9kuUwiTzAPt5HQMfooNqkaC+fIW5WlWEzvN+rmV3+xtM1SibEaMSGgpEJmtj9J5OuoDb0Q7lc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(366004)(136003)(39860400002)(376002)(396003)(451199015)(8936002)(31696002)(2906002)(66946007)(66556008)(38100700002)(66476007)(8676002)(86362001)(15650500001)(54906003)(316002)(5660300002)(110136005)(66574015)(41300700001)(4326008)(186003)(83380400001)(6666004)(478600001)(6486002)(6512007)(2616005)(53546011)(6506007)(31686004)(66899015)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjEyQVBCbWdXVENZY3Fxc2luZ3V0bllDbjlwcDRKL1pJaGlJU01jcSt4a0VR?=
+ =?utf-8?B?U2V4enllcGU0U1ZHbHY0S2RwVDkxWk9DcUQ2OVFMUGhQSjdTMTJ2Mks0ZDk4?=
+ =?utf-8?B?L1dNOVFaQmRDTnFOeExYOFRvamFjYWNJclVkWTc5bEFjcHpMV1F6T3VISmhL?=
+ =?utf-8?B?TUxGUVp1ZjVtblFYQzVhQWFnbWFpU3NlMFE0eENXelQrUEtwRmgwS2RMRmRz?=
+ =?utf-8?B?K2RrRUJvV3R2SkpJWkFuRytKQ2NIdDBGQzVYZlpOL3BHOXpFdmVLd0ptR0Ey?=
+ =?utf-8?B?MmFUMGtkdEY1Y21XZ1FxOE1HL2F1V24vMVNMSTZhclRRSWQ3QUVBUHlBcGVJ?=
+ =?utf-8?B?ZlYwUWk4TW0xYktmN09TdGptSGR0eHgxM1RSU2tUTXVtZjRyUzR5Z3ZXbW1y?=
+ =?utf-8?B?eEVQYVRXbDZha3cwdXh5QTZOTVp1eXljOUF3ejhtbkM0OVM2eXVVblBVQWxk?=
+ =?utf-8?B?d3ZVRmJiNmtZN0t1Q3FIaTE4WkN5NlUxVWFPcHl5NERJUTh0aHY3MDFWbXpC?=
+ =?utf-8?B?bE5YcERZcXRBSHVCT1lSWElKbkNKemhOVkhsWlB5Wm12cjhET3VYS2RzRG9m?=
+ =?utf-8?B?ek1vam5LTnBkbkp6L2FSUVRjWGdaTWZhZysraUNGV01rYWQ5a1NaeWVzOGFH?=
+ =?utf-8?B?QzQ0TjB6dVhIUG9lVWZEa1d1SVg5amVQY1k0THNqeFJXUEM0djNQcTN6VGE4?=
+ =?utf-8?B?S0RkSGtEYlc0TzhqSEZUWnNpZXFjZGxZKzZpM3NKTkhrR1RSUFllYU44dmVk?=
+ =?utf-8?B?ajBkMVpJMVpxUXdDOVpxN1BMeXdCOVJTSzdFUXFSVkplVlBsa3lJd2tDZlFy?=
+ =?utf-8?B?amcrWjB5bU9MWkZDcDY0QWxtTXR0RVFvb1I0QVdSMmlreTVTd0JtM3UzcEUv?=
+ =?utf-8?B?bzVuNkFBOFRhTjh2elJ3MEEwaFYxbkxjTFZiSXhaNHVzc1NtY3ZMUTdVS2lY?=
+ =?utf-8?B?K3d4SjFKRDdtZ3dWalhZQzVXbmk0UWhndDkrWmNKMCtRalhHaWpxMTl0L1d1?=
+ =?utf-8?B?b3dzamZ5VFpaNzUrL0xHb3NXakZZQ3RxZWZqdG5Kbm9Zdk1RSDZJaE1XdVFZ?=
+ =?utf-8?B?dXM4cjByYXpxRXlHK0VFYjBiYXpmNE53cklvNmpyTVpiNFVzaXFWeG1WTkRR?=
+ =?utf-8?B?cTlFaThJMGJOdW9xQjQwZkxRQ0FOK2ltYkk3QXkrUHRJalRPZ0sxclNtUDI2?=
+ =?utf-8?B?aVJwUndCc1F0cTZjbmp2ZE01Z2dFb3VZUndBZXN4bEFRMDZDZ0lVQWd2MFZU?=
+ =?utf-8?B?cHRZelgxUmo5Q2lvRThTeFRQRU9jWEJpemdHQlV1TmRCaXR1MEdPOXBodFQ3?=
+ =?utf-8?B?SDV2eks2b0E5Y0k1cWdySWp1K09GZ2hvd2s2RmRNeThweXYybzFmNWpuUVJK?=
+ =?utf-8?B?TXNxZTVwU0lld2o1OTF3K2twdi9wRkpLczN0L2p4QS8wako0ZlE4djAwb2xP?=
+ =?utf-8?B?enZ1MnJPbWF5MmtQenkycXRlVlZuMnVTRnZQRW9UdlFlWEo4bnpGTFRnb0dK?=
+ =?utf-8?B?b0xrTDlBVldJcHZIdUMrTzF5Wk9WbHhyWnZPa0xLQy9NZnh0RHhmcXNHeG90?=
+ =?utf-8?B?cGxaVU5Pb1E2YnM4MTJVZzNrcjZyUG9US2x2ekpNMEkxMk9PTys0aHpRV0RG?=
+ =?utf-8?B?bFlaRXlyK1pQUC9xcmhEQ0Q0KytpSXcvS2pCRGFMQjM2bUkwTDRFMlFvTEgx?=
+ =?utf-8?B?bDBDdU9XTlplcldzVEZzckJscDZCcExKTHEvM3p6Ri9xY0Ryclpzd3kySkxC?=
+ =?utf-8?B?L3lvaytZZFJLRlgxSy8vQjRXL2pDZm50U2Z4enhKd0dYMmRzcEYxb21DcjRV?=
+ =?utf-8?B?cnBkNzlibWdBVGJFSjV4TlQ2akpyTUxubkZWWFI5WE5sdndRNU9vQmN6QnNJ?=
+ =?utf-8?B?OXZvNlJ5eWhndDNPVXB0OFdUa3FCSEZOcVBNbWZ2a0NGMVppVFZobWI0YzZZ?=
+ =?utf-8?B?RzZyeWVtQWU4Z2JZTm9MQW1OaWJkSUsvOXcrUDJXb1dqbG5PZGFqZkw5YUFZ?=
+ =?utf-8?B?YkpHZVFWNGNnQkY4L2NXSkNEaFhxR0RxaUtidzVwYVdkSVZwRU9aeWpwM2M3?=
+ =?utf-8?B?SXQ3QjhpNWlZMmNYbk1uUVo5WWFpeXp4Q0VhS0daK0M4emdwWnNWaHRFVU1K?=
+ =?utf-8?B?Y2I0NG5hMUtFcUtTbkd2UGszaStuaXNSTHRpaXVjWmloMW8zMmRiRmMzMzB3?=
+ =?utf-8?Q?PdtEYcIgNmNqo+cvi7uwwPo=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f036381-5c6d-48c8-53bf-08dab830a377
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 15:33:46.8668 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lPpkspdHomikCFEr5qLdWHJL6EK8lJnIF7uZLRfmvj27i3JQcTKUKvyyohGn4to6H0a8vjbbl2C1mpELy1lk9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6621
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,107 +128,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Brian Chang <Brian.Chang@amd.com>, Ian Chen <ian.chen@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ "Leo \(Hanghong\) Ma" <hanghong.ma@amd.com>, Anthony Koo <Anthony.Koo@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/22 15:13, maxime@cerno.tech wrote:
-> Commit ae71ab585c81 ("drm/vc4: hdmi: Enforce the minimum rate at
-> runtime_resume") reintroduced the call to clk_set_min_rate in an attempt
-> to fix the boot without a monitor connected on the RaspberryPi3.
-> 
-> However, that introduced a regression breaking the display output
-> entirely (black screen but no vblank timeout) on the Pi4.
-> 
-> This is due to the fact that we now have in a typical modeset at boot,
-> in vc4_hdmi_encoder_pre_crtc_configure(), we have a first call to
-> clk_set_min_rate() asking for the minimum rate of the HSM clock for our
-> given resolution, and then a call to pm_runtime_resume_and_get(). We
-> will thus execute vc4_hdmi_runtime_resume() which, since the commit
-> mentioned above, will call clk_set_min_rate() a second time with the
-> absolute minimum rate we want to enforce on the HSM clock.
-> 
-> We're thus effectively erasing the minimum mandated by the mode we're
-> trying to set. The fact that only the Pi4 is affected is due to the fact
-> that it uses a different clock driver that tries to minimize the HSM
-> clock at all time. It will thus lower the HSM clock rate to 120MHz on
-> the second clk_set_min_rate() call.
-> 
-> The Pi3 doesn't use the same driver and will not change the frequency on
-> the second clk_set_min_rate() call since it's still within the new
-> boundaries and it doesn't have the code to minimize the clock rate as
-> needed. So even though the boundaries are still off, the clock rate is
-> still the right one for our given mode, so everything works.
-> 
-> There is a lot of moving parts, so I couldn't find any obvious
-> solution:
-> 
->   - Reverting the original is not an option, as that would break the Pi3
->     again.
-> 
->   - We can't move the clk_set_min_rate() call in _pre_crtc_configure()
->     since because, on the Pi3, the HSM clock has the CLK_SET_RATE_GATE
->     flag which prevents the clock rate from being changed after it's
->     been enabled. Our calls to clk_set_min_rate() can change it, so they
->     need to be done before clk_prepare_enable().
-> 
->   - We can't remove the call to clk_prepare_enable() from the
->     runtime_resume hook to put it into _pre_crtc_configure() either,
->     since we need that clock to be enabled to access the registers, and
->     we can't count on the fact that the display will be active in all
->     situations (doing any CEC operation, or listing the modes while
->     inactive are valid for example()).
-> 
->   - We can't drop the call to clk_set_min_rate() in
->     _pre_crtc_configure() since we would need to still enforce the
->     minimum rate for a given resolution, and runtime_resume doesn't have
->     access to the current mode, if there's any.
-> 
->   - We can't copy the TMDS character rate into vc4_hdmi and reuse it
->     since, because it's part of the KMS atomic state, it needs to be
->     protected by a mutex. Unfortunately, some functions (CEC operations,
->     mostly) can be reentrant (through the CEC framework) and still need
->     a pm_runtime_get.
-> 
-> However, we can work around this issue by leveraging the fact that the
-> clk_set_min_rate() calls set boundaries for its given struct clk, and
-> that each different clk_get() call will return a different instance of
-> struct clk. The clock framework will then aggregate the boundaries for
-> each struct clk instances linked to a given clock, plus its hardware
-> boundaries, and will use that.
-> 
-> We can thus get an extra HSM clock user for runtime_pm use only, and use
-> our different clock instances depending on the context: runtime_pm will
-> use its own to set the absolute minimum clock setup so that we never
-> lock the CPU waiting for a register access, and the modeset part will
-> set its requirement for the current resolution. And we let the CCF do
-> the coordination.
-> 
-> It's not an ideal solution, but it's fairly unintrusive and doesn't
-> really change any part of the logic so it looks like a rather safe fix.
-> 
 
-What a great commit message. I learned a couple of things from it :)
 
-[...]
+On 10/24/22 06:04, Christian König wrote:
+> Am 21.10.22 um 18:34 schrieb Hamza Mahfooz:
+>> Unfortunately, printk() doesn't currently support the printing of %f
+>> entries. So, print statements that contain "%f" should be removed.
+>> However, since DC is used on other OSes that can still benefit from the
+>> additional debugging information, we should instead remove the
+>> problematic print statements at compile time.
+>>
+>> Reported-by: Jim Cromie <jim.cromie@gmail.com>
+>> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/display/include/logger_types.h | 11 +++++++++--
+>>   1 file changed, 9 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/include/logger_types.h 
+>> b/drivers/gpu/drm/amd/display/include/logger_types.h
+>> index 3bf08a60c45c..f80630adb5f0 100644
+>> --- a/drivers/gpu/drm/amd/display/include/logger_types.h
+>> +++ b/drivers/gpu/drm/amd/display/include/logger_types.h
+>> @@ -30,6 +30,12 @@
+>>   #define MAX_NAME_LEN 32
+>> +#define __DC_LOG_IGNORE_FLOATS(fmt, args...)    \
+>> +do {                        \
+>> +    if (!strstr((fmt), "%f"))        \
+>> +        pr_debug(fmt, ##args);        \
+>> +} while (0)
+> 
+> This is absolutely not sufficient.
+> 
+> Linux drivers must be made for Linux, see the documentation about 
+> porting drivers.
+> 
+> So just disabling the debug messages won't work in this case. Either 
+> completely remove or properly fix them.
 
-Maybe adding some comments here explaining why two instances of the
-same clock are getting by the driver? It's very clear after reading
-your commit message, but it may not be for someone looking the code.
-  
-> +	vc4_hdmi->hsm_rpm_clock = devm_clk_get(dev, "hdmi");
-> +	if (IS_ERR(vc4_hdmi->hsm_rpm_clock)) {
-> +		DRM_ERROR("Failed to get HDMI state machine clock\n");
-> +		return PTR_ERR(vc4_hdmi->hsm_rpm_clock);
-> +	}
-> +
+Hi Christian,
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+We have been discussing and working on better solutions for dealing with 
+  FPU code, and we have recently improved a lot in this area (e.g., we 
+are isolating all FPU codes inside DML). However, we still have many 
+other challenges, and improving the FPU support in the kernel is on our 
+radar.
 
--- 
-Best regards,
+I know this patch does not represent the best solution for this problem 
+yet, but it is one step to enable us to keep refining our FPU support 
+while keeping all other ASICs working well. I see this patch as an ok 
+trade-off to address some of the issues that we have now while enabling 
+us to improve other areas.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Thanks
+Siqueira
 
+> 
+> Regards,
+> Christian.
+> 
+> 
+>> +
+>>   #define DC_LOG_ERROR(...) DRM_ERROR(__VA_ARGS__)
+>>   #define DC_LOG_WARNING(...) DRM_WARN(__VA_ARGS__)
+>>   #define DC_LOG_DEBUG(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>> @@ -48,7 +54,8 @@
+>>   #define DC_LOG_MST(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>>   #define DC_LOG_SCALER(...) pr_debug("[SCALER]:"__VA_ARGS__)
+>>   #define DC_LOG_BIOS(...) pr_debug("[BIOS]:"__VA_ARGS__)
+>> -#define DC_LOG_BANDWIDTH_CALCS(...) 
+>> pr_debug("[BANDWIDTH_CALCS]:"__VA_ARGS__)
+>> +#define DC_LOG_BANDWIDTH_CALCS(args...) \
+>> +    __DC_LOG_IGNORE_FLOATS("[BANDWIDTH_CALCS]:" args)
+>>   #define DC_LOG_BANDWIDTH_VALIDATION(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>>   #define DC_LOG_I2C_AUX(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>>   #define DC_LOG_SYNC(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>> @@ -57,7 +64,7 @@
+>>   #define DC_LOG_DETECTION_EDID_PARSER(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>>   #define DC_LOG_DETECTION_DP_CAPS(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>>   #define DC_LOG_RESOURCE(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>> -#define DC_LOG_DML(...) pr_debug("[DML]:"__VA_ARGS__)
+>> +#define DC_LOG_DML(args...) __DC_LOG_IGNORE_FLOATS("[DML]:" args)
+>>   #define DC_LOG_EVENT_MODE_SET(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>>   #define DC_LOG_EVENT_DETECTION(...) DRM_DEBUG_KMS(__VA_ARGS__)
+>>   #define DC_LOG_EVENT_LINK_TRAINING(...) DRM_DEBUG_KMS(__VA_ARGS__)
+> 
