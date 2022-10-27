@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC6960F316
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 11:01:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF0360F334
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 11:07:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 908F510E591;
-	Thu, 27 Oct 2022 09:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B8910E0E3;
+	Thu, 27 Oct 2022 09:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777B310E591
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 09:01:01 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- m29-20020a05600c3b1d00b003c6bf423c71so3657304wms.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 02:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=B2Lt3ikNZDtQQkIgZ3i41ZL3J59GirfJ76RKYEAsV3E=;
- b=FqDExJi8VcmdkOd/pJofSgdK9Dk2qWutB5Vhp6FXnC6NSWY5DjxAB4iJszt09XWZ+y
- iab5mlEad+FG+TvseiJfezeYERaaDafgl2y0z2dPa3TT+SacMdEIsnlbx3fOX1n0++3v
- 1okzyqzULSmVO/w8FxZKlDOEZT+175/pXJhhYyw23s5bdr6K78nUFjAkfC1OEIGw8BD8
- h5XGSn2raRTs05RcRSLAzvQQB7kf044Qq6djV0kynVBeg6gu9xn4CErWTSZyf3+eGkJv
- bJBVQY3r35XAGQh7f4h72J83meizB5EoyMpUYOPPhzg9lfPyIHWeYsWro3bB1mHeZp97
- P94Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=B2Lt3ikNZDtQQkIgZ3i41ZL3J59GirfJ76RKYEAsV3E=;
- b=HTdgF4Fbmp/UAZc7uaDcih8+6FBCcWltE3anxSAhKuK5IOUUfy06mAmEOeVFP7og9L
- Lf1prqTmKIuTiXStvcEsBYKilTsTu/Y8s6V/bF3vVxWL8fZEuIIsoB54K5kkXUUCOa5/
- Ep90A8EYl1R8nmOHNBBvJYWLF034zsueBdHhLPvY3acY16QTaAl6fFthxZpcQIF4raGS
- dwzooF9xk/y7JNq/nHIJdShvD6RaB9Cuy3A1bdQmzqLHIwulzShFTRlpxDoWFrf9nzkD
- fkUvbDHMDKxZY2CNkjLfAQ7zkbY6D5HZBA5PKokq+J2Sd3f9alsm4A05+tYDerDAMElU
- E/Qg==
-X-Gm-Message-State: ACrzQf0MBj3Yj6HR3EpfxHLHK7iRcDYVf9SaeFQl0W7hRNNWoRoMFkgc
- uDK7Dy+cBOC70BRcPWCeD2Nsij165X9Eyqtua6Q=
-X-Google-Smtp-Source: AMsMyM7+UAKStju1/B50RTKX+u1jUgvZKIwZNg+/RjMpMI6Q1ZvQvv4nagqx0Yl2+KtLat4U1n2LhKr/1T2VTAGQJ/0=
-X-Received: by 2002:a05:600c:4142:b0:3c6:eed5:847c with SMTP id
- h2-20020a05600c414200b003c6eed5847cmr5286886wmm.113.1666861259862; Thu, 27
- Oct 2022 02:00:59 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41E5710E0E3;
+ Thu, 27 Oct 2022 09:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666861642; x=1698397642;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ad9M3i9h/5Kfy1CALxKF2HSFy/sxmTX7+Z0mhlS5eGA=;
+ b=FHz2IVATsNPsmDE+5cH9MtaGhOp6oYfvH+Ji1H9ApSYNO3dmKjenVNDj
+ jm5idRra+cg/1GFC723/GufeOM03mHZak1RAf0E+YNFo4yfI5d9KvWfBt
+ DwOGIBLNqRnFj8qzpyNlxh6Xeozwh76Qs1uL9ZH7PYNn7cBOrZJp/mOYX
+ 7+egQhJ3CQrEgu9+li3wrcwHxqCo80kS4SmWL2WR0zquQCJQZDdkUnx0a
+ GZnF3FrPTXPWNnM1rkl6cQedFQf1rHZt7kc7jqyy3EzAtHrOC8VMuoEF8
+ xlHIP2+vWyyzdQarLZcS3pNh/Dn7F/P3EcE0DaK3CE5hgJ1Bda5DgeWv5 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="372384612"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; d="scan'208";a="372384612"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 02:07:21 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="701271733"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; d="scan'208";a="701271733"
+Received: from rgrilak-mobl.ger.corp.intel.com (HELO [10.213.238.72])
+ ([10.213.238.72])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 02:07:18 -0700
+Message-ID: <6621c4d6-c306-c1f9-eefe-818b4ff4469b@linux.intel.com>
+Date: Thu, 27 Oct 2022 10:07:16 +0100
 MIME-Version: 1.0
-References: <20221025061846.447975-1-brolerliew@gmail.com>
- <CADnq5_NweAo-7snRLkidNkOizu7Ft+7GgXCS2Rnv1oxmRFb_RQ@mail.gmail.com>
- <a70dcda0-6723-38f6-efeb-e8edb16dab55@amd.com>
- <69e672a5-a68e-7bad-fc49-4281c1c6039d@amd.com>
- <9774ddd6-60d9-245c-77ac-59951c13b263@amd.com>
- <ac73b553-9173-4ac5-ef16-a95b8a8cd4f9@amd.com>
- <5bc35aea-466b-bd09-563e-f3e32796b83b@amd.com>
-In-Reply-To: <5bc35aea-466b-bd09-563e-f3e32796b83b@amd.com>
-From: broler Liew <brolerliew@gmail.com>
-Date: Thu, 27 Oct 2022 17:00:48 +0800
-Message-ID: <CAODyvyypneTxCDUgUNB0UCm+eZtKn_yLJRxZ8nh-kg2PUkaTjw@mail.gmail.com>
-Subject: Re: [PATCH] drm/scheduler: set current_entity to next when remove
- from rq
-To: Luben Tuikov <luben.tuikov@amd.com>
-Content-Type: multipart/alternative; boundary="00000000000048b6f305ec00616f"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH] drm/i915: stop abusing swiotlb_max_segment
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+References: <20221020110308.1582518-1-hch@lst.de>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20221020110308.1582518-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,228 +62,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Robert Beckett <bob.beckett@collabora.com>, intel-gfx@lists.freedesktop.org,
+ marmarek@invisiblethingslab.com, dri-devel@lists.freedesktop.org,
+ oleksandr_tyshchenko@epam.com, iommu@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000048b6f305ec00616f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-It's very nice of you-all to finger it out that it may crash when it is the
-last entity in the list.   Absolutely I made a mistake about that.
-But I still cannot understand why we need to restart the selection from the
-list head when the current entity is removed from rq.
-In drm_sched_rq_select_entity, starting from head may cause the first
-entity to be selected more often than others, which breaks the equal rule
-the scheduler wants to achieve.
-Maybe the previous one is the better choice when current_entity =3D=3D enti=
-ty?
+On 20/10/2022 12:03, Christoph Hellwig wrote:
+> From: Robert Beckett <bob.beckett@collabora.com>
+> 
+> swiotlb_max_segment used to return either the maximum size that swiotlb
+> could bounce, or for Xen PV PAGE_SIZE even if swiotlb could bounce buffer
+> larger mappings.  This made i915 on Xen PV work as it bypasses the
+> coherency aspect of the DMA API and can't cope with bounce buffering
+> and this avoided bounce buffering for the Xen/PV case.
+> 
+> So instead of adding this hack back, check for Xen/PV directly in i915
+> for the Xen case and otherwise use the proper DMA API helper to query
+> the maximum mapping size.
+> 
+> Replace swiotlb_max_segment() calls with dma_max_mapping_size().
+> In i915_gem_object_get_pages_internal() no longer consider max_segment
+> only if CONFIG_SWIOTLB is enabled. There can be other (iommu related)
+> causes of specific max segment sizes.
+> 
+> Fixes: a2daa27c0c61 ("swiotlb: simplify swiotlb_max_segment")
+> Reported-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> [hch: added the Xen hack, rewrote the changelog]
 
-Luben Tuikov <luben.tuikov@amd.com> =E4=BA=8E2022=E5=B9=B410=E6=9C=8827=E6=
-=97=A5=E5=91=A8=E5=9B=9B 16:24=E5=86=99=E9=81=93=EF=BC=9A
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-> On 2022-10-27 04:19, Christian K=C3=B6nig wrote:
-> > Am 27.10.22 um 10:07 schrieb Luben Tuikov:
-> >> On 2022-10-27 03:01, Luben Tuikov wrote:
-> >>> On 2022-10-25 13:50, Luben Tuikov wrote:
-> >>>> Looking...
-> >>>>
-> >>>> Regards,
-> >>>> Luben
-> >>>>
-> >>>> On 2022-10-25 09:35, Alex Deucher wrote:
-> >>>>> + Luben
-> >>>>>
-> >>>>> On Tue, Oct 25, 2022 at 2:55 AM brolerliew <brolerliew@gmail.com>
-> wrote:
-> >>>>>> When entity move from one rq to another, current_entity will be se=
-t
-> to NULL
-> >>>>>> if it is the moving entity. This make entities close to rq head go=
-t
-> >>>>>> selected more frequently, especially when doing load balance betwe=
-en
-> >>>>>> multiple drm_gpu_scheduler.
-> >>>>>>
-> >>>>>> Make current_entity to next when removing from rq.
-> >>>>>>
-> >>>>>> Signed-off-by: brolerliew <brolerliew@gmail.com>
-> >>>>>> ---
-> >>>>>>   drivers/gpu/drm/scheduler/sched_main.c | 5 +++--
-> >>>>>>   1 file changed, 3 insertions(+), 2 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> >>>>>> index 2fab218d7082..00b22cc50f08 100644
-> >>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >>>>>> @@ -168,10 +168,11 @@ void drm_sched_rq_remove_entity(struct
-> drm_sched_rq *rq,
-> >>>>>>          spin_lock(&rq->lock);
-> >>>>>>
-> >>>>>>          atomic_dec(rq->sched->score);
-> >>>>>> -       list_del_init(&entity->list);
-> >>>>>>
-> >>>>>>          if (rq->current_entity =3D=3D entity)
-> >>>>>> -               rq->current_entity =3D NULL;
-> >>>>>> +               rq->current_entity =3D list_next_entry(entity, lis=
-t);
-> >>>>>> +
-> >>>>>> +       list_del_init(&entity->list);
-> >>>>>>
-> >>>>>>          if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> >>>>>>                  drm_sched_rq_remove_fifo_locked(entity);
-> >>>>>> --
-> >>>>>> 2.34.1
-> >>>>>>
-> >>> Looks good. I'll pick it up into some other changes I've in tow, and
-> repost
-> >>> along with my changes, as they're somewhat related.
-> >> Actually, the more I look at it, the more I think that we do want to s=
-et
-> >> rq->current_entity to NULL in that function, in order to pick the next
-> best entity
-> >> (or scheduler for that matter), the next time around. See
-> sched_entity.c,
-> >> and drm_sched_rq_select_entity() where we start evaluating from the
-> _next_
-> >> entity.
-> >>
-> >> So, it is best to leave it to set it to NULL, for now.
-> >
-> > Apart from that this patch here could cause a crash when the entity is
-> > the last one in the list.
-> >
-> > In this case current current_entity would be set to an incorrect upcast
-> > of the head of the list.
->
-> Absolutely. I saw that, but in rejecting the patch, I didn't feel the nee=
-d
-> to mention it.
->
-> Thanks for looking into this.
->
-> Regards,
-> Luben
->
->
+I'll merge this in a minute - thanks again for the cleanup!
 
---00000000000048b6f305ec00616f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Regards,
 
-<div dir=3D"ltr">It&#39;s very nice of you-all to finger it out that it may=
- crash when it is the last entity in the list.=C2=A0 =C2=A0Absolutely I mad=
-e a mistake about=C2=A0that.<div>But I still cannot understand why we need =
-to restart the selection from the list head when the current entity is=C2=
-=A0removed from rq.</div><div>In drm_sched_rq_select_entity, starting from =
-head may cause the first entity to be selected more often than others, whic=
-h breaks the equal rule the scheduler wants to achieve.<br></div><div>Maybe=
- the previous one is the better choice when current_entity =3D=3D entity?</=
-div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">Luben Tuikov &lt;<a href=3D"mailto:luben.tuikov@amd.com">luben.tuikov@a=
-md.com</a>&gt; =E4=BA=8E2022=E5=B9=B410=E6=9C=8827=E6=97=A5=E5=91=A8=E5=9B=
-=9B 16:24=E5=86=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On 2022-10-27 04:19, Christian K=C3=B6nig wrote:<br>
-&gt; Am 27.10.22 um 10:07 schrieb Luben Tuikov:<br>
-&gt;&gt; On 2022-10-27 03:01, Luben Tuikov wrote:<br>
-&gt;&gt;&gt; On 2022-10-25 13:50, Luben Tuikov wrote:<br>
-&gt;&gt;&gt;&gt; Looking...<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Regards,<br>
-&gt;&gt;&gt;&gt; Luben<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; On 2022-10-25 09:35, Alex Deucher wrote:<br>
-&gt;&gt;&gt;&gt;&gt; + Luben<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; On Tue, Oct 25, 2022 at 2:55 AM brolerliew &lt;<a href=
-=3D"mailto:brolerliew@gmail.com" target=3D"_blank">brolerliew@gmail.com</a>=
-&gt; wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt; When entity move from one rq to another, current_e=
-ntity will be set to NULL<br>
-&gt;&gt;&gt;&gt;&gt;&gt; if it is the moving entity. This make entities clo=
-se to rq head got<br>
-&gt;&gt;&gt;&gt;&gt;&gt; selected more frequently, especially when doing lo=
-ad balance between<br>
-&gt;&gt;&gt;&gt;&gt;&gt; multiple drm_gpu_scheduler.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Make current_entity to next when removing from rq.=
-<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Signed-off-by: brolerliew &lt;<a href=3D"mailto:br=
-olerliew@gmail.com" target=3D"_blank">brolerliew@gmail.com</a>&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0drivers/gpu/drm/scheduler/sched_main.c=
- | 5 +++--<br>
-&gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A01 file changed, 3 insertions(+), 2 del=
-etions(-)<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; diff --git a/drivers/gpu/drm/scheduler/sched_main.=
-c b/drivers/gpu/drm/scheduler/sched_main.c<br>
-&gt;&gt;&gt;&gt;&gt;&gt; index 2fab218d7082..00b22cc50f08 100644<br>
-&gt;&gt;&gt;&gt;&gt;&gt; --- a/drivers/gpu/drm/scheduler/sched_main.c<br>
-&gt;&gt;&gt;&gt;&gt;&gt; +++ b/drivers/gpu/drm/scheduler/sched_main.c<br>
-&gt;&gt;&gt;&gt;&gt;&gt; @@ -168,10 +168,11 @@ void drm_sched_rq_remove_ent=
-ity(struct drm_sched_rq *rq,<br>
-&gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 spin_lock(&amp;r=
-q-&gt;lock);<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 atomic_dec(rq-&g=
-t;sched-&gt;score);<br>
-&gt;&gt;&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0list_del_init(&amp;ent=
-ity-&gt;list);<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (rq-&gt;curre=
-nt_entity =3D=3D entity)<br>
-&gt;&gt;&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0rq-&gt;current_entity =3D NULL;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0rq-&gt;current_entity =3D list_next_entry(entity, list);<br>
-&gt;&gt;&gt;&gt;&gt;&gt; +<br>
-&gt;&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0list_del_init(&amp;ent=
-ity-&gt;list);<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (drm_sched_po=
-licy =3D=3D DRM_SCHED_POLICY_FIFO)<br>
-&gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 drm_sched_rq_remove_fifo_locked(entity);<br>
-&gt;&gt;&gt;&gt;&gt;&gt; --<br>
-&gt;&gt;&gt;&gt;&gt;&gt; 2.34.1<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Looks good. I&#39;ll pick it up into some other changes I&#39;=
-ve in tow, and repost<br>
-&gt;&gt;&gt; along with my changes, as they&#39;re somewhat related.<br>
-&gt;&gt; Actually, the more I look at it, the more I think that we do want =
-to set<br>
-&gt;&gt; rq-&gt;current_entity to NULL in that function, in order to pick t=
-he next best entity<br>
-&gt;&gt; (or scheduler for that matter), the next time around. See sched_en=
-tity.c,<br>
-&gt;&gt; and drm_sched_rq_select_entity() where we start evaluating from th=
-e _next_<br>
-&gt;&gt; entity.<br>
-&gt;&gt;<br>
-&gt;&gt; So, it is best to leave it to set it to NULL, for now.<br>
-&gt; <br>
-&gt; Apart from that this patch here could cause a crash when the entity is=
- <br>
-&gt; the last one in the list.<br>
-&gt; <br>
-&gt; In this case current current_entity would be set to an incorrect upcas=
-t <br>
-&gt; of the head of the list.<br>
-<br>
-Absolutely. I saw that, but in rejecting the patch, I didn&#39;t feel the n=
-eed to mention it.<br>
-<br>
-Thanks for looking into this.<br>
-<br>
-Regards,<br>
-Luben<br>
-<br>
-</blockquote></div>
+Tvrtko
 
---00000000000048b6f305ec00616f--
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_internal.c | 19 +++--------
+>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c    |  2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  4 +--
+>   drivers/gpu/drm/i915/gem/i915_gem_userptr.c  |  2 +-
+>   drivers/gpu/drm/i915/i915_scatterlist.h      | 34 ++++++++++++--------
+>   5 files changed, 29 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> index c698f95af15fe..629acb403a2c9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> @@ -6,7 +6,6 @@
+>   
+>   #include <linux/scatterlist.h>
+>   #include <linux/slab.h>
+> -#include <linux/swiotlb.h>
+>   
+>   #include "i915_drv.h"
+>   #include "i915_gem.h"
+> @@ -38,22 +37,12 @@ static int i915_gem_object_get_pages_internal(struct drm_i915_gem_object *obj)
+>   	struct scatterlist *sg;
+>   	unsigned int sg_page_sizes;
+>   	unsigned int npages;
+> -	int max_order;
+> +	int max_order = MAX_ORDER;
+> +	unsigned int max_segment;
+>   	gfp_t gfp;
+>   
+> -	max_order = MAX_ORDER;
+> -#ifdef CONFIG_SWIOTLB
+> -	if (is_swiotlb_active(obj->base.dev->dev)) {
+> -		unsigned int max_segment;
+> -
+> -		max_segment = swiotlb_max_segment();
+> -		if (max_segment) {
+> -			max_segment = max_t(unsigned int, max_segment,
+> -					    PAGE_SIZE) >> PAGE_SHIFT;
+> -			max_order = min(max_order, ilog2(max_segment));
+> -		}
+> -	}
+> -#endif
+> +	max_segment = i915_sg_segment_size(i915->drm.dev) >> PAGE_SHIFT;
+> +	max_order = min(max_order, get_order(max_segment));
+>   
+>   	gfp = GFP_KERNEL | __GFP_HIGHMEM | __GFP_RECLAIMABLE;
+>   	if (IS_I965GM(i915) || IS_I965G(i915)) {
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> index f42ca1179f373..11125c32dd35d 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> @@ -194,7 +194,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+>   	struct intel_memory_region *mem = obj->mm.region;
+>   	struct address_space *mapping = obj->base.filp->f_mapping;
+>   	const unsigned long page_count = obj->base.size / PAGE_SIZE;
+> -	unsigned int max_segment = i915_sg_segment_size();
+> +	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+>   	struct sg_table *st;
+>   	struct sgt_iter sgt_iter;
+>   	struct page *page;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 4f861782c3e85..a4aa9500fa179 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -189,7 +189,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
+>   	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
+>   	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
+>   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+> -	const unsigned int max_segment = i915_sg_segment_size();
+> +	const unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+>   	const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
+>   	struct file *filp = i915_tt->filp;
+>   	struct sgt_iter sgt_iter;
+> @@ -538,7 +538,7 @@ static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt *ttm)
+>   	ret = sg_alloc_table_from_pages_segment(st,
+>   			ttm->pages, ttm->num_pages,
+>   			0, (unsigned long)ttm->num_pages << PAGE_SHIFT,
+> -			i915_sg_segment_size(), GFP_KERNEL);
+> +			i915_sg_segment_size(i915_tt->dev), GFP_KERNEL);
+>   	if (ret) {
+>   		st->sgl = NULL;
+>   		return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> index d4398948f0162..f34e01a7fefb9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> @@ -129,7 +129,7 @@ static void i915_gem_object_userptr_drop_ref(struct drm_i915_gem_object *obj)
+>   static int i915_gem_userptr_get_pages(struct drm_i915_gem_object *obj)
+>   {
+>   	const unsigned long num_pages = obj->base.size >> PAGE_SHIFT;
+> -	unsigned int max_segment = i915_sg_segment_size();
+> +	unsigned int max_segment = i915_sg_segment_size(obj->base.dev->dev);
+>   	struct sg_table *st;
+>   	unsigned int sg_page_sizes;
+>   	struct page **pvec;
+> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
+> index 9ddb3e743a3e5..b0a1db44f8950 100644
+> --- a/drivers/gpu/drm/i915/i915_scatterlist.h
+> +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+> @@ -9,7 +9,8 @@
+>   
+>   #include <linux/pfn.h>
+>   #include <linux/scatterlist.h>
+> -#include <linux/swiotlb.h>
+> +#include <linux/dma-mapping.h>
+> +#include <xen/xen.h>
+>   
+>   #include "i915_gem.h"
+>   
+> @@ -127,19 +128,26 @@ static inline unsigned int i915_sg_dma_sizes(struct scatterlist *sg)
+>   	return page_sizes;
+>   }
+>   
+> -static inline unsigned int i915_sg_segment_size(void)
+> +static inline unsigned int i915_sg_segment_size(struct device *dev)
+>   {
+> -	unsigned int size = swiotlb_max_segment();
+> -
+> -	if (size == 0)
+> -		size = UINT_MAX;
+> -
+> -	size = rounddown(size, PAGE_SIZE);
+> -	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
+> -	if (size < PAGE_SIZE)
+> -		size = PAGE_SIZE;
+> -
+> -	return size;
+> +	size_t max = min_t(size_t, UINT_MAX, dma_max_mapping_size(dev));
+> +
+> +	/*
+> +	 * For Xen PV guests pages aren't contiguous in DMA (machine) address
+> +	 * space.  The DMA API takes care of that both in dma_alloc_* (by
+> +	 * calling into the hypervisor to make the pages contiguous) and in
+> +	 * dma_map_* (by bounce buffering).  But i915 abuses ignores the
+> +	 * coherency aspects of the DMA API and thus can't cope with bounce
+> +	 * buffering actually happening, so add a hack here to force small
+> +	 * allocations and mappings when running in PV mode on Xen.
+> +	 *
+> +	 * Note this will still break if bounce buffering is required for other
+> +	 * reasons, like confidential computing hypervisors or PCIe root ports
+> +	 * with addressing limitations.
+> +	 */
+> +	if (xen_pv_domain())
+> +		max = PAGE_SIZE;
+> +	return round_down(max, PAGE_SIZE);
+>   }
+>   
+>   bool i915_sg_trim(struct sg_table *orig_st);
