@@ -1,117 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B371360F9DE
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 15:58:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0C060F9E3
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 15:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2D710E642;
-	Thu, 27 Oct 2022 13:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8858D10E644;
+	Thu, 27 Oct 2022 13:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2043.outbound.protection.outlook.com [40.107.21.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2366010E642
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 13:58:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UIyhqbwUB4nnoY71NOogF3sloysZVc0TUuzfCZaMC2GJ+A1Yr8ZDthLtFl8HK2v2UwbglhhtRbZuo04E2tLFfVJycYdtTyAluRDBGVtdhzbtIU9lXoODJV0ik6XpWItf53toEujq9UUuy2oHeJOj1JL0AJxJBaapP8ub5qLb6b6+ST8DpRIhIXhCSkSOpWC27QlHDfITI0lkad/lN/OQ6Q11GSeku9qTSquEKBUku1i4B4/hqjWRfnRifdeI8kAC7K5m/JvWuXy+h0wfS53SR6Ha98TyWwYE+p267fKe4dunFSuJVmwF/5AILSuRVwCbjENCi9oy2Q+XpYI5ypFK7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nqgq5J/a6D2NJ/94eXKOxT4z3HdQk4SVfp5QliBOe3Y=;
- b=St1nyK7f4Eig3hcjwIfT8eqQA/Npr1K+KD5aXaotZzgdIGLFtRjzmP4FNc/SaEx5MFFk0yWUHANESV/9+CpvB5IfD+uvpGRIShW7qq3kfxloDoKwcN0L7auJsxlFmzp1AD33j4Y4yNfwARt14/NwgIbIIW8khZCUQYBWV0YILICJ9RCJN5SJrj0fFQzk9HsISHgfKrIFsl7raoqeunIOV63iauC5aGswkdPuoMa4msdFl+Pq6Vh8ySm+OvVhn8fiA3gz4DxoxKISu02HJp8bBo6r2yiEV6S4+JU+nRgTQnY2sU8nmVdqX9olC5QG6moPxGQWcRC916KnnAW65GkGzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nqgq5J/a6D2NJ/94eXKOxT4z3HdQk4SVfp5QliBOe3Y=;
- b=U0thMhUM00pVEJHC9yat6BCY5gvnXunkTJ5ploBB9W9BrUjE+Prf368nFxEDckEzEURwPebzIhX6tUOD/hC2Ekl7/eQw30giV6XVngh3OjTGhxwBzCmoIFosOpRPNztSNZ7fp/hHT4/NJMUG6OPIPcWCVozGazGq6JnlF3m7nCs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DBBPR04MB7899.eurprd04.prod.outlook.com (2603:10a6:10:1e1::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Thu, 27 Oct
- 2022 13:58:23 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::dcca:b62f:206b:dcf8]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::dcca:b62f:206b:dcf8%3]) with mapi id 15.20.5746.021; Thu, 27 Oct 2022
- 13:58:23 +0000
-Message-ID: <6398adb972ef8623fd594fd573b5ed6838948516.camel@nxp.com>
-Subject: Re: [PATCH] drm: lcdif: Set and enable FIFO Panic threshold
-From: Liu Ying <victor.liu@nxp.com>
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Date: Thu, 27 Oct 2022 21:57:42 +0800
-In-Reply-To: <9bd9ee85-3a20-f13a-3984-017a439e08cd@denx.de>
-References: <20221026212002.542375-1-marex@denx.de>
- <2e9368bcc1c354ff01e63b9c451d839aa6a7a36f.camel@nxp.com>
- <9bd9ee85-3a20-f13a-3984-017a439e08cd@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR03CA0097.apcprd03.prod.outlook.com
- (2603:1096:4:7c::25) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D1D10E646
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 13:58:47 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id n12so4793513eja.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 06:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=H9twCSyGmHCfZTs1VqmLobwiwtuvoOis8W3XsKIxLx8=;
+ b=B8yOwFyva/x37BSg5YDwe/WTfn4Dy+OrYCl6yAd0D663EOKU10TTXX8ypPceVKOQQU
+ WY5R0qdFqm87oaw6Kk/HgZWE+b93ELqsR/67egZ41eYecVTXylNCRrYJDMsq2am/USo1
+ 6zOYJXNTJGCwjZa93uQA6i4+k2VGkojOf1NK7Cw37b3PtWI24ZMohrhW0zhL6vsyLWry
+ Kahv2nEBm7gxo4D/PdPJZGXpQr6qQegXrhvjJWKCIyiYoFW+DWEV4FdYp7njscxE0Xuz
+ hKQNglNp2/mpEWnl6QRo8g+FgoOG6v/JfXwHTIYpHe+FC/WfNr+pl7j39QBAsn0axctO
+ dhDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=H9twCSyGmHCfZTs1VqmLobwiwtuvoOis8W3XsKIxLx8=;
+ b=IlVX+obCURw9AaT/iMRvL23D4zPoZNsWQDjgL2XCs4/I/j4SctOqWrOU0aXccy9YAR
+ Ew29j83gj7etk02W1MeWeFTJBqPktf6q6M7quDsydDcDRDkvPc/ooNw/bN2CX2Fq4QUn
+ IXtxC5VW5U1Z9Ur+XgGCoGI3899cYNtG8H8g6KWo2EM1FS6jhusa6knbAT2T58taJmEI
+ vPraq2L/mPmM0tKuJqTVhJy8IrTVoATn8TdTifHdcNEBFIzPonkzUKmDups7Hf5aSHDR
+ /n44TV4jxtA3zFw+kmZiaPluwpLYX2gBoyYdvoR8P33cE2KWXzHw41hGA5kY+hPMf+9D
+ 7Hpw==
+X-Gm-Message-State: ACrzQf02N6BJqgVs8OaIg3m9zK40vfZ1mdEwjvK52NZN0VWkLYEbFwic
+ tLknUv0NF74Dca1d7KWPWv5qWejXPJRuBEZRM+lWnQ==
+X-Google-Smtp-Source: AMsMyM4V4CJCvWjZUc/wuUPnShNPdQnD1fPVocjSK9OtmP7BhvowApGpOFwkw7Gvj2mgE8ZRTqrzyxI6fUECIDlD/m4=
+X-Received: by 2002:a17:907:1c98:b0:78d:3b08:33ef with SMTP id
+ nb24-20020a1709071c9800b0078d3b0833efmr43344625ejc.175.1666879125532; Thu, 27
+ Oct 2022 06:58:45 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DBBPR04MB7899:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e7f64a6-4b92-4bb6-4fbd-08dab8234fb7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pyb7U21+XmoBLiGTn25YxzrJgaqj8KJ99wHB/u+AQN00IhBmvuFEZsxgGbBRhZL8HbxR2LggG4z/OuVbnwR5e5eYPXrVTiRJYv5uOTylp2MSEUTsCddzrtWvgxlLOQL5ZOswhQlOUK2kJBzRG7KpFyojTqWnhuaiN0GX8ACmMUrGyN9o9EoEkyrohJZxDMK8OLi/lT1Z3kD25c+1QeHuxyjkMxuJ6VqKQmKdzZuNkcZ7UooUNNbGav48uLY+fxpfy5WbW455vFgZR/uC8oayCIJdaWMZX2Wqfxt2GLxM850xqllTOY+rKCiZbZWgut3fKjOVS2hJXUcZb0ethuSKX1690Iukt5JyNgBz/epqVihEDSn7T3sMyR98F5+05EIugzmPc6NoOIbdxhP28oWrg3yKXW1k32Wj5NvNQDZ/plNiKlQOAGi2n6SV/wEp/wm3QESqZzFqlRlel7LToUOpADF9YolFpcH6DY7eav224StQqpZgZiWNF6PqbsMA3kHPEdpQz/wWd4Beo2H5GnUBahTmhWN/+AbwKtrwcNxV4UAmuIkAY8PIVW69IaVALXL6Q0YYriou+1aKwHxsJOrDFCJsK0O/Bgapg0zsLBERbHwScixh8y6y5VsBySNj/PtFTWTQiuJVercFZ/r4Q1wu5ehXEYrVjc3/31jpKjOBu/sYR82KPWGLuS61yfRIumv/ggmYTHr0E25kslr3dhi3ugqCSMCNkIprOWWZ55L1PlZxyo5+n9+OWtoWik4+6s/BEf2CGFt6hMynBbj2+/2Wx9xazNS0sSKmv0SqWu4ds3k=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(376002)(136003)(346002)(366004)(396003)(451199015)(2906002)(2616005)(5660300002)(41300700001)(86362001)(38350700002)(38100700002)(4001150100001)(6512007)(83380400001)(8936002)(54906003)(478600001)(66556008)(26005)(6486002)(316002)(52116002)(6666004)(53546011)(4326008)(8676002)(66946007)(186003)(66476007)(6506007)(36756003)(99106002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmZCeGVqRy84bUFRbFJQZk8zbnZaaUFvK1NjdFNMRERPVmJQcXRpcDhyNG1q?=
- =?utf-8?B?TENaaDFJek5xaTBqUzJEeFVLSG5tY3l0Rkd4R0srNVlreDlTOU1JekViK2xP?=
- =?utf-8?B?TVlBaTR2Rmt3MEp0YkJZazlEYXF4NHhLSEFOZFVlUE1KU1V2a1Qwcnd4KzZ5?=
- =?utf-8?B?TlliK0U5dG5IZXc4MnVFQkJwYWtIRnF4Nm41ay9VaUhSREl4cDFxVXk3NmRX?=
- =?utf-8?B?Z0xQNmVHY0FCNTd0ZC9QMXZkQUNzT210bjZHaFZsK2FpaWUyc2VWZ1JRNElY?=
- =?utf-8?B?UVQxdm5wSDR6QkJkWDEvbXBpVUpOSXRacEJIeXJQT1BURHBPUXVybnRQdkEz?=
- =?utf-8?B?T1JGaXNwUkdSTlBEc0R0YTE3S25zcnp2YjJpTXYyNE5jNGdVMU5zWU1nTnZk?=
- =?utf-8?B?MnplcEFqendkMkxTQjlQejBtem55L29oSTNIYitCOGNjVTI4OHQ4bEhZOUE2?=
- =?utf-8?B?dW5scVZvdXpWc2FQZG50KzI5d1M3SkdyRUNjSldLSDFKUWttZ0VBOXVMaS90?=
- =?utf-8?B?a0pSRkwybExCTEEycEZDdlJ0dHZYcmxOM1lYOUc4NTdVdjJKTFM5aXdnQVZo?=
- =?utf-8?B?eDBBdWxtcEw2QlE3aDV3YnYwVDViOW0wcWRYZ1oySDJzZERmVnpXNTM4dlhs?=
- =?utf-8?B?WlVpam9FWmRUTFM3d2VMMmxSRDAyNXVuRU5QaDR3U0JXTm5zZ2owTmVoSzRu?=
- =?utf-8?B?NGlLbUNURG1YMWoxSzRyOXVvQnhQcUNkSlJFdkdwbERwNU1FV0tBTlZ6Y1JV?=
- =?utf-8?B?bjdXeHlURE9YYXI5ZkhiN2E2eDRJckFRNDc1MU1MckNUdHdhQko2WVo5dWtY?=
- =?utf-8?B?NVQrcU9iMzNWdC9rUWFiOWtrS0ZqNVVlWDdjZ0VnVHg0cSt4YkRSb3ZLb3VG?=
- =?utf-8?B?c3RUSUJzaUlWMVdOOEswTXlOVGZ1dURiUHRyZkFkR2dQQXpiWU1UT2ExRGFV?=
- =?utf-8?B?dTc0eVpYMWxuQWxST3ZMVlNmMlBaVW44a3AzdDJQdVZOVS90bHhvYkFkUVpJ?=
- =?utf-8?B?ZzVNOFg4T1haWURSU3dLMTdwL1YwRnl2dzlBVmg2QVdiZ1RrcXZFcUkvVkhV?=
- =?utf-8?B?R256Yy9jRWVsTHhmVWp5UWgrWitZVlBXYmRXMk80dXJkVmkzL3ArUXovQkEx?=
- =?utf-8?B?cll2dmlhK1ZhdGlwN2pVQlNidkROc3pGcFNHWHFXZG10MGg2L0tjUThLbTZU?=
- =?utf-8?B?bWdIbnJHVTE0dTFzZDRIdWxxNzdZVG5VTzVsNzlkNFpxcDJzR0FRWUkvRmY1?=
- =?utf-8?B?RjhBYXQ5djFvSHVQSE42emptWVNyVzNRMmRrNEdVcXBpOUk5K0N5UUVmMGRi?=
- =?utf-8?B?TERsSUpBYXFKcFUvNzhDTzhJbEE5SkpYTGtZWGorQW1jZ1hua1NrdmdpZnBl?=
- =?utf-8?B?TUllSnBrVVYwMVJWUWwzbGhkVzZNeWNJWWV3QVBqcjA4RWJhZzZ1REY5VkFn?=
- =?utf-8?B?bTMvM0ZYbmgwZll3LzVGNWdDakZVWEgrT1I5VnpDWWxncmxVZHlFcDNSYW1l?=
- =?utf-8?B?SGxRV2FkVGF3NDNUdklCSEdHd0k4ZE1FWGlQNjU0WURtOHNMUXZ0VVJoQVF4?=
- =?utf-8?B?OTVYMlYvemtIcEFZZFhncUM1TkRPcm9IcTR4NGRKTzhlUDExMUFseUZpUmUr?=
- =?utf-8?B?eklGZDJTMVZPd3RySjdibEorNkVSYkcxa0ZzQm5XcXcwK1ZJNDVEZTkyWkls?=
- =?utf-8?B?MEMxT0VXZFQwMCthS3ZkM2hhb2Vyd0Y4eWx5YUcvTkk4WVJOQXBFWFYzVG5G?=
- =?utf-8?B?dW95NGU4SVl0Nlg1N0FWenNpK3pwSXh4TTVQWlB1SW9pa3hhdjlhcEdHYTQy?=
- =?utf-8?B?VkJnamorMk5meXg0SXNUbFF0R1JMVVlJSjY1UG5WY2J0SnhNYVRwa2pQcFFp?=
- =?utf-8?B?V1VLVjZhaThJZjdtbmdWQ3haNzJKRzdubzkxanFaaEYvTUZiOHYxcE1sV1BC?=
- =?utf-8?B?TlRmMFROZ1hpc29kYUtvZW9FaHJHdXRDSUczQWNVZjNvWS9jRUJNVGVDd3lL?=
- =?utf-8?B?bHFiZzJMYnVnL2hCVEZqbzhoWDhrM3JrR21iaTZiMWJXcmFCRHdORWFUdWlU?=
- =?utf-8?B?aElrTUR1ZGVMbXBhSmh4eUpDU05WUWRSTlUzVGZtMUozU09zdlV5VWNzeXZz?=
- =?utf-8?Q?Iroro2c14E8N+uT3+2U7304gl?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e7f64a6-4b92-4bb6-4fbd-08dab8234fb7
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 13:58:23.0893 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CjdwZlBMt61Nj3pB4GZA8X+aYY4qFXH+XbgBzVpw2+1l+mIdtbofcTNiGCpOXQHz9LnQrTtjdxO2Rjrr9btETw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7899
+References: <20220815-rpi-fix-4k-60-v5-0-fe9e7ac8b111@cerno.tech>
+ <20220815-rpi-fix-4k-60-v5-5-fe9e7ac8b111@cerno.tech>
+In-Reply-To: <20220815-rpi-fix-4k-60-v5-5-fe9e7ac8b111@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 27 Oct 2022 14:58:30 +0100
+Message-ID: <CAPY8ntCft8_8TimHVs9LJk11Z6PEKtZynCfSUz_3g6-saVyzPQ@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] drm/vc4: hdmi: Rework hdmi_enable_4kp60 detection
+ code
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,149 +67,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>, Martyn Welch <martyn.welch@collabora.com>,
- Marco Felsch <m.felsch@pengutronix.de>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, "jian.li" <jian.li@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, Stefan Wahren <stefan.wahren@i2se.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Emma Anholt <emma@anholt.net>,
+ Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>,
+ Ray Jui <rjui@broadcom.com>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-10-27 at 12:03 +0200, Marek Vasut wrote:
-> On 10/27/22 07:45, Liu Ying wrote:
-> 
-> Hi,
-> 
-> [...]
-> 
-> > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > index a5302006c02cd..aee7babb5fa5c 100644
-> > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > @@ -341,6 +341,18 @@ static void lcdif_enable_controller(struct
-> > > lcdif_drm_private *lcdif)
-> > >   	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > >   	reg |= CTRLDESCL0_5_EN;
-> > >   	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > +
-> > > +	/* Set FIFO Panic watermarks, low 1/3, high 2/3 . */
-> > > +	writel(FIELD_PREP(PANIC0_THRES_LOW_MASK, 1 * PANIC0_THRES_RANGE
-> > > / 3) |
-> > > +	       FIELD_PREP(PANIC0_THRES_HIGH_MASK, 2 *
-> > > PANIC0_THRES_RANGE / 3),
-> > 
-> > Better to define PANIC0_THRES_{LOW,HIGH}(n) macros in lcdif_regs.h?
-> > 
-> > Downstream kernel uses the below threshold values:
-> > a) i.MX8mp EVK board with LPDDR4
-> > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in driver
-> > 1/2 and 3/4 for LCDIF3 + HDMI - set in device tree
-> > 
-> > b) i.MX8mp EVK board with DDR4
-> > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in driver
-> > 2/3 and 3/3 for LCDIF3 + HDMI - set in devic tree
-> > 
-> > Jian told me that LCDIF3 needs different sets of threshold values
-> > for
-> > different types of DDR to avoid 4k HDMI display issues and the
-> > threshold values impact overall DDR/bus utilization(?), so
-> > downstream
-> > kernel chooses to get optional threshold value properties from
-> > LCDIF DT
-> > node.
-> > 
-> > Instead of always using 1/3 and 2/3, maybe there are three options:
-> > 1) Same to downstream kernel, take 1/3 and 2/3 as default values
-> > and
-> > get optional threshold values from DT properties - no additional
-> > properties are acceptable in the existing DT binding doc?
-> > 2) Check pixel clock rate, and if it is greater than a certain
-> > value,
-> > use 2/3 and 3/3.  Otherwise, use 1/3 and 2/3.
-> > 3) Always use 2/3 and 3/3.
-> 
-> Why 2/3 and 3/3 instead of 1/3 and 2/3 ?
+On Thu, 27 Oct 2022 at 13:53, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> In order to support higher HDMI frequencies, users have to set the
+> hdmi_enable_4kp60 parameter in their config.txt file.
+>
+> This will have the side-effect of raising the maximum of the core clock,
+> tied to the HVS, and managed by the HVS driver.
+>
+> However, we are querying this in the HDMI driver by poking into the HVS
+> structure to get our struct clk handle.
+>
+> Let's make this part of the HVS bind implementation to have all the core
+> clock related setup in the same place.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-2/3 and 3/3 trigger panic signal more easily than 1/3 and 2/3. 
+Thanks for the rename of the variable - pulling scrambling into it
+made it confusing.
 
-> 
-> Seems like 1/3 and 2/3 provides enough FIFO margin for every
-> scenario.
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-I didn't tune the threshold values.  What I was told is that some
-usecases suffer from the FIFO underflows with 1/3 and 2/3.  And, it
-appears that FIFO doesn't underflow with 1/2 and 3/4 or 2/3 and 3/3 in
-those usecases.  That's why downstream kernel chooses to use 1/2 and
-3/4 or 2/3 and 3/3.
-
-> 
-> > > +	       lcdif->base + LCDC_V8_PANIC0_THRES);
-> > > +
-> > > +	/*
-> > > +	 * Enable FIFO Panic, this does not generate interrupt, but
-> > > +	 * boosts NoC priority based on FIFO Panic watermarks.
-> > > +	 */
-> > > +	writel(INT_ENABLE_D1_PLANE_PANIC_EN,
-> > > +	       lcdif->base + LCDC_V8_INT_ENABLE_D1);
-> > 
-> > This should be enabled _before_ LCDIF controller starts to fetch
-> > pixels, otherwise, there is chance that the FIFO still underflows.
-> 
-> That means _before_ DISP_PARA_DISP_ON or CTRLDESCL0_5_EN ?
-
-I'm not sure which one triggers LCDIF controller start to fetch pixels,
-but it doesn't hurt to enable FIFO panic before both of the two I
-think.
-
-> 
-> > >   }
-> > >   
-> > >   static void lcdif_disable_controller(struct lcdif_drm_private
-> > > *lcdif)
-> > > @@ -348,6 +360,9 @@ static void lcdif_disable_controller(struct
-> > > lcdif_drm_private *lcdif)
-> > >   	u32 reg;
-> > >   	int ret;
-> > >   
-> > > +	/* Disable FIFO Panic NoC priority booster. */
-> > > +	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D1);
-> > 
-> > Similar to enablement, this should be disabled _after_ LCDIF
-> > controller
-> > stops fetching pixels.
-> 
-> Same question as above applies, which bits controls that part,
-> DISP_ON 
-> or CTRLDESCL0_5_EN ? I suspect the later.
-
-Again, I'm not sure, but it doesn't hurt to disable FIFO panic after
-both of the two I think.
-
-> 
-> > > +
-> > >   	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > >   	reg &= ~CTRLDESCL0_5_EN;
-> > >   	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > index fb74eb5ccbf1d..3d2f81d6f995e 100644
-> > > --- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> > > @@ -255,6 +255,7 @@
-> > >   
-> > >   #define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
-> > >   #define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
-> > > +#define PANIC0_THRES_RANGE		512
-> > 
-> > Should be 511? If high threshold is 3/3 and PANIC0_THRES_RANGE =
-> > 512,
-> > PANIC0_THRES_HIGH will overflow and zero is set.
-> 
-> Let's rename this to PANIC0_THRES_MAX too.
-
-Sounds good.
-
-Regards,
-Liu Ying
-
+> ---
+>  drivers/gpu/drm/vc4/vc4_drv.h  | 10 ++++++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 15 ++++-----------
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  8 --------
+>  drivers/gpu/drm/vc4/vc4_hvs.c  | 23 +++++++++++++++++++++++
+>  4 files changed, 37 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 418a8242691f..8da2b80fdbd3 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -326,6 +326,8 @@ struct vc4_hvs {
+>
+>         struct clk *core_clk;
+>
+> +       unsigned long max_core_rate;
+> +
+>         /* Memory manager for CRTCs to allocate space in the display
+>          * list.  Units are dwords.
+>          */
+> @@ -337,6 +339,14 @@ struct vc4_hvs {
+>         struct drm_mm_node mitchell_netravali_filter;
+>
+>         struct debugfs_regset32 regset;
+> +
+> +       /*
+> +        * Even if HDMI0 on the RPi4 can output modes requiring a pixel
+> +        * rate higher than 297MHz, it needs some adjustments in the
+> +        * config.txt file to be able to do so and thus won't always be
+> +        * available.
+> +        */
+> +       bool vc5_hdmi_enable_hdmi_20;
+>  };
+>
+>  struct vc4_plane {
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 3acc1858c55f..98a6643821bb 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -46,7 +46,6 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/rational.h>
+>  #include <linux/reset.h>
+> -#include <soc/bcm2835/raspberrypi-clocks.h>
+>  #include <sound/dmaengine_pcm.h>
+>  #include <sound/hdmi-codec.h>
+>  #include <sound/pcm_drm_eld.h>
+> @@ -460,6 +459,7 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
+>  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+>  {
+>         struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+> +       struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
+>         int ret = 0;
+>         struct edid *edid;
+>
+> @@ -483,7 +483,7 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+>         ret = drm_add_edid_modes(connector, edid);
+>         kfree(edid);
+>
+> -       if (vc4_hdmi->disable_4kp60) {
+> +       if (!vc4->hvs->vc5_hdmi_enable_hdmi_20) {
+>                 struct drm_device *drm = connector->dev;
+>                 const struct drm_display_mode *mode;
+>
+> @@ -1757,11 +1757,12 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
+>  {
+>         const struct drm_connector *connector = &vc4_hdmi->connector;
+>         const struct drm_display_info *info = &connector->display_info;
+> +       struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
+>
+>         if (clock > vc4_hdmi->variant->max_pixel_clock)
+>                 return MODE_CLOCK_HIGH;
+>
+> -       if (vc4_hdmi->disable_4kp60 && clock > HDMI_14_MAX_TMDS_CLK)
+> +       if (!vc4->hvs->vc5_hdmi_enable_hdmi_20 && clock > HDMI_14_MAX_TMDS_CLK)
+>                 return MODE_CLOCK_HIGH;
+>
+>         if (info->max_tmds_clock && clock > (info->max_tmds_clock * 1000))
+> @@ -3428,14 +3429,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+>         vc4_hdmi->disable_wifi_frequencies =
+>                 of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
+>
+> -       if (variant->max_pixel_clock == 600000000) {
+> -               struct vc4_dev *vc4 = to_vc4_dev(drm);
+> -               unsigned int max_rate = rpi_firmware_clk_get_max_rate(vc4->hvs->core_clk);
+> -
+> -               if (max_rate < 550000000)
+> -                       vc4_hdmi->disable_4kp60 = true;
+> -       }
+> -
+>         ret = devm_pm_runtime_enable(dev);
+>         if (ret)
+>                 return ret;
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index db823efb2563..e3619836ca17 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -156,14 +156,6 @@ struct vc4_hdmi {
+>          */
+>         bool disable_wifi_frequencies;
+>
+> -       /*
+> -        * Even if HDMI0 on the RPi4 can output modes requiring a pixel
+> -        * rate higher than 297MHz, it needs some adjustments in the
+> -        * config.txt file to be able to do so and thus won't always be
+> -        * available.
+> -        */
+> -       bool disable_4kp60;
+> -
+>         struct cec_adapter *cec_adap;
+>         struct cec_msg cec_rx_msg;
+>         bool cec_tx_ok;
+> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+> index 4ac9f5a2d5f9..fc4b7310bf63 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> @@ -28,6 +28,8 @@
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_vblank.h>
+>
+> +#include <soc/bcm2835/raspberrypi-firmware.h>
+> +
+>  #include "vc4_drv.h"
+>  #include "vc4_regs.h"
+>
+> @@ -791,12 +793,33 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+>         hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
+>
+>         if (vc4->is_vc5) {
+> +               struct rpi_firmware *firmware;
+> +               struct device_node *node;
+> +               unsigned int max_rate;
+> +
+> +               node = rpi_firmware_find_node();
+> +               if (!node)
+> +                       return -EINVAL;
+> +
+> +               firmware = rpi_firmware_get(node);
+> +               of_node_put(node);
+> +               if (!firmware)
+> +                       return -EPROBE_DEFER;
+> +
+>                 hvs->core_clk = devm_clk_get(&pdev->dev, NULL);
+>                 if (IS_ERR(hvs->core_clk)) {
+>                         dev_err(&pdev->dev, "Couldn't get core clock\n");
+>                         return PTR_ERR(hvs->core_clk);
+>                 }
+>
+> +               max_rate = rpi_firmware_clk_get_max_rate(firmware,
+> +                                                        RPI_FIRMWARE_CORE_CLK_ID);
+> +               rpi_firmware_put(firmware);
+> +               if (max_rate >= 550000000)
+> +                       hvs->vc5_hdmi_enable_hdmi_20 = true;
+> +
+> +               hvs->max_core_rate = max_rate;
+> +
+>                 ret = clk_prepare_enable(hvs->core_clk);
+>                 if (ret) {
+>                         dev_err(&pdev->dev, "Couldn't enable the core clock\n");
+>
+> --
+> b4 0.11.0-dev-99e3a
