@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A00610573
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 00:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D84610574
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 00:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3B810E71B;
-	Thu, 27 Oct 2022 22:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 911D610E71D;
+	Thu, 27 Oct 2022 22:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5043510E00E;
- Thu, 27 Oct 2022 22:13:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DA910E00E;
+ Thu, 27 Oct 2022 22:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666908801; x=1698444801;
+ t=1666908802; x=1698444802;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Sq4W6wRIv4VMfvsKNCBJYuyDPoO3ftkv5qgbQgQR860=;
- b=cYiozO3pR0qurAjBGzSeQz1ATgSFEyAjoucPzZj1B3MoKcXd6uU7b1ha
- l8VFFdeIaIYHOpNk39bwzKf61u4r961ft0pGX2C2mOFjfhtwdYpsCMguC
- zcG+WJVjsgp+WVL6EgYvQVBS388ivEe5I0sNGRkh5P+nKJfLmNIlxVTBw
- vsi880t0wSORElc0NZRcLO2GdAO2dlIYzm1a3aMnzmdOnaCPgwlTrFC9q
- X9PdLL9qlo5HBZip4Nocg3izI+eBRdYHVn/aCge5ZG8P7Z6ZKYc62Nz7t
- WjE3DcypiUko4uRoD33serAUV2359DMKqxx5M5D6wpQqLz+tWtKSF9Kto w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="295763435"
-X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="295763435"
+ bh=Dtumg593c/2SWZc2M0tS5AnlCZky9RXNJflRzNqLFbI=;
+ b=e1ipAK3R5SY5dqciADiEPouCQj/Z8REN8yk2zQ72RB0HuHSMqGMPlFGq
+ wMhTQBhd7hBtilJmhGHJWK0xGElxbdZO2Pvce5lHdzKEwzRj+L0RDsKDU
+ QHCMtdCXYoJ+oMzZYh72SPW6sX9LVb/Td2djViM6bd1HhfzOsZJzVHwjm
+ /iwWS6dyPT+ALGuGCe6ZiysvKWzS4LP2EFiFt9U7/XOIMM0voi2qLjemb
+ F4ApA0cRJ6zT/jfYyUcTBYweKHJpcjJRwZTILFFV+KErE931CaDY4PHl9
+ VoNPMyOYa3eQ5fca8liS0ktlJYVaGj5s5uBZt6NeHxAD8nqfOvbB0Kr/c g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="295763441"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="295763441"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2022 15:13:21 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="610528946"
-X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="610528946"
+ 27 Oct 2022 15:13:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="610528950"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="610528950"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2022 15:13:20 -0700
+ 27 Oct 2022 15:13:22 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/5] drm/i915/mtl: add initial definitions for GSC CS
-Date: Thu, 27 Oct 2022 15:15:50 -0700
-Message-Id: <20221027221554.2638087-2-daniele.ceraolospurio@intel.com>
+Subject: [PATCH 2/5] drm/i915/mtl: pass the GSC CS info to the GuC
+Date: Thu, 27 Oct 2022 15:15:51 -0700
+Message-Id: <20221027221554.2638087-3-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
 References: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
@@ -61,83 +61,89 @@ Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Starting on MTL, the GSC is no longer managed with direct MMIO access,
-but we instead have a dedicated command streamer for it. As a first step
-for adding support for this CS, add the required definitions.
-Note that, although it is now a CS, the GSC retains its old
-class:instance value (OTHER_CLASS instance 6)
+We need to tell the GuC that the GSC CS is there. The GuC interface
+swaps COMPUTE and OTHER class, so we also need to handle that.
 
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 8 ++++++++
- drivers/gpu/drm/i915/gt/intel_engine_types.h | 1 +
- drivers/gpu/drm/i915/gt/intel_engine_user.c  | 1 +
- drivers/gpu/drm/i915/i915_reg.h              | 1 +
- 4 files changed, 11 insertions(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c  | 11 +++++------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  7 +++++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 3b7d750ad054..e0fbfac03979 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -244,6 +244,13 @@ static const struct engine_info intel_engines[] = {
- 			{ .graphics_ver = 12, .base = GEN12_COMPUTE3_RING_BASE }
- 		}
- 	},
-+	[GSC0] = {
-+		.class = OTHER_CLASS,
-+		.instance = OTHER_GSC_INSTANCE,
-+		.mmio_bases = {
-+			{ .graphics_ver = 12, .base = MTL_GSC_RING_BASE }
-+		}
-+	},
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 34ef4f36e660..63e3d98788bd 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -478,6 +478,11 @@ static void fill_engine_enable_masks(struct intel_gt *gt,
+ 	info_map_write(info_map, engine_enabled_masks[GUC_BLITTER_CLASS], BCS_MASK(gt));
+ 	info_map_write(info_map, engine_enabled_masks[GUC_VIDEO_CLASS], VDBOX_MASK(gt));
+ 	info_map_write(info_map, engine_enabled_masks[GUC_VIDEOENHANCE_CLASS], VEBOX_MASK(gt));
++
++	/* The GSC engine is an instance (6) of OTHER_CLASS */
++	if (gt->engine[GSC0])
++		info_map_write(info_map, engine_enabled_masks[GUC_GSC_OTHER_CLASS],
++			       BIT(gt->engine[GSC0]->instance));
+ }
+ 
+ #define LR_HW_CONTEXT_SIZE (80 * sizeof(u32))
+@@ -519,9 +524,6 @@ static int guc_prep_golden_context(struct intel_guc *guc)
+ 	}
+ 
+ 	for (engine_class = 0; engine_class <= MAX_ENGINE_CLASS; ++engine_class) {
+-		if (engine_class == OTHER_CLASS)
+-			continue;
+-
+ 		guc_class = engine_class_to_guc_class(engine_class);
+ 
+ 		if (!info_map_read(&info_map, engine_enabled_masks[guc_class]))
+@@ -599,9 +601,6 @@ static void guc_init_golden_context(struct intel_guc *guc)
+ 	addr_ggtt = intel_guc_ggtt_offset(guc, guc->ads_vma) + offset;
+ 
+ 	for (engine_class = 0; engine_class <= MAX_ENGINE_CLASS; ++engine_class) {
+-		if (engine_class == OTHER_CLASS)
+-			continue;
+-
+ 		guc_class = engine_class_to_guc_class(engine_class);
+ 		if (!ads_blob_read(guc, system_info.engine_enabled_masks[guc_class]))
+ 			continue;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+index 968ebd79dce7..4ae5fc2f6002 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+@@ -47,7 +47,8 @@
+ #define GUC_VIDEOENHANCE_CLASS		2
+ #define GUC_BLITTER_CLASS		3
+ #define GUC_COMPUTE_CLASS		4
+-#define GUC_LAST_ENGINE_CLASS		GUC_COMPUTE_CLASS
++#define GUC_GSC_OTHER_CLASS		5
++#define GUC_LAST_ENGINE_CLASS		GUC_GSC_OTHER_CLASS
+ #define GUC_MAX_ENGINE_CLASSES		16
+ #define GUC_MAX_INSTANCES_PER_CLASS	32
+ 
+@@ -169,6 +170,7 @@ static u8 engine_class_guc_class_map[] = {
+ 	[COPY_ENGINE_CLASS]       = GUC_BLITTER_CLASS,
+ 	[VIDEO_DECODE_CLASS]      = GUC_VIDEO_CLASS,
+ 	[VIDEO_ENHANCEMENT_CLASS] = GUC_VIDEOENHANCE_CLASS,
++	[OTHER_CLASS]             = GUC_GSC_OTHER_CLASS,
+ 	[COMPUTE_CLASS]           = GUC_COMPUTE_CLASS,
  };
  
- /**
-@@ -324,6 +331,7 @@ u32 intel_engine_context_size(struct intel_gt *gt, u8 class)
- 	case VIDEO_DECODE_CLASS:
- 	case VIDEO_ENHANCEMENT_CLASS:
- 	case COPY_ENGINE_CLASS:
-+	case OTHER_CLASS:
- 		if (GRAPHICS_VER(gt->i915) < 8)
- 			return 0;
- 		return GEN8_LR_CONTEXT_OTHER_SIZE;
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 6b5d4ea22b67..4fd54fb8810f 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -136,6 +136,7 @@ enum intel_engine_id {
- 	CCS2,
- 	CCS3,
- #define _CCS(n) (CCS0 + (n))
-+	GSC0,
- 	I915_NUM_ENGINES
- #define INVALID_ENGINE ((enum intel_engine_id)-1)
+@@ -178,12 +180,13 @@ static u8 guc_class_engine_class_map[] = {
+ 	[GUC_VIDEO_CLASS]        = VIDEO_DECODE_CLASS,
+ 	[GUC_VIDEOENHANCE_CLASS] = VIDEO_ENHANCEMENT_CLASS,
+ 	[GUC_COMPUTE_CLASS]      = COMPUTE_CLASS,
++	[GUC_GSC_OTHER_CLASS]    = OTHER_CLASS,
  };
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index 46a174f8aa00..79312b734690 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -140,6 +140,7 @@ const char *intel_engine_class_repr(u8 class)
- 		[COPY_ENGINE_CLASS] = "bcs",
- 		[VIDEO_DECODE_CLASS] = "vcs",
- 		[VIDEO_ENHANCEMENT_CLASS] = "vecs",
-+		[OTHER_CLASS] = "other",
- 		[COMPUTE_CLASS] = "ccs",
- 	};
  
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 1c0da50c0dc7..d056c3117ef2 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -970,6 +970,7 @@
- #define GEN11_VEBOX2_RING_BASE		0x1d8000
- #define XEHP_VEBOX3_RING_BASE		0x1e8000
- #define XEHP_VEBOX4_RING_BASE		0x1f8000
-+#define MTL_GSC_RING_BASE		0x11a000
- #define GEN12_COMPUTE0_RING_BASE	0x1a000
- #define GEN12_COMPUTE1_RING_BASE	0x1c000
- #define GEN12_COMPUTE2_RING_BASE	0x1e000
+ static inline u8 engine_class_to_guc_class(u8 class)
+ {
+ 	BUILD_BUG_ON(ARRAY_SIZE(engine_class_guc_class_map) != MAX_ENGINE_CLASS + 1);
+-	GEM_BUG_ON(class > MAX_ENGINE_CLASS || class == OTHER_CLASS);
++	GEM_BUG_ON(class > MAX_ENGINE_CLASS);
+ 
+ 	return engine_class_guc_class_map[class];
+ }
 -- 
 2.37.3
 
