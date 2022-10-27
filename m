@@ -1,46 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9164D60F9D6
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 15:57:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B371360F9DE
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 15:58:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592B410E63E;
-	Thu, 27 Oct 2022 13:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2D710E642;
+	Thu, 27 Oct 2022 13:58:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E4D10E63E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 13:57:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: hector@marcansoft.com)
- by mail.marcansoft.com (Postfix) with ESMTPSA id E68B73FA55;
- Thu, 27 Oct 2022 13:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
- t=1666879039; bh=TK1fFuny4zxoXEgTLy+wI9CY1SFw6RXNtfSesjtadqU=;
- h=From:To:Cc:Subject:Date;
- b=ww+vPmOG62oLzBS2yPE6x7AS+yIRPHjk0TnpYPW4KrokdwFEj7KGJscZ/ESUTyIFy
- Hg9iiaM81RBNss92uThzw8E9qu8yGyUS8XRbXC48DgoNVbL5SzVWsVbvQvtOWEgm6j
- ft4XbZ1CfRYZaGMMcivgt6PrBvuwa8zLokgocfrLDNiEjbOQxDR25gwgpsWGyNPdak
- jAscKJKbFZvho9pAacCczfcfSeyI9FxmfoCM87qZLJ4w+iEHAC8wXh1ZA5qgVuRuO/
- PaNKwmIhh9lQ44Uwe0GjNltGn+mQ68tq0FAeCccmqQEBqiTqYnSao5qxk0asvHjr1S
- GlrEJiwreHJWQ==
-From: Hector Martin <marcan@marcan.st>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-Subject: [PATCH v2] drm/format-helper: Only advertise supported formats for
- conversion
-Date: Thu, 27 Oct 2022 22:57:11 +0900
-Message-Id: <20221027135711.24425-1-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2043.outbound.protection.outlook.com [40.107.21.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2366010E642
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 13:58:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UIyhqbwUB4nnoY71NOogF3sloysZVc0TUuzfCZaMC2GJ+A1Yr8ZDthLtFl8HK2v2UwbglhhtRbZuo04E2tLFfVJycYdtTyAluRDBGVtdhzbtIU9lXoODJV0ik6XpWItf53toEujq9UUuy2oHeJOj1JL0AJxJBaapP8ub5qLb6b6+ST8DpRIhIXhCSkSOpWC27QlHDfITI0lkad/lN/OQ6Q11GSeku9qTSquEKBUku1i4B4/hqjWRfnRifdeI8kAC7K5m/JvWuXy+h0wfS53SR6Ha98TyWwYE+p267fKe4dunFSuJVmwF/5AILSuRVwCbjENCi9oy2Q+XpYI5ypFK7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nqgq5J/a6D2NJ/94eXKOxT4z3HdQk4SVfp5QliBOe3Y=;
+ b=St1nyK7f4Eig3hcjwIfT8eqQA/Npr1K+KD5aXaotZzgdIGLFtRjzmP4FNc/SaEx5MFFk0yWUHANESV/9+CpvB5IfD+uvpGRIShW7qq3kfxloDoKwcN0L7auJsxlFmzp1AD33j4Y4yNfwARt14/NwgIbIIW8khZCUQYBWV0YILICJ9RCJN5SJrj0fFQzk9HsISHgfKrIFsl7raoqeunIOV63iauC5aGswkdPuoMa4msdFl+Pq6Vh8ySm+OvVhn8fiA3gz4DxoxKISu02HJp8bBo6r2yiEV6S4+JU+nRgTQnY2sU8nmVdqX9olC5QG6moPxGQWcRC916KnnAW65GkGzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nqgq5J/a6D2NJ/94eXKOxT4z3HdQk4SVfp5QliBOe3Y=;
+ b=U0thMhUM00pVEJHC9yat6BCY5gvnXunkTJ5ploBB9W9BrUjE+Prf368nFxEDckEzEURwPebzIhX6tUOD/hC2Ekl7/eQw30giV6XVngh3OjTGhxwBzCmoIFosOpRPNztSNZ7fp/hHT4/NJMUG6OPIPcWCVozGazGq6JnlF3m7nCs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DBBPR04MB7899.eurprd04.prod.outlook.com (2603:10a6:10:1e1::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Thu, 27 Oct
+ 2022 13:58:23 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::dcca:b62f:206b:dcf8]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::dcca:b62f:206b:dcf8%3]) with mapi id 15.20.5746.021; Thu, 27 Oct 2022
+ 13:58:23 +0000
+Message-ID: <6398adb972ef8623fd594fd573b5ed6838948516.camel@nxp.com>
+Subject: Re: [PATCH] drm: lcdif: Set and enable FIFO Panic threshold
+From: Liu Ying <victor.liu@nxp.com>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Thu, 27 Oct 2022 21:57:42 +0800
+In-Reply-To: <9bd9ee85-3a20-f13a-3984-017a439e08cd@denx.de>
+References: <20221026212002.542375-1-marex@denx.de>
+ <2e9368bcc1c354ff01e63b9c451d839aa6a7a36f.camel@nxp.com>
+ <9bd9ee85-3a20-f13a-3984-017a439e08cd@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR03CA0097.apcprd03.prod.outlook.com
+ (2603:1096:4:7c::25) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DBBPR04MB7899:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e7f64a6-4b92-4bb6-4fbd-08dab8234fb7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pyb7U21+XmoBLiGTn25YxzrJgaqj8KJ99wHB/u+AQN00IhBmvuFEZsxgGbBRhZL8HbxR2LggG4z/OuVbnwR5e5eYPXrVTiRJYv5uOTylp2MSEUTsCddzrtWvgxlLOQL5ZOswhQlOUK2kJBzRG7KpFyojTqWnhuaiN0GX8ACmMUrGyN9o9EoEkyrohJZxDMK8OLi/lT1Z3kD25c+1QeHuxyjkMxuJ6VqKQmKdzZuNkcZ7UooUNNbGav48uLY+fxpfy5WbW455vFgZR/uC8oayCIJdaWMZX2Wqfxt2GLxM850xqllTOY+rKCiZbZWgut3fKjOVS2hJXUcZb0ethuSKX1690Iukt5JyNgBz/epqVihEDSn7T3sMyR98F5+05EIugzmPc6NoOIbdxhP28oWrg3yKXW1k32Wj5NvNQDZ/plNiKlQOAGi2n6SV/wEp/wm3QESqZzFqlRlel7LToUOpADF9YolFpcH6DY7eav224StQqpZgZiWNF6PqbsMA3kHPEdpQz/wWd4Beo2H5GnUBahTmhWN/+AbwKtrwcNxV4UAmuIkAY8PIVW69IaVALXL6Q0YYriou+1aKwHxsJOrDFCJsK0O/Bgapg0zsLBERbHwScixh8y6y5VsBySNj/PtFTWTQiuJVercFZ/r4Q1wu5ehXEYrVjc3/31jpKjOBu/sYR82KPWGLuS61yfRIumv/ggmYTHr0E25kslr3dhi3ugqCSMCNkIprOWWZ55L1PlZxyo5+n9+OWtoWik4+6s/BEf2CGFt6hMynBbj2+/2Wx9xazNS0sSKmv0SqWu4ds3k=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(376002)(136003)(346002)(366004)(396003)(451199015)(2906002)(2616005)(5660300002)(41300700001)(86362001)(38350700002)(38100700002)(4001150100001)(6512007)(83380400001)(8936002)(54906003)(478600001)(66556008)(26005)(6486002)(316002)(52116002)(6666004)(53546011)(4326008)(8676002)(66946007)(186003)(66476007)(6506007)(36756003)(99106002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmZCeGVqRy84bUFRbFJQZk8zbnZaaUFvK1NjdFNMRERPVmJQcXRpcDhyNG1q?=
+ =?utf-8?B?TENaaDFJek5xaTBqUzJEeFVLSG5tY3l0Rkd4R0srNVlreDlTOU1JekViK2xP?=
+ =?utf-8?B?TVlBaTR2Rmt3MEp0YkJZazlEYXF4NHhLSEFOZFVlUE1KU1V2a1Qwcnd4KzZ5?=
+ =?utf-8?B?TlliK0U5dG5IZXc4MnVFQkJwYWtIRnF4Nm41ay9VaUhSREl4cDFxVXk3NmRX?=
+ =?utf-8?B?Z0xQNmVHY0FCNTd0ZC9QMXZkQUNzT210bjZHaFZsK2FpaWUyc2VWZ1JRNElY?=
+ =?utf-8?B?UVQxdm5wSDR6QkJkWDEvbXBpVUpOSXRacEJIeXJQT1BURHBPUXVybnRQdkEz?=
+ =?utf-8?B?T1JGaXNwUkdSTlBEc0R0YTE3S25zcnp2YjJpTXYyNE5jNGdVMU5zWU1nTnZk?=
+ =?utf-8?B?MnplcEFqendkMkxTQjlQejBtem55L29oSTNIYitCOGNjVTI4OHQ4bEhZOUE2?=
+ =?utf-8?B?dW5scVZvdXpWc2FQZG50KzI5d1M3SkdyRUNjSldLSDFKUWttZ0VBOXVMaS90?=
+ =?utf-8?B?a0pSRkwybExCTEEycEZDdlJ0dHZYcmxOM1lYOUc4NTdVdjJKTFM5aXdnQVZo?=
+ =?utf-8?B?eDBBdWxtcEw2QlE3aDV3YnYwVDViOW0wcWRYZ1oySDJzZERmVnpXNTM4dlhs?=
+ =?utf-8?B?WlVpam9FWmRUTFM3d2VMMmxSRDAyNXVuRU5QaDR3U0JXTm5zZ2owTmVoSzRu?=
+ =?utf-8?B?NGlLbUNURG1YMWoxSzRyOXVvQnhQcUNkSlJFdkdwbERwNU1FV0tBTlZ6Y1JV?=
+ =?utf-8?B?bjdXeHlURE9YYXI5ZkhiN2E2eDRJckFRNDc1MU1MckNUdHdhQko2WVo5dWtY?=
+ =?utf-8?B?NVQrcU9iMzNWdC9rUWFiOWtrS0ZqNVVlWDdjZ0VnVHg0cSt4YkRSb3ZLb3VG?=
+ =?utf-8?B?c3RUSUJzaUlWMVdOOEswTXlOVGZ1dURiUHRyZkFkR2dQQXpiWU1UT2ExRGFV?=
+ =?utf-8?B?dTc0eVpYMWxuQWxST3ZMVlNmMlBaVW44a3AzdDJQdVZOVS90bHhvYkFkUVpJ?=
+ =?utf-8?B?ZzVNOFg4T1haWURSU3dLMTdwL1YwRnl2dzlBVmg2QVdiZ1RrcXZFcUkvVkhV?=
+ =?utf-8?B?R256Yy9jRWVsTHhmVWp5UWgrWitZVlBXYmRXMk80dXJkVmkzL3ArUXovQkEx?=
+ =?utf-8?B?cll2dmlhK1ZhdGlwN2pVQlNidkROc3pGcFNHWHFXZG10MGg2L0tjUThLbTZU?=
+ =?utf-8?B?bWdIbnJHVTE0dTFzZDRIdWxxNzdZVG5VTzVsNzlkNFpxcDJzR0FRWUkvRmY1?=
+ =?utf-8?B?RjhBYXQ5djFvSHVQSE42emptWVNyVzNRMmRrNEdVcXBpOUk5K0N5UUVmMGRi?=
+ =?utf-8?B?TERsSUpBYXFKcFUvNzhDTzhJbEE5SkpYTGtZWGorQW1jZ1hua1NrdmdpZnBl?=
+ =?utf-8?B?TUllSnBrVVYwMVJWUWwzbGhkVzZNeWNJWWV3QVBqcjA4RWJhZzZ1REY5VkFn?=
+ =?utf-8?B?bTMvM0ZYbmgwZll3LzVGNWdDakZVWEgrT1I5VnpDWWxncmxVZHlFcDNSYW1l?=
+ =?utf-8?B?SGxRV2FkVGF3NDNUdklCSEdHd0k4ZE1FWGlQNjU0WURtOHNMUXZ0VVJoQVF4?=
+ =?utf-8?B?OTVYMlYvemtIcEFZZFhncUM1TkRPcm9IcTR4NGRKTzhlUDExMUFseUZpUmUr?=
+ =?utf-8?B?eklGZDJTMVZPd3RySjdibEorNkVSYkcxa0ZzQm5XcXcwK1ZJNDVEZTkyWkls?=
+ =?utf-8?B?MEMxT0VXZFQwMCthS3ZkM2hhb2Vyd0Y4eWx5YUcvTkk4WVJOQXBFWFYzVG5G?=
+ =?utf-8?B?dW95NGU4SVl0Nlg1N0FWenNpK3pwSXh4TTVQWlB1SW9pa3hhdjlhcEdHYTQy?=
+ =?utf-8?B?VkJnamorMk5meXg0SXNUbFF0R1JMVVlJSjY1UG5WY2J0SnhNYVRwa2pQcFFp?=
+ =?utf-8?B?V1VLVjZhaThJZjdtbmdWQ3haNzJKRzdubzkxanFaaEYvTUZiOHYxcE1sV1BC?=
+ =?utf-8?B?TlRmMFROZ1hpc29kYUtvZW9FaHJHdXRDSUczQWNVZjNvWS9jRUJNVGVDd3lL?=
+ =?utf-8?B?bHFiZzJMYnVnL2hCVEZqbzhoWDhrM3JrR21iaTZiMWJXcmFCRHdORWFUdWlU?=
+ =?utf-8?B?aElrTUR1ZGVMbXBhSmh4eUpDU05WUWRSTlUzVGZtMUozU09zdlV5VWNzeXZz?=
+ =?utf-8?Q?Iroro2c14E8N+uT3+2U7304gl?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e7f64a6-4b92-4bb6-4fbd-08dab8234fb7
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 13:58:23.0893 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CjdwZlBMt61Nj3pB4GZA8X+aYY4qFXH+XbgBzVpw2+1l+mIdtbofcTNiGCpOXQHz9LnQrTtjdxO2Rjrr9btETw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7899
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,194 +124,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, asahi@lists.linux.dev
+Cc: Peng Fan <peng.fan@nxp.com>, Martyn Welch <martyn.welch@collabora.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "jian.li" <jian.li@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_fb_build_fourcc_list() currently returns all emulated formats
-unconditionally as long as the native format is among them, even though
-not all combinations have conversion helpers. Although the list is
-arguably provided to userspace in precedence order, userspace can pick
-something out-of-order (and thus break when it shouldn't), or simply
-only support a format that is unsupported (and thus think it can work,
-which results in the appearance of a hang as FB blits fail later on,
-instead of the initialization error you'd expect in this case).
+On Thu, 2022-10-27 at 12:03 +0200, Marek Vasut wrote:
+> On 10/27/22 07:45, Liu Ying wrote:
+> 
+> Hi,
+> 
+> [...]
+> 
+> > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > index a5302006c02cd..aee7babb5fa5c 100644
+> > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > @@ -341,6 +341,18 @@ static void lcdif_enable_controller(struct
+> > > lcdif_drm_private *lcdif)
+> > >   	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > >   	reg |= CTRLDESCL0_5_EN;
+> > >   	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > > +
+> > > +	/* Set FIFO Panic watermarks, low 1/3, high 2/3 . */
+> > > +	writel(FIELD_PREP(PANIC0_THRES_LOW_MASK, 1 * PANIC0_THRES_RANGE
+> > > / 3) |
+> > > +	       FIELD_PREP(PANIC0_THRES_HIGH_MASK, 2 *
+> > > PANIC0_THRES_RANGE / 3),
+> > 
+> > Better to define PANIC0_THRES_{LOW,HIGH}(n) macros in lcdif_regs.h?
+> > 
+> > Downstream kernel uses the below threshold values:
+> > a) i.MX8mp EVK board with LPDDR4
+> > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in driver
+> > 1/2 and 3/4 for LCDIF3 + HDMI - set in device tree
+> > 
+> > b) i.MX8mp EVK board with DDR4
+> > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in driver
+> > 2/3 and 3/3 for LCDIF3 + HDMI - set in devic tree
+> > 
+> > Jian told me that LCDIF3 needs different sets of threshold values
+> > for
+> > different types of DDR to avoid 4k HDMI display issues and the
+> > threshold values impact overall DDR/bus utilization(?), so
+> > downstream
+> > kernel chooses to get optional threshold value properties from
+> > LCDIF DT
+> > node.
+> > 
+> > Instead of always using 1/3 and 2/3, maybe there are three options:
+> > 1) Same to downstream kernel, take 1/3 and 2/3 as default values
+> > and
+> > get optional threshold values from DT properties - no additional
+> > properties are acceptable in the existing DT binding doc?
+> > 2) Check pixel clock rate, and if it is greater than a certain
+> > value,
+> > use 2/3 and 3/3.  Otherwise, use 1/3 and 2/3.
+> > 3) Always use 2/3 and 3/3.
+> 
+> Why 2/3 and 3/3 instead of 1/3 and 2/3 ?
 
-Add checks to filter the list of emulated formats to only those
-supported for conversion to the native format. This presumes that there
-is a single native format (only the first is checked, if there are
-multiple). Refactoring this API to drop the native list or support it
-properly (by returning the appropriate emulated->native mapping table)
-is left for a future patch.
+2/3 and 3/3 trigger panic signal more easily than 1/3 and 2/3. 
 
-The simpledrm driver is left as-is with a full table of emulated
-formats. This keeps all currently working conversions available and
-drops all the broken ones (i.e. this a strict bugfix patch, adding no
-new supported formats nor removing any actually working ones). In order
-to avoid proliferation of emulated formats, future drivers should
-advertise only XRGB8888 as the sole emulated format (since some
-userspace assumes its presence).
+> 
+> Seems like 1/3 and 2/3 provides enough FIFO margin for every
+> scenario.
 
-This fixes a real user regression where the ?RGB2101010 support commit
-started advertising it unconditionally where not supported, and KWin
-decided to start to use it over the native format and broke, but also
-the fixes the spurious RGB565/RGB888 formats which have been wrongly
-unconditionally advertised since the dawn of simpledrm.
+I didn't tune the threshold values.  What I was told is that some
+usecases suffer from the FIFO underflows with 1/3 and 2/3.  And, it
+appears that FIFO doesn't underflow with 1/2 and 3/4 or 2/3 and 3/3 in
+those usecases.  That's why downstream kernel chooses to use 1/2 and
+3/4 or 2/3 and 3/3.
 
-Fixes: 6ea966fca084 ("drm/simpledrm: Add [AX]RGB2101010 formats")
-Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
-I'm proposing this alternative approach after a heated discussion on
-IRC. I'm out of ideas, if y'all don't like this one you can figure it
-out for yourseves :-)
+> 
+> > > +	       lcdif->base + LCDC_V8_PANIC0_THRES);
+> > > +
+> > > +	/*
+> > > +	 * Enable FIFO Panic, this does not generate interrupt, but
+> > > +	 * boosts NoC priority based on FIFO Panic watermarks.
+> > > +	 */
+> > > +	writel(INT_ENABLE_D1_PLANE_PANIC_EN,
+> > > +	       lcdif->base + LCDC_V8_INT_ENABLE_D1);
+> > 
+> > This should be enabled _before_ LCDIF controller starts to fetch
+> > pixels, otherwise, there is chance that the FIFO still underflows.
+> 
+> That means _before_ DISP_PARA_DISP_ON or CTRLDESCL0_5_EN ?
 
-Changes since v1:
-This v2 moves all the changes to the helper (so they will apply to
-the upcoming ofdrm, though ofdrm also needs to be fixed to trim its
-format table to only formats that should be emulated, probably only
-XRGB8888, to avoid further proliferating the use of conversions),
-and avoids touching more than one file. The API still needs cleanup
-as mentioned (supporting more than one native format is fundamentally
-broken, since the helper would need to tell the driver *what* native
-format to use for *each* emulated format somehow), but all current and
-planned users only pass in one native format, so this can (and should)
-be fixed later.
+I'm not sure which one triggers LCDIF controller start to fetch pixels,
+but it doesn't hurt to enable FIFO panic before both of the two I
+think.
 
-Aside: After other IRC discussion, I'm testing nuking the
-XRGB2101010 <-> ARGB2101010 advertisement (which does not involve
-conversion) by removing those entries from simpledrm in the Asahi Linux
-downstream tree. As far as I'm concerned, it can be removed if nobody
-complains (by removing those entries from the simpledrm array), if
-maintainers are generally okay with removing advertised formats at all.
-If so, there might be other opportunities for further trimming the list
-non-native formats advertised to userspace.
+> 
+> > >   }
+> > >   
+> > >   static void lcdif_disable_controller(struct lcdif_drm_private
+> > > *lcdif)
+> > > @@ -348,6 +360,9 @@ static void lcdif_disable_controller(struct
+> > > lcdif_drm_private *lcdif)
+> > >   	u32 reg;
+> > >   	int ret;
+> > >   
+> > > +	/* Disable FIFO Panic NoC priority booster. */
+> > > +	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D1);
+> > 
+> > Similar to enablement, this should be disabled _after_ LCDIF
+> > controller
+> > stops fetching pixels.
+> 
+> Same question as above applies, which bits controls that part,
+> DISP_ON 
+> or CTRLDESCL0_5_EN ? I suspect the later.
 
-Tested with KWin-X11, KWin-Wayland, GNOME-X11, GNOME-Wayland, and Weston
-on both XRGB2101010 and RGB8888 simpledrm framebuffers.
+Again, I'm not sure, but it doesn't hurt to disable FIFO panic after
+both of the two I think.
 
- drivers/gpu/drm/drm_format_helper.c | 66 ++++++++++++++++++++---------
- 1 file changed, 47 insertions(+), 19 deletions(-)
+> 
+> > > +
+> > >   	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > >   	reg &= ~CTRLDESCL0_5_EN;
+> > >   	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > > b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > > index fb74eb5ccbf1d..3d2f81d6f995e 100644
+> > > --- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > > +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > > @@ -255,6 +255,7 @@
+> > >   
+> > >   #define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
+> > >   #define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
+> > > +#define PANIC0_THRES_RANGE		512
+> > 
+> > Should be 511? If high threshold is 3/3 and PANIC0_THRES_RANGE =
+> > 512,
+> > PANIC0_THRES_HIGH will overflow and zero is set.
+> 
+> Let's rename this to PANIC0_THRES_MAX too.
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index e2f76621453c..3ee59bae9d2f 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -807,6 +807,38 @@ static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t
- 	return false;
- }
- 
-+static const uint32_t conv_from_xrgb8888[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XRGB2101010,
-+	DRM_FORMAT_ARGB2101010,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_RGB888,
-+};
-+
-+static const uint32_t conv_from_rgb565_888[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
-+};
-+
-+static bool is_conversion_supported(uint32_t from, uint32_t to)
-+{
-+	switch (from) {
-+	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_ARGB8888:
-+		return is_listed_fourcc(conv_from_xrgb8888, ARRAY_SIZE(conv_from_xrgb8888), to);
-+	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_RGB888:
-+		return is_listed_fourcc(conv_from_rgb565_888, ARRAY_SIZE(conv_from_rgb565_888), to);
-+	case DRM_FORMAT_XRGB2101010:
-+		return to == DRM_FORMAT_ARGB2101010;
-+	case DRM_FORMAT_ARGB2101010:
-+		return to == DRM_FORMAT_XRGB2101010;
-+	default:
-+		return false;
-+	}
-+}
-+
- /**
-  * drm_fb_build_fourcc_list - Filters a list of supported color formats against
-  *                            the device's native formats
-@@ -827,7 +859,9 @@ static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t
-  * be handed over to drm_universal_plane_init() et al. Native formats
-  * will go before emulated formats. Other heuristics might be applied
-  * to optimize the order. Formats near the beginning of the list are
-- * usually preferred over formats near the end of the list.
-+ * usually preferred over formats near the end of the list. Formats
-+ * without conversion helpers will be skipped. New drivers should only
-+ * pass in XRGB8888 and avoid exposing additional emulated formats.
-  *
-  * Returns:
-  * The number of color-formats 4CC codes returned in @fourccs_out.
-@@ -839,7 +873,7 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
- {
- 	u32 *fourccs = fourccs_out;
- 	const u32 *fourccs_end = fourccs_out + nfourccs_out;
--	bool found_native = false;
-+	uint32_t native_format = 0;
- 	size_t i;
- 
- 	/*
-@@ -858,26 +892,18 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
- 
- 		drm_dbg_kms(dev, "adding native format %p4cc\n", &fourcc);
- 
--		if (!found_native)
--			found_native = is_listed_fourcc(driver_fourccs, driver_nfourccs, fourcc);
-+		/*
-+		 * There should only be one native format with the current API.
-+		 * This API needs to be refactored to correctly support arbitrary
-+		 * sets of native formats, since it needs to report which native
-+		 * format to use for each emulated format.
-+		 */
-+		if (!native_format)
-+			native_format = fourcc;
- 		*fourccs = fourcc;
- 		++fourccs;
- 	}
- 
--	/*
--	 * The plane's atomic_update helper converts the framebuffer's color format
--	 * to a native format when copying to device memory.
--	 *
--	 * If there is not a single format supported by both, device and
--	 * driver, the native formats are likely not supported by the conversion
--	 * helpers. Therefore *only* support the native formats and add a
--	 * conversion helper ASAP.
--	 */
--	if (!found_native) {
--		drm_warn(dev, "Format conversion helpers required to add extra formats.\n");
--		goto out;
--	}
--
- 	/*
- 	 * The extra formats, emulated by the driver, go second.
- 	 */
-@@ -890,6 +916,9 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
- 		} else if (fourccs == fourccs_end) {
- 			drm_warn(dev, "Ignoring emulated format %p4cc\n", &fourcc);
- 			continue; /* end of available output buffer */
-+		} else if (!is_conversion_supported(fourcc, native_format)) {
-+			drm_dbg_kms(dev, "Unsupported emulated format %p4cc\n", &fourcc);
-+			continue; /* format is not supported for conversion */
- 		}
- 
- 		drm_dbg_kms(dev, "adding emulated format %p4cc\n", &fourcc);
-@@ -898,7 +927,6 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
- 		++fourccs;
- 	}
- 
--out:
- 	return fourccs - fourccs_out;
- }
- EXPORT_SYMBOL(drm_fb_build_fourcc_list);
--- 
-2.35.1
+Sounds good.
+
+Regards,
+Liu Ying
 
