@@ -1,77 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0227260F3CE
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 11:37:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3CD160F3D8
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 11:39:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3C910E59E;
-	Thu, 27 Oct 2022 09:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7191010E5B1;
+	Thu, 27 Oct 2022 09:39:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2A4410E59E;
- Thu, 27 Oct 2022 09:37:42 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id E0A312B066EB;
- Thu, 27 Oct 2022 05:37:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 27 Oct 2022 05:37:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1666863454; x=1666870654; bh=5ItCVshj6J
- yZau2J5cjH0M8JHw139GrYlnIerAQcZWs=; b=IVFSYrra2yRKDBScb6i+EPPsnR
- H7iUD7VkPJAKE695dyeIFHVvDzTnEOFd/PuRkXJYQDLL3GqO5VDnC18zyG53l/7I
- pvgnmLqeiBPBWXQjApcUVHOrKRHilbj5+ASZsv6ndq61A0vf5cAG6GPGNStKiCRy
- wer2bctGBN1o9JRLtzfw8j3SxBth2GhmC1AF3SbqCoOAk5ikvGienxjeMuTVnd3b
- CIYEdhLoJTnMe4apOVtrct3AJygLwtX9QefTOEjFMks85VRv9W7SGo+EMXE4ei+c
- /vSdG+pF0qpFn1D0F3ffTOrvCiLzPaO3Iv99pS2pxcK/5ssmEIuPwA72joMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1666863454; x=1666870654; bh=5ItCVshj6JyZau2J5cjH0M8JHw13
- 9GrYlnIerAQcZWs=; b=aMBp3hE4BgyODOr6WOBsdolHjS2Onrihiev6Ff/sAjQh
- Cama2t5zFVnEKp63jv9ugJbpKhvl71qc+L5qSL1TZPihHUka8luZ1042BOHS5Sxh
- aMKHX7Ay1bGb29oD5v8DX8oZBPKSAoX9G4RJblIy3UNVtu3bbfNqg1CYVaEHxNJc
- pHr9LW/SlL0Xhx1KndHWOx5hpeWVSz48zu40JY3Je6zDtTTEvFuI+nyPVFLcWWtY
- eqbDGYXUYbYyBSfExtphfrsas5tR+XzSbiwxPrJVDiXhOZHeBFTCAEXgpwFpx+Y+
- pod1LrzbN+UsFQjTvFLBJJEhMjbUc60CIEflbK3G1Q==
-X-ME-Sender: <xms:XVFaY2V3HXvfhP1sHBM2RqKgaN_XBF1qyOB-16Icc85JB7HqiOyGyQ>
- <xme:XVFaYymw4tPdxY-cElvQVHHZLmvXXXhqeFlJcjgr306-I0KGXWDk9VMwSgLcrhFrI
- 6vBlnwtvAVwP-Gv9dE>
-X-ME-Received: <xmr:XVFaY6Yv9syrc2eNVMwBSReD-NF-yontoCDOlMFptjpietVbD3UxWNp9XeGYc57se2BDpokpHl05GwQ2hi7OCyXnbvZ2cF1h8PCaUIeVB1DPtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdduiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:XVFaY9XZjJldLB8TfWAvQMGF4_ZIwB3BAmJ9FrbIS74qAyEc9gHcKw>
- <xmx:XVFaYwniTa_gv5wa6Swk-Bkdalxuyr-d6ooN7h3oJMCVZXoae2kxxg>
- <xmx:XVFaYyfwb0zZapv__NMakGUW6Ff2JSZL3y8FQRnm40OE9l_KC--TOQ>
- <xmx:XlFaY0E6LsDzaiDnQgO6ixyU_rtUbrrppb7Nh4KTrTCg4VBJmZ0lFuKlYcg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Oct 2022 05:37:32 -0400 (EDT)
-Date: Thu, 27 Oct 2022 11:37:30 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
-Message-ID: <20221027093730.tb4oaissdapf6ifr@houat>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
- <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 368EB10E5B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 09:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666863583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SPLb3w6K7DrqCekqNfHb7k0C69BoLOUk/AH12Hh9eUE=;
+ b=gfp3Dbk98LBVK0C55dZC2FOGanT9lklwOWaXY6b88Cq7cd3Jz23cxzbkU/dpBVA2pHhkBt
+ lDkoUlavV5LagSIjYGPX0TrjW3T/zHDncZSJ/DDnNj6dtskCVI/Z5I+lVf/JN1ZGNsUE8R
+ R8bp0DlkUuE1fExVxXZkkzKSWQT5cD4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-191-TpkUXDMkOdiBv3T_f829xg-1; Thu, 27 Oct 2022 05:39:41 -0400
+X-MC-Unique: TpkUXDMkOdiBv3T_f829xg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b13-20020a056402350d00b0045d0fe2004eso718584edd.18
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 02:39:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SPLb3w6K7DrqCekqNfHb7k0C69BoLOUk/AH12Hh9eUE=;
+ b=xZ0iDlSKNXjmH84e5tL4LvZMdjYCTbRzpTGofyjvWAqCwZ0R4HKum9hDC/4m5Hb8Hx
+ ajmcNdUNY3hjEegTmzro3pZssnE//JJw6ZmbsjvbbLFFU1RE4v7Ogm4ko2Jl2REtVDWd
+ 5xirpe+hvgQ14Xt0mALAQUnvCTCr9/xbQvwTpxDYQDHaMsiAhMC3kiLuZuU5zRGZcdv2
+ L5OLOTl2AYIW/kW4fEZgPyh6nxnTDM1vW66q3IZyDzqoHV+l1VHa4ia5PAQzAR9wOg8I
+ 6+skCFLdGpdxoG6mtf6r0vEMITz3bEuxbSmftwebBxNXGhnTBP/Mv7xsIhIlETFggHki
+ rD3Q==
+X-Gm-Message-State: ACrzQf0S2QW6hFELVZpM5zoK/hH86ZlgWG0B7NDFqLbS0rsJxspyoGEn
+ QDZ4ZRVgK5tMxzrMHUy3HHXLBSBMB90v18K/PRTkO/U8l9cX5TiW63W3K43HXNFfPYtAynrdSri
+ xZzUU9SSWmuVzsJmpn1cnyhLrsJtR
+X-Received: by 2002:a17:906:8a4b:b0:7a7:3e17:7f91 with SMTP id
+ gx11-20020a1709068a4b00b007a73e177f91mr19223706ejc.331.1666863580774; 
+ Thu, 27 Oct 2022 02:39:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7QQCa4ZhbSxyNv8ySSfoneULT0DuJcUzkyJosCmR+F+sIN0nbLZtmTKn4Yv2n7c7oDN6G+Jg==
+X-Received: by 2002:a17:906:8a4b:b0:7a7:3e17:7f91 with SMTP id
+ gx11-20020a1709068a4b00b007a73e177f91mr19223685ejc.331.1666863580511; 
+ Thu, 27 Oct 2022 02:39:40 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ ds12-20020a0564021ccc00b00461aebb2fe2sm672031edb.54.2022.10.27.02.39.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 02:39:39 -0700 (PDT)
+Message-ID: <933be908-0bc2-56cc-8d6f-38f2d208ef20@redhat.com>
+Date: Thu, 27 Oct 2022 11:39:38 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xamrv4lbhqfdsxuo"
-Content-Disposition: inline
-In-Reply-To: <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
+ backlight should be used (v2)
+To: Matthew Garrett <mjg59@srcf.ucam.org>
+References: <20221024203057.GA28675@srcf.ucam.org>
+ <8f53b8b6-ead2-22f5-16f7-65b31f7cc05c@redhat.com>
+ <20221025193248.GA21457@srcf.ucam.org>
+ <144cd47e-42dc-2b84-1a90-ea5e080e08a3@redhat.com>
+ <20221025204043.GA23306@srcf.ucam.org>
+ <cb5add36-c13c-ccd5-1b4b-71b45163a170@redhat.com>
+ <20221025234040.GA27673@srcf.ucam.org>
+ <fa6cc1d9-6740-b495-2c72-cae18c429ca6@redhat.com>
+ <20221026204920.GA15326@srcf.ucam.org>
+ <099dee98-8aeb-af36-828c-110f5ac6e9a3@redhat.com>
+ <20221027091123.GA28089@srcf.ucam.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221027091123.GA28089@srcf.ucam.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,121 +98,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Pan@freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, amd-gfx@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>, Jani Nikula <jani.nikula@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Matthew,
 
---xamrv4lbhqfdsxuo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/27/22 11:11, Matthew Garrett wrote:
+> On Thu, Oct 27, 2022 at 10:51:45AM +0200, Hans de Goede wrote:
+> 
+>> In their backlight register paths and this has been present since
+>> circa 2015.
+>>
+>> So both before and after my 6.1 refactor vendor is only preferred
+>> on devices which don't implement the ACPI video bus control method.
+> 
+> Sorry, yes, that's the case I meant.
+> 
+>> Just because a vendor interface is present does not mean that it will
+>> work. Unfortunately for none of the 3 main native/acpi_video/vendor
+>> backlight control methods the control method being present also guarantees
+>> that it will work. Which completely sucks, but it is the reality we
+>> have to deal with.
+> 
+> But traditionally that's been logic that we've encoded into the vendor 
+> drivers, which can take other factors into account when determining 
+> whether the exposed interface works. You've now discarded that 
+> knowledge.
 
-Hi Mateusz,
+As I already mentioned in my previous email, the vendor drivers have
+been using something like:
 
-On Thu, Oct 27, 2022 at 12:02:24AM +0200, Mateusz Kwiatkowski wrote:
-> First of all, nice idea with the helper function that can be reused by
-> different drivers. This is neat!
+	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+		return;
 
-Yeah, it looked to me that given how complex it is, we don't want to
-duplicate it in each and every driver.
+In their backlight register paths *since 2015* and even before
+then most of them called some acpi_video helper function to determine
+if ACPI video backlight control was available and skipped registering
+their backlight device if that returned true. And calling that
+acpi_video helper is as smart as they traditionally were. That +
+DMI quirks and we still have all those quirks.
 
-> But looking at this function, it feels a bit overcomplicated. You're
-> creating the two modes,
+I was very careful with the refactoring landing in 6.1 to *not*
+change any of this.
 
-If reported as supported by the connector, yes.
+The *only* behavior which actually is new in 6.1 is the native GPU
+drivers now doing the equivalent of:
 
-> then checking which one is the default, then set the preferred one and
-> possibly reorder them. Maybe it can be simplified somehow?
+	if (acpi_video_get_backlight_type() != acpi_backlight_native)
+		return;
 
-Possibly, but I couldn't find something simpler. We should only expose
-the modes that the driver reports as supported, so we can have 0-2
-modes. Then the preferred flag needs to be set on the default one like
-you suggested.
+In their backlight register paths (i), which is causing the native
+backlight to disappear on your custom laptop setup and on Chromebooks
+(with the Chromebooks case being already solved I hope.).
 
-But also, EDIDs define the preferred mode as either the mode with the
-flag set or the first mode listed. So a lot of program just use the
-heuristic to just pick the first mode listed.
+I am fully aware that this may turn out to also impact other laptops.
+I'm keeping out an eye for this and I have specifically reached-out
+to the coreboot community asking them to test 6.1 .
 
-So it might be that I'm too careful, but it still seems useful to me.
+> The only way you can maintain the degree of functionality 
+> that 6.0 had is to move that determination into core code, or 
+> alternatively support dynamic reattachment of backlight interfaces based 
+> on vendor drivers loading later. An alternative would be to just revert 
+> all of this, and instead only use this logic for the output property 
+> interface (which would still result in different outcomes, but only for 
+> userland that's choosing to use the new interface, so that's a different 
+> problem).
 
-> Although when I tried to refactor it myself, I ended up with something th=
-at's
-> not better at all. Maybe it needs to be complicated, after all :(
+Yes I am considering dropping the "acpi_video_get_backlight_type() !=
+acpi_backlight_native" check from at least the i915 driver if we get more
+bug reports and then indeed only do the equivalent of that check in
+the code for the new output property.
 
-Yeah, that was my conclusion too :/
+I agree this is a possible solution if this turns out to break more
+systems and there is no other easy/clean way to fix those. But I would
+greatly prefer to keep this change and stop the IMHO bad kernel behavior
+of "registering multiple backlight-devices for a single panel and then
+let userspace sort it out".
 
-> Anyway, the current version seems to have a couple of bugs:
->=20
-> > +	if (tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL) ||
-> > +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL_N) ||
-> > +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_SECAM)) {
-> > +		mode =3D drm_mode_analog_pal_576i(connector->dev);
-> > +		if (!mode)
-> > +			return 0;
-> > +
-> > +		tv_modes[count++] =3D mode;
-> > +	}
->=20
-> If the 480i mode has been created properly, but there's an error creating=
- the
-> 576i one (we enter the if (!mode) clause), the 480i mode will leak.
->=20
-> > +	if (count =3D=3D 1) {
->=20
-> You're handling the count =3D=3D 1 case specially, but if count =3D=3D 0,=
- the rest of
-> the code will assume that two modes exist and probably segfault in the pr=
-ocess.
->=20
-> > +	ret =3D drm_object_property_get_default_value(&connector->base,
-> > +						    dev->mode_config.tv_mode_property,
-> > +						    &default_mode);
-> > +	if (ret)
-> > +		return 0;
-> > +
-> > +	if (cmdline->tv_mode_specified)
-> > +		default_mode =3D cmdline->tv_mode;
->=20
-> In case of an error (ret !=3D 0), the modes created so far in the tv_mode=
-s array
-> will leak.
+Regards,
 
-Thanks for the review, I'll fix these bugs
+Hans
 
-> Also, I wonder if maybe the if (cmdline->tv_mode_specified) clause should=
- go
-> first? If we're going to use the default from cmdline, there's no point i=
-n even
-> querying the property default value.
 
-Maybe, I don't know. I find the flow of the code more readable that way,
-but if you disagree I'll change it.
+i) Before this, the kernel was relying on userspace preferring acpi_video
+or vendor backlight devices over native if both are present and the
+native backlight devices were registered unconditionally.
 
-Maxime
 
---xamrv4lbhqfdsxuo
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1pRWgAKCRDj7w1vZxhR
-xTVQAQCdqQ7+vEr0O0pC7P93kHAYwFz0oBZn90Ip4EjyExKRPgD/cMwjjUZ6daWo
-/idlovksY5X1UdblxYiDcBffKZ9k8gM=
-=nRSG
------END PGP SIGNATURE-----
-
---xamrv4lbhqfdsxuo--
