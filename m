@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0C060F9E3
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 15:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8157560FA0F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 16:04:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8858D10E644;
-	Thu, 27 Oct 2022 13:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4898310E646;
+	Thu, 27 Oct 2022 14:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D1D10E646
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 13:58:47 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id n12so4793513eja.11
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 06:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=H9twCSyGmHCfZTs1VqmLobwiwtuvoOis8W3XsKIxLx8=;
- b=B8yOwFyva/x37BSg5YDwe/WTfn4Dy+OrYCl6yAd0D663EOKU10TTXX8ypPceVKOQQU
- WY5R0qdFqm87oaw6Kk/HgZWE+b93ELqsR/67egZ41eYecVTXylNCRrYJDMsq2am/USo1
- 6zOYJXNTJGCwjZa93uQA6i4+k2VGkojOf1NK7Cw37b3PtWI24ZMohrhW0zhL6vsyLWry
- Kahv2nEBm7gxo4D/PdPJZGXpQr6qQegXrhvjJWKCIyiYoFW+DWEV4FdYp7njscxE0Xuz
- hKQNglNp2/mpEWnl6QRo8g+FgoOG6v/JfXwHTIYpHe+FC/WfNr+pl7j39QBAsn0axctO
- dhDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H9twCSyGmHCfZTs1VqmLobwiwtuvoOis8W3XsKIxLx8=;
- b=IlVX+obCURw9AaT/iMRvL23D4zPoZNsWQDjgL2XCs4/I/j4SctOqWrOU0aXccy9YAR
- Ew29j83gj7etk02W1MeWeFTJBqPktf6q6M7quDsydDcDRDkvPc/ooNw/bN2CX2Fq4QUn
- IXtxC5VW5U1Z9Ur+XgGCoGI3899cYNtG8H8g6KWo2EM1FS6jhusa6knbAT2T58taJmEI
- vPraq2L/mPmM0tKuJqTVhJy8IrTVoATn8TdTifHdcNEBFIzPonkzUKmDups7Hf5aSHDR
- /n44TV4jxtA3zFw+kmZiaPluwpLYX2gBoyYdvoR8P33cE2KWXzHw41hGA5kY+hPMf+9D
- 7Hpw==
-X-Gm-Message-State: ACrzQf02N6BJqgVs8OaIg3m9zK40vfZ1mdEwjvK52NZN0VWkLYEbFwic
- tLknUv0NF74Dca1d7KWPWv5qWejXPJRuBEZRM+lWnQ==
-X-Google-Smtp-Source: AMsMyM4V4CJCvWjZUc/wuUPnShNPdQnD1fPVocjSK9OtmP7BhvowApGpOFwkw7Gvj2mgE8ZRTqrzyxI6fUECIDlD/m4=
-X-Received: by 2002:a17:907:1c98:b0:78d:3b08:33ef with SMTP id
- nb24-20020a1709071c9800b0078d3b0833efmr43344625ejc.175.1666879125532; Thu, 27
- Oct 2022 06:58:45 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 787DB10E646
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 14:04:36 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3099621C77;
+ Thu, 27 Oct 2022 14:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666879475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ct2V+HG8XGNNXANoccejB91GXmgyAEv4ZQQGrZnDZSQ=;
+ b=wMuxqbEn/WHNFID3qYrASo88h3dD2UrsjJmGkSGMSavVk5+4WUAccTGJpFwLaMkXyJkBvY
+ iQC+lbgQeuU8qw+ST4ZGJ/p/txnd6qsGvg/4hkVTr36XOZk4sfEEqc0KqU5qol+nsCLdVK
+ l3itcsQqPxs2c6ThYZLuxs3PZgsHrFo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666879475;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ct2V+HG8XGNNXANoccejB91GXmgyAEv4ZQQGrZnDZSQ=;
+ b=e+O2AmtQwM6lVUBauns17FmXZ34yvLN6rL1xY1mCz/cg011qFsPAu9lN0nxT3Q4pmziuWz
+ sfYQHsU7EEkxUDCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0BBD113357;
+ Thu, 27 Oct 2022 14:04:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 103mAfOPWmMwAwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 27 Oct 2022 14:04:35 +0000
+Message-ID: <4d4a9515-facd-9dd3-1028-6a3622fe9da6@suse.de>
+Date: Thu, 27 Oct 2022 16:04:34 +0200
 MIME-Version: 1.0
-References: <20220815-rpi-fix-4k-60-v5-0-fe9e7ac8b111@cerno.tech>
- <20220815-rpi-fix-4k-60-v5-5-fe9e7ac8b111@cerno.tech>
-In-Reply-To: <20220815-rpi-fix-4k-60-v5-5-fe9e7ac8b111@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 27 Oct 2022 14:58:30 +0100
-Message-ID: <CAPY8ntCft8_8TimHVs9LJk11Z6PEKtZynCfSUz_3g6-saVyzPQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/7] drm/vc4: hdmi: Rework hdmi_enable_4kp60 detection
- code
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 1/2] drm/ofdrm: Cast PCI IDs to u32 for comparing
+Content-Language: en-US
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+References: <20221027115707.17980-1-tzimmermann@suse.de>
+ <20221027115707.17980-2-tzimmermann@suse.de> <5987066.DvuYhMxLoT@steina-w>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <5987066.DvuYhMxLoT@steina-w>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------uq6CteIfd3QPtuurxuLlcgj6"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,197 +70,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Stefan Wahren <stefan.wahren@i2se.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Emma Anholt <emma@anholt.net>,
- Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>,
- Ray Jui <rjui@broadcom.com>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, javierm@redhat.com,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Oct 2022 at 13:53, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> In order to support higher HDMI frequencies, users have to set the
-> hdmi_enable_4kp60 parameter in their config.txt file.
->
-> This will have the side-effect of raising the maximum of the core clock,
-> tied to the HVS, and managed by the HVS driver.
->
-> However, we are querying this in the HDMI driver by poking into the HVS
-> structure to get our struct clk handle.
->
-> Let's make this part of the HVS bind implementation to have all the core
-> clock related setup in the same place.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------uq6CteIfd3QPtuurxuLlcgj6
+Content-Type: multipart/mixed; boundary="------------MNMw0OewyL82Bn2GxqQbL6UJ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: javierm@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Message-ID: <4d4a9515-facd-9dd3-1028-6a3622fe9da6@suse.de>
+Subject: Re: [PATCH 1/2] drm/ofdrm: Cast PCI IDs to u32 for comparing
+References: <20221027115707.17980-1-tzimmermann@suse.de>
+ <20221027115707.17980-2-tzimmermann@suse.de> <5987066.DvuYhMxLoT@steina-w>
+In-Reply-To: <5987066.DvuYhMxLoT@steina-w>
 
-Thanks for the rename of the variable - pulling scrambling into it
-made it confusing.
+--------------MNMw0OewyL82Bn2GxqQbL6UJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+SGkNCg0KQW0gMjcuMTAuMjIgdW0gMTU6MDcgc2NocmllYiBBbGV4YW5kZXIgU3RlaW46DQo+
+IEhlbGxvIFRob21hcywNCj4gDQo+IEFtIERvbm5lcnN0YWcsIDI3LiBPa3RvYmVyIDIwMjIs
+IDEzOjU3OjA2IENFU1Qgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4+IFByb3BlcnRp
+ZXMgb2YgMzItYml0IGludGVnZXJzIGFyZSByZXR1cm5lZCBmcm9tIHRoZSBPRiBkZXZpY2Ug
+dHJlZQ0KPj4gYXMgdHlwZSBfX2JlMzIuIENhc3QgUENJIHZlbmRvciBhbmQgZGV2aWNlIElE
+cyBmcm9tIF9fYmUzMiB0byB1MzINCj4+IGJlZm9yZSBjb21wYXJpbmcgdGhlbSB0byBjb25z
+dGFudHMuIEZpeGVzIHNwYXJzZSB3YXJuaW5ncyBzaG93biBiZWxvdy4NCj4+DQo+PiAgICBk
+cml2ZXJzL2dwdS9kcm0vdGlueS9vZmRybS5jOjIzNzoxNzogd2FybmluZzogcmVzdHJpY3Rl
+ZCBfX2JlMzIgZGVncmFkZXMNCj4+IHRvIGludGVnZXIgZHJpdmVycy9ncHUvZHJtL3Rpbnkv
+b2Zkcm0uYzoyMzg6MTg6IHdhcm5pbmc6IHJlc3RyaWN0ZWQgX19iZTMyDQo+PiBkZWdyYWRl
+cyB0byBpbnRlZ2VyIGRyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmM6MjM4OjU0OiB3YXJu
+aW5nOg0KPj4gcmVzdHJpY3RlZCBfX2JlMzIgZGVncmFkZXMgdG8gaW50ZWdlcg0KPj4NCj4+
+IFNlZSBbMV0gZm9yIHRoZSBidWcgcmVwb3J0Lg0KPj4NCj4+IFJlcG9ydGVkLWJ5OiBrZXJu
+ZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21h
+cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gTGluazogaHR0cHM6Ly9s
+b3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsLzIwMjIxMDE5MjIwOC5EODg4STZYNy1sa3BAaW50
+ZWwuY29tLw0KPj4gIyBbMV0gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS90aW55L29mZHJt
+LmMgfCA1ICsrKystDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEg
+ZGVsZXRpb24oLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkv
+b2Zkcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmMNCj4+IGluZGV4IDBlMWNj
+MjM2OWFmY2MuLjBkYThiMjQ4Y2NjNmUgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vdGlueS9vZmRybS5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9vZmRybS5j
+DQo+PiBAQCAtMjMxLDggKzIzMSwxMSBAQCBzdGF0aWMgdTY0IGRpc3BsYXlfZ2V0X2FkZHJl
+c3Nfb2Yoc3RydWN0IGRybV9kZXZpY2UNCj4+ICpkZXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAq
+b2YgcmV0dXJuIGFkZHJlc3M7DQo+PiAgIH0NCj4+DQo+PiAtc3RhdGljIGJvb2wgaXNfYXZp
+dm8oX19iZTMyIHZlbmRvciwgX19iZTMyIGRldmljZSkNCj4+ICtzdGF0aWMgYm9vbCBpc19h
+dml2byhfX2JlMzIgdmVuZG9yX2lkLCBfX2JlMzIgZGV2aWNlX2lkKQ0KPj4gICB7DQo+PiAr
+CXUzMiB2ZW5kb3IgPSAoX19mb3JjZSB1MzIpdmVuZG9yX2lkOw0KPj4gKwl1MzIgZGV2aWNl
+ID0gKF9fZm9yY2UgdTMyKWRldmljZV9pZDsNCj4gDQo+IEkgZG9uJ3QgaGF2ZSBtdWNoIGNv
+bnRleHQsIGJ1dCBqdXN0IGZyb20gcmVhZGluZyB0aGlzLCBzaG91bGRuJ3QgdGhpcyBiZQ0K
+PiBiZTMyX3RvX2NwdSgpIGluc3RlYWQ/DQoNCkkgc2hvdWxkIGhhdmUgZXhwbGFpbmVkIHRo
+YXQgaW4gdGhlIGNvbW1pdCBtZXNzYWdlLiBUaGUgdmFsdWVzIGFyZSANCnN1cHBvc2VkIHRv
+IGJlIGluIGJpZyBlbmRpYW4uIFdlIGNvbXBhcmUgdG8gUENJIGlkcy4gVGhlIGNvZGUgb3Jp
+Z2luYWxseSANCndhcyB0YWtlbiBmcm9tIFsxXSwgd2hpY2ggZG9lcyB0aGUgcmlnaHQgdGhp
+bmcuIFRoZSBuZXh0IHZlcnNpb24gd2lsbCANCmFkZCB0aGlzIGluZm8gdG8gdGhlIGNvbW1p
+dCBtZXNzYWdlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQpbMV0gDQpodHRwczovL2Vs
+aXhpci5ib290bGluLmNvbS9saW51eC92Ni4wLjUvc291cmNlL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvb2ZmYi5jI0wzNTcNCg0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBBbGV4YW5kZXINCj4g
+DQo+PiArDQo+PiAgIAkvKiBUaGlzIHdpbGwgbWF0Y2ggbW9zdCBSNXh4ICovDQo+PiAgIAly
+ZXR1cm4gKHZlbmRvciA9PSBQQ0lfVkVORE9SX0lEX0FUSSkgJiYNCj4+ICAgCSAgICAgICAo
+KGRldmljZSA+PSBQQ0lfVkVORE9SX0lEX0FUSV9SNTIwICYmIGRldmljZSA8IDB4NzgwMCkg
+fHwNCj4gDQo+IA0KPiANCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNz
+IERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
+SA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5
+LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-> ---
->  drivers/gpu/drm/vc4/vc4_drv.h  | 10 ++++++++++
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 15 ++++-----------
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  8 --------
->  drivers/gpu/drm/vc4/vc4_hvs.c  | 23 +++++++++++++++++++++++
->  4 files changed, 37 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 418a8242691f..8da2b80fdbd3 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -326,6 +326,8 @@ struct vc4_hvs {
->
->         struct clk *core_clk;
->
-> +       unsigned long max_core_rate;
-> +
->         /* Memory manager for CRTCs to allocate space in the display
->          * list.  Units are dwords.
->          */
-> @@ -337,6 +339,14 @@ struct vc4_hvs {
->         struct drm_mm_node mitchell_netravali_filter;
->
->         struct debugfs_regset32 regset;
-> +
-> +       /*
-> +        * Even if HDMI0 on the RPi4 can output modes requiring a pixel
-> +        * rate higher than 297MHz, it needs some adjustments in the
-> +        * config.txt file to be able to do so and thus won't always be
-> +        * available.
-> +        */
-> +       bool vc5_hdmi_enable_hdmi_20;
->  };
->
->  struct vc4_plane {
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 3acc1858c55f..98a6643821bb 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -46,7 +46,6 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/rational.h>
->  #include <linux/reset.h>
-> -#include <soc/bcm2835/raspberrypi-clocks.h>
->  #include <sound/dmaengine_pcm.h>
->  #include <sound/hdmi-codec.h>
->  #include <sound/pcm_drm_eld.h>
-> @@ -460,6 +459,7 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
->  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
->  {
->         struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
-> +       struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
->         int ret = 0;
->         struct edid *edid;
->
-> @@ -483,7 +483,7 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
->         ret = drm_add_edid_modes(connector, edid);
->         kfree(edid);
->
-> -       if (vc4_hdmi->disable_4kp60) {
-> +       if (!vc4->hvs->vc5_hdmi_enable_hdmi_20) {
->                 struct drm_device *drm = connector->dev;
->                 const struct drm_display_mode *mode;
->
-> @@ -1757,11 +1757,12 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
->  {
->         const struct drm_connector *connector = &vc4_hdmi->connector;
->         const struct drm_display_info *info = &connector->display_info;
-> +       struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
->
->         if (clock > vc4_hdmi->variant->max_pixel_clock)
->                 return MODE_CLOCK_HIGH;
->
-> -       if (vc4_hdmi->disable_4kp60 && clock > HDMI_14_MAX_TMDS_CLK)
-> +       if (!vc4->hvs->vc5_hdmi_enable_hdmi_20 && clock > HDMI_14_MAX_TMDS_CLK)
->                 return MODE_CLOCK_HIGH;
->
->         if (info->max_tmds_clock && clock > (info->max_tmds_clock * 1000))
-> @@ -3428,14 +3429,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->         vc4_hdmi->disable_wifi_frequencies =
->                 of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
->
-> -       if (variant->max_pixel_clock == 600000000) {
-> -               struct vc4_dev *vc4 = to_vc4_dev(drm);
-> -               unsigned int max_rate = rpi_firmware_clk_get_max_rate(vc4->hvs->core_clk);
-> -
-> -               if (max_rate < 550000000)
-> -                       vc4_hdmi->disable_4kp60 = true;
-> -       }
-> -
->         ret = devm_pm_runtime_enable(dev);
->         if (ret)
->                 return ret;
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index db823efb2563..e3619836ca17 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -156,14 +156,6 @@ struct vc4_hdmi {
->          */
->         bool disable_wifi_frequencies;
->
-> -       /*
-> -        * Even if HDMI0 on the RPi4 can output modes requiring a pixel
-> -        * rate higher than 297MHz, it needs some adjustments in the
-> -        * config.txt file to be able to do so and thus won't always be
-> -        * available.
-> -        */
-> -       bool disable_4kp60;
-> -
->         struct cec_adapter *cec_adap;
->         struct cec_msg cec_rx_msg;
->         bool cec_tx_ok;
-> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-> index 4ac9f5a2d5f9..fc4b7310bf63 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> @@ -28,6 +28,8 @@
->  #include <drm/drm_drv.h>
->  #include <drm/drm_vblank.h>
->
-> +#include <soc/bcm2835/raspberrypi-firmware.h>
-> +
->  #include "vc4_drv.h"
->  #include "vc4_regs.h"
->
-> @@ -791,12 +793,33 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
->         hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
->
->         if (vc4->is_vc5) {
-> +               struct rpi_firmware *firmware;
-> +               struct device_node *node;
-> +               unsigned int max_rate;
-> +
-> +               node = rpi_firmware_find_node();
-> +               if (!node)
-> +                       return -EINVAL;
-> +
-> +               firmware = rpi_firmware_get(node);
-> +               of_node_put(node);
-> +               if (!firmware)
-> +                       return -EPROBE_DEFER;
-> +
->                 hvs->core_clk = devm_clk_get(&pdev->dev, NULL);
->                 if (IS_ERR(hvs->core_clk)) {
->                         dev_err(&pdev->dev, "Couldn't get core clock\n");
->                         return PTR_ERR(hvs->core_clk);
->                 }
->
-> +               max_rate = rpi_firmware_clk_get_max_rate(firmware,
-> +                                                        RPI_FIRMWARE_CORE_CLK_ID);
-> +               rpi_firmware_put(firmware);
-> +               if (max_rate >= 550000000)
-> +                       hvs->vc5_hdmi_enable_hdmi_20 = true;
-> +
-> +               hvs->max_core_rate = max_rate;
-> +
->                 ret = clk_prepare_enable(hvs->core_clk);
->                 if (ret) {
->                         dev_err(&pdev->dev, "Couldn't enable the core clock\n");
->
-> --
-> b4 0.11.0-dev-99e3a
+--------------MNMw0OewyL82Bn2GxqQbL6UJ--
+
+--------------uq6CteIfd3QPtuurxuLlcgj6
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNaj/IFAwAAAAAACgkQlh/E3EQov+Br
+pg//Ufs1colIxr27svmmhx3QfSkYDvTZOekny05FDAE52UrmWq5fpnzWtVudKEdDz/vaiF/h6OuN
+VQyhoaMVh8PxMTrhBp01ABSUuGcQ6R+mxXE/0/RgYkRKdoh+VYNP571PoVkGpuCLBbRLpieQqdB2
+fYGFa1RikxpFqg6A+4o1aM5hstzbSEdk+RQ6lWo+hDfYbrjGwU/cOherbopn1+VnQFbVOmPY+2tS
+PPpD33+ha6s79te/9ryUr6/zBgHME0JDKTeFsoXDG1CN7Ox8192jnF+ZKy+zWO7b25q6FTksbjxQ
+DU2F4r63YQK+78R5QkekJkKdw0NkjdY0g4eb1E3IQagq5U+vZI6wrpduq0F/YtFtNCqHfifPXyQM
+fETtBnkPXfaOF0oEtHPDowA1UWzR1LQvodQUqVKYy1u330xkznGqos6nVNqW/EPujgdjN964sT8M
+duNQaTQ5hDW1ENhkHEeIyxMGzrLWhtf8QQyS5nVOD0r2M9vTGczIw5DVcchCHVoFIHNse6Apzso6
+xiGl6XTz4Zli9cqNBU4jnouKM+jof9PnYw97HHWxu6EmBloW+gIJjoQHdy0ymfaovkZdpB0UVhUu
+xR7+EjLRrBdW+uosdXtSYErDvc6GTgnmP+Q3/ouA/LSb52TlqrcUgzLi05Qi8NtICGZ0nFwociRF
+OyQ=
+=BqSc
+-----END PGP SIGNATURE-----
+
+--------------uq6CteIfd3QPtuurxuLlcgj6--
