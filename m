@@ -2,77 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3676105A3
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 00:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82A961065A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 01:25:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D235E10E72F;
-	Thu, 27 Oct 2022 22:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCA010E736;
+	Thu, 27 Oct 2022 23:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CCAE10E72D;
- Thu, 27 Oct 2022 22:22:10 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RLuV8w029518;
- Thu, 27 Oct 2022 22:22:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=9KJPFhIEFY9BA5x73TAWoNvbCNQ3vDwl8MigbUBdUTw=;
- b=DUTciv26ZRvS6NodQpjlYl6BbamloaWNfHkYOwhgT+J8O5KTqvXlKnM/HQr92GEFMgrS
- V4BizkRmwH4JZ1kqEj13g1164RyoeJ93CFEST7Xm+YEvgF3FJwl6cTs2EgiZm4HcafiO
- QO6pE/puA++mz30mdzyKVMHmpEkyShVhuki7V2UUbyfnYTIXzBfNeyxSyt5QkTch+E5l
- L6eedgoqNfzr1aENSGRhHAQSyOq9a1za20oT05ERjM6Z48EtFNgRelabj1bVYj7Ih86e
- G8wvZA/o+06wJA9j0ntWzHwoeFJ+ThFdsl0vO2xrChOieNfJ1FOiWUzRf2dg22haFFWK wQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kfahvubvq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 22:22:07 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29RMM6HH010642
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 22:22:06 GMT
-Received: from [10.38.246.117] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 27 Oct
- 2022 15:22:04 -0700
-Message-ID: <350c27fb-3d13-9252-6fa3-f67b7cc47444@quicinc.com>
-Date: Thu, 27 Oct 2022 15:22:02 -0700
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E16210E733;
+ Thu, 27 Oct 2022 23:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666913128; x=1698449128;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=8h+h1aX4yNqH1I/tbOJB6x+jvic6lSyk86fSGZMXx/E=;
+ b=Om/wsfGx2Sqdjrl9NEh1TlZ1CyL0Wd1Frw3/nD0fFlLr94whzF6hQ9nJ
+ rYIYP1wJpupzoUE/GX/4prX7NnRLQDGqbAF+D/nbvp53mcifvzNCgUN6d
+ l7B5+dnqJ8IqQNyq5YeNZHjjGGnb6RsegnDjlJpgufSAJbh5gythW2vJ3
+ YDmkcacow8+V0SBChBxjBp7oV2HHQp7lbs1XUToyseDSM1RxZNgQjNFBx
+ snV2sJryVERH45FijXwzqhpfPf+dCcfWGkXrSyUOerDwtbFH+YzyTNaKc
+ lJx2VCXQSrrF/U47ql1vPbCKeUH+GFXd57D7NSJxcyTVD3rL/WWTUv52d A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="307092454"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="307092454"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 16:25:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="737886494"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="737886494"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2022 16:25:23 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 27 Oct 2022 16:25:23 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 27 Oct 2022 16:25:22 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 27 Oct 2022 16:25:22 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 27 Oct 2022 16:25:22 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MmgVR+cgv+kmMenIVePnWgFxMpKv4kbtBo2P2PDadPmj3Q5aco6NjpmaeTTMpxltS2Em64S3Vzf0HVFIkDnUd0IM83B24dP9A9PHk95bVLDe2+evNT9d4pHT7siKx3MzftcQsmXQehLGbcNCBTmv9xn22Gbz0zaRno8u3Uy9IUxZWupkdtIYSwTPtHtUderMIXCUiU02/CvZPUf+f1pE8vxL1QQiw6LTLSZLM0oTOQONtUHi5IZlZ7ApuEkT+WuU/OOp32/TUIdLqGWTUT2C3nZT96+4CkvFqYGDizPcApoiguTivMZGrrGytUm0R5H9d2V8XsN4LvUvXPYreyB1tQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wj+8jI2FpEmu6XLgDCroMwHYx61UleOzzka411rYWtY=;
+ b=J1DBQpvO+AEKAKdVPWFsiWRZqGzj9XKZ96MGe2gZPpP7jEru17gQG7zLFjCccS2CNlxG8OfKf80iXypAi/bMd7h6fdCut+cfkCsZYaBmPp7JbCQtL+r58ERYNrBZFWe9NLVl6eIoujamUzM9OZt5OIW5V43yCkkoDI113C+dU8C6rI9UnJqfb1kiJ/W36VXdK1tofd0wipkhK+M8cSbwa5s9hnl95E4Ey1bftrPIOsO4XzWm8omEoBDOQRqdTXuTzqjZHgKD7DdzG4fUlsKTdRIkhbm9TLSPt3Zye1IvRfsyY9PwUc1CGtU9hz2BT3Hbl5RQ5r8yP1uMv8rD2wopsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
+ by SA1PR11MB7086.namprd11.prod.outlook.com (2603:10b6:806:2b3::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Thu, 27 Oct
+ 2022 23:25:18 +0000
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::8007:140:f87b:ce57]) by MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::8007:140:f87b:ce57%5]) with mapi id 15.20.5746.028; Thu, 27 Oct 2022
+ 23:25:18 +0000
+Date: Thu, 27 Oct 2022 16:25:15 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH 1/5] drm/i915/mtl: add initial definitions for GSC CS
+Message-ID: <Y1sTW3uBg39fwEGk@mdroper-desk1.amr.corp.intel.com>
+References: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
+ <20221027221554.2638087-2-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221027221554.2638087-2-daniele.ceraolospurio@intel.com>
+X-ClientProxiedBy: BYAPR02CA0062.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::39) To MWHPR11MB1632.namprd11.prod.outlook.com
+ (2603:10b6:301:11::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 1/2] drm/msm/dsi: add a helper method to compute the dsi
- byte clk
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <1663807768-23969-1-git-send-email-quic_abhinavk@quicinc.com>
- <dea86c81-449a-3296-d5de-c3b346f974e4@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <dea86c81-449a-3296-d5de-c3b346f974e4@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: fIqJ0asLiMcJ1WNm5JuhimkAxJiXMlqr
-X-Proofpoint-GUID: fIqJ0asLiMcJ1WNm5JuhimkAxJiXMlqr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 mlxlogscore=999
- spamscore=0 phishscore=0 bulkscore=0 malwarescore=0 clxscore=1011
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270125
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|SA1PR11MB7086:EE_
+X-MS-Office365-Filtering-Correlation-Id: ca29f093-9852-4786-590d-08dab872829a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IYG8oEzqzgJbM2glfNiWwq1INXM3fcExXajEIGXsJkh6KW75CkaubAWZcxi25KZqbaphJr2dL197onQS+QyOScOlm7ocMhREJOnWG0Rz5pgX5suX2K+O3MbMW9dDkePou/Je75kuTQoEDUAn9LPs6cAyDUOHaqb39dgkEWK/6mkIM5kPOfRjmXOnDe4K8IfuzTLuQrWhg7sdShOv1aE5RZL8hHfOdoQfCrGqBI0uHu5gdgBU10kFTPx1TN3RaB0gPnSrnedtTJN2Hktvr3pTL6+1tTWl9UsZ2iMKJSjMud0/nvefTVUDSsU37XvBoW1QjEB2QBx8BBHZ10XPEUOFKK22G4URVIe10D9oJXj4gPIRvu2c30y1C1cIG/JZGwKrirsRgnzvf37oCEsZI5ML6w0d/adYKGHtD8bvm64rxFFwoNXloRgUNunSQcc5QkDEolSAj4P/nEO+uElGYOkt+u6+VbSPlY2RYLS82SR1wURcRA1UoN0ZUm1SUcFELuQy6IxK9CREmgnPh8yUM4DPsjZYMurBqJIFZHHCWm3iPw6EQn9fYvBY8P3D7JssPJWCybtP9h1xZCCAWab+UHrf4VlT/KyqIISh8Averdn83oUJaGnc6TufxzFCJ9CrDCWpXNNJst7IJajm06f1/VIPRg7YWHiEODKsA/ihbXeTay60MvgEE37dwoAbIcJzfvVZoPdedcDhSAUv0+GdeJynLQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(396003)(366004)(136003)(376002)(39860400002)(451199015)(5660300002)(186003)(38100700002)(8676002)(6636002)(6486002)(82960400001)(86362001)(83380400001)(41300700001)(2906002)(26005)(6506007)(6512007)(6862004)(8936002)(450100002)(478600001)(66556008)(6666004)(4326008)(66946007)(66476007)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fhTf/X5Ocz9GBJ4xr3A2kSxvIIKqEWW59k3cltNQ/rtvNDCFr6eCp+8AKjOQ?=
+ =?us-ascii?Q?klOJxx6N3N6BxuMGkOcsv9NqbfzIgmLYPdjFxwyyYx0a6hmXhT014eKg+EuP?=
+ =?us-ascii?Q?RHZ+joxPRUDGxYmD2hhykfcjOE+UogSpPKbr3npwSa9udemklbLon3fgg4AT?=
+ =?us-ascii?Q?wBT4BfLqPJJ0DEsxXySB4mu0H3SVScv1/a9+rFq8/DkO9RKCE5XJVthoxXMz?=
+ =?us-ascii?Q?BL1my85frSCA7lkhQjHcXFq07veUS+c2OOnuczo8gikAKyeYViHRk9q0zJ4P?=
+ =?us-ascii?Q?wOU3QiPKocUisvMDNvHg9vOje8OKQkUliGSNxDannmCL2eMkY+5MWoYdyKW/?=
+ =?us-ascii?Q?VBnbEggDqmDgnstpqVqAtCYEa/lTgHtBPykCpU4zg0nY2YbTLpUEvge3516I?=
+ =?us-ascii?Q?2N9L/L9qBKPrOrD1mHYMciviryt7FRBOzVaJtvxVXRoYG51m15yYxzeWTN+Y?=
+ =?us-ascii?Q?pxkd/95Gnj8jw8xOWw3j57d80bi+JC7Jb2CizrqPugclR9zAx8ONMkUdQJ7z?=
+ =?us-ascii?Q?RtvONn9q3Ts71zIR6wftV/a04oIel9aXEyMoiZBbqwVbq9QkVhFIL1X7aBLA?=
+ =?us-ascii?Q?qJxFmBS0WseYL0BJZkhwR9oDg8YIHoaCDqVKbgEnNZQ7P/OGcvgmXoSveDH5?=
+ =?us-ascii?Q?hjF4FSuFA4U/UePTufvASx6+D8ixzbt9Ek3u8EQKzyAo9VWELpoHhslja0Qg?=
+ =?us-ascii?Q?gs1e6e2MtNl3N7eXPzu1p9LRfJsCaMl21XbyRHXPbcI2gqbFYjrgJH09vdpE?=
+ =?us-ascii?Q?wqq3NOASE3yZRubjUvH7lYSFiYYVjB6kcUWGXYpCIES6Byg2KqXkemXdTH3X?=
+ =?us-ascii?Q?c3urEyUd1yKg645GALYiCS4Rgo+k4qw7J4Cz6+EMXwJH52EPsvjEjKXGtTdP?=
+ =?us-ascii?Q?4nJX/DPuzonkL4Yqt0rWlytNI3wufcafdF4bXtHrqEItc96/URgYBInXX5dZ?=
+ =?us-ascii?Q?aILMgasPYHbzeodOLoC+uCx6+n4o34IL6Wj0LnEr5zm6Q4dxNLIbkIIcemD6?=
+ =?us-ascii?Q?BIt+OwyiRf1K0OVXoOmD1l58FJpGG2GgFPf53zf9n3STG6W6STYJwoOfm4UW?=
+ =?us-ascii?Q?RhtufY2557Fop5R1yHi4cbMxW+Z0DRmsFOrCk38eCTDnG24HE91UIshmUsMd?=
+ =?us-ascii?Q?lQV2FGwoJ+ZatM1iVSrJI8a8EuT0s5CDrqskrlBYEjuazgrIIjxpIh661uon?=
+ =?us-ascii?Q?SCWQ31ZMhH1aWIqHu9Veb14qiSkA9489C8IHaFgnsLEWzR1Ts5TqEBv69FX1?=
+ =?us-ascii?Q?vyjRNbh1a+gH1hOfKq3aPKEuYNrk+U7odC6nP7B+gwhxweTlgBbe0d0QpfVL?=
+ =?us-ascii?Q?hnnXM6LK0bC0IeIxUEHLTAq+CXzBNxk4wB3ExLJjrxmpjBG/KjtQM0B6nqnd?=
+ =?us-ascii?Q?bpXYgpKnpbXf53xYrEuQ6rtlOqw9q47/ncpHhEMJtpcy9B6DoUTzEuGeYd3R?=
+ =?us-ascii?Q?MtUjESQVmCs4XQbMW8xHiFMnS77jKi5IpL5ekPxVw/eIjvK9jQu82MzJo73t?=
+ =?us-ascii?Q?uFXDf95Fxp3GwxrppohVdS+9HS+gGU0R8P10/QIwLFyITpM2Msac0vSUnnZG?=
+ =?us-ascii?Q?AINC0VgzTUbSlh478GqwFGXP6f8NlDoT6Sh7HdoFyr/xmEUZuB4BRox5Lf9l?=
+ =?us-ascii?Q?mw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca29f093-9852-4786-590d-08dab872829a
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 23:25:18.6250 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YzYuLwX8+mvLNEfV4FUr32jILuykccfzEHvmw3Fb3nRU2OZ741XVA/z+qhppgiRLHfH4CdRqeoDn/xoTFLa5jF0/7zTUPKH1A02MH1lzkJ4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7086
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,132 +147,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10/27/2022 10:35 AM, Dmitry Baryshkov wrote:
-> On 22/09/2022 03:49, Abhinav Kumar wrote:
->> Re-arrange the dsi_calc_pclk method to two helpers, one to
->> compute the DSI byte clk and the other to compute the pclk.
->>
->> This makes the separation of the two clean and also allows
->> clients to compute and use the dsi byte clk separately.
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi.h      |  2 ++
->>   drivers/gpu/drm/msm/dsi/dsi_host.c | 27 +++++++++++++++++++--------
->>   2 files changed, 21 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
->> b/drivers/gpu/drm/msm/dsi/dsi.h
->> index 2a96b4fe7839..60ba8e67f550 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi.h
->> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
->> @@ -118,6 +118,8 @@ int dsi_link_clk_enable_6g(struct msm_dsi_host 
->> *msm_host);
->>   int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
->>   void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host);
->>   void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host);
->> +unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool 
->> is_bonded_dsi,
->> +        const struct drm_display_mode *mode);
->>   int dsi_tx_buf_alloc_6g(struct msm_dsi_host *msm_host, int size);
->>   int dsi_tx_buf_alloc_v2(struct msm_dsi_host *msm_host, int size);
->>   void *dsi_tx_buf_get_6g(struct msm_dsi_host *msm_host);
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
->> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> index 57a4c0fa614b..32b35d4ac1d3 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> @@ -569,9 +569,8 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host 
->> *msm_host)
->>       clk_disable_unprepare(msm_host->byte_clk);
->>   }
->> -static unsigned long dsi_get_pclk_rate(struct msm_dsi_host *msm_host, 
->> bool is_bonded_dsi)
->> +static unsigned long dsi_get_pclk_rate(const struct drm_display_mode 
->> *mode, bool is_bonded_dsi)
->>   {
->> -    struct drm_display_mode *mode = msm_host->mode;
->>       unsigned long pclk_rate;
->>       pclk_rate = mode->clock * 1000;
->> @@ -588,12 +587,18 @@ static unsigned long dsi_get_pclk_rate(struct 
->> msm_dsi_host *msm_host, bool is_bo
->>       return pclk_rate;
->>   }
->> -static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool 
->> is_bonded_dsi)
->> +unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool 
->> is_bonded_dsi,
->> +        const struct drm_display_mode *mode)
->>   {
->> +    struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
->>       u8 lanes = msm_host->lanes;
->>       u32 bpp = dsi_get_bpp(msm_host->format);
->> -    unsigned long pclk_rate = dsi_get_pclk_rate(msm_host, 
->> is_bonded_dsi);
->> -    u64 pclk_bpp = (u64)pclk_rate * bpp;
->> +    unsigned long pclk_rate;
->> +    u64 pclk_bpp;
->> +
->> +    pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
->> +
->> +    pclk_bpp = (u64)pclk_rate * bpp;
->>       if (lanes == 0) {
->>           pr_err("%s: forcing mdss_dsi lanes to 1\n", __func__);
->> @@ -606,8 +611,14 @@ static void dsi_calc_pclk(struct msm_dsi_host 
->> *msm_host, bool is_bonded_dsi)
->>       else
->>           do_div(pclk_bpp, (8 * lanes));
->> -    msm_host->pixel_clk_rate = pclk_rate;
->> -    msm_host->byte_clk_rate = pclk_bpp;
->> +    return pclk_bpp;
->> +}
->> +
->> +static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool 
->> is_bonded_dsi)
->> +{
->> +    msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, 
->> is_bonded_dsi);
->> +    msm_host->byte_clk_rate = dsi_byte_clk_get_rate(&msm_host->base, 
->> is_bonded_dsi,
->> +            msm_host->mode);
+On Thu, Oct 27, 2022 at 03:15:50PM -0700, Daniele Ceraolo Spurio wrote:
+> Starting on MTL, the GSC is no longer managed with direct MMIO access,
+> but we instead have a dedicated command streamer for it. As a first step
+> for adding support for this CS, add the required definitions.
+> Note that, although it is now a CS, the GSC retains its old
+> class:instance value (OTHER_CLASS instance 6)
 > 
-> This way you are calling dsi_get_pclk_rate twice(), which is slightly 
-> inefficient. You can call it once (here) and then pass the resulting 
-> pclk_rate as an argument to dsi_byte_clk_get_rate().
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
 
-So the goal was to have two independent APIs to calculate byte and pixel 
-clk.
+Maybe add "Bspec: 65308, 45605" as a reference?
 
-If we pass the output of one as the input to the other we are making 
-them dependent.
+Otherwise,
 
-Thats why i kept it separate.
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 8 ++++++++
+>  drivers/gpu/drm/i915/gt/intel_engine_types.h | 1 +
+>  drivers/gpu/drm/i915/gt/intel_engine_user.c  | 1 +
+>  drivers/gpu/drm/i915/i915_reg.h              | 1 +
+>  4 files changed, 11 insertions(+)
 > 
->>       DBG("pclk=%lu, bclk=%lu", msm_host->pixel_clk_rate,
->>                   msm_host->byte_clk_rate);
->> @@ -635,7 +646,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host 
->> *msm_host, bool is_bonded_dsi)
->>       dsi_calc_pclk(msm_host, is_bonded_dsi);
->> -    pclk_bpp = (u64)dsi_get_pclk_rate(msm_host, is_bonded_dsi) * bpp;
->> +    pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) 
->> * bpp;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 3b7d750ad054..e0fbfac03979 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -244,6 +244,13 @@ static const struct engine_info intel_engines[] = {
+>  			{ .graphics_ver = 12, .base = GEN12_COMPUTE3_RING_BASE }
+>  		}
+>  	},
+> +	[GSC0] = {
+> +		.class = OTHER_CLASS,
+> +		.instance = OTHER_GSC_INSTANCE,
+> +		.mmio_bases = {
+> +			{ .graphics_ver = 12, .base = MTL_GSC_RING_BASE }
+> +		}
+> +	},
+>  };
+>  
+>  /**
+> @@ -324,6 +331,7 @@ u32 intel_engine_context_size(struct intel_gt *gt, u8 class)
+>  	case VIDEO_DECODE_CLASS:
+>  	case VIDEO_ENHANCEMENT_CLASS:
+>  	case COPY_ENGINE_CLASS:
+> +	case OTHER_CLASS:
+>  		if (GRAPHICS_VER(gt->i915) < 8)
+>  			return 0;
+>  		return GEN8_LR_CONTEXT_OTHER_SIZE;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 6b5d4ea22b67..4fd54fb8810f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -136,6 +136,7 @@ enum intel_engine_id {
+>  	CCS2,
+>  	CCS3,
+>  #define _CCS(n) (CCS0 + (n))
+> +	GSC0,
+>  	I915_NUM_ENGINES
+>  #define INVALID_ENGINE ((enum intel_engine_id)-1)
+>  };
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index 46a174f8aa00..79312b734690 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -140,6 +140,7 @@ const char *intel_engine_class_repr(u8 class)
+>  		[COPY_ENGINE_CLASS] = "bcs",
+>  		[VIDEO_DECODE_CLASS] = "vcs",
+>  		[VIDEO_ENHANCEMENT_CLASS] = "vecs",
+> +		[OTHER_CLASS] = "other",
+>  		[COMPUTE_CLASS] = "ccs",
+>  	};
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index 1c0da50c0dc7..d056c3117ef2 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -970,6 +970,7 @@
+>  #define GEN11_VEBOX2_RING_BASE		0x1d8000
+>  #define XEHP_VEBOX3_RING_BASE		0x1e8000
+>  #define XEHP_VEBOX4_RING_BASE		0x1f8000
+> +#define MTL_GSC_RING_BASE		0x11a000
+>  #define GEN12_COMPUTE0_RING_BASE	0x1a000
+>  #define GEN12_COMPUTE1_RING_BASE	0x1c000
+>  #define GEN12_COMPUTE2_RING_BASE	0x1e000
+> -- 
+> 2.37.3
 > 
-> So... We have calculated all rates, stored the pclk_rate in 
-> msm_host->pixel_clk_rate. And now we are going to calculate it again. As 
-> you are touching this line of code, I'd suggest to just use 
-> msm_host->pixel_clk_rate instead of a function call.
 
-Ack, I will fix this.
-
-> 
->>       do_div(pclk_bpp, 8);
->>       msm_host->src_clk_rate = pclk_bpp;
-> 
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
