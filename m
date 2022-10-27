@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D796060FD2B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 18:34:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBB060FD95
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 18:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFBD10E698;
-	Thu, 27 Oct 2022 16:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5AC10E6A6;
+	Thu, 27 Oct 2022 16:55:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD23010E698
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 16:34:14 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4Myrq96lsqz9s5L;
- Thu, 27 Oct 2022 16:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1666888454; bh=J4ygBh+OjH6+zJ/f+L7SeeBqOZrbDAyt8ylFmhMmOOY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=leiegaE9hfuVzp5jGxKhU4c3CAg1pDKytZOTEbPJxL/DIDyyiP4ChLyz1cWPPu133
- cbieNYwag+EJPDkfGPorPzn/IiTVWQ8WbLkWhsuEW46Fz3pSEKlPOukgKwN/siHvjk
- WJBdvMfaz9hgFwd92Td7uWfb//avP+y/tDRVV6mo=
-X-Riseup-User-ID: D12952F7A1A4DD109A7FA0664F46003D5026606957E13428C9749E5F7A86364B
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4Myrq54Ntfz5vSS;
- Thu, 27 Oct 2022 16:34:09 +0000 (UTC)
-Message-ID: <2692de92-90e4-4a17-6609-da1bdfa5c850@riseup.net>
-Date: Thu, 27 Oct 2022 13:34:04 -0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D606C10E6A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 16:55:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 27601623ED;
+ Thu, 27 Oct 2022 16:55:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13398C433D6;
+ Thu, 27 Oct 2022 16:55:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1666889743;
+ bh=+NQUXBWxMDcjKd1qUF+jvvhREtcMHvY+4DvsYClRT6U=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qfK3QytRTz9gi6rbnb9CHEVnWlw1M+Jv3rZ69K57vHapAajNj9PfKFi5MT4NbLTok
+ FW9dGhlP5DQR/im7tnt/sj8hlG7ltxzLggfo/ISEgskJ9jrlinIAZfAoDd5HGgArs/
+ tF3x2ZQZLdT09hTzY/hmDaSPHZ2OC+Z9jD14RzlM=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Subject: [PATCH 6.0 01/94] [PATCH v2] video/aperture: Call sysfb_disable()
+ before removing PCI devices
+Date: Thu, 27 Oct 2022 18:54:03 +0200
+Message-Id: <20221027165057.255751031@linuxfoundation.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221027165057.208202132@linuxfoundation.org>
+References: <20221027165057.208202132@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] drm/tests: Add back seed value information
-To: Arthur Grillo <arthurgrillo@riseup.net>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@toke.dk>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>
-References: <20221027142903.200169-1-arthurgrillo@riseup.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20221027142903.200169-1-arthurgrillo@riseup.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,86 +54,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
- Daniel Latypov <dlatypov@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
- David Gow <davidgow@google.com>, andrealmeid@riseup.net
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Andreas Thalhammer <andreas.thalhammer-linux@gmx.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, patches@lists.linux.dev,
+ Thorsten Leemhuis <regressions@leemhuis.info>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arthur,
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-On 10/27/22 11:29, Arthur Grillo wrote:
-> As reported by Michał the drm_mm and drm_buddy unit tests lost the
-> printk with seed value after they where refactored into KUnit. This
-> patch add back this important information to assure reproducibility and
-> convert them to the KUnit API.
+Call sysfb_disable() from aperture_remove_conflicting_pci_devices()
+before removing PCI devices. Without, simpledrm can still bind to
+simple-framebuffer devices after the hardware driver has taken over
+the hardware. Both drivers interfere with each other and results are
+undefined.
 
-Some grammar nits:
-- s/where/were
-- s/add/adds
+Reported modesetting errors [1] are shown below.
 
-Moreover, you could write the commit message as André indicated, that 
-is: in imperative form.
+---- snap ----
+rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 13-.... } 7 jiffies s: 165 root: 0x2000/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Task dump for CPU 13:
+task:X               state:R  running task     stack:    0 pid: 4242 ppid:  4228 flags:0x00000008
+Call Trace:
+ <TASK>
+ ? commit_tail+0xd7/0x130
+ ? drm_atomic_helper_commit+0x126/0x150
+ ? drm_atomic_commit+0xa4/0xe0
+ ? drm_plane_get_damage_clips.cold+0x1c/0x1c
+ ? drm_atomic_helper_dirtyfb+0x19e/0x280
+ ? drm_mode_dirtyfb_ioctl+0x10f/0x1e0
+ ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
+ ? drm_ioctl_kernel+0xc4/0x150
+ ? drm_ioctl+0x246/0x3f0
+ ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
+ ? __x64_sys_ioctl+0x91/0xd0
+ ? do_syscall_64+0x60/0xd0
+ ? entry_SYSCALL_64_after_hwframe+0x4b/0xb5
+ </TASK>
+...
+rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 13-.... } 30 jiffies s: 169 root: 0x2000/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Task dump for CPU 13:
+task:X               state:R  running task     stack:    0 pid: 4242 ppid:  4228 flags:0x0000400e
+Call Trace:
+ <TASK>
+ ? memcpy_toio+0x76/0xc0
+ ? memcpy_toio+0x1b/0xc0
+ ? drm_fb_memcpy_toio+0x76/0xb0
+ ? drm_fb_blit_toio+0x75/0x2b0
+ ? simpledrm_simple_display_pipe_update+0x132/0x150
+ ? drm_atomic_helper_commit_planes+0xb6/0x230
+ ? drm_atomic_helper_commit_tail+0x44/0x80
+ ? commit_tail+0xd7/0x130
+ ? drm_atomic_helper_commit+0x126/0x150
+ ? drm_atomic_commit+0xa4/0xe0
+ ? drm_plane_get_damage_clips.cold+0x1c/0x1c
+ ? drm_atomic_helper_dirtyfb+0x19e/0x280
+ ? drm_mode_dirtyfb_ioctl+0x10f/0x1e0
+ ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
+ ? drm_ioctl_kernel+0xc4/0x150
+ ? drm_ioctl+0x246/0x3f0
+ ? drm_mode_getfb2_ioctl+0x2d0/0x2d0
+ ? __x64_sys_ioctl+0x91/0xd0
+ ? do_syscall_64+0x60/0xd0
+ ? entry_SYSCALL_64_after_hwframe+0x4b/0xb5
+ </TASK>
 
-> 
-> Reported-by: Michał Winiarski <michal.winiarski@intel.com>
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
-> v1->v2: https://lore.kernel.org/all/20221026211458.68432-1-arthurgrillo@riseup.net/
-> - Correct compilation issues
-> - Change tags order
-> - Remove useless line change
-> - Write commit message in imperative form
-> - Remove redundant message part
-> - Correct some grammars nits
-> - Correct checkpatch issues
-> 
-> ---
->   drivers/gpu/drm/tests/drm_buddy_test.c | 4 ++++
->   drivers/gpu/drm/tests/drm_mm_test.c    | 4 ++++
->   2 files changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-> index 62f69589a72d..258137e9c047 100644
-> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> @@ -731,6 +731,10 @@ static int drm_buddy_init_test(struct kunit *test)
->   	while (!random_seed)
->   		random_seed = get_random_u32();
->   
-> +	kunit_info(test,
-> +		   "Testing DRM buddy manager, with random_seed=0x%x\n",
-> +		   random_seed);
-> +
->   	return 0;
->   }
->   
+The problem was added by commit 5e0137612430 ("video/aperture: Disable
+and unregister sysfb devices via aperture helpers") to v6.0.3 and does
+not exist in the mainline branch.
 
-As I was checking the log, I realized that the random_seed only needs to 
-be generated by the start of the test suite, so this drm_buddy_init_test 
-could be a suite_init function, instead of an init function. This way 
-the random_seed will be generated by the start of the suite and the log 
-will be printed just once.
+The mainline commit 5e0137612430 ("video/aperture: Disable and
+unregister sysfb devices via aperture helpers") has been backported
+from v6.0-rc1 to stable v6.0.3 from a larger patch series [2] that
+reworks fbdev framebuffer ownership. The backport misses a change to
+aperture_remove_conflicting_pci_devices(). Mainline itself is fine,
+because the function does not exist there as a result of the patch
+series.
 
-> diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-> index c4b66eeae203..bec006e044a4 100644
-> --- a/drivers/gpu/drm/tests/drm_mm_test.c
-> +++ b/drivers/gpu/drm/tests/drm_mm_test.c
-> @@ -2214,6 +2214,10 @@ static int drm_mm_init_test(struct kunit *test)
->   	while (!random_seed)
->   		random_seed = get_random_u32();
->   
-> +	kunit_info(test,
-> +		   "Testing DRM range manager, with random_seed=0x%x max_iterations=%u max_prime=%u\n",
-> +		   random_seed, max_iterations, max_prime);
-> +
+Instead of backporting the whole series, fix the additional function.
 
-Same here.
+Reported-by: Andreas Thalhammer <andreas.thalhammer-linux@gmx.net>
+Reported-by: Thorsten Leemhuis <regressions@leemhuis.info>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tested-by: Andreas Thalhammer <andreas.thalhammer-linux@gmx.net>
+Fixes: cfecfc98a78d ("video/aperture: Disable and unregister sysfb devices via aperture helpers")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Changcheng Deng <deng.changcheng@zte.com.cn>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: linux-fbdev@vger.kernel.org
+Cc: <stable@vger.kernel.org> # v6.0.3+
+Link: https://lore.kernel.org/dri-devel/d6afe54b-f8d7-beb2-3609-186e566cbfac@gmx.net/T/#t # [1]
+Link: https://patchwork.freedesktop.org/series/106040/ # [2]
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/video/aperture.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Best Regards,
-- Maíra Canal
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -358,6 +358,17 @@ int aperture_remove_conflicting_pci_devi
+ 		return ret;
+ 
+ 	/*
++	 * If a driver asked to unregister a platform device registered by
++	 * sysfb, then can be assumed that this is a driver for a display
++	 * that is set up by the system firmware and has a generic driver.
++	 *
++	 * Drivers for devices that don't have a generic driver will never
++	 * ask for this, so let's assume that a real driver for the display
++	 * was already probed and prevent sysfb to register devices later.
++	 */
++	sysfb_disable();
++
++	/*
+ 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+ 	 * otherwise the vga fbdev driver falls over.
+ 	 */
 
->   	return 0;
->   }
->   
+
