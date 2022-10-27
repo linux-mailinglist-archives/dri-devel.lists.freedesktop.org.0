@@ -2,62 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCC160EF55
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 07:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294B160EF95
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 07:42:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E59810E3FD;
-	Thu, 27 Oct 2022 05:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 564AE10E42F;
+	Thu, 27 Oct 2022 05:42:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21D0D10E2CC;
- Thu, 27 Oct 2022 05:12:44 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id g16so414496qtu.2;
- Wed, 26 Oct 2022 22:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CmDiMYe/I0ri6Zj03hdpur3rJrgB7k+DhMOzSt5LxUI=;
- b=hM2tehQXR8rhpVF9g+WAkkYLHO2gza5eLp8A5C/rbyeAH+vIL+0k9xuLSF+aoysY0p
- IV1nDGd1W14gsvEe5BwPL4dUnIhQCffmmyoeMjIojAuiHXiHb+Ie5vwStIIBxDhNXewv
- /dltDWdPmrIJFQIVGWMHCocFEs0VnC/F9cURrfBBLE0LJlpgsCtACKSzUMBUYEZAI1sC
- 6gwir6oqL+FXUXdWdrErNn2TE/QivqIgFJNw3nTSb/oyj/nkLCBNgtRKdyOawG3jRc7P
- 3mpr8LC0Om5GHXwU7pticVUP/D2vnWd5uetBTwlf0SG8WY88g06v2iVV2BcZMezV/Ss5
- 34mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CmDiMYe/I0ri6Zj03hdpur3rJrgB7k+DhMOzSt5LxUI=;
- b=ygyob/Ww78DYLBJeQ+/2NxlcJqvaGOyViIve3tz/NgngFyFeXcjU6/yhkh010zc2IM
- jEmuh6MBU/haMWRmTF1HiaSVLRxueNQo1BQ+x8Oka7drJC7SWbAnaHjayFy0zW6vyMuY
- AOIDZn65ZzwDHnhgwlJBsfSz13q2av7XzhNmcW5bZbyAULTdS/UjMgyvIY3h1rm7TFed
- yJAh4Fy4EWhyXc6oIvb2m7nmZTS+t16dl2MmBSyv4V7Qv1NlbyOUcLZBKCFCEW1X6Dtd
- MRDQHoLQK/MiIfOy+PkiPtasDn8jnV6zFQa9JALzzrXN6RD9FlWybBcvugNR6u9sp3q7
- PwqQ==
-X-Gm-Message-State: ACrzQf3YPnqKSVt1Me7dPOn28U/yNaojjHj95halgLeCb80qct6BwsAs
- rDq8k2n5M8lRKZaL8KdRpoxxzbc1WgcPN+wbw94=
-X-Google-Smtp-Source: AMsMyM6aQPkWUzrcH5QcYJv7YBwmqFe1zX9SZ+R2FvqFrLBshlWiO4t1EvfUkMpXDGj/dS+trwAoMo7XaSKAjTAviUE=
-X-Received: by 2002:a05:622a:164f:b0:3a4:f141:92fa with SMTP id
- y15-20020a05622a164f00b003a4f14192famr4761116qtj.447.1666847563200; Wed, 26
- Oct 2022 22:12:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <Yz8rIxV7bVCcfZb0@kroah.com>
- <20221007013708.1946061-1-zyytlz.wz@163.com>
- <CAPM=9ty0+ouf+rQWhM=9XSKFOA2zxKfa00MsNBvwrQGPQm2uPQ@mail.gmail.com>
- <CAJedcCwxioxr+4TBTdrEjAZh97J3oroSHSgax+bxSNRXCBvkRg@mail.gmail.com>
-In-Reply-To: <CAJedcCwxioxr+4TBTdrEjAZh97J3oroSHSgax+bxSNRXCBvkRg@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 27 Oct 2022 15:12:31 +1000
-Message-ID: <CAPM=9twhAL+c8mOLmidY_tEhEKwCh-CTjfs5yryOk8oGjMxuug@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/i915/gvt: fix double free bug in
- split_2MB_gtt_entry
-To: Zheng Hacker <hackerzheng666@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2068.outbound.protection.outlook.com [40.107.244.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0103110E405;
+ Thu, 27 Oct 2022 05:42:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cU+87qQTNdOTLaRrEoyoocpSP0MdQJT32KG/VcmIieQW9ofhZOHBY8Mg30qEY2a76hBRUHxJJ/QwPnqJgL4iUn3BSM6E+QgtPho5rFCUnT7m/QD1FccjBLkSnUVhiItwhQeRqLBCjoJJc8w/8sIPZCARa0HwoMG1MYuDlJzYJ9VAjP1+M1g90dAFOaJyNDbC1boIP4nr0ozXo7HtMwzk1T+IedP+t7BHe/LqnnF8SD28WrKOJbse2IcG1t1pOB6Ft70SLrKUl9DfBJAsYlNVJDuXcj2AY6X2aCgpSli8LSmXNFLxrnIluPbWVfX4vbgR8Io93PO7yVgfd2hvQfihPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Zt7g++kcTqcALF3+eVUwx55eLPsTtcvlknrcd3ufMg=;
+ b=ZTe26balyUBDsK0GWS922QWzqZ+WLR/3BLQitkU4MvLnJ6FAlIM+t9sEj66mz2OhSd9phY9z2xlb23ByXGb2zJxVUjhN9+ZNNqAMLZQmjxM5D8X5okzstUbR9lbOKu5xHCQ6Vb+nMiHTfmqiRSSDoqn+PKObW9glrYO0ISKf/WET20zAN8p8egMqnzljzhWQeOOV0jy/njWuvAxyiJo07G2f62y/rNFUXJ9xPPZFIFycp/bq0uM+olUEJk9TEcvxBIyywO88Od6dp0cdS6S0IszOQT5RVKp9crvpZjeehg6O/DKiA5nCfgbWqL7/4Oj38AMV3T5AUf6zU8YWbxOYLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Zt7g++kcTqcALF3+eVUwx55eLPsTtcvlknrcd3ufMg=;
+ b=WXEiMBgIG7moY0e+sTZe9F5A8d9rPAzRYeNxqqTia9mlo81LG2dHkXzhZEum9BaXFHPAz0vduLLCxFQ7/Ar+m1OPlopdz4/b35upfqWawG3HFiYQ2JS4J79MTT49uR6XvIGepk/l2/mxdGGe5ruLDl0V1eBUS/b+9v8vLCKervA=
+Received: from DM5PR12MB2469.namprd12.prod.outlook.com (2603:10b6:4:af::38) by
+ BL1PR12MB5899.namprd12.prod.outlook.com (2603:10b6:208:397::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Thu, 27 Oct
+ 2022 05:42:14 +0000
+Received: from DM5PR12MB2469.namprd12.prod.outlook.com
+ ([fe80::aa23:a85e:de27:6520]) by DM5PR12MB2469.namprd12.prod.outlook.com
+ ([fe80::aa23:a85e:de27:6520%4]) with mapi id 15.20.5746.028; Thu, 27 Oct 2022
+ 05:42:14 +0000
+From: "Chen, Guchun" <Guchun.Chen@amd.com>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel.vetter@ffwll.ch"
+ <daniel.vetter@ffwll.ch>
+Subject: RE: [pull] amdgpu, amdkfd drm-fixes-6.1
+Thread-Topic: [pull] amdgpu, amdkfd drm-fixes-6.1
+Thread-Index: AQHY6a2nheLEr6b37kOIn32ly+mZcK4huYYg
+Date: Thu, 27 Oct 2022 05:42:14 +0000
+Message-ID: <DM5PR12MB24693E14F89BD4116EBB51ADF1339@DM5PR12MB2469.namprd12.prod.outlook.com>
+References: <20221027024101.6881-1-alexander.deucher@amd.com>
+In-Reply-To: <20221027024101.6881-1-alexander.deucher@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM5PR12MB2469:EE_|BL1PR12MB5899:EE_
+x-ms-office365-filtering-correlation-id: 54330e3a-1c12-4c3b-6c19-08dab7de0095
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 56H9umEd1znVJJaoi2qHM4KqvzpJEBJGNgo68NmNxlHrQiJOogbeSxKzoybVsYenWEtRvDLShkojHvYJIFsyNMx08d9t2UAU81L7xjsP+e2i6HTBWlALzU0STdPCzFc7rdFkV0U2gzA2ELpsQu0ggAxoSKFo+PSrAd2YvunADp/Ez5+gDQ24HvrOUmSzinfwp4D9Nv7rbJqapVZJYxC1C0mE3vPvowaMLA8dtvP12X19vT1m5RKE3DvysH3EheJrqAsiaE7+8fPixBbQQeDf62Oe8yRsKe1HoBlfyCGULR0aR07OOZiAfOdvPVpLEN8qN/b6/k9PVT5Jv9ZznUuBT6wbcyOGiRV6SrowSnUscEH4SUoFtPg5+25D4QB9mRM2OTqRnngopNj37PpQrAZ8P4iSqUHHukdw5t77/LYmmFGR9+0y0VrCdR60ZZpfCkodn4V2kQ8ooU5i6DxnDMKiUXJUoSfCgFXbY3LauFakdrpADlY6TZZOxZeOBwmkyeWMaztp+jtk+L+HA4NN2BFYZKdvDfp6SetQ53w+VYzBTyBM8u+wsrFvYOSCqTy4nPNamrfO93jl3b0ZqsW24uPPao27Xp8gXQwYrxI2T3YqIIGxKOo8jRICwDP3aQ1ieDyumGOCIkBNZHw6zSq0BFZ+HM2FEQNNQwqCG4P0RaH4HYde9fcUa/GtLJ95yIfHAlA2nbAbxXBJaYZ+XCBb2AnMGA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2469.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(451199015)(5660300002)(26005)(8936002)(41300700001)(4326008)(110136005)(64756008)(66946007)(66556008)(52536014)(66446008)(53546011)(8676002)(6506007)(7696005)(316002)(9686003)(76116006)(33656002)(38070700005)(122000001)(66574015)(38100700002)(66476007)(55016003)(4001150100001)(186003)(2906002)(45080400002)(966005)(478600001)(83380400001)(86362001)(71200400001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bXM+2m3eJPsbsbN8357rc1lT+/TlbDhC3UkxVmrbvrR7sFsqyiSzA9lT1B?=
+ =?iso-8859-1?Q?k5+301o8KzwtiLvknb62hf1rNoFl/DG/7VBCH4LuBdx1cDAe14mVkLGfqp?=
+ =?iso-8859-1?Q?74+3Ni9QqjF4blHfr0AMus2rojnASddpDCRO7wL0maigudpYSR6/CK69fF?=
+ =?iso-8859-1?Q?RlBUE6oCepYt1EC42B0xV8/NkVQi5Is0dhTLuZ1S9KKKpmzlEQctoGwP4w?=
+ =?iso-8859-1?Q?d2pAHKztZH6CmcXlymeT+AepKwzl8xeP6Eqsn6qyGSWoa9TaxZNyeg8bGc?=
+ =?iso-8859-1?Q?yh7dDShI+K/aILdywBCE/Z+OqdEMo4D6QIFJXmb1sFs5ETrFhMigcMLxyi?=
+ =?iso-8859-1?Q?iwm69KnbrysLzhhMHTga79ZB0cpIJfUkacle24lSXZ55ES5vbyAkR8ER/l?=
+ =?iso-8859-1?Q?Suei1OeXDn0RWR5uAvqQrTxWIxMaQNrYVxTjcUzw+M5wlZ8KtiAxf6P2FZ?=
+ =?iso-8859-1?Q?6r32l4beCXfJKT/JSL1UuTCiw74oCeRXDUnfQaj+iXXjZjITzm+b3yI1FL?=
+ =?iso-8859-1?Q?37YmYWxydx+hdFZqtcgLPyIY6+vZv2x5F6PpMJu194x41c08AA1vfta0Wh?=
+ =?iso-8859-1?Q?2xPytdwCJYkaGSOQuMWshK4HvieRAx48oUsvVlJ+ftwXJMqE87MPm4E2P0?=
+ =?iso-8859-1?Q?k6dzVvOGIyAmgQxXw+C7Zb84FiUSd/X8Z0MNi06jDsi6CojutfQ2oJI+CN?=
+ =?iso-8859-1?Q?Zh7vAezVtFmgvndAV5aAM/Rtt+dXS+5BnnyKpKDWJbmiki26HHYCUIduRs?=
+ =?iso-8859-1?Q?Dx1xvlGHruhQrio9LeQ3W8XMyGIygSNqVJPD4EoN+YAZ4nJ2phtZ/ykMhc?=
+ =?iso-8859-1?Q?BwQVEwj/sEz/0VG229B4u+cFiHi+vmKKVBRUE2qr22WyruUvaW98upZhL5?=
+ =?iso-8859-1?Q?agbxJo4IynarqZrfvc/IXZGzPxOuBO2sq9n8vlT6Cy/QvWZv9pW7olyJXl?=
+ =?iso-8859-1?Q?28J6+gSNt5IARmV3obnBDB/gsCTtpuMlIDN3GMgeybi4iZMCbs0c6MO/t1?=
+ =?iso-8859-1?Q?9dYJc4mRVGVdZq47O10QWscEu3SlfzXPr8nilmW9Ip4IN1NRceG74aSIF7?=
+ =?iso-8859-1?Q?WQg7JcHwJU/mwThFZM0A9mZ2+VtkUriXwdGM44PrFZlwROL18wo+mcDSFc?=
+ =?iso-8859-1?Q?Vsij3mOWTsUg8UkuZiOTKIASybHIVBI5Pp2mABm0JcyPJ18FBSQ7BiRuez?=
+ =?iso-8859-1?Q?8+auXbDD1g0MQeWEX8iZ8wQ94f/SO8jjIiXWZ/WaSHQEILWAdT6SFKh1NW?=
+ =?iso-8859-1?Q?iEoMHO+Xg+zESQzpFDbmZ5YDt9tPWGyalwcGAwZMfi10Zq8COB7Q8VeTUV?=
+ =?iso-8859-1?Q?eG2uxZ7JIgyd/8NDeIUlrx1dhegwubvAe5V6SG7PpgUCknAEqBwmdqXKK+?=
+ =?iso-8859-1?Q?06k1+Kr1T/gPeoeq6KMIYr48tR5c1rITyWsJ9Bhm9X+w/RkCXXmCxN7wqr?=
+ =?iso-8859-1?Q?QD5JXkvb9LgU+ZX43hcq2zHIoUXPd45WOyLGdo0MSJx1xB4Ccn0+VUM0+G?=
+ =?iso-8859-1?Q?g5u0EEmwkHnMP8cWEVJYFRFeuJ0dY0biCw0+d8NYI/8LTzmsK4zHnJWswC?=
+ =?iso-8859-1?Q?fCdNVvhOx6QY6foTviea0VdSjBeMlsroFfdZxs4HHyd0SONTLsWYVKEt+M?=
+ =?iso-8859-1?Q?w9AMTJ1ajK2QPKXBbuXMnrm2QWwv8/R9Z2?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2469.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54330e3a-1c12-4c3b-6c19-08dab7de0095
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2022 05:42:14.6605 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MdSPyNkgVPbuJSSLquTfNvwwHN5cKAz9nnxhdoWTOjlG0dnk+IEWotd3ED8fdbTeLjvYaYB5pEQlDb+9rwWB7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5899
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +120,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex000young@gmail.com, security@kernel.org, airlied@linux.ie,
- gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- 1002992920@qq.com, Zheng Wang <zyytlz.wz@163.com>,
- intel-gvt-dev@lists.freedesktop.org, zhi.a.wang@intel.com
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Oct 2022 at 13:26, Zheng Hacker <hackerzheng666@gmail.com> wrote=
+Hello Alex,
+
+Regarding below patch, I guess we need to pick "8eb402f16d5b drm/amdgpu: Fi=
+x uninitialized warning in mmhub_v2_0_get_clockgating()" together, otherwis=
+e, build will possibly fail. Is it true?
+
+ " Lijo Lazar (1):=20
+      drm/amdgpu: Remove ATC L2 access for MMHUB 2.1.x"
+
+Regards,
+Guchun
+
+-----Original Message-----
+From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Alex Deu=
+cher
+Sent: Thursday, October 27, 2022 10:41 AM
+To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; airlied=
+@gmail.com; daniel.vetter@ffwll.ch
+Cc: Deucher, Alexander <Alexander.Deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd drm-fixes-6.1
+
+Hi Dave, Daniel,
+
+Fixes for 6.1.  Fixes for new IPs and misc other fixes.
+
+The following changes since commit cbc543c59e8e7c8bc8604d6ac3e18a029e3d5118=
 :
->
-> Dave Airlie <airlied@gmail.com> =E4=BA=8E2022=E5=B9=B410=E6=9C=8827=E6=97=
-=A5=E5=91=A8=E5=9B=9B 08:01=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Fri, 7 Oct 2022 at 11:38, Zheng Wang <zyytlz.wz@163.com> wrote:
-> > >
-> > > If intel_gvt_dma_map_guest_page failed, it will call
-> > > ppgtt_invalidate_spt, which will finally free the spt.
-> > > But the caller does not notice that, it will free spt again in error =
-path.
-> > >
-> > > Fix this by spliting invalidate and free in ppgtt_invalidate_spt.
-> > > Only free spt when in good case.
-> > >
-> > > Reported-by: Zheng Wang <hackerzheng666@gmail.com>
-> > > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> >
-> > Has this landed in a tree yet, since it's a possible CVE, might be
-> > good to merge it somewhere.
-> >
-> > Dave.
-> >
->
-> Hi Dave,
->
-> This patched hasn't been merged yet. Could you please help with this?
 
-I'll add some more people who can probably look at it.
+  Merge tag 'drm-misc-fixes-2022-10-20' of git://anongit.freedesktop.org/dr=
+m/drm-misc into drm-fixes (2022-10-21 09:56:14 +1000)
 
-Dave.
+are available in the Git repository at:
+
+  https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitla=
+b.freedesktop.org%2Fagd5f%2Flinux.git&amp;data=3D05%7C01%7Cguchun.chen%40am=
+d.com%7C6bbe7e42eb3d43bf622208dab7c4c906%7C3dd8961fe4884e608e11a82d994e183d=
+%7C0%7C0%7C638024353059986195%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiL=
+CJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DY=
+%2BU1OrPyhCaS44nGQMTrtqBpdkcJwFdFJEAaqWGiaqo%3D&amp;reserved=3D0 tags/amd-d=
+rm-fixes-6.1-2022-10-26-1
+
+for you to fetch changes up to d61e1d1d5225a9baeb995bcbdb904f66f70ed87e:
+
+  drm/amdgpu: disallow gfxoff until GC IP blocks complete s2idle resume (20=
+22-10-26 17:48:43 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.1-2022-10-26-1:
+
+amdgpu:
+- Stable pstate fix
+- SMU 13.x updates
+- SR-IOV fixes
+- PCI AER fix
+- GC 11.x fixes
+- Display fixes
+- Expose IMU firmware version for debugging
+- Plane modifier fix
+- S0i3 fix
+
+amdkfd:
+- Fix possible memory leak
+- Fix GC 10.x cache info reporting
+
+UAPI:
+- Expose IMU firmware version via existing INFO firmware query
+
+----------------------------------------------------------------
+Alvin Lee (1):
+      drm/amd/display: Don't return false if no stream
+
+Chengming Gui (1):
+      drm/amdgpu: fix pstate setting issue
+
+David Francis (1):
+      drm/amd: Add IMU fw version to fw version queries
+
+Jesse Zhang (1):
+      drm/amdkfd: correct the cache info for gfx1036
+
+Joaqu=EDn Ignacio Aramend=EDa (1):
+      drm/amd/display: Revert logic for plane modifiers
+
+Kenneth Feng (2):
+      drm/amd/pm: update driver-if header for smu_v13_0_10
+      drm/amd/pm: allow gfxoff on gc_11_0_3
+
+Lijo Lazar (1):
+      drm/amdgpu: Remove ATC L2 access for MMHUB 2.1.x
+
+Prike Liang (2):
+      drm/amdkfd: update gfx1037 Lx cache setting
+      drm/amdgpu: disallow gfxoff until GC IP blocks complete s2idle resume
+
+Rafael Mendonca (1):
+      drm/amdkfd: Fix memory leak in kfd_mem_dmamap_userptr()
+
+Rodrigo Siqueira (1):
+      drm/amd/display: Remove wrong pipe control lock
+
+Yiqing Yao (1):
+      drm/amdgpu: Adjust MES polling timeout for sriov
+
+YuBiao Wang (1):
+      drm/amdgpu: skip mes self test for gc 11.0.3 in recover
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  18 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  13 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c          |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h        |   1 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |   1 +
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |   9 +-
+ drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c            |  28 ++----
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              | 106 +++++++++++++++++=
+++-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |  50 ++--------
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  12 +--
+ .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |   2 +-
+ .../pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_0.h | 111 +++++++++++++++--=
+----
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   7 +-
+ include/uapi/drm/amdgpu_drm.h                      |   2 +
+ 18 files changed, 259 insertions(+), 119 deletions(-)
