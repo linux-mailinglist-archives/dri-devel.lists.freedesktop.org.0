@@ -1,84 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D54060FC07
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 17:32:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECE560FB30
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 17:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE7410E681;
-	Thu, 27 Oct 2022 15:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A486B10E66C;
+	Thu, 27 Oct 2022 15:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1406 seconds by postgrey-1.36 at gabe;
- Thu, 27 Oct 2022 15:32:42 UTC
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com
- [IPv6:2620:100:9001:583::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E28810E681;
- Thu, 27 Oct 2022 15:32:42 +0000 (UTC)
-Received: from pps.filterd (m0050095.ppops.net [127.0.0.1])
- by m0050095.ppops.net-00190b01. (8.17.1.5/8.17.1.5) with ESMTP id
- 29REAqMV008104; Thu, 27 Oct 2022 16:08:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=h4lND8L7nF8jQSiuXHvwarM3PypjNGIv6eeSvOJK9Xc=;
- b=WI1sr5VyksXvBeCZiuQvHynoUgIvJ8arwsnOScd2R1Cy8hD2FJjGzA2CbJctUmDI1aBt
- Qk/eTkHTCLRbUgK6KW8gHgXZ2asZKdOCSMNbaIDldll4yl99Nr901x4zbS0hnbSxhoU4
- 1rl3y+Ye4FoGzQ0CK2mI+Q8gTT3Kz5KW0v4YU7AOlfThbhg0PpPsXVaEiEgTpIlXbIgN
- PBCyNVmLOiHqt8UCdPuiYECX4fVk0SXxYzmHtLTOrOZzdq1/KzaYrAuhpHTS/sd3vtJb
- f3aF7AQ36RKi66wgEwZ2K8A+0LUh17YQ1A1kr5XY5HbF069FllZb7CFq4ULBXdIIWDhf pA== 
-Received: from prod-mail-ppoint7
- (a72-247-45-33.deploy.static.akamaitechnologies.com [72.247.45.33] (may be
- forged))
- by m0050095.ppops.net-00190b01. (PPS) with ESMTPS id 3kfb8p84nx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 16:08:19 +0100
-Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
- by prod-mail-ppoint7.akamai.com (8.17.1.5/8.17.1.5) with ESMTP id
- 29RDDmRu005239; Thu, 27 Oct 2022 11:08:18 -0400
-Received: from prod-mail-relay19.dfw02.corp.akamai.com ([172.27.165.173])
- by prod-mail-ppoint7.akamai.com (PPS) with ESMTP id 3kfaq1mk0q-1;
- Thu, 27 Oct 2022 11:08:17 -0400
-Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
- by prod-mail-relay19.dfw02.corp.akamai.com (Postfix) with ESMTP id E582360293; 
- Thu, 27 Oct 2022 15:08:16 +0000 (GMT)
-Message-ID: <c1807585-f6c8-c05d-bc20-c6a540e59814@akamai.com>
-Date: Thu, 27 Oct 2022 11:08:16 -0400
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5911D10E66D;
+ Thu, 27 Oct 2022 15:08:21 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id r187so2416996oia.8;
+ Thu, 27 Oct 2022 08:08:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=oFxxpy4mBiTGbA8Urb6+jYa8httGkN9zEAwB6ejK4z8=;
+ b=dL4yheaZKoLLsvZtD/rudYwoTWO8Shubm5iG7FPLSygXtdr26GXTz05D5DuTt/Evqk
+ RreJ93OzYNoKPsffbuWIpmUbsJ25GLe9eKcbsVaIT+LabbpvjqyTowQvGRbvzCaIWh2D
+ MuvmGsfL726UZicv+IDU2w/KqyxSwLVF+PZFFbzTvaPKKot5S0aSFWO3sKnj1UwjAwYJ
+ s++Zci6pvj+rGFI93s+TdbqtSdApiQKGW+Jxbu5qD7XYuuYYczwJ0File3bcvCaeWHnU
+ roObsi/1IfIljPXJsDXrPXr+pu9hd/ejGs56h7+PucXtXTNd4m6tRkHCRj5ZKj0CqPUW
+ GBng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oFxxpy4mBiTGbA8Urb6+jYa8httGkN9zEAwB6ejK4z8=;
+ b=SRjGQXCbx6Pru2hpGiBA11c4v9IBpf8MeLT3tRdGcd5/bG4Qn5aEAZCJTxyEOtFka0
+ 413siIxVyRodHImUzDMv+PbPHHyjf+rM19w124cM04qD5a4Xg2MuJhIXZjd7EB5guRVt
+ fsY+9skIKVqehi64M5M7Daqqx0uwHQc18PAg7p9bZyQa+4MGGhfBAV/fWfvDTZ+7goXU
+ HKIMbeGyw9MzH+kU1gOuJ2Do7+QyCCEpDyy3CvnmtD6gsACxGWsxzOEq8WYnwzDlBaab
+ Wn2zhkQrFgbOdHx0x5DX1YbRl2MgX1QfUXqdGIYzi14QrEpLBbR18ocDMxXvfX41CEv1
+ Lmlw==
+X-Gm-Message-State: ACrzQf1/mEKhSpQpLllrSwo6mtwmxM4k6pWTRcoVVsg8VNd3i57fiqUh
+ 8PpUwESf4vH5ynXSM+fcwgDyI93quFBxSfbow/4=
+X-Google-Smtp-Source: AMsMyM5vwkSQkE9dbmNDc08RzSLZSkdC3RvNYZ0ZBIFc68Fo09rzMFXbz0CbHnOq248p5lXxu6g+7lg8e3PpBMIjAJo=
+X-Received: by 2002:a05:6808:30a5:b0:359:bee8:9957 with SMTP id
+ bl37-20020a05680830a500b00359bee89957mr1707418oib.38.1666883300401; Thu, 27
+ Oct 2022 08:08:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [Intel-gfx] [PATCH v7 0/9] dyndbg: drm.debug adaptation
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Greg KH <gregkh@linuxfoundation.org>
-References: <20220912052852.1123868-1-jim.cromie@gmail.com>
- <Yy7/6oTBW2lqVSK1@kroah.com> <Y1Fyuh12g/gt3Izn@intel.com>
- <87a65pfsbq.fsf@intel.com>
-From: Jason Baron <jbaron@akamai.com>
-In-Reply-To: <87a65pfsbq.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0 mlxscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2210270082
-X-Proofpoint-ORIG-GUID: JKKURTnn4jQ6E0EgMWxXuBHamgEYkVRY
-X-Proofpoint-GUID: JKKURTnn4jQ6E0EgMWxXuBHamgEYkVRY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 suspectscore=0
- adultscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 clxscore=1011
- impostorscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2210270082
+References: <20221024124323.tfyxcadyd4nz56jz@houat>
+ <CAF6AEGuokyL+_ZsWeeMeyCcyErapka0ALZQ60bdWKvja3gcN9Q@mail.gmail.com>
+ <20221026081711.zj7h2rpfd4kfkpqe@houat>
+In-Reply-To: <20221026081711.zj7h2rpfd4kfkpqe@houat>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 27 Oct 2022 08:08:28 -0700
+Message-ID: <CAF6AEGs3j7wmjM10o2Dpw4mgTJC7L4SXHPZkJm_DjeQVG5H_vA@mail.gmail.com>
+Subject: Re: Must-Pass Test Suite for KMS drivers
+To: maxime@cerno.tech
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,55 +66,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, joe@perches.com,
- intel-gvt-dev@lists.freedesktop.org
+Cc: Petri Latvala <petri.latvala@intel.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Arkadiusz Hiler <arek@hiler.eu>, Martin Roukala <martin.roukala@mupuf.org>,
+ dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Oct 26, 2022 at 1:17 AM <maxime@cerno.tech> wrote:
+>
+> Hi Rob,
+>
+> On Mon, Oct 24, 2022 at 08:48:15AM -0700, Rob Clark wrote:
+> > On Mon, Oct 24, 2022 at 5:43 AM <maxime@cerno.tech> wrote:
+> > > I've discussing the idea for the past year to add an IGT test suite that
+> > > all well-behaved KMS drivers must pass.
+> > >
+> > > The main idea behind it comes from v4l2-compliance and cec-compliance,
+> > > that are being used to validate that the drivers are sane.
+> > >
+> > > We should probably start building up the test list, and eventually
+> > > mandate that all tests pass for all the new KMS drivers we would merge
+> > > in the kernel, and be run by KCi or similar.
+> >
+> > Let's get https://patchwork.freedesktop.org/patch/502641/ merged
+> > first, that already gives us a mechanism similar to what we use in
+> > mesa to track pass/fail/flake
+>
+> I'm not sure it's a dependency per-se, and I believe both can (and
+> should) happen separately.
 
+Basically my reasoning is that getting IGT green is a process that so
+far is consisting of equal parts IGT test fixes, to clear out
+lingering i915'isms, etc, and driver fixes.  Yes, you could do this
+manually but the drm/ci approach seems like it would make it easier to
+track, so it is easier to see what tests are being run on which hw,
+and what the pass/fail/flake status is.  And the expectation files can
+also be updated as we uprev the igt version being used in CI.
 
-On 10/21/22 05:18, Jani Nikula wrote:
-> On Thu, 20 Oct 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
->> On Sat, Sep 24, 2022 at 03:02:34PM +0200, Greg KH wrote:
->>> On Sun, Sep 11, 2022 at 11:28:43PM -0600, Jim Cromie wrote:
->>>> hi Greg, Dan, Jason, DRM-folk,
->>>>
->>>> heres follow-up to V6:
->>>>   rebased on driver-core/driver-core-next for -v6 applied bits (thanks)
->>>>   rework drm_debug_enabled{_raw,_instrumented,} per Dan.
->>>>
->>>> It excludes:
->>>>   nouveau parts (immature)
->>>>   tracefs parts (I missed --to=Steve on v6)
->>>>   split _ddebug_site and de-duplicate experiment (way unready)
->>>>
->>>> IOW, its the remaining commits of V6 on which Dan gave his Reviewed-by.
->>>>
->>>> If these are good to apply, I'll rebase and repost the rest separately.
->>>
->>> All now queued up, thanks.
->>
->> This stuff broke i915 debugs. When I first load i915 no debug prints are
->> produced. If I then go fiddle around in /sys/module/drm/parameters/debug
->> the debug prints start to suddenly work.
-> 
-> Wait what? I always assumed the default behaviour would stay the same,
-> which is usually how we roll. It's a regression in my books. We've got a
-> CI farm that's not very helpful in terms of dmesg logging right now
-> because of this.
-> 
-> BR,
-> Jani.
-> 
-> 
+I could be biased by how CI has been deployed (IMHO, successfully) in
+mesa.. my experience there doesn't make me see any value in a
+"mustpass" list.  But does make me see value in automating and
+tracking status.  Obviously we want all the tests to pass, but getting
+there is going to be a process.  Tracking that progress is the thing
+that is useful now.
 
-That doesn't sound good - so you are saying that prior to this change some
-of the drm debugs were default enabled. But now you have to manually enable
-them?
+BR,
+-R
 
-Thanks,
-
--Jason
+> AFAIU, the CI patches are here to track which tests are supposed to be
+> working and which aren't so that we can track regressions.
+>
+> The list I was talking about is here to identify issues in the first
+> place. All tests must pass, and if one fails it should be considered a
+> hard failure.
+>
+> This would be eligible for CI only for drivers which have been known to
+> pass them all already, but we wouldn't need to track which ones can fail
+> or not, all of them must.
+>
+> > Beyond that, I think some of the igt tests need to get more stable
+> > before we could consider a "mustpass" list.
+>
+> I agree that IGT tests could get more stable on ARM platforms, but it's
+> also a chicken-and-egg issue. If no-one is using them regularly on ARM,
+> then they'll never get fixed.
+>
+> > The kms_lease tests seem to fail on msm due to bad assumptions in the
+> > test about which CRTCs primary planes can attach to. The legacy-cursor
+> > crc tests seem a bit racy (there was a patch posted for that, not sure
+> > if it landed yet), etc.
+>
+> And this is fine, we can merge that list without them, and if and when
+> they get stable, we'll add them later.
+>
+> > The best thing to do is actually start running CI and tracking xfails
+> > and flakes ;-)
+>
+> Again, I wouldn't oppose them.
+>
+> The issue I'm trying to solve is that there's just no way to know, at
+> the moment:
+>
+>   - When you're running IGT, which tests are relevant for your platform
+>     exactly.
+>
+>   - If some of them fail, is it expected for them to fail or not. The
+>     ci/ patch you mentioned help for that a bit, but only for platforms
+>     where someone already did that work. When you want to do that work
+>     in the first place, it's extremely tedious and obscure.
+>
+>   - And if some of them fail, is it something that I should actually fix
+>     or not.
+>
+> The mustpass list addresses all those issues by providing a baseline.
+>
+> Maxime
