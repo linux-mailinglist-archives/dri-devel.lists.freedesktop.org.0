@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372FB60F709
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 14:19:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F20560F717
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 14:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76AC210E3B2;
-	Thu, 27 Oct 2022 12:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 142A710E39B;
+	Thu, 27 Oct 2022 12:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1AF510E3F0;
- Thu, 27 Oct 2022 12:19:44 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id l28so930352qtv.4;
- Thu, 27 Oct 2022 05:19:44 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64BF110E39B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 12:22:38 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id f37so2440645lfv.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 05:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=BUAJ0Yam9jB8cnIc3GMtzCrzsgz9qeznvvkKrNOb2Xc=;
+ b=Iew6zV4bUfWoOG82RXzL4Q7bT5nNSzi7RXlJEueKTqk3CXDXdmN6Nbuzt/KRecnGDP
+ eKrro8H+7BCLObPdprd54Pz8xEhd1eMorc6TuhDxpP7Ajri5dm6li6Zj/Gp3HfoRlgbK
+ giaMIejtfzloOicaqe7KCLIqDB9k/yUk7biAovkh/v7eadyO+5GRLZwXJyVnkKb8r5Wq
+ QfjSRmNIwQnCPNf8tQdBz9pIsUE+JJH26slpsKIqgXKq/xdBdPwrRsz/DvC+QctYJ2Ud
+ 7pxYPXdedNNIjE608PQYffTRShEoTUgGBRbitJI9d3W57Ceobd8hWQ7Q34fB9CwYu+iX
+ N/CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3e9j5Qwiqs/f1XbIA4ZFfx647JqImc8PuBMqMLRI+CY=;
- b=nZs3hLafqLMV6OIkI1vFHA4+DfehZtA4SzMfNMQ0HMk0WhGBl5kc+fklGyUYZuf7hs
- k0BmOg3rfqQmdLktcfLulLjtP7lCqA3pp8Gl7w/YTkhvOiSu0vUcfPYm6t2TV8d0MdGO
- B/r3qT1YpCm/gOWtqZkA46oDdBVKhI429GnAfjZwmjnlXe25TMNyI9qHJrc3PwJvdKYb
- AOPN/1tVL0XH3RrIfzPmEmrOm8KwGf2rPs6T0Uc5BdCABZeRv2sQySYbN7LngD2IGZDy
- Y3BfbvCI0a/i1WoxYsJpIhIMjYPe+TqML9A+9rmiq1vBHRqURly5TY2DTgW//TcaLiOD
- kSCQ==
-X-Gm-Message-State: ACrzQf0HFekXoxMC5y22s24SQAuVFrs+9pAX9sfAWclFz8a6Wt7e3N4h
- ul0VvztpHKTsM8jUdg6QtFn31CMnPUJOy8tg3Fg=
-X-Google-Smtp-Source: AMsMyM69RoU0FyynhwyvAcltO78mN8wnrxDaU0H42sOUgzVaxEwEWEEjpPn5ALxiGMgXKKWihZ8uqwTw9rMyl80ilzY=
-X-Received: by 2002:a05:622a:13c6:b0:39c:c34f:29ec with SMTP id
- p6-20020a05622a13c600b0039cc34f29ecmr40973105qtk.153.1666873183985; Thu, 27
- Oct 2022 05:19:43 -0700 (PDT)
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BUAJ0Yam9jB8cnIc3GMtzCrzsgz9qeznvvkKrNOb2Xc=;
+ b=oYg1H26Bvs/86XgOA1mTn0Ibdk7gfQfgEiq4MAp0MBgGSYrLW0HtWuAnqKa4hGaYPP
+ SupFQa0bjdzJqGyrbYj2BBrqtA/1IDvFKtA8HT+zDlsG6s3H9YPZovvjaHvcnD+G1n+t
+ Xl5VhTEdRO08hsmZ6Jgc+4z7nMhkdWJ1mI1RCmGSXOH1IXgzjdPLkqcaZf0UzJAIOH+4
+ iXq/yvg7bV3hVpDmzxU8/9eKYraJQg3Qn91yjZQq0j4QK14xRsJqtT8geQWrwFVRzUdY
+ imWTwiasCRelUKniki7IBk+66yfzGd/pLmxsKt0xNPrqZmMoocD88xe5n1jF5JZZ23Fr
+ WIOw==
+X-Gm-Message-State: ACrzQf36p12gTiKqWbC5HyW7R0CMDFAebTuLF6PcJTdjoRb6MnZfEwYf
+ 5mvybxpwjMrPqzsTr+Gb6A8=
+X-Google-Smtp-Source: AMsMyM6v95gActdOgMoaBJ6tPrmCSQZVBmd+VuWknz2siOdZJ3Br9C0Ey9SbfKc0Dy/10CiDW2QFWg==
+X-Received: by 2002:ac2:5ca7:0:b0:4af:b896:8841 with SMTP id
+ e7-20020ac25ca7000000b004afb8968841mr2479342lfq.349.1666873356402; 
+ Thu, 27 Oct 2022 05:22:36 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ j23-20020a2e3c17000000b0026fb4458c5fsm210448lja.44.2022.10.27.05.22.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 05:22:36 -0700 (PDT)
+Date: Thu, 27 Oct 2022 15:22:22 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/simpledrm: Only advertise formats that are supported
+Message-ID: <20221027152222.60e84e79@eldfell>
+In-Reply-To: <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de>
+References: <20221027101327.16678-1-marcan@marcan.st>
+ <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20221025193248.GA21457@srcf.ucam.org>
- <144cd47e-42dc-2b84-1a90-ea5e080e08a3@redhat.com>
- <20221025204043.GA23306@srcf.ucam.org>
- <cb5add36-c13c-ccd5-1b4b-71b45163a170@redhat.com>
- <20221025234040.GA27673@srcf.ucam.org>
- <fa6cc1d9-6740-b495-2c72-cae18c429ca6@redhat.com>
- <20221026204920.GA15326@srcf.ucam.org>
- <099dee98-8aeb-af36-828c-110f5ac6e9a3@redhat.com>
- <20221027091123.GA28089@srcf.ucam.org>
- <933be908-0bc2-56cc-8d6f-38f2d208ef20@redhat.com>
- <20221027095249.GA28666@srcf.ucam.org>
- <6df2016d-ed2d-57fa-dcad-48537732895f@redhat.com>
- <CAJZ5v0jM1JAySagv=u2be1bAmfTt3jJgVnOEjGzskBvZY7k6aw@mail.gmail.com>
- <526db9ed-bc39-b6be-c977-d4509ce22152@redhat.com>
-In-Reply-To: <526db9ed-bc39-b6be-c977-d4509ce22152@redhat.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 27 Oct 2022 14:19:32 +0200
-Message-ID: <CAJZ5v0j7_76LcMYY8s3TZGMwys4uYduCFy2-qqrpuSO_Awqhqg@mail.gmail.com>
-Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
- backlight should be used (v2)
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/fHYiBmgng1laXpPX_HJNlOb";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,100 +70,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
- Dmitry Osipenko <digetx@gmail.com>, amd-gfx@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>,
- Matthew Garrett <mjg59@srcf.ucam.org>, Jani Nikula <jani.nikula@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Hector Martin <marcan@marcan.st>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org, asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 27, 2022 at 2:17 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 10/27/22 14:09, Rafael J. Wysocki wrote:
-> > On Thu, Oct 27, 2022 at 12:37 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On 10/27/22 11:52, Matthew Garrett wrote:
-> >>> On Thu, Oct 27, 2022 at 11:39:38AM +0200, Hans de Goede wrote:
-> >>>
-> >>>> The *only* behavior which actually is new in 6.1 is the native GPU
-> >>>> drivers now doing the equivalent of:
-> >>>>
-> >>>>      if (acpi_video_get_backlight_type() != acpi_backlight_native)
-> >>>>              return;
-> >>>>
-> >>>> In their backlight register paths (i), which is causing the native
-> >>>> backlight to disappear on your custom laptop setup and on Chromebooks
-> >>>> (with the Chromebooks case being already solved I hope.).
-> >>>
-> >>> It's causing the backlight control to vanish on any machine that isn't
-> >>> ((acpi_video || vendor interface) || !acpi). Most machines that fall
-> >>> into that are either weird or Chromebooks or old, but there are machines
-> >>> that fall into that.
-> >>
-> >> I acknowledge that their are machines that fall into this category,
-> >> but I expect / hope there to be so few of them that we can just DMI
-> >> quirk our way out if this.
-> >>
-> >> I believe the old group to be small because:
-> >>
-> >> 1. Generally speaking the "native" control method is usually not
-> >> present on the really old (pre ACPI video spec) mobile GPUs.
-> >>
-> >> 2. On most old laptops I would still expect there to be a vendor
-> >> interface too, and if both get registered standard desktop environments
-> >> will prefer the vendor one, so then we need a native DMI quirk to
-> >> disable the vendor interface anyways and we already have a bunch of
-> >> those, so some laptops in this group are already covered by DMI quirks.
-> >>
-> >> And a fix for the Chromebook case is already in Linus' tree, which
-> >> just leaves the weird case, of which there will hopefully be only
-> >> a few.
-> >>
-> >> I do share your worry that this might break some machines, but
-> >> the only way to really find out is to get this code out there
-> >> I'm afraid.
-> >>
-> >> I have just written a blog post asking for people to check if
-> >> their laptop might be affected; and to report various details
-> >> to me of their laptop is affected:
-> >>
-> >> https://hansdegoede.dreamwidth.org/26548.html
-> >>
-> >> Lets wait and see how this goes. If I get (too) many reports then
-> >> I will send a revert of the addition of the:
-> >>
-> >>         if (acpi_video_get_backlight_type() != acpi_backlight_native)
-> >>                 return;
-> >>
-> >> check to the i915 / radeon / amd / nouveau drivers.
-> >>
-> >> (And if I only get a couple of reports I will probably just submit
-> >> DMI quirks for the affected models).
-> >
-> > Sounds reasonable to me, FWIW.
-> >
-> > And IIUC the check above can be overridden by passing
-> > acpi_backlight=native in the kernel command line, right?
->
-> Right, that can be used as a quick workaround, but we really do
-> want this to work OOTB everywhere.
+--Sig_/fHYiBmgng1laXpPX_HJNlOb
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Sure.
+On Thu, 27 Oct 2022 13:08:24 +0200
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-My point is that if it doesn't work OOTB for someone, and say it used
-to, they can use the above workaround and report back.
+> Hi
+>=20
+> Am 27.10.22 um 12:13 schrieb Hector Martin:
+> > Until now, simpledrm unconditionally advertised all formats that can be
+> > supported natively as conversions. However, we don't actually have a
+> > full conversion matrix of helpers. Although the list is arguably
+> > provided to userspace in precedence order, userspace can pick something
+> > out-of-order (and thus break when it shouldn't), or simply only support
+> > a format that is unsupported (and thus think it can work, which results
+> > in the appearance of a hang as FB blits fail later on, instead of the
+> > initialization error you'd expect in this case).
+> >=20
+> > Split up the format table into separate ones for each required subset,
+> > and then pick one based on the native format. Also remove the
+> > native<->conversion overlap check from the helper (which doesn't make
+> > sense any more, since the native format is advertised anyway and this
+> > way RGB565/RGB888 can share a format table), and instead print the same
+> > message in simpledrm when the native format is not one for which we have
+> > conversions at all.
+> >=20
+> > This fixes a real user regression where the ?RGB2101010 support commit
+> > started advertising it unconditionally where not supported, and KWin
+> > decided to start to use it over the native format, but also the fixes
+> > the spurious RGB565/RGB888 formats which have been wrongly
+> > unconditionally advertised since the dawn of simpledrm.
+> >=20
+> > Note: this patch is merged because splitting it into two patches, one
+> > for the helper and one for simpledrm, would regress at the midpoint
+> > regardless of the order. If simpledrm is changed first, that would break
+> > working conversions to RGB565/RGB888 (since those share a table that
+> > does not include the native formats). If the helper is changed first, it
+> > would start spuriously advertising all conversion formats when the
+> > native format doesn't have any supported conversions at all.
+> >=20
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Fixes: 6ea966fca084 ("drm/simpledrm: Add [AX]RGB2101010 formats")
+> > Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > ---
+> >   drivers/gpu/drm/drm_format_helper.c | 15 -------
+> >   drivers/gpu/drm/tiny/simpledrm.c    | 62 +++++++++++++++++++++++++---=
+- =20
+>=20
+> We currently have two DRM drivers that call drm_fb_build_fourcc_list():=20
+> simpledrm and ofdrm. I've been very careful to keep the format selection=
+=20
+> in sync between them. (That's the reason why the helper exists at all.)=20
+> If the drivers start to use different logic, it will only become more=20
+> chaotic.
+>=20
+> The format array of ofdrm is at [1]. At a minimum, ofdrm should get the=20
+> same fix as simpledrm.
+>=20
+> [1]=20
+> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/tiny/ofdrm.=
+c#n760
+
+Hi Thomas,
+
+yes, the principle applies to all drivers except VKMS: do not emulate
+anything in software unless it must be done to prevent kernel
+regressions on specific hardware.
+
+ofdrm should indeed do the same.
+
+> >   2 files changed, 55 insertions(+), 22 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_=
+format_helper.c
+> > index e2f76621453c..c60c13f3a872 100644
+> > --- a/drivers/gpu/drm/drm_format_helper.c
+> > +++ b/drivers/gpu/drm/drm_format_helper.c
+> > @@ -864,20 +864,6 @@ size_t drm_fb_build_fourcc_list(struct drm_device =
+*dev,
+> >   		++fourccs;
+> >   	}
+> >  =20
+> > -	/*
+> > -	 * The plane's atomic_update helper converts the framebuffer's color =
+format
+> > -	 * to a native format when copying to device memory.
+> > -	 *
+> > -	 * If there is not a single format supported by both, device and
+> > -	 * driver, the native formats are likely not supported by the convers=
+ion
+> > -	 * helpers. Therefore *only* support the native formats and add a
+> > -	 * conversion helper ASAP.
+> > -	 */
+> > -	if (!found_native) {
+> > -		drm_warn(dev, "Format conversion helpers required to add extra forma=
+ts.\n");
+> > -		goto out;
+> > -	}
+> > -
+> >   	/*
+> >   	 * The extra formats, emulated by the driver, go second.
+> >   	 */
+> > @@ -898,7 +884,6 @@ size_t drm_fb_build_fourcc_list(struct drm_device *=
+dev,
+> >   		++fourccs;
+> >   	}
+> >  =20
+> > -out:
+> >   	return fourccs - fourccs_out;
+> >   }
+> >   EXPORT_SYMBOL(drm_fb_build_fourcc_list);
+> > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/si=
+mpledrm.c
+> > index 18489779fb8a..1257411f3d44 100644
+> > --- a/drivers/gpu/drm/tiny/simpledrm.c
+> > +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> > @@ -446,22 +446,48 @@ static int simpledrm_device_init_regulators(struc=
+t simpledrm_device *sdev)
+> >    */
+> >  =20
+> >   /*
+> > - * Support all formats of simplefb and maybe more; in order
+> > - * of preference. The display's update function will do any
+> > + * Support the subset of formats that we have conversion helpers for,
+> > + * in order of preference. The display's update function will do any
+> >    * conversion necessary.
+> >    *
+> >    * TODO: Add blit helpers for remaining formats and uncomment
+> >    *       constants.
+> >    */
+> > -static const uint32_t simpledrm_primary_plane_formats[] =3D {
+> > +
+> > +/*
+> > + * Supported conversions to RGB565 and RGB888:
+> > + *   from [AX]RGB8888
+> > + */
+> > +static const uint32_t simpledrm_primary_plane_formats_base[] =3D {
+> > +	DRM_FORMAT_XRGB8888,
+> > +	DRM_FORMAT_ARGB8888,
+> > +};
+> > +
+> > +/*
+> > + * Supported conversions to [AX]RGB8888:
+> > + *   A/X variants (no-op)
+> > + *   from RGB565
+> > + *   from RGB888
+> > + */
+> > +static const uint32_t simpledrm_primary_plane_formats_xrgb8888[] =3D {
+> >   	DRM_FORMAT_XRGB8888,
+> >   	DRM_FORMAT_ARGB8888,
+> > +	DRM_FORMAT_RGB888,
+> >   	DRM_FORMAT_RGB565,
+> >   	//DRM_FORMAT_XRGB1555,
+> >   	//DRM_FORMAT_ARGB1555,
+> > -	DRM_FORMAT_RGB888,
+> > +};
+> > +
+> > +/*
+> > + * Supported conversions to [AX]RGB2101010:
+> > + *   A/X variants (no-op)
+> > + *   from [AX]RGB8888
+> > + */
+> > +static const uint32_t simpledrm_primary_plane_formats_xrgb2101010[] =
+=3D {
+> >   	DRM_FORMAT_XRGB2101010,
+> >   	DRM_FORMAT_ARGB2101010,
+> > +	DRM_FORMAT_XRGB8888,
+> > +	DRM_FORMAT_ARGB8888,
+> >   };
+> >  =20
+> >   static const uint64_t simpledrm_primary_plane_format_modifiers[] =3D {
+> > @@ -642,7 +668,8 @@ static struct simpledrm_device *simpledrm_device_cr=
+eate(struct drm_driver *drv,
+> >   	struct drm_encoder *encoder;
+> >   	struct drm_connector *connector;
+> >   	unsigned long max_width, max_height;
+> > -	size_t nformats;
+> > +	const uint32_t *conv_formats;
+> > +	size_t conv_nformats, nformats;
+> >   	int ret;
+> >  =20
+> >   	sdev =3D devm_drm_dev_alloc(&pdev->dev, drv, struct simpledrm_device=
+, dev);
+> > @@ -755,10 +782,31 @@ static struct simpledrm_device *simpledrm_device_=
+create(struct drm_driver *drv,
+> >   	dev->mode_config.funcs =3D &simpledrm_mode_config_funcs;
+> >  =20
+> >   	/* Primary plane */
+> > +	switch (format->format) { =20
+>=20
+> I trust you when you say that <native>->XRGB8888 is not enough. But=20
+> although I've read your replies, I still don't understand why this=20
+> switch is necessary.
+>=20
+> Why don't we call drm_fb_build_fourcc_list() with the native=20
+> format/formats and let it append a number of formats, such as adding=20
+> XRGB888, adding ARGB8888 if necessary, adding ARGB2101010 if necessary.=20
+> Each with a elaborate comment why and which userspace needs the format. (=
+?)
+
+Something like
+
+uint32_t conv_formats[] =3D {
+	DRM_FORMAT_XRGB8888, /* expected by old userspace */
+	DRM_FORMAT_ARGB8888, /* historically exposed and working */
+	0,
+	0,
+	0,
+};
+size_t conv_nformats =3D 2;
+
+if (native_format =3D=3D DRM_FORMAT_XRGB2101010)
+	conv_formats[conv_nformats++] =3D DRM_FORMAT_ARGB2101010; /* historically =
+exposed and working */
+
+if (native_format =3D=3D DRM_FORMAT_XRGB8888) {
+	conv_formats[conv_nformats++] =3D DRM_FORMAT_RGB565; /* historically expos=
+ed and working */
+	conv_formats[conv_nformats++] =3D DRM_FORMAT_RGB888; /* historically expos=
+ed and working */
+}
+
+maybe?
+
+
+
+Thanks,
+pq
+
+
+>=20
+> Best regards
+> Thomas
+>=20
+> > +	case DRM_FORMAT_RGB565:
+> > +	case DRM_FORMAT_RGB888:
+> > +		conv_formats =3D simpledrm_primary_plane_formats_base;
+> > +		conv_nformats =3D ARRAY_SIZE(simpledrm_primary_plane_formats_base);
+> > +		break;
+> > +	case DRM_FORMAT_XRGB8888:
+> > +	case DRM_FORMAT_ARGB8888:
+> > +		conv_formats =3D simpledrm_primary_plane_formats_xrgb8888;
+> > +		conv_nformats =3D ARRAY_SIZE(simpledrm_primary_plane_formats_xrgb888=
+8);
+> > +		break;
+> > +	case DRM_FORMAT_XRGB2101010:
+> > +	case DRM_FORMAT_ARGB2101010:
+> > +		conv_formats =3D simpledrm_primary_plane_formats_xrgb2101010;
+> > +		conv_nformats =3D ARRAY_SIZE(simpledrm_primary_plane_formats_xrgb210=
+1010);
+> > +		break;
+> > +	default:
+> > +		conv_formats =3D NULL;
+> > +		conv_nformats =3D 0;
+> > +		drm_warn(dev, "Format conversion helpers required to add extra forma=
+ts.\n");
+> > +		break;
+> > +	}
+> >  =20
+> >   	nformats =3D drm_fb_build_fourcc_list(dev, &format->format, 1,
+> > -					    simpledrm_primary_plane_formats,
+> > -					    ARRAY_SIZE(simpledrm_primary_plane_formats),
+> > +					    conv_formats, conv_nformats,
+> >   					    sdev->formats, ARRAY_SIZE(sdev->formats));
+> >  =20
+> >   	primary_plane =3D &sdev->primary_plane; =20
+>=20
+
+
+--Sig_/fHYiBmgng1laXpPX_HJNlOb
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmNad/4ACgkQI1/ltBGq
+qqca0g/9EZyE+t5iKJlNHZ6Y1NNpMUiw49okIWFGtCG6k/uw/ckIZRvr6xBAHlRP
+6RFviElFG06LIqcvWYUjlgvgfJ9ZumkUEkMcfJ0nEf4Kr4pAh7bpka8rIn0z7J7p
+ivGTWih+445MuR6e4ngycCFhF5X6VDyUQM3gzVZWwKS2LNBRNAHa+bNhJ0AyE30t
+o1SNuB6u1PRKfAQuQt7cfpYWOLJr4Q4r70fJRAFRrxpXD068DINAt4KXoQOF5wDB
+jfN5f9J33Fi9bdcgjYfJs6q0fP0a5CNn1VPIFO/5GrhJKGXNv/i+DKduelPljtc0
+ti0C2nHKWYlGPlMNlH9YOjbmWK1zyqBXVGZ3hYD1J3jVpKp3Bz1mwOHE62Ir8RIc
+6m8ZXz9AwuvqQ60Rfr/DgBpTmmBMOZjalnNvxgBVW7Qeqfq3OIP6KpfaGvnHvyUi
+9Z/gtZXeA1OwzczhtSkqvU4BnPGknzzZCu4Uox76L8CoAlM/zGD7Es7JFSLABr+O
+XuYb+fOypXrE+F1/6us0qrAmRbK/ckh2T7vhp3POCcby8bzGqiY6jSjw3q4laGDe
+OcSfgN54jbbfhAXGEkOB9ys4hZvr/UWGd4MQzPo4+xsFynirk5jrLZUM7c6bxrwr
+XffUbVJBvJ2XW6foOIBAOgQ08GPTryz1kTxakV56DU2m0MICG7w=
+=MTtI
+-----END PGP SIGNATURE-----
+
+--Sig_/fHYiBmgng1laXpPX_HJNlOb--
