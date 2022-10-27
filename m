@@ -1,54 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F325860ED42
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 03:10:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9400360EDB1
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 03:59:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A801B10E0C3;
-	Thu, 27 Oct 2022 01:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF63910E05A;
+	Thu, 27 Oct 2022 01:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22F0610E0C3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 01:09:57 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 27 Oct 2022 09:09:54 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 29R19o33075527;
- Thu, 27 Oct 2022 09:09:50 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from CSBMAIL1.internal.ite.com.tw (192.168.65.58) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.14; Thu, 27 Oct 2022 09:09:49 +0800
-Received: from CSBMAIL1.internal.ite.com.tw ([fe80::dd22:b444:859b:61c7]) by
- CSBMAIL1.internal.ite.com.tw ([fe80::dd22:b444:859b:61c7%18]) with mapi id
- 15.01.2176.014; Thu, 27 Oct 2022 09:09:49 +0800
-From: <allen.chen@ite.com.tw>
-To: <robh@kernel.org>
-Subject: RE: [PATCH v5 1/2] dt-bindings: it6505: add properties to restrict
- output bandwidth
-Thread-Topic: [PATCH v5 1/2] dt-bindings: it6505: add properties to restrict
- output bandwidth
-Thread-Index: AQHY58b9JXyAtuOFo0e1NAYOP32Khq4hcNMg
-Date: Thu, 27 Oct 2022 01:09:49 +0000
-Message-ID: <58b1b01c1f494c3e8a54890ad8a7cdb8@ite.com.tw>
-References: <20221019093215.8204-1-allen.chen@ite.com.tw>
- <20221019093215.8204-2-allen.chen@ite.com.tw>
- <20221024163748.GA1874793-robh@kernel.org>
-In-Reply-To: <20221024163748.GA1874793-robh@kernel.org>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.70.46]
-x-tm-snts-smtp: F2AD3F7EDB6366E8473549C38F6788FD13AA418C777E49B61EB24EE2ED1897802002:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD67010E02F;
+ Thu, 27 Oct 2022 01:58:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D3854620BC;
+ Thu, 27 Oct 2022 01:58:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D448C433D6;
+ Thu, 27 Oct 2022 01:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666835930;
+ bh=7XhdauFWmszF7qH8F0omcebe1A7UMyRAwOUOW2AS3dc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CED3jK+ZPtWwB7wTRjdVm/OSrbwnVVIOeWLJ+vD+0MMV2wyvLtq8gRgHeE+CA0QB0
+ bNsdyqlGcLYyL6lbqdwC8YWx6yvjrFNzxpofNIM9t7PuMg7IKiGa6OFkqdfEG0AMFm
+ oSZ98AQjfIjO+nijtAi2DQHwAWXkAR41NQrZnGer0s5l3256WvxzGeXj1EhsqhZK9X
+ uqfkxxLNWm7C22fN0m926Tol7qdGDrS4D7dGkYzBK+OEml/7g6Ta+/swo9Dch/1U2M
+ Yk0O+0w7mnIU8fnXNy6k2oYIrZXpBbwK50/srC5yzL7fC5uD6d85t39RfDOdUsmKiu
+ BYun4RlHCjPxA==
+Date: Wed, 26 Oct 2022 20:58:46 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 09/12] drm/msm/dp: HPD handling relates to next_bridge
+Message-ID: <20221027015846.5gsmlinx4iwyjvui@builder.lan>
+References: <20221026032624.30871-1-quic_bjorande@quicinc.com>
+ <20221026032624.30871-10-quic_bjorande@quicinc.com>
+ <5974CB5A-699F-4768-9DAA-FAE507CFAD53@linaro.org>
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw 29R19o33075527
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5974CB5A-699F-4768-9DAA-FAE507CFAD53@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,90 +53,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Kenneth.Hung@ite.com.tw,
- jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Jau-Chih.Tseng@ite.com.tw, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, treapking@chromium.org, Hermes.Wu@ite.com.tw,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, jonas@kwiboo.se
+Cc: freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgcm9iDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSb2IgSGVycmluZyA8
-cm9iaEBrZXJuZWwub3JnPiANClNlbnQ6IFR1ZXNkYXksIE9jdG9iZXIgMjUsIDIwMjIgMTI6Mzgg
-QU0NClRvOiBBbGxlbiBDaGVuICizr6xmpnQpIDxhbGxlbi5jaGVuQGl0ZS5jb20udHc+DQpDYzog
-UGluLVllbiBMaW4gPHRyZWFwa2luZ0BjaHJvbWl1bS5vcmc+OyBKYXUtQ2hpaCBUc2VuZyAotL+s
-TLS8KSA8SmF1LUNoaWguVHNlbmdAaXRlLmNvbS50dz47IEhlcm1lcyBXdSAop2Sozqe7KSA8SGVy
-bWVzLld1QGl0ZS5jb20udHc+OyBLZW5uZXRoIEh1bmcgKKx4rmGt2ykgPEtlbm5ldGguSHVuZ0Bp
-dGUuY29tLnR3PjsgQW5kcnplaiBIYWpkYSA8YW5kcnplai5oYWpkYUBpbnRlbC5jb20+OyBOZWls
-IEFybXN0cm9uZyA8bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+OyBSb2JlcnQgRm9zcyA8cm9iZXJ0
-LmZvc3NAbGluYXJvLm9yZz47IExhdXJlbnQgUGluY2hhcnQgPExhdXJlbnQucGluY2hhcnRAaWRl
-YXNvbmJvYXJkLmNvbT47IEpvbmFzIEthcmxtYW4gPGpvbmFzQGt3aWJvby5zZT47IEplcm5laiBT
-a3JhYmVjIDxqZXJuZWouc2tyYWJlY0BnbWFpbC5jb20+OyBEYXZpZCBBaXJsaWUgPGFpcmxpZWRA
-bGludXguaWU+OyBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+OyBLcnp5c3p0b2YgS296
-bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpK2R0QGxpbmFyby5vcmc+OyBvcGVuIGxpc3Q6RFJN
-IERSSVZFUlMgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+OyBvcGVuIGxpc3Q6T1BF
-TiBGSVJNV0FSRSBBTkQgRkxBVFRFTkVEIERFVklDRSBUUkVFIEJJTkRJTkdTIDxkZXZpY2V0cmVl
-QHZnZXIua2VybmVsLm9yZz47IG9wZW4gbGlzdCA8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9y
-Zz4NClN1YmplY3Q6IFJlOiBbUEFUQ0ggdjUgMS8yXSBkdC1iaW5kaW5nczogaXQ2NTA1OiBhZGQg
-cHJvcGVydGllcyB0byByZXN0cmljdCBvdXRwdXQgYmFuZHdpZHRoDQoNCk9uIFdlZCwgT2N0IDE5
-LCAyMDIyIGF0IDA1OjMyOjEzUE0gKzA4MDAsIGFsbGVuIHdyb3RlOg0KPiBGcm9tOiBhbGxlbiBj
-aGVuIDxhbGxlbi5jaGVuQGl0ZS5jb20udHc+DQo+IA0KPiBBZGQgcHJvcGVydGllcyB0byByZXN0
-cmljdCBkcCBvdXRwdXQgZGF0YS1sYW5lcyBhbmQgY2xvY2suDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
-OiBQaW4tWWVuIExpbiA8dHJlYXBraW5nQGNocm9taXVtLm9yZz4NCj4gU2lnbmVkLW9mZi1ieTog
-QWxsZW4gQ2hlbiA8YWxsZW4uY2hlbkBpdGUuY29tLnR3Pg0KPiAtLS0NCj4gIC4uLi9iaW5kaW5n
-cy9kaXNwbGF5L2JyaWRnZS9pdGUsaXQ2NTA1LnlhbWwgICB8IDg5ICsrKysrKysrKysrKysrKysr
-LS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA4MyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0K
-PiANCj4gZGlmZiAtLWdpdCANCj4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-ZGlzcGxheS9icmlkZ2UvaXRlLGl0NjUwNS55YW1sIA0KPiBiL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9pdGUsaXQ2NTA1LnlhbWwNCj4gaW5kZXggODMz
-ZDExYjIzMDNhNy4uOGU2MDdiNjkyOWZjOSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2l0ZSxpdDY1MDUueWFtbA0KPiArKysg
-Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvaXRlLGl0
-NjUwNS55YW1sDQo+IEBAIC01Miw5ICs1Miw3MCBAQCBwcm9wZXJ0aWVzOg0KPiAgICAgIG1heEl0
-ZW1zOiAxDQo+ICAgICAgZGVzY3JpcHRpb246IGV4dGNvbiBzcGVjaWZpZXIgZm9yIHRoZSBQb3dl
-ciBEZWxpdmVyeQ0KPiAgDQo+IC0gIHBvcnQ6DQo+IC0gICAgJHJlZjogL3NjaGVtYXMvZ3JhcGgu
-eWFtbCMvcHJvcGVydGllcy9wb3J0DQo+IC0gICAgZGVzY3JpcHRpb246IEEgcG9ydCBub2RlIHBv
-aW50aW5nIHRvIERQSSBob3N0IHBvcnQgbm9kZQ0KDQpObyBleGlzdGluZyB1c2VycyB5b3UgYXJl
-IGJyZWFraW5nPyBUaGUgY29tbWl0IG1zZyBzaG91bGQgZXhwbGFpbi4NCg0KPT0+IFRoZXJlIGFy
-ZSBubyBpdDY1MDUgdXNlcnMgaW4gY29tbXVuaXR5Lg0KPiArICBwb3J0czoNCj4gKyAgICAkcmVm
-OiAvc2NoZW1hcy9ncmFwaC55YW1sIy9wcm9wZXJ0aWVzL3BvcnRzDQo+ICsNCj4gKyAgICBwcm9w
-ZXJ0aWVzOg0KPiArICAgICAgcG9ydEAwOg0KPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy9ncmFw
-aC55YW1sIy8kZGVmcy9wb3J0LWJhc2UNCj4gKyAgICAgICAgdW5ldmFsdWF0ZWRQcm9wZXJ0aWVz
-OiBmYWxzZQ0KPiArICAgICAgICBkZXNjcmlwdGlvbjogQSBwb3J0IG5vZGUgcG9pbnRpbmcgdG8g
-RFBJIGhvc3QgcG9ydCBub2RlDQo+ICsNCj4gKyAgICAgICAgcHJvcGVydGllczoNCj4gKyAgICAg
-ICAgICBlbmRwb2ludDoNCj4gKyAgICAgICAgICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwj
-LyRkZWZzL2VuZHBvaW50LWJhc2UNCj4gKyAgICAgICAgICAgIHVuZXZhbHVhdGVkUHJvcGVydGll
-czogZmFsc2UNCj4gKw0KPiArICAgICAgICAgICAgcHJvcGVydGllczoNCj4gKyAgICAgICAgICAg
-ICAgbGluay1mcmVxdWVuY2llczoNCj4gKyAgICAgICAgICAgICAgICBtaW5JdGVtczogMQ0KPiAr
-ICAgICAgICAgICAgICAgIG1heEl0ZW1zOiAxDQo+ICsgICAgICAgICAgICAgICAgZGVzY3JpcHRp
-b246IEFsbG93ZWQgbWF4IGxpbmsgZnJlcXVlbmNpZXMgaW4gSHoNCj4gKw0KPiArICAgICAgcG9y
-dEAxOg0KPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy9ncmFwaC55YW1sIy8kZGVmcy9wb3J0LWJh
-c2UNCj4gKyAgICAgICAgdW5ldmFsdWF0ZWRQcm9wZXJ0aWVzOiBmYWxzZQ0KPiArICAgICAgICBk
-ZXNjcmlwdGlvbjogVmlkZW8gcG9ydCBmb3IgRFAgb3V0cHV0DQo+ICsNCj4gKyAgICAgICAgcHJv
-cGVydGllczoNCj4gKyAgICAgICAgICBlbmRwb2ludDoNCj4gKyAgICAgICAgICAgICRyZWY6IC9z
-Y2hlbWFzL2dyYXBoLnlhbWwjLyRkZWZzL2VuZHBvaW50LWJhc2UNCj4gKyAgICAgICAgICAgIHVu
-ZXZhbHVhdGVkUHJvcGVydGllczogZmFsc2UNCj4gKw0KPiArICAgICAgICAgICAgcHJvcGVydGll
-czoNCj4gKyAgICAgICAgICAgICAgZGF0YS1sYW5lczoNCj4gKyAgICAgICAgICAgICAgICBvbmVP
-ZjoNCj4gKyAgICAgICAgICAgICAgICAgIC0gbWluSXRlbXM6IDENCj4gKyAgICAgICAgICAgICAg
-ICAgICAgbWF4SXRlbXM6IDENCj4gKyAgICAgICAgICAgICAgICAgICAgdW5pcXVlSXRlbXM6IHRy
-dWUNCj4gKyAgICAgICAgICAgICAgICAgICAgaXRlbXM6DQo+ICsgICAgICAgICAgICAgICAgICAg
-ICAgZW51bToNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIC0gMA0KPiArICAgICAgICAgICAg
-ICAgICAgICAgICAgLSAxDQo+ICsgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uOiBGb3Ig
-b25lIGxhbmUgb3BlcmF0aW9uLg0KPiArDQo+ICsgICAgICAgICAgICAgICAgICAtIG1pbkl0ZW1z
-OiAyDQo+ICsgICAgICAgICAgICAgICAgICAgIG1heEl0ZW1zOiAyDQo+ICsgICAgICAgICAgICAg
-ICAgICAgIHVuaXF1ZUl0ZW1zOiB0cnVlDQo+ICsgICAgICAgICAgICAgICAgICAgIGl0ZW1zOg0K
-PiArICAgICAgICAgICAgICAgICAgICAgIGVudW06DQo+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAtIDANCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIC0gMQ0KPiArICAgICAgICAgICAgICAg
-ICAgICBkZXNjcmlwdGlvbjogRm9yIHR3byBsYW5lcyBvcGVyYXRpb24uDQo+ICsNCj4gKyAgICAg
-ICAgICAgICAgICAgIC0gbWluSXRlbXM6IDQNCj4gKyAgICAgICAgICAgICAgICAgICAgbWF4SXRl
-bXM6IDQNCj4gKyAgICAgICAgICAgICAgICAgICAgdW5pcXVlSXRlbXM6IHRydWUNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgaXRlbXM6DQo+ICsgICAgICAgICAgICAgICAgICAgICAgZW51bToNCj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgIC0gMA0KPiArICAgICAgICAgICAgICAgICAgICAgICAg
-LSAxDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAtIDINCj4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgIC0gMw0KPiArICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbjogRm9yIGZvdXIg
-bGFuZXMgb3BlcmF0aW9uLg0KDQpJIHdvdWxkIGRvIGp1c3Q6DQoNCmRhdGEtbGFuZXM6DQogIG1p
-bkl0ZW1zOiAxDQogIGl0ZW1zOg0KICAgIC0gZW51bTogWyAwLCAxIF0NCiAgICAtIGNvbnN0OiAx
-DQogICAgLSBjb25zdDogMg0KICAgIC0gY29uc3Q6IDMNCg0KSXQgZG9lcyBhbGxvdyAzIGxhbmVz
-LCBidXQgSSBkb24ndCB0aGluayB0aGF0J3MgYSBiaWcgZGVhbC4gV2hhdCBpdCBkb2VzIGRvZXNu
-J3QgYWxsb3cgaXMgYW55IG9yZGVyIGFuZCB5b3VycyBkb2VzLg0KDQpSb2INCg==
+On Wed, Oct 26, 2022 at 09:08:49AM +0300, Dmitry Baryshkov wrote:
+> 
+> 
+> On 26 October 2022 06:26:21 EEST, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+> >From: Bjorn Andersson <bjorn.andersson@linaro.org>
+> >
+> >The DisplayPort controller's internal HPD interrupt handling is used for
+> >cases where the HPD signal is connected to a GPIO which is pinmuxed into
+> >the DisplayPort controller.
+> >
+> >Most of the logic for enabling and disabling the HPD-related interrupts
+> >is conditioned on the presence of an EDP panel, but more generically
+> >designs that has a downstream drm_bridge (next_bridge) could use this to
+> >handle the HPD interrupts, instead of the internal mechanism.
+> >
+> >So replace the current is_edp-based guards with a check for the presence
+> >of next_bridge.
+> 
+> This does not sound correct. The next bridge might be a dummy bridge,
+> not supporting the hpd.
+
+I only considered checking for the Chrome case, where the output isn't
+modelled and we have to rely on the internal HPD logic. Checking that
+next_bridge is present and will deliver us hpd events sounds somewhat
+reasonable.
+
+But if I understand the code correctly, panel-edp isn't handing us hpd
+events - and we still don't want the internal HPD logic to trigger. So I
+presume I would need to check that this isn't a EDP controller and that
+we're going to get external HPD events?
+
+If so, clean you please give me some pointer on how to check if
+next_bridge will provide us with hpd signaling or not?
+
+
+PS. Which dummy bridge do you have in mind?
+
+> Please change this to use the enable_hpd()/disable_hpd() callbacks.
+> This way the drm_bridge_connector framework will make sure to enable
+> hpd handling for the bridge that is actually supposed to generate hpd
+> events.
+> 
+
+The drm_bridge_connector_init() call in dp_drm_connector_init() does
+this for us already.
+
+Regards,
+Bjorn
+
+> 
+> >
+> >Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> >Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> >---
+> >
+> >Changes since v2:
+> >- None
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
