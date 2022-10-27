@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55544610576
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 00:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2773C610577
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 00:14:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D340410E726;
-	Thu, 27 Oct 2022 22:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D52010E727;
+	Thu, 27 Oct 2022 22:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1955510E055;
- Thu, 27 Oct 2022 22:13:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9871410E381;
+ Thu, 27 Oct 2022 22:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666908805; x=1698444805;
+ t=1666908807; x=1698444807;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+smJ00CGQAtqf2wpYW1kXyS6btaTXOBZfC6EAaIufX0=;
- b=IiyTwx4Bip0EJhkDPUgxEZHZox1GSPOpgq0qDRDXD4DzgmyQ7BRYqBNY
- Ku4u1mlBIEX2+zxv9YMDPK8nwbjliAYzk3Px8ZiGaqKvajoQfPjfABv1s
- oQOLmWeU4YswOQagX5MzyLSVuglU5BoYMSMBZ/djBmw6V1eB8Jg0DH4ry
- DVhGfmVJcb2E8DqCVdSRKUaOvyQN4E31pazPgetokhsNiOd0Kl/dSE5+0
- iACw5YicLsq7xw3i+OQO46DMyuYOVGQA03+9cEAkffi2+05QxIm6kP/ZC
- p8y8+GBFBtiLY2luqJ+lN6clvw2CExvYX/d+ruRLtZrKz8JCKymotfsTc A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="295763446"
-X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="295763446"
+ bh=/7k5EAV6jB6qZMVAulIHh3vE+4BwyUrOYXjqjHcWcHI=;
+ b=fjRausAQC4xL+CHqZ1khV5wkw+DQxZeS02WB/ewSlGpWzcfcPyGHjPus
+ Ys6bCANa5hOBIE5Gi6FepPFZK/J4rThX4FCqIQe2vqzS2360OOgWsXvX3
+ 24RvPgTXbg40M+EuXAYCR1HNPJ9MaWkNQERVrXCf1FRZaDGTrTq0GEJML
+ rc8y3hs29AOwzbXhsdFxD2O57gIfqUX7XOSwND6Mp/M5OxZytfNDC5JEy
+ xvKCcGF5dujhfytai5U5VJMgVewZz4BaOP2r7ohSmjFxa8IwQ/flIOSxN
+ gOijEM00xrIAEAHTSSNV4Rdr4KkHhMgqPc0MJxn5jl4ZkJbZCTkAVCfuK Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="295763453"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="295763453"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2022 15:13:24 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="610528960"
-X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="610528960"
+ 27 Oct 2022 15:13:27 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="610528971"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="610528971"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2022 15:13:24 -0700
+ 27 Oct 2022 15:13:26 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/5] drm/i915/mtl: add GSC CS reset support
-Date: Thu, 27 Oct 2022 15:15:53 -0700
-Message-Id: <20221027221554.2638087-5-daniele.ceraolospurio@intel.com>
+Subject: [PATCH 5/5] drm/i915/mtl: don't expose GSC command streamer to the
+ user
+Date: Thu, 27 Oct 2022 15:15:54 -0700
+Message-Id: <20221027221554.2638087-6-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
 References: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
@@ -61,39 +62,30 @@ Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GSC CS has its own dedicated bit in the GDRST register.
+There is no userspace user for this CS yet, we only need it for internal
+kernel ops (e.g. HuC, PXP), so don't expose it.
 
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 1 +
- drivers/gpu/drm/i915/gt/intel_gt_regs.h   | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_engine_user.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index e0fbfac03979..f63829abf66c 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -423,6 +423,7 @@ static u32 get_reset_domain(u8 ver, enum intel_engine_id id)
- 			[CCS1]  = GEN11_GRDOM_RENDER,
- 			[CCS2]  = GEN11_GRDOM_RENDER,
- 			[CCS3]  = GEN11_GRDOM_RENDER,
-+			[GSC0]  = GEN12_GRDOM_GSC,
- 		};
- 		GEM_BUG_ON(id >= ARRAY_SIZE(engine_reset_domains) ||
- 			   !engine_reset_domains[id]);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 23844ba7e824..16cf90306085 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -640,6 +640,7 @@
- #define   XEHPC_GRDOM_BLT3			REG_BIT(26)
- #define   XEHPC_GRDOM_BLT2			REG_BIT(25)
- #define   XEHPC_GRDOM_BLT1			REG_BIT(24)
-+#define   GEN12_GRDOM_GSC			REG_BIT(21)
- #define   GEN11_GRDOM_SFC3			REG_BIT(20)
- #define   GEN11_GRDOM_SFC2			REG_BIT(19)
- #define   GEN11_GRDOM_SFC1			REG_BIT(18)
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+index 79312b734690..ca795daca116 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+@@ -211,6 +211,10 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
+ 		if (intel_gt_has_unrecoverable_error(engine->gt))
+ 			continue; /* ignore incomplete engines */
+ 
++		/* don't expose GSC engine to user */
++		if (engine->class == OTHER_CLASS)
++			continue;
++
+ 		GEM_BUG_ON(engine->class >= ARRAY_SIZE(uabi_classes));
+ 		engine->uabi_class = uabi_classes[engine->class];
+ 
 -- 
 2.37.3
 
