@@ -1,40 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E8D60F410
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 11:53:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8516D60F444
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 12:00:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75EAD10E5BD;
-	Thu, 27 Oct 2022 09:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A6410E5C0;
+	Thu, 27 Oct 2022 10:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cavan.codon.org.uk (irc.codon.org.uk [IPv6:2a00:1098:84:22e::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD1910E5B8;
- Thu, 27 Oct 2022 09:52:50 +0000 (UTC)
-Received: by cavan.codon.org.uk (Postfix, from userid 1000)
- id 841D440A8B; Thu, 27 Oct 2022 10:52:49 +0100 (BST)
-Date: Thu, 27 Oct 2022 10:52:49 +0100
-From: Matthew Garrett <mjg59@srcf.ucam.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
- backlight should be used (v2)
-Message-ID: <20221027095249.GA28666@srcf.ucam.org>
-References: <20221025193248.GA21457@srcf.ucam.org>
- <144cd47e-42dc-2b84-1a90-ea5e080e08a3@redhat.com>
- <20221025204043.GA23306@srcf.ucam.org>
- <cb5add36-c13c-ccd5-1b4b-71b45163a170@redhat.com>
- <20221025234040.GA27673@srcf.ucam.org>
- <fa6cc1d9-6740-b495-2c72-cae18c429ca6@redhat.com>
- <20221026204920.GA15326@srcf.ucam.org>
- <099dee98-8aeb-af36-828c-110f5ac6e9a3@redhat.com>
- <20221027091123.GA28089@srcf.ucam.org>
- <933be908-0bc2-56cc-8d6f-38f2d208ef20@redhat.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9EC10E5BA;
+ Thu, 27 Oct 2022 10:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666864824; x=1698400824;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=Cil1pDM3p6IcIULJ7IyDkn+k5MOc6dL7D2qI3OGd2yQ=;
+ b=ELh2wU4WDEN4XSxx2DDloyMRPpDFR0GbiaQobZ30tbtGz52GSAGs8Q5b
+ gbKfAaBeGHr88072fJh8DgsvVoLCnBvKjWSU90L6ZiiKqGGfIZM7DdoO3
+ krEuZADlcWh1HC0AGWGvf4ZpkJQxoPpz3rxxnGJWXoES+V5ag91WTGmNE
+ 0oLG0EoQKAsRSfnMF3LpDgAyq53mn1bspPji/6mEnTAma/g//Nx8G+2fp
+ 5bo0eF++laDxEpHvv3NNG70ZVkVo47094M5SHlnjZVnhMoLTxuj1VtRh1
+ /+pc3bmCBGysd3iF8YOt0s8h4/PcTMbxT26HU6WbI2tckHmsv8Unpl57p Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="291484714"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; d="scan'208";a="291484714"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 03:00:23 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="737618899"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; d="scan'208";a="737618899"
+Received: from mpaczkow-mobl1.ger.corp.intel.com (HELO [10.252.47.99])
+ ([10.252.47.99])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 03:00:20 -0700
+Message-ID: <ed24cbd2-2bcb-d2c2-46ed-9d8ea9615879@linux.intel.com>
+Date: Thu, 27 Oct 2022 12:00:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <933be908-0bc2-56cc-8d6f-38f2d208ef20@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.1.2
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,52 +58,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@redhat.com>,
- Len Brown <lenb@kernel.org>, Daniel Dadap <ddadap@nvidia.com>,
- Jani Nikula <jani.nikula@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, Mark Gross <markgross@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Xinhui <Xinhui.Pan@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 27, 2022 at 11:39:38AM +0200, Hans de Goede wrote:
+drm-misc-fixes-2022-10-27:
+drm-misc-fixes for v6.1-rc3:
+- Fix HPD on bridge/ps8640.
+- Stop leaking fences when killing a sched entity.
+- Avoid uninitialized read in aperture_remove_conflicting_pci_device()
+The following changes since commit 247f34f7b80357943234f93f247a1ae6b6c3a740:
 
-> The *only* behavior which actually is new in 6.1 is the native GPU
-> drivers now doing the equivalent of:
-> 
-> 	if (acpi_video_get_backlight_type() != acpi_backlight_native)
-> 		return;
-> 
-> In their backlight register paths (i), which is causing the native
-> backlight to disappear on your custom laptop setup and on Chromebooks
-> (with the Chromebooks case being already solved I hope.).
+  Linux 6.1-rc2 (2022-10-23 15:27:33 -0700)
 
-It's causing the backlight control to vanish on any machine that isn't 
-((acpi_video || vendor interface) || !acpi). Most machines that fall 
-into that are either weird or Chromebooks or old, but there are machines 
-that fall into that.
+are available in the Git repository at:
 
-(I wrote https://mjg59.livejournal.com/127103.html over 12 years ago, so 
-please do assume that I'm familiar with the complexities here :) )
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-10-27
 
-> I agree this is a possible solution if this turns out to break more
-> systems and there is no other easy/clean way to fix those. But I would
-> greatly prefer to keep this change and stop the IMHO bad kernel behavior
-> of "registering multiple backlight-devices for a single panel and then
-> let userspace sort it out".
+for you to fetch changes up to e0ba1a39b8dfe4f005bebdd85daa89e7382e26b7:
 
-If we're not able to make a correct policy decision in the kernel then 
-punting it to userland seems like the right thing to do? The kernel 
-absolutely *should* make the right decision where it has enough 
-information to do so, but in this case the code that's making that 
-decision doesn't have the full set of information.
+  fbdev/core: Avoid uninitialized read in aperture_remove_conflicting_pci_device() (2022-10-27 09:20:05 +0200)
+
+----------------------------------------------------------------
+drm-misc-fixes for v6.1-rc3:
+- Fix HPD on bridge/ps8640.
+- Stop leaking fences when killing a sched entity.
+- Avoid uninitialized read in aperture_remove_conflicting_pci_device()
+
+----------------------------------------------------------------
+Christian König (1):
+      drm/scheduler: fix fence ref counting
+
+Douglas Anderson (1):
+      drm/bridge: ps8640: Add back the 50 ms mystery delay after HPD
+
+Maarten Lankhorst (1):
+      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
+
+Michał Mirosław (1):
+      fbdev/core: Avoid uninitialized read in aperture_remove_conflicting_pci_device()
+
+ drivers/gpu/drm/bridge/parade-ps8640.c   | 25 +++++++++++++++++++++++--
+ drivers/gpu/drm/scheduler/sched_entity.c |  6 +++++-
+ drivers/video/aperture.c                 |  5 +----
+ 3 files changed, 29 insertions(+), 7 deletions(-)
