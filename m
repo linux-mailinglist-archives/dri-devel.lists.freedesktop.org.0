@@ -2,112 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294B160EF95
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 07:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0674760EFA1
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 07:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 564AE10E42F;
-	Thu, 27 Oct 2022 05:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76BE110E327;
+	Thu, 27 Oct 2022 05:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2068.outbound.protection.outlook.com [40.107.244.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0103110E405;
- Thu, 27 Oct 2022 05:42:16 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2077.outbound.protection.outlook.com [40.107.20.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B51810E327
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 05:46:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cU+87qQTNdOTLaRrEoyoocpSP0MdQJT32KG/VcmIieQW9ofhZOHBY8Mg30qEY2a76hBRUHxJJ/QwPnqJgL4iUn3BSM6E+QgtPho5rFCUnT7m/QD1FccjBLkSnUVhiItwhQeRqLBCjoJJc8w/8sIPZCARa0HwoMG1MYuDlJzYJ9VAjP1+M1g90dAFOaJyNDbC1boIP4nr0ozXo7HtMwzk1T+IedP+t7BHe/LqnnF8SD28WrKOJbse2IcG1t1pOB6Ft70SLrKUl9DfBJAsYlNVJDuXcj2AY6X2aCgpSli8LSmXNFLxrnIluPbWVfX4vbgR8Io93PO7yVgfd2hvQfihPQ==
+ b=bnXAsVyTGZ97s2yBudsYscVmlkqlKsNmbjKEhniEmnv1feZWaKQoPWqB934XEgUGBOVDuM7X2+T77g6/JXNGuVjSXdUtSx7q88q+HMF8FVltbsB6HyHtnJ2xvMkIrNOfih+xtqrBEAmrifTedGGYj1KVBfjcUseA9gKqwbfHhbStRbXVT6FkEqPVuoKSLf6CfTYN+WJQHtIiRhd967HiRubyAh8qJ7yJIvYa2gfaOYonN4nESx+bX9mLbXx8fnmXuKu+fQ406SXFGPnzIKH/BbclumHLWUGyN84f3pK8vCCSbJWLKwXP1bzCv9M0aBKTss0A04nUqQO81yP5+cIlmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Zt7g++kcTqcALF3+eVUwx55eLPsTtcvlknrcd3ufMg=;
- b=ZTe26balyUBDsK0GWS922QWzqZ+WLR/3BLQitkU4MvLnJ6FAlIM+t9sEj66mz2OhSd9phY9z2xlb23ByXGb2zJxVUjhN9+ZNNqAMLZQmjxM5D8X5okzstUbR9lbOKu5xHCQ6Vb+nMiHTfmqiRSSDoqn+PKObW9glrYO0ISKf/WET20zAN8p8egMqnzljzhWQeOOV0jy/njWuvAxyiJo07G2f62y/rNFUXJ9xPPZFIFycp/bq0uM+olUEJk9TEcvxBIyywO88Od6dp0cdS6S0IszOQT5RVKp9crvpZjeehg6O/DKiA5nCfgbWqL7/4Oj38AMV3T5AUf6zU8YWbxOYLw==
+ bh=sfV/7Wloy1cE3wSBmvGfakekuAHDmQi3bEww1/Dd7jc=;
+ b=ZZf7UGBiQLNxEcJ2NWcld+1T1Ci9oVQp/fgnJO/i4LXeDzXSEfVCTXI+HVA0X5iKqinc+J05XH+RRLXnwHKcWUb09WjdPJNOmnHV6alSOeFSQX6C2zNy0Plc65w9/mRkpOAca5R4tkJ/TEjsI95al7MFd8zP/LYORZk+ip3vdwOcWnbrpJ36GSb6ZL5I7mC5ZqTkPkVFxJQbGe8QucxvNBL0sO3BVO11QdO8EAglY8IpNagZ0ktLUvykkpkHn0bZ+OBmBx5grMWkAuNQZqDOOQXpbVOCvxsY2zXGDoavl2v5p1oPY0pFZn48d7h3HISb/VNzRPXm4d5j/2DsPqZtlw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Zt7g++kcTqcALF3+eVUwx55eLPsTtcvlknrcd3ufMg=;
- b=WXEiMBgIG7moY0e+sTZe9F5A8d9rPAzRYeNxqqTia9mlo81LG2dHkXzhZEum9BaXFHPAz0vduLLCxFQ7/Ar+m1OPlopdz4/b35upfqWawG3HFiYQ2JS4J79MTT49uR6XvIGepk/l2/mxdGGe5ruLDl0V1eBUS/b+9v8vLCKervA=
-Received: from DM5PR12MB2469.namprd12.prod.outlook.com (2603:10b6:4:af::38) by
- BL1PR12MB5899.namprd12.prod.outlook.com (2603:10b6:208:397::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Thu, 27 Oct
- 2022 05:42:14 +0000
-Received: from DM5PR12MB2469.namprd12.prod.outlook.com
- ([fe80::aa23:a85e:de27:6520]) by DM5PR12MB2469.namprd12.prod.outlook.com
- ([fe80::aa23:a85e:de27:6520%4]) with mapi id 15.20.5746.028; Thu, 27 Oct 2022
- 05:42:14 +0000
-From: "Chen, Guchun" <Guchun.Chen@amd.com>
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel.vetter@ffwll.ch"
- <daniel.vetter@ffwll.ch>
-Subject: RE: [pull] amdgpu, amdkfd drm-fixes-6.1
-Thread-Topic: [pull] amdgpu, amdkfd drm-fixes-6.1
-Thread-Index: AQHY6a2nheLEr6b37kOIn32ly+mZcK4huYYg
-Date: Thu, 27 Oct 2022 05:42:14 +0000
-Message-ID: <DM5PR12MB24693E14F89BD4116EBB51ADF1339@DM5PR12MB2469.namprd12.prod.outlook.com>
-References: <20221027024101.6881-1-alexander.deucher@amd.com>
-In-Reply-To: <20221027024101.6881-1-alexander.deucher@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM5PR12MB2469:EE_|BL1PR12MB5899:EE_
-x-ms-office365-filtering-correlation-id: 54330e3a-1c12-4c3b-6c19-08dab7de0095
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 56H9umEd1znVJJaoi2qHM4KqvzpJEBJGNgo68NmNxlHrQiJOogbeSxKzoybVsYenWEtRvDLShkojHvYJIFsyNMx08d9t2UAU81L7xjsP+e2i6HTBWlALzU0STdPCzFc7rdFkV0U2gzA2ELpsQu0ggAxoSKFo+PSrAd2YvunADp/Ez5+gDQ24HvrOUmSzinfwp4D9Nv7rbJqapVZJYxC1C0mE3vPvowaMLA8dtvP12X19vT1m5RKE3DvysH3EheJrqAsiaE7+8fPixBbQQeDf62Oe8yRsKe1HoBlfyCGULR0aR07OOZiAfOdvPVpLEN8qN/b6/k9PVT5Jv9ZznUuBT6wbcyOGiRV6SrowSnUscEH4SUoFtPg5+25D4QB9mRM2OTqRnngopNj37PpQrAZ8P4iSqUHHukdw5t77/LYmmFGR9+0y0VrCdR60ZZpfCkodn4V2kQ8ooU5i6DxnDMKiUXJUoSfCgFXbY3LauFakdrpADlY6TZZOxZeOBwmkyeWMaztp+jtk+L+HA4NN2BFYZKdvDfp6SetQ53w+VYzBTyBM8u+wsrFvYOSCqTy4nPNamrfO93jl3b0ZqsW24uPPao27Xp8gXQwYrxI2T3YqIIGxKOo8jRICwDP3aQ1ieDyumGOCIkBNZHw6zSq0BFZ+HM2FEQNNQwqCG4P0RaH4HYde9fcUa/GtLJ95yIfHAlA2nbAbxXBJaYZ+XCBb2AnMGA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB2469.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(451199015)(5660300002)(26005)(8936002)(41300700001)(4326008)(110136005)(64756008)(66946007)(66556008)(52536014)(66446008)(53546011)(8676002)(6506007)(7696005)(316002)(9686003)(76116006)(33656002)(38070700005)(122000001)(66574015)(38100700002)(66476007)(55016003)(4001150100001)(186003)(2906002)(45080400002)(966005)(478600001)(83380400001)(86362001)(71200400001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bXM+2m3eJPsbsbN8357rc1lT+/TlbDhC3UkxVmrbvrR7sFsqyiSzA9lT1B?=
- =?iso-8859-1?Q?k5+301o8KzwtiLvknb62hf1rNoFl/DG/7VBCH4LuBdx1cDAe14mVkLGfqp?=
- =?iso-8859-1?Q?74+3Ni9QqjF4blHfr0AMus2rojnASddpDCRO7wL0maigudpYSR6/CK69fF?=
- =?iso-8859-1?Q?RlBUE6oCepYt1EC42B0xV8/NkVQi5Is0dhTLuZ1S9KKKpmzlEQctoGwP4w?=
- =?iso-8859-1?Q?d2pAHKztZH6CmcXlymeT+AepKwzl8xeP6Eqsn6qyGSWoa9TaxZNyeg8bGc?=
- =?iso-8859-1?Q?yh7dDShI+K/aILdywBCE/Z+OqdEMo4D6QIFJXmb1sFs5ETrFhMigcMLxyi?=
- =?iso-8859-1?Q?iwm69KnbrysLzhhMHTga79ZB0cpIJfUkacle24lSXZ55ES5vbyAkR8ER/l?=
- =?iso-8859-1?Q?Suei1OeXDn0RWR5uAvqQrTxWIxMaQNrYVxTjcUzw+M5wlZ8KtiAxf6P2FZ?=
- =?iso-8859-1?Q?6r32l4beCXfJKT/JSL1UuTCiw74oCeRXDUnfQaj+iXXjZjITzm+b3yI1FL?=
- =?iso-8859-1?Q?37YmYWxydx+hdFZqtcgLPyIY6+vZv2x5F6PpMJu194x41c08AA1vfta0Wh?=
- =?iso-8859-1?Q?2xPytdwCJYkaGSOQuMWshK4HvieRAx48oUsvVlJ+ftwXJMqE87MPm4E2P0?=
- =?iso-8859-1?Q?k6dzVvOGIyAmgQxXw+C7Zb84FiUSd/X8Z0MNi06jDsi6CojutfQ2oJI+CN?=
- =?iso-8859-1?Q?Zh7vAezVtFmgvndAV5aAM/Rtt+dXS+5BnnyKpKDWJbmiki26HHYCUIduRs?=
- =?iso-8859-1?Q?Dx1xvlGHruhQrio9LeQ3W8XMyGIygSNqVJPD4EoN+YAZ4nJ2phtZ/ykMhc?=
- =?iso-8859-1?Q?BwQVEwj/sEz/0VG229B4u+cFiHi+vmKKVBRUE2qr22WyruUvaW98upZhL5?=
- =?iso-8859-1?Q?agbxJo4IynarqZrfvc/IXZGzPxOuBO2sq9n8vlT6Cy/QvWZv9pW7olyJXl?=
- =?iso-8859-1?Q?28J6+gSNt5IARmV3obnBDB/gsCTtpuMlIDN3GMgeybi4iZMCbs0c6MO/t1?=
- =?iso-8859-1?Q?9dYJc4mRVGVdZq47O10QWscEu3SlfzXPr8nilmW9Ip4IN1NRceG74aSIF7?=
- =?iso-8859-1?Q?WQg7JcHwJU/mwThFZM0A9mZ2+VtkUriXwdGM44PrFZlwROL18wo+mcDSFc?=
- =?iso-8859-1?Q?Vsij3mOWTsUg8UkuZiOTKIASybHIVBI5Pp2mABm0JcyPJ18FBSQ7BiRuez?=
- =?iso-8859-1?Q?8+auXbDD1g0MQeWEX8iZ8wQ94f/SO8jjIiXWZ/WaSHQEILWAdT6SFKh1NW?=
- =?iso-8859-1?Q?iEoMHO+Xg+zESQzpFDbmZ5YDt9tPWGyalwcGAwZMfi10Zq8COB7Q8VeTUV?=
- =?iso-8859-1?Q?eG2uxZ7JIgyd/8NDeIUlrx1dhegwubvAe5V6SG7PpgUCknAEqBwmdqXKK+?=
- =?iso-8859-1?Q?06k1+Kr1T/gPeoeq6KMIYr48tR5c1rITyWsJ9Bhm9X+w/RkCXXmCxN7wqr?=
- =?iso-8859-1?Q?QD5JXkvb9LgU+ZX43hcq2zHIoUXPd45WOyLGdo0MSJx1xB4Ccn0+VUM0+G?=
- =?iso-8859-1?Q?g5u0EEmwkHnMP8cWEVJYFRFeuJ0dY0biCw0+d8NYI/8LTzmsK4zHnJWswC?=
- =?iso-8859-1?Q?fCdNVvhOx6QY6foTviea0VdSjBeMlsroFfdZxs4HHyd0SONTLsWYVKEt+M?=
- =?iso-8859-1?Q?w9AMTJ1ajK2QPKXBbuXMnrm2QWwv8/R9Z2?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ bh=sfV/7Wloy1cE3wSBmvGfakekuAHDmQi3bEww1/Dd7jc=;
+ b=Sz0PgSbEOeY+mXPHaF4z9FE3R7KUnMCOJNeK1BJSkqJhlwR9omvSEaw7yNqeB6wKDmQ8MdzTG67y3Lvf4e+X1c8HhLTBKSVXDoIcRmGg6CgqK7i/485TLB6oabQm2++mtgkiBr0b/Y8+HQIlKQ9XDJEtcvYsuY7PZduQweBfdd0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS8PR04MB8451.eurprd04.prod.outlook.com (2603:10a6:20b:347::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Thu, 27 Oct
+ 2022 05:46:48 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::dcca:b62f:206b:dcf8]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::dcca:b62f:206b:dcf8%3]) with mapi id 15.20.5746.021; Thu, 27 Oct 2022
+ 05:46:48 +0000
+Message-ID: <2e9368bcc1c354ff01e63b9c451d839aa6a7a36f.camel@nxp.com>
+Subject: Re: [PATCH] drm: lcdif: Set and enable FIFO Panic threshold
+From: Liu Ying <victor.liu@nxp.com>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Thu, 27 Oct 2022 13:45:54 +0800
+In-Reply-To: <20221026212002.542375-1-marex@denx.de>
+References: <20221026212002.542375-1-marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0056.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::7) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB8451:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa6d78c6-604a-48d9-144c-08dab7dea3aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IAB/PsXCZVHBpiYw0HLdKE/ALOxc9EUymmj4SLA7XPPkIpI57n0DUGYpawW+qAMnkvjmks/vJ0yBCNfLw4NumVSRiuhICOMC1I5QTSN8Tb24MNRrgP8UBQ1lmIddyxn5gOCOimPv65Qv0SF2elf5PqEJeIksqzrpeiM/7XVY9bM4Bp0vFNqKHyBHQFgQwHsne+edRY766vYi+txuipaqdaOL0xyNwpNWBhLi53xOPKzcxFzJKC3ZlJffxWGTpYv5imJ4xzLcEvmy7vaJoQI6fgMs1A/ITZd9jCdwWFNiS88/7JUTQCwmsc5jB/ldFervDP3mpRT4oVyvzxYnH3Y9gsyURTxu5vBDM6cyxgc8n9BqwZhnWr0KoDI/OxohwkfWE72c+rfoyWGcRJkGmeITjWmdJ0mzFJUCqDjjW519yIZ/tf8YSQVSj/+d4kFIXiqtd9ieCGoHgAEJsQv1BWw8VMXftHMpL1O5CWlRfxUjQdsmL4S8n4onBbsAQe95gbuPYpOPqD6ahY4Wr7CuOr5PeNBcDXnzBqO3SJRKSmDzeNKXRWr3qnTURhbfMoR4bcRzHSZRtck4TNitVb0eJxPVbdM6ntGTcuQjP42dCZnj8QHM6S1r/Ur4QkRCDwH/iRYCfJt10gPshQ92w7khtGvVu6nah9vV65ftDy084gdZ6CLTSQOWM3TdMjBXuHq8VeUqi7LX4Cf9WYcUDUVCottbpBVd7M+MEQGCg5hBeusp3x400aXfloXmpEcUSru5fVVb9y6RKvYBbA9OCFvTQqfnog==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(396003)(366004)(39860400002)(136003)(346002)(451199015)(4326008)(36756003)(2616005)(8676002)(66556008)(66476007)(66946007)(5660300002)(86362001)(8936002)(186003)(41300700001)(478600001)(52116002)(6666004)(26005)(6486002)(6512007)(54906003)(316002)(6506007)(38100700002)(38350700002)(83380400001)(4001150100001)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0xOKzlwcU9TQlBnT2xDVno3eFZDSDV5RzhsaFExejB2M1FOTzBiK0R6VWpP?=
+ =?utf-8?B?K05GcVJpZjhhdnh2dVB6OHRTWTN3cDI4ZThpbU82SVVmUFNCMndmZGVZQkhR?=
+ =?utf-8?B?MEFadWFTaTdCZS9uSW04VVZMVmh5eVV2UEJEd2xoamZiVkpETjA0ZGtBaTl0?=
+ =?utf-8?B?ZEVTVThyQ0liRExtcENLa3VyVEhncnVXTVhYTjFiZllnVlhKN0w3RW5MZUYz?=
+ =?utf-8?B?OWVSTkJsV1B3eEk2eHdCYmJ5eG4rWXFsVTZsRFRpTkt4eEEzMDZvOEphSThV?=
+ =?utf-8?B?QkdlTEtGSzNBK0gxc3M1TGlqMFR4MTJTODVHcEdqT1J4NXdmcnVjcTI0V2tC?=
+ =?utf-8?B?Wi95T2lvS3pZbUJxWGEwUnR1ZmdhVjljM3ZKV0NnamZJY1VHNjdiNmt3MERH?=
+ =?utf-8?B?QjludWluVWtzNHF4RzV0VUF0SUJvYUNTcTYvYWtmakpHN1dCMXRwTmtIQU1L?=
+ =?utf-8?B?NWlBTlBkSzRubkFHY1JFMzJ6My9nZjF4T21MMW4xd3d3SnhuM0w4RlpPVDdl?=
+ =?utf-8?B?WlRya3pBcUJSV29IZS9wNDQ1Uk9qTDNPRkdLdFk1b0JzUUxYZ0NzWTl3dkli?=
+ =?utf-8?B?a05Nc0ZvWndaK3lWZGNhWXNOTlZrK2gyUDdIckczbXpTTlUyZmhuL0pqS3I2?=
+ =?utf-8?B?MU1lNGJ6dW1GcWc1eC8xL1hhVWJzdHZka3FwMEtBK3cza3FmZXgwaElTVyt3?=
+ =?utf-8?B?U1ZiWHNZMHdEYzAwbVJORlZtSktiTjZmWjFHY3BvRGpLU1N2UU0rUDY3YjNl?=
+ =?utf-8?B?cVA2NEhQVXFKc2FTQ0tBT1RDb0hwNkdsN1g5alFFTDlZOElJZGVSa1RBSmdm?=
+ =?utf-8?B?WmpSV1lPSGd0WTJhdHl3R1hmcHJ5RVJNblhGaVFDQ0tFRUhxdWFncTBLMjRI?=
+ =?utf-8?B?T3hPSytGblR2cmpBUlRqQUtyanhrblY4VlpDZjBSRjZmWWVNdExoYlpXSWk5?=
+ =?utf-8?B?Z0w1SUZ3MVBXcjI2ZmpKc29vT3ZqRU42QU9VakRWdWphZHgyUUZXRlZUTmYw?=
+ =?utf-8?B?ejM2endYNTV3S1drRG42RCs5Uy9IREFVV1oveEc2UjBzYURBbnJUTi9mSDZN?=
+ =?utf-8?B?NVlNMU4wUVBNK0l3Zys5WFVYRGFTVjZwR1EzSDlFZTNmd1l5NjA4M2tKNFhH?=
+ =?utf-8?B?cGdXa1J6QnNMUzFnRFRwcy9XV2ZteHVyUFFBUzErdmFNQWsvUnJ3ZHhtZXBl?=
+ =?utf-8?B?NXo3NXhwTGtuUW45QzJMMnY3TVBMM1FQUzErV2c0bnlQNCtSMkRJUFJWOHFh?=
+ =?utf-8?B?cXlkdmhaVS9ERmxQQkZmNGE3bFNwZVRiaklTWVBCeUtHTURKd1pEdmxhNEcy?=
+ =?utf-8?B?MjUwcE4wbGJYRjRVcHhaeVkvNmdrdllid0YvTlNOVTdqTEZZcVZBNFlhNEdH?=
+ =?utf-8?B?UWZKL2svTE1FQUxBWGliTGh6dlFxV0dtbXQzSFB1WnNxdlFrWGhpeTYxOHpP?=
+ =?utf-8?B?dS80SlZFK0NSZkZkVkIxdjBMUDVZYi9ZRWs0U1ZNUnAxOEJkVEpQVEg4MzNH?=
+ =?utf-8?B?ZkFpKzRUWGxZQ3NEeE9yYmxZeks0QVhmbjg5WUJ2aDhkYnpWMVVvenJrR3Ro?=
+ =?utf-8?B?dlJ1enpWSkhhL0lCdmlvL0xhNFRoR3BtMkdhZXIwK1VEcTQwbG05Q3RjUVRP?=
+ =?utf-8?B?d3FKbkRKcDhCdUUwNDlKQSs3b0I3ajVFWldxb3ZOWmJkaG4xdENsRTB1TEVu?=
+ =?utf-8?B?eGRibm1VajdXdGRKU0lOWVp1QUJFa3Q1U1B5U1dNSDNnZW1UMVcxcVBJa2FS?=
+ =?utf-8?B?WHpvYzh3dHJxVEQ5dnZQMGdkM2IzVVd5R1FBRHlqamxmQzFoeWtUVnhMWmlw?=
+ =?utf-8?B?dVg1MDZtdlJWSnpPR1Nnek5XRXJJZGxUYjhsSG1MM3hwcWdhK2wyRE1XWEQy?=
+ =?utf-8?B?K1hvVmJiS1phdDNoTkNKN3pTczBTaFZ4cC9QbU1QMlRXUEh3ci9sSHpCY0dr?=
+ =?utf-8?B?YUQxUkw2ZzhKSm81OTc5Z1dmZE5RQUt2MjdJc3dlNm5tZkZ3czZZRmJVOGl0?=
+ =?utf-8?B?bk9mOURZS0txS3V4ZG1XRUlBUXM1SGVidFYyZTRnbXgyNW4zZTRESkNFdDk3?=
+ =?utf-8?B?K2dLM1FlNGcvRWo2SFNSb2hXaUJOSTBUYkkzN2hUeXZodVh6cEhkMm5HbExT?=
+ =?utf-8?Q?QeVTp1Dsv+kos3uQ1bYznv73f?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa6d78c6-604a-48d9-144c-08dab7dea3aa
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2469.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54330e3a-1c12-4c3b-6c19-08dab7de0095
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2022 05:42:14.6605 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MdSPyNkgVPbuJSSLquTfNvwwHN5cKAz9nnxhdoWTOjlG0dnk+IEWotd3ED8fdbTeLjvYaYB5pEQlDb+9rwWB7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5899
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 05:46:48.6082 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jkz4l/8W9yisl7v50rOmHYiFzi0pk55ehK+CUO2WHEqk5pGEa1JmcDF8SgWvPiU+F+cxSrmd4vqo5jOPiGkJ3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8451
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,134 +122,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Cc: Peng Fan <peng.fan@nxp.com>, Martyn Welch <martyn.welch@collabora.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "jian.li" <jian.li@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alex,
+Hi,
 
-Regarding below patch, I guess we need to pick "8eb402f16d5b drm/amdgpu: Fi=
-x uninitialized warning in mmhub_v2_0_get_clockgating()" together, otherwis=
-e, build will possibly fail. Is it true?
+On Wed, 2022-10-26 at 23:20 +0200, Marek Vasut wrote:
+> In case the LCDIFv3 is used to drive a 4k panel via i.MX8MP HDMI bridge,
+> the LCDIFv3 becomes susceptible to FIFO underflows, which lead to nasty
 
- " Lijo Lazar (1):=20
-      drm/amdgpu: Remove ATC L2 access for MMHUB 2.1.x"
+s/lead/leads/
+
+> flicker of the image on the panel, or image being shifted by half frame
+> horizontally every second frame. The flicker can be easily triggered by
+> running 3D application on top of weston compositor, like neverball or
+> chromium. Surprisingly glmark2-es2-wayland or glmark2-es2-drm does not
+> trigger this effect so easily.
+> 
+> Configure the FIFO Panic threshold register and enable the FIFO Panic
+> mode, which internally boosts the NoC interconnect priority for LCDIFv3
+> transactions in case of possible underflow. This mitigates the flicker
+> effect on 4k panels as well.
+> 
+> Fixes: 9db35bb349a0 ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Marco Felsch <m.felsch@pengutronix.de>
+> Cc: Martyn Welch <martyn.welch@collabora.com>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/mxsfb/lcdif_kms.c  | 15 +++++++++++++++
+>  drivers/gpu/drm/mxsfb/lcdif_regs.h |  1 +
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> index a5302006c02cd..aee7babb5fa5c 100644
+> --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> @@ -341,6 +341,18 @@ static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
+>  	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+>  	reg |= CTRLDESCL0_5_EN;
+>  	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +
+> +	/* Set FIFO Panic watermarks, low 1/3, high 2/3 . */
+> +	writel(FIELD_PREP(PANIC0_THRES_LOW_MASK, 1 * PANIC0_THRES_RANGE / 3) |
+> +	       FIELD_PREP(PANIC0_THRES_HIGH_MASK, 2 * PANIC0_THRES_RANGE / 3),
+
+Better to define PANIC0_THRES_{LOW,HIGH}(n) macros in lcdif_regs.h?
+
+Downstream kernel uses the below threshold values:
+a) i.MX8mp EVK board with LPDDR4
+1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in driver
+1/2 and 3/4 for LCDIF3 + HDMI - set in device tree
+
+b) i.MX8mp EVK board with DDR4
+1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in driver
+2/3 and 3/3 for LCDIF3 + HDMI - set in devic tree
+
+Jian told me that LCDIF3 needs different sets of threshold values for
+different types of DDR to avoid 4k HDMI display issues and the
+threshold values impact overall DDR/bus utilization(?), so downstream
+kernel chooses to get optional threshold value properties from LCDIF DT
+node.
+
+Instead of always using 1/3 and 2/3, maybe there are three options:
+1) Same to downstream kernel, take 1/3 and 2/3 as default values and
+get optional threshold values from DT properties - no additional
+properties are acceptable in the existing DT binding doc?
+2) Check pixel clock rate, and if it is greater than a certain value,
+use 2/3 and 3/3.  Otherwise, use 1/3 and 2/3.
+3) Always use 2/3 and 3/3.
+
+> +	       lcdif->base + LCDC_V8_PANIC0_THRES);
+> +
+> +	/*
+> +	 * Enable FIFO Panic, this does not generate interrupt, but
+> +	 * boosts NoC priority based on FIFO Panic watermarks.
+> +	 */
+> +	writel(INT_ENABLE_D1_PLANE_PANIC_EN,
+> +	       lcdif->base + LCDC_V8_INT_ENABLE_D1);
+
+This should be enabled _before_ LCDIF controller starts to fetch
+pixels, otherwise, there is chance that the FIFO still underflows. 
+
+>  }
+>  
+>  static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
+> @@ -348,6 +360,9 @@ static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
+>  	u32 reg;
+>  	int ret;
+>  
+> +	/* Disable FIFO Panic NoC priority booster. */
+> +	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D1);
+
+Similar to enablement, this should be disabled _after_ LCDIF controller
+stops fetching pixels.
+
+> +
+>  	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+>  	reg &= ~CTRLDESCL0_5_EN;
+>  	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> index fb74eb5ccbf1d..3d2f81d6f995e 100644
+> --- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> @@ -255,6 +255,7 @@
+>  
+>  #define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
+>  #define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
+> +#define PANIC0_THRES_RANGE		512
+
+Should be 511? If high threshold is 3/3 and PANIC0_THRES_RANGE = 512,
+PANIC0_THRES_HIGH will overflow and zero is set.
 
 Regards,
-Guchun
+Liu Ying
 
------Original Message-----
-From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Alex Deu=
-cher
-Sent: Thursday, October 27, 2022 10:41 AM
-To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; airlied=
-@gmail.com; daniel.vetter@ffwll.ch
-Cc: Deucher, Alexander <Alexander.Deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd drm-fixes-6.1
+[...]
 
-Hi Dave, Daniel,
-
-Fixes for 6.1.  Fixes for new IPs and misc other fixes.
-
-The following changes since commit cbc543c59e8e7c8bc8604d6ac3e18a029e3d5118=
-:
-
-  Merge tag 'drm-misc-fixes-2022-10-20' of git://anongit.freedesktop.org/dr=
-m/drm-misc into drm-fixes (2022-10-21 09:56:14 +1000)
-
-are available in the Git repository at:
-
-  https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitla=
-b.freedesktop.org%2Fagd5f%2Flinux.git&amp;data=3D05%7C01%7Cguchun.chen%40am=
-d.com%7C6bbe7e42eb3d43bf622208dab7c4c906%7C3dd8961fe4884e608e11a82d994e183d=
-%7C0%7C0%7C638024353059986195%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiL=
-CJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DY=
-%2BU1OrPyhCaS44nGQMTrtqBpdkcJwFdFJEAaqWGiaqo%3D&amp;reserved=3D0 tags/amd-d=
-rm-fixes-6.1-2022-10-26-1
-
-for you to fetch changes up to d61e1d1d5225a9baeb995bcbdb904f66f70ed87e:
-
-  drm/amdgpu: disallow gfxoff until GC IP blocks complete s2idle resume (20=
-22-10-26 17:48:43 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-6.1-2022-10-26-1:
-
-amdgpu:
-- Stable pstate fix
-- SMU 13.x updates
-- SR-IOV fixes
-- PCI AER fix
-- GC 11.x fixes
-- Display fixes
-- Expose IMU firmware version for debugging
-- Plane modifier fix
-- S0i3 fix
-
-amdkfd:
-- Fix possible memory leak
-- Fix GC 10.x cache info reporting
-
-UAPI:
-- Expose IMU firmware version via existing INFO firmware query
-
-----------------------------------------------------------------
-Alvin Lee (1):
-      drm/amd/display: Don't return false if no stream
-
-Chengming Gui (1):
-      drm/amdgpu: fix pstate setting issue
-
-David Francis (1):
-      drm/amd: Add IMU fw version to fw version queries
-
-Jesse Zhang (1):
-      drm/amdkfd: correct the cache info for gfx1036
-
-Joaqu=EDn Ignacio Aramend=EDa (1):
-      drm/amd/display: Revert logic for plane modifiers
-
-Kenneth Feng (2):
-      drm/amd/pm: update driver-if header for smu_v13_0_10
-      drm/amd/pm: allow gfxoff on gc_11_0_3
-
-Lijo Lazar (1):
-      drm/amdgpu: Remove ATC L2 access for MMHUB 2.1.x
-
-Prike Liang (2):
-      drm/amdkfd: update gfx1037 Lx cache setting
-      drm/amdgpu: disallow gfxoff until GC IP blocks complete s2idle resume
-
-Rafael Mendonca (1):
-      drm/amdkfd: Fix memory leak in kfd_mem_dmamap_userptr()
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Remove wrong pipe control lock
-
-Yiqing Yao (1):
-      drm/amdgpu: Adjust MES polling timeout for sriov
-
-YuBiao Wang (1):
-      drm/amdgpu: skip mes self test for gc 11.0.3 in recover
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |   5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  18 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  13 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c          |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h        |   1 +
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |   1 +
- drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |   9 +-
- drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c            |  28 ++----
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c              | 106 +++++++++++++++++=
-++-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |  50 ++--------
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  12 +--
- .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |   2 +-
- .../pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_0.h | 111 +++++++++++++++--=
-----
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   7 +-
- include/uapi/drm/amdgpu_drm.h                      |   2 +
- 18 files changed, 259 insertions(+), 119 deletions(-)
