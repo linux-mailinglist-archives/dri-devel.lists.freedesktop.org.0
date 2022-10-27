@@ -1,57 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7197C60FC8D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 17:59:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E75560FCCA
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 18:18:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8586C10E691;
-	Thu, 27 Oct 2022 15:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B96B10E693;
+	Thu, 27 Oct 2022 16:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3F7110E0BF;
- Thu, 27 Oct 2022 15:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666886336; x=1698422336;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=0kjG/brUOnWwwDLYzkCfqaQKWYg0i41CBDbErJIKe7w=;
- b=UraA4nfODz1LTL3a9VP6coUJPQeHwcIXckgGpvj+KxXCBsX2ro1zux6/
- bgSrhO98kB6MP/RzwX9raGEbnKTJaUhr4toz/MTw/Cr6Y5qMn9tFhgMV6
- s5aWwb08JmZg284STVn3J9Phj0U3QhIiGMTfpCpSlo1J84s8MemI8CaIW
- z1rA6DHUBtDpxDw65i9GuXHBqf4T8puspf2zN0gPoBKVisXhNaFVuurv6
- GyIVNU2VMhutroj6yhqaH9poOn4Jqj/5+vXbxtxySE4cmPVjec/I4UBHk
- 2L51Rgfnvk1NXiNiXd2PSEKkVsvavlNCOHeOylRqZjPr9nVQx+7So+pzX g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="370329448"
-X-IronPort-AV: E=Sophos;i="5.95,218,1661842800"; d="scan'208";a="370329448"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2022 08:58:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="663668418"
-X-IronPort-AV: E=Sophos;i="5.95,218,1661842800"; d="scan'208";a="663668418"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga008.jf.intel.com with SMTP; 27 Oct 2022 08:58:51 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 27 Oct 2022 18:58:50 +0300
-Date: Thu, 27 Oct 2022 18:58:50 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: jim.cromie@gmail.com
-Subject: Re: [Intel-gfx] [PATCH v7 0/9] dyndbg: drm.debug adaptation
-Message-ID: <Y1qqurH/lG0u+3ky@intel.com>
-References: <20220912052852.1123868-1-jim.cromie@gmail.com>
- <Yy7/6oTBW2lqVSK1@kroah.com> <Y1Fyuh12g/gt3Izn@intel.com>
- <87a65pfsbq.fsf@intel.com>
- <c1807585-f6c8-c05d-bc20-c6a540e59814@akamai.com>
- <CAJfuBxxWVBxL29sXS3XoE5Es9HTbVyFUi9bQFYNupJAERffAew@mail.gmail.com>
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D544210E693
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 16:17:54 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id 8so1325324qka.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 09:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WNivv6DRz6IEkkxyGRhb+JocG+RcUmjQEd9pXKbOdDc=;
+ b=NxS8gxZ5r2NidNCaiTXc+eL/q287MblVn2H5BsRA7or5nWiqGB6CkpEOwUw0ckzECs
+ yjt3sPFNpfdMT+XrqidYEuhYGhrNNGz7B5Ez9Mm9CiJfpcEJssXc8dloV8nM93+xBrHR
+ +aiqUB+ntichlicautD/OLfx/lO6ufjVKVMarUVBt3o8uR13AnIHVVSJH6nz3jcv/qmF
+ tUicgzZbJew7Yno+y1GqF7887A2KZPqZJSE023H42rx2wsxA6+S6S7ACNHWdStf6TZa0
+ ypb/lxBeharZN2Y2L29TT9md983qf412hShCxXQBnRVxzDhwVcJnYzhl8+mHxknZTr6Q
+ WYXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WNivv6DRz6IEkkxyGRhb+JocG+RcUmjQEd9pXKbOdDc=;
+ b=jOO0VzdzN+AXHMIQASvIByunFp0I/k8/OofSh/xg1ozCwK0UXC450xYssF9sfUD2SR
+ wx7HhVxEjxMaNln3OrfhyvsK6BqWKIQ1Dn+pTnkSr3VAVPohVLHuG6NQX35V9XLCS6u6
+ hUAZ55YdqJlufBuZqkvdeMsjgHfoTyinJDkky+KaMw/NWyRgL97QE3E0bQWNtUKzuRDS
+ N7IkL/d5TKQuUBp8ToIwajG4tzJLw2xY0rv6iAJqko7dxuK13ZCkhn4Zw6x4qQvJSYGL
+ TuZqQn1c5F6E63MYTSfJduQENOgWPHNFJ7WwKw3fp1xeHiOHB9k3ybpQULjFjM6zC5Tz
+ iGFg==
+X-Gm-Message-State: ACrzQf3sh5uYvIPQc8H5+BPxweW7lftfyUUYa5xOP66uHP2CvyZut98m
+ n8f8hXiDvcL+dxfLxhdUSz0=
+X-Google-Smtp-Source: AMsMyM5vHmoX2lyAii7orMewell05XbgGBaMZ0nuXVmF0ltTsUChJojDSXLe3If80wF1op6DMfBhEQ==
+X-Received: by 2002:a05:620a:40cb:b0:6ee:79ce:e985 with SMTP id
+ g11-20020a05620a40cb00b006ee79cee985mr34437793qko.219.1666887473804; 
+ Thu, 27 Oct 2022 09:17:53 -0700 (PDT)
+Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+ by smtp.gmail.com with ESMTPSA id
+ y27-20020a37f61b000000b006cf19068261sm1177502qkj.116.2022.10.27.09.17.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 09:17:52 -0700 (PDT)
+Message-ID: <5c26e62a-0e69-aad6-c72f-eb7fc28051cb@gmail.com>
+Date: Thu, 27 Oct 2022 09:17:51 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJfuBxxWVBxL29sXS3XoE5Es9HTbVyFUi9bQFYNupJAERffAew@mail.gmail.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v5 3/7] firmware: raspberrypi: Provide a helper to query a
+ clock max rate
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Scott Branden <sbranden@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, Ray Jui <rjui@broadcom.com>
+References: <20220815-rpi-fix-4k-60-v5-0-fe9e7ac8b111@cerno.tech>
+ <20220815-rpi-fix-4k-60-v5-3-fe9e7ac8b111@cerno.tech>
+From: Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20220815-rpi-fix-4k-60-v5-3-fe9e7ac8b111@cerno.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,110 +82,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Greg KH <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk,
- linux-kernel@vger.kernel.org, Jason Baron <jbaron@akamai.com>,
- seanpaul@chromium.org, amd-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- joe@perches.com, intel-gvt-dev@lists.freedesktop.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org,
+ Dom Cobley <popcornmix@gmail.com>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 27, 2022 at 09:37:52AM -0600, jim.cromie@gmail.com wrote:
-> On Thu, Oct 27, 2022 at 9:08 AM Jason Baron <jbaron@akamai.com> wrote:
-> >
-> >
-> >
-> > On 10/21/22 05:18, Jani Nikula wrote:
-> > > On Thu, 20 Oct 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > >> On Sat, Sep 24, 2022 at 03:02:34PM +0200, Greg KH wrote:
-> > >>> On Sun, Sep 11, 2022 at 11:28:43PM -0600, Jim Cromie wrote:
-> > >>>> hi Greg, Dan, Jason, DRM-folk,
-> > >>>>
-> > >>>> heres follow-up to V6:
-> > >>>>   rebased on driver-core/driver-core-next for -v6 applied bits (thanks)
-> > >>>>   rework drm_debug_enabled{_raw,_instrumented,} per Dan.
-> > >>>>
-> > >>>> It excludes:
-> > >>>>   nouveau parts (immature)
-> > >>>>   tracefs parts (I missed --to=Steve on v6)
-> > >>>>   split _ddebug_site and de-duplicate experiment (way unready)
-> > >>>>
-> > >>>> IOW, its the remaining commits of V6 on which Dan gave his Reviewed-by.
-> > >>>>
-> > >>>> If these are good to apply, I'll rebase and repost the rest separately.
-> > >>>
-> > >>> All now queued up, thanks.
-> > >>
-> > >> This stuff broke i915 debugs. When I first load i915 no debug prints are
-> > >> produced. If I then go fiddle around in /sys/module/drm/parameters/debug
-> > >> the debug prints start to suddenly work.
-> > >
-> > > Wait what? I always assumed the default behaviour would stay the same,
-> > > which is usually how we roll. It's a regression in my books. We've got a
-> > > CI farm that's not very helpful in terms of dmesg logging right now
-> > > because of this.
-> > >
-> > > BR,
-> > > Jani.
-> > >
-> > >
-> >
-> > That doesn't sound good - so you are saying that prior to this change some
-> > of the drm debugs were default enabled. But now you have to manually enable
-> > them?
-> >
-> > Thanks,
-> >
-> > -Jason
-> 
-> 
-> Im just seeing this now.
-> Any new details ?
 
-No. We just disabled it as BROKEN for now. I was just today thinking
-about sending that patch out if no solutin is forthcoming soon since
-we need this working before 6.1 is released.
 
-Pretty sure you should see the problem immediately with any driver 
-(at least if it's built as a module, didn't try builtin). Or at least
-can't think what would make i915 any more special.
+On 10/27/2022 5:52 AM, Maxime Ripard wrote:
+> The firmware allows to query for its clocks the operating range of a
+> given clock. We'll need this for some drivers (KMS, in particular) to
+> infer the state of some configuration options, so let's create a
+> function to do so.
+> 
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-> 
-> I didnt knowingly change something, but since its apparently happening,
-> heres a 1st WAG at a possible cause
-> 
-> commit ccc2b496324c13e917ef05f563626f4e7826bef1
-> Author: Jim Cromie <jim.cromie@gmail.com>
-> Date:   Sun Sep 11 23:28:51 2022 -0600
-> 
->     drm_print: prefer bare printk KERN_DEBUG on generic fn
-> 
->     drm_print.c calls pr_debug() just once, from __drm_printfn_debug(),
->     which is a generic/service fn.  The callsite is compile-time enabled
->     by DEBUG in both DYNAMIC_DEBUG=y/n builds.
-> 
->     For dyndbg builds, reverting this callsite back to bare printk is
->     correcting a few anti-features:
-> 
->     1- callsite is generic, serves multiple drm users.
->        it is soft-wired on currently by #define DEBUG
->        could accidentally: #> echo -p > /proc/dynamic_debug/control
-> 
->     2- optional "decorations" by dyndbg are unhelpful/misleading here,
->        they describe only the generic site, not end users
-> 
->     IOW, 1,2 are unhelpful at best, and possibly confusing.
-> 
->     reverting yields a nominal data and text shrink:
-> 
->        text    data     bss     dec     hex filename
->      462583   36604   54592 553779   87333 /kernel/drivers/gpu/drm/drm.ko
->      462515   36532   54592 553639   872a7 -dirty/kernel/drivers/gpu/drm/drm.ko
-> 
->     Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
->     Link: https://lore.kernel.org/r/20220912052852.1123868-9-jim.cromie@gmail.com
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-Ville Syrjälä
-Intel
+Florian
