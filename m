@@ -1,51 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FC660F74F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 14:31:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4616860F7BF
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 14:44:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 799D010E5F4;
-	Thu, 27 Oct 2022 12:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C3D610E601;
+	Thu, 27 Oct 2022 12:44:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF1AE10E5F4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 12:31:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: marcan@marcan.st)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 6E26F3FA55;
- Thu, 27 Oct 2022 12:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
- t=1666873902; bh=DhI7Jpa2fk46YynTb7FAUNf45bUY2pAqyB4/4XUT9U0=;
- h=Date:To:Cc:References:From:Subject:In-Reply-To;
- b=u2xvHArOBP4pV4EiGf77kPFgsS7pwRtF9nLL0NudQY1FM2bNADHHOQlFvimFEgeWp
- Sp5yO/NbMGgHFrIT3EGmAcqWIVU9SFNoQRrvvtF1Ytvt+tzgixM3ewch9Mvf3VkZFy
- WoFXr/g6sOJpR+MrwYlKm3W+v4acvNsGsDK4iicfq7woJ4bwqlWo7GF+O5V+onGHN4
- XCdPsHLtsbdx45Mo1gfsR464EBcuTl6tBHr0jjTuQpnwfZn6WLVJ0847zQIx569Pzz
- HC4btRypjK7j/82a9NxJgdxiUASE6YWtCBLj0kak9FtKtL94O7qTQF/0z85804uyUe
- Cn+kA6+gGqPtA==
-Message-ID: <c56b2545-d749-0460-0031-36ae4e3d0aed@marcan.st>
-Date: Thu, 27 Oct 2022 21:31:36 +0900
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC60010E601
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 12:44:28 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id f23so1334130plr.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 05:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WP+7R/Fr2VMJLa5AXizn+zOIuwCy4AiCbk7L9UfX4Zw=;
+ b=agwMaoXKy9Wbn7+kG/2zoL2ab09hLBHI3OWHuBTISVwNYL2VkJUvzxCRoL49OCshBj
+ vLioT/vawmbM+eFCEGMjfNYBG7euvnY+eyE98TBYycgStlmJnIPInsn8srezL58PDRl3
+ GbQRFNvB+CskWz5NEW4VF4ylYuXxQLQIFGWxPAPRT4aobnXX5r3NioqpU61GBtW1SsyN
+ 78gcwnit22wAzscY5gBg5HbZTcffuWqOnD8XVVJwUvz5JS9yy9l/rcL1J9r7YFGn9Tdr
+ T1bD5t0YqlJzWkGgCkwslI3+2L9jbWFoe1V7+E7bwxjo1dJHsQjhJGvfdnoIhxetRjTP
+ 9fQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WP+7R/Fr2VMJLa5AXizn+zOIuwCy4AiCbk7L9UfX4Zw=;
+ b=JhBbIN+J8u+gLJwwb6lXoIZ82hwdVvI/zBNA7mwuM7TLzNiNVnPsSkMqSEpYrXqri2
+ 5LbM5yQaGTZI4alq7SLaI73xBONuudR7aq6w4dQzFlBnIPEe2kJchdTHoNYc78tLWwTa
+ gYt/4Ap2WN+3ZjyRZs7IFtHvGZoaXaD4QUujmg5/3dbzG9Zr3tUxjZxlTfR1azP/9CoC
+ Ocf0+RahjWG/3wgSgNQ1zi7+a2RHZITaqjKUEM6j/+ZW+6uJtujfCyT97BAbHr2vNcMu
+ vYjbhqDcNn9qL2i+b9pFMBc2e+hn38HgH+n+nXQAGJoRCSMV38WG4F7ek9T1oBomJLC0
+ qxrg==
+X-Gm-Message-State: ACrzQf3CqiKK896ISnm7DiqJxP4+k2LWtXOOlId0+o+BCuve8vOCpf+k
+ nxW8D99W+mmtiUPe527uQZs=
+X-Google-Smtp-Source: AMsMyM5+O8XthDRDSKyEQ3I1jHlcTzZmKX7d/XfEB3c8kCa+btVU5AIiiGXo52VS5hqEqrrzqoO+lA==
+X-Received: by 2002:a17:902:c20c:b0:186:b3d0:f77 with SMTP id
+ 12-20020a170902c20c00b00186b3d00f77mr17479095pll.26.1666874668179; 
+ Thu, 27 Oct 2022 05:44:28 -0700 (PDT)
+Received: from debian.me (subs28-116-206-12-37.three.co.id. [116.206.12.37])
+ by smtp.gmail.com with ESMTPSA id
+ i7-20020a170902c94700b00186b3c3e2dasm1125991pla.155.2022.10.27.05.44.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 05:44:27 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id 28834103F96; Thu, 27 Oct 2022 19:44:25 +0700 (WIB)
+Date: Thu, 27 Oct 2022 19:44:25 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+Subject: Re: [PATCH] dma-buf: cma_heap: Fix typo in comment
+Message-ID: <Y1p9KT1ZZ0bqIhdu@debian.me>
+References: <20221027072642.23787-1-mark-pk.tsai@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20221027101327.16678-1-marcan@marcan.st>
- <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH] drm/simpledrm: Only advertise formats that are supported
-In-Reply-To: <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XHaG62drdJ2C2Nnp"
+Content-Disposition: inline
+In-Reply-To: <20221027072642.23787-1-mark-pk.tsai@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,61 +73,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Pekka Paalanen <pekka.paalanen@collabora.com>,
- asahi@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ yj.chiang@mediatek.com, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>, linaro-mm-sig@lists.linaro.org,
+ John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ Laura Abbott <labbott@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/10/2022 20.08, Thomas Zimmermann wrote:
-> We currently have two DRM drivers that call drm_fb_build_fourcc_list(): 
-> simpledrm and ofdrm. I've been very careful to keep the format selection 
-> in sync between them. (That's the reason why the helper exists at all.) 
-> If the drivers start to use different logic, it will only become more 
-> chaotic.
-> 
-> The format array of ofdrm is at [1]. At a minimum, ofdrm should get the 
-> same fix as simpledrm.
 
-Looks like this was merged recently, so I didn't see it on my tree (I
-was basing off of 6.1-rc2).
+--XHaG62drdJ2C2Nnp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Since this patch is a regression fix, it should be applied to drm-fixes
-(and automatically picked up by stable folks) soon to be fixed in 6.1,
-and then we can fix whatever is needed in ofdrm separately in drm-tip.
-As long as ofdrm is ready for the new behavior prior to the merge of
-drm-tip with 6.1, there will be no breakage.
+On Thu, Oct 27, 2022 at 03:26:38PM +0800, Mark-PK Tsai wrote:
+> Fix typo in comment.
+>=20
 
-In this case, the change required to ofdrm is probably just to replace
-that array with just DRM_FORMAT_XRGB8888 (which should be the only
-supported fallback format for new drivers) and then to add a test to
-only expose it for formats for which we actually have conversion
-helpers, similar to what the the switch() enumerates here. That logic
-could later be moved into the helper as a refactor.
+Comment on what function? I had to see the diff context.
 
->>   	/* Primary plane */
->> +	switch (format->format) {
-> 
-> I trust you when you say that <native>->XRGB8888 is not enough. But 
-> although I've read your replies, I still don't understand why this 
-> switch is necessary.
-> 
-> Why don't we call drm_fb_build_fourcc_list() with the native 
-> format/formats and let it append a number of formats, such as adding 
-> XRGB888, adding ARGB8888 if necessary, adding ARGB2101010 if necessary. 
-> Each with a elaborate comment why and which userspace needs the format. (?)
+> Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+> ---
+>  drivers/dma-buf/heaps/cma_heap.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
+_heap.c
+> index 28fb04eccdd0..cd386ce639f3 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -316,7 +316,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_h=
+eap *heap,
 
-That would be fine to do, it would just be moving the logic to the
-helper. That kind of refactoring is better suited for subsequent
-patches. This is a regression fix, it attempts to minimize the amount of
-refactoring, which means keeping the logic in simpledrm, to make it
-easier to review for correctness.
+Oh, you refer to cma_heap_allocate(). Please mention it in the patch
+description.
 
-Also, that would change the API of that function, which would likely
-make the merge with the new ofdrm painful. The way things are now, a
-small fix to ofdrm will make it compatible with both the state before
-and after this patch, which means the merge will go through painlessly,
-and then we can just refactor everything once everything is in the same
-tree.
+>  			kunmap_atomic(vaddr);
+>  			/*
+>  			 * Avoid wasting time zeroing memory if the process
+> -			 * has been killed by by SIGKILL
+> +			 * has been killed by SIGKILL
 
-- Hector
+Duplicated "by"?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--XHaG62drdJ2C2Nnp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1p9JQAKCRD2uYlJVVFO
+o2ycAP4mutv5A+U0sVGBxomMJwORB1VaIuTIp/xeL/6OqueMIQEAq2u8IOVlVke8
+K367ezUx4yUU08CTyQcg97a1puTuqwU=
+=bsZY
+-----END PGP SIGNATURE-----
+
+--XHaG62drdJ2C2Nnp--
