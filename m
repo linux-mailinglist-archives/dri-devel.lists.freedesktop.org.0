@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEDF60FF79
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 19:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C3260FF84
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Oct 2022 19:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A68B810E282;
-	Thu, 27 Oct 2022 17:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9222F10E23D;
+	Thu, 27 Oct 2022 17:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC25810E6B3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 17:40:38 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id x21so2956420ljg.10
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 10:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5dQ5iXYypgbJC6JVuTz64YgEiNayZPBEIXcuhjY1RiA=;
- b=MUdxN8jBJLvEPpz4xRlWyHx+U+2qnlG1s2vyNGymS4IA5POKPvoEx4n8I29061lwWR
- FOXns6ZJ9464gxWK9dYzFKPTmEAihozFtmpEUqe5jhpzMlkDKggwUaBJZjphPTzvrIGX
- sJWcGp9GYAe4GNTJXaE5hlQselL5I28H6+3CfuUvSJ43oMt6uf98C4nLNS5n0Y7Btse9
- h/K6ixcbTaJmDBBo+4ZcGrU3NWVzvi3YbN2mrkF8Wf6rKg25WGdVFdo1gC8IDaMt187N
- 069vQ70kpRoLR5f/9QzZZ8jaxFnlXJ48RwD8BWYyqsd7GXpw8lzG7WeC/6eGYJZmkqKo
- 8COw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5dQ5iXYypgbJC6JVuTz64YgEiNayZPBEIXcuhjY1RiA=;
- b=lYqRVbh0XytQ4a1xewbabD09jjT4gaYEFzz/btHvQ+O2WLud6eZBtAbpf4nkAwAqo9
- HIb3GQCe05SSSC1Pp+anGATDUbZhgxNkMlUVNDTVZyK3cukJm7N0TTs++2hO+mTrL/eg
- gGcY0HKahuXNv8mK8kDXz7sslSO12s5jSmOyx5oi6VMtXgCz4Br3g1ZNf2o/WRAhzsZ9
- 738Z8LBcJlCuseonNDp5ahd0l32FcA75B1BQgF4NXMelKiw2voUcIy6uun9AokUbWuo7
- 2ww2LMO/LcWz6X/b0tOa0QBHULGECOQqi6SqZnakW/1D7cvhwepx+p6/oEkFYcjoTTvQ
- pXDw==
-X-Gm-Message-State: ACrzQf0uHVa0Kgqk9QOZT7xfq6fKBgxQarnfaXToGpD19JWavlONX2zJ
- FLWWtq1mNFum6hgfJ4l/01bvJA==
-X-Google-Smtp-Source: AMsMyM7il5IkwmWr4mwznK/xwHIcZqOrxqV6QhIQMw5WDa6TNpHUypqnTGu3qs9hDYuZTcnPGMVQtA==
-X-Received: by 2002:a05:651c:b13:b0:277:2a88:6995 with SMTP id
- b19-20020a05651c0b1300b002772a886995mr1748143ljr.516.1666892437114; 
- Thu, 27 Oct 2022 10:40:37 -0700 (PDT)
-Received: from [10.27.10.248] ([195.165.23.90])
- by smtp.gmail.com with ESMTPSA id
- 142-20020a2e0994000000b0027706d22878sm306643ljj.94.2022.10.27.10.40.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 10:40:36 -0700 (PDT)
-Message-ID: <780a3aeb-2e7f-b3ca-be58-ab24bd06d805@linaro.org>
-Date: Thu, 27 Oct 2022 20:40:35 +0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A94AE10E23D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 17:44:51 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RFrNtN002666;
+ Thu, 27 Oct 2022 17:44:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+m0n69B4a6mAvr92cNJpOxfkU/GbaBWa3xlQc/a7f1g=;
+ b=GX+cRMviJyXkXp9Rb7n+kZWhhixHt+kZmihErOQfpQ4uERGp5q54nizcK0ZaZjF3bLsI
+ qluFG7QgQg9Y4L2WVR8IOIE2yJq+Qh2kU4rwa6e40FmKKWsxhBXfefB8wgNtS5GNomnv
+ QQDySChBpbsCckQoUVckylVSMZdbHoI09fSdRYtiJV0TX4h4UXwY1o1VBVsyf767cVKt
+ ldvXOYNxY6pXmXHaAIjcoaJK//X+hTi/aHawWZeIiyVPOxc/EdvookXW4OUr6dQsdb6K
+ bu0lX4/zyb+CspXlx/FXhFK0ik/v9poR/walMmbdyTGnmQ7LlvCg8pMrPkKvVMyAIA94 Yg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kfahvtv21-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 17:44:14 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29RHiDpm003579
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 17:44:13 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 27 Oct
+ 2022 10:44:12 -0700
+Message-ID: <23ea08ea-a1be-edd3-2b13-1c1849ccac0d@quicinc.com>
+Date: Thu, 27 Oct 2022 11:44:11 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v8 01/15] drm/msm/disp/dpu: clear dpu_assign_crtc and get
- crtc from connector state instead of dpu_enc
-Content-Language: en-GB
-To: Vinod Polimera <vpolimer@qti.qualcomm.com>,
- "Vinod Polimera (QUIC)" <quic_vpolimer@quicinc.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-References: <1665576159-3749-1-git-send-email-quic_vpolimer@quicinc.com>
- <1665576159-3749-2-git-send-email-quic_vpolimer@quicinc.com>
- <52e7a83b-bd83-ba63-55f9-a75cf549546d@linaro.org>
- <BN0PR02MB8173F084DD0DDAD2E312CA6DE4339@BN0PR02MB8173.namprd02.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <BN0PR02MB8173F084DD0DDAD2E312CA6DE4339@BN0PR02MB8173.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 2/7] drm/ivpu: Add Intel VPU MMU support
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>, <airlied@gmail.com>, <daniel@ffwll.ch>
+References: <20220924151149.323622-1-jacek.lawrynowicz@linux.intel.com>
+ <20220924151149.323622-3-jacek.lawrynowicz@linux.intel.com>
+ <e5db1ae6-773f-a2da-ab1b-465cb51d7db0@quicinc.com>
+ <51204e64-8686-78a8-91f0-18c7bd5b5bdd@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <51204e64-8686-78a8-91f0-18c7bd5b5bdd@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: wq1O_wRjtJYXaxRZy9QGHLk485SQ4iZL
+X-Proofpoint-ORIG-GUID: wq1O_wRjtJYXaxRZy9QGHLk485SQ4iZL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 clxscore=1015
+ suspectscore=0 spamscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,157 +86,790 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- "dianders@chromium.org" <dianders@chromium.org>,
- "Bjorn Andersson \(QUIC\)" <quic_bjorande@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "Vishnuvardhan Prodduturi \(QUIC\)" <quic_vproddut@quicinc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "swboyd@chromium.org" <swboyd@chromium.org>
+Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/10/2022 16:34, Vinod Polimera wrote:
->> -----Original Message-----
->> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Sent: Monday, October 24, 2022 8:52 PM
->> To: Vinod Polimera (QUIC) <quic_vpolimer@quicinc.com>; dri-
->> devel@lists.freedesktop.org; linux-arm-msm@vger.kernel.org;
->> freedreno@lists.freedesktop.org; devicetree@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org; robdclark@gmail.com;
->> dianders@chromium.org; swboyd@chromium.org; Kalyan Thota (QUIC)
->> <quic_kalyant@quicinc.com>; Kuogee Hsieh (QUIC)
->> <quic_khsieh@quicinc.com>; Vishnuvardhan Prodduturi (QUIC)
->> <quic_vproddut@quicinc.com>; Bjorn Andersson (QUIC)
->> <quic_bjorande@quicinc.com>; Aravind Venkateswaran (QUIC)
->> <quic_aravindh@quicinc.com>; Abhinav Kumar (QUIC)
->> <quic_abhinavk@quicinc.com>; Sankeerth Billakanti (QUIC)
->> <quic_sbillaka@quicinc.com>
->> Subject: Re: [PATCH v8 01/15] drm/msm/disp/dpu: clear dpu_assign_crtc and
->> get crtc from connector state instead of dpu_enc
->>
->> WARNING: This email originated from outside of Qualcomm. Please be wary
->> of any links or attachments, and do not enable macros.
->>
->> On 12/10/2022 15:02, Vinod Polimera wrote:
->>> Update crtc retrieval from dpu_enc to dpu_enc connector state,
->>> since new links get set as part of the dpu enc virt mode set.
->>> The dpu_enc->crtc cache is no more needed, hence cleaning it as
->>> part of this change.
->>>
->>> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 42 +++++++++---------
->> -----------
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  8 ------
->>>    3 files changed, 13 insertions(+), 41 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>> index 13ce321..8ec9a13 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>> @@ -1029,7 +1029,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
->>>                 */
->>>                if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
->>>                        release_bandwidth = true;
->>> -             dpu_encoder_assign_crtc(encoder, NULL);
->>>        }
->>>
->>>        /* wait for frame_event_done completion */
->>> @@ -1099,9 +1098,6 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
->>>        trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
->>>        dpu_crtc->enabled = true;
->>>
->>> -     drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state-
->>> encoder_mask)
->>> -             dpu_encoder_assign_crtc(encoder, crtc);
->>> -
->>>        /* Enable/restore vblank irq handling */
->>>        drm_crtc_vblank_on(crtc);
->>>    }
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> index 9c6817b..d05b353 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> @@ -132,11 +132,6 @@ enum dpu_enc_rc_states {
->>>     * @intfs_swapped:  Whether or not the phys_enc interfaces have been
->> swapped
->>>     *                  for partial update right-only cases, such as pingpong
->>>     *                  split where virtual pingpong does not generate IRQs
->>> - * @crtc:            Pointer to the currently assigned crtc. Normally you
->>> - *                   would use crtc->state->encoder_mask to determine the
->>> - *                   link between encoder/crtc. However in this case we need
->>> - *                   to track crtc in the disable() hook which is called
->>> - *                   _after_ encoder_mask is cleared.
->>>     * @connector:              If a mode is set, cached pointer to the active
->> connector
->>>     * @crtc_kickoff_cb:                Callback into CRTC that will flush & start
->>>     *                          all CTL paths
->>> @@ -181,7 +176,6 @@ struct dpu_encoder_virt {
->>>
->>>        bool intfs_swapped;
->>>
->>> -     struct drm_crtc *crtc;
->>>        struct drm_connector *connector;
->>>
->>>        struct dentry *debugfs_root;
->>> @@ -1288,7 +1282,7 @@ static void dpu_encoder_vblank_callback(struct
->> drm_encoder *drm_enc,
->>>                struct dpu_encoder_phys *phy_enc)
->>>    {
->>>        struct dpu_encoder_virt *dpu_enc = NULL;
->>> -     unsigned long lock_flags;
->>> +     struct drm_crtc *crtc;
->>>
->>>        if (!drm_enc || !phy_enc)
->>>                return;
->>> @@ -1296,12 +1290,13 @@ static void dpu_encoder_vblank_callback(struct
->> drm_encoder *drm_enc,
->>>        DPU_ATRACE_BEGIN("encoder_vblank_callback");
->>>        dpu_enc = to_dpu_encoder_virt(drm_enc);
->>>
->>> -     atomic_inc(&phy_enc->vsync_cnt);
->>> +     if (!dpu_enc->connector || !dpu_enc->connector->state ||
->>> +         !dpu_enc->connector->state->crtc)
->>> +             return;
->>>
->>> -     spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
->>> -     if (dpu_enc->crtc)
->>> -             dpu_crtc_vblank_callback(dpu_enc->crtc);
->>> -     spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
->>> +     atomic_inc(&phy_enc->vsync_cnt);
->>> +     crtc = dpu_enc->connector->state->crtc;
->>> +     dpu_crtc_vblank_callback(crtc);
->>
->> So, what if the user commits the mode setting change on another CPU,
->> while we are handling the vblank callback here? Can this happen?
->>
-> If user issues a commit on another CPU, it will wait in the drm_atomic_helper_swap_state
-> as drm_atomic_helper_commit_hw_done which does the complete_all(&commit->hw_done)
-> for the current commit didn't finish yet.
-
-Yes. But there is no interlock between commit->hw_done and vblank IRQ 
-processing, isn't it? This call happens when DPU processes the vblank 
-IRQ, so nobody stops other core from swapping the encode state on 
-another core.
-
->>>
->>>        DPU_ATRACE_END("encoder_vblank_callback");
->>>    }
->> --
->> With best wishes
->> Dmitry
+On 10/27/2022 3:14 AM, Jacek Lawrynowicz wrote:
+> Hi,
 > 
-> Thanks,
-> Vinod P.
+> Thanks for an in-depth review. My responses are inline.
+> 
+> On 10/26/2022 2:12 AM, Jeffrey Hugo wrote:
+>> On 9/24/2022 9:11 AM, Jacek Lawrynowicz wrote:
+>>> VPU Memory Management Unit is based on ARM MMU-600.
+>>> It allows to create multiple virtual address spaces for the device and
+>>
+>> "It allows the creation of"?
+> 
+> OK
+> 
+>>> map noncontinuous host memory (there is no dedicated memory on the VPU).
+>>>
+>>> Address space is implemented as a struct ivpu_mmu_context, it has an ID,
+>>> drm_mm allocator for VPU addresses and struct ivpu_mmu_pgtable that holds
+>>> actual 3-level, 4KB page table.
+>>> Context with ID 0 (global context) is created upon driver initialization
+>>> and it's mainly used for mapping memory required to execute
+>>> the firmware.
+>>> Contexts with non-zero IDs are user contexts allocated each time
+>>> the devices is open()-ed and they map command buffers and other
+>>> workload-related memory.
+>>> Workloads executing in a given contexts have access only
+>>> to the memory mapped in this context.
+>>>
+>>> This patch is has to main files:
+>>>     - ivpu_mmu_context.c handles MMU page tables and memory mapping
+>>>     - ivpu_mmu.c implements a driver that programs the MMU device
+>>>
+>>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>>> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>>
+>> So, this doesn't look valid.  This indicates that Karol wrote this patch, then it was handed off to Krystian, and then to you.  However, if that were the case, then the patch should be from Karol (which is then the author in git).  It is not.  It is from you.
+>>
+>> What I suspect is happening is that the three of you all co-authroed this change.  In that case, there should probably be Co-developed-by tags in addition to SOB to make that clear.
+>>
+>> Also, I missed this on the first patch I reviewed eariler, but it looks to have the same issue.
+> 
+> OK, I will change this in all the patches.
+> 
+>>> ---
+>>>    drivers/gpu/drm/ivpu/Makefile           |   4 +-
+>>>    drivers/gpu/drm/ivpu/ivpu_drv.c         |  59 +-
+>>>    drivers/gpu/drm/ivpu/ivpu_drv.h         |   7 +
+>>>    drivers/gpu/drm/ivpu/ivpu_hw_mtl.c      |  10 +
+>>>    drivers/gpu/drm/ivpu/ivpu_mmu.c         | 883 ++++++++++++++++++++++++
+>>>    drivers/gpu/drm/ivpu/ivpu_mmu.h         |  53 ++
+>>>    drivers/gpu/drm/ivpu/ivpu_mmu_context.c | 419 +++++++++++
+>>>    drivers/gpu/drm/ivpu/ivpu_mmu_context.h |  49 ++
+>>>    include/uapi/drm/ivpu_drm.h             |   4 +
+>>>    9 files changed, 1485 insertions(+), 3 deletions(-)
+>>>    create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.c
+>>>    create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.h
+>>>    create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.c
+>>>    create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.h
+>>>
+>>> diff --git a/drivers/gpu/drm/ivpu/Makefile b/drivers/gpu/drm/ivpu/Makefile
+>>> index e59dc65abe6a..95bb04f26296 100644
+>>> --- a/drivers/gpu/drm/ivpu/Makefile
+>>> +++ b/drivers/gpu/drm/ivpu/Makefile
+>>> @@ -3,6 +3,8 @@
+>>>      intel_vpu-y := \
+>>>        ivpu_drv.o \
+>>> -    ivpu_hw_mtl.o
+>>> +    ivpu_hw_mtl.o \
+>>> +    ivpu_mmu.o \
+>>> +    ivpu_mmu_context.o
+>>>      obj-$(CONFIG_DRM_IVPU) += intel_vpu.o
+>>> diff --git a/drivers/gpu/drm/ivpu/ivpu_drv.c b/drivers/gpu/drm/ivpu/ivpu_drv.c
+>>> index a01c7244f6e5..cbeb9a801a31 100644
+>>> --- a/drivers/gpu/drm/ivpu/ivpu_drv.c
+>>> +++ b/drivers/gpu/drm/ivpu/ivpu_drv.c
+>>> @@ -14,6 +14,8 @@
+>>>      #include "ivpu_drv.h"
+>>>    #include "ivpu_hw.h"
+>>> +#include "ivpu_mmu.h"
+>>> +#include "ivpu_mmu_context.h"
+>>>      #ifndef DRIVER_VERSION_STR
+>>>    #define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
+>>> @@ -50,6 +52,11 @@ char *ivpu_platform_to_str(u32 platform)
+>>>      void ivpu_file_priv_get(struct ivpu_file_priv *file_priv, struct ivpu_file_priv **link)
+>>>    {
+>>> +    struct ivpu_device *vdev = file_priv->vdev;
+>>> +
+>>> +    ivpu_dbg(KREF, "file_priv get: ctx %u refcount %u\n",
+>>> +         file_priv->ctx.id, kref_read(&file_priv->ref));
+>>> +
+>>>        kref_get(&file_priv->ref);
+>>>        *link = file_priv;
+>>>    }
+>>
+>> This hunk doesn't appear related to $SUBJECT.  It looks like it would fit better as part of patch 1.
+> 
+> file_priv->ctx is added in this patch and without context id this message does not make sense so
+> this patch is the earliest the message can be printed.
 
--- 
-With best wishes
-Dmitry
+I see
+
+> 
+>>> @@ -57,6 +64,12 @@ void ivpu_file_priv_get(struct ivpu_file_priv *file_priv, struct ivpu_file_priv
+>>>    static void file_priv_release(struct kref *ref)
+>>>    {
+>>>        struct ivpu_file_priv *file_priv = container_of(ref, struct ivpu_file_priv, ref);
+>>> +    struct ivpu_device *vdev = file_priv->vdev;
+>>
+>> Why do we need this?  It doesn't appear to be used at this time.  If it is needed later in the series, add it then.
+> 
+> vdev is implicitly used by ivpu_dbg(). This allows us to keep messages a bit longer and cleaner.
+
+Violates coding-style -
+
+12) Macros, Enums and RTL
+-------------------------
+.
+.
+Things to avoid when using macros:
+.
+.
+2) macros that depend on having a local variable with a magic name:
+
+.. code-block:: c
+
+	#define FOO(val) bar(index, val)
+
+might look like a good thing, but it's confusing as hell when one reads the
+code and it's prone to breakage from seemingly innocent changes.
+
+> 
+>>> +
+>>> +    ivpu_dbg(FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
+>>> +
+>>> +    if (file_priv->ctx.id)
+>>> +        ivpu_mmu_user_context_fini(file_priv);
+>>>          kfree(file_priv);
+>>>    }
+>>> @@ -64,6 +77,10 @@ static void file_priv_release(struct kref *ref)
+>>>    void ivpu_file_priv_put(struct ivpu_file_priv **link)
+>>>    {
+>>>        struct ivpu_file_priv *file_priv = *link;
+>>> +    struct ivpu_device *vdev = file_priv->vdev;
+>>> +
+>>> +    ivpu_dbg(KREF, "file_priv put: ctx %u refcount %u\n",
+>>> +         file_priv->ctx.id, kref_read(&file_priv->ref));
+>>>    
+>>
+>> vdev doesn't appear to be used, and the log message doesn't appear related to $SUBJECT
+> 
+> vdev is implicitly used by ivpu_dbg() and file_priv->ctx.id is added in this patch.
+> 
+>>>        *link = NULL;
+>>>        kref_put(&file_priv->ref, file_priv_release);
+>>> @@ -75,7 +92,11 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>>        struct ivpu_device *vdev = file_priv->vdev;
+>>>        struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
+>>>        struct drm_ivpu_param *args = data;
+>>> -    int ret = 0;
+>>> +    int ret;
+>>> +
+>>> +    ret = ivpu_mmu_user_context_init(file_priv);
+>>> +    if (ret)
+>>> +        return ret;
+>>
+>> I fail to understand why we are initializing a user context in an ioctl.  This will happen N times, for N ioctl calls that a particular user does.  Feels like something that should occur in ivpu_open().  What am I missing?
+> 
+> The context is lazy initialized and it will be only initialized once during first buffer related ioctl.
+> We don't want to allocate context ids and page tables for random user processes (Xorg, chrome, etc.).
+> Currently user space has to open /dev/dri device in order to figure out what it is so we are optimizing for this case.
+
+Hmm.  So, I haven't suggested this yet, but this driver looks like a 
+good candidate for the newly proposed accel subsystem.  Since that 
+subsystem has different devnodes, it will probably address this concern.
+
+Regardless, is there an actual observed performance hit or other 
+downside to this, or was this just something that was optimized for the 
+sake of being optimal?
+
+> 
+>>>          switch (args->param) {
+>>>        case DRM_IVPU_PARAM_DEVICE_ID:
+>>> @@ -99,6 +120,9 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>>        case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+>>>            args->value = file_priv->priority;
+>>>            break;
+>>> +    case DRM_IVPU_PARAM_CONTEXT_ID:
+>>> +        args->value = file_priv->ctx.id;
+>>> +        break;
+>>>        default:
+>>>            ret = -EINVAL;
+>>>        }
+>>> @@ -110,7 +134,11 @@ static int ivpu_set_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>>    {
+>>>        struct ivpu_file_priv *file_priv = file->driver_priv;
+>>>        struct drm_ivpu_param *args = data;
+>>> -    int ret = 0;
+>>> +    int ret;
+>>> +
+>>> +    ret = ivpu_mmu_user_context_init(file_priv);
+>>> +    if (ret)
+>>> +        return ret;
+>>>    
+>>
+>> Again, initializing a context in an ioctl isn't making sense to me.
+> 
+> See above.
+> 
+>>>        switch (args->param) {
+>>>        case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+>>> @@ -139,9 +167,13 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+>>>        file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
+>>>          kref_init(&file_priv->ref);
+>>> +    mutex_init(&file_priv->lock);
+>>>          file->driver_priv = file_priv;
+>>>    +    ivpu_dbg(FILE, "file_priv alloc: process %s pid %d\n",
+>>> +         current->comm, task_pid_nr(current));
+>>> +
+>>
+>> As it is, this doesn't seem related to $SUBJECT and seems to belong in patch 1.
+>>
+>> However, this seems dubious. Trace gives you the task name and pid for the process that triggered a trace, and you don't need to add anything to your code to be able to trace any symbol.
+> 
+> Sure but then it would be difficult to correlate this with the rest of dbg messages.
+> In order to properly use ftrace we have to implement tracing in the whole driver.
+> This is a first iteration of the driver that supposed to be as minimal as possible to make upstreaming easy :P
+
+You could remove all the debug info if "minimal" is the goal  :P
+
+I see improvements listed in the TODO, so I guess thats fair.
+
+> 
+>>>        return 0;
+>>>    }
+>>>    @@ -164,6 +196,7 @@ int ivpu_shutdown(struct ivpu_device *vdev)
+>>>        int ret;
+>>>          ivpu_hw_irq_disable(vdev);
+>>> +    ivpu_mmu_disable(vdev);
+>>>          ret = ivpu_hw_power_down(vdev);
+>>
+>> I'm a bit confused.  It is good practice to balance your init and cleanup (fini in this series).  Everything that is done in init, is undone in fini in the reverse order.  This makes it easy to make sure things haven't been forgotten.
+>>
+>> I don't understand what ivpu_shutdown() is suposed to be paired with.  I thought it was ivpu_hw_power_up(), but you have power_down() in shutdown().
+>>
+>> I can't tell what mmu_disable() is suposed to pair with.  dev_init()?
+> 
+> Yeah I know this is a bit confusing in this patch. ivpu_shutdown() will be paired by ivpu_boot() in patch 5.
+> I've added ivpu_shutdown() here so next patches in the series only add new code hoping it will be easier to review :/
+> Still it's gonna be confusing also later on. We have different boot flows for initial driver load and runtime resume.
+> ivpu_dev_init() cannot power up the vpu in ivpu_boot() as it needs access to registers before boot.
+> Also MMU has to be initialized early so internal allocations can be done in page tables.
+> Please take a look ivpu_dev_init() and ivpu_resume(), maybe you could suggest a better approach.
+
+I went an looked at the final code result at the end of the series, and 
+it doesn't look too bad.  I'm not seeing an easy alternative.  A few 
+comments stating in code what you just explained about why things are 
+how they are as little helper pointers to the reader might be good.
+
+> 
+>>>        if (ret)
+>>> @@ -272,6 +305,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>>>        if (!vdev->hw)
+>>>            return -ENOMEM;
+>>>    +    vdev->mmu = devm_kzalloc(vdev->drm.dev, sizeof(*vdev->mmu), GFP_KERNEL);
+>>> +    if (!vdev->mmu)
+>>> +        return -ENOMEM;
+>>> +
+>>>        vdev->hw->ops = &ivpu_hw_mtl_ops;
+>>>        vdev->platform = IVPU_PLATFORM_INVALID;
+>>>    @@ -303,8 +340,24 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>>>            goto err_irq_fini;
+>>>        }
+>>>    +    ret = ivpu_mmu_global_context_init(vdev);
+>>> +    if (ret) {
+>>> +        ivpu_err(vdev, "Failed to initialize global MMU context: %d\n", ret);
+>>> +        goto err_power_down;
+>>> +    }
+>>> +
+>>> +    ret = ivpu_mmu_init(vdev);
+>>> +    if (ret) {
+>>> +        ivpu_err(vdev, "Failed to initialize MMU device: %d\n", ret);
+>>> +        goto err_mmu_gctx_fini;
+>>> +    }
+>>> +
+>>>        return 0;
+>>>    +err_mmu_gctx_fini:
+>>> +    ivpu_mmu_global_context_fini(vdev);
+>>> +err_power_down:
+>>> +    ivpu_hw_power_down(vdev);
+>>>    err_irq_fini:
+>>>        ivpu_irq_fini(vdev);
+>>>    err_pci_fini:
+>>> @@ -316,6 +369,8 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
+>>>    {
+>>>        ivpu_shutdown(vdev);
+>>>    +    ivpu_mmu_fini(vdev);
+>>> +    ivpu_mmu_global_context_fini(vdev);
+>>>        ivpu_irq_fini(vdev);
+>>>        ivpu_pci_fini(vdev);
+>>>    diff --git a/drivers/gpu/drm/ivpu/ivpu_drv.h b/drivers/gpu/drm/ivpu/ivpu_drv.h
+>>> index 43dfa78544c6..6eec3eb76c2f 100644
+>>> --- a/drivers/gpu/drm/ivpu/ivpu_drv.h
+>>> +++ b/drivers/gpu/drm/ivpu/ivpu_drv.h
+>>> @@ -14,6 +14,8 @@
+>>>    #include <linux/xarray.h>
+>>>    #include <uapi/drm/ivpu_drm.h>
+>>>    +#include "ivpu_mmu_context.h"
+>>> +
+>>>    #define DRIVER_NAME "intel_vpu"
+>>>    #define DRIVER_DESC "Driver for Intel Versatile Processing Unit (VPU)"
+>>>    #define DRIVER_DATE "20220913"
+>>> @@ -70,6 +72,7 @@ struct ivpu_wa_table {
+>>>    };
+>>>      struct ivpu_hw_info;
+>>> +struct ivpu_mmu_info;
+>>
+>> Why not just include ivpu_mmu.h?
+> 
+> To minimize dependencies between c files. We don't want all driver headers included in ivpu_drv.h.
+> 
+>>>      struct ivpu_device {
+>>>        struct drm_device drm; /* Must be first */
+>>> @@ -80,7 +83,9 @@ struct ivpu_device {
+>>>          struct ivpu_wa_table wa;
+>>>        struct ivpu_hw_info *hw;
+>>> +    struct ivpu_mmu_info *mmu;
+>>>    +    struct ivpu_mmu_context gctx;
+>>>        struct xarray context_xa;
+>>>        struct xa_limit context_xa_limit;
+>>>    @@ -95,6 +100,8 @@ struct ivpu_device {
+>>>    struct ivpu_file_priv {
+>>>        struct kref ref;
+>>>        struct ivpu_device *vdev;
+>>> +    struct mutex lock;
+>>
+>> A comment indicating what this protects would be extremely useful.
+> 
+> OK
+> 
+>>> +    struct ivpu_mmu_context ctx;
+>>>        u32 priority;
+>>>    };
+>>>    diff --git a/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c b/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+>>> index 17fc8e1104df..525b57c4029c 100644
+>>> --- a/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+>>> +++ b/drivers/gpu/drm/ivpu/ivpu_hw_mtl.c
+>>> @@ -7,6 +7,7 @@
+>>>    #include "ivpu_hw_mtl_reg.h"
+>>>    #include "ivpu_hw_reg_io.h"
+>>>    #include "ivpu_hw.h"
+>>> +#include "ivpu_mmu.h"
+>>>      #define TILE_FUSE_ENABLE_BOTH         0x0
+>>>    #define TILE_FUSE_ENABLE_UPPER         0x1
+>>> @@ -930,6 +931,15 @@ static irqreturn_t ivpu_hw_mtl_irqv_handler(struct ivpu_device *vdev, int irq)
+>>>          REGV_WR32(MTL_VPU_HOST_SS_ICB_CLEAR_0, status);
+>>>    +    if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT, status))
+>>> +        ret &= ivpu_mmu_irq_evtq_handler(vdev);
+>>> +
+>>> +    if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
+>>> +        ivpu_dbg(IRQ, "MMU sync complete\n");
+>>> +
+>>> +    if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_2_INT, status))
+>>> +        ret &= ivpu_mmu_irq_gerr_handler(vdev);
+>>> +
+>>>        if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT, status))
+>>>            ret &= ivpu_hw_mtl_irq_wdt_mss_handler(vdev);
+>>>    diff --git a/drivers/gpu/drm/ivpu/ivpu_mmu.c b/drivers/gpu/drm/ivpu/ivpu_mmu.c
+>>> new file mode 100644
+>>> index 000000000000..b9f225a83c45
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/ivpu/ivpu_mmu.c
+>>> @@ -0,0 +1,883 @@
+>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>> +/*
+>>> + * Copyright © 2020-2022 Intel Corporation
+>>> + */
+>>> +
+>>> +#include <linux/highmem.h>
+>>> +#include <linux/circ_buf.h>
+>>
+>> Alphabetical order?
+> 
+> OK
+> 
+>>> +
+>>> +#include "ivpu_drv.h"
+>>> +#include "ivpu_hw_mtl_reg.h"
+>>> +#include "ivpu_hw_reg_io.h"
+>>> +#include "ivpu_mmu.h"
+>>> +#include "ivpu_mmu_context.h"
+>>> +
+>>> +#define IVPU_MMU_IDR0_REF        0x080f3e0f
+>>> +#define IVPU_MMU_IDR0_REF_SIMICS    0x080f3e1f
+>>> +#define IVPU_MMU_IDR1_REF        0x0e739d18
+>>> +#define IVPU_MMU_IDR3_REF        0x0000003c
+>>> +#define IVPU_MMU_IDR5_REF        0x00040070
+>>> +#define IVPU_MMU_IDR5_REF_SIMICS    0x00000075
+>>> +#define IVPU_MMU_IDR5_REF_FPGA        0x00800075
+>>> +
+>>> +#define IVPU_MMU_CDTAB_ENT_SIZE        64
+>>> +#define IVPU_MMU_CDTAB_ENT_COUNT_LOG2    8 /* 256 entries */
+>>> +#define IVPU_MMU_CDTAB_ENT_COUNT    ((u32)1 << IVPU_MMU_CDTAB_ENT_COUNT_LOG2)
+>>
+>> Isn't this just BIT(IVPU_MMU_CDTAB_ENT_COUNT_LOG2)?
+> 
+> It is but shift here is more readable in my opinion.
+> 
+>>> +
+>>> +#define IVPU_MMU_STREAM_ID0        0
+>>> +#define IVPU_MMU_STREAM_ID3        3
+>>> +
+>>> +#define IVPU_MMU_STRTAB_ENT_SIZE    64
+>>> +#define IVPU_MMU_STRTAB_ENT_COUNT    4
+>>> +#define IVPU_MMU_STRTAB_CFG_LOG2SIZE    2
+>>> +#define IVPU_MMU_STRTAB_CFG        IVPU_MMU_STRTAB_CFG_LOG2SIZE
+>>> +
+>>> +#define IVPU_MMU_Q_COUNT_LOG2        4 /* 16 entries */
+>>> +#define IVPU_MMU_Q_COUNT        ((u32)1 << IVPU_MMU_Q_COUNT_LOG2)
+>>> +#define IVPU_MMU_Q_WRAP_BIT        (IVPU_MMU_Q_COUNT << 1)
+>>> +#define IVPU_MMU_Q_WRAP_MASK        (IVPU_MMU_Q_WRAP_BIT - 1)
+>>> +#define IVPU_MMU_Q_IDX_MASK        (IVPU_MMU_Q_COUNT - 1)
+>>> +#define IVPU_MMU_Q_IDX(val)        ((val) & IVPU_MMU_Q_IDX_MASK)
+>>> +
+>>> +#define IVPU_MMU_CMDQ_CMD_SIZE        16
+>>> +#define IVPU_MMU_CMDQ_SIZE        (IVPU_MMU_Q_COUNT * IVPU_MMU_CMDQ_CMD_SIZE)
+>>> +
+>>> +#define IVPU_MMU_EVTQ_CMD_SIZE        32
+>>> +#define IVPU_MMU_EVTQ_SIZE        (IVPU_MMU_Q_COUNT * IVPU_MMU_EVTQ_CMD_SIZE)
+>>> +
+>>> +#define IVPU_MMU_CMD_OPCODE        GENMASK(8, 0)
+>>> +
+>>> +#define IVPU_MMU_CMD_SYNC_0_CS        GENMASK(13, 12)
+>>> +#define IVPU_MMU_CMD_SYNC_0_MSH        GENMASK(23, 22)
+>>> +#define IVPU_MMU_CMD_SYNC_0_MSI_ATTR    GENMASK(27, 24)
+>>> +#define IVPU_MMU_CMD_SYNC_0_MSI_ATTR    GENMASK(27, 24)
+>>> +#define IVPU_MMU_CMD_SYNC_0_MSI_DATA    GENMASK(63, 32)
+>>> +
+>>> +#define IVPU_MMU_CMD_CFGI_0_SSEC    BIT(10)
+>>> +#define IVPU_MMU_CMD_CFGI_0_SSV        BIT(11)
+>>> +#define IVPU_MMU_CMD_CFGI_0_SSID    GENMASK(31, 12)
+>>> +#define IVPU_MMU_CMD_CFGI_0_SID        GENMASK(63, 32)
+>>> +#define IVPU_MMU_CMD_CFGI_1_RANGE    GENMASK(4, 0)
+>>> +
+>>> +#define IVPU_MMU_CMD_TLBI_0_ASID    GENMASK(63, 48)
+>>> +#define IVPU_MMU_CMD_TLBI_0_VMID    GENMASK(47, 32)
+>>> +
+>>> +#define CMD_PREFETCH_CFG        0x1
+>>> +#define CMD_CFGI_STE            0x3
+>>> +#define CMD_CFGI_ALL            0x4
+>>> +#define CMD_CFGI_CD            0x5
+>>> +#define CMD_CFGI_CD_ALL            0x6
+>>> +#define CMD_TLBI_NH_ASID        0x11
+>>> +#define CMD_TLBI_EL2_ALL        0x20
+>>> +#define CMD_TLBI_NSNH_ALL        0x30
+>>> +#define CMD_SYNC            0x46
+>>> +
+>>> +#define IVPU_MMU_EVT_F_UUT        0x01
+>>> +#define IVPU_MMU_EVT_C_BAD_STREAMID    0x02
+>>> +#define IVPU_MMU_EVT_F_STE_FETCH    0x03
+>>> +#define IVPU_MMU_EVT_C_BAD_STE        0x04
+>>> +#define IVPU_MMU_EVT_F_BAD_ATS_TREQ    0x05
+>>> +#define IVPU_MMU_EVT_F_STREAM_DISABLED    0x06
+>>> +#define IVPU_MMU_EVT_F_TRANSL_FORBIDDEN    0x07
+>>> +#define IVPU_MMU_EVT_C_BAD_SUBSTREAMID    0x08
+>>> +#define IVPU_MMU_EVT_F_CD_FETCH        0x09
+>>> +#define IVPU_MMU_EVT_C_BAD_CD        0x0a
+>>> +#define IVPU_MMU_EVT_F_WALK_EABT    0x0b
+>>> +#define IVPU_MMU_EVT_F_TRANSLATION    0x10
+>>> +#define IVPU_MMU_EVT_F_ADDR_SIZE    0x11
+>>> +#define IVPU_MMU_EVT_F_ACCESS        0x12
+>>> +#define IVPU_MMU_EVT_F_PERMISSION    0x13
+>>> +#define IVPU_MMU_EVT_F_TLB_CONFLICT    0x20
+>>> +#define IVPU_MMU_EVT_F_CFG_CONFLICT    0x21
+>>> +#define IVPU_MMU_EVT_E_PAGE_REQUEST    0x24
+>>> +#define IVPU_MMU_EVT_F_VMS_FETCH    0x25
+>>> +
+>>> +#define IVPU_MMU_EVTS_MAX        8
+>>> +
+>>> +#define IVPU_MMU_EVT_OP_MASK        GENMASK_ULL(7, 0)
+>>> +#define IVPU_MMU_EVT_SSID_MASK        GENMASK_ULL(31, 12)
+>>> +
+>>> +#define IVPU_MMU_Q_BASE_RWA        BIT(62)
+>>> +#define IVPU_MMU_Q_BASE_ADDR_MASK    GENMASK_ULL(51, 5)
+>>> +#define IVPU_MMU_STRTAB_BASE_RA        BIT(62)
+>>> +#define IVPU_MMU_STRTAB_BASE_ADDR_MASK    GENMASK_ULL(51, 6)
+>>> +
+>>> +#define IVPU_MMU_IRQ_EVTQ_EN        BIT(2)
+>>> +#define IVPU_MMU_IRQ_GERROR_EN        BIT(0)
+>>> +
+>>> +#define IVPU_MMU_CR0_ATSCHK        BIT(4)
+>>> +#define IVPU_MMU_CR0_CMDQEN        BIT(3)
+>>> +#define IVPU_MMU_CR0_EVTQEN        BIT(2)
+>>> +#define IVPU_MMU_CR0_PRIQEN        BIT(1)
+>>> +#define IVPU_MMU_CR0_SMMUEN        BIT(0)
+>>> +
+>>> +#define IVPU_MMU_CR1_TABLE_SH        GENMASK(11, 10)
+>>> +#define IVPU_MMU_CR1_TABLE_OC        GENMASK(9, 8)
+>>> +#define IVPU_MMU_CR1_TABLE_IC        GENMASK(7, 6)
+>>> +#define IVPU_MMU_CR1_QUEUE_SH        GENMASK(5, 4)
+>>> +#define IVPU_MMU_CR1_QUEUE_OC        GENMASK(3, 2)
+>>> +#define IVPU_MMU_CR1_QUEUE_IC        GENMASK(1, 0)
+>>> +#define IVPU_MMU_CACHE_NC        0
+>>> +#define IVPU_MMU_CACHE_WB        1
+>>> +#define IVPU_MMU_CACHE_WT        2
+>>> +#define IVPU_MMU_SH_NSH            0
+>>> +#define IVPU_MMU_SH_OSH            2
+>>> +#define IVPU_MMU_SH_ISH            3
+>>> +
+>>> +#define IVPU_MMU_CMDQ_OP        GENMASK_ULL(7, 0)
+>>> +
+>>> +#define IVPU_MMU_CD_0_TCR_T0SZ        GENMASK_ULL(5, 0)
+>>> +#define IVPU_MMU_CD_0_TCR_TG0        GENMASK_ULL(7, 6)
+>>> +#define IVPU_MMU_CD_0_TCR_IRGN0        GENMASK_ULL(9, 8)
+>>> +#define IVPU_MMU_CD_0_TCR_ORGN0        GENMASK_ULL(11, 10)
+>>> +#define IVPU_MMU_CD_0_TCR_SH0        GENMASK_ULL(13, 12)
+>>> +#define IVPU_MMU_CD_0_TCR_EPD0        BIT_ULL(14)
+>>> +#define IVPU_MMU_CD_0_TCR_EPD1        BIT_ULL(30)
+>>> +#define IVPU_MMU_CD_0_ENDI        BIT(15)
+>>> +#define IVPU_MMU_CD_0_V            BIT(31)
+>>> +#define IVPU_MMU_CD_0_TCR_IPS        GENMASK_ULL(34, 32)
+>>> +#define IVPU_MMU_CD_0_TCR_TBI0        BIT_ULL(38)
+>>> +#define IVPU_MMU_CD_0_AA64        BIT(41)
+>>> +#define IVPU_MMU_CD_0_S            BIT(44)
+>>> +#define IVPU_MMU_CD_0_R            BIT(45)
+>>> +#define IVPU_MMU_CD_0_A            BIT(46)
+>>> +#define IVPU_MMU_CD_0_ASET        BIT(47)
+>>> +#define IVPU_MMU_CD_0_ASID        GENMASK_ULL(63, 48)
+>>> +
+>>> +#define IVPU_MMU_CD_1_TTB0_MASK        GENMASK_ULL(51, 4)
+>>> +
+>>> +#define IVPU_MMU_STE_0_S1CDMAX        GENMASK_ULL(63, 59)
+>>> +#define IVPU_MMU_STE_0_S1FMT        GENMASK_ULL(5, 4)
+>>> +#define IVPU_MMU_STE_0_S1FMT_LINEAR    0
+>>> +#define IVPU_MMU_STE_DWORDS        8
+>>> +#define IVPU_MMU_STE_0_CFG_S1_TRANS    5
+>>> +#define IVPU_MMU_STE_0_CFG        GENMASK_ULL(3, 1)
+>>> +#define IVPU_MMU_STE_0_S1CTXPTR_MASK    GENMASK_ULL(51, 6)
+>>> +#define IVPU_MMU_STE_0_V            BIT(0)
+>>> +
+>>> +#define IVPU_MMU_STE_1_STRW_NSEL1    0ul
+>>> +#define IVPU_MMU_STE_1_CONT        GENMASK_ULL(16, 13)
+>>> +#define IVPU_MMU_STE_1_STRW        GENMASK_ULL(31, 30)
+>>> +#define IVPU_MMU_STE_1_PRIVCFG        GENMASK_ULL(49, 48)
+>>> +#define IVPU_MMU_STE_1_PRIVCFG_UNPRIV    2ul
+>>> +#define IVPU_MMU_STE_1_INSTCFG        GENMASK_ULL(51, 50)
+>>> +#define IVPU_MMU_STE_1_INSTCFG_DATA    2ul
+>>> +#define IVPU_MMU_STE_1_MEV        BIT(19)
+>>> +#define IVPU_MMU_STE_1_S1STALLD        BIT(27)
+>>> +#define IVPU_MMU_STE_1_S1C_CACHE_NC    0ul
+>>> +#define IVPU_MMU_STE_1_S1C_CACHE_WBRA    1ul
+>>> +#define IVPU_MMU_STE_1_S1C_CACHE_WT    2ul
+>>> +#define IVPU_MMU_STE_1_S1C_CACHE_WB    3ul
+>>> +#define IVPU_MMU_STE_1_S1CIR        GENMASK_ULL(3, 2)
+>>> +#define IVPU_MMU_STE_1_S1COR        GENMASK_ULL(5, 4)
+>>> +#define IVPU_MMU_STE_1_S1CSH        GENMASK_ULL(7, 6)
+>>> +#define IVPU_MMU_STE_1_S1DSS        GENMASK_ULL(1, 0)
+>>> +#define IVPU_MMU_STE_1_S1DSS_TERMINATE    0x0
+>>> +
+>>> +#define IVPU_MMU_REG_TIMEOUT_US        (10 * USEC_PER_MSEC)
+>>> +#define IVPU_MMU_QUEUE_TIMEOUT_US    (100 * USEC_PER_MSEC)
+>>> +
+>>> +#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(MTL_VPU_HOST_MMU_GERROR, CMDQ)) | \
+>>> +                  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, EVTQ_ABT)) | \
+>>> +                  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, PRIQ_ABT)) | \
+>>> +                  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_CMDQ_ABT)) | \
+>>> +                  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_EVTQ_ABT)) | \
+>>> +                  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_PRIQ_ABT)) | \
+>>> +                  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_ABT)) | \
+>>> +                  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, SFM)))
+>>> +
+>>> +static char *ivpu_mmu_evt_to_str(u32 cmd)
+>>> +{
+>>> +    switch (cmd) {
+>>> +    case IVPU_MMU_EVT_F_UUT:
+>>> +        return "Unsupported Upstream Transaction";
+>>> +    case IVPU_MMU_EVT_C_BAD_STREAMID:
+>>> +        return "Transaction StreamID out of range";
+>>> +    case IVPU_MMU_EVT_F_STE_FETCH:
+>>> +        return "Fetch of STE caused external abort";
+>>> +    case IVPU_MMU_EVT_C_BAD_STE:
+>>> +        return "Used STE invalid";
+>>> +    case IVPU_MMU_EVT_F_BAD_ATS_TREQ:
+>>> +        return "Address Request disallowed for a StreamID";
+>>> +    case IVPU_MMU_EVT_F_STREAM_DISABLED:
+>>> +        return "Transaction marks non-substream disabled";
+>>> +    case IVPU_MMU_EVT_F_TRANSL_FORBIDDEN:
+>>> +        return "MMU bypass is disallowed for this StreamID";
+>>> +    case IVPU_MMU_EVT_C_BAD_SUBSTREAMID:
+>>> +        return "Invalid StreamID";
+>>> +    case IVPU_MMU_EVT_F_CD_FETCH:
+>>> +        return "Fetch of CD caused external abort";
+>>> +    case IVPU_MMU_EVT_C_BAD_CD:
+>>> +        return "Fetched CD invalid";
+>>> +    case IVPU_MMU_EVT_F_WALK_EABT:
+>>> +        return " An external abort occurred fetching a TLB";
+>>> +    case IVPU_MMU_EVT_F_TRANSLATION:
+>>> +        return "Translation fault";
+>>> +    case IVPU_MMU_EVT_F_ADDR_SIZE:
+>>> +        return " Output address caused address size fault";
+>>> +    case IVPU_MMU_EVT_F_ACCESS:
+>>> +        return "Access flag fault";
+>>> +    case IVPU_MMU_EVT_F_PERMISSION:
+>>> +        return "Permission fault occurred on page access";
+>>> +    case IVPU_MMU_EVT_F_TLB_CONFLICT:
+>>> +        return "A TLB conflict";
+>>> +    case IVPU_MMU_EVT_F_CFG_CONFLICT:
+>>> +        return "A configuration cache conflict";
+>>> +    case IVPU_MMU_EVT_E_PAGE_REQUEST:
+>>> +        return "Page request hint from a client device";
+>>> +    case IVPU_MMU_EVT_F_VMS_FETCH:
+>>> +        return "Fetch of VMS caused external abort";
+>>> +    default:
+>>> +        return "Unknown CMDQ command";
+>>> +    }
+>>> +}
+>>> +
+>>> +static int ivpu_mmu_config_check(struct ivpu_device *vdev)
+>>> +{
+>>> +    u32 val_ref;
+>>> +    u32 val;
+>>> +
+>>> +    if (ivpu_is_simics(vdev))
+>>> +        val_ref = IVPU_MMU_IDR0_REF_SIMICS;
+>>> +    else
+>>> +        val_ref = IVPU_MMU_IDR0_REF;
+>>> +
+>>> +    val = REGV_RD32(MTL_VPU_HOST_MMU_IDR0);
+>>> +    if (val != val_ref)
+>>> +        ivpu_err(vdev, "IDR0 0x%x != IDR0_REF 0x%x\n", val, val_ref);
+>>> +
+>>> +    val = REGV_RD32(MTL_VPU_HOST_MMU_IDR1);
+>>> +    if (val != IVPU_MMU_IDR1_REF)
+>>> +        ivpu_warn(vdev, "IDR1 0x%x != IDR1_REF 0x%x\n", val, IVPU_MMU_IDR1_REF);
+>>> +
+>>> +    val = REGV_RD32(MTL_VPU_HOST_MMU_IDR3);
+>>> +    if (val != IVPU_MMU_IDR3_REF)
+>>> +        ivpu_warn(vdev, "IDR3 0x%x != IDR3_REF 0x%x\n", val, IVPU_MMU_IDR3_REF);
+>>> +
+>>> +    if (ivpu_is_simics(vdev))
+>>> +        val_ref = IVPU_MMU_IDR5_REF_SIMICS;
+>>> +    else if (ivpu_is_fpga(vdev))
+>>> +        val_ref = IVPU_MMU_IDR5_REF_FPGA;
+>>> +    else
+>>> +        val_ref = IVPU_MMU_IDR5_REF;
+>>> +
+>>> +    val = REGV_RD32(MTL_VPU_HOST_MMU_IDR5);
+>>> +    if (val != val_ref)
+>>> +        ivpu_warn(vdev, "IDR5 0x%x != IDR5_REF 0x%x\n", val, val_ref);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int ivpu_mmu_cdtab_alloc(struct ivpu_device *vdev)
+>>> +{
+>>> +    struct ivpu_mmu_info *mmu = vdev->mmu;
+>>> +    struct ivpu_mmu_cdtab *cdtab = &mmu->cdtab;
+>>> +    size_t size = IVPU_MMU_CDTAB_ENT_COUNT * IVPU_MMU_CDTAB_ENT_SIZE;
+>>> +
+>>> +    cdtab->base = dmam_alloc_coherent(vdev->drm.dev, size, &cdtab->dma, GFP_KERNEL);
+>>> +    if (!cdtab->base)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    ivpu_dbg(MMU, "CDTAB alloc: dma=%pad size=%zu\n", &cdtab->dma, size);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int ivpu_mmu_strtab_alloc(struct ivpu_device *vdev)
+>>> +{
+>>> +    struct ivpu_mmu_info *mmu = vdev->mmu;
+>>> +    struct ivpu_mmu_strtab *strtab = &mmu->strtab;
+>>> +    size_t size = IVPU_MMU_STRTAB_ENT_COUNT * IVPU_MMU_STRTAB_ENT_SIZE;
+>>> +
+>>> +    strtab->base = dmam_alloc_coherent(vdev->drm.dev, size, &strtab->dma, GFP_KERNEL);
+>>> +    if (!strtab->base)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    strtab->base_cfg = IVPU_MMU_STRTAB_CFG;
+>>> +    strtab->dma_q = IVPU_MMU_STRTAB_BASE_RA;
+>>> +    strtab->dma_q |= strtab->dma & IVPU_MMU_STRTAB_BASE_ADDR_MASK;
+>>> +
+>>> +    ivpu_dbg(MMU, "STRTAB alloc: dma=%pad dma_q=%pad size=%zu\n",
+>>> +         &strtab->dma, &strtab->dma_q, size);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int ivpu_mmu_cmdq_alloc(struct ivpu_device *vdev)
+>>> +{
+>>> +    struct ivpu_mmu_info *mmu = vdev->mmu;
+>>> +    struct ivpu_mmu_queue *q = &mmu->cmdq;
+>>> +
+>>> +    q->base = dmam_alloc_coherent(vdev->drm.dev, IVPU_MMU_CMDQ_SIZE, &q->dma, GFP_KERNEL);
+>>> +    if (!q->base)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    q->dma_q = IVPU_MMU_Q_BASE_RWA;
+>>> +    q->dma_q |= q->dma & IVPU_MMU_Q_BASE_ADDR_MASK;
+>>> +    q->dma_q |= IVPU_MMU_Q_COUNT_LOG2;
+>>> +
+>>> +    ivpu_dbg(MMU, "CMDQ alloc: dma=%pad dma_q=%pad size=%u\n",
+>>> +         &q->dma, &q->dma_q, IVPU_MMU_CMDQ_SIZE);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int ivpu_mmu_evtq_alloc(struct ivpu_device *vdev)
+>>> +{
+>>> +    struct ivpu_mmu_info *mmu = vdev->mmu;
+>>> +    struct ivpu_mmu_queue *q = &mmu->evtq;
+>>> +
+>>> +    q->base = dmam_alloc_coherent(vdev->drm.dev, IVPU_MMU_EVTQ_SIZE, &q->dma, GFP_KERNEL);
+>>> +    if (!q->base)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    q->dma_q = IVPU_MMU_Q_BASE_RWA;
+>>> +    q->dma_q |= q->dma & IVPU_MMU_Q_BASE_ADDR_MASK;
+>>> +    q->dma_q |= IVPU_MMU_Q_COUNT_LOG2;
+>>> +
+>>> +    ivpu_dbg(MMU, "EVTQ alloc: dma=%pad dma_q=%pad size=%u\n",
+>>> +         &q->dma, &q->dma_q, IVPU_MMU_EVTQ_SIZE);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int ivpu_mmu_structs_alloc(struct ivpu_device *vdev)
+>>> +{
+>>> +    int ret;
+>>> +
+>>> +    ret = ivpu_mmu_cdtab_alloc(vdev);
+>>> +    if (ret) {
+>>> +        ivpu_err(vdev, "Failed to allocate cdtab: %d\n", ret);
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    ret = ivpu_mmu_strtab_alloc(vdev);
+>>> +    if (ret) {
+>>> +        ivpu_err(vdev, "Failed to allocate strtab: %d\n", ret);
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    ret = ivpu_mmu_cmdq_alloc(vdev);
+>>> +    if (ret) {
+>>> +        ivpu_err(vdev, "Failed to allocate cmdq: %d\n", ret);
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    ret = ivpu_mmu_evtq_alloc(vdev);
+>>> +    if (ret)
+>>> +        ivpu_err(vdev, "Failed to allocate evtq: %d\n", ret);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static int ivpu_mmu_reg_write(struct ivpu_device *vdev, u32 reg, u32 val)
+>>> +{
+>>> +    u32 reg_ack = reg + 4; /* ACK register is 4B after base register */
+>>> +    u32 val_ack;
+>>> +    int ret;
+>>> +
+>>> +    REGV_WR32(reg, val);
+>>> +
+>>> +    ret = REGV_POLL(reg_ack, val_ack, (val == val_ack), IVPU_MMU_REG_TIMEOUT_US);
+>>> +    if (ret)
+>>> +        ivpu_err(vdev, "Failed to write register 0x%x\n", reg);
+>>> +
+>>> +    return ret;
+>>> +}
+>>
+>> It really seems like you are reinventing regmap.  Any particular reason that mechanism doesn't work for you?
+> 
+> REGV_POLL() is actually just calling read_poll_timeout(), same as regmap, no reinvention here, just iopoll reuse.
+> We don't need most of regmap features (locking, caching, etc) so I don't think is worth using it in our case.
+> 
+>> Also, given that this is a PCI device, I'm suprised there is no 0xFFFFFFFF handling.
+> 
+> We have some explicit handling of 0xFFFFFFFF (REG_IO_ERROR in the whole patchset) but it may be too little.
+> I will review register reads and add handling where it seems to be needed.
+> 
+> Regards,
+> Jacek
 
