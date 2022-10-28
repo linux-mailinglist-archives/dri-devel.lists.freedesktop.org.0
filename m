@@ -1,76 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168B5610FAF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 13:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D43610FE8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 13:42:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0A9B10E7FB;
-	Fri, 28 Oct 2022 11:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C7C10E806;
+	Fri, 28 Oct 2022 11:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7EB010E7FB
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 11:29:36 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5493D5C004F;
- Fri, 28 Oct 2022 07:29:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 28 Oct 2022 07:29:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1666956576; x=1667042976; bh=Qm4IRqLiRB
- kLSjR7vK0uIG5GMpYwOluO0lTKxZvizEo=; b=AJ47OfNHw79qe4BRBYQ9VyYdK4
- sDg0Gug1IG1DQ6uHimrQ2ERiFi+qhqINjVK40ZMjnGfc9955tU2hFUGTMMSj4+OU
- rXyq+l4SekG0IdsCqwrVZ/ukU+OYgdU41fV7O02+67gIbPk1bmMV4UB+9x7OJykR
- Rf+zXf+kP1FC/6P7++DKm79oGkuQjQ01Lk7gi0gb26CoQaCsfACwf8N5EMaNS3ri
- m1Uecvfm+XBsYgtOesRHSPn7x/mt5bzqXwzFUUDGgyZht5MljcfvmA564awufFXi
- GBhZdYbMBetPmPjjXR81s2cxETIkfngo2Kk+YNbLiBMgZEHwnR8s6DBIDFOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1666956576; x=1667042976; bh=Qm4IRqLiRBkLSjR7vK0uIG5GMpYw
- OluO0lTKxZvizEo=; b=nwujf4cSAzFLxv1/VxVB83derTkilPv32O6Wy4gruiFi
- CqI5FER6McHa1E7lqYSp0Nu7+ZUjHxaHUA/S3R+MSQIwioRr14qXNTOAPkmz+ijC
- TSmmgAzs41JyBHIo3uJnuQ+ElUGEi/C8V49r87MZqJJpjxGqKYNKVP2kI5PlKjs+
- k9DJ8SbOnmHGfPNbvWZjjOi1R+GM9i9b0tS795QeC2USxwIxxV2FyVdcu3p9l6tV
- F4YMLScE111FJPNT0HU5euDflKu9vvCB/nh4J/WzguWjKCGsVaHw2348Itet5hVe
- Zw7TvMt08+Jmv6dI5wuT3Y5RH9RinSfeHSpnIDYEsA==
-X-ME-Sender: <xms:H71bY1qiWqQ-Z8IVq_u1ZwNq6rEEiA3DhLH3wWi9X5ix5kpBAWyPZQ>
- <xme:H71bY3oYYmeGkUmtNi8m86BMMyOnKdHpO5o-LjGjWgWkYt3tvUvpiynSSWX3-m0pf
- fQ72cjEYFb_1Kw8NbI>
-X-ME-Received: <xmr:H71bYyNgmnq7-CDSgbotYOqRNx6UxJsn-3Lzvkc6v7H1yOcIZprMWevUk7AMCYuDyJ48Gg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeigdeflecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:H71bYw7NQSXjiAHdzhV-Xub4F773Lwp4zGGzPbe1GO6old0Nj_1WMQ>
- <xmx:H71bY06namSDmkzahXe9-N-z74uS1RSpj_PlBMGFGhe1QGV3SEIqZA>
- <xmx:H71bY4jsh_TreRr3EXwF_f8s5UT2JzEI6N4ORofHccGCpkM5T1MKww>
- <xmx:IL1bY0wvsIe352vNcD5VCgVS_gc6W00HYnjECgcBuwQWOug7-coLKw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 28 Oct 2022 07:29:35 -0400 (EDT)
-Date: Fri, 28 Oct 2022 13:29:33 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2] drm/vc4: hdmi: Fix HSM clock too low on Pi4
-Message-ID: <20221028112933.fcl4prk3xhvq5qi4@houat>
-References: <20221021131339.2203291-1-maxime@cerno.tech>
- <bb901a65-d7c3-b75e-c34b-23ec46c960f6@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E06E10E80D
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 11:42:09 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1ooNkT-0004mr-Ut; Fri, 28 Oct 2022 13:42:06 +0200
+Message-ID: <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
+Subject: Re: Try to address the DMA-buf coherency problem
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ nicolas@ndufresne.ca, ppaalanen@gmail.com, sumit.semwal@linaro.org, 
+ daniel@ffwll.ch, robdclark@gmail.com, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Date: Fri, 28 Oct 2022 13:42:04 +0200
+In-Reply-To: <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+ <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2zvnnpwaiarsczi6"
-Content-Disposition: inline
-In-Reply-To: <bb901a65-d7c3-b75e-c34b-23ec46c960f6@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,125 +52,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am Freitag, dem 28.10.2022 um 10:40 +0200 schrieb Christian König:
+> Hi Lucas,
+> 
+> Am 28.10.22 um 10:09 schrieb Lucas Stach:
+> > Hi Christian,
+> > 
+> > Am Donnerstag, dem 20.10.2022 um 14:13 +0200 schrieb Christian König:
+> > > Hi guys,
+> > > 
+> > > after finding that we essentially have two separate worlds for coherent sharing
+> > > of buffer through DMA-buf I thought I will tackle that problem a bit and at
+> > > least allow the framework to reject attachments which won't work.
+> > > 
+> > > So those patches here add a new dma_coherent flag to each DMA-buf object
+> > > telling the framework that dev_is_dma_coherent() needs to return true for an
+> > > importing device to be able to attach. Since we should always have a fallback
+> > > path this should give userspace the chance to still keep the use case working,
+> > > either by doing a CPU copy instead or reversing the roles of exporter and
+> > > importer.
+> > > 
+> > The fallback would likely be a CPU copy with the appropriate cache
+> > flushes done by the device driver, which would be a massiv performance
+> > issue.
+> 
+> But essentially the right thing to do. The only alternative I can see is 
+> to reverse the role of exporter and importer.
+> 
+I don't think that would work generally either, as buffer exporter and
+importer isn't always a 1:1 thing. As soon as any attached importer has
+a different coherency behavior than the others, things fall apart.
 
---2zvnnpwaiarsczi6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > > For DRM and most V4L2 devices I then fill in the dma_coherent flag based on the
+> > > return value of dev_is_dma_coherent(). Exporting drivers are allowed to clear
+> > > the flag for their buffers if special handling like the USWC flag in amdgpu or
+> > > the uncached allocations for radeon/nouveau are in use.
+> > > 
+> > I don't think the V4L2 part works for most ARM systems. The default
+> > there is for devices to be noncoherent unless explicitly marked
+> > otherwise. I don't think any of the "devices" writing the video buffers
+> > in cached memory with the CPU do this. While we could probably mark
+> > them as coherent, I don't think this is moving in the right direction.
+> 
+> Well why not? Those devices are coherent in the sense of the DMA API 
+> that they don't need an extra CPU copy on sync_to_cpu/sync_to_device.
+> 
+> We could come up with a better name for coherency, e.g. snooping for 
+> example. But that is just an documentation detail.
+> 
+I agree that those devices copying data into a CPU cacheable buffer
+should be marked as coherent, just not sure right now if other things
+like DMA mappings are done on that device, which would require the
+cache maintenance.
 
-Hi Javier,
+> > > Additional to that importers can also check the flag if they have some
+> > > non-snooping operations like the special scanout case for amdgpu for example.
+> > > 
+> > > The patches are only smoke tested and the solution isn't ideal, but as far as
+> > > I can see should at least keep things working.
+> > > 
+> > I would like to see this solved properly. Where I think properly means
+> > we make things work on systems with mixed coherent/noncoherent masters
+> > in the same way the DMA API does on such systems: by inserting the
+> > proper cache maintenance operations.
+> 
+> And this the exact wrong approach as far as I can see. As Daniel noted 
+> as well we absolutely need some kind of coherency between exporter and 
+> importer.
+> 
+I think it's important that we are very specific about the thing we are
+talking about here: I guess when you say coherency you mean hardware
+enforced coherency on cacheable memory, which is the default on
+x86/PCI.
 
-On Thu, Oct 27, 2022 at 05:25:49PM +0200, Javier Martinez Canillas wrote:
-> On 10/21/22 15:13, maxime@cerno.tech wrote:
-> > Commit ae71ab585c81 ("drm/vc4: hdmi: Enforce the minimum rate at
-> > runtime_resume") reintroduced the call to clk_set_min_rate in an attempt
-> > to fix the boot without a monitor connected on the RaspberryPi3.
-> >=20
-> > However, that introduced a regression breaking the display output
-> > entirely (black screen but no vblank timeout) on the Pi4.
-> >=20
-> > This is due to the fact that we now have in a typical modeset at boot,
-> > in vc4_hdmi_encoder_pre_crtc_configure(), we have a first call to
-> > clk_set_min_rate() asking for the minimum rate of the HSM clock for our
-> > given resolution, and then a call to pm_runtime_resume_and_get(). We
-> > will thus execute vc4_hdmi_runtime_resume() which, since the commit
-> > mentioned above, will call clk_set_min_rate() a second time with the
-> > absolute minimum rate we want to enforce on the HSM clock.
-> >=20
-> > We're thus effectively erasing the minimum mandated by the mode we're
-> > trying to set. The fact that only the Pi4 is affected is due to the fact
-> > that it uses a different clock driver that tries to minimize the HSM
-> > clock at all time. It will thus lower the HSM clock rate to 120MHz on
-> > the second clk_set_min_rate() call.
-> >=20
-> > The Pi3 doesn't use the same driver and will not change the frequency on
-> > the second clk_set_min_rate() call since it's still within the new
-> > boundaries and it doesn't have the code to minimize the clock rate as
-> > needed. So even though the boundaries are still off, the clock rate is
-> > still the right one for our given mode, so everything works.
-> >=20
-> > There is a lot of moving parts, so I couldn't find any obvious
-> > solution:
-> >=20
-> >   - Reverting the original is not an option, as that would break the Pi3
-> >     again.
-> >=20
-> >   - We can't move the clk_set_min_rate() call in _pre_crtc_configure()
-> >     since because, on the Pi3, the HSM clock has the CLK_SET_RATE_GATE
-> >     flag which prevents the clock rate from being changed after it's
-> >     been enabled. Our calls to clk_set_min_rate() can change it, so they
-> >     need to be done before clk_prepare_enable().
-> >=20
-> >   - We can't remove the call to clk_prepare_enable() from the
-> >     runtime_resume hook to put it into _pre_crtc_configure() either,
-> >     since we need that clock to be enabled to access the registers, and
-> >     we can't count on the fact that the display will be active in all
-> >     situations (doing any CEC operation, or listing the modes while
-> >     inactive are valid for example()).
-> >=20
-> >   - We can't drop the call to clk_set_min_rate() in
-> >     _pre_crtc_configure() since we would need to still enforce the
-> >     minimum rate for a given resolution, and runtime_resume doesn't have
-> >     access to the current mode, if there's any.
-> >=20
-> >   - We can't copy the TMDS character rate into vc4_hdmi and reuse it
-> >     since, because it's part of the KMS atomic state, it needs to be
-> >     protected by a mutex. Unfortunately, some functions (CEC operations,
-> >     mostly) can be reentrant (through the CEC framework) and still need
-> >     a pm_runtime_get.
-> >=20
-> > However, we can work around this issue by leveraging the fact that the
-> > clk_set_min_rate() calls set boundaries for its given struct clk, and
-> > that each different clk_get() call will return a different instance of
-> > struct clk. The clock framework will then aggregate the boundaries for
-> > each struct clk instances linked to a given clock, plus its hardware
-> > boundaries, and will use that.
-> >=20
-> > We can thus get an extra HSM clock user for runtime_pm use only, and use
-> > our different clock instances depending on the context: runtime_pm will
-> > use its own to set the absolute minimum clock setup so that we never
-> > lock the CPU waiting for a register access, and the modeset part will
-> > set its requirement for the current resolution. And we let the CCF do
-> > the coordination.
-> >=20
-> > It's not an ideal solution, but it's fairly unintrusive and doesn't
-> > really change any part of the logic so it looks like a rather safe fix.
-> >=20
->=20
-> What a great commit message. I learned a couple of things from it :)
->=20
-> [...]
->=20
-> Maybe adding some comments here explaining why two instances of the
-> same clock are getting by the driver? It's very clear after reading
-> your commit message, but it may not be for someone looking the code.
+The other way to enforce coherency is to either insert cache
+maintenance operations, or make sure that the buffer is not cacheable
+by any device taking part in the sharing, including the CPU.
 
-Yeah, possibly. I have every intention on switching to the same clock
-driver for the Pi 0-3 and Pi4 (patches have been sent already), and
-reverting that commit and a few others in a few releases.
+> This can either be provided by the PCI specification which makes it 
+> mandatory for device to snoop the caches or by platform devices agreeing 
+> that they only work on uncached memory.
 
-I've already tested that everything works with the firmware clocks + the
-reverts, so it's just a matter of letting enough time for everybody to
-catch up. So that patch is just transitory and is just meant to fix the
-code right now.
+What you disregard here is the fact that there are many systems out
+there with mixed topologies, where some masters are part of the
+coherency domain and some are not.
 
-Maxime
+We have two options here: either mandate that coherency for dma-bufs
+need to be established by hardware, which is the option that you
+strongly prefer, which means forcing all buffers to be uncacheable in a
+system with masters that are not coherent, or allowing some form of
+bracketed DMA access with cache maintenance ops.
 
---2zvnnpwaiarsczi6
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Explicit cache flush operations are simple not part of the design of 
+> DMA-buf because they are not part of the design of the higher level APIs 
+> like Vulkan and OpenGL.
 
------BEGIN PGP SIGNATURE-----
+I'm aware that some graphics APIs have been living in a universe
+blissfully unaware of systems without hardware enforced coherency. But
+that isn't the only use for dma-bufs.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1u9HQAKCRDj7w1vZxhR
-xb6VAP4zmQYRe8jk6DBsgWqWpanYgUkRbMmSmoiK80DJ02MLCwEA9ZK55j/JurbK
-685wyDfr/1zyGDHL//St7SEnYTHrwwc=
-=ZnG7
------END PGP SIGNATURE-----
+I totally agree that some higher level API primitives aren't possible
+without coherency at the hardware level and for those uses we should
+require either HW enforced coherency or uncachable memory. But I don't
+think we should make things slow deliberately on systems that allow to
+optimize things with the help of bracketed access.
 
---2zvnnpwaiarsczi6--
+If I understood things right your amdgpu use-case even falls into this
+category: normally you would want to use cacheable memory for
+everything, but just make sure to clean the caches before using the
+buffer with the non-coherent display engine.
+
+> 
+> Adding this to DMA-buf for the rather special use case would completely 
+> break that and make live much more complicated for everybody.
+> 
+> > I also think that we should keep in mind that the world is moving into
+> > a direction where DMA masters may not only snoop the CPU caches (what
+> > is the definition of cache coherent on x86), but actually take part in
+> > the system coherence and are able to have writeback caches for shared
+> > data on their own. I can only speculate, as I haven't seen the amdgpu
+> > side yet, but I think this proposal is moving in the other direction by
+> > assuming a central system cache, where the importer has some magic way
+> > to clean this central cache.
+> 
+> What you mean is CXL: https://en.wikipedia.org/wiki/Compute_Express_Link
+
+Or ARM AMBA CHI.
+> 
+> And yes we support that in a bunch of configurations and also have 
+> worked with that and amdgpu with DMA-buf based shared.
+> 
+> This should not be a problem with this approach.
+
+It works as long as all masters sharing the buffer are accessing the
+buffer through the HW cache coherence facilities provided by CXL. As
+soon as a master wants to bypass it (like your nosnoop scanout) you
+need some way to force all other masters sharing access to the buffer
+to clean their caches.
+
+> 
+> > Since I have a vested interest in seeing V4L2 UVC and non-coherent GPU
+> > dma-buf sharing work on ARM systems and seem to hold some strong
+> > opinions on how this should work, I guess I need to make some time
+> > available to type it up, so we can discuss over coder rather than
+> > abstract ideas. If I come up with something that works for my use-cases
+> > would you be up for taking a shot at a amdgpu implementation?
+> 
+> Well, not really. As I said I see what you have in mind here as 
+> completely wrong approach we will certainly not support in any GPU driver.
+> 
+> What we can do is to request the use case which won't work and this is 
+> exactly what the patch here does.
+> 
+Did you mean to write "prevent the use case which won't work" here?
+
+Regards,
+Lucas
+
