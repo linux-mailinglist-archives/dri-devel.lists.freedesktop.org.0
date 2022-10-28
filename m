@@ -1,63 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFA2611CB9
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 23:53:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90352611D18
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Oct 2022 00:01:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B513C10E8E6;
-	Fri, 28 Oct 2022 21:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD18D10E1F9;
+	Fri, 28 Oct 2022 22:01:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABFF10E8E6
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 21:53:26 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- c15-20020a17090a1d0f00b0021365864446so5662379pjd.4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uwCxQi/lzbG99sopXdaVgVE2DsVCsrVGzk6dQZZnkc8=;
- b=I2wDE32iuPDJS6Ln4R3C7D+1bXa0yvl0RCT+wy/Vt0bL7g0cgQTolmDJ1THfnJ8khZ
- jDEdnMGi8XvZMvYAHMAkQxMDjybr0ID5erEsw7n6tALBv/ktbg7bhZ4rLNKN82hdrShW
- J9ifmwTQrN86Sp5PxD+oOtzKrNwbXuElrxYMo=
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35D2E10E1F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 22:01:32 +0000 (UTC)
+Received: by mail-qt1-x831.google.com with SMTP id g16so4361452qtu.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 15:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yr8HUh+1Ce740LCeQRhqA45PIBCHDZMjS7OE/YrOh64=;
+ b=W9FqxqVnRpTbDGEs374QqsqI4sSBT2PWyKERYSuC+2neXgYNGwjuSYr2/ApwF+NVbA
+ Q0dM2jBrF/UfnRAISug35FgYcv+0fw1/fP8rQjcNcQqzwBX1dcTG2rjQR1QFp1y+jbUi
+ x/iJ2p04XhKdaEihWKAwmWZgdiFh5NgEZmNSQNVQGIFbWT5OGVgvuHZgAU/rKnCpX7K1
+ iEEBWzFeK7MFsIiUkty+mxSGdp7Nrm4qCKQ9JmB6yOiQmXHKkEOABaJPN7Z6qnDReXJL
+ tEDtNEtKQdTZGwleHGGLIGKq9hGWtKu8CTF4MgTEXtiMWesmIw1Pix067DtUo8NvsXSQ
+ NI6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uwCxQi/lzbG99sopXdaVgVE2DsVCsrVGzk6dQZZnkc8=;
- b=JApveCdT9xYnoH3WZWoNO6JnwANw1QDmqay7dvuTV0l6mmsibKEFYFCj1ft67Hyvep
- oJhfQxki8CIWHGxhzMx0NgM2Gk/UnERceRJx1bljxfB2l2JL82w8mbmbEKpuyfsTg7iw
- /NYOzrDX+NY+TC6SDsuZnrDQRYeNSl06G2T81vei2bO5dQzTA9HuxbpTTfTuiK0/BIST
- 1by3yxVW4YqM34t8L1V3LxVtMoXS1jfotaEc60SP6/aqi0LO5V4sWVmdXnoEWSerIrLu
- YHgytgjQAltlArKx2H1nOUyyBY9AWFOM8SRb6EzEW1fRJoK5k7EIuMaMwQsx9Y6eq+Mf
- hQsw==
-X-Gm-Message-State: ACrzQf1K6CwRvBXdGhcoN7FkMx3llliUaODZg/s+Ydap4yzcIT4CWl7A
- 9/oLyNimdZJi7TU81BDOBNtaRQ==
-X-Google-Smtp-Source: AMsMyM7Z7henHLAjyucT+QXQnehtd5Zyu7DPcyrdvjnKBnTvpxyYd8nxtXTnemCxJqDLmGYfSMu6QA==
-X-Received: by 2002:a17:90b:3e81:b0:20d:bbe5:f332 with SMTP id
- rj1-20020a17090b3e8100b0020dbbe5f332mr19029604pjb.112.1666994006140; 
- Fri, 28 Oct 2022 14:53:26 -0700 (PDT)
-Received: from localhost ([2620:15c:9d:2:65f9:c180:249c:190f])
- by smtp.gmail.com with UTF8SMTPSA id
- a4-20020a621a04000000b00545f5046372sm3251964pfa.208.2022.10.28.14.53.24
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yr8HUh+1Ce740LCeQRhqA45PIBCHDZMjS7OE/YrOh64=;
+ b=U1EKI36O5OId7jlZpeCf3MhnDMy41gr8N+aI0F3jz3EIIIXdqyH/DmR4xO9YdEH9tO
+ /3Xu4hEZh/++Q1UoixcY1Cx4m1vuCqPkoErpGUzmUJCL70m1aL78y1+5pPpTSVFn44jk
+ lIvgu+mJ6lksYRV+3uSBGiMZbfmGYso0qmN9oebXZGDkcAhBSyw44gFUmgPyADMdmhA6
+ Sx737BSmt6VG052vW46fhEioOv7XbwEvhfnxbxkhOFUuPd+9lh1bOgP3xwb/sFJvX3Dn
+ zFmyZ+BSDPXw/YM0EyOr/eUmfUJsMsPlX2/C9+9Zx/7KXxOBSHhORkSM7UkV4Z0O2wc6
+ VJ1A==
+X-Gm-Message-State: ACrzQf0pAFSGRetER1ij7XzbXugITlpRKftJFPl9J2xKxuneP8GuRhnO
+ 8XmEVVFGwAoqK44Tz3XffGRKFg==
+X-Google-Smtp-Source: AMsMyM6orjMbEmKKnktdS6B4pHMzgMLO4tFbtwa8t4mwDA17uPa9xsXNo4D2AWjXskqRxr20EIO8Og==
+X-Received: by 2002:a05:622a:1114:b0:3a4:f4e4:6430 with SMTP id
+ e20-20020a05622a111400b003a4f4e46430mr1443085qty.337.1666994491244; 
+ Fri, 28 Oct 2022 15:01:31 -0700 (PDT)
+Received: from [192.168.1.11] ([64.57.193.93])
+ by smtp.gmail.com with ESMTPSA id
+ m8-20020a05620a24c800b006ce515196a7sm3784993qkn.8.2022.10.28.15.01.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 14:53:25 -0700 (PDT)
-From: Brian Norris <briannorris@chromium.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH] drm/i915: Set PROBE_PREFER_ASYNCHRONOUS
-Date: Fri, 28 Oct 2022 14:53:22 -0700
-Message-Id: <20221028145319.1.I87b119c576d486ad139faf1b7278d97e158aabe4@changeid>
-X-Mailer: git-send-email 2.38.1.273.g43a17bfeac-goog
+ Fri, 28 Oct 2022 15:01:30 -0700 (PDT)
+Message-ID: <c868e55d-b808-0ca9-4e84-baf94c469182@linaro.org>
+Date: Fri, 28 Oct 2022 18:01:27 -0400
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v1 7/9] arm64: dts: qcom: sm8350: Add display system nodes
+Content-Language: en-US
+To: Robert Foss <robert.foss@linaro.org>, agross@kernel.org,
+ bjorn.andersson@linaro.org, konrad.dybcio@somainline.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, quic_kalyant@quicinc.com,
+ swboyd@chromium.org, angelogioacchino.delregno@somainline.org,
+ loic.poulain@linaro.org, quic_vpolimer@quicinc.com, vkoul@kernel.org,
+ dianders@chromium.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Jonathan Marek <jonathan@marek.ca>, vinod.koul@linaro.org,
+ quic_jesszhan@quicinc.com, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20221028120812.339100-1-robert.foss@linaro.org>
+ <20221028120812.339100-8-robert.foss@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221028120812.339100-8-robert.foss@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,62 +86,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Feng Tang <feng.tang@intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Brian Norris <briannorris@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver often takes a good 100ms to start, but in some particularly
-bad cases takes more than 1 second.
+On 28/10/2022 08:08, Robert Foss wrote:
+> Add mdss, mdss_mdp, dsi0, dsi0_phy nodes. With these
+> nodes the display subsystem is configured to support
+> one DSI output.
+> 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sm8350.dtsi | 196 ++++++++++++++++++++++++++-
+>  1 file changed, 192 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> index b6e44cd3b394..eaa3cdee1860 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> @@ -3,6 +3,7 @@
+>   * Copyright (c) 2020, Linaro Limited
+>   */
+>  
+> +#include <dt-bindings/interconnect/qcom,sm8350.h>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/clock/qcom,dispcc-sm8350.h>
+>  #include <dt-bindings/clock/qcom,gcc-sm8350.h>
+> @@ -2535,14 +2536,200 @@ usb_2_dwc3: usb@a800000 {
+>  			};
+>  		};
+>  
+> +		mdss: mdss@ae00000 {
+> +			compatible = "qcom,sm8350-mdss";
+> +			reg = <0 0x0ae00000 0 0x1000>;
+> +			reg-names = "mdss";
+> +
+> +			interconnects = <&mmss_noc MASTER_MDP0 0 &mc_virt SLAVE_EBI1 0>,
+> +					<&mmss_noc MASTER_MDP1 0 &mc_virt SLAVE_EBI1 0>;
+> +			interconnect-names = "mdp0-mem", "mdp1-mem";
+> +
+> +			power-domains = <&dispcc MDSS_GDSC>;
+> +			resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
+> +
+> +			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +				 <&gcc GCC_DISP_HF_AXI_CLK>,
+> +				 <&gcc GCC_DISP_SF_AXI_CLK>,
+> +				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
+> +			clock-names = "iface", "bus", "nrt_bus", "core";
+> +
+> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-controller;
+> +			#interrupt-cells = <1>;
+> +
+> +			status = "ok";
 
-In surveying risk for this driver, I poked around for cross-device
-shared state, which can be a source of race conditions. GVT support
-(intel_gvt_devices) seems potentially suspect, but it has an appropriate
-mutex, and doesn't seem to care about ordering -- if devices are present
-when the kvmgt module loads, they'll get picked up; and if they probe
-later than kvmgt, they'll attach then.
+No need for this.
 
-Additionally, I see past discussions about this patch [1], which
-concluded that there were problems at the time due to the way
-hdac_i915.c called request_module("i915") and expected it to complete
-probing [2]. Work has since been merged [3] to fix that problem.
+> +
+> +			#address-cells = <2>;
+> +			#size-cells = <2>;
+> +			ranges;
+> +
+> +			mdss_mdp: mdp@ae01000 {
 
-This driver was pinpointed as part of a survey of drivers that take more
-than 100ms in their initcall (i.e., are built in, and probing
-synchronously) on a lab of ChromeOS systems.
+Node name: display-controller
+> +				compatible = "qcom,sm8350-dpu";
+> +				reg = <0 0x0ae01000 0 0x8f000>,
+> +				      <0 0x0aeb0000 0 0x2008>;
+> +				reg-names = "mdp", "vbif";
+> +				iommus = <&apps_smmu 0x820 0x402>;
+> +
+> +				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
+> +					<&gcc GCC_DISP_SF_AXI_CLK>,
+> +					<&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +					<&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
+> +					<&dispcc DISP_CC_MDSS_MDP_CLK>,
+> +					<&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+> +				clock-names = "bus",
+> +					      "nrt_bus",
+> +					      "iface",
+> +					      "lut",
+> +					      "core",
+> +					      "vsync";
+> +
+> +				assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+> +				assigned-clock-rates = <19200000>;
+> +
+> +				operating-points-v2 = <&mdp_opp_table>;
+> +				power-domains = <&rpmhpd SM8350_MMCX>;
+> +
+> +				interrupt-parent = <&mdss>;
+> +				interrupts = <0>;
+> +
+> +				status = "ok";
+> +
+> +				ports {
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +
+> +					port@0 {
+> +						reg = <0>;
+> +						dpu_intf1_out: endpoint {
+> +							remote-endpoint = <&dsi0_in>;
+> +						};
+> +					};
+> +				};
+> +
+> +				mdp_opp_table: mdp-opp-table {
 
-[1] [RFC] i915: make the probe asynchronous
-    https://lore.kernel.org/all/20180604053219.2040-1-feng.tang@intel.com/
+I have doubts that it passes dtbs_checks... opp-table
 
-[2] https://lore.kernel.org/all/s5hin4d1e3f.wl-tiwai@suse.de/
+> +					compatible = "operating-points-v2";
+> +
+> +					opp-200000000 {
+> +						opp-hz = /bits/ 64 <200000000>;
+> +						required-opps = <&rpmhpd_opp_low_svs>;
+> +					};
+> +
+> +					opp-300000000 {
+> +						opp-hz = /bits/ 64 <300000000>;
+> +						required-opps = <&rpmhpd_opp_svs>;
+> +					};
+> +
+> +					opp-345000000 {
+> +						opp-hz = /bits/ 64 <345000000>;
+> +						required-opps = <&rpmhpd_opp_svs_l1>;
+> +					};
+> +
+> +					opp-460000000 {
+> +						opp-hz = /bits/ 64 <460000000>;
+> +						required-opps = <&rpmhpd_opp_nom>;
+> +					};
+> +				};
+> +			};
+> +
+> +			dsi0: dsi@ae94000 {
+> +				compatible = "qcom,mdss-dsi-ctrl";
+> +				reg = <0 0x0ae94000 0 0x400>;
+> +				reg-names = "dsi_ctrl";
+> +
+> +				interrupt-parent = <&mdss>;
+> +				interrupts = <4>;
+> +
+> +				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_ESC0_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +					 <&gcc GCC_DISP_HF_AXI_CLK>;
+> +				clock-names = "byte",
+> +					      "byte_intf",
+> +					      "pixel",
+> +					      "core",
+> +					      "iface",
+> +					      "bus";
+> +
+> +				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
+> +						  <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
+> +				assigned-clock-parents = <&dsi0_phy 0>,
+> +							 <&dsi0_phy 1>;
+> +
+> +				operating-points-v2 = <&dsi_opp_table>;
+> +				power-domains = <&rpmhpd SM8350_MMCX>;
+> +
+> +				phys = <&dsi0_phy>;
+> +				phy-names = "dsi";
+> +
+> +				status = "disabled";
+> +
+> +				ports {
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +
+> +					port@0 {
+> +						reg = <0>;
+> +						dsi0_in: endpoint {
+> +							remote-endpoint = <&dpu_intf1_out>;
+> +						};
+> +					};
+> +
+> +					port@1 {
+> +						reg = <1>;
+> +						dsi0_out: endpoint {
+> +						};
+> +					};
+> +				};
+> +			};
+> +
+> +			dsi0_phy: dsi-phy@ae94400 {
 
-[3] Commit f9b54e1961c7 ("ALSA: hda/i915: Allow delayed i915 audio
-    component binding")
+Just "phy". I think Dmitry was renaming all of these.
 
-Signed-off-by: Brian Norris <briannorris@chromium.org>
----
+> +				compatible = "qcom,dsi-phy-5nm-8350";
+> +				reg = <0 0x0ae94400 0 0x200>,
+> +				      <0 0x0ae94600 0 0x280>,
+> +				      <0 0x0ae94900 0 0x260>;
+> +				reg-names = "dsi_phy",
+> +					    "dsi_phy_lane",
+> +					    "dsi_pll";
+> +
+> +				#clock-cells = <1>;
+> +				#phy-cells = <0>;
+> +
+> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +					 <&rpmhcc RPMH_CXO_CLK>;
+> +				clock-names = "iface", "ref";
+> +
+> +				status = "disabled";
+> +
+> +				dsi_opp_table: dsi-opp-table {
 
- drivers/gpu/drm/i915/i915_pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+opp-table
 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 38460a0bd7cb..1cb1f87aea86 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1371,7 +1371,10 @@ static struct pci_driver i915_pci_driver = {
- 	.probe = i915_pci_probe,
- 	.remove = i915_pci_remove,
- 	.shutdown = i915_pci_shutdown,
--	.driver.pm = &i915_pm_ops,
-+	.driver = {
-+		.pm = &i915_pm_ops,
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+	},
- };
- 
- int i915_pci_register_driver(void)
--- 
-2.38.1.273.g43a17bfeac-goog
+Run `make dtbs_check`
+
+
+Best regards,
+Krzysztof
 
