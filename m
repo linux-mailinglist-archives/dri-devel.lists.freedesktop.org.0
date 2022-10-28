@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A97D611966
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 19:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB91611968
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 19:39:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF3E10E887;
-	Fri, 28 Oct 2022 17:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6EB10E88B;
+	Fri, 28 Oct 2022 17:39:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 365 seconds by postgrey-1.36 at gabe;
- Fri, 28 Oct 2022 13:37:45 UTC
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEF110E1B8
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 13:37:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1666964265; x=1698500265;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=YBApksLTn7y+gqO3vNjJgwg8KdCjEPbw9x496MPqxv8=;
- b=OGz1UOfvMoYEFBWzns5KwrRgCa4xYGGnps+nHTiQJ1ZOhD5RG8p1dfDN
- DctgwUP9fX1NiJJIyZK97DoQ9nCP/0Tj0q2cyfe4ymRDtNzLnqpThdTgG
- gHdAQ6r7WDO61VRFXawHo6jKfoAzzak8LQIP6aAmgWSx75+BOjUXyMoDp E=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 28 Oct 2022 06:31:39 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.45.79.139])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2022 06:31:39 -0700
-Received: from [10.216.13.23] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 28 Oct
- 2022 06:31:34 -0700
-Message-ID: <7cdabb64-f165-03be-4121-876736174a34@quicinc.com>
-Date: Fri, 28 Oct 2022 19:01:24 +0530
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE3A10E84D
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:13:00 +0000 (UTC)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4MzPdm2FSczDs2C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1666966380; bh=J5HaiEhTFSaGiDDEVy4o0my0rUOLZZl0pxQcyF76RGs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=akjcD0I21L29XWq+MSuZbuVEBOfTa7x4Pnnnd8Uw9uIHfHbkThAQ8lKQ/3+VXuR57
+ vUQqDQ1zisN6M7Di2zsFhKZMDItHnQn4WXLMl9TWk03pExfPM8nxkfsx0S3eAbOEf7
+ 1+TAc64woOvGEFYQL2WmW9Q9PCojcVdlXzOoK9YI=
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4MzPdl2xLcz9ssY;
+ Fri, 28 Oct 2022 14:12:59 +0000 (UTC)
+X-Riseup-User-ID: 3BE6563F11EEB38585CBAACA620A54D2FE9A0A4ED502D9BE6FEDDE5C5ECBEBE8
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4MzPdf25k6z5vNH;
+ Fri, 28 Oct 2022 14:12:54 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH v3] drm/tests: Add back seed value information
+Date: Fri, 28 Oct 2022 11:12:46 -0300
+Message-Id: <20221028141246.280079-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v3] dma-buf: cma_heap: Remove duplicated 'by' in comment
-Content-Language: en-US
-To: Mark-PK Tsai <mark-pk.tsai@mediatek.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Liam Mark <lmark@codeaurora.org>, Laura
- Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, John
- Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>
-References: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
-From: Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 28 Oct 2022 17:39:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,40 +61,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yj.chiang@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ Daniel Latypov <dlatypov@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ David Gow <davidgow@google.com>, andrealmeid@riseup.net,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+As reported by Michał the drm_mm and drm_buddy unit tests lost the
+printk with seed value after they were refactored into KUnit.
 
-On 10/28/2022 12:25 PM, Mark-PK Tsai wrote:
-> Remove duplicated 'by' from comment in cma_heap_allocate().
-> 
-> Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-> ---
->   drivers/dma-buf/heaps/cma_heap.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index 28fb04eccdd0..cd386ce639f3 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -316,7 +316,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
->   			kunmap_atomic(vaddr);
->   			/*
->   			 * Avoid wasting time zeroing memory if the process
-> -			 * has been killed by by SIGKILL
-> +			 * has been killed by SIGKILL
->   			 */
->   			if (fatal_signal_pending(current))
->   				goto free_cma;
+Add kunit_info with seed value information to assure reproducibility.
 
+Reported-by: Michał Winiarski <michal.winiarski@intel.com>
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+---
+v1->v2: https://lore.kernel.org/all/20221026211458.68432-1-arthurgrillo@riseup.net/
+- Correct compilation issues
+- Change tags order
+- Remove useless line change
+- Write commit message in imperative form
+- Remove redundant message part
+- Correct some grammars nits
+- Correct checkpatch issues
 
-LGTM.
+v2->v3: https://lore.kernel.org/all/20221027142903.200169-1-arthurgrillo@riseup.net/
+- Change .init to .suite_init
+- Correct some grammars nits
 
-Reviewed-By: Mukesh Ojha <quic_mojha@quicinc.com>
+---
+ drivers/gpu/drm/tests/drm_buddy_test.c | 6 ++++--
+ drivers/gpu/drm/tests/drm_mm_test.c    | 8 ++++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
--Mukesh
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+index 62f69589a72d..90ec5e8a485b 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+@@ -726,11 +726,13 @@ static void drm_test_buddy_alloc_limit(struct kunit *test)
+ 	drm_buddy_fini(&mm);
+ }
+ 
+-static int drm_buddy_init_test(struct kunit *test)
++static int drm_buddy_init_suite(struct kunit_suite *suite)
+ {
+ 	while (!random_seed)
+ 		random_seed = get_random_u32();
+ 
++	kunit_info(suite, "Testing DRM buddy manager, with random_seed=0x%x\n", random_seed);
++
+ 	return 0;
+ }
+ 
+@@ -746,7 +748,7 @@ static struct kunit_case drm_buddy_tests[] = {
+ 
+ static struct kunit_suite drm_buddy_test_suite = {
+ 	.name = "drm_buddy",
+-	.init = drm_buddy_init_test,
++	.suite_init = drm_buddy_init_suite,
+ 	.test_cases = drm_buddy_tests,
+ };
+ 
+diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
+index c4b66eeae203..97b9e0cd3e91 100644
+--- a/drivers/gpu/drm/tests/drm_mm_test.c
++++ b/drivers/gpu/drm/tests/drm_mm_test.c
+@@ -2209,11 +2209,15 @@ static void drm_test_mm_color_evict_range(struct kunit *test)
+ 	vfree(nodes);
+ }
+ 
+-static int drm_mm_init_test(struct kunit *test)
++static int drm_mm_init_suite(struct kunit_suite *suite)
+ {
+ 	while (!random_seed)
+ 		random_seed = get_random_u32();
+ 
++	kunit_info(sute,
++		   "Testing DRM range manager, with random_seed=0x%x max_iterations=%u max_prime=%u\n",
++		   random_seed, max_iterations, max_prime);
++
+ 	return 0;
+ }
+ 
+@@ -2246,7 +2250,7 @@ static struct kunit_case drm_mm_tests[] = {
+ 
+ static struct kunit_suite drm_mm_test_suite = {
+ 	.name = "drm_mm",
+-	.init = drm_mm_init_test,
++	.suite_init = drm_mm_init_suite,
+ 	.test_cases = drm_mm_tests,
+ };
+ 
+-- 
+2.37.3
+
