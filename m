@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9B1610712
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 03:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8103961071E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 03:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D1010E041;
-	Fri, 28 Oct 2022 01:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66C1710E04E;
+	Fri, 28 Oct 2022 01:11:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDB810E041
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 01:06:36 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id 78so3423915pgb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 18:06:36 -0700 (PDT)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF9C310E04E
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 01:11:46 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id n83so4648827oif.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 18:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=eouvp87d3Uwj62ptbIwj2FltIDQrDKmm7rl+pdi32U0=;
- b=nQ7weogHhMIC9v9rAl3TVZ1zfLs3IGvA3QKHPCFBZ+KojUNUj5TChT+OvOY12ityd8
- VbE20EYGCMWZidXQ0mA4iREKWBtYaSnvAUNEf/MGSFONDmzlPI+MR4CrUM9ksmAsrDKt
- cj+aWdebIPLIeH6IbKuwGrCytZHTwYkz2OUKYh4KijicqkVXtFp7vt0bi0LKmFm6i4xU
- q4LDtjxwFqoNAonlD9dnY2gWjZ01CSB3ruJJV2hDr7cYI/uKy5RyQ+vTowUxUWeVa6zy
- zJdma15Tr6xjC12xRbPs+cXXQMqUWSrtgiCQqqToh1CNrevC/C1rFj6Z+ww6/oTseywE
- yduw==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5EA/rRsqesB5knK6U60b9qGTqZ/vIiOct5OFzn794j8=;
+ b=qjm6RD/RmBJahmvvVeY6o5kMWk/aRac6DF01OEVkSagU9ZipwnIjs8nfU7VZkcm2VY
+ 8+830Hy6A+I4LhTVia6tejtfM50lm/SIRDBJBSS2d09WfaoXuQQwptw2839hi1Oj5C0Y
+ wmlkeuT+o9nWmposOEhB7ronNJt0pnA3b/Qfo6WNR4xb9lqUwYGfD7TxKvWiP1QFZxSz
+ W88DQ14iQwoTNwiOuaTSYE7XwQNdiogY0ySbppLTd2CNAssVlJQF7/2LXD0S69e/JHUw
+ zVAVjEgPAAjiVLOOheAzz0hW4SQ+yQYAHFAfiYJ7tTh+QMLxSQ3Xf3+KfFKtpa17GxiT
+ A8Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eouvp87d3Uwj62ptbIwj2FltIDQrDKmm7rl+pdi32U0=;
- b=Tq41NEnys3gucMzGB9o9tIxQJR5OrR9tjfoKzkhGzHJzh+6AajBYvZGvGGdz0RM1Wk
- vXzDZTcWHirxcxafM1MfPlXAfnBFU9HyGStJFFlw9lnlfViWN80lEW9QCsIya4EOEWSn
- 9dfZgk3DvKiHm6eV9mUJgC0anGe4hqXwDub7OGbJhJotnaemPDVO8mZAYM2h+tvFFdvx
- XFJQhTVwoKUDRx6YdAwnwQQci9Zau9AH2CZnGwmTntvmWBI6y7fRwFj2UCA+z0i4msfo
- d5+bI+sZzQEyewmaNunOFnzI+m7ekclN2g+bv6hz10Yx+YEdRNivRouaB++D008T93G9
- CElg==
-X-Gm-Message-State: ACrzQf3RtgRu2vVZXesGROQLz92h76rIQnO09Or8yFBzdQXbZGme7cn7
- W90vQPoF9fw4s9sKqBj+SUg=
-X-Google-Smtp-Source: AMsMyM71t2M2+k7329f4iPqjn+WDD27m67jwDQ968XupuMJUSxT0+/ISWLqKZwmQAQWuSE8GPvBuVA==
-X-Received: by 2002:a63:1917:0:b0:43c:1471:52b7 with SMTP id
- z23-20020a631917000000b0043c147152b7mr43836410pgl.522.1666919195743; 
- Thu, 27 Oct 2022 18:06:35 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:ea9a:801b:ed52:2db1])
- by smtp.gmail.com with ESMTPSA id
- u19-20020a170902e21300b0017f57787a4asm1747996plb.229.2022.10.27.18.06.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 18:06:35 -0700 (PDT)
-Date: Thu, 27 Oct 2022 18:06:30 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Subject: Re: (subset) [PATCH v1 00/11] Get rid of
- [devm_]gpiod_get_from_of_node() public APIs
-Message-ID: <Y1srFi6mJGl5/3gi@google.com>
-References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
- <166687787352.847482.10005684512699510391.b4-ty@kernel.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5EA/rRsqesB5knK6U60b9qGTqZ/vIiOct5OFzn794j8=;
+ b=W2EDuqPEMufLpevIPkzYJNYKiPOuQR1TnMTggmoKX97tiiFDeWByG6SafWnkimf9GS
+ VJt94jke/QK1zMn76wQF3HdTmvaqgJi3mpUztnXCQQB1ESxr9u1LbzKK8U2in3SyPfIH
+ AgJfPBMfQebjNciwgbIWSTs9FKm5C381nHMoeCEFDwROd/Mp7uQj9xPSwfV4LJ/bTNR9
+ mWeHue4WeWy31Qd5a9gGl8PZQJmrQHT/qcyxLniTvDUK0QFYomdEsoBFoIQ1L3ZZTaNZ
+ XmkaiLm7ybVhSmOoQznHBqQYalc8XPpsi/xIK0YMpXgsAiLce1lWVTXjbVP8TOXfzhtF
+ AFfA==
+X-Gm-Message-State: ACrzQf2PMriMR8pyQabQU/+2IlA1L47MT1PkvOrKnW8eiP9634r4OUPY
+ lYYDiWnu2s+DQsE+IGgMRVL+RE+FBmnAobJC8DE=
+X-Google-Smtp-Source: AMsMyM69+M9JkB7n7pEjm9pG4X2UrOlWxyLLPQP8olANKeo9vGbNd7nNGot4Jggqx2IeD4VJZouh8j2E5wD/aymEsNA=
+X-Received: by 2002:a05:6808:8f4:b0:354:946e:8dc5 with SMTP id
+ d20-20020a05680808f400b00354946e8dc5mr6340635oic.183.1666919505708; Thu, 27
+ Oct 2022 18:11:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <166687787352.847482.10005684512699510391.b4-ty@kernel.org>
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <20221020121316.3946-3-christian.koenig@amd.com>
+ <CAF6AEGsw=J6Y5jd0A5_hVg1A5BF87hz00Ggmbi8OtTjPJKMDGA@mail.gmail.com>
+ <fd168175-71ce-2a9e-f8f1-1cc66e052235@amd.com>
+In-Reply-To: <fd168175-71ce-2a9e-f8f1-1cc66e052235@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 27 Oct 2022 18:11:56 -0700
+Message-ID: <CAF6AEGuCZpKQMH6mra97tZNOFq8kryoCoi-8V21zmmCyGyZDZQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/prime: set the dma_coherent flag for export
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,59 +69,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, David Airlie <airlied@linux.ie>,
- linux-pci@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
- linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-mtd@lists.infradead.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-watchdog@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Jonathan Hunter <jonathanh@nvidia.com>, Guenter Roeck <linux@roeck-us.net>,
- Matti Vaittinen <mazziesaccount@gmail.com>, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org, Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Richard Weinberger <richard@nod.at>,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
+ linaro-mm-sig@lists.linaro.org, ppaalanen@gmail.com,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lorenzo,
+On Thu, Oct 20, 2022 at 7:57 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 20.10.22 um 16:43 schrieb Rob Clark:
+> > On Thu, Oct 20, 2022 at 5:13 AM Christian K=C3=B6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> >> When a device driver is snooping the CPU cache during access we assume
+> >> that all importers need to be able to snoop the CPU cache as well.
+> >>
+> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_prime.c | 2 ++
+> >>   1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> >> index 20e109a802ae..d5c70b6fe8a4 100644
+> >> --- a/drivers/gpu/drm/drm_prime.c
+> >> +++ b/drivers/gpu/drm/drm_prime.c
+> >> @@ -28,6 +28,7 @@
+> >>
+> >>   #include <linux/export.h>
+> >>   #include <linux/dma-buf.h>
+> >> +#include <linux/dma-map-ops.h>
+> >>   #include <linux/rbtree.h>
+> >>   #include <linux/module.h>
+> >>
+> >> @@ -889,6 +890,7 @@ struct dma_buf *drm_gem_prime_export(struct drm_ge=
+m_object *obj,
+> >>                  .size =3D obj->size,
+> >>                  .flags =3D flags,
+> >>                  .priv =3D obj,
+> >> +               .coherent =3D dev_is_dma_coherent(dev->dev),
+> > To set the coherent flag correctly, I think I'd need a way to override
+> > on a per buffer basis, since coherency is a property of the gpu
+> > pgtables (which in the msm case is an immutable property of the gem
+> > object).  We also have some awkwardness that drm->dev isn't actually
+> > the GPU, thanks to the kernels device model seeing a collection of
+> > other small devices shoehorned into a single drm device to fit
+> > userspace's view of the world.  So relying on drm->dev isn't really
+> > going to give sensible results.
+>
+> Yeah, I've the same problem for amdgpu where some buffers are snooped
+> while others aren't.
+>
+> But this should be unproblematic since the flag can always be cleared by
+> the driver later on (it just can't be set).
+>
+> Additional to that I've just noted that armada, i915, omap and tegra use
+> their own DMA-buf export function. MSM could do the same as well if the
+> device itself is marked as not coherent while some buffers are mapped
+> cache coherent.
 
-On Thu, Oct 27, 2022 at 03:38:11PM +0200, Lorenzo Pieralisi wrote:
-> On Sun, 4 Sep 2022 23:30:52 -0700, Dmitry Torokhov wrote:
-> > I would like to stop exporting OF-specific [devm_]gpiod_get_from_of_node()
-> > so that gpiolib can be cleaned a bit. We can do that by switching drivers
-> > to use generic fwnode API ([devm_]fwnode_gpiod_get()). By doing so we open
-> > the door to augmenting device tree and ACPI information through secondary
-> > software properties (once we teach gpiolib how to handle those).
-> > 
-> > I hope that relevant maintainers will take patches through their trees and
-> > then we could merge the last one some time after -rc1.
-> > 
-> > [...]
-> 
-> Applied to pci/tegra, thanks!
-> 
-> [01/11] PCI: tegra: switch to using devm_fwnode_gpiod_get
->         https://git.kernel.org/lpieralisi/pci/c/16e3f4077965
+yeah, I guess that would work.. it would be a bit unfortunate to need
+to use our own export function, but I guess it is a small price to pay
+and I like the overall idea, so a-b for the series
 
-Any chance you could also pick up
+For the VMM case, it would be nice to expose this to userspace, but
+I've sent a patch to do this in an msm specific way, and I guess at
+least solving that problem for one driver and better than the current
+state of "iff driver =3D=3D "i915" { it's mmap'd cached } else { it's
+writecombine }" in crosvm
 
- [06/11] PCI: aardvark: switch to using devm_gpiod_get_optional()
- (20220903-gpiod_get_from_of_node-remove-v1-6-b29adfb27a6c@gmail.com)
+Admittedly the VMM case is a rather special case compared to your
+average userspace dealing with dmabuf's, but it would be nice to get
+out of the current situation where it is having to make assumptions
+which are quite possibly wrong, so giving the VMM some information
+even if it is "the cachability isn't static, you should bail now if
+your arch can't cope" would be an improvement.  (For background, this
+case is also a bit specific for android/gralloc.. for driver allocated
+buffers in a VM, with the native usermode driver (UMD) in guest, you
+still have some control within the UMD)
 
- - Pali Rohár has acked it.
+BR,
+-R
 
-Thanks!
 
--- 
-Dmitry
+> Regards,
+> Christian.
+>
+> > I guess msm could just bury our heads in the sand and continue to do
+> > things the way we have been (buffers that are mapped cached-coherent
+> > are only self-shared) but would be nice to catch if userspace tried to
+> > import one into (for ex) v4l2..
+> >
+> > BR,
+> > -R
+> >
+> >>                  .resv =3D obj->resv,
+> >>          };
+> >>
+> >> --
+> >> 2.25.1
+> >>
+>
