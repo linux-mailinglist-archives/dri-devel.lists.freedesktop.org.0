@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86198610C5D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 10:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1EC610C82
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 10:54:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEFA10E7A6;
-	Fri, 28 Oct 2022 08:40:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8420B10E7A7;
+	Fri, 28 Oct 2022 08:53:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCBD10E11D
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 08:40:30 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id t25so11337448ejb.8
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 01:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kFzvTU+1nAE3iwfdvDEuobErZlYN2b9+VxFUpewI2uQ=;
- b=ZF5xafTGQXY3dLRXGpUPQI58MFME9iFSrvhSSQANv2XlgJpSgRF8gGJvmGdzF0iDQa
- dD0ZnJ9IPxYHzCa7ui41/jBPzXrbqG4rIqXk4Hyna3QGAmz+hiVEfHBYVyDnJ6Bid20z
- pAALcjxGflPtP693L872fGTki0bOJgtN3+q0JR9ks0Xqqh5+FIx0aEkCGpPCJcxQv0vt
- 4GLctE81YpPgUflNXFzwudsR+cJNZMSrIlsyhbsCX2wGfkvebhVP1zLNnjkNogwNIJ6R
- xGAdwTcI8wV1rqhMqZeov+EXTZdJuojD7Odhz+7nsLUKKiugXctm6y4jHe5925LJwH87
- WRYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kFzvTU+1nAE3iwfdvDEuobErZlYN2b9+VxFUpewI2uQ=;
- b=cB+3QzoEpbNOC1FsQwgqxkg6z4wgKaO8qRPaeqY0zI9ba61rOZXlR8sSwDTxStQPwY
- bRbPgRLUWAAP9wxk7WVfLlrNlDPdqjAIRU5ZTGaIoRQP4R9sVMuACeKrJ//kiwB2PZ25
- 8GTcSeopZLJKCyn7JKXw6Z99NmEawrJJS8tLUz7R9cam29kOOa6/45QgGJkRWf+wyA45
- wf/RUgHoZLOsms9AfNCWwou8Udw5RS8rX7GNfITUrjC9P4/oJMxquu0ltqWxcBVGyyrq
- tlMqnPUJ1VwNDVurOWDQJ3mZXaGYe94KaCuSNvhunQsZ7lC+a0hbwdoDZuYuEQ9YaH2d
- vK1g==
-X-Gm-Message-State: ACrzQf03N+xON5cZkInuY/MltBgoZyoadNv5TjwTCu3g2kwPtfJyPvR6
- QKRrpw97Cde6XN4+IIxUXdQ=
-X-Google-Smtp-Source: AMsMyM58O/hVUnWovCLxC8TlPiHUIxF/NjE4ZXFsqqVwdPxIzfrQ2gFfAzK8PIcaOqAhVAtD4u9N0g==
-X-Received: by 2002:a17:907:703:b0:78e:25be:5455 with SMTP id
- xb3-20020a170907070300b0078e25be5455mr45087232ejb.630.1666946428267; 
- Fri, 28 Oct 2022 01:40:28 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:9377:d2f2:2ed:af4b?
- ([2a02:908:1256:79a0:9377:d2f2:2ed:af4b])
- by smtp.gmail.com with ESMTPSA id
- lb14-20020a170907784e00b0078d22b0bcf2sm1791388ejc.168.2022.10.28.01.40.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 01:40:27 -0700 (PDT)
-Message-ID: <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
-Date: Fri, 28 Oct 2022 10:40:26 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F8510E7A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 08:53:51 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F29DE219AD;
+ Fri, 28 Oct 2022 08:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666947230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xCdn9fKql75AYxVJtfMBUOilnEy+gC86JfFz/Sapfik=;
+ b=adEwFkyknc9TlXinMNkotEzn6epJ/pNvU7reFBVCnHdb6pggZ4nouMX6WUsxaIWJkV3EVF
+ 8EkwhvgT14dUww7YpuHwMO51Xj0N2nPUl5DgPjh/11hbQC8lBkMkF3YNIAXPkQqqTG/0Ju
+ ELyrPC0ndkJIhqyhKeND+Odbcb/hrUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666947230;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xCdn9fKql75AYxVJtfMBUOilnEy+gC86JfFz/Sapfik=;
+ b=mQIfhOu9sr3WXr5pDkGwOJIWj8or4LhO9HY/OiqoY1OfQ63imn1UMGCIR58pe+z4Ms095k
+ y+GicpaA7aX9R8CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BD23613A6E;
+ Fri, 28 Oct 2022 08:53:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id RTgJLZ2YW2O8CQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Oct 2022 08:53:49 +0000
+Message-ID: <efd80dc5-d732-113d-b8fd-398b650beb8f@suse.de>
+Date: Fri, 28 Oct 2022 10:53:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Try to address the DMA-buf coherency problem
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
+ for conversion
 Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, nicolas@ndufresne.ca,
- ppaalanen@gmail.com, sumit.semwal@linaro.org, daniel@ffwll.ch,
- robdclark@gmail.com, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20221027135711.24425-1-marcan@marcan.st>
+ <6102d131-fd3f-965b-cd52-d8d3286e0048@suse.de>
+ <20221028113705.084502b6@eldfell>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221028113705.084502b6@eldfell>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ISP6ZAnOBi8elFTzO6WZS1LZ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,112 +72,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
+ Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ISP6ZAnOBi8elFTzO6WZS1LZ
+Content-Type: multipart/mixed; boundary="------------vNeDTCH9Xq3OTneeQ57ybLEH";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ asahi@lists.linux.dev
+Message-ID: <efd80dc5-d732-113d-b8fd-398b650beb8f@suse.de>
+Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
+ for conversion
+References: <20221027135711.24425-1-marcan@marcan.st>
+ <6102d131-fd3f-965b-cd52-d8d3286e0048@suse.de>
+ <20221028113705.084502b6@eldfell>
+In-Reply-To: <20221028113705.084502b6@eldfell>
 
-Am 28.10.22 um 10:09 schrieb Lucas Stach:
-> Hi Christian,
->
-> Am Donnerstag, dem 20.10.2022 um 14:13 +0200 schrieb Christian König:
->> Hi guys,
->>
->> after finding that we essentially have two separate worlds for coherent sharing
->> of buffer through DMA-buf I thought I will tackle that problem a bit and at
->> least allow the framework to reject attachments which won't work.
->>
->> So those patches here add a new dma_coherent flag to each DMA-buf object
->> telling the framework that dev_is_dma_coherent() needs to return true for an
->> importing device to be able to attach. Since we should always have a fallback
->> path this should give userspace the chance to still keep the use case working,
->> either by doing a CPU copy instead or reversing the roles of exporter and
->> importer.
->>
-> The fallback would likely be a CPU copy with the appropriate cache
-> flushes done by the device driver, which would be a massiv performance
-> issue.
+--------------vNeDTCH9Xq3OTneeQ57ybLEH
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-But essentially the right thing to do. The only alternative I can see is 
-to reverse the role of exporter and importer.
+SGkNCg0KQW0gMjguMTAuMjIgdW0gMTA6Mzcgc2NocmllYiBQZWtrYSBQYWFsYW5lbjoNCj4g
+T24gRnJpLCAyOCBPY3QgMjAyMiAxMDowNzoyNyArMDIwMA0KPiBUaG9tYXMgWmltbWVybWFu
+biA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+IA0KPj4gSGkNCj4+DQo+PiBBbSAy
+Ny4xMC4yMiB1bSAxNTo1NyBzY2hyaWViIEhlY3RvciBNYXJ0aW46DQo+Pj4gZHJtX2ZiX2J1
+aWxkX2ZvdXJjY19saXN0KCkgY3VycmVudGx5IHJldHVybnMgYWxsIGVtdWxhdGVkIGZvcm1h
+dHMNCj4+PiB1bmNvbmRpdGlvbmFsbHkgYXMgbG9uZyBhcyB0aGUgbmF0aXZlIGZvcm1hdCBp
+cyBhbW9uZyB0aGVtLCBldmVuIHRob3VnaA0KPj4+IG5vdCBhbGwgY29tYmluYXRpb25zIGhh
+dmUgY29udmVyc2lvbiBoZWxwZXJzLiBBbHRob3VnaCB0aGUgbGlzdCBpcw0KPj4+IGFyZ3Vh
+Ymx5IHByb3ZpZGVkIHRvIHVzZXJzcGFjZSBpbiBwcmVjZWRlbmNlIG9yZGVyLCB1c2Vyc3Bh
+Y2UgY2FuIHBpY2sNCj4+PiBzb21ldGhpbmcgb3V0LW9mLW9yZGVyIChhbmQgdGh1cyBicmVh
+ayB3aGVuIGl0IHNob3VsZG4ndCksIG9yIHNpbXBseQ0KPj4+IG9ubHkgc3VwcG9ydCBhIGZv
+cm1hdCB0aGF0IGlzIHVuc3VwcG9ydGVkIChhbmQgdGh1cyB0aGluayBpdCBjYW4gd29yaywN
+Cj4+PiB3aGljaCByZXN1bHRzIGluIHRoZSBhcHBlYXJhbmNlIG9mIGEgaGFuZyBhcyBGQiBi
+bGl0cyBmYWlsIGxhdGVyIG9uLA0KPj4+IGluc3RlYWQgb2YgdGhlIGluaXRpYWxpemF0aW9u
+IGVycm9yIHlvdSdkIGV4cGVjdCBpbiB0aGlzIGNhc2UpLg0KPj4+DQo+Pj4gQWRkIGNoZWNr
+cyB0byBmaWx0ZXIgdGhlIGxpc3Qgb2YgZW11bGF0ZWQgZm9ybWF0cyB0byBvbmx5IHRob3Nl
+DQo+Pj4gc3VwcG9ydGVkIGZvciBjb252ZXJzaW9uIHRvIHRoZSBuYXRpdmUgZm9ybWF0LiBU
+aGlzIHByZXN1bWVzIHRoYXQgdGhlcmUNCj4+PiBpcyBhIHNpbmdsZSBuYXRpdmUgZm9ybWF0
+IChvbmx5IHRoZSBmaXJzdCBpcyBjaGVja2VkLCBpZiB0aGVyZSBhcmUNCj4+PiBtdWx0aXBs
+ZSkuIFJlZmFjdG9yaW5nIHRoaXMgQVBJIHRvIGRyb3AgdGhlIG5hdGl2ZSBsaXN0IG9yIHN1
+cHBvcnQgaXQNCj4+PiBwcm9wZXJseSAoYnkgcmV0dXJuaW5nIHRoZSBhcHByb3ByaWF0ZSBl
+bXVsYXRlZC0+bmF0aXZlIG1hcHBpbmcgdGFibGUpDQo+Pj4gaXMgbGVmdCBmb3IgYSBmdXR1
+cmUgcGF0Y2guDQo+Pj4NCj4+PiBUaGUgc2ltcGxlZHJtIGRyaXZlciBpcyBsZWZ0IGFzLWlz
+IHdpdGggYSBmdWxsIHRhYmxlIG9mIGVtdWxhdGVkDQo+Pj4gZm9ybWF0cy4gVGhpcyBrZWVw
+cyBhbGwgY3VycmVudGx5IHdvcmtpbmcgY29udmVyc2lvbnMgYXZhaWxhYmxlIGFuZA0KPj4+
+IGRyb3BzIGFsbCB0aGUgYnJva2VuIG9uZXMgKGkuZS4gdGhpcyBhIHN0cmljdCBidWdmaXgg
+cGF0Y2gsIGFkZGluZyBubw0KPj4+IG5ldyBzdXBwb3J0ZWQgZm9ybWF0cyBub3IgcmVtb3Zp
+bmcgYW55IGFjdHVhbGx5IHdvcmtpbmcgb25lcykuIEluIG9yZGVyDQo+Pj4gdG8gYXZvaWQg
+cHJvbGlmZXJhdGlvbiBvZiBlbXVsYXRlZCBmb3JtYXRzLCBmdXR1cmUgZHJpdmVycyBzaG91
+bGQNCj4+PiBhZHZlcnRpc2Ugb25seSBYUkdCODg4OCBhcyB0aGUgc29sZSBlbXVsYXRlZCBm
+b3JtYXQgKHNpbmNlIHNvbWUNCj4+PiB1c2Vyc3BhY2UgYXNzdW1lcyBpdHMgcHJlc2VuY2Up
+Lg0KPj4+DQo+Pj4gVGhpcyBmaXhlcyBhIHJlYWwgdXNlciByZWdyZXNzaW9uIHdoZXJlIHRo
+ZSA/UkdCMjEwMTAxMCBzdXBwb3J0IGNvbW1pdA0KPj4+IHN0YXJ0ZWQgYWR2ZXJ0aXNpbmcg
+aXQgdW5jb25kaXRpb25hbGx5IHdoZXJlIG5vdCBzdXBwb3J0ZWQsIGFuZCBLV2luDQo+Pj4g
+ZGVjaWRlZCB0byBzdGFydCB0byB1c2UgaXQgb3ZlciB0aGUgbmF0aXZlIGZvcm1hdCBhbmQg
+YnJva2UsIGJ1dCBhbHNvDQo+Pj4gdGhlIGZpeGVzIHRoZSBzcHVyaW91cyBSR0I1NjUvUkdC
+ODg4IGZvcm1hdHMgd2hpY2ggaGF2ZSBiZWVuIHdyb25nbHkNCj4+PiB1bmNvbmRpdGlvbmFs
+bHkgYWR2ZXJ0aXNlZCBzaW5jZSB0aGUgZGF3biBvZiBzaW1wbGVkcm0uDQo+Pj4NCj4+PiBG
+aXhlczogNmVhOTY2ZmNhMDg0ICgiZHJtL3NpbXBsZWRybTogQWRkIFtBWF1SR0IyMTAxMDEw
+IGZvcm1hdHMiKQ0KPj4+IEZpeGVzOiAxMWU4ZjVmZDIyM2IgKCJkcm06IEFkZCBzaW1wbGVk
+cm0gZHJpdmVyIikNCj4+PiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZw0KPj4+IFNpZ25l
+ZC1vZmYtYnk6IEhlY3RvciBNYXJ0aW4gPG1hcmNhbkBtYXJjYW4uc3Q+DQo+Pg0KPj4gUmV2
+aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4N
+Cj4+IFRoYW5rcyBmb3IgeW91ciBwYXRjaC4gSSBoYXZlIHZlcmlmaWVkIHRoYXQgdmlkZW89
+LXsxNiwyNH0gc3RpbGwgd29ya3MNCj4+IHdpdGggc2ltcGxlZHJtLg0KPj4NCj4+PiAtLS0N
+Cj4+PiBJJ20gcHJvcG9zaW5nIHRoaXMgYWx0ZXJuYXRpdmUgYXBwcm9hY2ggYWZ0ZXIgYSBo
+ZWF0ZWQgZGlzY3Vzc2lvbiBvbg0KPj4+IElSQy4gSSdtIG91dCBvZiBpZGVhcywgaWYgeSdh
+bGwgZG9uJ3QgbGlrZSB0aGlzIG9uZSB5b3UgY2FuIGZpZ3VyZSBpdA0KPj4+IG91dCBmb3Ig
+eW91cnNldmVzIDotKQ0KPj4+DQo+Pj4gQ2hhbmdlcyBzaW5jZSB2MToNCj4+PiBUaGlzIHYy
+IG1vdmVzIGFsbCB0aGUgY2hhbmdlcyB0byB0aGUgaGVscGVyIChzbyB0aGV5IHdpbGwgYXBw
+bHkgdG8NCj4+PiB0aGUgdXBjb21pbmcgb2Zkcm0sIHRob3VnaCBvZmRybSBhbHNvIG5lZWRz
+IHRvIGJlIGZpeGVkIHRvIHRyaW0gaXRzDQo+Pj4gZm9ybWF0IHRhYmxlIHRvIG9ubHkgZm9y
+bWF0cyB0aGF0IHNob3VsZCBiZSBlbXVsYXRlZCwgcHJvYmFibHkgb25seQ0KPj4+IFhSR0I4
+ODg4LCB0byBhdm9pZCBmdXJ0aGVyIHByb2xpZmVyYXRpbmcgdGhlIHVzZSBvZiBjb252ZXJz
+aW9ucyksDQo+Pj4gYW5kIGF2b2lkcyB0b3VjaGluZyBtb3JlIHRoYW4gb25lIGZpbGUuIFRo
+ZSBBUEkgc3RpbGwgbmVlZHMgY2xlYW51cA0KPj4+IGFzIG1lbnRpb25lZCAoc3VwcG9ydGlu
+ZyBtb3JlIHRoYW4gb25lIG5hdGl2ZSBmb3JtYXQgaXMgZnVuZGFtZW50YWxseQ0KPj4+IGJy
+b2tlbiwgc2luY2UgdGhlIGhlbHBlciB3b3VsZCBuZWVkIHRvIHRlbGwgdGhlIGRyaXZlciAq
+d2hhdCogbmF0aXZlDQo+Pj4gZm9ybWF0IHRvIHVzZSBmb3IgKmVhY2gqIGVtdWxhdGVkIGZv
+cm1hdCBzb21laG93KSwgYnV0IGFsbCBjdXJyZW50IGFuZA0KPj4+IHBsYW5uZWQgdXNlcnMg
+b25seSBwYXNzIGluIG9uZSBuYXRpdmUgZm9ybWF0LCBzbyB0aGlzIGNhbiAoYW5kIHNob3Vs
+ZCkNCj4+PiBiZSBmaXhlZCBsYXRlci4NCj4+Pg0KPj4+IEFzaWRlOiBBZnRlciBvdGhlciBJ
+UkMgZGlzY3Vzc2lvbiwgSSdtIHRlc3RpbmcgbnVraW5nIHRoZQ0KPj4+IFhSR0IyMTAxMDEw
+IDwtPiBBUkdCMjEwMTAxMCBhZHZlcnRpc2VtZW50ICh3aGljaCBkb2VzIG5vdCBpbnZvbHZl
+DQo+Pj4gY29udmVyc2lvbikgYnkgcmVtb3ZpbmcgdGhvc2UgZW50cmllcyBmcm9tIHNpbXBs
+ZWRybSBpbiB0aGUgQXNhaGkgTGludXgNCj4+PiBkb3duc3RyZWFtIHRyZWUuIEFzIGZhciBh
+cyBJJ20gY29uY2VybmVkLCBpdCBjYW4gYmUgcmVtb3ZlZCBpZiBub2JvZHkNCj4+PiBjb21w
+bGFpbnMgKGJ5IHJlbW92aW5nIHRob3NlIGVudHJpZXMgZnJvbSB0aGUgc2ltcGxlZHJtIGFy
+cmF5KSwgaWYNCj4+PiBtYWludGFpbmVycyBhcmUgZ2VuZXJhbGx5IG9rYXkgd2l0aCByZW1v
+dmluZyBhZHZlcnRpc2VkIGZvcm1hdHMgYXQgYWxsLg0KPj4+IElmIHNvLCB0aGVyZSBtaWdo
+dCBiZSBvdGhlciBvcHBvcnR1bml0aWVzIGZvciBmdXJ0aGVyIHRyaW1taW5nIHRoZSBsaXN0
+DQo+Pj4gbm9uLW5hdGl2ZSBmb3JtYXRzIGFkdmVydGlzZWQgdG8gdXNlcnNwYWNlLg0KPj4N
+Cj4+IElNSE8gYWxsIG9mIHRoZSBleHRyYSBBIGZvcm1hdHMgY2FuIGltbWVkaWF0ZWx5IGdv
+LiBXZSBoYXZlIHBsZW50eSBvZg0KPj4gc2ltcGxlIGRyaXZlcnMgdGhhdCBvbmx5IGV4cG9y
+dCBYUkdCODg4OCBwbHVzIHNvbWV0aW1lcyBhIGZldyBvdGhlcg0KPj4gbm9uLUEgZm9ybWF0
+cy4gSWYgYW55dGhpbmcgaW4gdXNlcnNwYWNlIGhhZCBhIGhhcmQgZGVwZW5kZW5jeSBvbiBh
+biBBDQo+PiBmb3JtYXQsIHdlJ2QgcHJvYmFibHkgaGVhcmQgYWJvdXQgaXQuDQo+Pg0KPj4g
+SW4geWVzdGVyZGF5J3MgZGlzY3Vzc2lvbiBvbiBJUkMsIGl0IHdhcyBzYWlkIHRoYXQgc2V2
+ZXJhbCBkZXZpY2VzDQo+PiBhZHZlcnRpc2UgQVJHQiBmcmFtZWJ1ZmZlcnMgd2hlbiB0aGUg
+aGFyZHdhcmUgYWN0dWFsbHkgdXNlcyBYUkdCPyBJcw0KPj4gdGhlcmUgaGFyZHdhcmUgdGhh
+dCBzdXBwb3J0cyB0cmFuc3BhcmVudCBwcmltYXJ5IHBsYW5lcz8NCj4gDQo+IEknbSBmYWly
+bHkgc3VyZSBzdWNoIGhhcmR3YXJlIGRvZXMgZXhpc3QsIGJ1dCBJIGRvbid0IGtub3cgaWYg
+aXQncyB0aGUNCj4gZHJpdmVycyBpbiBxdWVzdGlvbiBoZXJlLg0KPiANCj4gSXQncyBub3Qg
+dW5jb21tb24gdG8gaGF2ZSBleHRyYSBoYXJkd2FyZSBwbGFuZXMgYmVsb3cgdGhlIHByaW1h
+cnkNCj4gcGxhbmUsIGFuZCB0aGVuIHVzZSBhbHBoYSBvbiBwcmltYXJ5IHBsYW5lIHRvIGN1
+dCBhIGhvbGUgdG8gc2VlIHRocm91Z2gNCj4gdG8gdGhlICJ1bmRlcmxheSIgcGxhbmUuIFRo
+aXMgaXMgYSBnb29kIHNldHVwIGZvciB2aWRlbyBwbGF5YmFjaywgd2hlcmUNCj4gdGhlIHZp
+ZGVvIGlzIG9uIHRoZSB1bmRlcmxheSwgYW5kIChhIHNsb3cgR1BVIG9yIENQVSByZW5kZXJz
+KSB0aGUNCj4gc3VidGl0bGVzIGFuZCBVSSBvbiB0aGUgcHJpbWFyeSBwbGFuZS4NCj4gDQo+
+IEkndmUgaGVhcmQgdGhhdCBzb21lIGhhcmR3YXJlIGFsc28gaGFzIGEgc2VwYXJhdGUgYmFj
+a2dyb3VuZCBjb2xvcg0KPiAicGxhbmUiIGJlbG93IGFsbCBoYXJkd2FyZSBwbGFuZXMsIGJ1
+dCBJIGZvcmdldCBpZiB1cHN0cmVhbSBLTVMgZXhwb3Nlcw0KPiB0aGF0Lg0KDQpUaGF0J3Mg
+YWxzbyB3aGF0IEkgaGVhcmQgb2YuIEl0J3Mgbm90IHNvbWV0aGluZyB3ZSBjYW4gY29udHJv
+bCB3aXRoaW4gDQpzaW1wbGVkcm0gb3IgYW55IG90aGVyIGdlbmVyaWMgZHJpdmVyLg0KDQpJ
+J20gd29ycmllZCB0aGF0IHdlIGFkdmVydGlzZSBBUkdCIHRvIHVzZXJzcGFjZSB3aGVuIHRo
+ZSBzY2Fub3V0IGJ1ZmZlciANCmlzIGFjdHVhbGx5IFhSR0IuIEJ1dCBpZiB3ZSBhZHZlcnRp
+c2UgWFJHQiBhbmQgdGhlIHNjYW5vdXQgYnVmZmVyIGlzIA0KcmVhbGx5IEFSR0IsIGFueSBn
+YXJiYWdlIGluIHRoZSBYIGZpbGxlciBieXRlIHdvdWxkIGludGVyZmVyZS4NCg0KSWYgd2Ug
+aGF2ZSBhIG5hdGl2ZSBBUkdCIHNjYW5vdXQgYnVmZmVyLCB3ZSBjb3VsZCBhZHZlcnRpc2Ug
+WFJHQiB0byANCnVzZXJzcGFjZSBhbmQgc2V0IHRoZSBmaWxsZXIgYnl0ZSB1bmNvbmRpdGlv
+bmFsbHkgZHVyaW5nIHRoZSBwYWdlZmxpcCANCnN0ZXAuIFRoYXQgc2hvdWxkIGJlIHNhZmUg
+b24gYWxsIGhhcmR3YXJlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBZb3Un
+ZCBmaW5kIHRoaXMgbW9zdGx5IGluICJlbWJlZGRlZCIgZGlzcGxheSBjaGlwcy4NCj4gDQo+
+IA0KPiBUaGFua3MsDQo+IHBxDQo+IA0KPj4gQmVmb3JlIHJlbW92aW5nIHRoZSBleHRyYSBu
+b24tQSBmb3JtYXRzLCB3ZSBmaXJzdCBoYXZlIHRvIGZpeCB0aGUgZmJkZXYNCj4+IGNvbnNv
+bGUncyBmb3JtYXQgc2VsZWN0aW9uLiBTbyBpZiB1c2VycyBzZXQgdmlkZW89LTI0IHdpdGhv
+dXQgbmF0aXZlDQo+PiBoYXJkd2FyZSBzdXBwb3J0LCBzaW1wbGVkcm0gKGFuZCBhbnkgb3Ro
+ZXIgZHJpdmVyKSBmYWxscyBiYWNrIHRvIGENCj4+IHN1cHBvcnRlZCBmb3JtYXQuIFRoaXMg
+d29ya2VkIHdpdGggdGhlIG9sZCBmYmRldiBkcml2ZXJzLCBzdWNoIGFzDQo+PiBzaW1wbGVm
+YiBhbmQgZWZpZmIsIGFuZCBzb21lIHVzZXJzIGV4cGVjdCBpdC4NCj4+DQo+PiBJZiBub3Ro
+aW5nIGVsc2UgY29tZXMgaW4sIEknbGwgbWVyZ2UgeW91ciBwYXRjaCBvbiBNb25kYXkuDQo+
+Pg0KPj4gQmVzdCByZWdhcmRzDQo+PiBUaG9tYXMNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
+CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
+ZXYNCg==
 
->> For DRM and most V4L2 devices I then fill in the dma_coherent flag based on the
->> return value of dev_is_dma_coherent(). Exporting drivers are allowed to clear
->> the flag for their buffers if special handling like the USWC flag in amdgpu or
->> the uncached allocations for radeon/nouveau are in use.
->>
-> I don't think the V4L2 part works for most ARM systems. The default
-> there is for devices to be noncoherent unless explicitly marked
-> otherwise. I don't think any of the "devices" writing the video buffers
-> in cached memory with the CPU do this. While we could probably mark
-> them as coherent, I don't think this is moving in the right direction.
+--------------vNeDTCH9Xq3OTneeQ57ybLEH--
 
-Well why not? Those devices are coherent in the sense of the DMA API 
-that they don't need an extra CPU copy on sync_to_cpu/sync_to_device.
+--------------ISP6ZAnOBi8elFTzO6WZS1LZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-We could come up with a better name for coherency, e.g. snooping for 
-example. But that is just an documentation detail.
+-----BEGIN PGP SIGNATURE-----
 
->> Additional to that importers can also check the flag if they have some
->> non-snooping operations like the special scanout case for amdgpu for example.
->>
->> The patches are only smoke tested and the solution isn't ideal, but as far as
->> I can see should at least keep things working.
->>
-> I would like to see this solved properly. Where I think properly means
-> we make things work on systems with mixed coherent/noncoherent masters
-> in the same way the DMA API does on such systems: by inserting the
-> proper cache maintenance operations.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNbmJ0FAwAAAAAACgkQlh/E3EQov+C+
+eQ//cJFMsCwY34/cnzjjmsD5znrg8jCNDe1O3K7AaX+HQyv8JC5r9do4M15FrYfm4/9T6McXblTS
+HXfBLT6pzQoybdSb8DRT6kgb8mLgEdYET+cv2RCIU3++YdUirclcFJNnEjZirwbl530MR4UCyLAv
+b1iS5r5gL5OrC6BJP8naSOQ5zPU/LMTCYs+MnPrUxFy0k9t1uklvbgO1mbdTeyQo1AdRcIzO1CPZ
+5X70B6gx5qi8AovmYgdkGzDKAbofsT8EiLDQFumKttYDCH4s3leGdblOoWZySQAAkIaus+aYsNt8
+r32/hYKBL9e2eIv7JaTpIFsYmKjd4XPWYHXC8/WInxibhGfEqXbiKuInXSmPcU5+EycFocsYP12R
+g6hvxeLRDma6UWQZmL7Mqat3SKy0VMUSbiC7lguWwwFZ0OSh69Ri/3miyG/86zLo9vLaF3vkiGWW
+Zl0LHbI9Huz3C90WLtKb2nE4PjTi+syiGaoJe+Mp4ujVfyyV8EgLUuy3eBIJ1wC/1pv9x5Yv2J9k
+tNDCJ/30n2dGqC5S41OeA7yTJQMr5klf3HfZI55pP01kr/n5xQWcpPVrH3QkeN9Vz8YVLCpPnlet
+3aKQ4l/e2+mVAfwkX46/Lc2kbwFCQMeYzbhjdVcC3SHtsoTqiVaqVuWoNR8eT8hOX/foqb/NzOE3
+7aU=
+=Oh4c
+-----END PGP SIGNATURE-----
 
-And this the exact wrong approach as far as I can see. As Daniel noted 
-as well we absolutely need some kind of coherency between exporter and 
-importer.
-
-This can either be provided by the PCI specification which makes it 
-mandatory for device to snoop the caches or by platform devices agreeing 
-that they only work on uncached memory.
-
-Explicit cache flush operations are simple not part of the design of 
-DMA-buf because they are not part of the design of the higher level APIs 
-like Vulkan and OpenGL.
-
-Adding this to DMA-buf for the rather special use case would completely 
-break that and make live much more complicated for everybody.
-
-> I also think that we should keep in mind that the world is moving into
-> a direction where DMA masters may not only snoop the CPU caches (what
-> is the definition of cache coherent on x86), but actually take part in
-> the system coherence and are able to have writeback caches for shared
-> data on their own. I can only speculate, as I haven't seen the amdgpu
-> side yet, but I think this proposal is moving in the other direction by
-> assuming a central system cache, where the importer has some magic way
-> to clean this central cache.
-
-What you mean is CXL: https://en.wikipedia.org/wiki/Compute_Express_Link
-
-And yes we support that in a bunch of configurations and also have 
-worked with that and amdgpu with DMA-buf based shared.
-
-This should not be a problem with this approach.
-
-> Since I have a vested interest in seeing V4L2 UVC and non-coherent GPU
-> dma-buf sharing work on ARM systems and seem to hold some strong
-> opinions on how this should work, I guess I need to make some time
-> available to type it up, so we can discuss over coder rather than
-> abstract ideas. If I come up with something that works for my use-cases
-> would you be up for taking a shot at a amdgpu implementation?
-
-Well, not really. As I said I see what you have in mind here as 
-completely wrong approach we will certainly not support in any GPU driver.
-
-What we can do is to request the use case which won't work and this is 
-exactly what the patch here does.
-
-Regards,
-Christian.
-
->
-> Regards,
-> Lucas
->
-
+--------------ISP6ZAnOBi8elFTzO6WZS1LZ--
