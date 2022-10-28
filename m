@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E996110CE
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 14:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414326110CC
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 14:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C760910E81B;
-	Fri, 28 Oct 2022 12:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B85F810E814;
+	Fri, 28 Oct 2022 12:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
  [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6F3A10E803
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 12:08:31 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id t25so12446008ejb.8
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 05:08:31 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBF9610E80C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 12:08:34 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id t25so12446414ejb.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 05:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=GHQKP2WRD5u3btbTtOeqec49hRgZbwQ4CBFF9a5nqqE=;
- b=aGwFe+cjRvwTlK/2papTY0NVUyA/CNvUDd7Ev8PSs7yCSU2oteW21EellklP66v9ds
- KIYAGe72henmkXbOHWcpsAw58ZRYYMlpzkKBdaCouisIXGjNeM51l+fnfJRVxG1rletI
- EPXzN4DAf60BpUAWAbETa5/POlpNbDYK+iYHgr7+UjWvlhn0BdPoajyLi7DiXjHXFwF7
- 5TPDEa8qo7ijXEhleBE2QqZNKhrlKHap8MyfC1TGoapKM6mOWs2P/uSCQrd44bALdrCF
- c11TcvVoG1zlPXxj+G4To9A4lW9xGGQgZppO0futtKUYoXc/s+PlauNCETyZezF549/e
- GGQQ==
+ :reply-to; bh=DqnPxVy8rWsh7YyVlKpD3T7tk6cWSqxi/9UnPvSPSFQ=;
+ b=c2qFwZ7Swf9ZWH7CmeXC0eFOBqRr/0WPLpnz4GQCoBP+OwhEJ3mN6aQBJWTQLYA7tY
+ oPhpPb2KoMbbR0J55kElppCaaM8fSd7eQ7YNGkzolJvFSusZD1gsDCVoEUFcYIbDRlev
+ QfjWbwds+HZP94T9VYrJlzdMpAb5E9575WfdD8Y0JghBlODKam7O8tWFhy0U5ursWwcL
+ dc9P0a2SlyfWP2Bp28/d2uDWr4VvC31ihz+3a2f3CwPcNpjCt+8firo6zAVV9qkqpYzJ
+ u8lYCtzVOT5sE36gSzajk8+U/KN+3Z8/Pr4Yn0/tpx5R6tiqnyOWbvv0nQA8XcOaH92A
+ Mt+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GHQKP2WRD5u3btbTtOeqec49hRgZbwQ4CBFF9a5nqqE=;
- b=PvlWc5gJ8bGEncfrnvs2qWoskJPrJ5TNTDkz0Q2gyZAYHkH/dRPEKTZnoGycLu6o7P
- LsICU5OGxqOZ49oMlFyBUntsnm9AVDr/NgbISJPo+UE2FZi9cNLYEAvG4b8K73T6+ky4
- IqfmasdvAfv7yIGA2QjTMZ6wuNa+b1anvQfiJFwMFy28N/cx8IfLljtsuge8mWiO6ikm
- D4icEIx1r/mRWtq15+yU81UYDpdL1COPP2WByk/JTc8xOtdD8oU6vl0v2R21RN4JWFpm
- 2ytMPGBS47IfQAVyamqr4FXsCCdgHolT3K0qmr39BHlY70vdM3Nh52PIx08tBAggXLYF
- KUZA==
-X-Gm-Message-State: ACrzQf3uMSjiNi0ENQJzP0xgfMmOaxLkbKWspHCWmVTtfV1ltkpjdtKU
- E/vi98UKTsEVWQoAa9z8pDTCMg==
-X-Google-Smtp-Source: AMsMyM6UPjeZggV2ofJpsk9MB/vfhKTLc/1WSnx0EL1Rb6b9o80UYFxJes1SuMKfqvZxbCq2MkoKbQ==
-X-Received: by 2002:a17:906:9c82:b0:781:5752:4f2b with SMTP id
- fj2-20020a1709069c8200b0078157524f2bmr45370555ejc.561.1666958910136; 
- Fri, 28 Oct 2022 05:08:30 -0700 (PDT)
+ bh=DqnPxVy8rWsh7YyVlKpD3T7tk6cWSqxi/9UnPvSPSFQ=;
+ b=IdnHKAHJH/SaaCiK9kQF9LG0ibPfX2twopdOpqfK8NyxgK6KKgM2llEAA+wjmjck/Y
+ g/jn+3VXlDe3RlQ+YVFN3vNzaPNqxxUaTDgvgAkjHJPeCfPh/KIKlt/t/R3oUryLrVzz
+ aQXAts/ct29TPfecOHGiKSnyXMs+6Grgi4r/2QEdnZLDr00+C65y+y4vmnnoAKk8E8eb
+ X9DH51HYdaPgOYRon7kdB1yO9jouHZLviPcHA3V9dP8lA0J1Mu/uFUljSQ/EwE8XZUb4
+ U7r38PV5i1ScVaXpzXIZsCsDmkphIMoiMhQM23G68G9gOaMNtil+S+xsV30p9AcvdE+c
+ wjVQ==
+X-Gm-Message-State: ACrzQf0f1zsffEiVY18oZbqt0CWAAQhOsi9+SpP6H30UYL4dL/MnQkLi
+ DJxnJdDjqlOBVoKyJhDRe/sLcw==
+X-Google-Smtp-Source: AMsMyM7fLaX+5b8DsmtUlcGiGYlHZfYuymB9Tmb0KD1+oWv1+ntAez6bKv93IOThvK6ZTocD3LASAw==
+X-Received: by 2002:a17:907:16aa:b0:6fe:91d5:18d2 with SMTP id
+ hc42-20020a17090716aa00b006fe91d518d2mr47620699ejc.190.1666958914511; 
+ Fri, 28 Oct 2022 05:08:34 -0700 (PDT)
 Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
  by smtp.gmail.com with ESMTPSA id
- u13-20020a170906124d00b00782e3cf7277sm2067258eja.120.2022.10.28.05.08.28
+ u13-20020a170906124d00b00782e3cf7277sm2067258eja.120.2022.10.28.05.08.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 05:08:29 -0700 (PDT)
+ Fri, 28 Oct 2022 05:08:33 -0700 (PDT)
 From: Robert Foss <robert.foss@linaro.org>
 To: agross@kernel.org, bjorn.andersson@linaro.org,
  konrad.dybcio@somainline.org, robh+dt@kernel.org,
@@ -61,9 +61,9 @@ To: agross@kernel.org, bjorn.andersson@linaro.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
  vinod.koul@linaro.org, quic_jesszhan@quicinc.com
-Subject: [PATCH v1 5/9] arm64: dts: qcom: sm8350: Remove mmxc power-domain-name
-Date: Fri, 28 Oct 2022 14:08:08 +0200
-Message-Id: <20221028120812.339100-6-robert.foss@linaro.org>
+Subject: [PATCH v1 6/9] arm64: dts: qcom: sm8350: Use 2 interconnect cells
+Date: Fri, 28 Oct 2022 14:08:09 +0200
+Message-Id: <20221028120812.339100-7-robert.foss@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221028120812.339100-1-robert.foss@linaro.org>
 References: <20221028120812.339100-1-robert.foss@linaro.org>
@@ -84,26 +84,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mmxc power-domain-name is not required, and is not
-used by either earlier or later SoC versions (sm8250 / sm8450).
+Use two interconnect cells in order to optionally
+support a path tag.
 
 Signed-off-by: Robert Foss <robert.foss@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8350.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+ arch/arm64/boot/dts/qcom/sm8350.dtsi | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index e72a04411888..606fab087945 100644
+index 606fab087945..b6e44cd3b394 100644
 --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-@@ -2557,7 +2557,6 @@ dispcc: clock-controller@af00000 {
- 			#power-domain-cells = <1>;
- 
- 			power-domains = <&rpmhpd SM8350_MMCX>;
--			power-domain-names = "mmcx";
+@@ -1543,56 +1543,56 @@ apps_smmu: iommu@15000000 {
+ 		config_noc: interconnect@1500000 {
+ 			compatible = "qcom,sm8350-config-noc";
+ 			reg = <0 0x01500000 0 0xa580>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
  		};
  
- 		adsp: remoteproc@17300000 {
+ 		mc_virt: interconnect@1580000 {
+ 			compatible = "qcom,sm8350-mc-virt";
+ 			reg = <0 0x01580000 0 0x1000>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+ 		system_noc: interconnect@1680000 {
+ 			compatible = "qcom,sm8350-system-noc";
+ 			reg = <0 0x01680000 0 0x1c200>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+ 		aggre1_noc: interconnect@16e0000 {
+ 			compatible = "qcom,sm8350-aggre1-noc";
+ 			reg = <0 0x016e0000 0 0x1f180>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+ 		aggre2_noc: interconnect@1700000 {
+ 			compatible = "qcom,sm8350-aggre2-noc";
+ 			reg = <0 0x01700000 0 0x33000>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+ 		mmss_noc: interconnect@1740000 {
+ 			compatible = "qcom,sm8350-mmss-noc";
+ 			reg = <0 0x01740000 0 0x1f080>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+ 		lpass_ag_noc: interconnect@3c40000 {
+ 			compatible = "qcom,sm8350-lpass-ag-noc";
+ 			reg = <0 0x03c40000 0 0xf080>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+ 		compute_noc: interconnect@a0c0000{
+ 			compatible = "qcom,sm8350-compute-noc";
+ 			reg = <0 0x0a0c0000 0 0xa180>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+@@ -2420,14 +2420,14 @@ usb_2_ssphy: phy@88ebe00 {
+ 		dc_noc: interconnect@90c0000 {
+ 			compatible = "qcom,sm8350-dc-noc";
+ 			reg = <0 0x090c0000 0 0x4200>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
+ 		gem_noc: interconnect@9100000 {
+ 			compatible = "qcom,sm8350-gem-noc";
+ 			reg = <0 0x09100000 0 0xb4000>;
+-			#interconnect-cells = <1>;
++			#interconnect-cells = <2>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
 -- 
 2.34.1
 
