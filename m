@@ -1,64 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AC9610C54
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 10:37:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B80610C56
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 10:38:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6957E10E79F;
-	Fri, 28 Oct 2022 08:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 003C610E1BB;
+	Fri, 28 Oct 2022 08:38:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 132F210E79F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 08:37:11 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id u2so7492793ljl.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 01:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Ka+GZa+YYoZ2LUQfvRv+80E0jLSWTavzkIW/ckjHRIU=;
- b=bwK9lXaA1SOQKa/fmDpcdcONDjnMGzcdm8ol9rirIiq1SqKRNI7wKte3TNTwRjN7hN
- 0Z8yYCBR8u5gJqzZhE1i8PzfgN2/UEkJM+n3SM2pJdHPwXdbMVoTucc+cuoBjh3XrqH0
- PfpF6gPR8ATR+nZ1KSdJSvag3ZUSF+nPWQGsjtjqltFjKppYPGYcNXJ4CerqXy5GHKMn
- ypMFEKte6XQcA7uaTQjsGFT+t17rDGVNfwrVUmjoLBw05nDFR3rBIT58e75Lxx5Wqj6X
- igQDvUlEAC/IoPc3KRFRNrA/I09LL2J4tHHErvCXNvtB/yejhgKsQ7qAZKujQlJXK2K7
- NT3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ka+GZa+YYoZ2LUQfvRv+80E0jLSWTavzkIW/ckjHRIU=;
- b=pDHwh28FGthozgf5uoEL/00NZ110A7HSetk2mcjwm1+nSTmVlRH/3diLgjQPAYpuvn
- HcPWzx/I5us78vG5lF1k6Ek8uykTBnLPguud499mp3g7auicOfn5d6hBR5IFAbyueA6K
- DwF7Z6/M76cpdN8IMHMnvEwoJG5np22E+iltx707+YwQaZg7AYJ8SQlfk/9WibiSEHjc
- hE+T6CdogJZUVQ7bV8n6wUchdgI2hIlmmG0Nk5R8lXKPmpMouFaIu19NbQwcD2LGGB9A
- DVrwz9DBZLiCRHFK62+6g6C4/FIIxKOe0O2aJOBN7NRB9JbIaXWx1Z+gtWE0oz4mObsD
- BS9Q==
-X-Gm-Message-State: ACrzQf0SHJvnWz/L5uypnHHTqP59D6weEsMH65f+ZybDFVhzHojvgRLG
- bA7r/R9rcD4GHVzrN+04kFc=
-X-Google-Smtp-Source: AMsMyM7GYX6E9cQTX8qPbmcz1wx8VmdimEjU87nq+yccXLoEMENUdg6gKqSd2cKISCOmjITQ0JnpXg==
-X-Received: by 2002:a2e:8008:0:b0:276:1ee8:718a with SMTP id
- j8-20020a2e8008000000b002761ee8718amr14622832ljg.133.1666946229044; 
- Fri, 28 Oct 2022 01:37:09 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- 12-20020ac25f0c000000b004994c190581sm475348lfq.123.2022.10.28.01.37.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 01:37:08 -0700 (PDT)
-Date: Fri, 28 Oct 2022 11:37:05 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
- for conversion
-Message-ID: <20221028113705.084502b6@eldfell>
-In-Reply-To: <6102d131-fd3f-965b-cd52-d8d3286e0048@suse.de>
-References: <20221027135711.24425-1-marcan@marcan.st>
- <6102d131-fd3f-965b-cd52-d8d3286e0048@suse.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 169A310E1BB;
+ Fri, 28 Oct 2022 08:38:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666946292; x=1698482292;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=V0mOKCCNr4n4zYWEHeESOZyOoMBZlX9qP3JGy2LCotg=;
+ b=ILxv1kg8BAjoMPg3ra15ujEjXdfnpQPdYJpcGj7Pruw+fnG4B2N/DzDO
+ JXDumypGmiwNzk/Y2NqSQRDZmfFgIDllVxtIQvKUjG1WBpobhJJpJ0V5C
+ I3v1FpR6uGlwXbQ94gATJM9WvvdKjHuu0dkYH+BwlNeUDDbAzRScF54Sk
+ SuHVWAA2OH/Hd92T19czvuIyAi2S7LMSZxRDZDF6p4mdROf3sfzJz0E5M
+ 8goNpRvD9HcjlG9WUqY+dcLV10pHIuHqOaLdMjTe/3dfEy9E84oXUYC8S
+ HLNR4Aecfx33p31Pbz1ovGiFo46vwThDJTY2GMPUGFo4cYZgOgM/lQFZq w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="288160532"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="288160532"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2022 01:38:11 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="665995214"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="665995214"
+Received: from nalinset-mobl1.ger.corp.intel.com (HELO [10.213.204.34])
+ ([10.213.204.34])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2022 01:38:10 -0700
+Message-ID: <2125e5fd-e8d1-f4c1-7af1-58fb61f38049@linux.intel.com>
+Date: Fri, 28 Oct 2022 09:38:08 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/T02il3y85kOs7h=vZE4CGlN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [Intel-gfx] [PATCH 3/5] drm/i915/mtl: add GSC CS interrupt support
+Content-Language: en-US
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
+ <20221027221554.2638087-4-daniele.ceraolospurio@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20221027221554.2638087-4-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,147 +63,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hector Martin <marcan@marcan.st>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org, asahi@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/T02il3y85kOs7h=vZE4CGlN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, 28 Oct 2022 10:07:27 +0200
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On 27/10/2022 23:15, Daniele Ceraolo Spurio wrote:
+> The GSC CS re-uses the same interrupt bits that the GSC used in older
+> platforms. This means that we can now have an engine interrupt coming
+> out of OTHER_CLASS, so we need to handle that appropriately.
+> 
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_irq.c | 78 ++++++++++++++------------
+>   1 file changed, 43 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> index f26882fdc24c..34ff1ee7e931 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> @@ -81,35 +81,27 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
+>   		  instance, iir);
+>   }
+>   
+> -static void
+> -gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
+> -			 const u8 instance, const u16 iir)
+> +static struct intel_gt *pick_gt(struct intel_gt *gt, u8 class, u8 instance)
+>   {
+> -	struct intel_engine_cs *engine;
+> -
+> -	/*
+> -	 * Platforms with standalone media have their media engines in another
+> -	 * GT.
+> -	 */
+> -	if (MEDIA_VER(gt->i915) >= 13 &&
+> -	    (class == VIDEO_DECODE_CLASS || class == VIDEO_ENHANCEMENT_CLASS)) {
+> -		if (!gt->i915->media_gt)
+> -			goto err;
+> +	struct intel_gt *media_gt = gt->i915->media_gt;
+>   
+> -		gt = gt->i915->media_gt;
+> +	/* we expect the non-media gt to be passed in */
+> +	GEM_BUG_ON(gt == media_gt);
+> +
+> +	if (!media_gt)
+> +		return gt;
+> +
+> +	switch (class) {
+> +	case VIDEO_DECODE_CLASS:
+> +	case VIDEO_ENHANCEMENT_CLASS:
+> +		return media_gt;
+> +	case OTHER_CLASS:
+> +		if (instance == OTHER_GSC_INSTANCE && HAS_ENGINE(media_gt, GSC0))
+> +			return media_gt;
+> +		fallthrough;
+> +	default:
+> +		return gt;
+>   	}
+> -
+> -	if (instance <= MAX_ENGINE_INSTANCE)
+> -		engine = gt->engine_class[class][instance];
+> -	else
+> -		engine = NULL;
+> -
+> -	if (likely(engine))
+> -		return intel_engine_cs_irq(engine, iir);
+> -
+> -err:
+> -	WARN_ONCE(1, "unhandled engine interrupt class=0x%x, instance=0x%x\n",
+> -		  class, instance);
+>   }
+>   
+>   static void
+> @@ -118,12 +110,24 @@ gen11_gt_identity_handler(struct intel_gt *gt, const u32 identity)
+>   	const u8 class = GEN11_INTR_ENGINE_CLASS(identity);
+>   	const u8 instance = GEN11_INTR_ENGINE_INSTANCE(identity);
+>   	const u16 intr = GEN11_INTR_ENGINE_INTR(identity);
+> +	struct intel_engine_cs *engine;
+>   
+>   	if (unlikely(!intr))
+>   		return;
+>   
+> -	if (class <= COPY_ENGINE_CLASS || class == COMPUTE_CLASS)
+> -		return gen11_engine_irq_handler(gt, class, instance, intr);
+> +	/*
+> +	 * Platforms with standalone media have the media and GSC engines in
+> +	 * another GT.
+> +	 */
+> +	gt = pick_gt(gt, class, instance);
+> +
+> +	if (class <= MAX_ENGINE_CLASS && instance <= MAX_ENGINE_INSTANCE)
+> +		engine = gt->engine_class[class][instance];
+> +	else
+> +		engine = NULL;
+> +
+> +	if (engine)
+> +		return intel_engine_cs_irq(engine, intr);
 
-> Hi
->=20
-> Am 27.10.22 um 15:57 schrieb Hector Martin:
-> > drm_fb_build_fourcc_list() currently returns all emulated formats
-> > unconditionally as long as the native format is among them, even though
-> > not all combinations have conversion helpers. Although the list is
-> > arguably provided to userspace in precedence order, userspace can pick
-> > something out-of-order (and thus break when it shouldn't), or simply
-> > only support a format that is unsupported (and thus think it can work,
-> > which results in the appearance of a hang as FB blits fail later on,
-> > instead of the initialization error you'd expect in this case).
-> >=20
-> > Add checks to filter the list of emulated formats to only those
-> > supported for conversion to the native format. This presumes that there
-> > is a single native format (only the first is checked, if there are
-> > multiple). Refactoring this API to drop the native list or support it
-> > properly (by returning the appropriate emulated->native mapping table)
-> > is left for a future patch.
-> >=20
-> > The simpledrm driver is left as-is with a full table of emulated
-> > formats. This keeps all currently working conversions available and
-> > drops all the broken ones (i.e. this a strict bugfix patch, adding no
-> > new supported formats nor removing any actually working ones). In order
-> > to avoid proliferation of emulated formats, future drivers should
-> > advertise only XRGB8888 as the sole emulated format (since some
-> > userspace assumes its presence).
-> >=20
-> > This fixes a real user regression where the ?RGB2101010 support commit
-> > started advertising it unconditionally where not supported, and KWin
-> > decided to start to use it over the native format and broke, but also
-> > the fixes the spurious RGB565/RGB888 formats which have been wrongly
-> > unconditionally advertised since the dawn of simpledrm.
-> >=20
-> > Fixes: 6ea966fca084 ("drm/simpledrm: Add [AX]RGB2101010 formats")
-> > Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Hector Martin <marcan@marcan.st> =20
->=20
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Thanks for your patch. I have verified that video=3D-{16,24} still works=
-=20
-> with simpledrm.
->=20
-> > ---
-> > I'm proposing this alternative approach after a heated discussion on
-> > IRC. I'm out of ideas, if y'all don't like this one you can figure it
-> > out for yourseves :-)
-> >=20
-> > Changes since v1:
-> > This v2 moves all the changes to the helper (so they will apply to
-> > the upcoming ofdrm, though ofdrm also needs to be fixed to trim its
-> > format table to only formats that should be emulated, probably only
-> > XRGB8888, to avoid further proliferating the use of conversions),
-> > and avoids touching more than one file. The API still needs cleanup
-> > as mentioned (supporting more than one native format is fundamentally
-> > broken, since the helper would need to tell the driver *what* native
-> > format to use for *each* emulated format somehow), but all current and
-> > planned users only pass in one native format, so this can (and should)
-> > be fixed later.
-> >=20
-> > Aside: After other IRC discussion, I'm testing nuking the
-> > XRGB2101010 <-> ARGB2101010 advertisement (which does not involve
-> > conversion) by removing those entries from simpledrm in the Asahi Linux
-> > downstream tree. As far as I'm concerned, it can be removed if nobody
-> > complains (by removing those entries from the simpledrm array), if
-> > maintainers are generally okay with removing advertised formats at all.
-> > If so, there might be other opportunities for further trimming the list
-> > non-native formats advertised to userspace. =20
->=20
-> IMHO all of the extra A formats can immediately go. We have plenty of=20
-> simple drivers that only export XRGB8888 plus sometimes a few other=20
-> non-A formats. If anything in userspace had a hard dependency on an A=20
-> format, we'd probably heard about it.
->=20
-> In yesterday's discussion on IRC, it was said that several devices=20
-> advertise ARGB framebuffers when the hardware actually uses XRGB? Is=20
-> there hardware that supports transparent primary planes?
+Drive by observation - you could fold the above two ifs into one since 
+engine appears unused afterwards.
 
-I'm fairly sure such hardware does exist, but I don't know if it's the
-drivers in question here.
+Regards,
 
-It's not uncommon to have extra hardware planes below the primary
-plane, and then use alpha on primary plane to cut a hole to see through
-to the "underlay" plane. This is a good setup for video playback, where
-the video is on the underlay, and (a slow GPU or CPU renders) the
-subtitles and UI on the primary plane.
+Tvrtko
 
-I've heard that some hardware also has a separate background color
-"plane" below all hardware planes, but I forget if upstream KMS exposes
-that.
-
-You'd find this mostly in "embedded" display chips.
-
-
-Thanks,
-pq
-
-> Before removing the extra non-A formats, we first have to fix the fbdev=20
-> console's format selection. So if users set video=3D-24 without native=20
-> hardware support, simpledrm (and any other driver) falls back to a=20
-> supported format. This worked with the old fbdev drivers, such as=20
-> simplefb and efifb, and some users expect it.
->=20
-> If nothing else comes in, I'll merge your patch on Monday.
->=20
-> Best regards
-> Thomas
-
---Sig_/T02il3y85kOs7h=vZE4CGlN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmNblLIACgkQI1/ltBGq
-qqcizA//Zy5WiKUGT37azP+IbUk+bTDsYM8fB2JTBwXdJqkoJsUaj3uDQoZY6NJB
-uR9BHhKoyjxq2olEDvN/W28bu246aelBWrgOGWYIHu2ULLSkUk0pnVkruswjtJe9
-opP/G4H8yxUhgHKrr8A493lfW9xXi84nTQoKFyJGp/iQgPjoiGiyAe5l9R0GRpES
-oyTBjs5gMX7aiExyYNcAeGNnypR7odLyrl0EatDkScJLAzy6xu/xUHpM2ucq4t+B
-JqWBQ8xLrqlBa85/2ZKObC6xrg+DIVAAsbQ+ToeZQIFpJL7BvrozCx7kFw92+bTp
-sQo20gDE/WfEYrxXzkaE6kWKGr8AflXsxVBb1Nkfl6SJ35wIBrltMWz9IYqcD5s2
-xR0xipLq23hW6/6biSsnGWvomwpvTY5xXE7KE11VjtEaG5qwqZkv5hHJ71fd1d48
-5Vb3mB46cHT59Nq7hwtdvfWCHGpcGBC/ckySjbnzTR/QxhP9lZsLj26bUHKOErU4
-GuadyHI8Rfi1e5O3odKsaHmlJsE6CYFlwquG77GKjyvlpK8Mk0K8bi1z4p+U/2m9
-QhHXc2xHykVtdg1GVQ8faR+OTrdFFsgFMW6+nU+plXgiLEZHEDGbkjL4RSspguNt
-33nwwt3WTto+LaomcNYXm9ctZIOTYf9ZypXbTa0c6/pGIo1DHGQ=
-=jzYV
------END PGP SIGNATURE-----
-
---Sig_/T02il3y85kOs7h=vZE4CGlN--
+>   
+>   	if (class == OTHER_CLASS)
+>   		return gen11_other_irq_handler(gt, instance, intr);
+> @@ -206,7 +210,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+>   	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE,	  0);
+>   	if (CCS_MASK(gt))
+>   		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, 0);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+>   		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, 0);
+>   
+>   	/* Restore masks irqs on RCS, BCS, VCS and VECS engines. */
+> @@ -233,7 +237,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+>   		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~0);
+>   	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+>   		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~0);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+>   		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~0);
+>   
+>   	intel_uncore_write(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE, 0);
+> @@ -249,7 +253,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>   {
+>   	struct intel_uncore *uncore = gt->uncore;
+>   	u32 irqs = GT_RENDER_USER_INTERRUPT;
+> -	const u32 gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
+> +	u32 gsc_mask = 0;
+>   	u32 dmask;
+>   	u32 smask;
+>   
+> @@ -261,6 +265,11 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>   	dmask = irqs << 16 | irqs;
+>   	smask = irqs << 16;
+>   
+> +	if (HAS_ENGINE(gt, GSC0))
+> +		gsc_mask = irqs;
+> +	else if (HAS_HECI_GSC(gt->i915))
+> +		gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
+> +
+>   	BUILD_BUG_ON(irqs & 0xffff0000);
+>   
+>   	/* Enable RCS, BCS, VCS and VECS class interrupts. */
+> @@ -268,9 +277,8 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>   	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE, dmask);
+>   	if (CCS_MASK(gt))
+>   		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, smask);
+> -	if (HAS_HECI_GSC(gt->i915))
+> -		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE,
+> -				   gsc_mask);
+> +	if (gsc_mask)
+> +		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, gsc_mask);
+>   
+>   	/* Unmask irqs on RCS, BCS, VCS and VECS engines. */
+>   	intel_uncore_write(uncore, GEN11_RCS0_RSVD_INTR_MASK, ~smask);
+> @@ -296,7 +304,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>   		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~dmask);
+>   	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+>   		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~dmask);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (gsc_mask)
+>   		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
+>   
+>   	/*
