@@ -2,68 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71B961078E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 03:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066B361079A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 04:04:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A594110E021;
-	Fri, 28 Oct 2022 01:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97E4310E74A;
+	Fri, 28 Oct 2022 02:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9CF10E021
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 01:58:58 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id m6so2620341qkm.4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Oct 2022 18:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BAW17+BRYm/H3b4WvRIwEV8kXOxv/g6sG9smsLfq3p0=;
- b=vjd0f8z/krQCI2mZcirxzMwClkzC3Hldszir9m1PcZNl5VAXYBpmRo2ls+Z3CZSInj
- j4tlmLK67v0MVs4OGpDoutATgrFPQpizafC6XVVlW6Q3zLxufNHl1PGBQUzwX9TKXjTR
- HoldiZLnPe9s9oDlHkCzvqFs3hd+InNKIqhNPuExt/l/QgTjfuoUPXJloLu8yjn9/ZgP
- Sowaw+Qq+aV17bOJwf5M/Y0Eb4Dmais0JAAaTsNXfpSXdS0XcROkC9mNvC/lGijnFlHn
- o8pNyukvX8+tgODVDBeXz1KGUy5W5PQCukWv4M8CxFGbeoSOL74P+9RVugWtQXf6VIF5
- cLoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BAW17+BRYm/H3b4WvRIwEV8kXOxv/g6sG9smsLfq3p0=;
- b=f6iBpBY3Lcbrui3u4bM0fq/O6Qs+BnBWlm9OOEV4IrWHig7r7fIysu0vM7VhMtjuBA
- cyxbezRZ33O60iEXF8+dYKSAa+ggJaDPNU0MBttlUjDLeQxe3L7HVHsgz7vxC3oKv+iE
- NjxgDnd/9EoHs5//Z7lG/tcAskzgBEzhjoy6KJJBKFqbuSw6M0dFbUNmq03xl6NrIZ2k
- qhoZIE8/3C52+QFJe+K0Hy4hJBvAcZWsGkVPmG+2te2aMOCrEwo68O7RB109r59P6OvK
- m2FQyz5rnnAp+CBUV3scG6+5vKO/Uf1/ZUm7wXcGR5PNsfrxY42OtIYHFrKpccuO3eoX
- /ZAA==
-X-Gm-Message-State: ACrzQf3VICra3+5aUguMghZURpLvX6zscy6CdfK+mQPjk7KCi50vAMx/
- a0GjvU37QSjTonIkj7khOxDVzA==
-X-Google-Smtp-Source: AMsMyM4KNauk+P3PKPfVNAfv2imHHQZUKu47Ls8+K3ykGh6ymSZlm9Yn/lb4RSQzLktpCTirbNrTUQ==
-X-Received: by 2002:a05:620a:1452:b0:6ec:3f82:522b with SMTP id
- i18-20020a05620a145200b006ec3f82522bmr36080682qkl.402.1666922337187; 
- Thu, 27 Oct 2022 18:58:57 -0700 (PDT)
-Received: from [192.168.1.11] ([64.57.193.93])
- by smtp.gmail.com with ESMTPSA id
- h18-20020ac87d52000000b003998bb7b83asm1694147qtb.90.2022.10.27.18.58.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 18:58:56 -0700 (PDT)
-Message-ID: <d6f14e09-0c24-e19a-0951-bb3ca2219e79@linaro.org>
-Date: Thu, 27 Oct 2022 21:58:54 -0400
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0606810E74A
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 02:04:13 +0000 (UTC)
+X-UUID: 51ad158fb887480b97349475c6d088ac-20221028
+X-CPASD-INFO: da4b9086a7f94a3095d4db7d96cbed57@rbFugmZiZmaNV6iFg6R-allmlGSUjle
+ ze3CDkpOUYVeVhH5xTV5uYFV9fWtVYV9dYVR6eGxQYmBgZFJ4i3-XblBgXoZgUZB3s6NugmleaA==
+X-CLOUD-ID: da4b9086a7f94a3095d4db7d96cbed57
+X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
+ TVAL:184.
+ 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:420.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
+ PHC:-5
+ .0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
+ SIG:-
+ 5, AUF:2, DUF:6943, ACD:123, DCD:123, SL:0, EISP:0, AG:0, CFC:0.668, CFSR:0.038,
+ UAT:0, 
+ RAF:0, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
+ ATTNUM:0 ,EAF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: 51ad158fb887480b97349475c6d088ac-20221028
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: 51ad158fb887480b97349475c6d088ac-20221028
+X-User: liweishi@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <liweishi@kylinos.cn>) (Generic MTA)
+ with ESMTP id 286517487; Fri, 28 Oct 2022 10:04:09 +0800
+From: liweishi <liweishi@kylinos.cn>
+To: airlied@redhat.com,
+	kraxel@redhat.com
+Subject: [PATCH] drm/virtio: fix the black screen error when waking
+Date: Fri, 28 Oct 2022 10:03:49 +0800
+Message-Id: <20221028020349.8722-1-liweishi@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v6 1/2] dt-bindings: it6505: add properties to restrict
- output bandwidth
-Content-Language: en-US
-To: allen <allen.chen@ite.com.tw>
-References: <20221027030155.59238-1-allen.chen@ite.com.tw>
- <20221027030155.59238-2-allen.chen@ite.com.tw>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221027030155.59238-2-allen.chen@ite.com.tw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,98 +55,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Pin-Yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: liweishi@kylinos.cn, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Ming Xie <xieming@kylinos.cn>,
+ gurchetansingh@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/2022 23:01, allen wrote:
-> From: allen chen <allen.chen@ite.com.tw>
-> 
-> Add properties to restrict dp output data-lanes and clock.
+Mainline: NA
+Category: Bugfix
+CVE: NA
 
-This is a friendly reminder during the review process.
+When the system wakes up from sleeping, all virtio devices
+will be reset. However, restting virtio gpu device will delete
+the virtqueue and resources saved on the virtio gpu backend,
+making it impossible for the virtio gpu driver to communicate
+with the virtio gpu backend and causing a black screen error.
+Rebuild the virtqueue and resources can avoid this problem.
 
-It seems my previous comments were not fully addressed. Maybe my
-feedback got lost between the quotes, maybe you just forgot to apply it.
-Please go back to the previous discussion and either implement all
-requested changes or keep discussing them.
+Signed-off-by: liweishi<liweishi@kylinos.cn>
 
-Thank you.
+Suggested-by: Ming Xie<xieming@kylinos.cn>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.c    | 22 +++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 12 +++++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c    | 47 +++++++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_object.c | 40 +++++++++++++++++++++
+ 4 files changed, 120 insertions(+), 1 deletion(-)
 
-Rob asked - Commit msg should explain reason for breaking users.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index 0035affc3e59..910b146d7e52 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -129,6 +129,23 @@ static void virtio_gpu_config_changed(struct virtio_device *vdev)
+ 	schedule_work(&vgdev->config_changed_work);
+ }
+ 
++#ifdef CONFIG_PM_SLEEP
++/*
++ * when the system wakes up from sleeping, all virtio devices
++ * will be reset. However, restting virtio gpu device will delete
++ * the virtqueue and resources saved on the virtio gpu backend,
++ * making it impossible for the virtio gpu driver to communicate
++ * with the virtio gpu backend and causing a black screen problem.
++ * rebuild the virtqueue and resources can avoid this problem.
++ */
++static int virtio_gpu_restore(struct virtio_device *vdev)
++{
++	struct drm_device *dev = vdev->priv;
++
++	return virtio_gpu_rebuild(dev);
++}
++#endif
++
+ static struct virtio_device_id id_table[] = {
+ 	{ VIRTIO_ID_GPU, VIRTIO_DEV_ANY_ID },
+ 	{ 0 },
+@@ -156,7 +173,10 @@ static struct virtio_driver virtio_gpu_driver = {
+ 	.id_table = id_table,
+ 	.probe = virtio_gpu_probe,
+ 	.remove = virtio_gpu_remove,
+-	.config_changed = virtio_gpu_config_changed
++	.config_changed = virtio_gpu_config_changed,
++#ifdef CONFIG_PM_SLEEP
++	.restore = virtio_gpu_restore,
++#endif
+ };
+ 
+ module_virtio_driver(virtio_gpu_driver);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 9b98470593b0..b652b3790bb1 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -212,6 +212,13 @@ struct virtio_gpu_drv_cap_cache {
+ 	atomic_t is_valid;
+ };
+ 
++struct virtio_gpu_object_resource {
++	struct list_head head;
++	struct virtio_gpu_object *bo;
++	/* parameters used in resource creation */
++	struct virtio_gpu_object_params params;
++};
++
+ struct virtio_gpu_device {
+ 	struct drm_device *ddev;
+ 
+@@ -262,6 +269,8 @@ struct virtio_gpu_device {
+ 	spinlock_t resource_export_lock;
+ 	/* protects map state and host_visible_mm */
+ 	spinlock_t host_visible_lock;
++	/* stores resource creation information */
++	struct list_head res_list;
+ };
+ 
+ struct virtio_gpu_fpriv {
+@@ -285,6 +294,7 @@ void virtio_gpu_deinit(struct drm_device *dev);
+ void virtio_gpu_release(struct drm_device *dev);
+ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
+ void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
++int virtio_gpu_rebuild(struct drm_device *dev);
+ 
+ /* virtgpu_gem.c */
+ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+@@ -456,6 +466,8 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
+ 
+ int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
+ 			       uint32_t *resid);
++void virtio_gpu_recreate_resource(struct virtio_gpu_device *vgdev,
++				    struct virtio_gpu_object_resource *vgor);
+ /* virtgpu_prime.c */
+ int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
+ 				    struct virtio_gpu_object *bo);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 27b7f14dae89..72a6bb3e9502 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -149,6 +149,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	spin_lock_init(&vgdev->fence_drv.lock);
+ 	INIT_LIST_HEAD(&vgdev->fence_drv.fences);
+ 	INIT_LIST_HEAD(&vgdev->cap_cache);
++	INIT_LIST_HEAD(&vgdev->res_list);
+ 	INIT_WORK(&vgdev->config_changed_work,
+ 		  virtio_gpu_config_changed_work_func);
+ 
+@@ -271,6 +272,15 @@ static void virtio_gpu_cleanup_cap_cache(struct virtio_gpu_device *vgdev)
+ 	}
+ }
+ 
++static void virtio_gpu_cleanup_object_resources(struct virtio_gpu_device *vgdev)
++{
++	struct virtio_gpu_object_resource *vgor, *tmp;
++
++	list_for_each_entry_safe(vgor, tmp, &vgdev->res_list, head) {
++		kfree(vgor);
++	}
++}
++
+ void virtio_gpu_deinit(struct drm_device *dev)
+ {
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+@@ -293,11 +303,48 @@ void virtio_gpu_release(struct drm_device *dev)
+ 	virtio_gpu_modeset_fini(vgdev);
+ 	virtio_gpu_free_vbufs(vgdev);
+ 	virtio_gpu_cleanup_cap_cache(vgdev);
++	virtio_gpu_cleanup_object_resources(vgdev);
+ 
+ 	if (vgdev->has_host_visible)
+ 		drm_mm_takedown(&vgdev->host_visible_mm);
+ }
+ 
++int virtio_gpu_rebuild(struct drm_device *dev)
++{
++	struct virtio_gpu_device *vgdev = dev->dev_private;
++	struct virtio_device *vdev = vgdev->vdev;
++
++	/* rebuild vgdev->ctrlq.vq and vgdev->cursorq.vq */
++	struct virtqueue *vqs[2];
++	int ret;
++
++	static vq_callback_t *callbacks[] = {
++		virtio_gpu_ctrl_ack, virtio_gpu_cursor_ack
++	};
++	static const char * const names[] = { "control", "cursor" };
++
++	vdev->config->del_vqs(vdev);
++	ret = virtio_find_vqs(vdev, 2, vqs, callbacks, names, NULL);
++	if (ret)
++		return ret;
++
++	vgdev->ctrlq.vq = vqs[0];
++	vgdev->cursorq.vq = vqs[1];
++
++	/*
++	 * if resource_blob and virgl 3d are not used,
++	 * all resources should be recreated.
++	 */
++	if (!vgdev->has_resource_blob && !vgdev->has_virgl_3d) {
++		struct virtio_gpu_object_resource *vgor;
++
++		list_for_each_entry(vgor, &vgdev->res_list, head) {
++			virtio_gpu_recreate_resource(vgdev, vgor);
++		}
++	}
++	return 0;
++}
++
+ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 8d7728181de0..349a62a4992b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -83,6 +83,30 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ 	}
+ }
+ 
++static void virtio_gpu_object_resource_restore(struct virtio_gpu_device *vgdev,
++						struct virtio_gpu_object *bo,
++						struct virtio_gpu_object_params *params)
++{
++	struct virtio_gpu_object_resource *vgor;
++
++	vgor = kzalloc(sizeof(*vgor), GFP_KERNEL);
++	vgor->bo = bo;
++	memcpy(&vgor->params, params, sizeof(*params));
++	list_add_tail(&vgor->head, &vgdev->res_list);
++}
++
++static void virtio_gpu_object_resource_remove(struct virtio_gpu_device *vgdev,
++						struct virtio_gpu_object *bo)
++{
++	struct virtio_gpu_object_resource *vgor, *tmp;
++
++	list_for_each_entry_safe(vgor, tmp, &vgdev->res_list, head) {
++		if (vgor->bo->hw_res_handle == bo->hw_res_handle) {
++			list_del(&vgor->head);
++		}
++	}
++}
++
+ static void virtio_gpu_free_object(struct drm_gem_object *obj)
+ {
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+@@ -92,6 +116,8 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
+ 		virtio_gpu_cmd_unref_resource(vgdev, bo);
+ 		virtio_gpu_notify(vgdev);
+ 		/* completion handler calls virtio_gpu_cleanup_object() */
++
++		virtio_gpu_object_resource_remove(vgdev, bo);
+ 		return;
+ 	}
+ 	virtio_gpu_cleanup_object(bo);
+@@ -232,6 +258,8 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+ 					       objs, fence);
+ 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
++		/* records information related to resource creation  */
++		virtio_gpu_object_resource_restore(vgdev, bo, params);
+ 	}
+ 
+ 	*bo_ptr = bo;
+@@ -245,3 +273,15 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 	drm_gem_shmem_free(shmem_obj);
+ 	return ret;
+ }
++
++void virtio_gpu_recreate_resource(struct virtio_gpu_device *vgdev,
++			     struct virtio_gpu_object_resource *vgor)
++{
++	struct virtio_gpu_mem_entry *ents;
++	unsigned int nents;
++
++	if (virtio_gpu_object_shmem_init(vgdev, vgor->bo, &ents, &nents) != 0)
++		return;
++	virtio_gpu_cmd_create_resource(vgdev, vgor->bo, &vgor->params, NULL, NULL);
++	virtio_gpu_object_attach(vgdev, vgor->bo, ents, nents);
++}
+-- 
+2.25.1
 
-> 
-> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> ---
->  .../bindings/display/bridge/ite,it6505.yaml   | 68 +++++++++++++++++--
->  1 file changed, 62 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> index 833d11b2303a7..b16a9d9127ddb 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> @@ -52,9 +52,49 @@ properties:
->      maxItems: 1
->      description: extcon specifier for the Power Delivery
->  
-> -  port:
-> -    $ref: /schemas/graph.yaml#/properties/port
-> -    description: A port node pointing to DPI host port node
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: A port node pointing to DPI host port node
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              link-frequencies:
-> +                minItems: 1
-> +                maxItems: 1
-> +                description: Allowed max link frequencies in Hz
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: Video port for DP output
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                uniqueItems: true
-> +                items:
-> +                  - enum: [ 0, 1 ]
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +
 
-This looks ok.
-
-Best regards,
-Krzysztof
-
+No virus found
+		Checked by Hillstone Network AntiVirus
