@@ -2,119 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD39610824
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 04:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0840610892
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 05:11:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F6B10E046;
-	Fri, 28 Oct 2022 02:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3BB10E029;
+	Fri, 28 Oct 2022 03:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2088.outbound.protection.outlook.com [40.107.21.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C9510E045
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 02:34:28 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E87910E029;
+ Fri, 28 Oct 2022 03:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666926691; x=1698462691;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=aGfL6j57yibqWrnQR3aLext0EGEZp6OMOWZzqEGqKZE=;
+ b=hhhIv1rKJpkUsJiywSXB0YT9kN1MtEfsOInvxo6tTcdR+rEOg5cDeQWg
+ CohfYVYnqC786yekp24FePgcTwyNAUs+s22ytKxe/GYXTh/qaEjqTDitO
+ KB3G6KYZF74mj0Quoi5PdkHjec+QkBO2rk1Kj2E4yE5tFexalrxYIBwIr
+ nxfE1CtCr6uirjTwY/v9petWfJgwQyj8hzmL1SIIbCTbzZ1FMQanIVxiO
+ Ade62QTC7bZ7QXrE64zduFT40BmdNP5Nuff4YTXbfYYiqcvOapTzUgwQE
+ +XNDLYBNXFghRSRA7RLkTO3cqhuYQc/S7xNh7f6MSsAgo73vWqi9RK7hJ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="372612031"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="372612031"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 20:11:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="807680134"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="807680134"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga005.jf.intel.com with ESMTP; 27 Oct 2022 20:11:30 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 27 Oct 2022 20:11:30 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 27 Oct 2022 20:11:29 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 27 Oct 2022 20:11:29 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 27 Oct 2022 20:11:29 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y70NCaFLPFWl0qH3vlTb3fAHOsanRjSoShg+q0XdJ8e2PRpmbCR62C638Yyc722D0h7kIA9RhwkIWz9gUcmm2lDBigZp57PeEnqerz8thAM+6QJFDs5v57HYzfl8zVjo9pYGH5cbdkkqCA04Jn0EZ7nEFWSA3tGg2RHdnE/ZisAwSikZ91k0mBdPVAjPQYuFLXdGdQqSE1Bl4lGKLG68JYtzYz7/thnov/F2b56phEaIqJOOSqzLtou/dQTcYmgKA3zc2f8u3HlMmJdxrYZ7CnuJ4+vGWcaBELYuAdHpfsoG/vHz5yWeAgjYpWmzs1Bc6AhtPSXyOlFAqk5AN0OAMg==
+ b=TpZTwhX0ufRMCPS4K34rWFzga9OfC7YzE61nfoEZxby7ZQo0mYr/WHytHxoS9X6evm+qy+Gnjh4E0mnJJAHYoJLbjHGrAhRF0zrE2Q2e/+hDzYZDxZVE7JaEwb2OFnMvc51Ahm4N6Du1nJKw6f07pSHkXviBHN9A4PnL4kP8MwBWsVJgNEeTYXrGI05K3gL8tRU2iNu1/fHG/v0kBcFqZvMt78QZ9o8SUB8cSx6pbwBmw3GdRPhId5y6h3gMkM1GYBMiVn9DcG6dtf68DQkoeHLsfGusZboUrj8OWGM1uH+ioaR5gn6SbzT5VhNjWqGroKVbjvU0ruLtRUd9KVp97A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a3dfR+Vl34wIOWg6tJYVDZCMqWmRT0+s6W5ryC4z6Fc=;
- b=YBSdNSSVoSV2LOkEd1OuSEctXE3hctnMalUgxx13Kl5uhMNFC9aptb6c6Q6HLg+hncPP5tLBzeJCageocLre/2rw1aoD3qF5/4TU6CgH07v+CwBUhsQVo2oup26AQj64IxfRJQAik1nU2lu9uO+x8vRV7/Z7DqjYlvl8uVh4bkcjNPDs2p4T0Xi8kQOD4bpikubsavPyJd8jvfPKKzsm99IBOw/mkoUtfN2IftLGXGBeKOG3tqOzUsR+WbTJwitmJ6WL8CK9nyOzr85EvwXz/L59B/6c/9tYBpepAUQ3sL8XQhWPEWOV45W+Pqs3HrFI5g41RU1iILw+PV/OrWcK/g==
+ bh=1WkhpvovE8HZ+HAyDxR9zT3UdhZnE/SUEqt6C54ebFQ=;
+ b=NoFXnANcC/M16zCpRZHaRtte/NoQqqBHMhyQ1pw8knIWWjb9dMZ7/BdY6anRFHTGgNf7mQVOieDb1uRer7x9vPVuspwGi9EcaBIPefvGFgJhjURq+fEwb4QWKXmc4nyacqj5VsR73AED96+6y0+pMGp5NfaPj8nHnr6IcJ+mAg2BGV3KUJAHi9QCmZkGRFUgRqCV/CD2rhT2K63WFA0HJ6mfP9i59Y+epUU0C+CQPKWAxWj0wetXTI0+0LVWklSnpIGRnPKP8rVeoBkFEVEFrByJS34UbKLh5H1CIfBcYy1TVxJcqM57kgE+ncCSP0NrS6p0KOuQohYsIBxXyZkcWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a3dfR+Vl34wIOWg6tJYVDZCMqWmRT0+s6W5ryC4z6Fc=;
- b=NOy8NMXpVW+/z9j6ipgvaCl5BG/w7pZxXt7a45LtYFl7d2n1dajb1ERq10BYfOUzw5JLs2+CBvz0lbrtZ0dbgzcZgGd5fDre9Or8/ADzNSvO6W50m7jiMCVn20i0+uBeLemM1jMDH6YLMR922XHfosH4uLlvVxSJHkno9cTTQIA=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM7PR04MB7013.eurprd04.prod.outlook.com (2603:10a6:20b:116::18)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
+ by MW4PR11MB5936.namprd11.prod.outlook.com (2603:10b6:303:16b::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Fri, 28 Oct
- 2022 02:34:25 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::dcca:b62f:206b:dcf8]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::dcca:b62f:206b:dcf8%3]) with mapi id 15.20.5746.021; Fri, 28 Oct 2022
- 02:34:25 +0000
-Message-ID: <57059f620dc6dbd63ef289a82c8dae685d048242.camel@nxp.com>
-Subject: Re: [PATCH] drm: lcdif: Set and enable FIFO Panic threshold
-From: Liu Ying <victor.liu@nxp.com>
-To: Marek Vasut <marex@denx.de>, Marco Felsch <m.felsch@pengutronix.de>
-Date: Fri, 28 Oct 2022 10:33:29 +0800
-In-Reply-To: <45837065-f231-8c72-4818-d943133d66a5@denx.de>
-References: <20221026212002.542375-1-marex@denx.de>
- <2e9368bcc1c354ff01e63b9c451d839aa6a7a36f.camel@nxp.com>
- <9bd9ee85-3a20-f13a-3984-017a439e08cd@denx.de>
- <6398adb972ef8623fd594fd573b5ed6838948516.camel@nxp.com>
- <20221027174748.niz6wi7dqwj3nlyr@pengutronix.de>
- <45837065-f231-8c72-4818-d943133d66a5@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2P153CA0001.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::7)
- To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Fri, 28 Oct
+ 2022 03:11:23 +0000
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::8007:140:f87b:ce57]) by MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::8007:140:f87b:ce57%5]) with mapi id 15.20.5746.028; Fri, 28 Oct 2022
+ 03:11:22 +0000
+Date: Thu, 27 Oct 2022 20:11:20 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH 3/5] drm/i915/mtl: add GSC CS interrupt support
+Message-ID: <Y1tIWPl752tBJm6n@mdroper-desk1.amr.corp.intel.com>
+References: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
+ <20221027221554.2638087-4-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221027221554.2638087-4-daniele.ceraolospurio@intel.com>
+X-ClientProxiedBy: BY3PR04CA0024.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::29) To MWHPR11MB1632.namprd11.prod.outlook.com
+ (2603:10b6:301:11::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM7PR04MB7013:EE_
-X-MS-Office365-Filtering-Correlation-Id: 594eda97-8287-4051-df2f-08dab88cee11
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|MW4PR11MB5936:EE_
+X-MS-Office365-Filtering-Correlation-Id: f53d8e73-b3d2-4740-15b6-08dab892178c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z598hZXqocFgkPbDD2EGDn3c+9fzMtgtjZY72JGiaGAu7IVIT7MYhOcaUflQH0esa03GyOVrUc1RIFLUupor8RNNCZuJkB6fltm4FfcHStgy/WIlCuiwmVvQAo0h3L4i0IN8U8qnzYh2/lTsoKJ1gbJ8DltBWXm88IvZJ0fPbYjq+2wg6MbqI3RiwJNpfEYAeVqRc65PvujuRi/dGypHuqy3aRJ/z7D6Y6MjY9uNudJAC4qEGrSeOmg/zYbW187DZjuU6f/LjXEypG+pyCyLK559Te323BdUAG8ib4CNCiVnqHVvojf77gDm4w9gmOs2hVysBNg3QycBnZFee8bPx+lZlhPA+87vDHdzYhTJ16nSMnyAg7s3RITZaDgkCSr/3KnNk5Pq8kRE6FIARyzR9Pb5CrdZnY+bSsIcwt731QqTIS6V30B1IIj19poTRz8YegpYMsLF11xNJf2+v1D28YpAp42Tym6nKgsTFObTkDPmkLFhSJ91thTGUUpvpgaJOZlOH+f0QIC1rmXUFskTVH9TySnYWIFbMTLrtlbs5ygFZy75aLWS7RhqjySk3NleDBkiYcR2kYRPQ+Azhtsh4rJ154sD0SnqGElNgEuJ4uU52oqVmMoCZnj+gVG+qUsHUjoCQTHaO7nmqaa0pBqvIFlBH9hCMaW1WtagNFz0k+jcPDpW68Xesyx+SuT7esLflPjh5/Am3CF9WQEcOI2S2I3D66HDza8vym5NA1VdWLbhlSg9WA91Bd6YshAOwjhwmwRu9yUCwsItkX8PF8+q6q6kCAT+IbYvRxbWDodozrc=
+X-Microsoft-Antispam-Message-Info: xe0QNniPy006FDK3hNjaaTXPnNZxT8/aCdGCYh6n+7GrkGF5Yp90s94GaCpmSjXU8bbHcj1OqtmAaK9S2nlV1++0QgkL7+c97WiH0I4iRgg7l/u+M66erm1QQcVFIXIggNGutgqGWnPn5kQpJHljDw4ckdK4f61UyljjsYL5HRopMN+WHnpR/Pk5a92zcH6n9cSvbeYgnSeUI5crFaRKmM2o/+hKrDzTIoy8OeShnvN01y84A63dDGDHXm6lJ34yZ9tY2CrSDmxt6B6HaYKD4jmEcVdfS7OzlNtPa2Bi3ZHM4zAnW1d6KBlVNCUmpJyB/naBWKCHfx4I9VTKK0gulgN/D8vjVCgvA0mJnjrvb2w0aVEhfRDyXXPEiu4MG/LOaT2JM4dJMtypTTsLXwHWqDhqXljUDDHU66TNr+O2sZ+grulq7ogk8UlOMuVeKZi5uzwSvnX91c/wMc3Aiwf2EJHG++p4e7Bm0OWhCUyyK7G1WOKn8Hg9kA8tb4++igMV/8uVtM4VYROXfdqxS6mYu2XIQ7SvQGoO5teWGvzwKM0Rn9k/bPB6cbIdC1HHAObRJ5ByzPTp8Wct/nWU9i/WyONgPIK9GPYNhXJ93XeqIc4IFYs44wLscGEdOlY7NjPju/BAPXkn9RRsyTHKhvFnlh74+c2UFRbeYsAPaSZC5MHgiQHK5/6GTFvjXf2KhShWGHaK9JvV9/byMzZp2Y66yw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(346002)(136003)(396003)(39860400002)(451199015)(54906003)(8676002)(316002)(4001150100001)(41300700001)(8936002)(66476007)(66556008)(110136005)(478600001)(6486002)(36756003)(83380400001)(5660300002)(86362001)(6506007)(26005)(38350700002)(52116002)(6512007)(66946007)(2616005)(2906002)(4326008)(38100700002)(53546011)(186003)(99106002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(376002)(346002)(396003)(366004)(136003)(451199015)(4326008)(66556008)(8676002)(6506007)(8936002)(66946007)(6862004)(316002)(26005)(66476007)(6636002)(41300700001)(83380400001)(82960400001)(6512007)(86362001)(38100700002)(5660300002)(6486002)(2906002)(186003)(478600001)(450100002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWl2aURSc3NxNVNlUHQ4Q3hhcElwZVRocFVSaHRFNmVxSlZlWTJrcnc3Rktt?=
- =?utf-8?B?cE5qV0VNa0xIc0x4Y2MyNUNYWVJmMis0dkoxSzJsYzJOOStpbkY4TUY2OVhS?=
- =?utf-8?B?eXFmT3hHd3N1azFJekVYSXdXWW1WcjJjZjNhZjJ5WGY5S0FIV2NVZFgrWVN4?=
- =?utf-8?B?aTVWN1VzWjQ0QlcyL0lKbVJieVBEKzU4VkNFMkFmRGRHd0NmVmZXcGZNclRN?=
- =?utf-8?B?c0drMElMY1g1U2FPRGJWdm1RRjgwOGVmcFFCQ1ZsRVFuSW83Y3BFWkw1Yk0w?=
- =?utf-8?B?QnJCVlBYQkhCNjlJTGhEL3pxdzZEWVIwczZUaDRzMGhHSFZQMzc3VWhrcEFs?=
- =?utf-8?B?T3lMT290dWlUVGU2WGd5THg4SmFFbUw1OTBZa0k3YUxZaVppNlRUb3hwOGZl?=
- =?utf-8?B?NnQrVFRNajJGNUJpT284R0N6N3hHQUd0R3BJSWh0V2Jzcm96d1RZNmxCUXZM?=
- =?utf-8?B?ZTZueFFXZWpTRDBoVGxXNStxL215VytSdWRLYnFuUnBieWp1TGhPSjM1TUlD?=
- =?utf-8?B?QWdDRG53WG83U0szaHNTZytZOGtrNWEwMVVhVVBlYlUwYXdTTmxJY1JPVmVE?=
- =?utf-8?B?RkhZdjF3RjY1STEwOEo3R2N4ZXhUVTExR3JNazVWL0hyRyttV1EyeXJpT1NM?=
- =?utf-8?B?QjcvVHdYSUttTE14MDNvTVdMK0wwU2ZFUHp1d3NPQzFjOGRTQ2xDa29seDZD?=
- =?utf-8?B?T3lEU2VwaWVQMDNNMkM0U0FDdE1OVWJsSFUzTjcyQ2NndmFZNllxeFVzUEJs?=
- =?utf-8?B?bGZrWFlqaVhrUWRPdk13ZFJpQ1JoelRLbUdWVlFEOUFXeDlMeSsySVR6S3NR?=
- =?utf-8?B?TE9VYnE3bVN4V1dUKzFaRklwZjZscS9mODBHN3gzQjRLTzN1ZUFSUGxlWmph?=
- =?utf-8?B?Uk50NTM2RHpZMU1ocWwzYnRsVm5nSjY0aEtoblFTSlpjcWNtbU9VR25SQlFi?=
- =?utf-8?B?S3UrRTVwM2J0WG5Td2F3SFgycjBaM1N3ZnZPdmJGTndiNkEvNWI5VmM3WFdo?=
- =?utf-8?B?V3Azd1MwT0dZZWYyMjBnNEJiV0R3YTNaUE43UHNWMjBYSllJNW81OGpJVkl1?=
- =?utf-8?B?NXBlcER4RHhUUmw3Zm1JUGxUWmtMMzg3cjBQd3pUTUJkbjNhR21ycUF6ZFYw?=
- =?utf-8?B?UnoxeEpsUlhHb0c2NGNSVmVuS3U2M0lCSzMvYjIwNWtzWndxQWp3OWlVYTg0?=
- =?utf-8?B?VFdoNUpyR2RoeVI1QzRyQ2FmK2lDTTVPMFJMRUd4aThtdnlaMTU0TUd6a3hy?=
- =?utf-8?B?bkhwdmxMYS8vY1NGUG5iMzh4OU5vb2tRdDJ4eGpYdjZPZm5pR2QvR3lpMTc2?=
- =?utf-8?B?QzdlMVY2bGw3QVZaOEora01OLzBwb1JXUnF1SXc1Y2RSTEVLS2cwdkw0Rkti?=
- =?utf-8?B?U21mdTVPYXZNZVN4WXdxN0RTY1N1enQ2R1c5RldpM0kwQXIvK2xzRVdmSWVN?=
- =?utf-8?B?UEVmaTVnQVJsMmlWMTZkUndvT1NReWFieGxtazRjQmp2aitMenhSOWh0cDRH?=
- =?utf-8?B?TEc0Unl6SCt2MEUzanR3MEJPQlRDRXpIbWJjeVFXbG9hTVBoVDU1NlhROFdo?=
- =?utf-8?B?VTFMYTFRLytlcHhYbCs3eUcrR3Z5Vm8xRW1QREI0OW5pN2p1UkdQYlBTSjlC?=
- =?utf-8?B?NFBnNjErYVUrcUoxV2F2Y1M3a2hIZ3lTQklCQloybXc1NDJEcFFlb1pPYlgw?=
- =?utf-8?B?ZXAxM2NjSDkvOTdONXZETHk4UmRFTXNQcGsvZC9QR2wyWTB4TzVsZEluK1Vr?=
- =?utf-8?B?V3lIeEhqVWY0N3p6L1IrZk9WUElvdm0rWXYvbDVmdnhlSEJHUmQ0aGMybGlL?=
- =?utf-8?B?WmxvdFQ1RXNyaUI5R3JsZm05VEZrMzVENndQUjlucFhndThIdnNLWEIwQjIr?=
- =?utf-8?B?K2pYWlJxY1U1R1NFb3pxQkxLcFhCcG1GUHF3NmhPejdKM1RvZTJLTEZRWFVS?=
- =?utf-8?B?QkM4aDIvZmpreS96clBsNjRpRlpJcUtTdUxlL3o2ZFVWNnR3TmxmQW9ZSjB4?=
- =?utf-8?B?bVptUjFTbHcxbkNmL0pIN09PM2lBT2g4T29LWTR5Y3JZcGZxQWNiYkFXZXhH?=
- =?utf-8?B?aXAvcUVoRHptZlFVczQ2UWtaUnRCeTdDRXhnamFqOGlxWnNnNlU5MitaWSt4?=
- =?utf-8?Q?Nm+l2q1JGisrURw7/XKX4sWIX?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 594eda97-8287-4051-df2f-08dab88cee11
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Myg2qifUwoJ4924w/ytxMXBEdzs8KOPy5zCLejfnBZqn0finRL1iM32VKNdG?=
+ =?us-ascii?Q?SH4XH7Nd61PZa8UcTNoHL8RLjvyL6xzKjqVF9zvX5x3Wd6fPXbjeG0vbH5wB?=
+ =?us-ascii?Q?tYQNItnl/DRxdLXuGUst4SE1iZ0L2Wq/Cyz4dJGvaAOn4zFIAiAfqbKzMtS7?=
+ =?us-ascii?Q?vpC4xC99aSBIEvFa9mckweAZVk/mKeIRfNDZ21sY+3ppex4thOYj70AlQ4G9?=
+ =?us-ascii?Q?KGVqGrSZs2OUA2dYKxUs+wiuIvLi5nGH3stu3dQNFMvYzFPwvvpjJHNaPJgS?=
+ =?us-ascii?Q?EOWsE3jRJMghH2D7j+F6v2AxD1qa1X5vszrqRfXcjIyO77xAFb+T6OeREzZ4?=
+ =?us-ascii?Q?EUBrkN6Q7hqWpWDhbGTvBkaHsSTJtHUZmb2/Hww7MvnJV3q0OXACzxwsxZYy?=
+ =?us-ascii?Q?wEnERa1UzwCYU5mUXXp1Fl6Ao0K50HeJ6UxUm3QshL3RrG2O4yLDPF8Ha0NH?=
+ =?us-ascii?Q?VEJ0WmtJZqxuz7Sq/SJAsrlSAFdusXICyv/kqWFskcd2UQa39kydiW7N9Yq+?=
+ =?us-ascii?Q?MNo68e4Ljsa6tXOiYgWsFxInLpliP34FUyae/vk3/CtTV97Xu/jBUyTpafza?=
+ =?us-ascii?Q?8AucZUucGul1YTwKtIUAgrLls61qe90XkPiNecXs3AndiFsxEb7xNnbhUIi6?=
+ =?us-ascii?Q?Cxw3jrm1OkaYPsZn0nHC8QvZYxT/faseaEvtII23uZBwLSlQubbpNQeYTkJX?=
+ =?us-ascii?Q?rayX3MUYWWmtvfrNl78fm6JinGw88oggWTEx4FPUJhpcYOD6o8FRzpvHZO+0?=
+ =?us-ascii?Q?bnwbDw28CYZkOWqTsfHM+kmeq53h+E0QVkcY7P49O9IpG6cQqKLjLTHhp8cl?=
+ =?us-ascii?Q?7P7GvGDPFNX9gXeT43ocdPGuM0AuOH1mjOe6JO9sdH+4rXdqDUNhIAFIIFfB?=
+ =?us-ascii?Q?NUsr8JGhxHDrENbAlz/HkF6TjK+RnE3N84lUn7vo87WX7/jEKL35nihOU+uR?=
+ =?us-ascii?Q?QdNq0SXDCKo6dd9Vjsl63/7AIZV3D022ZZejJpSj6PCEim++MRbjFEIo8OfM?=
+ =?us-ascii?Q?yCDn/cDTtlJw9Ok1etrJM6coSOtA+8ZhaMusA1oolRTKMWnAQzR/Ef/bkdTL?=
+ =?us-ascii?Q?z3GrVHhFfqGGFJ7g05HmvTzlYPtdDD9BbXd5ZgihqWnOA4I8Mhb/k6MFFLG8?=
+ =?us-ascii?Q?yZAi2VQQ/0OO5Pxqhb4wjGJMNY+K3/gdq5XNbWqYXof/Kd5IbZXB+GuB/NpV?=
+ =?us-ascii?Q?A2nKRlOo14UjInb4wEj3WeOS4D4aLFaE/B7SzIH4Fnh7RBi1qdlD7FlRAPqx?=
+ =?us-ascii?Q?7Pm/+8bprOGBZijwdRtjzhPBTQEKbTTzgsHLLQyAQ/ufqBOPcBizsxyEZjHx?=
+ =?us-ascii?Q?o6tktgjrk9eeE6GsNPOCIx21k7Qfyat2gVFT63cTlnQjEEz5FCOu9SGYUkq0?=
+ =?us-ascii?Q?DnUckOimuSMYzTb0kq4itPXRpZE+5hz7+L2q3dhMNoHWM4PC6Kuyi/0mgIVT?=
+ =?us-ascii?Q?Gt6aXuC45dnAD7IDXMQDH7tucJwubQxmdobf/ZALMQemt35gRaoONz7YK37w?=
+ =?us-ascii?Q?4tuHQwNpCBBKFfbTK+xnjNKKCN3PjzU00PDMwM+rsJ+th13INeG7xBWMjsM5?=
+ =?us-ascii?Q?LiiSMSLj9Ju5U9d8Xo22iiTp/Sp3YyydndKFi2z0sXl6voTmsNPqyiLVAMvW?=
+ =?us-ascii?Q?lA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f53d8e73-b3d2-4740-15b6-08dab892178c
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 02:34:25.7470 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 03:11:22.8638 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cuNNRqRvPa7N+38cSLt59zFHxZZVZP7I+1CDz8WS0p9HpjLSzw4bSze0L+i6mtfndq6pqRW6sm42XzaZux74Uw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7013
+X-MS-Exchange-CrossTenant-UserPrincipalName: WVLLDcFp/0VL4nPvCsRLQzodbIxvjrTN0H94hA4cF2RgZF31/oYdPIkDAIkjXQy5XNAVjdP2s+cWFKPjnixvXaLpvLNom04AyljXy6P07nQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5936
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,147 +147,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>, Martyn Welch <martyn.welch@collabora.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, "jian.li" <jian.li@nxp.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2022-10-28 at 02:03 +0200, Marek Vasut wrote:
-> On 10/27/22 19:47, Marco Felsch wrote:
-> > On 22-10-27, Liu Ying wrote:
-> > > On Thu, 2022-10-27 at 12:03 +0200, Marek Vasut wrote:
-> > > > On 10/27/22 07:45, Liu Ying wrote:
-> > > > 
-> > > > Hi,
-> > > > 
-> > > > [...]
-> > > > 
-> > > > > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > > > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > > > index a5302006c02cd..aee7babb5fa5c 100644
-> > > > > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > > > @@ -341,6 +341,18 @@ static void
-> > > > > > lcdif_enable_controller(struct
-> > > > > > lcdif_drm_private *lcdif)
-> > > > > >    	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > > > >    	reg |= CTRLDESCL0_5_EN;
-> > > > > >    	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > > > > +
-> > > > > > +	/* Set FIFO Panic watermarks, low 1/3, high 2/3 . */
-> > > > > > +	writel(FIELD_PREP(PANIC0_THRES_LOW_MASK, 1 *
-> > > > > > PANIC0_THRES_RANGE
-> > > > > > / 3) |
-> > > > > > +	       FIELD_PREP(PANIC0_THRES_HIGH_MASK, 2 *
-> > > > > > PANIC0_THRES_RANGE / 3),
-> > > > > 
-> > > > > Better to define PANIC0_THRES_{LOW,HIGH}(n) macros in
-> > > > > lcdif_regs.h?
-> > > > > 
-> > > > > Downstream kernel uses the below threshold values:
-> > > > > a) i.MX8mp EVK board with LPDDR4
-> > > > > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in
-> > > > > driver
-> > > > > 1/2 and 3/4 for LCDIF3 + HDMI - set in device tree
-> > > > > 
-> > > > > b) i.MX8mp EVK board with DDR4
-> > > > > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in
-> > > > > driver
-> > > > > 2/3 and 3/3 for LCDIF3 + HDMI - set in devic tree
-> > > > > 
-> > > > > Jian told me that LCDIF3 needs different sets of threshold
-> > > > > values
-> > > > > for
-> > > > > different types of DDR to avoid 4k HDMI display issues and
-> > > > > the
-> > > > > threshold values impact overall DDR/bus utilization(?), so
-> > > > > downstream
-> > > > > kernel chooses to get optional threshold value properties
-> > > > > from
-> > > > > LCDIF DT
-> > > > > node.
-> > > > > 
-> > > > > Instead of always using 1/3 and 2/3, maybe there are three
-> > > > > options:
-> > > > > 1) Same to downstream kernel, take 1/3 and 2/3 as default
-> > > > > values
-> > > > > and
-> > > > > get optional threshold values from DT properties - no
-> > > > > additional
-> > > > > properties are acceptable in the existing DT binding doc?
-> > > > > 2) Check pixel clock rate, and if it is greater than a
-> > > > > certain
-> > > > > value,
-> > > > > use 2/3 and 3/3.  Otherwise, use 1/3 and 2/3.
-> > > > > 3) Always use 2/3 and 3/3.
-> > > > 
-> > > > Why 2/3 and 3/3 instead of 1/3 and 2/3 ?
-> > > 
-> > > 2/3 and 3/3 trigger panic signal more easily than 1/3 and 2/3.
-> > > 
-> > > > 
-> > > > Seems like 1/3 and 2/3 provides enough FIFO margin for every
-> > > > scenario.
-> > > 
-> > > I didn't tune the threshold values.  What I was told is that some
-> > > usecases suffer from the FIFO underflows with 1/3 and 2/3.  And,
-> > > it
-> > > appears that FIFO doesn't underflow with 1/2 and 3/4 or 2/3 and
-> > > 3/3 in
-> > > those usecases.  That's why downstream kernel chooses to use 1/2
-> > > and
-> > > 3/4 or 2/3 and 3/3.
-> > 
-> > Hi Liu Marek,
-> > 
-> > I thought that: If the PANIC is enabled and the pre-configured
-> > panic-priority is high enough, nothing should interrupt the LCDIF
-> > in
-> > panic mode since it has the highest prio? So why does it the
-> > downstream
-> > kernel configure it differently for different use-cases?
-> > 
-> > Also IMHO the threshold should be taken wisely to not enter panic
-> > mode
-> > to early to not block others from the bus e.g. the GPU.
+On Thu, Oct 27, 2022 at 03:15:52PM -0700, Daniele Ceraolo Spurio wrote:
+> The GSC CS re-uses the same interrupt bits that the GSC used in older
+> platforms. This means that we can now have an engine interrupt coming
+> out of OTHER_CLASS, so we need to handle that appropriately.
 > 
-> As far as I understand the PANIC0_THRES, both thresholds are really 
-> watermarks in the FIFO, 0=EMPTY, 1/3=LOW, 2/3=HIGH, 3/3=FULL. Under 
-> normal conditions, the FIFO is filled above 1/3. When the FIFO fill 
-> drops below LOW=1/3, the "PANIC" signal is asserted so the FIFO can
-> be 
-> refilled faster. When the FIFO fill raises above HIGH=2/3, the
-> "PANIC" 
-> signal is deasserted so the FIFO refills at normal rate again.
-> 
-> It seems to me the LOW=1/3 and HIGH=2/3 thresholds are the kind of
-> good 
-> balance. The LOW=2/3 and HIGH=FULL=3/3 seems like it would keep the 
-> "PANIC" signal asserted much longer, which could indeed block others 
-> from the bus.
-> 
-> It also seems to me that tuning these thresholds might be related to 
-> some special use-case of the SoC, and it is most likely not just the 
-> LCDIF thresholds which have been adjusted in such case, I would
-> expect 
-> the NOC and GPV NIC priorities to be adjusted at that point too. So 
-> unless there are further details for that use-case which justify
-> making 
-> this somehow configurable, then maybe we should just stick to 1/3
-> and 
-> 2/3 for now. And once there is a valid use-case which does justify 
-> making this configurable, then we can add the DT properties and all.
-> 
-> What do you think ?
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
 
-No strong opinion from me on using LOW=1/3 and HIGH=2/3 thresholds for
-now if they satisfy all current users of the upstream kernel.  Tuning
-them in a certain way will be indeed needed once an usecase comes along
-and still suffers from the FIFO underflows with those thresholds.
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-Regards,
-Liu Ying
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_irq.c | 78 ++++++++++++++------------
+>  1 file changed, 43 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> index f26882fdc24c..34ff1ee7e931 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> @@ -81,35 +81,27 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
+>  		  instance, iir);
+>  }
+>  
+> -static void
+> -gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
+> -			 const u8 instance, const u16 iir)
+> +static struct intel_gt *pick_gt(struct intel_gt *gt, u8 class, u8 instance)
+>  {
+> -	struct intel_engine_cs *engine;
+> -
+> -	/*
+> -	 * Platforms with standalone media have their media engines in another
+> -	 * GT.
+> -	 */
+> -	if (MEDIA_VER(gt->i915) >= 13 &&
+> -	    (class == VIDEO_DECODE_CLASS || class == VIDEO_ENHANCEMENT_CLASS)) {
+> -		if (!gt->i915->media_gt)
+> -			goto err;
+> +	struct intel_gt *media_gt = gt->i915->media_gt;
+>  
+> -		gt = gt->i915->media_gt;
+> +	/* we expect the non-media gt to be passed in */
+> +	GEM_BUG_ON(gt == media_gt);
+> +
+> +	if (!media_gt)
+> +		return gt;
+> +
+> +	switch (class) {
+> +	case VIDEO_DECODE_CLASS:
+> +	case VIDEO_ENHANCEMENT_CLASS:
+> +		return media_gt;
+> +	case OTHER_CLASS:
+> +		if (instance == OTHER_GSC_INSTANCE && HAS_ENGINE(media_gt, GSC0))
+> +			return media_gt;
+> +		fallthrough;
+> +	default:
+> +		return gt;
+>  	}
+> -
+> -	if (instance <= MAX_ENGINE_INSTANCE)
+> -		engine = gt->engine_class[class][instance];
+> -	else
+> -		engine = NULL;
+> -
+> -	if (likely(engine))
+> -		return intel_engine_cs_irq(engine, iir);
+> -
+> -err:
+> -	WARN_ONCE(1, "unhandled engine interrupt class=0x%x, instance=0x%x\n",
+> -		  class, instance);
+>  }
+>  
+>  static void
+> @@ -118,12 +110,24 @@ gen11_gt_identity_handler(struct intel_gt *gt, const u32 identity)
+>  	const u8 class = GEN11_INTR_ENGINE_CLASS(identity);
+>  	const u8 instance = GEN11_INTR_ENGINE_INSTANCE(identity);
+>  	const u16 intr = GEN11_INTR_ENGINE_INTR(identity);
+> +	struct intel_engine_cs *engine;
+>  
+>  	if (unlikely(!intr))
+>  		return;
+>  
+> -	if (class <= COPY_ENGINE_CLASS || class == COMPUTE_CLASS)
+> -		return gen11_engine_irq_handler(gt, class, instance, intr);
+> +	/*
+> +	 * Platforms with standalone media have the media and GSC engines in
+> +	 * another GT.
+> +	 */
+> +	gt = pick_gt(gt, class, instance);
+> +
+> +	if (class <= MAX_ENGINE_CLASS && instance <= MAX_ENGINE_INSTANCE)
+> +		engine = gt->engine_class[class][instance];
+> +	else
+> +		engine = NULL;
+> +
+> +	if (engine)
+> +		return intel_engine_cs_irq(engine, intr);
+>  
+>  	if (class == OTHER_CLASS)
+>  		return gen11_other_irq_handler(gt, instance, intr);
+> @@ -206,7 +210,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+>  	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE,	  0);
+>  	if (CCS_MASK(gt))
+>  		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, 0);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+>  		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, 0);
+>  
+>  	/* Restore masks irqs on RCS, BCS, VCS and VECS engines. */
+> @@ -233,7 +237,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+>  		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~0);
+>  	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+>  		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~0);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+>  		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~0);
+>  
+>  	intel_uncore_write(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE, 0);
+> @@ -249,7 +253,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  {
+>  	struct intel_uncore *uncore = gt->uncore;
+>  	u32 irqs = GT_RENDER_USER_INTERRUPT;
+> -	const u32 gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
+> +	u32 gsc_mask = 0;
+>  	u32 dmask;
+>  	u32 smask;
+>  
+> @@ -261,6 +265,11 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  	dmask = irqs << 16 | irqs;
+>  	smask = irqs << 16;
+>  
+> +	if (HAS_ENGINE(gt, GSC0))
+> +		gsc_mask = irqs;
+> +	else if (HAS_HECI_GSC(gt->i915))
+> +		gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
+> +
+>  	BUILD_BUG_ON(irqs & 0xffff0000);
+>  
+>  	/* Enable RCS, BCS, VCS and VECS class interrupts. */
+> @@ -268,9 +277,8 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE, dmask);
+>  	if (CCS_MASK(gt))
+>  		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, smask);
+> -	if (HAS_HECI_GSC(gt->i915))
+> -		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE,
+> -				   gsc_mask);
+> +	if (gsc_mask)
+> +		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, gsc_mask);
+>  
+>  	/* Unmask irqs on RCS, BCS, VCS and VECS engines. */
+>  	intel_uncore_write(uncore, GEN11_RCS0_RSVD_INTR_MASK, ~smask);
+> @@ -296,7 +304,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~dmask);
+>  	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+>  		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~dmask);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (gsc_mask)
+>  		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
+>  
+>  	/*
+> -- 
+> 2.37.3
+> 
 
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
