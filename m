@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74327611DA6
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Oct 2022 00:48:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE2B611DB0
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Oct 2022 00:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 558F710E8F5;
-	Fri, 28 Oct 2022 22:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3985810E8F6;
+	Fri, 28 Oct 2022 22:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1001E10E8F3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 22:48:21 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- v4-20020a17090a088400b00212cb0ed97eso5741151pjc.5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 15:48:21 -0700 (PDT)
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 275A810E8F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 22:48:23 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ d59-20020a17090a6f4100b00213202d77e1so11158047pjk.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 15:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8LWoRkfSMU+CJ60Tm7wanIclajGSfZYvjPsATtyTB9c=;
- b=kEf8pkaqDLyKKPRro1RzlspOqf9bDj9K9tXuJIfimPasVBVuSbh3nXFfHuKj3Ygv/e
- Cb2woLyV/0T4hlBWtL+deoHGD9VfD6aKyLYcAQxvNFDXlnQhUFE87y+LQpwOsBtmz5z0
- nYqVpW7KVwrtYp/ANLZ6FHgmzrBkDHxNW5lig=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=r0xiJp4XHOD7FpE79mlTo4FZ8hKLVDdbQ6PJGlmtm0c=;
+ b=mzDl6TMyHJf63jH7iKtcAAGM8XDN0rgDSAUs7hfgOey2i6dDPc9aOOCZYNZNETkm2j
+ yVEIR85X+aSQjrVbZpYjQoDLmGgkswWXkfsecH1i+hYCnMCRGj96w+Nxrz2B/QCGVpZQ
+ gtgV0voDj/MPBaheBlaJn/W0fjq4tkMXfBnrw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8LWoRkfSMU+CJ60Tm7wanIclajGSfZYvjPsATtyTB9c=;
- b=y2reOPLJv6Pgp4djfGOeP1w7Vu8iZUVxrGGx06AkdXZd7XfEbE//D4XVGV/SZitjTq
- 0b++T9a1fWrmkG8TG9tgUU4wmuUia06ns4rN0yusOXYud5ILff4Jgd8Qdi/0YLgfJK6t
- xY92Ey2ID2nKjDxofUz6FA2Y3wSv3GOfC4T6iP4w8W4uZWiTXmXKp4xrsA8Dffmzuumk
- +EDawLPNPrMIOljb/qlvPWdc+bYjufZn3rAhWJ+wZ1ahifPFuw3q/11ZBaliQGfr6kmF
- ZD+b/7aOOh2PGZ7nyW1ynGdgogoC57dTyT2CBv2RQLrKOUgUAFkSXS7D67vez/gCr/iA
- 2bQQ==
-X-Gm-Message-State: ACrzQf1wWhR6eziMVXkg+n5pZYg237vk9NQ4Ore9yrJiRW1dC/NiuBWr
- uemaxx9dOa+heTu9ugvAzoUaKw==
-X-Google-Smtp-Source: AMsMyM55Sd5sOvrhwfrL/VW2HDZO143InZb28UjVPt6odCwiOqgaUH7lbfeXhLdju9NuiBJ7Ch77ng==
-X-Received: by 2002:a17:90a:c78a:b0:212:e56b:2b17 with SMTP id
- gn10-20020a17090ac78a00b00212e56b2b17mr1623176pjb.51.1666997300703; 
- Fri, 28 Oct 2022 15:48:20 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=r0xiJp4XHOD7FpE79mlTo4FZ8hKLVDdbQ6PJGlmtm0c=;
+ b=Jf32dILvQlYM/YK5jnZG1koSH6yqsFAoUmnyzBEsUraOhU4Itdfdpgd/j5Terj+5sM
+ L2R7HmDD3w/d0qBug/eNHV0TJ4lrocJoLe6unv2ElwzWSWKiAEixVr0LJzuziFEx+WG7
+ /TDTw1mNQFFi15U7bhyZH/JxpHY0O6+I90EQkM2p14Pgmo1rAizmAq7v6fU/3qHNyhO+
+ TJSoFoXfcwZtCtxnNUL33Hx+93qXrAhhvzzvtxeMLrNlfMHoGFjKCguEBxcLF6ftJbr5
+ slEohjaM8V8uTR4ABWv0Qb8tef7tpOhALszg/CjumCD6Abjc5OdvGJKCJ2pijpZpMJVE
+ YFcA==
+X-Gm-Message-State: ACrzQf0Cjdg/gUiAHrNP9O8qpEfEAiHlOQBkxRTDEc7Zo3M5ng3frfYS
+ YicAUPqI1C7s9k6gV3o8TivNKg==
+X-Google-Smtp-Source: AMsMyM6gOemtrc+N4udmSmBnnTAvh0sGPbgP5WutWSSxft54Cqt48ebDSnWboQa9R6hvi7GWIMFDSQ==
+X-Received: by 2002:a17:902:848c:b0:17a:b4c0:a02b with SMTP id
+ c12-20020a170902848c00b0017ab4c0a02bmr1355571plo.122.1666997302622; 
+ Fri, 28 Oct 2022 15:48:22 -0700 (PDT)
 Received: from localhost ([2620:15c:9d:2:65f9:c180:249c:190f])
  by smtp.gmail.com with UTF8SMTPSA id
- 1-20020a17090a0e8100b002009db534d1sm3010415pjx.24.2022.10.28.15.48.19
+ bd13-20020a656e0d000000b0043c9da02729sm3161736pgb.6.2022.10.28.15.48.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 15:48:20 -0700 (PDT)
+ Fri, 28 Oct 2022 15:48:22 -0700 (PDT)
 From: Brian Norris <briannorris@chromium.org>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Xinhui  <Xinhui.Pan@amd.com>
-Subject: [PATCH 1/2] drm/amdgpu: Move racy global PMU list into device
-Date: Fri, 28 Oct 2022 15:48:12 -0700
-Message-Id: <20221028224813.1466450-1-briannorris@chromium.org>
+Subject: [PATCH 2/2] drm/amdgpu: Set PROBE_PREFER_ASYNCHRONOUS
+Date: Fri, 28 Oct 2022 15:48:13 -0700
+Message-Id: <20221028154718.2.I30f27b240e63cc269076556407e6eddcf5177b5e@changeid>
 X-Mailer: git-send-email 2.38.1.273.g43a17bfeac-goog
+In-Reply-To: <20221028224813.1466450-1-briannorris@chromium.org>
+References: <20221028224813.1466450-1-briannorris@chromium.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,84 +77,40 @@ Cc: Brian Norris <briannorris@chromium.org>, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If there are multiple amdgpu devices, this list processing can be racy.
+This driver often takes over 200ms to start, so it can improve boot
+speed to probe it asynchronously.
 
-We're really treating this like a per-device list, so make that explicit
-and remove the global list.
+I did a short review of the driver, and apart from an issue fixed in the
+parent patch ("drm/amdgpu: Move racy global PMU list into device"),
+there don't appear to be many cross-device dependencies or racy accesses
+to global state, so this should be safe.
+
+This driver was pinpointed as part of a survey of top slowest initcalls
+(i.e., are built in, and probing synchronously) on a lab of ChromeOS
+systems.
 
 Signed-off-by: Brian Norris <briannorris@chromium.org>
 ---
 
- drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  4 ++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 12 +++++-------
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 0e6ddf05c23c..e968b7f2417c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1063,6 +1063,10 @@ struct amdgpu_device {
- 	struct work_struct		reset_work;
- 
- 	bool                            job_hang;
-+
-+#if IS_ENABLED(CONFIG_PERF_EVENTS)
-+	struct list_head pmu_list;
-+#endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 3c9fecdd6b2f..2d180e48df1b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2793,7 +2793,10 @@ static struct pci_driver amdgpu_kms_pci_driver = {
+ 	.probe = amdgpu_pci_probe,
+ 	.remove = amdgpu_pci_remove,
+ 	.shutdown = amdgpu_pci_shutdown,
+-	.driver.pm = &amdgpu_pm_ops,
++	.driver = {
++		.pm = &amdgpu_pm_ops,
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
++	},
+ 	.err_handler = &amdgpu_pci_err_handler,
+ 	.dev_groups = amdgpu_sysfs_groups,
  };
- 
- static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-index 71ee361d0972..24f2055a2f23 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-@@ -23,6 +23,7 @@
- 
- #include <linux/perf_event.h>
- #include <linux/init.h>
-+#include <linux/list.h>
- #include "amdgpu.h"
- #include "amdgpu_pmu.h"
- 
-@@ -72,9 +73,6 @@ static ssize_t amdgpu_pmu_event_show(struct device *dev,
- 			amdgpu_pmu_attr->event_str, amdgpu_pmu_attr->type);
- }
- 
--static LIST_HEAD(amdgpu_pmu_list);
--
--
- struct amdgpu_pmu_attr {
- 	const char *name;
- 	const char *config;
-@@ -558,7 +556,7 @@ static int init_pmu_entry_by_type_and_add(struct amdgpu_pmu_entry *pmu_entry,
- 		pr_info("Detected AMDGPU %d Perf Events.\n", total_num_events);
- 
- 
--	list_add_tail(&pmu_entry->entry, &amdgpu_pmu_list);
-+	list_add_tail(&pmu_entry->entry, &pmu_entry->adev->pmu_list);
- 
- 	return 0;
- err_register:
-@@ -579,9 +577,7 @@ void amdgpu_pmu_fini(struct amdgpu_device *adev)
- {
- 	struct amdgpu_pmu_entry *pe, *temp;
- 
--	list_for_each_entry_safe(pe, temp, &amdgpu_pmu_list, entry) {
--		if (pe->adev != adev)
--			continue;
-+	list_for_each_entry_safe(pe, temp, &adev->pmu_list, entry) {
- 		list_del(&pe->entry);
- 		perf_pmu_unregister(&pe->pmu);
- 		kfree(pe->pmu.attr_groups);
-@@ -623,6 +619,8 @@ int amdgpu_pmu_init(struct amdgpu_device *adev)
- 	int ret = 0;
- 	struct amdgpu_pmu_entry *pmu_entry, *pmu_entry_df;
- 
-+	INIT_LIST_HEAD(&adev->pmu_list);
-+
- 	switch (adev->asic_type) {
- 	case CHIP_VEGA20:
- 		pmu_entry_df = create_pmu_entry(adev, AMDGPU_PMU_PERF_TYPE_DF,
 -- 
 2.38.1.273.g43a17bfeac-goog
 
