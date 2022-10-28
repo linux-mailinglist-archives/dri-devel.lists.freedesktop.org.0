@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D00E611234
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 15:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3A461134F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 15:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B0510E192;
-	Fri, 28 Oct 2022 13:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24AFB10E835;
+	Fri, 28 Oct 2022 13:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 582F410E192
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 13:04:12 +0000 (UTC)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MzN0f2Gj4z15MFJ;
- Fri, 28 Oct 2022 20:59:14 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 28 Oct 2022 21:04:09 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 28 Oct
- 2022 21:04:09 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>
-Subject: [PATCH RESEND] gpu: host1x: fix memory leak of device names
-Date: Fri, 28 Oct 2022 21:03:00 +0800
-Message-ID: <20221028130300.1133520-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8349F10E830;
+ Fri, 28 Oct 2022 13:44:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A79D5628A3;
+ Fri, 28 Oct 2022 13:44:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F03C4FF10;
+ Fri, 28 Oct 2022 13:44:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666964683;
+ bh=LcKz3O85jBpORVzoqD8hoLCMY+nPoqxJwOLtUvB36iA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=r37lpyLRxXnxvD0akaCLv34DqqisYLps+u/LHPs3w1mwog9eES0udif1wSfocOSZO
+ pkVjJWtwjzvzG/BqCatD7SGYXYlDl7eLokaLMRIJVOLidhIQAJG1PF2+PsJSdGylgN
+ RdRW6X8S647MQ/mQUOCXhH/KJBQajjjQX9rnuuH3HXKUFy9Hle646o8Wei9dIJr6q5
+ cIWks98dOZAZ+SQJJi4e635yOhVT1rbiV/HM+urocmQbWlIcckPTZLOXbUb6iJqea5
+ 2ycHu9aZGRaupG7zF/1CobmpTaPSGOATqfWziSh1PwA3ZLaVtF8u8qxIkUMXO/O5sO
+ DREHJfM+tVLLg==
+Date: Fri, 28 Oct 2022 08:44:39 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Robert Foss <robert.foss@linaro.org>
+Subject: Re: [PATCH v1 6/9] arm64: dts: qcom: sm8350: Use 2 interconnect cells
+Message-ID: <20221028134439.ugja55guopmql4nk@baldur>
+References: <20221028120812.339100-1-robert.foss@linaro.org>
+ <20221028120812.339100-7-robert.foss@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221028120812.339100-7-robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,104 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yangyingliang@huawei.com, thierry.reding@gmail.com, mperttunen@nvidia.com
+Cc: airlied@linux.ie, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, angelogioacchino.delregno@somainline.org,
+ vinod.koul@linaro.org, Jonathan Marek <jonathan@marek.ca>,
+ quic_vpolimer@quicinc.com, agross@kernel.org, quic_jesszhan@quicinc.com,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, swboyd@chromium.org, robh+dt@kernel.org,
+ sean@poorly.run, quic_kalyant@quicinc.com, loic.poulain@linaro.org,
+ dianders@chromium.org, linux-kernel@vger.kernel.org, vkoul@kernel.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The device names allocated by dev_set_name() need be freed
-before module unloading, but they can not be freed because
-the kobject's refcount which was set in device_initialize()
-has not be decreased to 0.
+On Fri, Oct 28, 2022 at 02:08:09PM +0200, Robert Foss wrote:
+> Use two interconnect cells in order to optionally
+> support a path tag.
+> 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sm8350.dtsi | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> index 606fab087945..b6e44cd3b394 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> @@ -1543,56 +1543,56 @@ apps_smmu: iommu@15000000 {
+>  		config_noc: interconnect@1500000 {
+>  			compatible = "qcom,sm8350-config-noc";
+>  			reg = <0 0x01500000 0 0xa580>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
 
-Fix the name leak by calling put_device() to give up the refcount,
-so the name can be freed in kobejct_cleanup().
+You also need amend all the interconnects references with the additional
+tag cell.
 
-Add a release() function to device, it's empty, because the
-context devices are freed together in host1x_memory_context_list_free().
+Regards,
+Bjorn
 
-Fixes: 8aa5bcb61612 ("gpu: host1x: Add context device management code")
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
-The fix tag is in mainline not next, so resend it
-for removing -next in title.
----
- drivers/gpu/host1x/context.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/host1x/context.c b/drivers/gpu/host1x/context.c
-index b08cf11f9a66..f49a7bf6afa5 100644
---- a/drivers/gpu/host1x/context.c
-+++ b/drivers/gpu/host1x/context.c
-@@ -13,6 +13,11 @@
- #include "context.h"
- #include "dev.h"
- 
-+static void host1x_memory_context_release(struct device *dev)
-+{
-+	/* context device is freed in host1x_memory_context_list_free() */
-+}
-+
- int host1x_memory_context_list_init(struct host1x *host1x)
- {
- 	struct host1x_memory_context_list *cdl = &host1x->context_list;
-@@ -53,28 +58,27 @@ int host1x_memory_context_list_init(struct host1x *host1x)
- 		dev_set_name(&ctx->dev, "host1x-ctx.%d", i);
- 		ctx->dev.bus = &host1x_context_device_bus_type;
- 		ctx->dev.parent = host1x->dev;
-+		ctx->dev.release = host1x_memory_context_release;
- 
- 		dma_set_max_seg_size(&ctx->dev, UINT_MAX);
- 
- 		err = device_add(&ctx->dev);
- 		if (err) {
- 			dev_err(host1x->dev, "could not add context device %d: %d\n", i, err);
--			goto del_devices;
-+			goto put_dev;
- 		}
- 
- 		err = of_dma_configure_id(&ctx->dev, node, true, &i);
- 		if (err) {
- 			dev_err(host1x->dev, "IOMMU configuration failed for context device %d: %d\n",
- 				i, err);
--			device_del(&ctx->dev);
--			goto del_devices;
-+			goto unreg_devices;
- 		}
- 
- 		fwspec = dev_iommu_fwspec_get(&ctx->dev);
- 		if (!fwspec || !device_iommu_mapped(&ctx->dev)) {
- 			dev_err(host1x->dev, "Context device %d has no IOMMU!\n", i);
--			device_del(&ctx->dev);
--			goto del_devices;
-+			goto unreg_devices;
- 		}
- 
- 		ctx->stream_id = fwspec->ids[0] & 0xffff;
-@@ -82,9 +86,12 @@ int host1x_memory_context_list_init(struct host1x *host1x)
- 
- 	return 0;
- 
--del_devices:
--	while (i--)
--		device_del(&cdl->devs[i].dev);
-+put_dev:
-+	put_device(&cdl->devs[i--].dev);
-+
-+unreg_devices:
-+	while (i >= 0)
-+		device_unregister(&cdl->devs[i--].dev);
- 
- 	kfree(cdl->devs);
- 	cdl->len = 0;
-@@ -97,7 +104,7 @@ void host1x_memory_context_list_free(struct host1x_memory_context_list *cdl)
- 	unsigned int i;
- 
- 	for (i = 0; i < cdl->len; i++)
--		device_del(&cdl->devs[i].dev);
-+		device_unregister(&cdl->devs[i].dev);
- 
- 	kfree(cdl->devs);
- 	cdl->len = 0;
--- 
-2.25.1
-
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		mc_virt: interconnect@1580000 {
+>  			compatible = "qcom,sm8350-mc-virt";
+>  			reg = <0 0x01580000 0 0x1000>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		system_noc: interconnect@1680000 {
+>  			compatible = "qcom,sm8350-system-noc";
+>  			reg = <0 0x01680000 0 0x1c200>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		aggre1_noc: interconnect@16e0000 {
+>  			compatible = "qcom,sm8350-aggre1-noc";
+>  			reg = <0 0x016e0000 0 0x1f180>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		aggre2_noc: interconnect@1700000 {
+>  			compatible = "qcom,sm8350-aggre2-noc";
+>  			reg = <0 0x01700000 0 0x33000>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		mmss_noc: interconnect@1740000 {
+>  			compatible = "qcom,sm8350-mmss-noc";
+>  			reg = <0 0x01740000 0 0x1f080>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		lpass_ag_noc: interconnect@3c40000 {
+>  			compatible = "qcom,sm8350-lpass-ag-noc";
+>  			reg = <0 0x03c40000 0 0xf080>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		compute_noc: interconnect@a0c0000{
+>  			compatible = "qcom,sm8350-compute-noc";
+>  			reg = <0 0x0a0c0000 0 0xa180>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+> @@ -2420,14 +2420,14 @@ usb_2_ssphy: phy@88ebe00 {
+>  		dc_noc: interconnect@90c0000 {
+>  			compatible = "qcom,sm8350-dc-noc";
+>  			reg = <0 0x090c0000 0 0x4200>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+>  		gem_noc: interconnect@9100000 {
+>  			compatible = "qcom,sm8350-gem-noc";
+>  			reg = <0 0x09100000 0 0xb4000>;
+> -			#interconnect-cells = <1>;
+> +			#interconnect-cells = <2>;
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+> -- 
+> 2.34.1
+> 
