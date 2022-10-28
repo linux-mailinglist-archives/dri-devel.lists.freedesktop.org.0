@@ -2,45 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9813610B13
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 09:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD8B610B2A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 09:19:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D791710E785;
-	Fri, 28 Oct 2022 07:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4DCD10E791;
+	Fri, 28 Oct 2022 07:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out-07.comm2000.it (smtp-out-07.comm2000.it [212.97.32.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 162CD10E785;
- Fri, 28 Oct 2022 07:02:32 +0000 (UTC)
-Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it
- [93.49.2.63])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: francesco@dolcini.it)
- by smtp-out-07.comm2000.it (Postfix) with ESMTPSA id A22183C5EB4;
- Fri, 28 Oct 2022 09:02:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailserver.it;
- s=mailsrv; t=1666940550;
- bh=lQ4N2jZr9hH7PT3M0QTKHRgyOTKxYsUa8t9J2223fqA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=hVVEVLFXcD8oMZ42lhd4lEMhG0bN5bsP/U+7LUfMEl7Jejpaq0HTOeBaFfSfVEkAp
- ZgnWskN0ltqZwPh5/TBGwpdLd57M9DLa11pivIbL4KKkIl0+CfjOU2YUGuy7ZGoUVZ
- /zovVL0HQmOB5v/PxQzl9g7m+Pdvh50k0CFB6tvT9OUDISo6L/aY4giM2jRdjVq1S5
- XWXa70pZAgMEYNcfSiOu+0pVDHKzbc07OBJxOdMr3pHH7ReZElXvGSsYum7C8O4u8n
- AOq4oN5+5RcvbgdHWFtuU6tB7LriOiRv7AqEFGmkDfvaJS6adqGWXeYslEXNhdgSsG
- FoYb2gpU0tn6w==
-Date: Fri, 28 Oct 2022 09:02:10 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: etnaviv@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: etnaviv OOPS, NULL pointer dereference on Linux 6.0.2
-Message-ID: <Y1t+cn8hjxCxyMON@francesco-nb.int.toradex.com>
-References: <Y1Ar4wnv4zeh9Bmw@francesco-nb.int.toradex.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F7A10E78C;
+ Fri, 28 Oct 2022 07:18:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bPqFcMA5tcTJ0qJysyf5cbtGiVm6QDRafH7lIoJy+3vVfehguzTn7WX0VpWucQUYtTymrbivbkZnNdmVcjBy5sfDJuXjQ552GPyGJX4GNurDK6Xu+Yj0rpOxw4Qe9wLzYaYXYjxZttdJQ2J4fOT3nDi0mjPziETIQubySZtxjaT0rSz5+//K0fGtUEEtPosrhWWrtLqhvW/UKucqxqdIgzf9JhmAXYqq2sqgicgP1Qc4lNUUzv85QEiedFe2tXeFkdKa0QdQRvhNKR0lEVNyJDItBiSPmraz62WPucPtyVLBhAjFhRtx6RtZ8Bjlxv2k6su23UdTnj2ypLPZp73nyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=egPQCbKLzjcN7A8hd614nK/u0IGzk6xONpQyuPOJFrM=;
+ b=JrK8WoGYJETjgJWvEKfpS86kV7lXT/HyidMjAYyK5B0PJwalch1dVPniPqLvm3Um0OyTZj8iDOInpFbrtAGdDH6llDWfQGf85ELxiC/Mkw4aEbxqk5xi+eGoUea+Ipz5ZSUmw/rDAKEHmmpbAyZwKxKPb+IrkxF8Ani15j3mqC/58mSp50EzMDJWokIIjmqtyhmYUUjlDJPEq18O63KGhXNqsDa1f0l5ZfP9r4Qq/m/DO25O/2iLT20F+ZR0y7EfKz93SYKb7M24E3FoLG2GP+0luPIsGxMDN3BcSxZpoDlE20jr+WA/UPfHKQDU8ISJ0YRWRz0x97/Rzy7KYN8BLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=egPQCbKLzjcN7A8hd614nK/u0IGzk6xONpQyuPOJFrM=;
+ b=Lh9o2Ms/K7YO8CEXw7qO4q9ynqKtrdzgS3LjM8sBM3tYsu+a81OSCBSjKzM12664HrQwLtyjDDP84kh41ylmDDF7ZEMNjvsLzQZcldYp/SVhHTaX0crCqfzmfkDlx9mcEr4XLwTGDo+8l3m5jXoM9iGfrP8Ryz1LVWN+sm6S12E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SJ0PR12MB5664.namprd12.prod.outlook.com (2603:10b6:a03:42b::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Fri, 28 Oct
+ 2022 07:18:45 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a350:f29a:f287:7279]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a350:f29a:f287:7279%4]) with mapi id 15.20.5746.023; Fri, 28 Oct 2022
+ 07:18:44 +0000
+Message-ID: <04e37ee1-53b0-97ab-d6d7-a39edfbdc2ea@amd.com>
+Date: Fri, 28 Oct 2022 09:18:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] [next] drm/amdgpu: Replace one-element array with
+ flexible-array member
+Content-Language: en-US
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
+ Grigory Vasilyev <h0tc0d3@gmail.com>, Claudio Suarez <cssk@net-c.es>,
+ Slark Xiao <slark_xiao@163.com>, Rongguang Wei <weirongguang@kylinos.cn>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <Y1tkWdwPUp+UdpM0@mail.google.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Y1tkWdwPUp+UdpM0@mail.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0077.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1f::10) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1Ar4wnv4zeh9Bmw@francesco-nb.int.toradex.com>
-X-Mailman-Approved-At: Fri, 28 Oct 2022 07:13:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB5664:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73b92184-8cc0-437f-a39b-08dab8b4a5f2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: O/sMUdHnDrQu5EQkDryr7PxuWsJlZDdXA961aGtpi7sK2kZy3GIRInTz2gt0RQeYymUAhzqLqLGyqdPbFqbWgy24xX4FLLeGj/LC6yeXxGYjtNHCHb6sX3WYoDxncj76Uw5En1Y7wo0Qe2Q4ULqkhJplZDwTzokx/aFI6f0xaV/TdZj4lQYTPfcRtG0ljMdx5nlrTN9jfbt8SwzyH/b3/Xa6I2KfRkrJi8sYqa1ZukC4lf0P05ok9t+wQtcPX63K89lK8ORKI7kKi22js8rDJEr9qDub6+ZeBdpA7MpCqbBHqMSZZ9zOXHDimIedWI5o+BmpUYfr/jGvwGipbgndrbHb/kCt+FXOuL4RKXrrCgQm6emsHLq5s4NJtIRaZShELns8uZb3gZ8kiU8zPUQ9MsKspdLdFSQ9IRlDiP/R5VF4zXBUyjbfznBCze6hQmLNQLClD+JJv/KslV/BY6XTBJ3RmpuetXuBFhYiebMA78VR2O3SCsV4HQM1a8Zk6yW2peNrapkhuicpSREnKa89cgz2cJx/iJYRomn6U9mVzwLsDupq8pdD0ycTLsuXCVY5BsSksKwFGwdZ+LUWnA7NFVzDf3SaIf2uJvrof6eL843wXYnAm5VxoEL4T0mpGiSp8evrmxat96oXyPr5GwghJ0w4nE1n/OJklYo5zKvNxAhtCfe63k5y8bTsmjjwSuQHyumbhSOgWWKxRu7k/AS32U8z3s8XSiuVcnUQ4bgDJUW7UVxXYTMgXTx/oIP4KthdnoOAulCrAL3g9xX9gQbJdk7buzki/O4c1H2cHxJ00pC9kfY8CvP2hD5tNZPKlpi5IkhldVB91dLLRpGTwxnmiKoQPThOa28T8g5Q1ePJ0YY/jcErocUodxxy38Mrs8S4
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(346002)(39860400002)(366004)(396003)(451199015)(2906002)(6506007)(66556008)(316002)(110136005)(4326008)(6512007)(38100700002)(41300700001)(66946007)(36756003)(921005)(966005)(8676002)(6486002)(8936002)(66476007)(6666004)(2616005)(83380400001)(86362001)(7416002)(186003)(31686004)(5660300002)(31696002)(478600001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHVEaENrRkJIMXdxZGYxUVRpRVBnY2h0TUZCT0lmREdvZHNlaE9NaWhKSWNw?=
+ =?utf-8?B?dG10dGdpQXZ2VVJsazlkUkxjVDZleEtWMVNtdkIycnE2dXczNktyZ0ZTNENs?=
+ =?utf-8?B?OExOeEtYYXl4Y25zS2JsTTdKbW9tMXI2UUxIQUtGa1U5QWQ3VktVNGFhS2lG?=
+ =?utf-8?B?VW90ZSt5WlJLVmFGTytyQUJXQ09mQWh3ZytadGZ4SEx3RmtWaHZKd0pTZmJE?=
+ =?utf-8?B?UmhNZHNjNDJYcExYUXpKempNK3dXSVhVdEx4VjBGaFRmNEdESGcvUk14eFpv?=
+ =?utf-8?B?YU5jenRpYmtPeXZ5NUtXT01ja3J0ZFJKYUo4c0RyRVBnd0tkMENRODB2Q2g4?=
+ =?utf-8?B?WUhrc2ZOSzFlTTVNb3QwWVcyMEM1UXJPRmNWaVJtWFJIYUl1N0EyVDU3Yzhu?=
+ =?utf-8?B?SFpHSnliUkpsVkNxcHNWWFdNK0VOa1pLYlVjSHU2NzdCd1RjUTF4NkprUENr?=
+ =?utf-8?B?THY3d0wxNTJyY1BZQnF3ZmsyUktFa3c0TVYvcG1ybkg5cTVjQ3NKMXVBb3lx?=
+ =?utf-8?B?by8wSysxVWpYM0dHN2FQOUJsZ1dBelRmS2xXdFBOcnBxQUx5Ujc2aFJ6TVdr?=
+ =?utf-8?B?dXMrRk9mbVM0ajJzTXQ4MXVsakNTLzV0cUtlNVlpc3QvTkhkOElSZWNocldt?=
+ =?utf-8?B?NkZuazVlVGNWTDI1TTQ1NGFqVk4vTGFhemQvZGJ3Y3l6ZEhGenFYdkFJRGhN?=
+ =?utf-8?B?dE1VYkRlWXRNZzlpVklQL2FRR0ZkNUc3Mm1HUjlpOG8zSGtsRUM1ejlRc21U?=
+ =?utf-8?B?WTdNaU9FQkNkcHJUbVpCZjdyWGNLbHlCa3JmL2FPanpaVGZTbmtMZTl1UFdZ?=
+ =?utf-8?B?T24ycE5nc3g5UjRwcEs3TklFU1FIRjN3andEb3pLZm9jZzVMblFqL0Y0WUI4?=
+ =?utf-8?B?QXNvbnRPVVNoRE93RFErRldGSmVVdlpLYmxnVXNuOGVBTmxuZXA2ZHY0bjcr?=
+ =?utf-8?B?bW5OaHhYajdibjNuZWRZOXY0TUFkcGxZUmhHMTVYUHhwUDAzc1ByeDNQOHdm?=
+ =?utf-8?B?Vyt1Vkk5SWp0NTJHak1TSFZRN2pJZHMrOHkxSVhIZ1VGdU9PdEpueVdxZHRr?=
+ =?utf-8?B?ODZXeXZMWk5ZbHA4WVhoMkE3NndNSG11djAwMFZjL1ZWZkx2WDl4SFV0ZHE4?=
+ =?utf-8?B?b1ViY3IvQWt1eE5IcFk2UnRWTzZkajl0c2RGa0l2TkRIYUxCUWJCckR6WGVv?=
+ =?utf-8?B?enMzMnZpQWloM1JYQkcwOWFPMGhLRUNpTmNLS3psbnoxdjlidW5vL29BM0VG?=
+ =?utf-8?B?WEYydTFJbW9OSVY2ZUdlN2JXbE81T3RiNlZIcjVkdnhRenlXNDUzMHhyanpx?=
+ =?utf-8?B?T2ZqVytJSFFScm0xUVNQTVFYK2hKb1pTYXRVWE9acmN1M1dFd1RkaTJLKzVF?=
+ =?utf-8?B?S2wvUHJPNDdQV3VNc1pnak9DT1ZaR1c5U3djUHpvQ2tyTG00VGdkK3JJTG5v?=
+ =?utf-8?B?dFJyQS9kUldjOHNoUGg1cFd5THhnc3pzZG84N1ZRakFjNE81T3lPRnUyZUdP?=
+ =?utf-8?B?R1gxZEJ2VGllVHVrc3VxaEhXZXFKTFUxdUgrT3RNUFFWaTBTc1RTMUtkSlhl?=
+ =?utf-8?B?RTZnWGMzK2VuVTliSGFnRmFibTBRQy9lMlZhUHNYY2ZxcXhLWnRGc1N2dWxw?=
+ =?utf-8?B?YzJxN05kVXlJVHZ4MndJbHZYekxReWFIZEUxM1Z5UlBFTXF3Q290Y1FTWmd2?=
+ =?utf-8?B?Uy9PZ2tVcGN3cHErZ1hMeW9LdURjdzhGd2wxbkZGWlJlWDdGcGlka0d0cFli?=
+ =?utf-8?B?blh1eEhURjhXbDArUnY2a1hkU0ZSTnJPR3lVdTVVQzlaSFVEbDZ6L3cxczhL?=
+ =?utf-8?B?cW9VbDh2QjNlWDlsN2JyaTY5UzJ4OTgzYjVhdDVZVlJPMmFwWFBURU9OSzgw?=
+ =?utf-8?B?NTNQQ3VVbzFzQkUvT3JTc0FkT2xLdVZTajZVcDE0OUxBTGxBL2ZoYjNSMVda?=
+ =?utf-8?B?VXhPdnJIampINUFvN05QZElWVTRKUDR0M25NdSs0SjVtcllvVTFVbDVqREF1?=
+ =?utf-8?B?SkRjQkU1UXF0eVRuMHgzMzlqeGpxRW82N0F5eGk5SWU4QzhHSGhOWXRoZmRH?=
+ =?utf-8?B?Rlh4aWdXMFI0K1R6VEdKTmhOZlpYd2lFQlE1WGk2R2I4QTZNOWFnU0VUY2I5?=
+ =?utf-8?B?UUVWUm9SQ0Ywa1JwRGhuSFpGbWNzcGZPQTY0TVJySFFXOFhESVo1Yi95SGkv?=
+ =?utf-8?Q?1GDWwS8mDjYfbOb3tw5S70j8HJZQgmMwjFnv8wVhyiVD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73b92184-8cc0-437f-a39b-08dab8b4a5f2
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 07:18:44.6768 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iK9kXa+bTlsSONqkfS9PzWou5oWz+vx+BLU+dJI7HQ87bzTDUWbIrdLxZ1SsgiIx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5664
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,99 +133,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- Francesco Dolcini <francesco@dolcini.it>
+Cc: linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 19, 2022 at 06:54:59PM +0200, Francesco Dolcini wrote:
-> Hello all,
-> I got the following Oops, on a Apalis iMX6 Dual with 512MB RAM,
-> running glmark2 tests with the system under memory pressure (OOM
-> Killer!).
-> 
-> It's not something systematic and I cannot tell if this is a regression
-> or not, any suggestion? The system just froze afterward.
+Am 28.10.22 um 07:10 schrieb Paulo Miguel Almeida:
+> One-element arrays are deprecated, and we are replacing them with
+> flexible array members instead. So, replace one-element array with
+> flexible-array member in struct _ATOM_FAKE_EDID_PATCH_RECORD and
+> refactor the rest of the code accordingly.
+>
+> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> routines on memcpy() and help us make progress towards globally
+> enabling -fstrict-flex-arrays=3 [1].
+>
+> Link: https://github.com/KSPP/linux/issues/79
+> Link: https://github.com/KSPP/linux/issues/238
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
 
-> 
-> [  480.994256] Out of memory: Killed process 1740 (Qt5_CinematicEx) total-vm:242656kB, anon-rss:105212kB, file-rss:9864kB, shmem-rss:1304kB, UID:0 pgtables:192kB oom_score_adj:0
-> [  481.068691] 8<--- cut here ---
-> [  481.072037] Unable to handle kernel NULL pointer dereference at virtual address 00000004
-> [  481.080366] [00000004] *pgd=00000000
-> [  481.083994] Internal error: Oops: 805 [#1] SMP ARM
-> [  481.088813] Modules linked in: 8021q imx_sdma virt_dma coda_vpu v4l2_jpeg imx_vdoa dw_hdmi_ahb_audio fuse
-> [  481.098458] CPU: 1 PID: 1755 Comm: QSGRenderThread Not tainted 6.0.2-6.1.0-devel+git.dab08f7eecdf #1
-> [  481.107619] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> [  481.114157] PC is at etnaviv_gem_free_object+0x40/0x128
-> [  481.119412] LR is at lock_is_held_type+0xa4/0x15c
+I'm not sure if that's a good idea. We had multiple attempts to refactor 
+this now and it always caused a regression.
 
-Just hit another OOPS in etnaviv/DRM, but in another function (FWIW kernel
-6.0.5 now). Unfortunately I have no systematic reproducer for this
-either.
+Additional to that the header in question came from our BIOS team and 
+isn't following Linux styles in general.
 
-[  127.887596] Out of memory: Killed process 1358 (weston) total-vm:57820kB, anon-rss:11228kB, file-rss:1836kB, shmem-rss:16456kB, UID:0 pgtables:60kB oom_score_adj:0
-[  127.985396] 8<--- cut here ---
-[  127.988856] Unable to handle kernel NULL pointer dereference at virtual address 00000054
-[  127.997042] [00000054] *pgd=00000000
-[  128.000660] Internal error: Oops: 5 [#1] SMP ARM
-[  128.005290] Modules linked in: 8021q cfg80211 imx_sdma virt_dma coda_vpu v4l2_jpeg imx_vdoa dw_hdmi_ahb_audio fuse
-[  128.015690] CPU: 1 PID: 1358 Comm: weston Not tainted 6.0.5-6.1.0-devel+git.3829606fc5df #1
-[  128.024056] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-[  128.030591] PC is at drm_sched_job_cleanup+0x1c/0x13c
-[  128.035663] LR is at etnaviv_ioctl_gem_submit+0x9ac/0x1364
-[  128.041164] pc : [<c07716c0>]    lr : [<c0785334>]    psr: a00d0013
-[  128.047438] sp : e0f69d78  ip : 00000003  fp : fffffff4
-[  128.052670] r10: c2d07000  r9 : dd581a00  r8 : c1bf2298
-[  128.057901] r7 : dd581a00  r6 : c2d07000  r5 : c37fe500  r4 : e0f69e6c
-[  128.064435] r3 : 7ff302d8  r2 : 7ff302d8  r1 : 00000000  r0 : 00000000
-[  128.070970] Flags: NzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-[  128.078115] Control: 10c5387d  Table: 1337404a  DAC: 00000051
-[  128.083866] Register r0 information: NULL pointer
-[  128.088585] Register r1 information: NULL pointer
-[  128.093300] Register r2 information: non-paged memory
-[  128.098361] Register r3 information: non-paged memory
-[  128.103422] Register r4 information: 2-page vmalloc region starting at 0xe0f68000 allocated at kernel_clone+0x50/0x40c
-[  128.114167] Register r5 information: slab kmalloc-128 start c37fe500 pointer offset 0 size 128
-[  128.122826] Register r6 information: slab task_struct start c2d07000 pointer offset 0
-[  128.130706] Register r7 information: slab kmalloc-512 start dd581a00 pointer offset 0 size 512
-[  128.139357] Register r8 information: non-slab/vmalloc memory
-[  128.145039] Register r9 information: slab kmalloc-512 start dd581a00 pointer offset 0 size 512
-[  128.153733] Register r10 information: slab task_struct start c2d07000 pointer offset 0
-[  128.161683] Register r11 information: non-paged memory
-[  128.166845] Register r12 information: non-paged memory
-[  128.172007] Process weston (pid: 1358, stack limit = 0x9a050b52)
-[  128.178036] Stack: (0xe0f69d78 to 0xe0f6a000)
-[  128.182405] 9d60:                                                       c1bf2298 7ff302d8
-[  128.190592] 9d80: 00000cc0 e0f69e6c c37fe500 00000010 c2aff800 c0785334 0000000a 00000000
-[  128.198783] 9da0: c0721238 00000000 c308b600 00000010 c37fe500 e0f69e6c 00000005 00000001
-[  128.206972] 9dc0: 00000028 c3467078 00000010 c37fe500 c25e0380 e0f69e6c c25f8000 c2d07000
-[  128.215158] 9de0: 00000aab 00000005 00010000 00000001 c156b860 00000000 c156b864 c1a4c018
-[  128.223345] 9e00: 00000000 c119fe5c c3000000 00000001 00000007 7ff302d8 00000000 c0486446
-[  128.231531] 9e20: 00000048 c2d07000 00000048 c0e87b40 e0f69e6c c3467000 00000048 c0721238
-[  128.239717] 9e40: 0000e280 00000001 c1197448 c2d07000 be9d0fb0 e0f69e6c 00000046 c37f0c80
-[  128.247903] 9e60: c0784988 00000051 00000000 00000000 00000000 00000000 00000005 0000000a
-[  128.256089] 9e80: 000005b8 01fd0bf8 00000000 01fd0a10 00000000 01b72868 00000000 00000004
-[  128.264274] 9ea0: 00000000 00000000 00000000 00000000 00000000 7ff302d8 00000013 00004000
-[  128.272460] 9ec0: c2d07000 c2d22dc0 00000001 c37f0c80 00000005 c0351d6c 00000000 00000000
-[  128.280651] 9ee0: c0351c6c 00000000 00000000 7ff302d8 be9d0fb0 c0486446 c37f0c81 c0100080
-[  128.288840] 9f00: be9d0fb0 c2d07000 c37f0c80 c25a8710 00000013 c0342ab0 00000000 c2d07000
-[  128.297026] 9f20: e0f69fb0 c022e258 c2d07000 e0f69fb0 00000000 c01002b4 c01002b4 c010b924
-[  128.305212] 9f40: c03511c4 c136055c 60070013 c01936d0 00000028 c2d22dc0 c3972b00 00000001
-[  128.313413] 9f60: 00000000 7ff302d8 c2d07000 c15e4ea0 01fd1d98 c2d07000 c136629c 7ff302d8
-[  128.321616] 9f80: b6e9048c 01b72380 be9d0fb0 c0486446 00000036 c01002b4 c2d07000 00000036
-[  128.329821] 9fa0: 00000000 c0100080 01b72380 be9d0fb0 00000013 c0486446 be9d0fb0 be9d0f78
-[  128.338020] 9fc0: 01b72380 be9d0fb0 c0486446 00000036 be9d1028 be9d0fb0 01b176e8 00000000
-[  128.346220] 9fe0: 00000036 be9d0f60 b6ec8089 b6e41ae6 00070030 00000013 00000000 00000000
-[  128.354428]  drm_sched_job_cleanup from etnaviv_ioctl_gem_submit+0x9ac/0x1364
-[  128.361611]  etnaviv_ioctl_gem_submit from drm_ioctl+0x1e8/0x3a0
-[  128.367660]  drm_ioctl from sys_ioctl+0x530/0xdbc
-[  128.372409]  sys_ioctl from ret_fast_syscall+0x0/0x1c
-[  128.377504] Exception stack(0xe0f69fa8 to 0xe0f69ff0)
-[  128.382585] 9fa0:                   01b72380 be9d0fb0 00000013 c0486446 be9d0fb0 be9d0f78
-[  128.390775] 9fc0: 01b72380 be9d0fb0 c0486446 00000036 be9d1028 be9d0fb0 01b176e8 00000000
-[  128.398979] 9fe0: 00000036 be9d0f60 b6ec8089 b6e41ae6
-[  128.404053] Code: e24dd00c ee1d6f70 e5963530 e58d3004 (e5903054)
-[  128.410383] ---[ end trace 0000000000000000 ]---
+Alex what do you think?
 
+Regards,
+Christian.
 
-Francesco
+>
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 10 +++++++---
+>   drivers/gpu/drm/amd/include/atombios.h         |  2 +-
+>   2 files changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> index 6be9ac2b9c5b..6b5abf1249db 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> @@ -2079,10 +2079,14 @@ amdgpu_atombios_encoder_get_lcd_info(struct amdgpu_encoder *encoder)
+>   							} else
+>   								kfree(edid);
+>   						}
+> +
+> +						record += struct_size(fake_edid_record,
+> +								      ucFakeEDIDString,
+> +								      fake_edid_record->ucFakeEDIDLength);
+> +					} else {
+> +						/* empty fake edid record must be 3 bytes long */
+> +						record += sizeof(ATOM_FAKE_EDID_PATCH_RECORD) + 1;
+>   					}
+> -					record += fake_edid_record->ucFakeEDIDLength ?
+> -						fake_edid_record->ucFakeEDIDLength + 2 :
+> -						sizeof(ATOM_FAKE_EDID_PATCH_RECORD);
+>   					break;
+>   				case LCD_PANEL_RESOLUTION_RECORD_TYPE:
+>   					panel_res_record = (ATOM_PANEL_RESOLUTION_PATCH_RECORD *)record;
+> diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
+> index 15943bc21bc5..b5b1d073f8e2 100644
+> --- a/drivers/gpu/drm/amd/include/atombios.h
+> +++ b/drivers/gpu/drm/amd/include/atombios.h
+> @@ -4107,7 +4107,7 @@ typedef struct _ATOM_FAKE_EDID_PATCH_RECORD
+>   {
+>     UCHAR ucRecordType;
+>     UCHAR ucFakeEDIDLength;       // = 128 means EDID length is 128 bytes, otherwise the EDID length = ucFakeEDIDLength*128
+> -  UCHAR ucFakeEDIDString[1];    // This actually has ucFakeEdidLength elements.
+> +  UCHAR ucFakeEDIDString[];     // This actually has ucFakeEdidLength elements.
+>   } ATOM_FAKE_EDID_PATCH_RECORD;
+>   
+>   typedef struct  _ATOM_PANEL_RESOLUTION_PATCH_RECORD
+
