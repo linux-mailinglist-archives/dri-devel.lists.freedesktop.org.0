@@ -2,52 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E50611964
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 19:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1DF611965
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 19:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D5610E885;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECD910E886;
 	Fri, 28 Oct 2022 17:39:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3DDE10E841
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:17:27 +0000 (UTC)
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4MzPkv3Xl9zDs1N
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1666966647; bh=05DwsEtuFxAdWMYdnLuc4HqkK3OOSFQT/s1dsjunvVo=;
- h=From:To:Cc:Subject:Date:From;
- b=H1MemKUQwg2r0iR+b0GCsA6ZEHIyiBzZwg/tpgGCTHjxtqqsnKpqUdHvRrSxEwc29
- vjB3SYmYXKypboU2KM9Sqoanm3jhnQ/8t0tmcIQ5h/sC0XnTkaDXqFryro0hoNEeys
- G/tOwICghcm4T+D5PsIOoaM0xmXpKEUYK1+U2pzI=
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4MzPkt5YXCz9t2l;
- Fri, 28 Oct 2022 14:17:26 +0000 (UTC)
-X-Riseup-User-ID: 60BAB0CF0D43BD6345A4C232725DB4247F6C53CBDC54E6A95636B368FF910655
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4MzPkp5T67z5vRl;
- Fri, 28 Oct 2022 14:17:22 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v4] drm/tests: Add back seed value information
-Date: Fri, 28 Oct 2022 11:17:15 -0300
-Message-Id: <20221028141715.290903-1-arthurgrillo@riseup.net>
+X-Greylist: delayed 4544 seconds by postgrey-1.36 at gabe;
+ Fri, 28 Oct 2022 15:56:17 UTC
+Received: from 8.mo581.mail-out.ovh.net (8.mo581.mail-out.ovh.net
+ [46.105.77.114])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7924110E86A
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 15:56:17 +0000 (UTC)
+Received: from player726.ha.ovh.net (unknown [10.111.208.23])
+ by mo581.mail-out.ovh.net (Postfix) with ESMTP id 4DB6C25E92
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:40:31 +0000 (UTC)
+Received: from armadeus.com (atoulouse-656-1-53-167.w90-11.abo.wanadoo.fr
+ [90.11.232.167])
+ (Authenticated sender: sebastien.szymanski@armadeus.com)
+ by player726.ha.ovh.net (Postfix) with ESMTPSA id 9D11A3027C682;
+ Fri, 28 Oct 2022 14:40:06 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006ac69e528-1130-4c49-8acd-183c37d7f8d6,
+ C74AB133D8C85D7EA747E38E0BF9CEFC19178B59)
+ smtp.auth=sebastien.szymanski@armadeus.com
+X-OVh-ClientIp: 90.11.232.167
+Message-ID: <4c9475d0-f76f-0c59-1208-6e5395496c9e@armadeus.com>
+Date: Fri, 28 Oct 2022 16:37:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>
+References: <20221005151309.7278-1-jagan@amarulasolutions.com>
+From: =?UTF-8?Q?S=c3=a9bastien_Szymanski?= <sebastien.szymanski@armadeus.com>
+Subject: Re: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
+In-Reply-To: <20221005151309.7278-1-jagan@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 16851906856032857034
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeigdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepuforsggrshhtihgvnhcuufiihihmrghnshhkihcuoehsvggsrghsthhivghnrdhsiiihmhgrnhhskhhisegrrhhmrgguvghushdrtghomheqnecuggftrfgrthhtvghrnhepteeuuedtffefgeeguedtheehleeggeduvdeukeeiteekgeekhfdugffgheehgeevnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkphepuddvjedrtddrtddruddpledtrdduuddrvdefvddrudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehsvggsrghsthhivghnrdhsiiihmhgrnhhskhhisegrrhhmrgguvghushdrtghomheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheekuddpmhhouggvpehsmhhtphhouhht
 X-Mailman-Approved-At: Fri, 28 Oct 2022 17:39:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,101 +71,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Daniel Latypov <dlatypov@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
- David Gow <davidgow@google.com>, andrealmeid@riseup.net,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As reported by Michał the drm_mm and drm_buddy unit tests lost the
-printk with seed value after they were refactored into KUnit.
+Hello Jagan,
 
-Add kunit_info with seed value information to assure reproducibility.
+On 10/5/22 17:12, Jagan Teki wrote:
+> This series supports common bridge support for Samsung MIPI DSIM
+> which is used in Exynos and i.MX8MM SoC's.
+> 
+> The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> 
+> Changes for v7:
+> * fix the drm bridge attach chain for exynos drm dsi driver
+> * fix the hw_type checking logic
+> 
+> Changes for v6:
+> * handle previous bridge for exynos dsi while attaching bridge
+> 
+> Changes for v5:
+> * bridge changes to support multi-arch
+> * updated and clear commit messages
+> * add hw_type via plat data
+> * removed unneeded quirk
+> * rebased on linux-next
+> 
+> Changes for v4:
+> * include Inki Dae in MAINTAINERS
+> * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
+> * update init handling to ensure host init done on first cmd transfer
+> 
+> Changes for v3:
+> * fix the mult-arch build
+> * fix dsi host init
+> * updated commit messages
+> 
+> Changes for v2:
+> * fix bridge handling
+> * fix dsi host init
+> * correct the commit messages
+> 
+> Patch 0001: 	Samsung DSIM bridge
+> 
+> Patch 0002:	PHY optional
+> 
+> Patch 0003:	OF-graph or Child node lookup
+> 
+> Patch 0004: 	DSI host initialization
+> 
+> Patch 0005:	atomic check
+> 
+> Patch 0006:	PMS_P offset via plat data
+> 
+> Patch 0007:	atomic_get_input_bus_fmts
+> 
+> Patch 0008:	input_bus_flags
+> 
+> Patch 0009:	document fsl,imx8mm-mipi-dsim
+> 
+> Patch 0010:	add i.MX8MM DSIM support
+> 
+> Tested in Engicam i.Core MX8M Mini SoM.
+> 
+> Repo:
+> https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v7
+> 
+> Any inputs?
 
-Reported-by: Michał Winiarski <michal.winiarski@intel.com>
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
----
-v1->v2: https://lore.kernel.org/all/20221026211458.68432-1-arthurgrillo@riseup.net/
-- Correct compilation issues
-- Change tags order
-- Remove useless line change
-- Write commit message in imperative form
-- Remove redundant message part
-- Correct some grammars nits
-- Correct checkpatch issues
+I tried this series on Armadeus OPOS8MM Dev (i.MX8MM) board with the 
+PowerTrip PH720128T004-ZBC02 DSI panel  (720x1280, 2 lanes).
 
-v2->v3: https://lore.kernel.org/all/20221027142903.200169-1-arthurgrillo@riseup.net/
-- Change .init to .suite_init
-- Correct some grammars nits
+It works after I fixed the logic of some video mode flags:
 
-v3->v4:
-- Correct compilation issues
+in function samsung_dsim_init_link(struct samsung_dsim *dsi):
 
----
- drivers/gpu/drm/tests/drm_buddy_test.c | 6 ++++--
- drivers/gpu/drm/tests/drm_mm_test.c    | 8 ++++++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
+-if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP))
++if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP)
+	reg |= DSIM_HFP_MODE;
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index 62f69589a72d..90ec5e8a485b 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -726,11 +726,13 @@ static void drm_test_buddy_alloc_limit(struct kunit *test)
- 	drm_buddy_fini(&mm);
- }
- 
--static int drm_buddy_init_test(struct kunit *test)
-+static int drm_buddy_init_suite(struct kunit_suite *suite)
- {
- 	while (!random_seed)
- 		random_seed = get_random_u32();
- 
-+	kunit_info(suite, "Testing DRM buddy manager, with random_seed=0x%x\n", random_seed);
-+
- 	return 0;
- }
- 
-@@ -746,7 +748,7 @@ static struct kunit_case drm_buddy_tests[] = {
- 
- static struct kunit_suite drm_buddy_test_suite = {
- 	.name = "drm_buddy",
--	.init = drm_buddy_init_test,
-+	.suite_init = drm_buddy_init_suite,
- 	.test_cases = drm_buddy_tests,
- };
- 
-diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-index c4b66eeae203..4663e4611976 100644
---- a/drivers/gpu/drm/tests/drm_mm_test.c
-+++ b/drivers/gpu/drm/tests/drm_mm_test.c
-@@ -2209,11 +2209,15 @@ static void drm_test_mm_color_evict_range(struct kunit *test)
- 	vfree(nodes);
- }
- 
--static int drm_mm_init_test(struct kunit *test)
-+static int drm_mm_init_suite(struct kunit_suite *suite)
- {
- 	while (!random_seed)
- 		random_seed = get_random_u32();
- 
-+	kunit_info(suite,
-+		   "Testing DRM range manager, with random_seed=0x%x max_iterations=%u max_prime=%u\n",
-+		   random_seed, max_iterations, max_prime);
-+
- 	return 0;
- }
- 
-@@ -2246,7 +2250,7 @@ static struct kunit_case drm_mm_tests[] = {
- 
- static struct kunit_suite drm_mm_test_suite = {
- 	.name = "drm_mm",
--	.init = drm_mm_init_test,
-+	.suite_init = drm_mm_init_suite,
- 	.test_cases = drm_mm_tests,
- };
- 
+The bit has to be set to disable HFP.
+Same logic for HPB, HSA and EOT packets.
+
+Regards,
+
+> Jagan.
+> 
+> Jagan Teki (10):
+>    drm: bridge: Add Samsung DSIM bridge driver
+>    drm: bridge: samsung-dsim: Lookup OF-graph or Child node devices
+>    drm: bridge: samsung-dsim: Mark PHY as optional
+>    drm: bridge: samsung-dsim: Handle proper DSI host initialization
+>    drm: bridge: samsung-dsim: Add atomic_check
+>    drm: bridge: samsung-dsim: Add platform PLL_P (PMS_P) offset
+>    drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
+>    drm: bridge: samsung-dsim: Add input_bus_flags
+>    dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
+>    drm: bridge: samsung-dsim: Add i.MX8MM support
+> 
+>   .../bindings/display/exynos/exynos_dsim.txt   |    1 +
+>   MAINTAINERS                                   |    9 +
+>   drivers/gpu/drm/bridge/Kconfig                |   12 +
+>   drivers/gpu/drm/bridge/Makefile               |    1 +
+>   drivers/gpu/drm/bridge/samsung-dsim.c         | 1856 +++++++++++++++++
+>   drivers/gpu/drm/exynos/Kconfig                |    1 +
+>   drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1766 +---------------
+>   include/drm/bridge/samsung-dsim.h             |  115 +
+>   8 files changed, 2108 insertions(+), 1653 deletions(-)
+>   create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
+>   create mode 100644 include/drm/bridge/samsung-dsim.h
+> 
+
 -- 
-2.37.3
+Sébastien Szymanski, Armadeus Systems
+Software engineer
 
