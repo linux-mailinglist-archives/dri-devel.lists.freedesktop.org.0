@@ -2,51 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F16611B64
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 22:09:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E51A611BB9
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 22:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0918C10E1D1;
-	Fri, 28 Oct 2022 20:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44DF610E224;
+	Fri, 28 Oct 2022 20:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D46110E18F;
- Fri, 28 Oct 2022 20:09:19 +0000 (UTC)
-Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 804013F1D8;
- Fri, 28 Oct 2022 22:09:16 +0200 (CEST)
-Date: Fri, 28 Oct 2022 22:09:15 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v4 00/10] drm/msm: Fix math issues in MSM DSC
- implementation
-Message-ID: <20221028200823.s5ygokpfy5jz25ge@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Koul <vkoul@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Douglas Anderson <dianders@chromium.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20221026182824.876933-1-marijn.suijten@somainline.org>
- <99744fda-a3b8-f97a-294c-78e512d865bc@quicinc.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2059.outbound.protection.outlook.com [40.107.220.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00DDF10E224;
+ Fri, 28 Oct 2022 20:44:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XkUeYHXQLIXCBRzbs5OY6PkRnRi9o70oHLYYtjTLDQN0To42a7o0ciht5F3J3jT1fHyM3ALyFmOAJnFyEXM5fueV0Zs0mr0IAAxGa94s6GYGUKPkudo3SDeknfD6JrjcMb4tRjreCuvE/vD2U+cuJo1XbvGhLYCxPP6HGRafI3zetEBM7xFBkRZ//08TgAprPySkPsp+CmT+m7+2hWSYE9mu2mmbAcQWfwddWZmVcSf+baZbTN9BqkBTMlWiAk7qGEksvDYdWmkudmr0L3EAYpuum3uVWkHSthlF29h5ssJaengMg41KM3DtWGk9BC7xerEXACi3Felwc0XPU7eB/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e4k8HfM2PWAi/GFFFr9yfKKJxq7nWyyGvT0ysx+xvX0=;
+ b=noFNh++gPNqeKKpLWxjO3DcSDIUkNfbNiKLZjV465VXZ7cpt+5AZSn38wkc5dz3GkXEkBOfC4zkMkEgXMiY6ZsYSwSHYOCxMUkZZAXRtjesQ2sjR791kUzc8gbMxF/JMn/htQz700vVCGcuWGvsl7YO1MuiDOif936u0QWM4TgUjmD5TTz3eufnQ0jl4Hyv49yMQWzYbRGjPLNO6P4+NMxtN1vLJqSWaD+vfukKKHEoJ7S6WZ1KaGU0a4BmocDNR+AY+8c5bkMaUHvUzWaH+rjKr0qw2INQ+rBjD3vP7Muc+ROZOhUQ9+v36fHI0+xc8ibPArBHoEAreNgASuAG1TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e4k8HfM2PWAi/GFFFr9yfKKJxq7nWyyGvT0ysx+xvX0=;
+ b=asGapFmMs5ef76m675zcOLKLJKzsTntWp5ZbaIOcY1s5kDsbqDfcd8md7xV2GJGMj8kELg20Hfo1WP0TgHUoVKPclWrAycKy2dLrBvZNeO3iri7lBWroGSDtvx/B9YVtBZWydDo3fLW0Js3EfHzBjO+Of+8k8kZpCNjJjrSuvmA=
+Received: from DS7PR03CA0021.namprd03.prod.outlook.com (2603:10b6:5:3b8::26)
+ by CY8PR12MB7539.namprd12.prod.outlook.com (2603:10b6:930:96::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Fri, 28 Oct
+ 2022 20:44:34 +0000
+Received: from DM6NAM11FT090.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b8:cafe::d0) by DS7PR03CA0021.outlook.office365.com
+ (2603:10b6:5:3b8::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.15 via Frontend
+ Transport; Fri, 28 Oct 2022 20:44:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT090.mail.protection.outlook.com (10.13.172.184) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5769.14 via Frontend Transport; Fri, 28 Oct 2022 20:44:34 +0000
+Received: from hamza-pc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 28 Oct
+ 2022 15:44:32 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/amd/display: drop vblank_lock from struct
+ amdgpu_display_manager
+Date: Fri, 28 Oct 2022 16:44:53 -0400
+Message-ID: <20221028204454.193752-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99744fda-a3b8-f97a-294c-78e512d865bc@quicinc.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT090:EE_|CY8PR12MB7539:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7092ee68-e985-40a2-dc04-08dab92538ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8VrcmTc6XqQ1cLwahIcGGXcR05N6ZCWWMK9vc8KfylcXFXorYGicqI7zcvuCTQMKuUWur6OsT4mL2Lk7PpmAUmazRmGGSQtPfMuJxaeA5NZ5xlCFxxxQn+CywzxQO4QNkQA7y6FjEpQIlJt5Q0HpAUgVxGmnRT5mTyDx6L2jNEUqXgezLLpCS1e25dd5QqnAUe5+TJ9bHAezBq8CB/T51koYnW1TTdK2jyXRsOIN6SUkSPY3jGZvUqNfqC+ob1otJ7yOB6h8jf4dHms+eYIs6GcYtJohzsx683hRyisrFDW5S3K1FC4wbkFFgNcXt2CYh8qeRrqzDB5H1vG38ZbqzYA4M+o42mhwOTdKMI2lyABXQh2x+frSRBXS9+eKf3sxG8mqNgkOfyQMRDNg1V180segqSNfiufnOoAnRqvWNM2XiObuz4M5PtT3EFdhr3Faq/O4onXFOZf9sgtFAvPQiWLFlp8PNtpF4p9klGY8YXPMIciCuwBkkVFS9Dfs8La1nWvy/MHCCS6ZkbIu/rHpAUblcEiUm3M5k2hUAERX1mkrgHzTF+QLsFlE+CIjCQrktYrCHirqVDN5GYvuEhf8tbwujRKPnKYgjjfT9zhXnX8OW26QpJJeOT+/I3I1B6IJh1aepDRP2i199Cfhg+QoU8W1R2RNLTuwp2+9KVdGNocTg7wxXvNxW9OoOgeL+2iP8a9XeBjy+zF6UhWWRpo91tSJRonf5MDT3RIOKP3piPnqE85P3gUlU71nW4ebHrbw8Ys1JzsDIitRSfmWy1e2/ldQxBBgjhR5m0TGOimn8Cxw8+bJc+f0uO9V7Dcb3oNGZBR4mL7kEbLqw0P/s8QvPQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(376002)(396003)(346002)(136003)(451199015)(40470700004)(36840700001)(46966006)(5660300002)(41300700001)(70206006)(44832011)(6666004)(40460700003)(2616005)(16526019)(70586007)(186003)(4326008)(2906002)(336012)(8676002)(36860700001)(426003)(8936002)(316002)(82310400005)(83380400001)(54906003)(1076003)(36756003)(47076005)(40480700001)(82740400003)(26005)(7696005)(478600001)(356005)(86362001)(6916009)(81166007)(16060500005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 20:44:34.5671 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7092ee68-e985-40a2-dc04-08dab92538ee
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT090.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7539
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,133 +99,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, phone-devel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: Alex Hung <alex.hung@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Leo Li <sunpeng.li@amd.com>, linux-kernel@vger.kernel.org,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, hersen wu <hersenxs.wu@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Wayne Lin <Wayne.Lin@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>, Shirish S <shirish.s@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav,
+As of commit 09a5df6c444c ("drm/amd/display: Fix multi-display support
+for idle opt workqueue"), vblank_lock is no longer being used. So, don't
+init it in amdgpu_dm_init() and remove it from struct
+amdgpu_display_manager.
 
-On 2022-10-28 11:33:21, Abhinav Kumar wrote:
-> Hi Marijn
-> 
-> On 10/26/2022 11:28 AM, Marijn Suijten wrote:
-> > Various removals of complex yet unnecessary math, fixing all uses of
-> > drm_dsc_config::bits_per_pixel to deal with the fact that this field
-> > includes four fractional bits, and finally making sure that
-> > range_bpg_offset contains values 6-bits wide to prevent overflows in
-> > drm_dsc_pps_payload_pack().
-> > 
-> > Altogether this series is responsible for solving _all_ Display Stream
-> > Compression issues and artifacts on the Sony Tama (sdm845) Akatsuki
-> > smartphone (2880x1440p).
-> > 
-> > Changes since v3:
-> > - Swap patch 7 and 8 to make sure msm_host is available inside
-> >    dsi_populate_dsc_params();
-> > - Reword patch 6 (Migrate to drm_dsc_compute_rc_parameters()) to more
-> >    clearly explain why the FIXME wasn't solved initially, but why it can
-> >    (and should!) be resolved now.
-> > 
-> > v3: https://lore.kernel.org/linux-arm-msm/20221009184824.457416-1-marijn.suijten@somainline.org/T/#u
-> > 
-> > Changes since v2:
-> > - Generalize mux_word_size setting depending on bits_per_component;
-> > - Migrate DSI's DSC calculations to drm_dsc_compute_rc_parameters(),
-> >    implicitly addressing existing math issues;
-> > - Disallow any bits_per_component other than 8, until hardcoded values
-> >    are updated and tested to support such cases.
-> > 
-> > v2: https://lore.kernel.org/linux-arm-msm/20221005181657.784375-1-marijn.suijten@somainline.org/T/#u
-> > 
-> > Changes since v1:
-> > 
-> > - Propagate r-b's, except (obviously) in patches that were (heavily)
-> >    modified;
-> > - Remove accidental debug code in dsi_cmd_dma_add;
-> > - Move Range BPG Offset masking out of DCS PPS packing, back into the
-> >    DSI driver when it is assigned to drm_dsc_config (this series is now
-> >    strictly focusing on drm/msm again);
-> > - Replace modulo-check resulting in conditional increment with
-> >    DIV_ROUND_UP;
-> > - Remove repeated calculation of slice_chunk_size;
-> > - Use u16 instead of int when handling bits_per_pixel;
-> > - Use DRM_DEV_ERROR instead of pr_err in DSI code;
-> > - Also remove redundant target_bpp_x16 variable.
-> > 
-> > v1: https://lore.kernel.org/linux-arm-msm/20221001190807.358691-1-marijn.suijten@somainline.org/T/#u
-> > 
-> > Marijn Suijten (10):
-> >    drm/msm/dsi: Remove useless math in DSC calculations
-> >    drm/msm/dsi: Remove repeated calculation of slice_per_intf
-> >    drm/msm/dsi: Use DIV_ROUND_UP instead of conditional increment on
-> >      modulo
-> >    drm/msm/dsi: Reuse earlier computed dsc->slice_chunk_size
-> >    drm/msm/dsi: Appropriately set dsc->mux_word_size based on bpc
-> >    drm/msm/dsi: Migrate to drm_dsc_compute_rc_parameters()
-> >    drm/msm/dsi: Account for DSC's bits_per_pixel having 4 fractional bits
-> >    drm/msm/dsi: Disallow 8 BPC DSC configuration for alternative BPC
-> >      values
-> >    drm/msm/dpu1: Account for DSC's bits_per_pixel having 4 fractional
-> >      bits
-> >    drm/msm/dsi: Prevent signed BPG offsets from bleeding into adjacent
-> >      bits
-> > 
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c |  11 +-
-> >   drivers/gpu/drm/msm/dsi/dsi_host.c         | 121 ++++++---------------
-> >   2 files changed, 37 insertions(+), 95 deletions(-)
-> > 
-> > --
-> > 2.38.1
-> > 
-> 
-> To keep the -fixes cycle to have only critical fixes (others are 
-> important too but are cleanups), I was thinking of absorbing patches 
-> 7,8,9 and 10 alone in the -fixes cycle and for patches 1-6, will go 
-> through the 6.2 push.
-> 
-> Let me know if there are any concerns if we just take patches 7,8,9 and 
-> 10 separately.
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 7 -------
+ 2 files changed, 8 deletions(-)
 
-Unfortunately that isn't going to cut it.  For starters patch 8 is only
-introducing additional validation but as long as no panel drivers set
-bpc != 8, this doesn't change anything: it is not a critical fix.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index eb4ce7216104..11afb4b24fd9 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1394,7 +1394,6 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+ 
+ 	mutex_init(&adev->dm.dc_lock);
+ 	mutex_init(&adev->dm.audio_lock);
+-	spin_lock_init(&adev->dm.vblank_lock);
+ 
+ 	if(amdgpu_dm_irq_init(adev)) {
+ 		DRM_ERROR("amdgpu: failed to initialize DM IRQ support.\n");
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index b5ce15c43bcc..b618b2586e7b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -365,13 +365,6 @@ struct amdgpu_display_manager {
+ 	 */
+ 	struct mutex audio_lock;
+ 
+-	/**
+-	 * @vblank_lock:
+-	 *
+-	 * Guards access to deferred vblank work state.
+-	 */
+-	spinlock_t vblank_lock;
+-
+ 	/**
+ 	 * @audio_component:
+ 	 *
+-- 
+2.38.0
 
-Then, more importantly, as discussed in v2 reviews it was preferred to
-_not_ fix the broken code in dsi_populate_dsc_params() but migrate to
-drm_dsc_compute_rc_parameters() directly [1].  As such patch 6 (which
-performs the migration) is definitely a requirement for the fixes to be
-complete.  Then again this patch looks weird when 5 is not applied,
-since both refactor how dsc->mux_word_size is assigned.  At the same
-time it cannot be cleanly applied without patch 1 (Remove useless math
-in DSC calculations) nor patch 3 (Use DIV_ROUND_UP instead of
-conditional increment on modulo), but I just realized that patch 3 is
-now also useless as the code is being removed altogether while migrating
-to drm_dsc_compute_rc_parameters().
-
-Same for patch 4 (Reuse earlier computed dsc->slice_chunk_size): while
-it may not seem obvious at first, the original code uses bits_per_pixel
-without considering the fractional bits, again resulting invalid values.
-Perhaps this should have been mentioned in the patch description, but I
-did not want to create an even larger chain of references pointing back
-and forth to future patches fixing the exact same bug.  Unfortunately
-this patch doesn't apply cleanly without patch 2 (Remove repeated
-calculation of slice_per_intf) either.
-
-All in all, applying this series piecemeal requires careful
-consideration which of the patches are actually fixing issues, and is
-terribly tricky considering code cleanups touching the same code and
-sitting right before the fixes (done intentionally to not distract diffs
-in bugfixes being surrounded by odd looking code).
-
-[1]: https://lore.kernel.org/linux-arm-msm/CAA8EJpr=0w0KReqNW2jP8DzvXLgo_o6bKmwMOed2sXb6d8HKhg@mail.gmail.com/
-
-- Marijn
