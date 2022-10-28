@@ -2,65 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88271611A6D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 20:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E80611A81
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 20:53:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B19510E8B1;
-	Fri, 28 Oct 2022 18:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D64AE10E8C0;
+	Fri, 28 Oct 2022 18:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C4210E8BE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 18:47:32 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id a5so4023117qkl.6
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 11:47:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+lIeCqF9MC1plkMaa8w3RYpUvhtv+mOsM3E0K5wP3Sw=;
- b=QB/yJvyFQct+2OJbnZIA/tDX8ajG1aNWWKiALtUocG5OcgRfSj5xC/jy/KZ58XFRBS
- BuoopZQTNYIml8YK2WaVS/dNg8od+ainUFxbQl6SXGED3Nc9ESxGIPeys4mFokbGBqoA
- X1k2vWg4GAnIGwJ2Gt7YFwUtKfcY3CDZkF209ennLJQCEkW96pisjBSBPF6GYq+Gdefv
- KKz8QAwRWbcDupJKAReMBeisQrYQpSJOO28tUcYJh1Cj0o3ra+lMi4nYhuGOIh1lk23I
- j0EWoC9xafzFiHR4YkSr35aAzSooNnEeyGZo5mMEie8ckTJuvwP1LFbcr9ublWnwKDa/
- pr5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+lIeCqF9MC1plkMaa8w3RYpUvhtv+mOsM3E0K5wP3Sw=;
- b=JeKTpakeJxTQIbP91kLSoKHFfjRNL6hjssAu0Py8WVQXMamTfxFH+JbkMbRj/R+yUp
- 1U3mPqB5nNl7WvzFeiQl0nplHHBs8vcfZouA/nmbEbJ7DmiFFJmpBX0jIETdVgwjfZWz
- CpwvxAkOuWHASfHexUz9gJsbcPVfwQ6P9CfdFDz23dBhV3WAE6Py7U1EGyvrkD4EkR1b
- Ko5xrspzmByXpGV5ztAq2dThWipEGC/UvfLNqQLqet7/j3cZgtK2H2YtHC/hqRU4zuiJ
- eKHabd3F3FGASUwUs82oHldrFggILnb74QSROLmqRbE5vD/6HzTCizmtb7spDaCMDc/s
- QqmA==
-X-Gm-Message-State: ACrzQf33+edZOFR3nBvzbah6heC0ush1PYfPlgWYVGp92YgFY0Z6ZmTk
- tLm/Z7onTknQ7LfJ98e07ZstFMgAHcZrqyjQci4R5Q==
-X-Google-Smtp-Source: AMsMyM56bLx8Jr1GOVzvxC6aqvYl/bq/OQWL5kJiTLnKCGyRYb9J4lp/fpUvOmNQDxGiQRuDo8iXQIlZVHQScew44u4=
-X-Received: by 2002:a05:620a:2496:b0:6ee:76ce:4b3e with SMTP id
- i22-20020a05620a249600b006ee76ce4b3emr561552qkn.370.1666982851307; Fri, 28
- Oct 2022 11:47:31 -0700 (PDT)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5629510E8C3;
+ Fri, 28 Oct 2022 18:52:57 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29SHnW11028823;
+ Fri, 28 Oct 2022 18:52:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=3+EAgCWyrXv25Pv/hWDktrqyGP/Rd5LAnoauoyevleY=;
+ b=ot9ISdOomCP1tYW7GVfUpZx9sfdFdlfCIpFD7hUB2iB64OYZ3FFvPR+pDr3y5VZoEqvo
+ FOOb/A+V/m1U7nivmn+3tPtRqvOoEfW8LAWqurwo1H+/zlHZw9dJQu7NGrFbKMf0BN9/
+ U6Q5mdWgXvquMQPECu0JG5enPa1X/AxUWFQWwhTkVUYXHMIKfIGi1lcVWk3/fDy1ihq4
+ XfKoQjQZkp4zOfUSHhPgmp6HBLD/NbJR99PV+6JtTcIIBcyMaYwv3zro4HJZOWnwdRvZ
+ H1uPAg84Y/JLX89OzCArviowXBi3xwxJIx+uosl6X7Gaqy4KmTDKJYVwMUI0AURrwY2S Ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kgkttj6dp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Oct 2022 18:52:35 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29SI3PIM026451;
+ Fri, 28 Oct 2022 18:52:34 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kgkttj6db-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Oct 2022 18:52:34 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29SIoBYj002586;
+ Fri, 28 Oct 2022 18:52:33 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03wdc.us.ibm.com with ESMTP id 3kfahenry7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Oct 2022 18:52:33 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com ([9.208.128.112])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29SIqWUn30343524
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Oct 2022 18:52:32 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D96CC5805A;
+ Fri, 28 Oct 2022 18:52:31 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7B8F858054;
+ Fri, 28 Oct 2022 18:52:27 +0000 (GMT)
+Received: from [9.160.93.208] (unknown [9.160.93.208])
+ by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 28 Oct 2022 18:52:27 +0000 (GMT)
+Message-ID: <8f295a4b-416a-dc17-487c-d4c4e309c738@linux.ibm.com>
+Date: Fri, 28 Oct 2022 14:52:26 -0400
 MIME-Version: 1.0
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
- <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
- <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
- <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
- <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
-In-Reply-To: <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 28 Oct 2022 19:47:19 +0100
-Message-ID: <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
-Subject: Re: Try to address the DMA-buf coherency problem
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v1 3/7] vfio/ccw: move private initialization to callback
+Content-Language: en-US
+To: Eric Farman <farman@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>
+References: <20221019162135.798901-1-farman@linux.ibm.com>
+ <20221019162135.798901-4-farman@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20221019162135.798901-4-farman@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: GY4K8w40rmai7oD1SyWZ7J71Of9eb0LI
+X-Proofpoint-ORIG-GUID: w3cmT3KgOUDHykkn6uUR0k4KBODeUQAc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-28_07,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0
+ clxscore=1015 suspectscore=0 spamscore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210280113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,120 +100,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
- Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
- linux-media@vger.kernel.org, sumit.semwal@linaro.org
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On 10/19/22 12:21 PM, Eric Farman wrote:
+> There's already a device initialization callback that is
+> used to initialize the release completion workaround.
 
-On Fri, 28 Oct 2022 at 18:50, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
-> Am 28.10.22 um 17:46 schrieb Nicolas Dufresne:
-> > Though, its not generically possible to reverse these roles. If you wan=
-t to do
-> > so, you endup having to do like Android (gralloc) and ChromeOS (minigbm=
-),
-> > because you will have to allocate DRM buffers that knows about importer=
- specific
-> > requirements. See link [1] for what it looks like for RK3399, with Moti=
-on Vector
-> > size calculation copied from the kernel driver into a userspace lib (ar=
-guably
-> > that was available from V4L2 sizeimage, but this is technically difficu=
-lt to
-> > communicate within the software layers). If you could let the decoder e=
-xport
-> > (with proper cache management) the non-generic code would not be needed=
-.
->
-> Yeah, but I can also reverse the argument:
->
-> Getting the parameters for V4L right so that we can share the image is
-> tricky, but getting the parameters so that the stuff is actually
-> directly displayable by GPUs is even trickier.
->
-> Essentially you need to look at both sides and interference to get to a
-> common ground, e.g. alignment, pitch, width/height, padding, etc.....
->
-> Deciding from which side to allocate from is just one step in this
-> process. For example most dGPUs can't display directly from system
-> memory altogether, but it is possible to allocate the DMA-buf through
-> the GPU driver and then write into device memory with P2P PCI transfers.
->
-> So as far as I can see switching importer and exporter roles and even
-> having performant extra fallbacks should be a standard feature of userspa=
-ce.
->
-> > Another case where reversing the role is difficult is for case where yo=
-u need to
-> > multiplex the streams (let's use a camera to illustrate) and share that=
- with
-> > multiple processes. In these uses case, the DRM importers are volatile,=
- which
-> > one do you abuse to do allocation from ? In multimedia server like Pipe=
-Wire, you
-> > are not really aware if the camera will be used by DRM or not, and if s=
-omething
-> > "special" is needed in term of role inversion. It is relatively easy to=
- deal
-> > with matching modifiers, but using downstream (display/gpu) as an expor=
-ter is
-> > always difficult (and require some level of abuse and guessing).
->
-> Oh, very good point! Yeah we do have use cases for this where an input
-> buffer is both displayed as well as encoded.
+As discussed off-list, maybe clarify what callback you're talking about here and/or reference the commit that added it.
 
-This is the main issue, yeah.
+> 
+> Move the other elements of the vfio_ccw_private struct that
+> require distinct initialization over to that routine.
+> 
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+>  drivers/s390/cio/vfio_ccw_drv.c     | 57 +++--------------------------
+>  drivers/s390/cio/vfio_ccw_ops.c     | 43 ++++++++++++++++++++++
+>  drivers/s390/cio/vfio_ccw_private.h |  7 +++-
+>  3 files changed, 55 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+> index 4ee953c8ae39..cc9ed2fd970f 100644
+> --- a/drivers/s390/cio/vfio_ccw_drv.c
+> +++ b/drivers/s390/cio/vfio_ccw_drv.c
+> @@ -24,10 +24,10 @@
+>  #include "vfio_ccw_private.h"
+>  
+>  struct workqueue_struct *vfio_ccw_work_q;
+> -static struct kmem_cache *vfio_ccw_io_region;
+> -static struct kmem_cache *vfio_ccw_cmd_region;
+> -static struct kmem_cache *vfio_ccw_schib_region;
+> -static struct kmem_cache *vfio_ccw_crw_region;
+> +struct kmem_cache *vfio_ccw_io_region;
+> +struct kmem_cache *vfio_ccw_cmd_region;
+> +struct kmem_cache *vfio_ccw_schib_region;
+> +struct kmem_cache *vfio_ccw_crw_region;
+>  
+>  debug_info_t *vfio_ccw_debug_msg_id;
+>  debug_info_t *vfio_ccw_debug_trace_id;
+> @@ -74,7 +74,7 @@ int vfio_ccw_sch_quiesce(struct subchannel *sch)
+>  	return ret;
+>  }
+>  
+> -static void vfio_ccw_sch_io_todo(struct work_struct *work)
+> +void vfio_ccw_sch_io_todo(struct work_struct *work)
+>  {
+>  	struct vfio_ccw_private *private;
+>  	struct irb *irb;
+> @@ -110,7 +110,7 @@ static void vfio_ccw_sch_io_todo(struct work_struct *work)
+>  		eventfd_signal(private->io_trigger, 1);
+>  }
+>  
+> -static void vfio_ccw_crw_todo(struct work_struct *work)
+> +void vfio_ccw_crw_todo(struct work_struct *work)
+>  {
+>  	struct vfio_ccw_private *private;
+>  
+> @@ -154,52 +154,7 @@ static struct vfio_ccw_private *vfio_ccw_alloc_private(struct subchannel *sch)
+>  	if (!private)
+>  		return ERR_PTR(-ENOMEM);
 
-For a standard media player, they would try to allocate through V4L2
-and decode through that into locally-allocated buffers. All they know
-is that there's a Wayland server at the other end of a socket
-somewhere which will want to import the FD. The server does give you
-some hints along the way: it will tell you that importing into a
-particular GPU target device is necessary as the ultimate fallback,
-and importing into a particular KMS device is preferable as the
-optimal path to hit an overlay.
+Not sure we really still need vfio_ccw_alloc_private() now or whether you can just kzalloc() inline right in vfio_ccw_sch_probe()
 
-So let's say that the V4L2 client does what you're proposing: it
-allocates a buffer chain, schedules a decode into that buffer, and
-passes it along to the server to import. The server fails to import
-the buffer into the GPU, and tells the client this. The client then
-... well, it doesn't know that it needs to allocate within the GPU
-instead, but it knows that doing so might be one thing which would
-make the request succeed.
+Either way:
 
-But the client is just a video player. It doesn't understand how to
-allocate BOs for Panfrost or AMD or etnaviv. So without a universal
-allocator (again ...), 'just allocate on the GPU' isn't a useful
-response to the client.
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-I fully understand your point about APIs like Vulkan not sensibly
-allowing bracketing, and that's fine. On the other hand, a lot of
-extant usecases (camera/codec -> GPU/display, GPU -> codec, etc) on
-Arm just cannot fulfill complete coherency. On a lot of these
-platforms, despite what you might think about the CPU/GPU
-capabilities, the bottleneck is _always_ memory bandwidth, so
-mandating extra copies is an absolute non-starter, and would instantly
-cripple billions of devices. Lucas has been pretty gentle, but to be
-more clear, this is not an option and won't be for at least the next
-decade.
 
-So we obviously need a third way at this point, because 'all devices
-must always be coherent' vs. 'cache must be an unknown' can't work.
-How about this as a suggestion: we have some unused flags in the PRIME
-ioctls. Can we add a flag for 'import must be coherent'?
+>  
+> -	mutex_init(&private->io_mutex);
+> -	private->state = VFIO_CCW_STATE_STANDBY;
+> -	INIT_LIST_HEAD(&private->crw);
+> -	INIT_WORK(&private->io_work, vfio_ccw_sch_io_todo);
+> -	INIT_WORK(&private->crw_work, vfio_ccw_crw_todo);
+> -
+> -	private->cp.guest_cp = kcalloc(CCWCHAIN_LEN_MAX, sizeof(struct ccw1),
+> -				       GFP_KERNEL);
+> -	if (!private->cp.guest_cp)
+> -		goto out_free_private;
+> -
+> -	private->io_region = kmem_cache_zalloc(vfio_ccw_io_region,
+> -					       GFP_KERNEL | GFP_DMA);
+> -	if (!private->io_region)
+> -		goto out_free_cp;
+> -
+> -	private->cmd_region = kmem_cache_zalloc(vfio_ccw_cmd_region,
+> -						GFP_KERNEL | GFP_DMA);
+> -	if (!private->cmd_region)
+> -		goto out_free_io;
+> -
+> -	private->schib_region = kmem_cache_zalloc(vfio_ccw_schib_region,
+> -						  GFP_KERNEL | GFP_DMA);
+> -
+> -	if (!private->schib_region)
+> -		goto out_free_cmd;
+> -
+> -	private->crw_region = kmem_cache_zalloc(vfio_ccw_crw_region,
+> -						GFP_KERNEL | GFP_DMA);
+> -
+> -	if (!private->crw_region)
+> -		goto out_free_schib;
+>  	return private;
+> -
+> -out_free_schib:
+> -	kmem_cache_free(vfio_ccw_schib_region, private->schib_region);
+> -out_free_cmd:
+> -	kmem_cache_free(vfio_ccw_cmd_region, private->cmd_region);
+> -out_free_io:
+> -	kmem_cache_free(vfio_ccw_io_region, private->io_region);
+> -out_free_cp:
+> -	kfree(private->cp.guest_cp);
+> -out_free_private:
+> -	mutex_destroy(&private->io_mutex);
+> -	kfree(private);
+> -	return ERR_PTR(-ENOMEM);
+>  }
+>  
+>  static void vfio_ccw_free_private(struct vfio_ccw_private *private)
+> diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
+> index cf383c729d53..626b8eb3507b 100644
+> --- a/drivers/s390/cio/vfio_ccw_ops.c
+> +++ b/drivers/s390/cio/vfio_ccw_ops.c
+> @@ -50,8 +50,51 @@ static int vfio_ccw_mdev_init_dev(struct vfio_device *vdev)
+>  	struct vfio_ccw_private *private =
+>  		container_of(vdev, struct vfio_ccw_private, vdev);
+>  
+> +	mutex_init(&private->io_mutex);
+> +	private->state = VFIO_CCW_STATE_STANDBY;
+> +	INIT_LIST_HEAD(&private->crw);
+> +	INIT_WORK(&private->io_work, vfio_ccw_sch_io_todo);
+> +	INIT_WORK(&private->crw_work, vfio_ccw_crw_todo);
+>  	init_completion(&private->release_comp);
+> +
+> +	private->cp.guest_cp = kcalloc(CCWCHAIN_LEN_MAX, sizeof(struct ccw1),
+> +				       GFP_KERNEL);
+> +	if (!private->cp.guest_cp)
+> +		goto out_free_private;
+> +
+> +	private->io_region = kmem_cache_zalloc(vfio_ccw_io_region,
+> +					       GFP_KERNEL | GFP_DMA);
+> +	if (!private->io_region)
+> +		goto out_free_cp;
+> +
+> +	private->cmd_region = kmem_cache_zalloc(vfio_ccw_cmd_region,
+> +						GFP_KERNEL | GFP_DMA);
+> +	if (!private->cmd_region)
+> +		goto out_free_io;
+> +
+> +	private->schib_region = kmem_cache_zalloc(vfio_ccw_schib_region,
+> +						  GFP_KERNEL | GFP_DMA);
+> +	if (!private->schib_region)
+> +		goto out_free_cmd;
+> +
+> +	private->crw_region = kmem_cache_zalloc(vfio_ccw_crw_region,
+> +						GFP_KERNEL | GFP_DMA);
+> +	if (!private->crw_region)
+> +		goto out_free_schib;
+> +
+>  	return 0;
+> +
+> +out_free_schib:
+> +	kmem_cache_free(vfio_ccw_schib_region, private->schib_region);
+> +out_free_cmd:
+> +	kmem_cache_free(vfio_ccw_cmd_region, private->cmd_region);
+> +out_free_io:
+> +	kmem_cache_free(vfio_ccw_io_region, private->io_region);
+> +out_free_cp:
+> +	kfree(private->cp.guest_cp);
+> +out_free_private:
+> +	mutex_destroy(&private->io_mutex);
+> +	return -ENOMEM;
+>  }
+>  
+>  static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
+> diff --git a/drivers/s390/cio/vfio_ccw_private.h b/drivers/s390/cio/vfio_ccw_private.h
+> index 0fdff1435230..b35940057073 100644
+> --- a/drivers/s390/cio/vfio_ccw_private.h
+> +++ b/drivers/s390/cio/vfio_ccw_private.h
+> @@ -116,6 +116,8 @@ struct vfio_ccw_private {
+>  } __aligned(8);
+>  
+>  int vfio_ccw_sch_quiesce(struct subchannel *sch);
+> +void vfio_ccw_sch_io_todo(struct work_struct *work);
+> +void vfio_ccw_crw_todo(struct work_struct *work);
+>  
+>  extern struct mdev_driver vfio_ccw_mdev_driver;
+>  
+> @@ -163,7 +165,10 @@ static inline void vfio_ccw_fsm_event(struct vfio_ccw_private *private,
+>  }
+>  
+>  extern struct workqueue_struct *vfio_ccw_work_q;
+> -
+> +extern struct kmem_cache *vfio_ccw_io_region;
+> +extern struct kmem_cache *vfio_ccw_cmd_region;
+> +extern struct kmem_cache *vfio_ccw_schib_region;
+> +extern struct kmem_cache *vfio_ccw_crw_region;
+>  
+>  /* s390 debug feature, similar to base cio */
+>  extern debug_info_t *vfio_ccw_debug_msg_id;
 
-That flag wouldn't be set for the existing ecosystem
-Lucas/Nicolas/myself are talking about, where we have explicit
-handover points and users are fully able to perform cache maintenance.
-For newer APIs where it's not possible to properly express that
-bracketing, they would always set that flag (unless we add an API
-carve-out where the client promises to do whatever is required to
-maintain that).
-
-Would that be viable?
-
-Cheers,
-Daniel
