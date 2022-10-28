@@ -1,64 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FD461179B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 18:36:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FE161196F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 19:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7ADA10E871;
-	Fri, 28 Oct 2022 16:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 845A410E88E;
+	Fri, 28 Oct 2022 17:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5BC110E873
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 16:36:21 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id 78so5256507pgb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 09:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fiP/gtk1BinFFJgTXUZEj1NdMWlthKZ0OUfBLn7rLIU=;
- b=nimtRxz4mCnrDpP+awp+tQ1a53a8hyPg7iNtWXfhDq3ltrOL5UCs75i4rozXJGbMPX
- SDVQCO8PRkleubIaQin2/IPNBC4hc/yjrIa8pVbxkiahBacQ89eO+azcDW644Ub8H9WK
- rSEWZcGkj/DmpWCp2i1iWe6DBzQ+UBvL4XPl8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fiP/gtk1BinFFJgTXUZEj1NdMWlthKZ0OUfBLn7rLIU=;
- b=eqpt5MY47K/EWnij44EEnyYpw3BMsHOMMS0fKOOQ0I2fD0qNTQPK7neklnxf+vsDJP
- 1M6/3Y5xy+Jl27lRz+sCCbequiGtBZsQGrGVcd9qffO0jXXvP6dokc+juFfsPVm3QvFr
- LmD4DMiTfDXKF//XL5K2TARv3M65U6GkNICH8kcX7yiuxtzIcuSZZKldNzdelqpbwJDh
- rwuor1TBGaEcvBb+QaC90tpWDuZlpCw0Cn7p1eED5imp7svVtpnh6f25oHj8MBnn/djK
- RyXuYc86jCuHBpNh4HZEMIkp++wVno3fNtqubsgyAMDhOHpDoDaoFF+g0ubh8Ooith64
- RgSQ==
-X-Gm-Message-State: ACrzQf25giJ9lgK4Kv9CF5eSsLzx/fm89/8mLk8JCkHGWzvGl3GP8AfL
- Ji5WYEHg66yk+VE+fiIbb/+seA==
-X-Google-Smtp-Source: AMsMyM4EYfEXFnyMkOYnJEcYhC2e5fufT2TqnDENGZXbTy1gPAt1ADSI1/a/kujO8yVT2unTkINrkA==
-X-Received: by 2002:a63:5a05:0:b0:434:23a5:a5ca with SMTP id
- o5-20020a635a05000000b0043423a5a5camr296969pgb.515.1666974981269; 
- Fri, 28 Oct 2022 09:36:21 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a170902ca8900b00180a7ff78ccsm3223888pld.126.2022.10.28.09.36.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:36:20 -0700 (PDT)
-Date: Fri, 28 Oct 2022 09:36:19 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] [next] drm/amdgpu: Replace one-element array with
- flexible-array member
-Message-ID: <202210280855.9DF8E4D72@keescook>
-References: <Y1tkWdwPUp+UdpM0@mail.google.com>
- <04e37ee1-53b0-97ab-d6d7-a39edfbdc2ea@amd.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A8D10E873;
+ Fri, 28 Oct 2022 16:51:32 +0000 (UTC)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29SGneGV007403;
+ Fri, 28 Oct 2022 16:51:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=hdQXFOJ4gLXb6ELjexr+d087autOfdKdbtTk1+bmeL0=;
+ b=cGFEj7tyI+DRYFBV+DTU1SPsO3RKlwDlP1wzTCxAL5vsk0v02yQyga2IJSpjAyeLE57q
+ 1XLjUPeWdptzIKoXN9BBNFEQ7at/A8b142/MDDsVRH4k0xDIMAWpeihwDFPF1i09Na4p
+ X7LIrXloDfUVaXC9O4VGnqoqHbMzDeGFjeBRpSX9GFNfVVjnkXnPi3idsb2X7ylP82d/
+ MLD1VDH1VISOqu9eAmog6Esgs6OaN9GwoTaCm4NI2lpVkXCnfGraeTqYtjwMGHlQis9+
+ swFpLGCw5JedD3WJnkD7yJgV4Cg8NBqS02DAxQrT1XauW03N0WaFyaOLvp5Awz8cD6Ui Yg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kgjxr00s8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Oct 2022 16:51:09 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29SGp84d011659;
+ Fri, 28 Oct 2022 16:51:09 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kgjxr00rs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Oct 2022 16:51:08 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29SGZT1I032199;
+ Fri, 28 Oct 2022 16:51:07 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma05wdc.us.ibm.com with ESMTP id 3kfah2n85r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Oct 2022 16:51:07 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com ([9.208.128.112])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29SGp51J61800734
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Oct 2022 16:51:06 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 789CA58062;
+ Fri, 28 Oct 2022 16:51:05 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D0C3858066;
+ Fri, 28 Oct 2022 16:51:00 +0000 (GMT)
+Received: from [9.160.93.208] (unknown [9.160.93.208])
+ by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 28 Oct 2022 16:51:00 +0000 (GMT)
+Message-ID: <471d1f18-13b5-8e80-32aa-1598bca5bf2e@linux.ibm.com>
+Date: Fri, 28 Oct 2022 12:51:00 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <04e37ee1-53b0-97ab-d6d7-a39edfbdc2ea@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v1 1/7] vfio/ccw: create a parent struct
+Content-Language: en-US
+To: Eric Farman <farman@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>
+References: <20221019162135.798901-1-farman@linux.ibm.com>
+ <20221019162135.798901-2-farman@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20221019162135.798901-2-farman@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 0YmIHF-jUowLAQz3LBBWejEL6rJtIM06
+X-Proofpoint-GUID: ClKqJpmsIGCr0M3tkrmhUgbZG4xlwYnS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-28_07,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ mlxlogscore=955 bulkscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1011 phishscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210280103
+X-Mailman-Approved-At: Fri, 28 Oct 2022 17:39:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,58 +101,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
- Grigory Vasilyev <h0tc0d3@gmail.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Slark Xiao <slark_xiao@163.com>, Hans de Goede <hdegoede@redhat.com>,
- Claudio Suarez <cssk@net-c.es>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Rongguang Wei <weirongguang@kylinos.cn>, linux-hardening@vger.kernel.org
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 28, 2022 at 09:18:39AM +0200, Christian König wrote:
-> Am 28.10.22 um 07:10 schrieb Paulo Miguel Almeida:
-> > One-element arrays are deprecated, and we are replacing them with
-> > flexible array members instead. So, replace one-element array with
-> > flexible-array member in struct _ATOM_FAKE_EDID_PATCH_RECORD and
-> > refactor the rest of the code accordingly.
-> > 
-> > This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> > routines on memcpy() and help us make progress towards globally
-> > enabling -fstrict-flex-arrays=3 [1].
-> > 
-> > Link: https://github.com/KSPP/linux/issues/79
-> > Link: https://github.com/KSPP/linux/issues/238
-> > Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
+On 10/19/22 12:21 PM, Eric Farman wrote:
+> Move the stuff associated with the mdev parent (and thus the
+> subchannel struct) into its own struct, and leave the rest in
+> the existing private structure.
 > 
-> I'm not sure if that's a good idea. We had multiple attempts to refactor
-> this now and it always caused a regression.
+> The subchannel will point to the parent, and the parent will point
+> to the private, for the areas where one or both are needed. Further
+> separation of these structs will follow.
 > 
-> Additional to that the header in question came from our BIOS team and isn't
-> following Linux styles in general.
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+>  drivers/s390/cio/vfio_ccw_drv.c     | 104 ++++++++++++++++++++--------
+>  drivers/s390/cio/vfio_ccw_ops.c     |   9 ++-
+>  drivers/s390/cio/vfio_ccw_parent.h  |  28 ++++++++
+>  drivers/s390/cio/vfio_ccw_private.h |   5 --
+>  4 files changed, 112 insertions(+), 34 deletions(-)
+>  create mode 100644 drivers/s390/cio/vfio_ccw_parent.h
 > 
-> Alex what do you think?
+> diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+> index 7f5402fe857a..634760ca0dea 100644
+> --- a/drivers/s390/cio/vfio_ccw_drv.c
+> +++ b/drivers/s390/cio/vfio_ccw_drv.c
+> @@ -20,6 +20,7 @@
+>  #include "chp.h"
+>  #include "ioasm.h"
+>  #include "css.h"
+> +#include "vfio_ccw_parent.h"
+>  #include "vfio_ccw_private.h"
+>  
+>  struct workqueue_struct *vfio_ccw_work_q;
+> @@ -36,7 +37,8 @@ debug_info_t *vfio_ccw_debug_trace_id;
+>   */
+>  int vfio_ccw_sch_quiesce(struct subchannel *sch)
+>  {
+> -	struct vfio_ccw_private *private = dev_get_drvdata(&sch->dev);
+> +	struct vfio_ccw_parent *parent = dev_get_drvdata(&sch->dev);
+> +	struct vfio_ccw_private *private = dev_get_drvdata(&parent->dev);
+>  	DECLARE_COMPLETION_ONSTACK(completion);
+>  	int iretry, ret = 0;
+>  
+> @@ -51,19 +53,21 @@ int vfio_ccw_sch_quiesce(struct subchannel *sch)
+>  			break;
+>  		}
+>  
+> -		/*
+> -		 * Flush all I/O and wait for
+> -		 * cancel/halt/clear completion.
+> -		 */
+> -		private->completion = &completion;
+> -		spin_unlock_irq(sch->lock);
+> +		if (private) {
 
-Fake flexible arrays (i.e. 1-element arrays) are deprecated in Linux[1]
-(and, frankly, deprecated in C since 1999 and even well before then given
-the 0-sized extension that was added in GCC), so we can't continue to
-bring them into kernel sources. Their use breaks both compile-time and
-run-time bounds checking efforts, etc.
+Is it valid to ever reach this code with private == NULL?  If no, then this should probably be a WARN_ON upfront?
 
-All that said, converting away from them can be tricky, and I think such
-conversions need to explicitly show how they were checked for binary
-differences[2].
+> +			/*
+> +			 * Flush all I/O and wait for
+> +			 * cancel/halt/clear completion.
+> +			 */
+> +			private->completion = &completion;
+> +			spin_unlock_irq(sch->lock);
+>  
+> -		if (ret == -EBUSY)
+> -			wait_for_completion_timeout(&completion, 3*HZ);
+> +			if (ret == -EBUSY)
+> +				wait_for_completion_timeout(&completion, 3*HZ);
+>  
+> -		private->completion = NULL;
+> -		flush_workqueue(vfio_ccw_work_q);
+> -		spin_lock_irq(sch->lock);
+> +			private->completion = NULL;
+> +			flush_workqueue(vfio_ccw_work_q);
+> +			spin_lock_irq(sch->lock);
+> +		}
+>  		ret = cio_disable_subchannel(sch);
+>  	} while (ret == -EBUSY);
+>  
 
-Paulo, can you please check for deltas and report your findings in the
-commit log? Note that add struct_size() use in the same patch may result
-in binary differences, so for more complex cases, you may want to split
-the 1-element conversion from the struct_size() conversions.
+.. snip ..
 
--Kees
+> diff --git a/drivers/s390/cio/vfio_ccw_parent.h b/drivers/s390/cio/vfio_ccw_parent.h
+> new file mode 100644
+> index 000000000000..834c00077802
+> --- /dev/null
+> +++ b/drivers/s390/cio/vfio_ccw_parent.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * MDEV Parent contents for vfio_ccw driver
+> + *
+> + * Copyright IBM Corp. 2022
+> + */
+> +
+> +#ifndef _VFIO_CCW_PARENT_H_
+> +#define _VFIO_CCW_PARENT_H_
+> +
+> +#include <linux/mdev.h>
+> +
+> +/**
+> + * struct vfio_ccw_parent
+> + *
+> + * @dev: embedded device struct
+> + * @parent: parent data structures for mdevs created
+> + * @mdev_type(s): identifying information for mdevs created
+> + */
+> +struct vfio_ccw_parent {
+> +	struct device		dev;
+> +
+> +	struct mdev_parent	parent;
+> +	struct mdev_type	mdev_type;
+> +	struct mdev_type	*mdev_types[1];
+> +};
 
-[1] https://docs.kernel.org/process/deprecated.html#zero-length-and-one-element-arrays
-[2] https://outflux.net/blog/archives/2022/06/24/finding-binary-differences/
+Structure itself seems fine, but any reason we need a new file for it?
 
--- 
-Kees Cook
+
+
