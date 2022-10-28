@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9262610DB7
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 11:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001F7610E0F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 12:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1491C10E7DD;
-	Fri, 28 Oct 2022 09:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 604D910E7D7;
+	Fri, 28 Oct 2022 10:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B52FC10E7DC
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 09:52:20 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mtr@pengutronix.de>)
- id 1ooM27-0005YU-0C; Fri, 28 Oct 2022 11:52:11 +0200
-Received: from [2a0a:edc0:0:1101:1d::54] (helo=dude05.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <mtr@pengutronix.de>)
- id 1ooM24-000s2G-Al; Fri, 28 Oct 2022 11:52:07 +0200
-Received: from mtr by dude05.red.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <mtr@pengutronix.de>)
- id 1ooM22-008xq9-NT; Fri, 28 Oct 2022 11:52:06 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/rockchip: vop2: disable planes when disabling the crtc
-Date: Fri, 28 Oct 2022 11:52:06 +0200
-Message-Id: <20221028095206.2136601-3-m.tretter@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221028095206.2136601-1-m.tretter@pengutronix.de>
-References: <20221028095206.2136601-1-m.tretter@pengutronix.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6290710E7D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 10:04:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666951459; x=1698487459;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=hhsMbbxGYStohAh15fvX1DMTKWlhhSTK1Gfncm9ni3g=;
+ b=mefgcWK1a7IBjfh1dYUJyw3nWsJQXpgp9lG8qLdpbJq67uLR4yVDhfKl
+ rZ4r7iBRSmNg42Q7mQxb4sv8m/u6KsrD0MuAhF9SA33kyNCrA3+6NXm8h
+ HCAvIEoQLfPXB3Ys4y6+wDNyOLSBSwmh4FPvxiJDqCq89aYbySAvY2sCF
+ XTWQDJ40rp6rPC+cViFL4cKpOwODbHJYVVgiPEFNCFMYH54JPhERhIAg2
+ sddIZr8dlJNePAZ6Aqj1e4+Lhg4RGPBwMI00yEttEzKNcY/U0/6tg4P9U
+ NoOw119Zm2GGfCRfu2uWuDkEaqGRh8u4Cahs/UDUlLq1twdK0stBLNiHv w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="335098198"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="335098198"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2022 03:04:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="627478453"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="627478453"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga007.jf.intel.com with SMTP; 28 Oct 2022 03:04:13 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 28 Oct 2022 13:04:11 +0300
+Date: Fri, 28 Oct 2022 13:04:11 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/simpledrm: Only advertise formats that are supported
+Message-ID: <Y1upGwtjWgtLUZ1k@intel.com>
+References: <20221027101327.16678-1-marcan@marcan.st>
+ <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,49 +61,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>,
- Chris Morgan <macromorgan@hotmail.com>, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vop2 driver needs to explicitly disable the planes if the crtc is
-disabled. Unless the planes are explicitly disabled, the address of the
-last framebuffer is kept in the registers of the VOP2. When re-enabling
-the encoder after it has been disabled by the driver, the VOP2 will
-start and read the framebuffer that has been freed but is still pointed
-to by the register. The iommu will catch these read accesses and print
-errors.
+On Thu, Oct 27, 2022 at 01:08:24PM +0200, Thomas Zimmermann wrote:
+> I trust you when you say that <native>->XRGB8888 is not enough. But 
+> although I've read your replies, I still don't understand why this 
+> switch is necessary.
+> 
+> Why don't we call drm_fb_build_fourcc_list() with the native 
+> format/formats and let it append a number of formats, such as adding 
+> XRGB888, adding ARGB8888 if necessary, adding ARGB2101010 if necessary. 
+> Each with a elaborate comment why and which userspace needs the format. (?)
 
-Explicitly disable the planes when the crtc is disabled to reset the
-registers.
+Are you saying there is some real userspace that breaks without
+the alpha formats? That would already be broken on many devices.
 
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 26f8a8489ded..105a548d0abe 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -877,10 +877,14 @@ static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
- {
- 	struct vop2_video_port *vp = to_vop2_video_port(crtc);
- 	struct vop2 *vop2 = vp->vop2;
-+	struct drm_crtc_state *old_crtc_state;
- 	int ret;
- 
- 	vop2_lock(vop2);
- 
-+	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
-+	drm_atomic_helper_disable_planes_on_crtc(old_crtc_state, false);
-+
- 	drm_crtc_vblank_off(crtc);
- 
- 	/*
 -- 
-2.30.2
-
+Ville Syrjälä
+Intel
