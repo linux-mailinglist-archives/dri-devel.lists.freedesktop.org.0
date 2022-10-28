@@ -1,78 +1,139 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AAE61199E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 19:50:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A42276119D5
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 20:02:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABDB10E894;
-	Fri, 28 Oct 2022 17:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F41710E896;
+	Fri, 28 Oct 2022 18:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69B9110E894
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 17:50:14 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- l16-20020a05600c4f1000b003c6c0d2a445so4352324wmq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 10:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=M0CVd1s/OtsmW1e6UD0yEVPg+6CWPruQMBLEjGPjgA8=;
- b=dZ//xXylcKTfP9m7DecajDs4Cng4ZXlkiLplvDc48RUYMBufjsbCguWe6wqkRv28fH
- anSaJ8yy4EeOeI07FZSlHUKgJYV1aPDWR0gLQePJzjNnFvrSpk3AUreYMrD71/CpJ61v
- cWrpeBQR2XAVgzwR+8XnBZkE2alaSQnD3RNELcSRuMXipOD5VsNkDC1+E8rsthVFI3xi
- UWJa/oDK4sPtmr0ZU/DEeyC8eAQrhWXAYUBb+D5/pXWQYnZF6/DY4vg9+/rBup1b/fjF
- YCHURv+NGUTTS3RneYERAHxyRPBSUzn1J7DIvtDufqZAftRGERz/7QhB+ciMU7UmMG6c
- ecIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M0CVd1s/OtsmW1e6UD0yEVPg+6CWPruQMBLEjGPjgA8=;
- b=DBsa2Fqmw2kYSNslJmwhssucKNei4NFFu3s1B3W9hxVAidXTlpz4CwQeo9s9QPD/sm
- 7jzdfyGU8u/jrTfhVIyLWcidgG3d+wg68fjt4+FWr0/4Ggxr5ixKRdGrFuGHrP21nq72
- MyhA+N4/sSyxuItZkGsn7HB6VmnJS+ZQdHyYipmxK+YbzrTelJCzkfJXtYp9iduTfBqq
- LtuTIAmCdYCGziAQJuEl8VazmMpvzIxD9BXZkufiViKTZxHenwUOApiXbHih1OX7QPLf
- 5Drg+8lgSX4YOdJtj4btajHPgG2ai4eHUcUkmBOF90XhGXxfUNvFXgjOfvDfIe8n+ede
- b9zQ==
-X-Gm-Message-State: ACrzQf3zkaQ5eoqCIakImCWaWYt4u8lWMHbzOpuN9Wez1ItWxGWo2iog
- Ow0UWwnZsS17dTz90Ypg3h4=
-X-Google-Smtp-Source: AMsMyM67I3tLMEtadyTmEU0a3QWcfGmJQGBxnorhqIoqIwLzIVXOaqJO1ObAlwru52SWo5P9vb/mfQ==
-X-Received: by 2002:a05:600c:3789:b0:3c6:beed:fecf with SMTP id
- o9-20020a05600c378900b003c6beedfecfmr283591wmr.174.1666979412831; 
- Fri, 28 Oct 2022 10:50:12 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:9377:d2f2:2ed:af4b?
- ([2a02:908:1256:79a0:9377:d2f2:2ed:af4b])
- by smtp.gmail.com with ESMTPSA id
- p38-20020a05600c1da600b003b497138093sm5159334wms.47.2022.10.28.10.50.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 10:50:12 -0700 (PDT)
-Message-ID: <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
-Date: Fri, 28 Oct 2022 19:50:11 +0200
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86CCC10E89E;
+ Fri, 28 Oct 2022 18:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666980123; x=1698516123;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=WtGfzpgLszwz1xasT1syGvGAHwOg/y0j2njD70MkSIY=;
+ b=XcqFlsbeswkkHYWMAiJtKgWohOlfC//VQLyCWiTDSQljjyP8uByUqvrA
+ J7LOGxaQgIe4m0VVZfSXtgAKaZwKw5y2xl2rQJLgbZPK267ZqAHw8Ossl
+ o//cnUMX3dTekP0tO4nlvGOvl+JGEFJLK2B11Za0ruZkKF3wgKGQwYugI
+ DtaFMJm9xUVR9ebSa5wqqsta+8JoWRL5IOTZPb7CUgefzolyxA3EEeTBZ
+ 8J0/CqXoJLmm3SU52rmTWJeAC8wyILGJ0q4Ko1q/gf1JD6qpKTHj4ijo4
+ QKIY9H88ZqMglln7fVJigl8ivNQkoih7TUBduwt7K3vtAy0ueg9Qp+ftV A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="310252159"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; d="scan'208";a="310252159"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2022 11:02:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="701820928"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; d="scan'208";a="701820928"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga004.fm.intel.com with ESMTP; 28 Oct 2022 11:02:01 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 28 Oct 2022 11:02:01 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Fri, 28 Oct 2022 11:02:01 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Fri, 28 Oct 2022 11:02:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GbwdTvCLSKfBxtQ5uzWCgftzAuKkBlcBUesd/7+mCne+MPJCz1XDEXumnP9Ksc69msGdGeoxiDFQBiUVcCk7SFVFgjxGmo4MpoKF9EhjNb723HMl4uVnh+gGGpxC4FtOujh05pw9A/Swgyw95f3nTxKbVlhweG4ugvfCn7sSDqsSAmMLDxUrzlNu8/dWayUFuYiR9RJDHlbKAVK4KAqSyMeODSPcjFckIP7mgCy4l45eyjrcs0AfzAQY37xywpgxVt4u1MXKOYNJ+O7XNzUixTmBmSQ2veEImbVC3UqBrqhRe52iDnuryR2kCnuSSmj962F/y/Mr2mP0kEY0QRipPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p1kWAr2Fi4soF+Xy8Kno0rEG7FweG70FEzQu+7m0M2Y=;
+ b=e1h6JS9oL2vLB2iqfLT7wIpKnwPBpjWdbncJ5BZOByvESBaO49SbCqEIvNRcxY2o832bMA24QLewxDfwWwQgMpYRCQTGsm0OgsFJp3c4KObGaHpPjz4MQj/XUAKQeRlxR+XyzuOrvO7CE9YG86SaEegtZUFWhsKgf5qWpFLlrtZxvjYvadOI6fLyCJH5D+t2F7TRjW0BHHWdT2g/tUR6PmphtU0xCbVmsq1tkZ3gxQqszMhwFLUDytd2gkLbHnbyByKPtTPWfYGLJPhcFEI1vU/HzmDZEItjdF5XpQEAzIadxIvngQCXizpkO8Bmf4+2Px+B6xIH0kOhA2NFNvQRNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
+ by CY5PR11MB6258.namprd11.prod.outlook.com (2603:10b6:930:25::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Fri, 28 Oct
+ 2022 18:01:52 +0000
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::8007:140:f87b:ce57]) by MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::8007:140:f87b:ce57%5]) with mapi id 15.20.5769.015; Fri, 28 Oct 2022
+ 18:01:52 +0000
+Date: Fri, 28 Oct 2022 11:01:49 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH 5/5] drm/i915/mtl: don't expose GSC command streamer to
+ the user
+Message-ID: <Y1wZDeBZ6j0EvJZC@mdroper-desk1.amr.corp.intel.com>
+References: <20221027221554.2638087-1-daniele.ceraolospurio@intel.com>
+ <20221027221554.2638087-6-daniele.ceraolospurio@intel.com>
+ <Y1tPRlMIWsachnkQ@mdroper-desk1.amr.corp.intel.com>
+ <5d66c135-50b8-6faf-4db0-b975a844c194@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <5d66c135-50b8-6faf-4db0-b975a844c194@intel.com>
+X-ClientProxiedBy: BYAPR07CA0020.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::33) To MWHPR11MB1632.namprd11.prod.outlook.com
+ (2603:10b6:301:11::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Try to address the DMA-buf coherency problem
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Lucas Stach <l.stach@pengutronix.de>, ppaalanen@gmail.com,
- sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-media@vger.kernel.org
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
- <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
- <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
- <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|CY5PR11MB6258:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2169db2e-5039-4145-6454-08dab90e7e0f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Y7tPe8bIJqcKJvoQMVgmVNyChmON6ZxFOelsKEATI56Kyu5uHCUcdQ74ZyVaj+AYYzA0VaVQKcfLhkS0/zjogf+HnnlOW9pHzVSLqTUOtIY7OvCLnWn5Te6ZSUi6G6mM3eJHnTSh7J0zxPIMmRteLHKs4nP0FiqNm3ZEEZ3b7yyNybwUsoElWZ8WhonkQg388uTf0/APRk7HS4Bq8JEu28pjyt95ddQz2JZgiozQLsuidsQnvIVKxtsTRAfwst9rGTmNmkBlgPf0a4PM/G4LousHEhyE4BX/VL3duIsRZAyOBo7T/c9LO9UeELjuwnA8LAL2I8t/KAOTbINeA/V0B8p4DstbmVvoKzvGbxNySTUuhvi723sTO1SIz1WifWiJpE3VQ38AOmp2xTKm2Ojd8CSxpYqo38+l1VlmHXtdFYbXmXweLFYmFne3ut3DcUh5sJJ7qFENJ6GvNSggQFD1F6anyzh4Si79ISz7jCc++I2ihgYwnPctv5ptx/3RmqahEfd4ci7S2gTL6t2cRF1pYJtpHzcxxILHIzjeYOu5Dum0hsdAIg0w8cA7YnbAkBWaFCF1rrVkmdO1Ne6hRpvteLG9LrWJvYn6vcHZ9I3CQVN06VJmX8G2KS8wcDxFjtcjjfRoEyWjMFjmVJROo/vYZpiAWeJmrFlLsxWcQmO91EWNKm/t4BtN285EmajwdOZVZ68+z2hZJvLHQXwSxO5xuQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(136003)(396003)(376002)(366004)(346002)(451199015)(66946007)(6666004)(4326008)(6506007)(450100002)(66476007)(66556008)(53546011)(6512007)(26005)(316002)(6636002)(186003)(8676002)(82960400001)(2906002)(8936002)(41300700001)(6862004)(38100700002)(5660300002)(86362001)(6486002)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DXvcwRAB4UXYuM3FfhSxQfZpItft7AYhwQ6EK7bIyomt7rzKnwKBbvMgmDXT?=
+ =?us-ascii?Q?p+z5L18wk1awuvp6Bf6Td+1d9zdbdGg2AQ/pWPU9BqeV3EFS/YCipH+CWSMT?=
+ =?us-ascii?Q?5M4hVkaDwMoxgcrWZ1TLmDVV8X8BlNUtAG0L0OCSguiBm2+EfXoM4E22JfWV?=
+ =?us-ascii?Q?rJ6+pBa1C1X2s3D2Hz0arCHM/PPcwDVmxa4RfXitUUEbf720sCG/yZpxECVL?=
+ =?us-ascii?Q?GUjhZX92VnHpE5xxT+mnLuuy4nDXRW3l5NTHJ/5/8oNvboRHXJKT7vc9HiO3?=
+ =?us-ascii?Q?Gp40C8t/tLdUrbcJvDKH1Ba6XxMQKOGwNDm+Iq3S8M2JarsjHPxR5lfIse70?=
+ =?us-ascii?Q?+U18HiH0CtBSrmBjyKh2QU6AzPkOlQeu1iaWXcl+KbIcJnQ6gFGTufkZGjBA?=
+ =?us-ascii?Q?w3KkQyEv2UERyPbKsxlZh6dzM2Z1IRMKCsyrn3Rka9/aLGURSUNUv3GxVOhY?=
+ =?us-ascii?Q?xFZYJ2Yes9AhrhkBzKwiHQuon1RQ0DEHX3DBv+EXwiqMq3vinSCR2+dO1rSd?=
+ =?us-ascii?Q?twhSnOosyBEXn8FKYdns8blgJvNLzWe2pG8x+kXP2F1gcm7iOtFzXG7CaEPx?=
+ =?us-ascii?Q?cl4V/X4LlQwd4SRxDMcKDLoWQOerXm08mipGGJQqQV9yUHeNVuApdHnyg9DU?=
+ =?us-ascii?Q?L0qE35hR9f/1YoWyFFKT3iXa/ulfSuva0xiLI4YXFxQcjL5CRayyqYTx8p9x?=
+ =?us-ascii?Q?Fnx1BeC06tLlJrlhsLLqwmajB4UmDL4T1xY85+QWW24cmHYar1Z9jCg+ABl7?=
+ =?us-ascii?Q?7mAJwAti6vUCcUwmwf/NtZ2LIPk25ctUfgTMjegbuwhDY5TmKNYguupw/07c?=
+ =?us-ascii?Q?Fe4+GWcO24NIfCCcz8P5nor/7wBqg1bciRAEo69cDBWOLjOqg1Va+bsGN25H?=
+ =?us-ascii?Q?Ke3LHrImtfPqtYgfv3og8uYuiDb6aqE8+1jh7E5DcYmYLZgQ9CUpp7c4PKSW?=
+ =?us-ascii?Q?PJz739yAuLgaQyRMGG7Ois2cUbFt9GpJ5PxSqrBDIwP2QWDXoksDBXULlFeX?=
+ =?us-ascii?Q?KKMPkH6K+EFiMMwSVOOj/wGWK7TJ8fHsZ2iHt1PQlKhT4kRJ1pBOJV8VWTvT?=
+ =?us-ascii?Q?cPPX19vZ17h9Wvk0CInyd/vwSlDwug4IHBrBxiI762OKNcRo4RAv7eVZJMoj?=
+ =?us-ascii?Q?Xlr9xH1BwJlLhyhmHVg4yUFWg+6+gA4lH55rIPS+hhHlhzDCcr1NLV7pmJYo?=
+ =?us-ascii?Q?aGC1YxBbm2DrNiQC4nfl2jyP1gyXyp95JPQ0n6/0H+A75FXMYtooFIfls6oS?=
+ =?us-ascii?Q?yjiV0gPTvOPrQUE4b+UTpSf9bjKTBOBOC0XBEkJOkG9lC+MUgdqcfIo5Bmdk?=
+ =?us-ascii?Q?vT8ekjy29+bMD1YEzMCqr1G4xNnMgybysI24onB2de0LpeBkqBLLbE2iUxe8?=
+ =?us-ascii?Q?bU7txXF6f0Qm2WRQRcAJarO4Z2AW5Lb+RI/SQvqPPQ3zgNg4HYGcJFpt/Pe7?=
+ =?us-ascii?Q?TE/Z+xKCk3afpOyPiERHu9rgibtifQ1pMDV7V0Fk6/oNpTfto5lirfpb/vGr?=
+ =?us-ascii?Q?BQcbHzkFZP/IQ4/wiIE6bf7ejluMOSu/2OP4hh+cYLLiLKEhk49k4NLMyVCe?=
+ =?us-ascii?Q?nNoFVYJtK6QdFMi8jy8GCG612UoknqidjbGaMpHcNYPtDJnlXBGzxBhtcGA0?=
+ =?us-ascii?Q?tw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2169db2e-5039-4145-6454-08dab90e7e0f
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 18:01:52.5871 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eT+6cFLxB/C+i6O74qmv5ig36vQHDMlWbnV4sKQOGUS/zewUwbsOgR214agpk+HBJkK0zRlrSuwT/KP7v0xnkum9u9G0KCZLNbDO9Amsc1s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6258
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,89 +146,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nicolas,
+On Fri, Oct 28, 2022 at 10:14:05AM -0700, Ceraolo Spurio, Daniele wrote:
+> 
+> 
+> On 10/27/2022 8:40 PM, Matt Roper wrote:
+> > On Thu, Oct 27, 2022 at 03:15:54PM -0700, Daniele Ceraolo Spurio wrote:
+> > > There is no userspace user for this CS yet, we only need it for internal
+> > > kernel ops (e.g. HuC, PXP), so don't expose it.
+> > > 
+> > > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > Since we never expose it to userspace, we also never get to the point of
+> > doing an engine rename and removing the apostrophe.  I assume we're okay
+> > with this engine continuing to show up as "other'6" in debug logs?
+> 
+> I don't think it matters a lot in debug logs, but anyway it wouldn't be hard
+> to rename it to something different. What do you suggest to rename it to?
+> Since OTHER_CLASS doesn't have a uabi_class defined we can't use a count of
+> engines of that type like we do for the other classes. Just rename it
+> straight to hardcoded gsc0 ?
 
-Am 28.10.22 um 17:46 schrieb Nicolas Dufresne:
-> Hi,
->
-> just dropping some real live use case, sorry I'm not really proposing solutions,
-> I believe you are much more knowledgeable in this regard.
+Yeah, a hardcoded "gsc0" seems fine to me.  I agree it doesn't matter
+too much either way, so I'll leave it up to you whether you add that
+rename or not.
 
-Well, I think each of us has a lot of specialized knowledge. For example 
-I don't know to much about gralloc/minigbm. So this input is very valuable.
 
-> Le vendredi 28 octobre 2022 à 16:26 +0200, Christian König a écrit :
->> Am 28.10.22 um 13:42 schrieb Lucas Stach:
->>> Am Freitag, dem 28.10.2022 um 10:40 +0200 schrieb Christian König:
->>>> But essentially the right thing to do. The only alternative I can see is
->>>> to reverse the role of exporter and importer.
->>>>
->>> I don't think that would work generally either, as buffer exporter and
->>> importer isn't always a 1:1 thing. As soon as any attached importer has
->>> a different coherency behavior than the others, things fall apart.
->> I've just mentioned it because somebody noted that when you reverse the
->> roles of exporter and importer with the V4L driver and i915 then the use
->> case suddenly starts working.
-> Though, its not generically possible to reverse these roles. If you want to do
-> so, you endup having to do like Android (gralloc) and ChromeOS (minigbm),
-> because you will have to allocate DRM buffers that knows about importer specific
-> requirements. See link [1] for what it looks like for RK3399, with Motion Vector
-> size calculation copied from the kernel driver into a userspace lib (arguably
-> that was available from V4L2 sizeimage, but this is technically difficult to
-> communicate within the software layers). If you could let the decoder export
-> (with proper cache management) the non-generic code would not be needed.
+Matt
 
-Yeah, but I can also reverse the argument:
+> 
+> Daniele
+> 
+> > 
+> > Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+> > 
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_engine_user.c | 4 ++++
+> > >   1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > index 79312b734690..ca795daca116 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > @@ -211,6 +211,10 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
+> > >   		if (intel_gt_has_unrecoverable_error(engine->gt))
+> > >   			continue; /* ignore incomplete engines */
+> > > +		/* don't expose GSC engine to user */
+> > > +		if (engine->class == OTHER_CLASS)
+> > > +			continue;
+> > > +
+> > >   		GEM_BUG_ON(engine->class >= ARRAY_SIZE(uabi_classes));
+> > >   		engine->uabi_class = uabi_classes[engine->class];
+> > > -- 
+> > > 2.37.3
+> > > 
+> 
 
-Getting the parameters for V4L right so that we can share the image is 
-tricky, but getting the parameters so that the stuff is actually 
-directly displayable by GPUs is even trickier.
-
-Essentially you need to look at both sides and interference to get to a 
-common ground, e.g. alignment, pitch, width/height, padding, etc.....
-
-Deciding from which side to allocate from is just one step in this 
-process. For example most dGPUs can't display directly from system 
-memory altogether, but it is possible to allocate the DMA-buf through 
-the GPU driver and then write into device memory with P2P PCI transfers.
-
-So as far as I can see switching importer and exporter roles and even 
-having performant extra fallbacks should be a standard feature of userspace.
-
-> Another case where reversing the role is difficult is for case where you need to
-> multiplex the streams (let's use a camera to illustrate) and share that with
-> multiple processes. In these uses case, the DRM importers are volatile, which
-> one do you abuse to do allocation from ? In multimedia server like PipeWire, you
-> are not really aware if the camera will be used by DRM or not, and if something
-> "special" is needed in term of role inversion. It is relatively easy to deal
-> with matching modifiers, but using downstream (display/gpu) as an exporter is
-> always difficult (and require some level of abuse and guessing).
-
-Oh, very good point! Yeah we do have use cases for this where an input 
-buffer is both displayed as well as encoded.
-
->
->> Well, no. What I mean with coherency is that the devices don't need
->> insert special operation to access each others data.
->>
->> This can be archived by multiple approaches, e.g. by the PCI coherency
->> requirements, device internal connections (XGMI, NVLink, CXL etc...) as
->> well as using uncached system memory.
->>
->> The key point is what we certainly don't want is special operations
->> which say: Ok, now device A can access the data, now device B.....
->> because this breaks tons of use cases.
-> I'm coming back again with the multiplexing case. We keep having mixed uses case
-> with multiple receiver. In some case, data may endup on CPU while being encoded
-> in HW. Current approach of disabling cache does work, but CPU algorithm truly
-> suffer in performance. Doing a full memcpy to a cached buffer helps, but remains
-> slower then if the cache had been snooped by the importer (encoder here) driver.
-
-Yeah, that was another reason why we ended up rather having an extra 
-copy than working with uncached buffers for display as well.
-
-Regards,
-Christian.
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
