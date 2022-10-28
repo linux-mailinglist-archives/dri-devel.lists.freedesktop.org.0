@@ -2,64 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE2B611DB0
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Oct 2022 00:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64583611DD9
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Oct 2022 01:00:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3985810E8F6;
-	Fri, 28 Oct 2022 22:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A942C10E03E;
+	Fri, 28 Oct 2022 23:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275A810E8F4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 22:48:23 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- d59-20020a17090a6f4100b00213202d77e1so11158047pjk.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 15:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=r0xiJp4XHOD7FpE79mlTo4FZ8hKLVDdbQ6PJGlmtm0c=;
- b=mzDl6TMyHJf63jH7iKtcAAGM8XDN0rgDSAUs7hfgOey2i6dDPc9aOOCZYNZNETkm2j
- yVEIR85X+aSQjrVbZpYjQoDLmGgkswWXkfsecH1i+hYCnMCRGj96w+Nxrz2B/QCGVpZQ
- gtgV0voDj/MPBaheBlaJn/W0fjq4tkMXfBnrw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=r0xiJp4XHOD7FpE79mlTo4FZ8hKLVDdbQ6PJGlmtm0c=;
- b=Jf32dILvQlYM/YK5jnZG1koSH6yqsFAoUmnyzBEsUraOhU4Itdfdpgd/j5Terj+5sM
- L2R7HmDD3w/d0qBug/eNHV0TJ4lrocJoLe6unv2ElwzWSWKiAEixVr0LJzuziFEx+WG7
- /TDTw1mNQFFi15U7bhyZH/JxpHY0O6+I90EQkM2p14Pgmo1rAizmAq7v6fU/3qHNyhO+
- TJSoFoXfcwZtCtxnNUL33Hx+93qXrAhhvzzvtxeMLrNlfMHoGFjKCguEBxcLF6ftJbr5
- slEohjaM8V8uTR4ABWv0Qb8tef7tpOhALszg/CjumCD6Abjc5OdvGJKCJ2pijpZpMJVE
- YFcA==
-X-Gm-Message-State: ACrzQf0Cjdg/gUiAHrNP9O8qpEfEAiHlOQBkxRTDEc7Zo3M5ng3frfYS
- YicAUPqI1C7s9k6gV3o8TivNKg==
-X-Google-Smtp-Source: AMsMyM6gOemtrc+N4udmSmBnnTAvh0sGPbgP5WutWSSxft54Cqt48ebDSnWboQa9R6hvi7GWIMFDSQ==
-X-Received: by 2002:a17:902:848c:b0:17a:b4c0:a02b with SMTP id
- c12-20020a170902848c00b0017ab4c0a02bmr1355571plo.122.1666997302622; 
- Fri, 28 Oct 2022 15:48:22 -0700 (PDT)
-Received: from localhost ([2620:15c:9d:2:65f9:c180:249c:190f])
- by smtp.gmail.com with UTF8SMTPSA id
- bd13-20020a656e0d000000b0043c9da02729sm3161736pgb.6.2022.10.28.15.48.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 15:48:22 -0700 (PDT)
-From: Brian Norris <briannorris@chromium.org>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui  <Xinhui.Pan@amd.com>
-Subject: [PATCH 2/2] drm/amdgpu: Set PROBE_PREFER_ASYNCHRONOUS
-Date: Fri, 28 Oct 2022 15:48:13 -0700
-Message-Id: <20221028154718.2.I30f27b240e63cc269076556407e6eddcf5177b5e@changeid>
-X-Mailer: git-send-email 2.38.1.273.g43a17bfeac-goog
-In-Reply-To: <20221028224813.1466450-1-briannorris@chromium.org>
-References: <20221028224813.1466450-1-briannorris@chromium.org>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2BB10E03E
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 23:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1666998009; x=1698534009;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PoDeQEWu7Czj0YF5666wI+2wnzELwAHNeXJptcuiyRE=;
+ b=JbtZx8pNOPwCAOo9Na7OOF8CmIQ0YZoRoCrz/UHxih7SjQag2fu9jkv7
+ OUPyvX1O2K+QI5en1B7Z9FZYzH52CCSahJwwP2vujdShRc263jciOSdMz
+ 3u78cy5IalnavqtTvdt/6uwY/6X9r38KBqYlFvrpFkBSkcowAX8ni3Rki A=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Oct 2022 16:00:08 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2022 16:00:08 -0700
+Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Fri, 28 Oct 2022 16:00:08 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [RFC PATCH 0/3] Support for Solid Fill Planes
+Date: Fri, 28 Oct 2022 15:59:49 -0700
+Message-ID: <20221028225952.160-1-quic_jesszhan@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,45 +56,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Brian Norris <briannorris@chromium.org>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ dmitry.baryshkov@linaro.org, Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver often takes over 200ms to start, so it can improve boot
-speed to probe it asynchronously.
+Introduce and add support for COLOR_FILL and COLOR_FILL_FORMAT
+properties. When the color fill value is set, and the framebuffer is set
+to NULL, memory fetch will be disabled.
 
-I did a short review of the driver, and apart from an issue fixed in the
-parent patch ("drm/amdgpu: Move racy global PMU list into device"),
-there don't appear to be many cross-device dependencies or racy accesses
-to global state, so this should be safe.
+In addition, loosen the NULL FB checks within the atomic commit callstack
+to allow a NULL FB when color_fill is nonzero and add FB checks in
+methods where the FB was previously assumed to be non-NULL.
 
-This driver was pinpointed as part of a survey of top slowest initcalls
-(i.e., are built in, and probing synchronously) on a lab of ChromeOS
-systems.
+Finally, have the DPU driver use drm_plane_state.color_fill and
+drm_plane_state.color_fill_format instead of dpu_plane_state.color_fill,
+and add extra checks in the DPU atomic commit callstack to account for a
+NULL FB in cases where color_fill is set.
 
-Signed-off-by: Brian Norris <briannorris@chromium.org>
----
+Some drivers support hardware that have optimizations for solid fill
+planes. This series aims to expose these capabilities to userspace as
+some compositors have a solid fill flag (ex. SOLID_COLOR in the Android
+hardware composer HAL) that can be set by apps like the Android Gears
+app.
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Userspace can set the color_fill value by setting COLOR_FILL_FORMAT to a
+DRM format, setting COLOR_FILL to a color fill value, and setting the
+framebuffer to NULL.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 3c9fecdd6b2f..2d180e48df1b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2793,7 +2793,10 @@ static struct pci_driver amdgpu_kms_pci_driver = {
- 	.probe = amdgpu_pci_probe,
- 	.remove = amdgpu_pci_remove,
- 	.shutdown = amdgpu_pci_shutdown,
--	.driver.pm = &amdgpu_pm_ops,
-+	.driver = {
-+		.pm = &amdgpu_pm_ops,
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+	},
- 	.err_handler = &amdgpu_pci_err_handler,
- 	.dev_groups = amdgpu_sysfs_groups,
- };
+Jessica Zhang (3):
+  drm: Introduce color fill properties for drm plane
+  drm: Adjust atomic checks for solid fill color
+  drm/msm/dpu: Use color_fill property for DPU planes
+
+ drivers/gpu/drm/drm_atomic.c              | 68 ++++++++++++-----------
+ drivers/gpu/drm/drm_atomic_helper.c       | 34 +++++++-----
+ drivers/gpu/drm/drm_atomic_uapi.c         |  8 +++
+ drivers/gpu/drm/drm_blend.c               | 38 +++++++++++++
+ drivers/gpu/drm/drm_plane.c               |  8 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  7 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 66 ++++++++++++++--------
+ include/drm/drm_atomic_helper.h           |  5 +-
+ include/drm/drm_blend.h                   |  2 +
+ include/drm/drm_plane.h                   | 28 ++++++++++
+ 10 files changed, 188 insertions(+), 76 deletions(-)
+
 -- 
-2.38.1.273.g43a17bfeac-goog
+2.38.0
 
