@@ -1,70 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DA2611488
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 16:27:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B16761150E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Oct 2022 16:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23EB210E84A;
-	Fri, 28 Oct 2022 14:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94D0110E851;
+	Fri, 28 Oct 2022 14:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD89110E84A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:27:41 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id y10so3336016wma.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 07:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I8uTjmTgDl9cTXcnHuhRfW69h3WUIxNN9Nt33f9aCM0=;
- b=D/SpFYlC8Zu22pLXMx8S5Hjj44Wb2SrY8FW39yaXE1r0q/velZ4e8giEx9PDdqWUHu
- 4uQRJapO6PZLUizXWzsyCPzfCLF5zLMIxy0Bl/7XQfEjf3XhX7nHekgo6pSbND287SaI
- qKt5gONOcCup05S2AcNwRBz0Vb+LHcuqV16Cfzm/HBuKiSlh/7b2nI5mDBfiRYkeXKJk
- BzSq6aWfsnu0F5nfS8jHbe/nCIJn2CsxKPMf2ygBVrVSdhHXRPlvjVmuUZbpFRzim5Ho
- yqUhVwPkGJDWy0dmeXet9add0Dd+iZ46MnpY9qZf/VYVCicSlsGQBdeO56Uh8SOszlrJ
- G9Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I8uTjmTgDl9cTXcnHuhRfW69h3WUIxNN9Nt33f9aCM0=;
- b=ddoiyVAZE/tNBvW7ZRDQGv+bZgfrN1fUrWeK7J+gR9GFLGbp3veTBvjAPjOhd2hYqS
- +jcM/3ZjIE4xD4ZzeaK+w7QC2Hf8tMOisJFkuHUUrypBtuqP/9akUyQIzcC8Qexnrcd0
- YTfPqjIYSo6citnvQAYxKsF9KrYDr4ggtEB2L/r4N+xypPH47AhGv/SBDdzLkvlUBEsY
- L9RVDo/dgmbmAHGMaKF2x/wxB6HHzn9IzaFCw5xq0MSatdnuMunum57dUVGsOd5jFWjA
- EAMfpAz1xL2a2TNaN1xS5fXUpaqWe36QpDte0WAjDKWefLuX47WkBqKZsJZ5hcN3jI85
- kgug==
-X-Gm-Message-State: ACrzQf0Uem46zNv3cx94CNPUtKYIuHhHC2v72E1cJNWXqnFDIpGlBFRF
- eN6DnS+pPNN8gOi0C8oxSjVrZQ==
-X-Google-Smtp-Source: AMsMyM4Vqq56LjT96b5RxTO8K2G/AAPSN5OZztLKI98rBQ3IhiMBcvfgKfMgJw5xI/SJ8ZMEhDThYg==
-X-Received: by 2002:a05:600c:3b1d:b0:3c6:ff0d:6a60 with SMTP id
- m29-20020a05600c3b1d00b003c6ff0d6a60mr9712623wms.183.1666967260275; 
- Fri, 28 Oct 2022 07:27:40 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a7bce06000000b003c6c76b43a1sm4179717wmc.13.2022.10.28.07.27.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 07:27:39 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-In-Reply-To: <20221026125246.3188260-1-a.fatoum@pengutronix.de>
-References: <20221026125246.3188260-1-a.fatoum@pengutronix.de>
-Subject: Re: [PATCH v2] drm: bridge: adv7511: use dev_err_probe in probe
- function
-Message-Id: <166696725937.855825.511703215271737930.b4-ty@linaro.org>
-Date: Fri, 28 Oct 2022 16:27:39 +0200
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3CFC10E852
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Oct 2022 14:47:34 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 0623260C;
+ Fri, 28 Oct 2022 14:47:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0623260C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1666968454; bh=UtbBjtOCDmxG1fiAjntsLrhrfFgg1H/OVy+mHU9Tdic=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=YPUMK7NbZEWiVJxDd81wBZav9MFex8t217mE4PTTWDl1Wycu8GM6Ea9a1vRzQ6K4s
+ LB7lTKlSS1ZmpG7NdF0hatynkN3t1WCNrag2zPTpYp8Msw6DjzzGxXOLTagWQfStM5
+ OpzNr69zoX0ZplnOKZjT7c3Gdpe26YiCH/GCuvVKjggGKnoYVlW8q52BozogUqaHaf
+ lqbfUUsSLqzTySycQ7oJUAd39iZ6MnYN5bJxYZfwTw6xy6OrG5GkA6RIbXH+7RLbyz
+ i9pvY3yXqHCvRhxsT6z+QxdZ90sNaW8G8ij9tPpOZYwQ1kmZ7kWl3ddSJDgLnmf13s
+ uYKklGhEZ+f3w==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mark-PK Tsai <mark-pk.tsai@mediatek.com>, bagasdotme@gmail.com
+Subject: Re: [PATCH v2] dma-buf: cma_heap: Fix typo in comment
+In-Reply-To: <20221028065907.23954-1-mark-pk.tsai@mediatek.com>
+References: <Y1tSWo+eRvkVofbv@debian.me>
+ <20221028065907.23954-1-mark-pk.tsai@mediatek.com>
+Date: Fri, 28 Oct 2022 08:47:33 -0600
+Message-ID: <87k04k6m4a.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,27 +49,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de
+Cc: benjamin.gaignard@collabora.com, yj.chiang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org, jstultz@google.com,
+ lmark@codeaurora.org, matthias.bgg@gmail.com,
+ linux-mediatek@lists.infradead.org, mark-pk.tsai@mediatek.com,
+ labbott@redhat.com, sumit.semwal@linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Mark-PK Tsai <mark-pk.tsai@mediatek.com> writes:
 
-On Wed, 26 Oct 2022 14:52:46 +0200, Ahmad Fatoum wrote:
-> adv7511 probe may need to be attempted multiple times before no
-> -EPROBE_DEFER is returned. Currently, every such probe results in
-> an error message:
-> 
-> [    4.534229] adv7511 1-003d: failed to find dsi host
-> [    4.580288] adv7511 1-003d: failed to find dsi host
-> 
-> [...]
+>> [-- Attachment #1: Type: text/plain, Size: 349 bytes --]
+>> 
+>> On Fri, Oct 28, 2022 at 09:44:17AM +0800, Mark-PK Tsai wrote:
+>> > Remove duplicated "by" from comment in cma_heap_allocate().
+>> > 
+>> 
+>> This patch isn't typofix but duplicate word stripping, right? If so, the
+>> patch subject should be "dma-buf: cma_heap: Remove duplicated 'by'".
+>
+> Okay, I've update the title in v3.
+> Sorry for the horrible commit description.
+> Thanks.
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Your original commit description was just fine, you just had the bad
+luck to draw the attention of somebody who likes telling other
+contributors what to do.
 
-[1/1] drm: bridge: adv7511: use dev_err_probe in probe function
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=2a865248399a13bb2b2bcc50297069a7521de258
+Thanks,
 
--- 
-Neil
+jon
