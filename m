@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B61961231D
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Oct 2022 15:01:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFDF61231B
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Oct 2022 15:01:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCB1410E29A;
-	Sat, 29 Oct 2022 13:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 830F010E289;
+	Sat, 29 Oct 2022 13:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C9B10E246
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Oct 2022 13:00:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94A7D10E246
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Oct 2022 13:00:57 +0000 (UTC)
 Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
  helo=phil.lan) by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1oolSE-0006ID-AS; Sat, 29 Oct 2022 15:00:50 +0200
+ id 1oolSE-0006ID-NZ; Sat, 29 Oct 2022 15:00:50 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH 1/2] drm/rockchip: dsi: Clean up 'usage_mode' when failing
- to attach
-Date: Sat, 29 Oct 2022 15:00:45 +0200
-Message-Id: <166704843775.1532410.17134222926830396000.b4-ty@sntech.de>
+To: John Keeping <john@metanate.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/rockchip: fix fbdev on non-IOMMU devices
+Date: Sat, 29 Oct 2022 15:00:46 +0200
+Message-Id: <166704843772.1532410.11915201216204142960.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221019170255.1.Ia68dfb27b835d31d22bfe23812baf366ee1c6eac@changeid>
-References: <20221019170255.1.Ia68dfb27b835d31d22bfe23812baf366ee1c6eac@changeid>
+In-Reply-To: <20221020181248.2497065-1-john@metanate.com>
+References: <20221020181248.2497065-1-john@metanate.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -41,33 +41,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Sandy Huang <hjc@rock-chips.com>, stable@vger.kernel.org,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sandy Huang <hjc@rock-chips.com>,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+ Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Oct 2022 17:03:48 -0700, Brian Norris wrote:
-> If we fail to attach the first time (especially: EPROBE_DEFER), we fail
-> to clean up 'usage_mode', and thus will fail to attach on any subsequent
-> attempts, with "dsi controller already in use".
+On Thu, 20 Oct 2022 19:12:47 +0100, John Keeping wrote:
+> When switching to the generic fbdev infrastructure, it was missed that
+> framebuffers were created with the alloc_kmap parameter to
+> rockchip_gem_create_object() set to true.  The generic infrastructure
+> calls this via the .dumb_create() driver operation and thus creates a
+> buffer without an associated kmap.
 > 
-> Re-set to DW_DSI_USAGE_IDLE on attach failure.
-> 
-> This is especially common to hit when enabling asynchronous probe on a
-> duel-DSI system (such as RK3399 Gru/Scarlet), such that we're more
-> likely to fail dw_mipi_dsi_rockchip_find_second() the first time.
+> alloc_kmap only makes a difference on devices without an IOMMU, but when
+> it is missing rockchip_gem_prime_vmap() fails and the framebuffer cannot
+> be used.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] drm/rockchip: dsi: Clean up 'usage_mode' when failing to attach
-      commit: 0be67e0556e469c57100ffe3c90df90abc796f3b
-[2/2] drm/rockchip: dsi: Force synchronous probe
-      commit: 81e592f86f7afdb76d655e7fbd7803d7b8f985d8
+[1/1] drm/rockchip: fix fbdev on non-IOMMU devices
+      commit: ab78c74cfc5a3caa2bbb7627cb8f3bca40bb5fb0
 
 Best regards,
 -- 
