@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A44C61296B
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 10:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E5E612969
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 10:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2372010E089;
-	Sun, 30 Oct 2022 09:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D05710E077;
+	Sun, 30 Oct 2022 09:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBA710E2D2;
- Sat, 29 Oct 2022 18:43:24 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-13bd19c3b68so9707883fac.7; 
- Sat, 29 Oct 2022 11:43:24 -0700 (PDT)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77B7C10E2D3;
+ Sat, 29 Oct 2022 18:49:00 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-13c2cfd1126so9715263fac.10; 
+ Sat, 29 Oct 2022 11:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=57RVFwJZ3iFyz/7pgcHKldBgiU0NMfJt4GoVXyg5tyw=;
- b=SjDvVlPBZ2PiKAi+9C6+buDBdSeaLu2FPV7dopY6H2t/EzsyqOVceneXRO6uq7jVZU
- 7nTEiRra7/HOgK/ro0ucbD+RRKmzb/tphWhcwBiGB7EU6J2ZZDGpNSZL6kmgS7mq+3El
- lTSSOnxPfeZtvHzDA93lggQ4RJRCuOEvZYJTvVUr0pwMNRAS7iEbFSPK7+DzPW3I2O3D
- ggQ2ntiR+8hiVBqmmJAmPQNmwUALUoAVGod0ql2y0WM/rQOcKO3EJgVKIUB45fIEvten
- aBBJAsp021jcg92bFUbd+jUKm4PVPO6UVb9QZpz/+JY+5FH12iI25zfO8aL8aHXBaV3b
- Wrhw==
+ b=UmpE5fSWtp7oajWqEDBMnGKOSdYRlUjlCvONnEviqRMM5dChgSO3aEmhSQGMMCfW8A
+ LdZyzL9YMoDOcDj6QecWqPEvDvATZKmXz79TjnZYp5sRJLvf0CqmxBdu6uqLTbW3CKZt
+ Q1jdYGLgsrcVQsYvOQU0Qhkk/HGLQ4Udygmv3tx7Y1rNs+t9EtZGU9L5Q5w5iZUVgaoF
+ PmP/cqOnpuPN5pW2helMx730eN6h2emtYVBqiq/bltkJNoeKp2YQ3dN/N9pVW6mbfhtn
+ SN1hBQcEYqQA6WQgH1n9LXmZLoS9UB8uNWlV1YLLtr/4U/LA6tJhIOvGwZDgHU3IQsg1
+ NJug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=57RVFwJZ3iFyz/7pgcHKldBgiU0NMfJt4GoVXyg5tyw=;
- b=G/c58y0KONuo9gmM4Qf/StCoftz0VLWceLMSnckTZQfRnPkPeAYzMcLH/HF1TWZX0c
- E2mmayyCq5Hg/Z9JeiCcN4ohDXKBSCFyNyud//rDzy+2GUZNzVUhiNmX4gHOzcP8MA24
- YujQzIDxQa/XHQqQ6URSUsKOpnM9mWj1FsfMjCuaAuDKDgiPtpHi47E/tgtGnIbV+ddx
- amMTNGwknvd+rV/dY/EyLSXUHdTcR55uqtXncjt8OLag4wPBZoLTdw9/44GHYWSz0ICQ
- Tg4Nk0t2sBeK69bNeC/PIty+v/eF40w0t7ACuwZCPbhG2ZrzcpOOSFewvwM9+tYBdmqk
- bhJg==
-X-Gm-Message-State: ACrzQf0eMwKmdbyK32+4sqalkrm3UuXBGxl/kfrSZGNEhc31G7OVM/3b
- hDN2zAgdv3gSlXQZsp2g/XA=
-X-Google-Smtp-Source: AMsMyM50ufWSgBjfzZB6/E6vwfiM1/oZHheFjGzT0+KACVd090SUDpidYuUQA/FCYl90RsFjrF83QA==
-X-Received: by 2002:a05:6870:612c:b0:132:a4d3:e0d8 with SMTP id
- s44-20020a056870612c00b00132a4d3e0d8mr2970057oae.95.1667069002990; 
- Sat, 29 Oct 2022 11:43:22 -0700 (PDT)
+ b=uYkeBOh5eYIRh+QvZl+RwDwvznvCEjXDMQmKypnLtSDzjhT0Adr9ms2ZoH6b/whnX8
+ RDDn9wLj26OW+MfvBSP8rBvLV1WURiXK+v6A9J4JwuBfw7T9F0zU1gz1tKaEOuGY5gOa
+ jRDPpd2JBfzQNCQqVxCUktK4zWg52kohfKVvqg0l5vquDNJ5G69P1kIn9pNFXR2op+s4
+ 5nqaN6ek3NmOAuwZUJd1SAR7rpmw6pX1yGNQnP2pskWV6eoiUa0tNf1d16dFAbBXb5D9
+ MulPG4+VGeBaiAsz0oNjPTdfoOvoy4fjvhImQy3nS3QGz1zghH683q56iL02fiNCb4mi
+ OWjw==
+X-Gm-Message-State: ACrzQf0YLfhezhuF6XF4NcsR4L1KkZyNTP+gc5V23xDxNmlPLzvx4Lz/
+ FQEPDGn/oCTbHy+ecfp8Kk0=
+X-Google-Smtp-Source: AMsMyM6gxp24dY1reFhIf12V9j7++47EFrSvA6JaTa/RQdLSoSvclTEVkuhzvfrgvmZmhqIDRpLyYw==
+X-Received: by 2002:a05:6870:9627:b0:136:c323:2ad8 with SMTP id
+ d39-20020a056870962700b00136c3232ad8mr12328976oaq.259.1667069339786; 
+ Sat, 29 Oct 2022 11:48:59 -0700 (PDT)
 Received: from antonio-Lenovo-Legion-5-15IMH05H.multilaserwifi.com.br
  ([45.163.246.1]) by smtp.googlemail.com with ESMTPSA id
- o22-20020a9d7656000000b006619533d1ddsm855436otl.76.2022.10.29.11.43.20
+ q11-20020a4a6c0b000000b0049602fb9b4csm741898ooc.46.2022.10.29.11.48.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Oct 2022 11:43:22 -0700 (PDT)
+ Sat, 29 Oct 2022 11:48:59 -0700 (PDT)
 From: antoniospg <antoniospg100@gmail.com>
 To: linux-kernel@vger.kernel.org
 Subject: [PATCH] drm/nouveau: Adding support to control backlight using
  bl_power for nva3.
-Date: Sat, 29 Oct 2022 15:42:55 -0300
-Message-Id: <20221029184255.24041-1-antoniospg100@gmail.com>
+Date: Sat, 29 Oct 2022 15:48:50 -0300
+Message-Id: <20221029184851.25340-1-antoniospg100@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
