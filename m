@@ -2,62 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E5E612969
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 10:26:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F326A61296A
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 10:26:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D05710E077;
-	Sun, 30 Oct 2022 09:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00B1110E079;
+	Sun, 30 Oct 2022 09:26:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77B7C10E2D3;
- Sat, 29 Oct 2022 18:49:00 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-13c2cfd1126so9715263fac.10; 
- Sat, 29 Oct 2022 11:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=57RVFwJZ3iFyz/7pgcHKldBgiU0NMfJt4GoVXyg5tyw=;
- b=UmpE5fSWtp7oajWqEDBMnGKOSdYRlUjlCvONnEviqRMM5dChgSO3aEmhSQGMMCfW8A
- LdZyzL9YMoDOcDj6QecWqPEvDvATZKmXz79TjnZYp5sRJLvf0CqmxBdu6uqLTbW3CKZt
- Q1jdYGLgsrcVQsYvOQU0Qhkk/HGLQ4Udygmv3tx7Y1rNs+t9EtZGU9L5Q5w5iZUVgaoF
- PmP/cqOnpuPN5pW2helMx730eN6h2emtYVBqiq/bltkJNoeKp2YQ3dN/N9pVW6mbfhtn
- SN1hBQcEYqQA6WQgH1n9LXmZLoS9UB8uNWlV1YLLtr/4U/LA6tJhIOvGwZDgHU3IQsg1
- NJug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=57RVFwJZ3iFyz/7pgcHKldBgiU0NMfJt4GoVXyg5tyw=;
- b=uYkeBOh5eYIRh+QvZl+RwDwvznvCEjXDMQmKypnLtSDzjhT0Adr9ms2ZoH6b/whnX8
- RDDn9wLj26OW+MfvBSP8rBvLV1WURiXK+v6A9J4JwuBfw7T9F0zU1gz1tKaEOuGY5gOa
- jRDPpd2JBfzQNCQqVxCUktK4zWg52kohfKVvqg0l5vquDNJ5G69P1kIn9pNFXR2op+s4
- 5nqaN6ek3NmOAuwZUJd1SAR7rpmw6pX1yGNQnP2pskWV6eoiUa0tNf1d16dFAbBXb5D9
- MulPG4+VGeBaiAsz0oNjPTdfoOvoy4fjvhImQy3nS3QGz1zghH683q56iL02fiNCb4mi
- OWjw==
-X-Gm-Message-State: ACrzQf0YLfhezhuF6XF4NcsR4L1KkZyNTP+gc5V23xDxNmlPLzvx4Lz/
- FQEPDGn/oCTbHy+ecfp8Kk0=
-X-Google-Smtp-Source: AMsMyM6gxp24dY1reFhIf12V9j7++47EFrSvA6JaTa/RQdLSoSvclTEVkuhzvfrgvmZmhqIDRpLyYw==
-X-Received: by 2002:a05:6870:9627:b0:136:c323:2ad8 with SMTP id
- d39-20020a056870962700b00136c3232ad8mr12328976oaq.259.1667069339786; 
- Sat, 29 Oct 2022 11:48:59 -0700 (PDT)
-Received: from antonio-Lenovo-Legion-5-15IMH05H.multilaserwifi.com.br
- ([45.163.246.1]) by smtp.googlemail.com with ESMTPSA id
- q11-20020a4a6c0b000000b0049602fb9b4csm741898ooc.46.2022.10.29.11.48.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Oct 2022 11:48:59 -0700 (PDT)
-From: antoniospg <antoniospg100@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau: Adding support to control backlight using
- bl_power for nva3.
-Date: Sat, 29 Oct 2022 15:48:50 -0300
-Message-Id: <20221029184851.25340-1-antoniospg100@gmail.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 976 seconds by postgrey-1.36 at gabe;
+ Sat, 29 Oct 2022 19:29:56 UTC
+Received: from moc6.cz (hosting.moc6.cz [IPv6:2a02:c60:c70:8900::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4A310E2D8;
+ Sat, 29 Oct 2022 19:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=moc6.cz;
+ s=mail20201116; h=Message-ID:Subject:Cc:To:From:Date:Reply-To:In-Reply-To;
+ bh=/KZ42D3HakbTGEBmYLFXIwAxUy17kAfEEriya9xR94A=; b=PI3A0ss1I9FqpoZTYN1cM8Pqlm
+ gyf8SayurTBFU91SklIzKzQDvMU/BubynTVmXOqvH3HvWB5XrD3to50VSlCzfhy7skuIQMc7geuvu
+ Bg1WoWqA7i9sXYpDj3239B+0qQwSC2RpObTCjmUtyfbGFmn3DB6pBvnmZtEc1CQSw8u3+xp7fKHmW
+ xzrk2m/zwuDQ6wuw+/Ocu091I7BCTsb9WIHieLucVGZG5s/waUOBnzymCL7p2/m5kUj+49Cfmb/pk
+ IbfKx+LlnS6G4DhglkJ8lx9t0MNSr3jnzkkouyiTL00dcaGXKbYqMKYeib17XZ8oYovwqW0wfhKux
+ 2f+DF/D5Rk7FT0DzxLX0zWUCa2wVC1YW+58/aF5EJ8fUzUeB4kdqdGGasRfVlJEmtvrQpZVaRv10d
+ MLB2IjGkQb7aXZkOzCAD9K00HwUdlUtC5ozBqCa2P5deRjm7RtRknRX112aBbgXAkLFNdRDq+H6vk
+ qJQzcIs7iCao17FP288ypEopfQCg4TA9QDlCz1ucFGsVaXDkcYv4uft5PBKMwnmKjxumFILsH+Xhc
+ 4Zw/nSVSYRcQVX7e28YdcDQBebcjfU1WA9rHo3OjmAI/3PuuxScdWvwmzZ9OAYq1woGB55yTQekd5
+ UZKFq3qAZwgQxc64kt0GyFWueAXvF6BI57eNlok9Y=;
+Received: from Debian-exim by moc6.cz with local (Exim 4.94.2)
+ (envelope-from <Debian-exim@moc6.cz>) authenticated: Debian-exim
+ id 1oorGu-000siT-5T; Sat, 29 Oct 2022 21:13:32 +0200
+Date: Sat, 29 Oct 2022 21:13:32 +0200
+From: Filip Moc <dev@moc6.cz>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] drm/amd/display: add parameter backlight_min
+Message-ID: <Y117XNaSP6/8bH+3@moc6.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Mailman-Approved-At: Sun, 30 Oct 2022 09:26:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,50 +51,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- antoniospg <antoniospg100@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Test plan:
+There are some devices on which amdgpu won't allow user to set brightness
+to sufficiently low values even though the hardware would support it just
+fine.
 
-* Turn off:
-echo 1 > /sys/class/backlight/nv_backlight/bl_power
+This usually happens in two cases when either configuration of brightness
+levels via ACPI/ATIF is not available and amdgpu falls back to defaults
+(currently 12 for minimum level) which may be too high for some devices or
+even the configuration via ATIF is available but the minimum brightness
+level provided by the manufacturer is set to unreasonably high value.
 
-* Turn on:
-echo 0 > /sys/class/backlight/nv_backlight/bl_power
+In either case user can use this new module parameter to adjust the
+minimum allowed backlight brightness level.
 
-Signed-off-by: antoniospg <antoniospg100@gmail.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=203439
+Signed-off-by: Filip Moc <dev@moc6.cz>
 ---
- drivers/gpu/drm/nouveau/nouveau_backlight.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h               |  3 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 15 +++++++++++++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
+ 3 files changed, 33 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-index a2141d3d9b1d..855d0ce9f7fa 100644
---- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-@@ -263,7 +263,16 @@ nva3_set_intensity(struct backlight_device *bd)
- 	u32 div, val;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 0e6ddf05c23c..c5445402c49d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -200,6 +200,9 @@ extern uint amdgpu_dc_debug_mask;
+ extern uint amdgpu_dc_visual_confirm;
+ extern uint amdgpu_dm_abm_level;
+ extern int amdgpu_backlight;
++#ifdef CONFIG_DRM_AMD_DC
++extern int amdgpu_backlight_override_min[];
++#endif
+ extern struct amdgpu_mgpu_info mgpu_info;
+ extern int amdgpu_ras_enable;
+ extern uint amdgpu_ras_mask;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 16f6a313335e..f2fb549ac52f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -43,6 +43,7 @@
+ #include "amdgpu_irq.h"
+ #include "amdgpu_dma_buf.h"
+ #include "amdgpu_sched.h"
++#include "amdgpu_dm.h"
+ #include "amdgpu_fdinfo.h"
+ #include "amdgpu_amdkfd.h"
  
- 	div = nvif_rd32(device, NV50_PDISP_SOR_PWM_DIV(or));
--	val = (bd->props.brightness * div) / 100;
+@@ -853,6 +854,20 @@ int amdgpu_backlight = -1;
+ MODULE_PARM_DESC(backlight, "Backlight control (0 = pwm, 1 = aux, -1 auto (default))");
+ module_param_named(backlight, amdgpu_backlight, bint, 0444);
+ 
++/**
++ * DOC: backlight_min (array of int)
++ * Override minimum allowed backlight brightness signal (per display).
++ * Must be less than the maximum brightness signal.
++ * Negative value means no override.
++ *
++ * Defaults to all -1 (no override on any display).
++ */
++#ifdef CONFIG_DRM_AMD_DC
++int amdgpu_backlight_override_min[AMDGPU_DM_MAX_NUM_EDP] = {[0 ... (AMDGPU_DM_MAX_NUM_EDP-1)] = -1};
++MODULE_PARM_DESC(backlight_min, "Override minimum backlight brightness signal (0..max-1, -1 = no override (default))");
++module_param_array_named(backlight_min, amdgpu_backlight_override_min, int, NULL, 0444);
++#endif
 +
-+	switch (bd->props.power) {
-+	case FB_BLANK_UNBLANK:
-+		val = (bd->props.brightness * div) / 100;
-+		break;
-+	default:
-+		val = 0;
-+		break;
+ /**
+  * DOC: tmz (int)
+  * Trusted Memory Zone (TMZ) is a method to protect data being written
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index eb4ce7216104..e2c36ba93d05 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3911,6 +3911,21 @@ static void amdgpu_dm_update_backlight_caps(struct amdgpu_display_manager *dm,
+ 	dm->backlight_caps[bl_idx].min_input_signal = AMDGPU_DM_DEFAULT_MIN_BACKLIGHT;
+ 	dm->backlight_caps[bl_idx].max_input_signal = AMDGPU_DM_DEFAULT_MAX_BACKLIGHT;
+ #endif
++
++	if (amdgpu_backlight_override_min[bl_idx] >= 0) {
++		if (amdgpu_backlight_override_min[bl_idx] < dm->backlight_caps[bl_idx].max_input_signal) {
++			DRM_INFO("amdgpu: backlight[%i]: overriding minimum brightness from %i to %i\n",
++				  bl_idx,
++				  dm->backlight_caps[bl_idx].min_input_signal,
++				  amdgpu_backlight_override_min[bl_idx]);
++			dm->backlight_caps[bl_idx].min_input_signal = amdgpu_backlight_override_min[bl_idx];
++		} else {
++			DRM_ERROR("amdgpu: backlight[%i]: minimum brightness override (%i) is not below maximum (%i)\n",
++				  bl_idx,
++				  amdgpu_backlight_override_min[bl_idx],
++				  dm->backlight_caps[bl_idx].max_input_signal);
++		}
 +	}
-+
- 	if (div) {
- 		nvif_wr32(device, NV50_PDISP_SOR_PWM_CTL(or),
- 			  val |
+ }
+ 
+ static int get_brightness_range(const struct amdgpu_dm_backlight_caps *caps,
+
+base-commit: d8c03bfe146fd5e081a252cd34f3f12ca0255357
 -- 
-2.25.1
+2.30.2
 
