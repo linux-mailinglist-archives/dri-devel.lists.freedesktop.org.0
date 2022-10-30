@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CD5612CF0
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 22:05:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE6B612D3A
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 23:05:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2DC10E060;
-	Sun, 30 Oct 2022 21:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA9610E031;
+	Sun, 30 Oct 2022 22:05:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 964 seconds by postgrey-1.36 at gabe;
- Sun, 30 Oct 2022 21:05:01 UTC
-Received: from mailrelay2-2.pub.mailoutpod1-cph3.one.com
- (mailrelay2-2.pub.mailoutpod1-cph3.one.com [46.30.212.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4123D10E03D
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 21:05:01 +0000 (UTC)
-Received: from mailrelay1.pub.mailoutpod2-cph3.one.com
- (mailrelay1.pub.mailoutpod2-cph3.one.com [104.37.34.6])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPS
- id 44c0e54b-5894-11ed-a925-d0431ea8a290;
- Sun, 30 Oct 2022 20:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=57sc1zEaPoN7h4A46eYO7m7OBIbwdsJSNErw2oMh2i8=;
- b=ExNOMhkVFJztTvZcxnvH3h4fqJbsQkgg+bLEfOuaDMvE1gWzf+x03ZVf9gCp8uwhCeU2x+q6nekWi
- UMfVN39ir3tiH2OPaGvcsXRDQvpmQKHK3UuTp6v916Hd3c9eu8BAnGCKfFv5bGKDF/P9k9eqMzKaz3
- YyNUCgEBiiyaZe6hupo2tczx7/snZxgERFISe14rqGEF3MLSehcW6uFvCTvTCzATO0Oq2qKub0zu+2
- 134gYtd6AYTmNhA/UKp4zhT678Ud601D0/AsB+uxyLjz/ajF3SKPi0XNAMhnCQdcLYMKT3t0b+QQDh
- m5xZYu4P+05A45nJ0qf/BSXWMKcZ1Sw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=57sc1zEaPoN7h4A46eYO7m7OBIbwdsJSNErw2oMh2i8=;
- b=tZrknHN/AT+yPRxITfnWcQoHnGW6VCifdzIareCpE0Xor8DK2nixpgY3yVhJk7aPL6M6bl/Bkor4y
- vmrkmxMDQ==
-X-HalOne-ID: 43a73db0-5894-11ed-bedf-1b2345786432
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id 43a73db0-5894-11ed-bedf-1b2345786432;
- Sun, 30 Oct 2022 20:48:54 +0000 (UTC)
-Date: Sun, 30 Oct 2022 21:48:53 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: antoniospg <antoniospg100@gmail.com>
-Subject: Re: [PATCH] drm/nouveau: Adding support to control backlight using
- bl_power for nva3.
-Message-ID: <Y17jNddKjZNk59EK@ravnborg.org>
-References: <20221029184851.25340-1-antoniospg100@gmail.com>
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
+ [IPv6:2607:f8b0:4864:20::f2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C61E10E031;
+ Sun, 30 Oct 2022 22:05:17 +0000 (UTC)
+Received: by mail-qv1-xf2b.google.com with SMTP id i12so7422806qvs.2;
+ Sun, 30 Oct 2022 15:05:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=f9hB5rxf2lQLgckJttK0ClN8TMoVNxkXM2HKpZa8Agc=;
+ b=a0gOZaVtXsTqqvaknXuDyBGYtQ6vHGoInWhHeKzJeoOi/Ai0HSf1WstuCPDZMl4w2T
+ lYqTptzjjPX8Z+iytIV5TfHJ4GQTKDQLJ5VNYYJ5yZ6jra0TVCfa63ZGgsvdv5rjZPwD
+ TaniurNPRZnJDqvQWUumfYMerR9S8gYB2gGIk189avVar+bQZIu16vX6JP7YuDkKcogW
+ Zu6Eb5NQe8RdpufxqhkYmn6eCJU4U7ebhwzaueFyH4+DVPMEss2fUgO2UHDeWUdlFlFI
+ WqvYj7RDHyR8OQOAb206gOO/Q3g05SnhW6ApTZZFg3Auk5+vtszduXVJacd978WwMx4N
+ 6LIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f9hB5rxf2lQLgckJttK0ClN8TMoVNxkXM2HKpZa8Agc=;
+ b=NQ0bTtINr6QtNOK5n8ovRo/z4HJeDnBM53moKhoBZKZayvXVoUjjlndo21hrzl6t5e
+ QHpfwnTnsmXuaL5Owdq2UmgO/MSMboZnZ/lVygpQtekmkfyqJLTyz9qFS+RWXt1AhcbK
+ Sbp6gZXYo2SsiUpcOKk8F+JRLTi2RrODr86NluiFnXJHGG0W2ksgwx26aWcny5mpElhA
+ 6iWLaU3tNKmGGs+2fWNuFxglUMXnwQurlhE9CeEASE+6snzyGiXRB+C2HJr4iZWISG9O
+ YIK/hmExNYFCQbaV2dCqE6fJNzjtGXC9Caq8SNyIvbsZsPkiCd4DEuSZqGUZtz9aHbVI
+ CrEg==
+X-Gm-Message-State: ACrzQf0ZdxMWxm6974/S9JfADhBWLBA02yUdcIqFkH1pRhmixRkM42Gt
+ qXbIFZWp++uSqxlt4Iz3de7FrX0aQRsQ1TdC3QM=
+X-Google-Smtp-Source: AMsMyM5YNaLkscCq3Gr169fMozeu918Uutqne2IPuGlkXDLIl8zyqKHeIUbjJpddfiIudrdL/Unrg43psBp74IXNSAc=
+X-Received: by 2002:a05:6214:1c85:b0:4af:86a1:9983 with SMTP id
+ ib5-20020a0562141c8500b004af86a19983mr8243490qvb.35.1667167516099; Sun, 30
+ Oct 2022 15:05:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221029184851.25340-1-antoniospg100@gmail.com>
+References: <CABXGCsOeQ7VYm98jRVaYp6KaNsFVsAnSb33ZT8JvZxcTcEGW0w@mail.gmail.com>
+ <a67598e8-c826-2740-03bb-33d37c8c8e4b@amd.com>
+ <CABXGCsNvFvJz4=N=JKYSGVcd=dKfQ3Nv_zOssMb0Z6oK79xZ7g@mail.gmail.com>
+ <a537212d-4b42-4ba4-7707-1e397234c8b7@amd.com>
+In-Reply-To: <a537212d-4b42-4ba4-7707-1e397234c8b7@amd.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Mon, 31 Oct 2022 03:05:05 +0500
+Message-ID: <CABXGCsMCfACsJRDPqZDYQGMpaA_6LKhQ0XqAmDN04GSMeetXnA@mail.gmail.com>
+Subject: Re: [6.1][regression] after commit
+ dd80d9c8eecac8c516da5b240d01a35660ba6cb6
+ some games (Cyberpunk 2077, Forza Horizon 4/5) hang at start
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,54 +71,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, linux-kernel@vger.kernel.org,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 29, 2022 at 03:48:50PM -0300, antoniospg wrote:
-> Test plan:
-> 
-> * Turn off:
-> echo 1 > /sys/class/backlight/nv_backlight/bl_power
-> 
-> * Turn on:
-> echo 0 > /sys/class/backlight/nv_backlight/bl_power
-> 
-> Signed-off-by: antoniospg <antoniospg100@gmail.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_backlight.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> index a2141d3d9b1d..855d0ce9f7fa 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> @@ -263,7 +263,16 @@ nva3_set_intensity(struct backlight_device *bd)
->  	u32 div, val;
->  
->  	div = nvif_rd32(device, NV50_PDISP_SOR_PWM_DIV(or));
-> -	val = (bd->props.brightness * div) / 100;
-> +
-> +	switch (bd->props.power) {
-> +	case FB_BLANK_UNBLANK:
-> +		val = (bd->props.brightness * div) / 100;
-> +		break;
-> +	default:
-> +		val = 0;
-> +		break;
-> +	}
-> +
+On Wed, Oct 26, 2022 at 12:29 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Attached is the original test patch rebased on current amd-staging-drm-ne=
+xt.
+>
+> Can you test if this is enough to make sure that the games start without
+> crashing by fetching the userptrs?
 
-Consider the following change:
+1. Over the past week the list of games affected by this issue updated
+with new games: The Outlast Trials, Gotham Knights, Sackboy: A Big
+Adventure.
 
-	val = backlight_get_brightness(bd);
-	if (val)
-		val = (val * dev) / 100;
+2. I tested the patch and it really solves the problem with the launch
+of all the listed games and does not create new problems.
 
-Then you avoid hard coding the use of FB_BLANK_UNBLANK.
+3. The only thing I noticed is that in the game Sackboy: A Big
+Adventure, when using the kernel built from the commit
+b229b6ca5abbd63ff40c1396095b1b36b18139c3 + the attached patch, I can=E2=80=
+=99t
+connect to friend coop session due to the steam client hangs. The
+kernel built from commit 736ec9fadd7a1fde8480df7e5cfac465c07ff6f3
+(this is the commit prior to dd80d9c8eecac8c516da5b240d01a35660ba6cb6)
+free of this problem.
 
-	Sam
+I need to spend some more time to find the commit after which leads to
+hanging [3] the steam client.
+
+Thanks.
+
+--=20
+Best Regards,
+Mike Gavrilov.
