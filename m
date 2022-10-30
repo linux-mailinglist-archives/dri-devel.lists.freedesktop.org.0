@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C161612B4F
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 16:45:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4BB612B4E
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 16:45:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D91A10E107;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0D710E104;
 	Sun, 30 Oct 2022 15:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E31110E0FC
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D84A310E0FC
  for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 15:44:52 +0000 (UTC)
 Received: from dimapc.. (unknown [109.252.112.196])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 539C7660225F;
- Sun, 30 Oct 2022 15:44:49 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E00E066022A2;
+ Sun, 30 Oct 2022 15:44:50 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1667144690;
- bh=9L1UGeJdnkFYaRnE59XJ8gv48CnIdhLcIsE2uZ/nI0w=;
+ s=mail; t=1667144691;
+ bh=Jr+CDx/FOmbAS4EXsPeToboJf/vzEdDZoQONhOc44DE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NrgMQ4JJcS/wCdnXA8AG/2ltnRc/459pzQVz+tPEzTYMw+l7wUlkqJ3gZn7BQsjRv
- 9EqSxbTZQnHVfP80TN7xvKFBhY/gqWfvUuzxwqLZJzFlY/fllOOfADR9n2UjVY/Ovw
- vC2W3JH7CUfTxnn47rZPq8ltpqZkp44vY1VcNNd7WV7ugzd5Wn+KLCw30/TaqhP6IR
- BTFkOYacsIhlK0YpHKh2lzNCdwaG/NrrN6UBYAaGFaRd+fLrIv1r9kp7pMPoIXazJr
- hYSBvQpvrwDbcLRpxvHRM31eY6ni/XCZvj9Zmntx78pHz5itR4y+dreooXnjBow/ia
- PZ8gz0SH1PJQg==
+ b=D77hkyxoateNQYLF7wJaHR+9csvedoBuzF1VEUTMenUkMjtdSeyXUAhgE0j4RXuLL
+ Linbwa8HPzpUigLIVoxs7LY25ZnDHWu77L1e1Q7YGyXwmOKgD3BcSzOhrRNW06qo8h
+ vIMEKpXsMe8QU+z9CDPFk7/fR+FFtgzo3b4+FJjHQYU9K1kXH8ISUBV8sOjaF86c1g
+ oPB4Zkj4zO4tGmixIgmZ0m4jNShlzyv6vRfkWt4KlbW+uX+eJypQ916ceOZdx6DhKc
+ dbOzHIpE1tWqNwSK2G/EjpcU6QwFq2DrhD7r7oTmaWUaCYVeTLqy3SkZoLn2Oi//WB
+ i4qutZJMPkWVA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
@@ -36,14 +37,14 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  noralf@tronnes.org, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v2 1/2] dma-buf: Make locking consistent in dma_buf_detach()
-Date: Sun, 30 Oct 2022 18:44:11 +0300
-Message-Id: <20221030154412.8320-2-dmitry.osipenko@collabora.com>
+Subject: [PATCH v2 2/2] drm/client: Prevent NULL dereference in
+ drm_client_buffer_delete()
+Date: Sun, 30 Oct 2022 18:44:12 +0300
+Message-Id: <20221030154412.8320-3-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030154412.8320-1-dmitry.osipenko@collabora.com>
 References: <20221030154412.8320-1-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,37 +62,39 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dma_buf_detach() locks attach->dmabuf->resv and then unlocks
-dmabuf->resv, which could be a two different locks from a static
-code checker perspective. In particular this triggers Smatch to
-report the "double unlock" error. Make the locking pointers consistent.
+The drm_gem_vunmap() will crash with a NULL dereference if the passed
+object pointer is NULL. It wasn't a problem before we added the locking
+support to drm_gem_vunmap function because the mapping argument was always
+NULL together with the object. Make drm_client_buffer_delete() to check
+whether GEM is NULL before trying to unmap the GEM, it will happen on
+framebuffer creation error.
 
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://lore.kernel.org/dri-devel/Y1fLfsccW3AS%2Fo+%2F@kili/
-Fixes: 809d9c72c2f8 ("dma-buf: Move dma_buf_attach() to dynamic locking specification")
+Link: https://lore.kernel.org/dri-devel/Y1kFEGxT8MVlf32V@kili/
+Fixes: 79e2cf2e7a19 ("drm/gem: Take reservation lock for vmap/vunmap operations")
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/dma-buf/dma-buf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_client.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index c40d72d318fd..13bfd2d09c56 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -995,10 +995,10 @@ static void __unmap_dma_buf(struct dma_buf_attachment *attach,
-  */
- void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index 38e1be991caa..fd67efe37c63 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -235,10 +235,10 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
  {
--	if (WARN_ON(!dmabuf || !attach))
-+	if (WARN_ON(!dmabuf || !attach || dmabuf != attach->dmabuf))
- 		return;
+ 	struct drm_device *dev = buffer->client->dev;
  
--	dma_resv_lock(attach->dmabuf->resv, NULL);
-+	dma_resv_lock(dmabuf->resv, NULL);
+-	drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
+-
+-	if (buffer->gem)
++	if (buffer->gem) {
++		drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
+ 		drm_gem_object_put(buffer->gem);
++	}
  
- 	if (attach->sgt) {
- 
+ 	if (buffer->handle)
+ 		drm_mode_destroy_dumb(dev, buffer->handle, buffer->client->file);
 -- 
 2.37.3
 
