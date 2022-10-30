@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4BB612B4E
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 16:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33604612BAF
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 17:57:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0D710E104;
-	Sun, 30 Oct 2022 15:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 505EE10E10B;
+	Sun, 30 Oct 2022 16:57:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D84A310E0FC
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 15:44:52 +0000 (UTC)
-Received: from dimapc.. (unknown [109.252.112.196])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9059A10E10B
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 16:57:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E00E066022A2;
- Sun, 30 Oct 2022 15:44:50 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1667144691;
- bh=Jr+CDx/FOmbAS4EXsPeToboJf/vzEdDZoQONhOc44DE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D77hkyxoateNQYLF7wJaHR+9csvedoBuzF1VEUTMenUkMjtdSeyXUAhgE0j4RXuLL
- Linbwa8HPzpUigLIVoxs7LY25ZnDHWu77L1e1Q7YGyXwmOKgD3BcSzOhrRNW06qo8h
- vIMEKpXsMe8QU+z9CDPFk7/fR+FFtgzo3b4+FJjHQYU9K1kXH8ISUBV8sOjaF86c1g
- oPB4Zkj4zO4tGmixIgmZ0m4jNShlzyv6vRfkWt4KlbW+uX+eJypQ916ceOZdx6DhKc
- dbOzHIpE1tWqNwSK2G/EjpcU6QwFq2DrhD7r7oTmaWUaCYVeTLqy3SkZoLn2Oi//WB
- i4qutZJMPkWVA==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- noralf@tronnes.org, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v2 2/2] drm/client: Prevent NULL dereference in
- drm_client_buffer_delete()
-Date: Sun, 30 Oct 2022 18:44:12 +0300
-Message-Id: <20221030154412.8320-3-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221030154412.8320-1-dmitry.osipenko@collabora.com>
-References: <20221030154412.8320-1-dmitry.osipenko@collabora.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D895C60F0C
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 16:57:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CD9CAC43143
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 16:57:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667149039;
+ bh=LYtBqNKJsz4p071BQBDnoWOCu8aKYsARDEMe4jRB6tk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=HkDG8aaLUkg7zmvS3WDa1g/sDPE0PgVTPyx61i+VNEShmpPM+l4tNkCo5m+Z16djz
+ 4MgNI3Krd8+TguUcHeYFZpbvCLeSnD1OpVSBiOUqot4k4nXB7XvsX1g2wmND3hk3BQ
+ tmU6R6T5KyQiQ2WneWsw8kc0D6UGSLybAqOJ9DFI3lr5p/LyaLLwLMUQ9cDBxDMzS3
+ nHf/z4JR8OUc1yW0eYxDw/4N2uADNNYw5LsO8KGui9MqL+HoxMwx5KclSgcqWcCA2J
+ T8iQRqD/81QySxObMDqjiXs2EQYBVs6nWswDyQSMj2Nt0RxkIBs+e9Fq1uqPAPDRGs
+ FT/C8EmmPFPng==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id BA6FAC433E4; Sun, 30 Oct 2022 16:57:19 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
+ Waiting for fences timed out!"
+Date: Sun, 30 Oct 2022 16:57:19 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: nvaert1986@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213145-2300-rlwYNCLoEO@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
+References: <bug-213145-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,43 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_gem_vunmap() will crash with a NULL dereference if the passed
-object pointer is NULL. It wasn't a problem before we added the locking
-support to drm_gem_vunmap function because the mapping argument was always
-NULL together with the object. Make drm_client_buffer_delete() to check
-whether GEM is NULL before trying to unmap the GEM, it will happen on
-framebuffer creation error.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
 
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Link: https://lore.kernel.org/dri-devel/Y1kFEGxT8MVlf32V@kili/
-Fixes: 79e2cf2e7a19 ("drm/gem: Take reservation lock for vmap/vunmap operations")
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/drm_client.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+--- Comment #27 from nvaert1986 (nvaert1986@hotmail.com) ---
+(In reply to rv1sr from comment #24)
+> Do you guys by any chance use KWin?
+>=20
+> Had experienced this exact issue on a daily basis (kernel 5.19 + amdgpu),
+> especially while running Firefox or Vivaldi.
+>=20
+> After setting the following environment variable in /etc/environment two
+> weeks ago, the issue no longer persists.
+>=20
+> KWIN_DRM_NO_DIRECT_SCANOUT=3D1
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 38e1be991caa..fd67efe37c63 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -235,10 +235,10 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
- {
- 	struct drm_device *dev = buffer->client->dev;
- 
--	drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
--
--	if (buffer->gem)
-+	if (buffer->gem) {
-+		drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
- 		drm_gem_object_put(buffer->gem);
-+	}
- 
- 	if (buffer->handle)
- 		drm_mode_destroy_dumb(dev, buffer->handle, buffer->client->file);
--- 
-2.37.3
+I tried this for a couple of days, but after a few days Xorg still crashed
+unfortunately. It does seem to be less frequent though.
 
+plasmashell[1280]: amdgpu: amdgpu_cs_query_fence_status failed.
+kwin_x11[1255]: amdgpu: amdgpu_cs_query_fence_status failed.
+plasmashell[447733]: amdgpu: amdgpu_cs_query_fence_status failed.
+plasmashell[447733]: Crash Annotation GraphicsCriticalError: |[0][GFX1-]: G=
+FX:
+RenderThread detected a device reset in PostUpdate (t=3D5437.93) [GFX1-]: G=
+FX:
+RenderThrea>
+plasmashell[1280]: amdgpu: The CS has been cancelled because the context is
+lost.
+plasmashell[1280]: amdgpu: amdgpu_cs_query_fence_status failed.
+plasmashell[1280]: amdgpu: The CS has been cancelled because the context is
+lost.
+plasmashell[447733]: ATTENTION: default value of option mesa_glthread
+overridden by environment.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
