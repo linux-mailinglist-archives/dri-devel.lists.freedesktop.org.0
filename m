@@ -1,61 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F374F612BBC
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 18:08:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 995F4612BCD
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 18:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22D510E037;
-	Sun, 30 Oct 2022 17:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A93C610E093;
+	Sun, 30 Oct 2022 17:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4FF10E037
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 17:08:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1667149712; bh=m4+6ruVR07s7ahZkS8XH9ta3361SFT/cMmEre0wtO4Q=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=nwme34/PQphufO6arOpO1RFSpLZTRYYYP+yHO3pnBdr7BOcY78Be2kRNR17AWUMOt
- vQzD6DJHEyg4KcUcvpHOMCjcorwe2tKfmovjFvKjGAeo1aNRFECG3AR/mdnQfD1qSk
- B0w4Puz9pFX0WCzXjhffuFqzEyqScYocSrS3JYilqXWRx6Wb3g7Tb6OnLpeUlnTpTe
- 5a+/Wq04kOmM80Bjx2ZDhO+a1urin+raFo4I/0/nzadE8hBuhk6w17lg6MQFVKBu0E
- GbmqxasHB0H48n+M6lxiWmw2V1SGmNxXyQ0hY1Jpn2OCDydxZjq061nOi5ND0HtS5Z
- kl7O+MO4j/D7A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ls3530 ([92.116.163.166]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MI5UN-1osBoW3qIZ-00F987; Sun, 30
- Oct 2022 18:08:31 +0100
-Date: Sun, 30 Oct 2022 18:08:30 +0100
-From: Helge Deller <deller@gmx.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes for v6.1-rc3
-Message-ID: <Y16vjgbo+tx6lArZ@ls3530>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4284210E093
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 17:18:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NXSdS9xq2cZWp6FliUXm3Fw2d7R5AxsJ74NH8T8RgiJ8KQpM62WhrCP4z7k8Nz1QIYW1ygvRGr0lm+jS4dgBJzur3Hk0f+tM8GxMUU6xqg4OU4LnY/XLXuWhHOlvzV9vg8mCyabQZuapFY0HrCyOtWfaXNzKlb0THSsrqd6t3N447S3i9WcHtylwlSqivrBHYpCno9A74oGlETamT+MPwt5xhMNLy/iD4svJD3lQCyvsAvoNAdlHt8E7AmKcivLQdimMXhy5SDCvW4A4rWgjGdsaRiTEyrJ4pHf0d6NJGyaHz49f3/Ie0qkBNSC50I4wxK5Y/SfpDR8Rg/pVVRQeGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oBEB+XU1Y3v8CgpdrFfFMlqIo9NuepkdHNtccG1o9XU=;
+ b=XXVPH5Ijf7SGMlKbVzvJgxcfKM+NhS6iMoyNOh9f83DTW5Uw0JEI9O0SFT/3GETD4mBAm+br8PWCUVaeRN1DGa9xwBS6qWLz81Q92KjnnuqkujitYcKezR/3VOOCGcrtYNi0bIakzgbLekPAxAWeVh+W2sN1E3TQUFASqWTDI2wXbOSN67BNpz1CikrF6Pq0eaRRUjhGEHTDFOOVdIjB8r176LJ7kQlw/FgPMgPm8zvdqenkbiwE1twVvnVIR24KvDV7xjBlnHA99ObmxadPcHJzzeoBu1qQq8siRtcla3mBpn+lb3uTcjaIALmizFch0moExJUCQoANCb/HYejivQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oBEB+XU1Y3v8CgpdrFfFMlqIo9NuepkdHNtccG1o9XU=;
+ b=WnJtzsYzTNs6pa+Z2mwfy1qqtUkB79AwZ2YbfMcbZs+L9PXAwf3EUA8YHEJu/b85nGry3HEhBjAalXWrRJMyFWDtv6ZswjjfybPSLs87pVL8k2hcnkmfwWmuDGbucQ5V+5Giqk9Qqwk2bdb1AQN6bpzTfKlEvmyJKgi08vojpUM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by DS7PR03MB5637.namprd03.prod.outlook.com (2603:10b6:5:2ca::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Sun, 30 Oct
+ 2022 17:18:50 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1%6]) with mapi id 15.20.5769.019; Sun, 30 Oct 2022
+ 17:18:50 +0000
+From: Hsia-Jun Li <randy.li@synaptics.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/2] Add pixel formats used in Synatpics SoC
+Date: Mon, 31 Oct 2022 01:18:05 +0800
+Message-Id: <20221030171807.55837-1-randy.li@synaptics.com>
+X-Mailer: git-send-email 2.37.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR05CA0010.namprd05.prod.outlook.com
+ (2603:10b6:a03:c0::23) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jCjYSj1BZAZ5SxO9ltnwsWqzczM/AH9+S83AxuNMi71su5IdZN4
- xuJDav/NR9ZyJnfaTjxJOU4uowFyzVh92a3WSwBydwL/ikoUhmiddW7JZQDNPnbR3jLBsgr
- wbnRNfb0ShSUeT358i4sFyBXGzOyRQss1ZyZ6R7NCn78WDvdru9pHpspydngafOEt8YP5Eq
- RiG0qlkDsjmq8lvhQvTsQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:gthlOzLTdcU=;n6pwRJu2pJhizL1XuN0OfVxFpKJ
- SVMC5RNkfusC4aY7E4708OzEmGDBrF0BW7jlaIhNzAkx46ruSzcNgOvXLIrtNSrDcr85+ePrl
- xTzsWbZZ8We/DG3zRBlCnSPLsqlY1Qx7XLjeLJgBnJbUw0/PkIJW0YfYR6NkuSbzpc2xC/u75
- fe6t6f3EpnDpCUSxkZdEsv7gQMnzRPxn6ATXtbsTh/IIETc2/39VVCLJeFyyT0ZZp+TiYl9It
- 1eVTRV6zJC3Z+7qZT9/NCtVf5hoNumeN6/++Ym/WCkPiQvysX+CfdR+z+yHFtd9WgA8OGUe9J
- sZpWu8BIFnnxRX1CafHoIKjHENiqJRHPA83RRIOq9v3ITp9haPLaND8M8BOyrPjhkHD0HrWLF
- x6HrjBzjCykh00UZxxYZx2Qb3UuyT6oofVswBeavW5+hbScYbWpCrV6hjnAOX0DWooYy4rTFQ
- YUNWWM7RV8ctPobiFcKL0roM2PvNzn/W3gDNBCguP011n57EMbvXi1OGZY9Br0jYKkQUzZNih
- zAYLa5LHiVd78OCqXjEiIlnuPWeJ1v0fun6ySDsiZN38SpMoWV1vHZNbuH83U3BoEomzuUxBG
- ALsfKj0WVw3AoGxXxDAk0GeZf/9BR5IWRZntl9+Gw1tJqLBXEulIIaS2266BibwAqAzaOQdK2
- KeCtxB7lZDywEkGKz7p7k9sPx/xO3Mf4+kEZcptIPT9EmfPfAgzJg43oT6QNrL+jFN1PK9KQu
- LuwjqYQiLgl3XwYvNyLypjVCpQkRgB1RwL9xNioWTzFaq7MkxEIemKSjxCA9NlX+ix5QXNsoE
- XSuP6jF4FjW2ICwm4bgQ2tDfdpbZ6ICGIJuwMdLI/lxrfMwCzWCo4WXBuhyevRvI3Qv1JBpbJ
- SLzZoDEhEWt7NGiAqA3xjBrYKN601ASocUhF2PbkcIDzRwaPFSchcXdwnf9XwXoB+lNVJ+k2u
- lCaN1Q==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|DS7PR03MB5637:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05f96525-ab6d-4952-169c-08daba9acfd5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jJ6C5v08r24ALfLwK2pOzKq8QYxA2yX1MSo8RRhWert09J2SxvFCKJMV8f+99befMZKs51yy9AI+Ic9oqWHgm3Wsp4mpDa2HbKCaPJd82y719/ViooswnJqW2ftiFYkrLuaMuMJ1GRjobxNLuVYJB62kNtudqYSbU3uGAzkKtyMqR6PcnbuZ5LS5ZL3dIi4oHA7u8Ib8kmQ4DWlorGS2ZdovFQ82Z8ZQfSwx4M9GdjKw50nJDsi/Qyy4vaTlasbqBpD/4o8mMMFQNmt6zL1JPCcbVAtWvOKO8n5yy0mIPqbNhv0EQ7ldgvSKTQUs1HSMUr7UKFV4fCy4cFfHFpz+GcdET7iC5jX0/t08+yiwXWqj0pe5j9En9rLFL+ThhBDBYOP81yYO9uobt0w3EVxOoTGj5/sdZS+3aZjbcgUytRQi09IoQeLWAUzAgRbR3kQXnIgB3aB17DdKYmGPtnEn6vzRK5p8JMJl3ldOiu79ep2xlQyb6Ib7+w3YnjADZVtvoRyP34cf1AQXMvvQik2d9woBkmvSrD85fiPvXLUcbGb09QSnqqLZGctEZmmxm/dZXvd29OYufx5cCYQKJJTcHSZurgAWmWTRxNgNTSy/MVK8K3HmmnnivyKOfqgY7jrcBeKLLlMpy8cbpE8hrTBYoiBu+4NKKvW1iK8bfSK1vvvalDogztjoi1Zl3qX64GKOzzmx3y8BqoM4oSXOBzkAV0KUXom+rmwtYu+NMYKh6k8TATinqV6L70hLxHw9fjw6lDCITRVak9lKj/InwEUvtHuAc88YOP/FUmMkE6uFM8w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR03MB5196.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(366004)(346002)(136003)(376002)(396003)(451199015)(6486002)(966005)(6506007)(107886003)(6666004)(478600001)(316002)(6916009)(38350700002)(6512007)(2616005)(36756003)(1076003)(26005)(52116002)(38100700002)(83380400001)(186003)(2906002)(86362001)(4326008)(66556008)(8676002)(66476007)(66946007)(41300700001)(8936002)(5660300002)(7416002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+hPhZ4PBN2ex7EBpbgPOZ9pJH9xipQDrZDsr5pihugS7l8CmiwM8aDwWyxfT?=
+ =?us-ascii?Q?DJFcmi3d1ZygvNQ4Glpv6AWdZeUNRKX13Hy82RAJC6K4GwV7EIL8p3dXVyQq?=
+ =?us-ascii?Q?iscJQ/xxYATvZsjZoanMG+D00UmEGdWFM3R0JXYUGWJ4zDS4bkZFRaZIek9M?=
+ =?us-ascii?Q?7d8gBaeWA98ofT99+l+NgHm8DfKFvl8LF8ftbYO0S1aG3G/5+oAjSqH9SSMt?=
+ =?us-ascii?Q?uZOKe9wX762YFlrjhlyAkd+JBoHHPbNfwN83hCeiU8cLVWO8b7EU+tDopun/?=
+ =?us-ascii?Q?N9ykXwMd7Ymgnyp+srCbatlxxnz4xO8ttfS1nfbHIvZwYVlnE+7yUkQZ88Sm?=
+ =?us-ascii?Q?6ruNCn996yUuNAIz2nWKgXL9cNAv8uy057hzXAml23fNNW9YTiUzAlrtEgcW?=
+ =?us-ascii?Q?xg7s6N9dWAuXKfK1ZhcugSgA3UUF0oXTMbXReJTPq6FhAqsYn4E3aOaSRKjb?=
+ =?us-ascii?Q?IKC17G1Y1RGak/xdhvPonxf2XOLxBE7/Tqli6SszJ/TUYy5keSR/SUZ6oDpF?=
+ =?us-ascii?Q?ErdmO2yEk8zABXcnvoNUgLJXYtXI9vkU+RB8oIQxWNN2i3I3URIyYLXAcbeV?=
+ =?us-ascii?Q?i5Uz2h4LK0tC4CYtulqG/x78vxUo8rRMNUB4uScJqK3x56Q+ho/eDeZPwACs?=
+ =?us-ascii?Q?GU0/3E8vUfMfJnRBD2MlVnxS0xdM699lxUEoBvDtyyO9wN0Gt638bM9VdI9L?=
+ =?us-ascii?Q?E3ophp35iMHqt8nGsvIkw4z326orJAqBk2Hq//BuJQw0gvYuAiivGywiU3GQ?=
+ =?us-ascii?Q?+xcQ+5RjHipn6/k9BLXEFU+qUd+VUcXq10FNMY3B1nfIDIBq7VSfaZ13lBG8?=
+ =?us-ascii?Q?lqN1/Tdb9ZiOg1B7/cl/mz5PtY6/xliDk9mDOoyim6VcFEAWc1qcdLKoFfnK?=
+ =?us-ascii?Q?cYsV0eLvsp+Jjsmsd2m2m1VrPl3RBV5kiSBISVAaORQK9Rvq8NNvROcP/aN0?=
+ =?us-ascii?Q?wdRjcXyISjse1gVJ/hJ4hTfcVrWWPaGm5Pb3mKg8R5vLyy1J5JdFC4DSALe2?=
+ =?us-ascii?Q?Sfmp615OnAk+ZttCpxeA6VI2T2eY97gSW/ngG0GuLN6ReqJkIZopQSrI7K8m?=
+ =?us-ascii?Q?Qy96nYGW7I1KP71BIq5ieb0e8cQMabk150/Zzu4+sIUfiVORCx6EMbz5ZwMz?=
+ =?us-ascii?Q?Q5nSO3mLepE8U/KCHUq5K9Ic3CPMEHs2ZVzxcKEVESlhw4B6hzaz/vZVyYXZ?=
+ =?us-ascii?Q?sl1XAc4SveJ4eJqZ15hnWNuiL5Q/Kp36T5ZLJTBJW4gcwxHfDsw+16uxqOD3?=
+ =?us-ascii?Q?c9AaOxJZsyubIVAN1XdfwDuXVon7NdgWcN8Mrc2ZXdoLeYRjGLzMIgpjRP8T?=
+ =?us-ascii?Q?b3V9VMQqkFwqZEo8yhOIRJj/QvrQlvogANCRj+WCinEz1jEZDjLXXd7EIM3n?=
+ =?us-ascii?Q?qywt349u1gtRnugpYYMqxCtKZnHM1ndAJsuDymq6RxzvW9sR0fqOii4BokDf?=
+ =?us-ascii?Q?LsgCzzqE96ZD/yV/hIlYxdiCeSzsU53BK5Jpg/ZZ7jr2/EAALpNkvnIPtDgj?=
+ =?us-ascii?Q?Vn8+2jQq2ltL4u2yU2ChUN4e5/VnttxXTX9JW93M10n+7LfcShgjRsabNxWd?=
+ =?us-ascii?Q?iMIfbE+N3jiqG7+YseBFPdBPc6S16ced0ynPMrWE?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05f96525-ab6d-4952-169c-08daba9acfd5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2022 17:18:50.4361 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: koDeBjE6nd3jjRndjQ//5iVjz7KA1CPtYpTG8fu7Kl6DJna1lndXw5Xp/NdDg/M1CKaWEubHGP9/4e4fB2aw9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR03MB5637
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,79 +112,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, nicolas@ndufresne.ca,
+ tfiga@chromium.org, laurent.pinchart@ideasonboard.com, tzimmermann@suse.de,
+ sebastian.hesselbarth@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, sakari.ailus@linux.intel.com,
+ "Hsia-Jun\(Randy\) Li" <randy.li@synaptics.com>, helen.koike@collabora.com,
+ ezequiel@vanguardiasur.com.ar, ribalda@chromium.org, hverkuil-cisco@xs4all.nl,
+ mchehab@kernel.org, jszhang@kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 
-please pull some fbdev fixes for kernel 6.1-rc3.
+Those pixel formats are used in Synaptics's VideoSmart series SoCs,
+likes VS640, VS680. I just disclose the pixel formats used in the video
+codecs and display pipeline this time. Actually any device connected to
+the MTR module could support those tiled and compressed pixel formats.
+The more detail about MTR module could be found in the first patch of
+this serial of mail.
 
-A use-after-free bugfix in the smscufx driver.
-The other patches are minor.
+We may not be able to post any drivers here in a short time, the most of
+work in this platform is done in the Trusted Execution Environment and
+we didn't use the optee event its client framework.
 
-Thanks,
-Helge
+Please notice that, the memory planes used for video codecs could be
+one more than display case. That extra planes in the video codecs is
+for the decoding internally usage, it can't append the luma or chroma
+buffer as many other drivers do, because this buffer could be only
+accessed by the video codecs itself, it requests a different memory
+security attributes. There is not a proper place in v4l2 m2m to allocate
+a large size buffer, we don't know when the users won't allocate more
+graphics buffers. Although we could allocate it in a step likes
+STREAMON, it would lead unusual delaying in starting of video playbacl.
 
-The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc78=
-0:
+https://synaptics.com/products/multimedia-solutions
 
-  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+Changlog
+v2:
+The DRM modifiers in the first draft is too simple, it can't tell
+the tiles in group attribute in memory layout.
+Removing the v4l2 fourcc. Adding a document for the future v4l2 extended
+fmt.
+v1:
+first draft of DRM modifiers
+Try to put basic tile formats into v4l2 fourcc
 
-are available in the Git repository at:
+Hsia-Jun(Randy) Li (1):
+  drm/fourcc: Add Synaptics VideoSmart tiled modifiers
 
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git ta=
-gs/fbdev-for-6.1-rc3
+Randy Li (1):
+  media: docs: Add Synpatics tile modifiers
 
-for you to fetch changes up to 3c6bf6bddc84888c0ce163b09dee0ddd23b5172a:
+ .../media/v4l/pixfmt-synaptics.rst            | 80 +++++++++++++++++++
+ .../userspace-api/media/v4l/pixfmt.rst        |  1 +
+ include/uapi/drm/drm_fourcc.h                 | 75 +++++++++++++++++
+ 3 files changed, 156 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-synaptics.rst
 
-  fbdev: cyber2000fb: fix missing pci_disable_device() (2022-10-27 20:29:5=
-9 +0200)
+-- 
+2.17.1
 
-=2D---------------------------------------------------------------
-fbdev fixes for kernel 6.1-rc3:
-
-A use-after-free bugfix in the smscufx driver and various minor
-error path fixes, smaller build fixes, sysfs fixes and
-typos in comments in the stifb, sisfb, da8xxfb, xilinxfb, sm501fb,
-gbefb and cyber2000fb drivers.
-
-=2D---------------------------------------------------------------
-Helge Deller (1):
-      fbdev: stifb: Fall back to cfb_fillrect() on 32-bit HCRX cards
-
-Hyunwoo Kim (1):
-      fbdev: smscufx: Fix several use-after-free bugs
-
-Jason A. Donenfeld (1):
-      fbdev: sisfb: use explicitly signed char
-
-Jilin Yuan (1):
-      fbdev: sisfb: fix repeated word in comment
-
-Kees Cook (1):
-      fbdev: MIPS supports iomem addresses
-
-Uwe Kleine-K=F6nig (2):
-      fbdev: da8xx-fb: Fix error handling in .remove()
-      fbdev: xilinxfb: Make xilinxfb_release() return void
-
-Xuezhi Zhang (2):
-      fbdev: sm501fb: Convert sysfs snprintf to sysfs_emit
-      fbdev: gbefb: Convert sysfs snprintf to sysfs_emit
-
-Yang Yingliang (1):
-      fbdev: cyber2000fb: fix missing pci_disable_device()
-
- drivers/usb/misc/sisusbvga/sisusb_struct.h |  2 +-
- drivers/video/fbdev/cyber2000fb.c          |  2 ++
- drivers/video/fbdev/da8xx-fb.c             |  3 +-
- drivers/video/fbdev/gbefb.c                |  4 +--
- drivers/video/fbdev/sis/sis_accel.c        |  2 +-
- drivers/video/fbdev/sis/vstruct.h          |  2 +-
- drivers/video/fbdev/sm501fb.c              |  2 +-
- drivers/video/fbdev/smscufx.c              | 55 ++++++++++++++++---------=
------
- drivers/video/fbdev/stifb.c                |  3 +-
- drivers/video/fbdev/xilinxfb.c             |  8 ++---
- include/linux/fb.h                         |  2 +-
- 11 files changed, 47 insertions(+), 38 deletions(-)
