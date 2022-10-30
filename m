@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12032612D48
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 23:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7115C612E04
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 00:26:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C0610E08C;
-	Sun, 30 Oct 2022 22:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5542910E098;
+	Sun, 30 Oct 2022 23:25:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 355 seconds by postgrey-1.36 at gabe;
- Sun, 30 Oct 2022 22:20:55 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [81.169.146.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC2FA10E073
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 22:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1667167733;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=5GKqb3fJ85fHPjXJt80eik+WVjp9pR4mDfmF41kXhHg=;
- b=s9uXJgSv+HC6ad9c+vpI+b+5GQtBF3WGF5L3kMRqk4/84LDwPJYHlnbWGjyfkKLEY1
- e4eyOa+uDhSejmmXQ/PtQp8GdzO28hUoDvmwiCBo3digVXneWO0TZkamgWXfyXLQpCpl
- F34XK/YHqL3iMHQI2m3qAU4PoDx1LF+VWhMExFVYBPMa/KtBAkbeHry1vRrCXLb4i/Ii
- WxoWm3pS3rlYGNhqBM8vOcZpcJzYPYL5RDgJe7vks/8GN8oXz7WD3FrM4cvmsjo2x0Tu
- Svc/SaebelINoiSqbgw8+qzlsa/c94YLMuoMQQnY4l01Pi/8fQsei8/dxdGkXZQANEYU
- CAaw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGeqXQ="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 48.2.1 DYNA|AUTH)
- with ESMTPSA id v55d69y9UM8rLaY
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Sun, 30 Oct 2022 23:08:53 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
- DMM/TILER
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
-Date: Sun, 30 Oct 2022 23:08:52 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <4B3F8E50-3472-4AED-9A77-3E265DF8C928@goldelico.com>
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
-To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D125110E098
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 23:25:51 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29UNPDiP019973;
+ Sun, 30 Oct 2022 18:25:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1667172313;
+ bh=V6PpPRXChTMfvnSzrScuWIP50LYca9tZ+HJcEcG2FL8=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=klp6m862gHiRbmBxOP5drrax+/jgolHjC7B0uZk5MDWnzAf0HnoA1VZU5aLccjDXg
+ XptJCJ+aRI2l/iNVGmggGcP5Lk1QL3DxVdrCm7VOkE3gzOeE0RAtLrTIbAC9eXjrWM
+ PLqEabIHpUeaXxvOrTP9atXd8vRMXsMm1tCLnb1Y=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29UNPDqi003091
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sun, 30 Oct 2022 18:25:13 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Sun, 30
+ Oct 2022 18:25:12 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
+ Frontend Transport; Sun, 30 Oct 2022 18:25:12 -0500
+Received: from [10.250.35.234] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29UNPBfp097440;
+ Sun, 30 Oct 2022 18:25:12 -0500
+Message-ID: <b3073b69-c404-4f3b-8a8e-5a86cf413877@ti.com>
+Date: Sun, 30 Oct 2022 18:25:11 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] dma-buf: fix racing conflict of dma_heap_add()
+To: Dawei Li <set_pte_at@outlook.com>, <sumit.semwal@linaro.org>,
+ <christian.koenig@amd.com>
+References: <TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +64,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomba@kernel.org, airlied@linux.ie, merlijn@wizzup.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tony@atomide.com, linux-omap@vger.kernel.org
+Cc: benjamin.gaignard@collabora.com, linux-kernel@vger.kernel.org,
+ lmark@codeaurora.org, sspatil@android.com, linaro-mm-sig@lists.linaro.org,
+ jstultz@google.com, dri-devel@lists.freedesktop.org, labbott@redhat.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ivaylo,
-
-it took a while until I found time to test newer kernels (mainline + =
-Letux additions)
-on the OMAP5 Pyra but unfortunately I did not get screen display for =
-v6.1. Even worse,
-the console was flooded by
-
-[   39.419846] WARNING: CPU: 0 PID: 3673 at =
-drivers/bus/omap_l3_noc.c:139 l3_interrupt_handler+0x23c/0x330
-[   39.429914] 44000000.l3-noc:L3 Custom Error: MASTER MPU TARGET GPMC =
-(Idle): Data Access in Supervisor mode during Functional access
-...
-
-making the system unuseable.
-
-After doing some manual bisect by installing different kernel versions =
-on the boot SD card,
-I was able to identify that it crept in between v5.18 and v5.19-rc1. A =
-git bisect on this
-range (adding Letux patches on top of each bisect base) did reveal this =
-patch as the first bad one.
-
-After reverting it seems as if I can use any v5.19 .. v6.1-rc2 kernel =
-without issues.
-
-Now I wonder why this patch breaks my system?
-
-BR and thanks,
-Nikolaus
-
-
-> Am 19.01.2022 um 11:23 schrieb Ivaylo Dimitrov =
-<ivo.g.dimitrov.75@gmail.com>:
->=20
-> On devices with DMM, all allocations are done through either DMM or =
-TILER.
-> DMM/TILER being a limited resource means that such allocations will =
-start
-> to fail before actual free memory is exhausted. What is even worse is =
-that
-> with time DMM/TILER space gets fragmented to the point that even if we =
-have
-> enough free DMM/TILER space and free memory, allocation fails because =
-there
-> is no big enough free block in DMM/TILER space.
->=20
-> Such failures can be easily observed with OMAP xorg DDX, for example -
-> starting few GUI applications (so buffers for their windows are =
-allocated)
-> and then rotating landscape<->portrait while closing and opening new
-> windows soon results in allocation failures.
->=20
-> Fix that by mapping buffers through DMM/TILER only when really needed,
-> like, for scanout buffers.
->=20
-> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+On 10/30/22 6:37 AM, Dawei Li wrote:
+> Racing conflict could be:
+> task A                 task B
+> list_for_each_entry
+> strcmp(h->name))
+>                         list_for_each_entry
+>                         strcmp(h->name)
+> kzalloc                kzalloc
+> ......                 .....
+> device_create          device_create
+> list_add
+>                         list_add
+> 
+> The root cause is that task B has no idea about the fact someone
+> else(A) has inserted heap with same name when it calls list_add,
+> so a potential collision occurs.
+> 
+> Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+> 
+> base-commit: 447fb14bf07905b880c9ed1ea92c53d6dd0649d7
+> 
+> Signed-off-by: Dawei Li <set_pte_at@outlook.com>
 > ---
-> drivers/gpu/drm/omapdrm/omap_gem.c | 12 ++++++++----
-> 1 file changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c =
-b/drivers/gpu/drm/omapdrm/omap_gem.c
-> index 41c1a6d..cf57179 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_gem.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-> @@ -821,10 +821,12 @@ int omap_gem_pin(struct drm_gem_object *obj, =
-dma_addr_t *dma_addr)
-> 			if (ret)
-> 				goto fail;
->=20
-> -			if (priv->has_dmm) {
-> -				ret =3D omap_gem_pin_tiler(obj);
-> -				if (ret)
-> -					goto fail;
-> +			if (omap_obj->flags & OMAP_BO_SCANOUT) {
-> +				if (priv->has_dmm) {
-> +					ret =3D omap_gem_pin_tiler(obj);
-> +					if (ret)
-> +						goto fail;
-> +				}
-> 			}
-> 		} else {
-> 			refcount_inc(&omap_obj->pin_cnt);
-> @@ -861,6 +863,8 @@ static void omap_gem_unpin_locked(struct =
-drm_gem_object *obj)
-> 			kfree(omap_obj->sgt);
-> 			omap_obj->sgt =3D NULL;
-> 		}
-> +		if (!(omap_obj->flags & OMAP_BO_SCANOUT))
-> +			return;
-> 		if (priv->has_dmm) {
-> 			ret =3D tiler_unpin(omap_obj->block);
-> 			if (ret) {
-> --=20
-> 1.9.1
->=20
+>   drivers/dma-buf/dma-heap.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 8f5848aa144f..ff44c2777b04 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -243,11 +243,12 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>   			return ERR_PTR(-EINVAL);
+>   		}
+>   	}
+> -	mutex_unlock(&heap_list_lock);
+>   
+>   	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
+> -	if (!heap)
+> +	if (!heap) {
+> +		mutex_unlock(&heap_list_lock);
+>   		return ERR_PTR(-ENOMEM);
+> +	}
+>   
+>   	heap->name = exp_info->name;
+>   	heap->ops = exp_info->ops;
+> @@ -284,7 +285,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>   		goto err2;
+>   	}
+>   	/* Add heap to the list */
+> -	mutex_lock(&heap_list_lock);
 
+
+Good catch!
+
+In general I'd like to hold locks for as short a time as possible and
+only bracket the lock associated structure (heap_list). How about we
+move the duplicate name check to down here so they are both inside
+this one locked section here.
+
+I know this will mean we take a longer unwind error path
+if the names are duplicated, but that should be rare and
+this will keep all heap_list accesses together.
+
+Thanks,
+Andrew
+
+
+>   	list_add(&heap->list, &heap_list);
+>   	mutex_unlock(&heap_list_lock);
+>   
+> @@ -296,6 +296,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>   	xa_erase(&dma_heap_minors, minor);
+>   err0:
+>   	kfree(heap);
+> +	mutex_unlock(&heap_list_lock);
+>   	return err_ret;
+>   }
+>   
