@@ -1,64 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33604612BAF
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 17:57:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F374F612BBC
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Oct 2022 18:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 505EE10E10B;
-	Sun, 30 Oct 2022 16:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E22D510E037;
+	Sun, 30 Oct 2022 17:08:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9059A10E10B
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 16:57:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D895C60F0C
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 16:57:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CD9CAC43143
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 16:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667149039;
- bh=LYtBqNKJsz4p071BQBDnoWOCu8aKYsARDEMe4jRB6tk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=HkDG8aaLUkg7zmvS3WDa1g/sDPE0PgVTPyx61i+VNEShmpPM+l4tNkCo5m+Z16djz
- 4MgNI3Krd8+TguUcHeYFZpbvCLeSnD1OpVSBiOUqot4k4nXB7XvsX1g2wmND3hk3BQ
- tmU6R6T5KyQiQ2WneWsw8kc0D6UGSLybAqOJ9DFI3lr5p/LyaLLwLMUQ9cDBxDMzS3
- nHf/z4JR8OUc1yW0eYxDw/4N2uADNNYw5LsO8KGui9MqL+HoxMwx5KclSgcqWcCA2J
- T8iQRqD/81QySxObMDqjiXs2EQYBVs6nWswDyQSMj2Nt0RxkIBs+e9Fq1uqPAPDRGs
- FT/C8EmmPFPng==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id BA6FAC433E4; Sun, 30 Oct 2022 16:57:19 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
- Waiting for fences timed out!"
-Date: Sun, 30 Oct 2022 16:57:19 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: nvaert1986@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213145-2300-rlwYNCLoEO@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
-References: <bug-213145-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4FF10E037
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 17:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1667149712; bh=m4+6ruVR07s7ahZkS8XH9ta3361SFT/cMmEre0wtO4Q=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=nwme34/PQphufO6arOpO1RFSpLZTRYYYP+yHO3pnBdr7BOcY78Be2kRNR17AWUMOt
+ vQzD6DJHEyg4KcUcvpHOMCjcorwe2tKfmovjFvKjGAeo1aNRFECG3AR/mdnQfD1qSk
+ B0w4Puz9pFX0WCzXjhffuFqzEyqScYocSrS3JYilqXWRx6Wb3g7Tb6OnLpeUlnTpTe
+ 5a+/Wq04kOmM80Bjx2ZDhO+a1urin+raFo4I/0/nzadE8hBuhk6w17lg6MQFVKBu0E
+ GbmqxasHB0H48n+M6lxiWmw2V1SGmNxXyQ0hY1Jpn2OCDydxZjq061nOi5ND0HtS5Z
+ kl7O+MO4j/D7A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530 ([92.116.163.166]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MI5UN-1osBoW3qIZ-00F987; Sun, 30
+ Oct 2022 18:08:31 +0100
+Date: Sun, 30 Oct 2022 18:08:30 +0100
+From: Helge Deller <deller@gmx.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes for v6.1-rc3
+Message-ID: <Y16vjgbo+tx6lArZ@ls3530>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:jCjYSj1BZAZ5SxO9ltnwsWqzczM/AH9+S83AxuNMi71su5IdZN4
+ xuJDav/NR9ZyJnfaTjxJOU4uowFyzVh92a3WSwBydwL/ikoUhmiddW7JZQDNPnbR3jLBsgr
+ wbnRNfb0ShSUeT358i4sFyBXGzOyRQss1ZyZ6R7NCn78WDvdru9pHpspydngafOEt8YP5Eq
+ RiG0qlkDsjmq8lvhQvTsQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:gthlOzLTdcU=;n6pwRJu2pJhizL1XuN0OfVxFpKJ
+ SVMC5RNkfusC4aY7E4708OzEmGDBrF0BW7jlaIhNzAkx46ruSzcNgOvXLIrtNSrDcr85+ePrl
+ xTzsWbZZ8We/DG3zRBlCnSPLsqlY1Qx7XLjeLJgBnJbUw0/PkIJW0YfYR6NkuSbzpc2xC/u75
+ fe6t6f3EpnDpCUSxkZdEsv7gQMnzRPxn6ATXtbsTh/IIETc2/39VVCLJeFyyT0ZZp+TiYl9It
+ 1eVTRV6zJC3Z+7qZT9/NCtVf5hoNumeN6/++Ym/WCkPiQvysX+CfdR+z+yHFtd9WgA8OGUe9J
+ sZpWu8BIFnnxRX1CafHoIKjHENiqJRHPA83RRIOq9v3ITp9haPLaND8M8BOyrPjhkHD0HrWLF
+ x6HrjBzjCykh00UZxxYZx2Qb3UuyT6oofVswBeavW5+hbScYbWpCrV6hjnAOX0DWooYy4rTFQ
+ YUNWWM7RV8ctPobiFcKL0roM2PvNzn/W3gDNBCguP011n57EMbvXi1OGZY9Br0jYKkQUzZNih
+ zAYLa5LHiVd78OCqXjEiIlnuPWeJ1v0fun6ySDsiZN38SpMoWV1vHZNbuH83U3BoEomzuUxBG
+ ALsfKj0WVw3AoGxXxDAk0GeZf/9BR5IWRZntl9+Gw1tJqLBXEulIIaS2266BibwAqAzaOQdK2
+ KeCtxB7lZDywEkGKz7p7k9sPx/xO3Mf4+kEZcptIPT9EmfPfAgzJg43oT6QNrL+jFN1PK9KQu
+ LuwjqYQiLgl3XwYvNyLypjVCpQkRgB1RwL9xNioWTzFaq7MkxEIemKSjxCA9NlX+ix5QXNsoE
+ XSuP6jF4FjW2ICwm4bgQ2tDfdpbZ6ICGIJuwMdLI/lxrfMwCzWCo4WXBuhyevRvI3Qv1JBpbJ
+ SLzZoDEhEWt7NGiAqA3xjBrYKN601ASocUhF2PbkcIDzRwaPFSchcXdwnf9XwXoB+lNVJ+k2u
+ lCaN1Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,41 +71,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
+Hi Linus,
 
---- Comment #27 from nvaert1986 (nvaert1986@hotmail.com) ---
-(In reply to rv1sr from comment #24)
-> Do you guys by any chance use KWin?
->=20
-> Had experienced this exact issue on a daily basis (kernel 5.19 + amdgpu),
-> especially while running Firefox or Vivaldi.
->=20
-> After setting the following environment variable in /etc/environment two
-> weeks ago, the issue no longer persists.
->=20
-> KWIN_DRM_NO_DIRECT_SCANOUT=3D1
+please pull some fbdev fixes for kernel 6.1-rc3.
 
-I tried this for a couple of days, but after a few days Xorg still crashed
-unfortunately. It does seem to be less frequent though.
+A use-after-free bugfix in the smscufx driver.
+The other patches are minor.
 
-plasmashell[1280]: amdgpu: amdgpu_cs_query_fence_status failed.
-kwin_x11[1255]: amdgpu: amdgpu_cs_query_fence_status failed.
-plasmashell[447733]: amdgpu: amdgpu_cs_query_fence_status failed.
-plasmashell[447733]: Crash Annotation GraphicsCriticalError: |[0][GFX1-]: G=
-FX:
-RenderThread detected a device reset in PostUpdate (t=3D5437.93) [GFX1-]: G=
-FX:
-RenderThrea>
-plasmashell[1280]: amdgpu: The CS has been cancelled because the context is
-lost.
-plasmashell[1280]: amdgpu: amdgpu_cs_query_fence_status failed.
-plasmashell[1280]: amdgpu: The CS has been cancelled because the context is
-lost.
-plasmashell[447733]: ATTENTION: default value of option mesa_glthread
-overridden by environment.
+Thanks,
+Helge
 
---=20
-You may reply to this email to add a comment.
+The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc78=
+0:
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git ta=
+gs/fbdev-for-6.1-rc3
+
+for you to fetch changes up to 3c6bf6bddc84888c0ce163b09dee0ddd23b5172a:
+
+  fbdev: cyber2000fb: fix missing pci_disable_device() (2022-10-27 20:29:5=
+9 +0200)
+
+=2D---------------------------------------------------------------
+fbdev fixes for kernel 6.1-rc3:
+
+A use-after-free bugfix in the smscufx driver and various minor
+error path fixes, smaller build fixes, sysfs fixes and
+typos in comments in the stifb, sisfb, da8xxfb, xilinxfb, sm501fb,
+gbefb and cyber2000fb drivers.
+
+=2D---------------------------------------------------------------
+Helge Deller (1):
+      fbdev: stifb: Fall back to cfb_fillrect() on 32-bit HCRX cards
+
+Hyunwoo Kim (1):
+      fbdev: smscufx: Fix several use-after-free bugs
+
+Jason A. Donenfeld (1):
+      fbdev: sisfb: use explicitly signed char
+
+Jilin Yuan (1):
+      fbdev: sisfb: fix repeated word in comment
+
+Kees Cook (1):
+      fbdev: MIPS supports iomem addresses
+
+Uwe Kleine-K=F6nig (2):
+      fbdev: da8xx-fb: Fix error handling in .remove()
+      fbdev: xilinxfb: Make xilinxfb_release() return void
+
+Xuezhi Zhang (2):
+      fbdev: sm501fb: Convert sysfs snprintf to sysfs_emit
+      fbdev: gbefb: Convert sysfs snprintf to sysfs_emit
+
+Yang Yingliang (1):
+      fbdev: cyber2000fb: fix missing pci_disable_device()
+
+ drivers/usb/misc/sisusbvga/sisusb_struct.h |  2 +-
+ drivers/video/fbdev/cyber2000fb.c          |  2 ++
+ drivers/video/fbdev/da8xx-fb.c             |  3 +-
+ drivers/video/fbdev/gbefb.c                |  4 +--
+ drivers/video/fbdev/sis/sis_accel.c        |  2 +-
+ drivers/video/fbdev/sis/vstruct.h          |  2 +-
+ drivers/video/fbdev/sm501fb.c              |  2 +-
+ drivers/video/fbdev/smscufx.c              | 55 ++++++++++++++++---------=
+-----
+ drivers/video/fbdev/stifb.c                |  3 +-
+ drivers/video/fbdev/xilinxfb.c             |  8 ++---
+ include/linux/fb.h                         |  2 +-
+ 11 files changed, 47 insertions(+), 38 deletions(-)
