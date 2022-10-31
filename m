@@ -1,64 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1649D6140F6
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 23:54:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A41E76141A1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 00:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0628510E21B;
-	Mon, 31 Oct 2022 22:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA7010E23E;
+	Mon, 31 Oct 2022 23:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374EF10E21B;
- Mon, 31 Oct 2022 22:54:11 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id 78so11911036pgb.13;
- Mon, 31 Oct 2022 15:54:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RiVXEvEzqUG+Z4LGnvslCa6bZT/BrJ9oTtksveCxmNM=;
- b=E2u7Itjt5rlL5oPtdrvjXaT8jUjC1BpZHzJNkPsRKyeuvtdKcahIvEGH7N+g+KuuRl
- VKGMtebR1fbRx0X/ZGYCVj0K+obNBIdYrqZTDVkU3KvinZPxNhuPVCtHiPw2nuNTaZ4M
- rkW/suo0u5Lu1JEYAsewsIcxitAo/AkmRazDwHzM4TkYuds1rHWpphg1y6bp8qPZmhrC
- BP9rVFfkfZeRueLvLObewS7kNqdWVlv+kyzNh1jDHz3Y6c3MF8Q6MR+97psgSufFfxOE
- rNOR9oW0eXUmaMJoCTDbrGIr8wgVnEX8gJZAmjIfUGjV3VBdKNPcv85K56C+YeDpGLbV
- viNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RiVXEvEzqUG+Z4LGnvslCa6bZT/BrJ9oTtksveCxmNM=;
- b=JJWjYbBADobJ7VHgCbDCBODRBl4TSlu3u6IC4tVSKwy+lN12Ky/cqejdW/w5NVx9zT
- UItbWpp1bYKgHWTjDvxaMn3ZZ7x1Lkk83kqIfG5BrIZBp8BnhnK8fD3HUYuNUyGc1zMj
- TtlvRoC9PFyDUsr9fd53PF6lfR51p7tKggN/4RDKNkXd/kp9haguHgVV6IniDXHriRgm
- IXrU1rE2w5qHTmQPf5IAy60Pr21TnIZxdGIds8P8OWUpZO42eFpgE7NCPb7/0QIM4BvY
- XLye9mqDCbwdv/AkrSKcMNkjHoj717MfPEu5YIetkjC5abWCFvo2nLDoOMDjPulQSTIt
- HFow==
-X-Gm-Message-State: ACrzQf18bxspEnx7r28pWrj3dvOE7SqrT++JRXJrkwu8rx4P9L7OMuu5
- rIY5c7oHMSK7PwVAmwa8HK9tz5lrz18=
-X-Google-Smtp-Source: AMsMyM60J9LUoOFuV/UcqeY/BNTtBDPyBHOcnTH5UogjcyU8U6HEhocEoYxoxQ+SM2hfNaIpvPottw==
-X-Received: by 2002:a65:6bd3:0:b0:42b:9117:b9d1 with SMTP id
- e19-20020a656bd3000000b0042b9117b9d1mr14578565pgw.238.1667256850337; 
- Mon, 31 Oct 2022 15:54:10 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- b6-20020a170903228600b001869d71228bsm4937216plh.170.2022.10.31.15.54.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 15:54:09 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/msm: Hangcheck progress detection
-Date: Mon, 31 Oct 2022 15:54:07 -0700
-Message-Id: <20221031225414.1280169-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221031225414.1280169-1-robdclark@gmail.com>
-References: <20221031225414.1280169-1-robdclark@gmail.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F24C10E218;
+ Mon, 31 Oct 2022 23:24:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XhbzylFyeYx9CdhoSx30Bq4qJDeXxJtCu/MTAcSafBYmI9H+65Fvny5oC4POXgLlBkNFkLQxhuV5/eRB4WkdWBmDg5UhcCsky/g9wJzGeojPY+g4d2XNWQNiSQp7r52UbsIJNdhPSAwUnkhrMfZpxcy2ZRSUjEKhciShSNx768DB3ON+A4c8UyST9YfcesnbXTX1Vi/qHwk1lIAb+X12OYpbfib9icwh+U7bBMUyCe70k04AGcVmwlylg0eW8/32hhhMzLFJIIcjr2BqjfFj1qwE5QP2wdASIP9Tulzd3EGJhXG9o/HD/iMgfhsgOyTBDTv1Idqkm3AAAvRAX4UEEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rfT+UhN1hCVxNARMVWehY2yYimz/SzErbhDNhnBYRNI=;
+ b=NOcXXQB+tOkrR+Y5NBX7G0C9zsjdgl4K1dGeMSspmAUf0/tz8Lb/juXeU8ZhCmMo7WAB5xHCn+PQwaznKRNo9qyKnuLKLT4yezyFo8qc66Ap6l/rjVo7NywxdpGc2X0V72il1Ov/himagXuUd4lFzPLCxKj9wtfCkGx9TL/Kca1fy1NNFb/tEwAQ8eP0X1lgIgyLxLoNPNmL1rCkwxC968EtgoMooNhooZpOT1fegj11edOJ4j7uVXKn2XcRrDT7O0g1lDJ95pZz9RlWGF+g/XjVUKRP2S7WgLu5Pe4+hTfXf660VX3IftXUtcof8WvRDo7J2NGBO59cma+3g9/Zug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rfT+UhN1hCVxNARMVWehY2yYimz/SzErbhDNhnBYRNI=;
+ b=D9vcslJrw388IPWUmjlt4b/67U9SKX5kw9DNy1tgjwyD88F6/UfUw6sM38r6ykUH/GEeFeJ2u7REwRE9HzrRrh13fj3BzfTfNURkNKtAc/E0zRapEuDkgEQ0/XehAu+uGpY/HQN8Ejj+CY5h6/TS2HJppu2HbayiztTG/GyGPRpUpWRoLBdH2u7o6eFUHA8M0Zrwxjxgo/hDPiC3nKHboWeORp+iWvHKxwakuMwvwRAkkn8U96haRPKUk9sSuoEm0RY0S6N0TtRuJ37iCroRdlegisdtteKxf7LtqlfdP/8Jjj3arTdcP2YN+QG3PE9k0elJdnGIgCRPmkPvevttVA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DS7PR12MB6263.namprd12.prod.outlook.com (2603:10b6:8:95::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Mon, 31 Oct
+ 2022 23:24:15 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Mon, 31 Oct 2022
+ 23:24:15 +0000
+Date: Mon, 31 Oct 2022 20:24:13 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH 00/10] Connect VFIO to IOMMUFD
+Message-ID: <Y2BZHZXJwxF5C4a8@nvidia.com>
+References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <39eb11ed-dbf2-822a-dc79-5b70a49c430b@intel.com>
+ <Y1+9IB+DI9v+nD0P@nvidia.com>
+ <d8a0352e-9e1d-5b01-7616-dccc73a172a6@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d8a0352e-9e1d-5b01-7616-dccc73a172a6@intel.com>
+X-ClientProxiedBy: CH2PR20CA0019.namprd20.prod.outlook.com
+ (2603:10b6:610:58::29) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DS7PR12MB6263:EE_
+X-MS-Office365-Filtering-Correlation-Id: 370d6fd0-dc20-4fb8-e6d4-08dabb97069b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YsKVJ6EAyQEFJUvZL8Vm8ERFzpnUzVfRYY1+0TYXhDOLip1I4C2S0Mp8pYywGorJn6l4eArTs1s7l7vi1vUdcVguh9LpB6awEBLciH9woNHzbDIKqr07UKihdVpn2JyBVKoZ/9SLx14np3n5ciS17X19Vf+NDm8QUql1bwr2yVcK74cJuxOnss8DZ3zrH+lQdVrf1Lhh9N8hh/DDWmiIoQJjT0GbFRgJZx7w9clZ3EfrLmoBSVmsmnhijqXFpw2GESiTTwxQPGML6lYMcExIyhiKPPkJEVSQk8xbikCduTxpww6yxlyAPgSFj2n0xHiJj/DdquUzKyeziS5YwLEDUhhAybL/+HZDowtq3RumcjFOQTM/jZQ+54WTtosU8oz4ifp4k2yaowuyDKpJvWBD0L5aGvXsDnhZL9lLCj/q5/xlZInERJEhqb+yC0E1ZaEZJxceK0v1ndyLXcbMTj2xAq2PcMwDSeqvLR2wxRKvLknz6+Whs34N5+l28lISPkoKMdX0iOEeMnBGqHgiuiRbu1FXp5pDc/2PD9fQW+bbsu1PR+WOYUg4Sp9wokJz55q2WPzErcGW9kLvzVrZf+ZtMpQH66iXqSGSf6E2y3yUS6z2xKlDCwe6e75IweCGKfS+sj5PEcp+0DftyHve+Jp7zAcyWf8gA0Dfk31UUIdo+7F8gXin6dfN4HAY9XrVXuSFg4/VkkLNC7vZKgyBXgIlbQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(39860400002)(346002)(136003)(366004)(396003)(451199015)(83380400001)(2906002)(38100700002)(478600001)(6916009)(66476007)(66556008)(66946007)(4326008)(8676002)(2616005)(186003)(41300700001)(7406005)(7416002)(86362001)(6486002)(5660300002)(36756003)(316002)(54906003)(6506007)(107886003)(6512007)(26005)(4744005)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EJHEKWVKqiWAi5oxg3sgj0Z94NxHiaxXW5xKJ0MzpHKanJMnssRnRSsnfD10?=
+ =?us-ascii?Q?PGJfmh0vOpw/Tz+Zf1CvlbjggkJDMmNRRBUaIgXCUiWMmOwpcDQofq4x5bfB?=
+ =?us-ascii?Q?rJoVjhcDrGrhPH8+2j89Gts8x764cx83Z00BY5WZJMrS/YSvs0Ix8XkRxoLT?=
+ =?us-ascii?Q?XnYOWqOxfq5+SS7ohtQjGfa1vAVUcU+Zv2B8qrZ8IAdkYwA0+LHloABChJWO?=
+ =?us-ascii?Q?oAytzkW70WaEFQeXHBtzgj8xXz174+Sy22VyNfaN4KtgKwcR6cTgEXU3tutf?=
+ =?us-ascii?Q?jmo1SrrFKDnIu8Jbvcpqh0N6xrBYHADDDGuiL2tSCGQOuW0JyilPAy147/FB?=
+ =?us-ascii?Q?5mfChpLps77oRfV6IPfhLmRWAJfsBTsIkpVdDuVnd4fFObg5PaUCDHTgyrYr?=
+ =?us-ascii?Q?9VG5aqRNN0G9nhZlSFxq6c/3vPiGILyv65F7xia0FQ3BolvG2o9czF6LbOIS?=
+ =?us-ascii?Q?h03KwM0/Al7Vxs07BupqXTVU1oyZdwgVLOtgQ0K0T9PTHgAAVY7BTWYpaEE/?=
+ =?us-ascii?Q?tjQUYDMXVNs/hTsuv5Jtx7aGLGEV4wKWoCfCn8oZJEG9yfkDI0kXGd+aGn10?=
+ =?us-ascii?Q?CiGBTSo/pS5gVVdWNAaYivp+OFu8tah+uUetCxfWLcyKWvnAIpcNkZVm9nMe?=
+ =?us-ascii?Q?VbyqSWhGtraZEHCic8aArB7UTa0R9A5TqeI28tW6hBXu/WXKR5Ezyuu6Mxlv?=
+ =?us-ascii?Q?0L9vWclLGW52RR3NP0JZDHKRAspm94AixgJQT1zidIdfLnZh1zbohx+p7bGm?=
+ =?us-ascii?Q?RuQ0BVrHOLcHaJCsVoVxn4AGgpP2tDjn1UF+ZsFFs6++3BUhBRqVlm5AkWFK?=
+ =?us-ascii?Q?DQlOQHN8ZgzL3tK2zpcVnXlRxcIjw1mfPlYInzl0Mf9n2rFg7As0MEQ5cuKv?=
+ =?us-ascii?Q?dbPNGD++QiBlekmpPNw90eUN0u5LZdbvaIrcfpNUmcxp7byEL3qzpWJET2QN?=
+ =?us-ascii?Q?PnP4/Glc8fsrJXoW9cqMooZLJFVubBprumQVHH+GEj5wXUwc2UNOEfEdyBFN?=
+ =?us-ascii?Q?kNZGmwFexcK+edCrRvY3B8yBJr6ulxLSArMW+jWfPM2n3S/Rdalg1OTN3OlN?=
+ =?us-ascii?Q?lBlFa3U4Ls5zkGzVNMgi4C0ezEmxQGnAEUSLc707PoxJK94LURgWN6aizxkQ?=
+ =?us-ascii?Q?Xxyrbca971pxDn3qdkhpwKD6N8/1AujKyJCfSkPGILwTj+vK+WwkXd0a/Khy?=
+ =?us-ascii?Q?S4o6+SpS3/oUksUoR4DFlJdUI4xCKvL+j4mshi+MVDo59Tu64iBFOchvgaYd?=
+ =?us-ascii?Q?fxEGyF1g8sifJ58E67MHXfZI3IljTvFNndsyEkaYKTliNiG+5dAMJoxtubDD?=
+ =?us-ascii?Q?nQh90i6TcmhEvU8qo5/+2gSF4b1xSzEGxpEg/t540M9dXs2Vv83VvbYG/equ?=
+ =?us-ascii?Q?M9MUWJz+CZKt4Oef1oiZNdHzPdkr6F7VlHKZ3F/L7uCLZrZpB3SaMb2wGA8K?=
+ =?us-ascii?Q?ECsgRvf8aQ01EUg0A9n5LZwQWVgDm3R5sYaKtKCryMdJrpUXnbf2RRfQJhHo?=
+ =?us-ascii?Q?n8dB8tbgygteUNjBqOdYohe/SvbhloKj8ccLk2xU0eL7ux14/BhxO0UvHnG+?=
+ =?us-ascii?Q?rs3YwUu+M2fcIWvL14+SzZcM0KBcCMEgFThUrheS?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 370d6fd0-dc20-4fb8-e6d4-08dabb97069b
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 23:24:15.4025 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vAxSics9McVZYP6+79aV0m3nd+2pVjVi83vK2DJIjEHyb+icTpeGBv3jE8q7tdjZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6263
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,213 +116,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: kvm@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
+ dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
+ iommu@lists.linux.dev, Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Oct 31, 2022 at 08:25:39PM +0800, Yi Liu wrote:
+> > There is something wrong with the test suite that it isn't covering
+> > the above, I'm going to look into that today.
+> 
+> sounds to be the cause. I didn't see any significant change in vfio_main.c
+> that may fail gvt. So should the iommufd changes. Then we will re-run the
+> test after your update.:-)
 
-If the hangcheck timer expires, check if the fw's position in the
-cmdstream has advanced (changed) since last timer expiration, and
-allow it up to three additional "extensions" to it's alotted time.
-The intention is to continue to catch "shader stuck in a loop" type
-hangs quickly, but allow more time for things that are actually
-making forward progress.
+I updated the github with all the changes made so far, it is worth
+trying again!
 
-Because we need to sample the CP state twice to detect if there has
-not been progress, this also cuts the the timer's duration in half.
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 34 +++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_drv.h         |  8 ++++++-
- drivers/gpu/drm/msm/msm_gpu.c         | 20 +++++++++++++++-
- drivers/gpu/drm/msm/msm_gpu.h         |  5 +++-
- drivers/gpu/drm/msm/msm_ringbuffer.h  | 24 +++++++++++++++++++
- 5 files changed, 88 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 1ff605c18ee6..3b8fb7a11dff 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1843,6 +1843,39 @@ static uint32_t a6xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 	return ring->memptrs->rptr = gpu_read(gpu, REG_A6XX_CP_RB_RPTR);
- }
- 
-+static bool a6xx_progress(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
-+{
-+	struct msm_cp_state cp_state = {
-+		.ib1_base = gpu_read64(gpu, REG_A6XX_CP_IB1_BASE),
-+		.ib2_base = gpu_read64(gpu, REG_A6XX_CP_IB2_BASE),
-+		.ib1_rem  = gpu_read(gpu, REG_A6XX_CP_IB1_REM_SIZE),
-+		.ib2_rem  = gpu_read(gpu, REG_A6XX_CP_IB2_REM_SIZE),
-+	};
-+	bool progress;
-+
-+	/*
-+	 * Adjust the remaining data to account for what has already been
-+	 * fetched from memory, but not yet consumed by the SQE.
-+	 *
-+	 * This is not *technically* correct, the amount buffered could
-+	 * exceed the IB size due to hw prefetching ahead, but:
-+	 *
-+	 * (1) We aren't trying to find the exact position, just whether
-+	 *     progress has been made
-+	 * (2) The CP_REG_TO_MEM at the end of a submit should be enough
-+	 *     to prevent prefetching into an unrelated submit.  (And
-+	 *     either way, at some point the ROQ will be full.)
-+	 */
-+	cp_state.ib1_rem += gpu_read(gpu, REG_A6XX_CP_CSQ_IB1_STAT) >> 16;
-+	cp_state.ib2_rem += gpu_read(gpu, REG_A6XX_CP_CSQ_IB1_STAT) >> 16;
-+
-+	progress = !!memcmp(&cp_state, &ring->last_cp_state, sizeof(cp_state));
-+
-+	ring->last_cp_state = cp_state;
-+
-+	return progress;
-+}
-+
- static u32 a618_get_speed_bin(u32 fuse)
- {
- 	if (fuse == 0)
-@@ -1961,6 +1994,7 @@ static const struct adreno_gpu_funcs funcs = {
- 		.create_address_space = a6xx_create_address_space,
- 		.create_private_address_space = a6xx_create_private_address_space,
- 		.get_rptr = a6xx_get_rptr,
-+		.progress = a6xx_progress,
- 	},
- 	.get_timestamp = a6xx_get_timestamp,
- };
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index efcd7260f428..970a1a0ab34f 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -226,7 +226,13 @@ struct msm_drm_private {
- 
- 	struct drm_atomic_state *pm_state;
- 
--	/* For hang detection, in ms */
-+	/**
-+	 * hangcheck_period: For hang detection, in ms
-+	 *
-+	 * Note that in practice, a submit/job will get at least two hangcheck
-+	 * periods, due to checking for progress being implemented as simply
-+	 * "have the CP position registers changed since last time?"
-+	 */
- 	unsigned int hangcheck_period;
- 
- 	/**
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 3dffee54a951..136f5977b0bf 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -500,6 +500,21 @@ static void hangcheck_timer_reset(struct msm_gpu *gpu)
- 			round_jiffies_up(jiffies + msecs_to_jiffies(priv->hangcheck_period)));
- }
- 
-+static bool made_progress(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
-+{
-+	if (ring->hangcheck_progress_retries >= DRM_MSM_HANGCHECK_PROGRESS_RETRIES)
-+		return false;
-+
-+	if (!gpu->funcs->progress)
-+		return false;
-+
-+	if (!gpu->funcs->progress(gpu, ring))
-+		return false;
-+
-+	ring->hangcheck_progress_retries++;
-+	return true;
-+}
-+
- static void hangcheck_handler(struct timer_list *t)
- {
- 	struct msm_gpu *gpu = from_timer(gpu, t, hangcheck_timer);
-@@ -511,9 +526,12 @@ static void hangcheck_handler(struct timer_list *t)
- 	if (fence != ring->hangcheck_fence) {
- 		/* some progress has been made.. ya! */
- 		ring->hangcheck_fence = fence;
--	} else if (fence_before(fence, ring->fctx->last_fence)) {
-+		ring->hangcheck_progress_retries = 0;
-+	} else if (fence_before(fence, ring->fctx->last_fence) &&
-+			!made_progress(gpu, ring)) {
- 		/* no progress and not done.. hung! */
- 		ring->hangcheck_fence = fence;
-+		ring->hangcheck_progress_retries = 0;
- 		DRM_DEV_ERROR(dev->dev, "%s: hangcheck detected gpu lockup rb %d!\n",
- 				gpu->name, ring->id);
- 		DRM_DEV_ERROR(dev->dev, "%s:     completed fence: %u\n",
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 585fd9c8d45a..d8f355e9f0b2 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -78,6 +78,8 @@ struct msm_gpu_funcs {
- 	struct msm_gem_address_space *(*create_private_address_space)
- 		(struct msm_gpu *gpu);
- 	uint32_t (*get_rptr)(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
-+
-+	bool (*progress)(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
- };
- 
- /* Additional state for iommu faults: */
-@@ -236,7 +238,8 @@ struct msm_gpu {
- 	 */
- #define DRM_MSM_INACTIVE_PERIOD   66 /* in ms (roughly four frames) */
- 
--#define DRM_MSM_HANGCHECK_DEFAULT_PERIOD 500 /* in ms */
-+#define DRM_MSM_HANGCHECK_DEFAULT_PERIOD 250 /* in ms */
-+#define DRM_MSM_HANGCHECK_PROGRESS_RETRIES 3
- 	struct timer_list hangcheck_timer;
- 
- 	/* Fault info for most recent iova fault: */
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 2a5045abe46e..e3d33bae3380 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -35,6 +35,11 @@ struct msm_rbmemptrs {
- 	volatile u64 ttbr0;
- };
- 
-+struct msm_cp_state {
-+	uint64_t ib1_base, ib2_base;
-+	uint32_t ib1_rem, ib2_rem;
-+};
-+
- struct msm_ringbuffer {
- 	struct msm_gpu *gpu;
- 	int id;
-@@ -64,6 +69,25 @@ struct msm_ringbuffer {
- 	uint64_t memptrs_iova;
- 	struct msm_fence_context *fctx;
- 
-+	/**
-+	 * hangcheck_progress_retries:
-+	 *
-+	 * The number of extra hangcheck duration cycles that we have given
-+	 * due to it appearing that the GPU is making forward progress.
-+	 *
-+	 * If the GPU appears to be making progress (ie. the CP has advanced
-+	 * in the command stream, we'll allow up to DRM_MSM_HANGCHECK_PROGRESS_RETRIES
-+	 * expirations of the hangcheck timer before killing the job.  In other
-+	 * words we'll let the submit run for up to
-+	 * DRM_MSM_HANGCHECK_DEFAULT_PERIOD *  DRM_MSM_HANGCHECK_PROGRESS_RETRIES
-+	 */
-+	int hangcheck_progress_retries;
-+
-+	/**
-+	 * last_cp_state: The state of the CP at the last call to gpu->progress()
-+	 */
-+	struct msm_cp_state last_cp_state;
-+
- 	/*
- 	 * preempt_lock protects preemption and serializes wptr updates against
- 	 * preemption.  Can be aquired from irq context.
--- 
-2.37.3
-
+Thanks,
+Jason
