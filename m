@@ -1,135 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2353C61330A
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 10:49:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C724613324
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 10:58:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BECB10E17D;
-	Mon, 31 Oct 2022 09:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9588810E181;
+	Mon, 31 Oct 2022 09:58:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFA310E17D;
- Mon, 31 Oct 2022 09:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667209779; x=1698745779;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=MxtXez7LHRGM1RUawtz9phUPnSzyxs+1nEpHnnD32MA=;
- b=HgFGPHL5K7YsKBmLtIT8PvBKuIBoXqbVN0HxaKmC7dOICiwLP+NCdZpW
- difG1hw01QzWVxdVUU/NqvI9Lj1TTwdIEs3zVFwuKFGI+sExm9nChJUBy
- p2BFIhx0B7EoHSxYfMepzViI1dhxjcy+4jpUg6/60d5ToIfnk62pCqLTp
- KdzfCW7Tjs5cxnCdaHjPjdUztfiuBKB59F6CghudZzJw6p0JFQXTJOTHE
- zSICJjpj/DjYizg95zYdUFN2cr9HrnCJTRUrdS30eVKCqX1DtVmwkBPvN
- 5flmbV9pCNf57e2rk0ew1SbPripwmLNt0hfEkNNq+iFT7BZ+d/56xBOOA w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="395173389"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="395173389"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2022 02:49:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="808497121"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="808497121"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga005.jf.intel.com with ESMTP; 31 Oct 2022 02:49:38 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 31 Oct 2022 02:49:38 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 31 Oct 2022 02:49:37 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 31 Oct 2022 02:49:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C87wvSyewVbiSOc4dqXfztRF5VYW+WP2OQ5Y82gAR6iW85KvKgnHosKTolg06TB3XKw9I3mRMeZM+7MNBufxtazsaekMmGNGjBN/3zLEihMzlHsKrAcL6Tt4TZGYW/OxmPHQ8VWnzWkLxhATAINigD08BSLX5DxiFfSIHR5umzq6GwPXaHVkHrf3xfb5eQsgJR9NW0Z9Jc276X9fytqeAegTtNAvbn8qg3Fs1x9t+xsNmn4GRn39ZiDzCbDAvyT0RzB5iTg6oqOAIAt1I6zRuR+z7jEBJH0sc4ySQ3HMBHDRqW5P3mnukbFsOuqgj9TlVAQKM66c9+l7o9BEDoFLAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZDvxsrtTqwivkzyK5UrP6+1Pz03xxjV+glVmg63LmF4=;
- b=ZQ9GcLHPUnLOnKHBNSD3/XHy6B9G/lcYOX0ovUhaA+AKAZ/8OOB61kGSGs148e2JMqhOsEu+vjIN6EE1M2Et5BRxvH2F0rBBFi9hJJh7ylgGmXsORJzK7+XmzRbZQW2JSZYsgmla3TXmdFh0e+Oy5qZTcTSH/4g53qNvb1BAY7e0s4TERHlVUHCN2VkDEF1xvvWdh5xdAMZbNsTD8SWQJHKi7/jm4dv+VpVvoE/GoxmNzERcxd8VfqkV3L8sYSZNeeZW+qUaLpGsLgEqjdhHQaaZxwwNK4prfEY3SjoqqglW2V+yiwc5Fc3g3QWsxjgucHmwVOK/fAbKD1TxE/NGlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by MW5PR11MB5764.namprd11.prod.outlook.com (2603:10b6:303:197::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.15; Mon, 31 Oct
- 2022 09:49:36 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::29e1:56c3:823b:45d]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::29e1:56c3:823b:45d%4]) with mapi id 15.20.5769.015; Mon, 31 Oct 2022
- 09:49:35 +0000
-Date: Mon, 31 Oct 2022 05:49:30 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>, <ashutosh.dixit@intel.com>
-Subject: Re: [PATCH] drm/i915/mtl: Add MC6 Wa_14017210380 for SAMedia
-Message-ID: <Y1+aKo29GfuJ/8PS@intel.com>
-References: <20221028192935.1458271-1-badal.nilawar@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221028192935.1458271-1-badal.nilawar@intel.com>
-X-ClientProxiedBy: BYAPR02CA0028.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::41) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A193210E181
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 09:58:21 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id y14so28012897ejd.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 02:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pBO//+hBRlM60htduQj/FFZSkV2CgCB2Q0ldC9TC1NE=;
+ b=YC3Y0ahAxRyQuL7vmZAbcu2UyeWltPUnhdKm9gkv3ERZedVU4aLg61NU9XiNerq5v4
+ F3Qlvy1n2WAcmE2bVb++xIyGYkaFyfxu2HmiXIGszgHdcLfT5hi00sDXBnYXTYDL6v63
+ TREJcUWu7YAUgYpsq0LOliVEGtEt8wqZK4i451HOLn2B+18Zd+fgkQKVmt0CICj+PSzJ
+ TMOzaCS+g8a4skIb9gurRthiqTNoQZ4EZ45QSikDRSJ4jg23YoD25Lxnpb69t/IBwcHW
+ 12PucZvtauFdOse5yAP4sjRn0gZJjeUIgsfbhO+09bSImuwaNiu0BlXTbaTyziWJiL+J
+ 8Mdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:from:references:cc:to:subject
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pBO//+hBRlM60htduQj/FFZSkV2CgCB2Q0ldC9TC1NE=;
+ b=lsqS/WS1FatB+rwgRdUTwbH/++wZ/tohfi/et/pxZhsikgKRNrz8rpGG1/JJgjZfGY
+ GIWTb5ZdoUVg4VevF9oxbo3z/iQoex1xvtCzQHFYmU/Cb1xIKs8M87jrBrEHEjDcyHpJ
+ IZR55aTtTP3ywNyMKRsTo8DllYzhbt6fQdm/sTrKRY/N6wWaWlFIozszvB77ALlf9JC5
+ A+eY93cCMqQRE2E13/sz6wtnXgrMGyk2x8AGkfaMyvEodmewN/2S1XN6NitcPvNrLq1j
+ bEM6zXjqdpIz0xY2Guzv9CS0ih1TXaCZDOt57eKbw9oF9sSJEjx4bglxj5z1jlF423QW
+ dM5g==
+X-Gm-Message-State: ACrzQf0VErzWM4AiRG2Jl2Bvi/p/E1iNhiKg49jaIEmbwlJMOmEspF1v
+ 29Ol3tuPcUKneMsl2/Bf2gqrLo4XTYS7ug==
+X-Google-Smtp-Source: AMsMyM45t4BSfhyHt0xXYSSHzAQ6glYOUnyjRGG5/1vSL01RCByog4Hba2jNLcbOdh0oSovTx331kQ==
+X-Received: by 2002:a17:906:846d:b0:7ad:90dd:4b6 with SMTP id
+ hx13-20020a170906846d00b007ad90dd04b6mr11753567ejc.492.1667210300045; 
+ Mon, 31 Oct 2022 02:58:20 -0700 (PDT)
+Received: from [192.168.1.10] ([46.249.74.23])
+ by smtp.googlemail.com with ESMTPSA id
+ t16-20020aa7db10000000b00461aebb2fe2sm3034852eds.54.2022.10.31.02.58.18
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 31 Oct 2022 02:58:19 -0700 (PDT)
+Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
+ DMM/TILER
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <4B3F8E50-3472-4AED-9A77-3E265DF8C928@goldelico.com>
+ <0000784a-ae89-1081-0ec7-fc77d3381545@gmail.com>
+ <F3F3E8E1-7907-46A4-A670-CAEF6C3DB083@goldelico.com>
+ <A2089A8A-69D3-4825-B400-8EB382DC9955@goldelico.com>
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <d4a5afcc-9ee0-208c-82ad-11ccd0e316b5@gmail.com>
+Date: Mon, 31 Oct 2022 11:58:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MW5PR11MB5764:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b0eb701-6b56-4202-088a-08dabb2537d8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2cd/4Fgclp/sx8e5DotfgYzBaTEx1YBvpN7sRo6AfjZy+mCZtTKkjr1mPlRV8uJt8Blb4ZPDRbonUVb3IHg+DLx0vyIeUbd8NPqNZYXbIMBvwYw0OGfkRGTyUCEOVfFSLd++/8VXHd/WttfNnrV+up/ckadCIwahea179znrPvk6/KsKDRTIYHe2p1RlroVfnJ/pURWEurH/UGGQDJkWywNSI7bV1XxQfVFbhcGn4MKoTz75sHvSXQSZSx0iGv7QnoxgtbLMIWHD9dkRYny05NKLd/8AKnaTyR93D1BsQHrcYXnuqt5wPuZNs/JajwG4kcn59sQH8A9AuoCa8Q22/m846+eA7eH+jJF0NdLBoXbfLgjGNK8Qsa8+uVd/LZPufsXZ8teYovlvvptu4xJM1KASE3bi92okS/w+fA17ZT3WEz/Yu8KHNhY4vffpIxGH+eq3leX+xVd3uvK0717nLf8jiKlmfN5rcTskKD8Yu9JTf/mWZjDDykf3gTFMqvjxCxuT8Zy1o80WNOL35dR8hWB7TjD+x/XgjF6hURIIz452hvQ8pARuV9I5ehW/ik//afKTZtMJU4p8HrC+pQx1GFEyrh3gCFhwMf/YpBVSk/kcluLRKyMP5HSKD4Dg5+LMsqa5P0lu19PC5JH5irKeVgqFsk/3hJbilmJxeUQpYY7M9LB5OU06p56z/K/3xGwQAWr+VRnndGd8tGIaqPXu4A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(346002)(136003)(366004)(396003)(39860400002)(451199015)(6512007)(6506007)(2616005)(26005)(6666004)(186003)(107886003)(83380400001)(2906002)(478600001)(44832011)(8676002)(6636002)(316002)(450100002)(8936002)(6486002)(66556008)(66946007)(66476007)(41300700001)(5660300002)(4326008)(86362001)(36756003)(38100700002)(82960400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jH6r9kWusNSk+iXwMMkpG8l8ygT98e6VMRCw9uqPIdo5ePaq4gZbOpe1AAzr?=
- =?us-ascii?Q?RGnfyB1KZoaERpxR65spyB66yGLOHuqPSVs1pTRiCU/GI2CizvC7ZbO7JlCt?=
- =?us-ascii?Q?HHJsM36cp7S/UM/PWEP6xG3nncpmVSRB8HzpaBWrLaLZX+G+SPEINnMm3qJt?=
- =?us-ascii?Q?MQI18yZdQHpkFcW5e9owKjEzvfKhdiR8ApTjkAeeWsM/omvxeNnQ5LUwSAx1?=
- =?us-ascii?Q?t84tgTyidDnuNyFwLg8Gld3DJnA9zTCYdIpFLbUYY6z9X7JucTSGSqJLhpm0?=
- =?us-ascii?Q?SWnXFJ3PKaxDtqae6Pg51LD3RCGPvNsCJB0lWM9qBthIqOCJ8Zkkp9RGmunX?=
- =?us-ascii?Q?SE5N/BUf8akeaRyZHXcqaGPTxiLuHKJpKHL1XT0DL4/iqkhQUjxu2tijt+Pc?=
- =?us-ascii?Q?ulILRK/HCKCKJBtIACmWIGRzGupZOVoFPh5nVQaNYGvjbsjDPard6g3Y45Tn?=
- =?us-ascii?Q?kAnzgFHUpr7px0qMflXJVycfHsSK/BF34dBrVNFEx6KExodWXGjquwpEyoz/?=
- =?us-ascii?Q?V+rpUI/5m26ZbiZxek0kt7uzzOVYv5gtCTOhPE05JgRvYJqbexQgrFRrn+r6?=
- =?us-ascii?Q?TTD0ucX7jrWZTdSA/TvwnDiNinfD37oJcE6Yx/rgZcRuaxBKQ6LM0J+/Ud5N?=
- =?us-ascii?Q?KZjUE3SQVKlzpwXLb147Byb5H+vkahyhSlNQwLJgDURma7enxzJpyeqD99EN?=
- =?us-ascii?Q?C2qeVCqaQfHVPnzauwQ7JFhcPE5BYZkL9LO9yX2U3CCuLKtaWH6/QEFm5bB+?=
- =?us-ascii?Q?mluaY6RhSkgsnpicQjnrtmFy/+F2oXvszasB5cC738Oz9EDdT2vOrkqy7eaS?=
- =?us-ascii?Q?sCFmhkw47MTKZRzV+UmrEiA33vvG5tEJC0K8c0H/wE6N/3a68wyMurqGr3qS?=
- =?us-ascii?Q?9v2DIKjh4eyaPUxywibrenNuCpW6qv8jDMVof+eMfFUec6ivCazr3tKR7B+H?=
- =?us-ascii?Q?gNFxABfF2Pc/EuOfSQDzWGLFkuJligKRVPSCpXU4C6hGCpEk+IgYL9sB8Z3T?=
- =?us-ascii?Q?SbkUF3Ja5jZ9MY+HrjRqdRJ/Po5eIn+DCUmM6R2VkZUncFMLmTkhqpv2UTGy?=
- =?us-ascii?Q?Miw8ko/I9TbvWLV41Tz2VVJPbsCThVYpmBGzyQspUMHP0j/Tq5BNL3DUgJgH?=
- =?us-ascii?Q?NkHi0T3S0ujtjRpp5igxZdKyE4LqqG1iSL31Cus0Rijz4AThm81TYdO0WThS?=
- =?us-ascii?Q?f+6/hyOr5k4d7Cg6EDfIE+Ewgol0GyEYuhBFYBBDQJfWB0fqb6/73c02lmZl?=
- =?us-ascii?Q?sW8B3V8S9miCmARRnZCybEx47dzjqTHV4LYy8SeNA4ayUHlE7k093XZL9X6K?=
- =?us-ascii?Q?ju6BMe/0QYxY1VMM+EtLpJ7T30ZwvwcSiFVEfJgoj0M4T7HcDyxcOVSzigcs?=
- =?us-ascii?Q?lxydb6lJIMFZkbAvbmFt3EQ3mxOezNZhY27GuMeCwP965hflv7dJEQPIoNik?=
- =?us-ascii?Q?CA2yCSj/NSvVpZBfC2Pa/ICGeks32tJjkeY1qziSnLY5t3EYU4Qxee/zzDKw?=
- =?us-ascii?Q?9CyaYH1Uk9HorBNa7wH2M76rDXx1W8kZmrzDissDBrED8/QNbQ5cHPPM75o8?=
- =?us-ascii?Q?udnsdnNXTcVYfeCMAcTgNyB6pqWTgysJojoN5D3IEAIxSc8Ko2ZBUjOf1/EN?=
- =?us-ascii?Q?Sw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b0eb701-6b56-4202-088a-08dabb2537d8
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 09:49:35.7555 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /9w3IoP3Be14EWT8UFq6yq8z47AcYvnee55JGvH2ZVbkWn2vPB8HGnIiUu0v/In1KyG1pZJyq+MIJ2LmJDanrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5764
-X-OriginatorOrg: intel.com
+In-Reply-To: <A2089A8A-69D3-4825-B400-8EB382DC9955@goldelico.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,172 +80,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anshuman.gupta@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, ashutosh.dixit@intel.com, jon.ewins@intel.com,
- daniele.ceraolospurio@intel.com, vinay.belgaumkar@intel.com
+Cc: tomba@kernel.org, Tony Lindgren <tony@atomide.com>, merlijn@wizzup.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@linux.ie, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 29, 2022 at 12:59:35AM +0530, Badal Nilawar wrote:
-> This workaround is added for Media Tile of MTL A step. It is to help
-> pcode workaround which handles the hardware bug seen on CXL splitter
-> during package C2/C3 transitins due to MC6 entry/exit. As a part of
-> workaround pcode expect kmd to send mailbox message "media busy" when
-> components of Media tile is in use and "media not busy" when not in use.
-> As per workaround description gucrc need to be disabled so enabled
-> host based RC for Media tile.
+
+
+On 31.10.22 г. 9:57 ч., H. Nikolaus Schaller wrote:
 > 
-> HSD: 14017210380
 > 
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c     | 33 +++++++++++++++++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c | 13 ++++++++-
->  drivers/gpu/drm/i915/i915_drv.h           |  4 +++
->  drivers/gpu/drm/i915/i915_reg.h           |  9 +++++++
->  4 files changed, 58 insertions(+), 1 deletion(-)
+>> Am 31.10.2022 um 08:44 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+>>
+>> Hi Ivaylo,
+>>
+>>> Am 31.10.2022 um 08:05 schrieb Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>:
+>>>
+>>> HI Nikolaus,
+>>>
+>>> On 31.10.22 г. 0:08 ч., H. Nikolaus Schaller wrote:
+>>>> Hi Ivaylo,
+>>>> it took a while until I found time to test newer kernels (mainline + Letux additions)
+>>>> on the OMAP5 Pyra but unfortunately I did not get screen display for v6.1. Even worse,
+>>>> the console was flooded by
+>>>
+>>> Could you elaborate on that - do you have anything on the display (during boot or dunno). Do you have simplefb enabled, so boot log to be visible on the display?
+>>
+>> No bootlog enabled but I have some printk in the panel driver. It is initially enabled, then disabled and enabled again. Then the issues start...
+>>
+>>> Is that wayland you are trying to run? Do you have PVR driver enabled? Did you try to boot vanilla kernel?
+>>
+>> I have tested with Debian Stretch with standard Xorg with "omap" driver. PVR is not enabled.
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index f553e2173bda..398dbeb298ca 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -19,10 +19,37 @@
->  #include "intel_rc6.h"
->  #include "intel_rps.h"
->  #include "intel_wakeref.h"
-> +#include "intel_pcode.h"
->  #include "pxp/intel_pxp_pm.h"
->  
->  #define I915_GT_SUSPEND_IDLE_TIMEOUT (HZ / 2)
->  
-> +/*
-> + * Wa_14017210380: mtl
-> + */
-> +
-> +static bool mtl_needs_media_mc6_wa(struct intel_gt *gt)
+> Have cross-checked: my setup uses the fbdev driver.
+> 
 
-+Ashutosh since we recently discussed about the term "MC6".
+omapfb and not omapdrm? or I am missing something.
 
-in that discussion we have concluded to not introduce a new term
-since it is not used in any kind of spec and might only bring
-more doubts then answers, although "Render" in the media gt
-makes no sense as well.
-
-In the end, most of the code is common and is called as rc6.
-so we should maybe s/mc6/media_rc6 here?
-
-The rest of the patch looks good to me. But we need to check the IGT
-failure on a pm related test that failed... just to be sure.
-
-> +{
-> +	return (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
-> +		gt->type == GT_MEDIA);
-> +}
-> +
-> +static void mtl_mc6_wa_media_busy(struct intel_gt *gt)
-> +{
-> +	if (mtl_needs_media_mc6_wa(gt))
-> +		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
-> +				  PCODE_MBOX_GT_STATE_MEDIA_BUSY,
-> +				  PCODE_MBOX_GT_STATE_DOMAIN_MEDIA, 0);
-> +}
-> +
-> +static void mtl_mc6_wa_media_not_busy(struct intel_gt *gt)
-> +{
-> +	if (mtl_needs_media_mc6_wa(gt))
-> +		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
-> +				  PCODE_MBOX_GT_STATE_MEDIA_NOT_BUSY,
-> +				  PCODE_MBOX_GT_STATE_DOMAIN_MEDIA, 0);
-> +}
-> +
->  static void user_forcewake(struct intel_gt *gt, bool suspend)
->  {
->  	int count = atomic_read(&gt->user_wakeref);
-> @@ -70,6 +97,9 @@ static int __gt_unpark(struct intel_wakeref *wf)
->  
->  	GT_TRACE(gt, "\n");
->  
-> +	/* Wa_14017210380: mtl */
-> +	mtl_mc6_wa_media_busy(gt);
-> +
->  	/*
->  	 * It seems that the DMC likes to transition between the DC states a lot
->  	 * when there are no connected displays (no active power domains) during
-> @@ -119,6 +149,9 @@ static int __gt_park(struct intel_wakeref *wf)
->  	GEM_BUG_ON(!wakeref);
->  	intel_display_power_put_async(i915, POWER_DOMAIN_GT_IRQ, wakeref);
->  
-> +	/* Wa_14017210380: mtl */
-> +	mtl_mc6_wa_media_not_busy(gt);
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> index 8f8dd05835c5..cc6356ff84a5 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> @@ -11,9 +11,20 @@
->  
->  static bool __guc_rc_supported(struct intel_guc *guc)
->  {
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +
-> +	/*
-> +	 * Wa_14017210380: mtl
-> +	 * Do not enable gucrc to avoid additional interrupts which
-> +	 * may disrupt pcode wa.
-> +	 */
-> +	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
-> +	    gt->type == GT_MEDIA)
-> +		return false;
-> +
->  	/* GuC RC is unavailable for pre-Gen12 */
->  	return guc->submission_supported &&
-> -		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
-> +		GRAPHICS_VER(gt->i915) >= 12;
->  }
->  
->  static bool __guc_rc_selected(struct intel_guc *guc)
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 05b3300cc4ed..659b92382ff2 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -740,6 +740,10 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  #define IS_XEHPSDV_GRAPHICS_STEP(__i915, since, until) \
->  	(IS_XEHPSDV(__i915) && IS_GRAPHICS_STEP(__i915, since, until))
->  
-> +#define IS_MTL_GRAPHICS_STEP(__i915, variant, since, until) \
-> +	(IS_SUBPLATFORM(__i915, INTEL_METEORLAKE, INTEL_SUBPLATFORM_##variant) && \
-> +	 IS_GRAPHICS_STEP(__i915, since, until))
-> +
->  /*
->   * DG2 hardware steppings are a bit unusual.  The hardware design was forked to
->   * create three variants (G10, G11, and G12) which each have distinct
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 1c0da50c0dc7..abe62cea083d 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -6678,6 +6678,15 @@
->  /*   XEHP_PCODE_FREQUENCY_CONFIG param2 */
->  #define     PCODE_MBOX_DOMAIN_NONE		0x0
->  #define     PCODE_MBOX_DOMAIN_MEDIAFF		0x3
-> +
-> +/* Wa_14017210380: mtl */
-> +#define   PCODE_MBOX_GT_STATE			0x50
-> +/* sub-commands (param1) */
-> +#define     PCODE_MBOX_GT_STATE_MEDIA_BUSY	0x1
-> +#define     PCODE_MBOX_GT_STATE_MEDIA_NOT_BUSY	0x2
-> +/* param2 */
-> +#define     PCODE_MBOX_GT_STATE_DOMAIN_MEDIA	0x1
-> +
->  #define GEN6_PCODE_DATA				_MMIO(0x138128)
->  #define   GEN6_PCODE_FREQ_IA_RATIO_SHIFT	8
->  #define   GEN6_PCODE_FREQ_RING_RATIO_SHIFT	16
-> -- 
-> 2.25.1
+>> And without your patch everything is fine on all kernels since 4.something.
+>>
+>> Vanilla kernel can not be booted on that machine - there is not even a device tree...
+>>
+>>>
+>>>> [   39.419846] WARNING: CPU: 0 PID: 3673 at drivers/bus/omap_l3_noc.c:139 l3_interrupt_handler+0x23c/0x330
+>>>> [   39.429914] 44000000.l3-noc:L3 Custom Error: MASTER MPU TARGET GPMC (Idle): Data Access in Supervisor mode during Functional access
+>>>> ...
+>>>
+>>> I have no idea what that error is supposed to mean. @Tony?
+>>
+>> A coincidence is that the display is sometimes showing some artistic patterns. So maybe DMA accesses non-existing memory?
+>>
+>>>
+>>>> making the system unuseable.
+>>>> After doing some manual bisect by installing different kernel versions on the boot SD card,
+>>>> I was able to identify that it crept in between v5.18 and v5.19-rc1. A git bisect on this
+>>>> range (adding Letux patches on top of each bisect base) did reveal this patch as the first bad one.
+>>>> After reverting it seems as if I can use any v5.19 .. v6.1-rc2 kernel without issues.
+>>>> Now I wonder why this patch breaks my system?
+>>>
+>>> A wild guess - omap5 has some cache issues (as is visible from 7cb0d6c17b96b8bf3c25de2dfde4fdeb9191f4c3), which lead to the above. Before the patch *all* access to the BO backing memory was done through TILER/DMM, mitigating the issue. After the patch, whoever tries to render to non-scanout buffer is doing it directly to the memory, causing the issue.
+>>>
+>>> Another possibility - someone assumes that memory is always linear, which is true when it is accessed through DMM, but it is not after the patch. Do you have my "drm: pvrsgx: dmabuf import - Do not assume scatterlist memory is contiguous" patch in your PVR driver? Maybe there is another driver that lacks similar patch.
+>>
+>> Yes, it is included.
+>>
+>> Best regards,
+>> Nikolaus
+>>
+>>>
+>>> Regards,
+>>> Ivo
+>>>
+>>>> BR and thanks,
+>>>> Nikolaus
+>>>>> Am 19.01.2022 um 11:23 schrieb Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>:
+>>>>>
+>>>>> On devices with DMM, all allocations are done through either DMM or TILER.
+>>>>> DMM/TILER being a limited resource means that such allocations will start
+>>>>> to fail before actual free memory is exhausted. What is even worse is that
+>>>>> with time DMM/TILER space gets fragmented to the point that even if we have
+>>>>> enough free DMM/TILER space and free memory, allocation fails because there
+>>>>> is no big enough free block in DMM/TILER space.
+>>>>>
+>>>>> Such failures can be easily observed with OMAP xorg DDX, for example -
+>>>>> starting few GUI applications (so buffers for their windows are allocated)
+>>>>> and then rotating landscape<->portrait while closing and opening new
+>>>>> windows soon results in allocation failures.
+>>>>>
+>>>>> Fix that by mapping buffers through DMM/TILER only when really needed,
+>>>>> like, for scanout buffers.
+>>>>>
+>>>>> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>>>>> ---
+>>>>> drivers/gpu/drm/omapdrm/omap_gem.c | 12 ++++++++----
+>>>>> 1 file changed, 8 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
+>>>>> index 41c1a6d..cf57179 100644
+>>>>> --- a/drivers/gpu/drm/omapdrm/omap_gem.c
+>>>>> +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
+>>>>> @@ -821,10 +821,12 @@ int omap_gem_pin(struct drm_gem_object *obj, dma_addr_t *dma_addr)
+>>>>> 			if (ret)
+>>>>> 				goto fail;
+>>>>>
+>>>>> -			if (priv->has_dmm) {
+>>>>> -				ret = omap_gem_pin_tiler(obj);
+>>>>> -				if (ret)
+>>>>> -					goto fail;
+>>>>> +			if (omap_obj->flags & OMAP_BO_SCANOUT) {
+>>>>> +				if (priv->has_dmm) {
+>>>>> +					ret = omap_gem_pin_tiler(obj);
+>>>>> +					if (ret)
+>>>>> +						goto fail;
+>>>>> +				}
+>>>>> 			}
+>>>>> 		} else {
+>>>>> 			refcount_inc(&omap_obj->pin_cnt);
+>>>>> @@ -861,6 +863,8 @@ static void omap_gem_unpin_locked(struct drm_gem_object *obj)
+>>>>> 			kfree(omap_obj->sgt);
+>>>>> 			omap_obj->sgt = NULL;
+>>>>> 		}
+>>>>> +		if (!(omap_obj->flags & OMAP_BO_SCANOUT))
+>>>>> +			return;
+>>>>> 		if (priv->has_dmm) {
+>>>>> 			ret = tiler_unpin(omap_obj->block);
+>>>>> 			if (ret) {
+>>>>> -- 
+>>>>> 1.9.1
+>>>>>
+>>
 > 
