@@ -1,73 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC69B613454
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 12:14:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7452661348C
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 12:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C9B10E066;
-	Mon, 31 Oct 2022 11:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D911710E19B;
+	Mon, 31 Oct 2022 11:33:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88FFE10E066
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 11:14:35 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id z14so15446049wrn.7
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 04:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m9bbGo0bvK6KW8lmRDeE10oRwrE5N7HeEJNDkRQyO8A=;
- b=WlQA7cWjwEb+Xdd5jtfQ912UBKuCDuH5SlcDmbcO9sHxyPWBlv0pr7XseAS1DU3+QI
- jao6daZ/G2L+o2hFwCQBVmiA3632G+JqYnBpyCMez9moZfFDeTDA9sQSp5qTOTD+Mh/Q
- 4JrtfdAhhByjPfbXS35SiQ7SW09/6H9ulxDXBgj3ddtz7A//4lyxjvn2FBX1LxwigPOE
- apbmT+pkDD6Xl+xOVsRUBqgnBxaMGDNBADOnQU7SnL0+OwEE+GCDGKh8aHhoL+fakbeQ
- SDXv2qJlrCby362um47ZwlK4kX6actxGQ0ksi+rFDqvtYIODILVEiIqnUmJFesGTOReo
- M7KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=m9bbGo0bvK6KW8lmRDeE10oRwrE5N7HeEJNDkRQyO8A=;
- b=y5qTBw67fi0bDgccCt4uCTeRMTuWFveAszj2gi8kxWbNswcMKBZVGY3WGLpWYtm4q4
- BqAl0RLo74ZjpmqRXpEwJD/75xT0ytxP1EmoloboCeY4hyhMeCCw1qGvewYjmoVG5nfE
- fJWmFhkm6bwR+e9SU2/Fs1mfhGYA37tpEqMI0xM9E/VfGdbGUhfGPzWLY2nWzqgsKRUY
- tzma1WXXwkHiL8dfCNSW1a8gOsR748obu1SyqdROfteU8OlblVttC4i4STyBcsNaOk6l
- NtdDcknPkdcqUcZ9php0H0KG0fks2aWd+0R+5D/IzjNOyc54TSnoMpoXMcsln7qSIWUW
- lHXQ==
-X-Gm-Message-State: ACrzQf32YsCxncXfjN90GbTzvqN5PBL0gTUm2lrN4le74+uhD15LYszK
- pwXaxdk0/in2Ei9r/3hWhQs=
-X-Google-Smtp-Source: AMsMyM6e2wBSZmbNMzzhU5zkyKz9QkfZfTr0UqJoQ8AgVgL5qpBKKqLziz5rnQeg3xP+GQf7IWZeLw==
-X-Received: by 2002:adf:c582:0:b0:22b:3c72:6b81 with SMTP id
- m2-20020adfc582000000b0022b3c726b81mr7784585wrg.320.1667214874081; 
- Mon, 31 Oct 2022 04:14:34 -0700 (PDT)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id
- o18-20020a05600c511200b003c6c3fb3cf6sm7976775wms.18.2022.10.31.04.14.33
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 31 Oct 2022 04:14:33 -0700 (PDT)
-Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
- DMM/TILER
-To: Tony Lindgren <tony@atomide.com>, "H. Nikolaus Schaller"
- <hns@goldelico.com>
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <4B3F8E50-3472-4AED-9A77-3E265DF8C928@goldelico.com>
- <0000784a-ae89-1081-0ec7-fc77d3381545@gmail.com>
- <Y1+f0zG50ZR4aWGX@atomide.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <108e96f7-d86a-2c1e-1a6a-c0ed02667719@gmail.com>
-Date: Mon, 31 Oct 2022 13:14:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3ABF10E19B
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 11:33:54 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N19rz67Rwz15MD5;
+ Mon, 31 Oct 2022 19:28:51 +0800 (CST)
+Received: from cgs.huawei.com (10.244.148.83) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 31 Oct 2022 19:33:50 +0800
+From: Gaosheng Cui <cuigaosheng1@huawei.com>
+To: <christian.koenig@amd.com>, <ray.huang@amd.com>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <airlied@redhat.com>, <cuigaosheng1@huawei.com>
+Subject: [PATCH] drm/ttm: fix undefined behavior in bit shift for
+ TTM_TT_FLAG_PRIV_POPULATED
+Date: Mon, 31 Oct 2022 19:33:50 +0800
+Message-ID: <20221031113350.4180975-1-cuigaosheng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <Y1+f0zG50ZR4aWGX@atomide.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.244.148.83]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +46,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomba@kernel.org, airlied@linux.ie, merlijn@wizzup.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Shifting signed 32-bit value by 31 bits is undefined, so changing
+significant bit to unsigned. The UBSAN warning calltrace like below:
 
+UBSAN: shift-out-of-bounds in ./include/drm/ttm/ttm_tt.h:122:26
+left shift of 1 by 31 places cannot be represented in type 'int'
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x7d/0xa5
+ dump_stack+0x15/0x1b
+ ubsan_epilogue+0xe/0x4e
+ __ubsan_handle_shift_out_of_bounds+0x1e7/0x20c
+ ttm_bo_move_memcpy+0x3b4/0x460 [ttm]
+ bo_driver_move+0x32/0x40 [drm_vram_helper]
+ ttm_bo_handle_move_mem+0x118/0x200 [ttm]
+ ttm_bo_validate+0xfa/0x220 [ttm]
+ drm_gem_vram_pin_locked+0x70/0x1b0 [drm_vram_helper]
+ drm_gem_vram_pin+0x48/0xb0 [drm_vram_helper]
+ drm_gem_vram_plane_helper_prepare_fb+0x53/0xe0 [drm_vram_helper]
+ drm_gem_vram_simple_display_pipe_prepare_fb+0x26/0x30 [drm_vram_helper]
+ drm_simple_kms_plane_prepare_fb+0x4d/0xe0 [drm_kms_helper]
+ drm_atomic_helper_prepare_planes+0xda/0x210 [drm_kms_helper]
+ drm_atomic_helper_commit+0xc3/0x1e0 [drm_kms_helper]
+ drm_atomic_commit+0x9c/0x160 [drm]
+ drm_client_modeset_commit_atomic+0x33a/0x380 [drm]
+ drm_client_modeset_commit_locked+0x77/0x220 [drm]
+ drm_client_modeset_commit+0x31/0x60 [drm]
+ __drm_fb_helper_restore_fbdev_mode_unlocked+0xa7/0x170 [drm_kms_helper]
+ drm_fb_helper_set_par+0x51/0x90 [drm_kms_helper]
+ fbcon_init+0x316/0x790
+ visual_init+0x113/0x1d0
+ do_bind_con_driver+0x2a3/0x5c0
+ do_take_over_console+0xa9/0x270
+ do_fbcon_takeover+0xa1/0x170
+ do_fb_registered+0x2a8/0x340
+ fbcon_fb_registered+0x47/0xe0
+ register_framebuffer+0x294/0x4a0
+ __drm_fb_helper_initial_config_and_unlock+0x43c/0x880 [drm_kms_helper]
+ drm_fb_helper_initial_config+0x52/0x80 [drm_kms_helper]
+ drm_fbdev_client_hotplug+0x156/0x1b0 [drm_kms_helper]
+ drm_fbdev_generic_setup+0xfc/0x290 [drm_kms_helper]
+ bochs_pci_probe+0x6ca/0x772 [bochs]
+ local_pci_probe+0x4d/0xb0
+ pci_device_probe+0x119/0x320
+ really_probe+0x181/0x550
+ __driver_probe_device+0xc6/0x220
+ driver_probe_device+0x32/0x100
+ __driver_attach+0x195/0x200
+ bus_for_each_dev+0xbb/0x120
+ driver_attach+0x27/0x30
+ bus_add_driver+0x22e/0x2f0
+ driver_register+0xa9/0x190
+ __pci_register_driver+0x90/0xa0
+ bochs_pci_driver_init+0x52/0x1000 [bochs]
+ do_one_initcall+0x76/0x430
+ do_init_module+0x61/0x28a
+ load_module+0x1f82/0x2e50
+ __do_sys_finit_module+0xf8/0x190
+ __x64_sys_finit_module+0x23/0x30
+ do_syscall_64+0x58/0x80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+ </TASK>
 
-On 31.10.22 г. 12:13 ч., Tony Lindgren wrote:
-> * Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com> [221031 06:55]:
->> On 31.10.22 г. 0:08 ч., H. Nikolaus Schaller wrote:
->>> [   39.419846] WARNING: CPU: 0 PID: 3673 at drivers/bus/omap_l3_noc.c:139 l3_interrupt_handler+0x23c/0x330
->>> [   39.429914] 44000000.l3-noc:L3 Custom Error: MASTER MPU TARGET GPMC (Idle): Data Access in Supervisor mode during Functional access
->>> ...
->>>
->>
->> I have no idea what that error is supposed to mean. @Tony?
-> 
-> The error above is GPMC related. It means GPMC is not properly clocked or powered
-> while trying to access it's IO range.
-> 
-> Maybe DSS is somehow trying to access GPMC address space registers with DMA? The
-> GPMC address space starts at 0. Maybe the DSS DMA address is 0 somwhere?
+Fixes: 3312be8f6fc8 ("drm/ttm: move populated state into page flags")
+Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+---
+ include/drm/ttm/ttm_tt.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think I have an idea:
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index 17a0310e8aaa..b7d3f3843f1e 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -88,7 +88,7 @@ struct ttm_tt {
+ #define TTM_TT_FLAG_EXTERNAL		(1 << 2)
+ #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	(1 << 3)
+ 
+-#define TTM_TT_FLAG_PRIV_POPULATED  (1 << 31)
++#define TTM_TT_FLAG_PRIV_POPULATED  (1U << 31)
+ 	uint32_t page_flags;
+ 	/** @num_pages: Number of pages in the page array. */
+ 	uint32_t num_pages;
+-- 
+2.25.1
 
-omap_framebuffer_pin() calls omap_gem_pin() without verifying the 
-returned plane->dma_addr. To me it seems the assumption is that plane 
-BOs are scanout/linear, which most-probably isn't the case. I was unable 
-to find who provides those BOs though (they are passed as handles to 
-omap_framebuffer_create(), most-probably set by the userspace)
-
-
-> 
-> Regards,
-> 
-> Tony
-> 
