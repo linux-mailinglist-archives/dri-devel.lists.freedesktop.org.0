@@ -1,82 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFEA6135C8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 13:19:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A32C6135D3
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 13:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBC4F10E1FC;
-	Mon, 31 Oct 2022 12:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D29410E1FE;
+	Mon, 31 Oct 2022 12:19:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF75310E1FD
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 12:19:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667218756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=riNVOBu8e2pIZERXBmAvmwAOPdhd6MsYxn78jTBB4dE=;
- b=OBolPdy1AF2o/wp/D6pjRilLNmLCu644iVdp5xYog2AGWhwfTXstwshmx++UNF4iRTd/IR
- jS9w5k7O4w9vyLefikbi3kfZncrS0YuBJ6WI0VA/zfuZcxwuMYDzb81+LuY9T31pd3vlIg
- mCYLNeoX02c0cqrZteXZnpM1aBeklys=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-621-R9ajmmtNNzSq_v0v0Xq3gA-1; Mon, 31 Oct 2022 08:19:15 -0400
-X-MC-Unique: R9ajmmtNNzSq_v0v0Xq3gA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 133-20020a1c028b000000b003cf6fce8005so386191wmc.9
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 05:19:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=riNVOBu8e2pIZERXBmAvmwAOPdhd6MsYxn78jTBB4dE=;
- b=axwylGIsAlBVdersp0YadXlHU4EGfOjb1Qsig1sAovOmQH4a9FDsoeFiW9viULaDDE
- m9ee/svoUVYXVmsGSoAqL891OBKtyrp6afWw65asatkWwn/vV/ZPmaoGq+aHYML+i7JI
- z6F3WMhwdMARKeLFbineyKWual52pAhBlSnn29UZCNxKvv+lI1bBu07b8prv29zmRk6p
- pNsJiK1wXvHWbFXeIVtaUkM1NaWCTl+yA0YEANAq2GPaa9apLfvib9GiV9lYsDLPYORO
- +Ji3IdLNJyvgOgV8b0Ab7NPHcBDpbaXnEh3rfpyV3Sq91nTs/UM9punOAWHsOYXpEgFq
- LFJg==
-X-Gm-Message-State: ACrzQf3FbhSVEaLm7YyWxAHtFK01YRBtsqTN2JT4TwItGLN2QkfMXk41
- cgYbjBa3Gg1Vfh64R9CID1fe883OUMxnoQKoW32S+xYhGvM21ABX36zvZ5mxUJjUiav2kz8lq/J
- DSbJJoWIuzRAqITaS5E3Uw/SN6Bn2
-X-Received: by 2002:a1c:7405:0:b0:3cf:55ea:6520 with SMTP id
- p5-20020a1c7405000000b003cf55ea6520mr7948706wmc.46.1667218753684; 
- Mon, 31 Oct 2022 05:19:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4oPDcyHgSUP9i1GOihR+fx3MXqkZeIX2xB6yE7P9f9dsxB6V14E0IWVQPIhFCjpfp7XUuGLg==
-X-Received: by 2002:a1c:7405:0:b0:3cf:55ea:6520 with SMTP id
- p5-20020a1c7405000000b003cf55ea6520mr7948695wmc.46.1667218753455; 
- Mon, 31 Oct 2022 05:19:13 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x11-20020adff0cb000000b0023660f6cecfsm7060089wro.80.2022.10.31.05.19.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 05:19:13 -0700 (PDT)
-Message-ID: <01f85874-6beb-c325-8b94-7a7aeec30d5a@redhat.com>
-Date: Mon, 31 Oct 2022 13:19:11 +0100
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C91B210E1F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 12:19:47 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29VCJRa0052972;
+ Mon, 31 Oct 2022 07:19:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1667218767;
+ bh=uOCHiSxsSvLq9cqkTvEuyLAzP3fo56xpUetIl2heAr0=;
+ h=From:To:CC:Subject:Date;
+ b=xw0eUPAmRoLiAjXRr94X7ItrlO0gm0g71OaZQ8cbdKxdF8Yg7PziSpEeq5tMaPY77
+ CKZPzBUIRGum6H4HNhDkaVmO06o3ZG61K+qrpUTC+acpFkWmLvkYzDB5PFSbCE0dV8
+ sw8954nakUVmvX45jg7anFAQ59FTXnovSsIjPbFM=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29VCJRpe005423
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 31 Oct 2022 07:19:27 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Mon, 31
+ Oct 2022 07:19:26 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
+ Frontend Transport; Mon, 31 Oct 2022 07:19:26 -0500
+Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29VCJPse017206;
+ Mon, 31 Oct 2022 07:19:26 -0500
+From: Rahul T R <r-ravikumar@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v9 0/5] Add support for CDNS DSI J721E wrapper
+Date: Mon, 31 Oct 2022 17:49:19 +0530
+Message-ID: <20221031121924.29974-1-r-ravikumar@ti.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2 08/21] drm/rockchip: Don't set struct
- drm_driver.output_poll_changed
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-9-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-9-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,40 +60,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
+ jpawar@cadence.com, narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, vigneshr@ti.com, devicetree@vger.kernel.org,
+ robert.foss@linaro.org, andrzej.hajda@intel.com, sjakhade@cadence.com,
+ lee.jones@linaro.org, Rahul T R <r-ravikumar@ti.com>,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Don't set struct drm_driver.output_poll_changed. It's used to restore
-> the fbdev console. But as rockchip uses generic fbdev emulation, the
-> console is being restored by the DRM client helpers already. See the
-> functions drm_kms_helper_hotplug_event() and
-> drm_kms_helper_connector_hotplug_event() in drm_probe_helper.c.
-> 
-> v2:
-> 	* fix commit description (Christian)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Following series of patches adds supports for CDNS DSI
+bridge on j721e.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+v9:
+ - Fixed below based on review comments in v8
+ - Added more info on wrapper in the commit message
+ - Fixed the description in Kconfig
+ - Fixed the formatting of of_match table
+ - exit -> deinit in platform ops
+ - Remove duplicate of struct declaration in cdns-dsi-j721e.h
+
+v8:
+ - Rebased to 6.1-rc1
+
+v7:
+ - Rebased to next-20220920
+ - Accumulated the Reviewed-by acks
+
+v6:
+ - Dropped generic definations for properties like reg, resets etc..
+ - Fixed the defination for port@0 and port@1
+ - removed the ti,sn65dsi86 node from the example, which is not related
+
+v5:
+ - Remove power-domain property in the conversion commit
+ - Add power-domain only for j721e compatible
+ - Fix white space error in one of the commit
+
+v4:
+ - split conversion txt to yaml
+ - seperate commit for addinig new compatible
+ - conditionally limit the items for reg property, based on the compatible
+
+v3:
+ - Convert cdns-dsi.txt binding to yaml
+ - Move the bridge under display/bridge/cadence
+ - Add new compatible to enable the wrapper module
+
+v2:
+ - Moved setting DPI0 to bridge_enable, since it
+   should be done after pm_runtime_get
+
+Rahul T R (5):
+  dt-bindings: display: bridge: Convert cdns,dsi.txt to yaml
+  dt-bindings: display: bridge: cdns,dsi: Add compatible for dsi on
+    j721e
+  drm/bridge: cdns-dsi: Move to drm/bridge/cadence
+  drm/bridge: cdns-dsi: Create a header file
+  drm/bridge: cdns-dsi: Add support for J721E wrapper
+
+ .../bindings/display/bridge/cdns,dsi.txt      | 112 ----
+ .../bindings/display/bridge/cdns,dsi.yaml     | 180 +++++++
+ drivers/gpu/drm/bridge/Kconfig                |  11 -
+ drivers/gpu/drm/bridge/Makefile               |   1 -
+ drivers/gpu/drm/bridge/cadence/Kconfig        |  21 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |   3 +
+ .../{cdns-dsi.c => cadence/cdns-dsi-core.c}   | 481 ++----------------
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    | 471 +++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-dsi-j721e.c   |  51 ++
+ .../gpu/drm/bridge/cadence/cdns-dsi-j721e.h   |  16 +
+ 10 files changed, 777 insertions(+), 570 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+ rename drivers/gpu/drm/bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c} (65%)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.h
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.38.0
 
