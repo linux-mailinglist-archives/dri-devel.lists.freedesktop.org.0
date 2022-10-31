@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B20761409E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 23:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F296140CF
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 23:45:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B610910E1EF;
-	Mon, 31 Oct 2022 22:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0C310E1E3;
+	Mon, 31 Oct 2022 22:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1CF710E1E3;
- Mon, 31 Oct 2022 22:25:08 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 29VM8CVE014359; Mon, 31 Oct 2022 22:24:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=IR7FzdmzIqnEo5WsvgBdjRd448w0ofvspNgjh/SFt2Y=;
- b=eZgffo42r4QdBVZS8ibIWpG/aBtODkbxK1xK7uZsg6FrkagZvaEMRiZ9fxH7zX7/yrSc
- gmM5zJU7b+SmZSnTKsD2a2e10ZYEJucGF3Fk8WmZ2Ym9cPqUx2l+nskySD4Rj3BgihSE
- R+kftObEIsl6/wmo4YCuRgQj5dErDIIJkYenRnw7ozKs3PGiqcgGyYIrNXJyCrRm5s6W
- SlHYC1tS7UJTSBPTZ3Cl1LdNA8Q4j5A0SPdpl85Gj09pxMBQx3CESQSoYLeqKWuY9+jM
- +h3+Ff0eDUWh5jydTybX7jDFHZkBqXdoQl0vFxzHUj50lwjARWisBvgPbAmdC169ATBe HQ== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kjmq4r93x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Oct 2022 22:24:50 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29VMOnw5030819
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Oct 2022 22:24:49 GMT
-Received: from [10.71.111.47] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 31 Oct
- 2022 15:24:49 -0700
-Message-ID: <b890681d-9c40-32c6-061a-668dce01d89d@quicinc.com>
-Date: Mon, 31 Oct 2022 15:24:48 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F41B10E1DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 22:45:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667256333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VcWeOKGAq8wttzU4CxXOEF2dDnjMMLoZymWv1KKckJE=;
+ b=EXQHcuWXS9ov47ZY26jkQeqbF6Tpa0UUVGfbCXVdBugIT/opQtdtyt2DrH1dFxsSGl/SvQ
+ AcDqNfrTFCMHHiBzhy+5r+I01K2vIMTFri7EeqGd5zSL4y37Vx1sCzZWUMBs1lBd6rNE6m
+ n/oBlz9daOClU1I2x3TxhtFL7RKbaDw=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-646-lbTD-yHiMxqoaJEu7wGkMg-1; Mon, 31 Oct 2022 18:45:30 -0400
+X-MC-Unique: lbTD-yHiMxqoaJEu7wGkMg-1
+Received: by mail-io1-f69.google.com with SMTP id
+ n23-20020a056602341700b00689fc6dbfd6so9136332ioz.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 15:45:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VcWeOKGAq8wttzU4CxXOEF2dDnjMMLoZymWv1KKckJE=;
+ b=flpasGx768RblPBU1oSFtcz/AndHLkutSQCB012v9+80ESGzeolpiiRghP/bK24Cer
+ ywgUb32wU9otZDM9msetrVdFhTREaqbTqzbLgJ+Qm8sAKN1fo6BzH19Ak4wT1jMkakhw
+ fNZVpw9Jt0/S3ZRAIBaCzbjFyy74giIbqxRsfowy1LkgIWHRU+/x1igir1lJDp7bT4M+
+ IRoincnqmHuEm3o5beaaHT2uWSqRpqZ8+zakQnwCJ38CPkGuEEe/ciZDdWgbmsTzW3Ce
+ +wC27T0kEf6PUm5D1oRF0eQ+JEqQRG1y30BHAIaQxtufoOK3UrFWemukniPAZb52oBM0
+ uMag==
+X-Gm-Message-State: ACrzQf2Qy1KFJ4gf4pesrWO6tfxIKx5rK9Pn16Hj82pNehdU7+UA0Ls9
+ 2//m9tTm+VMWjPy/cDwjOj4O8qLlbdg6SgWP/ofhMF90yN9Piym/6aJv7YJ6RC/gHcpGoBLNGZY
+ 4R3A9W5mTIEweQ7f+hAesB+VgOkMC
+X-Received: by 2002:a6b:ba41:0:b0:6bd:1970:16ac with SMTP id
+ k62-20020a6bba41000000b006bd197016acmr8720498iof.15.1667256329598; 
+ Mon, 31 Oct 2022 15:45:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4VfhsMAuyXCH5HPHtMnIJqQGlZT/T/OmjKoluwi54wXJ63m+zcNwWVSXkyLmiQm1Q3/6FVkw==
+X-Received: by 2002:a6b:ba41:0:b0:6bd:1970:16ac with SMTP id
+ k62-20020a6bba41000000b006bd197016acmr8720475iof.15.1667256329251; 
+ Mon, 31 Oct 2022 15:45:29 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ t20-20020a02b194000000b003738c0a80b4sm3202099jah.144.2022.10.31.15.45.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 15:45:28 -0700 (PDT)
+Date: Mon, 31 Oct 2022 16:45:26 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 04/10] vfio: Move storage of allow_unsafe_interrupts to
+ vfio_main.c
+Message-ID: <20221031164526.0712e456.alex.williamson@redhat.com>
+In-Reply-To: <Y1wiCc33Jh5QY+1f@nvidia.com>
+References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <4-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <20221026152442.4855c5de.alex.williamson@redhat.com>
+ <Y1wiCc33Jh5QY+1f@nvidia.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
- <20221028225952.160-2-quic_jesszhan@quicinc.com>
- <712a9a25-4c38-9da5-b1a6-39e4665b4d31@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <712a9a25-4c38-9da5-b1a6-39e4665b4d31@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 8KJk-5FOWRDePgF5_eMp7ujbO5GY2AJ_
-X-Proofpoint-ORIG-GUID: 8KJk-5FOWRDePgF5_eMp7ujbO5GY2AJ_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-31_21,2022-10-31_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- mlxscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- malwarescore=0 clxscore=1015 mlxlogscore=803 bulkscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210310138
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,103 +86,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
- seanpaul@chromium.org, laurent.pinchart@ideasonboard.com
+Cc: kvm@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
+ dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org,
+ Yi Liu <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Halil Pasic <pasic@linux.ibm.com>, iommu@lists.linux.dev,
+ Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 28 Oct 2022 15:40:09 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-
-On 10/29/2022 5:08 AM, Dmitry Baryshkov wrote:
-> On 29/10/2022 01:59, Jessica Zhang wrote:
->> Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
->> drm_plane. In addition, add support for setting and getting the values
->> of these properties.
->>
->> COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
->> represents the format of the color fill. Userspace can set enable solid
->> fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
->> the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
->> framebuffer to NULL.
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com> >
-> Planes report supported formats using the drm_mode_getplane(). You'd 
-> also need to tell userspace, which formats are supported for color fill. 
-> I don't think one supports e.g. YV12.
-
-Hey Dmitry,
-
-Good point. Forgot to add this in the patch [3/3] commit message, but 
-FWIW MSM DPU devices only support the RGB format variants [1].
-
-[1] 
-https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c#L697
-
+> On Wed, Oct 26, 2022 at 03:24:42PM -0600, Alex Williamson wrote:
+> > On Tue, 25 Oct 2022 15:17:10 -0300
+> > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >   
+> > > This legacy module knob has become uAPI, when set on the vfio_iommu_type1
+> > > it disables some security protections in the iommu drivers. Move the
+> > > storage for this knob to vfio_main.c so that iommufd can access it too.  
+> > 
+> > I don't really understand this, we're changing the behavior of the
+> > iommufd_device_attach() operation based on the modules options of
+> > vfio_iommu_type1,   
 > 
-> A bit of generic comment for the discussion (this is an RFC anyway). 
-> Using color_fill/color_fill_format properties sounds simple, but this 
-> might be not generic enough. Limiting color_fill to 32 bits would 
-> prevent anybody from using floating point formats (e.g. 
-> DRM_FORMAT_XRGB16161616F, 64-bit value). Yes, this can be solved with 
-> e.g. using 64-bit for the color_fill value, but then this doesn't sound 
-> extensible too much.
-
-Hm... I can definitely change color_fill to use u64 instead. As for 
-making it more extensible, do you have any suggestions?
-
+> The specific reason it was done is that we had a misconfigured test VM
+> in the farm that needed it, and that VM has since been fixed. But it
+> did highlight we should try to preserve this in some way.
 > 
-> So, a question for other hardware maintainers. Do we have hardware that 
-> supports such 'color filled' planes? Do we want to support format 
-> modifiers for filling color/data? Because what I have in mind is closer 
-> to the blob structure, which can then be used for filling the plane:
+> > which may not be loaded or even compiled into the
+> > kernel.  Our compatibility story falls apart when VFIO_CONTAINER is not
+> > set, iommufd sneaks in to usurp /dev/vfio/vfio, and the user's module
+> > options for type1 go unprocessed.  
 > 
-> struct color_fill_blob {
->      u32 pixel_format;
->      u64 modifiers4];
->      u32 pixel_data_size; // fixme: is this necessary?
->      u8 pixel_data[];
-> };
-
-Just a question about this blob struct -- what is the purpose of pixel_data?
-
-At least for devices using the DPU driver, the only data needed to 
-enable solid fill is color_fill and color_fill_format. I'd also be 
-interested in knowing if there are other drivers support a similar 
-feature and what is needed for them.
-
+> There are two aspects here, trying to preseve the
+> allow_unsafe_interrupts knob as it is already as some ABI in the best
+> way we can.
 > 
-> And then... This sounds a lot like a custom framebuffer.
+> And the second is how do we make this work in the new world where
+> there may be no type 1 module at all. This patch is not trying to
+> address that topic. I am expecting a range of small adjustments before
+> VFIO_CONTAINER=n becomes really fully viable.
 > 
-> So, maybe what should we do instead is to add new DRM_MODE_FB_COLOR_FILL 
-> flag to the framebuffers, which would e.g. mean that the FB gets stamped 
-> all over the plane. This would also save us from changing if (!fb) 
-> checks all over the drm core.
-
-JFYI we did originally consider using a custom 1x1 FB to for color fill 
-[1], but decided to go with a plane property instead. IIRC the 
-conclusion was that having color fill as a plane property is a cleaner 
-solution.
-
-As for creating a new blob struct to hold all color fill info, I'm open 
-to implementing that over having 2 separate properties.
-
-[1] https://oftc.irclog.whitequark.org/dri-devel/2022-09-23#31409842
-
+> > I hate to suggest that type1 becomes a module that does nothing more
+> > than maintain consistency of this variable when the full type1 isn't
+> > available, but is that what we need to do?  
 > 
-> Another approach might be using a format modifier instead of the FB flag.
-I like the idea of having a format modifier denoting if the driver 
-supports color_fill for that specific format. This would allow userspace 
-to know which formats are supported by solid fill planes.
-
-Thanks,
-
-Jessica Zhang
-
+> It is one idea, it depends how literal you want to be on "module
+> parameters are ABI". IMHO it is a weak form of ABI and the need of
+> this paramter in particular is not that common in modern times, AFAIK.
 > 
-> What do you think?
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+> So perhaps we just also expose it through vfio.ko and expect people to
+> migrate. That would give a window were both options are available.
+
+That might be best.  Ultimately this is an opt-out of a feature that
+has security implications, so I'd rather error on the side of requiring
+the user to re-assert that opt-out.  It seems the potential good in
+eliminating stale or unnecessary options outweighs any weak claims of
+preserving an ABI for a module that's no longer in service.
+
+However, I'd question whether vfio is the right place for that new
+module option.  As proposed, vfio is only passing it through to
+iommufd, where an error related to lack of the hardware feature is
+masked behind an -EPERM by the time it gets back to vfio, making any
+sort of advisory to the user about the module option convoluted.  It
+seems like iommufd should own the option to opt-out universally, not
+just through the vfio use case.  Thanks,
+
+Alex
+
