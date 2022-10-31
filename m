@@ -1,118 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30FBB6138E8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 15:24:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAB5613967
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 15:53:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD24310E249;
-	Mon, 31 Oct 2022 14:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D8510E228;
+	Mon, 31 Oct 2022 14:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C60A610E249;
- Mon, 31 Oct 2022 14:24:33 +0000 (UTC)
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01olkn2018.outbound.protection.outlook.com [40.92.99.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A693D10E1E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 14:53:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GUkDj+rygX2jd8BKVqTT8IMsUYvXbezvJM6bMnItiOdi7CptB7BiNlftssSCsfoJX9CtSDeUPEjX9AENdGmwcYb2zgumMC9a/tAcj3f3LCfz/PHC9J9SQZ+gKcAg2kPK2HGTsoS9TRP2/bdsZt26gwu3NtngulMR25wfa9b4LAC14IGK6jJuSsXBekew3OWYLx9jHuiNeR15MsrjbI+ncYm8uH9LoEOcbCQwahTXWmBdhzPITc8llhuDtdZ3qXtMxbSqdvcZ4muJQLjm7ushJO9LtJmmr0gmKzn2KE9rxzjbyO31iSxFglw+g7uKkBhOukZB4Qr0V+zxYWKfVxrIbg==
+ b=FRCRH0ikiqwBcLX2ii96XgqRKXA8VZVanMMTjFzv2hPS0YdZyoGUozbZhmZXbDr/PmFNCqfE1mFFWTYoTO4UFNMLGxQLBPXtFSeJ4z7lYK0iyF/yAHs7vkZZvexF2zBfIK0KZC1rbfInCkjODZ3S/s5wIRdB0Y+7T1nxQMg7VSo1XXcgoIRFZ14+mu1/ivoGADVsCpEZhCTiHJnNNs/uyQ4B9c05dVUvPbAXcCWzWFfI7ntap3RfrhgfvZP0TrgrhemKXzVQIPhXxKaGEzWnhz6iyYsaOO+NbgIrOcgOHIPXdOguTGGdam/HnkIWx/hj5R1nJy8PS8gaqWsk4Rr9Zg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hleSu/QKYE0fZBBhR6FTAIuldP7Wtaj++2Vp0IHHGAo=;
- b=F5P82S/ilOD4diBpmK2kiS8kJUO6Df/3E9MzK3BtEqTd6e5wBX5GClTl02CqVxeVOIMSYqDg2OcMMiC70TxQM55EDJiKsUP3VFSherO4GTneR1BrQJF6M39uvDc2j6us78u4C4Y75Tf372K9W5PUp4jlZ1v0HeRif0gSrI7jWEHdU0EXQpU4+ZnLmiJsAYUulLn++0QfNWL9A7X08y+HhDAwkwhw2O5/YLE28PhrnPkuP5yAOaphwtG4tgaAwLW8tuzpZjyROOS5GgvaxXMku/I6rLsiSiXlBxzwcc65nf0HfnKIAoV3PL8LFby5c85q5mi0JHo7NxyB0NY9xNx3wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=i9dEn6D7Co1PX/Iiiw8zL1X+12AdwI+Oj3zBGlqIa08=;
+ b=XVgdo4dI8ESVqcf/QdKf3an6AF5j+NnjJDbwB0Nbsp9J88UbYkfeAzqtLRV7w66dHt0z5/uC/8juE1OFqapJKbRAkaAFbHeCBDKdxCxqiknfwgrK/9fj5CdAEUhdY0hDQKoWHKIiBpvyLJRZCcxZszGpCLGSnh6fRl7Dyuq3uEAEDtP97Mzg2OGUJNezol6bS3qE9V34U3+360qh1R/5y8mVmFISVWocE09EkawNod90vqmfYQ48UCxpcEHJ0/V2wNPsguOr7ZsNkIqLGSjMP50FQzwlBeO2C8bUWJ7er79QgkKmem/9eP3OGS+hA02Y6WZ0GEFIsFZWLdvAX7xDoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hleSu/QKYE0fZBBhR6FTAIuldP7Wtaj++2Vp0IHHGAo=;
- b=UNLrFBClC/fhnJNaGyMJVGapOgVZi9WTyiK101qwse2/fVcNazxW5rhP1yvD9k29xhPCijuvgruRPlZn3DvQBVdT41F7gWx06i9Zom8a+/ZiUzb9Rob9n9LhnH9OfB11GvFpHuiRNmNhVWs3BL9DxcSE3p5wJCUpEQCyD+LJUhg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DM6PR12MB4879.namprd12.prod.outlook.com (2603:10b6:5:1b5::10) with
+ bh=i9dEn6D7Co1PX/Iiiw8zL1X+12AdwI+Oj3zBGlqIa08=;
+ b=Q+so7jGBX47BTlZPClQLG/7XkqAY7eOGSdKf+heeoOZo7MLk+VhN9iO/bKuBHZYGl+CBH1FYztRWUIBz4bC0e5MKvu6Kjf/q2AjMdAcRMId+xOX0/AqJ6BocAYvs8Ed6pDlSOXci++/JJqToCW8j9J5EfMPTBI0jMXoRsFmbsRhuBJKLp11eQODZFow4tYI2Sld2ayrGGYYYw1fT7xevx85K526KBcv+dVpsxJLhuVolBvWH4BqeYupxNTzko95Dco6lT2si2i6DPIO0rEkAZ3wQtF+LRGrTIatHBpseu1NOtyXGwSv2MBO68Iy8NsvaRoB/2YeZBgm3wiMPKQPXRQ==
+Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:152::9)
+ by OS3P286MB1807.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1be::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Mon, 31 Oct
- 2022 14:24:31 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::c741:a5f:2c1a:f8cd]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::c741:a5f:2c1a:f8cd%4]) with mapi id 15.20.5769.019; Mon, 31 Oct 2022
- 14:24:30 +0000
-Message-ID: <23cd28ea-59ed-7687-0912-506356b4b24d@amd.com>
-Date: Mon, 31 Oct 2022 10:24:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] drm/amd/display: add parameter backlight_min
-Content-Language: en-US
-To: Filip Moc <dev@moc6.cz>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-References: <Y117XNaSP6/8bH+3@moc6.cz>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <Y117XNaSP6/8bH+3@moc6.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQXPR0101CA0036.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:15::49) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+ 2022 14:53:01 +0000
+Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::c90e:cbf3:c23d:43a5]) by TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::c90e:cbf3:c23d:43a5%7]) with mapi id 15.20.5769.018; Mon, 31 Oct 2022
+ 14:53:01 +0000
+From: Dawei Li <set_pte_at@outlook.com>
+To: sumit.semwal@linaro.org,
+	christian.koenig@amd.com
+Subject: [PATCH v2] dma-buf: fix racing conflict of dma_heap_add()
+Date: Mon, 31 Oct 2022 22:52:35 +0800
+Message-ID: <TYCP286MB23235BB803E3A778C85B50F7CA379@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [4vwNSavDv/oZ9jpJB5pxJFgROf8JOzPGBz5aMq7ezAI=]
+X-ClientProxiedBy: SG3P274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::23)
+ To TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:152::9)
+X-Microsoft-Original-Message-ID: <20221031145235.17912-1-set_pte_at@outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DM6PR12MB4879:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d5d0cf5-79b8-4721-1e5d-08dabb4b9fea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-TrafficTypeDiagnostic: TYCP286MB2323:EE_|OS3P286MB1807:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98353f0b-a22a-4e6a-36f7-08dabb4f9b68
+X-MS-Exchange-SLBlob-MailProps: hmxDvsT8QC8CUGNFSCVMrtHXTb9OmFgxOTK9PsKAKWYSFYC5ELcZV84/h9sQbzeTAdkYq9jJsGl9bNGYtY4yq8idvNNYr+tprmxd6B0HLdEkh1C95F9vW3O0xPlzI3QR+dQfQv6z5VchBXhJtEvQNlbNzuEVB47vwByv3YQxyF5zaXEyy2fxTXtZ0qKXJjkzZLCyCVoRUBRQRT+f5b5c/yX0vBkOd1FUxPqLZMcI0jZ7WhiVssKFIDtZJEw4tq0QOCckYxU5eP8ykQprX2Fi2xsO4ssl72pCCA9VcczyJgaoCA38uIenFg1JOYErC5Ib+rw6GJuzoSyZkVRxFaJ9+Lk7MtuE3swNAiKRwSC/PpoVmFmwSEGDNYiuaRtuFQJr8bVprht53bb97pTNehAZbbodynfHYCQBKA+vNJNa02qsFxC/A+wzv+ZCrgBOaIrcPELWQrq1ABknlfynUurCbg9y+aSnLCA9+6qz7JN4nxuv8mdNF5xTY7mVjllctt0m/gjn9/WVKcDSUgtVTiB9g2vdcd5njYpSfR+U4btLZ6z6EWrTDsTpPtJYjH7D2u5lw3v2uwEZ6FdWcAY+zOrPEBcU9vrCYEnXcqXan64zhvBzI6CZJ9HzlvMX4iXgh6R//d/TJpNzZspQp92dApbhrJVS+AeX5h/OhmuV4hkE+yoYMwPRd5st+AEZxDa85QZCBNX2/GOTfobwJEn8Lcz8NYhl3VGpCvAgM6YIaxBJYqvlz9944z0I/o2Cu0IviEBZT6Oz+ygfpufwoBXjBZzn+2g4eG3EeOXwyJTFq4NG9R391E3X4sbPXg==
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n7ACWhf0sbXrb9OFGMEugQKOmsPV2gHFVoX+SRnnROj3KBs6uevz3ilnI8/KizqNkqS0GUwwkM7JzQuHvpVdp/rapDNlEHZeACCNu1B/RemtGZgjRCh4NfVNgjNEDK0r+6GWlHVxc+Ni6Y/ddAHYHCUMpogu/3KAcqefMBX6D7/zj8tE/bln0DUAJXKsXf0IpQ/dlLlRgJi+OzFZLtRTmSYzE/mt4B2w1RBhOksMHGEPDXQ4y4zsHFlea2oMlQLKmI/CPjIm1aIV0er3kDRdKdcEJk2pdeRquG3lYkLl2w9XtRSX+Z32AT11bf/NxX+M66DSL8p9Lxp8gO/CbE6dZMFEJ0LkP1Wptg552wKawb1IjeWr83INerotQzR416GG+Oo49DGuWOL6GyYDsXFSl/xgayp6lzIRrnsOeey14eiEyKKbDuWJtEE+JT9UB2t6b3amWWNmN95by0wll1rfAvVGOyfkbM63VpUUruyBMWMRZOWfVqY4sq725z+AdV+sYMwwIHXkL2IhbN6q2yLxs4mh2qjec40DzE1oJRwfv6xL1VsFFsrAhuRPzwGkRuMLqxRXa5qFEc7ygrzsbl4gxso7T6CP/FTzgSx0meuP4fbFRnl3j2P2rrilZ7lhWQw02Zaf1DNGhxmacLe/kRDi0TDxrS9G9n47FWiqE1etFEC8iVtLa5W2s9cMbVNWpMefjmztTczUwKKINU/keueWMP4KZPsQvhv6Y+S6tAuAiB0mRHxTcGqM43KwEuIJ+ALMacOEgFr4izc+Uosm/EOziNyIsFkEFCUCrzYY6V7jobi7uTbAXQYoJSmUrhIaz6H1vb0y2kprOBnRXnoyXdufbw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(376002)(346002)(39860400002)(366004)(136003)(451199015)(83380400001)(31686004)(36756003)(6666004)(966005)(6486002)(2906002)(4001150100001)(44832011)(86362001)(31696002)(38100700002)(110136005)(6512007)(53546011)(26005)(2616005)(186003)(316002)(66946007)(66556008)(8676002)(4326008)(478600001)(41300700001)(66476007)(54906003)(5660300002)(6636002)(8936002)(6506007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+X-Microsoft-Antispam-Message-Info: fUgpmEXBWTsCDjXnDMldaxaV4GxOkTGJqWZgl3Zj+03mrryeoLAvu1gIapVgzmNfVzqHhNvL4twuX84kdPzqYKCY2zEGvGyIbpHZGgkaT1uNPe0GpOD2+l7Eq1fCDDAzFicAPjl628Owz1vJjL6eJsoaqj6EYVCsnVf1fkVtw+XUkFEuZU2ScnI3k1K5/BqkT5g7l3AxtKSSzVn2UdY8rSb1ac17R7x4UTBQNuMWMlrFtq8AmxUMmpU4NNPzwHu11uS4o3NJnE+jxybinF2vVnnqt90th25t0Aooq7A9hBou2eVTqU3qizo7NyeUCrGVo20BtiI+tjfM7n1orj6BfLrjcwWSVRx3kaz9YK72dsRaElQILV4AUX7n9+aQpKhPy8K7Y/dI3Coml8RdwzNUrs2+SFYUg1RNA2oBlw4RvbVs7rRbh+4eAwC5a6S5Y6jMxAJOqnNk+aBo5g7XSzhYhqRp2vaRdh3TTO0Vm3MdxPj0vqt/CqGdJ0TMsfOkuIB18vz4qRdW1iGdQmhJmqtdZqXWkzdDE7p7vA+SCvn1MbRsCzriavOhcHoVxnIo1jr42pLh94O+EP+3sJp3RU2xctvdcDdyhoxXgIZY5b3vlayFjJYiFWu9CI1Bkmo/OWzgldGnbYTx11OofL7u9DsgKN2laW2XXo+227yQAmzpn1jOvEC0jtA7b9foar8Y0cWy
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RThWUnRDcnR3TVJwaTV1TElLVkZ3UlJjNmkwbmUrM2Q0c3l2Y3c2cTZVdnJM?=
- =?utf-8?B?RmcvcDg1QmJGb0F2NDFsOXh2LzBvWlJ5dHpzUGVFaHdMSjQxenJCTlMrdWp6?=
- =?utf-8?B?czNuS0pzblpEVWRnY0dTaXJwdDFMMS9iYlQydGNnZVg4NVhOaFQzZnJyRVJ1?=
- =?utf-8?B?M2dBOTkzOUIrSnU0dTNUeXRySDYyZW5PL2lZZkMzY3dUNFhoZUFERHUzMmZn?=
- =?utf-8?B?dERJWEV3ZlhaMUtDMmw3WW9MQTlHamJXbWdMYmV3VlVPUkUvVlpIVWFFdkFj?=
- =?utf-8?B?V0U0ZHpSaGNLUnNLaGcwMllkNER2ZmI5R1pLR2QzV3AzT1kwL1gybU5WVWxX?=
- =?utf-8?B?QzN2ZkpNcWxsZFJCZ3dBTG5YZHBiQW92akpXRTVyRE9CNno2QTBRcUhIMnQv?=
- =?utf-8?B?bFpGRVlGcXlrQXhPRXRESGNWekY2MWR4M09LRkxqUGlmdU1lK0Q3STYrUFFG?=
- =?utf-8?B?SWlZWDNDUGoyekFpNzVqaUltRFZ6MzZvYlF2V2tJZng4REFwUkdUOVFSOUdh?=
- =?utf-8?B?anZaN1V4c1VScnptWU1ib0gvYkVHam1RL1Q2NkhjbDk2cEVkbUhoWlN0bWNw?=
- =?utf-8?B?blk1anVSWDRGZENhdjZqUnNkbGhLWFIxR3dpRDhyWGZNRmEzOVNtdTczVk4w?=
- =?utf-8?B?ejc3aThubll5QW9mR3ZUdk54aDNtMkVla3JqUTRLVXNWdDRSd0lKNkcxM0ly?=
- =?utf-8?B?UkEvTUNEdEtnbWRudmRqV1NjUDhzOWNZNHJXY01pcUt2ZXR3R0phMWJXSGlS?=
- =?utf-8?B?SjI4TThOejFSRGdJaDdOa0VZV0J4Q3FreVF1SFdTeTBBY3JxeEU0b21kdjd3?=
- =?utf-8?B?VWtlRTQzMVBpMnBueDRhOTNOMDJiZ1h5Uk5YSEpFbXFMenpteENzTnE5aWM3?=
- =?utf-8?B?YVBUdFd6Ull1RVpkZ2FXOG1jc0hkaWdjMi96SlhGb253RjVJaW5yUTgyODU5?=
- =?utf-8?B?ZitXbEpYaWJQSDVMS1lNQjlZejB0WEdnZDVKNGlkYWg3VFg4VzVIbHNEOFhn?=
- =?utf-8?B?UzRnWEZ0OXZZUUN2ek1BaDU5RUJSdFNIeStjbGpTbmVUZXQ5K092Rjc5MHVr?=
- =?utf-8?B?ZUZIWGR3aWtvQVZsbS9EZngralF6Qk93RGJuVitYNzhpM1hKKzJucXRnbEYy?=
- =?utf-8?B?MFQ2TTIyNk4zMlI4RVBCTWN6aVVvUWZlbXBtbk9nL1hTeEJTYmxib2NJaWlv?=
- =?utf-8?B?MWx4aExMRkhxTXlpVDloa0F4YVpPVUhlblFRbkVUdW1xTzVSWGl1Tkc1OGxX?=
- =?utf-8?B?TVJFYk4xbkxSMjdhSDFJdWFxT1FRNXhKdnlHbHVxb0Y3S25VN0pDMlNnWGpa?=
- =?utf-8?B?a2svRHNMZlhRaS9kUitQTHBkU0RKaDNlSG5OeGExOHZsaXBDS2prUWhDbVVX?=
- =?utf-8?B?TUtiVVJ3eXk5K2pRSDJveU5ydW1ULzVXNmNSLzZnbjdmemRDQzlCQVFXRmVO?=
- =?utf-8?B?OWtwRTQ2MVp3dzlzOUhLTDJyRVkwMWZBb0NaV2ZUTDlEVGplMU12bFJGcjk1?=
- =?utf-8?B?NVY0c3ZQS0xPSXkwU1pZWjBYSkhkY0l2dDJQbFV5QjhoQTRsbmJ5YmtLbGlJ?=
- =?utf-8?B?TGZlN1FXRXhibUZpQnIwcEFJMEJkYVJwT3o4Y1BCaGVodTJWQmZwRGhmeG5B?=
- =?utf-8?B?UnFaem96TDJlRmR4QVBzMlJ3TTRvejhvUW01SFhyNzk2cVExVXhVNXJ1dExM?=
- =?utf-8?B?ZFlwSkJodEN1bkpieWU3YlFkSFZxNW9TWXUvRDFTRkxYcEhFUVdwNVpMOXgr?=
- =?utf-8?B?SGhWYkptVzVLVEM3VytnWjRDR1JrVHVYUVlTaFRNd1A3V0syRGV3bG5TTlpn?=
- =?utf-8?B?UVZLSjJjWWZiMzk5WDNET0hDMlpUUklaTjNBeHltSUZpRU5IWTZwcVVtOG03?=
- =?utf-8?B?djNrQlVjL1dFdkJkSXhwaGc1Rjd0Mm9hVDhud0JwRFMyUzc4V3RNMVhZREdo?=
- =?utf-8?B?WlM1NWJLNVBWMmNWOE9wbStuNVEvTnRXb012MDZHV2dFWmtIQy9kbVBVUmdE?=
- =?utf-8?B?elpPdklueW42d0R3UHNGNlljSzVUcERRa05qUFQ1VU43M051eUtKekgyOUZL?=
- =?utf-8?B?SU0xeUx5OUdIVXk2RlBJRjdPOUcxMEZ3eVJ1NFBFSkR2UFc4R0FFY1ZqSElM?=
- =?utf-8?Q?yWfOFIPTY4hdCAfC8e76I/WVy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d5d0cf5-79b8-4721-1e5d-08dabb4b9fea
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AB/o4Wi+TH4UvrUJPES/tiRtb5UED7EZXHKXyCjE30NSP9zIu1+1uwlht9CX?=
+ =?us-ascii?Q?MO+qaSPTb8UDopu8YJv3SOaMQNmPxGfgwZW8xn8+ATJMdE1npaply8+p+Avu?=
+ =?us-ascii?Q?klJAWgRklTAYNWPJRlrps9k1Wwwto/85ZrO0j05Q4RL+bE5X9gr7MD5Omxvf?=
+ =?us-ascii?Q?S8csXW06XSk7mihSZRuHXds3/ndBkjSppCTT+QhfXlGyfSLQ+3fUzNx85TLN?=
+ =?us-ascii?Q?e2quo1hZD2Scjmlk8cWcaxKjY/j96ndKD54Kayv2FSDHPj46+qF2Rsbhz5ZS?=
+ =?us-ascii?Q?N/mIb34ApVDiFDC4+vLnNri5ED+HKPn4eDwenW5bbTQW1xqVyI4ySerZG4ck?=
+ =?us-ascii?Q?aK5DDQP9fWj+PFCtkmrTo3WM5nPBvN7ya+TfooFPtFwzHiWCubQTW3x++fnt?=
+ =?us-ascii?Q?LVekVatbu3bEqJnHjeAGcv8e4WPft1cTXwlkn7CWF3vA6VaV/PDmm9xUCGNW?=
+ =?us-ascii?Q?Q9DOl+SENWRHHUkDrUSoy7NDvEPk0UCet/Rftx0e6mDmU/5MWIfGPwqmjb/1?=
+ =?us-ascii?Q?4ezeHIPyv16uPOKN+Y+iil5TYhezXtZjSmg2QrdmuP7nGS+FP6qP8dgh0GC6?=
+ =?us-ascii?Q?L8PddsoC5Hp5k3JQfz5r4he+QiS3E8BR5NEvwr4w9yj+rsp/7dW4/83svbdt?=
+ =?us-ascii?Q?rS6zHuoHoYXFEYCB+VEBdl/32tBcEC3KyPUjdL/LRdo/JNgM1v9QW5i3MTwY?=
+ =?us-ascii?Q?x7uamF7rnYZzUnw6sObH3nKaONXEuoQiqKfZtPh4zzqY0jxLYPHaIoWrs6Xd?=
+ =?us-ascii?Q?LnXkg4wXWdTq9F1aQlTiAmx3Yqvje1ECGWth+1Wt0/iPGTigaWN6knSUAEL0?=
+ =?us-ascii?Q?moAS71ybZ1huJPpuB3D7rtzhCyClJltPpqDHZDnREi07niW59626742NN+uG?=
+ =?us-ascii?Q?ltIIpTQc/dIUpYvQqERqtDmDndGbNNuh1WL0rKvGzWNijQhJHO+h3IlBq1jI?=
+ =?us-ascii?Q?jAH7RibRIYfDDpu/6KUnEty26vyNdZ2UAomvXC2vWa6gIVf4klyrsFnVI6Ss?=
+ =?us-ascii?Q?Pa+Fi+9NjfBJN3pGqKS2hL3YWS4svWd6vlp+/HpUjcPVnRQyq7pIqpfLa4af?=
+ =?us-ascii?Q?NlH3LWksqoCqY8P/ZkOF3bYTzIbD0HqZxRfYU0QszHMER2/Fm6F1SnvRQ2Xq?=
+ =?us-ascii?Q?rHU+BIOgALbDJGg7sMCe+MY3l7xMeVxxIIE1Xn2Jff45a5gpgSZVgvajSKZN?=
+ =?us-ascii?Q?7hHQ4pkeRbJhPMKRHdoQIYkVjqmQ7qcvVDwOthCXs2V0RHEQqonmEsC3ml9v?=
+ =?us-ascii?Q?zIbZI0V6N+PFx7abUvYqhLsKpr1O71r+Iog/Vtb84A=3D=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98353f0b-a22a-4e6a-36f7-08dabb4f9b68
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 14:24:30.7770 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 14:53:01.3110 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gbhjbwFJLqHJZ3kdCAVajvsknebOCiG1Cxhxlksw162WhksI5pMwkRBNjhQH80VpTFvLR+C2FS0/fzueTC7CAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4879
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3P286MB1807
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,123 +102,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: benjamin.gaignard@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ jstultz@google.com, afd@ti.com, Dawei Li <set_pte_at@outlook.com>,
+ labbott@redhat.com, sspatil@android.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-10-29 15:13, Filip Moc wrote:
-> There are some devices on which amdgpu won't allow user to set brightness
-> to sufficiently low values even though the hardware would support it just
-> fine.
-> 
-> This usually happens in two cases when either configuration of brightness
-> levels via ACPI/ATIF is not available and amdgpu falls back to defaults
-> (currently 12 for minimum level) which may be too high for some devices or
-> even the configuration via ATIF is available but the minimum brightness
-> level provided by the manufacturer is set to unreasonably high value.
-> 
-> In either case user can use this new module parameter to adjust the
-> minimum allowed backlight brightness level.
-> 
+Racing conflict could be:
+task A                 task B
+list_for_each_entry
+strcmp(h->name))
+                       list_for_each_entry
+                       strcmp(h->name)
+kzalloc                kzalloc
+......                 .....
+device_create          device_create
+list_add
+                       list_add
 
-Thanks for this patch and covering all the bases.
+The root cause is that task B has no idea about the fact someone
+else(A) has inserted heap with same name when it calls list_add,
+so a potential collision occurs.
 
-It might be useful to have an example in the commit description on
-how to set the array property. I assume it looks like this if I
-wanted to set the first device to a minimum of 2 and leave the default
-for the 2nd one:
+v1: https://lore.kernel.org/all/TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
 
-amdgpu.backlight_min=2:-1
+v1->v2: Narrow down locking scope, check the existence of heap before
+insertion, as suggested by Andrew Davis.
 
-Either way, this patch is
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
 
-Harry
+base-commit: 447fb14bf07905b880c9ed1ea92c53d6dd0649d7
 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=203439>> 
-> Signed-off-by: Filip Moc <dev@moc6.cz>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h               |  3 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 15 +++++++++++++++
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
->  3 files changed, 33 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 0e6ddf05c23c..c5445402c49d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -200,6 +200,9 @@ extern uint amdgpu_dc_debug_mask;
->  extern uint amdgpu_dc_visual_confirm;
->  extern uint amdgpu_dm_abm_level;
->  extern int amdgpu_backlight;
-> +#ifdef CONFIG_DRM_AMD_DC
-> +extern int amdgpu_backlight_override_min[];
-> +#endif
->  extern struct amdgpu_mgpu_info mgpu_info;
->  extern int amdgpu_ras_enable;
->  extern uint amdgpu_ras_mask;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 16f6a313335e..f2fb549ac52f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -43,6 +43,7 @@
->  #include "amdgpu_irq.h"
->  #include "amdgpu_dma_buf.h"
->  #include "amdgpu_sched.h"
-> +#include "amdgpu_dm.h"
->  #include "amdgpu_fdinfo.h"
->  #include "amdgpu_amdkfd.h"
->  
-> @@ -853,6 +854,20 @@ int amdgpu_backlight = -1;
->  MODULE_PARM_DESC(backlight, "Backlight control (0 = pwm, 1 = aux, -1 auto (default))");
->  module_param_named(backlight, amdgpu_backlight, bint, 0444);
->  
-> +/**
-> + * DOC: backlight_min (array of int)
-> + * Override minimum allowed backlight brightness signal (per display).
-> + * Must be less than the maximum brightness signal.
-> + * Negative value means no override.
-> + *
-> + * Defaults to all -1 (no override on any display).
-> + */
-> +#ifdef CONFIG_DRM_AMD_DC
-> +int amdgpu_backlight_override_min[AMDGPU_DM_MAX_NUM_EDP] = {[0 ... (AMDGPU_DM_MAX_NUM_EDP-1)] = -1};
-> +MODULE_PARM_DESC(backlight_min, "Override minimum backlight brightness signal (0..max-1, -1 = no override (default))");
-> +module_param_array_named(backlight_min, amdgpu_backlight_override_min, int, NULL, 0444);
-> +#endif
-> +
->  /**
->   * DOC: tmz (int)
->   * Trusted Memory Zone (TMZ) is a method to protect data being written
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index eb4ce7216104..e2c36ba93d05 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3911,6 +3911,21 @@ static void amdgpu_dm_update_backlight_caps(struct amdgpu_display_manager *dm,
->  	dm->backlight_caps[bl_idx].min_input_signal = AMDGPU_DM_DEFAULT_MIN_BACKLIGHT;
->  	dm->backlight_caps[bl_idx].max_input_signal = AMDGPU_DM_DEFAULT_MAX_BACKLIGHT;
->  #endif
-> +
-> +	if (amdgpu_backlight_override_min[bl_idx] >= 0) {
-> +		if (amdgpu_backlight_override_min[bl_idx] < dm->backlight_caps[bl_idx].max_input_signal) {
-> +			DRM_INFO("amdgpu: backlight[%i]: overriding minimum brightness from %i to %i\n",
-> +				  bl_idx,
-> +				  dm->backlight_caps[bl_idx].min_input_signal,
-> +				  amdgpu_backlight_override_min[bl_idx]);
-> +			dm->backlight_caps[bl_idx].min_input_signal = amdgpu_backlight_override_min[bl_idx];
-> +		} else {
-> +			DRM_ERROR("amdgpu: backlight[%i]: minimum brightness override (%i) is not below maximum (%i)\n",
-> +				  bl_idx,
-> +				  amdgpu_backlight_override_min[bl_idx],
-> +				  dm->backlight_caps[bl_idx].max_input_signal);
-> +		}
-> +	}
->  }
->  
->  static int get_brightness_range(const struct amdgpu_dm_backlight_caps *caps,
-> 
-> base-commit: d8c03bfe146fd5e081a252cd34f3f12ca0255357
+Signed-off-by: Dawei Li <set_pte_at@outlook.com>
+---
+ drivers/dma-buf/dma-heap.c | 37 ++++++++++++++++++++++++++++---------
+ 1 file changed, 28 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 8f5848aa144f..1c787a147e3a 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -216,9 +216,21 @@ const char *dma_heap_get_name(struct dma_heap *heap)
+ 	return heap->name;
+ }
+ 
++static inline bool dma_heap_exist(const char *name)
++{
++	struct dma_heap *h;
++
++	list_for_each_entry(h, &heap_list, list) {
++		if (!strcmp(h->name, name))
++			return true;
++	}
++
++	return false;
++}
++
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ {
+-	struct dma_heap *heap, *h, *err_ret;
++	struct dma_heap *heap, *err_ret;
+ 	struct device *dev_ret;
+ 	unsigned int minor;
+ 	int ret;
+@@ -235,13 +247,11 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 
+ 	/* check the name is unique */
+ 	mutex_lock(&heap_list_lock);
+-	list_for_each_entry(h, &heap_list, list) {
+-		if (!strcmp(h->name, exp_info->name)) {
+-			mutex_unlock(&heap_list_lock);
+-			pr_err("dma_heap: Already registered heap named %s\n",
+-			       exp_info->name);
+-			return ERR_PTR(-EINVAL);
+-		}
++	if (dma_heap_exist(exp_info->name)) {
++		mutex_unlock(&heap_list_lock);
++		pr_err("dma_heap: Already registered heap named %s\n",
++		       exp_info->name);
++		return ERR_PTR(-EINVAL);
+ 	}
+ 	mutex_unlock(&heap_list_lock);
+ 
+@@ -283,13 +293,22 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		err_ret = ERR_CAST(dev_ret);
+ 		goto err2;
+ 	}
++
+ 	/* Add heap to the list */
+ 	mutex_lock(&heap_list_lock);
++	if (unlikely(dma_heap_exist(exp_info->name))) {
++		mutex_unlock(&heap_list_lock);
++		pr_err("dma_heap: Already registered heap named %s\n",
++		       exp_info->name);
++		err_ret = ERR_PTR(-EINVAL);
++		goto err3;
++	}
+ 	list_add(&heap->list, &heap_list);
+ 	mutex_unlock(&heap_list_lock);
+ 
+ 	return heap;
+-
++err3:
++	device_destroy(dma_heap_class, heap->heap_devt);
+ err2:
+ 	cdev_del(&heap->heap_cdev);
+ err1:
+-- 
+2.25.1
 
