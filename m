@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7115C612E04
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 00:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABC7612F99
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 06:11:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5542910E098;
-	Sun, 30 Oct 2022 23:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A296C10E0F8;
+	Mon, 31 Oct 2022 05:11:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D125110E098
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Oct 2022 23:25:51 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29UNPDiP019973;
- Sun, 30 Oct 2022 18:25:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1667172313;
- bh=V6PpPRXChTMfvnSzrScuWIP50LYca9tZ+HJcEcG2FL8=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=klp6m862gHiRbmBxOP5drrax+/jgolHjC7B0uZk5MDWnzAf0HnoA1VZU5aLccjDXg
- XptJCJ+aRI2l/iNVGmggGcP5Lk1QL3DxVdrCm7VOkE3gzOeE0RAtLrTIbAC9eXjrWM
- PLqEabIHpUeaXxvOrTP9atXd8vRMXsMm1tCLnb1Y=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29UNPDqi003091
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sun, 30 Oct 2022 18:25:13 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Sun, 30
- Oct 2022 18:25:12 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Sun, 30 Oct 2022 18:25:12 -0500
-Received: from [10.250.35.234] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29UNPBfp097440;
- Sun, 30 Oct 2022 18:25:12 -0500
-Message-ID: <b3073b69-c404-4f3b-8a8e-5a86cf413877@ti.com>
-Date: Sun, 30 Oct 2022 18:25:11 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B11F10E0F8;
+ Mon, 31 Oct 2022 05:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667193058; x=1698729058;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=J/RX3CIISXh4uRtVCwaoTBXy012CI0jVtOzkItQhTjM=;
+ b=Sa3i8w8171WPSTpvs4ThBMmCfeYNN1wWGp3UKz1ftw04WvcJVUmJ3twe
+ fCW0dBeMtB9EUnB9bTRO+jzAFzeZXHviCvx/NmlLmMNagtidb8Eao8+Lj
+ 0FdOlsfsQeVfyyjI5yR9IXHyvn/Oot+GL7JKFEdEVxaaRy+fSt+Xo/BaB
+ VUOXEt7JJCC1inlZ7qSKour50qYyx55JuULPzc6VlHz56y0J+YVFGx9vl
+ h65h4C18OMZPKhRhOdmMZVfYu4k8zj32kVMAOoeS/Oj2zkn1APqAqFilA
+ 2B/HrKb49Gr2JjJaJlNOMgywGO6Cwb6V+OZA0EWxwfC34PMlLMHmYXWzy A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="395134224"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="395134224"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2022 22:10:57 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="635922323"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="635922323"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
+ ([10.165.21.138])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2022 22:10:56 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/hwmon: Don't use FIELD_PREP
+Date: Sun, 30 Oct 2022 22:10:51 -0700
+Message-Id: <20221031051051.553812-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] dma-buf: fix racing conflict of dma_heap_add()
-To: Dawei Li <set_pte_at@outlook.com>, <sumit.semwal@linaro.org>,
- <christian.koenig@amd.com>
-References: <TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,88 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: benjamin.gaignard@collabora.com, linux-kernel@vger.kernel.org,
- lmark@codeaurora.org, sspatil@android.com, linaro-mm-sig@lists.linaro.org,
- jstultz@google.com, dri-devel@lists.freedesktop.org, labbott@redhat.com,
- linux-media@vger.kernel.org
+Cc: Andi Shyti <andi.shyti@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>, llvm@lists.linux.dev,
+ ndesaulniers@google.com, gwan-gyeong.mun@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/30/22 6:37 AM, Dawei Li wrote:
-> Racing conflict could be:
-> task A                 task B
-> list_for_each_entry
-> strcmp(h->name))
->                         list_for_each_entry
->                         strcmp(h->name)
-> kzalloc                kzalloc
-> ......                 .....
-> device_create          device_create
-> list_add
->                         list_add
-> 
-> The root cause is that task B has no idea about the fact someone
-> else(A) has inserted heap with same name when it calls list_add,
-> so a potential collision occurs.
-> 
-> Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
-> 
-> base-commit: 447fb14bf07905b880c9ed1ea92c53d6dd0649d7
-> 
-> Signed-off-by: Dawei Li <set_pte_at@outlook.com>
-> ---
->   drivers/dma-buf/dma-heap.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index 8f5848aa144f..ff44c2777b04 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -243,11 +243,12 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   			return ERR_PTR(-EINVAL);
->   		}
->   	}
-> -	mutex_unlock(&heap_list_lock);
->   
->   	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
-> -	if (!heap)
-> +	if (!heap) {
-> +		mutex_unlock(&heap_list_lock);
->   		return ERR_PTR(-ENOMEM);
-> +	}
->   
->   	heap->name = exp_info->name;
->   	heap->ops = exp_info->ops;
-> @@ -284,7 +285,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   		goto err2;
->   	}
->   	/* Add heap to the list */
-> -	mutex_lock(&heap_list_lock);
+FIELD_PREP and REG_FIELD_PREP have checks requiring a compile time constant
+mask. When the mask comes in as the argument of a function these checks can
+can fail depending on the compiler (gcc vs clang), optimization level,
+etc. Use a simpler local version of FIELD_PREP which skips these
+checks. The checks are not needed because the mask is formed using
+REG_GENMASK (so is actually a compile time constant).
 
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7354
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+---
+ drivers/gpu/drm/i915/i915_hwmon.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Good catch!
+diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+index 9e97814930254..a3ec9a73a4e49 100644
+--- a/drivers/gpu/drm/i915/i915_hwmon.c
++++ b/drivers/gpu/drm/i915/i915_hwmon.c
+@@ -62,6 +62,12 @@ struct i915_hwmon {
+ 	int scl_shift_time;
+ };
+ 
++/* FIELD_PREP and REG_FIELD_PREP require a compile time constant mask */
++static u32 hwm_field_prep(u32 mask, u32 val)
++{
++	return (val << __bf_shf(mask)) & mask;
++}
++
+ static void
+ hwm_locked_with_pm_intel_uncore_rmw(struct hwm_drvdata *ddat,
+ 				    i915_reg_t reg, u32 clear, u32 set)
+@@ -112,7 +118,7 @@ hwm_field_scale_and_write(struct hwm_drvdata *ddat, i915_reg_t rgadr,
+ 	nval = DIV_ROUND_CLOSEST_ULL((u64)lval << nshift, scale_factor);
+ 
+ 	bits_to_clear = field_msk;
+-	bits_to_set = FIELD_PREP(field_msk, nval);
++	bits_to_set = hwm_field_prep(field_msk, nval);
+ 
+ 	hwm_locked_with_pm_intel_uncore_rmw(ddat, rgadr,
+ 					    bits_to_clear, bits_to_set);
+-- 
+2.38.0
 
-In general I'd like to hold locks for as short a time as possible and
-only bracket the lock associated structure (heap_list). How about we
-move the duplicate name check to down here so they are both inside
-this one locked section here.
-
-I know this will mean we take a longer unwind error path
-if the names are duplicated, but that should be rare and
-this will keep all heap_list accesses together.
-
-Thanks,
-Andrew
-
-
->   	list_add(&heap->list, &heap_list);
->   	mutex_unlock(&heap_list_lock);
->   
-> @@ -296,6 +296,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   	xa_erase(&dma_heap_minors, minor);
->   err0:
->   	kfree(heap);
-> +	mutex_unlock(&heap_list_lock);
->   	return err_ret;
->   }
->   
