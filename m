@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E50613A2E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 16:36:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8CB613A58
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 16:40:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C696810E285;
-	Mon, 31 Oct 2022 15:36:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B515710E0E0;
+	Mon, 31 Oct 2022 15:40:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 501D910E27F;
- Mon, 31 Oct 2022 15:36:21 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id r187so13135198oia.8;
- Mon, 31 Oct 2022 08:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NZ9svVcqEpoCn/DRJRtqGJnzFfLnvgvZgnnPVTMjw9w=;
- b=LppIxaq+KxX4U647wlKAZCyxF03zXuJNg1ni4I2k2e8rpayHjUK+wZ3YxWl7pUcOvk
- xBa8PBokMuuYaZ9DTovzP1y4UV4vLCS0vAUffMLEXZdMHCbrpkPjv0LrcsNEpO3cHpyH
- AGXvBWE7uM0TDg26hKlpAqEJBAitI77xH1AZWH7LY/OqIA7qwoQ4o+0mgiKpYvoyWFVh
- /SJKdO3bSfLJzt4gGGrXTLIfJg10qqe023mBgY2uA5I1bTHcOT4pak8bG6wM7dnUNqFw
- Q4iWYA4zrS4zdDGOCzMMlM+px0g8tgN6ge7Vw6d7+4VRPmKDkvRL0d2WFiZD9IoWG3ag
- I16g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NZ9svVcqEpoCn/DRJRtqGJnzFfLnvgvZgnnPVTMjw9w=;
- b=Y2nT4i+SnRWAFVWpNXpVGlkyMrvJG14MRVHuGlAI9thabdU+/wP7WhnEPd+B19Sv4m
- JYa4OBg3jsCBcNe3PpZ2B7u0cWWgdVXvaIYRd6cCDgHOnGFD4zAfbpCMlF6sJKUWoXhY
- dpcBgwNrSbdCNXYzeLaRHZ3ldFkgYOHK2wS28NPiyQfaKFbZBByKGYrB9ZEKl7hm99+w
- JvOsnN7qvU5JSu+NaQPdY2tZNIj6nsRzlFFYCFyzjCrUBkSBMgXxrW/1aGkVXR7+iEor
- daHllfgyPC2SNJMJMrMlD+5ru6kvEMVKyv2Q45yloHx13QL3llfFihe9l/+nMXC9YFG6
- qqNA==
-X-Gm-Message-State: ACrzQf0ACDq5Che2psn8YbkUQO607zr750xn24sFh/K8+zbBtJVEN1Xn
- Wj/XJYz6YlNEBnwF6s61VvFAZEJvUM5FvXBK1Q4=
-X-Google-Smtp-Source: AMsMyM7B0fndfG6nvizJp5E8j9Eh9Le4tnJvOWEdVadHUUjC2xmpwJzBNVXw9O/HZO/DkEoWrnPYXbaklDdIYB7rCT4=
-X-Received: by 2002:a05:6808:998:b0:359:c7f3:1ef8 with SMTP id
- a24-20020a056808099800b00359c7f31ef8mr11258816oic.46.1667230580537; Mon, 31
- Oct 2022 08:36:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <Y117XNaSP6/8bH+3@moc6.cz>
-In-Reply-To: <Y117XNaSP6/8bH+3@moc6.cz>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 31 Oct 2022 11:36:09 -0400
-Message-ID: <CADnq5_Muegi+dvmrg5U=Cau_oeXQFjv_h2Pdn_j9AG0mRgE4=g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: add parameter backlight_min
-To: Filip Moc <dev@moc6.cz>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F77010E0E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 15:40:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 204EB612FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 15:40:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8FC54C43145
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 15:40:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667230825;
+ bh=ckqz1labugod+h9H+tBY8ExQe4ToBqDNozj5kGC7FFQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=IYt2x60RJC3O0juwLt+NJWmtsY4os+P1ikvfE75FkFqzuYntn4+AnKMOvDqJQA/AR
+ jSZYhnNbk/1Gy7zi7clbcIfLHJmGxZ9xZ4E5+wWzdg5/8R6YFjxfcnkl2quKEI84n9
+ CDt2EZszPwT0/AE7S45Kw6gm8ov7wuTy1UarFEse87Dy2ceRNjC1LT7TF4Ss/Y6dsF
+ qpkLXzEV2D6DBZhFzs3v4ayNIWGi6HkR5YuYM6vd67r+baMaEKRuhXvzJ/FcD7E9ZW
+ U2K6nekdZlhIefRZLuiFu60LvmWcuvdIa682YYcxL6WvdkQuXJg5qi1ekJ9ub33+9U
+ t71Z1Gl0vT12Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 74176C433E6; Mon, 31 Oct 2022 15:40:25 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216645] Fence fallback timer expired on ring gfx
+Date: Mon, 31 Oct 2022 15:40:25 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-216645-2300-HpZ0K50tEA@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216645-2300@https.bugzilla.kernel.org/>
+References: <bug-216645-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,121 +71,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 30, 2022 at 5:26 AM Filip Moc <dev@moc6.cz> wrote:
->
-> There are some devices on which amdgpu won't allow user to set brightness
-> to sufficiently low values even though the hardware would support it just
-> fine.
->
-> This usually happens in two cases when either configuration of brightness
-> levels via ACPI/ATIF is not available and amdgpu falls back to defaults
-> (currently 12 for minimum level) which may be too high for some devices or
-> even the configuration via ATIF is available but the minimum brightness
-> level provided by the manufacturer is set to unreasonably high value.
->
-> In either case user can use this new module parameter to adjust the
-> minimum allowed backlight brightness level.
->
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=203439
-> Signed-off-by: Filip Moc <dev@moc6.cz>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216645
 
-Does your system require an override and if so, what is it?  It would
-be good to add a quirk for your system as well so that other users of
-the same system wouldn't need to manually figure out an apply the
-settings.
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-Alex
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to Martin =C5=A0u=C5=A1la from comment #0)
+>=20
+> Would someone also tell us which workaround should be used under which
+> performace/latency requirements? ("Maybe wrong but still an" EXAMPLE: Use=
+rs
+> who need the best performace or lowest latency should use pcie_port_pm=3D=
+off,
+> users who need the best battery life should use amdgpu.msi=3D0.)
+>=20
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h               |  3 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 15 +++++++++++++++
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
->  3 files changed, 33 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 0e6ddf05c23c..c5445402c49d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -200,6 +200,9 @@ extern uint amdgpu_dc_debug_mask;
->  extern uint amdgpu_dc_visual_confirm;
->  extern uint amdgpu_dm_abm_level;
->  extern int amdgpu_backlight;
-> +#ifdef CONFIG_DRM_AMD_DC
-> +extern int amdgpu_backlight_override_min[];
-> +#endif
->  extern struct amdgpu_mgpu_info mgpu_info;
->  extern int amdgpu_ras_enable;
->  extern uint amdgpu_ras_mask;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 16f6a313335e..f2fb549ac52f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -43,6 +43,7 @@
->  #include "amdgpu_irq.h"
->  #include "amdgpu_dma_buf.h"
->  #include "amdgpu_sched.h"
-> +#include "amdgpu_dm.h"
->  #include "amdgpu_fdinfo.h"
->  #include "amdgpu_amdkfd.h"
->
-> @@ -853,6 +854,20 @@ int amdgpu_backlight = -1;
->  MODULE_PARM_DESC(backlight, "Backlight control (0 = pwm, 1 = aux, -1 auto (default))");
->  module_param_named(backlight, amdgpu_backlight, bint, 0444);
->
-> +/**
-> + * DOC: backlight_min (array of int)
-> + * Override minimum allowed backlight brightness signal (per display).
-> + * Must be less than the maximum brightness signal.
-> + * Negative value means no override.
-> + *
-> + * Defaults to all -1 (no override on any display).
-> + */
-> +#ifdef CONFIG_DRM_AMD_DC
-> +int amdgpu_backlight_override_min[AMDGPU_DM_MAX_NUM_EDP] = {[0 ... (AMDGPU_DM_MAX_NUM_EDP-1)] = -1};
-> +MODULE_PARM_DESC(backlight_min, "Override minimum backlight brightness signal (0..max-1, -1 = no override (default))");
-> +module_param_array_named(backlight_min, amdgpu_backlight_override_min, int, NULL, 0444);
-> +#endif
-> +
->  /**
->   * DOC: tmz (int)
->   * Trusted Memory Zone (TMZ) is a method to protect data being written
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index eb4ce7216104..e2c36ba93d05 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3911,6 +3911,21 @@ static void amdgpu_dm_update_backlight_caps(struct amdgpu_display_manager *dm,
->         dm->backlight_caps[bl_idx].min_input_signal = AMDGPU_DM_DEFAULT_MIN_BACKLIGHT;
->         dm->backlight_caps[bl_idx].max_input_signal = AMDGPU_DM_DEFAULT_MAX_BACKLIGHT;
->  #endif
-> +
-> +       if (amdgpu_backlight_override_min[bl_idx] >= 0) {
-> +               if (amdgpu_backlight_override_min[bl_idx] < dm->backlight_caps[bl_idx].max_input_signal) {
-> +                       DRM_INFO("amdgpu: backlight[%i]: overriding minimum brightness from %i to %i\n",
-> +                                 bl_idx,
-> +                                 dm->backlight_caps[bl_idx].min_input_signal,
-> +                                 amdgpu_backlight_override_min[bl_idx]);
-> +                       dm->backlight_caps[bl_idx].min_input_signal = amdgpu_backlight_override_min[bl_idx];
-> +               } else {
-> +                       DRM_ERROR("amdgpu: backlight[%i]: minimum brightness override (%i) is not below maximum (%i)\n",
-> +                                 bl_idx,
-> +                                 amdgpu_backlight_override_min[bl_idx],
-> +                                 dm->backlight_caps[bl_idx].max_input_signal);
-> +               }
-> +       }
->  }
->
->  static int get_brightness_range(const struct amdgpu_dm_backlight_caps *caps,
->
-> base-commit: d8c03bfe146fd5e081a252cd34f3f12ca0255357
-> --
-> 2.30.2
->
+You should not need to override any of the defaults other than for debuggin=
+g.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
