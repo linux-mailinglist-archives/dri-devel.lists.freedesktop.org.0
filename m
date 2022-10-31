@@ -1,71 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF36F613DA1
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 19:46:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D2F613E98
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 20:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB9FB10E131;
-	Mon, 31 Oct 2022 18:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22A7710E15F;
+	Mon, 31 Oct 2022 19:55:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 821BF10E0F9
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 18:46:19 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id u2so17852917ljl.3
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 11:46:19 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4291C10E15F
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 19:55:20 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id a67so18965026edf.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 12:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=S11pSJe+3m2UZvWKILOfbSaBNiczaTBDXuv2aL1IhrU=;
- b=Hv7Gt7yt1ZrenkBrV/xTf8N345bQcji16EmWnFa8k+bSW6LnFpsJAZsZlm+NEpNEBx
- SZ9lY9tZ5dR9KGxRJ3Ya9Gl+D7Rr3GkTDpjk7DLX0Vng9fIhKgCmvjclE5HjnwMTQlgp
- +V1ZXsBjO2bueOR08NYmrsm4Wi6uAkx38Us6M8dss4j+yXsNe0XGqhxUNpBELMT2LeO3
- QfaIAXINetaOQiOlHX/Oqt6yCEir/6w1zgZghKvkMO3jb3/aeqvOcfzSNJYvKVbew5Ax
- iEF98VaLdwSvJUW5SWx6AW8Nk7Vr4w9+fWiQMpyQTZN32CCfOssqygyfo7xxuDt0khvg
- 1fcg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DF4wkWvWXegmip018YfFTMUIfpvZ++f68WTZSD1bWH4=;
+ b=b/AhgHxwilfewDUeFdF7w5tS1qudHYwzeXYHCeNTee8gy7zQX39fPcLeEM+Wg2XbVc
+ OMXGEWO82RD7yGQEkDfRc2i0aqOuYklgxxBLGlc3zsxIFDUxm5azTpth70VNAT6C/K0V
+ Sp55l2H8ExCVM971zGFtptSmbXODgOa63SoNl/bpXl2unUrPP8r7gJoRJ5lyg749pl8u
+ tk7UmZgFsHQ6SrAr8fiCmWbrqAdFMgUuBhxhyH5fE2JHga4rzsYrQkaLeck9SCqq868x
+ v9dDgVFzZdrz6jmTK0GaAXL6a36GJmr4G2f5Kt0kQpPmy2lPsBMyIQ8bASyY8Ivup2CE
+ 0YnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S11pSJe+3m2UZvWKILOfbSaBNiczaTBDXuv2aL1IhrU=;
- b=qmsRzOLmFjZ7ODGrCuusyd9No3F83sJFb3IV3fdxUCMbih+Q0GWSn8UiYMgj3F3bAj
- tlis3rfYL4j32AiAPBdJYAr8p+loBIe9+Vt1faxLWMYeE3gei25CWNzQZoK3vH+7kDLk
- nUSB0PNkbnnhjeKAuVio65uy4zxt+QR7Lnl+8OIB7lIbK0YrguZbsXTPAz8iIt1uOgjf
- D1IcZnDmNS5I3Zzf+a3cEH0mPxz5w4v1Tjb1pQTfZC7zmtUGFIFgBVSZXw0tLk7/ICAz
- B1w41CSo+b9bvPkIP4M9FThnu4i9JKiADTS4CEtVLxoStiv50+Q7+Z6ULgvPCffcWs0S
- GXeQ==
-X-Gm-Message-State: ACrzQf30oEI98u3G0966D6JYZeMjn9c9bffokoHN52VtkDpDFQaw3PL+
- +3ay5XEdA95Ws7FBhG3Ss7FvtQ==
-X-Google-Smtp-Source: AMsMyM6BASxniPfNeXTgSwyK8JDlvyz9PL/6j9II+ZUjwQkNjuL0WuoM6HN06stv0Fz/4hUFu7NW/g==
-X-Received: by 2002:a05:651c:1073:b0:277:35ca:5eef with SMTP id
- y19-20020a05651c107300b0027735ca5eefmr5940508ljm.150.1667241977777; 
- Mon, 31 Oct 2022 11:46:17 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- p10-20020a2ea4ca000000b0026daf4fc0f7sm1457506ljm.92.2022.10.31.11.46.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 11:46:17 -0700 (PDT)
-Message-ID: <94b507e8-5b94-12ae-4c81-95f5d36279d5@linaro.org>
-Date: Mon, 31 Oct 2022 21:46:16 +0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DF4wkWvWXegmip018YfFTMUIfpvZ++f68WTZSD1bWH4=;
+ b=zN9nlvn9woR4ZJ0zK0Q11CLEZ6gIVthJ9mV6LZj08uQgRop/jkLT860hZdaZHjPQGb
+ LjUT+6afKMoM/D5PZds0eZZoT0iECfwA5fOU99/ZEmzYIfRCMrNT1UqkEtWyIoJ+WiM/
+ W/Lv5uGZKpbJcpcnkg/YE6AniMSVSJhS5GFXguZaKBgFUTYaDEId+jpOYQJJDwaWF+d1
+ IpaDcBtjEpdvKYfWU0wWdLyeOt6tHqKPQZtvaofWS/yC7+0nH4AXqO/f1j/BIxM/ceDl
+ Js+CMpAk8ru7rlnvYZ3Ot/zDw5qJeUkysKFpftCnmlBLN4XclFW8/aGPij3t3Nlhr5ny
+ 3/lg==
+X-Gm-Message-State: ACrzQf19JXOKJr63AkLGCdNIJWx/0yfJ/v6oklJFuS1qjjeqHMbJpTVA
+ mC9gUjdKVMwAyT9THeiQRMOvXNVokNZvwj802ZLfaA==
+X-Google-Smtp-Source: AMsMyM56VjnjVqw1pPVrEHK3+oaJydtdMBXaE2SuGomtgUtwtlegLzPacGGZ1UIeWQGuFFHcB8CXww6lQcbWYaPdUiY=
+X-Received: by 2002:a05:6402:1bdc:b0:463:6315:1b96 with SMTP id
+ ch28-20020a0564021bdc00b0046363151b96mr6249924edb.158.1667246118524; Mon, 31
+ Oct 2022 12:55:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] drm/msm/dp: remove limitation of link rate at 5.4G to
- support HBR3
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
- vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
- bjorn.andersson@linaro.org
-References: <1667237245-24988-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1667237245-24988-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20221021155000.4108406-1-arnd@kernel.org>
+ <20221021155000.4108406-3-arnd@kernel.org>
+In-Reply-To: <20221021155000.4108406-3-arnd@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 31 Oct 2022 20:55:07 +0100
+Message-ID: <CACRpkdYayAm4rxg3taUqDa_9YCTK+EFiGKAoMETQd+yg1C83-w@mail.gmail.com>
+Subject: Re: [PATCH 02/11] ARM: sa1100: remove unused board files
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,50 +65,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: Stefan Eletzhofer <stefan.eletzhofer@eletztrick.de>,
+ linux-fbdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Dominik Brodowski <linux@dominikbrodowski.net>, linux-kernel@vger.kernel.org,
+ Lubomir Rintel <lkundrak@v3.sk>, Peter Chubb <peter.chubb@unsw.edu.au>,
+ Alan Stern <stern@rowland.harvard.edu>, dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/10/2022 20:27, Kuogee Hsieh wrote:
-> An HBR3-capable device shall also support TPS4. Since TPS4 feature
-> had been implemented already, it is not necessary to limit link
-> rate at HBR2 (5.4G). This patch remove this limitation to support
-> HBR3 (8.1G) link rate.
+On Fri, Oct 21, 2022 at 5:55 PM Arnd Bergmann <arnd@kernel.org> wrote:
 
-The DP driver supports several platforms including sdm845 and can 
-support, if I'm not mistaken, platforms up to msm8998/sdm630/660. Could 
-you please confirm that all these SoCs have support for HBR3?
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The Cerf, H3100, Badge4, Hackkit, LART, NanoEngine, PLEB, Shannon and
+> Simpad machines were all marked as unused as there are no known users
+> left. Remove all of these, along with references to them in defconfig
+> files and drivers.
+>
+> Four machines remain now: Assabet, Collie (Zaurus SL5500), iPAQ H3600
+> and Jornada 720, each of which had one person still using them, with
+> Collie also being supported in Qemu.
+>
+> Cc: Peter Chubb <peter.chubb@unsw.edu.au>
+> Cc: Stefan Eletzhofer <stefan.eletzhofer@eletztrick.de>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-With that fact being confirmed:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_panel.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 5149ceb..3344f5a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -78,10 +78,6 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->   	if (link_info->num_lanes > dp_panel->max_dp_lanes)
->   		link_info->num_lanes = dp_panel->max_dp_lanes;
->   
-> -	/* Limit support upto HBR2 until HBR3 support is added */
-> -	if (link_info->rate >= (drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4)))
-> -		link_info->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4);
-> -
->   	drm_dbg_dp(panel->drm_dev, "version: %d.%d\n", major, minor);
->   	drm_dbg_dp(panel->drm_dev, "link_rate=%d\n", link_info->rate);
->   	drm_dbg_dp(panel->drm_dev, "lane_count=%d\n", link_info->num_lanes);
-
--- 
-With best wishes
-Dmitry
-
+Yours,
+Linus Walleij
