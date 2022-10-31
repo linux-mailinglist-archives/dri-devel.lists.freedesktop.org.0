@@ -1,95 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CAB5613967
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 15:53:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2261613964
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 15:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6D8510E228;
-	Mon, 31 Oct 2022 14:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D662610E1DF;
+	Mon, 31 Oct 2022 14:52:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01olkn2018.outbound.protection.outlook.com [40.92.99.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A693D10E1E2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 14:53:04 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C45B310E1D9;
+ Mon, 31 Oct 2022 14:52:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FRCRH0ikiqwBcLX2ii96XgqRKXA8VZVanMMTjFzv2hPS0YdZyoGUozbZhmZXbDr/PmFNCqfE1mFFWTYoTO4UFNMLGxQLBPXtFSeJ4z7lYK0iyF/yAHs7vkZZvexF2zBfIK0KZC1rbfInCkjODZ3S/s5wIRdB0Y+7T1nxQMg7VSo1XXcgoIRFZ14+mu1/ivoGADVsCpEZhCTiHJnNNs/uyQ4B9c05dVUvPbAXcCWzWFfI7ntap3RfrhgfvZP0TrgrhemKXzVQIPhXxKaGEzWnhz6iyYsaOO+NbgIrOcgOHIPXdOguTGGdam/HnkIWx/hj5R1nJy8PS8gaqWsk4Rr9Zg==
+ b=HiKJuz43Rbnm3GphWMTTcChvMJ/XCFybATzmDm0g8w66qgYda2MyEhAeEmq0+BgW0JXy+J1C8ZMDqKrtd7HqlM9hYpsYV8CkLDeXTb24xAmcANN2WUhOwwxjoyEL4H8ZZmS0nJ0WCI33Uo3FQZawiGXZw3ccWOsjY+QVDGzKwsklLSwRry+pUQxoSy1STYNDFJfka3MbH/IB4KIao0E+X32wqhzITlbFFXVHfdl74DiqY1F0Zus1Z6eL4l9hFfdIqqSvyt8JUD3bqf6qW7ITuFW4s+0DL1sWN5CRdz3pCZ8LYnS8yXVe7oD8ZrVkj+9H8vNXxlJsgzUTD1ATU3v0AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i9dEn6D7Co1PX/Iiiw8zL1X+12AdwI+Oj3zBGlqIa08=;
- b=XVgdo4dI8ESVqcf/QdKf3an6AF5j+NnjJDbwB0Nbsp9J88UbYkfeAzqtLRV7w66dHt0z5/uC/8juE1OFqapJKbRAkaAFbHeCBDKdxCxqiknfwgrK/9fj5CdAEUhdY0hDQKoWHKIiBpvyLJRZCcxZszGpCLGSnh6fRl7Dyuq3uEAEDtP97Mzg2OGUJNezol6bS3qE9V34U3+360qh1R/5y8mVmFISVWocE09EkawNod90vqmfYQ48UCxpcEHJ0/V2wNPsguOr7ZsNkIqLGSjMP50FQzwlBeO2C8bUWJ7er79QgkKmem/9eP3OGS+hA02Y6WZ0GEFIsFZWLdvAX7xDoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=PLLuZ4KatH7UEeVqXdD4z5uc26qN4P2nEFHLLL1d2vo=;
+ b=XajL2fklo3Fz3xVM+8PcqFFYHLcPJ/RXn+TV6XFSsZwQ223VZT9biqMStajnHwCtHqiU/G62xecaE4sCLH63OwEvZfiNcUzwVmLzkhn5lQ5QoWzSFheMPfZluGurHzj1t2ZJFUKO/R0dYp+MZLVmatS7BdrVwTZDN3tTC0KLczPp8oRnrEN4wVrf1/EdOd1tOJgdK/BdMEVjMDRSVaAe7G3fhfawtD4FpLpbj5QrIkqjsptWHIxpQRd8dQLhcldZewDUFvOGZ3t4Rojv9gtNaeHpUbOzgaC9zereZbDdruLWTLcsEqXonwoLqg1oikDRBFhzlISMkT3fsNouA8nujA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i9dEn6D7Co1PX/Iiiw8zL1X+12AdwI+Oj3zBGlqIa08=;
- b=Q+so7jGBX47BTlZPClQLG/7XkqAY7eOGSdKf+heeoOZo7MLk+VhN9iO/bKuBHZYGl+CBH1FYztRWUIBz4bC0e5MKvu6Kjf/q2AjMdAcRMId+xOX0/AqJ6BocAYvs8Ed6pDlSOXci++/JJqToCW8j9J5EfMPTBI0jMXoRsFmbsRhuBJKLp11eQODZFow4tYI2Sld2ayrGGYYYw1fT7xevx85K526KBcv+dVpsxJLhuVolBvWH4BqeYupxNTzko95Dco6lT2si2i6DPIO0rEkAZ3wQtF+LRGrTIatHBpseu1NOtyXGwSv2MBO68Iy8NsvaRoB/2YeZBgm3wiMPKQPXRQ==
-Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:152::9)
- by OS3P286MB1807.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1be::8) with
+ bh=PLLuZ4KatH7UEeVqXdD4z5uc26qN4P2nEFHLLL1d2vo=;
+ b=UwVIpB1R7c7TvyetYixUWYLJ3RSvx7MUUCvuxS/kUGMq65NzaNzFnrXV4V7u5O2dqDbgpzxgyVQ7VVHSgktQvUFyz8qlSxWL8hQXAjLoK2i35y2eiPlqsNYMYpJZjWJ9vSMkgrABC5XLSb76u/lxt9NrOEJYzlVV2Xs6Ba+YNno=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by PH7PR12MB7379.namprd12.prod.outlook.com (2603:10b6:510:20e::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Mon, 31 Oct
- 2022 14:53:01 +0000
-Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
- ([fe80::c90e:cbf3:c23d:43a5]) by TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
- ([fe80::c90e:cbf3:c23d:43a5%7]) with mapi id 15.20.5769.018; Mon, 31 Oct 2022
- 14:53:01 +0000
-From: Dawei Li <set_pte_at@outlook.com>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com
-Subject: [PATCH v2] dma-buf: fix racing conflict of dma_heap_add()
-Date: Mon, 31 Oct 2022 22:52:35 +0800
-Message-ID: <TYCP286MB23235BB803E3A778C85B50F7CA379@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [4vwNSavDv/oZ9jpJB5pxJFgROf8JOzPGBz5aMq7ezAI=]
-X-ClientProxiedBy: SG3P274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::23)
- To TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:152::9)
-X-Microsoft-Original-Message-ID: <20221031145235.17912-1-set_pte_at@outlook.com>
+ 2022 14:52:47 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::c741:a5f:2c1a:f8cd]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::c741:a5f:2c1a:f8cd%4]) with mapi id 15.20.5769.019; Mon, 31 Oct 2022
+ 14:52:47 +0000
+Message-ID: <9060a3ed-5aa0-c26c-f9b0-d91b0abf2c6f@amd.com>
+Date: Mon, 31 Oct 2022 10:52:42 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] drm/amd/display: drop vblank_lock from struct
+ amdgpu_display_manager
+Content-Language: en-US
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20221028204454.193752-1-hamza.mahfooz@amd.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20221028204454.193752-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT1PR01CA0114.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::23) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCP286MB2323:EE_|OS3P286MB1807:EE_
-X-MS-Office365-Filtering-Correlation-Id: 98353f0b-a22a-4e6a-36f7-08dabb4f9b68
-X-MS-Exchange-SLBlob-MailProps: hmxDvsT8QC8CUGNFSCVMrtHXTb9OmFgxOTK9PsKAKWYSFYC5ELcZV84/h9sQbzeTAdkYq9jJsGl9bNGYtY4yq8idvNNYr+tprmxd6B0HLdEkh1C95F9vW3O0xPlzI3QR+dQfQv6z5VchBXhJtEvQNlbNzuEVB47vwByv3YQxyF5zaXEyy2fxTXtZ0qKXJjkzZLCyCVoRUBRQRT+f5b5c/yX0vBkOd1FUxPqLZMcI0jZ7WhiVssKFIDtZJEw4tq0QOCckYxU5eP8ykQprX2Fi2xsO4ssl72pCCA9VcczyJgaoCA38uIenFg1JOYErC5Ib+rw6GJuzoSyZkVRxFaJ9+Lk7MtuE3swNAiKRwSC/PpoVmFmwSEGDNYiuaRtuFQJr8bVprht53bb97pTNehAZbbodynfHYCQBKA+vNJNa02qsFxC/A+wzv+ZCrgBOaIrcPELWQrq1ABknlfynUurCbg9y+aSnLCA9+6qz7JN4nxuv8mdNF5xTY7mVjllctt0m/gjn9/WVKcDSUgtVTiB9g2vdcd5njYpSfR+U4btLZ6z6EWrTDsTpPtJYjH7D2u5lw3v2uwEZ6FdWcAY+zOrPEBcU9vrCYEnXcqXan64zhvBzI6CZJ9HzlvMX4iXgh6R//d/TJpNzZspQp92dApbhrJVS+AeX5h/OhmuV4hkE+yoYMwPRd5st+AEZxDa85QZCBNX2/GOTfobwJEn8Lcz8NYhl3VGpCvAgM6YIaxBJYqvlz9944z0I/o2Cu0IviEBZT6Oz+ygfpufwoBXjBZzn+2g4eG3EeOXwyJTFq4NG9R391E3X4sbPXg==
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|PH7PR12MB7379:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b126271-faf6-4e9b-6a1b-08dabb4f92e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fUgpmEXBWTsCDjXnDMldaxaV4GxOkTGJqWZgl3Zj+03mrryeoLAvu1gIapVgzmNfVzqHhNvL4twuX84kdPzqYKCY2zEGvGyIbpHZGgkaT1uNPe0GpOD2+l7Eq1fCDDAzFicAPjl628Owz1vJjL6eJsoaqj6EYVCsnVf1fkVtw+XUkFEuZU2ScnI3k1K5/BqkT5g7l3AxtKSSzVn2UdY8rSb1ac17R7x4UTBQNuMWMlrFtq8AmxUMmpU4NNPzwHu11uS4o3NJnE+jxybinF2vVnnqt90th25t0Aooq7A9hBou2eVTqU3qizo7NyeUCrGVo20BtiI+tjfM7n1orj6BfLrjcwWSVRx3kaz9YK72dsRaElQILV4AUX7n9+aQpKhPy8K7Y/dI3Coml8RdwzNUrs2+SFYUg1RNA2oBlw4RvbVs7rRbh+4eAwC5a6S5Y6jMxAJOqnNk+aBo5g7XSzhYhqRp2vaRdh3TTO0Vm3MdxPj0vqt/CqGdJ0TMsfOkuIB18vz4qRdW1iGdQmhJmqtdZqXWkzdDE7p7vA+SCvn1MbRsCzriavOhcHoVxnIo1jr42pLh94O+EP+3sJp3RU2xctvdcDdyhoxXgIZY5b3vlayFjJYiFWu9CI1Bkmo/OWzgldGnbYTx11OofL7u9DsgKN2laW2XXo+227yQAmzpn1jOvEC0jtA7b9foar8Y0cWy
+X-Microsoft-Antispam-Message-Info: A03j4iHoKmz2ESCCIXY528Vw6AjxzzzIjjvO/UfLAZHL5UIrRZXyco94S09GqBFkuftBsK3/TurPSV1T/5r9HxllVdeS6YkpACJG9Gdwfsh8ADeEvGJ0GVCdDeoQ+kX452bQ24iAXLDdxseBaceIxyfJHluIgMfqsZYI7/INoNn2HJwR3K1QWKcW2D+KdZgoQNwVYP+rrptLNz/cfdF2cGlvBqsxS5KFRH/j4tkutQPS1px0h5oxnyhh/zDnTcWFW69fifX288Wd8PyHHGdKck54Violkr7qMwjNrd6rTJOWcyl3j6g9K3zVoe2ZRK//RN2xCxZ2oD+bMu88b2X5waxf/h+YAkOJCoH0gh1FG4gxn7/lBfBSlcnSjsNp0pxh+kA7jui0prMjxqaPjCFTkVBKHRKkvSYWnQu2pzfMEuVozbe10K2SpDZVdKLDWw4ThdQDdsCw58Hg1pbI7eTj/HKFK1PglU8q86IQ7E6D0A9JoxtCtTiGn13ejcnrnxLFTs/78uLsGp2xQvj/zyFQuTAIUTzDDoA9SSLaAkqymdUkRCtyS/Q8wrgIWElI2xGxvRPY23lGdniYEWapuKxzMvm7uRBbyMz39mHST+C4p0RaGpxw+Z7ILS4zSEuRryRGqWVWLoSU2q0VNp+ro6+X+cRsrk47Fm5Q6kJwUoUr11z5v0qPm103ebLqyg8BEGDZUgCm8f25UoRbQwUflgMjBhZIXF7zwpODWCm2mGdQEkEDbYqFy32pJ6r+ggX0CRiK012ANsii4qFOAVqiZHl62rPCuejp9chmKsMcBt7ofpg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(366004)(136003)(346002)(396003)(39860400002)(451199015)(26005)(6512007)(41300700001)(2906002)(4001150100001)(36756003)(44832011)(5660300002)(83380400001)(186003)(2616005)(8936002)(31686004)(38100700002)(478600001)(6486002)(31696002)(86362001)(66476007)(53546011)(66946007)(66556008)(4326008)(6506007)(8676002)(54906003)(316002)(6666004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AB/o4Wi+TH4UvrUJPES/tiRtb5UED7EZXHKXyCjE30NSP9zIu1+1uwlht9CX?=
- =?us-ascii?Q?MO+qaSPTb8UDopu8YJv3SOaMQNmPxGfgwZW8xn8+ATJMdE1npaply8+p+Avu?=
- =?us-ascii?Q?klJAWgRklTAYNWPJRlrps9k1Wwwto/85ZrO0j05Q4RL+bE5X9gr7MD5Omxvf?=
- =?us-ascii?Q?S8csXW06XSk7mihSZRuHXds3/ndBkjSppCTT+QhfXlGyfSLQ+3fUzNx85TLN?=
- =?us-ascii?Q?e2quo1hZD2Scjmlk8cWcaxKjY/j96ndKD54Kayv2FSDHPj46+qF2Rsbhz5ZS?=
- =?us-ascii?Q?N/mIb34ApVDiFDC4+vLnNri5ED+HKPn4eDwenW5bbTQW1xqVyI4ySerZG4ck?=
- =?us-ascii?Q?aK5DDQP9fWj+PFCtkmrTo3WM5nPBvN7ya+TfooFPtFwzHiWCubQTW3x++fnt?=
- =?us-ascii?Q?LVekVatbu3bEqJnHjeAGcv8e4WPft1cTXwlkn7CWF3vA6VaV/PDmm9xUCGNW?=
- =?us-ascii?Q?Q9DOl+SENWRHHUkDrUSoy7NDvEPk0UCet/Rftx0e6mDmU/5MWIfGPwqmjb/1?=
- =?us-ascii?Q?4ezeHIPyv16uPOKN+Y+iil5TYhezXtZjSmg2QrdmuP7nGS+FP6qP8dgh0GC6?=
- =?us-ascii?Q?L8PddsoC5Hp5k3JQfz5r4he+QiS3E8BR5NEvwr4w9yj+rsp/7dW4/83svbdt?=
- =?us-ascii?Q?rS6zHuoHoYXFEYCB+VEBdl/32tBcEC3KyPUjdL/LRdo/JNgM1v9QW5i3MTwY?=
- =?us-ascii?Q?x7uamF7rnYZzUnw6sObH3nKaONXEuoQiqKfZtPh4zzqY0jxLYPHaIoWrs6Xd?=
- =?us-ascii?Q?LnXkg4wXWdTq9F1aQlTiAmx3Yqvje1ECGWth+1Wt0/iPGTigaWN6knSUAEL0?=
- =?us-ascii?Q?moAS71ybZ1huJPpuB3D7rtzhCyClJltPpqDHZDnREi07niW59626742NN+uG?=
- =?us-ascii?Q?ltIIpTQc/dIUpYvQqERqtDmDndGbNNuh1WL0rKvGzWNijQhJHO+h3IlBq1jI?=
- =?us-ascii?Q?jAH7RibRIYfDDpu/6KUnEty26vyNdZ2UAomvXC2vWa6gIVf4klyrsFnVI6Ss?=
- =?us-ascii?Q?Pa+Fi+9NjfBJN3pGqKS2hL3YWS4svWd6vlp+/HpUjcPVnRQyq7pIqpfLa4af?=
- =?us-ascii?Q?NlH3LWksqoCqY8P/ZkOF3bYTzIbD0HqZxRfYU0QszHMER2/Fm6F1SnvRQ2Xq?=
- =?us-ascii?Q?rHU+BIOgALbDJGg7sMCe+MY3l7xMeVxxIIE1Xn2Jff45a5gpgSZVgvajSKZN?=
- =?us-ascii?Q?7hHQ4pkeRbJhPMKRHdoQIYkVjqmQ7qcvVDwOthCXs2V0RHEQqonmEsC3ml9v?=
- =?us-ascii?Q?zIbZI0V6N+PFx7abUvYqhLsKpr1O71r+Iog/Vtb84A=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98353f0b-a22a-4e6a-36f7-08dabb4f9b68
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UGdKNWRyWEJvd3FZdS9URUVSZ0xXNFN2dmdTbWZPRm5EOWltdjlienh2WWZU?=
+ =?utf-8?B?TUxwV1VydHBTeDE1NlNaeWZXQWgrdDZxSkNGckJZdHR1QnFVY2NHNUdicFAz?=
+ =?utf-8?B?Ty9neUdNZGVKM3dzd0RHMGkrek5LUmJiWHl6S3BtNDJYS2RhUUhENndiRVlB?=
+ =?utf-8?B?YVo1NE0rTTdKNXRuVjQ0UC9xMGZITCtPK0FRYXVZeFZHNWhlaUxpNHBPanFM?=
+ =?utf-8?B?T2VNNWxaS25zaFlWSjVBWDBLWHc4clFLTXplelhGL0k3YVN0T0hjVnVzeVNF?=
+ =?utf-8?B?ZzloYzEvNFlaZnZuMXZYNndCdU1MLzBISi9zRFZIT2F5cGlBYkMwd0Q5NnRB?=
+ =?utf-8?B?ZEhVS0syRS9RZGVyQUlPMkVwYkZvUmZuZWs0ZGVEdHh2Q08rUm00Y2hTdWtC?=
+ =?utf-8?B?TG5oMGhpY3Zxd3k3ZG1kaUlyNXg5YjJld1Z1Q0hhRXdaMGVnOFlzc3g1WmtN?=
+ =?utf-8?B?K3Z5aG5Qdnhnc3JXajlZQzd0V0w1dUY2d25OWkVENk1KNGtwMlkwazBHM3k5?=
+ =?utf-8?B?ajMzRFRmVVZaODR2VUJVYjFDd0d2bjNwVUpaMVIwc01JM3UyYWpkSjRzR2Jw?=
+ =?utf-8?B?QXkvS2hOcjl2YysyaFE2MzhZRTI1S0VkRUxBcXVGR3owdDlTMUtsVXFIc2h1?=
+ =?utf-8?B?OU5EbzNxQzFxY3Q4YzZLbkF2OEg5TE80UXJHLzd5d1BJWXhOeTE3MGQ4YzQr?=
+ =?utf-8?B?dVloQmw3QzlIRU1nd01EeDhBUTZtaWkvYjlIQnErWk9DMUZQVEMrZ3lwZTBl?=
+ =?utf-8?B?eDJGRGgvR3JNYUVKUVBFZHpDbFZKM1hsd1ByUVRDdVI4OHhWRy90YWd6bldZ?=
+ =?utf-8?B?NGVZYnoxRHhwSnovR2dMNzZhS2NwK0l0R212RVNCRStQdDRsVkxOSkdCUjdp?=
+ =?utf-8?B?YU5oSVQ1MEkwRGRva1ltNVNzQThTNXJ3REF6TGxVWkxzbjBPN0RNaGN5QmVy?=
+ =?utf-8?B?czV4V0F3M2Jxc2hmWHY1RmdtSGNKUHFKbVBvV1pEeWdVcXgzc2FabmZ1US9s?=
+ =?utf-8?B?M1hPa3A2TmN2c1ZBaTBtK0lFekl1SjFqS3JjUzJpdjBGNUpZdVJKbEdZT2JE?=
+ =?utf-8?B?WFpBcGo1TmZCNXhJVTN5Z2dHZXI0bUIvUi9TQ1FoRytkaVRLK0M0OE02MDNz?=
+ =?utf-8?B?dWN6WFJDV1JsMDBLRFpKakZ6RFV3WHd2MXhVSEpxaFVoaWtqQ1BSTWZRMUt1?=
+ =?utf-8?B?dG1pWlQyc0pKc1FSUjJPQ09qU2Z5M0RBY1B1YTNGZFZZcWVwcjdnazgybkEz?=
+ =?utf-8?B?Zmw3aVJHckhtTGIxeXFrUHBhMWVsSlVsb1FWL00yWUlWc05xVElSb1pLNEtt?=
+ =?utf-8?B?R2RTQVArSTF1ZXdjQzI1dTQzcmRWU0lqZTZsVkNBeHVuVXlIenRFUGtGcGFx?=
+ =?utf-8?B?NDRabUp3NW5ZS3lKN1QvcHVGK1hIRmlZb3Y3aTZFKzRhbEdoUk41dlk5Mi85?=
+ =?utf-8?B?K1BuVkRSRWhJY3VqK1IxeW9GSGFVQllRbmNtbitRU0JNdlo2Sk9wSG8zNVEv?=
+ =?utf-8?B?aUwzNmRMK0t4Yk5EaEpyclRROWVlNFBRd0g2Rm5CWDhWS2Uzekx5YzB0di9D?=
+ =?utf-8?B?QnJNWXNVdncvcnQ3cTJ5c3pNUEdsNlExb2JJTXNJaERPYkhDTHFITHYwdnNn?=
+ =?utf-8?B?MVl4TUNBVndWRHFsQTI2V2Jibk05V1U1Vm05QUd1MUo4Uk1mUlFoalp1blhk?=
+ =?utf-8?B?UWpMQWJZeTkxbENHRWFzZVdybnlENDBIMWZ5MkhsdTN0Mk5kRjFmVDM1U0FH?=
+ =?utf-8?B?L2NkMGoweXdZNEpPbDZHK1hiU29FQ3dZNHU3dXlTVExsQ3YvNTMvTFVpQUVl?=
+ =?utf-8?B?TDZMZko1SE5uL0JsN0RmQURZeVU0WjZoUmp5UEMrOWNadmRLUHo2T21ydWxt?=
+ =?utf-8?B?Nk1ZS1FOTkQ2QUFtbzhON3cxN1Y1UkVuZnJ4aHhyQ1ZzeTVIQ0MxcGlBcWRw?=
+ =?utf-8?B?VjJ6M3Noa0xNVFdCTUo3RnU5T2o5NHNrbGdlM3A5VjJzNStwM3N4WXpVQnVN?=
+ =?utf-8?B?cGNkVFA0a2kvV29mRnZ3Zk1UeDBMSzQ0U01NakdMTVp1MmdZRW1QSXRlQVdo?=
+ =?utf-8?B?R0FHZlZaeG9NY3NWdUczb0JPb21kTmt6cHVEektTZ1R5Vi9wTTlqaGV1RmlS?=
+ =?utf-8?Q?fogiWb29ggi/N6XNqH4MhbwoR?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b126271-faf6-4e9b-6a1b-08dabb4f92e7
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 14:53:01.3110 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 14:52:47.0608 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3P286MB1807
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eEPR7+CrtSC4ZBxfD+oQSgONz+W2IXA6griWeiunBKvhC0m558HteNJg7OClloIPA2uD5Xa189ephSamJEJ7Pw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7379
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,113 +125,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: benjamin.gaignard@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- jstultz@google.com, afd@ti.com, Dawei Li <set_pte_at@outlook.com>,
- labbott@redhat.com, sspatil@android.com, linux-media@vger.kernel.org
+Cc: Alex Hung <alex.hung@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Leo Li <sunpeng.li@amd.com>, linux-kernel@vger.kernel.org,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, hersen wu <hersenxs.wu@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Shirish S <shirish.s@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Racing conflict could be:
-task A                 task B
-list_for_each_entry
-strcmp(h->name))
-                       list_for_each_entry
-                       strcmp(h->name)
-kzalloc                kzalloc
-......                 .....
-device_create          device_create
-list_add
-                       list_add
+On 2022-10-28 16:44, Hamza Mahfooz wrote:
+> As of commit 09a5df6c444c ("drm/amd/display: Fix multi-display support
+> for idle opt workqueue"), vblank_lock is no longer being used. So, don't
+> init it in amdgpu_dm_init() and remove it from struct
+> amdgpu_display_manager.
+> 
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-The root cause is that task B has no idea about the fact someone
-else(A) has inserted heap with same name when it calls list_add,
-so a potential collision occurs.
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-v1: https://lore.kernel.org/all/TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
+Harry
 
-v1->v2: Narrow down locking scope, check the existence of heap before
-insertion, as suggested by Andrew Davis.
-
-Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
-
-base-commit: 447fb14bf07905b880c9ed1ea92c53d6dd0649d7
-
-Signed-off-by: Dawei Li <set_pte_at@outlook.com>
----
- drivers/dma-buf/dma-heap.c | 37 ++++++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 8f5848aa144f..1c787a147e3a 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -216,9 +216,21 @@ const char *dma_heap_get_name(struct dma_heap *heap)
- 	return heap->name;
- }
- 
-+static inline bool dma_heap_exist(const char *name)
-+{
-+	struct dma_heap *h;
-+
-+	list_for_each_entry(h, &heap_list, list) {
-+		if (!strcmp(h->name, name))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- {
--	struct dma_heap *heap, *h, *err_ret;
-+	struct dma_heap *heap, *err_ret;
- 	struct device *dev_ret;
- 	unsigned int minor;
- 	int ret;
-@@ -235,13 +247,11 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- 
- 	/* check the name is unique */
- 	mutex_lock(&heap_list_lock);
--	list_for_each_entry(h, &heap_list, list) {
--		if (!strcmp(h->name, exp_info->name)) {
--			mutex_unlock(&heap_list_lock);
--			pr_err("dma_heap: Already registered heap named %s\n",
--			       exp_info->name);
--			return ERR_PTR(-EINVAL);
--		}
-+	if (dma_heap_exist(exp_info->name)) {
-+		mutex_unlock(&heap_list_lock);
-+		pr_err("dma_heap: Already registered heap named %s\n",
-+		       exp_info->name);
-+		return ERR_PTR(-EINVAL);
- 	}
- 	mutex_unlock(&heap_list_lock);
- 
-@@ -283,13 +293,22 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- 		err_ret = ERR_CAST(dev_ret);
- 		goto err2;
- 	}
-+
- 	/* Add heap to the list */
- 	mutex_lock(&heap_list_lock);
-+	if (unlikely(dma_heap_exist(exp_info->name))) {
-+		mutex_unlock(&heap_list_lock);
-+		pr_err("dma_heap: Already registered heap named %s\n",
-+		       exp_info->name);
-+		err_ret = ERR_PTR(-EINVAL);
-+		goto err3;
-+	}
- 	list_add(&heap->list, &heap_list);
- 	mutex_unlock(&heap_list_lock);
- 
- 	return heap;
--
-+err3:
-+	device_destroy(dma_heap_class, heap->heap_devt);
- err2:
- 	cdev_del(&heap->heap_cdev);
- err1:
--- 
-2.25.1
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 -
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 7 -------
+>  2 files changed, 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index eb4ce7216104..11afb4b24fd9 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -1394,7 +1394,6 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+>  
+>  	mutex_init(&adev->dm.dc_lock);
+>  	mutex_init(&adev->dm.audio_lock);
+> -	spin_lock_init(&adev->dm.vblank_lock);
+>  
+>  	if(amdgpu_dm_irq_init(adev)) {
+>  		DRM_ERROR("amdgpu: failed to initialize DM IRQ support.\n");
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index b5ce15c43bcc..b618b2586e7b 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -365,13 +365,6 @@ struct amdgpu_display_manager {
+>  	 */
+>  	struct mutex audio_lock;
+>  
+> -	/**
+> -	 * @vblank_lock:
+> -	 *
+> -	 * Guards access to deferred vblank work state.
+> -	 */
+> -	spinlock_t vblank_lock;
+> -
+>  	/**
+>  	 * @audio_component:
+>  	 *
 
