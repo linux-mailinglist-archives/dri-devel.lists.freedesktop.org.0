@@ -1,73 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05447613198
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 09:20:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A296131D2
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 09:40:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB95C10E152;
-	Mon, 31 Oct 2022 08:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93C7810E15A;
+	Mon, 31 Oct 2022 08:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21A2A10E152
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 08:20:38 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id v1so14823861wrt.11
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 01:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=ZX30x93KVmADFYmGNHBbybIM7Fucv9/vRtD7L3HFB+I=;
- b=PtU52F1XkGcsIM9bVOHKYCRoiNjdGSaY2gUiiFnB0KpP/15wmLs43E1jzp0pwR125i
- l+xnxNh0QVchJymgsMeOo9hGBAQVyCR64dmvbnRpniRKYn55QyxyW5s30iA+mOWfEIKL
- ANXOKi7rj1TEUhTwi/GOT+W2ODfPC1etd4ql3aITGVBfBKV6lPQfM7MT6KzPX0YZ51S7
- dw1adqvf2Cs3R+PBPnPnqRpbkS6x8a9YcQStQxVY1Z/LZDlS1UqD78i6RwBvpkrITtqZ
- o7eMIdBrQjCvc1dxL2IBPXi5TT2RD7jxqciCLIDtjwVll5IhFVNN72QVrPQtef5BxLu6
- 9k+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZX30x93KVmADFYmGNHBbybIM7Fucv9/vRtD7L3HFB+I=;
- b=Tlbyvaifat8TnECyXYLTHOF5dboHvwuSLBXHJJEjLzSpOqzumoMTMvIsbE8MgkjJCB
- RUkkUej7ClPms6Tsm1AMakTaUS2HxW4loUZBJHRVGTRaRm/Z4pDpzf0EPaTYD06P6ckb
- PVlEox3n2lRn+gNRvv14vdWfOGIzbNXdRJ5QSYYgE/HkBDYBZq8dYFzVfGhZN0H3zysm
- qoAzCx2sbemJTdK5Gfx2Uhy6BvwKBpld1rrijfrPkug78Nf2BRhKq1Pm9J4emU8JSQjL
- ahtigim3YVQ0wi5sOIcMP87rwCPNlCyAMmEiqLNpjydXmLCnCIMzMHDLGmAwSPfbIfbB
- 1GdQ==
-X-Gm-Message-State: ACrzQf0wmyqQi43WIQ4hK30xfao+Z79OBPVo+UXXS870greRyrkrKsXf
- EPtshh/fwxCE1p3sqhA/fJQjog==
-X-Google-Smtp-Source: AMsMyM7sNW8RV0MrIkYCvrvHMRMR5RuXIK7u1nn0Sg0f/TP9IAfGs+8iIMFW/mygjB2hQEwMmNKKBw==
-X-Received: by 2002:adf:d1e5:0:b0:234:2aaf:3b97 with SMTP id
- g5-20020adfd1e5000000b002342aaf3b97mr7368289wrd.536.1667204437197; 
- Mon, 31 Oct 2022 01:20:37 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:898:f380:f572:21f0:736:a7ca?
- ([2a01:e0a:898:f380:f572:21f0:736:a7ca])
- by smtp.gmail.com with ESMTPSA id
- bj29-20020a0560001e1d00b002366b241cf3sm6306559wrb.35.2022.10.31.01.20.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 01:20:36 -0700 (PDT)
-Message-ID: <e8b6eb23-4968-af6c-c2d3-8e5fa64d9473@linaro.org>
-Date: Mon, 31 Oct 2022 09:20:36 +0100
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F4610E157;
+ Mon, 31 Oct 2022 08:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667205607; x=1698741607;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=pHqhML5efohtqgNb7+dHGJE5mcWVlZrNvGh0lsvaScQ=;
+ b=gs+8ASN7pJ5r9RXMut5SRdFYS1AtDlHhS3aZZ7RuLV6ru4MMKW0r1gMg
+ iYNZvO5ZW90RhTeJpUOjURyT0JYOLnKclTguyZKLI2kunejEZzjUVU2P8
+ Qf0FONbLQP9tut4ALwnWzTAqgKA7YUuVbVVJEkjJyC6Kw0RI1kkjP5h1A
+ jMulgpjRbnx/tKtslBIMBbhDHrvJupye9uoa39Crc48iQGJWmHbTCImN9
+ 0TKawu+vHO7Bnz1hIDgt68phSFK0dLyblASPOD0j8Xpkdsf3dPxfUSskr
+ fg0vNgu2H/yicLIpDj/I/pmUX1x4k8dTAPBf9DGbfH8PN5vHKLmE1GBX9 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="309936808"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="309936808"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2022 01:40:06 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="878658561"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="878658561"
+Received: from ffarrell-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.252.13.132])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2022 01:40:03 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: =?utf-8?Q?Aur=C3=A9lien?= <aurelien.intel@ap2c.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Hans de Goede <hdegoede@redhat.com>, Lyude
+ <lyude@redhat.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] Developing a new backlight driver for specific OLED
+ screen
+In-Reply-To: <e168e993071e55404dfa91387cf4db97@ap2c.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87zgf556dm.fsf@intel.com> <878rms7emr.fsf@intel.com>
+ <183219aab00.2890.be34037ad6564a4fe81285fd91a8f407@ap2c.com>
+ <YxsMcH37rRkt0cfj@intel.com> <115b5a5ebddcd268ee5f7688400448a2@ap2c.com>
+ <e168e993071e55404dfa91387cf4db97@ap2c.com>
+Date: Mon, 31 Oct 2022 10:40:00 +0200
+Message-ID: <87wn8g8jz3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [RESEND PATCH v2] drm/bridge: dw-hdmi-i2s: set insert_pcuv bit if
- hardware supports it
-To: Geraldo Nascimento <geraldogabriel@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Christian Hewitt <christianshewitt@gmail.com>
-References: <Y01E5MvrnmVhnekO@geday>
-Content-Language: en-US
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <Y01E5MvrnmVhnekO@geday>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,129 +64,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: ALSA-devel <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, 28 Oct 2022, "Aur=C3=A9lien" <aurelien.intel@ap2c.com> wrote:
+> Hi,=20
+>
+> I come back on my problem regarding the development of a specific driver =
+which controls the brightness of my OLED device.
+>
+>> If it's eDP and uses some proprietary DPCD brightness control mechanism,
+>> I think in practice it usually is somewhat dependent on the GPU.
+>>=20
+>> (OTOH I realize you don't mention eDP. If it's not eDP, DDC/CI is the
+>> more likely way to control brightness than DPCD.)
+>
+> I succeed to control the brightness through the /dev/drm_dp_aux0 device.
+> Since I only need access to the DP AUX channel, I would like to develop a=
+n independant (from the GPU) driver. Unfortunately I don't know how to get =
+access to the DP AUX channel from this independant driver.. Do you have som=
+e ideas?
+>
+> I am totally agree with the fact that this display might only be used wit=
+h an intel gfx card but I'm not sure that this code (which only use DP AUX =
+read/write access) must be in the intel gfx driver code.=20
+
+With the information provided, I basically see two options:
+
+1) Just make it part of i915 anyway, or
+
+2) Make it library code in drm that i915 calls.
+
+Observe that it's fairly easy to do 1 first, and, if necessary, turn it
+into 2 later. This is actually exactly how the current DP AUX brightness
+code evolved.
+
+IMO there's no point in trying to add a framework to make this an
+independent driver you could probe separately. It's an unnecessary
+complication, overengineering.
+
+>
+>>> Unfortunately I guess the mechanism is not shared with many OLED
+>>> displays...
+>>=20
+>> Do you have a spec for it? How does it differ from the VESA eDP DPCD
+>> brightness control?
+>
+> I don't have any specs but as far as I understood it configures some scre=
+en registers to scale the PWM of all OLED pixels depending on the display s=
+tate. It uses its own vendor's ports and registers. And values sent on the =
+display registers to set the desired brightness are computed with complex f=
+ormulaes (and the calculation needs static tables of values and display inf=
+ormation got from the display at startup).
+
+What's the source of the information?
+
+Pretty soon we're going to need something more concrete to discuss this
+further. Spec or implementation or something.
 
 
-On 17/10/2022 14:04, Geraldo Nascimento wrote:
-> Hi Mark, resending this as it failed to apply in my last submission. Added
-> Neil Armstrong to Cc: as hopefully he will be able to better review this.
-> 
-> Thanks,
-> Geraldo Nascimento
-> 
-> ---
-> 
-> Starting with version 2.10a of Synopsys DesignWare HDMI controller the
-> insert_pcuv bit was introduced. On RK3399pro SoM (Radxa Rock Pi N10),
-> for example, if we neglect to set this bit and proceed to enable hdmi_sound
-> and i2s2 on the device tree there will be extreme clipping of sound
-> output, to the point that music sounds like white noise. Problem
-> could also manifest as just mild cracking depending of HDMI audio
-> implementation of sink. Setting insert_pcuv bit (bit 2 of
-> aud_conf2 Audio Sample register) fixes this.
+BR,
+Jani.
 
 
-I did some research and this insert_pcuv is already present in the 1.40a version
-of the dw-hdmi databook, so I wonder why suddenly this is needed.
-
-The insert_pcuv is documented as:
--------------------------------------------------------
-When set (1'b1), it enables the insertion of the PCUV (Parity, Channel Status, User
-bit and Validity) bits on the incoming audio stream (support limited to Linear PCM
-audio).
-If disabled, the incomming audio stream must contain the PCUV bits, mapped
-acording to 2.6.4.2 Data Mapping Examples
---------------------------------------------------------
-
-
-What's interesting is this register is only present if thre DW-HDMI IP is configured
-as GPAUD or GDOUBLE, meaning it must have GPAUD enabled. So it has
-something to do with it, so what's value of it when GPAUD isn't present in the IP ?
-
-And HDMI2 spec added this, even PCVU were required before:
---------------------------------------------------------
-Note that PCUV refers to the parity bit (P), channel status (C), user data (U), and validity bit (V) as defined in IEC
-60958-1.
---------------------------------------------------------
-
-So it has something to do with IEC60958-1 stream format, do maybe this
-insert_pcuv should only be enforced when the input stream is _not_ IEC60958-1 ?
-
-Neil
-
-> 
-> Signed-off-by: Geraldo Nascimento <geraldogabriel@gmail.com>
-> 
-> ---
-> 
-> v1->v2: SoC->SoM on description, better commenting, minor style changes,
-> 	conditional application of fix for L-PCM only
-> 
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio-20221017.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio-20221017.c
-> @@ -42,6 +42,7 @@ static int dw_hdmi_i2s_hw_params(struct device *dev, void *data,
->   	struct dw_hdmi *hdmi = audio->hdmi;
->   	u8 conf0 = 0;
->   	u8 conf1 = 0;
-> +	u8 conf2 = 0;
->   	u8 inputclkfs = 0;
->   
->   	/* it cares I2S only */
-> @@ -101,6 +102,28 @@ static int dw_hdmi_i2s_hw_params(struct device *dev, void *data,
->   		return -EINVAL;
->   	}
->   
-> +	/*
-> +	 * dw-hdmi introduced insert_pcuv bit in
-> +	 * version 2.10a.
-> +	 *
-> +	 * This single bit (bit 2 of HDMI_AUD_CONF2)
-> +	 * when set to 1 will enable the insertion of the PCUV
-> +	 * (Parity, Channel Status, User bit and Validity)
-> +	 * bits on the incoming audio stream.
-> +	 *
-> +	 * Support is limited to Linear PCM audio. If
-> +	 * neglected, the lack of valid PCUV bits
-> +	 * on L-PCM streams will cause anything from
-> +	 * mild cracking to full blown extreme
-> +	 * clipping depending on the HDMI audio
-> +	 * implementation of the sink.
-> +	 *
-> +	 */
-> +
-> +	if (hdmi_read(audio, HDMI_DESIGN_ID) >= 0x21 &&
-> +			!(hparms->iec.status[0] & IEC958_AES0_NONAUDIO))
-> +		conf2 = HDMI_AUD_CONF2_INSERT_PCUV;
-> +
->   	dw_hdmi_set_sample_rate(hdmi, hparms->sample_rate);
->   	dw_hdmi_set_channel_status(hdmi, hparms->iec.status);
->   	dw_hdmi_set_channel_count(hdmi, hparms->channels);
-> @@ -109,6 +120,7 @@ static int dw_hdmi_i2s_hw_params(struct device *dev, void *data,
->   	hdmi_write(audio, inputclkfs, HDMI_AUD_INPUTCLKFS);
->   	hdmi_write(audio, conf0, HDMI_AUD_CONF0);
->   	hdmi_write(audio, conf1, HDMI_AUD_CONF1);
-> +	hdmi_write(audio, conf2, HDMI_AUD_CONF2);
->   
->   	return 0;
->   }
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-20221017.h
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-20221017.h
-> @@ -931,6 +931,11 @@ enum {
->   	HDMI_AUD_CONF1_WIDTH_16 = 0x10,
->   	HDMI_AUD_CONF1_WIDTH_24 = 0x18,
->   
-> +/* AUD_CONF2 field values */
-> +	HDMI_AUD_CONF2_HBR = 0x01,
-> +	HDMI_AUD_CONF2_NLPCM = 0x02,
-> +	HDMI_AUD_CONF2_INSERT_PCUV = 0x04,
-> +
->   /* AUD_CTS3 field values */
->   	HDMI_AUD_CTS3_N_SHIFT_OFFSET = 5,
->   	HDMI_AUD_CTS3_N_SHIFT_MASK = 0xe0,
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
