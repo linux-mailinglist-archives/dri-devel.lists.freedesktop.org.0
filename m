@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8312613579
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 13:14:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B167B613599
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 13:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 197B610E1D0;
-	Mon, 31 Oct 2022 12:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE2510E1D4;
+	Mon, 31 Oct 2022 12:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 437CF10E1D6
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 12:13:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECC310E1DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 12:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667218423;
+ s=mimecast20190719; t=1667218577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2H8Fq04+XbNugdc6Ty/YSDXQIs5WWNt9cW9u1MIkjOA=;
- b=LyZfO8oK7WZg4YiS9L3p0sPvSDxJCNdr2Me/YfWcIWtG3BRFZltcOhxxLIrtskFui509hE
- xsInseEH2yFmN84gB9WUs/gQuBrkKynCG9+fUX6R3pQXdXRJ3+3lDQY7Th6RTNKRybZc4i
- Jd+OU8QSZF05D6AMylsox0LmSDOrFXE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WlC4H0gmckJZ8E/tDGtmzwjQN3hfnWY+OkvhUHpUiTc=;
+ b=SzxIp3KH1MJqCBUG1OdZLDtnmNr9ze9qCNca0D8W7lQRRd7ZxIpp/bc+uAAaPM2RO0+6dP
+ gKIwcXSPzSp6YmttVdvmmB32i8J1A4MuFA+0Vaz6QSGVxi4OOhikTdPAddVDg4EK0Msryg
+ sHj/vUsp15Qd6j9vD3TLgzuO/uTAz80=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-91-651WQFQXMBq8nz0QHQjBnQ-1; Mon, 31 Oct 2022 08:13:41 -0400
-X-MC-Unique: 651WQFQXMBq8nz0QHQjBnQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l16-20020adfc790000000b00230c2505f96so2968082wrg.4
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 05:13:41 -0700 (PDT)
+ us-mta-213-qaKSta7nPUaxNNe5ih_Cug-1; Mon, 31 Oct 2022 08:16:16 -0400
+X-MC-Unique: qaKSta7nPUaxNNe5ih_Cug-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ i14-20020adfa50e000000b0023652707418so3004882wrb.20
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 05:16:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2H8Fq04+XbNugdc6Ty/YSDXQIs5WWNt9cW9u1MIkjOA=;
- b=5/Sz1Z5nurtL+JbYoWh9ANvTpgNv0z0C/IX6W3hqbA0l68kgJOPbr61Aq2yH5QbOvS
- KuTH8d+OGacPfA2ryXgEfwMHUDyM8QO7cAkTBQVj8DwFlWbfMZ5WfQ4k3tPLvqqdAPqZ
- WXv05m9ajNuG5VOlC4s6SLbFP3j9wNQROG+en/H7EPannzGSPT+oaodHLzAfUNNV9npq
- K3XV1tMU8OarB4lxJvOcuD+0S7U8S7WsCkE+KcNXtrwo0ret7lIEWDGJQdAbv4BtlTe9
- 2tWpGam+LKE5HNrgwkXX7XijFxIZXIgnw7r9zfJE458hni4avXNjj5vrKUFc0HKOdRG/
- 7n5g==
-X-Gm-Message-State: ACrzQf3cskG8a6/zUXcBF3Euc7TP7TjkjHlamAQurdUdmnrGnAGwmK3V
- FhtWdBr/cguf5lAtaFIQ/jTVj015gNzfl04NXFAvv2UtXR4kDwjkHXJR99GIm7EJjB0HmFnvGZ7
- iGS/nGXrRHDmDkq9pGbDLmzwggsuF
-X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id
- f13-20020a5d64cd000000b002366d1cc1a2mr8196696wri.360.1667218420932; 
- Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6+QX10ZDmjvc1IfL0XXmvBimtEQHEjFBrrHb50hNQes1zzurNnpW//og1SN1o9c/o5tX548g==
-X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id
- f13-20020a5d64cd000000b002366d1cc1a2mr8196664wri.360.1667218420692; 
- Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
+ bh=WlC4H0gmckJZ8E/tDGtmzwjQN3hfnWY+OkvhUHpUiTc=;
+ b=aAmTq7m8byJcoKmOO8Zi4+cMkhlBCZcbBeFSeXoSnfHqrpUp5IlUToLarmiYRmZaa8
+ Whw0IqxaWtG6WhwSKhY59F0RzZexzLtb3VOxOnOZGWubB0ZVk5s45XEHLSo155CVli9M
+ CT42daN4eVzErPnr2YtLaQqTGBhj+J3NVPbmKWknYF9GoXNW3DzQYPJxzRltXo5MbPU/
+ 6++QWOwbR+XBeHsxJ7DqWROFFt/sJEZkYe52Jgwtuioo8vSWy/uqkMbv+e0L0HQTJCyW
+ xTrlPnjB4oftUyFDRuU6VmXM5XYARDwCA0u+qpdUVbpQAKJXssBnyLpiqipuutZwEEII
+ OaKw==
+X-Gm-Message-State: ACrzQf3AZ4L4z3bMtKfPc7YgjXf8ylszeua6Kg92JZB6iOX8SdRNpSHX
+ oKvOjeNFBhPPsSxHNjmQ1zchIiuOxTFPkVWtAEzo+QHwnz0W0PsS+Bg+jt/p/eqHg8fwSQq3qn+
+ grXcVh92frwDUfORoQEzTHVPrP6On
+X-Received: by 2002:a05:600c:1c0d:b0:3cf:5fd2:1fd1 with SMTP id
+ j13-20020a05600c1c0d00b003cf5fd21fd1mr10268858wms.8.1667218575350; 
+ Mon, 31 Oct 2022 05:16:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7vtgF5OcVzyyhJbAVQv0UtjhNq0IgAK2jPkGsnoYeZKQ/ZE7IsMKsB/emo+io4u+dLlmSgSQ==
+X-Received: by 2002:a05:600c:1c0d:b0:3cf:5fd2:1fd1 with SMTP id
+ j13-20020a05600c1c0d00b003cf5fd21fd1mr10268814wms.8.1667218575124; 
+ Mon, 31 Oct 2022 05:16:15 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- az29-20020a05600c601d00b003cdf141f363sm7207444wmb.11.2022.10.31.05.13.38
+ d2-20020a05600c34c200b003b3365b38f9sm7118010wmq.10.2022.10.31.05.16.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
-Message-ID: <231be619-96b7-b725-0735-0275e07477d8@redhat.com>
-Date: Mon, 31 Oct 2022 13:13:38 +0100
+ Mon, 31 Oct 2022 05:16:14 -0700 (PDT)
+Message-ID: <8423bcd3-84f6-b6c9-914a-c70166e20482@redhat.com>
+Date: Mon, 31 Oct 2022 13:16:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 04/21] drm/amdgpu: Don't set struct
+Subject: Re: [PATCH v2 05/21] drm/imx/dcss: Don't set struct
  drm_driver.output_poll_changed
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-5-tzimmermann@suse.de>
+ <20221024111953.24307-6-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-5-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-6-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -106,7 +106,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
 > Don't set struct drm_driver.output_poll_changed. It's used to restore
-> the fbdev console. But as amdgpu uses generic fbdev emulation, the
+> the fbdev console. But as DCSS uses generic fbdev emulation, the
 > console is being restored by the DRM client helpers already. See the
 > functions drm_kms_helper_hotplug_event() and
 > drm_kms_helper_connector_hotplug_event() in drm_probe_helper.c.
