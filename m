@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E706135F9
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 13:22:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F046613611
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 13:23:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4DD10E22C;
-	Mon, 31 Oct 2022 12:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AE510E23C;
+	Mon, 31 Oct 2022 12:23:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED19310E22C
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 12:22:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF93810E232
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 12:23:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667218949;
+ s=mimecast20190719; t=1667219003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xVJodACOlUyVw6jJB0o/QffeIPQi24/sF6MmyMfBvgg=;
- b=AD3YqiH6p2ttr44BpYQxrxqMRTPybN7R/b6HdOO7WVOug/Q1OjwZu85lR+0dhw9vB0ZNLp
- v7HafG6DmjwvnlLt3brJJxuyUzEl6cdvpUV5fqKr5ZAt+IBZq1/R/Xx18Uo02XSc4VOIrG
- Mu6cRHxrbzkM8L0aY3CeC+LMDI6BwZY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VQCx1YM0kmrgAAcvKhWafunY3KuhCAquKBUmZJVCfV8=;
+ b=OXxETfR4g8DTtsYOgeAYKp+EQgjNGaqLLCMi4dhrYZ+lPfcfdS5h5O8mwAFhR877yun0Zf
+ nn2XbQOGwj8SjrqEVIoXsAliYDbiWm27JjHNCKViA/plFCtoSisI7Dw8DPfoOt6SWLCrcj
+ xhNghWqsLn4MotOmVecD81rNWnwv9F8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-375-0d4gIOD0N4-YhKENKZID1g-1; Mon, 31 Oct 2022 08:22:28 -0400
-X-MC-Unique: 0d4gIOD0N4-YhKENKZID1g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j2-20020a05600c1c0200b003cf7397fc9bso626572wms.5
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 05:22:27 -0700 (PDT)
+ us-mta-613-Q9Eco2rcO-yYG4qciyJnog-1; Mon, 31 Oct 2022 08:23:19 -0400
+X-MC-Unique: Q9Eco2rcO-yYG4qciyJnog-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i7-20020a1c3b07000000b003c5e6b44ebaso3387681wma.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 05:23:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xVJodACOlUyVw6jJB0o/QffeIPQi24/sF6MmyMfBvgg=;
- b=GIjJV9V+WinWHHq1uW2Ok9pT2acsSVn6fudSpBwIe4OgyFG0RfgeyTqwVLdXVt5BeT
- ilyI71Tcn3J/exs15AvScdx5R5FoK/nQs1ApPgVmG9LJlnWrASE9iKyFgTgOcrEGunNF
- n5IvoI3Q7BHWd5DvVgzYB7STQW+Ays3nymnDpu0ECZ3xiZzDnpFUiq5Jl+zZmil8Kb8d
- 6QmyAbW6domGUpjF4E0Ez/uesHRMegTdaRMwhYQYdMFkDQNHVmjvoXXpHpLpjcfUf5xV
- vl3Z+LKOM+NK3IKBYEHNHagPtg8C6Sbwz3xsO9gYlUq/c4JTF++Ypk5JWuQm6DT9cuvx
- BVpg==
-X-Gm-Message-State: ACrzQf34SKtuI88JWRwAjxkTdoyxAW6+ZNCNLPK881sLjnEU6GkPd5w7
- +ZDCabVTHpGzCe2RaxwunnDTnyGNd39G+tK+dURtOBE8clfhzD3g5CqwhjdjvkZ61u7ZrDLSzbN
- cbzL1illeVty646O26kkX1+HCq0mZ
-X-Received: by 2002:a05:600c:46ce:b0:3c6:f274:33b2 with SMTP id
- q14-20020a05600c46ce00b003c6f27433b2mr7860199wmo.27.1667218947045; 
- Mon, 31 Oct 2022 05:22:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4zVdpLNc1mYDp74XAWVtjpPddzcwMDONTh4D+G0X15w3fKqsphKr/pP9hn5PrcknLAkhJ5Mg==
-X-Received: by 2002:a05:600c:46ce:b0:3c6:f274:33b2 with SMTP id
- q14-20020a05600c46ce00b003c6f27433b2mr7860165wmo.27.1667218946788; 
- Mon, 31 Oct 2022 05:22:26 -0700 (PDT)
+ bh=VQCx1YM0kmrgAAcvKhWafunY3KuhCAquKBUmZJVCfV8=;
+ b=jSt8DMsJM6mO8g1hW0nnu0h6ABOPNyY6kfgpDuxv9uOvpHxHVKrBxvtXcGx9fIgHGO
+ U464Y9LyOrXHNE4Lz93DEYF2g9mSl0c3eJ8DAuw05Cr5dwNmgbknn8+PW2BLBFjVfwbp
+ gi8WQmBfDfhbNCtN1RiTb8iVReZfvnYL/7nXd3OMrypTUWvfqiL/rRsOtZRANuiR9cLn
+ FAKPNCZ/FIswHYOu4Tz54lal+WIHL/nyaAz9UAqHpI+rx0J5kU7Yqqn5+ljAer7rNo+z
+ G13Um11kD0EHLwI4+gHJFghezixDTyhht+NE9Jm/+tjzjhQ9A3QrvTXyv7v+UJIfvj3c
+ ZB+g==
+X-Gm-Message-State: ACrzQf2v6OyFaFMe0tosu5am3QaVswG1DzTnMLv5lOVYUMSCasF8qgi3
+ tI6sQtjHrQl2onYvvfson31spzOjRbzH/s8V3PiwSfHRwklSILaDvM4bFPqotNEoHpEqa8V9sZm
+ 1uozzIIj8bFuOlN60nBRuNVVdXnW9
+X-Received: by 2002:adf:aa8d:0:b0:236:588f:71f with SMTP id
+ h13-20020adfaa8d000000b00236588f071fmr7582889wrc.205.1667218998716; 
+ Mon, 31 Oct 2022 05:23:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7e34dAcxvP3Vi0CwbwP1YeMi235O6q6VyKCYvEf93eDT38FEWiyAv5s+MTc8QNv7Bgz3ny/w==
+X-Received: by 2002:adf:aa8d:0:b0:236:588f:71f with SMTP id
+ h13-20020adfaa8d000000b00236588f071fmr7582855wrc.205.1667218998538; 
+ Mon, 31 Oct 2022 05:23:18 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f16-20020a05600c4e9000b003cf568a736csm5157904wmq.20.2022.10.31.05.22.25
+ ci8-20020a5d5d88000000b0023662245d3csm7011927wrb.95.2022.10.31.05.23.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 05:22:26 -0700 (PDT)
-Message-ID: <ea046b06-fb0e-b7c2-8f70-b299401d9adf@redhat.com>
-Date: Mon, 31 Oct 2022 13:22:24 +0100
+ Mon, 31 Oct 2022 05:23:18 -0700 (PDT)
+Message-ID: <63a804b4-ab2c-f5b7-73b5-edefdeff038e@redhat.com>
+Date: Mon, 31 Oct 2022 13:23:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 10/21] drm/tve200: Include <linux/of.h>
+Subject: Re: [PATCH v2 11/21] drm/fb-helper: Cleanup include statements in
+ header file
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-11-tzimmermann@suse.de>
+ <20221024111953.24307-12-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-11-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-12-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -104,10 +105,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Include <linux/of.h> for of_match_ptr().
+> Only include what we have to.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
+Nice cleanup.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
