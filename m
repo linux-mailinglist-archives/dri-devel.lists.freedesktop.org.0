@@ -1,53 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AF46130B8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 07:49:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A73613108
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 08:05:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7089810E135;
-	Mon, 31 Oct 2022 06:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C44F10E136;
+	Mon, 31 Oct 2022 07:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A46F10E133
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 06:49:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 64CA81F86C;
- Mon, 31 Oct 2022 06:49:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1667198961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=0gFm01OHWbj+XsDZdv3TJX5nsOjli+kx7EDEAKVTL8Y=;
- b=N+uZXUALEGXXc3IoVl7BMnua/r1pMEbVnX5vRTbdZA5sJR7Mc11H568DT4SS1QYeFj9STp
- ij2IIzzfAKrSvqS4LXhrRWbOKMzIN/+VADVzpuEHJbVsADmqD3bbfyktLYymw1RZ+kasTG
- erPwFbeiQ8ctVPgL3zG8sf8rfItXoUk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1667198961;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=0gFm01OHWbj+XsDZdv3TJX5nsOjli+kx7EDEAKVTL8Y=;
- b=XMCem/z6POVnz7jeoJ/nK5GR5s86SuSbgbCvQKdjqU8zWu3GeYmFsMYtuzqBte5MzOZ9wI
- pyvPOkUad1ysz8DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E09213AAD;
- Mon, 31 Oct 2022 06:49:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +1/KBfFvX2M+DwAAMHmgww
- (envelope-from <tiwai@suse.de>); Mon, 31 Oct 2022 06:49:21 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/radeon: Use a local mutex for bind/unbind protection
-Date: Mon, 31 Oct 2022 07:49:18 +0100
-Message-Id: <20221031064918.14178-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F20310E136
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 07:05:14 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id q9so27200127ejd.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 00:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MK+jHrm2hYBv9wkKb/abfad11zivk5bW9tGF3VlFq3U=;
+ b=BF79z0RZ0XhmibTMUspbagzzogRc4h6z8LD4vJ4Ix2hxDMQCGaMocNIY91+V8P1A0B
+ qPp2sDSgJU23nVb3fzmGOi4eJg+Zt3Q/ktUU80yNkhWG7n841CoJtro3Ko47SmLkfWA9
+ rhIdd6MfM7YIdUx2XwwUQqEr01cXmlLLlXqLi3NrLHWA9cTPzBAwwOmuasgceETeFVeL
+ OHA1yNxeoIYM6vIEU2DaOZQQ6UVAJesF9sLaECKlwbs/N3yy8XvbMk3mI8+ehkDPPGjC
+ LEkO9E1rAoOGafBldh9CVTNZalEwxr/kwTnoRF7Ngu3XCefcaNiJ4dVXIXnJuaNm0UuP
+ AmyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:from:references:cc:to:subject
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MK+jHrm2hYBv9wkKb/abfad11zivk5bW9tGF3VlFq3U=;
+ b=TEg6hfa5AYXRLTdC3QMRUcjomx2/OfnKm1+TxUBJyT44KzB2skSgz36Sb97yAztUNr
+ 3XbbXfnIJXULnMWq8oIcwNeiF1g3SxZ6rZo5xcUvkzjurL5g4nCVEaF9XRbDLtpmc1aD
+ 0HbLKdPPu2d1Bsi5bSoHVekLJyLSk9nVaZ04nqvswY5cPK9uy17z7xTu+WdPoz8S679T
+ 7n7CQ1FVlrcnLBs6gxYgL/YujjXjQCuyiDOzrnDEqUnM/+pXPqhlwixfpp+I0t4dLmn/
+ dyRIV5xI1Os8HSp1mmB5hm5mNqlH7N7EGpbJHmUPafS9UbQ8HhKBq+KafMa4spw8SOib
+ on/Q==
+X-Gm-Message-State: ACrzQf2mhLYibhGNAtL53EWDPDO9JYpIcraZI3NwIxHQ1G0QkJJD8W+P
+ 6QXyuZ4rMuGQxb0rCOXX3ds=
+X-Google-Smtp-Source: AMsMyM55cWpX9uDMf1Dtg2wvjWJa+matOOOcle0zhukTPrtjubcellBbE3vWh1bUoXR0HqNmFaOC5w==
+X-Received: by 2002:a17:907:25c5:b0:782:978d:c3da with SMTP id
+ ae5-20020a17090725c500b00782978dc3damr11009394ejc.623.1667199912488; 
+ Mon, 31 Oct 2022 00:05:12 -0700 (PDT)
+Received: from [192.168.1.10] ([46.249.74.23])
+ by smtp.googlemail.com with ESMTPSA id
+ gg6-20020a170906e28600b007ad2da5668csm2651759ejb.112.2022.10.31.00.05.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 31 Oct 2022 00:05:11 -0700 (PDT)
+Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
+ DMM/TILER
+To: "H. Nikolaus Schaller" <hns@goldelico.com>, tony@atomide.com
+References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <4B3F8E50-3472-4AED-9A77-3E265DF8C928@goldelico.com>
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <0000784a-ae89-1081-0ec7-fc77d3381545@gmail.com>
+Date: Mon, 31 Oct 2022 09:05:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <4B3F8E50-3472-4AED-9A77-3E265DF8C928@goldelico.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,123 +77,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
+Cc: tomba@kernel.org, airlied@linux.ie, merlijn@wizzup.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We used drm_modeset_lock_all() for protecting the audio component
-bind/unbind operations against the notification, but it seems leading
-to kernel WARNING and Oops.  Moreover, the use of
-drm_modeset_lock_all() is rather an overkill only for this
-protection.
+HI Nikolaus,
 
-This patch introduces a new mutex that protects just the bind/unbind
-and the notify calls and replaces the drm_modeset_lock with it.
+On 31.10.22 г. 0:08 ч., H. Nikolaus Schaller wrote:
+> Hi Ivaylo,
+> 
+> it took a while until I found time to test newer kernels (mainline + Letux additions)
+> on the OMAP5 Pyra but unfortunately I did not get screen display for v6.1. Even worse,
+> the console was flooded by
 
-Fixes: 34d84636e5e0 ("drm/radeon: Add HD-audio component notifier support (v4)")
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1569
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/gpu/drm/radeon/radeon.h        |  1 +
- drivers/gpu/drm/radeon/radeon_audio.c  | 21 ++++++++++++---------
- drivers/gpu/drm/radeon/radeon_device.c |  1 +
- 3 files changed, 14 insertions(+), 9 deletions(-)
+Could you elaborate on that - do you have anything on the display 
+(during boot or dunno). Do you have simplefb enabled, so boot log to be 
+visible on the display? Is that wayland you are trying to run? Do you 
+have PVR driver enabled? Did you try to boot vanilla kernel?
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index d82424525f5a..2e7161acd443 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -1799,6 +1799,7 @@ struct r600_audio {
- 	struct radeon_audio_basic_funcs *funcs;
- 	struct drm_audio_component *component;
- 	bool component_registered;
-+	struct mutex component_mutex;
- };
- 
- /*
-diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
-index 4ceb90556127..71b67d4efe08 100644
---- a/drivers/gpu/drm/radeon/radeon_audio.c
-+++ b/drivers/gpu/drm/radeon/radeon_audio.c
-@@ -181,8 +181,7 @@ static struct radeon_audio_funcs dce6_dp_funcs = {
- 	.dpms = evergreen_dp_enable,
- };
- 
--static void radeon_audio_component_notify(struct drm_audio_component *acomp,
--					  int port);
-+static void radeon_audio_component_notify(struct radeon_device *rdev, int port);
- 
- static void radeon_audio_enable(struct radeon_device *rdev,
- 				struct r600_audio_pin *pin, u8 enable_mask)
-@@ -212,7 +211,7 @@ static void radeon_audio_enable(struct radeon_device *rdev,
- 	if (rdev->audio.funcs->enable)
- 		rdev->audio.funcs->enable(rdev, pin, enable_mask);
- 
--	radeon_audio_component_notify(rdev->audio.component, pin->id);
-+	radeon_audio_component_notify(rdev, pin->id);
- }
- 
- static void radeon_audio_interface_init(struct radeon_device *rdev)
-@@ -731,12 +730,16 @@ unsigned int radeon_audio_decode_dfs_div(unsigned int div)
- /*
-  * Audio component support
-  */
--static void radeon_audio_component_notify(struct drm_audio_component *acomp,
--					  int port)
-+static void radeon_audio_component_notify(struct radeon_device *rdev, int port)
- {
-+	struct drm_audio_component *acomp;
-+
-+	mutex_lock(&rdev->audio.component_mutex);
-+	acomp = rdev->audio.component;
- 	if (acomp && acomp->audio_ops && acomp->audio_ops->pin_eld_notify)
- 		acomp->audio_ops->pin_eld_notify(acomp->audio_ops->audio_ptr,
- 						 port, -1);
-+	mutex_unlock(&rdev->audio.component_mutex);
- }
- 
- static int radeon_audio_component_get_eld(struct device *kdev, int port,
-@@ -787,11 +790,11 @@ static int radeon_audio_component_bind(struct device *kdev,
- 	if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
- 		return -ENOMEM;
- 
--	drm_modeset_lock_all(dev);
-+	mutex_lock(&rdev->audio.component_mutex);
- 	acomp->ops = &radeon_audio_component_ops;
- 	acomp->dev = kdev;
- 	rdev->audio.component = acomp;
--	drm_modeset_unlock_all(dev);
-+	mutex_unlock(&rdev->audio.component_mutex);
- 
- 	return 0;
- }
-@@ -805,11 +808,11 @@ static void radeon_audio_component_unbind(struct device *kdev,
- 
- 	device_link_remove(hda_kdev, kdev);
- 
--	drm_modeset_lock_all(dev);
-+	mutex_lock(&rdev->audio.component_mutex);
- 	rdev->audio.component = NULL;
- 	acomp->ops = NULL;
- 	acomp->dev = NULL;
--	drm_modeset_unlock_all(dev);
-+	mutex_unlock(&rdev->audio.component_mutex);
- }
- 
- static const struct component_ops radeon_audio_component_bind_ops = {
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 17bfbbe906c8..2e13ce2b65d3 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1312,6 +1312,7 @@ int radeon_device_init(struct radeon_device *rdev,
- 	mutex_init(&rdev->pm.mutex);
- 	mutex_init(&rdev->gpu_clock_mutex);
- 	mutex_init(&rdev->srbm_mutex);
-+	mutex_init(&rdev->audio.component_mutex);
- 	init_rwsem(&rdev->pm.mclk_lock);
- 	init_rwsem(&rdev->exclusive_lock);
- 	init_waitqueue_head(&rdev->irq.vblank_queue);
--- 
-2.35.3
+> 
+> [   39.419846] WARNING: CPU: 0 PID: 3673 at drivers/bus/omap_l3_noc.c:139 l3_interrupt_handler+0x23c/0x330
+> [   39.429914] 44000000.l3-noc:L3 Custom Error: MASTER MPU TARGET GPMC (Idle): Data Access in Supervisor mode during Functional access
+> ...
+> 
 
+I have no idea what that error is supposed to mean. @Tony?
+
+> making the system unuseable.
+> 
+> After doing some manual bisect by installing different kernel versions on the boot SD card,
+> I was able to identify that it crept in between v5.18 and v5.19-rc1. A git bisect on this
+> range (adding Letux patches on top of each bisect base) did reveal this patch as the first bad one.
+> 
+> After reverting it seems as if I can use any v5.19 .. v6.1-rc2 kernel without issues.
+> 
+> Now I wonder why this patch breaks my system?
+> 
+
+A wild guess - omap5 has some cache issues (as is visible from 
+7cb0d6c17b96b8bf3c25de2dfde4fdeb9191f4c3), which lead to the above. 
+Before the patch *all* access to the BO backing memory was done through 
+TILER/DMM, mitigating the issue. After the patch, whoever tries to 
+render to non-scanout buffer is doing it directly to the memory, causing 
+the issue.
+
+Another possibility - someone assumes that memory is always linear, 
+which is true when it is accessed through DMM, but it is not after the 
+patch. Do you have my "drm: pvrsgx: dmabuf import - Do not assume 
+scatterlist memory is contiguous" patch in your PVR driver? Maybe there 
+is another driver that lacks similar patch.
+
+Regards,
+Ivo
+
+> BR and thanks,
+> Nikolaus
+> 
+> 
+>> Am 19.01.2022 um 11:23 schrieb Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>:
+>>
+>> On devices with DMM, all allocations are done through either DMM or TILER.
+>> DMM/TILER being a limited resource means that such allocations will start
+>> to fail before actual free memory is exhausted. What is even worse is that
+>> with time DMM/TILER space gets fragmented to the point that even if we have
+>> enough free DMM/TILER space and free memory, allocation fails because there
+>> is no big enough free block in DMM/TILER space.
+>>
+>> Such failures can be easily observed with OMAP xorg DDX, for example -
+>> starting few GUI applications (so buffers for their windows are allocated)
+>> and then rotating landscape<->portrait while closing and opening new
+>> windows soon results in allocation failures.
+>>
+>> Fix that by mapping buffers through DMM/TILER only when really needed,
+>> like, for scanout buffers.
+>>
+>> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>> ---
+>> drivers/gpu/drm/omapdrm/omap_gem.c | 12 ++++++++----
+>> 1 file changed, 8 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
+>> index 41c1a6d..cf57179 100644
+>> --- a/drivers/gpu/drm/omapdrm/omap_gem.c
+>> +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
+>> @@ -821,10 +821,12 @@ int omap_gem_pin(struct drm_gem_object *obj, dma_addr_t *dma_addr)
+>> 			if (ret)
+>> 				goto fail;
+>>
+>> -			if (priv->has_dmm) {
+>> -				ret = omap_gem_pin_tiler(obj);
+>> -				if (ret)
+>> -					goto fail;
+>> +			if (omap_obj->flags & OMAP_BO_SCANOUT) {
+>> +				if (priv->has_dmm) {
+>> +					ret = omap_gem_pin_tiler(obj);
+>> +					if (ret)
+>> +						goto fail;
+>> +				}
+>> 			}
+>> 		} else {
+>> 			refcount_inc(&omap_obj->pin_cnt);
+>> @@ -861,6 +863,8 @@ static void omap_gem_unpin_locked(struct drm_gem_object *obj)
+>> 			kfree(omap_obj->sgt);
+>> 			omap_obj->sgt = NULL;
+>> 		}
+>> +		if (!(omap_obj->flags & OMAP_BO_SCANOUT))
+>> +			return;
+>> 		if (priv->has_dmm) {
+>> 			ret = tiler_unpin(omap_obj->block);
+>> 			if (ret) {
+>> -- 
+>> 1.9.1
+>>
+> 
