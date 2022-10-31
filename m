@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7452661348C
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 12:34:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD9C6134B0
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 12:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D911710E19B;
-	Mon, 31 Oct 2022 11:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3148510E1A0;
+	Mon, 31 Oct 2022 11:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3ABF10E19B
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 11:33:54 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N19rz67Rwz15MD5;
- Mon, 31 Oct 2022 19:28:51 +0800 (CST)
-Received: from cgs.huawei.com (10.244.148.83) by
- kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 31 Oct 2022 19:33:50 +0800
-From: Gaosheng Cui <cuigaosheng1@huawei.com>
-To: <christian.koenig@amd.com>, <ray.huang@amd.com>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <airlied@redhat.com>, <cuigaosheng1@huawei.com>
-Subject: [PATCH] drm/ttm: fix undefined behavior in bit shift for
- TTM_TT_FLAG_PRIV_POPULATED
-Date: Mon, 31 Oct 2022 19:33:50 +0800
-Message-ID: <20221031113350.4180975-1-cuigaosheng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4832A10E1A0;
+ Mon, 31 Oct 2022 11:42:35 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 73B37611C0;
+ Mon, 31 Oct 2022 11:42:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1916C433D6;
+ Mon, 31 Oct 2022 11:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667216553;
+ bh=82Mek9NsJD1mKAuPA30xuCcYkcZNBfTDDhKVt3EFQzM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=SDGu+350LSd6UUGVfMSjNZXL4nSuHT5WWMERpzyM7O7ULR5S7YNidkx2S3hopmSjr
+ //XOykptdauZPLeOwq7PnbNSltLDTCbkq7vJhyIPbMGg190xXTxllB3/qsB8lM85S8
+ 9Udzz3scQAW4xn64ls7Q+dSqXKm2US2OQNmWrW4nWo/z0ciNU/30VIFA4l5jwB9rkl
+ PwxLxH2DFOFXD/vNJR0gctqycPHO1BnJVkFewJiVXVWpYeWNQYSCNs5USIwfNpgd3S
+ P8Ms7ohDrW/ZnPPn9dorWYJRpWx9ZBNI4PUSyNcMvf5GwDUP++f9iZp8ouiiam89Bx
+ v24R4dZTt3AXA==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: bskeggs@redhat.com
+Subject: [PATCH] drm/nouveau/kms/nv50- (gcc13): fix nv50_wndw_new_ prototype
+Date: Mon, 31 Oct 2022 12:42:29 +0100
+Message-Id: <20221031114229.10289-1-jirislaby@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.244.148.83]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,91 +49,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>,
+ "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Martin Liska <mliska@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Shifting signed 32-bit value by 31 bits is undefined, so changing
-significant bit to unsigned. The UBSAN warning calltrace like below:
+gcc-13 warns about mismatching types for enums. That revealed switched
+arguments of nv50_wndw_new_():
+  drivers/gpu/drm/nouveau/dispnv50/wndw.c:696:1: error: conflicting types for 'nv50_wndw_new_' due to enum/integer mismatch; have 'int(const struct nv50_wndw_func *, struct drm_device *, enum drm_plane_type,  const char *, int,  const u32 *, u32,  enum nv50_disp_interlock_type,  u32,  struct nv50_wndw **)'
+  drivers/gpu/drm/nouveau/dispnv50/wndw.h:36:5: note: previous declaration of 'nv50_wndw_new_' with type 'int(const struct nv50_wndw_func *, struct drm_device *, enum drm_plane_type,  const char *, int,  const u32 *, enum nv50_disp_interlock_type,  u32,  u32,  struct nv50_wndw **)'
 
-UBSAN: shift-out-of-bounds in ./include/drm/ttm/ttm_tt.h:122:26
-left shift of 1 by 31 places cannot be represented in type 'int'
-Call Trace:
- <TASK>
- dump_stack_lvl+0x7d/0xa5
- dump_stack+0x15/0x1b
- ubsan_epilogue+0xe/0x4e
- __ubsan_handle_shift_out_of_bounds+0x1e7/0x20c
- ttm_bo_move_memcpy+0x3b4/0x460 [ttm]
- bo_driver_move+0x32/0x40 [drm_vram_helper]
- ttm_bo_handle_move_mem+0x118/0x200 [ttm]
- ttm_bo_validate+0xfa/0x220 [ttm]
- drm_gem_vram_pin_locked+0x70/0x1b0 [drm_vram_helper]
- drm_gem_vram_pin+0x48/0xb0 [drm_vram_helper]
- drm_gem_vram_plane_helper_prepare_fb+0x53/0xe0 [drm_vram_helper]
- drm_gem_vram_simple_display_pipe_prepare_fb+0x26/0x30 [drm_vram_helper]
- drm_simple_kms_plane_prepare_fb+0x4d/0xe0 [drm_kms_helper]
- drm_atomic_helper_prepare_planes+0xda/0x210 [drm_kms_helper]
- drm_atomic_helper_commit+0xc3/0x1e0 [drm_kms_helper]
- drm_atomic_commit+0x9c/0x160 [drm]
- drm_client_modeset_commit_atomic+0x33a/0x380 [drm]
- drm_client_modeset_commit_locked+0x77/0x220 [drm]
- drm_client_modeset_commit+0x31/0x60 [drm]
- __drm_fb_helper_restore_fbdev_mode_unlocked+0xa7/0x170 [drm_kms_helper]
- drm_fb_helper_set_par+0x51/0x90 [drm_kms_helper]
- fbcon_init+0x316/0x790
- visual_init+0x113/0x1d0
- do_bind_con_driver+0x2a3/0x5c0
- do_take_over_console+0xa9/0x270
- do_fbcon_takeover+0xa1/0x170
- do_fb_registered+0x2a8/0x340
- fbcon_fb_registered+0x47/0xe0
- register_framebuffer+0x294/0x4a0
- __drm_fb_helper_initial_config_and_unlock+0x43c/0x880 [drm_kms_helper]
- drm_fb_helper_initial_config+0x52/0x80 [drm_kms_helper]
- drm_fbdev_client_hotplug+0x156/0x1b0 [drm_kms_helper]
- drm_fbdev_generic_setup+0xfc/0x290 [drm_kms_helper]
- bochs_pci_probe+0x6ca/0x772 [bochs]
- local_pci_probe+0x4d/0xb0
- pci_device_probe+0x119/0x320
- really_probe+0x181/0x550
- __driver_probe_device+0xc6/0x220
- driver_probe_device+0x32/0x100
- __driver_attach+0x195/0x200
- bus_for_each_dev+0xbb/0x120
- driver_attach+0x27/0x30
- bus_add_driver+0x22e/0x2f0
- driver_register+0xa9/0x190
- __pci_register_driver+0x90/0xa0
- bochs_pci_driver_init+0x52/0x1000 [bochs]
- do_one_initcall+0x76/0x430
- do_init_module+0x61/0x28a
- load_module+0x1f82/0x2e50
- __do_sys_finit_module+0xf8/0x190
- __x64_sys_finit_module+0x23/0x30
- do_syscall_64+0x58/0x80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
- </TASK>
+It can be barely visible, but the declaration says about the parameters
+in the middle:
+  enum nv50_disp_interlock_type,
+  u32 interlock_data,
+  u32 heads,
 
-Fixes: 3312be8f6fc8 ("drm/ttm: move populated state into page flags")
-Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+While the definition states differently:
+  u32 heads,
+  enum nv50_disp_interlock_type interlock_type,
+  u32 interlock_data,
+
+Unify/fix the declaration to match the definition.
+
+Cc: Martin Liska <mliska@suse.cz>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 ---
- include/drm/ttm/ttm_tt.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/dispnv50/wndw.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index 17a0310e8aaa..b7d3f3843f1e 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -88,7 +88,7 @@ struct ttm_tt {
- #define TTM_TT_FLAG_EXTERNAL		(1 << 2)
- #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	(1 << 3)
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.h b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
+index 591c852f326b..76a6ae5d5652 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/wndw.h
++++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
+@@ -35,8 +35,9 @@ struct nv50_wndw {
  
--#define TTM_TT_FLAG_PRIV_POPULATED  (1 << 31)
-+#define TTM_TT_FLAG_PRIV_POPULATED  (1U << 31)
- 	uint32_t page_flags;
- 	/** @num_pages: Number of pages in the page array. */
- 	uint32_t num_pages;
+ int nv50_wndw_new_(const struct nv50_wndw_func *, struct drm_device *,
+ 		   enum drm_plane_type, const char *name, int index,
+-		   const u32 *format, enum nv50_disp_interlock_type,
+-		   u32 interlock_data, u32 heads, struct nv50_wndw **);
++		   const u32 *format, u32 heads,
++		   enum nv50_disp_interlock_type, u32 interlock_data,
++		   struct nv50_wndw **);
+ void nv50_wndw_flush_set(struct nv50_wndw *, u32 *interlock,
+ 			 struct nv50_wndw_atom *);
+ void nv50_wndw_flush_clr(struct nv50_wndw *, u32 *interlock, bool flush,
 -- 
-2.25.1
+2.38.1
 
