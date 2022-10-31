@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CCC613C21
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 18:27:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 303CE613C24
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 18:27:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE2B10E033;
-	Mon, 31 Oct 2022 17:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71A6510E157;
+	Mon, 31 Oct 2022 17:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68ED610E033;
- Mon, 31 Oct 2022 17:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667237234; x=1698773234;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=siXkABv8Hn+s95xOdhQdHSC+bKc3rcc2PtOfhvL/u44=;
- b=TP7/btKqG5LFwHrj2ztQjP8/HzvgvmjxhqRg2Oug98FxcwqtYBeHdsJs
- W6cVSjxvYwmryFETvCwo6iZMCseQsTEKCQMqCATNdwD1PBEQoJgA2Fpb4
- jR5+rz4tBbNoD30GqoInw1i7Ea57nGHA15aZTfjSf75Gdpkp6mZevtySk
- bQdDKxtBgjfuRl1FVSuPApFP72JxGYnSKlb8uFyKVnKuBruSsu4rCgIoU
- 2V0+Cd0tUqDdPLEFeesD/5Sf3CKFMg7ZMK9wv8nHO/3vKAJp9kMg18WSW
- 3LZnuJnSdg4vhwdbl2GwHjryIDHHIcAzOPt2ktegJ77aJRFJrhYa1nuTb A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="306573564"
-X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; d="scan'208";a="306573564"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2022 10:26:59 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="702595819"
-X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; d="scan'208";a="702595819"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril.jf.intel.com)
- ([10.165.21.138])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2022 10:26:59 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/hwmon: Don't use FIELD_PREP
-Date: Mon, 31 Oct 2022 10:26:55 -0700
-Message-Id: <20221031172655.606165-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.38.0
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B7910E130
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 17:27:20 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id l5so13462112oif.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 10:27:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vZb9O7A86rz8+IQHhKdSDQNKGuKZTMRvSTbUELAFyhU=;
+ b=h1hB9HuHXRa1HPSi5UWqu66ChcO14JgFV58gQFFQX0uGCmxmBQPIUWjMiptcWUFuAl
+ m4VKpOgOt7PR04c0HXt2NPQaFSc8vb/KOgs5L6jVNV0HQtBHQfkPNrUDj90LNB6Mx1ke
+ JjxSsHyxDjDrgv9+8dXAnfl/bHO3PAIDOm5AzjSQYgY9XWYJHQAw7XPXRfhs+JL7+YQc
+ zzLPNuLLHy0XQfo45m9DNNkWo4OB08AdgHgQYP72jWetkd7XTFreQ4TaIYiP+yV0GEzc
+ f2uOf4/BCjwsP6253nVGl8xVK6lujFOkGDS5DLgbFqaTZKpOxqDa8FkLy/57t15ihI+J
+ 8ogA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vZb9O7A86rz8+IQHhKdSDQNKGuKZTMRvSTbUELAFyhU=;
+ b=2R/YP8bcMHnU5L0nUozLlretLUyNnlh5pZysjCo8cQVrdh3maLm671te/eHdfuIbyX
+ Mbnx7JFDKx1O8CifQcbolj38okRC+80ePnUrJzCXaPYMoGSne/VaKTqJXmiG6HG96Bu4
+ EUMqJtkTzf8SY5MCLrWYS0ExXVBfEu8T2vKk2FwzHGQhMDjYnFgsAl5yu93/w3jxEWQg
+ PTcPCCyi/tOXb5YHG0bSmVEPCvVHYkXxlhRJSHx4n+jFJVk4+v+XHCpwtd9DVY+AIa/X
+ mQWzCxUu5zGrYBVYYbBzoP9aFZ9nlrTQTW6c7nozwnL4xenXtN5ZXIzMT8EQSAteh8og
+ SyUw==
+X-Gm-Message-State: ACrzQf22tvwMWExPL1hvDnobjC8vNiLtJL7NK+wc1pVKve8yfMuLZgiN
+ LVlbxkg7nOyhXKRKnJnDlpjtoGweWtABaAhtwRw=
+X-Google-Smtp-Source: AMsMyM5zaFuIfJ74PrdQV9tjel2ST/eLXwCkMGirZyjbjam9sBQtYl97KJ6IndBO3adBVAnB9Y2sOTOJ3uKG+mI6n+k=
+X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
+ f18-20020a05680814d200b00354c733abd3mr7361828oiw.96.1667237240077; Mon, 31
+ Oct 2022 10:27:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221031165834.GA10150@duo.ucw.cz> <Y2ABatgNLVAAjpSW@intel.com>
+ <20221031171952.GA10666@duo.ucw.cz>
+In-Reply-To: <20221031171952.GA10666@duo.ucw.cz>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 31 Oct 2022 13:27:08 -0400
+Message-ID: <CADnq5_PBghDvCe2vbXFusOCCpzS5CgPg_9S3doXN7dkFWeLrFQ@mail.gmail.com>
+Subject: Re: 6.1-rc: names of video outputs changed?
+To: Pavel Machek <pavel@ucw.cz>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,70 +65,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@intel.com>, llvm@lists.linux.dev,
- ndesaulniers@google.com, gwan-gyeong.mun@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ kernel list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FIELD_PREP and REG_FIELD_PREP have checks requiring a compile time constant
-mask. When the mask comes in as the argument of a function these checks can
-can fail depending on the compiler (gcc vs clang), optimization level,
-etc. Use a simpler version of FIELD_PREP which skips these checks. The
-checks are not needed because the mask is formed using REG_GENMASK (so is
-actually a compile time constant).
+On Mon, Oct 31, 2022 at 1:19 PM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > > I used to be able to do:
+> > >
+> > > pavel@duo:~$     xrandr --output HDMI1 --mode 1920x1080 --primary
+> > > warning: output HDMI1 not found; ignoring
+> > > pavel@duo:~$     xrandr --output VGA1 --mode 1280x1024 --below HDMI1
+> > > warning: output VGA1 not found; ignoring
+> > >
+> > > ...but now I have to do:
+> > >
+> > > pavel@duo:~$     xrandr --output VGA-1 --mode 1280x1024 --below HDMI-1
+> > > xrandr: cannot find crtc for output VGA-1
+> > > pavel@duo:~$     xrandr --output LVDS-1 --off
+> > > pavel@duo:~$     xrandr --output VGA-1 --mode 1280x1024 --below HDMI-1
+> > >
+> > > Notice the change from HDMI1 to HDMI-1. I believe that's new in 6.1 or
+> > > so. Who did it and why? Hardware is thinkpad x220, and this breaks my
+> > > scripts :-(.
+> >
+> > Are you sure you didn't just switch from intel ddx to modesetting ddx?
+>
+> How do I tell?
 
-v2: Split REG_FIELD_PREP into a macro with checks and one without and use
-    the one without checks in i915_hwmon.c (Gwan-gyeong Mun)
+Check your xorg log.
 
-Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7354
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
----
- drivers/gpu/drm/i915/i915_hwmon.c    |  2 +-
- drivers/gpu/drm/i915/i915_reg_defs.h | 17 +++++++++++------
- 2 files changed, 12 insertions(+), 7 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-index 9e97814930254..ae435b035229a 100644
---- a/drivers/gpu/drm/i915/i915_hwmon.c
-+++ b/drivers/gpu/drm/i915/i915_hwmon.c
-@@ -112,7 +112,7 @@ hwm_field_scale_and_write(struct hwm_drvdata *ddat, i915_reg_t rgadr,
- 	nval = DIV_ROUND_CLOSEST_ULL((u64)lval << nshift, scale_factor);
- 
- 	bits_to_clear = field_msk;
--	bits_to_set = FIELD_PREP(field_msk, nval);
-+	bits_to_set = __REG_FIELD_PREP(field_msk, nval);
- 
- 	hwm_locked_with_pm_intel_uncore_rmw(ddat, rgadr,
- 					    bits_to_clear, bits_to_set);
-diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
-index f1859046a9c48..dddacc8d48928 100644
---- a/drivers/gpu/drm/i915/i915_reg_defs.h
-+++ b/drivers/gpu/drm/i915/i915_reg_defs.h
-@@ -67,12 +67,17 @@
-  *
-  * @return: @__val masked and shifted into the field defined by @__mask.
-  */
--#define REG_FIELD_PREP(__mask, __val)						\
--	((u32)((((typeof(__mask))(__val) << __bf_shf(__mask)) & (__mask)) +	\
--	       BUILD_BUG_ON_ZERO(!__is_constexpr(__mask)) +		\
--	       BUILD_BUG_ON_ZERO((__mask) == 0 || (__mask) > U32_MAX) +		\
--	       BUILD_BUG_ON_ZERO(!IS_POWER_OF_2((__mask) + (1ULL << __bf_shf(__mask)))) + \
--	       BUILD_BUG_ON_ZERO(__builtin_choose_expr(__is_constexpr(__val), (~((__mask) >> __bf_shf(__mask)) & (__val)), 0))))
-+#define __REG_FIELD_PREP_CHK(__mask, __val) \
-+	(BUILD_BUG_ON_ZERO(!__is_constexpr(__mask)) + \
-+	 BUILD_BUG_ON_ZERO((__mask) == 0 || (__mask) > U32_MAX) + \
-+	 BUILD_BUG_ON_ZERO(!IS_POWER_OF_2((__mask) + (1ULL << __bf_shf(__mask)))) + \
-+	 BUILD_BUG_ON_ZERO(__builtin_choose_expr(__is_constexpr(__val), (~((__mask) >> __bf_shf(__mask)) & (__val)), 0)))
-+
-+#define __REG_FIELD_PREP(__mask, __val) \
-+	((u32)((((typeof(__mask))(__val) << __bf_shf(__mask)) & (__mask))))
-+
-+#define REG_FIELD_PREP(__mask, __val) \
-+	(__REG_FIELD_PREP(__mask, __val) + __REG_FIELD_PREP_CHK(__mask, __val))
- 
- /**
-  * REG_FIELD_GET() - Extract a u32 bitfield value
--- 
-2.38.0
 
+>
+> I don't think I did such changes recently. It is Debian 10.13 system
+> (rather old) so I don't think it did update for me.
+>
+> Thanks and best regards,
+>                                                                 Pavel
+> --
+> People of Russia, stop Putin before his war on Ukraine escalates.
