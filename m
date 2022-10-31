@@ -2,56 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A296131D2
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 09:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875F06132EB
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 10:40:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C7810E15A;
-	Mon, 31 Oct 2022 08:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD5410E175;
+	Mon, 31 Oct 2022 09:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37F4610E157;
- Mon, 31 Oct 2022 08:40:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667205607; x=1698741607;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=pHqhML5efohtqgNb7+dHGJE5mcWVlZrNvGh0lsvaScQ=;
- b=gs+8ASN7pJ5r9RXMut5SRdFYS1AtDlHhS3aZZ7RuLV6ru4MMKW0r1gMg
- iYNZvO5ZW90RhTeJpUOjURyT0JYOLnKclTguyZKLI2kunejEZzjUVU2P8
- Qf0FONbLQP9tut4ALwnWzTAqgKA7YUuVbVVJEkjJyC6Kw0RI1kkjP5h1A
- jMulgpjRbnx/tKtslBIMBbhDHrvJupye9uoa39Crc48iQGJWmHbTCImN9
- 0TKawu+vHO7Bnz1hIDgt68phSFK0dLyblASPOD0j8Xpkdsf3dPxfUSskr
- fg0vNgu2H/yicLIpDj/I/pmUX1x4k8dTAPBf9DGbfH8PN5vHKLmE1GBX9 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="309936808"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="309936808"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2022 01:40:06 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="878658561"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; d="scan'208";a="878658561"
-Received: from ffarrell-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.13.132])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2022 01:40:03 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?Q?Aur=C3=A9lien?= <aurelien.intel@ap2c.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Hans de Goede <hdegoede@redhat.com>, Lyude
- <lyude@redhat.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] Developing a new backlight driver for specific OLED
- screen
-In-Reply-To: <e168e993071e55404dfa91387cf4db97@ap2c.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <87zgf556dm.fsf@intel.com> <878rms7emr.fsf@intel.com>
- <183219aab00.2890.be34037ad6564a4fe81285fd91a8f407@ap2c.com>
- <YxsMcH37rRkt0cfj@intel.com> <115b5a5ebddcd268ee5f7688400448a2@ap2c.com>
- <e168e993071e55404dfa91387cf4db97@ap2c.com>
-Date: Mon, 31 Oct 2022 10:40:00 +0200
-Message-ID: <87wn8g8jz3.fsf@intel.com>
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF87110E16E
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 09:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1667209231; bh=a+WIKnAu+RfBS8xAhnVFlou+k5sPVUzbUASFir5UywE=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=J7YIHtucgVQs5XeLE3fSzmebQwMd8kG6DGIl9rmq7sn2M2iDrc19+nmrDu+XICLcR
+ vkXaUFI1j6kjEuy+hHZ6uS52c5bK8pw1y99axzVfrxl1mFhy/+9G6kfyNGzwCokGO4
+ caD4WhkrggM9CzT3IFUv5iPOXGg8mSs8QyKXgqtU=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP via [213.182.55.206]
+ Mon, 31 Oct 2022 10:40:31 +0100 (CET)
+X-EA-Auth: lAZr++KF+w2MI+M5dywmZDcNBi/iIf9moMfunGMLSjl93wm+/oWRBqiQq+UbqyamMAImkSTlHW5vtcAUZmY1a3CI3ZtFIbPW
+Date: Mon, 31 Oct 2022 15:10:27 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH] staging: fbtft: Use ARRAY_SIZE() to get argument count
+Message-ID: <Y1+YC5OuycA5hLFx@ubunlion>
+References: <Y1vZXUi0Bjiub8HZ@ubunlion> <Y1zXIjCe3LGwApWD@kroah.com>
+ <Y11b0oCmle2pbRel@ubunlion>
+ <alpine.DEB.2.22.394.2210291931590.2917@hadrien>
+ <Y191LI7zKVRA5LEb@ubunlion>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y191LI7zKVRA5LEb@ubunlion>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,69 +47,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, outreachy@lists.linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Oct 2022, "Aur=C3=A9lien" <aurelien.intel@ap2c.com> wrote:
-> Hi,=20
+On Mon, Oct 31, 2022 at 12:41:40PM +0530, Deepak Varma wrote:
+> On Sat, Oct 29, 2022 at 07:34:26PM +0200, Julia Lawall wrote:
+> >
+> >
+> > On Sat, 29 Oct 2022, Deepak R Varma wrote:
+> >
+> > > On Sat, Oct 29, 2022 at 09:32:50AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Fri, Oct 28, 2022 at 07:00:05PM +0530, Deepak R Varma wrote:
+> > > > > The ARRAY_SIZE(foo) macro should be preferred over sizeof operator
+> > > > > based computation such as sizeof(foo)/sizeof(foo[0]) for finding
+> > > > > number of elements in an array. Issue identified using coccicheck.
+> > > > >
+> > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > > > ---
+> > > > >  drivers/staging/fbtft/fbtft.h | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+> > > > > index 2c2b5f1c1df3..5506a473be91 100644
+> > > > > --- a/drivers/staging/fbtft/fbtft.h
+> > > > > +++ b/drivers/staging/fbtft/fbtft.h
+> > > > > @@ -231,7 +231,7 @@ struct fbtft_par {
+> > > > >  	bool polarity;
+> > > > >  };
+> > > > >
+> > > > > -#define NUMARGS(...)  (sizeof((int[]){__VA_ARGS__}) / sizeof(int))
+> > > > > +#define NUMARGS(...)  ARRAY_SIZE(((int[]){ __VA_ARGS__ }))
+> > > >
+> > > > Please please please test-build your patches before sending them out.
+> > > > To not do so just wastes reviewer resources :(
+> > >
+> > > Hello Greg,
+> > > I did build the .ko files by making the driver/staging/fbtft/ path. I verified
+> > > .o and .ko files were built.
+> > >
+> > > I did a make clean just now and was again able to rebuild without any errors.
+> > > Please see the attached log file.
+> > >
+> > > Is there something wrong with the way I am firing the build?
+> >
+> > The change is in the definition of a macro.  The compiler won't help you
+> > in this case unless the macro is actually used in code that is compiled.
+> > Find the uses and check for any nearby ifdefs.  For file foo.c you can
+> > also do make foo.i to see the result of reducing ifdef and expanding
+> > macros.  Then you can see if the code you changed is actually included in
+> > the build.
 >
-> I come back on my problem regarding the development of a specific driver =
-which controls the brightness of my OLED device.
+> Okay. This is helpful. I understand. Looking into the file where the macro
+> expansion is reported to be failed.
+
+Hi Julia,
+I could see the macro expansions in the .i files for the fbtft-core.c and
+fb_hx8353d.c file. I am not sure why it built successfully on my x86 though. The
+error in Kerbel bot seems to be specific to ARM arch. I will try that later
+today. I am on the right track to the build error triage?
+
+Also, while reviewing the macro expansion, I saw change in the computation that
+seems odd to me. In the denominator of the expanded macro, there is a "+
+((int)...." computation that I am not sure if is result of ARRAY_SIZE. I have
+attached the old anf the new .i file diff for your review. If you get a change
+could you help me understand why this additional computation is added to the
+denominator?
+
+Thank you,
+./drv
 >
->> If it's eDP and uses some proprietary DPCD brightness control mechanism,
->> I think in practice it usually is somewhat dependent on the GPU.
->>=20
->> (OTOH I realize you don't mention eDP. If it's not eDP, DDC/CI is the
->> more likely way to control brightness than DPCD.)
+> Thank you,
+> ./drv
 >
-> I succeed to control the brightness through the /dev/drm_dp_aux0 device.
-> Since I only need access to the DP AUX channel, I would like to develop a=
-n independant (from the GPU) driver. Unfortunately I don't know how to get =
-access to the DP AUX channel from this independant driver.. Do you have som=
-e ideas?
+> >
+> > julia
+> >
 >
-> I am totally agree with the fact that this display might only be used wit=
-h an intel gfx card but I'm not sure that this code (which only use DP AUX =
-read/write access) must be in the intel gfx driver code.=20
-
-With the information provided, I basically see two options:
-
-1) Just make it part of i915 anyway, or
-
-2) Make it library code in drm that i915 calls.
-
-Observe that it's fairly easy to do 1 first, and, if necessary, turn it
-into 2 later. This is actually exactly how the current DP AUX brightness
-code evolved.
-
-IMO there's no point in trying to add a framework to make this an
-independent driver you could probe separately. It's an unnecessary
-complication, overengineering.
-
 >
->>> Unfortunately I guess the mechanism is not shared with many OLED
->>> displays...
->>=20
->> Do you have a spec for it? How does it differ from the VESA eDP DPCD
->> brightness control?
 >
-> I don't have any specs but as far as I understood it configures some scre=
-en registers to scale the PWM of all OLED pixels depending on the display s=
-tate. It uses its own vendor's ports and registers. And values sent on the =
-display registers to set the desired brightness are computed with complex f=
-ormulaes (and the calculation needs static tables of values and display inf=
-ormation got from the display at startup).
-
-What's the source of the information?
-
-Pretty soon we're going to need something more concrete to discuss this
-further. Spec or implementation or something.
 
 
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
