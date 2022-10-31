@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F67613CAC
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 18:56:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAEEA613CCF
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 19:02:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B240C10E11B;
-	Mon, 31 Oct 2022 17:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF7B210E166;
+	Mon, 31 Oct 2022 18:02:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44FCC10E119
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 17:56:11 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D38D010E131
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 18:02:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AE9386130B
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 17:56:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 235C4C433D7
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 17:56:10 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 342FAB81979
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 18:02:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D99A0C433C1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 18:02:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667238970;
- bh=JgIn0pAhL9U39HVvUAZh+TgTu/OI+g0K30eJHhIAztI=;
+ s=k20201202; t=1667239332;
+ bh=z9WywF3lspsObLVT9xTVhDzgQ4aScLcIx+dloCMDNfQ=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=aVEtrin40MFe7bcvVbEDT7HBNLW6YMbBNl7rluFuybgjs3xyJBCpuzHzFLfRaIVJx
- gF+vuKqPc1GgKe7diiIVFdbeUf+708FscdDliTQ8vqwqUrqLuhJrr4CMALY09gpXcN
- he/NTL0xAV1pdSUlXa/nOcmUwqGtwfu0vW9DBhfg8LCYdZOfifG77Xoqol1IVqAjHZ
- /csomAFxWo99BubJdvKyMSRICrG/1vEtC5YTEyj9tNvnNsilNYlmy2juNWoEehYmB3
- Hrx19W5O31AHx13i3h0e43ZdDD/YUMrc1lMHRnLn4tzepav9wyAILwQfjXJHT3V1c1
- BMy2Nme8FqdWw==
+ b=SZgru+lqBUOxOfhY6R4aKqGaBR1MMbiyA00PICxj2lBVYVbWBpYf2iXS6R7eJ42V5
+ VDtBMequzjFqudIe2BoS12bYHsTZEg3C0hbl7enq/YVWu+9cVNGaquv/dwARz/m/9l
+ 6DrQY/H84o4GeZrb9H4mdyvzbMbFKVE52Pk0y6PTpM8MC+Chjkdl3eAjgyBfBHZHsc
+ 2lZ8nk3o03rLEdcuMc05I4p169k5V7s14ZrfTlNphcJCk1p/yFjiHHTvid4HKR5Xda
+ xA3uflg9kmMrYIX762ceEs2cGVZvvPWqQVrx8bn+dbrG65Y8AU9Tc3acce9sBC2U7o
+ 5Hude39VlQ/1Q==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 03382C433E9; Mon, 31 Oct 2022 17:56:10 +0000 (UTC)
+ from userid 48) id BFB15C433E6; Mon, 31 Oct 2022 18:02:12 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216645] Fence fallback timer expired on ring gfx
-Date: Mon, 31 Oct 2022 17:56:09 +0000
+Date: Mon, 31 Oct 2022 18:02:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -49,8 +49,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216645-2300-CTaqLX0phh@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216645-2300-UuilQ8gQ2w@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216645-2300@https.bugzilla.kernel.org/>
 References: <bug-216645-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,45 +75,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216645
 
---- Comment #4 from Martin =C5=A0u=C5=A1la (ask4support@email.cz) ---
-Created attachment 303110
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303110&action=3Dedit
-Kernel log interlaced with contents of /proc/interrupts polled every second
+--- Comment #5 from Martin =C5=A0u=C5=A1la (ask4support@email.cz) ---
+(In reply to Martin =C5=A0u=C5=A1la from comment #3)
+> After the message mention in title appears, not even a single interrupt is
+> registered.
 
-#! /bin/sh
-
-print() {
-        printf "$1" ; seq -s" " $(( $(stty size < $t | sed "s/^/(/; s/ / - =
-1 )
-* /") - ${#1} )) | sed s/[0-9]//g
-}
-t=3D"$(readlink /proc/self/fd/0)"
-
-d=3D"$(env LANG=3DC udisksctl mount -b /dev/disk/by-uuid/$1 -o sync 2> /dev=
-/null |
-sed "s/^Mounted .* at //g; s/\.$//g")"
-[ -d "$d" ] && f=3Doflag=3Ddirect || d=3D"${0%/*}" f=3Doflag=3Ddirect
-
-(sudo dmesg -w & while sleep 1 ; do cat /proc/interrupts ; done) | sudo dd
-of=3D"$d/${0##*/}.log" $f &
-i=3D0
-seq 28 150000 | while read N ; do
-        print $N
-        timeout 3 env DISPLAY=3D:0 plasma-systemmonitor > /dev/null 2>&1
-        n=3D$N ; while [ 0 -lt $n ] ; do
-                sleep 1
-                n=3D$(( $n - 1 ))
-                i=3D$(( $i ^ 1 ))
-                [ "$i" =3D 1 ] && printf "\33[30m\33[47m" || printf
-"\33[37m\33[40m"
-                print $n
-        done
-done
-
-echo END!
-exit
-
-# This script was used to generate it
+(Valid for both interrupts of the amdgpu driver.)
 
 --=20
 You may reply to this email to add a comment.
