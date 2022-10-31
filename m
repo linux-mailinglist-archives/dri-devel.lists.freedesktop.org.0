@@ -2,44 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B3B61409B
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 23:24:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B20761409E
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 23:25:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D724F10E1D3;
-	Mon, 31 Oct 2022 22:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B610910E1EF;
+	Mon, 31 Oct 2022 22:25:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9F910E1D3
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 22:24:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 48F32B8189E;
- Mon, 31 Oct 2022 22:24:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E666C433D7;
- Mon, 31 Oct 2022 22:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667255072;
- bh=c430a9vtJ9VLpdvhysJooW/JnUHf5Y1ouH47JEN2P14=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WTWhq78uRNLiqVdI4TGtO46oG1p4v/zCTpBX8wI2zjC/49Ea74Bx/W3KE9TmaCzdF
- hxwiG13aeaNMJGIRuNr92vPbxk2TxonFCbZ1ucQ4wk+pL2aFBFyOWDzuUSV7nL3Laf
- 6SE3mn0W61+oV9Uf3RpX26XUKDYq/sLpULaZOHlyffJZ6BvYyJHbNSxOLMTagKFUUN
- xlNnIDnqGganQImu8fzJCmlVWV/U0rB3e4qfbWnRjhV4VL6J+4gqlqdxRwOGP4lDHl
- F39PT3miQm9J2K8S4mc0WnZHEAtfLoORFJ3cTkRpf2FsrrK6XKSPlV+PCrCaq8vk9g
- sHy3KIFTr/27w==
-Date: Mon, 31 Oct 2022 15:24:30 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nathan Huckleberry <nhuck@google.com>
-Subject: Re: [PATCH] drm: xlnx: Fix return type of
- zynqmp_dp_connector_mode_valid
-Message-ID: <Y2BLHjC0q3rbIL0d@dev-arch.thelio-3990X>
-References: <20220913205600.155172-1-nhuck@google.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1CF710E1E3;
+ Mon, 31 Oct 2022 22:25:08 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 29VM8CVE014359; Mon, 31 Oct 2022 22:24:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=IR7FzdmzIqnEo5WsvgBdjRd448w0ofvspNgjh/SFt2Y=;
+ b=eZgffo42r4QdBVZS8ibIWpG/aBtODkbxK1xK7uZsg6FrkagZvaEMRiZ9fxH7zX7/yrSc
+ gmM5zJU7b+SmZSnTKsD2a2e10ZYEJucGF3Fk8WmZ2Ym9cPqUx2l+nskySD4Rj3BgihSE
+ R+kftObEIsl6/wmo4YCuRgQj5dErDIIJkYenRnw7ozKs3PGiqcgGyYIrNXJyCrRm5s6W
+ SlHYC1tS7UJTSBPTZ3Cl1LdNA8Q4j5A0SPdpl85Gj09pxMBQx3CESQSoYLeqKWuY9+jM
+ +h3+Ff0eDUWh5jydTybX7jDFHZkBqXdoQl0vFxzHUj50lwjARWisBvgPbAmdC169ATBe HQ== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kjmq4r93x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Oct 2022 22:24:50 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29VMOnw5030819
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Oct 2022 22:24:49 GMT
+Received: from [10.71.111.47] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 31 Oct
+ 2022 15:24:49 -0700
+Message-ID: <b890681d-9c40-32c6-061a-668dce01d89d@quicinc.com>
+Date: Mon, 31 Oct 2022 15:24:48 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913205600.155172-1-nhuck@google.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
+ <20221028225952.160-2-quic_jesszhan@quicinc.com>
+ <712a9a25-4c38-9da5-b1a6-39e4665b4d31@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <712a9a25-4c38-9da5-b1a6-39e4665b4d31@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 8KJk-5FOWRDePgF5_eMp7ujbO5GY2AJ_
+X-Proofpoint-ORIG-GUID: 8KJk-5FOWRDePgF5_eMp7ujbO5GY2AJ_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-31_21,2022-10-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ mlxscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ malwarescore=0 clxscore=1015 mlxlogscore=803 bulkscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210310138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,67 +85,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Carpenter <error27@gmail.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
- David Airlie <airlied@linux.ie>, Tom Rix <trix@redhat.com>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- Michal Simek <michal.simek@xilinx.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
 
-On Tue, Sep 13, 2022 at 01:56:00PM -0700, Nathan Huckleberry wrote:
-> The mode_valid field in drm_connector_helper_funcs is expected to be of
-> type
-> enum drm_mode_status (* mode_valid) (struct drm_connector *connector,
->                                      struct drm_display_mode *mode);
+
+On 10/29/2022 5:08 AM, Dmitry Baryshkov wrote:
+> On 29/10/2022 01:59, Jessica Zhang wrote:
+>> Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
+>> drm_plane. In addition, add support for setting and getting the values
+>> of these properties.
+>>
+>> COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
+>> represents the format of the color fill. Userspace can set enable solid
+>> fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
+>> the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
+>> framebuffer to NULL.
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com> >
+> Planes report supported formats using the drm_mode_getplane(). You'd 
+> also need to tell userspace, which formats are supported for color fill. 
+> I don't think one supports e.g. YV12.
+
+Hey Dmitry,
+
+Good point. Forgot to add this in the patch [3/3] commit message, but 
+FWIW MSM DPU devices only support the RGB format variants [1].
+
+[1] 
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c#L697
+
 > 
-> The mismatched return type breaks forward edge kCFI since the underlying
-> function definition does not match the function hook definition.
+> A bit of generic comment for the discussion (this is an RFC anyway). 
+> Using color_fill/color_fill_format properties sounds simple, but this 
+> might be not generic enough. Limiting color_fill to 32 bits would 
+> prevent anybody from using floating point formats (e.g. 
+> DRM_FORMAT_XRGB16161616F, 64-bit value). Yes, this can be solved with 
+> e.g. using 64-bit for the color_fill value, but then this doesn't sound 
+> extensible too much.
+
+Hm... I can definitely change color_fill to use u64 instead. As for 
+making it more extensible, do you have any suggestions?
+
 > 
-> The return type of zynqmp_dp_connector_mode_valid should be changed from
-> int to enum drm_mode_status.
+> So, a question for other hardware maintainers. Do we have hardware that 
+> supports such 'color filled' planes? Do we want to support format 
+> modifiers for filling color/data? Because what I have in mind is closer 
+> to the blob structure, which can then be used for filling the plane:
 > 
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-> Cc: llvm@lists.linux.dev
-> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_dp.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> struct color_fill_blob {
+>      u32 pixel_format;
+>      u64 modifiers4];
+>      u32 pixel_data_size; // fixme: is this necessary?
+>      u8 pixel_data[];
+> };
+
+Just a question about this blob struct -- what is the purpose of pixel_data?
+
+At least for devices using the DPU driver, the only data needed to 
+enable solid fill is color_fill and color_fill_format. I'd also be 
+interested in knowing if there are other drivers support a similar 
+feature and what is needed for them.
+
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index d14612b34796..f571b08d23d3 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1352,8 +1352,9 @@ zynqmp_dp_connector_best_encoder(struct drm_connector *connector)
->  	return &dp->encoder;
->  }
->  
-> -static int zynqmp_dp_connector_mode_valid(struct drm_connector *connector,
-> -					  struct drm_display_mode *mode)
-> +static enum drm_mode_status
-> +zynqmp_dp_connector_mode_valid(struct drm_connector *connector,
-> +			       struct drm_display_mode *mode)
->  {
->  	struct zynqmp_dp *dp = connector_to_dp(connector);
->  	u8 max_lanes = dp->link_config.max_lanes;
+> And then... This sounds a lot like a custom framebuffer.
+> 
+> So, maybe what should we do instead is to add new DRM_MODE_FB_COLOR_FILL 
+> flag to the framebuffers, which would e.g. mean that the FB gets stamped 
+> all over the plane. This would also save us from changing if (!fb) 
+> checks all over the drm core.
+
+JFYI we did originally consider using a custom 1x1 FB to for color fill 
+[1], but decided to go with a plane property instead. IIRC the 
+conclusion was that having color fill as a plane property is a cleaner 
+solution.
+
+As for creating a new blob struct to hold all color fill info, I'm open 
+to implementing that over having 2 separate properties.
+
+[1] https://oftc.irclog.whitequark.org/dri-devel/2022-09-23#31409842
+
+> 
+> Another approach might be using a format modifier instead of the FB flag.
+I like the idea of having a format modifier denoting if the driver 
+supports color_fill for that specific format. This would allow userspace 
+to know which formats are supported by solid fill planes.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+> What do you think?
+> 
 > -- 
-> 2.37.2.789.g6183377224-goog
+> With best wishes
+> Dmitry
 > 
-> 
-
-Did this patch get lost somewhere? I do not see it picked up. It is
-needed to avoid a new WIP warning from clang for catching these CFI
-failures:
-
-drivers/gpu/drm/xlnx/zynqmp_dp.c:1396:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_connector *, struct drm_display_mode *)' with an expression of type 'int (struct drm_connector *, struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
-        .mode_valid     = zynqmp_dp_connector_mode_valid,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1 error generated.
-
-Cheers,
-Nathan
