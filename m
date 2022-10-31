@@ -1,73 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C724613324
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 10:58:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B41461333E
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Oct 2022 11:07:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9588810E181;
-	Mon, 31 Oct 2022 09:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14C7A10E182;
+	Mon, 31 Oct 2022 10:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A193210E181
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 09:58:21 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id y14so28012897ejd.9
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 02:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pBO//+hBRlM60htduQj/FFZSkV2CgCB2Q0ldC9TC1NE=;
- b=YC3Y0ahAxRyQuL7vmZAbcu2UyeWltPUnhdKm9gkv3ERZedVU4aLg61NU9XiNerq5v4
- F3Qlvy1n2WAcmE2bVb++xIyGYkaFyfxu2HmiXIGszgHdcLfT5hi00sDXBnYXTYDL6v63
- TREJcUWu7YAUgYpsq0LOliVEGtEt8wqZK4i451HOLn2B+18Zd+fgkQKVmt0CICj+PSzJ
- TMOzaCS+g8a4skIb9gurRthiqTNoQZ4EZ45QSikDRSJ4jg23YoD25Lxnpb69t/IBwcHW
- 12PucZvtauFdOse5yAP4sjRn0gZJjeUIgsfbhO+09bSImuwaNiu0BlXTbaTyziWJiL+J
- 8Mdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pBO//+hBRlM60htduQj/FFZSkV2CgCB2Q0ldC9TC1NE=;
- b=lsqS/WS1FatB+rwgRdUTwbH/++wZ/tohfi/et/pxZhsikgKRNrz8rpGG1/JJgjZfGY
- GIWTb5ZdoUVg4VevF9oxbo3z/iQoex1xvtCzQHFYmU/Cb1xIKs8M87jrBrEHEjDcyHpJ
- IZR55aTtTP3ywNyMKRsTo8DllYzhbt6fQdm/sTrKRY/N6wWaWlFIozszvB77ALlf9JC5
- A+eY93cCMqQRE2E13/sz6wtnXgrMGyk2x8AGkfaMyvEodmewN/2S1XN6NitcPvNrLq1j
- bEM6zXjqdpIz0xY2Guzv9CS0ih1TXaCZDOt57eKbw9oF9sSJEjx4bglxj5z1jlF423QW
- dM5g==
-X-Gm-Message-State: ACrzQf0VErzWM4AiRG2Jl2Bvi/p/E1iNhiKg49jaIEmbwlJMOmEspF1v
- 29Ol3tuPcUKneMsl2/Bf2gqrLo4XTYS7ug==
-X-Google-Smtp-Source: AMsMyM45t4BSfhyHt0xXYSSHzAQ6glYOUnyjRGG5/1vSL01RCByog4Hba2jNLcbOdh0oSovTx331kQ==
-X-Received: by 2002:a17:906:846d:b0:7ad:90dd:4b6 with SMTP id
- hx13-20020a170906846d00b007ad90dd04b6mr11753567ejc.492.1667210300045; 
- Mon, 31 Oct 2022 02:58:20 -0700 (PDT)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id
- t16-20020aa7db10000000b00461aebb2fe2sm3034852eds.54.2022.10.31.02.58.18
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 31 Oct 2022 02:58:19 -0700 (PDT)
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0744810E18A
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Oct 2022 10:07:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1667210834;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=BWR4o5dpQKvBN+fm6DmhC8rAzcoU8MEhcqlwh67HIAc=;
+ b=Kbj82e32WAQzh1fgTBwGex3R1D8Ce49LoBDtY4yF76VLRkghEw755Yg9oQrSntceGt
+ VhfNXXxORGkB9PbJlpjC+XyOE/oHvq49CwCJD8nhncwHe7jey22xPOFt63sbseQACS1W
+ qaXqL4NTyWymM/2GfOBUogCqmf0YJCMDwOa7ycnPxzHZY4YaTYXsoCL8V41yqCxjkavQ
+ NZqllXRIBkS/xlw8Nazd6ErDjiKAC6BKYUeJVud/7xNiNhldYG+TyYr4OHbx1j1ON6Xj
+ Ag7xv+bbtS4P8yOJIp4cCfMTRskUxxGTKap4vBS7L3eWTmT0NF8oO03khSLQInCvy0g2
+ p+jA==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGerXQ="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 48.2.1 DYNA|AUTH)
+ with ESMTPSA id v55d69y9VA7DNJI
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 31 Oct 2022 11:07:13 +0100 (CET)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
 Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
  DMM/TILER
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <d4a5afcc-9ee0-208c-82ad-11ccd0e316b5@gmail.com>
+Date: Mon, 31 Oct 2022 11:07:13 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A329FEC2-D7D1-42E4-B7A6-B0DC569D91C9@goldelico.com>
 References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
  <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
  <4B3F8E50-3472-4AED-9A77-3E265DF8C928@goldelico.com>
  <0000784a-ae89-1081-0ec7-fc77d3381545@gmail.com>
  <F3F3E8E1-7907-46A4-A670-CAEF6C3DB083@goldelico.com>
  <A2089A8A-69D3-4825-B400-8EB382DC9955@goldelico.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <d4a5afcc-9ee0-208c-82ad-11ccd0e316b5@gmail.com>
-Date: Mon, 31 Oct 2022 11:58:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <A2089A8A-69D3-4825-B400-8EB382DC9955@goldelico.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+ <d4a5afcc-9ee0-208c-82ad-11ccd0e316b5@gmail.com>
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,128 +71,153 @@ Cc: tomba@kernel.org, Tony Lindgren <tony@atomide.com>, merlijn@wizzup.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ivaylo,
 
+> Am 31.10.2022 um 10:58 schrieb Ivaylo Dimitrov =
+<ivo.g.dimitrov.75@gmail.com>:
+>=20
+>=20
+>=20
+> On 31.10.22 =D0=B3. 9:57 =D1=87., H. Nikolaus Schaller wrote:
+>>> Am 31.10.2022 um 08:44 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
+>>>=20
+>>> Hi Ivaylo,
+>>>=20
+>>>> Am 31.10.2022 um 08:05 schrieb Ivaylo Dimitrov =
+<ivo.g.dimitrov.75@gmail.com>:
+>>>>=20
+>>>> HI Nikolaus,
+>>>>=20
+>>>> On 31.10.22 =D0=B3. 0:08 =D1=87., H. Nikolaus Schaller wrote:
+>>>>> Hi Ivaylo,
+>>>>> it took a while until I found time to test newer kernels (mainline =
++ Letux additions)
+>>>>> on the OMAP5 Pyra but unfortunately I did not get screen display =
+for v6.1. Even worse,
+>>>>> the console was flooded by
+>>>>=20
+>>>> Could you elaborate on that - do you have anything on the display =
+(during boot or dunno). Do you have simplefb enabled, so boot log to be =
+visible on the display?
+>>>=20
+>>> No bootlog enabled but I have some printk in the panel driver. It is =
+initially enabled, then disabled and enabled again. Then the issues =
+start...
+>>>=20
+>>>> Is that wayland you are trying to run? Do you have PVR driver =
+enabled? Did you try to boot vanilla kernel?
+>>>=20
+>>> I have tested with Debian Stretch with standard Xorg with "omap" =
+driver. PVR is not enabled.
+>> Have cross-checked: my setup uses the fbdev driver.
+>=20
+> omapfb and not omapdrm? or I am missing something.
 
-On 31.10.22 г. 9:57 ч., H. Nikolaus Schaller wrote:
-> 
-> 
->> Am 31.10.2022 um 08:44 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
->>
->> Hi Ivaylo,
->>
->>> Am 31.10.2022 um 08:05 schrieb Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>:
->>>
->>> HI Nikolaus,
->>>
->>> On 31.10.22 г. 0:08 ч., H. Nikolaus Schaller wrote:
->>>> Hi Ivaylo,
->>>> it took a while until I found time to test newer kernels (mainline + Letux additions)
->>>> on the OMAP5 Pyra but unfortunately I did not get screen display for v6.1. Even worse,
->>>> the console was flooded by
->>>
->>> Could you elaborate on that - do you have anything on the display (during boot or dunno). Do you have simplefb enabled, so boot log to be visible on the display?
->>
->> No bootlog enabled but I have some printk in the panel driver. It is initially enabled, then disabled and enabled again. Then the issues start...
->>
->>> Is that wayland you are trying to run? Do you have PVR driver enabled? Did you try to boot vanilla kernel?
->>
->> I have tested with Debian Stretch with standard Xorg with "omap" driver. PVR is not enabled.
-> 
-> Have cross-checked: my setup uses the fbdev driver.
-> 
+I just have "fbdev" in the xorg.conf. Certainly not the best choice but =
+it seems to be the most generic setup without having to tweak every =
+combination of user-space release and kernel version and hardware =
+variant.
 
-omapfb and not omapdrm? or I am missing something.
+Section "Monitor"
+                Identifier              "lcd"
+                VendorName              "BOE"
+                ModelName               "W677L"
+                Option                  "Rotate" "right"        # use =
+TILER rotation
+                DisplaySize             111 62          # LCD size in =
+millimeters
+EndSection
 
->> And without your patch everything is fine on all kernels since 4.something.
->>
->> Vanilla kernel can not be booted on that machine - there is not even a device tree...
->>
->>>
->>>> [   39.419846] WARNING: CPU: 0 PID: 3673 at drivers/bus/omap_l3_noc.c:139 l3_interrupt_handler+0x23c/0x330
->>>> [   39.429914] 44000000.l3-noc:L3 Custom Error: MASTER MPU TARGET GPMC (Idle): Data Access in Supervisor mode during Functional access
->>>> ...
->>>
->>> I have no idea what that error is supposed to mean. @Tony?
->>
->> A coincidence is that the display is sometimes showing some artistic patterns. So maybe DMA accesses non-existing memory?
->>
->>>
->>>> making the system unuseable.
->>>> After doing some manual bisect by installing different kernel versions on the boot SD card,
->>>> I was able to identify that it crept in between v5.18 and v5.19-rc1. A git bisect on this
->>>> range (adding Letux patches on top of each bisect base) did reveal this patch as the first bad one.
->>>> After reverting it seems as if I can use any v5.19 .. v6.1-rc2 kernel without issues.
->>>> Now I wonder why this patch breaks my system?
->>>
->>> A wild guess - omap5 has some cache issues (as is visible from 7cb0d6c17b96b8bf3c25de2dfde4fdeb9191f4c3), which lead to the above. Before the patch *all* access to the BO backing memory was done through TILER/DMM, mitigating the issue. After the patch, whoever tries to render to non-scanout buffer is doing it directly to the memory, causing the issue.
->>>
->>> Another possibility - someone assumes that memory is always linear, which is true when it is accessed through DMM, but it is not after the patch. Do you have my "drm: pvrsgx: dmabuf import - Do not assume scatterlist memory is contiguous" patch in your PVR driver? Maybe there is another driver that lacks similar patch.
->>
->> Yes, it is included.
->>
->> Best regards,
->> Nikolaus
->>
->>>
->>> Regards,
->>> Ivo
->>>
->>>> BR and thanks,
->>>> Nikolaus
->>>>> Am 19.01.2022 um 11:23 schrieb Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>:
->>>>>
->>>>> On devices with DMM, all allocations are done through either DMM or TILER.
->>>>> DMM/TILER being a limited resource means that such allocations will start
->>>>> to fail before actual free memory is exhausted. What is even worse is that
->>>>> with time DMM/TILER space gets fragmented to the point that even if we have
->>>>> enough free DMM/TILER space and free memory, allocation fails because there
->>>>> is no big enough free block in DMM/TILER space.
->>>>>
->>>>> Such failures can be easily observed with OMAP xorg DDX, for example -
->>>>> starting few GUI applications (so buffers for their windows are allocated)
->>>>> and then rotating landscape<->portrait while closing and opening new
->>>>> windows soon results in allocation failures.
->>>>>
->>>>> Fix that by mapping buffers through DMM/TILER only when really needed,
->>>>> like, for scanout buffers.
->>>>>
->>>>> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
->>>>> ---
->>>>> drivers/gpu/drm/omapdrm/omap_gem.c | 12 ++++++++----
->>>>> 1 file changed, 8 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
->>>>> index 41c1a6d..cf57179 100644
->>>>> --- a/drivers/gpu/drm/omapdrm/omap_gem.c
->>>>> +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
->>>>> @@ -821,10 +821,12 @@ int omap_gem_pin(struct drm_gem_object *obj, dma_addr_t *dma_addr)
->>>>> 			if (ret)
->>>>> 				goto fail;
->>>>>
->>>>> -			if (priv->has_dmm) {
->>>>> -				ret = omap_gem_pin_tiler(obj);
->>>>> -				if (ret)
->>>>> -					goto fail;
->>>>> +			if (omap_obj->flags & OMAP_BO_SCANOUT) {
->>>>> +				if (priv->has_dmm) {
->>>>> +					ret = omap_gem_pin_tiler(obj);
->>>>> +					if (ret)
->>>>> +						goto fail;
->>>>> +				}
->>>>> 			}
->>>>> 		} else {
->>>>> 			refcount_inc(&omap_obj->pin_cnt);
->>>>> @@ -861,6 +863,8 @@ static void omap_gem_unpin_locked(struct drm_gem_object *obj)
->>>>> 			kfree(omap_obj->sgt);
->>>>> 			omap_obj->sgt = NULL;
->>>>> 		}
->>>>> +		if (!(omap_obj->flags & OMAP_BO_SCANOUT))
->>>>> +			return;
->>>>> 		if (priv->has_dmm) {
->>>>> 			ret = tiler_unpin(omap_obj->block);
->>>>> 			if (ret) {
->>>>> -- 
->>>>> 1.9.1
->>>>>
->>
-> 
+Section "Device"
+                Identifier              "display0"
+                Driver                  "fbdev"
+                Option                  "Monitor-DSI-1" "lcd"
+                Option                  "HWcursor" "False"
+EndSection
+
+Of course the kernel config uses DRM_OMAP:
+
+root@letux:~# uname -a
+Linux letux 6.1.0-rc2-letux-lpae+ #11029 SMP PREEMPT Sun Oct 30 22:41:25 =
+CET 2022 armv7l GNU/Linux
+root@letux:~#=20
+root@letux:~# ls -l =
+/sys/devices/platform/omapdrm.0/drm/card1/card1-DSI-1
+total 0
+lrwxrwxrwx 1 root root    0 Oct 31 10:03 device -> ../../card1
+-r--r--r-- 1 root root 4096 Oct 31 10:03 dpms
+-r--r--r-- 1 root root    0 Oct 31 10:03 edid
+-r--r--r-- 1 root root 4096 Oct 31 10:03 enabled
+-r--r--r-- 1 root root 4096 Oct 31 10:03 modes
+drwxr-xr-x 2 root root    0 Oct 31 10:03 power
+-rw-r--r-- 1 root root 4096 Oct 31 10:03 status
+lrwxrwxrwx 1 root root    0 Oct 31 10:00 subsystem -> =
+../../../../../../class/drm
+-rw-r--r-- 1 root root 4096 Oct 31 10:00 uevent
+root@letux:~#=20
+root@letux:~# gunzip </proc/config.gz | fgrep DRM | fgrep =3D
+CONFIG_DRM=3Dm
+CONFIG_DRM_MIPI_DSI=3Dy
+CONFIG_DRM_KMS_HELPER=3Dm
+CONFIG_DRM_FBDEV_EMULATION=3Dy
+CONFIG_DRM_FBDEV_OVERALLOC=3D100
+CONFIG_DRM_LOAD_EDID_FIRMWARE=3Dy
+CONFIG_DRM_DISPLAY_HELPER=3Dm
+CONFIG_DRM_DISPLAY_HDMI_HELPER=3Dy
+CONFIG_DRM_GEM_DMA_HELPER=3Dm
+CONFIG_DRM_SCHED=3Dm
+CONFIG_DRM_I2C_NXP_TDA998X=3Dm
+CONFIG_DRM_ATMEL_HLCDC=3Dm
+CONFIG_DRM_OMAP=3Dm
+CONFIG_DRM_TILCDC=3Dm
+CONFIG_DRM_STM=3Dm
+CONFIG_DRM_PANEL=3Dy
+CONFIG_DRM_PANEL_DSI_CM=3Dm
+CONFIG_DRM_PANEL_SIMPLE=3Dm
+CONFIG_DRM_PANEL_BOE_BTL507212_W677L=3Dm
+CONFIG_DRM_PANEL_SONY_ACX565AKM=3Dm
+CONFIG_DRM_PANEL_TPO_TD028TTEC1=3Dm
+CONFIG_DRM_PANEL_TPO_TD043MTEA1=3Dm
+CONFIG_DRM_BRIDGE=3Dy
+CONFIG_DRM_PANEL_BRIDGE=3Dy
+CONFIG_DRM_DISPLAY_CONNECTOR=3Dm
+CONFIG_DRM_SIMPLE_BRIDGE=3Dm
+CONFIG_DRM_TI_TFP410=3Dm
+CONFIG_DRM_TI_TPD12S015=3Dm
+CONFIG_DRM_DW_HDMI=3Dm
+CONFIG_DRM_DW_HDMI_CEC=3Dm
+CONFIG_DRM_IMX=3Dm
+CONFIG_DRM_IMX_PARALLEL_DISPLAY=3Dm
+CONFIG_DRM_IMX_TVE=3Dm
+CONFIG_DRM_IMX_LDB=3Dm
+CONFIG_DRM_IMX_HDMI=3Dm
+CONFIG_DRM_VC4=3Dm
+CONFIG_DRM_VC4_HDMI_CEC=3Dy
+CONFIG_DRM_ETNAVIV=3Dm
+CONFIG_DRM_ETNAVIV_THERMAL=3Dy
+CONFIG_DRM_MXS=3Dy
+CONFIG_DRM_MXSFB=3Dm
+CONFIG_SGX_DRM=3Dy
+CONFIG_DRM_MXC_EPDC=3Dm
+CONFIG_DRM_LEGACY=3Dy
+CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=3Dm
+CONFIG_DRM_NOMODESET=3Dy
+root@letux:~#=20
+root@letux:~# lsmod | fgrep drm
+omapdrm               225280  4
+cec                    45056  1 omapdrm
+drm_kms_helper        110592  2 display_connector,omapdrm
+syscopyarea            16384  1 drm_kms_helper
+sysfillrect            16384  1 drm_kms_helper
+sysimgblt              16384  1 drm_kms_helper
+fb_sys_fops            16384  1 drm_kms_helper
+drm                   380928  7 =
+panel_boe_btl507212_w677l,ti_tpd12s015,pvrsrvkm_omap5_sgx544_116,display_c=
+onnector,omapdrm,drm_kms_helper
+drm_panel_orientation_quirks    16384  1 drm
+root@letux:~#=20
+
+Hope this is useful information,
+Nikolaus
+
