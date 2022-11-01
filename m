@@ -2,34 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256C4614A2C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41230614A60
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 13:12:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C38410E3A7;
-	Tue,  1 Nov 2022 11:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60AA210E3A8;
+	Tue,  1 Nov 2022 12:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C393F10E0C2
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 11:59:43 +0000 (UTC)
-Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8C3EA3E7F8;
- Tue,  1 Nov 2022 12:59:41 +0100 (CET)
-Date: Tue, 1 Nov 2022 12:59:40 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Kalyan Thota <quic_kalyant@quicinc.com>
-Subject: Re: [PATCH] drm/msm/disp/dpu1: register crtc color management to
- first crtc in the list
-Message-ID: <20221101115940.qybzoaczkryacx4s@SoMainline.org>
-References: <1667300361-14572-1-git-send-email-quic_kalyant@quicinc.com>
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2089.outbound.protection.outlook.com [40.107.93.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01CDA10E39D;
+ Tue,  1 Nov 2022 12:12:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lj4BO/HEdUlIeg6zRLTnfPUjbJR6GHl1jsaeKofzFaNR4Z5jh0viYqkKZR4pkIEnNGHTfV0tUZ3ewpfIF9sM8Vh6iaLnEMMwPf7Hgeo7YsrFWWIHdEGir2pawROdO+eUDMbdhsQLDyotQUFMhiP3jKsylE+FD6t8ZXR0z21UirfsQKHXqWmQ4I9EbQdgAXx80DNoEfYylD+pSOJKlHbTD8rWNUhYJBAkxNIFXTSEFl+bCWxw5ZEnl5R40eybJ9GXEmmli4MfLxdGjsHX5Z6qdQ81s+RfoYaZiH/g/9enXv1r9mPp27yJf38284jk7xFwW2oivykcnc/Yqa+4TBAakQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M4Z3ECfNs6hrDf3gWlw3E0Ei3xIHZvn1TEbiliTeMas=;
+ b=FuvNZMkPWqvexBU8FYnaQZJ5TLJQzevXcXiEu3rcuSI9AzGbzo8jPhvwLOAdmkdIPm1qTh4UzPXwrMFPrAzV4abCnEwmoC6jV/vMHkmh4cG2i7tUkbH73jYsmrACpxA9Ub+5rNOwUUF71BenPmYXOMVZxP5mSZG2mFnUYgZZbBx2SK32tBUSTuhuJZlZNyrN8/fza+xeJd8fxQvWqwo2cGnL6+DaECtmeaSpFMTEZzIadG7RqBKdE2NC365PiQ4m9mYlTB75OprhvYe1dQry0znJTaHm7AmxDQJbCRWTwQZEBOiVKwbGf/N0w486xtT7rraf4cuzy6NPnCldL9p0yA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M4Z3ECfNs6hrDf3gWlw3E0Ei3xIHZvn1TEbiliTeMas=;
+ b=XBrCPoY491jHBeH+gld1vR/RljGN669i3y8/EfjMC5hdr6Bj2g2gj8QLV4lfpwSSMb2V6nQvzdwtoOodXEHafpjv24GjTAUj//RKkM/SYRrb6bTlF9yz3EHUzN/xVtzzdq7EvJbZkeTkjCKEpN7WGGF78hVmAcaoIVhzRUsks8i0pjLf6fwKFKrWtkhgY2lkmUJeMxKqk5JpQWRBnVGxZwbBeJFDKw2lEISPFSk8jdhMpqhSQkK1qbyK3u31waiiVnuQSMOrCx3mM+MfJEv1F4pHqTOZ201WnjOFyWgFZrKkQBBHCqebhr50svPDwKu5Fo8rpIXmODzuP2vc7PwKVA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by BN9PR12MB5337.namprd12.prod.outlook.com (2603:10b6:408:102::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Tue, 1 Nov
+ 2022 12:12:29 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Tue, 1 Nov 2022
+ 12:12:29 +0000
+Date: Tue, 1 Nov 2022 09:12:27 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH 01/10] vfio: Move vfio_device driver open/close code to a
+ function
+Message-ID: <Y2ENKxljVLXfxI4i@nvidia.com>
+References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <1-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <BN9PR11MB5276DAC741E77BFCFAADB35B8C369@BN9PR11MB5276.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1667300361-14572-1-git-send-email-quic_kalyant@quicinc.com>
+In-Reply-To: <BN9PR11MB5276DAC741E77BFCFAADB35B8C369@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-ClientProxiedBy: YT3PR01CA0083.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::11) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BN9PR12MB5337:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16762beb-5f50-42a7-9a35-08dabc0258b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1WuJjM3mtH4MgLVEAW/FadwWV0loWMDr5jgN7Pueqko/TN56EuUnuJGVZzFjRPBQmmFwvksUoDsC/Dhx9xkWEE+ot3IGuIapaz92u6bmLNSAS3UCcPx2/QBksBmmRZ1JVv5pK7qmXTgpWpRqgVlD3NnUmrMgb/JwF1p+M/SCEKOM6rkEm5TYLoV8+T0IMWtzkLtX1s7QBJl8ltAmN5b/VfZrYsSKgIWP+EdUrYJFe7HXDVPjjLN+Z+1WhEgdyL05Q3iRlGaJ6RQTP6JUPMtkfviTYK0FcYMLcMIL0zSoTtSWw1yjWgFExPaPTPE5Rg5cjOU4LJoNustsXS+sH8u615Rq6Eqtz7lOiRmKt7m7x+bZn65CdmqO2k9qN36KUJllpIV0cqN/4YZ5HcjrQPQ6iBXg0VEfkRMavhU1gU53FWGDzM14GQpE8sqvXgFrLfjv/N1in64Fm4KP/y1+rBViYjRapTlcG+I59Ja8K4DNB6mbVqw3803R2ouvhyVtGUJZmmqiDsrXg8/wXGgK0gFJVaoH3x5Lz2gahxjnhiTrHVZ9cnuy2wAWYoBBdInWWp3UKjYzSN1AVKAOAyCMbdvxdlslA09BUzRKjhAdOpocwliPmcasjLKLSGvz13MWiTUD9PcJcBg1/KjyRDTvu2ZG5GLLN4B5l9IyZc8Z1FK4Ei4QjSodlbhGhZyMR7VDdsNrdNYGctZmz+891+nvZlcHaQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(136003)(366004)(376002)(396003)(39860400002)(451199015)(2616005)(186003)(7406005)(8936002)(7416002)(5660300002)(2906002)(6512007)(41300700001)(26005)(38100700002)(36756003)(83380400001)(558084003)(86362001)(54906003)(6916009)(316002)(8676002)(4326008)(6506007)(478600001)(66476007)(66946007)(6486002)(66556008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ft3Z0aYVMDmyobZrp1JMhbokopqQzekU/kAkBK/U8em3Dx2CRVo1g/dW8MTX?=
+ =?us-ascii?Q?zzjWboAlrOvs/LMINZC4PKYQn0T6UyFaCq52GfMqpOACpkazf/7oaCJQ6ghx?=
+ =?us-ascii?Q?6KXnQALcXcd26wHm9ZGRTprfzObfN49a8liclkRNOUKbh0tSOZRZliYiNmQb?=
+ =?us-ascii?Q?8rcRknlg8e+P9NZhLMSO7Y0ueCjhBWKXqQ6UM/1UBLvSL+pabT5i3hbFNsMk?=
+ =?us-ascii?Q?Byd0+PjqUKFNcZz2gY/TLAbdyBoV2ZOgsmq5LglDmsbwhxkm+osBkIV/m5qy?=
+ =?us-ascii?Q?6vU5saV548TWknuQXqFDD3t+EVes5q11WwO1hMaZh3ZmrnSHeuqyufVvsj18?=
+ =?us-ascii?Q?kHIvu9vTRdymFkpQJ7kvRZ22RoI90DvGuSMgE5/AyH+xL3DJHiqcccbgLtBH?=
+ =?us-ascii?Q?lwXAnuBM1M4TtH5ztF9yYU7NwzSQqjrHPBfP+YsMmBXFFuVs1Thx/6YWMAel?=
+ =?us-ascii?Q?i2+q/DKX6E7Cnb0LP6/C4JlL8CbDxflOBfZJJBN/rN7PnavT3zfqIUgyN1PJ?=
+ =?us-ascii?Q?/H5u4jjq3IZYRp+RJdcVK4NCOu6cvlyVNqR5CK1S/5Ptkrmy8IIY3mZmb6Yt?=
+ =?us-ascii?Q?Cjmz2un5fiKUK6yddqMJLhAjAW15faY0rc1f2GoVl+XO8svquDYmQsdm9PDf?=
+ =?us-ascii?Q?v/fawxKWKAgtp/henpfisKB6xNcf0/yx6JQB/6e/O9IwKY9Nc+AJbCixPJDl?=
+ =?us-ascii?Q?YHhbnCKl+ViB+X77XPG6jdV1+H/NHNna4viXNnm14ikIcvwSAPIqQzthlEuD?=
+ =?us-ascii?Q?8sV81QiqyLUVO8wAGz4cGU+chAZAF7Em7YT2PUKLQIZOX8w17zlGXIB1QUP0?=
+ =?us-ascii?Q?DEa8mzd07vvRmymtoSCV4BuUWD9enrSvMfbHXMBreW65ybnUve81lFSW+0eu?=
+ =?us-ascii?Q?66kLR8VUZ0/aAMV3nXuoAxt6AYFimI1E8UZ56rPqA2YcKURTU8AnCcCgsO9o?=
+ =?us-ascii?Q?II3aR3/PftA+e7EVlehvxigIHh5FIJ4gcOyU52GvPo+HAfviTmt5oTcdOaEl?=
+ =?us-ascii?Q?fdOJqZlbaxpB/6/gWdeGDB71phdtUmJSMzvwapmQAc6PwnXvTH2YQj+e6mST?=
+ =?us-ascii?Q?teU8ra1SUZQ6UBJF91r07FJbrKYkTpJYZuxY7mCRWC7RKGRlCEKHAYXB7y8R?=
+ =?us-ascii?Q?BnhpH/BcLPbrL5s0G6+Hn70SG9aSkXmYnJMoTl+Ws5bQfTuxqihRejOim0Ge?=
+ =?us-ascii?Q?FrbGeoKrYWzO8ajRqX+B1xh1H89J8B8NiS8JSr+71vtDZQVqOU8y1dHOUWPF?=
+ =?us-ascii?Q?1AWQNgiI98lcRlKWV0Z4+E9Ioe8bWRkNLD2xXHpKFtgqWx106bhm5pBFrWnT?=
+ =?us-ascii?Q?l/DUEKytz/wJK3+EMcjjvxGIWB5CP5NOH652v8jxNfMtzhoANlCmBdW98XuG?=
+ =?us-ascii?Q?oJzV21Jd+enUqWmhovsq6HkgRXuUbfK2bO2wP1rzWaijnslTJEj/pf6nb5nP?=
+ =?us-ascii?Q?F8WWczNjBZ08bTfFjeU4dt4k7kQDhUyic62L3P4HPZnudu6wGbreA7dAjXsn?=
+ =?us-ascii?Q?zqLuKRKUj71nlF+AUQ658vbvbh/x4XDjPnkqGBxvY6FYCQd4M8UifhRFrG/8?=
+ =?us-ascii?Q?S3O9ldyDIse8IMcKrHP5L7bIZtlUykz82maEikc0?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16762beb-5f50-42a7-9a35-08dabc0258b7
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 12:12:29.4167 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L86LMEOdkh4mGVmYXgSiixU8orue/tPbwab+RiOai7e25obtYr2UbggKrmi9vY2H
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5337
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,338 +116,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, quic_abhinavk@quicinc.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- dmitry.baryshkov@linaro.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org, quic_vpolimer@quicinc.com
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
+ Yi L" <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, Jason Herne <jjherne@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-11-01 03:59:21, Kalyan Thota wrote:
-> This patch does the following:
+On Tue, Nov 01, 2022 at 07:33:30AM +0000, Tian, Kevin wrote:
 
-Don't self-reference "this patch":
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
-
-> 1) Registers crtc color management to the first crtc in the list and
-> attach to an encoder which is neither pluggable nor virtual
-> 2) Pin 1 crtc to 1 encoder
-> 3) Assign dspp block if crtc supports color processing.
-
-As a personal guideline I split patches whenever I'd otherwise have to
-document individual changes as bulletpoints: maybe that is applicable
-here too?
-
-Furthermore, this field is not just to describe changes, but also
-justify them.  A proper explanation _why_ you're - for example - pinning
-"1 crtc to 1 encoder" goes a long way.
-
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 17 +++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    | 23 ++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 42 ++++++++++++++++++++++-------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 16 ++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 14 +++++++---
->  drivers/gpu/drm/msm/dp/dp_display.c         |  5 ++++
->  drivers/gpu/drm/msm/msm_drv.h               |  7 ++++-
->  7 files changed, 109 insertions(+), 15 deletions(-)
+> > +	/*
+> > +	 * Here we pass the KVM pointer with the group under the read lock.
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 4170fbe..14ff7ca 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -18,6 +18,7 @@
->  #include <drm/drm_flip_work.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_mode.h>
-> +#include <drm/drm_mode_object.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_rect.h>
->  #include <drm/drm_vblank.h>
-> @@ -553,6 +554,17 @@ static void _dpu_crtc_complete_flip(struct drm_crtc *crtc)
->  	spin_unlock_irqrestore(&dev->event_lock, flags);
->  }
->  
-> +bool dpu_crtc_has_color_enabled(struct drm_crtc *crtc)
-> +{
-> +	u32 gamma_id = crtc->dev->mode_config.gamma_lut_property->base.id;
-> +	u32 degamma_id = crtc->dev->mode_config.degamma_lut_property->base.id;
-> +	u32 ctm_id = crtc->dev->mode_config.ctm_property->base.id;
-> +
-> +	return !!(find_prop_id(&crtc->base, gamma_id) ||
-> +		  find_prop_id(&crtc->base, degamma_id) ||
-> +		  find_prop_id(&crtc->base, ctm_id));
-> +}
-> +
->  enum dpu_intf_mode dpu_crtc_get_intf_mode(struct drm_crtc *crtc)
->  {
->  	struct drm_encoder *encoder;
-> @@ -1575,6 +1587,8 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->  {
->  	struct drm_crtc *crtc = NULL;
->  	struct dpu_crtc *dpu_crtc = NULL;
-> +	struct msm_drm_private *priv = dev->dev_private;
-> +	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
->  	int i;
->  
->  	dpu_crtc = kzalloc(sizeof(*dpu_crtc), GFP_KERNEL);
-> @@ -1604,7 +1618,8 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->  
->  	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
->  
-> -	drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-> +	if (dpu_kms->catalog->dspp && drm_crtc_index(crtc) == 0)
-> +		drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
->  
->  	/* save user friendly CRTC name for later */
->  	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> index 539b68b..164208e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> @@ -240,6 +240,29 @@ static inline int dpu_crtc_frame_pending(struct drm_crtc *crtc)
->  }
->  
->  /**
-> + * find_prop_id - find the property for the drm object
-> + * @obj: Pointer to drm object
-> + * @prop_id: Property id.
-> + */
-> +static inline struct drm_property *find_prop_id(struct drm_mode_object *obj,
+> Now the read lock is replaced by mutex. Let's correct it when moving this
+> piece of code.
 
-This is drm_mode_obj_find_prop_id()?
+Done, thanks
 
-> +					       uint32_t prop_id)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < obj->properties->count; i++)
-> +		if (obj->properties->properties[i]->base.id == prop_id)
-> +			return obj->properties->properties[i];
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * dpu_crtc_has_color_enabled - check if the crtc has color management enabled
-> + * @crtc: Pointer to drm crtc object
-> + */
-> +bool dpu_crtc_has_color_enabled(struct drm_crtc *crtc);
-> +
-> +/**
->   * dpu_crtc_vblank - enable or disable vblanks for this crtc
->   * @crtc: Pointer to drm crtc object
->   * @en: true to enable vblanks, false to disable
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 9c6817b..f09b957 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -545,7 +545,8 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
->  static struct msm_display_topology dpu_encoder_get_topology(
->  			struct dpu_encoder_virt *dpu_enc,
->  			struct dpu_kms *dpu_kms,
-> -			struct drm_display_mode *mode)
-> +			struct drm_display_mode *mode,
-> +			struct drm_crtc *crtc)
->  {
->  	struct msm_display_topology topology = {0};
->  	int i, intf_count = 0;
-> @@ -573,11 +574,9 @@ static struct msm_display_topology dpu_encoder_get_topology(
->  	else
->  		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
->  
-> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
-> -		if (dpu_kms->catalog->dspp &&
-> -			(dpu_kms->catalog->dspp_count >= topology.num_lm))
-> +	if (dpu_crtc_has_color_enabled(crtc) &&
-> +		(dpu_kms->catalog->dspp_count >= topology.num_lm))
->  			topology.num_dspp = topology.num_lm;
-> -	}
->  
->  	topology.num_enc = 0;
->  	topology.num_intf = intf_count;
-> @@ -643,7 +642,7 @@ static int dpu_encoder_virt_atomic_check(
->  		}
->  	}
->  
-> -	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
-> +	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state->crtc);
->  
->  	/* Reserve dynamic resources now. */
->  	if (!ret) {
-> @@ -2412,7 +2411,7 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
->  	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
->  	struct drm_encoder *drm_enc = NULL;
->  	struct dpu_encoder_virt *dpu_enc = NULL;
-> -	int ret = 0;
-> +	int ret = 0, intf_i;
->  
->  	dpu_enc = to_dpu_encoder_virt(enc);
->  
-> @@ -2424,13 +2423,16 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
->  	timer_setup(&dpu_enc->frame_done_timer,
->  			dpu_encoder_frame_done_timeout, 0);
->  
-> +	intf_i = disp_info->h_tile_instance[0];
->  	if (disp_info->intf_type == DRM_MODE_ENCODER_DSI)
->  		timer_setup(&dpu_enc->vsync_event_timer,
->  				dpu_encoder_vsync_event_handler,
->  				0);
-> -	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
-> +	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS) {
->  		dpu_enc->wide_bus_en = msm_dp_wide_bus_available(
-> -				priv->dp[disp_info->h_tile_instance[0]]);
-> +				priv->dp[intf_i]);
-> +		disp_info->is_pluggable = msm_dp_is_pluggable(priv->dp[intf_i]);
-> +	}
->  
->  	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
->  			dpu_encoder_off_work);
-> @@ -2455,6 +2457,28 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
->  
->  }
->  
-> +bool dpu_encoder_is_pluggable(struct drm_encoder *drm_enc)
-> +{
-> +	struct dpu_encoder_virt *dpu_enc;
-> +
-> +	if (!drm_enc)
-> +		return false;
-> +
-> +	dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +	return dpu_enc->disp_info.is_pluggable;
-> +}
-> +
-> +bool dpu_encoder_is_virtual(struct drm_encoder *drm_enc)
-> +{
-> +	struct dpu_encoder_virt *dpu_enc;
-> +
-> +	if (!drm_enc)
-> +		return false;
-> +
-> +	dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +	return (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_VIRTUAL);
-> +}
-> +
->  struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
->  		int drm_enc_mode)
->  {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 9e7236e..209adb4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -25,7 +25,8 @@
->   * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
->   * @h_tile_instance:    Controller instance used per tile. Number of elements is
->   *                      based on num_of_h_tiles
-> - * @is_cmd_mode		Boolean to indicate if the CMD mode is requested
-> + * @is_cmd_mode:	Boolean to indicate if the CMD mode is requested
-> + * @is_pluggable:	Boolean to indicate if the intf is pluggable
->   * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
-
-Thanks for fixing is_cmd_mode; while at it should the other entries be
-fixed as well that mix spaces and tabs and are completely misaligned?
-
->   *				 used instead of panel TE in cmd mode panels
->   * @dsc:		DSC configuration data for DSC-enabled displays
-> @@ -35,6 +36,7 @@ struct msm_display_info {
->  	uint32_t num_of_h_tiles;
->  	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
->  	bool is_cmd_mode;
-> +	bool is_pluggable;
->  	bool is_te_using_watchdog_timer;
->  	struct drm_dsc_config *dsc;
->  };
-> @@ -128,6 +130,18 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder);
->  void dpu_encoder_virt_runtime_resume(struct drm_encoder *encoder);
->  
->  /**
-> + * dpu_encoder_is_pluggable - get pluggable info from the encoder.
-> + * @drm_enc:    Pointer to previously created drm encoder structure
-> + */
-> +bool dpu_encoder_is_pluggable(struct drm_encoder *drm_enc);
-> +
-> +/**
-> + * dpu_encoder_is_virtual - find if the encoder is of type virtual.
-> + * @drm_enc:    Pointer to previously created drm encoder structure
-> + */
-> +bool dpu_encoder_is_virtual(struct drm_encoder *drm_enc);
-> +
-> +/**
->   * dpu_encoder_init - initialize virtual encoder object
->   * @dev:        Pointer to drm device structure
->   * @disp_info:  Pointer to display information structure
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 7a5fabc..2b9c316 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -807,9 +807,17 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
->  		priv->crtcs[priv->num_crtcs++] = crtc;
->  	}
->  
-> -	/* All CRTCs are compatible with all encoders */
-> -	drm_for_each_encoder(encoder, dev)
-> -		encoder->possible_crtcs = (1 << priv->num_crtcs) - 1;
-> +	/* Pin 1 crtc for 1 encoder and crtc 0 for primary display as it has
-> +	 * color management registered
-> +	 */
-> +	i = 1;
-> +	drm_for_each_encoder(encoder, dev) {
-> +		if ((!dpu_encoder_is_pluggable(encoder) &&
-> +			!dpu_encoder_is_virtual(encoder)) || (num_encoders == 1))
-> +			encoder->possible_crtcs = 1 << drm_crtc_index(priv->crtcs[0]);
-> +		else
-> +			encoder->possible_crtcs = 1 << drm_crtc_index(priv->crtcs[i++]);
-
-Use the BIT() helper?
-
-> +	}
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index bfd0aef..5690ea3 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1509,6 +1509,11 @@ bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
->  	return dp->wide_bus_en;
->  }
->  
-> +bool msm_dp_is_pluggable(const struct msm_dp *dp_display)
-> +{
-> +	return (dp_display->connector_type == DRM_MODE_CONNECTOR_DisplayPort);
-> +}
-> +
->  void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
->  {
->  	struct dp_display_private *dp;
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index ea80846..b0d0546 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -331,7 +331,7 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_displa
->  
->  void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor);
->  bool msm_dp_wide_bus_available(const struct msm_dp *dp_display);
-> -
-> +bool msm_dp_is_pluggable(const struct msm_dp *dp_display);
->  #else
->  static inline int __init msm_dp_register(void)
->  {
-> @@ -365,6 +365,11 @@ static inline bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
->  	return false;
->  }
->  
-> +static inline bool msm_dp_is_pluggable(const struct msm_dp *dp_display)
-> +{
-> +	return false;
-> +}
-> +
->  #endif
->  
->  #ifdef CONFIG_DRM_MSM_MDP4
-> -- 
-> 2.7.4
-> 
+Jason
