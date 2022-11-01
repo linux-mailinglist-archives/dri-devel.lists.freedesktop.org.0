@@ -1,109 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8963F614A99
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 13:26:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B053614AAD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 13:30:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA2F310E207;
-	Tue,  1 Nov 2022 12:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8D810E3B9;
+	Tue,  1 Nov 2022 12:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2057.outbound.protection.outlook.com [40.107.92.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75ADB10E207;
- Tue,  1 Nov 2022 12:26:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BsjAy1KIY4Se5ggWIP9qe0U/RMzjrmKxZ6r1q4kpdPjuViLHol7geITXImOM6kZUVuiVm+OnChL07+IZfxa8fPd/8RBV1/RTdlr8wQEh39buq99c7piS4yMumXxwEBJND+LClyyDkC2cZ/zpzj5bB0jxvmdKwkZGHnm/Diwj+cXXmEGm04ME4bHa0StswVEFGfz0muDQzwv/ZKjgXo3OrKNS8HSPbo6TZVu/MRTY/zFK/Kv30J7Kgh4fi5dgH/j1qgKW00kPU2HCrRRW+dBekc/4Q78g3IL7URTb0YEiOUgftI0KRd1LiX5m7HDjsKbtaV89Stxw9MyrVps1f0mT6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CYYKe+rBteTxbQAio7aZ8iNUDpdo09Tskml7MAsZkvU=;
- b=YCCTMB8rbnhMZ9xTYW33kNhGdy64EkK1RXLNAHGFFNYey8qjXvLFkNOUmsNxu917BrPFSFLRoR+f8cR8qMHxLhBCjd1/CdPlA5Tj/MPJiJmpLqXjBhnOReRe10zkv2zgdhmmO5VOeZE4y4qVFCvyaWbpTHSszA0/bs0t3dC1TkjFOkgUsFUzMnCmEg8cNB5BpEldzO+DZO1CnZn5t95vCL9IfE3xJOXVkGtXLy6SP4f9EO+6CHJDka9+UgifqVq2iD5u8lpJYqHaFQ6H7wU7qeiEzD51d/ASTolzsOz58XDXxWB7OaBdxFwkoX0JWbSXz3X/oNVrMAwcANr1Mi/1Wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CYYKe+rBteTxbQAio7aZ8iNUDpdo09Tskml7MAsZkvU=;
- b=m6PMPNlkD/KiiLOUdf7UDuYUEAKvY8msgPecD9NLH8JCfC4QbapxWTL0qkebyeDmhgtGXSZ0nqdw3jWk+szdHGhOQbQotq7agXC0ufmkEaAYWsh9jzYg4aUXsc/GhT+gHV8GM8a2yYx8SgB2gloActiPLJKxZDXE33jk5T8hDT3kFoAXdk5CLCreMt5MqJd+vAvF32wstyR5aIBjqyvts68dYXDlWYKMraay+qwePkqPh7KlYkfecXL3qYSQFA8x0YUIme44wAdZWQv5QRqie3UsRyWUE+GO3l7i9MpixiPhY/VWpYOPPz9kJFJsNf/2vg8MFiDXERM1Lz0b7njY7Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DM4PR12MB5104.namprd12.prod.outlook.com (2603:10b6:5:393::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Tue, 1 Nov
- 2022 12:26:31 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Tue, 1 Nov 2022
- 12:26:24 +0000
-Date: Tue, 1 Nov 2022 09:26:23 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH 05/10] vfio: Use IOMMU_CAP_ENFORCE_CACHE_COHERENCY for
- vfio_file_enforced_coherent()
-Message-ID: <Y2EQb6mSTKOvASlp@nvidia.com>
-References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
- <5-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
- <BN9PR11MB52766FB4EFCFB2197ACDC1F98C369@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52766FB4EFCFB2197ACDC1F98C369@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: YTBP288CA0006.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::19) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2147510E3A1;
+ Tue,  1 Nov 2022 12:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667305790; x=1698841790;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=vVyJ7eKhdwkHC5O2oGG3qWa0Uq/lk+yFizhB5oFvMS4=;
+ b=T8tmg9gjbwfjDYBcbjFWTTqWgdJ8AcLNFbZndSsQd501BtzJWk4lj4dH
+ q7PPUd4bwpUWBjihuTD4UMyQf155ktB+FRCK44FlBhGlE8EwINtsWKYR3
+ DmsIXvDfdVjfMd/LZ29Q4bGFAS6ihL1abdpjj9vhVjWLbP2NnufwVcwlv
+ bJV5U0RJEpkI7XAFeSov2FJuIWoYGdjyMwiuHhnZHjPoH8I567eqw9NHH
+ GFU+E2eo69MtAcGBOBZfXu7hNGItEtVmGAgQ5OkpOaXXSSIRKmQQFL9ig
+ Mcx/XK+Y3oaN0rh0XvI1KMWwZWF97Hi8SkWTp9t/R0HyC+bsxOXhblOnH A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="371205688"
+X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; d="scan'208";a="371205688"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2022 05:29:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="665134700"
+X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; d="scan'208";a="665134700"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga008.jf.intel.com with ESMTP; 01 Nov 2022 05:29:45 -0700
+Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com
+ [10.252.29.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by linux.intel.com (Postfix) with ESMTPS id 947AE580AA7;
+ Tue,  1 Nov 2022 05:29:39 -0700 (PDT)
+Date: Tue, 1 Nov 2022 13:29:36 +0100
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: David Gow <davidgow@google.com>
+Subject: Re: [igt-dev] [PATCH i-g-t v2 3/4] lib/igt_kmod: add compatibility
+ for KUnit
+Message-ID: <20221101132936.4c936414@maurocar-mobl2>
+In-Reply-To: <CABVgOS=HO9XAf8C5X7ZD6aTW37r06ify==7AW9a8cpKsgLVfFw@mail.gmail.com>
+References: <20220829000920.38185-1-isabbasso@riseup.net>
+ <20220829000920.38185-4-isabbasso@riseup.net>
+ <CABVgOS=HO9XAf8C5X7ZD6aTW37r06ify==7AW9a8cpKsgLVfFw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB5104:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c25f726-99b0-44d6-a4d6-08dabc044a96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I/VnIamb96JbTAGZUXJf2svqTSN3W8jd3eLiUoRU7rhDd1B7PED7gxg4mfOM3y8RE4k5ADCs4C62FLiP95aycu0T4JBRRsSsLAE199zrJqdM30taIHQH5Jy2daYdxKFR+HqzN9OyHCVQTL7ntqxAzcCxxSusm39WBt2O+cTcIdNGKdSsE7cZMekvhjXfRbY61FvCMpKKmlJwpEjfUOR100B4yWcAdAVo0P0s9ojsiongoTglu5sgrYWmAGpU4rlA4aj8sebLsFAJCqSOExpXwusvUQIYSEZWoVCAVrl8KdVpKMAtqxSDcj2gSWCoKp1C2BTU6fXr07ZKE7Pao3i1AkPqRwbLK8vsYmwPynX14bqzZzFGY6LQguytK3KUsg81dgcnGzHS3ZFsDw8NL0WSU4ueEweJZ9ek4qPTrJGFP/BK5514JSih2832tbRFe7RGYvVvMoo+3wF+CoYfsy6x9wFcG0th6dtAXvip4/4HMouAIpM8OYR3JQJGfcxP6uoVZvce8503ta+0wIfIC0mgf/Wi6Aym55C/YXT360dsy4gVj3ruzxqcIburLNi+t8B/d3tNZP5BWizSb5c409SFls+gqTdlmc00m5NkT0FXL1fu8oyIYIK303OIEbu4VAv/73JGKRXMlkm2tgROODZg+3i7qcRBhhuZSHRnBRRaZt6h7r6lL1EF7BjYGojZDoujicAbZLD7kw/gK4RDcGS4/g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(366004)(346002)(136003)(376002)(396003)(451199015)(7406005)(7416002)(8936002)(478600001)(316002)(6486002)(66556008)(26005)(66946007)(8676002)(66476007)(4326008)(6506007)(2616005)(2906002)(5660300002)(6512007)(186003)(41300700001)(36756003)(83380400001)(86362001)(54906003)(6916009)(38100700002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cjQGFPOiua4018pgLJvkBltJkSV0DL/xspVhS86wTzQTeTQb4RPn2kbf/vZ8?=
- =?us-ascii?Q?qWOSsBXO0i+nd4gIs+msuqar8i8O1JkPQGbf32RYkwa+IfC1p44bgfXit7Jd?=
- =?us-ascii?Q?6NcaBafVzBQz3/QpJAxKSSmWjIjtAb2B6WZzheYHdLqvLGWnW2AuN0tzvDrP?=
- =?us-ascii?Q?AQNKb6wVTXl9TQUHaFrTAj6FD8BiPlRCzeqeVzbeIGzhhrb7Wwg39xbWiR5d?=
- =?us-ascii?Q?FsJcJDL/dDZ9ewq7oxl29LGK1hPgCbWciFNww8aQk/e/MHfbICwrOhi3j3E1?=
- =?us-ascii?Q?kHq2ooXWMAQ7K15KMD4Xa3oAp55vL0QvlytlDuyEH8iECjnm0+MsOYNJXtJH?=
- =?us-ascii?Q?tuASbKLsAYK7/ZdD3HRC3lh1SxWDSI17mj4bK4UxPAmyLKSN1GCdr00wGPVG?=
- =?us-ascii?Q?/BWsXmJh4SUF/oVUrgTSoNRlUKgfHGe13ABoHfTXE1ZxgMAfYQhCWN+1reAl?=
- =?us-ascii?Q?4QX2kOVRkN3oeSBVqEye5GGtkzS10DUlp/rER1QgnR/A/vTzT+PqE65jMYVy?=
- =?us-ascii?Q?biznuXIMHRx9cTgHBWfh7XnmCEYrLMls4GYtSMMqnswizaVwDfzHV4ZtWg2/?=
- =?us-ascii?Q?Y6LTljrPhiMfl2wK34yuq7t/9OSLOdDEdZqycdOe0k1I3ibyInmugHZo4Hfe?=
- =?us-ascii?Q?Sqk0KcicgowEvJ0FRhdaP+bFExsi7RP4nbp8FfnuN22pHag26n/pv29J5Rc8?=
- =?us-ascii?Q?scVAM90z/S4oatuctiNQdt08a0onvVD4yuttFMvKbg95Bwb8lMas0L+r9QNJ?=
- =?us-ascii?Q?OlEmlSszXlvJ+A/GRWzck7Mx5CJWf7542Mq5AhtYPC60K7BnS/sMEh6RhVZ4?=
- =?us-ascii?Q?qIfnQ/WVaOSLDbPRfJOjbGdy2ztbUKwAAiSJYr+3OZ9OQdraSgRTwlZs0JA0?=
- =?us-ascii?Q?cuu74Yf9G16jL8i1T7jXgZ17+jtaUh/FgPxIJFLAR8CCp5b7dM+xMpFlW1Xk?=
- =?us-ascii?Q?o+9qTkTMkW+Wv9DG0N/oycc/BZw+yOZLDoMnGjDN93NQTL5u0OOaNN3UhAmm?=
- =?us-ascii?Q?z5JrJ5kIrgVybU7rk2//b7UsesfgsyrKgRwFS22gyNzu9khVQkA4bxqacOP4?=
- =?us-ascii?Q?Hj5EnKmyHpGX8r5NoXgB/wUd5nhIBjBhQg0eCk/Saw0dHsLlUjtw2kHyxYYh?=
- =?us-ascii?Q?1YRwoPc/3EsuVq3cA8ix4BCaQxxnoG/64xsQUjPFU//7kiuVVXSJtZfZ3Ru5?=
- =?us-ascii?Q?wVnqxtO6ia2U7CwC4prprkhg5IAO2eqmbsUHM9OANbc3H+DCMTm7Bkn9yRA5?=
- =?us-ascii?Q?cLB6ynDE06iQUUOVVjr548HRDEcmS9761U6JEmQYhMdU4L35s9MLRGB5BduG?=
- =?us-ascii?Q?qo78fASCDFq+AkMN4OXOxTmYH+oecH+N2uWxCsFavWr5WwPGEfmhxs0yJT5H?=
- =?us-ascii?Q?oYdF5llz0mSpwTSJou49E3+mRk8g/wD7FolPW349xA5TmCuoY4la0Qs3aYMt?=
- =?us-ascii?Q?R8EoQyX1v2nostchjrDxr8Ceq+g6FFmxEsTH0Ay5jup+uvG097smkjTs8+m5?=
- =?us-ascii?Q?5QJN3IK8pGBttPCAd0fKgP4NsTA4u1fmoVD34W75pu0riYnHm9+iRheOa3Bs?=
- =?us-ascii?Q?YCueO+OEoI1i87QsVOO+PnVyC4iyesPFkXYzP8jv?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c25f726-99b0-44d6-a4d6-08dabc044a96
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 12:26:24.6436 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pZgYa5qSq9tG+V6WCuYTgTR960rMPwhA08+N1jie7hSQZnZGy9x4aIKZGvam+yKA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5104
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,74 +65,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
- Yi L" <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- Nicolin Chen <nicolinc@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, Jason Herne <jjherne@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, magalilemes00@gmail.com,
+ =?UTF-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>,
+ Daniel Latypov <dlatypov@google.com>,
+ Tales Aparecida <tales.aparecida@gmail.com>,
+ Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
+ leandro.ribeiro@collabora.com, igt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ n@nfraprado.net, Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 01, 2022 at 07:52:23AM +0000, Tian, Kevin wrote:
-> > IOMMU_CAP_ENFORCE_CACHE_COHERENCY we know what the
-> > iommu_domain will be
-> > capable of without having to create it. Use this to compute
+On Thu, 1 Sep 2022 14:37:06 +0800
+David Gow <davidgow@google.com> wrote:
+
+> On Mon, Aug 29, 2022 at 8:10 AM Isabella Basso <isabbasso@riseup.net> wrote:
+> >
+> > This adds functions for both executing the tests as well as parsing (K)TAP
+> > kmsg output, as per the KTAP spec [1].
+> >
+> > [1] https://www.kernel.org/doc/html/latest/dev-tools/ktap.html
+> >
+> > Signed-off-by: Isabella Basso <isabbasso@riseup.net>
+> > ---  
 > 
-> it's worth noting that the prerequisite is that vfio always enforces
-> cache coherency on a domain according to the iommu capability
-> of the devices attached to that domain. There is no mix of attaching
-> a device supporting the cap to a domain which doesn't enforce
-> coherency. With that we know what the domain will be w/o having
-> to create it.
-
-OK, I added this:
-
-VFIO always tries to upgrade domains to enforce cache coherency, it never
-attaches a device that supports enforce cache coherency to a less capable
-domain, so the cap test is a sufficient proxy for the ultimate
-outcome. iommufd also ensures that devices that set the cap will be
-connected to enforcing domains.
-
-> > +	/*
-> > +	 * If the device does not have
-> > IOMMU_CAP_ENFORCE_CACHE_COHERENCY then
-> > +	 * any domain later attached to it will also not support it.
-> > +	 */
+> Thanks very much for sending these patches out again.
 > 
-> also add the other part i.e. if the device does have the cap then any domain
-> later attached to it will have the cap enabled. Only with both clarified
-> we can safely use the device cap here.
+> Alas, I don't have a particularly useful igt setup to test this
+> properly, but I've left a couple of notes from trying it on my laptop
+> here.
+> 
+> 
+> >  lib/igt_kmod.c | 290 +++++++++++++++++++++++++++++++++++++++++++++++++
+> >  lib/igt_kmod.h |   2 +
+> >  2 files changed, 292 insertions(+)
+> >
+> > diff --git a/lib/igt_kmod.c b/lib/igt_kmod.c
+> > index 97cac7f5..93cdfcc5 100644
+> > --- a/lib/igt_kmod.c
+> > +++ b/lib/igt_kmod.c
+> > @@ -25,6 +25,7 @@
+> >  #include <signal.h>
+> >  #include <errno.h>
+> >  #include <sys/utsname.h>
+> > +#include <limits.h>
+> >
+> >  #include "igt_aux.h"
+> >  #include "igt_core.h"
+> > @@ -32,6 +33,8 @@
+> >  #include "igt_sysfs.h"
+> >  #include "igt_taints.h"
+> >
+> > +#define BUF_LEN 4096
+> > +
+> >  /**
+> >   * SECTION:igt_kmod
+> >   * @short_description: Wrappers around libkmod for module loading/unloading
+> > @@ -713,6 +716,293 @@ void igt_kselftest_get_tests(struct kmod_module *kmod,
+> >         kmod_module_info_free_list(pre);
+> >  }
+> >
+> > +/**
+> > + * lookup_value:
+> > + * @haystack: the string to search in
+> > + * @needle: the string to search for
+> > + *
+> > + * Returns: the value of the needle in the haystack, or -1 if not found.
+> > + */
+> > +static long lookup_value(const char *haystack, const char *needle)
+> > +{
+> > +       const char *needle_rptr;
+> > +       char *needle_end;
+> > +       long num;
+> > +
+> > +       needle_rptr = strcasestr(haystack, needle);
+> > +
+> > +       if (needle_rptr == NULL)
+> > +               return -1;
+> > +
+> > +       /* skip search string and whitespaces after it */
+> > +       needle_rptr += strlen(needle);
+> > +
+> > +       num = strtol(needle_rptr, &needle_end, 10);
+> > +
+> > +       if (needle_rptr == needle_end)
+> > +               return -1;
+> > +
+> > +       if (num == LONG_MIN || num == LONG_MAX)
+> > +               return 0;
+> > +
+> > +       return num > 0 ? num : 0;
+> > +}
+> > +
+> > +static int find_next_tap_subtest(char *record, char *test_name,
+> > +                                bool is_subtest)
+> > +{
+> > +       const char *name_lookup_str,
+> > +             *lend, *version_rptr, *name_rptr;
+> > +       long test_count;
+> > +
+> > +       name_lookup_str = "test: ";
+> > +
+> > +       version_rptr = strcasestr(record, "TAP version ");
+> > +       name_rptr = strcasestr(record, name_lookup_str);
+> > +
+> > +       /*
+> > +        * total test count will almost always appear as 0..N at the beginning
+> > +        * of a run, so we use it as indication of a run
+> > +        */
+> > +       test_count = lookup_value(record, "..");
+> > +
+> > +       /* no count found, so this is probably not starting a (sub)test */
+> > +       if (test_count < 0) {
+> > +               if (name_rptr != NULL) {
+> > +                       if (test_name[0] == '\0')
+> > +                               strncpy(test_name,
+> > +                                       name_rptr + strlen(name_lookup_str),
+> > +                                       BUF_LEN);
+> > +                       else if (strcmp(test_name, name_rptr + strlen(name_lookup_str)) == 0)
+> > +                               return 0;
+> > +                       else
+> > +                               test_name[0] = '\0';
+> > +
+> > +               }
+> > +               return -1;
+> > +       }
+> > +
+> > +       /*
+> > +        * "(K)TAP version XX" should be the first line on all (sub)tests as per
+> > +        * https://www.kernel.org/doc/html/latest/dev-tools/ktap.html#version-lines
+> > +        * but actually isn't, as it currently depends on whoever writes the
+> > +        * test to print this info  
+> 
+> FYI: we're really trying to fix cases of "missing version lines",
+> largely by making the kunit_test_suites() macro work in more
+> circumstances.
+> 
+> So while it may be worth still handling the case where this is
+> missing, I don't think there are any tests in the latest versions of
+> the kernel which should have this missing.
 
-And this:
+That doesn't seem to be the case, at least when the tests are loaded
+as module.
 
-	/*
-	 * If the device does not have IOMMU_CAP_ENFORCE_CACHE_COHERENCY then
-	 * any domain later attached to it will also not support it. If the cap
-	 * is set then the iommu_domain eventually attached to the device/group
-	 * must must use a domain with enforce_cache_coherency().
-	 */
+I'm working on adding more KUnit tests. At least here, TAP version
+doesn't appear before the tests (I'm using drm-tip + my KUnit tests):
 
-Jason
+	$ dmesg|grep TAP
+	[    7.597592] TAP version 14
+	$ sudo lcov -z && sudo modprobe test-i915-mock && sudo IGT_KERNEL_TREE=~/linux ~/igt/scripts/code_cov_capture mock_selftest && sudo rmmod test-i915-mock
+	Auto-detecting gcov kernel support.
+	Found upstream gcov kernel support at /sys/kernel/debug/gcov
+	Resetting kernel execution counters
+	Done.
+	[3734.23]     Code coverage wrote to mock_selftest.info
+	$ sudo ./tools/testing/kunit/kunit.py parse /var/log/dmesg
+	[12:15:50] ============================================================
+	[12:15:50] [ERROR] Test: main: 0 tests run!
+	[12:15:50] ============================================================
+	[12:15:50] Testing complete. Ran 0 tests: errors: 1
+
+In order for kunit.py KTAP parser to work, I have to cheat by doing:
+
+	$ (dmesg|grep "TAP version"; dmesg|grep -A9999 intel_i915_mock) >logs 
+	$ ./tools/testing/kunit/kunit.py parse logs
+
+> > +       /* The kunit module is required for running any kunit tests */
+> > +       if (igt_kmod_load("kunit", NULL) != 0) {
+> > +               igt_warn("Unable to load kunit module\n");
+> > +               goto unload;
+> > +       }  
+> 
+> Do you want to _require_ KUnit be built as a module, rather than built-in here?
+
+I guess it doesn't matter much, for kunit module.
+
+On KUnit test modules themselves, we need to be able to do module
+unload/reload, as some IGT tests check or need to do module unload/reload. 
+
+> Equally, does this need to mark a failure (or at least "SKIPPED")
+> rather than success, in the case it fails.
+
+Agreed.
+
+> > +
+> > +       if (igt_kmod_load(module_name, opts) != 0) {
+> > +               igt_warn("Unable to load %s module\n", module_name);
+> > +               goto unload;
+> > +       }  
+> 
+> As above, should this record a failure, or skip?
+
+Yes, it should be a failure.
+
+> > +
+> > +       igt_kunit_subtests(tst.kmsg, record, &sublevel, &failed_tests);
+> > +unload:
+> > +       igt_kmod_unload("kunit", 0);  
+> 
+> Do you want to unconditionally unload the KUnit module here? It's safe
+> (maybe even safer) to leave it loaded between runs of KUnit tests.
+
+Agreed.
+
+Regards,
+Mauro
