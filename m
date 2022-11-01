@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A65E6143AF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 04:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4086143B2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 04:34:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D97C210E08D;
-	Tue,  1 Nov 2022 03:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF0010E0BE;
+	Tue,  1 Nov 2022 03:33:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07EB610E0BE;
- Tue,  1 Nov 2022 03:33:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 044D110E0BE;
+ Tue,  1 Nov 2022 03:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667273616; x=1698809616;
+ t=1667273619; x=1698809619;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4eNNKzy/Ss5wz2AxL4v8sotsbZyjF5GyOQ8pPtkN+Lo=;
- b=Pxzg7fuapZsrOTdU4cEFC1h6I69inXnJb+air8qJomHMVcAFXFmR0D13
- sUZPPm7+1IBONLGM7qU5Pr+/CU3GMAHjiEsZ8tVu/pNYNsucX+po0oVf8
- Wg2YoVB+/nP+pA1GNcHOgUIhqOO8ydih4EG80XsHYitk8zn15/GdYgvAL
- 9U0WwLEq/vl8Ap03S2m3bjq/QVZlXTSoQCokxgcaJ2T1Z7GzXUukxpFTT
- zIEbb1fb5RKFBohkd6AVAuvdrXJdr7lY9p5IECPNRr5KuJJins2xz/SOe
- GH7XKqEMx4MJ1u9ZMzA6grorBRiKnjZAt6ZQ3hnAMcpf4FdOLXA6CqFn4 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="307782719"
-X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; d="scan'208";a="307782719"
+ bh=gyLwiiWnXm7h8Fet5yh4O+HF/WZLT6zrQdUZ+Z4MmDM=;
+ b=Q/j6JbU/fW4JTAhS7asOHN5hRar6OBiJGBpOuXkWQINTCbOE5/FM/vSK
+ 6KF0NmTgduT8hg54hL8IOqUAfYSethQjr41sDukc16FzhLBp6QwCLWY25
+ UNNZ+nsD77OZo1022wFgxEg8MMjCZaM+ZYQPOhZZhPpHEW3HcwDFpk9F9
+ xgOyuMMFxnKvFkn2JZE3PgiUwZiyEwJI0Os6u73xOvc0NZe0SEK2x6ent
+ NrumbloYRvDY2rn1A3wNj2ddbp8bg2m3k6telhEdfKYEAcBJI2EAmxOoj
+ T32LpwbWyGDBrBf15ZW+/3b3pcQRFW8Je1ZnYZylO0yoqtquCfvJePEfS Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="307782729"
+X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; d="scan'208";a="307782729"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2022 20:33:35 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="739193628"
-X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; d="scan'208";a="739193628"
+ 31 Oct 2022 20:33:38 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="739193634"
+X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; d="scan'208";a="739193634"
 Received: from bnilawar-desk1.iind.intel.com ([10.145.169.158])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2022 20:33:32 -0700
+ 31 Oct 2022 20:33:35 -0700
 From: Badal Nilawar <badal.nilawar@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/i915/mtl: add initial definitions for GSC CS
-Date: Tue,  1 Nov 2022 09:06:33 +0530
-Message-Id: <20221101033634.1900331-2-badal.nilawar@intel.com>
+Subject: [PATCH 2/2] drm/i915/mtl: Enable Idle Messaging for GSC CS
+Date: Tue,  1 Nov 2022 09:06:34 +0530
+Message-Id: <20221101033634.1900331-3-badal.nilawar@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221101033634.1900331-1-badal.nilawar@intel.com>
 References: <20221101033634.1900331-1-badal.nilawar@intel.com>
@@ -63,86 +63,69 @@ Cc: radhakrishna.sripada@intel.com, anshuman.gupta@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 
-Starting on MTL, the GSC is no longer managed with direct MMIO access,
-but we instead have a dedicated command streamer for it. As a first step
-for adding support for this CS, add the required definitions.
-Note that, although it is now a CS, the GSC retains its old
-class:instance value (OTHER_CLASS instance 6)
+By defaut idle mesaging is disabled for GSC CS so to unblock RC6
+entry on media tile idle messaging need to be enabled.
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Bspec: 71496
+
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 8 ++++++++
- drivers/gpu/drm/i915/gt/intel_engine_types.h | 1 +
- drivers/gpu/drm/i915/gt/intel_engine_user.c  | 1 +
- drivers/gpu/drm/i915/i915_reg.h              | 1 +
- 4 files changed, 11 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c | 12 ++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h   |  3 +++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 3b7d750ad054..e0fbfac03979 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -244,6 +244,13 @@ static const struct engine_info intel_engines[] = {
- 			{ .graphics_ver = 12, .base = GEN12_COMPUTE3_RING_BASE }
- 		}
- 	},
-+	[GSC0] = {
-+		.class = OTHER_CLASS,
-+		.instance = OTHER_GSC_INSTANCE,
-+		.mmio_bases = {
-+			{ .graphics_ver = 12, .base = MTL_GSC_RING_BASE }
-+		}
-+	},
- };
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+index b0a4a2dbe3ee..8d391f8fd861 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+@@ -15,6 +15,7 @@
+ #include "intel_rc6.h"
+ #include "intel_ring.h"
+ #include "shmem_utils.h"
++#include "intel_gt_regs.h"
+ 
+ static void dbg_poison_ce(struct intel_context *ce)
+ {
+@@ -271,10 +272,21 @@ static const struct intel_wakeref_ops wf_ops = {
+ 
+ void intel_engine_init__pm(struct intel_engine_cs *engine)
+ {
++	struct drm_i915_private *i915 = engine->i915;
+ 	struct intel_runtime_pm *rpm = engine->uncore->rpm;
+ 
+ 	intel_wakeref_init(&engine->wakeref, rpm, &wf_ops);
+ 	intel_engine_init_heartbeat(engine);
++
++	if (IS_METEORLAKE(i915) && engine->id == GSC0) {
++		intel_uncore_write(engine->gt->uncore,
++				   RC_PSMI_CTRL_GSCCS,
++				   _MASKED_BIT_DISABLE(IDLE_MSG_DISABLE));
++		drm_dbg(&i915->drm,
++			"Set GSC CS Idle Reg to: 0x%x",
++			intel_uncore_read(engine->gt->uncore, RC_PSMI_CTRL_GSCCS));
++	}
++
+ }
  
  /**
-@@ -324,6 +331,7 @@ u32 intel_engine_context_size(struct intel_gt *gt, u8 class)
- 	case VIDEO_DECODE_CLASS:
- 	case VIDEO_ENHANCEMENT_CLASS:
- 	case COPY_ENGINE_CLASS:
-+	case OTHER_CLASS:
- 		if (GRAPHICS_VER(gt->i915) < 8)
- 			return 0;
- 		return GEN8_LR_CONTEXT_OTHER_SIZE;
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 6b5d4ea22b67..4fd54fb8810f 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -136,6 +136,7 @@ enum intel_engine_id {
- 	CCS2,
- 	CCS3,
- #define _CCS(n) (CCS0 + (n))
-+	GSC0,
- 	I915_NUM_ENGINES
- #define INVALID_ENGINE ((enum intel_engine_id)-1)
- };
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index 46a174f8aa00..79312b734690 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -140,6 +140,7 @@ const char *intel_engine_class_repr(u8 class)
- 		[COPY_ENGINE_CLASS] = "bcs",
- 		[VIDEO_DECODE_CLASS] = "vcs",
- 		[VIDEO_ENHANCEMENT_CLASS] = "vecs",
-+		[OTHER_CLASS] = "other",
- 		[COMPUTE_CLASS] = "ccs",
- 	};
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index f4624262dc81..176902a9f2a2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -908,6 +908,9 @@
+ #define  MSG_IDLE_FW_MASK	REG_GENMASK(13, 9)
+ #define  MSG_IDLE_FW_SHIFT	9
  
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 1c0da50c0dc7..d056c3117ef2 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -970,6 +970,7 @@
- #define GEN11_VEBOX2_RING_BASE		0x1d8000
- #define XEHP_VEBOX3_RING_BASE		0x1e8000
- #define XEHP_VEBOX4_RING_BASE		0x1f8000
-+#define MTL_GSC_RING_BASE		0x11a000
- #define GEN12_COMPUTE0_RING_BASE	0x1a000
- #define GEN12_COMPUTE1_RING_BASE	0x1c000
- #define GEN12_COMPUTE2_RING_BASE	0x1e000
++#define	RC_PSMI_CTRL_GSCCS	_MMIO(0x11a050)
++#define	 IDLE_MSG_DISABLE	BIT(0)
++
+ #define FORCEWAKE_MEDIA_GEN9			_MMIO(0xa270)
+ #define FORCEWAKE_RENDER_GEN9			_MMIO(0xa278)
+ 
 -- 
 2.25.1
 
