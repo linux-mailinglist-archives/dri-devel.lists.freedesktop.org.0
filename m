@@ -1,60 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B86614C20
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 14:53:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC211614C2E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 15:04:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0475910E3CE;
-	Tue,  1 Nov 2022 13:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 268B510E3ED;
+	Tue,  1 Nov 2022 14:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6758210E3CB;
- Tue,  1 Nov 2022 13:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667310824; x=1698846824;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=HbiE9H6K1QA3Gs6UeJRLL4w76SL9urnXizp/flcoQFA=;
- b=G/ZbZQtsoMxTmF3cRLrLZ2W7QCeIqAfns6v0ovJZhBV4rmGBFhWx35aI
- 5w8eWXx7gLId7Ik3s7SCtAlKOhgGqt08clRwF773W7zKV0szgfnn2R/qH
- Zr+QxEXY/5ECTyuaTPwYj5qIh6Ta8fu7rpHIwVuOEdldWctDYw6I8fpa6
- 6uZjf0RT8DzcmG6o23qtvcQppbW0JgCfyTcGQ0gAjDVIioVBm1yo4Sg0H
- ue2sR/He/3oYhdjH4dwtgWBA+AU9K/Zm/Gjva/UecLyBA8dlvKMnhJE0k
- 1ZMIBbq64nR2aL1k7Eb9GryqXFEWxrw+FmeCYZR6BkyGbyVOj5Qqogsa4 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="310844958"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; d="scan'208";a="310844958"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2022 06:53:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="665153457"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; d="scan'208";a="665153457"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga008.jf.intel.com with ESMTP; 01 Nov 2022 06:53:43 -0700
-Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com
- [10.252.29.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by linux.intel.com (Postfix) with ESMTPS id D24EA580AA7;
- Tue,  1 Nov 2022 06:53:36 -0700 (PDT)
-Date: Tue, 1 Nov 2022 14:53:33 +0100
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To: Petri Latvala <petri.latvala@intel.com>
-Subject: Re: [igt-dev] [PATCH i-g-t v2 4/4] tests: DRM selftests: switch to
- KUnit
-Message-ID: <20221101145333.5960e6e7@maurocar-mobl2>
-In-Reply-To: <Y2EcEnAzkt1Qn341@platvala-desk.ger.corp.intel.com>
-References: <20220829000920.38185-1-isabbasso@riseup.net>
- <20220829000920.38185-5-isabbasso@riseup.net>
- <Yyl3UXvLd3Jyr9uP@platvala-desk.ger.corp.intel.com>
- <20221101135425.3ee12c9c@maurocar-mobl2>
- <Y2EcEnAzkt1Qn341@platvala-desk.ger.corp.intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A4810E3CB
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 14:04:07 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oprs6-0001Cd-7K; Tue, 01 Nov 2022 15:04:06 +0100
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oprs4-0004Dx-Sk; Tue, 01 Nov 2022 15:04:04 +0100
+Date: Tue, 1 Nov 2022 15:04:04 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH] drm: lcdif: Set and enable FIFO Panic threshold
+Message-ID: <20221101140404.pwsxecee3rmot7st@pengutronix.de>
+References: <20221026212002.542375-1-marex@denx.de>
+ <2e9368bcc1c354ff01e63b9c451d839aa6a7a36f.camel@nxp.com>
+ <9bd9ee85-3a20-f13a-3984-017a439e08cd@denx.de>
+ <6398adb972ef8623fd594fd573b5ed6838948516.camel@nxp.com>
+ <20221027174748.niz6wi7dqwj3nlyr@pengutronix.de>
+ <45837065-f231-8c72-4818-d943133d66a5@denx.de>
+ <57059f620dc6dbd63ef289a82c8dae685d048242.camel@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57059f620dc6dbd63ef289a82c8dae685d048242.camel@nxp.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,97 +55,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
- magalilemes00@gmail.com, maira.canal@usp.br, dlatypov@google.com,
- n@nfraprado.net, brendanhiggins@google.com, linux-kernel@vger.kernel.org,
- leandro.ribeiro@collabora.com, igt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- tales.aparecida@gmail.com, davidgow@google.com,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Martyn Welch <martyn.welch@collabora.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "jian.li" <jian.li@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 1 Nov 2022 15:16:02 +0200
-Petri Latvala <petri.latvala@intel.com> wrote:
+Hi Marek, Liu,
 
-> On Tue, Nov 01, 2022 at 01:54:25PM +0100, Mauro Carvalho Chehab wrote:
-> > On Tue, 20 Sep 2022 11:18:25 +0300
-> > Petri Latvala <petri.latvala@intel.com> wrote:
-> > 
-> > > On Sun, Aug 28, 2022 at 09:09:20PM -0300, Isabella Basso wrote:
-> > > > As the DRM selftests are now using KUnit [1], update IGT tests as well.
+On 22-10-28, Liu Ying wrote:
+> On Fri, 2022-10-28 at 02:03 +0200, Marek Vasut wrote:
+> > On 10/27/22 19:47, Marco Felsch wrote:
+> > > On 22-10-27, Liu Ying wrote:
+> > > > On Thu, 2022-10-27 at 12:03 +0200, Marek Vasut wrote:
+> > > > > On 10/27/22 07:45, Liu Ying wrote:
+> > > > > 
+> > > > > Hi,
+> > > > > 
+> > > > > [...]
+> > > > > 
+> > > > > > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > > > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > > > index a5302006c02cd..aee7babb5fa5c 100644
+> > > > > > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > > > @@ -341,6 +341,18 @@ static void
+> > > > > > > lcdif_enable_controller(struct
+> > > > > > > lcdif_drm_private *lcdif)
+> > > > > > >    	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > > > > > >    	reg |= CTRLDESCL0_5_EN;
+> > > > > > >    	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > > > > > > +
+> > > > > > > +	/* Set FIFO Panic watermarks, low 1/3, high 2/3 . */
+> > > > > > > +	writel(FIELD_PREP(PANIC0_THRES_LOW_MASK, 1 *
+> > > > > > > PANIC0_THRES_RANGE
+> > > > > > > / 3) |
+> > > > > > > +	       FIELD_PREP(PANIC0_THRES_HIGH_MASK, 2 *
+> > > > > > > PANIC0_THRES_RANGE / 3),
+> > > > > > 
+> > > > > > Better to define PANIC0_THRES_{LOW,HIGH}(n) macros in
+> > > > > > lcdif_regs.h?
+> > > > > > 
+> > > > > > Downstream kernel uses the below threshold values:
+> > > > > > a) i.MX8mp EVK board with LPDDR4
+> > > > > > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in
+> > > > > > driver
+> > > > > > 1/2 and 3/4 for LCDIF3 + HDMI - set in device tree
+> > > > > > 
+> > > > > > b) i.MX8mp EVK board with DDR4
+> > > > > > 1/3 and 2/3 for LCDIF{1,2} + DSI/LVDS - default values in
+> > > > > > driver
+> > > > > > 2/3 and 3/3 for LCDIF3 + HDMI - set in devic tree
+> > > > > > 
+> > > > > > Jian told me that LCDIF3 needs different sets of threshold
+> > > > > > values
+> > > > > > for
+> > > > > > different types of DDR to avoid 4k HDMI display issues and
+> > > > > > the
+> > > > > > threshold values impact overall DDR/bus utilization(?), so
+> > > > > > downstream
+> > > > > > kernel chooses to get optional threshold value properties
+> > > > > > from
+> > > > > > LCDIF DT
+> > > > > > node.
+> > > > > > 
+> > > > > > Instead of always using 1/3 and 2/3, maybe there are three
+> > > > > > options:
+> > > > > > 1) Same to downstream kernel, take 1/3 and 2/3 as default
+> > > > > > values
+> > > > > > and
+> > > > > > get optional threshold values from DT properties - no
+> > > > > > additional
+> > > > > > properties are acceptable in the existing DT binding doc?
+> > > > > > 2) Check pixel clock rate, and if it is greater than a
+> > > > > > certain
+> > > > > > value,
+> > > > > > use 2/3 and 3/3.  Otherwise, use 1/3 and 2/3.
+> > > > > > 3) Always use 2/3 and 3/3.
+> > > > > 
+> > > > > Why 2/3 and 3/3 instead of 1/3 and 2/3 ?
 > > > > 
-> > > > [1] - https://lore.kernel.org/all/20220708203052.236290-1-maira.canal@usp.br/
+> > > > 2/3 and 3/3 trigger panic signal more easily than 1/3 and 2/3.
 > > > > 
-> > > > Signed-off-by: Isabella Basso <isabbasso@riseup.net>
-> > > > ---
-> > > >  tests/drm_buddy.c    |  7 ++++---
-> > > >  tests/drm_mm.c       |  7 ++++---
-> > > >  tests/kms_selftest.c | 12 +++++++++---
-> > > >  3 files changed, 17 insertions(+), 9 deletions(-)
+> > > > > 
+> > > > > Seems like 1/3 and 2/3 provides enough FIFO margin for every
+> > > > > scenario.
 > > > > 
-> > > > diff --git a/tests/drm_buddy.c b/tests/drm_buddy.c
-> > > > index 06876e0c..74c06dce 100644
-> > > > --- a/tests/drm_buddy.c
-> > > > +++ b/tests/drm_buddy.c
-> > > > @@ -6,9 +6,10 @@
-> > > >  #include "igt.h"
-> > > >  #include "igt_kmod.h"
-> > > >  
-> > > > -IGT_TEST_DESCRIPTION("Basic sanity check of DRM's buddy allocator (struct drm_buddy)");
-> > > > +IGT_TEST_DESCRIPTION("Basic sanity check of DRM's buddy allocator (struct \
-> > > > +		      drm_buddy) using KUnit");
-> > > >  
-> > > > -igt_main
-> > > > +igt_simple_main
-> > > >  {
-> > > > -	igt_kselftests("test-drm_buddy", NULL, NULL, NULL);
-> > > > +	igt_kunit("drm_buddy_test", NULL);
-> > > >  }  
+> > > > I didn't tune the threshold values.  What I was told is that some
+> > > > usecases suffer from the FIFO underflows with 1/3 and 2/3.  And,
+> > > > it
+> > > > appears that FIFO doesn't underflow with 1/2 and 3/4 or 2/3 and
+> > > > 3/3 in
+> > > > those usecases.  That's why downstream kernel chooses to use 1/2
+> > > > and
+> > > > 3/4 or 2/3 and 3/3.
 > > > 
-> > > With kselftests we had the ability to only run a specified set of
-> > > tests, and with or without selection, we had sub-results for each
-> > > through dynamic subtests. Does kunit have that possibility? I mean I
-> > > know kunit itself does but what about igt_kunit()?
+> > > Hi Liu Marek,
+> > > 
+> > > I thought that: If the PANIC is enabled and the pre-configured
+> > > panic-priority is high enough, nothing should interrupt the LCDIF
+> > > in
+> > > panic mode since it has the highest prio? So why does it the
+> > > downstream
+> > > kernel configure it differently for different use-cases?
+> > > 
+> > > Also IMHO the threshold should be taken wisely to not enter panic
+> > > mode
+> > > to early to not block others from the bus e.g. the GPU.
 > > 
-> > I don't think so. I created a KUnit with the mock selftests:
+> > As far as I understand the PANIC0_THRES, both thresholds are really 
+> > watermarks in the FIFO, 0=EMPTY, 1/3=LOW, 2/3=HIGH, 3/3=FULL. Under 
+> > normal conditions, the FIFO is filled above 1/3. When the FIFO fill 
+> > drops below LOW=1/3, the "PANIC" signal is asserted so the FIFO can
+> > be 
+> > refilled faster. When the FIFO fill raises above HIGH=2/3, the
+> > "PANIC" 
+> > signal is deasserted so the FIFO refills at normal rate again.
+
+This matches exactly my picture of the hardware.
+
+> > It seems to me the LOW=1/3 and HIGH=2/3 thresholds are the kind of
+> > good 
+> > balance. The LOW=2/3 and HIGH=FULL=3/3 seems like it would keep the 
+> > "PANIC" signal asserted much longer, which could indeed block others 
+> > from the bus.
+
+Also I understood the thresholds in such a way, that the FIFO watermark
+must be higher but there is no place left when it is set to 3/3. In such
+case this means that the PANIC will never left once it was entered.
+
+> > It also seems to me that tuning these thresholds might be related to 
+> > some special use-case of the SoC, and it is most likely not just the 
+> > LCDIF thresholds which have been adjusted in such case, I would
+> > expect 
+> > the NOC and GPV NIC priorities to be adjusted at that point too.
+
+As far as I understood, the PANIC signal triggers the NOC to use the
+PANIC signal priorities instead of the normal ones. I found a patch
+laying in our downstream [1] repo which configures the threshold. This
+raises the question which PANIC prio do you use? Do you have a patch for
+this? If I remember correctly some TF-A's like the NXP downstream one
+configure this but the upstream TF-A don't. Which TF-A do you use?
+
+> > So unless there are further details for that use-case which justify
+> > making this somehow configurable, then maybe we should just stick to
+> > 1/3 and 2/3 for now. And once there is a valid use-case which does
+> > justify making this configurable, then we can add the DT properties
+> > and all.
 > > 
-> > 	$ modinfo test-i915-mock
-> > 	filename:       /lib/modules/6.1.0-rc2-drm-b1cab854a639+/kernel/drivers/gpu/drm/i915/test-i915-mock.ko
-> > 	import_ns:      I915_SELFTEST
-> > 	license:        GPL v2
-> > 	depends:        i915
-> > 	retpoline:      Y
-> > 	intree:         Y
-> > 	name:           test_i915_mock
-> > 	vermagic:       6.1.0-rc2-drm-b1cab854a639+ SMP preempt mod_unload 
-> > 
-> > There's no module parameters. Just loading it makes all tests
-> > there to run.
-> 
-> Ah, the selection is in kunit.ko itself. kunit.filter_glob, set from
-> kunit.py with
-> 
-> positional arguments:
->   filter_glob           Filter which KUnit test suites/tests run at boot-time, e.g. list* or list*.*del_test
-> \
+> > What do you think ?
+>
+> No strong opinion from me on using LOW=1/3 and HIGH=2/3 thresholds for
+> now if they satisfy all current users of the upstream kernel.  Tuning
+> them in a certain way will be indeed needed once an usecase comes along
+> and still suffers from the FIFO underflows with those thresholds.
 
-Gah, permissions are 0:
-
-	module_param_named(filter_glob, filter_glob_param, charp, 0);
-
-You can't even see what filters were set via sysfs:
-
-	$ ls /sys/module/kunit/parameters/
-	stats_enabled
-
-So, once set, there's no way to change it.
-
-I wonder why this isn't 0x644.
-
-It sounds that, if we want to control it at runtime, we'll need to 
-build with kunit as module, and unload/reload it every time if/when
-we want to run IGT with a different filtering ruleset.
+I think that 1/3 and 2/3 should be fine for now too.
 
 Regards,
-Mauro
+  Marco
+
+[1]
+8<---------------------------------------------------------------------
+From b964a83b45c2e2610b8240fbcac776df075c88e2 Mon Sep 17 00:00:00 2001
+From: Marco Felsch <m.felsch@pengutronix.de>
+Date: Fri, 22 Jul 2022 11:08:19 +0200
+Subject: [PATCH] soc: imx: imx8mp-blk-ctrl: set the LCDIF hurry priority
+
+Status: WIP, needs clarification with NXP first.
+
+Set the LCDIF hurry priority to highest possible value so FIFO underruns
+can be avoided. The hurry priority will be set by the BLKCTL hw as soon
+as the LCDIF panic signal is active and set back to 'normal' priority
+after the panic signal is released.
+
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+ drivers/soc/imx/imx8mp-blk-ctrl.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/soc/imx/imx8mp-blk-ctrl.c b/drivers/soc/imx/imx8mp-blk-ctrl.c
+index 9852714eb2a4..14e744772a01 100644
+--- a/drivers/soc/imx/imx8mp-blk-ctrl.c
++++ b/drivers/soc/imx/imx8mp-blk-ctrl.c
+@@ -201,6 +201,9 @@ static const struct imx8mp_blk_ctrl_data imx8mp_hsio_blk_ctl_dev_data = {
+ #define HDMI_RTX_CLK_CTL3	0x70
+ #define HDMI_RTX_CLK_CTL4	0x80
+ #define HDMI_TX_CONTROL0	0x200
++#define HDMI_LCDIF_NOC_HURRY_PRIO_MASK	GENMASK(14, 12)
++#define HDMI_LCDIF_NOC_HURRY_PRIO(p)	\
++	(((p) << 12) & HDMI_LCDIF_NOC_HURRY_PRIO_MASK)
+ 
+ static void imx8mp_hdmi_blk_ctrl_power_on(struct imx8mp_blk_ctrl *bc,
+ 					  struct imx8mp_blk_ctrl_domain *domain)
+@@ -217,6 +220,8 @@ static void imx8mp_hdmi_blk_ctrl_power_on(struct imx8mp_blk_ctrl *bc,
+ 		regmap_set_bits(bc->regmap, HDMI_RTX_CLK_CTL1, BIT(11));
+ 		regmap_set_bits(bc->regmap, HDMI_RTX_RESET_CTL0,
+ 				BIT(4) | BIT(5) | BIT(6));
++		regmap_set_bits(bc->regmap, HDMI_TX_CONTROL0,
++				HDMI_LCDIF_NOC_HURRY_PRIO(7));
+ 		break;
+ 	case IMX8MP_HDMIBLK_PD_PAI:
+ 		regmap_set_bits(bc->regmap, HDMI_RTX_CLK_CTL1, BIT(17));
+@@ -273,6 +278,12 @@ static void imx8mp_hdmi_blk_ctrl_power_off(struct imx8mp_blk_ctrl *bc,
+ 		regmap_clear_bits(bc->regmap, HDMI_RTX_CLK_CTL0,
+ 				  BIT(16) | BIT(17) | BIT(18) |
+ 				  BIT(19) | BIT(20));
++		/*
++		 * Set priority to highest level case of LCDIF panic to avoid
++		 * FIFO underruns.
++		 */
++		regmap_clear_bits(bc->regmap, HDMI_TX_CONTROL0,
++				  HDMI_LCDIF_NOC_HURRY_PRIO(7));
+ 		break;
+ 	case IMX8MP_HDMIBLK_PD_PAI:
+ 		regmap_clear_bits(bc->regmap, HDMI_RTX_RESET_CTL0, BIT(18));
+-- 
+2.30.2
