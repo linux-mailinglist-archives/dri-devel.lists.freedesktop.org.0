@@ -2,92 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A125614C36
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 15:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DC2614C8F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 15:28:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9E710E3D2;
-	Tue,  1 Nov 2022 14:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E721810E3E3;
+	Tue,  1 Nov 2022 14:28:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA9F10E3D2;
- Tue,  1 Nov 2022 14:06:26 +0000 (UTC)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A1DsTbF002180;
- Tue, 1 Nov 2022 14:06:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=l16TtlhzB0Pcdi0ERi9GHqw9z75F7QJ6/wkkLykF1XM=;
- b=ng31r5Fu5tu2x0uCZqUJCHFp2RtvIACjBlF+cHG97I7rHk1Sjnh1zL1RhIsvICdhJrVy
- ssIL29OY2fmS9xMQdXr7WRz8PG+6yJoJ5hkaNLiRZLmjTTNPdVoDwugw/lVbJooZMnpa
- EPxc/aZ8SGnbemTZ/oaVpgkTbfm1XEuq2qMRRWEuhrwYeJZA35988YdJSPTvbSBFSIvC
- j1uvnCCRtZPLut6VBGByqOR0gGMl3BjpEU7AoKZvc8yKw6cFQs67AUi3dPoNhMHnFf6S
- FXHnu3nAx3SoZhJjsot3lbKq5cb5M5Frf9SudRZXe44xtwGZFa39oVvGABEAloUX9Eqz Yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjwjj64hs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Nov 2022 14:06:01 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A1DVaqv012245;
- Tue, 1 Nov 2022 14:06:00 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjwjj64gy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Nov 2022 14:06:00 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A1DoDJo028785;
- Tue, 1 Nov 2022 14:05:59 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01wdc.us.ibm.com with ESMTP id 3kgut9mfph-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Nov 2022 14:05:59 +0000
-Received: from smtpav06.dal12v.mail.ibm.com ([9.208.128.130])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A1E5v5N4915906
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Nov 2022 14:05:57 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A81B58065;
- Tue,  1 Nov 2022 14:05:58 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A93958043;
- Tue,  1 Nov 2022 14:05:55 +0000 (GMT)
-Received: from li-479af74c-31f9-11b2-a85c-e4ddee11713b.ibm.com (unknown
- [9.65.225.56]) by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  1 Nov 2022 14:05:54 +0000 (GMT)
-Message-ID: <079b2810baecce3eff38cc7961271b287823e800.camel@linux.ibm.com>
-Subject: Re: [PATCH v1 4/7] vfio/ccw: move private to mdev lifecycle
-From: Eric Farman <farman@linux.ibm.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>, Matthew Rosato
- <mjrosato@linux.ibm.com>, Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>, "Liu,
- Yi L" <yi.l.liu@intel.com>
-Date: Tue, 01 Nov 2022 10:05:54 -0400
-In-Reply-To: <BN9PR11MB527698B0A9E039268916AA018C369@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20221019162135.798901-1-farman@linux.ibm.com>
- <20221019162135.798901-5-farman@linux.ibm.com>
- <BN9PR11MB527698B0A9E039268916AA018C369@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC7D310E3D4;
+ Tue,  1 Nov 2022 14:28:18 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id l5so16050167oif.7;
+ Tue, 01 Nov 2022 07:28:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tCAHuauyqRDt6mVa8UX+cbOhcceVwq2lTH7wmX1Rf1A=;
+ b=XrU1syuKyYTGj8ZOLCfiFGzue+8tq752jGzFu/UEAkyMV+LxqCyKb3a54opjuXMGEJ
+ hOHALRVwfP7HchVP5CKoWo7CJRBpZ7nELeFZFM55MOPskt++SipNS0vhWnzN4/JJ6SAL
+ Hpz2k/FgoUw25enqaEMjqjxU3JDkuc5gk9kbC1KvRNxrW3SruZjFtp8qcpRLLDJnsEd6
+ Pos0rw5VJ7Rk9u+izPdjcC0gHU2UXaBJJsuXMw4MWG+Yr9iQeYFxp8yIpwid/JjfGs6v
+ Sgr+rKtwRk9mbkBLtqQbpWcupPxY/8EUbEl1tIg2dbwNwkKnB6z6ZV+LGHdW/LmJ+rdy
+ JGaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tCAHuauyqRDt6mVa8UX+cbOhcceVwq2lTH7wmX1Rf1A=;
+ b=WBs7CrLnmErzYcMutHFPl8gMglShn8CHpxgnNkZWT4yxUvCAmr2F/MN7CPdZAPF+dM
+ qpaQ7/h/1TN/kpKkB2agvUZOOtevmknq/bPiW5bKROwPh0bM4IZXQHiuo7bksEO7FDW4
+ ZZwV7j0xymmXSJd0vtOvU200sfP09+zCnWwp8O6s3rcjky0ZzyCqWntcI1ihPxC0J3qt
+ XA9e1h5cZaNtE7du6NCtvcLvUWqcp/T7hN5YHzIvs2/wOc7FgbJzr0v+RBhHhDwxpkna
+ vmUHV3bDsECymWbE91/J/kFrEymCrDe/R55GS1PPdYSWC4Qswk5c14pldQUQUr34eMwB
+ zrdA==
+X-Gm-Message-State: ACrzQf1eYKd8Mu+Yte4+wo3md0qI8inCZPNAR+1rZPxWZiKlMxLc7QSY
+ VSe2MxxoM30cjCKdb6sekSnaLlBCwl9FjF5g1/ngAJoP
+X-Google-Smtp-Source: AMsMyM4GKr9xTNcrz7XVOWmlcFIN18yBdZKMUvERKx/D3jLESiQaKh9x/1yt0cosLbMODhmMDf/DnPomjMa7j8T9K1U=
+X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
+ f18-20020a05680814d200b00354c733abd3mr10191629oiw.96.1667312897992; Tue, 01
+ Nov 2022 07:28:17 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NYVMrctPKlGfItI3yDVl_9l2p63-4PZ0
-X-Proofpoint-GUID: cbuwLFw51-qcHmaGvehXbCCd2yVkJUsd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-01_07,2022-11-01_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- spamscore=0 bulkscore=0 priorityscore=1501 phishscore=0 clxscore=1015
- malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211010106
+References: <20221031114247.10309-1-jirislaby@kernel.org>
+ <cb9f90d1-344e-c329-178e-3662c76eee7d@amd.com>
+In-Reply-To: <cb9f90d1-344e-c329-178e-3662c76eee7d@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 1 Nov 2022 10:28:06 -0400
+Message-ID: <CADnq5_NAK_peOnu2vwxcN8s0Ee4MiMPkV4URxKSh5nsOFDY8XA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display (gcc13): fix enum mismatch
+To: Harry Wentland <harry.wentland@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,62 +67,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, Jason Herne <jjherne@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Eric Auger <eric.auger@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
+Cc: Leo Li <sunpeng.li@amd.com>, Martin Liska <mliska@suse.cz>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIyLTExLTAxIGF0IDA5OjA4ICswMDAwLCBUaWFuLCBLZXZpbiB3cm90ZToKPiA+
-IEZyb206IEVyaWMgRmFybWFuIDxmYXJtYW5AbGludXguaWJtLmNvbT4KPiA+IFNlbnQ6IFRodXJz
-ZGF5LCBPY3RvYmVyIDIwLCAyMDIyIDEyOjIyIEFNCj4gPiAKPiA+IEBAIC0xMDEsMTUgKzEwMSwy
-MCBAQCBzdGF0aWMgaW50IHZmaW9fY2N3X21kZXZfcHJvYmUoc3RydWN0Cj4gPiBtZGV2X2Rldmlj
-ZSAqbWRldikKPiA+IMKgewo+ID4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBzdWJjaGFubmVsICpz
-Y2ggPSB0b19zdWJjaGFubmVsKG1kZXYtPmRldi5wYXJlbnQpOwo+ID4gwqDCoMKgwqDCoMKgwqDC
-oHN0cnVjdCB2ZmlvX2Njd19wYXJlbnQgKnBhcmVudCA9IGRldl9nZXRfZHJ2ZGF0YSgmc2NoLQo+
-ID4gPmRldik7Cj4gPiAtwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgdmZpb19jY3dfcHJpdmF0ZSAqcHJp
-dmF0ZSA9IGRldl9nZXRfZHJ2ZGF0YSgmcGFyZW50LQo+ID4gPmRldik7Cj4gPiArwqDCoMKgwqDC
-oMKgwqBzdHJ1Y3QgdmZpb19jY3dfcHJpdmF0ZSAqcHJpdmF0ZTsKPiA+IMKgwqDCoMKgwqDCoMKg
-wqBpbnQgcmV0Owo+ID4gCj4gPiAtwqDCoMKgwqDCoMKgwqBpZiAocHJpdmF0ZS0+c3RhdGUgPT0g
-VkZJT19DQ1dfU1RBVEVfTk9UX09QRVIpCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmV0dXJuIC1FTk9ERVY7Cj4gCj4gTm90IGZhbWlsaWFyIHdpdGggY2N3IGJ1dCBqdXN0IHdh
-bnQgdG8gZG91YmxlIGNvbmZpcm0gdGhpcyByZW1vdmFsCj4gaXMgaW50ZW50aW9uYWwgdy9vIHNp
-ZGUtZWZmZWN0PwoKUmlnaHQsIGl0J3MgaW50ZW50aW9uYWwgYW5kIGZpbmUuIFRoZSBjb25jZXJu
-IHByZXZpb3VzbHkgd2FzIHJlLXByb2JpbmcKdGhlIG1kZXYgd2hlbiBhIGRldmljZSBoYWQgZ29u
-ZSBpbnRvIGEgbm9uLXJlY292ZXJhYmxlIHN0YXRlIGFuZCB0aGUKcHJpdmF0ZSBkYXRhIHdhcyBs
-ZWZ0IGhhbmdpbmcgYXJvdW5kLiBXaXRoIHRoZSBwcml2YXRlIG5vdyBiZWluZwpjbGVhbmVkIHVw
-IGluIG1kZXZfcmVtb3ZlIGluc3RlYWQgb2YgdGhlIHN1YmNoYW5uZWwgc2lkZSwgdGhhdCdzIG5v
-CmxvbmdlciBhbiBpc3N1ZS4KCj4gCj4gPiArwqDCoMKgwqDCoMKgwqBwcml2YXRlID0gdmZpb19j
-Y3dfYWxsb2NfcHJpdmF0ZShzY2gpOwo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKCFwcml2YXRlKQo+
-ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAtRU5PTUVNOwo+ID4gCj4g
-PiDCoMKgwqDCoMKgwqDCoMKgcmV0ID0gdmZpb19pbml0X2RldmljZSgmcHJpdmF0ZS0+dmRldiwg
-Jm1kZXYtPmRldiwKPiA+ICZ2ZmlvX2Njd19kZXZfb3BzKTsKPiA+IC3CoMKgwqDCoMKgwqDCoGlm
-IChyZXQpCj4gPiArwqDCoMKgwqDCoMKgwqBpZiAocmV0KSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKga2ZyZWUocHJpdmF0ZSk7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoHJldHVybiByZXQ7Cj4gPiArwqDCoMKgwqDCoMKgwqB9Cj4gPiArCj4gPiArwqDC
-oMKgwqDCoMKgwqBkZXZfc2V0X2RydmRhdGEoJnBhcmVudC0+ZGV2LCBwcml2YXRlKTsKPiA+IAo+
-ID4gwqDCoMKgwqDCoMKgwqDCoFZGSU9fQ0NXX01TR19FVkVOVCgyLCAic2NoICV4LiV4LiUwNHg6
-IGNyZWF0ZVxuIiwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgc2NoLT5zY2hpZC5jc3NpZCwKPiA+IEBAIC0xMjMsNiArMTI4LDcgQEAgc3Rh
-dGljIGludCB2ZmlvX2Njd19tZGV2X3Byb2JlKHN0cnVjdAo+ID4gbWRldl9kZXZpY2UKPiA+ICpt
-ZGV2KQo+ID4gwqDCoMKgwqDCoMKgwqDCoHJldHVybiAwOwo+ID4gCj4gPiDCoGVycl9wdXRfdmRl
-djoKPiA+ICvCoMKgwqDCoMKgwqDCoGRldl9zZXRfZHJ2ZGF0YSgmcGFyZW50LT5kZXYsIE5VTEwp
-Owo+IAo+IE5vIG5lZWQgdG8gc2V0IGRydmRhdGEgdG8gTlVMTCwgaWl1YwoKRmFpci4K
+Applied.  Thanks!
 
+Alex
+
+On Mon, Oct 31, 2022 at 9:59 AM Harry Wentland <harry.wentland@amd.com> wro=
+te:
+>
+> On 2022-10-31 07:42, Jiri Slaby (SUSE) wrote:
+> > rn_vbios_smu_set_dcn_low_power_state() produces a valid warning with
+> > gcc-13:
+> >   drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c:2=
+37:6: error: conflicting types for 'rn_vbios_smu_set_dcn_low_power_state' d=
+ue to enum/integer mismatch; have 'void(struct clk_mgr_internal *, enum dcn=
+_pwr_state)'
+> >   drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h:3=
+6:6: note: previous declaration of 'rn_vbios_smu_set_dcn_low_power_state' w=
+ith type 'void(struct clk_mgr_internal *, int)'
+> >
+> > I.e. the type of the 2nd parameter of
+> > rn_vbios_smu_set_dcn_low_power_state() in the declaration is int, while
+> > the definition spells enum dcn_pwr_state. Synchronize them to the
+> > latter (and add a forward enum declaration).
+> >
+> > Cc: Martin Liska <mliska@suse.cz>
+> > Cc: Harry Wentland <harry.wentland@amd.com>
+> > Cc: Leo Li <sunpeng.li@amd.com>
+> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+> > ---
+> >  .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h   | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vb=
+ios_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_s=
+mu.h
+> > index 3e5df27aa96f..1ce19d875358 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
+.h
+> > +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
+.h
+> > @@ -26,6 +26,8 @@
+> >  #ifndef DAL_DC_RN_CLK_MGR_VBIOS_SMU_H_
+> >  #define DAL_DC_RN_CLK_MGR_VBIOS_SMU_H_
+> >
+> > +enum dcn_pwr_state;
+> > +
+> >  int rn_vbios_smu_get_smu_version(struct clk_mgr_internal *clk_mgr);
+> >  int rn_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int req=
+uested_dispclk_khz);
+> >  int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
+> > @@ -33,7 +35,7 @@ int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_i=
+nternal *clk_mgr, int reque
+> >  int rn_vbios_smu_set_min_deep_sleep_dcfclk(struct clk_mgr_internal *cl=
+k_mgr, int requested_min_ds_dcfclk_khz);
+> >  void rn_vbios_smu_set_phyclk(struct clk_mgr_internal *clk_mgr, int req=
+uested_phyclk_khz);
+> >  int rn_vbios_smu_set_dppclk(struct clk_mgr_internal *clk_mgr, int requ=
+ested_dpp_khz);
+> > -void rn_vbios_smu_set_dcn_low_power_state(struct clk_mgr_internal *clk=
+_mgr, int display_count);
+> > +void rn_vbios_smu_set_dcn_low_power_state(struct clk_mgr_internal *clk=
+_mgr, enum dcn_pwr_state);
+> >  void rn_vbios_smu_enable_48mhz_tmdp_refclk_pwrdwn(struct clk_mgr_inter=
+nal *clk_mgr, bool enable);
+> >  void rn_vbios_smu_enable_pme_wa(struct clk_mgr_internal *clk_mgr);
+> >  int rn_vbios_smu_is_periodic_retraining_disabled(struct clk_mgr_intern=
+al *clk_mgr);
+>
