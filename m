@@ -2,62 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A84614C31
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 15:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A125614C36
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 15:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D6510E3CB;
-	Tue,  1 Nov 2022 14:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9E710E3D2;
+	Tue,  1 Nov 2022 14:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC9910E3D4
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 14:04:57 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id d26so37212390eje.10
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Nov 2022 07:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dbwy8ITCoA5pOVbLQJbEcT2GDetN5uvf+3GbTAUDrCE=;
- b=miyy9c9glmyzfufEN5otSKVrH8Sh29yFZ1xv03E4kPsejTjmnT272cRWCp5OvjvP4x
- MphFAonTt/sh2ROc7RuhjUQRf+ujJcwu0Pl9aUGMLh8HqQWh8CVBUd/eNRFGvpTppP6F
- yCGeN+9xLm/BJ/yaOc7eAIpzWCLrMTgvgu1AHRYZXyZkc0RHbI4a2IVVsngKmgUF70Wa
- lHP4JpVBq3+VSpKO7sTGyWDwruOcC03qrcdq19rHA2booqkm1A7FqFkW4b/gIGb9MxXC
- 18Oq0CpjitQmwHPVq1WJ35uwTaExIjMooXlfHdHjBZopoWXVM7V7fGG4e0V7Wl0dXLRb
- 6DCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dbwy8ITCoA5pOVbLQJbEcT2GDetN5uvf+3GbTAUDrCE=;
- b=3xmpHcm8N6KekfF2igC2X5h8MeBDyFDiVs8cv5s4qVC/pOO4U2ffJjVcOnae4sEs6B
- 9gHWh4opbgzb4odeZYiVEyJ/HJW4CBtF8dZgJMq3q71eF+xwFPgf0oI3aSgcDISroTL/
- 28nHgwCs6ssI+rEcSZ/2fJOIss1TrmtRu7Tdo01D8ZRg/jwKnhxl/9efY4HvyP+Ur67t
- Au+EnEIuV3n4qqImfYxrMLujNEjImM6DU0zAF8HFSeRbkJ+RX75Ff6J5YaSJ2uW6Oj+n
- hQ/FG2H2ygQIhW2VqWgIcqJ6ITxkCIQqoO0ekInp1dxlb3yhx6ExcT1BqP8n3JLVzZZ9
- ISrQ==
-X-Gm-Message-State: ACrzQf0POlf91dyVD4w9/MxuWf7eX3gCt/Fkw/8My45mpz0sbgfVutIb
- oXskkJnRri0UkWYmjhsID9IBCybuYwcXqBLe3HTTaw==
-X-Google-Smtp-Source: AMsMyM7RW6jeJsoZd4AqGMeCd5kgJTnDjjqPbSsmg4NAhClfu6VJBlQwlILNHLvLzV1lKjtc1/O0DJXswzJDkG1MZ8k=
-X-Received: by 2002:a17:907:74a:b0:77e:9455:b4e1 with SMTP id
- xc10-20020a170907074a00b0077e9455b4e1mr18364523ejb.462.1667311495135; Tue, 01
- Nov 2022 07:04:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220829000920.38185-1-isabbasso@riseup.net>
- <20220829000920.38185-5-isabbasso@riseup.net>
- <Yyl3UXvLd3Jyr9uP@platvala-desk.ger.corp.intel.com>
- <20221101135425.3ee12c9c@maurocar-mobl2>
- <Y2EcEnAzkt1Qn341@platvala-desk.ger.corp.intel.com>
- <20221101145333.5960e6e7@maurocar-mobl2>
-In-Reply-To: <20221101145333.5960e6e7@maurocar-mobl2>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Tue, 1 Nov 2022 07:04:43 -0700
-Message-ID: <CAGS_qxr+xzr1Ea6Y+xr+hBrGqx6rFSh_Q3xHi=ND1aPoQd+jtA@mail.gmail.com>
-Subject: Re: [igt-dev] [PATCH i-g-t v2 4/4] tests: DRM selftests: switch to
- KUnit
-To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA9F10E3D2;
+ Tue,  1 Nov 2022 14:06:26 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A1DsTbF002180;
+ Tue, 1 Nov 2022 14:06:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=l16TtlhzB0Pcdi0ERi9GHqw9z75F7QJ6/wkkLykF1XM=;
+ b=ng31r5Fu5tu2x0uCZqUJCHFp2RtvIACjBlF+cHG97I7rHk1Sjnh1zL1RhIsvICdhJrVy
+ ssIL29OY2fmS9xMQdXr7WRz8PG+6yJoJ5hkaNLiRZLmjTTNPdVoDwugw/lVbJooZMnpa
+ EPxc/aZ8SGnbemTZ/oaVpgkTbfm1XEuq2qMRRWEuhrwYeJZA35988YdJSPTvbSBFSIvC
+ j1uvnCCRtZPLut6VBGByqOR0gGMl3BjpEU7AoKZvc8yKw6cFQs67AUi3dPoNhMHnFf6S
+ FXHnu3nAx3SoZhJjsot3lbKq5cb5M5Frf9SudRZXe44xtwGZFa39oVvGABEAloUX9Eqz Yg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjwjj64hs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Nov 2022 14:06:01 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A1DVaqv012245;
+ Tue, 1 Nov 2022 14:06:00 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjwjj64gy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Nov 2022 14:06:00 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A1DoDJo028785;
+ Tue, 1 Nov 2022 14:05:59 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01wdc.us.ibm.com with ESMTP id 3kgut9mfph-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Nov 2022 14:05:59 +0000
+Received: from smtpav06.dal12v.mail.ibm.com ([9.208.128.130])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A1E5v5N4915906
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 1 Nov 2022 14:05:57 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1A81B58065;
+ Tue,  1 Nov 2022 14:05:58 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1A93958043;
+ Tue,  1 Nov 2022 14:05:55 +0000 (GMT)
+Received: from li-479af74c-31f9-11b2-a85c-e4ddee11713b.ibm.com (unknown
+ [9.65.225.56]) by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  1 Nov 2022 14:05:54 +0000 (GMT)
+Message-ID: <079b2810baecce3eff38cc7961271b287823e800.camel@linux.ibm.com>
+Subject: Re: [PATCH v1 4/7] vfio/ccw: move private to mdev lifecycle
+From: Eric Farman <farman@linux.ibm.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>, Matthew Rosato
+ <mjrosato@linux.ibm.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>, "Liu,
+ Yi L" <yi.l.liu@intel.com>
+Date: Tue, 01 Nov 2022 10:05:54 -0400
+In-Reply-To: <BN9PR11MB527698B0A9E039268916AA018C369@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20221019162135.798901-1-farman@linux.ibm.com>
+ <20221019162135.798901-5-farman@linux.ibm.com>
+ <BN9PR11MB527698B0A9E039268916AA018C369@BN9PR11MB5276.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NYVMrctPKlGfItI3yDVl_9l2p63-4PZ0
+X-Proofpoint-GUID: cbuwLFw51-qcHmaGvehXbCCd2yVkJUsd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-01_07,2022-11-01_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ spamscore=0 bulkscore=0 priorityscore=1501 phishscore=0 clxscore=1015
+ malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211010106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +100,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Petri Latvala <petri.latvala@intel.com>,
- KUnit Development <kunit-dev@googlegroups.com>,
- Magali Lemes <magalilemes00@gmail.com>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <n@nfraprado.net>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- leandro.ribeiro@collabora.com, igt-dev@lists.freedesktop.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Tales Aparecida <tales.aparecida@gmail.com>, David Gow <davidgow@google.com>,
- Isabella Basso <isabbasso@riseup.net>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@riseup.net>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, Jason Herne <jjherne@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Abhishek Sahu <abhsahu@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 1, 2022, 6:53 AM Mauro Carvalho Chehab
-<mauro.chehab@linux.intel.com> wrote:
-> > Ah, the selection is in kunit.ko itself. kunit.filter_glob, set from
-> > kunit.py with
-> >
-> > positional arguments:
-> >   filter_glob           Filter which KUnit test suites/tests run at boot-time, e.g. list* or list*.*del_test
-> > \
->
-> Gah, permissions are 0:
->
->         module_param_named(filter_glob, filter_glob_param, charp, 0);
->
-> You can't even see what filters were set via sysfs:
->
->         $ ls /sys/module/kunit/parameters/
->         stats_enabled
->
-> So, once set, there's no way to change it.
->
-> I wonder why this isn't 0x644.
->
-> It sounds that, if we want to control it at runtime, we'll need to
-> build with kunit as module, and unload/reload it every time if/when
-> we want to run IGT with a different filtering ruleset.
+T24gVHVlLCAyMDIyLTExLTAxIGF0IDA5OjA4ICswMDAwLCBUaWFuLCBLZXZpbiB3cm90ZToKPiA+
+IEZyb206IEVyaWMgRmFybWFuIDxmYXJtYW5AbGludXguaWJtLmNvbT4KPiA+IFNlbnQ6IFRodXJz
+ZGF5LCBPY3RvYmVyIDIwLCAyMDIyIDEyOjIyIEFNCj4gPiAKPiA+IEBAIC0xMDEsMTUgKzEwMSwy
+MCBAQCBzdGF0aWMgaW50IHZmaW9fY2N3X21kZXZfcHJvYmUoc3RydWN0Cj4gPiBtZGV2X2Rldmlj
+ZSAqbWRldikKPiA+IMKgewo+ID4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBzdWJjaGFubmVsICpz
+Y2ggPSB0b19zdWJjaGFubmVsKG1kZXYtPmRldi5wYXJlbnQpOwo+ID4gwqDCoMKgwqDCoMKgwqDC
+oHN0cnVjdCB2ZmlvX2Njd19wYXJlbnQgKnBhcmVudCA9IGRldl9nZXRfZHJ2ZGF0YSgmc2NoLQo+
+ID4gPmRldik7Cj4gPiAtwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgdmZpb19jY3dfcHJpdmF0ZSAqcHJp
+dmF0ZSA9IGRldl9nZXRfZHJ2ZGF0YSgmcGFyZW50LQo+ID4gPmRldik7Cj4gPiArwqDCoMKgwqDC
+oMKgwqBzdHJ1Y3QgdmZpb19jY3dfcHJpdmF0ZSAqcHJpdmF0ZTsKPiA+IMKgwqDCoMKgwqDCoMKg
+wqBpbnQgcmV0Owo+ID4gCj4gPiAtwqDCoMKgwqDCoMKgwqBpZiAocHJpdmF0ZS0+c3RhdGUgPT0g
+VkZJT19DQ1dfU1RBVEVfTk9UX09QRVIpCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgcmV0dXJuIC1FTk9ERVY7Cj4gCj4gTm90IGZhbWlsaWFyIHdpdGggY2N3IGJ1dCBqdXN0IHdh
+bnQgdG8gZG91YmxlIGNvbmZpcm0gdGhpcyByZW1vdmFsCj4gaXMgaW50ZW50aW9uYWwgdy9vIHNp
+ZGUtZWZmZWN0PwoKUmlnaHQsIGl0J3MgaW50ZW50aW9uYWwgYW5kIGZpbmUuIFRoZSBjb25jZXJu
+IHByZXZpb3VzbHkgd2FzIHJlLXByb2JpbmcKdGhlIG1kZXYgd2hlbiBhIGRldmljZSBoYWQgZ29u
+ZSBpbnRvIGEgbm9uLXJlY292ZXJhYmxlIHN0YXRlIGFuZCB0aGUKcHJpdmF0ZSBkYXRhIHdhcyBs
+ZWZ0IGhhbmdpbmcgYXJvdW5kLiBXaXRoIHRoZSBwcml2YXRlIG5vdyBiZWluZwpjbGVhbmVkIHVw
+IGluIG1kZXZfcmVtb3ZlIGluc3RlYWQgb2YgdGhlIHN1YmNoYW5uZWwgc2lkZSwgdGhhdCdzIG5v
+CmxvbmdlciBhbiBpc3N1ZS4KCj4gCj4gPiArwqDCoMKgwqDCoMKgwqBwcml2YXRlID0gdmZpb19j
+Y3dfYWxsb2NfcHJpdmF0ZShzY2gpOwo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKCFwcml2YXRlKQo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAtRU5PTUVNOwo+ID4gCj4g
+PiDCoMKgwqDCoMKgwqDCoMKgcmV0ID0gdmZpb19pbml0X2RldmljZSgmcHJpdmF0ZS0+dmRldiwg
+Jm1kZXYtPmRldiwKPiA+ICZ2ZmlvX2Njd19kZXZfb3BzKTsKPiA+IC3CoMKgwqDCoMKgwqDCoGlm
+IChyZXQpCj4gPiArwqDCoMKgwqDCoMKgwqBpZiAocmV0KSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKga2ZyZWUocHJpdmF0ZSk7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoHJldHVybiByZXQ7Cj4gPiArwqDCoMKgwqDCoMKgwqB9Cj4gPiArCj4gPiArwqDC
+oMKgwqDCoMKgwqBkZXZfc2V0X2RydmRhdGEoJnBhcmVudC0+ZGV2LCBwcml2YXRlKTsKPiA+IAo+
+ID4gwqDCoMKgwqDCoMKgwqDCoFZGSU9fQ0NXX01TR19FVkVOVCgyLCAic2NoICV4LiV4LiUwNHg6
+IGNyZWF0ZVxuIiwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgc2NoLT5zY2hpZC5jc3NpZCwKPiA+IEBAIC0xMjMsNiArMTI4LDcgQEAgc3Rh
+dGljIGludCB2ZmlvX2Njd19tZGV2X3Byb2JlKHN0cnVjdAo+ID4gbWRldl9kZXZpY2UKPiA+ICpt
+ZGV2KQo+ID4gwqDCoMKgwqDCoMKgwqDCoHJldHVybiAwOwo+ID4gCj4gPiDCoGVycl9wdXRfdmRl
+djoKPiA+ICvCoMKgwqDCoMKgwqDCoGRldl9zZXRfZHJ2ZGF0YSgmcGFyZW50LT5kZXYsIE5VTEwp
+Owo+IAo+IE5vIG5lZWQgdG8gc2V0IGRydmRhdGEgdG8gTlVMTCwgaWl1YwoKRmFpci4K
 
-kunit.filter_glob only works on built-in tests, which is why you can
-only set it once atm.
-There is no currently no way for KUnit to run a subset of tests in modules.
-
-The module init code is here:
-https://elixir.bootlin.com/linux/v6.0/source/lib/kunit/test.c#L620
-As you can see, that func it calls just initializes and runs all the
-suites: https://elixir.bootlin.com/linux/v6.0/source/lib/kunit/test.c#L589
-
-This can of course be changed, just needs some work on the KUnit-side.
-
-Daniel
