@@ -1,53 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDCC614E40
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 16:24:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEE6614E47
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 16:26:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A17210E3E6;
-	Tue,  1 Nov 2022 15:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B10A310E3EA;
+	Tue,  1 Nov 2022 15:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A495E10E3E6
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 15:24:08 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5B910E3EC
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 15:26:41 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id C046984F20;
- Tue,  1 Nov 2022 16:24:05 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id EB2BA84F20;
+ Tue,  1 Nov 2022 16:26:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1667316246;
- bh=7E37dKyJQ207pFj41XJHVm4tfbj6RcEJrxvZ605MShU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dpjGn+sDMpJZ9FRkK6Bm0S9NxS8cbmjlPIZAyFKaiFsxCDr6fOFEGKh3YdKwwzlS+
- BCXpXHZSqXtnlYKzc12hMDXAFqbcRJrOhV/uaRPw6Q8qFeGx8+CyFxgOf+xQdPsyE5
- 7S5zlFbrnREsa5Q+9mIZjMyJqW0Ygp9+59sYRcypmygsOQGCSycrxI79O/HhQYD0uz
- qHBEZ56a49smo0e7GXWMb2sZslzbWTB5wGs+jaDhFzz+l9tiE9PShtweEjKOVCuRfw
- MzT0lvSvJe16Zqaqw94zU++2S9OQogCkigaCrK0jpDTaX6+qfoBwVtYoxbMLgpzc4y
- hHusFugKHKhhw==
-Message-ID: <e15680d8-3790-4907-0efa-a597b70ed0d0@denx.de>
-Date: Tue, 1 Nov 2022 16:24:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH] drm: lcdif: Set and enable FIFO Panic threshold
-To: Marco Felsch <m.felsch@pengutronix.de>, Liu Ying <victor.liu@nxp.com>
-References: <20221026212002.542375-1-marex@denx.de>
- <2e9368bcc1c354ff01e63b9c451d839aa6a7a36f.camel@nxp.com>
- <9bd9ee85-3a20-f13a-3984-017a439e08cd@denx.de>
- <6398adb972ef8623fd594fd573b5ed6838948516.camel@nxp.com>
- <20221027174748.niz6wi7dqwj3nlyr@pengutronix.de>
- <45837065-f231-8c72-4818-d943133d66a5@denx.de>
- <57059f620dc6dbd63ef289a82c8dae685d048242.camel@nxp.com>
- <20221101140404.pwsxecee3rmot7st@pengutronix.de>
-Content-Language: en-US
+ s=phobos-20191101; t=1667316400;
+ bh=NQ3K3Y2PWUkiRqYNuuZad/5FcUkWuZr6jIJpfIf3uho=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hY7OghlNN2mGbm13dEPDz8g2iLNRK0AFz2V0Cl+WlAYs9AHrhit/R1gRYPuXZw/id
+ 2/CGQVJ4B6EETjwvohF1nETLDLhAOwSI52iIVzHUVXpVPTVi2MGEKdPbUcnZW5oMQQ
+ kYESXmoVrr2I2oZs/M4n2Cl5qrUGVPT+eBOCdq9G098dVlkIBqAkzYZ9WiNbxjvnY6
+ GHL0HOVmTcx4qf2WYDa2F4YQ14w/9JsQT3pcgfEGR5tvR2EGfvwrnhJ0w+tdpRaXTV
+ dCYyDEPU/iLnYZszDfM4Ql+OiQZeZ7slTrwfte5MVwgd8XaUw5NNou4kSrR6n6+NYA
+ HkOzR+OxW9Ugg==
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20221101140404.pwsxecee3rmot7st@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm: lcdif: Set and enable FIFO Panic threshold
+Date: Tue,  1 Nov 2022 16:26:29 +0100
+Message-Id: <20221101152629.21768-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,87 +50,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>, Martyn Welch <martyn.welch@collabora.com>,
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Liu Ying <victor.liu@nxp.com>, Marco Felsch <m.felsch@pengutronix.de>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org,
+ Martyn Welch <martyn.welch@collabora.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, "jian.li" <jian.li@nxp.com>
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/1/22 15:04, Marco Felsch wrote:
-> Hi Marek, Liu,
+In case the LCDIFv3 is used to drive a 4k panel via i.MX8MP HDMI bridge,
+the LCDIFv3 becomes susceptible to FIFO underflows, these lead to nasty
+flicker of the image on the panel, or image being shifted by half frame
+horizontally every second frame. The flicker can be easily triggered by
+running 3D application on top of weston compositor, like neverball or
+chromium. Surprisingly glmark2-es2-wayland or glmark2-es2-drm does not
+trigger this effect so easily.
 
-Hi,
+Configure the FIFO Panic threshold register and enable the FIFO Panic
+mode, which internally boosts the NoC interconnect priority for LCDIFv3
+transactions in case of possible underflow. This mitigates the flicker
+effect on 4k panels as well.
 
-[...]
+Fixes: 9db35bb349a0 ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Marco Felsch <m.felsch@pengutronix.de>
+Cc: Martyn Welch <martyn.welch@collabora.com>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
+V2: - Include bitfield.h to always obtain FIELD_PREP definition
+    - Rename PANIC0_THRES_RANGE to PANIC0_THRES_MAX and set to 511
+    - Move threshold configuration and enable before FIFO and
+      scanout enable and vice versa for disable
+---
+ drivers/gpu/drm/mxsfb/lcdif_kms.c  | 16 ++++++++++++++++
+ drivers/gpu/drm/mxsfb/lcdif_regs.h |  1 +
+ 2 files changed, 17 insertions(+)
 
->>>> Also IMHO the threshold should be taken wisely to not enter panic
->>>> mode
->>>> to early to not block others from the bus e.g. the GPU.
->>>
->>> As far as I understand the PANIC0_THRES, both thresholds are really
->>> watermarks in the FIFO, 0=EMPTY, 1/3=LOW, 2/3=HIGH, 3/3=FULL. Under
->>> normal conditions, the FIFO is filled above 1/3. When the FIFO fill
->>> drops below LOW=1/3, the "PANIC" signal is asserted so the FIFO can
->>> be
->>> refilled faster. When the FIFO fill raises above HIGH=2/3, the
->>> "PANIC"
->>> signal is deasserted so the FIFO refills at normal rate again.
-> 
-> This matches exactly my picture of the hardware.
-> 
->>> It seems to me the LOW=1/3 and HIGH=2/3 thresholds are the kind of
->>> good
->>> balance. The LOW=2/3 and HIGH=FULL=3/3 seems like it would keep the
->>> "PANIC" signal asserted much longer, which could indeed block others
->>> from the bus.
-> 
-> Also I understood the thresholds in such a way, that the FIFO watermark
-> must be higher but there is no place left when it is set to 3/3. In such
-> case this means that the PANIC will never left once it was entered.
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+index a5302006c02cd..09280c6c3bbc1 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+@@ -5,6 +5,7 @@
+  * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+@@ -334,6 +335,18 @@ static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
+ {
+ 	u32 reg;
+ 
++	/* Set FIFO Panic watermarks, low 1/3, high 2/3 . */
++	writel(FIELD_PREP(PANIC0_THRES_LOW_MASK, 1 * PANIC0_THRES_MAX / 3) |
++	       FIELD_PREP(PANIC0_THRES_HIGH_MASK, 2 * PANIC0_THRES_MAX / 3),
++	       lcdif->base + LCDC_V8_PANIC0_THRES);
++
++	/*
++	 * Enable FIFO Panic, this does not generate interrupt, but
++	 * boosts NoC priority based on FIFO Panic watermarks.
++	 */
++	writel(INT_ENABLE_D1_PLANE_PANIC_EN,
++	       lcdif->base + LCDC_V8_INT_ENABLE_D1);
++
+ 	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
+ 	reg |= DISP_PARA_DISP_ON;
+ 	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
+@@ -361,6 +374,9 @@ static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
+ 	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
+ 	reg &= ~DISP_PARA_DISP_ON;
+ 	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
++
++	/* Disable FIFO Panic NoC priority booster. */
++	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D1);
+ }
+ 
+ static void lcdif_reset_block(struct lcdif_drm_private *lcdif)
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+index fb74eb5ccbf1d..c55dfb236c1d3 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
++++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+@@ -255,6 +255,7 @@
+ 
+ #define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
+ #define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
++#define PANIC0_THRES_MAX		511
+ 
+ #define LCDIF_MIN_XRES			120
+ #define LCDIF_MIN_YRES			120
+-- 
+2.35.1
 
-I think this part is wrong.
-
-Consider that the FIFO fill drops below 2/3 so PANIC signal asserts. 
-After a bit of time, the FIFO fill reaches full 3/3 (maybe during 
-blanking period, where the data can be read in quickly without being 
-scanned out again), and the PANIC signal de-asserts.
-
-So the LCDIF won't be in constant PANIC asserted, but it will be there 
-for quite a bit longer.
-
->>> It also seems to me that tuning these thresholds might be related to
->>> some special use-case of the SoC, and it is most likely not just the
->>> LCDIF thresholds which have been adjusted in such case, I would
->>> expect
->>> the NOC and GPV NIC priorities to be adjusted at that point too.
-> 
-> As far as I understood, the PANIC signal triggers the NOC to use the
-> PANIC signal priorities instead of the normal ones. I found a patch
-> laying in our downstream [1] repo which configures the threshold. This
-> raises the question which PANIC prio do you use? Do you have a patch for
-> this? If I remember correctly some TF-A's like the NXP downstream one
-> configure this but the upstream TF-A don't. Which TF-A do you use?
-
-Upstream 2.6 or 2.7 , so this tuning does not apply.
-
->>> So unless there are further details for that use-case which justify
->>> making this somehow configurable, then maybe we should just stick to
->>> 1/3 and 2/3 for now. And once there is a valid use-case which does
->>> justify making this configurable, then we can add the DT properties
->>> and all.
->>>
->>> What do you think ?
->>
->> No strong opinion from me on using LOW=1/3 and HIGH=2/3 thresholds for
->> now if they satisfy all current users of the upstream kernel.  Tuning
->> them in a certain way will be indeed needed once an usecase comes along
->> and still suffers from the FIFO underflows with those thresholds.
-> 
-> I think that 1/3 and 2/3 should be fine for now too.
-
-All right, lemme re-test this, send V2, and then we can go from there.
-
-btw. can you resend that [PATCH] drm: lcdif: change burst size to 256B 
-with Fixes tag , so it can trickle into stable releases ?
