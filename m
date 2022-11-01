@@ -2,107 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7945B614B48
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 13:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABCCA614B62
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 14:10:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A850410E3C7;
-	Tue,  1 Nov 2022 12:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B0A610E3BC;
+	Tue,  1 Nov 2022 13:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8872C10E39F;
- Tue,  1 Nov 2022 12:56:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q7FqoG6f21Baxa2xLuqzqhlcyafR8240jGWv5v4+mfJxPFfg3fUeR8el5nIIUJCExketwMYQO00xpv9IYg4/8rHnxcn9YOMOexgPcqALZXo6HpjnEPqIIf1thOy7Ords+UngSI4UBWtpZYdtzF8BqfbDKJmE729CH0im7rQSKcJ5IeyfHrWb5G/cb711PcF6cezGnBDzKds16kQir/PEL5URw76mXTVsQ/3fyMe7Hbx4V2N2prDzBCqXJTa3w7doabNXeYIjqp+N+kXfxfSvRg/a1uCDSnVk+CyEn2iWIitUgIRTzfr/4XxUV8iA0T+0gRIur6S468wPK9FWHBR9TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KRLJJOmCJeZ5WgtLAuBELzviALX3tZdO6+YfqXfl9u8=;
- b=WECr2qxvvPRqvMfTIlEbyfepxphyP53E6xpSGc8fWxLxmG8IfuZ12wSPrEIJ9A3k5YTUgTLxFsRWaS80skT4z2lIH3Gb/4omra6Yo1hQ6U3LA9KWHO7KkhSfddgBh1H9nQ3kqLcmkOsIWRUg8kExhJSSxyGwYQMUGVwLbTnmT7rECxHsIpwv1xuiB5LnuHzc2bExvv7qNgllNrPcQiSoM2uhEZqUAcOmOFshD/CVEzKPNwGzkE4PF1YzhcZ37S5rbgEM79VSlEfmphHrlXOFwnlgi0ljgs0ih6EPWNnYQY78OCbsj7TGDgRVCBUyy2YrqUJYeJ1jZeZSqxGMk8SUUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KRLJJOmCJeZ5WgtLAuBELzviALX3tZdO6+YfqXfl9u8=;
- b=c6PuIxN5c6W3x+YPKxS+86HL7ju0dDh18e1NKqZk+umqoGkNDXoUm2xw3KoSNkKc8bNgVHRL8sDNyOXaCIWMNxHUim2XpHPjGi22+0ddwLc4/P5TIbBph5PrQLm+1vfBckSBHt/jbkauCnCJgXIzgDfxiu8E/jNB1j0N+veDO5zt/94QFbkn2dKNPEmFu241uP5t1jZCl/fUKIZOxF6frxx7lh7jxgaBgNl04H46gDbVbppLhHG7pGGflH/MMZkZ/1nFQDMx1ebf/jiLnW9OE3RnhYm9n70EvFqR4VK0U5795+vDNQIdtZ2/+QmS+0ExKJ9iEbXjCk9lZcOAn4ez9A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by BL1PR12MB5897.namprd12.prod.outlook.com (2603:10b6:208:395::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.15; Tue, 1 Nov
- 2022 12:56:11 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Tue, 1 Nov 2022
- 12:56:11 +0000
-Date: Tue, 1 Nov 2022 09:56:09 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH 09/10] vfio: Make vfio_container optionally compiled
-Message-ID: <Y2EXae8k+XHolr1E@nvidia.com>
-References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
- <9-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
- <BN9PR11MB527657F83EA743B2DA888A9D8C369@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB527657F83EA743B2DA888A9D8C369@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: CH2PR18CA0034.namprd18.prod.outlook.com
- (2603:10b6:610:55::14) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
+ [IPv6:2607:f8b0:4864:20::e33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD5B10E210;
+ Tue,  1 Nov 2022 13:09:53 +0000 (UTC)
+Received: by mail-vs1-xe33.google.com with SMTP id 128so4747572vse.6;
+ Tue, 01 Nov 2022 06:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p3byu4n9XkRAeDHMD0d9xBT+q5llot5CmRdKTseCksc=;
+ b=K9IbhaAG8+VhBZYL9H3E2yRd3E3WngZS7SGAOFhGFDKhIpekjxK06uZG9AesR0EXuA
+ ACF2rtAMUAj9ULLg39LESvzw93bEnKGQ3SnyydrfP4EOFal2mdzqkF8rgTgpv9TSiKXH
+ qZIP0nU4AXlvIlmmOqlOn4AG+b6VMrg589qKXeh1X/XpQQNPHMQ0A//rH8MUea6RyYKs
+ xw7xVXqtKpwchon1LUg+W3wwdXz/ixp1SXH6HyEneCYeg6cpBjcBAe4kh+NgXiVIXXla
+ ixeUvFrNPuAqBUlBXOJngDrImzSX6szHoTvzA7VdGUw3ejBtUX6ROs7I3Juq5JuRotxy
+ z44Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p3byu4n9XkRAeDHMD0d9xBT+q5llot5CmRdKTseCksc=;
+ b=i+Hbd5mdksQQDSU5pUVSfLYgStsgAOScWopBbayckNFl7hGMvCAjRtfzvK39Fnz3ZG
+ 3vMtNDkC+g7VF/7bqV57YJeGeYFhUsmaO1XEZ4r41fXMI5RXmM6ftipfwbpk9SAwteBY
+ Kbg647RsuKNZUG8U7oXKYUsFwXk5sh5X9DrrWVr/Sl7N0VXkhMRdBvw+Nq5xxBT7ZPFp
+ lzmxo/l9v/QHSVFB75zT2WKZpiFOqSjqtnRNR+0za5Ib9o3F0KKLRNMk/z3WOqS7/fyg
+ g8NGjQeWsmQTSfc/lY6PuTEGMtOh1RYo1C2KCqESH24vsAE6qAYlqzvYDGHKuRK69noH
+ W4xw==
+X-Gm-Message-State: ACrzQf1fnyYMMUPBVY04EWVG3VIpwl8xTgqSupJ25hJaJG9BqhbEC7mC
+ uMr0VcLcthNqXVdt6SWxMrNEeQ4ToWl441FJaWQ=
+X-Google-Smtp-Source: AMsMyM7whVO6k3ftbq7OBUGfvVELYyq4U2doTQPoKukAnDwDy1es+6y+4F2CP82q/45EaPn8za9uY58VtNV+FJLBi30=
+X-Received: by 2002:a05:6102:f9a:b0:3aa:1a11:2702 with SMTP id
+ e26-20020a0561020f9a00b003aa1a112702mr7287015vsv.73.1667308192527; Tue, 01
+ Nov 2022 06:09:52 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL1PR12MB5897:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d10d6e3-c6e8-426d-6948-08dabc08735c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xorXQ6PDUnOCjl6xN1qwlD3lvnNRaBHpcCJOSQHfJBkdp6HhSZ2OYjHD+0t8cJqhuyEN/Z5TdiLcdZRVBhGw6z3HLkZop5vxrr2we48Dt4AIMrau3D566Dw6THpvSImmYbz4KcuWAe8HBYvTIzQCBGR0KGCEYR1hgYFUlJJa6pDg2wZDdhucez0ZeSP8bmxvYHgZBeFAjuHdwI8j46keE07Kv8UaK2JDcCdQmoWNA9rlvsx2BQAj3L3+mDtnErMVUg07mfhVirjL3qfeMNl0W3saH+rCwVYqNI8ZEKV1rSoGfOQ4w0WrY2HhLFHoeVLfwnjx9P071uTMtlTofM0Io0AWrk1fuqnLw2pIptWsBbPFGZ0XaP+rLT3vJqhq3DyF1VXjW1rT3fNnMHYTVCTvW3bnvs8Z/A3/6LC5eiB77rZRIm0tQiVY9nXCxi5pFt7pvQ/CpjIIGjWpdiEKyL6u50N1awNMS/tCBkr1XSv0HEpee3DPWxs5YausmYmFuXq/3hOCe13DuoROIVE6UVh+XszFfSaHYTeYrEWlsN9tzIWVlDyZ+xXgYAGbajIJWwwpO70L83E2DpmvjbMvRQQU0MI8FJPW73SQivSA7DqcN1s7CCFU7t0fa99kX7BQ74TWZUJb0W/cED86yQQj65Nfvqk4EMaw94poE6Pqhw10zWVhS5o34kBEG+5HORRTXc5pNgPmQoMJFP77qdu7lPy05tQD9M5yjf6GB5WeEz4k2GG6vp9NlXNW6bhnpU+dfQLD
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(136003)(396003)(39860400002)(346002)(366004)(451199015)(4744005)(36756003)(54906003)(4326008)(8676002)(66476007)(6916009)(66946007)(41300700001)(316002)(66556008)(6512007)(38100700002)(26005)(86362001)(186003)(2616005)(2906002)(7406005)(478600001)(6486002)(6506007)(7416002)(5660300002)(8936002)(67856001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?brnkyZaw3J2bl/EggWDHGkhFJ/D9aaTb5lFGRUcFKbonL6nkGPrqQ1YoALRp?=
- =?us-ascii?Q?wSqvWWCEjm8E1MqGNdqcX8FEVxeYg3GJ1FRP3wyL2V+ZfWs2j5om9HD8OJrH?=
- =?us-ascii?Q?MslJKWrFFQLQMXbo4/FaDKRMnwX4kIq0adWcE3i79LqV0sqiKr9bzT7s4CNM?=
- =?us-ascii?Q?z9qaH5xL0Hna+NSZCS5RHnN35QX2zAjD7oh+g33XnP8SkcI2I5bIYLgL4Sjv?=
- =?us-ascii?Q?cCBKKQegDs/GskNSP5WWVGTwPAOT7pxiFHnXFSPUDkAX6DWSYADvRWfeMK/2?=
- =?us-ascii?Q?AKpxCDWaFbgdHXVPn9euhFDjFVs7vipSjhdewceb4yfP2s+HlbQ4DJHYEluf?=
- =?us-ascii?Q?kU81q0mYA5q8j8SOES7ZOVPXGQXb5AlfEWaRekb/GgwPRjhX4x10j7FkQTEI?=
- =?us-ascii?Q?SrlKmkItRcTT3HfpwqGQ0ldXo5G5mVLBCTj6BNuRG1rSUO58lbVny9sMuqni?=
- =?us-ascii?Q?WTx60EY8NeO4K2po+RrL+FN6R1wyj5r6bG+TXsG7wWpwsvTJanS/zBMWAkaG?=
- =?us-ascii?Q?ghAElsqd0RQHdTLJ3kWyuJ7QEO61d3DNJbmggjtztf5BByutJpyjqWqiWc0W?=
- =?us-ascii?Q?rz0JvV+F9z4Zy0dvAP8csXkpyV58P+QaMKfhvzlATA45Jk7WhG8tDAimzea5?=
- =?us-ascii?Q?Ez/tLHxX9myGOT0htbRD9qeErUosmfNE5agKRe0gxLdCzuTHIMp8rjvwmU75?=
- =?us-ascii?Q?/aFBdSMxzAtJo9iXZNF5s1qTHx3LDEEY0xWApkDCAT2/O4/n3TYiUcAIfPah?=
- =?us-ascii?Q?yzpNpsfPoTEfvpY19NO77NtuR6F4XefDuVt9fI/89a/kcDJupSeaPkIZsq32?=
- =?us-ascii?Q?KUn0RUskfyA4PTuhz/cUQv4Ae/S0t9NSK8aCD/voax1Z83SGOcE9fgBzwcN/?=
- =?us-ascii?Q?zKF2nmR7iytx6MvbIkTOyofcQGeOWW5EZnrEV1X46glEgDLJ+Nb2S9ciO8mz?=
- =?us-ascii?Q?c6wxz18HqC+lITUGb01zp81sxfLjgDRrg8h1BPIcY8kwWn9NXMZ/RxLCWfod?=
- =?us-ascii?Q?Ji77cY5RBGkwJzTLI+bllcnxckLYLAUPByHsRiBUvVCUJFKGlz178l6T9E4u?=
- =?us-ascii?Q?Pbu42Eu4UBTksuQyUx5pC00OePL3UPVU41EU8FFBAvYqzmqPNknzoZ82TsKf?=
- =?us-ascii?Q?lGboMko9gvUnY+ajFFfDDYlrkNId19xPUrPPP89InT0fVnrRFKkySkDvXWvM?=
- =?us-ascii?Q?vlIk2eFAa4DwFGkjNSDIFghjv5TZfuOme+7im/vvaXrqvS8UHEOarEDnKCjc?=
- =?us-ascii?Q?D89qFL44FPxI5w+VVcc1YX+n7nf6bvH3VG4bqmFXRqIqc0OOQ2NCqhNE/T5+?=
- =?us-ascii?Q?Sbn5K9+AvsyesbT8buCE+h5bBauRXnd031TQMAQQzfoXTntfLEllzqY2lA5N?=
- =?us-ascii?Q?szFOn9zloiRPLg2+UbPJEFs/F9fQq9C8ZpjC5HZPFhl9D36bz+pKoZOJP8Gp?=
- =?us-ascii?Q?oQACIOm4vmhAO8X+Mwj+O+9FkLFkkardavOSk8EIwvYQqoD1xSHgLLLJcmYs?=
- =?us-ascii?Q?xKfzcwqIXukDQgBIZkzHCQjIrsGaSk69i0f9/H/CA621gw7/0uP1I738n17v?=
- =?us-ascii?Q?Sa8DPoPnUpnQnpc4JrZozfAoZHmS1heP9YtZMfcF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d10d6e3-c6e8-426d-6948-08dabc08735c
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 12:56:10.9886 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AYiJi77R5AFF01u7wOOQTMHMdsNo3OPHBsXMmTxYZhGTCj9kk4DJJme+QPmo/5Zu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5897
+References: <87a65pfsbq.fsf@intel.com>
+ <c1807585-f6c8-c05d-bc20-c6a540e59814@akamai.com>
+ <CAJfuBxxWVBxL29sXS3XoE5Es9HTbVyFUi9bQFYNupJAERffAew@mail.gmail.com>
+ <Y1qqurH/lG0u+3ky@intel.com>
+ <CAJfuBxzpG+C1ARLs3c_znXECEU7Ldg8RhruLMUXA67w+DwcrOQ@mail.gmail.com>
+ <Y1rllFeOnT9/PQVA@intel.com>
+ <CAJfuBxw_YFvCtHMwVE0K0fa5GJbrZy4hTOSS9FebeDs6fxUUCA@mail.gmail.com>
+ <Y1/In+ZBzNguVNoy@intel.com>
+ <CAJfuBxxHNXHEWCEPXnPTh64dq4igaddnrU27NT=OHASmnxgudA@mail.gmail.com>
+ <9ff84a99-e500-625e-ba9d-20cd752d7ff4@akamai.com> <Y2DeSlGI38fvzvED@intel.com>
+In-Reply-To: <Y2DeSlGI38fvzvED@intel.com>
+From: jim.cromie@gmail.com
+Date: Tue, 1 Nov 2022 07:09:26 -0600
+Message-ID: <CAJfuBxx97+ev55Ez4FNimTL77HVd9sGTSrgGfRVf6wPsEv_+RQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v7 0/9] dyndbg: drm.debug adaptation
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,69 +75,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
- Yi L" <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- Nicolin Chen <nicolinc@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, Jason Herne <jjherne@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Greg KH <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk,
+ linux-kernel@vger.kernel.org, Jason Baron <jbaron@akamai.com>,
+ seanpaul@chromium.org, amd-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ joe@perches.com, intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 01, 2022 at 08:41:56AM +0000, Tian, Kevin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Wednesday, October 26, 2022 2:51 AM
-> > 
-> >  if VFIO
-> > +config VFIO_CONTAINER
-> > +	bool "Support for the VFIO container /dev/vfio/vfio"
-> > +	select VFIO_IOMMU_TYPE1 if MMU && (X86 || S390 || ARM ||
-> > ARM64)
-> > +	default y
-> > +	help
-> > +	  The VFIO container is the classic interface to VFIO for establishing
-> > +	  mappings. If N is selected here then IOMMUFD must be used the
-> 
-> establishing IOMMU mappings.
-> 
-> s/used the manage/used to manage/
+On Tue, Nov 1, 2022 at 2:52 AM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Mon, Oct 31, 2022 at 08:20:54PM -0400, Jason Baron wrote:
+> >
+> >
+> > On 10/31/22 6:11 PM, jim.cromie@gmail.com wrote:
+> > > On Mon, Oct 31, 2022 at 7:07 AM Ville Syrj=C3=A4l=C3=A4
+> > > <ville.syrjala@linux.intel.com> wrote:
+> > >> On Sun, Oct 30, 2022 at 08:42:52AM -0600, jim.cromie@gmail.com wrote=
+:
+> > >>> On Thu, Oct 27, 2022 at 2:10 PM Ville Syrj=C3=A4l=C3=A4
+> > >>> <ville.syrjala@linux.intel.com> wrote:
+> > >>>> On Thu, Oct 27, 2022 at 01:55:39PM -0600, jim.cromie@gmail.com wro=
+te:
+> > >>>>> On Thu, Oct 27, 2022 at 9:59 AM Ville Syrj=C3=A4l=C3=A4
+> > >>>>> <ville.syrjala@linux.intel.com> wrote:
+> > >>>>>> On Thu, Oct 27, 2022 at 09:37:52AM -0600, jim.cromie@gmail.com w=
+rote:
+> > >>>>>>> On Thu, Oct 27, 2022 at 9:08 AM Jason Baron <jbaron@akamai.com>=
+ wrote:
+> > >>>>>>>>
+> > >>>>>>>>
+> > >>>>>>>> On 10/21/22 05:18, Jani Nikula wrote:
+> > >>>>>>>>> On Thu, 20 Oct 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@l=
+inux.intel.com> wrote:
+> > >>>>>>>>>> On Sat, Sep 24, 2022 at 03:02:34PM +0200, Greg KH wrote:
+> > >>>>>>>>>>> On Sun, Sep 11, 2022 at 11:28:43PM -0600, Jim Cromie wrote:
+> > >>>>>>>>>>>> hi Greg, Dan, Jason, DRM-folk,
+> > >>>>>>>>>>>>
+> > >>>>>>>>>>>> heres follow-up to V6:
+> > >>>>>>>>>>>>    rebased on driver-core/driver-core-next for -v6 applied=
+ bits (thanks)
+> > >>>>>>>>>>>>    rework drm_debug_enabled{_raw,_instrumented,} per Dan.
+> > >>>>>>>>>>>>
+> > >>>>>>>>>>>> It excludes:
+> > >>>>>>>>>>>>    nouveau parts (immature)
+> > >>>>>>>>>>>>    tracefs parts (I missed --to=3DSteve on v6)
+> > >>>>>>>>>>>>    split _ddebug_site and de-duplicate experiment (way unr=
+eady)
+> > >>>>>>>>>>>>
+> > >>>>>>>>>>>> IOW, its the remaining commits of V6 on which Dan gave his=
+ Reviewed-by.
+> > >>>>>>>>>>>>
+> > >>>>>>>>>>>> If these are good to apply, I'll rebase and repost the res=
+t separately.
+> > >>>>>>>>>>> All now queued up, thanks.
+> > >>>>>>>>>> This stuff broke i915 debugs. When I first load i915 no debu=
+g prints are
+> > >>>>>>>>>> produced. If I then go fiddle around in /sys/module/drm/para=
+meters/debug
+> > >>>>>>>>>> the debug prints start to suddenly work.
+> > >>>>>>>>> Wait what? I always assumed the default behaviour would stay =
+the same,
+> > >>>>>>>>> which is usually how we roll. It's a regression in my books. =
+We've got a
+> > >>>>>>>>> CI farm that's not very helpful in terms of dmesg logging rig=
+ht now
+> > >>>>>>>>> because of this.
+> > >>>>>>>>>
+> > >>>>>>>>> BR,
+> > >>>>>>>>> Jani.
+> > >>>>>>>>>
+> > >>>>>>>>>
+> > >>>>>>>> That doesn't sound good - so you are saying that prior to this=
+ change some
+> > >>>>>>>> of the drm debugs were default enabled. But now you have to ma=
+nually enable
+> > >>>>>>>> them?
+> > >>>>>>>>
+> > >>>>>>>> Thanks,
+> > >>>>>>>>
+> > >>>>>>>> -Jason
+> > >>>>>>>
+> > >>>>>>> Im just seeing this now.
+> > >>>>>>> Any new details ?
+> > >>>>>> No. We just disabled it as BROKEN for now. I was just today thin=
+king
+> > >>>>>> about sending that patch out if no solutin is forthcoming soon s=
+ince
+> > >>>>>> we need this working before 6.1 is released.
+> > >>>>>>
+> > >>>>>> Pretty sure you should see the problem immediately with any driv=
+er
+> > >>>>>> (at least if it's built as a module, didn't try builtin). Or at =
+least
+> > >>>>>> can't think what would make i915 any more special.
+> > >>>>>>
+> > >>>>> So, I should note -
+> > >>>>> 99% of my time & energy on this dyndbg + drm patchset
+> > >>>>> has been done using virtme,
+> > >>>>> so my world-view (and dev-hack-test env) has been smaller, simple=
+r
+> > >>>>> maybe its been fatally simplistic.
+> > >>>>>
+> > >>>>> ive just rebuilt v6.0  (before the trouble)
+> > >>>>> and run it thru my virtual home box,
+> > >>>>> I didnt see any unfamiliar drm-debug output
+> > >>>>> that I might have inadvertently altered somehow
+> > >>>>>
+> > >>>>> I have some real HW I can put a reference kernel on,0
+> > >>>>> to look for the missing output, but its all gonna take some time,
+> > >>>>> esp to tighten up my dev-test-env
+> > >>>>>
+> > >>>>> in the meantime, there is:
+> > >>>>>
+> > >>>>> config DRM_USE_DYNAMIC_DEBUG
+> > >>>>> bool "use dynamic debug to implement drm.debug"
+> > >>>>> default y
+> > >>>>> depends on DRM
+> > >>>>> depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+> > >>>>> depends on JUMP_LABEL
+> > >>>>> help
+> > >>>>>    Use dynamic-debug to avoid drm_debug_enabled() runtime overhea=
+ds.
+> > >>>>>    Due to callsite counts in DRM drivers (~4k in amdgpu) and 56
+> > >>>>>    bytes per callsite, the .data costs can be substantial, and
+> > >>>>>    are therefore configurable.
+> > >>>>>
+> > >>>>> Does changing the default fix things for i915 dmesg ?
+> > >>>> I think we want to mark it BROKEN in addition to make sure no one
+> > >>> Ok, I get the distinction now.
+> > >>> youre spelling that
+> > >>>    depends on BROKEN
+> > >>>
+> > >>> I have a notional explanation, and a conflating commit:
+> > >>>
+> > >>> can you eliminate
+> > >>> git log -p ccc2b496324c13e917ef05f563626f4e7826bef1
+> > >>>
+> > >>> as the cause ?
+> > >> Reverting that doesn't help.
+> > >>
+> > > thanks for eliminating it.
+> > >
+> > >>> I do need to clarify, I dont know exactly what debug/logging output
+> > >>> is missing such that CI is failing
+> > >> CI isn't failing. But any logs it produces are 100% useless,
+> > >> as are any user reported logs.
+> > >>
+> > >> The debugs that are missing are anything not coming directly
+> > >> from drm.ko.
+> > >>
+> > >> The stuff that I see being printed by i915.ko are drm_info()
+> > >> and the drm_printer stuff from i915_welcome_messages(). That
+> > >> also implies that drm_debug_enabled(DRM_UT_DRIVER) does at
+> > >> least still work correctly.
+> > >>
+> > >> I suspect that the problem is just that the debug calls
+> > >> aren't getting patched in when a module loads. And fiddling
+> > >> with the modparam after the fact does trigger that somehow.
+> > >>
+> > > ok, heres the 'tape' of a virtme boot,
+> > > then modprobe going wrong.
+> > >
+> > > [    1.785873] dyndbg:   2 debug prints in module intel_rapl_msr
+> > > [    2.040598] virtme-init: udev is done
+> > > virtme-init: console is ttyS0
+> > >
+> > >> load drm driver
+> > > bash-5.2# modprobe i915
+> > >
+> > >> drm module is loaded 1st
+> > > [    6.549451] dyndbg: add-module: drm.302 sites
+> > > [    6.549991] dyndbg: class[0]: module:drm base:0 len:10 ty:0
+> > > [    6.550647] dyndbg:  0: 0 DRM_UT_CORE
+> > > [    6.551097] dyndbg:  1: 1 DRM_UT_DRIVER
+> > > [    6.551531] dyndbg:  2: 2 DRM_UT_KMS
+> > > [    6.551931] dyndbg:  3: 3 DRM_UT_PRIME
+> > > [    6.552402] dyndbg:  4: 4 DRM_UT_ATOMIC
+> > > [    6.552799] dyndbg:  5: 5 DRM_UT_VBL
+> > > [    6.553270] dyndbg:  6: 6 DRM_UT_STATE
+> > > [    6.553634] dyndbg:  7: 7 DRM_UT_LEASE
+> > > [    6.554043] dyndbg:  8: 8 DRM_UT_DP
+> > > [    6.554392] dyndbg:  9: 9 DRM_UT_DRMRES
+> > > [    6.554776] dyndbg: module:drm attached 1 classes
+> > > [    6.555241] dyndbg: 302 debug prints in module drm
+> > >
+> > >> here modprobe reads /etc/modprobe.d/drm-test.conf:
+> > > options drm dyndbg=3D"class DRM_UT_CORE +p; class DRM_UT_DRIVER +p"
+> > > and dyndbg applies it
+> >
+> > Hi,
+> >
+> > I'm a bit confused with this. My understanding is that there
+> > is a 'regression' here from how this used to work. But the
+> > 'class' keyword is new - are we sure this is the command-line
+> > we are trying to fix?
 
-Done
 
-> > +if VFIO_CONTAINER
-> >  config VFIO_IOMMU_TYPE1
-> >  	tristate
-> > -	default n
-> > +	default MMU && (X86 || S390 || ARM || ARM64)
-> 
-> there are already same conditions for selecting TYPE1 from
-> VFIO_CONTAINER. what does duplicating conditions here
-> bring to us?
+the regression here is that previously, any late changes to drm.debug
+are seen by all callers of drm_debug_enabled(), which checks the bits
+when called.
 
-Yah, we can leave this out - this is just the more normal way to
-approach this kconfig trick, AFAICT
+Now, the change to drm.debug causes updates to currently loaded modules'
+prdbgs.  But module loading of dependent modules is incomplete,
+and those prdbgs are too late.
 
-Thanks,
-Jason
+
+>
+> The thing we need fixed is just the bog standard drm.debug=3D0xe etc.
+
+
+my example was unfortunate, I repeated the test with
+  options drm debug=3D0x1f
+
+the results are the same, dyndbgs callback applies the class queries,
+but the helper, driver modules arent yet loaded, so the class'd prdbgs
+arent there to be enabled.
+
+The Notional fix (Im working on it)
+
+dyndbg gets static list of CLASSMAPS,
+
+ddebug_attach_module_classes() can then distinguish the "owner"
+of each classmap (the 1st module declaring it), from the subsequently
+loaded modules (which reuse the same previously declared classmap)
+
+as subsequent modules (say drm_kms_helper) refs the DRM_UT_* classmap
+(just attached to drm module), ddebug_attach_module_classes() can
+invoke the callback to reapply drm.debug to the newly loaded module.
+
+or so I think.
+
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
