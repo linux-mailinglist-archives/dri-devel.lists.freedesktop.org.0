@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A2C614ECF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 17:07:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B92C614ED2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 17:07:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7AA10E076;
-	Tue,  1 Nov 2022 16:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD32F10E3F6;
+	Tue,  1 Nov 2022 16:07:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1EF10E076
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 16:06:52 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1optms-0000wb-Hg; Tue, 01 Nov 2022 17:06:50 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1optmr-0003Tm-0C; Tue, 01 Nov 2022 17:06:49 +0100
-Date: Tue, 1 Nov 2022 17:06:48 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] drm: lcdif: Set and enable FIFO Panic threshold
-Message-ID: <20221101160648.yhujgbay3nvm5pto@pengutronix.de>
-References: <e15680d8-3790-4907-0efa-a597b70ed0d0@denx.de>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDFBD10E3F6;
+ Tue,  1 Nov 2022 16:07:08 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id p127so16337415oih.9;
+ Tue, 01 Nov 2022 09:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=EIvCsNcYvM6/Hsp4ajqEM/CHCcHllUHTLyim4Fdl4PQ=;
+ b=Ci/4R5cjQS65fqeKJcqsOF3dXNAO9yGdtsYGsGuG6ITYtLKDGXMZ+E54KSHs0x7TFv
+ AAt7wWNEhTv6+eFgud0NrPs20ruzTbW0a65k7xxqrQ2iazFb3wG/04dj4shaKnfB+X3c
+ 0W7nqGmDY+1Of3QtcY0DIcn72+gfYv5iuT0FN/65X4wLMhn1DM6ekTf53yVhcrqlbbiM
+ lUoUVdaxThUqrBLHofdXdYett/2k9bUeau5FO/gxqqU2OSXusZrFV5cYl64o8YUSCFZE
+ HWZZvC0OqfyAs2cOVBTyB19AMA0p3pFhXBNzxo+1DbQfF441S0eUWU+LocCKAIEEt8HN
+ wMnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EIvCsNcYvM6/Hsp4ajqEM/CHCcHllUHTLyim4Fdl4PQ=;
+ b=B32rd29WhkLR9X8XQkIXu++CpklU3m/61Io3PZz5N4OJ/WJ6zqL0h0qvUPq66astf2
+ sOy72zrCVwWnRnVIRDQzC71h9wXQrGE4PBW+QWEgdbEzsknPmtZ90j8J58AGScrTgXz/
+ YeG4nUueRhnqJvMYLKCBUAuSL887qmWnI5DlggqAVI0zjR9IweIB8XFekfRl+A0wyGAg
+ aJDp9xrEH7SgaPSyihMm5CVgX5QFuPw+cD47vSA0CjuE4AkV+F3i1GAQgscVW6rDIGcJ
+ 7xse7iTkpBFs7izPENgsiDkqxzLEmkXGdCX9ntfDrKhwmy2xtRN57OK3WWxneaY8In5v
+ lp0w==
+X-Gm-Message-State: ACrzQf3siFktrGdFgD16NnkLfYrjWWFSc+2zIqv6RIZpedIwBpD/lkk+
+ +LEVqMmWRNPQqQnDdI1ca7cR9NHtivgz3Ixdp30=
+X-Google-Smtp-Source: AMsMyM7IKs5sFOzl9MgowQZ6B6fZPiPbgU9kAYR7sXxyETzysb5DoDPacdLtQlROr5xf93oUsQpLNIX+OX7pDz2Y1zU=
+X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
+ f18-20020a05680814d200b00354c733abd3mr10488249oiw.96.1667318828044; Tue, 01
+ Nov 2022 09:07:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e15680d8-3790-4907-0efa-a597b70ed0d0@denx.de>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <Y117XNaSP6/8bH+3@moc6.cz>
+ <CADnq5_Muegi+dvmrg5U=Cau_oeXQFjv_h2Pdn_j9AG0mRgE4=g@mail.gmail.com>
+ <Y2E+XUEPbQn2tMt+@moc6.cz>
+In-Reply-To: <Y2E+XUEPbQn2tMt+@moc6.cz>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 1 Nov 2022 12:06:55 -0400
+Message-ID: <CADnq5_PmwiOecVqfpy17V4viYA5wt8WbEDOFPo70VSdmGTjOew@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: add parameter backlight_min
+To: Filip Moc <dev@moc6.cz>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,101 +66,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>, Liu Ying <victor.liu@nxp.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Martyn Welch <martyn.welch@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, "jian.li" <jian.li@nxp.com>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22-11-01, Marek Vasut wrote:
-> On 11/1/22 15:04, Marco Felsch wrote:
-> > Hi Marek, Liu,
-> 
-> Hi,
-> 
-> [...]
-> 
-> > > > > Also IMHO the threshold should be taken wisely to not enter panic
-> > > > > mode
-> > > > > to early to not block others from the bus e.g. the GPU.
-> > > > 
-> > > > As far as I understand the PANIC0_THRES, both thresholds are really
-> > > > watermarks in the FIFO, 0=EMPTY, 1/3=LOW, 2/3=HIGH, 3/3=FULL. Under
-> > > > normal conditions, the FIFO is filled above 1/3. When the FIFO fill
-> > > > drops below LOW=1/3, the "PANIC" signal is asserted so the FIFO can
-> > > > be
-> > > > refilled faster. When the FIFO fill raises above HIGH=2/3, the
-> > > > "PANIC"
-> > > > signal is deasserted so the FIFO refills at normal rate again.
-> > 
-> > This matches exactly my picture of the hardware.
-> > 
-> > > > It seems to me the LOW=1/3 and HIGH=2/3 thresholds are the kind of
-> > > > good
-> > > > balance. The LOW=2/3 and HIGH=FULL=3/3 seems like it would keep the
-> > > > "PANIC" signal asserted much longer, which could indeed block others
-> > > > from the bus.
-> > 
-> > Also I understood the thresholds in such a way, that the FIFO watermark
-> > must be higher but there is no place left when it is set to 3/3. In such
-> > case this means that the PANIC will never left once it was entered.
-> 
-> I think this part is wrong.
-> 
-> Consider that the FIFO fill drops below 2/3 so PANIC signal asserts. 
+On Tue, Nov 1, 2022 at 11:42 AM Filip Moc <dev@moc6.cz> wrote:
+>
+> Hello Alex,
+>
+> thank you for your response.
+>
+> Yes, I have HP ENVY x360 Convertible 13-ay1xxx, and backlight_min=2
+> seems to work the best in my case.
+>
+> I added a dmi based quirk table. So far with support only for display 0
+> to make it simple. Support for more displays in quirk table can be added
+> later if ever needed.
+>
+> According to [1] HP ENVY x360 Convertible 13-ag0xxx also needs a quirk
+> so I'm going to use this to cover both:
+> DMI_EXACT_MATCH(DMI_SYS_VENDOR, "HP")
+> DMI_MATCH(DMI_PRODUCT_NAME, "HP ENVY x360 Convertible 13-")
 
-? I thought the PANIC is triggered if the FIFO drops below the 1/3
-threshold and is active till the 2/3 threshold.
+You might want to add an additional check for the panel name/vendor
+from the EDID as well in case HP uses multiple panels from different
+vendors on that system.
 
-> After a bit of time, the FIFO fill reaches full 3/3 (maybe during
-> blanking period, where the data can be read in quickly without being
-> scanned out again), and the PANIC signal de-asserts.
-> 
-> So the LCDIF won't be in constant PANIC asserted, but it will be there for
-> quite a bit longer.
-> 
-> > > > It also seems to me that tuning these thresholds might be related to
-> > > > some special use-case of the SoC, and it is most likely not just the
-> > > > LCDIF thresholds which have been adjusted in such case, I would
-> > > > expect
-> > > > the NOC and GPV NIC priorities to be adjusted at that point too.
-> > 
-> > As far as I understood, the PANIC signal triggers the NOC to use the
-> > PANIC signal priorities instead of the normal ones. I found a patch
-> > laying in our downstream [1] repo which configures the threshold. This
-> > raises the question which PANIC prio do you use? Do you have a patch for
-> > this? If I remember correctly some TF-A's like the NXP downstream one
-> > configure this but the upstream TF-A don't. Which TF-A do you use?
-> 
-> Upstream 2.6 or 2.7 , so this tuning does not apply.
+Alex
 
-So your panic priority is what?
-
-> > > > So unless there are further details for that use-case which justify
-> > > > making this somehow configurable, then maybe we should just stick to
-> > > > 1/3 and 2/3 for now. And once there is a valid use-case which does
-> > > > justify making this configurable, then we can add the DT properties
-> > > > and all.
-> > > > 
-> > > > What do you think ?
-> > > 
-> > > No strong opinion from me on using LOW=1/3 and HIGH=2/3 thresholds for
-> > > now if they satisfy all current users of the upstream kernel.  Tuning
-> > > them in a certain way will be indeed needed once an usecase comes along
-> > > and still suffers from the FIFO underflows with those thresholds.
-> > 
-> > I think that 1/3 and 2/3 should be fine for now too.
-> 
-> All right, lemme re-test this, send V2, and then we can go from there.
-
-Okay :)
-
-> btw. can you resend that [PATCH] drm: lcdif: change burst size to 256B with
-> Fixes tag , so it can trickle into stable releases ?
-
-Shure I will resend it with the tag added.
-
-Regards,
-  Marco
+>
+> So far it seems to be working fine.
+> I'll send this in v2 once I do some final tweaks and do more tests.
+>
+> [1] https://bugzilla.kernel.org/show_bug.cgi?id=203439#c5
+>
+> Filip
+>
+>
+> V Mon, Oct 31, 2022 at 11:36:09AM -0400, Alex Deucher napsal(a):
+> > On Sun, Oct 30, 2022 at 5:26 AM Filip Moc <dev@moc6.cz> wrote:
+> > >
+> > > There are some devices on which amdgpu won't allow user to set brightness
+> > > to sufficiently low values even though the hardware would support it just
+> > > fine.
+> > >
+> > > This usually happens in two cases when either configuration of brightness
+> > > levels via ACPI/ATIF is not available and amdgpu falls back to defaults
+> > > (currently 12 for minimum level) which may be too high for some devices or
+> > > even the configuration via ATIF is available but the minimum brightness
+> > > level provided by the manufacturer is set to unreasonably high value.
+> > >
+> > > In either case user can use this new module parameter to adjust the
+> > > minimum allowed backlight brightness level.
+> > >
+> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=203439
+> > > Signed-off-by: Filip Moc <dev@moc6.cz>
+> >
+> > Does your system require an override and if so, what is it?  It would
+> > be good to add a quirk for your system as well so that other users of
+> > the same system wouldn't need to manually figure out an apply the
+> > settings.
+> >
+> > Alex
+> >
+> >
+> > > ---
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu.h               |  3 +++
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 15 +++++++++++++++
+> > >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
+> > >  3 files changed, 33 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > index 0e6ddf05c23c..c5445402c49d 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > @@ -200,6 +200,9 @@ extern uint amdgpu_dc_debug_mask;
+> > >  extern uint amdgpu_dc_visual_confirm;
+> > >  extern uint amdgpu_dm_abm_level;
+> > >  extern int amdgpu_backlight;
+> > > +#ifdef CONFIG_DRM_AMD_DC
+> > > +extern int amdgpu_backlight_override_min[];
+> > > +#endif
+> > >  extern struct amdgpu_mgpu_info mgpu_info;
+> > >  extern int amdgpu_ras_enable;
+> > >  extern uint amdgpu_ras_mask;
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > > index 16f6a313335e..f2fb549ac52f 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > > @@ -43,6 +43,7 @@
+> > >  #include "amdgpu_irq.h"
+> > >  #include "amdgpu_dma_buf.h"
+> > >  #include "amdgpu_sched.h"
+> > > +#include "amdgpu_dm.h"
+> > >  #include "amdgpu_fdinfo.h"
+> > >  #include "amdgpu_amdkfd.h"
+> > >
+> > > @@ -853,6 +854,20 @@ int amdgpu_backlight = -1;
+> > >  MODULE_PARM_DESC(backlight, "Backlight control (0 = pwm, 1 = aux, -1 auto (default))");
+> > >  module_param_named(backlight, amdgpu_backlight, bint, 0444);
+> > >
+> > > +/**
+> > > + * DOC: backlight_min (array of int)
+> > > + * Override minimum allowed backlight brightness signal (per display).
+> > > + * Must be less than the maximum brightness signal.
+> > > + * Negative value means no override.
+> > > + *
+> > > + * Defaults to all -1 (no override on any display).
+> > > + */
+> > > +#ifdef CONFIG_DRM_AMD_DC
+> > > +int amdgpu_backlight_override_min[AMDGPU_DM_MAX_NUM_EDP] = {[0 ... (AMDGPU_DM_MAX_NUM_EDP-1)] = -1};
+> > > +MODULE_PARM_DESC(backlight_min, "Override minimum backlight brightness signal (0..max-1, -1 = no override (default))");
+> > > +module_param_array_named(backlight_min, amdgpu_backlight_override_min, int, NULL, 0444);
+> > > +#endif
+> > > +
+> > >  /**
+> > >   * DOC: tmz (int)
+> > >   * Trusted Memory Zone (TMZ) is a method to protect data being written
+> > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > index eb4ce7216104..e2c36ba93d05 100644
+> > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > @@ -3911,6 +3911,21 @@ static void amdgpu_dm_update_backlight_caps(struct amdgpu_display_manager *dm,
+> > >         dm->backlight_caps[bl_idx].min_input_signal = AMDGPU_DM_DEFAULT_MIN_BACKLIGHT;
+> > >         dm->backlight_caps[bl_idx].max_input_signal = AMDGPU_DM_DEFAULT_MAX_BACKLIGHT;
+> > >  #endif
+> > > +
+> > > +       if (amdgpu_backlight_override_min[bl_idx] >= 0) {
+> > > +               if (amdgpu_backlight_override_min[bl_idx] < dm->backlight_caps[bl_idx].max_input_signal) {
+> > > +                       DRM_INFO("amdgpu: backlight[%i]: overriding minimum brightness from %i to %i\n",
+> > > +                                 bl_idx,
+> > > +                                 dm->backlight_caps[bl_idx].min_input_signal,
+> > > +                                 amdgpu_backlight_override_min[bl_idx]);
+> > > +                       dm->backlight_caps[bl_idx].min_input_signal = amdgpu_backlight_override_min[bl_idx];
+> > > +               } else {
+> > > +                       DRM_ERROR("amdgpu: backlight[%i]: minimum brightness override (%i) is not below maximum (%i)\n",
+> > > +                                 bl_idx,
+> > > +                                 amdgpu_backlight_override_min[bl_idx],
+> > > +                                 dm->backlight_caps[bl_idx].max_input_signal);
+> > > +               }
+> > > +       }
+> > >  }
+> > >
+> > >  static int get_brightness_range(const struct amdgpu_dm_backlight_caps *caps,
+> > >
+> > > base-commit: d8c03bfe146fd5e081a252cd34f3f12ca0255357
+> > > --
+> > > 2.30.2
+> > >
