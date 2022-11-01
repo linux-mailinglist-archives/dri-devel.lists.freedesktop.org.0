@@ -1,111 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDEF61499E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:41:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7DF6149A8
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:43:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBAF10E39C;
-	Tue,  1 Nov 2022 11:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587B410E397;
+	Tue,  1 Nov 2022 11:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2084.outbound.protection.outlook.com [40.107.100.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D087410E397;
- Tue,  1 Nov 2022 11:41:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LTdZPP8/7hy2AqmG/YGq8wRrEtKlqrrHBMmgUx7oPxIlwdYuLEJWojBtW2QrzMYY4uBXrizY3BcvJjQ8qf6lhSszkebDA0142ZjiilYamfSZH2ChLC7grEInefeo7jqxIEW3CE0AOj4X5vMICkj3gS0FjaukJMGvt858mujoNCRxgbp8hW2IK52782kdHPeZQUHbwe6HNp8Tx++/HCQbTd+Gb3xa4GxCBh4UWg5z2lwSlZ6JNOfj1onoU+fP2j+hVmPG+vtQvAOxDB/ze/JOE5uNsWEgN/4C86hTMYFky7J9JtbpjrzbfG4GkfmzDub89XQ5Sm1E7vXz9i5IVMnXbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1fmz2hcFcb4og7U0APjgn49HxDs99fBuT9yALUelGSo=;
- b=nFEP++q5xBSb7ClSsM4q7e/YW+iWrbOPexOv0nF2agmJib3yflUrzhZhOJv5xHGqzWS83BHhboF672d8xr/8TG+gg3XyeB0qJTq5kCr4dJ5B0Xv9zKU/DjEI+13PmkHPlCdwhYTPkH7MFiXsOESH/JvrW0JHMAE4QXMTUQ11EH8zesVaQv2CCN/z5XynWnRYHmu3OxcEeqg/w2F83aM/zCDka7RrWWe3KzxKg1Hbj4S9pneTyXFVOntpOg2QQl+lGpBhRu55kKSNbcHrhTtM2Y9EopulSyLi2iflWCuCXO3sN/AycAlh6Y+GYa1KTiAb3zlAUIH+PjJ0Wk0mGFzgSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1fmz2hcFcb4og7U0APjgn49HxDs99fBuT9yALUelGSo=;
- b=rLC13e8eyQCMUZ7DgS6JPuLAhFe/FGLZpnYzOh4eElRq2UzUKU7BKNyffa/0xVbBi8iJtwmsEzAgd4eBHhyS5LRzavk0yFKYjmI3IzGopofIYXn9AIS5/2wmhCGq7wEfXC/CAJ8LFFV/cxaykCl3ntC7OddnL19KsfhpFVzqmtohJqVae4IZ1iY1H7dAuyOTC8qWTrluQ4njy9TBjvIfmB8BsPBZbfzz7kotW9DkiyDohAk/I5jcAiOXLWaSNiBvzaQYIlKdXMj0ffPkMQ0vaeak7mgn6692Y3OPqKQ4VG/1tMZ9enoUQ3kNVavDKvai1qiKkRKYm75JT/jEbYZpaQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by MN2PR12MB4455.namprd12.prod.outlook.com (2603:10b6:208:265::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Tue, 1 Nov
- 2022 11:41:04 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Tue, 1 Nov 2022
- 11:41:04 +0000
-Date: Tue, 1 Nov 2022 08:41:02 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH 00/10] Connect VFIO to IOMMUFD
-Message-ID: <Y2EFzjYn9IqbRmQs@nvidia.com>
-References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
- <39eb11ed-dbf2-822a-dc79-5b70a49c430b@intel.com>
- <Y1+9IB+DI9v+nD0P@nvidia.com>
- <d8a0352e-9e1d-5b01-7616-dccc73a172a6@intel.com>
- <Y2BZHZXJwxF5C4a8@nvidia.com>
- <1ba21eb6-5050-d9ba-d988-a939bf6c821b@intel.com>
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF3DC10E398
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 11:43:10 +0000 (UTC)
+Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
+ [94.209.172.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 01C2F3EBA9;
+ Tue,  1 Nov 2022 12:43:06 +0100 (CET)
+Date: Tue, 1 Nov 2022 12:43:04 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Kalyan Thota <quic_kalyant@quicinc.com>
+Subject: Re: [v7] drm/msm/disp/dpu1: add support for dspp sub block flush in
+ sc7280
+Message-ID: <20221101114304.3vsurukthhh34wmf@SoMainline.org>
+References: <1667300225-14367-1-git-send-email-quic_kalyant@quicinc.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1ba21eb6-5050-d9ba-d988-a939bf6c821b@intel.com>
-X-ClientProxiedBy: YT1PR01CA0109.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::18) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|MN2PR12MB4455:EE_
-X-MS-Office365-Filtering-Correlation-Id: d804325e-0d3e-4f07-073f-08dabbfdf544
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qGQgBJOSdTb2qPsDgTEpaI6hg38yzSj3A67/VFFMzMhrCx7sRY/0txf8WU3H1jMQX3srl8Co7bJwgZxyY1FL+uFw75QtjeDGYTbslUdZthbuELAn3eZxUMkWADFIY38RNa+tbQchfdsWDXPtXwWribDrt6yTx74ZpONAweV7mXflCL1y6E/+VsbAOGW900ilNA/35kYygy3tur/A8jsRTrpiCREJoRxTrKrzE0cgKdmCC3WaZQvfLVnWikUFdaXX5UuNcSSWC2VxsZ0pNgT7RadcA24Xp9gWvbH/LQwcnWMwko0YJ6Hf89HUAA24XY/n4v6LlXvj9dTF19T+zcfhPbPULksiSkbnyKpGmbAvdFopnklj9VxsYe6iQi97xJCHERt4a7OuzrxbzYQ4furd9SvGO313MAZPAiUaYzV3D2vfkNxyWNujZo0dxtHzDHhzGDyxKNfDxBV4EUSn2BXaRzvYW6R8Wkx1oGRP2JmwCpJvSet3dkFbcNX3ohFECJ0u93w4zoskUbGES6VfqPnp2wV7hcp+SIc3HykBFvvil9ygnQrjLy5DdMgQ3LslQxIDon3lhjltAcFf1l61IhwmougWADnDecAOinGJsmb4ab+Ic2QgU1HUCc1e3ep9dZXy2Tub5UocXp2wdeDXW9fuvsXK/81sJ+O5SOBx9rAzNNT0ayYXq4nix8FeUAxeEvB8LJix2mN3ZHfMT0eOuhzY+g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(376002)(39860400002)(366004)(396003)(136003)(451199015)(2906002)(38100700002)(107886003)(53546011)(86362001)(26005)(316002)(8676002)(66556008)(41300700001)(6512007)(66476007)(6506007)(2616005)(186003)(54906003)(8936002)(6916009)(66946007)(4326008)(36756003)(5660300002)(7416002)(7406005)(83380400001)(6486002)(478600001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dmxh8p5V8aie9pSHhRvz6cldgWMgzh6VJ8Watrd7l5q0xSwDa7B4JYpOOKeE?=
- =?us-ascii?Q?OwOAtUA2CcDDA9bEeFZC91wwzjsCvS+3SZrSzaXMs3nNHld0Lse0FJc3R+ZZ?=
- =?us-ascii?Q?kk8T3931+0w5AkFn4QYuI4yHZCSQKSuCukm+5xmJYHF5e/XMrlQp7sE7ZUQT?=
- =?us-ascii?Q?OewMN9YeGC09KeBU/c0h2ZgY/4EJx3yd8XO8eS8aWHv49cWATDI1IkZr3H6Z?=
- =?us-ascii?Q?Ev8CVHC3T/KxpzJkIREH9k3z7uQvJqfiC2E0MmYpZCyiD5vxHkmnl6VO9+Hg?=
- =?us-ascii?Q?XLlWVLcri9FMo0N8Sakp+fc90AxwextUeHNbo/kaE/sw36DNyYZfA0kLtjdy?=
- =?us-ascii?Q?ZgNmz3ihBTLTjTjQKdPTKgXzDGsjKO3+f/vkjjfMwJEWfQHWHTtybyxZiOLj?=
- =?us-ascii?Q?pkSngogX1CbWz9RZ2kpegcL0RSrH/Bh1+hDLitTrm32laNU6zknr6pbhcTU2?=
- =?us-ascii?Q?xkPgglyrBNkZTf6JtU9wxW3nU7df6EngHnWKBpkvwDjGvd006OJh0fH92r7N?=
- =?us-ascii?Q?pXjNbVUTYjxRbcy/fhBgLMTDdPZ3k+F/zmIMDl+YkWqQbbVrEMUw9T3uSuxx?=
- =?us-ascii?Q?8TIeBVOAp7Ou+4BeBmv7NUPeV6PFzpnn6AzxezX1tqyqKIsOgBDNBOB45Fyd?=
- =?us-ascii?Q?vy+AhT7BdFjhx/583/+DYH3CYmoQtTEAlW0bm0hMYGcQyWW4gUYDELiHdXw5?=
- =?us-ascii?Q?ckhWUm8wVcllJineFqQesajwj04bKGBRTBpMRsU4uubfbXiyaeUKZtxxoEA2?=
- =?us-ascii?Q?eC7njFCGEQGaBJ+3SxKSptE6FV6Es5FHqWWfwsI8KJ5hCuk4IeG3Hr7CFNt2?=
- =?us-ascii?Q?vYYHjPgHWJzcVpJ5iEern6n4+XNqPI3WNpLzKGNp1u/QFcs5r6URR9hCNrP0?=
- =?us-ascii?Q?wQOcWBKrFn/gqsbCR84hFL8DYfxbzgLynJN0/xnBs3IJw3eqAbd3kd+zyd9l?=
- =?us-ascii?Q?0esG66oKXYD8sXDkSfE2VLebIvvTbBVuanvwBRASfSaFE+FMaCaAef3EKe/b?=
- =?us-ascii?Q?e/2s/q66Fp8DCZVZn9QobUGbRL6Y3WVIkD+8o1iXpgLJIz6gIrXFUlKwo2EZ?=
- =?us-ascii?Q?ZUuGvMXeMC5pL5NGmS8PkFf1cuuyvwgfKSOCSlkX8PhnfHgi4IRO5gT9Plnw?=
- =?us-ascii?Q?pejPEQmGH8bZhVpob3v5o16RxD8fUaPq3ZTG8A65kpCBp56SCvoD1X1jm+Ax?=
- =?us-ascii?Q?ssDhWaFcz7z4xl5nwozQ52sKoLqLBDvZon9NBSoMD/DfV/bfSD0lRi36JiZH?=
- =?us-ascii?Q?bapj1i/u5Q3465SaiuCp5sAXxv8bXXZyNcJ8j6jTjKFJ8fCdWb/V5dMIjyfQ?=
- =?us-ascii?Q?m5qUbRO5LgN+WBrew8HSNy5NNLQD0Vs+XsHrfyrpqOfWLUP9TqQ7aFEY/dwg?=
- =?us-ascii?Q?miZvW7EASfT9Pj3c9SCWChwvXDDGFSxGmOxXgLB2D1irrwCyqIlK6FoffdK6?=
- =?us-ascii?Q?BPI6zLTx7ZxWdeyy9a+Y8UqM3VH3ZTkOb+hK5UGMHSLuJ3ckYL5QkSKidx6W?=
- =?us-ascii?Q?FJshi8KWGD0SYzN+zkyqnpWH/vXAmsGsk3ESrRi4WSCTkiZlt6T3is3b2ClS?=
- =?us-ascii?Q?gdQCEPEFo0YxgtMQvAwpEN4yDFk2F1cPhFx9iVcY?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d804325e-0d3e-4f07-073f-08dabbfdf544
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 11:41:04.5623 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HHJs+3rK6RRjcL6huc4yHGNZiYtMxKPNDWAgHensj0USe7zsUgFbs7PGD+71+172
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4455
+In-Reply-To: <1667300225-14367-1-git-send-email-quic_kalyant@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,61 +42,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
- dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
- iommu@lists.linux.dev, Nicolin Chen <nicolinc@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: devicetree@vger.kernel.org, quic_abhinavk@quicinc.com,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org, quic_vpolimer@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 01, 2022 at 11:04:38AM +0800, Yi Liu wrote:
-> On 2022/11/1 07:24, Jason Gunthorpe wrote:
-> > On Mon, Oct 31, 2022 at 08:25:39PM +0800, Yi Liu wrote:
-> > > > There is something wrong with the test suite that it isn't covering
-> > > > the above, I'm going to look into that today.
-> > > 
-> > > sounds to be the cause. I didn't see any significant change in vfio_main.c
-> > > that may fail gvt. So should the iommufd changes. Then we will re-run the
-> > > test after your update.:-)
-> > 
-> > I updated the github with all the changes made so far, it is worth
-> > trying again!
+On 2022-11-01 03:57:05, Kalyan Thota wrote:
+> Flush mechanism for DSPP blocks has changed in sc7280 family, it
+> allows individual sub blocks to be flushed in coordination with
+> master flush control.
 > 
-> gvt is still failing with below call trace in host side. vfio_unpin_pages()
-> is still in problem. Any idea on it?
+> Representation: master_flush && (PCC_flush | IGC_flush .. etc )
+> 
+> This change adds necessary support for the above design.
+> 
+> Changes in v1:
+> - Few nits (Doug, Dmitry)
+> - Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
+> 
+> Changes in v2:
+> - Move the address offset to flush macro (Dmitry)
+> - Seperate ops for the sub block flush (Dmitry)
+> 
+> Changes in v3:
+> - Reuse the DPU_DSPP_xx enum instead of a new one (Dmitry)
+> 
+> Changes in v4:
+> - Use shorter version for unsigned int (Stephen)
+> 
+> Changes in v5:
+> - Spurious patch please ignore.
+> 
+> Changes in v6:
+> - Add SOB tag (Doug, Dmitry)
+> 
+> Changes in v7:
+> - Cache flush mask per dspp (Dmitry)
+> - Few nits (Marijn)
 
-Oh, this is my mistake, I rushed a bit getting updated branches:
+Thanks, but it seems like you skipped some of them.  I'll point them out
+again this time, including some new formatting issues.
 
-diff --git a/drivers/vfio/iommufd.c b/drivers/vfio/iommufd.c
-index 40eb6931ab2321..29e7b1fdd0cd4a 100644
---- a/drivers/vfio/iommufd.c
-+++ b/drivers/vfio/iommufd.c
-@@ -118,6 +118,7 @@ static void vfio_emulated_unmap(void *data, unsigned long iova,
- }
- 
- static const struct iommufd_access_ops vfio_user_ops = {
-+	.needs_pin_pages = 1,
- 	.unmap = vfio_emulated_unmap,
- };
+> 
+> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 ++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 46 ++++++++++++++++++++++++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     |  7 ++--
+>  5 files changed, 58 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 601d687..4170fbe 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -766,7 +766,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+>  
+>  		/* stage config flush mask */
+>  		ctl->ops.update_pending_flush_dspp(ctl,
+> -			mixer[i].hw_dspp->idx);
+> +			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
+>  	}
+>  }
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 27f029f..0eecb2f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -65,7 +65,10 @@
+>  	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
+>  
+>  #define CTL_SC7280_MASK \
+> -	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
+> +	(BIT(DPU_CTL_ACTIVE_CFG) | \
+> +	 BIT(DPU_CTL_FETCH_ACTIVE) | \
+> +	 BIT(DPU_CTL_VM_CFG) | \
+> +	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
+>  
+>  #define MERGE_3D_SM8150_MASK (0)
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 38aa38a..8148e91 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -161,10 +161,12 @@ enum {
+>   * DSPP sub-blocks
+>   * @DPU_DSPP_PCC             Panel color correction block
+>   * @DPU_DSPP_GC              Gamma correction block
+> + * @DPU_DSPP_IGC             Inverse Gamma correction block
 
-Thanks, 
-Jason
+Here.
+
+>   */
+>  enum {
+>  	DPU_DSPP_PCC = 0x1,
+>  	DPU_DSPP_GC,
+> +	DPU_DSPP_IGC,
+>  	DPU_DSPP_MAX
+>  };
+>  
+> @@ -191,6 +193,7 @@ enum {
+>   * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
+>   * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
+>   * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
+> + * @DPU_CTL_DSPP_BLOCK_FLUSH: CTL config to support dspp sub-block flush
+
+I even overlooked this in my review: all docs use spaces except these
+use tabs... Yet you use spaces here and didn't even align the text.
+
+Either use tabs in the line you add here, or replace the rest with
+spaces and align them again.
+
+>   * @DPU_CTL_MAX
+>   */
+>  enum {
+> @@ -198,6 +201,7 @@ enum {
+>  	DPU_CTL_ACTIVE_CFG,
+>  	DPU_CTL_FETCH_ACTIVE,
+>  	DPU_CTL_VM_CFG,
+> +	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
+>  	DPU_CTL_MAX
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index a35ecb6..fbcb7da 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -33,6 +33,7 @@
+>  #define   CTL_INTF_FLUSH                0x110
+>  #define   CTL_INTF_MASTER               0x134
+>  #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
+> +#define   CTL_DSPP_n_FLUSH(n)		((0x13C) + ((n) * 4))
+
+Here.
+
+>  
+>  #define CTL_MIXER_BORDER_OUT            BIT(24)
+>  #define CTL_FLUSH_MASK_CTL              BIT(17)
+> @@ -110,9 +111,14 @@ static inline void dpu_hw_ctl_trigger_pending(struct dpu_hw_ctl *ctx)
+>  
+>  static inline void dpu_hw_ctl_clear_pending_flush(struct dpu_hw_ctl *ctx)
+>  {
+> +	int i;
+> +
+>  	trace_dpu_hw_ctl_clear_pending_flush(ctx->pending_flush_mask,
+>  				     dpu_hw_ctl_get_flush_register(ctx));
+>  	ctx->pending_flush_mask = 0x0;
+> +
+> +	for(i = 0; i < ARRAY_SIZE(ctx->pending_dspp_flush_mask); i++)
+> +		ctx->pending_dspp_flush_mask[i] = 0x0;
+
+Any idea why the other `pending_xxx_flush_mask`s aren't cleared here?
+
+>  }
+>  
+>  static inline void dpu_hw_ctl_update_pending_flush(struct dpu_hw_ctl *ctx,
+> @@ -130,6 +136,8 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
+>  
+>  static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+>  {
+> +	int i;
+> +
+>  	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
+>  		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
+>  				ctx->pending_merge_3d_flush_mask);
+> @@ -140,6 +148,11 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+>  		DPU_REG_WRITE(&ctx->hw, CTL_WB_FLUSH,
+>  				ctx->pending_wb_flush_mask);
+>  
+> +	for(i = 0; i < ARRAY_SIZE(ctx->pending_dspp_flush_mask); i++)
+> +		if (ctx->pending_dspp_flush_mask[i])
+> +			DPU_REG_WRITE(&ctx->hw, CTL_DSPP_n_FLUSH(i),
+> +				ctx->pending_dspp_flush_mask[i]);
+> +
+>  	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
+>  }
+>  
+> @@ -287,8 +300,9 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
+>  }
+>  
+>  static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+> -	enum dpu_dspp dspp)
+> +	enum dpu_dspp dspp, u32 dspp_sub_blk)
+>  {
+> +
+>  	switch (dspp) {
+>  	case DSPP_0:
+>  		ctx->pending_flush_mask |= BIT(13);
+> @@ -307,6 +321,30 @@ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+>  	}
+>  }
+>  
+> +static void dpu_hw_ctl_update_pending_flush_dspp_subblocks(
+> +	struct dpu_hw_ctl *ctx,	enum dpu_dspp dspp, u32 dspp_sub_blk)
+> +{
+> +
+> +	if (dspp >= DSPP_MAX)
+> +		return;
+> +
+> +	switch (dspp_sub_blk) {
+> +	case DPU_DSPP_IGC:
+> +		ctx->pending_dspp_flush_mask[dspp-DSPP_0] |= BIT(2);
+
+Spaces around -, here and below.
+
+- Marijn
+
+> +		break;
+> +	case DPU_DSPP_PCC:
+> +		ctx->pending_dspp_flush_mask[dspp-DSPP_0] |= BIT(4);
+> +		break;
+> +	case DPU_DSPP_GC:
+> +		ctx->pending_dspp_flush_mask[dspp-DSPP_0] |= BIT(5);
+> +		break;
+> +	default:
+> +		return;
+> +	}
+> +
+> +	ctx->pending_flush_mask |= BIT(29);
+> +}
+> +
+>  static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
+>  {
+>  	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> @@ -675,7 +713,11 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+>  	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
+>  	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
+>  	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
+> -	ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
+> +	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
+> +		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_subblocks;
+> +	else
+> +		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
+> +
+>  	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
+>  		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
+>  };
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> index 96c012e..ff4e92c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> @@ -148,13 +148,15 @@ struct dpu_hw_ctl_ops {
+>  		enum dpu_lm blk);
+>  
+>  	/**
+> -	 * OR in the given flushbits to the cached pending_flush_mask
+> +	 * OR in the given flushbits to the cached pending_dspp_flush_mask
+>  	 * No effect on hardware
+>  	 * @ctx       : ctl path ctx pointer
+>  	 * @blk       : DSPP block index
+> +	 * @dspp_sub_blk : DSPP sub-block index
+>  	 */
+>  	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
+> -		enum dpu_dspp blk);
+> +		enum dpu_dspp blk, u32 dspp_sub_blk);
+> +
+>  	/**
+>  	 * Write the value of the pending_flush_mask to hardware
+>  	 * @ctx       : ctl path ctx pointer
+> @@ -242,6 +244,7 @@ struct dpu_hw_ctl {
+>  	u32 pending_intf_flush_mask;
+>  	u32 pending_wb_flush_mask;
+>  	u32 pending_merge_3d_flush_mask;
+> +	u32 pending_dspp_flush_mask[DSPP_MAX - DSPP_0];
+>  
+>  	/* ops */
+>  	struct dpu_hw_ctl_ops ops;
+> -- 
+> 2.7.4
+> 
