@@ -2,42 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEE6614E47
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 16:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33961614E59
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 16:31:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B10A310E3EA;
-	Tue,  1 Nov 2022 15:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7E110E3E9;
+	Tue,  1 Nov 2022 15:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5B910E3EC
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 15:26:41 +0000 (UTC)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id EB2BA84F20;
- Tue,  1 Nov 2022 16:26:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1667316400;
- bh=NQ3K3Y2PWUkiRqYNuuZad/5FcUkWuZr6jIJpfIf3uho=;
- h=From:To:Cc:Subject:Date:From;
- b=hY7OghlNN2mGbm13dEPDz8g2iLNRK0AFz2V0Cl+WlAYs9AHrhit/R1gRYPuXZw/id
- 2/CGQVJ4B6EETjwvohF1nETLDLhAOwSI52iIVzHUVXpVPTVi2MGEKdPbUcnZW5oMQQ
- kYESXmoVrr2I2oZs/M4n2Cl5qrUGVPT+eBOCdq9G098dVlkIBqAkzYZ9WiNbxjvnY6
- GHL0HOVmTcx4qf2WYDa2F4YQ14w/9JsQT3pcgfEGR5tvR2EGfvwrnhJ0w+tdpRaXTV
- dCYyDEPU/iLnYZszDfM4Ql+OiQZeZ7slTrwfte5MVwgd8XaUw5NNou4kSrR6n6+NYA
- HkOzR+OxW9Ugg==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm: lcdif: Set and enable FIFO Panic threshold
-Date: Tue,  1 Nov 2022 16:26:29 +0100
-Message-Id: <20221101152629.21768-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D700D10E3E9
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 15:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1667316654; bh=LOFb+W8OXqIpGc7LBazim5AxknZKIrWvFrYeZMuLT84=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=Y2gfjy8BkKsubSvmjjDFsw4SddC9KZHGtfKvJ+x95z/uUmgnGbppiW4TJFbvfQvbM
+ KcqrND/DVOHxsMMOvTVVsC3xMGq1524utz3kGtaiz5uvFFFDL3Y6Rp1DeTWu//QfMy
+ l6AuS6ILgBVZZ0qmQtaQ4bg5fnR9+4OqLLlD+/sveOXhBSLmpkmrNDCxBuIQ0suCwr
+ QbZFPp6QfgSt5KK4mXwtLr4oL45vOdG/j15B1Swyx+Vdj8ZGf374KpodvuGm9i/FJE
+ x4DakXzcW4GjtlILosJFcMUpc4gcXK354iaN7qlZNx7Dcd4j+AsPdAa5+NWDQWCUsr
+ MdZeWaByEDViQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.182.121]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N79yQ-1p6XSc33vw-017W9f; Tue, 01
+ Nov 2022 16:30:54 +0100
+Message-ID: <5574dc8c-1665-d736-eeda-cbdbef422394@gmx.de>
+Date: Tue, 1 Nov 2022 16:30:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v1 1/2] fbdev: ssd1307fb: Drop optional dependency
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20221101150947.67377-1-andriy.shevchenko@linux.intel.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20221101150947.67377-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:a8q5zU6TltpK9eRNKqOHDOxdbvvn43g6M0iwRoQ2cZQRDsfCKd0
+ ahsqBsTSULZESY7rSXzZs2UQkQ6h6Pp7s63Dkqwv0RryReh7i4hVU7hAFIe/G+V7o+pgHkm
+ k4pRI+0MxN5KRWCL9dwFWMy4XVzHrAC7+XRYbfY2ayy1uci8q1Jfci81UMA/x2g8lIqoW+6
+ d4SkzjnV/WTjuRTyTzQ3A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:caIEGPY3TKs=;Hi65LKaBmmaPJ3fLNjmPbtC17nz
+ ZgoGhHy4KjtbxohlC+yOLPzmQIRzvUghdnzO7dyd2YNkvnSBiJdPgx1f9+fiYudWkywJg09mQ
+ LRqLu0uM8zgARjFU2zwhox7Mk/sf6JVxqovrUxhc0wibJ4xT8fb/c2t6cdmNRIU5N/IN9QoQn
+ YE5hgvjSu4ff1egF4dCAL+jKBknVm8wNo2TMbQkU1Vwm2AINPR87Q1QWWpQuUpe3NCarZUoyt
+ 4Gyb50L1KQBv2k8/2i8ieeV8+dfIFYYV+TuvdcHNq6tlvSoIU2DFCMnnsqgXQOCOjKXdwb0xl
+ TC+w1hh4r2rnBBuH5fI1Eik9OZNmE8GfOxaEsILlKMqgdibn7z0VE7T1+eFze9RScmHmT06Ba
+ KbCMJt/LuHJ5pUDqGirLoxD+A/5/2nkpMMqhx23IyMSvHvWm2OjiBKVJY2c2biPVuWyJ9pcwv
+ vDt5oE6D5aQYOxp8g4OC51rlfET04EWomqSQrMbY+X9X03nm3l6uuibTrWUQAsPUKTARLcGD5
+ H1xjyz4L+2kXPcg9RQ1ca3DoO8dwrmgLzrysD5OzoJrrjps+s34lrtHS+uKdMH5nvahXoqN0j
+ oFSpQIkXmnEmhG0sNA1hpjztU63ohHWEvegypGmCrvKA9NRz4XZVdcL0fUxyY2pC9BwZkMDWw
+ YZov38q/795YBFNLMpmMR8UyJWQFRTKCTuLa/aYdK6jr2oessPXTmVS0jHGwSSPAoqKsEW5W7
+ sMznNt+BK6nfH3uw0+Q+viZZgaeXSe77goihLSASGjXJLKArQoNGxv5YdJyQjPBxCmFH10uTD
+ j+B9ebH2SZTORYNXFtFgPQANi7pmtVKsSiwMDQRJTSDkKGZNZV1XFMEKBogvYIpDjvrFFq8oy
+ frE4q/jedWMRj6XJp5zAHx2J2glAw9aFr+gqxhc0VrF04akQ91Z5iYAEWsWv2+3am1k1aFNgq
+ ALzJmXNbYRdxMYbUo17Je7GH81k=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,102 +72,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Liu Ying <victor.liu@nxp.com>, Marco Felsch <m.felsch@pengutronix.de>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Martyn Welch <martyn.welch@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case the LCDIFv3 is used to drive a 4k panel via i.MX8MP HDMI bridge,
-the LCDIFv3 becomes susceptible to FIFO underflows, these lead to nasty
-flicker of the image on the panel, or image being shifted by half frame
-horizontally every second frame. The flicker can be easily triggered by
-running 3D application on top of weston compositor, like neverball or
-chromium. Surprisingly glmark2-es2-wayland or glmark2-es2-drm does not
-trigger this effect so easily.
+On 11/1/22 16:09, Andy Shevchenko wrote:
+> Only a single out of three devices need a PWM, so from driver it's
+> optional. Moreover it's a single driver in the entire kernel that
+> currently selects PWM. Unfortunately this selection is a root cause
+> of the circular dependencies when we want to enable optional PWM
+> for some other drivers that select GPIOLIB.
+>
+> Fixes: a2ed00da5047 ("drivers/video: add support for the Solomon SSD1307=
+ OLED Controller")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Configure the FIFO Panic threshold register and enable the FIFO Panic
-mode, which internally boosts the NoC interconnect priority for LCDIFv3
-transactions in case of possible underflow. This mitigates the flicker
-effect on 4k panels as well.
+Both patches applied to fbdev git tree.
 
-Fixes: 9db35bb349a0 ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Martyn Welch <martyn.welch@collabora.com>
-Cc: Peng Fan <peng.fan@nxp.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
-V2: - Include bitfield.h to always obtain FIELD_PREP definition
-    - Rename PANIC0_THRES_RANGE to PANIC0_THRES_MAX and set to 511
-    - Move threshold configuration and enable before FIFO and
-      scanout enable and vice versa for disable
----
- drivers/gpu/drm/mxsfb/lcdif_kms.c  | 16 ++++++++++++++++
- drivers/gpu/drm/mxsfb/lcdif_regs.h |  1 +
- 2 files changed, 17 insertions(+)
+Thanks!
+Helge
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index a5302006c02cd..09280c6c3bbc1 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -5,6 +5,7 @@
-  * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
-@@ -334,6 +335,18 @@ static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
- {
- 	u32 reg;
- 
-+	/* Set FIFO Panic watermarks, low 1/3, high 2/3 . */
-+	writel(FIELD_PREP(PANIC0_THRES_LOW_MASK, 1 * PANIC0_THRES_MAX / 3) |
-+	       FIELD_PREP(PANIC0_THRES_HIGH_MASK, 2 * PANIC0_THRES_MAX / 3),
-+	       lcdif->base + LCDC_V8_PANIC0_THRES);
-+
-+	/*
-+	 * Enable FIFO Panic, this does not generate interrupt, but
-+	 * boosts NoC priority based on FIFO Panic watermarks.
-+	 */
-+	writel(INT_ENABLE_D1_PLANE_PANIC_EN,
-+	       lcdif->base + LCDC_V8_INT_ENABLE_D1);
-+
- 	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
- 	reg |= DISP_PARA_DISP_ON;
- 	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
-@@ -361,6 +374,9 @@ static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
- 	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
- 	reg &= ~DISP_PARA_DISP_ON;
- 	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
-+
-+	/* Disable FIFO Panic NoC priority booster. */
-+	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D1);
- }
- 
- static void lcdif_reset_block(struct lcdif_drm_private *lcdif)
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-index fb74eb5ccbf1d..c55dfb236c1d3 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_regs.h
-+++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-@@ -255,6 +255,7 @@
- 
- #define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
- #define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
-+#define PANIC0_THRES_MAX		511
- 
- #define LCDIF_MIN_XRES			120
- #define LCDIF_MIN_YRES			120
--- 
-2.35.1
+> ---
+>   drivers/video/fbdev/Kconfig | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> index a98987aa2784..b88d8bfe992e 100644
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -2218,7 +2218,6 @@ config FB_SSD1307
+>   	select FB_SYS_COPYAREA
+>   	select FB_SYS_IMAGEBLIT
+>   	select FB_DEFERRED_IO
+> -	select PWM
+>   	select FB_BACKLIGHT
+>   	help
+>   	  This driver implements support for the Solomon SSD1307
 
