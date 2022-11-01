@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D81D06148D1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C38056148DF
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:31:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB4DA10E391;
-	Tue,  1 Nov 2022 11:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8E510E394;
+	Tue,  1 Nov 2022 11:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B63310E38F;
- Tue,  1 Nov 2022 11:30:08 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5DF10E393;
+ Tue,  1 Nov 2022 11:30:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 76F41615D4;
- Tue,  1 Nov 2022 11:30:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99B7BC433D7;
- Tue,  1 Nov 2022 11:30:04 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C5486B81CCF;
+ Tue,  1 Nov 2022 11:30:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F49CC433C1;
+ Tue,  1 Nov 2022 11:30:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667302206;
- bh=Jihi+eO85z7Z056MqHxc/Cn4Z8SMENDYNRLcV01aesQ=;
+ s=k20201202; t=1667302255;
+ bh=THKkjz9RDO0SfqEFohUF/qGAssTs23jXyspYaMMdz3Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Xe3H+YCutFcLW7wSoqveyHkvkj67ub5sRX10sgMvDQYlKHkFmiaQobm8pYmM/3zjF
- mhvSRBYhfWpxiq3XH4zH+e1wAAq/v0mpzh/teMlWVAKfYce+suunjk0xauOxkuLgYr
- P3g5/zb06pJEIBM4YCPN1jm71gQve1TrKJNgAivtANYLhfCFgYG6ugltaraVZz1CAw
- xJBX+wXZA8zt/8vCZkD/7QWgMLIyEIebKZbBU0gjXJuBU9/h5uxGhwNUO5DAazLfoF
- 4u8zeLUI1sQlQuq5EURjbf9e2g9xdRU3aRmGsGbfpsO/7khSmw4AzeUKZwfsG/LoKA
- aYpOv132MaIBg==
+ b=AM0vSL3I6qRA9xZliBaqA7vkM6Fsdofoz+bGhbH6vecKy+W5r7yMbFBQYdnguPPI2
+ j1euCdfh+NBIRVB+A384IO+BXxp8NScJrIB5BmyrBlujURGHv46TqkkABgIGjdTb1Q
+ FOfvTs3JKP2TOplvM7vJ/rj4s2zrMx+E2OvXCYH3IEtDErgY24ynf3+1WOxpND/ON8
+ QHy6s5iPgMQGDz9htLw6crG4G4lXB7aDJrm2I65zE9ORPZfIXtiKvW4LrDLClOW+Pj
+ u5RKZkjVrSTfSrsMmjQwqt6XVaVEqW4ppvtCxbcnjD31umKTG4duUIr1Z7uW3gUbMs
+ KGJZGyUk324uA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 17/19] drm/amdgpu: set vm_update_mode=0 as
+Subject: [PATCH AUTOSEL 5.10 13/14] drm/amdgpu: set vm_update_mode=0 as
  default for Sienna Cichlid in SRIOV case
-Date: Tue,  1 Nov 2022 07:29:17 -0400
-Message-Id: <20221101112919.799868-17-sashal@kernel.org>
+Date: Tue,  1 Nov 2022 07:30:09 -0400
+Message-Id: <20221101113012.800271-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221101112919.799868-1-sashal@kernel.org>
-References: <20221101112919.799868-1-sashal@kernel.org>
+In-Reply-To: <20221101113012.800271-1-sashal@kernel.org>
+References: <20221101113012.800271-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -89,10 +90,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-index a0803425b456..b508126a9738 100644
+index 16bfb36c27e4..d6f295103595 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-@@ -706,6 +706,12 @@ void amdgpu_detect_virtualization(struct amdgpu_device *adev)
+@@ -670,6 +670,12 @@ void amdgpu_detect_virtualization(struct amdgpu_device *adev)
  			adev->virt.caps |= AMDGPU_PASSTHROUGH_MODE;
  	}
  
@@ -106,7 +107,7 @@ index a0803425b456..b508126a9738 100644
  	if (amdgpu_sriov_vf(adev)) {
  		switch (adev->asic_type) {
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
-index 9adfb8d63280..ce31d4fdee93 100644
+index 77b9d37bfa1b..aea49bad914f 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
 @@ -31,6 +31,7 @@
@@ -117,7 +118,7 @@ index 9adfb8d63280..ce31d4fdee93 100644
  
  /* all asic after AI use this offset */
  #define mmRCC_IOV_FUNC_IDENTIFIER 0xDE5
-@@ -278,6 +279,9 @@ struct amdgpu_video_codec_info;
+@@ -241,6 +242,9 @@ struct amdgpu_virt {
  #define amdgpu_passthrough(adev) \
  ((adev)->virt.caps & AMDGPU_PASSTHROUGH_MODE)
  
@@ -128,10 +129,10 @@ index 9adfb8d63280..ce31d4fdee93 100644
  {
  #ifdef CONFIG_X86
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index fd37bb39774c..01710cd0d972 100644
+index 635601d8b131..45b1f00c5968 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -3224,7 +3224,11 @@ void amdgpu_vm_manager_init(struct amdgpu_device *adev)
+@@ -3200,7 +3200,11 @@ void amdgpu_vm_manager_init(struct amdgpu_device *adev)
  	 */
  #ifdef CONFIG_X86_64
  	if (amdgpu_vm_update_mode == -1) {
