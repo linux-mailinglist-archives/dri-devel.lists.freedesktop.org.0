@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DC2614C8F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 15:28:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CEF614C91
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 15:30:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E721810E3E3;
-	Tue,  1 Nov 2022 14:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20C1510E121;
+	Tue,  1 Nov 2022 14:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC7D310E3D4;
- Tue,  1 Nov 2022 14:28:18 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id l5so16050167oif.7;
- Tue, 01 Nov 2022 07:28:18 -0700 (PDT)
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46E1010E121
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 14:29:54 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-13b23e29e36so16964984fac.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Nov 2022 07:29:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tCAHuauyqRDt6mVa8UX+cbOhcceVwq2lTH7wmX1Rf1A=;
- b=XrU1syuKyYTGj8ZOLCfiFGzue+8tq752jGzFu/UEAkyMV+LxqCyKb3a54opjuXMGEJ
- hOHALRVwfP7HchVP5CKoWo7CJRBpZ7nELeFZFM55MOPskt++SipNS0vhWnzN4/JJ6SAL
- Hpz2k/FgoUw25enqaEMjqjxU3JDkuc5gk9kbC1KvRNxrW3SruZjFtp8qcpRLLDJnsEd6
- Pos0rw5VJ7Rk9u+izPdjcC0gHU2UXaBJJsuXMw4MWG+Yr9iQeYFxp8yIpwid/JjfGs6v
- Sgr+rKtwRk9mbkBLtqQbpWcupPxY/8EUbEl1tIg2dbwNwkKnB6z6ZV+LGHdW/LmJ+rdy
- JGaw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=D+xCRx601mtoVLibkTpSK9YAYKRx4dB22ipYCRn77xA=;
+ b=ZnbhHKUFkIEoOZF95AIjk86gAR6eM2JMM6kcdSjWXuxz69kMSxPQqCoTrh6WRavhjW
+ ej8JjAo4UC5Ww6dNPUlVm+SO9eCW4gKnF2MnqOsVv0TEcZySLQEXNo5ik7n73ssB2LIx
+ 3qzEVO3DCg+kQl/PTuxOPiMsZ0uPrvrA5pFkxQZKObTsdilp1oLtY4JDE3lnl8fD2oeI
+ 7HjEf4TOFFb3xYaxhHxVRJeAFBf05dS2z/kq4ha4NSN4nj4UKb62rONvz2vdpRFI3Q+y
+ YGV4ZWmzDMQZ/8ZC8dH11G2k0rnPbrHB1/uwuaVFI4Bgw7hsaB1EFK3tYguO62nFtZb3
+ Jh1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tCAHuauyqRDt6mVa8UX+cbOhcceVwq2lTH7wmX1Rf1A=;
- b=WBs7CrLnmErzYcMutHFPl8gMglShn8CHpxgnNkZWT4yxUvCAmr2F/MN7CPdZAPF+dM
- qpaQ7/h/1TN/kpKkB2agvUZOOtevmknq/bPiW5bKROwPh0bM4IZXQHiuo7bksEO7FDW4
- ZZwV7j0xymmXSJd0vtOvU200sfP09+zCnWwp8O6s3rcjky0ZzyCqWntcI1ihPxC0J3qt
- XA9e1h5cZaNtE7du6NCtvcLvUWqcp/T7hN5YHzIvs2/wOc7FgbJzr0v+RBhHhDwxpkna
- vmUHV3bDsECymWbE91/J/kFrEymCrDe/R55GS1PPdYSWC4Qswk5c14pldQUQUr34eMwB
- zrdA==
-X-Gm-Message-State: ACrzQf1eYKd8Mu+Yte4+wo3md0qI8inCZPNAR+1rZPxWZiKlMxLc7QSY
- VSe2MxxoM30cjCKdb6sekSnaLlBCwl9FjF5g1/ngAJoP
-X-Google-Smtp-Source: AMsMyM4GKr9xTNcrz7XVOWmlcFIN18yBdZKMUvERKx/D3jLESiQaKh9x/1yt0cosLbMODhmMDf/DnPomjMa7j8T9K1U=
-X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
- f18-20020a05680814d200b00354c733abd3mr10191629oiw.96.1667312897992; Tue, 01
- Nov 2022 07:28:17 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=D+xCRx601mtoVLibkTpSK9YAYKRx4dB22ipYCRn77xA=;
+ b=euI5ILlnkdAHqjwUvPAPbx5BfKu4MeC9w0PGu8jn7rS5WKJVpevZBcFL5Sqv2LOaUd
+ DOh7VyIM7O8Z/fNtKmL1SS9oqohqlSHfMuIkZ/zrWxoUk7n9UFSoT8430sKeBLQPwQ6B
+ eSl1zCjd5+CYDrmF7j2HIBKITbYAOQ1l7zQbTCpk59D1+fUjg7sHF81YGLpVwXLVGJQY
+ kVW08BgwJJjFeSJweiMkhcsLCn/dA/+ew9b/Z9ZZiwzdzWOnNQWfXCgK7+OJ6SQeCui1
+ UBaK+IgqTm+ar6Zov16T/bwt1wD74ks8EdjXj32uLwhTQeRaicPIgT5Gj7VJdKj7Px4f
+ 3lIQ==
+X-Gm-Message-State: ACrzQf29qobPq8TvAXwPF3Tk/ILq8uVMb6REult2E1eaQKCvFRbPhXsX
+ Qes8nlWRvV6t+2kyAm+xQlcE0pcI5lG7b2aihGgKgNL+yvc=
+X-Google-Smtp-Source: AMsMyM7C2E/7wXsA+awOfCZiQMYsQgktNankt/lnAfBWNBgwVIU9kXqYpoNCLmkbD+KmKE6iOglYmnXOACKEvaLJZqE=
+X-Received: by 2002:a05:6870:a7a4:b0:136:7c39:979e with SMTP id
+ x36-20020a056870a7a400b001367c39979emr11402686oao.96.1667312993520; Tue, 01
+ Nov 2022 07:29:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221031114247.10309-1-jirislaby@kernel.org>
- <cb9f90d1-344e-c329-178e-3662c76eee7d@amd.com>
-In-Reply-To: <cb9f90d1-344e-c329-178e-3662c76eee7d@amd.com>
+References: <20221031064918.14178-1-tiwai@suse.de>
+In-Reply-To: <20221031064918.14178-1-tiwai@suse.de>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 1 Nov 2022 10:28:06 -0400
-Message-ID: <CADnq5_NAK_peOnu2vwxcN8s0Ee4MiMPkV4URxKSh5nsOFDY8XA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display (gcc13): fix enum mismatch
-To: Harry Wentland <harry.wentland@amd.com>
+Date: Tue, 1 Nov 2022 10:29:40 -0400
+Message-ID: <CADnq5_NVo8wXXBx+iMMFAvuxr77t96fXF8Krw1_fPUOsOtJMzQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Use a local mutex for bind/unbind protection
+To: Takashi Iwai <tiwai@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,92 +65,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Martin Liska <mliska@suse.cz>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Oct 31, 2022 at 2:49 AM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> We used drm_modeset_lock_all() for protecting the audio component
+> bind/unbind operations against the notification, but it seems leading
+> to kernel WARNING and Oops.  Moreover, the use of
+> drm_modeset_lock_all() is rather an overkill only for this
+> protection.
+>
+> This patch introduces a new mutex that protects just the bind/unbind
+> and the notify calls and replaces the drm_modeset_lock with it.
+>
+> Fixes: 34d84636e5e0 ("drm/radeon: Add HD-audio component notifier support (v4)")
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1569
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+
+Applied.  I will squash this in with 34d84636e5e0.
 
 Alex
 
-On Mon, Oct 31, 2022 at 9:59 AM Harry Wentland <harry.wentland@amd.com> wro=
-te:
+> ---
+>  drivers/gpu/drm/radeon/radeon.h        |  1 +
+>  drivers/gpu/drm/radeon/radeon_audio.c  | 21 ++++++++++++---------
+>  drivers/gpu/drm/radeon/radeon_device.c |  1 +
+>  3 files changed, 14 insertions(+), 9 deletions(-)
 >
-> On 2022-10-31 07:42, Jiri Slaby (SUSE) wrote:
-> > rn_vbios_smu_set_dcn_low_power_state() produces a valid warning with
-> > gcc-13:
-> >   drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c:2=
-37:6: error: conflicting types for 'rn_vbios_smu_set_dcn_low_power_state' d=
-ue to enum/integer mismatch; have 'void(struct clk_mgr_internal *, enum dcn=
-_pwr_state)'
-> >   drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h:3=
-6:6: note: previous declaration of 'rn_vbios_smu_set_dcn_low_power_state' w=
-ith type 'void(struct clk_mgr_internal *, int)'
-> >
-> > I.e. the type of the 2nd parameter of
-> > rn_vbios_smu_set_dcn_low_power_state() in the declaration is int, while
-> > the definition spells enum dcn_pwr_state. Synchronize them to the
-> > latter (and add a forward enum declaration).
-> >
-> > Cc: Martin Liska <mliska@suse.cz>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+> index d82424525f5a..2e7161acd443 100644
+> --- a/drivers/gpu/drm/radeon/radeon.h
+> +++ b/drivers/gpu/drm/radeon/radeon.h
+> @@ -1799,6 +1799,7 @@ struct r600_audio {
+>         struct radeon_audio_basic_funcs *funcs;
+>         struct drm_audio_component *component;
+>         bool component_registered;
+> +       struct mutex component_mutex;
+>  };
 >
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>  /*
+> diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
+> index 4ceb90556127..71b67d4efe08 100644
+> --- a/drivers/gpu/drm/radeon/radeon_audio.c
+> +++ b/drivers/gpu/drm/radeon/radeon_audio.c
+> @@ -181,8 +181,7 @@ static struct radeon_audio_funcs dce6_dp_funcs = {
+>         .dpms = evergreen_dp_enable,
+>  };
 >
-> Harry
+> -static void radeon_audio_component_notify(struct drm_audio_component *acomp,
+> -                                         int port);
+> +static void radeon_audio_component_notify(struct radeon_device *rdev, int port);
 >
-> > ---
-> >  .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h   | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vb=
-ios_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_s=
-mu.h
-> > index 3e5df27aa96f..1ce19d875358 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
-.h
-> > +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
-.h
-> > @@ -26,6 +26,8 @@
-> >  #ifndef DAL_DC_RN_CLK_MGR_VBIOS_SMU_H_
-> >  #define DAL_DC_RN_CLK_MGR_VBIOS_SMU_H_
-> >
-> > +enum dcn_pwr_state;
-> > +
-> >  int rn_vbios_smu_get_smu_version(struct clk_mgr_internal *clk_mgr);
-> >  int rn_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int req=
-uested_dispclk_khz);
-> >  int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
-> > @@ -33,7 +35,7 @@ int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_i=
-nternal *clk_mgr, int reque
-> >  int rn_vbios_smu_set_min_deep_sleep_dcfclk(struct clk_mgr_internal *cl=
-k_mgr, int requested_min_ds_dcfclk_khz);
-> >  void rn_vbios_smu_set_phyclk(struct clk_mgr_internal *clk_mgr, int req=
-uested_phyclk_khz);
-> >  int rn_vbios_smu_set_dppclk(struct clk_mgr_internal *clk_mgr, int requ=
-ested_dpp_khz);
-> > -void rn_vbios_smu_set_dcn_low_power_state(struct clk_mgr_internal *clk=
-_mgr, int display_count);
-> > +void rn_vbios_smu_set_dcn_low_power_state(struct clk_mgr_internal *clk=
-_mgr, enum dcn_pwr_state);
-> >  void rn_vbios_smu_enable_48mhz_tmdp_refclk_pwrdwn(struct clk_mgr_inter=
-nal *clk_mgr, bool enable);
-> >  void rn_vbios_smu_enable_pme_wa(struct clk_mgr_internal *clk_mgr);
-> >  int rn_vbios_smu_is_periodic_retraining_disabled(struct clk_mgr_intern=
-al *clk_mgr);
+>  static void radeon_audio_enable(struct radeon_device *rdev,
+>                                 struct r600_audio_pin *pin, u8 enable_mask)
+> @@ -212,7 +211,7 @@ static void radeon_audio_enable(struct radeon_device *rdev,
+>         if (rdev->audio.funcs->enable)
+>                 rdev->audio.funcs->enable(rdev, pin, enable_mask);
+>
+> -       radeon_audio_component_notify(rdev->audio.component, pin->id);
+> +       radeon_audio_component_notify(rdev, pin->id);
+>  }
+>
+>  static void radeon_audio_interface_init(struct radeon_device *rdev)
+> @@ -731,12 +730,16 @@ unsigned int radeon_audio_decode_dfs_div(unsigned int div)
+>  /*
+>   * Audio component support
+>   */
+> -static void radeon_audio_component_notify(struct drm_audio_component *acomp,
+> -                                         int port)
+> +static void radeon_audio_component_notify(struct radeon_device *rdev, int port)
+>  {
+> +       struct drm_audio_component *acomp;
+> +
+> +       mutex_lock(&rdev->audio.component_mutex);
+> +       acomp = rdev->audio.component;
+>         if (acomp && acomp->audio_ops && acomp->audio_ops->pin_eld_notify)
+>                 acomp->audio_ops->pin_eld_notify(acomp->audio_ops->audio_ptr,
+>                                                  port, -1);
+> +       mutex_unlock(&rdev->audio.component_mutex);
+>  }
+>
+>  static int radeon_audio_component_get_eld(struct device *kdev, int port,
+> @@ -787,11 +790,11 @@ static int radeon_audio_component_bind(struct device *kdev,
+>         if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
+>                 return -ENOMEM;
+>
+> -       drm_modeset_lock_all(dev);
+> +       mutex_lock(&rdev->audio.component_mutex);
+>         acomp->ops = &radeon_audio_component_ops;
+>         acomp->dev = kdev;
+>         rdev->audio.component = acomp;
+> -       drm_modeset_unlock_all(dev);
+> +       mutex_unlock(&rdev->audio.component_mutex);
+>
+>         return 0;
+>  }
+> @@ -805,11 +808,11 @@ static void radeon_audio_component_unbind(struct device *kdev,
+>
+>         device_link_remove(hda_kdev, kdev);
+>
+> -       drm_modeset_lock_all(dev);
+> +       mutex_lock(&rdev->audio.component_mutex);
+>         rdev->audio.component = NULL;
+>         acomp->ops = NULL;
+>         acomp->dev = NULL;
+> -       drm_modeset_unlock_all(dev);
+> +       mutex_unlock(&rdev->audio.component_mutex);
+>  }
+>
+>  static const struct component_ops radeon_audio_component_bind_ops = {
+> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+> index 17bfbbe906c8..2e13ce2b65d3 100644
+> --- a/drivers/gpu/drm/radeon/radeon_device.c
+> +++ b/drivers/gpu/drm/radeon/radeon_device.c
+> @@ -1312,6 +1312,7 @@ int radeon_device_init(struct radeon_device *rdev,
+>         mutex_init(&rdev->pm.mutex);
+>         mutex_init(&rdev->gpu_clock_mutex);
+>         mutex_init(&rdev->srbm_mutex);
+> +       mutex_init(&rdev->audio.component_mutex);
+>         init_rwsem(&rdev->pm.mclk_lock);
+>         init_rwsem(&rdev->exclusive_lock);
+>         init_waitqueue_head(&rdev->irq.vblank_queue);
+> --
+> 2.35.3
 >
