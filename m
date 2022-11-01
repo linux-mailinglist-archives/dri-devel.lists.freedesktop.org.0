@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E27761489A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:28:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8435F6148A5
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEAE10E37B;
-	Tue,  1 Nov 2022 11:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEEAE10E382;
+	Tue,  1 Nov 2022 11:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D4610E37B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 11:28:26 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0FB610E380;
+ Tue,  1 Nov 2022 11:28:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 71590615D5;
- Tue,  1 Nov 2022 11:28:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226E6C433B5;
- Tue,  1 Nov 2022 11:28:24 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id DDFDEB81CC6;
+ Tue,  1 Nov 2022 11:28:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45361C433B5;
+ Tue,  1 Nov 2022 11:28:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667302105;
- bh=7r1QOHV06h+9wzOcTmWBQcgWcXag41HhBfVH04SzsOU=;
+ s=k20201202; t=1667302123;
+ bh=NfAJxd4Bqv2vNr3BhLdBe5Ud8ZRMp7uvqMlgv7Bpawg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=doCpQkVEkrCtyIEp6fXWy5cc8w+s4OPCSdGLPiwU9wNq8/mJ8KVFyRlueJwsAVsRO
- 5cNz7UkqW+Vxu6wTM6sVqITv9DbwBLBjXjKw1eZ6uwDwyfcykxaHs5GxP1taNJXyd+
- Ohp0YDJIpBZL1g1FrFTcHm6Aab0IPW5jEpwt5OWCC/+D7XGGuFnbEcxKOr4ZlgNLq3
- jt3GZ+jtGzbDvni3FujWG9P1sw/+jIAQ3kmSrSOf9jGqqJPJbrbMQTLZr9K84T+ga3
- fxZH0RNfGkb1OQn3/1ORuKUBXX5t7nHSbo/qrWx8NLcz/vx24t2Pc+uH4EkRxdVMvd
- iF+bUxlcjw+RQ==
+ b=hb5Do8ymdsH/OShNhNgixCHkG+Kk0V5i8vYX4Cjtfk3mww/tkgs/+y+8JOwRwYbVo
+ jUx1qfESbzwP79/SjsoP3y7c/FApVOOH0z3yFsRreVYD3ZqqVjfmX6rH0RLWJS9RKv
+ Upq3muoxRD59fAZyBYlh2wv0WnGwLRMqoePsvpxH5GTQr5iTfRx1Ou94MSz6z46bdq
+ dyrp54N30gV8WIyl04j7ddRXid7bVbYQPzTX0wxuXUwipm/7hGyCxTEjhjwSq/EDPk
+ mlVgp1JCTMj3RlkNdpxh9ZkDJqYdLMVW6pRQc+J8Yn8160IJYL/C6FUV5UqayuDt2J
+ KfU25F5MsDx8Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 20/34] drm/vc4: hdmi: Check the HSM rate at
- runtime_resume
-Date: Tue,  1 Nov 2022 07:27:12 -0400
-Message-Id: <20221101112726.799368-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 26/34] drm/amdgpu: set vm_update_mode=0 as default
+ for Sienna Cichlid in SRIOV case
+Date: Tue,  1 Nov 2022 07:27:18 -0400
+Message-Id: <20221101112726.799368-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221101112726.799368-1-sashal@kernel.org>
 References: <20221101112726.799368-1-sashal@kernel.org>
@@ -56,77 +56,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, Sasha Levin <sashal@kernel.org>,
- emma@anholt.net, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: lijo.lazar@amd.com, dri-devel@lists.freedesktop.org, PengJu.Zhou@amd.com,
+ victor.skvortsov@amd.com, Sasha Levin <sashal@kernel.org>, guchun.chen@amd.com,
+ bernard@vivo.com, marmarek@invisiblethingslab.com,
+ amd-gfx@lists.freedesktop.org, Jingwen.Chen2@amd.com, Philip.Yang@amd.com,
+ Victor.Zhao@amd.com, qiang.yu@amd.com, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Danijel Slivka <danijel.slivka@amd.com>, Xinhui.Pan@amd.com, Gavin.Wan@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <maxime@cerno.tech>
+From: Danijel Slivka <danijel.slivka@amd.com>
 
-[ Upstream commit 4190e8bbcbc77a9c36724681801cedc5229e7fc2 ]
+[ Upstream commit 65f8682b9aaae20c2cdee993e6fe52374ad513c9 ]
 
-If our HSM clock has not been properly initialized, any register access
-will silently lock up the system.
+For asic with VF MMIO access protection avoid using CPU for VM table updates.
+CPU pagetable updates have issues with HDP flush as VF MMIO access protection
+blocks write to mmBIF_BX_DEV0_EPF0_VF0_HDP_MEM_COHERENCY_FLUSH_CNTL register
+during sriov runtime.
 
-Let's check that this can't happen by adding a check for the rate before
-any register access, and error out otherwise.
+v3: introduce virtualization capability flag AMDGPU_VF_MMIO_ACCESS_PROTECT
+which indicates that VF MMIO write access is not allowed in sriov runtime
 
-Link: https://lore.kernel.org/dri-devel/20220922145448.w3xfywkn5ecak2et@pengutronix.de/
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220929-rpi-pi3-unplugged-fixes-v1-2-cd22e962296c@cerno.tech
+Signed-off-by: Danijel Slivka <danijel.slivka@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h | 4 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c   | 6 +++++-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 1e5f68704d7d..3d8fc32b4d08 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2869,12 +2869,28 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
- 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
- 	unsigned long __maybe_unused flags;
- 	u32 __maybe_unused value;
-+	unsigned long rate;
- 	int ret;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+index 9be57389301b..af5aeb0ec2e9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+@@ -726,6 +726,12 @@ void amdgpu_detect_virtualization(struct amdgpu_device *adev)
+ 			adev->virt.caps |= AMDGPU_PASSTHROUGH_MODE;
+ 	}
  
- 	ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * Whenever the RaspberryPi boots without an HDMI monitor
-+	 * plugged in, the firmware won't have initialized the HSM clock
-+	 * rate and it will be reported as 0.
-+	 *
-+	 * If we try to access a register of the controller in such a
-+	 * case, it will lead to a silent CPU stall. Let's make sure we
-+	 * prevent such a case.
-+	 */
-+	rate = clk_get_rate(vc4_hdmi->hsm_clock);
-+	if (!rate) {
-+		ret = -EINVAL;
-+		goto err_disable_clk;
-+	}
++	if (amdgpu_sriov_vf(adev) && adev->asic_type == CHIP_SIENNA_CICHLID)
++		/* VF MMIO access (except mailbox range) from CPU
++		 * will be blocked during sriov runtime
++		 */
++		adev->virt.caps |= AMDGPU_VF_MMIO_ACCESS_PROTECT;
 +
- 	if (vc4_hdmi->variant->reset)
- 		vc4_hdmi->variant->reset(vc4_hdmi);
+ 	/* we have the ability to check now */
+ 	if (amdgpu_sriov_vf(adev)) {
+ 		switch (adev->asic_type) {
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
+index 239f232f9c02..617d072275eb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
+@@ -31,6 +31,7 @@
+ #define AMDGPU_SRIOV_CAPS_IS_VF        (1 << 2) /* this GPU is a virtual function */
+ #define AMDGPU_PASSTHROUGH_MODE        (1 << 3) /* thw whole GPU is pass through for VM */
+ #define AMDGPU_SRIOV_CAPS_RUNTIME      (1 << 4) /* is out of full access mode */
++#define AMDGPU_VF_MMIO_ACCESS_PROTECT  (1 << 5) /* MMIO write access is not allowed in sriov runtime */
  
-@@ -2896,6 +2912,10 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
- #endif
+ /* flags for indirect register access path supported by rlcg for sriov */
+ #define AMDGPU_RLCG_GC_WRITE_LEGACY    (0x8 << 28)
+@@ -294,6 +295,9 @@ struct amdgpu_video_codec_info;
+ #define amdgpu_passthrough(adev) \
+ ((adev)->virt.caps & AMDGPU_PASSTHROUGH_MODE)
  
- 	return 0;
++#define amdgpu_sriov_vf_mmio_access_protection(adev) \
++((adev)->virt.caps & AMDGPU_VF_MMIO_ACCESS_PROTECT)
 +
-+err_disable_clk:
-+	clk_disable_unprepare(vc4_hdmi->hsm_clock);
-+	return ret;
- }
- 
- static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ static inline bool is_virtual_machine(void)
+ {
+ #if defined(CONFIG_X86)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 690fd4f639f1..04130f8813ef 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2301,7 +2301,11 @@ void amdgpu_vm_manager_init(struct amdgpu_device *adev)
+ 	 */
+ #ifdef CONFIG_X86_64
+ 	if (amdgpu_vm_update_mode == -1) {
+-		if (amdgpu_gmc_vram_full_visible(&adev->gmc))
++		/* For asic with VF MMIO access protection
++		 * avoid using CPU for VM table updates
++		 */
++		if (amdgpu_gmc_vram_full_visible(&adev->gmc) &&
++		    !amdgpu_sriov_vf_mmio_access_protection(adev))
+ 			adev->vm_manager.vm_update_mode =
+ 				AMDGPU_VM_USE_CPU_FOR_COMPUTE;
+ 		else
 -- 
 2.35.1
 
