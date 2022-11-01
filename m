@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAA961560A
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 00:21:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2BC615608
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 00:21:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADA310E438;
-	Tue,  1 Nov 2022 23:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB69110E435;
+	Tue,  1 Nov 2022 23:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79BBA10E438;
- Tue,  1 Nov 2022 23:21:05 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id cl5so10547013wrb.9;
- Tue, 01 Nov 2022 16:21:05 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD7B10E435;
+ Tue,  1 Nov 2022 23:21:01 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ c3-20020a1c3503000000b003bd21e3dd7aso267765wma.1; 
+ Tue, 01 Nov 2022 16:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rpsnLesYz9W6MJNwj7E4OuCodm3h8Pnmeibwsh0+nzU=;
- b=kZ0L9cN3pQKQ+jSPu4z2TGRum9J/wx6IT+LLtRq7w31lj7Tq+cX3bU7ugAbqAPfBm/
- iJF4vVdtf6yN+ZQThL6oiaRoODqcI7P63Iz3pAo/ci1IGj2+eAxMXXcLlOJDU2wx6mSM
- 9e8FTyMqCp/MF8sG63wc3BDEQmA8P63OThvi27J2Vp3myCZoio5I3YvzcEfkMhI0MWkQ
- WrI/YaeqajiOTf41VJ+dl/okUe0MEYqVsipaRwi3rnzIMHgD2tWBb6fu47n5SlTRVDH7
- Z5i5bLtFkoYq0hYobEv+RWEfaFtIEksUVIOg4LNT1X4tlgXpdkG+FtHLY1KukdHKYSbe
- +cTg==
+ bh=wxyxXUAbWcBHc9d21EGasKXnhPYfVJvAuFGJWn1enDs=;
+ b=W4VJj2OxkzduLyb1JVdbRtO0v8jmkBqRu5rWTymTBs2xiND8ig1Kf6Dk6XCJ/2f9ep
+ cQJzoRGlY6/DWX+5JYKcdKIHfr0JS0MdaBQyIDUhRd+FOJaZxF3pHcf2xbHChhlW4rty
+ ILkUYe3cws4PsfmVl+bjjyCH5pdUl/TjK0Gb9vr9EHjpFN12YTCZePl8gviTuDyZCDK8
+ 0bez6hGXn81BQtpLrWRp/HB6XLFdulYs7Cg5evyxfNLJKpKuGR4tQyfTfrvvLO+6Uevh
+ tYBaubwq+L0LF2LYlxCace4VZ7EeIJQm7yZYpxUbOkPwwXmHvp+E7J4lRV4blnxjtOVV
+ JqCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rpsnLesYz9W6MJNwj7E4OuCodm3h8Pnmeibwsh0+nzU=;
- b=RbJr93hOjCGsXm8eAgynPYFwUJs55KRFFV0KkFzJAP2aI1FVb7zKQAd5aKtesvaZl/
- YBuoBst7+5My3gEOLxc0vXg09jviSHWC2JUEsmCdw9zeAvkKhXsiJIB31jYu1PclaEoA
- cXfq4sS7zXazsIkV09ZPs4jx5+zPPNV0t/1oAixVwPca6Fv1LYCVPjEOfTP7sbj743eZ
- GKev6CXBaHCkS11O4vl/tm4bfjWI1H2bZv504VkzzljPig1Ry3Y6H6gcLrB7Hel4PPuC
- bITESToGyDty0wAltBng6TSSHbUqC8UGp3Auu+BuftQhORf4bXHHpkukkcWNphdziWc2
- 2Dlw==
-X-Gm-Message-State: ACrzQf0TMvyr41dY29flmDhmUcsEDKDbzXr6u37saGmIMHJNQsolpChq
- 8SORDrtTus4WQpeH5UBzFrI=
-X-Google-Smtp-Source: AMsMyM6aKA+IT7eK0W1X1IuFXeolPnKxpQcsOI2M5s9JpU54zo4lkGBiygnxcQSflsVjnosjY5hp9A==
-X-Received: by 2002:adf:fb84:0:b0:21a:10f2:1661 with SMTP id
- a4-20020adffb84000000b0021a10f21661mr12959853wrr.2.1667344864028; 
- Tue, 01 Nov 2022 16:21:04 -0700 (PDT)
+ bh=wxyxXUAbWcBHc9d21EGasKXnhPYfVJvAuFGJWn1enDs=;
+ b=5NkS54QtmgMnOEkyeJn501QNXMxxMaWSLduF56ZZeX67sd1orZcDWyt76hOBQdLMJw
+ IKa2VeF/apN/pFUFypCvytbEl61fMKw7I5/n4s/Wg9u5CY0E7VuFRU8JpxsLwFQtNUd0
+ fCAWl/ILrd6dcSW841t2yjuiJbX4BIzeVuEkw7Jx/iAJiKHu6687nN4rtWqf/gADVP93
+ wB7IH56Eg3KbXm+/8sMhBheTh9zu60PSPNsPHj3fko7+7QnALrnc/dLqRjZNeC/fbUr0
+ TxNTdExmrM7sQcBmzaXWp2yWlOdRMJRhQcoOxXBXp2omOqSBFXmXFMwBGIN1q9hA+2a6
+ 955Q==
+X-Gm-Message-State: ACrzQf07C+HLir41rLf3IZKWU+Ux1NXzFdlzgVg0VS6Ps+4treguDtRt
+ 57mlNoxY+v9Bq5AyYsSDXg0=
+X-Google-Smtp-Source: AMsMyM50e+QYw8SxGLXTQQSN/H4evMDT0wK2OPuH/ZtE+ylXd4szu1ziml/ktY5vD0j1TqS9pHNVkw==
+X-Received: by 2002:a05:600c:1c0d:b0:3cf:5fd2:1fd1 with SMTP id
+ j13-20020a05600c1c0d00b003cf5fd21fd1mr15921329wms.8.1667344860058; 
+ Tue, 01 Nov 2022 16:21:00 -0700 (PDT)
 Received: from suse.localnet (host-79-43-11-206.retail.telecomitalia.it.
  [79.43.11.206]) by smtp.gmail.com with ESMTPSA id
- b10-20020a05600c4e0a00b003cf4c1e211fsm108896wmq.38.2022.11.01.16.21.00
+ dn12-20020a05600c654c00b003cf537ec2efsm123480wmb.36.2022.11.01.16.20.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 16:21:02 -0700 (PDT)
+ Tue, 01 Nov 2022 16:20:58 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [RESEND PATCH] drm/amd/amdgpu: Replace kmap() with
- kmap_local_page()
-Date: Wed, 02 Nov 2022 00:09:42 +0100
-Message-ID: <1753145.VLH7GnMWUR@suse>
-In-Reply-To: <CADnq5_MDp6WUYTUO+Lo=XMSLdaYcwu5i2MWid9u1U2hKiyqoYg@mail.gmail.com>
-References: <20221016174158.16638-1-fmdefrancesco@gmail.com>
- <CADnq5_MDp6WUYTUO+Lo=XMSLdaYcwu5i2MWid9u1U2hKiyqoYg@mail.gmail.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH] drm/radeon: Replace kmap() with kmap_local_page()
+Date: Wed, 02 Nov 2022 00:11:53 +0100
+Message-ID: <1942083.usQuhbGJ8B@suse>
+In-Reply-To: <CADnq5_PP3VCXQ5rbC0-8Qsi5W7Ew87U_bRknz4=qxbrPxVQ+qA@mail.gmail.com>
+References: <20221013210714.16320-1-fmdefrancesco@gmail.com>
+ <fb0b7389-7121-04f8-176d-1ababe0ad8f2@amd.com>
+ <CADnq5_PP3VCXQ5rbC0-8Qsi5W7Ew87U_bRknz4=qxbrPxVQ+qA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -73,28 +75,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Xiao <Jack.Xiao@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Ira Weiny <ira.weiny@intel.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: linux-hwmon@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Kees Cook <keescook@chromium.org>,
+ Ira Weiny <ira.weiny@intel.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, "Venkataramanan,
+ Anirudh" <anirudh.venkataramanan@intel.com>, linux-hardening@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ bpf@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On luned=EC 17 ottobre 2022 18:53:24 CET Alex Deucher wrote:
+On luned=EC 17 ottobre 2022 18:52:10 CET Alex Deucher wrote:
 > Applied.  Thanks!
->=20
 
-The same report about which I just wrote in my previous email to you is als=
-o=20
-referring to this patch which later changed status to "Not Applicable".
+Many thanks to you!
 
-It points to https://patchwork.linuxtv.org/project/linux-media/patch/
-20220812175753.22926-1-fmdefrancesco@gmail.com/
+However, about a week ago, I received a report saying that this patch is "N=
+ot=20
+Applicable".=20
 
-Can you please let me understand why?
+That email was also referring to another patch, for which I'll reply in its=
+=20
+own thread.
+
+That report has a link to https://patchwork.linuxtv.org/project/linux-media/
+patch/20221013210714.16320-1-fmdefrancesco@gmail.com/
+
+Can you please let me understand why, despite it was applied, this patch la=
+ter=20
+shifted "State" to "Not Applicable"?
 
 Thanks,
 
