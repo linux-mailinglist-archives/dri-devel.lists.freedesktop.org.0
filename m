@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29659614867
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:20:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E27761489A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Nov 2022 12:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9B910E0F1;
-	Tue,  1 Nov 2022 11:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEAE10E37B;
+	Tue,  1 Nov 2022 11:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B05B210E0F1
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 11:20:28 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id r18so13112795pgr.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Nov 2022 04:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/oxx2mpp4iYPf59kzXTZVyiQQScJKMt68qbvOfaAmNM=;
- b=Eqla52jjC7tCuORbUcWjhmeHzS8L1UPvKjECAaBzgjHSVR0yuGoYexhXnR3Me8EgVi
- bThx6Oh6WzpuAaQbTHz4m8oKQe3+RR5dfBhbsAC7EncEqzf+G5Ch5mQxZojQ5euHvdjV
- 9t4QGpFHPYUw90LG8KpEoCufvce3+djUYKwzc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/oxx2mpp4iYPf59kzXTZVyiQQScJKMt68qbvOfaAmNM=;
- b=CHMob1U4ILMZ/4XFBL6V6NonhcElrSXjKffBAdzGr5ZaMK2UEb/Vv2fFppxR4UL3hQ
- bQxt8qbjdbcUqr3+e8o2b0xHleKjEyoaKFsiabXC45EP9EgcVKdtZ4Jpp2y/BWFT8Zl2
- 87QIVtYb0QWjHqdq27ESKx9MU6hAtuDIypwbBsIkVk4EvY2gNcJ5hzlYGje4vGJoygZf
- sCVFn8mvhJX1RVHppFdgU2ut6Dfad/qFO2p6upP5KfVfQQWVnojv5T3nIiBJLO7SR+Nq
- lwyQfxQlm+8HtwIc+rCngsLPCXvMbYPEeMz4vWU7sGiaTOKhWhBwj6s07b/+NJ4e7ec1
- jQdw==
-X-Gm-Message-State: ACrzQf1C8aZQ/IXuFocRN3PxHOKVJGuHnJ/gosjnDvLqCtWyV0ROaNCH
- D6Cy3c8CidKfwOER4Bsu2zUvRw==
-X-Google-Smtp-Source: AMsMyM7t7FyTAzhJupkW5XZ7w+f+bCfe00gO9R9x4+Gx3G3qW1ORSZYJg7iWP7VNjQUB9l1O/CNxaA==
-X-Received: by 2002:a05:6a00:98d:b0:56c:7c5c:da30 with SMTP id
- u13-20020a056a00098d00b0056c7c5cda30mr19146699pfg.22.1667301628082; 
- Tue, 01 Nov 2022 04:20:28 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:3293:3b11:2be0:504])
- by smtp.gmail.com with ESMTPSA id
- x9-20020a628609000000b00563ce1905f4sm6318084pfd.5.2022.11.01.04.20.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 04:20:27 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Robert Foss <robert.foss@linaro.org>,
-	Allen Chen <allen.chen@ite.com.tw>
-Subject: [PATCH] drm/bridge: it6505: handle HDCP request
-Date: Tue,  1 Nov 2022 19:20:10 +0800
-Message-Id: <20221101112009.1067681-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52D4610E37B
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Nov 2022 11:28:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 71590615D5;
+ Tue,  1 Nov 2022 11:28:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226E6C433B5;
+ Tue,  1 Nov 2022 11:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667302105;
+ bh=7r1QOHV06h+9wzOcTmWBQcgWcXag41HhBfVH04SzsOU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=doCpQkVEkrCtyIEp6fXWy5cc8w+s4OPCSdGLPiwU9wNq8/mJ8KVFyRlueJwsAVsRO
+ 5cNz7UkqW+Vxu6wTM6sVqITv9DbwBLBjXjKw1eZ6uwDwyfcykxaHs5GxP1taNJXyd+
+ Ohp0YDJIpBZL1g1FrFTcHm6Aab0IPW5jEpwt5OWCC/+D7XGGuFnbEcxKOr4ZlgNLq3
+ jt3GZ+jtGzbDvni3FujWG9P1sw/+jIAQ3kmSrSOf9jGqqJPJbrbMQTLZr9K84T+ga3
+ fxZH0RNfGkb1OQn3/1ORuKUBXX5t7nHSbo/qrWx8NLcz/vx24t2Pc+uH4EkRxdVMvd
+ iF+bUxlcjw+RQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 20/34] drm/vc4: hdmi: Check the HSM rate at
+ runtime_resume
+Date: Tue,  1 Nov 2022 07:27:12 -0400
+Message-Id: <20221101112726.799368-20-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221101112726.799368-1-sashal@kernel.org>
+References: <20221101112726.799368-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,126 +56,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Pin-yen Lin <treapking@chromium.org>, Hermes Wu <hermes.wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, Sasha Levin <sashal@kernel.org>,
+ emma@anholt.net, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-it6505 supports HDCP 1.3, but current implementation lacks the update of
-HDCP status through drm_hdcp_update_content_protection(). it6505 default
-enables the HDCP. If user set it to undesired then the driver will stop
-HDCP.
+From: Maxime Ripard <maxime@cerno.tech>
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+[ Upstream commit 4190e8bbcbc77a9c36724681801cedc5229e7fc2 ]
+
+If our HSM clock has not been properly initialized, any register access
+will silently lock up the system.
+
+Let's check that this can't happen by adding a check for the rate before
+any register access, and error out otherwise.
+
+Link: https://lore.kernel.org/dri-devel/20220922145448.w3xfywkn5ecak2et@pengutronix.de/
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220929-rpi-pi3-unplugged-fixes-v1-2-cd22e962296c@cerno.tech
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 54 +++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index b929fc766e243..65c6f932cae25 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -423,6 +423,7 @@ struct it6505 {
- 	struct extcon_dev *extcon;
- 	struct work_struct extcon_wq;
- 	int extcon_state;
-+	struct drm_connector *connector;
- 	enum drm_connector_status connector_status;
- 	enum link_train_status link_state;
- 	struct work_struct link_works;
-@@ -2399,6 +2400,14 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 1e5f68704d7d..3d8fc32b4d08 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2869,12 +2869,28 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+ 	unsigned long __maybe_unused flags;
+ 	u32 __maybe_unused value;
++	unsigned long rate;
+ 	int ret;
  
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_DONE;
-+	if (it6505->connector) {
-+		struct drm_device *drm_dev = it6505->connector->dev;
-+
-+		drm_modeset_lock(&drm_dev->mode_config.connection_mutex, NULL);
-+		drm_hdcp_update_content_protection(it6505->connector,
-+						   DRM_MODE_CONTENT_PROTECTION_ENABLED);
-+		drm_modeset_unlock(&drm_dev->mode_config.connection_mutex);
+ 	ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * Whenever the RaspberryPi boots without an HDMI monitor
++	 * plugged in, the firmware won't have initialized the HSM clock
++	 * rate and it will be reported as 0.
++	 *
++	 * If we try to access a register of the controller in such a
++	 * case, it will lead to a silent CPU stall. Let's make sure we
++	 * prevent such a case.
++	 */
++	rate = clk_get_rate(vc4_hdmi->hsm_clock);
++	if (!rate) {
++		ret = -EINVAL;
++		goto err_disable_clk;
 +	}
- 	it6505_show_hdcp_info(it6505);
++
+ 	if (vc4_hdmi->variant->reset)
+ 		vc4_hdmi->variant->reset(vc4_hdmi);
+ 
+@@ -2896,6 +2912,10 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
+ #endif
+ 
+ 	return 0;
++
++err_disable_clk:
++	clk_disable_unprepare(vc4_hdmi->hsm_clock);
++	return ret;
  }
  
-@@ -2931,6 +2940,7 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
- 	if (WARN_ON(!connector))
- 		return;
- 
-+	it6505->connector = connector;
- 	conn_state = drm_atomic_get_new_connector_state(state, connector);
- 
- 	if (WARN_ON(!conn_state))
-@@ -2974,6 +2984,7 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
- 
-+	it6505->connector = NULL;
- 	if (it6505->powered) {
- 		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
- 					     DP_SET_POWER_D3);
-@@ -3028,6 +3039,48 @@ static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
- 	return edid;
- }
- 
-+static int it6505_connector_atomic_check(struct it6505 *it6505,
-+					 struct drm_connector_state *state)
-+{
-+	struct device *dev = &it6505->client->dev;
-+	int cp = state->content_protection;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "hdcp connector state:%d, curr hdcp state:%d",
-+			     cp, it6505->hdcp_status);
-+
-+	if (!it6505->hdcp_desired) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "sink not support hdcp");
-+		return 0;
-+	}
-+
-+	if (it6505->hdcp_status == HDCP_AUTH_GOING)
-+		return -EINVAL;
-+
-+	if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-+		if (it6505->hdcp_status == HDCP_AUTH_DONE)
-+			it6505_stop_hdcp(it6505);
-+	} else if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-+		if (it6505->hdcp_status == HDCP_AUTH_IDLE &&
-+		    it6505->link_state == LINK_OK)
-+			it6505_start_hdcp(it6505);
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev, "invalid to set hdcp enabled");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int it6505_bridge_atomic_check(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+
-+	return it6505_connector_atomic_check(it6505, conn_state);
-+}
-+
- static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-@@ -3035,6 +3088,7 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.attach = it6505_bridge_attach,
- 	.detach = it6505_bridge_detach,
- 	.mode_valid = it6505_bridge_mode_valid,
-+	.atomic_check = it6505_bridge_atomic_check,
- 	.atomic_enable = it6505_bridge_atomic_enable,
- 	.atomic_disable = it6505_bridge_atomic_disable,
- 	.atomic_pre_enable = it6505_bridge_atomic_pre_enable,
+ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
 -- 
-2.38.0.135.g90850a2211-goog
+2.35.1
 
