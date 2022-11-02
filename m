@@ -1,51 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC80B61710D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 23:58:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 980FD617173
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 00:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB89710E4AA;
-	Wed,  2 Nov 2022 22:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1668910E533;
+	Wed,  2 Nov 2022 23:10:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C09E510E4AA
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 22:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=dxk7K79E1a8j7qASi8UQ2LttUIuZKzMJZffkVtXcjv8=; b=iWBbbhrEXXa6MQNABq2X7pMhEs
- inJT+scZCXfLnDU7VWcfXsxYgqGktw8wWcIxHvwAJb+JpXzA1z5KOgv62IBCqoVvt6knYk6QIgZtV
- 0kq+sCGrFenv7jgBUkHfptnS9NjeIQbaNxLBe6qPukDj9fAnHLGTZrJo65sGYORxLFPqxmtC2nFOL
- j4UODS7DwOVJa3BM8exn1O5tJGX8kXfibP7pJ4xiqsECVEtF1rprd8b77mUyCUrCAmRKfTOI3znQT
- BOVq009EEtWksI3G95Dbcf9iYjnp8sYZXSumod9w+gA+QJRi7Nla/ze0WnfU9ysXljPJ8jJ0uepat
- TNn2gSOA==;
-Received: from [2601:1c2:d80:3110:e65e:37ff:febd:ee53]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1oqMga-00EpZH-1q; Wed, 02 Nov 2022 22:58:16 +0000
-Message-ID: <e526752f-94e4-335b-6164-ed7597b75a53@infradead.org>
-Date: Wed, 2 Nov 2022 15:58:14 -0700
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D78810E095;
+ Wed,  2 Nov 2022 23:10:44 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ p8-20020a056830130800b0066bb73cf3bcso87293otq.11; 
+ Wed, 02 Nov 2022 16:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NOncMiS9A3RMWI4Y+kkqX5A0U4j9jibTTA2TcJiv65c=;
+ b=K1J7h4kOsvTI0XZqdd9KdfNxd8yDQGj7WTjtRsp4NkeHxD432DZhu7n9O+4+sxOCEI
+ RHjF2VR9BJZOi3qXg3L+3lA2PTVbmswiAoucH38ZJ7sErUCK6HEiDmqdUFegmfY0lBEn
+ UVtnfap6H+pn+qFFZ9kBiwBosVT7WEaeWFowQH+2lAc23QMeVZA00DYiGt4SyZBWeFrF
+ wf9DhP2C6d3YeIQ2UBU6sWRzfitBm3oQt5KSaSild8S4ee3jXSoVCiiUKHA7HSC64wlM
+ tiuqZYGEEa2A8ifZT3XkzHSUUm6JFquBNhCW2yXbj+RM7mXTNfuCCtqCSZL8WgmfASVD
+ XLLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NOncMiS9A3RMWI4Y+kkqX5A0U4j9jibTTA2TcJiv65c=;
+ b=CpRv+pFrhKQsgq1GC075YCXFXKyz9q8ZomzxitRmizYg7M7gAbcl20g4DCgpJFNqGu
+ eD5JPU6YIKW6xoNIGHoOolEJ90K/AM8oR2RJBsqIbdX0lKJhu9Z7k+NJbUIalY+fwv+5
+ TDQNkB93NrT5vfsxt4y+QhgI3M6sl9d+5jm76hti9eYIv7U56unTsb+tICIZgTgYvGgl
+ /XpMpI6OOe5cBpkCYjDJB64JDq+g1TI4azOqTKRkac5PmMcLab4owi9gimc+Acsmcx0y
+ Fl0i/urcsBlr0xEWTsBCADq+l6HVBCMYhO5d1nXSuq0f2kaqTtjJIf8teH/mBVa7KxYa
+ S9ng==
+X-Gm-Message-State: ACrzQf1msS0nP/WeXzeli5BNoEccWZiBDaQjE+Q9/DBCKaD4xSlTafYr
+ KW4hS5+CpKRFnazhg3x0alnXqL6XYq9GaUcQ2mo=
+X-Google-Smtp-Source: AMsMyM7aAdGyrEVMAQJIv2QAvYrik0rpkB3tkTqmNr2RDY3d7+4gaTsHPcLASIg4LbCPwXB1FPdl/tE89CUOMGnbhao=
+X-Received: by 2002:a9d:20ea:0:b0:66b:234a:290a with SMTP id
+ x97-20020a9d20ea000000b0066b234a290amr13448405ota.328.1667430643060; Wed, 02
+ Nov 2022 16:10:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [RFC PATCH v2 1/3] drivers/accel: define kconfig and register a
- new major
-Content-Language: en-US
-To: Oded Gabbay <ogabbay@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Alex Deucher <alexander.deucher@amd.com>
-References: <20221102203405.1797491-1-ogabbay@kernel.org>
- <20221102203405.1797491-2-ogabbay@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20221102203405.1797491-2-ogabbay@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221102175449.452283-1-dmitry.baryshkov@linaro.org>
+ <20221102175449.452283-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221102175449.452283-3-dmitry.baryshkov@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 2 Nov 2022 16:10:59 -0700
+Message-ID: <CAF6AEGtKcreHkT0=ccHbFY=-cLhoMCzXQe3HYKCf31QhgESS-g@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] drm/msm: remove duplicated code from
+ a6xx_create_address_space
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +67,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Jiho Chu <jiho.chu@samsung.com>,
- Christoph Hellwig <hch@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Kevin Hilman <khilman@baylibre.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Nov 2, 2022 at 10:54 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> The function a6xx_create_address_space() is mostly a copy of
+> adreno_iommu_create_address_space() with added quirk setting. Rework
+> these two functions to be a thin wrappers around a common helper.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
 
-On 11/2/22 13:34, Oded Gabbay wrote:
-> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-> new file mode 100644
-> index 000000000000..282ea24f90c5
-> --- /dev/null
-> +++ b/drivers/accel/Kconfig
-> @@ -0,0 +1,24 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Compute Acceleration device configuration
-> +#
-> +# This framework provides support for compute acceleration devices, such
-> +# as, but not limited to, Machine-Learning and Deep-Learning acceleration
-> +# devices
-> +#
-> +menuconfig ACCEL
-> +	tristate "Compute Acceleration Framework"
-> +	depends on DRM
-> +	help
-> +	  Framework for device drivers of compute acceleration devices, such
-> +	  as, but not limited to, Machine-Learning and Deep-Learning
-> +	  acceleration devices.
-> +	  If you say Y here, you need to select the module that's right for
-> +	  your acceleration device from the list below.
-> +	  This framework is integrated with the DRM subsystem as compute
-> +	  accelerators and GPUs share a lot in common and can use almost the
-> +	  same infrastructure code.
-> +	  Having said that, acceleration devices will have a different
-> +	  major number than GPUs, and will be exposed to user-space using
-> +	  different device files, called accel/accel* (in /dev, sysfs
-> +	  and debugfs)
-
-Please add a period at the end of the help text.
-
-+	  and debugfs).
-
--- 
-~Randy
+> ---
+>  drivers/gpu/drm/msm/adreno/a3xx_gpu.c   |  2 +-
+>  drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  2 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  2 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 28 +------------------------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 12 +++++++++--
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  7 ++++++-
+>  6 files changed, 20 insertions(+), 33 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> index 2c8b9899625b..948785ed07bb 100644
+> --- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> @@ -500,7 +500,7 @@ static const struct adreno_gpu_funcs funcs = {
+>  #endif
+>                 .gpu_state_get = a3xx_gpu_state_get,
+>                 .gpu_state_put = adreno_gpu_state_put,
+> -               .create_address_space = adreno_iommu_create_address_space,
+> +               .create_address_space = adreno_create_address_space,
+>                 .get_rptr = a3xx_get_rptr,
+>         },
+>  };
+> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> index 7cb8d9849c07..2fb32d5552c4 100644
+> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> @@ -635,7 +635,7 @@ static const struct adreno_gpu_funcs funcs = {
+>  #endif
+>                 .gpu_state_get = a4xx_gpu_state_get,
+>                 .gpu_state_put = adreno_gpu_state_put,
+> -               .create_address_space = adreno_iommu_create_address_space,
+> +               .create_address_space = adreno_create_address_space,
+>                 .get_rptr = a4xx_get_rptr,
+>         },
+>         .get_timestamp = a4xx_get_timestamp,
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> index 3dcec7acb384..3c537c0016fa 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> @@ -1705,7 +1705,7 @@ static const struct adreno_gpu_funcs funcs = {
+>                 .gpu_busy = a5xx_gpu_busy,
+>                 .gpu_state_get = a5xx_gpu_state_get,
+>                 .gpu_state_put = a5xx_gpu_state_put,
+> -               .create_address_space = adreno_iommu_create_address_space,
+> +               .create_address_space = adreno_create_address_space,
+>                 .get_rptr = a5xx_get_rptr,
+>         },
+>         .get_timestamp = a5xx_get_timestamp,
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index db4b3a48c708..e87196457b9a 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1786,10 +1786,6 @@ a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+>  {
+>         struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>         struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> -       struct iommu_domain_geometry *geometry;
+> -       struct msm_mmu *mmu;
+> -       struct msm_gem_address_space *aspace;
+> -       u64 start, size;
+>         unsigned long quirks = 0;
+>
+>         /*
+> @@ -1799,29 +1795,7 @@ a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+>         if (!IS_ERR_OR_NULL(a6xx_gpu->htw_llc_slice))
+>                 quirks |= IO_PGTABLE_QUIRK_ARM_OUTER_WBWA;
+>
+> -       mmu = msm_iommu_new(&pdev->dev, quirks);
+> -       if (IS_ERR_OR_NULL(mmu))
+> -               return ERR_CAST(mmu);
+> -
+> -       geometry = msm_iommu_get_geometry(mmu);
+> -       if (IS_ERR(geometry))
+> -               return ERR_CAST(geometry);
+> -
+> -       /*
+> -        * Use the aperture start or SZ_16M, whichever is greater. This will
+> -        * ensure that we align with the allocated pagetable range while still
+> -        * allowing room in the lower 32 bits for GMEM and whatnot
+> -        */
+> -       start = max_t(u64, SZ_16M, geometry->aperture_start);
+> -       size = geometry->aperture_end - start + 1;
+> -
+> -       aspace = msm_gem_address_space_create(mmu, "gpu",
+> -               start & GENMASK_ULL(48, 0), size);
+> -
+> -       if (IS_ERR(aspace) && !IS_ERR(mmu))
+> -               mmu->funcs->destroy(mmu);
+> -
+> -       return aspace;
+> +       return adreno_iommu_create_address_space(gpu, pdev, quirks);
+>  }
+>
+>  static struct msm_gem_address_space *
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 12d0497f57e1..12a964dc3b8d 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -191,16 +191,24 @@ int adreno_zap_shader_load(struct msm_gpu *gpu, u32 pasid)
+>         return zap_shader_load_mdt(gpu, adreno_gpu->info->zapfw, pasid);
+>  }
+>
+> +struct msm_gem_address_space *
+> +adreno_create_address_space(struct msm_gpu *gpu,
+> +                           struct platform_device *pdev)
+> +{
+> +       return adreno_iommu_create_address_space(gpu, pdev, 0);
+> +}
+> +
+>  struct msm_gem_address_space *
+>  adreno_iommu_create_address_space(struct msm_gpu *gpu,
+> -               struct platform_device *pdev)
+> +                                 struct platform_device *pdev,
+> +                                 unsigned long quirks)
+>  {
+>         struct iommu_domain_geometry *geometry;
+>         struct msm_mmu *mmu;
+>         struct msm_gem_address_space *aspace;
+>         u64 start, size;
+>
+> -       mmu = msm_iommu_new(&pdev->dev, 0);
+> +       mmu = msm_iommu_new(&pdev->dev, quirks);
+>         if (IS_ERR_OR_NULL(mmu))
+>                 return ERR_CAST(mmu);
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 707273339969..5d4b1c95033f 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -335,8 +335,13 @@ void adreno_show_object(struct drm_printer *p, void **ptr, int len,
+>   * attached targets
+>   */
+>  struct msm_gem_address_space *
+> +adreno_create_address_space(struct msm_gpu *gpu,
+> +                           struct platform_device *pdev);
+> +
+> +struct msm_gem_address_space *
+>  adreno_iommu_create_address_space(struct msm_gpu *gpu,
+> -               struct platform_device *pdev);
+> +                                 struct platform_device *pdev,
+> +                                 unsigned long quirks);
+>
+>  int adreno_read_speedbin(struct device *dev, u32 *speedbin);
+>
+> --
+> 2.35.1
+>
