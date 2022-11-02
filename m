@@ -2,73 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2AD615E9F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 10:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03723615ECC
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 10:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 103D489A88;
-	Wed,  2 Nov 2022 09:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B3210E452;
+	Wed,  2 Nov 2022 09:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (unknown [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF49389A88
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 09:02:02 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 2303F3200909;
- Wed,  2 Nov 2022 05:01:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 02 Nov 2022 05:01:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1667379716; x=1667466116; bh=48VenoOPol
- gMO139tezfkS2fXuf8/WKG9H0qot9z5VY=; b=Jmz2uxkX8LspX9gsCjI+UgokQU
- B4jdfxcVaO8tilJN8wiOlE/nMhwNR/dyxDy+lhWtrOrfC7bvdOano80yspJRTr22
- a/zSeQ3KFu6bN7GEcJ7QT/0y0GpybjjKbzO0rl+SIAiWTsaVI20WGrL6qwGRvPHJ
- PJtLZfl/Msa4LGh139y/8hcIXt8rZZQ/nMDLy1rEHueAIpjMDv9xyf8ElBAQZBhE
- otba3eOEuDnhKBfL8WDAdKkQAjHqMg47ZsMQ4VA4zGxUjKIUXzmggYna/r/syaDu
- k6TjRkbTsDibFbybjH8hHctJd/+vOL2zNb3IUARB4qNEvZqAJfjmptwXPlvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1667379716; x=1667466116; bh=48VenoOPolgMO139tezfkS2fXuf8
- /WKG9H0qot9z5VY=; b=BfKnTLpp3/fwmxWOpdJfLd3PgUMOFkY7QswAA8qUZC8H
- aX8Y7x5UdnTvj2geJ4KWu5kex/cZDf37f7cOTH7pzqSjekc9wgTlnbG8bM/V7DFZ
- nQn0QiFL9pp0kkaU4bSLl1Tlv/SdgEpPLOQRKC9C3Ly4CLSHx883VbyIaFR5A14p
- /0EoEZ5CnDTeVp8leE3u8WwTKYhh6YCe+it7OzdbwHUp2R2xurJ8TbnnTjyARAHN
- 3C4QUac1oVBxjyviiBda+KNWB2JigGFCR7F5Cpy7hY9n1FoWz25Ur5C28OfKtnPe
- qelrM368KKv1Ygat5o92ZVxiPrfdUqCsvNuKmt4J3Q==
-X-ME-Sender: <xms:BDJiY2At2Bk4KnZ64rT2kArsofpSjrBCyNzQ5u3t4PCz5IKLp8Dw8Q>
- <xme:BDJiYwiuRZbbNvtenNvfU2639XCiZyulNfpf7KSxsIMTs9wU-1xL36EQYX5YzbXae
- IquCLRyGcq1CgQghgQ>
-X-ME-Received: <xmr:BDJiY5mhxuxsCvj9dYUwWXqOXNXCy4Uo5Uh5HplbCatP4HeB6okXQrGrkksBwpO82s52HxZwkjtifLJ9EmR0hpWJVSB6T0J5ON6-Pxj_roVPQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeigdduvdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:BDJiY0ywsTGRzR5iKOzmk8neUh_SO-0iR8WXzRRjUoNeGZK6GsRWJw>
- <xmx:BDJiY7QcYHc90Y__5tokjUbWlb3nz9phu9WwZsnuRUDnrMIa4I50lA>
- <xmx:BDJiY_aMjDwmM-Y3RR2Ww3RMdkB-uGU-Cnm8fNtds8j2c54yNU2JIA>
- <xmx:BDJiYwJElyHPKfMA3qgShq9XQIHCYWU-mFMXr2s2OLf2lI4MiqNbQA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Nov 2022 05:01:55 -0400 (EDT)
-Date: Wed, 2 Nov 2022 10:01:53 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH] drm/vc4: hdmi: Fix pointer dereference before check
-Message-ID: <20221102090153.tujblkvd3jlhdtxr@houat>
-References: <20221029093413.546103-1-jose.exposito89@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31E1E10E44F
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 09:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667379846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
+ b=JEZ26qgK66TQuIjpBJVcw6NVnuvpzUbLFUElvF/3UO5w+UFNXksF2QEt6j8nC5LzDit8KD
+ 22hd2j3LeRKdOcNmh52W0TnbIKI8E+vB1MXYo2SoI1KKtRyWnAi812MY+GrDotpTdmf6O/
+ bVjxYVaGoU0LguaER6yBr3qC9yhNYow=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-103-qnAAoOVtNJy_OGhqUtq-5A-1; Wed, 02 Nov 2022 05:04:01 -0400
+X-MC-Unique: qnAAoOVtNJy_OGhqUtq-5A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g4-20020adfbc84000000b0022fc417f87cso4625157wrh.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 02:04:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
+ b=gQgOwQzDpfDvLpsFdnrniL4wrnp0n2aAkccNb0VM+d8knwbUCdHsLIrscGs/jaXBxO
+ YQP4BU+nlBlpHv2dKFGobroBCo0q+wv3tQjeRI9zuJoUlG9iGGhqszn9/qiQ/bmAhLNp
+ iUZz0ykzwUSJD8EKSn1yIsJM2oguHSMlRN/J7/Y7xpP6VALoLEzvtqL/G8lyTRQTBAfQ
+ 6DcteM1p+uea1jnOuk0z+2JsrkEGECjUKuG3EtLy7c2voxcRfb6zRBgPFPmc72tDlI5b
+ zOLkLGUASV7fH+UoaVcssGVahI8b0SzqFCevqu23/JsgDo30nbPQudh9UH3TB9AZUzc5
+ 9jrA==
+X-Gm-Message-State: ACrzQf2+7B2RpATj9T7mqXBbZlulHJF1ZwccEJcECWLzKRbiy0E6AnHz
+ nXoozxKr2VtgxmMGsvobGsm/lCema1+X1El12Os7XC2+c4fJq7NC0xg6eKSHO8fDQJJhAyJyhgg
+ teEVw6ixDab6Mzh88ss9SwfBxQ2fj
+X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id
+ k9-20020a7bc409000000b003cf4c818936mr24380810wmi.38.1667379840252; 
+ Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM72ckpdUoZR+NwXtu1sv2+7NmgS+YMIWWHB7QdeKnWTKduGDRl7tg4bkpenTZv0mX1kFf34kw==
+X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id
+ k9-20020a7bc409000000b003cf4c818936mr24380784wmi.38.1667379840046; 
+ Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ b13-20020a5d550d000000b002366b17ca8bsm14083933wrv.108.2022.11.02.02.03.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Nov 2022 02:03:59 -0700 (PDT)
+Message-ID: <87284e5e-859e-3b1c-7142-28d4fa7a7939@redhat.com>
+Date: Wed, 2 Nov 2022 10:03:57 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2piuzv5jj7zmiqf3"
-Content-Disposition: inline
-In-Reply-To: <20221029093413.546103-1-jose.exposito89@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 15/21] drm/fb-helper: Disconnect damage worker from
+ update logic
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+References: <20221024111953.24307-1-tzimmermann@suse.de>
+ <20221024111953.24307-16-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221024111953.24307-16-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,74 +89,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, emma@anholt.net,
- linux-kernel@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---2piuzv5jj7zmiqf3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Sat, Oct 29, 2022 at 11:34:13AM +0200, Jos=E9 Exp=F3sito wrote:
-> Commit 6bed2ea3cb38 ("drm/vc4: hdmi: Reset link on hotplug") introduced
-> the vc4_hdmi_reset_link() function. This function dereferences the
-> "connector" pointer before checking whether it is NULL or not.
->=20
-> Rework variable assignment to avoid this issue.
->=20
-> Fixes: 6bed2ea3cb38 ("drm/vc4: hdmi: Reset link on hotplug")
-> Signed-off-by: Jos=E9 Exp=F3sito <jose.exposito89@gmail.com>
+On 10/24/22 13:19, Thomas Zimmermann wrote:
+> The fbdev helpers implement a damage worker that forwards fbdev
+> updates to the DRM driver. The worker's update logic depends on
+> the generic fbdev emulation. Separate the two via function pointer.
+> 
+> The generic fbdev emulation sets struct drm_fb_helper_funcs.fb_dirty,
+> a new callback that hides the update logic from the damage worker.
+> It's not possible to use the generic logic with other fbdev emulation,
+> because it contains additional code for the shadow buffering that
+> the generic emulation employs.
+> 
+> DRM drivers with internal fbdev emulation can set fb_dirty to their
+> own implementation if they require damage handling; although no such
+> drivers currently exist.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index 4a73fafca51b..07d058b6afb7 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -319,9 +319,9 @@ static int reset_pipe(struct drm_crtc *crtc,
->  static int vc4_hdmi_reset_link(struct drm_connector *connector,
->  			       struct drm_modeset_acquire_ctx *ctx)
+
+[...]
+
+>  static void drm_fb_helper_damage_work(struct work_struct *work)
 >  {
-> -	struct drm_device *drm =3D connector->dev;
-> -	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
-> -	struct drm_encoder *encoder =3D &vc4_hdmi->encoder.base;
-> +	struct drm_device *drm;
-> +	struct vc4_hdmi *vc4_hdmi;
-> +	struct drm_encoder *encoder;
->  	struct drm_connector_state *conn_state;
->  	struct drm_crtc_state *crtc_state;
->  	struct drm_crtc *crtc;
-> @@ -332,6 +332,10 @@ static int vc4_hdmi_reset_link(struct drm_connector =
-*connector,
->  	if (!connector)
->  		return 0;
-> =20
-> +	drm =3D connector->dev;
-> +	vc4_hdmi =3D connector_to_vc4_hdmi(connector);
-> +	encoder =3D &vc4_hdmi->encoder.base;
-> +
+> -	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper,
+> -						    damage_work);
+> -	struct drm_device *dev = helper->dev;
+> +	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
 
-I don't think that's right. Connector shouldn't be NULL to begin with,
-how did you notice this?
+This line is an unrelated code style change. But I guess it's OK.
 
-Maxime
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
---2piuzv5jj7zmiqf3
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Best regards,
 
------BEGIN PGP SIGNATURE-----
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2IyAQAKCRDj7w1vZxhR
-xclpAQDwusHvGhXtWLqUZjV4oaBclOlKnVClFcnplMVjERHSHAD+MZOvuaDd+PPh
-thSlYBgAKiDk4ReeyGf+XLKy4NCa0QE=
-=T/lW
------END PGP SIGNATURE-----
-
---2piuzv5jj7zmiqf3--
