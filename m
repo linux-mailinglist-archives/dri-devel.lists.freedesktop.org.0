@@ -2,61 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BA9616344
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 14:02:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF186163C0
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 14:18:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5DF510E48D;
-	Wed,  2 Nov 2022 13:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B5610E12C;
+	Wed,  2 Nov 2022 13:18:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7B510E494;
- Wed,  2 Nov 2022 13:01:51 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id s206so19136503oie.3;
- Wed, 02 Nov 2022 06:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yggPcK5TIy9S6ZT52DUYZYz36AXCmMT/bN7wqCeS1aw=;
- b=GGoxflpeBD4PlWvUvbzWx/ExOWXpLVPaGPWsA5VJ7zBECqzFfKTDyYrSvR9QX44E4Z
- 0L830fD72/n3XPMb//OpKzXSwLW7xNUJsHBkCLwIv6jFEFrgwTds5T1+dNAw7nyXDDHm
- k9mxk85yYzWyn6/Rd23eT+G76vju+rvKmlLwP/KuJcMXJbojryZ92nsxTrvF79wZK+Zg
- Speo3j7nNv7IaR4Ome2EJZ5jibL+lr5cXatvdXglwK/ALECdVLnwwsfaAegHCppkCo35
- QPVVxDDOGjd3sb5iBw7cm0t9NtocEy4lGYfBuFEE94H/CLMO0la4smU+p2seJ4nwiY9O
- Ty7A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 755D110E12C
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 13:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667395120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZwBDqC0WlxuXZx78i1Kk8UO6XhWjpnLHnqutJ4PGo5M=;
+ b=AZnNriMuN+1MZLCTdoa7V62oY0aiZCdcIL29DSBov0yMNL19Yg5eFxu7HOMzm4AivoCQ4T
+ XjVRPR2UuTp+C3HXbFTMuaJI0ipv5c+/uhooU1hrZ3lD6kyfxy0Hol3X0xgwT9s7EP5sy6
+ b17HagTpo4yNAsefRYWvcF+6z5PO19U=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-304-Oqkz98c9OgSKqG0gdvUBtw-1; Wed, 02 Nov 2022 09:18:39 -0400
+X-MC-Unique: Oqkz98c9OgSKqG0gdvUBtw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h18-20020adfa4d2000000b00236584fc8c7so4772033wrb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 06:18:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yggPcK5TIy9S6ZT52DUYZYz36AXCmMT/bN7wqCeS1aw=;
- b=d97ikuEk0yLsRTHQzQnncTh9N/EVzpo35KrWQ85MX/OZhB+zz/RuUtlw2ufMcFsVZN
- Dx8cO0Q54z/Wmf7zx+g+gFnjhcCPGAkmhgBAJz3hTw3NljCfao7AhaEVKRHFw4GCQ1fj
- bpGTtxq/F1BffWIBCoaMMAgi31DsHexVXIgoBgBb+m5gtlg73ZzifmEVZNq8s0J1do2l
- gWe1OVbxRXaLvELN/1N/PVCVtzDwrpR5hFPbwqD/SEDf6KEwv+UmMCqoxAjeCsrD//Sb
- nNfoAammtCcmgX/N1gJ7DmgK1Q0TsVNXVDLTeYu5qZ0z9M7aJSYnNifKfT9e3Lv59MvN
- 4RCA==
-X-Gm-Message-State: ACrzQf1kfEnKGffR1JmFHuf6zZr3mjwwb7mAm5ZJqkJjbiJh7MOKX8v/
- 9jWXzieqFtN2roGZbAKpyO28JRVC/jbKqj0K0i4=
-X-Google-Smtp-Source: AMsMyM6qZQxXTSO2TswGy9TB1D8Odto/9aPMXtUQBP2MbhygDgD/F+xKh7vTLDPRvs/CUg5hTSU2HPJ9sIao/ppsy6k=
-X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
- f18-20020a05680814d200b00354c733abd3mr13266615oiw.96.1667394110491; Wed, 02
- Nov 2022 06:01:50 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZwBDqC0WlxuXZx78i1Kk8UO6XhWjpnLHnqutJ4PGo5M=;
+ b=ImOpZMy4/qerJf6m3ZyiK/ZqV91HqeOgoYaHzjT40W7R6PoU43//5JZODAj+CeZk8M
+ hjBDB/D5dPVt/6PH1sQjjumLFzVIBlBkbQLIcsaDrfvQwLk+xVOe2MqDKQaYeOjJQEIm
+ osmgbgwevDK9hyGKcYDziedSwt0h9FBqT56xexB/PrUbZ0KuoIcjQtkqvEMHFl43fZ3K
+ 1D3icTnLzhFKyYEgkTpICdedaq7LFRHNQQbbVOk1SqJNpD1/d7xWx/WoiHhyCeJHykk+
+ ZgvamwIEkaZrRcG7R1cHE/SlCsh1eXk/ku2Z2McHhFx8MwW+eaEef9pipiCMkUyWjg8U
+ pftg==
+X-Gm-Message-State: ACrzQf2+DAaoNSzqnCuTRts8UN7vmVC5e6Z3LaXNPIfNVZ4gA7/4LIcx
+ gijRYuAuE/4hhFb/yrwb1s3PFdO5L2igS9yyRYYycXtz4VRiXQMWSqIgCZbUYirfjlAyEPjUwmf
+ EtqgHRHW60sYT9OJf96sKt4Wt1TCd
+X-Received: by 2002:a05:600c:5114:b0:3c7:8eb:fb1c with SMTP id
+ o20-20020a05600c511400b003c708ebfb1cmr25705164wms.204.1667395117342; 
+ Wed, 02 Nov 2022 06:18:37 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5U52V0wvyQJ486LBjKPqaxRm1EVlCaEMo6kliRl30sq1oyZZOlqqfv3r0EC32G7WNFtgW8hQ==
+X-Received: by 2002:a05:600c:5114:b0:3c7:8eb:fb1c with SMTP id
+ o20-20020a05600c511400b003c708ebfb1cmr25705150wms.204.1667395117182; 
+ Wed, 02 Nov 2022 06:18:37 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ b13-20020a5d550d000000b002366b17ca8bsm14769255wrv.108.2022.11.02.06.18.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Nov 2022 06:18:36 -0700 (PDT)
+Message-ID: <b464794b-2bb9-99d7-0172-41f565701fa0@redhat.com>
+Date: Wed, 2 Nov 2022 14:18:36 +0100
 MIME-Version: 1.0
-References: <20221016174158.16638-1-fmdefrancesco@gmail.com>
- <CADnq5_MDp6WUYTUO+Lo=XMSLdaYcwu5i2MWid9u1U2hKiyqoYg@mail.gmail.com>
- <1753145.VLH7GnMWUR@suse>
-In-Reply-To: <1753145.VLH7GnMWUR@suse>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 2 Nov 2022 09:01:38 -0400
-Message-ID: <CADnq5_MfEGsxKxh459DZsHUjUspQLd7zagtrEeFMC4Upk-zTEw@mail.gmail.com>
-Subject: Re: [RESEND PATCH] drm/amd/amdgpu: Replace kmap() with
- kmap_local_page()
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] drm/ofdrm: Depend on CONFIG_MMU
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, maxime@cerno.tech
+References: <20221101104049.15601-1-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221101104049.15601-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,42 +86,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Xiao <Jack.Xiao@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Ira Weiny <ira.weiny@intel.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: kernel test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Danilo Krummrich <dakr@redhat.com>, Michal Suchanek <msuchanek@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 1, 2022 at 7:21 PM Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
->
-> On luned=C3=AC 17 ottobre 2022 18:53:24 CET Alex Deucher wrote:
-> > Applied.  Thanks!
-> >
->
-> The same report about which I just wrote in my previous email to you is a=
-lso
-> referring to this patch which later changed status to "Not Applicable".
->
-> It points to https://patchwork.linuxtv.org/project/linux-media/patch/
-> 20220812175753.22926-1-fmdefrancesco@gmail.com/
->
-> Can you please let me understand why?
+On 11/1/22 11:40, Thomas Zimmermann wrote:
+> Add a dependency on CONFIG_MMU to ofdrm. The driver uses GEM SHMEM
+> helpers, which require MMU support. A reported error message [1] is
+> shown below.
+> 
+>    arm-linux-gnueabi-ld: drivers/gpu/drm/drm_gem_shmem_helper.o: in function `drm_gem_shmem_fault':
+>    >> drivers/gpu/drm/drm_gem_shmem_helper.c:562: undefined reference to `vmf_insert_pfn'
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: c8a17756c425 ("drm/ofdrm: Add ofdrm for Open Firmware framebuffers")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Michal Suchanek <msuchanek@suse.de>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Link: https://lore.kernel.org/dri-devel/202210192029.ZFeJvqjv-lkp@intel.com/ # [1]
+> ---
 
-I'm not sure I understand what you are asking.  The patch is applied:
-https://gitlab.freedesktop.org/agd5f/linux/-/commit/a2c554262d39f81be7422fd=
-8bee2f2fe3779f7f5
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Alex
+-- 
+Best regards,
 
->
-> Thanks,
->
-> Fabio
->
->
->
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
