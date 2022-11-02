@@ -2,156 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8256161BF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 12:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227A66161D8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 12:39:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C23010E128;
-	Wed,  2 Nov 2022 11:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C7210E47E;
+	Wed,  2 Nov 2022 11:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BEA810E128;
- Wed,  2 Nov 2022 11:28:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667388509; x=1698924509;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=MSeDC5BJZuIF2kjwOsoj5YC6pn7MObeQq/I9kASzO7Q=;
- b=Q2+4NCEque+ADMCsNs1otWWlDGoaAzijPxIAxLy0N6jt7tTHnqwo0QQt
- MmJOrMhV9BDigSoulJ6kk1f88tkJOcrsGwPPkzz9rV23JE273Q7p7YlDi
- oAPjRBMvvIaVr3X0VNpI5ojepqmjrd9WeK7YLeADifRTibDMwtEy4Ofmh
- vOJKS+lrgjDNMQ9olI1L9Blkik4234+hbc1ZrMUKqtahsJJCQFNNDNFgp
- 32/yCIPsy+gjdFb4mRpx4bddzQl2b2pQwYZiVgQJamuI3hTnnYo3DVIxL
- VMjSz7TEhrr4F++EzAbIGg7xK9ACJgIzTTmKq2sY0N4znZmiOPqgwA4SL w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="371474294"
-X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; d="scan'208";a="371474294"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 04:28:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="809247207"
-X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; d="scan'208";a="809247207"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga005.jf.intel.com with ESMTP; 02 Nov 2022 04:28:28 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 2 Nov 2022 04:28:27 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 2 Nov 2022 04:28:27 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 2 Nov 2022 04:28:27 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.43) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 2 Nov 2022 04:28:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HRz4MjQPdIuoKMMsS8LB6Oo8GGhndR18nnUnMYZg6Dry/rmhV8rwd2e+8tf3769bL5Y0op+laHkBfWrrlZg8l3mT4ZUdV6Pvh3yVsXnVpgRmf0t1u6GOOeqVnquPMCTWKQKFAUMM83wY9/EYxd0VjuFJeSG56oDaMXXZY3xpP3HeAVluyHB6gFYJ6sunItMKKf+MIJ5SnEZpysv5i7lOPfWugqrRrxxUGWza7sP00DvYKyXEzt9VU6yfDI/jC6wq8ZKySS10pVjbiD7ldDBTkufoJ1qDEE0sGb3QHdDbticD8d0A+PWjzr5ISBCGEfMqBnLn0C6XLFoTyhSnAnSKoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mu7+X7HqC4Hb9sZQkUk6rXuNT8L2CAhQOzi7dkXocqc=;
- b=LBm4jaoRew5fAa1+/T9GUIq1L+dIJLdZyKEsmJhDG4jyUIX+ExJOkaWg4oPE6sr9tLf8fBVvVCMFthhdHG5mqSKm0RgPmpJ+PHTq0vl9JElm617amt7fOMOQIiZ2hs31UcuBzHFJCasVvWOtyAyQuuK6zch6F1MBPVZT1thvOBYI+ZwEjfssU3KvBgE5LAbVs9ol6HATr78WI4JnlTaLZ2EDzk+LsXPbvGD6v6LzZR5hmS1uF+bj11ytw0NG0Ll9GtAuo8Q8LyvS3jwtnrH/NaFJpjw7/eEgc6x9G4fzyVBLQCtHvOHGWLg5E7sVqWyboQfF7Z8qgNhJPkj4UVNv/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH0PR11MB5409.namprd11.prod.outlook.com (2603:10b6:610:d0::7)
- by SA2PR11MB5097.namprd11.prod.outlook.com (2603:10b6:806:11a::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Wed, 2 Nov
- 2022 11:28:25 +0000
-Received: from CH0PR11MB5409.namprd11.prod.outlook.com
- ([fe80::be9d:e93e:4ec:166b]) by CH0PR11MB5409.namprd11.prod.outlook.com
- ([fe80::be9d:e93e:4ec:166b%7]) with mapi id 15.20.5791.022; Wed, 2 Nov 2022
- 11:28:25 +0000
-Message-ID: <4b39009c-b7aa-8e6c-61c8-f08c03720cb6@intel.com>
-Date: Wed, 2 Nov 2022 13:27:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v5] overflow: Introduce overflows_type() and
- castable_to_type()
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>
-References: <20220926191109.1803094-1-keescook@chromium.org>
- <20221024201125.1416422-1-gwan-gyeong.mun@intel.com>
- <ffcfb7ce-7646-c827-8d29-7c41e4b121d6@intel.com>
- <202210290029.3CD089A86C@keescook>
- <850085e1-e420-b6eb-104d-15694a400bb7@intel.com>
- <202211011605.2D8C927C2@keescook>
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-In-Reply-To: <202211011605.2D8C927C2@keescook>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR0701CA0015.eurprd07.prod.outlook.com
- (2603:10a6:203:51::25) To CH0PR11MB5409.namprd11.prod.outlook.com
- (2603:10b6:610:d0::7)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D12F10E47C
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 11:39:28 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oqC5a-0007uC-HW; Wed, 02 Nov 2022 12:39:22 +0100
+Message-ID: <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+Subject: Re: Try to address the DMA-buf coherency problem
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 02 Nov 2022 12:39:20 +0100
+In-Reply-To: <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+ <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+ <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
+ <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
+ <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
+ <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
+ <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
+ <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
+ <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5409:EE_|SA2PR11MB5097:EE_
-X-MS-Office365-Filtering-Correlation-Id: a468e6ec-215e-4845-4b33-08dabcc55abe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jnlVuSOK25PTpGGmPebA46X6bTCQwRi7KklnXLX2oqYNSZ/fVk4mRjzvrLcLvVQvQF0n6U+wYUc4FNjTB1ps3Y21MEbeOYZfG6BEnQex7vE7wNugHSjnPF2qhCDVBT0CzPrciu3h8iK3jpJf5sc36jDb2BOnVMOPT315kI0PSSrLW3trvqzYWw0AmlTaIYnqSvUPwOWD67Vxt2ZWQGKB+J7tlmFhIZoqstiTA/OCY0xhaiorqhuqbcp1P7BzJb1gd1AlIA66mUH3+tPZpTH0xbuFIEJ8wU6ggsTTrzQryda1FFrStF0qkA/g5CEFIQ8au/zPfY4BqXUva0iejt/kerBDqooOMj7u7y/gW70M5BB49Ke1kBtCHNpAdYoxF8ZEI7bBehwDCDm8MLoB8wWokdaYTp2yr1RFJKI4O6dHjaXGsMWrvHEwjWDkSTgGyaP8S9EqOgrJRgEFOcFtWl9rTvHYHa6VoxTEDsZDgmw4WCaxhvxHgyjkjjt2JPiygNYfkpRBN88wWGpaRqNMzSEWMtcQSgiqTv+qpXZEFp0ZnjDPvUSlZt4zdBZHMNxZBgVNBZp0Ec2zpteb4w46a5VlrV+lPKdOfhPsGTbRaZqHYWKdzNxfGcUkAn03ooxZIPrVzJa14RN75R4nRzA1i18UFKRpGccudiN1aTZenMOQt2RuCg4KMU0Jv8MNZWfgAM+tRvg2Amh4t/FO9jnRMqZeKsEBW7ulFcYW4KzIAwCVhKfI6kvTfxWp16pK+jwlyChkQ05meJ1i3c5AzOI5WhRvbrV2eP460lCmGdggj9PP8TM30lrsu6OAkPjO4q9y68rB
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR11MB5409.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(346002)(376002)(396003)(366004)(39860400002)(451199015)(2906002)(66946007)(478600001)(4326008)(66476007)(8676002)(66556008)(5660300002)(6916009)(7416002)(8936002)(316002)(966005)(6486002)(83380400001)(6512007)(38100700002)(82960400001)(6506007)(31696002)(53546011)(6666004)(41300700001)(86362001)(186003)(26005)(31686004)(2616005)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Um9VUWlKN2hvdGUyNXdpOHhlcGI4MkZLME1oV3krRjJzWXRtbzc4K29zNDN3?=
- =?utf-8?B?TXl4TWxJcEV4bEJ2WGFsYmZTcGsrdG96Z3ltUllLelVZMXU0Wmo5aHhPUE5Q?=
- =?utf-8?B?ZFNzbmlzOTNWTzhGSmk0c2o3dUxvcVN0L1MyWE9QcyttMWtsWEZKcDV0Q2ZE?=
- =?utf-8?B?TlU2dTV5TTlLcm4zc3p6dzVwS1FBNFExQ20xTmtZd3V1UmFucFZwMGZTRVNx?=
- =?utf-8?B?Rnh1djlXZDIyWXUxL1NOZXRTTi8yNEU1SFZwVmJYS2RMbzU2MGRGc3piajJE?=
- =?utf-8?B?Z0tHZis3YzlWZER1Ti9GcjMydGhqQ3dBZ2dIcU4rNnpDTHY4a2lrRUJSeTVw?=
- =?utf-8?B?NWFEL29pR0p1RFdWaWRwajBHcTVCV1l4K1pBNUR2U2pwNk8zK1N4ZzNxZ2ZN?=
- =?utf-8?B?WmpOM3d2RVJFNjlwSHVKdG5BRTk1b0hnbXBjNjdEYjZJZElta3FOWlJEdE9u?=
- =?utf-8?B?VHI5TlJEVUZpL3pCeXdmNTIrWkI3eVNrd3d3SGNhTjM0OUhBRzlHbk9lYmpr?=
- =?utf-8?B?MXVmUUdNMVdNUFlmOEFsMnl4Ty9PQnpUVGlBNzZyS3NlMjNNQ3F3NElDTi8x?=
- =?utf-8?B?MkVKK1Q0aUdpTjMyS29uV1RDREpDbWdwR0prQTZFRnJEREF1WDhpeUVFeS8x?=
- =?utf-8?B?aFZJUHRydHBrK25lYkxZNDlJcGZBQnM4alkvOGxqQkVUWEQ3aWZybVZPSFNE?=
- =?utf-8?B?ak9pL0Zld2s1RjFIem1oa3B2Q2dQcUsyUjNtL0hLbXJJaGhvbDN4TmE3ZXRj?=
- =?utf-8?B?UWxBY2NBSWQzdy9tNy9sWlYwczVPNm0rTDZCRjFUYlpteWFETHlhRnN2dTV4?=
- =?utf-8?B?QW9zT3pIc2pWOWZldU55ai9pOEpURjQ0WUJ3MnFnVEl0RmtGTUlRMElzYTJT?=
- =?utf-8?B?VjBXaTJUU3UvejZuQVM1MDBySkhINmNFTVE4UXcwMGFKeUMxL0R4T3Z2YXlI?=
- =?utf-8?B?bmd0N1JwM2JlRXJJM1k5OFoxN0psdkhmT2wzS2RzN2NqdWxDc2psekVQSmpU?=
- =?utf-8?B?M1dwNElJSWRuQUc3NFJ1L0grc0trKzBxMWpTUklsaWlBN3diV0IwZm1iV1BO?=
- =?utf-8?B?ODdXVW5KLy9oSHkxeGgxTldkZzV6ZXNWQ3FpTW0va1YzdlNHdW5CRHduQXJu?=
- =?utf-8?B?YnBHWE1Fa1UxS0l3eXBTcTFXSUVud2MySllSclVWVWlqSk9FYllKWEh4UGV2?=
- =?utf-8?B?TEhWczF6RGtyZXM0WkZjNTV0QVJhZTZIN3VvMnFOQzlNcFNUZjlwM2E2Wkli?=
- =?utf-8?B?U0NwVm02MWZMalVocllDYmpBazFsL3g5d1dOOXRBRXVwblBlTS91cXBWOTAw?=
- =?utf-8?B?MHQxWXlCMXhGNzliT2pJcURPWVVVR1paQlJQZklKalhISnpDMjd4Tll2Nmdz?=
- =?utf-8?B?VmNqN3V4bTBlVU4vRk1zMjV3OGtVaUxJM3pRdE5HWC9IQks1VktLcGg0K1dL?=
- =?utf-8?B?MHVLR3BOdjg4K1lIMDJnck9aVjdLb0s5Q3hsbTQ3RGZzN1Yvc3ZOMnhqTVhq?=
- =?utf-8?B?OHRIWVNTQ2V0OE9TOEFNMTVIRytWUzh6NWRmTW15YUFJVUFRT0dSY2dkV3BF?=
- =?utf-8?B?NnpVL3ozZWdtK3g4a0k0VXB3dEVwQk5hTGJxMm0vN1hxUG5lKzExUkl1bTJo?=
- =?utf-8?B?T010SE03S202c0Qwd05uc2JiN0UwNlhjbEphTGtzMWYvSlNQU2hRRlFyU1FL?=
- =?utf-8?B?SmtVc0gxcjhOUTRFdkYvaC94RzI0TVp0SDJDYmxmZXhNcGlsQmg1ZGk1b2xT?=
- =?utf-8?B?SEQ5L3RaUHlNTDN2ZVJNUVpCM29hRFdIdjhxWmdFcjdkdzhlV0hZQU5jYysv?=
- =?utf-8?B?MjJuWm95WHI5bC81RHAveVl2clRBb05pQVJ6M3N5RVlUM3lGYXFVam1UVFFi?=
- =?utf-8?B?cW1EVUk4Z29rNXJRL0pyRFlpd2ZiQWtrV3RyTHRtYUI5UzdWR09KRitpYlJl?=
- =?utf-8?B?a29jUytOWVBuSWN6cnVQSENVV0ozQWVkSGZTUFBscVVBZzRkWTVSRDNhbmEw?=
- =?utf-8?B?MGRNUTRmc1FKWCtZRUFxaDdka2hBUGtWTXl5TGxtNEJWOVZnRlZBM2pjUnlO?=
- =?utf-8?B?dTg2MGI1dUdaWDNNYXZVYXQ2eEdPYllKaCs4NFFmMTNLais4WitlMlc2aytU?=
- =?utf-8?B?aXhCR28vaDFVQm9USmhMYVRsN2RiTEliajZ3cThRaFpsZU9nUmhZWmN2VXg5?=
- =?utf-8?B?Znc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a468e6ec-215e-4845-4b33-08dabcc55abe
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5409.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2022 11:28:25.2422 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uY0QHqGf3cGLXJtjussbn1cOQa27bESAIWsh0ETAnPaOw1ZtrOVr1TaunxUYKmDA1cGR1YaHwNmsgiDHhfVfq6FSM7BYguCWU75ajR/DEI0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5097
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,47 +58,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: arnd@kernel.org, mauro.chehab@linux.intel.com,
- tvrtko.ursulin@linux.intel.com, airlied@linux.ie, trix@redhat.com,
- dlatypov@google.com, llvm@lists.linux.dev, ndesaulniers@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- gustavoars@kernel.org, nathan@kernel.org, linux-sparse@vger.kernel.org,
- linux-hardening@vger.kernel.org, rodrigo.vivi@intel.com, mchehab@kernel.org,
- intel-gfx@lists.freedesktop.org, luc.vanoostenryck@gmail.com,
- vitor@massaru.org
+Cc: ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Christian,
 
+going to reply in more detail when I have some more time, so just some
+quick thoughts for now.
 
-On 11/2/22 1:06 AM, Kees Cook wrote:
-> On Sat, Oct 29, 2022 at 11:01:38AM +0300, Gwan-gyeong Mun wrote:
->>
->>
->> On 10/29/22 10:32 AM, Kees Cook wrote:
->>> On Sat, Oct 29, 2022 at 08:55:43AM +0300, Gwan-gyeong Mun wrote:
->>>> Hi Kees,
->>>
->>> Hi! :)
->>>
->>>> I've updated to v5 with the last comment of Nathan.
->>>> Could you please kindly review what more is needed as we move forward with
->>>> this patch?
->>>
->>> It looks fine to me -- I assume it'll go via the drm tree? Would you
->>> rather I carry the non-drm changes in my tree instead?
->>>
->> Hi!
->> Yes, I think it would be better to run this patch on your tree.
->> this patch moves the macro of i915 to overflows.h and modifies one part of
->> drm's driver code, but I think this part can be easily applied when merging
->> into the drm tree.
+Am Mittwoch, dem 02.11.2022 um 12:18 +0100 schrieb Christian König:
+> Am 01.11.22 um 22:09 schrieb Nicolas Dufresne:
+> > [SNIP]
+> > > > But the client is just a video player. It doesn't understand how to
+> > > > allocate BOs for Panfrost or AMD or etnaviv. So without a universal
+> > > > allocator (again ...), 'just allocate on the GPU' isn't a useful
+> > > > response to the client.
+> > > Well exactly that's the point I'm raising: The client *must* understand
+> > > that!
+> > > 
+> > > See we need to be able to handle all restrictions here, coherency of the
+> > > data is just one of them.
+> > > 
+> > > For example the much more important question is the location of the data
+> > > and for this allocating from the V4L2 device is in most cases just not
+> > > going to fly.
+> > It feels like this is a generic statement and there is no reason it could not be
+> > the other way around.
 > 
-> I've rebased it to the hardening tree, and it should appear in -next
-> shortly:
+> And exactly that's my point. You always need to look at both ways to 
+> share the buffer and can't assume that one will always work.
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=for-next/hardening&id=5904fcb776d0b518be96bca43f258db90f26ba9a
+> As far as I can see it you guys just allocate a buffer from a V4L2 
+> device, fill it with data and send it to Wayland for displaying.
 > 
-Thanks for making this patch go forward.
+> To be honest I'm really surprised that the Wayland guys hasn't pushed 
+> back on this practice already.
+> 
+> This only works because the Wayland as well as X display pipeline is 
+> smart enough to insert an extra copy when it find that an imported 
+> buffer can't be used as a framebuffer directly.
+> 
+With bracketed access you could even make this case work, as the dGPU
+would be able to slurp a copy of the dma-buf into LMEM for scanout.
+ 
+> >   I have colleague who integrated PCIe CODEC (Blaize Xplorer
+> > X1600P PCIe Accelerator) hosting their own RAM. There was large amount of ways
+> > to use it. Of course, in current state of DMABuf, you have to be an exporter to
+> > do anything fancy, but it did not have to be like this, its a design choice. I'm
+> > not sure in the end what was the final method used, the driver isn't yet
+> > upstream, so maybe that is not even final. What I know is that there is various
+> > condition you may use the CODEC for which the optimal location will vary. As an
+> > example, using the post processor or not, see my next comment for more details.
+> 
+> Yeah, and stuff like this was already discussed multiple times. Local 
+> memory of devices can only be made available by the exporter, not the 
+> importer.
+> 
+> So in the case of separated camera and encoder you run into exactly the 
+> same limitation that some device needs the allocation to happen on the 
+> camera while others need it on the encoder.
+> 
+> > > The more common case is that you need to allocate from the GPU and then
+> > > import that into the V4L2 device. The background is that all dGPUs I
+> > > know of need the data inside local memory (VRAM) to be able to scan out
+> > > from it.
+> > The reality is that what is common to you, might not be to others. In my work,
+> > most ARM SoC have display that just handle direct scannout from cameras and
+> > codecs.
+> 
+> > The only case the commonly fails is whenever we try to display UVC
+> > created dmabuf,
+> 
+> Well, exactly that's not correct! The whole x86 use cases of direct 
+> display for dGPUs are broken because media players think they can do the 
+> simple thing and offload all the problematic cases to the display server.
+> 
+> This is absolutely *not* the common use case you describe here, but 
+> rather something completely special to ARM.
 
-G.G.
+It the normal case for a lot of ARM SoCs. That world is certainly not
+any less big than the x86 dGPU world. A huge number of devices are ARM
+based set-top boxes and other video players. Just because it is a
+special case for you doesn't mean it's a global special case.
+
+> 
+> >   which have dirty CPU write cache and this is the type of thing
+> > we'd like to see solved. I think this series was addressing it in principle, but
+> > failing the import and the raised point is that this wasn't the optimal way.
+> > 
+> > There is a community project called LibreELEC, if you aren't aware, they run
+> > Khodi with direct scanout of video stream on a wide variety of SoC and they use
+> > the CODEC as exporter all the time. They simply don't have cases were the
+> > opposite is needed (or any kind of remote RAM to deal with). In fact, FFMPEG
+> > does not really offer you any API to reverse the allocation.
+> 
+> Ok, let me try to explain it once more. It sounds like I wasn't able to 
+> get my point through.
+> 
+> That we haven't heard anybody screaming that x86 doesn't work is just 
+> because we handle the case that a buffer isn't directly displayable in 
+> X/Wayland anyway, but this is absolutely not the optimal solution.
+> 
+> The argument that you want to keep the allocation on the codec side is 
+> completely false as far as I can see.
+> 
+> We already had numerous projects where we reported this practice as bugs 
+> to the GStreamer and FFMPEG project because it won't work on x86 with dGPUs.
+> 
+And on a lot of ARM SoCs it's exactly the right thing to do. Many
+codecs need contiguous memory there, so importing a scatter-gather
+buffer from the GPU via dma-buf will simply not work.
+
+> This is just a software solution which works because of coincident and 
+> not because of engineering.
+
+By mandating a software fallback for the cases where you would need
+bracketed access to the dma-buf, you simply shift the problem into
+userspace. Userspace then creates the bracket by falling back to some
+other import option that mostly do a copy and then the appropriate
+cache maintenance.
+
+While I understand your sentiment about the DMA-API design being
+inconvenient when things are just coherent by system design, the DMA-
+API design wasn't done this way due to bad engineering, but due to the
+fact that performant DMA access on some systems just require this kind
+of bracketing.
+
+Regards,
+Lucas
+
