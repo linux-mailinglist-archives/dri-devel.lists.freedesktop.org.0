@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDC7616A11
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 18:09:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43214616A08
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 18:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D96D810E531;
-	Wed,  2 Nov 2022 17:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF5810E51C;
+	Wed,  2 Nov 2022 17:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 680B510E526;
- Wed,  2 Nov 2022 17:08:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E422510E518;
+ Wed,  2 Nov 2022 17:08:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667408901; x=1698944901;
+ t=1667408904; x=1698944904;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FYsnfjlig/yZk4lOQBwFVKVtR+p475Kdti4OrPfc5QU=;
- b=CIoTdAXvX/72Ot7DnnW4QvmyS6ADLGg4owJbk4PT7Q/R+fDRQRxc7QlP
- 9rs4+WPwpRIxKz2/CbfvwAwe5OFYRtsIsDqtB16G7/2lk4MyBN1rDMNc4
- 6R6lgJoow24ioAuxvdZKCH4cJ2LbM3cTNjEQ6oYgX/Mf1ubZ41iNWkRms
- 7kErrIj3bYbSdJNbbmUjgO7yTl9dTT+/+Y3ExzacdP/fw/EnLpEeqp9gY
- SO4fP2e68q+NHiwgqVYSIc7JeSwrmmnpg+WLJdVaFbETAAZ2MviRs/gJ9
- 8FnDo1fmPS69uNFN6Bmc0Pws14V7a2hi56T23QAARsc2Uq3OunwYyu1CU Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="395777119"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="395777119"
+ bh=JgEbmgvbEuVuFh4XOK2rnobFkSPgf3Fl+/5YzIKfIhY=;
+ b=UoIzmMLpxWnHevYc0IiTomnEnf0HbAfY6fLMdUK81w9yz5T94YSr4GU1
+ +c61wqYR6zyi3Q9CKMcKXpdSorVXiEQgoshGkgXSswPcuo/lqwfNrX+CB
+ hacXnDSxCTHQILaYRrSqx9PBNaMkwA4n3+sTffyO/5A9Ovlw174yWfGKP
+ +GWX10XGJHugVrsi1E/tphKJunqzb2Nx/pkrwlvgM8HVsl90Yb2HcGZRW
+ GZAA/r76B3vnjk2+q9ogEW5AzH/AKw3klFiB7prfjHnC/LCYJW4BAtV0G
+ fExwOK1wLWKML8ajK+Men4h4ONmrnBR/SMD6IfISQ4ZasHGs41FVuysGJ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="395777141"
+X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="395777141"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 10:08:00 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="739835300"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="739835300"
+ 02 Nov 2022 10:08:01 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="739835340"
+X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="739835340"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 10:08:00 -0700
+ 02 Nov 2022 10:08:01 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/5] drm/i915/mtl: pass the GSC CS info to the GuC
-Date: Wed,  2 Nov 2022 10:10:44 -0700
-Message-Id: <20221102171047.2787951-3-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v2 3/5] drm/i915/mtl: add GSC CS interrupt support
+Date: Wed,  2 Nov 2022 10:10:45 -0700
+Message-Id: <20221102171047.2787951-4-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221102171047.2787951-1-daniele.ceraolospurio@intel.com>
 References: <20221102171047.2787951-1-daniele.ceraolospurio@intel.com>
@@ -56,94 +56,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to tell the GuC that the GSC CS is there.
+The GSC CS re-uses the same interrupt bits that the GSC used in older
+platforms. This means that we can now have an engine interrupt coming
+out of OTHER_CLASS, so we need to handle that appropriately.
+
+v2: clean up the if statement for the engine irq (Tvrtko)
 
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com> #v1
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c  | 11 +++++------
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  7 +++++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c | 75 ++++++++++++++------------
+ 1 file changed, 40 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index a419d60166c8..a7f737c4792e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -488,6 +488,11 @@ static void fill_engine_enable_masks(struct intel_gt *gt,
- 	info_map_write(info_map, engine_enabled_masks[GUC_BLITTER_CLASS], BCS_MASK(gt));
- 	info_map_write(info_map, engine_enabled_masks[GUC_VIDEO_CLASS], VDBOX_MASK(gt));
- 	info_map_write(info_map, engine_enabled_masks[GUC_VIDEOENHANCE_CLASS], VEBOX_MASK(gt));
-+
-+	/* The GSC engine is an instance (6) of OTHER_CLASS */
-+	if (gt->engine[GSC0])
-+		info_map_write(info_map, engine_enabled_masks[GUC_GSC_OTHER_CLASS],
-+			       BIT(gt->engine[GSC0]->instance));
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+index f26882fdc24c..b197f0e9794f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+@@ -81,35 +81,27 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
+ 		  instance, iir);
  }
  
- #define LR_HW_CONTEXT_SIZE (80 * sizeof(u32))
-@@ -529,9 +534,6 @@ static int guc_prep_golden_context(struct intel_guc *guc)
- 	}
- 
- 	for (engine_class = 0; engine_class <= MAX_ENGINE_CLASS; ++engine_class) {
--		if (engine_class == OTHER_CLASS)
--			continue;
--
- 		guc_class = engine_class_to_guc_class(engine_class);
- 
- 		if (!info_map_read(&info_map, engine_enabled_masks[guc_class]))
-@@ -609,9 +611,6 @@ static void guc_init_golden_context(struct intel_guc *guc)
- 	addr_ggtt = intel_guc_ggtt_offset(guc, guc->ads_vma) + offset;
- 
- 	for (engine_class = 0; engine_class <= MAX_ENGINE_CLASS; ++engine_class) {
--		if (engine_class == OTHER_CLASS)
--			continue;
--
- 		guc_class = engine_class_to_guc_class(engine_class);
- 		if (!ads_blob_read(guc, system_info.engine_enabled_masks[guc_class]))
- 			continue;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-index 968ebd79dce7..4ae5fc2f6002 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-@@ -47,7 +47,8 @@
- #define GUC_VIDEOENHANCE_CLASS		2
- #define GUC_BLITTER_CLASS		3
- #define GUC_COMPUTE_CLASS		4
--#define GUC_LAST_ENGINE_CLASS		GUC_COMPUTE_CLASS
-+#define GUC_GSC_OTHER_CLASS		5
-+#define GUC_LAST_ENGINE_CLASS		GUC_GSC_OTHER_CLASS
- #define GUC_MAX_ENGINE_CLASSES		16
- #define GUC_MAX_INSTANCES_PER_CLASS	32
- 
-@@ -169,6 +170,7 @@ static u8 engine_class_guc_class_map[] = {
- 	[COPY_ENGINE_CLASS]       = GUC_BLITTER_CLASS,
- 	[VIDEO_DECODE_CLASS]      = GUC_VIDEO_CLASS,
- 	[VIDEO_ENHANCEMENT_CLASS] = GUC_VIDEOENHANCE_CLASS,
-+	[OTHER_CLASS]             = GUC_GSC_OTHER_CLASS,
- 	[COMPUTE_CLASS]           = GUC_COMPUTE_CLASS,
- };
- 
-@@ -178,12 +180,13 @@ static u8 guc_class_engine_class_map[] = {
- 	[GUC_VIDEO_CLASS]        = VIDEO_DECODE_CLASS,
- 	[GUC_VIDEOENHANCE_CLASS] = VIDEO_ENHANCEMENT_CLASS,
- 	[GUC_COMPUTE_CLASS]      = COMPUTE_CLASS,
-+	[GUC_GSC_OTHER_CLASS]    = OTHER_CLASS,
- };
- 
- static inline u8 engine_class_to_guc_class(u8 class)
+-static void
+-gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
+-			 const u8 instance, const u16 iir)
++static struct intel_gt *pick_gt(struct intel_gt *gt, u8 class, u8 instance)
  {
- 	BUILD_BUG_ON(ARRAY_SIZE(engine_class_guc_class_map) != MAX_ENGINE_CLASS + 1);
--	GEM_BUG_ON(class > MAX_ENGINE_CLASS || class == OTHER_CLASS);
-+	GEM_BUG_ON(class > MAX_ENGINE_CLASS);
+-	struct intel_engine_cs *engine;
+-
+-	/*
+-	 * Platforms with standalone media have their media engines in another
+-	 * GT.
+-	 */
+-	if (MEDIA_VER(gt->i915) >= 13 &&
+-	    (class == VIDEO_DECODE_CLASS || class == VIDEO_ENHANCEMENT_CLASS)) {
+-		if (!gt->i915->media_gt)
+-			goto err;
++	struct intel_gt *media_gt = gt->i915->media_gt;
  
- 	return engine_class_guc_class_map[class];
+-		gt = gt->i915->media_gt;
++	/* we expect the non-media gt to be passed in */
++	GEM_BUG_ON(gt == media_gt);
++
++	if (!media_gt)
++		return gt;
++
++	switch (class) {
++	case VIDEO_DECODE_CLASS:
++	case VIDEO_ENHANCEMENT_CLASS:
++		return media_gt;
++	case OTHER_CLASS:
++		if (instance == OTHER_GSC_INSTANCE && HAS_ENGINE(media_gt, GSC0))
++			return media_gt;
++		fallthrough;
++	default:
++		return gt;
+ 	}
+-
+-	if (instance <= MAX_ENGINE_INSTANCE)
+-		engine = gt->engine_class[class][instance];
+-	else
+-		engine = NULL;
+-
+-	if (likely(engine))
+-		return intel_engine_cs_irq(engine, iir);
+-
+-err:
+-	WARN_ONCE(1, "unhandled engine interrupt class=0x%x, instance=0x%x\n",
+-		  class, instance);
  }
+ 
+ static void
+@@ -122,8 +114,17 @@ gen11_gt_identity_handler(struct intel_gt *gt, const u32 identity)
+ 	if (unlikely(!intr))
+ 		return;
+ 
+-	if (class <= COPY_ENGINE_CLASS || class == COMPUTE_CLASS)
+-		return gen11_engine_irq_handler(gt, class, instance, intr);
++	/*
++	 * Platforms with standalone media have the media and GSC engines in
++	 * another GT.
++	 */
++	gt = pick_gt(gt, class, instance);
++
++	if (class <= MAX_ENGINE_CLASS && instance <= MAX_ENGINE_INSTANCE) {
++		struct intel_engine_cs *engine = gt->engine_class[class][instance];
++		if (engine)
++			return intel_engine_cs_irq(engine, intr);
++	}
+ 
+ 	if (class == OTHER_CLASS)
+ 		return gen11_other_irq_handler(gt, instance, intr);
+@@ -206,7 +207,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+ 	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE,	  0);
+ 	if (CCS_MASK(gt))
+ 		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, 0);
+-	if (HAS_HECI_GSC(gt->i915))
++	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+ 		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, 0);
+ 
+ 	/* Restore masks irqs on RCS, BCS, VCS and VECS engines. */
+@@ -233,7 +234,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+ 		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~0);
+ 	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+ 		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~0);
+-	if (HAS_HECI_GSC(gt->i915))
++	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+ 		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~0);
+ 
+ 	intel_uncore_write(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE, 0);
+@@ -249,7 +250,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+ {
+ 	struct intel_uncore *uncore = gt->uncore;
+ 	u32 irqs = GT_RENDER_USER_INTERRUPT;
+-	const u32 gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
++	u32 gsc_mask = 0;
+ 	u32 dmask;
+ 	u32 smask;
+ 
+@@ -261,6 +262,11 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+ 	dmask = irqs << 16 | irqs;
+ 	smask = irqs << 16;
+ 
++	if (HAS_ENGINE(gt, GSC0))
++		gsc_mask = irqs;
++	else if (HAS_HECI_GSC(gt->i915))
++		gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
++
+ 	BUILD_BUG_ON(irqs & 0xffff0000);
+ 
+ 	/* Enable RCS, BCS, VCS and VECS class interrupts. */
+@@ -268,9 +274,8 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+ 	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE, dmask);
+ 	if (CCS_MASK(gt))
+ 		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, smask);
+-	if (HAS_HECI_GSC(gt->i915))
+-		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE,
+-				   gsc_mask);
++	if (gsc_mask)
++		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, gsc_mask);
+ 
+ 	/* Unmask irqs on RCS, BCS, VCS and VECS engines. */
+ 	intel_uncore_write(uncore, GEN11_RCS0_RSVD_INTR_MASK, ~smask);
+@@ -296,7 +301,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+ 		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~dmask);
+ 	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+ 		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~dmask);
+-	if (HAS_HECI_GSC(gt->i915))
++	if (gsc_mask)
+ 		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
+ 
+ 	/*
 -- 
 2.37.3
 
