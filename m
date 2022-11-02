@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C4616A0F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 18:09:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70483616A22
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 18:10:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBCE10E511;
-	Wed,  2 Nov 2022 17:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E48E10E053;
+	Wed,  2 Nov 2022 17:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8175B10E518;
- Wed,  2 Nov 2022 17:08:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667408910; x=1698944910;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6CFSztkRB584Z0WS53OTAd+62vP+Rhr7QzCZ2mrTDxo=;
- b=D5GEWfYboBOvi/kL9ndS6zoHO9nG8piOT6LRNiqztj5ZIISQPL7Sejpi
- AVOP+j4LUrAdHsX8PlsjEgq4LyxhnAf4rtC6IM1TzFCBCrdNQIH2J4W0x
- 8Ow4+8QEqS4t6LHf2we7Hg//s/u+ZFkfTveUZNKcHAKx6En5oNvi0ikQr
- df7bkilROmJWgrIxO+TGVi71XUJ9dSyHe8OBYNX3QZpLVnYWVHiS9fnDl
- oR0uLNFbNH0S6n4HbXx8Y+bCOCitTLUH/mDiFnIDvSCQwMGlS3Tpy9E9m
- X7Itd3eiBbpf7nwcNL93N0l6tQE1ylVXuEkpWbwrg8ZJ8+Pcf3hudFEsc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="395777190"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="395777190"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 10:08:05 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="739835406"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="739835406"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 10:08:05 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 5/5] drm/i915/mtl: don't expose GSC command streamer to the
- user
-Date: Wed,  2 Nov 2022 10:10:47 -0700
-Message-Id: <20221102171047.2787951-6-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221102171047.2787951-1-daniele.ceraolospurio@intel.com>
-References: <20221102171047.2787951-1-daniele.ceraolospurio@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43B3910E053
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 17:10:53 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oqHGL-0002oN-7M; Wed, 02 Nov 2022 18:10:49 +0100
+Message-ID: <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
+Subject: Re: Try to address the DMA-buf coherency problem
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 02 Nov 2022 18:10:48 +0100
+In-Reply-To: <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+ <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+ <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
+ <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
+ <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
+ <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
+ <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
+ <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
+ <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+ <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+ <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,79 +60,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no userspace user for this CS yet, we only need it for internal
-kernel ops (e.g. HuC, PXP), so don't expose it.
+Am Mittwoch, dem 02.11.2022 um 13:21 +0100 schrieb Christian König:
+> Hi Lucas,
+> 
+> Am 02.11.22 um 12:39 schrieb Lucas Stach:
+> > Hi Christian,
+> > 
+> > going to reply in more detail when I have some more time, so just some
+> > quick thoughts for now.
+> > 
+> > Am Mittwoch, dem 02.11.2022 um 12:18 +0100 schrieb Christian König:
+> > > Am 01.11.22 um 22:09 schrieb Nicolas Dufresne:
+> > > > [SNIP]
+> > > As far as I can see it you guys just allocate a buffer from a V4L2
+> > > device, fill it with data and send it to Wayland for displaying.
+> > > 
+> > > To be honest I'm really surprised that the Wayland guys hasn't pushed
+> > > back on this practice already.
+> > > 
+> > > This only works because the Wayland as well as X display pipeline is
+> > > smart enough to insert an extra copy when it find that an imported
+> > > buffer can't be used as a framebuffer directly.
+> > > 
+> > With bracketed access you could even make this case work, as the dGPU
+> > would be able to slurp a copy of the dma-buf into LMEM for scanout.
+> 
+> Well, this copy is what we are trying to avoid here. The codec should 
+> pump the data into LMEM in the first place.
+> 
+That's very use-case specific. If the codec used those frames as
+reference frames for further coding operations, allocating them in LMEM
+of a remote device doesn't sound like a clever idea. But then I think
+this is a whole different discussion on its own.
 
-v2: even if it's not exposed, rename the engine so it is easier to
-identify in the debug logs (Matt)
+> > > > The only case the commonly fails is whenever we try to display UVC
+> > > > created dmabuf,
+> > > Well, exactly that's not correct! The whole x86 use cases of direct
+> > > display for dGPUs are broken because media players think they can do the
+> > > simple thing and offload all the problematic cases to the display server.
+> > > 
+> > > This is absolutely *not* the common use case you describe here, but
+> > > rather something completely special to ARM.
+> > It the normal case for a lot of ARM SoCs.
+> 
+> Yeah, but it's not the normal case for everybody.
+> 
+> We had numerous projects where customers wanted to pump video data 
+> directly from a decoder into an GPU frame or from a GPU frame into an 
+> encoder.
+> 
+> The fact that media frameworks doesn't support that out of the box is 
+> simply a bug.
+> 
+> > That world is certainly not
+> > any less big than the x86 dGPU world. A huge number of devices are ARM
+> > based set-top boxes and other video players. Just because it is a
+> > special case for you doesn't mean it's a global special case.
+> 
+> Ok, let's stop with that. This isn't helpful in the technical discussion.
+> 
+Agreed. I think we should try to understand the fact that there are
+very different world-views and use-cases for dma-buf right now and that
+breaking one or the other is simply no option. What may be an obscure
+special case on x86 may be very common on ARM and vice versa.
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_user.c | 27 ++++++++++++++++-----
- 1 file changed, 21 insertions(+), 6 deletions(-)
+> > 
+> > > That we haven't heard anybody screaming that x86 doesn't work is just
+> > > because we handle the case that a buffer isn't directly displayable in
+> > > X/Wayland anyway, but this is absolutely not the optimal solution.
+> > > 
+> > > The argument that you want to keep the allocation on the codec side is
+> > > completely false as far as I can see.
+> > > 
+> > > We already had numerous projects where we reported this practice as bugs
+> > > to the GStreamer and FFMPEG project because it won't work on x86 with dGPUs.
+> > > 
+> > And on a lot of ARM SoCs it's exactly the right thing to do.
+> 
+> Yeah and that's fine, it just doesn't seem to work in all cases.
+> 
+> For both x86 as well as the case here that the CPU cache might be dirty 
+> the exporter needs to be the device with the requirements.
+> 
+> For x86 dGPUs that's the backing store is some local memory. For the 
+> non-coherent ARM devices it's that the CPU cache is not dirty.
+> 
+> For a device driver which solely works with cached system memory 
+> inserting cache flush operations is something it would never do for 
+> itself. 
+> 
+It's exactly what a device driver working with cacheable memory buffers
+on a architecture with non-coherent DMA masters would do. In fact it's
+the main reason why the bracketing with explicit ownership transfer
+exists in DMA API: to allow the DMA API implementation to do the
+necessary cache maintenance operations on architectures that need them.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index 79312b734690..cd4f1b126f75 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -191,6 +191,15 @@ static void add_legacy_ring(struct legacy_ring *ring,
- 		ring->instance++;
- }
- 
-+static void engine_rename(struct intel_engine_cs *engine, const char *name, u16 instance)
-+{
-+	char old[sizeof(engine->name)];
-+
-+	memcpy(old, engine->name, sizeof(engine->name));
-+	scnprintf(engine->name, sizeof(engine->name), "%s%u", name, instance);
-+	drm_dbg(&engine->i915->drm, "renamed %s to %s\n", old, engine->name);
-+}
-+
- void intel_engines_driver_register(struct drm_i915_private *i915)
- {
- 	struct legacy_ring ring = {};
-@@ -206,11 +215,19 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
- 		struct intel_engine_cs *engine =
- 			container_of((struct rb_node *)it, typeof(*engine),
- 				     uabi_node);
--		char old[sizeof(engine->name)];
- 
- 		if (intel_gt_has_unrecoverable_error(engine->gt))
- 			continue; /* ignore incomplete engines */
- 
-+		/*
-+		 * We don't want to expose the GSC engine to the users, but we
-+		 * still rename it so it is easier to identify in the debug logs
-+		 */
-+		if (engine->id == GSC0) {
-+			engine_rename(engine, "gsc", 0);
-+			continue;
-+		}
-+
- 		GEM_BUG_ON(engine->class >= ARRAY_SIZE(uabi_classes));
- 		engine->uabi_class = uabi_classes[engine->class];
- 
-@@ -220,11 +237,9 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
- 			i915->engine_uabi_class_count[engine->uabi_class]++;
- 
- 		/* Replace the internal name with the final user facing name */
--		memcpy(old, engine->name, sizeof(engine->name));
--		scnprintf(engine->name, sizeof(engine->name), "%s%u",
--			  intel_engine_class_repr(engine->class),
--			  engine->uabi_instance);
--		DRM_DEBUG_DRIVER("renamed %s to %s\n", old, engine->name);
-+		engine_rename(engine,
-+			      intel_engine_class_repr(engine->class),
-+			      engine->uabi_instance);
- 
- 		rb_link_node(&engine->uabi_node, prev, p);
- 		rb_insert_color(&engine->uabi_node, &i915->uabi_engines);
--- 
-2.37.3
+> It would just be doing this for the importer and exactly that 
+> would be bad design because we then have handling for the display driver 
+> outside of the driver.
+> 
+The driver would have to do those cache maintenance operations if it
+directly worked with a non-coherent device. Doing it for the importer
+is just doing it for another device, not the one directly managed by
+the exporter.
+
+I really don't see the difference to the other dma-buf ops: in
+dma_buf_map_attachment the exporter maps the dma-buf on behalf and into
+the address space of the importer. Why would cache maintenance be any
+different?
+
+> > > This is just a software solution which works because of coincident and
+> > > not because of engineering.
+> > By mandating a software fallback for the cases where you would need
+> > bracketed access to the dma-buf, you simply shift the problem into
+> > userspace. Userspace then creates the bracket by falling back to some
+> > other import option that mostly do a copy and then the appropriate
+> > cache maintenance.
+> > 
+> > While I understand your sentiment about the DMA-API design being
+> > inconvenient when things are just coherent by system design, the DMA-
+> > API design wasn't done this way due to bad engineering, but due to the
+> > fact that performant DMA access on some systems just require this kind
+> > of bracketing.
+> 
+> Well, this is exactly what I'm criticizing on the DMA-API. Instead of 
+> giving you a proper error code when something won't work in a specific 
+> way it just tries to hide the requirements inside the DMA layer.
+> 
+> For example when your device can only access 32bits the DMA-API 
+> transparently insert bounce buffers instead of giving you a proper error 
+> code that the memory in question can't be accessed.
+> 
+> This just tries to hide the underlying problem instead of pushing it 
+> into the upper layer where it can be handled much more gracefully.
+
+How would you expect the DMA API to behave on a system where the device
+driver is operating on cacheable memory, but the device is non-
+coherent? Telling the driver that this just doesn't work? It's a use-
+case that is working fine today with many devices (e.g. network
+adapters) in the ARM world, exactly because the architecture specific
+implementation of the DMA API inserts the cache maintenance operations
+on buffer ownership transfer.
+
+Regards,
+Lucas
 
