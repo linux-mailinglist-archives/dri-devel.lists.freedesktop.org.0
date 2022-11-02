@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F8D616B9D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 19:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAE8616BA4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 19:07:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D4810E538;
-	Wed,  2 Nov 2022 18:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C068510E530;
+	Wed,  2 Nov 2022 18:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
  [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E11A210E51A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 18:07:08 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id f37so29503619lfv.8
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 11:07:08 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB95110E538
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 18:07:09 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id f37so29503674lfv.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 11:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=njFUM8grNBCWhY7+2MQ0vp+r8NhDVi4GL0ALpm64CQc=;
- b=FnZf6NTADaSe0PkC86OPtYawsEUrWL0oiGDdYkE/H6elSvrKnb3/EXr4SBV9nhl+7A
- B5f1pZMFNNNOb76MlRM+I2gpUlRPwrKIN+epl1/zpPwcKw18qsIMMW3AZDokb4FPt/eb
- 9H4/C5Ates7fv/Uq6bjTt+gMEdsRYFnSauejLx1eYDLHOAjNjuU5DP4F3BWp4YKrV6Yv
- tLJLJXOhaKGOUELcx5E9ykC31Mw66jfIHCBr4zydP8DKjy18pH45hDjckSQavtVdtnGc
- MkCoafW8sPaYFOOSJsMw+RoEpvA2dFQiTfy2QboDWlELd0XAKjqpd9w03ts6YhRq9AbF
- z12Q==
+ bh=caH8bf8ljAti3Iqn2/ffUusX7mem9lzX4QuF6rv2l+k=;
+ b=M4Miu7t/weJqZa+rd0xqd/pvcKbBCL+CCFLSP5Gjj8AhcAVtRTWLjFllOFGwdAFauW
+ VOYUlzQNHwWOYbXn3BbKjqXiu9BUHPcHJ82nuCi1vrytWgsoB/iPcUeBeTRHh6DurOYv
+ ay88f/dVrfXfDo1NQWpElH9L7eSqIfdZLZwcA2C00ABgDbqJr6vFiQVr66UpfemGOrc+
+ aumehGsCwdJ+hadRYcvG3Bguw9C0uGigVJRtmW3Hi1nOTw6fQqWMUrUbk2QSdz0vUgOl
+ q0nunDf0CWd8i9JP5HAXrwyiZ+O8iLx8svQNbjo60cv1xQIVOwDYbnzHSYdlI8aoRNVo
+ EfGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=njFUM8grNBCWhY7+2MQ0vp+r8NhDVi4GL0ALpm64CQc=;
- b=ryiOQDHTOXAEu6Qbfnn51NM9YSy/EixJHel0cFY3jgsW+mth6/mzA2sOBl+CMZS4z4
- QnoYZqzxBsvgrINTY5NOkFkLnTARGWxT2bFfcSErqOifnOHR+e4UQeU0aAf8D7UXriNi
- tNnQfc5NpuH8z015aSogrib+6CdArFZhonRQTOec0qGqMwTTGMpmEXyAYGidkZKmRzWW
- OD89y+JF0xEOU5PH4q0/rUj6O7NKx5NWvI4kU05CpFXBdKc1+1A2Wdk+8L+jVdapGvVU
- 2IXISj4N3vgwmwG4FzBW/aXpXDSNqbvmhklM3QM2h2doM+l7sXdEr2PlYRkUGvOLrvr6
- um9A==
-X-Gm-Message-State: ACrzQf1V0e1Ike1OZkIw/AbTP1ecpCUp9iqxFROEF4C592DTfjQiTs9a
- APkweJ1CDZZZDplrpuifIHi9cw==
-X-Google-Smtp-Source: AMsMyM5/YWavo37aOvKzpmvgdmkVEaZu35sKTu0ADp1oLjSun+G/nXyR+D74r6QrPi65ndlPWZjeQw==
-X-Received: by 2002:a05:6512:308d:b0:4a2:33d3:b8f1 with SMTP id
- z13-20020a056512308d00b004a233d3b8f1mr10157528lfd.133.1667412428417; 
- Wed, 02 Nov 2022 11:07:08 -0700 (PDT)
+ bh=caH8bf8ljAti3Iqn2/ffUusX7mem9lzX4QuF6rv2l+k=;
+ b=1DhDDT2TKTiivSANkju7ZhP9hy3f2PR/f6XRcs+ddupniLqcRUBvW8wJKW4du4FI80
+ Ui/tpGmQdvXzHZ4UFGvfTYLFCQw2/W7eLhyoVviYDQFcyoffRY3KMYRixQU3lOGfs1Bl
+ BZ62AjVfuHgvpvYHo2vENEaSox08R+aeQHwJ2WHex1Zv3ai0Ga6DyOAjHd9HqtXlSIOt
+ 3l0Hxq0OpUpFPix4kxx98UvHeyjnVQmon3ishq6hATLhCsKJvI4LLYfKBReGWDv3ftfN
+ IiqjTbns2eMu58L0IrtbnzgCyDwFh35vRhxdacLkXpMN5VXDIWkINIeCCmkrh3DDJCU9
+ TwtQ==
+X-Gm-Message-State: ACrzQf1HApKcNOj+9E+Y0sYdbyzIQS+mzdYjWCJ+cHrvPGtem1sCupyI
+ VIDjvBipg5pvblKBopOtm1lIUw==
+X-Google-Smtp-Source: AMsMyM7lr3pt+hR6OTjw8GGDV87W40UMzCRnSnEMVhQ6Wvq7PxsdKmr0R33IAhL2J5nDdfBpBa493Q==
+X-Received: by 2002:a05:6512:10c6:b0:4a2:abd1:868c with SMTP id
+ k6-20020a05651210c600b004a2abd1868cmr10081673lfg.454.1667412429244; 
+ Wed, 02 Nov 2022 11:07:09 -0700 (PDT)
 Received: from eriador.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- r15-20020ac24d0f000000b00485caa0f5dfsm2085232lfi.44.2022.11.02.11.07.07
+ r15-20020ac24d0f000000b00485caa0f5dfsm2085232lfi.44.2022.11.02.11.07.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 02 Nov 2022 11:07:08 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -63,10 +63,10 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Tomi Valkeinen <tomba@kernel.org>
-Subject: [PATCH v3 3/7] drm/bridge_connector: rely on drm_kms_helper_poll_*
- for HPD enablement
-Date: Wed,  2 Nov 2022 21:07:01 +0300
-Message-Id: <20221102180705.459294-4-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 4/7] drm/imx/dcss: stop using
+ drm_bridge_connector_en/disable_hpd()
+Date: Wed,  2 Nov 2022 21:07:02 +0300
+Message-Id: <20221102180705.459294-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
 References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
@@ -89,87 +89,58 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_connector's helpers enable_hpd and disable_hpd to enable and
-disable HPD automatically by the means of drm_kms_helper_poll_*
-functions. As the drm_bridge_connector_enable_hpd() and
-drm_bridge_connector_disable_hpd() functions are now unused, replace
-them with stubs to ease driver migration.
-
-Enabling the HPD from drm_bridge_connector_init() can happen too early,
-before the driver is prepared to handle HPD events. As the
-drm_bridge_connector_enable_hpd() is empty anyway, drop this call
-anyway.
+The functionality of drm_bridge_connector_enable_hpd() and
+drm_bridge_connector_disable_hpd() is provided automatically by the
+drm_kms_poll helpers. Stop calling these functions manually.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_bridge_connector.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/imx/dcss/dcss-dev.c | 4 ----
+ drivers/gpu/drm/imx/dcss/dcss-kms.c | 2 --
+ 2 files changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-index 1c7d936523df..0e13bc87a6ac 100644
---- a/drivers/gpu/drm/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/drm_bridge_connector.c
-@@ -136,6 +136,11 @@ static void drm_bridge_connector_hpd_cb(void *cb_data,
-  * This is typically used by display drivers in their resume handler.
-  */
- void drm_bridge_connector_enable_hpd(struct drm_connector *connector)
-+{
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_connector_enable_hpd);
-+
-+static void _drm_bridge_connector_enable_hpd(struct drm_connector *connector)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
-@@ -145,7 +150,6 @@ void drm_bridge_connector_enable_hpd(struct drm_connector *connector)
- 		drm_bridge_hpd_enable(hpd, drm_bridge_connector_hpd_cb,
- 				      bridge_connector);
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-dev.c b/drivers/gpu/drm/imx/dcss/dcss-dev.c
+index 3f5750cc2673..0d8e44f20ec4 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-dev.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-dev.c
+@@ -257,8 +257,6 @@ int dcss_dev_suspend(struct device *dev)
+ 	struct dcss_kms_dev *kms = container_of(ddev, struct dcss_kms_dev, base);
+ 	int ret;
+ 
+-	drm_bridge_connector_disable_hpd(kms->connector);
+-
+ 	drm_mode_config_helper_suspend(ddev);
+ 
+ 	if (pm_runtime_suspended(dev))
+@@ -292,8 +290,6 @@ int dcss_dev_resume(struct device *dev)
+ 
+ 	drm_mode_config_helper_resume(ddev);
+ 
+-	drm_bridge_connector_enable_hpd(kms->connector);
+-
+ 	return 0;
  }
--EXPORT_SYMBOL_GPL(drm_bridge_connector_enable_hpd);
+ #endif /* CONFIG_PM_SLEEP */
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+index b4f82ebca532..16ef8aa6da37 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+@@ -151,7 +151,6 @@ struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss)
+ 	return kms;
  
- /**
-  * drm_bridge_connector_disable_hpd - Disable hot-plug detection for the
-@@ -156,6 +160,11 @@ EXPORT_SYMBOL_GPL(drm_bridge_connector_enable_hpd);
-  * This is typically used by display drivers in their suspend handler.
-  */
- void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
-+{
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_connector_disable_hpd);
-+
-+static void _drm_bridge_connector_disable_hpd(struct drm_connector *connector)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
-@@ -164,7 +173,6 @@ void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
- 	if (hpd)
- 		drm_bridge_hpd_disable(hpd);
- }
--EXPORT_SYMBOL_GPL(drm_bridge_connector_disable_hpd);
+ cleanup_crtc:
+-	drm_bridge_connector_disable_hpd(kms->connector);
+ 	drm_kms_helper_poll_fini(drm);
+ 	dcss_crtc_deinit(crtc, drm);
  
- /* -----------------------------------------------------------------------------
-  * Bridge Connector Functions
-@@ -305,6 +313,8 @@ static int drm_bridge_connector_get_modes(struct drm_connector *connector)
- static const struct drm_connector_helper_funcs drm_bridge_connector_helper_funcs = {
- 	.get_modes = drm_bridge_connector_get_modes,
- 	/* No need for .mode_valid(), the bridges are checked by the core. */
-+	.enable_hpd = _drm_bridge_connector_enable_hpd,
-+	.disable_hpd = _drm_bridge_connector_disable_hpd,
- };
+@@ -167,7 +166,6 @@ void dcss_kms_detach(struct dcss_kms_dev *kms)
+ 	struct drm_device *drm = &kms->base;
  
- /* -----------------------------------------------------------------------------
-@@ -387,10 +397,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 				    connector_type, ddc);
- 	drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
- 
--	if (bridge_connector->bridge_hpd) {
-+	if (bridge_connector->bridge_hpd)
- 		connector->polled = DRM_CONNECTOR_POLL_HPD;
--		drm_bridge_connector_enable_hpd(connector);
--	}
- 	else if (bridge_connector->bridge_detect)
- 		connector->polled = DRM_CONNECTOR_POLL_CONNECT
- 				  | DRM_CONNECTOR_POLL_DISCONNECT;
+ 	drm_dev_unregister(drm);
+-	drm_bridge_connector_disable_hpd(kms->connector);
+ 	drm_kms_helper_poll_fini(drm);
+ 	drm_atomic_helper_shutdown(drm);
+ 	drm_crtc_vblank_off(&kms->crtc.base);
 -- 
 2.35.1
 
