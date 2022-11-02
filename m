@@ -1,80 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00DA6163EC
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 14:37:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E117B6163FD
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 14:43:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57CD810E2A6;
-	Wed,  2 Nov 2022 13:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC68E10E492;
+	Wed,  2 Nov 2022 13:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6554210E1BE
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 13:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667396221;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF6B10E484
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 13:43:24 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 50F03336C4;
+ Wed,  2 Nov 2022 13:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1667396602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ezfKlpw9NG/xfspFEMSqInXk3hOpdkdRpzDAVN+gS9A=;
- b=EZ24Wm0xMmupk3eJ3TAJsGY3tyT0tBfUyuw8Sq5ezOt6cngmff6VmP6pcH2BXclgELEUl2
- 3MxWgJSHJIPz40qfzjghQxTrx8FuccLmr4+ZDxLUGWJEeLC0MfzXdjBiR76UWeZ6q+uUiq
- XMLPVavL7U5iLyfn8vq+Z9zbMZRSBHA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-Jz7C6JmfOLGMDookM1xiGw-1; Wed, 02 Nov 2022 09:37:00 -0400
-X-MC-Unique: Jz7C6JmfOLGMDookM1xiGw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg25-20020a05600c3c9900b003cf3ed7e27bso7938279wmb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 06:37:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ezfKlpw9NG/xfspFEMSqInXk3hOpdkdRpzDAVN+gS9A=;
- b=lnagdvqi+6vnty2WrriFnh9EULtR6GvKPMmj6SmrBP6E8T7RW+uNz66L2r4XXRdsNE
- uuBKjWYtlnmtRI0eSg6s2Z1SMcl6127GaY4QAuxNY39ZC9m6xs3EMobHkkMhlxohW7PD
- FTLWey6auRr96JfaUuLn67vQMmZPmG+yzvbEqjA/sAHGZdjnSHD9bnjgkp+qVQMY3JO7
- 30jyhObX1Ge1v+bLI+PmM/u9x/FuwUzPNp76uYqdPXsGZvYNrhiUZcf6t6Xvk1L5sumu
- RbNQxy5r0fadh+A62VYapzm6Gziiquf7QsoU62ApiFForW3Rfj5YlMvsQyWnsibwxc9y
- D1dA==
-X-Gm-Message-State: ACrzQf2c1I0f3aePaSfKG9PycYPu6HrXVLySaPLVCpKVCHGysjwQSuvG
- 6RJKBcAzeaMnopi1xpHRkwsRKxfnP5wPVgVuANxIC5E//GYULF55zW5fmUdTlCV/orHEdyZLNRI
- neBg32RB2A/atauNUORjMG/KEENZR
-X-Received: by 2002:a5d:59a5:0:b0:236:8d38:4f1d with SMTP id
- p5-20020a5d59a5000000b002368d384f1dmr15222525wrr.131.1667396219352; 
- Wed, 02 Nov 2022 06:36:59 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6DmyyVd9dbwhJZdAzV0FclVYj6Tx+o1/LFmGOpcyP9dcxcDUcgxmEp8s4lJz7UhJ7FdB4RPw==
-X-Received: by 2002:a5d:59a5:0:b0:236:8d38:4f1d with SMTP id
- p5-20020a5d59a5000000b002368d384f1dmr15222506wrr.131.1667396219110; 
- Wed, 02 Nov 2022 06:36:59 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k5-20020a05600c1c8500b003b47b80cec3sm2302863wms.42.2022.11.02.06.36.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 06:36:58 -0700 (PDT)
-Message-ID: <ffb09945-5f45-027c-a1b8-cbc56302cc4a@redhat.com>
-Date: Wed, 2 Nov 2022 14:36:58 +0100
+ bh=s1NAQMWHMOPSlgsRIgzyJQ56hB7yUlrOTumO8zCz+uA=;
+ b=CJvQTsahcWjuwHiGjyzhlMF6ceQgRKOLA7pJ6mGTRfGVtLXJ/sMsqB/3GtQ4Pok4dDS9He
+ Dr1r/r5VkN0LGbGzjjnfz29Q22oNaDTpBp4hau3coDUpvf9wx7yq8YHiaSCss5Ys/Wn4Gb
+ 9d5EA543y73xMkCw+ImmSH/UfllsLtQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1667396602;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s1NAQMWHMOPSlgsRIgzyJQ56hB7yUlrOTumO8zCz+uA=;
+ b=HN6nbWN+Gh3D4kz+rjOKQsnRN6hIJKcIaTtbjtt2iyfs6Xhi7H6m+mgXcP7gtC8TLNVKZ8
+ jhBv/tDlv9lKU8DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2170E139D3;
+ Wed,  2 Nov 2022 13:43:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ZNoNB/pzYmP5QAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 02 Nov 2022 13:43:22 +0000
+Message-ID: <45a1e8dd-89c6-7109-4917-9282cb92287f@suse.de>
+Date: Wed, 2 Nov 2022 14:43:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
+ Thunderbird/102.4.0
 Subject: Re: [PATCH v2 2/2] drm/ofdrm: Cast error pointers to void __iomem *
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.stein@ew.tq-group.com, 
- airlied@gmail.com, daniel@ffwll.ch
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ alexander.stein@ew.tq-group.com, airlied@gmail.com, daniel@ffwll.ch
 References: <20221028122229.21780-1-tzimmermann@suse.de>
  <20221028122229.21780-3-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221028122229.21780-3-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <ffb09945-5f45-027c-a1b8-cbc56302cc4a@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <ffb09945-5f45-027c-a1b8-cbc56302cc4a@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------449ywNOTp1Uf8VIo99E320fy"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,47 +76,86 @@ Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------449ywNOTp1Uf8VIo99E320fy
+Content-Type: multipart/mixed; boundary="------------kCCWyHWByahW0YPJVrOMe8zM";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ alexander.stein@ew.tq-group.com, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Message-ID: <45a1e8dd-89c6-7109-4917-9282cb92287f@suse.de>
+Subject: Re: [PATCH v2 2/2] drm/ofdrm: Cast error pointers to void __iomem *
+References: <20221028122229.21780-1-tzimmermann@suse.de>
+ <20221028122229.21780-3-tzimmermann@suse.de>
+ <ffb09945-5f45-027c-a1b8-cbc56302cc4a@redhat.com>
+In-Reply-To: <ffb09945-5f45-027c-a1b8-cbc56302cc4a@redhat.com>
 
-On 10/28/22 14:22, Thomas Zimmermann wrote:
-> Cast error pointers when returning them as void __iomem *. Fixes
-> a number of Sparse warnings, such as the ones shown below.
-> 
-> ../drivers/gpu/drm/tiny/ofdrm.c:439:31: warning: incorrect type in return expression (different address spaces)
-> ../drivers/gpu/drm/tiny/ofdrm.c:439:31:    expected void [noderef] __iomem *
-> ../drivers/gpu/drm/tiny/ofdrm.c:439:31:    got void *
-> ../drivers/gpu/drm/tiny/ofdrm.c:442:31: warning: incorrect type in return expression (different address spaces)
-> ../drivers/gpu/drm/tiny/ofdrm.c:442:31:    expected void [noderef] __iomem *
-> ../drivers/gpu/drm/tiny/ofdrm.c:442:31:    got void *
-> 
-> See [1] for the bug report.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/dri-devel/202210200016.yiQzPIy0-lkp@intel.com/ # [1]
-> ---
->  drivers/gpu/drm/tiny/ofdrm.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-> index 44f13a2b372be..f1c301820d54b 100644
-> --- a/drivers/gpu/drm/tiny/ofdrm.c
-> +++ b/drivers/gpu/drm/tiny/ofdrm.c
-> @@ -438,21 +438,21 @@ static void __iomem *get_cmap_address_of(struct ofdrm_device *odev, struct devic
->  	if (!addr_p)
->  		addr_p = of_get_address(of_node, bar_no, &max_size, &flags);
->  	if (!addr_p)
-> -		return ERR_PTR(-ENODEV);
-> +		return (void __iomem *)ERR_PTR(-ENODEV);
->  
+--------------kCCWyHWByahW0YPJVrOMe8zM
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-There's an IOMEM_ERR_PTR() macro already for these cases. If you use
-that instead, feel free to add my r-b when posting v3.
+SGkNCg0KQW0gMDIuMTEuMjIgdW0gMTQ6MzYgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IE9uIDEwLzI4LzIyIDE0OjIyLCBUaG9t
+YXMgWmltbWVybWFubiB3cm90ZToNCj4+IENhc3QgZXJyb3IgcG9pbnRlcnMgd2hlbiByZXR1
+cm5pbmcgdGhlbSBhcyB2b2lkIF9faW9tZW0gKi4gRml4ZXMNCj4+IGEgbnVtYmVyIG9mIFNw
+YXJzZSB3YXJuaW5ncywgc3VjaCBhcyB0aGUgb25lcyBzaG93biBiZWxvdy4NCj4+DQo+PiAu
+Li9kcml2ZXJzL2dwdS9kcm0vdGlueS9vZmRybS5jOjQzOTozMTogd2FybmluZzogaW5jb3Jy
+ZWN0IHR5cGUgaW4gcmV0dXJuIGV4cHJlc3Npb24gKGRpZmZlcmVudCBhZGRyZXNzIHNwYWNl
+cykNCj4+IC4uL2RyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmM6NDM5OjMxOiAgICBleHBl
+Y3RlZCB2b2lkIFtub2RlcmVmXSBfX2lvbWVtICoNCj4+IC4uL2RyaXZlcnMvZ3B1L2RybS90
+aW55L29mZHJtLmM6NDM5OjMxOiAgICBnb3Qgdm9pZCAqDQo+PiAuLi9kcml2ZXJzL2dwdS9k
+cm0vdGlueS9vZmRybS5jOjQ0MjozMTogd2FybmluZzogaW5jb3JyZWN0IHR5cGUgaW4gcmV0
+dXJuIGV4cHJlc3Npb24gKGRpZmZlcmVudCBhZGRyZXNzIHNwYWNlcykNCj4+IC4uL2RyaXZl
+cnMvZ3B1L2RybS90aW55L29mZHJtLmM6NDQyOjMxOiAgICBleHBlY3RlZCB2b2lkIFtub2Rl
+cmVmXSBfX2lvbWVtICoNCj4+IC4uL2RyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmM6NDQy
+OjMxOiAgICBnb3Qgdm9pZCAqDQo+Pg0KPj4gU2VlIFsxXSBmb3IgdGhlIGJ1ZyByZXBvcnQu
+DQo+Pg0KPj4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29t
+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
+c2UuZGU+DQo+PiBMaW5rOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAy
+MjEwMjAwMDE2LnlpUXpQSXkwLWxrcEBpbnRlbC5jb20vICMgWzFdDQo+PiAtLS0NCj4+ICAg
+ZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYyB8IDE2ICsrKysrKysrLS0tLS0tLS0NCj4+
+ICAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCj4+
+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYyBiL2RyaXZl
+cnMvZ3B1L2RybS90aW55L29mZHJtLmMNCj4+IGluZGV4IDQ0ZjEzYTJiMzcyYmUuLmYxYzMw
+MTgyMGQ1NGIgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9vZmRybS5j
+DQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9vZmRybS5jDQo+PiBAQCAtNDM4LDIx
+ICs0MzgsMjEgQEAgc3RhdGljIHZvaWQgX19pb21lbSAqZ2V0X2NtYXBfYWRkcmVzc19vZihz
+dHJ1Y3Qgb2Zkcm1fZGV2aWNlICpvZGV2LCBzdHJ1Y3QgZGV2aWMNCj4+ICAgCWlmICghYWRk
+cl9wKQ0KPj4gICAJCWFkZHJfcCA9IG9mX2dldF9hZGRyZXNzKG9mX25vZGUsIGJhcl9ubywg
+Jm1heF9zaXplLCAmZmxhZ3MpOw0KPj4gICAJaWYgKCFhZGRyX3ApDQo+PiAtCQlyZXR1cm4g
+RVJSX1BUUigtRU5PREVWKTsNCj4+ICsJCXJldHVybiAodm9pZCBfX2lvbWVtICopRVJSX1BU
+UigtRU5PREVWKTsNCj4+ICAgDQo+IA0KPiBUaGVyZSdzIGFuIElPTUVNX0VSUl9QVFIoKSBt
+YWNybyBhbHJlYWR5IGZvciB0aGVzZSBjYXNlcy4gSWYgeW91IHVzZQ0KPiB0aGF0IGluc3Rl
+YWQsIGZlZWwgZnJlZSB0byBhZGQgbXkgci1iIHdoZW4gcG9zdGluZyB2My4NCg0KVGhhbmtz
+IGEgbG90LiBJIHdhcyBsb29raW5nIGZvciBzdWNoIGEgbWFjcm8gYW5kIGNvdWxkbid0IGZp
+bmQgaXQuIFNvIA0KaXQncyBpbiBpby5oLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
+DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUs
+IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0K
+R2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
--- 
-Best regards,
+--------------kCCWyHWByahW0YPJVrOMe8zM--
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+--------------449ywNOTp1Uf8VIo99E320fy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNic/kFAwAAAAAACgkQlh/E3EQov+Cq
+AA/+MALiclu7LiYBA10b2u/2nCmikcu4gPW8IjQhjK0kyPzeYK3A+oRE9sFJrwi6c7z/542xz1UO
+CxrRDXd7z1SlstROtNBJI/XhSIL3GvJaFvoDqVz1A1mvxHp36mMicSychA4TpVFRy78zywkqhbhh
+17Lq+SlmTFtIMwvtztNGeHP+9otsJ+520H/p1A09l7bZJDrR1d1cCvzE5dlHSQm02K41QxqIUPNZ
+C9bS8Igr5wUOAMs1paSnmVVDKjAzjjITgO2BGaFX8dSbz/QDr3Q2+Euw3/w1qlPknPw2NuYpLFNf
+RIyckPlKWnmAc8h1u3i9O5ilnysJ29GScsuvEYHKSgYoQkcXXr7dm8ffLMUjd6y2Bz4FQIA067Bv
+dq/sjalpSz+e7Tp6K4aV5nxqGkg0SkmYKVkvL2j+h4uucmfYQtrN7ZHM3OAQ63eVBkxHDCrdrd2q
+0S0Zl4NMfGFMEvQ7b+TAzo3i0ehHhJZLl3gHWFFaMT+xVDAB76B0t6Sjsedbd8TNt3UU/IGmAX1B
+8U61KIc08IrGEf2tvKtx44qK2hKp77izo/9yNGZFmR31MIb8Wgs4auPK6mMS/p4AjO8aEPSdqEX6
+hMaL4JpcDsbcZd1MfJWqyJVXaYRatf1IEjOK4mwFnememvtFj41Vy6Sg9xqrCxS6vKAqfy62TuUr
+6SI=
+=TJ0s
+-----END PGP SIGNATURE-----
+
+--------------449ywNOTp1Uf8VIo99E320fy--
