@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0CC616295
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 13:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A65C61629B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 13:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB3D189A5E;
-	Wed,  2 Nov 2022 12:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE14B10E487;
+	Wed,  2 Nov 2022 12:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F9889A5E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 12:20:05 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id f37so27909190lfv.8
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 05:20:05 -0700 (PDT)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51AC210E487
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 12:21:49 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id d26so44749375eje.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 05:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=kuKNCfJ7jYZ3EMSIlpqztbG3+4MXqN8G46M7sEDLvKg=;
- b=hBptAHx4OmJ9EsQBtcXMOcSL8HDctm13FqlZ7Ufvvxrt/VqdbLIV1p7PUSuLsWhbMP
- t3GzB/WMYkCm43BLZ5z/oqDNnhX34Sf04qpCLcHGRX87jImzhdz5JqGjL7nBeZBGZWAv
- Mmhgpg+DYGovkQGLmIJQ4VheCfxDto+Ol1xEfvVUVPemAguJpHI2LEgeaO1umeuxDOUy
- X+n8OpjPTlo5CF/usrHpXJOZUao+3aq0eNL8yrh6qNOw06elN4lU0B3WMizRFuq9aBOv
- LWnNVj7OxYfKFmeKt7Hd78+sBdi8R6EbQOFf7zU0V9CErdUJ4gUE9LJ0TroOiea7W7km
- 0QiQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nBruoFaLBpJXHn50CsZ8DVc757M6ZPA1prT8ktYsSL8=;
+ b=g+oMk/EQ8MWArETuO9KmFChjV72ZgJK6vX5H40L/xvbQXD2Uht1BupzBzVdPhnVZJM
+ EgruKiOdhPpZTsnSdLtHR714gjvYNNS5/YQifCskQ15h59xHlhyxQXV+7StvLxDHpkwO
+ 96dpU5KpWNACeOPfiizW7v4fnW6L08trzq6uZMRfJBR2l7E2O1lxON54zDwbsiwh5HHe
+ 03xjIgdnnBzqHpUhRj6ks67DjLfAYFvQ9J5we3jjTlLKRrSo/kDO58tuMDQL6ZXpDWLQ
+ /6hbJmUiL5gSt8vRBFZYTfe7ZF6jjgEaTRHf4DrEnzVo7dEFTbMQ00fq7opye3CqhNxA
+ YNSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kuKNCfJ7jYZ3EMSIlpqztbG3+4MXqN8G46M7sEDLvKg=;
- b=B0Mo96cum+J6rSL14LUdRSKn5Tydj20YRexovu7FE0SIvp+auOfvqkyJ14dAYQqyym
- RncfCrIfS4H/CaK04UBzR5GZ3q95RcoIrKvFi7cyumySHstBnqxWE0KhSHtH/5M4hKKp
- SR8yFibyfqSj3xHHM5B5fOe8/pFI4sW0s/rnQDPMbI23czOnx/ZHwH6Kx1fJPIT4BjDk
- O92w6SAjICeWLiNk/8lImL4Xklz5WadkmD/c/1KwNoPAxmZIF3/gwRMOTWJItMwBhMMh
- AGj2oKXg3n/jXfB21ZlxTcS5TJQAa58V2tbMKBpfD0DWvvJMPQR5q04++3ufSstW/oGe
- 2Bvg==
-X-Gm-Message-State: ACrzQf3xxAq9mgwPkYmb6UfgTMW/3mMrWpODUd+AacCcwEmnru4CqfDJ
- pyikKOT/0oFhRLmeB5Rggr4=
-X-Google-Smtp-Source: AMsMyM5mqpMuZfp3xpMisembUa38J1QXeyAbHNXleXBfhj2x0hW/pANo5NqEaFsai5dXjtGYlBtPcg==
-X-Received: by 2002:a05:6512:110c:b0:4a2:4119:f5c4 with SMTP id
- l12-20020a056512110c00b004a24119f5c4mr8838926lfg.606.1667391603826; 
- Wed, 02 Nov 2022 05:20:03 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- e13-20020ac25cad000000b004a44ffb1050sm1990649lfq.171.2022.11.02.05.20.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 05:20:03 -0700 (PDT)
-Date: Wed, 2 Nov 2022 14:19:54 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nBruoFaLBpJXHn50CsZ8DVc757M6ZPA1prT8ktYsSL8=;
+ b=5eebQp2i6HYPzVkG36YjQ+3B+Pys8TYNqyBqF+o+U2bb7IdoVkeE4RxWzxYsZMBB6c
+ n5VJ35ABrXkmfWB2mpADnsQy97OnrP4lr1NsrFC4jcYoS37KFBYByZ91SvG1gfuUEeB8
+ WaNnVlH/t/bUhUrgqmwYNvR3+gvReJeqNDjVsSGsOp51cFIBtaKd3Mc4tpZ1FCcAPlGB
+ ARKuujLhAQ0I9hF03kGFoayriwq5ZAkiPGv4tCXEouJwpwQzZNfo8MKxg9YI++ZfRWfd
+ UElKYSCMLfUJ6c+v4xDQZzCyG87jp3TJvdUFvth77gI2Z0xPvKs6V3ZkKRntVFunD64I
+ hYzA==
+X-Gm-Message-State: ACrzQf3SvMZyLl3out5+JG24kszvPT1nQW9txYFTvxP6E/3eNPmgx8Rk
+ KRBdmJoWMWRDd/w6D2D4cos=
+X-Google-Smtp-Source: AMsMyM4soMXrLJz3jWdR9MoCOuQXJS4eVMNcLuXalmenyDIh9Vl5qdY1agLegNzfpbDTvoyWNmz4kQ==
+X-Received: by 2002:a17:907:3f23:b0:78e:260a:fc33 with SMTP id
+ hq35-20020a1709073f2300b0078e260afc33mr24071056ejc.152.1667391707891; 
+ Wed, 02 Nov 2022 05:21:47 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:576c:b102:647e:9ffd?
+ ([2a02:908:1256:79a0:576c:b102:647e:9ffd])
+ by smtp.gmail.com with ESMTPSA id
+ g6-20020aa7c586000000b00461c6e8453dsm5695854edq.23.2022.11.02.05.21.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Nov 2022 05:21:47 -0700 (PDT)
+Message-ID: <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+Date: Wed, 2 Nov 2022 13:21:46 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
 Subject: Re: Try to address the DMA-buf coherency problem
-Message-ID: <20221102141954.7d362068@eldfell>
-In-Reply-To: <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Daniel Stone <daniel@fooishbar.org>
 References: <20221020121316.3946-1-christian.koenig@amd.com>
  <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
  <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
@@ -63,10 +70,11 @@ References: <20221020121316.3946-1-christian.koenig@amd.com>
  <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
  <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
  <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/OAKsq5M/R_mtofD1AWiwUv/";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+ <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,108 +87,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- sumit.semwal@linaro.org
+Cc: ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/OAKsq5M/R_mtofD1AWiwUv/
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Lucas,
 
-On Wed, 2 Nov 2022 12:18:01 +0100
-Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com> wrote:
+Am 02.11.22 um 12:39 schrieb Lucas Stach:
+> Hi Christian,
+>
+> going to reply in more detail when I have some more time, so just some
+> quick thoughts for now.
+>
+> Am Mittwoch, dem 02.11.2022 um 12:18 +0100 schrieb Christian König:
+>> Am 01.11.22 um 22:09 schrieb Nicolas Dufresne:
+>>> [SNIP]
+>> As far as I can see it you guys just allocate a buffer from a V4L2
+>> device, fill it with data and send it to Wayland for displaying.
+>>
+>> To be honest I'm really surprised that the Wayland guys hasn't pushed
+>> back on this practice already.
+>>
+>> This only works because the Wayland as well as X display pipeline is
+>> smart enough to insert an extra copy when it find that an imported
+>> buffer can't be used as a framebuffer directly.
+>>
+> With bracketed access you could even make this case work, as the dGPU
+> would be able to slurp a copy of the dma-buf into LMEM for scanout.
 
-> Am 01.11.22 um 22:09 schrieb Nicolas Dufresne:
-> > [SNIP] =20
-> >>> But the client is just a video player. It doesn't understand how to
-> >>> allocate BOs for Panfrost or AMD or etnaviv. So without a universal
-> >>> allocator (again ...), 'just allocate on the GPU' isn't a useful
-> >>> response to the client. =20
-> >> Well exactly that's the point I'm raising: The client *must* understand
-> >> that!
-> >>
-> >> See we need to be able to handle all restrictions here, coherency of t=
-he
-> >> data is just one of them.
-> >>
-> >> For example the much more important question is the location of the da=
-ta
-> >> and for this allocating from the V4L2 device is in most cases just not
-> >> going to fly. =20
-> > It feels like this is a generic statement and there is no reason it cou=
-ld not be
-> > the other way around. =20
->=20
-> And exactly that's my point. You always need to look at both ways to=20
-> share the buffer and can't assume that one will always work.
->=20
-> As far as I can see it you guys just allocate a buffer from a V4L2=20
-> device, fill it with data and send it to Wayland for displaying.
->=20
-> To be honest I'm really surprised that the Wayland guys hasn't pushed=20
-> back on this practice already.
+Well, this copy is what we are trying to avoid here. The codec should 
+pump the data into LMEM in the first place.
 
-What should we Wayland people be pushing back on exactly? And where is
-our authority and opportunity to do so?
+>>> The only case the commonly fails is whenever we try to display UVC
+>>> created dmabuf,
+>> Well, exactly that's not correct! The whole x86 use cases of direct
+>> display for dGPUs are broken because media players think they can do the
+>> simple thing and offload all the problematic cases to the display server.
+>>
+>> This is absolutely *not* the common use case you describe here, but
+>> rather something completely special to ARM.
+> It the normal case for a lot of ARM SoCs.
 
-The Wayland protocol dmabuf extension allows a graceful failure if the
-Wayland compositor cannot use the given dmabuf at all, giving the
-client an opportunity to try something else. The Wayland protocol also
-tells clients which DRM rendering device at minimum the dmabuf needs to
-be compatible with. It even tells which KMS device the dmabuf could be
-put on direct scanout if the dmabuf was suitable for that and direct
-scanout is otherwise possible.
+Yeah, but it's not the normal case for everybody.
 
-What the client (application) does with all that information is up to
-the client. That code is not part of Wayland.
+We had numerous projects where customers wanted to pump video data 
+directly from a decoder into an GPU frame or from a GPU frame into an 
+encoder.
 
-I'm sure we would be happy to add protocol for anything that
-https://github.com/cubanismo/allocator needs to become the universal
-optimal buffer allocator library.
+The fact that media frameworks doesn't support that out of the box is 
+simply a bug.
 
+> That world is certainly not
+> any less big than the x86 dGPU world. A huge number of devices are ARM
+> based set-top boxes and other video players. Just because it is a
+> special case for you doesn't mean it's a global special case.
 
-> This only works because the Wayland as well as X display pipeline is=20
-> smart enough to insert an extra copy when it find that an imported=20
-> buffer can't be used as a framebuffer directly.
+Ok, let's stop with that. This isn't helpful in the technical discussion.
 
-The only fallback Wayland compositors tend to do is use OpenGL/Vulkan
-rendering for composition if direct scanout on a KMS plane does not
-work. There are many reasons why direct scanout may not be possible in
-addition to hardware and drivers not agreeing to do it with the given
-set of buffers.
+>
+>> That we haven't heard anybody screaming that x86 doesn't work is just
+>> because we handle the case that a buffer isn't directly displayable in
+>> X/Wayland anyway, but this is absolutely not the optimal solution.
+>>
+>> The argument that you want to keep the allocation on the codec side is
+>> completely false as far as I can see.
+>>
+>> We already had numerous projects where we reported this practice as bugs
+>> to the GStreamer and FFMPEG project because it won't work on x86 with dGPUs.
+>>
+> And on a lot of ARM SoCs it's exactly the right thing to do.
 
-A general purpose (read: desktop) Wayland compositor simply cannot live
-without being able to fall back from KMS composition to software/GPU
-composition.
+Yeah and that's fine, it just doesn't seem to work in all cases.
 
-But yes, there are use cases where that fallback is as good as failing
-completely. Those are not desktops but more like set-top-boxes and TVs.
+For both x86 as well as the case here that the CPU cache might be dirty 
+the exporter needs to be the device with the requirements.
 
+For x86 dGPUs that's the backing store is some local memory. For the 
+non-coherent ARM devices it's that the CPU cache is not dirty.
 
-Thanks,
-pq
+For a device driver which solely works with cached system memory 
+inserting cache flush operations is something it would never do for 
+itself. It would just be doing this for the importer and exactly that 
+would be bad design because we then have handling for the display driver 
+outside of the driver.
 
---Sig_/OAKsq5M/R_mtofD1AWiwUv/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>> This is just a software solution which works because of coincident and
+>> not because of engineering.
+> By mandating a software fallback for the cases where you would need
+> bracketed access to the dma-buf, you simply shift the problem into
+> userspace. Userspace then creates the bracket by falling back to some
+> other import option that mostly do a copy and then the appropriate
+> cache maintenance.
+>
+> While I understand your sentiment about the DMA-API design being
+> inconvenient when things are just coherent by system design, the DMA-
+> API design wasn't done this way due to bad engineering, but due to the
+> fact that performant DMA access on some systems just require this kind
+> of bracketing.
 
------BEGIN PGP SIGNATURE-----
+Well, this is exactly what I'm criticizing on the DMA-API. Instead of 
+giving you a proper error code when something won't work in a specific 
+way it just tries to hide the requirements inside the DMA layer.
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmNiYGoACgkQI1/ltBGq
-qqcTqA/5Ab8/hzyDs16KNLWjEM4Gqt2YwAzjWYVw4EKO570tTWXwH0MBhj9zEdnk
-4oNieyffSiLmLvrRc0N4R+NSwtpGBrOqO6V44SyxUq/moR5jCSI06okLmQnzPIxP
-TEwtzHdIV/50//uKbgkdbLqziA4ypOB0y5x0N7xyeP0EHcJ7QIS5e05rx3ockI2h
-4d8Eb//5Y98gDwz/zkFIMty3wm3RsdpTdIT01PBnImkhotq5Bm52o90KX0jhWLrS
-I1l1D6Pbt2PpkIJYUJhYCm8YQZvHEmd3Ro/koUVIjMsQIu47VsL2R6KzrswpYYva
-xSDbRBpGtbCjaNhToyL+uPeSUergaO5Ow9jNDQtxez9w4A8JuDw3nNwJbrih5yUb
-3sapkhAKW37xYWRiV9KwqNweCTsI3faBD00U+RZlmz6AgpYA0yS43WR4cPr81mc8
-vawTvChhm1F0xY/UNp75oFQSj2/6nj90D08Y5SBcdn5UfH027HOEF6Lx9WxTh2lJ
-+rlHGi5BiZ1Mbyio4w3EeCi4D9DejRPoSA3p/V2M7tPopjTu1XT2v6Svl2MuLrYT
-A4bIi7fPCDEt9DY0b7faEfk84aeRjIhQKOhU1en42FxcTUoQcA14eyUWyfOI4Cdg
-9NjU8s4NxMWxkQ7vQjhry7Rk4b8GpDSBkgd9Ye0HvnZ4C7iPtQE=
-=FSEh
------END PGP SIGNATURE-----
+For example when your device can only access 32bits the DMA-API 
+transparently insert bounce buffers instead of giving you a proper error 
+code that the memory in question can't be accessed.
 
---Sig_/OAKsq5M/R_mtofD1AWiwUv/--
+This just tries to hide the underlying problem instead of pushing it 
+into the upper layer where it can be handled much more gracefully.
+
+Regards,
+Christian.
+
+>
+> Regards,
+> Lucas
+>
+
