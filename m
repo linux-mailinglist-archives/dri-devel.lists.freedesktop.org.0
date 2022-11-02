@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03723615ECC
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 10:04:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFA1615ED5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 10:05:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B3210E452;
-	Wed,  2 Nov 2022 09:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F373A10E458;
+	Wed,  2 Nov 2022 09:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E1E10E44F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 09:04:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC73310E456
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 09:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667379846;
+ s=mimecast20190719; t=1667379906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
- b=JEZ26qgK66TQuIjpBJVcw6NVnuvpzUbLFUElvF/3UO5w+UFNXksF2QEt6j8nC5LzDit8KD
- 22hd2j3LeRKdOcNmh52W0TnbIKI8E+vB1MXYo2SoI1KKtRyWnAi812MY+GrDotpTdmf6O/
- bVjxYVaGoU0LguaER6yBr3qC9yhNYow=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LpYqcUNkPgIA1fAPwB+EiO+Z9dq0ENSiM+RajxMrldI=;
+ b=WvDAXhrxk3GfKKBlUDB6Tzma1uxqlntRK6qLRDswyPGiYR+zTAHeZXUpHkCXzM6AYrCCO/
+ 8Rhjgexrdpeu/Rp19UnprEcKJfM990He1EdFC5wXawSsl6wC/AcA19tBTUuPC6CX/2x2Bs
+ z2ifoN+fLi9FkktGjdfFYUN1DbM309o=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-103-qnAAoOVtNJy_OGhqUtq-5A-1; Wed, 02 Nov 2022 05:04:01 -0400
-X-MC-Unique: qnAAoOVtNJy_OGhqUtq-5A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- g4-20020adfbc84000000b0022fc417f87cso4625157wrh.12
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 02:04:01 -0700 (PDT)
+ us-mta-515-rUZDbOFeOgy-qPzX_qhsdw-1; Wed, 02 Nov 2022 05:05:05 -0400
+X-MC-Unique: rUZDbOFeOgy-qPzX_qhsdw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v23-20020a1cf717000000b003bff630f31aso245083wmh.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Nov 2022 02:05:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
- b=gQgOwQzDpfDvLpsFdnrniL4wrnp0n2aAkccNb0VM+d8knwbUCdHsLIrscGs/jaXBxO
- YQP4BU+nlBlpHv2dKFGobroBCo0q+wv3tQjeRI9zuJoUlG9iGGhqszn9/qiQ/bmAhLNp
- iUZz0ykzwUSJD8EKSn1yIsJM2oguHSMlRN/J7/Y7xpP6VALoLEzvtqL/G8lyTRQTBAfQ
- 6DcteM1p+uea1jnOuk0z+2JsrkEGECjUKuG3EtLy7c2voxcRfb6zRBgPFPmc72tDlI5b
- zOLkLGUASV7fH+UoaVcssGVahI8b0SzqFCevqu23/JsgDo30nbPQudh9UH3TB9AZUzc5
- 9jrA==
-X-Gm-Message-State: ACrzQf2+7B2RpATj9T7mqXBbZlulHJF1ZwccEJcECWLzKRbiy0E6AnHz
- nXoozxKr2VtgxmMGsvobGsm/lCema1+X1El12Os7XC2+c4fJq7NC0xg6eKSHO8fDQJJhAyJyhgg
- teEVw6ixDab6Mzh88ss9SwfBxQ2fj
-X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id
- k9-20020a7bc409000000b003cf4c818936mr24380810wmi.38.1667379840252; 
- Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM72ckpdUoZR+NwXtu1sv2+7NmgS+YMIWWHB7QdeKnWTKduGDRl7tg4bkpenTZv0mX1kFf34kw==
-X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id
- k9-20020a7bc409000000b003cf4c818936mr24380784wmi.38.1667379840046; 
- Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+ bh=LpYqcUNkPgIA1fAPwB+EiO+Z9dq0ENSiM+RajxMrldI=;
+ b=jp77nKk6XgRC/16f8IcGjLQTmLRiVDiufh1KckpbukweFswphpVoTf8ukflbzYC99m
+ WudxQ0zzBjqRGB8YztrXEjhRo7rz2GwIriUoKORs4ftyeBkpKxeNZ4PXeiXbwILQBOWz
+ CcdqiCvHBLhtrygdQlp6kpkgyxJg0D1+NebdMXDbfKdLXO6CWQ2D7qfd6o0A2StXI6Pk
+ zE83tKhHd4ts/NAo9fvN6Ktb+reKPswSCa/ueTv68sLBzMWhg8ATyxfYIa3SPBu5wZYP
+ Tba8++F2FNoZcatmIF5CVOPy8fqt9l2lt39Sd7J8AT7JmOtq+rqhMhAng3yePKNKL3P2
+ 7hFg==
+X-Gm-Message-State: ACrzQf0wdHiAVeuZrmOMuBd8ZOrsH8852vA3rAKMiHjf1BPJuqh/MO7m
+ 69Vcuqht176F4yrg0Zht9vcTPl4e+bagcvDm+1WhYsoNfAHtx+a/wECt2YOGXwdoDEgmeCxmvHe
+ uJ5PK7/kd+WSufKPlN2+E4Vwbwb4X
+X-Received: by 2002:a5d:6488:0:b0:22b:3b0b:5e72 with SMTP id
+ o8-20020a5d6488000000b0022b3b0b5e72mr14464183wri.138.1667379904788; 
+ Wed, 02 Nov 2022 02:05:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6Ug/7BR+PMLuqwC0wiYVRKEgerXkzKho5yFNKIDT0bC26SnYKpkqpAn1quqQ9FNF9E1JGkLg==
+X-Received: by 2002:a5d:6488:0:b0:22b:3b0b:5e72 with SMTP id
+ o8-20020a5d6488000000b0022b3b0b5e72mr14464139wri.138.1667379904487; 
+ Wed, 02 Nov 2022 02:05:04 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b13-20020a5d550d000000b002366b17ca8bsm14083933wrv.108.2022.11.02.02.03.58
+ p2-20020a5d4582000000b00228d52b935asm12402687wrq.71.2022.11.02.02.05.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 02:03:59 -0700 (PDT)
-Message-ID: <87284e5e-859e-3b1c-7142-28d4fa7a7939@redhat.com>
-Date: Wed, 2 Nov 2022 10:03:57 +0100
+ Wed, 02 Nov 2022 02:05:04 -0700 (PDT)
+Message-ID: <a96d57d8-486d-5a48-a00a-39df6275cbb5@redhat.com>
+Date: Wed, 2 Nov 2022 10:05:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 15/21] drm/fb-helper: Disconnect damage worker from
- update logic
+Subject: Re: [PATCH v2 16/21] drm/fb-helper: Call fb_sync in I/O functions
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-16-tzimmermann@suse.de>
+ <20221024111953.24307-17-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-16-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-17-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -105,33 +104,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> The fbdev helpers implement a damage worker that forwards fbdev
-> updates to the DRM driver. The worker's update logic depends on
-> the generic fbdev emulation. Separate the two via function pointer.
-> 
-> The generic fbdev emulation sets struct drm_fb_helper_funcs.fb_dirty,
-> a new callback that hides the update logic from the damage worker.
-> It's not possible to use the generic logic with other fbdev emulation,
-> because it contains additional code for the shadow buffering that
-> the generic emulation employs.
-> 
-> DRM drivers with internal fbdev emulation can set fb_dirty to their
-> own implementation if they require damage handling; although no such
-> drivers currently exist.
+> Call struct fb_ops.fb_sync in drm_fbdev_{read,write}() to mimic the
+> behavior of fbdev. Fbdev implementations of fb_read and fb_write in
+> struct fb_ops invoke fb_sync to synchronize with outstanding operations
+> before I/O. Doing the same in DRM implementations will allow us to use
+> them throughout DRM drivers.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-
-[...]
-
->  static void drm_fb_helper_damage_work(struct work_struct *work)
->  {
-> -	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper,
-> -						    damage_work);
-> -	struct drm_device *dev = helper->dev;
-> +	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
-
-This line is an unrelated code style change. But I guess it's OK.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
