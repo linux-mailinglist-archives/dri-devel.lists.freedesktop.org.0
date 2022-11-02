@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A51616F84
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 22:18:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 901D7616FC8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 22:31:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B1D10E18F;
-	Wed,  2 Nov 2022 21:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB49E10E664;
+	Wed,  2 Nov 2022 21:30:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 622A410E18F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 21:18:20 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6EF10E663
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Nov 2022 21:30:52 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2A2LBxuE027625; Wed, 2 Nov 2022 21:17:44 GMT
+ 2A2LQbru031291; Wed, 2 Nov 2022 21:30:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ivz5RbZcb5Miq0dSvL8sFguitJpf9hxvWRqP31OCYsA=;
- b=Cffmb++KimgAuGoAJOAWZIO6Dv53/6VbTYGjfxVISBygACU5DkGYWAIBosiMX5VSkjhi
- UVSFiJz5hmmXI0sHqFPCV5osWPfXzjtIEa4j4YqgyTmC/sBj7XBL0tfK8mWj3TAop7Mv
- Uqu8cjyLrv8uMOdHD4m/+3npbeUKheobprYkfGQ1Wn8lEB5WjPez8MjhgDdHtRnnFgr7
- r3e9m0B4hnNSOKyGbh3KJzIPolp4XYgZkiKeooWG++2UZYTub2uWiwRAn0WWaxmYVCng
- wmscHxseCrVzeUpotRBm8OkMAfJBIXi8ptCRL0lmnH1aMRp0nDiusSrgra5a/2VY/5CM 8Q== 
+ bh=8M4oNJWBxl6J9cF9aFri0vLNH3Y5FE7K8nXrAL0guLc=;
+ b=i1L6aPKtVZRGXOQMyvSgw4r0vkHAQ0rhXQFGFiBvfrXtC25bD2qm1jopOdWisdqVuA/x
+ RZItexTxAwyCTqZ85eBoCu9jobTy6KWvxPxqMJdMhbPTh4dEM3abXM0unkDPY8PGz8BQ
+ YDVdRRvHgpEuteKLtjPwhCKcMEEZiz9T9t714g73PigK5St/LI3EtqEx/3wqtGDfOQN7
+ T4X2rOCj9A9/A0VAlOokkSlDicsrLHWKEPQbvf+M4Y3baITZ46kzb9qT1FLrRUcDn/Vz
+ iksmgNUmYt6RR8RKEmu53YUvBffqVbtNySzr/1gv8fa8J3EOiaCNQh4sggx8p75yGkzj Tw== 
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kkm401gcx-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kkw41gsdt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Nov 2022 21:17:44 +0000
+ Wed, 02 Nov 2022 21:30:30 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A2LHhNn025375
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A2LUTNe005843
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 2 Nov 2022 21:17:43 GMT
+ Wed, 2 Nov 2022 21:30:29 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 2 Nov 2022
- 14:17:41 -0700
-Message-ID: <7654d9c0-c181-ae6b-96ee-349f20f24b18@quicinc.com>
-Date: Wed, 2 Nov 2022 15:17:41 -0600
+ 14:30:28 -0700
+Message-ID: <b6faacac-46f2-7643-7796-b34840fc94f5@quicinc.com>
+Date: Wed, 2 Nov 2022 15:30:27 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2 2/3] accel: add dedicated minor for accelerator
- devices
+Subject: Re: [RFC PATCH v2 3/3] drm: initialize accel framework
 Content-Language: en-US
 To: Oded Gabbay <ogabbay@kernel.org>, David Airlie <airlied@gmail.com>, Daniel
  Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
@@ -55,9 +54,9 @@ To: Oded Gabbay <ogabbay@kernel.org>, David Airlie <airlied@gmail.com>, Daniel
  Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
  Alex Deucher <alexander.deucher@amd.com>
 References: <20221102203405.1797491-1-ogabbay@kernel.org>
- <20221102203405.1797491-3-ogabbay@kernel.org>
+ <20221102203405.1797491-4-ogabbay@kernel.org>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20221102203405.1797491-3-ogabbay@kernel.org>
+In-Reply-To: <20221102203405.1797491-4-ogabbay@kernel.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -66,17 +65,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: EvUllNQvDjyy5i4IO_N42kluT8NQatYS
-X-Proofpoint-ORIG-GUID: EvUllNQvDjyy5i4IO_N42kluT8NQatYS
+X-Proofpoint-ORIG-GUID: 1ML62Efs16CUbymup6sHIAEFHeWbnW3l
+X-Proofpoint-GUID: 1ML62Efs16CUbymup6sHIAEFHeWbnW3l
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-02_15,2022-11-02_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0
- clxscore=1015 mlxlogscore=893 impostorscore=0 malwarescore=0
- lowpriorityscore=0 mlxscore=0 phishscore=0 suspectscore=0
- priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2211020141
+ suspectscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
+ adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211020142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,92 +99,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/2/2022 2:34 PM, Oded Gabbay wrote:
-> @@ -24,16 +33,6 @@ static char *accel_devnode(struct device *dev, umode_t *mode)
-> 
->   static CLASS_ATTR_STRING(accel_version, 0444, "accel 1.0.0 20221018");
-> 
-> -/**
-> - * accel_sysfs_init - initialize sysfs helpers
-> - *
-> - * This is used to create the ACCEL class, which is the implicit parent of any
-> - * other top-level ACCEL sysfs objects.
-> - *
-> - * You must call accel_sysfs_destroy() to release the allocated resources.
-> - *
-> - * Return: 0 on success, negative error code on failure.
-> - */
+> @@ -163,7 +174,11 @@ static int drm_minor_register(struct drm_device *dev, unsigned int type)
+>   
+>   	ret = drm_debugfs_init(minor, minor->index, drm_debugfs_root);
+>   	if (ret) {
+> -		DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
+> +		if (minor->type == DRM_MINOR_ACCEL)
+> +			DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/accel.\n");
+> +		else
+> +			DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
+> +
+>   		goto err_debugfs;
+>   	}
+>   
 
-Why are we removing this?
-
->   static int accel_sysfs_init(void)
->   {
->   	int err;
-> @@ -54,11 +53,6 @@ static int accel_sysfs_init(void)
->   	return 0;
->   }
-> 
-> -/**
-> - * accel_sysfs_destroy - destroys ACCEL class
-> - *
-> - * Destroy the ACCEL device class.
-> - */
-
-Again, why remove this?  Adding it in one patch than immediately 
-removing it in the next patch seems wasteful.
-
->   static void accel_sysfs_destroy(void)
->   {
->   	if (IS_ERR_OR_NULL(accel_class))
-> @@ -68,11 +62,185 @@ static void accel_sysfs_destroy(void)
->   	accel_class = NULL;
->   }
-> 
-> +static void accel_minor_release(struct drm_minor *minor)
-> +{
-> +	drm_dev_put(minor->dev);
-> +}
-> +
-> +/**
-> + * accel_open - open method for ACCEL file
-> + * @inode: device inode
-> + * @filp: file pointer.
-> + *
-> + * This function must be used by drivers as their &file_operations.open method.
-
-Feels like it would be helpful to have an accel version of 
-DEFINE_DRM_GEM_FOPS() which helps accel drivers to get this right
-
-> + * It looks up the correct ACCEL device and instantiates all the per-file
-> + * resources for it. It also calls the &drm_driver.open driver callback.
-> + *
-> + * Return: 0 on success or negative errno value on failure.
-> + */
-> +int accel_open(struct inode *inode, struct file *filp)
-> +{
-> +	struct drm_device *dev;
-> +	struct drm_minor *minor;
-> +	int retcode;
-> +
-> +	minor = accel_minor_acquire(iminor(inode));
-> +	if (IS_ERR(minor))
-> +		return PTR_ERR(minor);
-> +
-> +	dev = minor->dev;
-> +
-> +	atomic_fetch_inc(&dev->open_count);
-> +
-> +	/* share address_space across all char-devs of a single device */
-> +	filp->f_mapping = dev->anon_inode->i_mapping;
-> +
-> +	retcode = drm_open_helper(filp, minor);
-> +	if (retcode)
-> +		goto err_undo;
-> +
-> +	return 0;
-> +
-> +err_undo:
-> +	atomic_dec(&dev->open_count);
-> +	accel_minor_release(minor);
-> +	return retcode;
-> +}
-> +EXPORT_SYMBOL_GPL(accel_open);
+This doesn't look right.  Don't you need to call drm_debugfs_init() with 
+accel_debugfs_root for the case - minor->type == DRM_MINOR_ACCEL? 
+Unless I fail to understand something, this will put all the accel 
+devices under /sys/kernel/debug/dri
