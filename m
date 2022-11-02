@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2469A616514
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 15:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C2C61650A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 15:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8101B10E496;
-	Wed,  2 Nov 2022 14:26:21 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374DF10E496;
- Wed,  2 Nov 2022 14:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667399178; x=1698935178;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=qmyhZ9qekCAfnFNT7oi59V1tmBU1WE00heivKJi0aPw=;
- b=RmGdBM8Db/OSDwfSECHrZIqOAl1vwjGnUiY6/FhNvweUoIHvm4dJPGF4
- 4o0gR+1rj4cyDXi+vlupf8ZZJuVJ7DHBI/iMMQERa2xakk3rDXhZ7zclV
- aS52MXo3mvufrfNHW54oKdIsYVwTH+beB2T3BBM94gl65oy+Rt3tXM4qr
- v9aVex4yjJq6whEcje8gg0XIGNozTk/Us9gdtoLX2cenBHdIKF2l3Iu8m
- 3dAYQC3av2mddoE8xvtJf9d6PBAcVFzCGcph07iBR5F1ZUWIm/PSfQW2q
- DlEeklbCAFARn9anmtHtkdBv4vy+tAUQ3Q3+iC3GfDfZKisg1DH/f0WgI g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="307034314"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="307034314"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 07:20:08 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="759564352"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="759564352"
-Received: from dsloan-mobl.ger.corp.intel.com (HELO [10.213.207.205])
- ([10.213.207.205])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 07:20:06 -0700
-Message-ID: <c710a428-50f6-6181-3f93-4d7667a9ac3f@linux.intel.com>
-Date: Wed, 2 Nov 2022 14:20:04 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id E664B10E1D2;
+	Wed,  2 Nov 2022 14:24:29 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC78010E1D2;
+ Wed,  2 Nov 2022 14:24:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 53ABE616C6;
+ Wed,  2 Nov 2022 14:24:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC5EBC433D7;
+ Wed,  2 Nov 2022 14:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667399065;
+ bh=uO1Wv+ReevzIk1aXtBRREBtT/tgyabwShw4JBUSnx6k=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=UNWJ/4jpUzZFIB7tPJV/eqMaxCh+PYp4P7Aq2szKTVXCULfLz10BbAhBDKtn7qon7
+ qCNQVVXYd8Rulhr4Qq76/2tUh+peqQ1Xtjhnk/XkaYwbxs2BkZH/jwIpmG++6e1ptc
+ M5Rikc5GMKxE97zUoPxQiafVfiTMYdNSJ1T0XEGhXwkloj+ZKycNRFA5j145qIAGJo
+ 66Q7B7Y+0XQE9nhPCcxajawU42eAMsG2/zleyYIRr3HHJ34gDx5ybrdzuvsWp3Cil1
+ h2xtFFZ0lpbUQSocP8NEWBNCU1QPkCl8/NhbylGIUZH6XfcpA7F9jL9whYWHFuTQNV
+ 83Vz7gBgTpJhw==
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-36a4b86a0abso167768687b3.7; 
+ Wed, 02 Nov 2022 07:24:25 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2E7yipCD2pKAK0T3PzO2S/jEzfwHr3+bsO5M2Sg/BLbhEacysA
+ GnyGtNahoiAhHnMwesnEwm8ozIry51nBz8TdhNk=
+X-Google-Smtp-Source: AMsMyM4ABQsof+4Xlk8ax7jbRQ+7bPAZ4K1/9vveI4fArkhRYZ2W2wwyMUVBNLw66TPXUcGd25zoAo2WgbXtEQJIcyo=
+X-Received: by 2002:a05:690c:825:b0:36a:b160:21b with SMTP id
+ by5-20020a05690c082500b0036ab160021bmr23933191ywb.211.1667399064738; Wed, 02
+ Nov 2022 07:24:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Don't wait forever in drop_caches
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, John.C.Harrison@Intel.com,
- Intel-GFX@Lists.FreeDesktop.Org
-References: <20221101235053.1650364-1-John.C.Harrison@Intel.com>
- <87k04d7dyn.fsf@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <87k04d7dyn.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220911211443.581481-1-michal.winiarski@intel.com>
+ <20220911211443.581481-2-michal.winiarski@intel.com>
+In-Reply-To: <20220911211443.581481-2-michal.winiarski@intel.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Wed, 2 Nov 2022 16:23:57 +0200
+X-Gmail-Original-Message-ID: <CAFCwf11=hKGm93oF1A5PLhdvdo2ujYJWyt4qAqK-KQQqe6ngDA@mail.gmail.com>
+Message-ID: <CAFCwf11=hKGm93oF1A5PLhdvdo2ujYJWyt4qAqK-KQQqe6ngDA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] drm: Use XArray instead of IDR for minors
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,90 +62,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Matthew Wilcox <willy@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 12, 2022 at 12:17 AM Micha=C5=82 Winiarski
+<michal.winiarski@intel.com> wrote:
+>
+> IDR is deprecated, and since XArray manages its own state with internal
+> locking, it simplifies the locking on DRM side.
+> Additionally, don't use the IRQ-safe variant, since operating on drm
+> minor is not done in IRQ context.
+>
+> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> ---
+>  drivers/gpu/drm/drm_drv.c | 51 ++++++++++++++-------------------------
+>  1 file changed, 18 insertions(+), 33 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 8214a0b1ab7f..61d24cdcd0f8 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -34,6 +34,7 @@
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/slab.h>
+>  #include <linux/srcu.h>
+> +#include <linux/xarray.h>
+>
+>  #include <drm/drm_cache.h>
+>  #include <drm/drm_client.h>
+> @@ -53,8 +54,7 @@ MODULE_AUTHOR("Gareth Hughes, Leif Delgass, Jos=C3=A9 F=
+onseca, Jon Smirl");
+>  MODULE_DESCRIPTION("DRM shared core routines");
+>  MODULE_LICENSE("GPL and additional rights");
+>
+> -static DEFINE_SPINLOCK(drm_minor_lock);
+> -static struct idr drm_minors_idr;
+> +static DEFINE_XARRAY_ALLOC(drm_minors_xa);
+>
+>  /*
+>   * If the drm core fails to init for whatever reason,
+> @@ -98,21 +98,19 @@ static struct drm_minor **drm_minor_get_slot(struct d=
+rm_device *dev,
+>  static void drm_minor_alloc_release(struct drm_device *dev, void *data)
+>  {
+>         struct drm_minor *minor =3D data;
+> -       unsigned long flags;
+>
+>         WARN_ON(dev !=3D minor->dev);
+>
+>         put_device(minor->kdev);
+>
+> -       spin_lock_irqsave(&drm_minor_lock, flags);
+> -       idr_remove(&drm_minors_idr, minor->index);
+> -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> +       xa_erase(&drm_minors_xa, minor->index);
+>  }
+>
+> +#define DRM_MINOR_LIMIT(t) ({ typeof(t) _t =3D (t); XA_LIMIT(64 * _t, 64=
+ * _t + 63); })
+> +
+>  static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
+>  {
+>         struct drm_minor *minor;
+> -       unsigned long flags;
+>         int r;
+>
+>         minor =3D drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
+> @@ -122,21 +120,10 @@ static int drm_minor_alloc(struct drm_device *dev, =
+unsigned int type)
+>         minor->type =3D type;
+>         minor->dev =3D dev;
+>
+> -       idr_preload(GFP_KERNEL);
+> -       spin_lock_irqsave(&drm_minor_lock, flags);
+> -       r =3D idr_alloc(&drm_minors_idr,
+> -                     NULL,
+> -                     64 * type,
+> -                     64 * (type + 1),
+> -                     GFP_NOWAIT);
+> -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> -       idr_preload_end();
+> -
+> +       r =3D xa_alloc(&drm_minors_xa, &minor->index, NULL, DRM_MINOR_LIM=
+IT(type), GFP_KERNEL);
+>         if (r < 0)
+>                 return r;
+>
+> -       minor->index =3D r;
+> -
+>         r =3D drmm_add_action_or_reset(dev, drm_minor_alloc_release, mino=
+r);
+>         if (r)
+>                 return r;
+> @@ -152,7 +139,7 @@ static int drm_minor_alloc(struct drm_device *dev, un=
+signed int type)
+>  static int drm_minor_register(struct drm_device *dev, unsigned int type)
+>  {
+>         struct drm_minor *minor;
+> -       unsigned long flags;
+> +       void *entry;
+>         int ret;
+>
+>         DRM_DEBUG("\n");
+> @@ -172,9 +159,12 @@ static int drm_minor_register(struct drm_device *dev=
+, unsigned int type)
+>                 goto err_debugfs;
+>
+>         /* replace NULL with @minor so lookups will succeed from now on *=
+/
+> -       spin_lock_irqsave(&drm_minor_lock, flags);
+> -       idr_replace(&drm_minors_idr, minor, minor->index);
+> -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> +       entry =3D xa_cmpxchg(&drm_minors_xa, minor->index, NULL, &minor, =
+GFP_KERNEL);
+I believe we should pass in "minor", without the &, as &minor will
+give you the address of the local pointer.
 
-On 02/11/2022 12:12, Jani Nikula wrote:
-> On Tue, 01 Nov 2022, John.C.Harrison@Intel.com wrote:
->> From: John Harrison <John.C.Harrison@Intel.com>
->>
->> At the end of each test, IGT does a drop caches call via sysfs with
-> 
-> sysfs?
-> 
->> special flags set. One of the possible paths waits for idle with an
->> infinite timeout. That causes problems for debugging issues when CI
->> catches a "can't go idle" test failure. Best case, the CI system times
->> out (after 90s), attempts a bunch of state dump actions and then
->> reboots the system to recover it. Worst case, the CI system can't do
->> anything at all and then times out (after 1000s) and simply reboots.
->> Sometimes a serial port log of dmesg might be available, sometimes not.
->>
->> So rather than making life hard for ourselves, change the timeout to
->> be 10s rather than infinite. Also, trigger the standard
->> wedge/reset/recover sequence so that testing can continue with a
->> working system (if possible).
->>
->> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->> ---
->>   drivers/gpu/drm/i915/i915_debugfs.c | 7 ++++++-
->>   1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
->> index ae987e92251dd..9d916fbbfc27c 100644
->> --- a/drivers/gpu/drm/i915/i915_debugfs.c
->> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
->> @@ -641,6 +641,9 @@ DEFINE_SIMPLE_ATTRIBUTE(i915_perf_noa_delay_fops,
->>   		  DROP_RESET_ACTIVE | \
->>   		  DROP_RESET_SEQNO | \
->>   		  DROP_RCU)
->> +
->> +#define DROP_IDLE_TIMEOUT	(HZ * 10)
-> 
-> I915_IDLE_ENGINES_TIMEOUT is defined in i915_drv.h. It's also only used
-> here.
+Oded
 
-So move here, dropping i915 prefix, next to the newly proposed one?
-
-> I915_GEM_IDLE_TIMEOUT is defined in i915_gem.h. It's only used in
-> gt/intel_gt.c.
-
-Move there and rename to GT_IDLE_TIMEOUT?
-
-> I915_GT_SUSPEND_IDLE_TIMEOUT is defined and used only in intel_gt_pm.c.
-
-No action needed, maybe drop i915 prefix if wanted.
-
-> I915_IDLE_ENGINES_TIMEOUT is in ms, the rest are in jiffies.
-
-Add _MS suffix if wanted.
-
-> My head spins.
-
-I follow and raise that the newly proposed DROP_IDLE_TIMEOUT applies to 
-DROP_ACTIVE and not only DROP_IDLE.
-
-Things get refactored, code moves around, bits get left behind, who 
-knows. No reason to get too worked up. :) As long as people are taking a 
-wider view when touching the code base, and are not afraid to send 
-cleanups, things should be good.
-
-For the actual functional change at hand - it would be nice if code 
-paths in question could handle SIGINT and then we could punt the 
-decision on how long someone wants to wait purely to userspace. But it's 
-probably hard and it's only debugfs so whatever.
-
-Whether or not 10s is enough CI will hopefully tell us. I'd probably err 
-on the side of safety and make it longer, but at most half from the test 
-runner timeout.
-
-I am not convinced that wedging is correct though. Conceptually could be 
-just that the timeout is too short. What does wedging really give us, on 
-top of limiting the wait, when latter AFAIU is the key factor which 
-would prevent the need to reboot the machine?
-
-Regards,
-
-Tvrtko
+> +       if (xa_is_err(entry)) {
+> +               ret =3D xa_err(entry);
+> +               goto err_debugfs;
+> +       }
+> +       WARN_ON(entry);
+>
+>         DRM_DEBUG("new minor registered %d\n", minor->index);
+>         return 0;
+> @@ -187,16 +177,13 @@ static int drm_minor_register(struct drm_device *de=
+v, unsigned int type)
+>  static void drm_minor_unregister(struct drm_device *dev, unsigned int ty=
+pe)
+>  {
+>         struct drm_minor *minor;
+> -       unsigned long flags;
+>
+>         minor =3D *drm_minor_get_slot(dev, type);
+>         if (!minor || !device_is_registered(minor->kdev))
+>                 return;
+>
+>         /* replace @minor with NULL so lookups will fail from now on */
+> -       spin_lock_irqsave(&drm_minor_lock, flags);
+> -       idr_replace(&drm_minors_idr, NULL, minor->index);
+> -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> +       xa_store(&drm_minors_xa, minor->index, NULL, GFP_KERNEL);
+>
+>         device_del(minor->kdev);
+>         dev_set_drvdata(minor->kdev, NULL); /* safety belt */
+> @@ -215,13 +202,12 @@ static void drm_minor_unregister(struct drm_device =
+*dev, unsigned int type)
+>  struct drm_minor *drm_minor_acquire(unsigned int minor_id)
+>  {
+>         struct drm_minor *minor;
+> -       unsigned long flags;
+>
+> -       spin_lock_irqsave(&drm_minor_lock, flags);
+> -       minor =3D idr_find(&drm_minors_idr, minor_id);
+> +       xa_lock(&drm_minors_xa);
+> +       minor =3D xa_load(&drm_minors_xa, minor_id);
+>         if (minor)
+>                 drm_dev_get(minor->dev);
+> -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> +       xa_unlock(&drm_minors_xa);
+>
+>         if (!minor) {
+>                 return ERR_PTR(-ENODEV);
+> @@ -1037,7 +1023,7 @@ static void drm_core_exit(void)
+>         unregister_chrdev(DRM_MAJOR, "drm");
+>         debugfs_remove(drm_debugfs_root);
+>         drm_sysfs_destroy();
+> -       idr_destroy(&drm_minors_idr);
+> +       WARN_ON(!xa_empty(&drm_minors_xa));
+>         drm_connector_ida_destroy();
+>  }
+>
+> @@ -1046,7 +1032,6 @@ static int __init drm_core_init(void)
+>         int ret;
+>
+>         drm_connector_ida_init();
+> -       idr_init(&drm_minors_idr);
+>         drm_memcpy_init_early();
+>
+>         ret =3D drm_sysfs_init();
+> --
+> 2.37.3
+>
