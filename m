@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B61261675D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 17:11:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DBE6167A7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Nov 2022 17:12:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A87310E4F7;
-	Wed,  2 Nov 2022 16:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC05D10E4F2;
+	Wed,  2 Nov 2022 16:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B37210E4F2;
- Wed,  2 Nov 2022 16:11:22 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id g10so19668381oif.10;
- Wed, 02 Nov 2022 09:11:22 -0700 (PDT)
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4299110E4F2;
+ Wed,  2 Nov 2022 16:12:28 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ r13-20020a056830418d00b0065601df69c0so10542740otu.7; 
+ Wed, 02 Nov 2022 09:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XMjYtLPQdk4k4exRzx1++JFQEjlm3E6Ooszo7YLrAmA=;
- b=YkoMxrzgOzObQ1f1AQWermP6aRAMBxCVFdMmyaHzOTeZdtelfAESKiSIoV7kj77E+L
- FTIkkriNPRtcD6CsHVUvxp1BM4/3GdHunszANw/koj97LixLFuphPtTERaQk3+dbAqCw
- KipagSfLhrJT86JB/5YZNpquZy6KPER7d+Wc+5ls6kdX7kCKPEtrvMZ/MHv5yvbB75VX
- aU88ms7Xjeqihyb0ExWs7VnJj0lFqqt96zTgIEE2W619V9smJhuW4oUZA54ExzPWVWKa
- vUExZ6florDuPnSi9edzg/cQEAXZHnKivN1QvtxYHqottcJuJqIKCnSohrqJGqM/UwCu
- VXgw==
+ bh=z7vIW2ZPdKtmwvSjnPCnyJNltgx5dmGmaEed71/1EzY=;
+ b=LR6ZQXMJSJ0L4WINnpm9F0OvdWhXsPNOqWYN8PlsGouCRf7BqfwwWwk07fPirnSAD0
+ jWjcIyLLDyq40aOTJCaEx9Wo+AaQpVsAPbIsk6U3UsVV2/KqpuYc9kJKdyH6BZgDTFVw
+ XPJijFDbCfxAIU+B4TbcBE08wlsroXr5KHJ/eu4oHYI8hKw45ONqDX7bGNEOebfJUB61
+ XmzOPDwjWMN9dgz3/Y4RNgJX87bClWeXL+symO7uPezJ6OjK/x51yn0GnhlTyXS1UKdm
+ /ABvYrGYTgJbmx6KLjvAp9IYRn4WnXD7/bHuoOGPeT5d+Z4uVZhlTNH4HPAC5xF28J7X
+ dF7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=XMjYtLPQdk4k4exRzx1++JFQEjlm3E6Ooszo7YLrAmA=;
- b=i3iQU7GCss498Tz7LxdvSfs5pvmPuXAtPgOlv/6t9cu6HwIxsoOhRl7inmSlvWl+CG
- R6zLz/MdA9zjyYUV16XI8DhCUJdlH0siYrqg9P7Uy2NAvNrijmjG3CF72RmoQiQH8Le2
- OJT4WoavjiuHsVD8ebCBnUBUS2gk2kQ5bVJSB60/ETsVHBsstVgJHE5d/ZoGbnhBDJqW
- +qC3k1QXJj1woyap5ElPtKcVRaAtUDpZTiyclAaQyqts9IO1/5+Ek6eHuQ0RGh671Z80
- Iggu8yWcHDueyH0YTcmdI6lf28UIu4vVYn1+M97/rcYLhpiZMxRf0f+obFDcLHPTrDQ9
- fIkg==
-X-Gm-Message-State: ACrzQf07zRAgPqO7ZntANguCQ3ae3DQcnEdLbGCEddbUnaHIbwKXkzPi
- rYGrCQdhmPdmhfC3FX0LJRwgY4NMuUJppbUS0Ik=
-X-Google-Smtp-Source: AMsMyM59WbQ63bOK+8OGXBf3SLltf4ei4Oo8m8seRlp+EZkh24IHmapsiryJkmixwkTmQ1eeqhOn0KsvVt1S8ZNa3jc=
-X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
- f18-20020a05680814d200b00354c733abd3mr13779461oiw.96.1667405481362; Wed, 02
- Nov 2022 09:11:21 -0700 (PDT)
+ bh=z7vIW2ZPdKtmwvSjnPCnyJNltgx5dmGmaEed71/1EzY=;
+ b=kanToUUCn1lwP0uPsTNo5urRgr2Bfa9gb7QZm7u5OU2pSsIQprApZiILf/hOcRLZPi
+ 5d2j1D/3lDM/iU2FialEUMwXrKU2dYPaAv5uMaqIKrz6Qql51kJUaEk86FIPCoGRm4Gf
+ ELv0+rU2wetJQv9gWIKLEyRRVcj7DH+B+jrQyK0a5Tjb2qqezcsE5vKp3wyyTel+KnbZ
+ 2Did+wfk3Jw13VdsR8FIU2CB5yLCMLrhFRg1PyW55UHlnaqrbvt0ZURugC2OeJ62tkzZ
+ 3/Tk223B4pa5WT/p+D3CuGYrFx42xkXQZppJiBw0OmKOug3gHiznCev3BOjBF1I+UNq8
+ ZVoA==
+X-Gm-Message-State: ACrzQf2WpbZSpopq5dR9+MjewLavIi9GYYwO1AlpVpuGssgzAdTL1OgD
+ FMoNgjWCbuqXbRSXdo0RLJmi9H9+K7TRUtDTtaY=
+X-Google-Smtp-Source: AMsMyM7Zuvi4mA7zyRQSf/ChuxdDKCxCX2EM1sE6SPy5eaAZxlItbrLR6mIvGbAnghWSCEFJp6Lq5z4DPcWB049mY24=
+X-Received: by 2002:a9d:4592:0:b0:66c:6922:8629 with SMTP id
+ x18-20020a9d4592000000b0066c69228629mr5232697ote.233.1667405547576; Wed, 02
+ Nov 2022 09:12:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <Y1trhRE3nK5iAY6q@mail.google.com>
- <Y1yetX1CHsr+fibp@mail.google.com>
- <CADnq5_Mod90O=tN26+Yi74WPYxpVtss+LG_+_HZyFv2EtzR+MA@mail.gmail.com>
- <202211011443.7BDB243D8D@keescook>
- <CADnq5_Ou9HnZjQx5WaAZW+iu24g_eS2hh25xhExeQjdMOXYfCQ@mail.gmail.com>
- <202211011538.B7548FDDE@keescook>
-In-Reply-To: <202211011538.B7548FDDE@keescook>
+References: <Y1x3MtRJ8ckXxlJn@mail.google.com>
+ <Y1yCRHgx15ZOiCL4@mail.google.com>
+In-Reply-To: <Y1yCRHgx15ZOiCL4@mail.google.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 2 Nov 2022 12:11:09 -0400
-Message-ID: <CADnq5_PxjyL9kqdge-SOMkjLk176sPbSxM9Ng+N8f_-zj9NMqw@mail.gmail.com>
-Subject: Re: [PATCH v2] [next] drm/radeon: Replace one-element array with
+Date: Wed, 2 Nov 2022 12:12:16 -0400
+Message-ID: <CADnq5_NVpsFJdHfizqRxidXqN5CZJ-nQpqfEA3Ngd3viojjBXA@mail.gmail.com>
+Subject: Re: [PATCH v2] [next] drm/amdgpu: Replace one-element array with
  flexible-array member
-To: Kees Cook <keescook@chromium.org>
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,46 +67,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: Grigory Vasilyev <h0tc0d3@gmail.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Slark Xiao <slark_xiao@163.com>, Hans de Goede <hdegoede@redhat.com>,
+ Claudio Suarez <cssk@net-c.es>, dri-devel@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-hardening@vger.kernel.org
+ Rongguang Wei <weirongguang@kylinos.cn>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 1, 2022 at 6:41 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Tue, Nov 01, 2022 at 06:09:16PM -0400, Alex Deucher wrote:
-> > On Tue, Nov 1, 2022 at 5:54 PM Kees Cook <keescook@chromium.org> wrote:
-> > > Does the ROM always only have a single byte there? This seems unlikely
-> > > given the member "ucFakeEDIDLength" (and the code below).
-> >
-> > I'm not sure.  I'm mostly concerned about this:
-> >
-> >             record += fake_edid_record->ucFakeEDIDLength ?
-> >                       fake_edid_record->ucFakeEDIDLength + 2 :
-> >                       sizeof(ATOM_FAKE_EDID_PATCH_RECORD);
->
-> But this is exactly what the code currently does, as noted in the commit
-> log: "It's worth mentioning that doing a build before/after this patch
-> results in no binary output differences.
->
-> > Presumably the record should only exist if ucFakeEDIDLength is non 0,
-> > but I don't know if there are some OEMs out there that just included
-> > an empty record for some reason.  Maybe the code is wrong today and
-> > there are some OEMs that include it and the array is already size 0.
-> > In that case, Paulo's original patches are probably more correct.
->
-> Right, but if true, that seems to be a distinctly separate bug fix?
-
-You've convinced me.  Applied.
-
-Thanks,
+Applied.  Thanks!
 
 Alex
 
+On Fri, Oct 28, 2022 at 9:31 PM Paulo Miguel Almeida
+<paulo.miguel.almeida.rodenas@gmail.com> wrote:
 >
+> One-element arrays are deprecated, and we are replacing them with
+> flexible array members instead. So, replace one-element array with
+> flexible-array member in struct _ATOM_FAKE_EDID_PATCH_RECORD and
+> refactor the rest of the code accordingly.
+>
+> Important to mention is that doing a build before/after this patch
+> results in no binary output differences.
+>
+> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> routines on memcpy() and help us make progress towards globally
+> enabling -fstrict-flex-arrays=3 [1].
+>
+> Link: https://github.com/KSPP/linux/issues/79
+> Link: https://github.com/KSPP/linux/issues/238
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
+>
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> ---
+> Changelog:
+>
+> v2: no binary output differences patch; report binary changes findings
+>     on commit log. Res: Kees Cook
+> v1: https://lore.kernel.org/lkml/Y1tkWdwPUp+UdpM0@mail.google.com/
+> ---
+>  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 7 +++++--
+>  drivers/gpu/drm/amd/include/atombios.h         | 2 +-
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> index 6be9ac2b9c5b..18ae9433e463 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> @@ -2081,8 +2081,11 @@ amdgpu_atombios_encoder_get_lcd_info(struct amdgpu_encoder *encoder)
+>                                                 }
+>                                         }
+>                                         record += fake_edid_record->ucFakeEDIDLength ?
+> -                                               fake_edid_record->ucFakeEDIDLength + 2 :
+> -                                               sizeof(ATOM_FAKE_EDID_PATCH_RECORD);
+> +                                                 struct_size(fake_edid_record,
+> +                                                             ucFakeEDIDString,
+> +                                                             fake_edid_record->ucFakeEDIDLength) :
+> +                                                 /* empty fake edid record must be 3 bytes long */
+> +                                                 sizeof(ATOM_FAKE_EDID_PATCH_RECORD) + 1;
+>                                         break;
+>                                 case LCD_PANEL_RESOLUTION_RECORD_TYPE:
+>                                         panel_res_record = (ATOM_PANEL_RESOLUTION_PATCH_RECORD *)record;
+> diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
+> index 15943bc21bc5..b5b1d073f8e2 100644
+> --- a/drivers/gpu/drm/amd/include/atombios.h
+> +++ b/drivers/gpu/drm/amd/include/atombios.h
+> @@ -4107,7 +4107,7 @@ typedef struct _ATOM_FAKE_EDID_PATCH_RECORD
+>  {
+>    UCHAR ucRecordType;
+>    UCHAR ucFakeEDIDLength;       // = 128 means EDID length is 128 bytes, otherwise the EDID length = ucFakeEDIDLength*128
+> -  UCHAR ucFakeEDIDString[1];    // This actually has ucFakeEdidLength elements.
+> +  UCHAR ucFakeEDIDString[];     // This actually has ucFakeEdidLength elements.
+>  } ATOM_FAKE_EDID_PATCH_RECORD;
+>
+>  typedef struct  _ATOM_PANEL_RESOLUTION_PATCH_RECORD
 > --
-> Kees Cook
+> 2.37.3
+>
