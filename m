@@ -1,63 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770946182D6
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 16:30:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCC9618444
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 17:26:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5C9510E67D;
-	Thu,  3 Nov 2022 15:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB2C810E257;
+	Thu,  3 Nov 2022 16:26:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCA010E67D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 15:30:01 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id o4so3313659wrq.6
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 08:30:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jTNF+TBMvTriQtS+AA9+C2dKsWuCfeavpCHVTcjD0eY=;
- b=out7CxP4vZ5XMhp9mDv7Ofatpr7fpv6fDwjoCTilq7jVigf/gyDt96koz/LT1/kL8z
- 0sU0E8IpYZ1guwovwiHfWsmY/RGkWdo9Q0nQw6D++1ZG4TTQAewqH/KWERHkVVuVt2Go
- 0Tmz4Ta4jr3ClB52+puwbKMbwf+BEMtcBJuT+5D6PjwHTvFfQTFrj7JqiEYd06mvVlY3
- 5hmHnxZ39oGNAvJbrAv3R8b9r5xc7pln7zH1imayfH9EPrV4IYqMjdkjTEyZlBxFIXdm
- in7k8+PIcRU3EQ3Q4ubgyvX0wNX22hKkxllEhdPR3vqQUGV3d7o0UZzp9bm0b9+TEmML
- wBPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jTNF+TBMvTriQtS+AA9+C2dKsWuCfeavpCHVTcjD0eY=;
- b=2H8UTeUX5HN8Zqa3x3VrFj0+EkQG93dUnu92d+Au6pbraNlp0W+9nYNfM+8OHPOqkh
- UK8tGbU404PUfJLxQLyKZui78rWpGag2g+f6WQmfj2FN3JCw3QaxRey7lEJn5ShAis2p
- QWIkan3MkVzlPwwf6+8eCywhP4PzADZdJ2ZYuTY/B8ScI0pGtpeZHtwsVLqsjNOR50it
- QsmieWszlPuGitHXgsgH9zFf8XaIRNHjFo0dp4hSsx6azljtJSRec42fX7lSiney8dO/
- UIrS+T3OR9j2OUfgkaZNEFd7gPwOKN4bS1FZz+uNNaZ6YtWFBBFisONLL9BQWs0ORpHz
- Py1Q==
-X-Gm-Message-State: ACrzQf0TkaDKJ/xHtrW4wdi4/7nFFZbnkUGaKD1sKSAUM/nSS4IFm4kJ
- hk5xko0Mhs2uF2A3yupvEwY=
-X-Google-Smtp-Source: AMsMyM5Nyyy/q4Kn3ydmHt5dCYT4Mg7RkCP01fJ7CYK5rm31bepO9+UNSqvjytTa3KpN6DC4tX4HTA==
-X-Received: by 2002:adf:d4d2:0:b0:236:594f:4a2c with SMTP id
- w18-20020adfd4d2000000b00236594f4a2cmr18912381wrk.705.1667489399525; 
- Thu, 03 Nov 2022 08:29:59 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- q12-20020a05600c46cc00b003b4ac05a8a4sm183699wmo.27.2022.11.03.08.29.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 08:29:58 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Alain Volmat <alain.volmat@foss.st.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: sti: Make array en_di static const
-Date: Thu,  3 Nov 2022 15:29:58 +0000
-Message-Id: <20221103152958.89865-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.38.1
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27C8D10E257
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 16:26:02 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 5DEB18519D;
+ Thu,  3 Nov 2022 17:25:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1667492761;
+ bh=XyGlCckHVL9Mp4qbwYrY3wTxsiY5XVy50GuuK2Hwr38=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=zcrxY9K5YKhjpJHBv4/GXrJ9WLCPqi32lTd/+V+eGVyleZTYmoIJEkOI05rtgcUPB
+ ey+lYsICO6LDNhpfLVQIiww19x0grg81w0qUfFba9fCtWUKo60BIGwp7BdeQS277Df
+ J/WnhG2OLJ9oYpVliHJ1FwHT92TKNW4k1xYSPiqlnn3SFVTzE4waLL2OLbErNzzqjy
+ D4CmmJx7yNLN7CW62a/6I1s7m8OkI0Yn1ZX8lgYvnZHGTTlGGzjG2q4J75Z8uyHsxK
+ rYTQZsdi485ZHlKCVOoABddUM4CqnR7IqFPonPPuXdOnvBjW5v5FDoW1tJBWOes8hc
+ 6NBJJcQ20ZVUw==
+Message-ID: <9262c207-2b72-6638-0274-0ce1d0d830c9@denx.de>
+Date: Thu, 3 Nov 2022 17:02:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v7 07/10] drm: bridge: samsung-dsim: Add
+ atomic_get_input_bus_fmts
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20221005151309.7278-1-jagan@amarulasolutions.com>
+ <20221005151309.7278-8-jagan@amarulasolutions.com>
+ <d837f6e3-d869-6543-2361-a7843c00ed8a@denx.de>
+ <CAMty3ZDQCsJF+EuG_gvZ-MbkePO55GHfX_yvmKdzqE1fdAR55g@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZDQCsJF+EuG_gvZ-MbkePO55GHfX_yvmKdzqE1fdAR55g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,39 +60,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't populate the read-only array en_di on the stack but instead
-make it static. Also makes the object code a little smaller.
+On 11/3/22 10:39, Jagan Teki wrote:
+> On Sun, Oct 16, 2022 at 3:31 AM Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 10/5/22 17:13, Jagan Teki wrote:
+>>
+>> [...]
+>>
+>>> @@ -1321,6 +1322,32 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+>>>        pm_runtime_put_sync(dsi->dev);
+>>>    }
+>>>
+>>> +#define MAX_INPUT_SEL_FORMATS        1
+>>> +
+>>> +static u32 *
+>>> +samsung_dsim_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>>> +                                    struct drm_bridge_state *bridge_state,
+>>> +                                    struct drm_crtc_state *crtc_state,
+>>> +                                    struct drm_connector_state *conn_state,
+>>> +                                    u32 output_fmt,
+>>> +                                    unsigned int *num_input_fmts)
+>>> +{
+>>> +     u32 *input_fmts;
+>>> +
+>>> +     *num_input_fmts = 0;
+>>> +
+>>> +     input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+>>> +                          GFP_KERNEL);
+>>> +     if (!input_fmts)
+>>> +             return NULL;
+>>> +
+>>> +     /* This is the DSI-end bus format */
+>>> +     input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+>>> +     *num_input_fmts = 1;
+>>
+>> Is this the only supported format ? NXP AN13573 lists the following:
+>>
+>> i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
+>> 3.7.4 Pixel formats
+>> Table 14. DSI pixel packing formats
+>>
+>> Loosely Packed Pixel Stream, 20-bit YCbCr, 4:2:2
+>> Packed Pixel Stream, 24-bit YCbCr, 4:2:2
+>> Packed Pixel Stream, 16-bit YCbCr, 4:2:2
+> 
+> Look like these are unsupported in media-bus-format.h list.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/sti/sti_hdmi.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Aren't those:
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index cb82622877d2..9de8cd171c25 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -641,10 +641,12 @@ static void hdmi_dbg_sta(struct seq_file *s, int val)
- static void hdmi_dbg_sw_di_cfg(struct seq_file *s, int val)
- {
- 	int tmp;
--	char *const en_di[] = {"no transmission",
--			       "single transmission",
--			       "once every field",
--			       "once every frame"};
-+	static const char * const en_di[] = {
-+		"no transmission",
-+		"single transmission",
-+		"once every field",
-+		"once every frame"
-+	};
- 
- 	seq_putc(s, '\t');
- 	tmp = (val & HDMI_IFRAME_CFG_DI_N(HDMI_IFRAME_MASK, 1));
--- 
-2.38.1
+MEDIA_BUS_FMT_UYVY12_1X24
+MEDIA_BUS_FMT_UYVY8_1X16
 
+?
+
+Those are packed, and subsampled 4:2:2
+
+>> Packed Pixel Stream, 30-bit RGB, 10-10-10
+
+MEDIA_BUS_FMT_RGB101010_1X30
+
+>> Packed Pixel Stream, 36-bit RGB, 12-12-12
+
+MEDIA_BUS_FMT_RGB121212_1X36
+
+>> Packed Pixel Stream, 12-bit YCbCr, 4:2:0
+> 
+> Same issue, unsupported.
+
+The 12-bit packed 4:2:0 might be something along the lines of
+
+drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+MEDIA_BUS_FMT_YUYV8_1_5X8, /* YUV420 */
+
+>> Packed Pixel Stream, 16-bit RGB, 5-6-5
+> 
+> MEDIA_BUS_FMT_RGB565_1X16
+> 
+>> Packed Pixel Stream, 18-bit RGB, 6-6-6
+> 
+> Same issue, unsupported.
+
+MEDIA_BUS_FMT_RGB666_1X18
+
+>> Loosely Packed Pixel Stream, 18-bit RGB, 6-6-6
+>> Packed Pixel Stream, 24-bit RGB, 8-8-8 Format
+> 
+> MEDIA_BUS_FMT_RGB666_1X18
+> MEDIA_BUS_FMT_RGB888_1X24
+> 
+>>
+>> The MX8MM/MN LCDIF can generate all of those RGB formats , the MX8MP
+>> LCDIFv3 can also generate the 16bit YCbCr .
+> 
+> Is YCbCr denoted as UYVY in media-bus-format.h ?
+I think this applies:
+
+https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/colorspaces.html
+"
+Sometimes people confuse Y’CbCr as being a colorspace. This is not 
+correct, it is just an encoding of an R’G’B’ color into luma and chroma 
+values.
+"
+
+And esp. this:
+
+"
+In order to correctly interpret a color you need to know the 
+quantization range, whether it is R’G’B’ or Y’CbCr, the used Y’CbCr 
+encoding and the colorspace. From that information you can calculate the 
+corresponding CIE XYZ color and map that again to whatever colorspace 
+your display device uses.
+"
+
+Which means that in order to properly describe or interpret the data, 
+you need the entire v4l2_mbus_framefmt content, not just the pixel code:
+
+https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/subdev-formats.html
+
+But this information is not passed across the bus, that's metadata 
+internal to the kernel.
