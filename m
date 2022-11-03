@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77E261798C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 10:14:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1066179A8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 10:18:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04EBA10E25F;
-	Thu,  3 Nov 2022 09:14:14 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8716910E5BB
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 09:14:07 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 03 Nov 2022 17:13:00 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 2A39CvIb002434;
- Thu, 3 Nov 2022 17:12:57 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from VirtualBox.internal.ite.com.tw (192.168.70.46) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.14; Thu, 3 Nov 2022 17:12:58 +0800
-From: allen <allen.chen@ite.com.tw>
-To: 
-Subject: [PATCH v7 2/2] drm/bridge: add it6505 driver to read data-lanes and
- link-frequencies from dt
-Date: Thu, 3 Nov 2022 17:12:43 +0800
-Message-ID: <20221103091243.96036-3-allen.chen@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221103091243.96036-1-allen.chen@ite.com.tw>
-References: <20221103091243.96036-1-allen.chen@ite.com.tw>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2A010E5BE;
+	Thu,  3 Nov 2022 09:18:28 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E48210E5BE;
+ Thu,  3 Nov 2022 09:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667467104; x=1699003104;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=/v1BsaeDE/OJxqjjG40A2YeZYU471sbCZX2lFvIzO9I=;
+ b=L5c4eaRih0ft8i7yINQr+IYt2m4UGxmU/HYtFyfXk8guJZgubDIKUCvN
+ jpj8G9ouSwdJNPdIbsirXxSnD2Pf6TxJaAAQDDBB68HAA4T2COW/KxCRo
+ IuO3cOLZhnRM6CfPcjNfU9bKi/kqSobpDq55+0MzI4vBRAq32ni2jDtRy
+ wfcEqiuHBzyGR6gErPgUJljP527uRvqwGRcJ1mC1wcPRCA4V3Ic2ih41w
+ +j8/3Ztcj9E0EZL/EoaikQH6h8Uo+3ayqk4XmLPYOl+H4VmuDL+7Kb8/L
+ d9cYlfq1zcIWO9Cwu+c37DNHXNcwoQPh6pLkmEJpprGtCC0n4vqAOndgj g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="290021189"
+X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; d="scan'208";a="290021189"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2022 02:18:23 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="740111130"
+X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; d="scan'208";a="740111130"
+Received: from khogan-mobl1.ger.corp.intel.com (HELO [10.213.226.17])
+ ([10.213.226.17])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2022 02:18:22 -0700
+Message-ID: <1855f0f2-8a1c-7bf4-76c0-76a4354ea8e8@linux.intel.com>
+Date: Thu, 3 Nov 2022 09:18:21 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Don't wait forever in drop_caches
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20221101235053.1650364-1-John.C.Harrison@Intel.com>
+ <87k04d7dyn.fsf@intel.com>
+ <c710a428-50f6-6181-3f93-4d7667a9ac3f@linux.intel.com>
+ <5e22de43-d75c-fc21-9ae7-f27d116c5688@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <5e22de43-d75c-fc21-9ae7-f27d116c5688@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.46]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: DC6DF12C906380A61B005FFE94DED121D09F7991A61E8A1C2B14214CD306F8A22002:8
-X-MAIL: mse.ite.com.tw 2A39CvIb002434
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,153 +65,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- Allen Chen <allen.chen@ite.com.tw>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: allen chen <allen.chen@ite.com.tw>
 
-Add driver to read data-lanes and link-frequencies from dt property to
-restrict output bandwidth.
+On 03/11/2022 01:33, John Harrison wrote:
+> On 11/2/2022 07:20, Tvrtko Ursulin wrote:
+>> On 02/11/2022 12:12, Jani Nikula wrote:
+>>> On Tue, 01 Nov 2022, John.C.Harrison@Intel.com wrote:
+>>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>>
+>>>> At the end of each test, IGT does a drop caches call via sysfs with
+>>>
+>>> sysfs?
+> Sorry, that was meant to say debugfs. I've also been working on some 
+> sysfs IGT issues and evidently got my wires crossed!
+> 
+>>>
+>>>> special flags set. One of the possible paths waits for idle with an
+>>>> infinite timeout. That causes problems for debugging issues when CI
+>>>> catches a "can't go idle" test failure. Best case, the CI system times
+>>>> out (after 90s), attempts a bunch of state dump actions and then
+>>>> reboots the system to recover it. Worst case, the CI system can't do
+>>>> anything at all and then times out (after 1000s) and simply reboots.
+>>>> Sometimes a serial port log of dmesg might be available, sometimes not.
+>>>>
+>>>> So rather than making life hard for ourselves, change the timeout to
+>>>> be 10s rather than infinite. Also, trigger the standard
+>>>> wedge/reset/recover sequence so that testing can continue with a
+>>>> working system (if possible).
+>>>>
+>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>> ---
+>>>>   drivers/gpu/drm/i915/i915_debugfs.c | 7 ++++++-
+>>>>   1 file changed, 6 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c 
+>>>> b/drivers/gpu/drm/i915/i915_debugfs.c
+>>>> index ae987e92251dd..9d916fbbfc27c 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+>>>> @@ -641,6 +641,9 @@ DEFINE_SIMPLE_ATTRIBUTE(i915_perf_noa_delay_fops,
+>>>>             DROP_RESET_ACTIVE | \
+>>>>             DROP_RESET_SEQNO | \
+>>>>             DROP_RCU)
+>>>> +
+>>>> +#define DROP_IDLE_TIMEOUT    (HZ * 10)
+>>>
+>>> I915_IDLE_ENGINES_TIMEOUT is defined in i915_drv.h. It's also only used
+>>> here.
+>>
+>> So move here, dropping i915 prefix, next to the newly proposed one?
+> Sure, can do that.
+> 
+>>
+>>> I915_GEM_IDLE_TIMEOUT is defined in i915_gem.h. It's only used in
+>>> gt/intel_gt.c.
+>>
+>> Move there and rename to GT_IDLE_TIMEOUT?
+>>
+>>> I915_GT_SUSPEND_IDLE_TIMEOUT is defined and used only in intel_gt_pm.c.
+>>
+>> No action needed, maybe drop i915 prefix if wanted.
+>>
+> These two are totally unrelated and in code not being touched by this 
+> change. I would rather not conflate changing random other things with 
+> fixing this specific issue.
+> 
+>>> I915_IDLE_ENGINES_TIMEOUT is in ms, the rest are in jiffies.
+>>
+>> Add _MS suffix if wanted.
+>>
+>>> My head spins.
+>>
+>> I follow and raise that the newly proposed DROP_IDLE_TIMEOUT applies 
+>> to DROP_ACTIVE and not only DROP_IDLE.
+> My original intention for the name was that is the 'drop caches timeout 
+> for intel_gt_wait_for_idle'. Which is quite the mouthful and hence 
+> abbreviated to DROP_IDLE_TIMEOUT. But yes, I realised later that name 
+> can be conflated with the DROP_IDLE flag. Will rename.
+> 
+> 
+>>
+>> Things get refactored, code moves around, bits get left behind, who 
+>> knows. No reason to get too worked up. :) As long as people are taking 
+>> a wider view when touching the code base, and are not afraid to send 
+>> cleanups, things should be good.
+> On the other hand, if every patch gets blocked in code review because 
+> someone points out some completely unrelated piece of code could be a 
+> bit better then nothing ever gets fixed. If you spot something that you 
+> think should be improved, isn't the general idea that you should post a 
+> patch yourself to improve it?
 
-Signed-off-by: Allen chen <allen.chen@ite.com.tw>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 80 +++++++++++++++++++++++++++--
- 1 file changed, 77 insertions(+), 3 deletions(-)
+There's two maintainers per branch and an order of magnitude or two more 
+developers so it'd be nice if cleanups would just be incoming on 
+self-initiative basis. ;)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index a4302492cf8df..ed4536cde3140 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -437,6 +437,8 @@ struct it6505 {
- 	bool powered;
- 	bool hpd_state;
- 	u32 afe_setting;
-+	u32 max_dpi_pixel_clock;
-+	u32 max_lane_count;
- 	enum hdcp_state hdcp_status;
- 	struct delayed_work hdcp_work;
- 	struct work_struct hdcp_wait_ksv_list;
-@@ -1476,7 +1478,8 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
- 	it6505->lane_count = link->num_lanes;
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink support %d lanes training",
- 			     it6505->lane_count);
--	it6505->lane_count = min_t(int, it6505->lane_count, MAX_LANE_COUNT);
-+	it6505->lane_count = min_t(int, it6505->lane_count,
-+				   it6505->max_lane_count);
- 
- 	it6505->branch_device = drm_dp_is_branch(it6505->dpcd);
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink %sbranch device",
-@@ -2912,7 +2915,7 @@ it6505_bridge_mode_valid(struct drm_bridge *bridge,
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		return MODE_NO_INTERLACE;
- 
--	if (mode->clock > DPI_PIXEL_CLK_MAX)
-+	if (mode->clock > it6505->max_dpi_pixel_clock)
- 		return MODE_CLOCK_HIGH;
- 
- 	it6505->video_info.clock = mode->clock;
-@@ -3099,10 +3102,32 @@ static int it6505_init_pdata(struct it6505 *it6505)
- 	return 0;
- }
- 
-+static int it6505_get_data_lanes_count(const struct device_node *endpoint,
-+				       const unsigned int min,
-+				       const unsigned int max)
-+{
-+	int ret;
-+
-+	ret = of_property_count_u32_elems(endpoint, "data-lanes");
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ret < min || ret > max)
-+		return -EINVAL;
-+
-+	return ret;
-+}
-+
- static void it6505_parse_dt(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
-+	struct device_node *np = dev->of_node, *ep = NULL;
-+	int len;
-+	u64 link_frequencies;
-+	u32 data_lanes[4];
- 	u32 *afe_setting = &it6505->afe_setting;
-+	u32 *max_lane_count = &it6505->max_lane_count;
-+	u32 *max_dpi_pixel_clock = &it6505->max_dpi_pixel_clock;
- 
- 	it6505->lane_swap_disabled =
- 		device_property_read_bool(dev, "no-laneswap");
-@@ -3118,7 +3143,56 @@ static void it6505_parse_dt(struct it6505 *it6505)
- 	} else {
- 		*afe_setting = 0;
- 	}
--	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %d", *afe_setting);
-+
-+	ep = of_graph_get_endpoint_by_regs(np, 1, 0);
-+	of_node_put(ep);
-+
-+	if (ep) {
-+		len = it6505_get_data_lanes_count(ep, 1, 4);
-+
-+		if (len > 0 && len != 3) {
-+			of_property_read_u32_array(ep, "data-lanes",
-+						   data_lanes, len);
-+			*max_lane_count = len;
-+		} else {
-+			*max_lane_count = MAX_LANE_COUNT;
-+			dev_err(dev, "error data-lanes, use default");
-+		}
-+	} else {
-+		*max_lane_count = MAX_LANE_COUNT;
-+		dev_err(dev, "error endpoint, use default");
-+	}
-+
-+	ep = of_graph_get_endpoint_by_regs(np, 0, 0);
-+	of_node_put(ep);
-+
-+	if (ep) {
-+		len = of_property_read_variable_u64_array(ep,
-+							  "link-frequencies",
-+							  &link_frequencies, 0,
-+							  1);
-+		if (len >= 0) {
-+			do_div(link_frequencies, 1000);
-+			if (link_frequencies > 297000) {
-+				dev_err(dev,
-+					"max pixel clock error, use default");
-+				*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+			} else {
-+				*max_dpi_pixel_clock = link_frequencies;
-+			}
-+		} else {
-+			dev_err(dev, "error link frequencies, use default");
-+			*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+		}
-+	} else {
-+		dev_err(dev, "error endpoint, use default");
-+		*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %u, max_lane_count: %u",
-+			     it6505->afe_setting, it6505->max_lane_count);
-+	DRM_DEV_DEBUG_DRIVER(dev, "using max_dpi_pixel_clock: %u kHz",
-+			     it6505->max_dpi_pixel_clock);
- }
- 
- static ssize_t receive_timing_debugfs_show(struct file *file, char __user *buf,
--- 
-2.25.1
+>> For the actual functional change at hand - it would be nice if code 
+>> paths in question could handle SIGINT and then we could punt the 
+>> decision on how long someone wants to wait purely to userspace. But 
+>> it's probably hard and it's only debugfs so whatever.
+>>
+> The code paths in question will already abort on a signal won't they? 
+> Both intel_gt_wait_for_idle() and intel_guc_wait_for_pending_msg(), 
+> which is where the uc_wait_for_idle eventually ends up, have an 
+> 'if(signal_pending) return -EINTR;' check. Beyond that, it sounds like 
+> what you are asking for is a change in the IGT libraries and/or CI 
+> framework to start sending signals after some specific timeout. That 
+> seems like a significantly more complex change (in terms of the number 
+> of entities affected and number of groups involved) and unnecessary.
 
+If you say so, I haven't looked at them all. But if the code path in 
+question already aborts on signals then I am not sure what is the patch 
+fixing? I assumed you are trying to avoid the write stuck in D forever, 
+which then prevents driver unload and everything, requiring the test 
+runner to eventually reboot. If you say SIGINT works then you can 
+already recover from userspace, no?
+
+>> Whether or not 10s is enough CI will hopefully tell us. I'd probably 
+>> err on the side of safety and make it longer, but at most half from 
+>> the test runner timeout.
+> This is supposed to be test clean up. This is not about how long a 
+> particular test takes to complete but about how long it takes to declare 
+> the system broken after the test has already finished. I would argue 
+> that even 10s is massively longer than required.
+> 
+>>
+>> I am not convinced that wedging is correct though. Conceptually could 
+>> be just that the timeout is too short. What does wedging really give 
+>> us, on top of limiting the wait, when latter AFAIU is the key factor 
+>> which would prevent the need to reboot the machine?
+>>
+> It gives us a system that knows what state it is in. If we can't idle 
+> the GT then something is very badly wrong. Wedging indicates that. It 
+> also ensure that a full GT reset will be attempted before the next test 
+> is run. Helping to prevent a failure on test X from propagating into 
+> failures of unrelated tests X+1, X+2, ... And if the GT reset does not 
+> work because the system is really that badly broken then future tests 
+> will not run rather than report erroneous failures.
+> 
+> This is not about getting a more stable system for end users by sweeping 
+> issues under the carpet and pretending all is well. End users don't run 
+> IGTs or explicitly call dodgy debugfs entry points. The sole motivation 
+> here is to get more accurate results from CI. That is, correctly 
+> identifying which test has hit a problem, getting valid debug analysis 
+> for that test (logs and such) and allowing further testing to complete 
+> correctly in the case where the system can be recovered.
+
+I don't really oppose shortening of the timeout in principle, just want 
+a clear statement if this is something IGT / test runner could already 
+do or not. It can apply a timeout, it can also send SIGINT, and it could 
+even trigger a reset from outside. Sure it is debugfs hacks so general 
+"kernel should not implement policy" need not be strictly followed, but 
+lets have it clear what are the options.
+
+Regards,
+
+Tvrtko
