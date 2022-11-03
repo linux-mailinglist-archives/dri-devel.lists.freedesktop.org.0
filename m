@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653E961878F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 19:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1050C6187D9
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 19:45:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95F2110E7A9;
-	Thu,  3 Nov 2022 18:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10DBD10E7BD;
+	Thu,  3 Nov 2022 18:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7539810E7A9
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 18:32:52 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9C37E61FBF;
- Thu,  3 Nov 2022 18:32:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB7F0C433C1;
- Thu,  3 Nov 2022 18:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667500371;
- bh=Hck8cjJ+4R3//xB7Q8qTKGJ9aassQ5/yidi0JVA2cWo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ejOx1hr62Urb3MPgwsvwVgy8/5u4h4hzChkyJEo5u06oUX+ssYAcJqI6cInVX1LhP
- hOpUu/zXdK9PWCBk+zBXwdNLgiA1YuPzZDawmP11vMRnXpbNoaTCdPoVmeRIn5cNEm
- TFxYWFocut+w26Wm6BgeI8uWEG0Pbin78DGlZU2cNKWl6MdEbuIOxkNHn3TRvraDeF
- HTDIGeYUPnSikE4nctDrqWgR89VPqaMOENOFCyzY7ZGnY6qgXXhXWqgDTrFDdxLB9Z
- zDjBOyxgEBIO/UY5LOuaP1JF7s44fL2UW7JNOJBbbGKR9XUY29oi/ss+9HvRJ7kOmm
- MuTW6+RXC/ECw==
-Date: Thu, 3 Nov 2022 18:32:43 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sean Anderson <sean.anderson@seco.com>
-Subject: Re: [PATCH 1/2] component: Add helper for device nodes
-Message-ID: <Y2QJS+M1xX2RaK1v@sirena.org.uk>
-References: <20221103182222.2247724-1-sean.anderson@seco.com>
- <20221103182222.2247724-2-sean.anderson@seco.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A65010E7BD;
+ Thu,  3 Nov 2022 18:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=stQoeni8g1ouTppLMWkElI0A2/tlqOJ/VPPxbiTBNoQ=; b=IPG36VN9SfNk4SE38mDa03um9V
+ rdAThTQ2XUKJyeBmjL2aA2zHnI6iGG+ASzg5uDDqgEjfv4mlwantbI00sk338dCNZEdfRDtfvfn9U
+ wt1J0R0q6gyFWtWXlWJ/Xg2Z6uUKoDgLnl5EYz+oXx9IE9liAVKXWQavFui7LHaXAmCm8IL3CoJtV
+ o4b+zliJWbGF8W0HncqKu4QScfxoFYKLkfzXTc/rETDgUNzKpmfCZvNpO58cz3oogoZE7Mh+5VRAO
+ 1i4yxj0K0g4kfp78rNYKGi80W57Z5nclWKewb3lqvXmbHQcx3dj70HlcCC/3LCpXcTjqQIbtABALP
+ NEfJ2kng==;
+Received: from [186.214.188.198] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oqfDJ-00BsY3-PN; Thu, 03 Nov 2022 19:45:18 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: don't enable DRM CRTC degamma property for
+ DCE
+Date: Thu,  3 Nov 2022 17:45:00 -0100
+Message-Id: <20221103184500.14450-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ZW7Ag/fXdrbtoky8"
-Content-Disposition: inline
-In-Reply-To: <20221103182222.2247724-2-sean.anderson@seco.com>
-X-Cookie: Dead?	No excuse for laying off work.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,46 +52,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Takashi Iwai <tiwai@suse.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, iommu@lists.linux.dev,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Yong Wu <yong.wu@mediatek.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Melissa Wen <mwen@igalia.com>, Nicholas.Choi@amd.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ Nicholas.Kazlauskas@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+DM maps DRM CRTC degamma to DPP (pre-blending) degamma block, but DCE doesn't
+support programmable degamma curve anywhere. Currently, a custom degamma is
+accepted by DM but just ignored by DCE driver and degamma correction isn't
+actually applied. There is no way to map custom degamma in DCE, therefore, DRM
+CRTC degamma property shouldn't be enabled for DCE drivers.
 
---ZW7Ag/fXdrbtoky8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-On Thu, Nov 03, 2022 at 02:22:21PM -0400, Sean Anderson wrote:
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index 9ac2805c5d63..b3eadfc61555 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -415,7 +415,7 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
+ {
+ 	struct amdgpu_crtc *acrtc = NULL;
+ 	struct drm_plane *cursor_plane;
+-
++	bool is_dcn;
+ 	int res = -ENOMEM;
+ 
+ 	cursor_plane = kzalloc(sizeof(*cursor_plane), GFP_KERNEL);
+@@ -453,8 +453,14 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
+ 	acrtc->otg_inst = -1;
+ 
+ 	dm->adev->mode_info.crtcs[crtc_index] = acrtc;
+-	drm_crtc_enable_color_mgmt(&acrtc->base, MAX_COLOR_LUT_ENTRIES,
++
++	/* Don't enable DRM CRTC degamma property for DCE since it doesn't
++	 * support programmable degamma anywhere.
++	 */
++	is_dcn = dm->adev->dm.dc->caps.color.dpp.dcn_arch;
++	drm_crtc_enable_color_mgmt(&acrtc->base, is_dcn ? MAX_COLOR_LUT_ENTRIES : 0,
+ 				   true, MAX_COLOR_LUT_ENTRIES);
++
+ 	drm_mode_crtc_set_gamma_size(&acrtc->base, MAX_COLOR_LEGACY_LUT_ENTRIES);
+ 
+ 	return 0;
+-- 
+2.35.1
 
-> There is a common case where component_patch_add_release is called with
-> component_release_of/component_compare_of and a device node. Add a
-> helper and convert existing users.
-
-The usual pattern here would be to split adding the helper from updating
-to use the helper - it makes things easier to merge.
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---ZW7Ag/fXdrbtoky8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNkCUoACgkQJNaLcl1U
-h9DfiAf/fccSbdTPcf/MR3+HytglBkaO/HlwepPSW582YcQ2/3q5mNX8QDYVAtq5
-4LQR5pjemiBDY+lWTqufmKlDBjw8h9NY0L6v/NApr7x+PK1ZUEW2Ecqc6zcZ8LRT
-FzBdTQMO00sV3mkJywGQBQGuqyvZrHYNL1RWP0ZDYoRU+27RZn7zOmnNuiA1g8IQ
-AoMLzEGkIxhXEF1cmblJ7JuiB1p694k+nltDrbjqc0FsuGMVbfwOG2sTbHYYZJF2
-EcaVTqEpCkwmxU2XAY8lgt4SXVO9m26QvgAFqyHSXOvag/H3HaSPNmNPWpUamabu
-UWfwTYDmTIOxKFZxy+b7VIfdb/ZWrg==
-=igBE
------END PGP SIGNATURE-----
-
---ZW7Ag/fXdrbtoky8--
