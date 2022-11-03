@@ -1,92 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE201618CB7
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 00:22:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EFF618CC1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 00:24:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA9810E6D9;
-	Thu,  3 Nov 2022 23:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 807A410E6E0;
+	Thu,  3 Nov 2022 23:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0AC10E6D4;
- Thu,  3 Nov 2022 23:22:27 +0000 (UTC)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3MfvSt013713;
- Thu, 3 Nov 2022 23:22:25 GMT
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B7D10E6DB;
+ Thu,  3 Nov 2022 23:24:42 +0000 (UTC)
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3MfwEj005445;
+ Thu, 3 Nov 2022 23:24:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=H7/0dxTRsY+BvOv7mnTdafwbpTIq0fx1293cZ4rn3Es=;
- b=ppZOBId8j+HiGvBdI6Xi60SGXrr4CmWep799g2XPrCWg4fWGuOGnOTBgnhdRXTb1+5sn
- Tz1+R3j56n6tUGAB4bnXoATTBf8rAXP2K8DBwJALDIjV7ZcUsycYSHdth2YvpZbhX8d/
- 3cPdn7RuZ7ri3wRfTb3I7TMOK+Fr9AVeY8VNW25PG3X0bZGzekqrN6CA2HxsPyIK/D7q
- 32pxoDj6pSPNJZI+UIA+/7IyjOnxIXNHlV5VPgkZh+y+zL/WCneiH3Yg+A2QihjHQipH
- YaKMtlu3VXDEz6zqOn3RfG3UsbwIY2p8gsl96EuWm03eo1FTItay+32J4zwSoZCzNaU0 Yw== 
+ bh=zc5rWZXfabFGEmpTGDrrbFhRCq21QWjf98G9wRD8a+o=;
+ b=ACQHQbwzF2h5IWMzbQTSexey2IwQwn74p3QsORivxyOE9SElzqQGgRIcPEGBrJKfkuBa
+ nNxN0ydg+44Cm7q/srZX8ZNzJ2NHjvN6jM1hr+/qhGP77RwIdzrLTCppp49mEsM/LqFj
+ H5325hjYpMPASpDVO4CiDW/5LlwsBpnpmqq/siFS7/ay/KanFzW44RG1RInK5n2I6kJT
+ pJ1rsAQUiPEqd26szH91FcUBj5a6eYkNq0o8KV9U8u2MotA63KQjjQnrcozjmwYIg7CX
+ 0NAWR64fV5M4OHtv4i0mAf1YadiKadwy/nxodosTgLnwA3eVb9UQoPGEN+Oka16e02uN pw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmphcs8b8-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpjes7va-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 23:22:25 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A3NMO0m014764;
- Thu, 3 Nov 2022 23:22:24 GMT
+ Thu, 03 Nov 2022 23:24:30 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A3N9mSX034523;
+ Thu, 3 Nov 2022 23:24:29 GMT
 Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
  [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmphcs8aw-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpjes7ux-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 23:22:24 +0000
+ Thu, 03 Nov 2022 23:24:29 +0000
 Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3NKsKh022775;
- Thu, 3 Nov 2022 23:22:23 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02dal.us.ibm.com with ESMTP id 3kgutawq2g-1
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3NKtPG022782;
+ Thu, 3 Nov 2022 23:24:28 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma02dal.us.ibm.com with ESMTP id 3kgutawqb1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 23:22:22 +0000
+ Thu, 03 Nov 2022 23:24:28 +0000
 Received: from smtpav03.wdc07v.mail.ibm.com ([9.208.128.112])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A3NMLZD7995984
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A3NORZv16646704
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Nov 2022 23:22:21 GMT
+ Thu, 3 Nov 2022 23:24:27 GMT
 Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E84E458066;
- Thu,  3 Nov 2022 23:22:20 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id CB82C58054;
+ Thu,  3 Nov 2022 23:24:26 +0000 (GMT)
 Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4826F5805D;
- Thu,  3 Nov 2022 23:22:13 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E2F3C5805C;
+ Thu,  3 Nov 2022 23:24:17 +0000 (GMT)
 Received: from [9.65.206.126] (unknown [9.65.206.126])
  by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  3 Nov 2022 23:22:13 +0000 (GMT)
-Message-ID: <19ded86a-9574-23d7-8bbc-7dd94c95c144@linux.ibm.com>
-Date: Thu, 3 Nov 2022 19:22:11 -0400
+ Thu,  3 Nov 2022 23:24:17 +0000 (GMT)
+Message-ID: <f6ce5f07-2154-2ca2-3438-5fdf5318cea5@linux.ibm.com>
+Date: Thu, 3 Nov 2022 19:24:16 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH v2 4/7] vfio/ccw: move private to mdev lifecycle
+Subject: Re: [PATCH v2 5/7] vfio/ccw: remove release completion
 Content-Language: en-US
 To: Eric Farman <farman@linux.ibm.com>,
  Alex Williamson <alex.williamson@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>
 References: <20221102150152.2521475-1-farman@linux.ibm.com>
- <20221102150152.2521475-5-farman@linux.ibm.com>
+ <20221102150152.2521475-6-farman@linux.ibm.com>
 From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20221102150152.2521475-5-farman@linux.ibm.com>
+In-Reply-To: <20221102150152.2521475-6-farman@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: x5N-d4cZNnBUWP-lDMwXiz7A-m9H4abG
-X-Proofpoint-ORIG-GUID: 4Cg71VdChMUA4LvQ86_qecf-7JOz8pHU
+X-Proofpoint-GUID: -wTOhDecpS5g10_GbHPYxmTJsMDTDmyP
+X-Proofpoint-ORIG-GUID: s59WmrhYiAOJDFqwEf_ScvSAq_oTnikl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015
+ priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 phishscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2210170000 definitions=main-2211030158
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,43 +120,77 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/2/22 11:01 AM, Eric Farman wrote:
-> Now that the mdev parent data is split out into its own struct,
-> it is safe to move the remaining private data to follow the
-> mdev probe/remove lifecycle. The mdev parent data will remain
-> where it is, and follow the subchannel and the css driver
-> interfaces.
+> There's enough separation between the parent and private structs now,
+> that it is fine to remove the release completion hack.
 > 
 > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> ---
->  drivers/s390/cio/vfio_ccw_drv.c     | 15 +--------------
->  drivers/s390/cio/vfio_ccw_ops.c     | 26 +++++++++++++-------------
->  drivers/s390/cio/vfio_ccw_private.h |  2 ++
->  3 files changed, 16 insertions(+), 27 deletions(-)
-> 
-
-...
-
-> diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
-> index eb0b8cc210bb..e45d4acb109b 100644
-> --- a/drivers/s390/cio/vfio_ccw_ops.c
-> +++ b/drivers/s390/cio/vfio_ccw_ops.c
-> @@ -100,15 +100,20 @@ static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
->  {
->  	struct subchannel *sch = to_subchannel(mdev->dev.parent);
->  	struct vfio_ccw_parent *parent = dev_get_drvdata(&sch->dev);
-> -	struct vfio_ccw_private *private = dev_get_drvdata(&parent->dev);
-> +	struct vfio_ccw_private *private;
->  	int ret;
->  
-> -	if (private->state == VFIO_CCW_STATE_NOT_OPER)
-> -		return -ENODEV;
-> +	private = kzalloc(sizeof(*private), GFP_KERNEL);
-> +	if (!private)
-> +		return -ENOMEM;
-
-Ha, looks like you time traveled and took my advice :)
-
-In fact it looks like some of my other comments from patch 1 get cleaned up here too -- but would still be good to make those changes in patch 1 for completeness/bisect.
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
 
 Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+
+> ---
+>  drivers/s390/cio/vfio_ccw_ops.c     | 14 +-------------
+>  drivers/s390/cio/vfio_ccw_private.h |  3 ---
+>  2 files changed, 1 insertion(+), 16 deletions(-)
+> 
+> diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
+> index e45d4acb109b..8a929a9cf3c6 100644
+> --- a/drivers/s390/cio/vfio_ccw_ops.c
+> +++ b/drivers/s390/cio/vfio_ccw_ops.c
+> @@ -54,7 +54,6 @@ static int vfio_ccw_mdev_init_dev(struct vfio_device *vdev)
+>  	INIT_LIST_HEAD(&private->crw);
+>  	INIT_WORK(&private->io_work, vfio_ccw_sch_io_todo);
+>  	INIT_WORK(&private->crw_work, vfio_ccw_crw_todo);
+> -	init_completion(&private->release_comp);
+>  
+>  	private->cp.guest_cp = kcalloc(CCWCHAIN_LEN_MAX, sizeof(struct ccw1),
+>  				       GFP_KERNEL);
+> @@ -137,7 +136,7 @@ static void vfio_ccw_mdev_release_dev(struct vfio_device *vdev)
+>  	struct vfio_ccw_private *private =
+>  		container_of(vdev, struct vfio_ccw_private, vdev);
+>  
+> -	complete(&private->release_comp);
+> +	vfio_ccw_free_private(private);
+>  }
+>  
+>  static void vfio_ccw_mdev_remove(struct mdev_device *mdev)
+> @@ -155,17 +154,6 @@ static void vfio_ccw_mdev_remove(struct mdev_device *mdev)
+>  
+>  	dev_set_drvdata(&parent->dev, NULL);
+>  	vfio_put_device(&private->vdev);
+> -	/*
+> -	 * Wait for all active references on mdev are released so it
+> -	 * is safe to defer kfree() to a later point.
+> -	 *
+> -	 * TODO: the clean fix is to split parent/mdev info from ccw
+> -	 * private structure so each can be managed in its own life
+> -	 * cycle.
+> -	 */
+> -	wait_for_completion(&private->release_comp);
+> -
+> -	vfio_ccw_free_private(private);
+>  }
+>  
+>  static int vfio_ccw_mdev_open_device(struct vfio_device *vdev)
+> diff --git a/drivers/s390/cio/vfio_ccw_private.h b/drivers/s390/cio/vfio_ccw_private.h
+> index 747aba5f5272..2278fd38d34e 100644
+> --- a/drivers/s390/cio/vfio_ccw_private.h
+> +++ b/drivers/s390/cio/vfio_ccw_private.h
+> @@ -102,7 +102,6 @@ struct vfio_ccw_parent {
+>   * @req_trigger: eventfd ctx for signaling userspace to return device
+>   * @io_work: work for deferral process of I/O handling
+>   * @crw_work: work for deferral process of CRW handling
+> - * @release_comp: synchronization helper for vfio device release
+>   */
+>  struct vfio_ccw_private {
+>  	struct vfio_device vdev;
+> @@ -126,8 +125,6 @@ struct vfio_ccw_private {
+>  	struct eventfd_ctx	*req_trigger;
+>  	struct work_struct	io_work;
+>  	struct work_struct	crw_work;
+> -
+> -	struct completion	release_comp;
+>  } __aligned(8);
+>  
+>  int vfio_ccw_sch_quiesce(struct subchannel *sch);
 
