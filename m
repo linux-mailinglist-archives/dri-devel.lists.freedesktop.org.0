@@ -1,81 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF7B61829C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 16:25:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 770946182D6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 16:30:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F14410E679;
-	Thu,  3 Nov 2022 15:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5C9510E67D;
+	Thu,  3 Nov 2022 15:30:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DEE810E679
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 15:24:56 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id z30so1312105qkz.13
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 08:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+GK+kN47VRDh5Rd9IAtghxyhLdbPgGlBTCLcifjdKfY=;
- b=CuVdKrpYE2rQRg37FPIg+JZrk4NzKKxt219BGe3CMQvQo8Lmp2ckSDbzhj0bEEUIDL
- fxTOSuzkB/5KrS//gXY6ySrTmRgRg8/Y7fvynh6m65Zh2OXxQ4VX2GSRl9UBvObPXaiB
- +vOZCa0xjXVbfTNBKAzOFM+Bk77Hb1sPLlBuXe4pMZ5UDc+2YdWojicrTPpwK/H61Iio
- yq7H5MfkITJRWQYoPFpDcBb9983wRkk5uycAbX1edw4j+1IfEOYvTWUb0TabE5T1YL68
- HomjjXu09Q9xuXt2iGFj5ybrYfCG6zH2HK1fcjAIOuAUFslSMbvF1EvI5XH6vconk6NT
- K1+A==
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCA010E67D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 15:30:01 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id o4so3313659wrq.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 08:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jTNF+TBMvTriQtS+AA9+C2dKsWuCfeavpCHVTcjD0eY=;
+ b=out7CxP4vZ5XMhp9mDv7Ofatpr7fpv6fDwjoCTilq7jVigf/gyDt96koz/LT1/kL8z
+ 0sU0E8IpYZ1guwovwiHfWsmY/RGkWdo9Q0nQw6D++1ZG4TTQAewqH/KWERHkVVuVt2Go
+ 0Tmz4Ta4jr3ClB52+puwbKMbwf+BEMtcBJuT+5D6PjwHTvFfQTFrj7JqiEYd06mvVlY3
+ 5hmHnxZ39oGNAvJbrAv3R8b9r5xc7pln7zH1imayfH9EPrV4IYqMjdkjTEyZlBxFIXdm
+ in7k8+PIcRU3EQ3Q4ubgyvX0wNX22hKkxllEhdPR3vqQUGV3d7o0UZzp9bm0b9+TEmML
+ wBPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+GK+kN47VRDh5Rd9IAtghxyhLdbPgGlBTCLcifjdKfY=;
- b=BWXl5NWZi6/PwnaACU++FfOpeOM11wCQ+Vc46kKQTLyAjZ0Zi1PWdRXJ1Qy/cdud1a
- gIS+E6RSL9798qV+h1aHBm+NxWGK9478TrAks9qK720FMrzbp3EHJvwR9GnH/Gbg7j/o
- XO9djrNVgOdnkTRjd/npUDibLaYg5LjMOQJbJhV4oNbLJ/iO67zvenEmEeJHciy4Cmd4
- 9KQm/gx33V5lzkeJsgD8pmyHGWICyRlCFFXYRA9WL91TdCKYPkcHACNFSpWQwjw/nRPd
- TriQJyPNFoZSBooqwabJYpDtU1/8wzbgb3rYi/mEcI4Y8Oxi3fCOUksiD3wcqKD4B5OJ
- Vhrw==
-X-Gm-Message-State: ACrzQf2r8lFebnorSmiAVmYFn607JuIKI6wNpE4Jo2AJKU4JngUmTSXn
- TUIr1/yPYAvV9tceXfkurJmYJQ==
-X-Google-Smtp-Source: AMsMyM4JfQZmP8W7rxOWSLWL8ATCWGxBIJQoz0Nkbogfi2BmdP8tf0y5Xg2ivz3gto0bPNF2tfnghQ==
-X-Received: by 2002:a05:620a:1256:b0:6fa:4c67:4d9c with SMTP id
- a22-20020a05620a125600b006fa4c674d9cmr10696457qkl.713.1667489095268; 
- Thu, 03 Nov 2022 08:24:55 -0700 (PDT)
-Received: from ?IPV6:2601:586:5000:570:a35d:9f85:e3f7:d9fb?
- ([2601:586:5000:570:a35d:9f85:e3f7:d9fb])
- by smtp.gmail.com with ESMTPSA id
- p20-20020a05620a15f400b006b953a7929csm907379qkm.73.2022.11.03.08.24.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 08:24:54 -0700 (PDT)
-Message-ID: <a2b1ffe3-e2bc-25d5-f665-363db09bd959@linaro.org>
-Date: Thu, 3 Nov 2022 11:24:53 -0400
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jTNF+TBMvTriQtS+AA9+C2dKsWuCfeavpCHVTcjD0eY=;
+ b=2H8UTeUX5HN8Zqa3x3VrFj0+EkQG93dUnu92d+Au6pbraNlp0W+9nYNfM+8OHPOqkh
+ UK8tGbU404PUfJLxQLyKZui78rWpGag2g+f6WQmfj2FN3JCw3QaxRey7lEJn5ShAis2p
+ QWIkan3MkVzlPwwf6+8eCywhP4PzADZdJ2ZYuTY/B8ScI0pGtpeZHtwsVLqsjNOR50it
+ QsmieWszlPuGitHXgsgH9zFf8XaIRNHjFo0dp4hSsx6azljtJSRec42fX7lSiney8dO/
+ UIrS+T3OR9j2OUfgkaZNEFd7gPwOKN4bS1FZz+uNNaZ6YtWFBBFisONLL9BQWs0ORpHz
+ Py1Q==
+X-Gm-Message-State: ACrzQf0TkaDKJ/xHtrW4wdi4/7nFFZbnkUGaKD1sKSAUM/nSS4IFm4kJ
+ hk5xko0Mhs2uF2A3yupvEwY=
+X-Google-Smtp-Source: AMsMyM5Nyyy/q4Kn3ydmHt5dCYT4Mg7RkCP01fJ7CYK5rm31bepO9+UNSqvjytTa3KpN6DC4tX4HTA==
+X-Received: by 2002:adf:d4d2:0:b0:236:594f:4a2c with SMTP id
+ w18-20020adfd4d2000000b00236594f4a2cmr18912381wrk.705.1667489399525; 
+ Thu, 03 Nov 2022 08:29:59 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ q12-20020a05600c46cc00b003b4ac05a8a4sm183699wmo.27.2022.11.03.08.29.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Nov 2022 08:29:58 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Alain Volmat <alain.volmat@foss.st.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: sti: Make array en_di static const
+Date: Thu,  3 Nov 2022 15:29:58 +0000
+Message-Id: <20221103152958.89865-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v2 02/12] dt-bindings: display: mediatek: add MT8195 hdmi
- bindings
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>, Daniel Vetter
- <daniel@ffwll.ch>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, David Airlie <airlied@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jitao shi <jitao.shi@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220919-v2-0-8419dcf4f09d@baylibre.com>
- <20220919-v2-2-8419dcf4f09d@baylibre.com>
- <c91ee3ce-3f30-a3ef-bb38-8571e488b6b6@linaro.org>
- <CABnWg9t3w4o4rmNosvYCpqG-h8DESerajH7OsXEYofRf2kr1Xg@mail.gmail.com>
- <6bb3ab49-1c12-6863-a49a-2fd1f34de561@linaro.org>
- <CABnWg9uDki0ZtkxU1BPZq0ZU1mi4zFjasw+e3pQYb+Nv1MThLA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABnWg9uDki0ZtkxU1BPZq0ZU1mi4zFjasw+e3pQYb+Nv1MThLA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,30 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mac.shen@mediatek.com,
- stuart.lee@mediatek.com, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/11/2022 11:17, Guillaume Ranquet wrote:
-> On Thu, 03 Nov 2022 13:45, Krzysztof Kozlowski
->>> This is an i2c adapter, not a device.
->>> And as it lives inside the HDMI hw block, I've omitted using an address here.
->>>
->>> Is this valid? or should this be expressed differently?
->>
->> What is an I2C adapter? Did you mean I2C controller (master)?
-> 
-> Yes, a controller.
-> This is an I2C controller connected to the HDMI connector, it is used
-> to exchange data on the Display Data Channel with
-> the display (such as EDID).
+Don't populate the read-only array en_di on the stack but instead
+make it static. Also makes the object code a little smaller.
 
-OK, then the node name is "i2c".
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/sti/sti_hdmi.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+index cb82622877d2..9de8cd171c25 100644
+--- a/drivers/gpu/drm/sti/sti_hdmi.c
++++ b/drivers/gpu/drm/sti/sti_hdmi.c
+@@ -641,10 +641,12 @@ static void hdmi_dbg_sta(struct seq_file *s, int val)
+ static void hdmi_dbg_sw_di_cfg(struct seq_file *s, int val)
+ {
+ 	int tmp;
+-	char *const en_di[] = {"no transmission",
+-			       "single transmission",
+-			       "once every field",
+-			       "once every frame"};
++	static const char * const en_di[] = {
++		"no transmission",
++		"single transmission",
++		"once every field",
++		"once every frame"
++	};
+ 
+ 	seq_putc(s, '\t');
+ 	tmp = (val & HDMI_IFRAME_CFG_DI_N(HDMI_IFRAME_MASK, 1));
+-- 
+2.38.1
 
