@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326CC618223
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 16:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE256181DD
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 16:16:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E5410E666;
-	Thu,  3 Nov 2022 15:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C7810E641;
+	Thu,  3 Nov 2022 15:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1418110E3C4;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E41910E60C;
  Thu,  3 Nov 2022 15:14:53 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B1A2821DCC;
- Thu,  3 Nov 2022 15:14:51 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 38AE621DD6;
+ Thu,  3 Nov 2022 15:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1667488491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1667488492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z0wfNAEJd89nT4SyNUVt6p4RuNoCzMIzBFEMM4zIO5U=;
- b=i8+DCMmnRejJUBw11UFIc7YVWo+wNl2Ude1Om07l7QVPjXzjv/q2TyhyT36qe2omb+DC52
- PzMZ8AcArVHhs+jNBUYAtX05fXJhKe/Tru6HQuL3SzjND7bsnFhPaeM9+O5PhVhUPfz63G
- coAzCVH9m1p9BvhdkBiv0gGmCw5oBE4=
+ bh=g32cPPyLiHLtpD0q75pbEdOkYrw534GYboHCIoW0rMs=;
+ b=QQ0hGHL3lhq/lGKYmDP6NEUgfd53Y1VFgCWOLFm9U/8/eUbskpw4bwjHTgVqXafKVcIP9F
+ JIZtFqTcK+TpYG2kLbIBM3Y1jfy4SyVFn5J8iGczNOSSrCBF+KjaW8d6k4HjhFluVQea6q
+ /LLAbxDt0kknL2ARPDnwKRz220jQgXw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1667488491;
+ s=susede2_ed25519; t=1667488492;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z0wfNAEJd89nT4SyNUVt6p4RuNoCzMIzBFEMM4zIO5U=;
- b=8Is+1fD2IaqB4CGmTpfRMWC03nC8mJwB00gGEQD1UClP1k1DS5h4SJl2pBqsrhOxtc42s5
- OQ6nDjNmA7ogSBCw==
+ bh=g32cPPyLiHLtpD0q75pbEdOkYrw534GYboHCIoW0rMs=;
+ b=9P5ZPHB1OPm/aHZvD/wVzAtGZ8Phyk9xHD8qj4269kUc2NReoGQ2aYUZxcXmsInJVbUxVh
+ vLNFy1vjcWGI5eDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2EC3013AAF;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B7AE613ADB;
  Thu,  3 Nov 2022 15:14:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aIF1CuvaY2PBGgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id KOLnK+vaY2PBGgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 03 Nov 2022 15:14:51 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH v3 04/23] drm/amdgpu: Don't set struct
+Subject: [PATCH v3 05/23] drm/imx/dcss: Don't set struct
  drm_driver.output_poll_changed
-Date: Thu,  3 Nov 2022 16:14:27 +0100
-Message-Id: <20221103151446.2638-5-tzimmermann@suse.de>
+Date: Thu,  3 Nov 2022 16:14:28 +0100
+Message-Id: <20221103151446.2638-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221103151446.2638-1-tzimmermann@suse.de>
 References: <20221103151446.2638-1-tzimmermann@suse.de>
@@ -85,7 +85,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Don't set struct drm_driver.output_poll_changed. It's used to restore
-the fbdev console. But as amdgpu uses generic fbdev emulation, the
+the fbdev console. But as DCSS uses generic fbdev emulation, the
 console is being restored by the DRM client helpers already. See the
 functions drm_kms_helper_hotplug_event() and
 drm_kms_helper_connector_hotplug_event() in drm_probe_helper.c.
@@ -96,40 +96,19 @@ v2:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 1 -
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 --
- 2 files changed, 3 deletions(-)
+ drivers/gpu/drm/imx/dcss/dcss-kms.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 1a06b8d724f39..dd6f9ae6fbe9f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1214,7 +1214,6 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+index b4f82ebca5325..1defd6a40f11d 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+@@ -21,7 +21,6 @@ DEFINE_DRM_GEM_DMA_FOPS(dcss_cma_fops);
  
- const struct drm_mode_config_funcs amdgpu_mode_funcs = {
- 	.fb_create = amdgpu_display_user_framebuffer_create,
+ static const struct drm_mode_config_funcs dcss_drm_mode_config_funcs = {
+ 	.fb_create = drm_gem_fb_create,
 -	.output_poll_changed = drm_fb_helper_output_poll_changed,
- };
- 
- static const struct drm_prop_enum_list amdgpu_underscan_enum_list[] =
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3c072754738d2..d58dd916488a1 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -82,7 +82,6 @@
- #include <drm/drm_atomic_uapi.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_vblank.h>
-@@ -2810,7 +2809,6 @@ const struct amdgpu_ip_block_version dm_ip_block =
- static const struct drm_mode_config_funcs amdgpu_dm_mode_funcs = {
- 	.fb_create = amdgpu_display_user_framebuffer_create,
- 	.get_format_info = amd_get_format_info,
--	.output_poll_changed = drm_fb_helper_output_poll_changed,
- 	.atomic_check = amdgpu_dm_atomic_check,
+ 	.atomic_check = drm_atomic_helper_check,
  	.atomic_commit = drm_atomic_helper_commit,
  };
 -- 
