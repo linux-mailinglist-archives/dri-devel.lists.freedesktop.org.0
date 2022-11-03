@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75F6617693
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 07:07:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8516177C0
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 08:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C38310E238;
-	Thu,  3 Nov 2022 06:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1D510E5AF;
+	Thu,  3 Nov 2022 07:40:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E05C010E238
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 06:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=0smtlWd4HGnf6GjxBBNVPyZdRbAeNRzlEzj9TPQNMMk=; b=if61U6QEgvQm9kJwy7xXOTydGC
- wvSEX+Sc65lQ6DaGdxNDpqVT3O9Ii3+vzX8iwt53dq/VCkPFgqovdHAXVLvZZb7YpOaVl2J5sIrz3
- XHR+pa7Uyr1xgWxZdPvWDIhfzeuMSi2n6w5TyQ/FkvnM8LYh0IqmrSpdUD1FF5HdM3jxGpYrXhXFo
- LM4JynT99eU5y9Znj2/QC3tfMiAOujsISggWXubVt/JG5WIf32+VRfrudTKqT38sHTxpvgHxqRABj
- 5/d+2lddCn0yQc2znpmC0kfTOapiqm+25R9bALANRqOYqi1oWSXRtvHzAnveMatnwpImW9sbgLrJX
- P1kJX6sA==;
-Received: from [2601:1c2:d80:3110:e65e:37ff:febd:ee53]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1oqTNJ-00GGEk-BK; Thu, 03 Nov 2022 06:06:49 +0000
-Message-ID: <a68a24a0-eda3-8711-21c1-334289eca0d3@infradead.org>
-Date: Wed, 2 Nov 2022 23:06:45 -0700
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
+ [IPv6:2607:f8b0:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FAE410E5AF
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 07:40:38 +0000 (UTC)
+Received: by mail-il1-x12f.google.com with SMTP id l6so661028ilq.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 00:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=llhHs6TrfVSI43y0dEQV5piS8WRy9hmxGh/cbD6QRu0=;
+ b=ckeLiJVPhLdjoASd8/BGXKs+77xK5N6uVFxrG/BAeVZY7Q8/IodPW53rJg3rVw214l
+ lyUsRbPg+E/TJhjLZJrd+qMJEmlcCQ8S5pKDx5/azDdrWdXapSoc1cAjI8pGBtM/ySHb
+ JKZXhJRf+LfA+RU5dWMn9hnb+ecLrDqX7vcik=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=llhHs6TrfVSI43y0dEQV5piS8WRy9hmxGh/cbD6QRu0=;
+ b=J9YNiDVXwwYwEIDC+JSD17fzlMxjNnHy7Xm3MuqrMf/A1XdaIiPgo37jL2ZG7TnsH2
+ mY6K5zKoPrFEwIDuTEERI90dUBe8cmI08Su4T2tH5EtIpOFHlCzO+eFEcYsAPcVKuUx7
+ 8FI0273O39PQTOXQ0tpWGhu0S2ooo8oaPVhbBZbFHl8/kF+Seyl+gB+VgYX9o4v61aZm
+ +GTpXIJ1RQ4yKvK7XeQ5Hjz7/Po9KVd3ZCg+mmUHB7RmTbKX7I7oc2KK+125nWGTdvgF
+ 4qXQ72SHhzZDUWjWGedVPYbswBueCKdEJ/qrfOAl0Zu2Z56UZX53bMhL4dT8hIvWCJGu
+ f8dA==
+X-Gm-Message-State: ACrzQf0IHyIPlKvPYxXticWJqInPBAR3gBGlO8wmSGSSxM2iiQbsmZpf
+ qCdf6BzvWf1JKqeIIpZkB+G82taZBcbpczleVxJ4dA==
+X-Google-Smtp-Source: AMsMyM6TXegdS2i9PAoPxKahJa2ZBfQjt6w0zgqCj460BDWDmoOVjgGt/T3D5KkDAPaQ4c56lGbIjteDy2lcbw5Rx5s=
+X-Received: by 2002:a05:6e02:1287:b0:2ff:dd33:8483 with SMTP id
+ y7-20020a056e02128700b002ffdd338483mr16821536ilq.21.1667461237548; Thu, 03
+ Nov 2022 00:40:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH] drm: rcar_du: DRM_RCAR_DU optionally depends on
- RCAR_MIPI_DSI
-Content-Language: en-US
-To: linux-kernel@vger.kernel.org
-References: <20221018181828.19528-1-rdunlap@infradead.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20221018181828.19528-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221005151309.7278-1-jagan@amarulasolutions.com>
+ <20221005151309.7278-8-jagan@amarulasolutions.com>
+ <d837f6e3-d869-6543-2361-a7843c00ed8a@denx.de>
+ <CAMty3ZAAmeHFG-n6LKeq6Mb2GcHxFBJr5DDPJcxrgYn=J_XHmg@mail.gmail.com>
+ <a5788a69-d9bf-a998-3c1b-223903721696@denx.de>
+In-Reply-To: <a5788a69-d9bf-a998-3c1b-223903721696@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 3 Nov 2022 13:10:26 +0530
+Message-ID: <CAMty3ZC4k+5s0LgV=bCRrCugVLzwz5AWvRajdZz=b9+UKgyQVA@mail.gmail.com>
+Subject: Re: [PATCH v7 07/10] drm: bridge: samsung-dsim: Add
+ atomic_get_input_bus_fmts
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,57 +67,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- LUU HOAI <hoai.luu.ub@renesas.com>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping. I have verified (on linux-next-20221103) that this is still needed.
-Thanks.
+On Mon, Oct 17, 2022 at 12:54 PM Marek Vasut <marex@denx.de> wrote:
+>
+> On 10/17/22 05:58, Jagan Teki wrote:
+> > On Sun, Oct 16, 2022 at 3:31 AM Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 10/5/22 17:13, Jagan Teki wrote:
+> >>
+> >> [...]
+> >>
+> >>> @@ -1321,6 +1322,32 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+> >>>        pm_runtime_put_sync(dsi->dev);
+> >>>    }
+> >>>
+> >>> +#define MAX_INPUT_SEL_FORMATS        1
+> >>> +
+> >>> +static u32 *
+> >>> +samsung_dsim_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> >>> +                                    struct drm_bridge_state *bridge_state,
+> >>> +                                    struct drm_crtc_state *crtc_state,
+> >>> +                                    struct drm_connector_state *conn_state,
+> >>> +                                    u32 output_fmt,
+> >>> +                                    unsigned int *num_input_fmts)
+> >>> +{
+> >>> +     u32 *input_fmts;
+> >>> +
+> >>> +     *num_input_fmts = 0;
+> >>> +
+> >>> +     input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+> >>> +                          GFP_KERNEL);
+> >>> +     if (!input_fmts)
+> >>> +             return NULL;
+> >>> +
+> >>> +     /* This is the DSI-end bus format */
+> >>> +     input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> >>> +     *num_input_fmts = 1;
+> >>
+> >> Is this the only supported format ? NXP AN13573 lists the following:
+> >
+> > At least it only formats I have tested on my panel.
+> >
+> >>
+> >> i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
+> >> 3.7.4 Pixel formats
+> >> Table 14. DSI pixel packing formats
+> >>
+> >> Loosely Packed Pixel Stream, 20-bit YCbCr, 4:2:2
+> >> Packed Pixel Stream, 24-bit YCbCr, 4:2:2
+> >> Packed Pixel Stream, 16-bit YCbCr, 4:2:2
+> >> Packed Pixel Stream, 30-bit RGB, 10-10-10
+> >> Packed Pixel Stream, 36-bit RGB, 12-12-12
+> >> Packed Pixel Stream, 12-bit YCbCr, 4:2:0
+> >> Packed Pixel Stream, 16-bit RGB, 5-6-5
+> >> Packed Pixel Stream, 18-bit RGB, 6-6-6
+> >> Loosely Packed Pixel Stream, 18-bit RGB, 6-6-6
+> >> Packed Pixel Stream, 24-bit RGB, 8-8-8 Format
+> >>
+> >> The MX8MM/MN LCDIF can generate all of those RGB formats , the MX8MP
+> >> LCDIFv3 can also generate the 16bit YCbCr .
+> >>
+> >> It seems there should be more formats here.
+> >
+> > The idea of this patch is to support the default format first, and can
+> > possibly add future patches with the addition of new formats.
+>
+> Since you already know about the list, please add all the formats, so we
+> won't be adding known broken code first, only to fix it later.
 
-On 10/18/22 11:18, Randy Dunlap wrote:
-> When CONFIG_DRM_RCAR_DU=y and CONFIG_DRM_RCAR_MIPI_DSI=m, calls
-> from the builtin driver to the mipi driver fail due to linker
-> errors.
-> Since the RCAR_MIPI_DSI driver is not always required, fix the
-> build error by making DRM_RCAR_DU optionally depend on the
-> RCAR_MIPI_DSI Kconfig symbol. This prevents the problematic
-> kconfig combination without requiring that RCAR_MIPI_DSI always
-> be enabled.
-> 
-> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
-> rcar_du_crtc.c:(.text+0x3a18): undefined reference to `rcar_mipi_dsi_pclk_enable'
-> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
-> rcar_du_crtc.c:(.text+0x47cc): undefined reference to `rcar_mipi_dsi_pclk_disable'
-> 
-> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: LUU HOAI <hoai.luu.ub@renesas.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  drivers/gpu/drm/rcar-du/Kconfig |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff -- a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -4,6 +4,7 @@ config DRM_RCAR_DU
->  	depends on DRM && OF
->  	depends on ARM || ARM64
->  	depends on ARCH_RENESAS || COMPILE_TEST
-> +	depends on DRM_RCAR_MIPI_DSI || DRM_RCAR_MIPI_DSI=n
->  	select DRM_KMS_HELPER
->  	select DRM_GEM_DMA_HELPER
->  	select VIDEOMODE_HELPERS
+Okay. I can see the DSI section Mini TRM shown below formats. (13.6.2 Features)
 
--- 
-~Randy
+Supports pixel format: 16bpp, 18bpp packed, 18bpp loosely packed (3 byte
+format), and 24bpp
+
+I will try to add these 4 formats. let me know.
+
+Jagan.
