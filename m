@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62FC6181F7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 16:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6501E618241
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 16:18:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D910810E6A1;
-	Thu,  3 Nov 2022 15:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6532C10E6CC;
+	Thu,  3 Nov 2022 15:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E537E10E3C4;
- Thu,  3 Nov 2022 15:14:55 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BEFF10E61E;
+ Thu,  3 Nov 2022 15:14:56 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8E52421DEF;
- Thu,  3 Nov 2022 15:14:54 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1A2DD1F8D4;
+ Thu,  3 Nov 2022 15:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1667488494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1667488495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EkoY2CiiAEHjZ/OYnuapD4MfGy2oyIAq4b5o8EaQT3s=;
- b=lR4Tb56okc+sFQIRKH0CzelfQbheRV7Qr0iaco7WcMuBYnmsh9gZSKNhKuDUtXJOo9XKcw
- b2B8BHsarB4u1uw4Xb4kGw+hdo7OMM/z3AhsxcsQPEkF2paFEOjMBEX/QgauRWn8PyUMsh
- R5pD0wtwcpSLiMHxZmfhQ1sni3ZMMFY=
+ bh=T97NNzQIXdQboHVakcc3btWsx14G704vol4zvtyaVcE=;
+ b=T8XjDQ6xPKBfMRAtCwREAQEqcOHcnSJ8e7yYXElg8636mpxy7T113a3aEVDZJuhWQe8pHh
+ bVa8tGF8Z7xVZP/DhEoa2+kLzM1ifm4V07JGMJtmY07uTjp7Blasqo82+FeRsTA1d9rz0b
+ 8RSxcJlXOuyVutkVHvTTxeUQO9HslAI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1667488494;
+ s=susede2_ed25519; t=1667488495;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EkoY2CiiAEHjZ/OYnuapD4MfGy2oyIAq4b5o8EaQT3s=;
- b=/u2ehk8wsr8fqjo0X1DYqzXBCnnMezfxNTs00QEevNrbWKXPRo3uIzQb8Ja7nosLrLjOfi
- F3NmzSzNp2xT9LAg==
+ bh=T97NNzQIXdQboHVakcc3btWsx14G704vol4zvtyaVcE=;
+ b=v1n4yUF7hYIpMabvz8Cc8U0ElcngH7QHxWhN64QcYf7H7RteXIxt7UKDjlTP1taWpeMxBn
+ Gzp6HrdqWh/c6/Dg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C74013AAF;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 919ED13ADB;
  Thu,  3 Nov 2022 15:14:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cIscBu7aY2PBGgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4CfBIu7aY2PBGgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 03 Nov 2022 15:14:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH v3 10/23] drm/tve200: Include <linux/of.h>
-Date: Thu,  3 Nov 2022 16:14:33 +0100
-Message-Id: <20221103151446.2638-11-tzimmermann@suse.de>
+Subject: [PATCH v3 11/23] drm/fb-helper: Cleanup include statements in header
+ file
+Date: Thu,  3 Nov 2022 16:14:34 +0100
+Message-Id: <20221103151446.2638-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221103151446.2638-1-tzimmermann@suse.de>
 References: <20221103151446.2638-1-tzimmermann@suse.de>
@@ -83,26 +84,32 @@ Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include <linux/of.h> for of_match_ptr().
+Only include what we have to.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/tve200/tve200_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/drm/drm_fb_helper.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-index 04db72e3fa9c2..611785e097576 100644
---- a/drivers/gpu/drm/tve200/tve200_drv.c
-+++ b/drivers/gpu/drm/tve200/tve200_drv.c
-@@ -32,6 +32,7 @@
- #include <linux/irq.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/shmem_fs.h>
- #include <linux/slab.h>
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index fddd0d1af6891..e923089522896 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -32,11 +32,9 @@
+ 
+ struct drm_fb_helper;
+ 
+-#include <drm/drm_client.h>
+-#include <drm/drm_crtc.h>
+-#include <drm/drm_device.h>
+ #include <linux/fb.h>
+-#include <linux/kgdb.h>
++
++#include <drm/drm_client.h>
+ 
+ enum mode_set_atomic {
+ 	LEAVE_ATOMIC_MODE_SET,
 -- 
 2.38.0
 
